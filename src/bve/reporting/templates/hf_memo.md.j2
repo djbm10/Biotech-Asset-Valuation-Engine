@@ -1,0 +1,130 @@
+---
+title: "{{ d.asset_name }} / {{ d.ticker or d.company }} — HF Event-Driven Analysis"
+date: "{{ d.analysis_date }}"
+memo_type: Hedge Fund
+---
+
+# {{ d.ticker or d.company }}: Event-Driven / Mispricing Analysis
+**{{ d.asset_name }} | {{ d.indication }} | {{ d.analysis_date }}**
+
+---
+
+## 1. Variant Perception
+
+*What does the market believe, and why are we different?*
+
+| Dimension | Market Consensus | Our Estimate | Edge |
+|-----------|-----------------|--------------|------|
+| P(Approval) | [~xx%] | {{ d.prob_approval_pct }} | [+/– xx pp] |
+| Peak Sales | $[xxx]M | ${{ "%.0f"|format(d.peak_sales_millions) }}M | [+/– $xxxM] |
+| Launch Timeline | [20xx] | +{{ "%.1f"|format(d.years_to_launch) }} yrs | [+/– xx months] |
+| NAV/Share | $[xx.xx] | ${{ "%.2f"|format(d.nav_per_share) }} | [+/– $xx] |
+
+**Thesis:** [1–2 sentence variant perception statement: what the market is missing and why this creates a mispricing opportunity]
+
+---
+
+## 2. Catalyst Calendar
+
+| Date | Event | Type | Est. P(Positive) | Est. Move |
+|------|-------|------|-----------------|-----------|
+{% for cat in upcoming_catalysts -%}
+| {{ cat.expected_date or "TBD" }} | {{ cat.description }} | {{ cat.catalyst_type | title }} | {% if cat.probability_positive %}{{ "%.0f"|format(cat.probability_positive * 100) }}%{% else %}TBD{% endif %} | TBD |
+{% else -%}
+| TBD | Primary endpoint readout | Topline | {{ "%.0f"|format(scenarios.base.cumulative_success_probability * 100) }}% | TBD |
+{% endfor %}
+
+**Next catalyst:** [Identify and date the single most important near-term catalyst]
+
+---
+
+## 3. Market-Implied vs. Our Distribution
+
+| | Market Implied | Our Model |
+|-|---------------|-----------|
+| Enterprise value ($M) | {% if d.current_price and d.shares_outstanding_millions %}${{ "%.0f"|format(d.current_price * d.shares_outstanding_millions - d.net_cash_millions) }}M{% else %}[Calc from market cap – net cash]{% endif %} | ${{ "%.0f"|format(d.rnpv_millions) }}M |
+| Implied peak sales ($M) | [Back-solve] | ${{ "%.0f"|format(d.peak_sales_millions) }}M |
+| Implied P(approval) | [Back-solve] | {{ d.prob_approval_pct }} |
+| NAV/share | {% if d.current_price %}${{ "%.2f"|format(d.current_price) }}{% else %}[current price]{% endif %} | ${{ "%.2f"|format(d.nav_per_share) }} |
+| Implied upside to base | — | {% if d.implied_upside_pct is not none %}{{ "%.0f"|format(d.implied_upside_pct) }}%{% else %}N/A{% endif %} |
+
+---
+
+## 4. Valuation Framework
+
+### Base-Case rNPV
+- **Asset rNPV:** ${{ "%.0f"|format(d.rnpv_millions) }}M ({{ d.discount_rate_pct }} WACC, {{ d.prob_approval_pct }} P(approval))
+- **Net cash:** ${{ "%.0f"|format(d.net_cash_millions) }}M ({{ "%.0f"|format(d.cash_runway_quarters or 0) }} qtrs runway)
+- **Total NAV:** ${{ "%.0f"|format(d.nav_millions) }}M = **${{ "%.2f"|format(d.nav_per_share) }}/share**
+
+### Scenario Distribution
+
+| Scenario | Probability | rNPV | NAV/Share |
+|----------|------------|------|-----------|
+| Bull | ~20% | ${{ "%.0f"|format(d.bull_rnpv) }}M | ${{ "%.2f"|format(d.bull_nav_ps) }} |
+| Base | ~50% | ${{ "%.0f"|format(d.base_rnpv) }}M | ${{ "%.2f"|format(d.base_nav_ps) }} |
+| Bear | ~30% | ${{ "%.0f"|format(d.bear_rnpv) }}M | ${{ "%.2f"|format(d.bear_nav_ps) }} |
+| **Expected** | — | **${{ "%.0f"|format(d.mc_mean) }}M** | **${{ "%.2f"|format(mc.mean_nav_per_share or d.nav_per_share) }}** |
+
+### Monte Carlo Summary
+
+| P10 | P25 | P50 | P75 | P90 |
+|-----|-----|-----|-----|-----|
+| ${{ "%.0f"|format(d.mc_p10) }}M | ${{ "%.0f"|format(d.mc_p25) }}M | ${{ "%.0f"|format(d.mc_p50) }}M | ${{ "%.0f"|format(d.mc_p75) }}M | ${{ "%.0f"|format(d.mc_p90) }}M |
+
+**P(positive value):** {{ d.mc_prob_positive }}
+
+---
+
+## 5. Key Sensitivities
+
+| Driver | Bear | Base | Bull | Δ rNPV |
+|--------|------|------|------|--------|
+{% for s in sensitivities -%}
+| {{ s.parameter }} | ${{ "%.0f"|format(s.low_rnpv) }}M | ${{ "%.0f"|format(d.rnpv_millions) }}M | ${{ "%.0f"|format(s.high_rnpv) }}M | ${{ "%.0f"|format(s.swing | abs) }}M |
+{% endfor %}
+
+---
+
+## 6. Event Study Evidence
+
+*[Populate from abnormal_returns analysis: historical CAR at comparable readouts]*
+
+Benchmarked against {{ "XBI" }} (SPDR S&P Biotech ETF):
+- Average 2-day CAR at **positive** Phase 3 readouts (comparable assets): +[xx]%
+- Average 2-day CAR at **negative** Phase 3 readouts: –[xx]%
+- Our base-case expected move: +[xx]% on success ({{ d.prob_approval_pct }} weight), –[xx]% on failure
+
+---
+
+## 7. Position Sizing & Risk Management
+
+| Parameter | Analysis |
+|-----------|---------|
+| Expected return to NAV | {% if d.implied_upside_pct is not none %}{{ "%.0f"|format(d.implied_upside_pct) }}%{% else %}[calc: NAV/price – 1]{% endif %} |
+| Binary event risk | [±xx% on catalyst; use options to define risk] |
+| Recommended position | [% of portfolio; e.g., 1–3% gross] |
+| Catalyst hedge | [Protective puts / collar if large position] |
+| Stop-loss | [e.g., –20% from entry, or "clinical hold"] |
+| Time horizon | {{ "%.1f"|format(d.years_to_launch) }} years to launch; next catalyst in [xx months] |
+
+**Options market** (if available): IV suggests market pricing ~[xx]% move at next catalyst. We [agree/disagree] because [thesis].
+
+---
+
+## 8. Trade Recommendation
+
+**Action:** [LONG / LONG with hedge / AVOID / SHORT]
+
+**Entry:** [Price or price range]
+
+**Thesis confirmation events:** [What data points / milestones would confirm or refute the thesis?]
+
+**Exit triggers:**
+1. Primary endpoint read-out (positive → scale, negative → exit)
+2. [Secondary trigger]
+3. [Stop-loss level]
+
+---
+
+*{{ disclaimer }}*

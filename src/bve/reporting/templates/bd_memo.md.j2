@@ -1,0 +1,216 @@
+---
+title: "{{ d.asset_name }} — BD Acquisition Analysis"
+subtitle: "{{ d.indication }} | {{ d.stage | upper | replace('_',' ') }}"
+date: "{{ d.analysis_date }}"
+company: "{{ d.company }}"
+prepared_by: "{{ author }}"
+memo_type: Business Development
+---
+
+# {{ d.asset_name }}: BD Acquisition Analysis
+**{{ d.indication }} | {{ d.stage | upper | replace('_',' ') }} | {{ d.analysis_date }}**
+
+---
+
+## Executive Summary
+
+{{ d.asset_name }} is a {{ d.modality | replace('_',' ') }} developed by **{{ d.company }}** ({{ d.ticker or "Private" }}) targeting **{{ d.indication }}** in the **{{ d.therapeutic_area | replace('_',' ') | title }}** space.
+
+Our risk-adjusted net present value (rNPV) model estimates **${{ "%.0f"|format(d.rnpv_millions) }}M** for the asset, implying a NAV of **${{ "%.0f"|format(d.nav_millions) }}M** (${{ "%.2f"|format(d.nav_per_share) }}/share) inclusive of {{ d.company }}'s **${{ "%.0f"|format(d.net_cash_millions) }}M net cash** position.
+{% if d.implied_upside_pct is not none %}
+At the current stock price of ${{ "%.2f"|format(d.current_price) }}, our analysis implies **{{ "%.0f"|format(d.implied_upside_pct) }}% upside** to our base-case NAV.
+{% endif %}
+
+Key valuation anchors:
+- **Probability of approval:** {{ d.prob_approval_pct }}
+- **Peak sales estimate:** ${{ "%.0f"|format(d.peak_sales_millions) }}M (base case)
+- **Years to launch:** {{ "%.1f"|format(d.years_to_launch) }} years
+- **Monte Carlo P50:** ${{ "%.0f"|format(d.mc_p50) }}M | P10–P90: ${{ "%.0f"|format(d.mc_p10) }}M – ${{ "%.0f"|format(d.mc_p90) }}M
+
+**Recommendation:** [BD team to populate based on strategic fit assessment]
+
+---
+
+## 1. Company & Asset Overview
+
+| Field | Detail |
+|-------|--------|
+| Company | {{ d.company }} ({{ d.ticker or "—" }}) |
+| Asset | {{ d.asset_name }} |
+| Indication | {{ d.indication }} |
+| Therapeutic Area | {{ d.therapeutic_area | replace('_',' ') | title }} |
+| Modality | {{ d.modality | replace('_',' ') | title }} |
+| Current Stage | {{ d.stage | replace('_',' ') | upper }} |
+| Net Cash | ${{ "%.0f"|format(d.net_cash_millions) }}M |
+{% if d.cash_runway_quarters %}| Cash Runway | {{ "%.0f"|format(d.cash_runway_quarters) }} quarters |{% endif %}
+
+---
+
+## 2. Clinical Program
+
+### Remaining Development Phases
+
+| Phase | POS | Duration (yrs) | Cost ($M) | Weighted Cost PV ($M) |
+|-------|-----|---------------|-----------|----------------------|
+{% for phase in phases -%}
+| {{ phase.phase | upper | replace('_',' ') }} | {{ "%.0f"|format(phase.success_probability * 100) }}% | {{ phase.duration_years }} | ${{ "%.0f"|format(phase.cost_millions) }} | ${{ "%.1f"|format(phase.pv_cost_weighted) }} |
+{% endfor %}
+
+**Cumulative probability of approval:** {{ d.prob_approval_pct }}
+**Estimated launch:** {{ "%.1f"|format(d.years_to_launch) }} years from today
+{% if upcoming_catalysts %}
+### Upcoming Catalysts
+
+{% for cat in upcoming_catalysts -%}
+- **{{ cat.catalyst_type | title }}** ({{ cat.expected_date or "TBD" }}): {{ cat.description }}{% if cat.probability_positive %} — est. {{ "%.0f"|format(cat.probability_positive * 100) }}% probability positive{% endif %}
+{% endfor %}
+{% endif %}
+
+---
+
+## 3. Market Opportunity
+
+| Parameter | Estimate |
+|-----------|---------|
+| Peak Sales (base) | ${{ "%.0f"|format(d.peak_sales_millions) }}M |
+| Years to Peak | {{ market.years_to_peak }} |
+| Patent / Revenue Life | {{ market.patent_life_years }} years post-launch |
+| COGS Rate | {{ "%.0f"|format(market.cogs_rate * 100) }}% |
+| SG&A (launch / mature) | {{ "%.0f"|format(market.sgna_rate_launch * 100) }}% → {{ "%.0f"|format(market.sgna_rate_mature * 100) }}% |
+{% if market.addressable_patients_annual %}| Addressable Patients | {{ market.addressable_patients_annual | format_int }} |{% endif %}
+{% if market.net_price_per_patient_usd %}| Net Price/Patient/Yr | ${{ "%.0f"|format(market.net_price_per_patient_usd) }} |{% endif %}
+
+---
+
+## 4. Valuation Analysis
+
+### Deterministic rNPV
+
+| Component | Value |
+|-----------|-------|
+| Gross Revenue PV | ${{ "%.0f"|format(d.rnpv_gross_revenue_pv) }}M |
+| Prob-Adjusted Revenue PV | ${{ "%.0f"|format(d.rnpv_prob_adj_revenue_pv) }}M |
+| Trial Costs PV (weighted) | (${{ "%.0f"|format(d.rnpv_trial_costs_pv) }}M) |
+| **rNPV** | **${{ "%.0f"|format(d.rnpv_millions) }}M** |
+| Net Cash | ${{ "%.0f"|format(d.net_cash_millions) }}M |
+| **Total NAV** | **${{ "%.0f"|format(d.nav_millions) }}M (${{ "%.2f"|format(d.nav_per_share) }}/share)** |
+
+### Scenario Analysis
+
+| Scenario | rNPV | NAV | NAV/Share | P(Approval) |
+|----------|------|-----|-----------|-------------|
+| **Bull** | ${{ "%.0f"|format(d.bull_rnpv) }}M | ${{ "%.0f"|format(scenarios.bull.nav_millions) }}M | ${{ "%.2f"|format(d.bull_nav_ps) }} | {{ "%.0f"|format(scenarios.bull.cumulative_success_probability * 100) }}% |
+| **Base** | ${{ "%.0f"|format(d.base_rnpv) }}M | ${{ "%.0f"|format(scenarios.base.nav_millions) }}M | ${{ "%.2f"|format(d.base_nav_ps) }} | {{ "%.0f"|format(scenarios.base.cumulative_success_probability * 100) }}% |
+| **Bear** | ${{ "%.0f"|format(d.bear_rnpv) }}M | ${{ "%.0f"|format(scenarios.bear.nav_millions) }}M | ${{ "%.2f"|format(d.bear_nav_ps) }} | {{ "%.0f"|format(scenarios.bear.cumulative_success_probability * 100) }}% |
+
+### Monte Carlo Distribution ({{ "%.0f"|format(d.mc_n_simulations | default(10000)) }} simulations)
+
+| Percentile | rNPV |
+|-----------|------|
+| P5 | ${{ "%.0f"|format(d.mc_p5) }}M |
+| P25 | ${{ "%.0f"|format(d.mc_p25) }}M |
+| **P50 (median)** | **${{ "%.0f"|format(d.mc_p50) }}M** |
+| P75 | ${{ "%.0f"|format(d.mc_p75) }}M |
+| P95 | ${{ "%.0f"|format(d.mc_p95) }}M |
+| **Mean** | **${{ "%.0f"|format(d.mc_mean) }}M** |
+
+Probability of positive value: **{{ d.mc_prob_positive }}**
+
+---
+
+## 5. Key Sensitivities (Tornado)
+
+| Driver | Bear Case | Base Case | Bull Case | Swing |
+|--------|-----------|-----------|-----------|-------|
+{% for s in sensitivities -%}
+| {{ s.parameter }} | ${{ "%.0f"|format(s.low_rnpv) }}M | ${{ "%.0f"|format(d.rnpv_millions) }}M | ${{ "%.0f"|format(s.high_rnpv) }}M | ${{ "%.0f"|format(s.swing | abs) }}M |
+{% endfor %}
+
+---
+
+## 6. Deal Considerations
+
+*[BD team to populate: deal structure, license vs. acquisition, milestones, royalties, manufacturing/CMC considerations, strategic synergies, competing bids, regulatory risks]*
+
+**Suggested deal framework:**
+- Structure: [License-in / Co-development / Full acquisition]
+- Target upfront: [To be determined based on competitive tension and strategic priority]
+- Milestone structure: Phase 3 initiation / NDA submission / Approval / Sales milestones
+- Royalty tiers: [10–15% net sales, depending on geography split]
+
+---
+
+## 7. Key Risks
+
+| Risk | Severity | Mitigation |
+|------|---------|------------|
+| Clinical failure at Phase 3 | High | P(success) {{ "%.0f"|format(scenarios.base.cumulative_success_probability * 100) }}%; diversified portfolio |
+| Pricing / reimbursement pressure | Medium | Differentiated profile; orphan/rare classification if applicable |
+| Competitive displacement | Medium | First-mover advantage; key opinion leader relationships |
+| Manufacturing / CMC risk | [Low/Med/High] | [To assess] |
+| Cash runway / financing risk | [Low/Med/High] | {{ "%.0f"|format(d.cash_runway_quarters or 0) }} quarters runway at current burn |
+| IP / patent risk | [Low/Med/High] | [Patent landscape to review] |
+
+---
+
+## Appendix A: Key Assumptions
+
+Every assumption that materially affects rNPV is listed below. "Sensitivity" indicates the impact of a ±1σ change on the base-case rNPV.
+
+| Parameter | Value | Source | Sensitivity |
+|-----------|-------|--------|------------|
+{% if assumption_log %}
+{% for a in assumption_log.to_flat_list() -%}
+| {{ a.parameter }} | {{ a.value }} | {{ a.source[:60] }}{% if a.source|length > 60 %}…{% endif %} | {{ a.sensitivity }} |
+{% endfor %}
+{% else %}
+| WACC | {{ d.discount_rate_pct }} | Damodaran biotech sector | High |
+| Peak Penetration | {{ "%.0f"|format(market.peak_penetration * 100) }}% | Analyst estimate | High |
+| Patent Life | {{ market.patent_life_years }} yrs | Estimated from IP position | Medium |
+{% endif %}
+
+---
+
+## Appendix B: What Would Change This Thesis
+
+{% if assumption_log and assumption_log.thesis_changers %}
+{% for item in assumption_log.thesis_changers -%}
+{{ loop.index }}. {{ item }}
+{% endfor %}
+{% else %}
+1. Phase 2/3 data significantly above or below efficacy bar.
+2. Competitor achieves superior label (broader indication or lower price).
+3. Unexpected on-target safety findings.
+4. Payer environment shifts materially.
+5. Partnership/acquisition offer at significant premium or discount to NAV.
+{% endif %}
+
+---
+
+## Appendix C: Limitations
+
+{% if assumption_log and assumption_log.limitations %}
+{% for item in assumption_log.limitations -%}
+- {{ item }}
+{% endfor %}
+{% else %}
+- US market only; ex-US revenues not modeled.
+- Competition modeled as a static penetration ceiling.
+- Post-exclusivity revenues assumed zero.
+{% endif %}
+
+---
+
+## Appendix D: Methodology
+
+**rNPV:** Probability-weighted DCF. Trial costs discounted at phase midpoint, weighted by P(reaching each phase). Revenue modeled as EBIT (net revenue − COGS − SG&A), discounted at {{ d.discount_rate_pct }} WACC over a {{ market.patent_life_years }}-year commercial horizon.
+
+**POS model:** Industry-prior phase transition rates (Biomedtracker/IQVIA 2021, by therapeutic area) adjusted in log-odds space for: endpoint type, MoA precedent, sample adequacy, safety profile, biomarker selection, and competitive pressure. Each adjuster shifts P by ±10–25pp around the base rate.
+
+**Monte Carlo ({{ "%.0f"|format(d.mc_n_simulations | default(10000)) }} simulations):** Phase success ~ Beta(α, β) from analyst mean + ESS; peak sales ~ log-normal (CV={{ "%.0f"|format(mc.std_millions / mc.mean_millions * 100 if mc.mean_millions else 30) }}%); discount rate ~ Normal(μ, 2pp); years-to-peak ~ Normal(μ, 1.5 yrs). Correlated draws via Gaussian copula (peak_sales ↔ penetration ρ = −0.20).
+
+**Scenario analysis:** Bull/base/bear applied as multiplicative shocks to peak sales (×1.5/1.0/0.55), POS (×1.3/1.0/0.70), duration (−0.5/0/+1.0 yrs), and WACC (−1pp/0/+2pp).
+
+---
+
+*{{ disclaimer }}*

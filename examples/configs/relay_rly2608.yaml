@@ -1,0 +1,237 @@
+# =============================================================================
+# Relay Therapeutics (RLAY) — RLY-2608
+# PI3Kα H1047R-selective inhibitor | HR+/HER2- Breast Cancer
+# =============================================================================
+#
+# Data sources (all public):
+#   - ClinicalTrials.gov NCT05216432 (ReDiscover Phase 1/2)
+#   - Relay 10-K 2023 / Relay Q3 2024 earnings (cash, shares, burn)
+#   - Relay Investor Day 2023 (pipeline slides)
+#   - ASCO 2024 abstract: Phase 1 RLY-2608 + fulvestrant ORR data
+#   - Inavolisib (Itovebi) approval press release October 2024 (pricing comp)
+#   - IQVIA / Biomedtracker oncology phase transition data (POS priors)
+#   - SSR Health G2N database (pricing assumptions)
+#
+# All financial figures are approximate as of Q4 2024 (pre-analysis snapshot).
+# Analyst should verify against most recent 10-Q before use.
+# =============================================================================
+
+analyst_notes: >
+  RLY-2608 is a mutant-selective PI3Kα inhibitor designed to avoid the
+  hyperglycemia seen with non-selective agents (alpelisib, copanlisib).
+  Selectivity for H1047R over wild-type creates a cleaner safety profile,
+  enabling continuous dosing and CDK4/6 combination potential.
+  Phase 1 showed ORR ~40% in H1047R-selected HR+/HER2- mBC patients
+  treated with RLY-2608 + fulvestrant (ASCO 2024).
+  Key variant perception: market underestimates (1) class validation via
+  inavolisib approval de-risking regulatory path, (2) tolerability advantage
+  enabling earlier-line use and broader combinations, and (3) potential
+  ex-H1047R label expansion.
+
+# ---------------------------------------------------------------------------
+# Asset
+# ---------------------------------------------------------------------------
+asset:
+  id: "rly-2608"
+  name: "RLY-2608"
+  indication: "PIK3CA H1047R HR+/HER2- mBC (2nd/3rd line, US)"
+  therapeutic_area: "oncology"
+  stage: "phase_2"
+  modality: "small_molecule"
+  mechanism_of_action: >
+    Mutant-selective covalent PI3Kα inhibitor. Binds H1047R mutant PI3Kα
+    with 300× selectivity over wild-type, sparing normal glucose metabolism.
+  discount_rate: 0.10    # 10% WACC — standard for clinical-stage oncology
+  royalty_rate: 0.0      # Fully owned; no out-licensing at this stage
+
+  differentiation_notes: >
+    1. Mutant-selectivity → 300× selectivity H1047R vs WT; less hyperglycemia.
+    2. Enables continuous dosing (vs. 5-days-on/2-days-off for alpelisib).
+    3. Activity vs acquired resistance mutations (E545K cross-resistance to inavolisib).
+    4. Potential for earlier-line CDK4/6i + RLY-2608 combo (AKT/PTEN bypass).
+
+  competitor_assets:
+    - "Inavolisib (GDC-0077, Itovebi) — FDA approved Oct 2024 + fulvestrant"
+    - "Alpelisib (Piqray) — FDA approved 2019, all PIK3CA mutations"
+    - "Capivasertib (Truqap) — AKT inhibitor, different target but same pathway"
+    - "Gedatolisib (PF-05212384) — pan-PI3K/mTOR, Phase 3"
+
+  upcoming_catalysts:
+    - description: "Phase 2 expansion cohort ORR data (H1047R + fulvestrant arm)"
+      expected_date: "H2 2025"
+      catalyst_type: "readout"
+      probability_positive: 0.55   # Strong Ph1 signal; Ph2 powered for confirmation
+    - description: "Phase 3 initiation announcement (pending Ph2 success)"
+      expected_date: "Q1 2026"
+      catalyst_type: "milestone"
+      probability_positive: 0.50
+
+# ---------------------------------------------------------------------------
+# Company (approximate as of Q4 2024)
+# ---------------------------------------------------------------------------
+company:
+  id: "relay-therapeutics"
+  name: "Relay Therapeutics"
+  ticker: "RLAY"
+  cash_millions: 410.0           # Approximate; verify against most recent 10-Q
+  debt_millions: 0.0
+  shares_outstanding_millions: 93.5   # Diluted; approximate as of Q4 2024
+  burn_rate_millions_per_quarter: 35.0  # Net cash burn; approximate
+  current_price: 5.80             # Approximate; verify before use
+  notes: >
+    Cash runway: ~420/35 ≈ 12 quarters. Sufficient to reach Phase 2 readout.
+    Relay has no debt. Pipeline also includes non-oncology assets (not modeled here).
+
+# ---------------------------------------------------------------------------
+# Remaining Clinical Trials (RLY-2608)
+# ---------------------------------------------------------------------------
+# NCT05216432 — ReDiscover Phase 1/2
+# Phase 1 (dose escalation) is complete. We model the remaining Phase 2
+# expansion through NDA submission.
+trials:
+  - phase: "phase_2"
+    nct_id: "NCT05216432"          # ReDiscover study — Phase 2 expansion cohorts
+    success_probability: 0.50      # Starting point; POS model overrides if apply_pos_model=true
+    duration_years: 2.0            # Phase 2 expansion: 2-year follow-up for ORR/DOR data
+    cost_millions: 85.0            # Ph2 expansion enrollment + ops
+    enrollment: 100                # H1047R expansion cohort target
+    primary_endpoint: "Confirmed ORR (RECIST 1.1) in H1047R cohort (target ≥40%)"
+    endpoint_type: "surrogate_validated"   # ORR accepted as surrogate in mBC
+    notes: >
+      Phase 2 expansion: H1047R-selected HR+/HER2- mBC patients who received
+      ≥1 prior CDK4/6i + AI line. Single-arm. ORR and DOR primary endpoints.
+      Phase 1 showed ORR ~40% (ASCO 2024). Regulatory precedent from inavolisib
+      NDA (approved on ORR/PFS data) reduces bar for accelerated approval path.
+
+  - phase: "phase_3"
+    nct_id: null                   # Not yet initiated; planned randomized trial
+    success_probability: 0.60      # POS model overrides if enabled
+    duration_years: 3.5
+    cost_millions: 280.0
+    enrollment: 450                # Randomized: RLY-2608+fulvestrant vs inavolisib+fulvestrant
+    primary_endpoint: "PFS (HR < 0.70 vs. inavolisib + fulvestrant)"
+    endpoint_type: "surrogate_validated"
+    notes: >
+      Planned head-to-head vs. inavolisib + fulvestrant (approved regimen).
+      Active comparator design de-risks regulatory approval path but raises
+      the efficacy bar vs. cross-trial comparison.
+
+  - phase: "nda_bla"
+    nct_id: null
+    success_probability: 0.87      # Historical oncology NDA approval rate
+    duration_years: 1.5
+    cost_millions: 35.0
+    primary_endpoint: null
+    endpoint_type: "surrogate_validated"
+    notes: "Standard NDA review timeline; Priority Review likely given ORR precedent."
+
+# ---------------------------------------------------------------------------
+# Market Model
+# ---------------------------------------------------------------------------
+# Addressable population derivation:
+#   US HR+/HER2- mBC incident cases: ~35,000/year
+#   Prevalent pool (active treatment): ~250,000
+#   PIK3CA-mutant: ~40% = ~100,000 prevalent
+#   H1047R subgroup: ~40% of PIK3CA-mutant = ~40,000 prevalent
+#   2nd/3rd-line eligible: ~50% = ~20,000
+#   Diagnosed/tested (cfDNA ctDNA): ~85% → addressable: ~17,000
+#   We use 17,000 as a conservative estimate (growing with testing rates).
+#
+# Net price derivation:
+#   Comp: Inavolisib WAC ~$300K/year (estimated based on class comps)
+#   RLY-2608: slight discount for 2nd-in-class entry → $260K WAC
+#   G2N: 30% for specialty oncology → Net price: $260K × 0.70 = $182K
+#   We round to $180,000/year net.
+#
+# Peak penetration: 22%
+#   H1047R superiority data could drive class leadership vs. inavolisib
+#   Alpelisib captured ~15-20% of PIK3CA-mutant market at peak before
+#   tolerability issues. Inavolisib is taking share. RLY-2608 at 22% in H1047R
+#   subgroup reflects differentiated positioning.
+market_model:
+  addressable_patients_annual: 17000   # H1047R-selected HR+/HER2- mBC; US; see derivation above
+  net_price_per_patient_usd: 180000    # $260K WAC × (1 - 30% G2N); see derivation above
+  peak_penetration: 0.22               # 22% of addressable H1047R pool; analyst estimate
+  years_to_peak: 5                     # Specialty oncology launch trajectory
+  patent_life_years: 12                # NCE + PTE estimate; composition of matter
+  cogs_rate: 0.15                      # Small molecule; Relay manufacturing model
+  sgna_rate_launch: 0.40              # Year 1-2 post-launch investment (KOL, payer access)
+  sgna_rate_mature: 0.20              # Year 5+ steady-state
+
+# ---------------------------------------------------------------------------
+# POS Model (optional — overrides YAML point estimates if enabled)
+# ---------------------------------------------------------------------------
+pos_adjusters:
+  apply_pos_model: true   # Set false to use success_probability from trials above
+
+  phase_2:
+    endpoint_type: "surrogate_validated"   # ORR accepted in mBC (inavolisib precedent)
+    moa_precedent: "validated"             # PI3Kα class validated; 2 approvals (alpelisib, inavolisib)
+    sample_size_adequacy: "borderline"     # Single-arm, n=100; sufficient for ORR but not powered vs. control
+    safety_profile: "clean"               # Mutant selectivity → much less hyperglycemia than alpelisib
+    competitive_pressure: "high"          # Inavolisib just approved; crowded class
+    biomarker_selected_population: true   # H1047R-selected population
+    strong_prior_phase_data: true         # Phase 1 ORR ~40% at optimal dose
+
+  phase_3:
+    endpoint_type: "surrogate_validated"   # PFS; regulatory standard in mBC
+    moa_precedent: "validated"
+    sample_size_adequacy: "adequate"       # Randomized, n=450 vs. inavolisib
+    safety_profile: "clean"
+    competitive_pressure: "high"
+    biomarker_selected_population: true
+    strong_prior_phase_data: true          # Ph2 readout assumed positive if Ph3 initiates
+
+  nda_bla:
+    endpoint_type: "surrogate_validated"
+    moa_precedent: "validated"
+    sample_size_adequacy: "adequate"
+    safety_profile: "clean"
+    competitive_pressure: "moderate"       # Less competition pressure at regulatory stage
+    biomarker_selected_population: true
+    strong_prior_phase_data: true
+
+# ---------------------------------------------------------------------------
+# Monte Carlo Uncertainty
+# ---------------------------------------------------------------------------
+monte_carlo:
+  random_seed: 42
+  peak_sales_cv: 0.35        # ±35% CV on peak sales — reflects launch uncertainty
+  discount_rate_std: 0.02    # ±2pp on WACC
+  years_to_peak_std: 1.5     # ±1.5 years to peak
+  use_default_correlations: true  # Applies peak_sales ↔ penetration correlation
+
+  phase_distributions:
+    phase_2:
+      mean: 0.52               # ~analyst POS from log-odds model
+      ess: 12                  # Low ESS = wide distribution (high uncertainty)
+    phase_3:
+      mean: 0.62
+      ess: 15
+    nda_bla:
+      mean: 0.87
+      ess: 35
+
+# ---------------------------------------------------------------------------
+# Explicit limitations (override defaults)
+# ---------------------------------------------------------------------------
+limitations:
+  - "US market only. Ex-US revenues not modeled; global sales could add 35-50% to US revenue."
+  - "H1047R label only modeled. Label expansion to full PIK3CA-mutant population would increase TAM ~2.5×."
+  - "No CDK4/6i combination scenario modeled; combo could accelerate uptake and expand addressable pool."
+  - "Inavolisib competition modeled as fixed penetration ceiling; actual share dynamics will be time-varying."
+  - "Phase 3 design (vs. inavolisib) adds execution risk; head-to-head superiority trial is a high bar."
+  - "Company-level pipeline (non-RLY-2608 assets) not included; NAV is single-asset."
+  - "Tax shield from NOL carryforward not modeled; meaningful for commercial-stage value."
+
+# ---------------------------------------------------------------------------
+# What would change the thesis
+# ---------------------------------------------------------------------------
+thesis_changers:
+  - "Phase 2 ORR data: confirmed ORR ≥50% in H1047R cohort → strong bull case (+30-50% NAV). ORR <30% → clinical failure."
+  - "Inavolisib achieves superior PFS in real-world use → raises Phase 3 bar; reduces peak penetration assumption."
+  - "FDA grants accelerated approval on Phase 2 ORR → removes Phase 3 risk from base case (huge positive)."
+  - "Safety signal (Grade 3 hyperglycemia despite selectivity) → removes key differentiator vs. alpelisib."
+  - "Partnership/BD deal at Phase 2 readout → milestone + royalty structure could deliver near-term value."
+  - "Company raises equity below current NAV/share → dilutive; watch burn rate vs. runway."
+  - "ctDNA / NGS testing rates increase faster than expected → addressable patient pool expands beyond 17K."

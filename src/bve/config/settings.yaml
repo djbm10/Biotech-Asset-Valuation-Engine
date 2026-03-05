@@ -1,0 +1,45 @@
+valuation:
+  default_discount_rate: 0.10
+  default_tax_rate: 0.21
+  monte_carlo_simulations: 10000
+  random_seed: null
+  peak_sales_cv: 0.35
+  discount_rate_std: 0.02
+
+market:
+  default_patent_life_years: 12
+  default_years_to_peak: 5
+  default_gross_to_net: 0.30
+  default_peak_penetration: 0.10
+
+ingestion:
+  clinicaltrials_base_url: "https://clinicaltrials.gov/api/v2"
+  sec_edgar_base_url: "https://data.sec.gov"
+  fda_base_url: "https://api.fda.gov"
+  request_timeout_seconds: 30
+  max_retries: 3
+  retry_backoff_seconds: 2
+
+reporting:
+  default_memo_type: "bd"          # bd | vc | hf
+  output_dir: "memos"
+  chart_dpi: 150
+  chart_figsize: [10, 6]
+  color_primary: "#1f4e79"
+  color_secondary: "#2e75b6"
+  color_bull: "#2e8b57"
+  color_bear: "#c0392b"
+  color_base: "#2e75b6"
+
+event_study:
+  benchmark_ticker: "XBI"          # fallback: SPY
+  pre_window_days: 20
+  post_window_days: 20
+  estimation_window_days: 120      # days before pre-window for beta estimation
+  min_observations: 60
+
+data:
+  raw_dir: "data/raw"
+  processed_dir: "data/processed"
+  external_dir: "data/external"
+  cache_ttl_hours: 24

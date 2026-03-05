@@ -1,0 +1,167 @@
+---
+title: "{{ d.asset_name }} / {{ d.company }} — VC Investment Memo"
+date: "{{ d.analysis_date }}"
+memo_type: Venture Capital
+---
+
+# {{ d.company }}: VC Investment Analysis
+**{{ d.asset_name }} | {{ d.indication }} | {{ d.analysis_date }}**
+
+---
+
+## Investment Thesis (3 bullets)
+
+1. **[Scientific differentiation]:** [Why does this drug have a real chance of working where others have failed? What is the mechanistic insight?]
+2. **[Market opportunity]:** ${{ "%.0f"|format(d.peak_sales_millions) }}M peak sales potential in {{ d.indication }}; {{ d.therapeutic_area | replace('_',' ') | title }} is a high-value area with proven investor exits.
+3. **[Path to value creation]:** Next catalyst ([event]) in [timeline]; data readout will serve as a meaningful inflection point toward Series [X]/IPO/partnership.
+
+---
+
+## 1. Company Overview
+
+| Field | Detail |
+|-------|--------|
+| Company | {{ d.company }} |
+| Lead Asset | {{ d.asset_name }} |
+| Stage | {{ d.stage | replace('_',' ') | upper }} |
+| Modality | {{ d.modality | replace('_',' ') | title }} |
+| Current Financing | [Round, total raised, key investors] |
+| Cash on Hand | ${{ "%.0f"|format(d.net_cash_millions) }}M |
+| Cash Runway | {{ "%.0f"|format(d.cash_runway_quarters or 0) }} quarters |
+| Team | [CEO, CSO, CMO — background highlight] |
+
+---
+
+## 2. Scientific Rationale
+
+**Target:** [Receptor/pathway/mechanism]
+
+**Mechanism of Action:** [1–2 sentences on how the drug works and why it should work]
+
+**Validation:** [Published biology, tool compounds, competitor programs that validate target]
+
+**Differentiation:** [What is unique about *this* approach vs. the field?]
+
+---
+
+## 3. Clinical Program
+
+### Current Trial(s)
+
+| Phase | NCT | Indication | Enrollment | Primary Endpoint | Readout |
+|-------|-----|------------|-----------|-----------------|---------|
+{% for t in trials -%}
+| {{ t.phase | replace('_',' ') | upper }} | {{ t.nct_id or "—" }} | {{ d.indication }} | {{ t.enrollment or "TBD" }} | {{ t.primary_endpoint or "TBD" }} | {{ t.primary_completion_date or "TBD" }} |
+{% endfor %}
+
+**Design considerations:** [Biomarker selection, dose optimization, comparator arm — anything that de-risks the trial design]
+
+### Development Timeline to Exit
+
+| Milestone | Timing | Cash Need ($M) |
+|-----------|--------|----------------|
+{% for phase in phases -%}
+| {{ phase.phase | upper | replace('_',' ') }} completion | +{{ "%.1f"|format(loop.index * phase.duration_years) }} yrs | ${{ "%.0f"|format(phase.cost_millions) }}M |
+{% endfor %}
+| NDA/BLA Approval | +{{ "%.1f"|format(d.years_to_launch) }} yrs | $35M |
+| **Launch** | +{{ "%.1f"|format(d.years_to_launch) }} yrs | — |
+
+---
+
+## 4. Market Opportunity
+
+| Metric | Estimate |
+|--------|---------|
+{% if market.addressable_patients_annual %}| Addressable Patients (US) | {{ market.addressable_patients_annual | format_int }}/yr |{% endif %}
+{% if market.net_price_per_patient_usd %}| Net Price / Patient / Year | ${{ "%.0f"|format(market.net_price_per_patient_usd) }} |{% endif %}
+| Peak Market Penetration | {{ "%.0f"|format(market.peak_penetration * 100) }}% |
+| Years to Peak | {{ market.years_to_peak }} |
+| **Peak Net Sales (base)** | **${{ "%.0f"|format(d.peak_sales_millions) }}M** |
+| Commercial Horizon | {{ market.patent_life_years }} years |
+
+---
+
+## 5. Valuation & Return Analysis
+
+### rNPV by Scenario
+
+| Scenario | rNPV | P(Approval) |
+|----------|------|-------------|
+| Bull | ${{ "%.0f"|format(d.bull_rnpv) }}M | {{ "%.0f"|format(scenarios.bull.cumulative_success_probability * 100) }}% |
+| Base | ${{ "%.0f"|format(d.base_rnpv) }}M | {{ "%.0f"|format(scenarios.base.cumulative_success_probability * 100) }}% |
+| Bear | ${{ "%.0f"|format(d.bear_rnpv) }}M | {{ "%.0f"|format(scenarios.bear.cumulative_success_probability * 100) }}% |
+
+**Monte Carlo mean rNPV:** ${{ "%.0f"|format(d.mc_mean) }}M (P10: ${{ "%.0f"|format(d.mc_p10) }}M / P90: ${{ "%.0f"|format(d.mc_p90) }}M)
+
+### Comparable Exits
+
+| Company | Asset | Modality | Stage at Deal | Deal Value |
+|---------|-------|---------|--------------|------------|
+| [Comp 1] | [Asset] | [Modality] | [Phase X] | $[xxx]M |
+| [Comp 2] | [Asset] | [Modality] | [Phase X] | $[xxx]M |
+| [Comp 3] | [Asset] | [Modality] | [Phase X] | $[xxx]M |
+
+**Implied entry multiple at next round:** [Pre-money / rNPV = xx.x×; should be < 1.0 for a compelling entry]
+
+### Return Analysis
+
+| Scenario | Entry ($M) | Exit ($M) | MoM | IRR |
+|----------|-----------|----------|-----|-----|
+| Bull | [Round size] | ${{ "%.0f"|format(d.bull_rnpv + d.net_cash_millions) }}M | [xx×] | [xx%] |
+| Base | [Round size] | ${{ "%.0f"|format(d.base_rnpv + d.net_cash_millions) }}M | [xx×] | [xx%] |
+| Bear | [Round size] | ${{ "%.0f"|format(d.bear_rnpv + d.net_cash_millions) }}M | [xx×] | [xx%] |
+
+---
+
+## 6. Competitive Landscape
+
+| Competitor | Stage | Mechanism | Differentiation vs. {{ d.asset_name }} |
+|-----------|-------|-----------|--------------------------------------|
+{% for comp in asset.competitor_assets -%}
+| {{ comp }} | [Stage] | [MoA] | [assessment] |
+{% else -%}
+| [Competitor 1] | [Phase X] | [MoA] | [assessment] |
+{% endfor %}
+
+**Why {{ d.asset_name }} can compete:** [{{ asset.differentiation_notes or "To be completed by analyst" }}]
+
+---
+
+## 7. Financing Needs & Milestones
+
+| Round | Timing | Amount | Use of Proceeds | Milestone Achieved |
+|-------|--------|--------|-----------------|-------------------|
+| Current | Now | ${{ "%.0f"|format(d.net_cash_millions) }}M on hand | [Ph2/Ph3 execution] | [Key milestone] |
+| Next (Series X) | +[xx] months | $[xxx]M | [Ph3 / NDA] | [Phase X data] |
+| IPO / Acquisition | +[xx] years | N/A | — | [Approval / Partnership] |
+
+**Total capital to approval:** ~${{ "%.0f"|format(rnpv.trial_costs_pv_millions * 1.5) }}M (gross)
+
+---
+
+## 8. Key Risks
+
+| Risk | Probability | Impact | Mitigation |
+|------|------------|--------|------------|
+| Clinical failure | {{ "%.0f"|format((1 - scenarios.base.cumulative_success_probability) * 100) }}% | Loss of investment | POS-weighted entry; stage-gate financing |
+| Competitive displacement | Medium | Value reduction | [First-mover / differentiation argument] |
+| Key person / management risk | Low | Execution | Strong scientific board; [names] |
+| Financing risk | {% if d.cash_runway_quarters and d.cash_runway_quarters < 6 %}HIGH{% else %}Low{% endif %} | Dilution / bridge | {{ "%.0f"|format(d.cash_runway_quarters or 0) }} qtrs runway; [syndicate quality] |
+| IP risk | [Low/Med] | Loss of exclusivity | [Patent estate description] |
+
+---
+
+## 9. Recommendation
+
+**Verdict:** [INVEST / PASS / CONDITIONAL — with 2-sentence rationale]
+
+**Suggested terms:**
+- Round size: $[xxx]M
+- Pre-money valuation: $[xxx]M
+- Lead / co-lead: [Firm]
+- Board seat: [Yes/No]
+- Key milestones for tranche release: [Milestone-based if warranted]
+
+---
+
+*{{ disclaimer }}*

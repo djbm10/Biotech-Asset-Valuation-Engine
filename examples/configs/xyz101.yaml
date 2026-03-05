@@ -1,0 +1,76 @@
+# XYZ-101: KRAS G12C inhibitor for NSCLC (2nd line)
+# Run: python -m bve.cli.run_asset --config examples/configs/xyz101.yaml --memo bd --charts
+
+asset:
+  id: "xyz-101"
+  name: "XYZ-101"
+  indication: "KRAS G12C NSCLC (2nd line)"
+  therapeutic_area: "oncology"
+  stage: "phase_2"
+  modality: "small_molecule"
+  mechanism_of_action: "KRAS G12C covalent inhibitor"
+  discount_rate: 0.10
+  royalty_rate: 0.0
+  differentiation_notes: >
+    Differentiated from sotorasib/adagrasib via improved brain penetration
+    and activity against acquired resistance mutations (Y96D, H95R).
+  competitor_assets:
+    - "Sotorasib (AMG-510, Lumakras)"
+    - "Adagrasib (MRTX849, Krazati)"
+    - "Divarasib (GDC-6036)"
+  upcoming_catalysts:
+    - description: "Phase 2 topline readout (primary: ORR)"
+      expected_date: "Q3 2026"
+      catalyst_type: "readout"
+      probability_positive: 0.40
+    - description: "Phase 3 initiation (pending Phase 2 success)"
+      expected_date: "Q1 2027"
+      catalyst_type: "milestone"
+      probability_positive: 0.40
+
+company:
+  id: "bioxy-inc"
+  name: "BioXYZ, Inc."
+  ticker: "BXYZ"
+  cash_millions: 450.0
+  debt_millions: 50.0
+  shares_outstanding_millions: 120.0
+  burn_rate_millions_per_quarter: 28.0
+  current_price: 7.50
+
+trials:
+  - phase: "phase_2"
+    success_probability: 0.40
+    duration_years: 2.5
+    cost_millions: 80.0
+    enrollment: 120
+    primary_endpoint: "Objective Response Rate (ORR ≥ 40%)"
+    endpoint_type: "surrogate_validated"
+    nct_id: null
+
+  - phase: "phase_3"
+    success_probability: 0.55
+    duration_years: 3.5
+    cost_millions: 250.0
+    enrollment: 500
+    primary_endpoint: "Progression-Free Survival (HR < 0.70)"
+    endpoint_type: "surrogate_validated"
+    nct_id: null
+
+  - phase: "nda_bla"
+    success_probability: 0.87
+    duration_years: 1.5
+    cost_millions: 30.0
+    primary_endpoint: null
+    endpoint_type: "surrogate_validated"
+
+market_model:
+  # US KRAS G12C NSCLC market: ~50K new eligible pts/yr @ $120K WAC (~$78K net after 35% GTN)
+  addressable_patients_annual: 50000
+  net_price_per_patient_usd: 78000
+  peak_penetration: 0.18        # 18% in a competitive class with 3+ approved drugs
+  years_to_peak: 5
+  patent_life_years: 12
+  cogs_rate: 0.15
+  sgna_rate_launch: 0.40
+  sgna_rate_mature: 0.20
