@@ -1,0 +1,353 @@
+# ==============================================================================
+# BVE Industry Assumptions — Calibrated Priors
+# Version: 2026-Q1
+# ==============================================================================
+#
+# THIS FILE is the single source of truth for all calibrated industry benchmarks.
+# No calibrated values should exist in Python source files. Only structural
+# constants (ordering sentinels, formatting strings) live in constants.py.
+#
+# All values are EVIDENCE-INFORMED PRIORS unless labeled EMPIRICAL. Magnitude
+# is always a judgment call even when direction is supported by literature.
+# See source annotations per section.
+#
+# To override for a specific analysis: pass path= to AssumptionsLoader.reset()
+# or supply assumptions_path in the asset YAML config (Step 2+).
+# ==============================================================================
+
+meta:
+  version: "2026-Q1"
+  sources:
+    - "Biomedtracker/IQVIA Clinical Development Success Rates 2011-2020 (2021)"
+    - "Thomas DW et al. (2016) Clin Pharmacol Ther — phase transition analysis"
+    - "DiMasi JA et al. (2016) J Health Econ — clinical trial cost estimates"
+    - "Damodaran A. Biotech/Pharma sector WACC estimates (updated annually)"
+    - "FDA CDER Evidentiary Standards for Drug Development (2019)"
+    - "Blumenthal GM et al. (2017) The Oncologist — single-arm approval rates"
+    - "Hwang TJ et al. (2020) JAMA Internal Medicine — surrogate endpoint approvals"
+    - "IQVIA LOE erosion analysis; Bernstein biosimilar erosion studies 2020-2022"
+
+
+# ==============================================================================
+# Phase success rates
+# Format: therapeutic_area -> phase -> probability of transitioning to next phase
+# ==============================================================================
+#
+# Source: Biomedtracker/IQVIA 2021; Thomas et al. 2016 Clinical Pharmacology
+# Note: "all" is the cross-indication average used when TA is "other"
+
+phase_success_rates:
+
+  all:
+    phase_1: 0.64
+    phase_2: 0.37
+    phase_3: 0.60
+    nda_bla: 0.87
+
+  oncology:
+    # Below-average Phase 2 reflects high trial complexity, heterogeneous populations,
+    # and aggressive endpoint requirements in oncology
+    phase_1: 0.54
+    phase_2: 0.32
+    phase_3: 0.55
+    nda_bla: 0.83
+
+  rare_disease:
+    # Above-average: smaller, better-characterized populations; orphan FDA engagement;
+    # lower competitive bar; often biomarker-defined
+    phase_1: 0.67
+    phase_2: 0.45
+    phase_3: 0.62
+    nda_bla: 0.89
+
+  cns:
+    # Lowest Phase 2 success of any TA: target engagement is hard to measure,
+    # placebo response is high, and translational validity is poor
+    phase_1: 0.52
+    phase_2: 0.27
+    phase_3: 0.49
+    nda_bla: 0.83
+
+  cardiovascular:
+    phase_1: 0.62
+    phase_2: 0.45
+    phase_3: 0.59
+    nda_bla: 0.85
+
+  immunology:
+    phase_1: 0.66
+    phase_2: 0.44
+    phase_3: 0.63
+    nda_bla: 0.86
+
+  infectious_disease:
+    # Higher Phase 3 rate reflects well-characterized endpoints (viral load,
+    # culture clearance) and strong regulatory alignment pre-trial
+    phase_1: 0.66
+    phase_2: 0.46
+    phase_3: 0.72
+    nda_bla: 0.86
+
+  ophthalmology:
+    # Best Phase 3 rate outside rare disease: objective quantitative endpoints
+    # (BCVA, retinal thickness OCT), well-characterized populations, anti-VEGF
+    # regulatory precedent. Source: Wong et al. 2019 Biostatistics; GlobalData
+    phase_1: 0.72
+    phase_2: 0.47
+    phase_3: 0.65
+    nda_bla: 0.89
+
+  other:
+    phase_1: 0.64
+    phase_2: 0.37
+    phase_3: 0.60
+    nda_bla: 0.87
+
+
+# ==============================================================================
+# Phase durations and costs
+# ==============================================================================
+
+phase_durations_years:
+  # Median from ClinicalTrials.gov aggregate analysis + DiMasi et al.
+  # These are population medians; individual assets may deviate significantly
+  phase_1: 1.5
+  phase_2: 2.5
+  phase_3: 3.5
+  nda_bla: 1.5
+
+phase_costs_millions:
+  # Industry medians in USD millions; DiMasi 2016 + Tufts CSDD
+  # Fully-loaded: investigator fees, CRO, CMC, regulatory, internal overhead
+  # These are starting points — asset configs should override with asset-specific estimates
+  phase_1:  25.0
+  phase_2:  75.0
+  phase_3: 225.0
+  nda_bla:  35.0
+
+
+# ==============================================================================
+# Commercial defaults
+# ==============================================================================
+
+commercial:
+
+  gross_to_net_by_modality:
+    # Fraction of WAC given back as rebates, chargebacks, copay assistance
+    # gross_price × (1 - gross_to_net) = net price received
+    # Source: SSR Health G2N analysis; IQVIA channel analytics
+    small_molecule: 0.45   # Heavy Medicaid/commercial rebates in primary care
+    biologic:       0.30   # Specialty channel; lower but rising rebate pressure
+    gene_therapy:   0.10   # Small population; limited PBM leverage
+    cell_therapy:   0.10
+    adc:            0.25
+    rna_therapy:    0.20
+    other:          0.35
+
+  cogs_rate_by_modality:
+    # COGS as fraction of net revenue (not WAC)
+    # Source: public company filings, Evaluate Pharma manufacturing benchmarks
+    small_molecule: 0.12
+    biologic:       0.20
+    gene_therapy:   0.30   # Viral vector manufacturing is COGS-intensive
+    cell_therapy:   0.40   # Autologous cell therapy: highest manufacturing cost
+    adc:            0.22
+    rna_therapy:    0.18
+    other:          0.18
+
+  sgna:
+    # SG&A as fraction of net revenue — ramps down as product matures
+    rate_launch: 0.40   # Years 1-2 post-launch: KOL, payer access, patient support
+    rate_mature: 0.20   # Year 5+ steady-state: reduced promotion, established access
+    ramp_years:  5      # Linear ramp from launch to mature rate over this many years
+
+
+# ==============================================================================
+# Discount rates / WACC
+# ==============================================================================
+
+wacc:
+  # Source: Damodaran biotech sector; BVP Emerging Pharma dataset
+  default:    0.10   # Standard clinical-stage biotech
+  small_cap:  0.12   # < $500M market cap: higher equity risk premium
+  large_cap:  0.09   # > $5B market cap: lower risk, more diversified pipeline
+  risk_free:  0.04   # Approximate current 10-year Treasury proxy
+
+
+# ==============================================================================
+# Monte Carlo defaults
+# ==============================================================================
+
+monte_carlo:
+
+  phase_ess:
+    # Beta distribution equivalent sample sizes for phase success rates
+    # Higher ESS = tighter prior = less MC spread on phase POS
+    # These are population-level priors; asset configs may override per-phase
+    phase_1: 30
+    phase_2: 25
+    phase_3: 20
+    nda_bla: 40
+
+  peak_sales_cv:   0.35   # Log-normal CV for peak sales uncertainty (±35%)
+  discount_rate_std: 0.02  # Normal std dev on WACC in MC (±2pp)
+
+
+# ==============================================================================
+# LOE erosion profiles (Step 3)
+# ==============================================================================
+#
+# Post-loss-of-exclusivity revenue decay by modality.
+# Values are the FRACTION OF PEAK REVENUE LOST (not retained) in each year
+# after LOE. Revenue in year t post-LOE = peak × (1 - loss_fraction(t)).
+#
+# Used by RevenueModel to replace the current hard patent-life stop.
+# Add 3 tail years beyond patent_life_years at declining revenue.
+#
+# Sources:
+#   Small molecule: IQVIA LOE Impact analysis; standard BD modeling practice.
+#     Generic entry typically captures 80%+ of volume within 2-3 years.
+#   Biologic: Bernstein Research biosimilar erosion studies 2020-2022.
+#     Branded biologics retain 30-40% of value 3 years post-biosimilar entry.
+#   Gene/cell therapy: No meaningful LOE risk from generics (one-time dosing,
+#     complex manufacturing). Price erosion possible but volume is stable.
+
+loe_erosion_profiles:
+
+  small_molecule:
+    year_1_loss: 0.40    # Year 1 post-LOE: generic entry, -40% of peak revenue
+    year_2_loss: 0.65    # Year 2: further erosion
+    year_3_loss: 0.80    # Year 3: deep generic competition
+    terminal_loss: 0.85  # Year 4+: branded floor (~15% of peak retained)
+
+  biologic:
+    year_1_loss: 0.20    # Biosimilar entry is slower; branded retains ~80% year 1
+    year_2_loss: 0.40
+    year_3_loss: 0.60
+    terminal_loss: 0.70  # Year 4+: branded retains ~30% of peak
+
+  gene_therapy:
+    year_1_loss: 0.05    # Single-administration; limited generic/biosimilar risk
+    year_2_loss: 0.10
+    year_3_loss: 0.15
+    terminal_loss: 0.20
+
+  cell_therapy:
+    year_1_loss: 0.05
+    year_2_loss: 0.10
+    year_3_loss: 0.15
+    terminal_loss: 0.20
+
+  adc:
+    # Treat like biologic: complex manufacturing limits generic entry speed
+    year_1_loss: 0.25
+    year_2_loss: 0.50
+    year_3_loss: 0.65
+    terminal_loss: 0.75
+
+  rna_therapy:
+    year_1_loss: 0.15
+    year_2_loss: 0.35
+    year_3_loss: 0.55
+    terminal_loss: 0.65
+
+  other:
+    year_1_loss: 0.40
+    year_2_loss: 0.65
+    year_3_loss: 0.80
+    terminal_loss: 0.85
+
+
+# ==============================================================================
+# Competition (Step 7)
+# ==============================================================================
+#
+# Penetration haircuts applied when RevenueModel adjusts peak_penetration
+# for competitive landscape at launch. Applied per approved competitor
+# present at our launch year.
+#
+# JUDGMENT CALLS — these are directional priors for default behavior.
+# Asset-specific competitive dynamics should override via CommercialSegment
+# and CompetitionModel rather than relying on these defaults.
+
+competition:
+  penetration_haircut_per_competitor:
+    first_competitor:   0.15   # Entering a 1-competitor market: -15% to peak penetration
+    each_additional:    0.10   # Each competitor beyond the first: -10%
+    maximum_total:      0.50   # Hard floor: model always retains ≥50% of modeled penetration
+
+
+# ==============================================================================
+# Trial design log-odds adjustments (Phase 1A)
+# ==============================================================================
+#
+# EVIDENCE-INFORMED PRIORS — not statistically estimated coefficients.
+# Direction is supported by literature where cited. Magnitude is a JUDGMENT
+# CALL in all cases. A 10-15pp swing in POS is plausible given real-world
+# differences in endpoint and design quality, but exact values are not
+# regression outputs.
+#
+# Double-counting caution:
+#   ApprovalPathway.breakthrough_designation overlaps with
+#   POSAdjusters.has_breakthrough_designation. Use one, not both.
+#   Run check_pos_layer_overlap() to audit any combination.
+
+trial_design:
+
+  logodds:
+
+    endpoint_basis:
+      # Direction: Hwang TJ et al. (2020) JAMA Internal Medicine — confirms surrogates
+      #   have higher post-approval failure rates (~2x). Supports direction of
+      #   hard_clinical > surrogate_validated.
+      # Magnitude: JUDGMENT CALL. +0.35 is a moderate conservative prior.
+      hard_clinical:       0.35    # OS, DFS — most accepted by FDA; Hwang 2020 direction
+      surrogate_validated: 0.00    # Reference: PFS, HbA1c, FEV1, SVR35
+      surrogate_novel:    -0.35    # Uncertain regulatory acceptance; judgment call
+      biomarker_only:     -0.80    # Rarely sufficient standalone; ICH E15 + DiMasi 2021
+
+    evidence_design:
+      # Direction: FDA Evidentiary Standards for Drug Development, CDER 2019
+      # Single-arm magnitude: Blumenthal GM et al. (2017) The Oncologist —
+      #   single-arm Phase 2→3 translation ≈ 40% relative reduction in success
+      #   → roughly -0.40 to -0.55 log-odds at Phase 3. -0.45 is central estimate.
+      # Note: single_arm is standard at Phase 1 and common in rare/refractory
+      #   oncology Phase 2. Phase-conditional scaling below attenuates this to
+      #   near-zero at Phase 1 to avoid penalizing appropriate designs.
+      rct_comparative:     0.00    # Reference: gold standard RCT
+      rct_non_comparative: -0.15   # Minor penalty vs full RCT; judgment call
+      single_arm:          -0.45   # Phase 3 prior; attenuated at earlier phases
+      registry_based:      -0.70   # Observational; FDA RWE guidance 2021
+
+    approval_pathway:
+      # WEAK MODIFIERS ONLY — pathway primarily affects time-to-approval
+      # and commercial adoption, not binary approval probability.
+      standard:                0.00   # Reference
+      accelerated_approval:    0.05   # Weak: FDA engagement signal; judgment call
+      breakthrough_designation: 0.10  # Weak: prefer POSAdjusters.has_breakthrough_designation
+      orphan_drug:             0.05   # Weak: regulatory flexibility; judgment call
+
+  cap_logodds_positive:  0.60   # Max upward combined adjustment (~+14pp at 50% base)
+  cap_logodds_negative: -0.50   # Max downward combined adjustment (~-12pp at 50% base)
+
+  phase_scaling:
+    # Phase-conditional attenuation: design effects differ materially by phase.
+    # Phase 1: single-arm + biomarker endpoints are appropriate, not risky.
+    # Phase 3: design choices directly determine FDA approval probability.
+    # All values are JUDGMENT CALLS — no literature directly calibrates these.
+    phase_1:
+      endpoint_basis:    0.15   # PK/biomarker endpoints expected at Phase 1
+      evidence_design:   0.10   # Single-arm universal at Phase 1
+      approval_pathway:  0.40
+    phase_2:
+      endpoint_basis:    0.55
+      evidence_design:   0.60
+      approval_pathway:  0.70
+    phase_3:
+      endpoint_basis:    1.00   # Full effect at Phase 3
+      evidence_design:   1.00
+      approval_pathway:  0.80
+    nda_bla:
+      endpoint_basis:    0.60   # Evidence baked in from prior phases
+      evidence_design:   0.60
+      approval_pathway:  0.50
