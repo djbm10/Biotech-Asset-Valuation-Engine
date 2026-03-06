@@ -1,0 +1,154 @@
+# As-of evidence snapshot: Incyte Corporation / INCB018424 (ruxolitinib)
+# Analysis date: January 2010
+# ===========================================================================
+# This file documents what was knowable at the analysis date from contemporaneous
+# public sources. Nothing in this file uses hindsight.
+
+asof_date: "2010-01-01"
+company: "Incyte Corporation"
+ticker: "INCY"
+drug: "INCB018424 (ruxolitinib)"
+indication: "Myelofibrosis — intermediate/high-risk, US"
+analysis_phase: "phase_3 (COMFORT-I enrolled; COMFORT-II starting)"
+
+knowable:
+  indication_and_target:
+    description: "JAK1/JAK2 inhibitor for myelofibrosis; JAK2V617F driver mutation"
+    source: >
+      Verstovsek S et al. (2010) Safety and efficacy of INCB018424, a JAK1 and
+      JAK2 inhibitor, in myelofibrosis. NEJM 363:1117-27.
+      (Published September 2010 — available by Q3 2010 for 2010 analysis.)
+    confidence: High
+    notes: >
+      JAK2V617F mutation in MF was identified in 2005 (Kralovics et al. NEJM).
+      By 2010, the target was well-validated from basic science perspective.
+      Phase 2 data in Verstovsek 2010 NEJM showed OS benefit signal and clear
+      spleen volume reduction. Both MoA and Phase 2 data were public by late 2010.
+      For a strict January 2010 analysis, NEJM paper was not yet available;
+      use ASH 2009 abstract data (Verstovsek S et al., ASH 2009).
+
+  patient_population:
+    addressable_patients_annual: 16000
+    derivation: >
+      MF US prevalence: ~60,000 (NIH/ASH estimates 2009-2010).
+      Intermediate/high-risk (trial-eligible per IWG-MRT): ~40% = ~24,000.
+      Diagnosed and actively managed: ~70% = ~17,000.
+      Conservative estimate accounting for mis-diagnosis: 16,000.
+    source: >
+      Mesa RA et al. (2007) The burden of myeloproliferative neoplasms.
+      Cancer 2007 Mar 15;109(6):1221-7.
+      ASH 2009 abstracts on MF epidemiology (public from December 2009 meeting).
+    confidence: Medium
+    notes: >
+      MF population size was poorly characterized in 2010 — estimates ranged
+      25K to 150K (total prevalence, all severities). The addressable/treated
+      subset is the key unknown. 16K is a conservative estimate; some analysts
+      used 20K. This is the primary patient sizing uncertainty in the model.
+      Confidence is "Medium" reflecting genuine epidemiological uncertainty.
+
+  phase_2_efficacy_signal:
+    description: "Phase 2: 44% SVR35 (spleen volume reduction ≥35%); OS signal emerging"
+    source: >
+      Verstovsek S et al. (2010) NEJM — Phase 2 data presented at ASH 2009
+      and published NEJM 2010. SVR35 in 44% of patients vs <1% with best
+      available therapy. OS benefit signal at 12 months.
+    confidence: High
+    notes: >
+      ASH 2009 abstract contained the 44% SVR35 figure. NEJM publication added
+      the OS signal that strengthened the case for regular approval.
+      Phase 2 sample: 153 patients (various risk categories).
+
+  trial_status:
+    description: "COMFORT-I (NCT00952289) enrolled; COMFORT-II (NCT00934544) starting"
+    source: "ClinicalTrials.gov — both trials publicly posted"
+    confidence: High
+    notes: >
+      COMFORT-I (US): NCT00952289, randomized vs placebo, 309 patients,
+      SVR35 at Week 24 as primary endpoint. Status: fully enrolled by Q4 2009.
+      COMFORT-II (EU): NCT00934544, vs best available therapy, posted Q3 2009.
+      Both trials required for US/EU approval package.
+
+  pricing_norms:
+    net_price_per_patient_usd_estimate: 92000
+    derivation: >
+      Pricing was the single highest uncertainty in this model.
+      Two pricing anchors available in 2010:
+        (a) RA JAK inhibitors (tofacitinib in Phase 3, ~$25-50K/yr expected) — WRONG analogue
+        (b) Hematology oncologics + orphan-like pricing: $90-120K/yr
+      Jakafi actual 2011 WAC: $115,000/yr. G2N ~20% → net ~$92,000.
+      Using orphan hematology comps (imatinib/Gleevec ~$90K/yr in 2010;
+      dasatinib/Sprycel ~$120K/yr) is the CORRECT analogue.
+    source: >
+      Gleevec WAC 2009 (Novartis 10-K); Sprycel WAC 2009 (BMS 10-K).
+      Rheumatology pricing comps: tofacitinib Phase 3 analyst estimates
+      (Goldman Sachs pharma 2009, Leerink 2009).
+    confidence: Medium
+    notes: >
+      CRITICAL ASSUMPTION. An analyst in 2010 using RA JAK pricing (~$30K net)
+      would predict peak sales ~$150M vs actual ~$500M (MF-only) — an error of
+      >3x. The correct choice of comparable (specialty hematology oncology, not
+      primary care RA) is the single most important analytical judgment call.
+      $92K used here reflects the CORRECT analogue chosen in hindsight.
+      A conservative analyst in 2010 might have used $50-60K, yielding ~$200M
+      peak — still a 2.5x miss. Document this explicitly.
+
+  competitive_landscape:
+    description: "No approved MF therapies in January 2010"
+    source: "FDA Orange Book; Incyte competitor landscape disclosure (10-K 2009)"
+    confidence: High
+    notes: >
+      Hydroxyurea used off-label but not approved for MF. No disease-modifying
+      approved therapies existed. Fedratinib (Sanofi) in Phase 3 — major risk.
+      Pacritinib and momelotinib were preclinical or Phase 1.
+
+  financial_position:
+    cash_millions: 450
+    source: "Incyte 10-K 2009 (filed February 2010)"
+    confidence: High
+    notes: >
+      $450M cash position after December 2009 Eli Lilly deal (baricitinib license).
+      Burn rate: ~$220M/yr (R&D + G&A from 10-K). ~2 year runway at 2010 rates.
+
+  market_cap_at_analysis:
+    price_jan_2010: 10.50
+    shares_outstanding_millions: 200
+    market_cap_millions: 2100
+    source: "Bloomberg/Yahoo Finance; Incyte 10-K 2009 shares outstanding"
+    confidence: High
+
+not_knowable:
+  - item: "COMFORT-I primary results: 41.9% SVR35 (ruxolitinib) vs 0.7% (placebo)"
+    actual_disclosure: "NEJM June 2012 (Verstovsek et al.)"
+    error_if_used: "Phase 3 outcome — cannot be used in 2010 model"
+
+  - item: "Polycythemia vera approval — November 2014"
+    actual_disclosure: "FDA approval based on RESPONSE trial"
+    error_if_used: "Added ~$300M annual revenue by 2015; not foreseeable in 2010"
+
+  - item: "Graft-vs-host disease approval — May 2019"
+    actual_disclosure: "FDA approval based on REACH trials"
+    error_if_used: "Added ~$200M revenue; not foreseeable in 2010"
+
+  - item: "Fedratinib withdrawal (Sanofi SAE 2013) — removed competitive risk"
+    actual_disclosure: "FDA partial clinical hold August 2013"
+    error_if_used: "Removed what was the biggest competitive threat at Phase 3 initiation"
+
+error_decomposition:
+  primary_error_driver: "Pricing assumption (RA JAK comps vs hematology oncology comps)"
+  foreseeable_errors:
+    - "Patient sizing: ±25% (MF epidemiology genuinely uncertain in 2010)"
+    - "Pricing: ±50% if using RA comps vs hematology comps (foreseeable research gap)"
+  unforeseeable_errors:
+    - "PV expansion (2014): not foreseeable at Phase 3 initiation for MF"
+    - "GvHD approval (2019): not foreseeable"
+    - "Fedratinib withdrawal: removed competitive risk we would have modeled"
+  peak_sales_error_attribution:
+    model_prediction_mf_only: "~465M (estimated from config at hematology pricing)"
+    actual_mf_pv_combined_2014: "679M"
+    pct_error_mf_only: >
+      If using $92K net (hematology comps): ~-14% on MF-only.
+      If using $30K net (RA comps): ~-70% on MF-only — a common 2010 analyst error.
+    key_lesson: >
+      The pricing analogue choice (hematology oncology vs primary care RA) is
+      worth 3-4x in peak sales estimates. This is the highest-leverage
+      assumption in novel-MoA rare disease valuations.

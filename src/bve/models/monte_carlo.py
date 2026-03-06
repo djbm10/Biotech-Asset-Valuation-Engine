@@ -182,6 +182,13 @@ def run_monte_carlo(
                 update={"net_price_per_patient_usd": new_price, "years_to_peak": int(ytp_samples[i]), "uptake_curve": None}
             )
 
+        # Phase 1B: per-simulation probabilistic competitor entry.
+        # Approved competitors always present; pipeline competitors included
+        # via Bernoulli draw (approval_probability). See CompetitionModel.sample_launch_outcomes.
+        if market_model.competition_model is not None and market_model.competition_model.competitors:
+            sampled_comp = market_model.competition_model.sample_launch_outcomes(rng)
+            sim_market = sim_market.model_copy(update={"competition_model": sampled_comp})
+
         sim_trials = [
             t.model_copy(update={"success_probability": float(phase_success_samples[t.phase][i])})
             for t in trials

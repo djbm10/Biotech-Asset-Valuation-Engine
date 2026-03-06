@@ -192,6 +192,38 @@ pos_adjusters:
     strong_prior_phase_data: true
 
 # ---------------------------------------------------------------------------
+# Trial Design Features (optional second POS layer)
+# ---------------------------------------------------------------------------
+# Applies phase-conditional design adjustments ON TOP OF the POS model output.
+# These capture trial design risks not covered by POSAdjusters:
+#   - evidence_design: RCT vs. single-arm (single-arm penalty attenuated at Phase 2)
+#   - approval_pathway: regulatory pathway expected
+#
+# ANTI-DOUBLE-COUNTING POLICY:
+#   endpoint_basis is set to surrogate_validated (neutral reference) because
+#   pos_adjusters already handles endpoint quality via endpoint_type.
+#   evidence_design and approval_pathway have NO equivalent in pos_adjusters.
+#
+# Run check_pos_layer_overlap() to audit any combination before accepting results.
+trial_design:
+  apply_design_model: true
+
+  phase_2:
+    endpoint_basis: "surrogate_validated"    # Neutral: pos_adjusters handles this
+    evidence_design: "single_arm"            # ReDiscover Ph2 expansion: non-randomized
+    approval_pathway: "accelerated_approval" # AA path plausible on ORR data; small positive
+
+  phase_3:
+    endpoint_basis: "surrogate_validated"    # Neutral: pos_adjusters handles this
+    evidence_design: "rct_comparative"       # Randomized vs. inavolisib: gold standard (reference)
+    approval_pathway: "standard"             # Standard review expected post RCT package
+
+  nda_bla:
+    endpoint_basis: "surrogate_validated"
+    evidence_design: "rct_comparative"
+    approval_pathway: "standard"
+
+# ---------------------------------------------------------------------------
 # Monte Carlo Uncertainty
 # ---------------------------------------------------------------------------
 monte_carlo:
@@ -223,6 +255,97 @@ limitations:
   - "Phase 3 design (vs. inavolisib) adds execution risk; head-to-head superiority trial is a high bar."
   - "Company-level pipeline (non-RLY-2608 assets) not included; NAV is single-asset."
   - "Tax shield from NOL carryforward not modeled; meaningful for commercial-stage value."
+
+# ---------------------------------------------------------------------------
+# Assumption source overrides
+# Augments auto-generated assumption log with URLs and confidence ratings.
+# Recognized slugs: addressable_patients, net_price, peak_penetration,
+#                   discount_rate, patent_life, cogs_rate
+# ---------------------------------------------------------------------------
+sources:
+  addressable_patients:
+    url: "https://seer.cancer.gov/statfacts/html/breast.html"
+    confidence: "Medium"
+    notes: >
+      US HR+/HER2- mBC: ~35K incident/yr. PIK3CA-mutant ~40% (TCGA).
+      H1047R ~40% of PIK3CA-mutant. 2nd/3rd-line eligible ~50%.
+      ctDNA testing penetration ~85%. Derivation: 35K × 40% × 40% × 50% × 85% ≈ 17K.
+
+  net_price:
+    url: "https://www.prnewswire.com/news-releases/fda-approves-itovebi-inavolisib-for-adults-with-pik3ca-mutated-hr-her2--advanced-breast-cancer-302281977.html"
+    confidence: "Low"
+    notes: >
+      Inavolisib (Itovebi) WAC ~$300K/yr estimated from Roche list price at launch.
+      RLY-2608 modeled at slight 2nd-in-class discount: $260K WAC × (1 - 30% G2N) = $182K.
+      G2N of 30% per SSR Health specialty oncology benchmarks.
+
+  peak_penetration:
+    url: "https://www.accessdata.fda.gov/drugsatfda_docs/label/2019/212526s000lbl.pdf"
+    confidence: "Low"
+    notes: >
+      Alpelisib (Piqray) captured ~15-20% of PIK3CA-mutant mBC market at peak
+      before tolerability issues. Inavolisib taking share post-Oct 2024 approval.
+      RLY-2608 22% in H1047R subgroup reflects superior selectivity positioning.
+
+# ---------------------------------------------------------------------------
+# Decision framing — makes the model a decision tool, not just a calculator
+# ---------------------------------------------------------------------------
+decision_framing:
+  variant_perception:
+    market_pos_pct: 20       # market-implied P(approval) ≈ 20% (implied from ~$540M EV vs. ~$130M rNPV)
+    market_peak_sales_m: 350  # market appears to discount peak sales relative to inavolisib precedent
+    our_edge: >
+      The market underestimates three factors: (1) inavolisib's FDA approval de-risks the
+      regulatory path for PI3Ka-selective agents — the class is now validated; (2) RLY-2608's
+      300x H1047R selectivity should enable continuous dosing and CDK4/6 combinations that
+      inavolisib cannot access; (3) H1047R accounts for ~40% of PIK3CA mutations but is
+      underserved by current options — RLY-2608 could become class leader in this subgroup.
+
+  kill_criteria:
+    - "Phase 2 confirmed ORR < 30% in H1047R + fulvestrant cohort (inavolisib showed ~36% ORR in all-comers; <30% removes differentiation claim)"
+    - "Grade 3+ hyperglycemia rate > 20% (would eliminate the tolerability advantage vs. alpelisib that underlies the entire thesis)"
+    - "FDA requires OS endpoint (not ORR/PFS) for approval in 2nd-line mBC (raises bar substantially)"
+    - "Head-to-head Phase 3 vs. inavolisib fails to show superiority — regulatory approval becomes uncertain"
+
+  downside_drivers:
+    - category: "CMC / Manufacturing"
+      description: >
+        Covalent inhibitor synthesis is complex; commercial-scale manufacturing
+        not yet demonstrated. Supply chain risk could delay launch or limit
+        distribution in year 1-2 post-approval.
+      severity: "medium"
+
+    - category: "Endpoint / Regulatory"
+      description: >
+        FDA trend toward requiring randomized trials for accelerated approval
+        may require RLY-2608 to run a confirmatory arm earlier than expected.
+        Active comparator (inavolisib) design for Phase 3 is a high bar —
+        superiority vs. an approved agent is harder than placebo-controlled.
+      severity: "high"
+
+    - category: "Payer / Pricing"
+      description: >
+        IRA drug price negotiation eligibility in year 9 post-launch could
+        compress net pricing earlier than modeled. Specialty oncology G2N has
+        been rising (SSR Health 2024: average 32-35% in oncology).
+        Inavolisib biosimilar entry post-exclusivity could also cap pricing.
+      severity: "medium"
+
+    - category: "Competition"
+      description: >
+        Multiple PI3Ka-selective programs in development (Arvinas PROTAC,
+        Revolution Medicines). If a cleaner (degrader vs. inhibitor) profile
+        reaches Phase 2 readout simultaneously, it could reset the competitive bar.
+        Inavolisib label expansion to earlier lines would also reduce RLY-2608 TAM.
+      severity: "medium"
+
+    - category: "IP / Patent"
+      description: >
+        Composition-of-matter patent for the covalent binding mode should be
+        strong, but validity depends on scope vs. inavolisib and other PI3Ka
+        inhibitors. Patent landscape not independently verified; 12-year exclusivity
+        assumption should be confirmed with IP counsel.
+      severity: "low"
 
 # ---------------------------------------------------------------------------
 # What would change the thesis

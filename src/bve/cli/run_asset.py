@@ -15,6 +15,130 @@ from pathlib import Path
 import yaml
 
 
+_VALID_THERAPEUTIC_AREAS = {"oncology", "rare_disease", "cns", "cardiovascular", "immunology", "infectious_disease", "ophthalmology", "other"}
+_VALID_STAGES = {"phase_1", "phase_2", "phase_3", "nda_bla"}
+_VALID_MODALITIES = {"small_molecule", "biologic", "cell_gene", "adc", "other"}
+_VALID_ENDPOINT_TYPES = {"hard_clinical", "surrogate_validated", "surrogate_novel", "biomarker_only"}
+_VALID_MOA_PRECEDENT = {"validated", "partial", "novel"}
+_VALID_SAMPLE_ADEQUACY = {"well_powered", "adequate", "borderline", "underpowered"}
+_VALID_SAFETY = {"clean", "minor", "concerning", "serious"}
+_VALID_COMPETITION = {"low", "moderate", "high"}
+_VALID_ENDPOINT_BASIS = {"hard_clinical", "surrogate_validated", "surrogate_novel", "biomarker_only"}
+_VALID_EVIDENCE_DESIGN = {"rct_comparative", "rct_non_comparative", "single_arm", "registry_based"}
+_VALID_APPROVAL_PATHWAY = {"standard", "accelerated_approval", "breakthrough_designation", "orphan_drug"}
+
+
+def _validate_config(cfg: dict, path: Path) -> None:
+    """
+    Validate required fields and enum values in a YAML config.
+    Raises SystemExit with a clear message on the first error found.
+    """
+    errors = []
+
+    def _check(condition: bool, msg: str) -> None:
+        if not condition:
+            errors.append(msg)
+
+    a = cfg.get("asset", {})
+    _check(bool(a.get("id")), "asset.id is required")
+    _check(bool(a.get("name")), "asset.name is required")
+    _check(bool(a.get("indication")), "asset.indication is required")
+    _check(
+        a.get("therapeutic_area") in _VALID_THERAPEUTIC_AREAS,
+        f"asset.therapeutic_area must be one of {sorted(_VALID_THERAPEUTIC_AREAS)}, got: {a.get('therapeutic_area')!r}"
+    )
+    _check(
+        a.get("stage") in _VALID_STAGES,
+        f"asset.stage must be one of {sorted(_VALID_STAGES)}, got: {a.get('stage')!r}"
+    )
+    if a.get("modality"):
+        _check(
+            a["modality"] in _VALID_MODALITIES,
+            f"asset.modality must be one of {sorted(_VALID_MODALITIES)}, got: {a['modality']!r}"
+        )
+
+    c = cfg.get("company", {})
+    _check(bool(c.get("id")), "company.id is required")
+    _check(bool(c.get("name")), "company.name is required")
+    _check(c.get("cash_millions") is not None, "company.cash_millions is required")
+    _check(c.get("shares_outstanding_millions") is not None, "company.shares_outstanding_millions is required")
+    if c.get("shares_outstanding_millions") is not None:
+        _check(float(c["shares_outstanding_millions"]) > 0, "company.shares_outstanding_millions must be > 0")
+
+    trials = cfg.get("trials", [])
+    _check(len(trials) > 0, "at least one trial is required under 'trials:'")
+    for i, t in enumerate(trials):
+        prefix = f"trials[{i}]"
+        _check(t.get("phase") in _VALID_STAGES, f"{prefix}.phase must be one of {sorted(_VALID_STAGES)}, got: {t.get('phase')!r}")
+        _check(t.get("duration_years") is not None, f"{prefix}.duration_years is required")
+        _check(t.get("cost_millions") is not None, f"{prefix}.cost_millions is required")
+        _check(t.get("success_probability") is not None, f"{prefix}.success_probability is required")
+        sp = t.get("success_probability")
+        if sp is not None:
+            _check(0 < float(sp) < 1, f"{prefix}.success_probability must be between 0 and 1, got: {sp}")
+        if t.get("endpoint_type"):
+            _check(
+                t["endpoint_type"] in _VALID_ENDPOINT_TYPES,
+                f"{prefix}.endpoint_type must be one of {sorted(_VALID_ENDPOINT_TYPES)}, got: {t['endpoint_type']!r}"
+            )
+
+    m = cfg.get("market_model", {})
+    has_lots = bool(m.get("lines_of_therapy"))
+    if not has_lots:
+        _check(
+            m.get("total_addressable_market_millions") is not None or m.get("addressable_patients_annual") is not None,
+            "market_model requires either total_addressable_market_millions, addressable_patients_annual, "
+            "or lines_of_therapy (multi-line of therapy segments)"
+        )
+        _check(m.get("peak_penetration") is not None, "market_model.peak_penetration is required (or use lines_of_therapy)")
+        pp = m.get("peak_penetration")
+        if pp is not None:
+            _check(0 < float(pp) <= 1, f"market_model.peak_penetration must be between 0 and 1, got: {pp}")
+
+    pos = cfg.get("pos_adjusters", {})
+    if pos.get("apply_pos_model"):
+        for phase_key in ("phase_1", "phase_2", "phase_3", "nda_bla"):
+            pc = pos.get(phase_key)
+            if pc is None:
+                continue
+            prefix = f"pos_adjusters.{phase_key}"
+            if pc.get("moa_precedent"):
+                _check(pc["moa_precedent"] in _VALID_MOA_PRECEDENT,
+                       f"{prefix}.moa_precedent must be one of {sorted(_VALID_MOA_PRECEDENT)}, got: {pc['moa_precedent']!r}")
+            if pc.get("sample_size_adequacy"):
+                _check(pc["sample_size_adequacy"] in _VALID_SAMPLE_ADEQUACY,
+                       f"{prefix}.sample_size_adequacy must be one of {sorted(_VALID_SAMPLE_ADEQUACY)}, got: {pc['sample_size_adequacy']!r}")
+            if pc.get("safety_profile"):
+                _check(pc["safety_profile"] in _VALID_SAFETY,
+                       f"{prefix}.safety_profile must be one of {sorted(_VALID_SAFETY)}, got: {pc['safety_profile']!r}")
+            if pc.get("competitive_pressure"):
+                _check(pc["competitive_pressure"] in _VALID_COMPETITION,
+                       f"{prefix}.competitive_pressure must be one of {sorted(_VALID_COMPETITION)}, got: {pc['competitive_pressure']!r}")
+
+    td = cfg.get("trial_design", {})
+    if td.get("apply_design_model"):
+        for phase_key in ("phase_1", "phase_2", "phase_3", "nda_bla"):
+            pc = td.get(phase_key)
+            if pc is None:
+                continue
+            prefix = f"trial_design.{phase_key}"
+            if pc.get("endpoint_basis"):
+                _check(pc["endpoint_basis"] in _VALID_ENDPOINT_BASIS,
+                       f"{prefix}.endpoint_basis must be one of {sorted(_VALID_ENDPOINT_BASIS)}, got: {pc['endpoint_basis']!r}")
+            if pc.get("evidence_design"):
+                _check(pc["evidence_design"] in _VALID_EVIDENCE_DESIGN,
+                       f"{prefix}.evidence_design must be one of {sorted(_VALID_EVIDENCE_DESIGN)}, got: {pc['evidence_design']!r}")
+            if pc.get("approval_pathway"):
+                _check(pc["approval_pathway"] in _VALID_APPROVAL_PATHWAY,
+                       f"{prefix}.approval_pathway must be one of {sorted(_VALID_APPROVAL_PATHWAY)}, got: {pc['approval_pathway']!r}")
+
+    if errors:
+        print(f"\nERROR: Config validation failed — {path}", file=sys.stderr)
+        for e in errors:
+            print(f"  - {e}", file=sys.stderr)
+        sys.exit(1)
+
+
 def _load_config(path: Path) -> dict:
     with open(path) as f:
         return yaml.safe_load(f)
@@ -74,12 +198,23 @@ def _build_objects(cfg: dict):
         ))
 
     m = cfg["market_model"]
+    from bve.models.market_model import LineOfTherapySegment
+    from bve.models.competition_model import CompetitionModel, CompetitorLaunch
+    lot_cfgs = m.get("lines_of_therapy", [])
+    lots = [LineOfTherapySegment(**seg) for seg in lot_cfgs] if lot_cfgs else []
+    comp_cfgs = cfg.get("competition", [])
+    competition = (
+        CompetitionModel(competitors=[CompetitorLaunch(**c) for c in comp_cfgs])
+        if comp_cfgs else None
+    )
     market_model = MarketModel(
         asset_id=asset.id,
+        lines_of_therapy=lots,
+        competition_model=competition,
         total_addressable_market_millions=m.get("total_addressable_market_millions"),
         addressable_patients_annual=m.get("addressable_patients_annual"),
         net_price_per_patient_usd=m.get("net_price_per_patient_usd"),
-        peak_penetration=m["peak_penetration"],
+        peak_penetration=m.get("peak_penetration", 0.10),
         years_to_peak=m.get("years_to_peak", 5),
         patent_life_years=m.get("patent_life_years", 12),
         cogs_rate=m.get("cogs_rate", 0.18),
@@ -128,6 +263,42 @@ def _build_pos_adjusters(cfg: dict):
     return adjusters, True
 
 
+def _build_design_adjusters(cfg: dict):
+    """Parse optional trial_design section from config.
+
+    Returns (design_adjusters_dict, apply_design_model_bool).
+    design_adjusters_dict maps TrialPhase → TrialDesignFeatureSet.
+    """
+    from bve.entities.trial import TrialPhase
+    from bve.models.trial_design_features import (
+        ApprovalPathway, EndpointBasis, EvidenceDesign, TrialDesignFeatureSet
+    )
+
+    td_cfg = cfg.get("trial_design", {})
+    if not td_cfg.get("apply_design_model", False):
+        return None, False
+
+    phase_map = {
+        "phase_1": TrialPhase.PHASE_1,
+        "phase_2": TrialPhase.PHASE_2,
+        "phase_3": TrialPhase.PHASE_3,
+        "nda_bla": TrialPhase.NDA_BLA,
+    }
+
+    adjusters = {}
+    for phase_key, phase_enum in phase_map.items():
+        phase_cfg = td_cfg.get(phase_key)
+        if phase_cfg is None:
+            continue
+        adjusters[phase_enum] = TrialDesignFeatureSet(
+            endpoint_basis=EndpointBasis(phase_cfg.get("endpoint_basis", "surrogate_validated")),
+            evidence_design=EvidenceDesign(phase_cfg.get("evidence_design", "rct_comparative")),
+            approval_pathway=ApprovalPathway(phase_cfg.get("approval_pathway", "standard")),
+        )
+
+    return adjusters, True
+
+
 def _output_dir(cfg: dict, base: str) -> Path:
     """Derive output directory: outputs/<ticker_or_asset_name>/"""
     ticker = cfg.get("company", {}).get("ticker") or cfg.get("asset", {}).get("id", "asset")
@@ -151,8 +322,10 @@ def main():
         sys.exit(1)
 
     cfg = _load_config(cfg_path)
+    _validate_config(cfg, cfg_path)
     asset, company, trials, market_model = _build_objects(cfg)
     pos_adjusters, apply_pos = _build_pos_adjusters(cfg)
+    design_adjusters, apply_design = _build_design_adjusters(cfg)
 
     from bve.models.monte_carlo import MonteCarloParams, PhaseSuccessDistribution
     from bve.entities.trial import TrialPhase
@@ -185,18 +358,41 @@ def main():
     engine = ValuationEngine(
         asset, company, trials, market_model,
         pos_adjusters=pos_adjusters,
+        design_adjusters=design_adjusters,
         mc_params=mc_params,
         apply_pos_model=apply_pos,
+        apply_design_model=apply_design,
         analyst_notes=cfg.get("analyst_notes"),
         config_path=str(cfg_path.resolve()),
         limitations=cfg.get("limitations"),
         thesis_changers=cfg.get("thesis_changers"),
     )
 
+    # Optional: assumption source overrides and decision framing
+    engine.sources = cfg.get("sources")
+    decision_framing_cfg = cfg.get("decision_framing")
+    if decision_framing_cfg:
+        from bve.valuation.assumptions import DecisionFraming, DownsideDriver, VariantPerception
+        vp_cfg = decision_framing_cfg.get("variant_perception")
+        vp = VariantPerception(**vp_cfg) if vp_cfg else None
+        dd_list = [DownsideDriver(**d) for d in decision_framing_cfg.get("downside_drivers", [])]
+        engine.decision_framing = DecisionFraming(
+            variant_perception=vp,
+            kill_criteria=decision_framing_cfg.get("kill_criteria", []),
+            downside_drivers=dd_list,
+        )
+
     print(f"\nRunning valuation: {asset.name} ({company.ticker or company.name})")
-    print(f"  Config:    {cfg_path}")
-    print(f"  POS model: {'enabled' if apply_pos else 'using YAML point estimates'}")
-    print(f"  MC sims:   {args.n_sims:,}")
+    print(f"  Config:       {cfg_path}")
+    print(f"  POS model:    {'enabled' if apply_pos else 'using YAML point estimates'}")
+    if apply_design:
+        phase_summaries = []
+        for ph, feat in (design_adjusters or {}).items():
+            phase_summaries.append(f"{ph.value}: {feat.evidence_design.value}/{feat.approval_pathway.value}")
+        print(f"  Design model: enabled ({'; '.join(phase_summaries)})")
+    print(f"  MC sims:      {args.n_sims:,}")
+    if market_model.competition_model and market_model.competition_model.competitors:
+        print(f"  Competition:  {market_model.competition_model.summary()}")
     output = engine.run()
 
     # --- Console summary ---

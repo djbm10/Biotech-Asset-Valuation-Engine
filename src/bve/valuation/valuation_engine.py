@@ -47,9 +47,11 @@ class ValuationEngine:
         trials: list[ClinicalTrial],
         market_model: MarketModel,
         indication: Optional[Indication] = None,
-        pos_adjusters: Optional[dict] = None,   # TrialPhase → POSAdjusters
+        pos_adjusters: Optional[dict] = None,    # TrialPhase → POSAdjusters
+        design_adjusters: Optional[dict] = None, # TrialPhase → TrialDesignFeatureSet
         mc_params: Optional[MonteCarloParams] = None,
         apply_pos_model: bool = False,
+        apply_design_model: bool = False,
         analyst_notes: Optional[str] = None,
         config_path: Optional[str] = None,
         limitations: Optional[list[str]] = None,
@@ -61,12 +63,16 @@ class ValuationEngine:
         self.market_model = market_model
         self.indication = indication
         self.pos_adjusters = pos_adjusters or {}
+        self.design_adjusters = design_adjusters or {}
         self.mc_params = mc_params or MonteCarloParams()
         self.apply_pos_model = apply_pos_model
+        self.apply_design_model = apply_design_model
         self.analyst_notes = analyst_notes
         self.config_path = config_path
         self.limitations = limitations
         self.thesis_changers = thesis_changers
+        self.sources: Optional[dict] = None
+        self.decision_framing = None
 
     def run(self) -> ValuationOutput:
         """Execute the full valuation pipeline."""
@@ -103,6 +109,7 @@ class ValuationEngine:
             self.asset, trials, self.market_model, rnpv,
             limitations=self.limitations,
             thesis_changers=self.thesis_changers,
+            sources=self.sources,
         )
 
         return ValuationOutput(
@@ -120,14 +127,57 @@ class ValuationEngine:
             assumption_log=assumption_log,
             analyst_notes=self.analyst_notes,
             config_path=self.config_path,
+            random_seed=self.mc_params.random_seed,
+            n_simulations=self.mc_params.n_simulations,
+            decision_framing=self.decision_framing,
         )
 
     def _prepare_trials(self) -> list[ClinicalTrial]:
+        trials = self.trials
         if self.apply_pos_model and self.pos_adjusters:
-            return apply_pos_to_trials(
-                self.trials, self.asset.therapeutic_area, self.pos_adjusters
+            trials = apply_pos_to_trials(
+                trials, self.asset.therapeutic_area, self.pos_adjusters
             )
-        return self.trials
+        if self.apply_design_model and self.design_adjusters:
+            trials = self._apply_design_adjustments(trials)
+        return trials
+
+    def _apply_design_adjustments(self, trials: list[ClinicalTrial]) -> list[ClinicalTrial]:
+        """Apply trial design feature adjustments as the second POS layer.
+
+        Runs after apply_pos_to_trials (if enabled), so adjusts the model-predicted
+        POS rather than the raw YAML point estimate.
+
+        Anti-double-counting: if both pos_adjusters and design_adjusters are enabled
+        for the same phase, check_pos_layer_overlap() is called. Overlaps are printed
+        as warnings but do not halt execution — the analyst must resolve them explicitly.
+        """
+        from bve.models.trial_design_features import check_pos_layer_overlap, compute_design_adjusted_pos
+
+        result = []
+        for trial in trials:
+            features = self.design_adjusters.get(trial.phase)
+            if features is None:
+                result.append(trial)
+                continue
+
+            # Warn if this trial's phase also has pos_adjusters (potential double-count)
+            if self.apply_pos_model and trial.phase in self.pos_adjusters:
+                report = check_pos_layer_overlap(
+                    self.pos_adjusters[trial.phase], features, phase=trial.phase.value
+                )
+                if not report.is_clean():
+                    import warnings
+                    warnings.warn(
+                        f"[BVE design model] {trial.phase.value}: {report.summary()}",
+                        stacklevel=2,
+                    )
+
+            dar = compute_design_adjusted_pos(
+                trial.success_probability, features, phase=trial.phase.value
+            )
+            result.append(trial.model_copy(update={"success_probability": dar.adjusted_pos}))
+        return result
 
     def _compute_sensitivities(self, trials: list[ClinicalTrial]) -> list[SensitivityPoint]:
         """Tornado analysis: vary one parameter at a time ±30% / ±1σ."""
