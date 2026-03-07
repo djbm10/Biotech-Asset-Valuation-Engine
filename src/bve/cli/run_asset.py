@@ -14,6 +14,12 @@ from pathlib import Path
 
 import yaml
 
+from bve.config.assumptions_loader import AssumptionsLoader as _AssumptionsLoader
+
+# Resolved once at import — avoids re-loading YAML on every CLI invocation
+_COMMERCIAL_DEFAULTS = _AssumptionsLoader.get().commercial_defaults
+_MC_DEFAULTS = _AssumptionsLoader.get()
+
 
 _VALID_THERAPEUTIC_AREAS = {"oncology", "rare_disease", "cns", "cardiovascular", "immunology", "infectious_disease", "ophthalmology", "other"}
 _VALID_STAGES = {"phase_1", "phase_2", "phase_3", "nda_bla"}
@@ -160,7 +166,7 @@ def _build_objects(cfg: dict):
         stage=DevelopmentStage(a["stage"]),
         modality=Modality(a.get("modality", "small_molecule")),
         mechanism_of_action=a.get("mechanism_of_action"),
-        discount_rate=a.get("discount_rate", 0.10),
+        discount_rate=a.get("discount_rate", float(_COMMERCIAL_DEFAULTS["discount_rate"])),
         royalty_rate=a.get("royalty_rate", 0.0),
         upcoming_catalysts=[Catalyst(**c) for c in a.get("upcoming_catalysts", [])],
         competitor_assets=a.get("competitor_assets", []),
@@ -214,10 +220,10 @@ def _build_objects(cfg: dict):
         total_addressable_market_millions=m.get("total_addressable_market_millions"),
         addressable_patients_annual=m.get("addressable_patients_annual"),
         net_price_per_patient_usd=m.get("net_price_per_patient_usd"),
-        peak_penetration=m.get("peak_penetration", 0.10),
+        peak_penetration=m.get("peak_penetration", float(_COMMERCIAL_DEFAULTS["peak_penetration"])),
         years_to_peak=m.get("years_to_peak", 5),
         patent_life_years=m.get("patent_life_years", 12),
-        cogs_rate=m.get("cogs_rate", 0.18),
+        cogs_rate=m.get("cogs_rate", float(_COMMERCIAL_DEFAULTS["cogs_rate"])),
         sgna_rate_launch=m.get("sgna_rate_launch", 0.40),
         sgna_rate_mature=m.get("sgna_rate_mature", 0.20),
     )
@@ -348,9 +354,9 @@ def main():
     mc_params = MonteCarloParams(
         n_simulations=args.n_sims,
         random_seed=mc_cfg.get("random_seed", args.seed),
-        peak_sales_cv=mc_cfg.get("peak_sales_cv", 0.35),
-        discount_rate_std=mc_cfg.get("discount_rate_std", 0.02),
-        years_to_peak_std=mc_cfg.get("years_to_peak_std", 1.5),
+        peak_sales_cv=mc_cfg.get("peak_sales_cv", _MC_DEFAULTS.mc_peak_sales_cv),
+        discount_rate_std=mc_cfg.get("discount_rate_std", _MC_DEFAULTS.mc_discount_rate_std),
+        years_to_peak_std=mc_cfg.get("years_to_peak_std", _MC_DEFAULTS.mc_years_to_peak_std),
         phase_distributions=phase_dists,
         use_default_correlations=mc_cfg.get("use_default_correlations", True),
     )

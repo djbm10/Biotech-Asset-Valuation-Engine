@@ -128,9 +128,71 @@ Probability of positive value: **{{ d.mc_prob_positive }}**
 
 ---
 
-## 6. Deal Considerations
+## 6. Decision Framing
 
-*[BD team to populate: deal structure, license vs. acquisition, milestones, royalties, manufacturing/CMC considerations, strategic synergies, competing bids, regulatory risks]*
+{% if decision_framing and decision_framing.variant_perception %}
+### Variant Perception
+{% set vp = decision_framing.variant_perception %}
+| Dimension | Market Consensus | Our Model | Edge |
+|-----------|-----------------|-----------|------|
+| P(Approval) | {% if vp.market_pos_pct %}~{{ "%.0f"|format(vp.market_pos_pct) }}%{% elif implied_pos_pct %}~{{ implied_pos_pct }} (market-implied){% else %}[est.]{% endif %} | {{ d.prob_approval_pct }} | {% if vp.market_pos_pct and implied_pos %}{{ "%+.0f"|format((d.prob_approval_pct | replace('%','') | float) - vp.market_pos_pct) }}pp{% else %}—{% endif %} |
+| Peak Sales | {% if vp.market_peak_sales_m %}${{ "%.0f"|format(vp.market_peak_sales_m) }}M{% else %}[est.]{% endif %} | ${{ "%.0f"|format(d.peak_sales_millions) }}M | {% if vp.market_peak_sales_m %}${{ "%+.0f"|format(d.peak_sales_millions - vp.market_peak_sales_m) }}M{% else %}—{% endif %} |
+| NAV/Share | {% if d.current_price %}${{ "%.2f"|format(d.current_price) }} (current){% else %}—{% endif %} | ${{ "%.2f"|format(d.nav_per_share) }} | {% if d.implied_upside_pct is not none %}{{ "%+.0f"|format(d.implied_upside_pct) }}%{% else %}—{% endif %} |
+{% if implied_pos_pct %}
+**Market-implied P(approval):** {{ implied_pos_pct }} (back-solved from market cap – net cash)
+**Model P(approval):** {{ d.prob_approval_pct }}
+{% endif %}
+
+{% if vp.our_edge %}
+**Our edge:** {{ vp.our_edge }}
+{% endif %}
+{% else %}
+*[Analyst to populate: what does the market believe vs. our model? What are we seeing that others are missing?]*
+
+{% if implied_pos_pct %}
+**Market-implied P(approval):** {{ implied_pos_pct }} (back-solved from market cap – net cash) vs. model {{ d.prob_approval_pct }}
+{% endif %}
+{% endif %}
+
+### Kill Criteria
+{% if decision_framing and decision_framing.kill_criteria %}
+{% for kc in decision_framing.kill_criteria -%}
+- {{ kc }}
+{% endfor %}
+{% else %}
+- Phase 2/3 primary endpoint miss (ORR or PFS below pre-specified threshold)
+- Unexpected Grade 3+ on-target safety signal requiring label restriction
+- Competitor achieves superior label that eliminates differentiation argument
+{% endif %}
+
+---
+
+## 7. Key Risks
+
+{% if decision_framing and decision_framing.downside_drivers %}
+| Risk Category | Description | Severity |
+|--------------|-------------|----------|
+{% for dd in decision_framing.downside_drivers -%}
+| **{{ dd.category }}** | {{ dd.description }} | {{ dd.severity | title }} |
+{% endfor %}
+| Clinical failure | P(failure) = {{ "%.0f"|format((1 - scenarios.base.cumulative_success_probability) * 100) }}%; applies to each remaining phase | High |
+| Cash runway | {{ "%.0f"|format(d.cash_runway_quarters or 0) }} quarters at current burn | {% if d.cash_runway_quarters and d.cash_runway_quarters < 6 %}High{% else %}Low{% endif %} |
+{% else %}
+| Risk | Severity | Mitigation |
+|------|---------|------------|
+| Clinical failure at Phase 3 | High | P(success) {{ "%.0f"|format(scenarios.base.cumulative_success_probability * 100) }}%; diversified portfolio |
+| Pricing / reimbursement pressure | Medium | Differentiated profile |
+| Competitive displacement | Medium | First-mover advantage |
+| Manufacturing / CMC risk | [Low/Med/High] | [To assess] |
+| Cash runway / financing risk | [Low/Med/High] | {{ "%.0f"|format(d.cash_runway_quarters or 0) }} quarters runway at current burn |
+| IP / patent risk | [Low/Med/High] | [Patent landscape to review] |
+{% endif %}
+
+---
+
+## 8. Deal Considerations
+
+*[BD team to populate: deal structure, license vs. acquisition, milestones, royalties, manufacturing/CMC considerations, strategic synergies, competing bids]*
 
 **Suggested deal framework:**
 - Structure: [License-in / Co-development / Full acquisition]
@@ -140,38 +202,28 @@ Probability of positive value: **{{ d.mc_prob_positive }}**
 
 ---
 
-## 7. Key Risks
-
-| Risk | Severity | Mitigation |
-|------|---------|------------|
-| Clinical failure at Phase 3 | High | P(success) {{ "%.0f"|format(scenarios.base.cumulative_success_probability * 100) }}%; diversified portfolio |
-| Pricing / reimbursement pressure | Medium | Differentiated profile; orphan/rare classification if applicable |
-| Competitive displacement | Medium | First-mover advantage; key opinion leader relationships |
-| Manufacturing / CMC risk | [Low/Med/High] | [To assess] |
-| Cash runway / financing risk | [Low/Med/High] | {{ "%.0f"|format(d.cash_runway_quarters or 0) }} quarters runway at current burn |
-| IP / patent risk | [Low/Med/High] | [Patent landscape to review] |
-
----
-
 ## Appendix A: Key Assumptions
 
-Every assumption that materially affects rNPV is listed below. "Sensitivity" indicates the impact of a ±1σ change on the base-case rNPV.
+Every assumption that materially affects rNPV is listed below.
+- **Sensitivity** = impact on rNPV if assumption is wrong by ±1σ
+- **Confidence** = analyst's confidence in the input value itself
 
-| Parameter | Value | Source | Sensitivity |
-|-----------|-------|--------|------------|
+| Parameter | Value | Units | Source | Confidence | rNPV Sensitivity |
+|-----------|-------|-------|--------|-----------|-----------------|
 {% if assumption_log %}
 {% for a in assumption_log.to_flat_list() -%}
-| {{ a.parameter }} | {{ a.value }} | {{ a.source[:60] }}{% if a.source|length > 60 %}…{% endif %} | {{ a.sensitivity }} |
+| {{ a.parameter }} | {{ a.value }} | {{ a.units or "—" }} | {% if a.url %}[{{ a.source[:45] }}{% if a.source|length > 45 %}…{% endif %}]({{ a.url }}){% else %}{{ a.source[:55] }}{% if a.source|length > 55 %}…{% endif %}{% endif %} | {{ a.confidence }} | {{ a.sensitivity }} |
 {% endfor %}
 {% else %}
-| WACC | {{ d.discount_rate_pct }} | Damodaran biotech sector | High |
-| Peak Penetration | {{ "%.0f"|format(market.peak_penetration * 100) }}% | Analyst estimate | High |
-| Patent Life | {{ market.patent_life_years }} yrs | Estimated from IP position | Medium |
+| WACC | {{ d.discount_rate_pct }} | % | Damodaran biotech sector | High | High |
+| Peak Penetration | {{ "%.0f"|format(market.peak_penetration * 100) }}% | % | Analyst estimate | Low | High |
+| Patent Life | {{ market.patent_life_years }} yrs | years | Estimated from IP position | Medium | Medium |
 {% endif %}
 
 ---
 
 ## Appendix B: What Would Change This Thesis
+
 
 {% if assumption_log and assumption_log.thesis_changers %}
 {% for item in assumption_log.thesis_changers -%}

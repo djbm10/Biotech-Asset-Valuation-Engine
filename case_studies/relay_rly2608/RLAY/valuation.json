@@ -1,0 +1,442 @@
+{
+  "meta": {
+    "analysis_date": "2026-03-05",
+    "run_timestamp": "2026-03-05T07:52:52",
+    "git_commit": "521b871",
+    "random_seed": 42,
+    "n_simulations": 10000,
+    "bve_version": "0.2.0",
+    "python_version": "3.11.14",
+    "package_versions": {
+      "pydantic": "2.12.5",
+      "numpy": "2.4.2",
+      "scipy": "1.17.1",
+      "pandas": "3.0.1",
+      "matplotlib": "3.10.8"
+    },
+    "config_path": "/home/djmann/projects/biotech-asset-valuation-engine/examples/configs/relay_rly2608.yaml",
+    "analyst_notes": "RLY-2608 is a mutant-selective PI3K\u03b1 inhibitor designed to avoid the hyperglycemia seen with non-selective agents (alpelisib, copanlisib). Selectivity for H1047R over wild-type creates a cleaner safety profile, enabling continuous dosing and CDK4/6 combination potential. Phase 1 showed ORR ~40% in H1047R-selected HR+/HER2- mBC patients treated with RLY-2608 + fulvestrant (ASCO 2024). Key variant perception: market underestimates (1) class validation via inavolisib approval de-risking regulatory path, (2) tolerability advantage enabling earlier-line use and broader combinations, and (3) potential ex-H1047R label expansion.\n"
+  },
+  "inputs": {
+    "asset": {
+      "id": "rly-2608",
+      "name": "RLY-2608",
+      "indication": "PIK3CA H1047R HR+/HER2- mBC (2nd/3rd line, US)",
+      "indication_id": null,
+      "therapeutic_area": "oncology",
+      "stage": "phase_2",
+      "modality": "small_molecule",
+      "mechanism_of_action": "Mutant-selective covalent PI3K\u03b1 inhibitor. Binds H1047R mutant PI3K\u03b1 with 300\u00d7 selectivity over wild-type, sparing normal glucose metabolism.\n",
+      "launch_year": null,
+      "patent_expiry_year": null,
+      "discount_rate": 0.1,
+      "royalty_rate": 0.0,
+      "milestones_payable_millions": 0.0,
+      "upcoming_catalysts": [
+        {
+          "description": "Phase 2 expansion cohort ORR data (H1047R + fulvestrant arm)",
+          "expected_date": "H2 2025",
+          "catalyst_type": "readout",
+          "probability_positive": 0.55
+        },
+        {
+          "description": "Phase 3 initiation announcement (pending Ph2 success)",
+          "expected_date": "Q1 2026",
+          "catalyst_type": "milestone",
+          "probability_positive": 0.5
+        }
+      ],
+      "competitor_assets": [
+        "Inavolisib (GDC-0077, Itovebi) \u2014 FDA approved Oct 2024 + fulvestrant",
+        "Alpelisib (Piqray) \u2014 FDA approved 2019, all PIK3CA mutations",
+        "Capivasertib (Truqap) \u2014 AKT inhibitor, different target but same pathway",
+        "Gedatolisib (PF-05212384) \u2014 pan-PI3K/mTOR, Phase 3"
+      ],
+      "differentiation_notes": "1. Mutant-selectivity \u2192 300\u00d7 selectivity H1047R vs WT; less hyperglycemia. 2. Enables continuous dosing (vs. 5-days-on/2-days-off for alpelisib). 3. Activity vs acquired resistance mutations (E545K cross-resistance to inavolisib). 4. Potential for earlier-line CDK4/6i + RLY-2608 combo (AKT/PTEN bypass).\n",
+      "notes": null
+    },
+    "company": {
+      "id": "relay-therapeutics",
+      "name": "Relay Therapeutics",
+      "ticker": "RLAY",
+      "cash_millions": 410.0,
+      "debt_millions": 0.0,
+      "shares_outstanding_millions": 93.5,
+      "burn_rate_millions_per_quarter": 35.0,
+      "asset_ids": [
+        "rly-2608"
+      ],
+      "ownership_stakes": {},
+      "current_price": 5.8,
+      "market_cap_millions": null,
+      "notes": "Cash runway: ~420/35 \u2248 12 quarters. Sufficient to reach Phase 2 readout. Relay has no debt. Pipeline also includes non-oncology assets (not modeled here).\n"
+    },
+    "trials": [
+      {
+        "asset_id": "rly-2608",
+        "phase": "phase_2",
+        "nct_id": "NCT05216432",
+        "title": null,
+        "success_probability": 0.4866,
+        "primary_endpoint": "Confirmed ORR (RECIST 1.1) in H1047R cohort (target \u226540%)",
+        "endpoint_type": "surrogate_validated",
+        "duration_years": 2.0,
+        "cost_millions": 85.0,
+        "start_date": null,
+        "primary_completion_date": null,
+        "enrollment": 100,
+        "status": "unknown",
+        "is_randomized": true,
+        "is_blinded": true,
+        "data_source": "manual",
+        "notes": "Phase 2 expansion: H1047R-selected HR+/HER2- mBC patients who received \u22651 prior CDK4/6i + AI line. Single-arm. ORR and DOR primary endpoints. Phase 1 showed ORR ~40% (ASCO 2024). Regulatory precedent from inavolisib NDA (approved on ORR/PFS data) reduces bar for accelerated approval path.\n"
+      },
+      {
+        "asset_id": "rly-2608",
+        "phase": "phase_3",
+        "nct_id": null,
+        "title": null,
+        "success_probability": 0.7596,
+        "primary_endpoint": "PFS (HR < 0.70 vs. inavolisib + fulvestrant)",
+        "endpoint_type": "surrogate_validated",
+        "duration_years": 3.5,
+        "cost_millions": 280.0,
+        "start_date": null,
+        "primary_completion_date": null,
+        "enrollment": 450,
+        "status": "unknown",
+        "is_randomized": true,
+        "is_blinded": true,
+        "data_source": "manual",
+        "notes": "Planned head-to-head vs. inavolisib + fulvestrant (approved regimen). Active comparator design de-risks regulatory approval path but raises the efficacy bar vs. cross-trial comparison.\n"
+      },
+      {
+        "asset_id": "rly-2608",
+        "phase": "nda_bla",
+        "nct_id": null,
+        "title": null,
+        "success_probability": 0.9362,
+        "primary_endpoint": null,
+        "endpoint_type": "surrogate_validated",
+        "duration_years": 1.5,
+        "cost_millions": 35.0,
+        "start_date": null,
+        "primary_completion_date": null,
+        "enrollment": null,
+        "status": "unknown",
+        "is_randomized": true,
+        "is_blinded": true,
+        "data_source": "manual",
+        "notes": "Standard NDA review timeline; Priority Review likely given ORR precedent."
+      }
+    ],
+    "market_model": {
+      "asset_id": "rly-2608",
+      "addressable_patients_annual": 17000,
+      "net_price_per_patient_usd": 180000.0,
+      "compliance_rate": 0.8,
+      "total_addressable_market_millions": null,
+      "peak_penetration": 0.22,
+      "years_to_peak": 5,
+      "patent_life_years": 12,
+      "use_s_curve": false,
+      "cogs_rate": 0.15,
+      "sgna_rate_launch": 0.4,
+      "sgna_rate_mature": 0.2,
+      "sgna_ramp_years": 5
+    }
+  },
+  "outputs": {
+    "rnpv": {
+      "rnpv_millions": 128.53,
+      "peak_sales_millions": 538.56,
+      "gross_revenue_pv_millions": 890.74,
+      "prob_adj_revenue_pv_millions": 308.23,
+      "trial_costs_pv_millions": 179.71,
+      "cumulative_success_probability": 0.34604,
+      "years_to_launch": 7.0,
+      "discount_rate": 0.1,
+      "net_ownership": 1.0,
+      "phase_breakdown": [
+        {
+          "phase": "phase_2",
+          "prob_reaching": 1.0,
+          "pv_cost_gross": 77.27,
+          "pv_cost_weighted": 77.27,
+          "duration_years": 2.0,
+          "success_probability": 0.4866
+        },
+        {
+          "phase": "phase_3",
+          "prob_reaching": 0.4866,
+          "pv_cost_gross": 195.86,
+          "pv_cost_weighted": 95.3,
+          "duration_years": 3.5,
+          "success_probability": 0.7596
+        },
+        {
+          "phase": "nda_bla",
+          "prob_reaching": 0.3696,
+          "pv_cost_gross": 19.29,
+          "pv_cost_weighted": 7.13,
+          "duration_years": 1.5,
+          "success_probability": 0.9362
+        }
+      ]
+    },
+    "nav": {
+      "asset_rnpv_millions": 128.53,
+      "net_cash_millions": 410.0,
+      "nav_millions": 538.53,
+      "shares_outstanding_millions": 93.5,
+      "nav_per_share": 5.76,
+      "current_price": 5.8,
+      "implied_upside_pct": -0.7
+    },
+    "scenarios": {
+      "bull": {
+        "label": "Bull",
+        "description": "Best-in-class clinical data; faster timelines; larger addressable market",
+        "rnpv_millions": 858.13,
+        "cumulative_success_probability": 0.618413,
+        "peak_sales_millions": 807.84,
+        "years_to_launch": 5.5,
+        "nav_millions": 1268.13,
+        "nav_per_share": 13.56288770053476
+      },
+      "base": {
+        "label": "Base",
+        "description": "Base case reflecting analyst estimates",
+        "rnpv_millions": 128.53,
+        "cumulative_success_probability": 0.34604,
+        "peak_sales_millions": 538.56,
+        "years_to_launch": 7.0,
+        "nav_millions": 538.53,
+        "nav_per_share": 5.759679144385027
+      },
+      "bear": {
+        "label": "Bear",
+        "description": "Mixed clinical signal; pricing pressure; delays",
+        "rnpv_millions": -119.6,
+        "cumulative_success_probability": 0.118692,
+        "peak_sales_millions": 296.21,
+        "years_to_launch": 10.0,
+        "nav_millions": 290.4,
+        "nav_per_share": 3.105882352941176
+      },
+      "upside_downside_ratio": -7.18
+    },
+    "monte_carlo": {
+      "n_simulations": 10000,
+      "mean_millions": 77.416781,
+      "median_millions": 38.455,
+      "std_millions": 150.10944839345737,
+      "percentiles": {
+        "p5": -77.033,
+        "p10": -60.373,
+        "p25": -22.4975,
+        "p50": 38.455,
+        "p75": 133.6725,
+        "p90": 262.13,
+        "p95": 364.7824999999998
+      },
+      "probability_positive": 0.6492,
+      "probability_above_500m": 0.0208,
+      "probability_above_1b": 0.0013
+    },
+    "sensitivities": [
+      {
+        "parameter": "Phase POS (\u00b120%)",
+        "low_rnpv": -0.26,
+        "high_rnpv": 267.46,
+        "swing": 267.71999999999997
+      },
+      {
+        "parameter": "Peak Sales (\u00b130%)",
+        "low_rnpv": 36.06,
+        "high_rnpv": 220.99,
+        "swing": 184.93
+      },
+      {
+        "parameter": "Peak Penetration (\u00b130%)",
+        "low_rnpv": 36.06,
+        "high_rnpv": 220.99,
+        "swing": 184.93
+      },
+      {
+        "parameter": "Discount Rate (\u00b12pp)",
+        "low_rnpv": 69.94,
+        "high_rnpv": 207.92,
+        "swing": 137.98
+      },
+      {
+        "parameter": "Patent Life (\u00b13 yrs)",
+        "low_rnpv": 62.97,
+        "high_rnpv": 177.78,
+        "swing": 114.81
+      }
+    ]
+  },
+  "assumptions": {
+    "key_assumptions": [
+      {
+        "parameter": "WACC (Discount Rate)",
+        "value": "10%",
+        "units": "% per year",
+        "source": "Damodaran biotech sector WACC; standard industry convention for clinical-stage assets",
+        "url": null,
+        "confidence": "High",
+        "sensitivity": "High",
+        "notes": "A \u00b12pp change in WACC shifts rNPV by ~10-15%. Use company-specific beta for more precision."
+      },
+      {
+        "parameter": "Commercial Horizon",
+        "value": "12 years post-launch",
+        "units": "years",
+        "source": "Estimated based on typical composition-of-matter patent + PTE; NCE status assumed",
+        "url": null,
+        "confidence": "Medium",
+        "sensitivity": "Medium",
+        "notes": "Assumes no material generic/biosimilar entry until year 12. Actual IP position should be verified."
+      },
+      {
+        "parameter": "Net Economic Ownership",
+        "value": "100%",
+        "units": "%",
+        "source": "Implied by royalty_rate in config; adjust for any licensed-in/out deal terms",
+        "url": null,
+        "confidence": "High",
+        "sensitivity": "Medium",
+        "notes": null
+      },
+      {
+        "parameter": "Addressable Patients (annual, US)",
+        "value": "17,000",
+        "units": "patients/year",
+        "source": "Public epidemiology data (SEER, IQVIA, company KOL slides); analyst adjustment for eligible fraction",
+        "url": "https://seer.cancer.gov/statfacts/html/breast.html",
+        "confidence": "Medium",
+        "sensitivity": "High",
+        "notes": "US HR+/HER2- mBC: ~35K incident/yr. PIK3CA-mutant ~40% (TCGA). H1047R ~40% of PIK3CA-mutant. 2nd/3rd-line eligible ~50%. ctDNA testing penetration ~85%. Derivation: 35K \u00d7 40% \u00d7 40% \u00d7 50% \u00d7 85% \u2248 17K.\n"
+      },
+      {
+        "parameter": "Net Price per Patient / Year (US)",
+        "value": "$180,000",
+        "units": "USD/patient/year",
+        "source": "Benchmarked against approved comps; WAC \u00d7 (1 \u2013 GTN). See pricing_refs.py for comp table.",
+        "url": "https://www.prnewswire.com/news-releases/fda-approves-itovebi-inavolisib-for-adults-with-pik3ca-mutated-hr-her2--advanced-breast-cancer-302281977.html",
+        "confidence": "Low",
+        "sensitivity": "High",
+        "notes": "Inavolisib (Itovebi) WAC ~$300K/yr estimated from Roche list price at launch. RLY-2608 modeled at slight 2nd-in-class discount: $260K WAC \u00d7 (1 - 30% G2N) = $182K. G2N of 30% per SSR Health specialty oncology benchmarks.\n"
+      },
+      {
+        "parameter": "Gross-to-Net Discount",
+        "value": "45%",
+        "units": null,
+        "source": "SSR Health / CMS data benchmarks for small molecule in oncology",
+        "url": null,
+        "confidence": "Medium",
+        "sensitivity": "Medium",
+        "notes": "Applied to WAC to derive net realized price. G2N ranges widely by therapeutic area and payer mix."
+      },
+      {
+        "parameter": "COGS Rate",
+        "value": "15% of net revenue",
+        "units": "% of net revenue",
+        "source": "Industry benchmark for small molecule; DiMasi / company gross margin disclosures",
+        "url": null,
+        "confidence": "High",
+        "sensitivity": "Low",
+        "notes": null
+      },
+      {
+        "parameter": "Peak Market Penetration",
+        "value": "22% of addressable patients",
+        "units": "% of addressable population",
+        "source": "Analyst estimate based on competitive positioning, differentiation, and comparable launch trajectories",
+        "url": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2019/212526s000lbl.pdf",
+        "confidence": "Low",
+        "sensitivity": "High",
+        "notes": "Alpelisib (Piqray) captured ~15-20% of PIK3CA-mutant mBC market at peak before tolerability issues. Inavolisib taking share post-Oct 2024 approval. RLY-2608 22% in H1047R subgroup reflects superior selectivity positioning.\n"
+      },
+      {
+        "parameter": "Years to Peak Sales",
+        "value": "5 years post-launch",
+        "units": "years",
+        "source": "Comparable product launches in specialty/oncology; faster for biomarker-selected populations",
+        "url": null,
+        "confidence": "Medium",
+        "sensitivity": "Low",
+        "notes": null
+      },
+      {
+        "parameter": "SG&A Structure",
+        "value": "40% (launch) \u2192 20% (mature) of revenue",
+        "units": "% of net revenue",
+        "source": "Industry benchmarks; specialty pharma commercial model. Net margin at maturity: 65%",
+        "url": null,
+        "confidence": "High",
+        "sensitivity": "Low",
+        "notes": null
+      },
+      {
+        "parameter": "POS Methodology",
+        "value": "Heuristic log-odds model",
+        "units": null,
+        "source": "Industry-prior base rates (Biomedtracker/IQVIA 2021) adjusted in log-odds space for endpoint quality, MoA precedent, biomarker selection, safety profile, and competitive dynamics.",
+        "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4609178/",
+        "confidence": "Medium",
+        "sensitivity": "High",
+        "notes": "Base rates from Biomedtracker/IQVIA 2021. Adjusters calibrated to shift P by \u00b110-25pp per factor."
+      },
+      {
+        "parameter": "P(Success | PHASE 2)",
+        "value": "49%",
+        "units": null,
+        "source": "Analyst estimate; adjusted from TA-specific prior via POS model",
+        "url": null,
+        "confidence": "Medium",
+        "sensitivity": "High",
+        "notes": "P(reaching this phase) = 100%"
+      },
+      {
+        "parameter": "P(Success | PHASE 3)",
+        "value": "76%",
+        "units": null,
+        "source": "Analyst estimate; adjusted from TA-specific prior via POS model",
+        "url": null,
+        "confidence": "Medium",
+        "sensitivity": "High",
+        "notes": "P(reaching this phase) = 49%"
+      },
+      {
+        "parameter": "P(Success | NDA BLA)",
+        "value": "94%",
+        "units": null,
+        "source": "Analyst estimate; adjusted from TA-specific prior via POS model",
+        "url": null,
+        "confidence": "Medium",
+        "sensitivity": "High",
+        "notes": "P(reaching this phase) = 37%"
+      }
+    ],
+    "limitations": [
+      "US market only. Ex-US revenues not modeled; global sales could add 35-50% to US revenue.",
+      "H1047R label only modeled. Label expansion to full PIK3CA-mutant population would increase TAM ~2.5\u00d7.",
+      "No CDK4/6i combination scenario modeled; combo could accelerate uptake and expand addressable pool.",
+      "Inavolisib competition modeled as fixed penetration ceiling; actual share dynamics will be time-varying.",
+      "Phase 3 design (vs. inavolisib) adds execution risk; head-to-head superiority trial is a high bar.",
+      "Company-level pipeline (non-RLY-2608 assets) not included; NAV is single-asset.",
+      "Tax shield from NOL carryforward not modeled; meaningful for commercial-stage value."
+    ],
+    "what_would_change_thesis": [
+      "Phase 2 ORR data: confirmed ORR \u226550% in H1047R cohort \u2192 strong bull case (+30-50% NAV). ORR <30% \u2192 clinical failure.",
+      "Inavolisib achieves superior PFS in real-world use \u2192 raises Phase 3 bar; reduces peak penetration assumption.",
+      "FDA grants accelerated approval on Phase 2 ORR \u2192 removes Phase 3 risk from base case (huge positive).",
+      "Safety signal (Grade 3 hyperglycemia despite selectivity) \u2192 removes key differentiator vs. alpelisib.",
+      "Partnership/BD deal at Phase 2 readout \u2192 milestone + royalty structure could deliver near-term value.",
+      "Company raises equity below current NAV/share \u2192 dilutive; watch burn rate vs. runway.",
+      "ctDNA / NGS testing rates increase faster than expected \u2192 addressable patient pool expands beyond 17K."
+    ]
+  }
+}

@@ -14,9 +14,10 @@ venv/
 env/
 biotech-env/
 
-# Generated outputs (not source)
+# Generated outputs (not source — use case_studies/ for committed examples)
 outputs/
 memos/
+# case_studies/ is intentionally tracked (committed analysis outputs)
 
 # Jupyter
 .ipynb_checkpoints/

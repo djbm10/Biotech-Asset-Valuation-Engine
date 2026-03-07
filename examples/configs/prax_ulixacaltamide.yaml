@@ -1,0 +1,348 @@
+# =============================================================================
+# Praxis Precision Medicine (PRAX) — ulixacaltamide (PRAX-944)
+# T-type calcium channel blocker | Essential Tremor | US
+# =============================================================================
+#
+# Case study type: VENTURE CAPITAL — Neurology Platform Investment
+# Thesis: First mechanistically differentiated essential tremor therapy in 40 years.
+#         ET is chronically undertreated (only ~25% of moderate-severe patients treated)
+#         due to tolerability issues with propranolol/primidone. ulixacaltamide's
+#         clean safety profile could unlock a large, dormant treatment-seeking population.
+#
+# Data sources (all public):
+#   - ClinicalTrials.gov NCT05173220 (ESSENTIAL Phase 3 trial)
+#   - Praxis 10-K 2023 / Q3 2024 earnings (cash, shares, burn rate)
+#   - Praxis investor day 2023 (pipeline slides, ET market data)
+#   - Phase 2b PRISM data (ASN 2022; n=92): 50% tremor reduction vs 28% placebo
+#   - IQVIA / Epidemiology: US ET burden (7M prevalence; 3M moderate-severe)
+#   - Propranolol/primidone pricing: generic; used as benchmarks only
+#   - Ingrezza (valbenazine) launch trajectory: precedent for specialty neurology pricing
+#   - Published literature: Louis et al. (2003) Arch Neurol ET epidemiology
+#
+# All financial figures approximate as of Q4 2024. Verify before use.
+# =============================================================================
+
+analyst_notes: >
+  Ulixacaltamide is a selective T-type (Cav3.1/3.2) calcium channel blocker targeting
+  the thalamocortical oscillatory circuit responsible for essential tremor.
+  Unlike propranolol (beta-blocker, CNS side effects) and primidone (antiepileptic,
+  sedation), ulixacaltamide is mechanistically precision-targeted and showed
+  substantially cleaner tolerability in Phase 2.
+  Phase 2b PRISM: -50.0% tremor improvement (TETRAS scale) vs. -28.1% placebo;
+  p<0.001. Only 3% discontinuation due to adverse events vs. 15-20% for propranolol.
+  Investment thesis: ET is a chronically undertreated market because existing options
+  are intolerable for most patients. A differentiated, well-tolerated agent could
+  not only capture the current treatment-seeking population but unlock the 75%
+  of moderate-severe ET patients who have never been treated — a much larger TAM.
+  Praxis has multiple CNS programs (PRAX-628 for epilepsy), making this a platform
+  investment rather than a single-asset bet.
+
+# ---------------------------------------------------------------------------
+# Asset
+# ---------------------------------------------------------------------------
+asset:
+  id: "ulixacaltamide"
+  name: "ulixacaltamide (PRAX-944)"
+  indication: "Essential Tremor (moderate-severe), US"
+  therapeutic_area: "cns"
+  stage: "phase_3"
+  modality: "small_molecule"
+  mechanism_of_action: >
+    Selective blocker of Cav3.1 and Cav3.2 T-type voltage-gated calcium channels.
+    These channels drive thalamocortical burst firing, which is the neural mechanism
+    underlying pathological oscillations seen in essential tremor (8-12 Hz frequency).
+    By selectively suppressing thalamic burst activity, ulixacaltamide dampens
+    the oscillatory circuit without broad CNS depression (contrast: propranolol, primidone).
+  discount_rate: 0.12    # clinical-stage CNS; above-average risk profile
+  royalty_rate: 0.0
+
+  differentiation_notes: >
+    1. Mechanism precision: first drug targeting thalamocortical oscillatory circuit;
+       propranolol/primidone are non-specific.
+    2. Tolerability: Phase 2 3% discontinuation vs. 15-20% for propranolol/primidone;
+       no sedation, no sexual dysfunction, no cognitive effects.
+    3. Untreated market: 75% of moderate-severe ET patients are untreated; better
+       tolerability is the key to unlocking this population.
+    4. Responder profile: 50% tremor reduction in 65% of patients (Phase 2);
+       much higher response rate than historical propranolol data.
+    5. QD/BID dosing (oral); convenient for elderly population (median ET age: 65+).
+
+  competitor_assets:
+    - "Propranolol (generic) — first-line; 50-60% effective; limited by bradycardia/fatigue"
+    - "Primidone (generic) — first-line; similar efficacy to propranolol; sedation limits use"
+    - "Topiramate (generic) — second-line; cognitive side effects; weight loss"
+    - "Deep Brain Stimulation (DBS) — surgical; for severe/refractory; small addressable pool"
+    - "Focused Ultrasound (Insightec) — non-invasive thalamotomy; one-time procedure; ~$30K"
+
+  upcoming_catalysts:
+    - description: "ESSENTIAL Phase 3 topline (primary: TETRAS-ADL change from baseline)"
+      expected_date: "H1 2026"
+      catalyst_type: "readout"
+      probability_positive: 0.52   # CNS base rates are low; Phase 2 signal strong
+    - description: "NDA submission (pending ESSENTIAL success)"
+      expected_date: "H2 2026"
+      catalyst_type: "milestone"
+      probability_positive: 0.48
+    - description: "FDA PDUFA date (NDA review)"
+      expected_date: "H1 2027"
+      catalyst_type: "fda_action"
+      probability_positive: 0.83
+    - description: "PRAX-628 (epilepsy) Phase 2b readout — platform catalyst"
+      expected_date: "2026"
+      catalyst_type: "readout"
+      probability_positive: 0.45
+
+# ---------------------------------------------------------------------------
+# Company (approximate as of Q4 2024)
+# ---------------------------------------------------------------------------
+company:
+  id: "praxis-precision-medicine"
+  name: "Praxis Precision Medicine"
+  ticker: "PRAX"
+  cash_millions: 325.0            # approximate; verify against most recent 10-Q
+  debt_millions: 0.0
+  shares_outstanding_millions: 55.0   # diluted; approximate Q4 2024
+  burn_rate_millions_per_quarter: 40.0  # ESSENTIAL enrollment + PRAX-628 Phase 2 ongoing
+  current_price: 22.00             # approximate; verify before use
+  notes: >
+    Cash runway: ~325/40 ≈ 8 quarters. Tight for a two-program company.
+    Praxis may need to raise capital before ESSENTIAL readout (H1 2026).
+    Dilution risk: if ESSENTIAL data is delayed or if PRAX-628 requires capital,
+    a raise at sub-NAV prices would be dilutive. Watch cash carefully.
+    Platform value: PRAX-628 (Nav1.2/1.6 inhibitor for epilepsy) in Phase 2;
+    not modeled here but represents material option value if data is positive.
+
+# ---------------------------------------------------------------------------
+# Clinical Trials
+# ---------------------------------------------------------------------------
+# ESSENTIAL (NCT05173220): ulixacaltamide vs. placebo in moderate-severe ET
+# Primary: TETRAS-ADL subscale change from baseline at week 12
+# Enrollment: ~300 patients
+trials:
+  - phase: "phase_3"
+    nct_id: "NCT05173220"         # ESSENTIAL trial
+    success_probability: 0.50     # starting point; POS model overrides
+    duration_years: 1.5           # 12-week primary; long-term extension ongoing
+    cost_millions: 95.0           # Phase 3 enrollment + sites + QA
+    enrollment: 300
+    primary_endpoint: "TETRAS-ADL subscale change from baseline at week 12 (superiority vs. placebo)"
+    endpoint_type: "surrogate_validated"
+    notes: >
+      TETRAS (The Essential Tremor Rating Assessment Scale) is FDA-validated for ET.
+      PRISM Phase 2b used same endpoint; ESSENTIAL is powered to reproduce the -22pp
+      difference in TETRAS-ADL seen in Phase 2 (50% vs 28%). Placebo arm is well-defined.
+      CNS Phase 3 has elevated failure risk despite good Phase 2; patient heterogeneity
+      and placebo response variability are the primary concerns.
+
+  - phase: "nda_bla"
+    nct_id: null
+    success_probability: 0.83
+    duration_years: 1.0
+    cost_millions: 20.0
+    primary_endpoint: null
+    endpoint_type: "surrogate_validated"
+    notes: >
+      Strong unmet need case (no new ET approvals in >40 years); likely standard review.
+      Precedent: FDA approved Ingrezza (valbenazine) for tardive dyskinesia on similar
+      evidence package (Phase 2/3 combination; hyperkinetic movement disorder).
+
+# ---------------------------------------------------------------------------
+# Market Model
+# ---------------------------------------------------------------------------
+# Addressable population derivation:
+#   US ET prevalence: ~7M (Louis et al. 2003; community-based prevalence ~4% in >40yr)
+#   Moderate-severe ET: ~3M (40% of prevalent; interfering with ADL)
+#   Currently treated: ~750,000 (25% of moderate-severe; most intolerant of existing options)
+#   Newly treatment-seeking with novel option: conservative = 200,000/year
+#     (includes newly diagnosed + previously treatment-intolerant patients)
+#   We use 220,000 as addressable (new + switch-eligible in year 1-5 after launch)
+#
+# Net price derivation:
+#   CNS specialty drug pricing benchmarks (2023):
+#   - Ingrezza (valbenazine, tardive dyskinesia): WAC ~$90K/year; net ~$55K
+#   - Austedo (deutetrabenazine, TD/Huntington): WAC ~$85K/year; net ~$50K
+#   - These are smaller populations but similar specialty neurology profile
+#   ulixacaltamide: larger population = pricing discipline from payers
+#   Estimated WAC: $35-45K/year (competitive with DBS procedure cost ~$30K one-time)
+#   G2N: ~30% for oral specialty CNS → net price: $42K × 0.70 = $29K/year
+#   We use $28,000/year (conservative end of range)
+#
+# Peak penetration: 15%
+#   Ingrezza achieved ~18-22% of the TD market at peak (10K-15K patients in year 3)
+#   ET is 10x larger market; penetration expected to ramp slower initially
+#   15% of 220K addressable = 33,000 patients at peak
+#   Peak sales = 33,000 × $28,000 = $924M — large CNS opportunity
+market_model:
+  addressable_patients_annual: 220000   # see derivation above
+  net_price_per_patient_usd: 28000      # see derivation above
+  peak_penetration: 0.15               # 15% of addressable; conservative for large-population CNS
+  years_to_peak: 6                     # slower ramp in primary care-referred CNS condition
+  patent_life_years: 12
+  cogs_rate: 0.15                      # oral small molecule; low COGS
+  sgna_rate_launch: 0.45              # higher launch SG&A for large primary care + neurology audience
+  sgna_rate_mature: 0.22
+
+# ---------------------------------------------------------------------------
+# POS Model
+# ---------------------------------------------------------------------------
+pos_adjusters:
+  apply_pos_model: true
+
+  phase_3:
+    endpoint_type: "surrogate_validated"   # TETRAS-ADL is FDA-validated for ET
+    moa_precedent: "novel"                 # No approved T-type Ca channel blocker; first-in-class
+    sample_size_adequacy: "adequate"       # n=300; powered based on Phase 2 effect size
+    safety_profile: "clean"               # Phase 2: 3% discontinuation; no serious CNS AEs
+    competitive_pressure: "low"           # No other Phase 3 ET drugs; generics not a direct competition
+    biomarker_selected_population: false  # All-comers (moderate-severe by clinical criteria)
+    strong_prior_phase_data: true         # Phase 2b PRISM: p<0.001; 50% vs 28% tremor reduction
+
+  nda_bla:
+    endpoint_type: "surrogate_validated"
+    moa_precedent: "novel"
+    sample_size_adequacy: "adequate"
+    safety_profile: "clean"
+    competitive_pressure: "low"
+    biomarker_selected_population: false
+    strong_prior_phase_data: true
+
+# ---------------------------------------------------------------------------
+# Monte Carlo
+# ---------------------------------------------------------------------------
+monte_carlo:
+  random_seed: 42
+  peak_sales_cv: 0.45        # high uncertainty; first CNS drug in category; novel pricing
+  discount_rate_std: 0.02
+  years_to_peak_std: 2.0     # CNS launch trajectories more variable than oncology
+  use_default_correlations: true
+
+  phase_distributions:
+    phase_3:
+      mean: 0.48              # slightly below POS model; CNS Phase 3 historically disappointing
+      ess: 10                 # low confidence; CNS heterogeneity
+    nda_bla:
+      mean: 0.83
+      ess: 30
+
+# ---------------------------------------------------------------------------
+# Assumption source overrides
+# ---------------------------------------------------------------------------
+sources:
+  addressable_patients:
+    url: "https://pubmed.ncbi.nlm.nih.gov/12975455/"
+    confidence: "Medium"
+    notes: >
+      Louis et al. (2003, Arch Neurol): ET prevalence ~4% in >40 years, ~7M in US.
+      Moderate-severe (~3M) defined as interfering with ADL. Treatment rate of 25%
+      is analyst estimate; ET historically undertreated. New addressable pool with
+      better-tolerated drug estimated at 200-220K/year.
+
+  net_price:
+    url: "https://www.accessdata.fda.gov/drugsatfda_docs/label/2023/209241s022lbl.pdf"
+    confidence: "Low"
+    notes: >
+      Ingrezza (valbenazine) WAC ~$90K/year for tardive dyskinesia.
+      ET is a larger population; payers will resist premium pricing.
+      Analyst estimate $35-45K WAC based on specialty movement disorder precedents
+      and payer sensitivity for a condition with low-cost generic alternatives.
+      Significant pricing uncertainty — this is the highest-uncertainty assumption.
+
+  peak_penetration:
+    url: "https://investors.neurocrine.com/news-releases/news-release-details/neurocrine-biosciences-reports-fourth-quarter-and-full-year-2023"
+    confidence: "Low"
+    notes: >
+      Ingrezza achieved ~15,000 patients at peak (tardive dyskinesia, smaller market).
+      For ET, Praxis targets a much larger pool but faces generic competition and
+      primary care prescribing inertia. 15% of 220K = 33K patients at peak.
+      Comparable to Ingrezza absolute patient numbers despite larger total addressable market.
+
+# ---------------------------------------------------------------------------
+# Decision framing
+# ---------------------------------------------------------------------------
+decision_framing:
+  variant_perception:
+    market_pos_pct: 28       # market appears to price in low CNS Phase 3 POS
+    market_peak_sales_m: 450  # market appears to discount large untreated ET market
+    our_edge: >
+      The market is applying generic CNS Phase 3 base rates (~30%) to a program with
+      unusually strong Phase 2 signal (p<0.001, -22pp treatment difference on a
+      well-validated endpoint). Three factors are underweighted: (1) ET is a mechanistically
+      clear target — thalamocortical oscillations are measurable and reproducible,
+      unlike CNS diseases with heterogeneous pathophysiology; (2) the 75% untreated
+      moderate-severe population represents a latent demand shock that no financial model
+      is correctly sizing — when a well-tolerated drug exists, adherence-driven market
+      expansion is not captured by simple penetration assumptions; (3) Praxis has a
+      second bite at the apple (PRAX-628 for epilepsy) that is unpriced in the stock.
+
+  kill_criteria:
+    - "ESSENTIAL primary endpoint miss: TETRAS-ADL change from baseline fails superiority vs. placebo at week 12"
+    - "Phase 2 effect does not reproduce: observed treatment difference <10pp (vs 22pp in PRISM); suggests Phase 2 was noise"
+    - "Safety surprise: CNS AE rate >10% discontinuation (would undermine the 'better tolerated' thesis vs. propranolol)"
+    - "Cash crisis before ESSENTIAL readout without equity raise at premium to current price"
+    - "PRAX-628 Phase 2 failure (platform risk): reduces Praxis to single-asset company and impairs financing optionality"
+
+  downside_drivers:
+    - category: "Endpoint / Regulatory"
+      description: >
+        TETRAS-ADL is patient-reported/rater-assessed; high placebo response is endemic to
+        CNS trials. PRISM used the same endpoint but in 92 patients; ESSENTIAL at 300
+        must reproduce effect in a more heterogeneous population with potentially higher
+        placebo response. If placebo response exceeds assumptions, the treatment difference
+        may not meet statistical significance even if the drug works.
+      severity: "high"
+
+    - category: "Payer / Pricing"
+      description: >
+        Payers will immediately compare ulixacaltamide to generic propranolol ($15/month)
+        and primidone ($10/month). Step-edit requirements (demonstrate failure on generics
+        before approving ulixacaltamide) could limit first-line use and slow ramp significantly.
+        Medicare Part D structure means CMS has formulary leverage; ET prevalence in
+        Medicare population (age 65+) is disproportionately high.
+      severity: "high"
+
+    - category: "CMC / Manufacturing"
+      description: >
+        Oral small molecule; low CMC risk. Primary concern is ensuring adequate API
+        supply for commercial launch without a manufacturing partner already identified.
+        Praxis is pre-commercial; commercial manufacturing scale-up requires partnership
+        or significant infrastructure investment.
+      severity: "low"
+
+    - category: "Competition"
+      description: >
+        No currently active Phase 3 ET programs as of Q4 2024 beyond ESSENTIAL.
+        However, if positive data emerges, the large ET market will attract entrants.
+        Focused Ultrasound (FUS) for ET is gaining traction as a one-time non-pharmacological
+        option; if FUS adoption accelerates among younger patients, it could limit the
+        peak addressable pool for pharmaceutical treatment.
+      severity: "medium"
+
+    - category: "IP / Patent"
+      description: >
+        Composition-of-matter patent on ulixacaltamide and T-type Ca channel selectivity.
+        CNS small molecules face generic competition risk; ET is a chronic condition
+        requiring long-term treatment, so IP life matters more than in oncology.
+        Patent term extension expected to bring exclusivity to ~2036; actual expiry TBD.
+      severity: "medium"
+
+# ---------------------------------------------------------------------------
+# Explicit limitations
+# ---------------------------------------------------------------------------
+limitations:
+  - "US market only. EU (large ET market given aging population) not modeled."
+  - "Addressable population (220K/year) includes untreated patients who may respond differently to treatment — market expansion assumptions are uncertain."
+  - "Net price ($28K/year) is highly uncertain; payer step-edit requirements could limit first-line use and slow uptake."
+  - "Platform value (PRAX-628 epilepsy) not included in this valuation; represents unmodeled option value."
+  - "CNS launch trajectories are historically slower than oncology; 6-year ramp to peak may be optimistic."
+  - "Cash runway (~8 quarters) creates dilution risk before ESSENTIAL readout; modeled as fixed shares."
+
+# ---------------------------------------------------------------------------
+# Thesis changers
+# ---------------------------------------------------------------------------
+thesis_changers:
+  - "ESSENTIAL Phase 3 success (TETRAS-ADL superiority with clean safety profile) → NDA submission; partnership discussions likely immediately."
+  - "ESSENTIAL Phase 3 failure → thesis ends; Praxis restructures around PRAX-628 only; stock falls 60-80%."
+  - "PRAX-628 Phase 2 positive readout → platform re-rating; Praxis becomes multi-asset CNS company; reduces single-asset binary risk."
+  - "Partnership or licensing deal (large pharma CNS presence) → validates data and removes launch execution risk; upfront + milestone structure."
+  - "Payer pre-approval signals (PBM formulary framework before NDA) → accelerates launch ramp; re-rates on commercialization expectations."
+  - "Additional biomarker data: oscillation biomarker predicting ulixacaltamide response → could enable precision patient selection and improve responder rate."

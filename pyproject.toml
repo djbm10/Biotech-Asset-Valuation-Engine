@@ -24,8 +24,9 @@ dependencies = [
 dev = ["pytest>=7", "pytest-cov", "ruff", "mypy"]
 
 [project.scripts]
-bve-asset  = "bve.cli.run_asset:main"
-bve-batch  = "bve.cli.run_batch:main"
+bve-asset      = "bve.cli.run_asset:main"
+bve-batch      = "bve.cli.run_batch:main"
+bve-portfolio  = "bve.cli.run_portfolio:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

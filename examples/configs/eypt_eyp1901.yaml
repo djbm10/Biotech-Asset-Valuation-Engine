@@ -1,0 +1,321 @@
+# =============================================================================
+# EyePoint Pharmaceuticals (EYPT) — EYP-1901 (vorolanib)
+# Sustained-release pan-VEGF TKI | Neovascular AMD (wet AMD) | US
+# =============================================================================
+#
+# Case study type: HEDGE FUND — Market Mispricing Thesis
+# Thesis: Market underprices durable delivery advantage vs. current anti-VEGF SoC.
+#         EYP-1901's semi-annual dosing vs. 6-8 injections/year is a structural
+#         differentiator that should unlock a 15-20% share of the treated wet AMD market.
+#
+# Data sources (all public):
+#   - ClinicalTrials.gov NCT05536297 (ACUITY Phase 3 trial)
+#   - EyePoint 10-K 2023 / Q3 2024 earnings (cash, shares, burn)
+#   - EyePoint investor presentations 2023-2024
+#   - ASRS 2024: Phase 2 DAVIO 2 data (NCT05066893) — 9-month durability
+#   - Eylea prescribing information / WAC (published retail pricing)
+#   - Vabysmo (faricimab) pricing: ~$2,600/injection per ICER 2023 review
+#   - Macular Degeneration Research Alliance (MDRA) prevalence estimates 2023
+#   - Wong et al. 2019 (Biostatistics): ophthalmology phase transition rates
+#
+# All financial figures approximate as of Q4 2024. Verify before use.
+# =============================================================================
+
+analyst_notes: >
+  EYP-1901 delivers vorolanib (pan-VEGF TKI) via Durasert sustained-release
+  intravitreal insert, targeting ~6-month dosing intervals in wet AMD. Current
+  standard of care (Eylea, Vabysmo) requires injections every 4-16 weeks;
+  real-world adherence is poor, with ~40% of patients undertreated at 12 months.
+  Phase 2 DAVIO 2 showed 67% of patients maintained 6-month dosing through 9 months
+  with BCVA gains comparable to aflibercept monthly injections.
+  Key mispricing: the market prices this as a "me-too anti-VEGF" when the
+  injection burden reduction is the main unmet need in wet AMD — adherence,
+  not efficacy, is the limiting factor in real-world outcomes.
+  ACUITY Phase 3 is powered for non-inferiority; success would unlock a large
+  and durable market position given the dosing advantage.
+
+# ---------------------------------------------------------------------------
+# Asset
+# ---------------------------------------------------------------------------
+asset:
+  id: "eyp-1901"
+  name: "EYP-1901 (vorolanib)"
+  indication: "Neovascular AMD (wet AMD), US"
+  therapeutic_area: "ophthalmology"
+  stage: "phase_3"
+  modality: "small_molecule"    # delivered via Durasert polymer implant
+  mechanism_of_action: >
+    Pan-VEGF tyrosine kinase inhibitor (vorolanib) formulated in Durasert sustained-release
+    intravitreal insert. Delivers continuous low-level VEGF suppression from a single
+    intravitreal injection lasting approximately 6 months, compared to monthly or quarterly
+    injections required for current anti-VEGF biologics (Eylea, Vabysmo, Lucentis).
+  discount_rate: 0.12    # slightly above standard; mid-cap with binary readout risk
+  royalty_rate: 0.0
+
+  differentiation_notes: >
+    1. Dosing burden: ~2 injections/year vs. 6-8 for Eylea q8w; ~4 for Vabysmo q4m.
+    2. Real-world: wet AMD patients average only 4-5 injections/year vs. 6-8 recommended;
+       EYP-1901 semi-annual dosing could structurally improve adherence and outcomes.
+    3. Mechanism: small molecule vs. biologic — simpler formulation, no cold chain for the TKI.
+    4. Phase 2 (DAVIO 2): 67% of patients maintained 6-month dosing with non-inferior BCVA.
+    5. ACUITY design: non-inferiority vs. q8w aflibercept is a achievable bar given Phase 2 data.
+
+  competitor_assets:
+    - "Aflibercept (Eylea) — Regeneron/Bayer; q8-16w dosing; dominant market share"
+    - "Faricimab (Vabysmo) — Roche/Genentech; q4m dosing; gaining share"
+    - "Ranibizumab (Lucentis) — Genentech; losing share; biosimilars entering"
+    - "Port Delivery System (Susvimo) — Genentech/Roche; q6m implant refill"
+    - "KSI-301 (ixoberogene soroparvovec) — Kodiak Sciences; discontinued 2022"
+
+  upcoming_catalysts:
+    - description: "ACUITY Phase 3 topline (primary endpoint: BCVA change vs. aflibercept q8w)"
+      expected_date: "H2 2025"
+      catalyst_type: "readout"
+      probability_positive: 0.60   # Phase 2 data strong; non-inferiority bar; delivery risk
+    - description: "NDA submission (pending ACUITY success)"
+      expected_date: "H1 2026"
+      catalyst_type: "milestone"
+      probability_positive: 0.55
+    - description: "FDA PDUFA action date (NDA review)"
+      expected_date: "H1 2027"
+      catalyst_type: "fda_action"
+      probability_positive: 0.88
+
+# ---------------------------------------------------------------------------
+# Company (approximate as of Q4 2024)
+# ---------------------------------------------------------------------------
+company:
+  id: "eyepoint-pharmaceuticals"
+  name: "EyePoint Pharmaceuticals"
+  ticker: "EYPT"
+  cash_millions: 195.0           # Q3 2024 cash + subsequent ATM; verify before use
+  debt_millions: 0.0
+  shares_outstanding_millions: 33.0   # diluted; approximate Q4 2024
+  burn_rate_millions_per_quarter: 22.0  # includes Phase 3 enrollment ramp
+  current_price: 14.50            # approximate; verify before use
+  notes: >
+    Cash runway: ~195/22 ≈ 9 quarters. Sufficient to reach ACUITY readout.
+    EyePoint raised $100M in equity in 2023 specifically to fund ACUITY through readout.
+    No debt. Non-dilutive revenue from Dexycu/Yutiq legacy products (~$8M/quarter).
+
+# ---------------------------------------------------------------------------
+# Clinical Trials — remaining Phase 3 + NDA
+# ---------------------------------------------------------------------------
+# ACUITY (NCT05536297): EYP-1901 q6m vs. aflibercept q8w
+# Primary: non-inferiority on BCVA change from baseline at week 52 (NI margin: -4 ETDRS letters)
+# Secondary: proportion maintaining 6-month dosing, anatomic outcomes
+# Enrollment: ~680 patients across 3 arms (EYP-1901 q6m, afl q8w, EYP-1901 PRN)
+trials:
+  - phase: "phase_3"
+    nct_id: "NCT05536297"         # ACUITY trial
+    success_probability: 0.60     # Starting point; POS model overrides if apply_pos_model=true
+    duration_years: 1.5           # 52-week primary endpoint; enrollment ongoing
+    cost_millions: 85.0           # Phase 3 ops; enrollment largely funded through Q3 2024
+    enrollment: 680
+    primary_endpoint: "Non-inferiority BCVA change from baseline (NI margin -4 letters) at 52 weeks"
+    endpoint_type: "surrogate_validated"   # BCVA well-validated; FDA standard for wet AMD
+    notes: >
+      ACUITY is a 3-arm trial: EYP-1901 q6m, aflibercept q8w (active control), EYP-1901 PRN.
+      Non-inferiority design reduces bar vs. superiority; BCVA is well-validated for FDA.
+      Phase 2 DAVIO 2 showed +6.4 BCVA letters at 9 months (afl arm: +7.0); NI demonstrated.
+      Main risk: deliver sustained drug levels at 6 months in all patients (tail of distribution).
+
+  - phase: "nda_bla"
+    nct_id: null
+    success_probability: 0.88
+    duration_years: 1.0           # ophthalmology often gets priority review
+    cost_millions: 20.0
+    primary_endpoint: null
+    endpoint_type: "surrogate_validated"
+    notes: >
+      Likely priority review given unmet need (injection burden) and strong Phase 2 data.
+      Precedent: Susvimo (port delivery system) received PDUFA within 6 months of NDA.
+
+# ---------------------------------------------------------------------------
+# Market Model
+# ---------------------------------------------------------------------------
+# Addressable population derivation:
+#   US prevalent wet AMD (nAMD): ~1.5M (MDRA 2023; AREDS2 prevalence data)
+#   Treated with anti-VEGF injections: ~700,000 (Retina Specialists survey 2023)
+#   New patients/year entering treatment: ~200,000
+#   EYP-1901 addressable: new patients + active switchers motivated by dosing burden
+#   Conservative addressable = 180,000/year (new + 20% of existing)
+#
+# Net price derivation:
+#   Eylea WAC: ~$2,650/injection × 6 avg annual injections = ~$15,900/year
+#   EYP-1901 at 2 injections/year: could price at 1.2-1.5× per injection vs Eylea
+#   EYP-1901 WAC: $4,500/injection × 2 = $9,000/year  (dosing discount to win payers)
+#   G2N: 20% for ophthalmology (specialty; Medicare Part B; lower rebate lever)
+#   Net price: $9,000 × 0.80 = $7,200/year
+#   Alternatively: premium pricing at $6K/injection × 2 = $12K → $9,600 net
+#   We use $8,500/year net (conservative mid-estimate)
+#
+# Peak penetration: 18%
+#   Susvimo (Roche port delivery system): ~5% penetration, limited by surgical requirement
+#   EYP-1901: simpler intravitreal injection (vs. Susvimo refill); broader eligible pool
+#   18% reflects dosing convenience driving adoption among adherence-challenged patients
+market_model:
+  addressable_patients_annual: 180000   # see derivation above
+  net_price_per_patient_usd: 8500       # see derivation above
+  peak_penetration: 0.18                # 18% of addressable; see rationale above
+  years_to_peak: 5
+  patent_life_years: 12                 # Durasert + vorolanib NCE combination
+  cogs_rate: 0.18                       # polymer implant manufacturing; moderate COGS
+  sgna_rate_launch: 0.40
+  sgna_rate_mature: 0.20
+
+# ---------------------------------------------------------------------------
+# POS Model
+# ---------------------------------------------------------------------------
+pos_adjusters:
+  apply_pos_model: true
+
+  phase_3:
+    endpoint_type: "surrogate_validated"   # BCVA; FDA gold standard for nAMD
+    moa_precedent: "validated"             # Anti-VEGF class proven; multiple approvals
+    sample_size_adequacy: "adequate"       # n=680; powered for NI margin of -4 letters
+    safety_profile: "clean"               # Phase 2: no unexpected SAEs; clean tolerability
+    competitive_pressure: "high"          # Crowded market: Eylea, Vabysmo, Susvimo
+    biomarker_selected_population: false  # All-comers (no biomarker enrichment)
+    strong_prior_phase_data: true         # DAVIO 2 Phase 2: NI vs aflibercept at 9 months
+
+  nda_bla:
+    endpoint_type: "surrogate_validated"
+    moa_precedent: "validated"
+    sample_size_adequacy: "adequate"
+    safety_profile: "clean"
+    competitive_pressure: "moderate"
+    biomarker_selected_population: false
+    strong_prior_phase_data: true
+
+# ---------------------------------------------------------------------------
+# Monte Carlo
+# ---------------------------------------------------------------------------
+monte_carlo:
+  random_seed: 42
+  peak_sales_cv: 0.40        # higher CV; pricing model uncertainty in novel delivery
+  discount_rate_std: 0.02
+  years_to_peak_std: 1.5
+  use_default_correlations: true
+
+  phase_distributions:
+    phase_3:
+      mean: 0.61              # close to POS model output
+      ess: 18                 # moderate confidence; Phase 2 supportive but Ph3 outcome binary
+    nda_bla:
+      mean: 0.88
+      ess: 35
+
+# ---------------------------------------------------------------------------
+# Assumption source overrides
+# ---------------------------------------------------------------------------
+sources:
+  addressable_patients:
+    url: "https://www.nei.nih.gov/learn-about-eye-health/eye-conditions-and-diseases/age-related-macular-degeneration"
+    confidence: "Medium"
+    notes: >
+      Prevalent wet AMD in US ~1.5M (NIH NEI). Treated fraction ~700K
+      (Retina Specialists Survey 2023). Addressable = new patients + active switchers
+      motivated by dosing frequency (estimated 180K/year).
+
+  net_price:
+    url: "https://www.icer.org/wp-content/uploads/2023/09/ICER_wAMD_Evidence_Report_Final_09152023.pdf"
+    confidence: "Low"
+    notes: >
+      ICER 2023 review: Eylea WAC $2,650/inj; Vabysmo $2,600/inj.
+      EYP-1901 modeled at 2 injections/year at $4,500-6,000 WAC/inj.
+      Net price ($8,500/year) reflects G2N of ~20% for ophthalmology specialty.
+      True pricing will depend on payer negotiations at launch.
+
+  peak_penetration:
+    url: "https://www.retina-specialist.com/article/port-delivery-system-real-world-update"
+    confidence: "Low"
+    notes: >
+      Susvimo (Genentech port delivery, q6m refill) captured ~5% penetration;
+      limited by surgical procedure requirement. EYP-1901 (intravitreal injection)
+      removes surgical barrier; 18% reflects premium for simplified administration.
+
+# ---------------------------------------------------------------------------
+# Decision framing
+# ---------------------------------------------------------------------------
+decision_framing:
+  variant_perception:
+    market_pos_pct: 35       # market appears to discount delivery benefit; pricing in ~35% P(approval)
+    market_peak_sales_m: 180 # market implied peak sales appears well below our estimate
+    our_edge: >
+      The market treats EYP-1901 as a me-too anti-VEGF and discounts the ACUITY readout
+      on Phase 3 execution risk. Three factors are underweighted: (1) real-world adherence
+      data shows ~40% of wet AMD patients are undertreated on monthly/bimonthly schedules —
+      semi-annual dosing is the structural fix to this problem; (2) Phase 2 DAVIO 2 showed
+      clear non-inferiority, making ACUITY a confirmation rather than a discovery trial;
+      (3) the competitive moat of the Durasert technology is underappreciated — no other
+      approved therapy offers intravitreal semi-annual dosing in wet AMD.
+
+  kill_criteria:
+    - "ACUITY primary endpoint failure: EYP-1901 arm inferior by >4 ETDRS letters to aflibercept at week 52"
+    - "Delivery failure: <50% of patients maintain 6-month dosing interval (validates Susvimo concerns about durability)"
+    - "Safety signal: choroidal or retinal atrophy signal at rates materially above aflibercept comparator"
+    - "Payer rejection of semi-annual premium pricing (≥2× per-injection vs. Eylea) — limits uptake to cash-pay patients"
+
+  downside_drivers:
+    - category: "Endpoint / Regulatory"
+      description: >
+        Non-inferiority trial design requires EYP-1901 to hit NI margin (-4 ETDRS letters).
+        If any subgroup (e.g., early disease, large CNV) shows inferiority, FDA may restrict
+        the label to the subgroup showing NI — reducing the addressable population significantly.
+      severity: "high"
+
+    - category: "CMC / Manufacturing"
+      description: >
+        Durasert sustained-release polymer formulation is manufacturing-intensive.
+        Scale-up from Phase 3 to commercial supply has not been demonstrated.
+        Any manufacturing deviation affecting drug release kinetics could alter
+        the durability profile validated in Phase 2.
+      severity: "medium"
+
+    - category: "Payer / Pricing"
+      description: >
+        CMS reimburses ophthalmology drugs under Medicare Part B (ASP + 6%).
+        Semi-annual EYP-1901 must price competitively per injection vs. Eylea/Vabysmo
+        while delivering overall annual cost savings to payers. If payers do not
+        recognize the adherence/outcomes benefit, net price could compress toward
+        aflibercept parity, reducing our pricing assumption by 30-40%.
+      severity: "high"
+
+    - category: "Competition"
+      description: >
+        Genentech's Susvimo (port delivery) failed to gain traction due to surgical
+        procedure requirement. If EYP-1901 is perceived similarly "too complicated" by
+        retina specialists, penetration could mirror Susvimo's <5% rather than our 18%.
+        Biosimilar Eylea entry may also compress market pricing for all nAMD agents.
+      severity: "medium"
+
+    - category: "IP / Patent"
+      description: >
+        Vorolanib patent and Durasert formulation patent both required for 12-year exclusivity.
+        Orange Book listing strategy and patent term extension not publicly confirmed.
+        If competitors develop alternative sustained-release TKI formulations with similar
+        duration, first-mover advantage may erode faster than modeled.
+      severity: "low"
+
+# ---------------------------------------------------------------------------
+# Explicit limitations
+# ---------------------------------------------------------------------------
+limitations:
+  - "US market only. EU/Japan not modeled; ophthalmology has strong ex-US markets (30-40% of US value)."
+  - "Novel delivery modality: penetration assumption (18%) extrapolated from Susvimo precedent; actual adoption may be materially higher or lower."
+  - "Pricing model assumes EYP-1901 prices at 1.8× Eylea per injection (offset by fewer total injections); payer negotiation outcome unknown."
+  - "No combination therapy modeled; EYP-1901 + complement inhibitor combination could expand TAM."
+  - "Legacy products (Dexycu, Yutiq) not included; contribute ~$30-35M/year in existing revenue."
+  - "Single-asset NAV only; EyePoint may have additional pipeline programs not modeled."
+
+# ---------------------------------------------------------------------------
+# Thesis changers
+# ---------------------------------------------------------------------------
+thesis_changers:
+  - "ACUITY week-52 topline: BCVA NI demonstrated with ≥65% of patients at 6-month dosing → validates delivery + efficacy simultaneously (strong bull case)."
+  - "ACUITY fails NI: primary endpoint missed → thesis ends; stock likely falls 70-80%."
+  - "FDA grants priority review for NDA → signals 'breakthrough-like' unmet need recognition; re-rates near-term."
+  - "Payer framework announcement pre-launch: if a major PBM pre-approves formulary positioning at semi-annual dosing premium → accelerates adoption trajectory."
+  - "Susvimo (Genentech) reports strong real-world 6-month durability data → validates semi-annual dosing as category; pulls EYP-1901 along."
+  - "Partnership or acquisition by Novartis/Roche/AbbVie → likely at significant premium to NAV given platform value of Durasert technology."

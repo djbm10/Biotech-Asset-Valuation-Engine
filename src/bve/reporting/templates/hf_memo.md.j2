@@ -13,14 +13,29 @@ memo_type: Hedge Fund
 
 *What does the market believe, and why are we different?*
 
-| Dimension | Market Consensus | Our Estimate | Edge |
-|-----------|-----------------|--------------|------|
-| P(Approval) | [~xx%] | {{ d.prob_approval_pct }} | [+/– xx pp] |
-| Peak Sales | $[xxx]M | ${{ "%.0f"|format(d.peak_sales_millions) }}M | [+/– $xxxM] |
-| Launch Timeline | [20xx] | +{{ "%.1f"|format(d.years_to_launch) }} yrs | [+/– xx months] |
-| NAV/Share | $[xx.xx] | ${{ "%.2f"|format(d.nav_per_share) }} | [+/– $xx] |
+{% set vp = decision_framing.variant_perception if decision_framing else none %}
+| Dimension | Market Consensus | Our Model | Edge |
+|-----------|-----------------|-----------|------|
+| P(Approval) | {% if vp and vp.market_pos_pct %}{{ "%.0f"|format(vp.market_pos_pct) }}%{% elif implied_pos_pct %}{{ implied_pos_pct }} (back-solved){% else %}[analyst est.]{% endif %} | {{ d.prob_approval_pct }} | {% if vp and vp.market_pos_pct %}{{ "%+.0f"|format((d.prob_approval_pct | replace('%','') | float) - vp.market_pos_pct) }}pp{% elif implied_pos and implied_pos > 0 %}[model {{ d.prob_approval_pct }}]{% else %}—{% endif %} |
+| Peak Sales | {% if vp and vp.market_peak_sales_m %}${{ "%.0f"|format(vp.market_peak_sales_m) }}M{% else %}[analyst est.]{% endif %} | ${{ "%.0f"|format(d.peak_sales_millions) }}M | {% if vp and vp.market_peak_sales_m %}${{ "%+.0f"|format(d.peak_sales_millions - vp.market_peak_sales_m) }}M{% else %}—{% endif %} |
+| NAV/Share | {% if d.current_price %}${{ "%.2f"|format(d.current_price) }} (market){% else %}[current price]{% endif %} | ${{ "%.2f"|format(d.nav_per_share) }} | {% if d.implied_upside_pct is not none %}{{ "%+.0f"|format(d.implied_upside_pct) }}%{% else %}—{% endif %} |
 
-**Thesis:** [1–2 sentence variant perception statement: what the market is missing and why this creates a mispricing opportunity]
+{% if implied_pos_pct %}
+**Market-implied P(approval):** {{ implied_pos_pct }} (back-solved: [market cap − net cash + weighted trial costs] ÷ gross revenue PV)
+{% endif %}
+
+{% if vp and vp.our_edge %}
+**Thesis:** {{ vp.our_edge }}
+{% else %}
+**Thesis:** [Analyst to populate: what is the market missing? Why does this create a mispricing opportunity?]
+{% endif %}
+
+{% if decision_framing and decision_framing.kill_criteria %}
+**Kill criteria:**
+{% for kc in decision_framing.kill_criteria -%}
+- {{ kc }}
+{% endfor %}
+{% endif %}
 
 ---
 

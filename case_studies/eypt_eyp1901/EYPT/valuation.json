@@ -1,0 +1,410 @@
+{
+  "meta": {
+    "analysis_date": "2026-03-05",
+    "run_timestamp": "2026-03-05T07:53:02",
+    "git_commit": "521b871",
+    "random_seed": 42,
+    "n_simulations": 10000,
+    "bve_version": "0.2.0",
+    "python_version": "3.11.14",
+    "package_versions": {
+      "pydantic": "2.12.5",
+      "numpy": "2.4.2",
+      "scipy": "1.17.1",
+      "pandas": "3.0.1",
+      "matplotlib": "3.10.8"
+    },
+    "config_path": "/home/djmann/projects/biotech-asset-valuation-engine/examples/configs/eypt_eyp1901.yaml",
+    "analyst_notes": "EYP-1901 delivers vorolanib (pan-VEGF TKI) via Durasert sustained-release intravitreal insert, targeting ~6-month dosing intervals in wet AMD. Current standard of care (Eylea, Vabysmo) requires injections every 4-16 weeks; real-world adherence is poor, with ~40% of patients undertreated at 12 months. Phase 2 DAVIO 2 showed 67% of patients maintained 6-month dosing through 9 months with BCVA gains comparable to aflibercept monthly injections. Key mispricing: the market prices this as a \"me-too anti-VEGF\" when the injection burden reduction is the main unmet need in wet AMD \u2014 adherence, not efficacy, is the limiting factor in real-world outcomes. ACUITY Phase 3 is powered for non-inferiority; success would unlock a large and durable market position given the dosing advantage.\n"
+  },
+  "inputs": {
+    "asset": {
+      "id": "eyp-1901",
+      "name": "EYP-1901 (vorolanib)",
+      "indication": "Neovascular AMD (wet AMD), US",
+      "indication_id": null,
+      "therapeutic_area": "ophthalmology",
+      "stage": "phase_3",
+      "modality": "small_molecule",
+      "mechanism_of_action": "Pan-VEGF tyrosine kinase inhibitor (vorolanib) formulated in Durasert sustained-release intravitreal insert. Delivers continuous low-level VEGF suppression from a single intravitreal injection lasting approximately 6 months, compared to monthly or quarterly injections required for current anti-VEGF biologics (Eylea, Vabysmo, Lucentis).\n",
+      "launch_year": null,
+      "patent_expiry_year": null,
+      "discount_rate": 0.12,
+      "royalty_rate": 0.0,
+      "milestones_payable_millions": 0.0,
+      "upcoming_catalysts": [
+        {
+          "description": "ACUITY Phase 3 topline (primary endpoint: BCVA change vs. aflibercept q8w)",
+          "expected_date": "H2 2025",
+          "catalyst_type": "readout",
+          "probability_positive": 0.6
+        },
+        {
+          "description": "NDA submission (pending ACUITY success)",
+          "expected_date": "H1 2026",
+          "catalyst_type": "milestone",
+          "probability_positive": 0.55
+        },
+        {
+          "description": "FDA PDUFA action date (NDA review)",
+          "expected_date": "H1 2027",
+          "catalyst_type": "fda_action",
+          "probability_positive": 0.88
+        }
+      ],
+      "competitor_assets": [
+        "Aflibercept (Eylea) \u2014 Regeneron/Bayer; q8-16w dosing; dominant market share",
+        "Faricimab (Vabysmo) \u2014 Roche/Genentech; q4m dosing; gaining share",
+        "Ranibizumab (Lucentis) \u2014 Genentech; losing share; biosimilars entering",
+        "Port Delivery System (Susvimo) \u2014 Genentech/Roche; q6m implant refill",
+        "KSI-301 (ixoberogene soroparvovec) \u2014 Kodiak Sciences; discontinued 2022"
+      ],
+      "differentiation_notes": "1. Dosing burden: ~2 injections/year vs. 6-8 for Eylea q8w; ~4 for Vabysmo q4m. 2. Real-world: wet AMD patients average only 4-5 injections/year vs. 6-8 recommended;\n   EYP-1901 semi-annual dosing could structurally improve adherence and outcomes.\n3. Mechanism: small molecule vs. biologic \u2014 simpler formulation, no cold chain for the TKI. 4. Phase 2 (DAVIO 2): 67% of patients maintained 6-month dosing with non-inferior BCVA. 5. ACUITY design: non-inferiority vs. q8w aflibercept is a achievable bar given Phase 2 data.\n",
+      "notes": null
+    },
+    "company": {
+      "id": "eyepoint-pharmaceuticals",
+      "name": "EyePoint Pharmaceuticals",
+      "ticker": "EYPT",
+      "cash_millions": 195.0,
+      "debt_millions": 0.0,
+      "shares_outstanding_millions": 33.0,
+      "burn_rate_millions_per_quarter": 22.0,
+      "asset_ids": [
+        "eyp-1901"
+      ],
+      "ownership_stakes": {},
+      "current_price": 14.5,
+      "market_cap_millions": null,
+      "notes": "Cash runway: ~195/22 \u2248 9 quarters. Sufficient to reach ACUITY readout. EyePoint raised $100M in equity in 2023 specifically to fund ACUITY through readout. No debt. Non-dilutive revenue from Dexycu/Yutiq legacy products (~$8M/quarter).\n"
+    },
+    "trials": [
+      {
+        "asset_id": "eyp-1901",
+        "phase": "phase_3",
+        "nct_id": "NCT05536297",
+        "title": null,
+        "success_probability": 0.763,
+        "primary_endpoint": "Non-inferiority BCVA change from baseline (NI margin -4 letters) at 52 weeks",
+        "endpoint_type": "surrogate_validated",
+        "duration_years": 1.5,
+        "cost_millions": 85.0,
+        "start_date": null,
+        "primary_completion_date": null,
+        "enrollment": 680,
+        "status": "unknown",
+        "is_randomized": true,
+        "is_blinded": true,
+        "data_source": "manual",
+        "notes": "ACUITY is a 3-arm trial: EYP-1901 q6m, aflibercept q8w (active control), EYP-1901 PRN. Non-inferiority design reduces bar vs. superiority; BCVA is well-validated for FDA. Phase 2 DAVIO 2 showed +6.4 BCVA letters at 9 months (afl arm: +7.0); NI demonstrated. Main risk: deliver sustained drug levels at 6 months in all patients (tail of distribution).\n"
+      },
+      {
+        "asset_id": "eyp-1901",
+        "phase": "nda_bla",
+        "nct_id": null,
+        "title": null,
+        "success_probability": 0.9422,
+        "primary_endpoint": null,
+        "endpoint_type": "surrogate_validated",
+        "duration_years": 1.0,
+        "cost_millions": 20.0,
+        "start_date": null,
+        "primary_completion_date": null,
+        "enrollment": null,
+        "status": "unknown",
+        "is_randomized": true,
+        "is_blinded": true,
+        "data_source": "manual",
+        "notes": "Likely priority review given unmet need (injection burden) and strong Phase 2 data. Precedent: Susvimo (port delivery system) received PDUFA within 6 months of NDA.\n"
+      }
+    ],
+    "market_model": {
+      "asset_id": "eyp-1901",
+      "addressable_patients_annual": 180000,
+      "net_price_per_patient_usd": 8500.0,
+      "compliance_rate": 0.8,
+      "total_addressable_market_millions": null,
+      "peak_penetration": 0.18,
+      "years_to_peak": 5,
+      "patent_life_years": 12,
+      "use_s_curve": false,
+      "cogs_rate": 0.18,
+      "sgna_rate_launch": 0.4,
+      "sgna_rate_mature": 0.2,
+      "sgna_ramp_years": 5
+    }
+  },
+  "outputs": {
+    "rnpv": {
+      "rnpv_millions": 234.81,
+      "peak_sales_millions": 220.32,
+      "gross_revenue_pv_millions": 452.15,
+      "prob_adj_revenue_pv_millions": 325.05,
+      "trial_costs_pv_millions": 90.24,
+      "cumulative_success_probability": 0.718899,
+      "years_to_launch": 2.5,
+      "discount_rate": 0.12,
+      "net_ownership": 1.0,
+      "phase_breakdown": [
+        {
+          "phase": "phase_3",
+          "prob_reaching": 1.0,
+          "pv_cost_gross": 78.07,
+          "pv_cost_weighted": 78.07,
+          "duration_years": 1.5,
+          "success_probability": 0.763
+        },
+        {
+          "phase": "nda_bla",
+          "prob_reaching": 0.763,
+          "pv_cost_gross": 15.94,
+          "pv_cost_weighted": 12.17,
+          "duration_years": 1.0,
+          "success_probability": 0.9422
+        }
+      ]
+    },
+    "nav": {
+      "asset_rnpv_millions": 234.81,
+      "net_cash_millions": 195.0,
+      "nav_millions": 429.81,
+      "shares_outstanding_millions": 33.0,
+      "nav_per_share": 13.02,
+      "current_price": 14.5,
+      "implied_upside_pct": -10.2
+    },
+    "scenarios": {
+      "bull": {
+        "label": "Bull",
+        "description": "Best-in-class clinical data; faster timelines; larger addressable market",
+        "rnpv_millions": 712.05,
+        "cumulative_success_probability": 0.9801,
+        "peak_sales_millions": 330.48,
+        "years_to_launch": 1.5,
+        "nav_millions": 907.05,
+        "nav_per_share": 27.486363636363635
+      },
+      "base": {
+        "label": "Base",
+        "description": "Base case reflecting analyst estimates",
+        "rnpv_millions": 234.81,
+        "cumulative_success_probability": 0.718899,
+        "peak_sales_millions": 220.32,
+        "years_to_launch": 2.5,
+        "nav_millions": 429.81,
+        "nav_per_share": 13.024545454545455
+      },
+      "bear": {
+        "label": "Bear",
+        "description": "Mixed clinical signal; pricing pressure; delays",
+        "rnpv_millions": -37.15,
+        "cumulative_success_probability": 0.35226,
+        "peak_sales_millions": 121.18,
+        "years_to_launch": 4.5,
+        "nav_millions": 157.85,
+        "nav_per_share": 4.783333333333333
+      },
+      "upside_downside_ratio": -19.17
+    },
+    "monte_carlo": {
+      "n_simulations": 10000,
+      "mean_millions": 162.254499,
+      "median_millions": 132.09,
+      "std_millions": 131.99150106627698,
+      "percentiles": {
+        "p5": 8.586500000000003,
+        "p10": 29.269000000000002,
+        "p25": 70.2775,
+        "p50": 132.09,
+        "p75": 222.70499999999998,
+        "p90": 330.69000000000005,
+        "p95": 412.4224999999994
+      },
+      "probability_positive": 0.9657,
+      "probability_above_500m": 0.024,
+      "probability_above_1b": 0.0007
+    },
+    "sensitivities": [
+      {
+        "parameter": "Phase POS (\u00b120%)",
+        "low_rnpv": 120.23,
+        "high_rnpv": 317.18,
+        "swing": 196.95
+      },
+      {
+        "parameter": "Peak Sales (\u00b130%)",
+        "low_rnpv": 137.3,
+        "high_rnpv": 332.33,
+        "swing": 195.02999999999997
+      },
+      {
+        "parameter": "Peak Penetration (\u00b130%)",
+        "low_rnpv": 137.3,
+        "high_rnpv": 332.33,
+        "swing": 195.02999999999997
+      },
+      {
+        "parameter": "Patent Life (\u00b13 yrs)",
+        "low_rnpv": 170.74,
+        "high_rnpv": 280.42,
+        "swing": 109.68
+      },
+      {
+        "parameter": "Discount Rate (\u00b12pp)",
+        "low_rnpv": 188.69,
+        "high_rnpv": 291.22,
+        "swing": 102.53000000000003
+      }
+    ]
+  },
+  "assumptions": {
+    "key_assumptions": [
+      {
+        "parameter": "WACC (Discount Rate)",
+        "value": "12%",
+        "units": "% per year",
+        "source": "Damodaran biotech sector WACC; standard industry convention for clinical-stage assets",
+        "url": null,
+        "confidence": "High",
+        "sensitivity": "High",
+        "notes": "A \u00b12pp change in WACC shifts rNPV by ~10-15%. Use company-specific beta for more precision."
+      },
+      {
+        "parameter": "Commercial Horizon",
+        "value": "12 years post-launch",
+        "units": "years",
+        "source": "Estimated based on typical composition-of-matter patent + PTE; NCE status assumed",
+        "url": null,
+        "confidence": "Medium",
+        "sensitivity": "Medium",
+        "notes": "Assumes no material generic/biosimilar entry until year 12. Actual IP position should be verified."
+      },
+      {
+        "parameter": "Net Economic Ownership",
+        "value": "100%",
+        "units": "%",
+        "source": "Implied by royalty_rate in config; adjust for any licensed-in/out deal terms",
+        "url": null,
+        "confidence": "High",
+        "sensitivity": "Medium",
+        "notes": null
+      },
+      {
+        "parameter": "Addressable Patients (annual, US)",
+        "value": "180,000",
+        "units": "patients/year",
+        "source": "Public epidemiology data (SEER, IQVIA, company KOL slides); analyst adjustment for eligible fraction",
+        "url": "https://www.nei.nih.gov/learn-about-eye-health/eye-conditions-and-diseases/age-related-macular-degeneration",
+        "confidence": "Medium",
+        "sensitivity": "High",
+        "notes": "Prevalent wet AMD in US ~1.5M (NIH NEI). Treated fraction ~700K (Retina Specialists Survey 2023). Addressable = new patients + active switchers motivated by dosing frequency (estimated 180K/year).\n"
+      },
+      {
+        "parameter": "Net Price per Patient / Year (US)",
+        "value": "$8,500",
+        "units": "USD/patient/year",
+        "source": "Benchmarked against approved comps; WAC \u00d7 (1 \u2013 GTN). See pricing_refs.py for comp table.",
+        "url": "https://www.icer.org/wp-content/uploads/2023/09/ICER_wAMD_Evidence_Report_Final_09152023.pdf",
+        "confidence": "Low",
+        "sensitivity": "High",
+        "notes": "ICER 2023 review: Eylea WAC $2,650/inj; Vabysmo $2,600/inj. EYP-1901 modeled at 2 injections/year at $4,500-6,000 WAC/inj. Net price ($8,500/year) reflects G2N of ~20% for ophthalmology specialty. True pricing will depend on payer negotiations at launch.\n"
+      },
+      {
+        "parameter": "Gross-to-Net Discount",
+        "value": "45%",
+        "units": null,
+        "source": "SSR Health / CMS data benchmarks for small molecule in ophthalmology",
+        "url": null,
+        "confidence": "Medium",
+        "sensitivity": "Medium",
+        "notes": "Applied to WAC to derive net realized price. G2N ranges widely by therapeutic area and payer mix."
+      },
+      {
+        "parameter": "COGS Rate",
+        "value": "18% of net revenue",
+        "units": "% of net revenue",
+        "source": "Industry benchmark for small molecule; DiMasi / company gross margin disclosures",
+        "url": null,
+        "confidence": "High",
+        "sensitivity": "Low",
+        "notes": null
+      },
+      {
+        "parameter": "Peak Market Penetration",
+        "value": "18% of addressable patients",
+        "units": "% of addressable population",
+        "source": "Analyst estimate based on competitive positioning, differentiation, and comparable launch trajectories",
+        "url": "https://www.retina-specialist.com/article/port-delivery-system-real-world-update",
+        "confidence": "Low",
+        "sensitivity": "High",
+        "notes": "Susvimo (Genentech port delivery, q6m refill) captured ~5% penetration; limited by surgical procedure requirement. EYP-1901 (intravitreal injection) removes surgical barrier; 18% reflects premium for simplified administration.\n"
+      },
+      {
+        "parameter": "Years to Peak Sales",
+        "value": "5 years post-launch",
+        "units": "years",
+        "source": "Comparable product launches in specialty/oncology; faster for biomarker-selected populations",
+        "url": null,
+        "confidence": "Medium",
+        "sensitivity": "Low",
+        "notes": null
+      },
+      {
+        "parameter": "SG&A Structure",
+        "value": "40% (launch) \u2192 20% (mature) of revenue",
+        "units": "% of net revenue",
+        "source": "Industry benchmarks; specialty pharma commercial model. Net margin at maturity: 62%",
+        "url": null,
+        "confidence": "High",
+        "sensitivity": "Low",
+        "notes": null
+      },
+      {
+        "parameter": "POS Methodology",
+        "value": "Heuristic log-odds model",
+        "units": null,
+        "source": "Industry-prior base rates (Biomedtracker/IQVIA 2021) adjusted in log-odds space for endpoint quality, MoA precedent, biomarker selection, safety profile, and competitive dynamics.",
+        "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4609178/",
+        "confidence": "Medium",
+        "sensitivity": "High",
+        "notes": "Base rates from Biomedtracker/IQVIA 2021. Adjusters calibrated to shift P by \u00b110-25pp per factor."
+      },
+      {
+        "parameter": "P(Success | PHASE 3)",
+        "value": "76%",
+        "units": null,
+        "source": "Analyst estimate; adjusted from TA-specific prior via POS model",
+        "url": null,
+        "confidence": "Medium",
+        "sensitivity": "High",
+        "notes": "P(reaching this phase) = 100%"
+      },
+      {
+        "parameter": "P(Success | NDA BLA)",
+        "value": "94%",
+        "units": null,
+        "source": "Analyst estimate; adjusted from TA-specific prior via POS model",
+        "url": null,
+        "confidence": "Medium",
+        "sensitivity": "High",
+        "notes": "P(reaching this phase) = 76%"
+      }
+    ],
+    "limitations": [
+      "US market only. EU/Japan not modeled; ophthalmology has strong ex-US markets (30-40% of US value).",
+      "Novel delivery modality: penetration assumption (18%) extrapolated from Susvimo precedent; actual adoption may be materially higher or lower.",
+      "Pricing model assumes EYP-1901 prices at 1.8\u00d7 Eylea per injection (offset by fewer total injections); payer negotiation outcome unknown.",
+      "No combination therapy modeled; EYP-1901 + complement inhibitor combination could expand TAM.",
+      "Legacy products (Dexycu, Yutiq) not included; contribute ~$30-35M/year in existing revenue.",
+      "Single-asset NAV only; EyePoint may have additional pipeline programs not modeled."
+    ],
+    "what_would_change_thesis": [
+      "ACUITY week-52 topline: BCVA NI demonstrated with \u226565% of patients at 6-month dosing \u2192 validates delivery + efficacy simultaneously (strong bull case).",
+      "ACUITY fails NI: primary endpoint missed \u2192 thesis ends; stock likely falls 70-80%.",
+      "FDA grants priority review for NDA \u2192 signals 'breakthrough-like' unmet need recognition; re-rates near-term.",
+      "Payer framework announcement pre-launch: if a major PBM pre-approves formulary positioning at semi-annual dosing premium \u2192 accelerates adoption trajectory.",
+      "Susvimo (Genentech) reports strong real-world 6-month durability data \u2192 validates semi-annual dosing as category; pulls EYP-1901 along.",
+      "Partnership or acquisition by Novartis/Roche/AbbVie \u2192 likely at significant premium to NAV given platform value of Durasert technology."
+    ]
+  }
+}

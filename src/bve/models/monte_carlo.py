@@ -14,18 +14,24 @@ Key uncertain variables and their distributions
 """
 from __future__ import annotations
 
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 
 import numpy as np
 from pydantic import BaseModel, Field
 from scipy.stats import beta as beta_dist, lognorm, norm
 
-from bve.config.constants import MC_N_SIMULATIONS, MC_PEAK_SALES_CV, MC_DISCOUNT_RATE_STD, MC_PHASE_ESS
+from bve.config.constants import (
+    MC_N_SIMULATIONS, MC_PEAK_SALES_CV, MC_DISCOUNT_RATE_STD, MC_PHASE_ESS,
+    MC_YEARS_TO_PEAK_STD, MC_PATENT_LIFE_STD,
+)
 from bve.entities.asset import Asset
 from bve.entities.trial import ClinicalTrial, TrialPhase
 from bve.models.correlations import CorrelationSpec, DEFAULT_CORRELATION, correlated_uniform_samples
 from bve.models.market_model import MarketModel
-from bve.models.rnpv_model import RNPVResult, compute_rnpv
+from bve.models.rnpv_model import RNPVResult, compute_rnpv_full
+
+if TYPE_CHECKING:
+    from bve.models.deal_economics import DealEconomics
 
 
 class PhaseSuccessDistribution(BaseModel):
@@ -52,8 +58,8 @@ class MonteCarloParams(BaseModel):
     # Marginal distribution parameters
     peak_sales_cv: float = Field(default=MC_PEAK_SALES_CV, gt=0.0)
     discount_rate_std: float = Field(default=MC_DISCOUNT_RATE_STD, gt=0.0)
-    years_to_peak_std: float = Field(default=1.5, gt=0.0)
-    patent_life_std: float = Field(default=1.0, gt=0.0)
+    years_to_peak_std: float = Field(default=MC_YEARS_TO_PEAK_STD, gt=0.0)
+    patent_life_std: float = Field(default=MC_PATENT_LIFE_STD, gt=0.0)
 
     # Per-phase success distributions (override trial point estimates)
     phase_distributions: list[PhaseSuccessDistribution] = Field(default_factory=list)
@@ -98,6 +104,9 @@ def run_monte_carlo(
     trials: list[ClinicalTrial],
     market_model: MarketModel,
     params: MonteCarloParams,
+    *,
+    loe_profile: Optional[dict] = None,
+    deal: Optional["DealEconomics"] = None,  # type: ignore[name-defined]
 ) -> MonteCarloResult:
     """
     Run Monte Carlo simulation. Returns full distribution of rNPV values.
@@ -108,6 +117,9 @@ def run_monte_carlo(
       - Discount rate (normal)
       - Years to peak (normal → integer)
       - Patent life (normal → integer)
+
+    loe_profile and deal are fixed economic context — they do not vary per
+    simulation.  Pass them to match the deterministic base case economic stack.
     """
     rng = np.random.default_rng(params.random_seed)
     n = params.n_simulations
@@ -194,7 +206,10 @@ def run_monte_carlo(
             for t in trials
         ]
 
-        result: RNPVResult = compute_rnpv(sim_asset, sim_trials, sim_market)
+        result: RNPVResult = compute_rnpv_full(
+            sim_asset, sim_trials, sim_market,
+            loe_profile=loe_profile, deal=deal,
+        )
         simulated.append(result.rnpv_millions)
 
     arr = np.array(simulated)

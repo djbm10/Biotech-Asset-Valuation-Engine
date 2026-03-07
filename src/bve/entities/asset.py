@@ -20,6 +20,7 @@ class TherapeuticArea(str, Enum):
     CARDIOVASCULAR = "cardiovascular"
     IMMUNOLOGY = "immunology"
     INFECTIOUS_DISEASE = "infectious_disease"
+    OPHTHALMOLOGY = "ophthalmology"
     OTHER = "other"
 
 

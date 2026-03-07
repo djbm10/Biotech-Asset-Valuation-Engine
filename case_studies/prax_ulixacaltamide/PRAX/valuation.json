@@ -1,0 +1,416 @@
+{
+  "meta": {
+    "analysis_date": "2026-03-05",
+    "run_timestamp": "2026-03-05T07:53:12",
+    "git_commit": "521b871",
+    "random_seed": 42,
+    "n_simulations": 10000,
+    "bve_version": "0.2.0",
+    "python_version": "3.11.14",
+    "package_versions": {
+      "pydantic": "2.12.5",
+      "numpy": "2.4.2",
+      "scipy": "1.17.1",
+      "pandas": "3.0.1",
+      "matplotlib": "3.10.8"
+    },
+    "config_path": "/home/djmann/projects/biotech-asset-valuation-engine/examples/configs/prax_ulixacaltamide.yaml",
+    "analyst_notes": "Ulixacaltamide is a selective T-type (Cav3.1/3.2) calcium channel blocker targeting the thalamocortical oscillatory circuit responsible for essential tremor. Unlike propranolol (beta-blocker, CNS side effects) and primidone (antiepileptic, sedation), ulixacaltamide is mechanistically precision-targeted and showed substantially cleaner tolerability in Phase 2. Phase 2b PRISM: -50.0% tremor improvement (TETRAS scale) vs. -28.1% placebo; p<0.001. Only 3% discontinuation due to adverse events vs. 15-20% for propranolol. Investment thesis: ET is a chronically undertreated market because existing options are intolerable for most patients. A differentiated, well-tolerated agent could not only capture the current treatment-seeking population but unlock the 75% of moderate-severe ET patients who have never been treated \u2014 a much larger TAM. Praxis has multiple CNS programs (PRAX-628 for epilepsy), making this a platform investment rather than a single-asset bet.\n"
+  },
+  "inputs": {
+    "asset": {
+      "id": "ulixacaltamide",
+      "name": "ulixacaltamide (PRAX-944)",
+      "indication": "Essential Tremor (moderate-severe), US",
+      "indication_id": null,
+      "therapeutic_area": "cns",
+      "stage": "phase_3",
+      "modality": "small_molecule",
+      "mechanism_of_action": "Selective blocker of Cav3.1 and Cav3.2 T-type voltage-gated calcium channels. These channels drive thalamocortical burst firing, which is the neural mechanism underlying pathological oscillations seen in essential tremor (8-12 Hz frequency). By selectively suppressing thalamic burst activity, ulixacaltamide dampens the oscillatory circuit without broad CNS depression (contrast: propranolol, primidone).\n",
+      "launch_year": null,
+      "patent_expiry_year": null,
+      "discount_rate": 0.12,
+      "royalty_rate": 0.0,
+      "milestones_payable_millions": 0.0,
+      "upcoming_catalysts": [
+        {
+          "description": "ESSENTIAL Phase 3 topline (primary: TETRAS-ADL change from baseline)",
+          "expected_date": "H1 2026",
+          "catalyst_type": "readout",
+          "probability_positive": 0.52
+        },
+        {
+          "description": "NDA submission (pending ESSENTIAL success)",
+          "expected_date": "H2 2026",
+          "catalyst_type": "milestone",
+          "probability_positive": 0.48
+        },
+        {
+          "description": "FDA PDUFA date (NDA review)",
+          "expected_date": "H1 2027",
+          "catalyst_type": "fda_action",
+          "probability_positive": 0.83
+        },
+        {
+          "description": "PRAX-628 (epilepsy) Phase 2b readout \u2014 platform catalyst",
+          "expected_date": "2026",
+          "catalyst_type": "readout",
+          "probability_positive": 0.45
+        }
+      ],
+      "competitor_assets": [
+        "Propranolol (generic) \u2014 first-line; 50-60% effective; limited by bradycardia/fatigue",
+        "Primidone (generic) \u2014 first-line; similar efficacy to propranolol; sedation limits use",
+        "Topiramate (generic) \u2014 second-line; cognitive side effects; weight loss",
+        "Deep Brain Stimulation (DBS) \u2014 surgical; for severe/refractory; small addressable pool",
+        "Focused Ultrasound (Insightec) \u2014 non-invasive thalamotomy; one-time procedure; ~$30K"
+      ],
+      "differentiation_notes": "1. Mechanism precision: first drug targeting thalamocortical oscillatory circuit;\n   propranolol/primidone are non-specific.\n2. Tolerability: Phase 2 3% discontinuation vs. 15-20% for propranolol/primidone;\n   no sedation, no sexual dysfunction, no cognitive effects.\n3. Untreated market: 75% of moderate-severe ET patients are untreated; better\n   tolerability is the key to unlocking this population.\n4. Responder profile: 50% tremor reduction in 65% of patients (Phase 2);\n   much higher response rate than historical propranolol data.\n5. QD/BID dosing (oral); convenient for elderly population (median ET age: 65+).\n",
+      "notes": null
+    },
+    "company": {
+      "id": "praxis-precision-medicine",
+      "name": "Praxis Precision Medicine",
+      "ticker": "PRAX",
+      "cash_millions": 325.0,
+      "debt_millions": 0.0,
+      "shares_outstanding_millions": 55.0,
+      "burn_rate_millions_per_quarter": 40.0,
+      "asset_ids": [
+        "ulixacaltamide"
+      ],
+      "ownership_stakes": {},
+      "current_price": 22.0,
+      "market_cap_millions": null,
+      "notes": "Cash runway: ~325/40 \u2248 8 quarters. Tight for a two-program company. Praxis may need to raise capital before ESSENTIAL readout (H1 2026). Dilution risk: if ESSENTIAL data is delayed or if PRAX-628 requires capital, a raise at sub-NAV prices would be dilutive. Watch cash carefully. Platform value: PRAX-628 (Nav1.2/1.6 inhibitor for epilepsy) in Phase 2; not modeled here but represents material option value if data is positive.\n"
+    },
+    "trials": [
+      {
+        "asset_id": "ulixacaltamide",
+        "phase": "phase_3",
+        "nct_id": "NCT05173220",
+        "title": null,
+        "success_probability": 0.5275,
+        "primary_endpoint": "TETRAS-ADL subscale change from baseline at week 12 (superiority vs. placebo)",
+        "endpoint_type": "surrogate_validated",
+        "duration_years": 1.5,
+        "cost_millions": 95.0,
+        "start_date": null,
+        "primary_completion_date": null,
+        "enrollment": 300,
+        "status": "unknown",
+        "is_randomized": true,
+        "is_blinded": true,
+        "data_source": "manual",
+        "notes": "TETRAS (The Essential Tremor Rating Assessment Scale) is FDA-validated for ET. PRISM Phase 2b used same endpoint; ESSENTIAL is powered to reproduce the -22pp difference in TETRAS-ADL seen in Phase 2 (50% vs 28%). Placebo arm is well-defined. CNS Phase 3 has elevated failure risk despite good Phase 2; patient heterogeneity and placebo response variability are the primary concerns.\n"
+      },
+      {
+        "asset_id": "ulixacaltamide",
+        "phase": "nda_bla",
+        "nct_id": null,
+        "title": null,
+        "success_probability": 0.8501,
+        "primary_endpoint": null,
+        "endpoint_type": "surrogate_validated",
+        "duration_years": 1.0,
+        "cost_millions": 20.0,
+        "start_date": null,
+        "primary_completion_date": null,
+        "enrollment": null,
+        "status": "unknown",
+        "is_randomized": true,
+        "is_blinded": true,
+        "data_source": "manual",
+        "notes": "Strong unmet need case (no new ET approvals in >40 years); likely standard review. Precedent: FDA approved Ingrezza (valbenazine) for tardive dyskinesia on similar evidence package (Phase 2/3 combination; hyperkinetic movement disorder).\n"
+      }
+    ],
+    "market_model": {
+      "asset_id": "ulixacaltamide",
+      "addressable_patients_annual": 220000,
+      "net_price_per_patient_usd": 28000.0,
+      "compliance_rate": 0.8,
+      "total_addressable_market_millions": null,
+      "peak_penetration": 0.15,
+      "years_to_peak": 6,
+      "patent_life_years": 12,
+      "use_s_curve": false,
+      "cogs_rate": 0.15,
+      "sgna_rate_launch": 0.45,
+      "sgna_rate_mature": 0.22,
+      "sgna_ramp_years": 5
+    }
+  },
+  "outputs": {
+    "rnpv": {
+      "rnpv_millions": 544.89,
+      "peak_sales_millions": 739.2,
+      "gross_revenue_pv_millions": 1428.45,
+      "prob_adj_revenue_pv_millions": 640.55,
+      "trial_costs_pv_millions": 95.67,
+      "cumulative_success_probability": 0.448428,
+      "years_to_launch": 2.5,
+      "discount_rate": 0.12,
+      "net_ownership": 1.0,
+      "phase_breakdown": [
+        {
+          "phase": "phase_3",
+          "prob_reaching": 1.0,
+          "pv_cost_gross": 87.26,
+          "pv_cost_weighted": 87.26,
+          "duration_years": 1.5,
+          "success_probability": 0.5275
+        },
+        {
+          "phase": "nda_bla",
+          "prob_reaching": 0.5275,
+          "pv_cost_gross": 15.94,
+          "pv_cost_weighted": 8.41,
+          "duration_years": 1.0,
+          "success_probability": 0.8501
+        }
+      ]
+    },
+    "nav": {
+      "asset_rnpv_millions": 544.89,
+      "net_cash_millions": 325.0,
+      "nav_millions": 869.89,
+      "shares_outstanding_millions": 55.0,
+      "nav_per_share": 15.82,
+      "current_price": 22.0,
+      "implied_upside_pct": -28.1
+    },
+    "scenarios": {
+      "bull": {
+        "label": "Bull",
+        "description": "Best-in-class clinical data; faster timelines; larger addressable market",
+        "rnpv_millions": 1663.04,
+        "cumulative_success_probability": 0.678893,
+        "peak_sales_millions": 1108.8,
+        "years_to_launch": 1.5,
+        "nav_millions": 1988.04,
+        "nav_per_share": 36.146181818181816
+      },
+      "base": {
+        "label": "Base",
+        "description": "Base case reflecting analyst estimates",
+        "rnpv_millions": 544.89,
+        "cumulative_success_probability": 0.448428,
+        "peak_sales_millions": 739.2,
+        "years_to_launch": 2.5,
+        "nav_millions": 869.89,
+        "nav_per_share": 15.816181818181818
+      },
+      "bear": {
+        "label": "Bear",
+        "description": "Mixed clinical signal; pricing pressure; delays",
+        "rnpv_millions": 10.53,
+        "cumulative_success_probability": 0.21973,
+        "peak_sales_millions": 406.56,
+        "years_to_launch": 4.5,
+        "nav_millions": 335.53,
+        "nav_per_share": 6.100545454545454
+      },
+      "upside_downside_ratio": 157.93
+    },
+    "monte_carlo": {
+      "n_simulations": 10000,
+      "mean_millions": 495.3933590000001,
+      "median_millions": 398.66499999999996,
+      "std_millions": 386.2188885928899,
+      "percentiles": {
+        "p5": 72.75250000000001,
+        "p10": 123.194,
+        "p25": 228.505,
+        "p50": 398.66499999999996,
+        "p75": 652.6375,
+        "p90": 980.4300000000001,
+        "p95": 1250.3935000000001
+      },
+      "probability_positive": 0.9932,
+      "probability_above_500m": 0.3842,
+      "probability_above_1b": 0.0944
+    },
+    "sensitivities": [
+      {
+        "parameter": "Phase POS (\u00b120%)",
+        "low_rnpv": 315.97,
+        "high_rnpv": 797.81,
+        "swing": 481.8399999999999
+      },
+      {
+        "parameter": "Peak Sales (\u00b130%)",
+        "low_rnpv": 352.72,
+        "high_rnpv": 737.05,
+        "swing": 384.3299999999999
+      },
+      {
+        "parameter": "Peak Penetration (\u00b130%)",
+        "low_rnpv": 352.72,
+        "high_rnpv": 737.05,
+        "swing": 384.3299999999999
+      },
+      {
+        "parameter": "Patent Life (\u00b13 yrs)",
+        "low_rnpv": 408.64,
+        "high_rnpv": 641.86,
+        "swing": 233.22000000000003
+      },
+      {
+        "parameter": "Discount Rate (\u00b12pp)",
+        "low_rnpv": 450.27,
+        "high_rnpv": 660.72,
+        "swing": 210.45000000000005
+      }
+    ]
+  },
+  "assumptions": {
+    "key_assumptions": [
+      {
+        "parameter": "WACC (Discount Rate)",
+        "value": "12%",
+        "units": "% per year",
+        "source": "Damodaran biotech sector WACC; standard industry convention for clinical-stage assets",
+        "url": null,
+        "confidence": "High",
+        "sensitivity": "High",
+        "notes": "A \u00b12pp change in WACC shifts rNPV by ~10-15%. Use company-specific beta for more precision."
+      },
+      {
+        "parameter": "Commercial Horizon",
+        "value": "12 years post-launch",
+        "units": "years",
+        "source": "Estimated based on typical composition-of-matter patent + PTE; NCE status assumed",
+        "url": null,
+        "confidence": "Medium",
+        "sensitivity": "Medium",
+        "notes": "Assumes no material generic/biosimilar entry until year 12. Actual IP position should be verified."
+      },
+      {
+        "parameter": "Net Economic Ownership",
+        "value": "100%",
+        "units": "%",
+        "source": "Implied by royalty_rate in config; adjust for any licensed-in/out deal terms",
+        "url": null,
+        "confidence": "High",
+        "sensitivity": "Medium",
+        "notes": null
+      },
+      {
+        "parameter": "Addressable Patients (annual, US)",
+        "value": "220,000",
+        "units": "patients/year",
+        "source": "Public epidemiology data (SEER, IQVIA, company KOL slides); analyst adjustment for eligible fraction",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/12975455/",
+        "confidence": "Medium",
+        "sensitivity": "High",
+        "notes": "Louis et al. (2003, Arch Neurol): ET prevalence ~4% in >40 years, ~7M in US. Moderate-severe (~3M) defined as interfering with ADL. Treatment rate of 25% is analyst estimate; ET historically undertreated. New addressable pool with better-tolerated drug estimated at 200-220K/year.\n"
+      },
+      {
+        "parameter": "Net Price per Patient / Year (US)",
+        "value": "$28,000",
+        "units": "USD/patient/year",
+        "source": "Benchmarked against approved comps; WAC \u00d7 (1 \u2013 GTN). See pricing_refs.py for comp table.",
+        "url": "https://www.accessdata.fda.gov/drugsatfda_docs/label/2023/209241s022lbl.pdf",
+        "confidence": "Low",
+        "sensitivity": "High",
+        "notes": "Ingrezza (valbenazine) WAC ~$90K/year for tardive dyskinesia. ET is a larger population; payers will resist premium pricing. Analyst estimate $35-45K WAC based on specialty movement disorder precedents and payer sensitivity for a condition with low-cost generic alternatives. Significant pricing uncertainty \u2014 this is the highest-uncertainty assumption.\n"
+      },
+      {
+        "parameter": "Gross-to-Net Discount",
+        "value": "45%",
+        "units": null,
+        "source": "SSR Health / CMS data benchmarks for small molecule in cns",
+        "url": null,
+        "confidence": "Medium",
+        "sensitivity": "Medium",
+        "notes": "Applied to WAC to derive net realized price. G2N ranges widely by therapeutic area and payer mix."
+      },
+      {
+        "parameter": "COGS Rate",
+        "value": "15% of net revenue",
+        "units": "% of net revenue",
+        "source": "Industry benchmark for small molecule; DiMasi / company gross margin disclosures",
+        "url": null,
+        "confidence": "High",
+        "sensitivity": "Low",
+        "notes": null
+      },
+      {
+        "parameter": "Peak Market Penetration",
+        "value": "15% of addressable patients",
+        "units": "% of addressable population",
+        "source": "Analyst estimate based on competitive positioning, differentiation, and comparable launch trajectories",
+        "url": "https://investors.neurocrine.com/news-releases/news-release-details/neurocrine-biosciences-reports-fourth-quarter-and-full-year-2023",
+        "confidence": "Low",
+        "sensitivity": "High",
+        "notes": "Ingrezza achieved ~15,000 patients at peak (tardive dyskinesia, smaller market). For ET, Praxis targets a much larger pool but faces generic competition and primary care prescribing inertia. 15% of 220K = 33K patients at peak. Comparable to Ingrezza absolute patient numbers despite larger total addressable market.\n"
+      },
+      {
+        "parameter": "Years to Peak Sales",
+        "value": "6 years post-launch",
+        "units": "years",
+        "source": "Comparable product launches in specialty/oncology; faster for biomarker-selected populations",
+        "url": null,
+        "confidence": "Medium",
+        "sensitivity": "Low",
+        "notes": null
+      },
+      {
+        "parameter": "SG&A Structure",
+        "value": "45% (launch) \u2192 22% (mature) of revenue",
+        "units": "% of net revenue",
+        "source": "Industry benchmarks; specialty pharma commercial model. Net margin at maturity: 63%",
+        "url": null,
+        "confidence": "High",
+        "sensitivity": "Low",
+        "notes": null
+      },
+      {
+        "parameter": "POS Methodology",
+        "value": "Heuristic log-odds model",
+        "units": null,
+        "source": "Industry-prior base rates (Biomedtracker/IQVIA 2021) adjusted in log-odds space for endpoint quality, MoA precedent, biomarker selection, safety profile, and competitive dynamics.",
+        "url": "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4609178/",
+        "confidence": "Medium",
+        "sensitivity": "High",
+        "notes": "Base rates from Biomedtracker/IQVIA 2021. Adjusters calibrated to shift P by \u00b110-25pp per factor."
+      },
+      {
+        "parameter": "P(Success | PHASE 3)",
+        "value": "53%",
+        "units": null,
+        "source": "Analyst estimate; adjusted from TA-specific prior via POS model",
+        "url": null,
+        "confidence": "Medium",
+        "sensitivity": "High",
+        "notes": "P(reaching this phase) = 100%"
+      },
+      {
+        "parameter": "P(Success | NDA BLA)",
+        "value": "85%",
+        "units": null,
+        "source": "Analyst estimate; adjusted from TA-specific prior via POS model",
+        "url": null,
+        "confidence": "Medium",
+        "sensitivity": "High",
+        "notes": "P(reaching this phase) = 53%"
+      }
+    ],
+    "limitations": [
+      "US market only. EU (large ET market given aging population) not modeled.",
+      "Addressable population (220K/year) includes untreated patients who may respond differently to treatment \u2014 market expansion assumptions are uncertain.",
+      "Net price ($28K/year) is highly uncertain; payer step-edit requirements could limit first-line use and slow uptake.",
+      "Platform value (PRAX-628 epilepsy) not included in this valuation; represents unmodeled option value.",
+      "CNS launch trajectories are historically slower than oncology; 6-year ramp to peak may be optimistic.",
+      "Cash runway (~8 quarters) creates dilution risk before ESSENTIAL readout; modeled as fixed shares."
+    ],
+    "what_would_change_thesis": [
+      "ESSENTIAL Phase 3 success (TETRAS-ADL superiority with clean safety profile) \u2192 NDA submission; partnership discussions likely immediately.",
+      "ESSENTIAL Phase 3 failure \u2192 thesis ends; Praxis restructures around PRAX-628 only; stock falls 60-80%.",
+      "PRAX-628 Phase 2 positive readout \u2192 platform re-rating; Praxis becomes multi-asset CNS company; reduces single-asset binary risk.",
+      "Partnership or licensing deal (large pharma CNS presence) \u2192 validates data and removes launch execution risk; upfront + milestone structure.",
+      "Payer pre-approval signals (PBM formulary framework before NDA) \u2192 accelerates launch ramp; re-rates on commercialization expectations.",
+      "Additional biomarker data: oscillation biomarker predicting ulixacaltamide response \u2192 could enable precision patient selection and improve responder rate."
+    ]
+  }
+}

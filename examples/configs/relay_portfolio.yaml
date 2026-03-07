@@ -1,0 +1,50 @@
+# =============================================================================
+# Relay Therapeutics (RLAY) — Company-Level Portfolio NAV
+# =============================================================================
+#
+# This config aggregates pipeline asset valuations into a company-level NAV.
+# Each asset is modeled independently via its own config file.
+#
+# Usage:
+#   bve-portfolio --config examples/configs/relay_portfolio.yaml
+#
+# Note: As of Q4 2024, Relay's disclosed pipeline includes RLY-2608 (lead oncology)
+# and RLY-4008 (FGFR2, gastric/biliary cancers). Only RLY-2608 is currently
+# modeled in detail. RLY-4008 is not included here (no Phase 2 data yet).
+# This single-asset portfolio illustrates the structure.
+# =============================================================================
+
+# ---------------------------------------------------------------------------
+# Company (approximate as of Q4 2024)
+# ---------------------------------------------------------------------------
+company:
+  id: "relay-therapeutics"
+  name: "Relay Therapeutics"
+  ticker: "RLAY"
+  cash_millions: 410.0               # Verify against most recent 10-Q
+  debt_millions: 0.0
+  shares_outstanding_millions: 93.5  # Diluted; approximate Q4 2024
+  burn_rate_millions_per_quarter: 35.0
+  current_price: 5.80
+
+# ---------------------------------------------------------------------------
+# Pipeline assets
+# Paths are relative to this config file's directory.
+# ---------------------------------------------------------------------------
+assets:
+  - config: "relay_rly2608.yaml"     # RLY-2608: PI3Ka H1047R, HR+/HER2- mBC
+
+# ---------------------------------------------------------------------------
+# Dilution scenarios (optional)
+# Models what happens to NAV/share if Relay raises equity capital.
+# ---------------------------------------------------------------------------
+dilution_scenarios:
+  - label: "Phase 3 raise at current price ($150M)"
+    # $150M / $5.80 ≈ 25.9M new shares; Relay reaches ~$560M total cash
+    additional_shares_millions: 25.9
+    proceeds_millions: 150.0
+
+  - label: "Phase 3 raise at 20% premium ($150M at $6.96)"
+    # Dilution is less severe if raise happens after positive Phase 2 readout
+    additional_shares_millions: 21.6
+    proceeds_millions: 150.0

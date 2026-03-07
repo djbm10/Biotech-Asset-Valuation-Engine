@@ -6,15 +6,17 @@ from the base case and re-runs rNPV.
 """
 from __future__ import annotations
 
-from dataclasses import dataclass
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 
 from pydantic import BaseModel
 
 from bve.entities.asset import Asset
 from bve.entities.trial import ClinicalTrial
 from bve.models.market_model import MarketModel
-from bve.models.rnpv_model import RNPVResult, compute_rnpv
+from bve.models.rnpv_model import compute_rnpv_full
+
+if TYPE_CHECKING:
+    from bve.models.deal_economics import DealEconomics
 
 
 class ScenarioAssumptions(BaseModel):
@@ -104,6 +106,9 @@ def _apply_scenario(
     assumptions: ScenarioAssumptions,
     net_cash_millions: float = 0.0,
     shares_outstanding_millions: float = 1.0,
+    *,
+    loe_profile: Optional[dict] = None,
+    deal: Optional["DealEconomics"] = None,
 ) -> ScenarioResult:
     r = max(0.01, asset.discount_rate + assumptions.discount_rate_add)
     sim_asset = asset.model_copy(update={"discount_rate": r})
@@ -132,7 +137,7 @@ def _apply_scenario(
             "cost_millions": new_cost,
         }))
 
-    result = compute_rnpv(sim_asset, sim_trials, sim_market)
+    result = compute_rnpv_full(sim_asset, sim_trials, sim_market, loe_profile=loe_profile, deal=deal)
 
     nav = result.rnpv_millions + net_cash_millions
     nav_ps = nav / shares_outstanding_millions if shares_outstanding_millions else 0.0
@@ -156,11 +161,18 @@ def build_scenarios(
     net_cash_millions: float = 0.0,
     shares_outstanding_millions: float = 1.0,
     custom_scenarios: Optional[list[ScenarioAssumptions]] = None,
+    *,
+    loe_profile: Optional[dict] = None,
+    deal: Optional["DealEconomics"] = None,
 ) -> ScenarioSet:
-    """Build bull/base/bear rNPV scenarios."""
+    """Build bull/base/bear rNPV scenarios on the full economic stack."""
     scenarios = custom_scenarios or [SCENARIO_BULL, SCENARIO_BASE, SCENARIO_BEAR]
     results = [
-        _apply_scenario(asset, trials, market_model, s, net_cash_millions, shares_outstanding_millions)
+        _apply_scenario(
+            asset, trials, market_model, s,
+            net_cash_millions, shares_outstanding_millions,
+            loe_profile=loe_profile, deal=deal,
+        )
         for s in scenarios[:3]
     ]
     return ScenarioSet(bull=results[0], base=results[1], bear=results[2])

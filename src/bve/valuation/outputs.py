@@ -2,7 +2,9 @@
 from __future__ import annotations
 
 import json
-from datetime import date
+import subprocess
+import sys
+from datetime import date, datetime
 from pathlib import Path
 from typing import Optional
 
@@ -55,15 +57,44 @@ class ValuationOutput(BaseModel):
     # Assumption log (populated by ValuationEngine)
     assumption_log: Optional[object] = Field(default=None, exclude=False)   # AssumptionLog
 
+    # Decision framing (optional — populated when decision_framing: section present in YAML)
+    decision_framing: Optional[object] = Field(default=None)   # DecisionFraming
+
     # Metadata
     analysis_date: str = Field(default_factory=lambda: date.today().isoformat())
+    run_timestamp: str = Field(default_factory=lambda: datetime.now().isoformat(timespec="seconds"))
     analyst_notes: Optional[str] = None
     config_path: Optional[str] = None    # source YAML, for reproducibility
+    random_seed: Optional[int] = None
+    n_simulations: Optional[int] = None
 
     # Memo text (populated by reporting layer)
     memo_markdown: Optional[str] = None
 
     model_config = {"arbitrary_types_allowed": True}
+
+    @staticmethod
+    def _git_commit() -> Optional[str]:
+        try:
+            result = subprocess.run(
+                ["git", "rev-parse", "--short", "HEAD"],
+                capture_output=True, text=True, timeout=3
+            )
+            return result.stdout.strip() or None
+        except Exception:
+            return None
+
+    @staticmethod
+    def _package_versions() -> dict:
+        pkgs = ["pydantic", "numpy", "scipy", "pandas", "matplotlib"]
+        versions = {}
+        for pkg in pkgs:
+            try:
+                import importlib.metadata
+                versions[pkg] = importlib.metadata.version(pkg)
+            except Exception:
+                pass
+        return versions
 
     @property
     def implied_upside_pct(self) -> Optional[float]:
@@ -71,6 +102,30 @@ class ValuationOutput(BaseModel):
         if price and price > 0:
             return round((self.nav_per_share / price - 1) * 100, 1)
         return None
+
+    @property
+    def implied_pos(self) -> Optional[float]:
+        """
+        Market-implied probability of approval, back-solved from current stock price.
+
+        Derivation:
+          market_cap = price × shares
+          market_implied_rnpv = market_cap - net_cash
+          rNPV = P × gross_revenue_pv - trial_costs_pv (weighted)
+          => P_implied = (market_implied_rnpv + trial_costs_pv) / gross_revenue_pv
+
+        Returns None if price unavailable or gross_revenue_pv <= 0.
+        """
+        price = self.company.current_price
+        if not price or price <= 0:
+            return None
+        gross_pv = self.rnpv.gross_revenue_pv_millions
+        if gross_pv <= 0:
+            return None
+        mkt_cap = price * self.company.shares_outstanding_millions
+        implied_rnpv = mkt_cap - self.company.net_cash_millions
+        pos = (implied_rnpv + self.rnpv.trial_costs_pv_millions) / gross_pv
+        return round(max(0.0, min(1.0, pos)), 4)
 
     @property
     def summary_dict(self) -> dict:
@@ -128,9 +183,15 @@ class ValuationOutput(BaseModel):
         d: dict = {
             "meta": {
                 "analysis_date": self.analysis_date,
+                "run_timestamp": self.run_timestamp,
+                "git_commit": self._git_commit(),
+                "random_seed": self.random_seed,
+                "n_simulations": self.n_simulations,
+                "bve_version": "0.2.0",
+                "python_version": sys.version.split()[0],
+                "package_versions": self._package_versions(),
                 "config_path": self.config_path,
                 "analyst_notes": self.analyst_notes,
-                "bve_version": "0.2.0",
             },
             "inputs": {
                 "asset": self.asset.model_dump(),
