@@ -1,10 +1,15 @@
 """
-ValuationEngine — orchestrates the full valuation pipeline.
+ValuationEngine — thin orchestrator for the valuation pipeline.
 
-Usage
------
-    engine = ValuationEngine(asset, company, trials, market_model)
-    output = engine.run()
+Target shape (Step 2):
+    prob  = ProbabilityModel.compute(asset, trials)
+    rev   = RevenueModel.compute(market_model)
+    cost  = CostModel.compute(prob, asset.discount_rate)
+    rnpv  = RNPVModel.compute(asset, prob, rev, cost)
+
+Sensitivity and scenario analysis still call compute_rnpv() (the backward-compat
+wrapper) because they require many cheap re-valuations with perturbed inputs.
+That is architectural debt to be cleaned in a later step.
 """
 from __future__ import annotations
 
@@ -14,10 +19,14 @@ from bve.entities.asset import Asset
 from bve.entities.company import Company
 from bve.entities.indication import Indication
 from bve.entities.trial import ClinicalTrial
+from bve.models.cost_model import CostModel
+from bve.models.drug_asset_program import CommercialPlan, DrugAssetProgram
 from bve.models.market_model import MarketModel
 from bve.models.monte_carlo import MonteCarloParams, run_monte_carlo
 from bve.models.pos_model import POSAdjusters, apply_pos_to_trials
-from bve.models.rnpv_model import compute_rnpv
+from bve.models.probability_model import ProbabilityModel
+from bve.models.revenue_model import RevenueModel
+from bve.models.rnpv_model import RNPVModel, compute_rnpv_full
 from bve.valuation.assumptions import AssumptionLog, build_assumption_log
 from bve.valuation.outputs import SensitivityPoint, ValuationOutput
 from bve.valuation.scenario import build_scenarios
@@ -25,7 +34,8 @@ from bve.valuation.scenario import build_scenarios
 
 class ValuationEngine:
     """
-    Orchestrates: POS model → rNPV → scenarios → Monte Carlo → sensitivity.
+    Orchestrates: POS model → ProbabilityModel → RevenueModel → CostModel →
+    RNPVModel → scenarios → Monte Carlo → sensitivity → ValuationOutput.
 
     Parameters
     ----------
@@ -35,8 +45,10 @@ class ValuationEngine:
     market_model:       Commercial model
     indication:         Optional Indication entity (for memo context)
     pos_adjusters:      Per-phase POSAdjusters. If None, trial.success_probability is used as-is.
+    design_adjusters:   Per-phase TrialDesignFeatureSet (second POS layer).
     mc_params:          Monte Carlo parameters. Defaults used if None.
     apply_pos_model:    If True and pos_adjusters provided, override trial success probabilities.
+    apply_design_model: If True and design_adjusters provided, apply as second POS layer.
     analyst_notes:      Optional free-text notes included in memo output.
     """
 
@@ -73,20 +85,79 @@ class ValuationEngine:
         self.thesis_changers = thesis_changers
         self.sources: Optional[dict] = None
         self.decision_framing = None
+        self._commercial_plan: Optional[CommercialPlan] = None  # set by from_program
+        self._deal_economics = None  # set by from_program; Optional[DealEconomics]
+
+    # ------------------------------------------------------------------
+    # Alternate constructor from DrugAssetProgram
+    # ------------------------------------------------------------------
+
+    @classmethod
+    def from_program(
+        cls,
+        program: DrugAssetProgram,
+        company: Company,
+        indication: Optional[Indication] = None,
+        mc_params: Optional[MonteCarloParams] = None,
+        apply_pos_model: bool = False,
+        apply_design_model: bool = False,
+        analyst_notes: Optional[str] = None,
+        config_path: Optional[str] = None,
+        limitations: Optional[list[str]] = None,
+        thesis_changers: Optional[list[str]] = None,
+    ) -> "ValuationEngine":
+        """
+        Build a ValuationEngine from a DrugAssetProgram.
+
+        The engine uses program.commercial_plan.loe_profile directly instead
+        of fetching it from AssumptionsLoader at run time, making the LOE
+        assumption explicit and inspectable before run() is called.
+        """
+        engine = cls(
+            asset=program.asset,
+            company=company,
+            trials=program.trials,
+            market_model=program.market_model,
+            indication=indication,
+            pos_adjusters=program.pos_adjusters,
+            design_adjusters=program.design_features,
+            mc_params=mc_params,
+            apply_pos_model=apply_pos_model,
+            apply_design_model=apply_design_model,
+            analyst_notes=analyst_notes,
+            config_path=config_path,
+            limitations=limitations,
+            thesis_changers=thesis_changers,
+        )
+        engine._commercial_plan = program.commercial_plan
+        engine._deal_economics = program.deal_economics
+        return engine
 
     def run(self) -> ValuationOutput:
         """Execute the full valuation pipeline."""
         trials = self._prepare_trials()
 
-        # --- Base-case rNPV ---
-        rnpv = compute_rnpv(self.asset, trials, self.market_model)
+        # --- Four-engine base-case rNPV ---
+        # CommercialPlan has three states:
+        #   "unset"      → no explicit plan; fetch default from AssumptionsLoader
+        #   "suppressed" → no_loe() was called; apply no tail
+        #   "modality:*" → explicit profile loaded via from_modality()
+        plan = self._commercial_plan
+        if plan is None or plan.is_unset:
+            from bve.config.assumptions_loader import AssumptionsLoader
+            loe_profile = AssumptionsLoader.get().loe_erosion_profile(self.asset.modality.value)
+        else:
+            loe_profile = plan.loe_profile  # None for suppressed, dict for loaded
+        deal = self._deal_economics
+        prob = ProbabilityModel.compute(self.asset, trials)
+        rev = RevenueModel.compute(self.market_model, loe_profile=loe_profile)
+        cost = CostModel.compute(prob, self.asset.discount_rate, deal=deal)
+        rnpv = RNPVModel.compute(self.asset, prob, rev, cost, deal=deal)
 
         # --- Company NAV ---
         ownership = self.company.ownership_of(self.asset.id)
         nav = rnpv.rnpv_millions * ownership + self.company.net_cash_millions
         nav_ps = nav / self.company.shares_outstanding_millions
-
-        # Tag on NAV
         rnpv = rnpv.model_copy(update={"nav_millions": nav, "nav_per_share": nav_ps})
 
         # --- Scenarios ---
@@ -94,15 +165,20 @@ class ValuationEngine:
             self.asset, trials, self.market_model,
             net_cash_millions=self.company.net_cash_millions,
             shares_outstanding_millions=self.company.shares_outstanding_millions,
+            loe_profile=loe_profile,
+            deal=deal,
         )
 
         # --- Monte Carlo ---
-        mc = run_monte_carlo(self.asset, trials, self.market_model, self.mc_params)
+        mc = run_monte_carlo(
+            self.asset, trials, self.market_model, self.mc_params,
+            loe_profile=loe_profile, deal=deal,
+        )
         mc_nav_per_share = (mc.mean_millions + self.company.net_cash_millions) / self.company.shares_outstanding_millions
         mc = mc.model_copy(update={"mean_nav_per_share": round(mc_nav_per_share, 2)})
 
         # --- Sensitivity ---
-        sensitivities = self._compute_sensitivities(trials)
+        sensitivities = self._compute_sensitivities(trials, loe_profile, deal)
 
         # --- Assumption log ---
         assumption_log = build_assumption_log(
@@ -132,6 +208,10 @@ class ValuationEngine:
             decision_framing=self.decision_framing,
         )
 
+    # -----------------------------------------------------------------------
+    # Trial preparation (POS + design model layers)
+    # -----------------------------------------------------------------------
+
     def _prepare_trials(self) -> list[ClinicalTrial]:
         trials = self.trials
         if self.apply_pos_model and self.pos_adjusters:
@@ -143,15 +223,7 @@ class ValuationEngine:
         return trials
 
     def _apply_design_adjustments(self, trials: list[ClinicalTrial]) -> list[ClinicalTrial]:
-        """Apply trial design feature adjustments as the second POS layer.
-
-        Runs after apply_pos_to_trials (if enabled), so adjusts the model-predicted
-        POS rather than the raw YAML point estimate.
-
-        Anti-double-counting: if both pos_adjusters and design_adjusters are enabled
-        for the same phase, check_pos_layer_overlap() is called. Overlaps are printed
-        as warnings but do not halt execution — the analyst must resolve them explicitly.
-        """
+        """Apply trial design feature adjustments as the second POS layer."""
         from bve.models.trial_design_features import check_pos_layer_overlap, compute_design_adjusted_pos
 
         result = []
@@ -161,7 +233,6 @@ class ValuationEngine:
                 result.append(trial)
                 continue
 
-            # Warn if this trial's phase also has pos_adjusters (potential double-count)
             if self.apply_pos_model and trial.phase in self.pos_adjusters:
                 report = check_pos_layer_overlap(
                     self.pos_adjusters[trial.phase], features, phase=trial.phase.value
@@ -179,7 +250,17 @@ class ValuationEngine:
             result.append(trial.model_copy(update={"success_probability": dar.adjusted_pos}))
         return result
 
-    def _compute_sensitivities(self, trials: list[ClinicalTrial]) -> list[SensitivityPoint]:
+    # -----------------------------------------------------------------------
+    # Sensitivity (tornado) — still uses compute_rnpv() wrapper
+    # This is architectural debt; will be refactored in a later step.
+    # -----------------------------------------------------------------------
+
+    def _compute_sensitivities(
+        self,
+        trials: list[ClinicalTrial],
+        loe_profile: Optional[dict],
+        deal,
+    ) -> list[SensitivityPoint]:
         """Tornado analysis: vary one parameter at a time ±30% / ±1σ."""
         sensitivities = []
 
@@ -187,7 +268,7 @@ class ValuationEngine:
             a = asset or self.asset
             t = trials_ or trials
             m = market or self.market_model
-            return compute_rnpv(a, t, m).rnpv_millions
+            return compute_rnpv_full(a, t, m, loe_profile=loe_profile, deal=deal).rnpv_millions
 
         base = _rnpv()
 

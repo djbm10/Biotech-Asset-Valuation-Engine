@@ -1,34 +1,59 @@
 """
-Risk-adjusted Net Present Value (rNPV) model.
+RNPVModel — combines ProbabilityResult, RevenueStream, and CostStream into rNPV,
+optionally applying deal-layer economics (royalty stacking, receivable milestones,
+upfront receipts).
 
-Methodology
------------
-Walk forward through remaining clinical phases:
+This model only does:
+  - Discounting EBIT cash flows to present value (anchored to years_to_approval)
+  - Applying effective ownership (asset.net_ownership stacked with deal.royalty_rate)
+  - Multiplying PV(revenue) by P(approval)
+  - Subtracting probability-weighted PV(costs) [already computed by CostModel]
+  - Adding PV(receivable milestones) and upfront receipts
 
-  For each phase i:
-    - P(reaching phase i) = ∏ success_prob[j] for j < i
-    - PV(cost_i) = cost_i / (1+r)^(midpoint of phase i)
-    - Probability-weighted cost = PV(cost_i) × P(reaching phase i)
+It does not recompute POS, timelines, launch timing, or revenue details.
 
-  After all phases:
-    - P(approval) = ∏ success_prob[all phases]
-    - Project EBIT from year 1 to patent_life post-launch
-    - PV(revenue_yr) = EBIT_yr / (1+r)^(years_to_launch + yr)
-    - rNPV = P(approval) × Σ PV(EBIT) - Σ probability-weighted PV(cost)
+Deal economics boundary
+-----------------------
+RevenueModel is NEVER given DealEconomics.  Revenue is gross commercial revenue.
+The ownership reduction (royalty) happens here, after revenue is modelled.
 
-  Ownership adjustment: all revenue terms scaled by asset.net_ownership
+Royalty stacking:
+  effective_net_ownership = asset.net_ownership × (1 − deal.royalty_rate)
+  Setting deal.royalty_rate = 0.0 (default) leaves asset.net_ownership unchanged.
+
+Entry-point hierarchy
+---------------------
+compute_rnpv_full(asset, trials, market, *, loe_profile, deal)
+  Full economic stack: LOE erosion + deal economics.
+  Used by ValuationEngine.run(), Monte Carlo, scenarios, sensitivity analysis.
+
+compute_rnpv(asset, trials, market)
+  Thin backward-compatible wrapper — no LOE, no deal economics.
+  Kept so any external callers outside the engine continue to work unchanged.
 """
 from __future__ import annotations
 
+from typing import TYPE_CHECKING, Optional
+
 from pydantic import BaseModel, Field
 
-from bve.config.constants import PHASE_ORDER
 from bve.entities.asset import Asset
 from bve.entities.trial import ClinicalTrial
+from bve.models.cost_model import CostModel, CostStream
 from bve.models.market_model import MarketModel
+from bve.models.probability_model import ProbabilityModel, ProbabilityResult
+from bve.models.revenue_model import RevenueModel, RevenueStream
 
+if TYPE_CHECKING:
+    from bve.models.deal_economics import DealEconomics
+
+
+# ---------------------------------------------------------------------------
+# Result objects (PhaseBreakdown kept for backward compatibility)
+# ---------------------------------------------------------------------------
 
 class PhaseBreakdown(BaseModel):
+    """Per-phase detail — kept for backward compat with outputs.py and reporting."""
     phase: str
     prob_reaching: float
     pv_cost_gross: float
@@ -49,15 +74,24 @@ class RNPVResult(BaseModel):
     probability_adjusted_revenue_pv_millions: float
     trial_costs_pv_millions: float = Field(description="Sum of probability-weighted PV(costs)")
 
+    # Deal economics decomposition (zero when no deal terms)
+    deal_milestone_receipts_pv_millions: float = 0.0  # PV of receivable milestones
+    upfront_receipt_millions: float = 0.0             # Upfront receipt at t=0
+
     # Key metrics
     cumulative_success_probability: float
     years_to_launch: float
     peak_sales_millions: float
     discount_rate: float
-    net_ownership: float
+    net_ownership: float   # effective ownership after asset royalty × deal royalty stacking
 
-    # Per-phase detail
+    # Per-phase detail (backward compat)
     phase_breakdown: list[PhaseBreakdown] = Field(default_factory=list)
+
+    # Step 2: structured sub-objects for intermediate inspectability
+    probability_result: Optional[ProbabilityResult] = None
+    revenue_stream: Optional[RevenueStream] = None
+    cost_stream: Optional[CostStream] = None
 
     # NAV convenience (set externally by valuation engine)
     nav_millions: float = 0.0
@@ -67,6 +101,157 @@ class RNPVResult(BaseModel):
     def probability_approval_pct(self) -> str:
         return f"{self.cumulative_success_probability:.1%}"
 
+    @property
+    def pv_revenue_millions(self) -> float:
+        """Probability-adjusted PV of revenue — named consistently for downstream use."""
+        return self.probability_adjusted_revenue_pv_millions
+
+    @property
+    def pv_costs_millions(self) -> float:
+        """Probability-weighted PV of trial costs — named consistently for downstream use."""
+        return self.trial_costs_pv_millions
+
+
+# ---------------------------------------------------------------------------
+# RNPVModel — discounting only
+# ---------------------------------------------------------------------------
+
+class RNPVModel:
+    """
+    Stateless engine that combines the three upstream results into rNPV.
+
+    Inputs:
+      asset : provides discount_rate and base net_ownership
+      prob  : provides cumulative_approval_probability and years_to_approval
+      rev   : provides ebit_by_year (undiscounted, 1-indexed from launch)
+      cost  : provides total_pv_weighted_millions (already probability-weighted,
+              includes trial R&D + milestone payables + upfront cost if deal set)
+      deal  : optional DealEconomics for royalty stacking and receivable milestones
+
+    The EBIT cash flow for year yr (1-indexed from launch) is discounted at
+    (years_to_approval + yr), then multiplied by effective_net_ownership.
+
+    rNPV = P(approval) × PV(EBIT × ownership) − PV(costs) + PV(receivable milestones) + upfront receipts
+    """
+
+    @staticmethod
+    def compute(
+        asset: Asset,
+        prob: ProbabilityResult,
+        rev: RevenueStream,
+        cost: CostStream,
+        deal: Optional["DealEconomics"] = None,
+    ) -> RNPVResult:
+        from bve.models.deal_economics import DealEconomics, milestone_pv
+
+        deal = deal or DealEconomics()
+        r = asset.discount_rate
+
+        # Effective ownership: asset royalty × deal royalty stacked multiplicatively
+        effective_ownership = asset.net_ownership * (1.0 - deal.royalty_rate)
+
+        years_to_launch = prob.years_to_approval
+        cum_prob = prob.cumulative_approval_probability
+
+        # Discount EBIT revenue cash flows anchored to years_to_launch
+        gross_revenue_pv: float = 0.0
+        for i, ebit in enumerate(rev.ebit_by_year):
+            yr = i + 1                          # 1-indexed year from launch
+            abs_year = years_to_launch + yr
+            gross_revenue_pv += (ebit * effective_ownership) / (1.0 + r) ** abs_year
+
+        probability_adjusted_revenue_pv = gross_revenue_pv * cum_prob
+        trial_costs_pv = cost.total_pv_weighted_millions
+
+        # Deal receipts: receivable milestones + upfront
+        milestone_receipts_pv = sum(
+            milestone_pv(m, prob, r, launch_year_offset=deal.launch_year_offset)
+            for m in deal.receivable_milestones
+        )
+        upfront_receipt = deal.upfront_receipt_millions
+
+        rnpv = (
+            probability_adjusted_revenue_pv
+            - trial_costs_pv
+            + milestone_receipts_pv
+            + upfront_receipt
+        )
+
+        # Reconstruct PhaseBreakdown for backward compatibility
+        phase_lookup = {p.phase: p for p in prob.phases}
+        phase_breakdown = [
+            PhaseBreakdown(
+                phase=pc.phase,
+                prob_reaching=pc.prob_reaching,
+                pv_cost_gross=pc.pv_cost_gross,
+                pv_cost_weighted=pc.pv_cost_weighted,
+                duration_years=round(
+                    phase_lookup[pc.phase].year_end - phase_lookup[pc.phase].year_start, 4
+                ),
+                success_probability=phase_lookup[pc.phase].success_probability,
+            )
+            for pc in cost.phase_costs
+        ]
+
+        return RNPVResult(
+            asset_id=asset.id,
+            asset_name=asset.name,
+            rnpv_millions=round(rnpv, 2),
+            gross_revenue_pv_millions=round(gross_revenue_pv, 2),
+            probability_adjusted_revenue_pv_millions=round(probability_adjusted_revenue_pv, 2),
+            trial_costs_pv_millions=round(trial_costs_pv, 2),
+            deal_milestone_receipts_pv_millions=round(milestone_receipts_pv, 2),
+            upfront_receipt_millions=upfront_receipt,
+            cumulative_success_probability=cum_prob,
+            years_to_launch=years_to_launch,
+            peak_sales_millions=round(rev.peak_sales_millions, 2),
+            discount_rate=r,
+            net_ownership=round(effective_ownership, 6),
+            phase_breakdown=phase_breakdown,
+            probability_result=prob,
+            revenue_stream=rev,
+            cost_stream=cost,
+        )
+
+
+# ---------------------------------------------------------------------------
+# Unified entry point (Step 6)
+# ---------------------------------------------------------------------------
+
+def compute_rnpv_full(
+    asset: Asset,
+    trials: list[ClinicalTrial],
+    market_model: MarketModel,
+    *,
+    loe_profile: Optional[dict] = None,
+    deal: Optional["DealEconomics"] = None,
+) -> RNPVResult:
+    """
+    Full economic stack: LOE erosion + deal economics.
+
+    This is the single entry point used by ValuationEngine.run(), Monte Carlo,
+    scenario analysis, and sensitivity analysis.  All four paths run the same
+    economic assumptions, ensuring MC and scenarios are consistent with the
+    deterministic base case.
+
+    Parameters
+    ----------
+    loe_profile : dict or None
+        LOE erosion profile forwarded to RevenueModel.compute().
+        None → no post-patent tail (same as pre-Step-3 behaviour).
+    deal : DealEconomics or None
+        Deal terms forwarded to CostModel and RNPVModel.
+        None → no deal terms (same as pre-Step-5 behaviour).
+    """
+    prob = ProbabilityModel.compute(asset, trials)
+    rev = RevenueModel.compute(market_model, loe_profile=loe_profile)
+    cost = CostModel.compute(prob, asset.discount_rate, deal=deal)
+    return RNPVModel.compute(asset, prob, rev, cost, deal=deal)
+
+
+# ---------------------------------------------------------------------------
+# Backward-compatible wrapper
+# ---------------------------------------------------------------------------
 
 def compute_rnpv(
     asset: Asset,
@@ -74,73 +259,10 @@ def compute_rnpv(
     market_model: MarketModel,
 ) -> RNPVResult:
     """
-    Compute rNPV for a single asset given remaining trials and market assumptions.
+    Thin backward-compatible wrapper — no LOE, no deal economics.
 
-    Parameters
-    ----------
-    asset:         Asset entity (provides discount_rate, net_ownership)
-    trials:        All remaining ClinicalTrial objects for this asset (any order)
-    market_model:  Commercial assumptions (revenue curve, patent life)
-
-    Returns
-    -------
-    RNPVResult with full breakdown
+    Kept so external callers outside the valuation engine continue to work
+    unchanged.  Internal engine paths (MC, scenarios, sensitivity) now call
+    compute_rnpv_full() directly.
     """
-    r = asset.discount_rate
-    ownership = asset.net_ownership
-
-    # Filter + sort by phase order
-    asset_trials = [t for t in trials if t.asset_id == asset.id]
-    sorted_trials = sorted(asset_trials, key=lambda t: PHASE_ORDER[t.phase.value])
-
-    # --- Walk through clinical phases ---
-    current_year: float = 0.0
-    cum_prob: float = 1.0          # probability of currently being at this stage
-    trial_costs_pv: float = 0.0
-    breakdown: list[PhaseBreakdown] = []
-
-    for trial in sorted_trials:
-        mid_year = current_year + trial.duration_years / 2.0
-        pv_cost_gross = trial.cost_millions / (1.0 + r) ** mid_year
-        pv_cost_weighted = pv_cost_gross * cum_prob
-
-        trial_costs_pv += pv_cost_weighted
-        breakdown.append(PhaseBreakdown(
-            phase=trial.phase.value,
-            prob_reaching=round(cum_prob, 4),
-            pv_cost_gross=round(pv_cost_gross, 2),
-            pv_cost_weighted=round(pv_cost_weighted, 2),
-            duration_years=trial.duration_years,
-            success_probability=trial.success_probability,
-        ))
-
-        current_year += trial.duration_years
-        cum_prob *= trial.success_probability
-
-    years_to_launch = current_year
-
-    # --- Project commercial cash flows ---
-    gross_revenue_pv: float = 0.0
-    for yr in range(1, market_model.patent_life_years + 1):
-        ebit = market_model.ebit_in_year(yr) * ownership
-        abs_year = years_to_launch + yr
-        gross_revenue_pv += ebit / (1.0 + r) ** abs_year
-
-    probability_adjusted_revenue_pv = gross_revenue_pv * cum_prob
-
-    rnpv = probability_adjusted_revenue_pv - trial_costs_pv
-
-    return RNPVResult(
-        asset_id=asset.id,
-        asset_name=asset.name,
-        rnpv_millions=round(rnpv, 2),
-        gross_revenue_pv_millions=round(gross_revenue_pv, 2),
-        probability_adjusted_revenue_pv_millions=round(probability_adjusted_revenue_pv, 2),
-        trial_costs_pv_millions=round(trial_costs_pv, 2),
-        cumulative_success_probability=round(cum_prob, 6),
-        years_to_launch=round(years_to_launch, 1),
-        peak_sales_millions=round(market_model.peak_sales_millions, 2),
-        discount_rate=r,
-        net_ownership=ownership,
-        phase_breakdown=breakdown,
-    )
+    return compute_rnpv_full(asset, trials, market_model)
