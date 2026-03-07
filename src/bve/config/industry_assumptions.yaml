@@ -161,6 +161,13 @@ commercial:
     rate_mature: 0.20   # Year 5+ steady-state: reduced promotion, established access
     ramp_years:  5      # Linear ramp from launch to mature rate over this many years
 
+  defaults:
+    # Fallback values used when an asset config does not specify the field.
+    # Callers receive a warning when these are applied (see AssumptionsLoader).
+    discount_rate: 0.10     # = wacc.default; duplicated here for explicit CLI fallback
+    peak_penetration: 0.10  # Conservative placeholder; asset configs should always override
+    cogs_rate: 0.18         # = cogs_rate_by_modality["other"]; used when modality unknown
+
 
 # ==============================================================================
 # Discount rates / WACC
@@ -189,8 +196,10 @@ monte_carlo:
     phase_3: 20
     nda_bla: 40
 
-  peak_sales_cv:   0.35   # Log-normal CV for peak sales uncertainty (±35%)
-  discount_rate_std: 0.02  # Normal std dev on WACC in MC (±2pp)
+  peak_sales_cv:     0.35   # Log-normal CV for peak sales uncertainty (±35%)
+  discount_rate_std: 0.02   # Normal std dev on WACC in MC (±2pp)
+  years_to_peak_std: 1.5    # Normal std dev on years-to-peak in MC (±1.5 years)
+  patent_life_std:   1.0    # Normal std dev on patent life in MC (±1 year)
 
 
 # ==============================================================================
@@ -204,6 +213,12 @@ monte_carlo:
 # Used by RevenueModel to replace the current hard patent-life stop.
 # Add 3 tail years beyond patent_life_years at declining revenue.
 #
+# post_loe_sgna_fraction: fraction of branded mature SG&A rate that remains
+# post-LOE. At LOE, marketing spend collapses quickly while COGS remains.
+# This typically results in HIGHER EBIT margins post-LOE than pre-LOE despite
+# sharply lower revenues.
+#
+# Rule of thumb: post-LOE SG&A ≈ 20–30% of branded mature rate.
 # Sources:
 #   Small molecule: IQVIA LOE Impact analysis; standard BD modeling practice.
 #     Generic entry typically captures 80%+ of volume within 2-3 years.
@@ -211,6 +226,7 @@ monte_carlo:
 #     Branded biologics retain 30-40% of value 3 years post-biosimilar entry.
 #   Gene/cell therapy: No meaningful LOE risk from generics (one-time dosing,
 #     complex manufacturing). Price erosion possible but volume is stable.
+#   SG&A collapse: industry rule-of-thumb; Evaluate Pharma branded residual.
 
 loe_erosion_profiles:
 
@@ -219,24 +235,28 @@ loe_erosion_profiles:
     year_2_loss: 0.65    # Year 2: further erosion
     year_3_loss: 0.80    # Year 3: deep generic competition
     terminal_loss: 0.85  # Year 4+: branded floor (~15% of peak retained)
+    post_loe_sgna_fraction: 0.25  # 25% of mature branded SG&A remains post-LOE
 
   biologic:
     year_1_loss: 0.20    # Biosimilar entry is slower; branded retains ~80% year 1
     year_2_loss: 0.40
     year_3_loss: 0.60
     terminal_loss: 0.70  # Year 4+: branded retains ~30% of peak
+    post_loe_sgna_fraction: 0.30  # KOL/advocacy maintenance continues longer
 
   gene_therapy:
     year_1_loss: 0.05    # Single-administration; limited generic/biosimilar risk
     year_2_loss: 0.10
     year_3_loss: 0.15
     terminal_loss: 0.20
+    post_loe_sgna_fraction: 0.10  # Minimal; no ongoing patient recruitment needed
 
   cell_therapy:
     year_1_loss: 0.05
     year_2_loss: 0.10
     year_3_loss: 0.15
     terminal_loss: 0.20
+    post_loe_sgna_fraction: 0.10
 
   adc:
     # Treat like biologic: complex manufacturing limits generic entry speed
@@ -244,18 +264,21 @@ loe_erosion_profiles:
     year_2_loss: 0.50
     year_3_loss: 0.65
     terminal_loss: 0.75
+    post_loe_sgna_fraction: 0.25
 
   rna_therapy:
     year_1_loss: 0.15
     year_2_loss: 0.35
     year_3_loss: 0.55
     terminal_loss: 0.65
+    post_loe_sgna_fraction: 0.25
 
   other:
     year_1_loss: 0.40
     year_2_loss: 0.65
     year_3_loss: 0.80
     terminal_loss: 0.85
+    post_loe_sgna_fraction: 0.25
 
 
 # ==============================================================================

@@ -11,6 +11,18 @@ Singleton with lazy initialization. Constants that previously lived in
 constants.py now delegate here. All existing import paths continue to work
 because constants.py re-exports the same names sourced from this loader.
 
+Immutability
+------------
+All data returned by properties is frozen: dicts are wrapped in
+MappingProxyType, lists converted to tuples. Mutations raise TypeError.
+This prevents models from accidentally modifying shared assumption state.
+
+Fallback warnings
+-----------------
+Accessors that fall back to a default (e.g. unknown therapeutic area → "other")
+emit a UserWarning so the caller is aware the default was applied. This makes
+assumption application visible rather than silent.
+
 Usage
 -----
 Typical code should import familiar names from constants.py unchanged:
@@ -21,25 +33,20 @@ For programmatic access to the full assumptions object:
 
     from bve.config.assumptions_loader import AssumptionsLoader
     a = AssumptionsLoader.get()
-    rates = a.phase_success_rates("oncology")
+    rates = a.phase_success_rates_for("oncology")
+    print(a.provenance())
 
 For overriding in tests (alternate YAML file):
 
     AssumptionsLoader.reset(path=Path("tests/fixtures/test_assumptions.yaml"))
-
-Validation
-----------
-load() validates:
-  - Required top-level sections are present
-  - phase_success_rates: all 4 phases present per TA, values in (0, 1)
-  - loe_erosion_profiles: loss fractions in [0, 1)
-  - trial_design caps: positive cap > 0, negative cap < 0
-  - phase_scaling: all values in (0, 1]
 """
 from __future__ import annotations
 
+import warnings
+from datetime import datetime
 from pathlib import Path
-from typing import Optional
+from types import MappingProxyType
+from typing import Any, Optional, Union
 
 import yaml
 
@@ -65,20 +72,40 @@ class AssumptionsValidationError(ValueError):
     """Raised when industry_assumptions.yaml fails schema validation."""
 
 
+# ---------------------------------------------------------------------------
+# Freeze utility — deep immutability
+# ---------------------------------------------------------------------------
+
+def _freeze(obj: Any) -> Any:
+    """
+    Recursively convert dicts to MappingProxyType and lists to tuples.
+
+    This makes all data returned by AssumptionsLoader properties effectively
+    read-only at runtime. Attempts to mutate them raise TypeError.
+    """
+    if isinstance(obj, dict):
+        return MappingProxyType({k: _freeze(v) for k, v in obj.items()})
+    if isinstance(obj, list):
+        return tuple(_freeze(v) for v in obj)
+    return obj
+
+
 class AssumptionsLoader:
     """
     Loads, validates, and caches industry_assumptions.yaml.
 
-    All properties return the underlying data structures directly (not copies),
-    which is safe because they are treated as read-only by all consumers.
+    All properties return frozen data (MappingProxyType / tuple). Mutations
+    raise TypeError, preventing accidental modification of shared state.
     """
 
     _instance: Optional["AssumptionsLoader"] = None
 
     def __init__(self, path: Path = _DEFAULT_PATH) -> None:
         with open(path) as f:
-            self._data: dict = yaml.safe_load(f)
+            raw: dict = yaml.safe_load(f)
+        self._data: MappingProxyType = _freeze(raw)
         self._path = path
+        self._loaded_at = datetime.utcnow().isoformat(timespec="seconds") + "Z"
         self._validate()
 
     # ------------------------------------------------------------------
@@ -104,6 +131,33 @@ class AssumptionsLoader:
         return cls._instance
 
     # ------------------------------------------------------------------
+    # Provenance
+    # ------------------------------------------------------------------
+
+    def provenance(self) -> dict[str, Any]:
+        """
+        Return a plain dict describing this assumptions set.
+
+        Intended for inclusion in ValuationOutput and model result objects
+        so that every output is traceable to an explicit assumption version.
+
+        Example output::
+
+            {
+                "version": "2026-Q1",
+                "path": "/path/to/industry_assumptions.yaml",
+                "loaded_at": "2026-03-06T12:00:00Z",
+                "sources": ["Biomedtracker/IQVIA ...", ...]
+            }
+        """
+        return {
+            "version": self.version,
+            "path": str(self._path),
+            "loaded_at": self._loaded_at,
+            "sources": list(self.sources),
+        }
+
+    # ------------------------------------------------------------------
     # Validation
     # ------------------------------------------------------------------
 
@@ -119,8 +173,7 @@ class AssumptionsLoader:
             self._raise(errors)
 
         # phase_success_rates: each TA has all 4 phases, values in (0, 1)
-        psr = self._data.get("phase_success_rates", {})
-        for ta, phases in psr.items():
+        for ta, phases in self._data["phase_success_rates"].items():
             for ph in _REQUIRED_PHASES:
                 if ph not in phases:
                     errors.append(f"phase_success_rates.{ta} missing phase '{ph}'")
@@ -132,7 +185,7 @@ class AssumptionsLoader:
                         )
 
         # loe_erosion_profiles: loss fractions in [0, 1)
-        for profile, vals in self._data.get("loe_erosion_profiles", {}).items():
+        for profile, vals in self._data["loe_erosion_profiles"].items():
             for key in ("year_1_loss", "year_2_loss", "year_3_loss", "terminal_loss"):
                 if key not in vals:
                     errors.append(f"loe_erosion_profiles.{profile} missing '{key}'")
@@ -142,9 +195,18 @@ class AssumptionsLoader:
                         errors.append(
                             f"loe_erosion_profiles.{profile}.{key} = {v} must be in [0, 1)"
                         )
+            # post_loe_sgna_fraction is optional (defaults to 0.30 in RevenueModel)
+            # but if present it must be in [0, 1]
+            if "post_loe_sgna_fraction" in vals:
+                v = vals["post_loe_sgna_fraction"]
+                if not (0.0 <= v <= 1.0):
+                    errors.append(
+                        f"loe_erosion_profiles.{profile}.post_loe_sgna_fraction = {v} "
+                        f"must be in [0, 1]"
+                    )
 
         # trial_design caps
-        td = self._data.get("trial_design", {})
+        td = self._data["trial_design"]
         cap_pos = td.get("cap_logodds_positive")
         cap_neg = td.get("cap_logodds_negative")
         if cap_pos is not None and cap_pos <= 0:
@@ -175,23 +237,34 @@ class AssumptionsLoader:
     # ------------------------------------------------------------------
 
     @property
-    def phase_success_rates(self) -> dict[str, dict[str, float]]:
-        """Full table: {therapeutic_area: {phase: probability}}."""
+    def phase_success_rates(self) -> MappingProxyType:
+        """Full table: {therapeutic_area: {phase: probability}}. Read-only."""
         return self._data["phase_success_rates"]
 
-    def phase_success_rates_for(self, therapeutic_area: str) -> dict[str, float]:
+    def phase_success_rates_for(self, therapeutic_area: str) -> MappingProxyType:
         """
         Phase success rates for a specific therapeutic area.
-        Falls back to "other" if the TA is not in the table.
+
+        Falls back to "other" with a UserWarning if the TA is not in the table.
         """
         psr = self._data["phase_success_rates"]
-        return psr.get(therapeutic_area, psr["other"])
+        if therapeutic_area in psr:
+            return psr[therapeutic_area]
+        warnings.warn(
+            f"Therapeutic area {therapeutic_area!r} not found in industry_assumptions.yaml "
+            f"phase_success_rates. Falling back to 'other'. "
+            f"(assumptions version: {self.version})",
+            UserWarning,
+            stacklevel=2,
+        )
+        return psr["other"]
 
     @property
     def prob_approval_from_phase(self) -> dict[str, dict[str, float]]:
         """
         Cumulative P(approval) from the start of each phase.
         Derived from phase_success_rates; not stored separately in YAML.
+        Returns a plain dict (not frozen) since it is computed on demand.
         """
         result: dict[str, dict[str, float]] = {}
         for ta, rates in self.phase_success_rates.items():
@@ -212,11 +285,11 @@ class AssumptionsLoader:
     # ------------------------------------------------------------------
 
     @property
-    def phase_durations_years(self) -> dict[str, float]:
+    def phase_durations_years(self) -> MappingProxyType:
         return self._data["phase_durations_years"]
 
     @property
-    def phase_costs_millions(self) -> dict[str, float]:
+    def phase_costs_millions(self) -> MappingProxyType:
         return self._data["phase_costs_millions"]
 
     # ------------------------------------------------------------------
@@ -224,33 +297,58 @@ class AssumptionsLoader:
     # ------------------------------------------------------------------
 
     @property
-    def gross_to_net_by_modality(self) -> dict[str, float]:
+    def gross_to_net_by_modality(self) -> MappingProxyType:
         return self._data["commercial"]["gross_to_net_by_modality"]
 
     def gross_to_net(self, modality: str) -> float:
-        """G2N rate for a modality; falls back to 'other'."""
+        """G2N rate for a modality. Warns and falls back to 'other' if not found."""
         table = self.gross_to_net_by_modality
-        return table.get(modality, table["other"])
+        if modality in table:
+            return float(table[modality])
+        warnings.warn(
+            f"Modality {modality!r} not found in gross_to_net_by_modality. "
+            f"Falling back to 'other'. (assumptions version: {self.version})",
+            UserWarning,
+            stacklevel=2,
+        )
+        return float(table["other"])
 
     @property
-    def cogs_rate_by_modality(self) -> dict[str, float]:
+    def cogs_rate_by_modality(self) -> MappingProxyType:
         return self._data["commercial"]["cogs_rate_by_modality"]
 
     def cogs_rate(self, modality: str) -> float:
+        """COGS rate for a modality. Warns and falls back to 'other' if not found."""
         table = self.cogs_rate_by_modality
-        return table.get(modality, table["other"])
+        if modality in table:
+            return float(table[modality])
+        warnings.warn(
+            f"Modality {modality!r} not found in cogs_rate_by_modality. "
+            f"Falling back to 'other'. (assumptions version: {self.version})",
+            UserWarning,
+            stacklevel=2,
+        )
+        return float(table["other"])
 
     @property
-    def sgna(self) -> dict[str, float]:
+    def sgna(self) -> MappingProxyType:
         """Keys: rate_launch, rate_mature, ramp_years."""
         return self._data["commercial"]["sgna"]
+
+    @property
+    def commercial_defaults(self) -> MappingProxyType:
+        """
+        Fallback defaults for CLI / config fields not explicitly set.
+        Keys: discount_rate, peak_penetration, cogs_rate.
+        """
+        return self._data["commercial"]["defaults"]
 
     # ------------------------------------------------------------------
     # Accessors — WACC
     # ------------------------------------------------------------------
 
     @property
-    def wacc(self) -> dict[str, float]:
+    def wacc(self) -> MappingProxyType:
         """Keys: default, small_cap, large_cap, risk_free."""
         return self._data["wacc"]
 
@@ -260,6 +358,7 @@ class AssumptionsLoader:
 
     @property
     def mc_phase_ess(self) -> dict[str, int]:
+        """Returns a plain dict (int values) for compatibility with Pydantic models."""
         return {k: int(v) for k, v in self._data["monte_carlo"]["phase_ess"].items()}
 
     @property
@@ -270,31 +369,48 @@ class AssumptionsLoader:
     def mc_discount_rate_std(self) -> float:
         return float(self._data["monte_carlo"]["discount_rate_std"])
 
+    @property
+    def mc_years_to_peak_std(self) -> float:
+        return float(self._data["monte_carlo"]["years_to_peak_std"])
+
+    @property
+    def mc_patent_life_std(self) -> float:
+        return float(self._data["monte_carlo"]["patent_life_std"])
+
     # ------------------------------------------------------------------
     # Accessors — LOE erosion profiles
     # ------------------------------------------------------------------
 
     @property
-    def loe_erosion_profiles(self) -> dict[str, dict[str, float]]:
-        """Full table: {modality: {year_1_loss, year_2_loss, ...}}."""
+    def loe_erosion_profiles(self) -> MappingProxyType:
+        """Full table: {modality: {year_1_loss, year_2_loss, ...}}. Read-only."""
         return self._data["loe_erosion_profiles"]
 
-    def loe_erosion_profile(self, modality: str) -> dict[str, float]:
+    def loe_erosion_profile(self, modality: str) -> MappingProxyType:
         """
         LOE erosion profile for a modality.
-        Falls back to 'other' (small_molecule-like) if not found.
+
+        Falls back to 'other' (small_molecule-like behavior) with a UserWarning
+        if the modality is not in the table.
         """
         profiles = self.loe_erosion_profiles
         if modality in profiles:
             return profiles[modality]
-        return profiles.get("other", profiles["small_molecule"])
+        fallback = "other" if "other" in profiles else "small_molecule"
+        warnings.warn(
+            f"Modality {modality!r} not found in loe_erosion_profiles. "
+            f"Falling back to {fallback!r}. (assumptions version: {self.version})",
+            UserWarning,
+            stacklevel=2,
+        )
+        return profiles[fallback]
 
     # ------------------------------------------------------------------
     # Accessors — Competition
     # ------------------------------------------------------------------
 
     @property
-    def competition(self) -> dict:
+    def competition(self) -> MappingProxyType:
         return self._data["competition"]
 
     # ------------------------------------------------------------------
@@ -302,7 +418,7 @@ class AssumptionsLoader:
     # ------------------------------------------------------------------
 
     @property
-    def trial_design_logodds(self) -> dict[str, dict[str, float]]:
+    def trial_design_logodds(self) -> MappingProxyType:
         return self._data["trial_design"]["logodds"]
 
     @property
@@ -314,7 +430,7 @@ class AssumptionsLoader:
         return float(self._data["trial_design"]["cap_logodds_negative"])
 
     @property
-    def trial_design_phase_scaling(self) -> dict[str, dict[str, float]]:
+    def trial_design_phase_scaling(self) -> MappingProxyType:
         return self._data["trial_design"]["phase_scaling"]
 
     # ------------------------------------------------------------------
@@ -326,5 +442,5 @@ class AssumptionsLoader:
         return str(self._data["meta"]["version"])
 
     @property
-    def sources(self) -> list[str]:
-        return list(self._data["meta"].get("sources", []))
+    def sources(self) -> tuple:
+        return self._data["meta"].get("sources", ())

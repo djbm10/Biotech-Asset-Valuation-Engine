@@ -319,3 +319,122 @@ class TestBackwardCompatConstants:
         assert 0 < MC_PEAK_SALES_CV < 1
         assert 0 < MC_DISCOUNT_RATE_STD < 0.20
         assert set(MC_PHASE_ESS.keys()) == {"phase_1", "phase_2", "phase_3", "nda_bla"}
+
+    def test_mc_years_to_peak_std_and_patent_life_std_exported(self):
+        from bve.config.constants import MC_YEARS_TO_PEAK_STD, MC_PATENT_LIFE_STD
+        assert MC_YEARS_TO_PEAK_STD > 0
+        assert MC_PATENT_LIFE_STD > 0
+
+
+# ---------------------------------------------------------------------------
+# Immutability
+# ---------------------------------------------------------------------------
+
+class TestImmutability:
+    def test_phase_success_rates_is_immutable(self):
+        a = AssumptionsLoader.get()
+        with pytest.raises(TypeError):
+            a.phase_success_rates["new_ta"] = {}  # type: ignore[index]
+
+    def test_nested_phase_rates_immutable(self):
+        a = AssumptionsLoader.get()
+        with pytest.raises(TypeError):
+            a.phase_success_rates["oncology"]["phase_1"] = 0.99  # type: ignore[index]
+
+    def test_loe_profiles_immutable(self):
+        a = AssumptionsLoader.get()
+        with pytest.raises(TypeError):
+            a.loe_erosion_profiles["small_molecule"]["year_1_loss"] = 0.99  # type: ignore[index]
+
+    def test_sgna_immutable(self):
+        a = AssumptionsLoader.get()
+        with pytest.raises(TypeError):
+            a.sgna["rate_launch"] = 0.99  # type: ignore[index]
+
+
+# ---------------------------------------------------------------------------
+# Fallback warnings
+# ---------------------------------------------------------------------------
+
+class TestFallbackWarnings:
+    def test_unknown_ta_emits_user_warning(self):
+        a = AssumptionsLoader.get()
+        with pytest.warns(UserWarning, match="not found in industry_assumptions"):
+            a.phase_success_rates_for("unknown_ta")
+
+    def test_unknown_modality_gross_to_net_warns(self):
+        a = AssumptionsLoader.get()
+        with pytest.warns(UserWarning, match="not found in gross_to_net"):
+            a.gross_to_net("unknown_modality")
+
+    def test_unknown_modality_cogs_rate_warns(self):
+        a = AssumptionsLoader.get()
+        with pytest.warns(UserWarning, match="not found in cogs_rate"):
+            a.cogs_rate("unknown_modality")
+
+    def test_unknown_modality_loe_profile_warns(self):
+        a = AssumptionsLoader.get()
+        with pytest.warns(UserWarning, match="not found in loe_erosion_profiles"):
+            a.loe_erosion_profile("unknown_modality")
+
+
+# ---------------------------------------------------------------------------
+# Provenance
+# ---------------------------------------------------------------------------
+
+class TestProvenance:
+    def test_provenance_has_required_keys(self):
+        a = AssumptionsLoader.get()
+        prov = a.provenance()
+        assert set(prov.keys()) >= {"version", "path", "loaded_at", "sources"}
+
+    def test_version_is_string(self):
+        a = AssumptionsLoader.get()
+        assert isinstance(a.provenance()["version"], str)
+
+    def test_loaded_at_ends_with_z(self):
+        a = AssumptionsLoader.get()
+        assert a.provenance()["loaded_at"].endswith("Z")
+
+    def test_sources_is_list(self):
+        a = AssumptionsLoader.get()
+        assert isinstance(a.provenance()["sources"], list)
+        assert len(a.provenance()["sources"]) > 0
+
+    def test_path_points_to_yaml(self):
+        a = AssumptionsLoader.get()
+        assert a.provenance()["path"].endswith(".yaml")
+
+
+# ---------------------------------------------------------------------------
+# commercial_defaults accessor
+# ---------------------------------------------------------------------------
+
+class TestCommercialDefaultsAccessor:
+    def test_commercial_defaults_keys_present(self):
+        a = AssumptionsLoader.get()
+        defaults = a.commercial_defaults
+        for key in ("discount_rate", "peak_penetration", "cogs_rate"):
+            assert key in defaults, f"Missing key: {key}"
+
+    def test_discount_rate_is_positive(self):
+        a = AssumptionsLoader.get()
+        assert float(a.commercial_defaults["discount_rate"]) > 0
+
+    def test_peak_penetration_in_unit_interval(self):
+        a = AssumptionsLoader.get()
+        pp = float(a.commercial_defaults["peak_penetration"])
+        assert 0 < pp <= 1
+
+    def test_cogs_rate_in_unit_interval(self):
+        a = AssumptionsLoader.get()
+        cr = float(a.commercial_defaults["cogs_rate"])
+        assert 0 < cr < 1
+
+    def test_cli_fallbacks_match_loader_defaults(self):
+        """run_asset.py fallback values must equal what AssumptionsLoader provides."""
+        a = AssumptionsLoader.get()
+        from bve.config.constants import MC_PEAK_SALES_CV, MC_DISCOUNT_RATE_STD, MC_YEARS_TO_PEAK_STD
+        assert MC_PEAK_SALES_CV == pytest.approx(a.mc_peak_sales_cv)
+        assert MC_DISCOUNT_RATE_STD == pytest.approx(a.mc_discount_rate_std)
+        assert MC_YEARS_TO_PEAK_STD == pytest.approx(a.mc_years_to_peak_std)
