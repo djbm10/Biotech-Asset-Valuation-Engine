@@ -204,19 +204,42 @@ def _build_objects(cfg: dict):
         ))
 
     m = cfg["market_model"]
-    from bve.models.market_model import LineOfTherapySegment
-    from bve.models.competition_model import CompetitionModel, CompetitorLaunch
+    from bve.models.market_model import LineOfTherapySegment, LifecycleEvent
+    from bve.models.competition_model import (
+        CompetitionModel, CompetitorLaunch, CrowdingModel, FirstMoverConfig, ClassSaturationProfile
+    )
     lot_cfgs = m.get("lines_of_therapy", [])
     lots = [LineOfTherapySegment(**seg) for seg in lot_cfgs] if lot_cfgs else []
-    comp_cfgs = cfg.get("competition", [])
-    competition = (
-        CompetitionModel(competitors=[CompetitorLaunch(**c) for c in comp_cfgs])
-        if comp_cfgs else None
-    )
+
+    # Support competition_model nested in market_model (new) or top-level competition list (legacy)
+    competition = None
+    comp_section = m.get("competition_model") or {}
+    comp_cfgs_nested = comp_section.get("competitors", [])
+    comp_cfgs_legacy = cfg.get("competition", [])
+    raw_comp_cfgs = comp_cfgs_nested or comp_cfgs_legacy
+    if raw_comp_cfgs:
+        competitors = [CompetitorLaunch(**c) for c in raw_comp_cfgs]
+        cm_kwargs: dict = {"competitors": competitors}
+        crowding_cfg = comp_section.get("crowding_model")
+        if crowding_cfg:
+            cm_kwargs["crowding_model"] = CrowdingModel(**crowding_cfg)
+        fm_cfg = comp_section.get("first_mover_config")
+        if fm_cfg:
+            cm_kwargs["first_mover_config"] = FirstMoverConfig(**fm_cfg)
+        sat_cfg = comp_section.get("saturation_profile")
+        if sat_cfg:
+            cm_kwargs["saturation_profile"] = ClassSaturationProfile(**sat_cfg)
+        competition = CompetitionModel(**cm_kwargs)
+
+    # Lifecycle events nested in market_model
+    lc_cfgs = m.get("lifecycle_events", [])
+    lifecycle_events = [LifecycleEvent(**e) for e in lc_cfgs] if lc_cfgs else []
+
     market_model = MarketModel(
         asset_id=asset.id,
         lines_of_therapy=lots,
         competition_model=competition,
+        lifecycle_events=lifecycle_events,
         total_addressable_market_millions=m.get("total_addressable_market_millions"),
         addressable_patients_annual=m.get("addressable_patients_annual"),
         net_price_per_patient_usd=m.get("net_price_per_patient_usd"),

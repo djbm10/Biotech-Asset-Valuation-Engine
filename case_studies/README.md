@@ -1,5 +1,27 @@
 # Case Studies
 
+## Historical Calibration Pack
+
+Three historical biotech assets with known commercial outcomes. Run the engine as of
+the analysis date (before approval), compare predictions to reality. Demonstrates
+realistic model behavior to sophisticated readers.
+
+| Asset | Analysis Date | Approval | Predicted Peak | Actual Peak | Key Lesson |
+|---|---|---|---|---|---|
+| Ivacaftor (IVAC) | Jan 2010 | Jan 2012 | ~$248M | ~$469M | Label expansion gap |
+| Ruxolitinib (RUXO) | Jan 2010 | Nov 2011 | ~$810M | $901M+ | Multi-indication value |
+| Pembrolizumab (KEYTRUDA) | Jan 2014 | Sep 2014 | ~$250M | $25B+ | Platform asset underestimation |
+
+```bash
+bve-calibrate case_studies/ivacaftor_vertex/IVAC
+bve-calibrate case_studies/ruxolitinib_incyte/RUXO
+bve-calibrate case_studies/pembrolizumab_merck/KEYTRUDA
+```
+
+---
+
+## Active Analyses
+
 Three real public companies analyzed through different institutional lenses.
 Each case study produces a full memo, 5 charts, and a machine-readable valuation JSON.
 
@@ -174,6 +196,22 @@ bve-asset --config examples/configs/prax_ulixacaltamide.yaml --all-memos --chart
 | MC P50 | $38M | $132M | $399M |
 | Key risk | Phase 3 bar vs. inavolisib | Payer pricing resistance | CNS placebo response |
 | Market mispricing | POS gap: +15pp | EV gap: model >> market | Untreated market undersized |
+
+## Historical Backtests
+
+Four additional configs demonstrate model accuracy against known outcomes.
+Run any with `bve-asset --config examples/configs/<file>.yaml --memo hf --charts`.
+
+| | BGNE / zanubrutinib | REGN / dupilumab | BIIB / lecanemab | GERN / imetelstat |
+|-|---------------------|-----------------|-----------------|------------------|
+| Config | `bgne_zanubrutinib.yaml` | `regn_dupilumab.yaml` | `biib_lecanemab.yaml` | `gern_imetelstat.yaml` |
+| Analysis date | Nov 2018 (BLA) | Jun 2016 (BLA) | Jul 2022 (Ph3 pending) | Jan 2023 (NDA) |
+| TA | Oncology (hematology) | Immunology | CNS | Oncology (hematology) |
+| Indication | R/R MCL | Moderate-severe AD | Early Alzheimer's | Low-risk MDS (ESA-ref.) |
+| Modality | Small molecule | Biologic | Biologic | RNA therapy |
+| Stage at analysis | NDA/BLA | NDA/BLA | NDA/BLA | NDA/BLA |
+| Key feature | BTK first-mover + crowding | Lifecycle events (atopic march) | CMS/surrogate endpoint risk | Orphan pricing; tiny population |
+| Actual approval | Nov 2019 | Mar 2017 | Jan 2023 (acc.) / Jul 2023 (full) | Jun 2024 |
 
 ---
 

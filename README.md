@@ -94,6 +94,15 @@ All inputs are source-cited; all outputs are reproducible with `--seed 42`.
 | [EyePoint Pharmaceuticals (EYPT)](case_studies/eypt_eyp1901/) | EYP-1901 | Wet AMD (nAMD) | HF mispricing | $235M | 71.9% |
 | [Praxis Precision Medicine (PRAX)](case_studies/prax_ulixacaltamide/) | ulixacaltamide | Essential tremor | VC platform | $545M | 44.8% |
 
+**Historical backtests** (model vs. known outcome):
+
+| Company | Asset | Indication | Analysis Date | Key Feature |
+|---------|-------|------------|---------------|-------------|
+| BeiGene (BGNE) | zanubrutinib (BRUKINSA) | R/R MCL | Nov 2018 (BLA) | BTK first-mover dynamics + crowding |
+| Regeneron (REGN) | dupilumab (DUPIXENT) | Moderate-severe AD | Jun 2016 (BLA) | Lifecycle events — atopic march franchise |
+| Biogen/Eisai (BIIB) | lecanemab (LEQEMBI) | Early Alzheimer's | Jul 2022 (Ph3) | Surrogate endpoint risk + CMS coverage |
+| Geron (GERN) | imetelstat (RYTELO) | Low-risk MDS (ESA-ref.) | Jan 2023 (NDA) | Orphan economics; tiny population |
+
 See [`case_studies/README.md`](case_studies/README.md) for full methodology, outputs, and reproduce commands.
 
 ---

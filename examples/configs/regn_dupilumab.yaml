@@ -1,0 +1,201 @@
+# Historical Backtest: Regeneron / Dupilumab (DUPIXENT)
+# ======================================================
+# Analysis date: ~June 2016 (BLA filing for atopic dermatitis)
+# SOLO-1 and SOLO-2 Phase 3 data complete; LIBERTY AD program readouts available
+#
+# PURPOSE: Run our model as of June 2016 (BLA submission for moderate-to-severe AD)
+#   Predicted:
+#     P(approval) in AD: model estimate (~82%)
+#     Peak AD net sales with lifecycle expansion: model estimate
+#     rNPV and NAV/share as of June 2016
+#   Actual:
+#     FDA approved dupilumab for moderate-to-severe AD: March 28, 2017
+#     2017 US net product sales: $98M (partial year; first biologic approved for AD)
+#     2018 US net product sales: $785M
+#     2020 US net product sales: $2.84B (asthma + CRSwNP added)
+#     2022 global net product sales: $8.0B (EoE + BP + prurigo nodularis added)
+#     2023 global net product sales: $11.6B
+#     REGN shares June 2016: ~$400 (pre-DUPIXENT approval)
+#
+# What the model does/doesn't capture:
+#   CAPTURES: AD-primary approval economics + label expansion lifecycle events (asthma,
+#   CRSwNP, EoE); IL-4Rα biologic pricing; competitive dynamics (IL-13 entrants)
+#   DOES NOT CAPTURE: Prurigo nodularis, alopecia areata, COPD (later labels);
+#   full OUS markets; pediatric expansions (under-12, under-6)
+#
+# Data sources:
+#   - Moderate-to-severe AD US prevalence: ~7.9M adults (Hanifin & Reed 2007); ~30% severe
+#   - Addressable (willing/able to treat with biologic): ~2M (commercial + Medicare coverage)
+#   - REGN 10-K 2016: combined REGN+SANO cash ~$2.0B; REGN shares ~135M
+#   - DUPIXENT WAC at launch: $37,000/yr; net price $27,000-$30,000/yr (managed care rebates)
+#   - Source: IQVIA; Regeneron earnings transcripts 2017-2019
+
+asset:
+  id: "dupilumab-ad"
+  name: "dupilumab (DUPIXENT)"
+  indication: "Moderate-to-Severe Atopic Dermatitis (Adults), US — with lifecycle expansion"
+  therapeutic_area: "immunology"
+  stage: "nda_bla"
+  modality: "biologic"
+  mechanism_of_action: "IL-4Rα monoclonal antibody — blocks IL-4 and IL-13 signaling (Th2 pathway)"
+  discount_rate: 0.10
+  royalty_rate: 0.0
+  net_ownership: 0.50          # Regeneron retains 50% economics; Sanofi co-develops and co-commercializes
+  upcoming_catalysts:
+    - description: "PDUFA date — FDA approval decision for moderate-to-severe AD"
+      expected_date: "2017-Q1"
+      catalyst_type: "regulatory"
+    - description: "LIBERTY Asthma QUEST Phase 3 readout"
+      expected_date: "2018-Q1"
+      catalyst_type: "readout"
+    - description: "FDA approval for asthma (add-on maintenance)"
+      expected_date: "2018-Q4"
+      catalyst_type: "regulatory"
+    - description: "Phase 3 CRSwNP readout (LIBERTY NP1 / NP2)"
+      expected_date: "2019-Q2"
+      catalyst_type: "readout"
+  differentiation_notes: >
+    First biologic targeting IL-4Rα: blocks both IL-4 and IL-13 with a single antibody.
+    Cyclosporine (non-specific immunosuppressant) and phototherapy are the only systemic options
+    at BLA filing; no approved biologic for AD exists. SOLO-1 and SOLO-2 show IGA 0/1 in
+    38%/36% (vs 10%/8% placebo). Broad Th2 blockade positions dupilumab across atopic march
+    diseases: AD → asthma → CRSwNP → EoE → prurigo nodularis.
+
+company:
+  id: "regn-2016"
+  name: "Regeneron Pharmaceuticals"
+  ticker: "REGN"
+  cash_millions: 2150.0       # REGN standalone cash + investments (mid-2016 10-Q)
+  debt_millions: 0.0
+  shares_outstanding_millions: 105.0   # ~105M diluted shares; ~$400/share June 2016
+  burn_rate_millions_per_quarter: 320.0  # ~$1.3B annualized combined R&D + G&A (REGN 50% share)
+  current_price: 400.0
+
+trials:
+  - phase: "nda_bla"
+    nct_id: "NCT02277743"
+    success_probability: 0.50   # placeholder — POS model overrides
+    duration_years: 0.75        # BLA submitted Jun 2016; PDUFA Mar 2017
+    cost_millions: 20.0
+    enrollment: null
+    primary_endpoint: "IGA 0 or 1 at Week 16; EASI-75 at Week 16 (SOLO-1 + SOLO-2)"
+    endpoint_type: "surrogate_validated"
+    notes: >
+      Priority review granted. SOLO-1 (N=671) and SOLO-2 (N=708) both met primary endpoints.
+      Strong safety profile: injection site reactions; no immunosuppressive signal.
+
+market_model:
+  # AD addressable population derivation:
+  #   US moderate-to-severe AD adult prevalence: 6-8M (National Eczema Association 2016)
+  #   Severe (would consider systemic biologic): ~30% = ~2M
+  #   Addressable (covered + willing to use biologic): 2M at peak
+  # Source: Hanifin & Reed Dermatology 2007; NEA annual survey 2015
+  addressable_patients_annual: 700000   # ~2M total pool; ~700K treated/yr at peak cycling
+  net_price_per_patient_usd: 28000      # WAC $37K; managed care/PBM rebates ~25% → net ~$28K
+  peak_penetration: 0.12                # First biologic; high unmet need but formulary hurdles
+  years_to_peak: 5                      # Biologic steptherapy requirements slow uptake in AD
+  patent_life_years: 11                 # Launch Mar 2017 through ~2028 (composition of matter IP)
+  compliance_rate: 0.78                 # EOW SC injection; real-world persistence ~75-80%
+  cogs_rate: 0.12                       # Biologic COGS; efficient CHO manufacturing
+  sgna_rate_launch: 0.55                # Heavy DTC + patient support programs; REGN/Sanofi dual commercial
+  sgna_rate_mature: 0.30
+
+  # Label expansion lifecycle events (not knowable at BLA filing but modeled for illustration)
+  # Asthma BLA filed 2017; CRSwNP BLA filed 2018; EoE approved 2022
+  lifecycle_events:
+    - event_type: "label_expansion"
+      trigger_year: 3        # Asthma approval ~3yr post-AD launch (2020); TAM expands materially
+      label: "Asthma add-on maintenance (≥12 yr, eosinophilic)"
+      tam_expansion_factor: 1.45  # Asthma addressable ~4-5M moderate-severe eosinophilic; adds ~45% to revenue run-rate
+
+    - event_type: "label_expansion"
+      trigger_year: 4        # CRSwNP approval ~4yr post-AD launch (2021)
+      label: "Chronic rhinosinusitis with nasal polyposis (CRSwNP)"
+      tam_expansion_factor: 1.15  # Smaller indication but high co-morbidity with asthma/AD pts
+
+    - event_type: "label_expansion"
+      trigger_year: 6        # EoE approval 2022 (~5-6yr post-launch)
+      label: "Eosinophilic esophagitis (EoE)"
+      penetration_boost: 0.03   # Small standalone EoE; primarily retention/compliance boost in Th2 pts
+
+  competition_model:
+    competitors:
+      - name: "tralokinumab (ADBRY — LEO Pharma)"
+        status: "phase_3"
+        launch_year_relative: 4   # FDA approved Jan 2021 for moderate-to-severe AD
+        peak_market_share: 0.08
+        years_to_peak: 4
+        approval_probability: 0.72
+        use_s_curve: true
+      - name: "lebrikizumab (EBGLYSS — Eli Lilly)"
+        status: "phase_3"
+        launch_year_relative: 6   # FDA approved Sep 2023
+        peak_market_share: 0.10
+        years_to_peak: 4
+        approval_probability: 0.68
+        use_s_curve: true
+      - name: "abrocitinib / upadacitinib (JAK inhibitors)"
+        status: "phase_3"
+        launch_year_relative: 4   # JAK inhibitors approved 2021-2022
+        peak_market_share: 0.12
+        years_to_peak: 3
+        approval_probability: 0.75
+        use_s_curve: false
+
+pos_adjusters:
+  apply_pos_model: true
+  nda_bla:
+    endpoint_type: "surrogate_validated"    # IGA 0/1 — FDA accepted in two replicated Phase 3s
+    moa_precedent: "validated"             # IL-4/IL-13 biology well-characterized; strong mechanistic data
+    sample_size_adequacy: "large"          # SOLO-1 + SOLO-2: N=1,379 total; well-powered
+    safety_profile: "clean"               # No serious immunosuppression; ISRs only; no black box
+    competitive_pressure: "low"           # No approved biologic in AD at filing time
+    biomarker_selected_population: false  # All-comer moderate-to-severe AD (not eosinophilic only)
+    strong_prior_phase_data: true         # Phase 2b: IGA 0/1 ~36-38%; consistent across doses
+    has_breakthrough_designation: true    # BTD granted by FDA (first BTD in dermatology)
+
+sources:
+  addressable_patients:
+    confidence: "Medium"
+    notes: "AD prevalence well-studied; addressable biologic-eligible pool uncertain due to coverage criteria"
+  net_price:
+    confidence: "Medium"
+    notes: "WAC $37K; PBM rebates estimated; actual net price ~$28K based on post-launch IQVIA data"
+  peak_penetration:
+    confidence: "Low"
+    notes: "First-in-class in a large indication; step therapy barriers create uncertainty"
+
+limitations:
+  - "Lifecycle events (asthma, CRSwNP, EoE) illustrated but not knowable at BLA filing — shown for demonstration."
+  - "Pediatric expansions (6-11, 6 months-5 yr) not modeled; each added addressable pool."
+  - "Prurigo nodularis and alopecia areata (later approvals) excluded."
+  - "REGN 50% economics modeled — Sanofi collaboration share not included in rNPV."
+  - "US-only; global markets (EU, Japan, China) account for ~40% of DUPIXENT revenues."
+
+thesis_changers:
+  - "FDA requires additional safety data or issues CRL for AD indication → 1-2 year delay."
+  - "Asthma Phase 3 fails or shows inferior benefit vs existing biologics (mepolizumab, benralizumab)."
+  - "IL-13 selective agents (tralokinumab) show comparable efficacy with better safety → market share loss."
+  - "JAK inhibitor safety profile improves or FDA lifts black box → shift away from biologics."
+
+analyst_notes: >
+  HISTORICAL BACKTEST — June 2016 analysis (at time of AD BLA filing).
+  This config demonstrates the 'atopic march' franchise model: primary AD approval followed
+  by sequential label expansions across asthma, CRSwNP, and EoE — all driven by the same
+  IL-4/IL-13 biology.
+
+  The lifecycle_events section models these expansions to show how DUPIXENT's revenue
+  trajectory changes when label expansion is captured explicitly. In 2016, an analyst
+  would only know the AD data; the asthma+ expansions illustrate the lifecycle event
+  mechanism in action.
+
+  Key insight: the AD-only base case severely underestimates peak revenues.
+  Dupilumab became a $10B+ franchise because of the atopic march platform, not the
+  single AD approval. This is the canonical illustration of why lifecycle_events
+  matter in biologic franchise modeling.
+
+  ACTUAL OUTCOMES (for comparison):
+    AD approval: March 28, 2017 (breakthrough therapy; first biologic approved for AD)
+    2020 global net sales: $3.5B (asthma approval 2018; CRSwNP 2019 added to base)
+    2023 global net sales: $11.6B (EoE 2022; prurigo nodularis 2022; pediatric expansion)
+    REGN share price: $400 (Jun 2016) → $900+ (2023)
