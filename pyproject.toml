@@ -33,6 +33,8 @@ bve-asset      = "bve.cli.run_asset:main"
 bve-batch      = "bve.cli.run_batch:main"
 bve-portfolio  = "bve.cli.run_portfolio:main"
 bve-extract    = "bve.cli.extract:main"
+bve-review-phase2 = "bve.cli.review_phase2:main"
+bve-watchlist-run = "bve.cli.watchlist_run:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

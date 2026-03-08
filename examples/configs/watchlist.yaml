@@ -1,0 +1,47 @@
+# Automated watchlist runner configuration
+# Run with:
+#   bve-watchlist-run --watchlist examples/configs/watchlist.yaml
+
+polling_interval_seconds: 3600
+state_path: outputs/watchlist/pipeline_state.json
+knowledge_db_path: outputs/intelligence_phase2/knowledge.db
+valuation_output_dir: outputs/intelligence_phase2/watchlist
+
+materiality:
+  min_abs_delta_npv: 25.0
+  min_relative_delta_npv_pct: 5.0
+  min_diff_count: 1
+
+extraction:
+  # Use "anthropic" or "openai" in production.
+  # Keep "fake" for local dry runs with no API calls.
+  backend: fake
+  model: fake-watchlist-llm
+
+connectors:
+  clinicaltrials_gov:
+    enabled: true
+    limit: 20
+  fda_website:
+    enabled: true
+    limit: 20
+  sec_filing:
+    enabled: true
+    limit: 10
+
+watchlist:
+  - company_id: regn-2016
+    asset_id: dupilumab-ad
+    drug_name: dupilumab
+    indication: moderate-to-severe atopic dermatitis
+    ticker: REGN
+    valuation_config: examples/configs/regn_dupilumab.yaml
+    connectors: [clinicaltrials_gov, fda_website, sec_filing]
+
+  - company_id: relay-2026
+    asset_id: rly2608-breast
+    drug_name: RLY-2608
+    indication: HR+/HER2- metastatic breast cancer
+    ticker: RLAY
+    valuation_config: examples/configs/relay_rly2608.yaml
+    connectors: [clinicaltrials_gov, sec_filing]

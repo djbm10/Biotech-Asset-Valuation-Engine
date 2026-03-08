@@ -11,10 +11,11 @@ traced back to the original source URL and fetch timestamp.
 """
 from __future__ import annotations
 
+import hashlib
 from datetime import datetime, timezone
 from typing import Optional
 
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, Field, field_validator, model_validator
 
 from bve.intelligence.schemas.signals import SourceType
 
@@ -93,6 +94,8 @@ class RawDocument(BaseModel):
         Caller-provided entity context; passed through unchanged to the extractor.
     word_count:
         Approximate word count computed from ``raw_text`` at construction time.
+    document_hash:
+        SHA-256 hash of normalized ``raw_text`` used for deterministic dedupe.
     """
 
     model_config = {"frozen": True}
@@ -106,6 +109,7 @@ class RawDocument(BaseModel):
     retrieved_at:  datetime
     entity_hints:  EntityHints
     word_count:    int                 = Field(default=0, ge=0)
+    document_hash: str
 
     @field_validator("source")
     @classmethod
@@ -131,6 +135,24 @@ class RawDocument(BaseModel):
             raise ValueError("raw_text must not be empty")
         return v
 
+    @field_validator("document_hash")
+    @classmethod
+    def _valid_document_hash(cls, v: str) -> str:
+        text = v.strip().lower()
+        if len(text) != 64 or any(ch not in "0123456789abcdef" for ch in text):
+            raise ValueError("document_hash must be a 64-char lowercase SHA-256 hex digest")
+        return text
+
+    @model_validator(mode="before")
+    @classmethod
+    def _inject_document_hash(cls, values):
+        if isinstance(values, dict):
+            if values.get("document_hash") is None and values.get("raw_text") is not None:
+                values["document_hash"] = hashlib.sha256(
+                    str(values["raw_text"]).encode("utf-8")
+                ).hexdigest()
+        return values
+
     @classmethod
     def from_text(
         cls,
@@ -143,6 +165,7 @@ class RawDocument(BaseModel):
         retrieved_at: Optional[datetime] = None,
         source_url: Optional[str] = None,
         published_at: Optional[datetime] = None,
+        document_hash: Optional[str] = None,
     ) -> "RawDocument":
         """
         Convenience constructor that computes ``word_count`` automatically.
@@ -154,6 +177,7 @@ class RawDocument(BaseModel):
         """
         if retrieved_at is None:
             retrieved_at = datetime.now(timezone.utc)
+        doc_hash = (document_hash or hashlib.sha256(raw_text.encode("utf-8")).hexdigest()).lower()
         return cls(
             id=id,
             source=source,
@@ -164,4 +188,5 @@ class RawDocument(BaseModel):
             retrieved_at=retrieved_at,
             entity_hints=entity_hints,
             word_count=len(raw_text.split()),
+            document_hash=doc_hash,
         )
