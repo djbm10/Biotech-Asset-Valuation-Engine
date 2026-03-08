@@ -413,6 +413,28 @@ class KnowledgeStore:
                 ON kg_edges(target_node_id, edge_type);
             CREATE INDEX IF NOT EXISTS idx_kg_edges_type
                 ON kg_edges(edge_type);
+
+            -- Competitor programs (2B).
+            -- UNIQUE(asset_id, nct_id) prevents duplicates across discovery runs.
+            -- nct_id may be NULL for programs without a registered trial.
+            CREATE TABLE IF NOT EXISTS competitor_programs (
+                program_id TEXT PRIMARY KEY,
+                asset_id TEXT NOT NULL,
+                company TEXT,
+                drug_name TEXT NOT NULL,
+                nct_id TEXT,
+                phase TEXT,
+                status TEXT,
+                primary_endpoint_type TEXT,
+                indication TEXT NOT NULL,
+                discovered_at TEXT NOT NULL,
+                UNIQUE(asset_id, nct_id)
+            );
+
+            CREATE INDEX IF NOT EXISTS idx_competitor_programs_asset
+                ON competitor_programs(asset_id);
+            CREATE INDEX IF NOT EXISTS idx_competitor_programs_indication
+                ON competitor_programs(indication);
             """
         )
 
@@ -1939,3 +1961,44 @@ class KnowledgeStore:
     def find_competing_assets(self, asset_node_id: str) -> list[KGNode]:
         """Return all nodes connected via competes_with edges (undirected)."""
         return self.neighbors(asset_node_id, edge_type=EdgeType.COMPETES_WITH)
+
+    # ------------------------------------------------------------------
+    # Competitor programs (2B)
+    # ------------------------------------------------------------------
+
+    def add_competitor_program(self, program: Any) -> None:
+        """
+        Persist a CompetitorProgram.  Silently skips if (asset_id, nct_id) exists.
+
+        ``program`` is typed as Any to avoid a circular import with
+        competitor_discovery.py.  Callers pass a CompetitorProgram instance.
+        """
+        self._conn.execute(
+            """
+            INSERT OR IGNORE INTO competitor_programs
+                (program_id, asset_id, company, drug_name, nct_id, phase,
+                 status, primary_endpoint_type, indication, discovered_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                program.program_id,
+                program.asset_id,
+                program.company,
+                program.drug_name,
+                program.nct_id,
+                program.phase,
+                program.status,
+                program.primary_endpoint_type,
+                program.indication,
+                program.discovered_at.isoformat(),
+            ),
+        )
+        self._conn.commit()
+
+    def get_competitor_programs(self, asset_id: str) -> list[dict]:
+        """Return all competitor programs discovered for *asset_id* as plain dicts."""
+        rows = self._conn.execute(
+            "SELECT * FROM competitor_programs WHERE asset_id = ? ORDER BY discovered_at",
+            (asset_id,),
+        ).fetchall()
+        return [dict(r) for r in rows]
