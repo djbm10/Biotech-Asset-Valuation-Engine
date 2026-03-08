@@ -1,0 +1,35 @@
+{
+  "fixture_id": "dupilumab_ad_approval_2017",
+  "description": "Dupilumab (DUPIXENT) FDA approval for atopic dermatitis — March 28, 2017",
+  "source_citation": "Regeneron/Sanofi press release, 2017-03-28",
+  "labeled_by": "analyst-dj",
+  "labeled_at": "2024-06-01",
+  "notes": "First IL-4Rα biologic approval. Approved for moderate-to-severe AD in adults. Initial launch at $37,000/yr WAC. Later expanded to adolescents, pediatric, asthma, CRSwNP, EoE, BP.",
+  "raw_document": {
+    "id": "doc-labeled-dupilumab-2017",
+    "source": "press_release",
+    "source_url": "https://investor.regeneron.com/news-releases/news-release-details/fda-approves-dupixentr-dupilumab-treatment-adults-moderate-severe",
+    "title": "FDA Approves DUPIXENT® (dupilumab) for Treatment of Adults with Moderate-to-Severe Atopic Dermatitis",
+    "published_at": "2017-03-28T00:00:00Z",
+    "raw_text": "Tarrytown, NY and Paris, France, March 28, 2017 – Regeneron Pharmaceuticals, Inc. (NASDAQ: REGN) and Sanofi today announced that the U.S. Food and Drug Administration (FDA) has approved DUPIXENT® (dupilumab) injection for treatment of adults with moderate-to-severe atopic dermatitis whose disease is not adequately controlled with topical therapies or when those therapies are not advisable. DUPIXENT can be used with or without topical corticosteroids.\n\nDUPIXENT is the first biologic medicine approved for moderate-to-severe atopic dermatitis. Atopic dermatitis is a chronic, relapsing, inflammatory skin disease, which often causes intense itching and can have serious effects on patients' quality of life. DUPIXENT works by inhibiting overactive signaling of the IL-4 and IL-13 pathways that are key drivers of the type 2 inflammation that underlies atopic dermatitis.\n\nThe NDA for DUPIXENT received a Breakthrough Therapy Designation and was reviewed under a Priority Review designation. DUPIXENT was approved under the FDA's Fast Track designation.\n\n'The approval of DUPIXENT represents a major milestone for the millions of patients whose atopic dermatitis is not adequately controlled with existing treatments,' said George D. Yancopoulos, M.D., Ph.D., President and Chief Scientific Officer of Regeneron.\n\nDUPIXENT demonstrated a significant reduction in disease severity across multiple Phase 3 clinical trials. In the SOLO 1 and SOLO 2 trials, approximately 38% of patients treated with DUPIXENT every two weeks achieved clear or almost clear skin (IGA 0/1) versus 10% on placebo at 16 weeks. Additionally, 51% of patients on DUPIXENT achieved 75% or greater improvement in disease severity (EASI-75) versus 15% on placebo.\n\nDUPIXENT 300 mg will be available in the U.S. as a pre-filled syringe for subcutaneous injection every two weeks.",
+    "entity_hints": {
+      "asset_id": "asset-dupilumab-labeled",
+      "company_id": "company-regn-labeled",
+      "drug_name": "dupilumab",
+      "indication": "Moderate-to-Severe Atopic Dermatitis",
+      "ticker": "REGN"
+    }
+  },
+  "expected": {
+    "event_type": "fda_approval",
+    "signal_date": "2017-03-28",
+    "fda_action_type": "approval",
+    "primary_endpoint_met": true,
+    "interim_flag": false,
+    "response_rate": 0.38,
+    "designation_type": null
+  },
+  "tolerance": {
+    "response_rate": 0.05
+  }
+}

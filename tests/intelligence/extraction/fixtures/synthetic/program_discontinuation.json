@@ -1,0 +1,26 @@
+{
+  "fixture_id": "program_discontinuation_001",
+  "description": "Asset discontinued — pipeline clearance after Phase 2 failure",
+  "raw_document": {
+    "id": "doc-synth-disc-001",
+    "source": "press_release",
+    "source_url": "https://example.com/news/2024-05-20-program-discontinued",
+    "title": "IotaTx Discontinues IOT-210 Development Program Following Phase 2 Results",
+    "published_at": "2024-05-20T07:00:00Z",
+    "raw_text": "IotaTx Biosciences (NASDAQ: IOTB) today announced the discontinuation of the IOT-210 (iotavectin) development program following a comprehensive review of the Phase 2 IGNITE trial data.\n\nThe Phase 2 IGNITE trial (NCT04654321) evaluated IOT-210 in 186 patients with moderate-to-severe Crohn's disease. The trial did not meet its primary endpoint of clinical remission at Week 12, with 22% of IOT-210-treated patients achieving remission versus 24% on placebo. No statistically significant differences were observed on any secondary endpoints.\n\nFollowing consultation with clinical advisors and review of the competitive landscape, the company's board of directors has determined that it is not in the best interests of shareholders to continue investment in this program.\n\n'After a thorough review, we have made the difficult decision to discontinue IOT-210,' said CEO David Kim. 'We are redirecting our resources to IOT-340, our more differentiated asset in inflammatory bowel disease, where we believe we have a clearer path to clinical and commercial success.'\n\nIotaTx will record a non-cash impairment charge of approximately $45 million related to the IOT-210 program in Q2 2024. The company will focus its resources on IOT-340, which is expected to enter Phase 2 trials in Q4 2024.",
+    "entity_hints": {
+      "asset_id": "asset-iot210-test",
+      "company_id": "company-iotb-test",
+      "drug_name": "iotavectin",
+      "indication": "Crohn's Disease",
+      "ticker": "IOTB"
+    }
+  },
+  "expected": {
+    "event_type": "program_discontinuation",
+    "trial_phase": "phase_2",
+    "trial_nct_id": "NCT04654321",
+    "primary_endpoint_met": false,
+    "interim_flag": false
+  }
+}

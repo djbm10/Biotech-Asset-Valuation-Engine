@@ -1,0 +1,26 @@
+{
+  "fixture_id": "fda_approval_001",
+  "description": "Full FDA approval of NDA — approval action type, no trial data",
+  "raw_document": {
+    "id": "doc-synth-fda-appr-001",
+    "source": "press_release",
+    "source_url": "https://example.com/news/2024-06-01-fda-approved",
+    "title": "FDA Approves LUMIVEX™ (lumivexinib) for Adult Patients with HER2-Positive Breast Cancer",
+    "published_at": "2024-06-01T14:00:00Z",
+    "raw_text": "GammaTech Biosciences (NASDAQ: GTEK) today announced that the U.S. Food and Drug Administration (FDA) has approved LUMIVEX™ (lumivexinib 150 mg tablets) for the treatment of adult patients with unresectable or metastatic HER2-positive breast cancer who have received one or more prior anti-HER2-based regimens.\n\nThe approval is based on the results of the Phase 3 LUMINARY trial (NCT05234567), which demonstrated a statistically significant improvement in progression-free survival.\n\nLUMIVEX™ is a first-in-class HER2-directed kinase inhibitor. The New Drug Application (NDA 217890) was submitted in October 2023 and received Priority Review designation.\n\nLUMIVEX™ will be commercially available within four weeks. GammaTech will work with payers to ensure broad patient access.\n\n'This approval represents a major advance for HER2-positive breast cancer patients,' said the FDA's Office of Oncology Products. The drug was approved under the Accelerated Approval pathway based on tumor response rate as a surrogate endpoint.",
+    "entity_hints": {
+      "asset_id": "asset-lumivex-test",
+      "company_id": "company-gtek-test",
+      "drug_name": "lumivexinib",
+      "indication": "HER2-Positive Breast Cancer",
+      "ticker": "GTEK"
+    }
+  },
+  "expected": {
+    "event_type": "fda_approval",
+    "fda_action_type": "approval",
+    "primary_endpoint_met": true,
+    "interim_flag": false,
+    "designation_type": null
+  }
+}

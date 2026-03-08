@@ -1,0 +1,28 @@
+{
+  "fixture_id": "safety_signal_grade3_001",
+  "description": "Grade 3/4 hepatotoxicity safety signal — drug-induced liver injury (DILI)",
+  "raw_document": {
+    "id": "doc-synth-safety-001",
+    "source": "press_release",
+    "source_url": "https://example.com/news/2024-02-28-safety-update",
+    "title": "ZetaPharm Provides Safety Update: Hepatotoxicity Cases Observed in HORIZON Phase 2 Trial",
+    "published_at": "2024-02-28T11:00:00Z",
+    "raw_text": "ZetaPharm Inc. (NASDAQ: ZPHI) today issued a safety update regarding its Phase 2 HORIZON trial (NCT04876543) evaluating ZPX-100 (zetavexib) in patients with non-alcoholic steatohepatitis (NASH).\n\nThe company has observed three cases of Grade 3 drug-induced liver injury (DILI) among the 187 patients treated with the 200 mg dose of ZPX-100. Two additional cases of Grade 2 ALT/AST elevation have also been reported.\n\nAs a precautionary measure, ZetaPharm has voluntarily paused enrollment in the 200 mg arm pending further review. Dosing is continuing in the 100 mg and 50 mg arms, where no cases of Grade 3 hepatotoxicity have been observed.\n\nThe company has notified the FDA and the Independent Data Safety Monitoring Board (DSMB) of these findings. The DSMB will conduct an unscheduled safety review within the next 30 days.\n\n'Patient safety is our highest priority,' said Chief Medical Officer Dr. Lisa Park. 'We are working closely with the FDA and the DSMB to understand these findings and determine the appropriate path forward for the ZPX-100 development program.'\n\nZetaPharm will provide further updates following the DSMB safety review.",
+    "entity_hints": {
+      "asset_id": "asset-zpx100-test",
+      "company_id": "company-zphi-test",
+      "drug_name": "zetavexib",
+      "indication": "NASH (Non-Alcoholic Steatohepatitis)",
+      "ticker": "ZPHI"
+    }
+  },
+  "expected": {
+    "event_type": "safety_signal",
+    "trial_phase": "phase_2",
+    "trial_nct_id": "NCT04876543",
+    "primary_endpoint_met": null,
+    "interim_flag": false,
+    "safety_grade": 3,
+    "fda_action_type": null
+  }
+}

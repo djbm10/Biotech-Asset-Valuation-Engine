@@ -1,0 +1,27 @@
+{
+  "fixture_id": "enrollment_update_slow_001",
+  "description": "Trial enrollment below plan — company extends timeline",
+  "raw_document": {
+    "id": "doc-synth-enroll-001",
+    "source": "clinicaltrials_gov",
+    "source_url": "https://clinicaltrials.gov/study/NCT05019876",
+    "title": "EtaBio Updates CELESTIAL Phase 3 Trial Enrollment — Timeline Extended",
+    "published_at": "2024-04-01T00:00:00Z",
+    "raw_text": "EtaBio Pharmaceuticals (NASDAQ: ETAB) today provided an update on enrollment in the CELESTIAL Phase 3 clinical trial (NCT05019876) evaluating ETB-301 in patients with idiopathic pulmonary fibrosis (IPF).\n\nAs of March 31, 2024, the trial has enrolled 412 of the 600 planned patients (69% of target). Enrollment has been slower than anticipated, primarily due to the restrictive eligibility criteria requiring a recent high-resolution CT scan within 6 months.\n\nAs a result, EtaBio is extending the enrollment period by approximately 9 months. The company now expects to complete enrollment by Q1 2025 (previously Q2 2024) and to report topline data in Q4 2026 (previously Q1 2026).\n\nTo accelerate enrollment, the company is:\n1. Opening 18 additional clinical sites in Eastern Europe\n2. Relaxing the CT scan recency criterion from 6 months to 12 months (protocol amendment submitted to FDA)\n3. Implementing a patient identification partnership with a pulmonology practice network\n\n'We remain confident in the scientific rationale for ETB-301 in IPF,' said Chief Executive Officer Thomas Wu. 'The enrollment update does not change our view of the drug's differentiated profile or the significant unmet need in this indication.'\n\nThe trial cost is now expected to increase by approximately $12 million due to the extended timeline.",
+    "entity_hints": {
+      "asset_id": "asset-etb301-test",
+      "company_id": "company-etab-test",
+      "drug_name": "ETB-301",
+      "indication": "Idiopathic Pulmonary Fibrosis",
+      "ticker": "ETAB",
+      "nct_id": "NCT05019876"
+    }
+  },
+  "expected": {
+    "event_type": "enrollment_update",
+    "trial_phase": "phase_3",
+    "trial_nct_id": "NCT05019876",
+    "primary_endpoint_met": null,
+    "interim_flag": false
+  }
+}
