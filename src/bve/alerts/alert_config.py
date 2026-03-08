@@ -8,6 +8,7 @@ Environment variable expansion is supported for secrets via os.path.expandvars.
 from __future__ import annotations
 
 import os
+from datetime import datetime
 from typing import Optional
 
 from pydantic import BaseModel, Field, field_validator
@@ -83,6 +84,20 @@ class AlertThresholdsConfig(BaseModel):
     dedup_state_path: str = "outputs/watchlist/alert_dedup.json"
 
 
+class SuppressionRule(BaseModel):
+    """
+    Suppress alerts for a specific asset/event combination until a given datetime.
+
+    Useful for known events under active review where alert fatigue is a concern.
+    All fields except `until` are optional matchers — a None field matches anything.
+    """
+
+    asset_id: Optional[str] = None
+    event_type: Optional[str] = None
+    trigger: Optional[str] = None
+    until: datetime  # UTC; rule expires after this datetime
+
+
 class AlertsConfig(BaseModel):
     enabled: bool = True
     thresholds: AlertThresholdsConfig = Field(default_factory=AlertThresholdsConfig)
@@ -90,3 +105,5 @@ class AlertsConfig(BaseModel):
     slack: Optional[SlackChannelConfig] = None
     email: Optional[EmailChannelConfig] = None
     telegram: Optional[TelegramChannelConfig] = None
+    # Suppression rules: matched alerts are silently dropped until `until`.
+    suppression_rules: list[SuppressionRule] = Field(default_factory=list)

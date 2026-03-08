@@ -28,7 +28,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Optional
 
-from bve.alerts.alert_config import AlertsConfig
+from bve.alerts.alert_config import AlertsConfig, SuppressionRule
 from bve.alerts.alert_model import Alert, AlertSeverity, AlertTrigger
 from bve.alerts.channels.base import AlertChannel
 from bve.intelligence.extraction.result import ExtractionResult
@@ -89,8 +89,15 @@ class AlertRouter:
 
         # Condition 1 — safety signal detected (CRITICAL, always fires)
         if signal.event_type == EventType.SAFETY_SIGNAL:
-            key = _dedup_key(
+            if self._is_suppressed(
                 signal.asset_id, signal.event_type.value, AlertTrigger.SAFETY_SIGNAL_DETECTED
+            ):
+                return
+            key = _dedup_key(
+                signal.asset_id,
+                signal.event_type.value,
+                AlertTrigger.SAFETY_SIGNAL_DETECTED,
+                str(signal.signal_date),
             )
             if not self._is_deduped(key):
                 self._pending[signal.asset_id].append(
@@ -126,10 +133,15 @@ class AlertRouter:
             and conf is not None
             and conf < thr.low_confidence_threshold
         ):
+            if self._is_suppressed(
+                signal.asset_id, signal.event_type.value, AlertTrigger.LOW_CONFIDENCE_HIGH_SEVERITY
+            ):
+                return
             key = _dedup_key(
                 signal.asset_id,
                 signal.event_type.value,
                 AlertTrigger.LOW_CONFIDENCE_HIGH_SEVERITY,
+                str(signal.signal_date),
             )
             if not self._is_deduped(key):
                 self._pending[signal.asset_id].append(
@@ -192,10 +204,16 @@ class AlertRouter:
         if rel_pct < thr.material_change_pct:
             return
 
+        if self._is_suppressed(
+            diff.asset_id, signal.event_type.value, AlertTrigger.MATERIAL_VALUATION_CHANGE
+        ):
+            return
+
         key = _dedup_key(
             diff.asset_id,
             signal.event_type.value,
             AlertTrigger.MATERIAL_VALUATION_CHANGE,
+            str(signal.signal_date),
         )
         if self._is_deduped(key):
             return
@@ -281,6 +299,33 @@ class AlertRouter:
         """Clear in-memory pending queue (not dedup). Useful for test isolation."""
         self._pending.clear()
 
+    def _is_suppressed(
+        self,
+        asset_id: str,
+        event_type_value: Optional[str],
+        trigger: AlertTrigger,
+    ) -> bool:
+        """Return True if any active suppression rule matches this alert."""
+        now = datetime.now(timezone.utc)
+        for rule in self.config.suppression_rules:
+            if rule.until <= now:
+                continue  # rule expired
+            if rule.asset_id is not None and rule.asset_id != asset_id:
+                continue
+            if rule.event_type is not None and rule.event_type != event_type_value:
+                continue
+            if rule.trigger is not None and rule.trigger != trigger.value:
+                continue
+            self.logger.debug(
+                "alert_suppressed asset=%s event_type=%s trigger=%s until=%s",
+                asset_id,
+                event_type_value,
+                trigger.value,
+                rule.until.isoformat(),
+            )
+            return True
+        return False
+
     # ------------------------------------------------------------------
     # Dedup helpers
     # ------------------------------------------------------------------
@@ -332,8 +377,19 @@ class AlertRouter:
 # Module-level helpers
 # ------------------------------------------------------------------
 
-def _dedup_key(asset_id: str, event_type_value: str, trigger: AlertTrigger) -> str:
-    return f"{asset_id}::{event_type_value}::{trigger.value}"
+def _dedup_key(
+    asset_id: str,
+    event_type_value: str,
+    trigger: AlertTrigger,
+    signal_date: Optional[str] = None,
+) -> str:
+    """
+    Include signal_date so alerts from different events of the same type
+    on different dates are not conflated under the same dedup window.
+    E.g. two safety signals in separate months both get through.
+    """
+    date_part = signal_date or "unknown"
+    return f"{asset_id}::{event_type_value}::{trigger.value}::{date_part}"
 
 
 def _build_channels(config: AlertsConfig) -> list[AlertChannel]:

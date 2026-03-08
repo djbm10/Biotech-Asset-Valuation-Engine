@@ -77,6 +77,9 @@ class StoredValuationDiff(BaseModel):
     valuation_delta: dict[str, float] = Field(default_factory=dict)
     assumptions_changed: list[dict] = Field(default_factory=list)
     applied_overrides: dict[str, float] = Field(default_factory=dict)
+    # Market cap at the time this diff was computed ($M). Enables historical
+    # mispricing analysis without requiring a live yfinance lookup at ranking time.
+    market_cap_snapshot_millions: Optional[float] = None
 
 
 class MemoRecord(BaseModel):
@@ -321,6 +324,7 @@ class KnowledgeStore:
         self._ensure_column("raw_documents", "document_hash", "TEXT")
         self._ensure_column("events", "signal_id", "TEXT")
         self._ensure_column("valuation_diffs", "created_at", "TEXT")
+        self._ensure_column("valuation_diffs", "market_cap_snapshot_millions", "REAL")
 
         diff_cols = {
             row["name"]
@@ -637,6 +641,7 @@ class KnowledgeStore:
                 if value is not None:
                     valuation_delta[key] = float(value)
 
+        market_cap_raw = payload.get("market_cap_snapshot_millions")
         return StoredValuationDiff(
             run_id=run_id,
             event_id=event_id,
@@ -648,6 +653,7 @@ class KnowledgeStore:
             valuation_delta=valuation_delta,
             assumptions_changed=list(payload.get("assumptions_changed") or []),
             applied_overrides=dict(payload.get("applied_overrides") or {}),
+            market_cap_snapshot_millions=float(market_cap_raw) if market_cap_raw is not None else None,
         )
 
     def add_valuation_diff(

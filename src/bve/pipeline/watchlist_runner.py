@@ -49,6 +49,9 @@ class ConnectorRuntimeConfig(BaseModel):
     enabled: bool = True
     limit: int = Field(default=20, ge=1)
     options: dict[str, Any] = Field(default_factory=dict)
+    # Retry policy for transient connector failures.
+    max_retries: int = Field(default=3, ge=0)
+    retry_backoff_seconds: float = Field(default=2.0, ge=0.0)
 
 
 class WatchlistAsset(BaseModel):
@@ -125,6 +128,7 @@ class AssetRunSummary(BaseModel):
     memo_generated: bool = False
     memo_id: Optional[str] = None
     dossier_id: Optional[str] = None
+    alerts_fired: int = 0
     errors: list[str] = Field(default_factory=list)
 
 
@@ -424,12 +428,14 @@ class WatchlistPipelineRunner:
                     asset_cfg,
                     run_id=run_id,
                     stage=f"fetch:{source_name}",
-                    fn=lambda c=connector, s=since, l=source_cfg.limit, o=source_cfg.options, h=hints: self._fetch_connector(
+                    fn=lambda c=connector, s=since, l=source_cfg.limit, o=source_cfg.options, h=hints, mr=source_cfg.max_retries, rb=source_cfg.retry_backoff_seconds: self._fetch_connector(
                         connector=c,
                         entity_hints=h,
                         since=s,
                         limit=l,
                         options=o,
+                        max_retries=mr,
+                        retry_backoff_seconds=rb,
                     ),
                 )
                 assert isinstance(fetch_result, FetchResult)
@@ -627,6 +633,9 @@ class WatchlistPipelineRunner:
                 if stored_diff is None:
                     continue
 
+                # Snapshot market cap at diff time for historical mispricing analysis.
+                stored_diff.market_cap_snapshot_millions = self._get_market_cap(asset_cfg)
+
                 saved_diff = self.knowledge.add_valuation_diff(
                     stored_diff,
                     company_id=asset_cfg.company_id,
@@ -699,7 +708,8 @@ class WatchlistPipelineRunner:
 
             # Flush all enqueued alerts for this asset (batched per-asset).
             if self.alert_router is not None:
-                self.alert_router.flush(asset_cfg.asset_id, run_id=run_id)
+                fired = self.alert_router.flush(asset_cfg.asset_id, run_id=run_id)
+                summary.alerts_fired = len(fired)
 
             self.state.mark_run_succeeded(asset_cfg.company_id, asset_cfg.asset_id)
             self._log_asset_summary(summary=summary, run_started=run_started)
@@ -738,6 +748,21 @@ class WatchlistPipelineRunner:
             if connector_cfg.enabled and name in self.connectors
         ]
 
+    def _get_market_cap(self, asset_cfg: WatchlistAsset) -> Optional[float]:
+        """Return market cap ($M) for an asset, preferring config value over yfinance."""
+        if asset_cfg.market_cap_millions is not None:
+            return asset_cfg.market_cap_millions
+        if asset_cfg.ticker:
+            try:
+                import yfinance as yf  # optional dependency
+                info = yf.Ticker(asset_cfg.ticker).fast_info
+                mc = getattr(info, "market_cap", None)
+                if mc:
+                    return float(mc) / 1e6
+            except Exception:
+                pass
+        return None
+
     def _fetch_connector(
         self,
         *,
@@ -746,6 +771,8 @@ class WatchlistPipelineRunner:
         since: Optional[datetime],
         limit: int,
         options: dict[str, Any],
+        max_retries: int = 3,
+        retry_backoff_seconds: float = 2.0,
     ) -> FetchResult:
         sig = inspect.signature(connector.fetch)
         kwargs: dict[str, Any] = {
@@ -756,7 +783,25 @@ class WatchlistPipelineRunner:
         for key, value in options.items():
             if key in sig.parameters:
                 kwargs[key] = value
-        return connector.fetch(**kwargs)
+
+        last_exc: Optional[Exception] = None
+        for attempt in range(max_retries + 1):
+            try:
+                return connector.fetch(**kwargs)
+            except Exception as exc:
+                last_exc = exc
+                if attempt < max_retries:
+                    wait = retry_backoff_seconds * (2 ** attempt)
+                    self.logger.warning(
+                        "connector_retry connector=%s attempt=%d/%d wait=%.1fs: %s",
+                        type(connector).__name__,
+                        attempt + 1,
+                        max_retries,
+                        wait,
+                        exc,
+                    )
+                    time.sleep(wait)
+        raise last_exc  # type: ignore[misc]
 
     @staticmethod
     def _normalize_document(raw: RawDocument, hints: EntityHints) -> RawDocument:
