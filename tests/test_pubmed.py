@@ -175,16 +175,28 @@ class TestTopicFilter:
 # ---------------------------------------------------------------------------
 
 class TestFetch:
-    def _mock_esearch(self, pmids: list[str]):
+    @staticmethod
+    def _mock_esearch(pmids: list[str]):
         resp = MagicMock()
+        resp.status_code = 200
         resp.raise_for_status = MagicMock()
         resp.json.return_value = {"esearchresult": {"idlist": pmids}}
         return resp
 
-    def _mock_efetch(self, xml: str):
+    @staticmethod
+    def _mock_efetch(xml: str):
         resp = MagicMock()
+        resp.status_code = 200
         resp.raise_for_status = MagicMock()
         resp.text = xml
+        return resp
+
+    @staticmethod
+    def _mock_429():
+        import requests as _req
+        resp = MagicMock()
+        resp.status_code = 429
+        resp.raise_for_status.side_effect = _req.HTTPError("429 Too Many Requests")
         return resp
 
     def test_returns_empty_when_no_drug_or_indication(self):
@@ -237,3 +249,31 @@ class TestFetch:
         connector = _make_connector()
         result = connector.fetch(_hints(), limit=2)
         assert len(result.documents) == 2
+
+    @patch("bve.connectors.pubmed.time.sleep")
+    @patch("bve.connectors.pubmed.requests.get")
+    def test_429_retried_then_succeeds(self, mock_get, mock_sleep):
+        # First call returns 429; second returns success
+        xml = _wrap_articles(_article_xml(abstract="phase 2 trial"))
+        mock_get.side_effect = [
+            self._mock_429(),           # esearch → 429
+            self._mock_esearch(["1"]),  # esearch retry → success
+            self._mock_efetch(xml),     # efetch → success
+        ]
+        connector = _make_connector()
+        result = connector.fetch(_hints(), limit=5)
+        assert len(result.documents) == 1
+        # Sleep was called at least once for the 429 backoff
+        assert mock_sleep.call_count >= 1
+
+    @patch("bve.connectors.pubmed.time.sleep")
+    @patch("bve.connectors.pubmed.requests.get")
+    def test_429_all_retries_exhausted_collected_as_error(self, mock_get, mock_sleep):
+        # All calls return 429 until retries exhausted
+        from bve.connectors.pubmed import _MAX_RETRIES
+        mock_get.side_effect = [self._mock_429()] * (_MAX_RETRIES + 2)
+        connector = _make_connector()
+        result = connector.fetch(_hints())
+        # No documents; error captured
+        assert len(result.documents) == 0
+        assert result.fetch_errors

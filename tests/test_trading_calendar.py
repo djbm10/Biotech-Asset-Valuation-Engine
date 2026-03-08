@@ -92,7 +92,8 @@ class TestCountTradingDaysBetween:
         assert count_trading_days_between(date(2024, 1, 5), date(2024, 1, 8)) == 1
 
     def test_two_weeks(self):
-        assert count_trading_days_between(date(2024, 1, 2), date(2024, 1, 16)) == 10
+        # 2024-01-15 is MLK Day (NYSE holiday), so 2024-01-02..2024-01-16 = 9 trading days
+        assert count_trading_days_between(date(2024, 1, 2), date(2024, 1, 16)) == 9
 
     def test_same_day(self):
         assert count_trading_days_between(_TUE, _TUE) == 0

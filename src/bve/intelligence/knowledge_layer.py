@@ -298,7 +298,7 @@ class KnowledgeStore:
             -- signal_date + trading-day arithmetic determines resolution schedule.
             CREATE TABLE IF NOT EXISTS event_outcomes (
                 outcome_id TEXT PRIMARY KEY,
-                event_id TEXT NOT NULL,
+                event_id TEXT NOT NULL UNIQUE,
                 asset_id TEXT NOT NULL,
                 ticker TEXT,
                 signal_date TEXT NOT NULL,
@@ -370,7 +370,7 @@ class KnowledgeStore:
                 ON dossiers(company_id, asset_id, generated_at);
             CREATE INDEX IF NOT EXISTS idx_prices_ticker_date
                 ON market_prices(ticker, price_date);
-            CREATE INDEX IF NOT EXISTS idx_outcomes_event
+            CREATE UNIQUE INDEX IF NOT EXISTS idx_outcomes_event_unique
                 ON event_outcomes(event_id);
             CREATE INDEX IF NOT EXISTS idx_outcomes_asset_date
                 ON event_outcomes(asset_id, signal_date);
@@ -441,9 +441,12 @@ class KnowledgeStore:
 
         source_url = record.payload_json.get("source_url")
         document_hash = record.payload_json.get("document_hash")
-        self._conn.execute(
+        # INSERT OR IGNORE: raw documents are immutable content-addressed objects.
+        # If the same document (same id = UUID5 from source+hash+asset) is ingested
+        # again, silently skip — the content has not changed.
+        cursor = self._conn.execute(
             """
-            INSERT OR REPLACE INTO raw_documents(
+            INSERT OR IGNORE INTO raw_documents(
                 id, created_at, document_hash, source_url, payload_json, source_trace_json
             ) VALUES(?, ?, ?, ?, ?, ?)
             """,

@@ -151,8 +151,26 @@ class ImpliedPoSEstimator:
 
                 equity_value = market_cap_millions - cash_estimate_millions
 
+                if equity_value < 0:
+                    self.logger.warning(
+                        "implied_pos: equity_value < 0 for asset=%s "
+                        "(market_cap=%.1fM cash=%.1fM); clamping to 0. "
+                        "This may indicate cash > market cap or data quality issue.",
+                        asset_id,
+                        market_cap_millions,
+                        cash_estimate_millions,
+                    )
+
                 if pipeline_pv > 0:
                     raw_implied = equity_value / pipeline_pv
+                    if raw_implied > 1.0:
+                        self.logger.info(
+                            "implied_pos > 1.0 (%.4f) for asset=%s — "
+                            "market cap implies higher PoS than physically possible; "
+                            "clamping to 1.0 (speculative premium or stale peak_sales).",
+                            raw_implied,
+                            asset_id,
+                        )
                     # Clamp to [0, 1] — negative equity or extreme outliers are clamped.
                     implied_pos = max(0.0, min(1.0, round(raw_implied, 4)))
 

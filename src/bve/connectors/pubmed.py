@@ -59,6 +59,11 @@ _ESEARCH_URL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi"
 _EFETCH_URL = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi"
 _PUBMED_BASE = "https://pubmed.ncbi.nlm.nih.gov"
 
+# HTTP 429 backoff: wait this many seconds × 2^attempt (capped at _MAX_BACKOFF_S).
+_INITIAL_BACKOFF_S: float = 2.0
+_MAX_BACKOFF_S: float = 60.0
+_MAX_RETRIES: int = 4
+
 # Default topic filter — abstract must contain at least one of these tokens.
 _DEFAULT_TOPIC_KEYWORDS: tuple[str, ...] = (
     "clinical trial",
@@ -200,6 +205,32 @@ class PubMedConnector:
             params["api_key"] = self.api_key
         return params
 
+    def _get_with_backoff(self, url: str, params: dict, timeout: int) -> requests.Response:
+        """
+        GET *url* with exponential backoff on HTTP 429 (rate-limit) responses.
+
+        NCBI limits: 3 req/s anonymous, 10 req/s with API key.
+        On 429, back off for _INITIAL_BACKOFF_S × 2^attempt (capped at _MAX_BACKOFF_S),
+        then retry up to _MAX_RETRIES times before raising.
+        """
+        backoff = _INITIAL_BACKOFF_S
+        for attempt in range(_MAX_RETRIES + 1):
+            resp = requests.get(url, params=params, timeout=timeout)
+            if resp.status_code != 429:
+                resp.raise_for_status()
+                return resp
+            wait = min(backoff, _MAX_BACKOFF_S)
+            self.logger.warning(
+                "PubMed HTTP 429 (rate limit) — waiting %.1fs before retry %d/%d",
+                wait, attempt + 1, _MAX_RETRIES,
+            )
+            time.sleep(wait)
+            backoff *= 2
+        # Final attempt after last backoff
+        resp = requests.get(url, params=params, timeout=timeout)
+        resp.raise_for_status()
+        return resp
+
     def _search(
         self,
         drug_name: str,
@@ -229,8 +260,7 @@ class PubMedConnector:
             params["datetype"] = "pdat"
 
         try:
-            resp = requests.get(_ESEARCH_URL, params=params, timeout=15)
-            resp.raise_for_status()
+            resp = self._get_with_backoff(_ESEARCH_URL, params=params, timeout=15)
             data = resp.json()
             pmids = data.get("esearchresult", {}).get("idlist", [])
             return pmids, None
@@ -254,8 +284,7 @@ class PubMedConnector:
         errors: list[str] = []
         try:
             time.sleep(self._sleep_between_calls)
-            resp = requests.get(_EFETCH_URL, params=params, timeout=30)
-            resp.raise_for_status()
+            resp = self._get_with_backoff(_EFETCH_URL, params=params, timeout=30)
             return self._parse_xml_abstracts(resp.text, entity_hints, keywords), errors
         except Exception as exc:
             errors.append(f"PubMed efetch failed for {len(pmids)} PMIDs: {exc}")
