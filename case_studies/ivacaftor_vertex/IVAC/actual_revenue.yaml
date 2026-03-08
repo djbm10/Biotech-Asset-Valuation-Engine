@@ -1,0 +1,31 @@
+# Actual commercial outcomes for Ivacaftor (Kalydeco) — G551D indication only
+# Source: Vertex Pharmaceuticals Annual Reports 2012–2015 (10-K filings)
+# Note: These figures represent net US product revenues for Kalydeco (ivacaftor)
+#       monotherapy. After 2014, Vertex expanded the label to additional gating
+#       mutations, making it difficult to isolate pure G551D revenue. The 2012-2013
+#       figures are predominantly G551D patients (the initial approved label).
+
+source: "Vertex Pharmaceuticals 10-K Annual Reports 2012–2015"
+asset_name: "Ivacaftor / Kalydeco (VX-770) — G551D CF, US monotherapy"
+approval_year: 2012
+actual_pos_outcome: "approved"
+
+revenue_by_year:
+  2012: 270    # FDA approved Jan 31 2012; ~11 months of sales; includes modest EU
+  2013: 374    # Full year, primarily G551D; label expansion to additional gating mutations pending
+  2014: 459    # Gating mutation expansion approved Nov 2014 (~23 mutations); ramp continues
+  2015: 469    # Near-peak for monotherapy before Orkambi launch (F508del combination)
+  2016: 354    # Kalydeco monotherapy declines as Orkambi + Symdeko capture F508del patients
+
+peak_year: 2015
+peak_revenue_millions: 469
+
+actual_pos_outcome: "approved"
+
+notes: >
+  G551D-only model (as configured) predicts revenues for ~1,200 US patients at near-complete
+  penetration. Actual Kalydeco revenues include gating mutation label expansion (2014),
+  which added ~500+ additional patients. The model therefore UNDER-predicts 2014+ revenues
+  by design — this demonstrates the value-add of label expansion modeling.
+  Actual peak G551D-only (2013): ~$350-380M. All-gating-mutation peak (2015): ~$469M.
+  Source: Vertex 10-K 2012, 2013, 2014, 2015 (product revenue line item).

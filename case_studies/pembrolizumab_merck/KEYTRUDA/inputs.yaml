@@ -1,0 +1,163 @@
+# Historical Backtest: Merck & Co. / MK-3475 (pembrolizumab / Keytruda)
+# ======================================================================
+# Analysis date: ~January 2014
+# KEYNOTE-001 Phase 1b/2 ongoing with strong early ORR data in melanoma;
+# KEYNOTE-006 Phase 3 vs. ipilimumab just initiated (NCT01866319)
+#
+# PURPOSE: Model pembrolizumab as a 2014 analyst with access to:
+#   - KEYNOTE-001 Phase 1b early ORR data: ~38% ORR in advanced melanoma
+#   - Ipilimumab as approved 2011 comparator; ORR ~10-15%
+#   - BLA filed for accelerated approval based on KEYNOTE-001 data (Mar 2014)
+#   - KEYNOTE-006 Phase 3 just started
+#   This models the FIRST INDICATION ONLY: ipilimumab-refractory advanced melanoma
+#
+# Data sources:
+#   - Robert et al. 2014 Lancet: KEYNOTE-001 ORR 38%; DoR >1yr in most responders
+#   - SEER: ~76,000 new melanoma diagnoses/yr; ~10,000 metastatic (Stage IV)
+#   - Ipi-refractory pool: ~5,000-7,000 patients/yr (2nd-line after ipi 2011 approval)
+#   - Keytruda WAC (2014 launch): $12,500/month = $150,000/yr; G2N ~20% → net $120,000
+#   - Merck shares outstanding 2014: ~2,900M
+#   - Merck cash 2014: ~$13B
+#   - Keytruda represented a small fraction of Merck total value at launch
+#
+# What the model does/doesn't capture:
+#   - CAPTURES: Accelerated approval for ipi-refractory melanoma; initial penetration
+#   - DOES NOT CAPTURE: 1st-line melanoma approval (2015); NSCLC (2015); MSI-H (2017);
+#     TNBC, gastric, cervical, RCC, HNSCC, TMB-H, and 30+ additional approvals
+#   - Single-indication model understates Keytruda's eventual value by 20-50x
+#   - This case study illustrates how early pipeline valuation anchors too low for
+#     transformative platform oncology assets
+
+asset:
+  id: "mk3475-melanoma"
+  name: "MK-3475 (pembrolizumab)"
+  indication: "Advanced melanoma — ipilimumab-refractory, 2nd-line US"
+  therapeutic_area: "oncology"
+  stage: "nda_bla"
+  modality: "biologic"
+  mechanism_of_action: "Anti-PD-1 monoclonal antibody — restores T-cell anti-tumor activity"
+  discount_rate: 0.10
+  royalty_rate: 0.0
+  upcoming_catalysts:
+    - description: "FDA accelerated approval for ipi-refractory advanced melanoma (BLA filed Mar 2014)"
+      expected_date: "2014-Q3"
+      catalyst_type: "fda_action"
+    - description: "KEYNOTE-006 Phase 3 vs. ipilimumab — PFS and OS readout"
+      expected_date: "2015-Q1"
+      catalyst_type: "readout"
+    - description: "1st-line melanoma expansion (if KEYNOTE-006 positive)"
+      expected_date: "2015-Q3"
+      catalyst_type: "regulatory"
+
+company:
+  id: "mrk-2014"
+  name: "Merck & Co."
+  ticker: "MRK"
+  cash_millions: 13000.0
+  debt_millions: 15500.0
+  shares_outstanding_millions: 2900.0
+  current_price: 55.00           # ~Jan 2014 Merck share price
+
+trials:
+  - phase: "nda_bla"
+    nct_id: "NCT01295827"
+    success_probability: 0.85  # BLA already filed; strong ORR data; accelerated pathway
+    duration_years: 0.5        # Accelerated approval expected within 6 months of BLA filing
+    cost_millions: 40.0        # BLA preparation + regulatory costs
+    enrollment: null
+    primary_endpoint: "Overall response rate in ipi-refractory advanced melanoma"
+    endpoint_type: "surrogate_validated"
+    notes: >
+      BLA filed March 2014 under accelerated approval based on KEYNOTE-001 ORR=38%.
+      FDA granted Breakthrough Therapy Designation in 2013.
+      Comparator context: ipilimumab ORR ~10-15% in same population.
+
+market_model:
+  # Advanced melanoma addressable population:
+  #   New Stage IV melanoma: ~10,000/yr (SEER 2013)
+  #   Ipi-refractory (2nd-line post-ipi): ~5,500/yr (ipi approved 2011; ~55% of mets received ipi)
+  #   Eligible for 2nd-line systemic therapy: ~85% = ~4,700
+  addressable_patients_annual: 4700
+  # Pricing: $12,500/month WAC × 12 = $150,000/yr gross
+  #   G2N oncology specialty: ~20%
+  #   Net price: $120,000/yr
+  net_price_per_patient_usd: 120000
+  peak_penetration: 0.45       # 2nd-line; competes with nivolumab (2014), BRAF inhibitors
+  years_to_peak: 3
+  patent_life_years: 11        # Launch 2014; US patent through ~2025
+  compliance_rate: 0.75        # Metastatic oncology; discontinuation from progression/AEs
+  cogs_rate: 0.22              # Biologic COGS; large-scale mAb manufacturing
+  sgna_rate_launch: 0.45       # Oncology specialty force build-out
+  sgna_rate_mature: 0.25
+
+  competition:
+    - name: "ipilimumab (Bristol-Myers Squibb)"
+      status: "approved"
+      launch_year_relative: -3  # Approved 2011, 3 years before pembro
+      peak_market_share: 0.30
+      years_to_peak: 2
+      approval_probability: 1.0
+      notes: "CTLA-4; different MoA; partial patient overlap in 2nd-line"
+    - name: "nivolumab (Bristol-Myers Squibb)"
+      status: "phase_3"
+      launch_year_relative: 0   # BMS filing concurrent; approved Dec 2014 for melanoma
+      peak_market_share: 0.35
+      years_to_peak: 3
+      approval_probability: 0.90
+      notes: "Anti-PD-1 class peer; direct competitor; share will be split"
+    - name: "BRAF/MEK inhibitors (vemurafenib/cobimetinib; dabrafenib/trametinib)"
+      status: "approved"
+      launch_year_relative: -2
+      peak_market_share: 0.20
+      years_to_peak: 2
+      approval_probability: 1.0
+      notes: "Only for BRAF V600E/K mutation (~50% of melanoma); distinct population but competes for patients"
+
+pos_adjusters:
+  apply_pos_model: false  # BLA already filed; trial POS set manually above
+
+sources:
+  addressable_patients:
+    confidence: "Medium"
+    notes: "SEER melanoma incidence; ipi adoption rate from US oncology practice data"
+  net_price:
+    confidence: "High"
+    notes: "WAC published at launch; oncology G2N benchmarks well-established"
+  peak_penetration:
+    confidence: "Low"
+    notes: "PD-1/L1 class was new; analogue comps limited; nivolumab competition not fully modeled"
+
+limitations:
+  - "Ipi-refractory 2nd-line melanoma only. 1st-line melanoma (KEYNOTE-006, 2015) not modeled."
+  - "NSCLC (>30% PD-L1, 2015; all-comer 2016), MSI-H, TNBC, and 30+ other approvals excluded."
+  - "Total addressable market expands dramatically as indications are added (2015-2023)."
+  - "Combination use (chemo+pembro, pembro+lenvatinib) not modeled."
+  - "This is a deliberately constrained single-indication estimate — see analyst_notes."
+
+thesis_changers:
+  - "FDA rejects BLA or requires additional Phase 3 data → 18-month delay."
+  - "Nivolumab achieves superior ORR in head-to-head → market share loss."
+  - "KEYNOTE-006 fails to beat ipilimumab on PFS → 1st-line opportunity closes."
+  - "Checkpoint inhibitor toxicity signal (immune AEs) becomes class-wide concern."
+
+analyst_notes: >
+  HISTORICAL BACKTEST — early 2014 analysis. This is deliberately a single-indication
+  conservative model: ipi-refractory melanoma only, as that was the clinical data
+  available in early 2014.
+
+  The key lesson from this case study is DELIBERATE UNDERESTIMATION: even a well-calibrated
+  single-indication model for pembrolizumab in 2014 would have predicted ~$250-350M peak
+  US melanoma revenues. The actual peak single-year US revenues exceeded $17B (2023) across
+  all indications. This gap — roughly 50x — represents the label expansion value that the
+  multi-indication engine is designed to partially capture.
+
+  For calibration purposes, compare predicted vs. actual for the FIRST 3 YEARS only,
+  when revenues were primarily melanoma-driven. The model is not expected to predict
+  2017+ revenues.
+
+  ACTUAL OUTCOMES: see actual_revenue.yaml
+    Approval: September 4, 2014 (accelerated; 6 months after BLA)
+    P(approval): 100% (BLA was accepted and approved)
+    2014 US revenue: ~$51M (partial year post-Sep 2014 approval)
+    2015 US revenue: ~$566M (first full year; still predominantly melanoma)
+    2016 US revenue: ~$1,402M (NSCLC approval contributing materially)

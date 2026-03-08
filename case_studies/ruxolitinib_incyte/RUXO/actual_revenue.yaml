@@ -1,0 +1,31 @@
+# Actual commercial outcomes for Ruxolitinib (Jakafi) — Myelofibrosis + PV indications
+source: "Incyte Corporation 10-K Annual Reports 2012–2018"
+# Source: Incyte Corporation Annual Reports 2012–2018 (10-K filings)
+# Note: Incyte reports US net product revenues for Jakafi separately from OUS royalties.
+#       The model was configured for MF only (2010 analysis date). PV approval in Dec 2014
+#       contributed to 2015+ revenue. MF-only estimate for 2014 peak: ~$550-650M.
+
+asset_name: "Ruxolitinib / Jakafi (INCB018424) — Myelofibrosis (US)"
+approval_year: 2011
+actual_pos_outcome: "approved"
+
+revenue_by_year:
+  2011: 36     # FDA approved Nov 16, 2011; ~6 weeks on market; ramp just beginning
+  2012: 214    # First full year; physician adoption building; MF indication only
+  2013: 448    # Rapid uptake; community hematology onc adoption; still MF only
+  2014: 679    # PV approval Dec 2014; ~$130M PV contribution in Q4; MF ~$550M
+  2015: 901    # First full year with both MF + PV; peak MF contribution ~$600M
+  2016: 1066   # Continued MF + PV growth; GvHD Phase 3 ongoing
+  2017: 1201   # Near-peak for core MF + PV without GvHD
+  2018: 1399   # GvHD accelerated approval Sep 2019 not yet included
+
+peak_year: 2018
+peak_revenue_millions: 1399
+
+notes: >
+  MF-only model (as configured for 2010 analysis) predicts revenues for ~16,000 patients
+  at 55% peak penetration = ~8,800 patients × $92K = ~$810M peak. Actual MF revenues
+  are broadly consistent with this estimate; total Jakafi revenues exceed predictions due
+  to PV (2014) and GvHD (2019) label expansions — exactly what multi-indication modeling
+  would capture. This is the canonical case for label expansion value creation.
+  Source: Incyte 10-K 2012–2018 (US net product revenues).
