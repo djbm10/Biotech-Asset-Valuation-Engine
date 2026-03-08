@@ -17,6 +17,7 @@ Design constraints
 """
 from __future__ import annotations
 
+import time
 import uuid
 from datetime import datetime, timezone
 from typing import Any, Callable, Optional
@@ -155,10 +156,12 @@ class CompetitorDiscoveryEngine:
         store: KnowledgeStore,
         max_results: int = 50,
         search_fn: Optional[SearchFn] = None,
+        request_delay_seconds: float = 0.5,
     ) -> None:
         self._store = store
         self._max_results = max_results
         self._search_fn = search_fn  # resolved lazily if None
+        self._request_delay = request_delay_seconds
 
     def _get_search_fn(self) -> SearchFn:
         if self._search_fn is not None:
@@ -192,6 +195,9 @@ class CompetitorDiscoveryEngine:
 
         try:
             search = self._get_search_fn()
+            if self._request_delay > 0 and self._search_fn is None:
+                # Only sleep on real network calls, not injected test fns
+                time.sleep(self._request_delay)
             raw_studies = search(
                 condition=indication,
                 page_size=self._max_results,
@@ -217,20 +223,42 @@ class CompetitorDiscoveryEngine:
                 self._store.add_competitor_program(program)
                 result.programs_found.append(program)
 
-                # Upsert KG node for this competitor program
-                node = KGNode(
-                    node_type=NodeType.COMPETITOR_PROGRAM,
-                    name=program.drug_name,
-                    external_id=program.nct_id,
-                    properties={
-                        "company": program.company,
-                        "phase": program.phase,
-                        "status": program.status,
-                        "indication": indication,
-                        "primary_endpoint_type": program.primary_endpoint_type,
-                    },
+                # Upsert KG node — reuse existing node if same NCT ID already
+                # exists from a different asset's discovery run (cross-asset dedup)
+                existing = (
+                    self._store.find_node_by_external_id(
+                        NodeType.COMPETITOR_PROGRAM, program.nct_id
+                    )
+                    if program.nct_id
+                    else None
                 )
-                self._store.upsert_node(node)
+                node_props = {
+                    "company": program.company,
+                    "phase": program.phase,
+                    "status": program.status,
+                    "indication": indication,
+                    "primary_endpoint_type": program.primary_endpoint_type,
+                }
+                if existing:
+                    node = existing
+                    # Refresh properties in case status/phase changed
+                    self._store.upsert_node(
+                        KGNode(
+                            node_id=existing.node_id,
+                            node_type=NodeType.COMPETITOR_PROGRAM,
+                            name=program.drug_name,
+                            external_id=program.nct_id,
+                            properties=node_props,
+                        )
+                    )
+                else:
+                    node = KGNode(
+                        node_type=NodeType.COMPETITOR_PROGRAM,
+                        name=program.drug_name,
+                        external_id=program.nct_id,
+                        properties=node_props,
+                    )
+                    self._store.upsert_node(node)
 
                 # Add competes_with edge (asset node → competitor program node)
                 edge = KGEdge(

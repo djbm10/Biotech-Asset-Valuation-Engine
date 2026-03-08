@@ -1962,6 +1962,22 @@ class KnowledgeStore:
         """Return all nodes connected via competes_with edges (undirected)."""
         return self.neighbors(asset_node_id, edge_type=EdgeType.COMPETES_WITH)
 
+    def find_node_by_external_id(
+        self, node_type: NodeType, external_id: str
+    ) -> Optional[KGNode]:
+        """
+        Look up a node by (node_type, external_id).
+
+        Used to merge competitor program nodes across assets: the same NCT
+        trial should map to exactly one KG node regardless of which asset
+        triggered its discovery.
+        """
+        row = self._conn.execute(
+            "SELECT * FROM kg_nodes WHERE node_type = ? AND external_id = ?",
+            (node_type.value, external_id),
+        ).fetchone()
+        return self._node_from_row(row) if row else None
+
     # ------------------------------------------------------------------
     # Competitor programs (2B)
     # ------------------------------------------------------------------
