@@ -62,6 +62,11 @@ class WatchlistAsset(BaseModel):
     nct_id: Optional[str] = None
     valuation_config: Optional[str] = None
     connectors: Optional[list[str]] = None
+    # Optional market cap for ranking mispricing mode ($M). When None and ticker
+    # is set, the ranking engine will attempt a yfinance lookup.
+    market_cap_millions: Optional[float] = None
+    # Per-asset overrides for RankingConfig fields (e.g. event_type_weight: 0.2).
+    ranking_overrides: Optional[dict[str, float]] = None
 
 
 class ExtractionRuntimeConfig(BaseModel):
@@ -83,6 +88,10 @@ class WatchlistRunnerConfig(BaseModel):
     extraction: ExtractionRuntimeConfig = Field(default_factory=ExtractionRuntimeConfig)
     connectors: dict[str, ConnectorRuntimeConfig] = Field(default_factory=dict)
     watchlist: list[WatchlistAsset]
+    # Optional alerting config. None = alerting disabled (default).
+    alerts: Optional[Any] = None  # AlertsConfig at runtime; Any avoids circular import
+    # Optional ranking config. Uses RankingConfig defaults when absent.
+    ranking: Optional[Any] = None  # RankingConfig at runtime
 
 
 class PipelineStageLog(BaseModel):
@@ -291,6 +300,7 @@ class WatchlistPipelineRunner:
         state_store: Optional[PipelineStateStore] = None,
         change_detector: Optional[MaterialChangeDetector] = None,
         memo_generator: Optional[WeeklyMemoGenerator] = None,
+        alert_router: Optional[Any] = None,  # AlertRouter; Any avoids import at module level
         logger: Optional[logging.Logger] = None,
     ) -> None:
         self.config = config
@@ -306,6 +316,7 @@ class WatchlistPipelineRunner:
         self.state = state_store or PipelineStateStore(config.state_path)
         self.change_detector = change_detector or MaterialChangeDetector(config.materiality)
         self.memo_generator = memo_generator or WeeklyMemoGenerator()
+        self.alert_router = alert_router  # None = alerting disabled; never raises
 
     def close(self) -> None:
         self.knowledge.close()
@@ -539,6 +550,15 @@ class WatchlistPipelineRunner:
                         created_signals=created_signals,
                         created_signal_ids=created_signal_ids,
                     )
+                    # Alert condition 1 (safety) + condition 3 (low-conf/high-severity).
+                    if self.alert_router is not None:
+                        self.alert_router.enqueue_signal_alerts(
+                            signal=signal,
+                            extraction=extraction,
+                            run_id=run_id,
+                            headline=normalized.title,
+                            source_url=normalized.source_url,
+                        )
 
                 self.state.set_last_fetch(
                     asset_cfg.company_id,
@@ -620,6 +640,13 @@ class WatchlistPipelineRunner:
                 valuation_diffs.append(saved_diff)
                 summary.valuation_runs += 1
                 summary.valuation_diffs_persisted += 1
+                # Alert condition 2: material valuation change (dual gate: abs + relative).
+                if self.alert_router is not None:
+                    self.alert_router.enqueue_diff_alerts(
+                        diff=saved_diff,
+                        signal=signal,
+                        run_id=run_id,
+                    )
 
             # Stage 8: update dossier
             dossier = self._run_stage(
@@ -669,6 +696,10 @@ class WatchlistPipelineRunner:
                 )
                 summary.memo_generated = True
                 summary.memo_id = memo.id
+
+            # Flush all enqueued alerts for this asset (batched per-asset).
+            if self.alert_router is not None:
+                self.alert_router.flush(asset_cfg.asset_id, run_id=run_id)
 
             self.state.mark_run_succeeded(asset_cfg.company_id, asset_cfg.asset_id)
             self._log_asset_summary(summary=summary, run_started=run_started)

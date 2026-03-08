@@ -35,6 +35,8 @@ bve-portfolio  = "bve.cli.run_portfolio:main"
 bve-extract    = "bve.cli.extract:main"
 bve-review-phase2 = "bve.cli.review_phase2:main"
 bve-watchlist-run = "bve.cli.watchlist_run:main"
+bve-rank          = "bve.cli.rank:main"
+bve-alert-test    = "bve.cli.alert_test:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

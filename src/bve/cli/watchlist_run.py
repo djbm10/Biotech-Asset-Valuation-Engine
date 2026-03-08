@@ -71,7 +71,12 @@ def main() -> None:
             update={"polling_interval_seconds": args.polling_interval_seconds}
         )
 
-    runner = WatchlistPipelineRunner(config)
+    alert_router = None
+    if config.alerts is not None and config.alerts.enabled:
+        from bve.alerts.alert_router import AlertRouter
+        alert_router = AlertRouter.from_config(config.alerts)
+
+    runner = WatchlistPipelineRunner(config, alert_router=alert_router)
     try:
         if args.forever:
             runner.run_forever(max_cycles=args.max_cycles)
