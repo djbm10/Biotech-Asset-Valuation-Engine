@@ -15,6 +15,8 @@ FDAConnector
 PressReleaseConnector
     Direct URL fetch of company press releases; also provides ``from_text()``
     for loading pre-fetched or local documents.
+PubMedConnector
+    NCBI PubMed E-utilities API — clinical trial literature abstracts.
 SECEdgarConnector
     SEC EDGAR submissions API — 8-K, 10-K, 10-Q filings.
 """
@@ -22,6 +24,7 @@ from bve.connectors.base import FetchResult, SourceConnector
 from bve.connectors.clinicaltrials import ClinicalTrialsConnector
 from bve.connectors.fda import FDAConnector
 from bve.connectors.press_release import PressReleaseConnector
+from bve.connectors.pubmed import PubMedConnector
 from bve.connectors.sec_edgar import SECEdgarConnector
 
 __all__ = [
@@ -30,5 +33,6 @@ __all__ = [
     "ClinicalTrialsConnector",
     "FDAConnector",
     "PressReleaseConnector",
+    "PubMedConnector",
     "SECEdgarConnector",
 ]

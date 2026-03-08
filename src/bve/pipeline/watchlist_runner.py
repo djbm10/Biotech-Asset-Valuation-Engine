@@ -79,6 +79,13 @@ class ExtractionRuntimeConfig(BaseModel):
     model: Optional[str] = None
     api_key: Optional[str] = None
 
+    # Confidence gating — prevents low-quality extractions from touching the model.
+    # Below discard_threshold: signal stored for audit but discarded from pipeline.
+    # Below review_threshold (but ≥ discard): stored + flagged for manual review;
+    # does NOT proceed to mapping or valuation.
+    confidence_discard_threshold: float = Field(default=0.3, ge=0.0, le=1.0)
+    confidence_review_threshold: float = Field(default=0.5, ge=0.0, le=1.0)
+
 
 class WatchlistRunnerConfig(BaseModel):
     """Top-level watchlist runner configuration."""
@@ -321,15 +328,54 @@ class WatchlistPipelineRunner:
         self.change_detector = change_detector or MaterialChangeDetector(config.materiality)
         self.memo_generator = memo_generator or WeeklyMemoGenerator()
         self.alert_router = alert_router  # None = alerting disabled; never raises
+        # Lazy-init; created on first run_once() call.
+        self._price_tracker: Optional[Any] = None
+
+    def _price_tracker_instance(self) -> Any:
+        """Lazy singleton for PriceReactionTracker (avoids circular imports at module load)."""
+        if self._price_tracker is None:
+            from bve.intelligence.price_reaction import PriceReactionTracker
+            self._price_tracker = PriceReactionTracker(self.knowledge, logger=self.logger)
+        return self._price_tracker
 
     def close(self) -> None:
         self.knowledge.close()
+
+    def _refresh_market_prices(self) -> int:
+        """
+        Pull latest prices for all tickers in the watchlist and upsert into market_prices.
+        Returns number of records written.  Failures are logged, not raised.
+        """
+        tickers = [
+            a.ticker for a in self.config.watchlist if a.ticker
+        ]
+        if not tickers:
+            return 0
+        try:
+            from bve.connectors.market_prices import MarketPriceConnector
+            connector = MarketPriceConnector(logger=self.logger)
+            records = connector.fetch(tickers, period="5d")
+            n = self.knowledge.upsert_market_prices(records)
+            self.logger.info("market_prices_refreshed tickers=%d rows=%d", len(tickers), n)
+            return n
+        except Exception as exc:
+            self.logger.warning("market_price_refresh_failed: %s", exc)
+            return 0
 
     def run_once(self) -> WatchlistRunSummary:
         run_id = str(uuid.uuid4())
         started = _utcnow()
         stage_logs: list[PipelineStageLog] = []
         results: list[AssetRunSummary] = []
+
+        # Refresh market prices before processing assets (needed for event outcome recording).
+        self._refresh_market_prices()
+
+        # Resolve pending price reaction windows using updated prices.
+        try:
+            self._price_tracker_instance().resolve_pending()
+        except Exception as exc:
+            self.logger.warning("price_reaction_resolve_failed: %s", exc)
 
         for asset in self.config.watchlist:
             results.append(self._run_asset(asset, stage_logs=stage_logs, run_id=run_id))
@@ -522,6 +568,43 @@ class WatchlistPipelineRunner:
                         continue
 
                     signal = extraction.signal
+                    conf = extraction.extraction_confidence
+                    ext_cfg = self.config.extraction
+
+                    # Confidence gate 1: discard — signal stored for audit but not processed.
+                    if conf < ext_cfg.confidence_discard_threshold:
+                        self.logger.warning(
+                            "signal_discarded_low_confidence asset=%s conf=%.3f "
+                            "threshold=%.2f document=%s",
+                            asset_cfg.asset_id,
+                            conf,
+                            ext_cfg.confidence_discard_threshold,
+                            normalized.id,
+                        )
+                        continue
+
+                    # Confidence gate 2: review-only — stored + flagged but NOT sent to valuation.
+                    if conf < ext_cfg.confidence_review_threshold:
+                        ambiguous_signal_ids.append(signal.id)
+                        self.logger.info(
+                            "signal_routed_review_only asset=%s conf=%.3f "
+                            "threshold=%.2f event_type=%s",
+                            asset_cfg.asset_id,
+                            conf,
+                            ext_cfg.confidence_review_threshold,
+                            signal.event_type.value,
+                        )
+                        # Store signal in knowledge store for human review but do not queue.
+                        self.knowledge.add_structured_signal(
+                            signal,
+                            SourceTrace(
+                                source_type="structured_signal",
+                                source_ref=f"extraction:{extraction_record.id}",
+                            ),
+                            extraction_result_id=extraction_record.id,
+                        )
+                        continue
+
                     if extraction.ambiguity_flag:
                         ambiguous_signal_ids.append(signal.id)
 
@@ -649,6 +732,17 @@ class WatchlistPipelineRunner:
                 valuation_diffs.append(saved_diff)
                 summary.valuation_runs += 1
                 summary.valuation_diffs_persisted += 1
+
+                # Record event outcome for later price reaction resolution.
+                try:
+                    self._price_tracker_instance().record(
+                        saved_diff,
+                        signal,
+                        ticker=asset_cfg.ticker,
+                    )
+                except Exception as exc:
+                    self.logger.warning("event_outcome_record_failed event=%s: %s", saved_diff.event_id, exc)
+
                 # Alert condition 2: material valuation change (dual gate: abs + relative).
                 if self.alert_router is not None:
                     self.alert_router.enqueue_diff_alerts(
@@ -1052,6 +1146,14 @@ def _build_connectors(configs: dict[str, ConnectorRuntimeConfig]) -> dict[str, S
             built[name] = SECEdgarConnector(**options)
         elif name == "press_release":
             built[name] = PressReleaseConnector(**options)
+        elif name == "pubmed":
+            import os
+            from bve.connectors.pubmed import PubMedConnector
+            api_key = options.pop("api_key", None) or os.getenv("NCBI_API_KEY")
+            topic_keywords = options.pop("topic_keywords", None)
+            if topic_keywords:
+                topic_keywords = tuple(topic_keywords)
+            built[name] = PubMedConnector(api_key=api_key, topic_keywords=topic_keywords, **options)
         else:
             raise ValueError(f"Unsupported connector name: {name!r}")
 

@@ -26,6 +26,7 @@ _SOURCE_TYPES: frozenset[str] = frozenset({
     "clinicaltrials_gov",
     "conference_abstract",
     "publication",
+    "pubmed",
     "fda_website",
     "news_aggregator",
     "manual",

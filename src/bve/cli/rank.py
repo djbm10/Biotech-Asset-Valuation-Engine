@@ -79,7 +79,7 @@ def _format_table(result: RankingResult) -> str:
             f"(assets_evaluated={result.assets_evaluated}, "
             f"assets_with_diffs={result.assets_with_diffs})."
         )
-    col_widths = [4, 20, 20, 8, 12, 8, 16, 10]
+    col_widths = [4, 20, 20, 8, 12, 8, 16, 10, 9]
     header = (
         f"{'Rank':<{col_widths[0]}}  "
         f"{'Asset':<{col_widths[1]}}  "
@@ -88,7 +88,8 @@ def _format_table(result: RankingResult) -> str:
         f"{'DeltaNPV($M)':>{col_widths[4]}}  "
         f"{'Conf':>{col_widths[5]}}  "
         f"{'EventType':<{col_widths[6]}}  "
-        f"{'Mispricing':>{col_widths[7]}}"
+        f"{'Mispricing':>{col_widths[7]}}  "
+        f"{'PoS Gap':>{col_widths[8]}}"
     )
     separator = "-" * len(header)
     lines = [
@@ -104,6 +105,11 @@ def _format_table(result: RankingResult) -> str:
             if opp.mispricing_score is not None
             else "n/a"
         )
+        pos_gap_str = (
+            f"{opp.pos_gap:+.2f}"
+            if opp.pos_gap is not None
+            else "n/a"
+        )
         delta_sign = "+" if opp.delta_npv_millions >= 0 else ""
         lines.append(
             f"{opp.rank:<{col_widths[0]}}  "
@@ -113,7 +119,8 @@ def _format_table(result: RankingResult) -> str:
             f"{delta_sign}{opp.delta_npv_millions:>{col_widths[4] - 1}.1f}  "
             f"{opp.extraction_confidence:>{col_widths[5]}.2f}  "
             f"{(opp.signal_event_type or 'unknown'):<{col_widths[6]}}  "
-            f"{misprice:>{col_widths[7]}}"
+            f"{misprice:>{col_widths[7]}}  "
+            f"{pos_gap_str:>{col_widths[8]}}"
         )
     lines.append(separator)
     # Explanation block

@@ -28,6 +28,7 @@ from typing import Optional
 from pydantic import BaseModel, Field
 
 from bve.intelligence.knowledge_layer import KnowledgeStore, StoredValuationDiff
+from bve.intelligence.market_expectations import MarketExpectation
 from bve.intelligence.schemas.signals import StructuredSignal
 
 # ---------------------------------------------------------------------------
@@ -130,6 +131,12 @@ class RankedOpportunity(BaseModel):
     signal_event_type: Optional[str] = None
     last_diff_at: Optional[datetime] = None
 
+    # Market expectation gap (Wave 1D): positive = market more pessimistic than model.
+    # None when no market expectation data is available.
+    implied_pos: Optional[float] = None
+    model_pos: Optional[float] = None
+    pos_gap: Optional[float] = None
+
     explanation: str
 
 
@@ -183,6 +190,7 @@ class AssetRankingEngine:
         assets = watchlist_config.watchlist
         diffs_by_asset: dict[str, list[StoredValuationDiff]] = {}
         signals_by_asset: dict[str, Optional[StructuredSignal]] = {}
+        expectations_by_asset: dict[str, Optional[MarketExpectation]] = {}
         market_caps: dict[str, Optional[float]] = {}
         date_from = since.date() if since else None
 
@@ -207,9 +215,14 @@ class AssetRankingEngine:
                 if diffs:
                     sig = self.knowledge.get_structured_signal_by_event_id(diffs[0].event_id)
                     signals_by_asset[key] = sig
+
+                # Load latest market expectation (implied PoS gap).
+                exp = self.knowledge.get_latest_expectation(asset.asset_id)
+                expectations_by_asset[key] = exp
             else:
                 diffs = []
                 signals_by_asset[key] = None
+                expectations_by_asset[key] = None
 
             diffs_by_asset[key] = diffs
 
@@ -218,6 +231,7 @@ class AssetRankingEngine:
             diffs_by_asset=diffs_by_asset,
             market_caps=market_caps,
             signals_by_asset=signals_by_asset,
+            expectations_by_asset=expectations_by_asset,
             ranked_at=ranked_at,
             since=since,
         )
@@ -229,6 +243,7 @@ class AssetRankingEngine:
         *,
         market_caps: Optional[dict[str, Optional[float]]] = None,
         signals_by_asset: Optional[dict[str, Optional[StructuredSignal]]] = None,
+        expectations_by_asset: Optional[dict[str, Optional[MarketExpectation]]] = None,
         ranked_at: Optional[datetime] = None,
         since: Optional[datetime] = None,
     ) -> RankingResult:
@@ -242,6 +257,8 @@ class AssetRankingEngine:
             market_caps = {}
         if signals_by_asset is None:
             signals_by_asset = {}
+        if expectations_by_asset is None:
+            expectations_by_asset = {}
 
         scored: list[RankedOpportunity] = []
         assets_with_diffs = 0
@@ -260,6 +277,7 @@ class AssetRankingEngine:
                 ranked_at=ranked_at,
                 market_cap=market_caps.get(key),
                 signal=signals_by_asset.get(key),
+                expectation=expectations_by_asset.get(key),
             )
             if opp is not None:
                 scored.append(opp)
@@ -288,6 +306,7 @@ class AssetRankingEngine:
         ranked_at: datetime,
         market_cap: Optional[float] = None,
         signal: Optional[StructuredSignal] = None,
+        expectation: Optional[MarketExpectation] = None,
     ) -> Optional[RankedOpportunity]:
         if not diffs:
             return None
@@ -395,6 +414,9 @@ class AssetRankingEngine:
             extraction_confidence=confidence_component,
             signal_event_type=event_type_str,
             last_diff_at=latest.created_at,
+            implied_pos=expectation.implied_pos if expectation is not None else None,
+            model_pos=expectation.model_pos if expectation is not None else None,
+            pos_gap=expectation.pos_gap if expectation is not None else None,
             explanation=explanation,
         )
 

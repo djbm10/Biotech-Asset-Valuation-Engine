@@ -279,6 +279,57 @@ class KnowledgeStore:
                 source_trace_json TEXT NOT NULL
             );
 
+            -- Market price history (1A).  adj_close is the canonical price series.
+            -- Unique on (ticker, price_date) — idempotent upserts.
+            CREATE TABLE IF NOT EXISTS market_prices (
+                ticker TEXT NOT NULL,
+                price_date TEXT NOT NULL,
+                close_usd REAL,
+                adj_close_usd REAL,
+                volume INTEGER,
+                market_cap_millions REAL,
+                is_adjusted INTEGER NOT NULL DEFAULT 1,
+                source TEXT NOT NULL DEFAULT 'yfinance',
+                ingested_at TEXT NOT NULL,
+                PRIMARY KEY (ticker, price_date)
+            );
+
+            -- Event outcomes (1B).  One row per event; T-windows resolved incrementally.
+            -- signal_date + trading-day arithmetic determines resolution schedule.
+            CREATE TABLE IF NOT EXISTS event_outcomes (
+                outcome_id TEXT PRIMARY KEY,
+                event_id TEXT NOT NULL,
+                asset_id TEXT NOT NULL,
+                ticker TEXT,
+                signal_date TEXT NOT NULL,
+                event_type TEXT,
+                model_delta_npv REAL,
+                model_delta_pct REAL,
+                volume_spike_at_signal INTEGER DEFAULT 0,
+                price_before REAL,
+                price_t1 REAL,     market_return_t1 REAL,     resolved_t1 INTEGER DEFAULT 0,
+                price_t5 REAL,     market_return_t5 REAL,     resolved_t5 INTEGER DEFAULT 0,
+                price_t30 REAL,    market_return_t30 REAL,    resolved_t30 INTEGER DEFAULT 0,
+                price_t90 REAL,    market_return_t90 REAL,    resolved_t90 INTEGER DEFAULT 0,
+                price_t180 REAL,   market_return_t180 REAL,   resolved_t180 INTEGER DEFAULT 0,
+                fully_resolved INTEGER NOT NULL DEFAULT 0,
+                created_at TEXT NOT NULL
+            );
+
+            -- Market expectation modeling (1D).  Implied PoS back-solved from market cap.
+            CREATE TABLE IF NOT EXISTS market_expectations (
+                expectation_id TEXT PRIMARY KEY,
+                asset_id TEXT NOT NULL,
+                ticker TEXT NOT NULL,
+                expectation_date TEXT NOT NULL,
+                implied_pos REAL,
+                model_pos REAL,
+                pos_gap REAL,
+                cash_estimate_millions REAL,
+                methodology TEXT NOT NULL DEFAULT 'nav_backsolve',
+                computed_at TEXT NOT NULL
+            );
+
             CREATE INDEX IF NOT EXISTS idx_raw_documents_created
                 ON raw_documents(created_at);
             CREATE INDEX IF NOT EXISTS idx_raw_documents_hash
@@ -317,6 +368,16 @@ class KnowledgeStore:
                 ON memos(company_id, asset_id, created_at);
             CREATE INDEX IF NOT EXISTS idx_dossiers_company_asset_date
                 ON dossiers(company_id, asset_id, generated_at);
+            CREATE INDEX IF NOT EXISTS idx_prices_ticker_date
+                ON market_prices(ticker, price_date);
+            CREATE INDEX IF NOT EXISTS idx_outcomes_event
+                ON event_outcomes(event_id);
+            CREATE INDEX IF NOT EXISTS idx_outcomes_asset_date
+                ON event_outcomes(asset_id, signal_date);
+            CREATE INDEX IF NOT EXISTS idx_outcomes_unresolved
+                ON event_outcomes(fully_resolved, signal_date);
+            CREATE INDEX IF NOT EXISTS idx_expectations_asset_date
+                ON market_expectations(asset_id, expectation_date);
             """
         )
 
@@ -690,6 +751,190 @@ class KnowledgeStore:
         )
         self._conn.commit()
         return stored
+
+    # ------------------------------------------------------------------
+    # Market price methods (Wave 1A)
+    # ------------------------------------------------------------------
+
+    def upsert_market_price(self, record: "MarketPriceRecord") -> None:
+        """Insert or replace one market price row (idempotent on ticker+date)."""
+        self._conn.execute(
+            """
+            INSERT OR REPLACE INTO market_prices(
+                ticker, price_date, close_usd, adj_close_usd, volume,
+                market_cap_millions, is_adjusted, source, ingested_at
+            ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                record.ticker,
+                record.price_date.isoformat(),
+                record.close_usd,
+                record.adj_close_usd,
+                record.volume,
+                record.market_cap_millions,
+                1 if record.is_adjusted else 0,
+                record.source,
+                record.ingested_at.isoformat(),
+            ),
+        )
+        self._conn.commit()
+
+    def upsert_market_prices(self, records: "list[MarketPriceRecord]") -> int:
+        """Bulk upsert; returns number of rows written."""
+        if not records:
+            return 0
+        self._conn.executemany(
+            """
+            INSERT OR REPLACE INTO market_prices(
+                ticker, price_date, close_usd, adj_close_usd, volume,
+                market_cap_millions, is_adjusted, source, ingested_at
+            ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            [
+                (
+                    r.ticker,
+                    r.price_date.isoformat(),
+                    r.close_usd,
+                    r.adj_close_usd,
+                    r.volume,
+                    r.market_cap_millions,
+                    1 if r.is_adjusted else 0,
+                    r.source,
+                    r.ingested_at.isoformat(),
+                )
+                for r in records
+            ],
+        )
+        self._conn.commit()
+        return len(records)
+
+    def get_latest_price(self, ticker: str) -> Optional["MarketPriceRecord"]:
+        """Return the most recent price row for *ticker*, or None."""
+        row = self._conn.execute(
+            """
+            SELECT ticker, price_date, close_usd, adj_close_usd, volume,
+                   market_cap_millions, is_adjusted, source, ingested_at
+            FROM market_prices WHERE ticker = ?
+            ORDER BY price_date DESC LIMIT 1
+            """,
+            (ticker,),
+        ).fetchone()
+        if row is None:
+            return None
+        from bve.connectors.market_prices import MarketPriceRecord
+        from datetime import date as _date
+        return MarketPriceRecord(
+            ticker=row["ticker"],
+            price_date=_date.fromisoformat(row["price_date"]),
+            close_usd=row["close_usd"],
+            adj_close_usd=row["adj_close_usd"],
+            volume=row["volume"] or 0,
+            market_cap_millions=row["market_cap_millions"],
+            is_adjusted=bool(row["is_adjusted"]),
+            source=row["source"],
+            ingested_at=self._coerce_datetime(row["ingested_at"]),
+        )
+
+    def get_price_on_or_before(self, ticker: str, as_of: "date") -> Optional["MarketPriceRecord"]:
+        """Return the latest price row for *ticker* on or before *as_of*."""
+        row = self._conn.execute(
+            """
+            SELECT ticker, price_date, close_usd, adj_close_usd, volume,
+                   market_cap_millions, is_adjusted, source, ingested_at
+            FROM market_prices WHERE ticker = ? AND price_date <= ?
+            ORDER BY price_date DESC LIMIT 1
+            """,
+            (ticker, as_of.isoformat()),
+        ).fetchone()
+        if row is None:
+            return None
+        from bve.connectors.market_prices import MarketPriceRecord
+        from datetime import date as _date
+        return MarketPriceRecord(
+            ticker=row["ticker"],
+            price_date=_date.fromisoformat(row["price_date"]),
+            close_usd=row["close_usd"],
+            adj_close_usd=row["adj_close_usd"],
+            volume=row["volume"] or 0,
+            market_cap_millions=row["market_cap_millions"],
+            is_adjusted=bool(row["is_adjusted"]),
+            source=row["source"],
+            ingested_at=self._coerce_datetime(row["ingested_at"]),
+        )
+
+    def get_20day_avg_volume(self, ticker: str, as_of: "date") -> Optional[float]:
+        """Return 20-trading-day average volume on or before *as_of*, or None."""
+        row = self._conn.execute(
+            """
+            SELECT AVG(volume) as avg_vol FROM (
+                SELECT volume FROM market_prices
+                WHERE ticker = ? AND price_date <= ?
+                ORDER BY price_date DESC LIMIT 20
+            )
+            """,
+            (ticker, as_of.isoformat()),
+        ).fetchone()
+        if row is None or row["avg_vol"] is None:
+            return None
+        return float(row["avg_vol"])
+
+    # ------------------------------------------------------------------
+    # Market expectation methods (Wave 1D)
+    # ------------------------------------------------------------------
+
+    def upsert_market_expectation(self, exp: "MarketExpectation") -> None:
+        """Insert or replace one market expectation row."""
+        self._conn.execute(
+            """
+            INSERT OR REPLACE INTO market_expectations(
+                expectation_id, asset_id, ticker, expectation_date,
+                implied_pos, model_pos, pos_gap, cash_estimate_millions,
+                methodology, computed_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                exp.expectation_id,
+                exp.asset_id,
+                exp.ticker,
+                exp.expectation_date.isoformat(),
+                exp.implied_pos,
+                exp.model_pos,
+                exp.pos_gap,
+                exp.cash_estimate_millions,
+                exp.methodology,
+                exp.computed_at.isoformat(),
+            ),
+        )
+        self._conn.commit()
+
+    def get_latest_expectation(self, asset_id: str) -> Optional["MarketExpectation"]:
+        """Return the most recent market_expectation row for *asset_id*, or None."""
+        row = self._conn.execute(
+            """
+            SELECT expectation_id, asset_id, ticker, expectation_date,
+                   implied_pos, model_pos, pos_gap, cash_estimate_millions,
+                   methodology, computed_at
+            FROM market_expectations WHERE asset_id = ?
+            ORDER BY expectation_date DESC, computed_at DESC LIMIT 1
+            """,
+            (asset_id,),
+        ).fetchone()
+        if row is None:
+            return None
+        from bve.intelligence.market_expectations import MarketExpectation
+        from datetime import date as _date
+        return MarketExpectation(
+            expectation_id=row["expectation_id"],
+            asset_id=row["asset_id"],
+            ticker=row["ticker"],
+            expectation_date=_date.fromisoformat(row["expectation_date"]),
+            implied_pos=row["implied_pos"],
+            model_pos=row["model_pos"],
+            pos_gap=row["pos_gap"],
+            cash_estimate_millions=row["cash_estimate_millions"],
+            methodology=row["methodology"],
+            computed_at=self._coerce_datetime(row["computed_at"]),
+        )
 
     def add_review_decision(
         self,
