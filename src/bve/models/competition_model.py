@@ -64,12 +64,109 @@ McKinsey (2019) "Market share dynamics in specialty oncology: lessons from 50 la
 """
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+import math
+from typing import TYPE_CHECKING, Any, Optional
 
 from pydantic import BaseModel, Field, field_validator
 
 if TYPE_CHECKING:
     import numpy as np
+
+
+class CrowdingModel(BaseModel):
+    """
+    Class-level crowding dynamics: when many competitors are simultaneously active,
+    each additional entrant beyond the threshold produces diminishing returns for
+    our own penetration ceiling.
+
+    Model mechanics
+    ---------------
+    In year Y, count N = number of approved competitors with positive market share.
+    If N > crowding_threshold:
+        available_fraction *= (1 - share_decay_per_competitor) ^ (N - crowding_threshold)
+
+    This captures the empirical observation that in crowded drug classes (e.g. PD-1
+    inhibitors, CDK4/6 inhibitors), each incremental entrant captures less than
+    linear share arithmetic would predict, and the overall market expands less than
+    the sum of individual peak shares.
+
+    Parameters
+    ----------
+    enabled : bool
+        Crowding dynamics are off by default to preserve backward compatibility.
+    class_name : str
+        Descriptive label for the drug class (e.g. "PI3Ka inhibitors").  Informational only.
+    crowding_threshold : int
+        Number of approved competitors before crowding kicks in.  Default 3.
+    share_decay_per_competitor : float
+        Fractional reduction applied to our available market fraction for each
+        competitor beyond the threshold.  Default 0.15 (15% per excess competitor).
+        At 0.15 with 2 excess competitors: multiplier = (0.85)^2 = 0.72.
+    """
+    enabled: bool = False
+    class_name: str = ""
+    crowding_threshold: int = Field(default=3, gt=0)
+    share_decay_per_competitor: float = Field(default=0.15, ge=0.0, le=1.0)
+
+
+class FirstMoverConfig(BaseModel):
+    """
+    First-mover advantage: reward early entrants, penalise late entrants.
+
+    The earliest approved launch year is auto-detected from the competitor list.
+    Ties are included: all competitors sharing the earliest launch_year_relative
+    receive the bonus.
+
+    Parameters
+    ----------
+    enabled : bool
+        Off by default; enables first-mover dynamics when True.
+    first_mover_bonus : float
+        Multiplier added to first movers' effective peak share.
+        0.25 → first mover's effective share = peak_market_share × 1.25.
+    late_entrant_penalty : float
+        Fractional reduction applied to non-first-mover competitors' effective share.
+        0.10 → late entrant's effective share = peak_market_share × 0.90.
+    """
+    enabled: bool = False
+    first_mover_bonus: float = Field(default=0.25, ge=0.0, le=1.0)
+    late_entrant_penalty: float = Field(default=0.10, ge=0.0, le=1.0)
+
+
+class ClassSaturationProfile(BaseModel):
+    """
+    Class-level saturation dynamics: TAM ceiling and market expansion effects.
+
+    Two distinct phenomena are captured:
+
+    1. Saturation ceiling — the entire drug class cannot collectively exceed
+       saturation_ceiling × TAM.  As combined competitor share approaches the
+       ceiling, our available headroom shrinks.
+
+    2. Market expansion factor — some classes grow total TAM as they mature
+       (e.g. PD-1 inhibitors created new treatable patients).  A factor > 1.0
+       scales up the effective TAM approximated by expanding our available fraction.
+
+    Invariant: our available_market_fraction ≤ ceiling − combined_competitor_share
+    always holds, so the floor cannot breach the saturation ceiling.
+
+    Parameters
+    ----------
+    enabled : bool
+        Off by default; enables saturation dynamics when True.
+    class_name : str
+        Descriptive label (e.g. "PD-1 inhibitors"). Informational only.
+    saturation_ceiling : float
+        Maximum fraction of TAM the class can collectively penetrate.
+        Examples: PD-1 in NSCLC ≈ 0.85; BTK in CLL ≈ 0.70; JAK2 in MF ≈ 0.65.
+    market_expansion_factor : float
+        Factor by which effective TAM grows as the class matures.
+        1.0 = static TAM; 1.20 = class expands TAM by 20%.
+    """
+    enabled: bool = False
+    class_name: str = ""
+    saturation_ceiling: float = Field(default=0.80, gt=0.0, le=1.0)
+    market_expansion_factor: float = Field(default=1.0, ge=1.0)
 
 
 class CompetitorLaunch(BaseModel):
@@ -109,6 +206,16 @@ class CompetitorLaunch(BaseModel):
     approval_probability: float = Field(
         default=1.0, ge=0.0, le=1.0,
         description="For pipeline competitors. Scales down effective market impact."
+    )
+    use_s_curve: bool = Field(
+        default=False,
+        description=(
+            "When True, adoption follows a logistic S-curve rather than a linear ramp. "
+            "Real drug launches show slow initial uptake → inflection → plateau. "
+            "S-curve ramps produce lower combined competitor share in early years and "
+            "higher share in later years than linear, converging at years_to_peak. "
+            "Negative peak_market_share (market-expanding drugs) ignores this flag."
+        ),
     )
     notes: str = ""
 
@@ -158,15 +265,74 @@ class CompetitionModel(BaseModel):
             "Negative peak_market_share values always expand available market regardless of mode."
         ),
     )
+    crowding_model: CrowdingModel = Field(default_factory=CrowdingModel)
+    first_mover_config: FirstMoverConfig = Field(default_factory=FirstMoverConfig)
+    saturation_profile: ClassSaturationProfile = Field(default_factory=ClassSaturationProfile)
+
+    def _first_mover_launch_year(self) -> Optional[float]:
+        """Earliest launch_year_relative among approved competitors, or None."""
+        approved = [c for c in self.competitors if c.status == "approved"]
+        return min((c.launch_year_relative for c in approved), default=None)
+
+    @staticmethod
+    def _ramp(comp: CompetitorLaunch, t: float) -> float:
+        """
+        Adoption ramp for one competitor at t years from their launch.
+
+        Linear (use_s_curve=False, default):
+            ramp = min(1, t / years_to_peak)
+            Produces a straight line from 0 at launch to 1.0 at years_to_peak.
+
+        Logistic S-curve (use_s_curve=True):
+            Uses the same sigmoid formula as UptakeCurve.s_curve() in market_model.py.
+            Normalized so ramp(0) = 0 and ramp(years_to_peak) = 1.0 regardless of
+            the sigmoid's natural tails, then clamped to [0, 1].
+
+            Effect vs linear: slower ramp in early years, faster in mid years,
+            same endpoint at years_to_peak. Combined competitor share is lower in
+            early years (less pressure on us) and higher in late years (steeper
+            class saturation). The two modes converge at years_to_peak.
+
+        Not applied to negative peak_market_share (market-expanding drugs):
+            _single_competitor_share() short-circuits for t <= 0, so this is only
+            ever called with t > 0.
+        """
+        ytp = max(1, comp.years_to_peak)
+        if not comp.use_s_curve:
+            return min(1.0, t / ytp)
+        k = 8.0 / ytp
+        midpoint = ytp / 2.0
+        raw = 1.0 / (1.0 + math.exp(-k * (t - midpoint)))
+        norm_at_zero = 1.0 / (1.0 + math.exp(-k * (0.0 - midpoint)))
+        norm_at_peak = 1.0 / (1.0 + math.exp(-k * (ytp - midpoint)))
+        span = norm_at_peak - norm_at_zero
+        return min(1.0, (raw - norm_at_zero) / max(1e-9, span))
 
     def _single_competitor_share(self, comp: CompetitorLaunch, year_from_our_launch: int) -> float:
-        """Market share for one competitor in a given year."""
+        """
+        Market share for one competitor in a given year.
+
+        Ramp shape is controlled by comp.use_s_curve (see _ramp()).
+        When first_mover_config.enabled=True, applies a bonus multiplier to the
+        earliest approved entrant(s) and a penalty multiplier to all others.
+        First-mover adjustment is applied before crowding so crowding operates on
+        the economically correct (first-mover-adjusted) shares.
+        """
         years_from_their_launch = year_from_our_launch - comp.launch_year_relative
         if years_from_their_launch <= 0:
             return 0.0
-        # Ramp: linear from 0 to peak_market_share over years_to_peak
-        ramp = min(1.0, years_from_their_launch / max(1, comp.years_to_peak))
+        ramp = self._ramp(comp, years_from_their_launch)
         share = comp.peak_market_share * ramp * comp.approval_probability
+
+        # First-mover adjustment (only applied to positive shares)
+        if self.first_mover_config.enabled and share > 0:
+            earliest = self._first_mover_launch_year()
+            if earliest is not None:
+                if comp.launch_year_relative == earliest:
+                    share *= (1.0 + self.first_mover_config.first_mover_bonus)
+                else:
+                    share *= (1.0 - self.first_mover_config.late_entrant_penalty)
+
         return share  # can be negative (market-expanding drugs)
 
     def combined_competitor_share(self, year: int) -> float:
@@ -178,12 +344,53 @@ class CompetitionModel(BaseModel):
         total = sum(self._single_competitor_share(c, year) for c in self.competitors)
         return max(0.0, total)
 
+    def _n_active_approved_competitors(self, year: int) -> int:
+        """Count approved competitors with positive market share in this year."""
+        return sum(
+            1 for c in self.competitors
+            if c.status == "approved" and self._single_competitor_share(c, year) > 0
+        )
+
     def our_available_market_fraction(self, year: int) -> float:
         """
         Fraction of total addressable market available to us after competitor dynamics.
-        Floor of 0.10: even in crowded markets, differentiated drugs retain some patients.
+
+        Without saturation: floor of 0.10 (even in crowded markets, differentiated
+        drugs retain some patients).
+
+        With saturation_profile.enabled=True: headroom is capped at
+        (saturation_ceiling - combined_competitor_share). The floor itself is also
+        capped at the headroom so it cannot breach the saturation ceiling. The
+        market_expansion_factor scales headroom before the floor/ceiling clamp.
+
+        CrowdingModel and ClassSaturationProfile are independent and can be combined.
+        Crowding is applied after saturation, respecting the saturation-adjusted floor.
+
+        Ordering: first-mover adjustments are applied inside _single_competitor_share(),
+        which feeds combined_competitor_share() here. Crowding then operates on the
+        first-mover-adjusted combined share — economically correct, as crowding
+        reflects actual market impact.
         """
-        return max(0.10, 1.0 - self.combined_competitor_share(year))
+        combined = self.combined_competitor_share(year)
+
+        if self.saturation_profile.enabled:
+            ceiling = self.saturation_profile.saturation_ceiling
+            headroom = max(0.0, ceiling - combined)
+            expansion = self.saturation_profile.market_expansion_factor
+            floor = min(0.10, headroom)
+            available = max(floor, min(headroom * expansion, 1.0 - combined))
+        else:
+            floor = 0.10
+            available = max(floor, 1.0 - combined)
+
+        if self.crowding_model.enabled:
+            n_active = self._n_active_approved_competitors(year)
+            excess = max(0, n_active - self.crowding_model.crowding_threshold)
+            if excess > 0:
+                crowding_factor = (1.0 - self.crowding_model.share_decay_per_competitor) ** excess
+                available = max(floor, available * crowding_factor)
+
+        return available
 
     def share_by_competitor(self, year: int) -> dict[str, float]:
         """Per-competitor breakdown for charts and debugging."""
@@ -254,7 +461,12 @@ class CompetitionModel(BaseModel):
             else:
                 if rng.random() < comp.approval_probability:
                     sampled.append(comp.model_copy(update={"approval_probability": 1.0}))
-        return CompetitionModel(competitors=sampled)
+        return CompetitionModel(
+            competitors=sampled,
+            crowding_model=self.crowding_model,
+            first_mover_config=self.first_mover_config,
+            saturation_profile=self.saturation_profile,
+        )
 
     def summary(self) -> str:
         """One-line summary for console output."""
