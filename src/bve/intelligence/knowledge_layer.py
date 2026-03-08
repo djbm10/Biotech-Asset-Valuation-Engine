@@ -20,6 +20,7 @@ from pydantic import BaseModel, Field
 
 from bve.intelligence.extraction.raw_document import RawDocument
 from bve.intelligence.extraction.result import ExtractionResult
+from bve.intelligence.knowledge_graph import EdgeType, KGEdge, KGNode, NodeType
 from bve.intelligence.schemas.runs import ReviewDecision
 from bve.intelligence.schemas.signals import Event, StructuredSignal
 from bve.intelligence.taxonomy import EventType
@@ -378,6 +379,40 @@ class KnowledgeStore:
                 ON event_outcomes(fully_resolved, signal_date);
             CREATE INDEX IF NOT EXISTS idx_expectations_asset_date
                 ON market_expectations(asset_id, expectation_date);
+
+            -- Knowledge graph (2A).
+            CREATE TABLE IF NOT EXISTS kg_nodes (
+                node_id TEXT PRIMARY KEY,
+                node_type TEXT NOT NULL,
+                name TEXT NOT NULL,
+                external_id TEXT,
+                properties_json TEXT NOT NULL DEFAULT '{}',
+                created_at TEXT NOT NULL,
+                updated_at TEXT NOT NULL
+            );
+
+            CREATE TABLE IF NOT EXISTS kg_edges (
+                edge_id TEXT PRIMARY KEY,
+                source_node_id TEXT NOT NULL,
+                target_node_id TEXT NOT NULL,
+                edge_type TEXT NOT NULL,
+                confidence REAL NOT NULL DEFAULT 1.0,
+                source_signal_id TEXT,
+                properties_json TEXT NOT NULL DEFAULT '{}',
+                created_at TEXT NOT NULL,
+                UNIQUE(source_node_id, target_node_id, edge_type)
+            );
+
+            CREATE INDEX IF NOT EXISTS idx_kg_nodes_type
+                ON kg_nodes(node_type);
+            CREATE INDEX IF NOT EXISTS idx_kg_nodes_external
+                ON kg_nodes(external_id);
+            CREATE INDEX IF NOT EXISTS idx_kg_edges_source
+                ON kg_edges(source_node_id, edge_type);
+            CREATE INDEX IF NOT EXISTS idx_kg_edges_target
+                ON kg_edges(target_node_id, edge_type);
+            CREATE INDEX IF NOT EXISTS idx_kg_edges_type
+                ON kg_edges(edge_type);
             """
         )
 
@@ -1719,3 +1754,188 @@ class KnowledgeStore:
             source_trace=source_trace,
             provenance_chain=provenance_chain,
         )
+
+    # ------------------------------------------------------------------
+    # Knowledge graph (2A)
+    # ------------------------------------------------------------------
+
+    @staticmethod
+    def _node_from_row(row: sqlite3.Row) -> KGNode:
+        return KGNode(
+            node_id=row["node_id"],
+            node_type=NodeType(row["node_type"]),
+            name=row["name"],
+            external_id=row["external_id"],
+            properties=json.loads(row["properties_json"] or "{}"),
+            created_at=KnowledgeStore._coerce_datetime(row["created_at"]),
+        )
+
+    @staticmethod
+    def _edge_from_row(row: sqlite3.Row) -> KGEdge:
+        return KGEdge(
+            edge_id=row["edge_id"],
+            source_node_id=row["source_node_id"],
+            target_node_id=row["target_node_id"],
+            edge_type=EdgeType(row["edge_type"]),
+            confidence=row["confidence"],
+            source_signal_id=row["source_signal_id"],
+            properties=json.loads(row["properties_json"] or "{}"),
+            created_at=KnowledgeStore._coerce_datetime(row["created_at"]),
+        )
+
+    def add_node(self, node: KGNode) -> KGNode:
+        """Insert node; silently skip if node_id already exists."""
+        now = datetime.now(timezone.utc).isoformat()
+        self._conn.execute(
+            """
+            INSERT OR IGNORE INTO kg_nodes
+                (node_id, node_type, name, external_id, properties_json, created_at, updated_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                node.node_id,
+                node.node_type.value,
+                node.name,
+                node.external_id,
+                json.dumps(node.properties),
+                node.created_at.isoformat(),
+                now,
+            ),
+        )
+        self._conn.commit()
+        return node
+
+    def upsert_node(self, node: KGNode) -> KGNode:
+        """Insert or update node, refreshing name, properties, and updated_at."""
+        now = datetime.now(timezone.utc).isoformat()
+        self._conn.execute(
+            """
+            INSERT INTO kg_nodes
+                (node_id, node_type, name, external_id, properties_json, created_at, updated_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+            ON CONFLICT(node_id) DO UPDATE SET
+                name = excluded.name,
+                external_id = excluded.external_id,
+                properties_json = excluded.properties_json,
+                updated_at = excluded.updated_at
+            """,
+            (
+                node.node_id,
+                node.node_type.value,
+                node.name,
+                node.external_id,
+                json.dumps(node.properties),
+                node.created_at.isoformat(),
+                now,
+            ),
+        )
+        self._conn.commit()
+        return node
+
+    def get_node(self, node_id: str) -> Optional[KGNode]:
+        row = self._conn.execute(
+            "SELECT * FROM kg_nodes WHERE node_id = ?", (node_id,)
+        ).fetchone()
+        return self._node_from_row(row) if row else None
+
+    def find_by_type(self, node_type: NodeType) -> list[KGNode]:
+        rows = self._conn.execute(
+            "SELECT * FROM kg_nodes WHERE node_type = ? ORDER BY name",
+            (node_type.value,),
+        ).fetchall()
+        return [self._node_from_row(r) for r in rows]
+
+    def add_edge(self, edge: KGEdge) -> KGEdge:
+        """Insert edge; replace on (source, target, edge_type) conflict."""
+        self._conn.execute(
+            """
+            INSERT INTO kg_edges
+                (edge_id, source_node_id, target_node_id, edge_type,
+                 confidence, source_signal_id, properties_json, created_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            ON CONFLICT(source_node_id, target_node_id, edge_type) DO UPDATE SET
+                confidence = excluded.confidence,
+                source_signal_id = excluded.source_signal_id,
+                properties_json = excluded.properties_json
+            """,
+            (
+                edge.edge_id,
+                edge.source_node_id,
+                edge.target_node_id,
+                edge.edge_type.value,
+                edge.confidence,
+                edge.source_signal_id,
+                json.dumps(edge.properties),
+                edge.created_at.isoformat(),
+            ),
+        )
+        self._conn.commit()
+        return edge
+
+    def neighbors(
+        self,
+        node_id: str,
+        edge_type: Optional[EdgeType] = None,
+    ) -> list[KGNode]:
+        """Return all nodes connected to node_id (undirected), optionally filtered by edge_type."""
+        if edge_type:
+            rows = self._conn.execute(
+                """
+                SELECT n.* FROM kg_nodes n
+                JOIN kg_edges e ON n.node_id = e.target_node_id
+                WHERE e.source_node_id = ? AND e.edge_type = ?
+                UNION
+                SELECT n.* FROM kg_nodes n
+                JOIN kg_edges e ON n.node_id = e.source_node_id
+                WHERE e.target_node_id = ? AND e.edge_type = ?
+                """,
+                (node_id, edge_type.value, node_id, edge_type.value),
+            ).fetchall()
+        else:
+            rows = self._conn.execute(
+                """
+                SELECT n.* FROM kg_nodes n
+                JOIN kg_edges e ON n.node_id = e.target_node_id
+                WHERE e.source_node_id = ?
+                UNION
+                SELECT n.* FROM kg_nodes n
+                JOIN kg_edges e ON n.node_id = e.source_node_id
+                WHERE e.target_node_id = ?
+                """,
+                (node_id, node_id),
+            ).fetchall()
+        return [self._node_from_row(r) for r in rows]
+
+    def get_subgraph(self, node_id: str, depth: int = 2) -> dict[str, list]:
+        """BFS to `depth`. Returns {"nodes": [KGNode], "edges": [KGEdge]}."""
+        visited_nodes: dict[str, KGNode] = {}
+        visited_edges: dict[str, KGEdge] = {}
+        frontier = {node_id}
+
+        root = self.get_node(node_id)
+        if root:
+            visited_nodes[node_id] = root
+
+        for _ in range(depth):
+            next_frontier: set[str] = set()
+            for nid in frontier:
+                edge_rows = self._conn.execute(
+                    "SELECT * FROM kg_edges WHERE source_node_id = ? OR target_node_id = ?",
+                    (nid, nid),
+                ).fetchall()
+                for er in edge_rows:
+                    edge = self._edge_from_row(er)
+                    visited_edges[edge.edge_id] = edge
+                    for other_id in (edge.source_node_id, edge.target_node_id):
+                        if other_id not in visited_nodes:
+                            node = self.get_node(other_id)
+                            if node:
+                                visited_nodes[other_id] = node
+                                next_frontier.add(other_id)
+            frontier = next_frontier
+
+        return {"nodes": list(visited_nodes.values()), "edges": list(visited_edges.values())}
+
+    def find_competing_assets(self, asset_node_id: str) -> list[KGNode]:
+        """Return all nodes connected via competes_with edges (undirected)."""
+        return self.neighbors(asset_node_id, edge_type=EdgeType.COMPETES_WITH)
