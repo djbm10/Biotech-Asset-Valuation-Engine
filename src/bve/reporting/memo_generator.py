@@ -72,6 +72,7 @@ def _build_context(output: ValuationOutput, memo_type: MemoType) -> dict:
         "decision_framing": output.decision_framing,
         "implied_pos_pct": f"{output.implied_pos:.1%}" if output.implied_pos is not None else None,
         "implied_pos": output.implied_pos,
+        "lifecycle_events": output.lifecycle_events_applied,
         "author": MEMO_AUTHOR,
         "disclaimer": MEMO_DISCLAIMER,
         "memo_type": memo_type,

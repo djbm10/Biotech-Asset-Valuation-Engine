@@ -79,6 +79,15 @@ memo_type: Venture Capital
 | **Peak Net Sales (base)** | **${{ "%.0f"|format(d.peak_sales_millions) }}M** |
 | Commercial Horizon | {{ market.patent_life_years }} years |
 
+{% if lifecycle_events %}
+### Lifecycle Events
+
+| Year | Type | Label | Effect |
+|------|------|-------|--------|
+{% for ev in lifecycle_events %}| {{ ev.year }} | {{ ev.type | replace("_", " ") | title }} | {{ ev.label or "—" }} | {{ ev.effect }} |
+{% endfor %}
+{% endif %}
+
 ---
 
 ## 5. Valuation & Return Analysis

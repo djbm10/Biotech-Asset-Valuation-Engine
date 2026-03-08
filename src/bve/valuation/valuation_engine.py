@@ -188,6 +188,9 @@ class ValuationEngine:
             sources=self.sources,
         )
 
+        # --- Lifecycle events summary (for valuation.json and memo rendering) ---
+        lifecycle_events_applied = self._build_lifecycle_events_applied()
+
         return ValuationOutput(
             asset=self.asset,
             company=self.company,
@@ -206,6 +209,7 @@ class ValuationEngine:
             random_seed=self.mc_params.random_seed,
             n_simulations=self.mc_params.n_simulations,
             decision_framing=self.decision_framing,
+            lifecycle_events_applied=lifecycle_events_applied,
         )
 
     # -----------------------------------------------------------------------
@@ -248,6 +252,36 @@ class ValuationEngine:
                 trial.success_probability, features, phase=trial.phase.value
             )
             result.append(trial.model_copy(update={"success_probability": dar.adjusted_pos}))
+        return result
+
+    # -----------------------------------------------------------------------
+    # Lifecycle events summary
+    # -----------------------------------------------------------------------
+
+    def _build_lifecycle_events_applied(self) -> list[dict]:
+        """Serialize lifecycle events from market_model into output dicts."""
+        events = getattr(self.market_model, "lifecycle_events", None)
+        if not events:
+            return []
+        result = []
+        for e in events:
+            if e.event_type == "new_formulation":
+                effect = f"LOE +{e.loe_delay_years} yr{'s' if e.loe_delay_years != 1 else ''}"
+            elif e.event_type in ("label_expansion", "combination_therapy"):
+                parts = []
+                if e.tam_expansion_factor != 1.0:
+                    parts.append(f"TAM \u00d7{e.tam_expansion_factor:.2f}")
+                if e.penetration_boost:
+                    parts.append(f"pen +{e.penetration_boost:.0%}")
+                effect = ", ".join(parts) if parts else "no effect"
+            else:
+                effect = e.event_type
+            result.append({
+                "year": e.trigger_year,
+                "type": e.event_type,
+                "label": e.label or "",
+                "effect": effect,
+            })
         return result
 
     # -----------------------------------------------------------------------

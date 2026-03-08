@@ -80,6 +80,15 @@ Key valuation anchors:
 {% if market.addressable_patients_annual %}| Addressable Patients | {{ market.addressable_patients_annual | format_int }} |{% endif %}
 {% if market.net_price_per_patient_usd %}| Net Price/Patient/Yr | ${{ "%.0f"|format(market.net_price_per_patient_usd) }} |{% endif %}
 
+{% if lifecycle_events %}
+### Lifecycle Events
+
+| Year | Type | Label | Effect |
+|------|------|-------|--------|
+{% for ev in lifecycle_events %}| {{ ev.year }} | {{ ev.type | replace("_", " ") | title }} | {{ ev.label or "—" }} | {{ ev.effect }} |
+{% endfor %}
+{% endif %}
+
 ---
 
 ## 4. Valuation Analysis

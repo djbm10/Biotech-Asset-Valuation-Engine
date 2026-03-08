@@ -60,6 +60,16 @@ class ValuationOutput(BaseModel):
     # Decision framing (optional — populated when decision_framing: section present in YAML)
     decision_framing: Optional[object] = Field(default=None)   # DecisionFraming
 
+    # Lifecycle events (populated from market_model.lifecycle_events when present)
+    lifecycle_events_applied: list[dict] = Field(
+        default_factory=list,
+        description=(
+            "Serialized summary of LifecycleEvent objects active in this valuation. "
+            "Each dict contains: year, type, label, effect (human-readable description). "
+            "Empty list when no lifecycle events are configured."
+        ),
+    )
+
     # Metadata
     analysis_date: str = Field(default_factory=lambda: date.today().isoformat())
     run_timestamp: str = Field(default_factory=lambda: datetime.now().isoformat(timespec="seconds"))

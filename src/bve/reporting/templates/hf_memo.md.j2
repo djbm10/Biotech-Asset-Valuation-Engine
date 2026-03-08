@@ -89,6 +89,15 @@ memo_type: Hedge Fund
 
 **P(positive value):** {{ d.mc_prob_positive }}
 
+{% if lifecycle_events %}
+### Lifecycle Events
+
+| Year | Type | Label | Effect |
+|------|------|-------|--------|
+{% for ev in lifecycle_events %}| {{ ev.year }} | {{ ev.type | replace("_", " ") | title }} | {{ ev.label or "—" }} | {{ ev.effect }} |
+{% endfor %}
+{% endif %}
+
 ---
 
 ## 5. Key Sensitivities
