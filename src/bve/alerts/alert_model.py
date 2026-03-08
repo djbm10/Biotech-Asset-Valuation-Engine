@@ -39,6 +39,7 @@ class AlertTrigger(str, Enum):
     SAFETY_SIGNAL_DETECTED          = "safety_signal_detected"
     MATERIAL_VALUATION_CHANGE       = "material_valuation_change"
     LOW_CONFIDENCE_HIGH_SEVERITY    = "low_confidence_high_severity"
+    LOW_STATISTICAL_POWER           = "low_statistical_power"
 
 
 class Alert(BaseModel):
