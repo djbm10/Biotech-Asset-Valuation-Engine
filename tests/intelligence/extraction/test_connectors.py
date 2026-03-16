@@ -15,7 +15,7 @@ from __future__ import annotations
 
 import json
 from datetime import datetime, timezone
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock, Mock, patch
 
 import pytest
 
@@ -191,7 +191,7 @@ class TestClinicalTrialsConnector:
 
     def test_fetch_by_nct_id_success(self):
         connector = ClinicalTrialsConnector()
-        with patch("bve.ingestion.clinicaltrials_gov.fetch_trial_by_nct") as mock_fetch:
+        with patch("bve.ingestion.clinicaltrials_gov.fetch_study") as mock_fetch:
             mock_fetch.return_value = self._mock_raw_study()
             result = connector.fetch(_HINTS_FULL)
 
@@ -209,18 +209,21 @@ class TestClinicalTrialsConnector:
             mock_search.return_value = [self._mock_raw_study()]
             result = connector.fetch(hints)
 
+        mock_search.assert_called_once_with(intervention="AXD-101", page_size=20)
         assert len(result.documents) == 1
         assert result.documents[0].source == "clinicaltrials_gov"
 
-    def test_fetch_no_drug_name_or_nct_id_returns_error(self):
+    def test_fetch_no_drug_name_or_nct_id_returns_empty(self):
+        # No nct_id or drug_name: connector returns a clean empty result without
+        # poisoning the health metric with a fetch_error.
         connector = ClinicalTrialsConnector()
         result = connector.fetch(_HINTS_MINIMAL)
         assert result.documents == []
-        assert len(result.fetch_errors) > 0
+        assert result.fetch_errors == []
 
     def test_fetch_api_error_returns_error_not_exception(self):
         connector = ClinicalTrialsConnector()
-        with patch("bve.ingestion.clinicaltrials_gov.fetch_trial_by_nct") as mock_fetch:
+        with patch("bve.ingestion.clinicaltrials_gov.fetch_study") as mock_fetch:
             mock_fetch.side_effect = RuntimeError("Network error")
             result = connector.fetch(_HINTS_FULL)
         assert isinstance(result, FetchResult)
@@ -229,7 +232,7 @@ class TestClinicalTrialsConnector:
 
     def test_entity_hints_preserved_in_documents(self):
         connector = ClinicalTrialsConnector()
-        with patch("bve.ingestion.clinicaltrials_gov.fetch_trial_by_nct") as mock_fetch:
+        with patch("bve.ingestion.clinicaltrials_gov.fetch_study") as mock_fetch:
             mock_fetch.return_value = self._mock_raw_study()
             result = connector.fetch(_HINTS_FULL)
 
@@ -329,3 +332,171 @@ class TestSECEdgarConnector:
         assert isinstance(result, FetchResult)
         # May have no documents but should not raise
         assert result.documents == [] or isinstance(result.documents[0], RawDocument)
+
+    def test_fetch_uses_sec_index_json_directory_listing(self):
+        connector = SECEdgarConnector(form_types=["8-K"], max_filings_per_type=1)
+        hints = EntityHints(asset_id="a", company_id="c", ticker="VRTX")
+
+        submissions_payload = {
+            "name": "Vertex Pharmaceuticals",
+            "filings": {
+                "recent": {
+                    "form": ["8-K"],
+                    "filingDate": ["2026-02-12"],
+                    "accessionNumber": ["0000875320-26-000034"],
+                }
+            },
+        }
+        index_payload = {
+            "directory": {
+                "item": [
+                    {"name": "0000875320-26-000034-index.html"},
+                    {"name": "0000875320-26-000034.txt"},
+                ]
+            }
+        }
+
+        mock_responses = [
+            Mock(status_code=200, json=Mock(return_value=submissions_payload)),
+            Mock(status_code=200, json=Mock(return_value=index_payload)),
+            Mock(status_code=200, text="SEC filing body text"),
+        ]
+        for response in mock_responses:
+            response.raise_for_status = Mock()
+
+        with patch("bve.ingestion.sec_edgar.get_cik", return_value="0000875320"), \
+             patch("requests.get", side_effect=mock_responses) as mock_get:
+            result = connector.fetch(hints, limit=1)
+
+        assert len(result.documents) == 1
+        assert result.documents[0].source == "sec_filing"
+        fetched_urls = [call.args[0] for call in mock_get.call_args_list]
+        assert fetched_urls[1].endswith("/000087532026000034/index.json")
+        assert fetched_urls[2].endswith("/000087532026000034/0000875320-26-000034.txt")
+
+    def test_8k_item_extraction_extracts_press_release_text(self):
+        """8-K filings with Items 8.01/8.02 should have those sections extracted."""
+        connector = SECEdgarConnector(form_types=["8-K"], max_filings_per_type=1)
+        hints = EntityHints(asset_id="a", company_id="c", ticker="VRTX")
+
+        submissions_payload = {
+            "name": "Vertex Pharmaceuticals",
+            "filings": {
+                "recent": {
+                    "form": ["8-K"],
+                    "filingDate": ["2026-02-12"],
+                    "accessionNumber": ["0000875320-26-000034"],
+                }
+            },
+        }
+        index_payload = {
+            "directory": {
+                "item": [{"name": "0000875320-26-000034.txt"}]
+            }
+        }
+        # Filing text contains an Item 8.01 press-release section.
+        filing_text = (
+            "UNITED STATES SECURITIES AND EXCHANGE COMMISSION\n"
+            "Item 1.01 Entry into Agreement.\nBlah blah agreement text.\n"
+            "Item 8.01 Other Events.\nVertex announces positive Phase 3 data for VX-548.\n"
+            "The trial met its primary endpoint with p<0.001.\n"
+            "Item 9.01 Financial Statements.\nExhibit 99.1\n"
+        )
+
+        mock_responses = [
+            Mock(status_code=200, json=Mock(return_value=submissions_payload)),
+            Mock(status_code=200, json=Mock(return_value=index_payload)),
+            Mock(status_code=200, text=filing_text),
+        ]
+        for r in mock_responses:
+            r.raise_for_status = Mock()
+
+        with patch("bve.ingestion.sec_edgar.get_cik", return_value="0000875320"), \
+             patch("requests.get", side_effect=mock_responses):
+            result = connector.fetch(hints, limit=1)
+
+        assert len(result.documents) == 1
+        doc = result.documents[0]
+        assert "Item 8.01" in doc.raw_text or "VX-548" in doc.raw_text
+        assert "Item 1.01" not in doc.raw_text  # pre-8.01 content excluded
+
+    def test_8k_item_extraction_disabled_returns_full_text(self):
+        """With extract_8k_items=False, full filing text is preserved."""
+        connector = SECEdgarConnector(
+            form_types=["8-K"], max_filings_per_type=1, extract_8k_items=False
+        )
+        hints = EntityHints(asset_id="a", company_id="c", ticker="VRTX")
+
+        submissions_payload = {
+            "name": "Vertex Pharmaceuticals",
+            "filings": {
+                "recent": {
+                    "form": ["8-K"],
+                    "filingDate": ["2026-02-12"],
+                    "accessionNumber": ["0000875320-26-000034"],
+                }
+            },
+        }
+        index_payload = {
+            "directory": {
+                "item": [{"name": "0000875320-26-000034.txt"}]
+            }
+        }
+        filing_text = (
+            "Item 1.01 Entry into Agreement.\nAgreement text.\n"
+            "Item 8.01 Other Events.\nPress release content.\n"
+        )
+
+        mock_responses = [
+            Mock(status_code=200, json=Mock(return_value=submissions_payload)),
+            Mock(status_code=200, json=Mock(return_value=index_payload)),
+            Mock(status_code=200, text=filing_text),
+        ]
+        for r in mock_responses:
+            r.raise_for_status = Mock()
+
+        with patch("bve.ingestion.sec_edgar.get_cik", return_value="0000875320"), \
+             patch("requests.get", side_effect=mock_responses):
+            result = connector.fetch(hints, limit=1)
+
+        assert len(result.documents) == 1
+        assert "Item 1.01" in result.documents[0].raw_text
+
+    def test_nct_id_fallback_to_drug_name_when_empty(self):
+        """When nct_id fetch returns empty, connector falls back to drug_name search."""
+        connector = ClinicalTrialsConnector()
+        hints = EntityHints(
+            asset_id="asset-001",
+            company_id="company-001",
+            drug_name="AXD-101",
+            nct_id="NCT04567890",
+        )
+        with patch("bve.ingestion.clinicaltrials_gov.fetch_study") as mock_fetch, \
+             patch("bve.ingestion.clinicaltrials_gov.search_studies") as mock_search:
+            mock_fetch.return_value = None  # nct_id lookup returns nothing
+            mock_search.return_value = [
+                {
+                    "protocolSection": {
+                        "identificationModule": {
+                            "nctId": "NCT04567891",
+                            "briefTitle": "AXD-101 Phase 2 in Eczema",
+                        },
+                        "statusModule": {
+                            "overallStatus": "RECRUITING",
+                            "lastUpdatePostDateStruct": {"date": "2024-01-01"},
+                        },
+                        "descriptionModule": {"briefSummary": "A trial of AXD-101."},
+                        "designModule": {"phases": ["PHASE2"]},
+                        "conditionsModule": {"conditions": ["Eczema"]},
+                        "armsInterventionsModule": {
+                            "interventions": [{"interventionType": "DRUG", "name": "AXD-101"}]
+                        },
+                        "outcomesModule": {"primaryOutcomes": []},
+                    }
+                }
+            ]
+            result = connector.fetch(hints)
+
+        mock_search.assert_called_once()
+        assert len(result.documents) == 1
+        assert result.documents[0].source == "clinicaltrials_gov"

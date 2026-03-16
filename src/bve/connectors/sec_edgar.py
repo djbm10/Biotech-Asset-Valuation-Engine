@@ -31,10 +31,39 @@ _HEADERS          = {"User-Agent": "bve-intelligence research@bve.dev"}
 _TAG_RE           = re.compile(r"<[^>]+>")
 _WS_RE            = re.compile(r"\s+")
 
+# Matches the start of 8-K Item 8.01 or 8.02 (press-release sections).
+# SEC filings use "Item 8.01" or "Item\u00a08.01" etc.
+_8K_ITEM_RE = re.compile(
+    r"Item\s+8\.0[12][^\n]*",
+    re.IGNORECASE,
+)
+# Next section header to stop extraction at.
+_NEXT_ITEM_RE = re.compile(r"Item\s+\d+\.\d+", re.IGNORECASE)
+
 
 def _strip_tags(html: str) -> str:
     text = _TAG_RE.sub(" ", html)
     return _WS_RE.sub(" ", text).strip()
+
+
+def _extract_8k_press_release_text(raw_text: str) -> Optional[str]:
+    """
+    Extract the content of Items 8.01 and 8.02 from a stripped 8-K text.
+
+    Returns the combined item text, or None if neither item is found.
+    """
+    match = _8K_ITEM_RE.search(raw_text)
+    if not match:
+        return None
+
+    start = match.start()
+    # Find the next item header after the first 8.01/8.02 match to determine end.
+    tail = raw_text[match.end():]
+    next_match = _NEXT_ITEM_RE.search(tail)
+    end = match.end() + next_match.start() if next_match else len(raw_text)
+
+    extracted = raw_text[start:end].strip()
+    return extracted if extracted else None
 
 
 def _utcnow() -> datetime:
@@ -57,9 +86,11 @@ class SECEdgarConnector:
         self,
         form_types: Optional[list[str]] = None,
         max_filings_per_type: int = 3,
+        extract_8k_items: bool = True,
     ) -> None:
         self._form_types = form_types or ["8-K", "10-Q"]
         self._max_per_type = max_filings_per_type
+        self._extract_8k_items = extract_8k_items
 
     @property
     def source_type(self) -> str:
@@ -100,6 +131,7 @@ class SECEdgarConnector:
         # Fetch submissions metadata
         try:
             cik_padded = str(cik).zfill(10)
+            cik_numeric = str(int(cik))
             url = f"{_EDGAR_BASE}/submissions/CIK{cik_padded}.json"
             resp = requests.get(url, headers=_HEADERS, timeout=15)
             resp.raise_for_status()
@@ -144,7 +176,11 @@ class SECEdgarConnector:
                 acc_clean   = accession.replace("-", "")
                 index_url   = (
                     f"https://www.sec.gov/Archives/edgar/data/{cik}/"
-                    f"{acc_clean}/{accession}-index.json"
+                    f"{acc_clean}/index.json"
+                )
+                index_url = (
+                    f"https://www.sec.gov/Archives/edgar/data/{cik_numeric}/"
+                    f"{acc_clean}/index.json"
                 )
                 idx_resp    = requests.get(index_url, headers=_HEADERS, timeout=15)
                 idx_resp.raise_for_status()
@@ -155,25 +191,23 @@ class SECEdgarConnector:
 
             # Find primary document URL
             doc_url: Optional[str] = None
-            for filing_doc in idx_data.get("documents", []):
-                doc_type = filing_doc.get("type", "")
+            archive_base = f"https://www.sec.gov/Archives/edgar/data/{cik_numeric}/{acc_clean}"
+            filing_items = idx_data.get("directory", {}).get("item", [])
+
+            # Prefer the plain-text submission when available: it avoids HTML index pages
+            # and reliably includes the full filing payload in one request.
+            for filing_doc in filing_items:
                 doc_name = filing_doc.get("name", "")
-                if doc_type == form or (doc_type == "8-K" and "8-k" in doc_name.lower()):
-                    doc_url = (
-                        f"https://www.sec.gov/Archives/edgar/data/{cik}/"
-                        f"{acc_clean}/{doc_name}"
-                    )
+                if doc_name.endswith(".txt"):
+                    doc_url = f"{archive_base}/{doc_name}"
                     break
 
             if not doc_url:
-                # Fall back to first .htm document
-                for filing_doc in idx_data.get("documents", []):
+                for filing_doc in filing_items:
                     name = filing_doc.get("name", "")
-                    if name.endswith(".htm") or name.endswith(".html"):
-                        doc_url = (
-                            f"https://www.sec.gov/Archives/edgar/data/{cik}/"
-                            f"{acc_clean}/{name}"
-                        )
+                    lower = name.lower()
+                    if lower.endswith((".htm", ".html")) and "index" not in lower:
+                        doc_url = f"{archive_base}/{name}"
                         break
 
             # Fetch document text
@@ -199,6 +233,12 @@ class SECEdgarConnector:
 
             if not raw_text_content.strip():
                 raw_text_content = f"SEC {form} — {company_name} — {filing_date_str}"
+
+            # For 8-K filings: prefer Items 8.01/8.02 (press-release content) when present.
+            if form == "8-K" and self._extract_8k_items:
+                item_text = _extract_8k_press_release_text(raw_text_content)
+                if item_text:
+                    raw_text_content = item_text
 
             title    = f"{form} — {company_name} ({ticker}) — {filing_date_str}"
             index_url_public = (

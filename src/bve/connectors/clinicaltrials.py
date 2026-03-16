@@ -14,7 +14,6 @@ Both paths return normalized ``RawDocument`` objects with ``source="clinicaltria
 """
 from __future__ import annotations
 
-import re
 import uuid
 from datetime import datetime, timezone
 from typing import Optional
@@ -60,7 +59,7 @@ class ClinicalTrialsConnector:
 
         try:
             from bve.ingestion.clinicaltrials_gov import (
-                fetch_trial_by_nct,
+                fetch_study,
                 search_studies,
             )
         except ImportError as exc:
@@ -70,19 +69,46 @@ class ClinicalTrialsConnector:
             )
 
         if entity_hints.nct_id:
-            # Fetch by specific NCT ID
+            # Fetch by specific NCT ID; fall through to drug_name search if empty.
+            nct_found = False
             try:
-                raw = fetch_trial_by_nct(entity_hints.nct_id.strip().upper())
+                raw = fetch_study(entity_hints.nct_id.strip().upper())
                 if raw:
                     doc = self._to_document(raw, entity_hints, now)
                     if doc:
                         docs.append(doc)
+                        nct_found = True
             except Exception as exc:
-                errors.append(f"fetch_trial_by_nct({entity_hints.nct_id}): {exc}")
+                errors.append(f"fetch_study({entity_hints.nct_id}): {exc}")
+
+            # If nct_id returned nothing and drug_name is available, search by drug name.
+            if not nct_found and entity_hints.drug_name:
+                try:
+                    results = search_studies(
+                        intervention=entity_hints.drug_name,
+                        page_size=min(limit, 20),
+                    )
+                    for raw in results:
+                        try:
+                            doc = self._to_document(raw, entity_hints, now)
+                            if doc:
+                                if since and doc.published_at and doc.published_at < since:
+                                    continue
+                                docs.append(doc)
+                                if len(docs) >= limit:
+                                    break
+                        except Exception as exc:
+                            errors.append(f"to_document: {exc}")
+                except Exception as exc:
+                    errors.append(f"search_studies({entity_hints.drug_name!r}): {exc}")
+
         elif entity_hints.drug_name:
             # Search by drug name
             try:
-                results = search_studies(entity_hints.drug_name, max_results=min(limit, 20))
+                results = search_studies(
+                    intervention=entity_hints.drug_name,
+                    page_size=min(limit, 20),
+                )
                 for raw in results:
                     try:
                         doc = self._to_document(raw, entity_hints, now)
@@ -98,7 +124,8 @@ class ClinicalTrialsConnector:
             except Exception as exc:
                 errors.append(f"search_studies({entity_hints.drug_name!r}): {exc}")
         else:
-            errors.append("entity_hints must have nct_id or drug_name to query ClinicalTrials.gov")
+            # No nct_id or drug_name — return clean empty result (not an error).
+            pass
 
         return FetchResult(
             documents=docs,
