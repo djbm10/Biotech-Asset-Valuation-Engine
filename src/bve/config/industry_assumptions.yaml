@@ -418,3 +418,33 @@ pre_readout_scoring:
   # Default effect size used in power calculation when prior_phase_effect is unavailable.
   # Corresponds to a standardized mean difference (Cohen's d) or hazard-ratio delta.
   historical_effect_size_default: 0.15
+
+# ==============================================================================
+# Phase 2 → Phase 3 Bayesian PoS correlation
+# Used by PhaseCorrelationUpdater to update Phase 3 priors from prior-phase signals.
+# All values are EVIDENCE-INFORMED PRIORS — not statistically estimated.
+# ==============================================================================
+
+phase_correlation:
+
+  # Sigmoid likelihood: P(Phase 3 success | z) = σ(alpha + beta * z)
+  # alpha=0.0: at z=0 (neutral Phase 2), likelihood=0.5 (no update to prior)
+  # beta=0.50: moderate slope; z=2 → likelihood≈0.73; z=-2 → likelihood≈0.27
+  alpha: 0.0
+  beta:  0.50
+
+  # Maximum absolute PoS change (pp) from a single Phase 2 update.
+  max_update_pp: 0.25
+
+  # Z-score shrinkage factor for single-arm (non-randomized) Phase 2 trials.
+  # Rationale: single-arm results are systematically optimistic (no control arm).
+  single_arm_z_shrinkage: 0.60
+
+  # Phase 1 safety-only path: smaller sigmoid slope and tighter cap.
+  phase1_beta: 0.25
+  phase1_max_update_fraction: 0.33   # Phase 1 cap = max_update_pp × fraction ≈ 8pp
+
+  # bound_pct for AssumptionChangeProposal (BOUNDED → always → ReviewQueue).
+  # Set higher than Wave 4 (80 vs 50) because 25pp absolute cap already controls
+  # Phase 2 updates; the relative bound should not be the binding constraint.
+  proposal_bound_pct: 80.0

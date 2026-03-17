@@ -140,6 +140,10 @@ from bve.intelligence.trial_design_feature_extractor import (
     PreReadoutAssessment,
     TrialDesignFeatureExtractor,
 )
+from bve.intelligence.phase_correlation_updater import (
+    PhaseCorrelationResult,
+    PhaseCorrelationUpdater,
+)
 
 __all__ = [
     # Taxonomy
@@ -246,4 +250,7 @@ __all__ = [
     # Wave 4 pre-readout design scoring
     "PreReadoutAssessment",
     "TrialDesignFeatureExtractor",
+    # Wave 5 phase correlation (Bayesian Ph2→Ph3 update)
+    "PhaseCorrelationResult",
+    "PhaseCorrelationUpdater",
 ]
