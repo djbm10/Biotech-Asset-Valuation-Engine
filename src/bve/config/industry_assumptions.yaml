@@ -520,3 +520,43 @@ enrollment_quality:
     rare_disease:
       phase_2: 0.30
       phase_3: 0.25
+
+# ==============================================================================
+# Competitor Impact — temporal decay and MoA propagation priors
+# Wave 2: Competitor Catalyst Linking
+# ==============================================================================
+#
+# tau_years: characteristic decay time (in years) for how quickly a competitor
+#   readout's impact is absorbed by the market before our own readout.
+#   Shorter tau → faster decay → less residual impact by our readout.
+#   Longer tau → market is slower to price in competitor data.
+#
+# Source: internal calibration; directional only (no published benchmarks).
+
+competitor_impact:
+
+  # Temporal decay half-lives by indication
+  tau_years:
+    oncology:       1.2   # fast-moving field; market re-rates quickly
+    rare_disease:   2.0   # slow to update; limited precedent
+    cardiovascular: 1.5
+    immunology:     1.3
+    cns:            1.8
+    default:        1.5
+
+  # MoA propagation priors: fractional rNPV changes applied with decay
+  #
+  # pos_delta_competitor_failure: same-MoA efficacy failure → our PoS increase
+  # pos_delta_competitor_failure_safety: same-MoA safety failure → our PoS decrease
+  # market_share_delta_competitor_success: competitor succeeds → our share compressed
+  # market_share_delta_competitor_failure: competitor fails → our share expands
+  pos_delta_competitor_failure:           0.05   # +5% rNPV on same-MoA efficacy fail
+  pos_delta_competitor_failure_safety:   -0.03   # -3% rNPV on same-MoA safety fail
+  market_share_delta_competitor_success: -0.08   # -8% rNPV on competitor success
+  market_share_delta_competitor_failure:  0.05   # +5% rNPV on different-MoA failure
+
+  # Neutral prior for competitor PoS when we have no view
+  competitor_default_pos: 0.50
+
+  # Floor guard on std_dev (same as catalyst_calendar)
+  std_floor_multiplier: 0.50

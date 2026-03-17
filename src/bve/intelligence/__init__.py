@@ -157,6 +157,10 @@ from bve.intelligence.catalyst_calendar import (
 from bve.intelligence.pdufa_extractor import PDUFAExtractor
 from bve.intelligence.trial_readout_estimator import TrialReadoutEstimator
 from bve.intelligence.catalyst_ev import CatalystEVCalculator
+from bve.intelligence.competitor_catalyst_linker import (
+    CompetitorCatalystLinker,
+    competitor_decay_factor,
+)
 
 __all__ = [
     # Taxonomy
@@ -277,4 +281,7 @@ __all__ = [
     "PDUFAExtractor",
     "TrialReadoutEstimator",
     "CatalystEVCalculator",
+    # Wave 2 competitor catalyst linking
+    "CompetitorCatalystLinker",
+    "competitor_decay_factor",
 ]
