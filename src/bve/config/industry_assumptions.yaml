@@ -480,6 +480,31 @@ catalyst_calendar:
   catalyst_alert_days_ahead:       30     # fire alert within N days of catalyst
   catalyst_alert_min_delta_ev_abs: 100.0  # |delta_ev| must exceed $100M
 
+# ==============================================================================
+# Endpoint Benchmarking — shrinkage priors
+# Wave 6: z-score positioning against approved-drug reference class
+# ==============================================================================
+#
+# prior_std: per-endpoint prior standard deviation added in quadrature to the
+#   sample std of the approved-drug distribution.  Guards against overconfident
+#   z-scores when the reference class is small (n < 5).
+#
+# Values reflect typical within-class variation for each endpoint type based on
+# historical approval distributions.  Conservative (larger) priors increase
+# shrinkage and dampen extreme z-scores for sparse reference classes.
+
+endpoint_benchmarking:
+
+  prior_std:
+    orr:     0.13   # ORR varies widely across indications; moderate prior
+    pfs_hr:  0.10   # HR endpoints are tighter; smaller prior
+    os_hr:   0.08   # OS HR even tighter; smallest prior
+    cr_rate: 0.11   # CR rate has moderate within-indication spread
+    pasi90:  0.12   # PASI90 spread moderate across IL-17/IL-23 agents
+    acr50:   0.10   # ACR50 moderately tight in RA
+    efs_hr:  0.09   # EFS HR (peds/heme): tight
+    default: 0.12   # conservative fallback for unlisted endpoint types
+
 enrollment_quality:
 
   # Fraction of sites that must be recruiting before a site-stalling alert fires.

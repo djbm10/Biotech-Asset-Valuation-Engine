@@ -161,6 +161,11 @@ from bve.intelligence.competitor_catalyst_linker import (
     CompetitorCatalystLinker,
     competitor_decay_factor,
 )
+from bve.intelligence.endpoint_benchmarking import (
+    EndpointEvaluation,
+    EndpointBenchmarkEvaluator,
+    normalize_endpoint,
+)
 
 __all__ = [
     # Taxonomy
@@ -284,4 +289,8 @@ __all__ = [
     # Wave 2 competitor catalyst linking
     "CompetitorCatalystLinker",
     "competitor_decay_factor",
+    # Wave 6 endpoint benchmarking
+    "EndpointEvaluation",
+    "EndpointBenchmarkEvaluator",
+    "normalize_endpoint",
 ]

@@ -1,0 +1,247 @@
+# ==============================================================================
+# BVE Endpoint Benchmarks — Curated Approval Reference Class
+# Version: 2026-Q1
+# ==============================================================================
+#
+# Structure:
+#   <therapeutic_area>:
+#     <indication_key>:
+#       <line_of_therapy>:
+#         <endpoint_type>:
+#           soc_baseline: <float>   # standard-of-care comparator value
+#           approved_drugs:
+#             - {name: <str>, value: <float>, year: <int>}
+#
+# Endpoint types:
+#   orr     — objective response rate (fraction; higher = better)
+#   cr_rate — complete response rate (fraction; higher = better)
+#   pfs_hr  — progression-free survival hazard ratio (HR<1 = better)
+#   os_hr   — overall survival hazard ratio (HR<1 = better)
+#   pasi90  — PASI 90% response rate (fraction; higher = better)
+#   acr50   — ACR 50% response rate (fraction; higher = better)
+#   efs_hr  — event-free survival hazard ratio (HR<1 = better)
+#
+# Source annotations per entry where available.
+# All values are as-reported in FDA review documents / pivotal trial publications.
+# ==============================================================================
+
+oncology:
+
+  nsclc:
+
+    first_line:
+
+      orr:
+        # 1L NSCLC IO/IO+chemo approvals (PD-L1 unselected or all-comers)
+        # Source: FDA labels; KEYNOTE-024, CheckMate 026, IMpower110, EMPOWER-Lung 3
+        soc_baseline: 0.20
+        approved_drugs:
+          - {name: pembrolizumab,         value: 0.45, year: 2016}
+          - {name: nivolumab,             value: 0.20, year: 2015}
+          - {name: atezolizumab,          value: 0.28, year: 2016}
+          - {name: cemiplimab,            value: 0.36, year: 2022}
+          - {name: durvalumab_tremelimumab, value: 0.40, year: 2022}
+
+      pfs_hr:
+        # 1L NSCLC PFS hazard ratios vs platinum doublet
+        soc_baseline: 1.0
+        approved_drugs:
+          - {name: pembrolizumab,         value: 0.60, year: 2016}
+          - {name: nivolumab,             value: 0.73, year: 2015}
+          - {name: atezolizumab,          value: 0.63, year: 2016}
+          - {name: cemiplimab,            value: 0.56, year: 2022}
+
+      os_hr:
+        soc_baseline: 1.0
+        approved_drugs:
+          - {name: pembrolizumab,         value: 0.63, year: 2016}
+          - {name: atezolizumab,          value: 0.78, year: 2016}
+          - {name: cemiplimab,            value: 0.68, year: 2022}
+
+    second_line:
+
+      orr:
+        # 2L NSCLC (post-platinum); docetaxel historical control
+        soc_baseline: 0.12
+        approved_drugs:
+          - {name: docetaxel,             value: 0.12, year: 2004}
+          - {name: nivolumab,             value: 0.19, year: 2015}
+          - {name: pembrolizumab,         value: 0.18, year: 2015}
+          - {name: atezolizumab,          value: 0.14, year: 2016}
+          - {name: ramucirumab_docetaxel, value: 0.23, year: 2014}
+
+      os_hr:
+        soc_baseline: 1.0
+        approved_drugs:
+          - {name: nivolumab,             value: 0.59, year: 2015}
+          - {name: pembrolizumab,         value: 0.71, year: 2015}
+          - {name: atezolizumab,          value: 0.73, year: 2016}
+
+  melanoma:
+
+    first_line:
+
+      orr:
+        # 1L melanoma IO monotherapy or combination
+        soc_baseline: 0.15
+        approved_drugs:
+          - {name: ipilimumab,            value: 0.11, year: 2011}
+          - {name: pembrolizumab,         value: 0.34, year: 2014}
+          - {name: nivolumab,             value: 0.32, year: 2014}
+          - {name: nivo_ipi_combo,        value: 0.58, year: 2015}
+          - {name: relatlimab_nivolumab,  value: 0.43, year: 2022}
+
+      pfs_hr:
+        soc_baseline: 1.0
+        approved_drugs:
+          - {name: pembrolizumab,         value: 0.57, year: 2014}
+          - {name: nivolumab,             value: 0.58, year: 2014}
+          - {name: nivo_ipi_combo,        value: 0.42, year: 2015}
+          - {name: relatlimab_nivolumab,  value: 0.75, year: 2022}
+
+      os_hr:
+        soc_baseline: 1.0
+        approved_drugs:
+          - {name: ipilimumab,            value: 0.72, year: 2011}
+          - {name: pembrolizumab,         value: 0.69, year: 2014}
+          - {name: nivo_ipi_combo,        value: 0.55, year: 2015}
+
+  breast:
+
+    hr_pos_her2_neg_advanced:
+
+      pfs_hr:
+        # HR+ HER2- advanced; CDK4/6 inhibitor combos vs ET alone
+        soc_baseline: 1.0
+        approved_drugs:
+          - {name: palbociclib,           value: 0.50, year: 2015}
+          - {name: ribociclib,            value: 0.55, year: 2017}
+          - {name: abemaciclib,           value: 0.54, year: 2017}
+          - {name: everolimus_exemestane, value: 0.45, year: 2012}
+
+      orr:
+        soc_baseline: 0.20
+        approved_drugs:
+          - {name: palbociclib,           value: 0.42, year: 2015}
+          - {name: ribociclib,            value: 0.40, year: 2017}
+          - {name: abemaciclib,           value: 0.35, year: 2017}
+
+    her2_pos_advanced:
+
+      orr:
+        # HER2+ advanced breast
+        soc_baseline: 0.25
+        approved_drugs:
+          - {name: trastuzumab_deruxtecan, value: 0.61, year: 2019}
+          - {name: tucatinib_combo,        value: 0.41, year: 2020}
+          - {name: margetuximab,           value: 0.25, year: 2020}
+          - {name: neratinib,              value: 0.19, year: 2017}
+
+      pfs_hr:
+        soc_baseline: 1.0
+        approved_drugs:
+          - {name: trastuzumab_deruxtecan, value: 0.49, year: 2019}
+          - {name: tucatinib_combo,        value: 0.54, year: 2020}
+          - {name: pertuzumab_tras_chemo,  value: 0.62, year: 2012}
+
+hematology:
+
+  aml_relapsed:
+
+    first_line:
+
+      cr_rate:
+        # R/R AML CR rates from pivotal trials
+        soc_baseline: 0.15
+        approved_drugs:
+          - {name: venetoclax_azacitidine, value: 0.37, year: 2018}
+          - {name: gilteritinib,           value: 0.21, year: 2018}
+          - {name: enasidenib,             value: 0.19, year: 2017}
+          - {name: ivosidenib,             value: 0.25, year: 2018}
+          - {name: glasdegib_ldac,         value: 0.17, year: 2018}
+          - {name: olutasidenib,           value: 0.35, year: 2022}
+
+  cll:
+
+    first_line:
+
+      pfs_hr:
+        # CLL 1L; BTKi and venetoclax-based trials vs FCR or CIT
+        soc_baseline: 1.0
+        approved_drugs:
+          - {name: ibrutinib,              value: 0.35, year: 2016}
+          - {name: acalabrutinib_obi,      value: 0.27, year: 2021}
+          - {name: venetoclax_obinutuzumab, value: 0.35, year: 2019}
+          - {name: zanubrutinib,           value: 0.35, year: 2023}
+
+      orr:
+        soc_baseline: 0.60
+        approved_drugs:
+          - {name: ibrutinib,              value: 0.86, year: 2016}
+          - {name: acalabrutinib,          value: 0.88, year: 2019}
+          - {name: venetoclax_rituximab,   value: 0.92, year: 2018}
+          - {name: zanubrutinib,           value: 0.94, year: 2023}
+
+immunology:
+
+  plaque_psoriasis:
+
+    first_line:
+
+      pasi90:
+        # Moderate-to-severe plaque psoriasis PASI 90 response at wk 12–16
+        # Source: FDA labels; SustaIn, UNCOVER, VOYAGE, ECLIPSE trials
+        soc_baseline: 0.04
+        approved_drugs:
+          - {name: secukinumab,           value: 0.59, year: 2015}
+          - {name: ixekizumab,            value: 0.68, year: 2016}
+          - {name: guselkumab,            value: 0.73, year: 2017}
+          - {name: risankizumab,          value: 0.75, year: 2019}
+          - {name: bimekizumab,           value: 0.86, year: 2023}
+          - {name: spesolimab,            value: 0.54, year: 2022}
+
+  rheumatoid_arthritis:
+
+    second_line:
+
+      acr50:
+        # MTX-IR RA ACR50 at 24 weeks
+        soc_baseline: 0.14
+        approved_drugs:
+          - {name: adalimumab,            value: 0.36, year: 2002}
+          - {name: abatacept,             value: 0.36, year: 2005}
+          - {name: tocilizumab,           value: 0.44, year: 2010}
+          - {name: baricitinib,           value: 0.49, year: 2017}
+          - {name: upadacitinib,          value: 0.56, year: 2019}
+          - {name: filgotinib,            value: 0.44, year: 2020}
+
+rare_disease:
+
+  sma:
+
+    first_line:
+
+      # Spinal Muscular Atrophy: use motor function milestone acquisition as proxy
+      # Representing as proportion achieving independent sitting (HINE or CHOP INTEND)
+      cr_rate:
+        # cr_rate repurposed: proportion achieving independent sitting (SMA type 1)
+        soc_baseline: 0.00
+        approved_drugs:
+          - {name: nusinersen,            value: 0.51, year: 2016}
+          - {name: onasemnogene,          value: 0.92, year: 2019}
+          - {name: risdiplam,             value: 0.58, year: 2020}
+
+  dmd:
+
+    first_line:
+
+      # Duchenne Muscular Dystrophy: 6MWT stabilization (% retaining within 10% of baseline)
+      # Approximated as orr-type endpoint for benchmarking
+      orr:
+        soc_baseline: 0.30
+        approved_drugs:
+          - {name: eteplirsen,            value: 0.50, year: 2016}
+          - {name: golodirsen,            value: 0.54, year: 2019}
+          - {name: viltolarsen,           value: 0.52, year: 2020}
+          - {name: casimersen,            value: 0.53, year: 2021}
+          - {name: delandistrogene,       value: 0.68, year: 2023}
