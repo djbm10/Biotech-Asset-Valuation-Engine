@@ -1095,8 +1095,9 @@ class WatchlistPipelineRunner:
                     summary.valuation_diffs_persisted += 1
 
                     # Record event outcome for later price reaction resolution.
+                    _recorded_outcome = None
                     try:
-                        self._price_tracker_instance().record(
+                        _recorded_outcome = self._price_tracker_instance().record(
                             saved_diff,
                             signal,
                             ticker=asset_cfg.ticker,
@@ -1107,6 +1108,25 @@ class WatchlistPipelineRunner:
                             saved_diff.event_id,
                             exc,
                         )
+
+                    # Wave C: surface volume anomaly to alerts.
+                    if (
+                        self.alert_router is not None
+                        and _recorded_outcome is not None
+                        and _recorded_outcome.volume_spike_at_signal
+                    ):
+                        try:
+                            self.alert_router.enqueue_price_anomaly_alert(
+                                outcome=_recorded_outcome,
+                                company_id=asset_cfg.company_id or "unknown",
+                                run_id=run_id,
+                            )
+                        except Exception as exc:
+                            self.logger.warning(
+                                "price_anomaly_alert_failed event=%s: %s",
+                                saved_diff.event_id,
+                                exc,
+                            )
 
                     # Wave A: record model prediction at signal-extraction time.
                     try:

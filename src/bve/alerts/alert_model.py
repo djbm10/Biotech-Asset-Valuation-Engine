@@ -45,6 +45,7 @@ class AlertTrigger(str, Enum):
     ENROLLMENT_VELOCITY_LOW         = "enrollment_velocity_low"
     CATALYST_APPROACHING            = "catalyst_approaching"
     CAPITAL_RISK_HIGH               = "capital_risk_high"
+    UNUSUAL_VOLUME_BEFORE_CATALYST  = "unusual_volume_before_catalyst"
 
 
 class Alert(BaseModel):

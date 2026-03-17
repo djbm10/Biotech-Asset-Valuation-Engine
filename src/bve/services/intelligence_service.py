@@ -129,6 +129,7 @@ class IntelligenceService:
         )
         self._last_ranking_calibration_date: Optional[str] = None
         self._last_kg_integrity_check_at: Optional[datetime] = None
+        self._last_event_impact_ledger_date: Optional[str] = None
         self.data_quality_monitor = DataQualityMonitor(
             self.runner.knowledge,
             gate_threshold=config.data_quality_gate_threshold,
@@ -571,6 +572,7 @@ class IntelligenceService:
             reference_time=finished,
         )
         self._maybe_run_weekly_ranking_calibration(reference_time=finished)
+        self._maybe_run_weekly_event_impact_ledger(reference_time=finished)
         self.logger.info(
             "intelligence_service_cycle run_id=%s assets=%d alerts=%d",
             run_id,
@@ -758,6 +760,26 @@ class IntelligenceService:
             )
         except Exception as exc:
             self.logger.warning("ranking_calibration_failed: %s", exc)
+
+    def _maybe_run_weekly_event_impact_ledger(self, *, reference_time: datetime) -> None:
+        # Sunday (weekday=6) post-run event impact ledger update.
+        if reference_time.weekday() != 6:
+            return
+        run_date = reference_time.date().isoformat()
+        if self._last_event_impact_ledger_date == run_date:
+            return
+        try:
+            from bve.intelligence.event_impact_ledger import EventImpactLedger
+            ledger = EventImpactLedger()
+            scores = ledger.run(self.runner.knowledge)
+            self._last_event_impact_ledger_date = run_date
+            self.logger.info(
+                "event_impact_ledger_updated run_date=%s n_scores=%d",
+                run_date,
+                len(scores),
+            )
+        except Exception as exc:
+            self.logger.warning("event_impact_ledger_failed: %s", exc)
 
     def _maybe_run_weekly_kg_integrity(
         self,

@@ -31,6 +31,7 @@ from typing import TYPE_CHECKING, Optional
 
 if TYPE_CHECKING:
     from bve.intelligence.capital_structure import CapitalStructureAssessment
+    from bve.intelligence.price_reaction import EventOutcome
 
 from bve.alerts.alert_config import AlertsConfig
 from bve.alerts.alert_model import Alert, AlertSeverity, AlertTrigger
@@ -451,6 +452,72 @@ class AlertRouter:
                     "dilution_pct":         assessment.dilution_pct,
                     "diluted_delta_ev":     diluted,
                     "liquidity_constrained": assessment.liquidity_constrained,
+                },
+            )
+        )
+        self._mark_dedup(key)
+
+    def enqueue_price_anomaly_alert(
+        self,
+        *,
+        outcome: "EventOutcome",
+        company_id: str = "unknown",
+        run_id: Optional[str] = None,
+    ) -> None:
+        """
+        Evaluate UNUSUAL_VOLUME_BEFORE_CATALYST condition.
+
+        Fires MEDIUM severity when volume_spike_at_signal is True.
+
+        Parameters
+        ----------
+        outcome:
+            EventOutcome from PriceReactionTracker.record().
+        company_id:
+            Company ID for the alert record.
+        run_id:
+            Optional pipeline run ID for traceability.
+        """
+        if not self.config.enabled:
+            return
+        if not outcome.volume_spike_at_signal:
+            return
+
+        key = _dedup_key(
+            outcome.asset_id,
+            str(outcome.signal_date),
+            AlertTrigger.UNUSUAL_VOLUME_BEFORE_CATALYST,
+            outcome.event_id,
+        )
+        if self._is_deduped(key):
+            return
+
+        self._pending[outcome.asset_id].append(
+            Alert(
+                id=str(uuid.uuid4()),
+                severity=AlertSeverity.MEDIUM,
+                trigger=AlertTrigger.UNUSUAL_VOLUME_BEFORE_CATALYST,
+                asset_id=outcome.asset_id,
+                company_id=company_id,
+                run_id=run_id,
+                message=(
+                    f"Unusual volume spike detected for {outcome.asset_id} "
+                    f"at signal date {outcome.signal_date} "
+                    f"(event_type={outcome.event_type or 'unknown'}, "
+                    f"Δnpv={outcome.model_delta_npv:.0f}M)"
+                    if outcome.model_delta_npv is not None
+                    else (
+                        f"Unusual volume spike detected for {outcome.asset_id} "
+                        f"at signal date {outcome.signal_date} "
+                        f"(event_type={outcome.event_type or 'unknown'})"
+                    )
+                ),
+                detail={
+                    "event_id":          outcome.event_id,
+                    "signal_date":       str(outcome.signal_date),
+                    "event_type":        outcome.event_type,
+                    "model_delta_npv":   outcome.model_delta_npv,
+                    "volume_spike":      True,
                 },
             )
         )
