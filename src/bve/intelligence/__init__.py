@@ -69,6 +69,11 @@ from bve.intelligence.knowledge_layer import (
     ExtractionResultRecord,
     StructuredSignalRecord,
     StoredValuationDiff,
+    RunStateRecord,
+    OpportunityAlertRecord,
+    LiteratureReviewRecord,
+    CompetitiveLandscapeRecord,
+    ResearchReportRecord,
     MemoRecord,
     DossierRecord,
     RecordWithTrace,
@@ -79,6 +84,61 @@ from bve.intelligence.memo_generation import (
     WeeklyMemoOutput,
     WeeklyMemoPromptBuilder,
     WeeklyMemoGenerator,
+)
+from bve.intelligence.cross_asset_propagation import (
+    PropagationType,
+    PropagationGuardrails,
+    PropagationObservation,
+    PropagationCalibration,
+    GeneratedPropagationProposal,
+    PropagationRoutingResult,
+    PropagationDatasetBuilder,
+    PropagationCalibrator,
+    CrossAssetPropagationEngine,
+)
+from bve.intelligence.moa_summary_agent import (
+    MoASummary,
+    MechanismOfActionSummaryAgent,
+)
+from bve.intelligence.literature_review_agent import (
+    LiteratureTopic,
+    LiteratureReviewSection,
+    LiteratureReview,
+    DocumentTopicGrouper,
+    LiteratureReviewAgent,
+)
+from bve.intelligence.competitive_landscape_agent import (
+    CompetitiveProgramEntry,
+    CompetitiveLandscape,
+    CompetitiveLandscapeAgent,
+)
+from bve.intelligence.research_report import (
+    ResearchReport,
+    ResearchReportContext,
+    ResearchReportGenerator,
+)
+from bve.intelligence.opportunity_scanner import (
+    OpportunityScannerConfig,
+    OpportunityScanResult,
+    OpportunityScanner,
+)
+from bve.intelligence.opportunity_snapshot import (
+    OpportunitySnapshotRecord,
+    OpportunitySnapshotStore,
+)
+from bve.intelligence.opportunity_monitor import (
+    OpportunityMonitorConfig,
+    OpportunityMonitorResult,
+    OpportunityMonitor,
+)
+from bve.intelligence.investment_memo_agent import (
+    InvestmentMemo,
+    InvestmentMemoContext,
+    InvestmentMemoAgent,
+)
+from bve.intelligence.trial_design_feature_extractor import (
+    PreReadoutAssessment,
+    TrialDesignFeatureExtractor,
 )
 
 __all__ = [
@@ -130,6 +190,11 @@ __all__ = [
     "ExtractionResultRecord",
     "StructuredSignalRecord",
     "StoredValuationDiff",
+    "RunStateRecord",
+    "OpportunityAlertRecord",
+    "LiteratureReviewRecord",
+    "CompetitiveLandscapeRecord",
+    "ResearchReportRecord",
     "MemoRecord",
     "DossierRecord",
     "RecordWithTrace",
@@ -139,4 +204,46 @@ __all__ = [
     "WeeklyMemoOutput",
     "WeeklyMemoPromptBuilder",
     "WeeklyMemoGenerator",
+    # Wave 5 propagation
+    "PropagationType",
+    "PropagationGuardrails",
+    "PropagationObservation",
+    "PropagationCalibration",
+    "GeneratedPropagationProposal",
+    "PropagationRoutingResult",
+    "PropagationDatasetBuilder",
+    "PropagationCalibrator",
+    "CrossAssetPropagationEngine",
+    # Wave 6A MoA agent
+    "MoASummary",
+    "MechanismOfActionSummaryAgent",
+    # Wave 6B literature review
+    "LiteratureTopic",
+    "LiteratureReviewSection",
+    "LiteratureReview",
+    "DocumentTopicGrouper",
+    "LiteratureReviewAgent",
+    # Wave 6C competitive landscape
+    "CompetitiveProgramEntry",
+    "CompetitiveLandscape",
+    "CompetitiveLandscapeAgent",
+    # Wave 6D research report
+    "ResearchReport",
+    "ResearchReportContext",
+    "ResearchReportGenerator",
+    # Wave 7 scanner + memo
+    "OpportunityScannerConfig",
+    "OpportunityScanResult",
+    "OpportunityScanner",
+    "OpportunitySnapshotRecord",
+    "OpportunitySnapshotStore",
+    "OpportunityMonitorConfig",
+    "OpportunityMonitorResult",
+    "OpportunityMonitor",
+    "InvestmentMemo",
+    "InvestmentMemoContext",
+    "InvestmentMemoAgent",
+    # Wave 4 pre-readout design scoring
+    "PreReadoutAssessment",
+    "TrialDesignFeatureExtractor",
 ]

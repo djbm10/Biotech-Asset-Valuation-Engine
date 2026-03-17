@@ -374,3 +374,47 @@ trial_design:
       endpoint_basis:    0.60   # Evidence baked in from prior phases
       evidence_design:   0.60
       approval_pathway:  0.50
+
+# ==============================================================================
+# Pre-readout trial design scoring
+# Used by TrialDesignFeatureExtractor to produce pre-readout AssumptionChangeProposals.
+# All thresholds are JUDGMENT CALLS — no literature directly calibrates these.
+# ==============================================================================
+
+pre_readout_scoring:
+
+  # Maximum absolute PoS change (percentage points) from a single pre-readout assessment.
+  design_scoring_max_update_pp: 0.15
+
+  # Trials with estimated power below this threshold receive a log-odds penalty.
+  low_power_threshold: 0.70
+
+  # Log-odds penalty scale for underpowered trials.
+  # Penalty = -scale × (power_gap / threshold); max penalty at power=0 is -scale.
+  low_power_logodds_penalty_scale: 0.20
+
+  # If prior_phase_effect > multiplier × historical_effect_size_default,
+  # use prior_phase_effect for power calculation and suppress the power penalty.
+  breakthrough_effect_multiplier: 1.5
+
+  # bound_pct for AssumptionChangeProposal (BOUNDED mode always → ReviewQueue).
+  proposal_bound_pct: 50.0
+
+  # Historical median enrollment per TA and phase (used when CT enrollment unknown).
+  historical_median_n:
+    oncology:
+      phase_2: 180
+      phase_3: 420
+    rare_disease:
+      phase_2: 80
+      phase_3: 200
+    cns:
+      phase_2: 200
+      phase_3: 500
+    default:
+      phase_2: 150
+      phase_3: 380
+
+  # Default effect size used in power calculation when prior_phase_effect is unavailable.
+  # Corresponds to a standardized mean difference (Cohen's d) or hazard-ratio delta.
+  historical_effect_size_default: 0.15
