@@ -43,6 +43,7 @@ class AlertTrigger(str, Enum):
     SYSTEM_COST_LIMIT_REACHED       = "system_cost_limit_reached"
     ENROLLMENT_SITE_STALLING        = "enrollment_site_stalling"
     ENROLLMENT_VELOCITY_LOW         = "enrollment_velocity_low"
+    CATALYST_APPROACHING            = "catalyst_approaching"
 
 
 class Alert(BaseModel):

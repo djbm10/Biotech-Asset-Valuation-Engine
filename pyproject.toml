@@ -27,6 +27,10 @@ extract = [
     "openai>=1.30",         # OpenAIClient LLM backend
     "httpx>=0.27",          # Optional fast HTTP client for connectors
 ]
+review = [
+    "streamlit>=1.35",      # Wave 4A — Review Queue UI
+    "pandas>=2.0",          # Already a core dep; listed here for clarity
+]
 
 [project.scripts]
 bve-asset      = "bve.cli.run_asset:main"
@@ -35,10 +39,27 @@ bve-portfolio  = "bve.cli.run_portfolio:main"
 bve-extract    = "bve.cli.extract:main"
 bve-review-phase2 = "bve.cli.review_phase2:main"
 bve-watchlist-run = "bve.cli.watchlist_run:main"
+bve-replay-documents = "bve.cli.replay_documents:main"
 bve-rank             = "bve.cli.rank:main"
 bve-alert-test       = "bve.cli.alert_test:main"
 bve-replay-document  = "bve.cli.replay_document:main"
 bve-rebuild-dossiers = "bve.cli.rebuild_dossiers:main"
+bve-compute-event-scores = "bve.cli.compute_event_scores:main"
+bve-calibration-report   = "bve.cli.calibration_report:main"
+bve-audit-log            = "bve.cli.audit_log:main"
+bve-weekly-brief         = "bve.cli.weekly_brief:main"
+bve-portfolio-rank       = "bve.cli.portfolio_rank:main"
+bve-literature-review    = "bve.cli.literature_review:main"
+bve-competitive-landscape = "bve.cli.competitive_landscape:main"
+bve-research-report      = "bve.cli.research_report:main"
+bve-investment-memo      = "bve.cli.investment_memo:main"
+bve-service              = "bve.cli.service_control:main"
+bve-generate-config      = "bve.cli.generate_config:main"
+bve-run-asset            = "bve.cli.run_asset:main"
+bve-data-quality         = "bve.cli.data_quality_report:main"
+bve-portfolio-backtest   = "bve.cli.portfolio_backtest:main"
+bve-opportunities        = "bve.cli.opportunities:main"
+bve-catalyst-calendar    = "bve.cli.catalyst_calendar:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
@@ -46,3 +67,8 @@ where = ["src"]
 [tool.ruff]
 line-length = 100
 target-version = "py311"
+
+[tool.pytest.ini_options]
+markers = [
+    "stress: marks tests as large-scale stress tests (deselect with -m 'not stress')",
+]

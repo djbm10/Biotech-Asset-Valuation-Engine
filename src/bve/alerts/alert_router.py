@@ -18,21 +18,23 @@ Design decisions:
 - Dedup: (asset_id, event_type, trigger) key with configurable window (default
   24h) persisted to disk so restarts do not re-send across cycles.
 """
+
 from __future__ import annotations
 
 import json
 import logging
 import uuid
 from collections import defaultdict
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from typing import Optional
 
-from bve.alerts.alert_config import AlertsConfig, SuppressionRule
+from bve.alerts.alert_config import AlertsConfig
 from bve.alerts.alert_model import Alert, AlertSeverity, AlertTrigger
 from bve.alerts.channels.base import AlertChannel
+from bve.intelligence.catalyst_calendar import CatalystEvent
 from bve.intelligence.extraction.result import ExtractionResult
-from bve.intelligence.knowledge_layer import StoredValuationDiff
+from bve.intelligence.knowledge_layer import BacktestSnapshot, KnowledgeStore, StoredValuationDiff
 from bve.intelligence.schemas.signals import StructuredSignal
 from bve.intelligence.taxonomy import EventType
 
@@ -50,10 +52,12 @@ class AlertRouter:
         self,
         config: AlertsConfig,
         channels: Optional[list[AlertChannel]] = None,
+        knowledge_store: Optional[KnowledgeStore] = None,
         logger: Optional[logging.Logger] = None,
     ) -> None:
         self.config = config
         self.channels = channels or []
+        self.knowledge_store = knowledge_store
         self.logger = logger or _LOG
         # Per-run pending queue keyed by asset_id
         self._pending: dict[str, list[Alert]] = defaultdict(list)
@@ -61,9 +65,18 @@ class AlertRouter:
         self._dedup: dict[str, datetime] = self._load_dedup()
 
     @classmethod
-    def from_config(cls, config: AlertsConfig) -> "AlertRouter":
+    def from_config(
+        cls,
+        config: AlertsConfig,
+        *,
+        knowledge_store: Optional[KnowledgeStore] = None,
+    ) -> "AlertRouter":
         """Build channels from AlertsConfig, then construct the router."""
-        return cls(config=config, channels=_build_channels(config))
+        return cls(
+            config=config,
+            channels=_build_channels(config),
+            knowledge_store=knowledge_store,
+        )
 
     # ------------------------------------------------------------------
     # Enqueue (called during asset processing)
@@ -246,6 +259,121 @@ class AlertRouter:
         )
         self._mark_dedup(key)
 
+    def enqueue_system_alert(
+        self,
+        *,
+        key: str,
+        message: str,
+        detail: Optional[dict] = None,
+        run_id: Optional[str] = None,
+        severity: AlertSeverity = AlertSeverity.LOW,
+        trigger: AlertTrigger = AlertTrigger.LOW_STATISTICAL_POWER,
+        asset_id: str = "system",
+        company_id: str = "system",
+    ) -> None:
+        """
+        Queue a non-asset scientific/system alert through normal router channels.
+
+        This keeps dispatch, severity filtering, and dedup behavior consistent
+        with existing alert infrastructure.
+        """
+        if not self.config.enabled:
+            return
+
+        dedup = _dedup_key(asset_id, key, trigger, key)
+        if self._is_deduped(dedup):
+            return
+
+        self._pending[asset_id].append(
+            Alert(
+                id=str(uuid.uuid4()),
+                severity=severity,
+                trigger=trigger,
+                asset_id=asset_id,
+                company_id=company_id,
+                run_id=run_id,
+                message=message,
+                detail=detail or {},
+            )
+        )
+        self._mark_dedup(dedup)
+
+    def enqueue_catalyst_alerts(
+        self,
+        *,
+        catalyst: "CatalystEvent",
+        days_ahead: int = 30,
+        min_delta_ev_abs: float = 100.0,
+        run_id: Optional[str] = None,
+    ) -> None:
+        """
+        Evaluate CATALYST_APPROACHING condition.
+
+        Fires HIGH severity when:
+          - catalyst.expected_date is within *days_ahead* calendar days of today
+          - |catalyst.delta_ev| > *min_delta_ev_abs* millions
+
+        Parameters
+        ----------
+        catalyst:
+            The CatalystEvent to evaluate.
+        days_ahead:
+            Window in calendar days (default 30).
+        min_delta_ev_abs:
+            Absolute minimum |delta_ev| in $M required to fire (default $100M).
+        run_id:
+            Optional pipeline run ID for traceability.
+        """
+        if not self.config.enabled:
+            return
+        if catalyst.asset_id is None:
+            return
+
+        from datetime import date as _date
+        today = _date.today()
+        days_to = (catalyst.expected_date - today).days
+        if days_to < 0 or days_to > days_ahead:
+            return
+
+        delta_ev = catalyst.delta_ev
+        if delta_ev is None or abs(delta_ev) <= min_delta_ev_abs:
+            return
+
+        key = _dedup_key(
+            catalyst.asset_id,
+            catalyst.catalyst_type.value,
+            AlertTrigger.CATALYST_APPROACHING,
+            str(catalyst.expected_date),
+        )
+        if self._is_deduped(key):
+            return
+
+        sign = "+" if delta_ev >= 0 else ""
+        self._pending[catalyst.asset_id].append(
+            Alert(
+                id=str(uuid.uuid4()),
+                severity=AlertSeverity.HIGH,
+                trigger=AlertTrigger.CATALYST_APPROACHING,
+                asset_id=catalyst.asset_id,
+                company_id=catalyst.company_id or "unknown",
+                run_id=run_id,
+                message=(
+                    f"Catalyst approaching in {days_to}d for {catalyst.asset_id}: "
+                    f"{catalyst.catalyst_type.value} on {catalyst.expected_date} "
+                    f"(EV {sign}${delta_ev:.1f}M)"
+                ),
+                detail={
+                    "catalyst_type":   catalyst.catalyst_type.value,
+                    "expected_date":   str(catalyst.expected_date),
+                    "days_to":         days_to,
+                    "delta_ev":        delta_ev,
+                    "signal_strength": catalyst.signal_strength,
+                    "date_confidence": catalyst.date_confidence,
+                },
+            )
+        )
+        self._mark_dedup(key)
+
     # ------------------------------------------------------------------
     # Flush (called at end of asset run)
     # ------------------------------------------------------------------
@@ -280,6 +408,7 @@ class AlertRouter:
                 )
 
         self._save_dedup()
+        self._write_backtest_snapshots(pending)
         self.logger.info(
             "alerts_flushed asset=%s count=%d run_id=%s",
             asset_id,
@@ -298,6 +427,117 @@ class AlertRouter:
     def reset(self) -> None:
         """Clear in-memory pending queue (not dedup). Useful for test isolation."""
         self._pending.clear()
+
+    def _write_backtest_snapshots(self, alerts: list[Alert]) -> None:
+        if self.knowledge_store is None:
+            return
+        for alert in alerts:
+            detail = dict(alert.detail or {})
+            has_snapshot_context = (
+                any(key in detail for key in ("rank", "composite_score", "mispricing_score"))
+                or alert.valuation_delta_npv is not None
+            )
+            if not has_snapshot_context:
+                continue
+            try:
+                signal_date = self._parse_signal_date(
+                    detail.get("signal_date"), alert.created_at.date()
+                )
+                signal_timestamp = self._parse_datetime(
+                    detail.get("signal_timestamp"), alert.created_at
+                )
+                catalyst_date = self._parse_signal_date(detail.get("catalyst_date"), None)
+                self.knowledge_store.write_backtest_snapshot(
+                    BacktestSnapshot(
+                        snapshot_id=str(uuid.uuid4()),
+                        alert_id=alert.id,
+                        asset_id=alert.asset_id,
+                        signal_date=signal_date,
+                        signal_id=self._to_str(detail.get("signal_id")),
+                        signal_timestamp=signal_timestamp,
+                        composite_score=self._to_float(detail.get("composite_score")),
+                        extraction_confidence=(
+                            self._to_float(detail.get("extraction_confidence"))
+                            if detail.get("extraction_confidence") is not None
+                            else self._to_float(detail.get("confidence"))
+                            if detail.get("confidence") is not None
+                            else alert.extraction_confidence
+                        ),
+                        delta_npv_millions=(
+                            self._to_float(detail.get("delta_npv_millions"))
+                            if detail.get("delta_npv_millions") is not None
+                            else self._to_float(detail.get("delta_npv"))
+                            if detail.get("delta_npv") is not None
+                            else alert.valuation_delta_npv
+                        ),
+                        intrinsic_value_millions=self._to_float(
+                            detail.get("intrinsic_value_millions")
+                        ),
+                        mispricing_score=self._to_float(detail.get("mispricing_score")),
+                        catalyst_date=catalyst_date,
+                        catalyst_type=self._to_str(detail.get("catalyst_type")),
+                        catalyst_score=self._to_float(detail.get("catalyst_score")),
+                        rank_at_signal=self._to_int(detail.get("rank")),
+                        model_version=self._to_str(detail.get("model_version")),
+                        created_at=alert.created_at,
+                    )
+                )
+            except Exception as exc:
+                self.logger.debug(
+                    "backtest_snapshot_write_failed alert_id=%s err=%s", alert.id, exc
+                )
+
+    @staticmethod
+    def _to_float(value: object) -> Optional[float]:
+        if value is None:
+            return None
+        try:
+            return float(value)
+        except (TypeError, ValueError):
+            return None
+
+    @staticmethod
+    def _to_int(value: object) -> Optional[int]:
+        if value is None:
+            return None
+        try:
+            return int(value)
+        except (TypeError, ValueError):
+            return None
+
+    @staticmethod
+    def _to_str(value: object) -> Optional[str]:
+        if value is None:
+            return None
+        text = str(value).strip()
+        return text or None
+
+    @staticmethod
+    def _parse_signal_date(raw: object, default: Optional[date]) -> Optional[date]:
+        if raw is None:
+            return default
+        text = str(raw).strip()
+        if not text:
+            return default
+        try:
+            return date.fromisoformat(text[:10])
+        except ValueError:
+            return default
+
+    @staticmethod
+    def _parse_datetime(raw: object, default: Optional[datetime]) -> Optional[datetime]:
+        if raw is None:
+            return default
+        text = str(raw).strip()
+        if not text:
+            return default
+        try:
+            parsed = datetime.fromisoformat(text.replace("Z", "+00:00"))
+            if parsed.tzinfo is None:
+                return parsed.replace(tzinfo=timezone.utc)
+            return parsed
+        except ValueError:
+            return default
 
     def _is_suppressed(
         self,
@@ -377,6 +617,7 @@ class AlertRouter:
 # Module-level helpers
 # ------------------------------------------------------------------
 
+
 def _dedup_key(
     asset_id: str,
     event_type_value: str,
@@ -397,14 +638,18 @@ def _build_channels(config: AlertsConfig) -> list[AlertChannel]:
     channels: list[AlertChannel] = []
     if config.local:
         from bve.alerts.channels.local import LocalFileChannel
+
         channels.append(LocalFileChannel(config.local))
     if config.slack:
         from bve.alerts.channels.slack import SlackWebhookChannel
+
         channels.append(SlackWebhookChannel(config.slack))
     if config.email:
         from bve.alerts.channels.email import SmtpEmailChannel
+
         channels.append(SmtpEmailChannel(config.email))
     if config.telegram:
         from bve.alerts.channels.telegram import TelegramChannel
+
         channels.append(TelegramChannel(config.telegram))
     return channels

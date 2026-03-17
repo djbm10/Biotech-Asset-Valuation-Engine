@@ -150,6 +150,13 @@ from bve.intelligence.enrollment_snapshot_extractor import (
     EnrollmentSnapshotResult,
     EnrollmentSnapshotExtractor,
 )
+from bve.intelligence.catalyst_calendar import (
+    CatalystType,
+    CatalystEvent,
+)
+from bve.intelligence.pdufa_extractor import PDUFAExtractor
+from bve.intelligence.trial_readout_estimator import TrialReadoutEstimator
+from bve.intelligence.catalyst_ev import CatalystEVCalculator
 
 __all__ = [
     # Taxonomy
@@ -264,4 +271,10 @@ __all__ = [
     "EnrollmentAlertFlags",
     "EnrollmentSnapshotResult",
     "EnrollmentSnapshotExtractor",
+    # Wave 1 catalyst calendar
+    "CatalystType",
+    "CatalystEvent",
+    "PDUFAExtractor",
+    "TrialReadoutEstimator",
+    "CatalystEVCalculator",
 ]

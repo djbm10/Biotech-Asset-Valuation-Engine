@@ -455,6 +455,31 @@ phase_correlation:
 # All values are EVIDENCE-INFORMED PRIORS.
 # ==============================================================================
 
+catalyst_calendar:
+
+  # Lag from CT primary_completion_date to estimated public disclosure.
+  # Units: calendar days (data lock + analysis + abstract/presentation preparation).
+  readout_lag_days_min:     120
+  readout_lag_days_max:     270
+  readout_lag_days_default: 180
+
+  # Signal-strength display threshold.  Catalysts below this absolute value are
+  # classified as "near-fair" and should not drive ranking decisions.
+  min_displayable_signal_strength: 0.03
+
+  # Floor multiplier for std_dev when computing signal_strength.
+  # std_floor = max(std_dev, abs(ev) × multiplier) prevents division by near-zero
+  # std_dev when the binary outcomes are nearly symmetric around the current value.
+  std_floor_multiplier: 0.50
+
+  # Urgency multiplier: days_to_catalyst window triggering the score boost.
+  catalyst_urgency_window_days: 60
+  catalyst_urgency_decay_days:  30   # half-life of the urgency boost
+
+  # CATALYST_APPROACHING alert threshold.
+  catalyst_alert_days_ahead:       30     # fire alert within N days of catalyst
+  catalyst_alert_min_delta_ev_abs: 100.0  # |delta_ev| must exceed $100M
+
 enrollment_quality:
 
   # Fraction of sites that must be recruiting before a site-stalling alert fires.

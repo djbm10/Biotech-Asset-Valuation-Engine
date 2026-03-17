@@ -775,6 +775,31 @@ class KnowledgeStore:
             CREATE INDEX IF NOT EXISTS idx_audit_log_actor_date
                 ON audit_log(actor_id, created_at);
 
+            -- Catalyst events (Wave 1).
+            -- One row per catalyst; EV fields updated in place by CatalystEVCalculator.
+            CREATE TABLE IF NOT EXISTS catalyst_events (
+                id TEXT PRIMARY KEY,
+                asset_id TEXT,
+                company_id TEXT,
+                catalyst_type TEXT NOT NULL,
+                expected_date TEXT NOT NULL,
+                date_confidence TEXT NOT NULL,
+                source TEXT NOT NULL,
+                description TEXT NOT NULL,
+                payload_json TEXT NOT NULL,
+                is_active INTEGER NOT NULL DEFAULT 1,
+                resolved INTEGER NOT NULL DEFAULT 0,
+                created_at TEXT NOT NULL,
+                updated_at TEXT NOT NULL
+            );
+
+            CREATE INDEX IF NOT EXISTS idx_catalyst_events_asset
+                ON catalyst_events(asset_id);
+            CREATE INDEX IF NOT EXISTS idx_catalyst_events_date
+                ON catalyst_events(expected_date);
+            CREATE INDEX IF NOT EXISTS idx_catalyst_events_active_date
+                ON catalyst_events(is_active, expected_date);
+
             -- Enrollment snapshots (Wave 3).
             -- UNIQUE(nct_id, snapshot_date) ensures one row per trial per day.
             CREATE TABLE IF NOT EXISTS enrollment_snapshots (
@@ -3792,3 +3817,123 @@ class KnowledgeStore:
             return ES.model_validate(json.loads(row[0]))
         except Exception:
             return None
+
+    # ------------------------------------------------------------------
+    # Catalyst events (Wave 1)
+    # ------------------------------------------------------------------
+
+    def upsert_catalyst_event(self, event: "CatalystEvent") -> None:
+        """
+        Insert or replace a catalyst event row.
+
+        On conflict (same primary key id) the full row is replaced so that EV
+        fields computed by CatalystEVCalculator are persisted in-place.
+        """
+        from bve.intelligence.catalyst_calendar import CatalystEvent as CE
+        now = datetime.now(timezone.utc).isoformat()
+        payload = event.model_dump(mode="json")
+        self._conn.execute(
+            """
+            INSERT OR REPLACE INTO catalyst_events
+                (id, asset_id, company_id, catalyst_type, expected_date,
+                 date_confidence, source, description, payload_json,
+                 is_active, resolved, created_at, updated_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                event.id,
+                event.asset_id,
+                event.company_id,
+                event.catalyst_type.value,
+                event.expected_date.isoformat(),
+                event.date_confidence,
+                event.source,
+                event.description,
+                json.dumps(payload),
+                1 if event.is_active else 0,
+                1 if event.resolved else 0,
+                event.created_at.isoformat(),
+                now,
+            ),
+        )
+        self._conn.commit()
+
+    def get_catalyst_events(
+        self,
+        *,
+        asset_id: Optional[str] = None,
+        active_only: bool = True,
+        days_ahead: Optional[int] = None,
+    ) -> "list[CatalystEvent]":
+        """
+        Return catalyst events ordered by expected_date ascending.
+
+        Parameters
+        ----------
+        asset_id:
+            Filter to a specific asset; None returns all assets.
+        active_only:
+            When True (default), only return rows where is_active=1.
+        days_ahead:
+            When set, only return events whose expected_date is within
+            today + days_ahead.
+        """
+        from bve.intelligence.catalyst_calendar import CatalystEvent as CE
+        clauses: list[str] = []
+        params: list = []
+
+        if asset_id is not None:
+            clauses.append("asset_id = ?")
+            params.append(asset_id)
+        if active_only:
+            clauses.append("is_active = 1")
+        if days_ahead is not None:
+            cutoff = (datetime.now(timezone.utc).date() + __import__("datetime").timedelta(days=days_ahead)).isoformat()
+            clauses.append("expected_date <= ?")
+            params.append(cutoff)
+
+        where = ("WHERE " + " AND ".join(clauses)) if clauses else ""
+        rows = self._conn.execute(
+            f"SELECT payload_json FROM catalyst_events {where} ORDER BY expected_date ASC",
+            params,
+        ).fetchall()
+
+        events: list[CE] = []
+        for row in rows:
+            try:
+                events.append(CE.model_validate(json.loads(row[0])))
+            except Exception:
+                continue
+        return events
+
+    def resolve_catalyst_event(
+        self,
+        event_id: str,
+        outcome: "Literal['positive', 'negative', 'partial']",
+    ) -> bool:
+        """
+        Mark a catalyst event as resolved with the given outcome.
+
+        Returns True when a row was updated, False when event_id not found.
+        """
+        from bve.intelligence.catalyst_calendar import CatalystEvent as CE
+        row = self._conn.execute(
+            "SELECT payload_json FROM catalyst_events WHERE id = ?",
+            (event_id,),
+        ).fetchone()
+        if row is None:
+            return False
+
+        try:
+            ev = CE.model_validate(json.loads(row[0]))
+        except Exception:
+            return False
+
+        updated = ev.model_copy(update={
+            "resolved": True,
+            "is_active": False,
+            "actual_outcome": outcome,
+            "updated_at": datetime.now(timezone.utc),
+        })
+        self.upsert_catalyst_event(updated)
+        return True
