@@ -130,6 +130,7 @@ class IntelligenceService:
         self._last_ranking_calibration_date: Optional[str] = None
         self._last_kg_integrity_check_at: Optional[datetime] = None
         self._last_event_impact_ledger_date: Optional[str] = None
+        self._last_pos_calibration_date: Optional[str] = None
         self.data_quality_monitor = DataQualityMonitor(
             self.runner.knowledge,
             gate_threshold=config.data_quality_gate_threshold,
@@ -573,6 +574,7 @@ class IntelligenceService:
         )
         self._maybe_run_weekly_ranking_calibration(reference_time=finished)
         self._maybe_run_weekly_event_impact_ledger(reference_time=finished)
+        self._maybe_run_weekly_pos_calibration(reference_time=finished)
         self.logger.info(
             "intelligence_service_cycle run_id=%s assets=%d alerts=%d",
             run_id,
@@ -780,6 +782,30 @@ class IntelligenceService:
             )
         except Exception as exc:
             self.logger.warning("event_impact_ledger_failed: %s", exc)
+
+    def _maybe_run_weekly_pos_calibration(self, *, reference_time: datetime) -> None:
+        # Sunday post-run PoS recalibration by (trial_phase × indication).
+        if reference_time.weekday() != 6:
+            return
+        run_date = reference_time.date().isoformat()
+        if self._last_pos_calibration_date == run_date:
+            return
+        try:
+            from bve.analysis.pos_recalibrator import PoSRecalibrator
+            calibrator = PoSRecalibrator(self.runner.knowledge)
+            report = calibrator.calibrate()
+            if report.n_resolved_forecasts > 0:
+                calibrator.write_calibration(report)
+            self._last_pos_calibration_date = run_date
+            self.logger.info(
+                "pos_calibration_updated run_date=%s n_forecasts=%d n_segments=%d drift_alerts=%d",
+                run_date,
+                report.n_resolved_forecasts,
+                report.n_segments,
+                len(report.drift_alerts),
+            )
+        except Exception as exc:
+            self.logger.warning("pos_calibration_failed: %s", exc)
 
     def _maybe_run_weekly_kg_integrity(
         self,
