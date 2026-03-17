@@ -448,3 +448,50 @@ phase_correlation:
   # Set higher than Wave 4 (80 vs 50) because 25pp absolute cap already controls
   # Phase 2 updates; the relative bound should not be the binding constraint.
   proposal_bound_pct: 80.0
+
+# ==============================================================================
+# Wave 3: Enrollment quality benchmarks and alert thresholds
+# Used by EnrollmentSnapshotExtractor to flag slow-enrolling trials.
+# All values are EVIDENCE-INFORMED PRIORS.
+# ==============================================================================
+
+enrollment_quality:
+
+  # Fraction of sites that must be recruiting before a site-stalling alert fires.
+  # Rationale: < 30% of activated sites recruiting → meaningful risk of delay.
+  recruiting_ratio_warning_threshold: 0.30
+
+  # Velocity alert: fire when pace < this fraction × benchmark.
+  # 0.40 = warn when enrolment pace falls below 40% of historical median.
+  velocity_ratio_warning_threshold: 0.40
+
+  # Slippage threshold in months triggering an ENROLLMENT_UPDATE event.
+  slippage_alert_months: 2.0
+
+  # Site count guard: use CV-based threshold only when ≥ this many sites.
+  # When fewer sites, use max_activation_delay_days absolute threshold instead.
+  min_sites_for_cv_threshold: 10
+
+  # Absolute max acceptable activation delay for small-site trials (< 10 sites).
+  max_activation_delay_days: 180
+
+  # CV threshold for site activation delays (IQR / median).
+  # CV > 1.0 → highly heterogeneous activation → flag.
+  activation_delay_cv_threshold: 1.0
+
+  # Benchmark enrollment velocity by therapeutic area and phase.
+  # Units: patients enrolled per site per month (industry median).
+  # Source: IQVIA site performance benchmarks; internal calibration.
+  benchmark_patients_per_site_per_month:
+
+    default:
+      phase_2: 0.60
+      phase_3: 0.40
+
+    oncology:
+      phase_2: 0.45
+      phase_3: 0.30
+
+    rare_disease:
+      phase_2: 0.30
+      phase_3: 0.25

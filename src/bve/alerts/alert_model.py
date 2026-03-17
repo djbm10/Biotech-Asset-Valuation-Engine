@@ -40,6 +40,9 @@ class AlertTrigger(str, Enum):
     MATERIAL_VALUATION_CHANGE       = "material_valuation_change"
     LOW_CONFIDENCE_HIGH_SEVERITY    = "low_confidence_high_severity"
     LOW_STATISTICAL_POWER           = "low_statistical_power"
+    SYSTEM_COST_LIMIT_REACHED       = "system_cost_limit_reached"
+    ENROLLMENT_SITE_STALLING        = "enrollment_site_stalling"
+    ENROLLMENT_VELOCITY_LOW         = "enrollment_velocity_low"
 
 
 class Alert(BaseModel):

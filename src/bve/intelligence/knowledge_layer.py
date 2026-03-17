@@ -7,14 +7,15 @@ Design goals:
   - auditable, reconstructable dossier outputs
   - no direct dependency on valuation-engine modules
 """
+
 from __future__ import annotations
 
 import json
 import sqlite3
 import uuid
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
-from typing import Any, Optional
+from typing import TYPE_CHECKING, Any, Literal, Optional
 
 from pydantic import BaseModel, Field
 
@@ -24,6 +25,11 @@ from bve.intelligence.knowledge_graph import EdgeType, KGEdge, KGNode, NodeType
 from bve.intelligence.schemas.runs import ReviewDecision
 from bve.intelligence.schemas.signals import Event, StructuredSignal
 from bve.intelligence.taxonomy import EventType
+
+if TYPE_CHECKING:  # pragma: no cover
+    from bve.connectors.market_prices import MarketPriceRecord
+    from bve.intelligence.market_expectations import MarketExpectation
+    from bve.ops.data_quality import DataQualityScore
 
 
 class SourceTrace(BaseModel):
@@ -83,6 +89,79 @@ class StoredValuationDiff(BaseModel):
     market_cap_snapshot_millions: Optional[float] = None
 
 
+class RunStateRecord(BaseModel):
+    """Persistent per-stage runtime status for one asset run."""
+
+    run_id: str
+    stage: str
+    asset_id: str
+    status: Literal["running", "success", "failure", "skipped"]
+    started_at: datetime
+    finished_at: Optional[datetime] = None
+    checkpoint_json: dict[str, Any] = Field(default_factory=dict)
+    error_json: dict[str, Any] = Field(default_factory=dict)
+
+
+class OpportunityAlertRecord(BaseModel):
+    """Idempotent opportunity alert artifact."""
+
+    asset_id: str
+    event_type: str
+    window: str
+    run_id: Optional[str] = None
+    created_at: datetime
+    payload_json: dict[str, Any] = Field(default_factory=dict)
+
+
+class DataRetentionResult(BaseModel):
+    """Summary of one retention-policy application."""
+
+    applied_at: datetime
+    raw_documents_retention_days: int
+    raw_documents_deleted: int = 0
+    structured_signals_deleted: int = 0
+
+
+class BacktestSnapshot(BaseModel):
+    """Snapshot of a firing alert used for downstream portfolio backtests."""
+
+    snapshot_id: str
+    alert_id: str
+    asset_id: str
+    signal_date: date
+    signal_id: Optional[str] = None
+    signal_timestamp: Optional[datetime] = None
+    composite_score: Optional[float] = None
+    extraction_confidence: Optional[float] = None
+    delta_npv_millions: Optional[float] = None
+    intrinsic_value_millions: Optional[float] = None
+    mispricing_score: Optional[float] = None
+    catalyst_date: Optional[date] = None
+    catalyst_type: Optional[str] = None
+    catalyst_score: Optional[float] = None
+    rank_at_signal: Optional[int] = None
+    model_version: Optional[str] = None
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+
+class AssetRegistryEntry(BaseModel):
+    """Structured tracked-asset registry row."""
+
+    asset_id: str
+    ticker: Optional[str] = None
+    company_id: Optional[str] = None
+    drug_name: Optional[str] = None
+    indication: Optional[str] = None
+    therapeutic_area: Optional[str] = None
+    modality: Optional[str] = None
+    stage: Optional[str] = None
+    nct_id: Optional[str] = None
+    tam_millions: Optional[float] = None
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    source: str
+    last_competitor_discovery_at: Optional[datetime] = None
+
+
 class MemoRecord(BaseModel):
     """Persisted analyst/system memo."""
 
@@ -101,6 +180,41 @@ class MemoRecord(BaseModel):
     referenced_diff_ids: list[str] = Field(default_factory=list)
     referenced_review_ids: list[str] = Field(default_factory=list)
     open_questions: list[str] = Field(default_factory=list)
+    source_trace: SourceTrace
+
+
+class LiteratureReviewRecord(BaseModel):
+    """Persisted literature review synthesis output."""
+
+    id: str
+    company_id: Optional[str] = None
+    asset_id: Optional[str] = None
+    generated_at: datetime
+    payload_json: dict
+    source_trace: SourceTrace
+
+
+class CompetitiveLandscapeRecord(BaseModel):
+    """Persisted competitive landscape synthesis output."""
+
+    id: str
+    company_id: Optional[str] = None
+    asset_id: Optional[str] = None
+    generated_at: datetime
+    payload_json: dict
+    source_trace: SourceTrace
+
+
+class ResearchReportRecord(BaseModel):
+    """Persisted research report synthesis output."""
+
+    id: str
+    company_id: Optional[str] = None
+    asset_id: Optional[str] = None
+    report_version: Optional[str] = None
+    model_version: Optional[str] = None
+    generated_at: datetime
+    payload_json: dict
     source_trace: SourceTrace
 
 
@@ -137,9 +251,14 @@ class KnowledgeStore:
       - upstream provenance artifacts (raw documents, extraction results, structured signals)
       - events
       - valuation diffs (+ assumptions and valuation snapshots)
+      - run_state stage records
+      - opportunity alerts
       - review decisions
       - memos
       - dossiers
+      - literature reviews
+      - competitive landscapes
+      - research reports
     """
 
     def __init__(self, db_path: str | Path = "outputs/intelligence_phase2/knowledge.db") -> None:
@@ -168,10 +287,7 @@ class KnowledgeStore:
         return dt
 
     def _ensure_column(self, table: str, column: str, ddl: str) -> None:
-        cols = {
-            row["name"]
-            for row in self._conn.execute(f"PRAGMA table_info({table})").fetchall()
-        }
+        cols = {row["name"] for row in self._conn.execute(f"PRAGMA table_info({table})").fetchall()}
         if column not in cols:
             self._conn.execute(f"ALTER TABLE {table} ADD COLUMN {column} {ddl}")
 
@@ -182,6 +298,7 @@ class KnowledgeStore:
             CREATE TABLE IF NOT EXISTS raw_documents (
                 id TEXT PRIMARY KEY,
                 created_at TEXT NOT NULL,
+                source TEXT,
                 document_hash TEXT,
                 source_url TEXT,
                 payload_json TEXT NOT NULL,
@@ -201,6 +318,15 @@ class KnowledgeStore:
                 source_trace_json TEXT NOT NULL
             );
 
+            CREATE TABLE IF NOT EXISTS processed_document_hashes (
+                source TEXT NOT NULL,
+                document_hash TEXT NOT NULL,
+                raw_document_id TEXT,
+                first_processed_at TEXT NOT NULL,
+                last_processed_at TEXT NOT NULL,
+                PRIMARY KEY(source, document_hash)
+            );
+
             CREATE TABLE IF NOT EXISTS structured_signals (
                 id TEXT PRIMARY KEY,
                 extraction_result_id TEXT,
@@ -216,6 +342,7 @@ class KnowledgeStore:
 
             CREATE TABLE IF NOT EXISTS events (
                 id TEXT PRIMARY KEY,
+                event_key TEXT,
                 signal_id TEXT,
                 company_id TEXT,
                 asset_id TEXT,
@@ -242,6 +369,88 @@ class KnowledgeStore:
                 assumptions_snapshot_json TEXT,
                 valuation_snapshot_json TEXT,
                 source_trace_json TEXT NOT NULL
+            );
+
+            CREATE TABLE IF NOT EXISTS run_state (
+                run_id TEXT NOT NULL,
+                stage TEXT NOT NULL,
+                asset_id TEXT NOT NULL,
+                status TEXT NOT NULL,
+                started_at TEXT NOT NULL,
+                finished_at TEXT,
+                checkpoint_json TEXT,
+                error_json TEXT,
+                PRIMARY KEY(run_id, stage, asset_id)
+            );
+
+            CREATE TABLE IF NOT EXISTS data_quality_log (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                run_id TEXT,
+                asset_id TEXT NOT NULL,
+                check_name TEXT NOT NULL,
+                status TEXT NOT NULL,
+                severity TEXT NOT NULL,
+                reason TEXT NOT NULL,
+                value TEXT,
+                threshold TEXT,
+                overall_score REAL NOT NULL DEFAULT 0.0,
+                gated INTEGER NOT NULL DEFAULT 0,
+                details_json TEXT NOT NULL DEFAULT '{}',
+                checked_at TEXT NOT NULL
+            );
+
+            CREATE TABLE IF NOT EXISTS kg_integrity_log (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                report_json TEXT NOT NULL,
+                passed INTEGER NOT NULL,
+                checked_at TEXT NOT NULL
+            );
+
+            CREATE TABLE IF NOT EXISTS opportunity_alerts (
+                asset_id TEXT NOT NULL,
+                event_type TEXT NOT NULL,
+                window TEXT NOT NULL,
+                run_id TEXT,
+                created_at TEXT NOT NULL,
+                payload_json TEXT NOT NULL,
+                PRIMARY KEY(asset_id, event_type, window)
+            );
+
+            CREATE TABLE IF NOT EXISTS backtest_snapshots (
+                snapshot_id TEXT PRIMARY KEY,
+                alert_id TEXT NOT NULL,
+                asset_id TEXT NOT NULL,
+                signal_date TEXT NOT NULL,
+                signal_id TEXT,
+                signal_timestamp TEXT,
+                composite_score REAL,
+                extraction_confidence REAL,
+                delta_npv_millions REAL,
+                intrinsic_value_millions REAL,
+                mispricing_score REAL,
+                catalyst_date TEXT,
+                catalyst_type TEXT,
+                catalyst_score REAL,
+                rank_at_signal INTEGER,
+                model_version TEXT,
+                created_at TEXT NOT NULL
+            );
+
+            CREATE TABLE IF NOT EXISTS asset_registry (
+                asset_id TEXT PRIMARY KEY,
+                ticker TEXT,
+                company_id TEXT,
+                drug_name TEXT,
+                indication TEXT,
+                therapeutic_area TEXT,
+                modality TEXT,
+                stage TEXT,
+                nct_id TEXT,
+                tam_millions REAL,
+                created_at TEXT NOT NULL,
+                source TEXT NOT NULL,
+                last_competitor_discovery_at TEXT,
+                UNIQUE(ticker, drug_name, indication)
             );
 
             CREATE TABLE IF NOT EXISTS review_decisions (
@@ -275,6 +484,35 @@ class KnowledgeStore:
                 id TEXT PRIMARY KEY,
                 company_id TEXT,
                 asset_id TEXT,
+                generated_at TEXT,
+                payload_json TEXT NOT NULL,
+                source_trace_json TEXT NOT NULL
+            );
+
+            CREATE TABLE IF NOT EXISTS literature_reviews (
+                id TEXT PRIMARY KEY,
+                company_id TEXT,
+                asset_id TEXT,
+                generated_at TEXT,
+                payload_json TEXT NOT NULL,
+                source_trace_json TEXT NOT NULL
+            );
+
+            CREATE TABLE IF NOT EXISTS competitive_landscapes (
+                id TEXT PRIMARY KEY,
+                company_id TEXT,
+                asset_id TEXT,
+                generated_at TEXT,
+                payload_json TEXT NOT NULL,
+                source_trace_json TEXT NOT NULL
+            );
+
+            CREATE TABLE IF NOT EXISTS research_reports (
+                id TEXT PRIMARY KEY,
+                company_id TEXT,
+                asset_id TEXT,
+                report_version TEXT,
+                model_version TEXT,
                 generated_at TEXT,
                 payload_json TEXT NOT NULL,
                 source_trace_json TEXT NOT NULL
@@ -335,6 +573,8 @@ class KnowledgeStore:
                 ON raw_documents(created_at);
             CREATE INDEX IF NOT EXISTS idx_raw_documents_hash
                 ON raw_documents(document_hash);
+            CREATE INDEX IF NOT EXISTS idx_processed_document_hashes_last_processed
+                ON processed_document_hashes(last_processed_at);
             CREATE INDEX IF NOT EXISTS idx_extractions_raw_document
                 ON extraction_results(raw_document_id, created_at);
             CREATE INDEX IF NOT EXISTS idx_extractions_company_asset
@@ -350,6 +590,8 @@ class KnowledgeStore:
 
             CREATE INDEX IF NOT EXISTS idx_events_signal
                 ON events(signal_id);
+            CREATE UNIQUE INDEX IF NOT EXISTS idx_events_event_key_unique
+                ON events(event_key);
             CREATE INDEX IF NOT EXISTS idx_events_company_asset_date
                 ON events(company_id, asset_id, observed_at);
             CREATE INDEX IF NOT EXISTS idx_events_type_date
@@ -359,6 +601,28 @@ class KnowledgeStore:
                 ON valuation_diffs(company_id, asset_id, created_at);
             CREATE INDEX IF NOT EXISTS idx_diffs_event_date
                 ON valuation_diffs(event_id, created_at);
+            CREATE INDEX IF NOT EXISTS idx_run_state_run_asset
+                ON run_state(run_id, asset_id, stage);
+            CREATE INDEX IF NOT EXISTS idx_run_state_stage_status
+                ON run_state(stage, status, started_at);
+            CREATE INDEX IF NOT EXISTS idx_data_quality_asset_checked
+                ON data_quality_log(asset_id, checked_at);
+            CREATE INDEX IF NOT EXISTS idx_data_quality_checked_at
+                ON data_quality_log(checked_at);
+            CREATE INDEX IF NOT EXISTS idx_data_quality_run_id
+                ON data_quality_log(run_id);
+            CREATE INDEX IF NOT EXISTS idx_kg_integrity_checked_at
+                ON kg_integrity_log(checked_at);
+            CREATE INDEX IF NOT EXISTS idx_opportunity_alerts_created
+                ON opportunity_alerts(created_at);
+            CREATE INDEX IF NOT EXISTS idx_backtest_snapshots_asset
+                ON backtest_snapshots(asset_id, signal_date);
+            CREATE INDEX IF NOT EXISTS idx_backtest_snapshots_signal_ts
+                ON backtest_snapshots(signal_timestamp);
+            CREATE INDEX IF NOT EXISTS idx_asset_registry_ticker
+                ON asset_registry(ticker);
+            CREATE INDEX IF NOT EXISTS idx_asset_registry_ta
+                ON asset_registry(therapeutic_area);
 
             CREATE INDEX IF NOT EXISTS idx_reviews_company_asset_date
                 ON review_decisions(company_id, asset_id, reviewed_at);
@@ -369,6 +633,12 @@ class KnowledgeStore:
                 ON memos(company_id, asset_id, created_at);
             CREATE INDEX IF NOT EXISTS idx_dossiers_company_asset_date
                 ON dossiers(company_id, asset_id, generated_at);
+            CREATE INDEX IF NOT EXISTS idx_lit_reviews_company_asset_date
+                ON literature_reviews(company_id, asset_id, generated_at);
+            CREATE INDEX IF NOT EXISTS idx_comp_landscapes_company_asset_date
+                ON competitive_landscapes(company_id, asset_id, generated_at);
+            CREATE INDEX IF NOT EXISTS idx_research_reports_company_asset_date
+                ON research_reports(company_id, asset_id, generated_at);
             CREATE INDEX IF NOT EXISTS idx_prices_ticker_date
                 ON market_prices(ticker, price_date);
             CREATE UNIQUE INDEX IF NOT EXISTS idx_outcomes_event_unique
@@ -435,14 +705,120 @@ class KnowledgeStore:
                 ON competitor_programs(asset_id);
             CREATE INDEX IF NOT EXISTS idx_competitor_programs_indication
                 ON competitor_programs(indication);
+
+            -- Event impact scores (3A).
+            -- UNIQUE(event_type, trial_phase, endpoint_type) — upsert on recompute.
+            CREATE TABLE IF NOT EXISTS event_scores (
+                score_id TEXT PRIMARY KEY,
+                event_type TEXT NOT NULL,
+                trial_phase TEXT,
+                endpoint_type TEXT,
+                observation_count INTEGER NOT NULL,
+                mean_return_t30 REAL,
+                mean_return_t180 REAL,
+                active INTEGER NOT NULL DEFAULT 0,
+                half_life_days REAL NOT NULL DEFAULT 180.0,
+                computed_at TEXT NOT NULL,
+                UNIQUE(event_type, trial_phase, endpoint_type)
+            );
+
+            CREATE INDEX IF NOT EXISTS idx_event_scores_type
+                ON event_scores(event_type);
+
+            -- Forecast records (3B).
+            -- One row per signal; unique on signal_id.
+            -- Actuals filled by resolve_forecasts() when event_outcomes resolves.
+            -- horizon_days: which return window the prediction is evaluated against (default 30).
+            -- predicted_at: when the prediction was generated (signal extraction time).
+            -- created_at:   when the row was written to the DB (may differ from predicted_at
+            --               if ingestion is delayed).
+            CREATE TABLE IF NOT EXISTS forecast_records (
+                forecast_id TEXT PRIMARY KEY,
+                signal_id TEXT NOT NULL UNIQUE,
+                event_id TEXT NOT NULL,
+                asset_id TEXT NOT NULL,
+                event_type TEXT NOT NULL,
+                signal_date TEXT NOT NULL,
+                extraction_confidence REAL NOT NULL DEFAULT 0.0,
+                predicted_direction TEXT NOT NULL,
+                predicted_delta_pct REAL,
+                horizon_days INTEGER NOT NULL DEFAULT 30,
+                predicted_at TEXT NOT NULL,
+                actual_market_return_t30 REAL,
+                actual_market_return_t180 REAL,
+                outcome_correct INTEGER,
+                resolved INTEGER NOT NULL DEFAULT 0,
+                created_at TEXT NOT NULL
+            );
+
+            CREATE INDEX IF NOT EXISTS idx_forecast_records_event_id
+                ON forecast_records(event_id);
+            CREATE INDEX IF NOT EXISTS idx_forecast_records_asset_resolved
+                ON forecast_records(asset_id, resolved);
+
+            -- Audit log (3C).
+            -- Append-only.  Rows are NEVER updated or deleted.
+            -- Records every review decision with full payload for reproducibility.
+            CREATE TABLE IF NOT EXISTS audit_log (
+                audit_id TEXT PRIMARY KEY,
+                event_type TEXT NOT NULL,    -- e.g. "review_decision"
+                entity_type TEXT NOT NULL,   -- e.g. "proposal"
+                entity_id TEXT NOT NULL,
+                actor_id TEXT,               -- reviewer_id or system actor
+                action TEXT NOT NULL,        -- e.g. "accepted", "rejected", "deferred"
+                payload_json TEXT NOT NULL,  -- full ReviewDecision JSON
+                created_at TEXT NOT NULL
+            );
+
+            CREATE INDEX IF NOT EXISTS idx_audit_log_entity
+                ON audit_log(entity_type, entity_id);
+            CREATE INDEX IF NOT EXISTS idx_audit_log_actor_date
+                ON audit_log(actor_id, created_at);
+
+            -- Enrollment snapshots (Wave 3).
+            -- UNIQUE(nct_id, snapshot_date) ensures one row per trial per day.
+            CREATE TABLE IF NOT EXISTS enrollment_snapshots (
+                id TEXT PRIMARY KEY,
+                nct_id TEXT NOT NULL,
+                asset_id TEXT NOT NULL,
+                snapshot_date TEXT NOT NULL,
+                payload_json TEXT NOT NULL,
+                created_at TEXT NOT NULL,
+                UNIQUE(nct_id, snapshot_date)
+            );
+
+            CREATE INDEX IF NOT EXISTS idx_enrollment_nct_date
+                ON enrollment_snapshots(nct_id, snapshot_date);
+            CREATE INDEX IF NOT EXISTS idx_enrollment_asset_date
+                ON enrollment_snapshots(asset_id, snapshot_date);
             """
         )
 
         # Backward-compatible migration path for existing databases.
+        self._ensure_column("raw_documents", "source", "TEXT")
         self._ensure_column("raw_documents", "document_hash", "TEXT")
+        self._ensure_column("events", "event_key", "TEXT")
         self._ensure_column("events", "signal_id", "TEXT")
         self._ensure_column("valuation_diffs", "created_at", "TEXT")
         self._ensure_column("valuation_diffs", "market_cap_snapshot_millions", "REAL")
+        self._ensure_column("data_quality_log", "run_id", "TEXT")
+        self._ensure_column("data_quality_log", "check_name", "TEXT")
+        self._ensure_column("data_quality_log", "status", "TEXT")
+        self._ensure_column("data_quality_log", "severity", "TEXT")
+        self._ensure_column("data_quality_log", "reason", "TEXT")
+        self._ensure_column("data_quality_log", "value", "TEXT")
+        self._ensure_column("data_quality_log", "threshold", "TEXT")
+        self._ensure_column("data_quality_log", "details_json", "TEXT")
+        self._ensure_column("backtest_snapshots", "signal_id", "TEXT")
+        self._ensure_column("backtest_snapshots", "signal_timestamp", "TEXT")
+        self._ensure_column("backtest_snapshots", "intrinsic_value_millions", "REAL")
+        self._ensure_column("backtest_snapshots", "catalyst_score", "REAL")
+        self._ensure_column("research_reports", "report_version", "TEXT")
+        self._ensure_column("research_reports", "model_version", "TEXT")
+        # Wave 3C: reviewer annotation columns on review_decisions.
+        self._ensure_column("review_decisions", "reviewer_confidence", "REAL")
+        self._ensure_column("review_decisions", "analyst_tags_json", "TEXT")
+        self._ensure_column("review_decisions", "supporting_quote", "TEXT")
 
         diff_cols = {
             row["name"]
@@ -457,6 +833,93 @@ class KnowledgeStore:
                  WHERE created_at IS NULL
                 """
             )
+        # Backfill deterministic event_key contract for historical rows.
+        self._conn.execute(
+            """
+            UPDATE events
+               SET event_key = COALESCE(event_key, id)
+             WHERE event_key IS NULL OR event_key = ''
+            """
+        )
+        # Best-effort backfill source from stored payload.
+        self._conn.execute(
+            """
+            UPDATE raw_documents
+               SET source = COALESCE(
+                   source,
+                   json_extract(payload_json, '$.source')
+               )
+             WHERE source IS NULL OR source = ''
+            """
+        )
+        # Enforce raw-document idempotency key contract: (source, document_hash).
+        # Remove historical duplicates first (keep earliest created_at/id) so
+        # unique index creation remains backward compatible.
+        self._conn.execute(
+            """
+            DELETE FROM raw_documents
+             WHERE id IN (
+                SELECT d1.id
+                  FROM raw_documents d1
+                  JOIN raw_documents d2
+                    ON d1.source = d2.source
+                   AND d1.document_hash = d2.document_hash
+                   AND d1.id <> d2.id
+                 WHERE d1.source IS NOT NULL
+                   AND d1.source <> ''
+                   AND d1.document_hash IS NOT NULL
+                   AND d1.document_hash <> ''
+                   AND (
+                        d1.created_at > d2.created_at
+                        OR (d1.created_at = d2.created_at AND d1.id > d2.id)
+                   )
+            )
+            """
+        )
+        self._conn.execute(
+            """
+            CREATE UNIQUE INDEX IF NOT EXISTS idx_raw_documents_source_hash_unique
+                ON raw_documents(source, document_hash)
+            """
+        )
+        self._conn.execute(
+            """
+            INSERT OR IGNORE INTO processed_document_hashes(
+                source, document_hash, raw_document_id, first_processed_at, last_processed_at
+            )
+            SELECT
+                d.source,
+                d.document_hash,
+                d.id,
+                MIN(er.created_at) AS first_processed_at,
+                MAX(er.created_at) AS last_processed_at
+            FROM raw_documents d
+            JOIN extraction_results er
+              ON er.raw_document_id = d.id
+            WHERE d.source IS NOT NULL
+              AND d.source <> ''
+              AND d.document_hash IS NOT NULL
+              AND d.document_hash <> ''
+            GROUP BY d.source, d.document_hash
+            """
+        )
+        # Backfill defaults for new data_quality_log columns introduced after Sprint 2A.
+        self._conn.execute(
+            """
+            UPDATE data_quality_log
+               SET check_name = COALESCE(NULLIF(check_name, ''), 'overall'),
+                   status = COALESCE(NULLIF(status, ''), CASE WHEN gated = 1 THEN 'fail' ELSE 'pass' END),
+                   severity = COALESCE(NULLIF(severity, ''), CASE WHEN gated = 1 THEN 'warning' ELSE 'info' END),
+                   reason = COALESCE(NULLIF(reason, ''), CASE WHEN gated = 1 THEN 'legacy_gated' ELSE 'legacy_pass' END),
+                   threshold = COALESCE(threshold, ''),
+                   details_json = COALESCE(details_json, '{}')
+             WHERE check_name IS NULL
+                OR status IS NULL
+                OR severity IS NULL
+                OR reason IS NULL
+                OR details_json IS NULL
+            """
+        )
         self._conn.commit()
 
     @staticmethod
@@ -498,18 +961,20 @@ class KnowledgeStore:
 
         source_url = record.payload_json.get("source_url")
         document_hash = record.payload_json.get("document_hash")
+        source = record.payload_json.get("source")
         # INSERT OR IGNORE: raw documents are immutable content-addressed objects.
         # If the same document (same id = UUID5 from source+hash+asset) is ingested
         # again, silently skip — the content has not changed.
-        cursor = self._conn.execute(
+        self._conn.execute(
             """
             INSERT OR IGNORE INTO raw_documents(
-                id, created_at, document_hash, source_url, payload_json, source_trace_json
-            ) VALUES(?, ?, ?, ?, ?, ?)
+                id, created_at, source, document_hash, source_url, payload_json, source_trace_json
+            ) VALUES(?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 record.id,
                 record.created_at.isoformat(),
+                source,
                 document_hash,
                 source_url,
                 self._json_dump(record.payload_json),
@@ -535,9 +1000,16 @@ class KnowledgeStore:
                 if hasattr(extraction_result, "model_dump")
                 else dict(extraction_result)
             )
-            doc_id = str(raw_document_id or payload.get("raw_document_id") or payload.get("document_id") or "")
+            doc_id = str(
+                raw_document_id
+                or payload.get("raw_document_id")
+                or payload.get("document_id")
+                or ""
+            )
             if not doc_id:
-                raise ValueError("raw_document_id/document_id is required for extraction result storage")
+                raise ValueError(
+                    "raw_document_id/document_id is required for extraction result storage"
+                )
             extracted_at = payload.get("extracted_at") or payload.get("created_at")
             record = ExtractionResultRecord(
                 id=str(payload.get("id") or payload.get("document_id") or uuid.uuid4()),
@@ -573,6 +1045,10 @@ class KnowledgeStore:
                 source_trace.model_dump_json(),
             ),
         )
+        self._mark_processed_document_hash(
+            raw_document_id=record.raw_document_id,
+            processed_at=record.created_at,
+        )
         self._conn.commit()
         return record
 
@@ -587,7 +1063,9 @@ class KnowledgeStore:
             record = signal
             payload = record.payload_json
         else:
-            payload = signal.model_dump(mode="json") if hasattr(signal, "model_dump") else dict(signal)
+            payload = (
+                signal.model_dump(mode="json") if hasattr(signal, "model_dump") else dict(signal)
+            )
             x_id = str(payload.get("extraction_result_id") or extraction_result_id or "")
             if not x_id:
                 raise ValueError("extraction_result_id is required for structured signal storage")
@@ -650,6 +1128,83 @@ class KnowledgeStore:
         ).fetchone()
         return row is not None
 
+    def processed_document_hash_exists(self, *, source: str, document_hash: str) -> bool:
+        """
+        True when this (source, document_hash) already has a persisted extraction result.
+
+        This is stricter than raw_document_exists(): a raw document may have been stored
+        before a crash, but we only want to skip extraction when the document was actually
+        processed by the extractor already.
+        """
+        row = self._conn.execute(
+            """
+            SELECT 1
+              FROM processed_document_hashes
+             WHERE source = ?
+               AND document_hash = ?
+             LIMIT 1
+            """,
+            (source, document_hash),
+        ).fetchone()
+        if row is not None:
+            return True
+
+        row = self._conn.execute(
+            """
+            SELECT 1
+              FROM raw_documents d
+              JOIN extraction_results er
+                ON er.raw_document_id = d.id
+             WHERE d.source = ?
+               AND d.document_hash = ?
+             LIMIT 1
+            """,
+            (source, document_hash),
+        ).fetchone()
+        return row is not None
+
+    def _mark_processed_document_hash(
+        self,
+        *,
+        raw_document_id: str,
+        processed_at: datetime,
+    ) -> None:
+        row = self._conn.execute(
+            """
+            SELECT source, document_hash
+            FROM raw_documents
+            WHERE id = ?
+            LIMIT 1
+            """,
+            (raw_document_id,),
+        ).fetchone()
+        if row is None:
+            return
+
+        source = str(row["source"] or "").strip()
+        document_hash = str(row["document_hash"] or "").strip()
+        if not source or not document_hash:
+            return
+
+        processed_at_iso = self._coerce_datetime(processed_at).isoformat()
+        self._conn.execute(
+            """
+            INSERT INTO processed_document_hashes(
+                source, document_hash, raw_document_id, first_processed_at, last_processed_at
+            ) VALUES (?, ?, ?, ?, ?)
+            ON CONFLICT(source, document_hash) DO UPDATE SET
+                raw_document_id = excluded.raw_document_id,
+                last_processed_at = excluded.last_processed_at
+            """,
+            (
+                source,
+                document_hash,
+                raw_document_id,
+                processed_at_iso,
+                processed_at_iso,
+            ),
+        )
+
     def event_exists(self, event_id: str) -> bool:
         row = self._conn.execute(
             "SELECT 1 FROM events WHERE id = ? LIMIT 1",
@@ -679,6 +1234,31 @@ class KnowledgeStore:
             return None
         return StructuredSignal.model_validate_json(row["payload_json"])
 
+    def get_design_assessment(self, signal_id: str):
+        """
+        Return a TrialDesignAssessment for *signal_id*, or None when unavailable.
+
+        Assessments are computed from the stored structured signal on read.
+        """
+        row = self._conn.execute(
+            """
+            SELECT payload_json
+            FROM structured_signals
+            WHERE id = ?
+            LIMIT 1
+            """,
+            (signal_id,),
+        ).fetchone()
+        if row is None:
+            return None
+        try:
+            signal = StructuredSignal.model_validate_json(row["payload_json"])
+            from bve.intelligence.trial_design_assessment import assess_trial_design
+
+            return assess_trial_design(signal)
+        except Exception:
+            return None
+
     def add_event(
         self,
         event: Event,
@@ -689,12 +1269,13 @@ class KnowledgeStore:
         self._conn.execute(
             """
             INSERT OR REPLACE INTO events(
-                id, signal_id, company_id, asset_id, indication_id, event_type,
+                id, event_key, signal_id, company_id, asset_id, indication_id, event_type,
                 observed_at, ingested_at, source_url, source_type, headline,
                 confidence, payload_json, source_trace_json
-            ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
+                event.id,
                 event.id,
                 signal_id,
                 event.company_id,
@@ -732,9 +1313,7 @@ class KnowledgeStore:
             raise ValueError("valuation diff must include event_id and asset_id")
 
         created_at = (
-            payload.get("created_at")
-            or payload.get("generated_at")
-            or datetime.now(timezone.utc)
+            payload.get("created_at") or payload.get("generated_at") or datetime.now(timezone.utc)
         )
 
         valuation_before = payload.get("valuation_before") or {}
@@ -774,7 +1353,9 @@ class KnowledgeStore:
             valuation_delta=valuation_delta,
             assumptions_changed=list(payload.get("assumptions_changed") or []),
             applied_overrides=dict(payload.get("applied_overrides") or {}),
-            market_cap_snapshot_millions=float(market_cap_raw) if market_cap_raw is not None else None,
+            market_cap_snapshot_millions=float(market_cap_raw)
+            if market_cap_raw is not None
+            else None,
         )
 
     def add_valuation_diff(
@@ -811,6 +1392,630 @@ class KnowledgeStore:
         )
         self._conn.commit()
         return stored
+
+    # ------------------------------------------------------------------
+    # Runtime state + opportunity alerts (Wave 7)
+    # ------------------------------------------------------------------
+
+    def mark_run_state_started(
+        self,
+        *,
+        run_id: str,
+        stage: str,
+        asset_id: str,
+        started_at: datetime,
+        checkpoint_json: Optional[dict[str, Any]] = None,
+    ) -> RunStateRecord:
+        record = RunStateRecord(
+            run_id=run_id,
+            stage=stage,
+            asset_id=asset_id,
+            status="running",
+            started_at=self._coerce_datetime(started_at),
+            finished_at=None,
+            checkpoint_json=checkpoint_json or {},
+            error_json={},
+        )
+        self._conn.execute(
+            """
+            INSERT OR REPLACE INTO run_state(
+                run_id, stage, asset_id, status, started_at, finished_at,
+                checkpoint_json, error_json
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                record.run_id,
+                record.stage,
+                record.asset_id,
+                record.status,
+                record.started_at.isoformat(),
+                None,
+                self._json_dump(record.checkpoint_json),
+                self._json_dump(record.error_json),
+            ),
+        )
+        self._conn.commit()
+        return record
+
+    def mark_run_state_finished(
+        self,
+        *,
+        run_id: str,
+        stage: str,
+        asset_id: str,
+        status: Literal["success", "failure", "skipped"],
+        started_at: datetime,
+        finished_at: datetime,
+        checkpoint_json: Optional[dict[str, Any]] = None,
+        error_json: Optional[dict[str, Any]] = None,
+    ) -> RunStateRecord:
+        record = RunStateRecord(
+            run_id=run_id,
+            stage=stage,
+            asset_id=asset_id,
+            status=status,
+            started_at=self._coerce_datetime(started_at),
+            finished_at=self._coerce_datetime(finished_at),
+            checkpoint_json=checkpoint_json or {},
+            error_json=error_json or {},
+        )
+        self._conn.execute(
+            """
+            INSERT OR REPLACE INTO run_state(
+                run_id, stage, asset_id, status, started_at, finished_at,
+                checkpoint_json, error_json
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                record.run_id,
+                record.stage,
+                record.asset_id,
+                record.status,
+                record.started_at.isoformat(),
+                record.finished_at.isoformat() if record.finished_at is not None else None,
+                self._json_dump(record.checkpoint_json),
+                self._json_dump(record.error_json),
+            ),
+        )
+        self._conn.commit()
+        return record
+
+    def get_run_states(
+        self,
+        *,
+        run_id: Optional[str] = None,
+        asset_id: Optional[str] = None,
+        stage: Optional[str] = None,
+        status: Optional[str] = None,
+        limit: int = 1000,
+    ) -> list[RunStateRecord]:
+        clauses: list[str] = []
+        params: list[Any] = []
+        if run_id is not None:
+            clauses.append("run_id = ?")
+            params.append(run_id)
+        if asset_id is not None:
+            clauses.append("asset_id = ?")
+            params.append(asset_id)
+        if stage is not None:
+            clauses.append("stage = ?")
+            params.append(stage)
+        if status is not None:
+            clauses.append("status = ?")
+            params.append(status)
+
+        sql = (
+            "SELECT run_id, stage, asset_id, status, started_at, finished_at, "
+            "checkpoint_json, error_json FROM run_state"
+        )
+        if clauses:
+            sql += " WHERE " + " AND ".join(clauses)
+        sql += " ORDER BY started_at DESC LIMIT ?"
+        params.append(limit)
+
+        rows = self._conn.execute(sql, params).fetchall()
+        out: list[RunStateRecord] = []
+        for row in rows:
+            out.append(
+                RunStateRecord(
+                    run_id=row["run_id"],
+                    stage=row["stage"],
+                    asset_id=row["asset_id"],
+                    status=row["status"],
+                    started_at=self._coerce_datetime(row["started_at"]),
+                    finished_at=self._coerce_datetime(row["finished_at"])
+                    if row["finished_at"] is not None
+                    else None,
+                    checkpoint_json=json.loads(row["checkpoint_json"] or "{}"),
+                    error_json=json.loads(row["error_json"] or "{}"),
+                )
+            )
+        return out
+
+    def get_stage_checkpoint(
+        self,
+        *,
+        run_id: str,
+        stage: str,
+        asset_id: str,
+    ) -> dict[str, Any]:
+        row = self._conn.execute(
+            """
+            SELECT checkpoint_json
+            FROM run_state
+            WHERE run_id = ? AND stage = ? AND asset_id = ?
+            LIMIT 1
+            """,
+            (run_id, stage, asset_id),
+        ).fetchone()
+        if row is None:
+            return {}
+        return json.loads(row["checkpoint_json"] or "{}")
+
+    def log_data_quality(
+        self,
+        score: "DataQualityScore",
+        *,
+        run_id: Optional[str] = None,
+    ) -> None:
+        """Persist one row per check for auditability and root-cause diagnosis."""
+        checked_at = self._coerce_datetime(score.generated_at).isoformat()
+        checks = score.checks or []
+        if not checks:
+            checks = []
+        for check in checks:
+            self._conn.execute(
+                """
+                INSERT INTO data_quality_log(
+                    run_id, asset_id, check_name, status, severity, reason,
+                    value, threshold, overall_score, gated, details_json, checked_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    run_id,
+                    score.asset_id,
+                    check.check_type,
+                    "pass" if check.passed else "fail",
+                    check.severity,
+                    check.reason,
+                    None if check.value is None else str(check.value),
+                    check.threshold,
+                    float(score.overall_score),
+                    1 if score.gated else 0,
+                    self._json_dump(
+                        {
+                            "details": check.details,
+                            "source": score.source,
+                            "failing_checks": score.failing_checks,
+                        }
+                    ),
+                    checked_at,
+                ),
+            )
+        if not checks:
+            self._conn.execute(
+                """
+                INSERT INTO data_quality_log(
+                    run_id, asset_id, check_name, status, severity, reason,
+                    value, threshold, overall_score, gated, details_json, checked_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    run_id,
+                    score.asset_id,
+                    "overall",
+                    "pass" if not score.gated else "fail",
+                    "info" if not score.gated else "warning",
+                    "no_checks",
+                    None,
+                    "",
+                    float(score.overall_score),
+                    1 if score.gated else 0,
+                    self._json_dump(
+                        {"source": score.source, "failing_checks": score.failing_checks}
+                    ),
+                    checked_at,
+                ),
+            )
+        self._conn.commit()
+
+    def get_latest_data_quality(self, asset_id: str) -> Optional["DataQualityScore"]:
+        """Return latest data-quality score for asset, or None."""
+        row = self._conn.execute(
+            """
+            SELECT run_id, asset_id, overall_score, gated, checked_at
+            FROM data_quality_log
+            WHERE asset_id = ?
+            ORDER BY checked_at DESC, id DESC
+            LIMIT 1
+            """,
+            (asset_id,),
+        ).fetchone()
+        if row is None:
+            return None
+
+        from bve.ops.data_quality import DataQualityCheck, DataQualityScore
+
+        run_id = row["run_id"]
+        checked_at = self._coerce_datetime(row["checked_at"])
+        if run_id:
+            check_rows = self._conn.execute(
+                """
+                SELECT check_name, status, severity, reason, value, threshold, details_json
+                FROM data_quality_log
+                WHERE asset_id = ? AND run_id = ?
+                ORDER BY id ASC
+                """,
+                (asset_id, run_id),
+            ).fetchall()
+        else:
+            check_rows = self._conn.execute(
+                """
+                SELECT check_name, status, severity, reason, value, threshold, details_json
+                FROM data_quality_log
+                WHERE asset_id = ? AND checked_at = ?
+                ORDER BY id ASC
+                """,
+                (asset_id, checked_at.isoformat()),
+            ).fetchall()
+
+        checks: list[DataQualityCheck] = []
+        source = "knowledge_store"
+        failing_checks: list[str] = []
+        for check_row in check_rows:
+            details_payload = json.loads(check_row["details_json"] or "{}")
+            source = str(details_payload.get("source") or source)
+            failing_checks = list(details_payload.get("failing_checks") or failing_checks)
+            status = str(check_row["status"] or "pass").lower()
+            value_raw = check_row["value"]
+            value: float | int | str | None
+            if value_raw is None:
+                value = None
+            else:
+                text = str(value_raw)
+                try:
+                    value = int(text)
+                except ValueError:
+                    try:
+                        value = float(text)
+                    except ValueError:
+                        value = text
+            checks.append(
+                DataQualityCheck(
+                    check_type=str(check_row["check_name"]),
+                    asset_id=asset_id,
+                    value=value,
+                    threshold=str(check_row["threshold"] or ""),
+                    passed=status == "pass",
+                    severity=str(check_row["severity"] or "info"),
+                    reason=str(check_row["reason"] or "ok"),
+                    details=str(details_payload.get("details") or ""),
+                )
+            )
+        return DataQualityScore(
+            source=source,
+            asset_id=row["asset_id"],
+            overall_score=float(row["overall_score"]),
+            checks=checks,
+            failing_checks=failing_checks or [c.check_type for c in checks if not c.passed],
+            gated=bool(row["gated"]),
+            generated_at=checked_at,
+        )
+
+    def list_latest_data_quality(self, *, limit: int = 1000) -> list["DataQualityScore"]:
+        """Return latest data-quality score per asset, newest first."""
+        rows = self._conn.execute(
+            """
+            SELECT asset_id
+            FROM data_quality_log
+            WHERE asset_id IS NOT NULL AND asset_id <> ''
+            GROUP BY asset_id
+            ORDER BY MAX(checked_at) DESC
+            LIMIT ?
+            """,
+            (limit,),
+        ).fetchall()
+        out: list["DataQualityScore"] = []
+        for row in rows:
+            score = self.get_latest_data_quality(str(row["asset_id"]))
+            if score is not None:
+                out.append(score)
+        return out
+
+    def log_kg_integrity(self, report: Any) -> None:
+        """Persist one KG integrity report row."""
+        checked_at = self._coerce_datetime(
+            getattr(report, "checked_at", None),
+            default=datetime.now(timezone.utc),
+        )
+        self._conn.execute(
+            """
+            INSERT INTO kg_integrity_log(report_json, passed, checked_at)
+            VALUES(?, ?, ?)
+            """,
+            (
+                report.model_dump_json() if hasattr(report, "model_dump_json") else self._json_dump(report),
+                1 if bool(getattr(report, "passed", False)) else 0,
+                checked_at.isoformat(),
+            ),
+        )
+        self._conn.commit()
+
+    def get_latest_kg_integrity(self) -> Optional[dict[str, Any]]:
+        """Return the most recent KG integrity log row as plain dict, or None."""
+        row = self._conn.execute(
+            """
+            SELECT id, report_json, passed, checked_at
+            FROM kg_integrity_log
+            ORDER BY checked_at DESC, id DESC
+            LIMIT 1
+            """
+        ).fetchone()
+        if row is None:
+            return None
+        return {
+            "id": int(row["id"]),
+            "report_json": json.loads(row["report_json"] or "{}"),
+            "passed": bool(row["passed"]),
+            "checked_at": self._coerce_datetime(row["checked_at"]),
+        }
+
+    def add_opportunity_alert(
+        self,
+        record: OpportunityAlertRecord,
+    ) -> bool:
+        cur = self._conn.execute(
+            """
+            INSERT OR IGNORE INTO opportunity_alerts(
+                asset_id, event_type, window, run_id, created_at, payload_json
+            ) VALUES (?, ?, ?, ?, ?, ?)
+            """,
+            (
+                record.asset_id,
+                record.event_type,
+                record.window,
+                record.run_id,
+                self._coerce_datetime(record.created_at).isoformat(),
+                self._json_dump(record.payload_json),
+            ),
+        )
+        self._conn.commit()
+        return cur.rowcount > 0
+
+    def get_opportunity_alerts(
+        self,
+        *,
+        asset_id: Optional[str] = None,
+        event_type: Optional[str] = None,
+        window: Optional[str] = None,
+        limit: int = 100,
+    ) -> list[OpportunityAlertRecord]:
+        clauses: list[str] = []
+        params: list[Any] = []
+        if asset_id is not None:
+            clauses.append("asset_id = ?")
+            params.append(asset_id)
+        if event_type is not None:
+            clauses.append("event_type = ?")
+            params.append(event_type)
+        if window is not None:
+            clauses.append("window = ?")
+            params.append(window)
+
+        sql = (
+            "SELECT asset_id, event_type, window, run_id, created_at, payload_json "
+            "FROM opportunity_alerts"
+        )
+        if clauses:
+            sql += " WHERE " + " AND ".join(clauses)
+        sql += " ORDER BY created_at DESC LIMIT ?"
+        params.append(limit)
+
+        rows = self._conn.execute(sql, params).fetchall()
+        return [
+            OpportunityAlertRecord(
+                asset_id=row["asset_id"],
+                event_type=row["event_type"],
+                window=row["window"],
+                run_id=row["run_id"],
+                created_at=self._coerce_datetime(row["created_at"]),
+                payload_json=json.loads(row["payload_json"] or "{}"),
+            )
+            for row in rows
+        ]
+
+    def write_backtest_snapshot(self, snapshot: BacktestSnapshot) -> None:
+        """Persist one snapshot row for portfolio backtesting."""
+        self._conn.execute(
+            """
+            INSERT OR REPLACE INTO backtest_snapshots(
+                snapshot_id, alert_id, asset_id, signal_date, signal_id, signal_timestamp,
+                composite_score, extraction_confidence, delta_npv_millions,
+                intrinsic_value_millions, mispricing_score, catalyst_date, catalyst_type,
+                catalyst_score, rank_at_signal, model_version, created_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                snapshot.snapshot_id,
+                snapshot.alert_id,
+                snapshot.asset_id,
+                snapshot.signal_date.isoformat(),
+                snapshot.signal_id,
+                self._coerce_datetime(snapshot.signal_timestamp).isoformat()
+                if snapshot.signal_timestamp is not None
+                else None,
+                snapshot.composite_score,
+                snapshot.extraction_confidence,
+                snapshot.delta_npv_millions,
+                snapshot.intrinsic_value_millions,
+                snapshot.mispricing_score,
+                snapshot.catalyst_date.isoformat() if snapshot.catalyst_date is not None else None,
+                snapshot.catalyst_type,
+                snapshot.catalyst_score,
+                snapshot.rank_at_signal,
+                snapshot.model_version,
+                self._coerce_datetime(snapshot.created_at).isoformat(),
+            ),
+        )
+        self._conn.commit()
+
+    def get_backtest_snapshots(
+        self,
+        *,
+        asset_id: Optional[str] = None,
+        since: Optional[date | datetime] = None,
+    ) -> list[BacktestSnapshot]:
+        """Return snapshot rows for backtesting, newest first."""
+        clauses: list[str] = []
+        params: list[Any] = []
+        if asset_id is not None:
+            clauses.append("asset_id = ?")
+            params.append(asset_id)
+        if since is not None:
+            since_date = since.date() if isinstance(since, datetime) else since
+            clauses.append("signal_date >= ?")
+            params.append(since_date.isoformat())
+
+        sql = "SELECT * FROM backtest_snapshots"
+        if clauses:
+            sql += " WHERE " + " AND ".join(clauses)
+        sql += " ORDER BY signal_date DESC, created_at DESC"
+
+        rows = self._conn.execute(sql, params).fetchall()
+        out: list[BacktestSnapshot] = []
+        for row in rows:
+            out.append(
+                BacktestSnapshot(
+                    snapshot_id=row["snapshot_id"],
+                    alert_id=row["alert_id"],
+                    asset_id=row["asset_id"],
+                    signal_date=date.fromisoformat(row["signal_date"]),
+                    signal_id=row["signal_id"],
+                    signal_timestamp=(
+                        self._coerce_datetime(row["signal_timestamp"])
+                        if row["signal_timestamp"] is not None
+                        else None
+                    ),
+                    composite_score=row["composite_score"],
+                    extraction_confidence=row["extraction_confidence"],
+                    delta_npv_millions=row["delta_npv_millions"],
+                    intrinsic_value_millions=row["intrinsic_value_millions"],
+                    mispricing_score=row["mispricing_score"],
+                    catalyst_date=(
+                        date.fromisoformat(row["catalyst_date"])
+                        if row["catalyst_date"] is not None
+                        else None
+                    ),
+                    catalyst_type=row["catalyst_type"],
+                    catalyst_score=row["catalyst_score"],
+                    rank_at_signal=row["rank_at_signal"],
+                    model_version=row["model_version"],
+                    created_at=self._coerce_datetime(row["created_at"]),
+                )
+            )
+        return out
+
+    # ------------------------------------------------------------------
+    # Asset registry (Sprint 1)
+    # ------------------------------------------------------------------
+
+    def upsert_asset_registry_entry(self, entry: AssetRegistryEntry) -> None:
+        self._conn.execute(
+            """
+            INSERT OR REPLACE INTO asset_registry(
+                asset_id, ticker, company_id, drug_name, indication,
+                therapeutic_area, modality, stage, nct_id, tam_millions,
+                created_at, source, last_competitor_discovery_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                entry.asset_id,
+                entry.ticker,
+                entry.company_id,
+                entry.drug_name,
+                entry.indication,
+                entry.therapeutic_area,
+                entry.modality,
+                entry.stage,
+                entry.nct_id,
+                entry.tam_millions,
+                self._coerce_datetime(entry.created_at).isoformat(),
+                entry.source,
+                self._coerce_datetime(entry.last_competitor_discovery_at).isoformat()
+                if entry.last_competitor_discovery_at is not None
+                else None,
+            ),
+        )
+        self._conn.commit()
+
+    @classmethod
+    def _asset_registry_from_row(cls, row: sqlite3.Row) -> AssetRegistryEntry:
+        return AssetRegistryEntry(
+            asset_id=row["asset_id"],
+            ticker=row["ticker"],
+            company_id=row["company_id"],
+            drug_name=row["drug_name"],
+            indication=row["indication"],
+            therapeutic_area=row["therapeutic_area"],
+            modality=row["modality"],
+            stage=row["stage"],
+            nct_id=row["nct_id"],
+            tam_millions=row["tam_millions"],
+            created_at=cls._coerce_datetime(row["created_at"]),
+            source=row["source"],
+            last_competitor_discovery_at=cls._coerce_datetime(row["last_competitor_discovery_at"])
+            if row["last_competitor_discovery_at"] is not None
+            else None,
+        )
+
+    def get_asset_registry_entry(self, asset_id: str) -> Optional[AssetRegistryEntry]:
+        row = self._conn.execute(
+            "SELECT * FROM asset_registry WHERE asset_id = ? LIMIT 1",
+            (asset_id,),
+        ).fetchone()
+        if row is None:
+            return None
+        return self._asset_registry_from_row(row)
+
+    def list_asset_registry(
+        self,
+        ta: Optional[str] = None,
+        stage: Optional[str] = None,
+    ) -> list[AssetRegistryEntry]:
+        clauses: list[str] = []
+        params: list[Any] = []
+        if ta is not None:
+            clauses.append("therapeutic_area = ?")
+            params.append(ta)
+        if stage is not None:
+            clauses.append("stage = ?")
+            params.append(stage)
+
+        sql = "SELECT * FROM asset_registry"
+        if clauses:
+            sql += " WHERE " + " AND ".join(clauses)
+        sql += " ORDER BY asset_id"
+
+        rows = self._conn.execute(sql, params).fetchall()
+        return [self._asset_registry_from_row(row) for row in rows]
+
+    def count_competitor_programs(self, asset_id: str) -> int:
+        row = self._conn.execute(
+            "SELECT COUNT(*) AS n FROM competitor_programs WHERE asset_id = ?",
+            (asset_id,),
+        ).fetchone()
+        return int(row["n"]) if row is not None else 0
+
+    def update_competitor_discovery_timestamp(self, asset_id: str, ts: datetime) -> None:
+        self._conn.execute(
+            """
+            UPDATE asset_registry
+               SET last_competitor_discovery_at = ?
+             WHERE asset_id = ?
+            """,
+            (self._coerce_datetime(ts).isoformat(), asset_id),
+        )
+        self._conn.commit()
 
     # ------------------------------------------------------------------
     # Market price methods (Wave 1A)
@@ -883,6 +2088,7 @@ class KnowledgeStore:
             return None
         from bve.connectors.market_prices import MarketPriceRecord
         from datetime import date as _date
+
         return MarketPriceRecord(
             ticker=row["ticker"],
             price_date=_date.fromisoformat(row["price_date"]),
@@ -910,6 +2116,7 @@ class KnowledgeStore:
             return None
         from bve.connectors.market_prices import MarketPriceRecord
         from datetime import date as _date
+
         return MarketPriceRecord(
             ticker=row["ticker"],
             price_date=_date.fromisoformat(row["price_date"]),
@@ -983,12 +2190,14 @@ class KnowledgeStore:
             return None
         from bve.intelligence.market_expectations import MarketExpectation
         from datetime import date as _date
+
         return MarketExpectation(
             expectation_id=row["expectation_id"],
             asset_id=row["asset_id"],
             ticker=row["ticker"],
             expectation_date=_date.fromisoformat(row["expectation_date"]),
             implied_pos=row["implied_pos"],
+            implied_success_probability=row["implied_pos"],
             model_pos=row["model_pos"],
             pos_gap=row["pos_gap"],
             cash_estimate_millions=row["cash_estimate_millions"],
@@ -1004,12 +2213,17 @@ class KnowledgeStore:
         asset_id: Optional[str],
         source_trace: SourceTrace,
     ) -> None:
+        import json as _json
+
+        analyst_tags_json = _json.dumps(decision.analyst_tags) if decision.analyst_tags else "[]"
         self._conn.execute(
             """
             INSERT OR REPLACE INTO review_decisions(
                 id, proposal_id, run_id, company_id, asset_id, decision, reviewer_id,
-                reviewed_at, override_value, rationale, notes, payload_json, source_trace_json
-            ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                reviewed_at, override_value, rationale, notes,
+                reviewer_confidence, analyst_tags_json, supporting_quote,
+                payload_json, source_trace_json
+            ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 decision.id,
@@ -1023,11 +2237,98 @@ class KnowledgeStore:
                 decision.override_value,
                 decision.rationale,
                 decision.notes,
+                decision.reviewer_confidence,
+                analyst_tags_json,
+                decision.supporting_quote,
                 decision.model_dump_json(),
                 source_trace.model_dump_json(),
             ),
         )
+        # Append-only audit log entry for every review decision (Wave 3C).
+        self._append_audit_log(
+            event_type="review_decision",
+            entity_type="proposal",
+            entity_id=decision.proposal_id,
+            actor_id=decision.reviewer_id,
+            action=decision.decision,
+            payload_json=decision.model_dump_json(),
+        )
         self._conn.commit()
+
+    # ------------------------------------------------------------------
+    # Audit log (3C) — internal helpers + public query interface
+    # ------------------------------------------------------------------
+
+    def _append_audit_log(
+        self,
+        *,
+        event_type: str,
+        entity_type: str,
+        entity_id: str,
+        actor_id: Optional[str],
+        action: str,
+        payload_json: str,
+    ) -> None:
+        """Append one row to the append-only audit_log table."""
+        import uuid as _uuid
+
+        self._conn.execute(
+            """
+            INSERT INTO audit_log
+                (audit_id, event_type, entity_type, entity_id,
+                 actor_id, action, payload_json, created_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                str(_uuid.uuid4()),
+                event_type,
+                entity_type,
+                entity_id,
+                actor_id,
+                action,
+                payload_json,
+                datetime.now(timezone.utc).isoformat(),
+            ),
+        )
+
+    def query_audit_log(
+        self,
+        *,
+        entity_type: Optional[str] = None,
+        entity_id: Optional[str] = None,
+        actor_id: Optional[str] = None,
+        action: Optional[str] = None,
+        limit: int = 100,
+    ) -> list[dict]:
+        """
+        Return audit log rows as plain dicts, newest first.
+
+        All filter parameters are optional; unset parameters match any value.
+        """
+        clauses: list[str] = []
+        params: list = []
+
+        if entity_type is not None:
+            clauses.append("entity_type = ?")
+            params.append(entity_type)
+        if entity_id is not None:
+            clauses.append("entity_id = ?")
+            params.append(entity_id)
+        if actor_id is not None:
+            clauses.append("actor_id = ?")
+            params.append(actor_id)
+        if action is not None:
+            clauses.append("action = ?")
+            params.append(action)
+
+        sql = "SELECT * FROM audit_log"
+        if clauses:
+            sql += " WHERE " + " AND ".join(clauses)
+        sql += " ORDER BY created_at DESC LIMIT ?"
+        params.append(limit)
+
+        rows = self._conn.execute(sql, params).fetchall()
+        return [dict(r) for r in rows]
 
     def add_memo(self, memo: MemoRecord) -> None:
         self._conn.execute(
@@ -1048,6 +2349,129 @@ class KnowledgeStore:
             ),
         )
         self._conn.commit()
+
+    def add_literature_review(
+        self,
+        review: object,
+        *,
+        source_trace: SourceTrace,
+        company_id: Optional[str] = None,
+        asset_id: Optional[str] = None,
+    ) -> LiteratureReviewRecord:
+        payload = review.model_dump(mode="json") if hasattr(review, "model_dump") else dict(review)
+        review_id = str(payload.get("review_id") or payload.get("id") or uuid.uuid4())
+        generated_at = self._coerce_datetime(payload.get("generated_at"))
+        resolved_company_id = company_id if company_id is not None else payload.get("company_id")
+        resolved_asset_id = asset_id if asset_id is not None else payload.get("asset_id")
+        self._conn.execute(
+            """
+            INSERT OR REPLACE INTO literature_reviews(
+                id, company_id, asset_id, generated_at, payload_json, source_trace_json
+            ) VALUES(?, ?, ?, ?, ?, ?)
+            """,
+            (
+                review_id,
+                resolved_company_id,
+                resolved_asset_id,
+                generated_at.isoformat(),
+                self._json_dump(payload),
+                source_trace.model_dump_json(),
+            ),
+        )
+        self._conn.commit()
+        return LiteratureReviewRecord(
+            id=review_id,
+            company_id=resolved_company_id,
+            asset_id=resolved_asset_id,
+            generated_at=generated_at,
+            payload_json=payload,
+            source_trace=source_trace,
+        )
+
+    def add_competitive_landscape(
+        self,
+        landscape: object,
+        *,
+        source_trace: SourceTrace,
+        company_id: Optional[str] = None,
+        asset_id: Optional[str] = None,
+    ) -> CompetitiveLandscapeRecord:
+        payload = (
+            landscape.model_dump(mode="json")
+            if hasattr(landscape, "model_dump")
+            else dict(landscape)
+        )
+        landscape_id = str(payload.get("landscape_id") or payload.get("id") or uuid.uuid4())
+        generated_at = self._coerce_datetime(payload.get("generated_at"))
+        resolved_company_id = company_id if company_id is not None else payload.get("company_id")
+        resolved_asset_id = asset_id if asset_id is not None else payload.get("asset_id")
+        self._conn.execute(
+            """
+            INSERT OR REPLACE INTO competitive_landscapes(
+                id, company_id, asset_id, generated_at, payload_json, source_trace_json
+            ) VALUES(?, ?, ?, ?, ?, ?)
+            """,
+            (
+                landscape_id,
+                resolved_company_id,
+                resolved_asset_id,
+                generated_at.isoformat(),
+                self._json_dump(payload),
+                source_trace.model_dump_json(),
+            ),
+        )
+        self._conn.commit()
+        return CompetitiveLandscapeRecord(
+            id=landscape_id,
+            company_id=resolved_company_id,
+            asset_id=resolved_asset_id,
+            generated_at=generated_at,
+            payload_json=payload,
+            source_trace=source_trace,
+        )
+
+    def add_research_report(
+        self,
+        report: object,
+        *,
+        source_trace: SourceTrace,
+        company_id: Optional[str] = None,
+        asset_id: Optional[str] = None,
+    ) -> ResearchReportRecord:
+        payload = report.model_dump(mode="json") if hasattr(report, "model_dump") else dict(report)
+        report_id = str(payload.get("report_id") or payload.get("id") or uuid.uuid4())
+        generated_at = self._coerce_datetime(payload.get("generated_at"))
+        resolved_company_id = company_id if company_id is not None else payload.get("company_id")
+        resolved_asset_id = asset_id if asset_id is not None else payload.get("asset_id")
+        self._conn.execute(
+            """
+            INSERT OR REPLACE INTO research_reports(
+                id, company_id, asset_id, report_version, model_version,
+                generated_at, payload_json, source_trace_json
+            ) VALUES(?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                report_id,
+                resolved_company_id,
+                resolved_asset_id,
+                payload.get("report_version"),
+                payload.get("model_version"),
+                generated_at.isoformat(),
+                self._json_dump(payload),
+                source_trace.model_dump_json(),
+            ),
+        )
+        self._conn.commit()
+        return ResearchReportRecord(
+            id=report_id,
+            company_id=resolved_company_id,
+            asset_id=resolved_asset_id,
+            report_version=payload.get("report_version"),
+            model_version=payload.get("model_version"),
+            generated_at=generated_at,
+            payload_json=payload,
+            source_trace=source_trace,
+        )
 
     def add_dossier(self, dossier: DossierRecord) -> None:
         self._conn.execute(
@@ -1107,6 +2531,30 @@ class KnowledgeStore:
                 )
             )
         return out
+
+    def apply_retention_policy(
+        self,
+        *,
+        raw_documents_days: int = 90,
+        reference_time: Optional[datetime] = None,
+    ) -> DataRetentionResult:
+        applied_at = self._coerce_datetime(reference_time)
+        retention_days = max(1, int(raw_documents_days))
+        cutoff = applied_at - timedelta(days=retention_days)
+        cur = self._conn.execute(
+            """
+            DELETE FROM raw_documents
+            WHERE julianday(created_at) < julianday(?)
+            """,
+            (cutoff.isoformat(),),
+        )
+        self._conn.commit()
+        return DataRetentionResult(
+            applied_at=applied_at,
+            raw_documents_retention_days=retention_days,
+            raw_documents_deleted=max(int(cur.rowcount or 0), 0),
+            structured_signals_deleted=0,
+        )
 
     def get_extraction_results(
         self,
@@ -1393,6 +2841,105 @@ class KnowledgeStore:
         rows = self._conn.execute(sql, params).fetchall()
         return [DossierRecord.model_validate_json(r["payload_json"]) for r in rows]
 
+    def get_literature_reviews(
+        self,
+        *,
+        company_id: Optional[str] = None,
+        asset_id: Optional[str] = None,
+        date_from: Optional[date] = None,
+        date_to: Optional[date] = None,
+        limit: int = 100,
+    ) -> list[dict[str, Any]]:
+        clauses = []
+        params: list[object] = []
+        if company_id is not None:
+            clauses.append("company_id = ?")
+            params.append(company_id)
+        if asset_id is not None:
+            clauses.append("asset_id = ?")
+            params.append(asset_id)
+        if date_from is not None:
+            clauses.append("DATE(generated_at) >= DATE(?)")
+            params.append(date_from.isoformat())
+        if date_to is not None:
+            clauses.append("DATE(generated_at) <= DATE(?)")
+            params.append(date_to.isoformat())
+
+        sql = "SELECT payload_json FROM literature_reviews"
+        if clauses:
+            sql += " WHERE " + " AND ".join(clauses)
+        sql += " ORDER BY generated_at DESC LIMIT ?"
+        params.append(limit)
+
+        rows = self._conn.execute(sql, params).fetchall()
+        return [json.loads(r["payload_json"]) for r in rows]
+
+    def get_competitive_landscapes(
+        self,
+        *,
+        company_id: Optional[str] = None,
+        asset_id: Optional[str] = None,
+        date_from: Optional[date] = None,
+        date_to: Optional[date] = None,
+        limit: int = 100,
+    ) -> list[dict[str, Any]]:
+        clauses = []
+        params: list[object] = []
+        if company_id is not None:
+            clauses.append("company_id = ?")
+            params.append(company_id)
+        if asset_id is not None:
+            clauses.append("asset_id = ?")
+            params.append(asset_id)
+        if date_from is not None:
+            clauses.append("DATE(generated_at) >= DATE(?)")
+            params.append(date_from.isoformat())
+        if date_to is not None:
+            clauses.append("DATE(generated_at) <= DATE(?)")
+            params.append(date_to.isoformat())
+
+        sql = "SELECT payload_json FROM competitive_landscapes"
+        if clauses:
+            sql += " WHERE " + " AND ".join(clauses)
+        sql += " ORDER BY generated_at DESC LIMIT ?"
+        params.append(limit)
+
+        rows = self._conn.execute(sql, params).fetchall()
+        return [json.loads(r["payload_json"]) for r in rows]
+
+    def get_research_reports(
+        self,
+        *,
+        company_id: Optional[str] = None,
+        asset_id: Optional[str] = None,
+        date_from: Optional[date] = None,
+        date_to: Optional[date] = None,
+        limit: int = 100,
+    ) -> list[dict[str, Any]]:
+        clauses = []
+        params: list[object] = []
+        if company_id is not None:
+            clauses.append("company_id = ?")
+            params.append(company_id)
+        if asset_id is not None:
+            clauses.append("asset_id = ?")
+            params.append(asset_id)
+        if date_from is not None:
+            clauses.append("DATE(generated_at) >= DATE(?)")
+            params.append(date_from.isoformat())
+        if date_to is not None:
+            clauses.append("DATE(generated_at) <= DATE(?)")
+            params.append(date_to.isoformat())
+
+        sql = "SELECT payload_json FROM research_reports"
+        if clauses:
+            sql += " WHERE " + " AND ".join(clauses)
+        sql += " ORDER BY generated_at DESC LIMIT ?"
+        params.append(limit)
+
+        rows = self._conn.execute(sql, params).fetchall()
+        return [json.loads(r["payload_json"]) for r in rows]
+
     # ---------------------------------------------------------------------
     # Dossier generation
     # ---------------------------------------------------------------------
@@ -1477,10 +3024,7 @@ class KnowledgeStore:
             clauses.append("asset_id = ?")
             params.append(asset_id)
 
-        sql = (
-            "SELECT assumptions_snapshot_json, valuation_snapshot_json "
-            "FROM valuation_diffs"
-        )
+        sql = "SELECT assumptions_snapshot_json, valuation_snapshot_json FROM valuation_diffs"
         if clauses:
             sql += " WHERE " + " AND ".join(clauses)
         sql += " ORDER BY created_at DESC LIMIT 1"
@@ -1509,6 +3053,9 @@ class KnowledgeStore:
             "review_decisions": ("review_decisions", "id"),
             "memos": ("memos", "id"),
             "dossiers": ("dossiers", "id"),
+            "literature_reviews": ("literature_reviews", "id"),
+            "competitive_landscapes": ("competitive_landscapes", "id"),
+            "research_reports": ("research_reports", "id"),
         }
 
     def get_source_trace(self, record_type: str, record_id: str) -> SourceTrace:
@@ -1517,7 +3064,8 @@ class KnowledgeStore:
 
         record_type:
           raw_documents | extraction_results | structured_signals | events |
-          valuation_diffs | review_decisions | memos | dossiers
+          valuation_diffs | review_decisions | memos | dossiers |
+          literature_reviews | competitive_landscapes | research_reports
         """
         table_map = self._table_map()
         if record_type not in table_map:
@@ -1552,10 +3100,14 @@ class KnowledgeStore:
             "record_type": record_type,
             "record_id": record_id,
             "payload": json.loads(row["payload_json"]),
-            "source_trace": SourceTrace.model_validate_json(row["source_trace_json"]).model_dump(mode="json"),
+            "source_trace": SourceTrace.model_validate_json(row["source_trace_json"]).model_dump(
+                mode="json"
+            ),
         }
 
-    def _latest_signal_for_event(self, event_id: str, preferred_signal_id: Optional[str]) -> Optional[sqlite3.Row]:
+    def _latest_signal_for_event(
+        self, event_id: str, preferred_signal_id: Optional[str]
+    ) -> Optional[sqlite3.Row]:
         if preferred_signal_id:
             row = self._conn.execute(
                 "SELECT * FROM structured_signals WHERE id = ?",
@@ -1597,12 +3149,16 @@ class KnowledgeStore:
             (run_id,),
         ).fetchall()
 
-    def _memo_rows_related(self, *, run_id: Optional[str], signal_id: Optional[str]) -> list[sqlite3.Row]:
+    def _memo_rows_related(
+        self, *, run_id: Optional[str], signal_id: Optional[str]
+    ) -> list[sqlite3.Row]:
         rows = self._conn.execute("SELECT * FROM memos ORDER BY created_at DESC").fetchall()
         related: list[sqlite3.Row] = []
         for row in rows:
             payload = json.loads(row["payload_json"])
-            run_ids = list(payload.get("source_run_ids") or []) + list(payload.get("referenced_diff_ids") or [])
+            run_ids = list(payload.get("source_run_ids") or []) + list(
+                payload.get("referenced_diff_ids") or []
+            )
             signal_ids = list(payload.get("source_signal_ids") or [])
             if run_id and run_id in run_ids:
                 related.append(row)
@@ -1656,7 +3212,9 @@ class KnowledgeStore:
         elif record_type == "review_decisions":
             run_id = payload.get("run_id")
         elif record_type == "memos":
-            source_runs = list(payload.get("source_run_ids") or []) + list(payload.get("referenced_diff_ids") or [])
+            source_runs = list(payload.get("source_run_ids") or []) + list(
+                payload.get("referenced_diff_ids") or []
+            )
             source_signals = payload.get("source_signal_ids") or []
             run_id = source_runs[0] if source_runs else None
             signal_id = source_signals[0] if source_signals else None
@@ -1664,6 +3222,23 @@ class KnowledgeStore:
             recent_events = payload.get("recent_events") or []
             if recent_events:
                 event_id = recent_events[0].get("id")
+        elif record_type == "literature_reviews":
+            cited_raw_documents = payload.get("cited_raw_document_ids") or []
+            cited_signals = payload.get("cited_signal_ids") or []
+            raw_document_id = cited_raw_documents[0] if cited_raw_documents else None
+            signal_id = cited_signals[0] if cited_signals else None
+        elif record_type == "competitive_landscapes":
+            cited_signals = payload.get("cited_signal_ids") or []
+            signal_id = cited_signals[0] if cited_signals else None
+        elif record_type == "research_reports":
+            cited_raw_documents = payload.get("cited_raw_document_ids") or []
+            cited_signals = payload.get("cited_signal_ids") or []
+            cited_runs = payload.get("cited_run_ids") or []
+            cited_events = payload.get("cited_event_ids") or []
+            raw_document_id = cited_raw_documents[0] if cited_raw_documents else None
+            signal_id = cited_signals[0] if cited_signals else None
+            run_id = cited_runs[0] if cited_runs else None
+            event_id = cited_events[0] if cited_events else event_id
 
         if run_id and chain["valuation_diff"] is None:
             vrow = self._conn.execute(
@@ -1746,7 +3321,8 @@ class KnowledgeStore:
 
         record_type:
           raw_documents | extraction_results | structured_signals | events |
-          valuation_diffs | review_decisions | memos | dossiers
+          valuation_diffs | review_decisions | memos | dossiers |
+          literature_reviews | competitive_landscapes | research_reports
         """
         table_map = self._table_map()
         if record_type not in table_map:
@@ -1855,9 +3431,7 @@ class KnowledgeStore:
         return node
 
     def get_node(self, node_id: str) -> Optional[KGNode]:
-        row = self._conn.execute(
-            "SELECT * FROM kg_nodes WHERE node_id = ?", (node_id,)
-        ).fetchone()
+        row = self._conn.execute("SELECT * FROM kg_nodes WHERE node_id = ?", (node_id,)).fetchone()
         return self._node_from_row(row) if row else None
 
     def find_by_type(self, node_type: NodeType) -> list[KGNode]:
@@ -1962,9 +3536,7 @@ class KnowledgeStore:
         """Return all nodes connected via competes_with edges (undirected)."""
         return self.neighbors(asset_node_id, edge_type=EdgeType.COMPETES_WITH)
 
-    def find_node_by_external_id(
-        self, node_type: NodeType, external_id: str
-    ) -> Optional[KGNode]:
+    def find_node_by_external_id(self, node_type: NodeType, external_id: str) -> Optional[KGNode]:
         """
         Look up a node by (node_type, external_id).
 
@@ -2018,3 +3590,205 @@ class KnowledgeStore:
             (asset_id,),
         ).fetchall()
         return [dict(r) for r in rows]
+
+    # ------------------------------------------------------------------
+    # Event impact scores (3A)
+    # ------------------------------------------------------------------
+
+    def upsert_event_score(self, score: Any) -> None:
+        """
+        Insert or replace an EventImpactScore.
+
+        ``score`` is typed as Any to avoid a circular import with
+        event_impact_ledger.py.  Callers pass an EventImpactScore instance.
+        Conflicts on (event_type, trial_phase, endpoint_type) overwrite.
+
+        Note: SQLite UNIQUE treats each NULL as distinct, so trial_phase and
+        endpoint_type are stored as '' (empty string) when None to ensure the
+        ON CONFLICT clause fires correctly on re-runs.
+        """
+        self._conn.execute(
+            """
+            INSERT INTO event_scores
+                (score_id, event_type, trial_phase, endpoint_type,
+                 observation_count, mean_return_t30, mean_return_t180,
+                 active, half_life_days, computed_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ON CONFLICT(event_type, trial_phase, endpoint_type) DO UPDATE SET
+                score_id            = excluded.score_id,
+                observation_count   = excluded.observation_count,
+                mean_return_t30     = excluded.mean_return_t30,
+                mean_return_t180    = excluded.mean_return_t180,
+                active              = excluded.active,
+                half_life_days      = excluded.half_life_days,
+                computed_at         = excluded.computed_at
+            """,
+            (
+                score.score_id,
+                score.category.event_type,
+                score.category.trial_phase or "",
+                score.category.endpoint_type or "",
+                score.observation_count,
+                score.mean_return_t30,
+                score.mean_return_t180,
+                int(score.active),
+                score.half_life_days,
+                score.computed_at.isoformat(),
+            ),
+        )
+        self._conn.commit()
+
+    @staticmethod
+    def _deserialize_event_score_row(row: dict) -> dict:
+        """Convert empty-string sentinels back to None for caller convenience."""
+        row = dict(row)
+        if row.get("trial_phase") == "":
+            row["trial_phase"] = None
+        if row.get("endpoint_type") == "":
+            row["endpoint_type"] = None
+        return row
+
+    def get_event_score(
+        self,
+        event_type: str,
+        trial_phase: Optional[str] = None,
+        endpoint_type: Optional[str] = None,
+    ) -> Optional[dict]:
+        """Return one event score as a plain dict, or None if not found."""
+        row = self._conn.execute(
+            """
+            SELECT * FROM event_scores
+            WHERE event_type = ?
+              AND trial_phase = ?
+              AND endpoint_type = ?
+            """,
+            (event_type, trial_phase or "", endpoint_type or ""),
+        ).fetchone()
+        return self._deserialize_event_score_row(row) if row else None
+
+    def list_event_scores(self, active_only: bool = False) -> list[dict]:
+        """Return all stored event scores as plain dicts."""
+        if active_only:
+            rows = self._conn.execute(
+                "SELECT * FROM event_scores WHERE active = 1 ORDER BY event_type"
+            ).fetchall()
+        else:
+            rows = self._conn.execute("SELECT * FROM event_scores ORDER BY event_type").fetchall()
+        return [self._deserialize_event_score_row(r) for r in rows]
+
+    # ------------------------------------------------------------------
+    # Forecast records (3B)
+    # ------------------------------------------------------------------
+
+    def record_forecast(self, forecast: Any) -> None:
+        """
+        Insert a ForecastRecord.
+
+        ``forecast`` is typed as Any to avoid circular import with
+        forecast_tracker.py.  Callers pass a ForecastRecord instance.
+        UNIQUE(signal_id) — a second call for the same signal_id is ignored.
+        """
+        self._conn.execute(
+            """
+            INSERT OR IGNORE INTO forecast_records
+                (forecast_id, signal_id, event_id, asset_id, event_type,
+                 signal_date, extraction_confidence, predicted_direction,
+                 predicted_delta_pct, horizon_days, predicted_at, created_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                forecast.forecast_id,
+                forecast.signal_id,
+                forecast.event_id,
+                forecast.asset_id,
+                forecast.event_type,
+                forecast.signal_date,
+                forecast.extraction_confidence,
+                forecast.predicted_direction,
+                forecast.predicted_delta_pct,
+                forecast.horizon_days,
+                forecast.predicted_at.isoformat(),
+                forecast.created_at.isoformat(),
+            ),
+        )
+        self._conn.commit()
+
+    def get_forecast(self, forecast_id: str) -> Optional[dict]:
+        """Return one forecast_record as a plain dict, or None."""
+        row = self._conn.execute(
+            "SELECT * FROM forecast_records WHERE forecast_id = ?",
+            (forecast_id,),
+        ).fetchone()
+        return dict(row) if row else None
+
+    def get_forecast_by_signal(self, signal_id: str) -> Optional[dict]:
+        """Return the forecast for a given signal_id, or None."""
+        row = self._conn.execute(
+            "SELECT * FROM forecast_records WHERE signal_id = ?",
+            (signal_id,),
+        ).fetchone()
+        return dict(row) if row else None
+
+    # ------------------------------------------------------------------
+    # Enrollment snapshots (Wave 3)
+    # ------------------------------------------------------------------
+
+    def write_enrollment_snapshot(self, snapshot: "EnrollmentSnapshot") -> None:
+        """
+        Upsert an enrollment snapshot row.
+
+        ``UNIQUE(nct_id, snapshot_date)`` ensures idempotency — re-extracting
+        the same trial on the same day replaces the prior row.
+        """
+        from bve.intelligence.enrollment_snapshot_extractor import EnrollmentSnapshot as ES
+        now = datetime.now(timezone.utc).isoformat()
+        payload = snapshot.model_dump(mode="json")
+        self._conn.execute(
+            """
+            INSERT OR REPLACE INTO enrollment_snapshots
+                (id, nct_id, asset_id, snapshot_date, payload_json, created_at)
+            VALUES (?, ?, ?, ?, ?, ?)
+            """,
+            (
+                snapshot.id,
+                snapshot.nct_id,
+                snapshot.asset_id,
+                snapshot.snapshot_date.isoformat(),
+                json.dumps(payload),
+                now,
+            ),
+        )
+        self._conn.commit()
+
+    def get_prior_enrollment_snapshot(
+        self, nct_id: str, before_date: Optional[date] = None
+    ) -> Optional["EnrollmentSnapshot"]:
+        """
+        Return the most recent enrollment snapshot for *nct_id* strictly before
+        *before_date* (or the latest overall when *before_date* is None).
+        """
+        from bve.intelligence.enrollment_snapshot_extractor import EnrollmentSnapshot as ES
+        if before_date is not None:
+            row = self._conn.execute(
+                """
+                SELECT payload_json FROM enrollment_snapshots
+                 WHERE nct_id = ? AND snapshot_date < ?
+                 ORDER BY snapshot_date DESC LIMIT 1
+                """,
+                (nct_id, before_date.isoformat()),
+            ).fetchone()
+        else:
+            row = self._conn.execute(
+                """
+                SELECT payload_json FROM enrollment_snapshots
+                 WHERE nct_id = ?
+                 ORDER BY snapshot_date DESC LIMIT 1
+                """,
+                (nct_id,),
+            ).fetchone()
+        if row is None:
+            return None
+        try:
+            return ES.model_validate(json.loads(row[0]))
+        except Exception:
+            return None

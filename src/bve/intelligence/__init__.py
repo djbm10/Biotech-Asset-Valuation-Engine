@@ -144,6 +144,12 @@ from bve.intelligence.phase_correlation_updater import (
     PhaseCorrelationResult,
     PhaseCorrelationUpdater,
 )
+from bve.intelligence.enrollment_snapshot_extractor import (
+    EnrollmentSnapshot,
+    EnrollmentAlertFlags,
+    EnrollmentSnapshotResult,
+    EnrollmentSnapshotExtractor,
+)
 
 __all__ = [
     # Taxonomy
@@ -253,4 +259,9 @@ __all__ = [
     # Wave 5 phase correlation (Bayesian Ph2→Ph3 update)
     "PhaseCorrelationResult",
     "PhaseCorrelationUpdater",
+    # Wave 3 enrollment snapshot
+    "EnrollmentSnapshot",
+    "EnrollmentAlertFlags",
+    "EnrollmentSnapshotResult",
+    "EnrollmentSnapshotExtractor",
 ]
