@@ -166,6 +166,14 @@ from bve.intelligence.endpoint_benchmarking import (
     EndpointBenchmarkEvaluator,
     normalize_endpoint,
 )
+from bve.intelligence.capital_structure import (
+    CapitalRiskLevel,
+    CapitalStructureAssessment,
+    compute_capital_risk,
+    estimate_raise,
+    expected_offer_discount,
+    capital_structure_assessment,
+)
 
 __all__ = [
     # Taxonomy
@@ -293,4 +301,11 @@ __all__ = [
     "EndpointEvaluation",
     "EndpointBenchmarkEvaluator",
     "normalize_endpoint",
+    # Wave 7 capital structure
+    "CapitalRiskLevel",
+    "CapitalStructureAssessment",
+    "compute_capital_risk",
+    "estimate_raise",
+    "expected_offer_discount",
+    "capital_structure_assessment",
 ]

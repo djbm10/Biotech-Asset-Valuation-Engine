@@ -455,6 +455,34 @@ phase_correlation:
 # All values are EVIDENCE-INFORMED PRIORS.
 # ==============================================================================
 
+# ==============================================================================
+# Capital Structure — raise sizing and liquidity constraints
+# Wave 7: dilution-adjusted EV and capital risk flags
+# ==============================================================================
+#
+# buffer_months: target post-raise cash runway (standard institutional requirement)
+# adv_multiplier_*: max single offering as a multiple of average daily dollar volume
+#   Small-cap biotechs (<$500M mktcap) face stricter liquidity limits
+# multi_offering_discount_increment: each additional offering adds this to the discount
+# max_effective_discount: absolute ceiling on blended discount regardless of size
+# risk_thresholds: gap_months (shortfall) thresholds for MEDIUM vs HIGH classification
+
+capital_structure:
+
+  buffer_months:                     12.0  # standard post-raise cash target
+  min_raise_months:                   3    # floor: never model < 3 months of burn
+  adv_multiplier_small_cap:          20.0  # cap < $500M: max single raise = 20× ADV
+  adv_multiplier_large_cap:          30.0  # cap ≥ $500M: max single raise = 30× ADV
+  multi_offering_discount_increment: 0.05  # +5% per additional offering
+  max_effective_discount:            0.35  # 35% ceiling on blended discount
+
+  risk_thresholds:
+    medium_gap_months: 0   # gap > 0 → MEDIUM
+    high_gap_months:   6   # gap > 6 months → HIGH (before liquidity check)
+
+  # CAPITAL_RISK_HIGH alert: fire when risk is HIGH/CRITICAL and within this window
+  alert_window_months: 12
+
 catalyst_calendar:
 
   # Lag from CT primary_completion_date to estimated public disclosure.

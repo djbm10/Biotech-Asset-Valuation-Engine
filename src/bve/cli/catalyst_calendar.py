@@ -18,6 +18,26 @@ import argparse
 import sys
 
 
+_CAP_RISK_WARN = {"high", "critical"}
+
+
+def _extract_cap_risk(ev) -> str:
+    """
+    Extract capital_risk label from the event description tag if present.
+    Returns a display string with a warning marker for HIGH/CRITICAL.
+    """
+    desc = getattr(ev, "description", "") or ""
+    # Description tag format: "cap_risk=<level>" (set by pipeline when available)
+    for part in desc.split("|"):
+        part = part.strip()
+        if part.startswith("cap_risk="):
+            level = part.split("=", 1)[1].strip().lower()
+            if level in _CAP_RISK_WARN:
+                return f"⚠ {level}"
+            return level
+    return "—"
+
+
 def _fmt_float(v, fmt=".2f") -> str:
     if v is None:
         return "—"
@@ -83,8 +103,8 @@ def main() -> None:
     )
 
     # Header
-    col_w = [12, 16, 22, 16, 15, 12, 12]
-    headers = ["date", "asset", "type", "signal_strength", "delta_ev ($M)", "asymmetry", "confidence"]
+    col_w = [12, 16, 22, 16, 15, 12, 12, 10]
+    headers = ["date", "asset", "type", "signal_strength", "delta_ev ($M)", "asymmetry", "confidence", "cap_risk"]
     row_fmt = "  ".join(f"{{:<{w}}}" for w in col_w)
 
     print()
@@ -92,6 +112,9 @@ def main() -> None:
     print("  ".join("─" * w for w in col_w))
 
     for ev in events_sorted:
+        # Attempt to pull capital_risk from the event description metadata
+        # (stored as a structured tag when capital_structure_assessment was run)
+        cap_risk_label = _extract_cap_risk(ev)
         print(row_fmt.format(
             str(ev.expected_date),
             (ev.asset_id or "—")[:col_w[1]],
@@ -100,6 +123,7 @@ def main() -> None:
             _fmt_float(ev.delta_ev, ".1f"),
             _fmt_float(ev.asymmetry_ratio, ".2f"),
             ev.date_confidence,
+            cap_risk_label,
         ))
 
     print()

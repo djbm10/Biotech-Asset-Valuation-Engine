@@ -27,7 +27,10 @@ import uuid
 from collections import defaultdict
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
+
+if TYPE_CHECKING:
+    from bve.intelligence.capital_structure import CapitalStructureAssessment
 
 from bve.alerts.alert_config import AlertsConfig
 from bve.alerts.alert_model import Alert, AlertSeverity, AlertTrigger
@@ -369,6 +372,85 @@ class AlertRouter:
                     "delta_ev":        delta_ev,
                     "signal_strength": catalyst.signal_strength,
                     "date_confidence": catalyst.date_confidence,
+                },
+            )
+        )
+        self._mark_dedup(key)
+
+    def enqueue_capital_risk_alerts(
+        self,
+        *,
+        assessment: "CapitalStructureAssessment",
+        alert_window_months: float = 12.0,
+        run_id: Optional[str] = None,
+    ) -> None:
+        """
+        Evaluate CAPITAL_RISK_HIGH condition.
+
+        Fires HIGH severity when:
+          - capital_risk is HIGH or CRITICAL
+          - months_to_catalyst is within *alert_window_months*
+
+        Parameters
+        ----------
+        assessment:
+            CapitalStructureAssessment produced by capital_structure_assessment().
+        alert_window_months:
+            Window in months (default 12).
+        run_id:
+            Optional pipeline run ID for traceability.
+        """
+        from bve.intelligence.capital_structure import CapitalRiskLevel
+
+        if not self.config.enabled:
+            return
+        if not assessment.asset_id:
+            return
+
+        high_risk = assessment.capital_risk in (
+            CapitalRiskLevel.HIGH, CapitalRiskLevel.CRITICAL
+        )
+        if not high_risk:
+            return
+        if assessment.months_to_catalyst > alert_window_months:
+            return
+
+        key = _dedup_key(
+            assessment.asset_id,
+            "capital_risk",
+            AlertTrigger.CAPITAL_RISK_HIGH,
+            assessment.catalyst_id,
+        )
+        if self._is_deduped(key):
+            return
+
+        diluted = assessment.diluted_delta_ev
+        diluted_str = (
+            f"  Diluted EV Δ ${diluted:.1f}M" if diluted is not None else ""
+        )
+        self._pending[assessment.asset_id].append(
+            Alert(
+                id=str(uuid.uuid4()),
+                severity=AlertSeverity.HIGH,
+                trigger=AlertTrigger.CAPITAL_RISK_HIGH,
+                asset_id=assessment.asset_id,
+                company_id="unknown",
+                run_id=run_id,
+                message=(
+                    f"Capital risk {assessment.capital_risk.value.upper()} for "
+                    f"{assessment.asset_id}: {assessment.gap_months:.1f}mo gap, "
+                    f"raise ~${assessment.raise_amount_millions:.0f}M needed "
+                    f"({assessment.n_offerings_required} offering(s), "
+                    f"{assessment.dilution_pct*100:.1f}% dilution).{diluted_str}"
+                ),
+                detail={
+                    "capital_risk":         assessment.capital_risk.value,
+                    "gap_months":           assessment.gap_months,
+                    "raise_amount_millions": assessment.raise_amount_millions,
+                    "n_offerings":          assessment.n_offerings_required,
+                    "dilution_pct":         assessment.dilution_pct,
+                    "diluted_delta_ev":     diluted,
+                    "liquidity_constrained": assessment.liquidity_constrained,
                 },
             )
         )
