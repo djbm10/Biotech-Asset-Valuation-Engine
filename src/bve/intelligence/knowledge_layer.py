@@ -816,6 +816,23 @@ class KnowledgeStore:
                 ON enrollment_snapshots(nct_id, snapshot_date);
             CREATE INDEX IF NOT EXISTS idx_enrollment_asset_date
                 ON enrollment_snapshots(asset_id, snapshot_date);
+
+            -- Outcome override log (Wave 0.5 — outcome resolution audit).
+            -- Append-only.  Rows are NEVER updated or deleted.
+            -- Records every manual correction to an event_outcome label so
+            -- the learning loop uses human-verified truth, not raw automation.
+            CREATE TABLE IF NOT EXISTS outcome_override_log (
+                override_id TEXT PRIMARY KEY,
+                event_id TEXT NOT NULL,
+                original_label TEXT,
+                corrected_label TEXT NOT NULL,
+                reason TEXT,
+                operator_id TEXT,
+                created_at TEXT NOT NULL
+            );
+
+            CREATE INDEX IF NOT EXISTS idx_outcome_override_event
+                ON outcome_override_log(event_id);
             """
         )
 
@@ -844,6 +861,20 @@ class KnowledgeStore:
         self._ensure_column("review_decisions", "reviewer_confidence", "REAL")
         self._ensure_column("review_decisions", "analyst_tags_json", "TEXT")
         self._ensure_column("review_decisions", "supporting_quote", "TEXT")
+
+        # Wave 0.5: outcome truth taxonomy on event_outcomes.
+        # outcome_label separates trial truth from market reaction.
+        # Values: "trial_success" | "trial_failure" | "ambiguous" |
+        #         "market_reaction_only" | "unresolved"
+        self._ensure_column("event_outcomes", "outcome_label", "TEXT")
+        self._ensure_column("event_outcomes", "outcome_resolution_source", "TEXT")
+
+        # Wave E-lite: stratification buckets on forecast_records.
+        # Required for PoS recalibration by (indication × phase × endpoint_type).
+        self._ensure_column("forecast_records", "trial_phase", "TEXT")
+        self._ensure_column("forecast_records", "indication", "TEXT")
+        self._ensure_column("forecast_records", "endpoint_type", "TEXT")
+        self._ensure_column("forecast_records", "outcome_label", "TEXT")
 
         diff_cols = {
             row["name"]
@@ -3718,8 +3749,9 @@ class KnowledgeStore:
             INSERT OR IGNORE INTO forecast_records
                 (forecast_id, signal_id, event_id, asset_id, event_type,
                  signal_date, extraction_confidence, predicted_direction,
-                 predicted_delta_pct, horizon_days, predicted_at, created_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                 predicted_delta_pct, horizon_days, predicted_at, created_at,
+                 trial_phase, indication, endpoint_type)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 forecast.forecast_id,
@@ -3734,6 +3766,9 @@ class KnowledgeStore:
                 forecast.horizon_days,
                 forecast.predicted_at.isoformat(),
                 forecast.created_at.isoformat(),
+                getattr(forecast, "trial_phase", None),
+                getattr(forecast, "indication", None),
+                getattr(forecast, "endpoint_type", None),
             ),
         )
         self._conn.commit()
@@ -3753,6 +3788,94 @@ class KnowledgeStore:
             (signal_id,),
         ).fetchone()
         return dict(row) if row else None
+
+    # ------------------------------------------------------------------
+    # Outcome override log (Wave 0.5)
+    # ------------------------------------------------------------------
+
+    def write_outcome_override(
+        self,
+        event_id: str,
+        corrected_label: str,
+        *,
+        original_label: Optional[str] = None,
+        reason: Optional[str] = None,
+        operator_id: Optional[str] = None,
+    ) -> None:
+        """
+        Record a manual correction to an event_outcome label.
+
+        Also updates ``event_outcomes.outcome_label`` and sets
+        ``outcome_resolution_source = 'manual_override'`` so the learning
+        loop uses the corrected truth.
+
+        Parameters
+        ----------
+        event_id:
+            The event_id of the row in event_outcomes to correct.
+        corrected_label:
+            The verified label: ``"trial_success"``, ``"trial_failure"``,
+            ``"ambiguous"``, or ``"market_reaction_only"``.
+        original_label:
+            Previous label (for audit trail).  If None, the current DB value
+            is read automatically.
+        reason:
+            Free-text explanation for the correction.
+        operator_id:
+            Reviewer / system actor ID for traceability.
+        """
+        now = datetime.now(timezone.utc).isoformat()
+
+        if original_label is None:
+            row = self._conn.execute(
+                "SELECT outcome_label FROM event_outcomes WHERE event_id = ?",
+                (event_id,),
+            ).fetchone()
+            original_label = dict(row).get("outcome_label") if row else None
+
+        self._conn.execute(
+            """
+            INSERT INTO outcome_override_log
+                (override_id, event_id, original_label, corrected_label,
+                 reason, operator_id, created_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                str(__import__("uuid").uuid4()),
+                event_id,
+                original_label,
+                corrected_label,
+                reason,
+                operator_id,
+                now,
+            ),
+        )
+        # Update the live outcome row so downstream queries see the correction.
+        self._conn.execute(
+            """
+            UPDATE event_outcomes
+               SET outcome_label             = ?,
+                   outcome_resolution_source = 'manual_override'
+             WHERE event_id = ?
+            """,
+            (corrected_label, event_id),
+        )
+        self._conn.commit()
+
+    def get_outcome_overrides(self, event_id: Optional[str] = None) -> list[dict]:
+        """
+        Return override log entries, optionally filtered by event_id.
+        """
+        if event_id:
+            rows = self._conn.execute(
+                "SELECT * FROM outcome_override_log WHERE event_id = ? ORDER BY created_at",
+                (event_id,),
+            ).fetchall()
+        else:
+            rows = self._conn.execute(
+                "SELECT * FROM outcome_override_log ORDER BY created_at"
+            ).fetchall()
+        return [dict(r) for r in rows]
 
     # ------------------------------------------------------------------
     # Enrollment snapshots (Wave 3)

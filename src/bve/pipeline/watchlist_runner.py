@@ -498,6 +498,15 @@ class WatchlistPipelineRunner:
             except Exception as exc:
                 self.logger.warning("price_reaction_resolve_failed: %s", exc)
 
+        # Wave A: resolve any forecast_records that now have closed price windows.
+        try:
+            from bve.intelligence.forecast_tracker import resolve_forecasts
+            n_resolved = resolve_forecasts(self.knowledge)
+            if n_resolved:
+                self.logger.info("forecast_records_resolved count=%d", n_resolved)
+        except Exception as exc:
+            self.logger.warning("forecast_resolve_failed: %s", exc)
+
         for asset in self.config.watchlist:
             results.append(
                 self._run_asset(
@@ -1095,6 +1104,17 @@ class WatchlistPipelineRunner:
                     except Exception as exc:
                         self.logger.warning(
                             "event_outcome_record_failed event=%s: %s",
+                            saved_diff.event_id,
+                            exc,
+                        )
+
+                    # Wave A: record model prediction at signal-extraction time.
+                    try:
+                        from bve.intelligence.forecast_tracker import record_forecast
+                        record_forecast(signal, saved_diff, self.knowledge)
+                    except Exception as exc:
+                        self.logger.warning(
+                            "forecast_record_failed event=%s: %s",
                             saved_diff.event_id,
                             exc,
                         )
