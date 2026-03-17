@@ -569,6 +569,23 @@ class KnowledgeStore:
                 computed_at TEXT NOT NULL
             );
 
+            -- Cross-asset propagation proposals (Wave D).
+            -- Generated when a trigger signal (competitor failure, safety event)
+            -- implies a valuation assumption change on a peer asset.
+            CREATE TABLE IF NOT EXISTS propagation_proposals (
+                proposal_id   TEXT PRIMARY KEY,
+                source_asset_id   TEXT NOT NULL,
+                target_asset_id   TEXT NOT NULL,
+                propagation_type  TEXT NOT NULL,
+                calibration_confidence REAL NOT NULL DEFAULT 0.0,
+                sample_size       INTEGER NOT NULL DEFAULT 0,
+                proposal_json     TEXT NOT NULL,
+                status            TEXT NOT NULL DEFAULT 'pending',
+                created_at        TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_propagation_proposals_target
+                ON propagation_proposals(target_asset_id, status, created_at);
+
             CREATE INDEX IF NOT EXISTS idx_raw_documents_created
                 ON raw_documents(created_at);
             CREATE INDEX IF NOT EXISTS idx_raw_documents_hash
@@ -3874,6 +3891,92 @@ class KnowledgeStore:
         else:
             rows = self._conn.execute(
                 "SELECT * FROM outcome_override_log ORDER BY created_at"
+            ).fetchall()
+        return [dict(r) for r in rows]
+
+    # ------------------------------------------------------------------
+    # Cross-asset propagation proposals (Wave D)
+    # ------------------------------------------------------------------
+
+    def store_propagation_proposals(
+        self,
+        proposals: list,
+        *,
+        source_asset_id: str,
+    ) -> int:
+        """
+        Persist a list of GeneratedPropagationProposal objects.
+
+        Returns the number of rows inserted (duplicates by proposal_id are ignored).
+        """
+        now = datetime.now(timezone.utc).isoformat()
+        inserted = 0
+        for p in proposals:
+            proposal_json = self._json_dump(p.proposal.model_dump(mode="json"))
+            self._conn.execute(
+                """
+                INSERT OR IGNORE INTO propagation_proposals
+                    (proposal_id, source_asset_id, target_asset_id,
+                     propagation_type, calibration_confidence, sample_size,
+                     proposal_json, status, created_at)
+                VALUES (?, ?, ?, ?, ?, ?, ?, 'pending', ?)
+                """,
+                (
+                    p.proposal.id,
+                    source_asset_id,
+                    p.target_asset_id,
+                    str(p.propagation_type.value
+                        if hasattr(p.propagation_type, "value")
+                        else p.propagation_type),
+                    float(p.calibration_confidence),
+                    int(p.sample_size),
+                    proposal_json,
+                    now,
+                ),
+            )
+            inserted += self._conn.execute(
+                "SELECT changes()"
+            ).fetchone()[0]
+        self._conn.commit()
+        return inserted
+
+    def get_pending_propagation_proposals(
+        self,
+        target_asset_ids: Optional[list[str]] = None,
+        *,
+        limit: int = 200,
+    ) -> list[dict]:
+        """
+        Return pending propagation proposals, optionally filtered by target.
+
+        Parameters
+        ----------
+        target_asset_ids:
+            When provided, only returns proposals targeting these assets.
+        limit:
+            Maximum rows to return (default 200).
+        """
+        if target_asset_ids is not None:
+            placeholders = ", ".join("?" for _ in target_asset_ids)
+            rows = self._conn.execute(
+                f"""
+                SELECT * FROM propagation_proposals
+                 WHERE status = 'pending'
+                   AND target_asset_id IN ({placeholders})
+                 ORDER BY created_at DESC
+                 LIMIT ?
+                """,
+                (*target_asset_ids, limit),
+            ).fetchall()
+        else:
+            rows = self._conn.execute(
+                """
+                SELECT * FROM propagation_proposals
+                 WHERE status = 'pending'
+                 ORDER BY created_at DESC
+                 LIMIT ?
+                """,
+                (limit,),
             ).fetchall()
         return [dict(r) for r in rows]
 

@@ -1139,6 +1139,33 @@ class WatchlistPipelineRunner:
                             exc,
                         )
 
+                    # Wave D: generate cross-asset propagation proposals for peer assets.
+                    try:
+                        from bve.intelligence.cross_asset_propagation import (
+                            CrossAssetPropagationEngine,
+                        )
+                        prop_engine = CrossAssetPropagationEngine(store=self.knowledge)
+                        peer_proposals = prop_engine.generate_proposals(
+                            trigger_signal=signal,
+                        )
+                        if peer_proposals:
+                            n_stored = self.knowledge.store_propagation_proposals(
+                                peer_proposals,
+                                source_asset_id=asset_cfg.asset_id,
+                            )
+                            if n_stored:
+                                self.logger.info(
+                                    "cross_asset_proposals_stored n=%d event=%s",
+                                    n_stored,
+                                    saved_diff.event_id,
+                                )
+                    except Exception as exc:
+                        self.logger.warning(
+                            "cross_asset_propagation_failed event=%s: %s",
+                            saved_diff.event_id,
+                            exc,
+                        )
+
                     # Alert condition 2: material valuation change (dual gate: abs + relative).
                     if self.alert_router is not None:
                         alert_started = time.perf_counter()
