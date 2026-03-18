@@ -1,0 +1,50 @@
+# Research Report — {{ report.asset_id }}
+Generated: {{ report.generated_at }}
+Report Version: {{ report.report_version }}
+Model Version: {{ report.model_version }}
+
+## Executive Summary
+{{ report.executive_summary }}
+
+## Investment Thesis
+{{ report.investment_thesis }}
+
+## Clinical Evidence
+{{ report.clinical_evidence }}
+
+## Competitive Analysis
+{{ report.competitive_analysis }}
+
+### Competitive Table
+| Drug | Company | Phase | Mechanism Similarity | Distance to Market | Risk Score |
+|------|---------|-------|----------------------|--------------------|------------|
+{% if report.competitive_entries %}
+{% for row in report.competitive_entries %}
+| {{ row.drug }} | {{ row.company or "-" }} | {{ row.phase or "-" }} | {{ row.mechanism_similarity or "-" }} ({{ row.mechanism_similarity_score }}) | {{ row.distance_to_market }} | {{ row.risk_score }} |
+{% endfor %}
+{% else %}
+| (none) | - | - | - | - | - |
+{% endif %}
+
+## Financial Model
+{{ report.financial_model }}
+
+## Risk Factors
+{{ report.risk_factors }}
+
+## Calibration Metrics
+{{ report.calibration_metrics }}
+
+## Input Snapshot
+- valuation_parameters: {{ report.input_snapshot.valuation_parameters | length if report.input_snapshot and report.input_snapshot.valuation_parameters else 0 }}
+- event_scores: {{ report.input_snapshot.event_scores | length if report.input_snapshot and report.input_snapshot.event_scores else 0 }}
+- propagation_parameters: {{ report.input_snapshot.propagation_parameters | length if report.input_snapshot and report.input_snapshot.propagation_parameters else 0 }}
+
+## Sources
+- dossier_ids: {{ report.cited_dossier_ids | join(", ") if report.cited_dossier_ids else "none" }}
+- literature_review_ids: {{ report.cited_literature_review_ids | join(", ") if report.cited_literature_review_ids else "none" }}
+- competitive_landscape_ids: {{ report.cited_competitive_landscape_ids | join(", ") if report.cited_competitive_landscape_ids else "none" }}
+- signal_ids: {{ report.cited_signal_ids | join(", ") if report.cited_signal_ids else "none" }}
+- run_ids: {{ report.cited_run_ids | join(", ") if report.cited_run_ids else "none" }}
+- event_ids: {{ report.cited_event_ids | join(", ") if report.cited_event_ids else "none" }}
+- raw_document_ids: {{ report.cited_raw_document_ids | join(", ") if report.cited_raw_document_ids else "none" }}

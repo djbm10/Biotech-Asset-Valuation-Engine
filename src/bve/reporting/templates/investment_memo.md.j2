@@ -1,0 +1,42 @@
+# Investment Memo — {{ memo.asset_id }}
+
+- `memo_id`: {{ memo.memo_id }}
+- `memo_version`: {{ memo.memo_version }}
+- `model_version`: {{ memo.model_version }}
+- `generated_at`: {{ memo.generated_at }}
+- `company_id`: {{ memo.company_id or "n/a" }}
+
+## Investment Thesis
+{{ memo.investment_thesis }}
+
+## Bull Case
+{{ memo.bull_case }}
+
+## Bear Case
+{{ memo.bear_case }}
+
+## Catalysts
+{% if memo.catalysts %}
+{% for item in memo.catalysts %}
+- {{ item }}
+{% endfor %}
+{% else %}
+- No catalyst records available.
+{% endif %}
+
+## Risks
+{% if memo.risks %}
+{% for item in memo.risks %}
+- {{ item }}
+{% endfor %}
+{% else %}
+- No risk records available.
+{% endif %}
+
+## Valuation Summary
+{{ memo.valuation_summary }}
+
+## References
+- Reports: {{ memo.cited_report_ids | join(", ") if memo.cited_report_ids else "none" }}
+- Events: {{ memo.cited_event_ids | join(", ") if memo.cited_event_ids else "none" }}
+- Runs: {{ memo.cited_run_ids | join(", ") if memo.cited_run_ids else "none" }}
