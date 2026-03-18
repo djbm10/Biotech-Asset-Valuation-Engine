@@ -1,6 +1,6 @@
 # tasks.md — Implementation Roadmap
 
-Last updated: 2026-03-09
+Last updated: 2026-03-18
 Current branch: core-engine-v1
 Test baseline: 1,407 passing
 
@@ -814,12 +814,344 @@ on ValuationEngine outputs. It is a separate scoring layer consumed only by Oppo
 - [ ] Task 4.2 — Stress test suite (p95 per-asset ≤2s gate for Stage 3)
 - [ ] Task 4.3 — Stage 2 expansion (100 assets; gated by Task 4.2 Scenario A)
 
-### Sprint 5
-- [ ] Task 5.1 — Dashboard panel extensions (catalyst calendar, indication exposure, MoA cluster)
-- [ ] Task 5.2 — Global catalyst calendar + PDUFA connector + `conference_calendar.yaml`
+### Sprint 5 — Decision + Capital Allocation Engine ✅ COMPLETE (2026-03-18)
+- [x] Task 5.1 — Wave J: Decision + Position Layer (`decision_layer.py`)
+- [x] Task 5.2 — Wave K: Weekly Actionable Output Generator (`actionable_output.py`)
+- [x] Task 5.3 — Wave M: Weighted Thesis Strength (extend `thesis_tracker.py`)
+- [x] Task 5.4 — Wave L: Weekly Review Engine (`weekly_review.py`)
 
-### Sprint 6
-- [ ] Task 6.1 — `AutoConfigAssetContextProvider` + Stage 3 expansion
+### Sprint 6 — Dashboard + Stage Expansion
+- [ ] Task 6.1 — Dashboard panel extensions (catalyst calendar, indication exposure, MoA cluster)
+- [ ] Task 6.2 — Global catalyst calendar + PDUFA connector + `conference_calendar.yaml`
+
+### Sprint 7
+- [ ] Task 7.1 — `AutoConfigAssetContextProvider` + Stage 3 expansion
+
+---
+
+## Sprint 5 Task Specifications
+
+### Task 5.1 — Wave J: Decision + Position Layer
+
+**Why first:** K immediately consumes recommended_action; L needs sizing quality data.
+Without this, the learning loop has no ground truth.
+
+**Create:** `src/bve/intelligence/decision_layer.py`
+
+**Three SQLite tables** (lazy creation via `_ensure_schema()`):
+
+```
+decision_records
+  decision_id TEXT PRIMARY KEY
+  asset_id TEXT NOT NULL
+  signal_id TEXT
+  thesis_id TEXT                          -- FK to thesis_claims (nullable)
+  recommended_action TEXT NOT NULL        -- buy | size_up | hold | reduce | pass | exit
+  recommended_size_pct REAL
+  executed_action TEXT                    -- set after actual execution (may differ)
+  executed_size_pct REAL
+  signal_strength REAL
+  portfolio_exposure_pct_at_decision REAL -- total portfolio pct at decision time
+  catalyst_bucket_exposure_pct REAL       -- pct in same catalyst type (e.g. ASCO readouts)
+  indication_bucket_exposure_pct REAL     -- pct in same indication (e.g. oncology)
+  liquidity_bucket TEXT                   -- liquid | semi_liquid | illiquid
+  conviction_tier TEXT                    -- high | medium | low | speculative
+  critic_flags_count INT DEFAULT 0
+  reasoning_text TEXT
+  decided_at TEXT NOT NULL
+
+position_snapshots
+  snapshot_id TEXT PRIMARY KEY
+  asset_id TEXT NOT NULL
+  decision_id TEXT                        -- FK to decision_records
+  entry_date TEXT NOT NULL
+  entry_price_usd REAL
+  current_size_pct REAL NOT NULL
+  linked_catalyst_id TEXT
+  thesis_strength_at_entry REAL
+  is_active INTEGER DEFAULT 1
+  exit_date TEXT
+  exit_price_usd REAL
+  exit_reason TEXT                        -- catalyst_resolved | thesis_refuted | stop_loss |
+                                          --   profit_target | rebalance | manual
+  holding_period_days INT                 -- set at close: exit_date - entry_date
+  created_at TEXT NOT NULL
+
+outcome_attributions
+  attribution_id TEXT PRIMARY KEY
+  decision_id TEXT NOT NULL
+  asset_id TEXT NOT NULL
+  return_pct REAL NOT NULL
+  attribution_type TEXT NOT NULL          -- pos_error | timing_error | sizing_error |
+                                          --   thesis_error | market_drift | confirmed_thesis |
+                                          --   unclassified
+  resolved_at TEXT NOT NULL
+  notes TEXT
+```
+
+**`DecisionLayer` class:**
+```python
+class DecisionLayer:
+    def __init__(self, store: Any) -> None
+    def record_decision(...) -> DecisionRecord
+    def update_execution(decision_id, executed_action, executed_size_pct) -> Optional[DecisionRecord]
+    def record_position(asset_id, entry_price, size_pct, *, decision_id, ...) -> PositionSnapshot
+    def close_position(asset_id, exit_price, exit_reason) -> Optional[PositionSnapshot]
+    def attribute_outcome(decision_id, return_pct, attribution_type, notes="") -> OutcomeAttribution
+    def get_active_positions() -> list[PositionSnapshot]
+    def get_decision_history(asset_id=None, limit=100) -> list[DecisionRecord]
+    def model_vs_execution_drift() -> dict   # {n_diverged, n_total, pct_diverged}
+```
+
+**Key invariants:**
+- `recommended_action` always set at record time; `executed_action` is set later via `update_execution()`
+- `holding_period_days` computed from `exit_date - entry_date` at close, not stored before then
+- All portfolio context fields are snapshots at decision time, not recomputed live
+
+**Done criteria:**
+- All three tables created lazily
+- `record_decision()` + `update_execution()` round-trip preserves both recommended and executed
+- `close_position()` sets `holding_period_days` and `is_active=0`
+- `model_vs_execution_drift()` correctly counts diverged decisions
+- Full test coverage (~25 tests)
+
+---
+
+### Task 5.2 — Wave K: Weekly Actionable Output Generator
+
+**Why after J:** Needs `DecisionLayer.record_decision()` to persist recommended actions.
+
+**Create:** `src/bve/intelligence/actionable_output.py`
+
+**`ScoredCandidate` dataclass** (input, decoupled from specific opportunity format):
+```python
+@dataclass
+class ScoredCandidate:
+    asset_id: str
+    ticker: str
+    ranking_score: float        # from ranking engine
+    opportunity_score: float = 0.0
+    thesis_strength: Optional[float] = None   # from ThesisTracker.snapshot()
+    critic_severity: Optional[str] = None     # "caution" | "warning" | None
+    catalyst_description: str = ""
+    indication: str = ""
+    company_id: str = ""
+```
+
+**`ActionableOpportunity` model** (frozen Pydantic):
+```python
+class ActionableOpportunity(BaseModel):
+    asset_id: str
+    ticker: str
+    recommended_action: str          # buy | add | monitor | avoid
+    recommended_size_pct: float
+    catalyst_description: str
+    composite_score: float           # weighted combination
+    ranking_component: float         # contribution from ranking_score
+    thesis_component: float          # contribution from thesis_strength
+    opportunity_component: float     # contribution from opportunity_score
+    score_version: str               # e.g. "v1.0" — logged for regime comparison
+    thesis_strength: Optional[float]
+    critic_severity: Optional[str]
+    risk_flags: list[str]
+    one_line_summary: str
+```
+
+**`WeeklyActionableReport` model:**
+```python
+class WeeklyActionableReport(BaseModel):
+    generated_at: datetime
+    week_ending: date
+    score_version: str
+    score_weights: dict[str, float]  # {"ranking": 0.5, "thesis": 0.3, "opportunity": 0.2}
+    opportunities: list[ActionableOpportunity]   # max top_n, ordered by composite_score desc
+    n_considered: int
+    n_filtered_by_min_score: int
+    n_elevated_by_critic: int        # caution → downgraded to "monitor"
+    has_actionable: bool             # False when list is empty — explicit, never silent
+```
+
+**`ActionableGenerator` class:**
+```python
+class ActionableGenerator:
+    SCORE_VERSION = "v1.0"
+    DEFAULT_WEIGHTS = {"ranking": 0.5, "thesis": 0.3, "opportunity": 0.2}
+
+    def __init__(self, weights=None, min_composite_score=0.0, max_position_pct=0.20)
+    def generate(candidates, *, top_n=5, week_ending=None) -> WeeklyActionableReport
+```
+
+**`generate()` pipeline:**
+1. Compute `composite = w_r×ranking_score + w_t×thesis_strength_or_zero + w_o×opportunity_score`
+2. Determine `recommended_action`:
+   - composite ≥ 0.70 → "buy"
+   - composite ≥ 0.50 → "add"
+   - critic_severity == "caution" → downgrade to "monitor"
+   - composite < min_composite_score → "avoid"
+3. Sort by composite descending; take top_n
+4. Compute `recommended_size_pct = min(max_position_pct, max(0.01, composite × max_position_pct))`
+5. Build `risk_flags` from critic_severity + thesis_strength thresholds
+6. Format `one_line_summary`
+7. Return report with full score decomposition and `has_actionable`
+
+**Key invariant:** `generate()` always returns a report. `has_actionable=False` is explicit.
+Score weights are always logged in the report for longitudinal regime comparison.
+
+**Done criteria:**
+- `generate()` with empty list returns `has_actionable=False` report
+- Score decomposition (ranking/thesis/opportunity components) stored on each opportunity
+- `score_version` and `score_weights` logged in every report
+- Critic caution correctly downgrades action to "monitor"
+- Full test coverage (~20 tests)
+
+---
+
+### Task 5.3 — Wave M: Weighted Thesis Strength
+
+**Why before L:** `WeeklyReviewEngine` consumes `weighted_thesis_strength` for confirmed_thesis
+classification. If thesis strength is noisy, L's error taxonomy is polluted upstream.
+
+**Modify:** `src/bve/intelligence/thesis_tracker.py`
+
+**Schema migration** (backward-compatible):
+```python
+# In _ensure_schema(), add after CREATE TABLE:
+self.store._conn.execute(
+    "ALTER TABLE thesis_claims ADD COLUMN weight REAL DEFAULT 1.0"
+)
+# Catch OperationalError (column already exists) silently
+```
+
+**Default weights by ClaimType:**
+```python
+DEFAULT_CLAIM_WEIGHTS: dict[ClaimType, float] = {
+    ClaimType.ENDPOINT_MET:            2.0,   # binary, high-stakes, directly valuation-relevant
+    ClaimType.REGULATORY_PATHWAY:      1.5,   # FDA designation / label change
+    ClaimType.COMPETITOR_FAILURE:      1.5,   # structural market share impact
+    ClaimType.LABEL_EXPANSION:         1.25,
+    ClaimType.POS_ABOVE_THRESHOLD:     1.0,
+    ClaimType.ENROLLMENT_ON_TRACK:     0.75,  # execution signal, not outcome
+    ClaimType.MARKET_REACTION_POSITIVE: 0.5,  # lagging / supportive only
+    ClaimType.CUSTOM:                  1.0,
+}
+```
+
+**Changes to `ThesisClaim`:**
+- Add `weight: float = Field(default=1.0, ge=0.0)` field
+
+**Changes to `ThesisSnapshot`:**
+- Add `weighted_thesis_strength: Optional[float] = None` field
+- Existing `thesis_strength` (unweighted) preserved for backward compatibility
+
+**Changes to `ThesisTracker.snapshot()`:**
+- Compute `weighted_thesis_strength = Σ(weight_i for confirmed) / Σ(weight_i for resolved)`
+- Only computed when `n_resolved > 0`, else `None`
+
+**Changes to `add_claim()`:**
+- Add `weight: Optional[float] = None` parameter
+- Default: `weight = DEFAULT_CLAIM_WEIGHTS.get(claim_type, 1.0)` when None
+
+**Done criteria:**
+- Migration runs safely on existing DB (column already exists → no error)
+- `add_claim()` uses DEFAULT_CLAIM_WEIGHTS when no weight provided
+- A refuted ENDPOINT_MET (weight=2.0) dominates two confirmed MARKET_REACTION_POSITIVE (weight=0.5 each)
+- `thesis_strength` (unweighted) unchanged — existing tests still pass
+- ~8 new tests for weighted path
+
+---
+
+### Task 5.4 — Wave L: Weekly Review Engine
+
+**Why last:** Consumes DecisionLayer (sizing quality), ThesisTracker (thesis accuracy),
+and forecast_records (fundamental accuracy). All must be populated first.
+
+**Create:** `src/bve/intelligence/weekly_review.py`
+
+**Four structured review sections:**
+
+```python
+class FundamentalAccuracy(BaseModel):
+    n_resolved: int
+    n_correct: int
+    hit_rate: Optional[float]           # n_correct / n_resolved
+    n_pos_error: int                    # predicted direction wrong on trial_readout
+    n_timing_error: int                 # correct direction, signal age > 30d at execution
+    n_market_drift: int                 # correct direction, return < 0 (market moved against)
+    n_unclassified: int
+
+class MarketTimingAccuracy(BaseModel):
+    n_stale_signals: int                # signals > 30d old when forecast recorded
+    avg_signal_age_days: Optional[float]
+    pct_stale: Optional[float]
+
+class ThesisAccuracy(BaseModel):
+    n_key_claims_confirmed: int         # ENDPOINT_MET, REGULATORY_PATHWAY, COMPETITOR_FAILURE
+    n_key_claims_refuted: int
+    n_assets_with_refuted_key_claim: int
+    net_thesis_score: Optional[float]   # (confirmed - refuted) / total_key_resolved
+
+class SizingQuality(BaseModel):
+    n_decisions_with_sizing: int
+    n_recommended_vs_executed_diverged: int
+    pct_diverged: Optional[float]
+    avg_size_divergence_pct: Optional[float]   # mean(|executed - recommended|) in pp
+    n_oversized: int                    # executed > recommended by > 2pp
+```
+
+**`WeeklyReviewReport` model:**
+```python
+class WeeklyReviewReport(BaseModel):
+    week_ending: date
+    fundamental: FundamentalAccuracy
+    market_timing: MarketTimingAccuracy
+    thesis: ThesisAccuracy
+    sizing: SizingQuality
+    top_miss: Optional[str]             # asset_id with largest negative surprise
+    top_win: Optional[str]              # asset_id with largest positive return
+    calibration_drift_fired: bool
+    generated_at: datetime
+```
+
+**`WeeklyReviewEngine` class:**
+```python
+class WeeklyReviewEngine:
+    def __init__(self, store: Any, decision_layer: Optional[DecisionLayer] = None,
+                 thesis_tracker: Optional[ThesisTracker] = None)
+    def run_review(*, week_ending=None, lookback_days=7) -> WeeklyReviewReport
+```
+
+**Strict `confirmed_thesis` classification rule** (NOT just "return > 0"):
+
+A forecast is classified as `confirmed_thesis` only when ALL of:
+1. `return_pct > 0` (market outcome positive)
+2. AND at least one of:
+   - A `ThesisClaim` with `claim_type in {ENDPOINT_MET, POS_ABOVE_THRESHOLD, REGULATORY_PATHWAY}`
+     was `confirmed` for this asset within the same lookback window
+   - OR the forecast `event_type` is `trial_readout` and `predicted_direction` matches
+     the `primary_endpoint_met` resolution
+3. AND no `ENDPOINT_MET` or `REGULATORY_PATHWAY` claim was `refuted` for this asset
+   in the same window
+
+If conditions 2 or 3 fail despite `return_pct > 0` → classified as `market_drift`.
+
+**New SQLite table** `weekly_review_records`:
+```
+weekly_review_records
+  review_id TEXT PRIMARY KEY
+  week_ending TEXT NOT NULL UNIQUE
+  report_json TEXT NOT NULL
+  created_at TEXT NOT NULL
+```
+
+**Integration:** Wired into `IntelligenceService._maybe_run_weekly_pos_calibration()` block
+(Sunday-only, same dedup pattern). Also callable via CLI: `bve review --week 2026-03-17`.
+
+**Done criteria:**
+- Four separate sections populated independently (each degrades gracefully when no data)
+- `confirmed_thesis` requires thesis claim evidence, not just positive return
+- `SizingQuality` correctly counts recommended vs executed divergence using DecisionLayer
+- `weekly_review_records` table stores report for longitudinal analysis
+- ~20 tests covering all four sections + edge cases (no data, all-correct, all-wrong)
 
 ---
 

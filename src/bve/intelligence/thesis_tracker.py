@@ -66,6 +66,25 @@ ClaimStatus = Literal["open", "confirmed", "refuted", "expired", "superseded"]
 
 
 # ---------------------------------------------------------------------------
+# Default claim weights (Wave M — Weighted Thesis Strength)
+# ---------------------------------------------------------------------------
+
+#: Default importance weights per claim type.
+#: Higher weight = this claim type has more impact on ``weighted_thesis_strength``.
+#: A refuted ENDPOINT_MET (2.0) outweighs two confirmed MARKET_REACTION_POSITIVE (0.5 each).
+DEFAULT_CLAIM_WEIGHTS: dict[str, float] = {
+    ClaimType.ENDPOINT_MET:            2.0,
+    ClaimType.REGULATORY_PATHWAY:      1.5,
+    ClaimType.COMPETITOR_FAILURE:      1.5,
+    ClaimType.LABEL_EXPANSION:         1.25,
+    ClaimType.POS_ABOVE_THRESHOLD:     1.0,
+    ClaimType.ENROLLMENT_ON_TRACK:     0.75,
+    ClaimType.MARKET_REACTION_POSITIVE: 0.5,
+    ClaimType.CUSTOM:                  1.0,
+}
+
+
+# ---------------------------------------------------------------------------
 # ThesisClaim model
 # ---------------------------------------------------------------------------
 
@@ -116,6 +135,7 @@ class ThesisClaim(BaseModel):
     categorical_value: Optional[str] = None     # e.g. "breakthrough_therapy"
     resolution_date: Optional[date] = None
     created_by_signal_id: Optional[str] = None
+    weight: float = Field(default=1.0, ge=0.0)  # importance weight for weighted_thesis_strength
     resolved_by_signal_id: Optional[str] = None
     status: ClaimStatus = "open"
     resolution_evidence: Optional[str] = None
@@ -163,6 +183,7 @@ class ThesisSnapshot(BaseModel):
     n_refuted: int = 0
     n_expired: int = 0
     thesis_strength: Optional[float] = None
+    weighted_thesis_strength: Optional[float] = None  # Wave M: weight-adjusted strength
     open_claims: list[ThesisClaim] = Field(default_factory=list)
     confirmed_claims: list[ThesisClaim] = Field(default_factory=list)
     refuted_claims: list[ThesisClaim] = Field(default_factory=list)
@@ -219,6 +240,13 @@ class ThesisTracker:
                 ON thesis_claims(asset_id, status, created_at)
             """
         )
+        # Wave M migration: add weight column to existing databases
+        try:
+            self.store._conn.execute(
+                "ALTER TABLE thesis_claims ADD COLUMN weight REAL DEFAULT 1.0"
+            )
+        except Exception:  # OperationalError if column already exists
+            pass
         self.store._conn.commit()
 
     # ------------------------------------------------------------------
@@ -236,14 +264,26 @@ class ThesisTracker:
         categorical_value: Optional[str] = None,
         resolution_date: Optional[date] = None,
         created_by_signal_id: Optional[str] = None,
+        weight: Optional[float] = None,
     ) -> ThesisClaim:
         """
         Add a new thesis claim.
+
+        Parameters
+        ----------
+        weight:
+            Importance weight for ``weighted_thesis_strength`` computation.
+            Defaults to ``DEFAULT_CLAIM_WEIGHTS[claim_type]`` when None.
 
         Returns
         -------
         ThesisClaim
         """
+        resolved_weight = (
+            weight
+            if weight is not None
+            else DEFAULT_CLAIM_WEIGHTS.get(claim_type.value, 1.0)
+        )
         claim = ThesisClaim(
             asset_id=asset_id,
             company_id=company_id,
@@ -253,14 +293,15 @@ class ThesisTracker:
             categorical_value=categorical_value,
             resolution_date=resolution_date,
             created_by_signal_id=created_by_signal_id,
+            weight=resolved_weight,
         )
         self.store._conn.execute(
             """
             INSERT OR IGNORE INTO thesis_claims
                 (claim_id, asset_id, company_id, claim_type, assertion,
                  numeric_threshold, categorical_value, resolution_date,
-                 created_by_signal_id, status, created_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'open', ?)
+                 created_by_signal_id, status, created_at, weight)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'open', ?, ?)
             """,
             (
                 claim.claim_id,
@@ -273,6 +314,7 @@ class ThesisTracker:
                 str(claim.resolution_date) if claim.resolution_date else None,
                 claim.created_by_signal_id,
                 claim.created_at.isoformat(),
+                claim.weight,
             ),
         )
         self.store._conn.commit()
@@ -431,8 +473,15 @@ class ThesisTracker:
 
         n_resolved = len(confirmed) + len(refuted) + len(expired)
         strength: Optional[float] = None
+        weighted_strength: Optional[float] = None
         if n_resolved > 0:
             strength = round(len(confirmed) / n_resolved, 4)
+            # Weighted thesis strength (Wave M)
+            resolved_claims = confirmed + refuted + expired
+            w_confirmed = sum(c.weight for c in confirmed)
+            w_resolved = sum(c.weight for c in resolved_claims)
+            if w_resolved > 0:
+                weighted_strength = round(w_confirmed / w_resolved, 4)
 
         return ThesisSnapshot(
             asset_id=asset_id,
@@ -441,6 +490,7 @@ class ThesisTracker:
             n_refuted=len(refuted),
             n_expired=len(expired),
             thesis_strength=strength,
+            weighted_thesis_strength=weighted_strength,
             open_claims=open_claims,
             confirmed_claims=confirmed,
             refuted_claims=refuted,
@@ -518,6 +568,11 @@ class ThesisTracker:
         except (ValueError, TypeError):
             created_at = datetime.now(timezone.utc)
 
+        raw_weight = row.get("weight")
+        weight = float(raw_weight) if raw_weight is not None else DEFAULT_CLAIM_WEIGHTS.get(
+            str(row.get("claim_type") or "custom"), 1.0
+        )
+
         return ThesisClaim(
             claim_id=str(row["claim_id"]),
             asset_id=str(row["asset_id"]),
@@ -534,4 +589,5 @@ class ThesisTracker:
             superseded_by=row.get("superseded_by"),
             created_at=created_at,
             resolved_at=resolved_at,
+            weight=weight,
         )
