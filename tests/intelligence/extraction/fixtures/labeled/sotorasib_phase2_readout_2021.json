@@ -1,0 +1,36 @@
+{
+  "fixture_id": "sotorasib_phase2_readout_2021",
+  "description": "Sotorasib (LUMAKRAS) CodeBreaK 100 Phase 2 trial results — NEJM publication June 2021",
+  "source_citation": "Skoulidis F et al. NEJM 2021;384:2371-2381. Amgen press release June 1, 2021.",
+  "labeled_by": "analyst-dj",
+  "labeled_at": "2024-06-01",
+  "notes": "First-in-class KRAS G12C inhibitor. Phase 2 results in NSCLC. ORR 37.1%, DCR 80.6%. Led to accelerated approval May 28, 2021 — NDA was approved before this Phase 2 publication.",
+  "raw_document": {
+    "id": "doc-labeled-sotorasib-2021",
+    "source": "publication",
+    "source_url": "https://www.nejm.org/doi/full/10.1056/NEJMoa2104694",
+    "title": "Sotorasib for Lung Cancers with KRAS p.G12C Mutation — CodeBreaK 100 Phase 2 Results",
+    "published_at": "2021-06-01T00:00:00Z",
+    "raw_text": "BACKGROUND: KRAS p.G12C is the most common KRAS mutation in non-small-cell lung cancer (NSCLC). Sotorasib is a first-in-class, irreversible, covalent inhibitor of KRAS p.G12C.\n\nMETHODS: We conducted a phase 2, single-arm trial (CodeBreaK 100; NCT03600883) of sotorasib 960 mg once daily in patients with KRAS p.G12C-mutated NSCLC who had received at least one prior systemic therapy. The primary end point was objective response rate (ORR).\n\nRESULTS: A total of 124 patients were enrolled. The ORR was 37.1% (95% CI, 28.6 to 46.2), with 4 complete responses and 42 partial responses. The disease control rate (DCR) was 80.6%. The median duration of response was 11.1 months (95% CI, 6.9 to not reached). The median progression-free survival was 6.8 months (95% CI, 5.1 to 8.2), and the median overall survival was 12.5 months (95% CI, 10.0 to not reached).\n\nSafety: Treatment-related adverse events (TRAEs) of any grade occurred in 69.8% of patients. Grade 3 or 4 TRAEs occurred in 21.0% of patients. The most common TRAEs were diarrhea (31.5%), nausea (19.4%), and elevated alanine aminotransferase (15.3%). No drug-related deaths were reported.\n\nCONCLUSIONS: Sotorasib induced durable responses in patients with heavily pretreated KRAS p.G12C-mutated NSCLC. The safety profile was manageable.",
+    "entity_hints": {
+      "asset_id": "asset-sotorasib-labeled",
+      "company_id": "company-amgn-labeled",
+      "drug_name": "sotorasib",
+      "indication": "KRAS G12C-mutated NSCLC",
+      "ticker": "AMGN"
+    }
+  },
+  "expected": {
+    "event_type": "publication",
+    "signal_date": "2021-06-01",
+    "trial_phase": "phase_2",
+    "trial_nct_id": "NCT03600883",
+    "primary_endpoint_met": true,
+    "interim_flag": false,
+    "response_rate": 0.371,
+    "p_value": null
+  },
+  "tolerance": {
+    "response_rate": 0.02
+  }
+}

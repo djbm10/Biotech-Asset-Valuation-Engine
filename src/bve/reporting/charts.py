@@ -10,7 +10,6 @@ from typing import TYPE_CHECKING
 
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mticker
-import numpy as np
 
 if TYPE_CHECKING:
     from bve.valuation.outputs import ValuationOutput

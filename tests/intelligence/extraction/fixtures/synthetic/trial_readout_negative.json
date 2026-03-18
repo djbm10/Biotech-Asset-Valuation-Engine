@@ -1,0 +1,34 @@
+{
+  "fixture_id": "trial_readout_negative_001",
+  "description": "Phase 3 negative trial readout — primary endpoint missed",
+  "raw_document": {
+    "id": "doc-synth-tr-neg-001",
+    "source": "press_release",
+    "source_url": "https://example.com/news/2024-05-10-phase3-failed",
+    "title": "BetaBio Reports Topline Results from Phase 3 PINNACLE Trial of BBX-204",
+    "published_at": "2024-05-10T07:30:00Z",
+    "raw_text": "BetaBio Therapeutics (NASDAQ: BBIO) today reported topline results from its Phase 3 PINNACLE trial evaluating BBX-204 in patients with relapsed or refractory diffuse large B-cell lymphoma (DLBCL).\n\nThe trial did not meet its primary endpoint of progression-free survival (PFS). The hazard ratio for PFS was 0.89 (95% CI: 0.74-1.08) with a p-value of 0.24, which did not achieve statistical significance.\n\nSecondary endpoints:\n- Overall survival (OS): HR 0.94 (p=0.61) — not significant\n- Overall response rate: 31% versus 28% placebo\n- Complete response rate: 18% versus 16%\n\nTrial: NCT05123456 — Randomized, double-blind, placebo-controlled Phase 3 study\n853 patients enrolled\n\nThe safety profile of BBX-204 was consistent with prior studies. No new safety signals were observed.\n\n'While we are disappointed by these results, we will conduct a thorough analysis of the data before determining next steps,' said CEO Robert Chang. BetaBio will discuss the implications for the BBX-204 program with the FDA.",
+    "entity_hints": {
+      "asset_id": "asset-bbx204-test",
+      "company_id": "company-bbio-test",
+      "drug_name": "BBX-204",
+      "indication": "Relapsed/Refractory DLBCL",
+      "ticker": "BBIO"
+    }
+  },
+  "expected": {
+    "event_type": "trial_readout",
+    "trial_phase": "phase_3",
+    "trial_nct_id": "NCT05123456",
+    "primary_endpoint_met": false,
+    "interim_flag": false,
+    "hazard_ratio": 0.89,
+    "p_value": 0.24,
+    "response_rate": 0.31
+  },
+  "tolerance": {
+    "hazard_ratio": 0.05,
+    "p_value": 0.01,
+    "response_rate": 0.02
+  }
+}

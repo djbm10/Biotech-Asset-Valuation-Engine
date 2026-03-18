@@ -18,7 +18,7 @@ from typing import TYPE_CHECKING, Optional
 
 import numpy as np
 from pydantic import BaseModel, Field
-from scipy.stats import beta as beta_dist, lognorm, norm
+from scipy.stats import lognorm, norm
 
 from bve.config.constants import (
     MC_N_SIMULATIONS, MC_PEAK_SALES_CV, MC_DISCOUNT_RATE_STD, MC_PHASE_ESS,

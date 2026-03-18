@@ -2,6 +2,16 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## After any code change
+
+After writing or modifying any code, always run these steps in order:
+
+1. **Run tests**: `python -m pytest tests/ -v`
+2. **Run lint**: `ruff check src/`
+3. **Commit changes**: create a git commit with a Conventional Commit message
+
+If any tests fail or lint errors are found, fix them before committing.
+
 ## Commands
 
 ```bash

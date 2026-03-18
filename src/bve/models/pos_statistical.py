@@ -400,7 +400,7 @@ def calibration_report() -> str:
 
     lines = [
         "Statistical POS Model — Coefficient Report",
-        f"  Calibration data: N=750 synthetic programs (seed=42)",
+        "  Calibration data: N=750 synthetic programs (seed=42)",
         f"  Optimizer converged: {_FIT_CONVERGED}",
         f"  Calibration Brier score (training): "
         f"{_brier_score(_CALIB_X @ _COEFS, _CALIB_Y):.4f}",

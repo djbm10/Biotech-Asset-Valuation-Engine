@@ -1,0 +1,24 @@
+run_date: "2026-03-09"
+confidence_scaling_factor: 1.0
+event_type_weights:
+  fda_approval: 1.0
+  safety_signal: 1.0
+  program_discontinuation: 1.0
+  fda_rejection: 0.9
+  regulatory_hold: 0.9
+  trial_readout: 0.8
+  interim_analysis: 0.7
+  fda_designation: 0.7
+  label_expansion: 0.6
+  partnership: 0.5
+  endpoint_change: 0.5
+  publication: 0.4
+  conference_presentation: 0.4
+  competitor_event: 0.35
+  payer_coverage: 0.35
+  enrollment_update: 0.3
+  patent_event: 0.25
+  sec_filing: 0.2
+  financing: 0.15
+  management_change: 0.1
+drift_alerts: []

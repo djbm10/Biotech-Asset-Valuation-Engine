@@ -1,0 +1,93 @@
+# Weekly Opportunity Brief
+**Period:** {{ brief.period_start }} → {{ brief.period_end }}
+**Generated:** {{ brief.generated_at.strftime('%Y-%m-%d %H:%M UTC') }}
+
+---
+
+## Review Throughput
+
+| Metric | Count |
+|---|---|
+| Signals processed | {{ brief.n_signals_processed }} |
+| Valuation diffs generated | {{ brief.n_diffs_generated }} |
+| Reviewed this week | {{ brief.n_reviewed }} |
+| ✅ Accepted | {{ brief.n_accepted }} |
+| ❌ Rejected | {{ brief.n_rejected }} |
+| 🔁 Deferred | {{ brief.n_deferred }} |
+| ⏳ Pending (all-time) | {{ brief.n_pending }} |
+| 🚨 Alerts fired | {{ brief.n_alerts_fired }} |
+
+| | Value |
+|---|---|
+| Raw ΔNPV (accepted) | {{ brief.net_delta_npv_accepted_millions | dollar }} |
+| Confidence-adjusted ΔNPV | {{ brief.net_confidence_weighted_delta_npv_millions | dollar }} |
+
+---
+
+## Top Opportunities
+
+{% if brief.top_opportunities %}
+| Rank | Asset | ΔNPV ($M) | Score | Event Type | Confidence | Mispricing |
+|---|---|---|---|---|---|---|
+{% for opp in brief.top_opportunities %}
+| {{ opp.rank }} | {{ opp.asset_id }} | {{ opp.delta_npv_millions | dollar }} | {{ "%.3f" | format(opp.composite_score) }} | {{ opp.signal_event_type or "—" }} | {{ opp.extraction_confidence | pct }} | {{ opp.mispricing_score | dollar if opp.mispricing_score is not none else "—" }} |
+{% endfor %}
+{% else %}
+*No ranked opportunities — run the watchlist to populate rankings.*
+{% endif %}
+
+---
+
+## Accepted Changes This Week
+
+{% if brief.accepted_changes %}
+| Asset | Event Type | Raw ΔNPV | Conf-adj ΔNPV | Parameter | Reviewer | Confidence | Date |
+|---|---|---|---|---|---|---|---|
+{% for ch in brief.accepted_changes %}
+| {{ ch.asset_id }} | {{ ch.event_type or "—" }} | {{ ch.delta_npv_millions | dollar }} | {{ ch.confidence_weighted_delta_npv_millions | dollar }} | {{ ch.parameter_path or "—" }} | {{ ch.reviewer_id or "—" }} | {{ ch.reviewer_confidence | pct }} | {{ ch.reviewed_at or "—" }} |
+{% endfor %}
+{% else %}
+*No changes accepted during this period.*
+{% endif %}
+
+---
+
+## Event-Type Distribution
+
+{% if brief.event_type_counts %}
+| Event Type | Diffs |
+|---|---|
+{% for et, cnt in brief.event_type_counts | dictsort(by='value', reverse=True) %}
+| {{ et }} | {{ cnt }} |
+{% endfor %}
+{% else %}
+*No events this period.*
+{% endif %}
+
+---
+
+## Open Queue (Top {{ brief.top_n }} by |ΔNPV|)
+
+{% if brief.pending_items %}
+| Severity | Asset | ΔNPV ($M) | Event Type | Created |
+|---|---|---|---|---|
+{% for item in brief.pending_items %}
+| {{ item.severity | severity_emoji }} {{ item.severity }} | {{ item.asset_id }} | {{ item.delta_npv_millions | dollar }} | {{ item.event_type or "—" }} | {{ item.created_at or "—" }} |
+{% endfor %}
+{% else %}
+*Queue is empty.*
+{% endif %}
+
+---
+
+## Competitive Developments
+
+{% if brief.competitive_developments %}
+| Asset | Company | Drug | Phase | Status | Indication | Discovered |
+|---|---|---|---|---|---|---|
+{% for row in brief.competitive_developments %}
+| {{ row.asset_id or "—" }} | {{ row.company or "—" }} | {{ row.drug_name or "—" }} | {{ row.phase or "—" }} | {{ row.status or "—" }} | {{ row.indication or "—" }} | {{ row.discovered_at or "—" }} |
+{% endfor %}
+{% else %}
+*No competitor program updates in this period.*
+{% endif %}

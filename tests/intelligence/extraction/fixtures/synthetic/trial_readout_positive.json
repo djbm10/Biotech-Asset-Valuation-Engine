@@ -1,0 +1,36 @@
+{
+  "fixture_id": "trial_readout_positive_001",
+  "description": "Phase 3 positive trial readout — HR and p-value present, ORR reported",
+  "raw_document": {
+    "id": "doc-synth-tr-pos-001",
+    "source": "press_release",
+    "source_url": "https://example.com/news/2024-03-15-phase3-positive",
+    "title": "ACME Pharma Reports Positive Phase 3 Results for AXD-101 in Moderate-to-Severe Psoriasis",
+    "published_at": "2024-03-15T09:00:00Z",
+    "raw_text": "ACME Pharmaceuticals, Inc. today announced that the Phase 3 CLARITY trial of AXD-101 (axditinib) met its primary endpoint in patients with moderate-to-severe plaque psoriasis. The trial enrolled 842 patients across 112 sites in 18 countries.\n\nKey Results:\n- Primary endpoint: PASI 90 response at Week 16 achieved by 67.4% of patients treated with AXD-101 versus 8.2% on placebo (p<0.0001)\n- Overall Response Rate (ORR): 52% (95% CI: 48.1-55.9%)\n- Hazard ratio for sustained response: 0.72 (95% CI: 0.61-0.85)\n- p-value for primary endpoint: 0.0001\n- Safety profile consistent with Phase 2 findings; no new safety signals identified\n\nThe trial (NCT04567890) was a randomized, double-blind, placebo-controlled study. AXD-101 is a small molecule IL-17A inhibitor.\n\n'These results represent a significant milestone for patients living with psoriasis,' said Dr. Jane Smith, Chief Medical Officer of ACME Pharma. 'We intend to submit a New Drug Application to the FDA in Q3 2024.'\n\nACME Pharma (NASDAQ: ACME) is a clinical-stage biopharmaceutical company focused on immune-mediated diseases.",
+    "entity_hints": {
+      "asset_id": "asset-axd101-test",
+      "company_id": "company-acme-test",
+      "drug_name": "AXD-101",
+      "indication": "Moderate-to-Severe Plaque Psoriasis",
+      "ticker": "ACME"
+    }
+  },
+  "expected": {
+    "event_type": "trial_readout",
+    "trial_phase": "phase_3",
+    "trial_nct_id": "NCT04567890",
+    "primary_endpoint_met": true,
+    "interim_flag": false,
+    "hazard_ratio": 0.72,
+    "p_value": 0.0001,
+    "response_rate": 0.52,
+    "fda_action_type": null,
+    "designation_type": null
+  },
+  "tolerance": {
+    "p_value": 0.00005,
+    "response_rate": 0.02,
+    "hazard_ratio": 0.05
+  }
+}

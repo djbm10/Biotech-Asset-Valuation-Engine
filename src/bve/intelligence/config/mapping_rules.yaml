@@ -1,0 +1,302 @@
+competitor_event:
+- bound_pct: 30.0
+  change_mode: BOUNDED
+  direction_hint: decrease
+  parameter: market_model.peak_penetration
+  rationale: Competitor approval in the same indication compresses our peak market
+    share ceiling. Magnitude depends on label overlap.
+- bound_pct: null
+  change_mode: MANUAL
+  direction_hint: either
+  parameter: market_model.competition_model
+  rationale: 'Analyst updates competitor entries in CompetitionModel: launch_year,
+    peak_market_share, approval_probability, use_s_curve (non-scalar).'
+- bound_pct: 15.0
+  change_mode: BOUNDED
+  direction_hint: decrease
+  parameter: market_model.net_price_per_patient_usd
+  rationale: Competitor entry with similar profile creates pricing pressure. Specialist
+    markets compress faster than primary care.
+conference_presentation:
+- bound_pct: 10.0
+  change_mode: BOUNDED
+  direction_hint: either
+  parameter: trials[*].success_probability
+  rationale: Peer reception of presented data can update POS. Capped at 10% relative
+    change because conference data is frequently preliminary.
+- bound_pct: 10.0
+  change_mode: BOUNDED
+  direction_hint: either
+  parameter: market_model.peak_penetration
+  rationale: KOL enthusiasm or skepticism at major congresses signals future commercial
+    uptake. Human confirms before applying.
+endpoint_change:
+- bound_pct: null
+  change_mode: MANUAL
+  direction_hint: either
+  parameter: trials[*].success_probability
+  rationale: Endpoint changes can fundamentally shift regulatory approval bar. Requires
+    analyst judgment on new endpoint precedent and FDA history.
+- bound_pct: null
+  change_mode: MANUAL
+  direction_hint: either
+  parameter: market_model.addressable_patients_annual
+  rationale: Eligibility criterion changes (biomarker, severity, line of therapy)
+    alter the addressable population. Analyst re-derives epidemiology.
+enrollment_update:
+- bound_pct: 20.0
+  change_mode: AUTO
+  direction_hint: either
+  parameter: trials[*].duration_years
+  rationale: "Enrollment rate delta translates linearly to duration change. Bounded\
+    \ at \xB120% of current estimate."
+- bound_pct: 15.0
+  change_mode: AUTO
+  direction_hint: either
+  parameter: trials[*].cost_millions
+  rationale: "Duration change \xD7 quarterly burn rate = cost delta. Applied automatically\
+    \ in tandem with duration update."
+fda_approval:
+- bound_pct: 100.0
+  change_mode: AUTO
+  direction_hint: increase
+  parameter: trials[*].success_probability
+  rationale: "NDA/BLA approved \u2014 set the approval-phase success_probability to\
+    \ 1.0. Downstream phases (if any) use existing POS estimates."
+- bound_pct: 20.0
+  change_mode: BOUNDED
+  direction_hint: either
+  parameter: market_model.addressable_patients_annual
+  rationale: Approved label may be broader or narrower than modeled. Validate addressable
+    patients against actual label language.
+- bound_pct: null
+  change_mode: MANUAL
+  direction_hint: either
+  parameter: market_model.patent_life_years
+  rationale: Approval date starts the commercial clock. Analyst confirms actual patent
+    expiry vs. modeled estimate; LOE date may shift.
+fda_designation:
+- bound_pct: 15.0
+  change_mode: BOUNDED
+  direction_hint: increase
+  parameter: trials[*].success_probability
+  rationale: "BTD/ODD/RMAT signals strong FDA alignment with the program. +5\u2013\
+    15pp POS depending on designation type; BTD has highest weight."
+- bound_pct: 20.0
+  change_mode: BOUNDED
+  direction_hint: decrease
+  parameter: trials[*].duration_years
+  rationale: BTD enables rolling NDA/BLA review, compressing the regulatory-phase
+    duration. Priority review halves the standard 12-month PDUFA clock.
+fda_rejection:
+- bound_pct: 100.0
+  change_mode: AUTO
+  direction_hint: decrease
+  parameter: trials[*].success_probability
+  rationale: CRL terminates this regulatory cycle. Set approval-phase success_probability
+    to 0.0; flag for program review.
+- bound_pct: null
+  change_mode: MANUAL
+  direction_hint: decrease
+  parameter: market_model.net_price_per_patient_usd
+  rationale: If re-submission path is expected, competitive entrenchment during the
+    delay may compress eventual launch pricing.
+financing:
+- bound_pct: 10.0
+  change_mode: BOUNDED
+  direction_hint: either
+  parameter: asset.discount_rate
+  rationale: Strong financing at low dilution reduces risk premium; down-round or
+    emergency raise signals distress and increases WACC.
+interim_analysis:
+- bound_pct: 10.0
+  change_mode: BOUNDED
+  direction_hint: either
+  parameter: trials[*].success_probability
+  rationale: "Interim data is partial; propose modest POS adjustment and require human\
+    \ confirmation. Positive early stop for efficacy \u2192 larger bump."
+- bound_pct: 10.0
+  change_mode: BOUNDED
+  direction_hint: either
+  parameter: trials[*].cost_millions
+  rationale: Adaptive sample-size re-estimation at interim changes trial cost. Typically
+    bounded increase; futility stop reduces remaining cost.
+label_expansion:
+- bound_pct: 40.0
+  change_mode: BOUNDED
+  direction_hint: increase
+  parameter: market_model.addressable_patients_annual
+  rationale: New indication approval adds addressable patients. Size depends on new
+    indication epidemiology; human confirms scale of increment.
+- bound_pct: 40.0
+  change_mode: BOUNDED
+  direction_hint: increase
+  parameter: market_model.total_addressable_market_millions
+  rationale: 'TAM-mode alternative to patient-based: new label adds revenue headroom.
+    Applied only when total_addressable_market_millions is used.'
+- bound_pct: null
+  change_mode: MANUAL
+  direction_hint: increase
+  parameter: market_model.lifecycle_events
+  rationale: Analyst adds a LifecycleEvent(event_type='label_expansion', ...) entry
+    to the YAML market_model section. Non-scalar; cannot auto-apply.
+management_change:
+- bound_pct: null
+  change_mode: MANUAL
+  direction_hint: either
+  parameter: asset.discount_rate
+  rationale: CEO/CSO departure can shift risk profile materially. Direction and magnitude
+    require analyst judgment on replacement quality and strategy.
+- bound_pct: null
+  change_mode: MANUAL
+  direction_hint: either
+  parameter: market_model.competition_model
+  rationale: New BD or commercial leadership may reorient partnership strategy, affecting
+    competitive posture (non-scalar; analyst updates YAML).
+partnership:
+- bound_pct: 15.0
+  change_mode: BOUNDED
+  direction_hint: decrease
+  parameter: asset.discount_rate
+  rationale: "Large-pharma co-development partner validates the program and reduces\
+    \ risk premium. Propose \u22121pp WACC; larger partners \u2192 larger decrement."
+- bound_pct: 50.0
+  change_mode: BOUNDED
+  direction_hint: decrease
+  parameter: trials[*].cost_millions
+  rationale: Partner co-funding reduces company's cost share. Maps to DealEconomics.cdev_cost_share
+    in the engine; large bound reflects wide range of deal structures.
+- bound_pct: null
+  change_mode: MANUAL
+  direction_hint: either
+  parameter: market_model.competition_model
+  rationale: Co-promotion agreements alter competitive dynamics. Analyst updates CompetitionModel
+    entries in the YAML (non-scalar).
+patent_event:
+- bound_pct: null
+  change_mode: MANUAL
+  direction_hint: either
+  parameter: market_model.patent_life_years
+  rationale: IPR decisions, obviousness rulings, or new continuations change effective
+    patent life. Analyst recalculates LOE date.
+- bound_pct: null
+  change_mode: MANUAL
+  direction_hint: either
+  parameter: market_model.lifecycle_events
+  rationale: "Settlement terms granting new-formulation exclusivity \u2192 analyst\
+    \ adds/removes LifecycleEvent entries (non-scalar)."
+payer_coverage:
+- bound_pct: 20.0
+  change_mode: BOUNDED
+  direction_hint: either
+  parameter: market_model.net_price_per_patient_usd
+  rationale: Favorable coverage supports net price (lower rebates); restrictive coverage
+    compresses it. CMS NCD/formulary tier drives direction.
+- bound_pct: 20.0
+  change_mode: BOUNDED
+  direction_hint: either
+  parameter: market_model.peak_penetration
+  rationale: Access restrictions (step edits, PA requirements, coverage exclusions)
+    directly cap the penetration ceiling.
+program_discontinuation:
+- bound_pct: 100.0
+  change_mode: AUTO
+  direction_hint: decrease
+  parameter: trials[*].success_probability
+  rationale: "Program terminated: set all downstream phase success_probabilities to\
+    \ 0.0. No analyst confirmation required \u2014 discontinuation is binary."
+- bound_pct: 100.0
+  change_mode: AUTO
+  direction_hint: decrease
+  parameter: market_model.addressable_patients_annual
+  rationale: Discontinue this asset's contribution to any multi-indication model.
+    Set effective addressable contribution to 0.
+publication:
+- bound_pct: 10.0
+  change_mode: BOUNDED
+  direction_hint: either
+  parameter: trials[*].success_probability
+  rationale: Published efficacy/safety in final form. Modest POS update relative to
+    original readout; journal tier and replication weight the direction.
+- bound_pct: null
+  change_mode: MANUAL
+  direction_hint: either
+  parameter: market_model.net_price_per_patient_usd
+  rationale: Published QALY analyses and cost-effectiveness data inform payer negotiations.
+    Analyst assesses ICER threshold implications.
+regulatory_hold:
+- bound_pct: 25.0
+  change_mode: BOUNDED
+  direction_hint: decrease
+  parameter: trials[*].success_probability
+  rationale: "Clinical hold raises failure probability. Full hold \u2192 larger decrement\
+    \ than partial hold. Proposed delta depends on hold reason (safety vs. CMC)."
+- bound_pct: 50.0
+  change_mode: BOUNDED
+  direction_hint: increase
+  parameter: trials[*].duration_years
+  rationale: "Hold duration highly uncertain; model extends phase by 6\u201324 months.\
+    \ Broad bound (50%) reflects wide range of real-world hold outcomes."
+- bound_pct: 20.0
+  change_mode: BOUNDED
+  direction_hint: increase
+  parameter: asset.discount_rate
+  rationale: Regulatory risk premium elevation. Propose +2pp WACC; cap at 20% relative
+    increase of current rate.
+safety_signal:
+- bound_pct: 25.0
+  change_mode: BOUNDED
+  direction_hint: decrease
+  parameter: trials[*].success_probability
+  rationale: "Grade 3+ safety signals increase CRL probability. Propose 10\u201325pp\
+    \ reduction depending on severity and mechanism."
+- bound_pct: 15.0
+  change_mode: BOUNDED
+  direction_hint: increase
+  parameter: asset.discount_rate
+  rationale: "Elevated development risk warrants higher WACC. Propose +1\u20132pp;\
+    \ cap at 15% relative increase of current rate."
+- bound_pct: null
+  change_mode: MANUAL
+  direction_hint: decrease
+  parameter: market_model.net_price_per_patient_usd
+  rationale: Black-box warnings or label restrictions depress realized net price.
+    Direction and magnitude require analyst judgment on label outcome.
+sec_filing:
+- bound_pct: null
+  change_mode: MANUAL
+  direction_hint: either
+  parameter: trials[*].cost_millions
+  rationale: 10-Q/10-K disclosures frequently contain updated R&D spend guidance.
+    Analyst reconciles with trial cost estimates in model.
+- bound_pct: null
+  change_mode: MANUAL
+  direction_hint: either
+  parameter: trials[*].duration_years
+  rationale: Updated timelines in SEC filings may differ from clinicaltrials.gov.
+    Analyst resolves conflicts using the more specific source.
+- bound_pct: null
+  change_mode: MANUAL
+  direction_hint: either
+  parameter: market_model.addressable_patients_annual
+  rationale: Management guidance on market size (investor presentations embedded in
+    8-K/10-K) informs epidemiology assumptions.
+trial_readout:
+- bound_pct: 20.0
+  change_mode: AUTO
+  direction_hint: either
+  parameter: trials[*].success_probability
+  rationale: "Positive Ph3 topline \u2192 step-up POS within \xB120% cap; negative\
+    \ \u2192 step-down. Direction derived from StructuredSignal.primary_endpoint_met."
+- bound_pct: 15.0
+  change_mode: AUTO
+  direction_hint: decrease
+  parameter: trials[*].duration_years
+  rationale: Completed readout collapses remaining duration estimate for that phase;
+    actual trial end date replaces model estimate.
+- bound_pct: 15.0
+  change_mode: BOUNDED
+  direction_hint: either
+  parameter: market_model.peak_penetration
+  rationale: Strong efficacy (HR < 0.65 or ORR > 40%) supports higher penetration;
+    weak data reduces it. Requires human confirmation.

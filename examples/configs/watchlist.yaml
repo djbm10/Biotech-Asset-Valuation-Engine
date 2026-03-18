@@ -1,0 +1,122 @@
+# Automated watchlist runner configuration
+# Run with:
+#   bve-watchlist-run --watchlist examples/configs/watchlist.yaml
+#   bve-rank         --watchlist examples/configs/watchlist.yaml --since 7d
+#   bve-alert-test   --watchlist examples/configs/watchlist.yaml
+
+polling_interval_seconds: 3600
+state_path: outputs/watchlist/pipeline_state.json
+knowledge_db_path: outputs/intelligence_phase2/knowledge.db
+valuation_output_dir: outputs/intelligence_phase2/watchlist
+
+schedule:
+  enabled: true
+  daily_ingestion_interval_hours: 24
+  weekly_maintenance_weekday: 6
+  weekly_replay_since: 7d
+
+materiality:
+  min_abs_delta_npv: 25.0
+  min_relative_delta_npv_pct: 5.0
+  min_diff_count: 1
+
+extraction:
+  # Use "anthropic" or "openai" in production.
+  # Keep "fake" for local dry runs with no API calls.
+  backend: fake
+  model: fake-watchlist-llm
+
+connectors:
+  clinicaltrials_gov:
+    enabled: true
+    limit: 20
+  fda_website:
+    enabled: true
+    limit: 20
+  sec_filing:
+    enabled: true
+    limit: 10
+
+# ─── Alerting (optional; remove or set enabled: false to disable) ──────────
+alerts:
+  enabled: true
+
+  thresholds:
+    # Condition 2 requires BOTH gates to prevent noise from small-NPV programs.
+    # Example: before_npv=$5M, after_npv=$7M → 40% but only $2M abs → NO alert.
+    material_change_abs_floor_millions: 25.0
+    material_change_pct: 15.0
+    # Condition 3: low-confidence on critical events → MEDIUM severity (not LOW).
+    # Low confidence on an FDA or safety event means model corruption risk.
+    low_confidence_threshold: 0.5
+    high_severity_event_types:
+      - safety_signal
+      - fda_approval
+      - fda_rejection
+      - fda_designation
+      - regulatory_hold
+      - program_discontinuation
+    dedup_window_hours: 24.0
+    dedup_state_path: outputs/watchlist/alert_dedup.json
+
+  # Local file channel — zero external dependencies, always safe to enable.
+  local:
+    output_path: outputs/watchlist/alerts.jsonl
+    min_severity: low
+
+  # Slack webhook (requires: requests, already installed)
+  # slack:
+  #   webhook_url: ${SLACK_WEBHOOK_URL}
+  #   min_severity: medium
+
+  # Email via SMTP (stdlib smtplib, no extra dependency)
+  # email:
+  #   smtp_host: smtp.gmail.com
+  #   smtp_port: 587
+  #   username: ${SMTP_USER}
+  #   password: ${SMTP_PASSWORD}
+  #   from_addr: alerts@example.com
+  #   to_addrs: [analyst@example.com]
+  #   use_tls: true
+  #   min_severity: high
+
+  # Telegram bot (requires: requests, already installed)
+  # telegram:
+  #   bot_token: ${TELEGRAM_BOT_TOKEN}
+  #   chat_id: "-100123456789"
+  #   min_severity: high
+
+# ─── Ranking (controls bve-rank defaults) ──────────────────────────────────
+ranking:
+  valuation_weight: 0.50
+  confidence_weight: 0.25
+  recency_weight: 0.15
+  event_type_weight: 0.10
+  recency_half_life_days: 14.0
+  use_market_cap_normalization: true
+  top_n: 10
+  # Override specific event-type scores (merged with built-in defaults):
+  # event_type_scores:
+  #   fda_approval: 1.0
+  #   trial_readout: 0.9
+  #   partnership: 0.4
+
+watchlist:
+  - company_id: regn-2016
+    asset_id: dupilumab-ad
+    drug_name: dupilumab
+    indication: moderate-to-severe atopic dermatitis
+    ticker: REGN
+    # market_cap_millions: 85000  # optional: override yfinance lookup
+    valuation_config: examples/configs/regn_dupilumab.yaml
+    connectors: [clinicaltrials_gov, fda_website, sec_filing]
+
+  - company_id: relay-2026
+    asset_id: rly2608-breast
+    drug_name: RLY-2608
+    indication: HR+/HER2- metastatic breast cancer
+    ticker: RLAY
+    # ranking_overrides:           # optional: per-asset weight overrides
+    #   event_type_weight: 0.20
+    valuation_config: examples/configs/relay_rly2608.yaml
+    connectors: [clinicaltrials_gov, sec_filing]

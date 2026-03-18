@@ -16,6 +16,7 @@ biotech-env/
 
 # Generated outputs (not source — use case_studies/ for committed examples)
 outputs/
+outputs/cache/
 memos/
 # case_studies/ is intentionally tracked (committed analysis outputs)
 

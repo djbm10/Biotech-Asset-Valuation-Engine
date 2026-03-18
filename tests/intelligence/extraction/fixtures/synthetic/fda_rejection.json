@@ -1,0 +1,25 @@
+{
+  "fixture_id": "fda_rejection_001",
+  "description": "Complete Response Letter (CRL) — FDA rejects NDA",
+  "raw_document": {
+    "id": "doc-synth-crl-001",
+    "source": "press_release",
+    "source_url": "https://example.com/news/2024-04-15-crl-received",
+    "title": "DeltaMed Receives Complete Response Letter from FDA for NDX-310 NDA",
+    "published_at": "2024-04-15T16:30:00Z",
+    "raw_text": "DeltaMed Pharmaceuticals (NYSE: DMED) today announced that the U.S. Food and Drug Administration (FDA) has issued a Complete Response Letter (CRL) for the New Drug Application (NDA 215634) for NDX-310 (ndexitinib) for the treatment of adults with moderately-to-severely active rheumatoid arthritis.\n\nIn the CRL, the FDA cited deficiencies related to the manufacturing of the drug substance at the company's contract manufacturing organization. The FDA did not identify concerns related to the clinical data package or the benefit-risk profile of NDX-310.\n\nDeltaMed does not anticipate that additional clinical studies will be required. The company is working diligently to address the FDA's manufacturing concerns and plans to resubmit the NDA within 12 months.\n\n'We are disappointed by this outcome but confident in the clinical profile of NDX-310,' said Sarah Johnson, Chief Executive Officer. 'We remain committed to bringing this important treatment option to patients with rheumatoid arthritis as quickly as possible.'\n\nThe PDUFA target action date for the original NDA had been April 15, 2024.",
+    "entity_hints": {
+      "asset_id": "asset-ndx310-test",
+      "company_id": "company-dmed-test",
+      "drug_name": "ndexitinib",
+      "indication": "Rheumatoid Arthritis",
+      "ticker": "DMED"
+    }
+  },
+  "expected": {
+    "event_type": "fda_rejection",
+    "fda_action_type": "crl",
+    "primary_endpoint_met": null,
+    "interim_flag": false
+  }
+}

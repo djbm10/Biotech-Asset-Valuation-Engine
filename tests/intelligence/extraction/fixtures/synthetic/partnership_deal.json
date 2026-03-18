@@ -1,0 +1,29 @@
+{
+  "fixture_id": "partnership_deal_001",
+  "description": "Global license and co-development agreement — deal value $1.2B",
+  "raw_document": {
+    "id": "doc-synth-partner-001",
+    "source": "press_release",
+    "source_url": "https://example.com/news/2024-03-05-partnership",
+    "title": "ThetaBio and GlobalPharma Enter Global License Agreement for THB-501 — Up to $1.2 Billion Deal",
+    "published_at": "2024-03-05T08:00:00Z",
+    "raw_text": "ThetaBio Inc. (NASDAQ: THBI) and GlobalPharma Group today announced a global license and co-development agreement for THB-501 (thetavexumab), ThetaBio's investigational anti-IL-33 monoclonal antibody for asthma and atopic dermatitis.\n\nUnder the terms of the agreement:\n- GlobalPharma will pay ThetaBio a $150 million upfront payment\n- ThetaBio is eligible to receive up to $1.05 billion in development, regulatory, and commercial milestones\n- Total potential deal value: up to $1.2 billion\n- GlobalPharma will assume responsibility for all Phase 3 development and commercialization outside the United States\n- ThetaBio retains US commercialization rights\n- ThetaBio is eligible for tiered royalties on net sales of 8-15% in ex-US markets\n\nTHB-501 is currently in Phase 2 development (NCT04789012) for moderate-to-severe atopic dermatitis. The ongoing trial has enrolled 340 patients.\n\n'This agreement provides significant non-dilutive capital that will fund our US clinical development and commercial build-out,' said CEO Patricia Yang. 'GlobalPharma's global infrastructure will accelerate our ability to bring THB-501 to patients worldwide.'\n\nThe transaction is subject to customary closing conditions and is expected to close in Q2 2024.",
+    "entity_hints": {
+      "asset_id": "asset-thb501-test",
+      "company_id": "company-thbi-test",
+      "drug_name": "thetavexumab",
+      "indication": "Atopic Dermatitis / Asthma",
+      "ticker": "THBI"
+    }
+  },
+  "expected": {
+    "event_type": "partnership",
+    "primary_endpoint_met": null,
+    "interim_flag": false,
+    "deal_value_millions": 1200.0,
+    "deal_type": "global license and co-development"
+  },
+  "tolerance": {
+    "deal_value_millions": 10.0
+  }
+}

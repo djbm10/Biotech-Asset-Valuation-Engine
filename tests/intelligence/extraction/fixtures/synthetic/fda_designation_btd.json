@@ -1,0 +1,26 @@
+{
+  "fixture_id": "fda_designation_btd_001",
+  "description": "FDA Breakthrough Therapy Designation granted",
+  "raw_document": {
+    "id": "doc-synth-btd-001",
+    "source": "press_release",
+    "source_url": "https://example.com/news/2024-01-20-btd-granted",
+    "title": "EpsilonGen Receives FDA Breakthrough Therapy Designation for EGX-502 in ALS",
+    "published_at": "2024-01-20T08:00:00Z",
+    "raw_text": "EpsilonGen Therapeutics (NASDAQ: EPSG) today announced that the U.S. Food and Drug Administration (FDA) has granted Breakthrough Therapy Designation (BTD) to EGX-502 (epsilotide) for the treatment of adults with amyotrophic lateral sclerosis (ALS).\n\nBreakthrough Therapy Designation is granted to expedite the development and review of drugs that are intended to treat a serious condition and preliminary clinical evidence indicates the drug may demonstrate substantial improvement over available therapies on a clinically significant endpoint.\n\nThe BTD was supported by data from the Phase 2 ADVANCE trial (NCT03987654), which demonstrated a statistically significant reduction in disease progression compared to placebo, as measured by the ALSFRS-R total score at 24 weeks.\n\n'The Breakthrough Therapy Designation underscores the FDA's recognition of EGX-502's potential to transform treatment for ALS patients,' said Dr. Michael Chen, Chief Scientific Officer of EpsilonGen. 'We will work closely with the FDA to accelerate development and bring EGX-502 to patients as rapidly as possible.'\n\nEGX-502 is a first-in-class antisense oligonucleotide (ASO) targeting SOD1. The company expects to initiate a Phase 3 trial in mid-2024.",
+    "entity_hints": {
+      "asset_id": "asset-egx502-test",
+      "company_id": "company-epsg-test",
+      "drug_name": "epsilotide",
+      "indication": "ALS (Amyotrophic Lateral Sclerosis)",
+      "ticker": "EPSG"
+    }
+  },
+  "expected": {
+    "event_type": "fda_designation",
+    "fda_action_type": "designation",
+    "designation_type": "BTD",
+    "primary_endpoint_met": null,
+    "interim_flag": false
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "fixture_id": "regulatory_hold_001",
+  "description": "FDA places full clinical hold on Phase 2 trial due to serious AEs",
+  "raw_document": {
+    "id": "doc-synth-hold-001",
+    "source": "press_release",
+    "source_url": "https://example.com/news/2024-07-08-clinical-hold",
+    "title": "KappaBio Receives FDA Full Clinical Hold on KPB-101 Phase 2 Trial",
+    "published_at": "2024-07-08T16:00:00Z",
+    "raw_text": "KappaBio Therapeutics (NASDAQ: KPBI) today announced that the U.S. Food and Drug Administration (FDA) has placed a full clinical hold on the company's Phase 2 BEACON trial (NCT05234123) evaluating KPB-101 (kappatinib) in patients with advanced hepatocellular carcinoma (HCC).\n\nThe clinical hold was issued following reports of two cases of serious immune-mediated pneumonitis (Grade 4) in trial participants, one of which resulted in a patient fatality. The cases occurred within 8 weeks of initiating treatment at the 10 mg/kg dose level.\n\nAll patients have been notified and dosing has been halted across all dose cohorts pending FDA review. The company has 30 days to respond to the FDA's clinical hold letter.\n\nKappaBio is preparing a comprehensive clinical hold response that will include a detailed safety analysis, proposed risk mitigation measures, and a revised study protocol with enhanced safety monitoring.\n\n'We are deeply saddened by this serious outcome and our hearts go out to the patient and their family,' said Chief Medical Officer Dr. Elena Rodriguez. 'Patient safety is our paramount concern, and we are working urgently with the FDA to understand these events and determine a path forward.'\n\nThe clinical hold will delay the expected timeline for Phase 2 data by at least 6 to 12 months. KappaBio will provide further updates as information becomes available.",
+    "entity_hints": {
+      "asset_id": "asset-kpb101-test",
+      "company_id": "company-kpbi-test",
+      "drug_name": "kappatinib",
+      "indication": "Hepatocellular Carcinoma",
+      "ticker": "KPBI"
+    }
+  },
+  "expected": {
+    "event_type": "regulatory_hold",
+    "trial_phase": "phase_2",
+    "trial_nct_id": "NCT05234123",
+    "fda_action_type": "hold",
+    "safety_grade": 4,
+    "primary_endpoint_met": null,
+    "interim_flag": false
+  }
+}

@@ -21,8 +21,8 @@ import numpy as np
 import pandas as pd
 import statsmodels.api as sm
 
-from bve.config.constants import EVENT_PRE_WINDOW, EVENT_POST_SHORT_WINDOW, EVENT_POST_DRIFT_WINDOW
-from bve.event_study.events import CatalystEvent, EventOutcome
+from bve.config.constants import EVENT_PRE_WINDOW, EVENT_POST_DRIFT_WINDOW
+from bve.event_study.events import CatalystEvent
 from bve.ingestion.market_data import fetch_returns
 
 

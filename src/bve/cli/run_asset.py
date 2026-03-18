@@ -152,6 +152,10 @@ def _load_config(path: Path) -> dict:
 
 def _build_objects(cfg: dict):
     """Parse config dict → Asset, Company, trials, MarketModel."""
+    # Auto-generated configs can include metadata that should not affect parsing.
+    cfg = dict(cfg)
+    cfg.pop("_meta", None)
+
     from bve.entities.asset import Asset, DevelopmentStage, TherapeuticArea, Modality, Catalyst
     from bve.entities.company import Company
     from bve.entities.trial import ClinicalTrial, TrialPhase, EndpointType
@@ -359,8 +363,6 @@ def main():
     from bve.models.monte_carlo import MonteCarloParams, PhaseSuccessDistribution
     from bve.entities.trial import TrialPhase
     from bve.valuation.valuation_engine import ValuationEngine
-    from bve.reporting.export import export_full_package
-    from bve.reporting.memo_generator import save_memo
 
     # Build MC params — allow per-phase distributions from config
     mc_cfg = cfg.get("monte_carlo", {})
