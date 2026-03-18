@@ -17,7 +17,6 @@ from typing import Optional
 
 from pydantic import BaseModel, Field, field_validator, model_validator
 
-from bve.intelligence.schemas.signals import SourceType
 
 # Legal values mirrored from SourceType Literal for validation
 _SOURCE_TYPES: frozenset[str] = frozenset({

@@ -3991,7 +3991,6 @@ class KnowledgeStore:
         ``UNIQUE(nct_id, snapshot_date)`` ensures idempotency — re-extracting
         the same trial on the same day replaces the prior row.
         """
-        from bve.intelligence.enrollment_snapshot_extractor import EnrollmentSnapshot as ES
         now = datetime.now(timezone.utc).isoformat()
         payload = snapshot.model_dump(mode="json")
         self._conn.execute(
@@ -4055,7 +4054,6 @@ class KnowledgeStore:
         On conflict (same primary key id) the full row is replaced so that EV
         fields computed by CatalystEVCalculator are persisted in-place.
         """
-        from bve.intelligence.catalyst_calendar import CatalystEvent as CE
         now = datetime.now(timezone.utc).isoformat()
         payload = event.model_dump(mode="json")
         self._conn.execute(

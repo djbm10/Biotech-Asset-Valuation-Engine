@@ -205,6 +205,29 @@ class StructuredSignal(BaseModel):
 
     # --- Clinical facts ---
     trial_phase:            Optional[TrialPhase]  = None
+    randomization:          Optional[Literal[
+        "randomized", "non_randomized", "single_arm"
+    ]]                                            = None
+    blinding:               Optional[Literal[
+        "double_blind", "single_blind", "open_label", "none"
+    ]]                                            = None
+    primary_endpoint:       Optional[str]         = None
+    endpoint_type:          Optional[Literal[
+        "os", "pfs", "surrogate", "other"
+    ]]                                            = None
+    endpoint_maturity:      Optional[Literal[
+        "interim", "final", "unknown"
+    ]]                                            = None
+    comparator_type:        Optional[Literal[
+        "placebo", "active_comparator", "external_control", "none"
+    ]]                                            = None
+    n_patients:             Optional[int]         = Field(default=None, gt=0)
+    estimated_effect_size:  Optional[float]       = None
+    alpha_level:            Optional[float]       = Field(default=None, gt=0.0, lt=1.0)
+    enrollment_status:      Optional[Literal[
+        "not_yet_recruiting", "recruiting", "active_not_recruiting",
+        "completed", "terminated", "withdrawn", "unknown"
+    ]]                                            = None
     trial_nct_id:           Optional[str]         = None
     primary_endpoint_met:   Optional[bool]        = None
     interim_flag:           bool                  = False

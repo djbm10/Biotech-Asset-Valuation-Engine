@@ -63,12 +63,16 @@ class MappingPolicy(BaseModel):
             EventType.PATENT_EVENT: 0.70,
         }
         threshold_overrides: dict[EventType, float] = {
-            EventType.TRIAL_READOUT: 10.0,
-            EventType.INTERIM_ANALYSIS: 8.0,
-            EventType.SAFETY_SIGNAL: 8.0,
-            EventType.REGULATORY_HOLD: 8.0,
-            EventType.FDA_REJECTION: 8.0,
-            EventType.FDA_APPROVAL: 10.0,
+            # High-signal regulatory/clinical events need enough room for their
+            # auto rules to execute, otherwise they are all routed to review and
+            # never reach valuation in unattended runs.
+            EventType.TRIAL_READOUT: 20.0,
+            EventType.INTERIM_ANALYSIS: 12.0,
+            EventType.SAFETY_SIGNAL: 12.0,
+            EventType.REGULATORY_HOLD: 20.0,
+            EventType.FDA_REJECTION: 100.0,
+            EventType.FDA_APPROVAL: 100.0,
+            EventType.FDA_DESIGNATION: 20.0,
             EventType.PROGRAM_DISCONTINUATION: 5.0,
             EventType.COMPETITOR_EVENT: 10.0,
         }

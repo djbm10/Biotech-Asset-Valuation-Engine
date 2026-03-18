@@ -47,7 +47,6 @@ from bve.intelligence.schemas.signals import StructuredSignal
 from bve.utils.trading_calendar import (
     WINDOWS_TD,
     is_trading_day_elapsed,
-    resolution_targets,
     trading_days_after,
 )
 
@@ -227,22 +226,18 @@ class PriceReactionTracker:
                 continue
 
             updates: dict[str, object] = {}
-            all_done = True
 
             for w in WINDOWS_TD:
                 col_resolved = f"resolved_t{w}"
                 if row[col_resolved]:
                     continue  # already resolved
-                all_done = False
 
                 if not is_trading_day_elapsed(signal_date, w, as_of=as_of):
-                    all_done = False
                     continue
 
                 target_date = trading_days_after(signal_date, w)
                 price_row = self.knowledge.get_price_on_or_before(ticker, target_date)
                 if price_row is None:
-                    all_done = False
                     continue
 
                 ret = round((price_row.adj_close_usd - price_before) / price_before, 6)

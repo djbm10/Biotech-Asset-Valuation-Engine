@@ -1,47 +1,13 @@
 """
-Market expectation modeling — Wave 1D.
+Market expectation math.
 
-Back-solves the market's implied probability of success (implied PoS) from
-the observed market cap using a simplified NAV decomposition:
+Two paths are supported:
 
-    market_cap ≈ cash + Σ_i(implied_PoS_i × PV(peak_sales_i))
+1. Stored-snapshot backsolve for ranking and cheap local scans.
+   Uses only persisted model_rnpv, model_pos, and market_cap.
 
-For a single-asset company with known cash and valuation parameters, this
-gives a closed-form solution for implied_PoS.  For multi-asset companies,
-the single-asset approximation is used (the dominant asset).
-
-Mispricing signal
------------------
-    pos_gap = implied_pos - model_pos
-
-    pos_gap > 0 → market more optimistic than model (long signal)
-    pos_gap < 0 → market more pessimistic than model (short signal)
-
-This is qualitatively distinct from the raw rNPV mispricing used in
-ranking (which compares model_rnpv vs market_cap directly).  The implied
-PoS gap is scale-independent and comparable across assets of different sizes.
-
-Limitations
------------
-- Cash estimates from yfinance are approximate (last reported balance sheet).
-- The NAV formula assumes a single dominant asset — appropriate for most
-  clinical-stage biotechs with one lead program.
-- Peak sales estimates come from the valuation config; if the config is stale,
-  the implied PoS will absorb both market disagreement and model staleness.
-- Options-based implied PoS (binary event pricing) is deferred to a future wave.
-
-Usage
------
-    estimator = ImpliedPoSEstimator(knowledge)
-    exp = estimator.compute(
-        asset_id="rly-2608",
-        ticker="RLAY",
-        model_pos=0.22,
-        peak_sales_millions=800.0,
-        patent_life_years=12,
-        discount_rate=0.12,
-    )
-    knowledge.upsert_market_expectation(exp)
+2. NAV-style backsolve for richer standalone expectation studies.
+   Uses peak-sales assumptions and optional cash estimates.
 """
 from __future__ import annotations
 
@@ -63,11 +29,124 @@ class MarketExpectation(BaseModel):
     ticker: str
     expectation_date: date
     implied_pos: Optional[float]          # back-solved; None if market cap unavailable
+    implied_success_probability: Optional[float] = None
     model_pos: Optional[float]            # from valuation config / probability model
     pos_gap: Optional[float]              # implied_pos - model_pos
+    model_rnpv_millions: Optional[float] = None
+    market_cap_millions: Optional[float] = None
+    mispricing: Optional[float] = None
     cash_estimate_millions: Optional[float]
     methodology: str = "nav_backsolve"
     computed_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+
+class MarketMispricing(BaseModel):
+    """Raw market-cap mispricing signal used by ranking."""
+
+    model_rnpv_millions: float
+    market_cap_millions: float
+    mispricing: float
+
+
+def compute_market_mispricing(
+    *,
+    model_rnpv_millions: Optional[float],
+    market_cap_millions: Optional[float],
+) -> Optional[MarketMispricing]:
+    """
+    Compute Sprint 5 raw mispricing:
+
+        mispricing = (model_rnpv - market_cap) / market_cap
+
+    Returns None when the inputs are incomplete or the denominator is invalid.
+    """
+    if model_rnpv_millions is None or market_cap_millions is None or market_cap_millions <= 0:
+        return None
+    mispricing = (float(model_rnpv_millions) - float(market_cap_millions)) / float(
+        market_cap_millions
+    )
+    return MarketMispricing(
+        model_rnpv_millions=float(model_rnpv_millions),
+        market_cap_millions=float(market_cap_millions),
+        mispricing=round(mispricing, 6),
+    )
+
+
+def compute_implied_success_probability(
+    *,
+    model_rnpv_millions: Optional[float],
+    market_cap_millions: Optional[float],
+    model_pos: Optional[float],
+) -> Optional[float]:
+    """
+    Back-solve implied success probability from stored valuation snapshots.
+
+    Uses the proportional relationship:
+
+        model_rnpv = peak_npv * model_pos
+        implied_pos = market_cap / peak_npv
+                    = market_cap * model_pos / model_rnpv
+
+    Returns None when the stored snapshot is incomplete or degenerate.
+    """
+    if (
+        model_rnpv_millions is None
+        or market_cap_millions is None
+        or model_pos is None
+        or model_rnpv_millions <= 0
+        or market_cap_millions <= 0
+        or model_pos <= 0
+    ):
+        return None
+    raw_implied = (float(market_cap_millions) * float(model_pos)) / float(model_rnpv_millions)
+    return round(max(0.0, min(1.0, raw_implied)), 4)
+
+
+def build_market_expectation_from_snapshot(
+    *,
+    asset_id: str,
+    ticker: str,
+    model_rnpv_millions: Optional[float],
+    market_cap_millions: Optional[float],
+    model_pos: Optional[float],
+    expectation_date: Optional[date] = None,
+    methodology: str = "stored_rnpv_backsolve",
+) -> MarketExpectation:
+    """Build a market expectation record from stored DB snapshot fields only."""
+    if expectation_date is None:
+        expectation_date = datetime.now(timezone.utc).date()
+
+    mispricing_record = compute_market_mispricing(
+        model_rnpv_millions=model_rnpv_millions,
+        market_cap_millions=market_cap_millions,
+    )
+    implied_pos = compute_implied_success_probability(
+        model_rnpv_millions=model_rnpv_millions,
+        market_cap_millions=market_cap_millions,
+        model_pos=model_pos,
+    )
+    pos_gap = None
+    if implied_pos is not None and model_pos is not None:
+        pos_gap = round(implied_pos - float(model_pos), 4)
+
+    return MarketExpectation(
+        asset_id=asset_id,
+        ticker=ticker,
+        expectation_date=expectation_date,
+        implied_pos=implied_pos,
+        implied_success_probability=implied_pos,
+        model_pos=model_pos,
+        pos_gap=pos_gap,
+        model_rnpv_millions=(
+            float(model_rnpv_millions) if model_rnpv_millions is not None else None
+        ),
+        market_cap_millions=(
+            float(market_cap_millions) if market_cap_millions is not None else None
+        ),
+        mispricing=mispricing_record.mispricing if mispricing_record is not None else None,
+        cash_estimate_millions=None,
+        methodology=methodology,
+    )
 
 
 class ImpliedPoSEstimator:
@@ -180,15 +259,57 @@ class ImpliedPoSEstimator:
         except Exception as exc:
             self.logger.warning("implied_pos compute error asset=%s: %s", asset_id, exc)
 
+        mispricing_record = compute_market_mispricing(
+            model_rnpv_millions=None,
+            market_cap_millions=market_cap_millions,
+        )
+
         return MarketExpectation(
             asset_id=asset_id,
             ticker=ticker,
             expectation_date=expectation_date,
             implied_pos=implied_pos,
+            implied_success_probability=implied_pos,
             model_pos=model_pos,
             pos_gap=pos_gap,
+            market_cap_millions=market_cap_millions,
+            mispricing=mispricing_record.mispricing if mispricing_record is not None else None,
             cash_estimate_millions=cash_estimate_millions,
         )
+
+    def compute_from_snapshot(
+        self,
+        *,
+        asset_id: str,
+        ticker: str,
+        model_rnpv_millions: Optional[float],
+        market_cap_millions: Optional[float],
+        model_pos: Optional[float],
+        expectation_date: Optional[date] = None,
+    ) -> MarketExpectation:
+        """Back-solve expectation fields from stored valuation and price rows only."""
+        expectation = build_market_expectation_from_snapshot(
+            asset_id=asset_id,
+            ticker=ticker,
+            model_rnpv_millions=model_rnpv_millions,
+            market_cap_millions=market_cap_millions,
+            model_pos=model_pos,
+            expectation_date=expectation_date,
+        )
+        if (
+            expectation.implied_pos is None
+            and model_rnpv_millions is not None
+            and market_cap_millions is not None
+            and model_pos is not None
+        ):
+            self.logger.info(
+                "stored_snapshot_implied_pos_unavailable asset=%s model_rnpv=%.3f market_cap=%.3f model_pos=%.4f",
+                asset_id,
+                float(model_rnpv_millions),
+                float(market_cap_millions),
+                float(model_pos),
+            )
+        return expectation
 
     def compute_from_yfinance(
         self,

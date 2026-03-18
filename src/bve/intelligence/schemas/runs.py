@@ -155,16 +155,31 @@ class ReviewDecision(BaseModel):
         Mandatory human-readable explanation of the decision.
     notes:
         Optional supplementary notes (e.g. questions to follow up on).
+    reviewer_confidence:
+        Reviewer's self-reported confidence in their decision (0.0–1.0).
+        Used to weight ``"accepted"`` decisions in calibration scoring:
+        high-confidence approvals are weighted more heavily.  None when the
+        reviewer does not provide a confidence estimate.
+    analyst_tags:
+        Free-form classification tags applied by the analyst (e.g.
+        ``["interim_only", "high_quality_data", "small_sample"]``).
+        Used for downstream filtering and cohort analysis.
+    supporting_quote:
+        Verbatim excerpt from the source document that informed the decision.
+        Supports reproducibility and future audit queries.
     """
 
-    id:             str
-    proposal_id:    str
-    run_id:         Optional[str]              = None
-    decision:       Literal["accepted", "rejected", "deferred"]
-    reviewer_id:    str
-    reviewed_at:    datetime
-    override_value: Optional[float]            = None
-    rationale:      str
-    notes:          Optional[str]              = None
+    id:                   str
+    proposal_id:          str
+    run_id:               Optional[str]              = None
+    decision:             Literal["accepted", "rejected", "deferred"]
+    reviewer_id:          str
+    reviewed_at:          datetime
+    override_value:       Optional[float]            = None
+    rationale:            str
+    notes:                Optional[str]              = None
+    reviewer_confidence:  Optional[float]            = Field(default=None, ge=0.0, le=1.0)
+    analyst_tags:         list[str]                  = Field(default_factory=list)
+    supporting_quote:     Optional[str]              = None
 
     model_config = {"frozen": True}
