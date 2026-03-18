@@ -1,0 +1,241 @@
+polling_interval_seconds: 3600
+state_path: outputs/watchlist/pipeline_state.json
+knowledge_db_path: outputs/intelligence_phase2/knowledge.db
+valuation_output_dir: outputs/intelligence_phase2/watchlist
+
+schedule:
+  enabled: true
+  daily_ingestion_interval_hours: 24
+  weekly_maintenance_weekday: 6
+  weekly_replay_since: 7d
+
+materiality:
+  min_abs_delta_npv: 25.0
+  min_relative_delta_npv_pct: 5.0
+  min_diff_count: 1
+
+extraction:
+  backend: anthropic
+  model: claude-sonnet-4-6
+
+connectors:
+  clinicaltrials_gov:
+    enabled: true
+    limit: 20
+  sec_filing:
+    enabled: true
+    limit: 10
+  press_release:
+    enabled: true
+    limit: 1
+
+watchlist:
+  - company_id: vrtx-auto
+    asset_id: asset-vrtx-vx121
+    drug_name: VX-121/tezacaftor/deutivacaftor
+    indication: Cystic fibrosis
+    ticker: VRTX
+    valuation_config: examples/configs/auto_generated/vrtx.yaml
+
+  - company_id: alny-auto
+    asset_id: asset-alny-vutrisiran-cm
+    drug_name: Vutrisiran
+    indication: ATTR cardiomyopathy
+    ticker: ALNY
+    valuation_config: examples/configs/auto_generated/alny.yaml
+
+  - company_id: bmrn-auto
+    asset_id: asset-bmrn-roctavian-hema
+    drug_name: Roctavian
+    indication: Hemophilia A
+    ticker: BMRN
+    valuation_config: examples/configs/auto_generated/bmrn.yaml
+
+  - company_id: mrna-auto
+    asset_id: asset-mrna-mrna4157
+    drug_name: mRNA-4157
+    indication: Adjuvant melanoma
+    ticker: MRNA
+    valuation_config: examples/configs/auto_generated/mrna.yaml
+
+  - company_id: ions-auto
+    asset_id: asset-ions-olezarsen
+    drug_name: Olezarsen
+    indication: Familial chylomicronemia syndrome
+    ticker: IONS
+    valuation_config: examples/configs/auto_generated/ions.yaml
+
+  - company_id: srpt-auto
+    asset_id: asset-srpt-srp9001
+    drug_name: SRP-9001
+    indication: Duchenne muscular dystrophy
+    ticker: SRPT
+    valuation_config: examples/configs/auto_generated/srpt.yaml
+
+  - company_id: acad-auto
+    asset_id: asset-acad-pimavanserin-mdd
+    drug_name: Pimavanserin
+    indication: Major depressive disorder adjunctive
+    ticker: ACAD
+    valuation_config: examples/configs/auto_generated/acad.yaml
+
+  - company_id: sage-auto
+    asset_id: asset-sage-sage718
+    drug_name: SAGE-718
+    indication: Cognitive impairment in Huntington disease
+    ticker: SAGE
+    valuation_config: examples/configs/auto_generated/sage.yaml
+
+  - company_id: crsp-auto
+    asset_id: asset-crsp-ctx001
+    drug_name: Casgevy
+    indication: Sickle cell disease
+    ticker: CRSP
+    valuation_config: examples/configs/auto_generated/crsp.yaml
+
+  - company_id: ntla-auto
+    asset_id: asset-ntla-2001
+    drug_name: NTLA-2001
+    indication: Transthyretin amyloidosis
+    ticker: NTLA
+    valuation_config: examples/configs/auto_generated/ntla.yaml
+
+  - company_id: beam-auto
+    asset_id: asset-beam-beam101
+    drug_name: BEAM-101
+    indication: Sickle cell disease
+    ticker: BEAM
+    valuation_config: examples/configs/auto_generated/beam.yaml
+
+  - company_id: prax-auto
+    asset_id: asset-prax-prax944
+    drug_name: Ulixacaltamide
+    indication: Essential tremor
+    ticker: PRAX
+    valuation_config: examples/configs/auto_generated/prax.yaml
+
+  - company_id: rxrx-auto
+    asset_id: asset-rxrx-rec994
+    drug_name: REC-994
+    indication: Cerebral cavernous malformation
+    ticker: RXRX
+    valuation_config: examples/configs/auto_generated/rxrx.yaml
+
+  - company_id: imvt-auto
+    asset_id: asset-imvt-imanifimab
+    drug_name: Batoclimab
+    indication: Myasthenia gravis
+    ticker: IMVT
+    valuation_config: examples/configs/auto_generated/imvt.yaml
+
+  - company_id: kymr-auto
+    asset_id: asset-kymr-kt474
+    drug_name: KT-474
+    indication: Atopic dermatitis
+    ticker: KYMR
+    valuation_config: examples/configs/auto_generated/kymr.yaml
+
+  - company_id: arqt-auto
+    asset_id: asset-arqt-roflumilast-ad
+    drug_name: Roflumilast cream
+    indication: Atopic dermatitis
+    ticker: ARQT
+    valuation_config: examples/configs/auto_generated/arqt.yaml
+
+  - company_id: mdgl-auto
+    asset_id: asset-mdgl-resmetirom-mash
+    drug_name: Resmetirom
+    indication: MASH with fibrosis
+    ticker: MDGL
+    valuation_config: examples/configs/auto_generated/mdgl.yaml
+
+  - company_id: fate-auto
+    asset_id: asset-fate-ft576
+    drug_name: FT576
+    indication: Multiple myeloma
+    ticker: FATE
+    valuation_config: examples/configs/auto_generated/fate.yaml
+
+  - company_id: blue-auto
+    asset_id: asset-blue-lovocel
+    drug_name: Lovotibeglogene autotemcel
+    indication: Sickle cell disease
+    ticker: BLUE
+    valuation_config: examples/configs/auto_generated/blue.yaml
+
+  - company_id: edit-auto
+    asset_id: asset-edit-reni-cel
+    drug_name: Reni-cel
+    indication: Sickle cell disease
+    ticker: EDIT
+    valuation_config: examples/configs/auto_generated/edit.yaml
+
+  - company_id: anab-auto
+    asset_id: asset-anab-rosnilimab
+    drug_name: Rosnilimab
+    indication: Rheumatoid arthritis
+    ticker: ANAB
+    valuation_config: examples/configs/auto_generated/anab.yaml
+
+  - company_id: ptct-auto
+    asset_id: asset-ptct-sepiapterin
+    drug_name: Sepiapterin
+    indication: Phenylketonuria
+    ticker: PTCT
+    valuation_config: examples/configs/auto_generated/ptct.yaml
+
+  - company_id: fold-auto
+    asset_id: asset-fold-atg-aa
+    drug_name: AT-GAA
+    indication: Pompe disease
+    ticker: FOLD
+    valuation_config: examples/configs/auto_generated/fold.yaml
+
+  - company_id: tgtx-auto
+    asset_id: asset-tgtx-ublituximab-ms
+    drug_name: Ublituximab
+    indication: Relapsing multiple sclerosis
+    ticker: TGTX
+    valuation_config: examples/configs/auto_generated/tgtx.yaml
+
+  - company_id: spnv-auto
+    asset_id: asset-spnv-deepview
+    drug_name: DeepView AI
+    indication: Burn wound healing assessment
+    ticker: SPNV
+    valuation_config: examples/configs/auto_generated/spnv.yaml
+
+  - company_id: agen-auto
+    asset_id: asset-agen-botensilimab
+    drug_name: Botensilimab
+    indication: Metastatic MSS colorectal cancer
+    ticker: AGEN
+    valuation_config: examples/configs/auto_generated/agen.yaml
+
+  - company_id: relay-2026
+    asset_id: asset-rlay-rly2608
+    drug_name: RLY-2608
+    indication: PI3Ka-mutated breast cancer
+    ticker: RLAY
+    valuation_config: examples/configs/relay_rly2608.yaml
+
+  - company_id: regn-2016
+    asset_id: asset-regn-dupilumab-copd
+    drug_name: Dupilumab
+    indication: COPD with type 2 inflammation
+    ticker: REGN
+    valuation_config: examples/configs/regn_dupilumab.yaml
+
+  - company_id: biib-auto
+    asset_id: asset-biib-lecanemab
+    drug_name: Lecanemab
+    indication: Early Alzheimer's disease
+    ticker: BIIB
+    valuation_config: examples/configs/auto_generated/biib.yaml
+
+  - company_id: gern-auto
+    asset_id: asset-gern-imetelstat
+    drug_name: Imetelstat
+    indication: Lower-risk MDS
+    ticker: GERN
+    valuation_config: examples/configs/auto_generated/gern.yaml

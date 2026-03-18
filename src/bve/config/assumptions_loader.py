@@ -46,7 +46,7 @@ import warnings
 from datetime import datetime
 from pathlib import Path
 from types import MappingProxyType
-from typing import Any, Optional, Union
+from typing import Any, Optional
 
 import yaml
 

@@ -1,0 +1,50 @@
+profiles:
+  - event_type: trial_readout
+    phase: phase_3
+    p_positive_outcome: 0.52
+    median_move_positive_pct: 28.0
+    median_move_negative_pct: 38.0
+    move_volatility: 0.18
+    n_observations: 847
+    last_calibrated: "2025-01-01"
+
+  - event_type: fda_approval
+    p_positive_outcome: 0.85
+    median_move_positive_pct: 18.0
+    median_move_negative_pct: 28.0
+    move_volatility: 0.12
+    n_observations: 412
+    last_calibrated: "2025-01-01"
+
+  - event_type: trial_readout
+    phase: phase_2
+    p_positive_outcome: 0.39
+    median_move_positive_pct: 22.0
+    median_move_negative_pct: 30.0
+    move_volatility: 0.21
+    n_observations: 925
+    last_calibrated: "2025-01-01"
+
+  - event_type: advisory_committee
+    p_positive_outcome: 0.72
+    median_move_positive_pct: 15.0
+    median_move_negative_pct: 24.0
+    move_volatility: 0.16
+    n_observations: 133
+    last_calibrated: "2025-01-01"
+
+  - event_type: earnings
+    p_positive_outcome: 0.55
+    median_move_positive_pct: 8.0
+    median_move_negative_pct: 10.0
+    move_volatility: 0.09
+    n_observations: 1240
+    last_calibrated: "2025-01-01"
+
+  - event_type: conference_presentation
+    p_positive_outcome: 0.58
+    median_move_positive_pct: 10.0
+    median_move_negative_pct: 12.0
+    move_volatility: 0.11
+    n_observations: 603
+    last_calibrated: "2025-01-01"
