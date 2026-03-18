@@ -16,7 +16,7 @@ from typing import Optional
 
 from pydantic import BaseModel, Field, field_validator, model_validator
 
-from bve.config.constants import GROSS_TO_NET_DISCOUNT, SGNA_RATE_LAUNCH, SGNA_RATE_MATURE, SGNA_RAMP_YEARS
+from bve.config.constants import SGNA_RATE_LAUNCH, SGNA_RATE_MATURE, SGNA_RAMP_YEARS
 from bve.entities.indication import Indication
 from bve.models.competition_model import CompetitionModel
 
@@ -128,7 +128,6 @@ class UptakeCurve(BaseModel):
     @classmethod
     def s_curve(cls, years_to_peak: int, peak_penetration: float, patent_life: int) -> "UptakeCurve":
         """Logistic S-curve uptake — more realistic for specialty pharma."""
-        import math
         percs = []
         k = 8.0 / years_to_peak  # steepness calibrated so ~peak at years_to_peak
         midpoint = years_to_peak / 2.0

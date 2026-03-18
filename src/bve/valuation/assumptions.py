@@ -154,7 +154,6 @@ def build_assumption_log(
 
     # --- GTN ---
     if market_model.total_addressable_market_millions is not None:
-        gtn_note = None
         gtn_assum = None
     else:
         from bve.config.constants import GROSS_TO_NET_DISCOUNT
@@ -170,8 +169,8 @@ def build_assumption_log(
     # --- Default limitations ---
     default_limitations = [
         "US market only; ex-US contribution not modeled (typically adds 30-50% for a global asset).",
-        f"Patient population derived from public epidemiology data; actual eligible pool subject to diagnostic rate, testing penetration, and label restrictions.",
-        f"Competition modeled as fixed penetration ceiling; does not simulate dynamic market share over time.",
+        "Patient population derived from public epidemiology data; actual eligible pool subject to diagnostic rate, testing penetration, and label restrictions.",
+        "Competition modeled as fixed penetration ceiling; does not simulate dynamic market share over time.",
         "Tax effects, R&D tax credits, and operating leverage not modeled at the company level.",
         "Milestone payments to partners are excluded from base-case rNPV.",
         "Post-loss-of-exclusivity revenues are assumed zero; biosimilar/generic erosion not modeled.",
@@ -181,9 +180,9 @@ def build_assumption_log(
     default_thesis_changers = [
         "Phase 2/3 ORR or PFS data significantly above or below the expected efficacy bar.",
         "FDA grants or revokes Breakthrough Therapy designation (major POS signal).",
-        f"Competitor drug achieves superior label (broader population, better efficacy, or lower price).",
+        "Competitor drug achieves superior label (broader population, better efficacy, or lower price).",
         "Unexpected safety findings (Grade 3+ on-target toxicities or SAEs) trigger clinical hold.",
-        f"Payer/reimbursement environment shifts materially (Part D restructuring, IRA negotiation).",
+        "Payer/reimbursement environment shifts materially (Part D restructuring, IRA negotiation).",
         "Company secures a partnership or acquisition offer at a significant premium to NAV.",
         "Cash runway falls below 4 quarters without a clear financing path (increases dilution risk).",
     ]

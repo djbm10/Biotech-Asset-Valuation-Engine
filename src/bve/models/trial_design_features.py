@@ -49,7 +49,7 @@ bve.config.constants (TRIAL_DESIGN_LOGODDS, TRIAL_DESIGN_PHASE_SCALING).
 from __future__ import annotations
 
 import math
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from enum import Enum
 from typing import TYPE_CHECKING, Optional
 

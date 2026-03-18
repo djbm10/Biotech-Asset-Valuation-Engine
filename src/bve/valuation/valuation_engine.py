@@ -23,11 +23,11 @@ from bve.models.cost_model import CostModel
 from bve.models.drug_asset_program import CommercialPlan, DrugAssetProgram
 from bve.models.market_model import MarketModel
 from bve.models.monte_carlo import MonteCarloParams, run_monte_carlo
-from bve.models.pos_model import POSAdjusters, apply_pos_to_trials
+from bve.models.pos_model import apply_pos_to_trials
 from bve.models.probability_model import ProbabilityModel
 from bve.models.revenue_model import RevenueModel
 from bve.models.rnpv_model import RNPVModel, compute_rnpv_full
-from bve.valuation.assumptions import AssumptionLog, build_assumption_log
+from bve.valuation.assumptions import build_assumption_log
 from bve.valuation.outputs import SensitivityPoint, ValuationOutput
 from bve.valuation.scenario import build_scenarios
 
@@ -304,7 +304,7 @@ class ValuationEngine:
             m = market or self.market_model
             return compute_rnpv_full(a, t, m, loe_profile=loe_profile, deal=deal).rnpv_millions
 
-        base = _rnpv()
+        _rnpv()
 
         # 1. Peak sales ±30%
         if self.market_model.total_addressable_market_millions is not None:
