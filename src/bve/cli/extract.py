@@ -32,11 +32,10 @@ Exit codes
 from __future__ import annotations
 
 import argparse
-import json
 import re
 import sys
 import uuid
-from datetime import datetime, timezone
+from datetime import datetime
 from pathlib import Path
 from typing import Optional
 from urllib.parse import urlparse

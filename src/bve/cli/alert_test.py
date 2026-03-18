@@ -17,7 +17,7 @@ import uuid
 from datetime import datetime, timezone
 
 from bve.alerts.alert_model import Alert, AlertSeverity, AlertTrigger
-from bve.alerts.alert_router import AlertRouter, _build_channels
+from bve.alerts.alert_router import _build_channels
 from bve.pipeline.watchlist_runner import load_watchlist_config
 
 

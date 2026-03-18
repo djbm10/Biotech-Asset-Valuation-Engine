@@ -178,7 +178,7 @@ def main():
         json.dump(portfolio.to_dict(), f, indent=2, default=str)
 
     print(f"\nOutputs -> {out_dir}/")
-    print(f"  portfolio_valuation.json")
+    print("  portfolio_valuation.json")
 
 
 if __name__ == "__main__":
