@@ -26,7 +26,6 @@ from typing import Optional, Protocol, runtime_checkable
 from pydantic import BaseModel, Field
 
 from bve.intelligence.extraction.raw_document import EntityHints, RawDocument
-from bve.intelligence.schemas.signals import SourceType
 
 
 class FetchResult(BaseModel):

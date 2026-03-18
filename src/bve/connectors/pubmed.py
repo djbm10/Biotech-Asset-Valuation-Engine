@@ -46,7 +46,6 @@ import logging
 import time
 from datetime import datetime, timezone
 from typing import Optional
-from urllib.parse import urlencode
 
 import requests
 

@@ -50,7 +50,7 @@ def get_approval_status(application_number: str) -> Optional[dict[str, Any]]:
     application_number: e.g. "NDA212608" or "BLA125514"
     """
     app_type = application_number[:3].upper()
-    app_num = application_number[3:]
+    application_number[3:]
     endpoint = f"{OPENFDA_BASE}/{'nda' if app_type == 'NDA' else 'bla'}.json"
     params = {"search": f"application_number:{application_number}", "limit": 1}
     data = _get(endpoint, params=params)
@@ -71,7 +71,7 @@ def get_designations(drug_name: str) -> dict[str, bool]:
         "count": "openfda.pharm_class_epc.exact",
         "limit": 5,
     }
-    data = _get(f"{OPENFDA_BASE}/label.json", params=params)
+    _get(f"{OPENFDA_BASE}/label.json", params=params)
 
     # Designation data is sparse in openFDA; flag as not-found by default
     return {

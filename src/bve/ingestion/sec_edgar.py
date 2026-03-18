@@ -18,11 +18,14 @@ import requests
 
 EDGAR_BASE = "https://data.sec.gov"
 EFTS_BASE = "https://efts.sec.gov/LATEST/search-index"
+COMPANY_TICKERS_URL = "https://www.sec.gov/files/company_tickers.json"
 
 _HEADERS = {
     "User-Agent": "BVE Analytics research@bve.local",
     "Accept-Encoding": "gzip, deflate",
 }
+
+_TICKER_TO_CIK_CACHE: dict[str, str] | None = None
 
 
 def _get(url: str, params: dict | None = None, retries: int = 3) -> dict:
@@ -40,16 +43,34 @@ def _get(url: str, params: dict | None = None, retries: int = 3) -> dict:
 
 def get_cik(ticker: str) -> Optional[str]:
     """Resolve ticker → SEC CIK (zero-padded to 10 digits)."""
-    data = _get(f"{EDGAR_BASE}/submissions/CIK{ticker.upper()}.json")
-    if not data:
-        # try company search
-        search = _get(
-            "https://efts.sec.gov/LATEST/search-index",
-            params={"q": ticker, "dateRange": "custom", "startdt": "2020-01-01"},
-        )
-    cik = data.get("cik")
+    global _TICKER_TO_CIK_CACHE
+
+    normalized = ticker.upper()
+    if _TICKER_TO_CIK_CACHE is None:
+        data = _get(COMPANY_TICKERS_URL)
+        cache: dict[str, str] = {}
+        for row in data.values():
+            if not isinstance(row, dict):
+                continue
+            row_ticker = row.get("ticker")
+            cik = row.get("cik_str")
+            if row_ticker and cik is not None:
+                cache[str(row_ticker).upper()] = str(cik).zfill(10)
+        _TICKER_TO_CIK_CACHE = cache
+
+    cik = _TICKER_TO_CIK_CACHE.get(normalized)
     if cik:
-        return str(cik).zfill(10)
+        return cik
+
+    search = _get(
+        EFTS_BASE,
+        params={"q": normalized, "dateRange": "custom", "startdt": "2020-01-01"},
+    )
+    hits = search.get("hits", {}).get("hits", [])
+    for hit in hits:
+        cik = hit.get("_source", {}).get("ciks", [None])[0]
+        if cik:
+            return str(cik).zfill(10)
     return None
 
 

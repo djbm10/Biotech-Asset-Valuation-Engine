@@ -130,7 +130,7 @@ class FDAConnector:
             all_brand_names = list({p.get("brand_name", "") for p in products if p.get("brand_name")})
 
             text_parts = [
-                f"FDA Drug Application Record",
+                "FDA Drug Application Record",
                 f"Application Number: {application_number}",
                 f"Sponsor: {sponsor_name}",
                 f"Drug: {drug_name}",

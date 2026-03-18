@@ -12,7 +12,7 @@ import requests
 
 from bve.config.constants import PHASE_DURATIONS_YEARS, PHASE_COSTS_MILLIONS
 from bve.entities.trial import (
-    ClinicalTrial, TrialArm, TrialPhase, TrialStatus, EndpointType
+    ClinicalTrial, TrialArm, TrialPhase, TrialStatus
 )
 
 BASE_URL = "https://clinicaltrials.gov/api/v2"
@@ -41,7 +41,7 @@ def _get(path: str, params: dict | None = None, timeout: int = 30, retries: int 
             r = requests.get(url, params=params, timeout=timeout)
             r.raise_for_status()
             return r.json()
-        except requests.RequestException as e:
+        except requests.RequestException:
             if attempt == retries - 1:
                 raise
             time.sleep(2 ** attempt)
@@ -156,10 +156,9 @@ def _estimate_duration(start: Optional[str], completion: Optional[str]) -> float
     if start and completion:
         try:
             from datetime import date
-            fmt = "%Y-%m-%d"
             # Handle YYYY-MM and YYYY-MM-DD
-            s = start[:10].ljust(10, "-01"[:10 - len(start[:7])])
-            c = completion[:10].ljust(10, "-01"[:10 - len(completion[:7])])
+            start[:10].ljust(10, "-01"[:10 - len(start[:7])])
+            completion[:10].ljust(10, "-01"[:10 - len(completion[:7])])
             d0 = date.fromisoformat(start[:7] + "-01")
             d1 = date.fromisoformat(completion[:7] + "-01")
             years = (d1 - d0).days / 365.25
