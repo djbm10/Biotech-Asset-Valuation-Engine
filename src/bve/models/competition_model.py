@@ -70,7 +70,7 @@ from typing import TYPE_CHECKING, Any, Optional
 from pydantic import BaseModel, Field, field_validator
 
 if TYPE_CHECKING:
-    import numpy as np
+    pass
 
 
 class CrowdingModel(BaseModel):
