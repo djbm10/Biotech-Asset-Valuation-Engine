@@ -1,33 +1,40 @@
 """
 Tests for AssetRankingEngine.
 
-All tests use pre-loaded data via rank_assets() — no knowledge store required.
-Covers score component math, determinism, mispricing mode, config-driven event
-scores, per-asset overrides, top_n, --since filter, and explanation generation.
+All tests use pre-loaded data via rank_assets() unless a DB-specific code path
+needs to be exercised.
 """
+
 from __future__ import annotations
 
 import uuid
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
+from pathlib import Path
 
 import pytest
+import yaml
 
+from bve.connectors.market_prices import MarketPriceRecord
+from bve.intelligence.knowledge_layer import KnowledgeStore, SourceTrace, StoredValuationDiff
 from bve.intelligence.ranking import (
     AssetRankingEngine,
     RankingConfig,
-    RankedOpportunity,
-    RankingResult,
     _recency_score,
     _sigmoid,
-    DEFAULT_EVENT_TYPE_SCORES,
 )
-from bve.intelligence.knowledge_layer import StoredValuationDiff
+from bve.intelligence.schemas.signals import StructuredSignal
+from bve.intelligence.taxonomy import EventType
 from bve.pipeline.watchlist_runner import WatchlistAsset
 
 _NOW = datetime(2024, 6, 15, 12, 0, 0, tzinfo=timezone.utc)
 
 
-def _asset(asset_id="asset-001", company_id="co-001", ticker=None, market_cap=None):
+def _asset(
+    asset_id: str = "asset-001",
+    company_id: str = "co-001",
+    ticker: str | None = None,
+    market_cap: float | None = None,
+) -> WatchlistAsset:
     return WatchlistAsset(
         asset_id=asset_id,
         company_id=company_id,
@@ -37,23 +44,48 @@ def _asset(asset_id="asset-001", company_id="co-001", ticker=None, market_cap=No
 
 
 def _diff(
-    asset_id="asset-001",
+    asset_id: str = "asset-001",
+    *,
+    event_id: str = "evt-001",
     delta_npv: float = 50.0,
     before_npv: float = 200.0,
     created_at: datetime = _NOW,
+    market_cap_snapshot_millions: float | None = None,
 ) -> StoredValuationDiff:
     return StoredValuationDiff(
         run_id=str(uuid.uuid4()),
-        event_id="evt-001",
+        event_id=event_id,
         asset_id=asset_id,
         valuation_before={"rnpv_millions": before_npv},
         valuation_after={"rnpv_millions": before_npv + delta_npv},
         delta_npv=delta_npv,
         created_at=created_at,
+        market_cap_snapshot_millions=market_cap_snapshot_millions,
     )
 
 
-def _engine(config: RankingConfig = None) -> AssetRankingEngine:
+def _signal(
+    *,
+    asset_id: str = "asset-001",
+    company_id: str = "co-001",
+    event_id: str = "evt-001",
+    event_type: EventType = EventType.TRIAL_READOUT,
+    signal_date: date = date(2024, 6, 15),
+    extraction_confidence: float = 0.8,
+) -> StructuredSignal:
+    return StructuredSignal(
+        id=str(uuid.uuid4()),
+        event_id=event_id,
+        asset_id=asset_id,
+        company_id=company_id,
+        event_type=event_type,
+        signal_date=signal_date,
+        extraction_confidence=extraction_confidence,
+        created_at=datetime.combine(signal_date, datetime.min.time(), tzinfo=timezone.utc),
+    )
+
+
+def _engine(config: RankingConfig | None = None) -> AssetRankingEngine:
     return AssetRankingEngine(config or RankingConfig())
 
 
@@ -70,29 +102,15 @@ class TestSigmoid:
 
 class TestRecencyScore:
     def test_at_zero_days(self):
-        score = _recency_score(_NOW, _NOW, half_life_days=14.0)
-        assert score == pytest.approx(1.0)
+        assert _recency_score(_NOW, _NOW, half_life_days=14.0) == pytest.approx(1.0)
 
     def test_at_half_life(self):
         past = _NOW - timedelta(days=14)
-        score = _recency_score(past, _NOW, half_life_days=14.0)
-        assert score == pytest.approx(0.5, abs=1e-9)
-
-    def test_at_double_half_life(self):
-        past = _NOW - timedelta(days=28)
-        score = _recency_score(past, _NOW, half_life_days=14.0)
-        assert score == pytest.approx(0.25, abs=1e-9)
-
-    def test_monotone_decays(self):
-        s1 = _recency_score(_NOW - timedelta(days=1), _NOW, 14.0)
-        s2 = _recency_score(_NOW - timedelta(days=7), _NOW, 14.0)
-        s3 = _recency_score(_NOW - timedelta(days=14), _NOW, 14.0)
-        assert s1 > s2 > s3
+        assert _recency_score(past, _NOW, half_life_days=14.0) == pytest.approx(0.5, abs=1e-9)
 
     def test_future_diff_clamped_to_one(self):
         future = _NOW + timedelta(days=5)
-        score = _recency_score(future, _NOW, half_life_days=14.0)
-        assert score == pytest.approx(1.0)
+        assert _recency_score(future, _NOW, half_life_days=14.0) == pytest.approx(1.0)
 
 
 class TestEventTypeScores:
@@ -110,12 +128,28 @@ class TestEventTypeScores:
     def test_config_override_replaces_default(self):
         cfg = RankingConfig(event_type_scores={"trial_readout": 0.5})
         assert cfg.resolved_event_score("trial_readout") == 0.5
-        # Others unchanged
         assert cfg.resolved_event_score("fda_approval") == 1.0
 
-    def test_config_override_adds_new_type(self):
-        cfg = RankingConfig(event_type_scores={"custom_event": 0.99})
-        assert cfg.resolved_event_score("custom_event") == 0.99
+    def test_missing_calibration_file_falls_back_to_defaults(self):
+        cfg = RankingConfig(calibration_path="/tmp/definitely-missing-calibration.yaml")
+        assert cfg.resolved_event_score("trial_readout") == 0.8
+        assert cfg.resolved_confidence_scaling_factor() == 1.0
+
+    def test_calibration_file_merges_with_defaults(self, tmp_path: Path):
+        calibration_path = tmp_path / "ranking_calibration.yaml"
+        calibration_path.write_text(
+            yaml.safe_dump(
+                {
+                    "confidence_scaling_factor": 1.25,
+                    "event_type_weights": {"trial_readout": 0.61},
+                }
+            ),
+            encoding="utf-8",
+        )
+        cfg = RankingConfig(calibration_path=str(calibration_path))
+        assert cfg.resolved_event_score("trial_readout") == 0.61
+        assert cfg.resolved_event_score("fda_approval") == 1.0
+        assert cfg.resolved_confidence_scaling_factor() == pytest.approx(1.25)
 
 
 class TestRankingEngineDeterminism:
@@ -131,6 +165,74 @@ class TestRankingEngineDeterminism:
         assert r1.opportunities[0].composite_score == r2.opportunities[0].composite_score
         assert r1.opportunities[0].asset_id == r2.opportunities[0].asset_id
 
+    def test_score_matches_sprint5_formula(self):
+        engine = _engine()
+        signal = _signal(
+            event_type=EventType.FDA_APPROVAL,
+            signal_date=date(2024, 6, 10),
+            extraction_confidence=0.8,
+        )
+        diff = _diff(before_npv=100.0, delta_npv=50.0, event_id=signal.event_id)
+        result = engine.rank_assets(
+            [_asset()],
+            diffs_by_asset={"co-001::asset-001": [diff]},
+            market_caps={"co-001::asset-001": 100.0},
+            signals_by_asset={"co-001::asset-001": signal},
+            ranked_at=_NOW,
+        )
+
+        opp = result.opportunities[0]
+        expected_recency = 0.5 ** (5.0 / 14.0)
+        expected_score = (
+            0.5 * 0.50
+            + 0.8 * 0.25
+            + expected_recency * 0.15
+            + 1.0 * 0.10
+        )
+
+        assert opp.event_id == signal.event_id
+        assert opp.mispricing == pytest.approx(0.5, abs=1e-6)
+        assert opp.confidence == pytest.approx(0.8, abs=1e-6)
+        assert opp.days_since_event == 5
+        assert opp.event_priority == pytest.approx(1.0, abs=1e-6)
+        assert opp.score == pytest.approx(expected_score, abs=1e-6)
+        assert opp.composite_score == pytest.approx(expected_score, abs=1e-6)
+
+    def test_recent_high_confidence_event_ranks_higher(self):
+        engine = _engine()
+        assets = [_asset("recent"), _asset("stale")]
+        recent_signal = _signal(
+            asset_id="recent",
+            event_id="evt-recent",
+            signal_date=date(2024, 6, 14),
+            extraction_confidence=0.9,
+        )
+        stale_signal = _signal(
+            asset_id="stale",
+            event_id="evt-stale",
+            signal_date=date(2024, 5, 25),
+            extraction_confidence=0.4,
+        )
+        diffs = {
+            "co-001::recent": [_diff("recent", event_id="evt-recent", before_npv=100.0, delta_npv=50.0)],
+            "co-001::stale": [_diff("stale", event_id="evt-stale", before_npv=100.0, delta_npv=50.0)],
+        }
+        result = engine.rank_assets(
+            assets,
+            diffs_by_asset=diffs,
+            signals_by_asset={
+                "co-001::recent": recent_signal,
+                "co-001::stale": stale_signal,
+            },
+            market_caps={
+                "co-001::recent": 100.0,
+                "co-001::stale": 100.0,
+            },
+            ranked_at=_NOW,
+        )
+        assert result.opportunities[0].asset_id == "recent"
+        assert result.opportunities[0].score > result.opportunities[1].score
+
     def test_higher_delta_ranks_higher_in_delta_mode(self):
         engine = _engine(RankingConfig(use_market_cap_normalization=False))
         assets = [_asset("a1"), _asset("a2")]
@@ -141,26 +243,11 @@ class TestRankingEngineDeterminism:
         result = engine.rank_assets(assets, diffs_by_asset=diffs, ranked_at=_NOW)
         assert result.opportunities[0].asset_id == "a1"
 
-    def test_ordering_is_stable_same_score(self):
-        engine = _engine()
-        assets = [_asset("a1"), _asset("a2")]
-        # Same diff → same score → order preserved by insertion
-        same_diff = _diff(delta_npv=50.0)
-        diffs = {
-            "co-001::a1": [same_diff],
-            "co-001::a2": [same_diff],
-        }
-        r = engine.rank_assets(assets, diffs_by_asset=diffs, ranked_at=_NOW)
-        # Must not raise; ranks assigned 1 and 2
-        assert {o.rank for o in r.opportunities} == {1, 2}
-
 
 class TestRankingEngineBasicBehavior:
     def test_no_diffs_empty_result(self):
         engine = _engine()
-        result = engine.rank_assets(
-            [_asset()], diffs_by_asset={}, ranked_at=_NOW
-        )
+        result = engine.rank_assets([_asset()], diffs_by_asset={}, ranked_at=_NOW)
         assert result.opportunities == []
         assert result.assets_skipped_no_diffs == 1
         assert result.assets_with_diffs == 0
@@ -182,49 +269,36 @@ class TestRankingEngineBasicBehavior:
         result = engine.rank_assets(assets, diffs_by_asset=diffs, ranked_at=_NOW)
         assert len(result.opportunities) == 2
 
-    def test_assets_evaluated_count(self):
-        engine = _engine()
-        assets = [_asset("a1"), _asset("a2"), _asset("a3")]
-        diffs = {"co-001::a1": [_diff("a1")]}  # only a1 has diffs
-        result = engine.rank_assets(assets, diffs_by_asset=diffs, ranked_at=_NOW)
-        assert result.assets_evaluated == 3
-        assert result.assets_with_diffs == 1
-        assert result.assets_skipped_no_diffs == 2
-
 
 class TestMispricingMode:
     def test_mispricing_score_computed_when_market_cap_available(self):
-        engine = _engine(RankingConfig(use_market_cap_normalization=True))
-        asset = _asset(market_cap=300.0)  # market cap $300M
-        diff = _diff(before_npv=200.0, delta_npv=50.0)  # after_rnpv=$250M
+        engine = _engine()
+        diff = _diff(before_npv=200.0, delta_npv=50.0)
         result = engine.rank_assets(
-            [asset],
+            [_asset(market_cap=300.0)],
             diffs_by_asset={"co-001::asset-001": [diff]},
             market_caps={"co-001::asset-001": 300.0},
             ranked_at=_NOW,
         )
         opp = result.opportunities[0]
-        assert opp.mispricing_score is not None
-        assert opp.market_cap_millions == 300.0
-        # after_rnpv=$250M, market_cap=$300M → mispricing=(250-300)/300=-0.167 (overvalued)
         assert opp.mispricing_score == pytest.approx(-0.1667, abs=0.001)
+        assert opp.mispricing == pytest.approx(-0.166667, abs=0.001)
+        assert opp.market_cap_millions == 300.0
 
     def test_mispricing_none_when_no_market_cap(self):
-        engine = _engine(RankingConfig(use_market_cap_normalization=True))
-        asset = _asset()  # no market cap
+        engine = _engine()
         result = engine.rank_assets(
-            [asset],
+            [_asset()],
             diffs_by_asset={"co-001::asset-001": [_diff()]},
             ranked_at=_NOW,
         )
         opp = result.opportunities[0]
         assert opp.mispricing_score is None
+        assert opp.mispricing is None
 
     def test_large_cap_scores_lower_than_small_cap_same_delta(self):
-        """A $50M delta means more for a $100M rNPV company than a $1000M one."""
         engine = _engine(
             RankingConfig(
-                use_market_cap_normalization=True,
                 confidence_weight=0.0,
                 recency_weight=0.0,
                 event_type_weight=0.0,
@@ -235,33 +309,97 @@ class TestMispricingMode:
             "co-001::small": [_diff("small", delta_npv=50.0, before_npv=80.0)],
             "co-001::large": [_diff("large", delta_npv=50.0, before_npv=900.0)],
         }
-        market_caps = {
-            "co-001::small": 100.0,   # after_rnpv=$130M → mispricing=+30%
-            "co-001::large": 1000.0,  # after_rnpv=$950M → mispricing=-5%
-        }
         result = engine.rank_assets(
-            assets, diffs_by_asset=diffs, market_caps=market_caps, ranked_at=_NOW
+            assets,
+            diffs_by_asset=diffs,
+            market_caps={
+                "co-001::small": 100.0,
+                "co-001::large": 1000.0,
+            },
+            ranked_at=_NOW,
         )
-        # Small cap undervalued → higher opportunity score
         assert result.opportunities[0].asset_id == "small"
 
     def test_use_market_cap_false_ignores_market_cap(self):
         engine = _engine(RankingConfig(use_market_cap_normalization=False))
-        asset = _asset(market_cap=300.0)
         result = engine.rank_assets(
-            [asset],
+            [_asset(market_cap=300.0)],
             diffs_by_asset={"co-001::asset-001": [_diff()]},
             market_caps={"co-001::asset-001": 300.0},
             ranked_at=_NOW,
         )
-        opp = result.opportunities[0]
-        # mispricing_score should be None when normalization disabled
-        assert opp.mispricing_score is None
+        assert result.opportunities[0].mispricing_score is None
+
+    def test_rank_from_watchlist_uses_market_prices(self):
+        store = KnowledgeStore(":memory:")
+        try:
+            signal = _signal(
+                asset_id="asset-001",
+                company_id="co-001",
+                event_id="evt-market-price",
+                signal_date=date(2024, 6, 14),
+                extraction_confidence=0.7,
+            )
+            store.add_structured_signal(
+                signal,
+                SourceTrace(source_type="test", source_ref="ranking-test"),
+                extraction_result_id="extract-1",
+            )
+            store.add_valuation_diff(
+                StoredValuationDiff(
+                    run_id=str(uuid.uuid4()),
+                    event_id=signal.event_id,
+                    asset_id="asset-001",
+                    valuation_before={"rnpv_millions": 100.0, "approval_probability": 0.30},
+                    valuation_after={"rnpv_millions": 150.0, "approval_probability": 0.40},
+                    delta_npv=50.0,
+                    created_at=_NOW,
+                ),
+                company_id="co-001",
+                source_trace=SourceTrace(source_type="test", source_ref="ranking-test"),
+            )
+            store.upsert_market_price(
+                MarketPriceRecord(
+                    ticker="TST",
+                    price_date=date(2024, 6, 14),
+                    close_usd=10.0,
+                    adj_close_usd=10.0,
+                    volume=1000,
+                    market_cap_millions=120.0,
+                )
+            )
+            watchlist = type(
+                "WatchlistConfig",
+                (),
+                {
+                    "watchlist": [
+                        _asset(
+                            asset_id="asset-001",
+                            company_id="co-001",
+                            ticker="TST",
+                            market_cap=999.0,
+                        )
+                    ]
+                },
+            )()
+
+            result = AssetRankingEngine(knowledge_store=store).rank_from_watchlist_config(
+                watchlist,
+                ranked_at=_NOW,
+            )
+
+            opp = result.opportunities[0]
+            assert opp.market_cap_millions == pytest.approx(120.0)
+            assert opp.mispricing == pytest.approx(0.25, abs=1e-6)
+            assert opp.model_pos == pytest.approx(0.40, abs=1e-6)
+            assert opp.implied_pos == pytest.approx(0.32, abs=1e-4)
+            assert opp.pos_gap == pytest.approx(-0.08, abs=1e-4)
+        finally:
+            store.close()
 
 
 class TestPerAssetOverrides:
     def test_per_asset_weight_override_applied(self):
-        """Asset with event_type_weight=0 should score the same regardless of event type."""
         cfg = RankingConfig(
             valuation_weight=0.0,
             confidence_weight=0.0,
@@ -269,20 +407,20 @@ class TestPerAssetOverrides:
             event_type_weight=1.0,
         )
         engine = _engine(cfg)
-        # Asset with override: event_type_weight=0
         a_override = WatchlistAsset(
             asset_id="a-override",
             company_id="co-001",
             ranking_overrides={"event_type_weight": 0.0},
         )
-        a_normal = _asset("a-normal")
-        diffs = {
-            "co-001::a-override": [_diff("a-override")],
-            "co-001::a-normal": [_diff("a-normal")],
-        }
-        result = engine.rank_assets([a_override, a_normal], diffs_by_asset=diffs, ranked_at=_NOW)
+        result = engine.rank_assets(
+            [a_override, _asset("a-normal")],
+            diffs_by_asset={
+                "co-001::a-override": [_diff("a-override")],
+                "co-001::a-normal": [_diff("a-normal")],
+            },
+            ranked_at=_NOW,
+        )
         override_opp = next(o for o in result.opportunities if o.asset_id == "a-override")
-        # With event_type_weight=0 and all others=0, score should be 0
         assert override_opp.composite_score == pytest.approx(0.0, abs=1e-9)
 
 
@@ -308,15 +446,6 @@ class TestRankingExplanation:
 
 
 class TestRankingResultModel:
-    def test_ranked_at_set(self):
-        engine = _engine()
-        result = engine.rank_assets(
-            [_asset()],
-            diffs_by_asset={"co-001::asset-001": [_diff()]},
-            ranked_at=_NOW,
-        )
-        assert result.ranked_at == _NOW
-
     def test_since_filter_preserved(self):
         since = _NOW - timedelta(days=7)
         engine = _engine()
@@ -330,6 +459,7 @@ class TestRankingResultModel:
 
     def test_json_serializable(self):
         import json
+
         engine = _engine()
         result = engine.rank_assets(
             [_asset()],

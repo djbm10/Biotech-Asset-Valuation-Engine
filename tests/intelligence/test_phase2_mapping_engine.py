@@ -108,6 +108,14 @@ def test_default_policy_keeps_allowed_fields_in_sync():
         assert allowed == expected
 
 
+def test_default_policy_materiality_thresholds_allow_major_event_auto_rules():
+    policy = MappingPolicy.default()
+    assert policy.for_event(EventType.TRIAL_READOUT).materiality_threshold_pct == 20.0
+    assert policy.for_event(EventType.FDA_APPROVAL).materiality_threshold_pct == 100.0
+    assert policy.for_event(EventType.FDA_REJECTION).materiality_threshold_pct == 100.0
+    assert policy.for_event(EventType.FDA_DESIGNATION).materiality_threshold_pct == 20.0
+
+
 @pytest.mark.parametrize("event_type", list(EventType))
 def test_mapping_engine_emits_one_proposal_per_rule(
     event_type: EventType,

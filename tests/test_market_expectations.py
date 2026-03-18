@@ -6,11 +6,17 @@ zero discount rate, market cap below cash), and field population.
 """
 from __future__ import annotations
 
-from datetime import date
+from datetime import date, datetime, timezone
 
 import pytest
 
-from bve.intelligence.market_expectations import ImpliedPoSEstimator, MarketExpectation
+from bve.intelligence.market_expectations import (
+    ImpliedPoSEstimator,
+    build_market_expectation_from_snapshot,
+    compute_implied_success_probability,
+    MarketExpectation,
+    compute_market_mispricing,
+)
 
 _ESTIMATOR = ImpliedPoSEstimator()
 
@@ -124,7 +130,7 @@ class TestEdgeCases:
 
     def test_expectation_date_defaults_to_today(self):
         exp = _compute()
-        assert exp.expectation_date == date.today()
+        assert exp.expectation_date == datetime.now(timezone.utc).date()
 
     def test_explicit_expectation_date(self):
         d = date(2024, 3, 15)
@@ -142,3 +148,65 @@ class TestEdgeCases:
         exp1 = _compute()
         exp2 = _compute()
         assert exp1.expectation_id != exp2.expectation_id
+
+
+class TestMarketMispricing:
+    def test_market_mispricing_matches_formula(self):
+        mispricing = compute_market_mispricing(
+            model_rnpv_millions=150.0,
+            market_cap_millions=100.0,
+        )
+        assert mispricing is not None
+        assert mispricing.mispricing == pytest.approx(0.5, abs=1e-9)
+
+    def test_market_mispricing_none_when_market_cap_missing(self):
+        mispricing = compute_market_mispricing(
+            model_rnpv_millions=150.0,
+            market_cap_millions=None,
+        )
+        assert mispricing is None
+
+    def test_market_mispricing_none_when_market_cap_non_positive(self):
+        mispricing = compute_market_mispricing(
+            model_rnpv_millions=150.0,
+            market_cap_millions=0.0,
+        )
+        assert mispricing is None
+
+
+class TestStoredSnapshotBacksolve:
+    def test_compute_implied_success_probability_from_stored_snapshot(self):
+        implied = compute_implied_success_probability(
+            model_rnpv_millions=150.0,
+            market_cap_millions=100.0,
+            model_pos=0.40,
+        )
+        assert implied == pytest.approx(0.2667, abs=1e-4)
+
+    def test_build_market_expectation_from_snapshot_populates_core_fields(self):
+        expectation = build_market_expectation_from_snapshot(
+            asset_id="asset-1",
+            ticker="TEST",
+            model_rnpv_millions=150.0,
+            market_cap_millions=100.0,
+            model_pos=0.40,
+            expectation_date=date(2024, 6, 15),
+        )
+        assert expectation.model_rnpv_millions == 150.0
+        assert expectation.market_cap_millions == 100.0
+        assert expectation.mispricing == pytest.approx(0.5, abs=1e-6)
+        assert expectation.implied_success_probability == pytest.approx(0.2667, abs=1e-4)
+        assert expectation.pos_gap == pytest.approx(-0.1333, abs=1e-4)
+
+    def test_estimator_compute_from_snapshot_uses_db_only_math(self):
+        expectation = _ESTIMATOR.compute_from_snapshot(
+            asset_id="asset-1",
+            ticker="TEST",
+            model_rnpv_millions=240.0,
+            market_cap_millions=120.0,
+            model_pos=0.50,
+            expectation_date=date(2024, 6, 15),
+        )
+        assert expectation.implied_pos == pytest.approx(0.25, abs=1e-4)
+        assert expectation.implied_success_probability == pytest.approx(0.25, abs=1e-4)
+        assert expectation.pos_gap == pytest.approx(-0.25, abs=1e-4)

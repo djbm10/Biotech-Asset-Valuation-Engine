@@ -7,6 +7,7 @@ from bve.entities.trial import TrialPhase
 from bve.intelligence.extraction.raw_document import EntityHints, RawDocument
 from bve.intelligence.extraction.result import ExtractionResult, ExtractionStatus
 from bve.intelligence.knowledge_layer import (
+    BacktestSnapshot,
     KnowledgeStore,
     MemoRecord,
     SourceTrace,
@@ -56,7 +57,9 @@ def _event(
     )
 
 
-def _signal(signal_id: str, event_id: str, event_type: EventType = EventType.TRIAL_READOUT) -> StructuredSignal:
+def _signal(
+    signal_id: str, event_id: str, event_type: EventType = EventType.TRIAL_READOUT
+) -> StructuredSignal:
     return StructuredSignal(
         id=signal_id,
         event_id=event_id,
@@ -209,6 +212,42 @@ def test_conversion_from_phase2_diff_to_stored_diff(tmp_path: Path):
     loaded = store.get_valuation_diffs(company_id=event.company_id)
     assert loaded[0].run_id == "run-1"
     assert loaded[0].delta_npv == 30.0
+    store.close()
+
+
+def test_backtest_snapshot_round_trip(tmp_path: Path):
+    store = KnowledgeStore(tmp_path / "knowledge.db")
+    snapshot = BacktestSnapshot(
+        snapshot_id="snap-1",
+        alert_id="alert-1",
+        asset_id="asset-1",
+        signal_date=date(2026, 2, 10),
+        signal_id="sig-1",
+        signal_timestamp=_T1,
+        composite_score=0.81,
+        extraction_confidence=0.92,
+        delta_npv_millions=35.0,
+        intrinsic_value_millions=135.0,
+        mispricing_score=0.18,
+        catalyst_date=date(2026, 3, 15),
+        catalyst_type="trial_readout",
+        catalyst_score=4.2,
+        rank_at_signal=2,
+        model_version="scanner_v3",
+        created_at=_T2,
+    )
+    store.write_backtest_snapshot(snapshot)
+
+    rows = store.get_backtest_snapshots(asset_id="asset-1")
+    assert len(rows) == 1
+    assert rows[0].snapshot_id == "snap-1"
+    assert rows[0].rank_at_signal == 2
+    assert rows[0].composite_score == 0.81
+    assert rows[0].catalyst_type == "trial_readout"
+    assert rows[0].signal_id == "sig-1"
+    assert rows[0].signal_timestamp == _T1
+    assert rows[0].intrinsic_value_millions == 135.0
+    assert rows[0].catalyst_score == 4.2
     store.close()
 
 
@@ -367,5 +406,7 @@ def test_dossier_generation_contains_required_sections(tmp_path: Path):
     assert [change.run_id for change in dossier.recent_changes] == ["run-1"]
     assert any("Deferred review dec-deferred" in q for q in dossier.open_questions)
     assert "Need updated comparator hazard ratio" in dossier.open_questions
-    assert [d.id for d in store.get_dossiers(company_id="company-1", asset_id="asset-1")] == [dossier.id]
+    assert [d.id for d in store.get_dossiers(company_id="company-1", asset_id="asset-1")] == [
+        dossier.id
+    ]
     store.close()

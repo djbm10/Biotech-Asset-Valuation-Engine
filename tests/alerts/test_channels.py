@@ -15,8 +15,6 @@ from datetime import datetime, timezone
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
-import pytest
-
 from bve.alerts.alert_model import Alert, AlertSeverity, AlertTrigger
 from bve.alerts.channels.base import FakeChannel
 

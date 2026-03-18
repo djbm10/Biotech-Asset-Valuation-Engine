@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import yaml
 
-from bve.alerts.alert_config import AlertsConfig, AlertThresholdsConfig
+from bve.alerts.alert_config import AlertsConfig
 from bve.pipeline.watchlist_runner import WatchlistRunnerConfig
 
 

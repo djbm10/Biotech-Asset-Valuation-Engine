@@ -3,20 +3,20 @@ Tests for AlertRouter trigger conditions, dedup, batching, and channel dispatch.
 
 All tests use FakeChannel — no real network calls.
 """
+
 from __future__ import annotations
 
 import uuid
 from datetime import date, datetime, timezone
 from unittest.mock import MagicMock
 
-import pytest
 
 from bve.alerts.alert_config import AlertsConfig, AlertThresholdsConfig
 from bve.alerts.alert_model import Alert, AlertSeverity, AlertTrigger
 from bve.alerts.alert_router import AlertRouter
 from bve.alerts.channels.base import FakeChannel
 from bve.intelligence.extraction.result import ExtractionResult, ExtractionStatus
-from bve.intelligence.knowledge_layer import StoredValuationDiff
+from bve.intelligence.knowledge_layer import KnowledgeStore, StoredValuationDiff
 from bve.intelligence.schemas.signals import StructuredSignal
 from bve.intelligence.taxonomy import EventType
 
@@ -28,6 +28,7 @@ def _make_signal(
     confidence: float = 0.9,
 ) -> StructuredSignal:
     from bve.intelligence.schemas.signals import StructuredSignal
+
     return StructuredSignal(
         id=str(uuid.uuid4()),
         event_id="evt-test",
@@ -334,3 +335,30 @@ class TestAlertRouterDisabled:
         # This is a smoke test — alert_router=None is the default.
         # The runner checks `if self.alert_router is not None` before each call.
         assert True  # covered by pipeline tests
+
+
+class TestBacktestSnapshots:
+    def test_router_writes_snapshot_when_knowledge_store_is_set(self):
+        store = KnowledgeStore(":memory:")
+        try:
+            cfg = AlertsConfig(
+                thresholds=AlertThresholdsConfig(
+                    material_change_abs_floor_millions=25.0,
+                    material_change_pct=15.0,
+                    dedup_window_hours=0.0,
+                    dedup_state_path="/tmp/bve_test_dedup_snapshot.json",
+                )
+            )
+            channel = FakeChannel()
+            router = AlertRouter(config=cfg, channels=[channel], knowledge_store=store)
+            signal = _make_signal(EventType.TRIAL_READOUT, confidence=0.8)
+            diff = _make_diff(delta_npv=40.0, before_npv=200.0)
+            router.enqueue_diff_alerts(diff=diff, signal=signal, run_id="run-snapshot")
+            router.flush(signal.asset_id)
+
+            snaps = store.get_backtest_snapshots(asset_id=signal.asset_id)
+            assert len(snaps) == 1
+            assert snaps[0].alert_id
+            assert snaps[0].delta_npv_millions == 40.0
+        finally:
+            store.close()
