@@ -13,11 +13,12 @@ Key metrics
 - Calibration: within each predicted-P decile, actual success rate should match
 - AUC: discrimination (ability to rank successes above failures), computed via scipy
 
-Interpreting results with N=40
--------------------------------
-With 40 observations, the standard error on Brier score is ±0.03–0.05, and AUC
-confidence intervals span ±0.15. Use these metrics directionally, not as definitive
+Interpreting results
+--------------------
+With ~70 observations (realistic 48% base rate), SE(Brier) ≈ ±0.03 and AUC
+confidence intervals span ±0.12. Use these metrics directionally, not as definitive
 model assessments. Production validation requires 500+ programs with known outcomes.
+The dataset targets ~40% Phase 2 and ~60% Phase 3 success rates (Biomedtracker priors).
 
 Usage
 -----
@@ -400,7 +401,7 @@ def print_report(report: BacktestReport) -> str:
 
     lines.extend([
         "",
-        "  Note: N=40 yields SE(Brier) ≈ ±0.04, SE(AUC) ≈ ±0.10.",
+        f"  Note: N={report.n_total} yields SE(Brier) ≈ ±0.03, SE(AUC) ≈ ±0.12.",
         "  Use these metrics directionally; 500+ programs required for reliable calibration.",
         "=" * 65,
         "",
