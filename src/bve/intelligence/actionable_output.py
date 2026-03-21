@@ -24,6 +24,8 @@ Design principles
 Score version registry
 ----------------------
   v1.0   ranking=0.50, thesis=0.30, opportunity=0.20   (initial weights, 2026-Q1)
+  v2.0   same base weights + six additive signal layers (catalyst_ev, enrollment,
+         phase_correlation, endpoint_z, competitor_impact, capital_risk)
 
 Action taxonomy
 ---------------
@@ -36,9 +38,12 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from datetime import date, datetime, timezone
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 
 from pydantic import BaseModel, Field
+
+if TYPE_CHECKING:
+    from bve.intelligence.composite_scorer import CompositeScoreContext
 
 
 # ---------------------------------------------------------------------------
@@ -47,6 +52,9 @@ from pydantic import BaseModel, Field
 
 SCORE_VERSIONS: dict[str, dict[str, float]] = {
     "v1.0": {"ranking": 0.50, "thesis": 0.30, "opportunity": 0.20},
+    # v2.0 uses the same base weights; the signal adjustment amounts are logged
+    # per-opportunity in ActionableOpportunity.signal_adjustments.
+    "v2.0": {"ranking": 0.50, "thesis": 0.30, "opportunity": 0.20},
 }
 
 CURRENT_SCORE_VERSION = "v1.0"
@@ -129,6 +137,9 @@ class ActionableOpportunity(BaseModel):
     critic_severity: Optional[str] = None
     risk_flags: list[str] = Field(default_factory=list)
     one_line_summary: str = ""
+    # v2.0 signal attribution — empty for v1.0 runs
+    signal_adjustments: dict[str, float] = Field(default_factory=dict)
+    signal_adjustment_total: float = 0.0
 
 
 # ---------------------------------------------------------------------------
@@ -225,6 +236,7 @@ class ActionableGenerator:
         *,
         top_n: int = 5,
         week_ending: Optional[date] = None,
+        contexts: Optional[dict[str, "CompositeScoreContext"]] = None,
     ) -> WeeklyActionableReport:
         """
         Generate a ``WeeklyActionableReport`` from *candidates*.
@@ -237,15 +249,26 @@ class ActionableGenerator:
             Maximum number of opportunities to include.
         week_ending:
             Week-end date for the report.  Defaults to today.
+        contexts:
+            Optional dict mapping ``asset_id`` → ``CompositeScoreContext``.
+            When provided for an asset, six additional signal layers are
+            applied additively to the composite score.  Enables v2.0 scoring.
+            Missing context for an asset → signal adjustments are all 0.0.
 
         Returns
         -------
         WeeklyActionableReport — always populated, never None.
         """
+        from bve.intelligence.composite_scorer import CompositeScorer
+
         n_considered = len(candidates)
         n_filtered = 0
         n_elevated = 0
         results: list[ActionableOpportunity] = []
+
+        # Build the signal scorer lazily — only when contexts are supplied
+        scorer = CompositeScorer() if contexts else None
+        effective_version = "v2.0" if contexts else self.score_version
 
         w_r = self.weights["ranking"]
         w_t = self.weights["thesis"]
@@ -254,11 +277,22 @@ class ActionableGenerator:
         for cand in candidates:
             thesis_val = cand.thesis_strength if cand.thesis_strength is not None else 0.0
 
-            # Weighted components
+            # Base weighted components (unchanged from v1.0)
             r_comp = w_r * cand.ranking_score
             t_comp = w_t * thesis_val
             o_comp = w_o * cand.opportunity_score
-            composite = r_comp + t_comp + o_comp
+            base_composite = r_comp + t_comp + o_comp
+
+            # Signal adjustments (v2.0 path)
+            signal_adj: dict[str, float] = {}
+            signal_total = 0.0
+            if scorer is not None and contexts is not None:
+                ctx = contexts.get(cand.asset_id)
+                if ctx is not None:
+                    signal_adj = scorer.compute_adjustments(ctx)
+                    signal_total = CompositeScorer.total(signal_adj)
+
+            composite = max(0.0, min(1.0, base_composite + signal_total))
 
             if composite < self.min_composite_score:
                 n_filtered += 1
@@ -291,11 +325,13 @@ class ActionableGenerator:
                 ranking_component=round(r_comp, 4),
                 thesis_component=round(t_comp, 4),
                 opportunity_component=round(o_comp, 4),
-                score_version=self.score_version,
+                score_version=effective_version,
                 thesis_strength=cand.thesis_strength,
                 critic_severity=cand.critic_severity,
                 risk_flags=risk_flags,
                 one_line_summary=summary,
+                signal_adjustments=signal_adj,
+                signal_adjustment_total=round(signal_total, 4),
             ))
 
         # Sort by composite descending, take top_n
@@ -306,7 +342,7 @@ class ActionableGenerator:
 
         return WeeklyActionableReport(
             week_ending=week_ending or date.today(),
-            score_version=self.score_version,
+            score_version=effective_version,
             score_weights=dict(self.weights),
             opportunities=results,
             n_considered=n_considered,

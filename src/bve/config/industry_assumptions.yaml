@@ -613,3 +613,51 @@ competitor_impact:
 
   # Floor guard on std_dev (same as catalyst_calendar)
   std_floor_multiplier: 0.50
+
+# ==============================================================================
+# Composite Scoring Weights — v2.0 signal layer
+# Wave K: ActionableGenerator extended scoring
+# ==============================================================================
+#
+# These weights control how much each additive signal layer shifts the
+# composite score.  Base composite = ranking×0.50 + thesis×0.30 + opp×0.20.
+# Signal adjustments are additive and logged per-opportunity for attribution.
+#
+# catalyst_ev:
+#   Multiplied by CatalystEvent.signal_strength (clipped to ±1).
+#   High positive signal_strength (EV >> std) lifts the composite.
+#   Default 0.15 → max lift/drag of ±0.15 from a ±1 clipped signal.
+#
+# enrollment:
+#   Multiplied by flag penalty totals:
+#     site_stalling OR velocity_low  → −0.05 each
+#     slippage_alert                 → −0.10
+#   Default 1.00 → penalties applied at face value.
+#
+# phase_correlation:
+#   Multiplied by (posterior_pos − prior_pos) delta from PhaseCorrelationUpdater.
+#   Delta is bounded ±0.25 by the updater.
+#   Default 0.25 → max ±0.0625 contribution.
+#
+# endpoint_z:
+#   Multiplied by EndpointEvaluation.z_score (clipped to ±2).
+#   EXCELLENT readout (z ≈ 2) adds +0.10; BELOW_SOC (z ≈ −2) removes −0.10.
+#   Default 0.05 → max ±0.10 contribution.
+#
+# competitor_impact:
+#   Mean competitor signal_strength (clipped to ±1), negated.
+#   High competitor signal_strength → drag on our composite.
+#   Default 0.05 → max ±0.05 contribution.
+#
+# capital_risk:
+#   Multiplied by risk discount per level:
+#     LOW = 0.00, MEDIUM = −0.03, HIGH = −0.08, CRITICAL = −0.15
+#   Default 1.00 → discounts applied at face value.
+
+scoring_weights:
+  catalyst_ev:        0.15
+  enrollment:         1.00
+  phase_correlation:  0.25
+  endpoint_z:         0.05
+  competitor_impact:  0.05
+  capital_risk:       1.00
