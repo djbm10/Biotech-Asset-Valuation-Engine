@@ -265,6 +265,7 @@ class ThesisTracker:
         resolution_date: Optional[date] = None,
         created_by_signal_id: Optional[str] = None,
         weight: Optional[float] = None,
+        created_at: Optional[datetime] = None,
     ) -> ThesisClaim:
         """
         Add a new thesis claim.
@@ -274,6 +275,10 @@ class ThesisTracker:
         weight:
             Importance weight for ``weighted_thesis_strength`` computation.
             Defaults to ``DEFAULT_CLAIM_WEIGHTS[claim_type]`` when None.
+        created_at:
+            Explicit creation timestamp.  When provided, overrides the default
+            ``datetime.now(timezone.utc)``.  Used by replay seeding to place
+            claims at a specific historical date.
 
         Returns
         -------
@@ -294,6 +299,7 @@ class ThesisTracker:
             resolution_date=resolution_date,
             created_by_signal_id=created_by_signal_id,
             weight=resolved_weight,
+            created_at=created_at if created_at is not None else datetime.now(timezone.utc),
         )
         self.store._conn.execute(
             """
@@ -454,16 +460,38 @@ class ThesisTracker:
     # Snapshot
     # ------------------------------------------------------------------
 
-    def snapshot(self, asset_id: str) -> ThesisSnapshot:
+    def snapshot(
+        self,
+        asset_id: str,
+        *,
+        as_of_date: Optional[date] = None,
+    ) -> ThesisSnapshot:
         """
         Compute a ThesisSnapshot for *asset_id*.
 
+        Parameters
+        ----------
+        asset_id:
+            Asset to snapshot.
+        as_of_date:
+            When provided, only claims with ``created_at <= as_of_date`` are
+            included.  This is the time-freeze mechanism used by replay mode;
+            the filter is enforced in SQL (not post-hoc in Python).
+
         Returns a ThesisSnapshot with claim counts and thesis_strength.
         """
-        rows = self.store._conn.execute(
-            "SELECT * FROM thesis_claims WHERE asset_id = ? ORDER BY created_at",
-            (asset_id,),
-        ).fetchall()
+        if as_of_date is not None:
+            rows = self.store._conn.execute(
+                "SELECT * FROM thesis_claims "
+                "WHERE asset_id = ? AND date(created_at) <= ? "
+                "ORDER BY created_at",
+                (asset_id, as_of_date.isoformat()),
+            ).fetchall()
+        else:
+            rows = self.store._conn.execute(
+                "SELECT * FROM thesis_claims WHERE asset_id = ? ORDER BY created_at",
+                (asset_id,),
+            ).fetchall()
         claims = [self._row_to_claim(dict(r)) for r in rows]
 
         open_claims = [c for c in claims if c.status == "open"]

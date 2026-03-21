@@ -282,8 +282,18 @@ class DecisionLayer:
         conviction_tier: Optional[ConvictionTier] = None,
         critic_flags_count: int = 0,
         reasoning_text: str = "",
+        decided_at: Optional[datetime] = None,
     ) -> DecisionRecord:
-        """Record a new investment decision recommendation."""
+        """
+        Record a new investment decision recommendation.
+
+        Parameters
+        ----------
+        decided_at:
+            Explicit timestamp for the decision.  When provided, overrides the
+            default ``datetime.now(timezone.utc)``.  Used by replay mode to
+            place decisions at a specific historical datetime.
+        """
         decision = DecisionRecord(
             asset_id=asset_id,
             signal_id=signal_id,
@@ -298,6 +308,7 @@ class DecisionLayer:
             conviction_tier=conviction_tier,
             critic_flags_count=critic_flags_count,
             reasoning_text=reasoning_text,
+            decided_at=decided_at if decided_at is not None else datetime.now(timezone.utc),
         )
         self.store._conn.execute(
             """
