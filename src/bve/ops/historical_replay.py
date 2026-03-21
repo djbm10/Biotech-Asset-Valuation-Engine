@@ -230,6 +230,101 @@ class ReplayStore:
         ).fetchall()
         return [dict(r) for r in rows]
 
+    def get_events_in_window(
+        self,
+        asset_id: str,
+        from_date: date,
+        to_date: date,
+    ) -> list[dict]:
+        """
+        Return events for *asset_id* that occurred within [from_date, to_date].
+
+        Used for hold-window attribution: only events that happened AFTER entry
+        and ON OR BEFORE exit can causally explain the position's return.
+        """
+        rows = self._conn.execute(
+            "SELECT * FROM historical_events "
+            "WHERE asset_id = ? AND announced_at >= ? AND announced_at <= ? "
+            "ORDER BY announced_at",
+            (asset_id, from_date.isoformat(), to_date.isoformat()),
+        ).fetchall()
+        return [dict(r) for r in rows]
+
+    def get_ma(self, ticker: str, as_of_date: date, window_days: int = 20) -> Optional[float]:
+        """
+        Return the simple moving average of *ticker* close prices over the
+        *window_days* calendar days ending on (and including) *as_of_date*.
+
+        Returns None if fewer than half the requested bars are available.
+        """
+        from datetime import timedelta
+
+        since = (as_of_date - timedelta(days=window_days * 2)).isoformat()
+        rows = self._conn.execute(
+            "SELECT close_usd FROM historical_prices "
+            "WHERE ticker = ? AND price_date <= ? AND price_date >= ? "
+            "ORDER BY price_date DESC LIMIT ?",
+            (ticker, as_of_date.isoformat(), since, window_days),
+        ).fetchall()
+        if len(rows) < window_days // 2:
+            return None
+        return sum(r["close_usd"] for r in rows) / len(rows)
+
+    def get_upcoming_catalysts(
+        self,
+        as_of_date: date,
+        lookahead_days: int = 90,
+    ) -> dict[str, date]:
+        """
+        Return the nearest upcoming catalyst date per asset_id.
+
+        Models catalyst dates that are *already on the calendar* (scheduled
+        in advance) but have not yet resolved as of *as_of_date*.  Returns
+        events where ``as_of_date < announced_at <= as_of_date + lookahead_days``.
+
+        Returns
+        -------
+        dict mapping asset_id → next catalyst date (the earliest upcoming one).
+        """
+        from datetime import timedelta
+
+        window_end = (as_of_date + timedelta(days=lookahead_days)).isoformat()
+        rows = self._conn.execute(
+            "SELECT asset_id, MIN(announced_at) as next_catalyst "
+            "FROM historical_events "
+            "WHERE announced_at > ? AND announced_at <= ? "
+            "GROUP BY asset_id",
+            (as_of_date.isoformat(), window_end),
+        ).fetchall()
+        result: dict[str, date] = {}
+        for row in rows:
+            try:
+                result[row["asset_id"]] = date.fromisoformat(row["next_catalyst"][:10])
+            except (ValueError, TypeError):
+                pass
+        return result
+
+    def get_recent_attributions(
+        self,
+        run_id: str,
+        asset_id: str,
+        limit: int = 5,
+    ) -> list[dict]:
+        """
+        Return most recent closed decisions for *asset_id* in *run_id*.
+
+        Used by the cooling rule: inspect last N outcomes to determine
+        whether entry should be blocked for the next cycle(s).
+        """
+        rows = self._conn.execute(
+            "SELECT attribution_type, exit_date, decided_at "
+            "FROM replay_decisions "
+            "WHERE run_id = ? AND asset_id = ? AND is_closed = 1 "
+            "ORDER BY exit_date DESC LIMIT ?",
+            (run_id, asset_id, limit),
+        ).fetchall()
+        return [dict(r) for r in rows]
+
     # ------------------------------------------------------------------
     # Runs
     # ------------------------------------------------------------------
@@ -574,10 +669,58 @@ class HistoricalReplay:
         open_decisions = self._rs.get_open_decisions(run_id)
         open_asset_ids = {d["asset_id"] for d in open_decisions}
 
+        # Build catalyst timing map if timing filter or density gate is enabled
+        catalyst_dates: Optional[dict[str, date]] = None
+        if self._policy.config.catalyst_timing or self._policy.config.require_catalyst_within_days > 0:
+            catalyst_dates = self._rs.get_upcoming_catalysts(as_of)
+
+        # XBI sector trend check
+        xbi_above_ma: Optional[bool] = None
+        if self._policy.config.xbi_filter:
+            xbi_price = self._rs.get_price("XBI", as_of)
+            xbi_ma = self._rs.get_ma("XBI", as_of, window_days=20)
+            if xbi_price is not None and xbi_ma is not None:
+                xbi_above_ma = xbi_price >= xbi_ma
+
+        # Build cooling set: assets blocked for N days after consecutive thesis_errors.
+        # Rule: 1 thesis_error → cool for 7 days; 2+ consecutive → cool for 14 days.
+        # We measure from the exit_date of the most recent thesis_error trade.
+        cooling_asset_ids: Optional[set] = None
+        if self._policy.config.cooling_enabled:
+            from datetime import timedelta as _td
+            cooling_asset_ids = set()
+            for u in universe:
+                aid = u["asset_id"]
+                recent = self._rs.get_recent_attributions(run_id, aid, limit=5)
+                if not recent:
+                    continue
+                # Count consecutive thesis_errors from most recent backward
+                consecutive = 0
+                last_exit: Optional[date] = None
+                for rec in recent:
+                    if rec["attribution_type"] == "thesis_error":
+                        if consecutive == 0:
+                            try:
+                                last_exit = date.fromisoformat(str(rec["exit_date"])[:10])
+                            except (ValueError, TypeError):
+                                pass
+                        consecutive += 1
+                    else:
+                        break
+                if consecutive == 0 or last_exit is None:
+                    continue
+                # Determine cooling window: 1 error → 7 days, 2+ → 14 days
+                cool_days = 14 if consecutive >= 2 else 7
+                if as_of < last_exit + _td(days=cool_days):
+                    cooling_asset_ids.add(aid)
+
         decisions = self._policy.select(
             report,
             open_asset_ids=open_asset_ids,
             current_total_exposure=0.0,
+            catalyst_dates=catalyst_dates,
+            xbi_above_ma=xbi_above_ma,
+            cooling_asset_ids=cooling_asset_ids,
         )
 
         # Persist each decision
@@ -612,8 +755,10 @@ class HistoricalReplay:
             if entry_price and exit_price and entry_price != 0.0:
                 return_pct = (exit_price - entry_price) / entry_price * 100.0
 
-            # Check for events that could refine attribution
-            events = self._rs.get_events_as_of(dec["asset_id"], as_of)
+            # Check for events within the hold window (entry → exit) only.
+            # Using all-history events would attribute a June catalyst to an
+            # October position — causal contamination.
+            events = self._rs.get_events_in_window(dec["asset_id"], entry_date, as_of)
             has_event = len(events) > 0
             event_outcome = events[-1]["outcome_label"] if events else None
 
@@ -648,9 +793,10 @@ class HistoricalReplay:
                     return "timing_error"
         if return_pct is None:
             return "unclassified"
+        # No event data — can't confirm thesis; classify by direction
         if return_pct > 0:
-            return "confirmed_thesis"
-        return "market_drift"
+            return "market_drift"   # moved up but no event to attribute it to
+        return "thesis_error"       # position lost without a resolved catalyst
 
     # ------------------------------------------------------------------
     # Summarize
@@ -777,11 +923,16 @@ def _cmd_seed(args: list[str]) -> None:
 
 
 def _cmd_run(args: list[str]) -> None:
-    """run --start YYYY-MM-DD --end YYYY-MM-DD [--cadence weekly] [--decision-policy top2_add]"""
+    """run --start YYYY-MM-DD --end YYYY-MM-DD [--cadence weekly] [--decision-policy top2_add] [--max-hold-days 30] [--catalyst-timing] [--cooling] [--require-catalyst-days N]"""
     start: Optional[date] = None
     end: Optional[date] = None
     cadence = "weekly"
     policy = "top2_add"
+    max_hold_days = 30
+    catalyst_timing = False
+    xbi_filter = False
+    cooling = False
+    require_catalyst_days = 0
 
     i = 0
     while i < len(args):
@@ -797,11 +948,26 @@ def _cmd_run(args: list[str]) -> None:
         elif args[i] == "--decision-policy":
             policy = args[i + 1]
             i += 2
+        elif args[i] == "--max-hold-days":
+            max_hold_days = int(args[i + 1])
+            i += 2
+        elif args[i] == "--catalyst-timing":
+            catalyst_timing = True
+            i += 1
+        elif args[i] == "--xbi-filter":
+            xbi_filter = True
+            i += 1
+        elif args[i] == "--cooling":
+            cooling = True
+            i += 1
+        elif args[i] == "--require-catalyst-days":
+            require_catalyst_days = int(args[i + 1])
+            i += 2
         else:
             i += 1
 
     if not start or not end:
-        print("Usage: run --start YYYY-MM-DD --end YYYY-MM-DD [--cadence weekly]")
+        print("Usage: run --start YYYY-MM-DD --end YYYY-MM-DD [--cadence weekly] [--max-hold-days 30] [--catalyst-timing] [--cooling] [--require-catalyst-days N]")
         sys.exit(1)
 
     _OUTPUTS_DIR.mkdir(parents=True, exist_ok=True)
@@ -809,8 +975,23 @@ def _cmd_run(args: list[str]) -> None:
 
     from bve.ops.weekly_runner import UNIVERSE
 
-    replay = HistoricalReplay(rs, str(REPLAY_KNOWLEDGE_PATH), universe=UNIVERSE)
-    run_id = replay.run(start=start, end=end, cadence=cadence, decision_policy=policy)
+    policy_tag = (
+        f"{policy}_hold{max_hold_days}d"
+        + ("_cattiming" if catalyst_timing else "")
+        + ("_xbi" if xbi_filter else "")
+        + ("_cooling" if cooling else "")
+        + (f"_catden{require_catalyst_days}d" if require_catalyst_days > 0 else "")
+    )
+    policy_cfg = ReplayPolicyConfig(
+        name=policy,
+        max_hold_days=max_hold_days,
+        catalyst_timing=catalyst_timing,
+        xbi_filter=xbi_filter,
+        cooling_enabled=cooling,
+        require_catalyst_within_days=require_catalyst_days,
+    )
+    replay = HistoricalReplay(rs, str(REPLAY_KNOWLEDGE_PATH), universe=UNIVERSE, policy_config=policy_cfg)
+    run_id = replay.run(start=start, end=end, cadence=cadence, decision_policy=policy_tag)
     print(f"\nRun ID: {run_id}")
     summary = replay.summarize(run_id)
     summary.print()

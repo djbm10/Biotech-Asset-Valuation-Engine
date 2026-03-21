@@ -405,4 +405,130 @@ def test_custom_actionable_actions_only_buy():
     report = _make_report(opps)
     decisions = policy.select(report)
     assert all(d.recommended_action == "buy" for d in decisions)
+
+
+# ---------------------------------------------------------------------------
+# Cooling gate tests
+# ---------------------------------------------------------------------------
+
+def test_cooling_blocks_cooled_asset():
+    """Asset in cooling_asset_ids is skipped when cooling_enabled=True."""
+    policy = ReplayPolicy(ReplayPolicyConfig(cooling_enabled=True))
+    opps = [
+        _make_opportunity("a-vktx", "VKTX", "buy", 0.80),
+        _make_opportunity("a-alny", "ALNY", "buy", 0.75),
+    ]
+    report = _make_report(opps)
+    decisions = policy.select(report, cooling_asset_ids={"a-vktx"})
     assert len(decisions) == 1
+    assert decisions[0].ticker == "ALNY"
+
+
+def test_cooling_disabled_ignores_cooling_set():
+    """cooling_asset_ids has no effect when cooling_enabled=False."""
+    policy = ReplayPolicy(ReplayPolicyConfig(cooling_enabled=False))
+    opps = [
+        _make_opportunity("a-vktx", "VKTX", "buy", 0.80),
+        _make_opportunity("a-alny", "ALNY", "buy", 0.75),
+    ]
+    report = _make_report(opps)
+    decisions = policy.select(report, cooling_asset_ids={"a-vktx"})
+    assert len(decisions) == 2
+
+
+def test_cooling_all_cooled_returns_empty():
+    """All candidates cooled → empty decisions."""
+    policy = ReplayPolicy(ReplayPolicyConfig(max_positions=2, cooling_enabled=True))
+    opps = [
+        _make_opportunity("a-vktx", "VKTX", "buy", 0.80),
+        _make_opportunity("a-alny", "ALNY", "buy", 0.75),
+    ]
+    report = _make_report(opps)
+    decisions = policy.select(report, cooling_asset_ids={"a-vktx", "a-alny"})
+    assert decisions == []
+
+
+def test_cooling_none_cooling_set_no_effect():
+    """cooling_asset_ids=None with cooling_enabled=True → no assets blocked."""
+    policy = ReplayPolicy(ReplayPolicyConfig(cooling_enabled=True))
+    opps = [
+        _make_opportunity("a-vktx", "VKTX", "buy", 0.80),
+    ]
+    report = _make_report(opps)
+    decisions = policy.select(report, cooling_asset_ids=None)
+    assert len(decisions) == 1
+
+
+# ---------------------------------------------------------------------------
+# Catalyst density gate tests
+# ---------------------------------------------------------------------------
+
+def test_catalyst_density_blocks_no_catalyst():
+    """require_catalyst_within_days=14: asset with no catalyst is blocked."""
+    policy = ReplayPolicy(ReplayPolicyConfig(require_catalyst_within_days=14))
+    opps = [
+        _make_opportunity("a-vktx", "VKTX", "buy", 0.80),
+        _make_opportunity("a-alny", "ALNY", "buy", 0.75),
+    ]
+    report = _make_report(opps)
+    week = date(2025, 9, 1)
+    report = WeeklyActionableReport(
+        opportunities=opps,
+        week_ending=week,
+        score_version=CURRENT_SCORE_VERSION,
+        generated_at=week,
+    )
+    # ALNY has catalyst in 7 days (within 14), VKTX has no catalyst
+    catalyst_dates = {"a-alny": week + timedelta(days=7)}
+    decisions = policy.select(report, catalyst_dates=catalyst_dates)
+    assert len(decisions) == 1
+    assert decisions[0].ticker == "ALNY"
+
+
+def test_catalyst_density_blocks_far_catalyst():
+    """Catalyst exists but is beyond require_catalyst_within_days window → blocked."""
+    policy = ReplayPolicy(ReplayPolicyConfig(require_catalyst_within_days=14))
+    opps = [
+        _make_opportunity("a-vktx", "VKTX", "buy", 0.80),
+    ]
+    week = date(2025, 9, 1)
+    report = WeeklyActionableReport(
+        opportunities=opps,
+        week_ending=week,
+        score_version=CURRENT_SCORE_VERSION,
+        generated_at=week,
+    )
+    catalyst_dates = {"a-vktx": week + timedelta(days=20)}  # 20 days > 14
+    decisions = policy.select(report, catalyst_dates=catalyst_dates)
+    assert decisions == []
+
+
+def test_catalyst_density_allows_near_catalyst():
+    """Catalyst within window → entry allowed."""
+    policy = ReplayPolicy(ReplayPolicyConfig(require_catalyst_within_days=14))
+    opps = [
+        _make_opportunity("a-vktx", "VKTX", "buy", 0.80),
+    ]
+    week = date(2025, 9, 1)
+    report = WeeklyActionableReport(
+        opportunities=opps,
+        week_ending=week,
+        score_version=CURRENT_SCORE_VERSION,
+        generated_at=week,
+    )
+    catalyst_dates = {"a-vktx": week + timedelta(days=10)}  # 10 days ≤ 14
+    decisions = policy.select(report, catalyst_dates=catalyst_dates)
+    assert len(decisions) == 1
+
+
+def test_catalyst_density_zero_disabled():
+    """require_catalyst_within_days=0 disables the gate → all pass through."""
+    policy = ReplayPolicy(ReplayPolicyConfig(require_catalyst_within_days=0))
+    opps = [
+        _make_opportunity("a-vktx", "VKTX", "buy", 0.80),
+        _make_opportunity("a-alny", "ALNY", "buy", 0.75),
+    ]
+    report = _make_report(opps)
+    # No catalyst_dates at all — gate disabled, both pass through
+    decisions = policy.select(report, catalyst_dates=None)
+    assert len(decisions) == 2  # gate off, both candidates selected

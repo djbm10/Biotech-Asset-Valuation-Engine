@@ -63,6 +63,24 @@ class ReplayPolicyConfig:
     actionable_actions: frozenset = field(
         default_factory=lambda: frozenset({"buy", "add"})
     )
+    # Catalyst timing bias (v1 rule)
+    # True → apply timing gate before allowing entry.
+    # False → ignore catalyst timing (default, backward-compatible).
+    catalyst_timing: bool = False
+    catalyst_min_days: int = 3    # entry allowed when catalyst is ≥ this many days away
+    catalyst_max_days: int = 10   # entry blocked when catalyst is > this many days away
+    catalyst_gap_days: int = 2    # < this many days → reduce size by half (gap risk)
+    # XBI sector trend filter
+    # True → block all new entries when XBI is below its 20-day MA.
+    xbi_filter: bool = False
+    # Post-loss cooling rule
+    # True → after consecutive thesis_errors, skip N cycles for that asset.
+    #   1 thesis_error  → skip 1 cycle
+    #   2+ consecutive  → skip 2 cycles
+    cooling_enabled: bool = False
+    # Catalyst density gate
+    # 0 = disabled; N>0 = require a catalyst within N days to allow entry.
+    require_catalyst_within_days: int = 0
 
 
 # ---------------------------------------------------------------------------
@@ -90,6 +108,9 @@ class ReplayPolicy:
         *,
         open_asset_ids: Optional[set] = None,
         current_total_exposure: float = 0.0,
+        catalyst_dates: Optional[dict[str, date]] = None,
+        xbi_above_ma: Optional[bool] = None,
+        cooling_asset_ids: Optional[set] = None,
     ) -> list[ReplayDecision]:
         """
         Produce a deterministic list of decisions from a WeeklyActionableReport.
@@ -102,6 +123,13 @@ class ReplayPolicy:
             Set of asset IDs that are already in open positions (skip them).
         current_total_exposure:
             Existing total exposure fraction (0–1); limits additional allocation.
+        catalyst_dates:
+            Optional mapping of asset_id → next upcoming catalyst date.
+            When provided and ``config.catalyst_timing=True``, applies the
+            timing gate rule before allowing entry.
+        cooling_asset_ids:
+            Set of asset_ids currently in a cooling-off period.
+            When ``config.cooling_enabled=True``, these are blocked from new entry.
 
         Returns
         -------
@@ -110,6 +138,10 @@ class ReplayPolicy:
         cfg = self.config
         if open_asset_ids is None:
             open_asset_ids = set()
+
+        # XBI sector trend gate: block all new entries in biotech downtrend
+        if cfg.xbi_filter and xbi_above_ma is False:
+            return []
 
         # Filter candidates to actionable actions only
         candidates = [
@@ -139,8 +171,38 @@ class ReplayPolicy:
             if cfg.skip_critic_warning and opp.critic_severity == "warning":
                 continue
 
-            # Cap individual size
-            size = min(opp.recommended_size_pct, cfg.max_single_pct)
+            # Post-loss cooling gate
+            if cfg.cooling_enabled and cooling_asset_ids and opp.asset_id in cooling_asset_ids:
+                continue
+
+            # Catalyst timing gate (v1 rule)
+            size_modifier = 1.0
+            if cfg.catalyst_timing and catalyst_dates is not None:
+                cat_date = catalyst_dates.get(opp.asset_id)
+                if cat_date is not None:
+                    days_to_cat = (cat_date - report.week_ending).days
+                    if days_to_cat > cfg.catalyst_max_days:
+                        # Too far from catalyst — not the right entry window
+                        continue
+                    if days_to_cat < cfg.catalyst_gap_days:
+                        # Gap-risk zone — reduce size
+                        size_modifier = 0.5
+                    # 3–10 days: optimal window, no modification
+                # No catalyst on calendar for this asset → allow entry normally
+
+            # Catalyst density gate: require a catalyst within N days
+            if cfg.require_catalyst_within_days > 0:
+                cat_date = (catalyst_dates or {}).get(opp.asset_id)
+                if cat_date is None:
+                    # No upcoming catalyst on calendar → skip
+                    continue
+                days_to_cat = (cat_date - report.week_ending).days
+                if days_to_cat > cfg.require_catalyst_within_days:
+                    # Nearest catalyst is too far out → skip
+                    continue
+
+            # Cap individual size and apply timing modifier
+            size = min(opp.recommended_size_pct, cfg.max_single_pct) * size_modifier
 
             # Cap total exposure
             if remaining_exposure <= 0.0:
@@ -150,6 +212,12 @@ class ReplayPolicy:
             if size <= 0.0:
                 continue
 
+            timing_note = ""
+            if cfg.catalyst_timing and catalyst_dates and opp.asset_id in catalyst_dates:
+                cat_date = catalyst_dates[opp.asset_id]
+                days_to_cat = (cat_date - report.week_ending).days
+                timing_note = f"; catalyst_in={days_to_cat}d"
+
             decisions.append(
                 ReplayDecision(
                     asset_id=opp.asset_id,
@@ -158,7 +226,7 @@ class ReplayPolicy:
                     recommended_size_pct=round(size, 4),
                     composite_score=opp.composite_score,
                     decided_at=report.week_ending,
-                    reasoning=opp.one_line_summary,
+                    reasoning=opp.one_line_summary + timing_note,
                     is_simulated=True,
                 )
             )
