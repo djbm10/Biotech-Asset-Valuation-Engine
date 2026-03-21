@@ -25,7 +25,10 @@ import sys
 import uuid
 from datetime import date, datetime, timezone
 from pathlib import Path
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
+
+if TYPE_CHECKING:
+    from bve.intelligence.composite_scorer import CompositeScoreContext
 
 from bve.intelligence.actionable_output import (
     ActionableGenerator,
@@ -131,9 +134,73 @@ class ReplayStore:
 
             CREATE INDEX IF NOT EXISTS idx_historical_prices_ticker
                 ON historical_prices(ticker, price_date);
+
+            CREATE TABLE IF NOT EXISTS catalyst_events (
+                event_id        TEXT PRIMARY KEY,
+                asset_id        TEXT NOT NULL,
+                ticker          TEXT NOT NULL,
+                event_type      TEXT NOT NULL,
+                event_date      TEXT NOT NULL,
+                signal_strength REAL,
+                snapshot_date   TEXT
+            );
+
+            CREATE INDEX IF NOT EXISTS idx_catalyst_events_asset
+                ON catalyst_events(asset_id, event_date);
+
+            CREATE TABLE IF NOT EXISTS enrollment_snapshots (
+                snapshot_id    TEXT PRIMARY KEY,
+                asset_id       TEXT NOT NULL,
+                snapshot_date  TEXT NOT NULL,
+                site_stalling  INTEGER NOT NULL DEFAULT 0,
+                velocity_low   INTEGER NOT NULL DEFAULT 0,
+                slippage_alert INTEGER NOT NULL DEFAULT 0
+            );
+
+            CREATE INDEX IF NOT EXISTS idx_enrollment_snapshots_asset
+                ON enrollment_snapshots(asset_id, snapshot_date);
+
+            CREATE TABLE IF NOT EXISTS structured_signals (
+                signal_id           TEXT PRIMARY KEY,
+                asset_id            TEXT NOT NULL,
+                signal_date         TEXT NOT NULL,
+                signal_type         TEXT NOT NULL,
+                z_score             REAL,
+                phase_prior_pos     REAL,
+                phase_posterior_pos REAL
+            );
+
+            CREATE INDEX IF NOT EXISTS idx_structured_signals_asset
+                ON structured_signals(asset_id, signal_date);
+
+            CREATE TABLE IF NOT EXISTS capital_snapshots (
+                snapshot_id          TEXT PRIMARY KEY,
+                asset_id             TEXT NOT NULL,
+                snapshot_date        TEXT NOT NULL,
+                cash_runway_quarters REAL,
+                capital_risk_level   TEXT
+            );
+
+            CREATE INDEX IF NOT EXISTS idx_capital_snapshots_asset
+                ON capital_snapshots(asset_id, snapshot_date);
             """
         )
         self._conn.commit()
+        self._migrate_schema()
+
+    def _migrate_schema(self) -> None:
+        """Apply backward-compatible schema migrations for existing databases."""
+        existing = {
+            row[1]
+            for row in self._conn.execute(
+                "PRAGMA table_info(catalyst_events)"
+            ).fetchall()
+        }
+        if "snapshot_date" not in existing:
+            self._conn.execute(
+                "ALTER TABLE catalyst_events ADD COLUMN snapshot_date TEXT"
+            )
+            self._conn.commit()
 
     # ------------------------------------------------------------------
     # Prices
@@ -449,6 +516,154 @@ class ReplayStore:
         ).fetchall()
         return [dict(r) for r in rows]
 
+    # ------------------------------------------------------------------
+    # v2.0 signal queries  (all enforce no-lookahead via <= as_of_date)
+    # ------------------------------------------------------------------
+
+    def get_catalyst_signal_strength(
+        self,
+        asset_id: str,
+        as_of_date: date,
+    ) -> Optional[float]:
+        """
+        Return the most-recently-measured signal_strength for own-asset catalysts
+        on or before *as_of_date*.  Uses snapshot_date when available, falling back
+        to event_date for rows that pre-date the migration.
+        Excludes COMPETITOR_READOUT events.
+        Returns None when no catalyst data is available.
+        """
+        as_of = as_of_date.isoformat()
+        row = self._conn.execute(
+            "SELECT signal_strength "
+            "FROM catalyst_events "
+            "WHERE asset_id = ? "
+            "  AND COALESCE(snapshot_date, event_date) <= ? "
+            "  AND event_type != 'COMPETITOR_READOUT' "
+            "  AND signal_strength IS NOT NULL "
+            "ORDER BY COALESCE(snapshot_date, event_date) DESC "
+            "LIMIT 1",
+            (asset_id, as_of),
+        ).fetchone()
+        if row is not None:
+            return float(row["signal_strength"])
+        return None
+
+    def get_enrollment_flags(
+        self,
+        asset_id: str,
+        as_of_date: date,
+    ) -> Optional[dict]:
+        """
+        Return the most recent enrollment snapshot for *asset_id* on or before
+        *as_of_date* as a dict with boolean keys ``site_stalling``,
+        ``velocity_low``, ``slippage_alert``.
+        Returns None when no snapshot is available.
+        """
+        row = self._conn.execute(
+            "SELECT site_stalling, velocity_low, slippage_alert "
+            "FROM enrollment_snapshots "
+            "WHERE asset_id = ? AND snapshot_date <= ? "
+            "ORDER BY snapshot_date DESC LIMIT 1",
+            (asset_id, as_of_date.isoformat()),
+        ).fetchone()
+        if row:
+            return {
+                "site_stalling": bool(row["site_stalling"]),
+                "velocity_low": bool(row["velocity_low"]),
+                "slippage_alert": bool(row["slippage_alert"]),
+            }
+        return None
+
+    def get_phase_correlation(
+        self,
+        asset_id: str,
+        as_of_date: date,
+    ) -> tuple[Optional[float], Optional[float]]:
+        """
+        Return ``(phase_prior_pos, phase_posterior_pos)`` from the most recent
+        structured signal of type ``phase_correlation`` for *asset_id* on or
+        before *as_of_date*.
+        Returns ``(None, None)`` when no signal is available.
+        """
+        row = self._conn.execute(
+            "SELECT phase_prior_pos, phase_posterior_pos "
+            "FROM structured_signals "
+            "WHERE asset_id = ? AND signal_date <= ? "
+            "  AND signal_type = 'phase_correlation' "
+            "  AND phase_prior_pos IS NOT NULL "
+            "  AND phase_posterior_pos IS NOT NULL "
+            "ORDER BY signal_date DESC LIMIT 1",
+            (asset_id, as_of_date.isoformat()),
+        ).fetchone()
+        if row:
+            return float(row["phase_prior_pos"]), float(row["phase_posterior_pos"])
+        return None, None
+
+    def get_endpoint_z_score(
+        self,
+        asset_id: str,
+        as_of_date: date,
+    ) -> Optional[float]:
+        """
+        Return the z_score from the most recent structured signal with a
+        non-null z_score for *asset_id* on or before *as_of_date*.
+        Returns None when no signal is available.
+        """
+        row = self._conn.execute(
+            "SELECT z_score FROM structured_signals "
+            "WHERE asset_id = ? AND signal_date <= ? "
+            "  AND z_score IS NOT NULL "
+            "ORDER BY signal_date DESC LIMIT 1",
+            (asset_id, as_of_date.isoformat()),
+        ).fetchone()
+        if row:
+            return float(row["z_score"])
+        return None
+
+    def get_competitor_signals(
+        self,
+        asset_id: str,
+        as_of_date: date,
+        window_days: int = 60,
+    ) -> list[float]:
+        """
+        Return signal_strength values for COMPETITOR_READOUT catalyst events
+        associated with *asset_id* within the *window_days* window ending on
+        *as_of_date*.  Empty list when none are found.
+        """
+        from datetime import timedelta
+
+        window_start = (as_of_date - timedelta(days=window_days)).isoformat()
+        rows = self._conn.execute(
+            "SELECT signal_strength FROM catalyst_events "
+            "WHERE asset_id = ? AND event_type = 'COMPETITOR_READOUT' "
+            "  AND event_date > ? AND event_date <= ? "
+            "  AND signal_strength IS NOT NULL",
+            (asset_id, window_start, as_of_date.isoformat()),
+        ).fetchall()
+        return [float(r["signal_strength"]) for r in rows]
+
+    def get_capital_risk_level(
+        self,
+        asset_id: str,
+        as_of_date: date,
+    ) -> Optional[str]:
+        """
+        Return the most recent capital_risk_level string for *asset_id* on
+        or before *as_of_date* from capital_snapshots.
+        Returns None when no snapshot is available.
+        """
+        row = self._conn.execute(
+            "SELECT capital_risk_level FROM capital_snapshots "
+            "WHERE asset_id = ? AND snapshot_date <= ? "
+            "  AND capital_risk_level IS NOT NULL "
+            "ORDER BY snapshot_date DESC LIMIT 1",
+            (asset_id, as_of_date.isoformat()),
+        ).fetchone()
+        if row:
+            return str(row["capital_risk_level"])
+        return None
+
     def close(self) -> None:
         """Close the SQLite connection."""
         self._conn.close()
@@ -574,6 +789,271 @@ class HistoricalReplay:
         ks.close()
         print(f"Seeded {len(new_entries)} new claims.")
 
+    def seed_signals_from_knowledge_store(self, knowledge_db_path: str) -> dict[str, int]:
+        """
+        Approach A — Copy live signal data from a knowledge store into the
+        replay store's v2.0 signal tables.
+
+        Opens *knowledge_db_path* directly via sqlite3 so there is no
+        circular dependency on KnowledgeStore.  Only data that already exists
+        in the live KB is copied — no fabrication.  Original timestamps are
+        preserved so the replay's no-lookahead queries (``<= as_of_date``)
+        work correctly.
+
+        Tables populated
+        ----------------
+        catalyst_events:
+            All rows from the KB's ``catalyst_events`` table.  ``signal_strength``
+            is extracted from ``payload_json``.  Rows without a signal_strength
+            value are still copied (signal_strength = NULL → neutral).
+        enrollment_snapshots:
+            All rows from the KB's ``enrollment_snapshots`` table.  The three
+            alert flags (``site_stalling``, ``velocity_low``, ``slippage_alert``)
+            are extracted from ``payload_json``.
+        structured_signals:
+            Rows from the KB's ``structured_signals`` that contain a
+            ``z_score`` field in ``payload_json``.  Phase-correlation prior/posterior
+            fields are also extracted when present.
+
+        Note: ``capital_snapshots`` are not copied because the KB does not yet
+        store serialised capital-risk assessments.  Those signals default to
+        neutral (None) during replay scoring.
+
+        Parameters
+        ----------
+        knowledge_db_path:
+            Path to the live ops.db (or any KnowledgeStore-formatted SQLite).
+
+        Returns
+        -------
+        Dict mapping table name → number of rows inserted.
+        """
+        import json
+
+        # Build a ticker lookup from the universe so we can populate the
+        # replay's catalyst_events.ticker column.
+        ticker_map: dict[str, str] = {u["asset_id"]: u["ticker"] for u in self._universe}
+
+        counts: dict[str, int] = {
+            "catalyst_events": 0,
+            "enrollment_snapshots": 0,
+            "structured_signals": 0,
+        }
+
+        try:
+            src = sqlite3.connect(knowledge_db_path)
+            src.row_factory = sqlite3.Row
+        except Exception as exc:  # noqa: BLE001
+            print(f"[WARN] Cannot open knowledge store at {knowledge_db_path!r}: {exc}")
+            return counts
+
+        try:
+            # ── 1. catalyst_events ───────────────────────────────────────
+            try:
+                rows = src.execute(
+                    "SELECT id, asset_id, catalyst_type, expected_date, payload_json "
+                    "FROM catalyst_events"
+                ).fetchall()
+            except Exception:  # noqa: BLE001
+                rows = []
+
+            for row in rows:
+                row = dict(row)
+                asset_id = row.get("asset_id") or ""
+                ticker = ticker_map.get(asset_id, "")
+                event_type = row.get("catalyst_type") or "unknown"
+                event_date = (row.get("expected_date") or "")[:10]
+                if not event_date:
+                    continue
+
+                # Extract signal_strength from payload_json
+                signal_strength: Optional[float] = None
+                try:
+                    payload = json.loads(row.get("payload_json") or "{}")
+                    ss = payload.get("signal_strength")
+                    if ss is not None:
+                        signal_strength = float(ss)
+                except Exception:  # noqa: BLE001
+                    pass
+
+                try:
+                    self._rs._conn.execute(
+                        "INSERT OR REPLACE INTO catalyst_events "
+                        "(event_id, asset_id, ticker, event_type, event_date, signal_strength) "
+                        "VALUES (?, ?, ?, ?, ?, ?)",
+                        (row["id"], asset_id, ticker, event_type, event_date, signal_strength),
+                    )
+                    counts["catalyst_events"] += 1
+                except Exception:  # noqa: BLE001
+                    pass
+
+            self._rs._conn.commit()
+
+            # ── 2. enrollment_snapshots ──────────────────────────────────
+            try:
+                rows = src.execute(
+                    "SELECT id, asset_id, snapshot_date, payload_json "
+                    "FROM enrollment_snapshots"
+                ).fetchall()
+            except Exception:  # noqa: BLE001
+                rows = []
+
+            for row in rows:
+                row = dict(row)
+                asset_id = row.get("asset_id") or ""
+                snapshot_date = (row.get("snapshot_date") or "")[:10]
+                if not snapshot_date:
+                    continue
+
+                site_stalling = 0
+                velocity_low = 0
+                slippage_alert = 0
+                try:
+                    payload = json.loads(row.get("payload_json") or "{}")
+                    site_stalling = int(bool(payload.get("site_stalling", False)))
+                    velocity_low = int(bool(payload.get("velocity_low", False)))
+                    slippage_alert = int(bool(payload.get("slippage_alert", False)))
+                except Exception:  # noqa: BLE001
+                    pass
+
+                try:
+                    self._rs._conn.execute(
+                        "INSERT OR REPLACE INTO enrollment_snapshots "
+                        "(snapshot_id, asset_id, snapshot_date, "
+                        " site_stalling, velocity_low, slippage_alert) "
+                        "VALUES (?, ?, ?, ?, ?, ?)",
+                        (row["id"], asset_id, snapshot_date,
+                         site_stalling, velocity_low, slippage_alert),
+                    )
+                    counts["enrollment_snapshots"] += 1
+                except Exception:  # noqa: BLE001
+                    pass
+
+            self._rs._conn.commit()
+
+            # ── 3. structured_signals  (z_score + phase correlation) ─────
+            try:
+                rows = src.execute(
+                    "SELECT id, asset_id, signal_date, event_type, payload_json "
+                    "FROM structured_signals "
+                    "WHERE asset_id IS NOT NULL"
+                ).fetchall()
+            except Exception:  # noqa: BLE001
+                rows = []
+
+            for row in rows:
+                row = dict(row)
+                asset_id = row.get("asset_id") or ""
+                signal_date = (row.get("signal_date") or "")[:10]
+                signal_type = row.get("event_type") or "unknown"
+                if not signal_date:
+                    continue
+
+                z_score: Optional[float] = None
+                phase_prior_pos: Optional[float] = None
+                phase_posterior_pos: Optional[float] = None
+                try:
+                    payload = json.loads(row.get("payload_json") or "{}")
+                    if "z_score" in payload and payload["z_score"] is not None:
+                        z_score = float(payload["z_score"])
+                    if "prior_pos" in payload and payload["prior_pos"] is not None:
+                        phase_prior_pos = float(payload["prior_pos"])
+                    if "posterior_pos" in payload and payload["posterior_pos"] is not None:
+                        phase_posterior_pos = float(payload["posterior_pos"])
+                except Exception:  # noqa: BLE001
+                    pass
+
+                # Only insert rows that carry at least one v2.0 signal value
+                if z_score is None and phase_prior_pos is None:
+                    continue
+
+                try:
+                    self._rs._conn.execute(
+                        "INSERT OR REPLACE INTO structured_signals "
+                        "(signal_id, asset_id, signal_date, signal_type, "
+                        " z_score, phase_prior_pos, phase_posterior_pos) "
+                        "VALUES (?, ?, ?, ?, ?, ?, ?)",
+                        (row["id"], asset_id, signal_date, signal_type,
+                         z_score, phase_prior_pos, phase_posterior_pos),
+                    )
+                    counts["structured_signals"] += 1
+                except Exception:  # noqa: BLE001
+                    pass
+
+            self._rs._conn.commit()
+
+        finally:
+            src.close()
+
+        print(f"Signals seeded from {knowledge_db_path!r}:")
+        for table, n in counts.items():
+            print(f"  {table}: {n} rows")
+        return counts
+
+    def seed_signals_from_event_calendar(self) -> int:
+        """
+        Approach B — Synthetic signal seeder from the replay's own event calendar.
+
+        For each asset in the universe that has at least one entry in the
+        replay's ``historical_events`` table, this method creates a synthetic
+        ``catalyst_events`` row with a conservative ``signal_strength`` derived
+        from the asset's ``ranking_score`` and ``opportunity_score``.
+
+        This ensures v2.0 scoring activates even when the live knowledge store
+        has no signal data.  Conservative defaults keep the signal small
+        (0.05–0.15) so the synthetic lift doesn't dominate the base composite.
+
+        Formula
+        -------
+        ``signal_strength = (ranking_score + opportunity_score) / 2 * 0.25``
+
+        For typical universe assets (ranking_score ≈ 0.6–0.7, opportunity_score
+        ≈ 0.5–0.8) this yields signal_strength in [0.07, 0.15].
+
+        Returns
+        -------
+        int — number of rows inserted.
+        """
+        import uuid as _uuid
+
+        n_inserted = 0
+        for u in self._universe:
+            asset_id = u["asset_id"]
+            ticker = u.get("ticker", "")
+            ranking = float(u.get("ranking_score", 0.5))
+            opportunity = float(u.get("opportunity_score", 0.5))
+            signal_strength = round((ranking + opportunity) / 2.0 * 0.25, 4)
+
+            # Find the earliest known catalyst date for this asset from
+            # historical_events (use announced_at as the "known-by" date).
+            rows = self._rs._conn.execute(
+                "SELECT MIN(announced_at) as first_event FROM historical_events "
+                "WHERE asset_id = ?",
+                (asset_id,),
+            ).fetchone()
+
+            if rows and rows["first_event"]:
+                event_date = rows["first_event"][:10]
+            else:
+                # No events for this asset — skip synthetic seeding.
+                continue
+
+            event_id = str(_uuid.uuid4())
+            try:
+                self._rs._conn.execute(
+                    "INSERT OR IGNORE INTO catalyst_events "
+                    "(event_id, asset_id, ticker, event_type, event_date, signal_strength) "
+                    "VALUES (?, ?, ?, ?, ?, ?)",
+                    (event_id, asset_id, ticker, "trial_readout", event_date, signal_strength),
+                )
+                n_inserted += 1
+            except Exception:  # noqa: BLE001
+                pass
+
+        self._rs._conn.commit()
+        print(f"Synthetic signal seed: {n_inserted} rows inserted into catalyst_events.")
+        return n_inserted
+
     # ------------------------------------------------------------------
     # Main loop
     # ------------------------------------------------------------------
@@ -601,8 +1081,6 @@ class HistoricalReplay:
         -------
         run_id (str)
         """
-        from bve.intelligence.actionable_output import CURRENT_SCORE_VERSION
-
         step_days = 14 if cadence == "biweekly" else 7
 
         run_id = self._rs.create_run(
@@ -610,7 +1088,7 @@ class HistoricalReplay:
             end_date=end,
             cadence=cadence,
             decision_policy=decision_policy,
-            score_version=CURRENT_SCORE_VERSION,
+            score_version="v2.0",
             strategy_version=self._policy.config.name,
         )
         print(f"Replay run created: {run_id}")
@@ -675,7 +1153,24 @@ class HistoricalReplay:
                 company_id=u.get("company_id", ""),
             ))
 
-        report = gen.generate(candidates, top_n=10, week_ending=as_of)
+        # Build v2.0 composite score contexts (no-lookahead: all signals as of as_of)
+        contexts = self._build_score_contexts(universe, as_of)
+
+        report = gen.generate(candidates, top_n=10, week_ending=as_of, contexts=contexts)
+
+        # Log v2.0 signal attribution summary for this step
+        n_with_signals = sum(
+            1 for opp in report.opportunities if opp.signal_adjustment_total != 0.0
+        )
+        if report.opportunities:
+            mean_adj = sum(opp.signal_adjustment_total for opp in report.opportunities) / len(
+                report.opportunities
+            )
+            sign = "+" if mean_adj >= 0 else ""
+            print(
+                f"    v2.0 signals: {n_with_signals}/{len(report.opportunities)} assets, "
+                f"mean adjustment: {sign}{mean_adj:.3f}"
+            )
 
         # Track open asset IDs from replay decisions
         open_decisions = self._rs.get_open_decisions(run_id)
@@ -742,6 +1237,67 @@ class HistoricalReplay:
 
         ks.close()
         return decisions
+
+    def _build_score_contexts(
+        self,
+        universe: list[dict],
+        as_of: date,
+    ) -> "dict[str, CompositeScoreContext]":
+        """
+        Build a ``CompositeScoreContext`` for each asset in *universe* using
+        only data available at *as_of* (no-lookahead).
+
+        All six signal fields are populated from the replay store's signal
+        tables.  When a table has no data for an asset, the corresponding
+        field is left at its None/False default, which produces a neutral
+        (zero) adjustment in CompositeScorer.
+
+        Returns a dict mapping asset_id → CompositeScoreContext.
+        """
+        from bve.intelligence.composite_scorer import CompositeScoreContext
+        from bve.intelligence.capital_structure import CapitalRiskLevel
+
+        contexts: dict[str, CompositeScoreContext] = {}
+        for u in universe:
+            asset_id = u["asset_id"]
+
+            # Signal 1: highest own-asset catalyst signal_strength on or before as_of
+            cat_strength = self._rs.get_catalyst_signal_strength(asset_id, as_of)
+
+            # Signal 2: enrollment flags from latest snapshot on or before as_of
+            enroll = self._rs.get_enrollment_flags(asset_id, as_of)
+
+            # Signal 3: phase correlation prior/posterior from structured_signals
+            prior_pos, posterior_pos = self._rs.get_phase_correlation(asset_id, as_of)
+
+            # Signal 4: endpoint z-score from structured_signals
+            z_score = self._rs.get_endpoint_z_score(asset_id, as_of)
+
+            # Signal 5: competitor COMPETITOR_READOUT signals within 60 days of as_of
+            comp_signals = self._rs.get_competitor_signals(asset_id, as_of, window_days=60)
+
+            # Signal 6: capital risk level from capital_snapshots
+            cap_risk_raw = self._rs.get_capital_risk_level(asset_id, as_of)
+            cap_risk: Optional[CapitalRiskLevel] = None
+            if cap_risk_raw is not None:
+                try:
+                    cap_risk = CapitalRiskLevel(cap_risk_raw)
+                except ValueError:
+                    pass
+
+            contexts[asset_id] = CompositeScoreContext(
+                catalyst_signal_strength=cat_strength,
+                enrollment_site_stalling=enroll.get("site_stalling", False) if enroll else False,
+                enrollment_velocity_low=enroll.get("velocity_low", False) if enroll else False,
+                enrollment_slippage_alert=enroll.get("slippage_alert", False) if enroll else False,
+                phase_prior_pos=prior_pos,
+                phase_posterior_pos=posterior_pos,
+                endpoint_z_score=z_score,
+                competitor_signal_strengths=comp_signals,
+                capital_risk=cap_risk,
+            )
+
+        return contexts
 
     def _step_resolve(self, clock: ReplayClock, run_id: str) -> None:
         """Check all open decisions; close those whose exit date has passed."""
@@ -1161,6 +1717,95 @@ def _cmd_inspect(args: list[str]) -> None:
     rs.close()
 
 
+def _cmd_seed_signals(args: list[str]) -> None:
+    """
+    seed-signals [--knowledge-db <path>] [--synthetic] [--backfill]
+                 [--start <YYYY-MM-DD>] [--end <YYYY-MM-DD>]
+
+    Populate the replay store's v2.0 signal tables so the replay loop uses
+    composite score v2.0 during backtesting.
+
+    --knowledge-db <path>
+        Approach A (preferred): copy signals from a live KnowledgeStore SQLite.
+        Default: outputs/intelligence/ops.db
+
+    --synthetic
+        Approach B: generate conservative synthetic signals from the replay
+        store's event calendar.  Use when the knowledge store has sparse data.
+        Can be combined with --knowledge-db (synthetic runs first, then live
+        signals overwrite where available).
+
+    --backfill
+        Approach C: run SignalBackfiller to populate time-varying signals from
+        EDGAR historical cash data and historical_events proximity math.
+        --start / --end control the catalyst signal date range (default:
+        2024-01-01 to today).
+    """
+    knowledge_db: Optional[str] = None
+    synthetic = False
+    backfill = False
+    backfill_start: Optional[str] = None
+    backfill_end: Optional[str] = None
+
+    i = 0
+    while i < len(args):
+        if args[i] == "--knowledge-db":
+            knowledge_db = args[i + 1]
+            i += 2
+        elif args[i] == "--synthetic":
+            synthetic = True
+            i += 1
+        elif args[i] == "--backfill":
+            backfill = True
+            i += 1
+        elif args[i] == "--start":
+            backfill_start = args[i + 1]
+            i += 2
+        elif args[i] == "--end":
+            backfill_end = args[i + 1]
+            i += 2
+        else:
+            i += 1
+
+    _OUTPUTS_DIR.mkdir(parents=True, exist_ok=True)
+    rs = ReplayStore(str(REPLAY_STORE_PATH))
+
+    from bve.ops.weekly_runner import UNIVERSE
+
+    replay = HistoricalReplay(rs, str(REPLAY_KNOWLEDGE_PATH), universe=UNIVERSE)
+
+    if synthetic:
+        n = replay.seed_signals_from_event_calendar()
+        print(f"Synthetic seeder: {n} catalyst_events rows inserted.")
+
+    if backfill:
+        from bve.ops.signal_backfiller import COMPETITOR_MAP, SignalBackfiller
+        from datetime import date as _date
+
+        bf = SignalBackfiller(rs)
+
+        print("Running backfill_capital_risk...")
+        bf.backfill_capital_risk(UNIVERSE)
+
+        bf_start = _date.fromisoformat(backfill_start) if backfill_start else _date(2024, 1, 1)
+        bf_end = _date.fromisoformat(backfill_end) if backfill_end else _date.today()
+        print(f"Running backfill_catalyst_signals ({bf_start} → {bf_end})...")
+        bf.backfill_catalyst_signals(UNIVERSE, bf_start, bf_end)
+
+        print("Running backfill_competitor_signals...")
+        bf.backfill_competitor_signals(COMPETITOR_MAP)
+
+    if not backfill:
+        # Default knowledge DB path when not supplied
+        kb_path = knowledge_db or str(_OUTPUTS_DIR / "ops.db")
+        counts = replay.seed_signals_from_knowledge_store(kb_path)
+        total = sum(counts.values())
+        print(f"Knowledge store seeder: {total} total rows copied.")
+
+    rs.close()
+    print("seed-signals complete.")
+
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print(__doc__)
@@ -1171,6 +1816,7 @@ if __name__ == "__main__":
 
     dispatch = {
         "seed": _cmd_seed,
+        "seed-signals": _cmd_seed_signals,
         "run": _cmd_run,
         "summary": _cmd_summary,
         "inspect": _cmd_inspect,
