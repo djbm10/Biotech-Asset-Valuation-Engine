@@ -548,18 +548,22 @@ class HistoricalReplay:
         ks = KnowledgeStore(self._ks_path)
         tt = ThesisTracker(ks)
 
-        # Check if already seeded
-        existing = ks._conn.execute(
-            "SELECT COUNT(*) as n FROM thesis_claims"
-        ).fetchone()
-        if dict(existing)["n"] > 0:
-            print(f"Replay knowledge store already seeded ({dict(existing)['n']} claims).")
+        # Incremental: check which asset_ids already have a claim
+        existing_ids: set[str] = set()
+        rows = ks._conn.execute("SELECT DISTINCT asset_id FROM thesis_claims").fetchall()
+        for row in rows:
+            existing_ids.add(row["asset_id"] if isinstance(row, dict) else row[0])
+
+        new_entries = [u for u in tickers_universe if u["asset_id"] not in existing_ids]
+        if not new_entries:
+            print(f"Replay knowledge store already has all {len(tickers_universe)} claims.")
             ks.close()
             return
 
         seed_dt = datetime(seed_date.year, seed_date.month, seed_date.day, tzinfo=timezone.utc)
-        print(f"Seeding {len(tickers_universe)} claims at {seed_date} into replay KB...")
-        for u in tickers_universe:
+        print(f"Seeding {len(new_entries)} new claims at {seed_date} into replay KB "
+              f"(skipping {len(existing_ids)} already present)...")
+        for u in new_entries:
             tt.add_claim(
                 asset_id=u["asset_id"],
                 company_id=u["company_id"],
@@ -568,7 +572,7 @@ class HistoricalReplay:
                 created_at=seed_dt,
             )
         ks.close()
-        print(f"Seeded {len(tickers_universe)} claims.")
+        print(f"Seeded {len(new_entries)} new claims.")
 
     # ------------------------------------------------------------------
     # Main loop
