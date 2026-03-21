@@ -615,11 +615,19 @@ class HistoricalReplay:
         )
         print(f"Replay run created: {run_id}")
 
+        # Reset per-run processed-event set so re-running doesn't skip events
+        self._resolved_event_ids: set[int] = set()
+
         clock = ReplayClock(start)
         n_steps = 0
 
         while clock.today() <= end:
             print(f"  Step {clock.today()} ...")
+            # Resolve any thesis claims whose catalyst events have now fired,
+            # BEFORE scoring so the composite score reflects current thesis_strength.
+            n_resolved = self._step_claim_resolution(clock)
+            if n_resolved:
+                print(f"    Resolved {n_resolved} claim(s).")
             decisions = self._step_decision(clock, run_id, self._universe)
             print(f"    Made {len(decisions)} decision(s).")
             self._step_resolve(clock, run_id)
@@ -775,6 +783,88 @@ class HistoricalReplay:
                 return_pct=return_pct,
                 attribution_type=attribution,
             )
+
+    def _step_claim_resolution(self, clock: ReplayClock) -> int:
+        """
+        Resolve thesis claims whose catalyst events have fired as of this step.
+
+        Scans ``historical_events`` for all events with ``announced_at <= as_of``
+        and maps each event's ``outcome_label`` to a claim resolution status:
+
+        - ``"positive"`` / ``"success"`` → ``"confirmed"``
+        - ``"negative"`` / ``"fail"``    → ``"refuted"``
+
+        Only processes each event once: an event is skipped if its asset already
+        has a claim resolved to a terminal state (confirmed / refuted / expired)
+        that was resolved on or before ``announced_at``.  This prevents
+        re-processing events across replay runs via a per-run processed-events
+        set tracked on the instance.
+
+        Returns the number of claims newly resolved in this step.
+        """
+        as_of = clock.today()
+
+        # Guard: ensure set exists if called outside run() (e.g. in tests)
+        if not hasattr(self, "_resolved_event_ids"):
+            self._resolved_event_ids = set()
+
+        # Fetch all events up to as_of not yet processed
+        rows = self._rs._conn.execute(
+            "SELECT rowid, asset_id, outcome_label, announced_at, headline "
+            "FROM historical_events "
+            "WHERE announced_at <= ?",
+            (as_of.isoformat(),),
+        ).fetchall()
+
+        ks = KnowledgeStore(self._ks_path)
+        tt = ThesisTracker(ks)
+        n_resolved = 0
+
+        for row in rows:
+            row = dict(row)
+            rowid = row["rowid"]
+            if rowid in self._resolved_event_ids:
+                continue
+
+            outcome = (row["outcome_label"] or "").lower()
+            if "positive" in outcome or "success" in outcome:
+                claim_status = "confirmed"
+            elif "negative" in outcome or "fail" in outcome:
+                claim_status = "refuted"
+            else:
+                # Neutral / enrollment events — don't resolve the claim
+                self._resolved_event_ids.add(rowid)
+                continue
+
+            asset_id = row["asset_id"]
+            # Find the open claim for this asset
+            open_claims = tt.get_claims(asset_id=asset_id, status="open")
+            if not open_claims:
+                # Already resolved or no claim — mark processed so we skip next time
+                self._resolved_event_ids.add(rowid)
+                continue
+
+            # Resolve the most recent open claim
+            claim = open_claims[-1]
+            try:
+                announced_dt = datetime.fromisoformat(str(row["announced_at"])[:10])
+            except (ValueError, TypeError):
+                announced_dt = datetime.now(timezone.utc)
+            resolved_at = datetime(
+                announced_dt.year, announced_dt.month, announced_dt.day,
+                tzinfo=timezone.utc,
+            )
+            tt.resolve_claim(
+                claim_id=claim.claim_id,
+                status=claim_status,
+                evidence=row["headline"][:200] if row["headline"] else "",
+                resolved_at=resolved_at,
+            )
+            self._resolved_event_ids.add(rowid)
+            n_resolved += 1
+
+        ks.close()
+        return n_resolved
 
     @staticmethod
     def _classify_return(

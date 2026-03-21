@@ -570,3 +570,210 @@ def test_replay_store_close_decision(in_memory_store):
 
     open_decs = in_memory_store.get_open_decisions(run_id)
     assert len(open_decs) == 0
+
+
+# ---------------------------------------------------------------------------
+# 12. _step_claim_resolution: positive event confirms open claim
+# ---------------------------------------------------------------------------
+
+def _make_replay(tmp_path, store):
+    """Helper: create a HistoricalReplay with in-memory store and tmp KB."""
+    ks_path = str(tmp_path / "replay_kb.db")
+    return HistoricalReplay(
+        replay_store=store,
+        knowledge_store_path=ks_path,
+        universe=[],
+    ), ks_path
+
+
+def _seed_claim(ks_path, asset_id, assertion="trial will succeed"):
+    from bve.intelligence.knowledge_layer import KnowledgeStore
+    from bve.intelligence.thesis_tracker import ThesisTracker, ClaimType
+
+    ks = KnowledgeStore(ks_path)
+    tt = ThesisTracker(ks)
+    tt.add_claim(
+        asset_id=asset_id,
+        company_id=f"co-{asset_id}",
+        claim_type=ClaimType.ENDPOINT_MET,
+        assertion=assertion,
+        created_at=datetime(2024, 1, 1, tzinfo=timezone.utc),
+    )
+    ks.close()
+
+
+def test_claim_resolution_positive_confirms(tmp_path, in_memory_store):
+    """Positive event confirms the open claim for the same asset."""
+    replay, ks_path = _make_replay(tmp_path, in_memory_store)
+    _seed_claim(ks_path, "a-vktx")
+
+    in_memory_store.insert_event(
+        asset_id="a-vktx",
+        ticker="VKTX",
+        event_type="readout",
+        announced_at=date(2024, 6, 10),
+        effective_date=date(2024, 6, 10),
+        outcome_label="positive",
+        headline="VK2735 Phase 2 met primary endpoint",
+    )
+
+    clock = ReplayClock(date(2024, 6, 11))
+    n = replay._step_claim_resolution(clock)
+    assert n == 1
+
+    # Verify claim is now confirmed in the KB
+    from bve.intelligence.knowledge_layer import KnowledgeStore
+    from bve.intelligence.thesis_tracker import ThesisTracker
+
+    ks = KnowledgeStore(ks_path)
+    tt = ThesisTracker(ks)
+    claims = tt.get_claims(asset_id="a-vktx", status="confirmed")
+    assert len(claims) == 1
+    ks.close()
+
+
+def test_claim_resolution_negative_refutes(tmp_path, in_memory_store):
+    """Negative event refutes the open claim."""
+    replay, ks_path = _make_replay(tmp_path, in_memory_store)
+    _seed_claim(ks_path, "a-ntla")
+
+    in_memory_store.insert_event(
+        asset_id="a-ntla",
+        ticker="NTLA",
+        event_type="readout",
+        announced_at=date(2024, 8, 1),
+        effective_date=date(2024, 8, 1),
+        outcome_label="negative",
+        headline="NTLA-2001 Phase 1 missed endpoints",
+    )
+
+    clock = ReplayClock(date(2024, 8, 2))
+    n = replay._step_claim_resolution(clock)
+    assert n == 1
+
+    from bve.intelligence.knowledge_layer import KnowledgeStore
+    from bve.intelligence.thesis_tracker import ThesisTracker
+
+    ks = KnowledgeStore(ks_path)
+    tt = ThesisTracker(ks)
+    claims = tt.get_claims(asset_id="a-ntla", status="refuted")
+    assert len(claims) == 1
+    ks.close()
+
+
+def test_claim_resolution_future_event_not_processed(tmp_path, in_memory_store):
+    """Event announced AFTER as_of is not processed (no-lookahead)."""
+    replay, ks_path = _make_replay(tmp_path, in_memory_store)
+    _seed_claim(ks_path, "a-alny")
+
+    in_memory_store.insert_event(
+        asset_id="a-alny",
+        ticker="ALNY",
+        event_type="readout",
+        announced_at=date(2024, 12, 1),
+        effective_date=date(2024, 12, 1),
+        outcome_label="positive",
+        headline="Zilebesiran data positive",
+    )
+
+    # Clock is set to Nov 30 — event not yet visible
+    clock = ReplayClock(date(2024, 11, 30))
+    n = replay._step_claim_resolution(clock)
+    assert n == 0
+
+
+def test_claim_resolution_neutral_event_skipped(tmp_path, in_memory_store):
+    """Neutral/enrollment event (no positive/negative label) is skipped."""
+    replay, ks_path = _make_replay(tmp_path, in_memory_store)
+    _seed_claim(ks_path, "a-srpt")
+
+    in_memory_store.insert_event(
+        asset_id="a-srpt",
+        ticker="SRPT",
+        event_type="enrollment",
+        announced_at=date(2024, 5, 1),
+        effective_date=date(2024, 5, 1),
+        outcome_label="enrollment_complete",
+        headline="Enrollment complete",
+    )
+
+    clock = ReplayClock(date(2024, 5, 2))
+    n = replay._step_claim_resolution(clock)
+    assert n == 0
+
+
+def test_claim_resolution_no_duplicate_processing(tmp_path, in_memory_store):
+    """Each event is only processed once per run."""
+    replay, ks_path = _make_replay(tmp_path, in_memory_store)
+    _seed_claim(ks_path, "a-vrtx")
+
+    in_memory_store.insert_event(
+        asset_id="a-vrtx",
+        ticker="VRTX",
+        event_type="readout",
+        announced_at=date(2024, 3, 1),
+        effective_date=date(2024, 3, 1),
+        outcome_label="positive",
+        headline="Positive readout",
+    )
+
+    replay._resolved_event_ids = set()  # simulate start of run()
+    clock = ReplayClock(date(2024, 3, 2))
+
+    n1 = replay._step_claim_resolution(clock)
+    assert n1 == 1
+
+    # Same step again — event was already marked processed
+    n2 = replay._step_claim_resolution(clock)
+    assert n2 == 0
+
+
+def test_claim_resolution_no_claim_for_asset(tmp_path, in_memory_store):
+    """Event for asset with no open claim returns 0 and doesn't error."""
+    replay, ks_path = _make_replay(tmp_path, in_memory_store)
+    # Deliberately do NOT seed any claim for a-beam
+
+    in_memory_store.insert_event(
+        asset_id="a-beam",
+        ticker="BEAM",
+        event_type="readout",
+        announced_at=date(2024, 4, 1),
+        effective_date=date(2024, 4, 1),
+        outcome_label="positive",
+        headline="Some event",
+    )
+
+    clock = ReplayClock(date(2024, 4, 2))
+    n = replay._step_claim_resolution(clock)
+    assert n == 0
+
+
+def test_claim_resolution_reset_between_runs(tmp_path, in_memory_store):
+    """_resolved_event_ids is reset at start of run() so re-runs see events fresh."""
+    replay, ks_path = _make_replay(tmp_path, in_memory_store)
+
+    # Simulate a previous run having processed an event
+    replay._resolved_event_ids = {9999}  # stale state from a prior run
+
+    # Calling run() with empty universe/short date range should reset the set
+    # We verify by checking the set is empty at the start of run().
+    # Use a very short range with no data to avoid network calls.
+    # (The reset happens before the while loop, so even 0 steps resets it.)
+    # We do this by checking the attribute directly after the reset line runs.
+
+    # Patch the store to avoid DB issues in this minimal test
+    from bve.intelligence.replay_policy import ReplayPolicy, ReplayPolicyConfig
+    replay._policy = ReplayPolicy(ReplayPolicyConfig(max_positions=0))
+
+    # run() creates a run record, then resets the set
+    # We can call it with a 1-day range (no steps execute since start > end)
+    start = date(2024, 1, 2)
+    end = date(2024, 1, 1)  # end < start → loop doesn't execute
+
+    try:
+        replay.run(start=start, end=end, cadence="weekly")
+    except Exception:
+        pass  # ignore any errors from empty run
+
+    # The set should have been reset (stale {9999} cleared)
+    assert 9999 not in replay._resolved_event_ids
