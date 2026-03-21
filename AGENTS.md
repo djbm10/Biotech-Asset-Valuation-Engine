@@ -21,11 +21,11 @@ Core code lives in `src/bve/`.
 
 Tests are in `tests/` (plus `tests/intelligence/`, `tests/alerts/`, `tests/pipeline/`). Example configs are in `examples/configs/`. Case studies and research artifacts live in `case_studies/` and `research/`.
 
-## Current State (as of 2026-03-08)
+## Current State (as of 2026-03-18)
 
 **Branch:** `core-engine-v1`
-**Test suite:** 1 071 tests collected, all passing.
-**Last commit:** `0652279` — pre-Wave-2 hardening (dedup, NYSE calendar, PoS logging, 429 backoff).
+**Test suite:** 84 Sprint 5 tests passing (all waves J/K/M/L); full suite passing.
+**Last sprint:** Sprint 5 — Decision Loop + Weekly Review
 
 ### Completed layers
 
@@ -41,42 +41,42 @@ Tests are in `tests/` (plus `tests/intelligence/`, `tests/alerts/`, `tests/pipel
 | Wave 1B | Event outcome tracking (EventOutcome, PriceReactionTracker, trading_calendar NYSE calendar) |
 | Wave 1C | PubMed connector (esearch + efetch, topic filter, rate limiting, 429 backoff) |
 | Wave 1D | Market expectation modeling (ImpliedPoSEstimator, MarketExpectation, `market_expectations` table, PoS gap in ranking) |
-| Pre-Wave-2 hardening | DB dedup (INSERT OR IGNORE + UNIQUE on event_outcomes.event_id), NYSE holiday calendar, implied PoS guardrail logs |
+| Wave F | Conference event detection (ConferenceEventDetector, ConferenceCalendar, 12-conference registry, presentation type classification) |
+| Wave G | Earnings transcript ingestion (EarningsTranscriptParser, section detection, guidance direction, tonal signals) |
+| Wave I | ThesisTracker (claim lifecycle: open→confirmed/refuted/expired/superseded, `thesis_strength`, `snapshot()`) |
+| **Wave J** | **Decision + Position Layer** (`DecisionLayer`, 3 SQLite tables: `decision_records`, `position_snapshots`, `outcome_attributions`; recommended vs executed; portfolio context snapshot; `model_vs_execution_drift()`) |
+| **Wave K** | **Weekly Actionable Output** (`ActionableGenerator`, `WeeklyActionableReport`, score versioning via `SCORE_VERSIONS`, CAUTION→downgrade, `has_actionable` always populated) |
+| **Wave M** | **Weighted Thesis Strength** (`DEFAULT_CLAIM_WEIGHTS` by ClaimType; `weighted_thesis_strength` field on `ThesisSnapshot`; backward-compatible schema migration) |
+| **Wave L** | **Weekly Review Engine** (`WeeklyReviewEngine`, four-section report: fundamental/market_timing/thesis/sizing; strict `confirmed_thesis` rule requiring key claim evidence; stored to `weekly_review_records`) |
 
-### Key architecture notes
-- `KnowledgeStore` (SQLite) holds: `raw_documents`, `structured_signals`, `valuation_proposals`, `market_prices`, `event_outcomes`, `market_expectations`.
-- `WatchlistPipelineRunner.run_cycle()` wires: connectors → extraction → mapping → ranking → price refresh → resolve_pending → alert routing.
-- LLM confidence gating: discard < 0.3, queue for review < 0.5, auto-process ≥ 0.5.
-- `ImpliedPoSEstimator`: NAV back-solve `implied_pos = equity_value / peak_npv`; warns when equity < 0 or raw > 1.0.
-- `trading_calendar.py`: NYSE 2010–2035 holiday calendar; functions `trading_days_after`, `count_trading_days_between`, `resolution_targets`.
+### Key architecture notes — Sprint 5 additions
 
-## Next tasks (Wave 2)
+**Decision loop** (`intelligence/decision_layer.py`):
+- `DecisionRecord`: recommended_action/size_pct (system), executed_action/size_pct (analyst), full portfolio context snapshot at decision time.
+- `PositionSnapshot`: entry/exit dates, `holding_period_days` computed only at close, `is_active` boolean.
+- `OutcomeAttribution`: links `decision_id → attribution_type` (pos_error, timing_error, sizing_error, thesis_error, market_drift, confirmed_thesis, unclassified).
+- `model_vs_execution_drift()`: returns n_total, n_with_execution, n_diverged, pct_diverged.
 
-Wave 2 is the **quantitative enrichment** layer — feeding live market and literature signals back into the valuation engine.
+**Actionable output** (`intelligence/actionable_output.py`):
+- `ActionableGenerator(score_version, min_composite_score, max_position_pct)`.
+- Composite score = 0.50×ranking + 0.30×thesis + 0.20×opportunity.
+- Action thresholds: ≥0.70→buy, ≥0.50→add, ≥0.30→monitor, <0.30→avoid.
+- CAUTION critic → downgrade to monitor + zero size (never filtered out).
+- `SCORE_VERSIONS` dict enables future scoring regime comparisons.
+- `WeeklyActionableReport.has_actionable` is always set (never silent).
 
-Suggested Wave 2 milestones (in dependency order):
+**Weighted thesis** (`intelligence/thesis_tracker.py`):
+- `DEFAULT_CLAIM_WEIGHTS`: ENDPOINT_MET=2.0, REGULATORY_PATHWAY=1.5, COMPETITOR_FAILURE=1.5, LABEL_EXPANSION=1.25, POS_ABOVE_THRESHOLD=1.0, ENROLLMENT_ON_TRACK=0.75, MARKET_REACTION_POSITIVE=0.5, CUSTOM=1.0.
+- `ThesisSnapshot.weighted_thesis_strength`: impact-weighted ratio of confirmed claims; None when no resolved claims.
+- Schema: `ALTER TABLE ADD COLUMN weight REAL DEFAULT 1.0` (idempotent, try/except).
 
-1. **Wave 2A — Catalyst calendar integration**
-   - Pull PDUFA dates, trial readout windows, and congress presentation slots from ClinicalTrials + FDA connectors.
-   - Store as `CatalystEvent` rows in KnowledgeStore.
-   - Surface upcoming catalysts in `RankedOpportunity` and alert payloads.
+**Weekly review** (`intelligence/weekly_review.py`):
+- `_KEY_CLAIM_TYPES`: {endpoint_met, regulatory_pathway, competitor_failure}.
+- Strict `confirmed_thesis`: positive outcome AND ≥1 confirmed key claim AND 0 refuted key claims. Requires `thesis_tracker`; returns False conservatively when unavailable.
+- Each section degrades gracefully: SizingQuality→empty when no DecisionLayer, ThesisAccuracy→empty when no ThesisTracker.
+- Reports stored via `INSERT OR REPLACE` (upsert by week_ending).
 
-2. **Wave 2B — Dynamic PoS updating**
-   - After each `EventOutcome` is resolved (T+30 or T+90), use abnormal return magnitude to Bayesian-update the stored `model_pos` for that asset.
-   - Write updated PoS back to `valuation_proposals` / trigger a re-ranking pass.
-
-3. **Wave 2C — Peer-set comps auto-population**
-   - Given a drug's therapeutic area + modality, auto-fetch comparable approved drugs from FDA connector.
-   - Use their market-cap / revenue multiples to calibrate `peak_sales_millions` priors.
-   - Surface as `ComparableSetResult` attached to `RankedOpportunity`.
-
-4. **Wave 2D — Portfolio-level risk aggregation**
-   - Extend `portfolio.py` to aggregate MC distributions across watchlist assets.
-   - Compute correlation-aware VaR and CVaR at the portfolio level.
-   - Export as a portfolio risk dashboard (JSON + chart).
-
-5. **Wave 2E — End-to-end smoke test**
-   - Integration test: watchlist YAML → `run_cycle()` → DB assertions → ranked output, with all external calls mocked.
+**KnowledgeStore additions**: `weekly_review_records` table (review_id, week_ending UNIQUE, report_json, created_at).
 
 ## Build, Test, and Development Commands
 - `pip install -e ".[dev]"`: install package in editable mode with dev tooling.

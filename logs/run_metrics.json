@@ -1476,5 +1476,1023 @@
       }
     ],
     "connector_health": []
+  },
+  {
+    "run_id": "146d1eff-c54d-410f-967f-1e18b98af4c3",
+    "measured_at": "2026-03-18T02:16:02.399654Z",
+    "ingestion_docs": 0,
+    "signals_extracted": 0,
+    "valuations_updated": 0,
+    "alerts_generated": 0,
+    "opportunities_detected": 0,
+    "pipeline_failures": 0,
+    "stage_metrics": {
+      "assets_total": 30,
+      "assets_failed": 0,
+      "paused_stages": [],
+      "assets_gated_data_quality": 27,
+      "assets_scored_data_quality": 30,
+      "daily_ingestion_due": false,
+      "daily_ingestion_executed": false,
+      "weekly_maintenance_due": false,
+      "weekly_maintenance_executed": false,
+      "raw_documents_deleted": 0
+    },
+    "stage_latencies": [
+      {
+        "stage": "opportunity_scan",
+        "avg_ms": 303.274178,
+        "p50_ms": 303.274178,
+        "p95_ms": 303.274178,
+        "p99_ms": 303.274178,
+        "n_observations": 1
+      },
+      {
+        "stage": "dashboard_cache",
+        "avg_ms": 490.088612,
+        "p50_ms": 490.088612,
+        "p95_ms": 490.088612,
+        "p99_ms": 490.088612,
+        "n_observations": 1
+      }
+    ],
+    "connector_health": []
+  },
+  {
+    "run_id": "431904a1-3e5d-4d6c-830c-9686cd63d050",
+    "measured_at": "2026-03-18T03:19:55.731884Z",
+    "ingestion_docs": 0,
+    "signals_extracted": 0,
+    "valuations_updated": 0,
+    "alerts_generated": 0,
+    "opportunities_detected": 0,
+    "pipeline_failures": 0,
+    "stage_metrics": {
+      "assets_total": 30,
+      "assets_failed": 0,
+      "paused_stages": [],
+      "assets_gated_data_quality": 27,
+      "assets_scored_data_quality": 30,
+      "daily_ingestion_due": false,
+      "daily_ingestion_executed": false,
+      "weekly_maintenance_due": false,
+      "weekly_maintenance_executed": false,
+      "raw_documents_deleted": 0
+    },
+    "stage_latencies": [
+      {
+        "stage": "opportunity_scan",
+        "avg_ms": 204.301018,
+        "p50_ms": 204.301018,
+        "p95_ms": 204.301018,
+        "p99_ms": 204.301018,
+        "n_observations": 1
+      },
+      {
+        "stage": "dashboard_cache",
+        "avg_ms": 118.914139,
+        "p50_ms": 118.914139,
+        "p95_ms": 118.914139,
+        "p99_ms": 118.914139,
+        "n_observations": 1
+      }
+    ],
+    "connector_health": []
+  },
+  {
+    "run_id": "b2e00ad0-4b10-4b75-a078-1d9d0fe4389e",
+    "measured_at": "2026-03-18T11:55:31.164537Z",
+    "ingestion_docs": 0,
+    "signals_extracted": 0,
+    "valuations_updated": 0,
+    "alerts_generated": 0,
+    "opportunities_detected": 0,
+    "pipeline_failures": 0,
+    "stage_metrics": {
+      "assets_total": 30,
+      "assets_failed": 0,
+      "paused_stages": [],
+      "assets_gated_data_quality": 27,
+      "assets_scored_data_quality": 30,
+      "daily_ingestion_due": false,
+      "daily_ingestion_executed": false,
+      "weekly_maintenance_due": false,
+      "weekly_maintenance_executed": false,
+      "raw_documents_deleted": 0
+    },
+    "stage_latencies": [
+      {
+        "stage": "opportunity_scan",
+        "avg_ms": 78.905902,
+        "p50_ms": 78.905902,
+        "p95_ms": 78.905902,
+        "p99_ms": 78.905902,
+        "n_observations": 1
+      },
+      {
+        "stage": "dashboard_cache",
+        "avg_ms": 82.846391,
+        "p50_ms": 82.846391,
+        "p95_ms": 82.846391,
+        "p99_ms": 82.846391,
+        "n_observations": 1
+      }
+    ],
+    "connector_health": []
+  },
+  {
+    "run_id": "7875c807-1915-4af3-b07e-6c914c654454",
+    "measured_at": "2026-03-18T12:59:54.715648Z",
+    "ingestion_docs": 0,
+    "signals_extracted": 0,
+    "valuations_updated": 0,
+    "alerts_generated": 0,
+    "opportunities_detected": 0,
+    "pipeline_failures": 0,
+    "stage_metrics": {
+      "assets_total": 30,
+      "assets_failed": 0,
+      "paused_stages": [],
+      "assets_gated_data_quality": 27,
+      "assets_scored_data_quality": 30,
+      "daily_ingestion_due": false,
+      "daily_ingestion_executed": false,
+      "weekly_maintenance_due": false,
+      "weekly_maintenance_executed": false,
+      "raw_documents_deleted": 0
+    },
+    "stage_latencies": [
+      {
+        "stage": "opportunity_scan",
+        "avg_ms": 73.495107,
+        "p50_ms": 73.495107,
+        "p95_ms": 73.495107,
+        "p99_ms": 73.495107,
+        "n_observations": 1
+      },
+      {
+        "stage": "dashboard_cache",
+        "avg_ms": 75.393594,
+        "p50_ms": 75.393594,
+        "p95_ms": 75.393594,
+        "p99_ms": 75.393594,
+        "n_observations": 1
+      }
+    ],
+    "connector_health": []
+  },
+  {
+    "run_id": "324edc5d-734d-4959-ba10-e0c11ebd8fad",
+    "measured_at": "2026-03-18T21:55:55.270499Z",
+    "ingestion_docs": 0,
+    "signals_extracted": 0,
+    "valuations_updated": 0,
+    "alerts_generated": 0,
+    "opportunities_detected": 0,
+    "pipeline_failures": 0,
+    "stage_metrics": {
+      "assets_total": 30,
+      "assets_failed": 0,
+      "paused_stages": [],
+      "assets_gated_data_quality": 27,
+      "assets_scored_data_quality": 30,
+      "daily_ingestion_due": false,
+      "daily_ingestion_executed": false,
+      "weekly_maintenance_due": false,
+      "weekly_maintenance_executed": false,
+      "raw_documents_deleted": 0
+    },
+    "stage_latencies": [
+      {
+        "stage": "opportunity_scan",
+        "avg_ms": 89.537247,
+        "p50_ms": 89.537247,
+        "p95_ms": 89.537247,
+        "p99_ms": 89.537247,
+        "n_observations": 1
+      },
+      {
+        "stage": "dashboard_cache",
+        "avg_ms": 92.80284,
+        "p50_ms": 92.80284,
+        "p95_ms": 92.80284,
+        "p99_ms": 92.80284,
+        "n_observations": 1
+      }
+    ],
+    "connector_health": []
+  },
+  {
+    "run_id": "0992648d-0615-430e-ba03-7d7b34b1c831",
+    "measured_at": "2026-03-18T22:55:57.690255Z",
+    "ingestion_docs": 0,
+    "signals_extracted": 0,
+    "valuations_updated": 0,
+    "alerts_generated": 0,
+    "opportunities_detected": 0,
+    "pipeline_failures": 0,
+    "stage_metrics": {
+      "assets_total": 30,
+      "assets_failed": 0,
+      "paused_stages": [],
+      "assets_gated_data_quality": 27,
+      "assets_scored_data_quality": 30,
+      "daily_ingestion_due": false,
+      "daily_ingestion_executed": false,
+      "weekly_maintenance_due": false,
+      "weekly_maintenance_executed": false,
+      "raw_documents_deleted": 0
+    },
+    "stage_latencies": [
+      {
+        "stage": "opportunity_scan",
+        "avg_ms": 183.335636,
+        "p50_ms": 183.335636,
+        "p95_ms": 183.335636,
+        "p99_ms": 183.335636,
+        "n_observations": 1
+      },
+      {
+        "stage": "dashboard_cache",
+        "avg_ms": 176.250581,
+        "p50_ms": 176.250581,
+        "p95_ms": 176.250581,
+        "p99_ms": 176.250581,
+        "n_observations": 1
+      }
+    ],
+    "connector_health": []
+  },
+  {
+    "run_id": "43604615-ecfb-452f-9087-5e6c600cda26",
+    "measured_at": "2026-03-18T23:56:02.886948Z",
+    "ingestion_docs": 0,
+    "signals_extracted": 0,
+    "valuations_updated": 0,
+    "alerts_generated": 0,
+    "opportunities_detected": 1,
+    "pipeline_failures": 0,
+    "stage_metrics": {
+      "assets_total": 3,
+      "assets_failed": 0,
+      "paused_stages": [],
+      "assets_gated_data_quality": 27,
+      "assets_scored_data_quality": 30,
+      "daily_ingestion_due": true,
+      "daily_ingestion_executed": true,
+      "weekly_maintenance_due": false,
+      "weekly_maintenance_executed": false,
+      "raw_documents_deleted": 0
+    },
+    "stage_latencies": [
+      {
+        "stage": "ingestion",
+        "avg_ms": 999.341746,
+        "p50_ms": 962.057827,
+        "p95_ms": 1082.418769,
+        "p99_ms": 1082.418769,
+        "n_observations": 3
+      },
+      {
+        "stage": "extraction",
+        "avg_ms": 0.0,
+        "p50_ms": 0.0,
+        "p95_ms": 0.0,
+        "p99_ms": 0.0,
+        "n_observations": 3
+      },
+      {
+        "stage": "valuation",
+        "avg_ms": 0.0,
+        "p50_ms": 0.0,
+        "p95_ms": 0.0,
+        "p99_ms": 0.0,
+        "n_observations": 3
+      },
+      {
+        "stage": "alerts",
+        "avg_ms": 0.0,
+        "p50_ms": 0.0,
+        "p95_ms": 0.0,
+        "p99_ms": 0.0,
+        "n_observations": 3
+      },
+      {
+        "stage": "opportunity_scan",
+        "avg_ms": 208.392104,
+        "p50_ms": 208.392104,
+        "p95_ms": 208.392104,
+        "p99_ms": 208.392104,
+        "n_observations": 1
+      },
+      {
+        "stage": "dashboard_cache",
+        "avg_ms": 124.628779,
+        "p50_ms": 124.628779,
+        "p95_ms": 124.628779,
+        "p99_ms": 124.628779,
+        "n_observations": 1
+      }
+    ],
+    "connector_health": [
+      {
+        "connector": "clinicaltrials_gov",
+        "success_rate": 0.666667,
+        "error_rate": 0.333333,
+        "avg_latency_ms": 333.455674,
+        "n_runs_sampled": 9,
+        "last_failure_at": "2026-03-18T23:56:00.854759Z",
+        "last_success_at": "2026-03-16T22:47:13.581589Z",
+        "health_threshold": 0.8,
+        "healthy": false
+      },
+      {
+        "connector": "press_release",
+        "success_rate": 0.076923,
+        "error_rate": 0.923077,
+        "avg_latency_ms": 10.93784,
+        "n_runs_sampled": 13,
+        "last_failure_at": "2026-03-18T23:56:01.651148Z",
+        "last_success_at": null,
+        "health_threshold": 0.8,
+        "healthy": false
+      },
+      {
+        "connector": "sec_filing",
+        "success_rate": 0.722222,
+        "error_rate": 0.277778,
+        "avg_latency_ms": 1841.07872,
+        "n_runs_sampled": 9,
+        "last_failure_at": "2026-03-18T23:56:01.640730Z",
+        "last_success_at": "2026-03-17T23:05:12.445440Z",
+        "health_threshold": 0.8,
+        "healthy": false
+      }
+    ]
+  },
+  {
+    "run_id": "d8ebd49e-f1a9-473a-a605-9ee239c45280",
+    "measured_at": "2026-03-19T00:56:04.276000Z",
+    "ingestion_docs": 0,
+    "signals_extracted": 0,
+    "valuations_updated": 0,
+    "alerts_generated": 0,
+    "opportunities_detected": 0,
+    "pipeline_failures": 0,
+    "stage_metrics": {
+      "assets_total": 30,
+      "assets_failed": 0,
+      "paused_stages": [],
+      "assets_gated_data_quality": 27,
+      "assets_scored_data_quality": 30,
+      "daily_ingestion_due": false,
+      "daily_ingestion_executed": false,
+      "weekly_maintenance_due": false,
+      "weekly_maintenance_executed": false,
+      "raw_documents_deleted": 0
+    },
+    "stage_latencies": [
+      {
+        "stage": "opportunity_scan",
+        "avg_ms": 151.814724,
+        "p50_ms": 151.814724,
+        "p95_ms": 151.814724,
+        "p99_ms": 151.814724,
+        "n_observations": 1
+      },
+      {
+        "stage": "dashboard_cache",
+        "avg_ms": 133.975845,
+        "p50_ms": 133.975845,
+        "p95_ms": 133.975845,
+        "p99_ms": 133.975845,
+        "n_observations": 1
+      }
+    ],
+    "connector_health": []
+  },
+  {
+    "run_id": "e225e566-e538-43cb-9484-12c1893c9614",
+    "measured_at": "2026-03-19T01:56:06.398799Z",
+    "ingestion_docs": 0,
+    "signals_extracted": 0,
+    "valuations_updated": 0,
+    "alerts_generated": 0,
+    "opportunities_detected": 0,
+    "pipeline_failures": 0,
+    "stage_metrics": {
+      "assets_total": 30,
+      "assets_failed": 0,
+      "paused_stages": [],
+      "assets_gated_data_quality": 27,
+      "assets_scored_data_quality": 30,
+      "daily_ingestion_due": false,
+      "daily_ingestion_executed": false,
+      "weekly_maintenance_due": false,
+      "weekly_maintenance_executed": false,
+      "raw_documents_deleted": 0
+    },
+    "stage_latencies": [
+      {
+        "stage": "opportunity_scan",
+        "avg_ms": 162.210028,
+        "p50_ms": 162.210028,
+        "p95_ms": 162.210028,
+        "p99_ms": 162.210028,
+        "n_observations": 1
+      },
+      {
+        "stage": "dashboard_cache",
+        "avg_ms": 219.71885,
+        "p50_ms": 219.71885,
+        "p95_ms": 219.71885,
+        "p99_ms": 219.71885,
+        "n_observations": 1
+      }
+    ],
+    "connector_health": []
+  },
+  {
+    "run_id": "76cecffe-a5d0-465b-b2c5-1fc80156d53e",
+    "measured_at": "2026-03-19T22:05:33.323215Z",
+    "ingestion_docs": 0,
+    "signals_extracted": 0,
+    "valuations_updated": 0,
+    "alerts_generated": 0,
+    "opportunities_detected": 0,
+    "pipeline_failures": 0,
+    "stage_metrics": {
+      "assets_total": 30,
+      "assets_failed": 0,
+      "paused_stages": [],
+      "assets_gated_data_quality": 27,
+      "assets_scored_data_quality": 30,
+      "daily_ingestion_due": false,
+      "daily_ingestion_executed": false,
+      "weekly_maintenance_due": false,
+      "weekly_maintenance_executed": false,
+      "raw_documents_deleted": 0
+    },
+    "stage_latencies": [
+      {
+        "stage": "opportunity_scan",
+        "avg_ms": 146.165918,
+        "p50_ms": 146.165918,
+        "p95_ms": 146.165918,
+        "p99_ms": 146.165918,
+        "n_observations": 1
+      },
+      {
+        "stage": "dashboard_cache",
+        "avg_ms": 198.474759,
+        "p50_ms": 198.474759,
+        "p95_ms": 198.474759,
+        "p99_ms": 198.474759,
+        "n_observations": 1
+      }
+    ],
+    "connector_health": []
+  },
+  {
+    "run_id": "e03ad5df-5c47-4096-9acf-c439339ab6e8",
+    "measured_at": "2026-03-19T23:08:04.481691Z",
+    "ingestion_docs": 0,
+    "signals_extracted": 0,
+    "valuations_updated": 0,
+    "alerts_generated": 0,
+    "opportunities_detected": 0,
+    "pipeline_failures": 0,
+    "stage_metrics": {
+      "assets_total": 30,
+      "assets_failed": 0,
+      "paused_stages": [],
+      "assets_gated_data_quality": 28,
+      "assets_scored_data_quality": 30,
+      "daily_ingestion_due": false,
+      "daily_ingestion_executed": false,
+      "weekly_maintenance_due": false,
+      "weekly_maintenance_executed": false,
+      "raw_documents_deleted": 0
+    },
+    "stage_latencies": [
+      {
+        "stage": "opportunity_scan",
+        "avg_ms": 137.396419,
+        "p50_ms": 137.396419,
+        "p95_ms": 137.396419,
+        "p99_ms": 137.396419,
+        "n_observations": 1
+      },
+      {
+        "stage": "dashboard_cache",
+        "avg_ms": 172.21146,
+        "p50_ms": 172.21146,
+        "p95_ms": 172.21146,
+        "p99_ms": 172.21146,
+        "n_observations": 1
+      }
+    ],
+    "connector_health": []
+  },
+  {
+    "run_id": "45d909bb-c11f-4a9e-a227-1940b281774f",
+    "measured_at": "2026-03-20T00:10:37.155570Z",
+    "ingestion_docs": 0,
+    "signals_extracted": 0,
+    "valuations_updated": 0,
+    "alerts_generated": 0,
+    "opportunities_detected": 1,
+    "pipeline_failures": 0,
+    "stage_metrics": {
+      "assets_total": 2,
+      "assets_failed": 0,
+      "paused_stages": [],
+      "assets_gated_data_quality": 28,
+      "assets_scored_data_quality": 30,
+      "daily_ingestion_due": true,
+      "daily_ingestion_executed": true,
+      "weekly_maintenance_due": false,
+      "weekly_maintenance_executed": false,
+      "raw_documents_deleted": 0
+    },
+    "stage_latencies": [
+      {
+        "stage": "ingestion",
+        "avg_ms": 926.441486,
+        "p50_ms": 926.441486,
+        "p95_ms": 929.996897,
+        "p99_ms": 929.996897,
+        "n_observations": 2
+      },
+      {
+        "stage": "extraction",
+        "avg_ms": 0.0,
+        "p50_ms": 0.0,
+        "p95_ms": 0.0,
+        "p99_ms": 0.0,
+        "n_observations": 2
+      },
+      {
+        "stage": "valuation",
+        "avg_ms": 0.0,
+        "p50_ms": 0.0,
+        "p95_ms": 0.0,
+        "p99_ms": 0.0,
+        "n_observations": 2
+      },
+      {
+        "stage": "alerts",
+        "avg_ms": 0.0,
+        "p50_ms": 0.0,
+        "p95_ms": 0.0,
+        "p99_ms": 0.0,
+        "n_observations": 2
+      },
+      {
+        "stage": "opportunity_scan",
+        "avg_ms": 211.809326,
+        "p50_ms": 211.809326,
+        "p95_ms": 211.809326,
+        "p99_ms": 211.809326,
+        "n_observations": 1
+      },
+      {
+        "stage": "dashboard_cache",
+        "avg_ms": 116.015729,
+        "p50_ms": 116.015729,
+        "p95_ms": 116.015729,
+        "p99_ms": 116.015729,
+        "n_observations": 1
+      }
+    ],
+    "connector_health": [
+      {
+        "connector": "clinicaltrials_gov",
+        "success_rate": 0.65,
+        "error_rate": 0.35,
+        "avg_latency_ms": 340.059598,
+        "n_runs_sampled": 10,
+        "last_failure_at": "2026-03-20T00:10:35.677683Z",
+        "last_success_at": "2026-03-16T22:47:13.581589Z",
+        "health_threshold": 0.8,
+        "healthy": false
+      },
+      {
+        "connector": "press_release",
+        "success_rate": 0.071429,
+        "error_rate": 0.928571,
+        "avg_latency_ms": 10.478431,
+        "n_runs_sampled": 14,
+        "last_failure_at": "2026-03-20T00:10:36.248091Z",
+        "last_success_at": null,
+        "health_threshold": 0.8,
+        "healthy": false
+      },
+      {
+        "connector": "sec_filing",
+        "success_rate": 0.7,
+        "error_rate": 0.3,
+        "avg_latency_ms": 1707.370897,
+        "n_runs_sampled": 10,
+        "last_failure_at": "2026-03-20T00:10:36.236487Z",
+        "last_success_at": "2026-03-17T23:05:12.445440Z",
+        "health_threshold": 0.8,
+        "healthy": false
+      }
+    ]
+  },
+  {
+    "run_id": "e0efdf2c-4bdd-4dab-805f-bdb0f30eb2a5",
+    "measured_at": "2026-03-20T01:13:48.858076Z",
+    "ingestion_docs": 0,
+    "signals_extracted": 0,
+    "valuations_updated": 0,
+    "alerts_generated": 0,
+    "opportunities_detected": 0,
+    "pipeline_failures": 0,
+    "stage_metrics": {
+      "assets_total": 30,
+      "assets_failed": 0,
+      "paused_stages": [],
+      "assets_gated_data_quality": 28,
+      "assets_scored_data_quality": 30,
+      "daily_ingestion_due": false,
+      "daily_ingestion_executed": false,
+      "weekly_maintenance_due": false,
+      "weekly_maintenance_executed": false,
+      "raw_documents_deleted": 0
+    },
+    "stage_latencies": [
+      {
+        "stage": "opportunity_scan",
+        "avg_ms": 85.593294,
+        "p50_ms": 85.593294,
+        "p95_ms": 85.593294,
+        "p99_ms": 85.593294,
+        "n_observations": 1
+      },
+      {
+        "stage": "dashboard_cache",
+        "avg_ms": 99.460552,
+        "p50_ms": 99.460552,
+        "p95_ms": 99.460552,
+        "p99_ms": 99.460552,
+        "n_observations": 1
+      }
+    ],
+    "connector_health": []
+  },
+  {
+    "run_id": "c8b5c578-f620-4bfc-8608-5c1a1ad3ab7a",
+    "measured_at": "2026-03-20T11:10:08.498280Z",
+    "ingestion_docs": 0,
+    "signals_extracted": 0,
+    "valuations_updated": 0,
+    "alerts_generated": 0,
+    "opportunities_detected": 0,
+    "pipeline_failures": 0,
+    "stage_metrics": {
+      "assets_total": 30,
+      "assets_failed": 0,
+      "paused_stages": [],
+      "assets_gated_data_quality": 28,
+      "assets_scored_data_quality": 30,
+      "daily_ingestion_due": false,
+      "daily_ingestion_executed": false,
+      "weekly_maintenance_due": false,
+      "weekly_maintenance_executed": false,
+      "raw_documents_deleted": 0
+    },
+    "stage_latencies": [
+      {
+        "stage": "opportunity_scan",
+        "avg_ms": 182.858687,
+        "p50_ms": 182.858687,
+        "p95_ms": 182.858687,
+        "p99_ms": 182.858687,
+        "n_observations": 1
+      },
+      {
+        "stage": "dashboard_cache",
+        "avg_ms": 170.212881,
+        "p50_ms": 170.212881,
+        "p95_ms": 170.212881,
+        "p99_ms": 170.212881,
+        "n_observations": 1
+      }
+    ],
+    "connector_health": []
+  },
+  {
+    "run_id": "9cdb7b5b-f8d9-46d2-b683-e53b6208f7cf",
+    "measured_at": "2026-03-21T02:02:50.977733Z",
+    "ingestion_docs": 0,
+    "signals_extracted": 0,
+    "valuations_updated": 0,
+    "alerts_generated": 0,
+    "opportunities_detected": 0,
+    "pipeline_failures": 0,
+    "stage_metrics": {
+      "assets_total": 1,
+      "assets_failed": 0,
+      "paused_stages": [],
+      "assets_gated_data_quality": 29,
+      "assets_scored_data_quality": 30,
+      "daily_ingestion_due": true,
+      "daily_ingestion_executed": true,
+      "weekly_maintenance_due": false,
+      "weekly_maintenance_executed": false,
+      "raw_documents_deleted": 0
+    },
+    "stage_latencies": [
+      {
+        "stage": "ingestion",
+        "avg_ms": 1351.593892,
+        "p50_ms": 1351.593892,
+        "p95_ms": 1351.593892,
+        "p99_ms": 1351.593892,
+        "n_observations": 1
+      },
+      {
+        "stage": "extraction",
+        "avg_ms": 0.0,
+        "p50_ms": 0.0,
+        "p95_ms": 0.0,
+        "p99_ms": 0.0,
+        "n_observations": 1
+      },
+      {
+        "stage": "valuation",
+        "avg_ms": 0.0,
+        "p50_ms": 0.0,
+        "p95_ms": 0.0,
+        "p99_ms": 0.0,
+        "n_observations": 1
+      },
+      {
+        "stage": "alerts",
+        "avg_ms": 0.0,
+        "p50_ms": 0.0,
+        "p95_ms": 0.0,
+        "p99_ms": 0.0,
+        "n_observations": 1
+      },
+      {
+        "stage": "opportunity_scan",
+        "avg_ms": 296.967274,
+        "p50_ms": 296.967274,
+        "p95_ms": 296.967274,
+        "p99_ms": 296.967274,
+        "n_observations": 1
+      },
+      {
+        "stage": "dashboard_cache",
+        "avg_ms": 493.879588,
+        "p50_ms": 493.879588,
+        "p95_ms": 493.879588,
+        "p99_ms": 493.879588,
+        "n_observations": 1
+      }
+    ],
+    "connector_health": [
+      {
+        "connector": "clinicaltrials_gov",
+        "success_rate": 0.636364,
+        "error_rate": 0.363636,
+        "avg_latency_ms": 370.961473,
+        "n_runs_sampled": 11,
+        "last_failure_at": "2026-03-21T02:02:48.000441Z",
+        "last_success_at": "2026-03-16T22:47:13.581589Z",
+        "health_threshold": 0.8,
+        "healthy": false
+      },
+      {
+        "connector": "press_release",
+        "success_rate": 0.066667,
+        "error_rate": 0.933333,
+        "avg_latency_ms": 10.512112,
+        "n_runs_sampled": 15,
+        "last_failure_at": "2026-03-21T02:02:48.663552Z",
+        "last_success_at": null,
+        "health_threshold": 0.8,
+        "healthy": false
+      },
+      {
+        "connector": "sec_filing",
+        "success_rate": 0.681818,
+        "error_rate": 0.318182,
+        "avg_latency_ms": 1607.519812,
+        "n_runs_sampled": 11,
+        "last_failure_at": "2026-03-21T02:02:48.645353Z",
+        "last_success_at": "2026-03-17T23:05:12.445440Z",
+        "health_threshold": 0.8,
+        "healthy": false
+      }
+    ]
+  },
+  {
+    "run_id": "6134aad9-4220-4eec-9778-1d96f8770199",
+    "measured_at": "2026-03-21T03:04:36.592335Z",
+    "ingestion_docs": 0,
+    "signals_extracted": 0,
+    "valuations_updated": 0,
+    "alerts_generated": 0,
+    "opportunities_detected": 0,
+    "pipeline_failures": 0,
+    "stage_metrics": {
+      "assets_total": 30,
+      "assets_failed": 0,
+      "paused_stages": [],
+      "assets_gated_data_quality": 29,
+      "assets_scored_data_quality": 30,
+      "daily_ingestion_due": false,
+      "daily_ingestion_executed": false,
+      "weekly_maintenance_due": false,
+      "weekly_maintenance_executed": false,
+      "raw_documents_deleted": 0
+    },
+    "stage_latencies": [
+      {
+        "stage": "opportunity_scan",
+        "avg_ms": 906.901917,
+        "p50_ms": 906.901917,
+        "p95_ms": 906.901917,
+        "p99_ms": 906.901917,
+        "n_observations": 1
+      },
+      {
+        "stage": "dashboard_cache",
+        "avg_ms": 776.922948,
+        "p50_ms": 776.922948,
+        "p95_ms": 776.922948,
+        "p99_ms": 776.922948,
+        "n_observations": 1
+      }
+    ],
+    "connector_health": []
+  },
+  {
+    "run_id": "21746d3d-2b9c-40c4-abbf-8baa07064136",
+    "measured_at": "2026-03-21T06:41:36.793913Z",
+    "ingestion_docs": 0,
+    "signals_extracted": 0,
+    "valuations_updated": 0,
+    "alerts_generated": 0,
+    "opportunities_detected": 0,
+    "pipeline_failures": 0,
+    "stage_metrics": {
+      "assets_total": 30,
+      "assets_failed": 0,
+      "paused_stages": [],
+      "assets_gated_data_quality": 29,
+      "assets_scored_data_quality": 30,
+      "daily_ingestion_due": false,
+      "daily_ingestion_executed": false,
+      "weekly_maintenance_due": false,
+      "weekly_maintenance_executed": false,
+      "raw_documents_deleted": 0
+    },
+    "stage_latencies": [
+      {
+        "stage": "opportunity_scan",
+        "avg_ms": 461.526086,
+        "p50_ms": 461.526086,
+        "p95_ms": 461.526086,
+        "p99_ms": 461.526086,
+        "n_observations": 1
+      },
+      {
+        "stage": "dashboard_cache",
+        "avg_ms": 464.350444,
+        "p50_ms": 464.350444,
+        "p95_ms": 464.350444,
+        "p99_ms": 464.350444,
+        "n_observations": 1
+      }
+    ],
+    "connector_health": []
+  },
+  {
+    "run_id": "05e269a4-7a65-4de3-94dc-a6e4a8c76925",
+    "measured_at": "2026-03-21T12:15:04.973636Z",
+    "ingestion_docs": 0,
+    "signals_extracted": 0,
+    "valuations_updated": 0,
+    "alerts_generated": 0,
+    "opportunities_detected": 0,
+    "pipeline_failures": 0,
+    "stage_metrics": {
+      "assets_total": 30,
+      "assets_failed": 0,
+      "paused_stages": [],
+      "assets_gated_data_quality": 29,
+      "assets_scored_data_quality": 30,
+      "daily_ingestion_due": false,
+      "daily_ingestion_executed": false,
+      "weekly_maintenance_due": false,
+      "weekly_maintenance_executed": false,
+      "raw_documents_deleted": 0
+    },
+    "stage_latencies": [
+      {
+        "stage": "opportunity_scan",
+        "avg_ms": 337.527909,
+        "p50_ms": 337.527909,
+        "p95_ms": 337.527909,
+        "p99_ms": 337.527909,
+        "n_observations": 1
+      },
+      {
+        "stage": "dashboard_cache",
+        "avg_ms": 365.929647,
+        "p50_ms": 365.929647,
+        "p95_ms": 365.929647,
+        "p99_ms": 365.929647,
+        "n_observations": 1
+      }
+    ],
+    "connector_health": []
+  },
+  {
+    "run_id": "e2b24174-ce38-4ce6-89e4-83085c2733d8",
+    "measured_at": "2026-03-21T13:17:55.366757Z",
+    "ingestion_docs": 0,
+    "signals_extracted": 0,
+    "valuations_updated": 0,
+    "alerts_generated": 0,
+    "opportunities_detected": 0,
+    "pipeline_failures": 0,
+    "stage_metrics": {
+      "assets_total": 30,
+      "assets_failed": 0,
+      "paused_stages": [],
+      "assets_gated_data_quality": 29,
+      "assets_scored_data_quality": 30,
+      "daily_ingestion_due": false,
+      "daily_ingestion_executed": false,
+      "weekly_maintenance_due": false,
+      "weekly_maintenance_executed": false,
+      "raw_documents_deleted": 0
+    },
+    "stage_latencies": [
+      {
+        "stage": "opportunity_scan",
+        "avg_ms": 176.603916,
+        "p50_ms": 176.603916,
+        "p95_ms": 176.603916,
+        "p99_ms": 176.603916,
+        "n_observations": 1
+      },
+      {
+        "stage": "dashboard_cache",
+        "avg_ms": 228.623762,
+        "p50_ms": 228.623762,
+        "p95_ms": 228.623762,
+        "p99_ms": 228.623762,
+        "n_observations": 1
+      }
+    ],
+    "connector_health": []
+  },
+  {
+    "run_id": "d1a82855-77e1-4c67-8ed0-d9e82b19030e",
+    "measured_at": "2026-03-21T14:20:46.089099Z",
+    "ingestion_docs": 0,
+    "signals_extracted": 0,
+    "valuations_updated": 0,
+    "alerts_generated": 0,
+    "opportunities_detected": 0,
+    "pipeline_failures": 0,
+    "stage_metrics": {
+      "assets_total": 30,
+      "assets_failed": 0,
+      "paused_stages": [],
+      "assets_gated_data_quality": 29,
+      "assets_scored_data_quality": 30,
+      "daily_ingestion_due": false,
+      "daily_ingestion_executed": false,
+      "weekly_maintenance_due": false,
+      "weekly_maintenance_executed": false,
+      "raw_documents_deleted": 0
+    },
+    "stage_latencies": [
+      {
+        "stage": "opportunity_scan",
+        "avg_ms": 98.121483,
+        "p50_ms": 98.121483,
+        "p95_ms": 98.121483,
+        "p99_ms": 98.121483,
+        "n_observations": 1
+      },
+      {
+        "stage": "dashboard_cache",
+        "avg_ms": 145.353503,
+        "p50_ms": 145.353503,
+        "p95_ms": 145.353503,
+        "p99_ms": 145.353503,
+        "n_observations": 1
+      }
+    ],
+    "connector_health": []
   }
 ]

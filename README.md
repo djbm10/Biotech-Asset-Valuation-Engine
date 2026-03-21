@@ -132,6 +132,39 @@ Input YAML config
               +---> 5 matplotlib charts
 ```
 
+### Intelligence OS — Decision Loop
+
+Sprint 5 added a closed-loop intelligence layer on top of the valuation engine:
+
+```
+Signals / Events
+      |
+      v
+  KnowledgeStore (SQLite)
+      |
+      +---> ThesisTracker          claim lifecycle (open→confirmed/refuted); weighted_thesis_strength
+      |       |
+      |       v
+      +---> ActionableGenerator    composite score → buy/add/monitor/avoid; score versioning
+      |       |
+      |       v
+      +---> DecisionLayer          recommended vs executed; portfolio context snapshot;
+      |       |                    holding_period_days computed at close
+      |       v
+      +---> WeeklyReviewEngine     four-section accuracy report:
+                                     1. fundamental  (hit rate, pos_error, confirmed_thesis)
+                                     2. market_timing (signal freshness, stale %)
+                                     3. thesis       (key claim confirmations/refutations)
+                                     4. sizing       (recommended vs executed divergence)
+```
+
+**Strict confirmed_thesis rule** — a forecast earns `confirmed_thesis` only when:
+1. Outcome is correct or return > 0, AND
+2. At least one key thesis claim (ENDPOINT_MET, REGULATORY_PATHWAY, or COMPETITOR_FAILURE) was confirmed in the review window, AND
+3. No key claim was refuted in the same window.
+
+A positive return caused by market drift, short squeeze, or sector beta does NOT confirm the thesis.
+
 **Package layout:**
 
 ```
@@ -142,12 +175,16 @@ src/bve/
   valuation/     valuation_engine.py, scenario.py, outputs.py, assumptions.py
   ingestion/     clinicaltrials_gov.py, market_data.py, sec_edgar.py, fda.py
   reporting/     memo_generator.py, charts.py, export.py, templates/{bd,vc,hf}_memo.md.j2
+  intelligence/  knowledge_layer.py, thesis_tracker.py, decision_layer.py,
+                 actionable_output.py, weekly_review.py, conference_detector.py,
+                 earnings_transcript.py, ranking.py, market_expectations.py
   cli/           run_asset.py, run_batch.py
 examples/
   configs/       relay_rly2608.yaml   <- real-world case (RLAY / RLY-2608)
                  xyz101.yaml          <- synthetic scaffold for testing
 tests/
-  test_models.py                      <- 18 tests, all passing
+  test_models.py                       <- core valuation math
+  intelligence/                        <- intelligence OS tests (84 Sprint 5 tests)
 ```
 
 ---

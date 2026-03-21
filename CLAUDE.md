@@ -39,15 +39,31 @@ bve-batch --config-dir examples/configs/ --memo bd --charts
 
 # CLI: portfolio
 bve-portfolio --config examples/configs/relay_portfolio.yaml
+
+# POS model backtest (40-program oncology dataset)
+python -m bve.analysis.backtest research/data/oncology_phase_transitions.csv
+
+# Historical replay — seed prices, run, inspect
+python -m bve.ops.historical_replay seed \
+    --tickers VKTX ALNY SRPT NTLA XBI \
+    --start 2025-04-01 --end 2026-03-01
+python -m bve.ops.historical_replay run \
+    --start 2025-04-01 --end 2026-03-01 --cadence weekly \
+    --decision-policy top2_add --max-hold-days 28 \
+    --catalyst-timing --cooling --require-catalyst-days 14
+python -m bve.ops.historical_replay summary --run-id <run_id>
+python -m bve.ops.historical_replay inspect --run-id <run_id> --week 2025-09-15
 ```
 
 The canonical real-world test case is `examples/configs/relay_rly2608.yaml` (RLAY / RLY-2608). Outputs land in `outputs/<TICKER>/`.
 
 ## Architecture
 
-### Valuation pipeline
+The codebase has two distinct subsystems that share entities but are otherwise independent.
 
-The core flow, orchestrated by `ValuationEngine.run()`:
+### 1. Valuation pipeline (asset pricing)
+
+The core flow, orchestrated by `valuation/valuation_engine.py`:
 
 ```
 YAML config → CLI (run_asset.py) → ValuationEngine
@@ -102,6 +118,51 @@ Invariant: with saturation enabled, `available ≤ ceiling − combined_competit
 
 Log-odds adjusters applied on top of Biomedtracker/IQVIA base rates (in `industry_assumptions.yaml`). Layer 1: `POSAdjusters` (endpoint type, MoA precedent, sample size, safety, competitive pressure, biomarker enrichment, prior phase data, breakthrough designation). Layer 2: `TrialDesignFeatureSet` (`models/trial_design_features.py`). A `check_pos_layer_overlap()` guard warns when both layers adjust the same factor.
 
+### 2. Intelligence layer (ops / weekly runner)
+
+A separate operational loop that tracks a live universe of biotech names, maintains a knowledge store of thesis claims and events, and surfaces actionable opportunities.
+
+**`KnowledgeStore`** (`intelligence/knowledge_layer.py`) — SQLite-backed store for all intelligence data: thesis claims, events, forecasts, decisions. Live store at `outputs/intelligence/ops.db`.
+
+**`ThesisTracker`** (`intelligence/thesis_tracker.py`) — reads claims from `KnowledgeStore` and computes `ThesisSnapshot` (n_confirmed, n_refuted, n_expired, thesis_strength). `snapshot(asset_id, as_of_date=...)` supports time-frozen queries for replay.
+
+**`ActionableGenerator`** (`intelligence/actionable_output.py`) — takes a list of `ScoredCandidate` objects and produces a `WeeklyActionableReport`. Composite score formula: `ranking × 0.50 + thesis × 0.30 + opportunity × 0.20`. With thesis_strength=None (no resolved claims), the neutral value of 0.5 is used. Assets scoring ≥ 0.50 receive "add" action.
+
+**`UNIVERSE`** (`ops/weekly_runner.py`) — the list of 27 tracked assets, each with `ticker`, `asset_id`, `company_id`, `indication`, `ranking_score`, `opportunity_score`, `conviction`, `catalyst`, `claim_type`, `claim_assertion`. Three conviction tiers: Tier A (medium-high, 0.56–0.72), Tier B (weak, 0.30–0.44), Tier C (known failures/distressed, 0.12–0.28).
+
+### 3. Historical replay (`ops/historical_replay.py`)
+
+A time-frozen simulation loop for backtesting decision policies without lookahead bias:
+
+```
+seed  → downloads prices (yfinance) + inserts thesis claims into isolated replay KB
+run   → ReplayClock advances week-by-week:
+          _step_decision: builds ScoredCandidates as of replay date,
+                          applies ReplayPolicy gates, persists decisions
+          _step_resolve:  closes positions at exit_target date,
+                          classifies attribution
+summary / inspect → ReplaySummary stats + per-decision breakdown
+```
+
+**No-lookahead guarantee**: isolated SQLite at `outputs/intelligence/replay_store.sqlite` (never touches ops.db). `ThesisTracker.snapshot(as_of_date=...)` adds `AND date(created_at) <= ?`. Attribution uses `get_events_in_window(asset_id, entry_date, exit_date)` — never all-history events.
+
+**`ReplayPolicyConfig`** gates (all composable via CLI flags):
+- `--max-hold-days N` — forced exit after N calendar days (use multiples of 7; 15d == 21d at weekly cadence)
+- `--catalyst-timing` — entry only 3–10 days before a seeded catalyst; `<2d` → half size
+- `--xbi-filter` — block all entries when XBI < 20-day MA
+- `--cooling` — block asset 7d after 1 consecutive `thesis_error`, 14d after 2+
+- `--require-catalyst-days N` — block entry if no catalyst within N days (0 = disabled)
+
+**Attribution taxonomy**: `confirmed_thesis` (event + matching return), `pos_error` (negative event, positive return), `timing_error` (positive event, negative return), `thesis_error` (no event, negative return), `market_drift` (no event, positive return), `unclassified`.
+
+**Seeding catalyst events**: events must be inserted into `ReplayStore.historical_events` with realistic `announced_at` dates. The density gate (`require_catalyst_within_days`) and timing gate both query this table.
+
+### 4. POS model backtest (`analysis/backtest.py`)
+
+Validates POS model predictions against historical drug trial outcomes. Dataset: `research/data/oncology_phase_transitions.csv` (40 programs). Output: Brier score, AUC-ROC, calibration buckets.
+
+**Critical caveat**: current dataset has 82.5% actual success rate (severe survivor/selection bias — only publicly notable programs are included). The model's predicted PoS (40–65%) reflects realistic industry priors. Brier scores and AUC from this dataset are not meaningful until failures are added. Target realistic base rates: ~40% for Phase 2, ~60% for Phase 3.
+
 ### Assumptions / calibration
 
 All industry priors live in `src/bve/config/industry_assumptions.yaml` and are accessed via the `AssumptionsLoader` singleton. `constants.py` re-exports the same names for backward compatibility. Returned data is immutable (`MappingProxyType`). Unknown TA/modality falls back to `"other"` with a `UserWarning`.
@@ -118,5 +179,30 @@ Tests in `tests/` are organized by feature area:
 - `test_competition_crowding.py` — `CrowdingModel`, `FirstMoverConfig`, `ClassSaturationProfile`
 - `test_multi_indication.py` — `MultiIndicationProgram`, cascade PoS, `FranchiseCostSharing`
 - `test_assumptions_loader.py` — YAML loading, fallback warnings, immutability
+- `test_historical_replay.py` — replay store, no-lookahead bias invariant, isolation from live DB
+- `test_replay_policy.py` — all `ReplayPolicy` gate combinations (cooling, catalyst density, XBI, timing)
 
 All models are Pydantic v2 (`BaseModel`, frozen where appropriate). Use `model_copy(update={...})` to derive modified instances — direct field assignment on frozen models raises an error.
+
+## Backtest validation — best path forward
+
+Three backtest surfaces exist at different readiness levels:
+
+### Priority 1: Fix the POS backtest dataset
+
+`research/data/oncology_phase_transitions.csv` has N=40 with 82.5% success — survivor bias makes all metrics misleading. Add 20–40 real Phase 2/3 failures (oncology programs that were discontinued, filed CRLs, or had statistically negative trials). Target: ~40% Phase 2 success rate, ~60% Phase 3. Then re-run `python -m bve.analysis.backtest ...` — a Brier score < 0.22 and AUC > 0.60 would indicate a functional model.
+
+### Priority 2: Extend the historical replay time range
+
+The replay runs (9 and 10) produced only N=4 decisions — statistically insufficient. Extend the date range back to 2024-01-01, seed prices for all 27 universe names from that date, and populate `historical_events` with real readouts from 2024. This will increase the number of resolved positions from 4 to ~20+, making hit rate and mean return meaningful.
+
+```bash
+python -m bve.ops.historical_replay seed \
+    --tickers VKTX ALNY SRPT NTLA VRTX CRSP BEAM RXRX MRNA BMRN REGN LLY \
+              KYMR ARVN RVMD MDGL IMVT FULC FATE OCUL SRRK IOVA NVAX AMRN PRTA EDIT ZYME XBI \
+    --start 2024-01-01 --end 2026-03-10
+```
+
+### Priority 3: Portfolio backtest against knowledge store
+
+`analysis/portfolio_backtest.py` (`PortfolioStrategy.TOP_N_EQUAL_WEIGHT`, `SCORE_WEIGHTED`, `CATALYST_MOMENTUM`) uses `BacktestSnapshot` records from the live ops.db. Requires the weekly runner to have run for several weeks first. Be aware of the built-in survivorship bias warning — delisted names are excluded from yfinance returns.
