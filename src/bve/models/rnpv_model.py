@@ -257,7 +257,9 @@ def compute_rnpv_full(
     """
     prob = ProbabilityModel.compute(asset, trials)
     rev = RevenueModel.compute(market_model, loe_profile=loe_profile)
-    cost = CostModel.compute(prob, asset.discount_rate, deal=deal)
+    post_rd = getattr(asset, "post_approval_rd_millions", 0.0)
+    cost = CostModel.compute(prob, asset.discount_rate, deal=deal,
+                             post_approval_rd_millions=post_rd)
     return RNPVModel.compute(asset, prob, rev, cost, deal=deal)
 
 

@@ -155,11 +155,57 @@ commercial:
     rna_therapy:    0.18
     other:          0.18
 
+  compliance_by_modality:
+    # Fraction of modeled treatment duration patients remain adherent.
+    # For single-administration therapies (gene/cell), compliance = 1.0 by definition.
+    # Source: published adherence studies + internal modeling practice.
+    gene_therapy:   1.00   # single administration; no ongoing adherence
+    cell_therapy:   1.00   # single administration
+    biologic_iv:    0.95   # monitored infusion; high adherence
+    biologic_sc:    0.83   # self-injection; moderate drop-off
+    small_molecule: 0.78   # oral; consistent with published adherence literature
+    adc:            0.95   # IV monitored oncology setting
+    rna_therapy:    0.85   # typically SC; moderate
+    other:          0.80   # conservative fallback
+
   sgna:
-    # SG&A as fraction of net revenue — ramps down as product matures
+    # SG&A as fraction of net revenue — ramps down as product matures.
+    # This is the legacy key preserved for backward compatibility.
+    # New code should use sgna_profiles["default"] (maps to specialty_pharma).
     rate_launch: 0.40   # Years 1-2 post-launch: KOL, payer access, patient support
     rate_mature: 0.20   # Year 5+ steady-state: reduced promotion, established access
     ramp_years:  5      # Linear ramp from launch to mature rate over this many years
+
+  sgna_profiles:
+    # Modality/TA-specific SG&A ramp profiles.
+    # Source: public company filings, Evaluate Pharma, internal BD modeling practice.
+    # All profiles represent guidance; asset configs should override when known.
+
+    specialty_pharma:        # default for oncology small molecule, immunology
+      rate_launch: 0.40
+      rate_mature: 0.20
+      ramp_years:  5
+
+    rare_disease:            # smaller patient population; more MSL/advocacy-heavy
+      rate_launch: 0.45
+      rate_mature: 0.22
+      ramp_years:  4         # faster maturation (smaller, targeted launch)
+
+    gene_cell_therapy:       # treatment center setup, patient ID programs, no repeat Rx
+      rate_launch: 0.55      # higher: one-time dosing requires intensive pre/post support
+      rate_mature: 0.28
+      ramp_years:  7         # slow maturation; program complexity high long-term
+
+    primary_care:            # broad indication, high patient volumes, competitive market
+      rate_launch: 0.50
+      rate_mature: 0.30
+      ramp_years:  6
+
+    # Legacy alias — maps to specialty_pharma for backward compat
+    default:
+      rate_launch: 0.40
+      rate_mature: 0.20
+      ramp_years:  5
 
   defaults:
     # Fallback values used when an asset config does not specify the field.
@@ -255,28 +301,36 @@ loe_erosion_profiles:
     year_1_loss: 0.40    # Year 1 post-LOE: generic entry, -40% of peak revenue
     year_2_loss: 0.65    # Year 2: further erosion
     year_3_loss: 0.80    # Year 3: deep generic competition
-    terminal_loss: 0.85  # Year 4+: branded floor (~15% of peak retained)
+    year_4_loss: 0.88    # Year 4: near-full generic substitution
+    year_5_loss: 0.92    # Year 5: minimal branded residual
+    terminal_loss: 0.95  # Year 6+: ~5% branded floor
     post_loe_sgna_fraction: 0.25  # 25% of mature branded SG&A remains post-LOE
 
   biologic:
     year_1_loss: 0.20    # Biosimilar entry is slower; branded retains ~80% year 1
     year_2_loss: 0.40
     year_3_loss: 0.60
-    terminal_loss: 0.70  # Year 4+: branded retains ~30% of peak
+    year_4_loss: 0.68    # Year 4: continued biosimilar penetration
+    year_5_loss: 0.72    # Year 5: branded retains ~28% of peak
+    terminal_loss: 0.75  # Year 6+: branded retains ~25% of peak
     post_loe_sgna_fraction: 0.30  # KOL/advocacy maintenance continues longer
 
   gene_therapy:
     year_1_loss: 0.05    # Single-administration; limited generic/biosimilar risk
     year_2_loss: 0.10
     year_3_loss: 0.15
-    terminal_loss: 0.20
+    year_4_loss: 0.18    # Very slow erosion — manufacturing complexity protects
+    year_5_loss: 0.20    # ~80% of peak retained
+    terminal_loss: 0.22
     post_loe_sgna_fraction: 0.10  # Minimal; no ongoing patient recruitment needed
 
   cell_therapy:
     year_1_loss: 0.05
     year_2_loss: 0.10
     year_3_loss: 0.15
-    terminal_loss: 0.20
+    year_4_loss: 0.18
+    year_5_loss: 0.20
+    terminal_loss: 0.22
     post_loe_sgna_fraction: 0.10
 
   adc:
@@ -284,21 +338,27 @@ loe_erosion_profiles:
     year_1_loss: 0.25
     year_2_loss: 0.50
     year_3_loss: 0.65
-    terminal_loss: 0.75
+    year_4_loss: 0.72    # Year 4
+    year_5_loss: 0.76    # Year 5
+    terminal_loss: 0.78
     post_loe_sgna_fraction: 0.25
 
   rna_therapy:
     year_1_loss: 0.15
     year_2_loss: 0.35
     year_3_loss: 0.55
-    terminal_loss: 0.65
+    year_4_loss: 0.63    # Year 4
+    year_5_loss: 0.67    # Year 5
+    terminal_loss: 0.70
     post_loe_sgna_fraction: 0.25
 
   other:
     year_1_loss: 0.40
     year_2_loss: 0.65
     year_3_loss: 0.80
-    terminal_loss: 0.85
+    year_4_loss: 0.88
+    year_5_loss: 0.92
+    terminal_loss: 0.95
     post_loe_sgna_fraction: 0.25
 
 
@@ -343,6 +403,12 @@ pos_model:
   layer1_cap_logodds_positive:  0.80   # max combined upward adjustment (Sprint 9; was uncapped)
   layer1_cap_logodds_negative: -0.80   # symmetric downward cap
   btd_logodds: 0.05                    # was 0.20; BTD = process, not probability
+  accelerated_approval_nda_discount: 0.18
+  # Discount applied to base NDA/BLA success rate for accelerated approval programs.
+  # AA programs using single-arm surrogate endpoints have historically faced ~15-20%
+  # post-market withdrawal/conversion failure rate (FDA AA withdrawal data 2013-2023).
+  # This discount is applied at the NDA/BLA phase only, as a base-rate correction
+  # (not a log-odds adjuster). Source: Darrow JJ et al. (2021) JAMA Internal Medicine.
 
 
 # ==============================================================================

@@ -59,7 +59,10 @@ class CostStream(BaseModel):
     milestone_costs_pv_millions: float = 0.0  # PV of payable milestones
     upfront_cost_millions: float = 0.0    # Upfront payment at t=0 (face value)
 
-    # Aggregate: trial R&D (after cdev share) + milestones + upfront
+    # Post-approval R&D (Phase 4, REMS, pharmacovigilance — Sprint 9.9)
+    post_approval_rd_pv_millions: float = 0.0
+
+    # Aggregate: trial R&D (after cdev share) + milestones + upfront + post-approval R&D
     total_pv_weighted_millions: float
 
     @property
@@ -95,14 +98,18 @@ class CostModel:
         prob: ProbabilityResult,
         discount_rate: float,
         deal: Optional["DealEconomics"] = None,  # type: ignore[name-defined]
+        post_approval_rd_millions: float = 0.0,
     ) -> CostStream:
         """
         Parameters
         ----------
-        prob          : ProbabilityResult providing phase timing and probabilities.
-        discount_rate : WACC used for discounting.
-        deal          : DealEconomics for co-dev share, milestones, upfront cost.
-                        None → no deal terms (backward compatible).
+        prob                     : ProbabilityResult providing phase timing and probabilities.
+        discount_rate            : WACC used for discounting.
+        deal                     : DealEconomics for co-dev share, milestones, upfront cost.
+                                   None → no deal terms (backward compatible).
+        post_approval_rd_millions: Post-approval R&D obligations (Phase 4, REMS, etc.)
+                                   in USD millions (nominal). Discounted at years_to_approval.
+                                   Default 0.0 → no post-approval costs (backward compatible).
         """
         from bve.models.deal_economics import DealEconomics, milestone_pv
 
@@ -139,7 +146,15 @@ class CostModel:
         # Upfront cost (at t=0, no discounting)
         upfront_cost = deal.upfront_cost_millions
 
-        total = round(trial_rd_total + milestone_costs_pv + upfront_cost, 2)
+        # Post-approval R&D: discounted at years_to_approval (when these begin),
+        # then probability-weighted by cumulative approval probability.
+        post_approval_pv = 0.0
+        if post_approval_rd_millions > 0.0:
+            years_to_approval = prob.years_to_approval
+            pv_nominal = post_approval_rd_millions / (1.0 + r) ** years_to_approval
+            post_approval_pv = round(pv_nominal * prob.cumulative_approval_probability, 2)
+
+        total = round(trial_rd_total + milestone_costs_pv + upfront_cost + post_approval_pv, 2)
 
         return CostStream(
             asset_id=prob.asset_id,
@@ -147,5 +162,6 @@ class CostModel:
             cdev_cost_share=cdev,
             milestone_costs_pv_millions=round(milestone_costs_pv, 2),
             upfront_cost_millions=upfront_cost,
+            post_approval_rd_pv_millions=post_approval_pv,
             total_pv_weighted_millions=total,
         )

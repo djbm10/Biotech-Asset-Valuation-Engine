@@ -12,6 +12,7 @@ Mode 1 is the recommended approach for oncology assets where 1L/2L/3L dynamics d
 from __future__ import annotations
 
 import math
+import warnings
 from typing import Optional
 
 from pydantic import BaseModel, Field, field_validator, model_validator
@@ -292,6 +293,27 @@ class MarketModel(BaseModel):
                 "Provide one of: (1) lines_of_therapy segments, "
                 "(2) addressable_patients_annual + net_price_per_patient_usd, "
                 "or (3) total_addressable_market_millions"
+            )
+        return self
+
+    @model_validator(mode="after")
+    def _check_uptake_shape(self) -> "MarketModel":
+        """Warn when a non-LOT model uses linear uptake for an unspecified asset.
+
+        Specialty pharma (oncology, rare disease, CNS) typically shows S-curve
+        KOL-driven adoption. Linear ramp front-loads revenue, overstating early
+        cash flows that are disproportionately weighted by discounting.
+        """
+        if self.lines_of_therapy:
+            return self  # LOT segments set their own curve
+        if not self.use_s_curve:
+            warnings.warn(
+                f"MarketModel for asset '{self.asset_id}' is using a linear uptake "
+                "ramp. For specialty pharma assets (oncology, rare disease, CNS), "
+                "an S-curve better reflects realistic KOL-driven adoption. "
+                "Set use_s_curve=True to suppress this warning.",
+                UserWarning,
+                stacklevel=2,
             )
         return self
 

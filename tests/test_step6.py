@@ -145,9 +145,9 @@ class TestComputeRnpvFull:
         assert with_loe.rnpv_millions > no_loe.rnpv_millions
 
     def test_loe_value_matches_step3_snapshot(self):
-        # Sprint 9: updated to 81.01 after UFCF/tax fix (was 138.82 pre-Sprint-9)
+        # Sprint 9.10: 83.13 after LOE 3→5 extension (was 81.01 pre-9.10)
         result = compute_rnpv_full(_asset(), _trials(), _market(), loe_profile=_loe())
-        assert result.rnpv_millions == pytest.approx(81.01, abs=0.5)
+        assert result.rnpv_millions == pytest.approx(83.13, abs=0.5)
 
     def test_deal_royalty_reduces_rnpv(self):
         no_deal = compute_rnpv_full(_asset(), _trials(), _market(), loe_profile=_loe())

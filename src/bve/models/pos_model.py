@@ -22,8 +22,10 @@ from typing import Optional
 from pydantic import BaseModel, Field
 
 from bve.config.constants import PHASE_SUCCESS_RATES
-from bve.entities.asset import TherapeuticArea
+from bve.entities.asset import ApprovalPathwayType, TherapeuticArea
 from bve.entities.trial import EndpointType, TrialPhase
+
+_AA_NDA_DISCOUNT: float = 0.18  # confirmatory trial risk discount for accelerated approval
 
 
 # ---------------------------------------------------------------------------
@@ -146,6 +148,7 @@ def compute_pos(
     phase: TrialPhase,
     therapeutic_area: TherapeuticArea,
     adjusters: Optional[POSAdjusters] = None,
+    approval_pathway: Optional[ApprovalPathwayType] = None,
 ) -> float:
     """
     Compute probability of success for a given trial phase.
@@ -155,6 +158,8 @@ def compute_pos(
     phase:             the trial phase being evaluated
     therapeutic_area:  used to select the base rate
     adjusters:         optional qualitative adjusters (defaults = average trial)
+    approval_pathway:  when ACCELERATED, applies an 18% discount to the NDA/BLA
+                       base rate (confirmatory trial risk for AA programs)
 
     Returns
     -------
@@ -169,6 +174,16 @@ def compute_pos(
     # Look up base rate; fall back to "all" if TA not found
     base_rates = PHASE_SUCCESS_RATES.get(ta_key) or PHASE_SUCCESS_RATES["all"]
     base_rate = base_rates.get(phase_key, 0.40)
+
+    # Accelerated approval: apply confirmatory trial risk discount at NDA/BLA phase.
+    # AA programs using surrogate endpoints face ~15-20% post-market withdrawal/
+    # conversion failure rate. This is a BASE RATE correction, not a log-odds adjuster.
+    if (
+        approval_pathway is not None
+        and approval_pathway == ApprovalPathwayType.ACCELERATED
+        and phase == TrialPhase.NDA_BLA
+    ):
+        base_rate = base_rate * (1.0 - _AA_NDA_DISCOUNT)
 
     # Convert to log-odds
     base_rate = max(0.01, min(0.99, base_rate))  # avoid ±inf
@@ -231,12 +246,14 @@ def apply_pos_to_trials(
     trials: list,  # list[ClinicalTrial] - avoiding circular import
     therapeutic_area: TherapeuticArea,
     per_phase_adjusters: Optional[dict[TrialPhase, POSAdjusters]] = None,
+    approval_pathway: Optional[ApprovalPathwayType] = None,
 ) -> list:
     """
     Return a new list of trials with success_probability overwritten by POS model.
 
     per_phase_adjusters: dict mapping TrialPhase → POSAdjusters.
     Phases not in the dict use default POSAdjusters().
+    approval_pathway: when ACCELERATED, applies NDA/BLA confirmatory risk discount.
     """
     if per_phase_adjusters is None:
         per_phase_adjusters = {}
@@ -244,6 +261,6 @@ def apply_pos_to_trials(
     updated = []
     for trial in trials:
         adj = per_phase_adjusters.get(trial.phase, POSAdjusters())
-        pos = compute_pos(trial.phase, therapeutic_area, adj)
+        pos = compute_pos(trial.phase, therapeutic_area, adj, approval_pathway=approval_pathway)
         updated.append(trial.model_copy(update={"success_probability": pos}))
     return updated

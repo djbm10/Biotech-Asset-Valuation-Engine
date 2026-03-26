@@ -34,6 +34,12 @@ class Modality(str, Enum):
     OTHER = "other"
 
 
+class ApprovalPathwayType(str, Enum):
+    STANDARD = "standard"
+    ACCELERATED = "accelerated"      # AA under Subpart H; surrogate endpoint; confirmatory required
+    PRIORITY_REVIEW = "priority_review"  # process only; no probability change
+
+
 class Catalyst(BaseModel):
     description: str
     expected_date: Optional[str] = None     # ISO date or "Q3 2025" style
@@ -74,6 +80,22 @@ class Asset(BaseModel):
             "Years from first commercial revenue where NOL carryforwards defer "
             "cash taxes. During this window effective_tax_rate is treated as 0.0. "
             "Set to 0 to disable NOL modeling."
+        )
+    )
+    approval_pathway: ApprovalPathwayType = Field(
+        default=ApprovalPathwayType.STANDARD,
+        description=(
+            "Regulatory approval pathway. ACCELERATED applies a confirmatory trial "
+            "risk discount to the NDA/BLA success rate (~18% reduction, reflecting "
+            "post-market withdrawal/conversion failure rates for surrogate-based AA)."
+        )
+    )
+    post_approval_rd_millions: float = Field(
+        default=0.0, ge=0.0,
+        description=(
+            "Expected post-approval R&D obligations in USD millions (nominal, undiscounted). "
+            "Includes: Phase 4 commitments, REMS program, pharmacovigilance, label "
+            "expansion studies. Discounted at years_to_approval in CostModel."
         )
     )
     royalty_rate: float = Field(

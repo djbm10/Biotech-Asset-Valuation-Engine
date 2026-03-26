@@ -97,16 +97,17 @@ class TestLOETailStructure:
         assert rev.loe_tail_years == 0
         assert rev.total_years == 12
 
-    def test_loe_adds_exactly_three_tail_years(self):
+    def test_loe_adds_exactly_five_tail_years(self):
+        # Sprint 9.10: extended from 3 to 5 tail years
         rev = RevenueModel.compute(_canonical_market(), loe_profile=_loe())
-        assert rev.loe_tail_years == 3
-        assert rev.total_years == 15
+        assert rev.loe_tail_years == 5
+        assert rev.total_years == 17
 
     def test_revenue_curve_length_with_loe(self):
         mm = _canonical_market()
         rev = RevenueModel.compute(mm, loe_profile=_loe())
-        assert len(rev.revenue_by_year) == mm.patent_life_years + 3
-        assert len(rev.ebit_by_year) == mm.patent_life_years + 3
+        assert len(rev.revenue_by_year) == mm.patent_life_years + 5
+        assert len(rev.ebit_by_year) == mm.patent_life_years + 5
 
     def test_patent_life_years_field_unchanged(self):
         """patent_life_years still reflects the core period, not the extended total."""
@@ -277,7 +278,7 @@ class TestLOEInvariants:
             ],
         )
         rev = RevenueModel.compute(mm, loe_profile=_loe())
-        assert rev.loe_tail_years == 3
+        assert rev.loe_tail_years == 5  # Sprint 9.10: extended to 5 tail years
         for yr_idx in range(rev.total_years):
             geo_sum = sum(
                 rev.diagnostics.by_segment_geography[seg]["global"][yr_idx]
@@ -305,7 +306,7 @@ class TestLOEImpactOnRNPV:
         """Locked regression: small_molecule LOE tail with post-LOE SG&A collapse.
         Sprint 9: baseline updated to include 21% effective tax rate (UFCF fix)."""
         result = _run_with_loe("small_molecule")
-        assert result.rnpv_millions == pytest.approx(81.01, abs=0.5)
+        assert result.rnpv_millions == pytest.approx(83.13, abs=0.5)  # Sprint 9.10: +2.12 from 5-yr LOE
 
     def test_rnpv_without_loe_matches_pre_step3_snapshot(self):
         """No-LOE path baseline.
@@ -346,13 +347,13 @@ class TestValuationEngineAppliesLOE:
 
     def test_engine_applies_loe_automatically(self):
         output = self._engine("small_molecule").run()
-        # Sprint 9: baseline updated for UFCF/tax fix; was 138.82 pre-Sprint-9
-        assert output.rnpv.rnpv_millions == pytest.approx(81.01, abs=0.5)
+        # Sprint 9.10: 83.13 after LOE 3→5 extension (was 81.01 pre-9.10)
+        assert output.rnpv.rnpv_millions == pytest.approx(83.13, abs=0.5)
 
     def test_revenue_stream_has_loe_tail(self):
         output = self._engine().run()
-        assert output.rnpv.revenue_stream.loe_tail_years == 3
-        assert output.rnpv.revenue_stream.total_years == 15
+        assert output.rnpv.revenue_stream.loe_tail_years == 5  # Sprint 9.10: 5 tail years
+        assert output.rnpv.revenue_stream.total_years == 17
 
     def test_biologic_asset_gets_different_loe(self):
         out_sm = self._engine("small_molecule").run()

@@ -547,9 +547,9 @@ class TestEndToEndRegression:
         )
 
     def test_rnpv_snapshot(self):
-        # Sprint 9: updated to 81.01 after UFCF/tax fix (was 138.82 pre-Sprint-9)
+        # Sprint 9.10: updated to 83.13 after LOE 3→5 tail extension (was 81.01 pre-9.10)
         output = self._build_engine().run()
-        assert output.rnpv.rnpv_millions == pytest.approx(81.01, abs=0.5)
+        assert output.rnpv.rnpv_millions == pytest.approx(83.13, abs=0.5)
 
     def test_pos_snapshot(self):
         output = self._build_engine().run()

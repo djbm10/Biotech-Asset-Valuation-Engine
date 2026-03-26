@@ -332,8 +332,57 @@ class AssumptionsLoader:
 
     @property
     def sgna(self) -> MappingProxyType:
-        """Keys: rate_launch, rate_mature, ramp_years."""
+        """Keys: rate_launch, rate_mature, ramp_years. Legacy accessor; see sgna_profile()."""
         return self._data["commercial"]["sgna"]
+
+    @property
+    def sgna_profiles(self) -> MappingProxyType:
+        """Full table of SG&A profiles keyed by profile name."""
+        return self._data["commercial"]["sgna_profiles"]
+
+    def sgna_profile(self, name: str) -> MappingProxyType:
+        """
+        SG&A ramp profile for a named commercial profile.
+
+        Available profiles: specialty_pharma, rare_disease, gene_cell_therapy,
+        primary_care, default.  Falls back to 'default' (= specialty_pharma)
+        with a UserWarning if the name is not found.
+        """
+        profiles = self._data["commercial"]["sgna_profiles"]
+        if name in profiles:
+            return profiles[name]
+        warnings.warn(
+            f"SG&A profile {name!r} not found in sgna_profiles. "
+            f"Falling back to 'default'. (assumptions version: {self.version})",
+            UserWarning,
+            stacklevel=2,
+        )
+        return profiles["default"]
+
+    @property
+    def compliance_by_modality(self) -> MappingProxyType:
+        """Compliance rate table keyed by modality string."""
+        return self._data["commercial"]["compliance_by_modality"]
+
+    def compliance_rate(self, modality: str) -> float:
+        """
+        Compliance rate for a modality.
+
+        Falls back to 'other' (0.80) with a UserWarning if not found.
+        For 'biologic' (generic), returns the biologic_iv rate (conservative default).
+        """
+        table = self._data["commercial"]["compliance_by_modality"]
+        # biologic (generic) → biologic_iv as conservative default
+        lookup = "biologic_iv" if modality == "biologic" else modality
+        if lookup in table:
+            return float(table[lookup])
+        warnings.warn(
+            f"Modality {modality!r} not found in compliance_by_modality. "
+            f"Falling back to 'other'. (assumptions version: {self.version})",
+            UserWarning,
+            stacklevel=2,
+        )
+        return float(table["other"])
 
     @property
     def commercial_defaults(self) -> MappingProxyType:

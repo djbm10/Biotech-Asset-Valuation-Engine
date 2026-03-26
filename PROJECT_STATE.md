@@ -2,35 +2,36 @@
 
 ## Current Module Being Worked On
 
-Sprint 9 — Institutional grade model fixes (Phase 1 complete)
+Sprint 9 — Institutional grade model fixes (Phase 2 complete)
 
 ## Last Change
 
-**Sprint 9 Phase 1 (core model math) complete (2026-03-25):**
-- Task 9.1: UFCF/Tax treatment — applied 21% effective tax to EBIT in RNPVModel;
-  added `effective_tax_rate` + `nol_benefit_years` to Asset; `tax_rate_add` to
-  ScenarioAssumptions; `effective_tax_rate` as 6th sensitivity tornado parameter.
-  All rNPV baselines decreased ~40-45%.
-- Task 9.2: POS Layer 1 cap — ±0.80 log-odds cap on combined adjuster delta;
-  extracted `_compute_layer1_adjustment()` helper.
-- Task 9.3: BTD log-odds correction — reduced from +0.20 to +0.05; BTD is a process
-  designation (faster review), not a binary approval probability booster.
-- Task 9.4: WACC modernization — default discount_rate 0.10 → 0.12 (2026-Q1);
-  added `vintage` and `erp_biotech` calibration fields to wacc section.
-- Regression fixtures updated in: test_phase1.py, test_step2.py, test_step3.py,
-  test_step6.py, test_step7.py (all 6 test files, all passing).
-- Pre-existing test bugs fixed: test_competition_crowding.py floor test (floor_residual_share
-  became configurable; test now sets it explicitly).
+**Sprint 9 Phase 2 (revenue/cost corrections) complete (2026-03-26):**
+- Task 9.5: S-curve uptake warning — `MarketModel._check_uptake_shape` validator emits
+  `UserWarning` when `use_s_curve=False` for patient-based or TAM-based market models.
+  LoT models skip the check (validator returns early when `lines_of_therapy` is set).
+- Task 9.6: Modality compliance rates — `compliance_by_modality` table in YAML;
+  `AssumptionsLoader.compliance_rate(modality)` with "biologic" → "biologic_iv" alias
+  and "other" fallback. Engine warns when gene/cell therapy asset has `compliance_rate < 1.0`.
+- Task 9.7: SG&A auto-selection — `ValuationEngine._resolve_market_model_with_sgna()`;
+  gene/cell therapy → gene_cell_therapy profile (55%/28%/7yr); rare_disease → rare_disease
+  profile (45%/22%/4yr); explicit SG&A override preserved; emits advisory UserWarning.
+- Task 9.8: Accelerated approval NDA discount — 18% base-rate reduction at NDA/BLA phase
+  only; `ApprovalPathwayType` enum on Asset; `compute_pos()` accepts `approval_pathway`;
+  PRIORITY_REVIEW has no effect. Oncology NDA/BLA: 83% standard → 68% accelerated.
+- Task 9.9: Post-approval R&D cost — `post_approval_rd_millions` field on Asset (default 0.0);
+  `CostModel.compute()` discounts at `years_to_approval`, weighted by `cumulative_approval_probability`;
+  exposed as `post_approval_rd_pv_millions` on `CostStream`.
+- Task 9.10: LOE tail 5-year extension — `_LOE_TAIL_KEYS` extended to 5 entries; backward
+  compat via `break` for old 3-key profiles; all 7 YAML modality profiles extended with
+  `year_4_loss` and `year_5_loss`; small_molecule `terminal_loss` 0.85→0.95.
+- Regression fixtures updated: test_step2.py, test_step3.py, test_step6.py, test_step7.py
+  (LOE 3→5 yr: 81.01→83.13, 82.36→84.27, 223.19→228.04, 1.41→2.71).
+- Acceptance tests added: `tests/test_sprint9_phase2.py` (47 tests, all passing).
+- Run_asset.py F401 lint fix (unused `_TrialPhase` import removed).
+- Test baseline: 512 passing (was 465).
 
 ## Next Step
-
-Sprint 9 Phase 2 (revenue/cost corrections):
-- Task 9.5: S-curve uptake warning when not configured
-- Task 9.6: Compliance rate differentiation by modality
-- Task 9.7: SG&A ramp profiles by commercial stage
-- Task 9.8: Accelerated approval pathway POS differentiation
-- Task 9.9: Post-approval R&D cost modeling
-- Task 9.10: LOE extension to 5-year tail for small molecules
 
 OR resume Sprint 8 Task 8.7 Step 6:
 - Extend weekly output with top-10 M&A probability scan

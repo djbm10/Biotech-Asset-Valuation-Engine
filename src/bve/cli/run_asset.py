@@ -15,23 +15,47 @@ from pathlib import Path
 import yaml
 
 from bve.config.assumptions_loader import AssumptionsLoader as _AssumptionsLoader
+from bve.entities.asset import DevelopmentStage as _DevelopmentStage
+from bve.entities.asset import Modality as _Modality
+from bve.entities.asset import TherapeuticArea as _TherapeuticArea
+from bve.entities.trial import EndpointType as _EndpointType
+from bve.models.pos_model import (
+    CompetitivePressure as _CompetitivePressure,
+    MoAPrecedent as _MoAPrecedent,
+    SafetyProfile as _SafetyProfile,
+    SampleSizeAdequacy as _SampleSizeAdequacy,
+)
+from bve.models.trial_design_features import (
+    ApprovalPathway as _ApprovalPathway,
+    EndpointBasis as _EndpointBasis,
+    EvidenceDesign as _EvidenceDesign,
+)
 
 # Resolved once at import — avoids re-loading YAML on every CLI invocation
 _COMMERCIAL_DEFAULTS = _AssumptionsLoader.get().commercial_defaults
 _MC_DEFAULTS = _AssumptionsLoader.get()
 
 
-_VALID_THERAPEUTIC_AREAS = {"oncology", "rare_disease", "cns", "cardiovascular", "immunology", "infectious_disease", "ophthalmology", "other"}
-_VALID_STAGES = {"phase_1", "phase_2", "phase_3", "nda_bla"}
-_VALID_MODALITIES = {"small_molecule", "biologic", "cell_gene", "adc", "other"}
-_VALID_ENDPOINT_TYPES = {"hard_clinical", "surrogate_validated", "surrogate_novel", "biomarker_only"}
-_VALID_MOA_PRECEDENT = {"validated", "partial", "novel"}
-_VALID_SAMPLE_ADEQUACY = {"well_powered", "adequate", "borderline", "underpowered"}
-_VALID_SAFETY = {"clean", "minor", "concerning", "serious"}
-_VALID_COMPETITION = {"low", "moderate", "high"}
-_VALID_ENDPOINT_BASIS = {"hard_clinical", "surrogate_validated", "surrogate_novel", "biomarker_only"}
-_VALID_EVIDENCE_DESIGN = {"rct_comparative", "rct_non_comparative", "single_arm", "registry_based"}
-_VALID_APPROVAL_PATHWAY = {"standard", "accelerated_approval", "breakthrough_designation", "orphan_drug"}
+_VALID_THERAPEUTIC_AREAS = {ta.value for ta in _TherapeuticArea}
+_VALID_STAGES = {s.value for s in _DevelopmentStage}
+_VALID_MODALITIES = {m.value for m in _Modality}
+_VALID_ENDPOINT_TYPES = {e.value for e in _EndpointType}
+_VALID_MOA_PRECEDENT = {m.value for m in _MoAPrecedent}
+_VALID_SAMPLE_ADEQUACY = {s.value for s in _SampleSizeAdequacy}
+_VALID_SAFETY = {s.value for s in _SafetyProfile}
+_VALID_COMPETITION = {c.value for c in _CompetitivePressure}
+_VALID_ENDPOINT_BASIS = {e.value for e in _EndpointBasis}
+_VALID_EVIDENCE_DESIGN = {e.value for e in _EvidenceDesign}
+_VALID_APPROVAL_PATHWAY = {p.value for p in _ApprovalPathway}
+
+_SAMPLE_SIZE_ADEQUACY_ALIASES = {
+    "large": "well_powered",
+}
+
+
+def _normalize_sample_size_adequacy(value: str) -> str:
+    """Normalize legacy sample-size labels to current enum values."""
+    return _SAMPLE_SIZE_ADEQUACY_ALIASES.get(value, value)
 
 
 def _validate_config(cfg: dict, path: Path) -> None:
@@ -112,8 +136,14 @@ def _validate_config(cfg: dict, path: Path) -> None:
                 _check(pc["moa_precedent"] in _VALID_MOA_PRECEDENT,
                        f"{prefix}.moa_precedent must be one of {sorted(_VALID_MOA_PRECEDENT)}, got: {pc['moa_precedent']!r}")
             if pc.get("sample_size_adequacy"):
-                _check(pc["sample_size_adequacy"] in _VALID_SAMPLE_ADEQUACY,
-                       f"{prefix}.sample_size_adequacy must be one of {sorted(_VALID_SAMPLE_ADEQUACY)}, got: {pc['sample_size_adequacy']!r}")
+                sample_size_value = _normalize_sample_size_adequacy(
+                    str(pc["sample_size_adequacy"])
+                )
+                _check(sample_size_value in _VALID_SAMPLE_ADEQUACY,
+                       f"{prefix}.sample_size_adequacy must be one of "
+                       f"{sorted(_VALID_SAMPLE_ADEQUACY)}"
+                       f" (legacy aliases: {sorted(_SAMPLE_SIZE_ADEQUACY_ALIASES)}), "
+                       f"got: {pc['sample_size_adequacy']!r}")
             if pc.get("safety_profile"):
                 _check(pc["safety_profile"] in _VALID_SAFETY,
                        f"{prefix}.safety_profile must be one of {sorted(_VALID_SAFETY)}, got: {pc['safety_profile']!r}")
@@ -285,7 +315,11 @@ def _build_pos_adjusters(cfg: dict):
         adjusters[phase_enum] = POSAdjusters(
             endpoint_type=EndpointType(phase_cfg.get("endpoint_type", "surrogate_validated")),
             moa_precedent=MoAPrecedent(phase_cfg.get("moa_precedent", "partial")),
-            sample_size_adequacy=SampleSizeAdequacy(phase_cfg.get("sample_size_adequacy", "adequate")),
+            sample_size_adequacy=SampleSizeAdequacy(
+                _normalize_sample_size_adequacy(
+                    phase_cfg.get("sample_size_adequacy", "adequate")
+                )
+            ),
             safety_profile=SafetyProfile(phase_cfg.get("safety_profile", "minor")),
             competitive_pressure=CompetitivePressure(phase_cfg.get("competitive_pressure", "moderate")),
             biomarker_selected_population=phase_cfg.get("biomarker_selected_population", False),

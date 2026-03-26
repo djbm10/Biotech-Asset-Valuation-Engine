@@ -34,7 +34,10 @@ from pydantic import BaseModel
 from bve.models.market_model import MarketModel
 
 
-_LOE_TAIL_KEYS = ("year_1_loss", "year_2_loss", "year_3_loss")
+_LOE_TAIL_KEYS = (
+    "year_1_loss", "year_2_loss", "year_3_loss",
+    "year_4_loss", "year_5_loss",   # Sprint 9.10: extended from 3 to 5 tail years
+)
 
 
 # ---------------------------------------------------------------------------
@@ -143,6 +146,8 @@ class RevenueModel:
             post_loe_sgna = market_model.sgna_rate_mature * sgna_fraction
 
             for key in _LOE_TAIL_KEYS:
+                if key not in loe_profile:
+                    break   # profile does not define further erosion years
                 loss_frac = float(loe_profile[key])
                 tail_rev = peak * (1.0 - loss_frac)
                 tail_gp = tail_rev * (1.0 - cogs)
@@ -163,6 +168,8 @@ class RevenueModel:
                 seg_peak = max(by_segment[seg]) if by_segment[seg] else 0.0
                 seg_fraction = seg_peak / peak if peak > 0 else 0.0
                 for key in _LOE_TAIL_KEYS:
+                    if key not in loe_profile:  # type: ignore[operator]
+                        break   # profile does not define further erosion years
                     loss_frac = float(loe_profile[key])  # type: ignore[index]
                     by_segment[seg].append(seg_peak * (1.0 - loss_frac) if seg_fraction > 0 else 0.0)
 
