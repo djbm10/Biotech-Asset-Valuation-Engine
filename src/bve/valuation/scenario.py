@@ -39,6 +39,9 @@ class ScenarioAssumptions(BaseModel):
     # Discount rate adjustment (additive)
     discount_rate_add: float = 0.0
 
+    # Tax rate adjustment (additive, e.g. +0.03 for bear scenario tax increase)
+    tax_rate_add: float = 0.0
+
 
 SCENARIO_BULL = ScenarioAssumptions(
     label="Bull",
@@ -111,7 +114,8 @@ def _apply_scenario(
     deal: Optional["DealEconomics"] = None,
 ) -> ScenarioResult:
     r = max(0.01, asset.discount_rate + assumptions.discount_rate_add)
-    sim_asset = asset.model_copy(update={"discount_rate": r})
+    new_tax = max(0.0, min(0.50, asset.effective_tax_rate + assumptions.tax_rate_add))
+    sim_asset = asset.model_copy(update={"discount_rate": r, "effective_tax_rate": new_tax})
 
     # Scale market
     if market_model.total_addressable_market_millions is not None:

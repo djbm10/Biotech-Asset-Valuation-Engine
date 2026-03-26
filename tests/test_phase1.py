@@ -726,8 +726,8 @@ class TestBackwardCompatSnapshot:
         from bve.models.rnpv_model import compute_rnpv
         asset, trials, market = self._make_base_setup()
         result = compute_rnpv(asset, trials, market)
-        assert result.rnpv_millions == pytest.approx(118.72, abs=0.5), (
-            f"rNPV snapshot mismatch: got {result.rnpv_millions:.2f}, expected ~118.72"
+        assert result.rnpv_millions == pytest.approx(65.13, abs=0.5), (
+            f"rNPV snapshot mismatch: got {result.rnpv_millions:.2f}, expected ~65.13"
         )
 
     def test_pos_model_snapshot(self):
@@ -744,8 +744,8 @@ class TestBackwardCompatSnapshot:
         asset, trials, market = self._make_base_setup()
         params = MonteCarloParams(n_simulations=1000, random_seed=0)
         mc = run_monte_carlo(asset, trials, market, params)
-        assert mc.mean_millions == pytest.approx(123.75, abs=15.0), (
-            f"MC mean snapshot mismatch: got {mc.mean_millions:.1f}, expected ~123.75 ± 15"
+        assert mc.mean_millions == pytest.approx(69.51, abs=15.0), (
+            f"MC mean snapshot mismatch: got {mc.mean_millions:.1f}, expected ~69.51 ± 15"
         )
         assert mc.percentile_95_millions > 2 * mc.percentile_50_millions
 

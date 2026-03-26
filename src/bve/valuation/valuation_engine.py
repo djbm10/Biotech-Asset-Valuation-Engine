@@ -371,6 +371,18 @@ class ValuationEngine:
             high_rnpv=_rnpv(market=m_hi),
         ))
 
+        # 6. Effective tax rate ±5pp (e.g. 16% to 26% around 21% base)
+        tax = self.asset.effective_tax_rate
+        a_lo_tax = self.asset.model_copy(update={"effective_tax_rate": max(0.0, tax - 0.05)})
+        a_hi_tax = self.asset.model_copy(update={"effective_tax_rate": min(0.50, tax + 0.05)})
+        sensitivities.append(SensitivityPoint(
+            parameter="Eff. Tax Rate (±5pp)",
+            low_value=(tax - 0.05) * 100,
+            high_value=(tax + 0.05) * 100,
+            low_rnpv=_rnpv(asset=a_lo_tax),   # lower tax → higher NPV
+            high_rnpv=_rnpv(asset=a_hi_tax),
+        ))
+
         # Sort by |swing| descending (tornado order)
         sensitivities.sort(key=lambda s: abs(s.swing), reverse=True)
         return sensitivities

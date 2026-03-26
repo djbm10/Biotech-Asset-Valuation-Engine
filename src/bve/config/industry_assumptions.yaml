@@ -164,7 +164,7 @@ commercial:
   defaults:
     # Fallback values used when an asset config does not specify the field.
     # Callers receive a warning when these are applied (see AssumptionsLoader).
-    discount_rate: 0.10     # = wacc.default; duplicated here for explicit CLI fallback
+    discount_rate: 0.12     # = wacc.default; duplicated here for explicit CLI fallback
     peak_penetration: 0.10  # Conservative placeholder; asset configs should always override
     cogs_rate: 0.18         # = cogs_rate_by_modality["other"]; used when modality unknown
 
@@ -175,10 +175,31 @@ commercial:
 
 wacc:
   # Source: Damodaran biotech sector; BVP Emerging Pharma dataset
-  default:    0.10   # Standard clinical-stage biotech
-  small_cap:  0.12   # < $500M market cap: higher equity risk premium
-  large_cap:  0.09   # > $5B market cap: lower risk, more diversified pipeline
-  risk_free:  0.04   # Approximate current 10-year Treasury proxy
+  # Updated 2026-Q1: risk-free rate has risen to ~4.2-4.3%; defaults raised accordingly.
+  vintage:     "2026-Q1"    # update each year when recalibrating
+  default:     0.12         # clinical-stage biotech (was 0.10 pre-Sprint-9)
+  small_cap:   0.14         # < $500M market cap: higher equity risk premium
+  large_cap:   0.10         # > $5B market cap: lower risk, more diversified pipeline
+  risk_free:   0.043        # 10Y Treasury proxy 2026-Q1
+  erp_biotech: 0.077        # biotech equity risk premium used to derive defaults above
+
+
+# ==============================================================================
+# Tax treatment
+# ==============================================================================
+#
+# US statutory corporate rate post-TCJA (2018). Clinical-stage biotechs often
+# have NOL carryforwards that defer cash taxes for years post-approval.
+# effective_rate_default models the steady-state blended effective rate once
+# NOLs are exhausted. Callers may override on Asset when non-US domicile or
+# a known NOL position requires a different rate.
+#
+# Source: US statutory rate 21%; blended effective rate ~18-22% for specialty
+# pharma (company filings, FactSet tax-rate benchmarking).
+
+tax:
+  effective_rate_default: 0.21   # US statutory post-TCJA; override per asset
+  nol_benefit_years: 0           # default = no NOL modeling (conservative)
 
 
 # ==============================================================================
@@ -298,6 +319,30 @@ competition:
     first_competitor:   0.15   # Entering a 1-competitor market: -15% to peak penetration
     each_additional:    0.10   # Each competitor beyond the first: -10%
     maximum_total:      0.50   # Hard floor: model always retains ≥50% of modeled penetration
+
+
+# ==============================================================================
+# POS model Layer 1 caps
+# ==============================================================================
+#
+# Layer 1 (POSAdjusters) had no combined cap before Sprint 9.
+# Maximum theoretical stacked upward adjustment was +1.80 log-odds, pushing a
+# 32% oncology Phase 2 base to ~62% — implausible for any indication.
+#
+# The cap applies to the ADJUSTMENT relative to the base rate (not the absolute
+# log-odds), so the TA prior is preserved and only analyst qualitative input is
+# bounded. +0.80 log-odds at 32% Phase 2 base → ~47% adjusted POS — aggressive
+# but not impossible for a biomarker-selected Breakthrough-designated asset.
+#
+# btd_logodds: Breakthrough Therapy Designation is a PROCESS designation.
+# Primary effect is faster review, not higher binary approval probability.
+# Prior literature shows no significant PoS lift once controlling for indication
+# and target quality. Value reduced from +0.20 to +0.05 (Sprint 9).
+
+pos_model:
+  layer1_cap_logodds_positive:  0.80   # max combined upward adjustment (Sprint 9; was uncapped)
+  layer1_cap_logodds_negative: -0.80   # symmetric downward cap
+  btd_logodds: 0.05                    # was 0.20; BTD = process, not probability
 
 
 # ==============================================================================

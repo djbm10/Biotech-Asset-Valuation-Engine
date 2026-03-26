@@ -485,7 +485,7 @@ class TestEndToEndRegression:
 
     def _build_engine(self) -> ValuationEngine:
         # Exact same setup as TestBackwardCompatSnapshot._make_base_setup() in test_phase1.py
-        # so that snapshot values (138.82 rNPV, ~144.57 MC mean with LOE) are reproducible.
+        # so that snapshot values are reproducible. Sprint 9: 81.01 rNPV, ~85.96 MC mean with LOE.
         asset = Asset(
             id="snap-001",
             name="SNAP-001",
@@ -547,9 +547,9 @@ class TestEndToEndRegression:
         )
 
     def test_rnpv_snapshot(self):
-        # ValuationEngine applies LOE tail with corrected post-LOE SG&A collapse
+        # Sprint 9: updated to 81.01 after UFCF/tax fix (was 138.82 pre-Sprint-9)
         output = self._build_engine().run()
-        assert output.rnpv.rnpv_millions == pytest.approx(138.82, abs=0.5)
+        assert output.rnpv.rnpv_millions == pytest.approx(81.01, abs=0.5)
 
     def test_pos_snapshot(self):
         output = self._build_engine().run()
@@ -557,10 +557,9 @@ class TestEndToEndRegression:
         assert output.rnpv.cumulative_success_probability == pytest.approx(expected_pos, rel=1e-4)
 
     def test_mc_snapshot(self):
-        # MC now runs the full economic stack (LOE included); mean reflects LOE tail value.
-        # Locked snapshot updated in Step 6: 123.75 (no-LOE) → 144.57 (with LOE, seed=0, n=1000).
+        # Sprint 9: updated to 85.96 after UFCF/tax fix (was 144.57 with LOE, 123.75 no-LOE).
         output = self._build_engine().run()
-        assert output.monte_carlo.mean_millions == pytest.approx(144.57, abs=5.0)
+        assert output.monte_carlo.mean_millions == pytest.approx(85.96, abs=5.0)
 
     def test_sub_objects_in_output(self):
         output = self._build_engine().run()
@@ -572,7 +571,7 @@ class TestEndToEndRegression:
         output = self._build_engine().run()
         assert output.nav_millions > 0
         assert output.nav_per_share > 0
-        assert len(output.sensitivities) == 5
+        assert len(output.sensitivities) == 6  # Sprint 9: added effective_tax_rate sensitivity
         assert output.monte_carlo.n_simulations == 1000
 
     def test_intermediate_results_inspectable(self):

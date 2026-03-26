@@ -96,6 +96,17 @@ _COMPETITION_LOGODDS: dict[CompetitivePressure, float] = {
 _BIOMARKER_SELECTION_BONUS: float = 0.40  # log-odds bonus for biomarker-enriched population
 _PRIOR_PHASE_SUCCESS_BONUS: float = 0.25  # log-odds bonus for strong prior-phase data
 
+# Layer 1 combined cap (Sprint 9): applies to the net adjustment from the base rate.
+# Rationale: +0.80 at 32% Phase 2 oncology base → ~47% adjusted POS (plausible for
+# biomarker-selected BTD assets). +1.80 (pre-cap max) → 62% — implausible.
+_L1_CAP_POSITIVE: float = 0.80
+_L1_CAP_NEGATIVE: float = -0.80
+
+# Breakthrough Therapy Designation: process designation, not approval probability.
+# Primary effect is faster FDA review, not higher binary approval likelihood.
+# +0.05 retains a tiny signal for FDA engagement level. (Was +0.20 pre-Sprint-9.)
+_BTD_LOGODDS: float = 0.05
+
 
 # ---------------------------------------------------------------------------
 # Input model
@@ -163,23 +174,45 @@ def compute_pos(
     base_rate = max(0.01, min(0.99, base_rate))  # avoid ±inf
     log_odds = math.log(base_rate / (1.0 - base_rate))
 
-    # Apply adjusters
-    log_odds += _ENDPOINT_LOGODDS[adjusters.endpoint_type]
-    log_odds += _MOA_LOGODDS[adjusters.moa_precedent]
-    log_odds += _SAMPLE_LOGODDS[adjusters.sample_size_adequacy]
-    log_odds += _SAFETY_LOGODDS[adjusters.safety_profile]
-    log_odds += _COMPETITION_LOGODDS[adjusters.competitive_pressure]
+    # Apply adjusters — sum into a named delta for cap enforcement
+    adjustment = _compute_layer1_adjustment(adjusters)
 
-    if adjusters.biomarker_selected_population:
-        log_odds += _BIOMARKER_SELECTION_BONUS
-    if adjusters.strong_prior_phase_data:
-        log_odds += _PRIOR_PHASE_SUCCESS_BONUS
-    if adjusters.has_breakthrough_designation:
-        log_odds += 0.20  # modest boost; BTD correlates with faster/easier approval
+    # Cap the combined adjustment (not the absolute log-odds) so the TA base
+    # rate is preserved; only analyst qualitative input is bounded.
+    adjustment = max(_L1_CAP_NEGATIVE, min(_L1_CAP_POSITIVE, adjustment))
+    log_odds += adjustment
 
     # Convert back
     pos = 1.0 / (1.0 + math.exp(-log_odds))
     return round(pos, 4)
+
+
+def _compute_layer1_adjustment(adjusters: POSAdjusters) -> float:
+    """
+    Sum all Layer 1 qualitative adjusters into a single log-odds delta.
+
+    Extracted as a named function so tests can verify the raw adjustment
+    (pre-cap) and cap boundary behaviour independently.
+    """
+    delta = 0.0
+    delta += _ENDPOINT_LOGODDS[adjusters.endpoint_type]
+    delta += _MOA_LOGODDS[adjusters.moa_precedent]
+    delta += _SAMPLE_LOGODDS[adjusters.sample_size_adequacy]
+    delta += _SAFETY_LOGODDS[adjusters.safety_profile]
+    delta += _COMPETITION_LOGODDS[adjusters.competitive_pressure]
+
+    if adjusters.biomarker_selected_population:
+        delta += _BIOMARKER_SELECTION_BONUS
+    if adjusters.strong_prior_phase_data:
+        delta += _PRIOR_PHASE_SUCCESS_BONUS
+    if adjusters.has_breakthrough_designation:
+        # BTD is a process designation; primary effect is faster review, not higher
+        # binary approval probability. No significant PoS lift once controlling for
+        # indication and target quality (prior literature). +0.05 retains a tiny
+        # signal for FDA engagement level. (Was +0.20 pre-Sprint-9.)
+        delta += _BTD_LOGODDS
+
+    return delta
 
 
 def compute_cumulative_pos(phase_pos_list: list[float]) -> float:

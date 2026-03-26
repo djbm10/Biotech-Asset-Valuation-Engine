@@ -57,8 +57,24 @@ class Asset(BaseModel):
 
     # Economics
     discount_rate: float = Field(
-        default=0.10, gt=0.0, lt=1.0,
+        default=0.12, gt=0.0, lt=1.0,
         description="WACC used to discount cash flows"
+    )
+    effective_tax_rate: float = Field(
+        default=0.21, ge=0.0, le=0.50,
+        description=(
+            "Effective corporate tax rate applied to EBIT to derive UFCF. "
+            "Default 21% (US statutory post-TCJA). Override for non-US domicile "
+            "or assets with known NOL carryforward positions."
+        )
+    )
+    nol_benefit_years: int = Field(
+        default=0, ge=0,
+        description=(
+            "Years from first commercial revenue where NOL carryforwards defer "
+            "cash taxes. During this window effective_tax_rate is treated as 0.0. "
+            "Set to 0 to disable NOL modeling."
+        )
     )
     royalty_rate: float = Field(
         default=0.0, ge=0.0, le=1.0,

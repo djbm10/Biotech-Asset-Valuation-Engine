@@ -93,6 +93,10 @@ class RNPVResult(BaseModel):
     revenue_stream: Optional[RevenueStream] = None
     cost_stream: Optional[CostStream] = None
 
+    # Tax treatment applied in this run
+    effective_tax_rate: float = 0.21
+    nol_benefit_years: int = 0
+
     # NAV convenience (set externally by valuation engine)
     nav_millions: float = 0.0
     nav_per_share: float = 0.0
@@ -153,12 +157,18 @@ class RNPVModel:
         years_to_launch = prob.years_to_approval
         cum_prob = prob.cumulative_approval_probability
 
-        # Discount EBIT revenue cash flows anchored to years_to_launch
+        # Discount UFCF (EBIT × (1 − tax)) anchored to years_to_launch.
+        # During nol_benefit_years from commercial launch, NOL carryforwards
+        # defer cash taxes → effective tax = 0.0 for those years only.
+        tax_rate = asset.effective_tax_rate
+        nol_window = asset.nol_benefit_years
         gross_revenue_pv: float = 0.0
         for i, ebit in enumerate(rev.ebit_by_year):
             yr = i + 1                          # 1-indexed year from launch
             abs_year = years_to_launch + yr
-            gross_revenue_pv += (ebit * effective_ownership) / (1.0 + r) ** abs_year
+            effective_tax = 0.0 if yr <= nol_window else tax_rate
+            after_tax_ebit = ebit * (1.0 - effective_tax)
+            gross_revenue_pv += (after_tax_ebit * effective_ownership) / (1.0 + r) ** abs_year
 
         probability_adjusted_revenue_pv = gross_revenue_pv * cum_prob
         trial_costs_pv = cost.total_pv_weighted_millions
@@ -207,6 +217,8 @@ class RNPVModel:
             peak_sales_millions=round(rev.peak_sales_millions, 2),
             discount_rate=r,
             net_ownership=round(effective_ownership, 6),
+            effective_tax_rate=tax_rate,
+            nol_benefit_years=nol_window,
             phase_breakdown=phase_breakdown,
             probability_result=prob,
             revenue_stream=rev,

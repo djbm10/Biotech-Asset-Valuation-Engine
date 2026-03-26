@@ -1,6 +1,6 @@
 # tasks.md — Implementation Roadmap
 
-Last updated: 2026-03-18
+Last updated: 2026-03-24
 Current branch: core-engine-v1
 Test baseline: 1,407 passing
 
@@ -789,6 +789,519 @@ on ValuationEngine outputs. It is a separate scoring layer consumed only by Oppo
 
 ---
 
+## Sprint 8 — Acquisition Screening + M&A Replay
+
+### Task 8.1 — Acquisition Discount Screener
+
+**Status (2026-03-22): complete**
+
+**Why first**: Highest-value, lowest-risk entry point. Reuses the current valuation
+engine, market-cap snapshots, and knowledge-store plumbing without requiring new
+connectors or LLM work.
+
+**Modeling checkpoint before coding:**
+- `RNPVResult.rnpv_millions` is already risk-adjusted in this repo.
+- The screener must therefore implement exactly one of:
+  1. `acquisition_discount = rnpv_millions / enterprise_value`
+  2. `acquisition_discount = unrisked_pipeline_value × model_pos / enterprise_value`
+- Do **not** implement `rnpv_millions × model_pos / enterprise_value`; that would
+  double-apply approval probability.
+
+**Create:**
+- `src/bve/intelligence/acquisition_screen.py`
+  - `AcquisitionScreenConfig`
+  - `AcquisitionDiscountSnapshot`
+  - `AcquisitionScreenRow`
+  - `AcquisitionScreenResult`
+  - `AcquisitionScreener.screen_assets(...)`
+  - Enterprise-value resolution path:
+    - base case: `EV = market_cap - net_cash`
+    - optional extension: add debt when available
+    - every row must store `ev_methodology` so missing-debt assumptions are visible
+
+- `src/bve/cli/acquisition_screen.py`
+  - `bve-acquisition-screen`
+  - Flags:
+    - `--db`
+    - `--universe-file`
+    - `--threshold 2.0`
+    - `--phase2-plus-only`
+    - `--with-comps`
+    - `--json`
+
+**Modify:**
+- `src/bve/intelligence/knowledge_layer.py`
+  - Add `acquisition_discount_snapshots` table:
+    ```sql
+    CREATE TABLE IF NOT EXISTS acquisition_discount_snapshots (
+        snapshot_id TEXT PRIMARY KEY,
+        asset_id TEXT NOT NULL,
+        ticker TEXT,
+        snapshot_date TEXT NOT NULL,
+        formula_version TEXT NOT NULL,
+        model_rnpv_millions REAL,
+        model_pos REAL,
+        market_cap_millions REAL,
+        enterprise_value_millions REAL,
+        net_cash_millions REAL,
+        acquisition_discount REAL,
+        passes_threshold INTEGER NOT NULL,
+        is_acquisition_ready INTEGER,
+        exclusion_reason TEXT,
+        created_at TEXT NOT NULL,
+        UNIQUE(asset_id, snapshot_date, formula_version)
+    );
+    ```
+  - Add `upsert_acquisition_discount_snapshot()`
+  - Add `get_latest_acquisition_discount_snapshot(asset_id)`
+  - Add `list_acquisition_discount_snapshots(...)`
+
+- `pyproject.toml`
+  - Register `bve-acquisition-screen = "bve.cli.acquisition_screen:main"`
+
+**Done criteria:**
+- CLI prints a sorted table with `asset_id, ticker, market_cap, EV, rnpv, model_pos,
+  acquisition_discount, threshold_flag`
+- Universe-wide run surfaces all assets, including rows excluded for missing EV or
+  missing valuation snapshot
+- Threshold filter `acquisition_discount > 2.0` works deterministically
+- Snapshot rows are persisted for longitudinal tracking
+- Full unit coverage for EV resolution, missing-data behavior, and thresholding
+
+---
+
+### Task 8.2 — Comparable Deal Database
+
+**Status (2026-03-22): engineering complete; manual comp set seeded at 26
+screenable public deals and backed by a 43-deal broader sourcing universe in
+`research/mna/deal_universe_2020_2026.yaml`, plus a named live-target monitor in
+`research/mna/target_monitor.yaml`**
+
+**Why second**: The research work is manual and should start early, but the engineering
+side should stay deliberately thin and deterministic.
+
+**Create:**
+- `research/mna/comparable_deals.yaml`
+  - 30-50 biotech M&A deals from the last 3 years
+  - Required fields per record:
+    - `target_name`
+    - `ticker`
+    - `drug_name`
+    - `indication`
+    - `therapeutic_area`
+    - `phase_at_acquisition`
+    - `acquirer`
+    - `deal_date`
+    - `enterprise_value_millions`
+    - `peak_sales_millions`
+    - `ev_to_peak_sales`
+    - `source`
+    - `notes`
+
+- `src/bve/intelligence/comparable_deals.py`
+  - `ComparableDeal`
+  - `ComparableDealSet`
+  - `ComparableDealMatch`
+  - `ComparableDealLoader.load(path)`
+  - `ComparableDealMatcher.match(asset_context, deals)`
+  - Matching tiers:
+    1. exact indication + phase bucket
+    2. therapeutic area + phase bucket
+    3. phase bucket only
+
+- `tests/intelligence/test_comparable_deals.py`
+
+**Design decisions:**
+- Manual research remains outside the app; the code only validates and compares
+- Primary comparison metric is `enterprise_value / peak_sales`
+- Assets with insufficient comparable coverage must return explicit `"no_comps"` output,
+  not silent omission
+
+**Done criteria:**
+- YAML validates cleanly with 30-50 rows
+- Every watchlist asset can produce either a peer percentile or an explicit no-comps state
+- `--with-comps` enriches the acquisition screen output without requiring a DB migration
+
+---
+
+### Task 8.3 — Acquisition Readiness Filter
+
+**Status (2026-03-22): complete**
+
+**Why before replay rebuild**: The M&A replay should operate on the acquisition-eligible
+universe, not the short-dated catalyst universe.
+
+**Create:**
+- `src/bve/intelligence/acquisition_readiness.py`
+  - `AcquisitionReadinessAssessment`
+  - `AcquisitionReadinessEvaluator`
+  - `ReadinessReason` enum or string constants
+
+- `tests/intelligence/test_acquisition_readiness.py`
+
+**Reuse existing signals rather than inventing a new model:**
+- `src/bve/intelligence/trial_design_feature_extractor.py`
+- `src/bve/intelligence/phase_correlation_updater.py`
+- `structured_signals` / `valuation_diffs` / `market_expectations` records already in `KnowledgeStore`
+
+**Rules for v1:**
+- Default include set: assets with Phase 2 proof-of-concept data or later
+- Stage floor: `phase_2` or higher
+- Positive evidence can come from:
+  - confirmed Phase 2/3 readout with `primary_endpoint_met=True`
+  - phase-correlation posterior update sourced from prior efficacy data
+  - explicit manual override in config when evidence is known but not yet structured
+- Exclude:
+  - preclinical / Phase 1 only assets
+  - negative Phase 2 proof-of-concept assets
+  - assets missing enough structured evidence to support inclusion
+- Every exclusion must emit a reason string so the screen remains auditable
+
+**Modify:**
+- `src/bve/intelligence/acquisition_screen.py`
+  - Add readiness filtering and readiness columns
+  - `phase2_plus_only` should default to `False` in the first validation pass, then
+    become the default once the readiness logic is verified on the full universe
+
+**Done criteria:**
+- Readiness classification requires no new network calls
+- Screen output shows `is_acquisition_ready` plus a human-readable reason
+- Existing trial-design and phase-correlation math is unchanged in v1
+- Tests cover positive Phase 2, Phase 1-only, ambiguous evidence, and refuted efficacy
+
+---
+
+### Task 8.4 — M&A Replay Profile
+
+**Status (2026-03-22): complete**
+
+**Why last**: Depends on the screen, readiness filter, and comparable-deal framing to
+define the right universe and objective function.
+
+**Key gaps to close first:**
+- Current replay cadence supports `weekly` and `biweekly` only
+- Current `ReplayPolicyConfig.max_positions` is a per-step decision cap, not a true
+  open-book concentration cap
+
+**Modify:**
+- `src/bve/intelligence/replay_policy.py`
+  - Add `max_open_positions`
+  - Add profile defaults for `mna_acquisition_v1`:
+    - `max_open_positions=8`
+    - `max_positions=8`
+    - `max_hold_days=365`
+    - `loss_block_threshold_pct=-40.0`
+    - `require_catalyst_within_days=0`
+    - `catalyst_timing=False`
+  - Enforce open-position cap before emitting new decisions
+
+- `src/bve/ops/historical_replay.py`
+  - Support `cadence="quarterly"`
+  - Use calendar-based three-month stepping, not a fixed 84-day approximation
+  - Add `--profile mna_acquisition_v1` or equivalent explicit flags
+  - Pass current open-position count into replay policy selection
+
+- `src/bve/analysis/portfolio_experiments.py`
+  - Add M&A experiment rows:
+    - quarterly cadence
+    - 365-day hold
+    - top-8 concentration
+    - no catalyst gate
+    - `-40%` loss block
+
+- `tests/test_replay_policy.py`
+- `tests/test_historical_replay.py`
+- `tests/test_portfolio_experiments.py`
+
+**Done criteria:**
+- Quarterly replay advances correctly across the full date range without date drift
+- No new entries are opened once 8 positions are already live
+- Hold-period exits occur at 365 days when no earlier exit condition exists
+- Catalyst-density/timing gates are fully disabled for the M&A profile
+- Loss blocking triggers only below `-40%`
+- Report compares M&A profile results against the current short-horizon baseline
+
+---
+
+### Task 8.5 — Unified Mispricing Screener
+
+**Status (2026-03-24): engineering complete**
+
+**Why now:** The engine already has the three core primitives needed for a higher-signal
+screening surface:
+- ranking output in `src/bve/intelligence/ranking.py`
+- acquisition discount output in `src/bve/intelligence/acquisition_screen.py`
+- catalyst timing from `KnowledgeStore.get_catalyst_events()` and the catalyst calendar layer
+
+The missing piece is a deterministic asset-level aggregator and CLI that present those
+signals in one ranked report without introducing a parallel valuation stack.
+
+**Create:**
+- `src/bve/intelligence/mispricing_screener.py`
+  - `MispricingScreenConfig`
+  - `MispricingScreenRow`
+  - `MispricingScreenResult`
+  - `UnifiedMispricingScreener`
+  - Responsibilities:
+    - load ranked opportunities from `AssetRankingEngine`
+    - run a fresh `AcquisitionScreener` pass for the same watchlist / `as_of` date
+    - attach nearest active catalyst and `days_to_catalyst`
+    - surface stage, model PoS, implied PoS, and `pos_gap`
+    - compute one versioned `unified_score`
+
+- `src/bve/cli/screen.py`
+  - `bve-screen --watchlist <file> --output-format report|json`
+  - Flags:
+    - `--watchlist`
+    - `--db`
+    - `--as-of`
+    - `--top`
+    - `--days-ahead`
+    - `--output-format report|json`
+    - `--output`
+
+**Scoring contract (v1):**
+- Ranking remains the dominant component
+- Acquisition discount is the second-largest component
+- Catalyst timing is a bounded modifier, not an unbounded force multiplier
+- Stage is light context only
+- PoS adjustment must use `pos_gap` or bounded posterior-vs-prior evidence deltas,
+  not raw PoS, because `rnpv_millions` already embeds approval probability
+- Missing inputs degrade to neutral values and explicit notes; assets are not silently dropped
+
+**Report output must include:**
+- `rank`
+- `asset_id`
+- `ticker`
+- `unified_score`
+- `mispricing_pct`
+- `rnpv_millions`
+- `enterprise_value_millions`
+- `acquisition_discount`
+- `stage`
+- `model_pos`
+- `implied_pos`
+- `pos_gap`
+- `next_catalyst`
+- `days_to_catalyst`
+
+**Completed implementation steps:**
+1. Added the tracker entry and finalized the row / score contract
+2. Implemented the intelligence-layer aggregator with deterministic joins by `asset_id`
+3. Implemented `bve-screen` CLI and report rendering
+4. Added deterministic tests for scoring, tie-breaking, missing-data handling, and CLI output
+5. Registered the console script and ran targeted pytest coverage
+
+**Done criteria:**
+- `bve-screen --watchlist <file> --output-format report` returns one ranked watchlist report
+- The implementation reuses ranking, acquisition, and catalyst plumbing instead of
+  duplicating valuation math
+- Read path remains DB-backed and deterministic
+- Tests cover both happy path and incomplete-data behavior
+
+---
+
+### Task 8.6 — Acquirer Pipeline Gap Analysis
+
+**Status (2026-03-24): engineering complete**
+**Progress (2026-03-24): Steps 1-6 complete; profile curation, typed loading, deterministic scoring, watchlist/acquisition/comps integration, acquisition-memo generation, deterministic tests, and the direct `bve-acquirer-fit` CLI/report surface are in place.**
+
+**Why now:** The M&A layer can already identify undervalued and acquisition-ready targets,
+but it still lacks the acquirer-side lens needed to answer the harder question:
+which strategic buyer is the best fit for a given target, and why.
+
+**Initial acquirer:**
+- `regeneron`
+
+**Create:**
+- `research/mna/pipeline_gaps.yaml`
+  - Manually curated acquirer profiles with exact-dated source metadata
+  - First profile: Regeneron Pharmaceuticals
+  - Required fields for Step 1:
+    - therapeutic areas with LOE / franchise-pressure exposure
+    - historically preferred modalities
+    - stated strategic priorities from earnings calls / investor presentations
+    - recent deal history and implied valuation bands
+    - budget snapshot (`cash`, `debt`, net cash, plus capacity notes)
+
+- `src/bve/intelligence/acquirer_profiles.py`
+  - `AcquirerProfile`
+  - `TherapeuticGap`
+  - `PreferredModality`
+  - `StrategicPriority`
+  - `RecentDeal`
+  - `BudgetSnapshot`
+  - `AcquirerProfileLoader.load(path)`
+
+- `src/bve/intelligence/acquirer_fit.py`
+  - `AcquirerFitScore`
+  - `AcquirerFitScorer`
+  - Responsibilities:
+    - match targets against acquirer therapeutic gaps
+    - score modality alignment
+    - score stage / readiness fit
+    - score strategic-priority overlap
+    - score valuation-range fit using comp / screen context
+    - score budget fit and emit explicit hard-fail reasons
+
+**Reuse boundaries:**
+- Target set should come from existing watchlist + acquisition screen outputs
+- Valuation framing should reuse:
+  - `src/bve/intelligence/acquisition_screen.py`
+  - `src/bve/intelligence/comparable_deals.py`
+  - `src/bve/intelligence/mispricing_screener.py`
+- Deal structure should reuse:
+  - `src/bve/models/deal_economics.py`
+- Memo generation should reuse:
+  - `src/bve/reporting/memo_generator.py`
+  - existing `bd` memo surface where possible
+
+**Step-by-step plan:**
+1. Manually curate Regeneron into `research/mna/pipeline_gaps.yaml`
+2. Add typed loader / validator for acquirer profiles
+3. Build deterministic `AcquirerFitScorer`
+4. Integrate scorer with target universe, acquisition screen, and comparable deals
+5. Generate one acquisition memo per target using existing memo and deal-economics plumbing
+6. Add deterministic tests and, if useful, expose the flow through a small CLI/report command
+
+**Completed implementation steps:**
+1. Curated the initial Regeneron acquirer profile in `research/mna/pipeline_gaps.yaml`
+2. Added typed acquirer-profile loading and validation in `src/bve/intelligence/acquirer_profiles.py`
+3. Implemented deterministic component scoring in `src/bve/intelligence/acquirer_fit.py`
+4. Integrated acquisition-screen rows, comparable deals, and acquirer-fit ranking across a watchlist
+5. Reused the existing BD memo generator plus deal economics in `src/bve/intelligence/acquisition_memo.py`
+6. Added the direct `bve-acquirer-fit` CLI with report/JSON output and optional per-target memo generation
+7. Added deterministic unit coverage for profile loading, scoring, integration, memo generation, and the CLI surface
+
+**CLI acceptance:**
+- `bve-acquirer-fit --watchlist <file> --acquirer regeneron --output-format report` returns a ranked fit report
+- The CLI can optionally emit one acquisition memo per ranked target and persist those memos into the knowledge store
+- The implementation reuses the existing acquisition screen, comparable deals, BD memo generator, and deal-economics plumbing
+- Ranking and memo generation remain deterministic under fixed fixtures
+
+**Done criteria:**
+- Regeneron profile is attributable, dated, and auditable from primary sources
+- `AcquirerFitScorer` returns component-level fit attribution, not just a black-box score
+- Budget and valuation mismatches are explicit in output
+- Per-target acquisition memos reuse existing reporting paths rather than introducing a second memo framework
+
+---
+
+### Task 8.7 — M&A Probability Scanner
+
+**Status (2026-03-24): Steps 1-5 complete**
+**Progress (2026-03-24): Added the vulnerability-signal dataset and loader, implemented `src/bve/intelligence/ma_probability.py` to rank watchlist targets by bounded acquisition probability across all configured acquirers while keeping valuation, strategic fit, stage, and vulnerability as separate components, completed Step 4 with persisted daily M&A probability snapshots plus idempotent threshold-cross and top-entry alerts backed by `opportunity_alerts`, and completed Step 5 with a direct `bve-ma-probability` CLI/report surface.**
+
+**Why now:** The acquisition-discount and acquirer-fit layers can already answer
+"who looks cheap?" and "who fits which buyer?", but the stack still lacks a
+watchlist-level probability lens that combines strategic fit, de-risking, and
+target-side vulnerability into one acquisition-likelihood output.
+
+**Build on:**
+- `src/bve/intelligence/acquirer_fit.py`
+- `src/bve/intelligence/acquisition_screen.py`
+- `src/bve/intelligence/capital_structure.py`
+- `src/bve/intelligence/opportunity_scanner.py`
+- `src/bve/intelligence/opportunity_monitor.py`
+
+**Create:**
+- `research/mna/vulnerability_signals.yaml`
+  - versioned manual signal dataset
+  - cash-runway policy points back to dynamic computation in `capital_structure.py`
+  - manually curated overlays for:
+    - insider activity
+    - board / management changes
+    - recent same-space external deal activity
+
+- `src/bve/intelligence/vulnerability_signals.py`
+  - typed loader / validator for the YAML schema
+  - models for:
+    - target-specific vulnerability signals
+    - sector / same-space deal activity signals
+    - dated source references and staleness windows
+
+- `src/bve/intelligence/ma_probability.py`
+  - `MAProbabilityConfig`
+  - `MAProbabilityRow`
+  - `MAProbabilityResult`
+  - `MAProbabilityScanner`
+  - responsibilities:
+    - evaluate all relevant acquirers per target
+    - combine valuation discount, strategic fit, stage/readiness, and vulnerability overlays
+    - emit a bounded `p_acquisition`
+    - retain component breakdown and best-acquirer explanations
+
+- `src/bve/cli/ma_probability.py`
+  - weekly scan surface
+  - report and JSON output
+  - optional alert emission when `p_acquisition >= 0.70`
+
+**Reuse boundaries:**
+- Strategic-fit inputs must reuse `acquirer_fit.py`, not rebuild buyer matching from scratch
+- Cash-runway pressure must reuse `capital_structure.py`
+- Weekly top-10 and threshold-cross persistence should reuse `opportunity_alerts`
+- Weekly summary should plug into the existing weekly-brief/reporting path where practical
+
+**Step-by-step plan:**
+1. Create `research/mna/vulnerability_signals.yaml`
+2. Add typed loader / validator for vulnerability signals
+3. Build deterministic `MAProbabilityScanner`
+4. Add alert persistence for threshold-cross and top-10 entry signals
+5. Add a direct CLI/report surface
+6. Extend weekly output with top-10 M&A candidates
+7. Add deterministic tests and score-versioned calibration hooks
+
+**Acceptance:**
+- Weekly scan returns the top 10 highest `p_acquisition` targets for the watchlist
+- Threshold-cross events at `>= 0.70` are idempotently persisted and can be routed as alerts
+- The score contract is decomposed and avoids double-counting acquirer-fit inputs
+- Cash-runway pressure is derived dynamically; manually curated vulnerability signals are dated and auditable
+
+**Completed so far:**
+1. Created `research/mna/vulnerability_signals.yaml` with a versioned split between dynamic runway pressure and manually curated overlays
+2. Added `src/bve/intelligence/vulnerability_signals.py` with typed models, duplicate-ID validation, staleness-window validation, target matching helpers, and external-deal lookup
+3. Added `tests/intelligence/test_vulnerability_signals.py` covering repository YAML loading, duplicate-ID rejection, staleness-window validation, identifier requirements, and stale-signal filtering
+4. Added `src/bve/intelligence/ma_probability.py` with:
+   - `MAProbabilityConfig`
+   - `VulnerabilityAssessment`
+   - `MAAcquirerCandidate`
+   - `MAProbabilityRow`
+   - `MAProbabilityResult`
+   - `MAProbabilityScanner`
+   - multi-acquirer ranking built on top of `AcquirerFitEngine` and the acquisition screen
+   - separate probability components for valuation discount, strategic fit, de-risking stage, and vulnerability
+   - deterministic best-acquirer selection plus runner-up retention
+5. Extended `src/bve/intelligence/capital_structure.py` with an as-of-aware capital-risk helper so acquisition-probability scans remain deterministic for arbitrary snapshot dates
+6. Added `tests/intelligence/test_ma_probability.py` covering:
+   - watchlist ranking across multiple acquirers
+   - dynamic runway / catalyst vulnerability
+   - separation of strategic-fit scoring from valuation discount changes
+7. Extended `src/bve/intelligence/ma_probability.py` with:
+   - `MAProbabilitySnapshotRecord`
+   - `MAProbabilitySnapshotStore`
+   - `MAProbabilityMonitorConfig`
+   - `MAProbabilityMonitorResult`
+   - `MAProbabilityMonitor`
+   - deterministic scan timestamps for historical snapshot dates
+   - persisted daily M&A probability snapshots for all ranked rows
+   - idempotent `ma_probability_threshold_cross` and `ma_probability_top_n_entry` alerts stored via `opportunity_alerts`
+8. Extended `tests/intelligence/test_ma_probability.py` with monitor coverage for:
+   - snapshot persistence across scan dates
+   - threshold-cross alert emission at `>= 0.70`
+   - top-entry alert emission when a target moves into the configured top window
+   - duplicate suppression on same-day reruns
+9. Added `src/bve/cli/ma_probability.py` and registered `bve-ma-probability` with:
+   - report and JSON output modes
+   - `--watchlist`, `--as-of`, `--top`, and `--alert-threshold`
+   - configurable profile / comp / vulnerability research file inputs
+   - explicit `--emit-alerts` control so ad hoc scans do not persist snapshots or alerts unless requested
+10. Added `tests/intelligence/test_ma_probability_cli.py` covering:
+   - report rendering for the new scan surface
+   - JSON output
+   - CLI forwarding of `--emit-alerts`, `--alert-threshold`, `--top`, `--as-of`, and readiness-filter settings
+
+---
+
 ## Summary Checklist
 
 ### Sprint 1
@@ -826,6 +1339,15 @@ on ValuationEngine outputs. It is a separate scoring layer consumed only by Oppo
 
 ### Sprint 7
 - [ ] Task 7.1 — `AutoConfigAssetContextProvider` + Stage 3 expansion
+
+### Sprint 8
+- [x] Task 8.1 — Acquisition discount screener + snapshot table + CLI
+- [ ] Task 8.2 — Comparable deal YAML + loader + percentile comparison
+- [x] Task 8.3 — Acquisition readiness filter (Phase 2 POC+ gate)
+- [x] Task 8.4 — M&A replay profile (quarterly, 365d, top-8, no catalyst gate, -40% block)
+- [x] Task 8.5 — Unified mispricing screener (`bve-screen`)
+- [x] Task 8.6 — Acquirer pipeline gap analysis + fit scoring + acquisition memo flow
+- [ ] Task 8.7 — M&A probability scanner + vulnerability signals + weekly/alert output
 
 ---
 
@@ -1176,3 +1698,80 @@ weekly_review_records
 5. **Backtest snapshots written by AlertRouter only.** Only fired alerts get snapshots.
    Low-ranked non-firing opportunities are never snapshotted. This keeps the backtest
    signal-to-noise ratio high.
+
+6. **Acquisition screening is additive, not a rewrite of ranking.** Do not overload
+   `mispricing`, `RankedOpportunity`, or the default catalyst-ranking path to mean
+   acquisition discount. Use a dedicated screen, dedicated fields, and a dedicated CLI.
+
+---
+
+## Sprint 9 — Institutional Grade Model Fixes
+
+**Status: IN PROGRESS (2026-03-25)**
+**Branch:** core-engine-v1
+**Plan file:** `PLAN_SPRINT9.md`
+**Trigger:** Forensic audit (2026-03-25) rated system ⚠️ Pre-institutional.
+**Target:** ✅ Institutional-grade BD/VC screening + ⚠️→✅ HF directional use.
+
+All Sprint 9 tasks are specified in detail in `PLAN_SPRINT9.md`. This section
+tracks completion status.
+
+---
+
+### Phase 1 — Core Model Math Corrections
+
+> All Phase 1 tasks alter `rnpv_millions`. Implemented as one batch; regression
+> baselines updated once after all Phase 1 tasks are complete.
+
+#### Task 9.1 — UFCF / Tax Treatment ✅ COMPLETE
+**Files:** `asset.py`, `rnpv_model.py`, `industry_assumptions.yaml`,
+           `scenario.py`, `valuation_engine.py`
+**Change:** Applied 21% effective tax rate to EBIT before discounting.
+           Added `effective_tax_rate` and `nol_benefit_years` fields to Asset.
+           Added `tax_rate_add` to ScenarioAssumptions.
+           Added `effective_tax_rate` as 6th sensitivity parameter.
+**Impact:** All rNPV values decreased ~40-45% (revenue × (1-tax) with fixed costs).
+
+#### Task 9.2 — POS Layer 1 Adjuster Cap ✅ COMPLETE
+**Files:** `pos_model.py`, `industry_assumptions.yaml`
+**Change:** Added ±0.80 log-odds cap on Layer 1 combined adjustment.
+           Extracted `_compute_layer1_adjustment()` helper.
+**Impact:** Any asset with 4+ stacked positive adjusters will see lower POS.
+
+#### Task 9.3 — BTD Log-odds Correction ✅ COMPLETE
+**Files:** `pos_model.py`, `industry_assumptions.yaml`
+**Change:** BTD log-odds reduced from +0.20 to +0.05.
+           Comment explains BTD = process designation, not approval probability.
+**Impact:** BTD-flagged assets see ~1-2pp lower POS.
+
+#### Task 9.4 — WACC Modernization ✅ COMPLETE
+**Files:** `industry_assumptions.yaml`, `asset.py`
+**Change:** Default discount_rate: 0.10 → 0.12 (2026-Q1 recalibration).
+           Added `vintage`, `erp_biotech` fields to wacc section.
+           Updated commercial.defaults.discount_rate to match.
+**Impact:** Assets using default WACC will see lower rNPV by ~8-12%.
+
+---
+
+### Phase 2 — Revenue / Cost Corrections (TODO)
+
+Tasks 9.5–9.10: S-curve warning, compliance by modality, SG&A profiles,
+accelerated approval, post-approval R&D, LOE 5-year extension.
+
+### Phase 3 — Validation (TODO)
+
+Tasks 9.11–9.15: G2N price basis, output precision, tornado expansion,
+POS double-counting block, cost override enforcement.
+
+### Phase 4 — Scoring Safety (TODO)
+
+Tasks 9.16–9.17: Capital risk hard gate, score bounds clamping.
+
+### Phase 5 — Calibration (TODO)
+
+Tasks 9.18–9.20: POS backtest dataset remediation, MC distributions,
+replay N≥30 graduation.
+
+### Phase 6 — Provenance (TODO)
+
+Tasks 9.21–9.22: Assumption hash, data lineage.
