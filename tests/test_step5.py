@@ -404,7 +404,8 @@ class TestRNPVModelWithDeal:
         cost = CostModel.compute(prob, 0.10, deal=deal)
         rnpv = RNPVModel.compute(_asset(), prob, rev, cost, deal=deal)
         expected_pv = milestone_pv(recv, prob, 0.10)
-        assert rnpv.deal_milestone_receipts_pv_millions == pytest.approx(expected_pv, abs=0.01)
+        # Sprint 9.12: deal_milestone_receipts_pv_millions is rounded to 1dp, so allow 0.1 tolerance
+        assert rnpv.deal_milestone_receipts_pv_millions == pytest.approx(expected_pv, abs=0.1)
 
     def test_upfront_receipt_added_at_face_value(self):
         """Upfront receipt is at t=0 so no discounting — full amount adds to rNPV."""
