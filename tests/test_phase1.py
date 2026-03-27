@@ -456,30 +456,56 @@ class TestLayerOverlap:
         assert report.is_clean()
         assert not report.has_critical_overlap
 
-    def test_endpoint_quality_overlap_detected(self):
+    def test_endpoint_quality_overlap_raises_by_default(self):
         """
-        Non-default endpoint_type AND non-default endpoint_basis → critical overlap.
+        Non-default endpoint_type AND non-default endpoint_basis → raises ValueError.
+        (Sprint 9.14: hard block replaces silent warning.)
         """
+        import pytest
         from bve.models.pos_model import POSAdjusters
         from bve.entities.trial import EndpointType
         adj = POSAdjusters(endpoint_type=EndpointType.HARD_CLINICAL)  # non-default
         features = TrialDesignFeatureSet(endpoint_basis=EndpointBasis.HARD_CLINICAL)  # non-default
-        report = check_pos_layer_overlap(adj, features, phase="phase_3")
+        with pytest.raises(ValueError, match="Critical POS layer overlap"):
+            check_pos_layer_overlap(adj, features, phase="phase_3")
+
+    def test_endpoint_quality_overlap_allow_overlap_returns_report(self):
+        """allow_overlap=True: returns report instead of raising; report shows critical."""
+        import warnings
+        from bve.models.pos_model import POSAdjusters
+        from bve.entities.trial import EndpointType
+        adj = POSAdjusters(endpoint_type=EndpointType.HARD_CLINICAL)
+        features = TrialDesignFeatureSet(endpoint_basis=EndpointBasis.HARD_CLINICAL)
+        with warnings.catch_warnings(record=True):
+            warnings.simplefilter("always")
+            report = check_pos_layer_overlap(adj, features, phase="phase_3", allow_overlap=True)
         assert report.has_critical_overlap
         assert any("Endpoint quality" in s for s in report.overlapping_signals)
         assert len(report.recommendations) >= 1
 
-    def test_btd_overlap_detected(self):
-        """has_breakthrough_designation=True AND BREAKTHROUGH_DESIGNATION → critical overlap."""
+    def test_btd_overlap_raises_by_default(self):
+        """has_breakthrough_designation=True AND BREAKTHROUGH_DESIGNATION → raises ValueError."""
+        import pytest
         from bve.models.pos_model import POSAdjusters
         adj = POSAdjusters(has_breakthrough_designation=True)
         features = TrialDesignFeatureSet(approval_pathway=ApprovalPathway.BREAKTHROUGH_DESIGNATION)
-        report = check_pos_layer_overlap(adj, features, phase="phase_3")
+        with pytest.raises(ValueError, match="Critical POS layer overlap"):
+            check_pos_layer_overlap(adj, features, phase="phase_3")
+
+    def test_btd_overlap_allow_overlap_returns_report(self):
+        """allow_overlap=True suppresses error; report identifies BTD double-count."""
+        import warnings
+        from bve.models.pos_model import POSAdjusters
+        with warnings.catch_warnings(record=True):
+            warnings.simplefilter("always")
+            adj = POSAdjusters(has_breakthrough_designation=True)
+            features = TrialDesignFeatureSet(approval_pathway=ApprovalPathway.BREAKTHROUGH_DESIGNATION)
+            report = check_pos_layer_overlap(adj, features, phase="phase_3", allow_overlap=True)
         assert report.has_critical_overlap
         assert any("Breakthrough" in s for s in report.overlapping_signals)
 
     def test_btd_no_overlap_when_only_in_one_layer(self):
-        """BTD in POSAdjusters only (no design features BTD) → no overlap."""
+        """BTD in POSAdjusters only (no design features BTD) → no overlap, no raise."""
         from bve.models.pos_model import POSAdjusters
         adj = POSAdjusters(has_breakthrough_designation=True)
         features = TrialDesignFeatureSet(approval_pathway=ApprovalPathway.STANDARD)
@@ -488,11 +514,14 @@ class TestLayerOverlap:
 
     def test_double_count_magnitude_nonzero_for_critical_overlap(self):
         """Estimated double-count magnitude should be non-zero when critical overlap exists."""
+        import warnings
         from bve.models.pos_model import POSAdjusters
         from bve.entities.trial import EndpointType
         adj = POSAdjusters(endpoint_type=EndpointType.HARD_CLINICAL)
         features = TrialDesignFeatureSet(endpoint_basis=EndpointBasis.HARD_CLINICAL)
-        report = check_pos_layer_overlap(adj, features, phase="phase_3")
+        with warnings.catch_warnings(record=True):
+            warnings.simplefilter("always")
+            report = check_pos_layer_overlap(adj, features, phase="phase_3", allow_overlap=True)
         assert report.estimated_double_count_logodds > 0.0
 
 
@@ -895,12 +924,12 @@ class TestValuationEngineDesignModel:
             eng_none.run().rnpv.rnpv_millions, abs=0.01
         )
 
-    def test_overlap_warning_fires_for_critical_combination(self):
+    def test_overlap_raises_value_error_for_critical_combination(self):
         """
         When both pos_adjusters.endpoint_type and design_features.endpoint_basis
-        are non-default simultaneously, a UserWarning is raised.
+        are non-default simultaneously, a ValueError is raised. (Sprint 9.14: hard block.)
         """
-        import warnings
+        import pytest
         from bve.entities.asset import Asset, DevelopmentStage, TherapeuticArea, Modality
         from bve.entities.company import Company
         from bve.entities.trial import ClinicalTrial, TrialPhase, EndpointType
@@ -942,8 +971,5 @@ class TestValuationEngineDesignModel:
             apply_design_model=True,
             mc_params=MonteCarloParams(n_simulations=100, random_seed=0),
         )
-        with warnings.catch_warnings(record=True) as w:
-            warnings.simplefilter("always")
+        with pytest.raises(ValueError, match="Critical POS layer overlap"):
             engine.run()
-        assert any("overlap" in str(warning.message).lower() or "double" in str(warning.message).lower()
-                   for warning in w), "Expected overlap warning was not raised"

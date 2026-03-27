@@ -547,9 +547,9 @@ class TestEndToEndRegression:
         )
 
     def test_rnpv_snapshot(self):
-        # Sprint 9.10: updated to 83.13 after LOE 3→5 tail extension (was 81.01 pre-9.10)
+        # Sprint 9.12: updated to 83.0 after 0dp rounding (was 83.13 pre-9.12; was 81.01 pre-9.10)
         output = self._build_engine().run()
-        assert output.rnpv.rnpv_millions == pytest.approx(83.13, abs=0.5)
+        assert output.rnpv.rnpv_millions == pytest.approx(83.0, abs=0.5)
 
     def test_pos_snapshot(self):
         output = self._build_engine().run()
@@ -571,7 +571,7 @@ class TestEndToEndRegression:
         output = self._build_engine().run()
         assert output.nav_millions > 0
         assert output.nav_per_share > 0
-        assert len(output.sensitivities) == 6  # Sprint 9: added effective_tax_rate sensitivity
+        assert len(output.sensitivities) == 8  # Sprint 9.13: expanded to 8 (added G2N rate + competition entries)
         assert output.monte_carlo.n_simulations == 1000
 
     def test_intermediate_results_inspectable(self):
@@ -594,7 +594,9 @@ class TestEndToEndRegression:
         assert cost.total_pv_weighted_millions > 0
 
     def test_rNPV_equals_rev_minus_cost_in_output(self):
+        # Sprint 9.12: each field is independently rounded (rnpv→0dp, rev→0dp, costs→1dp),
+        # so the accounting identity holds only within rounding tolerance (≤2.0).
         output = self._build_engine().run()
         r = output.rnpv
         expected = r.probability_adjusted_revenue_pv_millions - r.trial_costs_pv_millions
-        assert r.rnpv_millions == pytest.approx(expected, rel=1e-5)
+        assert r.rnpv_millions == pytest.approx(expected, abs=2.0)

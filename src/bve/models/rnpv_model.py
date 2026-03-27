@@ -206,15 +206,15 @@ class RNPVModel:
         return RNPVResult(
             asset_id=asset.id,
             asset_name=asset.name,
-            rnpv_millions=round(rnpv, 2),
-            gross_revenue_pv_millions=round(gross_revenue_pv, 2),
-            probability_adjusted_revenue_pv_millions=round(probability_adjusted_revenue_pv, 2),
-            trial_costs_pv_millions=round(trial_costs_pv, 2),
-            deal_milestone_receipts_pv_millions=round(milestone_receipts_pv, 2),
+            rnpv_millions=round(rnpv, 0),                              # nearest $1M — false precision below $1M is noise
+            gross_revenue_pv_millions=round(gross_revenue_pv, 0),
+            probability_adjusted_revenue_pv_millions=round(probability_adjusted_revenue_pv, 0),
+            trial_costs_pv_millions=round(trial_costs_pv, 1),          # costs matter to $0.1M
+            deal_milestone_receipts_pv_millions=round(milestone_receipts_pv, 1),
             upfront_receipt_millions=upfront_receipt,
             cumulative_success_probability=cum_prob,
             years_to_launch=years_to_launch,
-            peak_sales_millions=round(rev.peak_sales_millions, 2),
+            peak_sales_millions=round(rev.peak_sales_millions, 0),
             discount_rate=r,
             net_ownership=round(effective_ownership, 6),
             effective_tax_rate=tax_rate,

@@ -215,19 +215,23 @@ def run_monte_carlo(
     arr = np.array(simulated)
     sorted_vals = sorted(simulated)
 
+    def _r5(v: float) -> float:
+        """Round to nearest $5M — MC precision is entirely determined by ESS priors."""
+        return round(v / 5.0) * 5.0
+
     return MonteCarloResult(
         asset_id=asset.id,
         n_simulations=n,
-        mean_millions=float(np.mean(arr)),
-        median_millions=float(np.median(arr)),
-        std_millions=float(np.std(arr)),
-        percentile_5_millions=float(np.percentile(arr, 5)),
-        percentile_10_millions=float(np.percentile(arr, 10)),
-        percentile_25_millions=float(np.percentile(arr, 25)),
-        percentile_50_millions=float(np.percentile(arr, 50)),
-        percentile_75_millions=float(np.percentile(arr, 75)),
-        percentile_90_millions=float(np.percentile(arr, 90)),
-        percentile_95_millions=float(np.percentile(arr, 95)),
+        mean_millions=round(float(np.mean(arr)), 0),
+        median_millions=round(float(np.median(arr)), 0),
+        std_millions=round(float(np.std(arr)), 0),
+        percentile_5_millions=_r5(float(np.percentile(arr, 5))),
+        percentile_10_millions=_r5(float(np.percentile(arr, 10))),
+        percentile_25_millions=_r5(float(np.percentile(arr, 25))),
+        percentile_50_millions=_r5(float(np.percentile(arr, 50))),
+        percentile_75_millions=_r5(float(np.percentile(arr, 75))),
+        percentile_90_millions=_r5(float(np.percentile(arr, 90))),
+        percentile_95_millions=_r5(float(np.percentile(arr, 95))),
         probability_positive=float(np.mean(arr > 0)),
         probability_above_500m=float(np.mean(arr > 500)),
         probability_above_1b=float(np.mean(arr > 1000)),

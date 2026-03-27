@@ -56,6 +56,16 @@ class ClinicalTrial(BaseModel):
     # Timeline + cost
     duration_years: float = Field(gt=0.0)
     cost_millions: float = Field(gt=0.0)
+    cost_source: str = Field(
+        default="default",
+        description=(
+            "'default' if cost_millions is the industry median from assumptions.yaml. "
+            "'override' if cost_millions was set from asset-specific research (SEC filings, "
+            "partner disclosures, analyst estimates). Engine warns at run time when 'default' "
+            "is used, because rare-disease Phase 2 (~$15M) and large oncology RCT (~$500M) "
+            "can differ 2-4× from the industry median."
+        )
+    )
     start_date: Optional[str] = None
     primary_completion_date: Optional[str] = None
 

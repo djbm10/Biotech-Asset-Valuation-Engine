@@ -13,6 +13,7 @@ from __future__ import annotations
 
 import math
 import warnings
+from enum import Enum
 from typing import Optional
 
 from pydantic import BaseModel, Field, field_validator, model_validator
@@ -20,6 +21,13 @@ from pydantic import BaseModel, Field, field_validator, model_validator
 from bve.config.constants import SGNA_RATE_LAUNCH, SGNA_RATE_MATURE, SGNA_RAMP_YEARS
 from bve.entities.indication import Indication
 from bve.models.competition_model import CompetitionModel
+
+
+class PriceBasis(str, Enum):
+    """Whether net_price_per_patient_usd is already net of gross-to-net discounts."""
+    NET = "net"     # already net of G2N — no adjustment applied (default)
+    WAC = "wac"     # wholesale acquisition cost — G2N will be auto-applied when gross_to_net_rate is set
+    LIST = "list"   # same as WAC for modeling purposes
 
 
 class LifecycleEvent(BaseModel):
@@ -235,6 +243,22 @@ class MarketModel(BaseModel):
         default=None, gt=0.0,
         description="Annual net price (after gross-to-net) per patient in USD"
     )
+    price_basis: PriceBasis = Field(
+        default=PriceBasis.NET,
+        description=(
+            "Whether net_price_per_patient_usd is already net of gross-to-net discounts. "
+            "If WAC/LIST, set gross_to_net_rate to auto-apply G2N at revenue calculation time. "
+            "Typical G2N by modality: small_molecule 30-45%, biologic 15-30%, gene_therapy 5-10%."
+        )
+    )
+    gross_to_net_rate: Optional[float] = Field(
+        default=None, ge=0.0, le=1.0,
+        description=(
+            "Gross-to-net discount rate (0.0–1.0). Applied multiplicatively to "
+            "net_price_per_patient_usd when price_basis is WAC or LIST. "
+            "e.g., 0.30 means 30% of WAC is rebated/discounted, effective price = WAC × 0.70."
+        )
+    )
     compliance_rate: float = Field(
         default=0.80, gt=0.0, le=1.0,
         description="Average fraction of year patients remain on therapy"
@@ -297,6 +321,40 @@ class MarketModel(BaseModel):
         return self
 
     @model_validator(mode="after")
+    def _check_price_basis(self) -> "MarketModel":
+        """Validate G2N configuration and apply auto-adjustment for WAC/LIST inputs."""
+        if self.lines_of_therapy:
+            return self  # LOT segments manage pricing individually
+        if self.net_price_per_patient_usd is None:
+            return self  # TAM-based or unset; nothing to check
+
+        # Warn when WAC is passed without a G2N rate
+        if self.price_basis in (PriceBasis.WAC, PriceBasis.LIST) and self.gross_to_net_rate is None:
+            warnings.warn(
+                f"MarketModel for asset '{self.asset_id}': price_basis={self.price_basis.value!r} "
+                "but no gross_to_net_rate is set. Revenue will NOT be adjusted for G2N discounts. "
+                "Set gross_to_net_rate (e.g., 0.30 for typical small-molecule) to auto-apply. "
+                "Typical ranges: small_molecule 30-45%, biologic 15-30%, gene_therapy 5-10%.",
+                UserWarning,
+                stacklevel=2,
+            )
+
+        # Soft plausibility ceiling: >$2M/patient for non-gene-therapy is unusual
+        if (
+            self.net_price_per_patient_usd > 2_000_000
+            and self.price_basis == PriceBasis.NET
+        ):
+            warnings.warn(
+                f"MarketModel for asset '{self.asset_id}': "
+                f"net_price_per_patient_usd={self.net_price_per_patient_usd:,.0f} is unusually "
+                "high. Confirm this is a net price (post-G2N) and not a WAC/list price. "
+                "Set price_basis=PriceBasis.WAC and gross_to_net_rate if a G2N adjustment is needed.",
+                UserWarning,
+                stacklevel=2,
+            )
+        return self
+
+    @model_validator(mode="after")
     def _check_uptake_shape(self) -> "MarketModel":
         """Warn when a non-LOT model uses linear uptake for an unspecified asset.
 
@@ -354,15 +412,25 @@ class MarketModel(BaseModel):
             return max(curve) if curve else 0.0
         if self.lines_of_therapy:
             return sum(seg.peak_sales_millions for seg in self.lines_of_therapy)
-        if self.addressable_patients_annual and self.net_price_per_patient_usd:
+        eff_price = self._effective_price_per_patient
+        if self.addressable_patients_annual and eff_price:
             return (
                 self.addressable_patients_annual
-                * self.net_price_per_patient_usd
+                * eff_price
                 * self.compliance_rate
                 * self.peak_penetration
                 / 1e6
             )
         return (self.total_addressable_market_millions or 0) * self.peak_penetration
+
+    @property
+    def _effective_price_per_patient(self) -> Optional[float]:
+        """Return net_price_per_patient_usd after applying G2N adjustment if price_basis is WAC/LIST."""
+        if self.net_price_per_patient_usd is None:
+            return None
+        if self.price_basis in (PriceBasis.WAC, PriceBasis.LIST) and self.gross_to_net_rate is not None:
+            return self.net_price_per_patient_usd * (1.0 - self.gross_to_net_rate)
+        return self.net_price_per_patient_usd
 
     def _get_uptake_curve(self) -> UptakeCurve:
         """Return uptake_curve, rebuilding if None (e.g. after model_copy with update)."""
@@ -462,10 +530,11 @@ class MarketModel(BaseModel):
         else:
             base_pen = self._get_uptake_curve().penetration_at_year(years_from_launch)
             pen = min(1.0, base_pen + self._lifecycle_penetration_boost(years_from_launch))
-            if self.addressable_patients_annual and self.net_price_per_patient_usd:
+            eff_price = self._effective_price_per_patient
+            if self.addressable_patients_annual and eff_price:
                 base = (
                     self.addressable_patients_annual
-                    * self.net_price_per_patient_usd
+                    * eff_price
                     * self.compliance_rate
                     * pen
                     / 1e6

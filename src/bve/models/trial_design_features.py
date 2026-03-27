@@ -370,6 +370,8 @@ def check_pos_layer_overlap(
     pos_adjusters: "POSAdjusters",
     design_features: TrialDesignFeatureSet,
     phase: Optional[str] = None,
+    *,
+    allow_overlap: bool = False,
 ) -> LayerOverlapReport:
     """
     Audit a POSAdjusters + TrialDesignFeatureSet combination for double-counting.
@@ -387,11 +389,21 @@ def check_pos_layer_overlap(
         The design layer (from compute_design_adjusted_pos).
     phase : str, optional
         Phase context for estimating scaled magnitudes. None uses raw values.
+    allow_overlap : bool, optional
+        When True, critical overlaps emit a warning instead of raising ValueError.
+        Use only when explicitly accepting the double-counting and its known bias.
 
     Returns
     -------
     LayerOverlapReport
         Lists all detected overlaps and resolution recommendations.
+
+    Raises
+    ------
+    ValueError
+        When ``has_critical_overlap=True`` and ``allow_overlap=False`` (default).
+        This is a hard block: critical overlaps would produce materially biased
+        POS estimates that institutional reviewers would reject.
 
     Policy
     ------
@@ -471,12 +483,27 @@ def check_pos_layer_overlap(
             "has_breakthrough_designation in POSAdjusters (which has the primary calibrated signal)."
         )
 
-    return LayerOverlapReport(
+    report = LayerOverlapReport(
         overlapping_signals=overlapping,
         recommendations=recommendations,
         has_critical_overlap=has_critical,
         estimated_double_count_logodds=round(double_count_lo, 4),
     )
+
+    if report.has_critical_overlap:
+        msg = (
+            f"Critical POS layer overlap detected: {report.overlapping_signals}. "
+            f"Estimated double-count: {report.estimated_double_count_logodds:+.2f} log-odds. "
+            "Remove the overlapping factor from one layer, or pass allow_overlap=True "
+            "to explicitly accept the bias."
+        )
+        if allow_overlap:
+            import warnings
+            warnings.warn(msg, UserWarning, stacklevel=2)
+        else:
+            raise ValueError(msg)
+
+    return report
 
 
 # ---------------------------------------------------------------------------

@@ -12,26 +12,26 @@ Effective tax rate 21% applied to EBIT before discounting. Pre-Sprint-9
 values in parentheses for reference.
 
 CANONICAL_NO_LOE        oncology / small_molecule, Phase 2 entry, no LOE, no deal
-                        rNPV=65.13 (was 118.72), POS=17.70%, trial_costs=136.45, rev_pv=201.58
+                        rNPV=65.0 (was 65.13 pre-9.12; was 118.72 pre-Sprint-9), POS=17.70%, trial_costs=136.4, rev_pv=202.0
 
 CANONICAL_LOE           same asset + small_molecule LOE tail (5-year tail post Sprint 9.10)
-                        rNPV=83.13 (was 81.01 pre-9.10; was 138.82 pre-Sprint-9)
+                        rNPV=83.0 (was 83.13 pre-9.12; was 81.01 pre-9.10; was 138.82 pre-Sprint-9)
 
 CANONICAL_LOE_DEAL      same asset + LOE + deal (royalty=10%, cdev=70%, upfront_cost=20,
                         payable milestone $50M on approval, receivable milestone $75M on approval)
-                        rNPV=84.27 (was 82.36 pre-9.10), net_ownership=0.90
+                        rNPV=84.0 (was 84.27 pre-9.12; was 82.36 pre-9.10), net_ownership=0.90
                         Note: at 21% tax rate, cost-sharing benefit (30% of 136M costs = 41M)
                         slightly exceeds royalty + deal cost drag → deal is marginally accretive.
 
 RARE_DISEASE            rare_disease / biologic, Phase 2 entry, smaller market / higher POS
-                        no-LOE: rNPV=204.38 (was 270.33), POS=24.83%
-                        biologic LOE: rNPV=228.04 (was 223.19 pre-9.10; was 294.15 pre-Sprint-9)
+                        no-LOE: rNPV=204.0 (was 204.38 pre-9.12; was 270.33 pre-Sprint-9), POS=24.83%
+                        biologic LOE: rNPV=228.0 (was 228.04 pre-9.12; was 223.19 pre-9.10; was 294.15 pre-Sprint-9)
 
 COMPETITIVE_ONCOLOGY    canonical oncology + two competitors (1 approved, 1 phase_3)
-                        LOE: rNPV=2.71 (was 1.41 pre-9.10; was 38.06 pre-Sprint-9; competition erodes market)
+                        LOE: rNPV=3.0 (was 2.71 pre-9.12; was 1.41 pre-9.10; was 38.06 pre-Sprint-9; competition erodes market)
 
 NEGATIVE_ASSET          CNS Phase 3 entry, low POS (10.5%), very high costs, small market
-                        rNPV=-318.42 (was -317.69; costs dominate; pipeline value is negative)
+                        rNPV=-318.0 (was -318.42 pre-9.12; was -317.69; costs dominate; pipeline value is negative)
 
 MC distribution snapshots (seed=0, n=1000) — locked percentile vectors
 """
@@ -235,8 +235,8 @@ class TestCanonicalNoLOE:
         return compute_rnpv_full(_canonical_asset(), _canonical_trials(), _canonical_market())
 
     def test_rnpv_locked(self):
-        # Sprint 9: updated to 65.13 after UFCF/tax fix (was 118.72 pre-Sprint-9)
-        assert self._result().rnpv_millions == pytest.approx(65.13, abs=0.02)
+        # Sprint 9.12: updated to 65.0 after 0dp rounding (was 65.13 pre-9.12; was 118.72 pre-Sprint-9)
+        assert self._result().rnpv_millions == pytest.approx(65.0, abs=0.5)
 
     def test_cumulative_pos_locked(self):
         # 0.37 × 0.55 × 0.87 — pure float multiplication, no stored rounding
@@ -246,11 +246,11 @@ class TestCanonicalNoLOE:
         assert self._result().years_to_launch == pytest.approx(7.5, rel=1e-6)
 
     def test_trial_costs_pv_locked(self):
-        assert self._result().trial_costs_pv_millions == pytest.approx(136.45, abs=0.02)
+        assert self._result().trial_costs_pv_millions == pytest.approx(136.4, abs=0.1)
 
     def test_prob_adjusted_revenue_pv_locked(self):
-        # Sprint 9: updated to 201.58 after UFCF/tax fix (was 255.17 pre-Sprint-9)
-        assert self._result().probability_adjusted_revenue_pv_millions == pytest.approx(201.58, abs=0.02)
+        # Sprint 9.12: updated to 202.0 after 0dp rounding (was 201.58 pre-9.12; was 255.17 pre-Sprint-9)
+        assert self._result().probability_adjusted_revenue_pv_millions == pytest.approx(202.0, abs=0.5)
 
     def test_no_loe_tail_in_revenue_stream(self):
         r = self._result()
@@ -290,8 +290,8 @@ class TestCanonicalLOE:
         )
 
     def test_rnpv_locked(self):
-        # Sprint 9.10: updated to 83.13 after LOE 3→5 extension (was 81.01 pre-9.10)
-        assert self._result().rnpv_millions == pytest.approx(83.13, abs=0.02)
+        # Sprint 9.12: updated to 83.0 after 0dp rounding (was 83.13 pre-9.12; was 81.01 pre-9.10)
+        assert self._result().rnpv_millions == pytest.approx(83.0, abs=0.5)
 
     def test_loe_exceeds_no_loe(self):
         no_loe = compute_rnpv_full(_canonical_asset(), _canonical_trials(), _canonical_market())
@@ -357,8 +357,8 @@ class TestCanonicalLOEDeal:
         )
 
     def test_rnpv_locked(self):
-        # Sprint 9.10: updated to 84.27 after LOE 3→5 extension (was 82.36 pre-9.10)
-        assert self._result().rnpv_millions == pytest.approx(84.27, abs=0.02)
+        # Sprint 9.12: updated to 84.0 after 0dp rounding (was 84.27 pre-9.12; was 82.36 pre-9.10)
+        assert self._result().rnpv_millions == pytest.approx(84.0, abs=0.5)
 
     def test_net_ownership_reflects_deal_royalty(self):
         # asset.royalty_rate=0, deal.royalty_rate=0.10 → 1.0 × 0.90 = 0.90 (exact)
@@ -430,12 +430,12 @@ class TestRareDisease:
         )
 
     def test_no_loe_rnpv_locked(self):
-        # Sprint 9: updated to 204.38 after UFCF/tax fix (was 270.33 pre-Sprint-9)
-        assert self._no_loe().rnpv_millions == pytest.approx(204.38, abs=0.02)
+        # Sprint 9.12: updated to 204.0 after 0dp rounding (was 204.38 pre-9.12; was 270.33 pre-Sprint-9)
+        assert self._no_loe().rnpv_millions == pytest.approx(204.0, abs=0.5)
 
     def test_biologic_loe_rnpv_locked(self):
-        # Sprint 9.10: updated to 228.04 after LOE 3→5 extension (was 223.19 pre-9.10)
-        assert self._with_loe().rnpv_millions == pytest.approx(228.04, abs=0.02)
+        # Sprint 9.12: updated to 228.0 after 0dp rounding (was 228.04 pre-9.12; was 223.19 pre-9.10)
+        assert self._with_loe().rnpv_millions == pytest.approx(228.0, abs=0.5)
 
     def test_cumulative_pos_locked(self):
         # 0.45 × 0.62 × 0.89 — pure float multiplication, no stored rounding
@@ -509,8 +509,8 @@ class TestCompetitiveOncology:
         )
 
     def test_rnpv_locked(self):
-        # Sprint 9.10: updated to 2.71 after LOE 3→5 extension (was 1.41 pre-9.10)
-        assert self._result().rnpv_millions == pytest.approx(2.71, abs=0.02)
+        # Sprint 9.12: updated to 3.0 after 0dp rounding (was 2.71 pre-9.12; was 1.41 pre-9.10)
+        assert self._result().rnpv_millions == pytest.approx(3.0, abs=0.5)
 
     def test_competition_reduces_rnpv_vs_no_competition(self):
         assert self._result().rnpv_millions < self._no_comp_result().rnpv_millions
@@ -520,7 +520,7 @@ class TestCompetitiveOncology:
 
     def test_peak_sales_locked(self):
         # canonical peak_sales = 960M; competition reduces available fraction
-        assert self._result().peak_sales_millions == pytest.approx(585.60, abs=0.1)
+        assert self._result().peak_sales_millions == pytest.approx(586.0, abs=0.5)
 
     def test_pos_unchanged_by_competition(self):
         """Competition affects revenue, not POS or trial timing."""
@@ -570,8 +570,8 @@ class TestNegativeAsset:
         assert self._result().rnpv_millions < 0
 
     def test_rnpv_locked(self):
-        # Sprint 9: updated to -318.42 after UFCF/tax fix (was -317.69 pre-Sprint-9)
-        assert self._result().rnpv_millions == pytest.approx(-318.42, abs=0.02)
+        # Sprint 9.12: updated to -318.0 after 0dp rounding (was -318.42 pre-9.12; was -317.69 pre-Sprint-9)
+        assert self._result().rnpv_millions == pytest.approx(-318.0, abs=0.5)
 
     def test_cumulative_pos_locked(self):
         # 0.15 × 0.70 = 0.105 — pure float multiplication, no stored rounding
@@ -586,8 +586,8 @@ class TestNegativeAsset:
 
     def test_prob_adjusted_revenue_pv_locked(self):
         """Very low POS × modest revenue = tiny probability-adjusted revenue.
-        Sprint 9: updated to 2.77 after UFCF/tax fix (was 3.50 pre-Sprint-9)."""
-        assert self._result().probability_adjusted_revenue_pv_millions == pytest.approx(2.77, abs=0.02)
+        Sprint 9.12: updated to 3.0 after 0dp rounding (was 2.77 pre-9.12; was 3.50 pre-Sprint-9)."""
+        assert self._result().probability_adjusted_revenue_pv_millions == pytest.approx(3.0, abs=0.5)
 
     def test_loe_does_not_rescue_negative_asset(self):
         """Even with LOE tail, asset remains deeply negative."""

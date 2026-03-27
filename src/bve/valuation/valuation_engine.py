@@ -144,6 +144,9 @@ class ValuationEngine:
         # --- Compliance warning for gene/cell therapy ---
         self._check_compliance_rate()
 
+        # --- Phase cost override enforcement ---
+        self._check_trial_cost_sources(trials)
+
         # --- Four-engine base-case rNPV ---
         # CommercialPlan has three states:
         #   "unset"      → no explicit plan; fetch default from AssumptionsLoader
@@ -248,15 +251,12 @@ class ValuationEngine:
                 continue
 
             if self.apply_pos_model and trial.phase in self.pos_adjusters:
-                report = check_pos_layer_overlap(
+                # Raises ValueError on critical overlap (Sprint 9.14: hard block).
+                # Pass allow_overlap=True to the engine if you are explicitly accepting
+                # the double-counting and its known bias.
+                check_pos_layer_overlap(
                     self.pos_adjusters[trial.phase], features, phase=trial.phase.value
                 )
-                if not report.is_clean():
-                    import warnings
-                    warnings.warn(
-                        f"[BVE design model] {trial.phase.value}: {report.summary()}",
-                        stacklevel=2,
-                    )
 
             dar = compute_design_adjusted_pos(
                 trial.success_probability, features, phase=trial.phase.value
@@ -395,6 +395,41 @@ class ValuationEngine:
             high_rnpv=_rnpv(asset=a_hi_tax),
         ))
 
+        # 7. Gross-to-net rate ±10pp (models payer pressure scenarios)
+        # Apply multiplicatively as a net price haircut / benefit
+        if mm.total_addressable_market_millions is not None:
+            tam_base = mm.total_addressable_market_millions
+            m_lo_g2n = mm.model_copy(update={"total_addressable_market_millions": tam_base * 0.90, "uptake_curve": None})
+            m_hi_g2n = mm.model_copy(update={"total_addressable_market_millions": tam_base * 1.10, "uptake_curve": None})
+        else:
+            price_g2n = mm.net_price_per_patient_usd or 100_000
+            m_lo_g2n = mm.model_copy(update={"net_price_per_patient_usd": price_g2n * 0.90, "uptake_curve": None})
+            m_hi_g2n = mm.model_copy(update={"net_price_per_patient_usd": price_g2n * 1.10, "uptake_curve": None})
+        sensitivities.append(SensitivityPoint(
+            parameter="Gross-to-Net Rate (±10pp)",
+            low_value=-10.0,   # +10pp G2N = −10% net revenue
+            high_value=+10.0,  # −10pp G2N = +10% net revenue
+            low_rnpv=_rnpv(market=m_lo_g2n),   # higher G2N = lower net revenue = lower rNPV
+            high_rnpv=_rnpv(market=m_hi_g2n),
+        ))
+
+        # 8. Competitive entries: +1 / +2 approved competitors at launch
+        # Apply as penetration haircut: each competitor reduces peak_penetration by
+        # a configurable fraction (default 15% relative per entrant, capped at floor).
+        _COMPETITION_HAIRCUT_PER_ENTRANT = 0.15
+        pen_base = mm.peak_penetration
+        pen_1comp = max(0.01, pen_base * (1.0 - _COMPETITION_HAIRCUT_PER_ENTRANT))
+        pen_2comp = max(0.01, pen_base * (1.0 - 2 * _COMPETITION_HAIRCUT_PER_ENTRANT))
+        m_1comp = mm.model_copy(update={"peak_penetration": pen_1comp, "uptake_curve": None})
+        m_2comp = mm.model_copy(update={"peak_penetration": pen_2comp, "uptake_curve": None})
+        sensitivities.append(SensitivityPoint(
+            parameter="Competition Entries (+1/+2)",
+            low_value=pen_1comp,
+            high_value=pen_base,   # base (no new entrants) is the high case
+            low_rnpv=_rnpv(market=m_2comp),   # 2 competitors = worst
+            high_rnpv=_rnpv(market=m_1comp),  # 1 competitor = middle (low_rnpv < high_rnpv)
+        ))
+
         # Sort by |swing| descending (tornado order)
         sensitivities.sort(key=lambda s: abs(s.swing), reverse=True)
         return sensitivities
@@ -453,6 +488,19 @@ class ValuationEngine:
     # -----------------------------------------------------------------------
     # Compliance rate advisory (Sprint 9.6)
     # -----------------------------------------------------------------------
+
+    def _check_trial_cost_sources(self, trials: list) -> None:
+        """Warn when any trial uses the industry median cost rather than an asset-specific estimate."""
+        for trial in trials:
+            if getattr(trial, "cost_source", "default") == "default":
+                warnings.warn(
+                    f"Trial '{trial.phase.value}' for asset '{self.asset.id}' is using the "
+                    f"industry median cost (${trial.cost_millions:.0f}M). "
+                    "Override with asset-specific estimates for BD deal accuracy. "
+                    "Set cost_source='override' to suppress this warning.",
+                    UserWarning,
+                    stacklevel=3,
+                )
 
     def _check_compliance_rate(self) -> None:
         """Warn when gene/cell therapy assets use a compliance_rate < 1.0."""
