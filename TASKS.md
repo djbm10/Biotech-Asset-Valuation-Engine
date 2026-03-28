@@ -306,3 +306,42 @@ connectors
 ---
 
 *Test suite: **1 245 tests**, all passing (as of 2026-03-08).*
+
+---
+
+### Sprint 9 — Institutional-Grade Calibration
+
+#### Task 9.19 — Monte Carlo Distribution Improvements
+- [x] `mc_peak_sales_cv_by_stage` table added to `industry_assumptions.yaml` (preclinical → approved)
+- [x] Phase ESS updated: phase_1=20, phase_2=25, phase_3=25, nda_bla=45
+- [x] `AssumptionsLoader.mc_peak_sales_cv_by_stage` property
+- [x] `MC_PEAK_SALES_CV_BY_STAGE` exported from `constants.py`
+- [x] `_resolve_peak_sales_cv(asset, params)` — stage lookup with explicit-override short-circuit
+- [x] `MonteCarloResult.peak_sales_cv_used` field populated on every run
+- [x] `DEFAULT_CORRELATION` — `("peak_sales", "discount_rate", -0.15)` negative pair documented
+- [x] Phase 1 MC width ≥ 1.5× Phase 3 width (integration test)
+- [x] 23 tests in `tests/test_sprint9_phase5.py`, all passing
+
+#### Task 9.21 — ValuationOutput Provenance
+- [x] `ValuationOutput.assumptions_yaml_hash` — 12-char SHA-256 of industry_assumptions.yaml
+- [x] `ValuationOutput.config_hash` — 12-char SHA-256 of asset YAML config (None when absent)
+- [x] `ValuationOutput.wacc_vintage` — vintage tag from YAML (e.g. "2026-Q1")
+- [x] `ValuationOutput.analyst_overrides` — list of override strings vs. defaults
+- [x] `ValuationEngine._build_provenance()` and `_hash_file()` methods
+- [x] Override detection for discount_rate, effective_tax_rate, nol_benefit_years
+
+#### Task 9.22 — Audit Log Signal Lineage
+- [x] Five new columns on `audit_log`: assumption_field, assumption_old_value, assumption_new_value, evidence_signal_id, review_decision_id
+- [x] Migration-safe via `_ensure_column()` — no schema breakage for existing stores
+- [x] `_append_audit_log()` accepts lineage kwargs; auto-populated by `add_review_decision()`
+- [x] `query_audit_log(assumption_field=, signal_id=)` filter parameters
+- [x] 20 tests in `tests/test_sprint9_phase6.py`, all passing
+
+#### Task 9.18 — POS Backtest Dataset Validation
+- [x] Dataset expanded: N=69 → N=77 (added 9 real Phase 2 oncology failures)
+- [x] Phase 2 success rate corrected: 54.3% → 44.2% (within 35-50% target range)
+- [x] Phase 3 success rate: 41.2% (within 35-55% target range)
+- [x] Overall success rate: 42.9% (no survivor bias)
+- [x] Model now shows positive skill: AUC=0.63, Brier=0.236 (vs 0.245 no-skill baseline)
+- [x] Brier Skill Score: +3.7% positive
+- [x] 19 dataset balance tests in `tests/test_sprint9_phase4.py`, all passing
