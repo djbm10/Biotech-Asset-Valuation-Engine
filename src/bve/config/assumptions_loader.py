@@ -415,6 +415,12 @@ class AssumptionsLoader:
         return float(self._data["monte_carlo"]["peak_sales_cv"])
 
     @property
+    def mc_peak_sales_cv_by_stage(self) -> dict[str, float]:
+        """Stage-conditional peak_sales_cv table. Falls back to flat cv if absent."""
+        table = self._data["monte_carlo"].get("peak_sales_cv_by_stage", {})
+        return {k: float(v) for k, v in table.items()}
+
+    @property
     def mc_discount_rate_std(self) -> float:
         return float(self._data["monte_carlo"]["discount_rate_std"])
 

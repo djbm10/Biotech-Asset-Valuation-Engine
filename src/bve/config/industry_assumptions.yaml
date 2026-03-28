@@ -255,15 +255,34 @@ tax:
 monte_carlo:
 
   phase_ess:
-    # Beta distribution equivalent sample sizes for phase success rates
-    # Higher ESS = tighter prior = less MC spread on phase POS
-    # These are population-level priors; asset configs may override per-phase
-    phase_1: 30
-    phase_2: 25
-    phase_3: 20
-    nda_bla: 40
+    # Beta distribution equivalent sample sizes for phase success rates.
+    # Higher ESS = tighter prior = less MC spread on phase POS.
+    # Stage-differentiated: more precedent data at Phase 3/NDA → tighter prior.
+    # These are population-level priors; asset configs may override per-phase.
+    phase_1: 20    # wider distribution for early-stage uncertainty (was 30)
+    phase_2: 25    # unchanged
+    phase_3: 25    # tighter at Phase 3: more precedent data (was 20)
+    nda_bla: 45    # regulatory precedent well-established (was 40)
 
-  peak_sales_cv:     0.35   # Log-normal CV for peak sales uncertainty (±35%)
+  # Flat fallback CV used when stage-conditional entry is absent.
+  # Overridden at runtime by peak_sales_cv_by_stage (keyed on asset.stage).
+  peak_sales_cv:     0.35   # fallback; prefer stage-conditional table below
+
+  # Stage-conditional log-normal CV for peak sales.
+  # Earlier stages have genuinely wider commercial uncertainty:
+  #   Phase 1: 10x variation plausible (mechanism unproven in humans)
+  #   Phase 3: narrower; market model substantially defined by that point
+  # When asset.stage is present, run_monte_carlo() uses this table instead of
+  # the flat peak_sales_cv above.
+  peak_sales_cv_by_stage:
+    preclinical: 0.65 # widest: pre-human, extreme commercial uncertainty
+    phase_1:   0.60   # 10x variation plausible; mechanism unproven in humans
+    phase_2:   0.45   # 5x variation plausible; early efficacy signal present
+    phase_3:   0.30   # market model substantially defined by this stage
+    nda_bla:   0.20   # filing stage; commercial model well-anchored
+    approved:  0.15   # prescriber data beginning to anchor the estimate
+    default:   0.35   # fallback for unrecognised stage values
+
   discount_rate_std: 0.02   # Normal std dev on WACC in MC (±2pp)
   years_to_peak_std: 1.5    # Normal std dev on years-to-peak in MC (±1.5 years)
   patent_life_std:   1.0    # Normal std dev on patent life in MC (±1 year)

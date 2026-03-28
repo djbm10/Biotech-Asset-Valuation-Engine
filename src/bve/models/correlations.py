@@ -100,7 +100,8 @@ DEFAULT_CORRELATION = CorrelationSpec(
     pairs=[
         # Larger market → slightly higher competition → less penetration
         ("peak_sales", "penetration", -0.20),
-        # Bigger market assumptions tend to go with optimistic view → lower discount
+        # Higher rate environments suppress commercial pricing power / payer access
+        # (weak negative: rate environment affects peak revenue through pricing pressure)
         ("peak_sales", "discount_rate", -0.15),
         # Larger markets typically have more established launch infrastructure
         ("peak_sales", "years_to_peak", -0.10),

@@ -83,6 +83,7 @@ MC_RANDOM_SEED: int | None = None       # operational default
 
 MC_PHASE_ESS: dict[str, int] = _a.mc_phase_ess
 MC_PEAK_SALES_CV: float = _a.mc_peak_sales_cv
+MC_PEAK_SALES_CV_BY_STAGE: dict[str, float] = _a.mc_peak_sales_cv_by_stage
 MC_DISCOUNT_RATE_STD: float = _a.mc_discount_rate_std
 MC_YEARS_TO_PEAK_STD: float = _a.mc_years_to_peak_std
 MC_PATENT_LIFE_STD: float = _a.mc_patent_life_std

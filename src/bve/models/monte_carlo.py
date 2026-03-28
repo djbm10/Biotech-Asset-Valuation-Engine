@@ -21,7 +21,8 @@ from pydantic import BaseModel, Field
 from scipy.stats import lognorm, norm
 
 from bve.config.constants import (
-    MC_N_SIMULATIONS, MC_PEAK_SALES_CV, MC_DISCOUNT_RATE_STD, MC_PHASE_ESS,
+    MC_N_SIMULATIONS, MC_PEAK_SALES_CV, MC_PEAK_SALES_CV_BY_STAGE,
+    MC_DISCOUNT_RATE_STD, MC_PHASE_ESS,
     MC_YEARS_TO_PEAK_STD, MC_PATENT_LIFE_STD,
 )
 from bve.entities.asset import Asset
@@ -95,8 +96,27 @@ class MonteCarloResult(BaseModel):
     # Sorted simulation outputs
     simulated_values_millions: list[float]
 
+    # Which CV was actually used (stage-conditional or explicit override)
+    peak_sales_cv_used: float = MC_PEAK_SALES_CV
+
     # Expected NAV/share (set externally)
     mean_nav_per_share: Optional[float] = None
+
+
+def _resolve_peak_sales_cv(asset: Asset, params: MonteCarloParams) -> float:
+    """
+    Return the appropriate peak_sales_cv for this asset.
+
+    When params.peak_sales_cv is the module default (MC_PEAK_SALES_CV), look up
+    the stage-conditional table from industry_assumptions.yaml instead — earlier
+    stages have genuinely wider commercial uncertainty.  An explicitly overridden
+    params.peak_sales_cv (different from the module default) is always respected.
+    """
+    if params.peak_sales_cv != MC_PEAK_SALES_CV:
+        # Caller set an explicit override — respect it.
+        return params.peak_sales_cv
+    stage_key = asset.stage.value if asset.stage is not None else "default"
+    return MC_PEAK_SALES_CV_BY_STAGE.get(stage_key, MC_PEAK_SALES_CV)
 
 
 def run_monte_carlo(
@@ -123,6 +143,7 @@ def run_monte_carlo(
     """
     rng = np.random.default_rng(params.random_seed)
     n = params.n_simulations
+    peak_sales_cv = _resolve_peak_sales_cv(asset, params)
 
     # Build phase success distribution lookup
     phase_dist_map: dict[TrialPhase, PhaseSuccessDistribution] = {
@@ -157,7 +178,7 @@ def run_monte_carlo(
 
     # Peak sales: log-normal via inverse CDF of correlated uniform
     base_peak = market_model.peak_sales_millions
-    sigma_ln = np.sqrt(np.log(1 + params.peak_sales_cv ** 2))
+    sigma_ln = np.sqrt(np.log(1 + peak_sales_cv ** 2))
     mu_ln = np.log(base_peak) - 0.5 * sigma_ln ** 2
     u_sales = uniform_samples.get("peak_sales", rng.uniform(0, 1, n))
     peak_sales_samples = lognorm(s=sigma_ln, scale=np.exp(mu_ln)).ppf(np.clip(u_sales, 1e-6, 1 - 1e-6))
@@ -222,6 +243,7 @@ def run_monte_carlo(
     return MonteCarloResult(
         asset_id=asset.id,
         n_simulations=n,
+        peak_sales_cv_used=peak_sales_cv,
         mean_millions=round(float(np.mean(arr)), 0),
         median_millions=round(float(np.median(arr)), 0),
         std_millions=round(float(np.std(arr)), 0),
