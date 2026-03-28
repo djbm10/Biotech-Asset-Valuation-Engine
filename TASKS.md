@@ -228,6 +228,15 @@ connectors
 - [x] **12B** `ops/universe_builder.py` — rules-based universe filter from XBI/IBB constituents
       ($200M–$10B mktcap, ADV > $2M, Phase 2+; universe_snapshots table in KnowledgeStore)
 
+#### Sprint 17 — Indication-specific PoS models ✓
+
+- [x] `models/pos_calibrated.py` — `CalibratedPOSModel` with hierarchical Bayesian blending
+      (pure prior N<10, linear blend N=10–50, pure posterior N≥50; Jeffreys Beta prior)
+- [x] `CalibratedPOSModel.from_records(preds, outcomes)` + `from_store(db_path)` factory methods
+- [x] `base_rate(ta, phase)`, `confidence_interval(ta, phase)`, `bin_summary()`, `all_bins()`
+- [x] `tests/test_sprint17.py` — 24 tests: Beta CI, BinSummary math, blending logic,
+      factory, multi-bin, edge cases
+
 #### Sprint 16 — Calibration database ✓
 
 - [x] `analysis/calibration_metrics.py` — `PredictionRecord`, `OutcomeRecord`, `compute_calibration()`
