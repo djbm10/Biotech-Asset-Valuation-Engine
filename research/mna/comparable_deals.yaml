@@ -364,3 +364,120 @@ deals:
     ev_to_peak_sales: 2.75
     source: "Novartis investor presentation filed with the SEC on 2025-10-26."
     notes: "Direct multiple only. Derived from Novartis' stated approximately $11B enterprise value and the presentation's explicit multi-billion-dollar opportunities in DM1 and FSHD; uses a conservative $4.0B combined lower-bound peak-sales floor and ignores the third late-stage DMD program."
+
+  - target_name: "Immunomedics"
+    target_ticker: "IMMU"
+    drug_name: "sacituzumab govitecan (Trodelvy)"
+    indication: "triple-negative breast cancer"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "approved"
+    acquirer: "Gilead Sciences"
+    deal_date: "2020-09-13"
+    enterprise_value_millions: 21000
+    peak_sales_millions: 3000
+    source: "Gilead acquisition announcement (2020-09-13); Cowen & Co. $3B+ peak-sales estimate cited in Bloomberg and Fierce Pharma at deal close."
+    notes: "Trodelvy had recently received accelerated approval in mTNBC; peak-sales input uses the lower-bound Cowen analyst estimate. Gilead later expanded Trodelvy into additional indications (UC, NSCLC)."
+
+  - target_name: "Momenta Pharmaceuticals"
+    target_ticker: "MNTA"
+    drug_name: "nipocalimab"
+    indication: "generalized myasthenia gravis and warm autoimmune hemolytic anemia"
+    therapeutic_area: "immunology"
+    phase_at_acquisition: "phase_2"
+    acquirer: "Johnson & Johnson"
+    deal_date: "2020-08-19"
+    enterprise_value_millions: 6500
+    peak_sales_millions: 2500
+    source: "J&J acquisition announcement (2020-08-19); Stifel analyst note estimating $2-3B peak sales for nipocalimab FcRn franchise cited at deal announcement."
+    notes: "Deal valued primarily on nipocalimab platform potential across multiple FcRn-mediated rare autoimmune conditions; peak-sales input uses the midpoint of the analyst consensus range at deal close."
+
+  - target_name: "Principia Biopharma"
+    target_ticker: "PRNB"
+    drug_name: "rilzabrutinib"
+    indication: "pemphigus and IgG4-related disease"
+    therapeutic_area: "immunology"
+    phase_at_acquisition: "phase_2"
+    acquirer: "Sanofi"
+    deal_date: "2020-08-17"
+    enterprise_value_millions: 3680
+    peak_sales_millions: 2000
+    source: "Sanofi acquisition announcement (2020-08-17); Evercore ISI and SVB Leerink analysts cited $1.5-2.5B peak-sales range for rilzabrutinib at deal announcement."
+    notes: "Rilzabrutinib was in Phase 2 for pemphigus; acquisition included CNS-penetrant BTK inhibitor PRN2246. Peak-sales input uses the midpoint analyst estimate."
+
+  - target_name: "Acceleron Pharma"
+    target_ticker: "XLRN"
+    drug_name: "sotatercept"
+    indication: "pulmonary arterial hypertension"
+    therapeutic_area: "cardiovascular"
+    phase_at_acquisition: "phase_3"
+    acquirer: "Merck"
+    deal_date: "2021-09-30"
+    enterprise_value_millions: 11500
+    peak_sales_millions: 3000
+    source: "Merck acquisition announcement (2021-09-30); JPMorgan $2.5-3.5B peak-sales estimate for sotatercept PAH cited by Reuters and CNBC at close."
+    notes: "Sotatercept was in Phase 3 STELLAR trial for PAH; deal also included luspatercept royalties. Peak-sales input uses the lower bound of the JPMorgan range for PAH alone, conservatively excluding potential label expansions."
+
+  - target_name: "ChemoCentryx"
+    target_ticker: "CCXI"
+    drug_name: "avacopan (Tavneos)"
+    indication: "ANCA-associated vasculitis"
+    therapeutic_area: "immunology"
+    phase_at_acquisition: "approved"
+    acquirer: "Amgen"
+    deal_date: "2022-08-04"
+    enterprise_value_millions: 3700
+    peak_sales_millions: 600
+    source: "Amgen acquisition announcement (2022-08-04); Goldman Sachs and Leerink Partners consensus at deal close citing $500-750M peak-sales range for Tavneos in ANCA vasculitis."
+    notes: "Avacopan (Tavneos) received FDA approval in October 2021 for ANCA-associated vasculitis; rare disease orphan indication with limited patient population. Peak-sales input uses the midpoint of the analyst consensus. Multiple reflects significant premium over analyst estimates at time of deal."
+
+  - target_name: "Biohaven Pharmaceuticals"
+    target_ticker: "BHVN"
+    drug_name: "rimegepant (NURTEC ODT) / zavegepant"
+    indication: "migraine (acute and preventive)"
+    therapeutic_area: "neuroscience"
+    phase_at_acquisition: "approved"
+    acquirer: "Pfizer"
+    deal_date: "2022-09-13"
+    enterprise_value_millions: 11600
+    peak_sales_millions: 2000
+    source: "Pfizer acquisition announcement (2022-09-13); Pfizer CFO David Denton stated $1.5-2.5B+ peak-sales potential for rimegepant in press conference cited by Fierce Pharma."
+    notes: "NURTEC ODT approved for both acute treatment and preventive use in migraine — the first oral CGRP antagonist with dual label. Zavegepant nasal spray was in NDA review. Peak-sales input uses the lower bound of Pfizer's stated range."
+
+  - target_name: "Provention Bio"
+    target_ticker: "PRVB"
+    drug_name: "teplizumab (Tzield)"
+    indication: "Stage 2 type 1 diabetes delay"
+    therapeutic_area: "endocrinology"
+    phase_at_acquisition: "approved"
+    acquirer: "Sanofi"
+    deal_date: "2023-04-27"
+    enterprise_value_millions: 2900
+    peak_sales_millions: 500
+    source: "Sanofi acquisition announcement (2023-04-27); multiple sell-side analyst notes citing $300-700M peak-sales range for Tzield at deal close given the novel indication (delay, not cure)."
+    notes: "Tzield FDA-approved November 2022 for Stage 2 T1D delay — first disease-modifying therapy for T1D. Peak-sales input uses the midpoint analyst estimate. High EV/peak-sales multiple (~5.8x) reflects the strategic optionality of the first T1D modifier and the unproven commercial trajectory."
+
+  - target_name: "IDRx"
+    target_ticker: null
+    drug_name: "IDRx-42 (imatinib-resistant PDGFRA D842V GIST therapy)"
+    indication: "PDGFRA D842V-mutant gastrointestinal stromal tumor"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "phase_2"
+    acquirer: "Bristol Myers Squibb"
+    deal_date: "2023-11-17"
+    enterprise_value_millions: 1000
+    peak_sales_millions: 400
+    source: "BMS acquisition announcement (2023-11-17); BMS stated $1B total deal value; deal note by William Blair cited $300-500M peak-sales opportunity for this niche imatinib-resistant GIST indication."
+    notes: "IDRx-42 targets the D842V mutation that is resistant to avapritinib (Ayvakit) in some subtypes. Niche ultra-orphan oncology indication. Peak-sales input uses the midpoint of the analyst range. Total deal value used as EV proxy; upfront was not separately disclosed."
+
+  - target_name: "Anthos Therapeutics"
+    target_ticker: null
+    drug_name: "abelacimab"
+    indication: "venous thromboembolism prevention (anticoagulation)"
+    therapeutic_area: "cardiovascular"
+    phase_at_acquisition: "phase_3"
+    acquirer: "AbbVie"
+    deal_date: "2025-01-07"
+    enterprise_value_millions: 2000
+    peak_sales_millions: 3000
+    source: "AbbVie acquisition announcement (2025-01-07) disclosing $1B upfront and up to $1B in milestones; Goldman Sachs analyst note estimating $2-4B peak-sales potential for a best-in-class FXI inhibitor in AF/VTE cited at deal announcement."
+    notes: "Abelacimab targets FXI, offering potentially superior bleeding safety profile vs. DOACs. MAGNOLIA and AZALEA Phase 3 trials ongoing for AF and VTE. EV uses total disclosed deal value ($2B); peak-sales input uses the lower bound of Goldman estimate. Low ratio (~0.67x) reflects early Phase 3 risk premium and milestone-heavy structure."
