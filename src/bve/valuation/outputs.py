@@ -78,6 +78,27 @@ class ValuationOutput(BaseModel):
     random_seed: Optional[int] = None
     n_simulations: Optional[int] = None
 
+    # Provenance — institutional audit trail (Task 9.21)
+    assumptions_yaml_hash: Optional[str] = Field(
+        default=None,
+        description="SHA-256 (first 12 chars) of industry_assumptions.yaml used in this run.",
+    )
+    config_hash: Optional[str] = Field(
+        default=None,
+        description="SHA-256 (first 12 chars) of the asset YAML config file, when supplied.",
+    )
+    wacc_vintage: Optional[str] = Field(
+        default=None,
+        description="WACC vintage tag from industry_assumptions.yaml (e.g. '2026-Q1').",
+    )
+    analyst_overrides: list[str] = Field(
+        default_factory=list,
+        description=(
+            "Fields explicitly overridden from industry defaults in this run. "
+            "e.g. ['discount_rate: 0.14 (default: 0.12)', 'peak_penetration: 0.25']"
+        ),
+    )
+
     # Memo text (populated by reporting layer)
     memo_markdown: Optional[str] = None
 

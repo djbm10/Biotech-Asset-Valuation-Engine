@@ -907,6 +907,15 @@ class KnowledgeStore:
         self._ensure_column("review_decisions", "analyst_tags_json", "TEXT")
         self._ensure_column("review_decisions", "supporting_quote", "TEXT")
 
+        # Task 9.22: signal → assumption lineage columns on audit_log.
+        # These link an accepted review decision to the specific assumption change
+        # it triggered, enabling a compliance reviewer to reconstruct "why did X change".
+        self._ensure_column("audit_log", "assumption_field", "TEXT")
+        self._ensure_column("audit_log", "assumption_old_value", "TEXT")
+        self._ensure_column("audit_log", "assumption_new_value", "TEXT")
+        self._ensure_column("audit_log", "evidence_signal_id", "TEXT")
+        self._ensure_column("audit_log", "review_decision_id", "TEXT")
+
         # Wave 0.5: outcome truth taxonomy on event_outcomes.
         # outcome_label separates trial truth from market reaction.
         # Values: "trial_success" | "trial_failure" | "ambiguous" |
@@ -2496,6 +2505,21 @@ class KnowledgeStore:
             ),
         )
         # Append-only audit log entry for every review decision (Wave 3C).
+        # For ACCEPTED decisions, populate lineage fields (Task 9.22) so a
+        # compliance reviewer can answer "why did assumption X change?".
+        lineage: dict = {}
+        if decision.decision == "accepted" and decision.override_value is not None:
+            lineage["assumption_field"] = "override_value"
+            lineage["assumption_new_value"] = str(decision.override_value)
+            # Surface the signal_id from the proposal when available
+            try:
+                proposal = self.get_proposal(decision.proposal_id)
+                if proposal:
+                    lineage["evidence_signal_id"] = getattr(proposal, "signal_id", None)
+            except Exception:
+                pass
+            lineage["review_decision_id"] = decision.id
+
         self._append_audit_log(
             event_type="review_decision",
             entity_type="proposal",
@@ -2503,6 +2527,7 @@ class KnowledgeStore:
             actor_id=decision.reviewer_id,
             action=decision.decision,
             payload_json=decision.model_dump_json(),
+            **lineage,
         )
         self._conn.commit()
 
@@ -2519,16 +2544,29 @@ class KnowledgeStore:
         actor_id: Optional[str],
         action: str,
         payload_json: str,
+        # Task 9.22 — optional signal-to-assumption lineage fields
+        assumption_field: Optional[str] = None,
+        assumption_old_value: Optional[str] = None,
+        assumption_new_value: Optional[str] = None,
+        evidence_signal_id: Optional[str] = None,
+        review_decision_id: Optional[str] = None,
     ) -> None:
-        """Append one row to the append-only audit_log table."""
+        """Append one row to the append-only audit_log table.
+
+        The five optional lineage fields (Task 9.22) link an accepted review
+        decision to the specific assumption change it triggered.  Pass them
+        when recording an ACCEPTED decision that modifies a valuation field.
+        """
         import uuid as _uuid
 
         self._conn.execute(
             """
             INSERT INTO audit_log
                 (audit_id, event_type, entity_type, entity_id,
-                 actor_id, action, payload_json, created_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                 actor_id, action, payload_json, created_at,
+                 assumption_field, assumption_old_value, assumption_new_value,
+                 evidence_signal_id, review_decision_id)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 str(_uuid.uuid4()),
@@ -2539,6 +2577,11 @@ class KnowledgeStore:
                 action,
                 payload_json,
                 datetime.now(timezone.utc).isoformat(),
+                assumption_field,
+                assumption_old_value,
+                assumption_new_value,
+                evidence_signal_id,
+                review_decision_id,
             ),
         )
 
@@ -2549,12 +2592,18 @@ class KnowledgeStore:
         entity_id: Optional[str] = None,
         actor_id: Optional[str] = None,
         action: Optional[str] = None,
+        assumption_field: Optional[str] = None,
+        signal_id: Optional[str] = None,
         limit: int = 100,
     ) -> list[dict]:
         """
         Return audit log rows as plain dicts, newest first.
 
         All filter parameters are optional; unset parameters match any value.
+
+        Task 9.22 additions:
+          assumption_field — filter to rows where a specific field was changed
+          signal_id        — filter to rows linked to a specific evidence signal
         """
         clauses: list[str] = []
         params: list = []
@@ -2571,6 +2620,12 @@ class KnowledgeStore:
         if action is not None:
             clauses.append("action = ?")
             params.append(action)
+        if assumption_field is not None:
+            clauses.append("assumption_field = ?")
+            params.append(assumption_field)
+        if signal_id is not None:
+            clauses.append("evidence_signal_id = ?")
+            params.append(signal_id)
 
         sql = "SELECT * FROM audit_log"
         if clauses:

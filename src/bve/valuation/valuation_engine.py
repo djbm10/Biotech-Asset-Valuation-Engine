@@ -13,7 +13,9 @@ That is architectural debt to be cleaned in a later step.
 """
 from __future__ import annotations
 
+import hashlib
 import warnings
+from pathlib import Path
 from typing import Optional
 
 from bve.entities.asset import Asset, Modality, TherapeuticArea
@@ -203,6 +205,9 @@ class ValuationEngine:
         # --- Lifecycle events summary (for valuation.json and memo rendering) ---
         lifecycle_events_applied = self._build_lifecycle_events_applied()
 
+        # --- Provenance (Task 9.21) ---
+        prov = self._build_provenance()
+
         return ValuationOutput(
             asset=self.asset,
             company=self.company,
@@ -222,6 +227,10 @@ class ValuationEngine:
             n_simulations=self.mc_params.n_simulations,
             decision_framing=self.decision_framing,
             lifecycle_events_applied=lifecycle_events_applied,
+            assumptions_yaml_hash=prov["assumptions_yaml_hash"],
+            config_hash=prov["config_hash"],
+            wacc_vintage=prov["wacc_vintage"],
+            analyst_overrides=prov["analyst_overrides"],
         )
 
     # -----------------------------------------------------------------------
@@ -293,6 +302,69 @@ class ValuationEngine:
                 "effect": effect,
             })
         return result
+
+    # -----------------------------------------------------------------------
+    # Provenance helpers (Task 9.21)
+    # -----------------------------------------------------------------------
+
+    @staticmethod
+    def _hash_file(path: Path) -> str:
+        """Return first 12 chars of SHA-256 hex digest of a file."""
+        return hashlib.sha256(path.read_bytes()).hexdigest()[:12]
+
+    def _build_provenance(self) -> dict:
+        """
+        Collect audit-trail metadata for this valuation run.
+
+        Returns a dict with:
+          assumptions_yaml_hash  — 12-char SHA-256 of industry_assumptions.yaml
+          config_hash            — 12-char SHA-256 of asset config YAML (if supplied)
+          wacc_vintage           — 'YYYY-QN' tag from assumptions YAML
+          analyst_overrides      — list of overridden fields vs industry defaults
+        """
+        from bve.config.assumptions_loader import AssumptionsLoader
+        from bve.config.constants import DEFAULT_WACC
+
+        loader = AssumptionsLoader.get()
+
+        # Hash the assumptions YAML
+        yaml_path = Path(__file__).parent.parent / "config" / "industry_assumptions.yaml"
+        assumptions_yaml_hash: Optional[str] = None
+        if yaml_path.exists():
+            assumptions_yaml_hash = self._hash_file(yaml_path)
+
+        # Hash the config YAML if known
+        config_hash: Optional[str] = None
+        if self.config_path:
+            cp = Path(self.config_path)
+            if cp.exists():
+                config_hash = self._hash_file(cp)
+
+        # WACC vintage
+        wacc_vintage: Optional[str] = loader._data.get("wacc", {}).get("vintage")
+
+        # Detect analyst overrides vs industry defaults
+        overrides: list[str] = []
+        default_wacc = DEFAULT_WACC
+        if abs(self.asset.discount_rate - default_wacc) > 1e-6:
+            overrides.append(
+                f"discount_rate: {self.asset.discount_rate} (default: {default_wacc})"
+            )
+        if self.asset.effective_tax_rate != 0.21:
+            overrides.append(
+                f"effective_tax_rate: {self.asset.effective_tax_rate} (default: 0.21)"
+            )
+        if self.asset.nol_benefit_years != 0:
+            overrides.append(
+                f"nol_benefit_years: {self.asset.nol_benefit_years} (default: 0)"
+            )
+
+        return {
+            "assumptions_yaml_hash": assumptions_yaml_hash,
+            "config_hash": config_hash,
+            "wacc_vintage": wacc_vintage,
+            "analyst_overrides": overrides,
+        }
 
     # -----------------------------------------------------------------------
     # Sensitivity (tornado) — still uses compute_rnpv() wrapper
