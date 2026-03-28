@@ -64,6 +64,7 @@ bve-acquisition-screen   = "bve.cli.acquisition_screen:main"
 bve-screen               = "bve.cli.screen:main"
 bve-acquirer-fit         = "bve.cli.acquirer_fit:main"
 bve-ma-probability       = "bve.cli.ma_probability:main"
+bve-universe-screen      = "bve.cli.universe_screen:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

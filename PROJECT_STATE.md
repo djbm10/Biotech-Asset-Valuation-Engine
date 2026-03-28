@@ -2,7 +2,15 @@
 
 ## Current Module Being Worked On
 
-Sprint 9 — Institutional grade model fixes (Phases 2–6 complete)
+**Sprint 10 — Market-Implied PoS at Universe Scale (Phase 1, Institutional Grade Roadmap)**
+
+Active tasks:
+- 10.1: `research/universe_params.yaml` (all 27 tickers)
+- 10.2: `ops/universe_configs.py` (parametric DrugAssetProgram builder)
+- 10.3: `analysis/implied_pos_batch.py` (batch screen runner)
+- 11.1: `cli/universe_screen.py` (`bve-universe-screen` command)
+
+Full roadmap: ROADMAP.md
 
 ## Replay Statistical Graduation Status (Task 9.20 — 2026-03-28)
 
@@ -218,4 +226,5 @@ OR resume Sprint 8 Task 8.7 Step 6:
 
 ## Next Step
 
-Extend weekly output with the top-10 M&A probability scan and new threshold-cross names.
+Sprint 10: build `research/universe_params.yaml` → `ops/universe_configs.py` → `analysis/implied_pos_batch.py` → `cli/universe_screen.py` → `bve-universe-screen` CLI.
+The spread signal (model_pos - implied_pos) is the primary mispricing output for the daily PM workflow.

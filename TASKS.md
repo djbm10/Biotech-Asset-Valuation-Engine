@@ -204,7 +204,33 @@ connectors
 
 ## In Progress
 
-*(none)*
+### Phase 1 — Institutional Grade (Sprint 10–12, active)
+
+> Converts the rNPV engine from "valuation calculator" into "mispricing detector."
+> Full roadmap: see ROADMAP.md
+
+#### Sprint 10 — Market-Implied PoS at Universe Scale
+
+- [ ] **10.1** `research/universe_params.yaml` — per-ticker valuation params for all 27 UNIVERSE names
+      (ta, phase, peak_sales_millions, years_to_approval, patent_life_years, program_label, single_asset, modality)
+- [ ] **10.2** `ops/universe_configs.py` — parametric `DrugAssetProgram` + `Company` builder from
+      `universe_params.yaml`; live market data via `get_fundamentals(ticker)`
+- [ ] **10.3** `analysis/implied_pos_batch.py` — standalone batch runner producing `ScreenRow` list
+      (model_pos, implied_pos, spread_pp, rnpv, ev, acq_discount, catalyst, days_to_catalyst)
+- [ ] **10.4** Wire implied PoS into `weekly_runner report` output (persist to KnowledgeStore screen_snapshots)
+
+#### Sprint 11 — Unified Screener CLI
+
+- [ ] **11.1** `cli/universe_screen.py` — new standalone `bve-universe-screen` command
+      (no KnowledgeStore required; output: TICKER | STAGE | MODEL_POS | IMPLIED_POS | SPREAD | rNPV | EV | ACQ_DISC | NEXT_CATALYST | D2CAT)
+- [ ] **11.2** `pyproject.toml` — register `bve-universe-screen` entry point; pip install -e .
+
+#### Sprint 12 — Survivorship Bias Fix
+
+- [ ] **12A** Add 20–40 Phase 2/3 failures to `research/data/oncology_phase_transitions.csv`
+      (target: ~40% Phase 2 success rate; current: 44.2% — needs more failures to reach ~40%)
+- [ ] **12B** `ops/universe_builder.py` — rules-based universe filter from XBI/IBB constituents
+      ($200M–$10B mktcap, ADV > $2M, Phase 2+)
 
 ---
 
