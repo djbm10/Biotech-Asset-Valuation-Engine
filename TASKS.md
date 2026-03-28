@@ -228,6 +228,17 @@ connectors
 - [x] **12B** `ops/universe_builder.py` — rules-based universe filter from XBI/IBB constituents
       ($200M–$10B mktcap, ADV > $2M, Phase 2+; universe_snapshots table in KnowledgeStore)
 
+#### Sprint 15 — Real-time event monitoring ✓
+
+- [x] **15.1** `ops/event_monitor.py` — `DetectedEvent` dataclass, `poll_fda_events()` (OpenFDA API),
+      `poll_edgar_8k()` (EDGAR EFTS); dedup by (ticker, event_type, headline[:80], date)
+- [x] **15.2** `ops/recompute_trigger.py` — `check_and_trigger(store, as_of)` returns tickers with new
+      material events; `pending_trigger_count()` convenience wrapper
+- [x] KnowledgeStore `detected_events` table with UNIQUE(ticker, event_type, headline_key, detected_date);
+      `insert_detected_events()` + `get_detected_events()` methods
+- [x] `tests/test_sprint15.py` — 30 tests: DetectedEvent, classify, match, poll_fda (mocked),
+      poll_edgar (mocked), KnowledgeStore persistence, recompute trigger
+
 #### Sprint 14 — Commercial model layer ✓
 
 - [x] `models/commercial_inputs.py` — `PatientPool`, `PricingModel`, `ShareModel`, `CommercialInputs`

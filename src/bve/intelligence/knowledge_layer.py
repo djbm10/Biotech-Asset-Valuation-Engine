@@ -658,6 +658,28 @@ class KnowledgeStore:
             CREATE INDEX IF NOT EXISTS idx_universe_snapshots_passed
                 ON universe_snapshots(build_date, passed);
 
+            CREATE TABLE IF NOT EXISTS detected_events (
+                id              TEXT PRIMARY KEY,
+                ticker          TEXT NOT NULL,
+                asset_id        TEXT NOT NULL,
+                event_type      TEXT NOT NULL,
+                headline        TEXT NOT NULL,
+                headline_key    TEXT NOT NULL,  -- first 80 chars for dedup
+                source_url      TEXT,
+                detected_at     TEXT NOT NULL,
+                detected_date   TEXT NOT NULL,  -- YYYY-MM-DD for dedup
+                requires_recompute INTEGER NOT NULL DEFAULT 0,
+                extra_json      TEXT,
+                created_at      TEXT NOT NULL,
+                UNIQUE(ticker, event_type, headline_key, detected_date)
+            );
+            CREATE INDEX IF NOT EXISTS idx_detected_events_ticker
+                ON detected_events(ticker);
+            CREATE INDEX IF NOT EXISTS idx_detected_events_detected_at
+                ON detected_events(detected_at DESC);
+            CREATE INDEX IF NOT EXISTS idx_detected_events_recompute
+                ON detected_events(requires_recompute, detected_at DESC);
+
             CREATE INDEX IF NOT EXISTS idx_raw_documents_created
                 ON raw_documents(created_at);
             CREATE INDEX IF NOT EXISTS idx_raw_documents_hash
@@ -2737,6 +2759,108 @@ class KnowledgeStore:
             "ORDER BY build_date DESC"
         ).fetchall()
         return [date.fromisoformat(r[0]) for r in rows]
+
+    # ------------------------------------------------------------------
+    # Sprint 15 — detected_events (real-time event monitor)
+    # ------------------------------------------------------------------
+
+    def insert_detected_events(self, events: "list") -> int:
+        """
+        Insert DetectedEvent list into detected_events table.
+
+        Deduplication: UNIQUE(ticker, event_type, headline_key, detected_date).
+        Duplicate rows are silently ignored (INSERT OR IGNORE).
+
+        Returns number of rows actually inserted.
+        """
+        import json as _json
+        from datetime import datetime as _dt, timezone as _tz
+
+        inserted = 0
+        for ev in events:
+            import uuid as _uuid
+            row_id = str(_uuid.uuid4())
+            headline_key = ev.headline[:80]
+            detected_at_str = (
+                ev.detected_at.isoformat()
+                if hasattr(ev.detected_at, "isoformat")
+                else str(ev.detected_at)
+            )
+            detected_date = detected_at_str[:10]  # YYYY-MM-DD
+            created_at = _dt.now(_tz.utc).isoformat(timespec="seconds")
+            cursor = self._conn.execute(
+                """
+                INSERT OR IGNORE INTO detected_events(
+                    id, ticker, asset_id, event_type, headline, headline_key,
+                    source_url, detected_at, detected_date, requires_recompute,
+                    extra_json, created_at
+                ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    row_id,
+                    ev.ticker,
+                    ev.asset_id,
+                    ev.event_type,
+                    ev.headline,
+                    headline_key,
+                    ev.source_url,
+                    detected_at_str,
+                    detected_date,
+                    1 if ev.requires_recompute else 0,
+                    _json.dumps(ev.extra) if ev.extra else None,
+                    created_at,
+                ),
+            )
+            inserted += cursor.rowcount
+        self._conn.commit()
+        return inserted
+
+    def get_detected_events(
+        self,
+        since: Optional[str] = None,
+        *,
+        ticker: Optional[str] = None,
+        requires_recompute: Optional[bool] = None,
+        limit: int = 500,
+    ) -> list[dict]:
+        """
+        Return detected_events rows as list of dicts.
+
+        Parameters
+        ----------
+        since           : ISO datetime string; only events detected_at >= since
+        ticker          : filter to one ticker
+        requires_recompute : filter to rows where requires_recompute matches
+        limit           : max rows (default 500)
+        """
+        clauses: list[str] = []
+        params: list = []
+
+        if since is not None:
+            clauses.append("detected_at >= ?")
+            params.append(since)
+        if ticker is not None:
+            clauses.append("ticker = ?")
+            params.append(ticker)
+        if requires_recompute is not None:
+            clauses.append("requires_recompute = ?")
+            params.append(1 if requires_recompute else 0)
+
+        where = f"WHERE {' AND '.join(clauses)}" if clauses else ""
+        rows = self._conn.execute(
+            f"SELECT id, ticker, asset_id, event_type, headline, headline_key, "
+            f"source_url, detected_at, detected_date, requires_recompute, extra_json, created_at "
+            f"FROM detected_events {where} "
+            f"ORDER BY detected_at DESC LIMIT ?",
+            params + [limit],
+        ).fetchall()
+
+        cols = [
+            "id", "ticker", "asset_id", "event_type", "headline", "headline_key",
+            "source_url", "detected_at", "detected_date", "requires_recompute",
+            "extra_json", "created_at",
+        ]
+        return [dict(zip(cols, r)) for r in rows]
 
     def add_review_decision(
         self,
