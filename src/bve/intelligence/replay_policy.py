@@ -42,6 +42,8 @@ class ReplayPolicyConfig:
         Policy identifier (used for run metadata).
     max_positions:
         Maximum number of decisions per step.
+    max_open_positions:
+        Maximum number of open positions allowed across the whole replay.
     max_single_pct:
         Maximum allocation for any single position (0–1).
     max_total_exposure_pct:
@@ -56,10 +58,12 @@ class ReplayPolicyConfig:
 
     name: str = "top2_add"
     max_positions: int = 2
+    max_open_positions: Optional[int] = None
     max_single_pct: float = 0.05
     max_total_exposure_pct: float = 0.10
     skip_critic_warning: bool = True
     max_hold_days: int = 30
+    stop_loss_pct: float = -40.0
     actionable_actions: frozenset = field(
         default_factory=lambda: frozenset({"buy", "add"})
     )
@@ -81,6 +85,27 @@ class ReplayPolicyConfig:
     # Catalyst density gate
     # 0 = disabled; N>0 = require a catalyst within N days to allow entry.
     require_catalyst_within_days: int = 0
+    # Loss-based temporary entry block
+    loss_block_threshold_pct: float = -15.0
+    loss_block_weeks: int = 8
+    # Permanent block after repeated losses
+    max_consecutive_losses: int = 3
+
+    @classmethod
+    def mna_profile(cls) -> "ReplayPolicyConfig":
+        """Return the default replay profile for acquisition/M&A studies."""
+        return cls(
+            name="mna_top8",
+            max_positions=8,
+            max_open_positions=8,
+            max_single_pct=0.125,
+            max_total_exposure_pct=1.0,
+            max_hold_days=365,
+            stop_loss_pct=-40.0,
+            catalyst_timing=False,
+            require_catalyst_within_days=0,
+            loss_block_threshold_pct=-40.0,
+        )
 
 
 # ---------------------------------------------------------------------------
@@ -101,6 +126,68 @@ class ReplayPolicy:
 
     def __init__(self, config: Optional[ReplayPolicyConfig] = None) -> None:
         self.config = config or ReplayPolicyConfig()
+        self.reset_run_state()
+
+    def reset_run_state(self) -> None:
+        """Reset all per-run blocking state."""
+        self._blocked_until: dict[str, date] = {}
+        self._consecutive_losses: dict[str, int] = {}
+        self._permanently_blocked_asset_ids: set[str] = set()
+
+    def record_closed_position(
+        self,
+        asset_id: str,
+        exit_date: date,
+        return_pct: Optional[float],
+        *,
+        force_loss_block: bool = False,
+    ) -> None:
+        """
+        Update per-asset loss state from a newly closed position.
+
+        A sufficiently negative return applies a temporary block, while
+        consecutive losing trades can permanently block the asset for the
+        remainder of the replay run.
+        """
+        if return_pct is None:
+            return
+
+        if force_loss_block or return_pct <= self.config.loss_block_threshold_pct:
+            blocked_until = exit_date + timedelta(weeks=self.config.loss_block_weeks)
+            self._blocked_until[asset_id] = blocked_until
+            print(
+                f"Blocked {asset_id}: prior loss of {return_pct:.1f}% "
+                f"on {exit_date.isoformat()}"
+            )
+
+        if return_pct < 0.0:
+            losses = self._consecutive_losses.get(asset_id, 0) + 1
+            self._consecutive_losses[asset_id] = losses
+            if (
+                losses >= self.config.max_consecutive_losses
+                and asset_id not in self._permanently_blocked_asset_ids
+            ):
+                self._permanently_blocked_asset_ids.add(asset_id)
+                print(
+                    f"Permanently blocked {asset_id}: {losses} consecutive losses"
+                )
+            return
+
+        self._consecutive_losses[asset_id] = 0
+
+    def is_asset_blocked(self, asset_id: str, current_date: date) -> bool:
+        """Return True when *asset_id* is blocked from new entries."""
+        if asset_id in self._permanently_blocked_asset_ids:
+            return True
+
+        blocked_until = self._blocked_until.get(asset_id)
+        if blocked_until is None:
+            return False
+        if current_date < blocked_until:
+            return True
+
+        self._blocked_until.pop(asset_id, None)
+        return False
 
     def select(
         self,
@@ -157,14 +244,25 @@ class ReplayPolicy:
         )
 
         decisions: list[ReplayDecision] = []
+        selected_asset_ids: set[str] = set()
         remaining_exposure = cfg.max_total_exposure_pct - current_total_exposure
+        remaining_open_slots: Optional[int] = None
+        if cfg.max_open_positions is not None:
+            remaining_open_slots = max(0, cfg.max_open_positions - len(open_asset_ids))
+            if remaining_open_slots == 0:
+                return []
 
         for opp in candidates:
             if len(decisions) >= cfg.max_positions:
                 break
+            if remaining_open_slots is not None and len(decisions) >= remaining_open_slots:
+                break
 
             # Skip open positions
             if opp.asset_id in open_asset_ids:
+                continue
+
+            if self.is_asset_blocked(opp.asset_id, report.week_ending):
                 continue
 
             # Skip critic warning when configured
@@ -212,6 +310,13 @@ class ReplayPolicy:
             if size <= 0.0:
                 continue
 
+            if opp.asset_id in selected_asset_ids:
+                print(
+                    f"Skipped duplicate entry for {opp.asset_id} on "
+                    f"{report.week_ending.isoformat()}"
+                )
+                continue
+
             timing_note = ""
             if cfg.catalyst_timing and catalyst_dates and opp.asset_id in catalyst_dates:
                 cat_date = catalyst_dates[opp.asset_id]
@@ -230,7 +335,10 @@ class ReplayPolicy:
                     is_simulated=True,
                 )
             )
+            selected_asset_ids.add(opp.asset_id)
             remaining_exposure -= size
+            if remaining_open_slots is not None:
+                remaining_open_slots -= 1
 
         return decisions
 

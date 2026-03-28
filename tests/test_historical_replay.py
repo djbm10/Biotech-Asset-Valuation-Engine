@@ -19,7 +19,7 @@ Coverage
 from __future__ import annotations
 
 import sqlite3
-from datetime import date, datetime, timezone, timedelta
+from datetime import date, datetime, timezone
 
 import pytest
 
@@ -153,6 +153,20 @@ def test_replay_store_get_price_multiple_rows(in_memory_store):
     assert in_memory_store.get_price(ticker, date(2025, 4, 1)) == pytest.approx(100.0)
     assert in_memory_store.get_price(ticker, date(2025, 4, 2)) == pytest.approx(105.0)
     assert in_memory_store.get_price(ticker, date(2025, 4, 3)) == pytest.approx(98.0)
+
+
+def test_replay_store_get_price_falls_back_to_prior_trading_day(in_memory_store):
+    ticker = "VKTX"
+    in_memory_store.insert_prices(
+        ticker,
+        [
+            (date(2025, 6, 6), 42.50),  # Friday
+            (date(2025, 6, 9), 44.00),  # Monday
+        ],
+    )
+
+    price = in_memory_store.get_price(ticker, date(2025, 6, 8))  # Sunday
+    assert price == pytest.approx(42.50)
 
 
 # ---------------------------------------------------------------------------
@@ -535,6 +549,101 @@ def test_replay_store_insert_and_get_open_decisions(in_memory_store):
     assert open_decs[0]["is_closed"] == 0
 
 
+def test_step_decision_records_entry_price_from_historical_prices(tmp_path, in_memory_store):
+    run_id = in_memory_store.create_run(
+        start_date=date(2025, 6, 1),
+        end_date=date(2025, 6, 30),
+        cadence="weekly",
+        decision_policy="top2_add",
+        score_version="v2.0",
+        strategy_version="top2_add",
+    )
+    in_memory_store.insert_prices(
+        "VKTX",
+        [
+            (date(2025, 6, 6), 42.50),
+        ],
+    )
+
+    universe = [
+        dict(
+            asset_id="a-vktx",
+            ticker="VKTX",
+            company_id="co-vktx",
+            ranking_score=1.0,
+            opportunity_score=1.0,
+            catalyst="VK2735 Phase 2",
+            indication="obesity",
+        ),
+    ]
+    replay = HistoricalReplay(
+        replay_store=in_memory_store,
+        knowledge_store_path=str(tmp_path / "replay_kb_entry_price.db"),
+        universe=universe,
+    )
+
+    decisions = replay._step_decision(ReplayClock(date(2025, 6, 8)), run_id, universe)
+
+    assert len(decisions) == 1
+    all_decs = in_memory_store.get_run_decisions(run_id)
+    assert len(all_decs) == 1
+    assert all_decs[0]["entry_price"] == pytest.approx(42.50)
+
+
+def test_step_decision_skips_assets_without_entry_price(tmp_path, in_memory_store):
+    from bve.intelligence.replay_policy import ReplayPolicyConfig
+
+    run_id = in_memory_store.create_run(
+        start_date=date(2025, 6, 1),
+        end_date=date(2025, 6, 30),
+        cadence="weekly",
+        decision_policy="price_gate_test",
+        score_version="v2.0",
+        strategy_version="price_gate_test",
+    )
+    in_memory_store.insert_prices("LIVE", [(date(2025, 6, 1), 100.0)])
+
+    universe = [
+        dict(
+            asset_id="a-no-price",
+            ticker="MISS",
+            company_id="co-miss",
+            ranking_score=1.0,
+            opportunity_score=1.0,
+            catalyst="Missing price catalyst",
+            indication="oncology",
+            claim_type="custom",
+            claim_assertion="missing price",
+        ),
+        dict(
+            asset_id="a-priced",
+            ticker="LIVE",
+            company_id="co-live",
+            ranking_score=1.0,
+            opportunity_score=1.0,
+            catalyst="Live catalyst",
+            indication="oncology",
+            claim_type="custom",
+            claim_assertion="has price",
+        ),
+    ]
+    replay = HistoricalReplay(
+        replay_store=in_memory_store,
+        knowledge_store_path=str(tmp_path / "replay_kb_price_gate.db"),
+        universe=universe,
+        policy_config=ReplayPolicyConfig(max_positions=1, max_single_pct=0.10),
+    )
+
+    decisions = replay._step_decision(ReplayClock(date(2025, 6, 1)), run_id, universe)
+
+    assert len(decisions) == 1
+    assert decisions[0].asset_id == "a-priced"
+    stored = in_memory_store.get_run_decisions(run_id)
+    assert len(stored) == 1
+    assert stored[0]["ticker"] == "LIVE"
+    assert stored[0]["entry_price"] == pytest.approx(100.0)
+
+
 def test_replay_store_close_decision(in_memory_store):
     from bve.intelligence.replay_policy import ReplayDecision
 
@@ -571,6 +680,568 @@ def test_replay_store_close_decision(in_memory_store):
 
     open_decs = in_memory_store.get_open_decisions(run_id)
     assert len(open_decs) == 0
+
+
+def test_step_resolve_populates_exit_price_and_return_pct(tmp_path, in_memory_store):
+    from bve.intelligence.replay_policy import ReplayDecision, ReplayPolicyConfig
+
+    run_id = in_memory_store.create_run(
+        start_date=date(2025, 1, 1),
+        end_date=date(2025, 2, 1),
+        cadence="weekly",
+        decision_policy="top2_add",
+        score_version="v2.0",
+        strategy_version="top2_add",
+    )
+    replay = HistoricalReplay(
+        replay_store=in_memory_store,
+        knowledge_store_path=str(tmp_path / "replay_kb_exit_price.db"),
+        universe=[],
+        policy_config=ReplayPolicyConfig(max_hold_days=7),
+    )
+
+    in_memory_store.insert_prices(
+        "VKTX",
+        [
+            (date(2025, 1, 10), 110.0),  # Friday before Sunday exit
+        ],
+    )
+    decision_id = in_memory_store.insert_decision(
+        run_id,
+        ReplayDecision(
+            asset_id="a-vktx",
+            ticker="VKTX",
+            recommended_action="buy",
+            recommended_size_pct=0.05,
+            composite_score=0.80,
+            decided_at=date(2025, 1, 5),  # Sunday
+        ),
+        entry_price=100.0,
+    )
+
+    replay._step_resolve(ReplayClock(date(2025, 1, 12)), run_id)
+
+    decisions = in_memory_store.get_run_decisions(run_id)
+    assert decisions[0]["decision_id"] == decision_id
+    assert decisions[0]["is_closed"] == 1
+    assert decisions[0]["exit_price"] == pytest.approx(110.0)
+    assert decisions[0]["return_pct"] == pytest.approx(10.0)
+
+
+def test_replay_store_backfill_decision_prices_fills_nulls(in_memory_store):
+    from bve.intelligence.replay_policy import ReplayDecision
+
+    run_id = in_memory_store.create_run(
+        start_date=date(2025, 4, 1),
+        end_date=date(2025, 5, 31),
+        cadence="weekly",
+        decision_policy="top2_add",
+        score_version="v2.0",
+        strategy_version="top2_add",
+    )
+    in_memory_store.insert_prices(
+        "ALNY",
+        [
+            (date(2025, 4, 4), 200.0),  # Friday before Sunday entry
+            (date(2025, 5, 9), 220.0),  # Friday before Sunday exit
+        ],
+    )
+
+    decision_id = in_memory_store.insert_decision(
+        run_id,
+        ReplayDecision(
+            asset_id="a-alny",
+            ticker="ALNY",
+            recommended_action="buy",
+            recommended_size_pct=0.05,
+            composite_score=0.75,
+            decided_at=date(2025, 4, 6),  # Sunday
+        ),
+        entry_price=None,
+    )
+    in_memory_store.close_decision(
+        decision_id,
+        exit_price=None,
+        exit_date=date(2025, 5, 11),  # Sunday
+        return_pct=None,
+        attribution_type="unclassified",
+    )
+
+    updated = in_memory_store.backfill_decision_prices(run_id)
+
+    decisions = in_memory_store.get_run_decisions(run_id)
+    assert updated == 1
+    assert decisions[0]["entry_price"] == pytest.approx(200.0)
+    assert decisions[0]["exit_price"] == pytest.approx(220.0)
+    assert decisions[0]["return_pct"] == pytest.approx(10.0)
+
+
+def test_step_resolve_updates_loss_block_state(tmp_path, in_memory_store):
+    from bve.intelligence.replay_policy import ReplayDecision, ReplayPolicyConfig
+
+    run_id = in_memory_store.create_run(
+        start_date=date(2025, 1, 1),
+        end_date=date(2025, 2, 1),
+        cadence="weekly",
+        decision_policy="top2_add",
+        score_version="v2.0",
+        strategy_version="top2_add",
+    )
+    replay = HistoricalReplay(
+        replay_store=in_memory_store,
+        knowledge_store_path=str(tmp_path / "replay_kb_loss.db"),
+        universe=[],
+        policy_config=ReplayPolicyConfig(max_hold_days=7),
+    )
+
+    in_memory_store.insert_prices(
+        "VKTX",
+        [
+            (date(2025, 1, 1), 100.0),
+            (date(2025, 1, 8), 80.0),
+        ],
+    )
+    decision_id = in_memory_store.insert_decision(
+        run_id,
+        ReplayDecision(
+            asset_id="a-vktx",
+            ticker="VKTX",
+            recommended_action="buy",
+            recommended_size_pct=0.05,
+            composite_score=0.80,
+            decided_at=date(2025, 1, 1),
+        ),
+        entry_price=100.0,
+    )
+
+    replay._step_resolve(ReplayClock(date(2025, 1, 8)), run_id)
+
+    decisions = in_memory_store.get_run_decisions(run_id)
+    assert decisions[0]["decision_id"] == decision_id
+    assert decisions[0]["is_closed"] == 1
+    assert decisions[0]["return_pct"] == pytest.approx(-20.0)
+    assert replay._policy.is_asset_blocked("a-vktx", date(2025, 1, 8)) is True
+
+
+def test_step_stop_loss_closes_position_when_threshold_breached(
+    tmp_path,
+    in_memory_store,
+    capsys: pytest.CaptureFixture[str],
+):
+    from bve.intelligence.replay_policy import ReplayDecision, ReplayPolicyConfig
+
+    run_id = in_memory_store.create_run(
+        start_date=date(2025, 1, 1),
+        end_date=date(2025, 2, 1),
+        cadence="weekly",
+        decision_policy="top2_add",
+        score_version="v2.0",
+        strategy_version="top2_add",
+    )
+    replay = HistoricalReplay(
+        replay_store=in_memory_store,
+        knowledge_store_path=str(tmp_path / "replay_kb_stop_loss.db"),
+        universe=[],
+        policy_config=ReplayPolicyConfig(max_hold_days=365, stop_loss_pct=-40.0),
+    )
+
+    in_memory_store.insert_prices(
+        "VKTX",
+        [
+            (date(2025, 1, 1), 100.0),
+            (date(2025, 1, 8), 55.0),
+        ],
+    )
+    decision_id = in_memory_store.insert_decision(
+        run_id,
+        ReplayDecision(
+            asset_id="a-vktx",
+            ticker="VKTX",
+            recommended_action="buy",
+            recommended_size_pct=0.05,
+            composite_score=0.80,
+            decided_at=date(2025, 1, 1),
+        ),
+        entry_price=100.0,
+    )
+
+    triggered = replay._step_stop_loss(ReplayClock(date(2025, 1, 8)), run_id)
+
+    decisions = in_memory_store.get_run_decisions(run_id)
+    assert triggered == 1
+    assert decisions[0]["decision_id"] == decision_id
+    assert decisions[0]["is_closed"] == 1
+    assert decisions[0]["exit_price"] == pytest.approx(55.0)
+    assert decisions[0]["exit_date"] == "2025-01-08"
+    assert decisions[0]["return_pct"] == pytest.approx(-45.0)
+    assert "Stop-loss triggered: a-vktx at -45.0%" in capsys.readouterr().out
+
+
+def test_step_stop_loss_does_not_close_position_within_threshold(tmp_path, in_memory_store):
+    from bve.intelligence.replay_policy import ReplayDecision, ReplayPolicyConfig
+
+    run_id = in_memory_store.create_run(
+        start_date=date(2025, 1, 1),
+        end_date=date(2025, 2, 1),
+        cadence="weekly",
+        decision_policy="top2_add",
+        score_version="v2.0",
+        strategy_version="top2_add",
+    )
+    replay = HistoricalReplay(
+        replay_store=in_memory_store,
+        knowledge_store_path=str(tmp_path / "replay_kb_stop_loss_safe.db"),
+        universe=[],
+        policy_config=ReplayPolicyConfig(max_hold_days=365, stop_loss_pct=-40.0),
+    )
+
+    in_memory_store.insert_prices(
+        "VKTX",
+        [
+            (date(2025, 1, 1), 100.0),
+            (date(2025, 1, 8), 70.0),
+        ],
+    )
+    in_memory_store.insert_decision(
+        run_id,
+        ReplayDecision(
+            asset_id="a-vktx",
+            ticker="VKTX",
+            recommended_action="buy",
+            recommended_size_pct=0.05,
+            composite_score=0.80,
+            decided_at=date(2025, 1, 1),
+        ),
+        entry_price=100.0,
+    )
+
+    triggered = replay._step_stop_loss(ReplayClock(date(2025, 1, 8)), run_id)
+
+    decisions = in_memory_store.get_run_decisions(run_id)
+    assert triggered == 0
+    assert decisions[0]["is_closed"] == 0
+    assert decisions[0]["exit_price"] is None
+    assert decisions[0]["return_pct"] is None
+
+
+def test_step_stop_loss_triggers_loss_blocking_for_reentry(tmp_path, in_memory_store):
+    from bve.intelligence.replay_policy import ReplayDecision, ReplayPolicyConfig
+
+    run_id = in_memory_store.create_run(
+        start_date=date(2025, 1, 1),
+        end_date=date(2025, 2, 1),
+        cadence="weekly",
+        decision_policy="top2_add",
+        score_version="v2.0",
+        strategy_version="top2_add",
+    )
+    universe = [
+        dict(
+            asset_id="a-vktx",
+            ticker="VKTX",
+            company_id="co-vktx",
+            ranking_score=1.0,
+            opportunity_score=1.0,
+            catalyst="VK2735 Phase 2",
+            indication="obesity",
+        ),
+    ]
+    replay = HistoricalReplay(
+        replay_store=in_memory_store,
+        knowledge_store_path=str(tmp_path / "replay_kb_stop_loss_block.db"),
+        universe=universe,
+        policy_config=ReplayPolicyConfig(
+            max_positions=1,
+            max_hold_days=365,
+            stop_loss_pct=-40.0,
+        ),
+    )
+
+    in_memory_store.insert_prices(
+        "VKTX",
+        [
+            (date(2025, 1, 1), 100.0),
+            (date(2025, 1, 8), 55.0),
+        ],
+    )
+    in_memory_store.insert_decision(
+        run_id,
+        ReplayDecision(
+            asset_id="a-vktx",
+            ticker="VKTX",
+            recommended_action="buy",
+            recommended_size_pct=0.05,
+            composite_score=0.80,
+            decided_at=date(2025, 1, 1),
+        ),
+        entry_price=100.0,
+    )
+
+    replay._step_stop_loss(ReplayClock(date(2025, 1, 8)), run_id)
+    decisions = replay._step_decision(ReplayClock(date(2025, 1, 8)), run_id, universe)
+
+    assert decisions == []
+    assert replay._policy.is_asset_blocked("a-vktx", date(2025, 1, 8)) is True
+    assert len(in_memory_store.get_run_decisions(run_id)) == 1
+
+
+def test_step_stop_loss_sets_attribution_type(tmp_path, in_memory_store):
+    from bve.intelligence.replay_policy import ReplayDecision, ReplayPolicyConfig
+
+    run_id = in_memory_store.create_run(
+        start_date=date(2025, 1, 1),
+        end_date=date(2025, 2, 1),
+        cadence="weekly",
+        decision_policy="top2_add",
+        score_version="v2.0",
+        strategy_version="top2_add",
+    )
+    replay = HistoricalReplay(
+        replay_store=in_memory_store,
+        knowledge_store_path=str(tmp_path / "replay_kb_stop_loss_attr.db"),
+        universe=[],
+        policy_config=ReplayPolicyConfig(max_hold_days=365, stop_loss_pct=-40.0),
+    )
+
+    in_memory_store.insert_prices(
+        "VKTX",
+        [
+            (date(2025, 1, 1), 100.0),
+            (date(2025, 1, 8), 55.0),
+        ],
+    )
+    in_memory_store.insert_decision(
+        run_id,
+        ReplayDecision(
+            asset_id="a-vktx",
+            ticker="VKTX",
+            recommended_action="buy",
+            recommended_size_pct=0.05,
+            composite_score=0.80,
+            decided_at=date(2025, 1, 1),
+        ),
+        entry_price=100.0,
+    )
+
+    replay._step_stop_loss(ReplayClock(date(2025, 1, 8)), run_id)
+
+    decisions = in_memory_store.get_run_decisions(run_id)
+    assert decisions[0]["attribution_type"] == "stop_loss"
+
+
+def test_run_applies_stop_loss_before_new_decisions(tmp_path, in_memory_store, monkeypatch):
+    from bve.intelligence.replay_policy import ReplayDecision, ReplayPolicyConfig
+
+    universe = [
+        dict(
+            asset_id="a-alny",
+            ticker="ALNY",
+            company_id="co-alny",
+            ranking_score=1.0,
+            opportunity_score=1.0,
+            catalyst="ALN-APP Phase 3",
+            indication="cardiometabolic",
+        ),
+    ]
+    replay = HistoricalReplay(
+        replay_store=in_memory_store,
+        knowledge_store_path=str(tmp_path / "replay_kb_stop_loss_order.db"),
+        universe=universe,
+        policy_config=ReplayPolicyConfig(
+            max_positions=1,
+            max_open_positions=1,
+            max_hold_days=365,
+            stop_loss_pct=-40.0,
+        ),
+    )
+    in_memory_store.insert_prices(
+        "VKTX",
+        [
+            (date(2025, 1, 1), 100.0),
+            (date(2025, 1, 8), 55.0),
+        ],
+    )
+    in_memory_store.insert_prices("ALNY", [(date(2025, 1, 8), 200.0)])
+
+    real_create_run = in_memory_store.create_run
+
+    def create_run_with_open_position(*args, **kwargs):
+        run_id = real_create_run(*args, **kwargs)
+        in_memory_store.insert_decision(
+            run_id,
+            ReplayDecision(
+                asset_id="a-vktx",
+                ticker="VKTX",
+                recommended_action="buy",
+                recommended_size_pct=0.05,
+                composite_score=0.80,
+                decided_at=date(2025, 1, 1),
+            ),
+            entry_price=100.0,
+        )
+        return run_id
+
+    monkeypatch.setattr(in_memory_store, "create_run", create_run_with_open_position)
+
+    run_id = replay.run(
+        start=date(2025, 1, 8),
+        end=date(2025, 1, 8),
+        cadence="weekly",
+        decision_policy="stop_loss_order_test",
+    )
+
+    decisions = in_memory_store.get_run_decisions(run_id)
+    assert len(decisions) == 2
+    closed = next(d for d in decisions if d["asset_id"] == "a-vktx")
+    new_entry = next(d for d in decisions if d["asset_id"] == "a-alny")
+    assert closed["attribution_type"] == "stop_loss"
+    assert closed["is_closed"] == 1
+    assert new_entry["is_closed"] == 0
+    assert new_entry["entry_price"] == pytest.approx(200.0)
+
+
+def test_step_decision_respects_max_open_positions(tmp_path, in_memory_store):
+    from bve.intelligence.replay_policy import ReplayDecision, ReplayPolicyConfig
+
+    run_id = in_memory_store.create_run(
+        start_date=date(2025, 6, 1),
+        end_date=date(2025, 6, 30),
+        cadence="weekly",
+        decision_policy="top2_add",
+        score_version="v2.0",
+        strategy_version="top2_add",
+    )
+    universe = [
+        dict(
+            asset_id="a-vktx",
+            ticker="VKTX",
+            company_id="co-vktx",
+            ranking_score=1.0,
+            opportunity_score=1.0,
+            catalyst="VK2735 Phase 2",
+            indication="obesity",
+        ),
+        dict(
+            asset_id="a-alny",
+            ticker="ALNY",
+            company_id="co-alny",
+            ranking_score=0.9,
+            opportunity_score=0.9,
+            catalyst="Zilebesiran",
+            indication="RNAi",
+        ),
+    ]
+    replay = HistoricalReplay(
+        replay_store=in_memory_store,
+        knowledge_store_path=str(tmp_path / "replay_kb_open_cap.db"),
+        universe=universe,
+        policy_config=ReplayPolicyConfig(max_positions=8, max_open_positions=1),
+    )
+    in_memory_store.insert_decision(
+        run_id,
+        ReplayDecision(
+            asset_id="a-beam",
+            ticker="BEAM",
+            recommended_action="buy",
+            recommended_size_pct=0.10,
+            composite_score=0.95,
+            decided_at=date(2025, 6, 1),
+        ),
+        entry_price=100.0,
+    )
+
+    decisions = replay._step_decision(ReplayClock(date(2025, 6, 8)), run_id, universe)
+
+    assert decisions == []
+    assert len(in_memory_store.get_run_decisions(run_id)) == 1
+
+
+def test_replay_run_supports_quarterly_cadence(tmp_path, in_memory_store):
+    from bve.intelligence.replay_policy import ReplayPolicyConfig
+
+    replay = HistoricalReplay(
+        replay_store=in_memory_store,
+        knowledge_store_path=str(tmp_path / "replay_kb_quarterly.db"),
+        universe=[],
+        policy_config=ReplayPolicyConfig(max_positions=0),
+    )
+
+    run_id = replay.run(
+        start=date(2025, 1, 1),
+        end=date(2025, 7, 1),
+        cadence="quarterly",
+        decision_policy="quarterly_test",
+    )
+    summary = replay.summarize(run_id)
+
+    assert summary.n_decision_dates == 3
+
+
+def test_mna_profile_sets_phase4_defaults():
+    from bve.intelligence.replay_policy import ReplayPolicyConfig
+
+    cfg = ReplayPolicyConfig.mna_profile()
+
+    assert cfg.name == "mna_top8"
+    assert cfg.max_positions == 8
+    assert cfg.max_open_positions == 8
+    assert cfg.max_single_pct == pytest.approx(0.125)
+    assert cfg.max_total_exposure_pct == pytest.approx(1.0)
+    assert cfg.max_hold_days == 365
+    assert cfg.catalyst_timing is False
+    assert cfg.require_catalyst_within_days == 0
+    assert cfg.loss_block_threshold_pct == pytest.approx(-40.0)
+
+
+def test_cmd_run_applies_stop_loss_pct_override(tmp_path, monkeypatch):
+    from bve.ops import historical_replay as hr
+
+    captured: dict[str, object] = {}
+
+    class DummyStore:
+        def __init__(self, db_path: str) -> None:
+            self.db_path = db_path
+
+        def close(self) -> None:
+            return None
+
+    class DummySummary:
+        def print(self) -> None:
+            return None
+
+    class DummyReplay:
+        def __init__(
+            self,
+            replay_store,
+            knowledge_store_path: str,
+            universe: list[dict],
+            policy_config,
+        ) -> None:
+            captured["policy_config"] = policy_config
+
+        def run(self, *, start: date, end: date, cadence: str, decision_policy: str) -> str:
+            captured["run_args"] = (start, end, cadence, decision_policy)
+            return "run-stop-loss"
+
+        def summarize(self, run_id: str) -> DummySummary:
+            captured["run_id"] = run_id
+            return DummySummary()
+
+    monkeypatch.setattr(hr, "_OUTPUTS_DIR", tmp_path)
+    monkeypatch.setattr(hr, "ReplayStore", DummyStore)
+    monkeypatch.setattr(hr, "HistoricalReplay", DummyReplay)
+    monkeypatch.setattr(hr, "load_replay_universe", lambda universe_file=None: [])
+
+    hr._cmd_run(
+        [
+            "--start", "2025-01-01",
+            "--end", "2025-01-08",
+            "--stop-loss-pct", "-25.0",
+        ]
+    )
+
+    policy_cfg = captured["policy_config"]
+    assert policy_cfg.stop_loss_pct == pytest.approx(-25.0)
 
 
 # ---------------------------------------------------------------------------

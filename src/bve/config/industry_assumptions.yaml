@@ -772,3 +772,17 @@ scoring_weights:
   endpoint_z:         0.05
   competitor_impact:  0.05
   capital_risk:       1.00
+
+# LLM extraction confidence thresholds (Task 9.17 — Sprint 9 Phase 4)
+# IMPORTANT: These thresholds are PROVISIONAL and uncalibrated.
+# Calibration requires ≥ 200 labeled signal outcomes (forecast_records with
+# resolved=1). Until that threshold is reached, confidence_calibration_status
+# in CalibrationReport will read "uncalibrated" as an explicit audit flag.
+# Do NOT tune these values without running Platt scaling or isotonic regression
+# on predicted_confidence vs outcome_correct.
+llm_extraction:
+  discard_threshold:  0.30   # signals below this are discarded entirely
+  review_threshold:   0.50   # 0.30–0.50: routed to ReviewQueue for human review
+  auto_threshold:     0.50   # ≥ 0.50: auto-processed (sampled for QA)
+  calibration_status: "uncalibrated"
+  calibration_required_n: 200

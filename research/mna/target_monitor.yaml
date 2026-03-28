@@ -1,0 +1,36 @@
+# Current public-target monitor for names that matter to the M&A lens but are
+# not all appropriate for the closed-deal comparable set.
+#
+# `status` is intentionally explicit:
+#   - independent_public_target: still trading independently as of `as_of_date`
+#   - acquired: completed or announced deal already resolved into the deal universe
+
+as_of_date: "2026-03-22"
+
+targets:
+  - company_name: "Revolution Medicines"
+    ticker: "RVMD"
+    status: "independent_public_target"
+    therapeutic_area: "oncology"
+    lead_assets: "daraxonrasib / elironrasib / zoldonrasib"
+    stage: "late_stage"
+    source_url: "https://ir.revmed.com/news-releases/news-release-details/revolution-medicines-enters-2-billion-flexible-funding-agreement"
+    notes: "Still operating as an independent public company. The June 24, 2025 Royalty Pharma financing release explicitly frames an independent global development and commercialization strategy, so this belongs in live-target monitoring rather than the completed-deal database."
+
+  - company_name: "Avidity Biosciences"
+    ticker: "RNA"
+    status: "acquired"
+    therapeutic_area: "neuroscience"
+    lead_assets: "del-desiran / del-brax / del-zota"
+    stage: "phase_3 / late_stage"
+    source_url: "https://www.novartis.com/news/media-releases/novartis-successfully-completes-acquisition-avidity-biosciences-strengthening-late-stage-neuroscience-pipeline-and-advancing-xrna-strategy"
+    notes: "No longer a live public-target candidate. Novartis completed the acquisition on February 27, 2026; the deal is also captured in deal_universe_2020_2026.yaml."
+
+  - company_name: "Tango Therapeutics"
+    ticker: "TNGX"
+    status: "independent_public_target"
+    therapeutic_area: "oncology"
+    lead_assets: "TNG462 / TNG456 / TNG348"
+    stage: "phase_1 / phase_2"
+    source_url: "https://www.globenewswire.com/news-release/2026/03/05/3250000/0/en/Tango-Therapeutics-Reports-Fourth-Quarter-and-Full-Year-2025-Financial-Results-and-Provides-Business-Highlights.html"
+    notes: "Still operating as an independent clinical-stage oncology company as of March 5, 2026. Relevant to the M&A lens as a current public target monitor name, not as a completed acquisition."

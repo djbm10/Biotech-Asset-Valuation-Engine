@@ -28,6 +28,7 @@ from bve.intelligence.taxonomy import EventType
 
 if TYPE_CHECKING:  # pragma: no cover
     from bve.connectors.market_prices import MarketPriceRecord
+    from bve.intelligence.acquisition_screen import AcquisitionDiscountSnapshot
     from bve.intelligence.market_expectations import MarketExpectation
     from bve.ops.data_quality import DataQualityScore
 
@@ -569,6 +570,27 @@ class KnowledgeStore:
                 computed_at TEXT NOT NULL
             );
 
+            CREATE TABLE IF NOT EXISTS acquisition_discount_snapshots (
+                snapshot_id TEXT PRIMARY KEY,
+                asset_id TEXT NOT NULL,
+                ticker TEXT,
+                snapshot_date TEXT NOT NULL,
+                formula_version TEXT NOT NULL,
+                model_rnpv_millions REAL,
+                model_pos REAL,
+                market_cap_millions REAL,
+                market_cap_as_of TEXT,
+                market_cap_source TEXT,
+                enterprise_value_millions REAL,
+                net_cash_millions REAL,
+                ev_methodology TEXT NOT NULL,
+                acquisition_discount REAL,
+                passes_threshold INTEGER NOT NULL DEFAULT 0,
+                exclusion_reason TEXT,
+                created_at TEXT NOT NULL,
+                UNIQUE(asset_id, snapshot_date, formula_version)
+            );
+
             -- Cross-asset propagation proposals (Wave D).
             -- Generated when a trigger signal (competitor failure, safety event)
             -- implies a valuation assumption change on a peer asset.
@@ -666,6 +688,12 @@ class KnowledgeStore:
                 ON event_outcomes(fully_resolved, signal_date);
             CREATE INDEX IF NOT EXISTS idx_expectations_asset_date
                 ON market_expectations(asset_id, expectation_date);
+            CREATE INDEX IF NOT EXISTS idx_acquisition_discount_asset_date
+                ON acquisition_discount_snapshots(asset_id, snapshot_date DESC);
+            CREATE INDEX IF NOT EXISTS idx_acquisition_discount_threshold
+                ON acquisition_discount_snapshots(
+                    snapshot_date, passes_threshold, acquisition_discount DESC
+                );
 
             -- Knowledge graph (2A).
             CREATE TABLE IF NOT EXISTS kg_nodes (
@@ -2277,6 +2305,156 @@ class KnowledgeStore:
             methodology=row["methodology"],
             computed_at=self._coerce_datetime(row["computed_at"]),
         )
+
+    def upsert_acquisition_discount_snapshot(
+        self,
+        snapshot: "AcquisitionDiscountSnapshot",
+    ) -> None:
+        """Insert or replace one acquisition discount snapshot row."""
+        self._conn.execute(
+            """
+            INSERT OR REPLACE INTO acquisition_discount_snapshots(
+                snapshot_id, asset_id, ticker, snapshot_date, formula_version,
+                model_rnpv_millions, model_pos, market_cap_millions, market_cap_as_of,
+                market_cap_source, enterprise_value_millions, net_cash_millions,
+                ev_methodology, acquisition_discount, passes_threshold,
+                exclusion_reason, created_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                snapshot.snapshot_id,
+                snapshot.asset_id,
+                snapshot.ticker,
+                snapshot.snapshot_date.isoformat(),
+                snapshot.formula_version,
+                snapshot.model_rnpv_millions,
+                snapshot.model_pos,
+                snapshot.market_cap_millions,
+                snapshot.market_cap_as_of.isoformat() if snapshot.market_cap_as_of else None,
+                snapshot.market_cap_source,
+                snapshot.enterprise_value_millions,
+                snapshot.net_cash_millions,
+                snapshot.ev_methodology,
+                snapshot.acquisition_discount,
+                1 if snapshot.passes_threshold else 0,
+                snapshot.exclusion_reason,
+                snapshot.created_at.isoformat(),
+            ),
+        )
+        self._conn.commit()
+
+    def get_latest_acquisition_discount_snapshot(
+        self,
+        asset_id: str,
+    ) -> Optional["AcquisitionDiscountSnapshot"]:
+        """Return the most recent acquisition discount snapshot for *asset_id*."""
+        row = self._conn.execute(
+            """
+            SELECT snapshot_id, asset_id, ticker, snapshot_date, formula_version,
+                   model_rnpv_millions, model_pos, market_cap_millions, market_cap_as_of,
+                   market_cap_source, enterprise_value_millions, net_cash_millions,
+                   ev_methodology, acquisition_discount, passes_threshold,
+                   exclusion_reason, created_at
+            FROM acquisition_discount_snapshots
+            WHERE asset_id = ?
+            ORDER BY snapshot_date DESC, created_at DESC
+            LIMIT 1
+            """,
+            (asset_id,),
+        ).fetchone()
+        if row is None:
+            return None
+        from bve.intelligence.acquisition_screen import AcquisitionDiscountSnapshot
+
+        return AcquisitionDiscountSnapshot(
+            snapshot_id=row["snapshot_id"],
+            asset_id=row["asset_id"],
+            ticker=row["ticker"],
+            snapshot_date=date.fromisoformat(row["snapshot_date"]),
+            formula_version=row["formula_version"],
+            model_rnpv_millions=row["model_rnpv_millions"],
+            model_pos=row["model_pos"],
+            market_cap_millions=row["market_cap_millions"],
+            market_cap_as_of=(
+                date.fromisoformat(row["market_cap_as_of"])
+                if row["market_cap_as_of"]
+                else None
+            ),
+            market_cap_source=row["market_cap_source"],
+            enterprise_value_millions=row["enterprise_value_millions"],
+            net_cash_millions=row["net_cash_millions"],
+            ev_methodology=row["ev_methodology"],
+            acquisition_discount=row["acquisition_discount"],
+            passes_threshold=bool(row["passes_threshold"]),
+            exclusion_reason=row["exclusion_reason"],
+            created_at=self._coerce_datetime(row["created_at"]),
+        )
+
+    def list_acquisition_discount_snapshots(
+        self,
+        *,
+        asset_id: Optional[str] = None,
+        snapshot_date: Optional[date] = None,
+        passes_threshold: Optional[bool] = None,
+        limit: int = 100,
+    ) -> list["AcquisitionDiscountSnapshot"]:
+        """List acquisition discount snapshots with optional filters."""
+        clauses = []
+        params: list[object] = []
+        if asset_id is not None:
+            clauses.append("asset_id = ?")
+            params.append(asset_id)
+        if snapshot_date is not None:
+            clauses.append("snapshot_date = ?")
+            params.append(snapshot_date.isoformat())
+        if passes_threshold is not None:
+            clauses.append("passes_threshold = ?")
+            params.append(1 if passes_threshold else 0)
+
+        sql = (
+            "SELECT snapshot_id, asset_id, ticker, snapshot_date, formula_version, "
+            "model_rnpv_millions, model_pos, market_cap_millions, market_cap_as_of, "
+            "market_cap_source, enterprise_value_millions, net_cash_millions, "
+            "ev_methodology, acquisition_discount, passes_threshold, "
+            "exclusion_reason, created_at "
+            "FROM acquisition_discount_snapshots"
+        )
+        if clauses:
+            sql += " WHERE " + " AND ".join(clauses)
+        sql += " ORDER BY snapshot_date DESC, acquisition_discount DESC, created_at DESC LIMIT ?"
+        params.append(limit)
+
+        rows = self._conn.execute(sql, params).fetchall()
+        from bve.intelligence.acquisition_screen import AcquisitionDiscountSnapshot
+
+        snapshots: list[AcquisitionDiscountSnapshot] = []
+        for row in rows:
+            snapshots.append(
+                AcquisitionDiscountSnapshot(
+                    snapshot_id=row["snapshot_id"],
+                    asset_id=row["asset_id"],
+                    ticker=row["ticker"],
+                    snapshot_date=date.fromisoformat(row["snapshot_date"]),
+                    formula_version=row["formula_version"],
+                    model_rnpv_millions=row["model_rnpv_millions"],
+                    model_pos=row["model_pos"],
+                    market_cap_millions=row["market_cap_millions"],
+                    market_cap_as_of=(
+                        date.fromisoformat(row["market_cap_as_of"])
+                        if row["market_cap_as_of"]
+                        else None
+                    ),
+                    market_cap_source=row["market_cap_source"],
+                    enterprise_value_millions=row["enterprise_value_millions"],
+                    net_cash_millions=row["net_cash_millions"],
+                    ev_methodology=row["ev_methodology"],
+                    acquisition_discount=row["acquisition_discount"],
+                    passes_threshold=bool(row["passes_threshold"]),
+                    exclusion_reason=row["exclusion_reason"],
+                    created_at=self._coerce_datetime(row["created_at"]),
+                )
+            )
+        return snapshots
 
     def add_review_decision(
         self,

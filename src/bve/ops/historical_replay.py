@@ -14,18 +14,26 @@ Usage
                                               --cadence weekly \\
                                               --decision-policy top2_add
 
+    python -m bve.ops.historical_replay run  --profile mna \\
+                                              --universe-file examples/research/universe_expanded_mna.yaml \\
+                                              --start 2021-01-01 --end 2026-03-22
+
     python -m bve.ops.historical_replay summary --run-id <run_id>
 
     python -m bve.ops.historical_replay inspect --run-id <run_id> --week 2025-09-15
 """
 from __future__ import annotations
 
+import json
 import sqlite3
 import sys
 import uuid
-from datetime import date, datetime, timezone
+from calendar import monthrange
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
-from typing import TYPE_CHECKING, Optional
+from typing import TYPE_CHECKING, Any, Optional
+
+import yaml
 
 if TYPE_CHECKING:
     from bve.intelligence.composite_scorer import CompositeScoreContext
@@ -38,7 +46,7 @@ from bve.intelligence.knowledge_layer import KnowledgeStore
 from bve.intelligence.replay_clock import ReplayClock
 from bve.intelligence.replay_policy import ReplayDecision, ReplayPolicy, ReplayPolicyConfig
 from bve.intelligence.replay_summary import ReplaySummary
-from bve.intelligence.thesis_tracker import ThesisTracker
+from bve.intelligence.thesis_tracker import ClaimType, ThesisTracker
 
 
 # ---------------------------------------------------------------------------
@@ -217,17 +225,29 @@ class ReplayStore:
 
     def get_price(self, ticker: str, price_date: date) -> Optional[float]:
         """
-        Return the closing price for *ticker* on *price_date*.
+        Return the most recent closing price for *ticker* on or before *price_date*.
 
-        Returns None if no data is available (enforces no lookahead bias —
-        callers must not pass a future date relative to their clock).
+        Returns None if no data is available on or before *price_date*
+        (enforces no lookahead bias — callers must not pass a future date
+        relative to their clock).
         """
         row = self._conn.execute(
             "SELECT close_usd FROM historical_prices "
-            "WHERE ticker = ? AND price_date = ?",
+            "WHERE ticker = ? AND price_date <= ? "
+            "ORDER BY price_date DESC LIMIT 1",
             (ticker, price_date.isoformat()),
         ).fetchone()
         return float(row["close_usd"]) if row else None
+
+    @staticmethod
+    def compute_return_pct(
+        entry_price: Optional[float],
+        exit_price: Optional[float],
+    ) -> Optional[float]:
+        """Return percentage price change, or None when it cannot be computed."""
+        if entry_price is None or exit_price is None or entry_price == 0.0:
+            return None
+        return (exit_price / entry_price - 1.0) * 100.0
 
     def get_return(
         self,
@@ -236,15 +256,15 @@ class ReplayStore:
         to_date: date,
     ) -> Optional[float]:
         """
-        Compute the simple return from *from_date* close to *to_date* close.
+        Compute the simple return from the most recent available close on or
+        before *from_date* to the most recent available close on or before
+        *to_date*.
 
         Returns None if either price is missing.
         """
         entry = self.get_price(ticker, from_date)
         exit_ = self.get_price(ticker, to_date)
-        if entry is None or exit_ is None or entry == 0.0:
-            return None
-        return (exit_ - entry) / entry * 100.0
+        return self.compute_return_pct(entry, exit_)
 
     # ------------------------------------------------------------------
     # Events
@@ -515,6 +535,66 @@ class ReplayStore:
             (run_id,),
         ).fetchall()
         return [dict(r) for r in rows]
+
+    def backfill_decision_prices(self, run_id: str) -> int:
+        """
+        Backfill missing entry prices for decisions in *run_id*.
+
+        For closed decisions, also refresh ``exit_price`` from
+        ``historical_prices`` using the recorded ``exit_date`` and recompute
+        ``return_pct`` when both prices are available.
+        """
+        rows = self._conn.execute(
+            """
+            SELECT decision_id, ticker, decided_at, exit_date, exit_price, return_pct, is_closed
+            FROM replay_decisions
+            WHERE run_id = ? AND entry_price IS NULL
+            ORDER BY decided_at
+            """,
+            (run_id,),
+        ).fetchall()
+
+        updated = 0
+        for row in rows:
+            decision_id = str(row["decision_id"])
+            ticker = str(row["ticker"])
+            try:
+                decided_at = date.fromisoformat(str(row["decided_at"])[:10])
+            except (TypeError, ValueError):
+                continue
+
+            entry_price = self.get_price(ticker, decided_at)
+            if entry_price is None:
+                continue
+
+            exit_price = row["exit_price"]
+            return_pct = row["return_pct"]
+            if row["is_closed"] and row["exit_date"]:
+                try:
+                    exit_date = date.fromisoformat(str(row["exit_date"])[:10])
+                except (TypeError, ValueError):
+                    exit_date = None
+
+                if exit_date is not None:
+                    looked_up_exit = self.get_price(ticker, exit_date)
+                    if looked_up_exit is not None:
+                        exit_price = looked_up_exit
+                    return_pct = self.compute_return_pct(entry_price, exit_price)
+
+            self._conn.execute(
+                """
+                UPDATE replay_decisions
+                   SET entry_price = ?,
+                       exit_price  = ?,
+                       return_pct  = ?
+                 WHERE decision_id = ?
+                """,
+                (entry_price, exit_price, return_pct, decision_id),
+            )
+            updated += 1
+
+        self._conn.commit()
+        return updated
 
     # ------------------------------------------------------------------
     # v2.0 signal queries  (all enforce no-lookahead via <= as_of_date)
@@ -1081,8 +1161,6 @@ class HistoricalReplay:
         -------
         run_id (str)
         """
-        step_days = 14 if cadence == "biweekly" else 7
-
         run_id = self._rs.create_run(
             start_date=start,
             end_date=end,
@@ -1095,6 +1173,7 @@ class HistoricalReplay:
 
         # Reset per-run processed-event set so re-running doesn't skip events
         self._resolved_event_ids: set[int] = set()
+        self._policy.reset_run_state()
 
         clock = ReplayClock(start)
         n_steps = 0
@@ -1106,10 +1185,11 @@ class HistoricalReplay:
             n_resolved = self._step_claim_resolution(clock)
             if n_resolved:
                 print(f"    Resolved {n_resolved} claim(s).")
+            self._step_stop_loss(clock, run_id)
             decisions = self._step_decision(clock, run_id, self._universe)
             print(f"    Made {len(decisions)} decision(s).")
             self._step_resolve(clock, run_id)
-            clock = clock.advance(step_days)
+            clock = ReplayClock(_advance_cadence(clock.today(), cadence))
             n_steps += 1
 
         # Final resolve pass at end date
@@ -1132,13 +1212,19 @@ class HistoricalReplay:
         """Run one decision step at the clock's current date."""
         ks = KnowledgeStore(self._ks_path)
         tt = ThesisTracker(ks)
-        gen = ActionableGenerator()
+        gen = ActionableGenerator(
+            max_position_pct=self._policy.config.max_single_pct,
+            min_position_pct=min(0.01, self._policy.config.max_single_pct),
+        )
 
         as_of = clock.today()
 
         # Build candidates with time-frozen thesis snapshots
         candidates: list[ScoredCandidate] = []
         for u in universe:
+            # Only rank assets that were actually tradable on this replay step.
+            if self._rs.get_price(u["ticker"], as_of) is None:
+                continue
             snap = tt.snapshot(u["asset_id"], as_of_date=as_of)
             n_resolved = snap.n_confirmed + snap.n_refuted + snap.n_expired
             thesis_strength = snap.thesis_strength if n_resolved > 0 else None
@@ -1175,6 +1261,7 @@ class HistoricalReplay:
         # Track open asset IDs from replay decisions
         open_decisions = self._rs.get_open_decisions(run_id)
         open_asset_ids = {d["asset_id"] for d in open_decisions}
+        current_total_exposure = sum(float(d.get("size_pct") or 0.0) for d in open_decisions)
 
         # Build catalyst timing map if timing filter or density gate is enabled
         catalyst_dates: Optional[dict[str, date]] = None
@@ -1224,7 +1311,7 @@ class HistoricalReplay:
         decisions = self._policy.select(
             report,
             open_asset_ids=open_asset_ids,
-            current_total_exposure=0.0,
+            current_total_exposure=current_total_exposure,
             catalyst_dates=catalyst_dates,
             xbi_above_ma=xbi_above_ma,
             cooling_asset_ids=cooling_asset_ids,
@@ -1319,9 +1406,7 @@ class HistoricalReplay:
             exit_price = self._rs.get_price(dec["ticker"], as_of)
             entry_price = dec.get("entry_price")
 
-            return_pct: Optional[float] = None
-            if entry_price and exit_price and entry_price != 0.0:
-                return_pct = (exit_price - entry_price) / entry_price * 100.0
+            return_pct = self._rs.compute_return_pct(entry_price, exit_price)
 
             # Check for events within the hold window (entry → exit) only.
             # Using all-history events would attribute a June catalyst to an
@@ -1339,6 +1424,52 @@ class HistoricalReplay:
                 return_pct=return_pct,
                 attribution_type=attribution,
             )
+            self._policy.record_closed_position(
+                asset_id=str(dec["asset_id"]),
+                exit_date=as_of,
+                return_pct=return_pct,
+            )
+
+    def _step_stop_loss(self, clock: ReplayClock, run_id: str) -> int:
+        """
+        Check open positions for stop-loss exits before making new decisions.
+
+        Uses the latest available close on or before the current step date to
+        compute unrealized P&L with no lookahead.
+        """
+        as_of = clock.today()
+        open_decisions = self._rs.get_open_decisions(run_id)
+        triggered = 0
+
+        for dec in open_decisions:
+            current_price = self._rs.get_price(str(dec["ticker"]), as_of)
+            unrealized_return = self._rs.compute_return_pct(
+                dec.get("entry_price"),
+                current_price,
+            )
+            if unrealized_return is None:
+                continue
+            if unrealized_return > self._policy.config.stop_loss_pct:
+                continue
+
+            asset_id = str(dec["asset_id"])
+            print(f"Stop-loss triggered: {asset_id} at {unrealized_return:.1f}%")
+            self._rs.close_decision(
+                decision_id=str(dec["decision_id"]),
+                exit_price=current_price,
+                exit_date=as_of,
+                return_pct=unrealized_return,
+                attribution_type="stop_loss",
+            )
+            self._policy.record_closed_position(
+                asset_id=asset_id,
+                exit_date=as_of,
+                return_pct=unrealized_return,
+                force_loss_block=True,
+            )
+            triggered += 1
+
+        return triggered
 
     def _step_claim_resolution(self, clock: ReplayClock) -> int:
         """
@@ -1471,6 +1602,7 @@ class HistoricalReplay:
             "timing_error": 0,
             "thesis_error": 0,
             "market_drift": 0,
+            "stop_loss": 0,
             "unclassified": 0,
         }
         returns: list[float] = []
@@ -1499,8 +1631,7 @@ class HistoricalReplay:
         start = date.fromisoformat(run["start_date"])
         end = date.fromisoformat(run["end_date"])
         cadence = run.get("cadence", "weekly")
-        step_days = 14 if cadence == "biweekly" else 7
-        n_dates = max(1, (end - start).days // step_days + 1)
+        n_dates = _count_decision_dates(start, end, cadence)
 
         summary = ReplaySummary(
             run_id=run_id,
@@ -1519,6 +1650,7 @@ class HistoricalReplay:
             n_timing_error=attribution_counts["timing_error"],
             n_thesis_error=attribution_counts["thesis_error"],
             n_market_drift=attribution_counts["market_drift"],
+            n_stop_loss=attribution_counts["stop_loss"],
             n_unclassified=attribution_counts["unclassified"],
             returns_by_action={k: v for k, v in returns_by_action.items()},
         )
@@ -1531,6 +1663,138 @@ class HistoricalReplay:
 
 def _parse_date(s: str) -> date:
     return date.fromisoformat(s)
+
+
+def _add_months(value: date, months: int) -> date:
+    month_index = value.month - 1 + months
+    year = value.year + (month_index // 12)
+    month = (month_index % 12) + 1
+    day = min(value.day, monthrange(year, month)[1])
+    return date(year, month, day)
+
+
+def _advance_cadence(current: date, cadence: str) -> date:
+    normalized = str(cadence or "weekly").strip().lower()
+    if normalized == "weekly":
+        return current + timedelta(days=7)
+    if normalized == "biweekly":
+        return current + timedelta(days=14)
+    if normalized == "quarterly":
+        return _add_months(current, 3)
+    raise ValueError(f"Unsupported replay cadence: {cadence!r}")
+
+
+def _count_decision_dates(start: date, end: date, cadence: str) -> int:
+    if start > end:
+        return 1
+    n_dates = 0
+    current = start
+    while current <= end:
+        n_dates += 1
+        current = _advance_cadence(current, cadence)
+    return max(1, n_dates)
+
+
+def _coerce_float(raw: object, default: float) -> float:
+    if raw is None or raw == "":
+        return default
+    try:
+        return float(raw)
+    except (TypeError, ValueError):
+        return default
+
+
+def _normalize_claim_type(raw: object) -> ClaimType:
+    if isinstance(raw, ClaimType):
+        return raw
+
+    label = str(raw or "efficacy").strip().lower()
+    mapping = {
+        "efficacy": ClaimType.ENDPOINT_MET,
+        "endpoint": ClaimType.ENDPOINT_MET,
+        "endpoint_met": ClaimType.ENDPOINT_MET,
+        "readout": ClaimType.ENDPOINT_MET,
+        "regulatory": ClaimType.REGULATORY_PATHWAY,
+        "regulatory_pathway": ClaimType.REGULATORY_PATHWAY,
+        "fda": ClaimType.REGULATORY_PATHWAY,
+        "competitor": ClaimType.COMPETITOR_FAILURE,
+        "competition": ClaimType.COMPETITOR_FAILURE,
+        "competitor_failure": ClaimType.COMPETITOR_FAILURE,
+        "label_expansion": ClaimType.LABEL_EXPANSION,
+        "enrollment": ClaimType.ENROLLMENT_ON_TRACK,
+        "enrollment_on_track": ClaimType.ENROLLMENT_ON_TRACK,
+        "market_reaction": ClaimType.MARKET_REACTION_POSITIVE,
+        "market_reaction_positive": ClaimType.MARKET_REACTION_POSITIVE,
+        "valuation": ClaimType.POS_ABOVE_THRESHOLD,
+        "pos_above_threshold": ClaimType.POS_ABOVE_THRESHOLD,
+        "custom": ClaimType.CUSTOM,
+    }
+    return mapping.get(label, ClaimType.CUSTOM)
+
+
+def _normalize_universe_entry(raw: dict[str, Any]) -> dict[str, Any]:
+    ticker = str(raw.get("ticker") or "").strip().upper()
+    asset_id = str(raw.get("asset_id") or "").strip()
+    if not ticker:
+        raise ValueError("Universe entry missing required field: ticker")
+    if not asset_id:
+        raise ValueError(f"Universe entry for ticker={ticker} missing required field: asset_id")
+
+    company_id_raw = raw.get("company_id")
+    company_id = (
+        str(company_id_raw).strip()
+        if company_id_raw not in (None, "")
+        else f"{ticker.lower()}-auto"
+    )
+    conviction = raw.get("conviction", 0.50)
+    if conviction in (None, ""):
+        conviction = 0.50
+
+    return {
+        **raw,
+        "ticker": ticker,
+        "company_id": company_id,
+        "asset_id": asset_id,
+        "ranking_score": _coerce_float(raw.get("ranking_score"), 0.50),
+        "opportunity_score": _coerce_float(raw.get("opportunity_score"), 0.50),
+        "conviction": conviction,
+        "claim_type": _normalize_claim_type(raw.get("claim_type", "efficacy")),
+        "claim_assertion": str(raw.get("claim_assertion") or ""),
+        "catalyst": str(raw.get("catalyst") or ""),
+        "indication": str(raw.get("indication") or ""),
+    }
+
+
+def load_replay_universe(universe_file: Optional[str] = None) -> list[dict[str, Any]]:
+    """
+    Load and normalize the replay universe.
+
+    When *universe_file* is not provided, falls back to ``weekly_runner.UNIVERSE``
+    for backward compatibility.
+    """
+    if universe_file is None:
+        from bve.ops.weekly_runner import UNIVERSE
+
+        return [_normalize_universe_entry(dict(entry)) for entry in UNIVERSE]
+
+    path = Path(universe_file)
+    raw_text = path.read_text(encoding="utf-8")
+    if path.suffix.lower() == ".json":
+        payload = json.loads(raw_text)
+    else:
+        payload = yaml.safe_load(raw_text)
+
+    records: Any = payload
+    if isinstance(payload, dict):
+        records = payload.get("universe") or payload.get("assets") or []
+    if not isinstance(records, list):
+        raise ValueError("Replay universe file must be a list or contain an 'assets'/'universe' list")
+    normalized: list[dict[str, Any]] = []
+    for idx, entry in enumerate(records):
+        if not isinstance(entry, dict):
+            raise ValueError(f"Replay universe entry at index {idx} must be an object")
+        normalized.append(_normalize_universe_entry(dict(entry)))
+    return normalized
 
 
 def _cmd_seed(args: list[str]) -> None:
@@ -1573,16 +1837,24 @@ def _cmd_seed(args: list[str]) -> None:
 
 
 def _cmd_run(args: list[str]) -> None:
-    """run --start YYYY-MM-DD --end YYYY-MM-DD [--cadence weekly] [--decision-policy top2_add] [--max-hold-days 30] [--catalyst-timing] [--cooling] [--require-catalyst-days N]"""
+    """run --start YYYY-MM-DD --end YYYY-MM-DD [--profile standard|mna] [--universe-file PATH] [--cadence weekly|biweekly|quarterly] [--decision-policy NAME]"""
     start: Optional[date] = None
     end: Optional[date] = None
-    cadence = "weekly"
-    policy = "top2_add"
-    max_hold_days = 30
+    cadence: Optional[str] = None
+    policy: Optional[str] = None
+    max_hold_days: Optional[int] = None
+    max_positions: Optional[int] = None
+    max_open_positions: Optional[int] = None
+    max_single_pct: Optional[float] = None
+    max_total_exposure_pct: Optional[float] = None
+    loss_block_threshold_pct: Optional[float] = None
+    stop_loss_pct: Optional[float] = None
     catalyst_timing = False
     xbi_filter = False
     cooling = False
     require_catalyst_days = 0
+    universe_file: Optional[str] = None
+    profile = "standard"
 
     i = 0
     while i < len(args):
@@ -1598,8 +1870,29 @@ def _cmd_run(args: list[str]) -> None:
         elif args[i] == "--decision-policy":
             policy = args[i + 1]
             i += 2
+        elif args[i] == "--profile":
+            profile = args[i + 1]
+            i += 2
         elif args[i] == "--max-hold-days":
             max_hold_days = int(args[i + 1])
+            i += 2
+        elif args[i] == "--max-positions":
+            max_positions = int(args[i + 1])
+            i += 2
+        elif args[i] == "--max-open-positions":
+            max_open_positions = int(args[i + 1])
+            i += 2
+        elif args[i] == "--max-single-pct":
+            max_single_pct = float(args[i + 1])
+            i += 2
+        elif args[i] == "--max-total-exposure-pct":
+            max_total_exposure_pct = float(args[i + 1])
+            i += 2
+        elif args[i] == "--loss-block-threshold-pct":
+            loss_block_threshold_pct = float(args[i + 1])
+            i += 2
+        elif args[i] == "--stop-loss-pct":
+            stop_loss_pct = float(args[i + 1])
             i += 2
         elif args[i] == "--catalyst-timing":
             catalyst_timing = True
@@ -1610,38 +1903,66 @@ def _cmd_run(args: list[str]) -> None:
         elif args[i] == "--cooling":
             cooling = True
             i += 1
-        elif args[i] == "--require-catalyst-days":
+        elif args[i] in ("--require-catalyst-days", "--require-catalyst-within-days"):
             require_catalyst_days = int(args[i + 1])
+            i += 2
+        elif args[i] == "--universe-file":
+            universe_file = args[i + 1]
             i += 2
         else:
             i += 1
 
     if not start or not end:
-        print("Usage: run --start YYYY-MM-DD --end YYYY-MM-DD [--cadence weekly] [--max-hold-days 30] [--catalyst-timing] [--cooling] [--require-catalyst-days N]")
+        print("Usage: run --start YYYY-MM-DD --end YYYY-MM-DD [--profile standard|mna] [--universe-file PATH] [--cadence weekly|biweekly|quarterly] [--max-hold-days N]")
         sys.exit(1)
 
     _OUTPUTS_DIR.mkdir(parents=True, exist_ok=True)
     rs = ReplayStore(str(REPLAY_STORE_PATH))
+    universe = load_replay_universe(universe_file)
 
-    from bve.ops.weekly_runner import UNIVERSE
+    if profile == "mna":
+        policy_cfg = ReplayPolicyConfig.mna_profile()
+    elif profile == "standard":
+        policy_cfg = ReplayPolicyConfig()
+    else:
+        raise ValueError(f"Unsupported replay profile: {profile!r}")
+
+    resolved_cadence = cadence or ("quarterly" if profile == "mna" else "weekly")
+    if policy is not None:
+        policy_cfg.name = policy
+    if max_hold_days is not None:
+        policy_cfg.max_hold_days = max_hold_days
+    if max_positions is not None:
+        policy_cfg.max_positions = max_positions
+    if max_open_positions is not None:
+        policy_cfg.max_open_positions = max_open_positions
+    if max_single_pct is not None:
+        policy_cfg.max_single_pct = max_single_pct
+    if max_total_exposure_pct is not None:
+        policy_cfg.max_total_exposure_pct = max_total_exposure_pct
+    if loss_block_threshold_pct is not None:
+        policy_cfg.loss_block_threshold_pct = loss_block_threshold_pct
+    if stop_loss_pct is not None:
+        policy_cfg.stop_loss_pct = stop_loss_pct
+    if catalyst_timing:
+        policy_cfg.catalyst_timing = True
+    if xbi_filter:
+        policy_cfg.xbi_filter = True
+    if cooling:
+        policy_cfg.cooling_enabled = True
+    if require_catalyst_days > 0:
+        policy_cfg.require_catalyst_within_days = require_catalyst_days
 
     policy_tag = (
-        f"{policy}_hold{max_hold_days}d"
-        + ("_cattiming" if catalyst_timing else "")
-        + ("_xbi" if xbi_filter else "")
-        + ("_cooling" if cooling else "")
-        + (f"_catden{require_catalyst_days}d" if require_catalyst_days > 0 else "")
+        f"{policy_cfg.name}_hold{policy_cfg.max_hold_days}d"
+        + (f"_open{policy_cfg.max_open_positions}" if policy_cfg.max_open_positions is not None else "")
+        + ("_cattiming" if policy_cfg.catalyst_timing else "")
+        + ("_xbi" if policy_cfg.xbi_filter else "")
+        + ("_cooling" if policy_cfg.cooling_enabled else "")
+        + (f"_catden{policy_cfg.require_catalyst_within_days}d" if policy_cfg.require_catalyst_within_days > 0 else "")
     )
-    policy_cfg = ReplayPolicyConfig(
-        name=policy,
-        max_hold_days=max_hold_days,
-        catalyst_timing=catalyst_timing,
-        xbi_filter=xbi_filter,
-        cooling_enabled=cooling,
-        require_catalyst_within_days=require_catalyst_days,
-    )
-    replay = HistoricalReplay(rs, str(REPLAY_KNOWLEDGE_PATH), universe=UNIVERSE, policy_config=policy_cfg)
-    run_id = replay.run(start=start, end=end, cadence=cadence, decision_policy=policy_tag)
+    replay = HistoricalReplay(rs, str(REPLAY_KNOWLEDGE_PATH), universe=universe, policy_config=policy_cfg)
+    run_id = replay.run(start=start, end=end, cadence=resolved_cadence, decision_policy=policy_tag)
     print(f"\nRun ID: {run_id}")
     summary = replay.summarize(run_id)
     summary.print()
@@ -1719,7 +2040,7 @@ def _cmd_inspect(args: list[str]) -> None:
 
 def _cmd_seed_signals(args: list[str]) -> None:
     """
-    seed-signals [--knowledge-db <path>] [--synthetic] [--backfill]
+    seed-signals [--knowledge-db <path>] [--universe-file <path>] [--synthetic] [--backfill]
                  [--start <YYYY-MM-DD>] [--end <YYYY-MM-DD>]
 
     Populate the replay store's v2.0 signal tables so the replay loop uses
@@ -1739,18 +2060,22 @@ def _cmd_seed_signals(args: list[str]) -> None:
         Approach C: run SignalBackfiller to populate time-varying signals from
         EDGAR historical cash data and historical_events proximity math.
         --start / --end control the catalyst signal date range (default:
-        2024-01-01 to today).
+        2021-01-01 to today).
     """
     knowledge_db: Optional[str] = None
     synthetic = False
     backfill = False
     backfill_start: Optional[str] = None
     backfill_end: Optional[str] = None
+    universe_file: Optional[str] = None
 
     i = 0
     while i < len(args):
         if args[i] == "--knowledge-db":
             knowledge_db = args[i + 1]
+            i += 2
+        elif args[i] == "--universe-file":
+            universe_file = args[i + 1]
             i += 2
         elif args[i] == "--synthetic":
             synthetic = True
@@ -1769,10 +2094,8 @@ def _cmd_seed_signals(args: list[str]) -> None:
 
     _OUTPUTS_DIR.mkdir(parents=True, exist_ok=True)
     rs = ReplayStore(str(REPLAY_STORE_PATH))
-
-    from bve.ops.weekly_runner import UNIVERSE
-
-    replay = HistoricalReplay(rs, str(REPLAY_KNOWLEDGE_PATH), universe=UNIVERSE)
+    universe = load_replay_universe(universe_file)
+    replay = HistoricalReplay(rs, str(REPLAY_KNOWLEDGE_PATH), universe=universe)
 
     if synthetic:
         n = replay.seed_signals_from_event_calendar()
@@ -1785,12 +2108,12 @@ def _cmd_seed_signals(args: list[str]) -> None:
         bf = SignalBackfiller(rs)
 
         print("Running backfill_capital_risk...")
-        bf.backfill_capital_risk(UNIVERSE)
+        bf.backfill_capital_risk(universe)
 
         bf_start = _date.fromisoformat(backfill_start) if backfill_start else _date(2024, 1, 1)
         bf_end = _date.fromisoformat(backfill_end) if backfill_end else _date.today()
         print(f"Running backfill_catalyst_signals ({bf_start} → {bf_end})...")
-        bf.backfill_catalyst_signals(UNIVERSE, bf_start, bf_end)
+        bf.backfill_catalyst_signals(universe, bf_start, bf_end)
 
         print("Running backfill_competitor_signals...")
         bf.backfill_competitor_signals(COMPETITOR_MAP)

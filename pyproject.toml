@@ -60,6 +60,10 @@ bve-data-quality         = "bve.cli.data_quality_report:main"
 bve-portfolio-backtest   = "bve.cli.portfolio_backtest:main"
 bve-opportunities        = "bve.cli.opportunities:main"
 bve-catalyst-calendar    = "bve.cli.catalyst_calendar:main"
+bve-acquisition-screen   = "bve.cli.acquisition_screen:main"
+bve-screen               = "bve.cli.screen:main"
+bve-acquirer-fit         = "bve.cli.acquirer_fit:main"
+bve-ma-probability       = "bve.cli.ma_probability:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

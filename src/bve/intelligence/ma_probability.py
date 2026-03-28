@@ -1,0 +1,1006 @@
+"""Deterministic M&A probability scanner built on acquirer fit and vulnerability signals."""
+from __future__ import annotations
+
+from datetime import date, datetime, time as dtime, timedelta, timezone
+from typing import Optional
+
+from pydantic import BaseModel, Field
+
+from bve.intelligence.acquirer_fit import (
+    AcquirerFitEngine,
+    AcquirerFitIntegrationConfig,
+    AcquirerFitRow,
+)
+from bve.intelligence.acquirer_profiles import AcquirerProfile, AcquirerProfileLoader
+from bve.intelligence.capital_structure import CapitalRiskLevel, compute_capital_risk_as_of
+from bve.intelligence.comparable_deals import ComparableDealLoader
+from bve.intelligence.knowledge_layer import OpportunityAlertRecord
+from bve.intelligence.vulnerability_signals import (
+    ExternalDealActivitySignal,
+    TargetVulnerabilitySignal,
+    VulnerabilitySignalLoader,
+)
+
+
+def _utcnow() -> datetime:
+    return datetime.now(timezone.utc)
+
+
+SCORE_VERSIONS: dict[str, dict[str, float]] = {
+    "v1.0": {
+        "valuation_discount": 0.30,
+        "strategic_fit": 0.30,
+        "de_risking_stage": 0.20,
+        "vulnerability": 0.20,
+    }
+}
+
+VULNERABILITY_WEIGHTS: dict[str, float] = {
+    "cash_runway_pressure": 0.50,
+    "target_signals": 0.30,
+    "external_deal_pressure": 0.20,
+}
+
+_SIGNAL_STRENGTH_SCORES = {
+    "low": 0.25,
+    "medium": 0.55,
+    "high": 0.85,
+}
+
+_RUNWAY_RISK_SCORES = {
+    CapitalRiskLevel.LOW: 0.10,
+    CapitalRiskLevel.MEDIUM: 0.55,
+    CapitalRiskLevel.HIGH: 0.85,
+    CapitalRiskLevel.CRITICAL: 1.00,
+}
+
+
+class MAProbabilityConfig(BaseModel):
+    """Configuration for the M&A probability scanner."""
+
+    score_version: str = "v1.0"
+    top_n: int = Field(default=10, ge=1)
+    alert_threshold: float = Field(default=0.70, ge=0.0, le=1.0)
+    hard_fail_penalty_multiplier: float = Field(default=0.50, ge=0.0, le=1.0)
+    missing_valuation_penalty_multiplier: float = Field(default=0.75, ge=0.0, le=1.0)
+    vulnerability_signals_path: str = "research/mna/vulnerability_signals.yaml"
+    persist_daily_snapshots: bool = True
+    enable_monitor: bool = True
+    monitor: "MAProbabilityMonitorConfig" = Field(default_factory=lambda: MAProbabilityMonitorConfig())
+    fit_integration_config: AcquirerFitIntegrationConfig = Field(
+        default_factory=AcquirerFitIntegrationConfig
+    )
+
+    def resolved_weights(self) -> dict[str, float]:
+        try:
+            return dict(SCORE_VERSIONS[self.score_version])
+        except KeyError as exc:
+            raise ValueError(
+                f"Unknown score version {self.score_version!r}. Valid: {sorted(SCORE_VERSIONS)}"
+            ) from exc
+
+
+class VulnerabilityAssessment(BaseModel):
+    """Target-side vulnerability context used in acquisition probability scoring."""
+
+    asset_id: str
+    cash_runway_quarters: float | None = None
+    cash_runway_pressure_score: float = 0.0
+    cash_runway_risk_level: str | None = None
+    runway_gap_months: float | None = None
+    nearest_catalyst_date: date | None = None
+    target_signal_score: float = 0.0
+    external_deal_pressure_score: float = 0.0
+    vulnerability_score: float = 0.0
+    target_signal_ids: list[str] = Field(default_factory=list)
+    external_deal_signal_ids: list[str] = Field(default_factory=list)
+    notes: list[str] = Field(default_factory=list)
+
+
+class MAAcquirerCandidate(BaseModel):
+    """One acquirer-specific acquisition-probability candidate for a target."""
+
+    acquirer_id: str
+    acquirer_name: str
+    p_acquisition: float
+    raw_probability: float
+    strategic_fit_score: float
+    valuation_discount_score: float
+    de_risking_stage_score: float
+    fit_score: float
+    passes_hard_filters: bool
+    hard_fail_reasons: list[str] = Field(default_factory=list)
+    matched_therapeutic_gap: str | None = None
+    matched_modality: str | None = None
+    matched_priorities: list[str] = Field(default_factory=list)
+    explanation: str
+
+
+class MAProbabilityRow(BaseModel):
+    """Final ranked M&A probability row for one target."""
+
+    rank: int = 0
+    asset_id: str
+    company_id: str | None = None
+    ticker: str | None = None
+    stage: str | None = None
+    acquisition_ready: bool | None = None
+    enterprise_value_millions: float | None = None
+    acquisition_discount: float | None = None
+
+    p_acquisition: float
+    raw_probability: float
+    above_alert_threshold: bool
+    score_version: str
+
+    best_acquirer_id: str
+    best_acquirer_name: str
+    best_acquirer_fit_score: float
+    runner_up_acquirer_id: str | None = None
+
+    valuation_discount_score: float
+    strategic_fit_score: float
+    de_risking_stage_score: float
+    vulnerability_score: float
+
+    cash_runway_quarters: float | None = None
+    cash_runway_pressure_score: float = 0.0
+    cash_runway_risk_level: str | None = None
+    runway_gap_months: float | None = None
+    nearest_catalyst_date: date | None = None
+    target_signal_score: float = 0.0
+    external_deal_pressure_score: float = 0.0
+    target_signal_ids: list[str] = Field(default_factory=list)
+    external_deal_signal_ids: list[str] = Field(default_factory=list)
+
+    hard_fail_reasons: list[str] = Field(default_factory=list)
+    matched_therapeutic_gap: str | None = None
+    matched_modality: str | None = None
+    matched_priorities: list[str] = Field(default_factory=list)
+    explanation: str
+
+    acquirer_candidates: list[MAAcquirerCandidate] = Field(default_factory=list)
+
+
+class MAProbabilityResult(BaseModel):
+    """Watchlist-level M&A probability scan output."""
+
+    scanned_at: datetime = Field(default_factory=_utcnow)
+    as_of_date: date
+    score_version: str
+    alert_threshold: float
+    n_assets: int
+    n_ranked: int
+    n_above_alert_threshold: int
+    alerts_emitted: list[OpportunityAlertRecord] = Field(default_factory=list)
+    alerts_suppressed_as_duplicate: int = 0
+    snapshots_written: int = 0
+    reference_snapshot_date: str | None = None
+    rows: list[MAProbabilityRow] = Field(default_factory=list)
+
+
+class MAProbabilitySnapshotRecord(BaseModel):
+    """One persisted M&A probability snapshot row."""
+
+    snapshot_date: date
+    asset_id: str
+    probability: float
+    rank: int
+    best_acquirer_id: str
+    above_alert_threshold: bool
+    run_id: str | None = None
+    created_at: datetime = Field(default_factory=_utcnow)
+
+
+class MAProbabilitySnapshotStore:
+    """SQLite-backed store for daily M&A probability snapshots."""
+
+    def __init__(self, knowledge_store) -> None:
+        self.knowledge = knowledge_store
+        self._ensure_schema()
+
+    def _ensure_schema(self) -> None:
+        self.knowledge._conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS ma_probability_snapshots (
+                snapshot_date TEXT NOT NULL,
+                asset_id TEXT NOT NULL,
+                probability REAL NOT NULL,
+                rank INTEGER NOT NULL,
+                best_acquirer_id TEXT NOT NULL,
+                above_alert_threshold INTEGER NOT NULL,
+                run_id TEXT,
+                created_at TEXT NOT NULL,
+                PRIMARY KEY(snapshot_date, asset_id)
+            )
+            """
+        )
+        self.knowledge._conn.execute(
+            """
+            CREATE INDEX IF NOT EXISTS idx_ma_probability_snapshots_rank
+                ON ma_probability_snapshots(snapshot_date, rank)
+            """
+        )
+        self.knowledge._conn.execute(
+            """
+            CREATE INDEX IF NOT EXISTS idx_ma_probability_snapshots_asset
+                ON ma_probability_snapshots(asset_id, snapshot_date)
+            """
+        )
+        self.knowledge._conn.commit()
+
+    @staticmethod
+    def from_row(
+        row: MAProbabilityRow,
+        *,
+        snapshot_date: date,
+        run_id: Optional[str] = None,
+        created_at: Optional[datetime] = None,
+    ) -> MAProbabilitySnapshotRecord:
+        return MAProbabilitySnapshotRecord(
+            snapshot_date=snapshot_date,
+            asset_id=row.asset_id,
+            probability=float(row.p_acquisition),
+            rank=int(row.rank),
+            best_acquirer_id=row.best_acquirer_id,
+            above_alert_threshold=bool(row.above_alert_threshold),
+            run_id=run_id,
+            created_at=created_at or _utcnow(),
+        )
+
+    def write_snapshots(
+        self,
+        rows: list[MAProbabilityRow],
+        *,
+        snapshot_date: date,
+        run_id: Optional[str] = None,
+        created_at: Optional[datetime] = None,
+    ) -> int:
+        timestamp = created_at or _utcnow()
+        snapshots = [
+            self.from_row(
+                row,
+                snapshot_date=snapshot_date,
+                run_id=run_id,
+                created_at=timestamp,
+            )
+            for row in rows
+        ]
+        self.knowledge._conn.executemany(
+            """
+            INSERT OR REPLACE INTO ma_probability_snapshots(
+                snapshot_date, asset_id, probability, rank, best_acquirer_id,
+                above_alert_threshold, run_id, created_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            [
+                (
+                    snapshot.snapshot_date.isoformat(),
+                    snapshot.asset_id,
+                    snapshot.probability,
+                    snapshot.rank,
+                    snapshot.best_acquirer_id,
+                    int(snapshot.above_alert_threshold),
+                    snapshot.run_id,
+                    self.knowledge._coerce_datetime(snapshot.created_at).isoformat(),
+                )
+                for snapshot in snapshots
+            ],
+        )
+        self.knowledge._conn.commit()
+        return len(snapshots)
+
+    def get_snapshot_map(
+        self,
+        *,
+        snapshot_date: date,
+    ) -> dict[str, MAProbabilitySnapshotRecord]:
+        rows = self.knowledge._conn.execute(
+            """
+            SELECT snapshot_date, asset_id, probability, rank, best_acquirer_id,
+                   above_alert_threshold, run_id, created_at
+            FROM ma_probability_snapshots
+            WHERE snapshot_date = ?
+            ORDER BY rank ASC, asset_id ASC
+            """,
+            (snapshot_date.isoformat(),),
+        ).fetchall()
+        return {
+            row["asset_id"]: MAProbabilitySnapshotRecord(
+                snapshot_date=date.fromisoformat(row["snapshot_date"]),
+                asset_id=row["asset_id"],
+                probability=float(row["probability"]),
+                rank=int(row["rank"]),
+                best_acquirer_id=row["best_acquirer_id"],
+                above_alert_threshold=bool(row["above_alert_threshold"]),
+                run_id=row["run_id"],
+                created_at=self.knowledge._coerce_datetime(row["created_at"]),
+            )
+            for row in rows
+        }
+
+    def latest_snapshot_date_before(self, snapshot_date: date) -> Optional[date]:
+        row = self.knowledge._conn.execute(
+            """
+            SELECT MAX(snapshot_date) AS snapshot_date
+            FROM ma_probability_snapshots
+            WHERE snapshot_date < ?
+            """,
+            (snapshot_date.isoformat(),),
+        ).fetchone()
+        if row is None or row["snapshot_date"] is None:
+            return None
+        return date.fromisoformat(row["snapshot_date"])
+
+
+class MAProbabilityMonitorConfig(BaseModel):
+    """Thresholds for change-based M&A probability alerts."""
+
+    top_n: int = Field(default=10, ge=1)
+    probability_threshold: float | None = Field(default=None, ge=0.0, le=1.0)
+    alert_window_days: int = Field(default=1, ge=1)
+
+
+class MAProbabilityMonitorResult(BaseModel):
+    """Output from one M&A probability monitor pass."""
+
+    monitored_at: datetime
+    reference_snapshot_date: str | None = None
+    alerts_emitted: list[OpportunityAlertRecord] = Field(default_factory=list)
+    alerts_suppressed_as_duplicate: int = 0
+
+
+class MAProbabilityMonitor:
+    """Compares current M&A probabilities against the most recent prior snapshot."""
+
+    def __init__(
+        self,
+        *,
+        knowledge_store,
+        config: Optional[MAProbabilityMonitorConfig] = None,
+        snapshot_store: Optional[MAProbabilitySnapshotStore] = None,
+    ) -> None:
+        self.knowledge = knowledge_store
+        self.config = config or MAProbabilityMonitorConfig()
+        self.snapshot_store = snapshot_store or MAProbabilitySnapshotStore(knowledge_store)
+
+    def evaluate(
+        self,
+        rows: list[MAProbabilityRow],
+        *,
+        monitored_at: Optional[datetime] = None,
+        run_id: Optional[str] = None,
+    ) -> MAProbabilityMonitorResult:
+        monitored_at = monitored_at or _utcnow()
+        snapshot_date = monitored_at.date()
+        previous_date = self.snapshot_store.latest_snapshot_date_before(snapshot_date)
+        if previous_date is None:
+            return MAProbabilityMonitorResult(monitored_at=monitored_at)
+
+        previous = self.snapshot_store.get_snapshot_map(snapshot_date=previous_date)
+        alerts: list[OpportunityAlertRecord] = []
+        suppressed = 0
+        current_rows = sorted(rows, key=lambda row: row.rank)
+
+        threshold = self.config.probability_threshold or 0.70
+        for row in current_rows:
+            prev = previous.get(row.asset_id)
+            for record in self._alerts_for_row(
+                row,
+                previous_snapshot=prev,
+                monitored_at=monitored_at,
+                probability_threshold=threshold,
+                run_id=run_id,
+            ):
+                if self.knowledge.add_opportunity_alert(record):
+                    alerts.append(record)
+                else:
+                    suppressed += 1
+
+        return MAProbabilityMonitorResult(
+            monitored_at=monitored_at,
+            reference_snapshot_date=previous_date.isoformat(),
+            alerts_emitted=alerts,
+            alerts_suppressed_as_duplicate=suppressed,
+        )
+
+    def _alerts_for_row(
+        self,
+        row: MAProbabilityRow,
+        *,
+        previous_snapshot: Optional[MAProbabilitySnapshotRecord],
+        monitored_at: datetime,
+        probability_threshold: float,
+        run_id: Optional[str],
+    ) -> list[OpportunityAlertRecord]:
+        records: list[OpportunityAlertRecord] = []
+        window = self._window_key(monitored_at, days=self.config.alert_window_days)
+
+        if row.rank <= self.config.top_n and (
+            previous_snapshot is None or previous_snapshot.rank > self.config.top_n
+        ):
+            records.append(
+                self._record(
+                    asset_id=row.asset_id,
+                    event_type="ma_probability_top_n_entry",
+                    window=window,
+                    monitored_at=monitored_at,
+                    run_id=run_id,
+                    payload={
+                        "asset_id": row.asset_id,
+                        "current_rank": row.rank,
+                        "previous_rank": (
+                            previous_snapshot.rank if previous_snapshot is not None else None
+                        ),
+                        "p_acquisition": round(float(row.p_acquisition), 6),
+                        "best_acquirer_id": row.best_acquirer_id,
+                        "best_acquirer_name": row.best_acquirer_name,
+                        "threshold": probability_threshold,
+                    },
+                )
+            )
+
+        if previous_snapshot is not None:
+            crossing = self._threshold_crossing(
+                previous_snapshot.probability,
+                row.p_acquisition,
+                threshold=probability_threshold,
+            )
+            if crossing is not None:
+                records.append(
+                    self._record(
+                        asset_id=row.asset_id,
+                        event_type="ma_probability_threshold_cross",
+                        window=window,
+                        monitored_at=monitored_at,
+                        run_id=run_id,
+                        payload={
+                            "asset_id": row.asset_id,
+                            "direction": crossing,
+                            "threshold": probability_threshold,
+                            "current_probability": round(float(row.p_acquisition), 6),
+                            "previous_probability": round(
+                                float(previous_snapshot.probability), 6
+                            ),
+                            "current_rank": row.rank,
+                            "previous_rank": previous_snapshot.rank,
+                            "best_acquirer_id": row.best_acquirer_id,
+                        },
+                    )
+                )
+
+        return records
+
+    @staticmethod
+    def _record(
+        *,
+        asset_id: str,
+        event_type: str,
+        window: str,
+        monitored_at: datetime,
+        run_id: Optional[str],
+        payload: dict[str, object],
+    ) -> OpportunityAlertRecord:
+        return OpportunityAlertRecord(
+            asset_id=asset_id,
+            event_type=event_type,
+            window=window,
+            run_id=run_id,
+            created_at=monitored_at,
+            payload_json=payload,
+        )
+
+    @staticmethod
+    def _threshold_crossing(
+        previous_probability: float,
+        current_probability: float,
+        *,
+        threshold: float,
+    ) -> Optional[str]:
+        prev_over = float(previous_probability) >= threshold
+        curr_over = float(current_probability) >= threshold
+        if prev_over == curr_over:
+            return None
+        return "entered" if curr_over else "exited"
+
+    @staticmethod
+    def _window_key(ts: datetime, *, days: int) -> str:
+        if ts.tzinfo is None:
+            ts = ts.replace(tzinfo=timezone.utc)
+        start_dt = datetime(ts.year, ts.month, ts.day, tzinfo=timezone.utc)
+        end_dt = start_dt + timedelta(days=days)
+        return f"{start_dt.isoformat()}__{end_dt.isoformat()}"
+
+
+class MAProbabilityScanner:
+    """Rank watchlist assets by acquisition likelihood across all configured acquirers."""
+
+    def __init__(
+        self,
+        *,
+        knowledge_store=None,
+        context_provider=None,
+        config: Optional[MAProbabilityConfig] = None,
+        fit_engine: Optional[AcquirerFitEngine] = None,
+    ) -> None:
+        self.config = config or MAProbabilityConfig()
+        self.fit_engine = fit_engine or AcquirerFitEngine(
+            knowledge_store=knowledge_store,
+            context_provider=context_provider,
+            integration_config=self.config.fit_integration_config,
+        )
+        self.knowledge = knowledge_store or getattr(self.fit_engine.acquisition_screener, "knowledge", None)
+        use_snapshot_store = self.knowledge is not None and (
+            self.config.persist_daily_snapshots or self.config.enable_monitor
+        )
+        self.snapshot_store = (
+            MAProbabilitySnapshotStore(self.knowledge) if use_snapshot_store else None
+        )
+        resolved_monitor_config = self.config.monitor.model_copy(
+            update={
+                "probability_threshold": (
+                    self.config.alert_threshold
+                    if self.config.monitor.probability_threshold is None
+                    else self.config.monitor.probability_threshold
+                )
+            }
+        )
+        self.monitor = (
+            MAProbabilityMonitor(
+                knowledge_store=self.knowledge,
+                config=resolved_monitor_config,
+                snapshot_store=self.snapshot_store,
+            )
+            if self.knowledge is not None and self.config.enable_monitor and self.snapshot_store is not None
+            else None
+        )
+
+    def scan_from_watchlist_config(
+        self,
+        watchlist_config,
+        *,
+        snapshot_date: Optional[date] = None,
+        top_n: Optional[int] = None,
+        run_id: Optional[str] = None,
+        scanned_at: Optional[datetime] = None,
+    ) -> MAProbabilityResult:
+        return self.scan_watchlist(
+            list(getattr(watchlist_config, "watchlist", [])),
+            snapshot_date=snapshot_date,
+            top_n=top_n,
+            run_id=run_id,
+            scanned_at=scanned_at,
+        )
+
+    def scan_watchlist(
+        self,
+        watchlist: list[object],
+        *,
+        snapshot_date: Optional[date] = None,
+        top_n: Optional[int] = None,
+        run_id: Optional[str] = None,
+        scanned_at: Optional[datetime] = None,
+    ) -> MAProbabilityResult:
+        as_of = snapshot_date or (scanned_at.date() if scanned_at is not None else date.today())
+        resolved_scanned_at = scanned_at or datetime.combine(as_of, dtime.min, tzinfo=timezone.utc)
+        acquirer_dataset = AcquirerProfileLoader.load(
+            self.config.fit_integration_config.acquirer_profiles_path
+        )
+        vulnerability_dataset = VulnerabilitySignalLoader.load(
+            self.config.vulnerability_signals_path
+        )
+        comparable_deals = ComparableDealLoader.load(
+            self.config.fit_integration_config.comparable_deals_path
+        ).deals
+
+        acquisition_result = self.fit_engine.acquisition_screener.screen_watchlist(
+            watchlist,
+            snapshot_date=as_of,
+            persist=self.config.fit_integration_config.persist_acquisition_snapshots,
+            comparable_deals=comparable_deals,
+        )
+        asset_by_id = {getattr(asset, "asset_id"): asset for asset in watchlist}
+
+        rows: list[MAProbabilityRow] = []
+        for acquisition_row in acquisition_result.rows:
+            asset = asset_by_id[acquisition_row.asset_id]
+            context = self._safe_get_context(asset)
+            vulnerability = self._assess_vulnerability(
+                asset=asset,
+                acquisition_row=acquisition_row,
+                context=context,
+                vulnerability_dataset=vulnerability_dataset,
+                as_of=as_of,
+            )
+            candidates = [
+                self._score_acquirer_candidate(
+                    acquirer=acquirer,
+                    fit_row=self.fit_engine._build_row(
+                        acquirer=acquirer,
+                        asset=asset,
+                        acquisition_row=acquisition_row,
+                        comparable_deals=comparable_deals,
+                    ),
+                    vulnerability=vulnerability,
+                )
+                for acquirer in acquirer_dataset.acquirers
+            ]
+            candidates.sort(
+                key=lambda item: (-item.p_acquisition, -item.raw_probability, item.acquirer_id)
+            )
+            best = candidates[0]
+            runner_up = candidates[1].acquirer_id if len(candidates) > 1 else None
+            rows.append(
+                MAProbabilityRow(
+                    asset_id=acquisition_row.asset_id,
+                    company_id=acquisition_row.company_id,
+                    ticker=acquisition_row.ticker,
+                    stage=acquisition_row.stage,
+                    acquisition_ready=acquisition_row.acquisition_ready,
+                    enterprise_value_millions=acquisition_row.enterprise_value_millions,
+                    acquisition_discount=acquisition_row.acquisition_discount,
+                    p_acquisition=best.p_acquisition,
+                    raw_probability=best.raw_probability,
+                    above_alert_threshold=best.p_acquisition >= self.config.alert_threshold,
+                    score_version=self.config.score_version,
+                    best_acquirer_id=best.acquirer_id,
+                    best_acquirer_name=best.acquirer_name,
+                    best_acquirer_fit_score=best.fit_score,
+                    runner_up_acquirer_id=runner_up,
+                    valuation_discount_score=best.valuation_discount_score,
+                    strategic_fit_score=best.strategic_fit_score,
+                    de_risking_stage_score=best.de_risking_stage_score,
+                    vulnerability_score=vulnerability.vulnerability_score,
+                    cash_runway_quarters=vulnerability.cash_runway_quarters,
+                    cash_runway_pressure_score=vulnerability.cash_runway_pressure_score,
+                    cash_runway_risk_level=vulnerability.cash_runway_risk_level,
+                    runway_gap_months=vulnerability.runway_gap_months,
+                    nearest_catalyst_date=vulnerability.nearest_catalyst_date,
+                    target_signal_score=vulnerability.target_signal_score,
+                    external_deal_pressure_score=vulnerability.external_deal_pressure_score,
+                    target_signal_ids=vulnerability.target_signal_ids,
+                    external_deal_signal_ids=vulnerability.external_deal_signal_ids,
+                    hard_fail_reasons=list(best.hard_fail_reasons),
+                    matched_therapeutic_gap=best.matched_therapeutic_gap,
+                    matched_modality=best.matched_modality,
+                    matched_priorities=list(best.matched_priorities),
+                    explanation=_build_row_explanation(best=best, vulnerability=vulnerability),
+                    acquirer_candidates=candidates,
+                )
+            )
+
+        rows.sort(key=lambda row: (-row.p_acquisition, -row.raw_probability, row.asset_id))
+        all_ranked_rows = [
+            row.model_copy(update={"rank": idx + 1})
+            for idx, row in enumerate(rows)
+        ]
+        limit = top_n or self.config.top_n
+        ranked_rows = all_ranked_rows[:limit]
+        snapshots_written = 0
+        monitor_result = MAProbabilityMonitorResult(monitored_at=resolved_scanned_at)
+        if self.snapshot_store is not None and self.config.persist_daily_snapshots:
+            snapshots_written = self.snapshot_store.write_snapshots(
+                all_ranked_rows,
+                snapshot_date=as_of,
+                run_id=run_id,
+                created_at=resolved_scanned_at,
+            )
+        if self.monitor is not None:
+            monitor_result = self.monitor.evaluate(
+                all_ranked_rows,
+                monitored_at=resolved_scanned_at,
+                run_id=run_id,
+            )
+        return MAProbabilityResult(
+            scanned_at=resolved_scanned_at,
+            as_of_date=as_of,
+            score_version=self.config.score_version,
+            alert_threshold=self.config.alert_threshold,
+            n_assets=len(all_ranked_rows),
+            n_ranked=len(ranked_rows),
+            n_above_alert_threshold=sum(
+                1 for row in all_ranked_rows if row.p_acquisition >= self.config.alert_threshold
+            ),
+            alerts_emitted=monitor_result.alerts_emitted,
+            alerts_suppressed_as_duplicate=monitor_result.alerts_suppressed_as_duplicate,
+            snapshots_written=snapshots_written,
+            reference_snapshot_date=monitor_result.reference_snapshot_date,
+            rows=ranked_rows,
+        )
+
+    def _score_acquirer_candidate(
+        self,
+        *,
+        acquirer: AcquirerProfile,
+        fit_row: AcquirerFitRow,
+        vulnerability: VulnerabilityAssessment,
+    ) -> MAAcquirerCandidate:
+        weights = self.config.resolved_weights()
+        valuation_discount_score = _valuation_discount_score(fit_row.acquisition_discount)
+        strategic_fit_score = self._strategic_fit_score(fit_row)
+        de_risking_stage_score = float(fit_row.stage_score)
+
+        raw_probability = round(
+            (valuation_discount_score * weights["valuation_discount"])
+            + (strategic_fit_score * weights["strategic_fit"])
+            + (de_risking_stage_score * weights["de_risking_stage"])
+            + (vulnerability.vulnerability_score * weights["vulnerability"]),
+            6,
+        )
+        adjusted_probability = raw_probability
+        if fit_row.enterprise_value_millions is None or fit_row.acquisition_discount is None:
+            adjusted_probability = round(
+                adjusted_probability * self.config.missing_valuation_penalty_multiplier,
+                6,
+            )
+        if not fit_row.passes_hard_filters:
+            adjusted_probability = round(
+                adjusted_probability * self.config.hard_fail_penalty_multiplier,
+                6,
+            )
+
+        return MAAcquirerCandidate(
+            acquirer_id=acquirer.acquirer_id,
+            acquirer_name=acquirer.company_name,
+            p_acquisition=min(max(adjusted_probability, 0.0), 1.0),
+            raw_probability=min(max(raw_probability, 0.0), 1.0),
+            strategic_fit_score=round(strategic_fit_score, 6),
+            valuation_discount_score=round(valuation_discount_score, 6),
+            de_risking_stage_score=round(de_risking_stage_score, 6),
+            fit_score=fit_row.fit_score,
+            passes_hard_filters=fit_row.passes_hard_filters,
+            hard_fail_reasons=list(fit_row.hard_fail_reasons),
+            matched_therapeutic_gap=fit_row.matched_therapeutic_gap,
+            matched_modality=fit_row.matched_modality,
+            matched_priorities=list(fit_row.matched_priorities),
+            explanation=fit_row.explanation,
+        )
+
+    def _strategic_fit_score(self, fit_row: AcquirerFitRow) -> float:
+        fit_weights = self.fit_engine.scorer.config.resolved_weights()
+        strategic_weight = (
+            fit_weights["therapeutic_area"]
+            + fit_weights["modality"]
+            + fit_weights["strategic_priority"]
+            + fit_weights["budget"]
+        )
+        if strategic_weight <= 0:
+            return 0.0
+        strategic_component = (
+            fit_row.therapeutic_area_component
+            + fit_row.modality_component
+            + fit_row.strategic_priority_component
+            + fit_row.budget_component
+        )
+        return min(max(strategic_component / strategic_weight, 0.0), 1.0)
+
+    def _assess_vulnerability(
+        self,
+        *,
+        asset: object,
+        acquisition_row,
+        context,
+        vulnerability_dataset,
+        as_of: date,
+    ) -> VulnerabilityAssessment:
+        company = getattr(context, "company", None)
+        cash_runway_quarters = getattr(company, "cash_runway_quarters", None)
+        nearest_catalyst = self._nearest_catalyst(asset_id=acquisition_row.asset_id, as_of=as_of)
+
+        cash_score, risk_level, gap_months, notes = self._cash_runway_pressure(
+            company=company,
+            cash_runway_quarters=cash_runway_quarters,
+            nearest_catalyst=nearest_catalyst,
+            as_of=as_of,
+        )
+        target_signals = VulnerabilitySignalLoader.get_target_signals(
+            vulnerability_dataset,
+            asset_id=acquisition_row.asset_id,
+            company_id=acquisition_row.company_id,
+            ticker=acquisition_row.ticker,
+            as_of=as_of,
+        )
+        external_signals = self._matched_external_signals(
+            vulnerability_dataset=vulnerability_dataset,
+            acquisition_row=acquisition_row,
+            context=context,
+            as_of=as_of,
+        )
+        target_signal_score = _target_signal_score(target_signals)
+        external_pressure_score = _external_deal_signal_score(external_signals)
+        vulnerability_score = round(
+            (cash_score * VULNERABILITY_WEIGHTS["cash_runway_pressure"])
+            + (target_signal_score * VULNERABILITY_WEIGHTS["target_signals"])
+            + (
+                external_pressure_score
+                * VULNERABILITY_WEIGHTS["external_deal_pressure"]
+            ),
+            6,
+        )
+        return VulnerabilityAssessment(
+            asset_id=acquisition_row.asset_id,
+            cash_runway_quarters=round(float(cash_runway_quarters), 6)
+            if cash_runway_quarters is not None
+            else None,
+            cash_runway_pressure_score=round(cash_score, 6),
+            cash_runway_risk_level=risk_level,
+            runway_gap_months=round(gap_months, 6) if gap_months is not None else None,
+            nearest_catalyst_date=getattr(nearest_catalyst, "expected_date", None),
+            target_signal_score=round(target_signal_score, 6),
+            external_deal_pressure_score=round(external_pressure_score, 6),
+            vulnerability_score=min(max(vulnerability_score, 0.0), 1.0),
+            target_signal_ids=[signal.signal_id for signal in target_signals],
+            external_deal_signal_ids=[signal.signal_id for signal in external_signals],
+            notes=notes,
+        )
+
+    @staticmethod
+    def _cash_runway_pressure(
+        *,
+        company,
+        cash_runway_quarters: Optional[float],
+        nearest_catalyst,
+        as_of: date,
+    ) -> tuple[float, Optional[str], Optional[float], list[str]]:
+        notes: list[str] = []
+        if cash_runway_quarters is None:
+            return 0.0, None, None, ["missing_cash_runway"]
+
+        burn_rate_quarterly = getattr(company, "burn_rate_millions_per_quarter", None)
+        burn_rate_monthly = (
+            float(burn_rate_quarterly) / 3.0
+            if burn_rate_quarterly is not None and burn_rate_quarterly > 0
+            else 0.0
+        )
+        if nearest_catalyst is not None:
+            risk, gap_months = compute_capital_risk_as_of(
+                nearest_catalyst.expected_date,
+                float(cash_runway_quarters),
+                burn_rate_monthly,
+                as_of=as_of,
+            )
+            notes.append("runway_vs_nearest_catalyst")
+            return (
+                _RUNWAY_RISK_SCORES[risk],
+                risk.value,
+                round(gap_months, 6),
+                notes,
+            )
+
+        runway_quarters = float(cash_runway_quarters)
+        notes.append("runway_without_catalyst")
+        if runway_quarters <= 2.0:
+            return 1.0, "critical", None, notes
+        if runway_quarters <= 4.0:
+            return 0.85, "high", None, notes
+        if runway_quarters <= 6.0:
+            return 0.60, "medium", None, notes
+        if runway_quarters <= 8.0:
+            return 0.35, "medium", None, notes
+        if runway_quarters <= 12.0:
+            return 0.15, "low", None, notes
+        return 0.0, "low", None, notes
+
+    def _matched_external_signals(
+        self,
+        *,
+        vulnerability_dataset,
+        acquisition_row,
+        context,
+        as_of: date,
+    ) -> list[ExternalDealActivitySignal]:
+        target_ta = _normalize(acquisition_row.therapeutic_area)
+        raw_modality = getattr(getattr(getattr(context, "asset", None), "modality", None), "value", None)
+        target_modality = _normalize(raw_modality)
+
+        matches: list[ExternalDealActivitySignal] = []
+        for signal in vulnerability_dataset.external_deal_activity:
+            if VulnerabilitySignalLoader.is_stale(
+                event_date=signal.event_date,
+                signal_type=signal.signal_type,
+                dataset=vulnerability_dataset,
+                as_of=as_of,
+            ):
+                continue
+            signal_ta = _normalize(signal.therapeutic_area)
+            signal_modality = _normalize(signal.modality)
+            if (
+                target_ta is not None
+                and signal_ta is not None
+                and target_ta == signal_ta
+            ) or (
+                target_modality is not None
+                and signal_modality is not None
+                and target_modality == signal_modality
+            ):
+                matches.append(signal)
+        return matches
+
+    def _safe_get_context(self, asset: object):
+        try:
+            return self.fit_engine.acquisition_screener._get_context(asset)
+        except Exception:
+            return None
+
+    def _nearest_catalyst(self, *, asset_id: str, as_of: date):
+        if self.knowledge is None:
+            return None
+        try:
+            events = self.knowledge.get_catalyst_events(asset_id=asset_id, active_only=True)
+        except Exception:
+            return None
+        active_upcoming = [event for event in events if event.expected_date >= as_of]
+        if not active_upcoming:
+            return None
+        return min(active_upcoming, key=lambda event: (event.expected_date, event.id))
+
+
+def _valuation_discount_score(value: Optional[float]) -> float:
+    if value is None:
+        return 0.0
+    ratio = float(value)
+    if ratio >= 3.0:
+        return 1.0
+    if ratio >= 2.5:
+        return 0.9
+    if ratio >= 2.0:
+        return 0.8
+    if ratio >= 1.5:
+        return 0.7
+    if ratio >= 1.2:
+        return 0.55
+    if ratio >= 1.0:
+        return 0.4
+    if ratio >= 0.75:
+        return 0.25
+    return 0.1
+
+
+def _target_signal_score(signals: list[TargetVulnerabilitySignal]) -> float:
+    total = 0.0
+    for signal in signals:
+        base = _SIGNAL_STRENGTH_SCORES.get(signal.signal_strength, 0.25)
+        if signal.signal_effect == "increase":
+            total += base
+        else:
+            total -= base * 0.5
+    return min(max(total, 0.0), 1.0)
+
+
+def _external_deal_signal_score(signals: list[ExternalDealActivitySignal]) -> float:
+    if not signals:
+        return 0.0
+    return min(
+        1.0,
+        max(_SIGNAL_STRENGTH_SCORES.get(signal.signal_strength, 0.25) for signal in signals),
+    )
+
+
+def _normalize(value: Optional[str]) -> Optional[str]:
+    if value is None:
+        return None
+    normalized = " ".join(str(value).strip().lower().replace("_", " ").split())
+    return normalized or None
+
+
+def _build_row_explanation(
+    *,
+    best: MAAcquirerCandidate,
+    vulnerability: VulnerabilityAssessment,
+) -> str:
+    parts = [
+        f"best acquirer {best.acquirer_id} at {best.p_acquisition:.3f}",
+        f"strategic fit {best.strategic_fit_score:.3f}",
+        f"valuation {best.valuation_discount_score:.3f}",
+        f"stage {best.de_risking_stage_score:.3f}",
+        f"vulnerability {vulnerability.vulnerability_score:.3f}",
+    ]
+    if vulnerability.cash_runway_risk_level:
+        parts.append(f"runway risk {vulnerability.cash_runway_risk_level}")
+    if vulnerability.target_signal_ids:
+        parts.append(f"target signals {', '.join(vulnerability.target_signal_ids)}")
+    if vulnerability.external_deal_signal_ids:
+        parts.append(f"same-space deals {', '.join(vulnerability.external_deal_signal_ids)}")
+    if best.hard_fail_reasons:
+        parts.append("hard fails " + ", ".join(best.hard_fail_reasons))
+    return "; ".join(parts)

@@ -453,3 +453,32 @@ def test_calibration_reporter_coverage_none_when_no_forecasts():
     report = CalibrationReporter().report(ks)
     ks.close()
     assert report.coverage is None
+
+
+# ---------------------------------------------------------------------------
+# Task 9.17 — Calibration status flag (Sprint 9 Phase 4)
+# ---------------------------------------------------------------------------
+
+def test_calibration_status_uncalibrated_when_below_threshold(store):
+    """Report is 'uncalibrated' when fewer than 200 labeled outcomes exist."""
+    _seed_resolved_forecast(store, "s1", "e1", "up", 0.10)
+    report = CalibrationReporter().report(store)
+    assert report.confidence_calibration_status == "uncalibrated"
+    assert report.confidence_calibration_n_required == 200
+
+
+def test_calibration_status_uncalibrated_on_empty_store():
+    """Empty store → report shows uncalibrated status."""
+    ks = KnowledgeStore(db_path=":memory:")
+    report = CalibrationReporter().report(ks)
+    ks.close()
+    assert report.confidence_calibration_status == "uncalibrated"
+
+
+def test_calibration_report_has_status_fields():
+    """CalibrationReport model always exposes the calibration status fields."""
+    report = CalibrationReport(n_total=0, n_resolved=0)
+    assert hasattr(report, "confidence_calibration_status")
+    assert hasattr(report, "confidence_calibration_n_required")
+    assert report.confidence_calibration_status == "uncalibrated"
+    assert report.confidence_calibration_n_required == 200

@@ -1,0 +1,276 @@
+# Curated acquirer-side pipeline-gap profiles used by the acquirer-fit layer.
+#
+# Keep every profile:
+# - attributable to dated primary sources where possible
+# - explicit about whether a gap is LOE-driven, franchise-defense-driven, or a
+#   strategic expansion area
+# - conservative when deal-value ceilings or debt-capacity limits are not
+#   directly disclosed by management
+
+as_of_date: "2026-03-24"
+
+acquirers:
+  - acquirer_id: "regeneron"
+    company_name: "Regeneron Pharmaceuticals"
+    ticker: "REGN"
+    profile_as_of: "2026-03-24"
+    source_notes: "Manual curation from official Regeneron investor materials, a SEC-filed JPMorgan deck, and Regeneron press releases."
+
+    therapeutic_area_gaps:
+      - therapeutic_area: "ophthalmology"
+        exposure_type: "loe_and_franchise_defense"
+        exposure_level: "high"
+        rationale: "Ophthalmology is Regeneron's clearest franchise-defense area: total U.S. EYLEA HD + EYLEA sales declined 27% in 2025, and management remains focused on extending EYLEA HD leadership across retinal disease."
+        source_refs:
+          - source_date: "2026-01-30"
+            source_type: "earnings_release"
+            source_title: "Regeneron Reports Fourth Quarter and Full Year 2025 Financial and Operating Results"
+            source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-reports-fourth-quarter-and-full-year-2025-financial"
+            note: "Reported FY 2025 U.S. EYLEA HD + EYLEA sales down 27% versus FY 2024."
+          - source_date: "2025-01-13"
+            source_type: "investor_presentation"
+            source_title: "J.P. Morgan Healthcare Conference 2025 Strategy & Business Update"
+            source_url: "https://www.sec.gov/Archives/edgar/data/872589/000110465925002826/tm253014d1_ex99-2.htm"
+            note: "Positioned EYLEA HD as the goal standard in retinal disease and highlighted additional retinal label-expansion work."
+
+      - therapeutic_area: "immunology_inflammation"
+        exposure_type: "franchise_defense"
+        exposure_level: "medium"
+        rationale: "This is not a near-term LOE cliff, but management explicitly framed immunology and inflammation as a leadership franchise that needs next-generation long-acting IL-4 / IL-13 approaches to stay competitive."
+        source_refs:
+          - source_date: "2026-01-30"
+            source_type: "earnings_call_transcript"
+            source_title: "Regeneron Pharmaceuticals Q4 2025 Earnings Conference Call Transcript"
+            source_url: "https://investor.regeneron.com/static-files/e1a0c96b-d854-4adb-8508-a2c5ae2e4f70"
+            note: "Highlighted long-acting IL-4R, IL-13, IL-4, and IL-4 / IL-13 bispecific approaches in atopic dermatitis and other immunology settings."
+
+      - therapeutic_area: "obesity"
+        exposure_type: "strategic_expansion"
+        exposure_level: "high"
+        rationale: "Obesity is a strategic expansion lane rather than a patent-cliff issue. Regeneron is building combination-oriented metabolic programs and in-licensed a late-stage GLP-1/GIP asset to broaden that platform."
+        source_refs:
+          - source_date: "2026-01-30"
+            source_type: "earnings_call_transcript"
+            source_title: "Regeneron Pharmaceuticals Q4 2025 Earnings Conference Call Transcript"
+            source_url: "https://investor.regeneron.com/static-files/e1a0c96b-d854-4adb-8508-a2c5ae2e4f70"
+            note: "Management highlighted obesity among the key areas expected to generate clinical data over the next few years."
+          - source_date: "2025-06-02"
+            source_type: "press_release"
+            source_title: "Regeneron Expands Clinical-Stage Obesity Portfolio with Strategic In-Licensing of Novel Dual GLP-1/GIP Receptor Agonist"
+            source_url: "https://investor.regeneron.com/node/31066/pdf"
+            note: "Framed HS-20094 as a complementary asset for obesity combinations and long-term metabolic positioning."
+
+      - therapeutic_area: "genetic_medicines_rare_disease"
+        exposure_type: "strategic_expansion"
+        exposure_level: "medium"
+        rationale: "Genetic medicines are a stated expansion priority, especially where Regeneron can pair internal genetics capabilities with targeted external assets or longstanding collaborators."
+        source_refs:
+          - source_date: "2025-01-13"
+            source_type: "investor_presentation"
+            source_title: "J.P. Morgan Healthcare Conference 2025 Strategy & Business Update"
+            source_url: "https://www.sec.gov/Archives/edgar/data/872589/000110465925002826/tm253014d1_ex99-2.htm"
+            note: "Highlighted genetics, sequencing, big data, and genetic medicines among the core platform pillars."
+          - source_date: "2023-08-09"
+            source_type: "press_release"
+            source_title: "Regeneron to Acquire Decibel Therapeutics, Strengthening Gene Therapy and Hearing Loss Programs"
+            source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-acquire-decibel-therapeutics-strengthening-gene/"
+            note: "Tied the Decibel acquisition directly to strengthening Regeneron's genetic medicines portfolio."
+
+    preferred_modalities:
+      - modality: "fully_human_antibody"
+        preference_strength: "high"
+        rationale: "Fully human antibodies remain Regeneron's core discovery and commercial modality."
+        source_refs:
+          - source_date: "2025-01-13"
+            source_type: "investor_presentation"
+            source_title: "J.P. Morgan Healthcare Conference 2025 Strategy & Business Update"
+            source_url: "https://www.sec.gov/Archives/edgar/data/872589/000110465925002826/tm253014d1_ex99-2.htm"
+            note: "The deck called out antibody leadership and the VelocImmune platform."
+
+      - modality: "bispecific_antibody"
+        preference_strength: "high"
+        rationale: "Regeneron repeatedly emphasizes bispecific antibodies across oncology and immunology as a preferred route to differentiated combinations."
+        source_refs:
+          - source_date: "2025-01-13"
+            source_type: "investor_presentation"
+            source_title: "J.P. Morgan Healthcare Conference 2025 Strategy & Business Update"
+            source_url: "https://www.sec.gov/Archives/edgar/data/872589/000110465925002826/tm253014d1_ex99-2.htm"
+            note: "The deck described antibody and bispecific leadership plus xCD3 and xCD28 oncology combinations."
+          - source_date: "2026-01-30"
+            source_type: "earnings_call_transcript"
+            source_title: "Regeneron Pharmaceuticals Q4 2025 Earnings Conference Call Transcript"
+            source_url: "https://investor.regeneron.com/static-files/e1a0c96b-d854-4adb-8508-a2c5ae2e4f70"
+            note: "Management highlighted IL-4 / IL-13 bispecific programs and broader next-generation biologics."
+
+      - modality: "genetic_medicine"
+        preference_strength: "high"
+        rationale: "Genetic medicines fit Regeneron's platform identity and are supported by its internal genetics center, external collaborations, and Decibel acquisition."
+        source_refs:
+          - source_date: "2025-01-13"
+            source_type: "investor_presentation"
+            source_title: "J.P. Morgan Healthcare Conference 2025 Strategy & Business Update"
+            source_url: "https://www.sec.gov/Archives/edgar/data/872589/000110465925002826/tm253014d1_ex99-2.htm"
+            note: "Named genetics, sequencing, and targeted medicine as future-positioning pillars."
+          - source_date: "2023-08-09"
+            source_type: "press_release"
+            source_title: "Regeneron to Acquire Decibel Therapeutics, Strengthening Gene Therapy and Hearing Loss Programs"
+            source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-acquire-decibel-therapeutics-strengthening-gene/"
+            note: "Used M&A to deepen the gene-therapy / hearing-loss platform."
+
+      - modality: "cell_therapy"
+        preference_strength: "medium"
+        rationale: "Cell therapy is a selected adjacency rather than the main platform, but Regeneron was willing to create a dedicated internal unit through the 2seventy transaction."
+        source_refs:
+          - source_date: "2024-01-30"
+            source_type: "press_release"
+            source_title: "Regeneron Announces Formation of Regeneron Cell Medicines with the Acquisition of 2seventy bio Platforms and Preclinical and Clinical Programs"
+            source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-announces-formation-regeneron-cell-medicines/"
+            note: "Created Regeneron Cell Medicines to combine cell therapies with proprietary antibodies and bispecifics."
+
+      - modality: "data_genomics_platform"
+        preference_strength: "medium"
+        rationale: "Large-scale human genetics datasets are part of Regeneron's identity, and the 23andMe bid showed willingness to use M&A for dataset expansion."
+        source_refs:
+          - source_date: "2025-01-13"
+            source_type: "investor_presentation"
+            source_title: "J.P. Morgan Healthcare Conference 2025 Strategy & Business Update"
+            source_url: "https://www.sec.gov/Archives/edgar/data/872589/000110465925002826/tm253014d1_ex99-2.htm"
+            note: "The deck highlighted the DNA sequence-linked healthcare database as a strategic differentiator."
+          - source_date: "2025-05-19"
+            source_type: "press_release"
+            source_title: "Regeneron Enters into Asset Purchase Agreement to Acquire 23andMe for $256 Million"
+            source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-enters-asset-purchase-agreement-acquire-23andmer-256/"
+            note: "The proposed acquisition was explicitly framed as strengthening genetics-guided research and drug development."
+
+    strategic_priorities:
+      - priority: "Prioritize internal investment while pursuing only complementary business development"
+        priority_strength: "high"
+        source_refs:
+          - source_date: "2026-01-30"
+            source_type: "earnings_release"
+            source_title: "Regeneron Reports Fourth Quarter and Full Year 2025 Financial and Operating Results"
+            source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-reports-fourth-quarter-and-full-year-2025-financial"
+            note: "CFO commentary said 2026 focus remained on internal investments and complementary business development."
+
+      - priority: "Defend and extend ophthalmology leadership around EYLEA HD and broader retinal disease"
+        priority_strength: "high"
+        source_refs:
+          - source_date: "2025-01-13"
+            source_type: "investor_presentation"
+            source_title: "J.P. Morgan Healthcare Conference 2025 Strategy & Business Update"
+            source_url: "https://www.sec.gov/Archives/edgar/data/872589/000110465925002826/tm253014d1_ex99-2.htm"
+            note: "The deck emphasized broadening indications, dosing flexibility, and product-profile upgrades for EYLEA HD."
+          - source_date: "2026-01-30"
+            source_type: "earnings_release"
+            source_title: "Regeneron Reports Fourth Quarter and Full Year 2025 Financial and Operating Results"
+            source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-reports-fourth-quarter-and-full-year-2025-financial"
+            note: "2026 milestones again highlighted ophthalmology programs and retinal label expansion."
+
+      - priority: "Maintain immunology and inflammation leadership with next-generation long-acting biologics"
+        priority_strength: "high"
+        source_refs:
+          - source_date: "2026-01-30"
+            source_type: "earnings_call_transcript"
+            source_title: "Regeneron Pharmaceuticals Q4 2025 Earnings Conference Call Transcript"
+            source_url: "https://investor.regeneron.com/static-files/e1a0c96b-d854-4adb-8508-a2c5ae2e4f70"
+            note: "Management said it was committed to strengthening leadership through long-acting IL-4R, IL-13, IL-4, and IL-4 / IL-13 programs."
+
+      - priority: "Build differentiated obesity combinations focused on quality of weight loss and comorbidities"
+        priority_strength: "high"
+        source_refs:
+          - source_date: "2025-06-02"
+            source_type: "press_release"
+            source_title: "Regeneron Expands Clinical-Stage Obesity Portfolio with Strategic In-Licensing of Novel Dual GLP-1/GIP Receptor Agonist"
+            source_url: "https://investor.regeneron.com/node/31066/pdf"
+            note: "The Hansoh deal was framed around improved quality of weight loss, muscle preservation, and obesity-related comorbidities."
+          - source_date: "2025-01-13"
+            source_type: "investor_presentation"
+            source_title: "J.P. Morgan Healthcare Conference 2025 Strategy & Business Update"
+            source_url: "https://www.sec.gov/Archives/edgar/data/872589/000110465925002826/tm253014d1_ex99-2.htm"
+            note: "The deck positioned obesity combination programs as differentiated growth opportunities."
+
+      - priority: "Use genetics-guided discovery and data scale to shape both internal R&D and selective external deals"
+        priority_strength: "high"
+        source_refs:
+          - source_date: "2025-01-13"
+            source_type: "investor_presentation"
+            source_title: "J.P. Morgan Healthcare Conference 2025 Strategy & Business Update"
+            source_url: "https://www.sec.gov/Archives/edgar/data/872589/000110465925002826/tm253014d1_ex99-2.htm"
+            note: "The deck highlighted the DNA-linked database, genetics, proteomics, and targeted medicine as future-positioning pillars."
+          - source_date: "2025-05-19"
+            source_type: "press_release"
+            source_title: "Regeneron Enters into Asset Purchase Agreement to Acquire 23andMe for $256 Million"
+            source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-enters-asset-purchase-agreement-acquire-23andmer-256/"
+            note: "The 23andMe bid was positioned as a genetics-guided research and data-scale expansion."
+
+    recent_deal_history:
+      - deal_name: "Hansoh HS-20094 in-license"
+        status: "announced"
+        announcement_date: "2025-06-02"
+        deal_type: "in_licensing"
+        therapeutic_area: "obesity"
+        modality: "dual_glp1_gip"
+        stage_context: "phase_3"
+        upfront_millions: 80.0
+        milestone_potential_millions: 1930.0
+        royalty_terms: "low_double_digit"
+        implied_value_band_millions_low: 80.0
+        implied_value_band_millions_high: 2010.0
+        source_url: "https://investor.regeneron.com/node/31066/pdf"
+        notes: "Late-stage obesity asset that increases flexibility for combination studies."
+
+      - deal_name: "23andMe asset purchase agreement"
+        status: "did_not_close"
+        announcement_date: "2025-05-19"
+        deal_type: "asset_purchase_agreement"
+        therapeutic_area: "genetics_platform"
+        modality: "data_genomics_platform"
+        stage_context: "platform"
+        upfront_millions: 256.0
+        implied_value_band_millions_low: 256.0
+        implied_value_band_millions_high: 256.0
+        source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-enters-asset-purchase-agreement-acquire-23andmer-256/"
+        notes: "Signals strategic interest in consumer-genetics and biobank assets even though Regeneron ultimately declined to top the reopened bid."
+
+      - deal_name: "Regeneron Cell Medicines / 2seventy transaction"
+        status: "announced"
+        announcement_date: "2024-01-30"
+        deal_type: "platform_and_pipeline_rights_acquisition"
+        therapeutic_area: "oncology_immunology"
+        modality: "cell_therapy"
+        stage_context: "preclinical_and_clinical_platform"
+        upfront_millions: 5.0
+        milestone_potential_millions: null
+        royalty_terms: "low_single_digit"
+        implied_value_band_millions_low: 5.0
+        implied_value_band_millions_high: null
+        source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-announces-formation-regeneron-cell-medicines/"
+        notes: "The explicit upfront was small, but Regeneron also assumed ongoing program, infrastructure, and personnel costs to build a dedicated cell-medicine unit."
+
+      - deal_name: "Decibel Therapeutics acquisition"
+        status: "completed"
+        announcement_date: "2023-08-09"
+        deal_type: "acquisition"
+        therapeutic_area: "hearing_loss_rare_disease"
+        modality: "aav_gene_therapy"
+        stage_context: "phase_1_2"
+        upfront_millions: 109.0
+        milestone_potential_millions: 104.0
+        royalty_terms: null
+        implied_value_band_millions_low: 109.0
+        implied_value_band_millions_high: 213.0
+        source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-acquire-decibel-therapeutics-strengthening-gene/"
+        notes: "Shows willingness to acquire earlier-stage genetic-medicine assets where Regeneron already has scientific context and collaboration history."
+
+    budget:
+      as_of_date: "2025-12-31"
+      cash_and_marketable_securities_millions: 18865.8
+      long_term_debt_millions: 1985.9
+      net_cash_millions: 16879.9
+      capacity_notes: "Strong net-cash balance sheet, but management has also committed to significant internal deployment including more than $7 billion of ongoing and planned domestic investment plus an additional approximately $2 billion Saratoga Springs manufacturing facility. No explicit hard debt-capacity or max-BD-check limit was disclosed in the cited primary sources."
+      source_refs:
+        - source_date: "2026-01-30"
+          source_type: "earnings_release"
+          source_title: "Regeneron Reports Fourth Quarter and Full Year 2025 Financial and Operating Results"
+          source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-reports-fourth-quarter-and-full-year-2025-financial"
+          note: "Reported cash and marketable securities of $18.8658 billion and long-term debt of $1.9859 billion as of December 31, 2025."

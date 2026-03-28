@@ -5,6 +5,7 @@ from datetime import date
 
 import pytest
 
+from bve.intelligence.capital_structure import CapitalRiskLevel
 from bve.intelligence.actionable_output import (
     ActionableGenerator,
     ActionableOpportunity,
@@ -302,3 +303,161 @@ def test_week_ending_custom() -> None:
     d = date(2025, 6, 20)
     report = gen.generate([], week_ending=d)
     assert report.week_ending == d
+
+
+# ---------------------------------------------------------------------------
+# Task 9.16 — Capital Risk Hard Gate
+# ---------------------------------------------------------------------------
+
+def _tier_a_candidate(**kwargs) -> "ScoredCandidate":
+    """Tier A: ranking=0.72, thesis=0.80, opportunity=0.70 → composite ~0.79."""
+    from bve.intelligence.actionable_output import ScoredCandidate
+    return ScoredCandidate(
+        asset_id="tier-a",
+        ticker="TIERA",
+        ranking_score=0.72,
+        thesis_strength=0.80,
+        opportunity_score=0.70,
+        **kwargs,
+    )
+
+
+def test_critical_capital_risk_forces_avoid_on_tier_a() -> None:
+    """Tier A (composite ~0.79) with CRITICAL capital risk → action = 'avoid'."""
+    gen = ActionableGenerator()
+    cand = _tier_a_candidate(capital_risk_level=CapitalRiskLevel.CRITICAL)
+    report = gen.generate([cand])
+    assert len(report.opportunities) == 1
+    opp = report.opportunities[0]
+    assert opp.recommended_action == "avoid"
+    # composite is still penalised (score < pure base) — but not zero
+    assert opp.composite_score > 0.0
+
+
+def test_critical_capital_risk_composite_still_penalised() -> None:
+    """CRITICAL gate forces avoid but does not zero out composite score."""
+    gen = ActionableGenerator()
+    cand_no_risk = _tier_a_candidate()
+    cand_critical = _tier_a_candidate(capital_risk_level=CapitalRiskLevel.CRITICAL)
+    base_composite = gen.generate([cand_no_risk]).opportunities[0].composite_score
+    gated_composite = gen.generate([cand_critical]).opportunities[0].composite_score
+    # Score is identical (hard gate doesn't adjust composite, only action)
+    assert base_composite == pytest.approx(gated_composite, abs=0.01)
+    assert gated_composite > 0.0
+
+
+def test_critical_capital_risk_sets_has_actionable_false() -> None:
+    """CRITICAL hard gate means no actionable opportunities."""
+    gen = ActionableGenerator()
+    report = gen.generate([_tier_a_candidate(capital_risk_level=CapitalRiskLevel.CRITICAL)])
+    assert report.has_actionable is False
+
+
+def test_high_capital_risk_reduces_when_composite_below_threshold() -> None:
+    """HIGH capital risk on an asset whose composite falls below 0.50 → 'reduce'."""
+    gen = ActionableGenerator()
+    # ranking=0.50, thesis=0.30, opportunity=0.30 → base ~0.46 (below 0.50)
+    from bve.intelligence.actionable_output import ScoredCandidate
+    cand = ScoredCandidate(
+        asset_id="hi-risk",
+        ticker="HIRISK",
+        ranking_score=0.50,
+        thesis_strength=0.30,
+        opportunity_score=0.30,
+        capital_risk_level=CapitalRiskLevel.HIGH,
+    )
+    report = gen.generate([cand])
+    assert report.opportunities[0].recommended_action == "reduce"
+
+
+def test_high_capital_risk_does_not_override_when_composite_above_threshold() -> None:
+    """HIGH capital risk with composite ≥ 0.50 → normal 'add'/'buy' (no reduce)."""
+    gen = ActionableGenerator()
+    # Tier A → composite well above 0.50
+    cand = _tier_a_candidate(capital_risk_level=CapitalRiskLevel.HIGH)
+    report = gen.generate([cand])
+    assert report.opportunities[0].recommended_action in ("buy", "add")
+
+
+def test_low_capital_risk_has_no_effect_on_action() -> None:
+    """LOW capital risk is a no-op on action determination."""
+    gen = ActionableGenerator()
+    cand_no = _tier_a_candidate()
+    cand_low = _tier_a_candidate(capital_risk_level=CapitalRiskLevel.LOW)
+    action_no = gen.generate([cand_no]).opportunities[0].recommended_action
+    action_low = gen.generate([cand_low]).opportunities[0].recommended_action
+    assert action_no == action_low
+
+
+def test_critical_capital_risk_flag_in_risk_flags() -> None:
+    """CRITICAL capital risk populates a human-readable flag on the opportunity."""
+    gen = ActionableGenerator()
+    cand = _tier_a_candidate(capital_risk_level=CapitalRiskLevel.CRITICAL)
+    opp = gen.generate([cand]).opportunities[0]
+    assert any("CRITICAL" in f for f in opp.risk_flags)
+
+
+def test_high_capital_risk_flag_in_risk_flags() -> None:
+    """HIGH capital risk populates a risk flag on the opportunity."""
+    gen = ActionableGenerator()
+    from bve.intelligence.actionable_output import ScoredCandidate
+    cand = ScoredCandidate(
+        asset_id="hi",
+        ticker="HI",
+        ranking_score=0.50,
+        thesis_strength=0.30,
+        opportunity_score=0.30,
+        capital_risk_level=CapitalRiskLevel.HIGH,
+    )
+    opp = gen.generate([cand]).opportunities[0]
+    assert any("HIGH capital risk" in f for f in opp.risk_flags)
+
+
+# ---------------------------------------------------------------------------
+# Task 9.17 — Score Bounds Clamping + Signal Validation
+# ---------------------------------------------------------------------------
+
+def test_composite_score_never_exceeds_one() -> None:
+    """Stacking max-positive signals cannot push composite above 1.0."""
+    gen = ActionableGenerator()
+    cand = ScoredCandidate(
+        asset_id="maxout",
+        ticker="MAX",
+        ranking_score=1.0,
+        thesis_strength=1.0,
+        opportunity_score=1.0,
+    )
+    opp = gen.generate([cand]).opportunities[0]
+    assert opp.composite_score <= 1.0
+
+
+def test_composite_score_never_below_zero() -> None:
+    """Even with all-negative adjustments, composite stays ≥ 0.0."""
+    gen = ActionableGenerator()
+    cand = ScoredCandidate(
+        asset_id="minout",
+        ticker="MIN",
+        ranking_score=0.0,
+        thesis_strength=0.0,
+        opportunity_score=0.0,
+        capital_risk_level=CapitalRiskLevel.CRITICAL,
+    )
+    opp = gen.generate([cand]).opportunities[0]
+    assert opp.composite_score >= 0.0
+
+
+def test_reduce_action_yields_zero_size() -> None:
+    """'reduce' action should have size = 0.0 (same as monitor/avoid)."""
+    gen = ActionableGenerator()
+    from bve.intelligence.actionable_output import ScoredCandidate
+    cand = ScoredCandidate(
+        asset_id="red",
+        ticker="RED",
+        ranking_score=0.50,
+        thesis_strength=0.30,
+        opportunity_score=0.30,
+        capital_risk_level=CapitalRiskLevel.HIGH,
+    )
+    opp = gen.generate([cand]).opportunities[0]
+    assert opp.recommended_action == "reduce"
+    assert opp.recommended_size_pct == 0.0

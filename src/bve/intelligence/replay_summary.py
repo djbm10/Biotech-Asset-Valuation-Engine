@@ -43,6 +43,8 @@ class ReplaySummary:
         Closed decisions attributed as ``thesis_error``.
     n_market_drift:
         Closed decisions attributed as ``market_drift``.
+    n_stop_loss:
+        Closed decisions attributed as ``stop_loss``.
     n_unclassified:
         Closed decisions with no clear attribution.
     returns_by_action:
@@ -69,6 +71,7 @@ class ReplaySummary:
     n_timing_error: int = 0
     n_thesis_error: int = 0
     n_market_drift: int = 0
+    n_stop_loss: int = 0
     n_unclassified: int = 0
     returns_by_action: dict = field(default_factory=dict)
     n_skipped_critic_warning: int = 0
@@ -93,6 +96,7 @@ class ReplaySummary:
             "n_timing_error": self.n_timing_error,
             "n_thesis_error": self.n_thesis_error,
             "n_market_drift": self.n_market_drift,
+            "n_stop_loss": self.n_stop_loss,
             "n_unclassified": self.n_unclassified,
             "returns_by_action": self.returns_by_action,
             "n_skipped_critic_warning": self.n_skipped_critic_warning,
@@ -126,6 +130,7 @@ class ReplaySummary:
         print(f"    timing_error     : {self.n_timing_error}")
         print(f"    thesis_error     : {self.n_thesis_error}")
         print(f"    market_drift     : {self.n_market_drift}")
+        print(f"    stop_loss        : {self.n_stop_loss}")
         print(f"    unclassified     : {self.n_unclassified}")
         if self.n_skipped_critic_warning:
             print(f"\n  Skipped (critic warning) : {self.n_skipped_critic_warning}")

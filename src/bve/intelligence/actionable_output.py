@@ -31,8 +31,9 @@ Action taxonomy
 ---------------
   buy       — open new position; high conviction (composite ≥ 0.70)
   add       — increase existing position; medium conviction (0.50 ≤ composite < 0.70)
+  reduce    — trim existing position; HIGH capital risk forced composite below 0.50
   monitor   — watch only; caution flag raised or below buy/add threshold (0.30 ≤ composite < 0.50)
-  avoid     — do not act; composite below minimum threshold (< 0.30)
+  avoid     — do not act; composite below minimum threshold (< 0.30) OR CRITICAL capital risk
 """
 from __future__ import annotations
 
@@ -41,6 +42,8 @@ from datetime import date, datetime, timezone
 from typing import TYPE_CHECKING, Optional
 
 from pydantic import BaseModel, Field
+
+from bve.intelligence.capital_structure import CapitalRiskLevel
 
 if TYPE_CHECKING:
     from bve.intelligence.composite_scorer import CompositeScoreContext
@@ -78,8 +81,9 @@ class ScoredCandidate:
     ticker: str
     ranking_score: float            # 0.0–1.0, from ranking engine
     opportunity_score: float = 0.0  # 0.0–1.0, from OpportunityScanner
-    thesis_strength: Optional[float] = None   # from ThesisTracker.snapshot()
-    critic_severity: Optional[str] = None     # "caution" | "warning" | None
+    thesis_strength: Optional[float] = None        # from ThesisTracker.snapshot()
+    critic_severity: Optional[str] = None          # "caution" | "warning" | None
+    capital_risk_level: Optional[CapitalRiskLevel] = None  # from CapitalStructureAssessment
     catalyst_description: str = ""
     indication: str = ""
     company_id: str = ""
@@ -293,14 +297,22 @@ class ActionableGenerator:
                     signal_total = CompositeScorer.total(signal_adj)
 
             composite = max(0.0, min(1.0, base_composite + signal_total))
+            assert 0.0 <= composite <= 1.0, f"Composite out of bounds: {composite}"
 
             if composite < self.min_composite_score:
                 n_filtered += 1
                 continue
 
+            # Resolve effective capital risk: context-level takes precedence
+            effective_capital_risk: Optional[CapitalRiskLevel] = cand.capital_risk_level
+            if contexts is not None:
+                ctx = contexts.get(cand.asset_id)
+                if ctx is not None and ctx.capital_risk is not None:
+                    effective_capital_risk = ctx.capital_risk
+
             # Determine action
             action, was_elevated = self._determine_action(
-                composite, cand.critic_severity
+                composite, cand.critic_severity, effective_capital_risk
             )
             if was_elevated:
                 n_elevated += 1
@@ -308,7 +320,7 @@ class ActionableGenerator:
             # Sizing: proportional to composite, clipped
             raw_size = composite * self.max_position_pct
             size = max(self.min_position_pct, min(self.max_position_pct, raw_size))
-            if action in ("monitor", "avoid"):
+            if action in ("monitor", "avoid", "reduce"):
                 size = 0.0
 
             risk_flags = self._build_risk_flags(cand, composite)
@@ -359,12 +371,21 @@ class ActionableGenerator:
         self,
         composite: float,
         critic_severity: Optional[str],
+        capital_risk: Optional[CapitalRiskLevel] = None,
     ) -> tuple[str, bool]:
         """
         Return ``(action, was_elevated_by_critic)``.
 
+        Capital risk hard gates (Task 9.16):
+          CRITICAL → force "avoid" regardless of composite score.
+          HIGH     → if composite < 0.50, action = "reduce" (position reduction signal).
+
         Critic CAUTION downgrades buy/add → monitor.
         """
+        # Hard gate: CRITICAL capital risk forces avoid regardless of composite
+        if capital_risk == CapitalRiskLevel.CRITICAL:
+            return "avoid", False
+
         if composite >= 0.70:
             base_action = "buy"
         elif composite >= 0.50:
@@ -373,6 +394,11 @@ class ActionableGenerator:
             base_action = "monitor"
         else:
             base_action = "avoid"
+
+        # HIGH capital risk: if composite fell below 0.50 (e.g. due to -0.08 signal),
+        # signal an explicit reduce rather than generic monitor
+        if capital_risk == CapitalRiskLevel.HIGH and composite < 0.50:
+            base_action = "reduce"
 
         was_elevated = False
         if critic_severity == "caution" and base_action in ("buy", "add"):
@@ -384,6 +410,10 @@ class ActionableGenerator:
     @staticmethod
     def _build_risk_flags(cand: ScoredCandidate, composite: float) -> list[str]:
         flags: list[str] = []
+        if cand.capital_risk_level == CapitalRiskLevel.CRITICAL:
+            flags.append("CRITICAL: capital risk — potential insolvency before catalyst")
+        elif cand.capital_risk_level == CapitalRiskLevel.HIGH:
+            flags.append("HIGH capital risk: dilutive raise likely before catalyst")
         if cand.critic_severity == "caution":
             flags.append("CAUTION: critic flagged high-severity concern")
         elif cand.critic_severity == "warning":

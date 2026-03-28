@@ -163,6 +163,45 @@ connectors
 
 ---
 
+### Wave 8 — Acquisition Lens + M&A Replay
+
+> Adds an acquisition-oriented screen on top of the existing valuation, intelligence,
+> and replay stack without mutating the catalyst/ranking workflow.
+
+#### 8A — Acquisition Discount Screener
+- [x] Build a separate acquisition screen using valuation snapshots plus EV snapshots
+- [x] Persist `acquisition_discount_snapshots` and expose a CLI/report for the universe
+- [x] Resolve numerator semantics before implementation: current `rnpv_millions`
+      already embeds `P(approval)`; do not multiply by PoS twice
+- [x] Flag candidates at `acquisition_discount > 2.0` and surface missing-data reasons
+
+#### 8B — Comparable Deal Database
+- [ ] Curate 30-50 recent biotech M&A deals (last 3 years) into YAML with:
+      `target_name, indication, phase_at_acquisition, ev_to_peak_sales, acquirer, deal_date`
+- [x] Add a thin loader/validator and percentile comparison vs watchlist assets
+- [x] Keep the research collection workflow manual; keep the engineering layer deterministic
+- [ ] Seed status: `research/mna/comparable_deals.yaml` currently has 26 screenable
+      public deals; `research/mna/deal_universe_2020_2026.yaml` holds a broader
+      43-deal sourcing universe for unresolved private/platform takeouts, and
+      `research/mna/target_monitor.yaml` tracks named live/public targets that do
+      not belong in the closed-deal comp file
+
+#### 8C — Acquisition Readiness Filter
+- [x] Reuse `trial_design_feature_extractor.py` and `phase_correlation_updater.py`
+      outputs to create an acquisition-readiness gate
+- [x] Default the acquisition screen to Phase 2 proof-of-concept or later, with
+      explicit inclusion/exclusion reasons
+- [x] Avoid changing the underlying trial-design or Bayesian phase-correlation math in v1
+
+#### 8D — M&A Replay Profile
+- [x] Add quarterly cadence and 12-month hold support to historical replay
+- [x] Add a true top-8 open-position cap; current replay `max_positions` is only a
+      per-step decision cap
+- [x] Disable the catalyst gate for the M&A profile and widen loss blocking to `-40%`
+- [x] Benchmark the M&A profile against the current short-horizon replay configuration
+
+---
+
 ## In Progress
 
 *(none)*

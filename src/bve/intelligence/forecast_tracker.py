@@ -141,6 +141,12 @@ class CalibrationReport(BaseModel):
     confidence_bins: list[CalibrationBin] = Field(default_factory=list)
     generated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
+    # Confidence calibration status (Task 9.17 — Sprint 9 Phase 4)
+    # LLM extraction confidence thresholds are provisional heuristics; calibration
+    # requires ≥ 200 labeled outcomes (Platt scaling or isotonic regression).
+    confidence_calibration_status: str = "uncalibrated"  # "uncalibrated" | "calibrated"
+    confidence_calibration_n_required: int = 200         # minimum before re-calibration
+
 
 # ---------------------------------------------------------------------------
 # record_forecast
@@ -413,5 +419,12 @@ class CalibrationReporter:
                 directional_accuracy=acc,
             ))
         report.confidence_bins = bins
+
+        # Confidence calibration status: "calibrated" only when sufficient
+        # labeled outcomes exist for statistical reliability (≥ 200).
+        if n_resolved >= report.confidence_calibration_n_required:
+            report = report.model_copy(
+                update={"confidence_calibration_status": "calibrated"}
+            )
 
         return report

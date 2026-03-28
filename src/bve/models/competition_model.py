@@ -246,14 +246,17 @@ class CompetitionModel(BaseModel):
         per-competitor. Future enhancement; currently falls back to "steal".
 
     Invariants (enforced in tests, not runtime):
-      - our_available_market_fraction(year) ∈ [0.10, 1.0] for all years
+      - our_available_market_fraction(year) ∈ [floor_residual_share, 1.0] for all years
+        (default floor is 0.0 — callers must set floor_residual_share explicitly if a
+        non-zero floor is desired; 0.10 was the legacy hardcoded value)
       - combined_competitor_share(year) ≥ 0 for all years (market expansion
         is represented as negative competitor share, clamped to 0 in combined)
 
     Note: combined_competitor_share + our_available_market_fraction can sum to
-    more than 1.0 in crowded markets because our available fraction has a floor
-    of 0.10. This is intentional: even in saturated markets, some patients switch
-    to any meaningfully differentiated new entrant.
+    more than 1.0 in crowded markets when floor_residual_share > 0. This is
+    intentional: even in saturated markets, some patients switch to any meaningfully
+    differentiated new entrant. Set floor_residual_share=0.0 (default) to disable
+    this behavior and allow full crowding out.
     """
     competitors: list[CompetitorLaunch] = []
     competition_mode: str = Field(
@@ -268,6 +271,16 @@ class CompetitionModel(BaseModel):
     crowding_model: CrowdingModel = Field(default_factory=CrowdingModel)
     first_mover_config: FirstMoverConfig = Field(default_factory=FirstMoverConfig)
     saturation_profile: ClassSaturationProfile = Field(default_factory=ClassSaturationProfile)
+    floor_residual_share: float = Field(
+        default=0.0,
+        ge=0.0,
+        lt=1.0,
+        description=(
+            "Minimum fraction of the market always available to us regardless of competitor share. "
+            "Set to 0.10 to replicate legacy behavior (10%% floor for differentiated new entrants). "
+            "Default 0.0 allows full crowding out — callers opt in to a floor explicitly."
+        ),
+    )
 
     def _first_mover_launch_year(self) -> Optional[float]:
         """Earliest launch_year_relative among approved competitors, or None."""
@@ -355,8 +368,9 @@ class CompetitionModel(BaseModel):
         """
         Fraction of total addressable market available to us after competitor dynamics.
 
-        Without saturation: floor of 0.10 (even in crowded markets, differentiated
-        drugs retain some patients).
+        Without saturation: applies ``floor_residual_share`` (default 0.0).
+        Set ``floor_residual_share=0.10`` to replicate legacy behavior where even
+        in crowded markets a differentiated new entrant retains at least 10%.
 
         With saturation_profile.enabled=True: headroom is capped at
         (saturation_ceiling - combined_competitor_share). The floor itself is also
@@ -372,15 +386,15 @@ class CompetitionModel(BaseModel):
         reflects actual market impact.
         """
         combined = self.combined_competitor_share(year)
+        floor = self.floor_residual_share
 
         if self.saturation_profile.enabled:
             ceiling = self.saturation_profile.saturation_ceiling
             headroom = max(0.0, ceiling - combined)
             expansion = self.saturation_profile.market_expansion_factor
-            floor = min(0.10, headroom)
+            floor = min(floor, headroom)
             available = max(floor, min(headroom * expansion, 1.0 - combined))
         else:
-            floor = 0.10
             available = max(floor, 1.0 - combined)
 
         if self.crowding_model.enabled:
