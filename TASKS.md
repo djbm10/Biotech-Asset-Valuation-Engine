@@ -180,11 +180,11 @@ connectors
       `target_name, indication, phase_at_acquisition, ev_to_peak_sales, acquirer, deal_date`
 - [x] Add a thin loader/validator and percentile comparison vs watchlist assets
 - [x] Keep the research collection workflow manual; keep the engineering layer deterministic
-- [ ] Seed status: `research/mna/comparable_deals.yaml` currently has 26 screenable
-      public deals; `research/mna/deal_universe_2020_2026.yaml` holds a broader
-      43-deal sourcing universe for unresolved private/platform takeouts, and
-      `research/mna/target_monitor.yaml` tracks named live/public targets that do
-      not belong in the closed-deal comp file
+- [x] Seed status: `research/mna/comparable_deals.yaml` now has 35 screenable
+      public deals (target: 30–50); `research/mna/deal_universe_2020_2026.yaml`
+      holds a broader 43-deal sourcing universe for unresolved private/platform
+      takeouts; `research/mna/target_monitor.yaml` tracks named live/public targets
+      that do not belong in the closed-deal comp file
 
 #### 8C — Acquisition Readiness Filter
 - [x] Reuse `trial_design_feature_extractor.py` and `phase_correlation_updater.py`

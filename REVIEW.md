@@ -57,10 +57,10 @@
   acquisition screener, acquisition-readiness gate, and M&A replay profile.
 - Phase 2 engineering is implemented:
   `ComparableDealLoader`, matcher tiers, `--with-comps`, and YAML validation.
-- Manual M&A research is in progress:
-  `research/mna/comparable_deals.yaml` currently contains 26 screenable public
-  deals and `research/mna/deal_universe_2020_2026.yaml` contains a broader
-  43-deal sourcing universe.
+- Manual M&A research complete to lower bound:
+  `research/mna/comparable_deals.yaml` now contains 35 screenable public
+  deals (target 30–50; lower bound reached) and `research/mna/deal_universe_2020_2026.yaml`
+  contains a broader 43-deal sourcing universe.
 - Live-name monitoring is now separated from closed-deal comps:
   `research/mna/target_monitor.yaml` tracks current or recently resolved public
   target names such as Revolution Medicines, Avidity Biosciences, and Tango
