@@ -1,0 +1,323 @@
+meta:
+  description: 2024-2025 catalyst events seeded into replay_store.sqlite
+  n_events: 46
+  date_range: 2024-01-08 to 2026-01-20
+  sources:
+  - Press releases
+  - SEC 8-K filings
+  - Company IR pages
+  - FDA.gov
+  - ClinicalTrials.gov
+  seeding_status: Complete — all events inserted into outputs/intelligence/replay_store.sqlite
+events:
+- asset_id: a-amam
+  ticker: AMAM
+  event_type: acquisition
+  announced_at: '2024-01-08'
+  outcome: positive
+  headline: Johnson & Johnson announced acquisition of Ambrx for approximately $2,000M;
+    lead asset ARX517
+- asset_id: a-inbx
+  ticker: INBX
+  event_type: acquisition
+  announced_at: '2024-01-23'
+  outcome: positive
+  headline: Sanofi announced acquisition of Inhibrx for approximately $1,700M; lead
+    asset INBRX-101
+- asset_id: a-cbay
+  ticker: CBAY
+  event_type: acquisition
+  announced_at: '2024-02-12'
+  outcome: positive
+  headline: Gilead Sciences announced acquisition of CymaBay Therapeutics for approximately
+    $4,300M; lead asset seladelpar
+- asset_id: a-edit
+  ticker: EDIT
+  event_type: business
+  announced_at: '2024-03-04'
+  outcome: negative
+  headline: Editas cuts pipeline; discontinues EDIT-102 LCA10; EDIT-301 delayed; cash
+    burn elevated
+- asset_id: a-alpn
+  ticker: ALPN
+  event_type: acquisition
+  announced_at: '2024-04-10'
+  outcome: positive
+  headline: Vertex announced acquisition of Alpine Immune Sciences for approximately
+    $4,900M; lead asset povetacicept
+- asset_id: a-prta
+  ticker: PRTA
+  event_type: trial_readout
+  announced_at: '2024-04-22'
+  outcome: negative
+  headline: 'Prasinezumab PADOVA interim: fails prespecified motor futility boundary
+    in rapid progressors'
+- asset_id: a-alny
+  ticker: ALNY
+  event_type: trial_readout
+  announced_at: '2024-05-13'
+  outcome: positive
+  headline: 'HELIOS-B: vutrisiran reduces CV death/events 28% vs placebo in ATTR-CM
+    (p<0.001)'
+- asset_id: a-kymr
+  ticker: KYMR
+  event_type: trial_readout
+  announced_at: '2024-06-04'
+  outcome: positive
+  headline: 'KT-474 Ph1b: 89% EASI reduction at 28 days; clean safety in atopic derm'
+- asset_id: a-srpt
+  ticker: SRPT
+  event_type: regulatory
+  announced_at: '2024-06-20'
+  outcome: positive
+  headline: FDA grants Elevidys broad label approval (all ambulatory DMD); restriction
+    removed
+- asset_id: a-beam
+  ticker: BEAM
+  event_type: trial_readout
+  announced_at: '2024-06-24'
+  outcome: negative
+  headline: BEAM-101 HbF induction below CRSP/SRPT benchmarks; slower enrollment;
+    program re-scoped
+- asset_id: a-morf
+  ticker: MORF
+  event_type: acquisition
+  announced_at: '2024-07-08'
+  outcome: positive
+  headline: Eli Lilly announced acquisition of Morphic for approximately $3,200M;
+    lead asset MORF-057
+- asset_id: a-mrna
+  ticker: MRNA
+  event_type: commercial
+  announced_at: '2024-08-01'
+  outcome: negative
+  headline: Moderna cuts 2024 revenue guidance to $3-3.5B from $4B; COVID demand below
+    forecast
+- asset_id: a-imvt
+  ticker: IMVT
+  event_type: enrollment
+  announced_at: '2024-08-07'
+  outcome: positive
+  headline: IMVT ASCEND+ Phase 3 enrollment complete; batoclimab MG readout expected
+    H1 2025
+- asset_id: a-ntla
+  ticker: NTLA
+  event_type: business
+  announced_at: '2024-08-08'
+  outcome: negative
+  headline: NTLA restructures; NTLA-2002 HAE Ph3 delayed; workforce cut 30%; cash
+    preservation
+- asset_id: a-rxrx
+  ticker: RXRX
+  event_type: trial_readout
+  announced_at: '2024-09-09'
+  outcome: negative
+  headline: REC-994 (cavernous malformation Ph2) fails primary endpoint; Recursion
+    deprioritizes
+- asset_id: a-vktx
+  ticker: VKTX
+  event_type: trial_readout
+  announced_at: '2024-09-18'
+  outcome: positive
+  headline: VK2735 oral achieves 14.7% placebo-adjusted weight loss at 13 weeks in
+    Ph2
+- asset_id: a-fulc
+  ticker: FULC
+  event_type: trial_readout
+  announced_at: '2024-10-14'
+  outcome: negative
+  headline: 'Losmapimod Ph3 FSHD: misses MRI fat fraction primary; secondary functional
+    endpoints mixed'
+- asset_id: a-lbph
+  ticker: LBPH
+  event_type: acquisition
+  announced_at: '2024-10-14'
+  outcome: positive
+  headline: Lundbeck announced acquisition of Longboard Pharmaceuticals for approximately
+    $2,600M; lead asset bexicaserin
+- asset_id: a-rvmd
+  ticker: RVMD
+  event_type: trial_readout
+  announced_at: '2024-10-27'
+  outcome: positive
+  headline: 'RMC-6236: 21% ORR in KRAS-mutant PDAC Ph1/2 expansion; DCR 87%'
+- asset_id: a-arvn
+  ticker: ARVN
+  event_type: trial_readout
+  announced_at: '2024-11-04'
+  outcome: positive
+  headline: ARV-471 Ph2b ORR 25% vs 9.9% exemestane in ER+HER2- mBC; VERITAC-2 enrolling
+- asset_id: a-mdgl
+  ticker: MDGL
+  event_type: commercial
+  announced_at: '2024-11-06'
+  outcome: positive
+  headline: 'Rezdiffra: 25,000+ patients treated 8 months post-launch; exceeds analyst
+    forecasts'
+- asset_id: a-crsp
+  ticker: CRSP
+  event_type: commercial
+  announced_at: '2024-11-18'
+  outcome: negative
+  headline: 'Casgevy: only 10 patients treated in first 9 months; manufacturing and
+    access barriers'
+- asset_id: a-itci
+  ticker: ITCI
+  event_type: acquisition
+  announced_at: '2025-01-13'
+  outcome: positive
+  headline: Johnson & Johnson announced acquisition of Intra-Cellular Therapies for
+    approximately $14,600M; lead asset Caplyta (lumateperone)
+- asset_id: a-srpt
+  ticker: SRPT
+  event_type: earnings
+  announced_at: '2025-05-08'
+  outcome: negative
+  headline: 'Sarepta Q1 2025: Elevidys revenue below consensus; payer access and treatment
+    center pace disappoint'
+- asset_id: a-imvt
+  ticker: IMVT
+  event_type: trial_readout
+  announced_at: '2025-06-09'
+  outcome: positive
+  headline: Batoclimab MG-ADL responder rate 61% vs 38% placebo in ASCEND+
+- asset_id: a-alny
+  ticker: ALNY
+  event_type: fda_approval
+  announced_at: '2025-06-13'
+  outcome: positive
+  headline: FDA approves vutrisiran (Amvuttra) for ATTR-CM; HELIOS-B Ph3 confirmed
+    significant mortality/CV benefit
+- asset_id: a-vktx
+  ticker: VKTX
+  event_type: trial_readout
+  announced_at: '2025-06-16'
+  outcome: positive
+  headline: Viking Therapeutics initiates ACHIEVE Ph3 trial for oral VK2735; following
+    strong Ph2 NEJM data
+- asset_id: a-verv
+  ticker: VERV
+  event_type: acquisition
+  announced_at: '2025-06-17'
+  outcome: positive
+  headline: Eli Lilly announced acquisition of Verve Therapeutics for approximately
+    $1,300M; lead asset VERVE-102
+- asset_id: a-vrna
+  ticker: VRNA
+  event_type: acquisition
+  announced_at: '2025-07-09'
+  outcome: positive
+  headline: Merck announced acquisition of Verona Pharma for approximately $10,000M;
+    lead asset Ohtuvayre (ensifentrine)
+- asset_id: a-ntla
+  ticker: NTLA
+  event_type: trial_readout
+  announced_at: '2025-07-14'
+  outcome: negative
+  headline: 'NTLA-2001 12-month durability: TTR reduction maintained but high inter-patient
+    variability; Ph3 path uncertain'
+- asset_id: a-rvmd
+  ticker: RVMD
+  event_type: trial_readout
+  announced_at: '2025-07-21'
+  outcome: positive
+  headline: RMC-6236 achieves 24% ORR in KRAS-mutant PDAC, disease control 78%
+- asset_id: a-mrna
+  ticker: MRNA
+  event_type: regulatory
+  announced_at: '2025-07-22'
+  outcome: negative
+  headline: 'Moderna mRNA-1283 AdCom: panel votes 10-4 non-inferior but questions
+    differentiated benefit; label expansion path unclear'
+- asset_id: a-amrn
+  ticker: AMRN
+  event_type: regulatory
+  announced_at: '2025-08-04'
+  outcome: negative
+  headline: Court upholds generic Vascepa entry; Amarin loses key formulation claims
+- asset_id: a-alny
+  ticker: ALNY
+  event_type: earnings
+  announced_at: '2025-08-06'
+  outcome: negative
+  headline: 'Alnylam Q2 2025: Amvuttra net product revenue $374M, below $402M consensus;
+    elevated OpEx guidance for zilebesiran Ph3 raises dilution concerns'
+- asset_id: a-srpt
+  ticker: SRPT
+  event_type: earnings
+  announced_at: '2025-08-07'
+  outcome: negative
+  headline: 'Sarepta Q2 2025: Elevidys net revenue $154M vs $218M consensus; treatment
+    center access disputes, payer pressure persists'
+- asset_id: a-kymr
+  ticker: KYMR
+  event_type: trial_readout
+  announced_at: '2025-08-12'
+  outcome: positive
+  headline: KT-474 achieves 52% EASI reduction vs 11% placebo in STAT6 Ph2
+- asset_id: a-ntla
+  ticker: NTLA
+  event_type: regulatory
+  announced_at: '2025-08-19'
+  outcome: negative
+  headline: 'Intellia NTLA-2002 HAE Phase 3 start delayed: FDA CMC hold; Phase 3 initiation
+    pushed to H1 2026'
+- asset_id: a-alny
+  ticker: ALNY
+  event_type: conference_presentation
+  announced_at: '2025-09-01'
+  outcome: positive
+  headline: Alnylam zilebesiran additional KARDIA data confirms durable BP reduction;
+    supports NDA preparation
+- asset_id: a-arvn
+  ticker: ARVN
+  event_type: trial_readout
+  announced_at: '2025-09-08'
+  outcome: positive
+  headline: ARV-471 VERITAC-2 PFS HR=0.58 meets primary endpoint
+- asset_id: a-prta
+  ticker: PRTA
+  event_type: trial_readout
+  announced_at: '2025-09-22'
+  outcome: negative
+  headline: Prasinezumab fails to slow motor progression in PADOVA extension; program
+    paused
+- asset_id: a-mdgl
+  ticker: MDGL
+  event_type: regulatory
+  announced_at: '2025-10-06'
+  outcome: positive
+  headline: MDGL files sNDA for Rezdiffra label expansion to F2 fibrosis
+- asset_id: a-vktx
+  ticker: VKTX
+  event_type: trial_readout
+  announced_at: '2025-10-14'
+  outcome: negative
+  headline: 'VK2735 ACHIEVE Ph3: slower-than-guided site activation; enrollment timeline
+    extended 3 months; GLP-1 market competition cited'
+- asset_id: a-rna
+  ticker: RNA
+  event_type: acquisition
+  announced_at: '2025-10-26'
+  outcome: positive
+  headline: Novartis announced acquisition of Avidity Biosciences for approximately
+    $12,000M; lead asset del-desiran / del-brax / del-zota
+- asset_id: a-nvax
+  ticker: NVAX
+  event_type: commercial
+  announced_at: '2025-11-10'
+  outcome: negative
+  headline: Novavax COVID booster captures only 2.1% market share, missing guidance
+- asset_id: a-edit
+  ticker: EDIT
+  event_type: business
+  announced_at: '2025-12-01'
+  outcome: negative
+  headline: Editas restructures, cuts 30% workforce; EDIT-301 Ph1 enrollment paused
+- asset_id: a-rapt
+  ticker: RAPT
+  event_type: acquisition
+  announced_at: '2026-01-20'
+  outcome: positive
+  headline: GSK announced acquisition of RAPT Therapeutics for approximately $2,200M;
+    lead asset ozureprubart

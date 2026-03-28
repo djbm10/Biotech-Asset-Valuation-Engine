@@ -2,7 +2,44 @@
 
 ## Current Module Being Worked On
 
-Sprint 9 — Institutional grade model fixes (Phase 2 complete)
+Sprint 9 — Institutional grade model fixes (Phases 2–6 complete)
+
+## Replay Statistical Graduation Status (Task 9.20 — 2026-03-28)
+
+**Current status: ⚠️ Directional (pre-institutional)**
+
+### Graduation Criteria (all must pass for ✅ Pre-institutional HF grade)
+
+| Criterion | Target | Current | Status |
+|-----------|--------|---------|--------|
+| N closed positions | ≥ 30 | 103 (run e9ffd496) | ✅ |
+| Alpha survives corrections | All 3 (overlap, clustered SE, bootstrap) | None pass | ❌ |
+| Clustered SE p-value | < 0.10 | 0.186 | ❌ |
+| Bootstrap 90% CI excludes 0 | Lower bound > 0 | −0.98% to +6.25% | ❌ |
+| Score decile monotonicity | Decile 9-10 > Decile 1-2 | Not monotonic (mixed) | ❌ |
+
+### Run Summary (e9ffd496, 2021-01-01 → 2026-03-22, top2_add_hold30d)
+- N trades: 103 | Mean excess: +2.20% | Std: 20.06%
+- t-stat (naive): 1.11 (p=0.269) | t-stat (clustered): 1.41 (p=0.186)
+- Block bootstrap 95% CI: [−0.98%, +6.25%]
+- AUC / Brier (thesis_error vs confirmed_thesis): model misattributes market_drift as alpha
+
+### Edge Decomposition Insights
+- **thesis_error dominates** (N=50, −7.62% excess) — signal firing on noise, not data
+- **market_drift is the return driver** (N=45, +16.08% excess) — broad biotech beta, not alpha
+- **Days 15–30 before catalyst** shows +25.09% excess (N=2) — strong but statistically noise
+- **Asset-level heterogeneity**: BHVN (+7.64%, 64.7% HR), KYMR (+6.59%, 60.0% HR) are signal carriers
+
+### Path to Graduation
+1. **Increase signal-to-noise**: Tighten `require_catalyst_days` to 30 (from current 14), so entries are nearer known catalysts
+2. **Reduce cluster concentration**: ALNY = 40/103 trades (39%); add more diverse names to universe
+3. **Improve thesis scoring**: Resolve more claims in KnowledgeStore so thesis_strength ≠ 0.5 (neutral) for most assets
+4. **Extend through more catalyst cycles**: Run replay 2020–2026 with tight gates to increase cluster count from 12 → 20+
+
+### Data Coverage
+- Price history: 48 tickers, 2021-01-04 to 2026-03-20
+- 2024+ events seeded: 46 events (see research/replay/events_2024.yaml)
+- Coverage audit (2024-01-01 to 2026-03-01): 43/81 tickers with full price coverage
 
 ## Last Change
 

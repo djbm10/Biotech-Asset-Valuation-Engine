@@ -345,3 +345,14 @@ connectors
 - [x] Model now shows positive skill: AUC=0.63, Brier=0.236 (vs 0.245 no-skill baseline)
 - [x] Brier Skill Score: +3.7% positive
 - [x] 19 dataset balance tests in `tests/test_sprint9_phase4.py`, all passing
+
+#### Task 9.20 — Replay Statistical Graduation
+- [x] Price history: 48 tickers, 2021-01-04 to 2026-03-20 (exceeds 2024-01-01 target)
+- [x] 2024+ catalyst events: 46 events seeded (target: ≥25) — documented in `research/replay/events_2024.yaml`
+- [x] N closed positions: 103 (run e9ffd496, 2021-2026, top2_add_hold30d) — exceeds N≥30 target
+- [x] `alpha_validation` run: N=103, mean excess +2.20%, AUC t-stat 1.11 (p=0.269)
+- [x] `edge_decomposition` run: thesis_error dominant (N=50, −7.62%); market_drift drives returns (N=45, +16.08%)
+- [x] `coverage_audit` run: 43/81 tickers with full price coverage for 2024-01-01 → 2026-03-01
+- [x] Graduation criteria formally defined and checked (PROJECT_STATE.md updated)
+- [x] **Graduation status: ⚠️ Directional** — alpha does not survive corrections (clustered p=0.186, bootstrap CI includes 0)
+- [x] Path to graduation documented: tighten catalyst gate, reduce ALNY cluster concentration, improve thesis scoring
