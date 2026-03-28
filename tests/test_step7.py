@@ -629,16 +629,18 @@ class TestMCDistributionSnapshots:
             _canonical_asset(), _canonical_trials(), _canonical_market(),
             self._PARAMS, loe_profile=_loe("small_molecule"),
         )
-        # Sprint 9: updated to 55.39 after UFCF/tax fix (was 105.52 pre-Sprint-9)
-        assert mc.percentile_50_millions == pytest.approx(55.39, abs=8.0)
+        # Sprint 9.19: updated to 45.0 after stage-conditional CV (Phase 2 CV: 0.35→0.45)
+        # Wider CV increases peak_sales spread → lower P50; was 55.39 post-UFCF/tax fix
+        assert mc.percentile_50_millions == pytest.approx(45.0, abs=8.0)
 
     def test_canonical_loe_p95_locked(self):
         mc = run_monte_carlo(
             _canonical_asset(), _canonical_trials(), _canonical_market(),
             self._PARAMS, loe_profile=_loe("small_molecule"),
         )
-        # Sprint 9: updated to 310.09 after UFCF/tax fix (was 433.35 pre-Sprint-9)
-        assert mc.percentile_95_millions == pytest.approx(310.09, abs=20.0)
+        # Sprint 9.19: updated to 360.0 after stage-conditional CV (Phase 2 CV: 0.35→0.45)
+        # Wider CV raises the 95th percentile upside tail; was 310.09 post-UFCF/tax fix
+        assert mc.percentile_95_millions == pytest.approx(360.0, abs=20.0)
 
     def test_canonical_loe_p5_locked(self):
         mc = run_monte_carlo(
@@ -653,9 +655,9 @@ class TestMCDistributionSnapshots:
             _canonical_asset(), _canonical_trials(), _canonical_market(),
             self._PARAMS, loe_profile=_loe("small_molecule"),
         )
-        # Sprint 9: 74.9% positive (was 87.8%); lower after-tax revenue pushes more
-        # simulations below zero, especially the low-POS draws.
-        assert mc.probability_positive == pytest.approx(0.749, abs=0.03)
+        # Sprint 9.19: updated to 0.719 after stage-conditional CV (Phase 2 CV: 0.35→0.45)
+        # Wider CV pushes more simulations below zero; was 0.749 post-UFCF/tax fix
+        assert mc.probability_positive == pytest.approx(0.719, abs=0.03)
 
     def test_canonical_loe_distribution_is_right_skewed(self):
         """Mean > median indicates right skew (log-normal peak sales distribution)."""
