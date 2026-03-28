@@ -658,6 +658,42 @@ class KnowledgeStore:
             CREATE INDEX IF NOT EXISTS idx_universe_snapshots_passed
                 ON universe_snapshots(build_date, passed);
 
+            CREATE TABLE IF NOT EXISTS pos_predictions (
+                id              TEXT PRIMARY KEY,
+                program_id      TEXT NOT NULL,
+                ticker          TEXT NOT NULL,
+                ta              TEXT,
+                phase           TEXT,
+                model_pos       REAL NOT NULL,
+                implied_pos     REAL,
+                spread_pp       REAL,
+                peak_sales_millions REAL,
+                rnpv_millions   REAL,
+                predicted_at    TEXT NOT NULL,
+                trial_end_expected TEXT,
+                created_at      TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_pos_predictions_program
+                ON pos_predictions(program_id, predicted_at DESC);
+            CREATE INDEX IF NOT EXISTS idx_pos_predictions_ticker
+                ON pos_predictions(ticker, predicted_at DESC);
+
+            CREATE TABLE IF NOT EXISTS pos_outcomes (
+                id              TEXT PRIMARY KEY,
+                program_id      TEXT NOT NULL,
+                outcome_date    TEXT,
+                outcome_type    TEXT CHECK(outcome_type IN (
+                    'approval', 'crl', 'failure_efficacy', 'failure_safety',
+                    'partial_approval', 'discontinued', 'ongoing'
+                )),
+                trial_name      TEXT,
+                source          TEXT,
+                created_at      TEXT NOT NULL,
+                UNIQUE(program_id)
+            );
+            CREATE INDEX IF NOT EXISTS idx_pos_outcomes_program
+                ON pos_outcomes(program_id);
+
             CREATE TABLE IF NOT EXISTS detected_events (
                 id              TEXT PRIMARY KEY,
                 ticker          TEXT NOT NULL,
@@ -2759,6 +2795,131 @@ class KnowledgeStore:
             "ORDER BY build_date DESC"
         ).fetchall()
         return [date.fromisoformat(r[0]) for r in rows]
+
+    # ------------------------------------------------------------------
+    # Sprint 16 — pos_predictions + pos_outcomes (calibration database)
+    # ------------------------------------------------------------------
+
+    def insert_pos_prediction(self, pred: "PredictionRecord") -> str:  # type: ignore[name-defined]  # noqa: F821
+        """
+        Insert one PredictionRecord into pos_predictions.
+
+        Discipline: ONLY call at the time the prediction is made.
+        Returns the new row id.
+        """
+        import uuid as _uuid
+        from datetime import datetime as _dt, timezone as _tz
+
+        row_id = str(_uuid.uuid4())
+        created_at = _dt.now(_tz.utc).isoformat(timespec="seconds")
+        predicted_at = (
+            pred.predicted_at.isoformat()
+            if pred.predicted_at is not None
+            else created_at[:10]
+        )
+        trial_end = (
+            pred.trial_end_expected.isoformat()
+            if pred.trial_end_expected is not None
+            else None
+        )
+        self._conn.execute(
+            """
+            INSERT INTO pos_predictions(
+                id, program_id, ticker, ta, phase, model_pos, implied_pos,
+                spread_pp, peak_sales_millions, rnpv_millions,
+                predicted_at, trial_end_expected, created_at
+            ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                row_id, pred.program_id, pred.ticker, pred.ta, pred.phase,
+                pred.model_pos, pred.implied_pos, pred.spread_pp,
+                pred.peak_sales_millions, pred.rnpv_millions,
+                predicted_at, trial_end, created_at,
+            ),
+        )
+        self._conn.commit()
+        return row_id
+
+    def get_pos_predictions(
+        self,
+        *,
+        program_id: Optional[str] = None,
+        ticker: Optional[str] = None,
+        limit: int = 1000,
+    ) -> list[dict]:
+        """Return pos_predictions rows as dicts, newest first."""
+        clauses: list[str] = []
+        params: list = []
+        if program_id is not None:
+            clauses.append("program_id = ?")
+            params.append(program_id)
+        if ticker is not None:
+            clauses.append("ticker = ?")
+            params.append(ticker)
+        where = f"WHERE {' AND '.join(clauses)}" if clauses else ""
+        cols = [
+            "id", "program_id", "ticker", "ta", "phase", "model_pos", "implied_pos",
+            "spread_pp", "peak_sales_millions", "rnpv_millions",
+            "predicted_at", "trial_end_expected", "created_at",
+        ]
+        rows = self._conn.execute(
+            f"SELECT {', '.join(cols)} FROM pos_predictions {where} "
+            f"ORDER BY predicted_at DESC LIMIT ?",
+            params + [limit],
+        ).fetchall()
+        return [dict(zip(cols, r)) for r in rows]
+
+    def upsert_pos_outcome(self, outcome: "OutcomeRecord") -> None:  # type: ignore[name-defined]  # noqa: F821
+        """
+        Insert or replace one OutcomeRecord in pos_outcomes.
+
+        UNIQUE(program_id) — one outcome per program.
+        """
+        import uuid as _uuid
+        from datetime import datetime as _dt, timezone as _tz
+
+        row_id = str(_uuid.uuid4())
+        created_at = _dt.now(_tz.utc).isoformat(timespec="seconds")
+        outcome_date = (
+            outcome.outcome_date.isoformat()
+            if outcome.outcome_date is not None
+            else None
+        )
+        self._conn.execute(
+            """
+            INSERT OR REPLACE INTO pos_outcomes(
+                id, program_id, outcome_date, outcome_type, trial_name, source, created_at
+            ) VALUES(?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                row_id, outcome.program_id, outcome_date, outcome.outcome_type,
+                outcome.trial_name, outcome.source, created_at,
+            ),
+        )
+        self._conn.commit()
+
+    def get_pos_outcomes(
+        self,
+        *,
+        program_id: Optional[str] = None,
+        outcome_type: Optional[str] = None,
+    ) -> list[dict]:
+        """Return pos_outcomes rows as dicts."""
+        clauses: list[str] = []
+        params: list = []
+        if program_id is not None:
+            clauses.append("program_id = ?")
+            params.append(program_id)
+        if outcome_type is not None:
+            clauses.append("outcome_type = ?")
+            params.append(outcome_type)
+        where = f"WHERE {' AND '.join(clauses)}" if clauses else ""
+        cols = ["id", "program_id", "outcome_date", "outcome_type", "trial_name", "source", "created_at"]
+        rows = self._conn.execute(
+            f"SELECT {', '.join(cols)} FROM pos_outcomes {where}",
+            params,
+        ).fetchall()
+        return [dict(zip(cols, r)) for r in rows]
 
     # ------------------------------------------------------------------
     # Sprint 15 — detected_events (real-time event monitor)

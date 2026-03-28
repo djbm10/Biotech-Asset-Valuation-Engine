@@ -228,6 +228,15 @@ connectors
 - [x] **12B** `ops/universe_builder.py` — rules-based universe filter from XBI/IBB constituents
       ($200M–$10B mktcap, ADV > $2M, Phase 2+; universe_snapshots table in KnowledgeStore)
 
+#### Sprint 16 — Calibration database ✓
+
+- [x] `analysis/calibration_metrics.py` — `PredictionRecord`, `OutcomeRecord`, `compute_calibration()`
+      (Brier score, Brier skill score, AUC-ROC, ECE, 5-bucket reliability diagram)
+- [x] KnowledgeStore `pos_predictions` + `pos_outcomes` tables; `insert_pos_prediction()`,
+      `get_pos_predictions()`, `upsert_pos_outcome()`, `get_pos_outcomes()` methods
+- [x] `tests/test_sprint16.py` — 30 tests: Brier, AUC, buckets, compute_calibration(),
+      persistence, survivor-bias warning, edge cases
+
 #### Sprint 15 — Real-time event monitoring ✓
 
 - [x] **15.1** `ops/event_monitor.py` — `DetectedEvent` dataclass, `poll_fda_events()` (OpenFDA API),
