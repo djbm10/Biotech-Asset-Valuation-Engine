@@ -425,3 +425,26 @@ connectors
 - [x] Graduation criteria formally defined and checked (PROJECT_STATE.md updated)
 - [x] **Graduation status: ⚠️ Directional** — alpha does not survive corrections (clustered p=0.186, bootstrap CI includes 0)
 - [x] Path to graduation documented: tighten catalyst gate, reduce ALNY cluster concentration, improve thesis scoring
+
+
+---
+
+## Institutional Grade Roadmap Tasks
+
+### Sprint 10–17 (completed in prior sessions)
+- [x] Sprint 10 — Market-implied PoS at universe scale (universe_params.yaml, universe_configs.py, implied_pos_batch.py, universe_screen.py CLI)
+- [x] Sprint 11 — bve-screen CLI (universe_screen.py, integrated with Sprint 10)
+- [x] Sprint 12 — Universe builder + POS dataset expansion (universe_builder.py, oncology dataset N=77)
+- [x] Sprint 13 — Acquirer profiles + strategic fit scoring (strategic_fit.py, acquirer_profiles.yaml, --mna flag)
+- [x] Sprint 14 — Commercial inputs layer (commercial_inputs.py, MarketModel Mode 4)
+- [x] Sprint 15 — Real-time event monitoring (event_monitor.py, recompute_trigger.py, KnowledgeStore detected_events table)
+- [x] Sprint 16 — Calibration database (calibration_metrics.py, pos_predictions + pos_outcomes tables)
+- [x] Sprint 17 — Hierarchical Bayesian PoS model (pos_calibrated.py, CalibratedPOSModel with shrinkage)
+
+### Sprint 18 — Expert network integration layer
+- [x] `intelligence/expert_notes.py`: ExpertNote, ExtractedSignal, extract_signals(), save_expert_note(), get_expert_notes(), note_to_claims()
+- [x] Signal extraction: efficacy (% weight loss / HbA1c / response), safety (tolerability / adverse), commercial (switching / formulary / prescribing)
+- [x] KnowledgeStore `expert_notes` table with lazy schema creation
+- [x] ThesisClaim conversion: efficacy → ENDPOINT_MET, safety/commercial → CUSTOM with categorical_value
+- [x] `cli/note_entry.py`: bve-note CLI entry point with --ticker, --type, --date, --content, --confidence, --dry-run
+- [x] 43 tests in `tests/test_sprint18.py`, all passing
