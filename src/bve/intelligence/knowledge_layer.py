@@ -608,6 +608,56 @@ class KnowledgeStore:
             CREATE INDEX IF NOT EXISTS idx_propagation_proposals_target
                 ON propagation_proposals(target_asset_id, status, created_at);
 
+            -- Universe implied PoS screen snapshots (Sprint 10 / Task 10.4).
+            -- One row per ticker per snapshot_date (UPSERT semantics).
+            CREATE TABLE IF NOT EXISTS screen_snapshots (
+                snapshot_id       TEXT PRIMARY KEY,
+                ticker            TEXT NOT NULL,
+                snapshot_date     TEXT NOT NULL,
+                program_label     TEXT,
+                stage             TEXT,
+                ta                TEXT,
+                model_pos         REAL,
+                implied_pos       REAL,
+                spread_pp         REAL,
+                rnpv_millions     REAL,
+                ev_millions       REAL,
+                acquisition_discount_pct REAL,
+                next_catalyst     TEXT,
+                catalyst_date     TEXT,
+                days_to_catalyst  INTEGER,
+                single_asset      INTEGER NOT NULL DEFAULT 1,
+                approximation_warning TEXT,
+                created_at        TEXT NOT NULL,
+                UNIQUE(ticker, snapshot_date)
+            );
+            CREATE INDEX IF NOT EXISTS idx_screen_snapshots_date
+                ON screen_snapshots(snapshot_date DESC);
+            CREATE INDEX IF NOT EXISTS idx_screen_snapshots_ticker_date
+                ON screen_snapshots(ticker, snapshot_date DESC);
+
+            -- Rules-based universe snapshots (Sprint 12B).
+            -- Each row captures the filter result for one ticker on one build date.
+            CREATE TABLE IF NOT EXISTS universe_snapshots (
+                snapshot_id    TEXT PRIMARY KEY,
+                ticker         TEXT NOT NULL,
+                build_date     TEXT NOT NULL,
+                company_name   TEXT,
+                market_cap_m   REAL,
+                adv_m          REAL,
+                has_phase2_plus INTEGER NOT NULL DEFAULT 0,
+                active_nct_ids TEXT,           -- JSON array of NCT IDs
+                passed         INTEGER NOT NULL DEFAULT 0,
+                exclusion_reason TEXT,
+                sources        TEXT,            -- JSON array of source names
+                created_at     TEXT NOT NULL,
+                UNIQUE(ticker, build_date)
+            );
+            CREATE INDEX IF NOT EXISTS idx_universe_snapshots_date
+                ON universe_snapshots(build_date DESC);
+            CREATE INDEX IF NOT EXISTS idx_universe_snapshots_passed
+                ON universe_snapshots(build_date, passed);
+
             CREATE INDEX IF NOT EXISTS idx_raw_documents_created
                 ON raw_documents(created_at);
             CREATE INDEX IF NOT EXISTS idx_raw_documents_hash
@@ -2464,6 +2514,229 @@ class KnowledgeStore:
                 )
             )
         return snapshots
+
+    # ------------------------------------------------------------------
+    # Screen snapshots  (Sprint 10, Task 10.4)
+    # ------------------------------------------------------------------
+
+    def write_screen_snapshots(
+        self,
+        rows: "list",  # ScreenRow from bve.analysis.implied_pos_batch
+        snapshot_date: Optional[date] = None,
+    ) -> int:
+        """
+        Upsert a list of ScreenRow objects into screen_snapshots.
+
+        Parameters
+        ----------
+        rows          : list of ScreenRow from implied_pos_batch.run_screen()
+        snapshot_date : override date (default: each row's data_date)
+
+        Returns the number of rows written.
+        """
+        from uuid import uuid4
+
+        written = 0
+        for row in rows:
+            snap_date = snapshot_date or row.data_date
+            self._conn.execute(
+                """
+                INSERT OR REPLACE INTO screen_snapshots(
+                    snapshot_id, ticker, snapshot_date, program_label, stage, ta,
+                    model_pos, implied_pos, spread_pp, rnpv_millions, ev_millions,
+                    acquisition_discount_pct, next_catalyst, catalyst_date,
+                    days_to_catalyst, single_asset, approximation_warning, created_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    str(uuid4()),
+                    row.ticker,
+                    snap_date.isoformat(),
+                    row.program_label,
+                    row.stage,
+                    row.ta,
+                    row.model_pos,
+                    row.implied_pos,
+                    row.spread_pp,
+                    row.rnpv_millions,
+                    row.ev_millions,
+                    row.acquisition_discount_pct,
+                    row.next_catalyst,
+                    row.catalyst_date.isoformat() if row.catalyst_date else None,
+                    row.days_to_catalyst,
+                    1 if row.single_asset else 0,
+                    row.approximation_warning,
+                    datetime.utcnow().isoformat(timespec="seconds") + "Z",
+                ),
+            )
+            written += 1
+        self._conn.commit()
+        return written
+
+    def get_screen_snapshots(
+        self,
+        snapshot_date: Optional[date] = None,
+        *,
+        ticker: Optional[str] = None,
+        limit: int = 200,
+    ) -> "list[dict]":
+        """
+        Return screen snapshot rows as plain dicts (keys = column names).
+
+        Parameters
+        ----------
+        snapshot_date : if given, return rows for that date only;
+                        otherwise return the most recent date's rows
+        ticker        : if given, filter to a single ticker
+        limit         : max rows returned
+        """
+        clauses: list[str] = []
+        params: list[object] = []
+
+        if snapshot_date is not None:
+            clauses.append("snapshot_date = ?")
+            params.append(snapshot_date.isoformat())
+        else:
+            # Most recent date
+            latest_row = self._conn.execute(
+                "SELECT MAX(snapshot_date) FROM screen_snapshots"
+            ).fetchone()
+            if latest_row is None or latest_row[0] is None:
+                return []
+            clauses.append("snapshot_date = ?")
+            params.append(latest_row[0])
+
+        if ticker is not None:
+            clauses.append("ticker = ?")
+            params.append(ticker)
+
+        sql = (
+            "SELECT ticker, snapshot_date, program_label, stage, ta, "
+            "model_pos, implied_pos, spread_pp, rnpv_millions, ev_millions, "
+            "acquisition_discount_pct, next_catalyst, catalyst_date, "
+            "days_to_catalyst, single_asset, approximation_warning, created_at "
+            "FROM screen_snapshots"
+        )
+        if clauses:
+            sql += " WHERE " + " AND ".join(clauses)
+        sql += " ORDER BY spread_pp DESC NULLS LAST, rnpv_millions DESC LIMIT ?"
+        params.append(limit)
+
+        return [dict(r) for r in self._conn.execute(sql, params).fetchall()]
+
+    def list_screen_snapshot_dates(self) -> list[date]:
+        """Return all distinct snapshot_dates in descending order."""
+        rows = self._conn.execute(
+            "SELECT DISTINCT snapshot_date FROM screen_snapshots "
+            "ORDER BY snapshot_date DESC"
+        ).fetchall()
+        return [date.fromisoformat(r[0]) for r in rows]
+
+    # ------------------------------------------------------------------
+    # Universe snapshots  (Sprint 12B)
+    # ------------------------------------------------------------------
+
+    def write_universe_snapshot(self, candidates: "list") -> int:
+        """
+        Upsert UniverseCandidate rows into universe_snapshots.
+        Returns number of rows written.
+        """
+        import json as _json
+        from uuid import uuid4
+
+        written = 0
+        for c in candidates:
+            self._conn.execute(
+                """
+                INSERT OR REPLACE INTO universe_snapshots(
+                    snapshot_id, ticker, build_date, company_name,
+                    market_cap_m, adv_m, has_phase2_plus, active_nct_ids,
+                    passed, exclusion_reason, sources, created_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    str(uuid4()),
+                    c.ticker,
+                    c.as_of.isoformat(),
+                    c.company_name,
+                    c.market_cap_m,
+                    c.adv_m,
+                    1 if c.has_phase2_plus else 0,
+                    _json.dumps(c.active_phase2_studies),
+                    1 if c.passed else 0,
+                    c.exclusion_reason,
+                    _json.dumps(c.sources),
+                    datetime.utcnow().isoformat(timespec="seconds") + "Z",
+                ),
+            )
+            written += 1
+        self._conn.commit()
+        return written
+
+    def get_universe_snapshot(
+        self,
+        build_date: Optional[date] = None,
+        *,
+        passed_only: bool = False,
+        limit: int = 300,
+    ) -> list[dict]:
+        """
+        Return universe snapshot rows as plain dicts.
+
+        Parameters
+        ----------
+        build_date  : filter to specific date; if None returns most recent build
+        passed_only : if True, return only rows where passed=1
+        limit       : max rows
+        """
+        import json as _json
+
+        clauses: list[str] = []
+        params: list[object] = []
+
+        if build_date is not None:
+            clauses.append("build_date = ?")
+            params.append(build_date.isoformat())
+        else:
+            latest = self._conn.execute(
+                "SELECT MAX(build_date) FROM universe_snapshots"
+            ).fetchone()
+            if latest is None or latest[0] is None:
+                return []
+            clauses.append("build_date = ?")
+            params.append(latest[0])
+
+        if passed_only:
+            clauses.append("passed = 1")
+
+        sql = (
+            "SELECT ticker, build_date, company_name, market_cap_m, adv_m, "
+            "has_phase2_plus, active_nct_ids, passed, exclusion_reason, sources "
+            "FROM universe_snapshots"
+        )
+        if clauses:
+            sql += " WHERE " + " AND ".join(clauses)
+        sql += " ORDER BY passed DESC, market_cap_m DESC LIMIT ?"
+        params.append(limit)
+
+        rows = self._conn.execute(sql, params).fetchall()
+        result = []
+        for r in rows:
+            d = dict(r)
+            d["has_phase2_plus"] = bool(d["has_phase2_plus"])
+            d["passed"] = bool(d["passed"])
+            d["active_nct_ids"] = _json.loads(d["active_nct_ids"] or "[]")
+            d["sources"] = _json.loads(d["sources"] or "[]")
+            result.append(d)
+        return result
+
+    def list_universe_build_dates(self) -> list[date]:
+        """Return all distinct universe build dates in descending order."""
+        rows = self._conn.execute(
+            "SELECT DISTINCT build_date FROM universe_snapshots "
+            "ORDER BY build_date DESC"
+        ).fetchall()
+        return [date.fromisoformat(r[0]) for r in rows]
 
     def add_review_decision(
         self,

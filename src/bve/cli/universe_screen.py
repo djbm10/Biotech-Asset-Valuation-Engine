@@ -86,6 +86,12 @@ def _build_parser() -> argparse.ArgumentParser:
         metavar="FILE",
         help="Write output to file instead of stdout",
     )
+    p.add_argument(
+        "--as-of",
+        default=None,
+        metavar="YYYY-MM-DD",
+        help="Show archived screen from KnowledgeStore instead of running live",
+    )
     return p
 
 
@@ -198,29 +204,87 @@ def _to_json(rows: list[ScreenRow]) -> str:
     return json.dumps(out, indent=2)
 
 
+def _rows_from_store(as_of_str: str) -> list[ScreenRow]:
+    """Load historical screen rows from KnowledgeStore for --as-of mode."""
+    from bve.intelligence.knowledge_layer import KnowledgeStore
+    from bve.ops.weekly_runner import DB_PATH
+
+    as_of = date.fromisoformat(as_of_str)
+    store = KnowledgeStore(DB_PATH)
+    raw = store.get_screen_snapshots(snapshot_date=as_of)
+    store.close()
+
+    rows: list[ScreenRow] = []
+    for r in raw:
+        rows.append(ScreenRow(
+            ticker=r["ticker"],
+            program_label=r["program_label"] or r["ticker"],
+            stage=r["stage"] or "unknown",
+            ta=r["ta"] or "other",
+            model_pos=r["model_pos"] or 0.0,
+            implied_pos=r["implied_pos"],
+            spread_pp=r["spread_pp"],
+            rnpv_millions=r["rnpv_millions"] or 0.0,
+            ev_millions=r["ev_millions"],
+            acquisition_discount_pct=r["acquisition_discount_pct"],
+            next_catalyst=r["next_catalyst"] or "",
+            catalyst_date=(
+                date.fromisoformat(r["catalyst_date"]) if r["catalyst_date"] else None
+            ),
+            days_to_catalyst=r["days_to_catalyst"],
+            single_asset=bool(r["single_asset"]),
+            approximation_warning=r["approximation_warning"],
+            data_date=as_of,
+        ))
+    return rows
+
+
 def main() -> None:
     args = _build_parser().parse_args()
 
-    params_path = Path(args.params) if args.params else None
-    fetch_live = not args.no_live
+    # --as-of mode: read historical snapshot from KnowledgeStore
+    if getattr(args, "as_of", None):
+        print(
+            f"Loading archived screen for {args.as_of} from KnowledgeStore...",
+            file=sys.stderr,
+        )
+        rows = _rows_from_store(args.as_of)
+        if not rows:
+            print(f"No screen snapshot found for {args.as_of}.", file=sys.stderr)
+            sys.exit(1)
+    else:
+        params_path = Path(args.params) if args.params else None
+        fetch_live = not args.no_live
 
-    print(
-        f"Running universe screen ({len(UNIVERSE)} names, "
-        f"{'live market data' if fetch_live else 'offline mode'})...",
-        file=sys.stderr,
-    )
+        print(
+            f"Running universe screen ({len(UNIVERSE)} names, "
+            f"{'live market data' if fetch_live else 'offline mode'})...",
+            file=sys.stderr,
+        )
 
-    rows = run_screen(
-        UNIVERSE,
-        params_path=params_path,
-        fetch_live=fetch_live,
-        sort_by=args.sort,
-        single_asset_only=args.single_asset_only,
-    )
+        rows = run_screen(
+            UNIVERSE,
+            params_path=params_path,
+            fetch_live=fetch_live,
+            sort_by=args.sort,
+            single_asset_only=args.single_asset_only,
+        )
 
     # Apply min-spread filter
     if args.min_spread is not None:
         rows = [r for r in rows if r.spread_pp is not None and r.spread_pp >= args.min_spread]
+
+    # Sort (already sorted by run_screen; re-sort for --as-of mode)
+    if getattr(args, "as_of", None) and args.sort != "spread":
+        def _sort_key(r: ScreenRow):
+            if args.sort == "rnpv":
+                return -r.rnpv_millions
+            if args.sort == "ev":
+                return -(r.ev_millions or 0)
+            if args.sort == "d2cat":
+                return (r.days_to_catalyst is None, r.days_to_catalyst or 9999)
+            return r.ticker
+        rows.sort(key=_sort_key)
 
     # Format
     use_color = sys.stdout.isatty() and not args.output

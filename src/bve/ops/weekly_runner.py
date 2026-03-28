@@ -560,8 +560,28 @@ def cmd_report(top_n: int = 5) -> None:
         _print_mna_section(mna_result, top_n=10)
     print()
 
+    # Implied PoS screen — persist snapshot to KnowledgeStore
+    _persist_screen_snapshot(store)
+
     store.close()
     return report
+
+
+def _persist_screen_snapshot(store: "KnowledgeStore") -> None:  # type: ignore[name-defined]
+    """Run offline implied PoS screen and persist rows to screen_snapshots table."""
+    try:
+        import warnings as _w
+        from bve.analysis.implied_pos_batch import run_screen
+
+        with _w.catch_warnings():
+            _w.simplefilter("ignore")
+            rows = run_screen(UNIVERSE, fetch_live=False)
+
+        n = store.write_screen_snapshots(rows)
+        print(f"  Implied PoS screen: {n} rows persisted to screen_snapshots "
+              f"(as_of={date.today().isoformat()})")
+    except Exception as exc:  # noqa: BLE001
+        print(f"  Implied PoS screen skipped: {exc}")
 
 
 def cmd_mna_scan(top_n: int = 10) -> None:

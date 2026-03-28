@@ -428,3 +428,130 @@ class TestImpliedPosBatch:
         # NTLA (phase_1) vs ARVN (phase_3) — same oncology/rare base rates context
         assert pos_by_ticker["NTLA"] < pos_by_ticker["ARVN"], \
             "Phase 1 asset should have lower model_pos than Phase 3"
+
+
+# ---------------------------------------------------------------------------
+# Task 10.4 — screen_snapshots KnowledgeStore persistence
+# ---------------------------------------------------------------------------
+
+class TestScreenSnapshots:
+
+    def _make_row(self, ticker: str = "VKTX", spread: float = 15.0) -> "ScreenRow":
+        from bve.analysis.implied_pos_batch import ScreenRow
+        from datetime import date
+        return ScreenRow(
+            ticker=ticker,
+            program_label=f"{ticker} program",
+            stage="phase_2",
+            ta="oncology",
+            model_pos=0.60,
+            implied_pos=0.45,
+            spread_pp=spread,
+            rnpv_millions=1200.0,
+            ev_millions=900.0,
+            acquisition_discount_pct=33.3,
+            next_catalyst="Ph2 readout Q3 2026",
+            catalyst_date=None,
+            days_to_catalyst=None,
+            single_asset=True,
+            approximation_warning=None,
+            data_date=date(2026, 3, 28),
+        )
+
+    def test_write_and_read_back(self, tmp_path):
+        from bve.intelligence.knowledge_layer import KnowledgeStore
+        from datetime import date
+        store = KnowledgeStore(tmp_path / "test.db")
+        rows = [self._make_row("VKTX", 15.0), self._make_row("KYMR", 8.5)]
+        n = store.write_screen_snapshots(rows)
+        assert n == 2
+
+        result = store.get_screen_snapshots()
+        assert len(result) == 2
+        tickers = {r["ticker"] for r in result}
+        assert tickers == {"VKTX", "KYMR"}
+        store.close()
+
+    def test_upsert_replaces_same_ticker_date(self, tmp_path):
+        from bve.intelligence.knowledge_layer import KnowledgeStore
+        from datetime import date
+        store = KnowledgeStore(tmp_path / "test.db")
+        row = self._make_row("VKTX", 15.0)
+        store.write_screen_snapshots([row])
+        # Write again same ticker same date — should replace, not duplicate
+        row2 = self._make_row("VKTX", 20.0)
+        store.write_screen_snapshots([row2])
+        result = store.get_screen_snapshots()
+        vktx = [r for r in result if r["ticker"] == "VKTX"]
+        assert len(vktx) == 1
+        assert vktx[0]["spread_pp"] == 20.0
+        store.close()
+
+    def test_filter_by_snapshot_date(self, tmp_path):
+        from bve.intelligence.knowledge_layer import KnowledgeStore
+        from datetime import date
+        store = KnowledgeStore(tmp_path / "test.db")
+        row = self._make_row("VKTX", 15.0)
+        store.write_screen_snapshots([row], snapshot_date=date(2026, 3, 28))
+        # Different date produces no results
+        result = store.get_screen_snapshots(snapshot_date=date(2026, 3, 1))
+        assert result == []
+        # Correct date returns the row
+        result2 = store.get_screen_snapshots(snapshot_date=date(2026, 3, 28))
+        assert len(result2) == 1
+        store.close()
+
+    def test_get_screen_snapshots_default_returns_latest(self, tmp_path):
+        from bve.intelligence.knowledge_layer import KnowledgeStore
+        from datetime import date
+        store = KnowledgeStore(tmp_path / "test.db")
+        r1 = self._make_row("VKTX", 15.0)
+        r2 = self._make_row("KYMR", 8.0)
+        store.write_screen_snapshots([r1], snapshot_date=date(2026, 3, 27))
+        store.write_screen_snapshots([r2], snapshot_date=date(2026, 3, 28))
+        result = store.get_screen_snapshots()  # no date arg → latest
+        # Should only return 2026-03-28 rows
+        assert len(result) == 1
+        assert result[0]["ticker"] == "KYMR"
+        store.close()
+
+    def test_filter_by_ticker(self, tmp_path):
+        from bve.intelligence.knowledge_layer import KnowledgeStore
+        store = KnowledgeStore(tmp_path / "test.db")
+        rows = [self._make_row("VKTX", 15.0), self._make_row("KYMR", 8.0)]
+        store.write_screen_snapshots(rows)
+        result = store.get_screen_snapshots(ticker="VKTX")
+        assert len(result) == 1
+        assert result[0]["ticker"] == "VKTX"
+        store.close()
+
+    def test_list_snapshot_dates(self, tmp_path):
+        from bve.intelligence.knowledge_layer import KnowledgeStore
+        from datetime import date
+        store = KnowledgeStore(tmp_path / "test.db")
+        store.write_screen_snapshots([self._make_row()], snapshot_date=date(2026, 3, 21))
+        store.write_screen_snapshots([self._make_row()], snapshot_date=date(2026, 3, 28))
+        dates = store.list_screen_snapshot_dates()
+        assert dates[0] == date(2026, 3, 28)   # most recent first
+        assert dates[1] == date(2026, 3, 21)
+        store.close()
+
+    def test_empty_db_returns_empty_list(self, tmp_path):
+        from bve.intelligence.knowledge_layer import KnowledgeStore
+        store = KnowledgeStore(tmp_path / "test.db")
+        assert store.get_screen_snapshots() == []
+        assert store.list_screen_snapshot_dates() == []
+        store.close()
+
+    def test_run_screen_offline_and_persist(self, tmp_path):
+        """End-to-end: run_screen offline → persist → read back 27 rows."""
+        from bve.analysis.implied_pos_batch import run_screen
+        from bve.intelligence.knowledge_layer import KnowledgeStore
+        from bve.ops.weekly_runner import UNIVERSE
+        store = KnowledgeStore(tmp_path / "test.db")
+        rows = run_screen(UNIVERSE, fetch_live=False)
+        n = store.write_screen_snapshots(rows)
+        assert n == 27
+        result = store.get_screen_snapshots()
+        assert len(result) == 27
+        store.close()
