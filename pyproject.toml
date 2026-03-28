@@ -66,6 +66,7 @@ bve-acquirer-fit         = "bve.cli.acquirer_fit:main"
 bve-ma-probability       = "bve.cli.ma_probability:main"
 bve-universe-screen      = "bve.cli.universe_screen:main"
 bve-note                 = "bve.cli.note_entry:main"
+bve-daily-brief          = "bve.cli.daily_brief:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
