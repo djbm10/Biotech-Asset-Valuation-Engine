@@ -1,0 +1,133 @@
+# ==============================================================================
+# Acquirer Pipeline Gap Profiles — Sprint 13
+# ==============================================================================
+#
+# Three curated profiles: Pfizer, Eli Lilly, Novo Nordisk.
+# Update cadence: semi-annual (after JPM and ASCO pipeline disclosures).
+# Last updated: 2026-Q1
+#
+# TA priority weights:
+#   1.0 = highest gap (LOE cliff or strategic white space)
+#   0.85 = strong priority
+#   0.70 = moderate priority
+#   0.50 = opportunistic
+#
+# Stage weights reflect each acquirer's preferred de-risking point.
+# deal_size_range_m: approximate acquirer "sweet spot" (excludes transformative M&A).
+
+pfizer:
+  name: "Pfizer"
+  ta_priorities:
+    oncology_solid_tumor: 1.0   # ADC platform gap post-Seagen; KRAS G12D white space
+    rare_disease: 0.85          # Hemophilia B gene therapy exit; rare disease platform gap
+    inflammation: 0.70          # Dupixent/Humira LOE pressure; complement/IL-17 adjacencies
+    metabolic: 0.60             # Obesity pipeline thin vs. peers; opportunistic GLP-1 adjacency
+    cardiovascular: 0.50        # Tafamidis established; bolt-ons only
+  stage_preference:
+    min_phase: 2
+    preferred_phase: 3
+    weight_by_stage:
+      phase_2: 0.70
+      phase_3: 1.00
+      nda_bla: 0.90             # discount: less upside left
+  mechanism_gaps:
+    - "KRAS G12D"               # has adagrasib (G12C); gaps G12D, G12V
+    - "antibody-drug conjugate" # Seagen acquired for ADC; more ADC warheads needed
+    - "mRNA platform"           # COVID-era mRNA — now needs non-COVID indication breadth
+    - "bispecific T-cell engager"
+    - "oral GLP-1"              # no obesity-specific small molecule
+  deal_size_range_m: [3000, 50000]
+  recent_deals:
+    - target: "Seagen"
+      year: 2023
+      value_b: 43
+      rationale: "ADC platform (tucatinib, enfortumab vedotin licensed)"
+    - target: "Arena Pharmaceuticals"
+      year: 2022
+      value_b: 6.7
+      rationale: "Inflammation — etrasimod (approved as Vtama)"
+    - target: "Trillium Therapeutics"
+      year: 2021
+      value_b: 2.26
+      rationale: "CD47 innate immune checkpoint oncology"
+  avoid:
+    - "gene therapy"            # wrote off hemophilia B program; capacity-constrained
+    - "ophthalmology"           # no franchise anchor; not a priority TA
+
+lilly:
+  name: "Eli Lilly"
+  ta_priorities:
+    metabolic: 1.0              # GLP-1 franchise; oral small molecule adjacency gap
+    neurodegeneration: 0.85     # donanemab approved; pipeline extension needed
+    immunology: 0.75            # lebrikizumab (atopic derm); mirikizumab (IBD); adjacent gaps
+    oncology: 0.60              # Verzenio mature; KRAS inhibitor adjacency
+    cardiovascular: 0.50        # tirzepatide heart data; bolt-on cardio assets
+  stage_preference:
+    min_phase: 2
+    preferred_phase: 3
+    weight_by_stage:
+      phase_2: 0.65
+      phase_3: 1.00
+      nda_bla: 0.85
+  mechanism_gaps:
+    - "oral GLP-1"              # tirzepatide is injectable; oral class not established by Lilly
+    - "NASH non-GLP-1"         # liver-specific metabolic target orthogonal to GLP-1
+    - "tau targeting"           # donanemab is amyloid; tau is the next mechanism gap
+    - "GIP receptor antagonist" # alternative obesity mechanism; synergy with tirzepatide
+    - "KRAS G12D"               # sotorasib/adagrasib are Amgen/Pfizer; gap for Lilly
+  deal_size_range_m: [2000, 30000]
+  recent_deals:
+    - target: "Morphic Therapeutic"
+      year: 2024
+      value_b: 3.2
+      rationale: "Oral integrin α4β7 for IBD — immunology bolt-on"
+    - target: "Dice Therapeutics"
+      year: 2023
+      value_b: 2.4
+      rationale: "Oral IL-17 inhibitor — immunology (psoriasis)"
+    - target: "Sigilon Therapeutics"
+      year: 2022
+      value_b: 0.14
+      rationale: "Cell encapsulation platform — metabolic/rare disease"
+  avoid:
+    - "ophthalmology"           # no franchise; no strategic interest signaled
+    - "respiratory"             # no franchise anchor; IL-13/IL-4 already at Dupixent scale
+
+novo_nordisk:
+  name: "Novo Nordisk"
+  ta_priorities:
+    metabolic: 1.0              # GLP-1 core franchise; breadth beyond semaglutide
+    rare_blood_disease: 0.90    # hemophilia A/B franchise; rare clotting extensions
+    cardiovascular: 0.80        # SOUL/FLOW trial data; cardio-metabolic pipeline
+    rare_endocrine: 0.65        # growth hormone + rare endocrine disease adjacency
+    neurodegeneration: 0.50     # semaglutide Parkinson data; exploratory CNS
+  stage_preference:
+    min_phase: 2
+    preferred_phase: 3
+    weight_by_stage:
+      phase_2: 0.60
+      phase_3: 1.00
+      nda_bla: 0.80
+  mechanism_gaps:
+    - "oral GLP-1 next-generation"   # orforglipron competition; needs differentiated oral
+    - "NASH / liver fibrosis"         # semaglutide NASH data positive; adjacency gap
+    - "PCSK9 oral"                    # cardiovascular expansion beyond GLP-1
+    - "factor XI"                     # clotting cascade; Factor XI inhibitors emerging
+    - "complement pathway"            # rare blood disease extension
+  deal_size_range_m: [1000, 20000]
+  recent_deals:
+    - target: "Cardior Pharmaceuticals"
+      year: 2024
+      value_b: 1.0
+      rationale: "RNA therapeutics for heart failure — cardiovascular expansion"
+    - target: "Inversago Pharma"
+      year: 2023
+      value_b: 1.075
+      rationale: "CB1 receptor antagonist for kidney disease and obesity"
+    - target: "Ocedurenone (KBP-5074)"
+      year: 2023
+      value_b: 1.3
+      rationale: "Non-steroidal MRA for CKD/hypertension — cardio-renal"
+  avoid:
+    - "oncology"                # clear strategic commentary to stay out of oncology
+    - "gene therapy"            # no manufacturing capability; not a stated priority

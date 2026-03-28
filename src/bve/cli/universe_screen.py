@@ -18,6 +18,7 @@ Usage
     bve-universe-screen --single-asset-only
     bve-universe-screen --json
     bve-universe-screen --no-live           # offline mode; zero financials
+    bve-universe-screen --mna               # add FIT column (strategic fit vs 3 acquirers)
 """
 from __future__ import annotations
 
@@ -91,6 +92,14 @@ def _build_parser() -> argparse.ArgumentParser:
         default=None,
         metavar="YYYY-MM-DD",
         help="Show archived screen from KnowledgeStore instead of running live",
+    )
+    p.add_argument(
+        "--mna",
+        action="store_true",
+        help=(
+            "Show M&A strategic fit column (FIT score vs Pfizer, Lilly, Novo Nordisk). "
+            "Adds FIT and BEST_FIT_FOR columns."
+        ),
     )
     return p
 
@@ -204,6 +213,92 @@ def _to_json(rows: list[ScreenRow]) -> str:
     return json.dumps(out, indent=2)
 
 
+def _load_mna_scores(
+    rows: list[ScreenRow],
+    params_path: Optional[Path] = None,
+) -> dict[str, tuple[float, str]]:
+    """
+    Return {ticker: (max_fit_score, best_acquirer_name)} for each row.
+
+    Loads universe_params.yaml for asset profiles and acquirer_profiles.yaml
+    for acquirer profiles. Returns empty dict on any error (MNA is additive).
+    """
+    try:
+        import yaml as _yaml
+        from bve.intelligence.strategic_fit.strategic_fit import (
+            load_acquirer_profiles,
+            score_all_acquirers,
+        )
+
+        _params_path = params_path or (
+            Path(__file__).parents[3] / "research" / "universe_params.yaml"
+        )
+        with open(_params_path) as fh:
+            params_data = _yaml.safe_load(fh)
+
+        universe_params: dict = params_data.get("universe", {})
+        profiles = load_acquirer_profiles()
+
+        out: dict[str, tuple[float, str]] = {}
+        for row in rows:
+            ticker = row.ticker
+            asset_cfg = universe_params.get(ticker, {})
+            asset_profile = {
+                "ticker": ticker,
+                "ta": asset_cfg.get("ta", row.ta or "other"),
+                "phase": asset_cfg.get("phase", row.stage or ""),
+                "program_label": asset_cfg.get("program_label", row.program_label or ""),
+                "peak_sales_millions": asset_cfg.get("peak_sales_millions", row.rnpv_millions or 0),
+                "modality": asset_cfg.get("modality", ""),
+            }
+            scores = score_all_acquirers(asset_profile, profiles)
+            best = scores[0]
+            out[ticker] = (best.total, best.acquirer_name)
+        return out
+    except Exception:  # noqa: BLE001
+        return {}
+
+
+def _format_mna_table(
+    rows: list[ScreenRow],
+    mna_scores: dict[str, tuple[float, str]],
+    use_color: bool = True,
+) -> str:
+    header = (
+        f"{'TICKER':<7}  {'STAGE':<9}  "
+        f"{'SPREAD':>8}  {'rNPV($M)':>9}  "
+        f"{'FIT':>5}  {'BEST_FIT_FOR':<16}  "
+        f"{'NEXT_CATALYST':<34}  {'D2CAT':>5}"
+    )
+    sep = "─" * len(header)
+    lines = [
+        f"Universe M&A Strategic Fit  |  {date.today().isoformat()}  |  N={len(rows)}",
+        "Acquirers: Pfizer, Lilly, Novo Nordisk  |  FIT = max score across all 3",
+        sep,
+        header,
+        sep,
+    ]
+    for row in rows:
+        fit, best_acq = mna_scores.get(row.ticker, (0.0, "n/a"))
+        fit_str = f"{fit:.2f}" if fit else " n/a"
+        line = (
+            f"{_ticker_label(row)}  "
+            f"{row.stage:<9}  "
+            f"{_fmt_spread(row.spread_pp, use_color)}  "
+            f"{_fmt_millions(row.rnpv_millions):>9}  "
+            f"{fit_str:>5}  "
+            f"{best_acq:<16}  "
+            f"{_fmt_catalyst(row):<34}  "
+            f"{_fmt_d2cat(row):>5}"
+        )
+        lines.append(line)
+    lines.append(sep)
+    lines.append(
+        "FIT: 0.0 = no fit  |  1.0 = perfect fit  |  ta_match×0.35 + stage×0.20 + mech×0.30 + commercial×0.15"
+    )
+    return "\n".join(lines)
+
+
 def _rows_from_store(as_of_str: str) -> list[ScreenRow]:
     """Load historical screen rows from KnowledgeStore for --as-of mode."""
     from bve.intelligence.knowledge_layer import KnowledgeStore
@@ -288,7 +383,14 @@ def main() -> None:
 
     # Format
     use_color = sys.stdout.isatty() and not args.output
-    output = _to_json(rows) if args.json else _format_table(rows, use_color=use_color)
+    if args.json:
+        output = _to_json(rows)
+    elif getattr(args, "mna", False):
+        params_path = Path(args.params) if args.params else None
+        mna_scores = _load_mna_scores(rows, params_path=params_path)
+        output = _format_mna_table(rows, mna_scores, use_color=use_color)
+    else:
+        output = _format_table(rows, use_color=use_color)
 
     if args.output:
         out_path = Path(args.output)

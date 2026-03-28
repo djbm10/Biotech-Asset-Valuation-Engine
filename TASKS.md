@@ -228,6 +228,15 @@ connectors
 - [x] **12B** `ops/universe_builder.py` — rules-based universe filter from XBI/IBB constituents
       ($200M–$10B mktcap, ADV > $2M, Phase 2+; universe_snapshots table in KnowledgeStore)
 
+#### Sprint 13 — Acquirer pipeline gap analysis ✓
+
+- [x] `intelligence/strategic_fit/acquirer_profiles.yaml` — 3 curated profiles (Pfizer, Lilly, Novo Nordisk)
+      with TA priorities, stage preferences, mechanism gaps, deal size ranges, avoid lists
+- [x] `intelligence/strategic_fit/strategic_fit.py` — `StrategicFitScore` dataclass + `score_fit()` function
+      (ta_match×0.35 + stage×0.20 + mechanism_novelty×0.30 + commercial×0.15; avoid_penalty=0.40)
+- [x] `bve-universe-screen --mna` — FIT + BEST_FIT_FOR columns across all 3 acquirers
+- [x] `tests/test_sprint13.py` — 45 tests covering scoring, YAML structure, edge cases
+
 ---
 
 ## Completed
