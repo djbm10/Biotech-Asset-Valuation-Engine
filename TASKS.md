@@ -448,3 +448,23 @@ connectors
 - [x] ThesisClaim conversion: efficacy → ENDPOINT_MET, safety/commercial → CUSTOM with categorical_value
 - [x] `cli/note_entry.py`: bve-note CLI entry point with --ticker, --type, --date, --content, --confidence, --dry-run
 - [x] 43 tests in `tests/test_sprint18.py`, all passing
+
+### Sprint 19 — Unified daily opportunity brief
+- [x] `ops/daily_brief.py`: build_daily_brief() integrates spread screen + CalibratedPOSModel + expert notes + event flags
+- [x] BriefRow with composite_score (spread×0.50 + calibration×0.20 + expert×0.20 + events×0.10)
+- [x] render_brief(): markdown table with signal_flags (E/S/C), calibration delta, recompute flag
+- [x] `cli/daily_brief.py`: bve-daily-brief CLI with --live, --top, --format text|json, --as-of, --out
+- [x] 36 tests in `tests/test_sprint19.py`, all passing
+
+### Sprint 20 — CalibratedPOS bridge
+- [x] `analysis/pos_bridge.py`: resolve_base_rate() priority chain (calibrated → industry_prior → fallback)
+- [x] BaseRateSource dataclass: rate, source, blend_weight, n_outcomes
+- [x] compute_phase_pos_calibrated(): drop-in replacement for compute_pos() with opt-in calibration
+- [x] pos_delta(): pp shift calibrated vs. industry prior; None when insufficient data
+- [x] Backward-compatible: cal_model=None → identical to existing compute_pos()
+- [x] 24 tests in `tests/test_sprint20.py`, all passing
+
+### Sprint 21 — bve-recalibrate CLI
+- [x] `cli/recalibrate.py`: text/JSON calibration report with --min-blend filter, --out file write
+- [x] Completes ROADMAP Sprint 17 trigger: "rebuild model monthly via bve-recalibrate"
+- [x] 16 tests in `tests/test_sprint21.py`, all passing
