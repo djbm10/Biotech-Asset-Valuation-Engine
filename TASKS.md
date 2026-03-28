@@ -228,6 +228,15 @@ connectors
 - [x] **12B** `ops/universe_builder.py` — rules-based universe filter from XBI/IBB constituents
       ($200M–$10B mktcap, ADV > $2M, Phase 2+; universe_snapshots table in KnowledgeStore)
 
+#### Sprint 14 — Commercial model layer ✓
+
+- [x] `models/commercial_inputs.py` — `PatientPool`, `PricingModel`, `ShareModel`, `CommercialInputs`
+      (explicit patient × price × share build-up; `to_peak_sales_millions()` + `sample_peak_sales(rng)`)
+- [x] `MarketModel.commercial_inputs` — optional Mode 4 field; `_check_mode` accepts it as a valid mode
+- [x] `relay_rly2608.yaml` — updated with `commercial_inputs` block (H1047R mBC derivation)
+- [x] `tests/test_sprint14.py` — 29 tests: all 3 sub-models, CommercialInputs, MarketModel integration,
+      MC width validation, backward compat
+
 #### Sprint 13 — Acquirer pipeline gap analysis ✓
 
 - [x] `intelligence/strategic_fit/acquirer_profiles.yaml` — 3 curated profiles (Pfizer, Lilly, Novo Nordisk)

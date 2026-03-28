@@ -20,6 +20,7 @@ from pydantic import BaseModel, Field, field_validator, model_validator
 
 from bve.config.constants import SGNA_RATE_LAUNCH, SGNA_RATE_MATURE, SGNA_RAMP_YEARS
 from bve.entities.indication import Indication
+from bve.models.commercial_inputs import CommercialInputs
 from bve.models.competition_model import CompetitionModel
 
 
@@ -300,6 +301,18 @@ class MarketModel(BaseModel):
         ),
     )
 
+    # --- Mode 4: explicit commercial build-up (patient × price × share) ---
+    commercial_inputs: Optional["CommercialInputs"] = Field(
+        default=None,
+        description=(
+            "Explicit patient × price × share decomposition (Sprint 14). "
+            "When set, peak_sales_millions is derived from "
+            "commercial_inputs.to_peak_sales_millions() and MC sampling uses "
+            "commercial_inputs.sample_peak_sales(rng). Backward-compatible — "
+            "existing configs without this field are unaffected."
+        ),
+    )
+
     # Cost structure
     cogs_rate: float = Field(default=0.18, ge=0.0, le=1.0)
     sgna_rate_launch: float = Field(default=SGNA_RATE_LAUNCH, ge=0.0, le=1.0)
@@ -310,13 +323,16 @@ class MarketModel(BaseModel):
     def _check_mode(self) -> "MarketModel":
         if self.lines_of_therapy:
             return self  # multi-line mode; segment-level validation is handled by LineOfTherapySegment
+        if self.commercial_inputs is not None:
+            return self  # mode 4: commercial_inputs provides peak_sales_millions
         patient_mode = self.addressable_patients_annual and self.net_price_per_patient_usd
         tam_mode = self.total_addressable_market_millions is not None
         if not patient_mode and not tam_mode:
             raise ValueError(
                 "Provide one of: (1) lines_of_therapy segments, "
                 "(2) addressable_patients_annual + net_price_per_patient_usd, "
-                "or (3) total_addressable_market_millions"
+                "(3) total_addressable_market_millions, "
+                "or (4) commercial_inputs (PatientPool × PricingModel × ShareModel)"
             )
         return self
 
@@ -395,13 +411,17 @@ class MarketModel(BaseModel):
         """
         Peak annual revenue in USD millions.
 
-        Slow path (iterate revenue curve) is used when:
-          - competition_model is set (competition-adjusted peak), OR
-          - lifecycle_events are present (TAM/penetration multipliers shift the peak
-            and the static formula would understate post-event revenue).
-
-        Fast path (static formula) is used otherwise for efficiency.
+        Priority order:
+          0. commercial_inputs — derives peak from explicit patient × price × share
+          1. competition_model or lifecycle_events — slow path (iterate curve)
+          2. lines_of_therapy — sum of segment peaks
+          3. patient-based — addressable × price × penetration
+          4. TAM-based — TAM × penetration
         """
+        # Mode 4: commercial_inputs
+        if self.commercial_inputs is not None:
+            return self.commercial_inputs.to_peak_sales_millions()
+
         eff_life = self._effective_patent_life()
         use_slow_path = (
             (self.competition_model and self.competition_model.competitors)
