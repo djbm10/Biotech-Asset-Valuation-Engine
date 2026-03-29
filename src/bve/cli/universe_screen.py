@@ -345,6 +345,41 @@ def _rows_from_store(as_of_str: str) -> list[ScreenRow]:
     return rows
 
 
+def _inject_thesis_strength(rows: list[ScreenRow]) -> list[ScreenRow]:
+    """Attach thesis_strength per ticker from live KnowledgeStore (ops.db).
+
+    Silently returns rows unchanged on any error (thesis is additive).
+    """
+    try:
+        from dataclasses import replace as _replace
+        from bve.intelligence.knowledge_layer import KnowledgeStore
+        from bve.intelligence.thesis_tracker import ThesisTracker
+        from bve.ops.weekly_runner import DB_PATH
+
+        if not DB_PATH.exists():
+            return rows
+
+        store = KnowledgeStore(str(DB_PATH))
+        tt = ThesisTracker(store)
+        asset_id_by_ticker = {
+            u["ticker"]: u["asset_id"] for u in UNIVERSE if "asset_id" in u
+        }
+        enriched = []
+        for row in rows:
+            asset_id = asset_id_by_ticker.get(row.ticker)
+            if asset_id:
+                snap = tt.snapshot(asset_id)
+                n_resolved = snap.n_confirmed + snap.n_refuted + snap.n_expired
+                ts = snap.thesis_strength if n_resolved > 0 else None
+            else:
+                ts = None
+            enriched.append(_replace(row, thesis_strength=ts))
+        store.close()
+        return enriched
+    except Exception:  # noqa: BLE001
+        return rows
+
+
 def main() -> None:
     args = _build_parser().parse_args()
 
@@ -375,6 +410,9 @@ def main() -> None:
             sort_by=args.sort,
             single_asset_only=args.single_asset_only,
         )
+
+        # Inject thesis_strength from live KnowledgeStore
+        rows = _inject_thesis_strength(rows)
 
     # Apply min-spread filter
     if args.min_spread is not None:
