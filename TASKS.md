@@ -468,3 +468,17 @@ connectors
 - [x] `cli/recalibrate.py`: text/JSON calibration report with --min-blend filter, --out file write
 - [x] Completes ROADMAP Sprint 17 trigger: "rebuild model monthly via bve-recalibrate"
 - [x] 16 tests in `tests/test_sprint21.py`, all passing
+
+### Sprint 22 — Forward catalyst calendar
+- [x] `research/catalyst_calendar_2026.yaml`: 19 curated forward catalyst events for universe names (PDUFA, trial readouts, conference abstracts, 2026 dates)
+- [x] `ops/forward_calendar_seeder.py`: ForwardCalendarSeeder — deterministic UUID ids, load() + seed(store, dry_run=False), idempotent via upsert
+- [x] `cli/seed_catalysts.py`: bve-seed-catalysts CLI with --dry-run, tabular preview
+- [x] `research/universe_params.yaml`: catalyst_date populated for 19 universe names → flows into D2CAT column in daily brief / screen
+- [x] 29 tests in `tests/test_sprint22.py`, all passing
+
+### Sprint 23 — Historical trial event seeder
+- [x] `research/replay/events_2021_2023.yaml`: 43 curated trial readout / PDUFA events for 23 universe tickers, 2021-2023; positive + negative outcomes
+- [x] `ops/trial_event_backfiller.py`: TrialEventBackfiller — validates event_type + outcome_label, INSERT OR REPLACE with id trial:TICKER:DATE
+- [x] `cli/seed_replay_events.py`: bve-seed-replay-events CLI with --dry-run, --events, --db
+- [x] Resolves N≈22 replay cap — catalyst density gate now finds universe events in 2021-2023 runs
+- [x] 28 tests in `tests/test_sprint23.py`, all passing
