@@ -176,7 +176,7 @@ connectors
 - [x] Flag candidates at `acquisition_discount > 2.0` and surface missing-data reasons
 
 #### 8B — Comparable Deal Database
-- [ ] Curate 30-50 recent biotech M&A deals (last 3 years) into YAML with:
+- [x] Curate 30-50 recent biotech M&A deals (last 3 years) into YAML with:
       `target_name, indication, phase_at_acquisition, ev_to_peak_sales, acquirer, deal_date`
 - [x] Add a thin loader/validator and percentile comparison vs watchlist assets
 - [x] Keep the research collection workflow manual; keep the engineering layer deterministic
@@ -482,3 +482,12 @@ connectors
 - [x] `cli/seed_replay_events.py`: bve-seed-replay-events CLI with --dry-run, --events, --db
 - [x] Resolves N≈22 replay cap — catalyst density gate now finds universe events in 2021-2023 runs
 - [x] 28 tests in `tests/test_sprint23.py`, all passing
+
+### Sprint 24 — Replay graduation: per-asset concentration cap
+- [x] `ReplayPolicyConfig.max_decisions_per_asset` — 0 = no cap; N > 0 = block asset after N decisions per run
+- [x] `ReplayPolicy._per_asset_decisions` — per-run counter tracked in run state, reset between runs
+- [x] `historical_replay.py` — `--max-decisions-per-asset N` CLI flag, appended to policy_tag
+- [x] Graduation run (906fc24b, --max-decisions-per-asset 15): N=83, ALNY=18.1%, mean excess=+1.42%, hit rate=51.8%
+- [x] N and cluster criteria now met; alpha pre-statistical (p=0.39, need ~302 trades for p<0.10 at std=15%)
+- [x] `PROJECT_STATE.md` updated with graduation table, statistical limit analysis, path forward
+- [x] 14 tests in `tests/test_sprint24.py`, all passing
