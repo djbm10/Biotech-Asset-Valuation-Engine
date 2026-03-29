@@ -1854,6 +1854,7 @@ def _cmd_run(args: list[str]) -> None:
     cooling = False
     require_catalyst_days = 0
     max_decisions_per_asset = 0
+    min_thesis_score = 0.0
     universe_file: Optional[str] = None
     profile = "standard"
 
@@ -1910,6 +1911,9 @@ def _cmd_run(args: list[str]) -> None:
         elif args[i] == "--max-decisions-per-asset":
             max_decisions_per_asset = int(args[i + 1])
             i += 2
+        elif args[i] == "--min-thesis-score":
+            min_thesis_score = float(args[i + 1])
+            i += 2
         elif args[i] == "--universe-file":
             universe_file = args[i + 1]
             i += 2
@@ -1958,6 +1962,8 @@ def _cmd_run(args: list[str]) -> None:
         policy_cfg.require_catalyst_within_days = require_catalyst_days
     if max_decisions_per_asset > 0:
         policy_cfg.max_decisions_per_asset = max_decisions_per_asset
+    if min_thesis_score > 0.0:
+        policy_cfg.min_thesis_score = min_thesis_score
 
     policy_tag = (
         f"{policy_cfg.name}_hold{policy_cfg.max_hold_days}d"
@@ -1967,6 +1973,7 @@ def _cmd_run(args: list[str]) -> None:
         + ("_cooling" if policy_cfg.cooling_enabled else "")
         + (f"_catden{policy_cfg.require_catalyst_within_days}d" if policy_cfg.require_catalyst_within_days > 0 else "")
         + (f"_cap{policy_cfg.max_decisions_per_asset}" if policy_cfg.max_decisions_per_asset > 0 else "")
+        + (f"_thesis{int(policy_cfg.min_thesis_score * 100)}" if policy_cfg.min_thesis_score > 0.0 else "")
     )
     replay = HistoricalReplay(rs, str(REPLAY_KNOWLEDGE_PATH), universe=universe, policy_config=policy_cfg)
     run_id = replay.run(start=start, end=end, cadence=resolved_cadence, decision_policy=policy_tag)

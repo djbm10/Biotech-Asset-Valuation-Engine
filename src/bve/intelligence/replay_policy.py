@@ -94,6 +94,11 @@ class ReplayPolicyConfig:
     # 0 = no cap; N > 0 = block asset after N decisions this run.
     # Use to prevent any single name dominating the backtest (e.g. ALNY cluster).
     max_decisions_per_asset: int = 0
+    # Thesis-strength entry gate
+    # 0.0 = disabled (allow all, including None thesis_strength).
+    # > 0 = require thesis_strength >= threshold; None thesis_strength also blocked.
+    # E.g. 0.5 → only enter when confirmed claims outnumber refuted + expired.
+    min_thesis_score: float = 0.0
 
     @classmethod
     def mna_profile(cls) -> "ReplayPolicyConfig":
@@ -326,6 +331,12 @@ class ReplayPolicy:
             if cfg.max_decisions_per_asset > 0:
                 prior = self._per_asset_decisions.get(opp.asset_id, 0)
                 if prior >= cfg.max_decisions_per_asset:
+                    continue
+
+            # Thesis-strength entry gate
+            if cfg.min_thesis_score > 0.0:
+                ts = getattr(opp, "thesis_strength", None)
+                if ts is None or ts < cfg.min_thesis_score:
                     continue
 
             timing_note = ""
