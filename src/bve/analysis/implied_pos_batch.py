@@ -63,6 +63,10 @@ class ScreenRow:
     approximation_warning: Optional[str]    # set when single_asset=False
     data_date: date = field(default_factory=date.today)
 
+    # Thesis quality (populated from KnowledgeStore when available)
+    # None = no resolved claims; 0.0–1.0 = n_confirmed / n_resolved
+    thesis_strength: Optional[float] = None
+
     @property
     def is_undervalued(self) -> Optional[bool]:
         """True if market is more pessimistic than model (spread > 0)."""

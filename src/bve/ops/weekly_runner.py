@@ -568,7 +568,11 @@ def cmd_report(top_n: int = 5) -> None:
 
 
 def _persist_screen_snapshot(store: "KnowledgeStore") -> None:  # type: ignore[name-defined]
-    """Run offline implied PoS screen and persist rows to screen_snapshots table."""
+    """Run offline implied PoS screen and persist rows to screen_snapshots table.
+
+    Injects thesis_strength per ticker from ThesisTracker.snapshot() so the
+    screen record captures claim health at the time of screening.
+    """
     try:
         import warnings as _w
         from bve.analysis.implied_pos_batch import run_screen
@@ -577,7 +581,24 @@ def _persist_screen_snapshot(store: "KnowledgeStore") -> None:  # type: ignore[n
             _w.simplefilter("ignore")
             rows = run_screen(UNIVERSE, fetch_live=False)
 
-        n = store.write_screen_snapshots(rows)
+        # Attach thesis_strength from KnowledgeStore
+        tt = ThesisTracker(store)
+        asset_id_by_ticker = {
+            u["ticker"]: u["asset_id"] for u in UNIVERSE if "asset_id" in u
+        }
+        enriched = []
+        for row in rows:
+            asset_id = asset_id_by_ticker.get(row.ticker)
+            if asset_id:
+                snap = tt.snapshot(asset_id)
+                n_resolved = snap.n_confirmed + snap.n_refuted + snap.n_expired
+                thesis_strength = snap.thesis_strength if n_resolved > 0 else None
+            else:
+                thesis_strength = None
+            from dataclasses import replace
+            enriched.append(replace(row, thesis_strength=thesis_strength))
+
+        n = store.write_screen_snapshots(enriched)
         print(f"  Implied PoS screen: {n} rows persisted to screen_snapshots "
               f"(as_of={date.today().isoformat()})")
     except Exception as exc:  # noqa: BLE001

@@ -146,6 +146,13 @@ def _fmt_d2cat(row: ScreenRow) -> str:
     return f"{row.days_to_catalyst:>4d}"
 
 
+def _fmt_thesis(row: ScreenRow) -> str:
+    """Format thesis_strength as a percentage or '---' when no resolved claims."""
+    if row.thesis_strength is None:
+        return "  ---"
+    return f"{row.thesis_strength:.0%}"
+
+
 def _ticker_label(row: ScreenRow) -> str:
     label = row.ticker
     if not row.single_asset:
@@ -158,6 +165,7 @@ def _format_table(rows: list[ScreenRow], use_color: bool = True) -> str:
         f"{'TICKER':<7}  {'STAGE':<9}  "
         f"{'MODEL%':>6}  {'IMP%':>6}  {'SPREAD':>8}  "
         f"{'rNPV($M)':>9}  {'EV($M)':>9}  {'ACQ%':>6}  "
+        f"{'THESIS':>6}  "
         f"{'NEXT_CATALYST':<34}  {'D2CAT':>5}"
     )
     sep = "─" * len(header)
@@ -178,13 +186,14 @@ def _format_table(rows: list[ScreenRow], use_color: bool = True) -> str:
             f"{_fmt_millions(row.rnpv_millions):>9}  "
             f"{_fmt_millions(row.ev_millions):>9}  "
             f"{_fmt_pct(row.acquisition_discount_pct):>6}  "
+            f"{_fmt_thesis(row):>6}  "
             f"{_fmt_catalyst(row):<34}  "
             f"{_fmt_d2cat(row):>5}"
         )
         lines.append(line)
     lines.append(sep)
     lines.append(
-        "Spread = model_pos − implied_pos  |  +pp = market too pessimistic (potential upside)  |  −pp = market too optimistic"
+        "Spread = model_pos − implied_pos  |  +pp = market too pessimistic  |  THESIS = n_confirmed/n_resolved (--- = no claims)"
     )
     return "\n".join(lines)
 
@@ -208,6 +217,7 @@ def _to_json(rows: list[ScreenRow]) -> str:
             "days_to_catalyst": row.days_to_catalyst,
             "single_asset": row.single_asset,
             "approximation_warning": row.approximation_warning,
+            "thesis_strength": row.thesis_strength,
             "data_date": row.data_date.isoformat(),
         })
     return json.dumps(out, indent=2)
@@ -329,6 +339,7 @@ def _rows_from_store(as_of_str: str) -> list[ScreenRow]:
             days_to_catalyst=r["days_to_catalyst"],
             single_asset=bool(r["single_asset"]),
             approximation_warning=r["approximation_warning"],
+            thesis_strength=r.get("thesis_strength"),
             data_date=as_of,
         ))
     return rows

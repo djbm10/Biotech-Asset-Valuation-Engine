@@ -628,6 +628,7 @@ class KnowledgeStore:
                 days_to_catalyst  INTEGER,
                 single_asset      INTEGER NOT NULL DEFAULT 1,
                 approximation_warning TEXT,
+                thesis_strength   REAL,
                 created_at        TEXT NOT NULL,
                 UNIQUE(ticker, snapshot_date)
             );
@@ -1030,6 +1031,10 @@ class KnowledgeStore:
         #         "market_reaction_only" | "unresolved"
         self._ensure_column("event_outcomes", "outcome_label", "TEXT")
         self._ensure_column("event_outcomes", "outcome_resolution_source", "TEXT")
+
+        # Sprint 25: thesis_strength on screen_snapshots.
+        # Populated by weekly_runner via ThesisTracker.snapshot() at screen time.
+        self._ensure_column("screen_snapshots", "thesis_strength", "REAL")
 
         # Wave E-lite: stratification buckets on forecast_records.
         # Required for PoS recalibration by (indication × phase × endpoint_type).
@@ -2603,8 +2608,9 @@ class KnowledgeStore:
                     snapshot_id, ticker, snapshot_date, program_label, stage, ta,
                     model_pos, implied_pos, spread_pp, rnpv_millions, ev_millions,
                     acquisition_discount_pct, next_catalyst, catalyst_date,
-                    days_to_catalyst, single_asset, approximation_warning, created_at
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    days_to_catalyst, single_asset, approximation_warning,
+                    thesis_strength, created_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 (
                     str(uuid4()),
@@ -2624,6 +2630,7 @@ class KnowledgeStore:
                     row.days_to_catalyst,
                     1 if row.single_asset else 0,
                     row.approximation_warning,
+                    getattr(row, "thesis_strength", None),
                     datetime.utcnow().isoformat(timespec="seconds") + "Z",
                 ),
             )
@@ -2672,7 +2679,8 @@ class KnowledgeStore:
             "SELECT ticker, snapshot_date, program_label, stage, ta, "
             "model_pos, implied_pos, spread_pp, rnpv_millions, ev_millions, "
             "acquisition_discount_pct, next_catalyst, catalyst_date, "
-            "days_to_catalyst, single_asset, approximation_warning, created_at "
+            "days_to_catalyst, single_asset, approximation_warning, "
+            "thesis_strength, created_at "
             "FROM screen_snapshots"
         )
         if clauses:
