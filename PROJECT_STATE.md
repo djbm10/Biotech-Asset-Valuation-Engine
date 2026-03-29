@@ -2,7 +2,7 @@
 
 ## Current Module Being Worked On
 
-**All ROADMAP phases complete (Sprints 10–25). System is operational.**
+**All ROADMAP phases complete (Sprints 10–26C). System is operational.**
 
 Full roadmap: ROADMAP.md | Full task history: TASKS.md
 
@@ -60,7 +60,34 @@ This is a fundamental statistical limit, not an infrastructure bug. To achieve p
 - Price history: 48 tickers, 2021-01-04 to 2026-03-20
 - Total seeded events: 130 (69 pre-2024 trial/PDUFA; 61 from 2024-2026)
 - POS backtest dataset: N=99 (Phase 2=39.6%, Phase 3=60.8%), Brier=0.213, AUC=0.74
-- KnowledgeStore claims resolved: 0 (all thesis_strength = 0.5 neutral)
+- KnowledgeStore claims resolved: 8 (6 confirmed, 2 refuted from known 2023-2024 readouts)
+
+## Sprint 26 Summary (2026-03-29)
+
+### 26A — Live workflow operationalization
+- `_inject_thesis_strength()` reads live `ops.db` ThesisTracker at `bve-universe-screen` display time
+- 8 thesis claims resolved in live `ops.db`; THESIS column now shows real values for affected assets
+- Sprint 22 catalysts seeded into live `ops.db`
+
+### 26B — Thesis-gated replay entry
+- `ReplayPolicyConfig.min_thesis_score`: blocks entries where thesis_strength < threshold or is None
+- `--min-thesis-score 0.5` graduation run: N=60, mean=+3.29% (vs +1.42% baseline)
+- Required N for p<0.10 improved from 302 → 111 (2.7× better graduation path)
+- Updated graduation table below
+
+### 26C — POS backtest dataset validation
+- Confirmed N=99, Phase 2=39.6%, Phase 3=60.8% — already at target calibration
+- Brier=0.2127, AUC=0.74; ~15% Brier Skill Score vs no-skill baseline
+- Stale CLAUDE.md survivor-bias warning removed
+
+### Thesis-gated graduation run (min_thesis_score=0.5)
+
+| Criterion | Target | Baseline (run 906fc24b) | Thesis-gated | Status |
+|-----------|--------|-------------------------|--------------|--------|
+| N closed positions | ≥ 30 | 83 | **60** | ✅ |
+| Mean excess return | > 0% | +1.42% | **+3.29%** | ✅ |
+| Naive t-stat | > 1.65 | 0.86 (p=0.39) | ~1.32 (p≈0.19) | ❌ |
+| N required for p<0.10 | — | 302 | **~111** | Improving |
 
 ## Last Change
 

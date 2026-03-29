@@ -500,3 +500,21 @@ connectors
 - [x] `universe_screen.py`: THESIS column in table; thesis_strength in JSON; `_rows_from_store()` loads it from store
 - [x] `bve-claim-resolve` CLI: `list` / `resolve` / `expire-overdue` subcommands for live claim management
 - [x] 26 tests in `tests/test_sprint25.py`, all passing
+
+### Sprint 26A — Live workflow operationalization
+- [x] `universe_screen.py`: `_inject_thesis_strength()` helper reads live `ops.db` ThesisTracker at display time
+- [x] Live `ops.db` seeded: 8 claim resolutions (6 confirmed, 2 refuted) from known 2023-2024 trial outcomes
+- [x] THESIS column in `bve-universe-screen` now shows live values for resolved assets
+- [x] Sprint 22 catalysts seeded into live `ops.db` via `bve-seed-catalysts`
+
+### Sprint 26B — Thesis-gated replay entry
+- [x] `ReplayPolicyConfig.min_thesis_score`: float gate (0.0 = disabled; >0 = require thesis_strength ≥ threshold)
+- [x] `ReplayPolicy.select()`: thesis gate applied after concentration cap, before decision; `None` thesis blocked when gate enabled
+- [x] `historical_replay.py`: `--min-thesis-score N` CLI flag; appended to policy_tag as `_thesisNN`
+- [x] Graduation comparison: min_thesis_score=0.5 → N=60, mean=+3.29% (vs +1.42% baseline); required N for p<0.10 cut from 302 → 111
+- [x] 15 tests in `tests/test_sprint26b.py`, all passing
+
+### Sprint 26C — POS backtest dataset validation
+- [x] Confirmed dataset already at target calibration: N=99, Phase 2=39.6%, Phase 3=60.8% success
+- [x] Brier=0.2127, AUC=0.74; ~15% Brier Skill Score vs no-skill baseline
+- [x] `CLAUDE.md` updated: removed stale 82.5% survivor-bias warning; Priority 1 marked complete
