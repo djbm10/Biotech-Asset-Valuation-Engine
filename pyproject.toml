@@ -68,6 +68,7 @@ bve-universe-screen      = "bve.cli.universe_screen:main"
 bve-note                 = "bve.cli.note_entry:main"
 bve-daily-brief          = "bve.cli.daily_brief:main"
 bve-recalibrate          = "bve.cli.recalibrate:main"
+bve-seed-catalysts       = "bve.cli.seed_catalysts:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

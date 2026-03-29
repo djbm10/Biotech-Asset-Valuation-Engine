@@ -48,7 +48,7 @@ universe:
     years_to_approval: 2.5
     patent_life_years: 12
     single_asset: true
-    catalyst_date: null    # oral Ph2 readout H1 2026; confirm date
+    catalyst_date: "2026-06-15"    # VK2735 oral Ph2 readout H1 2026 (half_year confidence)
     approximation_note: null
     source_note: >
       Consensus range $3-8B. Used conservative midpoint at $4.5B reflecting
@@ -63,7 +63,7 @@ universe:
     years_to_approval: 2.0
     patent_life_years: 14
     single_asset: false    # platform: vutrisiran (approved), inclisiran partnership, ORION-3
-    catalyst_date: null    # KARDIA-2 readout expected H1 2026
+    catalyst_date: "2026-06-30"    # KARDIA-2 readout H1 2026 (half_year confidence)
     approximation_note: >
       Multi-program: vutrisiran TTR cardiomyopathy approved, inclisiran partnership
       generates royalties. PoS spread approximates the zilebesiran value; total EV
@@ -97,7 +97,7 @@ universe:
     years_to_approval: 4.0
     patent_life_years: 12
     single_asset: true
-    catalyst_date: null    # Ph2 atopic derm readout mid-2026
+    catalyst_date: "2026-07-31"    # KT-474 Ph2 atopic derm readout mid-2026 (quarter confidence)
     approximation_note: null
     source_note: >
       KT-474 consensus range $1.5-3B. Used $2.2B reflecting competitive dupilumab
@@ -112,7 +112,7 @@ universe:
     years_to_approval: 2.5
     patent_life_years: 12
     single_asset: true
-    catalyst_date: null    # VERITAC-2 PFS readout expected 2026
+    catalyst_date: "2026-09-30"    # VERITAC-2 PFS interim H2 2026 (estimate)
     approximation_note: null
     source_note: >
       ARV-471 consensus range $2-4B. Used $2.8B reflecting CDK4/6i + fulvestrant
@@ -127,7 +127,7 @@ universe:
     years_to_approval: 5.0
     patent_life_years: 12
     single_asset: true
-    catalyst_date: null    # PDAC expansion cohort ORR mid-2026
+    catalyst_date: "2026-07-31"    # RMC-6236 PDAC ORR update mid-2026 (quarter confidence)
     approximation_note: null
     source_note: >
       RMC-6236 consensus range $2-4B. Used $3B; broad RAS coverage offsets
@@ -142,7 +142,7 @@ universe:
     years_to_approval: 7.0
     patent_life_years: 15
     single_asset: true
-    catalyst_date: null    # Ph1 12-month durability data expected 2026
+    catalyst_date: "2026-09-30"    # NTLA-2001 Ph1 12-month durability data H2 2026 (estimate)
     approximation_note: null
     source_note: >
       NTLA-2001 consensus range $2-4B. Used $2.8B; TTR market competitive
@@ -157,7 +157,7 @@ universe:
     years_to_approval: 6.0
     patent_life_years: 15
     single_asset: true
-    catalyst_date: null    # BEAM-101 initial efficacy 2026
+    catalyst_date: "2026-09-30"    # BEAM-101 initial efficacy H2 2026 (estimate)
     approximation_note: null
     source_note: >
       BEAM-101 consensus range $1.5-3B. Used $2.2B; Casgevy already approved
@@ -172,7 +172,7 @@ universe:
     years_to_approval: 2.0
     patent_life_years: 13
     single_asset: true
-    catalyst_date: null    # ASCEND+ MG readout expected mid-2026
+    catalyst_date: "2026-07-31"    # batoclimab ASCEND+ MG readout mid-2026 (quarter confidence)
     approximation_note: null
     source_note: >
       Batoclimab consensus range $1.5-3B. Used $2.2B across MG + TED + AIHA;
@@ -187,7 +187,7 @@ universe:
     years_to_approval: 0.0
     patent_life_years: 11   # approximate remaining exclusivity
     single_asset: true
-    catalyst_date: null
+    catalyst_date: "2026-05-15"    # EASL 2026 real-world outcomes data (quarter confidence)
     approximation_note: >
       Drug is already approved. Implied PoS back-solve returns P=1.0 conceptually.
       Use this entry to track commercial ramp mispricing (model rNPV vs current EV)
@@ -241,6 +241,7 @@ universe:
     years_to_approval: 0.8
     patent_life_years: 12
     single_asset: false    # CF franchise (Trikafta), APOL1 Ph2, pain — 3 platforms
+    catalyst_date: "2026-06-15"    # VX-548 PDUFA action date Q2 2026 (quarter confidence)
     approximation_note: >
       EV dominated by Trikafta CF franchise ($9B+/yr revenue). VX-548 pain and
       APOL1 kidney disease are pipeline optionality. Implied PoS from single VX-548
@@ -259,6 +260,7 @@ universe:
     years_to_approval: 0.8
     patent_life_years: 10   # approximate remaining dupilumab exclusivity
     single_asset: false    # Dupixent ~$15B/yr, Eylea, Kevzara, oncology pipeline
+    catalyst_date: "2026-06-30"    # dupilumab COPD sBLA FDA action date Q2 2026 (quarter confidence)
     approximation_note: >
       EV reflects the entire REGN franchise ($180B+ market cap). Any single-program
       PoS back-solve is meaningless here. The spread signal is not applicable.
@@ -328,7 +330,7 @@ universe:
     years_to_approval: 2.5
     patent_life_years: 13
     single_asset: true
-    catalyst_date: null    # LOTR Ph3 readout expected 2026
+    catalyst_date: "2026-09-30"    # losmapimod LOTR Ph3 readout H2 2026 (estimate)
     approximation_note: null
     source_note: >
       Losmapimod FSHD consensus range $500M-$1.2B. Used $800M for small orphan
@@ -358,7 +360,7 @@ universe:
     years_to_approval: 3.5
     patent_life_years: 14
     single_asset: true
-    catalyst_date: null    # BCVA data expected 2026
+    catalyst_date: "2026-09-30"    # OCU400 BCVA data H2 2026 (estimate)
     approximation_note: null
     source_note: >
       OCU400 consensus range $400M-$800M. Used $600M; rare retinal disease
@@ -373,7 +375,7 @@ universe:
     years_to_approval: 2.0
     patent_life_years: 13
     single_asset: true
-    catalyst_date: null    # TOPAZ 12-month data expected 2026
+    catalyst_date: "2026-07-31"    # apitegromab TOPAZ 12-month data mid-2026 (quarter confidence)
     approximation_note: null
     source_note: >
       Apitegromab SMA consensus range $800M-$1.8B. Used $1.2B; competitive
@@ -388,7 +390,7 @@ universe:
     years_to_approval: 0.0
     patent_life_years: 12   # approximate remaining exclusivity
     single_asset: true
-    catalyst_date: null
+    catalyst_date: "2026-06-01"    # ASCO 2026 real-world TIL outcomes data (estimate)
     approximation_note: >
       Drug approved; same note as MDGL — PoS spread near zero by construction.
       Use to track commercial ramp mispricing.
@@ -424,7 +426,7 @@ universe:
     years_to_approval: 6.0
     patent_life_years: 13
     single_asset: true
-    catalyst_date: null    # PADOVA extension analysis 2026
+    catalyst_date: "2026-09-30"    # prasinezumab PADOVA extension analysis H2 2026 (estimate)
     approximation_note: null
     source_note: >
       Prasinezumab consensus speculative; range $1-2B in rapid-progressors.
@@ -439,7 +441,7 @@ universe:
     years_to_approval: 6.5
     patent_life_years: 15
     single_asset: true
-    catalyst_date: null    # durability data 2026
+    catalyst_date: "2026-09-30"    # EDIT-301 durability data H2 2026 (estimate)
     approximation_note: null
     source_note: >
       EDIT-301 consensus range $1.5-3B. Used $1.8B; Casgevy and bluebird
@@ -471,7 +473,7 @@ universe:
     years_to_approval: 0.8
     patent_life_years: 12
     single_asset: true
-    catalyst_date: null    # BLA FDA decision expected mid-2026
+    catalyst_date: "2026-07-15"    # zanidatamab BLA PDUFA action date mid-2026 (quarter confidence)
     approximation_note: null
     source_note: >
       Zanidatamab consensus range $1-2B. Used $1.5B across BTC + potential

@@ -1,0 +1,182 @@
+# ==============================================================================
+# Forward Catalyst Calendar — 2026
+# ==============================================================================
+#
+# PURPOSE
+# -------
+# Curated upcoming catalyst events for the 27-name universe. Used by
+# ops/forward_calendar_seeder.py to populate the catalyst_events table in
+# KnowledgeStore. Re-seeding is idempotent: the seeder derives a deterministic
+# event ID from (ticker, catalyst_type, expected_date) so duplicate rows are
+# never created.
+#
+# DATE CONFIDENCE TIERS
+# ---------------------
+#   exact       — official PDUFA / confirmed press-release date
+#   quarter     — company guidance placed it within a specific quarter
+#   half_year   — company guidance H1 / H2 window only
+#   estimate    — analyst/clinical-stage inference; no formal company guidance
+#
+# UPDATE CADENCE
+# --------------
+# Review after each quarterly earnings cycle or when company guidance updates.
+# Set resolved: true when an event fires; add actual_outcome (positive /
+# negative / partial).
+#
+# SOURCES
+# -------
+# Company guidance from Q3-Q4 2025 earnings calls and press releases.
+# FDA review timelines: standard = 10 months from NDA/BLA acceptance.
+# Clinical trial timelines: estimated from enrollment completion dates.
+#
+# ==============================================================================
+
+meta:
+  version: "2026-Q1"
+  generated: "2026-03-29"
+  notes: >
+    Forward catalyst calendar as of Q1 2026. Entries marked half_year or
+    estimate should be confirmed against company quarterly guidance.
+    Approved-product entries use conference_abstract type to track
+    commercial outcome data presentations.
+
+catalysts:
+
+  # ── Tier A: medium-high conviction, trial readouts ─────────────────────────
+
+  - ticker: VKTX
+    catalyst_type: trial_readout
+    description: "VK2735 oral Phase 2 obesity primary endpoint (% weight loss at 24 weeks)"
+    expected_date: "2026-06-15"
+    date_confidence: half_year
+    source: "Company Q4 2025 guidance; H1 2026 readout window confirmed"
+
+  - ticker: ALNY
+    catalyst_type: trial_readout
+    description: "Zilebesiran KARDIA-2 Phase 3 primary endpoint (SBP reduction vs placebo)"
+    expected_date: "2026-06-30"
+    date_confidence: half_year
+    source: "Company Q4 2025 guidance; H1 2026 readout window confirmed"
+
+  - ticker: KYMR
+    catalyst_type: trial_readout
+    description: "KT-474 Phase 2 atopic dermatitis EASI-75 primary endpoint readout"
+    expected_date: "2026-07-31"
+    date_confidence: quarter
+    source: "Company Q3 2025 guidance; mid-2026 data readout"
+
+  - ticker: ARVN
+    catalyst_type: trial_readout
+    description: "ARV-471 (vepdegestrant) VERITAC-2 Phase 3 progression-free survival interim"
+    expected_date: "2026-09-30"
+    date_confidence: estimate
+    source: "Enrollment completion + event-driven PFS interim; company guidance H2 2026"
+
+  - ticker: RVMD
+    catalyst_type: trial_readout
+    description: "RMC-6236 pan-RAS PDAC expansion cohort objective response rate update"
+    expected_date: "2026-07-31"
+    date_confidence: quarter
+    source: "Company Q3 2025 guidance; mid-2026 efficacy data"
+
+  - ticker: NTLA
+    catalyst_type: trial_readout
+    description: "NTLA-2001 Phase 1 in vivo CRISPR ATTR cardiomyopathy 12-month durability data"
+    expected_date: "2026-09-30"
+    date_confidence: estimate
+    source: "12-month follow-up from 2025 cohort enrollment; company H2 2026 guidance"
+
+  - ticker: BEAM
+    catalyst_type: trial_readout
+    description: "BEAM-101 Phase 1/2 sickle cell disease initial efficacy and HbF induction data"
+    expected_date: "2026-09-30"
+    date_confidence: estimate
+    source: "Company H2 2025 guidance; initial Ph1/2 efficacy readout 2026"
+
+  - ticker: IMVT
+    catalyst_type: trial_readout
+    description: "Batoclimab IMVT-1401 ASCEND+ Phase 3 myasthenia gravis MG-ADL primary endpoint"
+    expected_date: "2026-07-31"
+    date_confidence: quarter
+    source: "Company Q3 2025 guidance; mid-2026 Phase 3 readout"
+
+  - ticker: SRRK
+    catalyst_type: trial_readout
+    description: "Apitegromab TOPAZ Phase 3 SMA 12-month motor function primary endpoint data"
+    expected_date: "2026-07-31"
+    date_confidence: quarter
+    source: "Company Q3 2025 guidance; TOPAZ 12-month data mid-2026"
+
+  - ticker: FULC
+    catalyst_type: trial_readout
+    description: "Losmapimod LOTR Phase 3 FSHD primary endpoint (reachable muscle test % change)"
+    expected_date: "2026-09-30"
+    date_confidence: estimate
+    source: "LOTR enrollment completed 2025; event-driven primary endpoint H2 2026"
+
+  - ticker: OCUL
+    catalyst_type: trial_readout
+    description: "OCU400 Phase 2/3 LCA10/RP best-corrected visual acuity primary endpoint"
+    expected_date: "2026-09-30"
+    date_confidence: estimate
+    source: "Company 2026 data readout guidance; BCVA 12-month endpoint"
+
+  - ticker: PRTA
+    catalyst_type: trial_readout
+    description: "Prasinezumab PADOVA Phase 2b extension long-term responder analysis (Parkinson's)"
+    expected_date: "2026-09-30"
+    date_confidence: estimate
+    source: "PADOVA extension protocol; company guidance 2026 analysis"
+
+  - ticker: EDIT
+    catalyst_type: trial_readout
+    description: "EDIT-301 Phase 1/2 SCD/beta-thalassemia long-term HbF induction durability data"
+    expected_date: "2026-09-30"
+    date_confidence: estimate
+    source: "12-24 month follow-up from 2024-2025 enrollment; company 2026 guidance"
+
+  - ticker: MRNA
+    catalyst_type: trial_readout
+    description: "mRNA-4157 (V940) KEYNOTE-942 Phase 3 melanoma adjuvant EFS interim analysis"
+    expected_date: "2026-09-30"
+    date_confidence: estimate
+    source: "Event-driven interim; enrollment completed Q2 2024; estimated 2026 trigger"
+
+  # ── NDA/BLA PDUFA decisions ─────────────────────────────────────────────────
+
+  - ticker: VRTX
+    catalyst_type: pdufa_decision
+    description: "VX-548 PDUFA action date — non-opioid selective NaV1.8 acute pain NDA"
+    expected_date: "2026-06-15"
+    date_confidence: quarter
+    source: "NDA accepted Q4 2025; standard 10-month FDA review window"
+
+  - ticker: REGN
+    catalyst_type: pdufa_decision
+    description: "Dupilumab supplemental sBLA FDA action date — COPD new indication"
+    expected_date: "2026-06-30"
+    date_confidence: quarter
+    source: "sBLA submission Q4 2025; standard review; dupilumab COPD trial data 2024"
+
+  - ticker: ZYME
+    catalyst_type: pdufa_decision
+    description: "Zanidatamab BLA FDA action date — HER2+ biliary tract cancer first-line"
+    expected_date: "2026-07-15"
+    date_confidence: quarter
+    source: "BLA submitted Q3 2025; standard 10-month FDA review window"
+
+  # ── Commercial data catalysts (approved products) ──────────────────────────
+
+  - ticker: MDGL
+    catalyst_type: conference_abstract
+    description: "Rezdiffra (resmetirom) real-world outcomes and MASH fibrosis regression data at EASL 2026"
+    expected_date: "2026-05-15"
+    date_confidence: quarter
+    source: "EASL Congress typically May; commercial adoption and real-world data expected Year 1"
+
+  - ticker: IOVA
+    catalyst_type: conference_abstract
+    description: "Amtagvi (lifileucel) real-world outcomes, treatment center expansion, and combination data"
+    expected_date: "2026-06-01"
+    date_confidence: estimate
+    source: "ASCO Annual Meeting typically June 2026; TIL therapy outcomes and combination trial updates"
