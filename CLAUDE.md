@@ -159,9 +159,9 @@ summary / inspect → ReplaySummary stats + per-decision breakdown
 
 ### 4. POS model backtest (`analysis/backtest.py`)
 
-Validates POS model predictions against historical drug trial outcomes. Dataset: `research/data/oncology_phase_transitions.csv` (40 programs). Output: Brier score, AUC-ROC, calibration buckets.
+Validates POS model predictions against historical drug trial outcomes. Dataset: `research/data/oncology_phase_transitions.csv` (99 programs). Output: Brier score, AUC-ROC, calibration buckets.
 
-**Critical caveat**: current dataset has 82.5% actual success rate (severe survivor/selection bias — only publicly notable programs are included). The model's predicted PoS (40–65%) reflects realistic industry priors. Brier scores and AUC from this dataset are not meaningful until failures are added. Target realistic base rates: ~40% for Phase 2, ~60% for Phase 3.
+**Current state (Sprint 26C validated)**: N=99, Phase 2 success=39.6%, Phase 3 success=60.8% — at realistic industry base rates. Brier=0.2127, AUC=0.74 (heuristic model). Both models show ~15% skill improvement over no-skill baseline. Dataset is adequately calibrated for directional use.
 
 ### Assumptions / calibration
 
@@ -188,9 +188,9 @@ All models are Pydantic v2 (`BaseModel`, frozen where appropriate). Use `model_c
 
 Three backtest surfaces exist at different readiness levels:
 
-### Priority 1: Fix the POS backtest dataset
+### Priority 1: POS backtest dataset — COMPLETE (Sprint 26C)
 
-`research/data/oncology_phase_transitions.csv` has N=40 with 82.5% success — survivor bias makes all metrics misleading. Add 20–40 real Phase 2/3 failures (oncology programs that were discontinued, filed CRLs, or had statistically negative trials). Target: ~40% Phase 2 success rate, ~60% Phase 3. Then re-run `python -m bve.analysis.backtest ...` — a Brier score < 0.22 and AUC > 0.60 would indicate a functional model.
+`research/data/oncology_phase_transitions.csv` has N=99, Phase 2=39.6%, Phase 3=60.8% success — at realistic industry base rates. Brier=0.2127, AUC=0.74. Dataset is adequately calibrated. No further additions required unless expanding to other therapeutic areas.
 
 ### Priority 2: Extend the historical replay time range
 
