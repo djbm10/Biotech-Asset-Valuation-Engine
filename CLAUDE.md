@@ -192,16 +192,19 @@ Three backtest surfaces exist at different readiness levels:
 
 `research/data/oncology_phase_transitions.csv` has N=99, Phase 2=39.6%, Phase 3=60.8% success — at realistic industry base rates. Brier=0.2127, AUC=0.74. Dataset is adequately calibrated. No further additions required unless expanding to other therapeutic areas.
 
-### Priority 2: Extend the historical replay time range
+### Priority 2: Extend the historical replay time range for statistical graduation
 
-The replay runs (9 and 10) produced only N=4 decisions — statistically insufficient. Extend the date range back to 2024-01-01, seed prices for all 27 universe names from that date, and populate `historical_events` with real readouts from 2024. This will increase the number of resolved positions from 4 to ~20+, making hit rate and mean return meaningful.
+Best graduation run (Sprint 26B, `--min-thesis-score 0.5`): N=60, mean=+3.29%, need ~111 trades for p<0.10.
+Extending the date range to accumulate more decisions is the primary path to statistical significance.
 
 ```bash
-python -m bve.ops.historical_replay seed \
-    --tickers VKTX ALNY SRPT NTLA VRTX CRSP BEAM RXRX MRNA BMRN REGN LLY \
-              KYMR ARVN RVMD MDGL IMVT FULC FATE OCUL SRRK IOVA NVAX AMRN PRTA EDIT ZYME XBI \
-    --start 2024-01-01 --end 2026-03-10
+python -m bve.ops.historical_replay run \
+    --start 2021-01-01 --end 2026-03-29 --cadence weekly \
+    --decision-policy top2_add --max-hold-days 28 \
+    --max-decisions-per-asset 15 --min-thesis-score 0.5
 ```
+
+Price data already seeded for 48 tickers from 2021-01-01. 130 historical events seeded (2021–2026).
 
 ### Priority 3: Portfolio backtest against knowledge store
 
