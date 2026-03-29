@@ -1853,6 +1853,7 @@ def _cmd_run(args: list[str]) -> None:
     xbi_filter = False
     cooling = False
     require_catalyst_days = 0
+    max_decisions_per_asset = 0
     universe_file: Optional[str] = None
     profile = "standard"
 
@@ -1906,6 +1907,9 @@ def _cmd_run(args: list[str]) -> None:
         elif args[i] in ("--require-catalyst-days", "--require-catalyst-within-days"):
             require_catalyst_days = int(args[i + 1])
             i += 2
+        elif args[i] == "--max-decisions-per-asset":
+            max_decisions_per_asset = int(args[i + 1])
+            i += 2
         elif args[i] == "--universe-file":
             universe_file = args[i + 1]
             i += 2
@@ -1952,6 +1956,8 @@ def _cmd_run(args: list[str]) -> None:
         policy_cfg.cooling_enabled = True
     if require_catalyst_days > 0:
         policy_cfg.require_catalyst_within_days = require_catalyst_days
+    if max_decisions_per_asset > 0:
+        policy_cfg.max_decisions_per_asset = max_decisions_per_asset
 
     policy_tag = (
         f"{policy_cfg.name}_hold{policy_cfg.max_hold_days}d"
@@ -1960,6 +1966,7 @@ def _cmd_run(args: list[str]) -> None:
         + ("_xbi" if policy_cfg.xbi_filter else "")
         + ("_cooling" if policy_cfg.cooling_enabled else "")
         + (f"_catden{policy_cfg.require_catalyst_within_days}d" if policy_cfg.require_catalyst_within_days > 0 else "")
+        + (f"_cap{policy_cfg.max_decisions_per_asset}" if policy_cfg.max_decisions_per_asset > 0 else "")
     )
     replay = HistoricalReplay(rs, str(REPLAY_KNOWLEDGE_PATH), universe=universe, policy_config=policy_cfg)
     run_id = replay.run(start=start, end=end, cadence=resolved_cadence, decision_policy=policy_tag)

@@ -2,64 +2,64 @@
 
 ## Current Module Being Worked On
 
-**Sprint 10 — Market-Implied PoS at Universe Scale (Phase 1, Institutional Grade Roadmap)**
+**All ROADMAP phases complete (Sprints 10–24). System is operational.**
 
-Active tasks:
-- 10.1: `research/universe_params.yaml` (all 27 tickers)
-- 10.2: `ops/universe_configs.py` (parametric DrugAssetProgram builder)
-- 10.3: `analysis/implied_pos_batch.py` (batch screen runner)
-- 11.1: `cli/universe_screen.py` (`bve-universe-screen` command)
+Full roadmap: ROADMAP.md | Full task history: TASKS.md
 
-Full roadmap: ROADMAP.md
+## Replay Statistical Graduation Status (Sprint 24 — 2026-03-29)
 
-## Replay Statistical Graduation Status (Task 9.20 — 2026-03-28)
-
-**Current status: ⚠️ Directional (pre-institutional) — data-limited, not algorithm-limited**
+**Current status: ⚠️ Directional (pre-institutional) — signal weak, not infrastructure-limited**
 
 ### Graduation Criteria (all must pass for ✅ Pre-institutional HF grade)
 
-| Criterion | Target | Current | Status |
-|-----------|--------|---------|--------|
-| N closed positions | ≥ 30 | 22 (catalyst-gated) | ❌ |
-| Alpha survives corrections | All 3 (overlap, clustered SE, bootstrap) | None pass | ❌ |
-| Clustered SE p-value | < 0.10 | n/a (N too small) | ❌ |
-| Bootstrap 90% CI excludes 0 | Lower bound > 0 | n/a (N too small) | ❌ |
-| Score decile monotonicity | Decile 9-10 > Decile 1-2 | n/a (N too small) | ❌ |
+| Criterion | Target | Current (run 906fc24b) | Status |
+|-----------|--------|------------------------|--------|
+| N closed positions | ≥ 30 | **83** (capped, max 15/asset) | ✅ |
+| ALNY cluster share | ≤ 20% | **18.1%** (15/83) | ✅ |
+| Mean excess return | > 0% | **+1.42%** | ✅ |
+| Hit rate | > 50% | **51.8%** | ✅ |
+| Naive t-stat | > 1.65 (p<0.10) | 0.86 (p=0.39) | ❌ |
+| Alpha survives clustered SE | p < 0.10 | Not yet computed | ❌ |
+| Bootstrap 90% CI excludes 0 | Lower bound > 0 | Not yet computed | ❌ |
+| Score decile monotonicity | Decile 9-10 > Decile 1-2 | N insufficient | ❌ |
 
-### Structural Constraint Identified (2026-03-28)
+### Sprint 24 Improvements (2026-03-29)
 
-**Catalyst-gated N caps at ~22 with current event density**
+**Per-asset concentration cap** added to `ReplayPolicyConfig.max_decisions_per_asset`:
+- Previous best: N=22 (catalyst-gated) or N=103 with 39% ALNY cluster
+- Sprint 24 result: N=83, ALNY=18.1%, mean excess=+1.42%, hit rate=51.8%
+- Cap flag: `--max-decisions-per-asset 15`
 
-- Event inventory: 88 total historical events; only 27 pre-2024 (5–11/year in 2020–2023)
-- `--require-catalyst-days 21` on 2021-2026 range → N=22 (vs N=103 without gate)
-- `--require-catalyst-days 30` + `--max-hold-days 56` → N=21, mean=+0.70% raw
-- `--require-catalyst-days 21` + `--max-hold-days 14` → N=19, mean=+8.66% raw but near-zero excess
-- All catalyst-gated runs fail graduation because mean excess ≈ 0: gains are XBI beta, not alpha
+**Sprint 23 improvements**: 42 trial readout events seeded for 2021-2023 (from 88 → 130 total
+historical events). Catalyst gate N improved from 22 → 21 (marginal, as expected — seeded events
+are announcement dates not forward-scheduled catalysts).
 
-**Core tension**: N≥30 requires no catalyst gate → ALNY cluster (39%). Catalyst gate solves ALNY
-concentration but caps N at ~22 due to sparse 2021-2023 event density.
+### Why Alpha Doesn't Survive Statistical Tests
 
-### No-Gate Baseline (e9ffd496, 2021-01-01 → 2026-03-22, top2_add_hold30d)
-- N trades: 103 | Mean excess: +2.20% | Std: 20.06% | ALNY cluster: 40/103 = 39%
-- t-stat (naive): 1.11 (p=0.269) | t-stat (clustered): 1.41 (p=0.186)
-- Block bootstrap 95% CI: [−0.98%, +6.25%]
+N=83 trades over 5 years with std=15.03% per trade requires N≥302 for p<0.10 at the observed
+1.42% mean excess (power calculation: N = (z × σ / μ)² = (1.645 × 15.03 / 1.42)² ≈ 302).
 
-### Edge Decomposition Insights (e9ffd496)
-- **thesis_error dominates** (N=50, −7.62% excess) — signal firing on noise, not data
-- **market_drift is the return driver** (N=45, +16.08% excess) — broad biotech beta, not alpha
-- **Days 15–30 before catalyst** shows +25.09% excess (N=2) — strong but statistically noise
-- **Asset-level heterogeneity**: BHVN (+7.64%, 64.7% HR), KYMR (+6.59%, 60.0% HR) are signal carriers
+This is a fundamental statistical limit, not an infrastructure bug. To achieve p<0.10:
+- **Option A**: Continue accumulating live decisions (estimated: 5–7 more years at current pace)
+- **Option B**: Improve signal quality — reduce thesis_error rate (current: 31/83 = 37% of decisions)
 
-### Path to Graduation (requires event seeding work)
-1. **Seed 30+ pre-2024 catalyst events** (2021-2023 gap: ALNY ORION-3, APOLLO-B; NTLA Ph1; VRTX VX-147; SRPT 301; CRSP Ph3 enrollment; BHVN readouts; KYMR early trials) — this is the binding constraint
-2. **With denser events**: re-run 2021-2026 with `--require-catalyst-days 21 --max-hold-days 14` targeting N≥35, ALNY ≤ 20% cluster share
-3. **Improve thesis scoring**: Resolve more claims in KnowledgeStore so thesis_strength ≠ 0.5 (neutral)
-4. **After N≥30**: run alpha_validation — expect clustered SE p<0.10 if signal is real
+### Edge Decomposition (run 906fc24b, capped)
+- **thesis_error** dominates negatively (N=31, −6.5% avg) — signal firing on claims without resolution
+- **market_drift** is the positive driver (N=35, +14.4% avg) — broad biotech beta
+- Signal carriers: KYMR (N=10, mean=+13.6%), RVMD (N=9, mean=+8.0%), MDGL (N=9, mean=+4.7%)
 
-### Data Coverage
+### Path to Improved Graduation
+1. **Reduce thesis_error rate**: Resolve more KnowledgeStore claims so thesis_strength ≠ 0.5 (neutral)
+   — currently all claims default to neutral (no resolved outcomes), making thesis score noise
+2. **Run bve-daily-brief regularly**: accumulate screen_snapshots and resolved claims over time
+3. **Live decision tracking**: use `pos_predictions` table to record predictions; resolve outcomes
+   when readouts occur; feed into `CalibratedPOSModel` to improve the model PoS signal
+
+### Data Coverage (2026-03-29)
 - Price history: 48 tickers, 2021-01-04 to 2026-03-20
-- Total seeded events: 88 (27 pre-2024; 61 from 2024-2026)
-- Coverage audit (2024-01-01 to 2026-03-01): 43/81 tickers with full price coverage
+- Total seeded events: 130 (69 pre-2024 trial/PDUFA; 61 from 2024-2026)
+- POS backtest dataset: N=99 (Phase 2=39.6%, Phase 3=60.8%), Brier=0.213, AUC=0.74
+- KnowledgeStore claims resolved: 0 (all thesis_strength = 0.5 neutral)
 
 ## Last Change
 

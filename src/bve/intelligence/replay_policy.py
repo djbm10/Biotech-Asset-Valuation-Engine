@@ -90,6 +90,10 @@ class ReplayPolicyConfig:
     loss_block_weeks: int = 8
     # Permanent block after repeated losses
     max_consecutive_losses: int = 3
+    # Per-run per-asset concentration cap
+    # 0 = no cap; N > 0 = block asset after N decisions this run.
+    # Use to prevent any single name dominating the backtest (e.g. ALNY cluster).
+    max_decisions_per_asset: int = 0
 
     @classmethod
     def mna_profile(cls) -> "ReplayPolicyConfig":
@@ -133,6 +137,7 @@ class ReplayPolicy:
         self._blocked_until: dict[str, date] = {}
         self._consecutive_losses: dict[str, int] = {}
         self._permanently_blocked_asset_ids: set[str] = set()
+        self._per_asset_decisions: dict[str, int] = {}
 
     def record_closed_position(
         self,
@@ -317,6 +322,12 @@ class ReplayPolicy:
                 )
                 continue
 
+            # Per-run per-asset concentration cap
+            if cfg.max_decisions_per_asset > 0:
+                prior = self._per_asset_decisions.get(opp.asset_id, 0)
+                if prior >= cfg.max_decisions_per_asset:
+                    continue
+
             timing_note = ""
             if cfg.catalyst_timing and catalyst_dates and opp.asset_id in catalyst_dates:
                 cat_date = catalyst_dates[opp.asset_id]
@@ -336,6 +347,9 @@ class ReplayPolicy:
                 )
             )
             selected_asset_ids.add(opp.asset_id)
+            self._per_asset_decisions[opp.asset_id] = (
+                self._per_asset_decisions.get(opp.asset_id, 0) + 1
+            )
             remaining_exposure -= size
             if remaining_open_slots is not None:
                 remaining_open_slots -= 1
