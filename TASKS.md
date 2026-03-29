@@ -491,3 +491,12 @@ connectors
 - [x] N and cluster criteria now met; alpha pre-statistical (p=0.39, need ~302 trades for p<0.10 at std=15%)
 - [x] `PROJECT_STATE.md` updated with graduation table, statistical limit analysis, path forward
 - [x] 14 tests in `tests/test_sprint24.py`, all passing
+
+### Sprint 25 — Thesis claim resolution + thesis_strength in screen snapshots
+- [x] `ScreenRow.thesis_strength`: optional float field in `implied_pos_batch.py` (None = no resolved claims)
+- [x] `screen_snapshots` schema: added `thesis_strength REAL` column with `_ensure_column` migration in `knowledge_layer.py`
+- [x] `write_screen_snapshots()` / `get_screen_snapshots()`: persist and return `thesis_strength`
+- [x] `_persist_screen_snapshot()` in `weekly_runner.py`: injects per-ticker `thesis_strength` from `ThesisTracker.snapshot()`
+- [x] `universe_screen.py`: THESIS column in table; thesis_strength in JSON; `_rows_from_store()` loads it from store
+- [x] `bve-claim-resolve` CLI: `list` / `resolve` / `expire-overdue` subcommands for live claim management
+- [x] 26 tests in `tests/test_sprint25.py`, all passing

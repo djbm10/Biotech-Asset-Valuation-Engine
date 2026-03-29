@@ -2,7 +2,7 @@
 
 ## Current Module Being Worked On
 
-**All ROADMAP phases complete (Sprints 10–24). System is operational.**
+**All ROADMAP phases complete (Sprints 10–25). System is operational.**
 
 Full roadmap: ROADMAP.md | Full task history: TASKS.md
 
@@ -50,7 +50,8 @@ This is a fundamental statistical limit, not an infrastructure bug. To achieve p
 
 ### Path to Improved Graduation
 1. **Reduce thesis_error rate**: Resolve more KnowledgeStore claims so thesis_strength ≠ 0.5 (neutral)
-   — currently all claims default to neutral (no resolved outcomes), making thesis score noise
+   — use `bve-claim-resolve resolve <ID> --status confirmed --evidence TEXT` when trial readouts occur
+   — thesis_strength now persisted in `screen_snapshots.thesis_strength` (Sprint 25)
 2. **Run bve-daily-brief regularly**: accumulate screen_snapshots and resolved claims over time
 3. **Live decision tracking**: use `pos_predictions` table to record predictions; resolve outcomes
    when readouts occur; feed into `CalibratedPOSModel` to improve the model PoS signal
