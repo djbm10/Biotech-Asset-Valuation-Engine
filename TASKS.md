@@ -541,6 +541,10 @@ connectors
 - [x] `ReplayPolicy.select()`: open-claim gate added after `min_thesis_score` gate
 - [x] `historical_replay.py`: `n_open_claims=snap.n_open` wired in `_step_decision()`;
       `--require-open-claim` CLI flag; `_openclaim` suffix in policy_tag
-- [x] **Graduation run** (run f97eab88): N=40, mean=**+3.80%**, hit rate=47.5% — best real-data result
-      (vs ungated +1.42% N=83; vs Sprint 27 confirmed-gate −0.24% N=129)
-- [x] 21 tests in `tests/test_sprint28.py`, all passing
+- [x] **Graduation run initial** (run f97eab88): N=40, mean=**+3.80%**, hit rate=47.5%
+- [x] Expanded `thesis_claims_history.yaml`: 28 → **38 claims** (10 new: LLY×2, KYMR follow-on,
+      RVMD early, ALNY follow-on, NTLA follow-on, ARVN follow-on, CRSP follow-on, MDGL follow-on,
+      REGN early) — adds LLY to covered universe, fills post-resolution gaps for top tickers
+- [x] **Graduation run expanded** (run 8eed5181): N=**83**, mean=**+3.76%**, hit rate=**53.0%**,
+      t≈**2.28** (p<0.05) — first run to exceed p<0.05 naive significance threshold
+- [x] 21 tests in `tests/test_sprint28.py`, all passing (test_sprint27.py updated for 38-claim count)

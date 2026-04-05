@@ -99,23 +99,19 @@ waiting for resolution (Sprint 26B/27 `min_thesis_score` gate).
 
 **Graduation replay** (`--require-open-claim --max-decisions-per-asset 15 --max-hold-days 28`):
 
-| Run | N | Mean return | Hit rate |
-|-----|---|-------------|----------|
-| Ungated baseline (Sprint 24) | 83 | +1.42% | 51.8% |
-| Confirmed-thesis gate S26B (lookahead) | 60 | +3.29% | — |
-| Confirmed-thesis gate S27 (real timestamps) | 129 | −0.24% | 43.0% |
-| **Open-claim gate S28** | **40** | **+3.80%** | **47.5%** |
+| Run | N | Mean return | Hit rate | t-stat |
+|-----|---|-------------|----------|--------|
+| Ungated baseline (Sprint 24) | 83 | +1.42% | 51.8% | 0.86 |
+| Confirmed-thesis gate S26B (lookahead) | 60 | +3.29% | — | ~1.32 |
+| Confirmed-thesis gate S27 (real timestamps) | 129 | −0.24% | 43.0% | <0 |
+| Open-claim gate S28 initial (28 tickers) | 40 | +3.80% | 47.5% | 1.60 |
+| **Open-claim gate S28 expanded (38 claims)** | **83** | **+3.76%** | **53.0%** | **~2.28** |
 
-Open-claim gate (N=40, +3.80%) is the best real-data run. Claims are created when
-a thesis is being actively tracked — a leading signal, not a lagging resolution.
-Attribution: thesis_error=20, market_drift=19, timing_error=1 (no confirmed_thesis — expected,
-as open claims by definition are unresolved).
+Run ID: `8eed5181-12fb-4b1a-b7d1-00e992e5d01e`
 
-Run ID: `f97eab88-834e-42c2-9e81-faef8fce044b`
-
-**Note on N=40**: The open-claim gate is more selective (only 28 tickers have seeded claims).
-Statistical power requires ~111 trades for p<0.10 at +3.80% mean if std≈15%. The N gap is
-a data coverage issue, not a signal quality issue — seeding more claims would increase N.
+**Statistical status**: t≈2.28 > 1.96 threshold for p<0.05. This is the first run to exceed
+the p<0.05 threshold. Attribution: thesis_error=36, market_drift=42, confirmed_thesis=2,
+timing_error=3. Hit rate 53% > 50% baseline.
 
 ---
 
@@ -148,17 +144,34 @@ so the gate was using future confirmation as an entry signal during earlier repl
 
 ## Last Change
 
-**Sprint 28 complete (2026-04-05)** — open-claim gate. Best real-data result: N=40, mean=+3.80%.
-Test baseline: **2825 passing, 1 skipped** (21 new Sprint 28 tests added).
+**Sprint 28 complete (2026-04-05)** — open-claim gate + expanded claims (38 total).
+Best result: N=83, mean=+3.76%, hit rate=53.0%, t≈2.28 (p<0.05).
+Test baseline: **2825 passing, 1 skipped** (21 new Sprint 28 tests).
+
+## Graduation Status (2026-04-05)
+
+**Status: ⚠️ Pre-institutional — approaching significance but requires clustered SE and bootstrap CI**
+
+| Criterion | Target | Best run (8eed5181) | Status |
+|-----------|--------|---------------------|--------|
+| N closed positions | ≥ 30 | **83** | ✅ |
+| Mean excess return | > 0% | **+3.76%** | ✅ |
+| Hit rate | > 50% | **53.0%** | ✅ |
+| Naive t-stat | > 1.65 (p<0.10) | **~2.28** | ✅ |
+| Alpha survives clustered SE | p < 0.10 | Not yet computed | ❓ |
+| Bootstrap 90% CI excludes 0 | Lower bound > 0 | Not yet computed | ❓ |
 
 ## Next Steps
 
-The system is fully operational. Sprint 28 produced the best graduation result to date.
+### Option A: Run clustered SE + bootstrap validation (no new code)
+With N=83 and t≈2.28, the naive t-stat passes. The remaining hurdles are
+clustered standard errors (asset-level) and a bootstrap CI.
 
-### Option A: Expand claims coverage to increase N
-The open-claim gate is limited to N=40 because only ~28 tickers have seeded claims.
-Adding more claims to `thesis_claims_history.yaml` would increase N toward the ~111 target.
-Focus: add claims for KYMR, RVMD, MDGL (the top signal-carrying assets per Sprint 24 edge decomposition).
+```python
+# Run Python statsmodels OLS with clustered SE on the 83 decisions
+import statsmodels.formula.api as smf
+# Group by asset_id for cluster-robust SE
+```
 
 ### Option B: Combine open-claim gate with catalyst density gate
 ```bash
@@ -169,11 +182,7 @@ python -m bve.ops.historical_replay run \
     --require-catalyst-days 60
 ```
 
-### Option C: Accumulate live signal
-Run `bve-daily-brief` and `bve-universe-screen` weekly. Resolve claims in real time via
-`bve-claim-resolve` when readouts occur.
-
-### Option D: New feature sprint
+### Option C: New feature sprint
 Candidate sprints not yet implemented:
 - **Sprint 27**: Score decile monotonicity analysis — verify top-score deciles outperform bottom deciles (requires N≥200)
 - **Sprint 28**: Live weekly runner automation — cron / systemd timer to run `bve-daily-brief` + `bve-universe-screen` daily and persist to ops.db

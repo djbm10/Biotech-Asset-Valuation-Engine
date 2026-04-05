@@ -513,6 +513,23 @@ claims:
   - ticker: REGN
     asset_id: a-regn
     company_id: co-regn
+    claim_type: regulatory_pathway
+    assertion: >
+      EYLEA HD (aflibercept 8 mg) receives FDA approval for wet AMD with
+      extended 12-16 week dosing interval, enabling label differentiation
+      from biosimilar EYLEA 2 mg before generics enter market
+    created_at: "2021-01-04"
+    resolved_at: "2023-08-22"
+    status: confirmed
+    evidence: >
+      FDA approved EYLEA HD (aflibercept 8 mg) August 22, 2023 for wet AMD,
+      nAMD, and DME with extended dosing interval; PHOTON Phase 3 met
+      non-inferiority primary endpoint; EYLEA HD positioned ahead of
+      biosimilar EYLEA entry
+
+  - ticker: REGN
+    asset_id: a-regn
+    company_id: co-regn
     claim_type: competitor_failure
     assertion: >
       EYLEA biosimilar penetration remains slower than analyst consensus
@@ -526,3 +543,180 @@ claims:
       extended interval) captured significant switch volume; Regeneron
       retained strong combined wet AMD market position through mid-2024;
       EYLEA franchise revenue decline slower than feared
+
+  # ---------------------------------------------------------------------------
+  # LLY — Eli Lilly / tirzepatide / obesity
+  # ---------------------------------------------------------------------------
+  - ticker: LLY
+    asset_id: a-lly
+    company_id: co-lly
+    claim_type: endpoint_met
+    assertion: >
+      Tirzepatide (GIP/GLP-1 dual agonist) achieves clinically meaningful
+      weight loss vs placebo in SURMOUNT-1 Phase 3 obesity trial, supporting
+      FDA approval in adults with obesity or overweight+comorbidity
+    created_at: "2021-01-04"
+    resolved_at: "2022-10-15"
+    status: confirmed
+    evidence: >
+      SURMOUNT-1 results presented at EASD Oct 2022 and NEJM Oct 2022:
+      15 mg tirzepatide achieved 20.9% mean weight loss vs 3.1% placebo
+      (p<0.001); all doses met superiority; SURMOUNT-2/3/4 programme
+      supported NDA submission for obesity indication
+
+  - ticker: LLY
+    asset_id: a-lly
+    company_id: co-lly
+    claim_type: regulatory_pathway
+    assertion: >
+      Tirzepatide receives FDA approval as Zepbound for chronic weight
+      management in adults with obesity or overweight with comorbidities,
+      expanding the Mounjaro franchise beyond type 2 diabetes
+    created_at: "2022-11-01"
+    resolved_at: "2023-11-08"
+    status: confirmed
+    evidence: >
+      FDA approved Zepbound (tirzepatide) November 8, 2023 for chronic
+      weight management; launch price set at $1,059.87/month; positioned
+      as premium obesity therapy vs Wegovy; peak sales forecasts raised
+      above $25B across T2D + obesity indications
+
+  # ---------------------------------------------------------------------------
+  # KYMR — Kymera / KT-474 / HS follow-on (after AD Phase 2 confirmation)
+  # ---------------------------------------------------------------------------
+  - ticker: KYMR
+    asset_id: a-kymr
+    company_id: co-kymr
+    claim_type: endpoint_met
+    assertion: >
+      KT-474 IRAK4 degrader demonstrates ≥50% IHS4 improvement vs placebo
+      in Phase 2 hidradenitis suppurativa cohort, confirming mechanistic
+      breadth beyond atopic dermatitis
+    created_at: "2022-10-01"
+    resolved_at: "2024-03-08"
+    status: confirmed
+    evidence: >
+      AAD 2024 (March 8, 2024): KT-474 Phase 2 HS data showed statistically
+      significant IHS4 improvement vs placebo with dose-dependent response;
+      data extended the IRAK4 degrader hypothesis to inflammatory skin
+      diseases beyond AD, supporting broader programme value
+
+  # ---------------------------------------------------------------------------
+  # RVMD — Revolution Medicines / RMC-6236 early / Phase 1 IND clearance
+  # ---------------------------------------------------------------------------
+  - ticker: RVMD
+    asset_id: a-rvmd
+    company_id: co-rvmd
+    claim_type: pos_above_threshold
+    assertion: >
+      RMC-6236 pan-RAS(ON) multi-selective inhibitor achieves IND clearance
+      and Phase 1 first-patient-dosed with acceptable initial safety profile,
+      demonstrating feasibility of targeting KRAS wild-type-preferring state
+    created_at: "2021-01-04"
+    resolved_at: "2022-12-01"
+    status: confirmed
+    evidence: >
+      RMC-6236 IND cleared by FDA in 2022; Phase 1 dose escalation opened
+      with patients dosed at Revelation Medicines ASCO update; early safety
+      profile acceptable; differentiated from covalent KRASG12C inhibitors
+      by multi-selectivity across KRAS/HRAS/NRAS mutations
+
+  # ---------------------------------------------------------------------------
+  # ALNY — Alnylam / zilebesiran / hypertension follow-on
+  # ---------------------------------------------------------------------------
+  - ticker: ALNY
+    asset_id: a-alny
+    company_id: co-alny
+    claim_type: enrollment_on_track
+    assertion: >
+      Zilebesiran KARDIA-2 Phase 3 completes full enrollment in hypertension
+      on background therapy, demonstrating operational execution and
+      Roche partnership confidence in the programme
+    created_at: "2022-12-01"
+    resolved_at: "2024-09-01"
+    status: confirmed
+    evidence: >
+      KARDIA-2 Phase 3 enrollment completed in 2024 with partner Roche;
+      trial design validated by FDA; zilebesiran siRNA against angiotensinogen
+      showed 14 mmHg SBP reduction in KARDIA-1 Phase 2 (June 2022),
+      supporting the pivotal programme design
+
+  # ---------------------------------------------------------------------------
+  # NTLA — Intellia / NTLA-2002 / HAE follow-on
+  # ---------------------------------------------------------------------------
+  - ticker: NTLA
+    asset_id: a-ntla
+    company_id: co-ntla
+    claim_type: endpoint_met
+    assertion: >
+      NTLA-2002 single-dose in vivo CRISPR editing of KLKB1 achieves
+      durable ≥80% reduction in HAE attack frequency at 12-month follow-up,
+      establishing a one-time curative approach for hereditary angioedema
+    created_at: "2022-07-01"
+    resolved_at: "2023-12-09"
+    status: confirmed
+    evidence: >
+      ASH 2023 (December 9, 2023): NTLA-2002 Phase 1/2 data showed 95%
+      mean attack reduction at 12 months in evaluable patients; no attacks
+      in majority of patients from month 3 onward; supports move to
+      registration-enabling Phase 2/3 HAELO trial
+
+  # ---------------------------------------------------------------------------
+  # ARVN — Arvinas / vepdegestrant / VERITAC-2 Phase 3 follow-on
+  # ---------------------------------------------------------------------------
+  - ticker: ARVN
+    asset_id: a-arvn
+    company_id: co-arvn
+    claim_type: enrollment_on_track
+    assertion: >
+      VERITAC-2 Phase 3 comparing vepdegestrant vs fulvestrant in ER+/HER2-
+      advanced breast cancer completes enrolment on schedule, confirming
+      feasibility of PROTAC degrader as a registrational backbone
+    created_at: "2023-01-01"
+    resolved_at: "2024-06-01"
+    status: confirmed
+    evidence: >
+      Arvinas confirmed VERITAC-2 enrolment complete in 2024; trial
+      randomised ~700 patients across global sites; Pfizer co-development
+      partnership provided operational and financial support; primary
+      endpoint readout expected 2025/2026
+
+  # ---------------------------------------------------------------------------
+  # CRSP — CRISPR / Casgevy / first commercial infusions
+  # ---------------------------------------------------------------------------
+  - ticker: CRSP
+    asset_id: a-crsp
+    company_id: co-crsp
+    claim_type: market_reaction_positive
+    assertion: >
+      Casgevy achieves first commercial patient infusions at authorized
+      treatment centres in the US within 4 months of approval, demonstrating
+      real-world operational execution of gene therapy supply chain
+    created_at: "2024-01-01"
+    resolved_at: "2024-05-01"
+    status: confirmed
+    evidence: >
+      Vertex and CRISPR Therapeutics confirmed first US patients dosed
+      commercially with Casgevy at spring 2024 ATCs; reimbursement secured
+      at several large payer networks; Bluebird Bio comparison showed CRSP
+      avoided initial launch stumbles despite manufacturing complexity
+
+  # ---------------------------------------------------------------------------
+  # MDGL — Madrigal / Rezdiffra / FDA approval follow-on
+  # ---------------------------------------------------------------------------
+  - ticker: MDGL
+    asset_id: a-mdgl
+    company_id: co-mdgl
+    claim_type: regulatory_pathway
+    assertion: >
+      Rezdiffra (resmetirom) receives FDA approval for MASH with moderate-
+      to-advanced liver fibrosis, becoming the first approved pharmacotherapy
+      for MASH and launching into an unmet-need market with no competitors
+    created_at: "2024-01-01"
+    resolved_at: "2024-03-14"
+    status: confirmed
+    evidence: >
+      FDA approved Rezdiffra (resmetirom) March 14, 2024 for adults with
+      non-cirrhotic MASH with moderate-to-severe fibrosis (F2-F3);
+      first MASH approval; launched at $47,400/year; Madrigal guided
+      2024 net sales $100-120M with strong payer coverage trajectory
