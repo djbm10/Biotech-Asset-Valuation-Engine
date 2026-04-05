@@ -532,3 +532,15 @@ connectors
 - [x] **Finding**: confirmed-thesis gate is a lagging indicator — graduation replay N=129, mean=−0.24%
       vs ungated baseline N=83, mean=+1.42%; stock prices react before claim confirmation
 - [x] 18 tests in `tests/test_sprint27.py`, all passing
+
+### Sprint 28 — Open-claim entry gate (leading indicator) ✓
+- [x] `ScoredCandidate.n_open_claims: int = 0` — carries `ThesisTracker.snapshot().n_open`
+      through the actionable scoring pipeline
+- [x] `ActionableOpportunity.n_open_claims: int = 0` — passthrough in `ActionableGenerator`
+- [x] `ReplayPolicyConfig.require_open_claim: bool = False` — gate on ≥1 active unresolved claim
+- [x] `ReplayPolicy.select()`: open-claim gate added after `min_thesis_score` gate
+- [x] `historical_replay.py`: `n_open_claims=snap.n_open` wired in `_step_decision()`;
+      `--require-open-claim` CLI flag; `_openclaim` suffix in policy_tag
+- [x] **Graduation run** (run f97eab88): N=40, mean=**+3.80%**, hit rate=47.5% — best real-data result
+      (vs ungated +1.42% N=83; vs Sprint 27 confirmed-gate −0.24% N=129)
+- [x] 21 tests in `tests/test_sprint28.py`, all passing
