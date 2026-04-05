@@ -82,6 +82,7 @@ class ScoredCandidate:
     ranking_score: float            # 0.0–1.0, from ranking engine
     opportunity_score: float = 0.0  # 0.0–1.0, from OpportunityScanner
     thesis_strength: Optional[float] = None        # from ThesisTracker.snapshot()
+    n_open_claims: int = 0                          # from ThesisTracker.snapshot().n_open
     critic_severity: Optional[str] = None          # "caution" | "warning" | None
     capital_risk_level: Optional[CapitalRiskLevel] = None  # from CapitalStructureAssessment
     catalyst_description: str = ""
@@ -138,6 +139,7 @@ class ActionableOpportunity(BaseModel):
     opportunity_component: float
     score_version: str
     thesis_strength: Optional[float] = None
+    n_open_claims: int = 0
     critic_severity: Optional[str] = None
     risk_flags: list[str] = Field(default_factory=list)
     one_line_summary: str = ""
@@ -339,6 +341,7 @@ class ActionableGenerator:
                 opportunity_component=round(o_comp, 4),
                 score_version=effective_version,
                 thesis_strength=cand.thesis_strength,
+                n_open_claims=getattr(cand, "n_open_claims", 0),
                 critic_severity=cand.critic_severity,
                 risk_flags=risk_flags,
                 one_line_summary=summary,

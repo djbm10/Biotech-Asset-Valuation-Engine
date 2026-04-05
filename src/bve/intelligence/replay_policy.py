@@ -99,6 +99,12 @@ class ReplayPolicyConfig:
     # > 0 = require thesis_strength >= threshold; None thesis_strength also blocked.
     # E.g. 0.5 → only enter when confirmed claims outnumber refuted + expired.
     min_thesis_score: float = 0.0
+    # Open-claim entry gate (leading indicator)
+    # False = disabled (default, backward-compatible).
+    # True  = require at least one open (unresolved) thesis claim before entry.
+    #         Unlike min_thesis_score which waits for resolution, this gate fires
+    #         as soon as a claim is created — a leading signal, not a lagging one.
+    require_open_claim: bool = False
 
     @classmethod
     def mna_profile(cls) -> "ReplayPolicyConfig":
@@ -337,6 +343,13 @@ class ReplayPolicy:
             if cfg.min_thesis_score > 0.0:
                 ts = getattr(opp, "thesis_strength", None)
                 if ts is None or ts < cfg.min_thesis_score:
+                    continue
+
+            # Open-claim gate (leading indicator)
+            # Require at least one active unresolved thesis claim before entry.
+            if cfg.require_open_claim:
+                n_open = getattr(opp, "n_open_claims", 0)
+                if n_open < 1:
                     continue
 
             timing_note = ""

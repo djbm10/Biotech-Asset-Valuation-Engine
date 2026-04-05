@@ -1234,6 +1234,7 @@ class HistoricalReplay:
                 ranking_score=u.get("ranking_score", 0.5),
                 opportunity_score=u.get("opportunity_score", 0.5),
                 thesis_strength=thesis_strength,
+                n_open_claims=snap.n_open,
                 catalyst_description=u.get("catalyst", ""),
                 indication=u.get("indication", ""),
                 company_id=u.get("company_id", ""),
@@ -1855,6 +1856,7 @@ def _cmd_run(args: list[str]) -> None:
     require_catalyst_days = 0
     max_decisions_per_asset = 0
     min_thesis_score = 0.0
+    require_open_claim = False
     universe_file: Optional[str] = None
     profile = "standard"
 
@@ -1914,6 +1916,9 @@ def _cmd_run(args: list[str]) -> None:
         elif args[i] == "--min-thesis-score":
             min_thesis_score = float(args[i + 1])
             i += 2
+        elif args[i] == "--require-open-claim":
+            require_open_claim = True
+            i += 1
         elif args[i] == "--universe-file":
             universe_file = args[i + 1]
             i += 2
@@ -1964,6 +1969,8 @@ def _cmd_run(args: list[str]) -> None:
         policy_cfg.max_decisions_per_asset = max_decisions_per_asset
     if min_thesis_score > 0.0:
         policy_cfg.min_thesis_score = min_thesis_score
+    if require_open_claim:
+        policy_cfg.require_open_claim = True
 
     policy_tag = (
         f"{policy_cfg.name}_hold{policy_cfg.max_hold_days}d"
@@ -1974,6 +1981,7 @@ def _cmd_run(args: list[str]) -> None:
         + (f"_catden{policy_cfg.require_catalyst_within_days}d" if policy_cfg.require_catalyst_within_days > 0 else "")
         + (f"_cap{policy_cfg.max_decisions_per_asset}" if policy_cfg.max_decisions_per_asset > 0 else "")
         + (f"_thesis{int(policy_cfg.min_thesis_score * 100)}" if policy_cfg.min_thesis_score > 0.0 else "")
+        + ("_openclaim" if policy_cfg.require_open_claim else "")
     )
     replay = HistoricalReplay(rs, str(REPLAY_KNOWLEDGE_PATH), universe=universe, policy_config=policy_cfg)
     run_id = replay.run(start=start, end=end, cadence=resolved_cadence, decision_policy=policy_tag)
