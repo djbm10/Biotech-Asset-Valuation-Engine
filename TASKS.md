@@ -518,3 +518,17 @@ connectors
 - [x] Confirmed dataset already at target calibration: N=99, Phase 2=39.6%, Phase 3=60.8% success
 - [x] Brier=0.2127, AUC=0.74; ~15% Brier Skill Score vs no-skill baseline
 - [x] `CLAUDE.md` updated: removed stale 82.5% survivor-bias warning; Priority 1 marked complete
+
+### Sprint 27 — Thesis-gate no-lookahead fix + historical claims backfiller ✓
+- [x] Fix `ThesisTracker.snapshot()` resolved_at lookahead bug: claims resolved after `as_of_date` now
+      treated as 'open' during replay (was leaking future resolutions into earlier replay weeks)
+- [x] `research/replay/thesis_claims_history.yaml`: 28 historical claims for 26 universe tickers
+      (2021-2023; confirmed/refuted/expired with real resolution dates)
+- [x] `ops/thesis_claims_backfiller.py`: `ThesisClaimsBackfiller` — loads YAML, seeds with accurate
+      `created_at`/`resolved_at` timestamps; idempotent via SHA-1 dedup key on `asset_id+assertion`
+- [x] `cli/seed_replay_claims.py`: `bve-seed-replay-claims` CLI with `--dry-run`, `--claims`, `--db`
+- [x] `knowledge_layer.py`: pre-migration block for old replay stores missing `extraction_result_id`
+      and `created_at` on `structured_signals` table
+- [x] **Finding**: confirmed-thesis gate is a lagging indicator — graduation replay N=129, mean=−0.24%
+      vs ungated baseline N=83, mean=+1.42%; stock prices react before claim confirmation
+- [x] 18 tests in `tests/test_sprint27.py`, all passing

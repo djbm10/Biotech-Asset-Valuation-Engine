@@ -89,32 +89,56 @@ This is a fundamental statistical limit, not an infrastructure bug. To achieve p
 | Naive t-stat | > 1.65 | 0.86 (p=0.39) | ~1.32 (p≈0.19) | ❌ |
 | N required for p<0.10 | — | 302 | **~111** | Improving |
 
+## Sprint 27 Summary (2026-04-05)
+
+### 27A — Thesis-gate no-lookahead fix
+- Fixed `ThesisTracker.snapshot(as_of_date=...)`: claims with `resolved_at > as_of_date` were
+  incorrectly appearing as confirmed/refuted in replay — a lookahead bug. Now treated as "open".
+- Impact: ALNY claim (resolved 2022-11-06) correctly blocked before that date during replay.
+
+### 27B — Historical claims backfiller
+- `research/replay/thesis_claims_history.yaml`: 28 claims, 26 tickers, real resolution dates
+- `bve-seed-replay-claims`: seeds claims into replay KB with accurate timestamps; idempotent
+- KnowledgeStore pre-migration: handles old replay stores with missing `structured_signals` columns
+
+### 27C — Confirmed-thesis finding
+Graduation replay with real historical claims (N=129, mean=−0.24%) **underperforms** ungated
+baseline (N=83, mean=+1.42%). Root cause: confirmed thesis is a **lagging indicator** — by the
+time a Phase 2/3 claim resolves as "confirmed", the stock has already repriced. The gate admits
+entries after the signal has decayed.
+
+| Signal type | N | Mean return |
+|-------------|---|-------------|
+| Ungated baseline (run 906fc24b) | 83 | **+1.42%** |
+| Thesis-gated sprint 26B (opaque claims) | 60 | **+3.29%** |
+| Thesis-gated sprint 27 (real timestamps) | 129 | **−0.24%** |
+
+Sprint 26B's +3.29% was inflated by lookahead: opaque claims were immediately resolved when seeded,
+so the gate was using future confirmation as an entry signal during earlier replay weeks.
+
 ## Last Change
 
-**Sprints 26A/26B/26C complete (2026-03-29)** — see Sprint 26 Summary above.
-Test baseline: **2789 passing, 1 skipped** (full suite as of 2026-03-29).
+**Sprint 27 complete (2026-04-05)** — see Sprint 27 Summary above.
+Test baseline: **2807 passing, 1 skipped** (18 new Sprint 27 tests added).
 
 ## Next Steps
 
-The system is fully operational. Three potential directions for future work:
+The system is fully operational. Key finding from Sprint 27 guides the path forward:
 
-### Option A: Accumulate live signal (recommended — no new code)
-Run `bve-daily-brief` and `bve-universe-screen` weekly. Use `bve-claim-resolve resolve`
-when trial readouts occur to update thesis_strength in real time. After ~3–6 months of
-claim resolution, re-run the thesis-gated replay (`--min-thesis-score 0.5`) to see if
-N=111 is approaching.
-
-### Option B: Extend replay time range for more statistical power
-Seed prices from 2021-01-01 for all 27 universe names (already done) and extend to
-2026-03-29. The thesis-gated run needs ~111 trades for p<0.10; extending the window
-from 5 years to 6+ years adds ~12 decisions/year at current pace.
-
+### Option A: Use claim-open gate instead of claim-confirmed gate
+The current `min_thesis_score` gate blocks entries with `thesis_strength < 0.5`, which means
+waiting for claim *resolution*. A better gate: **require at least one open claim** (thesis is
+being tracked) rather than a resolved confirmation. Claim tracking is a leading indicator;
+claim confirmation is lagging.
 ```bash
-python -m bve.ops.historical_replay run \
-    --start 2021-01-01 --end 2026-03-29 --cadence weekly \
-    --decision-policy top2_add --max-hold-days 28 \
-    --max-decisions-per-asset 15 --min-thesis-score 0.5
+# Prototype: gate on n_open > 0 instead of thesis_strength > 0.5
+# (would require new ReplayPolicy flag: --require-open-claim)
 ```
+
+### Option B: Accumulate live signal (no new code)
+Run `bve-daily-brief` and `bve-universe-screen` weekly. Resolve claims in real time via
+`bve-claim-resolve` when readouts occur. After 6+ months of live operation, re-run replay
+with real ops.db data to measure live signal quality.
 
 ### Option C: New feature sprint
 Candidate sprints not yet implemented:
