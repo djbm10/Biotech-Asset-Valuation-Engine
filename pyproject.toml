@@ -70,6 +70,7 @@ bve-daily-brief          = "bve.cli.daily_brief:main"
 bve-recalibrate          = "bve.cli.recalibrate:main"
 bve-seed-catalysts       = "bve.cli.seed_catalysts:main"
 bve-seed-replay-events   = "bve.cli.seed_replay_events:main"
+bve-seed-replay-claims   = "bve.cli.seed_replay_claims:main"
 bve-claim-resolve        = "bve.cli.claim_resolve:main"
 
 [tool.setuptools.packages.find]

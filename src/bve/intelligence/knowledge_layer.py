@@ -293,6 +293,19 @@ class KnowledgeStore:
             self._conn.execute(f"ALTER TABLE {table} ADD COLUMN {column} {ddl}")
 
     def _init_schema(self) -> None:
+        # Pre-migration: add columns that the executescript's CREATE INDEX
+        # statements reference, before the script runs.  Guard against the
+        # table not yet existing (fresh DB — executescript will create it).
+        tables = {
+            row[0]
+            for row in self._conn.execute(
+                "SELECT name FROM sqlite_master WHERE type='table'"
+            ).fetchall()
+        }
+        if "structured_signals" in tables:
+            self._ensure_column("structured_signals", "extraction_result_id", "TEXT")
+            self._ensure_column("structured_signals", "created_at", "TEXT")
+
         cur = self._conn.cursor()
         cur.executescript(
             """
@@ -1035,6 +1048,7 @@ class KnowledgeStore:
         # Sprint 25: thesis_strength on screen_snapshots.
         # Populated by weekly_runner via ThesisTracker.snapshot() at screen time.
         self._ensure_column("screen_snapshots", "thesis_strength", "REAL")
+
 
         # Wave E-lite: stratification buckets on forecast_records.
         # Required for PoS recalibration by (indication × phase × endpoint_type).
