@@ -2151,6 +2151,43 @@ def _cmd_seed_signals(args: list[str]) -> None:
     print("seed-signals complete.")
 
 
+def _cmd_significance(args: list[str]) -> None:
+    """significance --run-id <run_id> [--bootstrap-samples N] [--seed N]"""
+    run_id: Optional[str] = None
+    bootstrap_samples = 2000
+    seed = 42
+    i = 0
+    while i < len(args):
+        if args[i] == "--run-id":
+            run_id = args[i + 1]
+            i += 2
+        elif args[i] == "--bootstrap-samples":
+            bootstrap_samples = int(args[i + 1])
+            i += 2
+        elif args[i] == "--seed":
+            seed = int(args[i + 1])
+            i += 2
+        else:
+            i += 1
+
+    if not run_id:
+        print("Usage: significance --run-id <run_id> [--bootstrap-samples N] [--seed N]")
+        sys.exit(1)
+
+    rs = ReplayStore(str(REPLAY_STORE_PATH))
+    decisions = rs.get_run_decisions(run_id)
+    closed = [d for d in decisions if d.get("return_pct") is not None and d.get("is_closed")]
+    rs.close()
+
+    if not closed:
+        print(f"No closed decisions found for run {run_id!r}")
+        sys.exit(1)
+
+    from bve.analysis.replay_significance import analyze, print_report
+    result = analyze(closed, run_id=run_id, bootstrap_samples=bootstrap_samples, seed=seed)
+    print_report(result)
+
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         print(__doc__)
@@ -2165,6 +2202,7 @@ if __name__ == "__main__":
         "run": _cmd_run,
         "summary": _cmd_summary,
         "inspect": _cmd_inspect,
+        "significance": _cmd_significance,
     }
 
     if cmd not in dispatch:
