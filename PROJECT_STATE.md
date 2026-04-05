@@ -105,13 +105,39 @@ waiting for resolution (Sprint 26B/27 `min_thesis_score` gate).
 | Confirmed-thesis gate S26B (lookahead) | 60 | +3.29% | — | ~1.32 |
 | Confirmed-thesis gate S27 (real timestamps) | 129 | −0.24% | 43.0% | <0 |
 | Open-claim gate S28 initial (28 tickers) | 40 | +3.80% | 47.5% | 1.60 |
-| **Open-claim gate S28 expanded (38 claims)** | **83** | **+3.76%** | **53.0%** | **~2.28** |
+| **Open-claim gate S28 expanded (38 claims)** | **83** | **+3.76%** | **53.0%** | **1.60** |
 
 Run ID: `8eed5181-12fb-4b1a-b7d1-00e992e5d01e`
 
-**Statistical status**: t≈2.28 > 1.96 threshold for p<0.05. This is the first run to exceed
-the p<0.05 threshold. Attribution: thesis_error=36, market_drift=42, confirmed_thesis=2,
-timing_error=3. Hit rate 53% > 50% baseline.
+**Statistical status** (corrected via Sprint 29 significance module): naive t=1.60 (p=0.109).
+The earlier estimate of t≈2.28 used an assumed std=15%; actual std=21.36% → lower t.
+Attribution: thesis_error=36, market_drift=42, confirmed_thesis=2, timing_error=3.
+Hit rate 53% > 50% baseline. Cluster-robust t=1.25 (G=12, df=11).
+
+---
+
+## Sprint 29 Summary (2026-04-05)
+
+### Cluster-robust SE + bootstrap CI significance module
+
+`analysis/replay_significance.py` implements full institutional-grade significance testing:
+- **Cameron-Miller cluster SE**: `V_CR = (G/(G-1))*(1/n²)*Σ_g(Σ_{i∈g}(r_i−r̄))²`
+  where G = unique asset_ids (clusters), n = total decisions
+- **Cluster-level bootstrap**: G clusters drawn with replacement, B=2000 iterations, percentile CI
+- **`significance` subcommand**: `python -m bve.ops.historical_replay significance --run-id <id>`
+
+**Actual result on run 8eed5181** (N=83, G=12 clusters):
+```
+Naive:   SE=2.35%, t=1.60, p=0.109
+Cluster: SE=3.02%, t=1.25, df=11, p=0.239  ← α does NOT survive clustering
+Bootstrap 90% CI: [−0.44%, +8.86%]          ← lower bound does NOT exclude zero
+Bootstrap p: 0.083                           ← encouraging (8.3% of samples ≤ 0)
+Graduation: NOT YET
+```
+
+Key finding: G=12 → df=11 creates a substantial small-sample penalty. The cluster SE (3.02%)
+is 29% wider than naive SE (2.35%), reflecting genuine within-asset correlation. Need either
+more clusters (G≥20) or higher signal strength to graduate.
 
 ---
 
@@ -144,33 +170,41 @@ so the gate was using future confirmation as an entry signal during earlier repl
 
 ## Last Change
 
-**Sprint 28 complete (2026-04-05)** — open-claim gate + expanded claims (38 total).
-Best result: N=83, mean=+3.76%, hit rate=53.0%, t≈2.28 (p<0.05).
-Test baseline: **2825 passing, 1 skipped** (21 new Sprint 28 tests).
+**Sprint 29 complete (2026-04-05)** — cluster-robust SE + bootstrap CI significance module.
+Best run (8eed5181): naive t=1.60 (p=0.109), cluster t=1.25 (df=11, p=0.239),
+bootstrap 90% CI [−0.44%, +8.86%], bootstrap p=0.083. Status: NOT YET graduated.
+Test baseline: **2847 passing, 1 skipped** (22 new Sprint 29 tests).
 
 ## Graduation Status (2026-04-05)
 
-**Status: ⚠️ Pre-institutional — approaching significance but requires clustered SE and bootstrap CI**
+**Status: ⚠️ Approaching — naive p=0.109, bootstrap p=0.083, cluster t < 1.645**
 
 | Criterion | Target | Best run (8eed5181) | Status |
 |-----------|--------|---------------------|--------|
 | N closed positions | ≥ 30 | **83** | ✅ |
 | Mean excess return | > 0% | **+3.76%** | ✅ |
 | Hit rate | > 50% | **53.0%** | ✅ |
-| Naive t-stat | > 1.65 (p<0.10) | **~2.28** | ✅ |
-| Alpha survives clustered SE | p < 0.10 | Not yet computed | ❓ |
-| Bootstrap 90% CI excludes 0 | Lower bound > 0 | Not yet computed | ❓ |
+| Naive t-stat | > 1.645 (p<0.10) | **1.60** (p=0.109) | ❌ |
+| Alpha survives clustered SE | cluster_t > 1.645 | **1.25** (df=11, p=0.239) | ❌ |
+| Bootstrap 90% CI excludes 0 | Lower bound > 0 | **[−0.44%, +8.86%]** | ❌ |
+
+Note: t≈2.28 in Sprint 28 was estimated using wrong std=15%; actual std=21.36% → naive t=1.60.
+G=12 clusters (asset_ids) → df=11 → small-sample correction moves cluster t further from threshold.
+Bootstrap p=0.083 is encouraging — 90% CI is close to excluding zero.
+
+Path to graduation: increase unique clusters (expand ticker universe or reduce concentration cap)
+or extend replay range to accumulate more decisions.
 
 ## Next Steps
 
-### Option A: Run clustered SE + bootstrap validation (no new code)
-With N=83 and t≈2.28, the naive t-stat passes. The remaining hurdles are
-clustered standard errors (asset-level) and a bootstrap CI.
-
-```python
-# Run Python statsmodels OLS with clustered SE on the 83 decisions
-import statsmodels.formula.api as smf
-# Group by asset_id for cluster-robust SE
+### Option A: Increase cluster count
+With G=12, df=11 is tight. G≥20 (df=19) would bring cluster t closer to naive t.
+```bash
+# Relax max-decisions-per-asset to allow more tickers through open-claim gate
+python -m bve.ops.historical_replay run \
+    --start 2021-01-01 --end 2026-03-29 --cadence weekly \
+    --decision-policy top2_add --max-hold-days 28 \
+    --max-decisions-per-asset 10 --require-open-claim
 ```
 
 ### Option B: Combine open-claim gate with catalyst density gate
@@ -184,6 +218,5 @@ python -m bve.ops.historical_replay run \
 
 ### Option C: New feature sprint
 Candidate sprints not yet implemented:
-- **Sprint 27**: Score decile monotonicity analysis — verify top-score deciles outperform bottom deciles (requires N≥200)
-- **Sprint 28**: Live weekly runner automation — cron / systemd timer to run `bve-daily-brief` + `bve-universe-screen` daily and persist to ops.db
-- **Sprint 29**: Bootstrap CI and clustered SE on replay returns — complete the remaining ❌ graduation criteria
+- **Sprint 30**: Score decile monotonicity analysis — verify top-score deciles outperform bottom deciles (requires N≥200)
+- **Sprint 31**: Live weekly runner automation — cron / systemd timer to run `bve-daily-brief` + `bve-universe-screen` daily and persist to ops.db

@@ -548,3 +548,14 @@ connectors
 - [x] **Graduation run expanded** (run 8eed5181): N=**83**, mean=**+3.76%**, hit rate=**53.0%**,
       t≈**2.28** (p<0.05) — first run to exceed p<0.05 naive significance threshold
 - [x] 21 tests in `tests/test_sprint28.py`, all passing (test_sprint27.py updated for 38-claim count)
+
+### Sprint 29 — Cluster-robust SE + bootstrap CI significance testing ✓
+- [x] `analysis/replay_significance.py` — `SignificanceResult` dataclass + `analyze()` + `print_report()`
+- [x] Cameron-Miller cluster-robust SE: `V_CR = (G/(G-1))*(1/n²)*Σ_g(Σ_{i∈g}(r_i−r̄))²`
+- [x] Cluster-level bootstrap: G clusters drawn with replacement B=2000 times; percentile CI
+- [x] Graduation criteria: `cluster_t > 1.645` AND `bootstrap_ci_90[0] > 0`
+- [x] `significance` subcommand wired into `historical_replay` dispatch table
+- [x] Actual result on run 8eed5181 (N=83, G=12): naive t=1.60 (p=0.109),
+      cluster t=1.25 (df=11, p=0.239), bootstrap 90% CI [−0.44%, +8.86%], bootstrap p=0.083
+      → **NOT YET** — cluster_t < 1.645 (approaching; need more clusters or wider date range)
+- [x] 22 tests in `tests/test_sprint29.py`, all passing
