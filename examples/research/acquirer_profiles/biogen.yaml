@@ -1,0 +1,56 @@
+company: Biogen
+ticker: BIIB
+profile_as_of: 2026-04-07
+market_cap_billions: 28
+cash_billions: 5.2
+pipeline_gaps:
+  - therapeutic_area: neuroscience
+    sub_area: alzheimers_disease_next_gen
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [antibody, small_molecule, ASO]
+    budget_ceiling_millions: 10000
+    notes: "Leqembi (lecanemab with Eisai) and aducanumab establish amyloid franchise; tau, TDP-43, and inflammation-based AD mechanisms are the next wave."
+  - therapeutic_area: neuroscience
+    sub_area: als_rare_neurological
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [ASO, antibody, gene_therapy]
+    budget_ceiling_millions: 8000
+    notes: "Qalsody (tofersen SOD1-ALS with Ionis) seeds RNA/ASO neurology; next ALS gene targets (FUS, TDP-43) and rare neurological remain open."
+  - therapeutic_area: neuroscience
+    sub_area: multiple_sclerosis_next_gen
+    gap_type: LOE_exposure
+    urgency: medium
+    preferred_modality: [small_molecule, antibody, CAR_T]
+    budget_ceiling_millions: 8000
+    notes: "Tecfidera, Tysabri LOE exposure drives need for next-gen progressive MS and remyelination assets."
+  - therapeutic_area: rare_disease
+    sub_area: spinal_muscular_atrophy_gene
+    gap_type: franchise_extension
+    urgency: medium
+    preferred_modality: [gene_therapy, ASO]
+    budget_ceiling_millions: 6000
+    notes: "Spinraza SMA franchise adjacent to next-generation neuromuscular gene therapy."
+  - therapeutic_area: immunology
+    sub_area: neuroinflammation_complement
+    gap_type: selective_gap
+    urgency: medium
+    preferred_modality: [antibody, small_molecule]
+    budget_ceiling_millions: 5000
+    notes: "Complement C1q/C3 neuro-inflammation mechanisms are relevant to Alzheimer's and MS progression."
+recent_deals:
+  - target: Reata Pharmaceuticals
+    date: 2023-07-14
+    value_billions: 7.3
+    therapeutic_area: rare_disease
+    modality: small_molecule
+  - target: Eisai (lecanemab partnership)
+    date: 2020-03-01
+    value_billions: 0.0
+    therapeutic_area: neuroscience
+    modality: antibody
+stated_priorities:
+  - "Alzheimer's disease franchise extension beyond amyloid is the highest-priority BD area."
+  - "Rare neurological diseases (ALS, SMA, DMD) via RNA/gene therapy are the second platform."
+  - "Multiple sclerosis renewal and remyelination remain critical to defend the core franchise."

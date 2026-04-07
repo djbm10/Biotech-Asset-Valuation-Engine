@@ -1,0 +1,60 @@
+company: Pfizer
+ticker: PFE
+market_cap_billions: 145
+cash_billions: 12.5
+pipeline_gaps:
+  - therapeutic_area: oncology
+    sub_area: breast_cancer
+    gap_type: LOE_exposure
+    urgency: high
+    preferred_modality:
+      - small_molecule
+      - ADC
+    budget_ceiling_millions: 15000
+    notes: "Ibrance revenue declining, need next-gen CDK or ADC"
+  - therapeutic_area: immunology
+    sub_area: inflammatory_bowel_disease
+    gap_type: pipeline_thin
+    urgency: high
+    preferred_modality:
+      - biologic
+      - small_molecule
+    budget_ceiling_millions: 10000
+    notes: "Arena established Pfizer's IBD interest; additional oral or biologic I&I assets remain strategic."
+  - therapeutic_area: neuroscience
+    sub_area: migraine_cgrp
+    gap_type: franchise_extension
+    urgency: medium
+    preferred_modality:
+      - small_molecule
+      - peptide
+    budget_ceiling_millions: 15000
+    notes: "Biohaven expanded the CGRP franchise; next-wave migraine / neuroscience bolt-ons remain plausible."
+  - therapeutic_area: obesity
+    sub_area: GLP1_next_gen
+    gap_type: strategic_entry
+    urgency: high
+    preferred_modality:
+      - oral_small_molecule
+      - peptide
+    budget_ceiling_millions: 25000
+recent_deals:
+  - target: Seagen
+    date: 2023-03-13
+    value_billions: 43
+    therapeutic_area: oncology
+    modality: ADC
+  - target: Arena
+    date: 2022-03-14
+    value_billions: 6.7
+    therapeutic_area: immunology
+    modality: small_molecule
+  - target: Biohaven
+    date: 2022-05-10
+    value_billions: 11.6
+    therapeutic_area: neuroscience
+    modality: small_molecule
+stated_priorities:
+  - "Oncology remains core - CEO stated 2025 JPM"
+  - "Looking at bolt-on deals $5-15B range"
+  - "Selective neuroscience / migraine bolt-ons remain plausible where commercial franchise extension is clear."

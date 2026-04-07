@@ -1,0 +1,61 @@
+company: Amgen
+ticker: AMGN
+profile_as_of: 2026-04-07
+market_cap_billions: 155
+cash_billions: 9.8
+pipeline_gaps:
+  - therapeutic_area: obesity
+    sub_area: glp1_cardiometabolic
+    gap_type: strategic_entry
+    urgency: high
+    preferred_modality: [oral_small_molecule, peptide]
+    budget_ceiling_millions: 20000
+    notes: "MariTide (maridebart cafraglutide AMG 133) is Amgen's lead obesity asset; complementary oral small molecule GLP-1 or differentiated peptide would accelerate metabolic franchise."
+  - therapeutic_area: oncology
+    sub_area: kras_beyond_g12c
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [small_molecule]
+    budget_ceiling_millions: 12000
+    notes: "Lumakras (sotorasib) is KRAS G12C only; pan-KRAS and G12D/G12V inhibitors remain the most important adjacency."
+  - therapeutic_area: rare_disease
+    sub_area: thyroid_eye_disease_adjacent
+    gap_type: franchise_extension
+    urgency: medium
+    preferred_modality: [antibody, small_molecule]
+    budget_ceiling_millions: 10000
+    notes: "Horizon/TEPEZZA rare autoimmune franchise opens IGF-1R and adjacent rare autoimmune disease adjacencies."
+  - therapeutic_area: immunology
+    sub_area: asthma_copd_il5_tslp
+    gap_type: franchise_extension
+    urgency: medium
+    preferred_modality: [biologic, antibody]
+    budget_ceiling_millions: 8000
+    notes: "Tezspire (TSLP with AZ) franchise creates respiratory/immunology adjacency beyond IL-5/IL-4."
+  - therapeutic_area: bone_disease
+    sub_area: osteogenesis_bone_metabolism
+    gap_type: LOE_exposure
+    urgency: medium
+    preferred_modality: [antibody, small_molecule]
+    budget_ceiling_millions: 6000
+    notes: "Prolia/Xgeva LOE exposure mid-2020s drives need for next-gen bone biology (Wnt pathway, osteogenesis)."
+recent_deals:
+  - target: Horizon Therapeutics
+    date: 2023-10-06
+    value_billions: 27.8
+    therapeutic_area: rare_disease
+    modality: antibody
+  - target: ChemoCentryx
+    date: 2022-08-03
+    value_billions: 3.7
+    therapeutic_area: immunology
+    modality: small_molecule
+  - target: Five Prime Therapeutics
+    date: 2021-03-10
+    value_billions: 1.9
+    therapeutic_area: oncology
+    modality: antibody
+stated_priorities:
+  - "Obesity/cardiometabolic is the new platform priority alongside MariTide development."
+  - "KRAS franchise expansion beyond G12C is the most important oncology bolt-on."
+  - "Rare disease franchise expansion via Horizon adjacencies remains active."

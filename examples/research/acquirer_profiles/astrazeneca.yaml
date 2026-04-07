@@ -1,0 +1,66 @@
+company: AstraZeneca
+ticker: AZN
+profile_as_of: 2026-04-07
+market_cap_billions: 265
+cash_billions: 6.2
+pipeline_gaps:
+  - therapeutic_area: oncology
+    sub_area: adc_next_generation
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [ADC, bispecific]
+    budget_ceiling_millions: 20000
+    notes: "Enhertu partnership covers HER2; TROP2, FRα, and novel ADC payloads remain open for bolt-on or in-house acquisition."
+  - therapeutic_area: oncology
+    sub_area: kras_g12c_beyond
+    gap_type: selective_gap
+    urgency: high
+    preferred_modality: [small_molecule]
+    budget_ceiling_millions: 12000
+    notes: "KRAS G12C covered via Tagrisso adjacency; G12D and pan-RAS inhibitors remain priority targets."
+  - therapeutic_area: rare_disease
+    sub_area: complement_rare_metabolic
+    gap_type: franchise_extension
+    urgency: medium
+    preferred_modality: [antibody, small_molecule]
+    budget_ceiling_millions: 15000
+    notes: "Alexion complement franchise (C5, C3) has adjacency gaps in rare metabolic and renal complement diseases."
+  - therapeutic_area: cardiovascular
+    sub_area: cardio_renal_fibrosis
+    gap_type: adjacent_expansion
+    urgency: medium
+    preferred_modality: [small_molecule, antibody]
+    budget_ceiling_millions: 10000
+    notes: "Farxiga renal franchise supports cardio-renal bolt-ons beyond SGLT2."
+  - therapeutic_area: immunology
+    sub_area: il33_tslp_oral
+    gap_type: franchise_extension
+    urgency: medium
+    preferred_modality: [biologic, small_molecule]
+    budget_ceiling_millions: 8000
+    notes: "Tezspire (TSLP) franchise opens adjacency to broader type-2 inflammatory disease mechanisms."
+recent_deals:
+  - target: Fusion Pharmaceuticals
+    date: 2024-03-11
+    value_billions: 2.4
+    therapeutic_area: oncology
+    modality: radiopharmaceutical
+  - target: Ambrx Biopharma
+    date: 2024-01-26
+    value_billions: 2.0
+    therapeutic_area: oncology
+    modality: ADC
+  - target: CinCor Pharma
+    date: 2023-01-09
+    value_billions: 1.8
+    therapeutic_area: cardiovascular
+    modality: small_molecule
+  - target: Alexion Pharmaceuticals
+    date: 2021-07-21
+    value_billions: 39.0
+    therapeutic_area: rare_disease
+    modality: antibody
+stated_priorities:
+  - "ADC platform expansion beyond Enhertu is the top oncology priority through 2026."
+  - "Rare disease growth via Alexion franchise extension remains a stated BD focus."
+  - "Cardio-renal and respiratory/immunology adjacencies preferred for bolt-on deals."

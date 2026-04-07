@@ -1,0 +1,61 @@
+company: GSK
+ticker: GSK
+profile_as_of: 2026-04-07
+market_cap_billions: 78
+cash_billions: 5.8
+pipeline_gaps:
+  - therapeutic_area: liver_disease
+    sub_area: mash_nash_metabolic_fibrosis
+    gap_type: strategic_entry
+    urgency: high
+    preferred_modality: [small_molecule, peptide, GLP1_thyroid_combo]
+    budget_ceiling_millions: 10000
+    notes: "Aiolos (efinopegdutide GLP-1 for MASH) acquisition seeds metabolic-liver franchise; next-gen fibrosis mechanism or THRβ combo remains open."
+  - therapeutic_area: oncology
+    sub_area: synthetic_lethality_parp_beyond
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [small_molecule, degrader]
+    budget_ceiling_millions: 12000
+    notes: "Zejula (PARP inhibitor) mature in ovarian cancer; next-gen synthetic lethality (PARG, WEE1, ATR, PRMT5) remains the oncology extension priority."
+  - therapeutic_area: immunology
+    sub_area: il5_il33_tslp_respiratory
+    gap_type: franchise_extension
+    urgency: medium
+    preferred_modality: [biologic, antibody]
+    budget_ceiling_millions: 8000
+    notes: "Nucala (IL-5) eosinophilic disease franchise creates adjacency to TSLP/IL-33 and IL-25 mechanisms in severe asthma and COPD."
+  - therapeutic_area: vaccines
+    sub_area: respiratory_syncytial_virus_mrna
+    gap_type: franchise_extension
+    urgency: medium
+    preferred_modality: [mRNA, protein_subunit]
+    budget_ceiling_millions: 6000
+    notes: "Shingrix franchise is mature; next-gen respiratory vaccines (RSV combination, mRNA flu) remain in scope."
+  - therapeutic_area: neuroscience
+    sub_area: neuropathic_pain_cough
+    gap_type: selective_gap
+    urgency: medium
+    preferred_modality: [small_molecule]
+    budget_ceiling_millions: 6000
+    notes: "Bellus camlipixant P2X3 cough acquisition opens CNS/peripheral pain-cough mechanism adjacency."
+recent_deals:
+  - target: Aiolos Bio
+    date: 2024-02-01
+    value_billions: 1.4
+    therapeutic_area: liver_disease
+    modality: peptide
+  - target: Bellus Health
+    date: 2023-06-27
+    value_billions: 2.0
+    therapeutic_area: neuroscience
+    modality: small_molecule
+  - target: Sierra Oncology
+    date: 2022-05-02
+    value_billions: 1.9
+    therapeutic_area: oncology
+    modality: small_molecule
+stated_priorities:
+  - "MASH/metabolic-liver disease via GLP-1/THRβ combinations is the newest platform priority."
+  - "Oncology synthetic lethality beyond PARP and respiratory IL-5 franchise extension are core."
+  - "HIV (ViiV) is capital-efficient; larger oncology and cardiometabolic deals remain in scope."

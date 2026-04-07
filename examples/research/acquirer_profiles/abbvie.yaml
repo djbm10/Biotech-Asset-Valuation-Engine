@@ -1,0 +1,61 @@
+company: AbbVie
+ticker: ABBV
+profile_as_of: 2026-04-07
+market_cap_billions: 335
+cash_billions: 10.5
+pipeline_gaps:
+  - therapeutic_area: neuroscience
+    sub_area: neuropsychiatry_cns_degenerative
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [small_molecule, antibody]
+    budget_ceiling_millions: 20000
+    notes: "Cerevel acquisition (tavapadon Parkinson's, emraclidine schizophrenia) opens CNS adjacency; additional neuropsychiatry and neurodegeneration bolt-ons remain active priority."
+  - therapeutic_area: oncology
+    sub_area: adc_heme_solid_tumor
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [ADC, bispecific]
+    budget_ceiling_millions: 15000
+    notes: "ImmunoGen FOLR1-ADC (mirvetuximab) is solid tumor entry; hematology ADCs post-Venclexta/Imbruvica LOE remain open."
+  - therapeutic_area: immunology
+    sub_area: il23_tyk2_next_wave
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [small_molecule, biologic]
+    budget_ceiling_millions: 12000
+    notes: "Skyrizi (IL-23) and Rinvoq (JAK) are the Humira LOE successors; differentiated next mechanisms for derm/IBD/RA remain targeted."
+  - therapeutic_area: oncology
+    sub_area: imbruvica_loe_btk_next_gen
+    gap_type: LOE_exposure
+    urgency: high
+    preferred_modality: [small_molecule]
+    budget_ceiling_millions: 10000
+    notes: "Imbruvica LOE drives urgency for non-covalent BTK or next-gen heme mechanism replacement."
+  - therapeutic_area: aesthetics_neurotoxin
+    sub_area: botox_therapeutic_adjacent
+    gap_type: franchise_extension
+    urgency: medium
+    preferred_modality: [small_molecule, biologic]
+    budget_ceiling_millions: 6000
+    notes: "Botox Therapeutic franchise adjacent to migraine, pain, and spasticity bolt-ons."
+recent_deals:
+  - target: Cerevel Therapeutics
+    date: 2024-02-19
+    value_billions: 8.7
+    therapeutic_area: neuroscience
+    modality: small_molecule
+  - target: ImmunoGen
+    date: 2024-02-12
+    value_billions: 10.1
+    therapeutic_area: oncology
+    modality: ADC
+  - target: Allergan
+    date: 2020-05-08
+    value_billions: 63.0
+    therapeutic_area: aesthetics_neurotoxin
+    modality: biologic
+stated_priorities:
+  - "CNS/neuropsychiatry is the highest-priority new franchise following Cerevel."
+  - "Oncology ADC expansion post-ImmunoGen deal remains active — willing to do transformative deals."
+  - "Immunology next-gen mechanisms to defend Skyrizi/Rinvoq succession planning."

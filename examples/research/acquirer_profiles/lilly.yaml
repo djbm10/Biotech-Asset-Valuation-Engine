@@ -1,0 +1,47 @@
+company: Eli Lilly
+ticker: LLY
+profile_as_of: 2026-03-24
+pipeline_gaps:
+  - therapeutic_area: obesity
+    sub_area: oral_glp1
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [oral_small_molecule, peptide]
+    budget_ceiling_millions: 30000
+    notes: "Metabolic leadership is core, but differentiated oral incretin assets remain strategic adjacency."
+  - therapeutic_area: neurodegeneration
+    sub_area: tau_targeting
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [antibody, small_molecule]
+    budget_ceiling_millions: 15000
+    notes: "Amyloid franchise is established; tau and next-wave neurodegeneration mechanisms remain open."
+  - therapeutic_area: immunology
+    sub_area: oral_immunology
+    gap_type: bolt_on_expansion
+    urgency: high
+    preferred_modality: [oral_small_molecule, biologic]
+    budget_ceiling_millions: 12000
+    notes: "IBD and dermatology bolt-ons fit Lilly's recent BD pattern."
+  - therapeutic_area: oncology
+    sub_area: kras_g12d
+    gap_type: selective_gap
+    urgency: medium
+    preferred_modality: [small_molecule]
+    budget_ceiling_millions: 10000
+    notes: "Verzenio is mature; selective precision-oncology bolt-ons remain plausible."
+recent_deals:
+  - target: Morphic Therapeutic
+    date: 2024-07-08
+    value_billions: 3.2
+    therapeutic_area: immunology
+    modality: oral_small_molecule
+  - target: Dice Therapeutics
+    date: 2023-06-20
+    value_billions: 2.4
+    therapeutic_area: immunology
+    modality: oral_small_molecule
+stated_priorities:
+  - "Metabolic leadership remains core, with oral incretin adjacency still strategic."
+  - "Neurodegeneration franchise expansion beyond amyloid remains a priority."
+  - "Bolt-on immunology deals remain in scope."

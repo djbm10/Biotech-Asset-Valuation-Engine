@@ -1,0 +1,61 @@
+company: Merck
+ticker: MRK
+profile_as_of: 2026-04-07
+market_cap_billions: 255
+cash_billions: 12.1
+pipeline_gaps:
+  - therapeutic_area: oncology
+    sub_area: keytruda_loe_replacement
+    gap_type: LOE_exposure
+    urgency: high
+    preferred_modality: [antibody, ADC, small_molecule]
+    budget_ceiling_millions: 25000
+    notes: "Keytruda's 2028 LOE is the single largest revenue cliff in pharma; best-in-class IO combinations and next-gen PD-1/L1 replacements are top priority."
+  - therapeutic_area: immunology
+    sub_area: tl1a_ibd
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [antibody, biologic]
+    budget_ceiling_millions: 15000
+    notes: "Prometheus acquisition planted the TL1A/IBD flag; additional gut-immune mechanisms remain open."
+  - therapeutic_area: cardiovascular
+    sub_area: pulmonary_arterial_hypertension
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [small_molecule, peptide]
+    budget_ceiling_millions: 12000
+    notes: "Winrevair (sotatercept from Acceleron) establishes PAH leadership; next-gen actRII biology remains open."
+  - therapeutic_area: oncology
+    sub_area: adc_payload_linker
+    gap_type: selective_gap
+    urgency: high
+    preferred_modality: [ADC]
+    budget_ceiling_millions: 15000
+    notes: "Keytruda IO combination with ADC is the key oncology combination strategy post-2026."
+  - therapeutic_area: vaccines
+    sub_area: mrna_cancer_vaccines
+    gap_type: franchise_extension
+    urgency: medium
+    preferred_modality: [mRNA, neoantigen_vaccine]
+    budget_ceiling_millions: 8000
+    notes: "Moderna/Merck mRNA cancer vaccine collaboration signals strategic intent; independent capability acquisition is plausible."
+recent_deals:
+  - target: Prometheus Biosciences
+    date: 2023-06-16
+    value_billions: 10.8
+    therapeutic_area: immunology
+    modality: antibody
+  - target: Acceleron Pharma
+    date: 2021-11-19
+    value_billions: 11.5
+    therapeutic_area: cardiovascular
+    modality: biologic
+  - target: Imago BioSciences
+    date: 2023-01-13
+    value_billions: 1.35
+    therapeutic_area: oncology
+    modality: small_molecule
+stated_priorities:
+  - "Keytruda LOE management is the defining BD imperative through 2028 and beyond."
+  - "Cardiometabolic/PAH and immunology are the two non-oncology platform priorities."
+  - "Aggressive oncology deal-making remains core — willing to do large transformative deals."

@@ -1,0 +1,56 @@
+company: Regeneron Pharmaceuticals
+ticker: REGN
+profile_as_of: 2026-04-07
+market_cap_billions: 62
+cash_billions: 14.3
+pipeline_gaps:
+  - therapeutic_area: oncology
+    sub_area: bispecific_antibody_solid_tumor
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [bispecific, antibody]
+    budget_ceiling_millions: 10000
+    notes: "Libtayo (cemiplimab) PD-1 anchor; VelocImmune-derived bispecifics in solid tumors (PSMAxCD3, MUC16xCD3) remain the core oncology extension."
+  - therapeutic_area: immunology
+    sub_area: dupixent_next_wave_il33_ox40l
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [antibody, biologic]
+    budget_ceiling_millions: 12000
+    notes: "Dupixent franchise (with Sanofi) is mature across atopic derm/asthma/CRSwNP; IL-33, TSLP, OX40L represent the next type-2 inflammatory wave Regeneron is building internally."
+  - therapeutic_area: ophthalmology
+    sub_area: dry_amd_geographic_atrophy_next
+    gap_type: franchise_extension
+    urgency: medium
+    preferred_modality: [antibody, gene_therapy, small_molecule]
+    budget_ceiling_millions: 8000
+    notes: "Eylea LOE drives urgency for next ophthalmic franchise; GA and rare retinal disease mechanisms remain priority."
+  - therapeutic_area: rare_disease
+    sub_area: lipodystrophy_rare_metabolic
+    gap_type: selective_gap
+    urgency: medium
+    preferred_modality: [antibody, protein]
+    budget_ceiling_millions: 5000
+    notes: "Evkeeza (evinacumab) rare hypercholesterolemia sets rare metabolic precedent; adjacent rare lipid/metabolic disorders remain open."
+  - therapeutic_area: neuroscience
+    sub_area: alzheimers_inflammation_based
+    gap_type: selective_gap
+    urgency: medium
+    preferred_modality: [antibody, bispecific]
+    budget_ceiling_millions: 6000
+    notes: "Regeneron VelocImmune platform well-suited to neuro-inflammation targets for Alzheimer's adjacent mechanisms."
+recent_deals:
+  - target: Intellia Therapeutics (NTLA-2001 collaboration)
+    date: 2016-01-01
+    value_billions: 0.1
+    therapeutic_area: rare_disease
+    modality: gene_editing
+  - target: Checkmate Pharmaceuticals
+    date: 2021-03-02
+    value_billions: 0.25
+    therapeutic_area: oncology
+    modality: biologic
+stated_priorities:
+  - "VelocImmune-derived bispecific oncology pipeline is the primary new growth engine."
+  - "Dupixent next-generation type-2 inflammatory disease mechanisms are internal priority."
+  - "Ophthalmic franchise renewal post-Eylea LOE is a near-term priority."

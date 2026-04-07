@@ -1,0 +1,47 @@
+company: Novo Nordisk
+ticker: NVO
+profile_as_of: 2026-03-24
+pipeline_gaps:
+  - therapeutic_area: obesity
+    sub_area: oral_glp1_next_generation
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [oral_small_molecule, peptide]
+    budget_ceiling_millions: 20000
+    notes: "Need differentiated next-gen oral incretin assets as obesity competition intensifies."
+  - therapeutic_area: obesity
+    sub_area: nash_liver_fibrosis
+    gap_type: adjacent_expansion
+    urgency: high
+    preferred_modality: [small_molecule, peptide]
+    budget_ceiling_millions: 15000
+    notes: "Liver-metabolic adjacency remains a logical extension of the GLP-1 franchise."
+  - therapeutic_area: cardiovascular
+    sub_area: cardio_renal_expansion
+    gap_type: adjacent_expansion
+    urgency: medium
+    preferred_modality: [small_molecule, rna]
+    budget_ceiling_millions: 12000
+    notes: "Cardio-renal breadth is strategic after semaglutide outcomes data."
+  - therapeutic_area: rare_blood_disease
+    sub_area: factor_xi
+    gap_type: franchise_extension
+    urgency: medium
+    preferred_modality: [small_molecule, antibody]
+    budget_ceiling_millions: 8000
+    notes: "Rare blood disease franchise supports selective hemostasis bolt-ons."
+recent_deals:
+  - target: Cardior Pharmaceuticals
+    date: 2024-06-12
+    value_billions: 1.0
+    therapeutic_area: cardiovascular
+    modality: rna
+  - target: Inversago Pharma
+    date: 2023-08-10
+    value_billions: 1.1
+    therapeutic_area: obesity
+    modality: small_molecule
+stated_priorities:
+  - "Metabolic and obesity leadership remains core, with next-gen oral incretin assets strategic."
+  - "Cardio-metabolic and liver-disease adjacencies are preferred over oncology."
+  - "Rare blood disease remains an attractive franchise extension area."
