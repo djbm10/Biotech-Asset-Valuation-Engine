@@ -559,3 +559,22 @@ connectors
       cluster t=1.25 (df=11, p=0.239), bootstrap 90% CI [−0.44%, +8.86%], bootstrap p=0.083
       → **NOT YET** — cluster_t < 1.645 (approaching; need more clusters or wider date range)
 - [x] 22 tests in `tests/test_sprint29.py`, all passing
+
+### Sprint 30 — Two-score architecture: v1.2 ranker + calibrated probability layer ✓
+- [x] `MALogisticFitResult.load_json()` — deserialise persisted model from JSON
+- [x] `MALogisticFitResult.predict(feature_dict)` — apply stored coefficients with
+      per-feature standardisation (mean/std from training); missing features default to 0.0
+- [x] `MAProbabilityRow.p_takeout_calibrated: float | None` — new field, never affects rank
+- [x] `MAProbabilitySnapshotRecord.p_takeout_calibrated` — persisted to DB
+- [x] `MAProbabilityConfig.calibration_model_path` — optional path to fitted model JSON
+- [x] DB migration: `p_takeout_calibrated` column added to `ma_probability_snapshots`
+- [x] `_extract_calibration_features()` — maps `MAProbabilityRow` → logistic feature dict
+- [x] `MAProbabilityScanner`: loads model at init, tags every row after ranking
+      (ranking order is never modified — p_takeout_calibrated is display/filter only)
+- [x] `MAPolicyComparisonResult` dataclass — precision/recall for 3 policies
+- [x] `MACalibrationDatasetBuilder.compare_ranking_policies()`:
+      A: v1.2 rank as-is (baseline), B: v1.2 filtered by calibrated threshold,
+      C: v1.2 primary + calibrated tie-breaker
+- [x] Backfiller: auto-fits logistic model after canonical dataset build,
+      writes `outputs/analysis/ma_calibration_fit.json` + policy comparison JSON
+- [x] 28 tests in `tests/intelligence/test_sprint30.py`, all passing
