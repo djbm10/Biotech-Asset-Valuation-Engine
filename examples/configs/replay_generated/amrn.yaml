@@ -1,0 +1,55 @@
+asset:
+  id: a-amrn
+  name: Vascepa (icosapentaenoic acid)
+  indication: "cardiovascular \u2014 Vascepa (icosapentaenoic acid)"
+  therapeutic_area: cardiovascular
+  stage: nda_bla
+  modality: small_molecule
+  discount_rate: 0.105
+company:
+  id: amrn-replay
+  name: AMRN
+  ticker: AMRN
+  cash_millions: 80.0
+  debt_millions: 80.0
+  shares_outstanding_millions: 557.43
+  burn_rate_millions_per_quarter: 30.0
+  current_price: 14.58
+  notes: "Post-patent-loss distressed state; cash and debt updated to reflect near-zero net cash after generic entry March 2021"
+trials:
+- phase: nda_bla
+  success_probability: 0.20
+  duration_years: 1.5
+  cost_millions: 35.0
+  endpoint_type: surrogate_validated
+  notes: "Low POS reflects near-zero commercial franchise post-generic entry; 0.20 is effectively placeholder for litigation/restructuring optionality only"
+market_model:
+  total_addressable_market_millions: 120.0
+  peak_penetration: 0.35
+  years_to_peak: 1
+  patent_life_years: 1
+  cogs_rate: 0.15
+  sgna_rate_launch: 0.4
+  sgna_rate_mature: 0.2
+_meta:
+  config_version: replay-screening-v2
+  source: replay_watchlist_builder
+  screening_grade: true
+  source_ticker: AMRN
+  source_universe_stage: ''
+  source_tags:
+  - baseline_replay_universe
+  single_asset: true
+  heuristic_market_cap_millions: 8127.33
+  heuristic_peak_sales_millions: 600.0
+  last_reviewed_date: '2024-04-09'
+  review_rationale: >
+    Vascepa (icosapentaenoic acid) patent invalidated March 2021 by US District Court
+    (District of Nevada). Generic manufacturers entered immediately; Vascepa commercial
+    franchise collapsed. Market cap crashed from ~$8B (2020 peak) to ~$7M by 2022.
+    Prior config TAM=$4000M, peak_pen=0.15 reflected pre-patent-loss commercial projection.
+    Updated to near-zero economics: TAM=120 (residual brand loyalty + international),
+    peak_penetration=0.35 (small remaining addressable pool), patent_life=1, years_to_peak=1,
+    success_prob=0.20 (litigation/restructuring optionality only). Net cash ~$0M (cash=debt=80M).
+    Produces SOTP ~$3M vs market cap ~$7M (ratio 0.4x); prior model produced ~110x
+    extreme_discount flag. This is a confirmed distressed/terminal case — not a buy signal.
