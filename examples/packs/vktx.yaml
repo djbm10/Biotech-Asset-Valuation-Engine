@@ -1,0 +1,196 @@
+# Underwriting Pack — Viking Therapeutics (VKTX)
+# Q2 2026 | As of: 2026-04-09
+# Analyst: djm
+# Status: DRAFT — pending second reviewer
+
+company_id: "vktx"
+company_name: "Viking Therapeutics Inc."
+ticker: "VKTX"
+as_of_date: "2026-04-09"
+pack_quarter: "2026Q2"
+
+# ─────────────────────────────────────────────────────────────────────
+# Market data  (yfinance 2026-04-09)
+# ─────────────────────────────────────────────────────────────────────
+market:
+  market_cap_millions: 5100.0      # ~$5.1B at $36/share × ~142M shares
+  enterprise_value_millions: 4350.0 # market cap minus net cash
+  share_price: 36.0
+  source_ref: "yfinance:2026-04-09"
+
+# ─────────────────────────────────────────────────────────────────────
+# Balance sheet  (10-Q Dec 2025; filed Feb 2026)
+# ─────────────────────────────────────────────────────────────────────
+balance_sheet:
+  cash_millions: 780.0    # cash + short-term investments
+  debt_millions: 30.0     # minimal; effectively no long-term debt
+  source_ref: "10-Q:2025-12-31:balance_sheet_pg6"
+
+# ─────────────────────────────────────────────────────────────────────
+# Modeled assets
+# ─────────────────────────────────────────────────────────────────────
+modeled_assets:
+  - bucket_id: "vktx_vk2735_sc"
+    label: "VK2735 SC — Obesity (Phase 3 VENTURE)"
+    value_millions: 4200.0
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/vktx_vk2735.yaml:2026-04-09"
+    as_of_date: "2026-04-09"
+    confidence: 0.82
+    corroboration_count: 1
+    corroboration_refs:
+      - "Wall Street consensus range $3.5B–$5.2B rNPV (as of Q1 2026)"
+    notes: >
+      Phase 3 VENTURE trial ongoing. Primary endpoint: % change body weight
+      at 52 weeks. Expected readout Q3/Q4 2026. Base-rate obesity Ph3 POS ~65%.
+      rNPV based on peak sales ~$2.8B (US only), 10% penetration of addressable
+      obesity market, 12y patent life. Discounted at 10.5%.
+
+  - bucket_id: "vktx_vk2735_oral"
+    label: "VK2735 Oral — Obesity (Phase 2 VENTURE-Oral)"
+    value_millions: 800.0
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/vktx_vk2735_oral.yaml:2026-04-09"
+    as_of_date: "2026-04-09"
+    confidence: 0.65
+    corroboration_count: 0
+    corroboration_refs: []
+    notes: >
+      Ph2 data showed ~3.3% weight loss at 4 weeks (low dose, early). Full
+      Ph2 data expected mid-2026. Street pricing in optionality but limited
+      conviction until full Ph2. rNPV is a risked option value estimate.
+
+# ─────────────────────────────────────────────────────────────────────
+# Platform value
+# ─────────────────────────────────────────────────────────────────────
+platform_value:
+  bucket_id: "vktx_platform"
+  label: "GLP-1/thyroid receptor beta platform — NASH + other indications"
+  value_millions: 200.0
+  methodology: "analyst_estimate"
+  source_type: "analyst_bridge"
+  source_ref: "top25_pack_2026q2:VKTX:platform"
+  as_of_date: "2026-04-09"
+  confidence: 0.55
+  corroboration_count: 0
+  corroboration_refs: []
+  notes: >
+    VK2809 NASH readout (Ph2b VOYAGE) pending 2026. Platform optionality
+    for THRbeta in NASH, lipid disorders. Assigned conservatively — material
+    de-risking required before raising this bucket.
+
+# ─────────────────────────────────────────────────────────────────────
+# Unmodeled pipeline
+# ─────────────────────────────────────────────────────────────────────
+unmodeled_pipeline:
+  bucket_id: "vktx_unmodeled"
+  label: "Early pipeline optionality (VK0214, early CNS)"
+  value_millions: 50.0
+  methodology: "rule_of_thumb"
+  source_type: "analyst_bridge"
+  source_ref: "top25_pack_2026q2:VKTX:unmodeled"
+  as_of_date: "2026-04-09"
+  confidence: 0.50
+  corroboration_count: 0
+  corroboration_refs: []
+  notes: "Minimal assigned value. No clinical signals to support higher estimate."
+
+# ─────────────────────────────────────────────────────────────────────
+# Royalty streams  (none — VKTX retains full commercialization rights)
+# ─────────────────────────────────────────────────────────────────────
+royalty_streams: []
+
+# ─────────────────────────────────────────────────────────────────────
+# Dilution bridge  (10-Q Dec 2025)
+# ─────────────────────────────────────────────────────────────────────
+dilution:
+  current_shares_millions: 141.5
+  expected_dilution_pct: 0.08       # 8% expected raise before Phase 3 completion
+  financing_runway_quarters: 10.0   # ~2.5 years runway at current burn
+  atm_active: true
+  atm_remaining_millions: 200.0
+  shelf_registration_millions: 500.0
+  warrant_shares_millions: 3.2
+  convertible_shares_millions: 0.0
+  source_ref: "10-Q:2025-12-31:note5_equity"
+  as_of_date: "2025-12-31"
+  notes: >
+    ATM program active; $200M remaining capacity. Shelf of $500M available.
+    Expected dilution of ~8% based on likely Phase 3 completion financing need.
+    Warrants from 2023 private placement, mostly out of the money at current price.
+
+# ─────────────────────────────────────────────────────────────────────
+# Catalysts
+# ─────────────────────────────────────────────────────────────────────
+catalysts:
+  - description: "VENTURE Ph3 top-line readout — VK2735 SC obesity"
+    expected_date: "2026-Q3"
+    catalyst_type: "readout"
+    probability_positive: 0.65
+    source_ref: "clinicaltrials.gov:NCT05846230"
+    notes: "Primary endpoint: % body weight change at 52 weeks vs placebo."
+
+  - description: "VENTURE-Oral Ph2 full data — VK2735 oral obesity"
+    expected_date: "2026-Q2"
+    catalyst_type: "readout"
+    probability_positive: 0.55
+    source_ref: "clinicaltrials.gov:NCT06099314"
+    notes: "Early 4-week data showed ~3.3% weight loss. Full 13-week data upcoming."
+
+  - description: "VK2809 VOYAGE Ph2b readout — NASH"
+    expected_date: "2026-Q3"
+    catalyst_type: "readout"
+    probability_positive: 0.45
+    source_ref: "clinicaltrials.gov:NCT04173065"
+    notes: "THRbeta agonist in NASH; liver biopsy endpoint."
+
+# ─────────────────────────────────────────────────────────────────────
+# Management flags  (none flagged at this review)
+# ─────────────────────────────────────────────────────────────────────
+management_flags: []
+
+# ─────────────────────────────────────────────────────────────────────
+# Confidence metadata
+# ─────────────────────────────────────────────────────────────────────
+confidence:
+  overall_confidence: 0.75
+  notes: >
+    VK2735 SC modeled asset has good confidence (Phase 3, clear endpoint, good
+    Ph2 data). Oral program and platform carry materially lower confidence.
+    Balance sheet well-sourced from recent 10-Q. Main uncertainty: VK2735 Ph3
+    readout binary risk and oral Ph2 differentiation vs SC.
+
+# ─────────────────────────────────────────────────────────────────────
+# Provenance
+# ─────────────────────────────────────────────────────────────────────
+provenance:
+  pack_version: 1
+  pack_quarter: "2026Q2"
+  created_by: "djm"
+  change_summary: "Initial Q2 2026 pack. VK2735 SC at Ph3; oral at Ph2."
+
+# SOTP check (manual reconciliation, must answer: "why does model differ from market?"):
+#
+#   Market cap:                $5,100M
+#   SOTP equity value:
+#     Net cash:                  +$750M  (780 - 30)
+#     VK2735 SC rNPV:           +$4,200M
+#     VK2735 Oral rNPV:           +$800M
+#     Platform:                   +$200M
+#     Unmodeled:                   +$50M
+#     Dilution reserve:           -$408M  (≈8% dilution × $36 × 141.5M)
+#     ────────────────────────────────
+#     SOTP total:               ~$5,592M
+#   SOTP discount:             ~+10% (model 9% above market)
+#   Assessment: Market is roughly fair-valued on base case. Premium thesis
+#   requires either oral differentiation data or M&A optionality.
+
+reviewer_state: "draft"
+
+notes: >
+  Viking is the canonical Phase 0 proof-of-concept pack. Use this as the
+  template for the remaining top-24 packs. Key question for review:
+  Is the oral program value ($800M) justified at Phase 2, or should it be
+  lower until 13-week data are in hand?

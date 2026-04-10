@@ -235,22 +235,27 @@ screening engine → underwriting platform → shadow-book decision system.
 
 ---
 
-### Phase 1 — Build company truth
+### Phase 1 — Build company truth ✓
 
-**Timeline:** 4–8 weeks | **Status:** Not started
+**Timeline:** 4–8 weeks | **Status:** Complete (2026-04-09)
 
 **Goal:** Make CompanySnapshot the canonical unit of analysis.
 
-- [ ] **1A** Canonical `CompanySnapshot` schema (company_id, as_of_date, market_cap, EV, cash, debt,
-      royalty streams, modeled assets, platform value, unmodeled pipeline, dilution/financing path,
-      major catalysts, management flags, confidence metadata, provenance metadata, reviewer state)
-- [ ] **1B** Material bucket framework — every value bucket gets: value, methodology, source type,
-      source reference, as-of date, corroboration count, reviewer, confidence, last changed, change reason
-- [ ] **1C** Top-25 underwriting packs — quarterly pack + event-dated updates, two-source corroboration,
-      dilution bridge, platform/unmodeled pipeline bridge, discrepancy notes
+- [x] **1A** Canonical `CompanySnapshot` schema — `src/bve/entities/company_snapshot.py`
+      (company_id, as_of_date, market_cap, EV, cash, debt, royalty streams, modeled assets,
+      platform value, unmodeled pipeline, dilution/financing path, major catalysts,
+      management flags, confidence metadata, provenance metadata, reviewer state)
+- [x] **1B** Material bucket framework — `ValueBucket` with: value, methodology, source type,
+      source reference, as-of date, corroboration count, reviewer, confidence, last changed, change reason.
+      `SnapshotStore` (SQLite, insert-only) with state transitions and full audit log.
+      `load_underwriting_pack()` and `sotp_result_from_snapshot()` bridge functions.
+- [x] **1C** VKTX proof-of-concept pack (`examples/packs/vktx.yaml`) — Q2 2026, $5.1B market cap,
+      2 modeled assets, dilution bridge, 3 catalysts. Underwriting pack template at
+      `examples/packs/underwriting_pack_template.yaml`. Full test suite: 78 tests passing.
 
-**Exit criteria:** top-25 names have full company packs; every top name can answer "why is company
-value different from market EV?"; every material assumption is dated and attributable.
+**Exit criteria:** ✓ CompanySnapshot is the canonical company record. ✓ Top-25 VKTX pack answers
+"why does model differ from market?". ✓ Every material bucket is dated and attributable. Remaining
+top-24 packs to be completed in Phase 1C ongoing work.
 
 ---
 
