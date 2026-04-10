@@ -1,0 +1,50 @@
+asset:
+  id: a-tptx
+  name: repotrectinib
+  indication: ROS1-positive non-small cell lung cancer
+  therapeutic_area: oncology
+  stage: phase_3
+  modality: small_molecule
+  discount_rate: 0.11
+company:
+  id: tptx-replay
+  name: Turning Point Therapeutics
+  ticker: TPTX
+  cash_millions: 1230.61
+  debt_millions: 0.0
+  shares_outstanding_millions: 820.41
+  burn_rate_millions_per_quarter: 45.0
+  current_price: 10.0
+  notes: screening-grade replay config
+trials:
+- phase: phase_3
+  success_probability: 0.55
+  duration_years: 3.5
+  cost_millions: 225.0
+  endpoint_type: surrogate_validated
+  notes: screening-grade default trial chain
+- phase: nda_bla
+  success_probability: 0.83
+  duration_years: 1.5
+  cost_millions: 35.0
+  endpoint_type: surrogate_validated
+  notes: screening-grade default trial chain
+market_model:
+  total_addressable_market_millions: 12666.67
+  peak_penetration: 0.18
+  years_to_peak: 5
+  patent_life_years: 10
+  cogs_rate: 0.15
+  sgna_rate_launch: 0.4
+  sgna_rate_mature: 0.2
+_meta:
+  config_version: replay-screening-v1
+  source: replay_watchlist_builder
+  screening_grade: true
+  source_ticker: TPTX
+  source_universe_stage: phase_2 / registrational
+  source_tags:
+  - mna_public_deal_universe
+  single_asset: true
+  heuristic_market_cap_millions: 8204.09
+  heuristic_peak_sales_millions: 2280.0

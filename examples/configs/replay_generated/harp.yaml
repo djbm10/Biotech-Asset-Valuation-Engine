@@ -1,0 +1,56 @@
+asset:
+  id: a-harp
+  name: HPN328 (MK-6070)
+  indication: small-cell lung cancer / neuroendocrine tumors
+  therapeutic_area: oncology
+  stage: phase_2
+  modality: small_molecule
+  discount_rate: 0.12
+company:
+  id: harp-replay
+  name: Harpoon Therapeutics
+  ticker: HARP
+  cash_millions: 416.82
+  debt_millions: 0.0
+  shares_outstanding_millions: 208.41
+  burn_rate_millions_per_quarter: 35.0
+  current_price: 10.0
+  notes: screening-grade replay config
+trials:
+- phase: phase_2
+  success_probability: 0.32
+  duration_years: 2.5
+  cost_millions: 75.0
+  endpoint_type: surrogate_validated
+  notes: screening-grade default trial chain
+- phase: phase_3
+  success_probability: 0.55
+  duration_years: 3.5
+  cost_millions: 225.0
+  endpoint_type: surrogate_validated
+  notes: screening-grade default trial chain
+- phase: nda_bla
+  success_probability: 0.83
+  duration_years: 1.5
+  cost_millions: 35.0
+  endpoint_type: surrogate_validated
+  notes: screening-grade default trial chain
+market_model:
+  total_addressable_market_millions: 8000.0
+  peak_penetration: 0.18
+  years_to_peak: 5
+  patent_life_years: 12
+  cogs_rate: 0.15
+  sgna_rate_launch: 0.4
+  sgna_rate_mature: 0.2
+_meta:
+  config_version: replay-screening-v1
+  source: replay_watchlist_builder
+  screening_grade: true
+  source_ticker: HARP
+  source_universe_stage: phase_2
+  source_tags:
+  - mna_public_deal_universe
+  single_asset: true
+  heuristic_market_cap_millions: 2084.12
+  heuristic_peak_sales_millions: 1440.0

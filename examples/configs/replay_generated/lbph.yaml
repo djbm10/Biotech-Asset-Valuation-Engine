@@ -1,0 +1,50 @@
+asset:
+  id: a-lbph
+  name: bexicaserin
+  indication: developmental and epileptic encephalopathies
+  therapeutic_area: other
+  stage: phase_3
+  modality: small_molecule
+  discount_rate: 0.11
+company:
+  id: lbph-replay
+  name: Longboard Pharmaceuticals
+  ticker: LBPH
+  cash_millions: 1070.1
+  debt_millions: 0.0
+  shares_outstanding_millions: 713.4
+  burn_rate_millions_per_quarter: 45.0
+  current_price: 10.0
+  notes: screening-grade replay config
+trials:
+- phase: phase_3
+  success_probability: 0.6
+  duration_years: 3.5
+  cost_millions: 225.0
+  endpoint_type: surrogate_validated
+  notes: screening-grade default trial chain
+- phase: nda_bla
+  success_probability: 0.87
+  duration_years: 1.5
+  cost_millions: 35.0
+  endpoint_type: surrogate_validated
+  notes: screening-grade default trial chain
+market_model:
+  total_addressable_market_millions: 15833.33
+  peak_penetration: 0.12
+  years_to_peak: 5
+  patent_life_years: 10
+  cogs_rate: 0.15
+  sgna_rate_launch: 0.4
+  sgna_rate_mature: 0.2
+_meta:
+  config_version: replay-screening-v1
+  source: replay_watchlist_builder
+  screening_grade: true
+  source_ticker: LBPH
+  source_universe_stage: phase_3
+  source_tags:
+  - mna_public_deal_universe
+  single_asset: true
+  heuristic_market_cap_millions: 7133.99
+  heuristic_peak_sales_millions: 1900.0

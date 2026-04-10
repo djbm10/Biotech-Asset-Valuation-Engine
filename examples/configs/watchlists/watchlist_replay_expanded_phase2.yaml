@@ -1,0 +1,429 @@
+watchlist:
+- company_id: acad-auto
+  asset_id: asset-acad-pimavanserin-mdd
+  drug_name: Pimavanserin
+  indication: Major depressive disorder adjunctive
+  ticker: ACAD
+  valuation_config: examples/configs/auto_generated/acad.yaml
+- company_id: agen-auto
+  asset_id: asset-agen-botensilimab
+  drug_name: Botensilimab
+  indication: Metastatic MSS colorectal cancer
+  ticker: AGEN
+  valuation_config: examples/configs/auto_generated/agen.yaml
+- company_id: alny-auto
+  asset_id: asset-alny-vutrisiran-cm
+  drug_name: Vutrisiran
+  indication: ATTR cardiomyopathy
+  ticker: ALNY
+  valuation_config: examples/configs/auto_generated/alny.yaml
+- company_id: alpn-replay
+  asset_id: a-alpn
+  drug_name: povetacicept
+  indication: IgA nephropathy
+  ticker: ALPN
+  valuation_config: examples/configs/replay_generated/alpn.yaml
+- company_id: amrn-replay
+  asset_id: a-amrn
+  drug_name: Vascepa (icosapentaenoic acid)
+  indication: "cardiovascular \u2014 Vascepa (icosapentaenoic acid)"
+  ticker: AMRN
+  valuation_config: examples/configs/replay_generated/amrn.yaml
+- company_id: anab-auto
+  asset_id: asset-anab-rosnilimab
+  drug_name: Rosnilimab
+  indication: Rheumatoid arthritis
+  ticker: ANAB
+  valuation_config: examples/configs/auto_generated/anab.yaml
+- company_id: arna-replay
+  asset_id: a-arna
+  drug_name: etrasimod
+  indication: ulcerative colitis
+  ticker: ARNA
+  valuation_config: examples/configs/replay_generated/arna.yaml
+- company_id: arqt-auto
+  asset_id: asset-arqt-roflumilast-ad
+  drug_name: Roflumilast cream
+  indication: Atopic dermatitis
+  ticker: ARQT
+  valuation_config: examples/configs/auto_generated/arqt.yaml
+- company_id: arvn-replay
+  asset_id: a-arvn
+  drug_name: ARV-471 (vepdegestrant)
+  indication: "PROTAC protein degradation \u2014 ER+ breast cancer / AR prostate cancer"
+  ticker: ARVN
+  valuation_config: examples/configs/replay_generated/arvn.yaml
+- company_id: bhvn-replay
+  asset_id: a-bhvn
+  drug_name: Nurtec ODT / zavegepant
+  indication: migraine
+  ticker: BHVN
+  valuation_config: examples/configs/replay_generated/bhvn.yaml
+- company_id: biib-auto
+  asset_id: asset-biib-lecanemab
+  drug_name: Lecanemab
+  indication: Early Alzheimer's disease
+  ticker: BIIB
+  valuation_config: examples/configs/auto_generated/biib.yaml
+- company_id: blu-replay
+  asset_id: a-blu
+  drug_name: camlipixant
+  indication: refractory chronic cough
+  ticker: BLU
+  valuation_config: examples/configs/replay_generated/blu.yaml
+- company_id: blue-auto
+  asset_id: asset-blue-lovocel
+  drug_name: Lovotibeglogene autotemcel
+  indication: Sickle cell disease
+  ticker: BLUE
+  valuation_config: examples/configs/auto_generated/blue.yaml
+- company_id: bmrn-auto
+  asset_id: asset-bmrn-roctavian-hema
+  drug_name: Roctavian
+  indication: Hemophilia A
+  ticker: BMRN
+  valuation_config: examples/configs/auto_generated/bmrn.yaml
+- company_id: cbay-replay
+  asset_id: a-cbay
+  drug_name: seladelpar
+  indication: primary biliary cholangitis
+  ticker: CBAY
+  valuation_config: examples/configs/replay_generated/cbay.yaml
+- company_id: ccxi-replay
+  asset_id: a-ccxi
+  drug_name: Tavneos (avacopan)
+  indication: ANCA-associated vasculitis
+  ticker: CCXI
+  valuation_config: examples/configs/replay_generated/ccxi.yaml
+- company_id: cere-replay
+  asset_id: a-cere
+  drug_name: emraclidine
+  indication: schizophrenia
+  ticker: CERE
+  valuation_config: examples/configs/replay_generated/cere.yaml
+- company_id: cinc-replay
+  asset_id: a-cinc
+  drug_name: baxdrostat
+  indication: treatment-resistant and uncontrolled hypertension
+  ticker: CINC
+  valuation_config: examples/configs/replay_generated/cinc.yaml
+- company_id: crsp-auto
+  asset_id: asset-crsp-ctx001
+  drug_name: Casgevy
+  indication: Sickle cell disease
+  ticker: CRSP
+  valuation_config: examples/configs/auto_generated/crsp.yaml
+- company_id: fold-auto
+  asset_id: asset-fold-atg-aa
+  drug_name: AT-GAA
+  indication: Pompe disease
+  ticker: FOLD
+  valuation_config: examples/configs/auto_generated/fold.yaml
+- company_id: fprx-replay
+  asset_id: a-fprx
+  drug_name: bemarituzumab
+  indication: FGFR2b-positive gastric and gastroesophageal junction cancer
+  ticker: FPRX
+  valuation_config: examples/configs/replay_generated/fprx.yaml
+- company_id: fulc-replay
+  asset_id: a-fulc
+  drug_name: losmapimod
+  indication: "rare muscle disease \u2014 FSHD / SMA"
+  ticker: FULC
+  valuation_config: examples/configs/replay_generated/fulc.yaml
+- company_id: gern-auto
+  asset_id: asset-gern-imetelstat
+  drug_name: Imetelstat
+  indication: Lower-risk MDS
+  ticker: GERN
+  valuation_config: examples/configs/auto_generated/gern.yaml
+- company_id: harp-replay
+  asset_id: a-harp
+  drug_name: HPN328 (MK-6070)
+  indication: small-cell lung cancer / neuroendocrine tumors
+  ticker: HARP
+  valuation_config: examples/configs/replay_generated/harp.yaml
+- company_id: imgo-replay
+  asset_id: a-imgo
+  drug_name: bomedemstat
+  indication: essential thrombocythemia / myelofibrosis
+  ticker: IMGO
+  valuation_config: examples/configs/replay_generated/imgo.yaml
+- company_id: immu-replay
+  asset_id: a-immu
+  drug_name: Trodelvy
+  indication: metastatic triple-negative breast cancer
+  ticker: IMMU
+  valuation_config: examples/configs/replay_generated/immu.yaml
+- company_id: imvt-auto
+  asset_id: asset-imvt-imanifimab
+  drug_name: Batoclimab
+  indication: Myasthenia gravis
+  ticker: IMVT
+  valuation_config: examples/configs/auto_generated/imvt.yaml
+- company_id: inbx-replay
+  asset_id: a-inbx
+  drug_name: INBRX-101
+  indication: alpha-1 antitrypsin deficiency
+  ticker: INBX
+  valuation_config: examples/configs/replay_generated/inbx.yaml
+- company_id: ions-auto
+  asset_id: asset-ions-olezarsen
+  drug_name: Olezarsen
+  indication: Familial chylomicronemia syndrome
+  ticker: IONS
+  valuation_config: examples/configs/auto_generated/ions.yaml
+- company_id: iova-replay
+  asset_id: a-iova
+  drug_name: Amtagvi (lifileucel)
+  indication: "TIL therapy \u2014 melanoma / NSCLC / cervical"
+  ticker: IOVA
+  valuation_config: examples/configs/replay_generated/iova.yaml
+- company_id: isee-replay
+  asset_id: a-isee
+  drug_name: avacincaptad pegol
+  indication: geographic atrophy
+  ticker: ISEE
+  valuation_config: examples/configs/replay_generated/isee.yaml
+- company_id: itci-replay
+  asset_id: a-itci
+  drug_name: Caplyta (lumateperone)
+  indication: schizophrenia and bipolar depression
+  ticker: ITCI
+  valuation_config: examples/configs/replay_generated/itci.yaml
+- company_id: kdny-replay
+  asset_id: a-kdny
+  drug_name: atrasentan / zigakibart
+  indication: IgA nephropathy
+  ticker: KDNY
+  valuation_config: examples/configs/replay_generated/kdny.yaml
+- company_id: krtx-replay
+  asset_id: a-krtx
+  drug_name: KarXT
+  indication: schizophrenia
+  ticker: KRTX
+  valuation_config: examples/configs/replay_generated/krtx.yaml
+- company_id: kymr-auto
+  asset_id: asset-kymr-kt474
+  drug_name: KT-474
+  indication: Atopic dermatitis
+  ticker: KYMR
+  valuation_config: examples/configs/auto_generated/kymr.yaml
+- company_id: lbph-replay
+  asset_id: a-lbph
+  drug_name: bexicaserin
+  indication: developmental and epileptic encephalopathies
+  ticker: LBPH
+  valuation_config: examples/configs/replay_generated/lbph.yaml
+- company_id: lly-replay
+  asset_id: a-lly
+  drug_name: orforglipron
+  indication: obesity / diabetes / Alzheimer's
+  ticker: LLY
+  valuation_config: examples/configs/replay_generated/lly.yaml
+- company_id: mdgl-auto
+  asset_id: asset-mdgl-resmetirom-mash
+  drug_name: Resmetirom
+  indication: MASH with fibrosis
+  ticker: MDGL
+  valuation_config: examples/configs/auto_generated/mdgl.yaml
+- company_id: mnta-replay
+  asset_id: a-mnta
+  drug_name: nipocalimab
+  indication: autoantibody-driven autoimmune diseases
+  ticker: MNTA
+  valuation_config: examples/configs/replay_generated/mnta.yaml
+- company_id: morf-replay
+  asset_id: a-morf
+  drug_name: MORF-057
+  indication: ulcerative colitis / Crohn's disease
+  ticker: MORF
+  valuation_config: examples/configs/replay_generated/morf.yaml
+- company_id: mrna-auto
+  asset_id: asset-mrna-mrna4157
+  drug_name: mRNA-4157
+  indication: Adjuvant melanoma
+  ticker: MRNA
+  valuation_config: examples/configs/auto_generated/mrna.yaml
+- company_id: myok-replay
+  asset_id: a-myok
+  drug_name: mavacamten
+  indication: obstructive hypertrophic cardiomyopathy
+  ticker: MYOK
+  valuation_config: examples/configs/replay_generated/myok.yaml
+- company_id: nvax-replay
+  asset_id: a-nvax
+  drug_name: nuvaxovid
+  indication: "protein subunit vaccines \u2014 COVID / flu"
+  ticker: NVAX
+  valuation_config: examples/configs/replay_generated/nvax.yaml
+- company_id: ocul-replay
+  asset_id: a-ocul
+  drug_name: OCU400
+  indication: "rare retinal disease \u2014 LCA10 / RP"
+  ticker: OCUL
+  valuation_config: examples/configs/replay_generated/ocul.yaml
+- company_id: prax-auto
+  asset_id: asset-prax-prax944
+  drug_name: Ulixacaltamide
+  indication: Essential tremor
+  ticker: PRAX
+  valuation_config: examples/configs/auto_generated/prax.yaml
+- company_id: prnb-replay
+  asset_id: a-prnb
+  drug_name: rilzabrutinib / tolebrutinib
+  indication: autoimmune and allergic diseases / multiple sclerosis
+  ticker: PRNB
+  valuation_config: examples/configs/replay_generated/prnb.yaml
+- company_id: prta-replay
+  asset_id: a-prta
+  drug_name: prasinezumab
+  indication: "neurodegenerative \u2014 Parkinson's / Alzheimer's (alpha-syn / tau\
+    \ / ATTR)"
+  ticker: PRTA
+  valuation_config: examples/configs/replay_generated/prta.yaml
+- company_id: prvb-replay
+  asset_id: a-prvb
+  drug_name: TZIELD
+  indication: delay of stage 3 type 1 diabetes
+  ticker: PRVB
+  valuation_config: examples/configs/replay_generated/prvb.yaml
+- company_id: ptct-auto
+  asset_id: asset-ptct-sepiapterin
+  drug_name: Sepiapterin
+  indication: Phenylketonuria
+  ticker: PTCT
+  valuation_config: examples/configs/auto_generated/ptct.yaml
+- company_id: rapt-replay
+  asset_id: a-rapt
+  drug_name: ozureprubart
+  indication: food allergy prophylaxis
+  ticker: RAPT
+  valuation_config: examples/configs/replay_generated/rapt.yaml
+- company_id: regn-2016
+  asset_id: asset-regn-dupilumab-copd
+  drug_name: Dupilumab
+  indication: COPD with type 2 inflammation
+  ticker: REGN
+  valuation_config: examples/configs/regn_dupilumab.yaml
+- company_id: reta-replay
+  asset_id: a-reta
+  drug_name: Skyclarys (omaveloxolone)
+  indication: Friedreich's ataxia
+  ticker: RETA
+  valuation_config: examples/configs/replay_generated/reta.yaml
+- company_id: relay-2026
+  asset_id: asset-rlay-rly2608
+  drug_name: RLY-2608
+  indication: PI3Ka-mutated breast cancer
+  ticker: RLAY
+  valuation_config: examples/configs/relay_rly2608.yaml
+- company_id: rna-replay
+  asset_id: a-rna
+  drug_name: del-desiran / del-brax / del-zota
+  indication: myotonic dystrophy type 1 / facioscapulohumeral muscular dystrophy /
+    Duchenne muscular dystrophy
+  ticker: RNA
+  valuation_config: examples/configs/replay_generated/rna.yaml
+- company_id: rvmd-replay
+  asset_id: a-rvmd
+  drug_name: daraxonrasib / elironrasib / zoldonrasib
+  indication: "RAS oncology \u2014 KRAS G12C/D, pan-RAS"
+  ticker: RVMD
+  valuation_config: examples/configs/replay_generated/rvmd.yaml
+- company_id: rxdx-replay
+  asset_id: a-rxdx
+  drug_name: PRA023
+  indication: ulcerative colitis / Crohn's disease
+  ticker: RXDX
+  valuation_config: examples/configs/replay_generated/rxdx.yaml
+- company_id: rxrx-auto
+  asset_id: asset-rxrx-rec994
+  drug_name: REC-994
+  indication: Cerebral cavernous malformation
+  ticker: RXRX
+  valuation_config: examples/configs/auto_generated/rxrx.yaml
+- company_id: ryzb-replay
+  asset_id: a-ryzb
+  drug_name: RYZ101
+  indication: gastroenteropancreatic neuroendocrine tumors
+  ticker: RYZB
+  valuation_config: examples/configs/replay_generated/ryzb.yaml
+- company_id: sage-auto
+  asset_id: asset-sage-sage718
+  drug_name: SAGE-718
+  indication: Cognitive impairment in Huntington disease
+  ticker: SAGE
+  valuation_config: examples/configs/auto_generated/sage.yaml
+- company_id: spnv-auto
+  asset_id: asset-spnv-deepview
+  drug_name: DeepView AI
+  indication: Burn wound healing assessment
+  ticker: SPNV
+  valuation_config: examples/configs/auto_generated/spnv.yaml
+- company_id: srpt-auto
+  asset_id: asset-srpt-srp9001
+  drug_name: SRP-9001
+  indication: Duchenne muscular dystrophy
+  ticker: SRPT
+  valuation_config: examples/configs/auto_generated/srpt.yaml
+- company_id: srra-replay
+  asset_id: a-srra
+  drug_name: momelotinib
+  indication: myelofibrosis
+  ticker: SRRA
+  valuation_config: examples/configs/replay_generated/srra.yaml
+- company_id: srrk-replay
+  asset_id: a-srrk
+  drug_name: apitegromab
+  indication: "musculoskeletal \u2014 spinal muscular atrophy / cachexia"
+  ticker: SRRK
+  valuation_config: examples/configs/replay_generated/srrk.yaml
+- company_id: tgtx-auto
+  asset_id: asset-tgtx-ublituximab-ms
+  drug_name: Ublituximab
+  indication: Relapsing multiple sclerosis
+  ticker: TGTX
+  valuation_config: examples/configs/auto_generated/tgtx.yaml
+- company_id: tngx-replay
+  asset_id: a-tngx
+  drug_name: TNG462 / TNG456 / TNG348
+  indication: oncology
+  ticker: TNGX
+  valuation_config: examples/configs/replay_generated/tngx.yaml
+- company_id: tptx-replay
+  asset_id: a-tptx
+  drug_name: repotrectinib
+  indication: ROS1-positive non-small cell lung cancer
+  ticker: TPTX
+  valuation_config: examples/configs/replay_generated/tptx.yaml
+- company_id: vktx-replay
+  asset_id: a-vktx
+  drug_name: VK2735
+  indication: obesity / NASH
+  ticker: VKTX
+  valuation_config: examples/configs/replay_generated/vktx.yaml
+- company_id: vrna-replay
+  asset_id: a-vrna
+  drug_name: Ohtuvayre (ensifentrine)
+  indication: COPD maintenance treatment
+  ticker: VRNA
+  valuation_config: examples/configs/replay_generated/vrna.yaml
+- company_id: vrtx-auto
+  asset_id: asset-vrtx-vx121
+  drug_name: VX-121/tezacaftor/deutivacaftor
+  indication: Cystic fibrosis
+  ticker: VRTX
+  valuation_config: examples/configs/auto_generated/vrtx.yaml
+- company_id: xlrn-replay
+  asset_id: a-xlrn
+  drug_name: sotatercept
+  indication: pulmonary arterial hypertension
+  ticker: XLRN
+  valuation_config: examples/configs/replay_generated/xlrn.yaml
+- company_id: zyme-replay
+  asset_id: a-zyme
+  drug_name: zanidatamab
+  indication: "oncology \u2014 HER2 bispecific / ADC"
+  ticker: ZYME
+  valuation_config: examples/configs/replay_generated/zyme.yaml

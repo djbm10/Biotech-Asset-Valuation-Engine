@@ -1,0 +1,44 @@
+asset:
+  id: a-ccxi
+  name: Tavneos (avacopan)
+  indication: ANCA-associated vasculitis
+  therapeutic_area: immunology
+  stage: nda_bla
+  modality: small_molecule
+  discount_rate: 0.105
+company:
+  id: ccxi-replay
+  name: ChemoCentryx
+  ticker: CCXI
+  cash_millions: 774.03
+  debt_millions: 0.0
+  shares_outstanding_millions: 762.04
+  burn_rate_millions_per_quarter: 30.0
+  current_price: 10.1574
+  notes: screening-grade replay config
+trials:
+- phase: nda_bla
+  success_probability: 0.86
+  duration_years: 1.5
+  cost_millions: 35.0
+  endpoint_type: surrogate_validated
+  notes: screening-grade default trial chain
+market_model:
+  total_addressable_market_millions: 17333.33
+  peak_penetration: 0.15
+  years_to_peak: 5
+  patent_life_years: 9
+  cogs_rate: 0.15
+  sgna_rate_launch: 0.4
+  sgna_rate_mature: 0.2
+_meta:
+  config_version: replay-screening-v1
+  source: replay_watchlist_builder
+  screening_grade: true
+  source_ticker: CCXI
+  source_universe_stage: approved
+  source_tags:
+  - mna_public_deal_universe
+  single_asset: true
+  heuristic_market_cap_millions: 7740.31
+  heuristic_peak_sales_millions: 2600.0
