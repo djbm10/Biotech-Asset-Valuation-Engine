@@ -202,6 +202,214 @@ connectors
 
 ---
 
+## Institutional Platform Roadmap
+
+> **Objective:** evolve from research/triage system → institutional-quality underwriting + validation
+> platform → shadow book with risk controls → small real-capital decision engine.
+>
+> **Non-negotiable principles:** Company is the decision object. Point-in-time truth only.
+> Separate ranking, calibration, and sizing. Broad screening and capital deployment are different
+> products. No threshold-score fake precision. Human review mandatory for serious names.
+>
+> **End-state architecture layers:** Data/provenance → Company snapshot → Valuation →
+> Calibration/uncertainty → Portfolio/risk/sizing → Review workflow → Backtest/replay/monitoring → Alpha data.
+
+### Phase 0 — Reframe the system correctly ✓
+
+**Timeline:** 1 week | **Status:** Complete
+
+**Goal:** Stop treating the system like a near-autonomous fund engine. Re-scope as:
+screening engine → underwriting platform → shadow-book decision system.
+
+- [x] **0.1** Written product spec: `docs/PRODUCT_SPEC.md` — 3 modes (Screening, Capital-candidate, Shadow-book),
+      mode definitions, allowed actions per mode, governance table
+- [x] **0.2** Mode labels on all top-level CLI outputs (`bve-universe-screen`, `bve-weekly-brief`,
+      `bve-daily-brief`) — every report shows `[MODE: SCREENING]` header
+- [x] **0.3** Screening-grade gate in action layer — `screening_grade: true` configs cannot produce
+      "add" / "size" / "buy" actions; gate raises `ScreeningGradeActionError` with clear message
+
+**Exit criteria:**
+- [x] No code path pushes a screening-grade name into buy/size outputs
+- [x] Every top-level report labels the mode clearly
+- [x] Product spec documents what is and is not allowed in each mode
+
+---
+
+### Phase 1 — Build company truth
+
+**Timeline:** 4–8 weeks | **Status:** Not started
+
+**Goal:** Make CompanySnapshot the canonical unit of analysis.
+
+- [ ] **1A** Canonical `CompanySnapshot` schema (company_id, as_of_date, market_cap, EV, cash, debt,
+      royalty streams, modeled assets, platform value, unmodeled pipeline, dilution/financing path,
+      major catalysts, management flags, confidence metadata, provenance metadata, reviewer state)
+- [ ] **1B** Material bucket framework — every value bucket gets: value, methodology, source type,
+      source reference, as-of date, corroboration count, reviewer, confidence, last changed, change reason
+- [ ] **1C** Top-25 underwriting packs — quarterly pack + event-dated updates, two-source corroboration,
+      dilution bridge, platform/unmodeled pipeline bridge, discrepancy notes
+
+**Exit criteria:** top-25 names have full company packs; every top name can answer "why is company
+value different from market EV?"; every material assumption is dated and attributable.
+
+---
+
+### Phase 2 — Institutional provenance and governance
+
+**Timeline:** 2–4 weeks (overlapping Phase 1) | **Status:** Not started
+
+**Goal:** Auditable infrastructure — not just smart spreadsheet logic.
+
+- [ ] **2A** Provenance registry — for every material field: source class, exact as-of date,
+      corroboration count, reviewer status, confidence score
+- [ ] **2B** Override logging — every manual override stores: old value, new value, who, when, why,
+      supporting evidence
+- [ ] **2C** Review states: draft → reviewed → approved for shadow book → quarantined → stale
+
+**Exit criteria:** no silent manual changes; all top-25 material buckets auditable; override log
+can be exported cleanly.
+
+---
+
+### Phase 3 — Lock point-in-time validation
+
+**Timeline:** 4–6 weeks | **Status:** Not started
+
+**Goal:** Prove the system using frozen historical states only.
+
+- [ ] **3A** Snapshot store — persist historical company snapshots as immutable records
+- [ ] **3B** Replay engine — given a date: load only data known by that date, rebuild decision view,
+      generate rank + calibrated outputs + size recommendation
+- [ ] **3C** Three independent evaluation tracks: Ranking (precision@k, hit rate by decile, event-basket),
+      Calibration (AUC, Brier, reliability curve, drift), Action/portfolio (return, drawdown, turnover,
+      transaction costs, liquidity slippage, capacity)
+- [ ] **3D** Rule-change attribution — whenever policy changes: compare old vs new, show what changed
+      due to data / governance / model / action rules
+- [ ] **3E** Benchmarks: XBI/IBB, biotech factors, simple event baskets, market-implied baseline
+
+**Exit criteria:** replay on historical dates; all backtests use frozen snapshots; ranking, calibration,
+and portfolio metrics reported separately.
+
+---
+
+### Phase 4 — Replace score thresholds with EV-to-size
+
+**Timeline:** 3–5 weeks | **Status:** Not started
+
+**Goal:** Kill composite threshold actions; replace with position-sizing logic.
+
+- [ ] **4A** Expected value engine — per company: base expected return, bull/base/bear return,
+      uncertainty-adjusted EV, downside estimate, catalyst distribution, dilution penalty, stale-data penalty
+- [ ] **4B** Risk-aware sizing engine — inputs: EV, uncertainty, liquidity, volatility, catalyst crowding,
+      thematic overlap, financing risk, drawdown tolerance → outputs: blocked / watch / starter / medium /
+      full / trim / exit
+- [ ] **4C** Portfolio construction rules — max single-name, max theme, max catalyst cluster,
+      liquidity floor, financing-distress cap, binary-event concentration limit
+
+**Exit criteria:** no production action driven by simple weighted composite; top-ranked names can
+receive "no size"; portfolio rules can override thesis strength.
+
+---
+
+### Phase 5 — Reconciliation and drift monitoring
+
+**Timeline:** 2–4 weeks | **Status:** Not started
+
+**Goal:** Automatically catch stale and unstable names.
+
+- [ ] **5A** Staleness triggers — SOTP gap moved materially, price moved but assumptions did not,
+      catalyst passed without pack refresh, financing runway worsened, bucket confidence fell,
+      snapshot value unstable across minor rule changes
+- [ ] **5B** Actions: alert / queue for review / quarantine from shadow-book recommendations
+- [ ] **5C** Dashboard tracking: stale names, unresolved review queue, unstable names,
+      override intensity, bucket-level confidence distribution
+
+**Exit criteria:** unstable names automatically leave deployable output; stale assumptions are
+visible, not hidden.
+
+---
+
+### Phase 6 — Upgrade commercial realism for gold-tier names
+
+**Timeline:** 6–10 weeks | **Status:** Not started
+
+**Goal:** Fix shorthand commercial weaknesses for highest-value names.
+
+- [ ] **6A** Patient population model — diagnosis flow, treatment eligibility, LOT splits, market share
+      ramp, adherence/persistence, gross-to-net, payer friction, regional rollout, LOE erosion, crowding
+- [ ] **6B** Tiering: Tier 1 (full patient-flow), Tier 2 (advanced market model), Tier 3 (screening shorthand)
+
+**Exit criteria:** all top-conviction names use tier-appropriate commercial modeling; model depth
+matched to capital relevance.
+
+---
+
+### Phase 7 — Demote and rebuild the M&A layer
+
+**Timeline:** 3–6 weeks | **Status:** Not started
+
+**Goal:** Use M&A as optionality, not primary signal.
+
+- [ ] **7A** Enhanced acquirer profiles — broader buyer universe, capability fit, LOE timing,
+      process probability, financing feasibility, precedent realism, board/ownership/partnership signals
+- [ ] **7B** M&A as scenario variable — influences: upside scenario, catalyst score, optionality premium
+      but cannot alone justify a position
+
+**Exit criteria:** no primary buy decisions depend mainly on M&A heuristics; M&A is a scenario
+variable, not core thesis truth.
+
+---
+
+### Phase 8 — Shadow book like a real fund
+
+**Timeline:** 8–12 weeks | **Status:** Not started
+
+**Goal:** Operate the system as if managing capital, without yet claiming it deserves full trust.
+
+- [ ] **8A** Frozen weekly/daily decision cycle
+- [ ] **8B** Formal review memo for top names
+- [ ] **8C** Paper portfolio with transaction-cost assumptions
+- [ ] **8D** Pre-mortem and post-mortem workflow
+- [ ] **8E** Error taxonomy: commercial miss / PoS miss / dilution miss / platform miss /
+      stale-pack miss / extraction miss / process/M&A miss
+
+**Exit criteria:** 6–12 months of disciplined shadow operation; consistent review cadence;
+explainable hit/miss patterns.
+
+---
+
+### Phase 9 — Build actual alpha layers
+
+**Timeline:** ongoing, after infrastructure solid | **Status:** Not started
+
+**Goal:** Compete better — current value is mostly public-information organization.
+
+- [ ] **9A** Market-expectation inference — implied PoS, implied peak sales, expected readout magnitude,
+      scenario-implied market cap reactions
+- [ ] **9B** Catalyst interpretation — endpoint structure, comparator quality, enrollment quality,
+      biomarker strength, effect-size realism, subgroup dependence, Street expectation gap
+- [ ] **9C** Financing/process intelligence — runway forecasting, financing probability, structure,
+      partnership likelihood, ownership/board incentives
+- [ ] **9D** Alternative/proprietary data — KOL views, site/investigator quality, channel checks,
+      payer insights, BD intent/process signals
+
+**Exit criteria:** at least one alpha layer demonstrably improves ranking or calibration OOS;
+added data is decision-useful, not just interesting.
+
+---
+
+### Success Gates
+
+| Gate | Description | Status |
+|------|-------------|--------|
+| Gate 1 — Underwriting credibility | Top-25 fully packed; material buckets dated; no silent overrides | Not started |
+| Gate 2 — Validation credibility | Frozen snapshots; ranking/calibration/portfolio evaluated separately | Not started |
+| Gate 3 — Action credibility | Threshold actions removed; EV-to-size live; portfolio constraints on | Not started |
+| Gate 4 — Operating credibility | Shadow book 6–12 months; drift queue catches unstable names | Not started |
+| Gate 5 — Alpha credibility | One+ alpha layer improves OOS; error taxonomy shows learnable edge | Not started |
+
+---
+
 ## In Progress
 
 ### Phase 1 — Institutional Grade (Sprint 10–12, active)

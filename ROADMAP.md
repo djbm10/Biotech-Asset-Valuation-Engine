@@ -1,8 +1,102 @@
 # Roadmap to Institutional Grade
 
-**Status:** Planning
-**Engine baseline:** Sprint 9 complete — rNPV, MC, competition model, multi-indication, LOE, deal
-economics, POS backtest, historical replay, weekly runner (27 names)
+**Status:** Phase 0 complete — platform reframe done
+**Engine baseline:** Sprint 30 complete — rNPV, MC, competition model, multi-indication, LOE, deal
+economics, POS backtest, historical replay, weekly runner, M&A backfiller (15 acquirers, 38-date replay)
+**Primary goal:** Evolve from research/triage system → institutional underwriting + validation platform
+→ shadow book with risk controls → small real-capital decision engine
+
+---
+
+## Master Roadmap (Phases 0–9)
+
+| Phase | Name | Timeline | Status |
+|-------|------|----------|--------|
+| 0 | Reframe the system correctly | 1 week | **Complete** |
+| 1 | Build company truth | 4–8 weeks | Not started |
+| 2 | Institutional provenance and governance | 2–4 weeks | Not started |
+| 3 | Lock point-in-time validation | 4–6 weeks | Not started |
+| 4 | Replace score thresholds with EV-to-size | 3–5 weeks | Not started |
+| 5 | Reconciliation and drift monitoring | 2–4 weeks | Not started |
+| 6 | Upgrade commercial realism (gold tier) | 6–10 weeks | Not started |
+| 7 | Demote and rebuild M&A layer | 3–6 weeks | Not started |
+| 8 | Shadow book like a real fund | 8–12 weeks | Not started |
+| 9 | Build actual alpha layers | Ongoing | Not started |
+
+### Non-negotiable principles
+- **Company is the decision object.** Not asset-only. Company-level underwriting is the core gap.
+- **Point-in-time truth only.** Every decision must be reproducible from what the system knew at that date.
+- **Separate ranking, calibration, and sizing.** Blending them fools you.
+- **Screening and capital deployment are different products.** Most names stay screening-grade.
+- **No threshold-score fake precision.** Move from rank-to-action to EV-to-size.
+- **Human review mandatory for serious names.** Models do not deploy large capital without expert challenge.
+
+### End-state architecture layers
+1. Data / provenance layer
+2. Company snapshot layer
+3. Valuation layer
+4. Calibration / uncertainty layer
+5. Portfolio / risk / sizing layer
+6. Review workflow layer
+7. Backtest / replay / monitoring layer
+8. Alpha-data layer
+
+---
+
+## Phase 0 — Reframe the system correctly ✓
+
+**Timeline:** 1 week | **Completed:** 2026-04-09
+
+**Deliverables:**
+- `docs/PRODUCT_SPEC.md` — written product spec with 3 modes (Screening, Capital-candidate, Shadow-book),
+  mode definitions, allowed action types, governance table
+- Mode labels on all top-level CLI outputs
+- Screening-grade gate in action layer: `screening_grade: true` configs blocked from buy/size actions
+
+**Exit criteria met:**
+- No code path pushes a screening-grade name into buy/size outputs ✓
+- Every top-level report labels the mode clearly ✓
+
+---
+
+## Phase 1 — Build company truth (next)
+
+**Timeline:** 4–8 weeks | **Status:** Not started
+
+**The audit says this is the highest-leverage phase.**
+
+Goal: make `CompanySnapshot` the canonical unit of analysis. The current system models assets, not
+companies. This is the root gap the audit identified.
+
+### 1A — Canonical CompanySnapshot schema
+
+Fields: company_id, as_of_date, share price/market cap/EV, cash, debt, royalty streams/obligations,
+modeled assets, platform value, unmodeled pipeline bucket, dilution/financing path, major catalysts,
+management/governance flags, confidence metadata, provenance metadata, reviewer state, stale state.
+
+### 1B — Material bucket framework
+
+Every value bucket gets: value, methodology, source type, source reference, as-of date,
+corroboration count, reviewer, confidence, last changed timestamp, change reason.
+
+### 1C — Top-25 underwriting packs
+
+Pick 25 names. For each: quarterly pack, event-dated updates, two-source corroboration on all
+material manual buckets, dilution bridge, platform/unmodeled pipeline bridge, discrepancy notes.
+
+**What to cut during Phase 1:**
+- No expanding broad-universe heuristics before this is done
+- No more fancy action logic on incomplete company models
+
+**Exit criteria:**
+- Top-25 names have full company packs
+- Every top name can answer: "why is company value different from market EV?"
+- Every material assumption is dated and attributable
+
+---
+
+## Historical sprint record (pre-Phase 0)
+
 **Primary goal:** Convert the engine from a valuation calculator into a mispricing detector.
 
 ---

@@ -75,6 +75,12 @@ class ScoredCandidate:
     Callers populate this from whatever ranking / opportunity sources they
     have.  All fields except ``asset_id``, ``ticker``, and ``ranking_score``
     are optional.
+
+    screening_grade
+        When True, this candidate was built from a parametric / heuristic
+        config (``_meta.screening_grade: true``).  The actionable generator
+        will never assign ``"buy"`` or ``"add"`` to screening-grade names;
+        they are clamped to ``"monitor"`` at most.  See docs/PRODUCT_SPEC.md.
     """
 
     asset_id: str
@@ -88,7 +94,11 @@ class ScoredCandidate:
     catalyst_description: str = ""
     indication: str = ""
     company_id: str = ""
+    company_action_policy: Optional[str] = None
+    company_action_reason: str = ""
+    company_snapshot_date: Optional[date] = None
     extra_risk_flags: list[str] = field(default_factory=list)
+    screening_grade: bool = False
 
 
 # ---------------------------------------------------------------------------
@@ -141,6 +151,9 @@ class ActionableOpportunity(BaseModel):
     thesis_strength: Optional[float] = None
     n_open_claims: int = 0
     critic_severity: Optional[str] = None
+    company_action_policy: Optional[str] = None
+    company_action_reason: str = ""
+    company_snapshot_date: Optional[date] = None
     risk_flags: list[str] = Field(default_factory=list)
     one_line_summary: str = ""
     # v2.0 signal attribution — empty for v1.0 runs
@@ -192,7 +205,9 @@ class WeeklyActionableReport(BaseModel):
     opportunities: list[ActionableOpportunity] = Field(default_factory=list)
     n_considered: int = 0
     n_filtered_by_min_score: int = 0
+    n_filtered_by_company_gate: int = 0
     n_elevated_by_critic: int = 0
+    n_clamped_by_screening_gate: int = 0
     has_actionable: bool = False
 
 
@@ -269,7 +284,9 @@ class ActionableGenerator:
 
         n_considered = len(candidates)
         n_filtered = 0
+        n_filtered_by_company_gate = 0
         n_elevated = 0
+        n_clamped_screening = 0
         results: list[ActionableOpportunity] = []
 
         # Build the signal scorer lazily — only when contexts are supplied
@@ -318,6 +335,24 @@ class ActionableGenerator:
             )
             if was_elevated:
                 n_elevated += 1
+            action, filtered_by_company_gate = self._apply_company_policy_gate(
+                action,
+                cand.company_action_policy,
+            )
+            if filtered_by_company_gate:
+                n_filtered_by_company_gate += 1
+                continue
+
+            # Screening-grade gate (Phase 0 — docs/PRODUCT_SPEC.md):
+            # Heuristic configs cannot produce capital-deployment action labels.
+            # Clamp "buy"/"add" to "monitor" and record the clamping.
+            if cand.screening_grade and action in ("buy", "add"):
+                action = "monitor"
+                n_clamped_screening += 1
+                cand.extra_risk_flags.append(
+                    "SCREENING-GRADE: capital action blocked — underwriting pack required "
+                    "before this name can receive a buy/add label (see docs/PRODUCT_SPEC.md)"
+                )
 
             # Sizing: proportional to composite, clipped
             raw_size = composite * self.max_position_pct
@@ -343,6 +378,9 @@ class ActionableGenerator:
                 thesis_strength=cand.thesis_strength,
                 n_open_claims=getattr(cand, "n_open_claims", 0),
                 critic_severity=cand.critic_severity,
+                company_action_policy=cand.company_action_policy,
+                company_action_reason=cand.company_action_reason,
+                company_snapshot_date=cand.company_snapshot_date,
                 risk_flags=risk_flags,
                 one_line_summary=summary,
                 signal_adjustments=signal_adj,
@@ -362,7 +400,9 @@ class ActionableGenerator:
             opportunities=results,
             n_considered=n_considered,
             n_filtered_by_min_score=n_filtered,
+            n_filtered_by_company_gate=n_filtered_by_company_gate,
             n_elevated_by_critic=n_elevated,
+            n_clamped_by_screening_gate=n_clamped_screening,
             has_actionable=has_actionable,
         )
 
@@ -411,12 +451,38 @@ class ActionableGenerator:
         return base_action, was_elevated
 
     @staticmethod
+    def _apply_company_policy_gate(
+        action: str,
+        company_action_policy: Optional[str],
+    ) -> tuple[str, bool]:
+        policy = (company_action_policy or "").strip().lower()
+        if policy in {"avoid", "needs_manual_review"}:
+            return "avoid", True
+        if policy == "watch" and action in {"buy", "add"}:
+            return "monitor", False
+        return action, False
+
+    @staticmethod
     def _build_risk_flags(cand: ScoredCandidate, composite: float) -> list[str]:
         flags: list[str] = []
         if cand.capital_risk_level == CapitalRiskLevel.CRITICAL:
             flags.append("CRITICAL: capital risk — potential insolvency before catalyst")
         elif cand.capital_risk_level == CapitalRiskLevel.HIGH:
             flags.append("HIGH capital risk: dilutive raise likely before catalyst")
+        company_policy = (cand.company_action_policy or "").strip().lower()
+        if company_policy == "watch":
+            flags.append(
+                f"COMPANY WATCH: {cand.company_action_reason or 'company SOTP policy gate'}"
+            )
+        elif company_policy == "avoid":
+            flags.append(
+                f"COMPANY AVOID: {cand.company_action_reason or 'company SOTP policy gate'}"
+            )
+        elif company_policy == "needs_manual_review":
+            flags.append(
+                "COMPANY MANUAL REVIEW: "
+                f"{cand.company_action_reason or 'company SOTP recency/coverage/confidence gate'}"
+            )
         if cand.critic_severity == "caution":
             flags.append("CAUTION: critic flagged high-severity concern")
         elif cand.critic_severity == "warning":

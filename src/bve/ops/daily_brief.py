@@ -30,6 +30,7 @@ from typing import TYPE_CHECKING, Optional
 
 if TYPE_CHECKING:
     from bve.intelligence.knowledge_layer import KnowledgeStore
+    from bve.analysis.implied_pos_batch import ScreenRow
 
 
 # ---------------------------------------------------------------------------
@@ -75,12 +76,22 @@ class BriefRow:
 
     # Composite score (0.0–1.0; higher = more actionable)
     composite_score: float = 0.0
+    company_ranked_discount: Optional[float] = None
+    company_action_policy: Optional[str] = None
+    company_action_reason: Optional[str] = None
+    company_snapshot_date: Optional[date] = None
 
     @property
     def spread_label(self) -> str:
         if self.spread_pp is None:
             return "n/a"
         return f"{self.spread_pp:+.1f}pp"
+
+    @property
+    def company_discount_label(self) -> str:
+        if self.company_ranked_discount is None:
+            return "n/a"
+        return f"{self.company_ranked_discount:.2f}x"
 
     @property
     def signal_flags(self) -> str:
@@ -117,6 +128,8 @@ class DailyBrief:
     n_expert_notes: int = 0        # total expert notes considered
     n_recent_events: int = 0       # total detected events (last 7 days)
     n_requires_recompute: int = 0  # names flagged for recomputation
+    source_mode: str = "live_recomputed"
+    reference_snapshot_date: Optional[date] = None
 
 
 # ---------------------------------------------------------------------------
@@ -148,6 +161,9 @@ def _score_row(row: BriefRow) -> float:
         spread_score = min(1.0, row.spread_pp / _MAX_SPREAD_PP)
     else:
         spread_score = 0.0
+    if row.company_ranked_discount is not None and row.company_ranked_discount > 1.0:
+        company_discount_score = min(1.0, (row.company_ranked_discount - 1.0) / 1.5)
+        spread_score = max(spread_score, company_discount_score)
 
     # Calibration component — positive delta = calibrated PoS > model PoS (bullish)
     if row.calibrated_pos_delta is not None and row.calibrated_pos_delta > 0:
@@ -221,8 +237,37 @@ def build_daily_brief(
     as_of = as_of or date.today()
     generated_at = datetime.now(timezone.utc)
 
-    # Step 1: Run universe screen (implied PoS spread)
-    screen_rows = run_screen(universe, params_path=params_path, fetch_live=fetch_live)
+    # Step 1: Prefer persisted company SOTP snapshots for company-facing ranking.
+    company_reference_date, company_rows = _load_company_rows_from_store(
+        store,
+        as_of=as_of,
+        universe=universe,
+    )
+    source_mode = "stored_company_snapshot"
+    reference_snapshot_date = company_reference_date
+
+    if company_rows:
+        screen_rows = _build_screen_context_for_company_rows(
+            store,
+            company_rows=company_rows,
+            as_of=company_reference_date or as_of,
+        )
+    else:
+        # Step 1b: Fall back to persisted asset-level screen snapshots.
+        screen_rows = _load_screen_rows_from_store(store, as_of=as_of)
+        if screen_rows:
+            source_mode = "stored_screen_snapshot"
+            reference_snapshot_date = screen_rows[0].data_date
+
+    if not screen_rows and not company_rows:
+        screen_rows = run_screen(
+            universe,
+            params_path=params_path,
+            fetch_live=fetch_live,
+            as_of=as_of,
+        )
+        source_mode = "live_recomputed"
+        reference_snapshot_date = as_of
 
     # Step 2: Build CalibratedPOSModel from KnowledgeStore
     try:
@@ -257,9 +302,14 @@ def build_daily_brief(
     # Step 6: Assemble BriefRows
     brief_rows: list[BriefRow] = []
     n_with_spread = 0
+    company_by_ticker = {
+        str(row.get("ticker") or "").upper(): row
+        for row in company_rows
+    }
 
     for sr in screen_rows:
         ticker = sr.ticker.upper()
+        company_snapshot = company_by_ticker.get(ticker)
 
         # Calibrated PoS
         cal_rate: Optional[float] = None
@@ -311,6 +361,27 @@ def build_daily_brief(
             expert_signal_types=signal_types,
             recent_event_count=len(ticker_events),
             requires_recompute=requires_recompute,
+            company_ranked_discount=(
+                float(company_snapshot["ranked_sotp_discount"])
+                if company_snapshot is not None
+                and company_snapshot.get("ranked_sotp_discount") is not None
+                else None
+            ),
+            company_action_policy=(
+                str(company_snapshot.get("action_policy"))
+                if company_snapshot is not None and company_snapshot.get("action_policy")
+                else None
+            ),
+            company_action_reason=(
+                str(company_snapshot.get("action_reason"))
+                if company_snapshot is not None and company_snapshot.get("action_reason")
+                else None
+            ),
+            company_snapshot_date=(
+                company_snapshot.get("snapshot_date")
+                if company_snapshot is not None
+                else None
+            ),
         )
         row.composite_score = round(_score_row(row), 4)
         brief_rows.append(row)
@@ -327,6 +398,166 @@ def build_daily_brief(
         n_expert_notes=len(all_notes),
         n_recent_events=len(all_events),
         n_requires_recompute=sum(1 for r in brief_rows if r.requires_recompute),
+        source_mode=source_mode,
+        reference_snapshot_date=reference_snapshot_date,
+    )
+
+
+def _load_company_rows_from_store(
+    store: "KnowledgeStore",
+    *,
+    as_of: date,
+    universe: list[dict],
+) -> tuple[Optional[date], list[dict]]:
+    try:
+        snapshot_date, raw_rows = store.get_company_sotp_snapshots_on_or_before(as_of, limit=1000)
+    except Exception:
+        return None, []
+    if snapshot_date is None or not raw_rows:
+        return None, []
+
+    allowed_tickers = {
+        str(entry.get("ticker") or "").upper()
+        for entry in universe
+        if entry.get("ticker")
+    }
+    filtered = [
+        row
+        for row in raw_rows
+        if str(row.get("ticker") or "").upper() in allowed_tickers
+        and bool(row.get("balance_sheet_passes_recency_gate", False))
+    ]
+    filtered.sort(
+        key=lambda row: (-float(row.get("ranked_sotp_discount") or 0.0), str(row.get("ticker") or ""))
+    )
+    return snapshot_date, filtered
+
+
+def _build_screen_context_for_company_rows(
+    store: "KnowledgeStore",
+    *,
+    company_rows: list[dict],
+    as_of: date,
+) -> list["ScreenRow"]:
+    screen_rows: list["ScreenRow"] = []
+    for company_row in company_rows:
+        snapshot = _best_asset_snapshot_for_company(store, company_row=company_row, as_of=as_of)
+        if snapshot is not None:
+            data_date = date.fromisoformat(snapshot["snapshot_date"])
+            screen_rows.append(_screen_row_from_snapshot_dict(snapshot, data_date=data_date))
+            continue
+
+        ticker = str(company_row.get("ticker") or "")
+        screen_rows.append(
+            _company_snapshot_to_screen_row(company_row, data_date=as_of, ticker=ticker)
+        )
+    return screen_rows
+
+
+def _best_asset_snapshot_for_company(
+    store: "KnowledgeStore",
+    *,
+    company_row: dict,
+    as_of: date,
+) -> Optional[dict]:
+    best: Optional[dict] = None
+    for asset_id in company_row.get("modeled_asset_ids", []) or []:
+        candidate = store.get_screen_snapshot_for_asset_on_or_before(asset_id=str(asset_id), as_of=as_of)
+        if candidate is None:
+            continue
+        if best is None:
+            best = candidate
+            continue
+        best_value = float(best.get("rnpv_millions") or 0.0)
+        candidate_value = float(candidate.get("rnpv_millions") or 0.0)
+        if candidate_value > best_value:
+            best = candidate
+    if best is not None:
+        return best
+    ticker = str(company_row.get("ticker") or "")
+    if not ticker:
+        return None
+    return store.get_screen_snapshot_for_ticker_on_or_before(ticker=ticker, as_of=as_of)
+
+
+def _company_snapshot_to_screen_row(
+    row: dict,
+    *,
+    data_date: date,
+    ticker: str,
+) -> "ScreenRow":
+    from bve.analysis.implied_pos_batch import ScreenRow
+
+    company_name = str(row.get("company_name") or ticker)
+    return ScreenRow(
+        ticker=ticker,
+        program_label=company_name,
+        stage="company",
+        ta="mixed",
+        model_pos=0.0,
+        implied_pos=None,
+        spread_pp=None,
+        rnpv_millions=float(row.get("sotp_equity_value_millions") or 0.0),
+        ev_millions=float(row.get("enterprise_value_millions") or 0.0),
+        acquisition_discount_pct=(
+            round((float(row["ranked_sotp_discount"]) - 1.0) * 100.0, 4)
+            if row.get("ranked_sotp_discount") is not None
+            else None
+        ),
+        next_catalyst="",
+        catalyst_date=None,
+        days_to_catalyst=None,
+        single_asset=False,
+        approximation_warning="company_snapshot_without_asset_screen_context",
+        thesis_strength=None,
+        data_date=data_date,
+        asset_id="",
+        market_exceeds_model=False,
+        config_quality=row.get("config_quality_summary"),
+    )
+
+
+def _load_screen_rows_from_store(
+    store: "KnowledgeStore",
+    *,
+    as_of: date,
+) -> list["ScreenRow"]:
+    """Load the most recent screen snapshot on or before *as_of*."""
+    try:
+        snapshot_date, raw_rows = store.get_screen_snapshots_on_or_before(as_of, limit=1000)
+    except Exception:
+        return []
+    if snapshot_date is None or not raw_rows:
+        return []
+    return [_screen_row_from_snapshot_dict(row, data_date=snapshot_date) for row in raw_rows]
+
+
+def _screen_row_from_snapshot_dict(row: dict, *, data_date: date) -> "ScreenRow":
+    from bve.analysis.implied_pos_batch import ScreenRow
+
+    return ScreenRow(
+        ticker=row["ticker"],
+        program_label=row.get("program_label") or row["ticker"],
+        stage=row.get("stage") or "unknown",
+        ta=row.get("ta") or "other",
+        model_pos=row.get("model_pos") or 0.0,
+        implied_pos=row.get("implied_pos"),
+        spread_pp=row.get("spread_pp"),
+        rnpv_millions=row.get("rnpv_millions") or 0.0,
+        ev_millions=row.get("ev_millions"),
+        acquisition_discount_pct=row.get("acquisition_discount_pct"),
+        next_catalyst=row.get("next_catalyst") or "",
+        catalyst_date=(
+            date.fromisoformat(row["catalyst_date"]) if row.get("catalyst_date") else None
+        ),
+        days_to_catalyst=row.get("days_to_catalyst"),
+        single_asset=bool(row.get("single_asset", True)),
+        approximation_warning=row.get("approximation_warning"),
+        thesis_strength=row.get("thesis_strength"),
+        data_date=data_date,
+        asset_id=str(row.get("asset_id") or ""),
+        market_exceeds_model=bool(row.get("market_exceeds_model", False)),
+        config_quality=row.get("config_quality"),
     )
 
 
@@ -353,7 +584,11 @@ def render_brief(brief: DailyBrief, top_n: int = 10) -> str:
     lines: list[str] = []
 
     lines.append(f"# Daily Opportunity Brief — {brief.as_of.isoformat()}")
+    lines.append("[MODE: SCREENING]  Heuristic-grade rankings only. No capital-deployment actions.")
     lines.append(f"Generated: {brief.generated_at.strftime('%Y-%m-%d %H:%M UTC')}")
+    lines.append(f"Source mode: {brief.source_mode}")
+    if brief.reference_snapshot_date is not None:
+        lines.append(f"Reference snapshot: {brief.reference_snapshot_date.isoformat()}")
     lines.append("")
 
     # Summary stats
@@ -377,7 +612,7 @@ def render_brief(brief: DailyBrief, top_n: int = 10) -> str:
     # Top opportunities table
     lines.append(f"## Top {top_n} Opportunities")
     header = (
-        f"{'TICKER':<7} {'SPREAD':>7} {'MODEL':>7} {'CAL_Δ':>7} "
+        f"{'TICKER':<7} {'DISC':>7} {'POLICY':<8} {'SPREAD':>7} {'MODEL':>7} {'CAL_Δ':>7} "
         f"{'STAGE':<10} {'SIGNALS':<10} {'D2CAT':>6} {'SCORE':>7}"
     )
     lines.append(header)
@@ -385,6 +620,7 @@ def render_brief(brief: DailyBrief, top_n: int = 10) -> str:
 
     for row in brief.rows[:top_n]:
         spread_str = row.spread_label if row.spread_pp is not None else "n/a"
+        discount_str = row.company_discount_label
         model_str = f"{row.model_pos:.0%}"
         cal_delta_str = (
             f"{row.calibrated_pos_delta:+.1f}pp"
@@ -393,8 +629,10 @@ def render_brief(brief: DailyBrief, top_n: int = 10) -> str:
         )
         d2cat_str = str(row.days_to_catalyst) if row.days_to_catalyst is not None else "—"
         recompute_flag = "⚡" if row.requires_recompute else " "
+        policy_str = row.company_action_policy or "—"
         lines.append(
-            f"{row.ticker:<7} {spread_str:>7} {model_str:>7} {cal_delta_str:>7} "
+            f"{row.ticker:<7} {discount_str:>7} {policy_str:<8} {spread_str:>7} "
+            f"{model_str:>7} {cal_delta_str:>7} "
             f"{row.stage:<10} {row.signal_flags:<10} {d2cat_str:>6} "
             f"{row.composite_score:>6.3f}{recompute_flag}"
         )

@@ -30,6 +30,7 @@ from pathlib import Path
 from typing import Optional
 
 from bve.analysis.implied_pos_batch import ScreenRow, run_screen
+from bve.ops.daily_brief import _screen_row_from_snapshot_dict
 from bve.ops.weekly_runner import UNIVERSE
 
 _SPREAD_GREEN = "\033[92m"  # green
@@ -92,6 +93,12 @@ def _build_parser() -> argparse.ArgumentParser:
         default=None,
         metavar="YYYY-MM-DD",
         help="Show archived screen from KnowledgeStore instead of running live",
+    )
+    p.add_argument(
+        "--db",
+        default=None,
+        metavar="PATH",
+        help="KnowledgeStore SQLite path for --as-of mode (default: outputs/intelligence/ops.db)",
     )
     p.add_argument(
         "--mna",
@@ -161,6 +168,7 @@ def _ticker_label(row: ScreenRow) -> str:
 
 
 def _format_table(rows: list[ScreenRow], use_color: bool = True) -> str:
+    display_date = rows[0].data_date if rows else date.today()
     header = (
         f"{'TICKER':<7}  {'STAGE':<9}  "
         f"{'MODEL%':>6}  {'IMP%':>6}  {'SPREAD':>8}  "
@@ -170,7 +178,8 @@ def _format_table(rows: list[ScreenRow], use_color: bool = True) -> str:
     )
     sep = "─" * len(header)
     lines = [
-        f"Universe implied PoS screen  |  {date.today().isoformat()}  |  N={len(rows)}",
+        "[MODE: SCREENING]  Heuristic-grade. Rankings only — no capital-deployment actions.",
+        f"Universe implied PoS screen  |  {display_date.isoformat()}  |  N={len(rows)}",
         f"Sorted by: spread descending  |  {_APPROX_MARKER} = multi-program (spread approximate)",
         sep,
         header,
@@ -274,6 +283,7 @@ def _format_mna_table(
     mna_scores: dict[str, tuple[float, str]],
     use_color: bool = True,
 ) -> str:
+    display_date = rows[0].data_date if rows else date.today()
     header = (
         f"{'TICKER':<7}  {'STAGE':<9}  "
         f"{'SPREAD':>8}  {'rNPV($M)':>9}  "
@@ -282,7 +292,7 @@ def _format_mna_table(
     )
     sep = "─" * len(header)
     lines = [
-        f"Universe M&A Strategic Fit  |  {date.today().isoformat()}  |  N={len(rows)}",
+        f"Universe M&A Strategic Fit  |  {display_date.isoformat()}  |  N={len(rows)}",
         "Acquirers: Pfizer, Lilly, Novo Nordisk  |  FIT = max score across all 3",
         sep,
         header,
@@ -309,40 +319,22 @@ def _format_mna_table(
     return "\n".join(lines)
 
 
-def _rows_from_store(as_of_str: str) -> list[ScreenRow]:
-    """Load historical screen rows from KnowledgeStore for --as-of mode."""
+def _rows_from_store(as_of_str: str, db_path: Optional[str | Path] = None) -> tuple[Optional[date], list[ScreenRow]]:
+    """Load the latest historical screen rows on or before *as_of_str*."""
     from bve.intelligence.knowledge_layer import KnowledgeStore
     from bve.ops.weekly_runner import DB_PATH
 
     as_of = date.fromisoformat(as_of_str)
-    store = KnowledgeStore(DB_PATH)
-    raw = store.get_screen_snapshots(snapshot_date=as_of)
+    resolved_db_path = Path(db_path) if db_path is not None else DB_PATH
+    store = KnowledgeStore(resolved_db_path)
+    snapshot_date, raw = store.get_screen_snapshots_on_or_before(as_of, limit=1000)
     store.close()
-
-    rows: list[ScreenRow] = []
-    for r in raw:
-        rows.append(ScreenRow(
-            ticker=r["ticker"],
-            program_label=r["program_label"] or r["ticker"],
-            stage=r["stage"] or "unknown",
-            ta=r["ta"] or "other",
-            model_pos=r["model_pos"] or 0.0,
-            implied_pos=r["implied_pos"],
-            spread_pp=r["spread_pp"],
-            rnpv_millions=r["rnpv_millions"] or 0.0,
-            ev_millions=r["ev_millions"],
-            acquisition_discount_pct=r["acquisition_discount_pct"],
-            next_catalyst=r["next_catalyst"] or "",
-            catalyst_date=(
-                date.fromisoformat(r["catalyst_date"]) if r["catalyst_date"] else None
-            ),
-            days_to_catalyst=r["days_to_catalyst"],
-            single_asset=bool(r["single_asset"]),
-            approximation_warning=r["approximation_warning"],
-            thesis_strength=r.get("thesis_strength"),
-            data_date=as_of,
-        ))
-    return rows
+    if snapshot_date is None:
+        return None, []
+    return snapshot_date, [
+        _screen_row_from_snapshot_dict(r, data_date=snapshot_date)
+        for r in raw
+    ]
 
 
 def _inject_thesis_strength(rows: list[ScreenRow]) -> list[ScreenRow]:
@@ -389,10 +381,16 @@ def main() -> None:
             f"Loading archived screen for {args.as_of} from KnowledgeStore...",
             file=sys.stderr,
         )
-        rows = _rows_from_store(args.as_of)
+        resolved_snapshot_date, rows = _rows_from_store(args.as_of, db_path=args.db)
         if not rows:
             print(f"No screen snapshot found for {args.as_of}.", file=sys.stderr)
             sys.exit(1)
+        if resolved_snapshot_date is not None and resolved_snapshot_date.isoformat() != args.as_of:
+            print(
+                f"Using latest available snapshot on or before {args.as_of}: "
+                f"{resolved_snapshot_date.isoformat()}",
+                file=sys.stderr,
+            )
     else:
         params_path = Path(args.params) if args.params else None
         fetch_live = not args.no_live
