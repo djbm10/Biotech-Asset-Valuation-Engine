@@ -27,6 +27,44 @@ def test_acquirer_profile_loader_parses_repository_yaml():
     assert regeneron.recent_deal_history[0].deal_name == "Hansoh HS-20094 in-license"
 
 
+def test_acquirer_profile_loader_parses_curated_pfizer_profile():
+    path = Path("examples/research/acquirer_profiles/pfizer.yaml")
+
+    dataset = AcquirerProfileLoader.load(path)
+    pfizer = AcquirerProfileLoader.get_acquirer(dataset, "pfizer")
+
+    assert pfizer.company_name == "Pfizer"
+    assert pfizer.ticker == "PFE"
+    assert pfizer.market_cap_billions == pytest.approx(145.0, abs=1e-9)
+    assert pfizer.cash_billions == pytest.approx(12.5, abs=1e-9)
+    assert pfizer.therapeutic_area_gaps[0].sub_area == "breast_cancer"
+    assert pfizer.therapeutic_area_gaps[0].preferred_modality == ["small_molecule", "ADC"]
+    assert pfizer.therapeutic_area_gaps[0].budget_ceiling_millions == pytest.approx(15000.0, abs=1e-9)
+    assert pfizer.recent_deal_history[0].deal_name == "Seagen"
+
+
+def test_acquirer_profile_loader_supports_curated_profile_directories():
+    dataset = AcquirerProfileLoader.load(Path("examples/research/acquirer_profiles"))
+    pfizer = AcquirerProfileLoader.get_acquirer(dataset, "pfizer")
+    lilly = AcquirerProfileLoader.get_acquirer(dataset, "eli_lilly")
+    novo = AcquirerProfileLoader.get_acquirer(dataset, "novo_nordisk")
+
+    assert len(dataset.acquirers) >= 3
+    assert pfizer.company_name == "Pfizer"
+    assert lilly.company_name == "Eli Lilly"
+    assert novo.company_name == "Novo Nordisk"
+
+
+def test_curated_profile_can_omit_balance_sheet_fields_and_derives_budget_from_gap_ceiling():
+    dataset = AcquirerProfileLoader.load(Path("examples/research/acquirer_profiles/lilly.yaml"))
+    lilly = AcquirerProfileLoader.get_acquirer(dataset, "eli_lilly")
+
+    assert lilly.market_cap_billions is None
+    assert lilly.cash_billions is None
+    assert lilly.budget.net_cash_millions == pytest.approx(30000.0, abs=1e-9)
+    assert "largest per-gap budget ceiling" in lilly.budget.capacity_notes
+
+
 def test_acquirer_profile_loader_rejects_duplicate_acquirer_ids(tmp_path: Path):
     path = tmp_path / "pipeline_gaps.yaml"
     path.write_text(

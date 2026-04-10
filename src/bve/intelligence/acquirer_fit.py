@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from datetime import date, datetime, timezone
+import re
 from typing import Optional
 
 from pydantic import BaseModel, Field, model_validator
@@ -26,8 +27,73 @@ _NEUTRAL_SCORE = 0.45
 
 _CATEGORY_ALIASES: dict[str, set[str]] = {
     "ophthalmology": {"ophthalmology", "retina", "retinal", "ocular", "eye"},
-    "immunology": {"immunology", "inflammation", "autoimmune", "dermatology", "atopic"},
+    "immunology": {
+        "immunology",
+        "inflammation",
+        "autoimmune",
+        "dermatology",
+        "atopic",
+        "lupus",
+        "vasculitis",
+        "colitis",
+        "crohn",
+        "crohn's",
+        "ulcerative colitis",
+        "ibd",
+    },
+    "inflammatory_bowel_disease": {
+        "ibd",
+        "ulcerative colitis",
+        "crohn",
+        "crohn's",
+        "colitis",
+        "intestinal inflammation",
+    },
     "obesity": {"obesity", "metabolic", "weight", "cardiometabolic", "glp1", "gip"},
+    "kidney_disease": {
+        "kidney",
+        "renal",
+        "nephrology",
+        "nephropathy",
+        "iga nephropathy",
+        "igan",
+        "proteinuria",
+    },
+    "liver_disease": {
+        "liver",
+        "hepatic",
+        "hepatology",
+        "hepatitis",
+        "pbc",
+        "primary biliary cholangitis",
+        "mash",
+        "nash",
+        "fibrosis",
+    },
+    "respiratory": {
+        "respiratory",
+        "copd",
+        "asthma",
+        "pulmonary",
+        "cough",
+        "bronch",
+        "lung",
+    },
+    "neuroscience": {
+        "neuroscience",
+        "cns",
+        "schizophrenia",
+        "depression",
+        "anxiety",
+        "alzheimers",
+        "parkinsons",
+        "migraine",
+        "neurology",
+        "neurological",
+    },
+    "neuropsychiatry": {"schizophrenia", "psychosis", "depression", "anxiety", "neuropsychiatry"},
+    "vaccines": {"vaccine", "vaccines", "vaccination", "rsv", "influenza", "flu", "mrna"},
+    "radiopharmaceutical": {"radiopharmaceutical", "radioligand", "lutetium", "actinium", "isotope"},
     "genetic_medicine": {
         "genetic",
         "genetics",
@@ -58,6 +124,187 @@ _PREFERENCE_STRENGTH_SCORES = {
     "low": 0.5,
 }
 
+_GENERIC_SIGNAL_TOKENS = {
+    "a",
+    "and",
+    "an",
+    "additional",
+    "adjacency",
+    "adjacent",
+    "announcement",
+    "approximately",
+    "are",
+    "around",
+    "asset",
+    "assets",
+    "autoimmune",
+    "bio",
+    "biopharma",
+    "bolt",
+    "boltons",
+    "bolt-on",
+    "buildout",
+    "but",
+    "by",
+    "capability",
+    "capabilities",
+    "cash",
+    "category",
+    "categories",
+    "clinical",
+    "combination",
+    "combinations",
+    "commercial",
+    "completed",
+    "condition",
+    "conditions",
+    "concrete",
+    "costs",
+    "deal",
+    "deals",
+    "described",
+    "disease",
+    "diseases",
+    "disclosed",
+    "diluted",
+    "disorder",
+    "disorders",
+    "entry",
+    "established",
+    "enterprise",
+    "equity",
+    "extension",
+    "explicit",
+    "follow",
+    "follow-on",
+    "followon",
+    "for",
+    "from",
+    "expansion",
+    "franchise",
+    "gen",
+    "growth",
+    "interest",
+    "into",
+    "is",
+    "later",
+    "leadership",
+    "maintenance",
+    "malignancies",
+    "malignancy",
+    "medicine",
+    "medicines",
+    "most",
+    "next",
+    "of",
+    "or",
+    "on",
+    "platform",
+    "plausible",
+    "portfolio",
+    "pre",
+    "pre-commercial",
+    "precommercial",
+    "precision",
+    "program",
+    "programs",
+    "registrational",
+    "relevant",
+    "remain",
+    "remains",
+    "signed",
+    "selective",
+    "stage",
+    "strategic",
+    "style",
+    "syndrome",
+    "syndromes",
+    "the",
+    "target",
+    "targeted",
+    "targeting",
+    "therapeutic",
+    "therapeutics",
+    "therapy",
+    "treatment",
+    "used",
+    "value",
+    "willingness",
+    "with",
+}
+
+_SUBAREA_SIGNAL_ALIASES: dict[str, set[str]] = {
+    "aldosterone_synthase_resistant_htn": {
+        "aldosterone synthase",
+        "baxdrostat",
+    },
+    "alzheimers_disease_next_gen": {"alzheimers", "amyloid", "tau"},
+    "bet_epigenetic_myelofibrosis": {"bet", "bromodomain", "epigenetic", "myelofibrosis"},
+    "breast_cancer": {"breast cancer", "hr positive", "her2", "cdk"},
+    "celmod_myeloma_degrader": {"celmod", "cereblon", "degrader", "myeloma", "plasma cell"},
+    "cd47_macrophage_heme_io": {
+        "cd47",
+        "hematologic malignancies",
+        "hematologic",
+        "hematology",
+        "heme",
+        "lymphoma",
+        "leukemia",
+        "macrophage",
+    },
+    "copd_commercial_respiratory": {
+        "copd",
+        "maintenance",
+        "bronchodilator",
+    },
+    "igan_kidney_fibrosis": {"iga nephropathy", "igan", "kidney fibrosis", "renal"},
+    "inflammatory_bowel_disease": {
+        "ibd",
+        "ulcerative colitis",
+        "crohn",
+        "crohn's",
+    },
+    "migraine_cgrp": {"migraine", "cgrp"},
+    "momelotinib_jak_mpn": {"jak", "momelotinib", "mpn"},
+    "mpn_myelofibrosis_lsd1_heme": {
+        "essential thrombocythemia",
+        "et",
+        "hematology",
+        "heme",
+        "lsd1",
+        "mpn",
+        "myelofibrosis",
+    },
+    "neuromuscular_rna_oligo_gene_editing": {
+        "duchenne",
+        "facioscapulohumeral",
+        "fshd",
+        "muscular dystrophy",
+        "myotonic dystrophy",
+        "neuromuscular",
+    },
+    "nsclc_ros1_alk_trk_kinase": {"alk", "kras", "nsclc", "ros1", "trk"},
+    "neuropsychiatry_cns": {"schizophrenia", "psychosis", "depression", "mdd", "anxiety"},
+    "oral_glp1": {"glp1", "glp-1", "gip", "oral glp-1", "obesity", "metabolic"},
+    "precision_oncology_kinase": {"alk", "kras", "nsclc", "ros1", "trk"},
+    "pulmonary_arterial_hypertension": {
+        "actrii",
+        "pah",
+        "pulmonary arterial hypertension",
+        "sotatercept",
+    },
+    "t_cell_engager_bispecific_io": {
+        "bispecific",
+        "cd3",
+        "neuroendocrine",
+        "small cell lung cancer",
+        "sclc",
+        "t cell engager",
+        "t-cell engager",
+    },
+    "tl1a_ibd": {"tl1a", "pra023", "prometheus"},
+}
+
 SCORE_VERSIONS: dict[str, dict[str, float]] = {
     "v1.0": {
         "therapeutic_area": 0.25,
@@ -73,7 +320,9 @@ SCORE_VERSIONS: dict[str, dict[str, float]] = {
 def _normalize_text(value: Optional[str]) -> Optional[str]:
     if value is None:
         return None
-    normalized = " ".join(str(value).strip().lower().replace("/", " ").replace("_", " ").split())
+    normalized = str(value).strip().lower().replace("'", "")
+    normalized = re.sub(r"[^a-z0-9]+", " ", normalized)
+    normalized = " ".join(normalized.split())
     return normalized or None
 
 
@@ -95,19 +344,45 @@ def _normalize_stage(value: Optional[str]) -> Optional[str]:
     return mapping.get(normalized, normalized.replace(" ", "_"))
 
 
-def _signal_tokens(value: Optional[str]) -> set[str]:
+def _signal_tokens(value: Optional[str], *, include_category_aliases: bool = True) -> set[str]:
     normalized = _normalize_text(value)
     if normalized is None:
         return set()
 
-    tokens = set(normalized.split())
+    tokens = {
+        token
+        for token in normalized.split()
+        if len(token) > 1 and token not in _GENERIC_SIGNAL_TOKENS and not token.isdigit()
+    }
     tokens.add(normalized)
+    if not include_category_aliases:
+        return tokens
+
     for category, aliases in _CATEGORY_ALIASES.items():
         if category.replace("_", " ") in normalized:
             tokens.add(category)
             continue
         if any(alias in normalized for alias in aliases):
             tokens.add(category)
+    return tokens
+
+
+def _specific_signal_tokens(*values: Optional[str]) -> set[str]:
+    tokens: set[str] = set()
+    for value in values:
+        normalized = _normalize_text(value)
+        if normalized is None:
+            continue
+        matched_aliases = None
+        for alias_key, alias_values in _SUBAREA_SIGNAL_ALIASES.items():
+            if _normalize_text(alias_key) == normalized:
+                matched_aliases = alias_values
+                break
+        if matched_aliases is None:
+            tokens.update(_signal_tokens(normalized, include_category_aliases=False))
+            continue
+        for alias in matched_aliases:
+            tokens.update(_signal_tokens(alias, include_category_aliases=False))
     return tokens
 
 
@@ -149,8 +424,9 @@ class AcquirerFitCandidate(BaseModel):
     indication: str | None = None
     modality: str | None = None
     stage: str | None = None
-    enterprise_value_millions: float | None = Field(default=None, ge=0.0)
-    acquisition_discount: float | None = Field(default=None, ge=0.0)
+    model_rnpv_millions: float | None = None
+    enterprise_value_millions: float | None = None
+    acquisition_discount: float | None = None
     acquisition_ready: bool | None = None
     acquisition_readiness_bucket: str | None = None
     ev_to_peak_sales: float | None = Field(default=None, ge=0.0)
@@ -175,6 +451,7 @@ class AcquirerFitCandidate(BaseModel):
             indication=getattr(row, "indication", None),
             modality=modality,
             stage=getattr(row, "stage", None),
+            model_rnpv_millions=getattr(row, "model_rnpv_millions", None),
             enterprise_value_millions=getattr(row, "enterprise_value_millions", None),
             acquisition_discount=getattr(row, "acquisition_discount", None),
             acquisition_ready=getattr(row, "acquisition_ready", None),
@@ -231,7 +508,7 @@ class AcquirerFitScore(BaseModel):
 class AcquirerFitIntegrationConfig(BaseModel):
     """Config for scoring a screened target universe against one acquirer."""
 
-    acquirer_profiles_path: str = "research/mna/pipeline_gaps.yaml"
+    acquirer_profiles_path: str = "examples/research/acquirer_profiles"
     comparable_deals_path: str = "research/mna/comparable_deals.yaml"
     top_n: int = Field(default=25, ge=1)
     acquisition_threshold: float = Field(default=DEFAULT_ACQUISITION_THRESHOLD, gt=0.0)
@@ -286,6 +563,12 @@ class AcquirerFitScorer:
         target: AcquirerFitCandidate,
         comparable_analysis: Optional[ComparableDealAnalysis] = None,
     ) -> AcquirerFitScore:
+        if _uses_pipeline_gap_formula(acquirer):
+            return self._score_target_against_pipeline_gaps(
+                acquirer=acquirer,
+                target=target,
+            )
+
         weights = self.config.resolved_weights()
 
         ta_score, matched_gap = self._score_therapeutic_area(acquirer=acquirer, target=target)
@@ -379,6 +662,133 @@ class AcquirerFitScorer:
                 budget_headroom=budget_headroom,
                 hard_fail_reasons=hard_fail_reasons,
             ),
+        )
+
+    def _score_target_against_pipeline_gaps(
+        self,
+        *,
+        acquirer: AcquirerProfile,
+        target: AcquirerFitCandidate,
+    ) -> AcquirerFitScore:
+        best_match: dict[str, object] | None = None
+
+        for gap in acquirer.therapeutic_area_gaps:
+            ta_match = _gap_therapeutic_area_match(target=target, gap=gap)
+            modality_match, matched_modality = _gap_modality_match(target=target, gap=gap)
+            stage_score = _gap_stage_score(target.stage)
+            budget_fit, budget_required, budget_headroom = _gap_budget_fit(target=target, gap=gap)
+            urgency_weight = _gap_urgency_weight(gap)
+
+            therapeutic_area_component = round(ta_match * 0.35 * urgency_weight, 6)
+            modality_component = round(modality_match * 0.25 * urgency_weight, 6)
+            stage_component = round(stage_score * 0.20 * urgency_weight, 6)
+            budget_component = round(budget_fit * 0.20 * urgency_weight, 6)
+            raw_fit_score = round(
+                therapeutic_area_component
+                + modality_component
+                + stage_component
+                + budget_component,
+                6,
+            )
+
+            gap_match = {
+                "fit_score": raw_fit_score,
+                "raw_fit_score": raw_fit_score,
+                "passes_hard_filters": True,
+                "therapeutic_area_score": round(ta_match, 6),
+                "modality_score": round(modality_match, 6),
+                "stage_score": round(stage_score, 6),
+                "strategic_priority_score": round(urgency_weight, 6),
+                "valuation_score": 0.0,
+                "budget_score": round(budget_fit, 6),
+                "therapeutic_area_component": therapeutic_area_component,
+                "modality_component": modality_component,
+                "stage_component": stage_component,
+                "strategic_priority_component": 0.0,
+                "valuation_component": 0.0,
+                "budget_component": budget_component,
+                "hard_fail_reasons": [],
+                "matched_therapeutic_gap": _gap_label(gap),
+                "matched_modality": matched_modality,
+                "matched_priorities": [],
+                "valuation_source": "pipeline_gap_formula",
+                "valuation_reference_median_ev_to_peak_sales": None,
+                "valuation_reference_band_low_millions": None,
+                "valuation_reference_band_high_millions": None,
+                "budget_capacity_millions": gap.budget_ceiling_millions,
+                "budget_required_millions": budget_required,
+                "budget_headroom_millions": budget_headroom,
+                "explanation": _build_gap_formula_explanation(
+                    acquirer_id=acquirer.acquirer_id,
+                    fit_score=raw_fit_score,
+                    gap_label=_gap_label(gap),
+                    urgency_weight=urgency_weight,
+                    ta_match=ta_match,
+                    modality_match=modality_match,
+                    stage_score=stage_score,
+                    budget_fit=budget_fit,
+                    budget_headroom=budget_headroom,
+                ),
+            }
+
+            if best_match is None or (
+                gap_match["fit_score"],
+                gap_match["therapeutic_area_score"],
+                gap_match["modality_score"],
+                gap_match["stage_score"],
+                str(gap_match["matched_therapeutic_gap"]),
+            ) > (
+                best_match["fit_score"],
+                best_match["therapeutic_area_score"],
+                best_match["modality_score"],
+                best_match["stage_score"],
+                str(best_match["matched_therapeutic_gap"]),
+            ):
+                best_match = gap_match
+
+        if best_match is None:
+            return AcquirerFitScore(
+                acquirer_id=acquirer.acquirer_id,
+                asset_id=target.asset_id,
+                ticker=target.ticker,
+                company_name=target.company_name,
+                score_version=self.config.score_version,
+                raw_fit_score=0.0,
+                fit_score=0.0,
+                passes_hard_filters=True,
+                therapeutic_area_score=0.0,
+                modality_score=0.0,
+                stage_score=0.0,
+                strategic_priority_score=0.0,
+                valuation_score=0.0,
+                budget_score=0.0,
+                therapeutic_area_component=0.0,
+                modality_component=0.0,
+                stage_component=0.0,
+                strategic_priority_component=0.0,
+                valuation_component=0.0,
+                budget_component=0.0,
+                hard_fail_reasons=[],
+                matched_therapeutic_gap=None,
+                matched_modality=None,
+                matched_priorities=[],
+                valuation_source="pipeline_gap_formula",
+                valuation_reference_median_ev_to_peak_sales=None,
+                valuation_reference_band_low_millions=None,
+                valuation_reference_band_high_millions=None,
+                budget_capacity_millions=None,
+                budget_required_millions=target.model_rnpv_millions,
+                budget_headroom_millions=None,
+                explanation=f"{acquirer.acquirer_id} fit 0.000: no pipeline gaps available",
+            )
+
+        return AcquirerFitScore(
+            acquirer_id=acquirer.acquirer_id,
+            asset_id=target.asset_id,
+            ticker=target.ticker,
+            company_name=target.company_name,
+            score_version=self.config.score_version,
+            **best_match,
         )
 
     def score_candidates(
@@ -764,6 +1174,7 @@ class AcquirerFitEngine:
             indication=indication,
             modality=modality,
             stage=stage,
+            model_rnpv_millions=acquisition_row.model_rnpv_millions,
             enterprise_value_millions=acquisition_row.enterprise_value_millions,
             acquisition_discount=acquisition_row.acquisition_discount,
             acquisition_ready=acquisition_row.acquisition_ready,
@@ -805,6 +1216,133 @@ def _reference_deal_band(
     return round(min(lows), 6), round(max(highs), 6)
 
 
+def _uses_pipeline_gap_formula(acquirer: AcquirerProfile) -> bool:
+    return any(
+        gap.budget_ceiling_millions is not None or bool(gap.preferred_modality)
+        for gap in acquirer.therapeutic_area_gaps
+    )
+
+
+def _gap_label(gap) -> str:
+    if getattr(gap, "sub_area", None):
+        return f"{gap.therapeutic_area}:{gap.sub_area}"
+    return str(gap.therapeutic_area)
+
+
+def _gap_therapeutic_area_match(
+    *,
+    target: AcquirerFitCandidate,
+    gap,
+) -> float:
+    target_area = _normalize_text(target.therapeutic_area)
+    gap_area = _normalize_text(gap.therapeutic_area)
+    if gap_area is None:
+        return 0.0
+
+    target_area_signals = _signal_tokens(target.therapeutic_area)
+    target_context_signals = _specific_signal_tokens(
+        target.indication,
+        *target.priority_tags,
+    )
+    if not target_area_signals and not target_context_signals:
+        return 0.0
+
+    gap_signals = _signal_tokens(gap.therapeutic_area)
+    gap_specific_signals = _specific_signal_tokens(getattr(gap, "sub_area", None))
+
+    if gap_specific_signals and (target_context_signals & gap_specific_signals):
+        return 1.0
+
+    if target_area == gap_area:
+        return 0.65 if gap_specific_signals else 1.0
+
+    if target_area_signals & gap_signals:
+        return 0.35 if gap_specific_signals else 0.65
+
+    if target_context_signals & gap_signals:
+        return 0.25 if gap_specific_signals else 0.45
+
+    return 0.0
+
+
+def _gap_modality_match(
+    *,
+    target: AcquirerFitCandidate,
+    gap,
+) -> tuple[float, Optional[str]]:
+    target_modality = _normalize_text(target.modality)
+    search_text = _normalize_text(
+        " ".join(
+            [
+                target.modality or "",
+                target.indication or "",
+                *target.priority_tags,
+            ]
+        )
+    ) or ""
+    preferred_list = list(getattr(gap, "preferred_modality", []) or [])
+
+    for preferred in preferred_list:
+        preferred_normalized = _normalize_text(preferred)
+        if preferred_normalized is None:
+            continue
+        if preferred_normalized == target_modality:
+            return 1.0, preferred.replace(" ", "_")
+        if preferred_normalized == "small molecule" and target_modality == "oral small molecule":
+            return 0.8, preferred.replace(" ", "_")
+        if preferred_normalized == "oral small molecule":
+            if target_modality == "oral small molecule":
+                return 1.0, preferred.replace(" ", "_")
+            if target_modality == "small molecule" and "oral" in search_text:
+                return 1.0, preferred.replace(" ", "_")
+        if preferred_normalized == "adc" and target_modality == "adc":
+            return 1.0, "adc"
+        if preferred_normalized == "peptide" and "peptide" in search_text:
+            return 1.0, "peptide"
+    return 0.0, None
+
+
+def _gap_stage_score(stage: Optional[str]) -> float:
+    normalized = _normalize_stage(stage)
+    if normalized in {"phase_2", "phase_3", "nda_bla", "approved", "commercial"}:
+        return 1.0
+    if normalized == "phase_1":
+        return 0.5
+    return 0.0
+
+
+def _gap_budget_fit(
+    *,
+    target: AcquirerFitCandidate,
+    gap,
+) -> tuple[float, Optional[float], Optional[float]]:
+    budget_ceiling = getattr(gap, "budget_ceiling_millions", None)
+    valuation_reference = (
+        target.model_rnpv_millions
+        if target.model_rnpv_millions is not None
+        else target.enterprise_value_millions
+    )
+    if budget_ceiling is None or valuation_reference is None:
+        return 1.0, valuation_reference, None
+    headroom = round(float(budget_ceiling) - float(valuation_reference), 6)
+    if float(valuation_reference) < float(budget_ceiling):
+        return 1.0, float(valuation_reference), headroom
+    return 0.5, float(valuation_reference), headroom
+
+
+def _gap_urgency_weight(gap) -> float:
+    urgency = _normalize_text(getattr(gap, "exposure_level", None)) or _normalize_text(
+        getattr(gap, "urgency", None)
+    )
+    if urgency == "high":
+        return 1.0
+    if urgency == "medium":
+        return 0.7
+    if urgency == "low":
+        return 0.4
+    return 0.7
+
+
 def _build_explanation(
     *,
     acquirer_id: str,
@@ -843,6 +1381,34 @@ def _build_explanation(
     return f"{acquirer_id} fit {fit_score:.3f}: " + "; ".join(parts)
 
 
+def _build_gap_formula_explanation(
+    *,
+    acquirer_id: str,
+    fit_score: float,
+    gap_label: str,
+    urgency_weight: float,
+    ta_match: float,
+    modality_match: float,
+    stage_score: float,
+    budget_fit: float,
+    budget_headroom: Optional[float],
+) -> str:
+    parts = [
+        f"gap {gap_label}",
+        f"urgency {urgency_weight:.1f}",
+        f"ta {ta_match:.1f}",
+        f"modality {modality_match:.1f}",
+        f"stage {stage_score:.1f}",
+        f"budget {budget_fit:.1f}",
+    ]
+    if budget_headroom is not None:
+        if budget_headroom >= 0:
+            parts.append(f"budget headroom ${budget_headroom:.1f}M")
+        else:
+            parts.append(f"budget shortfall ${abs(budget_headroom):.1f}M")
+    return f"{acquirer_id} fit {fit_score:.3f}: " + "; ".join(parts)
+
+
 def _resolve_target_modality(
     *,
     raw_modality: Optional[str],
@@ -852,6 +1418,10 @@ def _resolve_target_modality(
     moa = _normalize_text(mechanism_of_action)
     if normalized is None:
         return None
+    if normalized == "small molecule":
+        if moa and "oral" in moa:
+            return "oral_small_molecule"
+        return "small_molecule"
     if normalized == "biologic":
         if moa and "bispecific" in moa:
             return "bispecific_antibody"

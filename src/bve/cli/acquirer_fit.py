@@ -25,7 +25,11 @@ def _build_parser() -> argparse.ArgumentParser:
         description="Rank watchlist assets by fit versus a named acquirer and optionally write memos"
     )
     parser.add_argument("--watchlist", required=True, help="Path to watchlist YAML")
-    parser.add_argument("--acquirer", required=True, help="Acquirer ID in pipeline_gaps.yaml")
+    parser.add_argument(
+        "--acquirer",
+        required=True,
+        help="Acquirer ID in the profile dataset or curated profile file",
+    )
     parser.add_argument(
         "--db",
         default=None,
@@ -39,8 +43,8 @@ def _build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--top", type=int, default=25, help="Number of ranked rows to show")
     parser.add_argument(
         "--profiles-file",
-        default="research/mna/pipeline_gaps.yaml",
-        help="Acquirer profile YAML path",
+        default="examples/research/acquirer_profiles",
+        help="Acquirer profile YAML file or directory path",
     )
     parser.add_argument(
         "--comps-file",

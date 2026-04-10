@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from datetime import date
 from pathlib import Path
+import re
 
 import yaml
 from pydantic import BaseModel, Field, model_validator
@@ -25,6 +26,10 @@ class TherapeuticGap(BaseModel):
     exposure_type: str
     exposure_level: str
     rationale: str
+    sub_area: str | None = None
+    preferred_modality: list[str] = Field(default_factory=list)
+    budget_ceiling_millions: float | None = Field(default=None, ge=0.0)
+    notes: str | None = None
     source_refs: list[SourceReference] = Field(default_factory=list, min_length=1)
 
 
@@ -108,6 +113,8 @@ class AcquirerProfile(BaseModel):
     acquirer_id: str
     company_name: str
     ticker: str | None = None
+    market_cap_billions: float | None = Field(default=None, ge=0.0)
+    cash_billions: float | None = Field(default=None, ge=0.0)
     profile_as_of: date
     source_notes: str | None = None
     therapeutic_area_gaps: list[TherapeuticGap] = Field(default_factory=list, min_length=1)
@@ -134,15 +141,248 @@ class AcquirerProfileDataset(BaseModel):
         return self
 
 
+class CuratedPipelineGap(BaseModel):
+    """Lightweight pipeline-gap input used by example acquirer-profile YAMLs."""
+
+    therapeutic_area: str
+    sub_area: str | None = None
+    gap_type: str
+    urgency: str
+    preferred_modality: list[str] = Field(default_factory=list, min_length=1)
+    budget_ceiling_millions: float = Field(ge=0.0)
+    notes: str | None = None
+
+
+class CuratedRecentDeal(BaseModel):
+    """Lightweight recent-deal input used by example acquirer-profile YAMLs."""
+
+    target: str
+    date: date
+    value_billions: float = Field(ge=0.0)
+    therapeutic_area: str
+    modality: str
+
+
+class CuratedAcquirerProfile(BaseModel):
+    """Single-company curated acquirer profile used by examples and screening."""
+
+    company: str
+    ticker: str | None = None
+    market_cap_billions: float | None = Field(default=None, ge=0.0)
+    cash_billions: float | None = Field(default=None, ge=0.0)
+    pipeline_gaps: list[CuratedPipelineGap] = Field(default_factory=list, min_length=1)
+    recent_deals: list[CuratedRecentDeal] = Field(default_factory=list)
+    stated_priorities: list[str] = Field(default_factory=list)
+    profile_as_of: date | None = None
+
+
+_URGENCY_RANK = {"high": 3, "medium": 2, "low": 1}
+
+
+def _slugify_company(value: str) -> str:
+    slug = re.sub(r"[^a-z0-9]+", "_", value.strip().lower())
+    return slug.strip("_") or "acquirer"
+
+
+def _make_source_ref(
+    *,
+    source_path: Path,
+    source_date: date,
+    title: str,
+    note: str | None = None,
+) -> SourceReference:
+    return SourceReference(
+        source_date=source_date,
+        source_type="manual_curation",
+        source_title=title,
+        source_url=str(source_path),
+        note=note,
+    )
+
+
+def _convert_curated_profile(
+    profile: CuratedAcquirerProfile,
+    *,
+    source_path: Path,
+) -> AcquirerProfile:
+    profile_as_of = profile.profile_as_of or date.today()
+    profile_ref = _make_source_ref(
+        source_path=source_path,
+        source_date=profile_as_of,
+        title=f"Curated acquirer profile: {profile.company}",
+    )
+
+    therapeutic_area_gaps = [
+        TherapeuticGap(
+            therapeutic_area=gap.therapeutic_area,
+            exposure_type=gap.gap_type,
+            exposure_level=gap.urgency,
+            rationale=gap.notes or gap.gap_type.replace("_", " "),
+            sub_area=gap.sub_area,
+            preferred_modality=list(gap.preferred_modality),
+            budget_ceiling_millions=gap.budget_ceiling_millions,
+            notes=gap.notes,
+            source_refs=[profile_ref],
+        )
+        for gap in profile.pipeline_gaps
+    ]
+
+    modality_strengths: dict[str, str] = {}
+    modality_gap_labels: dict[str, list[str]] = {}
+    for gap in profile.pipeline_gaps:
+        gap_label = gap.sub_area or gap.therapeutic_area
+        urgency = gap.urgency.strip().lower()
+        for modality in gap.preferred_modality:
+            current = modality_strengths.get(modality)
+            if current is None or _URGENCY_RANK.get(urgency, 0) > _URGENCY_RANK.get(current, 0):
+                modality_strengths[modality] = urgency
+            modality_gap_labels.setdefault(modality, []).append(gap_label)
+
+    preferred_modalities = [
+        PreferredModality(
+            modality=modality,
+            preference_strength=strength,
+            rationale=(
+                "Derived from curated pipeline gaps: "
+                + ", ".join(sorted(dict.fromkeys(modality_gap_labels.get(modality, []))))
+            ),
+            source_refs=[profile_ref],
+        )
+        for modality, strength in sorted(modality_strengths.items())
+    ]
+
+    strategic_priorities = [
+        StrategicPriority(
+            priority=priority,
+            priority_strength="high",
+            source_refs=[profile_ref],
+        )
+        for priority in (profile.stated_priorities or ["Curated pipeline-gap priorities"])
+    ]
+
+    recent_deal_history = [
+        RecentDeal(
+            deal_name=deal.target,
+            status="completed",
+            announcement_date=deal.date,
+            deal_type="acquisition",
+            therapeutic_area=deal.therapeutic_area,
+            modality=deal.modality,
+            stage_context="unspecified",
+            upfront_millions=round(deal.value_billions * 1000.0, 6),
+            implied_value_band_millions_low=round(deal.value_billions * 1000.0, 6),
+            implied_value_band_millions_high=round(deal.value_billions * 1000.0, 6),
+            source_url=str(source_path),
+            notes="Imported from curated acquirer profile",
+        )
+        for deal in profile.recent_deals
+    ]
+
+    max_gap_budget = max(
+        (float(gap.budget_ceiling_millions) for gap in profile.pipeline_gaps),
+        default=0.0,
+    )
+    if profile.cash_billions is not None:
+        budget_cash_millions = round(profile.cash_billions * 1000.0, 6)
+        capacity_notes = (
+            f"Curated profile for {profile.company}. "
+            "Cash snapshot provided directly by the curated profile; "
+            "use per-gap budget ceilings where provided."
+        )
+    else:
+        budget_cash_millions = round(max_gap_budget, 6)
+        capacity_notes = (
+            f"Curated screening-grade profile for {profile.company}. "
+            "Balance-sheet snapshot not provided; budget placeholder is derived from "
+            "the largest per-gap budget ceiling and should not be treated as actual cash."
+        )
+
+    budget = BudgetSnapshot(
+        as_of_date=profile_as_of,
+        cash_and_marketable_securities_millions=budget_cash_millions,
+        long_term_debt_millions=0.0,
+        net_cash_millions=budget_cash_millions,
+        capacity_notes=capacity_notes,
+        source_refs=[profile_ref],
+    )
+
+    return AcquirerProfile(
+        acquirer_id=_slugify_company(profile.company),
+        company_name=profile.company,
+        ticker=profile.ticker,
+        market_cap_billions=profile.market_cap_billions,
+        cash_billions=profile.cash_billions,
+        profile_as_of=profile_as_of,
+        source_notes=(
+            "Converted from lightweight curated profile format for use by the "
+            "acquirer-fit and acquisition-memo pipeline."
+        ),
+        therapeutic_area_gaps=therapeutic_area_gaps,
+        preferred_modalities=preferred_modalities,
+        strategic_priorities=strategic_priorities,
+        recent_deal_history=recent_deal_history,
+        budget=budget,
+    )
+
+
+def _dataset_from_curated_profile(
+    profile: CuratedAcquirerProfile,
+    *,
+    source_path: Path,
+) -> AcquirerProfileDataset:
+    converted = _convert_curated_profile(profile, source_path=source_path)
+    return AcquirerProfileDataset(
+        as_of_date=converted.profile_as_of,
+        acquirers=[converted],
+    )
+
+
+def _load_from_yaml_mapping(raw: dict, *, source_path: Path) -> AcquirerProfileDataset:
+    if "acquirers" in raw:
+        return AcquirerProfileDataset.model_validate(raw)
+    if "company" in raw and "pipeline_gaps" in raw:
+        profile = CuratedAcquirerProfile.model_validate(raw)
+        return _dataset_from_curated_profile(profile, source_path=source_path)
+    raise ValueError(
+        "Acquirer profile YAML must either define a dataset with 'acquirers' or "
+        "a curated single-company profile with 'company' and 'pipeline_gaps'"
+    )
+
+
+def _load_from_directory(path: Path) -> AcquirerProfileDataset:
+    yaml_paths = sorted([
+        child for child in path.iterdir() if child.is_file() and child.suffix.lower() in {".yaml", ".yml"}
+    ])
+    if not yaml_paths:
+        raise ValueError(f"No YAML files found in acquirer profile directory: {path}")
+
+    acquirers: list[AcquirerProfile] = []
+    as_of_dates: list[date] = []
+    for yaml_path in yaml_paths:
+        raw = yaml.safe_load(yaml_path.read_text(encoding="utf-8")) or {}
+        dataset = _load_from_yaml_mapping(raw, source_path=yaml_path)
+        as_of_dates.append(dataset.as_of_date)
+        acquirers.extend(dataset.acquirers)
+
+    return AcquirerProfileDataset(
+        as_of_date=max(as_of_dates),
+        acquirers=acquirers,
+    )
+
+
 class AcquirerProfileLoader:
     """Load and query acquirer-profile YAML."""
 
     @staticmethod
     def load(path: Path | str) -> AcquirerProfileDataset:
-        raw = yaml.safe_load(Path(path).read_text(encoding="utf-8")) or {}
+        resolved_path = Path(path)
+        if resolved_path.is_dir():
+            return _load_from_directory(resolved_path)
+
+        raw = yaml.safe_load(resolved_path.read_text(encoding="utf-8")) or {}
         if not isinstance(raw, dict):
-            raise ValueError("Acquirer profile YAML must be a mapping with 'as_of_date' and 'acquirers'")
-        return AcquirerProfileDataset.model_validate(raw)
+            raise ValueError("Acquirer profile YAML must be a mapping")
+        return _load_from_yaml_mapping(raw, source_path=resolved_path)
 
     @staticmethod
     def get_acquirer(

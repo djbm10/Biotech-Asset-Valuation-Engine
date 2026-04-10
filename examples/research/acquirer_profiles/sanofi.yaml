@@ -15,7 +15,7 @@ pipeline_gaps:
     sub_area: alpha1_antitrypsin_rare_respiratory
     gap_type: franchise_extension
     urgency: high
-    preferred_modality: [protein, mRNA, gene_therapy]
+    preferred_modality: [protein, biologic, mRNA, gene_therapy]
     budget_ceiling_millions: 8000
     notes: "Inhibrx INBRX-101 acquisition adds AAT deficiency; adjacent rare respiratory enzyme replacement remains open."
   - therapeutic_area: immunology
@@ -25,6 +25,13 @@ pipeline_gaps:
     preferred_modality: [biologic, small_molecule]
     budget_ceiling_millions: 12000
     notes: "Dupixent does not cover SLE/lupus nephritis; BAFF/BLyS, type-1 IFN, and B-cell targeted mechanisms remain open."
+  - therapeutic_area: immunology
+    sub_area: type1_diabetes_autoimmunity
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [biologic, protein, small_molecule]
+    budget_ceiling_millions: 12000
+    notes: "Provention established a type 1 diabetes autoimmunity foothold; adjacent immune-interception assets remain strategic."
   - therapeutic_area: oncology
     sub_area: oncology_reentry_targeted
     gap_type: strategic_entry

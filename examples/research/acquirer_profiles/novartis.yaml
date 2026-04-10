@@ -12,12 +12,12 @@ pipeline_gaps:
     budget_ceiling_millions: 12000
     notes: "Chinook acquisition (atrasentan/zigakibart for IgAN) seeds kidney franchise; adjacent complement, TGF-beta, and kidney fibrosis mechanisms remain open."
   - therapeutic_area: oncology
-    sub_area: myelofibrosis_heme_next_gen
+    sub_area: bet_epigenetic_myelofibrosis
     gap_type: franchise_extension
-    urgency: high
+    urgency: medium
     preferred_modality: [small_molecule, degrader]
     budget_ceiling_millions: 10000
-    notes: "MorphoSys/pelabresib BET inhibitor seeds myelofibrosis adjacency; next-gen JAK/BET combinations and epigenetic oncology remain strategic."
+    notes: "MorphoSys/pelabresib BET inhibitor seeds a BET and epigenetic-myelofibrosis thesis; next-gen bromodomain, degrader, and JAK-combination programs are strategic, but generic heme assets are less relevant."
   - therapeutic_area: immunology
     sub_area: pruritus_skin_cxcr3_il31
     gap_type: franchise_extension
@@ -39,6 +39,13 @@ pipeline_gaps:
     preferred_modality: [gene_therapy, ASO]
     budget_ceiling_millions: 8000
     notes: "Zolgensma SMA gene therapy platform; CNS gene therapy indications (SMA plus) and next AAV targets remain open."
+  - therapeutic_area: neuroscience
+    sub_area: neuromuscular_rna_oligo_gene_editing
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [rna, ASO, genetic_medicine, small_molecule]
+    budget_ceiling_millions: 12000
+    notes: "RNA / oligonucleotide neuromuscular and CNS assets are a logical extension of the Zolgensma and inherited-disease franchise, including myotonic dystrophy, facioscapulohumeral muscular dystrophy, and Duchenne programs."
 recent_deals:
   - target: MorphoSys
     date: 2024-05-22

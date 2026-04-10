@@ -134,6 +134,7 @@ def test_candidate_from_acquisition_row_preserves_screen_context():
         company_id="company-row-1",
         ticker="ROW1",
         snapshot_date="2026-03-24",
+        model_rnpv_millions=1200.0,
         therapeutic_area="ophthalmology",
         indication="wet AMD",
         stage="phase_3",
@@ -154,10 +155,387 @@ def test_candidate_from_acquisition_row_preserves_screen_context():
     assert candidate.asset_id == "asset-row-1"
     assert candidate.company_id == "company-row-1"
     assert candidate.modality == "fully_human_antibody"
+    assert candidate.model_rnpv_millions == pytest.approx(1200.0, abs=1e-9)
     assert candidate.enterprise_value_millions == pytest.approx(950.0, abs=1e-9)
     assert candidate.priority_tags == ["ophthalmology"]
+
+
+def test_candidate_from_acquisition_row_allows_negative_valuation_signals():
+    row = AcquisitionScreenRow(
+        asset_id="asset-neg-1",
+        company_id="company-neg-1",
+        ticker="NEG1",
+        snapshot_date="2026-03-24",
+        model_rnpv_millions=-80.0,
+        therapeutic_area="oncology",
+        indication="solid tumors",
+        stage="phase_2",
+        enterprise_value_millions=-250.0,
+        acquisition_discount=-0.032,
+        acquisition_ready=False,
+        acquisition_readiness_bucket="phase_2_pre_poc",
+        ev_to_peak_sales=1.2,
+    )
+
+    candidate = AcquirerFitCandidate.from_acquisition_row(
+        row,
+        modality="small_molecule",
+        priority_tags=["oncology"],
+        company_name="NegCo",
+    )
+
+    assert candidate.model_rnpv_millions == pytest.approx(-80.0, abs=1e-9)
+    assert candidate.enterprise_value_millions == pytest.approx(-250.0, abs=1e-9)
+    assert candidate.acquisition_discount == pytest.approx(-0.032, abs=1e-9)
+
+
+def test_curated_pfizer_profile_uses_requested_gap_formula():
+    profile = _pfizer()
+    scorer = AcquirerFitScorer()
+    target = AcquirerFitCandidate(
+        asset_id="asset-onc-adc",
+        ticker="ADCA",
+        company_name="OncoCo",
+        therapeutic_area="oncology",
+        modality="adc",
+        stage="phase_3",
+        model_rnpv_millions=12000.0,
+        enterprise_value_millions=8000.0,
+        acquisition_ready=True,
+        priority_tags=["breast cancer"],
+    )
+
+    score = scorer.score_target(acquirer=profile, target=target)
+
+    expected = (1.0 * 0.35 + 1.0 * 0.25 + 1.0 * 0.20 + 1.0 * 0.20) * 1.0
+    assert score.fit_score == pytest.approx(expected, abs=1e-9)
+    assert score.matched_therapeutic_gap == "oncology:breast_cancer"
+    assert score.matched_modality == "ADC"
+    assert score.budget_score == pytest.approx(1.0, abs=1e-9)
+    assert score.valuation_source == "pipeline_gap_formula"
+
+
+def test_curated_pfizer_profile_budget_fit_uses_model_rnpv():
+    profile = _pfizer()
+    scorer = AcquirerFitScorer()
+    target = AcquirerFitCandidate(
+        asset_id="asset-onc-rich",
+        ticker="RICH",
+        company_name="OncoCo",
+        therapeutic_area="oncology",
+        modality="adc",
+        stage="phase_3",
+        model_rnpv_millions=16000.0,
+        enterprise_value_millions=6000.0,
+        acquisition_ready=True,
+        priority_tags=["breast cancer"],
+    )
+
+    score = scorer.score_target(acquirer=profile, target=target)
+
+    expected = (1.0 * 0.35 + 1.0 * 0.25 + 1.0 * 0.20 + 0.5 * 0.20) * 1.0
+    assert score.fit_score == pytest.approx(expected, abs=1e-9)
+    assert score.budget_score == pytest.approx(0.5, abs=1e-9)
+    assert score.budget_required_millions == pytest.approx(16000.0, abs=1e-9)
+    assert score.budget_headroom_millions == pytest.approx(-1000.0, abs=1e-9)
+
+
+def test_curated_lilly_profile_scores_oral_glp1_gap_from_directory_dataset():
+    dataset = AcquirerProfileLoader.load(Path("examples/research/acquirer_profiles"))
+    profile = AcquirerProfileLoader.get_acquirer(dataset, "eli_lilly")
+    scorer = AcquirerFitScorer()
+    target = AcquirerFitCandidate(
+        asset_id="asset-oral-glp1",
+        ticker="ORAL",
+        company_name="MetaCo",
+        therapeutic_area="obesity",
+        modality="oral_small_molecule",
+        stage="phase_3",
+        model_rnpv_millions=18000.0,
+        enterprise_value_millions=12000.0,
+        acquisition_ready=True,
+        priority_tags=["oral GLP-1", "metabolic"],
+    )
+
+    score = scorer.score_target(acquirer=profile, target=target)
+
+    expected = (1.0 * 0.35 + 1.0 * 0.25 + 1.0 * 0.20 + 1.0 * 0.20) * 1.0
+    assert score.fit_score == pytest.approx(expected, abs=1e-9)
+    assert score.matched_therapeutic_gap == "obesity:oral_glp1"
+    assert score.matched_modality == "oral_small_molecule"
+    assert score.budget_capacity_millions == pytest.approx(30000.0, abs=1e-9)
+
+
+def test_subarea_specific_ibd_gap_outranks_generic_immunology_gap():
+    dataset = AcquirerProfileLoader.load(Path("examples/research/acquirer_profiles"))
+    pfizer = AcquirerProfileLoader.get_acquirer(dataset, "pfizer")
+    amgen = AcquirerProfileLoader.get_acquirer(dataset, "amgen")
+    scorer = AcquirerFitScorer()
+    target = AcquirerFitCandidate(
+        asset_id="asset-ibd-precision",
+        ticker="IBDP",
+        company_name="GutImmune",
+        therapeutic_area="immunology",
+        indication="ulcerative colitis / Crohn's disease",
+        modality="small_molecule",
+        stage="phase_2",
+        model_rnpv_millions=6000.0,
+        enterprise_value_millions=4200.0,
+        acquisition_ready=True,
+        priority_tags=["inflammatory bowel disease", "ulcerative colitis"],
+    )
+
+    pfizer_score = scorer.score_target(acquirer=pfizer, target=target)
+    amgen_score = scorer.score_target(acquirer=amgen, target=target)
+
+    assert pfizer_score.fit_score > amgen_score.fit_score
+    assert pfizer_score.therapeutic_area_score == pytest.approx(1.0, abs=1e-9)
+    assert amgen_score.therapeutic_area_score == pytest.approx(0.0, abs=1e-9)
+
+
+def test_subarea_specific_kidney_gap_outranks_unrelated_profiles():
+    dataset = AcquirerProfileLoader.load(Path("examples/research/acquirer_profiles"))
+    novartis = AcquirerProfileLoader.get_acquirer(dataset, "novartis")
+    biogen = AcquirerProfileLoader.get_acquirer(dataset, "biogen")
+    scorer = AcquirerFitScorer()
+    target = AcquirerFitCandidate(
+        asset_id="asset-kidney-precision",
+        ticker="KDNY",
+        company_name="KidneyCo",
+        therapeutic_area="kidney_disease",
+        indication="IgA nephropathy",
+        modality="small_molecule",
+        stage="phase_3",
+        model_rnpv_millions=3500.0,
+        enterprise_value_millions=2800.0,
+        acquisition_ready=True,
+        priority_tags=["IgA nephropathy", "renal disease"],
+    )
+
+    novartis_score = scorer.score_target(acquirer=novartis, target=target)
+    biogen_score = scorer.score_target(acquirer=biogen, target=target)
+
+    assert novartis_score.fit_score > biogen_score.fit_score
+    assert novartis_score.therapeutic_area_score == pytest.approx(1.0, abs=1e-9)
+    assert biogen_score.therapeutic_area_score == pytest.approx(0.0, abs=1e-9)
+
+
+def test_pfizer_cd47_gap_outranks_generic_bms_on_trillium_like_target():
+    dataset = AcquirerProfileLoader.load(Path("examples/research/acquirer_profiles"))
+    pfizer = AcquirerProfileLoader.get_acquirer(dataset, "pfizer")
+    bms = AcquirerProfileLoader.get_acquirer(dataset, "bristol_myers_squibb")
+    scorer = AcquirerFitScorer()
+    target = AcquirerFitCandidate(
+        asset_id="asset-heme-cd47",
+        ticker="TRIL",
+        company_name="HemeIO",
+        therapeutic_area="oncology",
+        indication="hematologic malignancies",
+        stage="phase_1",
+        model_rnpv_millions=2200.0,
+        enterprise_value_millions=1800.0,
+        acquisition_ready=True,
+        priority_tags=["CD47 axis", "hematologic malignancies"],
+    )
+
+    pfizer_score = scorer.score_target(acquirer=pfizer, target=target)
+    bms_score = scorer.score_target(acquirer=bms, target=target)
+
+    assert pfizer_score.fit_score > bms_score.fit_score
+    assert pfizer_score.therapeutic_area_score == pytest.approx(1.0, abs=1e-9)
+    assert bms_score.therapeutic_area_score == pytest.approx(0.65, abs=1e-9)
+
+
+def test_merck_t_cell_engager_gap_outranks_bms_radiopharma_on_harpoon_like_target():
+    dataset = AcquirerProfileLoader.load(Path("examples/research/acquirer_profiles"))
+    merck = AcquirerProfileLoader.get_acquirer(dataset, "merck")
+    bms = AcquirerProfileLoader.get_acquirer(dataset, "bristol_myers_squibb")
+    scorer = AcquirerFitScorer()
+    target = AcquirerFitCandidate(
+        asset_id="asset-sclc-bispecific",
+        ticker="HARP",
+        company_name="EngagerCo",
+        therapeutic_area="oncology",
+        indication="small-cell lung cancer / neuroendocrine tumors",
+        modality="small_molecule",
+        stage="phase_2",
+        model_rnpv_millions=1800.0,
+        enterprise_value_millions=1100.0,
+        acquisition_ready=True,
+        priority_tags=["CD3 redirecting engager", "small-cell lung cancer"],
+    )
+
+    merck_score = scorer.score_target(acquirer=merck, target=target)
+    bms_score = scorer.score_target(acquirer=bms, target=target)
+
+    assert merck_score.fit_score > bms_score.fit_score
+    assert merck_score.matched_therapeutic_gap == "oncology:t_cell_engager_bispecific_io"
+
+
+def test_merck_mpn_gap_outranks_novartis_bet_specific_gap_on_imago_like_target():
+    dataset = AcquirerProfileLoader.load(Path("examples/research/acquirer_profiles"))
+    merck = AcquirerProfileLoader.get_acquirer(dataset, "merck")
+    novartis = AcquirerProfileLoader.get_acquirer(dataset, "novartis")
+    scorer = AcquirerFitScorer()
+    target = AcquirerFitCandidate(
+        asset_id="asset-mpn",
+        ticker="IMGO",
+        company_name="MPNCo",
+        therapeutic_area="hematology",
+        indication="essential thrombocythemia / myelofibrosis",
+        modality="small_molecule",
+        stage="phase_2",
+        model_rnpv_millions=1500.0,
+        enterprise_value_millions=900.0,
+        acquisition_ready=True,
+        priority_tags=["LSD1", "myelofibrosis", "essential thrombocythemia"],
+    )
+
+    merck_score = scorer.score_target(acquirer=merck, target=target)
+    novartis_score = scorer.score_target(acquirer=novartis, target=target)
+
+    assert merck_score.fit_score > novartis_score.fit_score
+    assert merck_score.matched_therapeutic_gap == "hematology:mpn_myelofibrosis_lsd1_heme"
+
+
+def test_novartis_neuromuscular_gap_outranks_biogen_alzheimers_on_avidity_like_target():
+    dataset = AcquirerProfileLoader.load(Path("examples/research/acquirer_profiles"))
+    novartis = AcquirerProfileLoader.get_acquirer(dataset, "novartis")
+    biogen = AcquirerProfileLoader.get_acquirer(dataset, "biogen")
+    scorer = AcquirerFitScorer()
+    target = AcquirerFitCandidate(
+        asset_id="asset-neuromuscular-rna",
+        ticker="RNA",
+        company_name="NeuromuscleCo",
+        therapeutic_area="neuroscience",
+        indication="myotonic dystrophy type 1 / facioscapulohumeral muscular dystrophy / Duchenne muscular dystrophy",
+        modality="small_molecule",
+        stage="phase_3",
+        model_rnpv_millions=4800.0,
+        enterprise_value_millions=3600.0,
+        acquisition_ready=True,
+        priority_tags=["DMD", "FSHD", "myotonic dystrophy"],
+    )
+
+    novartis_score = scorer.score_target(acquirer=novartis, target=target)
+    biogen_score = scorer.score_target(acquirer=biogen, target=target)
+
+    assert novartis_score.fit_score > biogen_score.fit_score
+    assert novartis_score.therapeutic_area_score == pytest.approx(1.0, abs=1e-9)
+    assert biogen_score.therapeutic_area_score == pytest.approx(0.65, abs=1e-9)
+
+
+def test_pfizer_generic_ibd_gap_outranks_merck_tl1a_on_arena_like_target():
+    dataset = AcquirerProfileLoader.load(Path("examples/research/acquirer_profiles"))
+    pfizer = AcquirerProfileLoader.get_acquirer(dataset, "pfizer")
+    merck = AcquirerProfileLoader.get_acquirer(dataset, "merck")
+    scorer = AcquirerFitScorer()
+    target = AcquirerFitCandidate(
+        asset_id="asset-ibd-oral",
+        ticker="ARNA",
+        company_name="IBDCo",
+        therapeutic_area="immunology",
+        indication="ulcerative colitis",
+        modality="small_molecule",
+        stage="nda_bla",
+        model_rnpv_millions=7000.0,
+        enterprise_value_millions=6800.0,
+        acquisition_ready=True,
+        priority_tags=["etrasimod", "ulcerative colitis"],
+    )
+
+    pfizer_score = scorer.score_target(acquirer=pfizer, target=target)
+    merck_score = scorer.score_target(acquirer=merck, target=target)
+
+    assert pfizer_score.fit_score > merck_score.fit_score
+    assert pfizer_score.therapeutic_area_score == pytest.approx(1.0, abs=1e-9)
+    assert merck_score.therapeutic_area_score == pytest.approx(0.65, abs=1e-9)
+
+
+def test_gap_notes_do_not_create_false_full_match_on_generic_oncology_target():
+    dataset = AcquirerProfileLoader.load(Path("examples/research/acquirer_profiles"))
+    gsk = AcquirerProfileLoader.get_acquirer(dataset, "gsk")
+    scorer = AcquirerFitScorer()
+    target = AcquirerFitCandidate(
+        asset_id="asset-generic-onc",
+        ticker="ONC",
+        company_name="OncoCo",
+        therapeutic_area="oncology",
+        indication="small-cell lung cancer",
+        modality="small_molecule",
+        stage="phase_2",
+        model_rnpv_millions=1200.0,
+        enterprise_value_millions=800.0,
+        acquisition_ready=True,
+        priority_tags=["small-cell lung cancer"],
+    )
+
+    gsk_score = scorer.score_target(acquirer=gsk, target=target)
+
+    assert gsk_score.matched_therapeutic_gap == "oncology:synthetic_lethality_parp_beyond"
+    assert gsk_score.therapeutic_area_score == pytest.approx(0.65, abs=1e-9)
+    assert gsk_score.fit_score < 1.0
+
+
+def test_merck_pah_gap_outranks_astrazeneca_resistant_htn_on_acceleron_like_target():
+    dataset = AcquirerProfileLoader.load(Path("examples/research/acquirer_profiles"))
+    merck = AcquirerProfileLoader.get_acquirer(dataset, "merck")
+    astrazeneca = AcquirerProfileLoader.get_acquirer(dataset, "astrazeneca")
+    scorer = AcquirerFitScorer()
+    target = AcquirerFitCandidate(
+        asset_id="asset-pah",
+        ticker="XLRN",
+        company_name="PAHCo",
+        therapeutic_area="cardiovascular",
+        indication="pulmonary arterial hypertension",
+        modality="small_molecule",
+        stage="phase_3",
+        model_rnpv_millions=6500.0,
+        enterprise_value_millions=6300.0,
+        acquisition_ready=True,
+        priority_tags=["sotatercept", "pulmonary arterial hypertension"],
+    )
+
+    merck_score = scorer.score_target(acquirer=merck, target=target)
+    astrazeneca_score = scorer.score_target(acquirer=astrazeneca, target=target)
+
+    assert merck_score.fit_score > astrazeneca_score.fit_score
+    assert merck_score.matched_therapeutic_gap == "cardiovascular:pulmonary_arterial_hypertension"
+    assert astrazeneca_score.therapeutic_area_score == pytest.approx(0.65, abs=1e-9)
+
+
+def test_merck_mpn_gap_outranks_gsk_momelotinib_gap_on_imago_like_target():
+    dataset = AcquirerProfileLoader.load(Path("examples/research/acquirer_profiles"))
+    merck = AcquirerProfileLoader.get_acquirer(dataset, "merck")
+    gsk = AcquirerProfileLoader.get_acquirer(dataset, "gsk")
+    scorer = AcquirerFitScorer()
+    target = AcquirerFitCandidate(
+        asset_id="asset-mpn-2",
+        ticker="IMGO",
+        company_name="MPNCo",
+        therapeutic_area="hematology",
+        indication="essential thrombocythemia / myelofibrosis",
+        modality="small_molecule",
+        stage="phase_2",
+        model_rnpv_millions=1500.0,
+        enterprise_value_millions=900.0,
+        acquisition_ready=True,
+        priority_tags=["bomedemstat", "myelofibrosis", "essential thrombocythemia"],
+    )
+
+    merck_score = scorer.score_target(acquirer=merck, target=target)
+    gsk_score = scorer.score_target(acquirer=gsk, target=target)
+
+    assert merck_score.fit_score > gsk_score.fit_score
+    assert merck_score.matched_therapeutic_gap == "hematology:mpn_myelofibrosis_lsd1_heme"
+    assert gsk_score.therapeutic_area_score == pytest.approx(0.35, abs=1e-9)
 
 
 def _regeneron():
     dataset = AcquirerProfileLoader.load(Path("research/mna/pipeline_gaps.yaml"))
     return AcquirerProfileLoader.get_acquirer(dataset, "regeneron")
+
+
+def _pfizer():
+    dataset = AcquirerProfileLoader.load(Path("examples/research/acquirer_profiles/pfizer.yaml"))
+    return AcquirerProfileLoader.get_acquirer(dataset, "pfizer")

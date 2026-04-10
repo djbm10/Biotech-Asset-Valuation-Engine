@@ -32,6 +32,13 @@ pipeline_gaps:
     preferred_modality: [small_molecule, antibody]
     budget_ceiling_millions: 10000
     notes: "Farxiga renal franchise supports cardio-renal bolt-ons beyond SGLT2."
+  - therapeutic_area: cardiovascular
+    sub_area: aldosterone_synthase_resistant_htn
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [small_molecule]
+    budget_ceiling_millions: 6000
+    notes: "CinCor / baxdrostat made treatment-resistant and uncontrolled hypertension via aldosterone-synthase inhibition a concrete AstraZeneca cardio-renal priority."
   - therapeutic_area: immunology
     sub_area: il33_tslp_oral
     gap_type: franchise_extension

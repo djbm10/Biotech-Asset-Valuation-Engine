@@ -17,14 +17,21 @@ pipeline_gaps:
     urgency: high
     preferred_modality: [radiopharmaceutical]
     budget_ceiling_millions: 12000
-    notes: "RayzeBio acquisition seeds RDC platform; additional targeting ligands and isotopes are needed to build a full franchise."
+    notes: "RayzeBio acquisition seeds RDC platform; additional targeting ligands, isotopes, and neuroendocrine-tumor radioligand assets are needed to build a full franchise."
   - therapeutic_area: oncology
-    sub_area: protein_degraders_celmod
+    sub_area: celmod_myeloma_degrader
     gap_type: franchise_extension
     urgency: high
-    preferred_modality: [small_molecule, degrader]
+    preferred_modality: [degrader]
     budget_ceiling_millions: 10000
-    notes: "Revlimid LOE drives urgency for next-gen CELMoD/protein degraders in hematologic oncology."
+    notes: "Revlimid LOE drives urgency for next-gen CELMoD and cereblon/protein-degrader assets in multiple myeloma and adjacent plasma-cell malignancies."
+  - therapeutic_area: oncology
+    sub_area: nsclc_ros1_alk_trk_kinase
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [small_molecule]
+    budget_ceiling_millions: 9000
+    notes: "Turning Point / Mirati-style precision-oncology kinase assets remain a repeatable bolt-on category for BMS, especially ROS1, ALK, TRK, and NSCLC registrational programs."
   - therapeutic_area: immunology
     sub_area: il23_il17_psoriasis
     gap_type: LOE_exposure
@@ -39,6 +46,13 @@ pipeline_gaps:
     preferred_modality: [small_molecule, antibody]
     budget_ceiling_millions: 8000
     notes: "Eliquis LOE approaching mid-2020s; FXIa inhibitors as next-gen anticoagulants remain strategic."
+  - therapeutic_area: cardiovascular
+    sub_area: cardiomyopathy_hcm_cardiac_muscle
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [small_molecule]
+    budget_ceiling_millions: 15000
+    notes: "MyoKardia demonstrated explicit appetite for cardiomyopathy and sarcomere-biology bolt-ons."
 recent_deals:
   - target: Karuna Therapeutics
     date: 2024-03-05

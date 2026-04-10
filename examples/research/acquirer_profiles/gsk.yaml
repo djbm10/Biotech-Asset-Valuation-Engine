@@ -18,6 +18,13 @@ pipeline_gaps:
     preferred_modality: [small_molecule, degrader]
     budget_ceiling_millions: 12000
     notes: "Zejula (PARP inhibitor) mature in ovarian cancer; next-gen synthetic lethality (PARG, WEE1, ATR, PRMT5) remains the oncology extension priority."
+  - therapeutic_area: oncology
+    sub_area: momelotinib_jak_mpn
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [small_molecule]
+    budget_ceiling_millions: 7000
+    notes: "Sierra / momelotinib showed explicit interest in myelofibrosis and other myeloproliferative neoplasm bolt-ons."
   - therapeutic_area: immunology
     sub_area: il5_il33_tslp_respiratory
     gap_type: franchise_extension
@@ -25,6 +32,20 @@ pipeline_gaps:
     preferred_modality: [biologic, antibody]
     budget_ceiling_millions: 8000
     notes: "Nucala (IL-5) eosinophilic disease franchise creates adjacency to TSLP/IL-33 and IL-25 mechanisms in severe asthma and COPD."
+  - therapeutic_area: respiratory
+    sub_area: chronic_cough_p2x3
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [small_molecule]
+    budget_ceiling_millions: 5000
+    notes: "Bellus / camlipixant was a direct chronic-cough franchise build, not a generic neuroscience adjacency."
+  - therapeutic_area: immunology
+    sub_area: food_allergy_allergic_disease
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [biologic, antibody, small_molecule]
+    budget_ceiling_millions: 7000
+    notes: "RAPT / ozureprubart-style food-allergy and broader allergic-disease prevention assets are a real immunology buildout category for GSK, distinct from cough or severe-asthma respiratory biology."
   - therapeutic_area: vaccines
     sub_area: respiratory_syncytial_virus_mrna
     gap_type: franchise_extension

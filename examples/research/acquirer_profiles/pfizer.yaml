@@ -12,6 +12,16 @@ pipeline_gaps:
       - ADC
     budget_ceiling_millions: 15000
     notes: "Ibrance revenue declining, need next-gen CDK or ADC"
+  - therapeutic_area: oncology
+    sub_area: cd47_macrophage_heme_io
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality:
+      - antibody
+      - biologic
+      - bispecific
+    budget_ceiling_millions: 12000
+    notes: "Trillium highlighted willingness to add macrophage-checkpoint and heme immuno-oncology adjacencies beyond breast cancer, including CD47-axis early clinical deals in hematologic malignancies."
   - therapeutic_area: immunology
     sub_area: inflammatory_bowel_disease
     gap_type: pipeline_thin
@@ -24,7 +34,7 @@ pipeline_gaps:
   - therapeutic_area: neuroscience
     sub_area: migraine_cgrp
     gap_type: franchise_extension
-    urgency: medium
+    urgency: high
     preferred_modality:
       - small_molecule
       - peptide

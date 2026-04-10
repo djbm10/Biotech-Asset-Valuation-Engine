@@ -1,0 +1,32 @@
+# Hard-fail rules: asset is disqualified as an M&A target.
+hard_fails:
+  max_market_cap_billions: 100
+  excluded_tickers:
+    - LLY
+    - PFE
+    - MRK
+    - JNJ
+    - NVS
+    - AZN
+    - ROG
+    - NVO
+    - SAN
+    - GSK
+    - BMY
+    - ABBV
+    - TAK
+    - GILD
+    - AMGN
+    - REGN
+    - VRTX
+    - BIIB
+    - ALNY
+    - BMRN
+    - MRNA
+  max_approved_revenue_share: 0.50
+
+# Soft penalties: reduce targetability score but do not eliminate.
+soft_penalties:
+  multi_product_commercial_penalty: 0.50
+  market_cap_penalty_start_billions: 20
+  market_cap_penalty_end_billions: 100

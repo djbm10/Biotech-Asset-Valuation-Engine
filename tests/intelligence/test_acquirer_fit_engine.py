@@ -4,6 +4,7 @@ from datetime import date
 from pathlib import Path
 from types import SimpleNamespace
 
+import pytest
 import yaml
 
 from bve.entities.asset import Asset, DevelopmentStage, Modality, TherapeuticArea
@@ -133,6 +134,121 @@ def test_acquirer_fit_engine_uses_stable_tie_breaker(tmp_path: Path):
     assert [row.asset_id for row in result.rows] == ["asset-a", "asset-b"]
 
 
+def test_acquirer_fit_engine_supports_curated_pfizer_profile(tmp_path: Path):
+    comps_path = _write_comps(tmp_path)
+    contexts = {
+        "asset-onc-adc": _make_context(
+            asset_id="asset-onc-adc",
+            company_id="co-onc-adc",
+            name="OncoADC",
+            therapeutic_area=TherapeuticArea.ONCOLOGY,
+            stage=DevelopmentStage.PHASE_3,
+            modality=Modality.ADC,
+            cash_millions=100.0,
+            mechanism_of_action="HER2 antibody-drug conjugate",
+        ),
+        "asset-ibd-sm": _make_context(
+            asset_id="asset-ibd-sm",
+            company_id="co-ibd-sm",
+            name="IBDCo",
+            therapeutic_area=TherapeuticArea.IMMUNOLOGY,
+            stage=DevelopmentStage.PHASE_2,
+            modality=Modality.SMALL_MOLECULE,
+            cash_millions=80.0,
+            mechanism_of_action="oral small molecule for inflammatory bowel disease",
+        ),
+    }
+    watchlist = [
+        _watchlist_asset("asset-ibd-sm", "co-ibd-sm", "IBD1", 7000.0, "ulcerative colitis"),
+        _watchlist_asset("asset-onc-adc", "co-onc-adc", "ADC1", 9000.0, "breast cancer"),
+    ]
+
+    engine = AcquirerFitEngine(
+        context_provider=_StubProvider(contexts),
+        integration_config=AcquirerFitIntegrationConfig(
+            acquirer_profiles_path="examples/research/acquirer_profiles/pfizer.yaml",
+            comparable_deals_path=str(comps_path),
+            top_n=10,
+            require_acquisition_readiness=False,
+        ),
+    )
+    engine.acquisition_screener._run_rnpv = lambda context: _stub_curated_pfizer_rnpv(context.asset.id)
+
+    result = engine.screen_watchlist(
+        watchlist,
+        acquirer_id="pfizer",
+        snapshot_date=date(2026, 4, 5),
+    )
+
+    assert [row.asset_id for row in result.rows] == ["asset-onc-adc", "asset-ibd-sm"]
+    assert result.rows[0].matched_therapeutic_gap == "oncology:breast_cancer"
+    assert result.rows[0].fit_score == pytest.approx(1.0, abs=1e-9)
+    assert result.rows[1].matched_therapeutic_gap == "immunology:inflammatory_bowel_disease"
+    assert result.rows[1].fit_score == pytest.approx(0.95, abs=1e-9)
+
+
+def test_acquirer_fit_engine_supports_curated_directory_profiles(tmp_path: Path):
+    comps_path = _write_comps(tmp_path)
+    contexts = {
+        "asset-oral-glp1": _make_context(
+            asset_id="asset-oral-glp1",
+            company_id="co-oral-glp1",
+            name="MetaOral",
+            therapeutic_area=TherapeuticArea.OTHER,
+            stage=DevelopmentStage.PHASE_3,
+            modality=Modality.SMALL_MOLECULE,
+            cash_millions=100.0,
+            mechanism_of_action="oral GLP-1 small molecule",
+        ),
+        "asset-cardio": _make_context(
+            asset_id="asset-cardio",
+            company_id="co-cardio",
+            name="CardioCo",
+            therapeutic_area=TherapeuticArea.CARDIOVASCULAR,
+            stage=DevelopmentStage.PHASE_2,
+            modality=Modality.SMALL_MOLECULE,
+            cash_millions=60.0,
+            mechanism_of_action="cardio-renal small molecule",
+        ),
+    }
+    watchlist = [
+        _watchlist_asset("asset-cardio", "co-cardio", "CARD", 7000.0, "cardio renal disease"),
+        _watchlist_asset("asset-oral-glp1", "co-oral-glp1", "ORAL", 9000.0, "obesity"),
+    ]
+
+    engine = AcquirerFitEngine(
+        context_provider=_StubProvider(contexts),
+        integration_config=AcquirerFitIntegrationConfig(
+            acquirer_profiles_path="examples/research/acquirer_profiles",
+            comparable_deals_path=str(comps_path),
+            top_n=10,
+            require_acquisition_readiness=False,
+        ),
+    )
+    engine.acquisition_screener._run_rnpv = lambda context: {
+        "asset-oral-glp1": SimpleNamespace(
+            rnpv_millions=18000.0,
+            cumulative_success_probability=0.58,
+            peak_sales_millions=7000.0,
+        ),
+        "asset-cardio": SimpleNamespace(
+            rnpv_millions=9000.0,
+            cumulative_success_probability=0.42,
+            peak_sales_millions=4000.0,
+        ),
+    }[context.asset.id]
+
+    result = engine.screen_watchlist(
+        watchlist,
+        acquirer_id="eli_lilly",
+        snapshot_date=date(2026, 4, 5),
+    )
+
+    assert [row.asset_id for row in result.rows] == ["asset-oral-glp1", "asset-cardio"]
+    assert result.rows[0].matched_therapeutic_gap == "obesity:oral_glp1"
+    assert result.rows[0].fit_score == pytest.approx(1.0, abs=1e-9)
+
+
 class _StubProvider:
     def __init__(self, contexts: dict[str, AssetValuationContext]) -> None:
         self._contexts = contexts
@@ -230,6 +346,22 @@ def _stub_rnpv(asset_id: str):
             rnpv_millions=500.0,
             cumulative_success_probability=0.35,
             peak_sales_millions=400.0,
+        ),
+    }
+    return payload[asset_id]
+
+
+def _stub_curated_pfizer_rnpv(asset_id: str):
+    payload = {
+        "asset-onc-adc": SimpleNamespace(
+            rnpv_millions=12000.0,
+            cumulative_success_probability=0.60,
+            peak_sales_millions=5000.0,
+        ),
+        "asset-ibd-sm": SimpleNamespace(
+            rnpv_millions=9000.0,
+            cumulative_success_probability=0.42,
+            peak_sales_millions=3500.0,
         ),
     }
     return payload[asset_id]

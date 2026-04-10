@@ -32,6 +32,13 @@ pipeline_gaps:
     preferred_modality: [biologic, antibody]
     budget_ceiling_millions: 8000
     notes: "Tezspire (TSLP with AZ) franchise creates respiratory/immunology adjacency beyond IL-5/IL-4."
+  - therapeutic_area: immunology
+    sub_area: complement_vasculitis_inflammation
+    gap_type: franchise_extension
+    urgency: medium
+    preferred_modality: [small_molecule, biologic, antibody]
+    budget_ceiling_millions: 7000
+    notes: "ChemoCentryx demonstrated explicit willingness to acquire complement / vasculitis and other inflammation assets."
   - therapeutic_area: bone_disease
     sub_area: osteogenesis_bone_metabolism
     gap_type: LOE_exposure

@@ -23,6 +23,20 @@ pipeline_gaps:
     preferred_modality: [oral_small_molecule, biologic]
     budget_ceiling_millions: 12000
     notes: "IBD and dermatology bolt-ons fit Lilly's recent BD pattern."
+  - therapeutic_area: genetic_medicine
+    sub_area: cns_otology_gene_therapy
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [gene_therapy, genetic_medicine, AAV]
+    budget_ceiling_millions: 6000
+    notes: "Prevail and Akouos established Lilly's willingness to buy CNS and otology gene-therapy platforms."
+  - therapeutic_area: cardiovascular
+    sub_area: lipoprotein_gene_editing
+    gap_type: franchise_extension
+    urgency: medium
+    preferred_modality: [genetic_medicine, gene_therapy, RNA]
+    budget_ceiling_millions: 10000
+    notes: "Verve-style LDL / Lp(a) gene-editing or RNA assets fit Lilly's cardiometabolic expansion strategy."
   - therapeutic_area: oncology
     sub_area: kras_g12d
     gap_type: selective_gap

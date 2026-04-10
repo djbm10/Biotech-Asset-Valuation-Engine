@@ -53,6 +53,51 @@ def test_acquisition_memo_terms_plan_for_phase_2_is_milestone_weighted(tmp_path:
     assert any(m.trigger == "phase_success" for m in terms.milestones)
 
 
+def test_acquisition_memo_generator_supports_curated_pfizer_profile(tmp_path: Path):
+    comps_path = _write_comps(tmp_path)
+    contexts = {
+        "asset-onc-adc": _make_context(
+            asset_id="asset-onc-adc",
+            company_id="co-onc-adc",
+            asset_name="BreastADC",
+            company_name="OncoCo",
+            therapeutic_area=TherapeuticArea.ONCOLOGY,
+            stage=DevelopmentStage.PHASE_3,
+            modality=Modality.ADC,
+            cash_millions=100.0,
+            market_cap_millions=9000.0,
+        ),
+    }
+    watchlist = [
+        _watchlist_asset("asset-onc-adc", "co-onc-adc", "ADC1", 9000.0, "breast cancer"),
+    ]
+    fit_engine = AcquirerFitEngine(
+        context_provider=_StubProvider(contexts),
+        integration_config=AcquirerFitIntegrationConfig(
+            acquirer_profiles_path="examples/research/acquirer_profiles/pfizer.yaml",
+            comparable_deals_path=str(comps_path),
+            top_n=10,
+            require_acquisition_readiness=False,
+        ),
+    )
+    fit_engine.acquisition_screener._run_rnpv = lambda context: _stub_pfizer_rnpv(context.asset.id)
+    generator = AcquisitionMemoGenerator(fit_engine=fit_engine)
+
+    memos = generator.generate_for_watchlist(
+        watchlist,
+        acquirer_id="pfizer",
+        snapshot_date=date(2026, 4, 5),
+        top_n=1,
+    )
+
+    assert len(memos) == 1
+    memo = memos[0]
+    assert "Pfizer" in memo.rendered_markdown
+    assert "oncology:breast_cancer" in memo.rendered_markdown
+    assert "Indicative Deal Structure" in memo.rendered_markdown
+    assert memo.fit_score == 1.0
+
+
 class _StubProvider:
     def __init__(self, contexts: dict[str, AssetValuationContext]) -> None:
         self._contexts = contexts
@@ -190,6 +235,17 @@ def _stub_rnpv(asset_id: str):
             rnpv_millions=500.0,
             cumulative_success_probability=0.35,
             peak_sales_millions=400.0,
+        ),
+    }
+    return payload[asset_id]
+
+
+def _stub_pfizer_rnpv(asset_id: str):
+    payload = {
+        "asset-onc-adc": SimpleNamespace(
+            rnpv_millions=12000.0,
+            cumulative_success_probability=0.60,
+            peak_sales_millions=5000.0,
         ),
     }
     return payload[asset_id]

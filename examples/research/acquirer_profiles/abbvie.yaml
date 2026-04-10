@@ -7,21 +7,21 @@ pipeline_gaps:
   - therapeutic_area: neuroscience
     sub_area: neuropsychiatry_cns_degenerative
     gap_type: franchise_extension
-    urgency: high
+    urgency: medium
     preferred_modality: [small_molecule, antibody]
     budget_ceiling_millions: 20000
     notes: "Cerevel acquisition (tavapadon Parkinson's, emraclidine schizophrenia) opens CNS adjacency; additional neuropsychiatry and neurodegeneration bolt-ons remain active priority."
   - therapeutic_area: oncology
     sub_area: adc_heme_solid_tumor
     gap_type: franchise_extension
-    urgency: high
+    urgency: medium
     preferred_modality: [ADC, bispecific]
     budget_ceiling_millions: 15000
     notes: "ImmunoGen FOLR1-ADC (mirvetuximab) is solid tumor entry; hematology ADCs post-Venclexta/Imbruvica LOE remain open."
   - therapeutic_area: immunology
     sub_area: il23_tyk2_next_wave
     gap_type: franchise_extension
-    urgency: high
+    urgency: medium
     preferred_modality: [small_molecule, biologic]
     budget_ceiling_millions: 12000
     notes: "Skyrizi (IL-23) and Rinvoq (JAK) are the Humira LOE successors; differentiated next mechanisms for derm/IBD/RA remain targeted."
