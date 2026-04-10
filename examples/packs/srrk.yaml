@@ -1,0 +1,195 @@
+# Underwriting Pack — Scholar Rock Holding Corporation (SRRK)
+# Q2 2026 | As of: 2026-04-09
+# Analyst: djm
+# Status: DRAFT — pending second reviewer
+
+company_id: "srrk"
+company_name: "Scholar Rock Holding Corporation"
+ticker: "SRRK"
+as_of_date: "2026-04-09"
+pack_quarter: "2026Q2"
+
+# ─────────────────────────────────────────────────────────────────────
+# Market data  (point-in-time)
+# ─────────────────────────────────────────────────────────────────────
+market:
+  market_cap_millions: 1200.0      # ~$1.2B at $16/share × ~75M shares
+  enterprise_value_millions: 900.0  # market cap minus net cash (~$300M)
+  share_price: 16.0
+  source_ref: "yfinance:2026-04-09"
+
+# ─────────────────────────────────────────────────────────────────────
+# Balance sheet  (10-Q Dec 2025; filed early 2026)
+# ─────────────────────────────────────────────────────────────────────
+balance_sheet:
+  cash_millions: 380.0    # cash + cash equivalents + short-term investments
+  debt_millions: 80.0     # long-term debt / notes payable
+  source_ref: "10-Q:2025-12-31:balance_sheet"
+
+# ─────────────────────────────────────────────────────────────────────
+# Modeled assets
+# ─────────────────────────────────────────────────────────────────────
+modeled_assets:
+  - bucket_id: "srrk_apitegromab_sma"
+    label: "Apitegromab — SMA (latent myostatin inhibitor, Ph3 SAPPHIRE)"
+    value_millions: 1600.0
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/srrk_apitegromab_sma.yaml:2026-04-09"
+    as_of_date: "2026-04-09"
+    confidence: 0.68
+    corroboration_count: 2
+    corroboration_refs:
+      - "SAPPHIRE Ph3 enrollment complete 2024; readout expected 2026-Q2"
+      - "Ph2 TOPAZ: +1.6 point Hammersmith score vs placebo at 12mo in older SMA patients on nusinersen/risdiplam"
+    notes: >
+      Apitegromab selectively inhibits latent myostatin in muscle. Ph3 SAPPHIRE
+      in Type 2/3 SMA patients on background SMN therapy (nusinersen or risdiplam).
+      Targets motor function improvement beyond SMN-targeted therapies. SMA residual
+      disease market: ~15k US patients on SMN therapy with residual motor impairment.
+      POS 62% given Ph2 data. Unpartnered. Peak sales $1.2B. rNPV: 12y, discount 10.5%.
+
+  - bucket_id: "srrk_apitegromab_obesity"
+    label: "Apitegromab — Obesity/muscle preservation (Ph2 exploratory)"
+    value_millions: 300.0
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/srrk_apitegromab_obesity.yaml:2026-04-09"
+    as_of_date: "2026-04-09"
+    confidence: 0.42
+    corroboration_count: 0
+    corroboration_refs: []
+    notes: >
+      Myostatin inhibition may preserve lean mass during GLP-1-induced weight loss.
+      Early-stage exploratory cohort. Combination with GLP-1 is a hot thesis (muscle
+      preservation during rapid weight loss). Option value only — needs clinical data
+      in obesity setting.
+
+# ─────────────────────────────────────────────────────────────────────
+# Platform value
+# ─────────────────────────────────────────────────────────────────────
+platform_value:
+  bucket_id: "srrk_platform"
+  label: "Latent myostatin inhibition platform — muscle disease + metabolic"
+  value_millions: 200.0
+  methodology: "analyst_estimate"
+  source_type: "analyst_bridge"
+  source_ref: "top25_pack_2026q2:SRRK:platform"
+  as_of_date: "2026-04-09"
+  confidence: 0.50
+  corroboration_count: 0
+  corroboration_refs: []
+  notes: >
+    Proprietary antibody platform targeting latent forms of TGF-beta family members.
+    Apitegromab is lead. Obesity/metabolic combination is optionality. Conservative
+    pending SMA readout.
+
+# ─────────────────────────────────────────────────────────────────────
+# Unmodeled pipeline
+# ─────────────────────────────────────────────────────────────────────
+unmodeled_pipeline:
+  bucket_id: "srrk_unmodeled"
+  label: "Pre-clinical muscle/metabolic programs"
+  value_millions: 50.0
+  methodology: "rule_of_thumb"
+  source_type: "analyst_bridge"
+  source_ref: "top25_pack_2026q2:SRRK:unmodeled"
+  as_of_date: "2026-04-09"
+  confidence: 0.35
+  corroboration_count: 0
+  corroboration_refs: []
+  notes: "Minimal value. Pre-IND pipeline only."
+
+# ─────────────────────────────────────────────────────────────────────
+# Royalty streams  (none — SRRK retains full commercialization rights)
+# ─────────────────────────────────────────────────────────────────────
+royalty_streams: []
+
+# ─────────────────────────────────────────────────────────────────────
+# Dilution bridge  (10-Q Dec 2025)
+# ─────────────────────────────────────────────────────────────────────
+dilution:
+  current_shares_millions: 75.0
+  expected_dilution_pct: 0.20       # 20% expected dilution; raise likely post-readout
+  financing_runway_quarters: 5.0    # ~5 quarters at ~$200-250M/yr burn
+  atm_active: true
+  atm_remaining_millions: 100.0
+  shelf_registration_millions: 300.0
+  warrant_shares_millions: 0.0
+  convertible_shares_millions: 0.0
+  source_ref: "10-Q:2025-12-31:capitalization"
+  as_of_date: "2025-12-31"
+  notes: >
+    Pre-revenue. ~$380M cash, burn ~$200-250M/yr. ~5 quarters runway — tight.
+    Raise expected shortly after SAPPHIRE readout (positive or negative). ATM active.
+    High dilution risk if readout negative.
+
+# ─────────────────────────────────────────────────────────────────────
+# Catalysts
+# ─────────────────────────────────────────────────────────────────────
+catalysts:
+  - description: "SAPPHIRE Ph3 readout — apitegromab SMA Type 2/3 (Hammersmith motor score)"
+    expected_date: "2026-Q2"
+    catalyst_type: "readout"
+    probability_positive: 0.62
+    source_ref: "clinicaltrials.gov:NCT05115110"
+    notes: >
+      Primary endpoint: Hammersmith Functional Motor Scale Expanded at 52 weeks.
+      Defines the company — positive = NDA filing path; negative = strategic review.
+
+  - description: "Apitegromab + GLP-1 combination Ph2 initiation/first data"
+    expected_date: "2026-Q4"
+    catalyst_type: "readout"
+    probability_positive: 0.55
+    source_ref: "SRRK pipeline 2026"
+    notes: >
+      GLP-1 combination thesis. Lean mass preservation with semaglutide/tirzepatide
+      is a large opportunity. Early data will establish proof of concept.
+
+# ─────────────────────────────────────────────────────────────────────
+# Management flags  (none flagged at this review)
+# ─────────────────────────────────────────────────────────────────────
+management_flags: []
+
+# ─────────────────────────────────────────────────────────────────────
+# Confidence metadata
+# ─────────────────────────────────────────────────────────────────────
+confidence:
+  overall_confidence: 0.60
+  notes: >
+    Single-asset binary risk. SAPPHIRE readout (Q2 2026) determines company value.
+    Cash runway is tight — 5 quarters. Ph2 data is supportive but Ph3 in SMA is
+    harder endpoint. Confidence low-medium.
+
+# ─────────────────────────────────────────────────────────────────────
+# Provenance
+# ─────────────────────────────────────────────────────────────────────
+provenance:
+  pack_version: 1
+  pack_quarter: "2026Q2"
+  created_by: "djm"
+  change_summary: "Initial Q2 2026 pack. Single binary event."
+
+# SOTP check (manual reconciliation — why does model differ from market?):
+#
+#   Market cap:                  $1,200M
+#   SOTP equity value:
+#     Net cash:                    +$300M  (380 - 80)
+#     Apitegromab SMA rNPV:       +$1,600M
+#     Apitegromab Obesity rNPV:     +$300M
+#     Platform:                     +$200M
+#     Unmodeled:                     +$50M
+#     Dilution reserve:             -$240M  (~20% dilution × $16 × 75M)
+#     ────────────────────────────────────
+#     SOTP total:                 ~$2,210M
+#   SOTP discount:               +84% (model ~84% above market)
+#   Assessment: Market at 54% of SOTP — appropriate for pre-readout single-asset
+#   binary risk + tight cash. Positive SAPPHIRE = re-rate to ~$2B+. Negative =
+#   ~$300M (net cash). GLP-1 obesity optionality is unpriced.
+
+reviewer_state: "draft"
+
+notes: >
+  SRRK is a pure SAPPHIRE binary bet. The GLP-1 muscle preservation angle adds
+  option value beyond SMA. Key question: Is the Ph2 TOPAZ Hammersmith improvement
+  (+1.6 pts) clinically meaningful enough to reproduce in Ph3?

@@ -1,0 +1,221 @@
+# Underwriting Pack — Kymera Therapeutics (KYMR)
+# Q2 2026 | As of: 2026-04-09
+# Analyst: djm
+# Status: DRAFT — pending second reviewer
+
+company_id: "kymr"
+company_name: "Kymera Therapeutics Inc."
+ticker: "KYMR"
+as_of_date: "2026-04-09"
+pack_quarter: "2026Q2"
+
+# ─────────────────────────────────────────────────────────────────────
+# Market data  (point-in-time)
+# ─────────────────────────────────────────────────────────────────────
+market:
+  market_cap_millions: 1800.0      # ~$1.8B at $24/share × ~75M shares
+  enterprise_value_millions: 1200.0 # market cap minus net cash (~$600M)
+  share_price: 24.0
+  source_ref: "yfinance:2026-04-09"
+
+# ─────────────────────────────────────────────────────────────────────
+# Balance sheet  (10-Q Dec 2025; filed Feb 2026)
+# ─────────────────────────────────────────────────────────────────────
+balance_sheet:
+  cash_millions: 700.0    # cash + short-term investments
+  debt_millions: 100.0    # modest long-term debt
+  source_ref: "10-Q:2025-12-31:balance_sheet"
+
+# ─────────────────────────────────────────────────────────────────────
+# Modeled assets
+# ─────────────────────────────────────────────────────────────────────
+modeled_assets:
+  - bucket_id: "kymr_ky1005"
+    label: "KY1005 (OX40L degrader) — Atopic Dermatitis (Ph2b/3 TEMPO-AD)"
+    value_millions: 2200.0
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/kymr_ky1005.yaml:2026-04-09"
+    as_of_date: "2026-04-09"
+    confidence: 0.65
+    corroboration_count: 2
+    corroboration_refs:
+      - "KY1005 Ph2a AD: IGA 0/1 response 52% vs 14% placebo at 16wks"
+      - "Sanofi collaboration 2021: $150M upfront + $1.35B milestones for dermatology"
+    notes: >
+      OX40L PROTAC degrader. Ph2a showed strong AD efficacy (IGA, EASI). Ph2b/3
+      TEMPO-AD ongoing. Sanofi collaboration: Sanofi funds Ph3 + commercializes;
+      KYMR receives royalties ~15% + milestones. AD addressable: ~16M
+      moderate-severe US patients. Dupixent sets $4.7B/yr benchmark. OX40L
+      mechanism is complementary/alternative. rNPV on KYMR royalty stream.
+
+  - bucket_id: "kymr_ky2334"
+    label: "KY2334 (STAT6 degrader) — Atopic Dermatitis + eosinophilic diseases (Ph1)"
+    value_millions: 500.0
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/kymr_ky2334.yaml:2026-04-09"
+    as_of_date: "2026-04-09"
+    confidence: 0.48
+    corroboration_count: 0
+    corroboration_refs: []
+    notes: >
+      STAT6 PROTAC, downstream of IL-4/IL-13 pathway. Phase 1. Differentiated
+      from OX40L by mechanism. Eosinophilic esophagitis and other Th2 diseases
+      potential. Early; option value.
+
+  - bucket_id: "kymr_ky3999"
+    label: "KY3999 (IRAK4 degrader) — Hidradenitis Suppurativa + Systemic Lupus (Ph1/2)"
+    value_millions: 400.0
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/kymr_ky3999.yaml:2026-04-09"
+    as_of_date: "2026-04-09"
+    confidence: 0.42
+    corroboration_count: 0
+    corroboration_refs: []
+    notes: >
+      IRAK4 degrader for innate immune-driven diseases. Ph1/2 in HS. IRAK4
+      inhibitors validated (Johnson & Johnson). Degrader may improve on
+      inhibitor. HS is a high-value indication (~$3B market). Early stage.
+
+# ─────────────────────────────────────────────────────────────────────
+# Platform value
+# ─────────────────────────────────────────────────────────────────────
+platform_value:
+  bucket_id: "kymr_platform"
+  label: "Targeted protein degradation platform — E3 ligase biology + PROTAC chemistry"
+  value_millions: 400.0
+  methodology: "analyst_estimate"
+  source_type: "analyst_bridge"
+  source_ref: "top25_pack_2026q2:KYMR:platform"
+  as_of_date: "2026-04-09"
+  confidence: 0.55
+  corroboration_count: 0
+  corroboration_refs: []
+  notes: >
+    Proprietary Pegasus platform for E3 ligase identification and PROTAC design.
+    KY1005 and KY3999 validate platform in inflammation beyond oncology.
+    Conservative — needs two independent clinical readouts.
+
+# ─────────────────────────────────────────────────────────────────────
+# Unmodeled pipeline
+# ─────────────────────────────────────────────────────────────────────
+unmodeled_pipeline:
+  bucket_id: "kymr_unmodeled"
+  label: "Early degrader pipeline (undisclosed targets, oncology + immunology)"
+  value_millions: 150.0
+  methodology: "rule_of_thumb"
+  source_type: "analyst_bridge"
+  source_ref: "top25_pack_2026q2:KYMR:unmodeled"
+  as_of_date: "2026-04-09"
+  confidence: 0.38
+  corroboration_count: 0
+  corroboration_refs: []
+  notes: "Multiple preclinical programs. Minimal value until IND-enabling data."
+
+# ─────────────────────────────────────────────────────────────────────
+# Royalty streams  (none — KY1005 Sanofi royalty is already captured in kymr_ky1005 rNPV)
+# ─────────────────────────────────────────────────────────────────────
+royalty_streams: []
+
+# ─────────────────────────────────────────────────────────────────────
+# Dilution bridge  (10-Q Dec 2025)
+# ─────────────────────────────────────────────────────────────────────
+dilution:
+  current_shares_millions: 75.0
+  expected_dilution_pct: 0.15      # 15% expected dilution before KY1005 Ph3 completion
+  financing_runway_quarters: 7.0   # ~1.75 years runway at current burn
+  atm_active: false
+  atm_remaining_millions: null
+  shelf_registration_millions: 500.0
+  warrant_shares_millions: 0.0
+  convertible_shares_millions: 0.0
+  source_ref: "10-Q:2025-12-31:capitalization"
+  as_of_date: "2025-12-31"
+  notes: >
+    Pre-revenue. ~$700M cash, Sanofi collaboration funding reduces burn.
+    ~7 quarters runway. Modest dilution expected before KY1005 Phase 3
+    completion.
+
+# ─────────────────────────────────────────────────────────────────────
+# Catalysts
+# ─────────────────────────────────────────────────────────────────────
+catalysts:
+  - description: "TEMPO-AD Ph2b readout — KY1005 OX40L AD (IGA 0/1, EASI75)"
+    expected_date: "2026-Q3"
+    catalyst_type: "readout"
+    probability_positive: 0.60
+    source_ref: "clinicaltrials.gov:NCT05808101"
+    notes: >
+      Ph2b dose confirmation. Strong data clears path to Ph3 NDA. Binary
+      re-rating event.
+
+  - description: "KY3999 Ph1/2 HS efficacy signal"
+    expected_date: "2026-H2"
+    catalyst_type: "readout"
+    probability_positive: 0.55
+    source_ref: "KYMR pipeline 2026"
+    notes: "IRAK4 degrader HS. Clean early signal supports platform productivity."
+
+  - description: "Sanofi collaboration milestone — KY1005 Ph3 initiation"
+    expected_date: "2026-Q4"
+    catalyst_type: "milestone"
+    probability_positive: 0.70
+    source_ref: "KYMR-Sanofi agreement 2021"
+    notes: >
+      Ph3 initiation triggers significant Sanofi milestone payment; validates
+      partner confidence.
+
+# ─────────────────────────────────────────────────────────────────────
+# Management flags  (none flagged at this review)
+# ─────────────────────────────────────────────────────────────────────
+management_flags: []
+
+# ─────────────────────────────────────────────────────────────────────
+# Confidence metadata
+# ─────────────────────────────────────────────────────────────────────
+confidence:
+  overall_confidence: 0.62
+  notes: >
+    KY1005 TEMPO-AD readout (Q3 2026) is the dominant event. Ph2a data is
+    strong but Ph2b dose optimization is required. Sanofi backing reduces
+    execution risk. Main risk: OX40L mechanism fails to replicate Ph2a in
+    larger Ph2b; or Dupixent/Adbry competition limits market opportunity
+    even with approval.
+
+# ─────────────────────────────────────────────────────────────────────
+# Provenance
+# ─────────────────────────────────────────────────────────────────────
+provenance:
+  pack_version: 1
+  pack_quarter: "2026Q2"
+  created_by: "djm"
+  change_summary: "Initial Q2 2026 pack."
+
+# SOTP check (manual reconciliation, must answer: "why does model differ from market?"):
+#
+#   Market cap:                $1,800M
+#   SOTP equity value:
+#     Net cash:                  +$600M  (700 - 100)
+#     KY1005 rNPV:             +$2,200M
+#     KY2334 rNPV:               +$500M
+#     KY3999 rNPV:               +$400M
+#     Platform:                  +$400M
+#     Unmodeled:                 +$150M
+#     Dilution reserve:          -$270M  (~15% dilution × $24 × 75M)
+#     ────────────────────────────────
+#     SOTP total:              ~$3,980M
+#   Market cap:               $1,800M
+#   SOTP discount:             +121% (model ~2.2x market)
+#   Assessment: Market at 45% of SOTP reflects pre-Ph2b readout binary risk
+#   and competitive AD landscape. KY1005 Ph2b data (Q3 2026) is the catalyst
+#   that closes this gap.
+
+reviewer_state: "draft"
+
+notes: >
+  KYMR is a targeted protein degradation platform company with KY1005 as the
+  lead asset. The Sanofi partnership de-risks Ph3 financing. Key question:
+  is the OX40L mechanism sufficiently differentiated from IL-4/13 blockade
+  (Dupixent) to carve out meaningful market share in AD?

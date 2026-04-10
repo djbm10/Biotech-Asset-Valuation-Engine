@@ -1,0 +1,226 @@
+# Underwriting Pack — Moderna Inc. (MRNA)
+# Q2 2026 | As of: 2026-04-09
+# Analyst: djm
+# Status: DRAFT — pending second reviewer
+
+company_id: "mrna"
+company_name: "Moderna Inc."
+ticker: "MRNA"
+as_of_date: "2026-04-09"
+pack_quarter: "2026Q2"
+
+# ─────────────────────────────────────────────────────────────────────
+# Market data  (point-in-time)
+# ─────────────────────────────────────────────────────────────────────
+market:
+  market_cap_millions: 15000.0     # ~$15.0B at $39/share × ~383M shares
+  enterprise_value_millions: 9000.0  # market cap minus net cash (~$6B)
+  share_price: 39.0
+  source_ref: "yfinance:2026-04-09"
+
+# ─────────────────────────────────────────────────────────────────────
+# Balance sheet  (10-K Dec 2025)
+# ─────────────────────────────────────────────────────────────────────
+balance_sheet:
+  cash_millions: 7500.0    # cash + investments; ample runway
+  debt_millions: 1500.0
+  source_ref: "10-K:2025-12-31:balance_sheet"
+
+# ─────────────────────────────────────────────────────────────────────
+# Modeled assets
+# ─────────────────────────────────────────────────────────────────────
+modeled_assets:
+  - bucket_id: "mrna_mrna1345"
+    label: "mResvia (mRNA-1345) — RSV vaccine (adults 60+, approved 2024)"
+    value_millions: 2800.0
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/mrna_mrna1345.yaml:2026-04-09"
+    as_of_date: "2026-04-09"
+    confidence: 0.80
+    corroboration_count: 2
+    corroboration_refs:
+      - "FDA approval May 2024 for adults 60+"
+      - "MRNA 2025: mResvia revenue ~$600M, second RSV vaccine season"
+    notes: >
+      Approved mRNA RSV vaccine. Competitive with GSK Arexvy and Pfizer Abrysvo.
+      RSV vaccine market ~$5B/yr. MRNA holds ~25% share. mResvia may gain share
+      in RSV+flu combo. Peak sales est $1.5B. rNPV: 10y market exclusivity,
+      discount 10%.
+
+  - bucket_id: "mrna_covid"
+    label: "COVID-19 mRNA vaccine franchise (Spikevax + next-gen mRNA-1283)"
+    value_millions: 1800.0
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/mrna_covid.yaml:2026-04-09"
+    as_of_date: "2026-04-09"
+    confidence: 0.65
+    corroboration_count: 1
+    corroboration_refs:
+      - "MRNA 2025 guidance: COVID revenue $3.0-3.5B, declining from $18B peak"
+    notes: >
+      COVID vaccine revenue declining from pandemic peak (~$18B 2022) toward
+      endemic steady-state. 2025E ~$3B. mRNA-1283 next-gen: improved
+      immunogenicity, annual update. Endemic market ~$2-4B/yr combined for
+      Pfizer/MRNA. rNPV on 8-year tail of declining-to-stable COVID revenue.
+
+  - bucket_id: "mrna_mrna4157"
+    label: "mRNA-4157/V940 — Personalized cancer vaccine (melanoma, Merck partnership)"
+    value_millions: 2500.0
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/mrna_mrna4157.yaml:2026-04-09"
+    as_of_date: "2026-04-09"
+    confidence: 0.62
+    corroboration_count: 2
+    corroboration_refs:
+      - "KEYNOTE-942 Ph2b: RFS benefit in resected melanoma + pembrolizumab (HR 0.56)"
+      - "Merck collaboration: $250M upfront + equity; co-developing across multiple cancers"
+    notes: >
+      Personalized neoantigen mRNA vaccine. Ph2b KEYNOTE-942 showed significant
+      RFS improvement in resected melanoma with pembro. Ph3 ongoing (KEYNOTE-V940).
+      Also in NSCLC, colorectal, other solid tumors. Merck partnership:
+      co-development costs shared; MRNA receives royalties ~50% on net profits.
+      rNPV on profit share, POS 55%, peak $2B MRNA economics.
+
+# ─────────────────────────────────────────────────────────────────────
+# Platform value
+# ─────────────────────────────────────────────────────────────────────
+platform_value:
+  bucket_id: "mrna_platform"
+  label: "mRNA platform — flu+RSV combo, CMV, HIV, rare diseases"
+  value_millions: 2000.0
+  methodology: "analyst_estimate"
+  source_type: "analyst_bridge"
+  source_ref: "top25_pack_2026q2:MRNA:platform"
+  as_of_date: "2026-04-09"
+  confidence: 0.60
+  corroboration_count: 0
+  corroboration_refs: []
+  notes: >
+    mRNA-1345 (RSV) and mRNA-4157 validate platform beyond COVID. Flu+RSV combo
+    (mRNA-1083) Ph3 data expected 2026. CMV vaccine (mRNA-1647) Ph3 ongoing.
+    Latent HIV (mRNA-1644) Ph2. Wide optionality but needs readouts.
+
+# ─────────────────────────────────────────────────────────────────────
+# Unmodeled pipeline
+# ─────────────────────────────────────────────────────────────────────
+unmodeled_pipeline:
+  bucket_id: "mrna_unmodeled"
+  label: "Early mRNA pipeline (rare disease, autoimmune, cardiovascular)"
+  value_millions: 600.0
+  methodology: "rule_of_thumb"
+  source_type: "analyst_bridge"
+  source_ref: "top25_pack_2026q2:MRNA:unmodeled"
+  as_of_date: "2026-04-09"
+  confidence: 0.45
+  corroboration_count: 0
+  corroboration_refs: []
+  notes: >
+    PA (mRNA-3705, Ph1/2 rare metabolic), MMA, other rare diseases using mRNA
+    enzyme replacement. Cardiovascular mRNA (heart failure, regeneration).
+    Speculative at current stage.
+
+# ─────────────────────────────────────────────────────────────────────
+# Royalty streams  (none — all partnerships captured in modeled assets)
+# ─────────────────────────────────────────────────────────────────────
+royalty_streams: []
+
+# ─────────────────────────────────────────────────────────────────────
+# Dilution bridge  (10-K Dec 2025)
+# ─────────────────────────────────────────────────────────────────────
+dilution:
+  current_shares_millions: 383.0
+  expected_dilution_pct: 0.03      # 3% — buyback partially offsetting dilution
+  financing_runway_quarters: null  # well-funded; no raise anticipated
+  atm_active: false
+  atm_remaining_millions: null
+  shelf_registration_millions: null
+  warrant_shares_millions: 0.0
+  convertible_shares_millions: 0.0
+  source_ref: "10-K:2025-12-31:capitalization"
+  as_of_date: "2025-12-31"
+  notes: >
+    Well-funded at $7.5B cash. Buyback program partially offsetting dilution.
+    No equity raise needed.
+
+# ─────────────────────────────────────────────────────────────────────
+# Catalysts
+# ─────────────────────────────────────────────────────────────────────
+catalysts:
+  - description: "mRNA-1083 (flu+RSV combo) Ph3 data — immunogenicity + efficacy"
+    expected_date: "2026-Q3"
+    catalyst_type: "readout"
+    probability_positive: 0.68
+    source_ref: "clinicaltrials.gov:NCT05827978"
+    notes: >
+      Combo mRNA flu+RSV vaccine. Non-inferiority vs monovalent vaccines. Positive
+      = largest mRNA vaccine opportunity post-COVID.
+
+  - description: "KEYNOTE-V940 Ph3 interim — mRNA-4157 melanoma (RFS)"
+    expected_date: "2027-Q1"
+    catalyst_type: "readout"
+    probability_positive: 0.55
+    source_ref: "clinicaltrials.gov:NCT05933577"
+    notes: "Ph3 confirmatory in resected melanoma. Primary RFS. Readout likely H1 2027."
+
+  - description: "CMV vaccine (mRNA-1647) Ph3 final data"
+    expected_date: "2026-Q4"
+    catalyst_type: "readout"
+    probability_positive: 0.60
+    source_ref: "clinicaltrials.gov:NCT05085366"
+    notes: >
+      CMV vaccine market ~$2B/yr. No approved CMV vaccine exists. If positive,
+      major new revenue stream.
+
+# ─────────────────────────────────────────────────────────────────────
+# Management flags  (none flagged at this review)
+# ─────────────────────────────────────────────────────────────────────
+management_flags: []
+
+# ─────────────────────────────────────────────────────────────────────
+# Confidence metadata
+# ─────────────────────────────────────────────────────────────────────
+confidence:
+  overall_confidence: 0.70
+  notes: >
+    Post-COVID revenue cliff navigated; RSV approved; cancer vaccine Ph2b
+    positive. mResvia commercial execution is confirmed. Main risk: COVID revenue
+    declines faster than pipeline matures. Cash $7.5B provides long runway.
+    Medium confidence on pipeline timing.
+
+# ─────────────────────────────────────────────────────────────────────
+# Provenance
+# ─────────────────────────────────────────────────────────────────────
+provenance:
+  pack_version: 1
+  pack_quarter: "2026Q2"
+  created_by: "djm"
+  change_summary: "Initial Q2 2026 pack. Post-COVID transition; RSV + cancer vaccine pipeline advancing."
+
+# SOTP check (manual reconciliation — why does model differ from market?):
+#
+#   Market cap:                 $15,000M
+#   SOTP equity value:
+#     Net cash:                  +$6,000M  (7,500 - 1,500)
+#     mResvia RSV rNPV:          +$2,800M
+#     COVID franchise rNPV:      +$1,800M
+#     mRNA-4157 rNPV:            +$2,500M
+#     Platform:                  +$2,000M
+#     Unmodeled:                   +$600M
+#     Dilution reserve:            -$449M  (~3% × $39 × 383M)
+#     ────────────────────────────────────
+#     SOTP total:               ~$15,251M
+#   SOTP discount:              ~+2% (model roughly at market — fair valued)
+#   Assessment: At current prices market is pricing roughly the base case.
+#   Upside from flu+RSV combo and CMV readouts not in consensus. Downside
+#   risk: COVID revenue cliff steeper than modeled.
+
+reviewer_state: "draft"
+
+notes: >
+  MRNA is a post-pandemic turnaround story. The mResvia approval de-risks the
+  platform. mRNA-4157 cancer vaccine with Merck is the longest-term option.
+  Key question: does the pipeline mature before COVID cash reserves are fully
+  consumed?

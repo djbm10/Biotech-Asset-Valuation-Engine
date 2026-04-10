@@ -1,0 +1,230 @@
+# Underwriting Pack — Arvinas Inc. (ARVN)
+# Q2 2026 | As of: 2026-04-09
+# Analyst: djm
+# Status: DRAFT — pending second reviewer
+
+company_id: "arvn"
+company_name: "Arvinas Inc."
+ticker: "ARVN"
+as_of_date: "2026-04-09"
+pack_quarter: "2026Q2"
+
+# ─────────────────────────────────────────────────────────────────────
+# Market data  (point-in-time)
+# ─────────────────────────────────────────────────────────────────────
+market:
+  market_cap_millions: 2200.0      # ~$2.2B at $22/share × ~100M shares
+  enterprise_value_millions: 1600.0 # market cap minus net cash (~$600M)
+  share_price: 22.0
+  source_ref: "yfinance:2026-04-09"
+
+# ─────────────────────────────────────────────────────────────────────
+# Balance sheet  (10-Q Dec 2025; filed Feb 2026)
+# ─────────────────────────────────────────────────────────────────────
+balance_sheet:
+  cash_millions: 700.0    # cash + short-term investments
+  debt_millions: 100.0    # convertible notes / long-term debt
+  source_ref: "10-Q:2025-12-31:balance_sheet"
+
+# ─────────────────────────────────────────────────────────────────────
+# Modeled assets
+# ─────────────────────────────────────────────────────────────────────
+modeled_assets:
+  - bucket_id: "arvn_arv471"
+    label: "ARV-471 (vepdegestrant) — ER+ breast cancer (PROTAC, Ph3 VERITAC-2, Pfizer partner)"
+    value_millions: 2400.0
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/arvn_arv471.yaml:2026-04-09"
+    as_of_date: "2026-04-09"
+    confidence: 0.68
+    corroboration_count: 2
+    corroboration_refs:
+      - "Pfizer partnership 2021: $650M upfront + $1.4B milestones"
+      - "VERITAC-2 Ph3 enrollment complete; readout 2026-Q2"
+    notes: >
+      ARV-471 (vepdegestrant) is an ER PROTAC degrader. Partnered with Pfizer: ARVN
+      receives tiered royalties ~20% + milestones. Ph3 VERITAC-2 in ER+/HER2- mBC 2L+
+      vs fulvestrant. ER degradation is a validated mechanism (fulvestrant, elacestrant).
+      POS 65% given Ph2 data (CBR 60%). ARVN receives royalties on net sales; rNPV on
+      royalty stream + remaining milestones. Peak: $3B global sales, ARVN royalty rNPV.
+      Key review question: Is $2.4B rNPV appropriate given ARVN receives royalties not
+      direct sales? Pfizer retains majority economics but ARVN royalty stream on $3B peak
+      sales at 20% = $600M/yr peak royalty — rNPV justifies the estimate.
+
+  - bucket_id: "arvn_arv766"
+    label: "ARV-766 (bavdegalutamide) — mCRPC (AR PROTAC, Ph2)"
+    value_millions: 800.0
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/arvn_arv766.yaml:2026-04-09"
+    as_of_date: "2026-04-09"
+    confidence: 0.55
+    corroboration_count: 1
+    corroboration_refs:
+      - "ARV-766 Ph2 data 2024: PSA50 response in enzalutamide-pretreated mCRPC"
+    notes: >
+      AR PROTAC for mCRPC. Differentiation: degrades full-length AR + AR splice variants
+      (including AR-V7 which drives enzalutamide/abiraterone resistance). Ph2 data shows
+      activity in treatment-resistant population. Unpartnered (ARVN retains full rights).
+      Ph3 design pending partner/financing. rNPV: POS 50% to approval, peak $1.2B,
+      unpartnered economics.
+
+  - bucket_id: "arvn_arv102"
+    label: "ARV-102 (LRRK2 PROTAC) — Parkinson's disease (Ph1)"
+    value_millions: 300.0
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/arvn_arv102.yaml:2026-04-09"
+    as_of_date: "2026-04-09"
+    confidence: 0.38
+    corroboration_count: 0
+    corroboration_refs: []
+    notes: >
+      LRRK2 PROTAC for PD. Phase 1. LRRK2 inhibitors validated (Denali, Biogen) but no
+      PROTAC has reached this indication. Large unmet need. Early stage; option value only.
+
+# ─────────────────────────────────────────────────────────────────────
+# Platform value
+# ─────────────────────────────────────────────────────────────────────
+platform_value:
+  bucket_id: "arvn_platform"
+  label: "PROTAC protein degradation platform — next-gen degraders"
+  value_millions: 600.0
+  methodology: "analyst_estimate"
+  source_type: "analyst_bridge"
+  source_ref: "top25_pack_2026q2:ARVN:platform"
+  as_of_date: "2026-04-09"
+  confidence: 0.60
+  corroboration_count: 0
+  corroboration_refs: []
+  notes: >
+    Proprietary PROTAC linker chemistry and E3 ligase recruitment. ARV-471 validates ER
+    degradation. Pipeline: BCL6, BRD9, other oncology targets. Platform value supported
+    by Pfizer partnership validation.
+
+# ─────────────────────────────────────────────────────────────────────
+# Unmodeled pipeline
+# ─────────────────────────────────────────────────────────────────────
+unmodeled_pipeline:
+  bucket_id: "arvn_unmodeled"
+  label: "Early PROTAC pipeline (BCL6, SMARCA2/4, immunology)"
+  value_millions: 150.0
+  methodology: "rule_of_thumb"
+  source_type: "analyst_bridge"
+  source_ref: "top25_pack_2026q2:ARVN:unmodeled"
+  as_of_date: "2026-04-09"
+  confidence: 0.38
+  corroboration_count: 0
+  corroboration_refs: []
+  notes: >
+    Multiple pre-IND PROTAC programs. Conservative — platform productivity not yet
+    demonstrated beyond ER/AR.
+
+# ─────────────────────────────────────────────────────────────────────
+# Royalty streams  (none modeled separately — Pfizer royalty economics
+# are captured within the arvn_arv471 modeled asset bucket)
+# ─────────────────────────────────────────────────────────────────────
+royalty_streams: []
+
+# ─────────────────────────────────────────────────────────────────────
+# Dilution bridge  (10-Q Dec 2025)
+# ─────────────────────────────────────────────────────────────────────
+dilution:
+  current_shares_millions: 100.0
+  expected_dilution_pct: 0.15       # ~15% expected raise given ~6Q runway
+  financing_runway_quarters: 6.0    # ~18 months at ~$350M/yr burn
+  atm_active: false
+  atm_remaining_millions: null
+  shelf_registration_millions: 600.0
+  warrant_shares_millions: 0.0
+  convertible_shares_millions: 0.0
+  source_ref: "10-Q:2025-12-31:capitalization"
+  as_of_date: "2025-12-31"
+  notes: >
+    Pre-revenue. ~$700M cash, burn ~$350M/yr. ~6 quarters runway. Raise expected
+    pre-VERITAC-2 readout or post if negative. Pfizer milestone receipts provide
+    non-dilutive buffer. No ATM active; $600M shelf available.
+
+# ─────────────────────────────────────────────────────────────────────
+# Catalysts
+# ─────────────────────────────────────────────────────────────────────
+catalysts:
+  - description: "VERITAC-2 Ph3 readout — ARV-471 ER+ breast cancer (PFS vs fulvestrant)"
+    expected_date: "2026-Q2"
+    catalyst_type: "readout"
+    probability_positive: 0.62
+    source_ref: "clinicaltrials.gov:NCT04072952"
+    notes: >
+      Primary PFS in 2L+ ER+/HER2- mBC. Positive = NDA filing + major Pfizer milestone
+      receipts. Binary event.
+
+  - description: "ARV-766 Ph2 full data — mCRPC (PSA50, rPFS)"
+    expected_date: "2026-Q2"
+    catalyst_type: "readout"
+    probability_positive: 0.60
+    source_ref: "ASCO 2026"
+    notes: >
+      Full cohort data. AR-V7+ subgroup is the differentiation thesis. Strong data =
+      Ph3 greenlight.
+
+  - description: "ARV-102 Ph1 safety/PK readout — LRRK2 PROTAC Parkinson's"
+    expected_date: "2026-H2"
+    catalyst_type: "readout"
+    probability_positive: 0.65
+    source_ref: "ARVN pipeline 2026"
+    notes: >
+      First PROTAC in CNS. Clean safety = platform proof point for non-oncology PROTAC.
+
+# ─────────────────────────────────────────────────────────────────────
+# Management flags  (none flagged at this review)
+# ─────────────────────────────────────────────────────────────────────
+management_flags: []
+
+# ─────────────────────────────────────────────────────────────────────
+# Confidence metadata
+# ─────────────────────────────────────────────────────────────────────
+confidence:
+  overall_confidence: 0.65
+  notes: >
+    VERITAC-2 readout is the Q2 2026 binary event. Ph3 POS 62% is generous — ER
+    degraders face fulvestrant + elacestrant competition. ARV-766 unpartnered program
+    needs Ph3 financing. Cash runway tight. Confidence medium given dual near-term
+    catalysts.
+
+# ─────────────────────────────────────────────────────────────────────
+# Provenance
+# ─────────────────────────────────────────────────────────────────────
+provenance:
+  pack_version: 1
+  pack_quarter: "2026Q2"
+  created_by: "djm"
+  change_summary: "Initial Q2 2026 pack."
+
+# SOTP check (manual reconciliation — why does model differ from market?):
+#
+#   Market cap:                $2,200M
+#   SOTP equity value:
+#     Net cash:                  +$600M  (700 - 100)
+#     ARV-471 rNPV:             +$2,400M
+#     ARV-766 rNPV:               +$800M
+#     ARV-102 rNPV:               +$300M
+#     Platform:                   +$600M
+#     Unmodeled:                  +$150M
+#     Dilution reserve:           -$330M  (~15% dilution × $22 × 100M)
+#     ────────────────────────────────
+#     SOTP total:               ~$4,520M
+#   Market cap:                $2,200M
+#   Discount:                   +106% (model ~2x market)
+#   Assessment: Market at ~49% of SOTP reflects concentrated VERITAC-2 binary
+#   risk. If readout positive, re-rate to $4B+. Negative = draw down to net
+#   cash (~$700M). Binary event dominates.
+
+reviewer_state: "draft"
+
+notes: >
+  ARVN is primarily a VERITAC-2 binary bet with ARV-766 as secondary catalyst.
+  Key review question: Is $2.4B ARV-471 rNPV appropriate given ARVN receives
+  royalties not direct sales? Pfizer retains majority economics but ARVN royalty
+  stream on $3B peak sales at 20% = $600M/yr peak royalty — rNPV justifies the
+  estimate.
