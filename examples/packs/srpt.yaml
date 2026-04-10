@@ -1,0 +1,239 @@
+# Underwriting Pack — Sarepta Therapeutics (SRPT)
+# Q2 2026 | As of: 2026-04-09
+# Analyst: djm
+# Status: DRAFT — pending second reviewer
+
+company_id: "srpt"
+company_name: "Sarepta Therapeutics Inc."
+ticker: "SRPT"
+as_of_date: "2026-04-09"
+pack_quarter: "2026Q2"
+
+# ─────────────────────────────────────────────────────────────────────
+# Market data  (yfinance 2026-04-09)
+# ─────────────────────────────────────────────────────────────────────
+market:
+  market_cap_millions: 9500.0      # ~$9.5B at ~$100/share × ~95.2M shares
+  enterprise_value_millions: 9800.0 # market cap plus net debt (~$300M net debt)
+  share_price: 100.0
+  source_ref: "yfinance:2026-04-09"
+
+# ─────────────────────────────────────────────────────────────────────
+# Balance sheet  (10-K Dec 2025; filed Feb 2026)
+# ─────────────────────────────────────────────────────────────────────
+balance_sheet:
+  cash_millions: 1800.0    # cash + short-term investments
+  debt_millions: 2100.0    # includes Royalty Pharma royalty financing (~$1.16B) + convertible notes
+  source_ref: "10-K:2025-12-31:balance_sheet"
+
+# ─────────────────────────────────────────────────────────────────────
+# Modeled assets
+# ─────────────────────────────────────────────────────────────────────
+modeled_assets:
+  - bucket_id: "srpt_elevidys"
+    label: "Elevidys (delandistrogene moxeparvovec) — Duchenne MD (gene therapy)"
+    value_millions: 8500.0
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/srpt_elevidys.yaml:2026-04-09"
+    as_of_date: "2026-04-09"
+    confidence: 0.78
+    corroboration_count: 2
+    corroboration_refs:
+      - "FDA full approval June 2024"
+      - "Royalty Pharma $1.16B royalty financing implies ~$6B+ NPV floor"
+    notes: >
+      First gene therapy for Duchenne MD. Accelerated approval June 2023 based on
+      dystrophin expression; full approval June 2024 for ambulatory DMD patients 4+.
+      Confirmed benefit demonstrated in EMBARK trial. Label: ambulatory DMD patients
+      4-7 (full approval) + accelerated for broader ambulatory population. ~$3.2M list
+      price (one-time administration). Royalty Pharma deal ~$1.16B for royalties.
+      Peak revenue $2-3B/yr as label expands. rNPV: 12y gene therapy exclusivity,
+      discount 11% (higher given one-shot commercial model uncertainty), 80%
+      P(label expansion to non-ambulatory).
+
+  - bucket_id: "srpt_exon_skipping"
+    label: "Exon-skipping franchise (casimersen, golodirsen, eteplirsen) — DMD"
+    value_millions: 1800.0
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/srpt_exon_skipping.yaml:2026-04-09"
+    as_of_date: "2026-04-09"
+    confidence: 0.82
+    corroboration_count: 1
+    corroboration_refs:
+      - "SRPT 2025 earnings: exon-skipping revenue $870M"
+    notes: >
+      Three approved exon-skipping therapies targeting exons 45, 53, and 51.
+      Ongoing royalty and product revenue. Combined revenue ~$800-900M/yr.
+      Maturing franchise; slower growth as Elevidys ramps. Exon skipping covers
+      ~30% of DMD patients (exon 45/51/53 amenable). Patent life varies 2030-2035.
+      rNPV on residual cash flow through 2030 with moderate decline curve.
+
+  - bucket_id: "srpt_slrp001"
+    label: "SRP-9001 broader DMD label expansion (non-ambulatory)"
+    value_millions: 1200.0
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/srpt_slrp001.yaml:2026-04-09"
+    as_of_date: "2026-04-09"
+    confidence: 0.60
+    corroboration_count: 0
+    corroboration_refs: []
+    notes: >
+      Ph3 ENVISION trial in non-ambulatory DMD patients; readout expected 2026.
+      Full label expansion to non-ambulatory represents ~3x patient population
+      vs current approved label. ENVISION readout 2026 is the key de-risking
+      event. Meaningful incremental rNPV on Elevidys franchise if label expands.
+
+# ─────────────────────────────────────────────────────────────────────
+# Platform value
+# ─────────────────────────────────────────────────────────────────────
+platform_value:
+  bucket_id: "srpt_platform"
+  label: "RNA + gene therapy platform — Limb Girdle MD, other NMD"
+  value_millions: 600.0
+  methodology: "analyst_estimate"
+  source_type: "analyst_bridge"
+  source_ref: "top25_pack_2026q2:SRPT:platform"
+  as_of_date: "2026-04-09"
+  confidence: 0.55
+  corroboration_count: 0
+  corroboration_refs: []
+  notes: >
+    Limb Girdle MD programs (SRP-9003 for LGMD2E, Ph1/2). Next-gen mini-dystrophin
+    constructs. RNA platform for other neuromuscular diseases. Conservative estimate —
+    near-term focus on DMD commercial execution. Material de-risking required before
+    raising this bucket.
+
+# ─────────────────────────────────────────────────────────────────────
+# Unmodeled pipeline
+# ─────────────────────────────────────────────────────────────────────
+unmodeled_pipeline:
+  bucket_id: "srpt_unmodeled"
+  label: "Next-gen gene therapy + Duchenne combinations"
+  value_millions: 300.0
+  methodology: "rule_of_thumb"
+  source_type: "analyst_bridge"
+  source_ref: "top25_pack_2026q2:SRPT:unmodeled"
+  as_of_date: "2026-04-09"
+  confidence: 0.45
+  corroboration_count: 0
+  corroboration_refs: []
+  notes: "Minimal value assigned. Next-gen programs are early stage; need clinical proof of concept before meaningful valuation."
+
+# ─────────────────────────────────────────────────────────────────────
+# Royalty streams
+# Royalty obligations to Royalty Pharma are captured in debt_millions above.
+# Elevidys economics (net of royalty obligations) already reflected in modeled asset.
+# ─────────────────────────────────────────────────────────────────────
+royalty_streams: []
+
+# ─────────────────────────────────────────────────────────────────────
+# Dilution bridge  (10-K Dec 2025)
+# ─────────────────────────────────────────────────────────────────────
+dilution:
+  current_shares_millions: 95.2
+  expected_dilution_pct: 0.05       # modest — some ATM possible; debt is main financing mechanism
+  financing_runway_quarters: 6.0    # ~18 months at current net burn
+  atm_active: false
+  atm_remaining_millions: null
+  shelf_registration_millions: 1000.0
+  warrant_shares_millions: 0.0
+  convertible_shares_millions: 4.5
+  source_ref: "10-K:2025-12-31:capitalization"
+  as_of_date: "2025-12-31"
+  notes: >
+    Heavy royalty financing debt ($2.1B including Royalty Pharma deal). Convertible
+    notes ~$450M (reflected in convertible_shares_millions). Shelf registration
+    of $1B available but ATM not currently active. Commercial execution on Elevidys
+    is critical to reduce financing risk and service debt obligations.
+
+# ─────────────────────────────────────────────────────────────────────
+# Catalysts
+# ─────────────────────────────────────────────────────────────────────
+catalysts:
+  - description: "ENVISION Ph3 readout — Elevidys non-ambulatory DMD label expansion"
+    expected_date: "2026-Q2"
+    catalyst_type: "readout"
+    probability_positive: 0.55
+    source_ref: "clinicaltrials.gov:NCT05128578"
+    notes: "Primary endpoint: change in NSAA score. Positive result expands label to non-ambulatory patients, representing ~3x current patient population."
+
+  - description: "Elevidys Q1/Q2 2026 commercial revenue update"
+    expected_date: "2026-Q1"
+    catalyst_type: "milestone"
+    probability_positive: 0.70
+    source_ref: "SRPT Q1 2026 earnings"
+    notes: "Consensus ~$1.2B 2026E Elevidys revenue. Payer access and manufacturing ramp are the key execution metrics to watch."
+
+  - description: "SRP-9003 LGMD2E Ph2/3 readout"
+    expected_date: "2026-H2"
+    catalyst_type: "readout"
+    probability_positive: 0.50
+    source_ref: "clinicaltrials.gov:NCT04174105"
+    notes: "First gene therapy for non-DMD muscular dystrophy. Proof of platform breadth beyond Duchenne."
+
+# ─────────────────────────────────────────────────────────────────────
+# Management flags  (none flagged at this review)
+# ─────────────────────────────────────────────────────────────────────
+management_flags: []
+
+# ─────────────────────────────────────────────────────────────────────
+# Confidence metadata
+# ─────────────────────────────────────────────────────────────────────
+confidence:
+  overall_confidence: 0.74
+  notes: >
+    Elevidys commercial execution is the key unknown — payer access at $3.2M
+    one-time price and manufacturing ramp remain unproven at scale. Exon-skipping
+    franchise is stable and well-understood with validated revenue. Debt load
+    (~$2.1B including royalty financing) is a material risk factor that reduces
+    equity upside and creates execution pressure. ENVISION binary risk adds
+    variance to the 12-month outlook.
+
+# ─────────────────────────────────────────────────────────────────────
+# Provenance
+# ─────────────────────────────────────────────────────────────────────
+provenance:
+  pack_version: 1
+  pack_quarter: "2026Q2"
+  created_by: "djm"
+  change_summary: "Initial Q2 2026 pack. Elevidys at full approval + ENVISION binary pending."
+
+# SOTP check (manual reconciliation — why does model differ from market?):
+#
+#   Market cap:                    $9,500M
+#   SOTP equity value:
+#     Net cash (1800 - 2100):        -$300M  (net debt position)
+#     Elevidys rNPV:               +$8,500M
+#     Exon-skipping rNPV:          +$1,800M
+#     ENVISION expansion rNPV:     +$1,200M
+#     Platform:                      +$600M
+#     Unmodeled pipeline:            +$300M
+#     Dilution reserve:              -$476M  (≈5% dilution × $100 × 95.2M)
+#     ────────────────────────────────────
+#     SOTP total:                 ~$11,624M
+#
+#   SOTP discount:                ~+18% (model ~22% above market)
+#
+#   Assessment: Market is not fully pricing the Elevidys rNPV, likely due to:
+#   (1) Uncertainty around payer access at $3.2M one-time price — commercial
+#       adoption curve is unproven and coverage decisions are still evolving.
+#   (2) Royalty debt reduces equity upside — $2.1B in financing obligations
+#       creates a structural overhang even if Elevidys ramps as modeled.
+#   (3) ENVISION binary risk — non-ambulatory label expansion (modeled at
+#       $1.2B rNPV) is priced only partially given 55% P(positive).
+#   Discount is moderate and defensible given the execution stage. A successful
+#   ENVISION readout + 2026 Elevidys revenue beat would be the primary re-rating
+#   catalysts. Thesis: market is applying an appropriate execution discount that
+#   narrows as commercial proof points accumulate.
+
+reviewer_state: "draft"
+
+notes: >
+  SRPT is the DMD franchise leader with the only approved gene therapy (Elevidys)
+  and three approved exon-skipping products. Key debate: can Elevidys achieve peak
+  penetration at $3.2M given payer budget sensitivity? The royalty financing
+  structure with Royalty Pharma limits equity upside but provides non-dilutive
+  capital. ENVISION readout is the highest-impact near-term catalyst.
