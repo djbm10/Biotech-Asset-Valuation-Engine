@@ -11,9 +11,9 @@ Tests cover:
 from __future__ import annotations
 
 import sqlite3
-from datetime import date, datetime, timezone
+from datetime import date
 from pathlib import Path
-from unittest.mock import MagicMock, patch
+from unittest.mock import MagicMock
 
 import pytest
 
@@ -102,6 +102,7 @@ class TestScreenSnapshotSchema:
             for row in store._conn.execute("PRAGMA table_info(screen_snapshots)")
         }
         assert "thesis_strength" in cols
+        assert "asset_id" in cols
         store.close()
 
     def test_migration_on_existing_db_without_column(self, tmp_path):
@@ -129,6 +130,7 @@ class TestScreenSnapshotSchema:
             for row in store._conn.execute("PRAGMA table_info(screen_snapshots)")
         }
         assert "thesis_strength" in cols
+        assert "asset_id" in cols
         store.close()
 
 
@@ -211,7 +213,7 @@ class TestClaimResolveList:
 
     def test_list_shows_open_claim(self, tmp_path, capsys):
         store = _make_store(tmp_path)
-        claim = _make_claim(store)
+        _make_claim(store)
         store.close()
         from bve.cli.claim_resolve import cmd_list
         args = MagicMock()

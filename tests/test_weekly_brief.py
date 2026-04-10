@@ -15,6 +15,7 @@ from __future__ import annotations
 import json
 import uuid
 from datetime import date, datetime, timezone
+from types import SimpleNamespace
 
 import pytest
 
@@ -507,6 +508,57 @@ class TestWeeklyBriefGeneratorTopOpportunities:
         brief = gen.generate(store)
         asset_ids = [opp["asset_id"] for opp in brief.top_opportunities]
         assert asset_ids.count("asset-dup") == 1
+
+    def test_top_opportunities_prefer_company_sotp_snapshots(
+        self, store: KnowledgeStore, gen: WeeklyBriefGenerator
+    ) -> None:
+        snapshot_date = date.today()
+        store.write_company_sotp_snapshots(
+            [
+                SimpleNamespace(
+                    ticker="AAA",
+                    company_id="co-aaa",
+                    company_name="AAA Bio",
+                    snapshot_date=snapshot_date,
+                    rank=1,
+                    market_cap_millions=600.0,
+                    enterprise_value_millions=500.0,
+                    sotp_equity_value_millions=900.0,
+                    sotp_per_share=9.0,
+                    sotp_discount=1.5,
+                    ranked_sotp_discount=1.6,
+                    modeled_asset_coverage_pct=0.85,
+                    asset_count_modeled=1,
+                    modeled_asset_ids=["asset-aaa"],
+                    config_quality_summary="curated",
+                    modeled_asset_confidence_min=0.9,
+                    modeled_asset_confidence_avg=0.9,
+                    action_policy="buy",
+                    action_reason="ranked_discount_above_buy_threshold:1.60x",
+                    market_cap_source="unit_test",
+                    balance_sheet_source="sec_edgar_company_facts",
+                    balance_sheet_source_ref="unit-test",
+                    balance_sheet_snapshot_date=snapshot_date,
+                    balance_sheet_period_end_date=snapshot_date,
+                    balance_sheet_form_type="10-Q",
+                    balance_sheet_is_point_in_time=True,
+                    balance_sheet_age_days=7,
+                    balance_sheet_passes_recency_gate=True,
+                    balance_sheet_recency_penalty=1.0,
+                    buckets=[],
+                    limitations=[],
+                    notes=None,
+                )
+            ]
+        )
+        _insert_diff(store, run_id="run-opp-fallback", asset_id="asset-diff", delta_npv=90.0)
+
+        brief = gen.generate(store)
+
+        assert brief.top_opportunities_source_mode == "company_sotp_snapshot"
+        assert brief.top_opportunities_reference_date == snapshot_date
+        assert brief.top_opportunities[0]["ticker"] == "AAA"
+        assert brief.top_opportunities[0]["action_policy"] == "buy"
 
 
 # ---------------------------------------------------------------------------

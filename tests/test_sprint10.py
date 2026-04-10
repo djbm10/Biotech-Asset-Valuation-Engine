@@ -12,11 +12,14 @@ from __future__ import annotations
 
 from datetime import date
 from pathlib import Path
-from typing import Optional
+from typing import TYPE_CHECKING
 from unittest.mock import patch
 
 import pytest
 import yaml
+
+if TYPE_CHECKING:
+    from bve.analysis.implied_pos_batch import ScreenRow
 
 # ---------------------------------------------------------------------------
 # Fixtures
@@ -436,9 +439,13 @@ class TestImpliedPosBatch:
 
 class TestScreenSnapshots:
 
-    def _make_row(self, ticker: str = "VKTX", spread: float = 15.0) -> "ScreenRow":
+    def _make_row(
+        self,
+        ticker: str = "VKTX",
+        spread: float = 15.0,
+        asset_id: str = "",
+    ) -> "ScreenRow":
         from bve.analysis.implied_pos_batch import ScreenRow
-        from datetime import date
         return ScreenRow(
             ticker=ticker,
             program_label=f"{ticker} program",
@@ -456,11 +463,11 @@ class TestScreenSnapshots:
             single_asset=True,
             approximation_warning=None,
             data_date=date(2026, 3, 28),
+            asset_id=asset_id,
         )
 
     def test_write_and_read_back(self, tmp_path):
         from bve.intelligence.knowledge_layer import KnowledgeStore
-        from datetime import date
         store = KnowledgeStore(tmp_path / "test.db")
         rows = [self._make_row("VKTX", 15.0), self._make_row("KYMR", 8.5)]
         n = store.write_screen_snapshots(rows)
@@ -474,7 +481,6 @@ class TestScreenSnapshots:
 
     def test_upsert_replaces_same_ticker_date(self, tmp_path):
         from bve.intelligence.knowledge_layer import KnowledgeStore
-        from datetime import date
         store = KnowledgeStore(tmp_path / "test.db")
         row = self._make_row("VKTX", 15.0)
         store.write_screen_snapshots([row])
@@ -487,9 +493,45 @@ class TestScreenSnapshots:
         assert vktx[0]["spread_pp"] == 20.0
         store.close()
 
+    def test_write_supports_multiple_assets_same_ticker_same_date(self, tmp_path):
+        from bve.intelligence.knowledge_layer import KnowledgeStore
+
+        store = KnowledgeStore(tmp_path / "test.db")
+        rows = [
+            self._make_row("VKTX", 15.0, asset_id="a-vktx-lead"),
+            self._make_row("VKTX", 8.0, asset_id="a-vktx-follow"),
+        ]
+        store.write_screen_snapshots(rows)
+
+        result = store.get_screen_snapshots(ticker="VKTX")
+        assert len(result) == 2
+        assert {row["asset_id"] for row in result} == {"a-vktx-lead", "a-vktx-follow"}
+        store.close()
+
+    def test_get_screen_snapshot_for_asset_on_or_before(self, tmp_path):
+        from bve.intelligence.knowledge_layer import KnowledgeStore
+
+        store = KnowledgeStore(tmp_path / "test.db")
+        store.write_screen_snapshots(
+            [self._make_row("VKTX", 15.0, asset_id="a-vktx-lead")],
+            snapshot_date=date(2026, 3, 21),
+        )
+        store.write_screen_snapshots(
+            [self._make_row("VKTX", 9.0, asset_id="a-vktx-follow")],
+            snapshot_date=date(2026, 3, 28),
+        )
+
+        result = store.get_screen_snapshot_for_asset_on_or_before(
+            asset_id="a-vktx-lead",
+            as_of=date(2026, 3, 28),
+        )
+        assert result is not None
+        assert result["asset_id"] == "a-vktx-lead"
+        assert result["snapshot_date"] == "2026-03-21"
+        store.close()
+
     def test_filter_by_snapshot_date(self, tmp_path):
         from bve.intelligence.knowledge_layer import KnowledgeStore
-        from datetime import date
         store = KnowledgeStore(tmp_path / "test.db")
         row = self._make_row("VKTX", 15.0)
         store.write_screen_snapshots([row], snapshot_date=date(2026, 3, 28))
@@ -503,7 +545,6 @@ class TestScreenSnapshots:
 
     def test_get_screen_snapshots_default_returns_latest(self, tmp_path):
         from bve.intelligence.knowledge_layer import KnowledgeStore
-        from datetime import date
         store = KnowledgeStore(tmp_path / "test.db")
         r1 = self._make_row("VKTX", 15.0)
         r2 = self._make_row("KYMR", 8.0)
@@ -527,13 +568,24 @@ class TestScreenSnapshots:
 
     def test_list_snapshot_dates(self, tmp_path):
         from bve.intelligence.knowledge_layer import KnowledgeStore
-        from datetime import date
         store = KnowledgeStore(tmp_path / "test.db")
         store.write_screen_snapshots([self._make_row()], snapshot_date=date(2026, 3, 21))
         store.write_screen_snapshots([self._make_row()], snapshot_date=date(2026, 3, 28))
         dates = store.list_screen_snapshot_dates()
         assert dates[0] == date(2026, 3, 28)   # most recent first
         assert dates[1] == date(2026, 3, 21)
+        store.close()
+
+    def test_latest_snapshot_date_on_or_before(self, tmp_path):
+        from bve.intelligence.knowledge_layer import KnowledgeStore
+        store = KnowledgeStore(tmp_path / "test.db")
+        store.write_screen_snapshots([self._make_row()], snapshot_date=date(2026, 3, 21))
+        store.write_screen_snapshots([self._make_row("KYMR", 8.0)], snapshot_date=date(2026, 3, 28))
+        assert store.latest_screen_snapshot_date_on_or_before(date(2026, 3, 27)) == date(2026, 3, 21)
+        resolved, rows = store.get_screen_snapshots_on_or_before(date(2026, 3, 27))
+        assert resolved == date(2026, 3, 21)
+        assert len(rows) == 1
+        assert rows[0]["ticker"] == "VKTX"
         store.close()
 
     def test_empty_db_returns_empty_list(self, tmp_path):

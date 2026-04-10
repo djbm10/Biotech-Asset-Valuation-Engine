@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
+from types import SimpleNamespace
 
 from bve.intelligence.extraction.raw_document import EntityHints, RawDocument
 from bve.intelligence.knowledge_graph import EdgeType, KGEdge, KGNode, NodeType
@@ -112,6 +113,44 @@ def _seed_store(store: KnowledgeStore, *, asset_id: str, company_id: str) -> Non
         source_trace=_trace("dossier"),
     )
     store.add_dossier(dossier)
+    store.write_company_sotp_snapshots(
+        [
+            SimpleNamespace(
+                ticker="SEED",
+                company_id=company_id,
+                company_name="Seed Company",
+                snapshot_date=date(2026, 3, 10),
+                rank=1,
+                market_cap_millions=420.0,
+                enterprise_value_millions=350.0,
+                sotp_equity_value_millions=560.0,
+                sotp_per_share=5.6,
+                sotp_discount=1.333333,
+                ranked_sotp_discount=1.30,
+                modeled_asset_coverage_pct=0.84,
+                asset_count_modeled=1,
+                modeled_asset_ids=[asset_id],
+                config_quality_summary="curated",
+                modeled_asset_confidence_min=0.85,
+                modeled_asset_confidence_avg=0.90,
+                action_policy="watch",
+                action_reason="ranked_discount_above_watch_threshold:1.30x",
+                market_cap_source="unit_test",
+                balance_sheet_source="sec_edgar_company_facts",
+                balance_sheet_source_ref="unit-test",
+                balance_sheet_snapshot_date=date(2026, 2, 28),
+                balance_sheet_period_end_date=date(2025, 12, 31),
+                balance_sheet_form_type="10-K",
+                balance_sheet_is_point_in_time=True,
+                balance_sheet_age_days=11,
+                balance_sheet_passes_recency_gate=True,
+                balance_sheet_recency_penalty=1.0,
+                buckets=[],
+                limitations=[],
+                notes=None,
+            )
+        ]
+    )
 
 
 def test_research_report_assemble_then_render(tmp_path):
@@ -127,20 +166,23 @@ def test_research_report_assemble_then_render(tmp_path):
         )
         rendered = generator.render(context)
 
-        assert context.report_version == "v1.1"
-        assert context.model_version == "deterministic-research-report-1.1"
+        assert context.report_version == "v1.2"
+        assert context.model_version == "deterministic-research-report-1.2"
         assert set(context.input_snapshot.keys()) == {
             "captured_at",
             "valuation_parameters",
             "event_scores",
             "propagation_parameters",
+            "company_sotp_snapshot",
         }
+        assert context.company_sotp_snapshot is not None
         assert context.competitive_entries
         assert "## Executive Summary" in rendered
         assert "## Competitive Analysis" in rendered
         assert "Distance to Market" in rendered
         assert "Report Version:" in rendered
         assert "mechanism_similarity" in rendered
+        assert "Company SOTP Snapshot" in rendered
     finally:
         store.close()
 
@@ -160,7 +202,7 @@ def test_research_report_persistence_round_trip(tmp_path):
         rows = store.get_research_reports(asset_id="asset-r")
         assert len(rows) == 1
         assert rows[0]["report_id"] == report.report_id
-        assert rows[0]["report_version"] == "v1.1"
+        assert rows[0]["report_version"] == "v1.2"
         assert "input_snapshot" in rows[0]
 
         stored_row = store._conn.execute(
@@ -168,8 +210,8 @@ def test_research_report_persistence_round_trip(tmp_path):
             (report.report_id,),
         ).fetchone()
         assert stored_row is not None
-        assert stored_row["report_version"] == "v1.1"
-        assert stored_row["model_version"] == "deterministic-research-report-1.1"
+        assert stored_row["report_version"] == "v1.2"
+        assert stored_row["model_version"] == "deterministic-research-report-1.2"
 
         traced = store.get_record_with_trace("research_reports", report.report_id)
         assert traced.record_id == report.report_id
@@ -205,13 +247,13 @@ def test_research_report_cli_hook_persists(tmp_path, monkeypatch, capsys):
     main()
     captured = capsys.readouterr()
     assert '"asset_id": "asset-cli"' in captured.out
-    assert '"report_version": "v1.1"' in captured.out
+    assert '"report_version": "v1.2"' in captured.out
 
     verify_store = KnowledgeStore(db_path)
     try:
         reports = verify_store.get_research_reports(asset_id="asset-cli")
         assert len(reports) == 1
         assert reports[0]["asset_id"] == "asset-cli"
-        assert reports[0]["model_version"] == "deterministic-research-report-1.1"
+        assert reports[0]["model_version"] == "deterministic-research-report-1.2"
     finally:
         verify_store.close()

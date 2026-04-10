@@ -5,7 +5,9 @@ from pathlib import Path
 
 import yaml
 
+from bve.analysis.implied_pos_batch import ScreenRow
 from bve.cli.screen import _format_report, main as screen_main
+from bve.intelligence.knowledge_layer import KnowledgeStore
 from bve.intelligence.mispricing_screener import MispricingScreenResult, MispricingScreenRow
 
 
@@ -62,6 +64,9 @@ def _result() -> MispricingScreenResult:
                 catalyst_source="unit_test",
                 catalyst_signal_strength=1.20,
                 days_to_catalyst=11,
+                company_action_policy="buy",
+                company_action_reason="ranked_discount_above_buy_threshold:1.50x",
+                company_snapshot_date=date(2026, 3, 24),
                 data_notes=["missing_phase_update"],
                 explanation="asset-cli explanation",
             )
@@ -73,11 +78,14 @@ def test_format_report_surfaces_required_fields():
     output = _format_report(_result())
 
     assert "Unified mispricing screen date: 2026-03-24" in output
+    assert "Source mode: live_recomputed" in output
+    assert "Excluded company gate: 0" in output
     assert "asset-cli" in output
     assert "trial_readout" in output
     assert "phase_2" in output
     assert "rNPV=220.0" in output
     assert "EV=105.0" in output
+    assert "company_action=buy" in output
 
 
 def test_screen_cli_report_output(tmp_path: Path, monkeypatch, capsys):
@@ -112,6 +120,7 @@ def test_screen_cli_report_output(tmp_path: Path, monkeypatch, capsys):
     assert "Unified mispricing screen date: 2026-03-24" in out
     assert "asset-cli" in out
     assert "trial_readout" in out
+    assert "company_action=buy" in out
 
 
 def test_screen_cli_json_output(tmp_path: Path, monkeypatch, capsys):
@@ -145,3 +154,67 @@ def test_screen_cli_json_output(tmp_path: Path, monkeypatch, capsys):
     out = capsys.readouterr().out
     assert '"asset_id": "asset-cli"' in out
     assert '"unified_score": 0.812' in out
+
+
+def test_screen_cli_can_use_stored_screen_snapshots(tmp_path: Path, monkeypatch, capsys):
+    knowledge_path = tmp_path / "knowledge_snapshots.db"
+    store = KnowledgeStore(str(knowledge_path))
+    try:
+        store.write_screen_snapshots(
+            [
+                ScreenRow(
+                    ticker="CLI",
+                    program_label="asset-cli",
+                    stage="Phase 2",
+                    ta="oncology",
+                    model_pos=0.55,
+                    implied_pos=0.30,
+                    spread_pp=25.0,
+                    rnpv_millions=220.0,
+                    ev_millions=105.0,
+                    acquisition_discount_pct=109.5238,
+                    next_catalyst="Phase 2 readout",
+                    catalyst_date=None,
+                    days_to_catalyst=11,
+                    single_asset=True,
+                    approximation_warning=None,
+                    data_date=date(2026, 3, 21),
+                    thesis_strength=None,
+                )
+            ],
+            snapshot_date=date(2026, 3, 21),
+        )
+    finally:
+        store.close()
+
+    watchlist_path = tmp_path / "watchlist_screen_snapshot.yaml"
+    watchlist_path.write_text(
+        yaml.safe_dump(
+            {
+                "knowledge_db_path": str(knowledge_path),
+                "watchlist": [{"company_id": "company-cli", "asset_id": "asset-cli", "ticker": "CLI"}],
+            }
+        ),
+        encoding="utf-8",
+    )
+
+    monkeypatch.setattr(
+        "sys.argv",
+        [
+            "bve-screen",
+            "--watchlist",
+            str(watchlist_path),
+            "--as-of",
+            "2026-03-24",
+            "--use-stored-screen-snapshots",
+            "--output-format",
+            "report",
+        ],
+    )
+
+    screen_main()
+    out = capsys.readouterr().out
+    assert "Source mode: stored_screen_snapshot" in out
+    assert "Reference snapshot: 2026-03-21" in out
+    assert "asset-cli" in out
+    assert "Phase 2 readout" in out

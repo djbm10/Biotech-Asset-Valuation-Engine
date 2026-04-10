@@ -23,6 +23,7 @@ Usage via CLI:
 from __future__ import annotations
 
 from datetime import date, timedelta
+from typing import Any
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
@@ -48,6 +49,52 @@ _BASE_SCORE = 0.10
 
 # Standard competitor event drag weight
 _COMPETITOR_SIGNAL_STRENGTH = 0.30
+
+
+def _extract_filed_series(
+    facts: dict[str, Any],
+    *,
+    concepts: list[str],
+    unit: str,
+    namespaces: tuple[str, ...] = ("us-gaap", "ifrs-full"),
+    forms: tuple[str, ...] = ("10-K", "10-Q", "20-F"),
+) -> list[dict[str, Any]]:
+    series: list[dict[str, Any]] = []
+    for namespace in namespaces:
+        payload = facts.get(namespace, {})
+        for concept in concepts:
+            units = payload.get(concept, {}).get("units", {}).get(unit, [])
+            if not units:
+                continue
+            for row in units:
+                form = str(row.get("form") or "").split("/")[0]
+                if (
+                    form in forms
+                    and row.get("val") is not None
+                    and row.get("filed")
+                ):
+                    series.append(row)
+            if series:
+                break
+        if series:
+            break
+    series.sort(key=lambda row: (row.get("filed", ""), row.get("end", "")))
+    return series
+
+
+def _latest_value_on_or_before(
+    series: list[dict[str, Any]],
+    *,
+    filed: str,
+) -> tuple[float | None, dict[str, Any] | None]:
+    eligible = [
+        row for row in series
+        if str(row.get("filed", ""))[:10] <= filed and row.get("val") is not None
+    ]
+    if not eligible:
+        return None, None
+    latest = max(eligible, key=lambda row: (row.get("filed", ""), row.get("end", "")))
+    return float(latest["val"]), latest
 
 
 class SignalBackfiller:
@@ -80,6 +127,21 @@ class SignalBackfiller:
             "CashAndCashEquivalentsAtCarryingValue",
             "CashCashEquivalentsAndShortTermInvestments",
             "CashAndCashEquivalentsAndShortTermInvestments",
+            "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalents",
+            "CashCashEquivalentsRestrictedCashAndRestrictedCashEquivalentsIncludingDisposalGroupAndDiscontinuedOperations",
+            "Cash",
+            "CashEquivalentsAtCarryingValue",
+            "InvestmentsAndCash",
+        ]
+        _DEBT_CONCEPTS = [
+            "LongTermDebtAndFinanceLeaseObligations",
+            "LongTermDebtAndCapitalLeaseObligations",
+            "LongTermDebt",
+            "DebtInstrumentFaceAmount",
+        ]
+        _SHARE_CONCEPTS = [
+            "EntityCommonStockSharesOutstanding",
+            "CommonStockSharesOutstanding",
         ]
         _RD_CONCEPTS = [
             "ResearchAndDevelopmentExpense",
@@ -87,38 +149,60 @@ class SignalBackfiller:
         ]
 
         inserted = 0
-        seen_tickers: set[str] = set()
-
+        asset_ids_by_ticker: dict[str, set[str]] = {}
         for entry in universe:
-            ticker: str = entry.get("ticker", "").upper()
-            asset_id: str = entry.get("asset_id", "")
-            if not ticker or not asset_id or ticker in seen_tickers:
+            ticker = str(entry.get("ticker", "")).upper()
+            asset_id = str(entry.get("asset_id", ""))
+            if not ticker or not asset_id:
                 continue
-            seen_tickers.add(ticker)
+            asset_ids_by_ticker.setdefault(ticker, set()).add(asset_id)
+
+        for ticker, asset_ids_set in sorted(asset_ids_by_ticker.items()):
+            asset_ids = sorted(asset_ids_set)
+
+            company_name = None
+            for entry in universe:
+                if str(entry.get("ticker", "")).upper() == ticker:
+                    candidate_name = str(entry.get("company_name", "")).strip()
+                    if candidate_name:
+                        company_name = candidate_name
+                        break
 
             try:
-                cik = get_cik(ticker)
+                cik = (
+                    get_cik(ticker, company_name=company_name)
+                    if company_name
+                    else get_cik(ticker)
+                )
                 if not cik:
                     print(f"  [capital] no CIK for {ticker}, skipping")
                     continue
 
                 facts = get_company_facts(cik)
-                gaap = facts.get("us-gaap", {})
 
-                # Extract quarterly cash time-series
-                cash_series: list[dict] = []
-                for concept in _CASH_CONCEPTS:
-                    units = gaap.get(concept, {}).get("units", {}).get("USD", [])
-                    if units:
-                        quarterly = [
-                            u for u in units
-                            if u.get("form") in ("10-K", "10-Q")
-                            and u.get("val") is not None
-                            and u.get("filed")
-                        ]
-                        if quarterly:
-                            cash_series = quarterly
-                            break
+                # Extract quarterly point-in-time balance-sheet series.
+                cash_series = _extract_filed_series(
+                    facts,
+                    concepts=_CASH_CONCEPTS,
+                    unit="USD",
+                )
+                debt_series = _extract_filed_series(
+                    facts,
+                    concepts=_DEBT_CONCEPTS,
+                    unit="USD",
+                )
+                share_series = _extract_filed_series(
+                    facts,
+                    concepts=_SHARE_CONCEPTS,
+                    unit="shares",
+                    namespaces=("dei", "us-gaap"),
+                )
+                rd_series = _extract_filed_series(
+                    facts,
+                    concepts=_RD_CONCEPTS,
+                    unit="USD",
+                    forms=("10-K",),
+                )
 
                 if not cash_series:
                     print(f"  [capital] no cash data for {ticker}, skipping")
@@ -126,13 +210,12 @@ class SignalBackfiller:
 
                 # Estimate monthly burn from most recent annual R&D expense
                 burn_monthly: float = 10.0  # conservative default ($10M/month)
-                for concept in _RD_CONCEPTS:
-                    units = gaap.get(concept, {}).get("units", {}).get("USD", [])
-                    annual = [u for u in units if u.get("form") == "10-K" and u.get("val")]
-                    if annual:
-                        latest_rd = max(annual, key=lambda u: u.get("end", ""))
-                        burn_monthly = round(latest_rd["val"] / 1e6 / 12, 2)
-                        break
+                latest_rd_value, _ = _latest_value_on_or_before(
+                    rd_series,
+                    filed=max(str(row.get("filed", ""))[:10] for row in cash_series),
+                )
+                if latest_rd_value is not None:
+                    burn_monthly = round(latest_rd_value / 1e6 / 12, 2)
 
                 rows_for_ticker = 0
                 for q in cash_series:
@@ -142,34 +225,70 @@ class SignalBackfiller:
                         continue
 
                     cash_millions = cash_usd / 1e6
-                    burn_per_quarter = max(burn_monthly * 3.0, 0.1)
+                    rd_value, _ = _latest_value_on_or_before(rd_series, filed=filed)
+                    if rd_value is not None:
+                        burn_per_quarter = max(round(rd_value / 1e6 / 4.0, 2), 0.1)
+                    else:
+                        burn_per_quarter = max(burn_monthly * 3.0, 0.1)
                     cash_runway_quarters = round(cash_millions / burn_per_quarter, 2)
+                    debt_value, _ = _latest_value_on_or_before(debt_series, filed=filed)
+                    shares_value, _ = _latest_value_on_or_before(share_series, filed=filed)
 
-                    # Deterministic ID so INSERT OR REPLACE is idempotent
-                    snapshot_id = f"bf-cap:{asset_id}:{filed}"
-                    self._rs._conn.execute(
-                        "INSERT OR REPLACE INTO capital_snapshots "
-                        "(snapshot_id, asset_id, snapshot_date, "
-                        " cash_runway_quarters, capital_risk_level) "
-                        "VALUES (?, ?, ?, ?, ?)",
-                        (
-                            snapshot_id,
-                            asset_id,
-                            filed,
-                            cash_runway_quarters,
-                            None,  # computed dynamically at query time from runway + catalyst date
+                    for asset_id in asset_ids:
+                        snapshot_id = f"bf-cap:{asset_id}:{filed}"
+                        self._rs._conn.execute(
+                            "INSERT OR REPLACE INTO capital_snapshots "
+                            "(snapshot_id, asset_id, snapshot_date, "
+                            " cash_runway_quarters, capital_risk_level) "
+                            "VALUES (?, ?, ?, ?, ?)",
+                            (
+                                snapshot_id,
+                                asset_id,
+                                filed,
+                                cash_runway_quarters,
+                                None,  # computed dynamically at query time from runway + catalyst date
+                            ),
+                        )
+                        rows_for_ticker += 1
+                    self._rs.upsert_balance_sheet_snapshot(
+                        ticker=ticker,
+                        snapshot_date=date.fromisoformat(filed),
+                        period_end_date=(
+                            date.fromisoformat(str(q.get("end"))[:10])
+                            if q.get("end")
+                            else None
                         ),
+                        form_type=q.get("form"),
+                        cash_millions=round(cash_millions, 2),
+                        debt_millions=(
+                            round(float(debt_value) / 1e6, 2)
+                            if debt_value is not None
+                            else None
+                        ),
+                        shares_outstanding_millions=(
+                            round(float(shares_value) / 1e6, 3)
+                            if shares_value is not None
+                            else None
+                        ),
+                        burn_rate_millions_per_quarter=round(float(burn_per_quarter), 2),
+                        source_type="sec_edgar_company_facts",
+                        source_ref=f"{cik}:{q.get('form') or '10-Q'}:{filed}",
                     )
-                    rows_for_ticker += 1
 
                 self._rs._conn.commit()
                 inserted += rows_for_ticker
-                print(f"  [capital] {ticker}: {rows_for_ticker} quarterly snapshots")
+                print(
+                    f"  [capital] {ticker}: {rows_for_ticker} asset snapshots "
+                    f"across {len(asset_ids)} asset ids"
+                )
 
             except Exception as exc:  # noqa: BLE001
                 print(f"  [capital] {ticker}: error — {exc}")
 
-        print(f"backfill_capital_risk: {inserted} rows inserted into capital_snapshots")
+        print(
+            f"backfill_capital_risk: {inserted} rows inserted into "
+            "capital_snapshots and balance_sheet_snapshots"
+        )
         return inserted
 
     # ------------------------------------------------------------------

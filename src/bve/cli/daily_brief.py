@@ -143,12 +143,26 @@ def _brief_to_json(brief, top_n: int) -> str:
             "recent_event_count": row.recent_event_count,
             "requires_recompute": row.requires_recompute,
             "composite_score": row.composite_score,
+            "company_ranked_discount": row.company_ranked_discount,
+            "company_action_policy": row.company_action_policy,
+            "company_action_reason": row.company_action_reason,
+            "company_snapshot_date": (
+                row.company_snapshot_date.isoformat()
+                if row.company_snapshot_date is not None
+                else None
+            ),
         }
         return d
 
     payload = {
         "as_of": brief.as_of.isoformat(),
         "generated_at": brief.generated_at.isoformat(),
+        "source_mode": brief.source_mode,
+        "reference_snapshot_date": (
+            brief.reference_snapshot_date.isoformat()
+            if brief.reference_snapshot_date is not None
+            else None
+        ),
         "n_universe": brief.n_universe,
         "n_with_spread": brief.n_with_spread,
         "n_expert_notes": brief.n_expert_notes,

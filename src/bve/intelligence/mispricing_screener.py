@@ -64,6 +64,8 @@ class MispricingScreenConfig(BaseModel):
     acquisition_threshold: float = Field(default=DEFAULT_ACQUISITION_THRESHOLD, gt=0.0)
     require_acquisition_readiness: bool = True
     persist_acquisition_snapshots: bool = False
+    prefer_stored_screen_snapshots: bool = False
+    enforce_company_recency_gate: bool = True
     max_catalyst_modifier_pct: float = Field(default=0.10, ge=0.0, le=0.50)
 
     def resolved_weights(self) -> dict[str, float]:
@@ -122,6 +124,10 @@ class MispricingScreenRow(BaseModel):
     catalyst_source: Optional[str] = None
     catalyst_signal_strength: Optional[float] = None
     days_to_catalyst: Optional[int] = None
+    company_action_policy: Optional[str] = None
+    company_action_reason: Optional[str] = None
+    company_snapshot_date: Optional[date] = None
+    company_recency_gate_failed: bool = False
 
     data_notes: list[str] = Field(default_factory=list)
     explanation: str
@@ -132,12 +138,15 @@ class MispricingScreenResult(BaseModel):
 
     screened_at: datetime
     as_of_date: date
+    reference_snapshot_date: Optional[date] = None
+    source_mode: str = "live_recomputed"
     score_version: str
     score_weights: dict[str, float]
     n_assets: int
     n_with_ranking: int
     n_with_acquisition_discount: int
     n_with_catalyst: int
+    n_excluded_company_gate: int = 0
     rows: list[MispricingScreenRow] = Field(default_factory=list)
 
 
@@ -173,6 +182,14 @@ class UnifiedMispricingScreener:
         as_of = screened_at.date()
         watchlist = list(getattr(watchlist_config, "watchlist", []))
 
+        if self.config.prefer_stored_screen_snapshots:
+            stored = self._build_result_from_stored_snapshots(
+                watchlist=watchlist,
+                screened_at=screened_at,
+            )
+            if stored is not None:
+                return stored
+
         ranking_cfg = _resolve_ranking_config(watchlist_config)
         ranking_cfg = ranking_cfg.model_copy(update={"top_n": max(len(watchlist), ranking_cfg.top_n)})
         ranking = AssetRankingEngine(
@@ -194,6 +211,100 @@ class UnifiedMispricingScreener:
             screened_at=screened_at,
         )
 
+    def _build_result_from_stored_snapshots(
+        self,
+        *,
+        watchlist: list[object],
+        screened_at: datetime,
+    ) -> Optional[MispricingScreenResult]:
+        try:
+            resolved_snapshot_date, raw_rows = self.knowledge.get_screen_snapshots_on_or_before(
+                screened_at.date(),
+                limit=max(1000, len(watchlist) * 10),
+            )
+        except Exception:
+            return None
+        if resolved_snapshot_date is None or not raw_rows:
+            return None
+
+        asset_by_id = {
+            getattr(asset, "asset_id"): asset
+            for asset in watchlist
+            if getattr(asset, "asset_id", None)
+        }
+        asset_by_ticker = {
+            str(getattr(asset, "ticker")).upper(): asset
+            for asset in watchlist
+            if getattr(asset, "ticker", None)
+        }
+
+        rows: list[MispricingScreenRow] = []
+        n_excluded_company_gate = 0
+        for raw in raw_rows:
+            ticker = str(raw.get("ticker") or "").upper()
+            stored_asset_id = str(raw.get("asset_id") or "")
+            program_label = str(raw.get("program_label") or "")
+            asset = (
+                asset_by_id.get(stored_asset_id)
+                or asset_by_id.get(program_label)
+                or asset_by_ticker.get(ticker)
+            )
+            if asset is None:
+                continue
+            company_snapshot = self._company_snapshot_for_ticker(
+                ticker=ticker,
+                as_of=screened_at.date(),
+            )
+            if (
+                self.config.enforce_company_recency_gate
+                and company_snapshot is not None
+                and not bool(company_snapshot.get("balance_sheet_passes_recency_gate", False))
+            ):
+                n_excluded_company_gate += 1
+                continue
+            row = self._build_row_from_screen_snapshot(
+                asset=asset,
+                snapshot=raw,
+                screened_at=screened_at,
+                reference_snapshot_date=resolved_snapshot_date,
+                company_snapshot=company_snapshot,
+            )
+            if row is not None:
+                rows.append(row)
+
+        if not rows:
+            return None
+
+        rows.sort(
+            key=lambda row: (
+                -row.unified_score,
+                -(row.mispricing_pct or float("-inf")),
+                -(row.acquisition_discount or 0.0),
+                row.asset_id,
+            )
+        )
+        ranked_rows = [
+            row.model_copy(update={"rank": idx + 1})
+            for idx, row in enumerate(rows[: self.config.top_n])
+        ]
+
+        return MispricingScreenResult(
+            screened_at=screened_at,
+            as_of_date=screened_at.date(),
+            reference_snapshot_date=resolved_snapshot_date,
+            source_mode="stored_screen_snapshot",
+            score_version=self.config.score_version,
+            score_weights=self.config.resolved_weights(),
+            n_assets=len(watchlist),
+            n_with_ranking=0,
+            n_with_acquisition_discount=sum(
+                1 for row in rows if row.acquisition_discount is not None
+            ),
+            n_with_catalyst=sum(1 for row in rows if row.catalyst_type is not None),
+            n_excluded_company_gate=n_excluded_company_gate,
+            rows=ranked_rows,
+        )
+
     def _build_result(
         self,
         *,
@@ -204,15 +315,34 @@ class UnifiedMispricingScreener:
     ) -> MispricingScreenResult:
         ranking_by_asset = {opp.asset_id: opp for opp in ranking.opportunities}
         acquisition_by_asset = {row.asset_id: row for row in acquisition.rows}
-        full_rows = [
-            self._build_row(
-                asset=asset,
-                ranking=ranking_by_asset.get(asset.asset_id),
-                acquisition_row=acquisition_by_asset.get(asset.asset_id),
+        full_rows: list[MispricingScreenRow] = []
+        n_excluded_company_gate = 0
+        for asset in watchlist:
+            ticker = _first_non_null(
+                getattr(asset, "ticker", None),
+                getattr(ranking_by_asset.get(asset.asset_id), "ticker", None),
+                getattr(acquisition_by_asset.get(asset.asset_id), "ticker", None),
+            )
+            company_snapshot = self._company_snapshot_for_ticker(
+                ticker=ticker,
                 as_of=screened_at.date(),
             )
-            for asset in watchlist
-        ]
+            if (
+                self.config.enforce_company_recency_gate
+                and company_snapshot is not None
+                and not bool(company_snapshot.get("balance_sheet_passes_recency_gate", False))
+            ):
+                n_excluded_company_gate += 1
+                continue
+            full_rows.append(
+                self._build_row(
+                    asset=asset,
+                    ranking=ranking_by_asset.get(asset.asset_id),
+                    acquisition_row=acquisition_by_asset.get(asset.asset_id),
+                    as_of=screened_at.date(),
+                    company_snapshot=company_snapshot,
+                )
+            )
 
         full_rows.sort(
             key=lambda row: (
@@ -231,6 +361,8 @@ class UnifiedMispricingScreener:
         return MispricingScreenResult(
             screened_at=screened_at,
             as_of_date=screened_at.date(),
+            reference_snapshot_date=screened_at.date(),
+            source_mode="live_recomputed",
             score_version=self.config.score_version,
             score_weights=self.config.resolved_weights(),
             n_assets=len(watchlist),
@@ -239,7 +371,162 @@ class UnifiedMispricingScreener:
                 1 for row in full_rows if row.acquisition_discount is not None
             ),
             n_with_catalyst=sum(1 for row in full_rows if row.catalyst_date is not None),
+            n_excluded_company_gate=n_excluded_company_gate,
             rows=rows,
+        )
+
+    def _build_row_from_screen_snapshot(
+        self,
+        *,
+        asset: object,
+        snapshot: dict[str, Any],
+        screened_at: datetime,
+        reference_snapshot_date: date,
+        company_snapshot: Optional[dict[str, Any]] = None,
+    ) -> Optional[MispricingScreenRow]:
+        weights = self.config.resolved_weights()
+        stage_display = str(snapshot.get("stage") or "unknown")
+        stage_key = _normalize_stage_key(stage_display)
+        stage_score = _stage_score(stage_display)
+
+        acquisition_discount_pct = snapshot.get("acquisition_discount_pct")
+        acquisition_discount = None
+        if acquisition_discount_pct is not None:
+            acquisition_discount = 1.0 + (float(acquisition_discount_pct) / 100.0)
+        acquisition_score = _normalize_acquisition_discount(acquisition_discount)
+
+        spread_pp = snapshot.get("spread_pp")
+        beneficial_delta = (float(spread_pp) / 100.0) if spread_pp is not None else None
+        if beneficial_delta is not None:
+            pos_adjustment_score = _bounded_centered_score(beneficial_delta, clip_abs=0.30)
+            pos_adjustment_value = round(beneficial_delta, 6)
+            pos_adjustment_source = "stored_spread"
+        else:
+            pos_adjustment_score = _NEUTRAL_POS_SCORE
+            pos_adjustment_value = None
+            pos_adjustment_source = "neutral"
+
+        ranking_score = _NEUTRAL_RANKING_SCORE
+        ranking_component = ranking_score * weights["ranking"]
+        acquisition_component = acquisition_score * weights["acquisition"]
+        stage_component = stage_score * weights["stage"]
+        pos_adjustment_component = pos_adjustment_score * weights["pos_adjustment"]
+        unified_score = round(
+            max(
+                0.0,
+                min(
+                    1.0,
+                    ranking_component
+                    + acquisition_component
+                    + stage_component
+                    + pos_adjustment_component,
+                ),
+            ),
+            6,
+        )
+
+        catalyst_date = _parse_optional_date(snapshot.get("catalyst_date"))
+        next_catalyst = _clean_snapshot_catalyst_label(snapshot.get("next_catalyst"))
+        if catalyst_date is not None:
+            days_to_catalyst = max(0, (catalyst_date - screened_at.date()).days)
+        elif reference_snapshot_date == screened_at.date():
+            days_to_catalyst = snapshot.get("days_to_catalyst")
+        else:
+            days_to_catalyst = None
+
+        mispricing = None
+        if acquisition_discount is not None:
+            mispricing = round(acquisition_discount - 1.0, 6)
+
+        notes = [
+            "stored_screen_snapshot",
+            "ranking_not_recomputed",
+        ]
+        if reference_snapshot_date != screened_at.date():
+            notes.append("used_latest_snapshot_on_or_before_as_of")
+        if next_catalyst is None:
+            notes.append("stored_snapshot_no_catalyst_label")
+        if company_snapshot is not None:
+            notes.append("company_sotp_snapshot_attached")
+
+        return MispricingScreenRow(
+            asset_id=getattr(asset, "asset_id"),
+            company_id=getattr(asset, "company_id"),
+            ticker=_first_non_null(
+                getattr(asset, "ticker", None),
+                snapshot.get("ticker"),
+            ),
+            stage=stage_key or stage_display,
+            unified_score=unified_score,
+            score_version=self.config.score_version,
+            ranking_rank=None,
+            ranking_score=round(ranking_score, 6),
+            acquisition_score=round(acquisition_score, 6),
+            stage_score=round(stage_score, 6),
+            pos_adjustment_score=round(pos_adjustment_score, 6),
+            ranking_component=round(ranking_component, 6),
+            acquisition_component=round(acquisition_component, 6),
+            stage_component=round(stage_component, 6),
+            pos_adjustment_component=round(pos_adjustment_component, 6),
+            catalyst_modifier=1.0,
+            rnpv_millions=(
+                float(snapshot.get("rnpv_millions"))
+                if snapshot.get("rnpv_millions") is not None
+                else None
+            ),
+            market_cap_millions=None,
+            enterprise_value_millions=(
+                float(snapshot.get("ev_millions"))
+                if snapshot.get("ev_millions") is not None
+                else None
+            ),
+            acquisition_discount=acquisition_discount,
+            acquisition_ready=None,
+            acquisition_exclusion_reason=None,
+            market_cap_source="stored_screen_snapshot",
+            mispricing=mispricing,
+            mispricing_pct=round(mispricing * 100.0, 4) if mispricing is not None else None,
+            model_pos=(
+                float(snapshot.get("model_pos"))
+                if snapshot.get("model_pos") is not None
+                else None
+            ),
+            implied_pos=(
+                float(snapshot.get("implied_pos"))
+                if snapshot.get("implied_pos") is not None
+                else None
+            ),
+            pos_gap=round(-beneficial_delta, 6) if beneficial_delta is not None else None,
+            pos_adjustment_value=pos_adjustment_value,
+            pos_adjustment_source=pos_adjustment_source,
+            catalyst_type=next_catalyst,
+            catalyst_date=catalyst_date,
+            catalyst_source="screen_snapshot",
+            catalyst_signal_strength=None,
+            days_to_catalyst=days_to_catalyst,
+            company_action_policy=(
+                str(company_snapshot.get("action_policy"))
+                if company_snapshot and company_snapshot.get("action_policy")
+                else None
+            ),
+            company_action_reason=(
+                str(company_snapshot.get("action_reason"))
+                if company_snapshot and company_snapshot.get("action_reason")
+                else None
+            ),
+            company_snapshot_date=(
+                company_snapshot.get("snapshot_date")
+                if company_snapshot is not None
+                else None
+            ),
+            company_recency_gate_failed=False,
+            data_notes=notes,
+            explanation=(
+                f"{getattr(asset, 'asset_id')} from stored screen snapshot "
+                f"{reference_snapshot_date.isoformat()} with stage {stage_display}, "
+                f"acquisition_discount={acquisition_discount if acquisition_discount is not None else 'n/a'}, "
+                f"spread_pp={spread_pp if spread_pp is not None else 'n/a'}."
+            ),
         )
 
     def _build_row(
@@ -249,6 +536,7 @@ class UnifiedMispricingScreener:
         ranking: Optional[RankedOpportunity],
         acquisition_row,
         as_of: date,
+        company_snapshot: Optional[dict[str, Any]] = None,
     ) -> MispricingScreenRow:
         notes: list[str] = []
         weights = self.config.resolved_weights()
@@ -306,6 +594,8 @@ class UnifiedMispricingScreener:
         mispricing = _resolve_mispricing(ranking=ranking, acquisition_row=acquisition_row)
         if catalyst is None:
             notes.append("no_active_catalyst_within_window")
+        if company_snapshot is not None:
+            notes.append("company_sotp_snapshot_attached")
 
         return MispricingScreenRow(
             asset_id=getattr(asset, "asset_id"),
@@ -380,6 +670,22 @@ class UnifiedMispricingScreener:
             days_to_catalyst=(
                 max(0, (catalyst.expected_date - as_of).days) if catalyst is not None else None
             ),
+            company_action_policy=(
+                str(company_snapshot.get("action_policy"))
+                if company_snapshot and company_snapshot.get("action_policy")
+                else None
+            ),
+            company_action_reason=(
+                str(company_snapshot.get("action_reason"))
+                if company_snapshot and company_snapshot.get("action_reason")
+                else None
+            ),
+            company_snapshot_date=(
+                company_snapshot.get("snapshot_date")
+                if company_snapshot is not None
+                else None
+            ),
+            company_recency_gate_failed=False,
             data_notes=notes,
             explanation=_build_explanation(
                 asset_id=getattr(asset, "asset_id"),
@@ -405,6 +711,22 @@ class UnifiedMispricingScreener:
         if not events:
             return None
         return min(events, key=lambda event: event.expected_date)
+
+    def _company_snapshot_for_ticker(
+        self,
+        *,
+        ticker: Optional[str],
+        as_of: date,
+    ) -> Optional[dict[str, Any]]:
+        if not ticker:
+            return None
+        try:
+            return self.knowledge.get_company_sotp_snapshot_for_ticker_on_or_before(
+                ticker=str(ticker).upper(),
+                as_of=as_of,
+            )
+        except Exception:
+            return None
 
 
 def _resolve_ranking_config(watchlist_config: Any) -> RankingConfig:
@@ -440,7 +762,45 @@ def _resolve_stage(
 def _stage_score(stage: Optional[str]) -> float:
     if stage is None:
         return _NEUTRAL_STAGE_SCORE
-    return _STAGE_SCORES.get(stage, _NEUTRAL_STAGE_SCORE)
+    return _STAGE_SCORES.get(_normalize_stage_key(stage), _NEUTRAL_STAGE_SCORE)
+
+
+def _normalize_stage_key(stage: Optional[str]) -> Optional[str]:
+    if stage is None:
+        return None
+    raw = str(stage).strip()
+    if not raw:
+        return None
+    normalized = raw.lower().replace("/", "_").replace(" ", "_")
+    aliases = {
+        "phase1": "phase_1",
+        "phase2": "phase_2",
+        "phase3": "phase_3",
+        "phase_1_2": "phase_2",
+        "phase_2_3": "phase_3",
+        "ndabla": "nda_bla",
+        "nda_bla": "nda_bla",
+    }
+    normalized = aliases.get(normalized, normalized)
+    return normalized
+
+
+def _parse_optional_date(value: object) -> Optional[date]:
+    if not isinstance(value, str) or not value:
+        return None
+    try:
+        return date.fromisoformat(value)
+    except ValueError:
+        return None
+
+
+def _clean_snapshot_catalyst_label(value: object) -> Optional[str]:
+    if not isinstance(value, str):
+        return None
+    label = value.strip()
+    if not label or label.lower() == "historical_snapshot":
+        return None
+    return label
 
 
 def _normalize_acquisition_discount(acquisition_discount: Optional[float]) -> float:

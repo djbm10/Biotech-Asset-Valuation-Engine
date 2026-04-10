@@ -128,6 +128,7 @@ def test_replay_store_creates_tables(in_memory_store):
     assert "historical_prices" in tables
     assert "historical_events" in tables
     assert "replay_decisions" in tables
+    assert "balance_sheet_snapshots" in tables
 
 
 # ---------------------------------------------------------------------------
@@ -1628,6 +1629,30 @@ def test_get_capital_risk_level_returns_most_recent(in_memory_store):
     assert result == "HIGH"
 
 
+def test_balance_sheet_snapshot_roundtrip(in_memory_store):
+    in_memory_store.upsert_balance_sheet_snapshot(
+        ticker="VKTX",
+        snapshot_date=date(2025, 5, 10),
+        period_end_date=date(2025, 3, 31),
+        form_type="10-Q",
+        cash_millions=420.0,
+        debt_millions=15.0,
+        shares_outstanding_millions=110.5,
+        burn_rate_millions_per_quarter=32.0,
+        source_type="sec_edgar_company_facts",
+        source_ref="0000000000:10-Q:2025-05-10",
+    )
+
+    row = in_memory_store.get_balance_sheet_snapshot("VKTX", date(2025, 6, 1))
+    assert row is not None
+    assert row["ticker"] == "VKTX"
+    assert row["snapshot_date"] == "2025-05-10"
+    assert row["period_end_date"] == "2025-03-31"
+    assert row["cash_millions"] == pytest.approx(420.0)
+    assert row["shares_outstanding_millions"] == pytest.approx(110.5)
+    assert row["source_ref"] == "0000000000:10-Q:2025-05-10"
+
+
 # ---------------------------------------------------------------------------
 # v2.0: replay loop produces score_version = "v2.0"
 # ---------------------------------------------------------------------------
@@ -2368,6 +2393,84 @@ def test_signal_backfiller_capital_risk_no_crash_empty_universe(in_memory_store)
     bf = SignalBackfiller(in_memory_store)
     n = bf.backfill_capital_risk([])
     assert n == 0
+
+
+def test_signal_backfiller_capital_risk_writes_balance_sheet_snapshot(
+    in_memory_store,
+    monkeypatch,
+):
+    from bve.ops.signal_backfiller import SignalBackfiller
+
+    monkeypatch.setattr("bve.ingestion.sec_edgar.get_cik", lambda ticker: "0000123456")
+    monkeypatch.setattr(
+        "bve.ingestion.sec_edgar.get_company_facts",
+        lambda cik: {
+            "us-gaap": {
+                "CashAndCashEquivalentsAtCarryingValue": {
+                    "units": {
+                        "USD": [
+                            {
+                                "form": "10-Q",
+                                "filed": "2025-05-10",
+                                "end": "2025-03-31",
+                                "val": 420_000_000,
+                            }
+                        ]
+                    }
+                },
+                "ResearchAndDevelopmentExpense": {
+                    "units": {
+                        "USD": [
+                            {
+                                "form": "10-K",
+                                "filed": "2025-02-20",
+                                "end": "2024-12-31",
+                                "val": 120_000_000,
+                            }
+                        ]
+                    }
+                },
+                "LongTermDebt": {
+                    "units": {
+                        "USD": [
+                            {
+                                "form": "10-Q",
+                                "filed": "2025-05-10",
+                                "end": "2025-03-31",
+                                "val": 30_000_000,
+                            }
+                        ]
+                    }
+                },
+            },
+            "dei": {
+                "EntityCommonStockSharesOutstanding": {
+                    "units": {
+                        "shares": [
+                            {
+                                "form": "10-Q",
+                                "filed": "2025-05-10",
+                                "end": "2025-03-31",
+                                "val": 105_000_000,
+                            }
+                        ]
+                    }
+                }
+            },
+        },
+    )
+
+    bf = SignalBackfiller(in_memory_store)
+    n = bf.backfill_capital_risk([{"asset_id": "a-vktx", "ticker": "VKTX"}])
+    assert n == 1
+
+    row = in_memory_store.get_balance_sheet_snapshot("VKTX", date(2025, 6, 1))
+    assert row is not None
+    assert row["cash_millions"] == pytest.approx(420.0)
+    assert row["debt_millions"] == pytest.approx(30.0)
+    assert row["shares_outstanding_millions"] == pytest.approx(105.0)
+    assert row["burn_rate_millions_per_quarter"] == pytest.approx(30.0)
+    assert row["source_type"] == "sec_edgar_company_facts"
 
 
 def test_signal_backfiller_catalyst_signals_no_events_skips(in_memory_store):

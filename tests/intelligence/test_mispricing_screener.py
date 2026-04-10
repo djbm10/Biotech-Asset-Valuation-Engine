@@ -7,6 +7,7 @@ from bve.connectors.market_prices import MarketPriceRecord
 from bve.entities.asset import Asset, DevelopmentStage, Modality, TherapeuticArea
 from bve.entities.company import Company
 from bve.entities.trial import ClinicalTrial, EndpointType, TrialPhase
+from bve.analysis.implied_pos_batch import ScreenRow
 from bve.intelligence.catalyst_calendar import CatalystEvent, CatalystType
 from bve.intelligence.knowledge_layer import KnowledgeStore, SourceTrace, StoredValuationDiff
 from bve.intelligence.mispricing_screener import (
@@ -165,6 +166,56 @@ def _watchlist_asset(
         ticker=ticker,
         valuation_config=f"/tmp/{asset_id}.yaml",
         market_cap_millions=market_cap_millions,
+    )
+
+
+def _write_company_sotp_snapshot(
+    store: KnowledgeStore,
+    *,
+    ticker: str,
+    snapshot_date: date,
+    passes_gate: bool,
+    action_policy: str,
+    action_reason: str,
+) -> None:
+    store.write_company_sotp_snapshots(
+        [
+            SimpleNamespace(
+                ticker=ticker,
+                company_id=f"company-{ticker.lower()}",
+                company_name=f"Company {ticker}",
+                snapshot_date=snapshot_date,
+                rank=1,
+                market_cap_millions=120.0,
+                enterprise_value_millions=100.0,
+                sotp_equity_value_millions=180.0,
+                sotp_per_share=18.0,
+                sotp_discount=1.5,
+                ranked_sotp_discount=1.5,
+                modeled_asset_coverage_pct=0.9,
+                asset_count_modeled=1,
+                modeled_asset_ids=[f"asset-{ticker.lower()}"],
+                config_quality_summary="curated",
+                modeled_asset_confidence_min=0.9,
+                modeled_asset_confidence_avg=0.9,
+                action_policy=action_policy,
+                action_reason=action_reason,
+                market_cap_source="unit_test",
+                balance_sheet_source="sec_edgar_company_facts",
+                balance_sheet_source_ref="unit-test",
+                balance_sheet_snapshot_date=snapshot_date,
+                balance_sheet_period_end_date=snapshot_date,
+                balance_sheet_form_type="10-Q",
+                balance_sheet_is_point_in_time=True,
+                balance_sheet_age_days=4,
+                balance_sheet_passes_recency_gate=passes_gate,
+                balance_sheet_recency_penalty=1.0 if passes_gate else 0.25,
+                buckets=[],
+                limitations=[],
+                notes=None,
+            )
+        ],
+        snapshot_date=snapshot_date,
     )
 
 
@@ -421,3 +472,219 @@ def test_missing_acquisition_discount_is_explicit_and_neutral():
     assert row.acquisition_score == _NEUTRAL_ACQUISITION_SCORE
     assert "acquisition_discount_unavailable" in row.data_notes
     assert row.acquisition_exclusion_reason == "missing_market_cap"
+
+
+def test_unified_screener_can_use_stored_screen_snapshots_on_or_before():
+    store = KnowledgeStore(":memory:")
+    snapshot_date = date(2026, 3, 21)
+    store.write_screen_snapshots(
+        [
+            ScreenRow(
+                ticker="AAA",
+                program_label="asset-a",
+                stage="Phase 2",
+                ta="oncology",
+                model_pos=0.55,
+                implied_pos=0.33,
+                spread_pp=22.0,
+                rnpv_millions=480.0,
+                ev_millions=290.0,
+                acquisition_discount_pct=65.5,
+                next_catalyst="Phase 2 data",
+                catalyst_date=None,
+                days_to_catalyst=30,
+                single_asset=True,
+                approximation_warning=None,
+                data_date=snapshot_date,
+                thesis_strength=None,
+            )
+        ],
+        snapshot_date=snapshot_date,
+    )
+    asset_a = _watchlist_asset(
+        asset_id="asset-a",
+        company_id="company-a",
+        ticker="AAA",
+        market_cap_millions=120.0,
+    )
+    cfg = SimpleNamespace(watchlist=[asset_a], ranking={"top_n": 10})
+    screened_at = datetime(2026, 3, 24, 12, 0, tzinfo=timezone.utc)
+
+    screener = UnifiedMispricingScreener(
+        knowledge_store=store,
+        config=MispricingScreenConfig(
+            top_n=10,
+            catalyst_days_ahead=60,
+            prefer_stored_screen_snapshots=True,
+        ),
+    )
+    result = screener.screen_from_watchlist_config(cfg, screened_at=screened_at)
+    store.close()
+
+    assert result.source_mode == "stored_screen_snapshot"
+    assert result.reference_snapshot_date == snapshot_date
+    assert result.n_assets == 1
+    assert result.n_with_ranking == 0
+    assert len(result.rows) == 1
+    row = result.rows[0]
+    assert row.asset_id == "asset-a"
+    assert row.stage == "phase_2"
+    assert row.acquisition_discount == 1.655
+    assert row.pos_adjustment_source == "stored_spread"
+    assert row.pos_gap == -0.22
+    assert "stored_screen_snapshot" in row.data_notes
+
+
+def test_unified_screener_excludes_company_recency_gate_failures():
+    store = KnowledgeStore(":memory:")
+    snapshot_date = date(2026, 3, 21)
+    store.write_screen_snapshots(
+        [
+            ScreenRow(
+                ticker="AAA",
+                program_label="asset-a",
+                stage="Phase 2",
+                ta="oncology",
+                model_pos=0.55,
+                implied_pos=0.33,
+                spread_pp=22.0,
+                rnpv_millions=480.0,
+                ev_millions=290.0,
+                acquisition_discount_pct=65.5,
+                next_catalyst="Phase 2 data",
+                catalyst_date=None,
+                days_to_catalyst=30,
+                single_asset=True,
+                approximation_warning=None,
+                data_date=snapshot_date,
+                thesis_strength=None,
+            )
+        ],
+        snapshot_date=snapshot_date,
+    )
+    _write_company_sotp_snapshot(
+        store,
+        ticker="AAA",
+        snapshot_date=snapshot_date,
+        passes_gate=False,
+        action_policy="needs_manual_review",
+        action_reason="balance_sheet_recency_gate_failed",
+    )
+    asset_a = _watchlist_asset(
+        asset_id="asset-a",
+        company_id="company-a",
+        ticker="AAA",
+        market_cap_millions=120.0,
+    )
+    cfg = SimpleNamespace(watchlist=[asset_a], ranking={"top_n": 10})
+    screened_at = datetime(2026, 3, 24, 12, 0, tzinfo=timezone.utc)
+
+    screener = UnifiedMispricingScreener(
+        knowledge_store=store,
+        config=MispricingScreenConfig(
+            top_n=10,
+            catalyst_days_ahead=60,
+            prefer_stored_screen_snapshots=True,
+        ),
+    )
+    result = screener.screen_from_watchlist_config(cfg, screened_at=screened_at)
+    store.close()
+
+    assert result.n_excluded_company_gate == 1
+    assert result.rows == []
+
+
+def test_unified_screener_attaches_company_snapshot_metadata():
+    store = KnowledgeStore(":memory:")
+    screened_at = datetime(2026, 3, 10, 12, 0, tzinfo=timezone.utc)
+    signal_date = screened_at.date()
+    trace = SourceTrace(source_type="test", source_ref="mispricing-screen")
+    _write_company_sotp_snapshot(
+        store,
+        ticker="AAA",
+        snapshot_date=signal_date,
+        passes_gate=True,
+        action_policy="buy",
+        action_reason="ranked_discount_above_buy_threshold:1.50x",
+    )
+
+    asset_a = _watchlist_asset(
+        asset_id="asset-a",
+        company_id="company-a",
+        ticker="AAA",
+        market_cap_millions=120.0,
+    )
+    store.add_event(
+        _event(
+            asset_id="asset-a",
+            company_id="company-a",
+            event_id="evt-a",
+            observed_at=screened_at,
+        ),
+        trace,
+        signal_id="sig-asset-a",
+    )
+    store.add_structured_signal(
+        _signal(
+            asset_id="asset-a",
+            company_id="company-a",
+            event_id="evt-a",
+            signal_date=signal_date,
+            created_at=screened_at,
+            confidence=0.90,
+            phase=TrialPhase.PHASE_3,
+        ),
+        trace,
+        extraction_result_id="extract-a",
+    )
+    store.add_valuation_diff(
+        _diff(
+            asset_id="asset-a",
+            event_id="evt-a",
+            created_at=screened_at,
+            before_rnpv=160.0,
+            after_rnpv=260.0,
+            model_pos=0.65,
+        ),
+        company_id="company-a",
+        source_trace=trace,
+    )
+    store.upsert_market_price(
+        MarketPriceRecord(
+            ticker="AAA",
+            price_date=signal_date,
+            close_usd=12.0,
+            adj_close_usd=12.0,
+            volume=100_000,
+            market_cap_millions=120.0,
+        )
+    )
+    contexts = {
+        "asset-a": _context(
+            asset_id="asset-a",
+            company_id="company-a",
+            ticker="AAA",
+            stage=DevelopmentStage.PHASE_3,
+            phase=TrialPhase.PHASE_3,
+            market_cap_millions=120.0,
+            current_price=12.0,
+            cash_millions=20.0,
+            total_addressable_market_millions=2_200.0,
+            peak_penetration=0.24,
+            success_probability=0.65,
+        ),
+    }
+    cfg = SimpleNamespace(watchlist=[asset_a], ranking={"top_n": 10})
+    screener = UnifiedMispricingScreener(
+        knowledge_store=store,
+        config=MispricingScreenConfig(top_n=10, catalyst_days_ahead=60),
+        context_provider=_StubProvider(contexts),
+    )
+    result = screener.screen_from_watchlist_config(cfg, screened_at=screened_at)
+    store.close()
+
+    assert len(result.rows) == 1
+    assert result.rows[0].company_action_policy == "buy"
+    assert result.rows[0].company_action_reason == "ranked_discount_above_buy_threshold:1.50x"
+    assert result.rows[0].company_snapshot_date == signal_date
+    assert "company_sotp_snapshot_attached" in result.rows[0].data_notes

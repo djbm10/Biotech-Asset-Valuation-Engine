@@ -11,6 +11,7 @@ import json
 import tempfile
 from datetime import date, datetime, timezone
 from pathlib import Path
+from types import SimpleNamespace
 
 import pytest
 
@@ -248,6 +249,138 @@ class TestBuildDailyBrief:
         as_of = date(2026, 1, 15)
         brief = build_daily_brief(store, UNIVERSE, fetch_live=False, as_of=as_of)
         assert brief.as_of == as_of
+
+    def test_uses_persisted_screen_snapshot_on_or_before_as_of(self, store, monkeypatch):
+        from bve.analysis.implied_pos_batch import ScreenRow
+        from bve.ops.daily_brief import build_daily_brief
+        from bve.ops.weekly_runner import UNIVERSE
+
+        store.write_screen_snapshots(
+            [
+                ScreenRow(
+                    ticker="VKTX",
+                    program_label="VKTX P2",
+                    stage="phase_2",
+                    ta="metabolic",
+                    model_pos=0.55,
+                    implied_pos=0.40,
+                    spread_pp=15.0,
+                    rnpv_millions=500.0,
+                    ev_millions=300.0,
+                    acquisition_discount_pct=66.7,
+                    next_catalyst="Phase 2 readout",
+                    catalyst_date=None,
+                    days_to_catalyst=None,
+                    single_asset=True,
+                    approximation_warning=None,
+                    data_date=date(2026, 1, 1),
+                )
+            ],
+            snapshot_date=date(2026, 1, 1),
+        )
+
+        def _fail_run_screen(*args, **kwargs):
+            raise AssertionError("run_screen should not be called when a stored snapshot exists")
+
+        monkeypatch.setattr("bve.analysis.implied_pos_batch.run_screen", _fail_run_screen)
+
+        brief = build_daily_brief(
+            store,
+            UNIVERSE,
+            fetch_live=False,
+            as_of=date(2026, 1, 15),
+        )
+
+        assert brief.n_universe == 1
+        assert brief.rows[0].ticker == "VKTX"
+        assert brief.rows[0].spread_pp == 15.0
+
+    def test_prefers_company_sotp_snapshot_for_company_facing_ranking(self, store, monkeypatch):
+        from bve.analysis.implied_pos_batch import ScreenRow
+        from bve.ops.daily_brief import build_daily_brief
+        from bve.ops.weekly_runner import UNIVERSE
+
+        store.write_screen_snapshots(
+            [
+                ScreenRow(
+                    ticker="VKTX",
+                    program_label="VKTX P2",
+                    stage="phase_2",
+                    ta="metabolic",
+                    model_pos=0.55,
+                    implied_pos=0.40,
+                    spread_pp=15.0,
+                    rnpv_millions=500.0,
+                    ev_millions=300.0,
+                    acquisition_discount_pct=66.7,
+                    next_catalyst="Phase 2 readout",
+                    catalyst_date=None,
+                    days_to_catalyst=None,
+                    single_asset=True,
+                    approximation_warning=None,
+                    data_date=date(2026, 1, 1),
+                    asset_id="asset-vktx",
+                )
+            ],
+            snapshot_date=date(2026, 1, 1),
+        )
+        store.write_company_sotp_snapshots(
+            [
+                SimpleNamespace(
+                    ticker="VKTX",
+                    company_id="co-vktx",
+                    company_name="Viking Therapeutics",
+                    snapshot_date=date(2026, 1, 1),
+                    rank=1,
+                    market_cap_millions=1200.0,
+                    enterprise_value_millions=1000.0,
+                    sotp_equity_value_millions=1800.0,
+                    sotp_per_share=18.0,
+                    sotp_discount=1.5,
+                    ranked_sotp_discount=1.45,
+                    modeled_asset_coverage_pct=0.9,
+                    asset_count_modeled=1,
+                    modeled_asset_ids=["asset-vktx"],
+                    config_quality_summary="curated",
+                    modeled_asset_confidence_min=0.9,
+                    modeled_asset_confidence_avg=0.9,
+                    action_policy="buy",
+                    action_reason="ranked_discount_above_buy_threshold:1.45x",
+                    market_cap_source="unit_test",
+                    balance_sheet_source="sec_edgar_company_facts",
+                    balance_sheet_source_ref="unit-test",
+                    balance_sheet_snapshot_date=date(2025, 11, 1),
+                    balance_sheet_period_end_date=date(2025, 9, 30),
+                    balance_sheet_form_type="10-Q",
+                    balance_sheet_is_point_in_time=True,
+                    balance_sheet_age_days=92,
+                    balance_sheet_passes_recency_gate=True,
+                    balance_sheet_recency_penalty=1.0,
+                    buckets=[],
+                    limitations=[],
+                    notes=None,
+                )
+            ],
+            snapshot_date=date(2026, 1, 1),
+        )
+
+        def _fail_run_screen(*args, **kwargs):
+            raise AssertionError("run_screen should not be called when a company snapshot exists")
+
+        monkeypatch.setattr("bve.analysis.implied_pos_batch.run_screen", _fail_run_screen)
+
+        brief = build_daily_brief(
+            store,
+            UNIVERSE,
+            fetch_live=False,
+            as_of=date(2026, 1, 15),
+        )
+
+        assert brief.source_mode == "stored_company_snapshot"
+        assert brief.reference_snapshot_date == date(2026, 1, 1)
+        assert brief.rows[0].ticker == "VKTX"
+        assert brief.rows[0].company_ranked_discount == pytest.approx(1.45)
+        assert brief.rows[0].company_action_policy == "buy"
 
 
 # ===========================================================================

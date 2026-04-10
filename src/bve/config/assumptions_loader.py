@@ -43,7 +43,7 @@ For overriding in tests (alternate YAML file):
 from __future__ import annotations
 
 import warnings
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from types import MappingProxyType
 from typing import Any, Optional
@@ -105,7 +105,10 @@ class AssumptionsLoader:
             raw: dict = yaml.safe_load(f)
         self._data: MappingProxyType = _freeze(raw)
         self._path = path
-        self._loaded_at = datetime.utcnow().isoformat(timespec="seconds") + "Z"
+        self._loaded_at = datetime.now(timezone.utc).isoformat(timespec="seconds").replace(
+            "+00:00",
+            "Z",
+        )
         self._validate()
 
     # ------------------------------------------------------------------

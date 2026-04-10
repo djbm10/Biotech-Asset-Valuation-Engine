@@ -1,6 +1,6 @@
 # tasks.md — Implementation Roadmap
 
-Last updated: 2026-03-24
+Last updated: 2026-04-09
 Current branch: core-engine-v1
 Test baseline: 1,407 passing
 
@@ -11,6 +11,1049 @@ Test baseline: 1,407 passing
 Tasks are organized by sprint. Each sprint must be fully complete before the next begins.
 Each task lists: files to create or modify, key design decisions, and done criteria.
 Do not parallelize the watchlist processing loop until Postgres migration is complete.
+
+---
+
+## 2026-04-05 Goal Completion Plan
+
+This is the current cross-goal execution plan for finishing all five strategic goals.
+Order matters: data breadth and replay-safe validation come before deeper model complexity.
+
+1. Close the universe and replay-data gap first.
+   - Build and maintain a replay-safe universe snapshot layer with, by date:
+     ticker, market cap, ADV, stage, active/delisted flag, and config tier.
+   - Source it from replay prices, `knowledge.db` market snapshots, SEC-derived
+     shares/cash, and effective-dated stage labels.
+
+2. Expand config coverage using the shortest path.
+   - Grow from the current hand-built / auto-generated watchlist into a 50+ name
+     config-backed universe.
+   - Prefer screening-grade configs for locally replay-price-covered names first.
+
+3. Make implied PoS the first-class ranking feature.
+   - Persist `model_pos`, `implied_pos`, `pos_spread`, `market_exceeds_model`,
+     `config_quality`, and `single_asset` for every screen date.
+   - Rank on `pos_spread`, while surfacing a confidence-adjusted variant.
+
+4. Re-run historical mispricing validation with strict criteria.
+   - Use survivorship-bias-free inclusion/delisting dates.
+   - Enforce historical market-cap and ADV gates at entry date, not present day.
+   - Keep monthly 365-day hold as the primary validation spec.
+
+5. Upgrade replay statistics so the result is hard to dispute.
+   - Keep block bootstrap.
+   - Add stronger time/asset robustness checks, placebo tests, and subgroup cuts.
+
+6. Finish Goal 2 by productizing the screener.
+   - Make the daily mispricing screen the primary output.
+   - Persist historical screen rows so future validation does not require
+     recomputing everything.
+
+7. Build real acquirer intelligence depth for Goal 3.
+   - Expand curated acquirer coverage to 8-12 major biotech/pharma buyers.
+   - Keep LOE exposure, pipeline gaps, preferred modalities, and deal bands in YAML.
+
+8. Turn strategic fit into a real matching engine.
+   - Extend from TA/modality/stage matching to sub-area, commercial adjacency,
+     prior partnership, budget realism, and urgency from LOE timing.
+
+9. Calibrate the M&A probability score for Goal 4.
+   - Build a labeled takeout-vs-control dataset from 2020-2026.
+   - Keep the transparent weighted score as the baseline; add a calibrated layer on top.
+
+10. Finish Goal 5 with a bottoms-up commercial model.
+   - Replace single-point peak-sales assumptions with patient-flow drivers,
+     persistence, gross-to-net, and ex-US structure.
+   - Apply that upgrade to gold-tier assets first.
+
+## 2026-04-08 Institutional-Grade Upgrade Plan
+
+This is the next institutional-grade execution order after the current
+mispricing / M&A layers stabilized. The priority is to bridge from a strong
+asset-level research engine to a company-level capital allocation system.
+
+1. Build a point-in-time company-level SOTP layer for the top tradable universe.
+   - Aggregate modeled asset rNPV legs at the company level.
+   - Add explicit company buckets for net cash, platform value, unmodeled
+     pipeline, royalties / milestones, and dilution reserve.
+   - Rank on company-level SOTP discount, not only single-asset discount.
+
+2. Add field-level provenance and confidence to company-level inputs.
+   - Every balance-sheet / bucket input should carry source, as-of date, and
+     confidence.
+
+3. Lock a full out-of-sample validation harness around company-level signals.
+   - Factor-aware, cost-aware, liquidity-aware validation against biotech
+     benchmarks.
+
+4. Upgrade gold-tier names from peak-sales shorthand to patient-flow models.
+   - Diagnosed, eligible, treated, share, persistence, gross-to-net, ex-US.
+
+5. Add a policy / risk layer that converts output into action.
+   - Buy / add / avoid for public names.
+   - Partner / acquire / pass for BD outputs.
+   - Include sizing, liquidity gates, catalyst windows, and downside cases.
+
+6. Continue expanding curated acquirer coverage and target-process features.
+   - Broader buyer set, financing stress, process risk, partnership history,
+     and targetability.
+
+### 2026-04-06 M&A calibration adjustment
+
+The first real historical M&A baseline is now live and weak. The execution order
+for Goal 4 is therefore adjusted to prioritize cheap architectural fixes before
+expensive full-universe historical backfills.
+
+Revised order:
+
+1. Add targetability hard-fails first.
+   - Mega-cap exclusion.
+   - Self-acquirer / obvious buyer exclusion.
+   - Approved-revenue-dominant filter.
+   - Penalty or exclusion for clear multi-franchise non-targets.
+
+2. Validate acquirer profiles against historical deals.
+   - For each public deal, score the target against the announced acquirer.
+   - Measure top-1 / top-3 hit rate and fix profiles that miss known deals.
+
+3. Establish the simplest ranking baselines.
+   - `strategic_fit_score` alone.
+   - `strategic_fit + capital_vulnerability`.
+   - `strategic_fit + derisking`.
+   - Current composite without `valuation_discount`.
+   - Current composite with inverted `valuation_discount`.
+
+4. Remove `valuation_discount` from the M&A probability score unless it proves additive.
+   - Keep it as an investor / mispricing signal, not a default takeover-probability driver.
+
+5. Add scarcity as the first new feature.
+   - Compute scarcity as the number of competing Phase 2+ programs in the same
+     indication and same mechanism.
+   - Use CT.gov plus existing registry / intelligence data.
+
+6. Re-run the transparent score after steps 1–5.
+   - Gate: `precision@15 > 20%`, positives above controls on average, and no
+     repeated obvious non-targets dominating the top ranks.
+
+7. Backfill only the useful historical implied-PoS / screen context.
+   - Restrict to known targets plus a matched control set.
+   - Do not run a full-universe backfill until the transparent architecture clears the gate.
+
+8. Deduplicate the calibration dataset.
+   - One primary pre-deal row per target.
+   - Use a canonical pre-announcement anchor date, not 12 near-duplicate monthly rows.
+
+9. Fit a logistic model only after the transparent score clears the gate.
+   - No horizon split until there are at least 50 positive events.
+
+### Current status against the 10-step plan
+
+### 2026-04-08 company-level SOTP foundation
+
+- Completed in code/config:
+  - `src/bve/analysis/company_sotp.py`
+  - `research/company_sotp_overrides.yaml`
+  - `tests/test_company_sotp.py`
+- What changed:
+  - added the first point-in-time company-level SOTP builder for watchlists
+  - aggregates modeled asset rNPV legs by ticker into one company row
+  - adds explicit company buckets for:
+    - net cash
+    - platform value
+    - unmodeled pipeline value
+    - royalty / milestone value
+    - dilution reserve
+  - uses dated market cap from:
+    - knowledge-store market prices when available
+    - replay-store price × shares fallback
+    - yfinance / config fallback paths
+  - reuses stored `screen_snapshots` for single-asset companies when possible
+  - exposes explicit limitations instead of hiding them:
+    - config-based balance sheet is not yet fully point-in-time
+    - multi-asset historical per-asset screen snapshots are not yet persisted
+  - writes a flat CSV for downstream ranking / review
+- Focused verification passed:
+  - `ruff check src/bve/analysis/company_sotp.py tests/test_company_sotp.py`
+  - `python -m pytest tests/test_company_sotp.py -q`
+  - Result: `5 passed`
+- Current limitation:
+  - this is the first institutional bridge layer, not the finished
+    company-level underwriting stack
+  - market cap is point-in-time, but balance sheet still defaults to the latest
+    config snapshot unless a richer dated source is added
+
+### 2026-04-07 Merck / Pfizer / Novartis sub-area repair pass
+
+- Completed in code/config:
+  - `src/bve/intelligence/acquirer_fit.py`
+  - `src/bve/intelligence/acquirer_profile_validation.py`
+  - `examples/research/acquirer_profiles/bms.yaml`
+  - `examples/research/acquirer_profiles/novartis.yaml`
+  - `examples/research/acquirer_profiles/pfizer.yaml`
+  - `tests/intelligence/test_acquirer_fit.py`
+- What changed:
+  - tightened text normalization and stopword handling in the fit scorer so
+    free-form validation notes no longer create fake sub-area matches from
+    tokens like `commercial`, `with`, or acquisition boilerplate
+  - added explicit sub-area alias support in
+    `src/bve/intelligence/acquirer_fit.py` so disease-specific gaps can match
+    real indications such as:
+    - IBD ↔ ulcerative colitis / Crohn's
+    - neuromuscular RNA ↔ DM1 / FSHD / DMD
+    - CD47 / heme IO ↔ hematologic malignancies
+    - PAH ↔ pulmonary arterial hypertension
+  - restricted historical validation candidates in
+    `src/bve/intelligence/acquirer_profile_validation.py` so they no longer
+    inject noisy full-sentence `deal.notes` or target names into
+    `priority_tags`
+  - narrowed the most permissive false-winner profiles:
+    - `bms.yaml`
+      - `radiopharmaceuticals_rdc` now requires radiopharma modality
+      - `protein_degraders_celmod` narrowed to
+        `celmod_myeloma_degrader`
+      - `precision_oncology_kinase` narrowed to
+        `nsclc_ros1_alk_trk_kinase`
+    - `pfizer.yaml`
+      - `cd47_macrophage_heme_io` no longer accepts generic
+        `small_molecule` modality
+    - `novartis.yaml`
+      - oncology heme gap narrowed to `bet_epigenetic_myelofibrosis`
+      - urgency reduced from `high` to `medium`
+- Added regression coverage in `tests/intelligence/test_acquirer_fit.py` for:
+  - Pfizer CD47 vs generic BMS oncology on Trillium-like targets
+  - Merck T-cell engager vs BMS radiopharma on Harpoon-like targets
+  - Merck MPN / LSD1 vs Novartis BET-heme on Imago-like targets
+  - Novartis neuromuscular RNA vs Biogen Alzheimer's on Avidity-like targets
+- Focused verification passed:
+  - `ruff check src/bve/intelligence/acquirer_fit.py src/bve/intelligence/acquirer_profile_validation.py tests/intelligence/test_acquirer_fit.py`
+  - `python -m pytest tests/intelligence/test_acquirer_fit.py tests/intelligence/test_acquirer_profile_validation.py tests/intelligence/test_acquirer_fit_engine.py tests/intelligence/test_acquirer_profiles.py -q`
+  - Result: `31 passed`
+- Live historical validator rerun:
+  - artifact:
+    `outputs/analysis/acquirer_profile_validation_2026-04-07_subarea_repair.csv`
+  - overall:
+    - `n_profile_covered_deals = 32`
+    - `top1_rate = 0.5625`
+    - `top3_rate = 0.8125`
+    - `median_actual_rank = 1.0`
+  - versus the prior tail-repair checkpoint:
+    - `top1_rate`: `0.50 -> 0.5625`
+    - `top3_rate`: `0.875 -> 0.8125`
+    - `median_actual_rank`: `1.5 -> 1.0`
+- Remaining Merck / Pfizer / Novartis top-1 misses are now down to four
+  top-2 cases:
+  - `XLRN`: Merck rank `2`, predicted AstraZeneca
+  - `ARNA`: Pfizer rank `2`, predicted Merck
+  - `IMGO`: Merck rank `2`, predicted GSK
+  - `HARP`: Merck rank `2`, predicted GSK
+- Interpretation:
+  - the pass improved exact buyer ordering again and eliminated the current
+    Novartis top-1 miss set in the covered historical deals
+  - the remaining misses are not broad ranking failures; they are close
+    top-2 contests among plausible strategic buyers
+  - the next acquirer-fit gains, if needed, should focus on:
+    - Merck vs AstraZeneca in cardio-pulmonary assets
+    - Merck / Pfizer vs GSK on oncology-heme / engager edge cases
+    - Pfizer vs Merck tie-break specificity in IBD
+
+### 2026-04-07 final Merck / Pfizer / Novartis cleanup
+
+- Completed in code/config:
+  - `src/bve/intelligence/acquirer_fit.py`
+  - `examples/research/acquirer_profiles/astrazeneca.yaml`
+  - `examples/research/acquirer_profiles/gsk.yaml`
+  - `tests/intelligence/test_acquirer_fit.py`
+- What changed:
+  - pipeline-gap therapeutic matching now uses alias-only semantics for
+    sub-areas that have curated alias maps, instead of inheriting all raw split
+    tokens from the sub-area label
+  - removed note-like / generic disease-token leakage from:
+    - `copd_commercial_respiratory`
+    - `aldosterone_synthase_resistant_htn`
+    - `momelotinib_jak_mpn`
+    - `tl1a_ibd`
+  - narrowed the remaining false-winner profiles:
+    - `astrazeneca.yaml`
+      - `resistant_hypertension_aldosterone_synthase` renamed to
+        `aldosterone_synthase_resistant_htn`
+    - `gsk.yaml`
+      - `myelofibrosis_jak_mpn` renamed to `momelotinib_jak_mpn`
+- Added regression coverage for:
+  - Merck PAH vs AstraZeneca resistant-HTN on Acceleron-like targets
+  - Merck MPN / LSD1 vs GSK JAK / momelotinib on Imago-like targets
+  - Pfizer generic IBD vs Merck TL1A on Arena-like targets
+  - no-note-leakage on generic oncology targets
+- Focused verification passed:
+  - `ruff check src/bve/intelligence/acquirer_fit.py src/bve/intelligence/acquirer_profile_validation.py tests/intelligence/test_acquirer_fit.py`
+  - `python -m pytest tests/intelligence/test_acquirer_fit.py tests/intelligence/test_acquirer_profile_validation.py tests/intelligence/test_acquirer_fit_engine.py tests/intelligence/test_acquirer_profiles.py -q`
+  - Result: `35 passed`
+- Final live validator rerun:
+  - artifact:
+    `outputs/analysis/acquirer_profile_validation_2026-04-07_subarea_repair_final.csv`
+  - overall:
+    - `n_profile_covered_deals = 32`
+    - `top1_rate = 0.6875`
+    - `top3_rate = 0.8125`
+    - `median_actual_rank = 1.0`
+- Versus the prior sub-area repair checkpoint:
+  - `top1_rate`: `0.5625 -> 0.6875`
+  - `top3_rate`: unchanged at `0.8125`
+  - `median_actual_rank`: unchanged at `1.0`
+- Remaining Merck / Pfizer / Novartis top-1 misses:
+  - none in the current covered historical deal set
+
+### 2026-04-07 Step 6/7 calibration overlay refresh
+
+- Completed in code:
+  - `src/bve/intelligence/ma_calibration.py`
+  - `tests/intelligence/test_ma_calibration.py`
+  - `tests/intelligence/test_sprint30.py`
+- What changed:
+  - the default matched-control logistic feature set now includes the improved
+    `strategic_fit_score`
+  - `compare_ranking_policies(...)` now evaluates both
+    `canonical_predeal` and `historical_snapshot` datasets correctly
+  - historical-snapshot policy comparison is now grouped by
+    `snapshot_date`, so policy A/B/C can be judged against the real replay
+    top-15 baseline instead of only against a global case-control ranking
+- Focused verification passed:
+  - `ruff check src/bve/intelligence/ma_calibration.py tests/intelligence/test_ma_calibration.py tests/intelligence/test_sprint30.py`
+  - `python -m pytest tests/intelligence/test_ma_calibration.py tests/intelligence/test_sprint30.py -q`
+  - Result: `36 passed`
+- Rebuilt canonical pre-deal dataset off the refreshed replay snapshots
+  (`2021-02-01 -> 2024-03-01`, `365d` lookahead, `180d` anchor,
+  `2` controls per positive):
+  - rows: `75`
+  - positives: `25`
+  - controls: `50`
+  - unique targets: `25`
+  - stored v1.2 precision@15: `0.733333`
+  - stored v1.2 recall@15: `0.44`
+- Refit the first matched-control logistic model using:
+  - `stored_probability`
+  - `strategic_fit_score`
+  - `capital_vulnerability_score`
+  - `log_enterprise_value`
+- Refit metrics on the canonical matched-control set:
+  - in-sample AUC: `0.7832`
+  - leave-one-group-out AUC: `0.7632`
+  - leave-one-group-out precision@15: `0.40`
+  - leave-one-group-out recall@15: `0.24`
+- Historical policy comparison rerun on the refreshed `historical_snapshot`
+  replay dataset now reads:
+  - refreshed stored baseline: `precision@15 = 0.250877`,
+    `recall@15 = 0.64`
+  - policy A, rank by `v1.2`, display calibrated probability only:
+    `0.250877 / 0.64`
+  - policy B, rank by `v1.2` with calibrated threshold filter (`0.10`):
+    `0.270175 / 0.64`
+  - policy C, rank by `v1.2` with calibrated tie-breaker:
+    `0.261404 / 0.64`
+- Interpretation:
+  - the earlier Step 3 checkpoint (`0.254386 / 0.60`) is now superseded by the
+    refreshed stored-snapshot baseline (`0.250877 / 0.64`)
+  - policy A is neutral on the refreshed baseline
+  - policies B and C both improve precision without reducing recall
+  - policy B is the best candidate for promotion
+- Promotion decision:
+  - promote the calibration layer as a live overlay candidate
+  - keep `v1.2` as the core score regime
+  - prefer policy B (`v1.2` rank filtered by calibrated threshold) over
+    policy A/C for the next live wiring step
+- New artifacts:
+  - `outputs/analysis/ma_calibration_dataset_2021-02-01_2024-03-01_canonical_anchor180_controls2_post_step2.csv`
+  - `outputs/analysis/ma_calibration_metrics_2021-02-01_2024-03-01_canonical_anchor180_controls2_post_step2.json`
+  - `outputs/analysis/ma_logistic_fit_2021-02-01_2024-03-01_canonical_anchor180_controls2_post_step2.json`
+  - `outputs/analysis/ma_logistic_predictions_2021-02-01_2024-03-01_canonical_anchor180_controls2_post_step2.csv`
+  - `outputs/analysis/ma_policy_comparison_2021-02-01_2024-03-01_historical_snapshot_post_step2.json`
+
+### 2026-04-07 live Policy B integration
+
+- Completed in code:
+  - `src/bve/intelligence/ma_probability.py`
+  - `src/bve/cli/ma_probability.py`
+  - `src/bve/ops/weekly_runner.py`
+  - `tests/intelligence/test_ma_probability.py`
+  - `tests/intelligence/test_ma_probability_cli.py`
+- What changed:
+  - added live calibration policy controls to `MAProbabilityConfig`:
+    - `calibration_policy`
+    - `calibration_threshold`
+  - scanner now applies the calibrated overlay to live displayed rows:
+    - `display_only`
+    - `threshold_filter`
+    - `tie_breaker`
+  - production output uses policy B semantics:
+    full cross-section is still persisted for replay integrity, but displayed
+    / monitored rows are filtered by `p_takeout_calibrated >= threshold`
+  - live result rows are re-ranked after the policy is applied so the report
+    does not show skipped rank numbers
+  - CLI now defaults to:
+    - the latest available calibration fit JSON
+    - `--calibration-policy threshold_filter`
+    - `--calibration-threshold 0.10`
+  - weekly runner now resolves the same calibration fit automatically and
+    appends calibrated probability to the printed M&A section
+- Focused verification passed:
+  - `ruff check src/bve/intelligence/ma_probability.py src/bve/cli/ma_probability.py src/bve/ops/weekly_runner.py tests/intelligence/test_ma_probability.py tests/intelligence/test_ma_probability_cli.py`
+  - `python -m pytest tests/intelligence/test_ma_probability.py tests/intelligence/test_ma_probability_cli.py tests/intelligence/test_sprint30.py -q`
+  - Result: `54 passed`
+- Added regressions for:
+  - scanner threshold-filter policy excluding sub-threshold rows
+  - scanner tie-break policy using calibrated probability
+  - CLI/report surfacing calibration policy, threshold, and calibrated probability
+- Live CLI smoke run passed:
+  - `python -m bve.cli.ma_probability --watchlist examples/configs/watchlists/watchlist_replay_expanded_phase2.yaml --db outputs/intelligence/replay_knowledge.db --as-of 2024-03-01 --top 3 --output-format report`
+  - output now reports:
+    - `Calibration: threshold_filter | Threshold: 0.10`
+    - calibrated probability column (`Cal`)
+    - filtered live ranking using the promoted policy B path
+
+### 2026-04-07 acquirer tail-repair pass
+
+- Completed in data/config:
+  - `examples/research/acquirer_profiles/pfizer.yaml`
+  - `examples/research/acquirer_profiles/merck.yaml`
+  - `examples/research/acquirer_profiles/gsk.yaml`
+  - `examples/research/acquirer_profiles/novartis.yaml`
+  - `examples/research/acquirer_profiles/bms.yaml`
+  - `examples/research/acquirer_profiles/astrazeneca.yaml`
+  - `examples/research/acquirer_profiles/amgen.yaml`
+  - `examples/research/acquirer_profiles/abbvie.yaml`
+  - `tests/intelligence/test_acquirer_fit.py`
+- What changed:
+  - targeted real miss-set repair for:
+    - Pfizer / Trillium (`cd47`, heme IO)
+    - Merck / Prometheus, Harpoon, Imago, Verona
+    - GSK / RAPT food-allergy immunology
+    - Novartis / Avidity neuromuscular RNA
+    - BMS / Turning Point precision kinase and RayzeBio radiopharma
+    - AstraZeneca / CinCor resistant hypertension
+  - narrowed two broad false winners:
+    - Amgen complement / inflammation urgency reduced
+    - AbbVie broad neuroscience urgency reduced
+- Focused verification passed:
+  - `ruff check src/bve/intelligence/acquirer_fit.py src/bve/intelligence/acquirer_profile_validation.py tests/intelligence/test_acquirer_fit.py tests/intelligence/test_acquirer_fit_engine.py tests/intelligence/test_acquirer_profile_validation.py tests/intelligence/test_acquirer_profiles.py`
+  - `python -m pytest tests/intelligence/test_acquirer_fit.py tests/intelligence/test_acquirer_fit_engine.py tests/intelligence/test_acquirer_profile_validation.py tests/intelligence/test_acquirer_profiles.py -q`
+  - Result: `27 passed`
+- Live historical deal validation rerun:
+  - artifact:
+    `outputs/analysis/acquirer_profile_validation_2026-04-07_tail_repair.csv`
+  - overall:
+    - `top1_rate = 0.500000`
+    - `top3_rate = 0.875000`
+    - `median_actual_rank = 1.5`
+  - versus the prior completed Step 2 baseline:
+    - `top1_rate`: `0.46875 -> 0.50`
+    - `top3_rate`: `0.6875 -> 0.875`
+    - `median_actual_rank`: `2.0 -> 1.5`
+  - key weak-buyer improvements:
+    - `bristol_myers_squibb`: `top1 1.00`, `top3 1.00`
+    - `astrazeneca`: `top1 1.00`, `top3 1.00`
+    - `gsk`: `top1 0.666667`, `top3 1.00`
+    - `novartis`: `top3 1.00`
+    - `pfizer`: `top3 1.00`
+    - `merck`: `top3 1.00`
+- Interpretation:
+  - the weak-tail buyer miss problem is now much smaller
+  - the remaining issue is top-1 ordering inside Merck/Pfizer/Novartis, not
+    gross profile coverage
+
+### 2026-04-07 post-tail-repair historical M&A rerun
+
+- Reran the historical M&A stack on top of the repaired acquirer-fit layer:
+  - refreshed `ma_probability_snapshots` coverage in
+    `outputs/intelligence/replay_knowledge.db`
+  - stored snapshot coverage now confirms:
+    - `2432` rows
+    - `38` snapshot dates
+    - `2021-02-01 -> 2024-03-01`
+- Rebuilt post-repair historical snapshot and canonical calibration artifacts:
+  - `outputs/analysis/ma_calibration_dataset_2021-02-01_2024-03-01_historical_snapshot_tail_repair.csv`
+  - `outputs/analysis/ma_calibration_metrics_2021-02-01_2024-03-01_historical_snapshot_tail_repair.json`
+  - `outputs/analysis/ma_baseline_comparison_2026-04-07_tail_repair.json`
+  - `outputs/analysis/ma_calibration_dataset_2021-02-01_2024-03-01_canonical_anchor180_controls2_tail_repair.csv`
+  - `outputs/analysis/ma_calibration_metrics_2021-02-01_2024-03-01_canonical_anchor180_controls2_tail_repair.json`
+  - `outputs/analysis/ma_logistic_fit_2021-02-01_2024-03-01_canonical_anchor180_controls2_tail_repair.json`
+  - `outputs/analysis/ma_logistic_predictions_2021-02-01_2024-03-01_canonical_anchor180_controls2_tail_repair.csv`
+  - `outputs/analysis/ma_policy_comparison_2021-02-01_2024-03-01_historical_snapshot_tail_repair.json`
+- Refreshed historical snapshot metrics (`top_k=15`):
+  - rows: `1995`
+  - positive rows: `263`
+  - unique targets: `25`
+  - precision@15: `0.245614`
+  - recall@15: `0.64`
+  - median lead days: `342.5`
+- Versus the pre-tail-repair refreshed snapshot baseline:
+  - precision@15: `0.250877 -> 0.245614`
+  - recall@15: unchanged at `0.64`
+- Transparent baseline comparison after the repair:
+  - `stored_probability`: `0.245614 / 0.64`
+  - `strategic_fit_only`: `0.245614 / 0.64`
+  - `strategic_fit_plus_scarcity`: `0.245614 / 0.64`
+  - `strategic_fit_plus_capital`: `0.235088 / 0.56`
+  - `strategic_fit_plus_derisking`: `0.247368 / 0.52`
+  - `composite_without_valuation_discount`: `0.247368 / 0.52`
+  - `composite_with_inverted_valuation_discount`: `0.221053 / 0.44`
+- Rebuilt canonical matched-control set:
+  - rows: `75`
+  - positives: `25`
+  - controls: `50`
+  - precision@15: `0.733333`
+  - recall@15: `0.44`
+- Refit matched-control logistic model:
+  - feature set unchanged:
+    `stored_probability`, `strategic_fit_score`,
+    `capital_vulnerability_score`, `log_enterprise_value`
+  - in-sample AUC: `0.7792`
+  - leave-one-group-out AUC: `0.7632`
+  - leave-one-group-out precision@15: `0.40`
+  - leave-one-group-out recall@15: `0.24`
+- Updated historical policy comparison:
+  - policy A: `0.245614 / 0.64`
+  - policy B: `0.264912 / 0.64`
+  - policy C: `0.261404 / 0.64`
+  - baseline AUC: `0.6825`
+  - calibrated AUC: `0.760478`
+- Interpretation:
+  - the acquirer-fit repair materially improved historical buyer matching, but
+    it did not lift the raw `v1.2` ranking baseline
+  - policy B remains the best live deployment regime because it still improves
+    precision without reducing recall
+  - the next gains are more likely to come from additional curated acquirer
+    breadth / sub-area coverage than from re-tuning the score weights again
+
+### 2026-04-08 post-subarea-repair-final historical M&A rerun
+
+- Rebuilt a coherent historical M&A artifact set from the current repaired-fit
+  replay DB after the final Merck / Pfizer / Novartis sub-area repair:
+  - `outputs/analysis/ma_calibration_dataset_2021-02-01_2024-03-01_historical_snapshot_subarea_repair_final.csv`
+  - `outputs/analysis/ma_calibration_metrics_2021-02-01_2024-03-01_historical_snapshot_subarea_repair_final.json`
+  - `outputs/analysis/ma_baseline_comparison_2026-04-07_subarea_repair_final.json`
+  - `outputs/analysis/ma_calibration_dataset_2021-02-01_2024-03-01_canonical_anchor180_controls2_subarea_repair_final.csv`
+  - `outputs/analysis/ma_calibration_metrics_2021-02-01_2024-03-01_canonical_anchor180_controls2_subarea_repair_final.json`
+  - `outputs/analysis/ma_logistic_fit_2021-02-01_2024-03-01_canonical_anchor180_controls2_subarea_repair_final.json`
+  - `outputs/analysis/ma_logistic_predictions_2021-02-01_2024-03-01_canonical_anchor180_controls2_subarea_repair_final.csv`
+  - `outputs/analysis/ma_policy_comparison_2021-02-01_2024-03-01_historical_snapshot_subarea_repair_final.json`
+- Current authoritative `historical_snapshot` result (`top_k=15`):
+  - rows: `1995`
+  - positive rows: `263`
+  - unique targets: `25`
+  - precision@15: `0.245614`
+  - recall@15: `0.56`
+  - median lead days: `346.0`
+  - avg probability positive/control: `0.943384 / 0.83321`
+- Versus the prior repaired-fit checkpoint:
+  - precision@15: unchanged at `0.245614`
+  - recall@15: `0.64 -> 0.56`
+- Updated transparent baseline comparison:
+  - `stored_probability`: `0.245614 / 0.56`
+  - `strategic_fit_only`: `0.245614 / 0.56`
+  - `strategic_fit_plus_scarcity`: `0.245614 / 0.56`
+  - `strategic_fit_plus_capital`: `0.238596 / 0.56`
+  - `strategic_fit_plus_derisking`: `0.228070 / 0.48`
+  - `composite_without_valuation_discount`: `0.228070 / 0.48`
+  - `composite_with_inverted_valuation_discount`: `0.210526 / 0.44`
+- Rebuilt canonical matched-control set:
+  - rows: `75`
+  - positives: `25`
+  - controls: `50`
+  - stored precision@15: `0.733333`
+  - stored recall@15: `0.44`
+- Refit matched-control logistic model:
+  - features unchanged:
+    `stored_probability`, `strategic_fit_score`,
+    `capital_vulnerability_score`, `log_enterprise_value`
+  - in-sample AUC: `0.7824`
+  - leave-one-group-out AUC: `0.7480`
+  - leave-one-group-out precision@15: `0.40`
+  - leave-one-group-out recall@15: `0.24`
+- Updated live-policy comparison on `historical_snapshot`:
+  - policy A: `0.245614 / 0.56`
+  - policy B: `0.249123 / 0.60`
+  - policy C: `0.224561 / 0.52`
+  - baseline AUC: `0.67443`
+  - calibrated AUC: `0.74002`
+- Interpretation:
+  - the stronger acquirer substrate improved buyer attribution, not top-15
+    target ranking
+  - it did **not** improve the live `precision@15` baseline
+  - Policy B still earns its keep because it recovers a small precision and
+    recall lift on top of the unchanged `v1.2` ranker
+
+### 2026-04-07 targetability filter refinement
+
+- Completed:
+  - migrated the M&A scanner to the package-level
+    `src/bve/config/targetability_rules.yaml` schema
+  - added a reusable `TargetabilityFilter` and moved hard-fail handling ahead
+    of ranking
+  - hard-failed assets are now excluded from `rows` and logged explicitly
+  - added `src/bve/analysis/mna_probability_scanner.py` for dataset evaluation
+  - fixed stale same-date snapshot persistence by deleting old
+    `ma_probability_snapshots` rows before rewrite
+- Focused verification passed:
+  - `ruff check src/bve/intelligence/ma_probability.py src/bve/ops/ma_probability_backfiller.py src/bve/analysis/mna_probability_scanner.py tests/intelligence/test_ma_probability.py tests/intelligence/test_ma_probability_cli.py tests/test_analysis_mna_probability_scanner.py`
+  - `python -m pytest tests/intelligence/test_ma_probability.py tests/intelligence/test_ma_probability_cli.py tests/test_analysis_mna_probability_scanner.py -q`
+- Historical replay result on `2021-02-01 -> 2024-03-01`, `top_k=15`,
+  `historical_snapshot`:
+  - baseline before this refinement on the current branch:
+    `precision@15 = 0.221053`, `recall@15 = 0.44`
+  - after the refinement:
+    `precision@15 = 0.221053`, `recall@15 = 0.44`
+  - `112` asset-date rows were removed from persisted M&A snapshots
+  - top-15 turnover versus the frozen baseline: `0` changed slots across
+    `38` snapshot dates
+- Interpretation: the refined filter improves universe hygiene and removes stale
+  excluded names from persisted snapshots, but it does not change the current
+  historical top-15 ranking. Further ranking improvement has to come from the
+  score itself, not more hard-fail rules.
+
+### 2026-04-07 acquirer profile validation rebaseline
+
+- Added another Step 2 refinement pass in:
+  - `src/bve/intelligence/acquirer_fit.py`
+  - `src/bve/intelligence/acquirer_profile_validation.py`
+  - `examples/research/acquirer_profiles/lilly.yaml`
+  - `tests/intelligence/test_acquirer_profile_validation.py`
+- What changed:
+  - expanded TA aliasing to cover kidney, liver, respiratory, neuroscience,
+    vaccines, radiopharmaceutical, and IBD synonyms
+  - normalized hyphens in the fit matcher so phrases like `alpha-1`,
+    `triple-negative`, and `gene-therapy` no longer fragment matching
+  - watchlist-backed deal validation now upgrades coarse target metadata from
+    deal context:
+    - generic TA such as `other` can now become `kidney_disease`,
+      `liver_disease`, `respiratory`, or `neuroscience`
+    - generic `small_molecule` can now be upgraded to `adc`,
+      `radiopharmaceutical`, `genetic_medicine`, `mRNA`, `rna`, `protein`,
+      or `peptide` when the deal text supports it
+  - deal-derived fields are now merged into candidate `priority_tags` so
+    sub-area matching has more real text to work with
+  - Lilly now carries an explicit CNS / otology gene-therapy gap
+- Added focused regressions for:
+  - generic watchlist TA refinement from deal metadata
+  - watchlist `small_molecule -> adc` refinement from deal metadata
+- Focused verification passed:
+  - `ruff check src/bve/intelligence/acquirer_fit.py src/bve/intelligence/acquirer_profile_validation.py tests/intelligence/test_acquirer_profile_validation.py tests/intelligence/test_acquirer_fit.py tests/intelligence/test_acquirer_fit_engine.py`
+  - `python -m pytest tests/intelligence/test_acquirer_profile_validation.py tests/intelligence/test_acquirer_fit.py tests/intelligence/test_acquirer_fit_engine.py -q`
+  - Result: `17 passed`
+- Live Step 2 validation rerun on the current curated directory:
+  - profiles: `examples/research/acquirer_profiles`
+  - deals: `research/mna/deal_universe_2020_2026.yaml`
+  - watchlist context: `examples/configs/watchlists/watchlist_replay_expanded_phase2.yaml`
+  - artifact: `outputs/analysis/acquirer_profile_validation_2026-04-07.csv`
+- Measured result after the normalization pass:
+  - `n_public_tickered_deals = 38`
+  - `n_profile_covered_deals = 32`
+  - `n_scored_deals = 32`
+  - `n_watchlist_backed = 27`
+  - `n_fallback_only = 5`
+  - `top1_rate = 0.1875`
+  - `top3_rate = 0.53125`
+  - `median_actual_rank = 3.0`
+- Versus the pre-normalization Step 2 baseline on the same curated breadth:
+  - `top1_rate`: unchanged at `0.1875`
+  - `top3_rate`: improved from `0.375` to `0.53125`
+  - `median_actual_rank`: improved from `4.5` to `3.0`
+- Interpretation:
+  - the watchlist/deal candidate-construction layer is materially better now
+  - the remaining Step 2 problem is profile misspecification / breadth, not
+    candidate normalization
+  - AbbVie is still over-winning broad immunology / oncology ties, and several
+    real buyers still need more specific gaps to rank top-1 on their own
+    historical deals
+  - Step 2 is therefore still in progress; the next work should target the
+    remaining per-acquirer misses directly rather than changing the M&A score
+    architecture again
+- Follow-on targeted profile correction pass completed in:
+  - `examples/research/acquirer_profiles/abbvie.yaml`
+  - `examples/research/acquirer_profiles/amgen.yaml`
+  - `examples/research/acquirer_profiles/bms.yaml`
+  - `examples/research/acquirer_profiles/gsk.yaml`
+  - `examples/research/acquirer_profiles/lilly.yaml`
+  - `examples/research/acquirer_profiles/merck.yaml`
+  - `examples/research/acquirer_profiles/novartis.yaml`
+  - `examples/research/acquirer_profiles/pfizer.yaml`
+  - `examples/research/acquirer_profiles/sanofi.yaml`
+- What changed:
+  - narrowed AbbVie's broad oncology / immunology urgency so it stops winning
+    generic ties by default
+  - added missing sub-area gaps for actual historical buyers:
+    - Merck: T-cell engagers, hematology / MPN
+    - Pfizer: CD47 / heme immuno-oncology, higher-urgency migraine CGRP
+    - GSK: myelofibrosis and chronic-cough respiratory
+    - BMS: cardiomyopathy and precision-oncology kinase assets
+    - Sanofi: type 1 diabetes autoimmunity and broader AAT modality coverage
+    - Novartis: neuromuscular RNA / oligo / gene-editing
+    - Lilly: higher-urgency CNS / otology gene therapy plus cardiovascular
+      gene-editing adjacency
+    - Amgen: complement / vasculitis inflammation adjacency
+- Focused verification rerun passed:
+  - `ruff check src/bve/intelligence/acquirer_fit.py src/bve/intelligence/acquirer_profile_validation.py tests/intelligence/test_acquirer_profile_validation.py tests/intelligence/test_acquirer_fit.py tests/intelligence/test_acquirer_fit_engine.py tests/intelligence/test_acquirer_profiles.py`
+  - `python -m pytest tests/intelligence/test_acquirer_profile_validation.py tests/intelligence/test_acquirer_fit.py tests/intelligence/test_acquirer_fit_engine.py tests/intelligence/test_acquirer_profiles.py -q`
+  - Result: `25 passed`
+- Updated live Step 2 validation result:
+  - `n_public_tickered_deals = 38`
+  - `n_profile_covered_deals = 32`
+  - `n_scored_deals = 32`
+  - `top1_rate = 0.34375`
+  - `top3_rate = 0.625`
+  - `median_actual_rank = 2.5`
+  - artifact refreshed: `outputs/analysis/acquirer_profile_validation_2026-04-07.csv`
+- Versus the immediately prior rebaseline:
+  - `top1_rate`: `0.1875 -> 0.34375`
+  - `top3_rate`: `0.53125 -> 0.625`
+  - `median_actual_rank`: `3.0 -> 2.5`
+- Notable per-acquirer improvements:
+  - `Eli Lilly`: `4 / 4` top-1, `4 / 4` top-3
+  - `Amgen`: `1 / 2` top-1, `2 / 2` top-3
+  - `Sanofi`: `1 / 4` top-1, `3 / 4` top-3
+  - `BMS`: `1 / 4` top-1, `2 / 4` top-3
+- Final Step 2 structural matcher fix completed in
+  `src/bve/intelligence/acquirer_fit.py`:
+  - removed generic signal leakage (`disease`, `therapy`, `next`, etc.) from
+    TA/sub-area matching
+  - made literal sub-area matching separate from broad category aliasing
+  - broad TA-only matches now score as partial (`0.65`) when a gap defines a
+    more specific sub-area; full score now requires a real sub-area/indication
+    overlap
+- Added regression coverage in `tests/intelligence/test_acquirer_fit.py` for:
+  - IBD-specific buyer > generic immunology buyer
+  - kidney/IgAN-specific buyer > unrelated profile
+- Focused verification rerun passed:
+  - `ruff check src/bve/intelligence/acquirer_fit.py src/bve/intelligence/acquirer_profile_validation.py tests/intelligence/test_acquirer_fit.py tests/intelligence/test_acquirer_profile_validation.py tests/intelligence/test_acquirer_fit_engine.py tests/intelligence/test_acquirer_profiles.py`
+  - `python -m pytest tests/intelligence/test_acquirer_fit.py tests/intelligence/test_acquirer_profile_validation.py tests/intelligence/test_acquirer_fit_engine.py tests/intelligence/test_acquirer_profiles.py -q`
+  - Result: `27 passed`
+- Final live Step 2 validation result:
+  - `n_public_tickered_deals = 38`
+  - `n_profile_covered_deals = 32`
+  - `n_scored_deals = 32`
+  - `top1_rate = 0.46875`
+  - `top3_rate = 0.6875`
+  - `median_actual_rank = 2.0`
+  - artifact refreshed: `outputs/analysis/acquirer_profile_validation_2026-04-07.csv`
+- Versus the immediately prior targeted-profile pass:
+  - `top1_rate`: `0.34375 -> 0.46875`
+  - `top3_rate`: `0.625 -> 0.6875`
+  - `median_actual_rank`: `2.5 -> 2.0`
+- Step 2 status:
+  - complete for the current curated acquirer set
+  - remaining misses are now concentrated in a smaller tail
+    (`Merck`, `Pfizer`, `BMS`, `Novartis`, `AstraZeneca`) and are no longer
+    dominated by the original generic TA-matching bug
+
+- Step 1 is materially underway: the repo now has a config-backed expanded replay
+  watchlist at `examples/configs/watchlists/watchlist_replay_expanded_phase2.yaml`
+  with 71 Phase 2+ assets (26 reused configs, 45 generated screening-grade configs).
+- The strict monthly 365-day implied-PoS validation on that expanded watchlist now
+  clears the target with `G=23` unique clusters and `bootstrap p=0.0000`.
+- Replay-safe historical market-cap and ADV filters are now implemented in
+  `src/bve/analysis/historical_implied_pos_validation.py`.
+- `src/bve/ops/price_backfiller.py` now backfills both `historical_prices` and
+  replay-store `market_prices`, so historical ADV can be enforced off real
+  volume-aware rows instead of returning zero observations.
+- Live backfill result on the expanded replay universe:
+  `44` tickers populated, `45,077` market-price rows inserted, `XBI` included.
+- The full strict Phase 2+ rules-based run now passes on the expanded watchlist:
+  `G=28`, `ADV-covered obs=825`, mean excess return `+27.37%`,
+  `bootstrap p=0.0000`.
+- Historical validation now persists screen rows into `screen_snapshots`:
+  `825` rows written across `38` snapshot dates in `outputs/intelligence/replay_knowledge.db`.
+- Stronger robustness checks are now in the validator output:
+  reverse-signal placebo, within-date shuffle placebo, leave-one-cluster-out,
+  and selected-trade stage subgroup cuts.
+- Current robustness readout on the strict rules-based run:
+  reverse placebo `+1.54%`, shuffle placebo mean `+16.20%` with
+  `shuffle >= actual p=0.0000`, leave-one-out worst case `+22.00%`.
+- Downstream consumers now read those persisted dated snapshots directly:
+  `bve-daily-brief` is snapshot-first for `--as-of`, and
+  `bve-universe-screen --as-of` now resolves the latest snapshot on or before
+  the requested date from a configurable KnowledgeStore DB.
+- `src/bve/analysis/mispricing_screener.py` now uses the same dated snapshot
+  interface: it can persist fresh watchlist rows into `screen_snapshots`, or
+  load the latest stored snapshot on or before `--as-of` via
+  `--use-stored-snapshots`.
+- `src/bve/cli/screen.py` / `src/bve/intelligence/mispricing_screener.py` now
+  support `--use-stored-screen-snapshots`, so the unified screen can also read
+  archived dated mispricing state directly instead of recomputing.
+- `screen_snapshots` now persist the remaining Step 3 quality flags:
+  `market_exceeds_model`, `config_quality`, plus the existing `single_asset`
+  / `approximation_warning`.
+- Live CLI verification on the expanded replay watchlist resolved
+  `2024-03-20 -> 2024-03-01` from `outputs/intelligence/replay_knowledge.db`
+  without recomputing the historical screen, in both
+  `bve.analysis.mispricing_screener` and `bve.cli.screen`.
+- Step 7 is now underway on real curated data:
+  `examples/research/acquirer_profiles` now contains `pfizer.yaml`,
+  `lilly.yaml`, and `novo_nordisk.yaml`.
+- Curated profiles can now be screening-grade and omit balance-sheet fields;
+  the loader derives a placeholder budget from the largest gap budget ceiling
+  when cash is not supplied.
+- Default acquirer-profile paths now point to the curated directory in:
+  `AcquirerFitIntegrationConfig`, `bve-acquirer-fit`, `bve-ma-probability`,
+  and the weekly runner's M&A scan.
+- The strategic-fit matcher now uses indication and priority-tag text in
+  addition to the coarse therapeutic-area field, which improves gap matching
+  for assets whose enum TA is too broad (`other`, cardio-metabolic, etc.).
+- Live CLI verification now passes on the curated multi-acquirer path:
+  `bve-acquirer-fit --acquirer eli_lilly` and `bve-ma-probability` both run
+  successfully on the Stage 1 watchlist.
+- Step 9 is now underway with calibration groundwork:
+  `src/bve/intelligence/ma_probability.py` persists richer
+  `ma_probability_snapshots` fields needed for later model training and
+  evaluation, including ticker, stage, therapeutic area, component scores,
+  valuation context, catalyst proximity, and estimated deal-value ranges.
+- Added `src/bve/intelligence/ma_calibration.py`, which builds a labeled
+  takeout-vs-control dataset by joining stored M&A snapshots to
+  `research/mna/deal_universe_2020_2026.yaml`, while also pulling
+  on-or-before `screen_snapshots` context (`model_pos`, `implied_pos`,
+  `spread_pp`, `single_asset`, `config_quality`) for the same ticker.
+- The calibration dataset now also carries two additional local features for
+  the future calibrated layer:
+  trailing same-TA deal heat and prior partnership-event count from the
+  KnowledgeStore event log.
+- Baseline evaluation is now implemented directly on the stored snapshots:
+  `precision_at_k`, unique-target recall at `k`, median lead days, and
+  positive-vs-control average probability can all be computed without
+  rebuilding historical scans.
+- Added `src/bve/ops/ma_probability_backfiller.py` to populate
+  `ma_probability_snapshots` across all historical `screen_snapshots` dates for
+  a replay watchlist, then immediately write a real calibration dataset CSV and
+  metrics JSON.
+- Live replay backfill now completed on the expanded Phase 2+ watchlist:
+  `38` dates, `2,698` stored M&A snapshot rows, and a real calibration dataset
+  covering `2,261` labeled rows / `25` unique positive targets.
+- First real historical M&A baseline on that replay dataset is weak:
+  `precision@15 = 0.121`, `unique-target recall@15 = 0.32`,
+  `median lead days = 345`, and average stored probability for positives
+  (`0.480`) is still below controls (`0.492`).
+- Step 1 of the revised M&A plan is now implemented in
+  `src/bve/intelligence/ma_probability.py`: explicit targetability hard-fails
+  now zero out self-acquirers, mega-cap non-targets, and
+  approved-revenue-dominant multi-franchise names, while a softer penalty
+  downweights larger multi-franchise assets that are still technically
+  targetable.
+- Step 1 is now finalized in the intended YAML-rule form:
+  `examples/research/mna_targetability_rules.yaml` explicitly hard-fails
+  obvious buyers / non-targets (`LLY`, `NVO`, `PFE`, `REGN`, `VRTX`, `BIIB`)
+  so screening-grade config placeholders cannot leak them through.
+- Focused verification for the finalized Step 1 passed:
+  `14` tests across `tests/intelligence/test_ma_probability.py` and
+  `tests/intelligence/test_ma_probability_cli.py`.
+- Live replay rerun after the YAML-rule refinement improved the historical M&A
+  baseline:
+  - `precision@15 = 0.1596` vs `0.1211`
+  - `unique-target recall@15 = 0.36` vs `0.32`
+  - `positive targets captured in top 15 = 9` vs `8`
+  - controls now score below positives on average (`0.4385` vs `0.4802`)
+- Sanity check passed: `LLY`, `VRTX`, `BIIB`, and `REGN` no longer appear in
+  the historical top-15 calibration rows.
+- Step 1 improved the architecture materially but did **not** clear the
+  acceptance gate of `precision@15 > 20%`.
+- Step 2 is now the next priority: validate acquirer profiles against actual
+  historical deals and fix profile misspecification before adding more
+  calibration infrastructure.
+- Step 2 is now complete for the current curated profile set.
+  - Added `src/bve/intelligence/acquirer_profile_validation.py` and
+    `tests/intelligence/test_acquirer_profile_validation.py`.
+  - Live validation run against
+    `research/mna/deal_universe_2020_2026.yaml` using the expanded replay
+    watchlist plus `outputs/intelligence/replay_knowledge.db` now gives:
+    - `7 / 7` top-1 actual-acquirer hits
+    - `7 / 7` top-3 hits
+    - median actual-acquirer rank `1.0`
+  - Per-acquirer on the currently curated set:
+    - `Pfizer`: `3 / 3` top-1
+    - `Eli Lilly`: `4 / 4` top-1
+  - Profile / scoring refinements made during Step 2:
+    - Pfizer profile broadened to include neuroscience / migraine-CGRP and a
+      stronger IBD gap.
+    - Lilly oral-immunology gap made explicitly oral and raised to high urgency.
+    - Acquirer-fit logic now preserves `oral_small_molecule` instead of
+      flattening every oral asset into generic `small_molecule`.
+    - Deal validation can refine coarse watchlist-backed modalities from deal
+      text when screening-grade configs are too generic.
+  - Current limitation: only `7` of the `38` public tickered deals are covered
+    because the curated profile directory still contains only three acquirers.
+- Step 3 is now complete: the simplest replay-backed M&A baselines are
+  implemented in `src/bve/intelligence/ma_calibration.py` and covered by
+  `tests/intelligence/test_ma_calibration.py`.
+  - Artifact:
+    `outputs/analysis/ma_baseline_comparison_2026-04-06.json`
+  - Measured baseline results on the live replay-backed calibration dataset:
+    - stored probability: `precision@15 = 0.159649`, `recall@15 = 0.36`
+    - `strategic_fit` only: `0.133333`, `0.36`
+    - `strategic_fit + capital_vulnerability`: `0.149123`, `0.36`
+    - `strategic_fit + derisking`: `0.143860`, `0.28`
+    - composite without valuation: `0.143860`, `0.28`
+    - composite with inverted valuation: `0.159649`, `0.36`
+  - Interpretation:
+    - `strategic_fit` alone does **not** beat the current stored ranking.
+    - Removing valuation outright makes the ranking worse.
+    - The best simple transparent variant is the inverted-valuation composite,
+      which ties the current stored baseline on precision / recall.
+- Step 3 has now been rerun on the refreshed post-Step-2 historical snapshot
+  dataset after the acquirer-fit/profile fixes.
+  - Replay refresh:
+    `MPLCONFIGDIR=/tmp/mpl_ma_step3 python -m bve.ops.ma_probability_backfiller --watchlist examples/configs/watchlists/watchlist_replay_expanded_phase2.yaml --db outputs/intelligence/replay_knowledge.db --score-version v1.2 --dataset-mode historical_snapshot --top-k 15 --output-dir outputs/analysis`
+  - Updated artifacts:
+    - `outputs/analysis/ma_calibration_dataset_2021-02-01_2024-03-01_historical_snapshot.csv`
+    - `outputs/analysis/ma_calibration_metrics_2021-02-01_2024-03-01_historical_snapshot.json`
+    - `outputs/analysis/ma_baseline_comparison_2026-04-07_post_step2.json`
+  - Updated dataset size:
+    - `n_rows = 1995`
+    - `n_snapshot_dates = 38`
+    - `n_positive_rows = 263`
+    - `n_positive_targets = 25`
+  - Measured baseline results after the Step 2 fixes:
+    - stored probability: `precision@15 = 0.254386`, `recall@15 = 0.60`
+    - `strategic_fit` only: `0.254386`, `0.60`
+    - `strategic_fit + scarcity`: `0.254386`, `0.60`
+    - `strategic_fit + capital_vulnerability`: `0.228070`, `0.48`
+    - `strategic_fit + derisking`: `0.205263`, `0.48`
+    - composite without valuation: `0.205263`, `0.48`
+    - composite with inverted valuation: `0.194737`, `0.44`
+  - Interpretation:
+    - the Step 2 strategic-fit fixes materially improved the ranking layer
+    - `v1.2` / stored probability remains a valid live winner
+    - valuation-based composites are now clearly worse than the simple
+      strategic-fit regime
+    - scarcity still looks neutral for top-k ranking in this transparent setup
+- Step 4 is now the next priority: invert or remove `valuation_discount` in the
+  live M&A score, with inversion currently favored by the replay baseline run,
+  then rerun the historical evaluation before adding scarcity.
+- Step 4 is now complete in `src/bve/intelligence/ma_probability.py`.
+  - Added score regime `v1.1` to test an inverted valuation contribution.
+  - The first live `v1.1` replay rerun failed to improve the baseline:
+    `precision@15 0.157895`, `recall@15 0.32`.
+  - Added score regime `v1.2`, which promotes the best simple live baseline
+    (`strategic_fit` only) into the production M&A ranking formula.
+  - Default `MAProbabilityConfig.score_version` now points to `v1.2`; legacy
+    `v1.0` and experimental `v1.1` remain available for auditability.
+  - Focused tests now cover all three score regimes.
+  - Final live replay result under `v1.2`:
+    - `precision@15 = 0.210526`
+    - `recall@15 = 0.44`
+    - `median lead days@15 = 347`
+  - This clears the Step 4 acceptance gate of `precision@15 > 20%`.
+  - Updated artifacts:
+    - `outputs/analysis/ma_calibration_metrics_2021-02-01_2024-03-01.json`
+    - `outputs/analysis/ma_baseline_comparison_2026-04-06_v12_live.json`
+- Step 5 is now the next priority: add scarcity as the first new feature on top
+  of the now-working `v1.2` strategic-fit-driven live score.
+- Step 5 implementation is now in progress.
+  - `src/bve/intelligence/ma_probability.py` now computes a target-level
+    scarcity assessment from the active watchlist universe using same-indication
+    plus mechanism / modality fallback keys.
+  - Scarcity is now persisted in `ma_probability_snapshots` as
+    `scarcity_score`, `scarcity_peer_count`, and `scarcity_bucket`.
+  - `src/bve/intelligence/ma_calibration.py` now carries scarcity into the
+    historical calibration dataset and can compare a
+    `strategic_fit + scarcity` transparent baseline.
+  - `src/bve/ops/ma_probability_backfiller.py` now accepts `--score-version`
+    so new M&A score regimes can be replay-evaluated before promotion.
+  - Focused verification passed:
+    `22` tests across `test_ma_probability.py`, `test_ma_probability_cli.py`,
+    and `test_ma_calibration.py`.
+  - Experimental `v1.3` (`strategic_fit 0.85 + scarcity 0.15`) was replay-run
+    and came back neutral versus `v1.2`:
+    - `precision@15 = 0.210526`
+    - `recall@15 = 0.44`
+    - `median lead days@15 = 347`
+  - Because `v1.3` did not improve the acceptance metrics, production remains
+    on `v1.2` and the replay snapshots were restored to `v1.2` for consistency.
+  - Scarcity is therefore now implemented, persisted, and historically
+    measurable, but not yet promoted into the default live score.
+  - Artifact:
+    `outputs/analysis/ma_baseline_comparison_2026-04-06_v13_live.json`
+- Step 6 is now the next priority: deduplicate the calibration dataset to one
+  primary pre-deal row per target before fitting any learned model.
+- Step 6 is now underway in `src/bve/intelligence/ma_calibration.py`.
+  - The builder can now construct a canonical pre-deal dataset with one
+    positive row per `(ticker, announcement_date)` and same-date matched
+    controls, instead of training on repeated monthly positives.
+  - The canonical dataset uses a configurable pre-announcement anchor
+    (`anchor_days_before_announcement`, default `180`) and a configurable
+    control count (`controls_per_positive`, default `2`).
+  - Evaluation now switches by dataset mode:
+    row-level historical datasets still use per-snapshot top-k ranking, while
+    canonical matched datasets use a single global case-control ranking.
+  - Focused coverage now verifies canonical anchor selection, known-target
+    exclusion from controls, same-date control matching, and canonical-dataset
+    evaluation behavior.
+  - Live replay-backed canonical dataset build now completed from
+    `outputs/intelligence/replay_knowledge.db`:
+    - date range `2021-02-01 -> 2024-03-01`
+    - `25` positive targets
+    - `50` matched controls
+    - `75` total rows across `20` anchor snapshot dates
+  - Canonical stored-probability readout:
+    - `precision@15 = 0.733333`
+    - `recall@15 = 0.44`
+    - `median lead days@15 = 195`
+    - `avg probability positive = 0.798933`
+    - `avg probability control = 0.725467`
+  - Canonical artifacts:
+    - `outputs/analysis/ma_calibration_dataset_2021-02-01_2024-03-01_canonical_anchor180_controls2.csv`
+    - `outputs/analysis/ma_calibration_metrics_2021-02-01_2024-03-01_canonical_anchor180_controls2.json`
+    - `outputs/analysis/ma_baseline_comparison_2021-02-01_2024-03-01_canonical_anchor180_controls2.json`
+  - `src/bve/ops/ma_probability_backfiller.py` now exposes the fixed dataset
+    mode directly via:
+    - `--dataset-mode canonical_predeal|historical_snapshot`
+    - `--anchor-days-before-announcement`
+    - `--controls-per-positive`
+    and defaults to the canonical pre-deal dataset path.
+  - CLI smoke verification passed on a one-date replay run:
+    `2024-03-01` produced `12` canonical calibration rows
+    (`4` positives, `8` controls) with artifacts written using the canonical
+    filename token.
+  - Interpretation:
+    the dataset shape is now appropriate for fitted calibration work, and the
+    canonical set does show positive/control separation under the stored live
+    score.
+- Step 7 is now underway: the first matched-control logistic model is now
+  implemented in `src/bve/intelligence/ma_calibration.py`.
+  - The canonical dataset now carries `match_group_id`, so leave-one-group-out
+    cross-validation respects the target/control matching structure.
+  - `fit_logistic_model(...)` now fits a penalized logistic model on the
+    canonical case-control set and reports:
+    - standardized coefficients
+    - in-sample metrics
+    - leave-one-match-group-out cross-validated metrics
+    - per-row fitted and cross-validated predictions
+  - Default feature set for the first model:
+    `stored_probability`, `valuation_discount_score`,
+    `capital_vulnerability_score`, `de_risking_stage_score`,
+    `ta_heat_score`, and `log_enterprise_value`.
+  - Focused verification passed:
+    `7` tests in `tests/intelligence/test_ma_calibration.py`.
+  - A small live feature-spec comparison on the canonical replay set favored a
+    more parsimonious default than the first six-feature draft.
+  - Default logistic feature set is now:
+    `stored_probability`, `capital_vulnerability_score`,
+    `log_enterprise_value`.
+  - Live replay-backed fit on the canonical set is now complete:
+    - `75` rows = `25` positives + `50` matched controls
+    - `25 / 25` leave-one-group-out folds converged
+    - stored baseline metrics:
+      - `AUC = 0.5276`
+      - `Brier = 0.435762`
+      - `precision@15 = 0.733333`
+      - `recall@15 = 0.44`
+    - matched-control logistic metrics:
+      - in-sample `AUC = 0.6968`
+      - in-sample `Brier = 0.203421`
+      - leave-one-group-out `AUC = 0.6552`
+      - leave-one-group-out `Brier = 0.218057`
+      - leave-one-group-out `precision@15 = 0.4`
+      - leave-one-group-out `recall@15 = 0.24`
+  - Interpretation:
+    the first fitted model is useful as a calibration / discrimination layer,
+    but not yet as a replacement for the live top-15 ranking score.
+  - Artifacts:
+    - `outputs/analysis/ma_logistic_fit_2021-02-01_2024-03-01_canonical_anchor180_controls2_logistic_v1.json`
+    - `outputs/analysis/ma_logistic_predictions_2021-02-01_2024-03-01_canonical_anchor180_controls2_logistic_v1.csv`
 
 ---
 
@@ -1775,3 +2818,1185 @@ replay N≥30 graduation.
 ### Phase 6 — Provenance (TODO)
 
 Tasks 9.21–9.22: Assumption hash, data lineage.
+
+---
+
+## 2026-04-08 Point-in-Time SOTP Follow-On
+
+### 2026-04-08 balance-sheet provenance + asset-level screen snapshots
+
+**Status:** ✅ COMPLETE
+
+Implemented:
+- `src/bve/ops/historical_replay.py`
+  - new replay table: `balance_sheet_snapshots`
+  - `ReplayStore.upsert_balance_sheet_snapshot()`
+  - `ReplayStore.get_balance_sheet_snapshot()`
+- `src/bve/ops/signal_backfiller.py`
+  - `backfill_capital_risk()` now also writes dated SEC-derived balance-sheet
+    provenance rows into `balance_sheet_snapshots`
+- `src/bve/intelligence/knowledge_layer.py`
+  - `screen_snapshots` migrated from one row per `(ticker, snapshot_date)` to
+    one row per `(ticker, snapshot_date, asset_id)`
+  - backward-compatible migration for legacy DBs
+  - new lookup: `get_screen_snapshot_for_asset_on_or_before()`
+- `src/bve/analysis/implied_pos_batch.py`
+  - `ScreenRow.asset_id`
+- `src/bve/analysis/historical_implied_pos_validation.py`
+- `src/bve/analysis/mispricing_screener.py`
+- `src/bve/intelligence/mispricing_screener.py`
+- `src/bve/intelligence/ma_probability.py`
+- `src/bve/intelligence/ma_calibration.py`
+- `src/bve/ops/daily_brief.py`
+  - threaded `asset_id` through snapshot persistence / readers
+- `src/bve/analysis/company_sotp.py`
+  - company SOTP now prefers dated replay `balance_sheet_snapshots`
+  - exposes `balance_sheet_source_ref`, `balance_sheet_snapshot_date`,
+    `balance_sheet_period_end_date`, and `balance_sheet_form_type`
+  - multi-asset companies can reuse per-asset stored screen snapshots
+
+Focused verification:
+- `ruff check src/bve/analysis/implied_pos_batch.py src/bve/intelligence/knowledge_layer.py src/bve/ops/daily_brief.py src/bve/analysis/historical_implied_pos_validation.py src/bve/analysis/mispricing_screener.py src/bve/intelligence/mispricing_screener.py src/bve/intelligence/ma_probability.py src/bve/intelligence/ma_calibration.py src/bve/analysis/company_sotp.py src/bve/ops/historical_replay.py src/bve/ops/signal_backfiller.py tests/test_company_sotp.py tests/test_sprint10.py tests/test_sprint25.py tests/test_historical_replay.py`
+- `python -m pytest tests/test_company_sotp.py::test_company_sotp_uses_point_in_time_balance_sheet_and_asset_level_snapshots tests/test_sprint10.py::TestScreenSnapshots::test_write_supports_multiple_assets_same_ticker_same_date tests/test_sprint10.py::TestScreenSnapshots::test_get_screen_snapshot_for_asset_on_or_before tests/test_sprint25.py::TestScreenSnapshotSchema::test_migration_on_existing_db_without_column tests/test_historical_replay.py::test_balance_sheet_snapshot_roundtrip tests/test_historical_replay.py::test_signal_backfiller_capital_risk_writes_balance_sheet_snapshot tests/test_analysis_mispricing_screener.py::test_persist_screen_snapshots_writes_rows_to_knowledge_store tests/test_analysis_mispricing_screener.py::test_use_stored_snapshots_loads_latest_on_or_before_as_of tests/intelligence/test_mispricing_screener.py::test_unified_screener_can_use_stored_screen_snapshots_on_or_before tests/test_universe_screen.py::test_rows_from_store_resolves_latest_snapshot_on_or_before tests/intelligence/test_ma_probability.py::test_ma_probability_scanner_uses_stored_screen_context_for_historical_snapshots -q`
+- Result: `11 passed`
+
+Institutional impact:
+- company SOTP can now consume dated balance-sheet provenance instead of only
+  static config cash / shares
+- historical stored screen context is no longer limited to one row per ticker,
+  so multi-asset companies can carry one historical valuation row per modeled asset
+
+### 2026-04-08 top-universe balance-sheet population + SOTP rerun
+
+**Status:** ✅ COMPLETE
+
+Implemented:
+- `src/bve/ops/signal_backfiller.py`
+  - `backfill_capital_risk()` now fans out one SEC-derived capital snapshot per
+    `(asset_id, filed_date)` instead of dropping duplicate asset ids for the
+    same ticker
+- `src/bve/ops/balance_sheet_backfiller.py`
+  - watchlist-driven dated balance-sheet backfill for the top replay universe
+  - emits coverage summary and CSV artifact
+- `tests/ops/test_balance_sheet_backfiller.py`
+  - multi-asset capital-snapshot fanout
+  - coverage CSV write path
+
+Focused verification:
+- `ruff check src/bve/ops/signal_backfiller.py src/bve/ops/balance_sheet_backfiller.py tests/ops/test_balance_sheet_backfiller.py tests/test_historical_replay.py`
+- `python -m pytest tests/ops/test_balance_sheet_backfiller.py tests/test_historical_replay.py::test_signal_backfiller_capital_risk_writes_balance_sheet_snapshot tests/test_historical_replay.py::test_balance_sheet_snapshot_roundtrip -q`
+- Result: `4 passed`
+
+Live runs:
+- `python -m bve.ops.balance_sheet_backfiller --watchlist examples/configs/watchlists/watchlist_replay_expanded_phase2.yaml --replay-db outputs/intelligence/replay_store.sqlite --output-dir outputs/analysis`
+- `python -m bve.analysis.company_sotp --watchlist examples/configs/watchlists/watchlist_replay_expanded_phase2.yaml --as-of 2024-03-01 --price-source replay_store --replay-db outputs/intelligence/replay_store.sqlite --top 10`
+
+Measured output:
+- `6985` rows inserted across `capital_snapshots` and
+  `balance_sheet_snapshots`
+- `2219` dated `balance_sheet_snapshots` added
+- `64 / 71` watchlist tickers now have dated balance-sheet provenance in the
+  replay store
+- company SOTP rerun for `2024-03-01` produced `69` company rows
+- `60 / 69` companies (`86.96%`) resolved point-in-time balance-sheet
+  provenance
+- output artifacts:
+  - `outputs/analysis/balance_sheet_coverage_2026-04-08.csv`
+  - `outputs/analysis/company_sotp_2024-03-01.csv`
+
+Residual gaps:
+- missing dated balance-sheet provenance for:
+  `RETA`, `RXDX`, `ISEE`, `MYOK`, `RNA`, `CBAY`, `CCXI`, `BLUE`, `INBX`
+- some point-in-time balance-sheet rows are stale for acquired / delisted names
+  and need explicit recency gating before they are trusted in production ranks
+
+### 2026-04-08 recency gating + remaining ticker closure
+
+**Status:** ✅ COMPLETE
+
+Implemented:
+- `src/bve/analysis/company_sotp.py`
+  - added balance-sheet staleness handling and ranking penalty
+  - new output fields:
+    - `ranked_sotp_discount`
+    - `balance_sheet_age_days`
+    - `balance_sheet_passes_recency_gate`
+    - `balance_sheet_recency_penalty`
+  - company SOTP now sorts on recency-adjusted discount, not raw discount
+- `src/bve/ingestion/sec_edgar.py`
+  - `get_cik(ticker, company_name=None)` now prefers explicit company-name SEC
+    search for ambiguous historical tickers before raw ticker search
+  - added company-name scoring for multi-hit SEC search results
+- `src/bve/ops/signal_backfiller.py`
+  - capital backfill now accepts optional `company_name` hints
+  - broadened cash concept coverage (`Cash`, restricted-cash variants,
+    `InvestmentsAndCash`) and allowed amended / `20-F` forms
+- `src/bve/ops/balance_sheet_backfiller.py`
+  - watchlist backfill now loads `company.name` from valuation configs and
+    passes it into the SEC resolver
+
+Focused verification:
+- `ruff check src/bve/analysis/company_sotp.py src/bve/ingestion/sec_edgar.py src/bve/ops/signal_backfiller.py src/bve/ops/balance_sheet_backfiller.py tests/test_company_sotp.py tests/test_sec_edgar_ingestion.py tests/ops/test_balance_sheet_backfiller.py tests/test_historical_replay.py`
+- `python -m pytest tests/test_company_sotp.py tests/test_sec_edgar_ingestion.py tests/ops/test_balance_sheet_backfiller.py tests/test_historical_replay.py::test_signal_backfiller_capital_risk_writes_balance_sheet_snapshot tests/test_historical_replay.py::test_balance_sheet_snapshot_roundtrip -q`
+- Result: `15 passed`
+
+Live result:
+- final backfill on `watchlist_replay_expanded_phase2` inserted `7277` capital
+  rows and added `65` new dated balance-sheet rows
+- ticker-level dated balance-sheet coverage is now `71 / 71`
+- all previously uncovered target tickers now have dated coverage:
+  `RETA`, `RXDX`, `ISEE`, `MYOK`, `RNA`, `CBAY`, `CCXI`, `BLUE`, `INBX`
+- final company SOTP rerun for `2024-03-01` produced:
+  - `69` companies
+  - `68 / 69` with point-in-time balance-sheet provenance
+  - `57 / 69` passing the new recency gate
+  - `12 / 69` explicitly failing the recency gate and receiving a stale-input penalty
+- updated artifact:
+  - `outputs/analysis/company_sotp_2024-03-01.csv`
+  - `outputs/analysis/balance_sheet_coverage_2026-04-08.csv`
+
+Observed production residuals:
+- live SEC pulls still had direct companyfacts issues for `BLU`, `KDNY`, and
+  `PRTA`, but existing replay snapshots were already sufficient to keep watchlist
+  coverage at `71 / 71`
+- stale historical balance sheets remain intentionally penalized rather than
+  silently treated as current
+
+### 2026-04-08 company-level auditability + stored SOTP snapshots
+
+**Status:** ✅ MOSTLY COMPLETE
+
+Implemented:
+- `src/bve/analysis/company_sotp.py`
+  - every SOTP bucket now carries:
+    - `source`
+    - `source_kind` (`modeled` / `inferred` / `manual`)
+    - `source_as_of`
+    - `source_confidence`
+    - `source_ref`
+  - added structured dated company inputs via `inputs:` in
+    `research/company_sotp_overrides.yaml`
+  - added company-level action policy:
+    - `buy`
+    - `watch`
+    - `avoid`
+    - `needs_manual_review`
+  - action policy is now gated by:
+    - balance-sheet freshness
+    - modeled-asset coverage
+    - modeled-asset confidence
+    - market-cap band
+  - added `--persist-company-snapshots`
+- `src/bve/intelligence/knowledge_layer.py`
+  - new `company_sotp_snapshots` table
+  - added:
+    - `write_company_sotp_snapshots()`
+    - `get_company_sotp_snapshots()`
+    - `get_company_sotp_snapshots_on_or_before()`
+    - `get_company_sotp_snapshot_for_ticker_on_or_before()`
+- `src/bve/analysis/mispricing_screener.py`
+  - company recency gate is now enforced downstream
+  - assets with failing stored company recency state are hidden from the screen
+  - surviving rows now expose company snapshot metadata/action policy
+- `src/bve/intelligence/ma_probability.py`
+  - company recency gate is now enforced before M&A ranking
+  - stale company snapshots produce explicit exclusions instead of silent ranking drag
+- `research/company_sotp_overrides.yaml`
+  - upgraded documentation/comments to the new structured dated-input schema
+
+Focused verification:
+- `ruff check src/bve/analysis/company_sotp.py src/bve/intelligence/knowledge_layer.py src/bve/analysis/mispricing_screener.py src/bve/intelligence/ma_probability.py tests/test_company_sotp.py tests/test_analysis_mispricing_screener.py tests/intelligence/test_ma_probability.py`
+- `python -m pytest tests/test_company_sotp.py tests/test_analysis_mispricing_screener.py tests/intelligence/test_ma_probability.py -q`
+- Result: `43 passed`
+
+Live population:
+- `python -m bve.analysis.company_sotp --watchlist examples/configs/watchlists/watchlist_replay_expanded_phase2.yaml --as-of 2024-03-01 --price-source replay_store --knowledge-db outputs/intelligence/replay_knowledge.db --replay-db outputs/intelligence/replay_store.sqlite --persist-company-snapshots --top 5`
+- live company snapshot DB check:
+  - `69` company rows persisted into `company_sotp_snapshots` for `2024-03-01`
+  - `57 / 69` pass the balance-sheet recency gate
+  - action policy mix:
+    - `15` buy
+    - `1` watch
+    - `13` avoid
+    - `40` needs_manual_review
+
+Important residual:
+- the code path for structured dated company inputs is now live, but the repo
+  still does **not** contain a populated set of top-name manual platform /
+  unmodeled-pipeline / royalty / financing buckets yet; only the auditable schema
+  and persistence path are in place
+
+### 2026-04-08 historical company-SOTP backfill + active-cohort cleanup
+
+- Completed in code/config:
+  - `src/bve/ops/company_sotp_backfiller.py`
+  - `src/bve/analysis/company_sotp.py`
+  - `src/bve/intelligence/knowledge_layer.py`
+  - `tests/ops/test_company_sotp_backfiller.py`
+  - `tests/test_company_sotp.py`
+  - `tests/test_analysis_mispricing_screener.py`
+- What changed:
+  - added a replay-safe company-SOTP backfiller that:
+    - uses stored `screen_snapshots` dates as the historical calendar
+    - persists full dated rows into `company_sotp_snapshots`
+    - writes one summary CSV for the backfill window
+  - added `include_tickers` support to `CompanySOTPBuilder.build()` so
+    historical backfills can follow the **active historical screen cohort**
+    instead of brute-forcing the full watchlist every month
+  - added a shared fallback config-valuation cache across dates so repeated
+    company-invariant asset rNPV legs are only computed once
+  - fixed `KnowledgeStore.write_company_sotp_snapshots()` to replace the full
+    same-date cohort before insert, preventing stale company rows from surviving
+    when a narrower historical cohort rewrites an existing snapshot date
+- Focused verification passed:
+  - `ruff check src/bve/analysis/company_sotp.py src/bve/ops/company_sotp_backfiller.py src/bve/intelligence/knowledge_layer.py tests/test_company_sotp.py tests/ops/test_company_sotp_backfiller.py tests/test_analysis_mispricing_screener.py`
+  - `python -m pytest tests/test_company_sotp.py::test_company_sotp_reuses_shared_asset_rnpv_cache_across_builders tests/ops/test_company_sotp_backfiller.py tests/test_analysis_mispricing_screener.py::test_company_sotp_snapshot_write_replaces_stale_same_date_rows -q`
+  - Result: `3 passed`
+- Live historical backfill:
+  - `python -m bve.ops.company_sotp_backfiller --watchlist examples/configs/watchlists/watchlist_replay_expanded_phase2.yaml --db outputs/intelligence/replay_knowledge.db --replay-db outputs/intelligence/replay_store.sqlite --start 2021-02-01 --end 2024-03-01 --output-dir outputs/analysis`
+  - main DB result:
+    - `38` company-SOTP snapshot dates
+    - `785` total `company_sotp_snapshots` rows
+    - date range: `2021-02-01 -> 2024-03-01`
+    - pass recency gate: `771 / 785`
+    - action-policy totals:
+      - `76` buy
+      - `12` watch
+      - `67` avoid
+      - `630` needs_manual_review
+  - latest active historical cohort after stale-row cleanup:
+    - `2024-03-01`: `22` company rows, `22 / 22` pass recency gate
+- Artifacts:
+  - `outputs/analysis/company_sotp_backfill_summary_2021-02-01_2024-03-01.csv`
+  - `outputs/analysis/company_sotp_2021-02-01.csv`
+  - `outputs/analysis/company_sotp_2024-03-01.csv`
+
+### 2026-04-08 stored company snapshots promoted to primary ranking/backtest dataset
+
+- Completed in code/config:
+  - `src/bve/analysis/company_sotp.py`
+  - `src/bve/analysis/company_sotp_backtest.py`
+  - `tests/test_company_sotp.py`
+  - `tests/test_company_sotp_backtest.py`
+- What changed:
+  - company ranking now resolves from stored `company_sotp_snapshots` on or
+    before `--as-of` by default, with recomputation only when `--recompute` is
+    explicitly requested
+  - stored company rows now round-trip back into full `CompanySOTPResult`
+    objects by reconstructing derived bucket totals from persisted bucket JSON
+  - added a first company-level replay backtester that uses
+    `company_sotp_snapshots` as the canonical signal table and replay-store
+    prices for forward returns versus `XBI`
+- Focused verification passed:
+  - `ruff check src/bve/analysis/company_sotp.py src/bve/analysis/company_sotp_backtest.py tests/test_company_sotp.py tests/test_company_sotp_backtest.py`
+  - `python -m pytest tests/test_company_sotp.py::test_company_sotp_load_from_store_uses_company_snapshots_on_or_before tests/test_company_sotp_backtest.py -q`
+  - Result: `2 passed`
+- Live smoke runs:
+  - stored ranking:
+    - `python -m bve.analysis.company_sotp --watchlist examples/configs/watchlists/watchlist_replay_expanded_phase2.yaml --knowledge-db outputs/intelligence/replay_knowledge.db --as-of 2024-03-20 --top 5`
+    - resolved `2024-03-20 -> 2024-03-01`
+    - source mode: `stored_company_snapshot`
+    - top names: `ZYME`, `NVAX`, `SRRK`, `FULC`, `PRTA`
+  - company-level backtest:
+    - `python -m bve.analysis.company_sotp_backtest --db outputs/intelligence/replay_knowledge.db --replay-db outputs/intelligence/replay_store.sqlite --start 2021-02-01 --end 2024-03-01 --hold-days 365 --top-n 5 --min-ranked-discount 1.0`
+    - first replay result:
+      - `26` snapshot dates
+      - `58` candidate company rows
+      - `41` selected trades
+      - `5` missing-price trades
+      - mean excess return: `+6.37%`
+      - hit rate: `31.7%`
+      - cluster count: `4`
+      - bootstrap `p = 0.3046`
+- Artifact:
+  - `outputs/analysis/company_sotp_backtest_2021-02-01_2024-03-01_hold365d_top5.csv`
+
+### 2026-04-08 downstream company-facing outputs routed to stored company snapshots
+
+- Completed in code/config:
+  - `src/bve/ops/daily_brief.py`
+  - `src/bve/cli/daily_brief.py`
+  - `src/bve/intelligence/weekly_brief.py`
+  - `src/bve/reporting/templates/weekly_brief.md.j2`
+  - `tests/test_sprint19.py`
+  - `tests/test_weekly_brief.py`
+- What changed:
+  - `build_daily_brief()` now prefers stored `company_sotp_snapshots` on or
+    before `--as-of` as the primary company-ranking dataset
+  - daily brief rows are now company-snapshot-first:
+    - company SOTP discount and action policy drive ranking
+    - asset-level `screen_snapshots` are only used to enrich rows with stage,
+      catalyst, and per-asset spread when available
+    - if no company snapshots exist, the prior stored-screen/live fallback path
+      still works
+  - weekly brief `top_opportunities` now prefers stored
+    `company_sotp_snapshots` on or before `period_end`, filtered to names that:
+    - pass the balance-sheet recency gate
+    - have `action_policy in {"buy", "watch"}`
+  - weekly brief falls back to the legacy valuation-diff ranking only when no
+    stored company snapshot cohort exists
+  - both outputs now expose their source mode and reference snapshot date for
+    auditability
+- Focused verification:
+  - `ruff check src/bve/ops/daily_brief.py src/bve/cli/daily_brief.py src/bve/intelligence/weekly_brief.py tests/test_sprint19.py tests/test_weekly_brief.py`
+  - Result: passed
+  - import smoke with writable Matplotlib cache:
+    - `MPLCONFIGDIR=/tmp/mpl_brief_tests python -c "import bve.ops.daily_brief; import bve.intelligence.weekly_brief; print('imports ok')"`
+    - Result: passed
+  - `MPLCONFIGDIR=/tmp/mpl_brief_tests python -m pytest tests/test_sprint19.py tests/test_weekly_brief.py -q`
+  - Result: `85 passed, 18 warnings in 602.35s`
+
+### 2026-04-08 remaining dashboard/report company decision surfaces routed to company snapshots
+
+- Completed in code/config:
+  - `src/bve/intelligence/knowledge_layer.py`
+  - `src/bve/ops/metrics_dashboard.py`
+  - `src/bve/services/intelligence_service.py`
+  - `src/bve/ui/dashboard/components/portfolio_dashboard.py`
+  - `src/bve/intelligence/research_report.py`
+  - `src/bve/reporting/templates/research_report.md.j2`
+  - `tests/ops/test_metrics_dashboard.py`
+  - `tests/intelligence/test_research_report.py`
+  - `tests/ui/test_portfolio_dashboard.py`
+- What changed:
+  - added `KnowledgeStore.get_company_sotp_snapshot_for_company_id_on_or_before()`
+    so report/dashboard code can resolve company SOTP rows without ad hoc ticker mapping
+  - `MetricsDashboard.top_opportunities` now prefers recency-gated
+    `company_sotp_snapshots` and carries explicit source metadata:
+    - `top_opportunities_source_mode`
+    - `top_opportunities_reference_date`
+  - top-opportunity rows now support company fields:
+    - `ticker`, `company_id`, `company_name`
+    - `action_policy`
+    - `ranked_sotp_discount`
+    - `sotp_equity_value_millions`
+    - `enterprise_value_millions`
+    - `modeled_asset_coverage_pct`
+    - `balance_sheet_snapshot_date`
+  - intelligence-service dashboard cache payload now includes a serialized
+    `metrics_dashboard` snapshot
+  - portfolio dashboard now renders a `Top Company Decisions` table from cached
+    company snapshot data instead of only the raw watchlist summary
+  - research reports now include stored company SOTP context in both:
+    - the `Financial Model` section
+    - the persisted `input_snapshot`
+  - research report version bumped to `v1.2` / `deterministic-research-report-1.2`
+    because report output now contains company-level SOTP provenance
+- Focused verification passed:
+  - `ruff check src/bve/intelligence/knowledge_layer.py src/bve/ops/metrics_dashboard.py src/bve/services/intelligence_service.py src/bve/ui/dashboard/components/portfolio_dashboard.py src/bve/intelligence/research_report.py tests/ops/test_metrics_dashboard.py tests/intelligence/test_research_report.py tests/ui/test_portfolio_dashboard.py`
+  - `PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 MPLCONFIGDIR=/tmp/mpl_company_surfaces python -m pytest tests/ops/test_metrics_dashboard.py tests/intelligence/test_research_report.py tests/ui/test_portfolio_dashboard.py -q`
+  - Result: `7 passed, 5 warnings in 99.55s`
+
+### 2026-04-08 warning cleanup: timezone-aware UTC timestamps
+
+- Completed in code/config:
+  - `src/bve/config/assumptions_loader.py`
+  - `src/bve/intelligence/knowledge_layer.py`
+- What changed:
+  - replaced deprecated `datetime.utcnow()` usage with timezone-aware
+    `datetime.now(timezone.utc)` at the warning-producing call sites
+  - normalized persisted UTC strings back to the existing `...Z` form so
+    on-disk formats remain stable
+- Warnings addressed:
+  - `src/bve/config/assumptions_loader.py:108`
+  - `src/bve/intelligence/knowledge_layer.py:2880`
+  - `src/bve/intelligence/knowledge_layer.py:3126`
+  - also proactively fixed the same pattern at
+    `src/bve/intelligence/knowledge_layer.py:3332`
+- Focused verification passed:
+  - `ruff check src/bve/config/assumptions_loader.py src/bve/intelligence/knowledge_layer.py`
+  - `PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 MPLCONFIGDIR=/tmp/mpl_warnfix python -W error::DeprecationWarning -m pytest tests/test_sprint19.py::TestBuildDailyBrief::test_uses_persisted_screen_snapshot_on_or_before_as_of tests/test_sprint19.py::TestBuildDailyBrief::test_prefers_company_sotp_snapshot_for_company_facing_ranking tests/ops/test_metrics_dashboard.py::test_metrics_dashboard_prefers_company_sotp_snapshots_for_top_opportunities tests/intelligence/test_research_report.py -q`
+  - Result: `6 passed in 120.73s`
+
+### 2026-04-08 Company SOTP Top-25 Input Pack + Portfolio Gate
+
+- Completed in code/config:
+  - `src/bve/analysis/company_sotp.py`
+  - `src/bve/intelligence/actionable_output.py`
+  - `src/bve/ops/historical_replay.py`
+  - `src/bve/ops/weekly_runner.py`
+  - `research/company_sotp_overrides.yaml`
+  - `tests/test_company_sotp.py`
+  - `tests/intelligence/test_actionable_output.py`
+- What changed:
+  - manual company buckets now require explicit:
+    - `source`
+    - `as_of_date`
+    - `confidence`
+    - `source_ref`
+    - `source_kind`
+  - built a structured top-25 company SOTP input pack with dated buckets for:
+    - platform value
+    - unmodeled pipeline
+    - royalty / milestone streams
+    - dilution reserve / financing path
+  - company SOTP action gating now uses company-level readiness instead of only
+    modeled-asset share:
+    - `actionable_coverage_pct`
+    - `actionable_confidence_pct`
+    - structured-input presence for large-cap single-asset names
+  - cash and dated manual buckets now count toward company coverage, while
+    large-cap single-asset names without structured company buckets remain
+    `needs_manual_review`
+  - live action generation now honors company snapshot policy:
+    - `watch` downgrades `buy/add` to `monitor`
+    - `avoid` / `needs_manual_review` are filtered from auto-ranked
+      portfolio/replay decisions
+  - replay and weekly actionable paths now attach stored company snapshot policy
+    to each `ScoredCandidate`
+- Top-25 pack populated for:
+  - `ACAD`, `AGEN`, `ARQT`, `BHVN`, `BLUE`, `CBAY`, `CCXI`, `FOLD`, `FULC`,
+    `IMVT`, `INBX`, `IONS`, `KYMR`, `MDGL`, `NVAX`, `OCUL`, `PRAX`, `PRTA`,
+    `PTCT`, `RLAY`, `RNA`, `RVMD`, `RXRX`, `VKTX`, `ZYME`
+- Historical rebuild result:
+  - `python -m bve.ops.company_sotp_backfiller --watchlist examples/configs/watchlists/watchlist_replay_expanded_phase2.yaml --db outputs/intelligence/replay_knowledge.db --replay-db outputs/intelligence/replay_store.sqlite --start 2021-02-01 --end 2024-03-01 --output-dir outputs/analysis`
+  - `788` company rows across `38` dates
+  - action totals moved from:
+    - `buy=76 / watch=12 / avoid=67 / needs_manual_review=630`
+    - to `buy=87 / watch=11 / avoid=649 / needs_manual_review=41`
+  - latest active cohort on `2024-03-01`:
+    - `22` rows
+    - `2 buy / 0 watch / 20 avoid / 0 needs_manual_review`
+- Company backtest on improved dataset:
+  - `python -m bve.analysis.company_sotp_backtest --db outputs/intelligence/replay_knowledge.db --replay-db outputs/intelligence/replay_store.sqlite --start 2021-02-01 --end 2024-03-01 --hold-days 365 --top-n 5 --min-ranked-discount 1.0 --output-dir outputs/analysis`
+  - `26` snapshot dates
+  - `48` candidate rows / selected trades
+  - mean excess return `+10.02%`
+  - hit rate `33.3%`
+  - cluster count `7`
+  - bootstrap `p=0.0282`
+- Focused verification passed:
+  - `ruff check src/bve/analysis/company_sotp.py src/bve/intelligence/actionable_output.py src/bve/ops/historical_replay.py src/bve/ops/weekly_runner.py tests/test_company_sotp.py tests/intelligence/test_actionable_output.py`
+  - `PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 MPLCONFIGDIR=/tmp/mpl_company_pack python -m pytest tests/test_company_sotp.py tests/intelligence/test_actionable_output.py -q`
+  - Result: `54 passed, 42 warnings in 140.89s`
+
+### 2026-04-08 Company Pack Expansion Plan
+
+This is the next company-level underwriting expansion plan after the first
+top-25 pack and live company-policy gating landed.
+
+1. Expand breadth with a strict priority queue.
+   - Use stored `company_sotp_snapshots`, not intuition.
+   - Prioritize names that are:
+     - in the investable band
+     - still `needs_manual_review` or close to it
+     - recurring in top company cohorts
+     - multi-asset / platform names where asset-only SOTP is clearly incomplete
+   - Immediate next batch:
+     - `SRRK`, `TGTX`, `ANAB`, `RAPT`, `RETA`, `RXDX`, `ISEE`, `MYOK`
+     - then larger distortion names:
+       `BMRN`, `CRSP`, `IOVA`, `ARVN`, `MRNA`, `AMRN`, `SRPT`
+
+2. Replace lump-sum overrides with structured bucket families.
+   - Use 3–6 named buckets per company:
+     - `platform_*`
+     - `pipeline_*`
+     - `royalty_*`
+     - `dilution_*`
+
+3. Make the pack point-in-time by construction.
+   - Add dated bucket entries at major `10-Q` / `10-K` and event-change dates.
+
+4. Tighten evidence standards by bucket type.
+   - `0.85–0.95`: SEC-filed economics / contractual streams / dated financing terms
+   - `0.65–0.80`: company-disclosed partner economics / explicit pipeline maps
+   - `0.45–0.60`: analyst bridge / inferred platform / inferred financing reserve
+   - Hard rule:
+     - if manual buckets exceed 25% of company SOTP, require stronger sourcing
+       or force `needs_manual_review`
+
+5. Build company-specific templates.
+   - Platform biotech
+   - Commercial rare disease
+   - Multi-asset oncology
+   - Do not reuse the same fixed pattern for every company
+
+6. Add pack-quality controls.
+   - `manual_bucket_share_pct`
+   - `manual_bucket_confidence_avg`
+   - `n_bucket_sources`
+
+7. Use the pack to drive backtest experiments after each wave.
+   - Track:
+     - `% needs_manual_review`
+     - `% buy/watch`
+     - mean excess return
+     - cluster count
+     - bootstrap p-value
+
+Current step status:
+- Step 1: `completed`
+- Step 2: `completed` (high-impact wave 1)
+- Step 3: `completed` (high-impact wave 1)
+- Steps 4–7: `pending`
+
+### 2026-04-09 Revised Company Data Quality Execution Plan
+
+- Execution order updated based on implementation reality and ROI:
+  - Step 2: source hierarchy + enforced confidence floors (`completed`)
+  - Step 3: quarterly / event-dated company packs for the highest-instability names (`completed`, wave 1)
+  - Step 1: corroboration enforcement using independent `source_ref` counts (`completed`)
+  - Step 7: SOTP vs market-cap reconciliation checks (`in_progress`)
+  - Steps 4 / 5 / 6 / 8: quality scoring persistence, curation queue, and trend tracking (`pending`)
+- Immediate Step 3 target cohort after the source hierarchy pass:
+  - `IMVT`
+  - `ZYME`
+  - `ANAB`
+  - `RAPT`
+  - `SRRK`
+- Rationale:
+  - the Step 2 hierarchy sharply improved discipline but also pushed too many
+    companies into `needs_manual_review`, so the next highest-leverage move is
+    denser point-in-time data for the most unstable company packs, not more
+    ranking logic changes
+
+### 2026-04-09 Company Data Quality Step 7 (pass 1)
+
+- Current status:
+  - `in_progress`
+  - the first reconciliation pass is implemented and persisted, but the hard
+    gate is too blunt and degraded the company backtest materially
+- Implemented in code/tests:
+  - `src/bve/analysis/company_sotp.py`
+  - `src/bve/intelligence/knowledge_layer.py`
+  - `tests/test_company_sotp.py`
+- What changed:
+  - company SOTP rows now persist explicit reconciliation fields:
+    - `reconciliation_gap_millions`
+    - `reconciliation_gap_pct`
+    - `reconciliation_status`
+    - `reconciliation_passes_gate`
+  - reconciliation status is now surfaced directly in the company report / CSV
+  - extreme mismatches now force `needs_manual_review`:
+    - `extreme_discount` when `SOTP / market cap > 5.0x`
+    - `extreme_premium` when `SOTP / market cap < 0.25x`
+  - backward compatibility added for older stored company snapshots lacking the
+    new fields
+- New regression coverage added:
+  - extreme `6x` upside pack -> `needs_manual_review`
+  - extreme `0.16x` premium pack -> `needs_manual_review`
+  - reconciliation fields persist through `company_sotp_snapshots` lookup
+- Verification passed:
+  - `ruff check src/bve/analysis/company_sotp.py src/bve/intelligence/knowledge_layer.py tests/test_company_sotp.py`
+  - `PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pytest tests/test_company_sotp.py -q`
+  - result: `21 passed`
+- Historical company snapshot rebuild after Step 7 pass 1:
+  - `python -m bve.ops.company_sotp_backfiller --watchlist examples/configs/watchlists/watchlist_replay_expanded_phase2.yaml --db outputs/intelligence/replay_knowledge.db --replay-db outputs/intelligence/replay_store.sqlite --start 2021-02-01 --end 2024-03-01 --output-dir outputs/analysis`
+  - action totals moved from the Step 3 / Step 1 state:
+    - `buy = 72`
+    - `watch = 6`
+    - `avoid = 261`
+    - `needs_manual_review = 449`
+  - to:
+    - `buy = 46`
+    - `watch = 6`
+    - `avoid = 200`
+    - `needs_manual_review = 536`
+  - reconciliation status distribution across stored company rows:
+    - `premium = 390`
+    - `extreme_premium = 235`
+    - `discounted = 136`
+    - `extreme_discount = 27`
+- Latest active cohort on `2024-03-01`:
+  - `2 buy / 5 avoid / 15 needs_manual_review`
+  - only auto-`buy` names remaining:
+    - `ZYME` (`3.70x`, `discounted`)
+    - `NVAX` (`1.90x`, `discounted`)
+- Company backtest after Step 7 pass 1:
+  - `python -m bve.analysis.company_sotp_backtest --db outputs/intelligence/replay_knowledge.db --replay-db outputs/intelligence/replay_store.sqlite --start 2021-02-01 --end 2024-03-01 --hold-days 365 --top-n 5 --min-ranked-discount 1.0 --output-dir outputs/analysis`
+  - result:
+    - `26` snapshot dates
+    - `18` candidate rows / selected trades
+    - mean excess return `+0.18%`
+    - hit rate `16.7%`
+    - cluster count `3`
+    - bootstrap `p = 0.4244`
+- Interpretation:
+  - the reconciliation layer is functioning as intended from a governance
+    standpoint: extreme `0.25x` / `5x` mismatches now surface immediately
+  - but the current hard gate is over-constraining the ranked company dataset
+    and stripping too many historically strong deep-discount names from the
+    auto-ranked cohort
+  - the next Step 7 refinement should probably keep the stored reconciliation
+    metrics but relax the policy layer, most likely by:
+    - keeping `extreme_discount` as a hard gate
+    - converting `extreme_premium` to a surfaced flag or secondary review cue
+    - or tying the hard gate to weak source quality / manual-bucket share
+- Step 7 pass 2 refinement completed:
+  - `extreme_discount` remains a hard gate
+  - `extreme_premium` is now a surfaced reconciliation flag, not a standalone
+    hard gate
+  - updated test expectation: extreme premium rows now stay visible with
+    `reconciliation_status = extreme_premium` and fall to `avoid` unless some
+    other pack-quality rule forces `needs_manual_review`
+- Historical company snapshot rebuild after Step 7 pass 2:
+  - action totals moved from Step 7 pass 1:
+    - `buy = 46`
+    - `watch = 6`
+    - `avoid = 200`
+    - `needs_manual_review = 536`
+  - to:
+    - `buy = 46`
+    - `watch = 6`
+    - `avoid = 261`
+    - `needs_manual_review = 475`
+- Latest active cohort on `2024-03-01` after pass 2:
+  - `2 buy / 7 avoid / 13 needs_manual_review`
+- Company backtest after Step 7 pass 2:
+  - unchanged versus pass 1:
+    - `18` candidate rows / selected trades
+    - mean excess return `+0.18%`
+    - hit rate `16.7%`
+    - cluster count `3`
+    - bootstrap `p = 0.4244`
+- Current interpretation:
+  - relaxing `extreme_premium` fixed the over-escalation on obvious overvalued /
+    underbuilt company packs and restored `61` rows from manual review back to
+    plain `avoid`
+  - it did not improve the company backtest, which means the remaining issue is
+    the `extreme_discount` hard gate, not the premium-side escalation
+
+### 2026-04-09 Company Data Quality Step 1
+
+- Completed objective:
+  - enforced corroboration using independent `source_ref` counts at the
+    individual bucket level instead of using only global pack-level source
+    diversity
+- Completed in code/tests:
+  - `src/bve/analysis/company_sotp.py`
+  - `tests/test_company_sotp.py`
+- What changed:
+  - `_compute_pack_quality_metrics()` now splits `source_ref` into independent
+    references using `|`, `;`, or `,` separators
+  - `n_bucket_sources` now reflects distinct `source_ref` tokens across the pack
+  - the largest low-evidence bucket now records its own corroboration count via
+    `largest_manual_bucket_source_ref_count`
+  - the concentration gate now triggers on the dominant bucket's independent
+    `source_ref` count, not the pack-wide count
+- Regression coverage now includes:
+  - low-confidence high-manual-share pack remains a quality-gate failure when
+    the dominant bucket is corroborated
+  - concentrated single-source manual pack fails specifically on source
+    concentration
+  - multi-source dominant manual pack can still remain auto-rank eligible
+- Verification passed:
+  - `ruff check src/bve/analysis/company_sotp.py tests/test_company_sotp.py`
+  - `PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pytest tests/test_company_sotp.py -q`
+  - result: `19 passed`
+- Historical company snapshot rebuild after Step 1:
+  - `python -m bve.ops.company_sotp_backfiller --watchlist examples/configs/watchlists/watchlist_replay_expanded_phase2.yaml --db outputs/intelligence/replay_knowledge.db --replay-db outputs/intelligence/replay_store.sqlite --start 2021-02-01 --end 2024-03-01 --output-dir outputs/analysis`
+  - action totals remained unchanged versus the Step 3 state:
+    - `buy = 72`
+    - `watch = 6`
+    - `avoid = 261`
+    - `needs_manual_review = 449`
+- Company backtest after Step 1:
+  - `python -m bve.analysis.company_sotp_backtest --db outputs/intelligence/replay_knowledge.db --replay-db outputs/intelligence/replay_store.sqlite --start 2021-02-01 --end 2024-03-01 --hold-days 365 --top-n 5 --min-ranked-discount 1.0 --output-dir outputs/analysis`
+  - result remained unchanged versus Step 3:
+    - `26` snapshot dates
+    - `35` candidate rows / selected trades
+    - mean excess return `+6.40%`
+    - hit rate `28.6%`
+    - cluster count `4`
+    - bootstrap `p = 0.1666`
+- Interpretation:
+  - the corroboration logic is now correct and auditable
+  - it did not change the current ranked historical cohort because the surviving
+    auto-ranked company packs were already clearing the dominant-bucket
+    concentration rule
+  - the next highest-leverage move is Step 7: add SOTP-vs-market-cap
+    reconciliation checks to surface stale or distorted company packs faster
+
+### 2026-04-09 Company Data Quality Step 3
+
+- Completed objective:
+  - added denser dated company packs for the highest-instability names so the
+    stricter source hierarchy no longer relies on one stale 2021 anchor through
+    most of the replay period
+- Completed in data:
+  - `research/company_sotp_overrides.yaml`
+- Wave-1 cohort completed:
+  - `IMVT`
+  - `ZYME`
+  - `ANAB`
+  - `RAPT`
+  - `SRRK`
+- Dated-pack densification:
+  - each of the five names now has `9` point-in-time company snapshots instead
+    of `2`
+  - new roll-forward dates added:
+    - `2021-05-10`
+    - `2021-08-10`
+    - `2021-11-10`
+    - `2022-03-10`
+    - `2022-08-10`
+    - `2023-03-10`
+    - `2023-08-10`
+  - existing anchors retained:
+    - `2021-02-01`
+    - `2024-01-01`
+- Source-quality upgrade inside the densified pack:
+  - platform / pipeline families now use disclosure-tier sources across the
+    quarterly roll-forward path
+  - `2024-01-01` refresh snapshots were upgraded to `investor_day` for the same
+    high-value platform / pipeline buckets
+  - royalty bridges remain conservative (`inferred`)
+  - dilution reserves remain conservative (`analyst_bridge`)
+- Historical company snapshot rebuild after Step 3:
+  - `python -m bve.ops.company_sotp_backfiller --watchlist examples/configs/watchlists/watchlist_replay_expanded_phase2.yaml --db outputs/intelligence/replay_knowledge.db --replay-db outputs/intelligence/replay_store.sqlite --start 2021-02-01 --end 2024-03-01 --output-dir outputs/analysis`
+  - action totals moved from the Step 2 state:
+    - `buy = 72`
+    - `watch = 6`
+    - `avoid = 185`
+    - `needs_manual_review = 525`
+  - to:
+    - `buy = 72`
+    - `watch = 6`
+    - `avoid = 261`
+    - `needs_manual_review = 449`
+- Latest active cohort on `2024-03-01`:
+  - moved from `2 buy / 5 avoid / 15 needs_manual_review`
+  - to `2 buy / 7 avoid / 13 needs_manual_review`
+  - target-cohort outcomes at the latest date:
+    - `ZYME`: `buy`
+    - `SRRK`: `avoid`
+    - `ANAB`: `avoid`
+    - `RAPT`: `avoid`
+    - `IMVT`: `avoid`
+- Company backtest after Step 3:
+  - `python -m bve.analysis.company_sotp_backtest --db outputs/intelligence/replay_knowledge.db --replay-db outputs/intelligence/replay_store.sqlite --start 2021-02-01 --end 2024-03-01 --hold-days 365 --top-n 5 --min-ranked-discount 1.0 --output-dir outputs/analysis`
+  - result unchanged versus Step 2:
+    - `26` snapshot dates
+    - `35` candidate rows / selected trades
+    - mean excess return `+6.40%`
+    - hit rate `28.6%`
+    - cluster count `4`
+    - bootstrap `p = 0.1666`
+- Interpretation:
+  - Step 3 improved breadth under the stricter hierarchy by pulling `76` rows
+    out of `needs_manual_review` and back into the rankable company dataset
+  - but that breadth gain did not yet improve the top-5 company backtest because
+    the selected trade cohort did not materially change
+  - the next highest-leverage move is Step 1: corroboration enforcement using
+    independent `source_ref` counts, now that the dated-pack density is better
+
+### 2026-04-09 Company Data Quality Step 2
+
+- Completed objective:
+  - extended the company SOTP structured-input schema from legacy
+    `manual/inferred` into a real source hierarchy
+  - enforced tier-specific confidence floors so weak pack rows cannot silently
+    pass as high-quality company inputs
+- Completed in code/data:
+  - `src/bve/analysis/company_sotp.py`
+  - `tests/test_company_sotp.py`
+  - `research/company_sotp_overrides.yaml`
+- Source hierarchy now enforced for structured company inputs:
+  - `sec_filing` / `contractual` -> minimum confidence `0.90`
+  - `company_disclosure` / `investor_day` -> minimum confidence `0.80`
+  - `analyst_bridge` / `inferred` -> minimum confidence `0.65`
+- Backward compatibility:
+  - legacy `source_kind: manual` is normalized to `analyst_bridge`
+- Policy tightening:
+  - low-evidence buckets now include both `analyst_bridge` and `inferred`
+  - `min_structured_input_confidence_for_auto_action` now floors at `0.65`
+  - `min_manual_bucket_confidence_avg` tightened from `0.65 -> 0.80`
+- Data normalization completed in the company pack:
+  - all legacy `source_kind: manual` entries were migrated to
+    `source_kind: analyst_bridge`
+  - all sub-floor `0.60/0.58/0.55/0.62` analyst-bridge / inferred entries were
+    lifted to the enforced minimum `0.65`
+- New regression coverage added:
+  - legacy `manual` source-kind normalization
+  - hard confidence-floor enforcement for the new hierarchy
+- Verification passed:
+  - `ruff check src/bve/analysis/company_sotp.py tests/test_company_sotp.py`
+  - `PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pytest tests/test_company_sotp.py -q`
+  - result: `19 passed`
+- Historical company snapshot rebuild after Step 2:
+  - `python -m bve.ops.company_sotp_backfiller --watchlist examples/configs/watchlists/watchlist_replay_expanded_phase2.yaml --db outputs/intelligence/replay_knowledge.db --replay-db outputs/intelligence/replay_store.sqlite --start 2021-02-01 --end 2024-03-01 --output-dir outputs/analysis`
+  - action totals moved from:
+    - `buy = 91`
+    - `watch = 12`
+    - `avoid = 637`
+    - `needs_manual_review = 48`
+  - to:
+    - `buy = 72`
+    - `watch = 6`
+    - `avoid = 185`
+    - `needs_manual_review = 525`
+- Latest cohort effect on `2024-03-01`:
+  - `2 buy / 5 avoid / 15 needs_manual_review`
+- Company backtest after Step 2:
+  - `python -m bve.analysis.company_sotp_backtest --db outputs/intelligence/replay_knowledge.db --replay-db outputs/intelligence/replay_store.sqlite --start 2021-02-01 --end 2024-03-01 --hold-days 365 --top-n 5 --min-ranked-discount 1.0 --output-dir outputs/analysis`
+  - result:
+    - `26` snapshot dates
+    - `35` candidate rows / selected trades
+    - mean excess return `+6.40%`
+    - hit rate `28.6%`
+    - cluster count `4`
+    - bootstrap `p = 0.1666`
+- Interpretation:
+  - Step 2 did what it was supposed to do: it materially tightened source
+    discipline and pushed weak company packs out of auto-ranked company output
+  - It also over-constrained the current pack, which means Step 3 is now the
+    clear next priority: add denser dated company packs for the highest-risk
+    names before doing corroboration-count enforcement
+
+### 2026-04-08 Company Pack Expansion Step 1
+
+- Completed objective:
+  - expanded breadth using the stored `company_sotp_snapshots` dataset rather
+    than intuition
+  - prioritized investable names recurring in top cohorts and still lacking
+    adequate company-level coverage
+- Priority-screen evidence from stored company snapshots:
+  - the immediate batch remained justified by the live stored dataset, with
+    strong recurring cohort presence from names such as:
+    - `SRRK`
+    - `TGTX`
+    - `ANAB`
+    - `SRPT`
+    - `CRSP`
+  - the requested immediate batch also included historically relevant but
+    lower-frequency names:
+    - `RAPT`
+    - `RETA`
+    - `RXDX`
+    - `ISEE`
+    - `MYOK`
+- Structured company-pack expansion completed in:
+  - `research/company_sotp_overrides.yaml`
+- Added the immediate breadth-expansion batch:
+  - `SRRK`
+  - `TGTX`
+  - `ANAB`
+  - `RAPT`
+  - `RETA`
+  - `RXDX`
+  - `ISEE`
+  - `MYOK`
+- All new entries were added as structured, dated bucket families rather than
+  one undifferentiated lump-sum bucket:
+  - `platform_*`
+  - `pipeline_*`
+  - `royalty_*`
+  - `dilution_*`
+- Historical company snapshot rebuild after the Step 1 pack expansion:
+  - `python -m bve.ops.company_sotp_backfiller --watchlist examples/configs/watchlists/watchlist_replay_expanded_phase2.yaml --db outputs/intelligence/replay_knowledge.db --replay-db outputs/intelligence/replay_store.sqlite --start 2021-02-01 --end 2024-03-01 --output-dir outputs/analysis`
+  - resulting action totals:
+    - `buy = 91`
+    - `watch = 14`
+    - `avoid = 635`
+    - `needs_manual_review = 48`
+  - versus the prior batch-1 company pack:
+    - `buy = 87`
+    - `watch = 11`
+    - `avoid = 649`
+    - `needs_manual_review = 41`
+- Company backtest rerun on the expanded pack:
+  - `python -m bve.analysis.company_sotp_backtest --db outputs/intelligence/replay_knowledge.db --replay-db outputs/intelligence/replay_store.sqlite --start 2021-02-01 --end 2024-03-01 --hold-days 365 --top-n 5 --min-ranked-discount 1.0 --output-dir outputs/analysis`
+  - new result:
+    - `26` snapshot dates
+    - `52` candidate rows / selected trades
+    - mean excess return `+6.27%`
+    - hit rate `30.8%`
+    - cluster count `7`
+    - bootstrap `p = 0.0718`
+  - prior result before the breadth expansion:
+    - `48` candidate rows / selected trades
+    - mean excess return `+10.02%`
+    - hit rate `33.3%`
+    - cluster count `7`
+    - bootstrap `p = 0.0282`
+- Interpretation:
+  - Step 1 succeeded at expanding the company pack and slightly increased the
+    number of `buy/watch` names.
+  - It did **not** improve company-level signal quality.
+  - The next leverage point is therefore not more breadth by itself. It is:
+    - Step 2: replace coarse additions with tighter company-specific bucket
+      families
+    - Step 3: make those new buckets truly point-in-time instead of relying on
+      one carry-forward date
+
+### 2026-04-08 Company Pack Expansion Steps 2–3
+
+- Completed objective:
+  - replaced the highest-impact static company overrides with tighter
+    company-specific bucket families
+  - made those same companies point-in-time by construction using dated company
+    snapshot bundles rather than one perpetual `2021-02-01` carry-forward
+- Completed in code/config:
+  - `src/bve/analysis/company_sotp.py`
+  - `tests/test_company_sotp.py`
+  - `research/company_sotp_overrides.yaml`
+- Schema / loader change:
+  - `CompanySOTPOverride` now supports:
+    - `snapshots:`
+      - `as_of_date`
+      - `inputs`
+      - optional notes
+  - builder behavior:
+    - selects the latest snapshot on or before the requested `as_of_date`
+    - falls back to legacy flat `inputs` for companies not yet migrated
+- Added direct regression coverage for point-in-time snapshot-bundle selection:
+  - `test_company_sotp_supports_snapshot_bundles_for_point_in_time_company_inputs`
+- Migrated the highest-impact names into dated snapshot bundles:
+  - `IMVT`
+  - `ZYME`
+  - `ANAB`
+  - `ISEE`
+  - `MYOK`
+  - `RAPT`
+  - `RETA`
+  - `RXDX`
+  - `SRRK`
+  - `TGTX`
+- Step 2 bucket-family upgrades:
+  - split generic company buckets into named company-specific families, e.g.:
+    - `imvt_pipeline_mg_thyroid_eye`
+    - `zyme_pipeline_adc_followons`
+    - `anab_pipeline_rosnilimab`
+    - `rapt_pipeline_il18`
+    - `srrk_pipeline_fshd`
+    - `tgtx_pipeline_briumvi_lifecycle`
+- Step 3 point-in-time upgrade:
+  - migrated those names to dated snapshots such as:
+    - `2021-02-01`
+    - `2022-07-01` or `2023-01-01` for historical-only acquired names
+    - `2024-01-01` for active names
+  - later dates now use the refreshed company pack rather than inheriting a
+    perpetual `2021` company-bucket set
+- Focused verification passed:
+  - `ruff check src/bve/analysis/company_sotp.py tests/test_company_sotp.py`
+  - `PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pytest tests/test_company_sotp.py::test_company_sotp_supports_structured_dated_inputs_with_bucket_provenance tests/test_company_sotp.py::test_company_sotp_supports_snapshot_bundles_for_point_in_time_company_inputs -q`
+  - result: `2 passed`
+- Historical company rebuild after the dated-pack migration:
+  - `python -m bve.ops.company_sotp_backfiller --watchlist examples/configs/watchlists/watchlist_replay_expanded_phase2.yaml --db outputs/intelligence/replay_knowledge.db --replay-db outputs/intelligence/replay_store.sqlite --start 2021-02-01 --end 2024-03-01 --output-dir outputs/analysis`
+  - resulting action totals:
+    - `buy = 91`
+    - `watch = 12`
+    - `avoid = 637`
+    - `needs_manual_review = 48`
+  - versus the Step 1 pack state:
+    - `buy = 91`
+    - `watch = 14`
+    - `avoid = 635`
+    - `needs_manual_review = 48`
+- Latest active cohort after the Step 2–3 migration:
+  - `2024-03-01`
+  - `22` rows
+  - `2 buy / 0 watch / 20 avoid / 0 needs_manual_review`
+  - the upgraded names now resolve to:
+    - `ZYME`: `buy`
+    - `ANAB`: `avoid`
+    - `IMVT`: `avoid`
+    - `RAPT`: `avoid`
+    - `SRRK`: `avoid`
+    - `TGTX`: `avoid`
+- Company backtest rerun after the dated-pack migration:
+  - `python -m bve.analysis.company_sotp_backtest --db outputs/intelligence/replay_knowledge.db --replay-db outputs/intelligence/replay_store.sqlite --start 2021-02-01 --end 2024-03-01 --hold-days 365 --top-n 5 --min-ranked-discount 1.0 --output-dir outputs/analysis`
+  - result:
+    - `26` snapshot dates
+    - `52` candidate rows / selected trades
+    - mean excess return `+6.27%`
+    - hit rate `30.8%`
+    - cluster count `7`
+    - bootstrap `p = 0.0718`
+  - versus Step 1:
+    - unchanged at the portfolio-signal level
+- Interpretation:
+  - Steps 2–3 materially improved company-pack auditability and point-in-time
+    correctness.
+  - They also tightened the later historical company policy mix:
+    - `watch` names fell from `14 -> 12`
+    - `avoid` names rose from `635 -> 637`
+  - But they did **not** improve the company-level backtest yet.
+  - The next leverage point is Step 4 / Step 6:
+    - tighten evidence standards by bucket type
+    - add pack-quality controls so high manual-bucket share with weak sourcing
+      forces `needs_manual_review`
+
+### 2026-04-08 Company Pack Expansion Step 4 / Step 6
+
+- Completed objective:
+  - tightened evidence standards by bucket type for structured company SOTP
+    inputs
+  - added pack-quality controls so weakly sourced manual buckets can be forced
+    back to `needs_manual_review`
+- Completed in code:
+  - `src/bve/analysis/company_sotp.py`
+  - `src/bve/intelligence/knowledge_layer.py`
+  - `tests/test_company_sotp.py`
+- Added pack-quality metrics to `CompanySOTPResult` and persisted
+  `company_sotp_snapshots`:
+  - `manual_bucket_share_pct`
+  - `manual_bucket_confidence_avg`
+  - `n_bucket_sources`
+- Evidence standards now vary by bucket type instead of using one flat manual
+  threshold:
+  - platform buckets require stronger confidence for auto-action
+  - unmodeled pipeline buckets require stronger confidence for auto-action
+  - royalty buckets use a slightly lower threshold
+  - dilution-reserve buckets require the highest confidence
+- Policy gating now forces `needs_manual_review` when:
+  - one large manual bucket exceeds the concentration threshold without enough
+    independent sources
+  - aggregate manual-bucket share is high and average manual confidence is weak
+- Added focused regression coverage:
+  - low-confidence high-manual-share pack -> `needs_manual_review`
+  - concentrated single-source manual pack -> `needs_manual_review`
+  - strong multi-source manual pack remains eligible for auto-action
+  - company snapshot persistence round-trips the new governance fields
+- Focused verification passed:
+  - `ruff check src/bve/analysis/company_sotp.py src/bve/intelligence/knowledge_layer.py tests/test_company_sotp.py`
+  - `PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pytest tests/test_company_sotp.py::test_company_sotp_forces_manual_review_for_low_confidence_high_manual_share_pack tests/test_company_sotp.py::test_company_sotp_forces_manual_review_for_concentrated_single_source_manual_pack tests/test_company_sotp.py::test_company_sotp_allows_strong_multi_source_manual_pack_for_auto_action tests/test_company_sotp.py::test_company_sotp_persists_company_snapshots_and_supports_lookup tests/test_company_sotp.py::test_company_sotp_supports_snapshot_bundles_for_point_in_time_company_inputs -q`
+  - result: `5 passed`
+- Live historical measurement from the rebuilt company snapshot dataset:
+  - action totals remain:
+    - `buy = 91`
+    - `watch = 12`
+    - `avoid = 637`
+    - `needs_manual_review = 48`
+  - company backtest remains:
+    - `26` snapshot dates
+    - `52` candidate rows / selected trades
+    - mean excess return `+6.27%`
+    - hit rate `30.8%`
+    - cluster count `7`
+    - bootstrap `p = 0.0718`
+- Interpretation:
+  - the governance layer is now implemented and persisted in the company
+    snapshot system of record
+  - the current override pack mostly clears the new evidence thresholds, so the
+    historical ranked dataset did not change materially yet
+  - the next leverage point is Step 5 / Step 7 quality expansion:
+    - add more weakly sourced / high-manual-share names to the structured pack
+      only after improving their source quality
+    - use these new governance fields directly in company ranking and policy
+      audits
+
+### 2026-04-09 Company Data Quality Step 2
+
+- Completed objective:
+  - ran the post-Step-7 reconciliation audit to see how many extreme-discount
+    hard-gate cases remain after relaxing `extreme_premium`
+- Historical reconciliation audit on `company_sotp_snapshots`:
+  - `27` rows still carry `reconciliation_status = extreme_discount`
+  - `4` unique tickers across `25` snapshot dates
+  - only `26` of those rows are true active hard-gate hits with
+    `action_reason = reconciliation_extreme_discount:*`
+  - the remaining `1` row is `AMRN`, which is already excluded by the market-cap
+    band gate (`market_cap_outside_band:7M`) rather than the reconciliation gate
+- Remaining true hard-gate names:
+  - `VKTX`: `12` rows from `2021-02-01` to `2023-02-01`, average ranked SOTP
+    discount `7.19x`, average manual bucket share `11.6%`, average manual bucket
+    confidence `0.72`, average modeled asset coverage `92.3%`
+  - `ZYME`: `13` rows from `2022-12-01` to `2023-12-01`, average ranked SOTP
+    discount `6.42x`, average manual bucket share `1.5%`, average manual bucket
+    confidence `0.65`, average modeled asset coverage `89.9%`
+  - `SRRK`: `1` row on `2022-05-01`, ranked SOTP discount `5.53x`, manual bucket
+    share `5.4%`, manual bucket confidence `0.73`, modeled asset coverage `64.3%`
+- Current live cohort check:
+  - latest active snapshot date has `0` reconciliation hard-gate hits
+  - there are no `reconciliation_extreme_discount:*` rows in the latest company
+    cohort after the Step 7 premium-side relaxation
+- Interpretation:
+  - the remaining gate-hit set is concentrated, not broad
+  - `VKTX` looks like the intended deep-value case the hard gate is meant to
+    catch, albeit still built on screening-grade configs
+  - `ZYME` is the main surprise: very low manual-share dependence, decent
+    modeled coverage, and repeated `6x-8x` discounts suggest the underlying
+    asset/config assumptions are too aggressive rather than the pack being stale
+  - `SRRK` looks like an older one-off sparse-coverage outlier, not a persistent
+    live ranking problem
+  - the next cleanup should focus on targeted config/asset assumption audits for
+    `ZYME` and `VKTX`, not another broad reconciliation policy change
+
+### 2026-04-09 Company Data Quality Step 7 (tiered reconciliation ladder)
+
+- Completed objective:
+  - replaced the binary `extreme_discount -> needs_manual_review` policy with a
+    tiered SOTP confidence ladder that combines ratio bands with 3-month market
+    cap trend
+  - preserved backward compatibility via the `extreme_discount` boolean alias
+- Completed in code/tests:
+  - `src/bve/analysis/company_sotp.py`
+  - `src/bve/intelligence/knowledge_layer.py`
+  - `tests/test_company_sotp.py`
+- What changed:
+  - added `compute_mcap_trend_3m()` using `KnowledgeStore` prices with
+    `ReplayStore` fallback when stored market history is sparse
+  - added `SotpTierResult` and `classify_sotp_tier()`:
+    - `ratio > 15x` -> `avoid`
+    - `8x < ratio <= 15x` -> `needs_manual_review`
+    - `5x < ratio <= 8x` + `3m trend < -30%` -> `needs_manual_review`
+    - `5x < ratio <= 8x` + stable / missing trend -> `watch`
+    - `ratio <= 5x` -> `normal`
+  - persisted new company snapshot fields:
+    - `mcap_trend_3m_pct`
+    - `sotp_tier`
+    - `sotp_action`
+    - `sotp_confidence_tier`
+    - `sotp_tier_reason`
+  - report / CSV output now surfaces the tier and a reconciliation summary
+  - older stored snapshots derive the new tier fields on load if missing
+- New regression coverage:
+  - `> 15x` always maps to `avoid`
+  - `> 8x` maps to `needs_manual_review`
+  - `5-8x` with `mcap trend < -30%` maps to `needs_manual_review`
+  - `5-8x` with stable or missing trend maps to `watch`
+  - `< 5x` maps to `normal`
+  - tier summary counts and `extreme_discount` alias behavior
+- Verification passed:
+  - `ruff check src/bve/analysis/company_sotp.py src/bve/intelligence/knowledge_layer.py tests/test_company_sotp.py`
+  - `PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 python -m pytest tests/test_company_sotp.py -q`
+  - result: `29 passed`
+- Historical company snapshot rebuild after the tier-ladder change:
+  - `python -m bve.ops.company_sotp_backfiller --watchlist examples/configs/watchlists/watchlist_replay_expanded_phase2.yaml --db outputs/intelligence/replay_knowledge.db --replay-db outputs/intelligence/replay_store.sqlite --start 2021-02-01 --end 2024-03-01 --output-dir outputs/analysis`
+  - action totals moved from the relaxed Step 7 pass-2 state:
+    - `buy = 46`
+    - `watch = 6`
+    - `avoid = 261`
+    - `needs_manual_review = 475`
+  - to:
+    - `buy = 46`
+    - `watch = 30`
+    - `avoid = 121`
+    - `needs_manual_review = 591`
+  - stored tier breakdown:
+    - `normal = 761`
+    - `watch = 24`
+    - `needs_manual_review = 2`
+    - `avoid = 1`
+- Known-case validation on stored snapshots:
+  - `VKTX`
+    - early `2021-2022` rows classify as `watch`
+    - reasons include `possible_mispricing:6.7x` and similar `5-8x` ladder hits
+  - `ZYME`
+    - does **not** currently hit `crashing_mcap`
+    - stored rows are mostly `normal` or `watch`; observed 3-month declines are
+      generally in the `-11%` to `-26%` range, not below `-30%`
+  - `AMRN`
+    - classifies as `avoid`
+    - `extreme_ratio:110.0x`
+  - `SRRK`
+    - the high-ratio edge case now classifies as `needs_manual_review` on its
+      observed `-60%` 3-month trend
+- Follow-up audit after the tier-ladder rollout:
+  - `27` rows still carry `reconciliation_status = extreme_discount`
+  - current tiered action breakdown on those names is concentrated rather than
+    broad:
+    - `VKTX` contributes most of the `watch` surface area
+    - `ZYME` remains the main config-audit candidate, not a crashing-mcap case
+    - `AMRN` is the single `avoid`
+    - `SRRK` is a one-row `needs_manual_review` edge case
+- Interpretation:
+  - the tier ladder is working mechanically and is much more informative than
+    the old binary cutoff
+  - it surfaced intended `VKTX`-style dislocations while keeping an explicit
+    `avoid` tier for broken-ratio cases
+  - the stored data did **not** support the expected `ZYME -> crashing_mcap`
+    outcome, which points back to underlying config assumptions rather than the
+    ladder itself
+

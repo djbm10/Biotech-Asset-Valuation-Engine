@@ -191,6 +191,25 @@ class ReplayStore:
 
             CREATE INDEX IF NOT EXISTS idx_capital_snapshots_asset
                 ON capital_snapshots(asset_id, snapshot_date);
+
+            CREATE TABLE IF NOT EXISTS balance_sheet_snapshots (
+                snapshot_id                   TEXT PRIMARY KEY,
+                ticker                        TEXT NOT NULL,
+                snapshot_date                 TEXT NOT NULL,
+                period_end_date               TEXT,
+                form_type                     TEXT,
+                cash_millions                 REAL,
+                debt_millions                 REAL,
+                shares_outstanding_millions   REAL,
+                burn_rate_millions_per_quarter REAL,
+                source_type                   TEXT NOT NULL,
+                source_ref                    TEXT NOT NULL,
+                created_at                    TEXT NOT NULL,
+                UNIQUE(ticker, snapshot_date, source_ref)
+            );
+
+            CREATE INDEX IF NOT EXISTS idx_balance_sheet_snapshots_ticker
+                ON balance_sheet_snapshots(ticker, snapshot_date);
             """
         )
         self._conn.commit()
@@ -744,6 +763,84 @@ class ReplayStore:
             return str(row["capital_risk_level"])
         return None
 
+    def upsert_balance_sheet_snapshot(
+        self,
+        *,
+        ticker: str,
+        snapshot_date: date,
+        period_end_date: Optional[date] = None,
+        form_type: Optional[str] = None,
+        cash_millions: Optional[float] = None,
+        debt_millions: Optional[float] = None,
+        shares_outstanding_millions: Optional[float] = None,
+        burn_rate_millions_per_quarter: Optional[float] = None,
+        source_type: str = "sec_edgar",
+        source_ref: str,
+    ) -> None:
+        snapshot_key = (
+            f"bs:{ticker.upper()}:{snapshot_date.isoformat()}:{source_ref}"
+        )
+        self._conn.execute(
+            """
+            INSERT OR REPLACE INTO balance_sheet_snapshots(
+                snapshot_id,
+                ticker,
+                snapshot_date,
+                period_end_date,
+                form_type,
+                cash_millions,
+                debt_millions,
+                shares_outstanding_millions,
+                burn_rate_millions_per_quarter,
+                source_type,
+                source_ref,
+                created_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                snapshot_key,
+                ticker.upper(),
+                snapshot_date.isoformat(),
+                period_end_date.isoformat() if period_end_date else None,
+                form_type,
+                cash_millions,
+                debt_millions,
+                shares_outstanding_millions,
+                burn_rate_millions_per_quarter,
+                source_type,
+                source_ref,
+                datetime.now(timezone.utc).isoformat(),
+            ),
+        )
+        self._conn.commit()
+
+    def get_balance_sheet_snapshot(
+        self,
+        ticker: str,
+        as_of_date: date,
+    ) -> Optional[dict[str, object]]:
+        row = self._conn.execute(
+            """
+            SELECT ticker,
+                   snapshot_date,
+                   period_end_date,
+                   form_type,
+                   cash_millions,
+                   debt_millions,
+                   shares_outstanding_millions,
+                   burn_rate_millions_per_quarter,
+                   source_type,
+                   source_ref,
+                   created_at
+            FROM balance_sheet_snapshots
+            WHERE ticker = ? AND snapshot_date <= ?
+            ORDER BY snapshot_date DESC, created_at DESC
+            LIMIT 1
+            """,
+            (ticker.upper(), as_of_date.isoformat()),
+        ).fetchone()
+        return dict(row) if row is not None else None
+
     def close(self) -> None:
         """Close the SQLite connection."""
         self._conn.close()
@@ -1228,6 +1325,10 @@ class HistoricalReplay:
             snap = tt.snapshot(u["asset_id"], as_of_date=as_of)
             n_resolved = snap.n_confirmed + snap.n_refuted + snap.n_expired
             thesis_strength = snap.thesis_strength if n_resolved > 0 else None
+            company_snapshot = ks.get_company_sotp_snapshot_for_ticker_on_or_before(
+                str(u["ticker"]),
+                as_of,
+            )
             candidates.append(ScoredCandidate(
                 asset_id=u["asset_id"],
                 ticker=u["ticker"],
@@ -1238,6 +1339,21 @@ class HistoricalReplay:
                 catalyst_description=u.get("catalyst", ""),
                 indication=u.get("indication", ""),
                 company_id=u.get("company_id", ""),
+                company_action_policy=(
+                    str(company_snapshot.get("action_policy"))
+                    if company_snapshot and company_snapshot.get("action_policy")
+                    else None
+                ),
+                company_action_reason=(
+                    str(company_snapshot.get("action_reason"))
+                    if company_snapshot and company_snapshot.get("action_reason")
+                    else ""
+                ),
+                company_snapshot_date=(
+                    company_snapshot.get("snapshot_date")
+                    if company_snapshot is not None
+                    else None
+                ),
             ))
 
         # Build v2.0 composite score contexts (no-lookahead: all signals as of as_of)

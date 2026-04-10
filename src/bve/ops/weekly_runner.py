@@ -6,7 +6,7 @@ Usage:
     python -m bve.ops.weekly_runner report     # generate weekly actionable report
     python -m bve.ops.weekly_runner review     # run weekly review (after outcomes)
     python -m bve.ops.weekly_runner status     # show current positions + open claims
-    python -m bve.ops.weekly_runner mna        # standalone M&A probability scan (top-10)
+    python -m bve.ops.weekly_runner mna        # standalone M&A probability scan (top-15)
 """
 from __future__ import annotations
 
@@ -378,12 +378,23 @@ UNIVERSE = [
 # ---------------------------------------------------------------------------
 
 _REPO_ROOT = Path(__file__).parent.parent.parent.parent
-_MNA_PROFILES_PATH = str(_REPO_ROOT / "research" / "mna" / "pipeline_gaps.yaml")
+_MNA_PROFILES_PATH = str(_REPO_ROOT / "examples" / "research" / "acquirer_profiles")
 _MNA_COMPS_PATH    = str(_REPO_ROOT / "research" / "mna" / "comparable_deals.yaml")
 _MNA_VULN_PATH     = str(_REPO_ROOT / "research" / "mna" / "vulnerability_signals.yaml")
+_MNA_CALIBRATION_CANDIDATES = [
+    _REPO_ROOT / "outputs" / "analysis" / "ma_calibration_fit_post_step2.json",
+    _REPO_ROOT / "outputs" / "analysis" / "ma_calibration_fit.json",
+]
 
 
-def _run_mna_scan(store: KnowledgeStore, top_n: int = 10) -> Optional[object]:
+def _resolve_mna_calibration_model_path() -> str | None:
+    for candidate in _MNA_CALIBRATION_CANDIDATES:
+        if candidate.exists():
+            return str(candidate)
+    return None
+
+
+def _run_mna_scan(store: KnowledgeStore, top_n: int = 15) -> Optional[object]:
     """
     Run the M&A probability scan over the weekly UNIVERSE and return
     `MAProbabilityResult`, or None if research files are unavailable.
@@ -415,6 +426,9 @@ def _run_mna_scan(store: KnowledgeStore, top_n: int = 10) -> Optional[object]:
         vulnerability_signals_path=_MNA_VULN_PATH,
         persist_daily_snapshots=False,
         enable_monitor=False,
+        calibration_model_path=_resolve_mna_calibration_model_path(),
+        calibration_policy="threshold_filter",
+        calibration_threshold=0.10,
         fit_integration_config={
             "acquirer_profiles_path": _MNA_PROFILES_PATH,
             "comparable_deals_path": _MNA_COMPS_PATH,
@@ -429,31 +443,50 @@ def _run_mna_scan(store: KnowledgeStore, top_n: int = 10) -> Optional[object]:
         return None
 
 
-def _print_mna_section(result: object, *, top_n: int = 10) -> None:
+def _print_mna_section(result: object, *, top_n: int = 15) -> None:
     """Print a compact M&A probability table appended to the weekly report."""
     rows = getattr(result, "rows", [])
     if not rows:
         print("  (no M&A probability rows — check research files and universe stage coverage)")
         return
 
-    print(f"  {'#':>2}  {'TICKER':6s}  {'P(ACQ)':>7}  {'BEST ACQUIRER':22s}  "
-          f"{'FIT':>5}  {'DISC':>6}  {'STAGE':10s}  FLAGS")
-    print("  " + "-" * 82)
+    print(
+        f"  {'#':>2}  {'TICKER':6s}  {'M&A':>7}  {'CAL':>7}  {'BEST ACQUIRER':22s}  "
+        f"{'DEAL RANGE':18s}  {'FIT':>5}  {'DISC':>6}  {'D-RISK':>6}  {'CAPV':>5}  FLAGS"
+    )
+    print("  " + "-" * 133)
     for row in rows[:top_n]:
         ticker = getattr(row, "ticker", None) or row.asset_id
-        p = getattr(row, "p_acquisition", None)
+        p = getattr(row, "mna_probability_score", None)
         p_str = f"{p*100:.1f}%" if p is not None else "n/a"
+        p_cal = getattr(row, "p_takeout_calibrated", None)
+        p_cal_str = f"{p_cal*100:.1f}%" if p_cal is not None else "n/a"
         acquirer = (getattr(row, "best_acquirer_id", None) or "—")[:22]
+        deal_low = getattr(row, "estimated_deal_value_low_millions", None)
+        deal_high = getattr(row, "estimated_deal_value_high_millions", None)
+        if deal_low is not None and deal_high is not None:
+            if deal_low >= 1000 or deal_high >= 1000:
+                deal_range = f"${deal_low/1000.0:.1f}B-${deal_high/1000.0:.1f}B"
+            else:
+                deal_range = f"${deal_low:,.0f}M-${deal_high:,.0f}M"
+        else:
+            deal_range = "n/a"
         fit = getattr(row, "best_acquirer_fit_score", None)
         fit_str = f"{fit:.2f}" if fit is not None else " n/a"
         disc = getattr(row, "acquisition_discount", None)
         disc_str = f"{disc:.2f}x" if disc is not None else "  n/a"
-        stage = (getattr(row, "stage", None) or "—")[:10]
+        d_risk = getattr(row, "de_risking_stage_score", None)
+        d_risk_str = f"{d_risk:.2f}" if d_risk is not None else " n/a"
+        capv = getattr(row, "capital_vulnerability_score", None)
+        capv_str = f"{capv:.2f}" if capv is not None else " n/a"
         alert = "⚑ ALERT" if getattr(row, "above_alert_threshold", False) else ""
         hard_fails = getattr(row, "hard_fail_reasons", [])
         flags = alert or (hard_fails[0] if hard_fails else "—")
-        print(f"  {row.rank:>2}  {ticker:6s}  {p_str:>7}  {acquirer:22s}  "
-              f"{fit_str:>5}  {disc_str:>6}  {stage:10s}  {flags}")
+        print(
+            f"  {row.rank:>2}  {ticker:6s}  {p_str:>7}  {p_cal_str:>7}  {acquirer:22s}  "
+            f"{deal_range:18s}  {fit_str:>5}  {disc_str:>6}  {d_risk_str:>6}  "
+            f"{capv_str:>5}  {flags}"
+        )
 
     threshold_cross = [r for r in rows if getattr(r, "above_alert_threshold", False)]
     if threshold_cross:
@@ -505,6 +538,10 @@ def cmd_report(top_n: int = 5) -> None:
         snap = tt.snapshot(u["asset_id"])
         n_resolved = snap.n_confirmed + snap.n_refuted + snap.n_expired
         thesis_strength = snap.thesis_strength if n_resolved > 0 else None
+        company_snapshot = store.get_company_sotp_snapshot_for_ticker_on_or_before(
+            str(u["ticker"]),
+            date.today(),
+        )
         candidates.append(ScoredCandidate(
             asset_id=u["asset_id"],
             ticker=u["ticker"],
@@ -514,6 +551,21 @@ def cmd_report(top_n: int = 5) -> None:
             catalyst_description=u["catalyst"],
             indication=u["indication"],
             company_id=u["company_id"],
+            company_action_policy=(
+                str(company_snapshot.get("action_policy"))
+                if company_snapshot and company_snapshot.get("action_policy")
+                else None
+            ),
+            company_action_reason=(
+                str(company_snapshot.get("action_reason"))
+                if company_snapshot and company_snapshot.get("action_reason")
+                else ""
+            ),
+            company_snapshot_date=(
+                company_snapshot.get("snapshot_date")
+                if company_snapshot is not None
+                else None
+            ),
         ))
 
     report = gen.generate(candidates, top_n=top_n, week_ending=date.today())
@@ -551,13 +603,13 @@ def cmd_report(top_n: int = 5) -> None:
 
     # Append M&A probability scan section
     print(f"\n{'='*60}")
-    print(f"M&A PROBABILITY SCAN — Top 10  ({date.today()})")
+    print(f"M&A PROBABILITY SCAN — Top 15  ({date.today()})")
     print(f"{'='*60}\n")
-    mna_result = _run_mna_scan(store, top_n=10)
+    mna_result = _run_mna_scan(store, top_n=15)
     if mna_result is None:
         print("  (M&A scan skipped — research files not found or scanner unavailable)")
     else:
-        _print_mna_section(mna_result, top_n=10)
+        _print_mna_section(mna_result, top_n=15)
     print()
 
     # Implied PoS screen — persist snapshot to KnowledgeStore
@@ -605,7 +657,7 @@ def _persist_screen_snapshot(store: "KnowledgeStore") -> None:  # type: ignore[n
         print(f"  Implied PoS screen skipped: {exc}")
 
 
-def cmd_mna_scan(top_n: int = 10) -> None:
+def cmd_mna_scan(top_n: int = 15) -> None:
     """Standalone M&A probability scan over the weekly UNIVERSE (top-N)."""
     store = _get_store()
     print(f"\n{'='*60}")

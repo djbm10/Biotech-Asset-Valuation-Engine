@@ -95,7 +95,9 @@ class AcquisitionScreenRow(AcquisitionDiscountSnapshot):
     comps_match_tier: Optional[str] = None
     comps_n: int = 0
     comps_percentile_vs_peers: Optional[float] = None
+    comps_peer_min_ev_to_peak_sales: Optional[float] = None
     comps_peer_median_ev_to_peak_sales: Optional[float] = None
+    comps_peer_max_ev_to_peak_sales: Optional[float] = None
 
 
 class AcquisitionScreenResult(BaseModel):
@@ -500,7 +502,9 @@ class AcquisitionScreener:
                 "comps_match_tier": analysis.match_tier,
                 "comps_n": analysis.n_comps,
                 "comps_percentile_vs_peers": analysis.percentile_vs_comps,
+                "comps_peer_min_ev_to_peak_sales": analysis.peer_min_ev_to_peak_sales,
                 "comps_peer_median_ev_to_peak_sales": analysis.peer_median_ev_to_peak_sales,
+                "comps_peer_max_ev_to_peak_sales": analysis.peer_max_ev_to_peak_sales,
             }
         )
 

@@ -8,7 +8,6 @@ import pytest
 from bve.intelligence.capital_structure import CapitalRiskLevel
 from bve.intelligence.actionable_output import (
     ActionableGenerator,
-    ActionableOpportunity,
     CURRENT_SCORE_VERSION,
     SCORE_VERSIONS,
     ScoredCandidate,
@@ -217,6 +216,29 @@ def test_n_considered_counts_all_input() -> None:
     candidates = [_candidate(f"a{i}", f"T{i}") for i in range(7)]
     report = gen.generate(candidates)
     assert report.n_considered == 7
+
+
+def test_company_manual_review_candidate_is_filtered_from_auto_ranked_output() -> None:
+    gen = _gen()
+    candidate = _candidate(ranking_score=0.95, thesis_strength=0.9, opportunity_score=0.8)
+    candidate.company_action_policy = "needs_manual_review"
+    candidate.company_action_reason = "balance_sheet_recency_gate_failed"
+    report = gen.generate([candidate])
+    assert report.opportunities == []
+    assert report.n_filtered_by_company_gate == 1
+
+
+def test_company_watch_candidate_downgrades_buy_to_monitor() -> None:
+    gen = _gen()
+    candidate = _candidate(ranking_score=0.95, thesis_strength=0.9, opportunity_score=0.8)
+    candidate.company_action_policy = "watch"
+    candidate.company_action_reason = "ranked_discount_above_watch_threshold:1.20x"
+    report = gen.generate([candidate])
+    assert report.opportunities[0].recommended_action == "monitor"
+    assert report.opportunities[0].recommended_size_pct == 0.0
+    assert any(
+        "COMPANY WATCH" in flag for flag in report.opportunities[0].risk_flags
+    )
 
 
 def test_recommended_size_clipped_to_max() -> None:

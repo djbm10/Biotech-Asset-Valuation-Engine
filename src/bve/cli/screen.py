@@ -45,6 +45,11 @@ def _build_parser() -> argparse.ArgumentParser:
         default="report",
         help="Output format",
     )
+    parser.add_argument(
+        "--use-stored-screen-snapshots",
+        action="store_true",
+        help="Prefer the latest stored screen_snapshot on or before --as-of",
+    )
     parser.add_argument("--output", default=None, help="Write output to file instead of stdout")
     return parser
 
@@ -125,11 +130,17 @@ def _format_report(result: MispricingScreenResult) -> str:
     separator = "-" * len(header)
     lines = [
         f"Unified mispricing screen date: {result.as_of_date.isoformat()}",
+        (
+            f"Source mode: {result.source_mode} | "
+            f"Reference snapshot: "
+            f"{result.reference_snapshot_date.isoformat() if result.reference_snapshot_date else 'n/a'}"
+        ),
         f"Score version: {result.score_version} | "
         f"Assets: {result.n_assets} | "
         f"With ranking: {result.n_with_ranking} | "
         f"With acquisition discount: {result.n_with_acquisition_discount} | "
-        f"With catalyst: {result.n_with_catalyst}",
+        f"With catalyst: {result.n_with_catalyst} | "
+        f"Excluded company gate: {result.n_excluded_company_gate}",
         separator,
         header,
         separator,
@@ -156,6 +167,13 @@ def _format_report(result: MispricingScreenResult) -> str:
             f"implied_pos={f'{row.implied_pos * 100:.1f}%' if row.implied_pos is not None else 'n/a'}  "
             f"modifier={row.catalyst_modifier:.3f}"
         )
+        if row.company_action_policy is not None:
+            lines.append(
+                "      "
+                f"company_action={row.company_action_policy}  "
+                f"company_snapshot={row.company_snapshot_date.isoformat() if row.company_snapshot_date is not None else 'n/a'}  "
+                f"company_reason={row.company_action_reason or 'n/a'}"
+            )
         if row.data_notes:
             lines.append(f"      notes: {', '.join(row.data_notes)}")
     return "\n".join(lines)
@@ -187,6 +205,7 @@ def main() -> None:
             config=MispricingScreenConfig(
                 top_n=args.top,
                 catalyst_days_ahead=args.days_ahead,
+                prefer_stored_screen_snapshots=args.use_stored_screen_snapshots,
             ),
         ).screen_from_watchlist_config(
             config,
