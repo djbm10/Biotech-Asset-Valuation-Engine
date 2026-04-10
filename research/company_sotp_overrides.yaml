@@ -1,0 +1,2925 @@
+defaults:
+  dilution_reserve_quarters: 0.0
+companies:
+  ACAD:
+    notes: Top-25 company SOTP pack. CNS lifecycle and ex-US economics bridge the
+      single-asset screen.
+    inputs:
+    - bucket_id: acad_unmodeled_pipeline
+      bucket_type: unmodeled_pipeline
+      label: CNS lifecycle and follow-on pipeline
+      value_millions: 220.0
+      as_of_date: 2021-02-01
+      confidence: 0.65
+      source: analyst_manual_top25_pack
+      source_ref: top25_pack_2021q1:ACAD:unmodeled_pipeline
+      source_kind: analyst_bridge
+      notes: Adjunct MDD and follow-on CNS optionality outside the lead-asset screen.
+    - bucket_id: acad_ex_us_royalties
+      bucket_type: royalty
+      label: Ex-US royalty / milestone stream
+      value_millions: 40.0
+      as_of_date: 2021-02-01
+      confidence: 0.65
+      source: screening_econ_bridge
+      source_ref: top25_pack_2021q1:ACAD:royalty
+      source_kind: inferred
+      notes: Conservative placeholder for partner economics not modeled in asset configs.
+  AGEN:
+    notes: Multi-program immuno-oncology company with financing dependence not captured
+      by a single lead asset.
+    inputs:
+    - bucket_id: agen_platform
+      bucket_type: platform
+      label: Immuno-oncology platform value
+      value_millions: 120.0
+      as_of_date: 2021-02-01
+      confidence: 0.65
+      source: analyst_manual_top25_pack
+      source_ref: top25_pack_2021q1:AGEN:platform
+      source_kind: analyst_bridge
+    - bucket_id: agen_unmodeled_pipeline
+      bucket_type: unmodeled_pipeline
+      label: Botensilimab franchise optionality
+      value_millions: 300.0
+      as_of_date: 2021-02-01
+      confidence: 0.65
+      source: analyst_manual_top25_pack
+      source_ref: top25_pack_2021q1:AGEN:unmodeled_pipeline
+      source_kind: analyst_bridge
+    - bucket_id: agen_financing_reserve
+      bucket_type: dilution_reserve
+      label: Financing reserve
+      value_millions: 120.0
+      as_of_date: 2021-02-01
+      confidence: 0.75
+      source: financing_path_manual_pack
+      source_ref: top25_pack_2021q1:AGEN:dilution
+      source_kind: analyst_bridge
+  ARQT:
+    notes: Commercial dermatology platform with lifecycle value beyond the single
+      modeled indication.
+    inputs:
+    - bucket_id: arqt_unmodeled_pipeline
+      bucket_type: unmodeled_pipeline
+      label: Dermatology lifecycle expansion
+      value_millions: 140.0
+      as_of_date: 2021-02-01
+      confidence: 0.65
+      source: analyst_manual_top25_pack
+      source_ref: top25_pack_2021q1:ARQT:unmodeled_pipeline
+      source_kind: analyst_bridge
+    - bucket_id: arqt_partner_stream
+      bucket_type: royalty
+      label: Partner economics bridge
+      value_millions: 35.0
+      as_of_date: 2021-02-01
+      confidence: 0.65
+      source: screening_econ_bridge
+      source_ref: top25_pack_2021q1:ARQT:royalty
+      source_kind: inferred
+  BHVN:
+    notes: Platform neuroscience company with multiple unmodeled follow-on programs.
+    inputs:
+    - bucket_id: bhvn_platform
+      bucket_type: platform
+      label: Neuro R&D platform value
+      value_millions: 80.0
+      as_of_date: 2021-02-01
+      confidence: 0.65
+      source: analyst_manual_top25_pack
+      source_ref: top25_pack_2021q1:BHVN:platform
+      source_kind: analyst_bridge
+    - bucket_id: bhvn_unmodeled_pipeline
+      bucket_type: unmodeled_pipeline
+      label: Migraine and neuro follow-on pipeline
+      value_millions: 280.0
+      as_of_date: 2021-02-01
+      confidence: 0.65
+      source: analyst_manual_top25_pack
+      source_ref: top25_pack_2021q1:BHVN:unmodeled_pipeline
+      source_kind: analyst_bridge
+  BLUE:
+    notes: Cell/gene therapy platform with residual pipeline and financing complexity.
+    inputs:
+    - bucket_id: blue_platform
+      bucket_type: platform
+      label: Gene therapy platform value
+      value_millions: 130.0
+      as_of_date: 2021-02-01
+      confidence: 0.65
+      source: analyst_manual_top25_pack
+      source_ref: top25_pack_2021q1:BLUE:platform
+      source_kind: analyst_bridge
+    - bucket_id: blue_unmodeled_pipeline
+      bucket_type: unmodeled_pipeline
+      label: Unmodeled cell and gene pipeline
+      value_millions: 180.0
+      as_of_date: 2021-02-01
+      confidence: 0.65
+      source: analyst_manual_top25_pack
+      source_ref: top25_pack_2021q1:BLUE:unmodeled_pipeline
+      source_kind: analyst_bridge
+    - bucket_id: blue_financing_reserve
+      bucket_type: dilution_reserve
+      label: Financing reserve
+      value_millions: 140.0
+      as_of_date: 2021-02-01
+      confidence: 0.75
+      source: financing_path_manual_pack
+      source_ref: top25_pack_2021q1:BLUE:dilution
+      source_kind: analyst_bridge
+  CBAY:
+    notes: Late-stage liver disease company with financing overhang and follow-on
+      optionality.
+    inputs:
+    - bucket_id: cbay_unmodeled_pipeline
+      bucket_type: unmodeled_pipeline
+      label: Follow-on liver pipeline
+      value_millions: 90.0
+      as_of_date: 2021-02-01
+      confidence: 0.65
+      source: analyst_manual_top25_pack
+      source_ref: top25_pack_2021q1:CBAY:unmodeled_pipeline
+      source_kind: analyst_bridge
+    - bucket_id: cbay_financing_reserve
+      bucket_type: dilution_reserve
+      label: Financing reserve
+      value_millions: 70.0
+      as_of_date: 2021-02-01
+      confidence: 0.75
+      source: financing_path_manual_pack
+      source_ref: top25_pack_2021q1:CBAY:dilution
+      source_kind: analyst_bridge
+  CCXI:
+    notes: Commercial plus lifecycle economics not fully captured in the asset-only
+      view.
+    inputs:
+    - bucket_id: ccxi_partner_stream
+      bucket_type: royalty
+      label: Partner / ex-US economics
+      value_millions: 60.0
+      as_of_date: 2021-02-01
+      confidence: 0.65
+      source: screening_econ_bridge
+      source_ref: top25_pack_2021q1:CCXI:royalty
+      source_kind: inferred
+    - bucket_id: ccxi_financing_reserve
+      bucket_type: dilution_reserve
+      label: Financing reserve
+      value_millions: 40.0
+      as_of_date: 2021-02-01
+      confidence: 0.75
+      source: financing_path_manual_pack
+      source_ref: top25_pack_2021q1:CCXI:dilution
+      source_kind: analyst_bridge
+  FOLD:
+    notes: Commercial rare-disease company with royalties and follow-on franchise
+      value.
+    inputs:
+    - bucket_id: fold_royalties
+      bucket_type: royalty
+      label: Royalty and milestone streams
+      value_millions: 120.0
+      as_of_date: 2021-02-01
+      confidence: 0.65
+      source: screening_econ_bridge
+      source_ref: top25_pack_2021q1:FOLD:royalty
+      source_kind: inferred
+    - bucket_id: fold_unmodeled_pipeline
+      bucket_type: unmodeled_pipeline
+      label: Follow-on rare disease lifecycle
+      value_millions: 160.0
+      as_of_date: 2021-02-01
+      confidence: 0.65
+      source: analyst_manual_top25_pack
+      source_ref: top25_pack_2021q1:FOLD:unmodeled_pipeline
+      source_kind: analyst_bridge
+  FULC:
+    notes: Precision-genetics platform with pipeline breadth beyond the lead asset.
+    inputs:
+    - bucket_id: fulc_platform
+      bucket_type: platform
+      label: Gene regulation platform value
+      value_millions: 70.0
+      as_of_date: 2021-02-01
+      confidence: 0.65
+      source: analyst_manual_top25_pack
+      source_ref: top25_pack_2021q1:FULC:platform
+      source_kind: analyst_bridge
+    - bucket_id: fulc_unmodeled_pipeline
+      bucket_type: unmodeled_pipeline
+      label: Hematology follow-on pipeline
+      value_millions: 150.0
+      as_of_date: 2021-02-01
+      confidence: 0.65
+      source: analyst_manual_top25_pack
+      source_ref: top25_pack_2021q1:FULC:unmodeled_pipeline
+      source_kind: analyst_bridge
+    - bucket_id: fulc_financing_reserve
+      bucket_type: dilution_reserve
+      label: Financing reserve
+      value_millions: 90.0
+      as_of_date: 2021-02-01
+      confidence: 0.8
+      source: financing_path_manual_pack
+      source_ref: top25_pack_2021q1:FULC:dilution
+      source_kind: analyst_bridge
+  IMVT:
+    notes: Multi-indication immunology company with franchise value beyond the lead
+      modeled program.
+    snapshots:
+    - as_of_date: '2021-02-01'
+      notes: Initial top-25 pack snapshot.
+      inputs:
+      - bucket_id: imvt_platform_fcrn
+        bucket_type: platform
+        label: FcRn immunology platform
+        value_millions: 90.0
+        as_of_date: '2021-02-01'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q1:IMVT:imvt_platform_fcrn
+        source_kind: company_disclosure
+      - bucket_id: imvt_pipeline_mg_thyroid_eye
+        bucket_type: unmodeled_pipeline
+        label: MG and TED franchise expansion
+        value_millions: 170.0
+        as_of_date: '2021-02-01'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q1:IMVT:imvt_pipeline_mg_thyroid_eye
+        source_kind: company_disclosure
+      - bucket_id: imvt_pipeline_additional_autoimmune
+        bucket_type: unmodeled_pipeline
+        label: Additional autoimmune indications
+        value_millions: 80.0
+        as_of_date: '2021-02-01'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q1:IMVT:imvt_pipeline_additional_autoimmune
+        source_kind: company_disclosure
+    - as_of_date: '2021-05-10'
+      notes: Quarterly disclosure-aligned roll-forward between anchored 2021 and 2024
+        company pack snapshots.
+      inputs:
+      - bucket_id: imvt_platform_fcrn
+        bucket_type: platform
+        label: FcRn immunology platform
+        value_millions: 90.0
+        as_of_date: '2021-05-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q2:IMVT:imvt_platform_fcrn
+        source_kind: company_disclosure
+      - bucket_id: imvt_pipeline_mg_thyroid_eye
+        bucket_type: unmodeled_pipeline
+        label: MG and TED franchise expansion
+        value_millions: 170.0
+        as_of_date: '2021-05-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q2:IMVT:imvt_pipeline_mg_thyroid_eye
+        source_kind: company_disclosure
+      - bucket_id: imvt_pipeline_additional_autoimmune
+        bucket_type: unmodeled_pipeline
+        label: Additional autoimmune indications
+        value_millions: 80.0
+        as_of_date: '2021-05-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q2:IMVT:imvt_pipeline_additional_autoimmune
+        source_kind: company_disclosure
+    - as_of_date: '2021-08-10'
+      notes: Quarterly disclosure-aligned roll-forward between anchored 2021 and 2024
+        company pack snapshots.
+      inputs:
+      - bucket_id: imvt_platform_fcrn
+        bucket_type: platform
+        label: FcRn immunology platform
+        value_millions: 85.0
+        as_of_date: '2021-08-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q3:IMVT:imvt_platform_fcrn
+        source_kind: company_disclosure
+      - bucket_id: imvt_pipeline_mg_thyroid_eye
+        bucket_type: unmodeled_pipeline
+        label: MG and TED franchise expansion
+        value_millions: 165.0
+        as_of_date: '2021-08-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q3:IMVT:imvt_pipeline_mg_thyroid_eye
+        source_kind: company_disclosure
+      - bucket_id: imvt_pipeline_additional_autoimmune
+        bucket_type: unmodeled_pipeline
+        label: Additional autoimmune indications
+        value_millions: 75.0
+        as_of_date: '2021-08-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q3:IMVT:imvt_pipeline_additional_autoimmune
+        source_kind: company_disclosure
+    - as_of_date: '2021-11-10'
+      notes: Quarterly disclosure-aligned roll-forward between anchored 2021 and 2024
+        company pack snapshots.
+      inputs:
+      - bucket_id: imvt_platform_fcrn
+        bucket_type: platform
+        label: FcRn immunology platform
+        value_millions: 85.0
+        as_of_date: '2021-11-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q4:IMVT:imvt_platform_fcrn
+        source_kind: company_disclosure
+      - bucket_id: imvt_pipeline_mg_thyroid_eye
+        bucket_type: unmodeled_pipeline
+        label: MG and TED franchise expansion
+        value_millions: 165.0
+        as_of_date: '2021-11-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q4:IMVT:imvt_pipeline_mg_thyroid_eye
+        source_kind: company_disclosure
+      - bucket_id: imvt_pipeline_additional_autoimmune
+        bucket_type: unmodeled_pipeline
+        label: Additional autoimmune indications
+        value_millions: 75.0
+        as_of_date: '2021-11-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q4:IMVT:imvt_pipeline_additional_autoimmune
+        source_kind: company_disclosure
+    - as_of_date: '2022-03-10'
+      notes: Quarterly disclosure-aligned roll-forward between anchored 2021 and 2024
+        company pack snapshots.
+      inputs:
+      - bucket_id: imvt_platform_fcrn
+        bucket_type: platform
+        label: FcRn immunology platform
+        value_millions: 85.0
+        as_of_date: '2022-03-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2022q1:IMVT:imvt_platform_fcrn
+        source_kind: company_disclosure
+      - bucket_id: imvt_pipeline_mg_thyroid_eye
+        bucket_type: unmodeled_pipeline
+        label: MG and TED franchise expansion
+        value_millions: 160.0
+        as_of_date: '2022-03-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2022q1:IMVT:imvt_pipeline_mg_thyroid_eye
+        source_kind: company_disclosure
+      - bucket_id: imvt_pipeline_additional_autoimmune
+        bucket_type: unmodeled_pipeline
+        label: Additional autoimmune indications
+        value_millions: 70.0
+        as_of_date: '2022-03-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2022q1:IMVT:imvt_pipeline_additional_autoimmune
+        source_kind: company_disclosure
+    - as_of_date: '2022-08-10'
+      notes: Quarterly disclosure-aligned roll-forward between anchored 2021 and 2024
+        company pack snapshots.
+      inputs:
+      - bucket_id: imvt_platform_fcrn
+        bucket_type: platform
+        label: FcRn immunology platform
+        value_millions: 80.0
+        as_of_date: '2022-08-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2022q3:IMVT:imvt_platform_fcrn
+        source_kind: company_disclosure
+      - bucket_id: imvt_pipeline_mg_thyroid_eye
+        bucket_type: unmodeled_pipeline
+        label: MG and TED franchise expansion
+        value_millions: 155.0
+        as_of_date: '2022-08-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2022q3:IMVT:imvt_pipeline_mg_thyroid_eye
+        source_kind: company_disclosure
+      - bucket_id: imvt_pipeline_additional_autoimmune
+        bucket_type: unmodeled_pipeline
+        label: Additional autoimmune indications
+        value_millions: 65.0
+        as_of_date: '2022-08-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2022q3:IMVT:imvt_pipeline_additional_autoimmune
+        source_kind: company_disclosure
+    - as_of_date: '2023-03-10'
+      notes: Quarterly disclosure-aligned roll-forward between anchored 2021 and 2024
+        company pack snapshots.
+      inputs:
+      - bucket_id: imvt_platform_fcrn
+        bucket_type: platform
+        label: FcRn immunology platform
+        value_millions: 80.0
+        as_of_date: '2023-03-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2023q1:IMVT:imvt_platform_fcrn
+        source_kind: company_disclosure
+      - bucket_id: imvt_pipeline_mg_thyroid_eye
+        bucket_type: unmodeled_pipeline
+        label: MG and TED franchise expansion
+        value_millions: 150.0
+        as_of_date: '2023-03-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2023q1:IMVT:imvt_pipeline_mg_thyroid_eye
+        source_kind: company_disclosure
+      - bucket_id: imvt_pipeline_additional_autoimmune
+        bucket_type: unmodeled_pipeline
+        label: Additional autoimmune indications
+        value_millions: 60.0
+        as_of_date: '2023-03-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2023q1:IMVT:imvt_pipeline_additional_autoimmune
+        source_kind: company_disclosure
+    - as_of_date: '2023-08-10'
+      notes: Quarterly disclosure-aligned roll-forward between anchored 2021 and 2024
+        company pack snapshots.
+      inputs:
+      - bucket_id: imvt_platform_fcrn
+        bucket_type: platform
+        label: FcRn immunology platform
+        value_millions: 75.0
+        as_of_date: '2023-08-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2023q3:IMVT:imvt_platform_fcrn
+        source_kind: company_disclosure
+      - bucket_id: imvt_pipeline_mg_thyroid_eye
+        bucket_type: unmodeled_pipeline
+        label: MG and TED franchise expansion
+        value_millions: 150.0
+        as_of_date: '2023-08-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2023q3:IMVT:imvt_pipeline_mg_thyroid_eye
+        source_kind: company_disclosure
+      - bucket_id: imvt_pipeline_additional_autoimmune
+        bucket_type: unmodeled_pipeline
+        label: Additional autoimmune indications
+        value_millions: 60.0
+        as_of_date: '2023-08-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2023q3:IMVT:imvt_pipeline_additional_autoimmune
+        source_kind: company_disclosure
+    - as_of_date: '2024-01-01'
+      notes: Refreshed company pack with narrower later-stage franchise assumptions.
+      inputs:
+      - bucket_id: imvt_platform_fcrn
+        bucket_type: platform
+        label: FcRn immunology platform
+        value_millions: 75.0
+        as_of_date: '2024-01-01'
+        confidence: 0.82
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2024q1:IMVT:imvt_platform_fcrn
+        source_kind: investor_day
+      - bucket_id: imvt_pipeline_mg_thyroid_eye
+        bucket_type: unmodeled_pipeline
+        label: MG and TED franchise expansion
+        value_millions: 145.0
+        as_of_date: '2024-01-01'
+        confidence: 0.82
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2024q1:IMVT:imvt_pipeline_mg_thyroid_eye
+        source_kind: investor_day
+      - bucket_id: imvt_pipeline_additional_autoimmune
+        bucket_type: unmodeled_pipeline
+        label: Additional autoimmune indications
+        value_millions: 55.0
+        as_of_date: '2024-01-01'
+        confidence: 0.82
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2024q1:IMVT:imvt_pipeline_additional_autoimmune
+        source_kind: investor_day
+  INBX:
+    notes: Platform-heavy immunology company with partnership and financing optionality.
+    inputs:
+    - bucket_id: inbx_platform
+      bucket_type: platform
+      label: Antibody platform value
+      value_millions: 180.0
+      as_of_date: 2021-02-01
+      confidence: 0.65
+      source: analyst_manual_top25_pack
+      source_ref: top25_pack_2021q1:INBX:platform
+      source_kind: analyst_bridge
+    - bucket_id: inbx_unmodeled_pipeline
+      bucket_type: unmodeled_pipeline
+      label: Unmodeled inflammatory pipeline
+      value_millions: 140.0
+      as_of_date: 2021-02-01
+      confidence: 0.65
+      source: analyst_manual_top25_pack
+      source_ref: top25_pack_2021q1:INBX:unmodeled_pipeline
+      source_kind: analyst_bridge
+    - bucket_id: inbx_financing_reserve
+      bucket_type: dilution_reserve
+      label: Financing reserve
+      value_millions: 100.0
+      as_of_date: 2021-02-01
+      confidence: 0.8
+      source: financing_path_manual_pack
+      source_ref: top25_pack_2021q1:INBX:dilution
+      source_kind: analyst_bridge
+  IONS:
+    notes: Broad RNA company where platform, royalties, and unmodeled partnered assets
+      dominate.
+    inputs:
+    - bucket_id: ions_platform
+      bucket_type: platform
+      label: RNA platform value
+      value_millions: 300.0
+      as_of_date: 2021-02-01
+      confidence: 0.7
+      source: analyst_manual_top25_pack
+      source_ref: top25_pack_2021q1:IONS:platform
+      source_kind: analyst_bridge
+    - bucket_id: ions_royalty_stream
+      bucket_type: royalty
+      label: Partner royalty and milestone stream
+      value_millions: 220.0
+      as_of_date: 2021-02-01
+      confidence: 0.7
+      source: screening_econ_bridge
+      source_ref: top25_pack_2021q1:IONS:royalty
+      source_kind: inferred
+    - bucket_id: ions_unmodeled_pipeline
+      bucket_type: unmodeled_pipeline
+      label: Unmodeled partnered pipeline
+      value_millions: 180.0
+      as_of_date: 2021-02-01
+      confidence: 0.65
+      source: analyst_manual_top25_pack
+      source_ref: top25_pack_2021q1:IONS:unmodeled_pipeline
+      source_kind: analyst_bridge
+  KYMR:
+    notes: Targeted protein degradation platform with multiple unmodeled follow-ons.
+    inputs:
+    - bucket_id: kymr_platform
+      bucket_type: platform
+      label: TPD platform value
+      value_millions: 180.0
+      as_of_date: 2021-02-01
+      confidence: 0.7
+      source: analyst_manual_top25_pack
+      source_ref: top25_pack_2021q1:KYMR:platform
+      source_kind: analyst_bridge
+    - bucket_id: kymr_unmodeled_pipeline
+      bucket_type: unmodeled_pipeline
+      label: Unmodeled degrader pipeline
+      value_millions: 200.0
+      as_of_date: 2021-02-01
+      confidence: 0.65
+      source: analyst_manual_top25_pack
+      source_ref: top25_pack_2021q1:KYMR:unmodeled_pipeline
+      source_kind: analyst_bridge
+    - bucket_id: kymr_financing_reserve
+      bucket_type: dilution_reserve
+      label: Financing reserve
+      value_millions: 90.0
+      as_of_date: 2021-02-01
+      confidence: 0.8
+      source: financing_path_manual_pack
+      source_ref: top25_pack_2021q1:KYMR:dilution
+      source_kind: analyst_bridge
+  MDGL:
+    notes: Commercial launch plus lifecycle value not captured in a single modeled
+      label.
+    inputs:
+    - bucket_id: mdgl_unmodeled_pipeline
+      bucket_type: unmodeled_pipeline
+      label: Lifecycle and adjacent metabolic expansion
+      value_millions: 110.0
+      as_of_date: 2021-02-01
+      confidence: 0.65
+      source: analyst_manual_top25_pack
+      source_ref: top25_pack_2021q1:MDGL:unmodeled_pipeline
+      source_kind: analyst_bridge
+    - bucket_id: mdgl_financing_reserve
+      bucket_type: dilution_reserve
+      label: Launch and financing reserve
+      value_millions: 60.0
+      as_of_date: 2021-02-01
+      confidence: 0.8
+      source: financing_path_manual_pack
+      source_ref: top25_pack_2021q1:MDGL:dilution
+      source_kind: analyst_bridge
+  NVAX:
+    notes: Commercial and partnered vaccine economics extend beyond the lead valuation
+      config.
+    inputs:
+    - bucket_id: nvax_royalties
+      bucket_type: royalty
+      label: Partner economics bridge
+      value_millions: 70.0
+      as_of_date: 2021-02-01
+      confidence: 0.65
+      source: screening_econ_bridge
+      source_ref: top25_pack_2021q1:NVAX:royalty
+      source_kind: inferred
+    - bucket_id: nvax_unmodeled_pipeline
+      bucket_type: unmodeled_pipeline
+      label: Vaccine franchise optionality
+      value_millions: 140.0
+      as_of_date: 2021-02-01
+      confidence: 0.65
+      source: analyst_manual_top25_pack
+      source_ref: top25_pack_2021q1:NVAX:unmodeled_pipeline
+      source_kind: analyst_bridge
+  OCUL:
+    notes: Ophthalmology company with lifecycle and partner economics beyond the lead
+      program.
+    inputs:
+    - bucket_id: ocul_unmodeled_pipeline
+      bucket_type: unmodeled_pipeline
+      label: Ophthalmology lifecycle value
+      value_millions: 110.0
+      as_of_date: 2021-02-01
+      confidence: 0.65
+      source: analyst_manual_top25_pack
+      source_ref: top25_pack_2021q1:OCUL:unmodeled_pipeline
+      source_kind: analyst_bridge
+    - bucket_id: ocul_partner_stream
+      bucket_type: royalty
+      label: Partner economics bridge
+      value_millions: 30.0
+      as_of_date: 2021-02-01
+      confidence: 0.65
+      source: screening_econ_bridge
+      source_ref: top25_pack_2021q1:OCUL:royalty
+      source_kind: inferred
+  PRAX:
+    notes: Neuro pipeline company with platform value and financing dependence.
+    inputs:
+    - bucket_id: prax_platform
+      bucket_type: platform
+      label: CNS discovery platform
+      value_millions: 90.0
+      as_of_date: 2021-02-01
+      confidence: 0.65
+      source: analyst_manual_top25_pack
+      source_ref: top25_pack_2021q1:PRAX:platform
+      source_kind: analyst_bridge
+    - bucket_id: prax_unmodeled_pipeline
+      bucket_type: unmodeled_pipeline
+      label: Additional CNS programs
+      value_millions: 160.0
+      as_of_date: 2021-02-01
+      confidence: 0.65
+      source: analyst_manual_top25_pack
+      source_ref: top25_pack_2021q1:PRAX:unmodeled_pipeline
+      source_kind: analyst_bridge
+    - bucket_id: prax_financing_reserve
+      bucket_type: dilution_reserve
+      label: Financing reserve
+      value_millions: 100.0
+      as_of_date: 2021-02-01
+      confidence: 0.8
+      source: financing_path_manual_pack
+      source_ref: top25_pack_2021q1:PRAX:dilution
+      source_kind: analyst_bridge
+  PRTA:
+    notes: Commercial plus partnered economics and pipeline value outside the lead
+      config.
+    inputs:
+    - bucket_id: prta_royalty_stream
+      bucket_type: royalty
+      label: Partner royalty and milestone stream
+      value_millions: 80.0
+      as_of_date: 2021-02-01
+      confidence: 0.65
+      source: screening_econ_bridge
+      source_ref: top25_pack_2021q1:PRTA:royalty
+      source_kind: inferred
+    - bucket_id: prta_unmodeled_pipeline
+      bucket_type: unmodeled_pipeline
+      label: Follow-on neuro pipeline
+      value_millions: 140.0
+      as_of_date: 2021-02-01
+      confidence: 0.65
+      source: analyst_manual_top25_pack
+      source_ref: top25_pack_2021q1:PRTA:unmodeled_pipeline
+      source_kind: analyst_bridge
+  PTCT:
+    notes: Commercial rare disease platform with royalties and multiple unmodeled
+      follow-ons.
+    inputs:
+    - bucket_id: ptct_royalty_stream
+      bucket_type: royalty
+      label: Royalty / milestone economics
+      value_millions: 140.0
+      as_of_date: 2021-02-01
+      confidence: 0.65
+      source: screening_econ_bridge
+      source_ref: top25_pack_2021q1:PTCT:royalty
+      source_kind: inferred
+    - bucket_id: ptct_unmodeled_pipeline
+      bucket_type: unmodeled_pipeline
+      label: Follow-on rare disease pipeline
+      value_millions: 220.0
+      as_of_date: 2021-02-01
+      confidence: 0.65
+      source: analyst_manual_top25_pack
+      source_ref: top25_pack_2021q1:PTCT:unmodeled_pipeline
+      source_kind: analyst_bridge
+  RLAY:
+    notes: Precision oncology platform where the watchlist config models only part
+      of company value.
+    inputs:
+    - bucket_id: rlay_platform
+      bucket_type: platform
+      label: Precision oncology platform value
+      value_millions: 160.0
+      as_of_date: 2021-02-01
+      confidence: 0.7
+      source: analyst_manual_top25_pack
+      source_ref: top25_pack_2021q1:RLAY:platform
+      source_kind: analyst_bridge
+    - bucket_id: rlay_unmodeled_pipeline
+      bucket_type: unmodeled_pipeline
+      label: Additional RAS and PI3Ka pipeline
+      value_millions: 260.0
+      as_of_date: 2021-02-01
+      confidence: 0.7
+      source: analyst_manual_top25_pack
+      source_ref: top25_pack_2021q1:RLAY:unmodeled_pipeline
+      source_kind: analyst_bridge
+    - bucket_id: rlay_financing_reserve
+      bucket_type: dilution_reserve
+      label: Financing reserve
+      value_millions: 110.0
+      as_of_date: 2021-02-01
+      confidence: 0.8
+      source: financing_path_manual_pack
+      source_ref: top25_pack_2021q1:RLAY:dilution
+      source_kind: analyst_bridge
+  RNA:
+    notes: RNA editing platform with broad pipeline breadth and financing complexity.
+    inputs:
+    - bucket_id: rna_platform
+      bucket_type: platform
+      label: RNA editing platform value
+      value_millions: 220.0
+      as_of_date: 2021-02-01
+      confidence: 0.7
+      source: analyst_manual_top25_pack
+      source_ref: top25_pack_2021q1:RNA:platform
+      source_kind: analyst_bridge
+    - bucket_id: rna_unmodeled_pipeline
+      bucket_type: unmodeled_pipeline
+      label: Unmodeled genetic medicine pipeline
+      value_millions: 240.0
+      as_of_date: 2021-02-01
+      confidence: 0.65
+      source: analyst_manual_top25_pack
+      source_ref: top25_pack_2021q1:RNA:unmodeled_pipeline
+      source_kind: analyst_bridge
+    - bucket_id: rna_financing_reserve
+      bucket_type: dilution_reserve
+      label: Financing reserve
+      value_millions: 120.0
+      as_of_date: 2021-02-01
+      confidence: 0.8
+      source: financing_path_manual_pack
+      source_ref: top25_pack_2021q1:RNA:dilution
+      source_kind: analyst_bridge
+  RVMD:
+    notes: RAS oncology company with material unmodeled portfolio value beyond the
+      lead config.
+    inputs:
+    - bucket_id: rvmd_platform
+      bucket_type: platform
+      label: RAS discovery platform value
+      value_millions: 90.0
+      as_of_date: 2021-02-01
+      confidence: 0.65
+      source: analyst_manual_top25_pack
+      source_ref: top25_pack_2021q1:RVMD:platform
+      source_kind: analyst_bridge
+    - bucket_id: rvmd_unmodeled_pipeline
+      bucket_type: unmodeled_pipeline
+      label: Unmodeled RAS pipeline
+      value_millions: 360.0
+      as_of_date: 2021-02-01
+      confidence: 0.7
+      source: analyst_manual_top25_pack
+      source_ref: top25_pack_2021q1:RVMD:unmodeled_pipeline
+      source_kind: analyst_bridge
+    - bucket_id: rvmd_financing_reserve
+      bucket_type: dilution_reserve
+      label: Financing reserve
+      value_millions: 140.0
+      as_of_date: 2021-02-01
+      confidence: 0.8
+      source: financing_path_manual_pack
+      source_ref: top25_pack_2021q1:RVMD:dilution
+      source_kind: analyst_bridge
+  RXRX:
+    notes: Platform-heavy AI discovery company where current configs understate company
+      breadth.
+    inputs:
+    - bucket_id: rxrx_platform
+      bucket_type: platform
+      label: AI-enabled discovery platform value
+      value_millions: 260.0
+      as_of_date: 2021-02-01
+      confidence: 0.65
+      source: analyst_manual_top25_pack
+      source_ref: top25_pack_2021q1:RXRX:platform
+      source_kind: analyst_bridge
+    - bucket_id: rxrx_unmodeled_pipeline
+      bucket_type: unmodeled_pipeline
+      label: Unmodeled partnered and internal pipeline
+      value_millions: 180.0
+      as_of_date: 2021-02-01
+      confidence: 0.65
+      source: analyst_manual_top25_pack
+      source_ref: top25_pack_2021q1:RXRX:unmodeled_pipeline
+      source_kind: analyst_bridge
+    - bucket_id: rxrx_financing_reserve
+      bucket_type: dilution_reserve
+      label: Financing reserve
+      value_millions: 120.0
+      as_of_date: 2021-02-01
+      confidence: 0.8
+      source: financing_path_manual_pack
+      source_ref: top25_pack_2021q1:RXRX:dilution
+      source_kind: analyst_bridge
+  VKTX:
+    notes: Metabolic disease company with obesity franchise optionality beyond the
+      lead config.
+    inputs:
+    - bucket_id: vktx_unmodeled_pipeline
+      bucket_type: unmodeled_pipeline
+      label: Obesity franchise expansion
+      value_millions: 350.0
+      as_of_date: 2021-02-01
+      confidence: 0.7
+      source: analyst_manual_top25_pack
+      source_ref: top25_pack_2021q1:VKTX:unmodeled_pipeline
+      source_kind: analyst_bridge
+    - bucket_id: vktx_financing_reserve
+      bucket_type: dilution_reserve
+      label: Financing reserve
+      value_millions: 80.0
+      as_of_date: 2021-02-01
+      confidence: 0.8
+      source: financing_path_manual_pack
+      source_ref: top25_pack_2021q1:VKTX:dilution
+      source_kind: analyst_bridge
+  ZYME:
+    notes: Commercial and partnered oncology economics sit outside the lead asset-only
+      model.
+    snapshots:
+    - as_of_date: '2021-02-01'
+      notes: Initial top-25 pack snapshot.
+      inputs:
+      - bucket_id: zyme_royalty_jazz_partner
+        bucket_type: royalty
+        label: Partner royalty / milestone stream
+        value_millions: 60.0
+        as_of_date: '2021-02-01'
+        confidence: 0.65
+        source: partner_econ_bridge_rollforward
+        source_ref: 2021q1:ZYME:zyme_royalty_jazz_partner
+        source_kind: inferred
+      - bucket_id: zyme_pipeline_adc_followons
+        bucket_type: unmodeled_pipeline
+        label: ADC follow-on pipeline
+        value_millions: 95.0
+        as_of_date: '2021-02-01'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q1:ZYME:zyme_pipeline_adc_followons
+        source_kind: company_disclosure
+      - bucket_id: zyme_pipeline_bispecific_optionality
+        bucket_type: unmodeled_pipeline
+        label: Bispecific platform optionality
+        value_millions: 55.0
+        as_of_date: '2021-02-01'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q1:ZYME:zyme_pipeline_bispecific_optionality
+        source_kind: company_disclosure
+    - as_of_date: '2021-05-10'
+      notes: Quarterly disclosure-aligned roll-forward between anchored 2021 and 2024
+        company pack snapshots.
+      inputs:
+      - bucket_id: zyme_royalty_jazz_partner
+        bucket_type: royalty
+        label: Partner royalty / milestone stream
+        value_millions: 60.0
+        as_of_date: '2021-05-10'
+        confidence: 0.65
+        source: partner_econ_bridge_rollforward
+        source_ref: 2021q2:ZYME:zyme_royalty_jazz_partner
+        source_kind: inferred
+      - bucket_id: zyme_pipeline_adc_followons
+        bucket_type: unmodeled_pipeline
+        label: ADC follow-on pipeline
+        value_millions: 95.0
+        as_of_date: '2021-05-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q2:ZYME:zyme_pipeline_adc_followons
+        source_kind: company_disclosure
+      - bucket_id: zyme_pipeline_bispecific_optionality
+        bucket_type: unmodeled_pipeline
+        label: Bispecific platform optionality
+        value_millions: 55.0
+        as_of_date: '2021-05-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q2:ZYME:zyme_pipeline_bispecific_optionality
+        source_kind: company_disclosure
+    - as_of_date: '2021-08-10'
+      notes: Quarterly disclosure-aligned roll-forward between anchored 2021 and 2024
+        company pack snapshots.
+      inputs:
+      - bucket_id: zyme_royalty_jazz_partner
+        bucket_type: royalty
+        label: Partner royalty / milestone stream
+        value_millions: 55.0
+        as_of_date: '2021-08-10'
+        confidence: 0.65
+        source: partner_econ_bridge_rollforward
+        source_ref: 2021q3:ZYME:zyme_royalty_jazz_partner
+        source_kind: inferred
+      - bucket_id: zyme_pipeline_adc_followons
+        bucket_type: unmodeled_pipeline
+        label: ADC follow-on pipeline
+        value_millions: 90.0
+        as_of_date: '2021-08-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q3:ZYME:zyme_pipeline_adc_followons
+        source_kind: company_disclosure
+      - bucket_id: zyme_pipeline_bispecific_optionality
+        bucket_type: unmodeled_pipeline
+        label: Bispecific platform optionality
+        value_millions: 50.0
+        as_of_date: '2021-08-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q3:ZYME:zyme_pipeline_bispecific_optionality
+        source_kind: company_disclosure
+    - as_of_date: '2021-11-10'
+      notes: Quarterly disclosure-aligned roll-forward between anchored 2021 and 2024
+        company pack snapshots.
+      inputs:
+      - bucket_id: zyme_royalty_jazz_partner
+        bucket_type: royalty
+        label: Partner royalty / milestone stream
+        value_millions: 55.0
+        as_of_date: '2021-11-10'
+        confidence: 0.65
+        source: partner_econ_bridge_rollforward
+        source_ref: 2021q4:ZYME:zyme_royalty_jazz_partner
+        source_kind: inferred
+      - bucket_id: zyme_pipeline_adc_followons
+        bucket_type: unmodeled_pipeline
+        label: ADC follow-on pipeline
+        value_millions: 90.0
+        as_of_date: '2021-11-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q4:ZYME:zyme_pipeline_adc_followons
+        source_kind: company_disclosure
+      - bucket_id: zyme_pipeline_bispecific_optionality
+        bucket_type: unmodeled_pipeline
+        label: Bispecific platform optionality
+        value_millions: 50.0
+        as_of_date: '2021-11-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q4:ZYME:zyme_pipeline_bispecific_optionality
+        source_kind: company_disclosure
+    - as_of_date: '2022-03-10'
+      notes: Quarterly disclosure-aligned roll-forward between anchored 2021 and 2024
+        company pack snapshots.
+      inputs:
+      - bucket_id: zyme_royalty_jazz_partner
+        bucket_type: royalty
+        label: Partner royalty / milestone stream
+        value_millions: 55.0
+        as_of_date: '2022-03-10'
+        confidence: 0.65
+        source: partner_econ_bridge_rollforward
+        source_ref: 2022q1:ZYME:zyme_royalty_jazz_partner
+        source_kind: inferred
+      - bucket_id: zyme_pipeline_adc_followons
+        bucket_type: unmodeled_pipeline
+        label: ADC follow-on pipeline
+        value_millions: 85.0
+        as_of_date: '2022-03-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2022q1:ZYME:zyme_pipeline_adc_followons
+        source_kind: company_disclosure
+      - bucket_id: zyme_pipeline_bispecific_optionality
+        bucket_type: unmodeled_pipeline
+        label: Bispecific platform optionality
+        value_millions: 45.0
+        as_of_date: '2022-03-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2022q1:ZYME:zyme_pipeline_bispecific_optionality
+        source_kind: company_disclosure
+    - as_of_date: '2022-08-10'
+      notes: Quarterly disclosure-aligned roll-forward between anchored 2021 and 2024
+        company pack snapshots.
+      inputs:
+      - bucket_id: zyme_royalty_jazz_partner
+        bucket_type: royalty
+        label: Partner royalty / milestone stream
+        value_millions: 50.0
+        as_of_date: '2022-08-10'
+        confidence: 0.65
+        source: partner_econ_bridge_rollforward
+        source_ref: 2022q3:ZYME:zyme_royalty_jazz_partner
+        source_kind: inferred
+      - bucket_id: zyme_pipeline_adc_followons
+        bucket_type: unmodeled_pipeline
+        label: ADC follow-on pipeline
+        value_millions: 80.0
+        as_of_date: '2022-08-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2022q3:ZYME:zyme_pipeline_adc_followons
+        source_kind: company_disclosure
+      - bucket_id: zyme_pipeline_bispecific_optionality
+        bucket_type: unmodeled_pipeline
+        label: Bispecific platform optionality
+        value_millions: 45.0
+        as_of_date: '2022-08-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2022q3:ZYME:zyme_pipeline_bispecific_optionality
+        source_kind: company_disclosure
+    - as_of_date: '2023-03-10'
+      notes: Quarterly disclosure-aligned roll-forward between anchored 2021 and 2024
+        company pack snapshots.
+      inputs:
+      - bucket_id: zyme_royalty_jazz_partner
+        bucket_type: royalty
+        label: Partner royalty / milestone stream
+        value_millions: 50.0
+        as_of_date: '2023-03-10'
+        confidence: 0.65
+        source: partner_econ_bridge_rollforward
+        source_ref: 2023q1:ZYME:zyme_royalty_jazz_partner
+        source_kind: inferred
+      - bucket_id: zyme_pipeline_adc_followons
+        bucket_type: unmodeled_pipeline
+        label: ADC follow-on pipeline
+        value_millions: 75.0
+        as_of_date: '2023-03-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2023q1:ZYME:zyme_pipeline_adc_followons
+        source_kind: company_disclosure
+      - bucket_id: zyme_pipeline_bispecific_optionality
+        bucket_type: unmodeled_pipeline
+        label: Bispecific platform optionality
+        value_millions: 40.0
+        as_of_date: '2023-03-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2023q1:ZYME:zyme_pipeline_bispecific_optionality
+        source_kind: company_disclosure
+    - as_of_date: '2023-08-10'
+      notes: Quarterly disclosure-aligned roll-forward between anchored 2021 and 2024
+        company pack snapshots.
+      inputs:
+      - bucket_id: zyme_royalty_jazz_partner
+        bucket_type: royalty
+        label: Partner royalty / milestone stream
+        value_millions: 45.0
+        as_of_date: '2023-08-10'
+        confidence: 0.65
+        source: partner_econ_bridge_rollforward
+        source_ref: 2023q3:ZYME:zyme_royalty_jazz_partner
+        source_kind: inferred
+      - bucket_id: zyme_pipeline_adc_followons
+        bucket_type: unmodeled_pipeline
+        label: ADC follow-on pipeline
+        value_millions: 75.0
+        as_of_date: '2023-08-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2023q3:ZYME:zyme_pipeline_adc_followons
+        source_kind: company_disclosure
+      - bucket_id: zyme_pipeline_bispecific_optionality
+        bucket_type: unmodeled_pipeline
+        label: Bispecific platform optionality
+        value_millions: 40.0
+        as_of_date: '2023-08-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2023q3:ZYME:zyme_pipeline_bispecific_optionality
+        source_kind: company_disclosure
+    - as_of_date: '2024-01-01'
+      notes: Refreshed partnered-oncology pack with narrower later-stage optionality.
+      inputs:
+      - bucket_id: zyme_royalty_jazz_partner
+        bucket_type: royalty
+        label: Partner royalty / milestone stream
+        value_millions: 45.0
+        as_of_date: '2024-01-01'
+        confidence: 0.65
+        source: partner_econ_bridge_rollforward
+        source_ref: 2024q1:ZYME:zyme_royalty_jazz_partner
+        source_kind: inferred
+      - bucket_id: zyme_pipeline_adc_followons
+        bucket_type: unmodeled_pipeline
+        label: ADC follow-on pipeline
+        value_millions: 70.0
+        as_of_date: '2024-01-01'
+        confidence: 0.82
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2024q1:ZYME:zyme_pipeline_adc_followons
+        source_kind: investor_day
+      - bucket_id: zyme_pipeline_bispecific_optionality
+        bucket_type: unmodeled_pipeline
+        label: Bispecific platform optionality
+        value_millions: 35.0
+        as_of_date: '2024-01-01'
+        confidence: 0.82
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2024q1:ZYME:zyme_pipeline_bispecific_optionality
+        source_kind: investor_day
+  ANAB:
+    notes: Immunology company with platform and partnered inflammation economics outside
+      the lead-asset screen.
+    snapshots:
+    - as_of_date: '2021-02-01'
+      notes: Initial batch-2 immunology snapshot.
+      inputs:
+      - bucket_id: anab_platform_btla
+        bucket_type: platform
+        label: BTLA immunology discovery platform
+        value_millions: 70.0
+        as_of_date: '2021-02-01'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q1:ANAB:anab_platform_btla
+        source_kind: company_disclosure
+      - bucket_id: anab_pipeline_rosnilimab
+        bucket_type: unmodeled_pipeline
+        label: Rosnilimab franchise expansion
+        value_millions: 110.0
+        as_of_date: '2021-02-01'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q1:ANAB:anab_pipeline_rosnilimab
+        source_kind: company_disclosure
+      - bucket_id: anab_pipeline_other_inflammation
+        bucket_type: unmodeled_pipeline
+        label: Additional inflammation programs
+        value_millions: 70.0
+        as_of_date: '2021-02-01'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q1:ANAB:anab_pipeline_other_inflammation
+        source_kind: company_disclosure
+      - bucket_id: anab_royalty_partner
+        bucket_type: royalty
+        label: Partner economics bridge
+        value_millions: 30.0
+        as_of_date: '2021-02-01'
+        confidence: 0.65
+        source: partner_econ_bridge_rollforward
+        source_ref: 2021q1:ANAB:anab_royalty_partner
+        source_kind: inferred
+      - bucket_id: anab_dilution_reserve
+        bucket_type: dilution_reserve
+        label: Financing reserve
+        value_millions: 40.0
+        as_of_date: '2021-02-01'
+        confidence: 0.8
+        source: financing_path_quarterly_bridge
+        source_ref: 2021q1:ANAB:anab_dilution_reserve
+        source_kind: analyst_bridge
+    - as_of_date: '2021-05-10'
+      notes: Quarterly disclosure-aligned roll-forward between anchored 2021 and 2024
+        company pack snapshots.
+      inputs:
+      - bucket_id: anab_platform_btla
+        bucket_type: platform
+        label: BTLA immunology discovery platform
+        value_millions: 70.0
+        as_of_date: '2021-05-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q2:ANAB:anab_platform_btla
+        source_kind: company_disclosure
+      - bucket_id: anab_pipeline_rosnilimab
+        bucket_type: unmodeled_pipeline
+        label: Rosnilimab franchise expansion
+        value_millions: 105.0
+        as_of_date: '2021-05-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q2:ANAB:anab_pipeline_rosnilimab
+        source_kind: company_disclosure
+      - bucket_id: anab_pipeline_other_inflammation
+        bucket_type: unmodeled_pipeline
+        label: Additional inflammation programs
+        value_millions: 70.0
+        as_of_date: '2021-05-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q2:ANAB:anab_pipeline_other_inflammation
+        source_kind: company_disclosure
+      - bucket_id: anab_royalty_partner
+        bucket_type: royalty
+        label: Partner economics bridge
+        value_millions: 30.0
+        as_of_date: '2021-05-10'
+        confidence: 0.65
+        source: partner_econ_bridge_rollforward
+        source_ref: 2021q2:ANAB:anab_royalty_partner
+        source_kind: inferred
+      - bucket_id: anab_dilution_reserve
+        bucket_type: dilution_reserve
+        label: Financing reserve
+        value_millions: 40.0
+        as_of_date: '2021-05-10'
+        confidence: 0.8
+        source: financing_path_quarterly_bridge
+        source_ref: 2021q2:ANAB:anab_dilution_reserve
+        source_kind: analyst_bridge
+    - as_of_date: '2021-08-10'
+      notes: Quarterly disclosure-aligned roll-forward between anchored 2021 and 2024
+        company pack snapshots.
+      inputs:
+      - bucket_id: anab_platform_btla
+        bucket_type: platform
+        label: BTLA immunology discovery platform
+        value_millions: 65.0
+        as_of_date: '2021-08-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q3:ANAB:anab_platform_btla
+        source_kind: company_disclosure
+      - bucket_id: anab_pipeline_rosnilimab
+        bucket_type: unmodeled_pipeline
+        label: Rosnilimab franchise expansion
+        value_millions: 105.0
+        as_of_date: '2021-08-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q3:ANAB:anab_pipeline_rosnilimab
+        source_kind: company_disclosure
+      - bucket_id: anab_pipeline_other_inflammation
+        bucket_type: unmodeled_pipeline
+        label: Additional inflammation programs
+        value_millions: 65.0
+        as_of_date: '2021-08-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q3:ANAB:anab_pipeline_other_inflammation
+        source_kind: company_disclosure
+      - bucket_id: anab_royalty_partner
+        bucket_type: royalty
+        label: Partner economics bridge
+        value_millions: 30.0
+        as_of_date: '2021-08-10'
+        confidence: 0.65
+        source: partner_econ_bridge_rollforward
+        source_ref: 2021q3:ANAB:anab_royalty_partner
+        source_kind: inferred
+      - bucket_id: anab_dilution_reserve
+        bucket_type: dilution_reserve
+        label: Financing reserve
+        value_millions: 40.0
+        as_of_date: '2021-08-10'
+        confidence: 0.8
+        source: financing_path_quarterly_bridge
+        source_ref: 2021q3:ANAB:anab_dilution_reserve
+        source_kind: analyst_bridge
+    - as_of_date: '2021-11-10'
+      notes: Quarterly disclosure-aligned roll-forward between anchored 2021 and 2024
+        company pack snapshots.
+      inputs:
+      - bucket_id: anab_platform_btla
+        bucket_type: platform
+        label: BTLA immunology discovery platform
+        value_millions: 65.0
+        as_of_date: '2021-11-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q4:ANAB:anab_platform_btla
+        source_kind: company_disclosure
+      - bucket_id: anab_pipeline_rosnilimab
+        bucket_type: unmodeled_pipeline
+        label: Rosnilimab franchise expansion
+        value_millions: 100.0
+        as_of_date: '2021-11-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q4:ANAB:anab_pipeline_rosnilimab
+        source_kind: company_disclosure
+      - bucket_id: anab_pipeline_other_inflammation
+        bucket_type: unmodeled_pipeline
+        label: Additional inflammation programs
+        value_millions: 65.0
+        as_of_date: '2021-11-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q4:ANAB:anab_pipeline_other_inflammation
+        source_kind: company_disclosure
+      - bucket_id: anab_royalty_partner
+        bucket_type: royalty
+        label: Partner economics bridge
+        value_millions: 25.0
+        as_of_date: '2021-11-10'
+        confidence: 0.65
+        source: partner_econ_bridge_rollforward
+        source_ref: 2021q4:ANAB:anab_royalty_partner
+        source_kind: inferred
+      - bucket_id: anab_dilution_reserve
+        bucket_type: dilution_reserve
+        label: Financing reserve
+        value_millions: 40.0
+        as_of_date: '2021-11-10'
+        confidence: 0.8
+        source: financing_path_quarterly_bridge
+        source_ref: 2021q4:ANAB:anab_dilution_reserve
+        source_kind: analyst_bridge
+    - as_of_date: '2022-03-10'
+      notes: Quarterly disclosure-aligned roll-forward between anchored 2021 and 2024
+        company pack snapshots.
+      inputs:
+      - bucket_id: anab_platform_btla
+        bucket_type: platform
+        label: BTLA immunology discovery platform
+        value_millions: 65.0
+        as_of_date: '2022-03-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2022q1:ANAB:anab_platform_btla
+        source_kind: company_disclosure
+      - bucket_id: anab_pipeline_rosnilimab
+        bucket_type: unmodeled_pipeline
+        label: Rosnilimab franchise expansion
+        value_millions: 95.0
+        as_of_date: '2022-03-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2022q1:ANAB:anab_pipeline_rosnilimab
+        source_kind: company_disclosure
+      - bucket_id: anab_pipeline_other_inflammation
+        bucket_type: unmodeled_pipeline
+        label: Additional inflammation programs
+        value_millions: 60.0
+        as_of_date: '2022-03-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2022q1:ANAB:anab_pipeline_other_inflammation
+        source_kind: company_disclosure
+      - bucket_id: anab_royalty_partner
+        bucket_type: royalty
+        label: Partner economics bridge
+        value_millions: 25.0
+        as_of_date: '2022-03-10'
+        confidence: 0.65
+        source: partner_econ_bridge_rollforward
+        source_ref: 2022q1:ANAB:anab_royalty_partner
+        source_kind: inferred
+      - bucket_id: anab_dilution_reserve
+        bucket_type: dilution_reserve
+        label: Financing reserve
+        value_millions: 40.0
+        as_of_date: '2022-03-10'
+        confidence: 0.8
+        source: financing_path_quarterly_bridge
+        source_ref: 2022q1:ANAB:anab_dilution_reserve
+        source_kind: analyst_bridge
+    - as_of_date: '2022-08-10'
+      notes: Quarterly disclosure-aligned roll-forward between anchored 2021 and 2024
+        company pack snapshots.
+      inputs:
+      - bucket_id: anab_platform_btla
+        bucket_type: platform
+        label: BTLA immunology discovery platform
+        value_millions: 60.0
+        as_of_date: '2022-08-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2022q3:ANAB:anab_platform_btla
+        source_kind: company_disclosure
+      - bucket_id: anab_pipeline_rosnilimab
+        bucket_type: unmodeled_pipeline
+        label: Rosnilimab franchise expansion
+        value_millions: 90.0
+        as_of_date: '2022-08-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2022q3:ANAB:anab_pipeline_rosnilimab
+        source_kind: company_disclosure
+      - bucket_id: anab_pipeline_other_inflammation
+        bucket_type: unmodeled_pipeline
+        label: Additional inflammation programs
+        value_millions: 55.0
+        as_of_date: '2022-08-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2022q3:ANAB:anab_pipeline_other_inflammation
+        source_kind: company_disclosure
+      - bucket_id: anab_royalty_partner
+        bucket_type: royalty
+        label: Partner economics bridge
+        value_millions: 25.0
+        as_of_date: '2022-08-10'
+        confidence: 0.65
+        source: partner_econ_bridge_rollforward
+        source_ref: 2022q3:ANAB:anab_royalty_partner
+        source_kind: inferred
+      - bucket_id: anab_dilution_reserve
+        bucket_type: dilution_reserve
+        label: Financing reserve
+        value_millions: 45.0
+        as_of_date: '2022-08-10'
+        confidence: 0.8
+        source: financing_path_quarterly_bridge
+        source_ref: 2022q3:ANAB:anab_dilution_reserve
+        source_kind: analyst_bridge
+    - as_of_date: '2023-03-10'
+      notes: Quarterly disclosure-aligned roll-forward between anchored 2021 and 2024
+        company pack snapshots.
+      inputs:
+      - bucket_id: anab_platform_btla
+        bucket_type: platform
+        label: BTLA immunology discovery platform
+        value_millions: 60.0
+        as_of_date: '2023-03-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2023q1:ANAB:anab_platform_btla
+        source_kind: company_disclosure
+      - bucket_id: anab_pipeline_rosnilimab
+        bucket_type: unmodeled_pipeline
+        label: Rosnilimab franchise expansion
+        value_millions: 85.0
+        as_of_date: '2023-03-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2023q1:ANAB:anab_pipeline_rosnilimab
+        source_kind: company_disclosure
+      - bucket_id: anab_pipeline_other_inflammation
+        bucket_type: unmodeled_pipeline
+        label: Additional inflammation programs
+        value_millions: 50.0
+        as_of_date: '2023-03-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2023q1:ANAB:anab_pipeline_other_inflammation
+        source_kind: company_disclosure
+      - bucket_id: anab_royalty_partner
+        bucket_type: royalty
+        label: Partner economics bridge
+        value_millions: 25.0
+        as_of_date: '2023-03-10'
+        confidence: 0.65
+        source: partner_econ_bridge_rollforward
+        source_ref: 2023q1:ANAB:anab_royalty_partner
+        source_kind: inferred
+      - bucket_id: anab_dilution_reserve
+        bucket_type: dilution_reserve
+        label: Financing reserve
+        value_millions: 45.0
+        as_of_date: '2023-03-10'
+        confidence: 0.8
+        source: financing_path_quarterly_bridge
+        source_ref: 2023q1:ANAB:anab_dilution_reserve
+        source_kind: analyst_bridge
+    - as_of_date: '2023-08-10'
+      notes: Quarterly disclosure-aligned roll-forward between anchored 2021 and 2024
+        company pack snapshots.
+      inputs:
+      - bucket_id: anab_platform_btla
+        bucket_type: platform
+        label: BTLA immunology discovery platform
+        value_millions: 55.0
+        as_of_date: '2023-08-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2023q3:ANAB:anab_platform_btla
+        source_kind: company_disclosure
+      - bucket_id: anab_pipeline_rosnilimab
+        bucket_type: unmodeled_pipeline
+        label: Rosnilimab franchise expansion
+        value_millions: 80.0
+        as_of_date: '2023-08-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2023q3:ANAB:anab_pipeline_rosnilimab
+        source_kind: company_disclosure
+      - bucket_id: anab_pipeline_other_inflammation
+        bucket_type: unmodeled_pipeline
+        label: Additional inflammation programs
+        value_millions: 50.0
+        as_of_date: '2023-08-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2023q3:ANAB:anab_pipeline_other_inflammation
+        source_kind: company_disclosure
+      - bucket_id: anab_royalty_partner
+        bucket_type: royalty
+        label: Partner economics bridge
+        value_millions: 20.0
+        as_of_date: '2023-08-10'
+        confidence: 0.65
+        source: partner_econ_bridge_rollforward
+        source_ref: 2023q3:ANAB:anab_royalty_partner
+        source_kind: inferred
+      - bucket_id: anab_dilution_reserve
+        bucket_type: dilution_reserve
+        label: Financing reserve
+        value_millions: 45.0
+        as_of_date: '2023-08-10'
+        confidence: 0.8
+        source: financing_path_quarterly_bridge
+        source_ref: 2023q3:ANAB:anab_dilution_reserve
+        source_kind: analyst_bridge
+    - as_of_date: '2024-01-01'
+      notes: Refreshed immunology snapshot with narrower later-stage franchise assumptions.
+      inputs:
+      - bucket_id: anab_platform_btla
+        bucket_type: platform
+        label: BTLA immunology discovery platform
+        value_millions: 55.0
+        as_of_date: '2024-01-01'
+        confidence: 0.82
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2024q1:ANAB:anab_platform_btla
+        source_kind: investor_day
+      - bucket_id: anab_pipeline_rosnilimab
+        bucket_type: unmodeled_pipeline
+        label: Rosnilimab franchise expansion
+        value_millions: 75.0
+        as_of_date: '2024-01-01'
+        confidence: 0.82
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2024q1:ANAB:anab_pipeline_rosnilimab
+        source_kind: investor_day
+      - bucket_id: anab_pipeline_other_inflammation
+        bucket_type: unmodeled_pipeline
+        label: Additional inflammation programs
+        value_millions: 45.0
+        as_of_date: '2024-01-01'
+        confidence: 0.82
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2024q1:ANAB:anab_pipeline_other_inflammation
+        source_kind: investor_day
+      - bucket_id: anab_royalty_partner
+        bucket_type: royalty
+        label: Partner economics bridge
+        value_millions: 20.0
+        as_of_date: '2024-01-01'
+        confidence: 0.65
+        source: partner_econ_bridge_rollforward
+        source_ref: 2024q1:ANAB:anab_royalty_partner
+        source_kind: inferred
+      - bucket_id: anab_dilution_reserve
+        bucket_type: dilution_reserve
+        label: Financing reserve
+        value_millions: 45.0
+        as_of_date: '2024-01-01'
+        confidence: 0.82
+        source: financing_path_quarterly_bridge
+        source_ref: 2024q1:ANAB:anab_dilution_reserve
+        source_kind: analyst_bridge
+  ISEE:
+    notes: Ophthalmology company with lifecycle expansion and ex-US economics beyond
+      the modeled lead asset.
+    snapshots:
+    - as_of_date: 2021-02-01
+      notes: Initial ophthalmology lifecycle snapshot.
+      inputs:
+      - bucket_id: isee_pipeline_ga_lifecycle
+        bucket_type: unmodeled_pipeline
+        label: Geographic atrophy lifecycle expansion
+        value_millions: 170.0
+        as_of_date: 2021-02-01
+        confidence: 0.7
+        source: analyst_manual_batch2
+        source_ref: batch2_pack_2021q1:ISEE:pipeline_ga_lifecycle
+        source_kind: analyst_bridge
+      - bucket_id: isee_pipeline_retina_followons
+        bucket_type: unmodeled_pipeline
+        label: Retina follow-on pipeline
+        value_millions: 70.0
+        as_of_date: 2021-02-01
+        confidence: 0.65
+        source: analyst_manual_batch2
+        source_ref: batch2_pack_2021q1:ISEE:pipeline_retina_followons
+        source_kind: analyst_bridge
+      - bucket_id: isee_royalty_ex_us
+        bucket_type: royalty
+        label: Ex-US partner economics
+        value_millions: 120.0
+        as_of_date: 2021-02-01
+        confidence: 0.65
+        source: screening_econ_bridge_batch2
+        source_ref: batch2_pack_2021q1:ISEE:royalty_ex_us
+        source_kind: inferred
+      - bucket_id: isee_dilution_launch
+        bucket_type: dilution_reserve
+        label: Launch buildout reserve
+        value_millions: 50.0
+        as_of_date: 2021-02-01
+        confidence: 0.8
+        source: financing_path_manual_batch2
+        source_ref: batch2_pack_2021q1:ISEE:dilution_launch
+        source_kind: analyst_bridge
+    - as_of_date: 2023-01-01
+      notes: Later historical snapshot before the name drops out of the active replay
+        cohort.
+      inputs:
+      - bucket_id: isee_pipeline_ga_lifecycle
+        bucket_type: unmodeled_pipeline
+        label: Geographic atrophy lifecycle expansion
+        value_millions: 125.0
+        as_of_date: 2023-01-01
+        confidence: 0.68
+        source: analyst_manual_batch2_refresh
+        source_ref: batch2_pack_2023q1:ISEE:pipeline_ga_lifecycle
+        source_kind: analyst_bridge
+      - bucket_id: isee_pipeline_retina_followons
+        bucket_type: unmodeled_pipeline
+        label: Retina follow-on pipeline
+        value_millions: 40.0
+        as_of_date: 2023-01-01
+        confidence: 0.65
+        source: analyst_manual_batch2_refresh
+        source_ref: batch2_pack_2023q1:ISEE:pipeline_retina_followons
+        source_kind: analyst_bridge
+      - bucket_id: isee_royalty_ex_us
+        bucket_type: royalty
+        label: Ex-US partner economics
+        value_millions: 60.0
+        as_of_date: 2023-01-01
+        confidence: 0.67
+        source: screening_econ_bridge_batch2_refresh
+        source_ref: batch2_pack_2023q1:ISEE:royalty_ex_us
+        source_kind: inferred
+      - bucket_id: isee_dilution_launch
+        bucket_type: dilution_reserve
+        label: Launch buildout reserve
+        value_millions: 20.0
+        as_of_date: 2023-01-01
+        confidence: 0.82
+        source: financing_path_manual_batch2_refresh
+        source_ref: batch2_pack_2023q1:ISEE:dilution_launch
+        source_kind: analyst_bridge
+  MYOK:
+    notes: Cardiomyopathy company with platform and franchise optionality wider than
+      the single modeled leg.
+    snapshots:
+    - as_of_date: 2021-02-01
+      notes: Initial cardiomyopathy platform snapshot.
+      inputs:
+      - bucket_id: myok_platform_cardiology
+        bucket_type: platform
+        label: Precision cardiology platform
+        value_millions: 120.0
+        as_of_date: 2021-02-01
+        confidence: 0.7
+        source: analyst_manual_batch2
+        source_ref: batch2_pack_2021q1:MYOK:platform_cardiology
+        source_kind: analyst_bridge
+      - bucket_id: myok_pipeline_hcm
+        bucket_type: unmodeled_pipeline
+        label: HCM franchise expansion
+        value_millions: 230.0
+        as_of_date: 2021-02-01
+        confidence: 0.72
+        source: analyst_manual_batch2
+        source_ref: batch2_pack_2021q1:MYOK:pipeline_hcm
+        source_kind: analyst_bridge
+      - bucket_id: myok_pipeline_other_cardiomyopathy
+        bucket_type: unmodeled_pipeline
+        label: Additional cardiomyopathy programs
+        value_millions: 150.0
+        as_of_date: 2021-02-01
+        confidence: 0.65
+        source: analyst_manual_batch2
+        source_ref: batch2_pack_2021q1:MYOK:pipeline_other_cardiomyopathy
+        source_kind: analyst_bridge
+      - bucket_id: myok_royalty_bridge
+        bucket_type: royalty
+        label: Partner economics bridge
+        value_millions: 40.0
+        as_of_date: 2021-02-01
+        confidence: 0.65
+        source: screening_econ_bridge_batch2
+        source_ref: batch2_pack_2021q1:MYOK:royalty_bridge
+        source_kind: inferred
+    - as_of_date: 2022-07-01
+      notes: Later historical cardiomyopathy snapshot.
+      inputs:
+      - bucket_id: myok_platform_cardiology
+        bucket_type: platform
+        label: Precision cardiology platform
+        value_millions: 65.0
+        as_of_date: 2022-07-01
+        confidence: 0.72
+        source: analyst_manual_batch2_refresh
+        source_ref: batch2_pack_2022q3:MYOK:platform_cardiology
+        source_kind: analyst_bridge
+      - bucket_id: myok_pipeline_hcm
+        bucket_type: unmodeled_pipeline
+        label: HCM franchise expansion
+        value_millions: 180.0
+        as_of_date: 2022-07-01
+        confidence: 0.74
+        source: analyst_manual_batch2_refresh
+        source_ref: batch2_pack_2022q3:MYOK:pipeline_hcm
+        source_kind: analyst_bridge
+      - bucket_id: myok_pipeline_other_cardiomyopathy
+        bucket_type: unmodeled_pipeline
+        label: Additional cardiomyopathy programs
+        value_millions: 95.0
+        as_of_date: 2022-07-01
+        confidence: 0.65
+        source: analyst_manual_batch2_refresh
+        source_ref: batch2_pack_2022q3:MYOK:pipeline_other_cardiomyopathy
+        source_kind: analyst_bridge
+      - bucket_id: myok_royalty_bridge
+        bucket_type: royalty
+        label: Partner economics bridge
+        value_millions: 25.0
+        as_of_date: 2022-07-01
+        confidence: 0.65
+        source: screening_econ_bridge_batch2_refresh
+        source_ref: batch2_pack_2022q3:MYOK:royalty_bridge
+        source_kind: inferred
+  RAPT:
+    notes: Multi-asset immunology / oncology company where the current lead asset
+      understates company scope.
+    snapshots:
+    - as_of_date: '2021-02-01'
+      notes: Initial batch-2 immunology / oncology snapshot.
+      inputs:
+      - bucket_id: rapt_platform_gpcr
+        bucket_type: platform
+        label: Immunology GPCR platform
+        value_millions: 80.0
+        as_of_date: '2021-02-01'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q1:RAPT:rapt_platform_gpcr
+        source_kind: company_disclosure
+      - bucket_id: rapt_pipeline_il18
+        bucket_type: unmodeled_pipeline
+        label: IL-18 franchise expansion
+        value_millions: 135.0
+        as_of_date: '2021-02-01'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q1:RAPT:rapt_pipeline_il18
+        source_kind: company_disclosure
+      - bucket_id: rapt_pipeline_other_followons
+        bucket_type: unmodeled_pipeline
+        label: Other immunology and oncology programs
+        value_millions: 85.0
+        as_of_date: '2021-02-01'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q1:RAPT:rapt_pipeline_other_followons
+        source_kind: company_disclosure
+      - bucket_id: rapt_royalty_partner
+        bucket_type: royalty
+        label: Collaboration economics bridge
+        value_millions: 50.0
+        as_of_date: '2021-02-01'
+        confidence: 0.65
+        source: partner_econ_bridge_rollforward
+        source_ref: 2021q1:RAPT:rapt_royalty_partner
+        source_kind: inferred
+      - bucket_id: rapt_dilution_reserve
+        bucket_type: dilution_reserve
+        label: Financing reserve
+        value_millions: 70.0
+        as_of_date: '2021-02-01'
+        confidence: 0.8
+        source: financing_path_quarterly_bridge
+        source_ref: 2021q1:RAPT:rapt_dilution_reserve
+        source_kind: analyst_bridge
+    - as_of_date: '2021-05-10'
+      notes: Quarterly disclosure-aligned roll-forward between anchored 2021 and 2024
+        company pack snapshots.
+      inputs:
+      - bucket_id: rapt_platform_gpcr
+        bucket_type: platform
+        label: Immunology GPCR platform
+        value_millions: 80.0
+        as_of_date: '2021-05-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q2:RAPT:rapt_platform_gpcr
+        source_kind: company_disclosure
+      - bucket_id: rapt_pipeline_il18
+        bucket_type: unmodeled_pipeline
+        label: IL-18 franchise expansion
+        value_millions: 130.0
+        as_of_date: '2021-05-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q2:RAPT:rapt_pipeline_il18
+        source_kind: company_disclosure
+      - bucket_id: rapt_pipeline_other_followons
+        bucket_type: unmodeled_pipeline
+        label: Other immunology and oncology programs
+        value_millions: 80.0
+        as_of_date: '2021-05-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q2:RAPT:rapt_pipeline_other_followons
+        source_kind: company_disclosure
+      - bucket_id: rapt_royalty_partner
+        bucket_type: royalty
+        label: Collaboration economics bridge
+        value_millions: 50.0
+        as_of_date: '2021-05-10'
+        confidence: 0.65
+        source: partner_econ_bridge_rollforward
+        source_ref: 2021q2:RAPT:rapt_royalty_partner
+        source_kind: inferred
+      - bucket_id: rapt_dilution_reserve
+        bucket_type: dilution_reserve
+        label: Financing reserve
+        value_millions: 70.0
+        as_of_date: '2021-05-10'
+        confidence: 0.8
+        source: financing_path_quarterly_bridge
+        source_ref: 2021q2:RAPT:rapt_dilution_reserve
+        source_kind: analyst_bridge
+    - as_of_date: '2021-08-10'
+      notes: Quarterly disclosure-aligned roll-forward between anchored 2021 and 2024
+        company pack snapshots.
+      inputs:
+      - bucket_id: rapt_platform_gpcr
+        bucket_type: platform
+        label: Immunology GPCR platform
+        value_millions: 75.0
+        as_of_date: '2021-08-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q3:RAPT:rapt_platform_gpcr
+        source_kind: company_disclosure
+      - bucket_id: rapt_pipeline_il18
+        bucket_type: unmodeled_pipeline
+        label: IL-18 franchise expansion
+        value_millions: 125.0
+        as_of_date: '2021-08-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q3:RAPT:rapt_pipeline_il18
+        source_kind: company_disclosure
+      - bucket_id: rapt_pipeline_other_followons
+        bucket_type: unmodeled_pipeline
+        label: Other immunology and oncology programs
+        value_millions: 80.0
+        as_of_date: '2021-08-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q3:RAPT:rapt_pipeline_other_followons
+        source_kind: company_disclosure
+      - bucket_id: rapt_royalty_partner
+        bucket_type: royalty
+        label: Collaboration economics bridge
+        value_millions: 45.0
+        as_of_date: '2021-08-10'
+        confidence: 0.65
+        source: partner_econ_bridge_rollforward
+        source_ref: 2021q3:RAPT:rapt_royalty_partner
+        source_kind: inferred
+      - bucket_id: rapt_dilution_reserve
+        bucket_type: dilution_reserve
+        label: Financing reserve
+        value_millions: 70.0
+        as_of_date: '2021-08-10'
+        confidence: 0.8
+        source: financing_path_quarterly_bridge
+        source_ref: 2021q3:RAPT:rapt_dilution_reserve
+        source_kind: analyst_bridge
+    - as_of_date: '2021-11-10'
+      notes: Quarterly disclosure-aligned roll-forward between anchored 2021 and 2024
+        company pack snapshots.
+      inputs:
+      - bucket_id: rapt_platform_gpcr
+        bucket_type: platform
+        label: Immunology GPCR platform
+        value_millions: 75.0
+        as_of_date: '2021-11-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q4:RAPT:rapt_platform_gpcr
+        source_kind: company_disclosure
+      - bucket_id: rapt_pipeline_il18
+        bucket_type: unmodeled_pipeline
+        label: IL-18 franchise expansion
+        value_millions: 120.0
+        as_of_date: '2021-11-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q4:RAPT:rapt_pipeline_il18
+        source_kind: company_disclosure
+      - bucket_id: rapt_pipeline_other_followons
+        bucket_type: unmodeled_pipeline
+        label: Other immunology and oncology programs
+        value_millions: 75.0
+        as_of_date: '2021-11-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q4:RAPT:rapt_pipeline_other_followons
+        source_kind: company_disclosure
+      - bucket_id: rapt_royalty_partner
+        bucket_type: royalty
+        label: Collaboration economics bridge
+        value_millions: 45.0
+        as_of_date: '2021-11-10'
+        confidence: 0.65
+        source: partner_econ_bridge_rollforward
+        source_ref: 2021q4:RAPT:rapt_royalty_partner
+        source_kind: inferred
+      - bucket_id: rapt_dilution_reserve
+        bucket_type: dilution_reserve
+        label: Financing reserve
+        value_millions: 75.0
+        as_of_date: '2021-11-10'
+        confidence: 0.8
+        source: financing_path_quarterly_bridge
+        source_ref: 2021q4:RAPT:rapt_dilution_reserve
+        source_kind: analyst_bridge
+    - as_of_date: '2022-03-10'
+      notes: Quarterly disclosure-aligned roll-forward between anchored 2021 and 2024
+        company pack snapshots.
+      inputs:
+      - bucket_id: rapt_platform_gpcr
+        bucket_type: platform
+        label: Immunology GPCR platform
+        value_millions: 70.0
+        as_of_date: '2022-03-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2022q1:RAPT:rapt_platform_gpcr
+        source_kind: company_disclosure
+      - bucket_id: rapt_pipeline_il18
+        bucket_type: unmodeled_pipeline
+        label: IL-18 franchise expansion
+        value_millions: 115.0
+        as_of_date: '2022-03-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2022q1:RAPT:rapt_pipeline_il18
+        source_kind: company_disclosure
+      - bucket_id: rapt_pipeline_other_followons
+        bucket_type: unmodeled_pipeline
+        label: Other immunology and oncology programs
+        value_millions: 70.0
+        as_of_date: '2022-03-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2022q1:RAPT:rapt_pipeline_other_followons
+        source_kind: company_disclosure
+      - bucket_id: rapt_royalty_partner
+        bucket_type: royalty
+        label: Collaboration economics bridge
+        value_millions: 40.0
+        as_of_date: '2022-03-10'
+        confidence: 0.65
+        source: partner_econ_bridge_rollforward
+        source_ref: 2022q1:RAPT:rapt_royalty_partner
+        source_kind: inferred
+      - bucket_id: rapt_dilution_reserve
+        bucket_type: dilution_reserve
+        label: Financing reserve
+        value_millions: 75.0
+        as_of_date: '2022-03-10'
+        confidence: 0.8
+        source: financing_path_quarterly_bridge
+        source_ref: 2022q1:RAPT:rapt_dilution_reserve
+        source_kind: analyst_bridge
+    - as_of_date: '2022-08-10'
+      notes: Quarterly disclosure-aligned roll-forward between anchored 2021 and 2024
+        company pack snapshots.
+      inputs:
+      - bucket_id: rapt_platform_gpcr
+        bucket_type: platform
+        label: Immunology GPCR platform
+        value_millions: 65.0
+        as_of_date: '2022-08-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2022q3:RAPT:rapt_platform_gpcr
+        source_kind: company_disclosure
+      - bucket_id: rapt_pipeline_il18
+        bucket_type: unmodeled_pipeline
+        label: IL-18 franchise expansion
+        value_millions: 105.0
+        as_of_date: '2022-08-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2022q3:RAPT:rapt_pipeline_il18
+        source_kind: company_disclosure
+      - bucket_id: rapt_pipeline_other_followons
+        bucket_type: unmodeled_pipeline
+        label: Other immunology and oncology programs
+        value_millions: 65.0
+        as_of_date: '2022-08-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2022q3:RAPT:rapt_pipeline_other_followons
+        source_kind: company_disclosure
+      - bucket_id: rapt_royalty_partner
+        bucket_type: royalty
+        label: Collaboration economics bridge
+        value_millions: 40.0
+        as_of_date: '2022-08-10'
+        confidence: 0.65
+        source: partner_econ_bridge_rollforward
+        source_ref: 2022q3:RAPT:rapt_royalty_partner
+        source_kind: inferred
+      - bucket_id: rapt_dilution_reserve
+        bucket_type: dilution_reserve
+        label: Financing reserve
+        value_millions: 75.0
+        as_of_date: '2022-08-10'
+        confidence: 0.8
+        source: financing_path_quarterly_bridge
+        source_ref: 2022q3:RAPT:rapt_dilution_reserve
+        source_kind: analyst_bridge
+    - as_of_date: '2023-03-10'
+      notes: Quarterly disclosure-aligned roll-forward between anchored 2021 and 2024
+        company pack snapshots.
+      inputs:
+      - bucket_id: rapt_platform_gpcr
+        bucket_type: platform
+        label: Immunology GPCR platform
+        value_millions: 60.0
+        as_of_date: '2023-03-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2023q1:RAPT:rapt_platform_gpcr
+        source_kind: company_disclosure
+      - bucket_id: rapt_pipeline_il18
+        bucket_type: unmodeled_pipeline
+        label: IL-18 franchise expansion
+        value_millions: 95.0
+        as_of_date: '2023-03-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2023q1:RAPT:rapt_pipeline_il18
+        source_kind: company_disclosure
+      - bucket_id: rapt_pipeline_other_followons
+        bucket_type: unmodeled_pipeline
+        label: Other immunology and oncology programs
+        value_millions: 55.0
+        as_of_date: '2023-03-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2023q1:RAPT:rapt_pipeline_other_followons
+        source_kind: company_disclosure
+      - bucket_id: rapt_royalty_partner
+        bucket_type: royalty
+        label: Collaboration economics bridge
+        value_millions: 35.0
+        as_of_date: '2023-03-10'
+        confidence: 0.65
+        source: partner_econ_bridge_rollforward
+        source_ref: 2023q1:RAPT:rapt_royalty_partner
+        source_kind: inferred
+      - bucket_id: rapt_dilution_reserve
+        bucket_type: dilution_reserve
+        label: Financing reserve
+        value_millions: 75.0
+        as_of_date: '2023-03-10'
+        confidence: 0.8
+        source: financing_path_quarterly_bridge
+        source_ref: 2023q1:RAPT:rapt_dilution_reserve
+        source_kind: analyst_bridge
+    - as_of_date: '2023-08-10'
+      notes: Quarterly disclosure-aligned roll-forward between anchored 2021 and 2024
+        company pack snapshots.
+      inputs:
+      - bucket_id: rapt_platform_gpcr
+        bucket_type: platform
+        label: Immunology GPCR platform
+        value_millions: 60.0
+        as_of_date: '2023-08-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2023q3:RAPT:rapt_platform_gpcr
+        source_kind: company_disclosure
+      - bucket_id: rapt_pipeline_il18
+        bucket_type: unmodeled_pipeline
+        label: IL-18 franchise expansion
+        value_millions: 85.0
+        as_of_date: '2023-08-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2023q3:RAPT:rapt_pipeline_il18
+        source_kind: company_disclosure
+      - bucket_id: rapt_pipeline_other_followons
+        bucket_type: unmodeled_pipeline
+        label: Other immunology and oncology programs
+        value_millions: 50.0
+        as_of_date: '2023-08-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2023q3:RAPT:rapt_pipeline_other_followons
+        source_kind: company_disclosure
+      - bucket_id: rapt_royalty_partner
+        bucket_type: royalty
+        label: Collaboration economics bridge
+        value_millions: 35.0
+        as_of_date: '2023-08-10'
+        confidence: 0.65
+        source: partner_econ_bridge_rollforward
+        source_ref: 2023q3:RAPT:rapt_royalty_partner
+        source_kind: inferred
+      - bucket_id: rapt_dilution_reserve
+        bucket_type: dilution_reserve
+        label: Financing reserve
+        value_millions: 80.0
+        as_of_date: '2023-08-10'
+        confidence: 0.8
+        source: financing_path_quarterly_bridge
+        source_ref: 2023q3:RAPT:rapt_dilution_reserve
+        source_kind: analyst_bridge
+    - as_of_date: '2024-01-01'
+      notes: Refreshed immunology snapshot with narrower post-readout optionality.
+      inputs:
+      - bucket_id: rapt_platform_gpcr
+        bucket_type: platform
+        label: Immunology GPCR platform
+        value_millions: 55.0
+        as_of_date: '2024-01-01'
+        confidence: 0.82
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2024q1:RAPT:rapt_platform_gpcr
+        source_kind: investor_day
+      - bucket_id: rapt_pipeline_il18
+        bucket_type: unmodeled_pipeline
+        label: IL-18 franchise expansion
+        value_millions: 80.0
+        as_of_date: '2024-01-01'
+        confidence: 0.82
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2024q1:RAPT:rapt_pipeline_il18
+        source_kind: investor_day
+      - bucket_id: rapt_pipeline_other_followons
+        bucket_type: unmodeled_pipeline
+        label: Other immunology and oncology programs
+        value_millions: 45.0
+        as_of_date: '2024-01-01'
+        confidence: 0.82
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2024q1:RAPT:rapt_pipeline_other_followons
+        source_kind: investor_day
+      - bucket_id: rapt_royalty_partner
+        bucket_type: royalty
+        label: Collaboration economics bridge
+        value_millions: 30.0
+        as_of_date: '2024-01-01'
+        confidence: 0.65
+        source: partner_econ_bridge_rollforward
+        source_ref: 2024q1:RAPT:rapt_royalty_partner
+        source_kind: inferred
+      - bucket_id: rapt_dilution_reserve
+        bucket_type: dilution_reserve
+        label: Financing reserve
+        value_millions: 80.0
+        as_of_date: '2024-01-01'
+        confidence: 0.82
+        source: financing_path_quarterly_bridge
+        source_ref: 2024q1:RAPT:rapt_dilution_reserve
+        source_kind: analyst_bridge
+  RETA:
+    notes: Commercial and lifecycle neurology / metabolic company with material value
+      outside the modeled lead program.
+    snapshots:
+    - as_of_date: 2021-02-01
+      notes: Initial commercial and lifecycle snapshot.
+      inputs:
+      - bucket_id: reta_pipeline_friedreich_lifecycle
+        bucket_type: unmodeled_pipeline
+        label: Friedreich's ataxia lifecycle expansion
+        value_millions: 650.0
+        as_of_date: 2021-02-01
+        confidence: 0.72
+        source: analyst_manual_batch2
+        source_ref: batch2_pack_2021q1:RETA:pipeline_friedreich_lifecycle
+        source_kind: analyst_bridge
+      - bucket_id: reta_royalty_ex_us
+        bucket_type: royalty
+        label: Ex-US royalty and milestone economics
+        value_millions: 450.0
+        as_of_date: 2021-02-01
+        confidence: 0.7
+        source: screening_econ_bridge_batch2
+        source_ref: batch2_pack_2021q1:RETA:royalty_ex_us
+        source_kind: inferred
+      - bucket_id: reta_pipeline_adjacent_neurometabolic
+        bucket_type: unmodeled_pipeline
+        label: Adjacent neuro-metabolic pipeline
+        value_millions: 200.0
+        as_of_date: 2021-02-01
+        confidence: 0.65
+        source: analyst_manual_batch2
+        source_ref: batch2_pack_2021q1:RETA:pipeline_adjacent_neurometabolic
+        source_kind: analyst_bridge
+      - bucket_id: reta_dilution_reserve
+        bucket_type: dilution_reserve
+        label: Launch and financing reserve
+        value_millions: 80.0
+        as_of_date: 2021-02-01
+        confidence: 0.8
+        source: financing_path_manual_batch2
+        source_ref: batch2_pack_2021q1:RETA:dilution_reserve
+        source_kind: analyst_bridge
+    - as_of_date: 2023-01-01
+      notes: Later historical snapshot before removal from the live cohort.
+      inputs:
+      - bucket_id: reta_pipeline_friedreich_lifecycle
+        bucket_type: unmodeled_pipeline
+        label: Friedreich's ataxia lifecycle expansion
+        value_millions: 520.0
+        as_of_date: 2023-01-01
+        confidence: 0.74
+        source: analyst_manual_batch2_refresh
+        source_ref: batch2_pack_2023q1:RETA:pipeline_friedreich_lifecycle
+        source_kind: analyst_bridge
+      - bucket_id: reta_royalty_ex_us
+        bucket_type: royalty
+        label: Ex-US royalty and milestone economics
+        value_millions: 310.0
+        as_of_date: 2023-01-01
+        confidence: 0.72
+        source: screening_econ_bridge_batch2_refresh
+        source_ref: batch2_pack_2023q1:RETA:royalty_ex_us
+        source_kind: inferred
+      - bucket_id: reta_pipeline_adjacent_neurometabolic
+        bucket_type: unmodeled_pipeline
+        label: Adjacent neuro-metabolic pipeline
+        value_millions: 110.0
+        as_of_date: 2023-01-01
+        confidence: 0.65
+        source: analyst_manual_batch2_refresh
+        source_ref: batch2_pack_2023q1:RETA:pipeline_adjacent_neurometabolic
+        source_kind: analyst_bridge
+      - bucket_id: reta_dilution_reserve
+        bucket_type: dilution_reserve
+        label: Launch and financing reserve
+        value_millions: 60.0
+        as_of_date: 2023-01-01
+        confidence: 0.82
+        source: financing_path_manual_batch2_refresh
+        source_ref: batch2_pack_2023q1:RETA:dilution_reserve
+        source_kind: analyst_bridge
+  RXDX:
+    notes: Inflammation / precision medicine platform with unmodeled franchise breadth
+      and partner economics.
+    snapshots:
+    - as_of_date: 2021-02-01
+      notes: Initial precision-medicine platform snapshot.
+      inputs:
+      - bucket_id: rxdx_platform_precision_medicine
+        bucket_type: platform
+        label: Precision medicine platform
+        value_millions: 70.0
+        as_of_date: 2021-02-01
+        confidence: 0.7
+        source: analyst_manual_batch2
+        source_ref: batch2_pack_2021q1:RXDX:platform_precision_medicine
+        source_kind: analyst_bridge
+      - bucket_id: rxdx_pipeline_inflammation_family
+        bucket_type: unmodeled_pipeline
+        label: Inflammation franchise expansion
+        value_millions: 120.0
+        as_of_date: 2021-02-01
+        confidence: 0.72
+        source: analyst_manual_batch2
+        source_ref: batch2_pack_2021q1:RXDX:pipeline_inflammation_family
+        source_kind: analyst_bridge
+      - bucket_id: rxdx_pipeline_precision_followons
+        bucket_type: unmodeled_pipeline
+        label: Precision-medicine follow-ons
+        value_millions: 70.0
+        as_of_date: 2021-02-01
+        confidence: 0.65
+        source: analyst_manual_batch2
+        source_ref: batch2_pack_2021q1:RXDX:pipeline_precision_followons
+        source_kind: analyst_bridge
+      - bucket_id: rxdx_royalty_bridge
+        bucket_type: royalty
+        label: Partner economics bridge
+        value_millions: 40.0
+        as_of_date: 2021-02-01
+        confidence: 0.65
+        source: screening_econ_bridge_batch2
+        source_ref: batch2_pack_2021q1:RXDX:royalty_bridge
+        source_kind: inferred
+      - bucket_id: rxdx_dilution_reserve
+        bucket_type: dilution_reserve
+        label: Financing reserve
+        value_millions: 30.0
+        as_of_date: 2021-02-01
+        confidence: 0.8
+        source: financing_path_manual_batch2
+        source_ref: batch2_pack_2021q1:RXDX:dilution_reserve
+        source_kind: analyst_bridge
+    - as_of_date: 2024-01-01
+      notes: Refreshed precision-medicine snapshot with narrower pipeline carry values.
+      inputs:
+      - bucket_id: rxdx_platform_precision_medicine
+        bucket_type: platform
+        label: Precision medicine platform
+        value_millions: 55.0
+        as_of_date: 2024-01-01
+        confidence: 0.72
+        source: analyst_manual_batch2_refresh
+        source_ref: batch2_pack_2024q1:RXDX:platform_precision_medicine
+        source_kind: analyst_bridge
+      - bucket_id: rxdx_pipeline_inflammation_family
+        bucket_type: unmodeled_pipeline
+        label: Inflammation franchise expansion
+        value_millions: 80.0
+        as_of_date: 2024-01-01
+        confidence: 0.72
+        source: analyst_manual_batch2_refresh
+        source_ref: batch2_pack_2024q1:RXDX:pipeline_inflammation_family
+        source_kind: analyst_bridge
+      - bucket_id: rxdx_pipeline_precision_followons
+        bucket_type: unmodeled_pipeline
+        label: Precision-medicine follow-ons
+        value_millions: 40.0
+        as_of_date: 2024-01-01
+        confidence: 0.65
+        source: analyst_manual_batch2_refresh
+        source_ref: batch2_pack_2024q1:RXDX:pipeline_precision_followons
+        source_kind: analyst_bridge
+      - bucket_id: rxdx_royalty_bridge
+        bucket_type: royalty
+        label: Partner economics bridge
+        value_millions: 25.0
+        as_of_date: 2024-01-01
+        confidence: 0.65
+        source: screening_econ_bridge_batch2_refresh
+        source_ref: batch2_pack_2024q1:RXDX:royalty_bridge
+        source_kind: inferred
+      - bucket_id: rxdx_dilution_reserve
+        bucket_type: dilution_reserve
+        label: Financing reserve
+        value_millions: 25.0
+        as_of_date: 2024-01-01
+        confidence: 0.82
+        source: financing_path_manual_batch2_refresh
+        source_ref: batch2_pack_2024q1:RXDX:dilution_reserve
+        source_kind: analyst_bridge
+  SRRK:
+    notes: Neuromuscular platform company with franchise breadth beyond the lead asset
+      in the screen.
+    snapshots:
+    - as_of_date: '2021-02-01'
+      notes: Initial neuromuscular platform snapshot.
+      inputs:
+      - bucket_id: srrk_platform_muscle_biology
+        bucket_type: platform
+        label: Muscle biology platform
+        value_millions: 90.0
+        as_of_date: '2021-02-01'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q1:SRRK:srrk_platform_muscle_biology
+        source_kind: company_disclosure
+      - bucket_id: srrk_pipeline_fshd
+        bucket_type: unmodeled_pipeline
+        label: FSHD program family
+        value_millions: 135.0
+        as_of_date: '2021-02-01'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q1:SRRK:srrk_pipeline_fshd
+        source_kind: company_disclosure
+      - bucket_id: srrk_pipeline_other_neuromuscular
+        bucket_type: unmodeled_pipeline
+        label: Additional neuromuscular programs
+        value_millions: 85.0
+        as_of_date: '2021-02-01'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q1:SRRK:srrk_pipeline_other_neuromuscular
+        source_kind: company_disclosure
+      - bucket_id: srrk_royalty_bridge
+        bucket_type: royalty
+        label: Milestone and partnership economics
+        value_millions: 40.0
+        as_of_date: '2021-02-01'
+        confidence: 0.65
+        source: partner_econ_bridge_rollforward
+        source_ref: 2021q1:SRRK:srrk_royalty_bridge
+        source_kind: inferred
+      - bucket_id: srrk_dilution_reserve
+        bucket_type: dilution_reserve
+        label: Financing reserve
+        value_millions: 35.0
+        as_of_date: '2021-02-01'
+        confidence: 0.8
+        source: financing_path_quarterly_bridge
+        source_ref: 2021q1:SRRK:srrk_dilution_reserve
+        source_kind: analyst_bridge
+    - as_of_date: '2021-05-10'
+      notes: Quarterly disclosure-aligned roll-forward between anchored 2021 and 2024
+        company pack snapshots.
+      inputs:
+      - bucket_id: srrk_platform_muscle_biology
+        bucket_type: platform
+        label: Muscle biology platform
+        value_millions: 90.0
+        as_of_date: '2021-05-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q2:SRRK:srrk_platform_muscle_biology
+        source_kind: company_disclosure
+      - bucket_id: srrk_pipeline_fshd
+        bucket_type: unmodeled_pipeline
+        label: FSHD program family
+        value_millions: 135.0
+        as_of_date: '2021-05-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q2:SRRK:srrk_pipeline_fshd
+        source_kind: company_disclosure
+      - bucket_id: srrk_pipeline_other_neuromuscular
+        bucket_type: unmodeled_pipeline
+        label: Additional neuromuscular programs
+        value_millions: 80.0
+        as_of_date: '2021-05-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q2:SRRK:srrk_pipeline_other_neuromuscular
+        source_kind: company_disclosure
+      - bucket_id: srrk_royalty_bridge
+        bucket_type: royalty
+        label: Milestone and partnership economics
+        value_millions: 40.0
+        as_of_date: '2021-05-10'
+        confidence: 0.65
+        source: partner_econ_bridge_rollforward
+        source_ref: 2021q2:SRRK:srrk_royalty_bridge
+        source_kind: inferred
+      - bucket_id: srrk_dilution_reserve
+        bucket_type: dilution_reserve
+        label: Financing reserve
+        value_millions: 35.0
+        as_of_date: '2021-05-10'
+        confidence: 0.8
+        source: financing_path_quarterly_bridge
+        source_ref: 2021q2:SRRK:srrk_dilution_reserve
+        source_kind: analyst_bridge
+    - as_of_date: '2021-08-10'
+      notes: Quarterly disclosure-aligned roll-forward between anchored 2021 and 2024
+        company pack snapshots.
+      inputs:
+      - bucket_id: srrk_platform_muscle_biology
+        bucket_type: platform
+        label: Muscle biology platform
+        value_millions: 85.0
+        as_of_date: '2021-08-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q3:SRRK:srrk_platform_muscle_biology
+        source_kind: company_disclosure
+      - bucket_id: srrk_pipeline_fshd
+        bucket_type: unmodeled_pipeline
+        label: FSHD program family
+        value_millions: 130.0
+        as_of_date: '2021-08-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q3:SRRK:srrk_pipeline_fshd
+        source_kind: company_disclosure
+      - bucket_id: srrk_pipeline_other_neuromuscular
+        bucket_type: unmodeled_pipeline
+        label: Additional neuromuscular programs
+        value_millions: 80.0
+        as_of_date: '2021-08-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q3:SRRK:srrk_pipeline_other_neuromuscular
+        source_kind: company_disclosure
+      - bucket_id: srrk_royalty_bridge
+        bucket_type: royalty
+        label: Milestone and partnership economics
+        value_millions: 40.0
+        as_of_date: '2021-08-10'
+        confidence: 0.65
+        source: partner_econ_bridge_rollforward
+        source_ref: 2021q3:SRRK:srrk_royalty_bridge
+        source_kind: inferred
+      - bucket_id: srrk_dilution_reserve
+        bucket_type: dilution_reserve
+        label: Financing reserve
+        value_millions: 35.0
+        as_of_date: '2021-08-10'
+        confidence: 0.8
+        source: financing_path_quarterly_bridge
+        source_ref: 2021q3:SRRK:srrk_dilution_reserve
+        source_kind: analyst_bridge
+    - as_of_date: '2021-11-10'
+      notes: Quarterly disclosure-aligned roll-forward between anchored 2021 and 2024
+        company pack snapshots.
+      inputs:
+      - bucket_id: srrk_platform_muscle_biology
+        bucket_type: platform
+        label: Muscle biology platform
+        value_millions: 85.0
+        as_of_date: '2021-11-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q4:SRRK:srrk_platform_muscle_biology
+        source_kind: company_disclosure
+      - bucket_id: srrk_pipeline_fshd
+        bucket_type: unmodeled_pipeline
+        label: FSHD program family
+        value_millions: 130.0
+        as_of_date: '2021-11-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q4:SRRK:srrk_pipeline_fshd
+        source_kind: company_disclosure
+      - bucket_id: srrk_pipeline_other_neuromuscular
+        bucket_type: unmodeled_pipeline
+        label: Additional neuromuscular programs
+        value_millions: 75.0
+        as_of_date: '2021-11-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2021q4:SRRK:srrk_pipeline_other_neuromuscular
+        source_kind: company_disclosure
+      - bucket_id: srrk_royalty_bridge
+        bucket_type: royalty
+        label: Milestone and partnership economics
+        value_millions: 35.0
+        as_of_date: '2021-11-10'
+        confidence: 0.65
+        source: partner_econ_bridge_rollforward
+        source_ref: 2021q4:SRRK:srrk_royalty_bridge
+        source_kind: inferred
+      - bucket_id: srrk_dilution_reserve
+        bucket_type: dilution_reserve
+        label: Financing reserve
+        value_millions: 40.0
+        as_of_date: '2021-11-10'
+        confidence: 0.8
+        source: financing_path_quarterly_bridge
+        source_ref: 2021q4:SRRK:srrk_dilution_reserve
+        source_kind: analyst_bridge
+    - as_of_date: '2022-03-10'
+      notes: Quarterly disclosure-aligned roll-forward between anchored 2021 and 2024
+        company pack snapshots.
+      inputs:
+      - bucket_id: srrk_platform_muscle_biology
+        bucket_type: platform
+        label: Muscle biology platform
+        value_millions: 80.0
+        as_of_date: '2022-03-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2022q1:SRRK:srrk_platform_muscle_biology
+        source_kind: company_disclosure
+      - bucket_id: srrk_pipeline_fshd
+        bucket_type: unmodeled_pipeline
+        label: FSHD program family
+        value_millions: 130.0
+        as_of_date: '2022-03-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2022q1:SRRK:srrk_pipeline_fshd
+        source_kind: company_disclosure
+      - bucket_id: srrk_pipeline_other_neuromuscular
+        bucket_type: unmodeled_pipeline
+        label: Additional neuromuscular programs
+        value_millions: 75.0
+        as_of_date: '2022-03-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2022q1:SRRK:srrk_pipeline_other_neuromuscular
+        source_kind: company_disclosure
+      - bucket_id: srrk_royalty_bridge
+        bucket_type: royalty
+        label: Milestone and partnership economics
+        value_millions: 35.0
+        as_of_date: '2022-03-10'
+        confidence: 0.65
+        source: partner_econ_bridge_rollforward
+        source_ref: 2022q1:SRRK:srrk_royalty_bridge
+        source_kind: inferred
+      - bucket_id: srrk_dilution_reserve
+        bucket_type: dilution_reserve
+        label: Financing reserve
+        value_millions: 40.0
+        as_of_date: '2022-03-10'
+        confidence: 0.8
+        source: financing_path_quarterly_bridge
+        source_ref: 2022q1:SRRK:srrk_dilution_reserve
+        source_kind: analyst_bridge
+    - as_of_date: '2022-08-10'
+      notes: Quarterly disclosure-aligned roll-forward between anchored 2021 and 2024
+        company pack snapshots.
+      inputs:
+      - bucket_id: srrk_platform_muscle_biology
+        bucket_type: platform
+        label: Muscle biology platform
+        value_millions: 80.0
+        as_of_date: '2022-08-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2022q3:SRRK:srrk_platform_muscle_biology
+        source_kind: company_disclosure
+      - bucket_id: srrk_pipeline_fshd
+        bucket_type: unmodeled_pipeline
+        label: FSHD program family
+        value_millions: 125.0
+        as_of_date: '2022-08-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2022q3:SRRK:srrk_pipeline_fshd
+        source_kind: company_disclosure
+      - bucket_id: srrk_pipeline_other_neuromuscular
+        bucket_type: unmodeled_pipeline
+        label: Additional neuromuscular programs
+        value_millions: 70.0
+        as_of_date: '2022-08-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2022q3:SRRK:srrk_pipeline_other_neuromuscular
+        source_kind: company_disclosure
+      - bucket_id: srrk_royalty_bridge
+        bucket_type: royalty
+        label: Milestone and partnership economics
+        value_millions: 35.0
+        as_of_date: '2022-08-10'
+        confidence: 0.65
+        source: partner_econ_bridge_rollforward
+        source_ref: 2022q3:SRRK:srrk_royalty_bridge
+        source_kind: inferred
+      - bucket_id: srrk_dilution_reserve
+        bucket_type: dilution_reserve
+        label: Financing reserve
+        value_millions: 40.0
+        as_of_date: '2022-08-10'
+        confidence: 0.8
+        source: financing_path_quarterly_bridge
+        source_ref: 2022q3:SRRK:srrk_dilution_reserve
+        source_kind: analyst_bridge
+    - as_of_date: '2023-03-10'
+      notes: Quarterly disclosure-aligned roll-forward between anchored 2021 and 2024
+        company pack snapshots.
+      inputs:
+      - bucket_id: srrk_platform_muscle_biology
+        bucket_type: platform
+        label: Muscle biology platform
+        value_millions: 75.0
+        as_of_date: '2023-03-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2023q1:SRRK:srrk_platform_muscle_biology
+        source_kind: company_disclosure
+      - bucket_id: srrk_pipeline_fshd
+        bucket_type: unmodeled_pipeline
+        label: FSHD program family
+        value_millions: 125.0
+        as_of_date: '2023-03-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2023q1:SRRK:srrk_pipeline_fshd
+        source_kind: company_disclosure
+      - bucket_id: srrk_pipeline_other_neuromuscular
+        bucket_type: unmodeled_pipeline
+        label: Additional neuromuscular programs
+        value_millions: 65.0
+        as_of_date: '2023-03-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2023q1:SRRK:srrk_pipeline_other_neuromuscular
+        source_kind: company_disclosure
+      - bucket_id: srrk_royalty_bridge
+        bucket_type: royalty
+        label: Milestone and partnership economics
+        value_millions: 35.0
+        as_of_date: '2023-03-10'
+        confidence: 0.65
+        source: partner_econ_bridge_rollforward
+        source_ref: 2023q1:SRRK:srrk_royalty_bridge
+        source_kind: inferred
+      - bucket_id: srrk_dilution_reserve
+        bucket_type: dilution_reserve
+        label: Financing reserve
+        value_millions: 40.0
+        as_of_date: '2023-03-10'
+        confidence: 0.8
+        source: financing_path_quarterly_bridge
+        source_ref: 2023q1:SRRK:srrk_dilution_reserve
+        source_kind: analyst_bridge
+    - as_of_date: '2023-08-10'
+      notes: Quarterly disclosure-aligned roll-forward between anchored 2021 and 2024
+        company pack snapshots.
+      inputs:
+      - bucket_id: srrk_platform_muscle_biology
+        bucket_type: platform
+        label: Muscle biology platform
+        value_millions: 75.0
+        as_of_date: '2023-08-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2023q3:SRRK:srrk_platform_muscle_biology
+        source_kind: company_disclosure
+      - bucket_id: srrk_pipeline_fshd
+        bucket_type: unmodeled_pipeline
+        label: FSHD program family
+        value_millions: 120.0
+        as_of_date: '2023-08-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2023q3:SRRK:srrk_pipeline_fshd
+        source_kind: company_disclosure
+      - bucket_id: srrk_pipeline_other_neuromuscular
+        bucket_type: unmodeled_pipeline
+        label: Additional neuromuscular programs
+        value_millions: 60.0
+        as_of_date: '2023-08-10'
+        confidence: 0.8
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2023q3:SRRK:srrk_pipeline_other_neuromuscular
+        source_kind: company_disclosure
+      - bucket_id: srrk_royalty_bridge
+        bucket_type: royalty
+        label: Milestone and partnership economics
+        value_millions: 30.0
+        as_of_date: '2023-08-10'
+        confidence: 0.65
+        source: partner_econ_bridge_rollforward
+        source_ref: 2023q3:SRRK:srrk_royalty_bridge
+        source_kind: inferred
+      - bucket_id: srrk_dilution_reserve
+        bucket_type: dilution_reserve
+        label: Financing reserve
+        value_millions: 45.0
+        as_of_date: '2023-08-10'
+        confidence: 0.8
+        source: financing_path_quarterly_bridge
+        source_ref: 2023q3:SRRK:srrk_dilution_reserve
+        source_kind: analyst_bridge
+    - as_of_date: '2024-01-01'
+      notes: Refreshed neuromuscular snapshot with narrower platform carry and added
+        launch funding reserve.
+      inputs:
+      - bucket_id: srrk_platform_muscle_biology
+        bucket_type: platform
+        label: Muscle biology platform
+        value_millions: 70.0
+        as_of_date: '2024-01-01'
+        confidence: 0.82
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2024q1:SRRK:srrk_platform_muscle_biology
+        source_kind: investor_day
+      - bucket_id: srrk_pipeline_fshd
+        bucket_type: unmodeled_pipeline
+        label: FSHD program family
+        value_millions: 120.0
+        as_of_date: '2024-01-01'
+        confidence: 0.82
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2024q1:SRRK:srrk_pipeline_fshd
+        source_kind: investor_day
+      - bucket_id: srrk_pipeline_other_neuromuscular
+        bucket_type: unmodeled_pipeline
+        label: Additional neuromuscular programs
+        value_millions: 55.0
+        as_of_date: '2024-01-01'
+        confidence: 0.82
+        source: company_disclosure_quarterly_rollforward
+        source_ref: 2024q1:SRRK:srrk_pipeline_other_neuromuscular
+        source_kind: investor_day
+      - bucket_id: srrk_royalty_bridge
+        bucket_type: royalty
+        label: Milestone and partnership economics
+        value_millions: 30.0
+        as_of_date: '2024-01-01'
+        confidence: 0.65
+        source: partner_econ_bridge_rollforward
+        source_ref: 2024q1:SRRK:srrk_royalty_bridge
+        source_kind: inferred
+      - bucket_id: srrk_dilution_reserve
+        bucket_type: dilution_reserve
+        label: Financing reserve
+        value_millions: 45.0
+        as_of_date: '2024-01-01'
+        confidence: 0.82
+        source: financing_path_quarterly_bridge
+        source_ref: 2024q1:SRRK:srrk_dilution_reserve
+        source_kind: analyst_bridge
+  TGTX:
+    notes: Commercial hematology company with lifecycle and ex-US economics outside
+      the single modeled asset.
+    snapshots:
+    - as_of_date: 2021-02-01
+      notes: Initial commercial hematology snapshot.
+      inputs:
+      - bucket_id: tgtx_pipeline_briumvi_lifecycle
+        bucket_type: unmodeled_pipeline
+        label: Briumvi / B-cell franchise lifecycle expansion
+        value_millions: 140.0
+        as_of_date: 2021-02-01
+        confidence: 0.65
+        source: analyst_manual_batch2
+        source_ref: batch2_pack_2021q1:TGTX:pipeline_briumvi_lifecycle
+        source_kind: analyst_bridge
+      - bucket_id: tgtx_royalty_ex_us
+        bucket_type: royalty
+        label: Ex-US and partner economics
+        value_millions: 180.0
+        as_of_date: 2021-02-01
+        confidence: 0.65
+        source: screening_econ_bridge_batch2
+        source_ref: batch2_pack_2021q1:TGTX:royalty_ex_us
+        source_kind: inferred
+      - bucket_id: tgtx_pipeline_adjacent_hematology
+        bucket_type: unmodeled_pipeline
+        label: Adjacent hematology pipeline
+        value_millions: 220.0
+        as_of_date: 2021-02-01
+        confidence: 0.65
+        source: analyst_manual_batch2
+        source_ref: batch2_pack_2021q1:TGTX:pipeline_adjacent_hematology
+        source_kind: analyst_bridge
+      - bucket_id: tgtx_dilution_reserve
+        bucket_type: dilution_reserve
+        label: Financing reserve
+        value_millions: 50.0
+        as_of_date: 2021-02-01
+        confidence: 0.8
+        source: financing_path_manual_batch2
+        source_ref: batch2_pack_2021q1:TGTX:dilution_reserve
+        source_kind: analyst_bridge
+    - as_of_date: 2024-01-01
+      notes: Refreshed commercial hematology snapshot with tighter lifecycle carry
+        values.
+      inputs:
+      - bucket_id: tgtx_pipeline_briumvi_lifecycle
+        bucket_type: unmodeled_pipeline
+        label: Briumvi / B-cell franchise lifecycle expansion
+        value_millions: 100.0
+        as_of_date: 2024-01-01
+        confidence: 0.68
+        source: analyst_manual_batch2_refresh
+        source_ref: batch2_pack_2024q1:TGTX:pipeline_briumvi_lifecycle
+        source_kind: analyst_bridge
+      - bucket_id: tgtx_royalty_ex_us
+        bucket_type: royalty
+        label: Ex-US and partner economics
+        value_millions: 130.0
+        as_of_date: 2024-01-01
+        confidence: 0.68
+        source: screening_econ_bridge_batch2_refresh
+        source_ref: batch2_pack_2024q1:TGTX:royalty_ex_us
+        source_kind: inferred
+      - bucket_id: tgtx_pipeline_adjacent_hematology
+        bucket_type: unmodeled_pipeline
+        label: Adjacent hematology pipeline
+        value_millions: 150.0
+        as_of_date: 2024-01-01
+        confidence: 0.65
+        source: analyst_manual_batch2_refresh
+        source_ref: batch2_pack_2024q1:TGTX:pipeline_adjacent_hematology
+        source_kind: analyst_bridge
+      - bucket_id: tgtx_dilution_reserve
+        bucket_type: dilution_reserve
+        label: Financing reserve
+        value_millions: 40.0
+        as_of_date: 2024-01-01
+        confidence: 0.82
+        source: financing_path_manual_batch2_refresh
+        source_ref: batch2_pack_2024q1:TGTX:dilution_reserve
+        source_kind: analyst_bridge
