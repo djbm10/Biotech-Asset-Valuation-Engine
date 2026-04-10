@@ -22,6 +22,7 @@ class MABackfillSummary:
     snapshot_start: date | None
     snapshot_end: date | None
     total_rows_written: int
+    total_excluded_assets: int
     calibration_rows: int
     calibration_positive_rows: int
     calibration_positive_targets: int
@@ -105,6 +106,7 @@ def backfill_ma_probability_snapshots(
         )
 
         total_rows_written = 0
+        total_excluded_assets = 0
         for snapshot_date in snapshot_dates:
             result = scanner.scan_from_watchlist_config(
                 config,
@@ -113,6 +115,7 @@ def backfill_ma_probability_snapshots(
                 run_id=f"ma-backfill:{snapshot_date.isoformat()}",
             )
             total_rows_written += result.snapshots_written
+            total_excluded_assets += result.n_excluded
 
         builder = MACalibrationDatasetBuilder(
             knowledge_store=store,
@@ -179,6 +182,7 @@ def backfill_ma_probability_snapshots(
             snapshot_start=snapshot_dates[0],
             snapshot_end=snapshot_dates[-1],
             total_rows_written=total_rows_written,
+            total_excluded_assets=total_excluded_assets,
             calibration_rows=dataset.n_rows,
             calibration_positive_rows=dataset.n_positive_rows,
             calibration_positive_targets=dataset.n_unique_targets,
@@ -203,6 +207,7 @@ def _render_summary(summary: MABackfillSummary) -> str:
         f"  Snapshot dates: {summary.snapshot_dates}",
         f"  Date range: {summary.snapshot_start} -> {summary.snapshot_end}",
         f"  Snapshot rows written: {summary.total_rows_written}",
+        f"  Excluded assets: {summary.total_excluded_assets}",
         f"  Calibration rows: {summary.calibration_rows}",
         f"  Positive rows: {summary.calibration_positive_rows}",
         f"  Positive targets: {summary.calibration_positive_targets}",

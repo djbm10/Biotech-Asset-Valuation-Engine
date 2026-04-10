@@ -15,7 +15,6 @@ Tests for:
 """
 from __future__ import annotations
 
-import json
 import math
 from datetime import date
 from pathlib import Path
@@ -220,7 +219,7 @@ class TestSnapshotStoreMigration:
         from bve.intelligence.knowledge_layer import KnowledgeStore
         store = KnowledgeStore(tmp_path / "k.db")
         try:
-            snap_store = MAProbabilitySnapshotStore(store)
+            MAProbabilitySnapshotStore(store)
             cols = store._conn.execute(
                 "PRAGMA table_info(ma_probability_snapshots)"
             ).fetchall()
@@ -400,7 +399,8 @@ class TestPolicyComparisonResult:
     def test_compare_ranking_policies_returns_correct_type(self):
         from bve.intelligence.ma_calibration import MACalibrationDatasetBuilder
         from bve.intelligence.knowledge_layer import KnowledgeStore
-        import tempfile, os
+        import os
+        import tempfile
 
         # Build a minimal canonical dataset in-memory
         rows = [
@@ -478,7 +478,8 @@ class TestPolicyComparisonResult:
         """Policy A should match precision@k of pure v1.2 rank order."""
         from bve.intelligence.ma_calibration import MACalibrationDatasetBuilder
         from bve.intelligence.knowledge_layer import KnowledgeStore
-        import tempfile, os
+        import os
+        import tempfile
 
         # Target ranked 1st by v1.2; should be captured in top-1
         rows = [
@@ -521,5 +522,71 @@ class TestPolicyComparisonResult:
                 result = builder.compare_ranking_policies(dataset, fit, top_k=1)
                 # Policy A: top-1 is the target (rank=1) → precision = 1.0
                 assert result.policy_a_precision_at_k == pytest.approx(1.0)
+            finally:
+                store.close()
+
+    def test_policy_comparison_respects_historical_snapshot_dates(self):
+        """Historical snapshot policy evaluation should rank within each date, not globally."""
+        from bve.intelligence.ma_calibration import MACalibrationDatasetBuilder
+        from bve.intelligence.knowledge_layer import KnowledgeStore
+        import os
+        import tempfile
+
+        rows = [
+            MACalibrationRow(
+                snapshot_date=date(2022, 1, 1),
+                asset_id="a-target-1",
+                ticker="T1",
+                label=1,
+                probability=0.90,
+                rank=1,
+                best_acquirer_id="pfizer",
+            ),
+            MACalibrationRow(
+                snapshot_date=date(2022, 1, 1),
+                asset_id="a-ctrl-1",
+                ticker="C1",
+                label=0,
+                probability=0.40,
+                rank=2,
+                best_acquirer_id="pfizer",
+            ),
+            MACalibrationRow(
+                snapshot_date=date(2022, 2, 1),
+                asset_id="a-target-2",
+                ticker="T2",
+                label=1,
+                probability=0.88,
+                rank=1,
+                best_acquirer_id="pfizer",
+            ),
+            MACalibrationRow(
+                snapshot_date=date(2022, 2, 1),
+                asset_id="a-ctrl-2",
+                ticker="C2",
+                label=0,
+                probability=0.35,
+                rank=2,
+                best_acquirer_id="pfizer",
+            ),
+        ]
+        dataset = MACalibrationDataset(
+            lookahead_days=365,
+            n_rows=4,
+            n_positive_rows=2,
+            n_control_rows=2,
+            n_unique_targets=2,
+            dataset_mode="historical_snapshot",
+            rows=rows,
+        )
+        fit = _fit_result(intercept=0.0, coef_value=0.0, mean=0.0, std=1.0)
+
+        with tempfile.TemporaryDirectory() as td:
+            store = KnowledgeStore(os.path.join(td, "k.db"))
+            try:
+                builder = MACalibrationDatasetBuilder(knowledge_store=store)
+                result = builder.compare_ranking_policies(dataset, fit, top_k=1)
+                assert result.policy_a_precision_at_k == pytest.approx(1.0)
+                assert result.policy_a_recall_at_k == pytest.approx(1.0)
             finally:
                 store.close()

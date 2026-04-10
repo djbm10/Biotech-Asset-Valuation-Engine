@@ -365,6 +365,7 @@ class MACalibrationDatasetBuilder:
 
     _DEFAULT_LOGISTIC_FEATURES: tuple[str, ...] = (
         "stored_probability",
+        "strategic_fit_score",
         "capital_vulnerability_score",
         "log_enterprise_value",
     )
@@ -421,7 +422,11 @@ class MACalibrationDatasetBuilder:
                 snapshot_date=snapshot.snapshot_date,
                 lookahead_days=lookahead_days,
             )
-            screen = self._screen_snapshot_on_or_before(ticker=ticker, as_of=snapshot.snapshot_date)
+            screen = self._screen_snapshot_on_or_before(
+                asset_id=snapshot.asset_id,
+                ticker=ticker,
+                as_of=snapshot.snapshot_date,
+            )
             therapeutic_area = snapshot.therapeutic_area or (
                 screen.get("ta") if screen is not None else None
             )
@@ -869,64 +874,45 @@ class MACalibrationDatasetBuilder:
         """
         rows = dataset.rows
 
-        # Score every row with the fitted logistic model
-        calibrated: list[float] = []
-        for row in rows:
-            feature_dict = {
-                "stored_probability": _component_value(row.probability),
-                "strategic_fit_score": _component_value(row.strategic_fit_score),
-                "valuation_discount_score": _component_value(row.valuation_discount_score),
-                "capital_vulnerability_score": _component_value(row.capital_vulnerability_score),
-                "de_risking_stage_score": _component_value(row.de_risking_stage_score),
-                "log_enterprise_value": math.log1p(
-                    max(float(row.enterprise_value_millions or row.ev_millions or 0.0), 0.0)
-                ),
-                "ta_heat_score": _component_value(row.ta_heat_score),
-                "single_asset_flag": 1.0 if row.single_asset else 0.0,
-                "market_exceeds_model_flag": 1.0 if row.market_exceeds_model else 0.0,
-            }
-            calibrated.append(fit_result.predict(feature_dict))
-
-        def _precision_recall(
-            ranked_pairs: list[tuple[MACalibrationRow, float]],
-        ) -> tuple[float | None, float | None]:
-            top = ranked_pairs[:top_k]
-            hits = sum(1 for row, _ in top if row.label == 1)
-            n_unique_pos_targets = len({row.ticker for row in rows if row.label == 1})
-            captured = len({row.ticker for row, _ in top if row.label == 1})
-            precision = round(hits / top_k, 4) if top_k > 0 else None
-            recall = (
-                round(captured / n_unique_pos_targets, 4) if n_unique_pos_targets > 0 else None
-            )
-            return precision, recall
+        calibrated = [
+            fit_result.predict(self._policy_feature_dict(row, fit_result.feature_names))
+            for row in rows
+        ]
 
         # Policy A: rank by v1.2 stored probability only (baseline)
-        pairs_a = sorted(
-            zip(rows, calibrated, strict=False),
-            key=lambda item: (-item[0].probability, item[0].rank, item[0].snapshot_date),
+        pairs_a = list(zip(rows, calibrated, strict=False))
+        prec_a, rec_a = self._evaluate_policy_pairs(
+            dataset=dataset,
+            ranked_pairs=pairs_a,
+            top_k=top_k,
+            sort_key=lambda item: (-item[0].probability, item[0].rank, item[0].snapshot_date, item[0].ticker),
         )
-        prec_a, rec_a = _precision_recall([(r, c) for r, c in pairs_a])
 
         # Policy B: rank by v1.2, but drop assets below calibrated threshold
-        pairs_b_filtered = [
-            (row, cal)
-            for row, cal in sorted(
-                zip(rows, calibrated, strict=False),
-                key=lambda item: (-item[0].probability, item[0].rank),
-            )
-            if cal >= calibration_threshold
-        ]
-        # Fall back to unfiltered if threshold removes everything
-        if not pairs_b_filtered:
-            pairs_b_filtered = pairs_a  # type: ignore[assignment]
-        prec_b, rec_b = _precision_recall(pairs_b_filtered)
+        pairs_b_filtered = list(
+            zip(rows, calibrated, strict=False)
+        )
+        prec_b, rec_b = self._evaluate_policy_pairs(
+            dataset=dataset,
+            ranked_pairs=pairs_b_filtered,
+            top_k=top_k,
+            predicate=lambda item: item[1] >= calibration_threshold,
+            sort_key=lambda item: (-item[0].probability, item[0].rank, item[0].snapshot_date, item[0].ticker),
+        )
+        if prec_b is None and rec_b is None:
+            prec_b, rec_b = prec_a, rec_a
 
         # Policy C: v1.2 primary, calibrated probability as secondary tie-breaker
-        pairs_c = sorted(
-            zip(rows, calibrated, strict=False),
-            key=lambda item: (-item[0].probability, -item[1], item[0].rank),
+        pairs_c = list(zip(rows, calibrated, strict=False))
+        prec_c, rec_c = self._evaluate_policy_pairs(
+            dataset=dataset,
+            ranked_pairs=pairs_c,
+            top_k=top_k,
+            sort_key=lambda item: (-item[0].probability, -item[1], item[0].rank, item[0].snapshot_date, item[0].ticker),
         )
-        prec_c, rec_c = _precision_recall([(r, c) for r, c in pairs_c])
+
+        baseline_auc = _binary_auc([row.label for row in rows], [float(row.probability) for row in rows])
+        calibrated_auc = _binary_auc([row.label for row in rows], calibrated)
 
         return MAPolicyComparisonResult(
             top_k=top_k,
@@ -937,9 +923,67 @@ class MACalibrationDatasetBuilder:
             policy_b_recall_at_k=rec_b,
             policy_c_precision_at_k=prec_c,
             policy_c_recall_at_k=rec_c,
-            baseline_auc=fit_result.stored_probability_metrics.auc,
-            calibrated_auc=fit_result.fitted_metrics.auc,
+            baseline_auc=baseline_auc,
+            calibrated_auc=calibrated_auc,
         )
+
+    @staticmethod
+    def _policy_feature_dict(
+        row: MACalibrationRow,
+        feature_names: list[str],
+    ) -> dict[str, float]:
+        return {
+            feature_name: MACalibrationDatasetBuilder._feature_value(row, feature_name)
+            for feature_name in feature_names
+        }
+
+    @staticmethod
+    def _evaluate_policy_pairs(
+        *,
+        dataset: MACalibrationDataset,
+        ranked_pairs: list[tuple[MACalibrationRow, float]],
+        top_k: int,
+        sort_key,
+        predicate=None,
+    ) -> tuple[float | None, float | None]:
+        predicate = predicate or (lambda item: True)
+        positive_targets = {row.ticker for row, _ in ranked_pairs if row.label == 1}
+        if not ranked_pairs or top_k <= 0:
+            return None, None
+
+        if dataset.dataset_mode == "canonical_predeal":
+            eligible = [item for item in ranked_pairs if predicate(item)]
+            if not eligible:
+                return None, None
+            top = sorted(eligible, key=sort_key)[:top_k]
+            hits = sum(1 for row, _ in top if row.label == 1)
+            captured = len({row.ticker for row, _ in top if row.label == 1})
+            precision = round(hits / len(top), 6) if top else None
+            recall = round(captured / len(positive_targets), 6) if positive_targets else None
+            return precision, recall
+
+        grouped: dict[date, list[tuple[MACalibrationRow, float]]] = {}
+        for item in ranked_pairs:
+            grouped.setdefault(item[0].snapshot_date, []).append(item)
+
+        top_total = 0
+        top_hits = 0
+        captured_targets: set[str] = set()
+        for snapshot_date in sorted(grouped):
+            eligible = [item for item in grouped[snapshot_date] if predicate(item)]
+            if not eligible:
+                continue
+            top = sorted(eligible, key=sort_key)[:top_k]
+            top_total += len(top)
+            top_hits += sum(1 for row, _ in top if row.label == 1)
+            for row, _ in top:
+                if row.label == 1:
+                    captured_targets.add(row.ticker)
+        if top_total <= 0:
+            return None, None
+        precision = round(top_hits / top_total, 6)
+        recall = round(len(captured_targets) / len(positive_targets), 6) if positive_targets else None
+        return precision, recall
 
     @staticmethod
     def _match_group_id(*, ticker: str, announcement_date: date | None) -> str:
@@ -962,8 +1006,21 @@ class MACalibrationDatasetBuilder:
                 return deal
         return None
 
-    def _screen_snapshot_on_or_before(self, *, ticker: str, as_of: date) -> dict[str, object] | None:
+    def _screen_snapshot_on_or_before(
+        self,
+        *,
+        asset_id: str | None = None,
+        ticker: str,
+        as_of: date,
+    ) -> dict[str, object] | None:
         try:
+            if asset_id:
+                asset_row = self.knowledge.get_screen_snapshot_for_asset_on_or_before(
+                    asset_id=asset_id,
+                    as_of=as_of,
+                )
+                if asset_row is not None:
+                    return asset_row
             return self.knowledge.get_screen_snapshot_for_ticker_on_or_before(
                 ticker=ticker,
                 as_of=as_of,

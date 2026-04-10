@@ -1,6 +1,7 @@
 """Deterministic M&A probability scanner built on acquirer fit and vulnerability signals."""
 from __future__ import annotations
 
+import logging
 from datetime import date, datetime, time as dtime, timedelta, timezone
 from pathlib import Path
 from types import SimpleNamespace
@@ -25,6 +26,12 @@ from bve.intelligence.vulnerability_signals import (
 
 
 import math as _math
+
+
+_LOG = logging.getLogger("bve.intelligence.ma_probability")
+_DEFAULT_TARGETABILITY_RULES_PATH = (
+    Path(__file__).resolve().parents[1] / "config" / "targetability_rules.yaml"
+)
 
 
 def _utcnow() -> datetime:
@@ -154,7 +161,8 @@ class MAProbabilityConfig(BaseModel):
     persist_daily_snapshots: bool = True
     enable_monitor: bool = True
     use_stored_screen_context: bool = False
-    targetability_rules_path: str = "examples/research/mna_targetability_rules.yaml"
+    enforce_company_recency_gate: bool = True
+    targetability_rules_path: str = str(_DEFAULT_TARGETABILITY_RULES_PATH)
     mega_cap_exclusion_ev_millions: float = Field(default=15000.0, gt=0.0)
     multi_franchise_penalty_ev_millions: float = Field(default=5000.0, gt=0.0)
     multi_franchise_penalty_multiplier: float = Field(default=0.40, ge=0.0, le=1.0)
@@ -164,8 +172,11 @@ class MAProbabilityConfig(BaseModel):
     )
     # Optional path to a fitted MALogisticFitResult JSON written by the backfiller.
     # When set, the scanner loads the model and populates p_takeout_calibrated on every
-    # row. The ranking order (mna_probability_score) is never modified.
+    # row. calibration_policy controls whether that calibrated layer only displays,
+    # filters, or tie-breaks the live ranked output.
     calibration_model_path: str | None = None
+    calibration_policy: str = "display_only"
+    calibration_threshold: float = Field(default=0.10, ge=0.0, le=1.0)
 
     def resolved_weights(self) -> dict[str, float]:
         try:
@@ -219,6 +230,144 @@ class ExplicitTargetabilityRule(BaseModel):
     ticker: str
     reason: str
     note: str | None = None
+
+
+class TargetabilityHardFailRules(BaseModel):
+    """Hard disqualifiers for obvious non-targets."""
+
+    max_market_cap_billions: float = Field(default=100.0, gt=0.0)
+    excluded_tickers: list[str] = Field(default_factory=list)
+    max_approved_revenue_share: float = Field(default=0.50, ge=0.0, le=1.0)
+
+
+class TargetabilitySoftPenaltyRules(BaseModel):
+    """Soft penalties applied to still-eligible but less targetable names."""
+
+    multi_product_commercial_penalty: float = Field(default=0.50, ge=0.0, le=1.0)
+    market_cap_penalty_start_billions: float = Field(default=20.0, ge=0.0)
+    market_cap_penalty_end_billions: float = Field(default=100.0, gt=0.0)
+
+
+class TargetabilityRuleset(BaseModel):
+    """Full targetability rules config with legacy override support."""
+
+    hard_fails: TargetabilityHardFailRules = Field(default_factory=TargetabilityHardFailRules)
+    soft_penalties: TargetabilitySoftPenaltyRules = Field(default_factory=TargetabilitySoftPenaltyRules)
+    explicit_hard_fails: list[ExplicitTargetabilityRule] = Field(default_factory=list)
+
+
+class TargetabilityExclusion(BaseModel):
+    """One asset excluded from the M&A ranking before scoring."""
+
+    asset_id: str
+    ticker: str | None = None
+    reasons: list[str] = Field(default_factory=list)
+
+
+class TargetabilityFilter:
+    """Apply explicit hard fails and soft penalties before ranking."""
+
+    def __init__(self, rules_path: str | None = None) -> None:
+        self.rules_path = rules_path or str(_DEFAULT_TARGETABILITY_RULES_PATH)
+        self.rules = self._load_rules(self.rules_path)
+        self._excluded_tickers = {
+            ticker
+            for ticker in (_upper(item) for item in self.rules.hard_fails.excluded_tickers)
+            if ticker is not None
+        }
+        self._explicit_rules = {
+            rule.ticker.upper(): rule for rule in self.rules.explicit_hard_fails
+        }
+
+    def assess(
+        self,
+        *,
+        asset_id: str,
+        ticker: str | None,
+        market_cap_billions: float | None,
+        approved_revenue_share: float | None,
+        stage: str | None,
+        single_asset: bool | None,
+        is_known_acquirer: bool = False,
+    ) -> TargetabilityAssessment:
+        hard_fail_reasons: list[str] = []
+        notes: list[str] = []
+        multiplier = 1.0
+
+        target_ticker = _upper(ticker)
+        if target_ticker is not None and target_ticker in self._excluded_tickers:
+            hard_fail_reasons.append(f"excluded_ticker:{target_ticker}")
+
+        explicit_rule = (
+            self._explicit_rules.get(target_ticker)
+            if target_ticker is not None
+            else None
+        )
+        if explicit_rule is not None:
+            hard_fail_reasons.append(explicit_rule.reason)
+            if explicit_rule.note:
+                notes.append(explicit_rule.note)
+
+        if is_known_acquirer and target_ticker is not None:
+            hard_fail_reasons.append(f"self_acquirer:{target_ticker}")
+
+        if (
+            market_cap_billions is not None
+            and market_cap_billions > self.rules.hard_fails.max_market_cap_billions
+        ):
+            hard_fail_reasons.append(f"mega_cap:{market_cap_billions:.1f}B")
+
+        normalized_stage = _normalize(stage)
+        if (
+            approved_revenue_share is not None
+            and approved_revenue_share > self.rules.hard_fails.max_approved_revenue_share
+        ):
+            hard_fail_reasons.append(f"commercial_franchise:{approved_revenue_share:.0%}")
+        elif approved_revenue_share is None and normalized_stage in {"approved", "commercial"} and single_asset is False:
+            hard_fail_reasons.append("commercial_franchise:unknown_share")
+
+        if not hard_fail_reasons and single_asset is False:
+            multiplier *= self.rules.soft_penalties.multi_product_commercial_penalty
+            notes.append("multi_product_commercial_penalty")
+
+        market_cap_penalty = self._market_cap_penalty(market_cap_billions)
+        if not hard_fail_reasons and market_cap_penalty < 1.0:
+            multiplier *= market_cap_penalty
+            notes.append(f"market_cap_penalty:{market_cap_billions:.1f}B")
+
+        return TargetabilityAssessment(
+            asset_id=asset_id,
+            passes_hard_filters=not hard_fail_reasons,
+            multiplier=round(multiplier, 6),
+            single_asset=single_asset,
+            hard_fail_reasons=list(dict.fromkeys(hard_fail_reasons)),
+            notes=list(dict.fromkeys(notes)),
+        )
+
+    def _market_cap_penalty(self, market_cap_billions: float | None) -> float:
+        if market_cap_billions is None:
+            return 1.0
+
+        start = self.rules.soft_penalties.market_cap_penalty_start_billions
+        end = self.rules.soft_penalties.market_cap_penalty_end_billions
+        if end <= start or market_cap_billions <= start:
+            return 1.0
+
+        scale = (end - market_cap_billions) / (end - start)
+        return min(max(max(0.3, scale), 0.0), 1.0)
+
+    @staticmethod
+    def _load_rules(path: str) -> TargetabilityRuleset:
+        import yaml
+
+        rules_path = Path(path).expanduser()
+        if not rules_path.exists():
+            return TargetabilityRuleset()
+
+        raw = yaml.safe_load(rules_path.read_text(encoding="utf-8")) or {}
+        if not isinstance(raw, dict):
+            return TargetabilityRuleset()
+        return TargetabilityRuleset.model_validate(raw)
 
 
 class ScarcityAssessment(BaseModel):
@@ -309,6 +458,10 @@ class MAProbabilityRow(BaseModel):
     external_deal_signal_ids: list[str] = Field(default_factory=list)
     targetability_multiplier: float = 1.0
     targetability_reasons: list[str] = Field(default_factory=list)
+    company_action_policy: str | None = None
+    company_action_reason: str | None = None
+    company_snapshot_date: date | None = None
+    company_recency_gate_failed: bool = False
 
     hard_fail_reasons: list[str] = Field(default_factory=list)
     matched_therapeutic_gap: str | None = None
@@ -329,13 +482,17 @@ class MAProbabilityResult(BaseModel):
     as_of_date: date
     score_version: str
     alert_threshold: float
+    calibration_policy: str = "display_only"
+    calibration_threshold: float | None = None
     n_assets: int
     n_ranked: int
+    n_excluded: int = 0
     n_above_alert_threshold: int
     alerts_emitted: list[OpportunityAlertRecord] = Field(default_factory=list)
     alerts_suppressed_as_duplicate: int = 0
     snapshots_written: int = 0
     reference_snapshot_date: str | None = None
+    excluded_assets: list[TargetabilityExclusion] = Field(default_factory=list)
     rows: list[MAProbabilityRow] = Field(default_factory=list)
 
 
@@ -535,6 +692,13 @@ class MAProbabilitySnapshotStore:
             )
             for row in rows
         ]
+        # Snapshot backfills rewrite the full cross-section for one date. Delete
+        # the existing slice first so newly excluded assets do not linger as
+        # stale rows from earlier score versions or filter regimes.
+        self.knowledge._conn.execute(
+            "DELETE FROM ma_probability_snapshots WHERE snapshot_date = ?",
+            (snapshot_date.isoformat(),),
+        )
         self.knowledge._conn.executemany(
             """
             INSERT OR REPLACE INTO ma_probability_snapshots(
@@ -1004,10 +1168,8 @@ class MAProbabilityScanner:
             integration_config=self.config.fit_integration_config,
         )
         self.knowledge = knowledge_store or getattr(self.fit_engine.acquisition_screener, "knowledge", None)
-        self._single_asset_flag_cache: dict[str, bool | None] = {}
-        self._explicit_targetability_rules = self._load_explicit_targetability_rules(
-            self.config.targetability_rules_path
-        )
+        self._targetability_metadata_cache: dict[str, dict[str, object]] = {}
+        self.targetability_filter = TargetabilityFilter(self.config.targetability_rules_path)
         use_snapshot_store = self.knowledge is not None and (
             self.config.persist_daily_snapshots or self.config.enable_monitor
         )
@@ -1080,13 +1242,36 @@ class MAProbabilityScanner:
         asset_by_id = {getattr(asset, "asset_id"): asset for asset in watchlist}
 
         prepared_targets: list[SimpleNamespace] = []
+        excluded_assets: list[TargetabilityExclusion] = []
         for acquisition_row in acquisition_result.rows:
             asset = asset_by_id[acquisition_row.asset_id]
             context = self._safe_get_context(asset)
             screen_context = self._stored_screen_context(
+                asset_id=acquisition_row.asset_id,
                 ticker=acquisition_row.ticker,
                 as_of=as_of,
             )
+            company_sotp_context = self._stored_company_sotp_context(
+                ticker=acquisition_row.ticker,
+                as_of=as_of,
+            )
+            if (
+                self.config.enforce_company_recency_gate
+                and company_sotp_context is not None
+                and not bool(company_sotp_context.get("balance_sheet_passes_recency_gate", False))
+            ):
+                snapshot_text = company_sotp_context.get("snapshot_date")
+                exclusion_reason = "company_recency_gate_failed"
+                if snapshot_text is not None:
+                    exclusion_reason = f"{exclusion_reason}:{snapshot_text}"
+                excluded_assets.append(
+                    TargetabilityExclusion(
+                        asset_id=acquisition_row.asset_id,
+                        ticker=getattr(acquisition_row, "ticker", None),
+                        reasons=[exclusion_reason],
+                    )
+                )
+                continue
             prepared_row = self._apply_screen_context(
                 acquisition_row=acquisition_row,
                 screen_context=screen_context,
@@ -1097,11 +1282,13 @@ class MAProbabilityScanner:
                     context=context,
                     acquisition_row=prepared_row,
                     screen_context=screen_context,
+                    company_sotp_context=company_sotp_context,
                     targetability=self._assess_targetability(
                         asset=asset,
                         acquisition_row=prepared_row,
                         acquirer_dataset=acquirer_dataset.acquirers,
                         screen_context=screen_context,
+                        context=context,
                     ),
                     vulnerability=self._assess_vulnerability(
                         asset=asset,
@@ -1113,10 +1300,33 @@ class MAProbabilityScanner:
                     ),
                 )
             )
-        scarcity_by_asset = self._assess_scarcity(prepared_targets)
+        eligible_targets: list[SimpleNamespace] = []
+        for prepared in prepared_targets:
+            targetability = prepared.targetability
+            if targetability.passes_hard_filters:
+                eligible_targets.append(prepared)
+                continue
+            excluded_assets.append(
+                TargetabilityExclusion(
+                    asset_id=prepared.acquisition_row.asset_id,
+                    ticker=getattr(prepared.acquisition_row, "ticker", None),
+                    reasons=list(targetability.hard_fail_reasons) + list(targetability.notes),
+                )
+            )
+
+        if excluded_assets:
+            _LOG.info("Excluded %s assets from M&A scan:", len(excluded_assets))
+            for exclusion in excluded_assets[:10]:
+                _LOG.info(
+                    "  %s: %s",
+                    exclusion.ticker or exclusion.asset_id,
+                    ", ".join(exclusion.reasons),
+                )
+
+        scarcity_by_asset = self._assess_scarcity(eligible_targets)
 
         rows: list[MAProbabilityRow] = []
-        for prepared in prepared_targets:
+        for prepared in eligible_targets:
             asset = prepared.asset
             context = prepared.context
             acquisition_row = prepared.acquisition_row
@@ -1205,6 +1415,24 @@ class MAProbabilityScanner:
                     targetability_reasons=(
                         list(targetability.hard_fail_reasons) + list(targetability.notes)
                     ),
+                    company_action_policy=(
+                        str(prepared.company_sotp_context.get("action_policy"))
+                        if prepared.company_sotp_context
+                        and prepared.company_sotp_context.get("action_policy")
+                        else None
+                    ),
+                    company_action_reason=(
+                        str(prepared.company_sotp_context.get("action_reason"))
+                        if prepared.company_sotp_context
+                        and prepared.company_sotp_context.get("action_reason")
+                        else None
+                    ),
+                    company_snapshot_date=(
+                        prepared.company_sotp_context.get("snapshot_date")
+                        if prepared.company_sotp_context is not None
+                        else None
+                    ),
+                    company_recency_gate_failed=False,
                     hard_fail_reasons=list(best.hard_fail_reasons),
                     matched_therapeutic_gap=best.matched_therapeutic_gap,
                     matched_modality=best.matched_modality,
@@ -1226,7 +1454,7 @@ class MAProbabilityScanner:
             for idx, row in enumerate(rows)
         ]
         # Calibration layer: score every row with the logistic model if one is loaded.
-        # This populates p_takeout_calibrated without modifying the ranking order.
+        # This populates p_takeout_calibrated before any live ranking policy is applied.
         if self._calibration_model is not None:
             calibration_model = self._calibration_model
             all_ranked_rows = [
@@ -1242,8 +1470,12 @@ class MAProbabilityScanner:
                 )
                 for row in all_ranked_rows
             ]
+        policy_rows = self._apply_calibration_policy(all_ranked_rows)
         limit = top_n or self.config.top_n
-        ranked_rows = all_ranked_rows[:limit]
+        ranked_rows = [
+            row.model_copy(update={"rank": idx + 1})
+            for idx, row in enumerate(policy_rows[:limit])
+        ]
         snapshots_written = 0
         monitor_result = MAProbabilityMonitorResult(monitored_at=resolved_scanned_at)
         if self.snapshot_store is not None and self.config.persist_daily_snapshots:
@@ -1255,7 +1487,7 @@ class MAProbabilityScanner:
             )
         if self.monitor is not None:
             monitor_result = self.monitor.evaluate(
-                all_ranked_rows,
+                ranked_rows,
                 monitored_at=resolved_scanned_at,
                 run_id=run_id,
             )
@@ -1264,8 +1496,15 @@ class MAProbabilityScanner:
             as_of_date=as_of,
             score_version=self.config.score_version,
             alert_threshold=self.config.alert_threshold,
+            calibration_policy=self._effective_calibration_policy(),
+            calibration_threshold=(
+                self.config.calibration_threshold
+                if self._calibration_model is not None
+                else None
+            ),
             n_assets=len(all_ranked_rows),
             n_ranked=len(ranked_rows),
+            n_excluded=len(excluded_assets),
             n_above_alert_threshold=sum(
                 1
                 for row in all_ranked_rows
@@ -1275,8 +1514,42 @@ class MAProbabilityScanner:
             alerts_suppressed_as_duplicate=monitor_result.alerts_suppressed_as_duplicate,
             snapshots_written=snapshots_written,
             reference_snapshot_date=monitor_result.reference_snapshot_date,
+            excluded_assets=excluded_assets,
             rows=ranked_rows,
         )
+
+    def _effective_calibration_policy(self) -> str:
+        if self._calibration_model is None:
+            return "display_only"
+        return self.config.calibration_policy
+
+    def _apply_calibration_policy(
+        self,
+        rows: list[MAProbabilityRow],
+    ) -> list[MAProbabilityRow]:
+        policy = self._effective_calibration_policy()
+        if policy == "display_only":
+            return list(rows)
+        if policy == "threshold_filter":
+            filtered = [
+                row
+                for row in rows
+                if row.p_takeout_calibrated is not None
+                and row.p_takeout_calibrated >= self.config.calibration_threshold
+            ]
+            return filtered
+        if policy == "tie_breaker":
+            return sorted(
+                rows,
+                key=lambda row: (
+                    -row.mna_probability_score,
+                    -(row.p_takeout_calibrated or 0.0),
+                    -row.strategic_fit_score,
+                    row.asset_id,
+                ),
+            )
+        _LOG.warning("Unknown calibration policy %s; falling back to display_only", policy)
+        return list(rows)
 
     def _score_acquirer_candidate(
         self,
@@ -1510,13 +1783,39 @@ class MAProbabilityScanner:
     def _stored_screen_context(
         self,
         *,
+        asset_id: str | None = None,
         ticker: str | None,
         as_of: date,
     ) -> Optional[dict[str, object]]:
-        if not self.config.use_stored_screen_context or self.knowledge is None or not ticker:
+        if not self.config.use_stored_screen_context or self.knowledge is None:
             return None
         try:
+            if asset_id:
+                asset_row = self.knowledge.get_screen_snapshot_for_asset_on_or_before(
+                    asset_id=asset_id,
+                    as_of=as_of,
+                )
+                if asset_row is not None:
+                    return asset_row
+            if not ticker:
+                return None
             return self.knowledge.get_screen_snapshot_for_ticker_on_or_before(
+                ticker=ticker,
+                as_of=as_of,
+            )
+        except Exception:
+            return None
+
+    def _stored_company_sotp_context(
+        self,
+        *,
+        ticker: str | None,
+        as_of: date,
+    ) -> Optional[dict[str, object]]:
+        if self.knowledge is None or not ticker:
+            return None
+        try:
+            return self.knowledge.get_company_sotp_snapshot_for_ticker_on_or_before(
                 ticker=ticker,
                 as_of=as_of,
             )
@@ -1623,62 +1922,32 @@ class MAProbabilityScanner:
         acquisition_row,
         acquirer_dataset: list[AcquirerProfile],
         screen_context: Optional[dict[str, object]],
+        context,
     ) -> TargetabilityAssessment:
-        hard_fail_reasons: list[str] = []
-        notes: list[str] = []
-        multiplier = 1.0
-
         target_ticker = _upper(getattr(acquisition_row, "ticker", None))
         acquirer_tickers = {
             ticker
             for ticker in (_upper(getattr(acquirer, "ticker", None)) for acquirer in acquirer_dataset)
             if ticker is not None
         }
-        enterprise_value = getattr(acquisition_row, "enterprise_value_millions", None)
-        stage = _normalize(getattr(acquisition_row, "stage", None))
         single_asset = self._resolve_single_asset_flag(
             asset=asset,
             screen_context=screen_context,
         )
-
-        if target_ticker is not None and target_ticker in acquirer_tickers:
-            hard_fail_reasons.append("self_acquirer")
-
-        explicit_rule = (
-            self._explicit_targetability_rules.get(target_ticker)
-            if target_ticker is not None
-            else None
+        market_cap_billions = self._resolve_market_cap_billions(
+            asset=asset,
+            acquisition_row=acquisition_row,
+            context=context,
         )
-        if explicit_rule is not None:
-            hard_fail_reasons.append(explicit_rule.reason)
-            if explicit_rule.note:
-                notes.append(explicit_rule.note)
-
-        if (
-            enterprise_value is not None
-            and float(enterprise_value) >= self.config.mega_cap_exclusion_ev_millions
-        ):
-            hard_fail_reasons.append("mega_cap_non_target")
-
-        if stage in {"approved", "commercial"} and single_asset is False:
-            hard_fail_reasons.append("approved_revenue_dominant")
-
-        if (
-            not hard_fail_reasons
-            and single_asset is False
-            and enterprise_value is not None
-            and float(enterprise_value) >= self.config.multi_franchise_penalty_ev_millions
-        ):
-            multiplier *= self.config.multi_franchise_penalty_multiplier
-            notes.append("multi_franchise_non_target_penalty")
-
-        return TargetabilityAssessment(
+        approved_revenue_share = self._resolve_approved_revenue_share(asset=asset)
+        return self.targetability_filter.assess(
             asset_id=getattr(acquisition_row, "asset_id"),
-            passes_hard_filters=not hard_fail_reasons,
-            multiplier=round(multiplier, 6),
+            ticker=target_ticker,
+            market_cap_billions=market_cap_billions,
+            approved_revenue_share=approved_revenue_share,
+            stage=getattr(acquisition_row, "stage", None),
             single_asset=single_asset,
-            hard_fail_reasons=hard_fail_reasons,
-            notes=notes,
+            is_known_acquirer=target_ticker in acquirer_tickers if target_ticker is not None else False,
         )
 
     @staticmethod
@@ -1695,24 +1964,6 @@ class MAProbabilityScanner:
         except Exception:
             return None
 
-    def _load_explicit_targetability_rules(
-        self,
-        path: str,
-    ) -> dict[str, ExplicitTargetabilityRule]:
-        import yaml
-
-        rules_path = Path(path).expanduser()
-        if not rules_path.exists():
-            return {}
-
-        raw = yaml.safe_load(rules_path.read_text()) or {}
-        items = raw.get("explicit_hard_fails", [])
-        rules: dict[str, ExplicitTargetabilityRule] = {}
-        for item in items:
-            rule = ExplicitTargetabilityRule.model_validate(item)
-            rules[rule.ticker.upper()] = rule
-        return rules
-
     def _resolve_single_asset_flag(
         self,
         *,
@@ -1721,33 +1972,78 @@ class MAProbabilityScanner:
     ) -> bool | None:
         if screen_context is not None and screen_context.get("single_asset") is not None:
             return bool(screen_context["single_asset"])
+        metadata = self._load_targetability_metadata(asset)
+        value = metadata.get("single_asset")
+        return bool(value) if value is not None else None
 
-        raw_config_path = getattr(asset, "valuation_config", None)
-        if not raw_config_path:
+    def _resolve_approved_revenue_share(
+        self,
+        *,
+        asset: object,
+    ) -> float | None:
+        metadata = self._load_targetability_metadata(asset)
+        value = metadata.get("approved_revenue_share")
+        if value is None:
+            return None
+        try:
+            return float(value)
+        except (TypeError, ValueError):
             return None
 
-        config_path = str(Path(raw_config_path).expanduser().resolve())
-        if config_path in self._single_asset_flag_cache:
-            return self._single_asset_flag_cache[config_path]
+    def _resolve_market_cap_billions(
+        self,
+        *,
+        asset: object,
+        acquisition_row,
+        context,
+    ) -> float | None:
+        candidates = (
+            getattr(acquisition_row, "market_cap_millions", None),
+            getattr(asset, "market_cap_millions", None),
+            getattr(getattr(context, "company", None), "market_cap_millions", None),
+        )
+        for value in candidates:
+            if value is None:
+                continue
+            try:
+                numeric = float(value)
+            except (TypeError, ValueError):
+                continue
+            if numeric > 0:
+                return round(numeric / 1000.0, 6)
+        return None
 
-        resolved: bool | None = None
+    def _load_targetability_metadata(
+        self,
+        asset: object,
+    ) -> dict[str, object]:
+        raw_config_path = getattr(asset, "valuation_config", None)
+        if not raw_config_path:
+            return {}
+
+        config_path = str(Path(raw_config_path).expanduser().resolve())
+        if config_path in self._targetability_metadata_cache:
+            return self._targetability_metadata_cache[config_path]
+
+        metadata: dict[str, object] = {}
         try:
             import yaml
 
             payload = yaml.safe_load(Path(config_path).read_text(encoding="utf-8")) or {}
-            meta = payload.get("_meta") if isinstance(payload, dict) else None
-            company = payload.get("company") if isinstance(payload, dict) else None
-            if isinstance(meta, dict) and meta.get("single_asset") is not None:
-                resolved = bool(meta["single_asset"])
-            elif isinstance(company, dict) and company.get("single_asset") is not None:
-                resolved = bool(company["single_asset"])
-            elif isinstance(payload, dict) and payload.get("single_asset") is not None:
-                resolved = bool(payload["single_asset"])
+            if isinstance(payload, dict):
+                meta = payload.get("_meta")
+                company = payload.get("company")
+                for container in (meta, company, payload):
+                    if not isinstance(container, dict):
+                        continue
+                    for key in ("single_asset", "approved_revenue_share"):
+                        if container.get(key) is not None and metadata.get(key) is None:
+                            metadata[key] = container[key]
         except Exception:
-            resolved = None
+            metadata = {}
 
-        self._single_asset_flag_cache[config_path] = resolved
-        return resolved
+        self._targetability_metadata_cache[config_path] = metadata
+        return metadata
 
     def _nearest_catalyst(
         self,
