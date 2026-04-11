@@ -1989,3 +1989,223 @@ def test_company_sotp_load_from_store_uses_company_snapshots_on_or_before(tmp_pa
     assert len(rows) == 1
     assert rows[0].ticker == "TEST"
     assert rows[0].snapshot_date == date(2024, 3, 1)
+
+
+# ---------------------------------------------------------------------------
+# config_valid_from enforcement
+# ---------------------------------------------------------------------------
+
+def _write_asset_config_with_valid_from(
+    path: Path,
+    *,
+    asset_id: str,
+    asset_name: str,
+    ticker: str,
+    config_valid_from: str,
+    cash_millions: float = 40.0,
+    shares_outstanding_millions: float = 50.0,
+) -> Path:
+    payload = {
+        "asset": {
+            "id": asset_id,
+            "name": asset_name,
+            "indication": f"{asset_name} indication",
+            "therapeutic_area": "oncology",
+            "stage": "phase_3",
+            "modality": "small_molecule",
+            "discount_rate": 0.1,
+        },
+        "company": {
+            "id": "co-test",
+            "name": "Test Company",
+            "ticker": ticker,
+            "cash_millions": cash_millions,
+            "debt_millions": 0.0,
+            "shares_outstanding_millions": shares_outstanding_millions,
+            "burn_rate_millions_per_quarter": 5.0,
+            "current_price": 10.0,
+        },
+        "trials": [
+            {
+                "phase": "phase_3",
+                "success_probability": 0.65,
+                "duration_years": 3.0,
+                "cost_millions": 80.0,
+                "endpoint_type": "surrogate_validated",
+            },
+            {
+                "phase": "nda_bla",
+                "success_probability": 0.87,
+                "duration_years": 1.5,
+                "cost_millions": 30.0,
+                "endpoint_type": "surrogate_validated",
+            },
+        ],
+        "market_model": {
+            "total_addressable_market_millions": 30000.0,
+            "peak_penetration": 0.12,
+            "years_to_peak": 5,
+            "patent_life_years": 12,
+            "cogs_rate": 0.15,
+            "sgna_rate_launch": 0.4,
+            "sgna_rate_mature": 0.2,
+        },
+        "_meta": {
+            "config_valid_from": config_valid_from,
+        },
+    }
+    path.write_text(yaml.safe_dump(payload, sort_keys=False), encoding="utf-8")
+    return path
+
+
+def test_config_valid_from_excludes_asset_before_thesis_date(tmp_path: Path) -> None:
+    """When as_of_date < config_valid_from for all assets, the company is excluded entirely
+    from the results list (returns None).  This prevents the false extreme-discount signal
+    from contaminating the backtest for pre-thesis historical periods (e.g. VKTX 2021)."""
+    cfg = _write_asset_config_with_valid_from(
+        tmp_path / "asset.yaml",
+        asset_id="a-test",
+        asset_name="Test Asset",
+        ticker="TEST",
+        config_valid_from="2023-01-01",
+        cash_millions=200.0,
+        shares_outstanding_millions=50.0,
+    )
+    watchlist = _write_watchlist(
+        tmp_path / "watchlist.yaml",
+        [
+            {
+                "company_id": "co-test",
+                "asset_id": "a-test",
+                "ticker": "TEST",
+                "valuation_config": str(cfg),
+            }
+        ],
+    )
+    rows = CompanySOTPBuilder(
+        as_of_date=date(2021, 6, 1),   # before config_valid_from
+        output_dir=tmp_path / "out",
+        overrides_path=None,
+        fundamentals_fetcher=lambda _: {"market_cap_millions": 250.0},
+    ).build(str(watchlist), price_source="yfinance")
+
+    # Company excluded — no false extreme-discount snapshot generated
+    assert rows == [], (
+        "Expected company to be excluded when all configs are pre-thesis, "
+        f"got {len(rows)} row(s)"
+    )
+
+
+def test_config_valid_from_includes_asset_on_or_after_thesis_date(tmp_path: Path) -> None:
+    """When as_of_date >= config_valid_from, the asset is computed normally."""
+    cfg = _write_asset_config_with_valid_from(
+        tmp_path / "asset.yaml",
+        asset_id="a-test",
+        asset_name="Test Asset",
+        ticker="TEST",
+        config_valid_from="2023-01-01",
+        cash_millions=50.0,
+        shares_outstanding_millions=50.0,
+    )
+    watchlist = _write_watchlist(
+        tmp_path / "watchlist.yaml",
+        [
+            {
+                "company_id": "co-test",
+                "asset_id": "a-test",
+                "ticker": "TEST",
+                "valuation_config": str(cfg),
+            }
+        ],
+    )
+    rows = CompanySOTPBuilder(
+        as_of_date=date(2023, 6, 1),   # on or after config_valid_from
+        output_dir=tmp_path / "out",
+        overrides_path=None,
+        fundamentals_fetcher=lambda _: {"market_cap_millions": 250.0},
+    ).build(str(watchlist), price_source="yfinance")
+
+    row = rows[0]
+    # Modeled asset was included
+    assert row.asset_count_modeled == 1
+    assert not any("config_not_applicable_pre_thesis" in lim for lim in row.limitations)
+
+
+def test_config_valid_from_pre_thesis_vktx_excluded_from_backtest(tmp_path: Path) -> None:
+    """Reproduces the VKTX 2021 false-extreme-discount scenario.
+
+    VKTX config has TAM=$30B obesity thesis (Phase 3) but is tagged config_valid_from=2023.
+    In 2021, market cap was ~$500M. Without the fix, this produced a false 7x ratio and
+    extreme-discount flag. With the fix, the company is excluded entirely for 2021
+    snapshots, eliminating the contamination from the backtest.
+    """
+    cfg = _write_asset_config_with_valid_from(
+        tmp_path / "asset.yaml",
+        asset_id="a-vktx",
+        asset_name="VK2735",
+        ticker="VKTX",
+        config_valid_from="2023-01-01",
+        cash_millions=250.0,
+        shares_outstanding_millions=100.0,
+    )
+    watchlist = _write_watchlist(
+        tmp_path / "watchlist.yaml",
+        [
+            {
+                "company_id": "vktx",
+                "asset_id": "a-vktx",
+                "ticker": "VKTX",
+                "valuation_config": str(cfg),
+            }
+        ],
+    )
+    rows_2021 = CompanySOTPBuilder(
+        as_of_date=date(2021, 6, 1),
+        output_dir=tmp_path / "out",
+        overrides_path=None,
+        fundamentals_fetcher=lambda _: {"market_cap_millions": 500.0},
+    ).build(str(watchlist), price_source="yfinance")
+
+    rows_2023 = CompanySOTPBuilder(
+        as_of_date=date(2023, 6, 1),
+        output_dir=tmp_path / "out2",
+        overrides_path=None,
+        fundamentals_fetcher=lambda _: {"market_cap_millions": 2000.0},
+    ).build(str(watchlist), price_source="yfinance")
+
+    # 2021: excluded — no false 7x extreme-discount
+    assert rows_2021 == [], "Pre-thesis VKTX 2021 must be excluded from backtest"
+    # 2023: included — thesis is now valid
+    assert len(rows_2023) == 1
+    assert rows_2023[0].asset_count_modeled == 1
+
+
+def test_config_without_valid_from_is_always_included(tmp_path: Path) -> None:
+    """Configs without config_valid_from are never skipped (backward-compatible)."""
+    cfg = _write_asset_config(
+        tmp_path / "asset.yaml",
+        asset_id="a-test",
+        asset_name="Asset",
+        ticker="TEST",
+    )
+    watchlist = _write_watchlist(
+        tmp_path / "watchlist.yaml",
+        [
+            {
+                "company_id": "co-test",
+                "asset_id": "a-test",
+                "ticker": "TEST",
+                "valuation_config": str(cfg),
+            }
+        ],
+    )
+    rows = CompanySOTPBuilder(
+        as_of_date=date(2015, 1, 1),  # very early date
+        output_dir=tmp_path / "out",
+        overrides_path=None,
+        fundamentals_fetcher=lambda _: {"market_cap_millions": 50.0},
+    ).build(str(watchlist), price_source="yfinance")
+
+    row = rows[0]
+    assert row.asset_count_modeled == 1
+    assert not any("config_not_applicable_pre_thesis" in lim for lim in row.limitations)

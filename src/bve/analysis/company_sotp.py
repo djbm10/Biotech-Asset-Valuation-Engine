@@ -905,6 +905,12 @@ class CompanySOTPBuilder:
                 or watchlist_asset.asset_id
             )
             config_quality = _infer_config_quality(raw_cfg, config_path)
+            valid_from = _config_valid_from(raw_cfg)
+            if valid_from is not None and self.as_of_date < valid_from:
+                limitations.append(
+                    f"config_not_applicable_pre_thesis:{asset_id}:{valid_from.isoformat()}"
+                )
+                continue
             stored_snapshot = (
                 knowledge.get_screen_snapshot_for_asset_on_or_before(
                     asset_id=asset_id,
@@ -2071,6 +2077,22 @@ def _parse_optional_date(raw: object) -> Optional[date]:
     if not text:
         return None
     return date.fromisoformat(text[:10])
+
+
+def _config_valid_from(raw_cfg: dict) -> Optional[date]:
+    """Return the earliest date this config's thesis is considered valid, if set."""
+    if not isinstance(raw_cfg, dict):
+        return None
+    meta = raw_cfg.get("_meta", {})
+    if not isinstance(meta, dict):
+        return None
+    val = meta.get("config_valid_from")
+    if val is None:
+        return None
+    try:
+        return date.fromisoformat(str(val)[:10])
+    except (ValueError, TypeError):
+        return None
 
 
 def _infer_config_quality(raw_cfg: dict, config_path: Path) -> Optional[str]:
