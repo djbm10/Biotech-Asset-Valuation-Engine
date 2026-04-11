@@ -3913,6 +3913,37 @@ Current step status:
   - the next cleanup should focus on targeted config/asset assumption audits for
     `ZYME` and `VKTX`, not another broad reconciliation policy change
 
+### 2026-04-10 Institutional Plan Step 3 — Validation Harness
+
+- Completed objective:
+  - built a formal out-of-sample validation harness that adds three tests
+    beyond the standard alpha_validation module
+- Completed in code/tests:
+  - `src/bve/analysis/validation_harness.py`
+  - `tests/test_validation_harness.py`
+- What changed:
+  - ADV liquidity gate at entry date: uses `market_prices` table from the
+    replay store — no forward-looking survivorship bias; trades below
+    `min_adv_millions` ($1M default) are excluded before any statistics
+  - two-way transaction cost model tiered by ADV:
+    - ADV ≥ $5M: 30bps one-way (60bps round-trip)
+    - ADV $1–5M: 60bps one-way (120bps round-trip)
+    - produces `gross_stats` vs `cost_adjusted_stats` for direct comparison
+  - rank-permutation placebo test (`n_placebo_iterations=1,000`):
+    - shuffles trade ranks within each snapshot date (not across dates)
+    - records mean excess return under each permuted selection
+    - derives one-sided p-value and percentile_rank vs null distribution
+  - time subgroup cuts: first-half vs second-half of the sample period
+  - grade assignment:
+    - `strong`: n≥20, p≤0.05, placebo p≤0.10
+    - `moderate`: p≤0.10 or placebo p≤0.15 with n≥10
+    - `weak`: positive mean, not significant
+    - `insufficient`: n<5 or empty
+- 18 passing tests in 4.5s, lint clean
+- Next step: Step 4 — upgrade gold-tier names from peak-sales shorthand to
+  patient-flow models (diagnosed, eligible, treated, share, persistence,
+  gross-to-net, ex-US structure)
+
 ### 2026-04-09 Company Data Quality Step 7 (tiered reconciliation ladder)
 
 - Completed objective:

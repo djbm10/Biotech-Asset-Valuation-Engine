@@ -1,5 +1,22 @@
 # PROJECT_STATE.md
 
+## Institutional Plan Step 3 — Validation Harness (2026-04-10, complete)
+
+**Current status: ✅ Formal validation harness live with liquidity gate, tx costs, placebo test, time subgroups, and grade assignment.**
+
+New module: `src/bve/analysis/validation_harness.py`
+- ADV liquidity gate at entry date (market_prices table, no forward-looking bias)
+- Two-way transaction cost model tiered by ADV ($5M threshold: 30bps vs 60bps one-way)
+- Rank-permutation placebo test (n=1,000 iterations by default)
+- First-half / second-half time subgroup cuts
+- Grade assignment: strong / moderate / weak / insufficient
+  - "strong": n≥20, p≤0.05, placebo p≤0.10
+  - "moderate": p≤0.10 or placebo p≤0.15 with n≥10
+
+Next step: Step 4 — upgrade gold-tier names from peak-sales shorthand to patient-flow models.
+
+---
+
 ## Phase 1 — Build company truth (2026-04-09, complete)
 
 **Current status: ✅ CompanySnapshot is live as the canonical company record. VKTX proof-of-concept pack complete. 78 Phase 1 tests passing.**
