@@ -163,6 +163,32 @@ class CuratedRecentDeal(BaseModel):
     modality: str
 
 
+class ExistingPartnership(BaseModel):
+    """
+    Active partnership / co-development agreement between an acquirer and a
+    potential target.
+
+    Partnerships are a strong M&A signal: existing co-devs often give the
+    acquirer data rights, option clauses, or right-of-first-negotiation that
+    accelerate or de-risk outright acquisition.
+    """
+
+    target: str = Field(description="Target company ticker or name")
+    partnership_type: str = Field(
+        description=(
+            "e.g., co_development, licensing_in, licensing_out, option_to_acquire, "
+            "co_promotion, research_collaboration"
+        )
+    )
+    therapeutic_area: str
+    description: str = Field(description="Brief description of the partnership terms and status")
+    year_initiated: int | None = Field(default=None, ge=1990, le=2030)
+    acquisition_option: bool = Field(
+        default=False,
+        description="True if the agreement includes an explicit option to acquire the target",
+    )
+
+
 class CuratedAcquirerProfile(BaseModel):
     """Single-company curated acquirer profile used by examples and screening."""
 
@@ -170,8 +196,27 @@ class CuratedAcquirerProfile(BaseModel):
     ticker: str | None = None
     market_cap_billions: float | None = Field(default=None, ge=0.0)
     cash_billions: float | None = Field(default=None, ge=0.0)
+    acquisition_capacity_millions: float | None = Field(
+        default=None, ge=0.0,
+        description=(
+            "Estimated remaining acquisition capacity in USD millions. "
+            "Accounts for existing debt load, leverage appetite, and current "
+            "deal pipeline. Higher than cash_billions × 1000 when the acquirer "
+            "can service significant incremental debt (investment-grade issuers). "
+            "Set to 0 if the acquirer is currently constrained (integration burden, "
+            "high leverage, regulatory review)."
+        ),
+    )
     pipeline_gaps: list[CuratedPipelineGap] = Field(default_factory=list, min_length=1)
     recent_deals: list[CuratedRecentDeal] = Field(default_factory=list)
+    existing_partnerships: list[ExistingPartnership] = Field(
+        default_factory=list,
+        description=(
+            "Active co-development, licensing, or option agreements. "
+            "Partners with acquisition options or deep data rights are "
+            "elevated in acquirer-fit scoring."
+        ),
+    )
     stated_priorities: list[str] = Field(default_factory=list)
     profile_as_of: date | None = None
 
