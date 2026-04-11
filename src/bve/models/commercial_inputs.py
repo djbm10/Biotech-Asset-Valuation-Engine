@@ -7,8 +7,9 @@ Replaces single-point ``peak_sales_millions`` with a structured build-up that:
 
 Three Pydantic models compose into ``CommercialInputs``:
 
-    PatientPool  — epidemiology chain (prevalence → diagnosed → treated → addressable)
-    PricingModel — net price with gross-to-net adjustments and erosion
+    PatientPool  — full patient-flow funnel:
+                   prevalence → diagnosed → eligible → treated → addressable
+    PricingModel — WAC + gross-to-net → net price with erosion
     ShareModel   — peak penetration + ramp + CV for MC
 
 ``CommercialInputs.to_peak_sales_millions()`` produces the point estimate used in base-case
@@ -33,10 +34,13 @@ from pydantic import BaseModel, Field, model_validator
 
 class PatientPool(BaseModel, frozen=True):
     """
-    Epidemiology chain → addressable patient count.
+    Full patient-flow funnel → addressable patient count.
 
-    Chain: prevalence_thousands × 1000 × diagnosed_fraction × treated_fraction
-    → addressable_k (override if you have a direct estimate).
+    Funnel: prevalence_thousands × 1000
+            × diagnosed_fraction      (label-agnostic diagnosis rate)
+            × eligible_rate           (label-specific eligibility gate)
+            × treated_fraction        (fraction of eligible who start treatment)
+            → addressable_k override if you have a direct estimate.
 
     annual_incidence_k is stored for reference / cross-check but not used in
     to_addressable() — set addressable_k directly if you prefer incidence-based sizing.
@@ -51,9 +55,17 @@ class PatientPool(BaseModel, frozen=True):
         default=1.0, gt=0.0, le=1.0,
         description="Fraction of prevalent population currently diagnosed",
     )
+    eligible_rate: float = Field(
+        default=1.0, gt=0.0, le=1.0,
+        description=(
+            "Fraction of diagnosed patients who meet label eligibility criteria "
+            "(e.g., F2-F4 fibrosis gate, biomarker selection, line-of-therapy filter). "
+            "Applied between diagnosed_fraction and treated_fraction in the funnel."
+        ),
+    )
     treated_fraction: float = Field(
         default=1.0, gt=0.0, le=1.0,
-        description="Fraction of diagnosed population currently receiving any treatment",
+        description="Fraction of eligible patients currently receiving any treatment",
     )
     addressable_k: Optional[float] = Field(
         default=None, gt=0,
@@ -79,6 +91,7 @@ class PatientPool(BaseModel, frozen=True):
             self.prevalence_thousands
             * 1_000
             * self.diagnosed_fraction
+            * self.eligible_rate
             * self.treated_fraction
         )
 
@@ -99,11 +112,38 @@ class PatientPool(BaseModel, frozen=True):
 
 
 class PricingModel(BaseModel, frozen=True):
-    """Net annual price per patient with gross-to-net adjustments and price erosion."""
+    """
+    Net annual price per patient with gross-to-net adjustments and price erosion.
+
+    Two construction paths:
+    1. Direct: set ``net_price_usd`` explicitly (post-G2N net price).
+    2. Derived: set ``wac_per_year_usd`` + ``gross_to_net_rate`` and the model
+       derives ``net_price_usd = wac × (1 − gross_to_net_rate)`` automatically.
+       This is the preferred path for transparency — the WAC and G2N rate are
+       separately auditable.
+
+    Consistency check: if all three (wac, g2n_rate, net_price_usd) are provided,
+    a UserWarning is issued when wac × (1 − g2n_rate) deviates >1% from net_price_usd.
+    """
 
     net_price_usd: float = Field(
         gt=0,
         description="Net price per patient per year (after gross-to-net) in USD",
+    )
+    wac_per_year_usd: Optional[float] = Field(
+        default=None, gt=0,
+        description=(
+            "Wholesale acquisition cost (list price) per patient per year in USD. "
+            "Set alongside gross_to_net_rate to document price transparency. "
+            "When both are set, net_price_usd should equal wac × (1 − gross_to_net_rate)."
+        ),
+    )
+    gross_to_net_rate: Optional[float] = Field(
+        default=None, ge=0.0, lt=1.0,
+        description=(
+            "Gross-to-net discount rate (e.g., 0.35 for 35% typical specialty pharma G2N). "
+            "Used to derive and audit net_price_usd from wac_per_year_usd."
+        ),
     )
     launch_discount: float = Field(
         default=0.10, ge=0.0, le=1.0,
@@ -117,6 +157,48 @@ class PricingModel(BaseModel, frozen=True):
         default=0.15, ge=0.0, le=1.0,
         description="CV for MC sampling of launch-year net price",
     )
+
+    @model_validator(mode="after")
+    def _check_wac_consistency(self) -> "PricingModel":
+        """Warn when wac × (1 − g2n_rate) deviates materially from net_price_usd."""
+        import warnings
+
+        if self.wac_per_year_usd is not None and self.gross_to_net_rate is not None:
+            implied = self.wac_per_year_usd * (1.0 - self.gross_to_net_rate)
+            if abs(implied - self.net_price_usd) / self.net_price_usd > 0.01:
+                warnings.warn(
+                    f"PricingModel: wac_per_year_usd × (1 − gross_to_net_rate) = "
+                    f"${implied:,.0f} deviates >1% from net_price_usd = ${self.net_price_usd:,.0f}. "
+                    "Check that net_price_usd was derived from wac × (1 − g2n_rate).",
+                    UserWarning,
+                    stacklevel=2,
+                )
+        return self
+
+    @classmethod
+    def from_wac(
+        cls,
+        wac_per_year_usd: float,
+        gross_to_net_rate: float,
+        *,
+        launch_discount: float = 0.10,
+        annual_erosion_rate: float = 0.02,
+        uncertainty_cv: float = 0.15,
+    ) -> "PricingModel":
+        """
+        Construct a PricingModel from WAC + G2N rate (transparency-first path).
+
+        Net price is derived automatically: net_price = wac × (1 − g2n_rate).
+        """
+        net_price = wac_per_year_usd * (1.0 - gross_to_net_rate)
+        return cls(
+            net_price_usd=net_price,
+            wac_per_year_usd=wac_per_year_usd,
+            gross_to_net_rate=gross_to_net_rate,
+            launch_discount=launch_discount,
+            annual_erosion_rate=annual_erosion_rate,
+            uncertainty_cv=uncertainty_cv,
+        )
 
     def effective_launch_price(self) -> float:
         """Net price at launch, applying launch_discount."""
@@ -171,31 +253,49 @@ class ShareModel(BaseModel, frozen=True):
 
 class CommercialInputs(BaseModel, frozen=True):
     """
-    Explicit commercial build-up: patient × price × share → peak sales.
+    Explicit commercial build-up: patient × price × share × ex-US → peak sales.
 
-    All three sub-models are required.  The output of ``to_peak_sales_millions()``
-    can be used as ``MarketModel.total_addressable_market_millions`` × penetration
+    All three sub-models are required.  The optional ``ex_us_revenue_multiple``
+    scales US-derived peak sales to a global (US + ex-US) estimate.
+
+    The output of ``to_peak_sales_millions()`` can be used as
+    ``MarketModel.total_addressable_market_millions`` × penetration
     equivalent — but the decomposition makes the assumption chain auditable.
+
+    Patient-flow chain (full transparency):
+        prevalence → diagnosed → eligible → treated → addressable
+        × peak_share × net_price × ex_us_multiple = peak_sales_millions
     """
 
     patient_pool: PatientPool
     pricing: PricingModel
     share: ShareModel
+    ex_us_revenue_multiple: float = Field(
+        default=1.0, ge=1.0,
+        description=(
+            "Global revenue multiplier applied on top of the US-market estimate. "
+            "Set to 1.0 (default) for US-only models. "
+            "Typical ranges: 1.3–1.6x for EU5+Japan add-on; 1.5–2.0x for full global. "
+            "Derived from ex_us_fraction as: 1 / (1 − ex_us_fraction), e.g., "
+            "ex_us_fraction=0.40 → ex_us_revenue_multiple=1.67."
+        ),
+    )
 
     def to_peak_sales_millions(self) -> float:
         """
-        Point estimate: addressable × peak_share × effective_launch_price / 1e6.
+        Point estimate: addressable × peak_share × effective_launch_price
+                        × ex_us_revenue_multiple / 1e6.
 
         Does NOT apply price erosion (that is modelled year-by-year in MC).
         """
         addressable = self.patient_pool.to_addressable()
         price = self.pricing.effective_launch_price()
         share = self.share.peak_share
-        return round(addressable * price * share / 1e6, 2)
+        return round(addressable * price * share * self.ex_us_revenue_multiple / 1e6, 2)
 
     def sample_peak_sales(self, rng: "np.random.Generator") -> float:
         """
-        One MC draw: propagate uncertainty through population × share × price.
+        One MC draw: propagate uncertainty through population × share × price × ex-US.
 
         Returns peak annual revenue in USD millions.
         Inputs are sampled independently (no correlation assumed at this level).
@@ -203,4 +303,4 @@ class CommercialInputs(BaseModel, frozen=True):
         addressable = self.patient_pool.sample(rng)
         price = self.pricing.sample_launch_price(rng)
         share = self.share.sample_peak_share(rng)
-        return addressable * price * share / 1e6
+        return addressable * price * share * self.ex_us_revenue_multiple / 1e6
