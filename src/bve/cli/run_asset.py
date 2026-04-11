@@ -269,11 +269,40 @@ def _build_objects(cfg: dict):
     lc_cfgs = m.get("lifecycle_events", [])
     lifecycle_events = [LifecycleEvent(**e) for e in lc_cfgs] if lc_cfgs else []
 
+    # Mode 4: commercial_inputs (patient × price × share decomposition)
+    commercial_inputs = None
+    ci_cfg = m.get("commercial_inputs")
+    if ci_cfg:
+        from bve.models.commercial_inputs import CommercialInputs, PatientPool, PricingModel, ShareModel
+        pp_cfg = ci_cfg["patient_pool"]
+        pr_cfg = ci_cfg["pricing"]
+        sh_cfg = ci_cfg["share"]
+        patient_pool = PatientPool(**pp_cfg)
+        # Support both from_wac() path and direct net_price_usd path
+        if "wac_per_year_usd" in pr_cfg and "gross_to_net_rate" in pr_cfg and "net_price_usd" not in pr_cfg:
+            pricing = PricingModel.from_wac(
+                wac_per_year_usd=pr_cfg["wac_per_year_usd"],
+                gross_to_net_rate=pr_cfg["gross_to_net_rate"],
+                launch_discount=pr_cfg.get("launch_discount", 0.10),
+                annual_erosion_rate=pr_cfg.get("annual_erosion_rate", 0.02),
+                uncertainty_cv=pr_cfg.get("uncertainty_cv", 0.15),
+            )
+        else:
+            pricing = PricingModel(**pr_cfg)
+        share = ShareModel(**sh_cfg)
+        commercial_inputs = CommercialInputs(
+            patient_pool=patient_pool,
+            pricing=pricing,
+            share=share,
+            ex_us_revenue_multiple=ci_cfg.get("ex_us_revenue_multiple", 1.0),
+        )
+
     market_model = MarketModel(
         asset_id=asset.id,
         lines_of_therapy=lots,
         competition_model=competition,
         lifecycle_events=lifecycle_events,
+        commercial_inputs=commercial_inputs,
         total_addressable_market_millions=m.get("total_addressable_market_millions"),
         addressable_patients_annual=m.get("addressable_patients_annual"),
         net_price_per_patient_usd=m.get("net_price_per_patient_usd"),

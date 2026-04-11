@@ -1,0 +1,220 @@
+# =============================================================================
+# Arvinas (ARVN) — ARV-471 (vepdegestrant)
+# ER PROTAC degrader | ER+/HER2- mBC (metastatic breast cancer)
+# =============================================================================
+#
+# Data sources (all public):
+#   - ARVN/Pfizer VERITAC-2 Ph3 (NCT05080842) data
+#   - ARV-471 Ph1/2 data (ASCO 2023; ESMO 2023)
+#   - ARVN 10-K 2024; Q4 2025 earnings / Pfizer co-development agreement
+#   - FDA approval of elacestrant (Orserdu, Stemline) Jan 2023 — pricing comp
+#   - SSR Health G2N: oral oncology 30-40%
+#   - EvaluatePharma ER+ mBC competitive landscape
+#   - Epidemiology: SEER / NCCN ER+/HER2- mBC prevalence ~160K US
+#
+# Patient-flow chain (ER+/HER2- mBC 2L+ after CDK4/6i):
+#   US ER+/HER2- mBC prevalent: ~160K
+#   Diagnosed: 95% (symptomatic, oncology-managed)
+#   Eligible (2L+ label: prior CDK4/6i + AI; VERITAC-2 enrolled any ESR1 status):
+#     75% (broad label — not ESR1-restricted unlike elacestrant)
+#   Treatment rate: 70% (high — this is an active treatment-seeking population)
+#   → Addressable: 160K × 0.95 × 0.75 × 0.70 ≈ 79,800 patients
+#
+# Note: ARV-471 vs elacestrant — broader eligibility (not restricted to ESR1mut).
+# Pfizer partnership (50/50 US profit share) means ARVN books 50% of US revenue.
+# =============================================================================
+
+analyst_notes: >
+  ARV-471 (vepdegestrant) is a PROTAC ER degrader entering Ph3 VERITAC-2 in
+  ER+/HER2- mBC. Unlike elacestrant (SERD, ESR1-restricted), ARV-471 degrades
+  ER protein via CRBN ubiquitination — achieving complete suppression including
+  AF-1 domain activity that partial antagonists miss. VERITAC-2 broader label
+  (any ESR1 status, post-CDK4/6i + ET) could triple the addressable vs.
+  elacestrant. Pfizer 50/50 US profit share: ARVN books ~50% of US revenue.
+  Key catalyst: VERITAC-2 primary PFS readout expected H2 2026.
+
+# ---------------------------------------------------------------------------
+# Asset
+# ---------------------------------------------------------------------------
+asset:
+  id: "arv-471"
+  name: "ARV-471 (vepdegestrant)"
+  indication: "ER+/HER2- mBC 2L+ (post-CDK4/6i), US — ARVN 50% share"
+  therapeutic_area: "oncology"
+  stage: "phase_3"
+  modality: "small_molecule"         # Oral PROTAC
+  mechanism_of_action: >
+    Estrogen receptor (ER) PROTAC degrader. Bifunctional molecule recruits
+    cereblon (CRBN) E3 ubiquitin ligase to ER, marking it for proteasomal
+    degradation. Unlike SERDs (which partially antagonize/degrade), PROTAC
+    achieves near-complete ER protein elimination including AF-1 domain,
+    which mediates ligand-independent resistance. Once-daily oral.
+  discount_rate: 0.105   # 10.5% WACC — Phase 3 with large pharma partner
+  royalty_rate: 0.0       # Pfizer 50/50 profit share (not royalty); model 50% of US P&L
+
+  differentiation_notes: >
+    1. ER PROTAC: deeper ER suppression vs. SERD (elacestrant) via AF-1 elimination.
+    2. ESR1-status agnostic label (VERITAC-2) → 3× larger addressable vs. elacestrant.
+    3. Oral QD convenience (SERD class now well-established for oral dosing).
+    4. Pfizer partnership: global commercial infrastructure; royalty-free US P&L share.
+    5. Potential CDK4/6i + ARV-471 combo in earlier lines (Ph2 ongoing).
+
+  competitor_assets:
+    - "Elacestrant (Orserdu, Stemline/Menarini) — oral SERD, ESR1mut-restricted, approved"
+    - "Fulvestrant (Faslodex) — IM SERD, generic; standard of care 2L comparison"
+    - "Capivasertib (Truqap, AstraZeneca) — AKT inhibitor + fulvestrant, approved"
+    - "Inavolisib (Itovebi, Roche) + fulvestrant — PI3Kα, approved in PIK3CA-mutated"
+    - "Giredestrant (GDC-9545, Roche) — oral SERD, Ph3 acelERA BC ongoing"
+    - "Imlunestrant (Lilly) — oral SERD, EMBER-3 Ph3 ongoing"
+
+  upcoming_catalysts:
+    - description: "VERITAC-2 Phase 3 primary PFS readout (ARV-471 vs. fulvestrant)"
+      expected_date: "2026-H2"
+      catalyst_type: "readout"
+      probability_positive: 0.58
+    - description: "ARV-471 + CDK4/6i combination Phase 2 interim data"
+      expected_date: "2026-H2"
+      catalyst_type: "readout"
+      probability_positive: 0.55
+    - description: "NDA submission (pending VERITAC-2 positive)"
+      expected_date: "2027-Q1"
+      catalyst_type: "milestone"
+      probability_positive: 0.52
+
+# ---------------------------------------------------------------------------
+# Company
+# ---------------------------------------------------------------------------
+company:
+  id: "arvinas"
+  name: "Arvinas Inc."
+  ticker: "ARVN"
+  cash_millions: 850.0
+  debt_millions: 0.0
+  shares_outstanding_millions: 65.0
+  burn_rate_millions_per_quarter: 55.0
+  current_price: 26.0
+  notes: >
+    Pfizer partnership provides $650M upfront + up to $1.4B milestones + 50/50
+    US profit share. Cash runway through VERITAC-2 readout. No debt. Pipeline
+    also includes ARV-766 (AR PROTAC, mCRPC) and ARV-102 (LRKK2, Parkinson's).
+
+# ---------------------------------------------------------------------------
+# Trials
+# ---------------------------------------------------------------------------
+trials:
+  - phase: "phase_3"
+    nct_id: "NCT05080842"           # VERITAC-2
+    success_probability: 0.57
+    duration_years: 2.5
+    cost_millions: 320.0            # ARVN 50% share of joint dev costs
+    enrollment: 580
+    primary_endpoint: "PFS (HR < 0.70 vs. investigator-choice ET)"
+    endpoint_type: "surrogate_validated"
+    notes: >
+      VERITAC-2: ARV-471 vs. investigator-choice endocrine therapy (fulvestrant
+      or aromatase inhibitor) in 2L+ ER+/HER2- mBC post-CDK4/6i. Key
+      differentiator: enrolled all-comer (ESR1 status not required). ~580
+      patients; 1:1 randomization. Primary: PFS by investigator assessment.
+
+  - phase: "nda_bla"
+    nct_id: null
+    success_probability: 0.90
+    duration_years: 1.25
+    cost_millions: 20.0
+    enrollment: 1
+    primary_endpoint: "NDA submission and approval (PFS-based accelerated approval likely)"
+    endpoint_type: "hard_clinical"
+    notes: >
+      Oral small molecule NDA. PFS as primary endpoint accepted in mBC
+      (precedent: elacestrant, capivasertib). Accelerated approval possible
+      if strong PFS benefit; regular approval with OS trend preferred.
+
+# ---------------------------------------------------------------------------
+# Market Model — Mode 4: patient-flow (ARVN 50% US P&L share modeled)
+# ---------------------------------------------------------------------------
+market_model:
+  asset_id: "arv-471"
+
+  # Note: net_ownership should be set to 0.50 in asset.royalty_rate equivalent
+  # Actually: model full US revenue, ARVN = 50% profit share, not royalty.
+  # We model ARVN's 50% of US gross margin in the EBIT line via ownership.
+  # Simplest: model full revenue, set asset.royalty_rate = 0.50 (50% to Pfizer).
+  # Override below to model at 100% addressable; EBIT apportioned via royalty_rate.
+
+  peak_penetration: 0.20
+  addressable_patients_annual: 80000
+  net_price_per_patient_usd: 85000
+
+  patent_life_years: 12
+  years_to_peak: 5
+  launch_year: 2028
+  revenue_start_year: 2028
+
+  cogs_rate: 0.10                 # Oral tablet; Pfizer-scale manufacturing
+  sgna_rate_launch: 0.35          # Pfizer commercial infrastructure — lower for ARVN
+  sgna_rate_mature: 0.18
+
+  commercial_inputs:
+    patient_pool:
+      indication: "ER+/HER2- mBC 2L+ post-CDK4/6i"
+      prevalence_thousands: 160.0    # ~160K US ER+/HER2- mBC prevalent
+      diagnosed_fraction: 0.95       # High — symptomatic metastatic patients
+      eligible_rate: 0.75            # Broad label (all-comer ESR1): 75% of 2L+ eligible
+      treated_fraction: 0.70         # Active treatment-seeking group; high uptake
+      uncertainty_cv: 0.20
+    pricing:
+      wac_per_year_usd: 120000        # Comparable to elacestrant (~$118K) + PROTAC premium
+      gross_to_net_rate: 0.30         # 30% oncology G2N; co-pay + formulary rebates
+      # net = 120,000 × 0.70 = $84,000 per patient per year
+      launch_discount: 0.08
+      annual_erosion_rate: 0.015      # Low; branded oncology with patent
+      uncertainty_cv: 0.15
+    share:
+      peak_share: 0.20               # 20% of addressable — class leader potential
+      years_to_peak: 5
+      share_cv: 0.22
+    ex_us_revenue_multiple: 1.0       # US-only model (Pfizer holds ex-US economics)
+
+# ---------------------------------------------------------------------------
+# POS model
+# ---------------------------------------------------------------------------
+pos_adjusters:
+  apply_pos_model: true
+
+  phase_3:
+    endpoint_type: "surrogate_validated"   # PFS validated in mBC
+    moa_precedent: "partial"              # PROTAC class novel; SERD class validated
+    sample_size_adequacy: "adequate"      # n=580 well-powered for PFS
+    safety_profile: "clean"              # Oral PROTAC; Phase 1/2 safety acceptable
+    competitive_pressure: "high"         # Crowded ER+ space post-elacestrant
+    biomarker_selected_population: false  # All-comer design
+    strong_prior_phase_data: true        # Ph1/2 ORR + PFS signal
+
+# ---------------------------------------------------------------------------
+# Competition
+# ---------------------------------------------------------------------------
+competition:
+  - name: "Elacestrant (Stemline/Menarini)"
+    status: "approved"
+    launch_year_relative: -3
+    peak_market_share: 0.08
+    years_to_peak: 3
+    approval_probability: 1.0
+  - name: "Giredestrant (Roche)"
+    status: "phase_3"
+    launch_year_relative: 1
+    peak_market_share: 0.10
+    years_to_peak: 4
+    approval_probability: 0.50
+  - name: "Imlunestrant (Lilly)"
+    status: "phase_3"
+    launch_year_relative: 1
+    peak_market_share: 0.10
+    years_to_peak: 4
+    approval_probability: 0.55
+  - name: "Capivasertib + fulvestrant (AZ)"
+    status: "approved"
+    launch_year_relative: -2
+    peak_market_share: 0.07
+    years_to_peak: 3
+    approval_probability: 1.0
