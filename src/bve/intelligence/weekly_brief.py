@@ -102,6 +102,9 @@ class WeeklyOpportunityBrief(BaseModel):
     top_opportunities: list[dict] = Field(default_factory=list)
     top_opportunities_source_mode: str = "valuation_diffs"
     top_opportunities_reference_date: Optional[date] = None
+    strict_top_opportunities: list[dict] = Field(default_factory=list)
+    strict_top_opportunities_source_mode: Optional[str] = None
+    strict_top_opportunities_reference_date: Optional[date] = None
 
     # --- Event-type distribution (event_type -> count of diffs) ---
     event_type_counts: dict[str, int] = Field(default_factory=dict)
@@ -350,6 +353,14 @@ class WeeklyBriefGenerator:
             brief.top_opportunities_source_mode = "company_sotp_snapshot"
             brief.top_opportunities_reference_date = company_snapshot_date
             brief.top_opportunities = company_top
+            strict_snapshot_date, strict_company_top = self._top_opportunities_from_company_snapshots(
+                store,
+                as_of=period_end,
+                allowed_action_policies=("buy", "watch"),
+            )
+            brief.strict_top_opportunities_source_mode = "company_sotp_snapshot"
+            brief.strict_top_opportunities_reference_date = strict_snapshot_date
+            brief.strict_top_opportunities = strict_company_top
         else:
             brief.top_opportunities_source_mode = "valuation_diffs"
             brief.top_opportunities = self._top_opportunities_from_diffs(store)
@@ -361,16 +372,18 @@ class WeeklyBriefGenerator:
         store: "KnowledgeStore",  # type: ignore[name-defined]
         *,
         as_of: date,
+        allowed_action_policies: tuple[str, ...] = ("buy", "watch", "needs_manual_review"),
     ) -> tuple[Optional[date], list[dict]]:
         snapshot_date, raw_rows = store.get_company_sotp_snapshots_on_or_before(as_of, limit=500)
         if snapshot_date is None or not raw_rows:
             return None, []
 
+        allowed = {policy.lower() for policy in allowed_action_policies}
         filtered = [
             row
             for row in raw_rows
             if bool(row.get("balance_sheet_passes_recency_gate", False))
-            and str(row.get("action_policy") or "") in {"buy", "watch"}
+            and str(row.get("action_policy") or "").lower() in allowed
         ]
         filtered.sort(
             key=lambda row: (

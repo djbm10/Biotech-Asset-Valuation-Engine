@@ -38,6 +38,25 @@ market_model:
   cogs_rate: 0.15
   sgna_rate_launch: 0.4
   sgna_rate_mature: 0.2
+  commercial_inputs:
+    patient_pool:
+      indication: Rare neuromuscular disease franchise
+      prevalence_thousands: 1307.2
+      diagnosed_fraction: 0.85
+      eligible_rate: 0.50
+      treated_fraction: 0.45
+      uncertainty_cv: 0.20
+    pricing:
+      wac_per_year_usd: 200000
+      gross_to_net_rate: 0.25
+      launch_discount: 0.0
+      annual_erosion_rate: 0.02
+      uncertainty_cv: 0.12
+    share:
+      peak_share: 0.12
+      years_to_peak: 5
+      share_cv: 0.20
+    ex_us_revenue_multiple: 1.2
 _meta:
   config_version: replay-screening-v1
   source: replay_watchlist_builder

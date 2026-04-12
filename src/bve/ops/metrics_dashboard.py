@@ -90,6 +90,9 @@ class MetricsDashboardSnapshot(BaseModel):
     top_opportunities: list[TopOpportunitySummary] = Field(default_factory=list)
     top_opportunities_source_mode: str = "opportunity_snapshot"
     top_opportunities_reference_date: Optional[date] = None
+    strict_top_opportunities: list[TopOpportunitySummary] = Field(default_factory=list)
+    strict_top_opportunities_source_mode: Optional[str] = None
+    strict_top_opportunities_reference_date: Optional[date] = None
     health_checks: list[RunHealthCheck] = Field(default_factory=list)
 
 
@@ -349,6 +352,11 @@ class MetricsDashboard:
             as_of=as_of_date,
             top_n=top_n,
         )
+        strict_source_mode, strict_reference_date, strict_top_rows = self._top_opportunities(
+            as_of=as_of_date,
+            top_n=top_n,
+            allowed_action_policies=("buy", "watch"),
+        )
         return MetricsDashboardSnapshot(
             generated_at=checked_at,
             as_of_date=as_of_date,
@@ -383,6 +391,9 @@ class MetricsDashboard:
             top_opportunities=top_rows,
             top_opportunities_source_mode=top_source_mode,
             top_opportunities_reference_date=top_reference_date,
+            strict_top_opportunities=strict_top_rows,
+            strict_top_opportunities_source_mode=strict_source_mode,
+            strict_top_opportunities_reference_date=strict_reference_date,
             health_checks=self.health_monitor.evaluate(
                 reference_time=checked_at,
                 latest_metrics=latest_metrics,
@@ -429,17 +440,19 @@ class MetricsDashboard:
         *,
         as_of: date,
         top_n: int,
+        allowed_action_policies: tuple[str, ...] = ("buy", "watch", "needs_manual_review"),
     ) -> tuple[str, Optional[date], list[TopOpportunitySummary]]:
         company_snapshot_date, company_rows = self.knowledge.get_company_sotp_snapshots_on_or_before(
             as_of,
             limit=max(50, int(top_n) * 5),
         )
         if company_snapshot_date is not None and company_rows:
+            allowed = {policy.lower() for policy in allowed_action_policies}
             filtered = [
                 row
                 for row in company_rows
                 if bool(row.get("balance_sheet_passes_recency_gate", False))
-                and str(row.get("action_policy") or "") in {"buy", "watch"}
+                and str(row.get("action_policy") or "").lower() in allowed
             ]
             filtered.sort(
                 key=lambda row: (

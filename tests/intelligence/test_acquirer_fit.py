@@ -266,6 +266,61 @@ def test_curated_lilly_profile_scores_oral_glp1_gap_from_directory_dataset():
     assert score.budget_capacity_millions == pytest.approx(30000.0, abs=1e-9)
 
 
+def test_existing_partnership_increases_strategic_priority_score():
+    dataset = AcquirerProfileLoader.load(Path("examples/research/acquirer_profiles"))
+    takeda = AcquirerProfileLoader.get_acquirer(dataset, "takeda_pharmaceutical")
+    scorer = AcquirerFitScorer()
+
+    partnered = AcquirerFitCandidate(
+        asset_id="asset-ovid",
+        ticker="OVID",
+        company_name="Ovid Therapeutics",
+        therapeutic_area="neuroscience",
+        indication="Dravet syndrome",
+        modality="small_molecule",
+        stage="phase_3",
+        model_rnpv_millions=2200.0,
+        enterprise_value_millions=1800.0,
+        acquisition_ready=True,
+        priority_tags=["rare epilepsy"],
+    )
+    non_partner = partnered.model_copy(update={"ticker": "NEUR", "company_name": "NeuroCo"})
+
+    partnered_score = scorer.score_target(acquirer=takeda, target=partnered)
+    non_partner_score = scorer.score_target(acquirer=takeda, target=non_partner)
+
+    assert partnered_score.matched_partnership_target == "Ovid Therapeutics"
+    assert partnered_score.strategic_priority_score > non_partner_score.strategic_priority_score
+    assert partnered_score.fit_score > non_partner_score.fit_score
+
+
+def test_lower_acquisition_capacity_reduces_pipeline_gap_budget_score():
+    dataset = AcquirerProfileLoader.load(Path("examples/research/acquirer_profiles"))
+    takeda = AcquirerProfileLoader.get_acquirer(dataset, "takeda_pharmaceutical")
+    constrained_takeda = takeda.model_copy(update={"acquisition_capacity_millions": 6000.0})
+    scorer = AcquirerFitScorer()
+    target = AcquirerFitCandidate(
+        asset_id="asset-onc-large",
+        ticker="LARG",
+        company_name="LargeOnco",
+        therapeutic_area="oncology",
+        indication="solid tumors",
+        modality="adc",
+        stage="phase_3",
+        model_rnpv_millions=9000.0,
+        enterprise_value_millions=10000.0,
+        acquisition_ready=True,
+        priority_tags=["oncology"],
+    )
+
+    unconstrained_score = scorer.score_target(acquirer=takeda, target=target)
+    constrained_score = scorer.score_target(acquirer=constrained_takeda, target=target)
+
+    assert unconstrained_score.budget_capacity_millions == pytest.approx(12000.0, abs=1e-9)
+    assert constrained_score.budget_capacity_millions == pytest.approx(6000.0, abs=1e-9)
+    assert unconstrained_score.budget_score > constrained_score.budget_score
+
+
 def test_subarea_specific_ibd_gap_outranks_generic_immunology_gap():
     dataset = AcquirerProfileLoader.load(Path("examples/research/acquirer_profiles"))
     pfizer = AcquirerProfileLoader.get_acquirer(dataset, "pfizer")

@@ -381,6 +381,93 @@ class TestBuildDailyBrief:
         assert brief.rows[0].ticker == "VKTX"
         assert brief.rows[0].company_ranked_discount == pytest.approx(1.45)
         assert brief.rows[0].company_action_policy == "buy"
+        assert brief.rows[0].equity_policy_action is not None
+
+    def test_persists_equity_policy_snapshots_for_audit(self, store):
+        from bve.analysis.implied_pos_batch import ScreenRow
+        from bve.ops.daily_brief import build_daily_brief
+        from bve.ops.weekly_runner import UNIVERSE
+
+        store.write_screen_snapshots(
+            [
+                ScreenRow(
+                    ticker="VKTX",
+                    program_label="VKTX P2",
+                    stage="phase_2",
+                    ta="metabolic",
+                    model_pos=0.55,
+                    implied_pos=0.40,
+                    spread_pp=15.0,
+                    rnpv_millions=500.0,
+                    ev_millions=300.0,
+                    acquisition_discount_pct=66.7,
+                    next_catalyst="Phase 2 readout",
+                    catalyst_date=None,
+                    days_to_catalyst=45,
+                    single_asset=True,
+                    approximation_warning=None,
+                    data_date=date(2026, 1, 1),
+                    asset_id="asset-vktx",
+                )
+            ],
+            snapshot_date=date(2026, 1, 1),
+        )
+        store.write_company_sotp_snapshots(
+            [
+                SimpleNamespace(
+                    ticker="VKTX",
+                    company_id="co-vktx",
+                    company_name="Viking Therapeutics",
+                    snapshot_date=date(2026, 1, 1),
+                    rank=1,
+                    market_cap_millions=1200.0,
+                    enterprise_value_millions=1000.0,
+                    sotp_equity_value_millions=1800.0,
+                    sotp_per_share=18.0,
+                    sotp_discount=1.5,
+                    ranked_sotp_discount=1.45,
+                    modeled_asset_coverage_pct=0.9,
+                    asset_count_modeled=1,
+                    modeled_asset_ids=["asset-vktx"],
+                    config_quality_summary="curated",
+                    modeled_asset_confidence_min=0.9,
+                    modeled_asset_confidence_avg=0.9,
+                    action_policy="buy",
+                    action_reason="ranked_discount_above_buy_threshold:1.45x",
+                    market_cap_source="unit_test",
+                    balance_sheet_source="sec_edgar_company_facts",
+                    balance_sheet_source_ref="unit-test",
+                    balance_sheet_snapshot_date=date(2025, 11, 1),
+                    balance_sheet_period_end_date=date(2025, 9, 30),
+                    balance_sheet_form_type="10-Q",
+                    balance_sheet_is_point_in_time=True,
+                    balance_sheet_age_days=92,
+                    balance_sheet_passes_recency_gate=True,
+                    balance_sheet_recency_penalty=1.0,
+                    buckets=[],
+                    limitations=[],
+                    notes=None,
+                )
+            ],
+            snapshot_date=date(2026, 1, 1),
+        )
+
+        brief = build_daily_brief(
+            store,
+            UNIVERSE,
+            fetch_live=False,
+            as_of=date(2026, 1, 15),
+            persist_policy_snapshots=True,
+        )
+
+        persisted = store.get_equity_policy_snapshots(as_of_date=date(2026, 1, 15))
+        assert brief.rows[0].equity_policy_action is not None
+        assert len(persisted) == 1
+        assert persisted[0]["ticker"] == "VKTX"
+        assert persisted[0]["action"] == brief.rows[0].equity_policy_action
+        assert persisted[0]["company_action_policy"] == "buy"
+        assert persisted[0]["reference_snapshot_date"] == date(2026, 1, 1)
+        assert persisted[0]["base_sotp_per_share"] == pytest.approx(18.0)
 
 
 # ===========================================================================
@@ -451,6 +538,18 @@ class TestRenderBrief:
         text = render_brief(brief)
         assert "fallback" in text.lower()
 
+    def test_render_shows_equity_policy_preview_columns(self):
+        row = _make_row("VKTX")
+        row.company_action_policy = "buy"
+        row.company_ranked_discount = 1.6
+        row.equity_policy_action = "add"
+        row.equity_policy_size_pct = 2.4
+        row.composite_score = _score_row(row)
+        brief = _make_brief([row])
+        text = render_brief(brief)
+        assert "EQPOL" in text
+        assert "add" in text
+
 
 # ===========================================================================
 # TestCLIParsing
@@ -497,6 +596,7 @@ class TestCLIParsing:
             assert "composite_score" in row
             assert "expert_signal_types" in row
             assert isinstance(row["expert_signal_types"], list)
+            assert "equity_policy_action" in row
 
     def test_as_of_forwarded(self, store, capsys):
         from bve.cli.daily_brief import main
@@ -508,6 +608,18 @@ class TestCLIParsing:
         captured = capsys.readouterr()
         data = json.loads(captured.out)
         assert data["as_of"] == "2026-01-15"
+
+    def test_cli_persists_policy_snapshots_by_default(self, store, capsys):
+        from bve.cli.daily_brief import main
+
+        main([
+            "--db", str(store.db_path),
+            "--format", "json",
+            "--as-of", "2026-01-15",
+        ])
+        _ = capsys.readouterr()
+        persisted = store.get_equity_policy_snapshots(as_of_date=date(2026, 1, 15))
+        assert isinstance(persisted, list)
 
     def test_invalid_date_exits(self):
         from bve.cli.daily_brief import main

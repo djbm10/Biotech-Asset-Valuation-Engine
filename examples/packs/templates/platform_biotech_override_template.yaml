@@ -1,0 +1,112 @@
+# Company SOTP Override Template — Platform Biotech Archetype
+# ─────────────────────────────────────────────────────────────
+# Use for: RNA therapeutics, gene therapy, TPD/degrader, ADC platform, IO platform
+# companies where platform IP and partnered pipeline dominate the non-modeled value.
+#
+# Evidence standards for this archetype:
+#   sec_filing / contractual (royalty schedules, licensing terms): 0.90
+#   company_disclosure (investor day, 10-K pipeline table):        0.75-0.80
+#   analyst_bridge (external or internal estimate):                0.65-0.70
+#   inferred (derived from comps or public deal economics):        0.60-0.65
+#
+# Step-4 enforcement rules (encoded in CompanySOTPBuilder defaults):
+#   Single bucket > 25% of SOTP without ≥2 independent source_refs → needs_manual_review
+#   Total manual bucket share > 35% with avg confidence < 0.80    → needs_manual_review
+#
+# Platform biotech typically has 40-70% manual bucket share; use multiple corroborating
+# source_refs and keep per-bucket confidence at 0.65+ to stay out of needs_manual_review.
+# ─────────────────────────────────────────────────────────────
+
+# Replace TICKER with the company ticker (e.g. IONS, KYMR, AGEN, REGN)
+TICKER:
+  notes: >
+    Platform [RNA / ADC / degrader / IO] company. Platform IP value and unmodeled
+    partnered pipeline materially exceed the lead-asset rNPV alone. Manual bucket
+    share is expected to be high (40-70%); maintain avg confidence ≥ 0.65 to clear
+    the quality gate.
+  inputs:
+
+    # ── Platform IP value ──────────────────────────────────────────────────────
+    # The core technology platform: exclusive IP, discovery engine, manufacturing
+    # know-how not captured by any individual asset rNPV.
+    # Confidence ceiling: 0.70 (no formal sum-of-parts model available).
+    # Justify with: licensing deal premiums, peer platform precedents, investor-day
+    # pipeline count, or management guidance on out-licensing economics.
+    - bucket_id: TICKER_platform_ip
+      bucket_type: platform
+      label: "[RNA / ADC / TPD / IO] platform IP value"
+      value_millions: 0.0         # fill: analyst estimate
+      as_of_date: "YYYY-MM-DD"
+      confidence: 0.65            # 0.65-0.70 for analyst estimate; 0.75 if company-disclosed comp
+      source: analyst_manual_pack
+      source_ref: "pack_YYYYQN:TICKER:platform_ip"
+      source_kind: analyst_bridge
+      notes: >
+        Platform IP estimate. Corroborate with: peer [modality] company platform
+        values at comparable stage, investor-day disclosed licensing deal pipeline,
+        or published royalty economics for the modality.
+
+    # ── Unmodeled partnered pipeline ───────────────────────────────────────────
+    # Pipeline assets in active partnerships where economics accrue to TICKER but
+    # no standalone bve-asset config exists. Use one bucket per named program or
+    # one aggregate bucket if programs are pre-IND.
+    - bucket_id: TICKER_unmodeled_partner_pipeline
+      bucket_type: unmodeled_pipeline
+      label: "Unmodeled partnered pipeline (pre-IND / early Phase 1)"
+      value_millions: 0.0         # fill: sum of stage × deal-comp estimates
+      as_of_date: "YYYY-MM-DD"
+      confidence: 0.65            # 0.60-0.65 for early-stage unmodeled; 0.70 if company-disclosed counts
+      source: analyst_manual_pack
+      source_ref: "pack_YYYYQN:TICKER:unmodeled_partner_pipeline"
+      source_kind: analyst_bridge
+      notes: >
+        Stage-based sum using published deal comps for [modality] assets.
+        Number of programs sourced from most recent 10-K pipeline table.
+
+    # ── Royalty / milestone receivable stream ─────────────────────────────────
+    # Contractual royalties and biobucks milestones from existing partnerships.
+    # Upgrade source_kind to company_disclosure if 10-K or press release discloses
+    # royalty tiers; upgrade to contractual if explicit royalty schedule is public.
+    - bucket_id: TICKER_partner_royalties
+      bucket_type: royalty
+      label: "Partner royalty and milestone stream"
+      value_millions: 0.0         # fill: NPV of expected royalties (use 10% WACC, conservative timing)
+      as_of_date: "YYYY-MM-DD"
+      confidence: 0.65            # inferred: 0.60-0.65; company_disclosure: 0.75-0.80; contractual: 0.88-0.90
+      source: partner_econ_bridge
+      source_ref: "pack_YYYYQN:TICKER:partner_royalties"
+      source_kind: inferred       # upgrade to company_disclosure or contractual when data available
+      notes: >
+        Conservative NPV of disclosed royalty tiers. Sources: [cite 10-K section / press release URL].
+        Royalty rate: [X%] on net sales. Estimated peak sales: [$XM / partner guidance].
+
+    # ── Dilution reserve ───────────────────────────────────────────────────────
+    # Expected equity financing dilution before first profitability. Required for
+    # all pre-commercial platform biotechs with burn > $100M/year.
+    - bucket_id: TICKER_dilution_reserve
+      bucket_type: dilution_reserve
+      label: "Financing dilution reserve"
+      value_millions: 0.0         # fill: negative value; estimated future dilution in $ terms
+                                  # rough calc: (shares_needed × current_price) expressed as negative
+      as_of_date: "YYYY-MM-DD"
+      confidence: 0.80            # 0.75-0.85; use SEC ATM/shelf filing data
+      source: financing_path_manual_pack
+      source_ref: "pack_YYYYQN:TICKER:dilution|10-Q:YYYY-MM-DD:capitalization"
+      source_kind: analyst_bridge # upgrade to sec_filing if ATM/shelf amount is in an actual SEC filing
+      notes: >
+        Dilution reserve = (estimated years to profitability × annual burn) - current cash,
+        expressed as negative SOTP value to reflect expected share count increase.
+        ATM / shelf registration data sourced from: [10-Q / S-3 filing reference].
+
+# ─────────────────────────────────────────────────────────────
+# Usage notes:
+#
+# 1. Replace all TICKER placeholders with the real ticker.
+# 2. Fill value_millions for each bucket using your estimates.
+# 3. Set as_of_date to the date you sourced the data.
+# 4. Upgrade source_kind (and confidence) whenever harder data is available:
+#      analyst_bridge (0.65) → company_disclosure (0.75) → contractual (0.90)
+# 5. Add source_ref strings that trace to actual documents.
+# 6. Copy this block into research/company_sotp_overrides.yaml under the company ticker.
+# 7. Run company_sotp_backfiller after adding to verify the company action policy improves.
+# ─────────────────────────────────────────────────────────────

@@ -11,10 +11,7 @@ from bve.intelligence.knowledge_layer import KnowledgeStore
 from bve.intelligence.decision_layer import DecisionLayer
 from bve.intelligence.thesis_tracker import ClaimType, ThesisTracker
 from bve.intelligence.weekly_review import (
-    FundamentalAccuracy,
-    MarketTimingAccuracy,
-    SizingQuality,
-    ThesisAccuracy,
+    PolicyAudit,
     WeeklyReviewEngine,
     WeeklyReviewReport,
 )
@@ -112,6 +109,7 @@ def test_run_review_empty_store_returns_report() -> None:
         assert isinstance(report, WeeklyReviewReport)
         assert report.fundamental.n_resolved == 0
         assert report.fundamental.hit_rate is None
+        assert report.policy_audit.n_policy_snapshots == 0
     finally:
         store.close()
 
@@ -123,6 +121,95 @@ def test_run_review_stored_and_retrievable() -> None:
         retrieved = engine.get_stored_report(_TODAY)
         assert retrieved is not None
         assert retrieved.week_ending == _TODAY
+        assert isinstance(retrieved.policy_audit, PolicyAudit)
+    finally:
+        store.close()
+
+
+def test_policy_audit_counts_persisted_policy_rows() -> None:
+    engine, store = _make_engine()
+    try:
+        store._conn.execute(
+            """
+            INSERT INTO equity_policy_snapshots(
+                snapshot_id, ticker, as_of_date, reference_snapshot_date,
+                company_snapshot_date, source_mode, company_action_policy,
+                company_action_reason, company_ranked_discount, composite_score,
+                current_price, base_sotp_per_share, bear_sotp_per_share,
+                bull_sotp_per_share, conviction, adv_millions,
+                next_catalyst_days, catalyst_description, action, sizing_pct,
+                rationale, created_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                "snap-1",
+                "VKTX",
+                _TODAY.isoformat(),
+                _TODAY.isoformat(),
+                _TODAY.isoformat(),
+                "heuristic_company_snapshot",
+                "buy",
+                "test",
+                1.4,
+                0.7,
+                20.0,
+                32.0,
+                14.0,
+                40.0,
+                0.65,
+                5.0,
+                20,
+                "readout",
+                "buy",
+                2.5,
+                "test rationale",
+                datetime.now(timezone.utc).isoformat(),
+            ),
+        )
+        store._conn.execute(
+            """
+            INSERT INTO equity_policy_snapshots(
+                snapshot_id, ticker, as_of_date, reference_snapshot_date,
+                company_snapshot_date, source_mode, company_action_policy,
+                company_action_reason, company_ranked_discount, composite_score,
+                current_price, base_sotp_per_share, bear_sotp_per_share,
+                bull_sotp_per_share, conviction, adv_millions,
+                next_catalyst_days, catalyst_description, action, sizing_pct,
+                rationale, created_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                "snap-2",
+                "PRTA",
+                _TODAY.isoformat(),
+                _TODAY.isoformat(),
+                _TODAY.isoformat(),
+                "heuristic_company_snapshot",
+                "needs_manual_review",
+                "test",
+                0.8,
+                0.2,
+                10.0,
+                11.0,
+                6.0,
+                14.0,
+                0.25,
+                1.0,
+                150,
+                "none",
+                "monitor",
+                0.0,
+                "suppressed",
+                datetime.now(timezone.utc).isoformat(),
+            ),
+        )
+        store._conn.commit()
+        report = engine.run_review(week_ending=_TODAY)
+        assert report.policy_audit.n_policy_snapshots == 2
+        assert report.policy_audit.n_buy == 1
+        assert report.policy_audit.n_monitor == 1
+        assert report.policy_audit.n_blocked_by_company_gate == 1
+        assert report.policy_audit.avg_sizing_pct == pytest.approx(1.25)
     finally:
         store.close()
 

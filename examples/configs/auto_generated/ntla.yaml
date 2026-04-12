@@ -34,6 +34,25 @@ market_model:
   cogs_rate: 0.15
   sgna_rate_launch: 0.4
   sgna_rate_mature: 0.2
+  commercial_inputs:
+    patient_pool:
+      indication: Transthyretin amyloidosis
+      prevalence_thousands: 38.0
+      diagnosed_fraction: 0.45
+      eligible_rate: 0.25
+      treated_fraction: 0.75
+      uncertainty_cv: 0.20
+    pricing:
+      wac_per_year_usd: 1944444
+      gross_to_net_rate: 0.10
+      launch_discount: 0.0
+      annual_erosion_rate: 0.02
+      uncertainty_cv: 0.12
+    share:
+      peak_share: 0.22
+      years_to_peak: 5
+      share_cv: 0.20
+    ex_us_revenue_multiple: 1.0
 _meta:
   config_version: auto-v1
   generator_version: '0.3'

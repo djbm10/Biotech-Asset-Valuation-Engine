@@ -559,6 +559,94 @@ class TestWeeklyBriefGeneratorTopOpportunities:
         assert brief.top_opportunities_reference_date == snapshot_date
         assert brief.top_opportunities[0]["ticker"] == "AAA"
         assert brief.top_opportunities[0]["action_policy"] == "buy"
+        assert brief.strict_top_opportunities_source_mode == "company_sotp_snapshot"
+        assert brief.strict_top_opportunities_reference_date == snapshot_date
+        assert brief.strict_top_opportunities[0]["ticker"] == "AAA"
+        assert brief.strict_top_opportunities[0]["action_policy"] == "buy"
+
+    def test_top_opportunities_include_needs_manual_review_in_primary_but_not_strict(
+        self, store: KnowledgeStore
+    ) -> None:
+        gen = WeeklyBriefGenerator(lookback_days=7, top_n=3)
+        snapshot_date = date.today()
+        store.write_company_sotp_snapshots(
+            [
+                SimpleNamespace(
+                    ticker="AAA",
+                    company_id="co-aaa",
+                    company_name="AAA Bio",
+                    snapshot_date=snapshot_date,
+                    rank=1,
+                    market_cap_millions=600.0,
+                    enterprise_value_millions=500.0,
+                    sotp_equity_value_millions=900.0,
+                    sotp_per_share=9.0,
+                    sotp_discount=1.9,
+                    ranked_sotp_discount=1.9,
+                    modeled_asset_coverage_pct=0.85,
+                    asset_count_modeled=1,
+                    modeled_asset_ids=["asset-aaa"],
+                    config_quality_summary="curated",
+                    modeled_asset_confidence_min=0.9,
+                    modeled_asset_confidence_avg=0.9,
+                    action_policy="needs_manual_review",
+                    action_reason="manual_review",
+                    market_cap_source="unit_test",
+                    balance_sheet_source="sec_edgar_company_facts",
+                    balance_sheet_source_ref="unit-test",
+                    balance_sheet_snapshot_date=snapshot_date,
+                    balance_sheet_period_end_date=snapshot_date,
+                    balance_sheet_form_type="10-Q",
+                    balance_sheet_is_point_in_time=True,
+                    balance_sheet_age_days=7,
+                    balance_sheet_passes_recency_gate=True,
+                    balance_sheet_recency_penalty=1.0,
+                    buckets=[],
+                    limitations=[],
+                    notes=None,
+                ),
+                SimpleNamespace(
+                    ticker="BBB",
+                    company_id="co-bbb",
+                    company_name="BBB Bio",
+                    snapshot_date=snapshot_date,
+                    rank=2,
+                    market_cap_millions=500.0,
+                    enterprise_value_millions=420.0,
+                    sotp_equity_value_millions=700.0,
+                    sotp_per_share=7.0,
+                    sotp_discount=1.4,
+                    ranked_sotp_discount=1.4,
+                    modeled_asset_coverage_pct=0.82,
+                    asset_count_modeled=1,
+                    modeled_asset_ids=["asset-bbb"],
+                    config_quality_summary="curated",
+                    modeled_asset_confidence_min=0.88,
+                    modeled_asset_confidence_avg=0.91,
+                    action_policy="buy",
+                    action_reason="buy",
+                    market_cap_source="unit_test",
+                    balance_sheet_source="sec_edgar_company_facts",
+                    balance_sheet_source_ref="unit-test",
+                    balance_sheet_snapshot_date=snapshot_date,
+                    balance_sheet_period_end_date=snapshot_date,
+                    balance_sheet_form_type="10-Q",
+                    balance_sheet_is_point_in_time=True,
+                    balance_sheet_age_days=7,
+                    balance_sheet_passes_recency_gate=True,
+                    balance_sheet_recency_penalty=1.0,
+                    buckets=[],
+                    limitations=[],
+                    notes=None,
+                ),
+            ]
+        )
+
+        brief = gen.generate(store)
+
+        assert brief.top_opportunities[0]["ticker"] == "AAA"
+        assert brief.top_opportunities[0]["action_policy"] == "needs_manual_review"
+        assert [row["ticker"] for row in brief.strict_top_opportunities] == ["BBB"]
 
 
 # ---------------------------------------------------------------------------

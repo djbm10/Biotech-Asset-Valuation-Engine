@@ -492,6 +492,7 @@ class AcquirerFitScore(BaseModel):
     matched_therapeutic_gap: str | None = None
     matched_modality: str | None = None
     matched_priorities: list[str] = Field(default_factory=list)
+    matched_partnership_target: str | None = None
 
     valuation_source: str
     valuation_reference_median_ev_to_peak_sales: float | None = None
@@ -574,7 +575,7 @@ class AcquirerFitScorer:
         ta_score, matched_gap = self._score_therapeutic_area(acquirer=acquirer, target=target)
         modality_score, matched_modality = self._score_modality(acquirer=acquirer, target=target)
         stage_score, stage_hard_fails = self._score_stage(target=target)
-        strategic_score, matched_priorities = self._score_strategic_priority(
+        strategic_score, matched_priorities, matched_partnership = self._score_strategic_priority(
             acquirer=acquirer,
             target=target,
         )
@@ -644,6 +645,7 @@ class AcquirerFitScorer:
             matched_therapeutic_gap=matched_gap,
             matched_modality=matched_modality,
             matched_priorities=matched_priorities,
+            matched_partnership_target=matched_partnership,
             valuation_source=valuation_source,
             valuation_reference_median_ev_to_peak_sales=valuation_median,
             valuation_reference_band_low_millions=valuation_low,
@@ -657,6 +659,7 @@ class AcquirerFitScorer:
                 matched_gap=matched_gap,
                 matched_modality=matched_modality,
                 matched_priorities=matched_priorities,
+                matched_partnership_target=matched_partnership,
                 valuation_source=valuation_source,
                 comparable_analysis=comparable_analysis,
                 budget_headroom=budget_headroom,
@@ -672,22 +675,35 @@ class AcquirerFitScorer:
     ) -> AcquirerFitScore:
         best_match: dict[str, object] | None = None
 
+        partnership = _match_existing_partnership(acquirer=acquirer, target=target)
         for gap in acquirer.therapeutic_area_gaps:
             ta_match = _gap_therapeutic_area_match(target=target, gap=gap)
             modality_match, matched_modality = _gap_modality_match(target=target, gap=gap)
             stage_score = _gap_stage_score(target.stage)
-            budget_fit, budget_required, budget_headroom = _gap_budget_fit(target=target, gap=gap)
+            budget_fit, budget_required, budget_headroom = _gap_budget_fit(
+                target=target,
+                gap=gap,
+                acquirer=acquirer,
+            )
             urgency_weight = _gap_urgency_weight(gap)
+            partnership_score = 1.0 if partnership and partnership.acquisition_option else (
+                0.85 if partnership else 0.0
+            )
 
             therapeutic_area_component = round(ta_match * 0.35 * urgency_weight, 6)
             modality_component = round(modality_match * 0.25 * urgency_weight, 6)
             stage_component = round(stage_score * 0.20 * urgency_weight, 6)
             budget_component = round(budget_fit * 0.20 * urgency_weight, 6)
+            partnership_component = round(partnership_score * 0.10, 6)
             raw_fit_score = round(
-                therapeutic_area_component
-                + modality_component
-                + stage_component
-                + budget_component,
+                min(
+                    1.0,
+                    therapeutic_area_component
+                    + modality_component
+                    + stage_component
+                    + budget_component
+                    + partnership_component,
+                ),
                 6,
             )
 
@@ -698,24 +714,28 @@ class AcquirerFitScorer:
                 "therapeutic_area_score": round(ta_match, 6),
                 "modality_score": round(modality_match, 6),
                 "stage_score": round(stage_score, 6),
-                "strategic_priority_score": round(urgency_weight, 6),
+                "strategic_priority_score": round(max(urgency_weight, partnership_score), 6),
                 "valuation_score": 0.0,
                 "budget_score": round(budget_fit, 6),
                 "therapeutic_area_component": therapeutic_area_component,
                 "modality_component": modality_component,
                 "stage_component": stage_component,
-                "strategic_priority_component": 0.0,
+                "strategic_priority_component": partnership_component,
                 "valuation_component": 0.0,
                 "budget_component": budget_component,
                 "hard_fail_reasons": [],
                 "matched_therapeutic_gap": _gap_label(gap),
                 "matched_modality": matched_modality,
                 "matched_priorities": [],
+                "matched_partnership_target": partnership.target if partnership is not None else None,
                 "valuation_source": "pipeline_gap_formula",
                 "valuation_reference_median_ev_to_peak_sales": None,
                 "valuation_reference_band_low_millions": None,
                 "valuation_reference_band_high_millions": None,
-                "budget_capacity_millions": gap.budget_ceiling_millions,
+                "budget_capacity_millions": _effective_gap_budget_ceiling(
+                    gap=gap,
+                    acquirer=acquirer,
+                ),
                 "budget_required_millions": budget_required,
                 "budget_headroom_millions": budget_headroom,
                 "explanation": _build_gap_formula_explanation(
@@ -772,6 +792,7 @@ class AcquirerFitScorer:
                 matched_therapeutic_gap=None,
                 matched_modality=None,
                 matched_priorities=[],
+                matched_partnership_target=None,
                 valuation_source="pipeline_gap_formula",
                 valuation_reference_median_ev_to_peak_sales=None,
                 valuation_reference_band_low_millions=None,
@@ -890,14 +911,18 @@ class AcquirerFitScorer:
         *,
         acquirer: AcquirerProfile,
         target: AcquirerFitCandidate,
-    ) -> tuple[float, list[str]]:
+    ) -> tuple[float, list[str], Optional[str]]:
         target_signals: set[str] = set()
         target_signals.update(_signal_tokens(target.therapeutic_area))
         target_signals.update(_signal_tokens(target.modality))
         for tag in target.priority_tags:
             target_signals.update(_signal_tokens(tag))
+        partnership = _match_existing_partnership(acquirer=acquirer, target=target)
         if not target_signals:
-            return _NEUTRAL_SCORE, []
+            if partnership is None:
+                return _NEUTRAL_SCORE, [], None
+            partnership_score = 1.0 if partnership.acquisition_option else 0.85
+            return partnership_score, [], partnership.target
 
         matched_priorities: list[str] = []
         for priority in acquirer.strategic_priorities:
@@ -905,11 +930,17 @@ class AcquirerFitScorer:
                 matched_priorities.append(priority.priority)
 
         unique_matches = list(dict.fromkeys(matched_priorities))
-        if not unique_matches:
-            return 0.0, []
+        priority_score = 0.0
         if len(unique_matches) >= 2:
-            return 1.0, unique_matches
-        return 0.65, unique_matches
+            priority_score = 1.0
+        elif unique_matches:
+            priority_score = 0.65
+
+        if partnership is None:
+            return priority_score, unique_matches, None
+
+        partnership_score = 1.0 if partnership.acquisition_option else 0.85
+        return max(priority_score, partnership_score), unique_matches, partnership.target
 
     def _score_valuation(
         self,
@@ -964,10 +995,16 @@ class AcquirerFitScorer:
         acquirer: AcquirerProfile,
         target: AcquirerFitCandidate,
     ) -> tuple[float, Optional[float], Optional[float], list[str]]:
-        budget_net_cash = float(acquirer.budget.net_cash_millions or 0.0)
-        max_budget = round(budget_net_cash * self.config.max_budget_to_net_cash, 6)
-        comfortable_budget = budget_net_cash * self.config.comfortable_budget_to_net_cash
-        stretch_budget = budget_net_cash * self.config.stretch_budget_to_net_cash
+        explicit_capacity = getattr(acquirer, "acquisition_capacity_millions", None)
+        if explicit_capacity is not None:
+            max_budget = round(float(explicit_capacity), 6)
+            comfortable_budget = max_budget * self.config.comfortable_budget_to_net_cash
+            stretch_budget = max_budget * self.config.stretch_budget_to_net_cash
+        else:
+            budget_net_cash = float(acquirer.budget.net_cash_millions or 0.0)
+            max_budget = round(budget_net_cash * self.config.max_budget_to_net_cash, 6)
+            comfortable_budget = budget_net_cash * self.config.comfortable_budget_to_net_cash
+            stretch_budget = budget_net_cash * self.config.stretch_budget_to_net_cash
 
         if target.enterprise_value_millions is None:
             return _NEUTRAL_SCORE, max_budget, None, []
@@ -1315,8 +1352,9 @@ def _gap_budget_fit(
     *,
     target: AcquirerFitCandidate,
     gap,
+    acquirer: Optional[AcquirerProfile] = None,
 ) -> tuple[float, Optional[float], Optional[float]]:
-    budget_ceiling = getattr(gap, "budget_ceiling_millions", None)
+    budget_ceiling = _effective_gap_budget_ceiling(gap=gap, acquirer=acquirer)
     valuation_reference = (
         target.model_rnpv_millions
         if target.model_rnpv_millions is not None
@@ -1328,6 +1366,18 @@ def _gap_budget_fit(
     if float(valuation_reference) < float(budget_ceiling):
         return 1.0, float(valuation_reference), headroom
     return 0.5, float(valuation_reference), headroom
+
+
+def _effective_gap_budget_ceiling(*, gap, acquirer: Optional[AcquirerProfile]) -> Optional[float]:
+    budget_ceiling = getattr(gap, "budget_ceiling_millions", None)
+    acquirer_capacity = getattr(acquirer, "acquisition_capacity_millions", None)
+    if budget_ceiling is not None and acquirer_capacity is not None:
+        return min(float(budget_ceiling), float(acquirer_capacity))
+    if budget_ceiling is not None:
+        return float(budget_ceiling)
+    if acquirer_capacity is not None:
+        return float(acquirer_capacity)
+    return None
 
 
 def _gap_urgency_weight(gap) -> float:
@@ -1350,6 +1400,7 @@ def _build_explanation(
     matched_gap: Optional[str],
     matched_modality: Optional[str],
     matched_priorities: list[str],
+    matched_partnership_target: Optional[str],
     valuation_source: str,
     comparable_analysis: Optional[ComparableDealAnalysis],
     budget_headroom: Optional[float],
@@ -1362,6 +1413,8 @@ def _build_explanation(
         parts.append(f"matches {matched_modality} modality")
     if matched_priorities:
         parts.append(f"aligns with {len(matched_priorities)} stated priorities")
+    if matched_partnership_target:
+        parts.append(f"existing partnership with {matched_partnership_target}")
     if valuation_source == "comparable_deals" and comparable_analysis is not None:
         premium = comparable_analysis.premium_discount_vs_median
         if premium is not None:
@@ -1379,6 +1432,38 @@ def _build_explanation(
     if not parts:
         parts.append("limited fit context available")
     return f"{acquirer_id} fit {fit_score:.3f}: " + "; ".join(parts)
+
+
+def _match_existing_partnership(
+    *,
+    acquirer: AcquirerProfile,
+    target: AcquirerFitCandidate,
+):
+    target_keys = {
+        _normalize_text(target.ticker),
+        _normalize_text(target.company_name),
+    }
+    target_keys.discard(None)
+    if not target_keys:
+        return None
+
+    matched = []
+    for partnership in getattr(acquirer, "existing_partnerships", []) or []:
+        partner_key = _normalize_text(getattr(partnership, "target", None))
+        if partner_key is None or partner_key not in target_keys:
+            continue
+        matched.append(partnership)
+
+    if not matched:
+        return None
+    matched.sort(
+        key=lambda partnership: (
+            1 if getattr(partnership, "acquisition_option", False) else 0,
+            getattr(partnership, "year_initiated", 0) or 0,
+        ),
+        reverse=True,
+    )
+    return matched[0]
 
 
 def _build_gap_formula_explanation(

@@ -1,0 +1,111 @@
+# Company SOTP Override Template — Commercial Rare Disease Archetype
+# ─────────────────────────────────────────────────────────────────────
+# Use for: companies with an approved or NDA/BLA-stage rare disease asset, where
+# the approved label is primarily modeled as the lead bve-asset rNPV but lifecycle
+# expansion, partnership economics, and ex-US royalties add meaningful incremental value.
+# Examples: MDGL (resmetirom/MASH), OCUL (IHEEZO/ophthalmology), PRTA (alpha-1),
+#           FOLD (migalastat/Fabry), ARQT (tapinarof/dermatology).
+#
+# Evidence standards for this archetype:
+#   sec_filing / contractual (partnership agreements, royalty schedules): 0.88-0.90
+#   company_disclosure (10-K lifecycle section, investor-day pipeline map): 0.75-0.82
+#   analyst_bridge (lifecycle expansion, conservative ex-US estimate):     0.65-0.70
+#   inferred (derived from comp transactions or geography expansion):       0.60-0.65
+#
+# Step-4 enforcement rules (encoded in CompanySOTPBuilder defaults):
+#   Single bucket > 25% of SOTP without ≥2 independent source_refs → needs_manual_review
+#   Total manual bucket share > 35% with avg confidence < 0.80    → needs_manual_review
+#
+# Commercial rare disease typically has 20-40% manual bucket share.
+# The main asset rNPV should be ≥60% of total SOTP.
+# ─────────────────────────────────────────────────────────────────────
+
+# Replace TICKER with the company ticker (e.g. MDGL, OCUL, PRTA, FOLD, ARQT)
+TICKER:
+  notes: >
+    Commercial rare disease company. The approved / near-NDA lead asset provides the
+    primary SOTP value as a modeled rNPV. Manual buckets supplement with lifecycle
+    expansion and ex-US economics that the single-indication config does not capture.
+    Target manual bucket share: 20-35% of total SOTP. Keep confidence ≥ 0.70 on average.
+  inputs:
+
+    # ── Lifecycle expansion / label extension ─────────────────────────────────
+    # Additional indications, combination regimens, or label expansions that are
+    # disclosed in the pipeline or investor-day materials but not yet in the bve-asset
+    # model. Use a single aggregate bucket if multiple small expansions apply.
+    - bucket_id: TICKER_lifecycle_expansion
+      bucket_type: unmodeled_pipeline
+      label: "Label lifecycle expansion — additional indications / combinations"
+      value_millions: 0.0         # fill: probability-weighted pipeline value; be conservative
+      as_of_date: "YYYY-MM-DD"
+      confidence: 0.70            # 0.65 if analyst-estimated; 0.75-0.80 if company-disclosed pipeline with timing
+      source: company_disclosure_lifecycle
+      source_ref: "10-K:YYYY:pipeline_table|investor_day:YYYY-MM-DD"
+      source_kind: company_disclosure  # downgrade to analyst_bridge if only analyst estimates
+      notes: >
+        Label expansion optionality sourced from [10-K pipeline table / investor-day slides].
+        Named programs: [list programs]. Estimated value uses stage × deal-comp approach.
+
+    # ── Ex-US royalty or partnership economics ────────────────────────────────
+    # If the company has a partnership for ex-US commercialization with disclosed
+    # terms, model the royalty NPV here. If ex-US is fully company-owned, this bucket
+    # is not needed (the ex_us_revenue_multiple in the bve-asset config already covers it).
+    - bucket_id: TICKER_ex_us_royalty
+      bucket_type: royalty
+      label: "Ex-US partnership royalty stream — [partner name]"
+      value_millions: 0.0         # fill: NPV of royalty tiers; negative if ex-US is a cost (milestones to partner)
+      as_of_date: "YYYY-MM-DD"
+      confidence: 0.80            # 0.75-0.80 for company_disclosure tiers; 0.88 if contractual schedule public
+      source: partner_econ_bridge
+      source_ref: "10-K:YYYY:collaboration_agreement_section|press_release:YYYY-MM-DD"
+      source_kind: company_disclosure  # upgrade to contractual if royalty schedule is in public filing
+      notes: >
+        Royalty tier sourced from [collaboration agreement disclosed in 10-K page X].
+        Royalty rate: [tiered X%-Y%] on net sales. Partner: [name].
+        Geographic scope: [EU / Japan / RoW]. Estimated peak sales: [$XM / partner guidance].
+
+    # ── Follow-on pipeline (optional — use only if programs are material) ─────
+    # Next-generation compounds or reformulations that represent real optionality.
+    # Omit if the follow-on pipeline is exploratory / pre-IND without disclosed
+    # development plans.
+    # - bucket_id: TICKER_follow_on_pipeline
+    #   bucket_type: unmodeled_pipeline
+    #   label: "Follow-on pipeline — next-generation [drug class]"
+    #   value_millions: 0.0
+    #   as_of_date: "YYYY-MM-DD"
+    #   confidence: 0.60            # 0.55-0.65 for pre-IND / exploratory
+    #   source: analyst_manual_pack
+    #   source_ref: "pack_YYYYQN:TICKER:follow_on"
+    #   source_kind: analyst_bridge
+    #   notes: >
+    #     Early-stage optionality. Sourced from: [10-K R&D pipeline section / investor day].
+
+    # ── Dilution reserve ───────────────────────────────────────────────────────
+    # Required for pre-profitability commercial rare disease companies. Omit only if
+    # the company is cash-flow positive and has no ATM or shelf registered.
+    - bucket_id: TICKER_dilution_reserve
+      bucket_type: dilution_reserve
+      label: "Financing dilution reserve"
+      value_millions: 0.0         # fill: negative value; roughly (years to breakeven × burn) - current cash
+      as_of_date: "YYYY-MM-DD"
+      confidence: 0.82            # 0.78-0.85 for cash-runway-derived estimates; 0.88 if SEC filing quantified
+      source: financing_path_manual_pack
+      source_ref: "10-Q:YYYY-MM-DD:capitalization|pack_YYYYQN:TICKER:dilution"
+      source_kind: analyst_bridge  # upgrade to sec_filing if ATM / shelf amount sourced directly
+      notes: >
+        Dilution reserve sourced from: [10-Q capitalization table, ATM/shelf filing reference].
+        Runway estimate: ~[X] quarters at current burn of ~$[X]M/quarter.
+
+# ─────────────────────────────────────────────────────────────────────
+# Usage notes:
+#
+# 1. Replace all TICKER placeholders with the real ticker.
+# 2. The lead rNPV asset should already be in the main bve-asset config.
+#    Do NOT duplicate the modeled asset value in these manual buckets.
+# 3. Keep total manual bucket share < 35% of SOTP.
+#    If manual share will exceed 35%, raise confidence to ≥ 0.80 on each bucket.
+# 4. Use company_disclosure source_kind (not analyst_bridge) when 10-K/10-Q
+#    or investor-day materials directly support the estimate.
+# 5. Copy this block into research/company_sotp_overrides.yaml under the ticker.
+# 6. Run company_sotp_backfiller after adding to verify action policy improves.
+# ─────────────────────────────────────────────────────────────────────

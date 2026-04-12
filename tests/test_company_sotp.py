@@ -1455,6 +1455,106 @@ def test_company_sotp_flags_static_balance_sheet_for_historical_date(tmp_path: P
     assert rows[0].action_reason == "balance_sheet_recency_gate_failed"
 
 
+def test_company_sotp_prefers_current_config_quality_over_stale_snapshot_quality(
+    tmp_path: Path,
+) -> None:
+    cfg = _write_asset_config(
+        tmp_path / "asset.yaml",
+        asset_id="asset-1",
+        asset_name="Asset One",
+        ticker="TEST",
+        cash_millions=100.0,
+        shares_outstanding_millions=20.0,
+        config_quality="curated",
+    )
+    watchlist = _write_watchlist(
+        tmp_path / "watchlist.yaml",
+        [
+            {
+                "company_id": "co-test",
+                "asset_id": "asset-1",
+                "ticker": "TEST",
+                "valuation_config": str(cfg),
+            }
+        ],
+    )
+    knowledge_path = tmp_path / "knowledge.db"
+    store = KnowledgeStore(knowledge_path)
+    try:
+        store._conn.execute(
+            """
+            INSERT INTO screen_snapshots(
+                snapshot_id, ticker, asset_id, snapshot_date, program_label, stage, ta,
+                model_pos, implied_pos, spread_pp, rnpv_millions, ev_millions,
+                acquisition_discount_pct, next_catalyst, catalyst_date,
+                days_to_catalyst, single_asset, approximation_warning,
+                thesis_strength, market_exceeds_model, config_quality, created_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                str(uuid.uuid4()),
+                "TEST",
+                "asset-1",
+                "2024-03-01",
+                "Asset One",
+                "phase_3",
+                "oncology",
+                0.6,
+                0.3,
+                0.3,
+                140.0,
+                170.0,
+                40.0,
+                None,
+                None,
+                None,
+                1,
+                None,
+                None,
+                0,
+                "screening_grade",
+                datetime.now(timezone.utc).isoformat(),
+            ),
+        )
+        store._conn.commit()
+    finally:
+        store.close()
+
+    replay_path = tmp_path / "replay.sqlite"
+    replay = ReplayStore(str(replay_path))
+    try:
+        replay.upsert_balance_sheet_snapshot(
+            ticker="TEST",
+            snapshot_date=date(2024, 3, 1),
+            period_end_date=date(2023, 12, 31),
+            form_type="10-K",
+            cash_millions=100.0,
+            debt_millions=0.0,
+            shares_outstanding_millions=20.0,
+            burn_rate_millions_per_quarter=5.0,
+            source_type="sec_edgar_company_facts",
+            source_ref="unit-test-bs",
+        )
+    finally:
+        replay.close()
+
+    builder = CompanySOTPBuilder(
+        as_of_date=date(2024, 3, 1),
+        output_dir=tmp_path / "out",
+        knowledge_db_path=knowledge_path,
+        replay_store_path=replay_path,
+        overrides_path=None,
+        fundamentals_fetcher=lambda _: {"market_cap_millions": 80.0},
+    )
+    rows = builder.build(str(watchlist), price_source="yfinance")
+
+    row = rows[0]
+    assert row.config_quality_summary == "curated"
+    assert row.modeled_asset_confidence_min == pytest.approx(0.85)
+    assert row.action_policy != "needs_manual_review"
+    assert row.action_reason != "modeled_asset_confidence_below_threshold:0.50"
+
+
 def test_company_sotp_applies_stale_balance_sheet_penalty(tmp_path: Path) -> None:
     cfg = _write_asset_config(
         tmp_path / "asset.yaml",

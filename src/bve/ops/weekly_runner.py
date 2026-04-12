@@ -427,7 +427,7 @@ def _run_mna_scan(store: KnowledgeStore, top_n: int = 15) -> Optional[object]:
         persist_daily_snapshots=False,
         enable_monitor=False,
         calibration_model_path=_resolve_mna_calibration_model_path(),
-        calibration_policy="threshold_filter",
+        calibration_policy="display_only",
         calibration_threshold=0.10,
         fit_integration_config={
             "acquirer_profiles_path": _MNA_PROFILES_PATH,
@@ -715,6 +715,15 @@ def cmd_review() -> None:
     print("\nSIZING QUALITY")
     print(f"  Decisions checked : {s.n_decisions_checked}")
     print(f"  Diverged          : {s.n_recommended_vs_executed_diverged}")
+
+    p = report.policy_audit
+    print("\nPOLICY AUDIT")
+    print(f"  Snapshots         : {p.n_policy_snapshots}")
+    print(f"  Buy/Add           : {p.n_buy}/{p.n_add}")
+    print(f"  Monitor/Avoid     : {p.n_monitor}/{p.n_avoid}")
+    avg_size = f"{p.avg_sizing_pct:.2f}%" if p.avg_sizing_pct is not None else "n/a"
+    print(f"  Avg size          : {avg_size}")
+    print(f"  Gate-blocked      : {p.n_blocked_by_company_gate}")
 
     store.close()
 

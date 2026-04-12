@@ -80,6 +80,17 @@ class BriefRow:
     company_action_policy: Optional[str] = None
     company_action_reason: Optional[str] = None
     company_snapshot_date: Optional[date] = None
+    equity_policy_action: Optional[str] = None
+    equity_policy_size_pct: Optional[float] = None
+    equity_policy_rationale: Optional[str] = None
+    equity_policy_current_price: Optional[float] = None
+    equity_policy_base_sotp_per_share: Optional[float] = None
+    equity_policy_bear_sotp_per_share: Optional[float] = None
+    equity_policy_bull_sotp_per_share: Optional[float] = None
+    equity_policy_conviction: Optional[float] = None
+    equity_policy_adv_millions: Optional[float] = None
+    equity_policy_next_catalyst_days: Optional[int] = None
+    equity_policy_catalyst_description: Optional[str] = None
 
     @property
     def spread_label(self) -> str:
@@ -130,6 +141,27 @@ class DailyBrief:
     n_requires_recompute: int = 0  # names flagged for recomputation
     source_mode: str = "live_recomputed"
     reference_snapshot_date: Optional[date] = None
+
+
+@dataclass
+class EquityPolicyPreview:
+    ticker: str
+    action: str
+    sizing_pct: float
+    rationale: str
+    source_mode: str = "heuristic_company_snapshot"
+    company_action_policy: Optional[str] = None
+    company_action_reason: Optional[str] = None
+    company_ranked_discount: Optional[float] = None
+    company_snapshot_date: Optional[date] = None
+    current_price: Optional[float] = None
+    base_sotp_per_share: Optional[float] = None
+    bear_sotp_per_share: Optional[float] = None
+    bull_sotp_per_share: Optional[float] = None
+    conviction: Optional[float] = None
+    adv_millions: Optional[float] = None
+    next_catalyst_days: Optional[int] = None
+    catalyst_description: Optional[str] = None
 
 
 # ---------------------------------------------------------------------------
@@ -205,6 +237,7 @@ def build_daily_brief(
     expert_note_days: int = 30,
     event_days: int = 7,
     params_path: Optional[Path] = None,
+    persist_policy_snapshots: bool = False,
 ) -> DailyBrief:
     """
     Build the daily opportunity brief.
@@ -383,10 +416,36 @@ def build_daily_brief(
                 else None
             ),
         )
+        policy_preview = _build_equity_policy_preview(
+            store,
+            company_snapshot=company_snapshot,
+            brief_row=row,
+            as_of=reference_snapshot_date or as_of,
+        )
+        if policy_preview is not None:
+            row.equity_policy_action = policy_preview.action
+            row.equity_policy_size_pct = round(policy_preview.sizing_pct, 2)
+            row.equity_policy_rationale = policy_preview.rationale
+            row.equity_policy_current_price = policy_preview.current_price
+            row.equity_policy_base_sotp_per_share = policy_preview.base_sotp_per_share
+            row.equity_policy_bear_sotp_per_share = policy_preview.bear_sotp_per_share
+            row.equity_policy_bull_sotp_per_share = policy_preview.bull_sotp_per_share
+            row.equity_policy_conviction = policy_preview.conviction
+            row.equity_policy_adv_millions = policy_preview.adv_millions
+            row.equity_policy_next_catalyst_days = policy_preview.next_catalyst_days
+            row.equity_policy_catalyst_description = policy_preview.catalyst_description
         row.composite_score = round(_score_row(row), 4)
         brief_rows.append(row)
 
     brief_rows.sort(key=lambda r: r.composite_score, reverse=True)
+
+    if persist_policy_snapshots:
+        _persist_equity_policy_snapshots(
+            store,
+            rows=brief_rows,
+            as_of=as_of,
+            reference_snapshot_date=reference_snapshot_date,
+        )
 
     return DailyBrief(
         as_of=as_of,
@@ -532,6 +591,204 @@ def _load_screen_rows_from_store(
     return [_screen_row_from_snapshot_dict(row, data_date=snapshot_date) for row in raw_rows]
 
 
+def _build_equity_policy_preview(
+    store: "KnowledgeStore",
+    *,
+    company_snapshot: Optional[dict],
+    brief_row: BriefRow,
+    as_of: date,
+) -> Optional[EquityPolicyPreview]:
+    from bve.intelligence.position_policy import PositionPolicyEngine, PositionPolicyInput
+
+    if company_snapshot is None:
+        return None
+
+    ticker = brief_row.ticker.upper()
+    current_price = _current_price_from_company_snapshot(company_snapshot)
+    base_sotp = float(company_snapshot.get("sotp_per_share") or 0.0)
+    if current_price <= 0 or base_sotp <= 0:
+        return None
+
+    company_gate = str(company_snapshot.get("action_policy") or "")
+    if company_gate == "needs_manual_review":
+        return EquityPolicyPreview(
+            ticker=ticker,
+            action="monitor",
+            sizing_pct=0.0,
+            rationale="Company SOTP governance gate requires manual review; policy preview suppressed.",
+            company_action_policy=company_gate,
+            company_action_reason=str(company_snapshot.get("action_reason") or "") or None,
+            company_ranked_discount=(
+                float(company_snapshot.get("ranked_sotp_discount"))
+                if company_snapshot.get("ranked_sotp_discount") is not None
+                else None
+            ),
+            company_snapshot_date=company_snapshot.get("snapshot_date"),
+            current_price=current_price,
+            base_sotp_per_share=base_sotp,
+            next_catalyst_days=brief_row.days_to_catalyst,
+            catalyst_description=brief_row.next_catalyst or "",
+        )
+    if company_gate == "avoid":
+        return EquityPolicyPreview(
+            ticker=ticker,
+            action="avoid",
+            sizing_pct=0.0,
+            rationale="Company SOTP governance gate is avoid; equity policy preview blocked upstream.",
+            company_action_policy=company_gate,
+            company_action_reason=str(company_snapshot.get("action_reason") or "") or None,
+            company_ranked_discount=(
+                float(company_snapshot.get("ranked_sotp_discount"))
+                if company_snapshot.get("ranked_sotp_discount") is not None
+                else None
+            ),
+            company_snapshot_date=company_snapshot.get("snapshot_date"),
+            current_price=current_price,
+            base_sotp_per_share=base_sotp,
+            next_catalyst_days=brief_row.days_to_catalyst,
+            catalyst_description=brief_row.next_catalyst or "",
+        )
+
+    conviction = _heuristic_policy_conviction(company_snapshot, brief_row=brief_row)
+    if company_gate == "watch":
+        conviction = min(conviction, 0.54)
+
+    adv_millions = _adv_millions(store, ticker=ticker, as_of=as_of) or 2.0
+    bear_sotp = max(
+        current_price * 0.55,
+        base_sotp * (0.45 + 0.20 * conviction),
+    )
+    bull_sotp = max(base_sotp, base_sotp * (1.25 + 0.25 * conviction))
+
+    policy = PositionPolicyEngine().evaluate(
+        PositionPolicyInput(
+            ticker=ticker,
+            current_price=current_price,
+            base_sotp_per_share=base_sotp,
+            bear_sotp_per_share=bear_sotp,
+            bull_sotp_per_share=bull_sotp,
+            conviction=conviction,
+            next_catalyst_days=brief_row.days_to_catalyst if brief_row.days_to_catalyst is not None else 365,
+            adv_millions=adv_millions,
+            catalyst_description=brief_row.next_catalyst or "",
+        )
+    )
+    return EquityPolicyPreview(
+        ticker=ticker,
+        action=policy.action,
+        sizing_pct=policy.sizing_pct,
+        rationale="Heuristic preview from company snapshot + stored catalyst/liquidity context. "
+        + policy.rationale,
+        company_action_policy=company_gate or None,
+        company_action_reason=str(company_snapshot.get("action_reason") or "") or None,
+        company_ranked_discount=(
+            float(company_snapshot.get("ranked_sotp_discount"))
+            if company_snapshot.get("ranked_sotp_discount") is not None
+            else None
+        ),
+        company_snapshot_date=company_snapshot.get("snapshot_date"),
+        current_price=current_price,
+        base_sotp_per_share=base_sotp,
+        bear_sotp_per_share=bear_sotp,
+        bull_sotp_per_share=bull_sotp,
+        conviction=conviction,
+        adv_millions=adv_millions,
+        next_catalyst_days=brief_row.days_to_catalyst if brief_row.days_to_catalyst is not None else 365,
+        catalyst_description=brief_row.next_catalyst or "",
+    )
+
+
+def _persist_equity_policy_snapshots(
+    store: "KnowledgeStore",
+    *,
+    rows: list[BriefRow],
+    as_of: date,
+    reference_snapshot_date: Optional[date],
+) -> int:
+    from bve.intelligence.knowledge_layer import EquityPolicySnapshotRecord
+
+    snapshots: list[EquityPolicySnapshotRecord] = []
+    for row in rows:
+        if row.equity_policy_action is None or row.equity_policy_rationale is None:
+            continue
+        snapshots.append(
+            EquityPolicySnapshotRecord(
+                ticker=row.ticker,
+                as_of_date=as_of,
+                reference_snapshot_date=reference_snapshot_date,
+                company_snapshot_date=row.company_snapshot_date,
+                source_mode="heuristic_company_snapshot",
+                company_action_policy=row.company_action_policy,
+                company_action_reason=row.company_action_reason,
+                company_ranked_discount=row.company_ranked_discount,
+                composite_score=row.composite_score,
+                current_price=getattr(row, "equity_policy_current_price", None),
+                base_sotp_per_share=getattr(row, "equity_policy_base_sotp_per_share", None),
+                bear_sotp_per_share=getattr(row, "equity_policy_bear_sotp_per_share", None),
+                bull_sotp_per_share=getattr(row, "equity_policy_bull_sotp_per_share", None),
+                conviction=getattr(row, "equity_policy_conviction", None),
+                adv_millions=getattr(row, "equity_policy_adv_millions", None),
+                next_catalyst_days=getattr(row, "equity_policy_next_catalyst_days", None),
+                catalyst_description=getattr(row, "equity_policy_catalyst_description", None),
+                action=row.equity_policy_action,
+                sizing_pct=row.equity_policy_size_pct or 0.0,
+                rationale=row.equity_policy_rationale,
+            )
+        )
+    return store.write_equity_policy_snapshots(snapshots)
+
+
+def _current_price_from_company_snapshot(company_snapshot: dict) -> float:
+    market_cap = float(company_snapshot.get("market_cap_millions") or 0.0)
+    shares = float(company_snapshot.get("shares_outstanding_millions") or 0.0)
+    if shares <= 0:
+        sotp_equity = float(company_snapshot.get("sotp_equity_value_millions") or 0.0)
+        sotp_per_share = float(company_snapshot.get("sotp_per_share") or 0.0)
+        if sotp_equity > 0 and sotp_per_share > 0:
+            shares = sotp_equity / sotp_per_share
+    if market_cap <= 0 or shares <= 0:
+        return 0.0
+    return market_cap / shares
+
+
+def _heuristic_policy_conviction(company_snapshot: dict, *, brief_row: BriefRow) -> float:
+    confidence = float(
+        company_snapshot.get("actionable_confidence_pct")
+        or company_snapshot.get("modeled_asset_confidence_avg")
+        or 0.50
+    )
+    discount = float(company_snapshot.get("ranked_sotp_discount") or 1.0)
+    discount_signal = min(max((discount - 1.0) / 2.5, 0.0), 1.0)
+    manual_share = min(max(float(company_snapshot.get("manual_bucket_share_pct") or 0.0), 0.0), 1.0)
+    quality = str(company_snapshot.get("config_quality_summary") or "").strip().lower()
+    quality_bonus = {
+        "gold": 0.08,
+        "curated": 0.04,
+        "screening_grade": -0.10,
+        "auto_generated": -0.15,
+    }.get(quality, 0.0)
+    catalyst_bonus = 0.05 if brief_row.days_to_catalyst is not None and brief_row.days_to_catalyst <= 90 else 0.0
+    conviction = (
+        confidence * 0.60
+        + discount_signal * 0.25
+        + catalyst_bonus
+        + quality_bonus
+        - manual_share * 0.20
+    )
+    return min(max(round(conviction, 6), 0.05), 0.95)
+
+
+def _adv_millions(store: "KnowledgeStore", *, ticker: str, as_of: date) -> Optional[float]:
+    try:
+        price_row = store.get_price_on_or_before(ticker, as_of)
+        avg_volume = store.get_20day_avg_volume(ticker, as_of)
+    except Exception:
+        return None
+    if price_row is None or avg_volume is None or price_row.close_usd is None:
+        return None
+    return round(float(price_row.close_usd) * float(avg_volume) / 1_000_000.0, 6)
+
+
 def _screen_row_from_snapshot_dict(row: dict, *, data_date: date) -> "ScreenRow":
     from bve.analysis.implied_pos_batch import ScreenRow
 
@@ -584,7 +841,7 @@ def render_brief(brief: DailyBrief, top_n: int = 10) -> str:
     lines: list[str] = []
 
     lines.append(f"# Daily Opportunity Brief — {brief.as_of.isoformat()}")
-    lines.append("[MODE: SCREENING]  Heuristic-grade rankings only. No capital-deployment actions.")
+    lines.append("[MODE: SCREENING]  Heuristic-grade rankings. Equity policy preview is heuristic and not a deployment order.")
     lines.append(f"Generated: {brief.generated_at.strftime('%Y-%m-%d %H:%M UTC')}")
     lines.append(f"Source mode: {brief.source_mode}")
     if brief.reference_snapshot_date is not None:
@@ -612,8 +869,8 @@ def render_brief(brief: DailyBrief, top_n: int = 10) -> str:
     # Top opportunities table
     lines.append(f"## Top {top_n} Opportunities")
     header = (
-        f"{'TICKER':<7} {'DISC':>7} {'POLICY':<8} {'SPREAD':>7} {'MODEL':>7} {'CAL_Δ':>7} "
-        f"{'STAGE':<10} {'SIGNALS':<10} {'D2CAT':>6} {'SCORE':>7}"
+        f"{'TICKER':<7} {'DISC':>7} {'SOTP':<8} {'EQPOL':<8} {'SIZE':>6} {'SPREAD':>7} "
+        f"{'MODEL':>7} {'CAL_Δ':>7} {'STAGE':<10} {'SIGNALS':<10} {'D2CAT':>6} {'SCORE':>7}"
     )
     lines.append(header)
     lines.append("-" * len(header))
@@ -629,10 +886,16 @@ def render_brief(brief: DailyBrief, top_n: int = 10) -> str:
         )
         d2cat_str = str(row.days_to_catalyst) if row.days_to_catalyst is not None else "—"
         recompute_flag = "⚡" if row.requires_recompute else " "
-        policy_str = row.company_action_policy or "—"
+        company_policy_str = row.company_action_policy or "—"
+        equity_policy_str = row.equity_policy_action or "—"
+        size_str = (
+            f"{row.equity_policy_size_pct:.1f}%"
+            if row.equity_policy_size_pct is not None
+            else "—"
+        )
         lines.append(
-            f"{row.ticker:<7} {discount_str:>7} {policy_str:<8} {spread_str:>7} "
-            f"{model_str:>7} {cal_delta_str:>7} "
+            f"{row.ticker:<7} {discount_str:>7} {company_policy_str:<8} {equity_policy_str:<8} "
+            f"{size_str:>6} {spread_str:>7} {model_str:>7} {cal_delta_str:>7} "
             f"{row.stage:<10} {row.signal_flags:<10} {d2cat_str:>6} "
             f"{row.composite_score:>6.3f}{recompute_flag}"
         )

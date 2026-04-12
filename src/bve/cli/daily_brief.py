@@ -76,6 +76,11 @@ def _build_parser() -> argparse.ArgumentParser:
         metavar="PATH",
         help="Write output to file instead of stdout",
     )
+    p.add_argument(
+        "--no-persist-policy-snapshots",
+        action="store_true",
+        help="Do not persist Step 5 equity-policy audit rows for this brief run",
+    )
     return p
 
 
@@ -106,6 +111,7 @@ def main(argv: list[str] | None = None) -> None:
             fetch_live=args.live,
             expert_note_days=args.expert_note_days,
             event_days=args.event_days,
+            persist_policy_snapshots=not args.no_persist_policy_snapshots,
         )
 
         if args.format == "json":
@@ -146,6 +152,9 @@ def _brief_to_json(brief, top_n: int) -> str:
             "company_ranked_discount": row.company_ranked_discount,
             "company_action_policy": row.company_action_policy,
             "company_action_reason": row.company_action_reason,
+            "equity_policy_action": row.equity_policy_action,
+            "equity_policy_size_pct": row.equity_policy_size_pct,
+            "equity_policy_rationale": row.equity_policy_rationale,
             "company_snapshot_date": (
                 row.company_snapshot_date.isoformat()
                 if row.company_snapshot_date is not None

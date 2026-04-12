@@ -86,7 +86,7 @@ def _build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--calibration-policy",
         choices=["display_only", "threshold_filter", "tie_breaker"],
-        default="threshold_filter",
+        default="display_only",
         help="How calibrated probability should affect the live ranked output",
     )
     parser.add_argument(

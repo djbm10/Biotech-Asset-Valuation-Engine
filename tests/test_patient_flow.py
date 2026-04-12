@@ -15,6 +15,7 @@ import warnings
 from pathlib import Path
 
 import pytest
+import yaml
 
 from bve.models.commercial_inputs import (
     CommercialInputs,
@@ -22,6 +23,67 @@ from bve.models.commercial_inputs import (
     PricingModel,
     ShareModel,
 )
+
+_STEP4_COVERAGE_CONFIGS = ["relay_rly2608.yaml"] + sorted(
+    f"auto_generated/{path.name}"
+    for path in (Path(__file__).resolve().parents[1] / "examples" / "configs" / "auto_generated").glob("*.yaml")
+)
+
+_STEP4_REPLAY_GENERATED_CONFIGS = sorted(
+    f"replay_generated/{path.name}"
+    for path in (Path(__file__).resolve().parents[1] / "examples" / "configs" / "replay_generated").glob("*.yaml")
+)
+
+_STEP4_CURATED_DEFAULT_OVERRIDES = {
+    "auto_generated/acad.yaml",
+    "auto_generated/edit.yaml",
+    "auto_generated/imvt.yaml",
+    "auto_generated/rlay.yaml",
+    "auto_generated/kymr.yaml",
+    "auto_generated/agen.yaml",
+    "auto_generated/fate.yaml",
+    "auto_generated/gern.yaml",
+    "auto_generated/arqt.yaml",
+    "auto_generated/ptct.yaml",
+    "auto_generated/fold.yaml",
+    "auto_generated/sage.yaml",
+    "auto_generated/ions.yaml",
+    "auto_generated/rxrx.yaml",
+    "auto_generated/spnv.yaml",
+    "auto_generated/biib.yaml",
+    "auto_generated/mdgl.yaml",
+    "auto_generated/regn.yaml",
+    "auto_generated/tgtx.yaml",
+    "auto_generated/anab.yaml",
+    "auto_generated/prax.yaml",
+    "auto_generated/blue.yaml",
+}
+
+_STEP4_REPLAY_CURATED_UNDERWRITING = {
+    "replay_generated/lly.yaml",
+    "replay_generated/itci.yaml",
+    "replay_generated/krtx.yaml",
+    "replay_generated/bhvn.yaml",
+    "replay_generated/rna.yaml",
+    "replay_generated/myok.yaml",
+    "replay_generated/immu.yaml",
+    "replay_generated/xlrn.yaml",
+}
+
+_STEP4_VALIDATION_DRIVER_CURATED = {
+    "replay_generated/fulc.yaml",
+    "auto_generated/imvt.yaml",
+    "auto_generated/mdgl.yaml",
+    "auto_generated/tgtx.yaml",
+}
+
+_STEP4_CURATED_QUALITY_UPGRADES = {
+    "auto_generated/anab.yaml",
+    "auto_generated/imvt.yaml",
+    "auto_generated/mdgl.yaml",
+    "auto_generated/rxrx.yaml",
+    "auto_generated/tgtx.yaml",
+}
 
 
 # ---------------------------------------------------------------------------
@@ -293,3 +355,143 @@ class TestFullPatientFlowChain:
         # Trace: net = 100k × 0.65 = 65k; effective = 65k × 0.95 = 61.75k
         assert pricing.net_price_usd == pytest.approx(wac * (1 - g2n))
         assert pricing.effective_launch_price() == pytest.approx(wac * (1 - g2n) * (1 - launch_disc))
+
+
+@pytest.mark.parametrize("relative_path", _STEP4_COVERAGE_CONFIGS)
+def test_step4_coverage_configs_load_commercial_inputs(relative_path: str) -> None:
+    config_path = Path(__file__).parents[1] / "examples" / "configs" / relative_path
+    if not config_path.exists():
+        pytest.skip(f"{relative_path} not found")
+
+    import yaml as _yaml
+
+    with open(config_path) as fh:
+        cfg = _yaml.safe_load(fh)
+    ci_cfg = cfg.get("market_model", {}).get("commercial_inputs")
+    assert ci_cfg is not None, f"commercial_inputs block missing from {relative_path}"
+
+    pricing_cfg = dict(ci_cfg["pricing"])
+    if (
+        "wac_per_year_usd" in pricing_cfg
+        and "gross_to_net_rate" in pricing_cfg
+        and "net_price_usd" not in pricing_cfg
+    ):
+        pricing = PricingModel.from_wac(
+            wac_per_year_usd=pricing_cfg["wac_per_year_usd"],
+            gross_to_net_rate=pricing_cfg["gross_to_net_rate"],
+            launch_discount=pricing_cfg.get("launch_discount", 0.10),
+            annual_erosion_rate=pricing_cfg.get("annual_erosion_rate", 0.02),
+            uncertainty_cv=pricing_cfg.get("uncertainty_cv", 0.15),
+        )
+    else:
+        pricing = PricingModel(**pricing_cfg)
+
+    ci = CommercialInputs(
+        patient_pool=PatientPool(**ci_cfg["patient_pool"]),
+        pricing=pricing,
+        share=ShareModel(**ci_cfg["share"]),
+        ex_us_revenue_multiple=ci_cfg.get("ex_us_revenue_multiple", 1.0),
+    )
+    assert ci.to_peak_sales_millions() > 0
+
+
+@pytest.mark.parametrize("relative_path", _STEP4_REPLAY_GENERATED_CONFIGS)
+def test_step4_replay_generated_configs_preserve_heuristic_peak_sales(relative_path: str) -> None:
+    config_path = Path(__file__).parents[1] / "examples" / "configs" / relative_path
+    cfg = yaml.safe_load(config_path.read_text())
+    ci_cfg = cfg["market_model"].get("commercial_inputs")
+    assert ci_cfg is not None, f"commercial_inputs block missing from {relative_path}"
+    pricing_cfg = dict(ci_cfg["pricing"])
+
+    pricing = PricingModel.from_wac(
+        wac_per_year_usd=pricing_cfg["wac_per_year_usd"],
+        gross_to_net_rate=pricing_cfg["gross_to_net_rate"],
+        launch_discount=pricing_cfg.get("launch_discount", 0.10),
+        annual_erosion_rate=pricing_cfg.get("annual_erosion_rate", 0.02),
+        uncertainty_cv=pricing_cfg.get("uncertainty_cv", 0.15),
+    )
+    ci = CommercialInputs(
+        patient_pool=PatientPool(**ci_cfg["patient_pool"]),
+        pricing=pricing,
+        share=ShareModel(**ci_cfg["share"]),
+        ex_us_revenue_multiple=ci_cfg.get("ex_us_revenue_multiple", 1.0),
+    )
+
+    assert pricing_cfg["gross_to_net_rate"] > 0.0
+    patient_pool_cfg = ci_cfg["patient_pool"]
+    if "addressable_k" in patient_pool_cfg:
+        assert patient_pool_cfg["addressable_k"] > 0.0
+    else:
+        assert patient_pool_cfg["diagnosed_fraction"] > 0.0
+        assert patient_pool_cfg["eligible_rate"] > 0.0
+        assert patient_pool_cfg["treated_fraction"] > 0.0
+    assert ci.to_peak_sales_millions() == pytest.approx(
+        cfg["_meta"]["heuristic_peak_sales_millions"],
+        rel=0.002,
+    )
+
+
+@pytest.mark.parametrize("relative_path", sorted(_STEP4_CURATED_DEFAULT_OVERRIDES))
+def test_step4_priority_configs_override_mechanical_full_funnel_defaults(relative_path: str) -> None:
+    cfg_path = Path(__file__).resolve().parents[1] / "examples" / "configs" / relative_path
+    cfg = yaml.safe_load(cfg_path.read_text())
+    patient_pool = cfg["market_model"]["commercial_inputs"]["patient_pool"]
+    pricing = cfg["market_model"]["commercial_inputs"]["pricing"]
+
+    assert patient_pool["diagnosed_fraction"] != pytest.approx(1.0)
+    assert patient_pool["eligible_rate"] != pytest.approx(1.0)
+    assert patient_pool["treated_fraction"] != pytest.approx(1.0)
+    assert pricing["gross_to_net_rate"] > 0.0
+
+
+@pytest.mark.parametrize("relative_path", sorted(_STEP4_REPLAY_CURATED_UNDERWRITING))
+def test_step4_replay_curated_names_override_addressable_only_defaults(relative_path: str) -> None:
+    cfg_path = Path(__file__).resolve().parents[1] / "examples" / "configs" / relative_path
+    cfg = yaml.safe_load(cfg_path.read_text())
+    patient_pool = cfg["market_model"]["commercial_inputs"]["patient_pool"]
+
+    assert patient_pool["diagnosed_fraction"] != pytest.approx(1.0)
+    assert patient_pool["eligible_rate"] != pytest.approx(1.0)
+    assert patient_pool["treated_fraction"] != pytest.approx(1.0)
+    assert patient_pool.get("addressable_k") is None
+
+
+@pytest.mark.parametrize("relative_path", sorted(_STEP4_VALIDATION_DRIVER_CURATED))
+def test_step4_validation_driver_names_use_explicit_nontrivial_funnels(relative_path: str) -> None:
+    cfg_path = Path(__file__).resolve().parents[1] / "examples" / "configs" / relative_path
+    cfg = yaml.safe_load(cfg_path.read_text())
+    patient_pool = cfg["market_model"]["commercial_inputs"]["patient_pool"]
+    pricing = cfg["market_model"]["commercial_inputs"]["pricing"]
+
+    assert patient_pool["diagnosed_fraction"] != pytest.approx(1.0)
+    assert patient_pool["eligible_rate"] != pytest.approx(1.0)
+    assert patient_pool["treated_fraction"] != pytest.approx(1.0)
+    assert pricing["gross_to_net_rate"] > 0.0
+
+
+@pytest.mark.parametrize("relative_path", sorted(_STEP4_CURATED_QUALITY_UPGRADES))
+def test_step4_curated_quality_upgrades_are_explicitly_labeled(relative_path: str) -> None:
+    cfg_path = Path(__file__).resolve().parents[1] / "examples" / "configs" / relative_path
+    cfg = yaml.safe_load(cfg_path.read_text())
+    assert cfg.get("_meta", {}).get("config_quality") == "curated"
+
+
+def test_step4_auto_generated_cohort_has_no_remaining_generic_defaults() -> None:
+    root = Path(__file__).resolve().parents[1] / "examples" / "configs" / "auto_generated"
+    remaining: list[str] = []
+    for cfg_path in sorted(root.glob("*.yaml")):
+        cfg = yaml.safe_load(cfg_path.read_text())
+        ci_cfg = cfg["market_model"]["commercial_inputs"]
+        patient_pool = ci_cfg["patient_pool"]
+        pricing = ci_cfg["pricing"]
+        generic = (
+            patient_pool["diagnosed_fraction"] == pytest.approx(1.0)
+            and patient_pool["eligible_rate"] == pytest.approx(1.0)
+            and patient_pool["treated_fraction"] == pytest.approx(1.0)
+            and pricing["gross_to_net_rate"] == pytest.approx(0.0)
+            and ci_cfg.get("ex_us_revenue_multiple", 1.0) == pytest.approx(1.0)
+        )
+        if generic:
+            remaining.append(cfg_path.name)
+
+    assert remaining == []

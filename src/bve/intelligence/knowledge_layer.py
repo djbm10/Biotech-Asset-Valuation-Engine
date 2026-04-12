@@ -164,6 +164,32 @@ class CompanySOTPSnapshotRecord(BaseModel):
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 
+class EquityPolicySnapshotRecord(BaseModel):
+    """Persisted Step 5 equity-policy audit row."""
+
+    ticker: str
+    as_of_date: date
+    reference_snapshot_date: Optional[date] = None
+    company_snapshot_date: Optional[date] = None
+    source_mode: str = "heuristic_company_snapshot"
+    company_action_policy: Optional[str] = None
+    company_action_reason: Optional[str] = None
+    company_ranked_discount: Optional[float] = None
+    composite_score: Optional[float] = None
+    current_price: Optional[float] = None
+    base_sotp_per_share: Optional[float] = None
+    bear_sotp_per_share: Optional[float] = None
+    bull_sotp_per_share: Optional[float] = None
+    conviction: Optional[float] = None
+    adv_millions: Optional[float] = None
+    next_catalyst_days: Optional[int] = None
+    catalyst_description: Optional[str] = None
+    action: str
+    sizing_pct: float = 0.0
+    rationale: str
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+
 class DataRetentionResult(BaseModel):
     """Summary of one retention-policy application."""
 
@@ -861,6 +887,36 @@ class KnowledgeStore:
                 ON company_sotp_snapshots(snapshot_date DESC);
             CREATE INDEX IF NOT EXISTS idx_company_sotp_snapshots_ticker_date
                 ON company_sotp_snapshots(ticker, snapshot_date DESC);
+
+            CREATE TABLE IF NOT EXISTS equity_policy_snapshots (
+                snapshot_id       TEXT PRIMARY KEY,
+                ticker            TEXT NOT NULL,
+                as_of_date        TEXT NOT NULL,
+                reference_snapshot_date TEXT,
+                company_snapshot_date TEXT,
+                source_mode       TEXT NOT NULL,
+                company_action_policy TEXT,
+                company_action_reason TEXT,
+                company_ranked_discount REAL,
+                composite_score   REAL,
+                current_price     REAL,
+                base_sotp_per_share REAL,
+                bear_sotp_per_share REAL,
+                bull_sotp_per_share REAL,
+                conviction        REAL,
+                adv_millions      REAL,
+                next_catalyst_days INTEGER,
+                catalyst_description TEXT,
+                action            TEXT NOT NULL,
+                sizing_pct        REAL NOT NULL DEFAULT 0.0,
+                rationale         TEXT NOT NULL,
+                created_at        TEXT NOT NULL,
+                UNIQUE(ticker, as_of_date)
+            );
+            CREATE INDEX IF NOT EXISTS idx_equity_policy_snapshots_as_of
+                ON equity_policy_snapshots(as_of_date DESC);
+            CREATE INDEX IF NOT EXISTS idx_equity_policy_snapshots_ticker_as_of
+                ON equity_policy_snapshots(ticker, as_of_date DESC);
 
             -- Rules-based universe snapshots (Sprint 12B).
             -- Each row captures the filter result for one ticker on one build date.
@@ -3344,6 +3400,149 @@ class KnowledgeStore:
         if row is None:
             return None
         return self._decode_company_sotp_snapshot_row(dict(row))
+
+    # ------------------------------------------------------------------
+    # Equity policy snapshots
+    # ------------------------------------------------------------------
+
+    def write_equity_policy_snapshots(
+        self,
+        rows: list[EquityPolicySnapshotRecord],
+    ) -> int:
+        from uuid import uuid4
+
+        if not rows:
+            return 0
+
+        written = 0
+        for row in rows:
+            self._conn.execute(
+                """
+                INSERT OR REPLACE INTO equity_policy_snapshots(
+                    snapshot_id, ticker, as_of_date, reference_snapshot_date,
+                    company_snapshot_date, source_mode, company_action_policy,
+                    company_action_reason, company_ranked_discount, composite_score,
+                    current_price, base_sotp_per_share, bear_sotp_per_share,
+                    bull_sotp_per_share, conviction, adv_millions,
+                    next_catalyst_days, catalyst_description, action, sizing_pct,
+                    rationale, created_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    str(uuid4()),
+                    row.ticker,
+                    row.as_of_date.isoformat(),
+                    (
+                        row.reference_snapshot_date.isoformat()
+                        if row.reference_snapshot_date is not None
+                        else None
+                    ),
+                    (
+                        row.company_snapshot_date.isoformat()
+                        if row.company_snapshot_date is not None
+                        else None
+                    ),
+                    row.source_mode,
+                    row.company_action_policy,
+                    row.company_action_reason,
+                    row.company_ranked_discount,
+                    row.composite_score,
+                    row.current_price,
+                    row.base_sotp_per_share,
+                    row.bear_sotp_per_share,
+                    row.bull_sotp_per_share,
+                    row.conviction,
+                    row.adv_millions,
+                    row.next_catalyst_days,
+                    row.catalyst_description,
+                    row.action,
+                    row.sizing_pct,
+                    row.rationale,
+                    self._coerce_datetime(row.created_at).isoformat(timespec="seconds").replace(
+                        "+00:00",
+                        "Z",
+                    ),
+                ),
+            )
+            written += 1
+        self._conn.commit()
+        return written
+
+    def get_equity_policy_snapshots(
+        self,
+        as_of_date: Optional[date] = None,
+        *,
+        ticker: Optional[str] = None,
+        limit: int = 200,
+    ) -> list[dict[str, Any]]:
+        clauses: list[str] = []
+        params: list[object] = []
+
+        if as_of_date is not None:
+            clauses.append("as_of_date = ?")
+            params.append(as_of_date.isoformat())
+        else:
+            latest_row = self._conn.execute(
+                "SELECT MAX(as_of_date) FROM equity_policy_snapshots"
+            ).fetchone()
+            if latest_row is None or latest_row[0] is None:
+                return []
+            clauses.append("as_of_date = ?")
+            params.append(latest_row[0])
+
+        if ticker is not None:
+            clauses.append("ticker = ?")
+            params.append(ticker)
+
+        sql = (
+            "SELECT ticker, as_of_date, reference_snapshot_date, company_snapshot_date, "
+            "source_mode, company_action_policy, company_action_reason, company_ranked_discount, "
+            "composite_score, current_price, base_sotp_per_share, bear_sotp_per_share, "
+            "bull_sotp_per_share, conviction, adv_millions, next_catalyst_days, "
+            "catalyst_description, action, sizing_pct, rationale, created_at "
+            "FROM equity_policy_snapshots"
+        )
+        if clauses:
+            sql += " WHERE " + " AND ".join(clauses)
+        sql += " ORDER BY composite_score DESC NULLS LAST, ticker ASC LIMIT ?"
+        params.append(limit)
+        rows = self._conn.execute(sql, params).fetchall()
+        return [self._decode_equity_policy_snapshot_row(dict(row)) for row in rows]
+
+    def get_equity_policy_snapshot_for_ticker_on_or_before(
+        self,
+        *,
+        ticker: str,
+        as_of: date,
+    ) -> Optional[dict[str, Any]]:
+        row = self._conn.execute(
+            """
+            SELECT ticker, as_of_date, reference_snapshot_date, company_snapshot_date,
+                   source_mode, company_action_policy, company_action_reason,
+                   company_ranked_discount, composite_score, current_price,
+                   base_sotp_per_share, bear_sotp_per_share, bull_sotp_per_share,
+                   conviction, adv_millions, next_catalyst_days, catalyst_description,
+                   action, sizing_pct, rationale, created_at
+            FROM equity_policy_snapshots
+            WHERE ticker = ? AND as_of_date <= ?
+            ORDER BY as_of_date DESC
+            LIMIT 1
+            """,
+            (ticker, as_of.isoformat()),
+        ).fetchone()
+        if row is None:
+            return None
+        return self._decode_equity_policy_snapshot_row(dict(row))
+
+    @staticmethod
+    def _decode_equity_policy_snapshot_row(row: dict[str, Any]) -> dict[str, Any]:
+        for key in ("as_of_date", "reference_snapshot_date", "company_snapshot_date"):
+            if row.get(key):
+                row[key] = date.fromisoformat(str(row[key]))
+            else:
+                row[key] = None
+        row["created_at"] = KnowledgeStore._coerce_datetime(row.get("created_at"))
+        return row
 
     @staticmethod
     def _decode_company_sotp_snapshot_row(row: dict[str, Any]) -> dict[str, Any]:

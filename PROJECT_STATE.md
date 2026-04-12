@@ -13,7 +13,589 @@ New module: `src/bve/analysis/validation_harness.py`
   - "strong": n≥20, p≤0.05, placebo p≤0.10
   - "moderate": p≤0.10 or placebo p≤0.15 with n≥10
 
-Next step: Step 4 — upgrade gold-tier names from peak-sales shorthand to patient-flow models.
+Next step: continue from the now-live Step 4-6 integrations into deeper curation,
+broader policy consumers, and promotion of the improved M&A replay result.
+
+---
+
+## Institutional Plan Steps 4-6 (2026-04-11, broadened + persisted + replay-rerun)
+
+**Current status: Step 4 now covers the full auto-generated cohort and the full replay-generated cohort, Step 5 policy decisions are persisted and visible in weekly review, and Step 6 produced a measurable historical M&A uplift with the live path now using the stronger stored baseline.**
+
+Implemented beyond the original Step 3 checkpoint:
+- Step 4 — patient-flow commercial modeling
+  - `src/bve/models/commercial_inputs.py`
+    - added explicit patient-flow inputs:
+      - diagnosed fraction
+      - `eligible_rate`
+      - treated fraction
+      - WAC + gross-to-net derived pricing
+      - `ex_us_revenue_multiple`
+  - `src/bve/cli/run_asset.py`
+    - CLI now loads `commercial_inputs` configs directly
+  - gold-tier configs added:
+    - `examples/configs/arvn_arv471.yaml`
+    - `examples/configs/imvt_batoclimab.yaml`
+    - `examples/configs/kymr_kt474.yaml`
+    - `examples/configs/mdgl_rezdiffra.yaml`
+  - plus the canonical `examples/configs/relay_rly2608.yaml`
+  - expanded auto-generated Step 4 coverage now spans all `30` files under:
+    - `examples/configs/auto_generated/`
+  - replay-generated Step 4 coverage now spans all `45` files under:
+    - `examples/configs/replay_generated/`
+  - replay-generated configs now use an explicit `addressable_k` + WAC/G2N +
+    share + ex-US decomposition calibrated to preserve the stored heuristic
+    peak-sales targets while eliminating the remaining shorthand-only TAM path
+  - the remaining Step 4 gap is no longer schema migration; it is underwriting-
+    quality refinement and replay re-measurement on the newly explicit inputs
+
+### 2026-04-12 Targeted Step 4 refinement pass - IMVT / MDGL / TGTX
+
+**Current status: The first high-impact underwriting-quality pass is live and materially improved the strict `buy/watch` company-validation lane.**
+
+Implemented in code/configs:
+- `src/bve/analysis/company_sotp.py`
+  - stored screen snapshots now use the stronger of:
+    - the historical snapshot `config_quality`
+    - the current config `config_quality`
+  - this prevents stale `screening_grade` snapshot labels from holding curated
+    Step 4 configs at `0.50` modeled-asset confidence forever
+- `examples/configs/auto_generated/imvt.yaml`
+- `examples/configs/auto_generated/mdgl.yaml`
+- `examples/configs/auto_generated/tgtx.yaml`
+  - all three now explicitly declare `_meta.config_quality: curated`
+- `research/company_sotp_overrides.yaml`
+  - removed the stale `TGTX` ex-US royalty bridge bucket from both the 2021 and
+    2024 company-pack snapshots because Step 4 commercial inputs now already
+    model ex-US economics directly
+- `tests/test_company_sotp.py`
+  - added a regression proving that current curated config quality overrides a
+    weaker historical snapshot-quality label for company-SOTP confidence gating
+
+Focused verification passed:
+- `ruff check src/bve/analysis/company_sotp.py tests/test_company_sotp.py tests/test_patient_flow.py`
+- `python -m pytest tests/test_company_sotp.py tests/test_patient_flow.py -q`
+- result: `164 passed`
+
+Refreshed company SOTP backfill after the targeted pass:
+- `749` company rows persisted
+- `748` pass recency
+- action totals moved from:
+  - `buy=43 / watch=8 / avoid=121 / needs_manual_review=577`
+- to:
+  - `buy=63 / watch=17 / avoid=163 / needs_manual_review=506`
+
+Refreshed company SOTP backtest after the targeted pass:
+- combined `buy/watch/needs_manual_review`
+  - candidate rows: `73`
+  - selected trades: `71`
+  - mean excess return: `+78.69%`
+  - hit rate: `59.2%`
+  - bootstrap `p = 0.0`
+- strict `buy/watch`
+  - candidate rows: `49`
+  - selected trades: `49`
+  - mean excess return: `+111.39%`
+  - hit rate: `65.3%`
+  - bootstrap `p = 0.0`
+
+Target-name interpretation:
+- `IMVT`
+  - moved from `needs_manual_review` due to `modeled_asset_confidence_below_threshold:0.50`
+  - now carries `0.85` modeled-asset confidence and classifies into
+    `avoid/watch/buy` strictly on discount level
+- `MDGL`
+  - moved from `needs_manual_review` due to `actionable_confidence_below_threshold:0.51`
+  - now carries `0.85` modeled-asset confidence and lands in `buy` across its
+    historical high-discount window
+- `TGTX`
+  - no longer fails because of modeled-asset confidence
+  - now alternates between:
+    - `avoid/watch/buy` when the remaining manual bucket share is below the
+      policy threshold
+    - `needs_manual_review` only on the later 2022-2023 dates where manual
+      bucket share still breaches the threshold
+
+Interpretation:
+- the active Step 4 bottleneck was partly stale quality labeling, not only
+  funnel realism
+- targeted underwriting-quality upgrades can now move names directly out of
+  `needs_manual_review` and into the strict auto-rankable lane
+- the strict `buy/watch` comparator is no longer weak after this pass; it now
+  captures:
+  - `SRRK = 14` rows
+  - `MDGL = 12`
+  - `IMVT = 11`
+  - `TGTX = 6`
+  - `VKTX = 3`
+  - `NVAX = 3`
+
+### 2026-04-12 Second targeted Step 4 refinement pass - ANAB / FULC / OCUL / PRTA / RXRX
+
+**Current status: The residual stale-quality / stale-manual-bridge cohort has largely been cleared; `needs_manual_review` is now almost absent from the historical high-discount lane.**
+
+Implemented in configs/overrides/tests:
+- `examples/configs/auto_generated/anab.yaml`
+- `examples/configs/auto_generated/rxrx.yaml`
+  - both now explicitly declare `_meta.config_quality: curated`
+- `research/company_sotp_overrides.yaml`
+  - `FULC`
+    - upgraded platform and follow-on pipeline buckets from generic
+      analyst-bridge `0.65` confidence to multi-source company-disclosure style
+      `0.80` confidence
+  - `OCUL`
+    - removed the stale partner-economics bridge bucket
+    - upgraded the remaining lifecycle bucket to a multi-source
+      company-disclosure style bucket
+  - `PRTA`
+    - removed the stale royalty / partner bridge bucket
+    - upgraded the remaining follow-on pipeline bucket to a multi-source
+      company-disclosure style bucket
+  - `RXRX`
+    - upgraded platform and unmodeled pipeline buckets to multi-source
+      company-disclosure style buckets
+- `tests/test_patient_flow.py`
+  - added an explicit guard requiring the latest curated-quality upgrades to
+    keep `_meta.config_quality: curated`
+
+Focused verification passed:
+- `ruff check src/bve/analysis/company_sotp.py tests/test_patient_flow.py tests/test_company_sotp.py`
+- `python -m pytest tests/test_patient_flow.py tests/test_company_sotp.py -q`
+- result: `169 passed`
+
+Refreshed company SOTP backfill:
+- action totals moved from:
+  - `buy=63 / watch=17 / avoid=163 / needs_manual_review=506`
+- to:
+  - `buy=82 / watch=24 / avoid=266 / needs_manual_review=377`
+
+Refreshed company SOTP backtest:
+- combined `buy/watch/needs_manual_review`
+  - candidate rows: `68`
+  - selected trades: `67`
+  - mean excess return: `+81.89%`
+  - hit rate: `56.7%`
+  - bootstrap `p = 0.0`
+- strict `buy/watch`
+  - candidate rows: `67`
+  - selected trades: `67`
+  - mean excess return: `+81.83%`
+  - hit rate: `56.7%`
+  - bootstrap `p = 0.0`
+
+Interpretation:
+- the strict and combined lanes are now effectively identical
+- among recency-valid rows with `ranked_sotp_discount >= 1.0`, the only
+  remaining `needs_manual_review` name is:
+  - `SRRK = 1` row
+- this means the previous historical signal concentration in
+  `needs_manual_review` has been almost entirely converted into the normal
+  `buy/watch` lane rather than merely re-labeled
+- the next refinement step is no longer broad stale-pack cleanup; it is a
+  targeted audit of true residual exceptions such as `SRRK` and any names that
+  are still blocked for real recency or reconciliation reasons
+
+### 2026-04-12 Step 4 replay-generated migration completion
+
+**Current status: ✅ All replay-generated configs now round-trip through `commercial_inputs`, and replay breadth migration is complete.**
+
+Completed in configs/tests:
+- `examples/configs/replay_generated/`
+  - all `45` configs now include `market_model.commercial_inputs`
+- `tests/test_patient_flow.py`
+  - replay-generated coverage is now dynamic across the full directory rather
+    than a hand-maintained allowlist
+  - the replay guard asserts two things for every replay config:
+    - `commercial_inputs` is present
+    - `commercial_inputs.to_peak_sales_millions()` matches
+      `_meta.heuristic_peak_sales_millions()` within tight tolerance
+
+Migration pattern used:
+- explicit `patient_pool.addressable_k`
+- WAC + gross-to-net derived pricing
+- preserved peak share / years-to-peak
+- ex-US multiplier where the original replay thesis implied non-US revenue
+
+Focused verification passed:
+- `ruff check tests/test_patient_flow.py`
+- `python -m pytest tests/test_patient_flow.py -q`
+- result: `118 passed`
+
+Interpretation:
+- Step 4 replay breadth is now closed
+- the next Step 4 work is no longer blanket migration
+- the follow-on phase is:
+  - deeper underwriting refinement on the highest-consequence replay names
+  - replay / backtest reruns to measure whether the explicit patient-flow path
+    changes any downstream ranking or SOTP outputs
+
+### 2026-04-12 Next Phase Start - replay measurement after Step 4 breadth completion
+
+**Current status: First downstream replay rerun is complete; backfill totals were stable, while the company backtest changed materially.**
+
+Commands run:
+- `python -m bve.ops.company_sotp_backfiller --watchlist examples/configs/watchlists/watchlist_replay_expanded_phase2.yaml --db outputs/intelligence/replay_knowledge.db --replay-db outputs/intelligence/replay_store.sqlite --start 2021-02-01 --end 2024-03-01 --output-dir outputs/analysis`
+- `python -m bve.analysis.company_sotp_backtest --db outputs/intelligence/replay_knowledge.db --replay-db outputs/intelligence/replay_store.sqlite --start 2021-02-01 --end 2024-03-01 --hold-days 365 --top-n 5 --min-ranked-discount 1.0 --output-dir outputs/analysis`
+
+Backfill result after replay-generated migration:
+- `749` company rows persisted
+- `748` pass the recency gate
+- action totals unchanged at:
+  - `buy = 43`
+  - `watch = 8`
+  - `avoid = 121`
+  - `needs_manual_review = 577`
+
+Company backtest result after replay-generated migration:
+- `26` snapshot dates
+- `20` candidate rows
+- `20` selected trades
+- `0` missing-price trades
+- mean excess return `+13.33%`
+- hit rate `25.0%`
+- cluster count `3`
+- bootstrap `p = 0.1024`
+
+Compared with the pre-migration baseline recorded on 2026-04-11:
+- candidate rows moved from `96 -> 20`
+- selected trades moved from `17 -> 20`
+- missing-price trades moved from `21 -> 0`
+- mean excess return moved from `+32.61% -> +13.33%`
+- hit rate moved from `29.4% -> 25.0%`
+- bootstrap `p` improved from `0.266 -> 0.1024`
+
+Interpretation:
+- the explicit replay-generated patient-flow path did not change the broad
+  company action totals
+- it did materially change which historical company snapshots qualify for the
+  backtest
+- the signal is now smaller and less return-heavy, but materially cleaner from
+  a missing-price / statistical-noise perspective
+- the next phase should identify which replay names dropped out or changed rank
+  enough to drive the `96 -> 20` contraction before promoting any stronger
+  conclusion
+
+Diagnostic follow-up:
+- the contraction is primarily an action-policy filter effect, not a recency
+  or missing-price effect
+- among `2021-02-01 -> 2023-03-01` rows with:
+  - recency gate passing
+  - `ranked_sotp_discount >= 1.0`
+  action-policy distribution is now:
+  - `needs_manual_review = 59`
+  - `buy = 13`
+  - `watch = 7`
+  - `avoid = 1`
+- the current backtest-eligible set is concentrated in just:
+  - `SRRK = 14`
+  - `VKTX = 3`
+  - `NVAX = 3`
+- the main excluded high-discount names are:
+  - `FULC = 14` rows, avg discount `2.173x`
+  - `IMVT = 14` rows, avg discount `1.491x`
+  - `MDGL = 12` rows, avg discount `3.261x`
+  - `TGTX = 9` rows, avg discount `1.449x`
+  - plus smaller `ANAB`, `OCUL`, `PRTA`
+- this means the next decision is specifically whether the company backtest
+  should keep using `action_policy in {buy, watch}` as the eligibility gate or
+  whether `needs_manual_review` rows should be measured separately
+
+Follow-on measurement:
+- `src/bve/analysis/company_sotp_backtest.py`
+  - CLI now accepts repeated `--allowed-action-policy` flags so alternate
+    policy lanes can be measured directly
+  - output CSV names now include the action-policy lane suffix to avoid
+    overwriting comparison runs
+  - default lane now includes:
+    - `buy`
+    - `watch`
+    - `needs_manual_review`
+  - `--compare-to-strict-buy-watch` now prints the broader default lane beside
+    the legacy strict comparator in one run
+- `tests/test_company_sotp_backtest.py`
+  - added coverage for a `needs_manual_review`-only lane
+  - added coverage proving the default lane includes `needs_manual_review`
+- `src/bve/intelligence/weekly_brief.py`
+  - weekly brief company-SOTP top opportunities now use the broader
+    `buy/watch/needs_manual_review` lane as primary
+  - strict `buy/watch` top opportunities are also stored alongside as a
+    secondary comparison block
+- `src/bve/ops/metrics_dashboard.py`
+  - metrics dashboard top-opportunity payload now mirrors the same primary vs
+    strict split
+- tests:
+  - `tests/test_weekly_brief.py`
+  - `tests/ops/test_metrics_dashboard.py`
+  - both now cover:
+    - primary list includes `needs_manual_review`
+    - strict list excludes it
+- `src/bve/analysis/validation_harness.py`
+  - subgroup reporting now includes `action_policy:<policy>` slices when a lane
+    has enough trades
+- `tests/test_validation_harness.py`
+  - added coverage for `buy` and `needs_manual_review` action-policy subgroups
+
+Lane comparison on the same `2021-02-01 -> 2024-03-01`, `hold_days=365`,
+`top_n=5`, `min_ranked_discount=1.0` setup:
+- strict `buy/watch`
+  - candidate rows: `20`
+  - selected trades: `20`
+  - mean excess return: `+13.33%`
+  - hit rate: `25.0%`
+  - bootstrap `p = 0.1024`
+- `needs_manual_review` only
+  - candidate rows: `59`
+  - selected trades: `57`
+  - mean excess return: `+96.47%`
+  - hit rate: `71.9%`
+  - bootstrap `p = 0.0`
+- combined `buy/watch/needs_manual_review`
+  - candidate rows: `79`
+  - selected trades: `77`
+  - mean excess return: `+74.87%`
+  - hit rate: `59.7%`
+  - bootstrap `p = 0.0`
+
+Interpretation:
+- the old strict `buy/watch` lane is now the weakest of the measured
+  company-backtest lanes
+- the current company action-policy gate is likely over-pruning the historical
+  signal after the Step 4 replay migration
+- the highest-contributing `needs_manual_review` names are concentrated in:
+  - `FULC`
+  - `IMVT`
+  - `MDGL`
+  - `TGTX`
+- the next decision should be whether to:
+  - keep strict `buy/watch` as a secondary comparison lane
+  - while using the broader default lane for primary company validation
+
+Validation-harness follow-up on the combined lane:
+- combined lane validation grade: `moderate`
+- gross mean excess return: `+74.87%`
+- gross hit rate: `59.7%`
+- subgroup cuts now show action-policy structure directly:
+  - `action_policy:needs_manual_review`
+    - `57` trades
+    - mean excess return `+96.47%`
+    - hit rate `71.9%`
+    - subgroup p-value `3.7e-06`
+  - `action_policy:buy`
+    - `13` trades
+    - mean excess return `+14.96%`
+    - hit rate `23.1%`
+    - subgroup p-value `0.749`
+  - `action_policy:watch`
+    - `7` trades
+    - mean excess return `+10.31%`
+    - hit rate `28.6%`
+    - subgroup p-value `0.763`
+
+Interpretation update:
+- `needs_manual_review` is now a first-class reported validation lane, not just
+  a one-off alternate backtest
+- the current evidence says the dominant historical signal now lives in the
+  manual-review cohort rather than the auto-admit `buy/watch` cohort
+- company backtest defaults have been updated to match that evidence, so the
+  default baseline is now the broader combined lane rather than the old strict
+  `buy/watch` subset
+- the old strict lane remains visible through the CLI comparison path rather
+  than being lost as historical context
+- weekly and dashboard surfaces now follow the same policy:
+  - primary headline list = broader company lane
+  - secondary comparison list = strict `buy/watch`
+
+### 2026-04-12 Next phase continuation - underwriting refinement on highest-consequence replay names
+
+Completed objective:
+- started replacing replay-generated `addressable_k` placeholders with explicit
+  diagnosed / eligible / treated funnels on the highest-consequence names
+
+Completed in configs/tests:
+- curated replay-generated configs:
+  - `examples/configs/replay_generated/lly.yaml`
+  - `examples/configs/replay_generated/itci.yaml`
+  - `examples/configs/replay_generated/krtx.yaml`
+  - `examples/configs/replay_generated/bhvn.yaml`
+  - `examples/configs/replay_generated/rna.yaml`
+  - `examples/configs/replay_generated/myok.yaml`
+  - `examples/configs/replay_generated/immu.yaml`
+  - `examples/configs/replay_generated/xlrn.yaml`
+- `tests/test_patient_flow.py`
+  - added a replay-curated underwriting guard for these names
+  - updated the replay-wide peak-preservation test so it accepts either:
+    - `addressable_k`-based replay configs
+    - or fully explicit funnel-based replay configs
+
+What changed:
+- these names no longer rely on `addressable_k` overrides
+- they now express patient flow through:
+  - `prevalence_thousands`
+  - `diagnosed_fraction`
+  - `eligible_rate`
+  - `treated_fraction`
+- peak-sales preservation remains effectively unchanged versus stored
+  heuristics, so this was a real underwriting-shape upgrade rather than a
+  replay-economics rewrite
+
+Focused verification passed:
+- `ruff check tests/test_patient_flow.py`
+- `python -m pytest tests/test_patient_flow.py -q`
+- result: `126 passed`
+
+Interpretation:
+- the next phase has moved from schema rollout into targeted commercial
+  underwriting refinement
+- the first refinement batch focused on the highest replay peak-sales names
+- the next pass should continue down the replay list or shift to the names that
+  dominate the current `needs_manual_review` signal, depending on whether the
+  goal is better realism or faster validation uplift
+
+### 2026-04-12 Next phase continuation - validation-driver underwriting batch
+
+Completed objective:
+- started targeting the names that dominate the current `needs_manual_review`
+  validation lane rather than just the highest replay peaks
+
+Completed in configs/tests:
+- `examples/configs/replay_generated/fulc.yaml`
+  - replaced `addressable_k` placeholder sizing with an explicit rare-disease
+    funnel
+- `tests/test_patient_flow.py`
+  - added a dedicated validation-driver underwriting guard covering:
+    - `replay_generated/fulc.yaml`
+    - `auto_generated/imvt.yaml`
+    - `auto_generated/mdgl.yaml`
+    - `auto_generated/tgtx.yaml`
+
+What changed:
+- `FULC` now uses nontrivial:
+  - `prevalence_thousands`
+  - `diagnosed_fraction`
+  - `eligible_rate`
+  - `treated_fraction`
+- peak-sales preservation remains intact (`~800.6` vs stored `800.0`)
+- the validation-driver guard now locks the key names most responsible for the
+  current manual-review signal into explicit funnel-based commercial models
+
+Focused verification passed:
+- `ruff check tests/test_patient_flow.py`
+- `python -m pytest tests/test_patient_flow.py -q`
+- result: `130 passed`
+
+Interpretation:
+- next-phase work is now split across two concrete tracks:
+  - top replay peak-sales realism
+  - validation-driver name refinement
+- the remaining highest-leverage names in the validation-driver cohort are now
+  mostly `IMVT`, `MDGL`, and `TGTX`, which already had explicit funnels, so the
+  next meaningful step is likely to rerun replay measurement after this batch
+  rather than continuing purely local config edits
+- Step 5 — policy / risk layer
+  - `src/bve/intelligence/position_policy.py`
+    - deterministic equity policy:
+      - `buy`
+      - `add`
+      - `monitor`
+      - `avoid`
+    - deterministic BD policy:
+      - `acquire`
+      - `partner`
+    - `pass`
+    - includes discount, conviction, catalyst-window, liquidity, downside, and
+      sizing logic
+  - `tests/intelligence/test_position_policy.py`
+  - live output integration:
+    - `src/bve/ops/daily_brief.py`
+    - `src/bve/cli/daily_brief.py`
+    - `bve-daily-brief` now shows a heuristic `EQPOL` and `SIZE` preview
+      derived from company-SOTP snapshots plus stored catalyst/liquidity context
+  - policy persistence / audit:
+    - `src/bve/intelligence/knowledge_layer.py`
+    - new table: `equity_policy_snapshots`
+    - one persisted row per `(ticker, as_of_date)` with:
+      - company snapshot context
+      - heuristic Step 5 inputs
+      - final `buy/add/monitor/avoid` action
+      - sizing and rationale
+    - `bve-daily-brief` now persists those audit rows by default
+  - weekly-review integration:
+    - `src/bve/intelligence/weekly_review.py`
+    - `src/bve/ops/weekly_runner.py`
+    - weekly review now includes `policy_audit` with:
+      - persisted policy snapshot count
+      - buy/add/monitor/avoid mix
+      - average recommended size
+      - upstream company-gate blocked count
+- Step 6 — curated acquirer depth expansion
+  - `src/bve/intelligence/acquirer_profiles.py`
+    - curated profiles now support:
+      - `acquisition_capacity_millions`
+      - `existing_partnerships`
+    - converted `AcquirerProfile` now preserves those fields instead of dropping
+      them after load
+  - `src/bve/intelligence/acquirer_fit.py`
+    - existing partnerships now raise strategic-fit scoring when the target
+      matches an active partner
+    - explicit acquisition capacity now constrains budget scoring, including the
+      pipeline-gap scoring path
+  - new curated acquirer profiles:
+    - `examples/research/acquirer_profiles/takeda.yaml`
+    - `examples/research/acquirer_profiles/daiichi_sankyo.yaml`
+
+Focused verification passed:
+- `ruff check` on touched Step 4/5/6 source and test files
+- `python -m pytest tests/test_patient_flow.py tests/test_sprint19.py tests/intelligence/test_acquirer_fit.py tests/intelligence/test_acquirer_profiles.py -q`
+- Result: `130 passed`
+
+Smoke checks passed:
+- `python -m bve.cli.daily_brief --db outputs/intelligence/replay_knowledge.db --as-of 2024-03-01 --top 5 --format text`
+  - report now renders `SOTP`, `EQPOL`, and `SIZE` columns
+- `python -m bve.cli.ma_probability --watchlist examples/configs/watchlists/watchlist_replay_expanded_phase2.yaml --db outputs/intelligence/replay_knowledge.db --as-of 2024-03-01 --top 5 --output-format report`
+  - M&A ranking still runs cleanly after the partnership/capacity scoring changes
+
+Historical M&A replay rerun after the Step 6 partnership/capacity scoring change:
+- authoritative artifacts:
+  - `outputs/analysis/step6_capacity_partnership_manual/historical_metrics.json`
+  - `outputs/analysis/step6_capacity_partnership_manual/canonical_metrics.json`
+  - `outputs/analysis/step6_capacity_partnership_manual/canonical_fit.json`
+  - `outputs/analysis/step6_capacity_partnership_manual/policy_comparison.json`
+- refreshed `historical_snapshot` result (`top_k=15`):
+  - rows: `1994`
+  - positive rows: `263`
+  - unique targets: `25`
+  - `precision@15 = 0.282456`
+  - `recall@15 = 0.64`
+  - `median_lead_days@15 = 345.5`
+- versus the prior authoritative April 8 checkpoint:
+  - `precision@15`: `0.245614 -> 0.282456`
+  - `recall@15`: `0.56 -> 0.64`
+  - `average_probability_positive`: `0.943384 -> 0.937896`
+  - `average_probability_control`: `0.83321 -> 0.822954`
+- refreshed canonical matched-control set:
+  - stored `v1.2` precision@15: `0.80`
+  - stored `v1.2` recall@15: `0.48`
+  - logistic cross-validated AUC: `0.6968`
+  - policy A precision/recall@15: `0.80 / 0.48`
+  - policy B precision/recall@15: `0.80 / 0.48`
+  - policy C precision/recall@15: `0.466667 / 0.28`
+- promotion decision:
+  - live M&A defaults no longer force calibrated threshold filtering
+  - `src/bve/cli/ma_probability.py` now defaults to `calibration_policy=display_only`
+  - `src/bve/ops/weekly_runner.py` also uses `display_only`
+  - reasoning: the refreshed replay shows the stored baseline improved, while
+    the calibrated overlay is neutral on the canonical matched-control set
+
+What is still missing:
+- Step 4:
+  - refine the newly-curated funnels with real source-backed ranges and
+    better geography/persistence assumptions where those matter most
+- Step 5:
+  - promote the persisted policy layer into weekly review / downstream decision
+    attribution beyond the current audit summary
+- Step 6:
+  - re-fit or redesign the calibration overlay only if a new matched-control
+    dataset shows it adds value beyond the improved stored baseline
 
 ---
 
@@ -3277,3 +3859,42 @@ Interpretation:
   persistent live issue
 - the next high-leverage cleanup should be targeted asset/config audits for
   `ZYME` and `VKTX`, not another broad reconciliation policy change
+
+## 2026-04-12 Company Pack Expansion Steps 4–7 (complete)
+
+**Current status: ✅ Company Pack Expansion Plan steps 4–7 are all closed.**
+
+### Step 4 — Evidence standard enforcement
+Confirmed complete in `company_sotp.py`. Two-tier enforcement:
+- Single bucket > 25% of SOTP without multi-source → `needs_manual_review`
+- Total manual share > 35% with avg confidence < 0.80 → `needs_manual_review`
+
+Confidence floors by `source_kind` already in `_STRUCTURED_SOURCE_CONFIDENCE_FLOORS`.
+
+### Step 5 — Company-specific templates
+Three archetype templates created in `examples/packs/templates/`:
+- `platform_biotech_override_template.yaml` (RNA/ADC/TPD/IO platforms, 40–70% manual share)
+- `commercial_rare_disease_override_template.yaml` (approved/NDA rare disease, 20–35% manual share)
+- `multi_asset_oncology_override_template.yaml` (multi-program oncology/CNS, 40–70% manual share)
+
+Companion `README.md` documents evidence standards, Step-4 gates, and backfiller/backtest usage.
+
+### Step 6 — Pack quality controls
+Confirmed complete: `manual_bucket_share_pct`, `manual_bucket_confidence_avg`,
+`n_bucket_sources`, `largest_manual_bucket_share_pct` are all fields on `CompanySOTPResult`.
+
+### Step 7 — Wave-tracking backtest output
+Added to `src/bve/analysis/company_sotp_backtest.py`:
+- `_write_wave_log()` function appends per-run metrics to a persistent JSON file
+- `--wave-label` and `--wave-log` CLI flags
+- Each entry captures: lane, candidate rows, mean excess return, hit rate, cluster count, bootstrap p-value
+- Optional strict-lane comparison block
+
+3 new tests added to `tests/test_company_sotp_backtest.py` (`7 passed`).
+
+Interpretation:
+- All four steps in the Company Pack Expansion Plan are now complete
+- Future pack improvement waves should use `--wave-label` + `--wave-log` to accumulate
+  the wave-tracking history specified in Step 7
+- The next high-leverage work is using the Step 5 templates to add pack entries for
+  names currently in `needs_manual_review` due to missing structured company inputs

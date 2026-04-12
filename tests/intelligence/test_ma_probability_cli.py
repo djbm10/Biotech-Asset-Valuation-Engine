@@ -15,7 +15,7 @@ def _result() -> MAProbabilityResult:
         as_of_date=date(2026, 3, 24),
         score_version="v1.2",
         alert_threshold=0.70,
-        calibration_policy="threshold_filter",
+        calibration_policy="display_only",
         calibration_threshold=0.10,
         n_assets=1,
         n_ranked=1,
@@ -107,7 +107,7 @@ def test_format_report_surfaces_required_fields():
     output = _format_report(_result())
 
     assert "WEEKLY M&A TARGETING SCAN" in output
-    assert "Calibration: threshold_filter | Threshold: 0.10" in output
+    assert "Calibration: display_only | Threshold: 0.10" in output
     assert "asset-cli" in output
     assert "regeneron" in output
     assert "$800M-$1.2B" in output
@@ -150,7 +150,7 @@ def test_ma_probability_cli_report_output(tmp_path: Path, monkeypatch, capsys):
     assert "regeneron" in out
     assert _StubScanner.last_config.persist_daily_snapshots is False
     assert _StubScanner.last_config.enable_monitor is False
-    assert _StubScanner.last_config.calibration_policy == "threshold_filter"
+    assert _StubScanner.last_config.calibration_policy == "display_only"
     assert _StubScanner.last_config.calibration_threshold == 0.10
     assert _StubScanner.last_call["top_n"] == 15
 
@@ -200,7 +200,7 @@ def test_ma_probability_cli_json_output_and_alert_flag(tmp_path: Path, monkeypat
     assert _StubScanner.last_config.top_n == 7
     assert _StubScanner.last_config.persist_daily_snapshots is True
     assert _StubScanner.last_config.enable_monitor is True
-    assert _StubScanner.last_config.calibration_policy == "threshold_filter"
+    assert _StubScanner.last_config.calibration_policy == "display_only"
     assert _StubScanner.last_config.calibration_threshold == 0.10
     assert _StubScanner.last_config.fit_integration_config.require_acquisition_readiness is False
     assert _StubScanner.last_call["snapshot_date"] == date(2026, 3, 24)

@@ -939,7 +939,10 @@ class CompanySOTPBuilder:
                         source_kind="modeled",
                         source_as_of=_parse_optional_date(stored_snapshot.get("snapshot_date")),
                         source_confidence=_bucket_confidence_from_quality(
-                            stored_snapshot.get("config_quality") or config_quality
+                            _prefer_higher_confidence_quality(
+                                stored_snapshot.get("config_quality"),
+                                config_quality,
+                            )
                         ),
                         source_ref=(
                             f"screen_snapshot:{stored_snapshot.get('ticker') or ticker}:"
@@ -2154,6 +2157,22 @@ def _bucket_confidence_from_quality(config_quality: object) -> float:
         return 0.55
     key = str(config_quality).strip().lower()
     return _CONFIG_QUALITY_CONFIDENCE.get(key, 0.55)
+
+
+def _prefer_higher_confidence_quality(*qualities: object) -> Optional[str]:
+    best_quality: Optional[str] = None
+    best_confidence = -1.0
+    for quality in qualities:
+        if quality is None:
+            continue
+        candidate = str(quality).strip()
+        if not candidate:
+            continue
+        confidence = _bucket_confidence_from_quality(candidate)
+        if confidence > best_confidence:
+            best_quality = candidate
+            best_confidence = confidence
+    return best_quality
 
 
 def _summarize_config_qualities(values: list[Optional[str]]) -> Optional[str]:

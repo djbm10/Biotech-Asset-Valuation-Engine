@@ -273,6 +273,24 @@ class TestComputeSubgroups:
         assert first.mean_excess_return > 0
         assert second.mean_excess_return < 0
 
+    def test_action_policy_subgroups_report_buy_and_manual_review(self) -> None:
+        trades = [
+            _make_trade("A", action_policy="buy", company_return_pct=0.40, benchmark_return_pct=0.10),
+            _make_trade("B", action_policy="buy", company_return_pct=0.30, benchmark_return_pct=0.10),
+            _make_trade("C", action_policy="needs_manual_review",
+                        company_return_pct=0.20, benchmark_return_pct=0.10),
+            _make_trade("D", action_policy="needs_manual_review",
+                        company_return_pct=0.10, benchmark_return_pct=0.10),
+        ]
+        result = _compute_subgroups(
+            trades,
+            include_time_subgroups=False,
+            include_action_policy_subgroups=True,
+        )
+        names = {s.subgroup_name for s in result}
+        assert "action_policy:buy" in names
+        assert "action_policy:needs_manual_review" in names
+
 
 # ---------------------------------------------------------------------------
 # run_validation_harness (integration)
@@ -385,6 +403,22 @@ class TestRunValidationHarness:
         report = run_validation_harness(trades, replay_db_path=db_path, config=config)
         names = {s.subgroup_name for s in report.subgroups}
         assert "first_half" in names or "second_half" in names
+
+    def test_report_includes_action_policy_subgroups(self) -> None:
+        trades = [
+            _make_trade("A", action_policy="buy", snapshot_date=date(2021, 3, 1), exit_date=date(2022, 3, 1)),
+            _make_trade("B", action_policy="buy", snapshot_date=date(2021, 9, 1), exit_date=date(2022, 9, 1)),
+            _make_trade("C", action_policy="needs_manual_review",
+                        snapshot_date=date(2022, 3, 1), exit_date=date(2023, 3, 1)),
+            _make_trade("D", action_policy="needs_manual_review",
+                        snapshot_date=date(2022, 9, 1), exit_date=date(2023, 9, 1)),
+        ]
+        db_path = self._build_db(trades, adv_millions=5.0)
+        config = ValidationHarnessConfig(min_adv_millions=1.0, n_placebo_iterations=20)
+        report = run_validation_harness(trades, replay_db_path=db_path, config=config)
+        names = {s.subgroup_name for s in report.subgroups}
+        assert "action_policy:buy" in names
+        assert "action_policy:needs_manual_review" in names
 
     def test_validation_grade_insufficient_for_empty(self) -> None:
         config = ValidationHarnessConfig(min_adv_millions=1.0, n_placebo_iterations=10)

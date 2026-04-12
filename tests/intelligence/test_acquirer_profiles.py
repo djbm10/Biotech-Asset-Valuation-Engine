@@ -210,10 +210,11 @@ def test_existing_partnerships_parsed_from_takeda_profile():
         Path("examples/research/acquirer_profiles/takeda.yaml")
     )
     takeda = AcquirerProfileLoader.get_acquirer(dataset, "takeda_pharmaceutical")
-    # Takeda profile has 3 partnerships; verify field is accessible via curated model
-    # (AcquirerProfile doesn't carry partnerships, but loading succeeds)
+    # Takeda profile has 3 partnerships and explicit acquisition capacity.
     assert takeda.company_name == "Takeda Pharmaceutical"
     assert takeda.ticker == "TAK"
+    assert len(takeda.existing_partnerships) == 3
+    assert takeda.acquisition_capacity_millions == pytest.approx(15000.0)
 
 
 def test_daiichi_sankyo_profile_parses():

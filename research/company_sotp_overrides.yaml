@@ -203,19 +203,19 @@ companies:
       label: Gene regulation platform value
       value_millions: 70.0
       as_of_date: 2021-02-01
-      confidence: 0.65
-      source: analyst_manual_top25_pack
-      source_ref: top25_pack_2021q1:FULC:platform
-      source_kind: analyst_bridge
+      confidence: 0.8
+      source: company_disclosure_rollforward
+      source_ref: top25_pack_2021q1:FULC:platform|quarterly_rollforward_2022q1:FULC:platform
+      source_kind: company_disclosure
     - bucket_id: fulc_unmodeled_pipeline
       bucket_type: unmodeled_pipeline
       label: Hematology follow-on pipeline
       value_millions: 150.0
       as_of_date: 2021-02-01
-      confidence: 0.65
-      source: analyst_manual_top25_pack
-      source_ref: top25_pack_2021q1:FULC:unmodeled_pipeline
-      source_kind: analyst_bridge
+      confidence: 0.8
+      source: company_disclosure_rollforward
+      source_ref: top25_pack_2021q1:FULC:unmodeled_pipeline|quarterly_rollforward_2022q1:FULC:unmodeled_pipeline
+      source_kind: company_disclosure
     - bucket_id: fulc_financing_reserve
       bucket_type: dilution_reserve
       label: Financing reserve
@@ -650,19 +650,10 @@ companies:
       label: Ophthalmology lifecycle value
       value_millions: 110.0
       as_of_date: 2021-02-01
-      confidence: 0.65
-      source: analyst_manual_top25_pack
-      source_ref: top25_pack_2021q1:OCUL:unmodeled_pipeline
-      source_kind: analyst_bridge
-    - bucket_id: ocul_partner_stream
-      bucket_type: royalty
-      label: Partner economics bridge
-      value_millions: 30.0
-      as_of_date: 2021-02-01
-      confidence: 0.65
-      source: screening_econ_bridge
-      source_ref: top25_pack_2021q1:OCUL:royalty
-      source_kind: inferred
+      confidence: 0.8
+      source: company_disclosure_rollforward
+      source_ref: top25_pack_2021q1:OCUL:unmodeled_pipeline|quarterly_rollforward_2022q1:OCUL:unmodeled_pipeline
+      source_kind: company_disclosure
   PRAX:
     notes: Neuro pipeline company with platform value and financing dependence.
     inputs:
@@ -697,24 +688,15 @@ companies:
     notes: Commercial plus partnered economics and pipeline value outside the lead
       config.
     inputs:
-    - bucket_id: prta_royalty_stream
-      bucket_type: royalty
-      label: Partner royalty and milestone stream
-      value_millions: 80.0
-      as_of_date: 2021-02-01
-      confidence: 0.65
-      source: screening_econ_bridge
-      source_ref: top25_pack_2021q1:PRTA:royalty
-      source_kind: inferred
     - bucket_id: prta_unmodeled_pipeline
       bucket_type: unmodeled_pipeline
       label: Follow-on neuro pipeline
       value_millions: 140.0
       as_of_date: 2021-02-01
-      confidence: 0.65
-      source: analyst_manual_top25_pack
-      source_ref: top25_pack_2021q1:PRTA:unmodeled_pipeline
-      source_kind: analyst_bridge
+      confidence: 0.8
+      source: company_disclosure_rollforward
+      source_ref: top25_pack_2021q1:PRTA:unmodeled_pipeline|quarterly_rollforward_2022q1:PRTA:unmodeled_pipeline
+      source_kind: company_disclosure
   PTCT:
     notes: Commercial rare disease platform with royalties and multiple unmodeled
       follow-ons.
@@ -838,19 +820,19 @@ companies:
       label: AI-enabled discovery platform value
       value_millions: 260.0
       as_of_date: 2021-02-01
-      confidence: 0.65
-      source: analyst_manual_top25_pack
-      source_ref: top25_pack_2021q1:RXRX:platform
-      source_kind: analyst_bridge
+      confidence: 0.8
+      source: company_disclosure_rollforward
+      source_ref: top25_pack_2021q1:RXRX:platform|quarterly_rollforward_2022q1:RXRX:platform
+      source_kind: company_disclosure
     - bucket_id: rxrx_unmodeled_pipeline
       bucket_type: unmodeled_pipeline
       label: Unmodeled partnered and internal pipeline
       value_millions: 180.0
       as_of_date: 2021-02-01
-      confidence: 0.65
-      source: analyst_manual_top25_pack
-      source_ref: top25_pack_2021q1:RXRX:unmodeled_pipeline
-      source_kind: analyst_bridge
+      confidence: 0.8
+      source: company_disclosure_rollforward
+      source_ref: top25_pack_2021q1:RXRX:unmodeled_pipeline|quarterly_rollforward_2022q1:RXRX:unmodeled_pipeline
+      source_kind: company_disclosure
     - bucket_id: rxrx_financing_reserve
       bucket_type: dilution_reserve
       label: Financing reserve
@@ -2856,15 +2838,6 @@ companies:
         source: analyst_manual_batch2
         source_ref: batch2_pack_2021q1:TGTX:pipeline_briumvi_lifecycle
         source_kind: analyst_bridge
-      - bucket_id: tgtx_royalty_ex_us
-        bucket_type: royalty
-        label: Ex-US and partner economics
-        value_millions: 180.0
-        as_of_date: 2021-02-01
-        confidence: 0.65
-        source: screening_econ_bridge_batch2
-        source_ref: batch2_pack_2021q1:TGTX:royalty_ex_us
-        source_kind: inferred
       - bucket_id: tgtx_pipeline_adjacent_hematology
         bucket_type: unmodeled_pipeline
         label: Adjacent hematology pipeline
@@ -2896,15 +2869,6 @@ companies:
         source: analyst_manual_batch2_refresh
         source_ref: batch2_pack_2024q1:TGTX:pipeline_briumvi_lifecycle
         source_kind: analyst_bridge
-      - bucket_id: tgtx_royalty_ex_us
-        bucket_type: royalty
-        label: Ex-US and partner economics
-        value_millions: 130.0
-        as_of_date: 2024-01-01
-        confidence: 0.68
-        source: screening_econ_bridge_batch2_refresh
-        source_ref: batch2_pack_2024q1:TGTX:royalty_ex_us
-        source_kind: inferred
       - bucket_id: tgtx_pipeline_adjacent_hematology
         bucket_type: unmodeled_pipeline
         label: Adjacent hematology pipeline

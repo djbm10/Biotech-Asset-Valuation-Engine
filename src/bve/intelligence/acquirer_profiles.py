@@ -122,6 +122,8 @@ class AcquirerProfile(BaseModel):
     strategic_priorities: list[StrategicPriority] = Field(default_factory=list, min_length=1)
     recent_deal_history: list[RecentDeal] = Field(default_factory=list)
     budget: BudgetSnapshot
+    acquisition_capacity_millions: float | None = Field(default=None, ge=0.0)
+    existing_partnerships: list[ExistingPartnership] = Field(default_factory=list)
 
 
 class AcquirerProfileDataset(BaseModel):
@@ -367,6 +369,8 @@ def _convert_curated_profile(
         strategic_priorities=strategic_priorities,
         recent_deal_history=recent_deal_history,
         budget=budget,
+        acquisition_capacity_millions=profile.acquisition_capacity_millions,
+        existing_partnerships=list(profile.existing_partnerships),
     )
 
 

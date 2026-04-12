@@ -290,6 +290,7 @@ def _compute_subgroups(
     trades: list[CompanySOTPBacktestTrade],
     *,
     include_time_subgroups: bool = True,
+    include_action_policy_subgroups: bool = True,
 ) -> list[SubgroupResult]:
     """Return subgroup excess return statistics."""
     if not trades or len(trades) < 4:
@@ -306,6 +307,22 @@ def _compute_subgroups(
             second_half = [t for t in trades if t.snapshot_date >= mid_date]
             for label, subset in (("first_half", first_half), ("second_half", second_half)):
                 results.append(_subgroup_from_trades(label, subset))
+
+    if include_action_policy_subgroups:
+        action_policies = sorted(
+            {
+                str(t.action_policy).strip().lower()
+                for t in trades
+                if str(t.action_policy).strip()
+            }
+        )
+        for action_policy in action_policies:
+            subset = [
+                t for t in trades
+                if str(t.action_policy).strip().lower() == action_policy
+            ]
+            if len(subset) >= 2:
+                results.append(_subgroup_from_trades(f"action_policy:{action_policy}", subset))
 
     return results
 
