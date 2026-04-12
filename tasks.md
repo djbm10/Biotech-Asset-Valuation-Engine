@@ -3328,7 +3328,10 @@ Current step status:
 - Step 1: `completed`
 - Step 2: `completed` (high-impact wave 1)
 - Step 3: `completed` (high-impact wave 1)
-- Steps 4–7: `pending`
+- Step 4: `completed` (evidence-standard enforcement in company_sotp.py)
+- Step 5: `completed` (three archetype templates + README in examples/packs/templates/)
+- Step 6: `completed` (pack-quality fields in CompanySOTPResult)
+- Step 7: `completed` (_write_wave_log + --wave-label/--wave-log CLI in backtest)
 
 ### 2026-04-09 Revised Company Data Quality Execution Plan
 
