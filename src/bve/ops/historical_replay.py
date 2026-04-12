@@ -1326,8 +1326,8 @@ class HistoricalReplay:
             n_resolved = snap.n_confirmed + snap.n_refuted + snap.n_expired
             thesis_strength = snap.thesis_strength if n_resolved > 0 else None
             company_snapshot = ks.get_company_sotp_snapshot_for_ticker_on_or_before(
-                str(u["ticker"]),
-                as_of,
+                ticker=str(u["ticker"]),
+                as_of=as_of,
             )
             candidates.append(ScoredCandidate(
                 asset_id=u["asset_id"],
