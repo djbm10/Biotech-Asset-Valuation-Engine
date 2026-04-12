@@ -73,6 +73,7 @@ def _build_context(output: ValuationOutput, memo_type: MemoType) -> dict:
         "implied_pos_pct": f"{output.implied_pos:.1%}" if output.implied_pos is not None else None,
         "implied_pos": output.implied_pos,
         "lifecycle_events": output.lifecycle_events_applied,
+        "comps": output.comps_fair_value_band,
         "author": MEMO_AUTHOR,
         "disclaimer": MEMO_DISCLAIMER,
         "memo_type": memo_type,
@@ -96,6 +97,22 @@ def _make_env() -> Environment:
 
     env.filters["format_int"] = format_int
     return env
+
+
+class MemoGenerator:
+    """Thin class wrapper around generate_memo / save_memo for test and API convenience."""
+
+    def generate(self, output: ValuationOutput, memo_type: MemoType = "bd") -> str:
+        return generate_memo(output, memo_type=memo_type)
+
+    def save(
+        self,
+        output: ValuationOutput,
+        memo_type: MemoType = "bd",
+        output_dir: str | Path = "memos",
+        filename: str | None = None,
+    ) -> Path:
+        return save_memo(output, memo_type=memo_type, output_dir=output_dir, filename=filename)
 
 
 def generate_memo(

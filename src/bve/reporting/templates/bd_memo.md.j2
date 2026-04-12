@@ -199,13 +199,43 @@ Probability of positive value: **{{ d.mc_prob_positive }}**
 
 ---
 
-## 8. Deal Considerations
+## 8. Deal Comps & Deal Considerations
+
+{% if comps and comps.match_tier != "no_comps" %}
+### Comparable M&A Transactions ({{ comps.n_comps }} deals — {{ comps.match_tier | replace("_", " ") | title }} match)
+
+| Metric | P25 | Median (P50) | P75 |
+|--------|-----|-------------|-----|
+| EV / Peak Sales | — | **{{ "%.2fx"|format(comps.peer_median_ev_to_peak_sales) }}** | — |
+{% if comps.fair_value_band and comps.fair_value_band.n_comps_with_ev >= 2 %}
+| Enterprise Value ($M) | ${{ "%.0f"|format(comps.fair_value_band.ev_p25) }}M | **${{ "%.0f"|format(comps.fair_value_band.ev_p50) }}M** | ${{ "%.0f"|format(comps.fair_value_band.ev_p75) }}M |
+{% endif %}
+{% if comps.fair_value_band and comps.fair_value_band.n_comps_with_upfront >= 2 %}
+| Upfront Cash ($M) | ${{ "%.0f"|format(comps.fair_value_band.upfront_p25) }}M | **${{ "%.0f"|format(comps.fair_value_band.upfront_p50) }}M** | ${{ "%.0f"|format(comps.fair_value_band.upfront_p75) }}M |
+{% endif %}
+{% if comps.fair_value_band and comps.fair_value_band.n_comps_with_biobucks >= 2 %}
+| Total Biobucks ($M) | ${{ "%.0f"|format(comps.fair_value_band.biobucks_p25) }}M | **${{ "%.0f"|format(comps.fair_value_band.biobucks_p50) }}M** | ${{ "%.0f"|format(comps.fair_value_band.biobucks_p75) }}M |
+{% endif %}
+
+**Asset model EV/peak sales:** {{ "%.2fx"|format(comps.asset_ev_to_peak_sales) }} — at the **{{ "%.0f"|format(comps.percentile_vs_comps * 100) }}th percentile** of comparable deals ({{ "%.0f"|format(comps.premium_discount_vs_median * 100) if comps.premium_discount_vs_median is not none else "—" }}% vs. median).
+
+**Matched comparables:** {{ comps.matched_targets | join(", ") }}
+
+{% else %}
+*No comparable deal data available for {{ d.stage | replace("_", " ") | upper }} {{ d.therapeutic_area | replace("_", " ") | title }} at this time. Add deals to research/mna/comparable_deals.yaml.*
+
+{% endif %}
+### Deal Framework
 
 *[BD team to populate: deal structure, license vs. acquisition, milestones, royalties, manufacturing/CMC considerations, strategic synergies, competing bids]*
 
 **Suggested deal framework:**
 - Structure: [License-in / Co-development / Full acquisition]
+{% if comps and comps.fair_value_band and comps.fair_value_band.upfront_p50 %}
+- Target upfront: ~${{ "%.0f"|format(comps.fair_value_band.upfront_p50) }}M (comp set median; P25–P75: ${{ "%.0f"|format(comps.fair_value_band.upfront_p25) }}M–${{ "%.0f"|format(comps.fair_value_band.upfront_p75) }}M)
+{% else %}
 - Target upfront: [To be determined based on competitive tension and strategic priority]
+{% endif %}
 - Milestone structure: Phase 3 initiation / NDA submission / Approval / Sales milestones
 - Royalty tiers: [10–15% net sales, depending on geography split]
 

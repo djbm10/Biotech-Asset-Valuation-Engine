@@ -45,6 +45,7 @@ def _phase_bucket(value: Optional[str]) -> Optional[str]:
 class ComparableDeal(BaseModel):
     """One curated biotech M&A comparable."""
 
+    # ── Required / existing fields ──────────────────────────────────────────
     target_name: str
     target_ticker: Optional[str] = None
     drug_name: Optional[str] = None
@@ -59,26 +60,83 @@ class ComparableDeal(BaseModel):
     source: Optional[str] = None
     notes: Optional[str] = None
 
+    # ── New deal-structure fields (all optional for backward compatibility) ──
+    upfront_millions: Optional[float] = Field(
+        default=None,
+        description="Cash paid at signing, net of cash acquired ($M).",
+    )
+    total_milestones_millions: Optional[float] = Field(
+        default=None,
+        description="Sum of all regulatory + commercial milestone payments ($M).",
+    )
+    royalty_rate_low: Optional[float] = Field(
+        default=None,
+        description="Low end of tiered royalty rate on net sales (0–1 scale, e.g. 0.08).",
+    )
+    royalty_rate_high: Optional[float] = Field(
+        default=None,
+        description="High end of tiered royalty rate on net sales (0–1 scale, e.g. 0.14).",
+    )
+    total_biobucks: Optional[float] = Field(
+        default=None,
+        description="Upfront + total milestones. If not set, computed when both components are available.",
+    )
+    equity_component_millions: Optional[float] = Field(
+        default=None,
+        description="Equity stake or equity consideration component ($M), if any.",
+    )
+    territory: Optional[str] = Field(
+        default=None,
+        description=(
+            "Geographic scope of the deal. "
+            "Values: 'global', 'US', 'ex-US', 'EU', 'Asia', 'US + Canada', etc."
+        ),
+    )
+    deal_structure: Optional[str] = Field(
+        default=None,
+        description=(
+            "Deal type. Values: 'M&A', 'licensing', 'co-development', 'option', "
+            "'co-promotion', 'royalty_acquisition'."
+        ),
+    )
+    post_deal_outcome: Optional[str] = Field(
+        default=None,
+        description=(
+            "Outcome of the acquired/licensed asset after deal close. "
+            "Values: 'approved', 'failed_ph3', 'failed_ph2', 'discontinued', "
+            "'ongoing', 'pending', 'label_expanded'."
+        ),
+    )
+
     @model_validator(mode="after")
-    def _populate_multiple(self) -> "ComparableDeal":
-        if self.ev_to_peak_sales is not None:
-            return self
+    def _populate_multiple_and_biobucks(self) -> "ComparableDeal":
+        # --- ev_to_peak_sales (existing logic, unchanged) ---
+        if self.ev_to_peak_sales is None:
+            if (
+                self.enterprise_value_millions is not None
+                and self.peak_sales_millions is not None
+                and self.peak_sales_millions > 0
+            ):
+                self.ev_to_peak_sales = round(
+                    float(self.enterprise_value_millions) / float(self.peak_sales_millions),
+                    6,
+                )
+            else:
+                raise ValueError(
+                    "Comparable deal requires ev_to_peak_sales or both "
+                    "enterprise_value_millions and peak_sales_millions"
+                )
 
+        # --- total_biobucks: auto-compute when both components are present ---
         if (
-            self.enterprise_value_millions is not None
-            and self.peak_sales_millions is not None
-            and self.peak_sales_millions > 0
+            self.total_biobucks is None
+            and self.upfront_millions is not None
+            and self.total_milestones_millions is not None
         ):
-            self.ev_to_peak_sales = round(
-                float(self.enterprise_value_millions) / float(self.peak_sales_millions),
-                6,
+            self.total_biobucks = round(
+                self.upfront_millions + self.total_milestones_millions, 2
             )
-            return self
 
-        raise ValueError(
-            "Comparable deal requires ev_to_peak_sales or both "
-            "enterprise_value_millions and peak_sales_millions"
-        )
         return self
 
     @property
@@ -94,6 +152,90 @@ class ComparableDeal(BaseModel):
         return _phase_bucket(self.phase_at_acquisition)
 
 
+class FairValueBand(BaseModel):
+    """
+    P25 / P50 / P75 quantile ranges for key deal economics metrics,
+    computed from a matched comparable deal set.
+
+    Fields are ``None`` when fewer than 2 deals have data for that metric
+    (a single data point does not constitute a meaningful band).
+    """
+
+    n_comps_with_ev: int = 0
+    n_comps_with_upfront: int = 0
+    n_comps_with_biobucks: int = 0
+
+    ev_p25: Optional[float] = None
+    ev_p50: Optional[float] = None
+    ev_p75: Optional[float] = None
+
+    upfront_p25: Optional[float] = None
+    upfront_p50: Optional[float] = None
+    upfront_p75: Optional[float] = None
+
+    biobucks_p25: Optional[float] = None
+    biobucks_p50: Optional[float] = None
+    biobucks_p75: Optional[float] = None
+
+
+class DealCompsAnalytics:
+    """
+    Quantile analytics over a matched ``ComparableDeal`` list.
+
+    All methods are static and pure — no side effects, no I/O.
+    """
+
+    @staticmethod
+    def fair_value_band(deals: list[ComparableDeal]) -> FairValueBand:
+        """Compute P25/P50/P75 for EV, upfront, and total_biobucks across matched deals."""
+        ev_vals = sorted(
+            float(d.enterprise_value_millions)
+            for d in deals
+            if d.enterprise_value_millions is not None
+        )
+        upfront_vals = sorted(
+            float(d.upfront_millions) for d in deals if d.upfront_millions is not None
+        )
+        biobucks_vals = sorted(
+            float(d.total_biobucks) for d in deals if d.total_biobucks is not None
+        )
+
+        return FairValueBand(
+            n_comps_with_ev=len(ev_vals),
+            n_comps_with_upfront=len(upfront_vals),
+            n_comps_with_biobucks=len(biobucks_vals),
+            ev_p25=DealCompsAnalytics._quantile(ev_vals, 0.25),
+            ev_p50=DealCompsAnalytics._quantile(ev_vals, 0.50),
+            ev_p75=DealCompsAnalytics._quantile(ev_vals, 0.75),
+            upfront_p25=DealCompsAnalytics._quantile(upfront_vals, 0.25),
+            upfront_p50=DealCompsAnalytics._quantile(upfront_vals, 0.50),
+            upfront_p75=DealCompsAnalytics._quantile(upfront_vals, 0.75),
+            biobucks_p25=DealCompsAnalytics._quantile(biobucks_vals, 0.25),
+            biobucks_p50=DealCompsAnalytics._quantile(biobucks_vals, 0.50),
+            biobucks_p75=DealCompsAnalytics._quantile(biobucks_vals, 0.75),
+        )
+
+    @staticmethod
+    def _quantile(sorted_values: list[float], q: float) -> Optional[float]:
+        """
+        Linear-interpolation quantile (equivalent to numpy default / method='linear').
+
+        Returns ``None`` when the list is empty; returns the single value when n=1.
+        """
+        if not sorted_values:
+            return None
+        n = len(sorted_values)
+        if n == 1:
+            return round(sorted_values[0], 2)
+        idx = q * (n - 1)
+        lo = int(idx)
+        hi = lo + 1
+        if hi >= n:
+            return round(sorted_values[-1], 2)
+        frac = idx - lo
+        return round(sorted_values[lo] + frac * (sorted_values[hi] - sorted_values[lo]), 2)
+
+
 class ComparableDealSet(BaseModel):
     """Typed collection of curated comparable deals."""
 
@@ -101,7 +243,13 @@ class ComparableDealSet(BaseModel):
 
 
 class ComparableDealAnalysis(BaseModel):
-    """Comparison of one asset versus matched biotech M&A comps."""
+    """
+    Comparison of one asset versus matched biotech M&A comps.
+
+    Extends the original EV/peak_sales analysis with a ``FairValueBand``
+    containing quantile ranges for EV, upfront, and total_biobucks from
+    the matched deal set.
+    """
 
     asset_ev_to_peak_sales: Optional[float]
     match_tier: MatchTier
@@ -112,6 +260,9 @@ class ComparableDealAnalysis(BaseModel):
     percentile_vs_comps: Optional[float] = None
     premium_discount_vs_median: Optional[float] = None
     matched_targets: list[str] = Field(default_factory=list)
+
+    # New: quantile bands for deal structure economics
+    fair_value_band: Optional[FairValueBand] = None
 
 
 class ComparableDealLoader:
@@ -219,6 +370,8 @@ class ComparableDealMatcher:
         if median and median > 0:
             premium_discount = round((asset_ev_to_peak_sales / median) - 1.0, 6)
 
+        fair_band = DealCompsAnalytics.fair_value_band(deals)
+
         return ComparableDealAnalysis(
             asset_ev_to_peak_sales=round(asset_ev_to_peak_sales, 6),
             match_tier=match_tier,
@@ -229,6 +382,7 @@ class ComparableDealMatcher:
             percentile_vs_comps=round(percentile, 6),
             premium_discount_vs_median=premium_discount,
             matched_targets=[deal.target_name for deal in deals],
+            fair_value_band=fair_band,
         )
 
     @staticmethod

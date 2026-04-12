@@ -16,7 +16,7 @@ from __future__ import annotations
 import hashlib
 import warnings
 from pathlib import Path
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 
 from bve.entities.asset import Asset, Modality, TherapeuticArea
 from bve.entities.company import Company
@@ -24,6 +24,9 @@ from bve.entities.indication import Indication
 from bve.entities.trial import ClinicalTrial
 from bve.models.cost_model import CostModel
 from bve.models.drug_asset_program import CommercialPlan, DrugAssetProgram
+
+if TYPE_CHECKING:
+    from bve.intelligence.comparable_deals import ComparableDeal
 from bve.models.market_model import MarketModel
 from bve.models.monte_carlo import MonteCarloParams, run_monte_carlo
 from bve.models.pos_model import apply_pos_to_trials
@@ -53,6 +56,9 @@ class ValuationEngine:
     apply_pos_model:    If True and pos_adjusters provided, override trial success probabilities.
     apply_design_model: If True and design_adjusters provided, apply as second POS layer.
     analyst_notes:      Optional free-text notes included in memo output.
+    comparable_deals:   Optional list of ComparableDeal objects. When supplied,
+                        ValuationEngine will run ComparableDealMatcher.analyze()
+                        and populate ValuationOutput.comps_fair_value_band.
     """
 
     def __init__(
@@ -71,6 +77,7 @@ class ValuationEngine:
         config_path: Optional[str] = None,
         limitations: Optional[list[str]] = None,
         thesis_changers: Optional[list[str]] = None,
+        comparable_deals: Optional[list[ComparableDeal]] = None,
     ):
         self.asset = asset
         self.company = company
@@ -90,6 +97,7 @@ class ValuationEngine:
         self.decision_framing = None
         self._commercial_plan: Optional[CommercialPlan] = None  # set by from_program
         self._deal_economics = None  # set by from_program; Optional[DealEconomics]
+        self.comparable_deals: Optional[list[ComparableDeal]] = comparable_deals
 
     # ------------------------------------------------------------------
     # Alternate constructor from DrugAssetProgram
@@ -208,6 +216,26 @@ class ValuationEngine:
         # --- Provenance (Task 9.21) ---
         prov = self._build_provenance()
 
+        # --- Deal comps (optional) ---
+        # Lazy import resolves circular dependency; model_rebuild() resolves the
+        # forward reference in ValuationOutput.comps_fair_value_band at first use.
+        comps_fair_value_band = None
+        from bve.intelligence.comparable_deals import ComparableDealAnalysis, ComparableDealMatcher  # noqa: E402
+        ValuationOutput.model_rebuild(_types_namespace={"ComparableDealAnalysis": ComparableDealAnalysis})
+        if self.comparable_deals is not None:
+            asset_ev_ps = (
+                rnpv.rnpv_millions / rnpv.peak_sales_millions
+                if rnpv.peak_sales_millions and rnpv.peak_sales_millions > 0
+                else None
+            )
+            comps_fair_value_band = ComparableDealMatcher.analyze(
+                asset_indication=self.asset.indication,
+                asset_therapeutic_area=self.asset.therapeutic_area.value,
+                asset_stage=self.asset.stage.value,
+                asset_ev_to_peak_sales=asset_ev_ps,
+                deals=self.comparable_deals,
+            )
+
         return ValuationOutput(
             asset=self.asset,
             company=self.company,
@@ -231,6 +259,7 @@ class ValuationEngine:
             config_hash=prov["config_hash"],
             wacc_vintage=prov["wacc_vintage"],
             analyst_overrides=prov["analyst_overrides"],
+            comps_fair_value_band=comps_fair_value_band,
         )
 
     # -----------------------------------------------------------------------

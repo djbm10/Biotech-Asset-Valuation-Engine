@@ -6,7 +6,7 @@ import subprocess
 import sys
 from datetime import date, datetime
 from pathlib import Path
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 
 from pydantic import BaseModel, Field
 
@@ -18,6 +18,9 @@ from bve.models.market_model import MarketModel
 from bve.models.monte_carlo import MonteCarloResult
 from bve.models.rnpv_model import RNPVResult
 from bve.valuation.scenario import ScenarioSet
+
+if TYPE_CHECKING:
+    from bve.intelligence.comparable_deals import ComparableDealAnalysis
 
 
 class SensitivityPoint(BaseModel):
@@ -96,6 +99,16 @@ class ValuationOutput(BaseModel):
         description=(
             "Fields explicitly overridden from industry defaults in this run. "
             "e.g. ['discount_rate: 0.14 (default: 0.12)', 'peak_penetration: 0.25']"
+        ),
+    )
+
+    # Deal comps analysis (populated by ValuationEngine when comparable_deals provided)
+    comps_fair_value_band: Optional[ComparableDealAnalysis] = Field(
+        default=None,
+        description=(
+            "Matched biotech M&A comparable deal analysis, including EV/peak_sales "
+            "percentiles and fair-value bands for EV, upfront, and total_biobucks. "
+            "None when no comparable_deals list is supplied to ValuationEngine."
         ),
     )
 
@@ -204,6 +217,13 @@ class ValuationOutput(BaseModel):
             "implied_upside_pct": self.implied_upside_pct,
             "net_cash_millions": self.company.net_cash_millions,
             "cash_runway_quarters": self.company.cash_runway_quarters,
+            # Deal comps (None when not computed)
+            "comps_match_tier": self.comps_fair_value_band.match_tier if self.comps_fair_value_band else None,
+            "comps_n_comps": self.comps_fair_value_band.n_comps if self.comps_fair_value_band else None,
+            "comps_peer_median_ev_to_peak_sales": (
+                self.comps_fair_value_band.peer_median_ev_to_peak_sales
+                if self.comps_fair_value_band else None
+            ),
         }
 
     def to_json_dict(self) -> dict:
@@ -296,6 +316,10 @@ class ValuationOutput(BaseModel):
                 ],
             },
         }
+
+        # Add deal comps analysis if present
+        if self.comps_fair_value_band is not None:
+            d["outputs"]["deal_comps"] = self.comps_fair_value_band.model_dump()
 
         # Add assumption log if present
         if self.assumption_log is not None:

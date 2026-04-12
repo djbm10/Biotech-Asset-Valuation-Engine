@@ -16,13 +16,23 @@
 #   - either `ev_to_peak_sales`, or both `enterprise_value_millions` and
 #     `peak_sales_millions`
 #
-# Optional fields:
-#   - target_ticker
-#   - drug_name
-#   - therapeutic_area
-#   - ev_to_peak_sales
-#   - source
-#   - notes
+# Optional fields (original):
+#   - target_ticker, drug_name, therapeutic_area, ev_to_peak_sales, source, notes
+#
+# Optional fields (new — deal structure economics):
+#   - upfront_millions          Cash paid at signing, net of cash acquired ($M)
+#   - total_milestones_millions Sum of all regulatory + commercial milestone payments ($M)
+#   - royalty_rate_low          Low end of royalty tier (0-1 scale, e.g. 0.08)
+#   - royalty_rate_high         High end of royalty tier (0-1 scale, e.g. 0.14)
+#   - total_biobucks            Upfront + milestones (auto-computed if not set)
+#   - equity_component_millions Equity stake/consideration ($M), if any
+#   - territory                 "global" | "US" | "ex-US" | "EU" | "Asia" | etc.
+#   - deal_structure            "M&A" | "licensing" | "co-development" | "option"
+#   - post_deal_outcome         "approved" | "failed_ph3" | "failed_ph2" |
+#                               "discontinued" | "ongoing" | "pending" | "label_expanded"
+#
+# Backfill priority: M&A deals where upfront/milestones are SEC-disclosed (highest confidence).
+# Leave new fields blank for licensing deals where economics are not publicly disclosed.
 #
 # Example:
 # deals:
@@ -51,8 +61,14 @@ deals:
     deal_date: "2021-12-13"
     enterprise_value_millions: 6700
     peak_sales_millions: 2500
+    upfront_millions: 6700
+    total_milestones_millions: 0
+    total_biobucks: 6700
+    territory: "global"
+    deal_structure: "M&A"
+    post_deal_outcome: "approved"
     source: "Pfizer acquisition announcement (2021-12-13); Wells Fargo etrasimod peak-sales estimate reported by CNBC/Reuters."
-    notes: "Peak-sales input uses Derek Archila's $2.5B etrasimod estimate cited at announcement."
+    notes: "Peak-sales input uses Derek Archila's $2.5B etrasimod estimate cited at announcement. Full M&A; no milestone structure."
 
   - target_name: "Sierra Oncology"
     target_ticker: "SRRA"
@@ -64,8 +80,14 @@ deals:
     deal_date: "2022-04-13"
     enterprise_value_millions: 1900
     peak_sales_millions: 630
+    upfront_millions: 1900
+    total_milestones_millions: 0
+    total_biobucks: 1900
+    territory: "global"
+    deal_structure: "M&A"
+    post_deal_outcome: "approved"
     source: "GSK acquisition announcement (2022-04-13); J.P. Morgan consensus peak-sales estimate reported by Reuters via Euronews."
-    notes: "Peak-sales input uses the Reuters-cited $630M consensus expectation for momelotinib."
+    notes: "Peak-sales input uses the Reuters-cited $630M consensus expectation for momelotinib. Full M&A; no milestone structure."
 
   - target_name: "MyoKardia"
     target_ticker: "MYOK"
@@ -77,8 +99,14 @@ deals:
     deal_date: "2020-10-05"
     enterprise_value_millions: 13100
     peak_sales_millions: 2000
+    upfront_millions: 13100
+    total_milestones_millions: 0
+    total_biobucks: 13100
+    territory: "global"
+    deal_structure: "M&A"
+    post_deal_outcome: "approved"
     source: "Bristol Myers Squibb acquisition announcement (2020-10-05); Cantor Fitzgerald mavacamten peak-sales estimate reported by BioPharma Dive."
-    notes: "Peak-sales input uses a conservative $2.0B estimate for obstructive HCM only and excludes earlier follow-on indications."
+    notes: "Peak-sales input uses a conservative $2.0B estimate for obstructive HCM only and excludes earlier follow-on indications. Full M&A."
 
   - target_name: "Five Prime Therapeutics"
     target_ticker: "FPRX"
@@ -102,8 +130,14 @@ deals:
     deal_date: "2022-11-21"
     enterprise_value_millions: 1350
     peak_sales_millions: 750
+    upfront_millions: 1350
+    total_milestones_millions: 0
+    total_biobucks: 1350
+    territory: "global"
+    deal_structure: "M&A"
+    post_deal_outcome: "ongoing"
     source: "Merck acquisition announcement (2022-11-21); Stifel bomedemstat peak-sales estimate reported by BioPharma Dive."
-    notes: "Peak-sales input uses Stifel's approximately $750M U.S. peak-sales estimate for the lead ET indication only."
+    notes: "Peak-sales input uses Stifel's approximately $750M U.S. peak-sales estimate for the lead ET indication only. Full M&A; Phase 3 ongoing post-acquisition."
 
   - target_name: "Prometheus Biosciences"
     target_ticker: "RXDX"
@@ -139,8 +173,14 @@ deals:
     deal_date: "2023-04-18"
     enterprise_value_millions: 2000
     peak_sales_millions: 1200
+    upfront_millions: 2000
+    total_milestones_millions: 0
+    total_biobucks: 2000
+    territory: "global"
+    deal_structure: "M&A"
+    post_deal_outcome: "approved"
     source: "GSK acquisition announcement (2023-04-18); Reuters/Jefferies peak U.S. sales estimate reported by Investing.com."
-    notes: "Peak-sales input reflects Jefferies' $1.2B U.S. peak-sales estimate for camlipixant."
+    notes: "Peak-sales input reflects Jefferies' $1.2B U.S. peak-sales estimate for camlipixant. Full M&A."
 
   - target_name: "Iveric Bio"
     target_ticker: "ISEE"
@@ -188,8 +228,14 @@ deals:
     deal_date: "2023-07-28"
     enterprise_value_millions: 7300
     peak_sales_millions: 1300
+    upfront_millions: 7300
+    total_milestones_millions: 0
+    total_biobucks: 7300
+    territory: "global"
+    deal_structure: "M&A"
+    post_deal_outcome: "label_expanded"
     source: "Biogen acquisition announcement (2023-07-28); Reuters/Refinitiv sales estimate cited by Seeking Alpha."
-    notes: "Uses Reuters/Refinitiv 2029 sales estimate for Skyclarys as a peak-sales proxy."
+    notes: "Uses Reuters/Refinitiv 2029 sales estimate for Skyclarys as a peak-sales proxy. Full M&A."
 
   - target_name: "Mirati Therapeutics"
     target_ticker: "MRTX"
@@ -214,8 +260,14 @@ deals:
     deal_date: "2023-12-22"
     enterprise_value_millions: 14000
     peak_sales_millions: 6800
+    upfront_millions: 14000
+    total_milestones_millions: 0
+    total_biobucks: 14000
+    territory: "global"
+    deal_structure: "M&A"
+    post_deal_outcome: "approved"
     source: "Bristol Myers Squibb acquisition announcement (2023-12-22); analyst peak-sales estimate reported by the Associated Press via Investopedia."
-    notes: "KarXT was under FDA review at announcement; peak-sales input uses the published $6.8B analyst estimate."
+    notes: "KarXT was under FDA review at announcement; peak-sales input uses the published $6.8B analyst estimate. Full M&A."
 
   - target_name: "Cerevel Therapeutics"
     target_ticker: "CERE"
@@ -337,8 +389,14 @@ deals:
     deal_date: "2024-10-14"
     enterprise_value_millions: 2500
     peak_sales_millions: 1750
+    upfront_millions: 2500
+    total_milestones_millions: 0
+    total_biobucks: 2500
+    territory: "global"
+    deal_structure: "M&A"
+    post_deal_outcome: "ongoing"
     source: "Lundbeck acquisition announcement (2024-10-14); Longboard investor materials citing $1.5B-$2.0B peak-sales potential."
-    notes: "Enterprise value uses Lundbeck's stated net-of-cash value. Peak-sales input is the midpoint of Longboard's published range."
+    notes: "Enterprise value uses Lundbeck's stated net-of-cash value. Peak-sales input is the midpoint of Longboard's published range. Full M&A; Phase 3 ongoing."
 
   - target_name: "Intra-Cellular Therapies"
     target_ticker: "ITCI"
@@ -350,8 +408,14 @@ deals:
     deal_date: "2025-01-13"
     enterprise_value_millions: 14600
     peak_sales_millions: 5000
+    upfront_millions: 14600
+    total_milestones_millions: 0
+    total_biobucks: 14600
+    territory: "global"
+    deal_structure: "M&A"
+    post_deal_outcome: "ongoing"
     source: "Johnson & Johnson acquisition announcement (2025-01-13) citing $5B+ peak-year sales potential."
-    notes: "Peak-sales input uses J&J's stated lower bound for Caplyta peak-year sales potential."
+    notes: "Peak-sales input uses J&J's stated lower bound for Caplyta peak-year sales potential. Full M&A."
 
   - target_name: "Avidity Biosciences"
     target_ticker: "RNA"
@@ -479,5 +543,11 @@ deals:
     deal_date: "2025-01-07"
     enterprise_value_millions: 2000
     peak_sales_millions: 3000
+    upfront_millions: 1000
+    total_milestones_millions: 1000
+    total_biobucks: 2000
+    territory: "global"
+    deal_structure: "M&A"
+    post_deal_outcome: "ongoing"
     source: "AbbVie acquisition announcement (2025-01-07) disclosing $1B upfront and up to $1B in milestones; Goldman Sachs analyst note estimating $2-4B peak-sales potential for a best-in-class FXI inhibitor in AF/VTE cited at deal announcement."
     notes: "Abelacimab targets FXI, offering potentially superior bleeding safety profile vs. DOACs. MAGNOLIA and AZALEA Phase 3 trials ongoing for AF and VTE. EV uses total disclosed deal value ($2B); peak-sales input uses the lower bound of Goldman estimate. Low ratio (~0.67x) reflects early Phase 3 risk premium and milestone-heavy structure."
