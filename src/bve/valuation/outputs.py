@@ -115,6 +115,17 @@ class ValuationOutput(BaseModel):
     # Memo text (populated by reporting layer)
     memo_markdown: Optional[str] = None
 
+    # Structured evidence bundle (populated by MemoEvidenceBuilder during generate_memo)
+    # Kept as Optional[object] to avoid circular imports from bve.reporting
+    memo_evidence: Optional[object] = Field(
+        default=None,
+        description=(
+            "Section-keyed evidence bundle (MemoEvidence) built by MemoEvidenceBuilder. "
+            "Contains traceable MemoEvidenceRef objects for each memo section. "
+            "None until generate_memo() has been called."
+        ),
+    )
+
     model_config = {"arbitrary_types_allowed": True}
 
     @staticmethod

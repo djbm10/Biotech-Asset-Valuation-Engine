@@ -14,6 +14,7 @@ from typing import Literal
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 from bve.config.constants import MEMO_AUTHOR, MEMO_DISCLAIMER
+from bve.reporting.evidence_builder import MemoEvidenceBuilder
 from bve.valuation.outputs import ValuationOutput
 
 MemoType = Literal["bd", "vc", "hf"]
@@ -80,6 +81,8 @@ def _build_context(output: ValuationOutput, memo_type: MemoType) -> dict:
         "author": MEMO_AUTHOR,
         "disclaimer": MEMO_DISCLAIMER,
         "memo_type": memo_type,
+        # Structured evidence bundle — always present (empty sections if no data)
+        "evidence": MemoEvidenceBuilder.build(output),
     }
 
 
@@ -143,8 +146,9 @@ def generate_memo(
     context = _build_context(output, memo_type)
     rendered = template.render(**context)
 
-    # Attach rendered memo to output object for convenience
+    # Attach rendered memo and evidence to output object for convenience
     output.memo_markdown = rendered
+    output.memo_evidence = context["evidence"]
     return rendered
 
 
