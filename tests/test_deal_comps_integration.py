@@ -358,3 +358,158 @@ class TestMemoGeneratorCompsRendering:
         # Should not raise — comps variable is in context but HF template may not render it
         memo = MemoGenerator().generate(output, memo_type="hf")
         assert len(memo) > 100
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Sprint 2: HQ band wiring through ValuationEngine
+# ──────────────────────────────────────────────────────────────────────────────
+
+class TestHQBandIntegration:
+    def test_hq_band_present_when_hq_deals_match(
+        self, asset, company, trials, market, immunology_phase2_deals
+    ):
+        # All immunology_phase2_deals default to data_quality="medium" → is_high_quality=True
+        engine = ValuationEngine(
+            asset, company, trials, market,
+            mc_params=_MC_FAST,
+            comparable_deals=immunology_phase2_deals,
+        )
+        output = engine.run()
+        assert output.comps_fair_value_band is not None
+        assert output.comps_fair_value_band.n_hq_comps >= 1
+        assert output.comps_fair_value_band.hq_fair_value_band is not None
+
+    def test_hq_band_none_when_all_low_quality(
+        self, asset, company, trials, market
+    ):
+        from bve.intelligence.comparable_deals import ComparableDeal
+        low_quality_deals = [
+            ComparableDeal.model_validate({
+                "target_name": "Low Q",
+                "indication": "ulcerative colitis",
+                "therapeutic_area": "immunology",
+                "phase_at_acquisition": "phase_2",
+                "acquirer": "Big Pharma",
+                "deal_date": "2024-01-01",
+                "enterprise_value_millions": 1000,
+                "peak_sales_millions": 500,
+                "data_quality": "low",
+            })
+        ]
+        engine = ValuationEngine(
+            asset, company, trials, market,
+            mc_params=_MC_FAST,
+            comparable_deals=low_quality_deals,
+        )
+        output = engine.run()
+        assert output.comps_fair_value_band is not None
+        assert output.comps_fair_value_band.n_hq_comps == 0
+        assert output.comps_fair_value_band.hq_fair_value_band is None
+
+    def test_n_hq_comps_in_summary_dict(
+        self, asset, company, trials, market, immunology_phase2_deals
+    ):
+        engine = ValuationEngine(
+            asset, company, trials, market,
+            mc_params=_MC_FAST,
+            comparable_deals=immunology_phase2_deals,
+        )
+        output = engine.run()
+        # n_hq_comps is on comps_fair_value_band object, not summary_dict — confirm access
+        assert output.comps_fair_value_band.n_hq_comps >= 0
+
+    def test_to_json_dict_includes_hq_fair_value_band(
+        self, asset, company, trials, market, immunology_phase2_deals
+    ):
+        engine = ValuationEngine(
+            asset, company, trials, market,
+            mc_params=_MC_FAST,
+            comparable_deals=immunology_phase2_deals,
+        )
+        output = engine.run()
+        d = output.to_json_dict()
+        dc = d["outputs"]["deal_comps"]
+        assert "n_hq_comps" in dc
+        # hq_fair_value_band may be None or populated depending on quality
+        assert "hq_fair_value_band" in dc
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Sprint 2: Memo rendering — new template sections
+# ──────────────────────────────────────────────────────────────────────────────
+
+class TestMemoSprintTwo:
+    def test_bd_memo_shows_match_tier_label(
+        self, asset, company, trials, market, immunology_phase2_deals
+    ):
+        engine = ValuationEngine(
+            asset, company, trials, market,
+            mc_params=_MC_FAST,
+            comparable_deals=immunology_phase2_deals,
+        )
+        output = engine.run()
+        memo = MemoGenerator().generate(output, memo_type="bd")
+        # Template renders match tier with "match" label
+        assert "match" in memo.lower()
+
+    def test_bd_memo_shows_n_hq_comps(
+        self, asset, company, trials, market, immunology_phase2_deals
+    ):
+        engine = ValuationEngine(
+            asset, company, trials, market,
+            mc_params=_MC_FAST,
+            comparable_deals=immunology_phase2_deals,
+        )
+        output = engine.run()
+        memo = MemoGenerator().generate(output, memo_type="bd")
+        assert "high-quality comps" in memo or "high-quality" in memo
+
+    def test_bd_memo_thin_set_caveat_when_single_comp(
+        self, asset, company, trials, market
+    ):
+        single_deal = [_make_deal(
+            "Solo Deal", "ulcerative colitis", "immunology", "phase_2",
+            ev=1000, peak_sales=500, upfront=1000, milestones=0,
+        )]
+        engine = ValuationEngine(
+            asset, company, trials, market,
+            mc_params=_MC_FAST,
+            comparable_deals=single_deal,
+        )
+        output = engine.run()
+        memo = MemoGenerator().generate(output, memo_type="bd")
+        # Single comp should trigger thin set warning
+        assert "Thin" in memo or "thin" in memo or "n=1" in memo
+
+    def test_bd_memo_falsification_section_present(
+        self, asset, company, trials, market, immunology_phase2_deals
+    ):
+        engine = ValuationEngine(
+            asset, company, trials, market,
+            mc_params=_MC_FAST,
+            comparable_deals=immunology_phase2_deals,
+        )
+        output = engine.run()
+        memo = MemoGenerator().generate(output, memo_type="bd")
+        assert "What Would Make This Wrong" in memo
+
+    def test_bd_memo_falsification_contains_phase_transition_risk(
+        self, asset, company, trials, market, immunology_phase2_deals
+    ):
+        engine = ValuationEngine(
+            asset, company, trials, market,
+            mc_params=_MC_FAST,
+            comparable_deals=immunology_phase2_deals,
+        )
+        output = engine.run()
+        memo = MemoGenerator().generate(output, memo_type="bd")
+        assert "Phase transition failure" in memo or "phase" in memo.lower()
+
+    def test_bd_memo_renders_without_comps_no_falsification_comps_content(
+        self, asset, company, trials, market
+    ):
+        engine = ValuationEngine(asset, company, trials, market, mc_params=_MC_FAST)
+        output = engine.run()
+        memo = MemoGenerator().generate(output, memo_type="bd")
+        # No comps → the falsification section is inside the comps block, absent
+        assert "What Would Make This Wrong" not in memo

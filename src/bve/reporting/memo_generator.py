@@ -38,6 +38,9 @@ def _build_context(output: ValuationOutput, memo_type: MemoType) -> dict:
         "rnpv_prob_adj_revenue_pv": output.rnpv.probability_adjusted_revenue_pv_millions,
         "rnpv_trial_costs_pv": output.rnpv.trial_costs_pv_millions,
         "shares_outstanding_millions": output.company.shares_outstanding_millions,
+        # Falsification section helpers
+        "combined_pos_pct": round(output.rnpv.cumulative_success_probability * 100, 1),
+        "n_competitors": len(output.asset.competitor_assets),
     })
 
     # Phases detail (for timeline tables)

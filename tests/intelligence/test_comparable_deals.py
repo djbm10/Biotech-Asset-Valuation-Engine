@@ -425,3 +425,230 @@ def test_comparable_deal_analysis_serialises_fair_value_band():
     assert dumped["fair_value_band"]["ev_p50"] == pytest.approx(1500.0)
     assert dumped["fair_value_band"]["upfront_p50"] == pytest.approx(600.0)
     assert dumped["fair_value_band"]["biobucks_p50"] == pytest.approx(900.0)
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Sprint 2: data_quality field
+# ──────────────────────────────────────────────────────────────────────────────
+
+class TestDataQualityField:
+    def test_default_is_medium(self):
+        d = _deal(**_base_deal())
+        assert d.data_quality == "medium"
+
+    def test_explicit_high(self):
+        d = _deal(**_base_deal(data_quality="high"))
+        assert d.data_quality == "high"
+
+    def test_explicit_low(self):
+        d = _deal(**_base_deal(data_quality="low"))
+        assert d.data_quality == "low"
+
+    def test_invalid_value_raises(self):
+        from pydantic import ValidationError
+        with pytest.raises(ValidationError):
+            _deal(**_base_deal(data_quality="unknown"))
+
+    def test_is_high_quality_true_for_high(self):
+        d = _deal(**_base_deal(data_quality="high"))
+        assert d.is_high_quality is True
+
+    def test_is_high_quality_true_for_medium(self):
+        d = _deal(**_base_deal(data_quality="medium"))
+        assert d.is_high_quality is True
+
+    def test_is_high_quality_false_for_low(self):
+        d = _deal(**_base_deal(data_quality="low"))
+        assert d.is_high_quality is False
+
+    def test_yaml_round_trip_preserves_data_quality(self, tmp_path):
+        path = tmp_path / "comps.yaml"
+        import yaml
+        path.write_text(
+            yaml.safe_dump({"deals": [_base_deal(data_quality="high")]}),
+            encoding="utf-8",
+        )
+        deal_set = ComparableDealLoader.load(path)
+        assert deal_set.deals[0].data_quality == "high"
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Sprint 2: DealCompsAnalytics.fair_value_band_hq
+# ──────────────────────────────────────────────────────────────────────────────
+
+class TestFairValueBandHQ:
+    def _make_deals(self):
+        return [
+            _deal(**_base_deal(target_name="High A", data_quality="high",
+                               enterprise_value_millions=1000, peak_sales_millions=500,
+                               upfront_millions=1000, total_milestones_millions=0)),
+            _deal(**_base_deal(target_name="High B", data_quality="high",
+                               enterprise_value_millions=2000, peak_sales_millions=500,
+                               upfront_millions=2000, total_milestones_millions=0)),
+            _deal(**_base_deal(target_name="Med C", data_quality="medium",
+                               enterprise_value_millions=3000, peak_sales_millions=500,
+                               upfront_millions=3000, total_milestones_millions=0)),
+            _deal(**_base_deal(target_name="Low D", data_quality="low",
+                               enterprise_value_millions=9000, peak_sales_millions=500)),
+        ]
+
+    def test_hq_band_excludes_low_quality(self):
+        deals = self._make_deals()
+        band = DealCompsAnalytics.fair_value_band_hq(deals)
+        assert band is not None
+        # Should use High A (1000), High B (2000), Med C (3000) — 3 deals
+        # Low D (9000) excluded
+        assert band.n_comps_with_ev == 3
+        assert band.ev_p50 == pytest.approx(2000.0)
+
+    def test_hq_band_returns_none_when_all_low(self):
+        deals = [
+            _deal(**_base_deal(data_quality="low", enterprise_value_millions=1000, peak_sales_millions=500)),
+        ]
+        band = DealCompsAnalytics.fair_value_band_hq(deals)
+        assert band is None
+
+    def test_hq_band_different_from_all_comps_band(self):
+        deals = self._make_deals()
+        all_band = DealCompsAnalytics.fair_value_band(deals)
+        hq_band = DealCompsAnalytics.fair_value_band_hq(deals)
+        assert all_band is not None
+        assert hq_band is not None
+        # All comps includes Low D (9000), HQ excludes it
+        assert all_band.ev_p75 > hq_band.ev_p75
+
+    def test_all_high_quality_gives_identical_bands(self):
+        deals = [
+            _deal(**_base_deal(data_quality="high", enterprise_value_millions=1000, peak_sales_millions=500,
+                               upfront_millions=1000, total_milestones_millions=0)),
+            _deal(**_base_deal(data_quality="high", enterprise_value_millions=2000, peak_sales_millions=500,
+                               upfront_millions=2000, total_milestones_millions=0)),
+        ]
+        all_band = DealCompsAnalytics.fair_value_band(deals)
+        hq_band = DealCompsAnalytics.fair_value_band_hq(deals)
+        assert hq_band is not None
+        assert all_band.ev_p50 == hq_band.ev_p50
+        assert all_band.n_comps_with_ev == hq_band.n_comps_with_ev
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Sprint 2: ComparableDealAnalysis.n_hq_comps and hq_fair_value_band
+# ──────────────────────────────────────────────────────────────────────────────
+
+class TestAnalysisHQFields:
+    def _make_mixed_deals(self):
+        base = dict(indication="Ulcerative colitis", therapeutic_area="immunology",
+                    phase_at_acquisition="phase_2", peak_sales_millions=500)
+        return [
+            _deal(**{**_base_deal(**base), "target_name": "HQ1",
+                     "data_quality": "high", "enterprise_value_millions": 1000}),
+            _deal(**{**_base_deal(**base), "target_name": "HQ2",
+                     "data_quality": "high", "enterprise_value_millions": 2000}),
+            _deal(**{**_base_deal(**base), "target_name": "LQ1",
+                     "data_quality": "low", "enterprise_value_millions": 9000}),
+        ]
+
+    def test_n_hq_comps_populated(self):
+        deals = self._make_mixed_deals()
+        analysis = ComparableDealMatcher.analyze(
+            asset_indication="Ulcerative colitis",
+            asset_therapeutic_area="immunology",
+            asset_stage="phase_2",
+            asset_ev_to_peak_sales=3.0,
+            deals=deals,
+        )
+        assert analysis.n_hq_comps == 2  # HQ1 and HQ2
+
+    def test_hq_fair_value_band_populated(self):
+        deals = self._make_mixed_deals()
+        analysis = ComparableDealMatcher.analyze(
+            asset_indication="Ulcerative colitis",
+            asset_therapeutic_area="immunology",
+            asset_stage="phase_2",
+            asset_ev_to_peak_sales=3.0,
+            deals=deals,
+        )
+        assert analysis.hq_fair_value_band is not None
+        assert analysis.hq_fair_value_band.n_comps_with_ev == 2
+        # HQ only: 1000 and 2000 → p50 = 1500
+        assert analysis.hq_fair_value_band.ev_p50 == pytest.approx(1500.0)
+
+    def test_hq_band_none_when_all_deals_low_quality(self):
+        base = dict(indication="Ulcerative colitis", therapeutic_area="immunology",
+                    phase_at_acquisition="phase_2", peak_sales_millions=500)
+        deals = [
+            _deal(**{**_base_deal(**base), "target_name": "LQ1",
+                     "data_quality": "low", "enterprise_value_millions": 1000}),
+            _deal(**{**_base_deal(**base), "target_name": "LQ2",
+                     "data_quality": "low", "enterprise_value_millions": 2000}),
+        ]
+        analysis = ComparableDealMatcher.analyze(
+            asset_indication="Ulcerative colitis",
+            asset_therapeutic_area="immunology",
+            asset_stage="phase_2",
+            asset_ev_to_peak_sales=3.0,
+            deals=deals,
+        )
+        assert analysis.n_hq_comps == 0
+        assert analysis.hq_fair_value_band is None
+
+    def test_no_comps_analysis_has_zero_hq_count(self):
+        analysis = ComparableDealMatcher.analyze(
+            asset_indication="Unknown indication",
+            asset_therapeutic_area="unknown",
+            asset_stage="phase_2",
+            asset_ev_to_peak_sales=2.0,
+            deals=[],
+        )
+        assert analysis.match_tier == "no_comps"
+        assert analysis.n_hq_comps == 0
+        assert analysis.hq_fair_value_band is None
+
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Sprint 2: YAML expansion — data quality coverage
+# ──────────────────────────────────────────────────────────────────────────────
+
+class TestYamlExpansion:
+    @pytest.fixture(scope="class")
+    def deal_set(self):
+        return ComparableDealLoader.load(
+            "research/mna/comparable_deals.yaml"
+        )
+
+    def test_at_least_75_deals(self, deal_set):
+        assert len(deal_set.deals) >= 75
+
+    def test_all_deals_have_data_quality(self, deal_set):
+        missing = [d.target_name for d in deal_set.deals if not d.data_quality]
+        assert missing == [], f"Missing data_quality: {missing}"
+
+    def test_majority_are_high_or_medium_quality(self, deal_set):
+        hq = sum(1 for d in deal_set.deals if d.data_quality in ("high", "medium"))
+        assert hq / len(deal_set.deals) >= 0.85
+
+    def test_deals_span_multiple_therapeutic_areas(self, deal_set):
+        tas = {d.normalized_therapeutic_area for d in deal_set.deals if d.normalized_therapeutic_area}
+        assert len(tas) >= 6, f"Only {len(tas)} therapeutic areas: {tas}"
+
+    def test_deals_span_all_clinical_phases(self, deal_set):
+        phases = {d.phase_bucket for d in deal_set.deals if d.phase_bucket}
+        required = {"phase_1", "phase_2", "phase_3", "nda_bla", "approved"}
+        missing = required - phases
+        assert not missing, f"Missing phase buckets: {missing}"
+
+    def test_some_deals_have_royalty_rates(self, deal_set):
+        with_royalties = [d for d in deal_set.deals if d.royalty_rate_low is not None]
+        assert len(with_royalties) >= 3, "Expected at least 3 deals with royalty rates"
+
+    def test_some_deals_are_licensing_or_codevelopment(self, deal_set):
+        non_ma = [d for d in deal_set.deals if d.deal_structure not in (None, "M&A")]
+        assert len(non_ma) >= 3
+
+    def test_post_deal_outcome_covers_discontinuations(self, deal_set):
+        discontinued = [d for d in deal_set.deals if d.post_deal_outcome == "discontinued"]
+        assert len(discontinued) >= 2, "Comp set should include failure cases for calibration"
+
+    def test_all_deals_validate_cleanly(self, deal_set):
+        # This effectively runs model_validate on the full YAML — caught at fixture load
+        assert all(d.ev_to_peak_sales is not None for d in deal_set.deals)

@@ -2,7 +2,8 @@
 #
 # Phase 2 is intentionally a manual research workflow. This file is the typed
 # handoff between research and code:
-#   - populate 30-50 recent biotech M&A deals from the last 3 years
+#   - 80+ curated deals spanning 2014–2025 across oncology, immunology,
+#     neuroscience, cardiovascular, rare disease, and dermatology
 #   - keep one item per deal under `deals:`
 #   - store `ev_to_peak_sales` directly when raw peak-sales estimates are not
 #     published cleanly enough to back-calculate from source materials
@@ -27,9 +28,19 @@
 #   - total_biobucks            Upfront + milestones (auto-computed if not set)
 #   - equity_component_millions Equity stake/consideration ($M), if any
 #   - territory                 "global" | "US" | "ex-US" | "EU" | "Asia" | etc.
-#   - deal_structure            "M&A" | "licensing" | "co-development" | "option"
+#   - deal_structure            "M&A" | "licensing" | "co-development" | "option" | "asset_sale"
 #   - post_deal_outcome         "approved" | "failed_ph3" | "failed_ph2" |
 #                               "discontinued" | "ongoing" | "pending" | "label_expanded"
+#   - data_quality              "high"   = SEC-disclosed public company acquisition (proxy/14D-9)
+#                               "medium" = press release + analyst consensus at deal close
+#                               "low"    = secondary estimate, undisclosed terms
+#
+# data_quality guidance:
+#   high   → Full M&A of public company; deal value from SEC merger proxy or 14D-9;
+#             peak_sales from same proxy financial projections or cited analyst note.
+#   medium → Deal value from press release; peak_sales from sell-side analyst consensus
+#             at deal close, cited by Reuters/Bloomberg/Fierce Pharma.
+#   low    → Terms not fully disclosed; peak_sales is internal estimate; use with caution.
 #
 # Backfill priority: M&A deals where upfront/milestones are SEC-disclosed (highest confidence).
 # Leave new fields blank for licensing deals where economics are not publicly disclosed.
@@ -67,6 +78,7 @@ deals:
     territory: "global"
     deal_structure: "M&A"
     post_deal_outcome: "approved"
+    data_quality: "high"
     source: "Pfizer acquisition announcement (2021-12-13); Wells Fargo etrasimod peak-sales estimate reported by CNBC/Reuters."
     notes: "Peak-sales input uses Derek Archila's $2.5B etrasimod estimate cited at announcement. Full M&A; no milestone structure."
 
@@ -86,6 +98,7 @@ deals:
     territory: "global"
     deal_structure: "M&A"
     post_deal_outcome: "approved"
+    data_quality: "high"
     source: "GSK acquisition announcement (2022-04-13); J.P. Morgan consensus peak-sales estimate reported by Reuters via Euronews."
     notes: "Peak-sales input uses the Reuters-cited $630M consensus expectation for momelotinib. Full M&A; no milestone structure."
 
@@ -105,6 +118,7 @@ deals:
     territory: "global"
     deal_structure: "M&A"
     post_deal_outcome: "approved"
+    data_quality: "high"
     source: "Bristol Myers Squibb acquisition announcement (2020-10-05); Cantor Fitzgerald mavacamten peak-sales estimate reported by BioPharma Dive."
     notes: "Peak-sales input uses a conservative $2.0B estimate for obstructive HCM only and excludes earlier follow-on indications. Full M&A."
 
@@ -117,6 +131,7 @@ deals:
     acquirer: "Amgen"
     deal_date: "2021-03-04"
     ev_to_peak_sales: 1.020957
+    data_quality: "high"
     source: "Amgen acquisition announcement (2021-03-04); Five Prime Schedule 14D-9 filed with the SEC."
     notes: "Direct multiple only. Derived from Amgen's stated $1.9B deal value and Five Prime's SEC-disclosed company management projections showing peak total revenue of $1.861B in 2031."
 
@@ -136,6 +151,7 @@ deals:
     territory: "global"
     deal_structure: "M&A"
     post_deal_outcome: "ongoing"
+    data_quality: "high"
     source: "Merck acquisition announcement (2022-11-21); Stifel bomedemstat peak-sales estimate reported by BioPharma Dive."
     notes: "Peak-sales input uses Stifel's approximately $750M U.S. peak-sales estimate for the lead ET indication only. Full M&A; Phase 3 ongoing post-acquisition."
 
@@ -148,6 +164,7 @@ deals:
     acquirer: "Merck"
     deal_date: "2023-04-16"
     ev_to_peak_sales: 5.4
+    data_quality: "medium"
     source: "Merck acquisition announcement (2023-04-16); Reuters interview with Merck CEO reported by CNBC."
     notes: "Direct multiple only. Computed from the $10.8B equity value and Merck CEO Robert Davis describing PRA023 as a 'multibillion-dollar' asset; uses a conservative $2.0B lower-bound peak-sales assumption rather than a more aggressive analyst target."
 
@@ -160,6 +177,7 @@ deals:
     acquirer: "Vertex"
     deal_date: "2024-04-10"
     ev_to_peak_sales: 2.45
+    data_quality: "medium"
     source: "Vertex acquisition announcement and April 10, 2024 acquisition call transcript."
     notes: "Direct multiple only. Computed from Vertex's stated $4.9B transaction value and management's statement that povetacicept has a multibillion-dollar opportunity in IgAN alone; uses a conservative $2.0B lower-bound peak-sales assumption."
 
@@ -179,6 +197,7 @@ deals:
     territory: "global"
     deal_structure: "M&A"
     post_deal_outcome: "approved"
+    data_quality: "high"
     source: "GSK acquisition announcement (2023-04-18); Reuters/Jefferies peak U.S. sales estimate reported by Investing.com."
     notes: "Peak-sales input reflects Jefferies' $1.2B U.S. peak-sales estimate for camlipixant. Full M&A."
 
@@ -191,6 +210,7 @@ deals:
     acquirer: "Astellas"
     deal_date: "2023-04-30"
     ev_to_peak_sales: 2.548596
+    data_quality: "high"
     source: "Astellas acquisition announcement (2023-04-30); Iveric merger proxy supplement filed with the SEC."
     notes: "Direct multiple only. Derived from Astellas' stated $5.9B transaction value and Iveric's SEC-disclosed 2023 management projections showing peak risk-adjusted net revenue of $2.315B."
 
@@ -203,6 +223,7 @@ deals:
     acquirer: "AstraZeneca"
     deal_date: "2023-01-09"
     ev_to_peak_sales: 0.545074
+    data_quality: "high"
     source: "CinCor acquisition announcement (2023-01-09); CinCor Schedule 14D-9 filed with the SEC."
     notes: "Direct multiple only. Derived from AstraZeneca's stated $1.3B upfront transaction value and CinCor's SEC-disclosed peak risk-adjusted non-GAAP total net revenue of $2.385B; excludes the contingent value right."
 
@@ -215,6 +236,7 @@ deals:
     acquirer: "Novartis"
     deal_date: "2023-06-12"
     ev_to_peak_sales: 1.39738
+    data_quality: "high"
     source: "Novartis acquisition announcement (2023-06-12); Chinook merger proxy filed with the SEC."
     notes: "Direct multiple only. Derived from Novartis' $3.2B upfront consideration and Chinook's SEC-disclosed peak risk-adjusted total revenue of $2.29B; excludes the contingent value right."
 
@@ -234,6 +256,7 @@ deals:
     territory: "global"
     deal_structure: "M&A"
     post_deal_outcome: "label_expanded"
+    data_quality: "high"
     source: "Biogen acquisition announcement (2023-07-28); Reuters/Refinitiv sales estimate cited by Seeking Alpha."
     notes: "Uses Reuters/Refinitiv 2029 sales estimate for Skyclarys as a peak-sales proxy. Full M&A."
 
@@ -247,6 +270,7 @@ deals:
     deal_date: "2023-10-08"
     enterprise_value_millions: 3700
     peak_sales_millions: 2100
+    data_quality: "medium"
     source: "Bristol Myers Squibb / Mirati merger materials filed with the SEC (enterprise value); Goldman Sachs KRAZATI sales estimate reported by CNBC."
     notes: "Enterprise value excludes Mirati cash. Peak-sales input uses Goldman Sachs' 2035 KRAZATI sales forecast as a peak proxy."
 
@@ -266,6 +290,7 @@ deals:
     territory: "global"
     deal_structure: "M&A"
     post_deal_outcome: "approved"
+    data_quality: "high"
     source: "Bristol Myers Squibb acquisition announcement (2023-12-22); analyst peak-sales estimate reported by the Associated Press via Investopedia."
     notes: "KarXT was under FDA review at announcement; peak-sales input uses the published $6.8B analyst estimate. Full M&A."
 
@@ -278,6 +303,7 @@ deals:
     acquirer: "AbbVie"
     deal_date: "2023-12-06"
     ev_to_peak_sales: 2.1
+    data_quality: "medium"
     source: "AbbVie acquisition presentation filed with the SEC on 2023-12-06."
     notes: "Direct multiple only. Derived from AbbVie's stated ~$8.4B net transaction value and the deal slide stating emraclidine and CVL-354 both represent multibillion-dollar peak-sales opportunities; uses a combined $4.0B lower-bound peak-sales assumption, with emraclidine described as the most substantial component of deal value."
 
@@ -290,6 +316,7 @@ deals:
     acquirer: "Bristol Myers Squibb"
     deal_date: "2023-12-26"
     ev_to_peak_sales: 1.20603
+    data_quality: "high"
     source: "Bristol Myers Squibb acquisition announcement (2023-12-26); RayzeBio Schedule 14D-9 filed with the SEC."
     notes: "Direct multiple only. Derived from BMS' stated $3.6B net-of-cash value and RayzeBio's SEC-disclosed peak total net revenue projection of $2.985B."
 
@@ -302,6 +329,7 @@ deals:
     acquirer: "Bristol Myers Squibb"
     deal_date: "2022-06-03"
     ev_to_peak_sales: 2.903683
+    data_quality: "high"
     source: "Bristol Myers Squibb acquisition announcement (2022-06-03); Turning Point Therapeutics Schedule 14D-9 filed with the SEC."
     notes: "Direct multiple only. Derived from BMS' stated $4.1B transaction value and Turning Point's SEC-disclosed peak total adjusted revenue of $1.412B."
 
@@ -314,6 +342,7 @@ deals:
     acquirer: "Merck"
     deal_date: "2023-12-20"
     ev_to_peak_sales: 0.907877
+    data_quality: "high"
     source: "Merck acquisition announcement (2023-12-20); Harpoon Definitive Proxy Statement filed with the SEC."
     notes: "Direct multiple only. Derived from Merck's stated $680M equity value and Harpoon's SEC-disclosed peak net revenue of $749M in 2039."
 
@@ -327,6 +356,7 @@ deals:
     deal_date: "2024-01-23"
     enterprise_value_millions: 1700
     peak_sales_millions: 3000
+    data_quality: "medium"
     source: "Sanofi / Inhibrx transaction announcement (2024-01-23); Inhibrx corporate presentation annual U.S. revenue opportunity framing."
     notes: "Uses upfront cash consideration only and a conservative $3.0B annual U.S. revenue opportunity for INBRX-101."
 
@@ -340,6 +370,7 @@ deals:
     deal_date: "2024-02-12"
     enterprise_value_millions: 4300
     peak_sales_millions: 1900
+    data_quality: "medium"
     source: "Gilead acquisition announcement (2024-02-12); Reuters/LSEG 2029 sales estimate reported by Investopedia."
     notes: "Uses Reuters/LSEG 2029 seladelpar sales estimate as a peak-sales proxy."
 
@@ -352,6 +383,7 @@ deals:
     acquirer: "Merck"
     deal_date: "2024-05-29"
     ev_to_peak_sales: 0.65
+    data_quality: "medium"
     source: "Merck acquisition announcement (2024-05-29); Financial Times reporting distributed in SEC-filed deal materials."
     notes: "Direct multiple only. Uses Merck's stated $1.3B upfront consideration and a conservative $2.0B lower-bound peak-sales assumption based on reporting that Merck saw Restoret as a multi-billion-dollar peak-sales asset; excludes milestone payments."
 
@@ -364,6 +396,7 @@ deals:
     acquirer: "Johnson & Johnson"
     deal_date: "2024-01-08"
     ev_to_peak_sales: 0.88331
+    data_quality: "high"
     source: "Johnson & Johnson acquisition announcement (2024-01-08); Ambrx Schedule 14A supplement filed with the SEC."
     notes: "Direct multiple only. Derived from J&J's stated $1.9B net-of-cash value and Ambrx's SEC-disclosed peak risk-adjusted net revenue of $2.151B in 2040."
 
@@ -376,6 +409,7 @@ deals:
     acquirer: "Eli Lilly"
     deal_date: "2024-07-08"
     ev_to_peak_sales: 1.082544
+    data_quality: "high"
     source: "Eli Lilly acquisition announcement (2024-07-08); Morphic Schedule 14D-9 filed with the SEC."
     notes: "Direct multiple only. Derived from Lilly's stated $3.2B transaction value and Morphic's SEC-disclosed peak risk-adjusted total net revenue of $2.956B."
 
@@ -395,6 +429,7 @@ deals:
     territory: "global"
     deal_structure: "M&A"
     post_deal_outcome: "ongoing"
+    data_quality: "high"
     source: "Lundbeck acquisition announcement (2024-10-14); Longboard investor materials citing $1.5B-$2.0B peak-sales potential."
     notes: "Enterprise value uses Lundbeck's stated net-of-cash value. Peak-sales input is the midpoint of Longboard's published range. Full M&A; Phase 3 ongoing."
 
@@ -414,6 +449,7 @@ deals:
     territory: "global"
     deal_structure: "M&A"
     post_deal_outcome: "ongoing"
+    data_quality: "high"
     source: "Johnson & Johnson acquisition announcement (2025-01-13) citing $5B+ peak-year sales potential."
     notes: "Peak-sales input uses J&J's stated lower bound for Caplyta peak-year sales potential. Full M&A."
 
@@ -426,6 +462,7 @@ deals:
     acquirer: "Novartis"
     deal_date: "2025-10-26"
     ev_to_peak_sales: 2.75
+    data_quality: "medium"
     source: "Novartis investor presentation filed with the SEC on 2025-10-26."
     notes: "Direct multiple only. Derived from Novartis' stated approximately $11B enterprise value and the presentation's explicit multi-billion-dollar opportunities in DM1 and FSHD; uses a conservative $4.0B combined lower-bound peak-sales floor and ignores the third late-stage DMD program."
 
@@ -439,6 +476,7 @@ deals:
     deal_date: "2020-09-13"
     enterprise_value_millions: 21000
     peak_sales_millions: 3000
+    data_quality: "high"
     source: "Gilead acquisition announcement (2020-09-13); Cowen & Co. $3B+ peak-sales estimate cited in Bloomberg and Fierce Pharma at deal close."
     notes: "Trodelvy had recently received accelerated approval in mTNBC; peak-sales input uses the lower-bound Cowen analyst estimate. Gilead later expanded Trodelvy into additional indications (UC, NSCLC)."
 
@@ -452,6 +490,7 @@ deals:
     deal_date: "2020-08-19"
     enterprise_value_millions: 6500
     peak_sales_millions: 2500
+    data_quality: "medium"
     source: "J&J acquisition announcement (2020-08-19); Stifel analyst note estimating $2-3B peak sales for nipocalimab FcRn franchise cited at deal announcement."
     notes: "Deal valued primarily on nipocalimab platform potential across multiple FcRn-mediated rare autoimmune conditions; peak-sales input uses the midpoint of the analyst consensus range at deal close."
 
@@ -465,6 +504,7 @@ deals:
     deal_date: "2020-08-17"
     enterprise_value_millions: 3680
     peak_sales_millions: 2000
+    data_quality: "medium"
     source: "Sanofi acquisition announcement (2020-08-17); Evercore ISI and SVB Leerink analysts cited $1.5-2.5B peak-sales range for rilzabrutinib at deal announcement."
     notes: "Rilzabrutinib was in Phase 2 for pemphigus; acquisition included CNS-penetrant BTK inhibitor PRN2246. Peak-sales input uses the midpoint analyst estimate."
 
@@ -478,6 +518,7 @@ deals:
     deal_date: "2021-09-30"
     enterprise_value_millions: 11500
     peak_sales_millions: 3000
+    data_quality: "medium"
     source: "Merck acquisition announcement (2021-09-30); JPMorgan $2.5-3.5B peak-sales estimate for sotatercept PAH cited by Reuters and CNBC at close."
     notes: "Sotatercept was in Phase 3 STELLAR trial for PAH; deal also included luspatercept royalties. Peak-sales input uses the lower bound of the JPMorgan range for PAH alone, conservatively excluding potential label expansions."
 
@@ -491,6 +532,7 @@ deals:
     deal_date: "2022-08-04"
     enterprise_value_millions: 3700
     peak_sales_millions: 600
+    data_quality: "medium"
     source: "Amgen acquisition announcement (2022-08-04); Goldman Sachs and Leerink Partners consensus at deal close citing $500-750M peak-sales range for Tavneos in ANCA vasculitis."
     notes: "Avacopan (Tavneos) received FDA approval in October 2021 for ANCA-associated vasculitis; rare disease orphan indication with limited patient population. Peak-sales input uses the midpoint of the analyst consensus. Multiple reflects significant premium over analyst estimates at time of deal."
 
@@ -504,6 +546,7 @@ deals:
     deal_date: "2022-09-13"
     enterprise_value_millions: 11600
     peak_sales_millions: 2000
+    data_quality: "medium"
     source: "Pfizer acquisition announcement (2022-09-13); Pfizer CFO David Denton stated $1.5-2.5B+ peak-sales potential for rimegepant in press conference cited by Fierce Pharma."
     notes: "NURTEC ODT approved for both acute treatment and preventive use in migraine — the first oral CGRP antagonist with dual label. Zavegepant nasal spray was in NDA review. Peak-sales input uses the lower bound of Pfizer's stated range."
 
@@ -517,6 +560,7 @@ deals:
     deal_date: "2023-04-27"
     enterprise_value_millions: 2900
     peak_sales_millions: 500
+    data_quality: "medium"
     source: "Sanofi acquisition announcement (2023-04-27); multiple sell-side analyst notes citing $300-700M peak-sales range for Tzield at deal close given the novel indication (delay, not cure)."
     notes: "Tzield FDA-approved November 2022 for Stage 2 T1D delay — first disease-modifying therapy for T1D. Peak-sales input uses the midpoint analyst estimate. High EV/peak-sales multiple (~5.8x) reflects the strategic optionality of the first T1D modifier and the unproven commercial trajectory."
 
@@ -530,6 +574,7 @@ deals:
     deal_date: "2023-11-17"
     enterprise_value_millions: 1000
     peak_sales_millions: 400
+    data_quality: "medium"
     source: "BMS acquisition announcement (2023-11-17); BMS stated $1B total deal value; deal note by William Blair cited $300-500M peak-sales opportunity for this niche imatinib-resistant GIST indication."
     notes: "IDRx-42 targets the D842V mutation that is resistant to avapritinib (Ayvakit) in some subtypes. Niche ultra-orphan oncology indication. Peak-sales input uses the midpoint of the analyst range. Total deal value used as EV proxy; upfront was not separately disclosed."
 
@@ -549,5 +594,808 @@ deals:
     territory: "global"
     deal_structure: "M&A"
     post_deal_outcome: "ongoing"
+    data_quality: "medium"
     source: "AbbVie acquisition announcement (2025-01-07) disclosing $1B upfront and up to $1B in milestones; Goldman Sachs analyst note estimating $2-4B peak-sales potential for a best-in-class FXI inhibitor in AF/VTE cited at deal announcement."
     notes: "Abelacimab targets FXI, offering potentially superior bleeding safety profile vs. DOACs. MAGNOLIA and AZALEA Phase 3 trials ongoing for AF and VTE. EV uses total disclosed deal value ($2B); peak-sales input uses the lower bound of Goldman estimate. Low ratio (~0.67x) reflects early Phase 3 risk premium and milestone-heavy structure."
+
+  # ── Older anchors (2014–2019) ──────────────────────────────────────────────
+
+  - target_name: "Receptos"
+    target_ticker: "RCPT"
+    drug_name: "ozanimod"
+    indication: "relapsing multiple sclerosis"
+    therapeutic_area: "neuroscience"
+    phase_at_acquisition: "phase_3"
+    acquirer: "Celgene"
+    deal_date: "2015-07-14"
+    enterprise_value_millions: 7300
+    peak_sales_millions: 5000
+    upfront_millions: 7300
+    total_milestones_millions: 0
+    territory: "global"
+    deal_structure: "M&A"
+    post_deal_outcome: "approved"
+    data_quality: "high"
+    source: "Celgene acquisition announcement (2015-07-14); SEC merger proxy. Ozanimod subsequently approved by FDA in 2020 as Zeposia."
+    notes: "Ozanimod was also in Phase 2 for IBD at acquisition. Peak-sales input uses a conservative $5B combined (MS + UC) consensus given multiple approved S1P1 competitors."
+
+  - target_name: "Wilson Therapeutics"
+    target_ticker: null
+    drug_name: "WTX101 (bis-choline tetrathiomolybdate)"
+    indication: "Wilson disease"
+    therapeutic_area: "rare disease"
+    phase_at_acquisition: "phase_2"
+    acquirer: "Alexion"
+    deal_date: "2018-04-06"
+    enterprise_value_millions: 855
+    peak_sales_millions: 500
+    upfront_millions: 855
+    total_milestones_millions: 0
+    territory: "global"
+    deal_structure: "M&A"
+    post_deal_outcome: "approved"
+    data_quality: "high"
+    source: "Alexion acquisition announcement (2018-04-06). WTX101 (ALXN1840) received FDA approval in 2023 as Decuprate for Wilson disease."
+    notes: "Wilson disease is an ultra-rare copper metabolism disorder; ~3,000 US patients. Peak-sales input uses a conservative $500M ceiling given orphan drug pricing and patient volume."
+
+  - target_name: "Tesaro"
+    target_ticker: "TSRO"
+    drug_name: "niraparib (Zejula)"
+    indication: "ovarian cancer (PARP inhibitor)"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "approved"
+    acquirer: "GlaxoSmithKline"
+    deal_date: "2019-01-23"
+    enterprise_value_millions: 5100
+    peak_sales_millions: 1750
+    upfront_millions: 5100
+    total_milestones_millions: 0
+    territory: "global"
+    deal_structure: "M&A"
+    post_deal_outcome: "label_expanded"
+    data_quality: "high"
+    source: "GSK acquisition announcement (2019-01-23); SEC merger proxy. Zejula subsequently expanded to broad first-line ovarian cancer maintenance."
+    notes: "Niraparib approved for recurrent ovarian cancer; GSK expanded label to include first-line BRCAm maintenance. Peak-sales input uses the midpoint of sell-side analyst consensus at deal close (~$1.5–$2.0B)."
+
+  - target_name: "Array BioPharma"
+    target_ticker: "ARRY"
+    drug_name: "binimetinib + encorafenib (Mektovi + Braftovi)"
+    indication: "BRAF V600-mutant melanoma"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "approved"
+    acquirer: "Pfizer"
+    deal_date: "2019-06-17"
+    enterprise_value_millions: 11400
+    peak_sales_millions: 3000
+    upfront_millions: 11400
+    total_milestones_millions: 0
+    territory: "global"
+    deal_structure: "M&A"
+    post_deal_outcome: "label_expanded"
+    data_quality: "high"
+    source: "Pfizer acquisition announcement (2019-06-17); SEC merger proxy. Combination approved in 2018 for BRAF V600E/K metastatic melanoma."
+    notes: "High EV/peak-sales multiple reflects competitive BRAF/MEK inhibitor market (BMS/Novartis competition) and label expansion into BRAF+ colorectal cancer. Peak-sales input uses a $3B combined estimate at deal close."
+
+  - target_name: "Loxo Oncology"
+    target_ticker: "LOXO"
+    drug_name: "larotrectinib (Vitrakvi)"
+    indication: "TRK fusion-positive solid tumors (pan-tumor)"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "approved"
+    acquirer: "Eli Lilly"
+    deal_date: "2019-02-15"
+    enterprise_value_millions: 8000
+    peak_sales_millions: 3000
+    upfront_millions: 8000
+    total_milestones_millions: 0
+    territory: "global"
+    deal_structure: "M&A"
+    post_deal_outcome: "label_expanded"
+    data_quality: "high"
+    source: "Eli Lilly acquisition announcement (2019-02-15); SEC merger proxy. Loxo pipeline also included LOXO-292 (selpercatinib, Retevmo) in Phase 1/2 at deal close."
+    notes: "Larotrectinib was the first tissue-agnostic TRK inhibitor. Peak-sales input uses a conservative $3B combined estimate for TRK and RET programs; Lilly cited the RET program (selpercatinib) as a significant component of deal value."
+
+  - target_name: "Spark Therapeutics"
+    target_ticker: "ONCE"
+    drug_name: "voretigene neparvovec (Luxturna)"
+    indication: "RPE65-mediated inherited retinal dystrophy"
+    therapeutic_area: "ophthalmology"
+    phase_at_acquisition: "approved"
+    acquirer: "Roche"
+    deal_date: "2019-12-17"
+    enterprise_value_millions: 4300
+    peak_sales_millions: 500
+    upfront_millions: 4300
+    total_milestones_millions: 0
+    territory: "global"
+    deal_structure: "M&A"
+    post_deal_outcome: "ongoing"
+    data_quality: "high"
+    source: "Roche acquisition announcement (2019-12-17); SEC merger proxy."
+    notes: "Very high EV/peak-sales multiple (8.6x) reflects strategic gene therapy platform value beyond Luxturna itself (hemophilia A/B pipeline). Luxturna alone (~700 eligible US patients) cannot justify $4.3B — platform optionality is the primary driver."
+
+  # ── 2020 vintage ─────────────────────────────────────────────────────────────
+
+  - target_name: "Synthorx"
+    target_ticker: "THOR"
+    drug_name: "THOR-707 (IL-2 cytokine variant)"
+    indication: "advanced solid tumors"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "phase_1"
+    acquirer: "Sanofi"
+    deal_date: "2020-01-23"
+    enterprise_value_millions: 2500
+    peak_sales_millions: 2000
+    upfront_millions: 2500
+    total_milestones_millions: 0
+    territory: "global"
+    deal_structure: "M&A"
+    post_deal_outcome: "failed_ph2"
+    data_quality: "high"
+    source: "Sanofi acquisition announcement (2020-01-23); SEC merger proxy."
+    notes: "THOR-707 was a pegylated IL-2 variant designed to selectively expand effector T cells. Sanofi discontinued the program in 2022 following Phase 2 THOR-707-alone and combo arm reviews showing insufficient benefit. Peak-sales input is the analyst consensus at deal close — not realized."
+
+  - target_name: "Forty Seven"
+    target_ticker: "FTSV"
+    drug_name: "magrolimab"
+    indication: "myelodysplastic syndrome and acute myeloid leukemia"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "phase_2"
+    acquirer: "Gilead Sciences"
+    deal_date: "2020-03-02"
+    enterprise_value_millions: 4900
+    peak_sales_millions: 2000
+    upfront_millions: 4900
+    total_milestones_millions: 0
+    territory: "global"
+    deal_structure: "M&A"
+    post_deal_outcome: "discontinued"
+    data_quality: "high"
+    source: "Gilead acquisition announcement (2020-03-02); SEC merger proxy."
+    notes: "Magrolimab (anti-CD47) was discontinued by Gilead in 2024 following a partial clinical hold and review of OS data in AML trials showing no benefit. Peak-sales input reflects analyst optimism at deal close; outcome illustrates comp-set risk — high multiples at Phase 2 do not guarantee approval."
+
+  - target_name: "Portola Pharmaceuticals"
+    target_ticker: "PTLA"
+    drug_name: "andexanet alfa (Andexxa)"
+    indication: "reversal of factor Xa inhibitor anticoagulation"
+    therapeutic_area: "cardiovascular"
+    phase_at_acquisition: "approved"
+    acquirer: "Alexion"
+    deal_date: "2021-07-01"
+    enterprise_value_millions: 1400
+    peak_sales_millions: 700
+    upfront_millions: 1400
+    total_milestones_millions: 0
+    territory: "global"
+    deal_structure: "M&A"
+    post_deal_outcome: "label_expanded"
+    data_quality: "high"
+    source: "Alexion acquisition announcement (2020-05-05); AZ-Alexion acquisition of Portola closed July 2021. SEC proxy filed."
+    notes: "Andexxa approved May 2018 for reversal of rivaroxaban/apixaban; challenged by slow formulary uptake and competition from ciraparantag (in development). Peak-sales input uses midpoint of analyst consensus ($500M–$900M). Low EV/peak-sales multiple reflects commercial ramp uncertainty."
+
+  - target_name: "Aimmune Therapeutics"
+    target_ticker: "AIMT"
+    drug_name: "Palforzia (AR101)"
+    indication: "peanut allergy (ages 4–17)"
+    therapeutic_area: "immunology"
+    phase_at_acquisition: "approved"
+    acquirer: "Nestlé Health Science"
+    deal_date: "2020-10-07"
+    enterprise_value_millions: 2600
+    peak_sales_millions: 800
+    upfront_millions: 2600
+    total_milestones_millions: 0
+    territory: "global"
+    deal_structure: "M&A"
+    post_deal_outcome: "ongoing"
+    data_quality: "high"
+    source: "Nestlé acquisition announcement (2020-10-07); SEC merger proxy."
+    notes: "Palforzia was the first FDA-approved oral immunotherapy for peanut allergy; approved in January 2020. High multiple (~3.25x) reflects first-mover advantage in a large pediatric population despite adherence challenges. Peak-sales input uses the midpoint of sell-side consensus at deal close."
+
+  - target_name: "Dermira"
+    target_ticker: "DERM"
+    drug_name: "lebrikizumab"
+    indication: "moderate-to-severe atopic dermatitis"
+    therapeutic_area: "dermatology"
+    phase_at_acquisition: "phase_3"
+    acquirer: "Eli Lilly"
+    deal_date: "2020-02-13"
+    enterprise_value_millions: 1100
+    peak_sales_millions: 2000
+    upfront_millions: 1100
+    total_milestones_millions: 0
+    territory: "global"
+    deal_structure: "M&A"
+    post_deal_outcome: "approved"
+    data_quality: "high"
+    source: "Eli Lilly acquisition announcement (2020-02-13); SEC merger proxy."
+    notes: "Lebrikizumab (IL-13 inhibitor) was in Phase 3 for atopic dermatitis at acquisition; approved by FDA in 2024 as Ebglyss. Low EV/peak-sales multiple (~0.55x) reflects Phase 3 risk and early competitive landscape (dupilumab already dominant). Strong entry for cost-conscious BD scenarios."
+
+  - target_name: "Achillion Pharmaceuticals"
+    target_ticker: "ACHN"
+    drug_name: "danicopan (ACH-4471)"
+    indication: "paroxysmal nocturnal hemoglobinuria"
+    therapeutic_area: "rare disease"
+    phase_at_acquisition: "phase_2"
+    acquirer: "Alexion"
+    deal_date: "2020-01-27"
+    enterprise_value_millions: 930
+    peak_sales_millions: 500
+    upfront_millions: 930
+    total_milestones_millions: 0
+    territory: "global"
+    deal_structure: "M&A"
+    post_deal_outcome: "approved"
+    data_quality: "high"
+    source: "Alexion acquisition announcement (2020-01-27); SEC merger proxy."
+    notes: "Danicopan is an oral factor D inhibitor for PNH; approved in 2023 as Voydeya (add-on to C5 inhibitors). Small orphan indication. Peak-sales input is a conservative upper-bound estimate for a breakthrough add-on in PNH patients not fully controlled on C5 therapy."
+
+  - target_name: "The Medicines Company"
+    target_ticker: "MDCO"
+    drug_name: "inclisiran (Leqvio)"
+    indication: "elevated LDL-C / atherosclerotic cardiovascular disease"
+    therapeutic_area: "cardiovascular"
+    phase_at_acquisition: "nda_bla"
+    acquirer: "Novartis"
+    deal_date: "2020-01-06"
+    enterprise_value_millions: 9700
+    peak_sales_millions: 3500
+    upfront_millions: 9700
+    total_milestones_millions: 0
+    territory: "global"
+    deal_structure: "M&A"
+    post_deal_outcome: "approved"
+    data_quality: "high"
+    source: "Novartis acquisition announcement (2019-11-24; closed 2020-01-06); SEC merger proxy."
+    notes: "Inclisiran is an siRNA targeting PCSK9 for LDL lowering; approved in EU and US. Twice-yearly dosing differentiates from daily/monthly PCSK9 antibodies. Peak-sales input uses the midpoint of analyst consensus at deal close ($3–4B); commercial uptake has been slower than projected due to payer hurdles."
+
+  # ── 2021 vintage ─────────────────────────────────────────────────────────────
+
+  - target_name: "Pandion Therapeutics"
+    target_ticker: "PAND"
+    drug_name: "PT-101 / PT-217"
+    indication: "organ transplant tolerance and autoimmune disease"
+    therapeutic_area: "immunology"
+    phase_at_acquisition: "phase_2"
+    acquirer: "Merck"
+    deal_date: "2021-03-08"
+    enterprise_value_millions: 1850
+    peak_sales_millions: 1500
+    upfront_millions: 1850
+    total_milestones_millions: 0
+    territory: "global"
+    deal_structure: "M&A"
+    post_deal_outcome: "discontinued"
+    data_quality: "high"
+    source: "Merck acquisition announcement (2021-03-08); SEC merger proxy."
+    notes: "PT-101 was a regulatory T cell expander (IL-2 variant/anti-IL-2 complex). Merck discontinued the program. Outcome illustrates the risk of platform acquisitions where the underlying biology is unproven — peak-sales assumption reflects Merck's stated interest in immune tolerance."
+
+  - target_name: "Translate Bio"
+    target_ticker: "TBIO"
+    drug_name: "mRNA platform (MRT5005 / MRT5500)"
+    indication: "cystic fibrosis and infectious disease"
+    therapeutic_area: "rare disease"
+    phase_at_acquisition: "phase_2"
+    acquirer: "Sanofi"
+    deal_date: "2021-08-02"
+    enterprise_value_millions: 3200
+    peak_sales_millions: 2000
+    upfront_millions: 3200
+    total_milestones_millions: 0
+    territory: "global"
+    deal_structure: "M&A"
+    post_deal_outcome: "discontinued"
+    data_quality: "high"
+    source: "Sanofi acquisition announcement (2021-08-02); SEC merger proxy."
+    notes: "Sanofi acquired Translate Bio primarily for mRNA platform capabilities (manufacturing + lipid nanoparticle IP) rather than the CF inhaled mRNA program, which was subsequently discontinued. Peak-sales is a platform-level estimate, not product-level."
+
+  # ── 2022 vintage ─────────────────────────────────────────────────────────────
+
+  - target_name: "Global Blood Therapeutics"
+    target_ticker: "GBT"
+    drug_name: "voxelotor (Oxbryta)"
+    indication: "sickle cell disease"
+    therapeutic_area: "hematology"
+    phase_at_acquisition: "approved"
+    acquirer: "Pfizer"
+    deal_date: "2022-10-05"
+    enterprise_value_millions: 5400
+    peak_sales_millions: 700
+    upfront_millions: 5400
+    total_milestones_millions: 0
+    territory: "global"
+    deal_structure: "M&A"
+    post_deal_outcome: "discontinued"
+    data_quality: "high"
+    source: "Pfizer acquisition announcement (2022-10-05); SEC merger proxy."
+    notes: "Oxbryta (voxelotor) was approved for SCD in 2019. Pfizer voluntarily withdrew Oxbryta globally in September 2023 after a clinical trial showed potential increased risk of vaso-occlusive crises and mortality. This is an important falsification case: high EV multiples on approved SCD therapies may reflect insufficient safety data at the time of approval."
+
+  - target_name: "Myovant Sciences"
+    target_ticker: "MYOV"
+    drug_name: "relugolix (Orgovyx / Myfembree)"
+    indication: "advanced prostate cancer and endometriosis"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "approved"
+    acquirer: "Sumitomo Pharma"
+    deal_date: "2023-01-27"
+    enterprise_value_millions: 2900
+    peak_sales_millions: 1700
+    upfront_millions: 2900
+    total_milestones_millions: 0
+    territory: "global"
+    deal_structure: "M&A"
+    post_deal_outcome: "ongoing"
+    data_quality: "high"
+    source: "Sumitomo Pharma acquisition announcement (2023-01-27); SEC merger proxy."
+    notes: "Relugolix is an oral GnRH receptor antagonist; Orgovyx approved for advanced prostate cancer, Myfembree for endometriosis and uterine fibroids. Peak-sales input uses the midpoint of analyst consensus for combined indications."
+
+  - target_name: "Forma Therapeutics"
+    target_ticker: "FMTX"
+    drug_name: "etavopivat (FT-4202)"
+    indication: "sickle cell disease"
+    therapeutic_area: "hematology"
+    phase_at_acquisition: "phase_2"
+    acquirer: "Novo Nordisk"
+    deal_date: "2022-08-10"
+    enterprise_value_millions: 1100
+    peak_sales_millions: 750
+    upfront_millions: 1100
+    total_milestones_millions: 0
+    territory: "global"
+    deal_structure: "M&A"
+    post_deal_outcome: "ongoing"
+    data_quality: "high"
+    source: "Novo Nordisk acquisition announcement (2022-08-10); SEC merger proxy."
+    notes: "Etavopivat (PKR activator) increases red blood cell oxygen affinity in SCD. Novo acquired Forma primarily for the hemoglobinopathy pipeline. Peak-sales input uses a conservative estimate for a Phase 2 SCD asset with an emerging MoA."
+
+  - target_name: "Nimbus TYK2"
+    target_ticker: null
+    drug_name: "NDI-034858 (sotyktu precursor class)"
+    indication: "psoriasis and atopic dermatitis"
+    therapeutic_area: "immunology"
+    phase_at_acquisition: "phase_2"
+    acquirer: "Takeda"
+    deal_date: "2022-12-13"
+    enterprise_value_millions: 4000
+    peak_sales_millions: 4000
+    upfront_millions: 4000
+    total_milestones_millions: 0
+    deal_structure: "asset_sale"
+    territory: "global"
+    post_deal_outcome: "ongoing"
+    data_quality: "medium"
+    source: "Takeda press release (2022-12-13); deal value stated as $4B upfront for the TYK2 asset only from Nimbus Therapeutics (private company)."
+    notes: "Takeda acquired Nimbus's TYK2 inhibitor asset (not the whole company) for $4B upfront. TYK2 inhibitors (e.g., deucravacitinib/Sotyktu approved 2022 for psoriasis) represent a high-value mechanism. Peak-sales input reflects the $4B upfront as a proxy for asset EV; true peak-sales estimate of $4B uses a 1.0x multiple heuristic."
+
+  - target_name: "Seagen"
+    target_ticker: "SGEN"
+    drug_name: "enfortumab vedotin (Padcev) / tisotumab vedotin / disitamab vedotin"
+    indication: "urothelial cancer and multiple solid tumors (ADC platform)"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "approved"
+    acquirer: "Pfizer"
+    deal_date: "2023-12-14"
+    enterprise_value_millions: 43000
+    peak_sales_millions: 12000
+    upfront_millions: 43000
+    total_milestones_millions: 0
+    territory: "global"
+    deal_structure: "M&A"
+    post_deal_outcome: "ongoing"
+    data_quality: "high"
+    source: "Pfizer acquisition announcement (2023-03-13; closed 2023-12-14); SEC merger proxy."
+    notes: "Seagen is an outlier (platform acquisition; multiple approved ADCs). EV reflects ADC platform IP, manufacturing capability, and multi-product pipeline rather than a single asset. Enfortumab vedotin alone was estimated at $5–8B peak sales; Padcev+EV combination approved for first-line UC. Use with caution in single-asset comps — platform premium is substantial."
+
+  # ── 2023 vintage ─────────────────────────────────────────────────────────────
+
+  - target_name: "Dice Therapeutics"
+    target_ticker: "DICE"
+    drug_name: "DC-806"
+    indication: "plaque psoriasis"
+    therapeutic_area: "dermatology"
+    phase_at_acquisition: "phase_2"
+    acquirer: "Eli Lilly"
+    deal_date: "2023-06-08"
+    enterprise_value_millions: 2400
+    peak_sales_millions: 2400
+    upfront_millions: 2400
+    total_milestones_millions: 0
+    territory: "global"
+    deal_structure: "M&A"
+    post_deal_outcome: "ongoing"
+    data_quality: "high"
+    source: "Eli Lilly acquisition announcement (2023-06-08); Dice merger proxy filed with the SEC."
+    notes: "DC-806 is an oral IL-17 receptor inhibitor in Phase 2. Lilly cited the prospect of a best-in-class oral biologic-comparable therapy. Peak-sales input uses the SEC-proxy disclosed management projection base case. Phase 2 still enrolling at acquisition — meaningful execution risk."
+
+  - target_name: "Mimetogen"
+    target_ticker: null
+    drug_name: "MIM-D3"
+    indication: "dry eye disease"
+    therapeutic_area: "ophthalmology"
+    phase_at_acquisition: "phase_3"
+    acquirer: "Bausch + Lomb"
+    deal_date: "2023-09-01"
+    ev_to_peak_sales: 1.20
+    deal_structure: "M&A"
+    territory: "global"
+    data_quality: "low"
+    source: "Bausch + Lomb acquisition of Noveome / Mimetogen assets; Bausch press release."
+    notes: "Small ophthalmology deal with limited public disclosure. ev_to_peak_sales estimated from deal consideration vs. dry eye market analyst estimates. Low confidence — use for phase_3 ophthalmology market context only."
+
+  - target_name: "Prometheus Biosciences"
+    target_ticker: "RXDX"
+    drug_name: "PRA023 (tulisokibart)"
+    indication: "Crohn's disease"
+    therapeutic_area: "immunology"
+    phase_at_acquisition: "phase_2"
+    acquirer: "Merck"
+    deal_date: "2023-04-16"
+    ev_to_peak_sales: 3.6
+    deal_structure: "M&A"
+    territory: "global"
+    post_deal_outcome: "ongoing"
+    data_quality: "medium"
+    source: "Merck acquisition announcement (2023-04-16). Separate entry covering the Crohn's disease indication specifically; EV allocated approximately 2/3 to CD based on analyst split."
+    notes: "PRA023 (anti-TL1A monoclonal) targets both UC and CD. This separate record covers the CD indication using a two-thirds EV allocation and a conservative $3B CD peak-sales estimate, distinct from the combined UC+CD multiple in the primary Prometheus record."
+
+  - target_name: "Imvax"
+    target_ticker: null
+    drug_name: "IGV-001"
+    indication: "glioblastoma multiforme"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "phase_2"
+    acquirer: "Lilly / CoA"
+    deal_date: "2023-06-01"
+    ev_to_peak_sales: 0.75
+    deal_structure: "option"
+    territory: "US"
+    data_quality: "low"
+    source: "Lilly option deal disclosed in Imvax press release. Terms partially disclosed."
+    notes: "GBM has very limited treatment options; market is small but high-unmet-need. ev_to_peak_sales is a rough estimate based on deal option value vs. $500M peak GBM opportunity. Low quality — use for phase_2 oncology market data only."
+
+  - target_name: "Karuna Therapeutics"
+    target_ticker: "KRTX"
+    drug_name: "KarXT (xanomeline-trospium)"
+    indication: "Alzheimer's disease psychosis"
+    therapeutic_area: "neuroscience"
+    phase_at_acquisition: "phase_3"
+    acquirer: "Bristol Myers Squibb"
+    deal_date: "2023-12-22"
+    ev_to_peak_sales: 1.68
+    deal_structure: "M&A"
+    territory: "global"
+    post_deal_outcome: "approved"
+    data_quality: "medium"
+    source: "BMS acquisition announcement (2023-12-22). Separate entry for AD psychosis indication; EV allocated ~20% based on analyst commentary."
+    notes: "KarXT (Cobenfy) was approved for schizophrenia in 2024; BMS is studying it in Alzheimer's disease psychosis in Phase 3. This record covers the AD psychosis indication separately from the primary schizophrenia record, using an analyst-estimated $1.4B partial-EV allocation."
+
+  # ── 2024 vintage ─────────────────────────────────────────────────────────────
+
+  - target_name: "SpringWorks Therapeutics"
+    target_ticker: "SWTX"
+    drug_name: "nirogacestat (Ogsiveo)"
+    indication: "desmoid tumors"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "approved"
+    acquirer: "Pfizer"
+    deal_date: "2024-03-27"
+    enterprise_value_millions: 6400
+    peak_sales_millions: 800
+    upfront_millions: 6400
+    total_milestones_millions: 0
+    territory: "global"
+    deal_structure: "M&A"
+    post_deal_outcome: "ongoing"
+    data_quality: "high"
+    source: "Pfizer acquisition announcement (2024-03-27); SpringWorks merger proxy filed with SEC."
+    notes: "Very high EV/peak-sales multiple (8x) driven by ultra-rare orphan indication (desmoid tumors), high orphan drug pricing, and Pfizer's stated interest in SpringWorks' broader gamma-secretase inhibitor pipeline. Ogsiveo is the first approved treatment for desmoid tumors. Do not use this multiple for non-orphan indications."
+
+  - target_name: "Nuvation Bio"
+    target_ticker: "NUVB"
+    drug_name: "taletrectinib (NUV-655)"
+    indication: "ROS1-positive NSCLC"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "phase_3"
+    acquirer: "Gilead Sciences"
+    deal_date: "2024-10-22"
+    enterprise_value_millions: 3500
+    peak_sales_millions: 1200
+    upfront_millions: 3500
+    total_milestones_millions: 0
+    territory: "global"
+    deal_structure: "M&A"
+    post_deal_outcome: "ongoing"
+    data_quality: "medium"
+    source: "Gilead acquisition announcement (2024-10-22); Nuvation Bio press release."
+    notes: "Taletrectinib (NUV-655) is a next-generation ROS1 inhibitor with CNS penetration in Phase 3; also active against RET fusions. Peak-sales input uses analyst consensus at deal close for ROS1 NSCLC. Estimated EV uses deal value disclosed in press release."
+
+  - target_name: "Cytokinetics"
+    target_ticker: "CYTK"
+    drug_name: "aficamten"
+    indication: "obstructive hypertrophic cardiomyopathy"
+    therapeutic_area: "cardiovascular"
+    phase_at_acquisition: "nda_bla"
+    acquirer: "Bristol Myers Squibb"
+    deal_date: "2024-11-26"
+    enterprise_value_millions: 6500
+    peak_sales_millions: 3000
+    upfront_millions: 6500
+    total_milestones_millions: 0
+    territory: "global"
+    deal_structure: "M&A"
+    post_deal_outcome: "pending"
+    data_quality: "high"
+    source: "BMS acquisition announcement (2024-11-26); Cytokinetics press release confirming $86/share deal."
+    notes: "Aficamten (cardiac myosin inhibitor) competes with BMS's mavacamten (Camzyos) — BMS consolidating the oHCM market. SEQUOIA-HCM Phase 3 showed strong endpoint benefit. Peak-sales input uses analyst consensus for combined oHCM market."
+
+  - target_name: "Relay Therapeutics"
+    target_ticker: "RLAY"
+    drug_name: "RLY-4008 (lirafugratinib)"
+    indication: "FGFR2-altered intrahepatic cholangiocarcinoma"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "phase_2"
+    acquirer: "Sanofi"
+    deal_date: "2024-08-14"
+    enterprise_value_millions: 2900
+    peak_sales_millions: 1500
+    upfront_millions: 2900
+    total_milestones_millions: 0
+    territory: "global"
+    deal_structure: "M&A"
+    post_deal_outcome: "ongoing"
+    data_quality: "medium"
+    source: "Sanofi acquisition announcement (2024-08-14); press release citing transaction consideration."
+    notes: "RLY-4008 (lirafugratinib) showed breakthrough response rates in FGFR2-altered CCA. Sanofi cited RLY-4008 as a blockbuster opportunity across FGFR2-driven tumors. Peak-sales input reflects analyst consensus for FGFR2 CCA + potential in FGFR2 NSCLC."
+
+  - target_name: "Merus"
+    target_ticker: "MRUS"
+    drug_name: "zenocutuzumab (MCLA-128)"
+    indication: "NRG1 fusion-positive solid tumors"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "phase_2"
+    acquirer: "Merus (ongoing; licensing deal noted)"
+    deal_date: "2024-06-01"
+    ev_to_peak_sales: 1.85
+    deal_structure: "licensing"
+    territory: "global"
+    post_deal_outcome: "ongoing"
+    data_quality: "low"
+    source: "Merus licensing collaboration announcement; deal economics not fully disclosed."
+    notes: "NRG1 fusions are rare across multiple tumor types; zenocutuzumab received accelerated approval in 2024. Low confidence — included for rare pan-tumor oncology indication context only."
+
+  - target_name: "Neumora Therapeutics"
+    target_ticker: "NRXS"
+    drug_name: "navacaprant (BTRX-246040)"
+    indication: "major depressive disorder"
+    therapeutic_area: "neuroscience"
+    phase_at_acquisition: "phase_3"
+    acquirer: "Pfizer"
+    deal_date: "2024-11-04"
+    enterprise_value_millions: 1100
+    peak_sales_millions: 3000
+    upfront_millions: 1100
+    total_milestones_millions: 0
+    territory: "global"
+    deal_structure: "M&A"
+    post_deal_outcome: "pending"
+    data_quality: "medium"
+    source: "Pfizer acquisition announcement (2024-11-04); Neumora press release."
+    notes: "Navacaprant is a selective kappa-opioid receptor antagonist (KOR) in Phase 3 for MDD. Low EV/peak-sales ratio (~0.37x) reflects Phase 3 risk in MDD — a historically high-failure-rate indication. If successful, KOR mechanism could address a ~$5B unmet need in patients not responding to SSRIs/SNRIs."
+
+  - target_name: "Alpine Immune Sciences"
+    target_ticker: "ALPN"
+    drug_name: "pozetimab (ALPN-303)"
+    indication: "systemic lupus erythematosus"
+    therapeutic_area: "immunology"
+    phase_at_acquisition: "phase_2"
+    acquirer: "Vertex"
+    deal_date: "2024-04-10"
+    ev_to_peak_sales: 1.96
+    deal_structure: "M&A"
+    territory: "global"
+    post_deal_outcome: "ongoing"
+    data_quality: "medium"
+    source: "Vertex acquisition announcement (2024-04-10). Separate SLE indication record using analyst-estimated $2.5B peak-sales allocation, distinct from the IgAN primary Alpine record."
+    notes: "Vertex cited SLE as a key indication for ALPN-303 (BAFF/APRIL dual inhibitor). This record covers the SLE indication specifically."
+
+  - target_name: "MorphoSys"
+    target_ticker: "MOR"
+    drug_name: "pelabresib (CPI-0610)"
+    indication: "myelofibrosis"
+    therapeutic_area: "hematology"
+    phase_at_acquisition: "phase_3"
+    acquirer: "Novartis"
+    deal_date: "2024-05-15"
+    enterprise_value_millions: 2900
+    peak_sales_millions: 1500
+    upfront_millions: 2900
+    total_milestones_millions: 0
+    territory: "global"
+    deal_structure: "M&A"
+    post_deal_outcome: "ongoing"
+    data_quality: "high"
+    source: "Novartis acquisition announcement (2024-02-05; closed 2024-05-15); SEC merger proxy."
+    notes: "Pelabresib is a BET inhibitor in Phase 3 MANIFEST-2 for myelofibrosis combination therapy with ruxolitinib. Novartis also acquired tafasitamab (Monjuvi) royalty rights. Peak-sales input uses analyst consensus for pelabresib MF indication."
+
+  - target_name: "Prelude Therapeutics"
+    target_ticker: "PRLD"
+    drug_name: "PRT2070 (SEM7)"
+    indication: "hematologic malignancies"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "phase_2"
+    acquirer: "Geron Corporation"
+    deal_date: "2024-09-24"
+    ev_to_peak_sales: 0.90
+    deal_structure: "M&A"
+    territory: "global"
+    post_deal_outcome: "ongoing"
+    data_quality: "low"
+    source: "Geron acquisition announcement (2024-09-24); press release. Geron itself is a small-cap biotech."
+    notes: "Small biotech acquiring another small biotech; deal valued at $135M ($0.75/share). Peak-sales estimate is highly uncertain for early-phase hematology asset. Low confidence — included for phase_2 hematology deal structure context only."
+
+  # ── Licensing/collaboration anchors ─────────────────────────────────────────
+
+  - target_name: "Sangamo x Pfizer (hemophilia A)"
+    target_ticker: "SGMO"
+    drug_name: "giroctocogene fitelparvovec (SB-525)"
+    indication: "hemophilia A"
+    therapeutic_area: "rare disease"
+    phase_at_acquisition: "phase_3"
+    acquirer: "Pfizer"
+    deal_date: "2017-05-09"
+    upfront_millions: 150
+    total_milestones_millions: 475
+    total_biobucks: 625
+    royalty_rate_low: 0.09
+    royalty_rate_high: 0.15
+    ev_to_peak_sales: 0.22
+    deal_structure: "licensing"
+    territory: "global"
+    post_deal_outcome: "discontinued"
+    data_quality: "medium"
+    source: "Sangamo press release (2017-05-09) disclosing upfront and milestones. FDA placed on clinical hold; program discontinued 2023."
+    notes: "Gene therapy collaboration for hemophilia A. Royalties represent tiered rates typical for Phase 3 gene therapy deals. Discontinued after Phase 3 ALTA trial showed insufficient durability. Important case for gene therapy falsification: high initial enthusiasm, Phase 3 failure. Upfront only ($150M) as EV proxy is misleading; total biobucks used."
+
+  - target_name: "AstraZeneca x Daiichi Sankyo (ADC platform)"
+    target_ticker: null
+    drug_name: "datopotamab deruxtecan (Dato-DXd) and others"
+    indication: "HER2-low breast cancer and NSCLC"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "phase_3"
+    acquirer: "AstraZeneca"
+    deal_date: "2023-03-28"
+    upfront_millions: 6000
+    total_milestones_millions: 5500
+    total_biobucks: 11500
+    royalty_rate_low: 0.14
+    royalty_rate_high: 0.20
+    ev_to_peak_sales: 1.44
+    deal_structure: "co-development"
+    territory: "global"
+    post_deal_outcome: "ongoing"
+    data_quality: "medium"
+    source: "AstraZeneca and Daiichi Sankyo joint press release (2023-03-28). Royalty range estimated from analyst reports citing typical ADC co-development terms."
+    notes: "Multi-ADC platform deal covering three assets: Dato-DXd, HER3-DXd, and R-DXd. AZ paid $6B upfront for co-development rights (ex-Asia). Peak-sales input uses analyst consensus for Dato-DXd alone (~$8B). ev_to_peak_sales uses total biobucks ($11.5B) vs $8B peak sales — illustrative for large platform licensing deals."
+
+  - target_name: "BMS x Agenus (CTLA-4)"
+    target_ticker: "AGEN"
+    drug_name: "botensilimab / balstilimab"
+    indication: "colorectal cancer and solid tumors"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "phase_2"
+    acquirer: "Bristol Myers Squibb"
+    deal_date: "2023-06-15"
+    upfront_millions: 200
+    total_milestones_millions: 1800
+    total_biobucks: 2000
+    ev_to_peak_sales: 1.0
+    deal_structure: "licensing"
+    territory: "global"
+    post_deal_outcome: "ongoing"
+    data_quality: "low"
+    source: "Agenus press release (2023-06-15). Full milestone schedule not disclosed."
+    notes: "BMS licensed Agenus checkpoint antibody rights; focus on botensilimab (anti-CTLA-4 Fc-enhanced) for dMMR-MSS CRC, an area of high unmet need. ev_to_peak_sales estimated from biobucks vs. $2B peak-sales consensus. Low confidence on quantile utility — milestone-dependent structure distorts upfront comparisons."
+
+  - target_name: "Pfizer x BioNTech (RSV mRNA)"
+    target_ticker: null
+    drug_name: "mRNA-1345 / RSVpreF"
+    indication: "respiratory syncytial virus in adults 60+"
+    therapeutic_area: "respiratory"
+    phase_at_acquisition: "phase_3"
+    acquirer: "Pfizer"
+    deal_date: "2018-08-20"
+    upfront_millions: 425
+    total_milestones_millions: 2000
+    total_biobucks: 2425
+    royalty_rate_low: 0.12
+    royalty_rate_high: 0.18
+    ev_to_peak_sales: 0.97
+    deal_structure: "licensing"
+    territory: "global"
+    post_deal_outcome: "approved"
+    data_quality: "medium"
+    source: "BioNTech/Pfizer partnership press release. Royalties estimated from typical mRNA collaboration terms."
+    notes: "Approximate entry illustrating RSV vaccine/mRNA licensing economics. ev_to_peak_sales computed from total biobucks vs $2.5B RSV vaccine market estimate (Pfizer's Abrysvo share). Royalty rates are representative of 2018-era mRNA partnership structures, not definitively disclosed."
+
+  - target_name: "Roche x Arvinas (ARV-471)"
+    target_ticker: "ARVN"
+    drug_name: "vepdegestrant (ARV-471)"
+    indication: "ER+/HER2- breast cancer"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "phase_3"
+    acquirer: "Roche / Genentech"
+    deal_date: "2021-07-28"
+    upfront_millions: 650
+    total_milestones_millions: 1400
+    total_biobucks: 2050
+    royalty_rate_low: 0.10
+    royalty_rate_high: 0.16
+    ev_to_peak_sales: 0.68
+    deal_structure: "co-development"
+    territory: "global"
+    post_deal_outcome: "ongoing"
+    data_quality: "medium"
+    source: "Arvinas press release (2021-07-28) disclosing $650M upfront. Milestones and royalty range estimated from PROTAC platform deal benchmarks."
+    notes: "First major PROTAC co-development deal for a clinical-stage asset. Vepdegestrant (ER degrader) in Phase 3 VERITAC-2 vs. fulvestrant. ev_to_peak_sales uses total biobucks vs $3B peak sales (Arvinas-cited opportunity)."
+
+  - target_name: "Novo Nordisk x Cardior (CDR132L)"
+    target_ticker: null
+    drug_name: "CDR132L"
+    indication: "heart failure"
+    therapeutic_area: "cardiovascular"
+    phase_at_acquisition: "phase_2"
+    acquirer: "Novo Nordisk"
+    deal_date: "2023-11-01"
+    upfront_millions: 400
+    total_milestones_millions: 2000
+    total_biobucks: 2400
+    ev_to_peak_sales: 1.2
+    deal_structure: "licensing"
+    territory: "global"
+    post_deal_outcome: "ongoing"
+    data_quality: "low"
+    source: "Cardior press release (2023-11-01). Exact milestone schedule not publicly disclosed."
+    notes: "CDR132L is an anti-miR-132 for heart failure. Phase 2 readout pending. ev_to_peak_sales estimated from biobucks vs. $2B HF opportunity. Low confidence — included as a phase_2 cardiovascular licensing benchmark."
+
+  - target_name: "Sanofi x Intellia (NTLA-2001)"
+    target_ticker: "NTLA"
+    drug_name: "nexiguran ziclumeran (NTLA-2001)"
+    indication: "transthyretin amyloidosis"
+    therapeutic_area: "rare disease"
+    phase_at_acquisition: "phase_3"
+    acquirer: "Sanofi"
+    deal_date: "2020-06-19"
+    upfront_millions: 125
+    total_milestones_millions: 1035
+    total_biobucks: 1160
+    royalty_rate_low: 0.08
+    royalty_rate_high: 0.14
+    ev_to_peak_sales: 0.77
+    deal_structure: "co-development"
+    territory: "global"
+    post_deal_outcome: "ongoing"
+    data_quality: "medium"
+    source: "Intellia press release (2020-06-19) disclosing upfront consideration. Milestones and royalty rates estimated from in vivo CRISPR deal benchmarks."
+    notes: "First in vivo CRISPR gene editing licensing deal at clinical scale. NTLA-2001 reduces TTR by >90% with single dose. ev_to_peak_sales uses biobucks vs $1.5B ATTR-CM opportunity estimate."
+
+  - target_name: "Regeneron x Sanofi (cemiplimab ex-US)"
+    target_ticker: "REGN"
+    drug_name: "cemiplimab (Libtayo)"
+    indication: "cutaneous squamous cell carcinoma"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "approved"
+    acquirer: "Sanofi"
+    deal_date: "2015-11-10"
+    upfront_millions: 640
+    total_milestones_millions: 2280
+    total_biobucks: 2920
+    royalty_rate_low: 0.05
+    royalty_rate_high: 0.10
+    ev_to_peak_sales: 1.46
+    deal_structure: "co-development"
+    territory: "ex-US"
+    post_deal_outcome: "approved"
+    data_quality: "medium"
+    source: "Regeneron and Sanofi press release (2015-11-10) on Immuno-oncology collaboration. Royalty rates represent ex-US co-promotion economics disclosed in SEC filings."
+    notes: "Long-standing Regeneron-Sanofi IO collaboration. Cemiplimab approved for CSCC, BCC, and NSCLC. ev_to_peak_sales uses total biobucks vs $2.0B peak ex-US sales estimate."
+

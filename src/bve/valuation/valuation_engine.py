@@ -26,7 +26,7 @@ from bve.models.cost_model import CostModel
 from bve.models.drug_asset_program import CommercialPlan, DrugAssetProgram
 
 if TYPE_CHECKING:
-    from bve.intelligence.comparable_deals import ComparableDeal
+    from bve.models.deal_models import ComparableDeal
 from bve.models.market_model import MarketModel
 from bve.models.monte_carlo import MonteCarloParams, run_monte_carlo
 from bve.models.pos_model import apply_pos_to_trials
@@ -217,12 +217,14 @@ class ValuationEngine:
         prov = self._build_provenance()
 
         # --- Deal comps (optional) ---
-        # Lazy import resolves circular dependency; model_rebuild() resolves the
-        # forward reference in ValuationOutput.comps_fair_value_band at first use.
+        # ComparableDealMatcher is in comparable_deals.py which triggers the intelligence
+        # __init__, which eventually imports ValuationEngine — so this must stay a lazy
+        # import inside run() to avoid a module-level circular dependency.
+        # ComparableDealAnalysis is now in deal_models.py (no cycle) and is imported
+        # directly at the top of outputs.py, so no model_rebuild() is needed.
         comps_fair_value_band = None
-        from bve.intelligence.comparable_deals import ComparableDealAnalysis, ComparableDealMatcher  # noqa: E402
-        ValuationOutput.model_rebuild(_types_namespace={"ComparableDealAnalysis": ComparableDealAnalysis})
         if self.comparable_deals is not None:
+            from bve.intelligence.comparable_deals import ComparableDealMatcher  # lazy: avoids circular import
             asset_ev_ps = (
                 rnpv.rnpv_millions / rnpv.peak_sales_millions
                 if rnpv.peak_sales_millions and rnpv.peak_sales_millions > 0

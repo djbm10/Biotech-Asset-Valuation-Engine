@@ -6,7 +6,7 @@ import subprocess
 import sys
 from datetime import date, datetime
 from pathlib import Path
-from typing import TYPE_CHECKING, Optional
+from typing import Optional
 
 from pydantic import BaseModel, Field
 
@@ -14,13 +14,13 @@ from bve.entities.asset import Asset
 from bve.entities.company import Company
 from bve.entities.indication import Indication
 from bve.entities.trial import ClinicalTrial
+# Import from bve.models.deal_models — avoids triggering bve.intelligence.__init__
+# which would create a phase2 → valuation_integration → outputs circular import.
+from bve.models.deal_models import ComparableDealAnalysis
 from bve.models.market_model import MarketModel
 from bve.models.monte_carlo import MonteCarloResult
 from bve.models.rnpv_model import RNPVResult
 from bve.valuation.scenario import ScenarioSet
-
-if TYPE_CHECKING:
-    from bve.intelligence.comparable_deals import ComparableDealAnalysis
 
 
 class SensitivityPoint(BaseModel):
