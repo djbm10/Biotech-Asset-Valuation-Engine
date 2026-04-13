@@ -57,6 +57,16 @@ class Asset(BaseModel):
     modality: Modality = Modality.SMALL_MOLECULE
     mechanism_of_action: Optional[str] = None
 
+    # Biological target + canonical normalization fields
+    # biological_target: the molecular target (e.g. "PD-1", "VEGF").
+    #   Distinct from mechanism_of_action; populated when known.
+    biological_target: Optional[str] = None
+    # canonical_* are populated by IndicationNormalizer / TargetNormalizer /
+    # MOANormalizer on ingest or by SimilarityScorer on first use.
+    canonical_indication: Optional[str] = None  # e.g. "IND_ulcerative_colitis"
+    canonical_target: Optional[str] = None       # e.g. "TGT_pd1"
+    canonical_moa: Optional[str] = None          # e.g. "MOA_pd1_checkpoint_inhibitor"
+
     # Development timeline
     launch_year: Optional[int] = None
     patent_expiry_year: Optional[int] = None

@@ -1,0 +1,669 @@
+# Canonical indication registry
+# Each entry: id, name, therapeutic_area, aliases[]
+# Aliases are matched case-insensitively after whitespace normalization.
+# Compound strings (e.g. "UC and Crohn's disease") are listed as aliases on
+# the closest single canonical, or on a combined IND where clinically sensible.
+#
+# id convention: IND_<snake_case_name>
+# therapeutic_area values must match TherapeuticArea enum values in bve.entities.asset
+
+indications:
+
+  # ── Immunology / Autoimmune ──────────────────────────────────────────────────
+
+  - id: IND_ulcerative_colitis
+    name: Ulcerative Colitis
+    therapeutic_area: immunology
+    aliases:
+      - ulcerative colitis
+      - uc
+      - moderate-to-severe ulcerative colitis
+      - moderate to severe ulcerative colitis
+      - ulcerative colitis (moderate-to-severe)
+      - active ulcerative colitis
+
+  - id: IND_crohns_disease
+    name: Crohn's Disease
+    therapeutic_area: immunology
+    aliases:
+      - crohn's disease
+      - crohns disease
+      - crohn disease
+      - moderate-to-severe crohn's disease
+      - moderate to severe crohn's disease
+
+  - id: IND_ibd
+    name: Inflammatory Bowel Disease (UC + Crohn's)
+    therapeutic_area: immunology
+    aliases:
+      - ulcerative colitis and crohn's disease
+      - ulcerative colitis and crohns disease
+      - crohn's disease and ulcerative colitis
+      - inflammatory bowel disease
+      - ibd
+      - ibd (uc and cd)
+
+  - id: IND_plaque_psoriasis
+    name: Plaque Psoriasis
+    therapeutic_area: immunology
+    aliases:
+      - plaque psoriasis
+      - moderate-to-severe plaque psoriasis
+      - moderate to severe plaque psoriasis
+      - psoriasis
+      - chronic plaque psoriasis
+      - psoriasis and atopic dermatitis
+
+  - id: IND_atopic_dermatitis
+    name: Atopic Dermatitis
+    therapeutic_area: immunology
+    aliases:
+      - atopic dermatitis
+      - moderate-to-severe atopic dermatitis
+      - moderate to severe atopic dermatitis
+      - eczema
+      - ad (atopic dermatitis)
+
+  - id: IND_systemic_lupus_erythematosus
+    name: Systemic Lupus Erythematosus
+    therapeutic_area: immunology
+    aliases:
+      - systemic lupus erythematosus
+      - sle
+      - lupus
+      - systemic lupus
+      - active sle
+
+  - id: IND_anca_vasculitis
+    name: ANCA-Associated Vasculitis
+    therapeutic_area: immunology
+    aliases:
+      - anca-associated vasculitis
+      - anca associated vasculitis
+      - aav
+      - granulomatosis with polyangiitis
+      - gpa
+      - microscopic polyangiitis
+      - mpa
+
+  - id: IND_primary_biliary_cholangitis
+    name: Primary Biliary Cholangitis
+    therapeutic_area: immunology
+    aliases:
+      - primary biliary cholangitis
+      - pbc
+      - primary biliary cirrhosis
+
+  - id: IND_iga_nephropathy
+    name: IgA Nephropathy
+    therapeutic_area: immunology
+    aliases:
+      - iga nephropathy
+      - berger's disease
+      - igan
+      - iga glomerulonephritis
+
+  - id: IND_pnh
+    name: Paroxysmal Nocturnal Hemoglobinuria
+    therapeutic_area: rare_disease
+    aliases:
+      - paroxysmal nocturnal hemoglobinuria
+      - pnh
+      - paroxysmal nocturnal haemoglobinuria
+
+  - id: IND_myasthenia_gravis
+    name: Generalized Myasthenia Gravis
+    therapeutic_area: immunology
+    aliases:
+      - generalized myasthenia gravis
+      - myasthenia gravis
+      - gmg
+      - generalized myasthenia gravis and warm autoimmune hemolytic anemia
+      - warm autoimmune hemolytic anemia
+
+  - id: IND_pemphigus
+    name: Pemphigus Vulgaris / IgG4-Related Disease
+    therapeutic_area: immunology
+    aliases:
+      - pemphigus vulgaris
+      - pemphigus
+      - igg4-related disease
+      - ig g4 related disease
+      - pemphigus and igg4-related disease
+
+  - id: IND_peanut_allergy
+    name: Peanut Allergy
+    therapeutic_area: immunology
+    aliases:
+      - peanut allergy
+      - peanut allergy (ages 4-17)
+      - peanut allergy (ages 4–17)
+      - peanut allergy in children
+      - peanut oral immunotherapy
+
+  - id: IND_organ_transplant
+    name: Organ Transplant Tolerance / Autoimmune Disease
+    therapeutic_area: immunology
+    aliases:
+      - organ transplant tolerance
+      - transplant tolerance
+      - organ transplant tolerance and autoimmune disease
+      - autoimmune disease
+      - transplant rejection
+
+  # ── Oncology / Solid Tumors ──────────────────────────────────────────────────
+
+  - id: IND_nsclc
+    name: Non-Small Cell Lung Cancer
+    therapeutic_area: oncology
+    aliases:
+      - non-small cell lung cancer
+      - nsclc
+      - non small cell lung cancer
+      - advanced nsclc
+      - metastatic nsclc
+      - stage iii/iv nsclc
+      - ros1-positive nsclc
+      - ros1-positive non-small cell lung cancer
+      - ros1 positive nsclc
+      - ros1 positive non-small cell lung cancer
+      - kras g12c-mutated non-small cell lung cancer
+      - kras g12c nsclc
+      - her2-low breast cancer and nsclc
+
+  - id: IND_melanoma
+    name: Melanoma
+    therapeutic_area: oncology
+    aliases:
+      - melanoma
+      - advanced melanoma
+      - metastatic melanoma
+      - braf v600-mutant melanoma
+      - braf v600e melanoma
+      - unresectable melanoma
+
+  - id: IND_breast_cancer
+    name: Breast Cancer
+    therapeutic_area: oncology
+    aliases:
+      - breast cancer
+      - advanced breast cancer
+      - metastatic breast cancer
+      - er+/her2- breast cancer
+      - er positive her2 negative breast cancer
+      - hormone receptor positive breast cancer
+      - hr+ breast cancer
+      - triple-negative breast cancer
+      - triple negative breast cancer
+      - tnbc
+      - her2-positive breast cancer
+      - her2+ breast cancer
+      - metastatic castration-resistant prostate cancer and her2-positive breast cancer
+
+  - id: IND_prostate_cancer
+    name: Prostate Cancer
+    therapeutic_area: oncology
+    aliases:
+      - prostate cancer
+      - advanced prostate cancer
+      - metastatic castration-resistant prostate cancer
+      - mcrpc
+      - crpc
+      - castration-resistant prostate cancer
+      - advanced prostate cancer and endometriosis
+
+  - id: IND_colorectal_cancer
+    name: Colorectal Cancer
+    therapeutic_area: oncology
+    aliases:
+      - colorectal cancer
+      - crc
+      - metastatic colorectal cancer
+      - colorectal cancer and solid tumors
+
+  - id: IND_cholangiocarcinoma
+    name: Cholangiocarcinoma
+    therapeutic_area: oncology
+    aliases:
+      - cholangiocarcinoma
+      - intrahepatic cholangiocarcinoma
+      - fgfr2-altered intrahepatic cholangiocarcinoma
+      - fgfr2 altered cholangiocarcinoma
+      - bile duct cancer
+
+  - id: IND_gastric_cancer
+    name: Gastric / GEJ Cancer
+    therapeutic_area: oncology
+    aliases:
+      - gastric cancer
+      - gastroesophageal junction cancer
+      - gej cancer
+      - fgfr2b-positive gastric and gastroesophageal junction cancer
+      - her2-positive gastric cancer
+      - stomach cancer
+
+  - id: IND_gist
+    name: Gastrointestinal Stromal Tumor
+    therapeutic_area: oncology
+    aliases:
+      - gastrointestinal stromal tumor
+      - gist
+      - pdgfra d842v-mutant gastrointestinal stromal tumor
+      - pdgfra mutant gist
+
+  - id: IND_glioblastoma
+    name: Glioblastoma Multiforme
+    therapeutic_area: oncology
+    aliases:
+      - glioblastoma multiforme
+      - gbm
+      - glioblastoma
+      - recurrent glioblastoma
+
+  - id: IND_cscc
+    name: Cutaneous Squamous Cell Carcinoma
+    therapeutic_area: oncology
+    aliases:
+      - cutaneous squamous cell carcinoma
+      - cscc
+      - advanced cscc
+      - squamous cell carcinoma of the skin
+
+  - id: IND_urothelial_cancer
+    name: Urothelial Cancer
+    therapeutic_area: oncology
+    aliases:
+      - urothelial cancer
+      - bladder cancer
+      - urothelial carcinoma
+      - urothelial cancer and multiple solid tumors (adc platform)
+      - urothelial cancer and multiple solid tumors
+
+  - id: IND_sclc
+    name: Small-Cell Lung Cancer
+    therapeutic_area: oncology
+    aliases:
+      - small-cell lung cancer
+      - sclc
+      - small cell lung cancer
+      - extensive-stage sclc
+      - small-cell lung cancer and neuroendocrine tumors
+
+  - id: IND_ovarian_cancer
+    name: Ovarian Cancer
+    therapeutic_area: oncology
+    aliases:
+      - ovarian cancer
+      - ovarian cancer (parp inhibitor)
+      - advanced ovarian cancer
+      - recurrent ovarian cancer
+      - fallopian tube cancer
+      - peritoneal cancer
+
+  - id: IND_neuroendocrine_tumors
+    name: Gastroenteropancreatic Neuroendocrine Tumors
+    therapeutic_area: oncology
+    aliases:
+      - gastroenteropancreatic neuroendocrine tumors
+      - neuroendocrine tumors
+      - nets
+      - carcinoid tumors
+      - pancreatic neuroendocrine tumors
+
+  - id: IND_desmoid_tumors
+    name: Desmoid Tumors
+    therapeutic_area: oncology
+    aliases:
+      - desmoid tumors
+      - desmoid tumor
+      - aggressive fibromatosis
+
+  - id: IND_solid_tumors
+    name: Advanced Solid Tumors (Pan-Tumor)
+    therapeutic_area: oncology
+    aliases:
+      - advanced solid tumors
+      - solid tumors
+      - pan-tumor
+      - tumor agnostic
+      - nrg1 fusion-positive solid tumors
+      - trk fusion-positive solid tumors (pan-tumor)
+      - trk fusion positive solid tumors
+
+  # ── Hematology / Oncology ────────────────────────────────────────────────────
+
+  - id: IND_hematologic_malignancies
+    name: Hematologic Malignancies
+    therapeutic_area: oncology
+    aliases:
+      - hematologic malignancies
+      - hematological malignancies
+      - blood cancers
+      - leukemia and lymphoma
+
+  - id: IND_myelofibrosis
+    name: Myelofibrosis
+    therapeutic_area: oncology
+    aliases:
+      - myelofibrosis
+      - myelofibrosis with anemia
+      - primary myelofibrosis
+      - mf
+
+  - id: IND_myelodysplastic_syndrome
+    name: Myelodysplastic Syndrome / AML
+    therapeutic_area: oncology
+    aliases:
+      - myelodysplastic syndrome
+      - mds
+      - acute myeloid leukemia
+      - aml
+      - myelodysplastic syndrome and acute myeloid leukemia
+
+  - id: IND_essential_thrombocythemia
+    name: Essential Thrombocythemia
+    therapeutic_area: oncology
+    aliases:
+      - essential thrombocythemia
+      - et
+      - essential thrombocythaemia
+
+  - id: IND_sickle_cell_disease
+    name: Sickle Cell Disease
+    therapeutic_area: rare_disease
+    aliases:
+      - sickle cell disease
+      - scd
+      - sickle cell anemia
+      - hbss disease
+
+  # ── Cardiovascular ───────────────────────────────────────────────────────────
+
+  - id: IND_hypertrophic_cardiomyopathy
+    name: Obstructive Hypertrophic Cardiomyopathy
+    therapeutic_area: cardiovascular
+    aliases:
+      - obstructive hypertrophic cardiomyopathy
+      - hocm
+      - hypertrophic cardiomyopathy
+      - hcm
+      - symptomatic obstructive hcm
+
+  - id: IND_heart_failure
+    name: Heart Failure
+    therapeutic_area: cardiovascular
+    aliases:
+      - heart failure
+      - hfref
+      - hfpef
+      - heart failure with reduced ejection fraction
+      - heart failure with preserved ejection fraction
+      - acute heart failure
+
+  - id: IND_pulmonary_arterial_hypertension
+    name: Pulmonary Arterial Hypertension
+    therapeutic_area: cardiovascular
+    aliases:
+      - pulmonary arterial hypertension
+      - pah
+      - pulmonary hypertension
+      - group 1 pulmonary hypertension
+
+  - id: IND_hypercholesterolemia
+    name: Hypercholesterolemia / ASCVD
+    therapeutic_area: cardiovascular
+    aliases:
+      - hypercholesterolemia
+      - elevated ldl-c / atherosclerotic cardiovascular disease
+      - elevated ldl-c
+      - atherosclerotic cardiovascular disease
+      - ascvd
+      - high ldl cholesterol
+      - familial hypercholesterolemia
+
+  - id: IND_hypertension
+    name: Hypertension
+    therapeutic_area: cardiovascular
+    aliases:
+      - hypertension
+      - treatment-resistant and uncontrolled hypertension
+      - treatment-resistant hypertension
+      - resistant hypertension
+      - uncontrolled hypertension
+
+  - id: IND_transthyretin_amyloidosis
+    name: Transthyretin Amyloidosis
+    therapeutic_area: cardiovascular
+    aliases:
+      - transthyretin amyloidosis
+      - attr
+      - attr-cm
+      - attr amyloidosis
+      - hereditary attr
+      - wild-type attr
+
+  - id: IND_venous_thromboembolism
+    name: Venous Thromboembolism Prevention
+    therapeutic_area: cardiovascular
+    aliases:
+      - venous thromboembolism prevention
+      - venous thromboembolism prevention (anticoagulation)
+      - vte prevention
+      - dvt prevention
+      - deep vein thrombosis
+      - pulmonary embolism
+
+  - id: IND_anticoagulation_reversal
+    name: Anticoagulation Reversal
+    therapeutic_area: cardiovascular
+    aliases:
+      - anticoagulation reversal
+      - reversal of factor xa inhibitor anticoagulation
+      - factor xa reversal
+      - anticoagulant reversal
+
+  # ── CNS / Neurology ──────────────────────────────────────────────────────────
+
+  - id: IND_alzheimers_disease
+    name: Alzheimer's Disease
+    therapeutic_area: cns
+    aliases:
+      - alzheimer's disease
+      - alzheimers disease
+      - ad (alzheimer's)
+      - alzheimer's disease psychosis
+      - alzheimer disease
+
+  - id: IND_schizophrenia
+    name: Schizophrenia
+    therapeutic_area: cns
+    aliases:
+      - schizophrenia
+      - schizophrenia and bipolar depression
+      - schizophrenia and major depressive disorder
+      - treatment-resistant schizophrenia
+      - chronic schizophrenia
+
+  - id: IND_major_depressive_disorder
+    name: Major Depressive Disorder
+    therapeutic_area: cns
+    aliases:
+      - major depressive disorder
+      - mdd
+      - depression
+      - treatment-resistant depression
+      - treatment resistant depression
+
+  - id: IND_multiple_sclerosis
+    name: Multiple Sclerosis
+    therapeutic_area: cns
+    aliases:
+      - multiple sclerosis
+      - ms
+      - relapsing multiple sclerosis
+      - relapsing-remitting ms
+      - rrms
+      - relapsing remitting multiple sclerosis
+
+  - id: IND_epileptic_encephalopathy
+    name: Epileptic Encephalopathy
+    therapeutic_area: cns
+    aliases:
+      - developmental and epileptic encephalopathies
+      - epileptic encephalopathy
+      - dravet syndrome
+      - lennox-gastaut syndrome
+      - dee
+      - refractory epilepsy
+
+  - id: IND_migraine
+    name: Migraine
+    therapeutic_area: cns
+    aliases:
+      - migraine
+      - migraine (acute and preventive)
+      - migraine (acute)
+      - migraine (preventive)
+      - chronic migraine
+      - episodic migraine
+      - acute migraine
+
+  - id: IND_friedreichs_ataxia
+    name: Friedreich's Ataxia
+    therapeutic_area: cns
+    aliases:
+      - friedreich's ataxia
+      - friedreichs ataxia
+      - frda
+      - friedreich ataxia
+
+  - id: IND_myotonic_dystrophy
+    name: Myotonic Dystrophy
+    therapeutic_area: cns
+    aliases:
+      - myotonic dystrophy
+      - myotonic dystrophy type 1
+      - dm1
+      - myotonic dystrophy type 1 and facioscapulohumeral muscular dystrophy
+      - facioscapulohumeral muscular dystrophy
+      - fshd
+
+  - id: IND_chronic_cough
+    name: Refractory Chronic Cough
+    therapeutic_area: cns
+    aliases:
+      - refractory chronic cough
+      - chronic cough
+      - unexplained chronic cough
+      - rcc
+
+  # ── Rare Disease ──────────────────────────────────────────────────────────────
+
+  - id: IND_hemophilia_a
+    name: Hemophilia A
+    therapeutic_area: rare_disease
+    aliases:
+      - hemophilia a
+      - haemophilia a
+      - factor viii deficiency
+      - severe hemophilia a
+
+  - id: IND_alpha1_antitrypsin
+    name: Alpha-1 Antitrypsin Deficiency
+    therapeutic_area: rare_disease
+    aliases:
+      - alpha-1 antitrypsin deficiency
+      - alpha1 antitrypsin deficiency
+      - a1at deficiency
+      - aatd
+
+  - id: IND_cystic_fibrosis
+    name: Cystic Fibrosis
+    therapeutic_area: rare_disease
+    aliases:
+      - cystic fibrosis
+      - cf
+      - cystic fibrosis and infectious disease
+
+  - id: IND_wilson_disease
+    name: Wilson Disease
+    therapeutic_area: rare_disease
+    aliases:
+      - wilson disease
+      - wilson's disease
+      - hepatolenticular degeneration
+
+  - id: IND_inherited_retinal_dystrophy
+    name: Inherited Retinal Dystrophy
+    therapeutic_area: ophthalmology
+    aliases:
+      - inherited retinal dystrophy
+      - rpe65-mediated inherited retinal dystrophy
+      - rpe65 retinal dystrophy
+      - leber congenital amaurosis
+      - retinitis pigmentosa
+
+  - id: IND_type1_diabetes
+    name: Type 1 Diabetes
+    therapeutic_area: rare_disease
+    aliases:
+      - type 1 diabetes
+      - t1d
+      - type 1 diabetes mellitus
+      - stage 2 type 1 diabetes delay
+      - type 1 diabetes delay
+
+  # ── Ophthalmology ────────────────────────────────────────────────────────────
+
+  - id: IND_wet_amd
+    name: Neovascular / Wet AMD
+    therapeutic_area: ophthalmology
+    aliases:
+      - neovascular age-related macular degeneration
+      - wet amd
+      - namd
+      - wet age-related macular degeneration
+      - diabetic macular edema and neovascular age-related macular degeneration
+      - diabetic macular edema
+
+  - id: IND_geographic_atrophy
+    name: Geographic Atrophy
+    therapeutic_area: ophthalmology
+    aliases:
+      - geographic atrophy
+      - ga
+      - dry amd
+      - dry age-related macular degeneration
+      - advanced dry amd
+
+  - id: IND_dry_eye_disease
+    name: Dry Eye Disease
+    therapeutic_area: ophthalmology
+    aliases:
+      - dry eye disease
+      - ded
+      - dry eye syndrome
+      - keratoconjunctivitis sicca
+
+  # ── Respiratory ──────────────────────────────────────────────────────────────
+
+  - id: IND_rsv
+    name: Respiratory Syncytial Virus
+    therapeutic_area: infectious_disease
+    aliases:
+      - respiratory syncytial virus
+      - rsv
+      - rsv in adults 60+
+      - respiratory syncytial virus in adults 60+
+      - rsv prevention
+
+  # ── Endocrinology / Metabolic ────────────────────────────────────────────────
+
+  - id: IND_type2_diabetes
+    name: Type 2 Diabetes
+    therapeutic_area: other
+    aliases:
+      - type 2 diabetes
+      - t2d
+      - type 2 diabetes mellitus
+      - diabetes mellitus type 2

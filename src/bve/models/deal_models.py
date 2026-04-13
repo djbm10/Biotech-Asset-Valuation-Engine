@@ -125,6 +125,35 @@ class ComparableDeal(BaseModel):
         ),
     )
 
+    # ── Biological detail fields (optional — populated when data is available) ─
+    biological_target: Optional[str] = Field(
+        default=None,
+        description="Molecular biological target (e.g. 'PD-1', 'VEGF'). "
+                    "Distinct from target_name (the acquired company).",
+    )
+    mechanism_of_action: Optional[str] = Field(
+        default=None,
+        description="Drug mechanism (e.g. 'checkpoint inhibitor', 'kinase inhibitor').",
+    )
+
+    # ── Canonical normalization (populated by ComparableDealLoader on ingest) ─
+    canonical_indication: Optional[str] = Field(
+        default=None,
+        description="Canonical indication ID from IndicationNormalizer.",
+    )
+    canonical_target: Optional[str] = Field(
+        default=None,
+        description="Canonical biological target ID from TargetNormalizer.",
+    )
+    canonical_moa: Optional[str] = Field(
+        default=None,
+        description="Canonical MOA ID from MOANormalizer.",
+    )
+    normalization_warnings: list[str] = Field(
+        default_factory=list,
+        description="Low-confidence normalization flags accumulated on ingest.",
+    )
+
     # ── Data quality ─────────────────────────────────────────────────────────
     data_quality: DataQuality = Field(
         default="medium",

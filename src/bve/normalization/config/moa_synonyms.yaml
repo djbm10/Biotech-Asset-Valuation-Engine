@@ -1,0 +1,254 @@
+# Canonical mechanism of action registry
+# id convention: MOA_<snake_case_name>
+
+mechanisms:
+
+  - id: MOA_pd1_checkpoint_inhibitor
+    name: PD-1/PD-L1 Checkpoint Inhibitor
+    aliases:
+      - checkpoint inhibitor
+      - pd-1 inhibitor
+      - pd-l1 inhibitor
+      - pd1 inhibitor
+      - pdl1 inhibitor
+      - anti-pd-1
+      - anti-pd-l1
+      - anti pd-1
+      - anti pd-l1
+      - pd-1/pd-l1 checkpoint inhibitor
+      - immune checkpoint inhibitor
+      - pd-1 checkpoint blockade
+      - check point inhibitor
+
+  - id: MOA_vegf_inhibitor
+    name: VEGF / VEGFR Inhibitor
+    aliases:
+      - vegf inhibitor
+      - vegfr inhibitor
+      - anti-vegf
+      - anti-vegfr
+      - vegf-targeted therapy
+      - angiogenesis inhibitor
+
+  - id: MOA_tyrosine_kinase_inhibitor
+    name: Tyrosine Kinase Inhibitor
+    aliases:
+      - tyrosine kinase inhibitor
+      - tki
+      - kinase inhibitor
+      - receptor tyrosine kinase inhibitor
+      - rtki
+
+  - id: MOA_egfr_inhibitor
+    name: EGFR Inhibitor
+    aliases:
+      - egfr inhibitor
+      - anti-egfr
+      - egfr tki
+      - egfr blocker
+
+  - id: MOA_her2_inhibitor
+    name: HER2-Targeted Therapy
+    aliases:
+      - her2 inhibitor
+      - anti-her2
+      - her2-targeted
+      - her2 directed therapy
+      - erbb2 inhibitor
+
+  - id: MOA_adc
+    name: Antibody-Drug Conjugate (ADC)
+    aliases:
+      - antibody-drug conjugate
+      - adc
+      - antibody drug conjugate
+
+  - id: MOA_braf_inhibitor
+    name: BRAF Inhibitor
+    aliases:
+      - braf inhibitor
+      - braf v600e inhibitor
+      - braf-targeted therapy
+      - anti-braf
+
+  - id: MOA_parp_inhibitor
+    name: PARP Inhibitor
+    aliases:
+      - parp inhibitor
+      - parp1 inhibitor
+      - poly adp-ribose polymerase inhibitor
+
+  - id: MOA_bcl2_inhibitor
+    name: BCL-2 Inhibitor
+    aliases:
+      - bcl-2 inhibitor
+      - bcl2 inhibitor
+      - venetoclax-class
+
+  - id: MOA_jak_inhibitor
+    name: JAK Inhibitor
+    aliases:
+      - jak inhibitor
+      - janus kinase inhibitor
+      - jak1 inhibitor
+      - jak2 inhibitor
+      - jak1/2 inhibitor
+
+  - id: MOA_btk_inhibitor
+    name: BTK Inhibitor
+    aliases:
+      - btk inhibitor
+      - bruton tyrosine kinase inhibitor
+      - covalent btk inhibitor
+
+  - id: MOA_il4_il13_blocker
+    name: IL-4 / IL-13 Blocker
+    aliases:
+      - il-4/il-13 blocker
+      - il-4 blocker
+      - il-13 blocker
+      - anti-il-4
+      - anti-il-13
+      - il-4 receptor antagonist
+      - type 2 inflammation inhibitor
+
+  - id: MOA_il17_inhibitor
+    name: IL-17 Inhibitor
+    aliases:
+      - il-17 inhibitor
+      - il17 inhibitor
+      - anti-il-17
+      - il-17a inhibitor
+
+  - id: MOA_il23_inhibitor
+    name: IL-23 Inhibitor
+    aliases:
+      - il-23 inhibitor
+      - il23 inhibitor
+      - anti-il-23
+      - anti-p19
+      - il-23 p19 inhibitor
+
+  - id: MOA_tnf_inhibitor
+    name: TNF-alpha Inhibitor
+    aliases:
+      - tnf-alpha inhibitor
+      - tnf inhibitor
+      - anti-tnf
+      - anti-tnf-alpha
+      - tumor necrosis factor inhibitor
+
+  - id: MOA_pcsk9_inhibitor
+    name: PCSK9 Inhibitor
+    aliases:
+      - pcsk9 inhibitor
+      - anti-pcsk9
+      - pcsk9 blocker
+      - pcsk9 monoclonal antibody
+
+  - id: MOA_cgrp_inhibitor
+    name: CGRP / CGRP-R Antagonist
+    aliases:
+      - cgrp antagonist
+      - cgrp inhibitor
+      - anti-cgrp
+      - cgrp receptor antagonist
+      - gepant
+
+  - id: MOA_gene_therapy
+    name: Gene Therapy / Gene Editing
+    aliases:
+      - gene therapy
+      - aav gene therapy
+      - gene editing
+      - crispr
+      - base editing
+
+  - id: MOA_rnai
+    name: RNA Interference (RNAi)
+    aliases:
+      - rnai
+      - sirna
+      - small interfering rna
+      - rna interference
+      - antisense oligonucleotide
+
+  - id: MOA_mrna_therapy
+    name: mRNA Therapy
+    aliases:
+      - mrna therapy
+      - mrna
+      - messenger rna
+      - mrna platform
+
+  - id: MOA_cardiac_myosin_inhibitor
+    name: Cardiac Myosin Inhibitor
+    aliases:
+      - cardiac myosin inhibitor
+      - myosin atpase inhibitor
+      - allosteric myosin inhibitor
+
+  - id: MOA_complement_inhibitor
+    name: Complement Inhibitor
+    aliases:
+      - complement inhibitor
+      - c5 inhibitor
+      - c3 inhibitor
+      - complement factor d inhibitor
+      - anti-complement
+
+  - id: MOA_fxa_reversal
+    name: Factor Xa Reversal Agent
+    aliases:
+      - factor xa reversal
+      - anticoagulant reversal agent
+      - factor xa inhibitor reversal
+      - andexanet-class
+
+  - id: MOA_ttr_silencer
+    name: TTR Gene Silencer / Stabilizer
+    aliases:
+      - ttr silencer
+      - transthyretin gene silencer
+      - ttr stabilizer
+      - ttr rnai
+
+  - id: MOA_cell_therapy
+    name: Cell Therapy (CAR-T / TIL)
+    aliases:
+      - car-t
+      - car t cell
+      - cell therapy
+      - til therapy
+      - adoptive cell therapy
+
+  - id: MOA_trk_inhibitor
+    name: TRK Inhibitor
+    aliases:
+      - trk inhibitor
+      - ntrk inhibitor
+      - tropomyosin receptor kinase inhibitor
+
+  - id: MOA_kras_inhibitor
+    name: KRAS Inhibitor
+    aliases:
+      - kras inhibitor
+      - kras g12c inhibitor
+      - sos1 inhibitor
+
+  - id: MOA_fgfr_inhibitor
+    name: FGFR Inhibitor
+    aliases:
+      - fgfr inhibitor
+      - fgfr2 inhibitor
+      - pan-fgfr inhibitor
+      - fibroblast growth factor receptor inhibitor
+
+  - id: MOA_cftr_modulator
+    name: CFTR Modulator
+    aliases:
+      - cftr modulator
+      - cftr corrector
+      - cftr potentiator
+      - elexacaftor-class
+      - triple combination cftr

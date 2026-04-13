@@ -1,0 +1,286 @@
+# Canonical biological target registry
+# id convention: TGT_<snake_case_target_name>
+
+targets:
+
+  - id: TGT_pd1
+    name: PD-1
+    aliases:
+      - pd-1
+      - pd1
+      - programmed death 1
+      - programmed cell death protein 1
+      - pdcd1
+      - cd279
+
+  - id: TGT_pdl1
+    name: PD-L1
+    aliases:
+      - pd-l1
+      - pdl1
+      - programmed death ligand 1
+      - cd274
+      - b7-h1
+
+  - id: TGT_vegf
+    name: VEGF / VEGFR
+    aliases:
+      - vegf
+      - vascular endothelial growth factor
+      - vegfr
+      - vegfr2
+      - vegf-a
+      - kdr
+
+  - id: TGT_her2
+    name: HER2
+    aliases:
+      - her2
+      - erbb2
+      - her-2
+      - her2/neu
+      - erbb-2
+
+  - id: TGT_egfr
+    name: EGFR
+    aliases:
+      - egfr
+      - epidermal growth factor receptor
+      - erbb1
+      - her1
+
+  - id: TGT_kras
+    name: KRAS
+    aliases:
+      - kras
+      - kras g12c
+      - kras g12d
+      - kirsten ras
+
+  - id: TGT_braf
+    name: BRAF
+    aliases:
+      - braf
+      - b-raf
+      - braf v600e
+      - braf v600k
+
+  - id: TGT_alk
+    name: ALK
+    aliases:
+      - alk
+      - anaplastic lymphoma kinase
+      - alk fusion
+
+  - id: TGT_ros1
+    name: ROS1
+    aliases:
+      - ros1
+      - ros-1
+      - ros1 fusion
+
+  - id: TGT_fgfr
+    name: FGFR
+    aliases:
+      - fgfr
+      - fgfr2
+      - fgfr1
+      - fgfr3
+      - fgfr4
+      - fibroblast growth factor receptor
+
+  - id: TGT_cd20
+    name: CD20
+    aliases:
+      - cd20
+      - ms4a1
+      - b-lymphocyte antigen cd20
+
+  - id: TGT_il4_il13
+    name: IL-4 / IL-13
+    aliases:
+      - il-4
+      - il-13
+      - il4
+      - il13
+      - interleukin-4
+      - interleukin-13
+      - il-4/il-13
+
+  - id: TGT_il17
+    name: IL-17
+    aliases:
+      - il-17
+      - il17
+      - il-17a
+      - interleukin-17
+      - interleukin 17
+
+  - id: TGT_il23
+    name: IL-23
+    aliases:
+      - il-23
+      - il23
+      - interleukin-23
+      - p19
+
+  - id: TGT_il12_il23
+    name: IL-12 / IL-23 (p40)
+    aliases:
+      - il-12/il-23
+      - il12/il23
+      - p40
+      - il-12 and il-23
+      - interleukin-12/23
+
+  - id: TGT_tnfa
+    name: TNF-alpha
+    aliases:
+      - tnf-alpha
+      - tnf alpha
+      - tnfa
+      - tumor necrosis factor alpha
+      - tnf
+
+  - id: TGT_pcsk9
+    name: PCSK9
+    aliases:
+      - pcsk9
+      - proprotein convertase subtilisin/kexin type 9
+      - pcsk9 inhibitor
+
+  - id: TGT_cgrp
+    name: CGRP / CGRP-R
+    aliases:
+      - cgrp
+      - calcitonin gene-related peptide
+      - cgrp receptor
+      - cgrp-r
+
+  - id: TGT_btk
+    name: BTK
+    aliases:
+      - btk
+      - bruton's tyrosine kinase
+      - bruton tyrosine kinase
+
+  - id: TGT_jak
+    name: JAK
+    aliases:
+      - jak
+      - jak1
+      - jak2
+      - jak3
+      - janus kinase
+      - jak1/jak2
+
+  - id: TGT_parp
+    name: PARP
+    aliases:
+      - parp
+      - parp1
+      - poly adp-ribose polymerase
+      - parp inhibitor
+
+  - id: TGT_myosin
+    name: Cardiac Myosin
+    aliases:
+      - cardiac myosin
+      - beta-cardiac myosin
+      - myh7
+      - myosin atpase
+
+  - id: TGT_complement
+    name: Complement System (C3/C5)
+    aliases:
+      - complement
+      - c3
+      - c5
+      - complement factor d
+      - complement c5
+      - c3b
+
+  - id: TGT_fxia
+    name: Factor XIa
+    aliases:
+      - factor xia
+      - fxia
+      - factor 11a
+      - coagulation factor xi
+
+  - id: TGT_ttr
+    name: Transthyretin (TTR)
+    aliases:
+      - transthyretin
+      - ttr
+      - prealbumin
+
+  - id: TGT_trk
+    name: TRK (NTRK)
+    aliases:
+      - trk
+      - ntrk
+      - ntrk1
+      - ntrk2
+      - ntrk3
+      - tropomyosin receptor kinase
+
+  - id: TGT_nrg1
+    name: NRG1 / HER3
+    aliases:
+      - nrg1
+      - neuregulin-1
+      - her3
+      - erbb3
+
+  - id: TGT_bcl2
+    name: BCL-2
+    aliases:
+      - bcl-2
+      - bcl2
+      - b-cell lymphoma 2
+
+  - id: TGT_cd38
+    name: CD38
+    aliases:
+      - cd38
+      - cyclic adp ribose hydrolase
+
+  - id: TGT_pdgfra
+    name: PDGFRA
+    aliases:
+      - pdgfra
+      - pdgfr-alpha
+      - platelet-derived growth factor receptor alpha
+
+  - id: TGT_fviii
+    name: Factor VIII
+    aliases:
+      - factor viii
+      - fviii
+      - coagulation factor 8
+      - antihemophilic factor
+
+  - id: TGT_p2rx3
+    name: P2X3 Receptor
+    aliases:
+      - p2x3
+      - p2rx3
+      - purinergic receptor p2x3
+
+  - id: TGT_d5r
+    name: Dopamine D2/D3 Receptor
+    aliases:
+      - dopamine d2 receptor
+      - d2r
+      - dopamine d3 receptor
+      - d3r
+      - d2/d3 receptor
+
+  - id: TGT_muscarinicc
+    name: Muscarinic Acetylcholine Receptor M4
+    aliases:
+      - m4 receptor
+      - muscarinic m4
+      - chrm4
+      - muscarinic acetylcholine receptor m4

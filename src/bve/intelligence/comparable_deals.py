@@ -120,14 +120,49 @@ class ComparableDealLoader:
 
     @staticmethod
     def load(path: Path | str) -> ComparableDealSet:
+        from bve.normalization.normalizer import IndicationNormalizer, MOANormalizer, TargetNormalizer
+
+        ind_norm = IndicationNormalizer()
+        tgt_norm = TargetNormalizer()
+        moa_norm = MOANormalizer()
+
         raw = yaml.safe_load(Path(path).read_text(encoding="utf-8")) or {}
         if isinstance(raw, dict):
-            deals = raw.get("deals", [])
+            deals_raw = raw.get("deals", [])
         else:
-            deals = raw
-        if not isinstance(deals, list):
+            deals_raw = raw
+        if not isinstance(deals_raw, list):
             raise ValueError("Comparable deals YAML must be a list or contain a 'deals' list")
-        return ComparableDealSet(deals=[ComparableDeal.model_validate(item) for item in deals])
+
+        deals: list[ComparableDeal] = []
+        for item in deals_raw:
+            deal = ComparableDeal.model_validate(item)
+            warnings: list[str] = []
+
+            # Normalize indication (always present)
+            ind_result = ind_norm.normalize(deal.indication)
+            deal.canonical_indication = ind_result.canonical_id
+            if not ind_result.is_trustworthy:
+                warnings.append(f"indication_low_confidence:{deal.indication!r}")
+
+            # Normalize biological_target when present
+            if deal.biological_target:
+                tgt_result = tgt_norm.normalize(deal.biological_target)
+                deal.canonical_target = tgt_result.canonical_id
+                if not tgt_result.is_trustworthy:
+                    warnings.append(f"target_low_confidence:{deal.biological_target!r}")
+
+            # Normalize mechanism_of_action when present
+            if deal.mechanism_of_action:
+                moa_result = moa_norm.normalize(deal.mechanism_of_action)
+                deal.canonical_moa = moa_result.canonical_id
+                if not moa_result.is_trustworthy:
+                    warnings.append(f"moa_low_confidence:{deal.mechanism_of_action!r}")
+
+            deal.normalization_warnings = warnings
+            deals.append(deal)
+
+        return ComparableDealSet(deals=deals)
 
 
 # ── Matcher ───────────────────────────────────────────────────────────────────
@@ -143,6 +178,10 @@ class ComparableDealMatcher:
         asset_stage: Optional[str],
         asset_ev_to_peak_sales: Optional[float],
         deals: list[ComparableDeal],
+        # Optional: pre-computed canonical indication ID for the asset.
+        # When supplied it is used directly for tier-1 matching.
+        # When absent it is derived on-the-fly from asset_indication.
+        asset_canonical_indication: Optional[str] = None,
     ) -> ComparableDealAnalysis:
         if asset_ev_to_peak_sales is None or asset_ev_to_peak_sales <= 0:
             return ComparableDealAnalysis(
@@ -151,17 +190,42 @@ class ComparableDealMatcher:
                 n_comps=0,
             )
 
+        # Resolve canonical indication for tier-1 matching
+        if asset_canonical_indication is None and asset_indication:
+            from bve.normalization.normalizer import IndicationNormalizer
+            ind_result = IndicationNormalizer().normalize(asset_indication)
+            asset_canonical_indication = ind_result.canonical_id if ind_result.is_trustworthy else None
+
         indication = _normalize_text(asset_indication)
         therapeutic_area = _normalize_text(asset_therapeutic_area)
         phase_bucket = _phase_bucket(asset_stage)
 
-        exact = [
-            deal
-            for deal in deals
-            if deal.ev_to_peak_sales is not None
-            and deal.phase_bucket == phase_bucket
-            and deal.normalized_indication == indication
-        ]
+        # Tier 1: canonical indication + phase match.
+        # A deal matches if:
+        #   (a) both asset and deal have canonical IDs and they match, OR
+        #   (b) the deal has no canonical ID yet (created outside the loader)
+        #       and its raw indication string matches — backward compatible.
+        if asset_canonical_indication:
+            exact = [
+                deal
+                for deal in deals
+                if deal.ev_to_peak_sales is not None
+                and deal.phase_bucket == phase_bucket
+                and (
+                    deal.canonical_indication == asset_canonical_indication
+                    or (deal.canonical_indication is None and deal.normalized_indication == indication)
+                )
+            ]
+        else:
+            # No canonical for asset: raw string match only
+            exact = [
+                deal
+                for deal in deals
+                if deal.ev_to_peak_sales is not None
+                and deal.phase_bucket == phase_bucket
+                and deal.normalized_indication == indication
+            ]
+
         if exact:
             return ComparableDealMatcher._summarize(
                 asset_ev_to_peak_sales=asset_ev_to_peak_sales,
