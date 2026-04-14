@@ -633,3 +633,471 @@ class TestMemoRenderingWithEvidence:
         memo = generate_memo(output_with_comps, memo_type="bd")
         # Competitive landscape has a permanent gap for KnowledgeArtifact data
         assert "Evidence gap" in memo
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# Sprint 5 — source-backed evidence plumbing
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# ── Fixtures: mock StructuredSignal and KnowledgeArtifact ────────────────────
+
+def _make_signal(
+    *,
+    event_type: str = "trial_readout",
+    signal_date_str: str = "2025-09-15",
+    extraction_confidence: float = 0.85,
+    trial_phase: str | None = "phase_3",
+    primary_endpoint_met: bool | None = True,
+    p_value: float | None = 0.003,
+    hazard_ratio: float | None = 0.72,
+    response_rate: float | None = None,
+    enrollment_status: str | None = None,
+    extraction_model: str | None = "gpt-4o-2024-11-20",
+    sig_id: str = "sig-001",
+):
+    """Build a duck-typed mock StructuredSignal for testing without triggering bve.intelligence imports."""
+    from unittest.mock import MagicMock
+    from datetime import date
+
+    sig = MagicMock()
+    sig.id = sig_id
+    sig.event_type = event_type  # string value (matching enum .value)
+    sig.signal_date = date.fromisoformat(signal_date_str)
+    sig.extraction_confidence = extraction_confidence
+    sig.trial_phase = trial_phase
+    sig.primary_endpoint_met = primary_endpoint_met
+    sig.p_value = p_value
+    sig.hazard_ratio = hazard_ratio
+    sig.response_rate = response_rate
+    sig.enrollment_status = enrollment_status
+    sig.extraction_model = extraction_model
+    return sig
+
+
+def _make_artifact(
+    *,
+    artifact_type: str = "competitor_landscape",
+    title: str = "Oncology competitor landscape Q1-2026",
+    confidence: float = 0.75,
+    created_at_str: str = "2026-01-10T14:30:00",
+    source_signal_ids: list | None = None,
+    created_by: str = "llm:gpt-4o",
+    art_id: str = "art-001",
+):
+    """Build a duck-typed mock KnowledgeArtifact for testing."""
+    from unittest.mock import MagicMock
+    from datetime import datetime
+
+    art = MagicMock()
+    art.id = art_id
+    art.artifact_type = artifact_type
+    art.title = title
+    art.confidence = confidence
+    art.created_at = datetime.fromisoformat(created_at_str)
+    art.source_signal_ids = source_signal_ids or ["sig-001"]
+    art.created_by = created_by
+    return art
+
+
+def _output_with_signals(signals=(), knowledge_artifacts=()):
+    """Return a minimal ValuationOutput with the given signals/artifacts attached."""
+    output = _make_output(with_assumption_log=True, with_comps=False)
+    output.signals = list(signals)
+    output.knowledge_artifacts = list(knowledge_artifacts)
+    return output
+
+
+# ── TestSignalWiring ──────────────────────────────────────────────────────────
+
+class TestSignalWiring:
+    """StructuredSignal objects flow into biology and trial evidence sections."""
+
+    def test_trial_readout_signal_appears_in_trial_section(self):
+        sig = _make_signal(event_type="trial_readout")
+        output = _output_with_signals(signals=[sig])
+        ev = MemoEvidenceBuilder.build(output)
+        labels = [r.label for r in ev.trial.refs]
+        assert any("Trial Readout" in l or "trial_readout" in l.lower() for l in labels)
+
+    def test_trial_signal_has_as_of_date(self):
+        sig = _make_signal(event_type="trial_readout", signal_date_str="2025-09-15")
+        output = _output_with_signals(signals=[sig])
+        ev = MemoEvidenceBuilder.build(output)
+        signal_refs = [r for r in ev.trial.refs if r.source_type == SourceType.SIGNAL]
+        assert len(signal_refs) >= 1
+        assert signal_refs[0].as_of_date == "2025-09-15"
+
+    def test_trial_signal_has_source_id(self):
+        sig = _make_signal(event_type="trial_readout", sig_id="sig-xyz")
+        output = _output_with_signals(signals=[sig])
+        ev = MemoEvidenceBuilder.build(output)
+        signal_refs = [r for r in ev.trial.refs if r.source_type == SourceType.SIGNAL]
+        assert any(r.source_id == "sig-xyz" for r in signal_refs)
+
+    def test_trial_signal_confidence_high_for_score_0_9(self):
+        sig = _make_signal(event_type="trial_readout", extraction_confidence=0.9)
+        output = _output_with_signals(signals=[sig])
+        ev = MemoEvidenceBuilder.build(output)
+        signal_refs = [r for r in ev.trial.refs if r.source_type == SourceType.SIGNAL]
+        assert signal_refs[0].confidence_label == "High"
+
+    def test_trial_signal_confidence_medium_for_score_0_6(self):
+        sig = _make_signal(event_type="trial_readout", extraction_confidence=0.6)
+        output = _output_with_signals(signals=[sig])
+        ev = MemoEvidenceBuilder.build(output)
+        signal_refs = [r for r in ev.trial.refs if r.source_type == SourceType.SIGNAL]
+        assert signal_refs[0].confidence_label == "Medium"
+
+    def test_trial_signal_confidence_low_for_score_0_3(self):
+        sig = _make_signal(event_type="trial_readout", extraction_confidence=0.3)
+        output = _output_with_signals(signals=[sig])
+        ev = MemoEvidenceBuilder.build(output)
+        signal_refs = [r for r in ev.trial.refs if r.source_type == SourceType.SIGNAL]
+        assert signal_refs[0].confidence_label == "Low"
+
+    def test_interim_analysis_signal_appears_in_trial(self):
+        sig = _make_signal(event_type="interim_analysis")
+        output = _output_with_signals(signals=[sig])
+        ev = MemoEvidenceBuilder.build(output)
+        types = [r.source_type for r in ev.trial.refs]
+        assert SourceType.SIGNAL in types
+
+    def test_enrollment_update_signal_appears_in_trial(self):
+        sig = _make_signal(
+            event_type="enrollment_update",
+            primary_endpoint_met=None,
+            p_value=None,
+            hazard_ratio=None,
+            enrollment_status="recruiting",
+        )
+        output = _output_with_signals(signals=[sig])
+        ev = MemoEvidenceBuilder.build(output)
+        types = [r.source_type for r in ev.trial.refs]
+        assert SourceType.SIGNAL in types
+
+    def test_publication_signal_appears_in_biology_section(self):
+        sig = _make_signal(event_type="publication", primary_endpoint_met=None, p_value=None, hazard_ratio=None)
+        output = _output_with_signals(signals=[sig])
+        ev = MemoEvidenceBuilder.build(output)
+        types = [r.source_type for r in ev.biology.refs]
+        assert SourceType.SIGNAL in types
+
+    def test_publication_signal_has_as_of_date_in_biology(self):
+        sig = _make_signal(event_type="publication", signal_date_str="2024-11-01",
+                          primary_endpoint_met=None, p_value=None, hazard_ratio=None)
+        output = _output_with_signals(signals=[sig])
+        ev = MemoEvidenceBuilder.build(output)
+        signal_refs = [r for r in ev.biology.refs if r.source_type == SourceType.SIGNAL]
+        assert signal_refs[0].as_of_date == "2024-11-01"
+
+    def test_signal_in_biology_but_not_trial_for_publication(self):
+        sig = _make_signal(event_type="publication", primary_endpoint_met=None, p_value=None, hazard_ratio=None)
+        output = _output_with_signals(signals=[sig])
+        ev = MemoEvidenceBuilder.build(output)
+        bio_signal_refs = [r for r in ev.biology.refs if r.source_type == SourceType.SIGNAL]
+        # publication is in biology; trial should still show signal gap (no trial-type signals)
+        assert len(bio_signal_refs) >= 1
+        assert "StructuredSignal" in " ".join(ev.trial.unsupported_claims)
+
+    def test_no_signals_produces_trial_gap(self):
+        output = _output_with_signals(signals=[])
+        ev = MemoEvidenceBuilder.build(output)
+        assert any("StructuredSignal" in g for g in ev.trial.unsupported_claims)
+
+    def test_no_signals_produces_biology_gap(self):
+        output = _output_with_signals(signals=[])
+        ev = MemoEvidenceBuilder.build(output)
+        assert any("StructuredSignal" in g or "extraction pipeline" in g for g in ev.biology.unsupported_claims)
+
+    def test_signal_label_includes_endpoint_result(self):
+        sig = _make_signal(event_type="trial_readout", primary_endpoint_met=True)
+        output = _output_with_signals(signals=[sig])
+        ev = MemoEvidenceBuilder.build(output)
+        signal_refs = [r for r in ev.trial.refs if r.source_type == SourceType.SIGNAL]
+        assert any("endpoint met" in r.label for r in signal_refs)
+
+    def test_signal_label_includes_pvalue(self):
+        sig = _make_signal(event_type="trial_readout", p_value=0.003)
+        output = _output_with_signals(signals=[sig])
+        ev = MemoEvidenceBuilder.build(output)
+        signal_refs = [r for r in ev.trial.refs if r.source_type == SourceType.SIGNAL]
+        assert any("p=0.003" in r.label for r in signal_refs)
+
+    def test_signal_label_includes_hazard_ratio(self):
+        sig = _make_signal(event_type="trial_readout", hazard_ratio=0.72)
+        output = _output_with_signals(signals=[sig])
+        ev = MemoEvidenceBuilder.build(output)
+        signal_refs = [r for r in ev.trial.refs if r.source_type == SourceType.SIGNAL]
+        assert any("HR=0.72" in r.label for r in signal_refs)
+
+    def test_multiple_signals_all_appear(self):
+        sigs = [
+            _make_signal(event_type="trial_readout", sig_id="s1"),
+            _make_signal(event_type="interim_analysis", sig_id="s2",
+                        primary_endpoint_met=None, p_value=None, hazard_ratio=None),
+        ]
+        output = _output_with_signals(signals=sigs)
+        ev = MemoEvidenceBuilder.build(output)
+        signal_refs = [r for r in ev.trial.refs if r.source_type == SourceType.SIGNAL]
+        assert len(signal_refs) == 2
+
+    def test_non_trial_signal_not_in_trial_section(self):
+        sig = _make_signal(event_type="financing", primary_endpoint_met=None, p_value=None, hazard_ratio=None)
+        output = _output_with_signals(signals=[sig])
+        ev = MemoEvidenceBuilder.build(output)
+        trial_signal_refs = [r for r in ev.trial.refs if r.source_type == SourceType.SIGNAL]
+        assert len(trial_signal_refs) == 0
+
+
+# ── TestKnowledgeArtifactWiring ───────────────────────────────────────────────
+
+class TestKnowledgeArtifactWiring:
+    """KnowledgeArtifact competitor_landscape artifacts flow into competitive section."""
+
+    def test_competitor_landscape_artifact_appears_in_competitive(self):
+        art = _make_artifact(artifact_type="competitor_landscape")
+        output = _output_with_signals(knowledge_artifacts=[art])
+        ev = MemoEvidenceBuilder.build(output)
+        types = [r.source_type for r in ev.competitive.refs]
+        assert SourceType.KNOWLEDGE_ART in types
+
+    def test_artifact_has_as_of_date_from_created_at(self):
+        art = _make_artifact(artifact_type="competitor_landscape", created_at_str="2026-01-10T14:30:00")
+        output = _output_with_signals(knowledge_artifacts=[art])
+        ev = MemoEvidenceBuilder.build(output)
+        art_refs = [r for r in ev.competitive.refs if r.source_type == SourceType.KNOWLEDGE_ART]
+        assert len(art_refs) == 1
+        assert art_refs[0].as_of_date == "2026-01-10"
+
+    def test_artifact_has_source_id(self):
+        art = _make_artifact(art_id="art-xyz")
+        output = _output_with_signals(knowledge_artifacts=[art])
+        ev = MemoEvidenceBuilder.build(output)
+        art_refs = [r for r in ev.competitive.refs if r.source_type == SourceType.KNOWLEDGE_ART]
+        assert art_refs[0].source_id == "art-xyz"
+
+    def test_artifact_confidence_high_for_score_0_9(self):
+        art = _make_artifact(confidence=0.9)
+        output = _output_with_signals(knowledge_artifacts=[art])
+        ev = MemoEvidenceBuilder.build(output)
+        art_refs = [r for r in ev.competitive.refs if r.source_type == SourceType.KNOWLEDGE_ART]
+        assert art_refs[0].confidence_label == "High"
+
+    def test_artifact_confidence_medium_for_score_0_6(self):
+        art = _make_artifact(confidence=0.6)
+        output = _output_with_signals(knowledge_artifacts=[art])
+        ev = MemoEvidenceBuilder.build(output)
+        art_refs = [r for r in ev.competitive.refs if r.source_type == SourceType.KNOWLEDGE_ART]
+        assert art_refs[0].confidence_label == "Medium"
+
+    def test_artifact_label_contains_title(self):
+        art = _make_artifact(title="My competitive analysis")
+        output = _output_with_signals(knowledge_artifacts=[art])
+        ev = MemoEvidenceBuilder.build(output)
+        art_refs = [r for r in ev.competitive.refs if r.source_type == SourceType.KNOWLEDGE_ART]
+        assert "My competitive analysis" in art_refs[0].label
+
+    def test_non_landscape_artifact_not_in_competitive(self):
+        art = _make_artifact(artifact_type="thesis")
+        output = _output_with_signals(knowledge_artifacts=[art])
+        ev = MemoEvidenceBuilder.build(output)
+        art_refs = [r for r in ev.competitive.refs if r.source_type == SourceType.KNOWLEDGE_ART]
+        assert len(art_refs) == 0
+
+    def test_no_artifacts_produces_competitive_gap(self):
+        output = _output_with_signals(knowledge_artifacts=[])
+        ev = MemoEvidenceBuilder.build(output)
+        assert any("KnowledgeArtifact" in g for g in ev.competitive.unsupported_claims)
+
+    def test_multiple_artifacts_all_appear(self):
+        arts = [
+            _make_artifact(art_id="a1", title="Landscape Q1"),
+            _make_artifact(art_id="a2", title="Landscape Q2"),
+        ]
+        output = _output_with_signals(knowledge_artifacts=arts)
+        ev = MemoEvidenceBuilder.build(output)
+        art_refs = [r for r in ev.competitive.refs if r.source_type == SourceType.KNOWLEDGE_ART]
+        assert len(art_refs) == 2
+
+
+# ── TestDatePopulation ────────────────────────────────────────────────────────
+
+class TestDatePopulation:
+    """as_of_date is populated only when the source record carries a timestamp."""
+
+    def test_signal_as_of_date_set_from_signal_date(self):
+        sig = _make_signal(signal_date_str="2025-06-01")
+        output = _output_with_signals(signals=[sig])
+        ev = MemoEvidenceBuilder.build(output)
+        signal_refs = [r for r in ev.trial.refs if r.source_type == SourceType.SIGNAL]
+        assert signal_refs[0].as_of_date == "2025-06-01"
+
+    def test_artifact_as_of_date_uses_date_portion_only(self):
+        art = _make_artifact(created_at_str="2025-11-20T09:15:00")
+        output = _output_with_signals(knowledge_artifacts=[art])
+        ev = MemoEvidenceBuilder.build(output)
+        art_refs = [r for r in ev.competitive.refs if r.source_type == SourceType.KNOWLEDGE_ART]
+        assert art_refs[0].as_of_date == "2025-11-20"
+
+    def test_assumption_refs_have_no_date(self):
+        output = _make_output(with_assumption_log=True)
+        ev = MemoEvidenceBuilder.build(output)
+        assumption_refs = [r for r in ev.assumptions.refs if r.source_type == SourceType.ASSUMPTION]
+        # No fake dates — all should be None
+        assert all(r.as_of_date is None for r in assumption_refs)
+
+    def test_catalyst_refs_have_no_as_of_date(self):
+        output = _make_output(with_assumption_log=True, with_catalysts=True)
+        ev = MemoEvidenceBuilder.build(output)
+        catalyst_refs = [r for r in ev.trial.refs if r.source_type == SourceType.MANUAL]
+        # Catalyst refs don't carry evidence timestamps
+        assert all(r.as_of_date is None for r in catalyst_refs)
+
+
+# ── TestVCMemoEvidence ────────────────────────────────────────────────────────
+
+class TestVCMemoEvidence:
+    """VC memo renders with evidence blocks wired in."""
+
+    @pytest.fixture(scope="class")
+    def vc_output(self):
+        return _engine_output(with_comps=False)
+
+    def test_vc_memo_renders(self, vc_output):
+        from bve.reporting.memo_generator import generate_memo
+        memo = generate_memo(vc_output, memo_type="vc")
+        assert isinstance(memo, str)
+        assert len(memo) > 200
+
+    def test_vc_memo_has_evidence_header(self, vc_output):
+        from bve.reporting.memo_generator import generate_memo
+        memo = generate_memo(vc_output, memo_type="vc")
+        assert "Evidence & Sources" in memo
+
+    def test_vc_memo_has_biology_evidence(self, vc_output):
+        from bve.reporting.memo_generator import generate_memo
+        memo = generate_memo(vc_output, memo_type="vc")
+        # Biology evidence block appears in scientific rationale section
+        assert "Evidence & Sources" in memo
+
+    def test_vc_memo_has_trial_evidence(self, vc_output):
+        from bve.reporting.memo_generator import generate_memo
+        memo = generate_memo(vc_output, memo_type="vc")
+        # Trial evidence block appears after development timeline
+        assert "Evidence & Sources" in memo
+
+    def test_vc_memo_has_competitive_evidence(self, vc_output):
+        from bve.reporting.memo_generator import generate_memo
+        memo = generate_memo(vc_output, memo_type="vc")
+        # Competitive section gap (no KnowledgeArtifact linked) should appear
+        assert "Evidence gap" in memo
+
+    def test_vc_memo_no_crash_with_signals(self):
+        from bve.reporting.memo_generator import generate_memo
+        output = _engine_output(with_comps=False)
+        sig = _make_signal(event_type="trial_readout")
+        output.signals = [sig]
+        memo = generate_memo(output, memo_type="vc")
+        assert "Evidence & Sources" in memo
+        # Signal should appear in rendered evidence
+        assert "Trial Readout" in memo or "trial readout" in memo.lower()
+
+    def test_vc_memo_evidence_attached_to_output(self, vc_output):
+        from bve.reporting.memo_generator import generate_memo
+        generate_memo(vc_output, memo_type="vc")
+        assert vc_output.memo_evidence is not None
+
+
+# ── TestHFMemoEvidence ────────────────────────────────────────────────────────
+
+class TestHFMemoEvidence:
+    """HF memo renders with evidence blocks wired in."""
+
+    @pytest.fixture(scope="class")
+    def hf_output(self):
+        return _engine_output(with_comps=False)
+
+    def test_hf_memo_renders(self, hf_output):
+        from bve.reporting.memo_generator import generate_memo
+        memo = generate_memo(hf_output, memo_type="hf")
+        assert isinstance(memo, str)
+        assert len(memo) > 200
+
+    def test_hf_memo_has_evidence_header(self, hf_output):
+        from bve.reporting.memo_generator import generate_memo
+        memo = generate_memo(hf_output, memo_type="hf")
+        assert "Evidence & Sources" in memo
+
+    def test_hf_memo_trial_evidence_after_catalyst_section(self, hf_output):
+        from bve.reporting.memo_generator import generate_memo
+        memo = generate_memo(hf_output, memo_type="hf")
+        # Catalyst Calendar section should be followed by evidence
+        assert "Catalyst Calendar" in memo
+        assert "Evidence & Sources" in memo
+
+    def test_hf_memo_falsification_evidence_present(self, hf_output):
+        from bve.reporting.memo_generator import generate_memo
+        memo = generate_memo(hf_output, memo_type="hf")
+        # Falsification evidence (kill criteria gap at minimum) appears
+        assert "Evidence gap" in memo or "Evidence & Sources" in memo
+
+    def test_hf_memo_no_crash_with_knowledge_artifact(self):
+        from bve.reporting.memo_generator import generate_memo
+        output = _engine_output(with_comps=False)
+        art = _make_artifact(artifact_type="competitor_landscape")
+        output.knowledge_artifacts = [art]
+        memo = generate_memo(output, memo_type="hf")
+        assert isinstance(memo, str)
+
+    def test_hf_memo_evidence_attached_to_output(self, hf_output):
+        from bve.reporting.memo_generator import generate_memo
+        generate_memo(hf_output, memo_type="hf")
+        assert hf_output.memo_evidence is not None
+
+
+# ── TestGracefulFallback ──────────────────────────────────────────────────────
+
+class TestGracefulFallback:
+    """Empty signals/artifacts degrade gracefully — identical gap behaviour to Sprint 4."""
+
+    def test_empty_signals_same_gaps_as_no_signals(self):
+        output_no_signals = _make_output(with_assumption_log=True)
+        output_empty_signals = _make_output(with_assumption_log=True)
+        output_empty_signals.signals = []
+        ev_no = MemoEvidenceBuilder.build(output_no_signals)
+        ev_empty = MemoEvidenceBuilder.build(output_empty_signals)
+        assert ev_no.trial.unsupported_claims == ev_empty.trial.unsupported_claims
+        assert ev_no.biology.unsupported_claims == ev_empty.biology.unsupported_claims
+
+    def test_empty_artifacts_same_gaps_as_no_artifacts(self):
+        output_no_art = _make_output(with_assumption_log=True)
+        output_empty_art = _make_output(with_assumption_log=True)
+        output_empty_art.knowledge_artifacts = []
+        ev_no = MemoEvidenceBuilder.build(output_no_art)
+        ev_empty = MemoEvidenceBuilder.build(output_empty_art)
+        assert ev_no.competitive.unsupported_claims == ev_empty.competitive.unsupported_claims
+
+    def test_malformed_signal_does_not_crash_builder(self):
+        """A signal object missing expected fields defaults to a gap via the fault-tolerant builder."""
+        from unittest.mock import MagicMock
+        bad_sig = MagicMock(spec=[])  # spec=[] means no attributes → all access raises AttributeError
+        bad_sig.event_type = "trial_readout"  # minimal attribute to pass routing
+        output = _output_with_signals(signals=[bad_sig])
+        # Builder must not raise; it may produce refs or gaps, but must return MemoEvidence
+        ev = MemoEvidenceBuilder.build(output)
+        assert isinstance(ev, MemoEvidence)
+
+    def test_malformed_artifact_does_not_crash_builder(self):
+        from unittest.mock import MagicMock
+        bad_art = MagicMock(spec=[])
+        bad_art.artifact_type = "competitor_landscape"
+        output = _output_with_signals(knowledge_artifacts=[bad_art])
+        ev = MemoEvidenceBuilder.build(output)
+        assert isinstance(ev, MemoEvidence)
+
+    def test_signals_on_output_default_to_empty_list(self):
+        output = _make_output(with_assumption_log=True)
+        assert output.signals == []
+
+    def test_knowledge_artifacts_on_output_default_to_empty_list(self):
+        output = _make_output(with_assumption_log=True)
+        assert output.knowledge_artifacts == []

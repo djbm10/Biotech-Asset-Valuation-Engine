@@ -1,18 +1,18 @@
 """
 MemoEvidenceBuilder — assembles MemoEvidence from an existing ValuationOutput.
 
-All population is deterministic: the builder reads the structured fields
-already on ValuationOutput (AssumptionLog, ComparableDealAnalysis, Asset,
-trials, lifecycle_events, decision_framing) and converts them into typed
-MemoEvidenceRef objects.
+All population is deterministic: the builder reads structured fields on
+ValuationOutput (AssumptionLog, ComparableDealAnalysis, Asset, trials,
+lifecycle_events, decision_framing, signals, knowledge_artifacts) and
+converts them into typed MemoEvidenceRef objects.
 
 No LLM is called. No data is fabricated. Where structured evidence is
 absent, an explicit gap string is added to ``unsupported_claims``.
 
 Section coverage:
-  biology       — MoA, biological target, POS methodology note
-  trial         — per-phase POS assumptions, upcoming catalysts
-  competitive   — competitor program names, differentiation notes
+  biology       — MoA, biological target, POS methodology, StructuredSignal biology events
+  trial         — per-phase POS assumptions, upcoming catalysts, StructuredSignal trial events
+  competitive   — competitor program names, differentiation notes, KnowledgeArtifact landscapes
   assumptions   — all KeyAssumption entries from AssumptionLog
   comps         — matched comparable deals, data quality, deal source
   falsification — kill criteria, thesis changers, comps-based falsifiers
@@ -31,9 +31,101 @@ from bve.reporting.evidence import (
 if TYPE_CHECKING:
     from bve.valuation.outputs import ValuationOutput
 
+# ── Event-type sets for signal routing ───────────────────────────────────────
+# These match EventType enum values from bve.intelligence.taxonomy
+_BIOLOGY_EVENT_TYPES = {
+    "publication",
+    "conference_presentation",
+    "trial_readout",
+}
+_TRIAL_EVENT_TYPES = {
+    "trial_readout",
+    "interim_analysis",
+    "enrollment_update",
+    "endpoint_change",
+    "safety_signal",
+}
+
+
+# ── Signal / artifact helpers ─────────────────────────────────────────────────
+
+def _event_type_val(sig) -> str:
+    """Return the string value of sig.event_type regardless of whether it's an enum or str."""
+    et = getattr(sig, "event_type", "")
+    return et if isinstance(et, str) else et.value
+
+
+def _signal_label(sig) -> str:
+    """Build a human-readable label from a StructuredSignal (duck-typed)."""
+    parts = [_event_type_val(sig).replace("_", " ").title()]
+    phase = getattr(sig, "trial_phase", None)
+    if phase is not None:
+        phase_str = phase if isinstance(phase, str) else phase.value
+        parts.append(phase_str.replace("_", " ").upper())
+    ep_met = getattr(sig, "primary_endpoint_met", None)
+    if ep_met is True:
+        parts.append("endpoint met")
+    elif ep_met is False:
+        parts.append("endpoint missed")
+    p_val = getattr(sig, "p_value", None)
+    if p_val is not None:
+        parts.append(f"p={p_val:.3f}")
+    hr = getattr(sig, "hazard_ratio", None)
+    if hr is not None:
+        parts.append(f"HR={hr:.2f}")
+    rr = getattr(sig, "response_rate", None)
+    if rr is not None:
+        parts.append(f"ORR={rr:.0%}")
+    enroll = getattr(sig, "enrollment_status", None)
+    if enroll:
+        parts.append(f"enrollment: {enroll}")
+    return " · ".join(parts)
+
+
+def _signal_as_of(sig) -> Optional[str]:
+    """Return ISO date string from signal_date if present."""
+    d = getattr(sig, "signal_date", None)
+    if d is None:
+        return None
+    return d.isoformat() if hasattr(d, "isoformat") else str(d)[:10]
+
+
+def _signal_confidence_label(sig) -> str:
+    """Convert extraction_confidence float to High/Medium/Low label."""
+    score = getattr(sig, "extraction_confidence", None)
+    if score is None:
+        return "—"
+    if score >= 0.8:
+        return "High"
+    if score >= 0.5:
+        return "Medium"
+    return "Low"
+
+
+def _artifact_as_of(artifact) -> Optional[str]:
+    """Return ISO date string from artifact.created_at if present."""
+    created = getattr(artifact, "created_at", None)
+    if created is None:
+        return None
+    if hasattr(created, "date"):
+        return created.date().isoformat()
+    return str(created)[:10]
+
+
+def _artifact_confidence_label(artifact) -> str:
+    """Convert artifact.confidence float to High/Medium/Low label."""
+    score = getattr(artifact, "confidence", None)
+    if score is None:
+        return "—"
+    if score >= 0.8:
+        return "High"
+    if score >= 0.5:
+        return "Medium"
+    return "Low"
+
 
 def _conf(label: Optional[str]) -> str:
-    """Normalize a confidence label string."""
+    """Normalize a KeyAssumption confidence label string."""
     if not label:
         return "—"
     return label.capitalize() if label.lower() in ("high", "medium", "low") else label
@@ -85,12 +177,31 @@ def _build_biology(output: "ValuationOutput") -> MemoSectionEvidence:
             "phase transition probabilities are not auditable."
         )
 
-    # No signal-level biology evidence in ValuationOutput by design
-    gaps.append(
-        "Structural/pharmacology characterization (crystal structure, selectivity panel, "
-        "in vitro potency data) has no structured evidence linkage in this run. "
-        "Add StructuredSignal records via the extraction pipeline to close this gap."
-    )
+    # StructuredSignal biology evidence (publications, presentations, readouts)
+    bio_signals = [
+        s for s in output.signals
+        if _event_type_val(s) in _BIOLOGY_EVENT_TYPES
+    ]
+    for sig in bio_signals:
+        refs.append(MemoEvidenceRef(
+            source_type=SourceType.SIGNAL,
+            source_id=getattr(sig, "id", None),
+            label=_signal_label(sig),
+            confidence_label=_signal_confidence_label(sig),
+            confidence_score=getattr(sig, "extraction_confidence", None),
+            as_of_date=_signal_as_of(sig),
+            notes=(
+                f"Extraction model: {sig.extraction_model}"
+                if getattr(sig, "extraction_model", None) else None
+            ),
+        ))
+
+    if not bio_signals:
+        gaps.append(
+            "Structural/pharmacology characterization (crystal structure, selectivity panel, "
+            "in vitro potency data) has no structured evidence linkage in this run. "
+            "Add StructuredSignal records via the extraction pipeline to close this gap."
+        )
 
     return MemoSectionEvidence(section_key="biology", refs=refs, unsupported_claims=gaps)
 
@@ -134,7 +245,10 @@ def _build_trial(output: "ValuationOutput") -> MemoSectionEvidence:
         gaps.append("No upcoming catalysts registered — trial readout timeline is unverified.")
 
     # Analyst overrides that affected trial parameters
-    trial_overrides = [o for o in output.analyst_overrides if "phase" in o.lower() or "pos" in o.lower()]
+    trial_overrides = [
+        o for o in output.analyst_overrides
+        if "phase" in o.lower() or "pos" in o.lower()
+    ]
     for override_str in trial_overrides:
         refs.append(MemoEvidenceRef(
             source_type=SourceType.MANUAL,
@@ -143,12 +257,31 @@ def _build_trial(output: "ValuationOutput") -> MemoSectionEvidence:
             notes="Explicitly overridden from industry default in this run.",
         ))
 
-    # Gap: no StructuredSignal data from extraction pipeline
-    gaps.append(
-        "Trial-level StructuredSignal evidence (hazard ratio, response rate, p-value, "
-        "enrollment status) not linked in this run. Connect the extraction pipeline "
-        "to populate signal-backed trial claims."
-    )
+    # StructuredSignal trial evidence (readouts, enrollment, interim, safety)
+    trial_signals = [
+        s for s in output.signals
+        if _event_type_val(s) in _TRIAL_EVENT_TYPES
+    ]
+    for sig in trial_signals:
+        refs.append(MemoEvidenceRef(
+            source_type=SourceType.SIGNAL,
+            source_id=getattr(sig, "id", None),
+            label=_signal_label(sig),
+            confidence_label=_signal_confidence_label(sig),
+            confidence_score=getattr(sig, "extraction_confidence", None),
+            as_of_date=_signal_as_of(sig),
+            notes=(
+                f"Extraction model: {sig.extraction_model}"
+                if getattr(sig, "extraction_model", None) else None
+            ),
+        ))
+
+    if not trial_signals:
+        gaps.append(
+            "Trial-level StructuredSignal evidence (hazard ratio, response rate, p-value, "
+            "enrollment status) not linked in this run. Connect the extraction pipeline "
+            "to populate signal-backed trial claims."
+        )
 
     return MemoSectionEvidence(section_key="trial", refs=refs, unsupported_claims=gaps)
 
@@ -175,7 +308,10 @@ def _build_competitive(output: "ValuationOutput") -> MemoSectionEvidence:
     if asset.differentiation_notes:
         refs.append(MemoEvidenceRef(
             source_type=SourceType.MANUAL,
-            label=f"Differentiation: {asset.differentiation_notes[:120]}{'…' if len(asset.differentiation_notes) > 120 else ''}",
+            label=(
+                f"Differentiation: {asset.differentiation_notes[:120]}"
+                f"{'…' if len(asset.differentiation_notes) > 120 else ''}"
+            ),
             confidence_label="—",
             notes="Analyst commentary from asset configuration.",
         ))
@@ -185,12 +321,36 @@ def _build_competitive(output: "ValuationOutput") -> MemoSectionEvidence:
             "from the listed competitors."
         )
 
-    # Gap: no KnowledgeArtifact competitor_landscape in ValuationOutput
-    gaps.append(
-        "Competitor trial readouts (COMPETITOR_EVENT signals) and head-to-head data "
-        "are not linked in this run. Add KnowledgeArtifact records of type "
-        "'competitor_landscape' to close this gap."
-    )
+    # KnowledgeArtifact competitor_landscape wiring
+    landscape_artifacts = [
+        a for a in output.knowledge_artifacts
+        if getattr(a, "artifact_type", None) == "competitor_landscape"
+    ]
+    for art in landscape_artifacts:
+        title = getattr(art, "title", "Competitor landscape analysis")
+        art_id = getattr(art, "id", None)
+        signal_count = len(getattr(art, "source_signal_ids", []))
+        refs.append(MemoEvidenceRef(
+            source_type=SourceType.KNOWLEDGE_ART,
+            source_id=art_id,
+            label=f"Landscape: {title}",
+            confidence_label=_artifact_confidence_label(art),
+            confidence_score=getattr(art, "confidence", None),
+            as_of_date=_artifact_as_of(art),
+            notes=(
+                f"Backed by {signal_count} signal(s). "
+                f"Author: {art.created_by}"
+                if getattr(art, "created_by", None) else
+                f"Backed by {signal_count} signal(s)."
+            ),
+        ))
+
+    if not landscape_artifacts:
+        gaps.append(
+            "No KnowledgeArtifact competitor_landscape records linked. "
+            "Competitor trial readouts (competitor_event signals) and head-to-head data "
+            "are unverified. Populate output.knowledge_artifacts to close this gap."
+        )
 
     return MemoSectionEvidence(section_key="competitive", refs=refs, unsupported_claims=gaps)
 
@@ -261,7 +421,7 @@ def _build_comps(output: "ValuationOutput") -> MemoSectionEvidence:
         ),
     ))
 
-    # Individual matched deal refs
+    # Individual matched deal refs (deal_date not available from ComparableDealAnalysis aggregate)
     for target_name in comps.matched_targets:
         refs.append(MemoEvidenceRef(
             source_type=SourceType.DEAL_COMP,
@@ -343,7 +503,10 @@ def _build_falsification(output: "ValuationOutput") -> MemoSectionEvidence:
         combined_pos = output.rnpv.cumulative_success_probability
         refs.append(MemoEvidenceRef(
             source_type=SourceType.ASSUMPTION,
-            label=f"Approval probability: {combined_pos:.0%} — a Phase failure probability of {(1-combined_pos):.0%} would invalidate the base case.",
+            label=(
+                f"Approval probability: {combined_pos:.0%} — "
+                f"a Phase failure probability of {(1-combined_pos):.0%} would invalidate the base case."
+            ),
             confidence_label=_conf(output.assumption_log.pos_methodology.confidence),
             notes="Derived from cumulative phase-level POS in rNPV model.",
         ))
@@ -359,6 +522,10 @@ class MemoEvidenceBuilder:
 
     Call ``MemoEvidenceBuilder.build(output)`` immediately after running
     the valuation engine, before rendering the memo template.
+
+    Signals and knowledge_artifacts fields on ValuationOutput are optional.
+    When populated, they enrich biology, trial, and competitive sections with
+    source-backed refs including as_of_date from the underlying record timestamps.
     """
 
     @staticmethod

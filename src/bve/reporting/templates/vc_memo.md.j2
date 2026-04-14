@@ -1,3 +1,19 @@
+{% macro evidence_block(sec) %}
+{% if sec and (sec.refs or sec.unsupported_claims) %}
+**Evidence & Sources**
+{% if sec.refs %}
+| # | Type | Label | Confidence | As Of |
+|---|------|-------|-----------|-------|
+{% for ref in sec.refs %}| {{ loop.index }} | {{ ref.source_type | replace("_", " ") | title }} | {{ ref.label }}{% if ref.url %} · [↗]({{ ref.url }}){% endif %} | {{ ref.confidence_label }} | {{ ref.as_of_date or "—" }} |
+{% endfor %}
+{% endif %}
+{% if sec.unsupported_claims %}
+{% for gap in sec.unsupported_claims %}
+> ⚠️ **Evidence gap:** {{ gap }}
+{% endfor %}
+{% endif %}
+{% endif %}
+{% endmacro %}
 ---
 title: "{{ d.asset_name }} / {{ d.company }} — VC Investment Memo"
 date: "{{ d.analysis_date }}"
@@ -42,6 +58,8 @@ memo_type: Venture Capital
 
 **Differentiation:** [What is unique about *this* approach vs. the field?]
 
+{{ evidence_block(evidence.biology) }}
+
 ---
 
 ## 3. Clinical Program
@@ -65,6 +83,8 @@ memo_type: Venture Capital
 {% endfor %}
 | NDA/BLA Approval | +{{ "%.1f"|format(d.years_to_launch) }} yrs | $35M |
 | **Launch** | +{{ "%.1f"|format(d.years_to_launch) }} yrs | — |
+
+{{ evidence_block(evidence.trial) }}
 
 ---
 
@@ -133,6 +153,8 @@ memo_type: Venture Capital
 {% endfor %}
 
 **Why {{ d.asset_name }} can compete:** [{{ asset.differentiation_notes or "To be completed by analyst" }}]
+
+{{ evidence_block(evidence.competitive) }}
 
 ---
 

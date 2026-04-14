@@ -21,6 +21,12 @@ from bve.models.market_model import MarketModel
 from bve.models.monte_carlo import MonteCarloResult
 from bve.models.rnpv_model import RNPVResult
 from bve.valuation.scenario import ScenarioSet
+# Assumption types — assumptions.py does not import from outputs.py.
+from bve.valuation.assumptions import AssumptionLog, DecisionFraming
+# NOTE: bve.reporting.evidence and bve.intelligence.schemas cannot be imported here:
+#   bve.reporting.__init__ → memo_generator → ValuationOutput (circular)
+#   bve.intelligence.__init__ → phase2 → valuation_integration → ValuationOutput (circular)
+# Those fields are typed as list/Optional[object] with descriptive docstrings instead.
 
 
 class SensitivityPoint(BaseModel):
@@ -58,10 +64,10 @@ class ValuationOutput(BaseModel):
     sensitivities: list[SensitivityPoint] = Field(default_factory=list)
 
     # Assumption log (populated by ValuationEngine)
-    assumption_log: Optional[object] = Field(default=None, exclude=False)   # AssumptionLog
+    assumption_log: Optional[AssumptionLog] = Field(default=None, exclude=False)
 
     # Decision framing (optional — populated when decision_framing: section present in YAML)
-    decision_framing: Optional[object] = Field(default=None)   # DecisionFraming
+    decision_framing: Optional[DecisionFraming] = Field(default=None)
 
     # Lifecycle events (populated from market_model.lifecycle_events when present)
     lifecycle_events_applied: list[dict] = Field(
@@ -112,11 +118,30 @@ class ValuationOutput(BaseModel):
         ),
     )
 
+    # Intelligence signals and artifacts (caller-supplied; used by MemoEvidenceBuilder).
+    # Typed as plain list to avoid bve.intelligence.__init__ circular import.
+    # Items are StructuredSignal objects from bve.intelligence.schemas.signals.
+    signals: list = Field(
+        default_factory=list,
+        description=(
+            "StructuredSignal records for this asset, sourced from KnowledgeStore or manual entry. "
+            "When populated, MemoEvidenceBuilder wires them into biology and trial evidence sections."
+        ),
+    )
+    # Items are KnowledgeArtifact objects from bve.intelligence.schemas.knowledge.
+    knowledge_artifacts: list = Field(
+        default_factory=list,
+        description=(
+            "KnowledgeArtifact records for this asset. competitor_landscape artifacts are wired "
+            "into the competitive evidence section by MemoEvidenceBuilder."
+        ),
+    )
+
     # Memo text (populated by reporting layer)
     memo_markdown: Optional[str] = None
 
     # Structured evidence bundle (populated by MemoEvidenceBuilder during generate_memo)
-    # Kept as Optional[object] to avoid circular imports from bve.reporting
+    # Type is MemoEvidence; kept as object to avoid bve.reporting.__init__ circular import.
     memo_evidence: Optional[object] = Field(
         default=None,
         description=(
