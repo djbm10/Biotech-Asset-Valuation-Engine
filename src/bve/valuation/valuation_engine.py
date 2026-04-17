@@ -59,6 +59,18 @@ class ValuationEngine:
     comparable_deals:   Optional list of ComparableDeal objects. When supplied,
                         ValuationEngine will run ComparableDealMatcher.analyze()
                         and populate ValuationOutput.comps_fair_value_band.
+    empirical_pos_engine: When supplied, overrides trial success probabilities
+                        using empirical base rates from real outcome data.
+                        Accepts an EmpiricalPOSEngine from bve.empirical.
+                        When None (default), heuristic model is used if
+                        apply_pos_model=True, otherwise raw trial.success_probability.
+    pos_mode:           Controls which POS layer is used when empirical_pos_engine
+                        is set. Accepts a POSMode enum value or equivalent string:
+                        "heuristic"            — heuristic log-odds model (default)
+                        "empirical_raw"        — empirical base rates + adjusters
+                        "empirical_calibrated" — empirical + calibration artifact
+                        "empirical_fitted"     — empirical base + fitted overlay
+                        Ignored when empirical_pos_engine is None.
     """
 
     def __init__(
@@ -78,6 +90,8 @@ class ValuationEngine:
         limitations: Optional[list[str]] = None,
         thesis_changers: Optional[list[str]] = None,
         comparable_deals: Optional[list[ComparableDeal]] = None,
+        empirical_pos_engine=None,  # Optional[EmpiricalPOSEngine] — lazy import avoids cycle
+        pos_mode: str = "heuristic",  # POSMode value: "heuristic" | "empirical_raw" | "empirical_calibrated"
     ):
         self.asset = asset
         self.company = company
@@ -98,6 +112,9 @@ class ValuationEngine:
         self._commercial_plan: Optional[CommercialPlan] = None  # set by from_program
         self._deal_economics = None  # set by from_program; Optional[DealEconomics]
         self.comparable_deals: Optional[list[ComparableDeal]] = comparable_deals
+        # EmpiricalPOSEngine (bve.empirical) — None means heuristic / raw trial POS
+        self.empirical_pos_engine = empirical_pos_engine
+        self.pos_mode = pos_mode  # str matching POSMode values
 
     # ------------------------------------------------------------------
     # Alternate constructor from DrugAssetProgram
@@ -270,7 +287,12 @@ class ValuationEngine:
 
     def _prepare_trials(self) -> list[ClinicalTrial]:
         trials = self.trials
-        if self.apply_pos_model and self.pos_adjusters:
+        if self.empirical_pos_engine is not None and self.pos_mode != "heuristic":
+            # Empirical engine takes precedence over heuristic apply_pos_model.
+            # Still applies heuristic adjusters on top of the empirical base rate
+            # when pos_adjusters are provided.
+            trials = self._apply_empirical_pos(trials)
+        elif self.apply_pos_model and self.pos_adjusters:
             trials = apply_pos_to_trials(
                 trials, self.asset.therapeutic_area, self.pos_adjusters,
                 approval_pathway=self.asset.approval_pathway,
@@ -278,6 +300,61 @@ class ValuationEngine:
         if self.apply_design_model and self.design_adjusters:
             trials = self._apply_design_adjustments(trials)
         return trials
+
+    def _apply_empirical_pos(self, trials: list[ClinicalTrial]) -> list[ClinicalTrial]:
+        """Override trial success probabilities using the empirical POS engine.
+
+        Routes to calibrated POS when pos_mode == "empirical_calibrated" and the
+        engine has a calibration artifact. Falls back to empirical_raw when no
+        artifact is attached (with a warning logged).
+        """
+        import logging
+        from bve.models.pos_model import POSAdjusters
+
+        _log = logging.getLogger(__name__)
+        use_calibrated = (
+            self.pos_mode == "empirical_calibrated"
+            and self.empirical_pos_engine.calibration is not None
+        )
+        if self.pos_mode == "empirical_calibrated" and self.empirical_pos_engine.calibration is None:
+            _log.warning(
+                "pos_mode='empirical_calibrated' requested but no calibration artifact attached "
+                "to EmpiricalPOSEngine — falling back to empirical_raw."
+            )
+
+        use_fitted = (
+            self.pos_mode == "empirical_fitted"
+            and self.empirical_pos_engine.overlay is not None
+        )
+        if self.pos_mode == "empirical_fitted" and self.empirical_pos_engine.overlay is None:
+            _log.warning(
+                "pos_mode='empirical_fitted' requested but no OverlayArtifact attached "
+                "to EmpiricalPOSEngine — falling back to empirical_raw."
+            )
+
+        updated = []
+        for trial in trials:
+            adj = self.pos_adjusters.get(trial.phase, POSAdjusters()) if self.pos_adjusters else None
+            if use_fitted:
+                pos = self.empirical_pos_engine.compute_fitted_pos(
+                    phase=trial.phase,
+                    therapeutic_area=self.asset.therapeutic_area,
+                    adjusters=adj,
+                )
+            elif use_calibrated:
+                pos = self.empirical_pos_engine.compute_calibrated_pos(
+                    phase=trial.phase,
+                    therapeutic_area=self.asset.therapeutic_area,
+                    adjusters=adj,
+                )
+            else:
+                pos = self.empirical_pos_engine.compute_pos_with_adjusters(
+                    phase=trial.phase,
+                    therapeutic_area=self.asset.therapeutic_area,
+                    adjusters=adj,
+                )
+            updated.append(trial.model_copy(update={"success_probability": pos}))
+        return updated
 
     def _apply_design_adjustments(self, trials: list[ClinicalTrial]) -> list[ClinicalTrial]:
         """Apply trial design feature adjustments as the second POS layer."""

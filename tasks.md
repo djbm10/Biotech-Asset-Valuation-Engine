@@ -4703,3 +4703,130 @@ python -m bve.analysis.company_sotp_backtest \
   --wave-label "describe_what_changed" \
   --wave-log outputs/analysis/company_sotp_wave_log.json
 ```
+
+### 2026-04-16 Sprint 8 — Fitted Empirical Overlay
+
+**Current status: ✅ Complete**
+
+#### Deliverables
+
+**New source files:**
+- `src/bve/empirical/features.py` — 11-binary feature extraction from POSOutcomeRecord / POSAdjusters;
+  `FEATURE_NAMES`, `N_FEATURES`, `MIN_OVERLAY_RECORDS`, `build_feature_vector`,
+  `build_feature_vector_from_adjusters`, `record_to_adjusters`, `feature_coverage`, `sparsity_report`
+- `src/bve/empirical/overlay_model.py` — L2-regularized logistic regression overlay;
+  `OverlayArtifact` (JSON-serializable dataclass), `fit_overlay`, `fit_overlay_time_split`,
+  internal `_fit_logistic_l2` (scipy L-BFGS-B with fixed phase-only offset)
+- `src/bve/empirical/comparison.py` — cross-mode evaluation;
+  `ModeEvalResult`, `POSModeComparison`, `compare_all_modes` (heuristic_only / empirical_base_only /
+  empirical_heuristic / empirical_fitted on same held-out test fold)
+
+**Modified source files:**
+- `src/bve/empirical/pos_mode.py` — added `POSMode.EMPIRICAL_FITTED` enum value;
+  engine routing delegates to `compute_fitted_pos()` when overlay artifact is attached
+- `src/bve/empirical/__init__.py` — exported all Sprint 8 public symbols
+
+**New test files:**
+- `tests/empirical/test_features.py` — feature extraction, coverage helpers
+- `tests/empirical/test_overlay_model.py` — OverlayArtifact, fit_overlay, fit_overlay_time_split,
+  roundtrip, coefficient_summary, alpha shrinkage
+- `tests/empirical/test_comparison.py` — compare_all_modes, ModeEvalResult, POSModeComparison
+- `tests/empirical/test_pos_mode.py` — extended with EMPIRICAL_FITTED enum and routing tests
+
+**Bug fix in comparison.py:** `compute_pos()` requires `TrialPhase` enum; comparison.py was
+passing a raw string. Fixed with `TrialPhase(phase_str)` + fallback to `TrialPhase.PHASE_2`.
+
+**Architecture:** `logit(p_final) = logit(p_base_phase_only) + intercept + X @ beta`
+where phase-only base rate is a fixed offset (not trained). Coefficients are in the same
+log-odds space as the heuristic adjusters and directly comparable to them.
+
+**Test count after Sprint 8:** 348 empirical tests passing.
+
+---
+
+### 2026-04-16 Sprint 8 — Overlay Promotion Report
+
+**Current status: ✅ Complete**
+
+**File:** `research/overlay_promotion_report.md`
+
+**Evaluation setup:** 99-record bundled oncology dataset, cutoff=2019, train=45, test=54, α=1.0.
+
+**Mode comparison (held-out test, n=54):**
+
+| Mode | Brier | AUC | ECE |
+|---|---|---|---|
+| heuristic_only | 0.2321 | 0.6926 | 0.1784 |
+| empirical_base_only | 0.2373 | 0.5971 | 0.1126 |
+| **empirical_heuristic** | **0.2056** ✓ | 0.7162 | **0.1198** ✓ |
+| empirical_fitted | 0.2200 | **0.7309** ✓ | 0.1939 |
+
+**Verdict: KEEP EXPERIMENTAL — do not promote.**
+
+Primary blockers:
+1. `safety_serious` coefficient = +0.717 (wrong sign; n=1 training record; clinical blocker)
+2. Fitted Brier (0.2200) loses to `empirical_heuristic` Brier (0.2056)
+3. ECE regression: 0.1939 vs 0.1198 (fitted is less calibrated)
+4. Three features have zero training observations: `moa_validated`, `endpoint_surrogate_novel`,
+   `endpoint_biomarker_only`
+
+---
+
+### 2026-04-16 Sprint 9 — Overlay Hardening
+
+**Current status: ✅ Complete**
+
+#### Interventions implemented
+
+1. **Sparse clamp guard** (`overlay_model.py`): Feature with `n_nonzero < min_feature_obs`
+   (default 5) → coefficient forced to 0.0; recorded in `OverlayArtifact.sparse_clamped: dict[str, int]`.
+
+2. **Sign gate guard** (`overlay_model.py`): Coefficient violating `EXPECTED_SIGNS` (and not
+   already sparse-clamped) → zeroed; raw value recorded in `OverlayArtifact.sign_violated: dict[str, float]`.
+
+3. **EXPECTED_SIGNS** (`features.py`): Added dict of +1/-1/0 sign constraints for all 11
+   features. Critical: `safety_serious = -1` (serious AEs must penalize, never reward).
+
+4. **Alpha sweep** (`overlay_model.py`): `AlphaSweepEntry` dataclass + `sweep_alpha()` function;
+   evaluates α ∈ any list with per-alpha Brier/AUC/ECE/sparse/sign_viol diagnostics.
+
+5. **Promotion gates** (`overlay_gates.py`): `PromotionGateResult` (frozen dataclass),
+   `check_promotion_gates()` (4 automated quality bars), `promotion_summary()` (formatted table).
+   Gates: `fitted_brier_vs_empirical_heuristic`, `safety_serious_sign`, `ece_regression` (δ≤0.05),
+   `sparse_feature_count` (≤3).
+
+6. **Dataset expansion** (`research/data/oncology_phase_transitions.csv`): 99 → 135 records (+36).
+   Added 12 `moa_validated`, 8 `safety_serious`, 7 `endpoint_surrogate_novel`, 5 `endpoint_biomarker_only`.
+
+7. **Hardening report** (`research/overlay_hardening_report.md`): Full old-vs-new comparison,
+   coefficient table, alpha sweep results, promotion gate outputs, sparse reliance analysis, verdict.
+
+#### Sprint 9 results (135 records, cutoff=2019, train=59, test=76, α=1.0)
+
+| Mode | Brier | AUC | ECE |
+|---|---|---|---|
+| empirical_heuristic | 0.1995 | 0.7082 | 0.1062 |
+| **empirical_fitted** | **0.1940** ✓ | **0.7695** ✓ | 0.1742 |
+
+Improvement vs Sprint 8 fitted: Brier −12%, AUC +5%, ECE −10%. `safety_serious` fixed to −0.337.
+**3/4 promotion gates pass.** Single remaining blocker: ECE regression (Δ=0.0680 > 0.0500 threshold).
+
+**Recommended next step:** Apply Platt scaling on top of `empirical_fitted` path to recalibrate
+the output probabilities. The ECE gap is caused by temporal distribution shift (post-2020 oncology
+has 63% success rate vs 59% training), not coefficient instability. Calibration does not require
+more data. After calibration, re-run gates — Brier and safety gates already pass.
+
+#### New test file
+
+`tests/empirical/test_overlay_hardening.py` — 70 tests covering:
+- `EXPECTED_SIGNS` contract (all 11 features, safety_serious=-1 critical)
+- Sparse clamp: zeroing, recording n_nonzero, min_feature_obs, roundtrip, legacy deserialization
+- Sign gate: coefficient forced to 0, raw values stored, unconstrained features exempt,
+  safety_serious must never be positive post-gate
+- `sweep_alpha`: entries, temporal split, train Brier monotonicity, no-split behavior
+- `PromotionGateResult`: frozen dataclass, pass/fail str format
+- `check_promotion_gates`: all 4 gates, custom thresholds, missing-mode fallback, value/threshold types
+- `promotion_summary`: PROMOTABLE/NOT PROMOTABLE verdict, failed gate details
+- Integration: guards + gates on `fit_overlay_time_split` output
+
+**Test count after Sprint 9:** 418 empirical tests passing (70 new).
