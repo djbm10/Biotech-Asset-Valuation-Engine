@@ -4830,3 +4830,229 @@ more data. After calibration, re-run gates — Brier and safety gates already pa
 - Integration: guards + gates on `fit_overlay_time_split` output
 
 **Test count after Sprint 9:** 418 empirical tests passing (70 new).
+
+---
+
+## Institutional Biotech Decision System — Master Plan
+
+**Added:** 2026-04-16 | **Status:** In progress
+
+### Product Definition (Phase 0)
+
+The system answers exactly 6 questions for every asset:
+
+| # | Question | Primary modules |
+|---|---|---|
+| 1 | What is this asset? | entities/, ingestion/, normalization/, dossier/ |
+| 2 | How good is the science and trial design? | models/trial_design_features, models/regulatory_inference, empirical/ |
+| 3 | What is the real probability of success? | models/pos_model, empirical/engine, models/regulatory_inference |
+| 4 | What is it worth? | valuation/, models/market_model, models/rnpv_model |
+| 5 | What is the market pricing in? | analysis/implied_pos, intelligence/market_expectations, analysis/mispricing_screener |
+| 6 | What should I do now? | intelligence/decision_layer, analysis/position_sizer, analysis/post_mortem |
+
+Everything in the codebase maps to one of these questions. If a module does not map cleanly, it needs to be refactored or removed.
+
+---
+
+### Implementation Phases
+
+#### Phase 1 — Make the current tool automated and trustworthy
+
+**Goal:** Canonical data model, ingestion connectors, entity resolution, auto-dossier generation, analyst review layer.
+
+**Completion: ~93%** (as of 2026-04-16)
+
+| Component | Status | File(s) |
+|---|---|---|
+| Core entity models (asset, trial, indication, company, snapshot) | ✅ Complete | entities/ (6 files) |
+| Ingestion connectors (ClinicalTrials.gov, SEC, FDA, PubMed, news) | ✅ Complete | agents/data_ingestion/, connectors/ (14 files) |
+| Entity resolution / normalization | ✅ Complete | normalization/ (4 files) |
+| Similarity scoring for competitive matching | ✅ Complete | similarity/ (4 files) |
+| Signal extraction pipeline (LLM-backed) | ✅ Complete | intelligence/extraction/ (7 files) |
+| **Auto-dossier generator** | ❌ Missing | `src/bve/dossier/` — needs to be built |
+| Analyst review enforcement | ❌ Stubbed | company_snapshot.review_state exists; no UI enforcement |
+
+**Remaining work:**
+- `src/bve/dossier/dossier.py` — AssetDossier dataclass with provenance on every field
+- `src/bve/dossier/builder.py` — DossierBuilder that assembles from entity + signal + empirical data
+- `src/bve/dossier/completeness.py` — DossierCompletenessReport (% fields filled, what is missing)
+
+---
+
+#### Phase 2 — Improve core valuation inputs
+
+**Goal:** Trial cost estimator, timeline estimator, competitive landscape mapping, financing model, market expectations engine.
+
+**Completion: ~95%** (as of 2026-04-16)
+
+| Component | Status | File(s) |
+|---|---|---|
+| Trial cost model (industry medians by phase) | ✅ Complete | models/cost_model.py |
+| Trial timeline / probability model | ✅ Complete | models/probability_model.py |
+| Trial design quality scoring | ✅ Complete | models/trial_design_features.py, intelligence/trial_design_assessment.py |
+| Revenue / market model | ✅ Complete | models/market_model.py, models/revenue_model.py |
+| Competitive landscape mapping | ✅ Complete | intelligence/competitive_landscape_agent.py, competitor_discovery.py (6 files) |
+| Market expectations (implied POS, mispricing) | ✅ Complete | analysis/implied_pos.py, intelligence/market_expectations.py |
+| M&A probability | ✅ Complete | intelligence/ma_probability.py |
+| Empirical POS engine | ✅ Complete | empirical/ (13 files) |
+| Comparable deals | ✅ Complete | intelligence/comparable_deals.py |
+| **Bottom-up cost builder** | ❌ Missing | No per-visit/per-site cost estimation; cost_model uses industry medians |
+| **Reimbursement / market access model** | ❌ Missing | No QALY, formulary dynamics, payer negotiation |
+
+---
+
+#### Phase 3 — Build decision-support edge
+
+**Goal:** Science/trial-quality engine, regulatory inference layer, management/execution layer, market access/reimbursement layer, improved PoS engine.
+
+**Completion: ~25%** (as of 2026-04-16) — THE LARGEST GAP
+
+| Component | Status | File(s) |
+|---|---|---|
+| POS adjuster framework (6 heuristic adjusters) | ✅ Complete | models/pos_model.py |
+| Trial design quality (endpoint scoring, power) | ✅ Good | models/trial_design_features.py, intelligence/endpoint_benchmarking.py |
+| Empirical base rates + calibration | ✅ Complete | empirical/ (13 files) |
+| Phase correlation learning | ⚠️ Partial | intelligence/phase_correlation_updater.py |
+| **Regulatory inference layer** | ❌ Missing | `src/bve/models/regulatory_inference.py` — needs to be built |
+| **Management / execution risk scoring** | ❌ Missing | `src/bve/models/management_risk.py` — needs to be built |
+| **Market access / reimbursement layer** | ❌ Missing | `src/bve/models/market_access.py` — needs to be built |
+| Mechanism plausibility engine | ❌ Missing | No target validation, off-target toxicity risk |
+
+**Remaining work (built 2026-04-16):**
+- `src/bve/models/regulatory_inference.py` — FDA action prediction (5 scenarios), approval pathway, PDUFA timeline estimation, class-level precedent, sign-based risk flags
+- `src/bve/models/management_risk.py` — Track-record scoring (prior approvals/failures, capital discipline, dilution history, guidance credibility), composite risk score, modifier for timeline/financing/execution confidence
+- `src/bve/models/market_access.py` — Payer dynamics (formulary tier, prior auth burden, step edits, cost-effectiveness risk), effective patient pool adjustment, adoption curve modifier, price durability estimate
+
+---
+
+#### Phase 4 — Make it HF-usable
+
+**Goal:** Variant-view engine, catalyst payoff engine, decision/position-sizing engine, daily scanning + alerting.
+
+**Completion: ~80%** (as of 2026-04-16)
+
+| Component | Status | File(s) |
+|---|---|---|
+| Catalyst calendar + expected value | ✅ Good | intelligence/catalyst_calendar.py, catalyst_ev.py, models/catalyst_model.py |
+| Implied POS and mispricing | ✅ Good | analysis/implied_pos.py, intelligence/market_expectations.py |
+| Decision framework (decision records) | ✅ Good | intelligence/decision_layer.py |
+| Portfolio ranking | ✅ Good | intelligence/ranking.py, portfolio_ranking.py |
+| Daily scanning / opportunity monitor | ✅ Good | intelligence/opportunity_scanner.py, ops/event_monitor.py, alerts/ |
+| Scenario analysis (valuation) | ⚠️ Partial | valuation/scenario.py exists; no payoff diagrams |
+| **Position sizing engine** | ❌ Missing | position_policy.py has constraints; no Kelly/Bayesian sizing logic |
+| Multi-factor conviction → size decision | ❌ Missing | No automated conviction × edge × portfolio → size |
+| P&L attribution (post-hoc) | ❌ Missing | Decision tracking exists; no root-cause analysis |
+
+**Remaining work (built 2026-04-16):**
+- `src/bve/analysis/position_sizer.py` — Kelly-inspired sizing with conviction, edge, downside, catalyst proximity, financing risk as inputs; guard-railed output with portfolio constraints
+
+---
+
+#### Phase 5 — Make it improve over time
+
+**Goal:** Forecast logging, post-mortem system, recalibration layer.
+
+**Completion: ~55%** (as of 2026-04-16)
+
+| Component | Status | File(s) |
+|---|---|---|
+| Forecast tracking (directional accuracy, RMSE, calibration) | ✅ Good | intelligence/forecast_tracker.py |
+| Valuation run logging | ✅ Good | intelligence/schemas/runs.py, signals.py, proposals.py |
+| POS recalibration | ✅ Good | analysis/pos_recalibrator.py |
+| Historical replay / time-machine backtest | ✅ Good | ops/historical_replay.py, ops/ (8 files) |
+| **Post-mortem system** | ❌ Missing | `src/bve/analysis/post_mortem.py` — needs to be built |
+| Variance analysis (errors by TA / phase / modality) | ❌ Missing | No periodic breakdown of model forecast errors |
+| Live POS assumption monitoring | ❌ Missing | No alerts when empirical peer data diverges from model |
+| Closed-loop feedback integration | ⚠️ Partial | Recalibration exists; not wired into analyst workflow |
+
+**Remaining work (built 2026-04-16):**
+- `src/bve/analysis/post_mortem.py` — PostMortemCase (predicted vs actual), PostMortemAnalysis (root-cause decomposition: pos_error / timing_error / thesis_error / market_drift / competitive_surprise), PostMortemSummary (aggregate by TA, phase, modality), variance report
+
+---
+
+### Build Sequence Within Each Phase
+
+**Phase 3 build order:**
+1. `regulatory_inference.py` — most analytically complex; feeds PoS and valuation
+2. `management_risk.py` — modifier on timeline confidence and financing risk
+3. `market_access.py` — modifier on commercial forecasts and peak sales
+
+**Phase 4 build order:**
+1. `position_sizer.py` — converts conviction + edge into a size recommendation
+
+**Phase 5 build order:**
+1. `post_mortem.py` — structured root-cause system for forecast misses
+
+---
+
+### What NOT to build
+
+- Do not build UI layers before the analytical modules they depend on are complete
+- Do not add mechanism plausibility engine until target validation data sources are integrated (requires external knowledge graph — out of scope until Phase 3 analytical layers are stable)
+- Do not make the system fully autonomous in analyst review — first version surfaces drafts for human approval (avoids garbage propagation)
+
+---
+
+### 2026-04-17 Phases 0–5 Implementation Pass
+
+**Current status: ✅ Complete**
+
+Phase 0 (product definition) and the full build sequence for phases 1–5 were added as the
+Master Plan section above. All identified gaps from the codebase audit were implemented.
+
+#### Files written
+
+**Phase 3 — Decision-support edge (new models):**
+- `src/bve/models/regulatory_inference.py` — FDA action prediction (5 scenarios: clean / delayed /
+  narrow_label / CRL / high_postmarket_burden), PDUFA timeline estimation, class-level CRL rate,
+  endpoint + safety + AdCom adjusters, log-odds POS modifier, risk_flags list. No ML; fully auditable
+  score accumulation.
+- `src/bve/models/management_risk.py` — Track-record scoring (prior approvals/failures, guidance
+  credibility, dilution discipline, strategic partnerships, insider alignment), composite [0.10–0.95]
+  raw score, tier classification (strong/adequate/weak/unknown), three modifier types (timeline
+  confidence, financing risk, execution log-odds).
+- `src/bve/models/market_access.py` — Payer dynamics model: formulary tier, prior-auth burden,
+  cost-effectiveness risk, step-edit, RWE requirement, Medicare-heavy, orphan drug. Outputs:
+  effective_patient_pool_multiplier [0.30–1.0], adoption_speed_modifier [−0.30–+0.10],
+  peak_penetration_modifier [−0.20–+0.05], net_price_durability_years, access_risk_score,
+  access_risk_tier, risk_factors, tailwinds.
+
+**Phase 1 — Auto-dossier (new package):**
+- `src/bve/dossier/__init__.py`
+- `src/bve/dossier/dossier.py` — AssetDossier with ProvenanceField on every material field
+  (source, timestamp, confidence, last_verified). DossierCompletenessReport: 17 material fields,
+  completeness_score [0.0–1.0], filled/missing lists, has_thesis, has_valuation flags.
+- `src/bve/dossier/builder.py` — DossierBuilder fluent API: set_field(), add_active_trial(),
+  add_prior_trial(), add_risk(), add_kill_criterion(), set_analyst(), build().
+
+**Phase 4 — Position sizing (new):**
+- `src/bve/analysis/position_sizer.py` — Kelly-inspired sizing with fractional Kelly (default 25%);
+  conviction tiers (SPECULATIVE / LOW / MEDIUM / HIGH / VERY_HIGH) with documented weights;
+  financing runway discount (6 tiers: 1.0 → 0.30); catalyst proximity boost (×1.05–×1.25); hard
+  portfolio concentration cap; full rationale string and constraints_hit list.
+
+**Phase 5 — Post-mortem system (new):**
+- `src/bve/analysis/post_mortem.py` — PostMortemCase, PostMortemAnalysis (7 error categories:
+  pos_error / timing_error / thesis_error / competitive_surprise / financing_event /
+  regulatory_surprise / market_drift; priority ordering; A–F grading), PostMortemSummary
+  (aggregate directional_accuracy, error_by_category, error_by_ta/phase/modality, systematic_bias
+  detection when one category > 40% of cases).
+
+#### Tests written
+
+- `tests/test_regulatory_inference.py` — 27 tests
+- `tests/test_management_risk.py` — 20 tests
+- `tests/test_market_access.py` — 28 tests
+- `tests/test_dossier.py` — 22 tests
+- `tests/test_position_sizer.py` — 28 tests
+- `tests/test_post_mortem.py` — 27 tests
+
+**Total new tests: 152. Running total: 592 tests passing.**
+
+#### What remains open
+
+- Mechanism plausibility engine (requires external knowledge graph — out of scope until target
+  validation data sources are integrated)
+- Analyst review enforcement UI layer
+- Bottom-up trial cost builder (per-visit/per-site cost estimation)
+- Closed-loop recalibration integration into analyst workflow (Phase 5 partial)
