@@ -91,27 +91,47 @@ New files (new `src/bve/learning/` package):
 - `src/bve/learning/weight_updates.py` — `WeightUpdate`, `WeightUpdateEngine`
 - `src/bve/learning/bias_report.py` — `BiasReport`, `BiasReportEngine`
 
-### Phase 2 — Persistent stores (PLANNED)
+### Phase 2 — Persistent stores (COMPLETE)
 
-Add DB tables for: market expectations, theses, catalyst trees, financing forecasts,
-decisions, outcomes, parameter versions.
+31 tests passing. `src/bve/persistence/gap_fill_store.py` — `GapFillStore` SQLite backend with 9 tables:
+`market_snapshots`, `implied_expectations`, `consensus_estimates`, `variant_theses`,
+`catalyst_trees`, `financing_forecasts`, `decision_records`, `outcome_records`, `parameter_versions`.
+New models: `DecisionRecord`, `OutcomeRecord`, `ParameterVersion`.
 
-### Phase 3 — Monitoring engine (PLANNED)
+### Phase 3 — Monitoring engine (COMPLETE)
 
-Nightly/intraday ingestion + event routing + selective model reruns.
+35 tests passing. Four new pipeline files:
+- `pipeline/news_monitor.py` — `RawFeedEvent`, `ClassifiedEvent`, `NewsMonitor` (keyword classify + SHA-256 dedup)
+- `pipeline/event_router.py` — `AssetEventBinding`, `RoutedEvent`, `EventRouter` (module trigger map)
+- `pipeline/model_trigger_engine.py` — `RecomputeJob`, `RecomputeQueue`, `ModelTriggerEngine`
+- `pipeline/alert_dispatcher.py` — `MonitoringAlertPayload`, `DispatchResult`, `AlertDispatcher` (log + file channels)
 
-### Phase 4 — Unified recommendation engine (PLANNED)
+### Phase 4 — Unified recommendation engine (COMPLETE)
 
-Each recommendation uses: market gap, thesis delta, catalyst EV, financing risk,
-science confidence, competition state, portfolio context.
+22 tests passing. Two new analysis files:
+- `analysis/signal_fusion.py` — `AssetSignalBundle`, `FusedSignalCard`, `SignalFusionEngine`
+  (weights: valuation 0.30, catalyst 0.25, risk 0.20, science 0.15, portfolio 0.10)
+- `analysis/unified_recommendation.py` — `UnifiedRecommendationEngine` (store-backed bundle assembly)
 
-### Phase 5 — Learning engine (PLANNED)
+### Phase 5 — Learning engine (COMPLETE)
 
-Outcome linker → post-mortem → calibration candidate → shadow backtest → weight promotion.
+25 tests passing. Four new learning files:
+- `learning/outcome_linker.py` — `OutcomeLinker` (6-way attribution taxonomy)
+- `learning/recalibration_job.py` — `RecalibrationJob` (ingests outcomes → calibration summaries)
+- `learning/shadow_backtest.py` — `ShadowBacktest` (3-gate validation before promotion)
+- `learning/weight_promotion.py` — `WeightPromoter` (safe promotion with human-review guard)
 
-### Phase 6 — Dashboards (PLANNED)
+### Phase 6 — Dashboards (COMPLETE)
 
-model vs market, recommendation changes, thesis status, calibration, recurring error categories, event heatmap.
+24 tests passing. Six new dashboard files:
+- `ui/dashboard/model_vs_market_panel.py` — `ModelVsMarketRow`, `ModelVsMarketPanel`
+- `ui/dashboard/recommendation_panel.py` — `RecommendationChangeRow`, `RecommendationPanel`
+- `ui/dashboard/thesis_status_panel.py` — `ThesisStatusRow`, `ThesisStatusPanel`
+- `ui/dashboard/calibration_panel.py` — `CalibrationModuleRow`, `CalibrationPanel`
+- `ui/dashboard/event_heatmap_panel.py` — `EventHeatmapCell`, `EventHeatmapPanel`
+- `ui/dashboard/dashboard_builder.py` — `DashboardSnapshot`, `DashboardBuilder`
+
+**All 6 phases complete. 226 new tests (89 Phase 1 + 137 Phases 2–6).**
 
 ---
 
