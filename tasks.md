@@ -1,8 +1,958 @@
 # tasks.md — Implementation Roadmap
 
-Last updated: 2026-04-11
+Last updated: 2026-04-18
 Current branch: core-engine-v1
 Test baseline: 1,407 passing
+
+---
+
+## 2026-04-18 Gap-Fill Execution Plan
+
+### What was built (Phases A–O, completed prior session)
+
+All 15 phases of the master build plan are implemented in code and documented in this file.
+The gaps below describe precision-level fills needed on top of those engines.
+
+### The 8 gaps
+
+| # | Gap | Phase I target files |
+|---|-----|----------------------|
+| 1 | Market expectations layer | `analysis/implied_expectations.py`, `analysis/market_vs_model.py` |
+| 2 | Variant perception system | `analysis/variant_view.py` |
+| 3 | Catalyst payoff modeling | `analysis/catalyst_payoff.py` |
+| 4 | Financing risk models | `models/financing_risk.py`, `models/dilution_model.py`, `models/runway_forecast.py` |
+| 5 | Dynamic competition | `intelligence/competition_graph.py`, `intelligence/readthrough_engine.py`, `intelligence/revaluation_triggers.py` |
+| 6 | Scientific edge | `models/science_score.py`, `models/trial_design_score.py`, `models/endpoint_validity.py`, `models/analog_matcher.py`, `models/safety_context.py` |
+| 7 | Portfolio / decision | `analysis/portfolio_context.py`, `analysis/recommendation_engine.py`, `analysis/risk_budget.py` |
+| 8 | Calibration loop | `learning/calibration.py`, `learning/weight_updates.py`, `learning/bias_report.py` |
+
+### Phase 1 — Build the missing state objects (COMPLETE)
+
+Status: 89 tests passing, lint clean. All 22 new source files created.
+
+#### Gap 1 — Market expectations state objects
+
+New files:
+- `src/bve/analysis/implied_expectations.py` — `ImpliedExpectations`, `MarketSnapshot`, `ImpliedExpectationsRecord`
+- `src/bve/analysis/market_vs_model.py` — `MarketVsModel`, `MarketVsModelComparison`, `LearningRecord`
+
+New DB tables: `market_snapshots`, `implied_expectations`, `consensus_estimates`
+
+Output per asset: current EV, model EV, implied PoS, model PoS, implied peak sales, model peak sales, upside/downside gap.
+
+#### Gap 2 — Variant view state objects
+
+New file:
+- `src/bve/analysis/variant_view.py` — `ConsensusAssumption`, `ModelAssumption`, `VariantThesis`, `ThesisEvidence`, `KillCriterion`
+
+Required dimensions: PoS, label breadth, timing, peak sales, payer access, competition, financing, management execution.
+
+#### Gap 3 — Catalyst payoff state objects
+
+New file:
+- `src/bve/analysis/catalyst_payoff.py` — `Catalyst`, `CatalystScenario`, `CatalystPayoffTree`, `CatalystEVResult`
+
+6 mandatory scenarios: clear win, mixed, narrow-label win, delay, fail/CRL, financing-overhang.
+
+#### Gap 4 — Financing risk state objects
+
+New files:
+- `src/bve/models/financing_risk.py` — `FinancingRisk`, `FinancingScenario`, `FinancingRiskAssessment`
+- `src/bve/models/dilution_model.py` — `DilutionScenario`, `DilutionModel`
+- `src/bve/models/runway_forecast.py` — `RunwayForecast`, `BurnScenario`
+
+#### Gap 5 — Dynamic competition state objects
+
+New files:
+- `src/bve/intelligence/competition_graph.py` — `CompetitionEdge`, `CompetitionGraph`, `CompetitionNode`
+- `src/bve/intelligence/readthrough_engine.py` — `ReadthroughEvent`, `ReadthroughResult`, `ReadthroughEngine`
+- `src/bve/intelligence/revaluation_triggers.py` — `RevaluationTrigger`, `RevaluationTriggerEngine`
+
+#### Gap 6 — Science state objects
+
+New files:
+- `src/bve/models/science_score.py` — `ScienceScore`, `ScienceScoreComponent`
+- `src/bve/models/trial_design_score.py` — `TrialDesignScore`, `TrialDesignScoreComponent`
+- `src/bve/models/endpoint_validity.py` — `EndpointValidity`, `EndpointValidityScore`
+- `src/bve/models/analog_matcher.py` — `Analog`, `AnalogMatch`, `AnalogMatcher`
+- `src/bve/models/safety_context.py` — `SafetySignal`, `SafetyContext`
+
+#### Gap 7 — Portfolio context state objects
+
+New files:
+- `src/bve/analysis/portfolio_context.py` — `PortfolioContext`, `HoldingExposure`, `PortfolioSnapshot`
+- `src/bve/analysis/recommendation_engine.py` — `Recommendation`, `RecommendationEngine`
+- `src/bve/analysis/risk_budget.py` — `RiskBudget`, `RiskBudgetAllocation`
+
+#### Gap 8 — Calibration state objects
+
+New files (new `src/bve/learning/` package):
+- `src/bve/learning/calibration.py` — `CalibrationRecord`, `CalibrationEngine`
+- `src/bve/learning/weight_updates.py` — `WeightUpdate`, `WeightUpdateEngine`
+- `src/bve/learning/bias_report.py` — `BiasReport`, `BiasReportEngine`
+
+### Phase 2 — Persistent stores (PLANNED)
+
+Add DB tables for: market expectations, theses, catalyst trees, financing forecasts,
+decisions, outcomes, parameter versions.
+
+### Phase 3 — Monitoring engine (PLANNED)
+
+Nightly/intraday ingestion + event routing + selective model reruns.
+
+### Phase 4 — Unified recommendation engine (PLANNED)
+
+Each recommendation uses: market gap, thesis delta, catalyst EV, financing risk,
+science confidence, competition state, portfolio context.
+
+### Phase 5 — Learning engine (PLANNED)
+
+Outcome linker → post-mortem → calibration candidate → shadow backtest → weight promotion.
+
+### Phase 6 — Dashboards (PLANNED)
+
+model vs market, recommendation changes, thesis status, calibration, recurring error categories, event heatmap.
+
+---
+
+---
+
+## 2026-04-17 Full Build Plan
+
+Status: Phases A-O completed in code/docs.
+contract.
+
+This is now the governing long-range build plan. It supersedes ad hoc feature expansion. Every
+addition must map back to the 6-question contract and to the architecture artifacts added in
+Phase A:
+
+- `docs/architecture/master_architecture.md`
+- `src/bve/config/architecture_contract.yaml`
+- `tests/test_architecture_contract.py`
+
+### Exact build order
+
+1. Phase A — Lock the architecture before building more
+2. Phase B — Build the canonical asset graph
+3. Phase C — Automate evidence ingestion fully
+4. Phase D — Build a true scientific diligence engine
+5. Phase E — Rebuild PoS as a layered probability stack
+6. Phase F — Make competition dynamic
+7. Phase G — Build a real financing and dilution model
+8. Phase H — Build market access and launch realism into commercial modeling
+9. Phase I — Put market expectations at the center
+10. Phase J — Build a structured variant-view engine
+11. Phase K — Build real catalyst payoff trees
+12. Phase L — Upgrade position sizing into a portfolio decision engine
+13. Phase M — Build continuous monitoring and daily scanning
+14. Phase N — Make post-mortems feed back into calibration
+15. Phase O — Build the operating layer around the model
+
+### Phase A — Architecture freeze
+
+Goal:
+Prevent feature sprawl and force every addition to map back to the 6-question contract.
+
+Completed:
+- Added a master architecture document with:
+  - module map
+  - data contracts
+  - required inputs/outputs per module
+  - score ownership
+  - confidence / provenance / freshness rules
+  - recalculation triggers
+- Added a machine-readable architecture contract covering:
+  - all current top-level `src/bve/` modules
+  - current module contracts
+  - planned Phase B-O module contracts
+  - score registry with required score types
+- Added a validation test so top-level package drift or contract-shape drift fails in CI.
+
+Exit criteria:
+- Every current module is mapped. ✅
+- Every planned module has explicit input/output contracts. ✅
+- One place explains how any final recommendation is produced. ✅
+
+### Phase B-O summary
+
+The detailed deliverables, outputs, and recalculation triggers for Phases B-O now live in
+`src/bve/config/architecture_contract.yaml`. That file is the canonical execution contract for:
+
+- canonical asset graph
+- automated evidence ingestion
+- science diligence engine
+- layered probability stack
+- dynamic competition
+- financing engine
+- market access engine
+- market expectations core
+- variant-view engine
+- catalyst payoff trees
+- portfolio decision engine
+- continuous monitoring
+- calibration feedback loop
+- operating layer
+
+### Phase B — Canonical asset graph
+
+Goal:
+Replace scattered configs and point-in-time assumptions with a living graph of entities and
+relationships.
+
+Completed:
+- Extended the graph entity model in `src/bve/intelligence/knowledge_graph.py` to cover the
+  Phase B entity surface needed for:
+  - company
+  - asset
+  - indication
+  - target
+  - mechanism
+  - modality
+  - trial
+  - catalyst
+  - competitor program
+  - management team
+  - financing state
+  - payer access / patent / consensus / thesis snapshot placeholders
+- Added explicit graph edges for the canonical relationships:
+  - `company_owns_asset`
+  - `asset_targets_target`
+  - `asset_treats_indication`
+  - `trial_belongs_to_asset`
+  - `competitor_overlaps_asset`
+  - `management_runs_company`
+  - `financing_applies_to_company`
+  - `consensus_applies_to_asset`
+  - `thesis_snapshot_for_asset`
+- Added `src/bve/dossier/asset_graph.py` with:
+  - `AliasTable`
+  - `EntityResolver`
+  - `CanonicalAssetGraph`
+  - `AssetGraphQueryService`
+  - `GraphBackedDossierBuilder`
+- Graph ingestion now builds a canonical graph directly from current domain models:
+  - `Company`
+  - `Asset`
+  - `ClinicalTrial`
+- Alias resolution now supports:
+  - company names
+  - tickers
+  - asset names / ids
+  - target, indication, and mechanism normalization via the existing registries
+- Dossier generation can now auto-build from the graph instead of only from manual builder calls.
+- Added a stdlib fuzzy-match fallback in `src/bve/normalization/normalizer.py` so the resolver
+  and normalizers do not hard-fail when `rapidfuzz` is unavailable in the runtime.
+
+Verification:
+- `python -m pytest tests/test_canonical_asset_graph.py tests/test_dossier.py tests/test_knowledge_graph.py tests/test_architecture_contract.py -q`
+- `ruff check src/bve/dossier src/bve/intelligence/knowledge_graph.py src/bve/normalization/normalizer.py tests/test_canonical_asset_graph.py tests/test_dossier.py tests/test_knowledge_graph.py`
+- Result: `61 passed`
+
+Exit criteria status:
+- For a ticker or asset alias, the system can resolve a graph-backed asset node and auto-build a dossier. ✅
+- Canonical entity/edge surface exists for the Phase B backbone. ✅
+- Graph query layer and graph-backed dossier builder exist in code and are tested. ✅
+
+### Phase C — Automated evidence ingestion
+
+Goal:
+Eliminate the manual input bottleneck by turning fetched source documents into structured,
+provenance-tracked evidence that updates the canonical graph and dossiers.
+
+Completed:
+- Added `src/bve/intelligence/evidence_ingestion.py` with:
+  - `DocumentParser`
+  - `RuleBasedEvidenceExtractor`
+  - `EvidenceFact`
+  - `EvidenceConflictResolver`
+  - `AutomatedEvidenceIngestionPipeline`
+- Added a dedicated `evidence_facts` storage layer to `KnowledgeStore` with:
+  - fact persistence
+  - source trace attachment
+  - active/winner vs conflict state
+  - query API via `get_evidence_facts(...)`
+- Reused the existing raw-document idempotency path and explicit processed-document hash tracking
+  so re-ingesting identical documents is skipped cleanly.
+- The deterministic extractor now handles core source families already in the repo:
+  - `clinicaltrials_gov`
+    - trial phase
+    - trial status
+    - enrollment target
+    - primary endpoint
+  - `sec_filing`
+    - cash
+    - debt
+    - shares outstanding
+    - quarterly burn
+    - ATM presence
+  - `press_release`
+    - financing gross proceeds
+    - financing offering share count
+- Added conflict resolution rules based on:
+  - source priority
+  - extraction confidence
+  - recency / freshness
+- Active evidence facts now update the canonical graph directly:
+  - trial facts update trial nodes and `trial_belongs_to_asset`
+  - company financial / financing-event facts update financing-state nodes and
+    `financing_applies_to_company`
+- Graph-backed dossiers now pick up refreshed financing-state facts and trial facts without
+  requiring manual builder calls.
+- Extended the ClinicalTrials connector text normalization to include enrollment when available.
+
+Verification:
+- `python -m pytest tests/test_evidence_ingestion.py tests/test_canonical_asset_graph.py tests/test_dossier.py tests/test_knowledge_graph.py tests/test_architecture_contract.py -q`
+- `ruff check src/bve/intelligence/evidence_ingestion.py src/bve/intelligence/knowledge_layer.py src/bve/dossier/asset_graph.py src/bve/connectors/clinicaltrials.py tests/test_evidence_ingestion.py tests/test_canonical_asset_graph.py tests/test_dossier.py tests/test_knowledge_graph.py tests/test_architecture_contract.py`
+- Result: `64 passed`
+
+Exit criteria status:
+- Raw fetcher / parser / structured extractor / deduper / confidence / provenance / freshness /
+  conflict-resolution chain exists in code. ✅
+- Evidence ingestion updates graph-backed dossiers automatically for supported source families. ✅
+- Daily-refresh architecture now has an implemented ingestion substrate rather than only a plan. ✅
+
+### Phase D — Scientific diligence engine
+
+Goal:
+Move from a loose set of heuristic PoS adjusters to explicit, auditable scientific judgment.
+
+Completed:
+- Added `src/bve/intelligence/science_engine.py` with `ScienceDiligenceEngine`.
+- The engine produces 8 separate sub-scores instead of one opaque number:
+  - mechanism plausibility
+  - target validation
+  - modality-specific risk
+  - biomarker logic quality
+  - translational evidence quality
+  - analog winners/failures similarity
+  - safety signal seriousness
+  - trial design quality
+- Outputs now include:
+  - `science_score`
+  - `design_score`
+  - `top_positives`
+  - `top_risks`
+  - `nearest_analogs`
+  - `confidence_band`
+  - `kill_criteria`
+  - plain-English rationale
+- The engine runs either:
+  - directly from an `AssetDossier`, or
+  - from a graph-backed asset reference via `GraphBackedDossierBuilder`
+- Reused existing repo primitives instead of duplicating them:
+  - graph-backed dossiers from Phase B
+  - similarity scoring from `src/bve/similarity/scorer.py`
+  - existing domain models for anchor and analog assets
+- Added a stdlib fallback in `src/bve/similarity/scorer.py` so analog scoring works without
+  `rapidfuzz` installed.
+
+Verification:
+- `python -m pytest tests/test_science_engine.py tests/test_evidence_ingestion.py tests/test_canonical_asset_graph.py tests/test_architecture_contract.py -q`
+- `ruff check src/bve/intelligence/science_engine.py src/bve/similarity/scorer.py tests/test_science_engine.py`
+- Result: `11 passed`
+
+Exit criteria status:
+- For an asset, the model now explains why it likes or dislikes the science in plain English. ✅
+- Science/design judgment is decomposed into explicit modules rather than one scalar. ✅
+- Nearest-analog context and kill criteria are surfaced in code and tests. ✅
+
+### Phase E — Layered probability stack
+
+Goal:
+Turn PoS into the central predictive engine with separate technical, regulatory, label, and
+commercial realization probabilities plus explicit approval scenarios.
+
+Completed:
+- Added `src/bve/models/probability_stack.py` with a layered stack built from:
+  - Phase D `ScienceAssessment`
+  - regulatory inference
+  - years-to-approval
+  - financing / market-access / management / competition modifiers
+- Added explicit supporting models:
+  - `src/bve/models/label_breadth_model.py`
+  - `src/bve/models/timeline_distribution_model.py`
+  - `src/bve/models/approval_scenarios.py`
+- The stack now emits four linked probability layers:
+  - technical success probability
+  - regulatory approval probability
+  - label breadth probability
+  - commercial realization probability
+- The stack now emits explicit approval scenarios:
+  - `full_approval`
+  - `narrow_label`
+  - `delayed_approval`
+  - `crl_major_setback`
+  - `non_approval`
+- Timeline risk is now modeled explicitly via `TimelineDistributionResult`
+  instead of being hidden inside a single scalar.
+- Plain-English summary is included so the stack is inspectable without reading code.
+
+Verification:
+- `python -m pytest tests/test_probability_stack.py tests/test_science_engine.py tests/test_architecture_contract.py -q`
+- `ruff check src/bve/models/label_breadth_model.py src/bve/models/timeline_distribution_model.py src/bve/models/approval_scenarios.py src/bve/models/probability_stack.py tests/test_probability_stack.py`
+- Result: `9 passed`
+
+Exit criteria status:
+- The system can answer clean approval vs narrow vs delayed vs CRL vs non-approval. ✅
+- PoS is now decomposed into an explicit layered predictive stack rather than one blended number. ✅
+- Timeline and label breadth now have dedicated model surfaces in code and tests. ✅
+
+### Phase F — Dynamic competition
+
+Goal:
+Stop using static competitive assumptions by making competitor maps live and causing meaningful
+competitor events to re-rate exposed assets automatically.
+
+Completed:
+- Added `src/bve/intelligence/dynamic_competition_engine.py` with:
+  - `DynamicCompetitionEngine`
+  - `DynamicCompetitionResult`
+  - `DynamicCompetitionRerating`
+  - explicit `CompetitionModuleOutput` wrappers carrying:
+    - value
+    - confidence
+    - provenance
+    - freshness
+    - explainability
+    - downstream dependencies
+- The engine now builds a live competitor map per asset by reusing the canonical graph and
+  `CompetitiveLandscapeAgent`.
+- Event-driven rerating now supports the key Phase F trigger families already represented in the
+  taxonomy:
+  - competitor readout success / failure
+  - FDA approval / rejection
+  - regulatory hold
+  - program discontinuation
+  - partnership
+  - financing
+  - label expansion
+  - payer coverage
+  - safety signal
+- Exposed assets are detected from graph relationships rather than static config only:
+  - `competitor_overlaps_asset`
+  - `same_target`
+  - `competes_with`
+  - `same_mechanism`
+  - `same_indication`
+- Each rerating now produces bounded downstream deltas for:
+  - market share
+  - years to peak
+  - peak sales
+  - access pressure
+  - PoS
+  - catalyst importance
+  - scenario pressure
+  - competitor readthrough score
+- Added `apply_to_probability_stack_inputs(...)` so a competitor event can immediately feed back
+  into the Phase E PoS stack instead of remaining a disconnected observation.
+
+Verification:
+- `python -m pytest tests/test_dynamic_competition_engine.py tests/test_probability_stack.py tests/test_cross_asset_propagation.py -q`
+- `ruff check src/bve/intelligence/dynamic_competition_engine.py src/bve/intelligence/__init__.py tests/test_dynamic_competition_engine.py`
+
+Exit criteria status:
+- A meaningful competitor event now produces automatic peer reratings rather than only a static
+  landscape snapshot. ✅
+- Competitive exposure is graph-driven and auditable. ✅
+- Downstream commercial and PoS assumptions now have explicit event-linked deltas. ✅
+
+### Phase G — Financing and dilution
+
+Goal:
+Model equity reality directly by turning cash, burn, catalyst timing, and market context into a
+real financing view instead of only a single catalyst-risk flag.
+
+Completed:
+- Added `src/bve/intelligence/financing_engine.py` with:
+  - `FinancingEngine`
+  - `FinancingAssessment`
+  - `FinancingAssessmentValue`
+  - `FinancingCatalyst`
+  - `BurnPath`
+  - explicit `FinancingModuleOutput` wrappers carrying:
+    - value
+    - confidence
+    - provenance
+    - freshness
+    - explainability
+    - downstream dependencies
+- The engine now models:
+  - months of runway
+  - quarterly burn path under bull / base / bear
+  - capital needed to next catalyst
+  - capital needed to approval
+  - likely raise timing
+  - likely raise size
+  - dilution band (low / base / high)
+  - probability of pre-catalyst financing
+  - financing risk score and tier
+  - balance-sheet stress
+  - partnership-alternative value
+  - financing-adjusted intrinsic value
+  - financing overhang impact
+- Integrated existing company-level primitives instead of duplicating them:
+  - `Company`
+  - `DilutionBridge`
+  - Phase E `ProbabilityStackInputs`
+- Added `apply_to_probability_stack_inputs(...)` so Phase G can now update the financing-risk
+  input used by the layered PoS stack.
+
+Verification:
+- `python -m pytest tests/test_financing_engine.py tests/test_probability_stack.py -q`
+- `ruff check src/bve/intelligence/financing_engine.py src/bve/intelligence/__init__.py tests/test_financing_engine.py`
+
+Exit criteria status:
+- The system can answer whether a company likely needs money before the next catalyst. ✅
+- A raise timing / size / dilution band now exists in code rather than only a generic risk tier. ✅
+- Financing-adjusted value now has an explicit model surface and PoS integration hook. ✅
+
+### Phase H — Market access and launch realism
+
+Goal:
+Move revenue from a top-down curve to a constrained commercialization model driven by patient
+funnel, reimbursement friction, realized price, and launch adoption dynamics.
+
+Completed:
+- Added `src/bve/intelligence/market_access_engine.py` with:
+  - `MarketAccessEngine`
+  - `MarketAccessAssessment`
+  - `MarketAccessAssessmentValue`
+  - `AdoptionPoint`
+  - `SegmentShare`
+  - `GeographySplit`
+  - explicit `MarketAccessModuleOutput` wrappers carrying:
+    - value
+    - confidence
+    - provenance
+    - freshness
+    - explainability
+    - downstream dependencies
+- The engine now reuses existing primitives instead of replacing them:
+  - `CommercialInputs`
+  - `PayerDynamics`
+  - `assess_market_access(...)`
+  - Phase E `ProbabilityStackInputs`
+- The output now includes the full constrained patient funnel:
+  - diagnosed population
+  - eligible population
+  - treated population
+  - reachable population
+  - reimbursed population
+  - initiating patients
+  - persistent patients
+- Commercial outputs now include:
+  - accessible patient pool
+  - adoption S-curve
+  - net realized price
+  - price durability
+  - rebate burden
+  - price erosion
+  - Medicare negotiation risk
+  - peak share by segment
+  - commercial uncertainty band
+  - geography split
+- Added `apply_to_probability_stack_inputs(...)` so access pressure now feeds directly into the
+  layered PoS stack instead of remaining a side score.
+
+Verification:
+- `python -m pytest tests/test_market_access_engine.py tests/test_market_access.py tests/test_probability_stack.py -q`
+- `ruff check src/bve/intelligence/market_access_engine.py src/bve/intelligence/__init__.py tests/test_market_access_engine.py`
+
+Exit criteria status:
+- Revenue can now be derived from a constrained patient funnel plus access friction. ✅
+- Market access has a dedicated commercial model surface rather than only a simple modifier. ✅
+- Access pressure now has an explicit integration hook into the layered PoS stack. ✅
+
+### Phase I — Market expectations at the center
+
+Goal:
+Make mispricing the primary display by surfacing model vs implied assumptions and financing-adjusted
+value in one comparison card rather than as scattered side calculations.
+
+Completed:
+- Extended `src/bve/intelligence/market_expectations.py` with:
+  - `MarketExpectationEngine`
+  - `MarketExpectationComparison`
+  - `MarketExpectationComparisonValue`
+  - explicit `MarketExpectationModuleOutput` wrappers carrying:
+    - value
+    - confidence
+    - provenance
+    - freshness
+    - explainability
+    - downstream dependencies
+- Added explicit implied-peak-sales backsolve via `compute_implied_peak_sales(...)`.
+- The primary comparison card now includes:
+  - model PoS
+  - implied PoS
+  - PoS delta
+  - model peak sales
+  - implied peak sales
+  - peak-sales delta
+  - model dilution
+  - implied dilution
+  - dilution delta
+  - financing-adjusted intrinsic value
+  - current EV
+  - upside / downside
+  - consensus valuation range
+  - optionality not reflected in price
+- This now centers market expectations before downstream variant-view, catalyst, and portfolio logic.
+
+Verification:
+- `python -m pytest tests/test_market_expectation_engine.py tests/test_market_expectations.py -q`
+- `ruff check src/bve/intelligence/market_expectations.py src/bve/intelligence/__init__.py tests/test_market_expectation_engine.py`
+
+Exit criteria status:
+- The system now exposes model PoS vs implied PoS in a primary comparison surface. ✅
+- Model peak sales vs implied peak sales are now computed and surfaced together. ✅
+- Financing-adjusted value vs current EV is now part of the same market-expectation card. ✅
+
+### Phase J — Structured variant view
+
+Goal:
+Encode disagreement with the market in a machine-readable format so every recommendation has an
+explicit variant thesis rather than only a model output.
+
+Completed:
+- Added `src/bve/intelligence/variant_view_engine.py` with:
+  - `VariantViewEngine`
+  - `VariantViewAssessment`
+  - `VariantViewValue`
+  - `ThesisCard`
+  - `VariantDelta`
+  - explicit `VariantViewModuleOutput` wrappers carrying:
+    - value
+    - confidence
+    - provenance
+    - freshness
+    - explainability
+    - downstream dependencies
+- The engine now fuses:
+  - Phase I market-expectation comparison output
+  - existing `ThesisSnapshot` claim evidence from `ThesisTracker`
+  - catalyst timing
+- Each disagreement is now encoded with:
+  - dimension
+  - consensus assumption
+  - model assumption
+  - delta
+  - evidence supporting delta
+  - falsifier
+  - expected time to resolution
+  - confidence
+- Added a primary thesis card in the exact product shape:
+  - what the market is pricing
+  - what the model thinks
+  - why the gap exists
+  - catalysts likely to resolve it
+
+Verification:
+- `python -m pytest tests/test_variant_view_engine.py -q`
+- `ruff check src/bve/intelligence/variant_view_engine.py src/bve/intelligence/__init__.py tests/test_variant_view_engine.py`
+
+Exit criteria status:
+- Every recommendation can now carry an explicit machine-readable variant thesis. ✅
+- Consensus vs model assumptions are now encoded as structured deltas rather than prose only. ✅
+- Falsifiers and time-to-resolution are now part of the same output surface. ✅
+
+### Phase K — Catalyst payoff trees
+
+Goal:
+Turn catalyst dates into explicit event distributions so the system can frame expected move,
+downside skew, financing interaction, and position logic instead of only noting catalyst proximity.
+
+Completed:
+- Added `src/bve/intelligence/catalyst_payoff_trees.py` with:
+  - `CatalystPayoffTreeEngine`
+  - `CatalystPayoffTreeAssessment`
+  - `CatalystPayoffTreeValue`
+  - `CatalystScenario`
+  - explicit `CatalystPayoffModuleOutput` wrappers carrying:
+    - value
+    - confidence
+    - provenance
+    - freshness
+    - explainability
+    - downstream dependencies
+- The engine now expands each catalyst into 8 explicit scenarios:
+  - clear win
+  - mixed but fundable
+  - delay
+  - narrow label
+  - fail
+  - CRL
+  - safety overhang
+  - competitive overshadowing
+- Each scenario now carries:
+  - probability
+  - price move
+  - post-event financing state
+  - post-event valuation regime
+  - thesis status
+  - next catalyst
+- The aggregate payoff tree now outputs:
+  - expected return
+  - downside skew
+  - Sharpe-like setup score
+  - recommended pre-event size
+  - recommended post-event action logic
+- The payoff tree now fuses:
+  - calibrated catalyst priors from `CatalystValuation`
+  - Phase G financing assessment
+  - Phase I market-expectation deltas
+  - Phase J variant-view context
+
+Verification:
+- `python -m pytest tests/test_catalyst_payoff_trees.py -q`
+- `ruff check src/bve/intelligence/catalyst_payoff_trees.py src/bve/intelligence/__init__.py tests/test_catalyst_payoff_trees.py`
+
+Exit criteria status:
+- Any readout-style event can now be represented as a multi-scenario payoff distribution. ✅
+- Pre-event sizing and post-event action logic now come from the same scenario tree. ✅
+- Financing and thesis context now feed catalyst framing instead of staying disconnected. ✅
+
+### Phase L — Portfolio decision engine
+
+Goal:
+Upgrade single-name sizing into portfolio-aware decisioning so the system can answer how big to be
+given current exposure, clustering, liquidity, correlation, crowding, and remaining risk budget.
+
+Completed:
+- Added `src/bve/intelligence/portfolio_decision_engine.py` with:
+  - `PortfolioDecisionEngine`
+  - `PortfolioContextSnapshot`
+  - `PortfolioDecisionPolicy`
+  - `PortfolioDecisionAssessment`
+  - `PortfolioDecisionValue`
+  - explicit `PortfolioDecisionModuleOutput` wrappers carrying:
+    - value
+    - confidence
+    - provenance
+    - freshness
+    - explainability
+    - downstream dependencies
+- The engine now consumes:
+  - Phase K catalyst payoff-tree output
+  - current portfolio snapshot
+  - portfolio policy limits
+- It now outputs:
+  - target position
+  - current position
+  - add / reduce amount
+  - event cap
+  - max loss budget
+  - scenario-weighted exposure
+  - watchlist priority score
+  - explicit penalties for concentration, liquidity, correlation, and crowding
+  - rationale flags explaining what constrained the recommendation
+- Position sizing now starts from the payoff-tree pre-event size and then adjusts it for:
+  - therapeutic-area concentration
+  - modality concentration
+  - catalyst clustering
+  - liquidity stress
+  - outcome correlation
+  - crowding
+  - gross / net risk-budget utilization
+
+Verification:
+- `pytest tests/test_portfolio_decision_engine.py -q`
+- `ruff check src/bve/intelligence/portfolio_decision_engine.py src/bve/intelligence/__init__.py tests/test_portfolio_decision_engine.py`
+
+Exit criteria status:
+- The system can now answer target size in the context of what is already owned. ✅
+- Event caps and add / reduce logic now come from the same portfolio-aware output. ✅
+- Liquidity, clustering, crowding, and risk-budget constraints are now explicit inputs. ✅
+
+### Phase M — Continuous monitoring and daily scanning
+
+Goal:
+Make the system operate like a live research process by refreshing only affected assets and
+escalating only material state changes.
+
+Completed:
+- Added `src/bve/intelligence/continuous_monitoring.py` with:
+  - `ContinuousMonitoringEngine`
+  - `MonitoringEvent`
+  - `MonitoringJobStatus`
+  - `RecomputeInstruction`
+  - `MaterialMonitoringAlert`
+  - `ContinuousMonitoringAssessment`
+  - `ContinuousMonitoringValue`
+  - explicit `ContinuousMonitoringModuleOutput` wrappers carrying:
+    - value
+    - confidence
+    - provenance
+    - freshness
+    - explainability
+    - downstream dependencies
+- The engine now takes:
+  - recent material events
+  - job-health snapshots
+  - dependency fanout
+  - latest data-quality scores
+- It now outputs:
+  - refreshed assets
+  - recompute queue
+  - material alerts
+  - stale assets
+  - degraded jobs
+- Recompute planning now supports:
+  - direct event refresh
+  - dependency propagation
+  - stale-input refresh
+- Alerting now escalates machine-readable monitoring states for:
+  - thesis broken
+  - material upside gap opened
+  - financing risk increased
+  - competitor threat rose
+  - model confidence dropped
+  - degraded job health
+
+Verification:
+- `pytest tests/test_continuous_monitoring.py -q`
+- `ruff check src/bve/intelligence/continuous_monitoring.py src/bve/intelligence/__init__.py tests/test_continuous_monitoring.py`
+
+Exit criteria status:
+- The system now produces a recompute queue for only affected assets. ✅
+- Daily job health and stale-input state now feed material alerts. ✅
+- Monitoring output is explicit and explainable rather than implicit in service logs. ✅
+
+### Phase N — Post-mortems feeding calibration
+
+Goal:
+Turn weekly review and post-mortem learning into explicit parameter updates instead of leaving it
+as descriptive reporting.
+
+Completed:
+- Added `src/bve/intelligence/calibration_feedback_loop.py` with:
+  - `CalibrationFeedbackLoop`
+  - `CalibrationAdjustment`
+  - `CalibrationFeedbackAssessment`
+  - `CalibrationFeedbackValue`
+  - explicit `CalibrationFeedbackModuleOutput` wrappers carrying:
+    - value
+    - confidence
+    - provenance
+    - freshness
+    - explainability
+    - downstream dependencies
+- The engine now fuses:
+  - `PoSCalibrationReport`
+  - `CalibrationReport`
+  - `WeeklyReviewReport`
+  - realized `OutcomeAttribution` records
+- It now emits explicit updates for:
+  - PoS priors
+  - scenario weights
+  - timeline distribution
+  - financing penalties
+  - competition penalties
+  - access modifiers
+  - analyst-vs-model drift score
+- Added artifact writing via `write_feedback_artifact(...)` so the feedback loop can persist one
+  machine-readable calibration payload instead of staying in memory only.
+
+Verification:
+- `pytest tests/test_calibration_feedback_loop.py -q`
+- `ruff check src/bve/intelligence/calibration_feedback_loop.py src/bve/intelligence/__init__.py tests/test_calibration_feedback_loop.py`
+
+Exit criteria status:
+- Post-mortem outputs now produce explicit parameter updates. ✅
+- Calibration feedback is now machine-readable and persistable. ✅
+- Priors, penalties, and scenario/timeline assumptions are now updated from realized error patterns. ✅
+
+### Phase O — Operating layer
+
+Goal:
+Make the system usable and trusted through explicit audit and operator surfaces rather than
+requiring direct code inspection.
+
+Completed:
+- Added `src/bve/intelligence/operating_layer.py` with:
+  - `OperatingLayerEngine`
+  - `ModelRegistryEntryView`
+  - `ScenarioDiffValue`
+  - `OperatingLayerAssessment`
+  - `OperatingLayerValue`
+  - explicit `OperatingLayerModuleOutput` wrappers carrying:
+    - value
+    - confidence
+    - provenance
+    - freshness
+    - explainability
+    - downstream dependencies
+- The operating layer now aggregates:
+  - model registry view
+  - dashboard summary
+  - stale-input dashboard
+  - alert audit log
+  - per-record provenance viewer
+  - scenario diff viewer
+  - asset-registry summary
+- It reuses existing repo surfaces instead of creating shadow state:
+  - `KnowledgeStore.query_audit_log(...)`
+  - `KnowledgeStore.get_record_with_trace(...)`
+  - `KnowledgeStore.list_asset_registry(...)`
+  - `KnowledgeStore.list_latest_data_quality(...)`
+  - `MetricsDashboardSnapshot`
+- This now gives one explicit operator-facing object for:
+  - reproducibility
+  - provenance inspection
+  - scenario comparison
+  - stale-input review
+  - alert audit
+
+Verification:
+- `pytest tests/test_operating_layer.py -q`
+- `ruff check src/bve/intelligence/operating_layer.py src/bve/intelligence/__init__.py tests/test_operating_layer.py`
+
+Exit criteria status:
+- A serious user can now inspect registry, audit, provenance, scenario diffs, and stale-input state without reading raw code. ✅
+- Changed values and supporting artifacts are now grouped into one operating-layer surface. ✅
+- The build plan from Phase A through Phase O is now implemented in code/docs. ✅
+
+### Final product hierarchy
+
+At completion each asset should expose:
+
+1. Layer 1 — Facts
+2. Layer 2 — Predictive judgments
+3. Layer 3 — Economic valuation
+4. Layer 4 — Market disagreement
+5. Layer 5 — Event/trade framing
+6. Layer 6 — Process improvement
+
+### Stage success metrics
+
+Data layer:
+- dossier auto-fill rate
+- extraction precision / recall
+- stale-field rate
+- unresolved entity rate
+
+Science / PoS layer:
+- Brier score
+- calibration slope
+- scenario calibration
+- timeline MAE
+
+Commercial / financing layer:
+- burn / runway forecast error
+- financing-occurrence forecast error
+- peak-sales and access-adjusted uptake forecast error
+
+Market / catalyst layer:
+- expected vs actual move error
+- event-direction hit rate
+- expected-value ranking performance
+- improvement over baseline heuristic model
+
+Portfolio layer:
+- drawdown control
+- realized vs expected downside
+- position-sizing discipline
+- error concentration by bucket
 
 ---
 
