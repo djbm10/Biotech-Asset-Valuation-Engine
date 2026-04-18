@@ -2,7 +2,96 @@
 
 Last updated: 2026-04-18
 Current branch: core-engine-v1
-Test baseline: 1,407 passing
+Test baseline: 1,407 passing + 226 gap-fill tests = 1,633 total
+
+---
+
+## 2026-04-18 Catalyst Intelligence and Asymmetry Engine — Master Build Plan
+
+Target end-state: six subsystems feeding one unified `Opportunity` object.
+
+```
+Opportunity = {
+  catalyst, market_view, my_view, evidence,
+  scenario_tree, trade, sizing, post_mortem
+}
+```
+
+### Six subsystems
+
+| # | Subsystem | Core job |
+|---|-----------|----------|
+| 1 | Data and knowledge ingestion | Raw → structured → interpreted pipeline |
+| 2 | Scientific understanding engine | Biomedical KG, dossiers, reasoning |
+| 3 | Clinical/regulatory reasoning engine | Trial parser, endpoint library, FDA precedent |
+| 4 | Expectation, valuation, asymmetry engine | Market-implied PoS, variant perception, scenario tree |
+| 5 | Trade construction and risk engine | Instrument selection, sizing, exposure decomp |
+| 6 | Learning and self-improvement engine | Prediction logs, calibration, post-mortems, rule learning |
+
+### New module map
+
+```
+src/bve/knowledge/dossiers/          target / indication / company / asset dossiers
+src/bve/biology/pathway_graph.py     target ↔ pathway ↔ disease KG
+src/bve/biology/mechanism_reasoner.py mechanism → efficacy/safety reasoning
+src/bve/trials/trial_parser.py       structured trial metadata extraction
+src/bve/trials/endpoint_library.py   disease-specific endpoint dictionaries
+src/bve/regulatory/fda_precedent_store.py  approval/CRL precedent corpus
+src/bve/regulatory/adcom_monitor.py  advisory committee calendar tracking
+src/bve/expectations/market_implied_pos.py reverse-implied PoS and peak sales
+src/bve/expectations/implied_move.py options-implied move estimation
+src/bve/expectations/variant_perception.py variant perception object
+src/bve/valuation/scenario_tree.py   multi-branch catalyst scenario tree
+src/bve/valuation/financing_model.py runway / raise / dilution model
+src/bve/alpha/asymmetry_score.py     composite asymmetry scoring formula
+src/bve/alpha/readthrough_engine.py  competitor event → peer rerating
+src/bve/trading/instrument_selector.py equity / option / spread selector
+src/bve/trading/position_sizer.py    explicit sizing rules + kill-switches
+src/bve/learning/prediction_log.py   structured forecast → outcome store
+src/bve/learning/postmortem.py       forced post-catalyst post-mortem writer
+src/bve/learning/rule_suggester.py   clustered errors → candidate rule updates
+```
+
+### Phase 1 — Foundation (COMPLETE)
+
+35 tests passing, lint clean. 14 new files across 4 new packages:
+
+- `src/bve/biology/` — `PathwayGraph` (typed bio KG: target/pathway/disease/mechanism/biomarker nodes + relationship edges), `MechanismReasoner` (template-based efficacy/safety/FDA-concern reasoning from graph)
+- `src/bve/trials/` — `TrialParser` (flat dict + CT.gov v2 protocolSection → `TrialDesignRecord`), `EndpointLibrary` (pre-seeded oncology/rare/rheumatology/derm endpoint dictionary)
+- `src/bve/regulatory/` — `FDAPrecedentStore` (approval/CRL corpus with surrogate + TA + modality filters), `AdcomMonitor` (adcom calendar: scheduled/held/days-to-next)
+- `src/bve/knowledge/dossiers/` — `TargetDossierStore`, `IndicationDossierStore`, `AssetDossierStore` (upsert/get/find with partial-match search)
+
+### Phase 2 — Decision intelligence (PLANNED)
+
+- `expectations/market_implied_pos.py`
+- `expectations/implied_move.py`
+- `expectations/variant_perception.py`
+- `valuation/scenario_tree.py`
+- `valuation/financing_model.py`
+- `alpha/asymmetry_score.py`
+- `alpha/readthrough_engine.py`
+
+### Phase 3 — Trading layer (PLANNED)
+
+- `trading/instrument_selector.py`
+- `trading/position_sizer.py`
+- Portfolio exposure decomposition + backtest/replay framework
+
+### Phase 4 — Learning layer (PLANNED)
+
+- `learning/prediction_log.py`
+- `learning/postmortem.py`
+- `learning/rule_suggester.py`
+- Prior update workflows + calibration dashboards
+
+### Phase 5 — Depth (PLANNED)
+
+- Disease-specific endpoint libraries (oncology, rare disease, CNS)
+- Regulatory precedent corpus expansion
+- Target/pathway graph enrichment
+- Scientific controversy / counterargument layer
+
+---
 
 ---
 
