@@ -189,3 +189,39 @@ src/bve/alpha/         asymmetry_score, readthrough_engine
 src/bve/trading/       instrument_selector, position_sizer
 src/bve/learning/      prediction_log, postmortem, rule_suggester
 ```
+
+---
+
+## NEW DIRECTION — Biotech M&A + Public Markets Intelligence Platform (2026-04-18)
+
+**Transformation:** Extend BVE from a YAML-driven asset valuation tool into a live M&A + public-markets decision system.
+
+### What already exists (reusable)
+- rNPV valuation core (probability model, revenue model, cost model, Monte Carlo)
+- Catalyst intelligence phases 1–5 (biology KG, trial parser, endpoint library, FDA precedent, implied PoS, variant perception, asymmetry score, readthrough engine, scenario trees, trading layer, learning layer)
+- Gap-fill phases 1–6 (persistence store, monitoring pipeline, signal fusion, learning loop, dashboard panels)
+- Ingestion: CT.gov v2, SEC EDGAR, market data (yfinance)
+- Entities: Asset, Company, Trial, Indication
+- Dossier: AssetDossier builder with provenance fields
+- Normalization: entity normalizer
+
+### What needs to be built
+| Component | Priority |
+|-----------|----------|
+| PostgreSQL + SQLAlchemy 2.0 + Alembic (replace SQLite for prod) | P0 |
+| Acquirer entity + AcquirerProfile (big pharma strategic profiles) | P0 |
+| Acquisition fit engine (strategic/modality/affordability/timing) | P0 |
+| FastAPI application (16 endpoints) | P0 |
+| Next.js web app (6 pages) | P0 |
+| Redis + Dramatiq worker queue | P1 |
+| News ingestion client | P1 |
+| Entity resolution (alias + fuzzy + conflict queue) | P1 |
+| Full acquirer universe (PFE, LLY, MRK, AZN, BMY, ROCHE, NVO, etc.) | P1 |
+| Variant thesis CRUD with kill criteria | P1 |
+| Alert dispatcher | P2 |
+| Slack/email notifications | P3 |
+
+### 16-step execution plan: see tasks.md
+
+### Current step: Step 1 — Database foundation
+

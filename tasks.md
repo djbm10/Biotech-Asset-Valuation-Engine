@@ -6122,3 +6122,93 @@ Master Plan section above. All identified gaps from the codebase audit were impl
 - Analyst review enforcement UI layer
 - Bottom-up trial cost builder (per-visit/per-site cost estimation)
 - Closed-loop recalibration integration into analyst workflow (Phase 5 partial)
+
+---
+
+## 2026-04-18 — Biotech M&A + Public Markets Intelligence Platform Blueprint
+
+**Product definition:** Live biotech M&A and public-markets decision system.
+
+**End state:** Web app + API + background jobs that:
+- Maintains live dossiers on biotech companies/assets
+- Tracks big pharma pipeline gaps and M&A appetite
+- Ranks acquisition targets by acquirer fit and timing
+- Produces market-implied expectation gaps, catalyst payoff trees, financing risk, trade recommendations
+- Logs every recommendation and learns from outcomes
+
+**Success criteria:**
+- Daily refreshed universe (no manual YAML)
+- Each asset page: market-vs-model gap + catalyst tree + financing risk + recommendation
+- Each acquirer page: ranked target list with fit scores + timing buckets
+- Decisions + outcomes logged → calibration visible
+- System reproducible and stable
+
+---
+
+### 16-Step Execution Plan
+
+| Step | Focus | Status |
+|------|-------|--------|
+| 1 | Database foundation — PostgreSQL + SQLAlchemy + Alembic | ⬜ |
+| 2 | Canonical entities + graph — acquirer entity, resolver, alias tables | ⬜ |
+| 3 | Ingestion clients — SEC, CT.gov, FDA, PubMed, news (httpx + BS4) | ⬜ |
+| 4 | Evidence store + classifier — dedupe, checksum, event typing | ⬜ |
+| 5 | Asset + acquirer dossiers — completeness, provenance merge | ⬜ |
+| 6 | Science/trial modules — endpoint validity, analog matcher, controversy | ⬜ |
+| 7 | Probability/valuation extensions — probability stack, implied expectations, financing-adjusted EV | ⬜ |
+| 8 | Acquisition engine — fit scoring, affordability, timing buckets | ⬜ |
+| 9 | Catalyst + variant — scenario trees, variant thesis, implied move | ⬜ |
+| 10 | Recommendation layer — signal fusion, position sizing, trade signal | ⬜ |
+| 11 | Monitoring pipelines — news monitor, event router, Dramatiq + Redis | ⬜ |
+| 12 | Learning/calibration — prediction log, outcome linker, postmortem, shadow backtest | ⬜ |
+| 13 | FastAPI application — routers: assets, acquirers, deals, alerts, calibration | ⬜ |
+| 14 | Next.js web app — dashboard, asset page, acquirer page, deals, alerts, calibration | ⬜ |
+| 15 | Dashboards + alerts — snapshot generation, alert thresholds, UI integration | ⬜ |
+| 16 | Docs + blueprint freeze — BLUEPRINT.md, OPERATIONS.md | ⬜ |
+
+---
+
+### Phase 1 (MVP) — Steps 1–8
+
+Build: ingestion, graph, dossiers, acquirer profiles, acquisition fit scoring, implied expectations, financing model, dashboard + asset/acquirer/deals pages.
+
+Success: daily refresh works, asset and acquirer pages render, top targets per acquirer generated, market-vs-model gap computed for tracked assets.
+
+### Phase 2 — Steps 9–12
+
+Build: variant thesis, catalyst trees, competition/readthrough, learning/postmortem, alerts, calibration dashboard.
+
+Success: system generates trade + M&A recommendations with explanations; outcomes logged and analyzed.
+
+### Phase 3 — Steps 13–16
+
+Build: FastAPI, Next.js UI, portfolio engine, options move integration, alerts, performance/caching.
+
+Success: stable intraday updates, calibrated modules outperform baseline, low false-alert rate.
+
+---
+
+### Database schema (PostgreSQL)
+
+Core tables: companies, assets, trials, catalysts, asset_dossiers, acquirer_profiles, evidence_items, market_snapshots, implied_expectations, variant_theses, scenario_trees, financing_forecasts, competition_edges, acquisition_scores, decision_records, outcome_records, parameter_versions.
+
+### API surface
+
+- GET /api/assets — ranked list with filters
+- GET /api/assets/{ticker} — full asset page
+- GET /api/acquirers — acquirer list
+- GET /api/acquirers/{slug} — profile + top targets
+- GET /api/deals — ranked M&A targets with filters
+- GET /api/alerts — material changes feed
+- POST /api/recompute/{asset_id} — manual recompute (admin)
+- POST /api/theses/{asset_id} — create/update variant thesis
+- POST /api/postmortems/{decision_id} — outcome annotation
+- GET /api/calibration — metrics + pending weight updates
+
+### Background jobs (Dramatiq + Redis)
+
+- nightly_refresh — 02:00 ET — full universe update
+- news_monitor — hourly — new evidence ingestion
+- materiality_scan — intraday — high-impact event detection
+- calibration_job — weekly — Brier + weight suggestions
+
