@@ -61,35 +61,42 @@ src/bve/learning/rule_suggester.py   clustered errors → candidate rule updates
 - `src/bve/regulatory/` — `FDAPrecedentStore` (approval/CRL corpus with surrogate + TA + modality filters), `AdcomMonitor` (adcom calendar: scheduled/held/days-to-next)
 - `src/bve/knowledge/dossiers/` — `TargetDossierStore`, `IndicationDossierStore`, `AssetDossierStore` (upsert/get/find with partial-match search)
 
-### Phase 2 — Decision intelligence (PLANNED)
+### Phase 2 — Decision intelligence (COMPLETE)
 
-- `expectations/market_implied_pos.py`
-- `expectations/implied_move.py`
-- `expectations/variant_perception.py`
-- `valuation/scenario_tree.py`
-- `valuation/financing_model.py`
-- `alpha/asymmetry_score.py`
-- `alpha/readthrough_engine.py`
+49 tests passing, lint clean. 9 new files across 3 new packages + 2 extended modules:
 
-### Phase 3 — Trading layer (PLANNED)
+- `src/bve/expectations/` — `market_implied_pos` (annuity-based backsolve: pipeline_ev / gross_revenue_pv), `implied_move` (IV × √(days/365) + historical analog table by phase/TA), `variant_perception` (PerceptionDimension, net_conviction_direction bullish/bearish/mixed)
+- `src/bve/alpha/` — `asymmetry_score` (composite: ev_gap × catalytic_magnitude × confidence × time_urgency / crowding + expected_return; instrument selector: straddle/call/equity), `readthrough_engine` (8 event-type rules: phase3_success, fda_approval, discontinuation, safety_hold, phase3_failure, etc.; mech_mult same_mechanism=1.0 vs 0.4)
+- `src/bve/valuation/scenario_tree.py` — `ScenarioBranch`, `ScenarioTree`, `ScenarioTreeBuilder` (default 6-branch phase3_readout template; expected_return, skew_ratio, setup_score, add signal when expected>10% and skew≥1.2)
+- `src/bve/valuation/financing_model.py` — `BurnProfile`, `RaiseScenario`, `FinancingModelResult` (runway months, P(raise) tiers, distress score, fin_risk = runway×0.6 + cap×0.4)
 
-- `trading/instrument_selector.py`
-- `trading/position_sizer.py`
-- Portfolio exposure decomposition + backtest/replay framework
+### Phase 3 — Trading layer (COMPLETE)
 
-### Phase 4 — Learning layer (PLANNED)
+60 tests passing, lint clean. 5 new files in `src/bve/trading/`:
 
-- `learning/prediction_log.py`
-- `learning/postmortem.py`
-- `learning/rule_suggester.py`
-- Prior update workflows + calibration dashboards
+- `instrument_selector.py` — 5-rule priority chain: distress→no_trade, fairly_priced→no_trade, near-catalyst + IV-richness → equity/call/put/straddle, no-catalyst → equity/put/no_trade, model-vs-implied move comparison
+- `position_sizer.py` — Kelly-inspired (base = asymmetry×conviction×0.10), multiplicative adjustments for financing risk (0.10x distress, 0.50x high) and liquidity (<2M ADTV: 0.50x); hard caps: single 8%, sector headroom, 50bps minimum
+- `exposure_decomposer.py` — HHI concentration score, TA/phase bucketing, binary risk %, near-term catalyst % (≤30d window)
+- `trade_signal.py` — TradeSignalBuilder: initiate/add/trim/exit/no_trade action mapping + unified risk_flags
 
-### Phase 5 — Depth (PLANNED)
+### Phase 4 — Learning layer (COMPLETE)
 
-- Disease-specific endpoint libraries (oncology, rare disease, CNS)
-- Regulatory precedent corpus expansion
-- Target/pathway graph enrichment
-- Scientific controversy / counterargument layer
+52 tests passing, lint clean. 3 new files in `src/bve/learning/`:
+
+- `prediction_log.py` — SQLite-backed append-only log; PredictionRecord + PredictionOutcome; matched_pairs(), compute_accuracy() → Brier score + calibration error
+- `postmortem.py` — PostmortemStore (in-memory); ErrorCategory enum (8 types incl. CORRECT); by_error_category(), error_distribution(), most_common_error()
+- `rule_suggester.py` — RuleSuggester; triggers: LOWER_BASE_POS (pos_overestimate >3 and >40%), RAISE_BASE_POS, ADD_FINANCING_GATE (≥2), ADD_COMPETITION_DISCOUNT (≥2), LOWER_BASE_POS on poor Brier (>0.25); all require_human_review=True
+
+### Phase 5 — Depth (COMPLETE)
+
+75 tests passing, lint clean. 4 new files:
+
+- `src/bve/trials/oncology_endpoints.py` — 21 endpoints (solid tumor OS/PFS/ORR/pCR/MRD, heme CR/CRi/MRD-neg, biomarker ctDNA/TMB/PD-L1, PRO QoL); OncologyEndpointLibrary: by_tumor_type, established_primaries, surrogates
+- `src/bve/trials/rare_disease_endpoints.py` — 17 endpoints (neuromuscular 6MWD/HFMSE/RULM, metabolic Phe/GAA, pulmonary FEV1/SwCl, heme Hgb/TI, ophthalmic BCVA/VFQ-25); RareDiseaseEndpointLibrary: by_indication_area, validated_endpoints
+- `src/bve/regulatory/precedent_expander.py` — 16 records (pembrolizumab, venetoclax, sotorasib, ivacaftor, nusinersen, lecanemab, aducanumab, dupilumab, etc.); includes 2 CRL records; PrecedentExpander: by_modality, by_pathway, crls, approvals, lessons_for_modality
+- `src/bve/biology/controversy_layer.py` — ControversyType enum (7 types); ControversyLayer assess() → controversy_score = (critical×1.0 + high×0.6 + medium×0.3 + low×0.1) / max(1, total_unresolved)
+
+## Catalyst Intelligence and Asymmetry Engine — ALL PHASES COMPLETE (2026-04-18)
 
 ---
 

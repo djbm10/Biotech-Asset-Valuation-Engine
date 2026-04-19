@@ -69,19 +69,60 @@ All 15 phases implemented:
 | `src/bve/regulatory/` | `fda_precedent_store.py` (approval/CRL corpus), `adcom_monitor.py` (adcom calendar) |
 | `src/bve/knowledge/dossiers/` | `target_dossier.py`, `indication_dossier.py`, `asset_dossier.py` |
 
-## In progress
+## Completed — Catalyst Intelligence Phase 2 (Decision Intelligence)
 
-### Catalyst Intelligence and Asymmetry Engine — Phase 2 (Decision Intelligence)
+49 tests passing. 9 new files across 3 new packages:
 
-| Module | Status |
-|--------|--------|
-| `src/bve/expectations/market_implied_pos.py` | planned |
-| `src/bve/expectations/implied_move.py` | planned |
-| `src/bve/expectations/variant_perception.py` | planned |
-| `src/bve/valuation/scenario_tree.py` | planned |
-| `src/bve/valuation/financing_model.py` | planned |
-| `src/bve/alpha/asymmetry_score.py` | planned |
-| `src/bve/alpha/readthrough_engine.py` | planned |
+| Package | Files |
+|---------|-------|
+| `src/bve/expectations/` | `market_implied_pos.py` (annuity backsolve), `implied_move.py` (IV + analog table), `variant_perception.py` (PerceptionDimension, net_conviction) |
+| `src/bve/alpha/` | `asymmetry_score.py` (composite formula + instrument selector), `readthrough_engine.py` (8-rule competitor event assessment) |
+| `src/bve/valuation/` | `scenario_tree.py` (6-branch tree builder, skew_ratio, setup_score), `financing_model.py` (runway, P(raise), distress tier, fin_risk) |
+
+## Completed — Catalyst Intelligence Phase 3 (Trading Layer)
+
+60 tests passing. 5 new files in `src/bve/trading/`:
+
+| File | What |
+|------|------|
+| `instrument_selector.py` | 5-rule instrument picker (equity/call/put/straddle/no_trade) |
+| `position_sizer.py` | Kelly-inspired sizer with financing + liquidity adjustments + hard caps |
+| `exposure_decomposer.py` | HHI concentration, TA/phase bucketing, binary risk %, near-term catalyst % |
+| `trade_signal.py` | Combines instrument + size → TradeSignal with action mapping |
+
+## Completed — Catalyst Intelligence Phase 4 (Learning Layer)
+
+52 tests passing. 3 new files in `src/bve/learning/`:
+
+| File | What |
+|------|------|
+| `prediction_log.py` | SQLite-backed log; matched_pairs; Brier score + calibration error |
+| `postmortem.py` | PostmortemStore; 8-category ErrorCategory enum; error_distribution |
+| `rule_suggester.py` | Pattern-triggered rule suggestions; always requires_human_review |
+
+## Completed — Catalyst Intelligence Phase 5 (Depth)
+
+75 tests passing. 4 new files:
+
+| File | What |
+|------|------|
+| `trials/oncology_endpoints.py` | 21 endpoints; by_tumor_type, established_primaries, surrogates |
+| `trials/rare_disease_endpoints.py` | 17 endpoints across 5 indication areas; validated_endpoints |
+| `regulatory/precedent_expander.py` | 16 records incl. 2 CRLs; lessons_for_modality |
+| `biology/controversy_layer.py` | 7-type controversy tracker; weighted controversy_score |
+
+---
+
+## ALL CATALYST INTELLIGENCE PHASES COMPLETE (2026-04-18)
+
+| Phase | Tests |
+|-------|-------|
+| Foundation (biology, trials, regulatory, dossiers) | 35 |
+| Decision Intelligence (expectations, alpha, scenario tree, financing) | 49 |
+| Trading layer (instrument selector, position sizer, exposure, signal) | 60 |
+| Learning layer (prediction log, postmortem, rule suggester) | 52 |
+| Depth (endpoint libraries, precedent corpus, controversy layer) | 75 |
+| **Total new** | **271** |
 
 ---
 
