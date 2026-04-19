@@ -53,11 +53,11 @@ connectors
 - [x] `src/bve/evidence/store.py` — SQLite EvidenceStore: dedup by checksum, ingest/get_by_id/entity/type/materiality/recent, count, is_duplicate
 - [x] `tests/test_evidence_layer.py` — 76 tests: classifier, materiality, entity resolution, store CRUD + dedup
 
-### Step 3 — Asset + Acquirer Dossier Builders
-- [ ] `src/bve/dossier/asset_dossier.py` — auto-assembled live asset dossier (identity, trials, catalysts, science, competition, financing, market snapshot, thesis)
-- [ ] `src/bve/dossier/acquirer_dossier.py` — acquirer dossier (strategic areas, pipeline gaps, LOE urgency, modality prefs, balance sheet, BD behavior)
-- [ ] `src/bve/dossier/builder.py` — load entity, merge highest-confidence fields, provenance, completeness score
-- [ ] Tests: completeness, field precedence, provenance, stale field handling
+### Step 3 — Asset + Acquirer Dossier Builders ✅ COMPLETE
+- [x] `src/bve/dossier/asset_dossier.py` — 9 frozen models: AssetIdentity, TrialSnapshot, CatalystSnapshot, ScienceContext, CompetitionSnapshot, FinancingState, MarketSnapshot, ThesisState, AssetDossier (10-check completeness score)
+- [x] `src/bve/dossier/acquirer_dossier.py` — 6 frozen models: TherapeuticFocus, PipelineGap, LOEExposure, BalanceSheet, BDActivity, AcquirerDossier (5-check completeness score)
+- [x] `src/bve/dossier/evidence_builder.py` — EvidenceDossierBuilder: field precedence (highest materiality → newest), provenance tracking, build_asset_dossier + build_acquirer_dossier
+- [x] `tests/test_dossier_layer.py` — 54 tests: dossier models, completeness, builder CRUD, field precedence, entity resolution
 
 ### Step 4 — Financing + Dilution
 - [ ] `src/bve/models/financing_risk.py` — runway months, capital to catalyst, P(pre-catalyst raise), dilution band, distress risk, partnership flag

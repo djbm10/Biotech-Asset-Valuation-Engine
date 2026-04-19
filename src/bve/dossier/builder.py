@@ -31,10 +31,8 @@ from typing import Optional
 
 from bve.dossier.dossier import (
     AssetDossier,
-    DossierCompletenessReport,
     ProvenanceField,
     TrialSummary,
-    _MATERIAL_FIELDS,
 )
 
 # All attributes on AssetDossier that accept a ProvenanceField value.
