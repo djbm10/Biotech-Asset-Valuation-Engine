@@ -59,11 +59,11 @@ connectors
 - [x] `src/bve/dossier/evidence_builder.py` — EvidenceDossierBuilder: field precedence (highest materiality → newest), provenance tracking, build_asset_dossier + build_acquirer_dossier
 - [x] `tests/test_dossier_layer.py` — 54 tests: dossier models, completeness, builder CRUD, field precedence, entity resolution
 
-### Step 4 — Financing + Dilution
-- [ ] `src/bve/models/financing_risk.py` — runway months, capital to catalyst, P(pre-catalyst raise), dilution band, distress risk, partnership flag
-- [ ] `src/bve/models/dilution_model.py` — dilution scenarios
-- [ ] `src/bve/models/runway_forecast.py` — runway forecast
-- [ ] Tests: runway edge cases, dilution scenario math, distress thresholds, financing event timing
+### Step 4 — Financing + Dilution ✅ COMPLETE
+- [x] `src/bve/models/financing_risk.py` — DistressTier, FinancingRisk: runway, P(raise) 5-band, dilution band (low/mid/high, capped 200%), distress tier, partnership flag, value haircut
+- [x] `src/bve/models/dilution_model.py` — DilutionScenario (bull/base/bear), DilutionAnalysis: probability-weighted dilution (25/50/25%)
+- [x] `src/bve/models/runway_forecast.py` — BurnRateEstimate (direct > R&D gross-up > opex), RunwayForecast: runway date, 3-month lead financing trigger, risk tier
+- [x] `tests/test_financing_layer.py` — 61 tests: all distress thresholds, dilution math, burn rate priority, runway date arithmetic
 
 ### Step 5 — Market Expectations / Implied Value Layer
 - [ ] `src/bve/valuation/implied_expectations.py` — market-implied PoS / peak sales solver
