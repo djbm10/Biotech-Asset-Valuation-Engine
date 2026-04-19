@@ -225,3 +225,36 @@ src/bve/learning/      prediction_log, postmortem, rule_suggester
 
 ### Current step: Step 1 — Database foundation
 
+
+---
+
+## Platform Build Progress (2026-04-19)
+
+### Completed steps
+
+| Step | What | Tests |
+|------|------|-------|
+| 1 | DB foundation: PostgreSQL-compatible ORM (16 tables), Alembic migrations, 4 repos | 38 |
+| 2 | Acquirer entity + EntityResolver (alias table, fuzzy, conflict detection) | 42 |
+| 8 | Acquisition fit engine: 7-dimension scoring, timing buckets, rank_targets/rank_acquirers | 37 |
+| 13 | FastAPI app: 6 routers, 10 endpoints, TestClient suite | 40 |
+
+**Total new platform tests: 157 (all passing)**
+
+### Remaining steps (priority order)
+
+| Step | Focus | Priority |
+|------|-------|----------|
+| 3 | Ingestion clients (SEC, news, PubMed) | P1 |
+| 4 | Evidence store + event classifier | P1 |
+| 5 | Asset + acquirer dossier sync | P1 |
+| 6 | Science/trial scoring modules | P2 |
+| 7 | Probability stack + financing-adjusted EV | P2 |
+| 9 | Catalyst trees + variant thesis | P2 |
+| 10 | Recommendation fusion layer | P2 |
+| 11 | Dramatiq + Redis background jobs | P3 |
+| 12 | Learning/calibration loop | P3 |
+| 14 | Next.js web app | P3 |
+| 15 | Alerts + dashboards | P3 |
+| 16 | Docs + blueprint freeze | P3 |
+

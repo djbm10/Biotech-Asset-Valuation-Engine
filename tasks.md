@@ -6149,19 +6149,19 @@ Master Plan section above. All identified gaps from the codebase audit were impl
 
 | Step | Focus | Status |
 |------|-------|--------|
-| 1 | Database foundation — PostgreSQL + SQLAlchemy + Alembic | ⬜ |
-| 2 | Canonical entities + graph — acquirer entity, resolver, alias tables | ⬜ |
+| 1 | Database foundation — PostgreSQL + SQLAlchemy + Alembic | ✅ |
+| 2 | Canonical entities + graph — acquirer entity, resolver, alias tables | ✅ |
 | 3 | Ingestion clients — SEC, CT.gov, FDA, PubMed, news (httpx + BS4) | ⬜ |
 | 4 | Evidence store + classifier — dedupe, checksum, event typing | ⬜ |
 | 5 | Asset + acquirer dossiers — completeness, provenance merge | ⬜ |
 | 6 | Science/trial modules — endpoint validity, analog matcher, controversy | ⬜ |
 | 7 | Probability/valuation extensions — probability stack, implied expectations, financing-adjusted EV | ⬜ |
-| 8 | Acquisition engine — fit scoring, affordability, timing buckets | ⬜ |
+| 8 | Acquisition engine — fit scoring, affordability, timing buckets | ✅ |
 | 9 | Catalyst + variant — scenario trees, variant thesis, implied move | ⬜ |
 | 10 | Recommendation layer — signal fusion, position sizing, trade signal | ⬜ |
 | 11 | Monitoring pipelines — news monitor, event router, Dramatiq + Redis | ⬜ |
 | 12 | Learning/calibration — prediction log, outcome linker, postmortem, shadow backtest | ⬜ |
-| 13 | FastAPI application — routers: assets, acquirers, deals, alerts, calibration | ⬜ |
+| 13 | FastAPI application — routers: assets, acquirers, deals, alerts, calibration | ✅ |
 | 14 | Next.js web app — dashboard, asset page, acquirer page, deals, alerts, calibration | ⬜ |
 | 15 | Dashboards + alerts — snapshot generation, alert thresholds, UI integration | ⬜ |
 | 16 | Docs + blueprint freeze — BLUEPRINT.md, OPERATIONS.md | ⬜ |
