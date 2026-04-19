@@ -1,7 +1,27 @@
 # project_state.md — Live Project State
 
-Last updated: 2026-04-18
+Last updated: 2026-04-19
 Branch: core-engine-v1
+
+---
+
+## Platform Build Plan Status
+
+| Step | Description | Status |
+|------|-------------|--------|
+| 1 | Data ingestion layer (7 typed clients + RawEvent schema) | ✅ Complete (60 tests) |
+| 2 | Evidence store + event classifier | Not started |
+| 3 | Asset + acquirer dossier builders | Not started |
+| 4 | Financing + dilution models | Not started |
+| 5 | Market expectations / implied value | Not started |
+| 6 | Science + trial-design scoring | Not started |
+| 7 | Layered probability stack | Not started |
+| 8 | Competition + readthrough engine | Not started |
+| 9 | Variant thesis + catalyst payoff | Not started |
+| 10 | Unified recommendation engine | Not started |
+| 11 | Monitoring + recompute pipeline | Not started |
+| 12 | Learning + calibration | Not started |
+| 13 | UI | Not started |
 
 ---
 

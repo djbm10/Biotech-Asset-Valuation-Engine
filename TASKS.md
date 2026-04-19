@@ -31,6 +31,115 @@ connectors
 
 ---
 
+## Platform Build Plan (Active)
+
+> Full-stack biotech market + acquisition intelligence platform.
+> Build order is strict — each layer feeds the next.
+
+### Step 1 — Data Ingestion Layer ✅ COMPLETE
+- [x] `src/bve/ingestion/raw_event.py` — common `RawEvent` schema (source_url, timestamp, checksum, typed payload)
+- [x] `src/bve/ingestion/sec_client.py` — SEC EDGAR client (company facts, filings, cash/burn snapshot)
+- [x] `src/bve/ingestion/ctgov_client.py` — ClinicalTrials.gov client (fetch + search)
+- [x] `src/bve/ingestion/fda_client.py` — openFDA client (approvals, adverse events, labels)
+- [x] `src/bve/ingestion/pubmed_client.py` — PubMed client (search+fetch, single PMID)
+- [x] `src/bve/ingestion/news_client.py` — news/PR client (BioSpace RSS, SEC 8-K, generic RSS)
+- [x] `src/bve/ingestion/openpayments_client.py` — CMS Open Payments client (general + research payments)
+- [x] `src/bve/ingestion/market_data_client.py` — market data client (price snapshot, history, fundamentals, EV)
+- [x] `tests/test_ingestion_layer.py` — 60 tests: schema validation, parser fixtures, dedupe, mocked HTTP
+
+### Step 2 — Evidence Store + Event Classifier
+- [ ] `src/bve/evidence/store.py` — central evidence layer (hash dedupe, raw text + parsed JSON)
+- [ ] `src/bve/evidence/classifier.py` — event type routing (financing, catalyst, trial, FDA, competitor, mgmt, partnership/M&A)
+- [ ] `src/bve/evidence/materiality.py` — materiality score + affected entity resolution
+- [ ] Tests: dedupe, event routing, materiality thresholds, incomplete-parse fallback
+
+### Step 3 — Asset + Acquirer Dossier Builders
+- [ ] `src/bve/dossier/asset_dossier.py` — auto-assembled live asset dossier (identity, trials, catalysts, science, competition, financing, market snapshot, thesis)
+- [ ] `src/bve/dossier/acquirer_dossier.py` — acquirer dossier (strategic areas, pipeline gaps, LOE urgency, modality prefs, balance sheet, BD behavior)
+- [ ] `src/bve/dossier/builder.py` — load entity, merge highest-confidence fields, provenance, completeness score
+- [ ] Tests: completeness, field precedence, provenance, stale field handling
+
+### Step 4 — Financing + Dilution
+- [ ] `src/bve/models/financing_risk.py` — runway months, capital to catalyst, P(pre-catalyst raise), dilution band, distress risk, partnership flag
+- [ ] `src/bve/models/dilution_model.py` — dilution scenarios
+- [ ] `src/bve/models/runway_forecast.py` — runway forecast
+- [ ] Tests: runway edge cases, dilution scenario math, distress thresholds, financing event timing
+
+### Step 5 — Market Expectations / Implied Value Layer
+- [ ] `src/bve/valuation/implied_expectations.py` — market-implied PoS / peak sales solver
+- [ ] `src/bve/intelligence/market_expectations.py` — model vs market gap, underpriced/overpriced flags
+- [ ] Tests: solver stability, impossible inputs, multi-asset low-confidence, gap labels
+
+### Step 6 — Science + Trial-Design Scoring
+- [ ] `src/bve/models/science_score.py` — sub-scores: mechanism, target, biomarker, endpoint, trial design, analogs, safety, controversy
+- [ ] `src/bve/models/trial_design_score.py` — trial design quality score
+- [ ] `src/bve/models/endpoint_validity.py` — endpoint validity assessment
+- [ ] `src/bve/models/analog_matcher.py` — analog winner/failure retrieval
+- [ ] `src/bve/models/safety_context.py` — safety concern scoring
+- [ ] Tests: endpoint mapping, analog retrieval, scoring boundaries, controversy penalties, rationale shape
+
+### Step 7 — Layered Probability Stack
+- [ ] `src/bve/models/probability_stack.py` — technical / regulatory / label / commercial / delay/CRL probabilities
+- [ ] `src/bve/models/label_breadth.py` — label breadth probability
+- [ ] `src/bve/models/timeline_distribution.py` — timeline distribution with delay branches
+- [ ] Tests: probabilities in bounds, scenario totals, delay/CRL branches, modality priors
+
+### Step 8 — Competition + Readthrough
+- [ ] `src/bve/intelligence/competition_graph.py` — competitor graph (target/mechanism/indication/LOT/modality)
+- [ ] `src/bve/intelligence/readthrough_engine.py` — positive/negative readthrough on competitor events
+- [ ] `src/bve/intelligence/revaluation_triggers.py` — recompute trigger emission
+- [ ] Tests: similarity scoring, positive/negative readthrough, class-expansion exception, trigger emission
+
+### Step 9 — Variant Thesis + Catalyst Payoff Engine
+- [ ] `src/bve/intelligence/variant_view.py` — market/model view, delta, kill criteria, falsifiers
+- [ ] `src/bve/valuation/scenario_tree.py` — per-catalyst scenario tree, expected return, skew, setup score
+- [ ] `src/bve/trading/implied_move.py` — IV-based implied move
+- [ ] `src/bve/trading/asymmetry_score.py` — composite asymmetry score
+- [ ] Tests: thesis required before signal, scenario probs sum to 1, asymmetry bounds, kill criteria serialization
+
+### Step 10 — Unified Recommendation Engine
+- [ ] `src/bve/intelligence/recommender.py` — fuse valuation gap + science + catalyst EV + financing + competition + portfolio + M&A
+- [ ] `src/bve/trading/position_sizer.py` — position sizing
+- [ ] `src/bve/trading/trade_signal.py` — trade signal output
+- [ ] `src/bve/trading/portfolio_context.py` — portfolio context
+- [ ] Tests: missing-data neutrality, recommendation thresholds, sizing caps, concentration penalties
+
+### Step 11 — Monitoring + Recompute Pipeline
+- [ ] `src/bve/pipelines/news_monitor.py` — continuous news ingestion
+- [ ] `src/bve/pipelines/event_router.py` — event classification + entity resolution
+- [ ] `src/bve/pipelines/model_trigger_engine.py` — route to affected modules, recompute only impacted
+- [ ] `src/bve/pipelines/scheduler.py` — operational loop scheduler
+- [ ] `src/bve/pipelines/alert_dispatcher.py` — alert emission on threshold crossing
+- [ ] Tests: recompute dedupe, event-to-module routing, alert thresholding, source outage resilience
+
+### Step 12 — Learning + Calibration
+- [ ] `src/bve/learning/prediction_log.py` — log full prediction state per decision
+- [ ] `src/bve/learning/outcome_linker.py` — link realized outcomes to predictions
+- [ ] `src/bve/learning/postmortem.py` — error bucket assignment
+- [ ] `src/bve/learning/calibration.py` — module-level calibration
+- [ ] `src/bve/learning/shadow_backtest.py` — shadow backtest runner
+- [ ] `src/bve/learning/weight_promoter.py` — rule/weight change suggestions with human review gate
+- [ ] Tests: prediction-outcome linkage, Brier/calibration metrics, postmortem categorization, promotion veto
+
+### Step 13 — UI (after engines are stable)
+- [ ] Dashboard page
+- [ ] Asset page
+- [ ] Acquirer page
+- [ ] Deals page
+- [ ] Alerts page
+- [ ] Calibration page
+
+### Deferred (until core loop works)
+- Options IV / instrument sophistication
+- Slack/email alerts
+- Multi-user auth
+- Private startup deep coverage
+- Advanced LLM memoing
+- Auto-promotion of learned weights
+- Trade execution
+
+---
+
 ## To Do
 
 ### Wave 2 — Structured Intelligence
