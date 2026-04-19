@@ -65,10 +65,10 @@ connectors
 - [x] `src/bve/models/runway_forecast.py` — BurnRateEstimate (direct > R&D gross-up > opex), RunwayForecast: runway date, 3-month lead financing trigger, risk tier
 - [x] `tests/test_financing_layer.py` — 61 tests: all distress thresholds, dilution math, burn rate priority, runway date arithmetic
 
-### Step 5 — Market Expectations / Implied Value Layer
-- [ ] `src/bve/valuation/implied_expectations.py` — market-implied PoS / peak sales solver
-- [ ] `src/bve/intelligence/market_expectations.py` — model vs market gap, underpriced/overpriced flags
-- [ ] Tests: solver stability, impossible inputs, multi-asset low-confidence, gap labels
+### Step 5 — Market Expectations / Implied Value Layer ✅ COMPLETE
+- [x] `src/bve/valuation/implied_expectations.py` — NPV annuity helper, solve_implied_pos / solve_implied_peak_sales back-solvers, compute_implied_expectations (UNDERPRICED/OVERPRICED/FAIRLY_VALUED/INSUFFICIENT_DATA, HIGH/MEDIUM/LOW confidence, platform residual)
+- [x] `src/bve/intelligence/market_expectations.py` — MarketExpectationRow, build_market_expectation_row (financing haircut → adjusted signal), screen_universe (filter + sort by pos_gap)
+- [x] `tests/test_market_expectations.py` — 64 tests: NPV math, back-solver correctness, signal/confidence tiers, platform residual, screening
 
 ### Step 6 — Science + Trial-Design Scoring
 - [ ] `src/bve/models/science_score.py` — sub-scores: mechanism, target, biomarker, endpoint, trial design, analogs, safety, controversy

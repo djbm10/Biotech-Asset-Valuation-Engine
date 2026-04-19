@@ -8,6 +8,10 @@ Two paths are supported:
 
 2. NAV-style backsolve for richer standalone expectation studies.
    Uses peak-sales assumptions and optional cash estimates.
+
+Phase I extends this into a primary market-expectation comparison layer so each
+asset can expose model vs implied PoS, peak sales, dilution, and value in one
+place.
 """
 from __future__ import annotations
 
@@ -46,6 +50,43 @@ class MarketMispricing(BaseModel):
     model_rnpv_millions: float
     market_cap_millions: float
     mispricing: float
+
+
+class MarketExpectationModuleOutput(BaseModel):
+    value: object
+    confidence: float = Field(ge=0.0, le=1.0)
+    provenance: list[str] = Field(default_factory=list)
+    freshness: datetime
+    explainability: str
+    downstream_dependencies: list[str] = Field(default_factory=list)
+
+
+class MarketExpectationComparisonValue(BaseModel):
+    asset_id: str
+    ticker: str
+    model_pos: Optional[float] = None
+    implied_pos: Optional[float] = None
+    pos_delta: Optional[float] = None
+    model_peak_sales_millions: Optional[float] = None
+    implied_peak_sales_millions: Optional[float] = None
+    peak_sales_delta_millions: Optional[float] = None
+    model_dilution_pct: Optional[float] = None
+    implied_dilution_pct: Optional[float] = None
+    dilution_delta: Optional[float] = None
+    financing_adjusted_intrinsic_value_millions: Optional[float] = None
+    current_ev_millions: Optional[float] = None
+    upside_downside_pct: Optional[float] = None
+    consensus_valuation_range_low_millions: Optional[float] = None
+    consensus_valuation_range_high_millions: Optional[float] = None
+    optionality_not_reflected_millions: Optional[float] = None
+    market_cap_millions: Optional[float] = None
+
+
+class MarketExpectationComparison(BaseModel):
+    asset_id: str
+    ticker: str
+    output: MarketExpectationModuleOutput
+    plain_english_summary: str
 
 
 def compute_market_mispricing(
@@ -100,6 +141,39 @@ def compute_implied_success_probability(
         return None
     raw_implied = (float(market_cap_millions) * float(model_pos)) / float(model_rnpv_millions)
     return round(max(0.0, min(1.0, raw_implied)), 4)
+
+
+def compute_implied_peak_sales(
+    *,
+    market_cap_millions: Optional[float],
+    cash_estimate_millions: Optional[float],
+    model_pos: Optional[float],
+    patent_life_years: int,
+    discount_rate: float,
+    margin_rate: float,
+) -> Optional[float]:
+    """
+    Back-solve implied peak sales from EV and model PoS.
+
+    Uses the same flat-annuity NAV framing as ``ImpliedPoSEstimator.compute``.
+    """
+    if (
+        market_cap_millions is None
+        or model_pos is None
+        or model_pos <= 0
+        or patent_life_years <= 0
+        or margin_rate <= 0
+    ):
+        return None
+    equity_value = float(market_cap_millions) - float(cash_estimate_millions or 0.0)
+    if discount_rate > 0:
+        pv_factor = (1.0 - (1.0 + discount_rate) ** (-patent_life_years)) / discount_rate
+    else:
+        pv_factor = float(patent_life_years)
+    denominator = float(model_pos) * float(margin_rate) * pv_factor
+    if denominator <= 0:
+        return None
+    return round(max(0.0, equity_value / denominator), 4)
 
 
 def build_market_expectation_from_snapshot(
@@ -363,3 +437,321 @@ class ImpliedPoSEstimator:
         except Exception as exc:
             self.logger.warning("yfinance data unavailable for ticker=%s: %s", ticker, exc)
             return None
+
+
+class MarketExpectationEngine:
+    """Phase I comparison engine placing market expectations at the center."""
+
+    def build_comparison(
+        self,
+        *,
+        asset_id: str,
+        ticker: str,
+        model_pos: Optional[float],
+        model_peak_sales_millions: Optional[float],
+        market_cap_millions: Optional[float],
+        cash_estimate_millions: Optional[float] = None,
+        financing_adjusted_intrinsic_value_millions: Optional[float] = None,
+        model_dilution_pct: Optional[float] = None,
+        implied_dilution_pct: Optional[float] = None,
+        consensus_valuation_range_low_millions: Optional[float] = None,
+        consensus_valuation_range_high_millions: Optional[float] = None,
+        patent_life_years: int = 12,
+        discount_rate: float = 0.12,
+        margin_rate: float = 0.35,
+        freshness: Optional[datetime] = None,
+    ) -> MarketExpectationComparison:
+        freshness = freshness or datetime.now(timezone.utc)
+        implied_pos = None
+        if (
+            market_cap_millions is not None
+            and model_pos is not None
+            and model_peak_sales_millions is not None
+            and model_peak_sales_millions > 0
+        ):
+            expectation = ImpliedPoSEstimator().compute(
+                asset_id=asset_id,
+                ticker=ticker,
+                market_cap_millions=float(market_cap_millions),
+                model_pos=model_pos,
+                peak_sales_millions=float(model_peak_sales_millions),
+                patent_life_years=patent_life_years,
+                discount_rate=discount_rate,
+                margin_rate=margin_rate,
+                cash_estimate_millions=float(cash_estimate_millions or 0.0),
+            )
+            implied_pos = expectation.implied_pos
+        implied_peak_sales = compute_implied_peak_sales(
+            market_cap_millions=market_cap_millions,
+            cash_estimate_millions=cash_estimate_millions,
+            model_pos=model_pos,
+            patent_life_years=patent_life_years,
+            discount_rate=discount_rate,
+            margin_rate=margin_rate,
+        )
+        current_ev = None
+        if market_cap_millions is not None:
+            current_ev = round(float(market_cap_millions) - float(cash_estimate_millions or 0.0), 4)
+        upside_downside = None
+        if (
+            financing_adjusted_intrinsic_value_millions is not None
+            and current_ev is not None
+            and current_ev > 0
+        ):
+            upside_downside = round(
+                (float(financing_adjusted_intrinsic_value_millions) - current_ev) / current_ev,
+                4,
+            )
+        value = MarketExpectationComparisonValue(
+            asset_id=asset_id,
+            ticker=ticker,
+            model_pos=model_pos,
+            implied_pos=implied_pos,
+            pos_delta=(
+                round(float(model_pos) - float(implied_pos), 4)
+                if model_pos is not None and implied_pos is not None
+                else None
+            ),
+            model_peak_sales_millions=model_peak_sales_millions,
+            implied_peak_sales_millions=implied_peak_sales,
+            peak_sales_delta_millions=(
+                round(float(model_peak_sales_millions) - float(implied_peak_sales), 4)
+                if model_peak_sales_millions is not None and implied_peak_sales is not None
+                else None
+            ),
+            model_dilution_pct=model_dilution_pct,
+            implied_dilution_pct=implied_dilution_pct,
+            dilution_delta=(
+                round(float(model_dilution_pct) - float(implied_dilution_pct), 4)
+                if model_dilution_pct is not None and implied_dilution_pct is not None
+                else None
+            ),
+            financing_adjusted_intrinsic_value_millions=financing_adjusted_intrinsic_value_millions,
+            current_ev_millions=current_ev,
+            upside_downside_pct=upside_downside,
+            consensus_valuation_range_low_millions=consensus_valuation_range_low_millions,
+            consensus_valuation_range_high_millions=consensus_valuation_range_high_millions,
+            optionality_not_reflected_millions=(
+                round(
+                    max(
+                        0.0,
+                        float(financing_adjusted_intrinsic_value_millions)
+                        - float(consensus_valuation_range_high_millions),
+                    ),
+                    4,
+                )
+                if financing_adjusted_intrinsic_value_millions is not None
+                and consensus_valuation_range_high_millions is not None
+                else None
+            ),
+            market_cap_millions=market_cap_millions,
+        )
+        explainability = (
+            "This comparison card starts with model vs implied PoS, model vs implied peak sales, "
+            "and financing-adjusted value vs current EV so mispricing is visible before deeper valuation detail."
+        )
+        output = MarketExpectationModuleOutput(
+            value=value.model_dump(),
+            confidence=self._confidence(value),
+            provenance=["market_snapshot", "valuation_model", "financing_engine"],
+            freshness=freshness,
+            explainability=explainability,
+            downstream_dependencies=[
+                "variant_view_engine",
+                "catalyst_payoff_trees",
+                "portfolio_decision_engine",
+            ],
+        )
+        summary = (
+            f"{ticker}: model PoS {self._fmt_pct(value.model_pos)} vs implied {self._fmt_pct(value.implied_pos)}, "
+            f"model peak sales {self._fmt_money(value.model_peak_sales_millions)} vs implied "
+            f"{self._fmt_money(value.implied_peak_sales_millions)}, "
+            f"financing-adjusted value {self._fmt_money(value.financing_adjusted_intrinsic_value_millions)} "
+            f"vs EV {self._fmt_money(value.current_ev_millions)}."
+        )
+        return MarketExpectationComparison(
+            asset_id=asset_id,
+            ticker=ticker,
+            output=output,
+            plain_english_summary=summary,
+        )
+
+    @staticmethod
+    def _confidence(value: MarketExpectationComparisonValue) -> float:
+        confidence = 0.55
+        if value.implied_pos is not None:
+            confidence += 0.15
+        if value.implied_peak_sales_millions is not None:
+            confidence += 0.15
+        if value.financing_adjusted_intrinsic_value_millions is not None:
+            confidence += 0.10
+        if value.implied_dilution_pct is not None:
+            confidence += 0.05
+        return round(min(0.95, confidence), 4)
+
+    @staticmethod
+    def _fmt_pct(value: Optional[float]) -> str:
+        return "n/a" if value is None else f"{value:.0%}"
+
+    @staticmethod
+    def _fmt_money(value: Optional[float]) -> str:
+        return "n/a" if value is None else f"${value:,.0f}M"
+
+
+# ---------------------------------------------------------------------------
+# Step 5: MarketExpectationRow + universe screener
+# ---------------------------------------------------------------------------
+
+
+from datetime import date as _date  # noqa: E402 — local import to avoid circular
+from bve.models.financing_risk import FinancingRiskV2 as FinancingRisk  # noqa: E402
+from bve.valuation.implied_expectations import (  # noqa: E402
+    ImpliedExpectationsInput,
+    compute_implied_expectations,
+)
+
+
+class MarketExpectationRow(BaseModel):
+    """
+    One row in the market-expectation screening table (Step 5).
+
+    Contains both raw model/implied values and the financing-adjusted signal
+    for quick universe screening.
+    """
+
+    model_config = {"frozen": True}
+
+    asset_id: str
+    ticker: str | None
+    as_of_date: str
+    market_cap_usd: float | None
+    net_cash_usd: float | None
+    pipeline_value_usd: float | None
+    implied_pos: float | None
+    model_pos: float | None
+    pos_gap: float | None
+    implied_peak_sales_millions: float | None
+    model_peak_sales_millions: float | None
+    peak_sales_gap_millions: float | None
+    signal: str
+    confidence: str
+    financing_haircut: float
+    financing_adjusted_signal: str
+
+
+def build_market_expectation_row(
+    asset_id: str,
+    ticker: str | None,
+    market_cap_usd: float,
+    net_cash_usd: float,
+    model_pos: float | None = None,
+    peak_sales_millions: float | None = None,
+    financing_risk: "FinancingRisk | None" = None,
+    years_to_approval: float = 3.0,
+    as_of_date: str = "",
+) -> MarketExpectationRow:
+    """
+    Build a MarketExpectationRow from market data and optional model parameters.
+
+    The financing_adjusted_signal re-runs the expectation engine with the
+    market cap scaled by the financing haircut so that distressed companies
+    are not rated 'UNDERPRICED' when they face dilution risk.
+    """
+    if not as_of_date:
+        as_of_date = _date.today().isoformat()
+
+    # Base implied expectations
+    base_inp = ImpliedExpectationsInput(
+        asset_id=asset_id,
+        market_cap_usd=market_cap_usd,
+        net_cash_usd=net_cash_usd,
+        years_to_approval=years_to_approval,
+        peak_sales_millions=peak_sales_millions,
+        model_pos=model_pos,
+    )
+    result = compute_implied_expectations(base_inp)
+
+    # Financing haircut
+    financing_haircut = (
+        financing_risk.financing_adjusted_value_haircut
+        if financing_risk is not None
+        else 1.0
+    )
+
+    # Financing-adjusted signal
+    adjusted_market_cap = market_cap_usd * financing_haircut
+    adj_inp = ImpliedExpectationsInput(
+        asset_id=asset_id,
+        market_cap_usd=adjusted_market_cap,
+        net_cash_usd=net_cash_usd,
+        years_to_approval=years_to_approval,
+        peak_sales_millions=peak_sales_millions,
+        model_pos=model_pos,
+    )
+    adj_result = compute_implied_expectations(adj_inp)
+
+    return MarketExpectationRow(
+        asset_id=asset_id,
+        ticker=ticker,
+        as_of_date=as_of_date,
+        market_cap_usd=market_cap_usd,
+        net_cash_usd=net_cash_usd,
+        pipeline_value_usd=result.pipeline_value_usd,
+        implied_pos=result.implied_pos,
+        model_pos=result.model_pos,
+        pos_gap=result.pos_gap,
+        implied_peak_sales_millions=result.implied_peak_sales_millions,
+        model_peak_sales_millions=result.model_peak_sales_millions,
+        peak_sales_gap_millions=result.peak_sales_gap_millions,
+        signal=result.signal,
+        confidence=result.confidence,
+        financing_haircut=financing_haircut,
+        financing_adjusted_signal=adj_result.signal,
+    )
+
+
+def screen_universe(
+    rows: list[MarketExpectationRow],
+    signal_filter: str | None = None,
+    min_confidence: str | None = None,
+    max_pos_gap: float | None = None,
+) -> list[MarketExpectationRow]:
+    """
+    Filter and sort a list of MarketExpectationRows.
+
+    Parameters
+    ----------
+    rows:
+        Full universe of rows.
+    signal_filter:
+        When provided, keep only rows where signal == signal_filter.
+    min_confidence:
+        "HIGH" → keep only HIGH confidence rows.
+        "MEDIUM" → keep HIGH and MEDIUM rows.
+    max_pos_gap:
+        Keep only rows where pos_gap < max_pos_gap (or pos_gap is None).
+    Returns
+    -------
+    Filtered rows sorted by pos_gap ascending (most underpriced first).
+    Rows with pos_gap=None sort to the end.
+    """
+    _CONFIDENCE_RANK = {"HIGH": 2, "MEDIUM": 1, "LOW": 0}
+
+    filtered: list[MarketExpectationRow] = []
+    min_rank = _CONFIDENCE_RANK.get(min_confidence or "", -1)
+
+    for row in rows:
+        if signal_filter is not None and row.signal != signal_filter:
+            continue
+        if min_confidence is not None:
+            row_rank = _CONFIDENCE_RANK.get(row.confidence, -1)
+            if row_rank < min_rank:
+                continue
+        if max_pos_gap is not None and row.pos_gap is not None:
+            if row.pos_gap >= max_pos_gap:
+                continue
+        filtered.append(row)
+
+    # Sort by pos_gap ascending; None values go to the end
+    filtered.sort(key=lambda r: (r.pos_gap is None, r.pos_gap if r.pos_gap is not None else 0.0))
+    return filtered

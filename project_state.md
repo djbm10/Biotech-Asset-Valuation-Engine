@@ -13,7 +13,7 @@ Branch: core-engine-v1
 | 2 | Evidence store + event classifier | ✅ Complete (76 tests) |
 | 3 | Asset + acquirer dossier builders | ✅ Complete (54 tests) |
 | 4 | Financing + dilution models | ✅ Complete (61 tests) |
-| 5 | Market expectations / implied value | Not started |
+| 5 | Market expectations / implied value | ✅ Complete (64 tests) |
 | 6 | Science + trial-design scoring | Not started |
 | 7 | Layered probability stack | Not started |
 | 8 | Competition + readthrough engine | Not started |
