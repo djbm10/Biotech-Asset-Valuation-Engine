@@ -70,13 +70,13 @@ connectors
 - [x] `src/bve/intelligence/market_expectations.py` — MarketExpectationRow, build_market_expectation_row (financing haircut → adjusted signal), screen_universe (filter + sort by pos_gap)
 - [x] `tests/test_market_expectations.py` — 64 tests: NPV math, back-solver correctness, signal/confidence tiers, platform residual, screening
 
-### Step 6 — Science + Trial-Design Scoring
-- [ ] `src/bve/models/science_score.py` — sub-scores: mechanism, target, biomarker, endpoint, trial design, analogs, safety, controversy
-- [ ] `src/bve/models/trial_design_score.py` — trial design quality score
-- [ ] `src/bve/models/endpoint_validity.py` — endpoint validity assessment
-- [ ] `src/bve/models/analog_matcher.py` — analog winner/failure retrieval
-- [ ] `src/bve/models/safety_context.py` — safety concern scoring
-- [ ] Tests: endpoint mapping, analog retrieval, scoring boundaries, controversy penalties, rationale shape
+### Step 6 — Science + Trial-Design Scoring ✅ COMPLETE
+- [x] `src/bve/models/endpoint_validity.py` — EndpointCategory/RegulatoryWeight, ENDPOINT_LIBRARY (50+ entries), score_endpoint() with substring match
+- [x] `src/bve/models/analog_matcher.py` — ANALOG_DATABASE (28 drugs), find_analogs() word-overlap scoring (mechanism 70%, indication 30%)
+- [x] `src/bve/models/safety_context.py` — SafetySignalType (13 types), compute_safety_context() with severity multipliers + manageable halving
+- [x] `src/bve/models/trial_design_score.py` — 8-dimension TrialDesignQuality, phase-specific weights, pos_multiplier [0.80-1.10]
+- [x] `src/bve/models/science_score.py` — ScienceDiligenceResult: endpoint(30%) + trial_design(30%) + analog(20%) + safety(20%)
+- [x] `tests/test_science_layer.py` — 75 tests: endpoint matching, analog scoring, safety deductions, design quality, composite score
 
 ### Step 7 — Layered Probability Stack
 - [ ] `src/bve/models/probability_stack.py` — technical / regulatory / label / commercial / delay/CRL probabilities
