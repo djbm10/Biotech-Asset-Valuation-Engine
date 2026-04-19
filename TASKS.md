@@ -47,11 +47,11 @@ connectors
 - [x] `src/bve/ingestion/market_data_client.py` — market data client (price snapshot, history, fundamentals, EV)
 - [x] `tests/test_ingestion_layer.py` — 60 tests: schema validation, parser fixtures, dedupe, mocked HTTP
 
-### Step 2 — Evidence Store + Event Classifier
-- [ ] `src/bve/evidence/store.py` — central evidence layer (hash dedupe, raw text + parsed JSON)
-- [ ] `src/bve/evidence/classifier.py` — event type routing (financing, catalyst, trial, FDA, competitor, mgmt, partnership/M&A)
-- [ ] `src/bve/evidence/materiality.py` — materiality score + affected entity resolution
-- [ ] Tests: dedupe, event routing, materiality thresholds, incomplete-parse fallback
+### Step 2 — Evidence Store + Event Classifier ✅ COMPLETE
+- [x] `src/bve/evidence/classifier.py` — EventType enum (10 types), deterministic rule + keyword classifier, confidence by match count
+- [x] `src/bve/evidence/materiality.py` — MaterialityScore with base scores by EventType, 8 modifiers, tier assignment, entity resolution
+- [x] `src/bve/evidence/store.py` — SQLite EvidenceStore: dedup by checksum, ingest/get_by_id/entity/type/materiality/recent, count, is_duplicate
+- [x] `tests/test_evidence_layer.py` — 76 tests: classifier, materiality, entity resolution, store CRUD + dedup
 
 ### Step 3 — Asset + Acquirer Dossier Builders
 - [ ] `src/bve/dossier/asset_dossier.py` — auto-assembled live asset dossier (identity, trials, catalysts, science, competition, financing, market snapshot, thesis)

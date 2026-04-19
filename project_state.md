@@ -10,7 +10,7 @@ Branch: core-engine-v1
 | Step | Description | Status |
 |------|-------------|--------|
 | 1 | Data ingestion layer (7 typed clients + RawEvent schema) | ✅ Complete (60 tests) |
-| 2 | Evidence store + event classifier | Not started |
+| 2 | Evidence store + event classifier | ✅ Complete (76 tests) |
 | 3 | Asset + acquirer dossier builders | Not started |
 | 4 | Financing + dilution models | Not started |
 | 5 | Market expectations / implied value | Not started |
