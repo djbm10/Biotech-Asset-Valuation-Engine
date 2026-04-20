@@ -78,11 +78,11 @@ connectors
 - [x] `src/bve/models/science_score.py` — ScienceDiligenceResult: endpoint(30%) + trial_design(30%) + analog(20%) + safety(20%)
 - [x] `tests/test_science_layer.py` — 75 tests: endpoint matching, analog scoring, safety deductions, design quality, composite score
 
-### Step 7 — Layered Probability Stack
-- [ ] `src/bve/models/probability_stack.py` — technical / regulatory / label / commercial / delay/CRL probabilities
-- [ ] `src/bve/models/label_breadth.py` — label breadth probability
-- [ ] `src/bve/models/timeline_distribution.py` — timeline distribution with delay branches
-- [ ] Tests: probabilities in bounds, scenario totals, delay/CRL branches, modality priors
+### Step 7 — Layered Probability Stack ✅ COMPLETE
+- [x] `src/bve/models/probability_stack.py` — ProbabilityStack: science modifier [0.70-1.10], DistressTier financing modifier, designation adjustments, 5 ApprovalScenario weights (sum=1.0), clamp [0.01-0.99]
+- [x] `src/bve/models/label_breadth_model.py` — LabelScope (BROAD/STANDARD/RESTRICTED/NARROW), LabelBreadthEstimate: biomarker/rare disease/multi-indication/platform modifiers
+- [x] `src/bve/models/timeline_distribution_model.py` — TimelineDistributionV2: per-phase delay prob (fast_track ×0.85, breakthrough ×0.80), overall delay = 1 − product(1 − phase_delay), P50/P75/P90 timeline buckets
+- [x] `tests/test_probability_stack.py` — 68 tests: ProbabilityStack (25), LabelBreadth (19), TimelineDistribution (21), legacy (3)
 
 ### Step 8 — Competition + Readthrough
 - [ ] `src/bve/intelligence/competition_graph.py` — competitor graph (target/mechanism/indication/LOT/modality)
