@@ -1,82 +1,186 @@
-"""Revaluation trigger engine — detects when a module recompute is warranted."""
+"""Revaluation trigger engine — emits structured recompute records from readthrough signals.
+
+Priority thresholds:
+  IMMEDIATE  : magnitude >= 0.15 or abs(pos_delta) >= 0.12
+  HIGH       : magnitude >= 0.10 or abs(pos_delta) >= 0.08
+  MEDIUM     : magnitude >= 0.05 or abs(pos_delta) >= 0.04
+  LOW        : everything else above minimum threshold
+  SUPPRESSED : magnitude < 0.02 and abs(pos_delta) < 0.02
+
+Modules to recompute per priority:
+  IMMEDIATE : probability_stack, market_expectations, recommendation, financing_risk
+  HIGH      : probability_stack, market_expectations, recommendation
+  MEDIUM    : probability_stack, market_expectations
+  LOW       : market_expectations
+"""
 
 from __future__ import annotations
 
 from datetime import datetime, timezone
-from typing import Optional
+from enum import Enum
 from uuid import uuid4
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
-_CRITICAL_EVENT_TYPES = {
-    "thesis_break",
-    "regulatory_event",
-    "financing_event",
+from bve.intelligence.readthrough_engine import ReadthroughDirection, ReadthroughSignal
+
+
+class TriggerPriority(str, Enum):
+    IMMEDIATE = "immediate"
+    HIGH = "high"
+    MEDIUM = "medium"
+    LOW = "low"
+    SUPPRESSED = "suppressed"
+
+
+_MODULES_BY_PRIORITY: dict[TriggerPriority, list[str]] = {
+    TriggerPriority.IMMEDIATE: [
+        "probability_stack",
+        "market_expectations",
+        "recommendation",
+        "financing_risk",
+    ],
+    TriggerPriority.HIGH: [
+        "probability_stack",
+        "market_expectations",
+        "recommendation",
+    ],
+    TriggerPriority.MEDIUM: [
+        "probability_stack",
+        "market_expectations",
+    ],
+    TriggerPriority.LOW: [
+        "market_expectations",
+    ],
+    TriggerPriority.SUPPRESSED: [],
 }
 
 
-class RevaluationTrigger(BaseModel):
-    """A signal that one or more valuation modules should be recomputed."""
-
+class RevaluationTrigger(BaseModel, frozen=True):
     trigger_id: str
     asset_id: str
-    trigger_type: str  # "competitor_event" | "financing_event" | "regulatory_event" | "thesis_break" | "data_refresh" | "stale_input"
-    source_event_id: Optional[str] = None
-    priority: str  # "high" | "medium" | "low"
-    triggered_at: datetime
-    description: str
-    modules_to_recompute: list[str] = Field(default_factory=list)
+    source_event_asset_id: str
+    readthrough: ReadthroughSignal
+    priority: TriggerPriority
+    modules_to_recompute: list[str]
+    created_at: datetime
+    rationale: str
 
 
-class RevaluationTriggerEngine:
-    """Evaluates incoming events and emits revaluation triggers when warranted."""
+# ---------------------------------------------------------------------------
+# Priority classification
+# ---------------------------------------------------------------------------
 
-    def evaluate(
-        self,
-        asset_id: str,
-        event_type: str,
-        materiality_score: float,
-        source_event_id: Optional[str] = None,
-    ) -> Optional[RevaluationTrigger]:
-        """Return a trigger when materiality_score > 0.3 or event_type is critical.
+def _classify_priority(signal: ReadthroughSignal) -> TriggerPriority:
+    """Classify a readthrough signal into a trigger priority tier."""
+    mag = signal.magnitude
+    abs_delta = abs(signal.pos_delta)
 
-        Priority rules:
-        - materiality >= 0.7 or critical event type → high
-        - materiality >= 0.4 → medium
-        - otherwise → low
-        """
-        is_critical = event_type in _CRITICAL_EVENT_TYPES
-        if materiality_score <= 0.3 and not is_critical:
-            return None
+    # NEUTRAL signals with zero values → SUPPRESSED
+    if signal.direction == ReadthroughDirection.NEUTRAL:
+        return TriggerPriority.SUPPRESSED
 
-        if materiality_score >= 0.7 or is_critical:
-            priority = "high"
-        elif materiality_score >= 0.4:
-            priority = "medium"
-        else:
-            priority = "low"
+    if mag < 0.02 and abs_delta < 0.02:
+        return TriggerPriority.SUPPRESSED
 
-        modules = _modules_for_event(event_type)
+    if mag >= 0.15 or abs_delta >= 0.12:
+        return TriggerPriority.IMMEDIATE
 
-        return RevaluationTrigger(
+    if mag >= 0.10 or abs_delta >= 0.08:
+        return TriggerPriority.HIGH
+
+    if mag >= 0.05 or abs_delta >= 0.04:
+        return TriggerPriority.MEDIUM
+
+    return TriggerPriority.LOW
+
+
+_PRIORITY_ORDER = {
+    TriggerPriority.IMMEDIATE: 0,
+    TriggerPriority.HIGH: 1,
+    TriggerPriority.MEDIUM: 2,
+    TriggerPriority.LOW: 3,
+    TriggerPriority.SUPPRESSED: 4,
+}
+
+
+# ---------------------------------------------------------------------------
+# Public API
+# ---------------------------------------------------------------------------
+
+def emit_triggers(
+    signals: list[ReadthroughSignal],
+    asset_id_filter: str | None = None,
+) -> list[RevaluationTrigger]:
+    """Convert readthrough signals to revaluation triggers, sorted by priority.
+
+    NEUTRAL/SUPPRESSED signals produce no triggers.
+    If asset_id_filter is provided, only signals targeting that asset are processed.
+    """
+    now = datetime.now(timezone.utc)
+    triggers: list[RevaluationTrigger] = []
+
+    for signal in signals:
+        if asset_id_filter is not None and signal.target_asset_id != asset_id_filter:
+            continue
+
+        priority = _classify_priority(signal)
+
+        if priority == TriggerPriority.SUPPRESSED:
+            continue
+
+        modules = list(_MODULES_BY_PRIORITY[priority])
+        trigger = RevaluationTrigger(
             trigger_id=str(uuid4()),
-            asset_id=asset_id,
-            trigger_type=event_type,
-            source_event_id=source_event_id,
+            asset_id=signal.target_asset_id,
+            source_event_asset_id=signal.source_asset_id,
+            readthrough=signal,
             priority=priority,
-            triggered_at=datetime.now(timezone.utc),
-            description=f"Event '{event_type}' (materiality={materiality_score:.2f}) triggered revaluation.",
             modules_to_recompute=modules,
+            created_at=now,
+            rationale=(
+                f"Readthrough {signal.direction.value} (magnitude={signal.magnitude:.3f}, "
+                f"pos_delta={signal.pos_delta:+.3f}) from {signal.source_asset_id} "
+                f"→ {signal.target_asset_id}. {signal.rationale}"
+            ),
         )
+        triggers.append(trigger)
+
+    triggers.sort(key=lambda t: _PRIORITY_ORDER[t.priority])
+    return triggers
 
 
-def _modules_for_event(event_type: str) -> list[str]:
-    mapping: dict[str, list[str]] = {
-        "competitor_event": ["competition", "market_access", "peak_sales"],
-        "financing_event": ["financing_risk", "dilution", "runway"],
-        "regulatory_event": ["pos", "timeline", "market_access"],
-        "thesis_break": ["pos", "peak_sales", "recommendation"],
-        "data_refresh": ["pos", "peak_sales", "timeline"],
-        "stale_input": ["all"],
-    }
-    return mapping.get(event_type, ["pos"])
+class TriggerStore:
+    """In-memory store for triggers (ephemeral — no SQLite needed)."""
+
+    def __init__(self) -> None:
+        self._triggers: dict[str, RevaluationTrigger] = {}
+        self._processed: set[str] = set()
+
+    def add(self, trigger: RevaluationTrigger) -> None:
+        """Add a trigger to the store."""
+        self._triggers[trigger.trigger_id] = trigger
+
+    def pending(
+        self, priority: TriggerPriority | None = None
+    ) -> list[RevaluationTrigger]:
+        """Return unprocessed triggers, optionally filtered by priority.
+
+        Results are sorted by priority (IMMEDIATE first).
+        """
+        results = [
+            t
+            for tid, t in self._triggers.items()
+            if tid not in self._processed
+            and (priority is None or t.priority == priority)
+        ]
+        results.sort(key=lambda t: _PRIORITY_ORDER[t.priority])
+        return results
+
+    def mark_processed(self, trigger_id: str) -> None:
+        """Mark a trigger as processed so it no longer appears in pending()."""
+        self._processed.add(trigger_id)
+
+    def count(self) -> int:
+        """Return total number of triggers (processed + pending)."""
+        return len(self._triggers)
