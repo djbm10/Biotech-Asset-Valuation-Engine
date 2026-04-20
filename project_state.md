@@ -16,7 +16,7 @@ Branch: core-engine-v1
 | 5 | Market expectations / implied value | ✅ Complete (64 tests) |
 | 6 | Science + trial-design scoring | ✅ Complete (75 tests) |
 | 7 | Layered probability stack | ✅ Complete (68 tests) |
-| 8 | Competition + readthrough engine | Not started |
+| 8 | Competition + readthrough engine | ✅ Complete (72 tests) |
 | 9 | Variant thesis + catalyst payoff | Not started |
 | 10 | Unified recommendation engine | Not started |
 | 11 | Monitoring + recompute pipeline | Not started |

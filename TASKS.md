@@ -84,11 +84,11 @@ connectors
 - [x] `src/bve/models/timeline_distribution_model.py` — TimelineDistributionV2: per-phase delay prob (fast_track ×0.85, breakthrough ×0.80), overall delay = 1 − product(1 − phase_delay), P50/P75/P90 timeline buckets
 - [x] `tests/test_probability_stack.py` — 68 tests: ProbabilityStack (25), LabelBreadth (19), TimelineDistribution (21), legacy (3)
 
-### Step 8 — Competition + Readthrough
-- [ ] `src/bve/intelligence/competition_graph.py` — competitor graph (target/mechanism/indication/LOT/modality)
-- [ ] `src/bve/intelligence/readthrough_engine.py` — positive/negative readthrough on competitor events
-- [ ] `src/bve/intelligence/revaluation_triggers.py` — recompute trigger emission
-- [ ] Tests: similarity scoring, positive/negative readthrough, class-expansion exception, trigger emission
+### Step 8 — Competition + Readthrough ✅ COMPLETE
+- [x] `src/bve/intelligence/competition_graph.py` — CompetitionGraph: Jaccard similarity across 5 dimensions (target 30%, mechanism 25%, indication 20%, LOT 15%, modality 10%), is_direct_competitor at 0.60
+- [x] `src/bve/intelligence/readthrough_engine.py` — ReadthroughDirection (POSITIVE/NEGATIVE/NEUTRAL/CLASS_EXPANSION), deterministic rules: trial_success/failure/safety_halt/partnership → pos_delta [-0.25,+0.15]
+- [x] `src/bve/intelligence/revaluation_triggers.py` — TriggerPriority (IMMEDIATE/HIGH/MEDIUM/LOW/SUPPRESSED), emit_triggers() sorted by priority, TriggerStore in-memory
+- [x] `tests/test_competition_readthrough.py` — 72 tests: CompetitionGraph (20+), ReadthroughEngine (25+), RevaluationTriggers (20+)
 
 ### Step 9 — Variant Thesis + Catalyst Payoff Engine
 - [ ] `src/bve/intelligence/variant_view.py` — market/model view, delta, kill criteria, falsifiers
