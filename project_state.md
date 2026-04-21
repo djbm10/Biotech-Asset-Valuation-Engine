@@ -271,7 +271,7 @@ src/bve/learning/      prediction_log, postmortem, rule_suggester
 | 6 | Science/trial scoring modules | P2 |
 | 7 | Probability stack + financing-adjusted EV | P2 |
 | 9 | Catalyst trees + variant thesis | P2 |
-| 10 | Recommendation fusion layer | P2 |
+| 10 | Recommendation fusion layer | ✅ Complete (75 tests) |
 | 11 | Dramatiq + Redis background jobs | P3 |
 | 12 | Learning/calibration loop | P3 |
 | 14 | Next.js web app | P3 |

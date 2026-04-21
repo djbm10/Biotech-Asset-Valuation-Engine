@@ -97,12 +97,12 @@ connectors
 - [x] `src/bve/trading/asymmetry_score.py` — compute_asymmetry: pos_delta(40%) + skew(35%) + return(25%), instrument selection (CALL/PUT/STRADDLE/EQUITY/NO_TRADE)
 - [x] `tests/test_variant_thesis.py` — 81 tests: VariantView (20+), CatalystPayoffTree (20+), ImpliedMove (15+), AsymmetryScore (15+)
 
-### Step 10 — Unified Recommendation Engine
-- [ ] `src/bve/intelligence/recommender.py` — fuse valuation gap + science + catalyst EV + financing + competition + portfolio + M&A
-- [ ] `src/bve/trading/position_sizer.py` — position sizing
-- [ ] `src/bve/trading/trade_signal.py` — trade signal output
-- [ ] `src/bve/trading/portfolio_context.py` — portfolio context
-- [ ] Tests: missing-data neutrality, recommendation thresholds, sizing caps, concentration penalties
+### Step 10 — Unified Recommendation Engine ✅ COMPLETE
+- [x] `src/bve/intelligence/recommender.py` — 7-domain fusion (valuation_gap 25%, science 20%, catalyst_ev 20%, financing 15%, competition 10%, portfolio_fit 5%, ma_premium 5%), missing → neutral 0.5, screen_recommendations
+- [x] `src/bve/trading/portfolio_context.py` — PortfolioContext: ta_weights/phase_weights auto-computed, available_capacity (min of 4 constraints), concentration_penalty [0.50-1.00]
+- [x] `src/bve/trading/kelly_sizer.py` — compute_kelly clamped [0,0.25], size_position: half-Kelly × capacity × concentration, position_size_usd
+- [x] `src/bve/trading/signal_generator.py` — TradeAction (STRONG_BUY/BUY/WATCH/HOLD/REDUCE/EXIT/NO_ACTION), generate_signal: kill/bear/score priority logic, UUID signal_id
+- [x] `tests/test_recommendation_engine.py` — 75 tests: PortfolioContext (20+), PositionSizer (15+), TradeSignal (15+), Recommender (20+)
 
 ### Step 11 — Monitoring + Recompute Pipeline
 - [ ] `src/bve/pipelines/news_monitor.py` — continuous news ingestion
