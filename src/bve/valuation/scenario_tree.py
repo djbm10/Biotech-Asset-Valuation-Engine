@@ -1,12 +1,17 @@
-"""Multi-branch catalyst scenario tree for structured event payoff analysis."""
+"""Catalyst scenario trees — both the original multi-branch tree and the 6-outcome payoff tree."""
 from __future__ import annotations
 
 import uuid
 from datetime import date, datetime, timezone
+from enum import Enum
 from typing import Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 
+
+# ===========================================================================
+# Original ScenarioTree (backward-compatible — do NOT remove)
+# ===========================================================================
 
 class ScenarioBranch(BaseModel):
     """One branch of a catalyst scenario tree."""
@@ -144,3 +149,146 @@ class ScenarioTreeBuilder:
             "recommended_pre_event_action": action,
             "setup_score": round(setup, 3),
         })
+
+
+# ===========================================================================
+# Step 9: CatalystPayoffTree — 6-outcome structured payoff tree
+# ===========================================================================
+
+class ScenarioOutcome(str, Enum):
+    STRONG_POSITIVE = "strong_positive"   # e.g. clean Ph3 data, accelerated approval
+    POSITIVE = "positive"                  # meets primary endpoint
+    MIXED = "mixed"                        # mixed signals, partial hit
+    NEUTRAL = "neutral"                    # inconclusive, no signal
+    NEGATIVE = "negative"                  # misses endpoint
+    STRONG_NEGATIVE = "strong_negative"    # CRL, safety halt, complete failure
+
+
+_POSITIVE_OUTCOMES = {ScenarioOutcome.STRONG_POSITIVE, ScenarioOutcome.POSITIVE}
+_NEGATIVE_OUTCOMES = {ScenarioOutcome.NEGATIVE, ScenarioOutcome.STRONG_NEGATIVE}
+
+
+class CatalystScenario(BaseModel, frozen=True):
+    outcome: ScenarioOutcome
+    probability: float         # 0.0-1.0; all scenarios for a catalyst must sum to 1.0
+    expected_return: float     # projected stock return (e.g. +0.60, -0.40)
+    pos_revision: float        # how this outcome would shift model PoS (-0.30 to +0.20)
+    rationale: str
+
+
+def _compute_setup_score(skew_ratio: float, expected_return: float) -> float:
+    skew_component = min(1.0, skew_ratio / 3.0)
+    return_component = min(1.0, max(0.0, (expected_return + 0.20) / 0.60))
+    return round(0.60 * skew_component + 0.40 * return_component, 6)
+
+
+class CatalystPayoffTree(BaseModel, frozen=True):
+    """
+    6-scenario payoff distribution for a single catalyst event.
+    Probabilities must sum to 1.0 (validated).
+    """
+    catalyst_id: str
+    asset_id: str
+    catalyst_description: str
+    catalyst_date: str         # ISO date string, e.g. "2026-Q3"
+    scenarios: list[CatalystScenario]  # must have exactly 6 (one per ScenarioOutcome)
+
+    # Derived (auto-computed via model_validator):
+    expected_return: float            # sum(prob × return) across scenarios
+    expected_pos_revision: float      # sum(prob × pos_revision) across scenarios
+    upside_capture: float             # sum of positive scenario probs × their returns
+    downside_risk: float              # abs(sum of negative scenario probs × their returns)
+    skew_ratio: float                 # upside_capture / (downside_risk + 1e-9)
+    setup_score: float                # 0.0-1.0 composite: skew_ratio normalized + expected_return
+
+    @model_validator(mode="before")
+    @classmethod
+    def validate_and_compute(cls, data: dict) -> dict:
+        scenarios = data.get("scenarios", [])
+        if scenarios:
+            # Validate probabilities sum to 1.0 within 1e-6 tolerance
+            prob_sum = sum(
+                s.get("probability", 0) if isinstance(s, dict) else s.probability
+                for s in scenarios
+            )
+            if abs(prob_sum - 1.0) > 1e-6:
+                raise ValueError(
+                    f"Scenario probabilities must sum to 1.0; got {prob_sum:.8f}"
+                )
+
+            # Compute derived fields
+            expected_return = sum(
+                (s.get("probability", 0) if isinstance(s, dict) else s.probability)
+                * (s.get("expected_return", 0) if isinstance(s, dict) else s.expected_return)
+                for s in scenarios
+            )
+            expected_pos_revision = sum(
+                (s.get("probability", 0) if isinstance(s, dict) else s.probability)
+                * (s.get("pos_revision", 0) if isinstance(s, dict) else s.pos_revision)
+                for s in scenarios
+            )
+
+            def _get_outcome(s) -> str:
+                raw = s.get("outcome") if isinstance(s, dict) else s.outcome
+                return raw.value if hasattr(raw, "value") else str(raw)
+
+            positive_values = {o.value for o in _POSITIVE_OUTCOMES}
+            negative_values = {o.value for o in _NEGATIVE_OUTCOMES}
+
+            upside_capture = sum(
+                (s.get("probability", 0) if isinstance(s, dict) else s.probability)
+                * (s.get("expected_return", 0) if isinstance(s, dict) else s.expected_return)
+                for s in scenarios
+                if _get_outcome(s) in positive_values
+                and (s.get("expected_return", 0) if isinstance(s, dict) else s.expected_return) > 0
+            )
+
+            downside_raw = sum(
+                (s.get("probability", 0) if isinstance(s, dict) else s.probability)
+                * (s.get("expected_return", 0) if isinstance(s, dict) else s.expected_return)
+                for s in scenarios
+                if _get_outcome(s) in negative_values
+                and (s.get("expected_return", 0) if isinstance(s, dict) else s.expected_return) < 0
+            )
+            downside_risk = abs(downside_raw)
+            skew_ratio = upside_capture / (downside_risk + 1e-9)
+            setup_score = _compute_setup_score(skew_ratio, expected_return)
+
+            data["expected_return"] = expected_return
+            data["expected_pos_revision"] = expected_pos_revision
+            data["upside_capture"] = upside_capture
+            data["downside_risk"] = downside_risk
+            data["skew_ratio"] = skew_ratio
+            data["setup_score"] = min(1.0, max(0.0, setup_score))
+
+        return data
+
+
+def build_catalyst_tree(
+    catalyst_id: str,
+    asset_id: str,
+    catalyst_description: str,
+    catalyst_date: str,
+    scenario_inputs: list[dict],   # list of {outcome, probability, expected_return, pos_revision, rationale}
+) -> CatalystPayoffTree:
+    """Validate inputs and construct CatalystPayoffTree."""
+    scenarios = [CatalystScenario(**s) for s in scenario_inputs]
+    return CatalystPayoffTree(
+        catalyst_id=catalyst_id,
+        asset_id=asset_id,
+        catalyst_description=catalyst_description,
+        catalyst_date=catalyst_date,
+        scenarios=scenarios,
+        # derived fields — populated by model_validator
+        expected_return=0.0,
+        expected_pos_revision=0.0,
+        upside_capture=0.0,
+        downside_risk=0.0,
+        skew_ratio=0.0,
+        setup_score=0.0,
+    )
+
+
+def rank_catalysts(trees: list[CatalystPayoffTree]) -> list[CatalystPayoffTree]:
+    """Return trees sorted by setup_score descending."""
+    return sorted(trees, key=lambda t: t.setup_score, reverse=True)
