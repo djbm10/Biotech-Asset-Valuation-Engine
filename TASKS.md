@@ -104,13 +104,13 @@ connectors
 - [x] `src/bve/trading/signal_generator.py` — TradeAction (STRONG_BUY/BUY/WATCH/HOLD/REDUCE/EXIT/NO_ACTION), generate_signal: kill/bear/score priority logic, UUID signal_id
 - [x] `tests/test_recommendation_engine.py` — 75 tests: PortfolioContext (20+), PositionSizer (15+), TradeSignal (15+), Recommender (20+)
 
-### Step 11 — Monitoring + Recompute Pipeline
-- [ ] `src/bve/pipelines/news_monitor.py` — continuous news ingestion
-- [ ] `src/bve/pipelines/event_router.py` — event classification + entity resolution
-- [ ] `src/bve/pipelines/model_trigger_engine.py` — route to affected modules, recompute only impacted
-- [ ] `src/bve/pipelines/scheduler.py` — operational loop scheduler
-- [ ] `src/bve/pipelines/alert_dispatcher.py` — alert emission on threshold crossing
-- [ ] Tests: recompute dedupe, event-to-module routing, alert thresholding, source outage resilience
+### Step 11 — Monitoring + Recompute Pipeline ✅ COMPLETE
+- [x] `src/bve/pipelines/news_monitor.py` — NewsMonitor: dependency-injected fetchers, dedup by dedup_key(), per-source SourceHealth (HEALTHY/DEGRADED/DOWN), multiple handlers
+- [x] `src/bve/pipelines/event_router.py` — EntityRegistry (ticker+NCT→asset_id, case-insensitive), EventRouter: classify+score+resolve → RoutedEvent, route_batch skips MINIMAL
+- [x] `src/bve/pipelines/model_trigger_engine.py` — EVENT_MODULE_MAP (10 EventType→module lists), dedup at (asset_id, module) level, pending/mark_processed/clear_processed lifecycle
+- [x] `src/bve/pipelines/alert_dispatcher.py` — check_operator (gt/lt/gte/lte/eq), AlertRule + cooldown dedup, fired_alerts filter by asset/severity
+- [x] `src/bve/pipelines/scheduler.py` — tick-based Scheduler, job due when last_run=None or elapsed≥interval, exception isolation per job, reset_job()
+- [x] `tests/test_monitoring_pipeline.py` — 85 tests: NewsMonitor (18+), EventRouter (18+), TriggerEngine (18+), AlertDispatcher (14+), Scheduler (12+)
 
 ### Step 12 — Learning + Calibration
 - [ ] `src/bve/learning/prediction_log.py` — log full prediction state per decision
