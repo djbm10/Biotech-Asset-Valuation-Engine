@@ -17,7 +17,7 @@ Branch: core-engine-v1
 | 6 | Science + trial-design scoring | ✅ Complete (75 tests) |
 | 7 | Layered probability stack | ✅ Complete (68 tests) |
 | 8 | Competition + readthrough engine | ✅ Complete (72 tests) |
-| 9 | Variant thesis + catalyst payoff | Not started |
+| 9 | Variant thesis + catalyst payoff | ✅ Complete (81 tests) |
 | 10 | Unified recommendation engine | Not started |
 | 11 | Monitoring + recompute pipeline | Not started |
 | 12 | Learning + calibration | Not started |

@@ -90,12 +90,12 @@ connectors
 - [x] `src/bve/intelligence/revaluation_triggers.py` — TriggerPriority (IMMEDIATE/HIGH/MEDIUM/LOW/SUPPRESSED), emit_triggers() sorted by priority, TriggerStore in-memory
 - [x] `tests/test_competition_readthrough.py` — 72 tests: CompetitionGraph (20+), ReadthroughEngine (25+), RevaluationTriggers (20+)
 
-### Step 9 — Variant Thesis + Catalyst Payoff Engine
-- [ ] `src/bve/intelligence/variant_view.py` — market/model view, delta, kill criteria, falsifiers
-- [ ] `src/bve/valuation/scenario_tree.py` — per-catalyst scenario tree, expected return, skew, setup score
-- [ ] `src/bve/trading/implied_move.py` — IV-based implied move
-- [ ] `src/bve/trading/asymmetry_score.py` — composite asymmetry score
-- [ ] Tests: thesis required before signal, scenario probs sum to 1, asymmetry bounds, kill criteria serialization
+### Step 9 — Variant Thesis + Catalyst Payoff Engine ✅ COMPLETE
+- [x] `src/bve/intelligence/variant_view.py` — VariantView: pos_delta + ThesisStrength auto-computed, KillCriterion, FalsifierEvent, thesis_is_actionable/killed, apply_kill_criteria (immutable)
+- [x] `src/bve/valuation/scenario_tree.py` — CatalystPayoffTree: 6-outcome payoff tree, expected_return/pos_revision/upside_capture/downside_risk/skew_ratio/setup_score all auto-computed, rank_catalysts
+- [x] `src/bve/trading/implied_move.py` — estimate_from_iv (IV × √(days/252), clamped [0.05,2.00]), estimate_from_analog (2-level fallback)
+- [x] `src/bve/trading/asymmetry_score.py` — compute_asymmetry: pos_delta(40%) + skew(35%) + return(25%), instrument selection (CALL/PUT/STRADDLE/EQUITY/NO_TRADE)
+- [x] `tests/test_variant_thesis.py` — 81 tests: VariantView (20+), CatalystPayoffTree (20+), ImpliedMove (15+), AsymmetryScore (15+)
 
 ### Step 10 — Unified Recommendation Engine
 - [ ] `src/bve/intelligence/recommender.py` — fuse valuation gap + science + catalyst EV + financing + competition + portfolio + M&A
