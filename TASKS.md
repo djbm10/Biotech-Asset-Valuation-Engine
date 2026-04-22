@@ -112,14 +112,14 @@ connectors
 - [x] `src/bve/pipelines/scheduler.py` — tick-based Scheduler, job due when last_run=None or elapsed≥interval, exception isolation per job, reset_job()
 - [x] `tests/test_monitoring_pipeline.py` — 85 tests: NewsMonitor (18+), EventRouter (18+), TriggerEngine (18+), AlertDispatcher (14+), Scheduler (12+)
 
-### Step 12 — Learning + Calibration
-- [ ] `src/bve/learning/prediction_log.py` — log full prediction state per decision
-- [ ] `src/bve/learning/outcome_linker.py` — link realized outcomes to predictions
-- [ ] `src/bve/learning/postmortem.py` — error bucket assignment
-- [ ] `src/bve/learning/calibration.py` — module-level calibration
-- [ ] `src/bve/learning/shadow_backtest.py` — shadow backtest runner
-- [ ] `src/bve/learning/weight_promoter.py` — rule/weight change suggestions with human review gate
-- [ ] Tests: prediction-outcome linkage, Brier/calibration metrics, postmortem categorization, promotion veto
+### Step 12 — Learning + Calibration ✅ COMPLETE
+- [x] `src/bve/learning/prediction_log.py` — SQLite-backed PredictionLog: log/get/resolve/pending/resolved/matched_pairs (predicted_pos, binary_outcome)
+- [x] `src/bve/learning/outcome_linker.py` — OutcomeLinker: link_price_return (threshold-based CORRECT/INCORRECT/PARTIAL), link_event (trial/FDA event types)
+- [x] `src/bve/learning/postmortem.py` — classify_error: 9-bucket taxonomy (CORRECT/POS_ERROR/TIMING/SCIENCE/COMPETITION/FINANCING/MARKET_DRIFT/THESIS/UNCLASSIFIED), PostmortemStore
+- [x] `src/bve/learning/calibration.py` — compute_brier_score, compute_calibration_buckets (10-bin), build_calibration_report (Brier + skill_score + bias + MCE)
+- [x] `src/bve/learning/shadow_backtest.py` — run_shadow_backtest: Brier, hit_rate, Pearson r, mean_abs_return_error, entries_by_action
+- [x] `src/bve/learning/weight_promoter.py` — generate_suggestions: 3 rules (recalibrate POS prior, domain weight adjustments, cap enforcement); always requires_human_review=True
+- [x] `tests/test_learning_calibration.py` — 91 tests: PredictionLog (18+), OutcomeLinker (15+), Postmortem (15+), Calibration (18+), ShadowBacktest (10+), WeightPromoter (12+)
 
 ### Step 13 — UI (after engines are stable)
 - [ ] Dashboard page

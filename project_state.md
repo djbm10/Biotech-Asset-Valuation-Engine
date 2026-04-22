@@ -20,7 +20,7 @@ Branch: core-engine-v1
 | 9 | Variant thesis + catalyst payoff | ✅ Complete (81 tests) |
 | 10 | Unified recommendation engine | Not started |
 | 11 | Monitoring + recompute pipeline | ✅ Complete (85 tests) |
-| 12 | Learning + calibration | Not started |
+| 12 | Learning + calibration | ✅ Complete (91 tests) |
 | 13 | UI | Not started |
 
 ---
