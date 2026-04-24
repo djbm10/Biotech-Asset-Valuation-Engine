@@ -6,7 +6,7 @@ import math
 from collections import defaultdict
 from datetime import date, timedelta
 from enum import Enum
-from typing import Callable, Optional
+from typing import Any, Callable, Optional
 
 from pydantic import BaseModel, Field
 
@@ -36,14 +36,26 @@ class PortfolioBacktestConfig(BaseModel):
     benchmark_ticker: str = "XBI"
     initial_capital: float = Field(default=1_000_000.0, gt=0.0)
     transaction_cost_bps: float = Field(default=10.0, ge=0.0)
+    max_weight_per_therapeutic_area: float | None = Field(default=None, gt=0.0, le=1.0)
+    max_weight_per_modality: float | None = Field(default=None, gt=0.0, le=1.0)
+    max_weight_per_catalyst_bucket: float | None = Field(default=None, gt=0.0, le=1.0)
+    financing_risk_haircut_multiplier: float = Field(default=0.0, ge=0.0, le=1.0)
+    confidence_scaled_sizing: bool = False
+    min_calibrated_score: float = Field(default=0.0, ge=0.0, le=1.0)
+    # Per-position hard cap — prevents any single name exceeding this weight regardless of group caps.
+    # Useful when the portfolio is small (N < 10) and equal-weight creates dangerous concentration.
+    max_single_position_weight: float | None = Field(default=None, gt=0.0, le=1.0)
 
 
 class BacktestResult(BaseModel):
     cagr: float
     sharpe_ratio: float
     sortino_ratio: float
+    brier_score: float | None = None
+    calibration_error: float | None = None
     max_drawdown: float
     win_rate: float
+    avg_return_by_tier: dict[str, float] = Field(default_factory=dict)
     alpha_vs_benchmark: float
     beta_vs_benchmark: float
     information_ratio: float
@@ -61,6 +73,8 @@ class BacktestResult(BaseModel):
 
 
 PriceReturnFetcher = Callable[[str, date, date], Optional[float]]
+ProbabilityCalibrator = Callable[[float], float]
+RiskMetadataFetcher = Callable[[BacktestSnapshot], dict[str, Any]]
 
 
 class PortfolioBacktester:
@@ -72,10 +86,14 @@ class PortfolioBacktester:
         config: PortfolioBacktestConfig,
         *,
         price_fetcher: Optional[PriceReturnFetcher] = None,
+        probability_calibrator: Optional[ProbabilityCalibrator] = None,
+        risk_metadata_fetcher: Optional[RiskMetadataFetcher] = None,
     ) -> None:
         self._store = store
         self._config = config
         self._price_fetcher = price_fetcher or self._default_price_return
+        self._probability_calibrator = probability_calibrator or (lambda value: value)
+        self._risk_metadata_fetcher = risk_metadata_fetcher or self._default_risk_metadata
 
     @staticmethod
     def _default_price_return(ticker: str, start: date, end: date) -> Optional[float]:
@@ -131,8 +149,11 @@ class PortfolioBacktester:
             cagr=0.0,
             sharpe_ratio=0.0,
             sortino_ratio=0.0,
+            brier_score=None,
+            calibration_error=None,
             max_drawdown=0.0,
             win_rate=0.0,
+            avg_return_by_tier={},
             alpha_vs_benchmark=0.0,
             beta_vs_benchmark=0.0,
             information_ratio=0.0,
@@ -165,10 +186,62 @@ class PortfolioBacktester:
             return snapshot.signal_date + timedelta(days=horizon)
         return snapshot.signal_date + timedelta(days=self._config.rebalance_freq_days)
 
+    def _default_risk_metadata(self, snapshot: BacktestSnapshot) -> dict[str, Any]:
+        entry = self._store.get_asset_registry_entry(snapshot.asset_id)
+        return {
+            "therapeutic_area": getattr(entry, "therapeutic_area", None),
+            "modality": getattr(entry, "modality", None),
+            "catalyst_bucket": snapshot.catalyst_type,
+            "financing_risk_score": None,
+            "confidence": snapshot.extraction_confidence,
+        }
+
+    @staticmethod
+    def _tier_for_snapshot(snapshot: BacktestSnapshot) -> str:
+        score = float(snapshot.composite_score or 0.0)
+        if score >= 0.70:
+            return "high"
+        if score >= 0.50:
+            return "medium"
+        return "low"
+
+    @staticmethod
+    def _snapshot_available_on_or_before(snapshot: BacktestSnapshot, as_of: date) -> bool:
+        if snapshot.signal_timestamp is not None and snapshot.signal_timestamp.date() > as_of:
+            return False
+        return snapshot.created_at.date() <= as_of
+
+    @staticmethod
+    def _apply_group_cap(
+        weights: list[float],
+        groups: list[str | None],
+        cap: float | None,
+    ) -> list[float]:
+        if cap is None:
+            return list(weights)
+        adjusted = list(weights)
+        used: dict[str, float] = defaultdict(float)
+        ordered = sorted(range(len(adjusted)), key=lambda idx: adjusted[idx], reverse=True)
+        for idx in ordered:
+            group = groups[idx]
+            if not group:
+                continue
+            remaining = cap - used[group]
+            if remaining <= 0.0:
+                adjusted[idx] = 0.0
+                continue
+            if adjusted[idx] > remaining:
+                adjusted[idx] = remaining
+            used[group] += adjusted[idx]
+        return adjusted
+
     def run(self) -> BacktestResult:
         snapshots = self._store.get_backtest_snapshots(since=self._config.start_date)
         if self._config.end_date is not None:
             snapshots = [s for s in snapshots if s.signal_date <= self._config.end_date]
+            snapshots = [
+                s for s in snapshots if self._snapshot_available_on_or_before(s, self._config.end_date)
+            ]
 
         if not snapshots:
             return self._zero_result(n_signals=0, note="n_signals=0")
@@ -183,6 +256,9 @@ class PortfolioBacktester:
         portfolio_returns: list[float] = []
         benchmark_returns: list[float] = []
         realized_dates: list[date] = []
+        returns_by_tier: dict[str, list[float]] = defaultdict(list)
+        brier_terms: list[float] = []
+        calibration_pairs: list[tuple[float, float]] = []
         missing_price_positions = 0
         attempted_positions = 0
         evaluated_positions = 0
@@ -201,7 +277,10 @@ class PortfolioBacktester:
 
             weights: list[float]
             if self._config.strategy == PortfolioStrategy.SCORE_WEIGHTED:
-                raw = [max(0.0, float(s.composite_score or 0.0)) for s in chosen]
+                raw = [
+                    max(0.0, float(self._probability_calibrator(float(s.composite_score or 0.0))))
+                    for s in chosen
+                ]
                 denom = sum(raw)
                 if denom <= 0:
                     weights = [1.0 / len(chosen)] * len(chosen)
@@ -210,11 +289,69 @@ class PortfolioBacktester:
             else:
                 weights = [1.0 / len(chosen)] * len(chosen)
 
+            metadata_rows = [self._risk_metadata_fetcher(snapshot) for snapshot in chosen]
+            adjusted_weights: list[float] = []
+            filtered_chosen: list[BacktestSnapshot] = []
+            filtered_meta: list[dict[str, Any]] = []
+            for snapshot, base_weight, metadata in zip(chosen, weights, metadata_rows):
+                calibrated_score = max(
+                    0.0,
+                    min(1.0, float(self._probability_calibrator(float(snapshot.composite_score or 0.0)))),
+                )
+                if calibrated_score < self._config.min_calibrated_score:
+                    continue
+                multiplier = 1.0
+                if self._config.confidence_scaled_sizing:
+                    confidence = metadata.get("confidence")
+                    if confidence is None:
+                        confidence = calibrated_score
+                    multiplier *= max(0.0, min(1.0, float(confidence)))
+                financing_risk_score = metadata.get("financing_risk_score")
+                if financing_risk_score is not None:
+                    multiplier *= max(
+                        0.0,
+                        1.0 - (
+                            min(1.0, max(0.0, float(financing_risk_score)))
+                            * self._config.financing_risk_haircut_multiplier
+                        ),
+                    )
+                adjusted_weights.append(base_weight * multiplier)
+                filtered_chosen.append(snapshot)
+                filtered_meta.append(metadata)
+            chosen = filtered_chosen
+            if not chosen:
+                continue
+            if sum(adjusted_weights) > 0.0:
+                weights = adjusted_weights
+            else:
+                weights = [1.0 / len(chosen)] * len(chosen)
+            weights = self._apply_group_cap(
+                weights,
+                [item.get("therapeutic_area") for item in filtered_meta],
+                self._config.max_weight_per_therapeutic_area,
+            )
+            weights = self._apply_group_cap(
+                weights,
+                [item.get("modality") for item in filtered_meta],
+                self._config.max_weight_per_modality,
+            )
+            weights = self._apply_group_cap(
+                weights,
+                [item.get("catalyst_bucket") for item in filtered_meta],
+                self._config.max_weight_per_catalyst_bucket,
+            )
+
+            if self._config.max_single_position_weight is not None:
+                cap = self._config.max_single_position_weight
+                weights = [min(w, cap) if w > 0.0 else w for w in weights]
+
             weighted_return = 0.0
             position_count = 0
             benchmark_end = signal_dt + timedelta(days=self._config.rebalance_freq_days)
 
-            for snap, weight in zip(chosen, weights):
+            for snap, weight, metadata in zip(chosen, weights, filtered_meta):
+                if weight <= 0.0:
+                    continue
                 attempted_positions += 1
                 ticker = self._ticker_for_asset(snap.asset_id)
                 if not ticker:
@@ -237,6 +374,14 @@ class PortfolioBacktester:
                 weighted_return += weight * net
                 position_count += 1
                 evaluated_positions += 1
+                returns_by_tier[self._tier_for_snapshot(snap)].append(net)
+                predicted = max(
+                    0.0,
+                    min(1.0, float(self._probability_calibrator(float(snap.composite_score or 0.0)))),
+                )
+                actual = 1.0 if net > 0 else 0.0
+                brier_terms.append((predicted - actual) ** 2)
+                calibration_pairs.append((predicted, actual))
                 benchmark_end = max(benchmark_end, end_dt)
                 position_log.append(
                     {
@@ -249,7 +394,11 @@ class PortfolioBacktester:
                         "net_return": round(net, 6),
                         "rank_at_signal": snap.rank_at_signal,
                         "composite_score": snap.composite_score,
+                        "calibrated_score": round(predicted, 6),
                         "catalyst_type": snap.catalyst_type,
+                        "therapeutic_area": metadata.get("therapeutic_area"),
+                        "modality": metadata.get("modality"),
+                        "financing_risk_score": metadata.get("financing_risk_score"),
                     }
                 )
 
@@ -336,13 +485,26 @@ class PortfolioBacktester:
             notes.append(
                 f"missing_price_data_positions={missing_price_positions}/{attempted_positions}"
             )
+        if self._config.end_date is not None:
+            notes.append(f"no_lookahead_cutoff={self._config.end_date.isoformat()}")
 
         return BacktestResult(
             cagr=round(cagr, 6),
             sharpe_ratio=round(sharpe, 6),
             sortino_ratio=round(sortino, 6),
+            brier_score=round(sum(brier_terms) / len(brier_terms), 6) if brier_terms else None,
+            calibration_error=(
+                round(self._expected_calibration_error(calibration_pairs), 6)
+                if calibration_pairs
+                else None
+            ),
             max_drawdown=round(self._max_drawdown(equity), 6),
             win_rate=round(sum(1 for r in portfolio_returns if r > 0) / len(portfolio_returns), 6),
+            avg_return_by_tier={
+                tier: round(sum(values) / len(values), 6)
+                for tier, values in sorted(returns_by_tier.items())
+                if values
+            },
             alpha_vs_benchmark=round(alpha * periods_per_year, 6),
             beta_vs_benchmark=round(beta, 6),
             information_ratio=round(info_ratio, 6),
@@ -357,3 +519,25 @@ class PortfolioBacktester:
             evaluated_positions=evaluated_positions,
             notes=notes,
         )
+
+    @staticmethod
+    def _expected_calibration_error(
+        calibration_pairs: list[tuple[float, float]],
+        *,
+        n_bins: int = 5,
+    ) -> float:
+        if not calibration_pairs:
+            return 0.0
+        bins: list[list[tuple[float, float]]] = [[] for _ in range(n_bins)]
+        for predicted, actual in calibration_pairs:
+            index = min(int(predicted * n_bins), n_bins - 1)
+            bins[index].append((predicted, actual))
+        total = len(calibration_pairs)
+        ece = 0.0
+        for bucket in bins:
+            if not bucket:
+                continue
+            mean_pred = sum(item[0] for item in bucket) / len(bucket)
+            mean_actual = sum(item[1] for item in bucket) / len(bucket)
+            ece += (len(bucket) / total) * abs(mean_pred - mean_actual)
+        return ece
