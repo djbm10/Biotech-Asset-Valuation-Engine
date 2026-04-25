@@ -643,6 +643,7 @@ class StrictBacktestWorkflow:
                     lookahead_days=365,
                     start_date=split.start_date,
                     end_date=split.end_date,
+                    replay_store_path=self.replay_db_path,
                 )
             finally:
                 mna_store.close()
