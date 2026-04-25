@@ -1,0 +1,43 @@
+Sprint 13 Rolling Holdout Baseline
+Frozen: 2026-04-25
+
+Configuration
+  Period:       2024-01-01 → 2026-03-01  (NARROW — see Sprint 14 expansion)
+  Window:       12 months, step 3 months
+  top_k:        10
+  lookahead:    365 days
+  n_windows:    9  (7 trusted, 2 low-N)
+  deal_events:  39 public acquisition events in replay store
+  universe:     80 tickers, snapshots from 2021-02-01
+
+Per-Window Results
+  window                              N   stage_a_AUC  prec@k   top-1  MRR    Sharpe  max_dd
+  2024-01-01/2025-01-01               8   0.622        0.154    0.200  0.227  2.082   0.016
+  2024-04-01/2025-04-01               7   0.607        0.138    0.450  0.460  0.454   0.573  ← stress window
+  2024-07-01/2025-07-01               6   0.628        0.154    0.692  0.695  1.126   0.363
+  2024-10-01/2025-10-01               5   0.655        0.162    0.861  0.861  1.476   0.363
+  2025-01-01/2026-01-01               4   0.709        0.154    0.967  0.967  1.816   0.293
+  2025-04-01/2026-03-01               3   0.813        0.142    1.000  1.000  2.420   0.000
+  2025-07-01/2026-03-01               3   0.850        0.122    1.000  1.000  2.130   0.000
+  * 2025-10-01/2026-03-01             2   0.891        0.083    1.000  1.000  1.434   0.000
+  * 2026-01-01/2026-03-01             1   0.938        0.033    1.000  1.000  4.159   0.000
+
+Trusted windows (N≥3) — aggregate
+  mean stage_a_AUC:         0.698
+  mean acquirer top-1:      0.739
+  mean acquirer MRR:        0.744
+  mean public Sharpe:       1.644
+  mean public max_drawdown: 0.230
+
+Known Limitations (motivate Sprint 14)
+  - Only 3-8 positive targets per window → statistically thin
+  - Rolling start too late (2024): 28 acquired targets with 2021-2023 deal dates are ignored
+  - 2024-04/2025-04 window: max_drawdown=57.3% — requires root-cause investigation
+  - stored_prob saturates at ~1.0 for CNS assets (ITCI v1.2 scorer bug)
+  - Acquirer top-1 rises monotonically as windows shrink → likely artifact of few deals
+
+Sprint 14 Plan
+  - Re-run holdout from 2021-02-01 to expose 35+ deals across windows
+  - Add PAND/DRNA/GBT to deal universe (→ ~46 total)
+  - Candidate coverage report: was real buyer in pool?
+  - Drawdown root-cause analysis for 2024-04 window

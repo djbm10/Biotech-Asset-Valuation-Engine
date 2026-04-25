@@ -1,11 +1,11 @@
-as_of_date: '2026-03-22'
+as_of_date: '2026-04-25'
 benchmark_ticker: XBI
-recommended_replay_start: '2021-01-01'
-recommended_backfill_start: '2021-01-01'
+recommended_replay_start: '2020-01-01'
+recommended_backfill_start: '2020-01-01'
 recommended_backfill_end: '2026-03-22'
 source_counts:
   baseline_replay_universe: 27
-  mna_public_deal_universe: 38
+  mna_public_deal_universe: 41
   mna_target_monitor: 3
   universe_registry: 30
 universe:
@@ -1582,3 +1582,66 @@ universe:
   source_tags:
   - baseline_replay_universe
   company_name: ZYME
+- ticker: PAND
+  company_id: co-pand
+  asset_id: a-pand
+  company_name: Pandion Therapeutics
+  drug_name: PT-101
+  indication: autoimmune diseases (IBD / T1D)
+  therapeutic_area: immunology
+  stage: phase_1
+  ranking_score: 0.52
+  opportunity_score: 0.50
+  conviction: medium
+  claim_type: custom
+  claim_assertion: PT-101 could attract strategic interest in autoimmune diseases.
+  catalyst: Merck announced Pandion Therapeutics acquisition on 2021-03-29
+  announcement_date: '2021-03-29'
+  acquirer: Merck
+  headline_value_millions: 1850
+  comp_bucket: platform_or_preclinical
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: DRNA
+  company_id: co-drna
+  asset_id: a-drna
+  company_name: Dicerna Pharmaceuticals
+  drug_name: nedosiran / GalXC RNAi platform
+  indication: rare cardiometabolic and liver diseases
+  therapeutic_area: cardiometabolic
+  stage: phase_2 / platform
+  ranking_score: 0.55
+  opportunity_score: 0.52
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Dicerna RNAi platform could attract strategic interest in cardiometabolic diseases.
+  catalyst: Novo Nordisk announced Dicerna Pharmaceuticals acquisition on 2021-11-22
+  announcement_date: '2021-11-22'
+  acquirer: Novo Nordisk
+  headline_value_millions: 3300
+  comp_bucket: direct_dev_stage
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: GBT
+  company_id: co-gbt
+  asset_id: a-gbt
+  company_name: Global Blood Therapeutics
+  drug_name: Oxbryta (voxelotor)
+  indication: sickle cell disease
+  therapeutic_area: rare disease / hematology
+  stage: approved
+  ranking_score: 0.58
+  opportunity_score: 0.55
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Oxbryta could attract strategic interest in sickle cell disease.
+  catalyst: Pfizer announced Global Blood Therapeutics acquisition on 2022-08-08
+  announcement_date: '2022-08-08'
+  acquirer: Pfizer
+  headline_value_millions: 5400
+  comp_bucket: approved_or_commercial
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
