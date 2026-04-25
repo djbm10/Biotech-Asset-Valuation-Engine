@@ -1,0 +1,50 @@
+company: H. Lundbeck
+ticker: HLUYY
+profile_as_of: 2026-04-07
+market_cap_billions: 8
+cash_billions: 1.8
+acquisition_capacity_millions: 5000
+pipeline_gaps:
+  - therapeutic_area: neuroscience
+    sub_area: alzheimers_disease_symptomatic
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [small_molecule, antibody]
+    budget_ceiling_millions: 4000
+    notes: "Vyepti (eptinezumab) migraine and Lexapro mature franchise; Alzheimer's symptomatic and neuroinflammation represent strategic gaps."
+  - therapeutic_area: neuroscience
+    sub_area: schizophrenia_next_gen
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [small_molecule]
+    budget_ceiling_millions: 3500
+    notes: "Abilify (aripiprazole), Trintellix, Rexulti schizophrenia/MDD franchise; next-generation mechanisms (muscarinic, TAAR1) are actively sought."
+  - therapeutic_area: neuroscience
+    sub_area: parkinson_disease_non_dopamine
+    gap_type: selective_gap
+    urgency: medium
+    preferred_modality: [small_molecule, antibody]
+    budget_ceiling_millions: 3000
+    notes: "No Parkinson's franchise anchor; non-dopamine targets (GCase, LRRK2, alpha-synuclein) represent unmet need with bolt-on potential."
+  - therapeutic_area: neuroscience
+    sub_area: huntington_als_rare_cns
+    gap_type: selective_gap
+    urgency: medium
+    preferred_modality: [ASO, small_molecule]
+    budget_ceiling_millions: 2500
+    notes: "Rare CNS diseases adjacent to core neurology franchise; ASO/RNA approaches gaining traction."
+recent_deals:
+  - target: Longboard Pharmaceuticals
+    date: 2024-10-18
+    value_billions: 1.03
+    therapeutic_area: neuroscience
+    modality: small_molecule
+  - target: Abraxis BioScience (royalty)
+    date: 2022-01-01
+    value_billions: 0.5
+    therapeutic_area: neuroscience
+    modality: small_molecule
+stated_priorities:
+  - "Strengthen CNS franchise with next-generation schizophrenia, Alzheimer's, and rare neurology assets."
+  - "Platform expansion into neuroinflammation and neurodegeneration beyond classic psychiatry."
+  - "M&A sweet spot: Phase 2-ready CNS assets in the $500M–$3B range; willing to pay up for neuroscience scarcity."

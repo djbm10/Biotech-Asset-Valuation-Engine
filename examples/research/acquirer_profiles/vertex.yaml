@@ -1,0 +1,69 @@
+company: Vertex Pharmaceuticals
+ticker: VRTX
+profile_as_of: 2026-04-07
+market_cap_billions: 108
+cash_billions: 11.0
+acquisition_capacity_millions: 15000
+pipeline_gaps:
+  - therapeutic_area: rare_disease
+    sub_area: pain_non_opioid_nav18
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [small_molecule]
+    budget_ceiling_millions: 8000
+    notes: "VX-548 (suzetrigine, NaV1.8) approved for acute pain — second NaV inhibitor and chronic pain expansion needed."
+  - therapeutic_area: rare_disease
+    sub_area: ckd_pkd_renal
+    gap_type: selective_gap
+    urgency: high
+    preferred_modality: [small_molecule, antibody]
+    budget_ceiling_millions: 10000
+    notes: "Pivotal IgA nephropathy and polycystic kidney disease programs in-house; bolt-on renal assets to extend the franchise."
+  - therapeutic_area: rare_disease
+    sub_area: alpha1_antitrypsin_deficiency
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [small_molecule, RNA_therapy]
+    budget_ceiling_millions: 8000
+    notes: "VX-634 AATD in phase 2; combination/backbone strategy parallels CF corrector approach."
+  - therapeutic_area: immunology
+    sub_area: autoimmune_cell_therapy
+    gap_type: selective_gap
+    urgency: medium
+    preferred_modality: [cell_therapy, gene_editing]
+    budget_ceiling_millions: 12000
+    notes: "Casgevy (exa-cel with CRISPR Tx) validates ex vivo gene editing; autoimmune cell therapy adjacent programs targeted."
+  - therapeutic_area: rare_disease
+    sub_area: dm1_myotonic_dystrophy
+    gap_type: selective_gap
+    urgency: medium
+    preferred_modality: [small_molecule, ASO]
+    budget_ceiling_millions: 6000
+    notes: "DM1 is a priority rare neuromuscular disease with DMPK-targeting small molecules emerging."
+recent_deals:
+  - target: Alpine Immune Sciences
+    date: 2024-04-23
+    value_billions: 4.9
+    therapeutic_area: immunology
+    modality: antibody
+  - target: InflaRx
+    date: 2024-02-27
+    value_billions: 0.12
+    therapeutic_area: immunology
+    modality: antibody
+  - target: Entrada Therapeutics
+    date: 2023-12-04
+    value_billions: 0.14
+    therapeutic_area: rare_disease
+    modality: cell_penetrating_peptide
+existing_partnerships:
+  - target: CRISPR Therapeutics
+    partnership_type: co_development
+    therapeutic_area: rare_disease
+    description: "Co-development of Casgevy (exa-cel) for sickle cell disease and beta-thalassemia"
+    year_initiated: 2015
+    acquisition_option: false
+stated_priorities:
+  - "Rare disease franchise diversification beyond CF is the explicit CEO-level priority: pain, kidney disease, AATD, DM1."
+  - "Cell and gene therapy via CRISPR Therapeutics partnership establishes platform for further gene editing acquisitions."
+  - "Immunology entry via Alpine acquisition opens autoimmune adjacency beyond rare genetic disease."

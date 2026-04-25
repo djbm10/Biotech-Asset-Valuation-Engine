@@ -1,0 +1,43 @@
+company: Jazz Pharmaceuticals
+ticker: JAZZ
+profile_as_of: 2026-04-07
+market_cap_billions: 7
+cash_billions: 1.5
+acquisition_capacity_millions: 4000
+pipeline_gaps:
+  - therapeutic_area: neuroscience
+    sub_area: sleep_wake_disorders_narcolepsy
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [small_molecule]
+    budget_ceiling_millions: 3000
+    notes: "Xyrem/Xywav oxybate franchise generates ~$1.8B; orexin receptor agonist competition (TAK-925, NBI-NaN) requires differentiated pipeline defense."
+  - therapeutic_area: oncology
+    sub_area: hematology_acute_leukemia
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [small_molecule, antibody]
+    budget_ceiling_millions: 3500
+    notes: "Vyxeos (CPX-351 AML) and Rylaze (JZP-458 ALL) anchor oncology; AML/ALL adjacency and next-line resistance mechanisms targeted."
+  - therapeutic_area: neuroscience
+    sub_area: movement_disorders_rare_cns
+    gap_type: selective_gap
+    urgency: medium
+    preferred_modality: [small_molecule, antibody]
+    budget_ceiling_millions: 2500
+    notes: "Epidiolex CBD acquired via GW Pharma; rare movement disorders and treatment-resistant epilepsy extensions remain open."
+recent_deals:
+  - target: GW Pharmaceuticals
+    date: 2021-05-05
+    value_billions: 7.2
+    therapeutic_area: neuroscience
+    modality: small_molecule
+  - target: Sumitomo Pharma oncology assets
+    date: 2023-04-01
+    value_billions: 0.4
+    therapeutic_area: oncology
+    modality: small_molecule
+stated_priorities:
+  - "Sleep/wake CNS franchise defense against orexin receptor agonist competition is an urgent BD priority."
+  - "Hematology oncology: AML/ALL line extensions and resistance mechanisms adjacent to Vyxeos and Rylaze."
+  - "Willing to do larger oncology deals ($2–4B) to diversify from CNS concentration risk."

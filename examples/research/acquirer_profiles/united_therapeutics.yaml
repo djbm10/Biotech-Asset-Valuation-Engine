@@ -1,0 +1,45 @@
+company: United Therapeutics
+ticker: UTHR
+profile_as_of: 2026-04-07
+market_cap_billions: 14
+cash_billions: 4.0
+acquisition_capacity_millions: 8000
+pipeline_gaps:
+  - therapeutic_area: rare_disease
+    sub_area: pulmonary_arterial_hypertension_next_gen
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [small_molecule, biologic]
+    budget_ceiling_millions: 6000
+    notes: "Tyvaso, Remodulin, Orenitram PAH franchise dominant; next-generation targets (endothelin, activin, sotatercept competition) require pipeline reinforcement."
+  - therapeutic_area: rare_disease
+    sub_area: pulmonary_fibrosis_iph
+    gap_type: selective_gap
+    urgency: high
+    preferred_modality: [small_molecule, antibody]
+    budget_ceiling_millions: 5000
+    notes: "PAH platform adjacency to idiopathic pulmonary fibrosis (IPF) and other fibrotic lung diseases; MUC5B targeting and anti-fibrotic mechanisms sought."
+  - therapeutic_area: rare_disease
+    sub_area: organ_transplant_xenotransplantation
+    gap_type: platform_bet
+    urgency: medium
+    preferred_modality: [gene_editing, biologic]
+    budget_ceiling_millions: 4000
+    notes: "Revivicor (pig organs) establishes xenotransplantation platform; complementary immunosuppression and tolerance induction assets targeted."
+  - therapeutic_area: rare_disease
+    sub_area: sickle_cell_disease_hemoglobinopathy
+    gap_type: selective_gap
+    urgency: medium
+    preferred_modality: [gene_therapy, antibody]
+    budget_ceiling_millions: 3000
+    notes: "No hemoglobinopathy presence; rare blood disease adjacent to existing PAH franchise patient-access infrastructure."
+recent_deals:
+  - target: Rare Lung Disease pipeline (in-house)
+    date: 2023-06-01
+    value_billions: 0.0
+    therapeutic_area: rare_disease
+    modality: small_molecule
+stated_priorities:
+  - "PAH franchise defense is priority one — sotatercept competition requires pipeline response in next-generation mechanisms."
+  - "Organ transplant/xenotransplantation is a multi-decade platform bet; complementary acquisitions in tolerance induction supported."
+  - "Cash-generative business model supports large acquisitions ($3–6B) without leverage constraints."

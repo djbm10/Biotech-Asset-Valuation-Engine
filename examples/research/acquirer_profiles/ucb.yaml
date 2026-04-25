@@ -1,0 +1,45 @@
+company: UCB
+ticker: UCBJY
+profile_as_of: 2026-04-07
+market_cap_billions: 24
+cash_billions: 2.5
+acquisition_capacity_millions: 7000
+pipeline_gaps:
+  - therapeutic_area: neuroscience
+    sub_area: epilepsy_rare_pediatric
+    gap_type: franchise_extension
+    urgency: medium
+    preferred_modality: [small_molecule, antibody]
+    budget_ceiling_millions: 5000
+    notes: "Keppra, Briviact, Vimpat epilepsy franchise maturing; rare pediatric epilepsy syndromes (Dravet, LGS) and novel mechanisms needed."
+  - therapeutic_area: immunology
+    sub_area: bone_loss_osteoporosis_rare
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [antibody, bispecific]
+    budget_ceiling_millions: 6000
+    notes: "Evenity (romosozumab) and Cimzia define the core franchise; bone loss in rare conditions (fibrodysplasia, osteogenesis imperfecta) are targeted."
+  - therapeutic_area: immunology
+    sub_area: myasthenia_gravis_complement
+    gap_type: selective_gap
+    urgency: high
+    preferred_modality: [antibody]
+    budget_ceiling_millions: 5000
+    notes: "Zilucoplan complement C5 inhibitor in MG filed; second-generation FcRn and complement assets for neuromuscular autoimmune are open."
+  - therapeutic_area: neuroscience
+    sub_area: parkinson_disease_alpha_syn
+    gap_type: selective_gap
+    urgency: medium
+    preferred_modality: [antibody, ASO]
+    budget_ceiling_millions: 4000
+    notes: "No Parkinson's franchise; alpha-synuclein and LRRK2 antibody/ASO programs could extend neurology platform."
+recent_deals:
+  - target: Zogenix
+    date: 2022-03-01
+    value_billions: 1.9
+    therapeutic_area: neuroscience
+    modality: small_molecule
+stated_priorities:
+  - "Rare immunology and rare neurology are dual focus areas with equal strategic weight."
+  - "Bone and MG complement antibodies anchor near-term pipeline; extension into other complement-driven diseases."
+  - "Neurology: rare pediatric epilepsy and Parkinson's next-generation mechanisms are bolt-on targets."

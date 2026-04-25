@@ -4,6 +4,8 @@ from __future__ import annotations
 import csv
 import json
 import math
+import sqlite3
+from collections import defaultdict
 from collections.abc import Callable
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
@@ -16,6 +18,10 @@ from scipy.optimize import minimize
 from scipy.special import expit
 from scipy.stats import rankdata
 
+from bve.intelligence.acquisition_likelihood import (
+    compute_acquisition_likelihood,
+    features_from_calibration_row,
+)
 from bve.intelligence.knowledge_layer import KnowledgeStore
 from bve.intelligence.ma_probability import MAProbabilitySnapshotStore
 
@@ -76,6 +82,8 @@ class MACalibrationRow(BaseModel):
     rank: int
     best_acquirer_id: str
     best_acquirer_name: str | None = None
+    acquirer_candidate_ids: list[str] = Field(default_factory=list)
+    acquirer_candidate_names: list[str] = Field(default_factory=list)
     stage: str | None = None
     therapeutic_area: str | None = None
     strategic_fit_score: float | None = None
@@ -109,6 +117,11 @@ class MACalibrationRow(BaseModel):
     prior_partnership_events: int = 0
     has_prior_partnership: bool = False
     match_group_id: str | None = None
+
+    # Stage A: acquisition likelihood score (independent of which acquirer would buy).
+    # Computed deterministically by acquisition_likelihood.compute_acquisition_likelihood().
+    # None when the features needed to compute it are unavailable.
+    stage_a_probability: float | None = None
 
 
 class MACalibrationDataset(BaseModel):
@@ -156,6 +169,19 @@ class MACalibrationMetrics(BaseModel):
     median_lead_days_at_k: float | None = None
     average_probability_positive: float | None = None
     average_probability_control: float | None = None
+    false_positive_rate_at_k: float | None = None
+    acquirer_top1_accuracy: float | None = None
+    acquirer_top3_accuracy: float | None = None
+    acquirer_top5_accuracy: float | None = None
+    acquirer_mrr: float | None = None
+
+    # Two-stage M&A model: Stage A acquisition likelihood metrics.
+    # These are computed independently of acquirer ranking (Stage B).
+    acquisition_likelihood_precision: float | None = None
+    acquisition_likelihood_recall: float | None = None
+    acquisition_likelihood_auc: float | None = None
+    stage_a_avg_positive: float | None = None
+    stage_a_avg_control: float | None = None
 
 
 class MABaselineMetrics(BaseModel):
@@ -360,6 +386,101 @@ class MATakeoutUniverseLoader:
         )
 
 
+def _cross_sectional_scarcity(rows: list["MACalibrationRow"]) -> list["MACalibrationRow"]:
+    """Replace stored scarcity_score (always 1.0) with cross-sectional TA concentration score.
+
+    Within each snapshot date, count how many assets share the same therapeutic area.
+    Scarcity = 1 - sqrt(ta_fraction) so that:
+      - unique TA (1/64) → ~0.87
+      - rare TA  (4/64) → ~0.75
+      - common TA (15/64) → ~0.52
+    Assets with no TA fall back to 0.5 (neutral).
+    """
+    by_date: dict[date, list[int]] = defaultdict(list)
+    for idx, row in enumerate(rows):
+        by_date[row.snapshot_date].append(idx)
+
+    updated = list(rows)
+    for date_idxs in by_date.values():
+        total = len(date_idxs)
+        if total <= 1:
+            continue
+        ta_counts: dict[str | None, int] = defaultdict(int)
+        for idx in date_idxs:
+            ta_counts[rows[idx].therapeutic_area] += 1
+        for idx in date_idxs:
+            ta = rows[idx].therapeutic_area
+            if ta is None:
+                score = 0.5
+            else:
+                fraction = ta_counts[ta] / total
+                score = round(max(0.0, 1.0 - fraction ** 0.5), 6)
+            updated[idx] = rows[idx].model_copy(update={"scarcity_score": score})
+    return updated
+
+
+def _seed_catalyst_days(
+    rows: list["MACalibrationRow"],
+    replay_store_path: str | Path,
+) -> list["MACalibrationRow"]:
+    """Populate days_to_catalyst from a replay store sqlite3 database.
+
+    Queries the catalyst_events table for the nearest future event per ticker
+    relative to each row's snapshot_date.  Rows without a matching future event
+    are left unchanged (days_to_catalyst stays None).
+    """
+    path = Path(replay_store_path)
+    if not path.exists():
+        return rows
+
+    # Load all distinct (ticker, event_date) pairs from replay store.
+    upcoming: dict[str, list[date]] = defaultdict(list)
+    try:
+        conn = sqlite3.connect(str(path))
+        try:
+            cur = conn.cursor()
+            cur.execute("SELECT DISTINCT ticker, event_date FROM catalyst_events WHERE event_date IS NOT NULL")
+            for ticker, event_date_str in cur.fetchall():
+                if ticker and event_date_str:
+                    try:
+                        upcoming[ticker.upper()].append(date.fromisoformat(str(event_date_str)[:10]))
+                    except (ValueError, TypeError):
+                        pass
+        finally:
+            conn.close()
+    except Exception:
+        return rows
+
+    for ticker in upcoming:
+        upcoming[ticker].sort()
+
+    updated = list(rows)
+    for idx, row in enumerate(rows):
+        ticker = row.ticker.upper() if row.ticker else None
+        if ticker is None or ticker not in upcoming:
+            continue
+        future_dates = [d for d in upcoming[ticker] if d > row.snapshot_date]
+        if not future_dates:
+            continue
+        days = (min(future_dates) - row.snapshot_date).days
+        updated[idx] = rows[idx].model_copy(update={"days_to_catalyst": days})
+    return updated
+
+
+def _recompute_stage_a(rows: list["MACalibrationRow"]) -> list["MACalibrationRow"]:
+    """Recompute stage_a_probability for all rows using current feature values."""
+    updated = list(rows)
+    for idx, row in enumerate(rows):
+        try:
+            stage_a_features = features_from_calibration_row(row)
+            updated[idx] = row.model_copy(
+                update={"stage_a_probability": compute_acquisition_likelihood(stage_a_features)}
+            )
+        except Exception:
+            pass
+    return updated
+
+
 class MACalibrationDatasetBuilder:
     """Join stored M&A snapshots to known takeouts and screen context."""
 
@@ -399,6 +520,7 @@ class MACalibrationDatasetBuilder:
         lookahead_days: int = 365,
         start_date: date | None = None,
         end_date: date | None = None,
+        replay_store_path: str | Path | None = None,
     ) -> MACalibrationDataset:
         deals = MATakeoutUniverseLoader.load(self.deal_universe_path).deals
         deals_by_ticker: dict[str, list[MATakeoutEvent]] = {}
@@ -450,6 +572,12 @@ class MACalibrationDatasetBuilder:
                     rank=int(snapshot.rank),
                     best_acquirer_id=snapshot.best_acquirer_id,
                     best_acquirer_name=snapshot.best_acquirer_name,
+                    acquirer_candidate_ids=[
+                        candidate.acquirer_id for candidate in snapshot.acquirer_candidates
+                    ],
+                    acquirer_candidate_names=[
+                        candidate.acquirer_name for candidate in snapshot.acquirer_candidates
+                    ],
                     stage=snapshot.stage or (screen.get("stage") if screen is not None else None),
                     therapeutic_area=therapeutic_area,
                     strategic_fit_score=snapshot.strategic_fit_score,
@@ -497,6 +625,13 @@ class MACalibrationDatasetBuilder:
                 )
             )
 
+        # Post-processing: fix features that are degenerate in stored snapshots,
+        # then recompute Stage A probability with the corrected feature values.
+        rows = _cross_sectional_scarcity(rows)
+        if replay_store_path is not None:
+            rows = _seed_catalyst_days(rows, replay_store_path)
+        rows = _recompute_stage_a(rows)
+
         rows.sort(
             key=lambda row: (
                 row.snapshot_date,
@@ -528,6 +663,7 @@ class MACalibrationDatasetBuilder:
         end_date: date | None = None,
         anchor_days_before_announcement: int = 180,
         controls_per_positive: int = 2,
+        replay_store_path: str | Path | None = None,
     ) -> MACalibrationDataset:
         """Deduplicate to one canonical pre-deal row per target plus matched controls."""
 
@@ -535,6 +671,7 @@ class MACalibrationDatasetBuilder:
             lookahead_days=lookahead_days,
             start_date=start_date,
             end_date=end_date,
+            replay_store_path=replay_store_path,
         )
         if not base.rows:
             return MACalibrationDataset(
