@@ -50,8 +50,19 @@ def test_partial_name_no_match():
 
 
 def test_vertex_alias():
-    assert _acquirers_match("Vertex", "Vertex Pharmaceuticals") is False  # not in aliases, different strings
-    # Vertex is not aliased — this tests the non-match case
+    assert _acquirers_match("Vertex", "Vertex Pharmaceuticals") is True
+
+
+def test_lundbeck_alias():
+    assert _acquirers_match("Lundbeck", "H. Lundbeck") is True
+
+
+def test_astellas_alias():
+    assert _acquirers_match("Astellas", "Astellas Pharma") is True
+
+
+def test_gsk_alias():
+    assert _acquirers_match("GSK", "GlaxoSmithKline") is True
 
 
 # ---------------------------------------------------------------------------

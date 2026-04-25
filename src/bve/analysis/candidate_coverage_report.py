@@ -130,6 +130,14 @@ _ACQUIRER_ALIASES: dict[str, list[str]] = {
     "novo nordisk": ["novonordisk"],
     "astrazeneca": ["az", "astra zeneca"],
     "pfizer": ["pfizer inc"],
+    # Vertex: canonical ticker VRTX; deal universe uses short form "Vertex"
+    "vertex pharmaceuticals": ["vertex", "vrtx"],
+    # Lundbeck: traded as HLUYY ADR; deal universe uses short form "Lundbeck"
+    "h. lundbeck": ["lundbeck", "h lundbeck", "lundbeck a/s", "hluyy"],
+    # Astellas: Japanese pharma (4503.T); acquirer of Iveric Bio (ophthalmology)
+    "astellas pharma": ["astellas", "astellas pharma us", "astellas pharma inc", "4503.t"],
+    # GSK: common short form used in deal universe
+    "gsk": ["glaxosmithkline", "gsk plc", "glaxo smith kline", "glaxo wellcome"],
 }
 
 

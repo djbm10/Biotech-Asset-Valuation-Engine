@@ -1,0 +1,68 @@
+company: Astellas Pharma
+ticker: 4503.T
+profile_as_of: 2026-04-25
+market_cap_billions: 12
+cash_billions: 3.1
+acquisition_capacity_millions: 8000
+pipeline_gaps:
+  - therapeutic_area: ophthalmology
+    sub_area: geographic_atrophy_dry_amd
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [antibody, small_molecule, RNA_therapy]
+    budget_ceiling_millions: 6000
+    notes: "Iveric Bio acquisition brought avacincaptad pegol (Izervay) for GA; second-generation and combination approaches
+      are the logical bolt-on. Complement-independent mechanisms and neuroprotection are open."
+  - therapeutic_area: oncology
+    sub_area: adc_urothelial_urologic
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [ADC, bispecific, small_molecule]
+    budget_ceiling_millions: 7000
+    notes: "Padcev (enfortumab vedotin) is the anchor urothelial ADC (partnered with Pfizer); next-generation nectin-4
+      or TROP-2 combinations and additional urothelial/bladder indications are strategic fits."
+  - therapeutic_area: oncology
+    sub_area: prostate_cancer_hrpc_arsi
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [small_molecule, PROTAC, bispecific]
+    budget_ceiling_millions: 6000
+    notes: "Xtandi (enzalutamide, partnered with Pfizer) is the flagship ARSI; next-gen AR degraders (PROTACs) and
+      combinations to overcome resistance are open. Lutetium-PSMA combination is a new frontier."
+  - therapeutic_area: transplantation
+    sub_area: immunosuppression_rejection_prevention
+    gap_type: franchise_extension
+    urgency: medium
+    preferred_modality: [small_molecule, antibody]
+    budget_ceiling_millions: 3000
+    notes: "Prograf (tacrolimus) remains a cornerstone transplant immunosuppressant; next-generation rejection
+      prevention and calcineurin-sparing combinations are legacy franchise extensions."
+  - therapeutic_area: rare_disease
+    sub_area: mitochondrial_metabolic_rare
+    gap_type: selective_gap
+    urgency: medium
+    preferred_modality: [small_molecule, gene_therapy]
+    budget_ceiling_millions: 3000
+    notes: "Astellas gene therapy program (AT132 for X-linked myotubular myopathy discontinued after safety events);
+      strategic interest in rare mitochondrial and metabolic disease remains cautious."
+recent_deals:
+  - target: Iveric Bio
+    date: 2023-06-14
+    value_billions: 5.9
+    therapeutic_area: ophthalmology
+    modality: aptamer
+  - target: Audentes Therapeutics
+    date: 2020-01-14
+    value_billions: 3.0
+    therapeutic_area: rare_disease
+    modality: gene_therapy
+  - target: Xcorporeal (royalty / milestone)
+    date: 2022-01-01
+    value_billions: 0.2
+    therapeutic_area: oncology
+    modality: small_molecule
+stated_priorities:
+  - "Ophthalmology franchise build-out post-Iveric; GA is the first of several planned retinal investments."
+  - "Oncology ADC and targeted therapy adjacencies to Padcev/Xtandi anchors."
+  - "Selective rare disease re-entry after gene therapy program setbacks — higher bar for safety evidence required."
+  - "Deal size comfort zone: $1B–$7B; willing to stretch for approved or late-stage commercial assets."
