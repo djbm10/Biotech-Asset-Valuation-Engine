@@ -20,7 +20,7 @@ from __future__ import annotations
 
 import json
 import sqlite3
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 
 import pytest
 
@@ -2804,15 +2804,19 @@ def test_replay_summary_computes_mna_metrics_from_run_snapshot_and_dated_predict
 
 
 def test_seed_acquisition_price_inserts_flat_history(in_memory_store):
-    """seed_acquisition_price should insert daily rows at the deal price."""
+    """seed_acquisition_price should insert daily rows at the deal price.
+    The anti-leakage guard means pre-announcement queries return None;
+    only on/after the announcement date is the deal price accessible."""
     ann = date(2022, 6, 3)
     n = in_memory_store.seed_acquisition_price("TPTX", ann, price_per_share=76.0, lookback_days=30)
 
     # 31 rows: June 3 inclusive + 30 days back = May 4 → June 3
     assert n == 31
 
-    # Price should be available within the window
-    assert in_memory_store.get_price("TPTX", date(2022, 5, 15)) == pytest.approx(76.0)
+    # Pre-announcement: guard returns None (no leakage)
+    assert in_memory_store.get_price("TPTX", date(2022, 5, 15)) is None
+
+    # On the announcement date: price available
     assert in_memory_store.get_price("TPTX", date(2022, 6, 3)) == pytest.approx(76.0)
 
 
@@ -2826,22 +2830,34 @@ def test_seed_acquisition_price_not_available_before_window(in_memory_store):
 
 
 def test_seed_acquisition_price_return_is_zero(in_memory_store):
-    """A flat synthetic price history produces 0% return over any window within it."""
+    """A flat synthetic price history produces 0% return for a window that starts
+    at or after the announcement date (same price → same return).
+    Pre-announcement queries return None (anti-leakage guard)."""
     ann = date(2022, 6, 3)
     in_memory_store.seed_acquisition_price("TPTX", ann, price_per_share=76.0, lookback_days=365)
 
-    ret = in_memory_store.get_return("TPTX", date(2022, 1, 1), date(2022, 5, 1))
-    assert ret == pytest.approx(0.0)
+    # Pre-announcement: guard blocks both prices → None
+    ret_pre = in_memory_store.get_return("TPTX", date(2022, 1, 1), date(2022, 5, 1))
+    assert ret_pre is None
+
+    # Starting at announcement date → both prices are the same → 0% return
+    ret_at = in_memory_store.get_return("TPTX", ann, ann)
+    assert ret_at == pytest.approx(0.0)
 
 
 def test_seed_acquisition_price_default_lookback_covers_12_months(in_memory_store):
-    """Default lookback_days=365 seeds a full year of history."""
+    """Default lookback_days=365 seeds a full year of history (366 rows including
+    announcement date).  Pre-announcement queries return None due to the leakage guard;
+    the announcement date itself is accessible."""
     ann = date(2022, 6, 3)
     n = in_memory_store.seed_acquisition_price("TPTX", ann, price_per_share=76.0)
 
     # 366 rows: 365 days back + announcement date itself
     assert n == 366
-    assert in_memory_store.get_price("TPTX", ann - __import__("datetime").timedelta(days=364)) == pytest.approx(76.0)
+    # Pre-announcement: guard returns None
+    assert in_memory_store.get_price("TPTX", ann - __import__("datetime").timedelta(days=364)) is None
+    # On announcement date: accessible
+    assert in_memory_store.get_price("TPTX", ann) == pytest.approx(76.0)
 
 
 def test_seed_prices_uses_acquisition_fallback_on_empty_yfinance(monkeypatch, tmp_path):
@@ -2862,9 +2878,12 @@ def test_seed_prices_uses_acquisition_fallback_on_empty_yfinance(monkeypatch, tm
     fallback = {"TPTX": (date(2022, 6, 3), 76.0)}
     replay.seed_prices(["TPTX"], date(2022, 1, 1), date(2022, 12, 31), acquisition_fallback=fallback)
 
-    # Fallback should have seeded prices for the 365-day window before announcement
-    price = store.get_price("TPTX", date(2022, 4, 1))
-    assert price == pytest.approx(76.0)
+    # Fallback seeded flat prices up to and including announcement date.
+    # Pre-announcement guard returns None; at announcement date price is accessible.
+    pre_ann_price = store.get_price("TPTX", date(2022, 4, 1))
+    assert pre_ann_price is None
+    ann_price = store.get_price("TPTX", date(2022, 6, 3))
+    assert ann_price == pytest.approx(76.0)
 
 
 def test_seed_prices_fallback_dict_accepted_in_signature(tmp_path):
@@ -2965,9 +2984,13 @@ deals:
 
     replay.seed_prices(["KRTX"], date(2023, 1, 1), date(2024, 1, 1), deal_universe_path=deal_yaml)
 
-    # Deal-universe fallback should have seeded prices
-    price = store.get_price("KRTX", date(2023, 6, 1))
-    assert price == pytest.approx(330.0)
+    # Pre-announcement (2023-06-01 < 2023-12-22) → None due to leakage guard
+    pre_price = store.get_price("KRTX", date(2023, 6, 1))
+    assert pre_price is None
+
+    # On announcement date → accessible
+    ann_price = store.get_price("KRTX", date(2023, 12, 22))
+    assert ann_price == pytest.approx(330.0)
 
 
 def test_seed_prices_caller_fallback_overrides_deal_universe(monkeypatch, tmp_path):
@@ -3004,5 +3027,119 @@ deals:
         deal_universe_path=deal_yaml,
     )
 
-    price = store.get_price("KRTX", date(2023, 6, 1))
-    assert price == pytest.approx(99.0)
+    # Caller fallback wins over deal universe (same announcement date → 99.0 not 330.0).
+    # Pre-announcement guard still fires: June 1 < Dec 22 → None
+    pre_price = store.get_price("KRTX", date(2023, 6, 1))
+    assert pre_price is None
+
+    # On announcement date → caller's price (99.0) is used, not deal universe (330.0)
+    ann_price = store.get_price("KRTX", date(2023, 12, 22))
+    assert ann_price == pytest.approx(99.0)
+
+
+# ---------------------------------------------------------------------------
+# Sprint 16 audit: acquisition price leakage guard
+# ---------------------------------------------------------------------------
+
+
+def test_get_price_returns_none_before_announcement_date(tmp_path):
+    """get_price() must return None for dates strictly before announcement_date
+    when synthetic prices were seeded via seed_acquisition_price().
+    This prevents deal consideration prices from leaking into pre-announcement
+    signal generation, ranking, or valuation."""
+    store = ReplayStore(":memory:")
+    ann_date = date(2023, 12, 22)
+    store.seed_acquisition_price("KRTX", ann_date, 330.0, lookback_days=365)
+
+    # Day before announcement — must be None (leakage guard fires)
+    assert store.get_price("KRTX", ann_date - timedelta(days=1)) is None
+
+    # One year before announcement — must be None
+    assert store.get_price("KRTX", date(2022, 12, 22)) is None
+
+
+def test_get_price_returns_price_at_announcement_date(tmp_path):
+    """get_price() returns the deal price on the announcement date itself."""
+    store = ReplayStore(":memory:")
+    ann_date = date(2023, 12, 22)
+    store.seed_acquisition_price("KRTX", ann_date, 330.0, lookback_days=365)
+
+    # On the announcement date — price is available
+    assert store.get_price("KRTX", ann_date) == pytest.approx(330.0)
+
+    # After announcement date — price is available (forward dates within seed range)
+    assert store.get_price("KRTX", ann_date + timedelta(days=1)) == pytest.approx(330.0)
+
+
+def test_acquisition_guard_does_not_affect_real_prices(tmp_path):
+    """Tickers with no acquisition record are unaffected by the guard."""
+    store = ReplayStore(":memory:")
+    # Seed real (non-acquisition) prices for ticker AAPL
+    rows = [(date(2023, 1, d), 150.0 + d) for d in range(1, 10)]
+    store.insert_prices("AAPL", rows)
+
+    # No guard — prices accessible for any date in range
+    assert store.get_price("AAPL", date(2023, 1, 5)) == pytest.approx(155.0)
+    assert store.get_price("AAPL", date(2022, 12, 31)) is None  # no data before range
+
+
+def test_pre_announcement_leakage_would_inflate_returns(tmp_path):
+    """Regression test: verify that WITHOUT the guard, using deal price pre-announcement
+    artificially returns 0% (flat line) instead of None.
+    WITH the guard, pre-announcement queries return None, forcing callers to handle
+    missing data rather than computing bogus 0% returns.
+
+    This tests that get_return() propagates None when pre-announcement price is queried.
+    """
+    store = ReplayStore(":memory:")
+    ann_date = date(2023, 12, 22)
+    store.seed_acquisition_price("KRTX", ann_date, 330.0, lookback_days=365)
+
+    # Without guard: get_return(pre_ann, post_ann) would return 0.0 (flat synthetic line)
+    # With guard: entry price is None → get_return returns None → caller must handle it
+    entry_date = ann_date - timedelta(days=30)  # pre-announcement
+    exit_date = ann_date                          # at announcement
+
+    ret = store.get_return("KRTX", entry_date, exit_date)
+    # Guard fires: entry_price is None → return is None (not 0.0)
+    assert ret is None, (
+        "Pre-announcement get_return must be None — "
+        "returning 0.0 would be a false positive (deal price masquerading as market price)"
+    )
+
+
+def test_seed_acquisition_price_records_announcement_in_table(tmp_path):
+    """seed_acquisition_price() must write a row to acquisition_announcements."""
+    store = ReplayStore(":memory:")
+    ann_date = date(2024, 3, 15)
+    store.seed_acquisition_price("TPTX", ann_date, 76.0, lookback_days=90)
+
+    row = store._conn.execute(
+        "SELECT announcement_date FROM acquisition_announcements WHERE ticker = 'TPTX'"
+    ).fetchone()
+    assert row is not None
+    assert row["announcement_date"] == "2024-03-15"
+
+
+def test_multiple_acquired_tickers_independent_guards(tmp_path):
+    """Each acquired ticker has its own guard; one ticker's guard does not
+    block another ticker's pre-announcement queries."""
+    store = ReplayStore(":memory:")
+    ann_a = date(2023, 6, 1)
+    ann_b = date(2023, 9, 1)
+    store.seed_acquisition_price("TICKA", ann_a, 50.0, lookback_days=180)
+    store.seed_acquisition_price("TICKB", ann_b, 80.0, lookback_days=180)
+
+    # TICKA before ann_a → None
+    assert store.get_price("TICKA", ann_a - timedelta(days=1)) is None
+    # TICKA at ann_a → price available
+    assert store.get_price("TICKA", ann_a) == pytest.approx(50.0)
+
+    # TICKB before ann_b → None
+    assert store.get_price("TICKB", ann_b - timedelta(days=1)) is None
+    # TICKB at ann_b → price available
+    assert store.get_price("TICKB", ann_b) == pytest.approx(80.0)
+
+    # TICKA is unaffected by TICKB's guard and vice versa
+    # TICKA after its own ann_a, but before TICKB's ann_b → price available
+    assert store.get_price("TICKA", date(2023, 7, 1)) == pytest.approx(50.0)

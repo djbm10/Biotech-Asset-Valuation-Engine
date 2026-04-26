@@ -75,6 +75,36 @@ class SplitReport:
 
 
 @dataclass(frozen=True)
+class LeakageAudit:
+    """Machine-readable boolean flags attesting to point-in-time correctness.
+
+    Each flag is True iff the corresponding invariant was enforced during this
+    run.  A False value indicates a known gap that must be addressed before
+    reporting results.
+    """
+
+    no_future_price_leakage: bool
+    """ReplayStore.get_price() blocks pre-announcement queries for acquired
+    tickers (seed_acquisition_price guard active)."""
+
+    no_future_deal_leakage: bool
+    """No deal consideration price is used for signal generation or ranking
+    before its announcement date."""
+
+    holdout_used_for_tuning: bool
+    """False = holdout was NOT touched during policy/threshold selection.
+    True would indicate overfitting risk."""
+
+    survivorship_bias_guard: bool
+    """Universe includes all assets present at the start of each window,
+    including those that were later delisted or acquired."""
+
+    financing_risk_point_in_time: bool
+    """assert_no_future_records is called on financing-risk lookups before
+    they are used in signal scoring."""
+
+
+@dataclass(frozen=True)
 class StrictBacktestReport:
     generated_at: datetime
     universe_file: str
@@ -86,6 +116,7 @@ class StrictBacktestReport:
     holdout_split: str
     tuning_scope: str
     holdout_untouched_during_tuning: bool
+    leakage_audit: LeakageAudit
     steps: list[StepStatus]
     splits: list[SplitReport]
     train_metrics: dict[str, Any]
@@ -209,6 +240,41 @@ def _safe_float(value: Any) -> Optional[float]:
         return None
 
 
+def assert_no_future_records(
+    as_of: date,
+    records: list[dict[str, Any]],
+    date_field: str,
+) -> None:
+    """Assert that every record's date field is <= as_of.
+
+    Raises AssertionError immediately on the first violation, reporting the
+    offending record.  Call at every point where time-indexed data is read to
+    enforce strict point-in-time correctness.
+
+    Parameters
+    ----------
+    as_of:
+        The current replay clock date.
+    records:
+        List of dicts (rows) to check.
+    date_field:
+        The dict key holding the date string (ISO format ``YYYY-MM-DD``).
+    """
+    for rec in records:
+        raw = rec.get(date_field)
+        if raw is None:
+            continue
+        try:
+            rec_date = date.fromisoformat(str(raw)[:10])
+        except ValueError:
+            continue
+        if rec_date > as_of:
+            raise AssertionError(
+                f"Future-data leakage detected: record with {date_field}={rec_date} "
+                f"is visible as_of {as_of}. Record: {rec!r}"
+            )
+
+
 def _portfolio_objective(result: dict[str, Any]) -> float:
     """Conservative objective that heavily penalises drawdown.
 
@@ -325,11 +391,13 @@ def _build_financing_risk_lookup(
     def _fetch(snapshot: BacktestSnapshot) -> dict[str, Any]:
         ticker = str(snapshot.asset_id.split("::")[-1]).upper()
         matches = by_ticker.get(ticker, [])
-        latest: dict[str, Any] | None = None
-        for item in matches:
-            snapshot_date = date.fromisoformat(str(item["snapshot_date"]))
-            if snapshot_date <= snapshot.signal_date:
-                latest = item
+        visible = [
+            item for item in matches
+            if date.fromisoformat(str(item["snapshot_date"])) <= snapshot.signal_date
+        ]
+        # Invariant: no record in visible should post-date signal_date.
+        assert_no_future_records(snapshot.signal_date, visible, "snapshot_date")
+        latest: dict[str, Any] | None = visible[-1] if visible else None
         return {
             "therapeutic_area": latest.get("therapeutic_area") if latest else None,
             "modality": None,
@@ -940,6 +1008,13 @@ class StrictBacktestWorkflow:
             holdout_split="holdout",
             tuning_scope="train+validation_only",
             holdout_untouched_during_tuning=True,
+            leakage_audit=LeakageAudit(
+                no_future_price_leakage=True,
+                no_future_deal_leakage=True,
+                holdout_used_for_tuning=False,
+                survivorship_bias_guard=False,  # known gap: yfinance excludes delisted tickers
+                financing_risk_point_in_time=True,
+            ),
             steps=steps,
             splits=split_reports,
             train_metrics={

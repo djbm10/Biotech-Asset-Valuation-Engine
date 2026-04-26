@@ -151,6 +151,11 @@ class ReplayStore:
                 PRIMARY KEY (ticker, price_date)
             );
 
+            CREATE TABLE IF NOT EXISTS acquisition_announcements (
+                ticker            TEXT PRIMARY KEY,
+                announcement_date TEXT NOT NULL
+            );
+
             CREATE TABLE IF NOT EXISTS historical_events (
                 event_id       TEXT PRIMARY KEY,
                 asset_id       TEXT NOT NULL,
@@ -262,6 +267,17 @@ class ReplayStore:
 
     def _migrate_schema(self) -> None:
         """Apply backward-compatible schema migrations for existing databases."""
+        # acquisition_announcements was added in Sprint 16 audit
+        self._conn.execute(
+            """
+            CREATE TABLE IF NOT EXISTS acquisition_announcements (
+                ticker            TEXT PRIMARY KEY,
+                announcement_date TEXT NOT NULL
+            )
+            """
+        )
+        self._conn.commit()
+
         existing = {
             row[1]
             for row in self._conn.execute(
@@ -342,6 +358,14 @@ class ReplayStore:
             current += timedelta(days=1)
         if rows:
             self.insert_prices(ticker, rows)
+        # Record announcement date so get_price() can enforce the pre-announcement
+        # leakage guard: queries before this date will return None.
+        self._conn.execute(
+            "INSERT OR REPLACE INTO acquisition_announcements (ticker, announcement_date) "
+            "VALUES (?, ?)",
+            (ticker, announcement_date.isoformat()),
+        )
+        self._conn.commit()
         return len(rows)
 
     def get_price(self, ticker: str, price_date: date) -> Optional[float]:
@@ -351,7 +375,22 @@ class ReplayStore:
         Returns None if no data is available on or before *price_date*
         (enforces no lookahead bias — callers must not pass a future date
         relative to their clock).
+
+        Anti-leakage guard: if *ticker* has a synthetic price series seeded
+        via ``seed_acquisition_price()``, queries for dates strictly before
+        the recorded announcement date return None — the deal consideration
+        price must not be used as a pre-announcement market price.
         """
+        # Check acquisition announcement guard before querying prices.
+        ann_row = self._conn.execute(
+            "SELECT announcement_date FROM acquisition_announcements WHERE ticker = ?",
+            (ticker,),
+        ).fetchone()
+        if ann_row is not None:
+            ann_date = date.fromisoformat(str(ann_row["announcement_date"]))
+            if price_date < ann_date:
+                return None
+
         row = self._conn.execute(
             "SELECT close_usd FROM historical_prices "
             "WHERE ticker = ? AND price_date <= ? "

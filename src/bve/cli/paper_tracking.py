@@ -39,6 +39,86 @@ def _score_to_recommendation(score: Optional[float]) -> str:
     return "avoid"
 
 
+def _compute_paper_score(snap: object) -> tuple[Optional[float], str, list[str]]:
+    """Compute a multi-signal paper tracking score from a BacktestSnapshot.
+
+    Returns
+    -------
+    (score, recommendation, risk_flags)
+
+    A high ``composite_score`` alone is not sufficient to produce an "add"
+    recommendation.  At least one corroborating signal (valuation gap OR
+    catalyst score OR science confidence) must be present.  When corroborating
+    signals are absent the recommendation is capped at "watch" and a
+    ``insufficient_data`` risk flag is added.
+
+    Composite formula (when all signals present):
+        0.45 × composite_score
+      + 0.25 × valuation_gap_score    (mispricing_score clamped to [0,1])
+      + 0.20 × catalyst_score         (clamped to [0,1])
+      + 0.10 × science_confidence     (extraction_confidence clamped to [0,1])
+
+    Absent signals are filled with the neutral value (0.5) and counted.
+    If all three corroborating signals are absent, the score is overridden to
+    ``None`` and recommendation is "watch/insufficient_data".
+    """
+    raw_model = getattr(snap, "composite_score", None)
+    raw_valuation = getattr(snap, "mispricing_score", None)
+    raw_catalyst = getattr(snap, "catalyst_score", None)
+    raw_confidence = getattr(snap, "extraction_confidence", None)
+
+    risk_flags: list[str] = []
+
+    # Identify absent corroborating signals
+    missing_signals: list[str] = []
+    if raw_valuation is None:
+        missing_signals.append("valuation_gap")
+    if raw_catalyst is None:
+        missing_signals.append("catalyst_score")
+    if raw_confidence is None:
+        missing_signals.append("science_confidence")
+
+    # If model score is also absent — complete data gap
+    if raw_model is None and len(missing_signals) == 3:
+        return None, "watch", ["insufficient_data"]
+
+    # If ALL three corroborating signals missing — cap at watch
+    if len(missing_signals) == 3:
+        risk_flags.append("insufficient_data")
+        recommendation = _score_to_recommendation(raw_model)
+        if recommendation == "add":
+            recommendation = "watch"
+        return raw_model, recommendation, risk_flags
+
+    # At least one corroborating signal present — build composite
+    def _clamp01(v: Optional[float], neutral: float = 0.5) -> float:
+        if v is None:
+            return neutral
+        return max(0.0, min(1.0, float(v)))
+
+    model_score = _clamp01(raw_model)
+    valuation_gap = _clamp01(raw_valuation)
+    catalyst = _clamp01(raw_catalyst)
+    confidence = _clamp01(raw_confidence)
+
+    composite = (
+        0.45 * model_score
+        + 0.25 * valuation_gap
+        + 0.20 * catalyst
+        + 0.10 * confidence
+    )
+    composite = round(composite, 6)
+
+    if missing_signals:
+        risk_flags.append(f"missing_signals:{','.join(missing_signals)}")
+
+    if composite < 0.30:
+        risk_flags.append("low_score")
+
+    recommendation = _score_to_recommendation(composite)
+    return composite, recommendation, risk_flags
+
+
 # ---------------------------------------------------------------------------
 # Snapshot command
 # ---------------------------------------------------------------------------
@@ -104,21 +184,17 @@ def snapshot_main(argv: Optional[list[str]] = None) -> None:
         ticker_entry = store.get_asset_registry_entry(asset_id)
         ticker = getattr(ticker_entry, "ticker", None) if ticker_entry else None
 
-        score = snap.composite_score  # type: ignore[attr-defined]
-        recommendation = _score_to_recommendation(score)
+        composite_score, recommendation, risk_flags = _compute_paper_score(snap)
 
         entry_id = str(uuid.uuid4())
-        risk_flags: list[str] = []
-        if score is not None and score < 0.30:
-            risk_flags.append("low_score")
         catalyst_type = getattr(snap, "catalyst_type", None)
         catalyst_date = getattr(snap, "catalyst_date", None)
         catalyst_str = f"{catalyst_type} {catalyst_date}" if catalyst_type else None
 
         if args.dry_run:
             print(
-                f"[DRY-RUN] {snap_date} | {asset_id} ({ticker or '—'}) | "  # type: ignore[attr-defined]
-                f"{recommendation} | score={score}"
+                f"[DRY-RUN] {snap_date} | {asset_id} ({ticker or '—'}) | "
+                f"{recommendation} | score={composite_score}"
             )
             skipped += 1
             continue
@@ -130,7 +206,7 @@ def snapshot_main(argv: Optional[list[str]] = None) -> None:
                 asset_id=asset_id,
                 recommendation=recommendation,
                 ticker=ticker,
-                composite_score=score,
+                composite_score=composite_score,
                 catalyst=catalyst_str,
                 risk_flags=risk_flags if risk_flags else None,
             )
