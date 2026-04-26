@@ -39,6 +39,7 @@ from bve.ops.historical_replay import (
 from bve.ops.ma_probability_backfiller import backfill_ma_probability_snapshots
 from bve.ops.price_backfiller import PriceBackfiller
 from bve.ops.replay_universe_builder import DEFAULT_OUTPUT_PATH, ReplayUniverseBuilder
+from bve.ops.survivorship_price_loader import MissingPriceReport, generate_missing_price_report
 from bve.ops.thesis_claims_backfiller import ThesisClaimsBackfiller
 from bve.ops.trial_event_backfiller import TrialEventBackfiller
 
@@ -117,6 +118,7 @@ class StrictBacktestReport:
     tuning_scope: str
     holdout_untouched_during_tuning: bool
     leakage_audit: LeakageAudit
+    missing_price_report: Optional[MissingPriceReport]
     steps: list[StepStatus]
     splits: list[SplitReport]
     train_metrics: dict[str, Any]
@@ -652,6 +654,46 @@ class StrictBacktestWorkflow:
         )
 
         universe = load_replay_universe(self.universe_file)
+        universe_tickers = list({
+            str(entry.get("ticker") or "").upper()
+            for entry in universe
+            if entry.get("ticker")
+        })
+
+        # Generate survivorship-safe price coverage report.
+        # All acquired tickers must have seeded price data or the backtest fails fast.
+        overall_start = splits[0].start_date
+        overall_end = splits[-1].end_date
+        missing_price_report: Optional[MissingPriceReport]
+        try:
+            missing_price_report = generate_missing_price_report(
+                replay_db_path=self.replay_db_path,
+                universe_tickers=universe_tickers,
+                backtest_start=overall_start,
+                backtest_end=overall_end,
+            )
+            steps.append(
+                StepStatus(
+                    name="survivorship_price_report",
+                    status="completed",
+                    detail=(
+                        f"{missing_price_report.universe_size} tickers audited; "
+                        f"{len(missing_price_report.excluded_tickers)} excluded "
+                        f"({len(missing_price_report.acquired_excluded)} acquired excluded); "
+                        f"guard_satisfied={missing_price_report.survivorship_bias_guard_satisfied}"
+                    ),
+                )
+            )
+        except RuntimeError as exc:
+            steps.append(
+                StepStatus(
+                    name="survivorship_price_report",
+                    status="failed",
+                    detail=str(exc),
+                )
+            )
+            missing_price_report = None
+
         replay_price_series_fetcher = _build_local_price_series_fetcher(self.replay_db_path)
         replay_price_return_fetcher = _build_local_price_return_fetcher(self.replay_db_path)
         risk_metadata_fetcher = _build_financing_risk_lookup(self.replay_knowledge_path)
@@ -1012,9 +1054,13 @@ class StrictBacktestWorkflow:
                 no_future_price_leakage=True,
                 no_future_deal_leakage=True,
                 holdout_used_for_tuning=False,
-                survivorship_bias_guard=False,  # known gap: yfinance excludes delisted tickers
+                survivorship_bias_guard=(
+                    missing_price_report is not None
+                    and missing_price_report.survivorship_bias_guard_satisfied
+                ),
                 financing_risk_point_in_time=True,
             ),
+            missing_price_report=missing_price_report,
             steps=steps,
             splits=split_reports,
             train_metrics={
