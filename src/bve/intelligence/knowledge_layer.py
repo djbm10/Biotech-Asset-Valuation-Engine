@@ -70,6 +70,23 @@ class StructuredSignalRecord(BaseModel):
     created_at: datetime
 
 
+class EvidenceFactRecord(BaseModel):
+    """Persisted evidence fact."""
+
+    fact_id: str
+    company_id: str
+    asset_id: str
+    fact_namespace: str
+    fact_key: str
+    entity_type: str
+    entity_id: str
+    source_type: str
+    conflict_status: str
+    is_active: bool
+    payload_json: dict
+    created_at: datetime
+
+
 class StoredValuationDiff(BaseModel):
     """
     Storage-safe valuation diff model used by the knowledge layer.
@@ -527,6 +544,22 @@ class KnowledgeStore:
                 asset_id TEXT,
                 event_type TEXT,
                 signal_date TEXT,
+                created_at TEXT NOT NULL,
+                payload_json TEXT NOT NULL,
+                source_trace_json TEXT NOT NULL
+            );
+
+            CREATE TABLE IF NOT EXISTS evidence_facts (
+                fact_id TEXT PRIMARY KEY,
+                company_id TEXT NOT NULL,
+                asset_id TEXT NOT NULL,
+                fact_namespace TEXT NOT NULL,
+                fact_key TEXT NOT NULL,
+                entity_type TEXT NOT NULL,
+                entity_id TEXT NOT NULL,
+                source_type TEXT NOT NULL,
+                conflict_status TEXT NOT NULL,
+                is_active INTEGER NOT NULL DEFAULT 0,
                 created_at TEXT NOT NULL,
                 payload_json TEXT NOT NULL,
                 source_trace_json TEXT NOT NULL
@@ -1016,6 +1049,10 @@ class KnowledgeStore:
                 ON structured_signals(company_id, asset_id, signal_date);
             CREATE INDEX IF NOT EXISTS idx_signals_type_date
                 ON structured_signals(event_type, signal_date);
+            CREATE INDEX IF NOT EXISTS idx_evidence_facts_entity_key
+                ON evidence_facts(company_id, asset_id, fact_key, created_at);
+            CREATE INDEX IF NOT EXISTS idx_evidence_facts_active
+                ON evidence_facts(is_active, fact_key, created_at);
 
             CREATE INDEX IF NOT EXISTS idx_events_signal
                 ON events(signal_id);
@@ -1268,6 +1305,31 @@ class KnowledgeStore:
 
             CREATE INDEX IF NOT EXISTS idx_outcome_override_event
                 ON outcome_override_log(event_id);
+
+            -- Forward paper tracking log (Task 23).
+            -- One row per (date, asset) — represents what we would recommend
+            -- without committing real capital.  Append via INSERT OR REPLACE.
+            CREATE TABLE IF NOT EXISTS paper_tracking_log (
+                entry_id           TEXT PRIMARY KEY,
+                snapshot_date      TEXT NOT NULL,
+                asset_id           TEXT NOT NULL,
+                ticker             TEXT,
+                recommendation     TEXT NOT NULL,
+                composite_score    REAL,
+                mna_likelihood     REAL,
+                predicted_acquirer TEXT,
+                catalyst           TEXT,
+                thesis             TEXT,
+                risk_flags         TEXT,
+                created_at         TEXT NOT NULL,
+                UNIQUE(snapshot_date, asset_id)
+            );
+
+            CREATE INDEX IF NOT EXISTS idx_paper_tracking_log_date
+                ON paper_tracking_log(snapshot_date);
+
+            CREATE INDEX IF NOT EXISTS idx_paper_tracking_log_asset
+                ON paper_tracking_log(asset_id, snapshot_date);
             """
         )
 
@@ -1668,6 +1730,56 @@ class KnowledgeStore:
         self._conn.commit()
         return record
 
+    def add_evidence_fact(
+        self,
+        fact: Any,
+        source_trace: SourceTrace,
+    ) -> EvidenceFactRecord:
+        payload = fact.model_dump(mode="json") if hasattr(fact, "model_dump") else dict(fact)
+        record = EvidenceFactRecord(
+            fact_id=str(payload.get("fact_id")),
+            company_id=str(payload.get("company_id")),
+            asset_id=str(payload.get("asset_id")),
+            fact_namespace=str(payload.get("fact_namespace")),
+            fact_key=str(payload.get("fact_key")),
+            entity_type=str(payload.get("entity_type")),
+            entity_id=str(payload.get("entity_id")),
+            source_type=str(
+                (payload.get("provenance") or {}).get("source_type")
+                or payload.get("source_type")
+                or ""
+            ),
+            conflict_status=str(payload.get("conflict_status") or "pending"),
+            is_active=bool(payload.get("is_active")),
+            payload_json=payload,
+            created_at=self._coerce_datetime(payload.get("created_at")),
+        )
+        self._conn.execute(
+            """
+            INSERT OR REPLACE INTO evidence_facts(
+                fact_id, company_id, asset_id, fact_namespace, fact_key, entity_type, entity_id,
+                source_type, conflict_status, is_active, created_at, payload_json, source_trace_json
+            ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                record.fact_id,
+                record.company_id,
+                record.asset_id,
+                record.fact_namespace,
+                record.fact_key,
+                record.entity_type,
+                record.entity_id,
+                record.source_type,
+                record.conflict_status,
+                1 if record.is_active else 0,
+                record.created_at.isoformat(),
+                self._json_dump(record.payload_json),
+                source_trace.model_dump_json(),
+            ),
+        )
+        self._conn.commit()
+        return record
+
     def link_event_signal(self, event_id: str, signal_id: str) -> None:
         """Explicitly link an event to a structured signal."""
         self._conn.execute(
@@ -1759,6 +1871,34 @@ class KnowledgeStore:
                 processed_at_iso,
             ),
         )
+
+    def mark_document_hash_processed_explicit(
+        self,
+        *,
+        source: str,
+        document_hash: str,
+        raw_document_id: str,
+        processed_at: datetime,
+    ) -> None:
+        processed_at_iso = self._coerce_datetime(processed_at).isoformat()
+        self._conn.execute(
+            """
+            INSERT INTO processed_document_hashes(
+                source, document_hash, raw_document_id, first_processed_at, last_processed_at
+            ) VALUES (?, ?, ?, ?, ?)
+            ON CONFLICT(source, document_hash) DO UPDATE SET
+                raw_document_id = excluded.raw_document_id,
+                last_processed_at = excluded.last_processed_at
+            """,
+            (
+                source,
+                document_hash,
+                raw_document_id,
+                processed_at_iso,
+                processed_at_iso,
+            ),
+        )
+        self._conn.commit()
 
     def event_exists(self, event_id: str) -> bool:
         row = self._conn.execute(
@@ -4281,6 +4421,37 @@ class KnowledgeStore:
             )
         return out
 
+    def get_evidence_facts(
+        self,
+        *,
+        company_id: Optional[str] = None,
+        asset_id: Optional[str] = None,
+        fact_key: Optional[str] = None,
+        only_active: bool = False,
+        limit: int = 200,
+    ) -> list[dict]:
+        clauses = []
+        params: list[object] = []
+        if company_id is not None:
+            clauses.append("company_id = ?")
+            params.append(company_id)
+        if asset_id is not None:
+            clauses.append("asset_id = ?")
+            params.append(asset_id)
+        if fact_key is not None:
+            clauses.append("fact_key = ?")
+            params.append(fact_key)
+        if only_active:
+            clauses.append("is_active = 1")
+
+        sql = "SELECT payload_json FROM evidence_facts"
+        if clauses:
+            sql += " WHERE " + " AND ".join(clauses)
+        sql += " ORDER BY created_at DESC LIMIT ?"
+        params.append(limit)
+        rows = self._conn.execute(sql, params).fetchall()
+        return [json.loads(row["payload_json"]) for row in rows]
+
     def apply_retention_policy(
         self,
         *,
@@ -5837,3 +6008,87 @@ class KnowledgeStore:
         })
         self.upsert_catalyst_event(updated)
         return True
+
+    # ------------------------------------------------------------------
+    # Paper tracking log
+    # ------------------------------------------------------------------
+
+    def write_paper_tracking_entry(
+        self,
+        entry_id: str,
+        snapshot_date: "date",
+        asset_id: str,
+        recommendation: str,
+        *,
+        ticker: Optional[str] = None,
+        composite_score: Optional[float] = None,
+        mna_likelihood: Optional[float] = None,
+        predicted_acquirer: Optional[str] = None,
+        catalyst: Optional[str] = None,
+        thesis: Optional[str] = None,
+        risk_flags: Optional[list] = None,
+    ) -> None:
+        """Upsert a single paper tracking snapshot row.
+
+        Replaces any existing entry for (snapshot_date, asset_id).
+        """
+        now = datetime.now(timezone.utc).isoformat()
+        self._conn.execute(
+            """
+            INSERT OR REPLACE INTO paper_tracking_log(
+                entry_id, snapshot_date, asset_id, ticker, recommendation,
+                composite_score, mna_likelihood, predicted_acquirer,
+                catalyst, thesis, risk_flags, created_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                entry_id,
+                snapshot_date.isoformat() if hasattr(snapshot_date, "isoformat") else str(snapshot_date),
+                asset_id,
+                ticker,
+                recommendation,
+                composite_score,
+                mna_likelihood,
+                predicted_acquirer,
+                catalyst,
+                thesis,
+                json.dumps(risk_flags) if risk_flags is not None else None,
+                now,
+            ),
+        )
+        self._conn.commit()
+
+    def get_paper_tracking_entries(
+        self,
+        *,
+        since: Optional["date"] = None,
+        asset_id: Optional[str] = None,
+        limit: int = 200,
+    ) -> list[dict]:
+        """Return paper tracking entries ordered by (snapshot_date DESC, asset_id).
+
+        Parameters
+        ----------
+        since:
+            If provided, only return entries with snapshot_date >= since.
+        asset_id:
+            If provided, filter to a single asset.
+        limit:
+            Maximum number of rows to return.
+        """
+        clauses: list[str] = []
+        params: list = []
+        if since is not None:
+            clauses.append("snapshot_date >= ?")
+            params.append(since.isoformat() if hasattr(since, "isoformat") else str(since))
+        if asset_id is not None:
+            clauses.append("asset_id = ?")
+            params.append(asset_id)
+        where = ("WHERE " + " AND ".join(clauses)) if clauses else ""
+        params.append(limit)
+        rows = self._conn.execute(
+            f"SELECT * FROM paper_tracking_log {where} "
+            f"ORDER BY snapshot_date DESC, asset_id ASC LIMIT ?",
+            params,
+        ).fetchall()
+        return [dict(row) for row in rows]
