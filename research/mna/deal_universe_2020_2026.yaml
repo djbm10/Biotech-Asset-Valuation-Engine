@@ -29,6 +29,7 @@ deals:
     comp_bucket: "direct_dev_stage"
     source_url: "https://www.gsk.com/en-gb/media/press-releases/gsk-enters-agreement-to-acquire-rapt-therapeutics/"
     notes: "GSK disclosed $2.2B aggregate equity value and $1.9B upfront investment net of cash acquired."
+    consideration_per_share: 68.0
 
   - target_name: "Verona Pharma"
     target_ticker: "VRNA"
@@ -44,6 +45,7 @@ deals:
     comp_bucket: "approved_or_commercial"
     source_url: "https://www.merck.com/news/merck-to-acquire-verona-pharma-expanding-its-portfolio-to-include-ohtuvayre-ensifentrine-a-first-in-class-copd-maintenance-treatment-for-adults-and-expected-to-drive-growth-into-the-next-dec/"
     notes: "Commercial-stage respiratory asset; useful precedent but not a clean development-stage comp."
+    consideration_per_share: 46.0
 
   - target_name: "Avidity Biosciences"
     target_ticker: "RNA"
@@ -59,6 +61,7 @@ deals:
     comp_bucket: "direct_dev_stage"
     source_url: "https://www.novartis.com/news/media-releases/novartis-successfully-completes-acquisition-avidity-biosciences-strengthening-late-stage-neuroscience-pipeline-and-advancing-xrna-strategy"
     notes: "Novartis completed the acquisition on February 27, 2026 and disclosed approximately $12B fully diluted equity value and approximately $11B enterprise value."
+    consideration_per_share: 61.0
 
   - target_name: "Anthos Therapeutics"
     acquirer: "Novartis"
@@ -88,6 +91,7 @@ deals:
     comp_bucket: "approved_or_commercial"
     source_url: "https://www.investor.jnj.com/news/news-details/2025/Johnson--Johnson-Strengthens-Neuroscience-Leadership-with-Acquisition-of-Intra-Cellular-Therapies-Inc/default.aspx?68094312_page=2"
     notes: "J&J described Caplyta as having $5B+ peak-year sales potential."
+    consideration_per_share: 132.0
 
   - target_name: "IDRx"
     acquirer: "GSK"
@@ -117,6 +121,7 @@ deals:
     comp_bucket: "platform_or_preclinical"
     source_url: "https://investor.lilly.com/news-releases/news-release-details/lilly-acquire-verve-therapeutics-advance-one-time-treatments"
     notes: "Very early for strict M&A comps, but relevant as a one-time genetic-medicine cardiovascular precedent."
+    consideration_per_share: 10.0
 
   - target_name: "Longboard Pharmaceuticals"
     target_ticker: "LBPH"
@@ -132,6 +137,7 @@ deals:
     comp_bucket: "direct_dev_stage"
     source_url: "https://www.lundbeck.com/us/newsroom/2024/lundbeck-to-acquire-longboard-pharmaceuticals-in-a-strategic-deal"
     notes: "Lundbeck also disclosed approximately $2.5B net of cash."
+    consideration_per_share: 60.0
 
   - target_name: "EyeBio"
     acquirer: "Merck"
@@ -161,6 +167,7 @@ deals:
     comp_bucket: "direct_dev_stage"
     source_url: "https://investors.vrtx.com/news-releases/news-release-details/vertex-enters-agreement-acquire-alpine-immune-sciences"
     notes: "Vertex also disclosed approximately $4.6B net of estimated cash acquired."
+    consideration_per_share: 65.0
 
   - target_name: "Inhibrx"
     target_ticker: "INBX"
@@ -176,6 +183,7 @@ deals:
     comp_bucket: "direct_dev_stage"
     source_url: "https://www.sanofi.com/en/media-room/press-releases/2024/2024-01-23-06-30-00-2813696"
     notes: "Complex structure with $30/share cash, a $5 CVR and spin-out of non-INBRX-101 assets."
+    consideration_per_share: 30.0
 
   - target_name: "Morphic"
     target_ticker: "MORF"
@@ -191,6 +199,7 @@ deals:
     comp_bucket: "direct_dev_stage"
     source_url: "https://investor.lilly.com/news-releases/news-release-details/lilly-acquire-morphic-improve-outcomes-patients-inflammatory"
     notes: "Classic oral-I&I Phase 2 takeout."
+    consideration_per_share: 57.0
 
   - target_name: "CymaBay Therapeutics"
     target_ticker: "CBAY"
@@ -206,6 +215,7 @@ deals:
     comp_bucket: "direct_dev_stage"
     source_url: "https://www.gilead.com/news/news-details/2024/gilead-sciences-expands-liver-portfolio-with-acquisition-of-cymabay-therapeutics"
     notes: "Priority-review-stage liver asset; one of the cleaner late-stage precedents."
+    consideration_per_share: 32.5
 
   - target_name: "Ambrx"
     target_ticker: "AMAM"
@@ -250,6 +260,7 @@ deals:
     comp_bucket: "direct_dev_stage"
     source_url: "https://news.bms.com/news/corporate-financial/2023/Bristol-Myers-Squibb-Strengthens-Neuroscience-Portfolio-with-Acquisition-of-Karuna-Therapeutics/default.aspx?linkId=256710596"
     notes: "BMS also disclosed approximately $12.7B net of estimated cash acquired."
+    consideration_per_share: 330.0
 
   - target_name: "Harpoon Therapeutics"
     target_ticker: "HARP"
@@ -265,6 +276,7 @@ deals:
     comp_bucket: "direct_dev_stage"
     source_url: "https://www.merck.com/news/merck-and-harpoon-therapeutics-announce-definitive-agreement-under-which-merck-will-acquire-harpoon-therapeutics/"
     notes: "Merck later described the transaction as approximately $765M including acquired cash and transaction costs, but the signed announcement used approximately $680M equity value."
+    consideration_per_share: 23.0
 
   - target_name: "Cerevel Therapeutics"
     target_ticker: "CERE"
@@ -280,6 +292,7 @@ deals:
     comp_bucket: "direct_dev_stage"
     source_url: "https://news.abbvie.com/2023-12-06-AbbVie-to-Acquire-Cerevel-Therapeutics-in-Transformative-Transaction-to-Strengthen-Neuroscience-Pipeline"
     notes: "Pipeline deal with several clinical assets; emraclidine is the lead anchor."
+    consideration_per_share: 45.0
 
   - target_name: "RayzeBio"
     target_ticker: "RYZB"
@@ -295,6 +308,7 @@ deals:
     comp_bucket: "direct_dev_stage"
     source_url: "https://news.bms.com/news/details/2023/Bristol-Myers-Squibb-Adds-Premier-Radiopharmaceutical-Platform-with-Acquisition-of-RayzeBio/"
     notes: "BMS also disclosed approximately $3.6B net of estimated cash acquired."
+    consideration_per_share: 62.5
 
   - target_name: "Prometheus Biosciences"
     target_ticker: "RXDX"
@@ -310,6 +324,7 @@ deals:
     comp_bucket: "direct_dev_stage"
     source_url: "https://www.merck.com/news/merck-strengthens-immunology-pipeline-with-acquisition-of-prometheus-biosciences-inc/"
     notes: "Large-ticket Phase 2 immunology takeout with precision-medicine platform characteristics."
+    consideration_per_share: 200.0
 
   - target_name: "Chinook Therapeutics"
     target_ticker: "KDNY"
@@ -325,6 +340,7 @@ deals:
     comp_bucket: "direct_dev_stage"
     source_url: "https://www.novartis.com/news/media-releases/novartis-bolsters-innovative-medicines-strategy-and-renal-pipeline-agreement-acquire-chinook-therapeutics-usd-32bn-upfront-usd-40-share"
     notes: "Novartis disclosed $3.2B upfront plus a CVR worth up to $300M."
+    consideration_per_share: 40.0
 
   - target_name: "Iveric Bio"
     target_ticker: "ISEE"
@@ -340,6 +356,7 @@ deals:
     comp_bucket: "direct_dev_stage"
     source_url: "https://www.astellas.com/en/news/27741"
     notes: "PDUFA-stage ophthalmology takeout."
+    consideration_per_share: 40.0
 
   - target_name: "Bellus Health"
     target_ticker: "BLU"
@@ -355,6 +372,7 @@ deals:
     comp_bucket: "direct_dev_stage"
     source_url: "https://www.gsk.com/en-gb/media/press-releases/gsk-reaches-agreement-to-acquire-late-stage-biopharmaceutical-company-bellus-health/"
     notes: "Late-stage single-asset respiratory deal."
+    consideration_per_share: 14.75
 
   - target_name: "Reata Pharmaceuticals"
     target_ticker: "RETA"
@@ -370,6 +388,7 @@ deals:
     comp_bucket: "approved_or_commercial"
     source_url: "https://investors.biogen.com/news-releases/news-release-details/biogen-acquire-reata-pharmaceuticals"
     notes: "Biogen explicitly framed the transaction at approximately $7.3B enterprise value."
+    consideration_per_share: 172.5
 
   - target_name: "Provention Bio"
     target_ticker: "PRVB"
@@ -385,6 +404,7 @@ deals:
     comp_bucket: "approved_or_commercial"
     source_url: "https://www.sanofi.com/en/media-room/press-releases/2023/2023-03-13-06-00-00-2625367"
     notes: "Commercial-stage but still relevant for immunology/autoimmune franchise building."
+    consideration_per_share: 25.0
 
   - target_name: "CinCor Pharma"
     target_ticker: "CINC"
@@ -400,6 +420,7 @@ deals:
     comp_bucket: "direct_dev_stage"
     source_url: "https://www.globenewswire.com/news-release/2023/01/09/2584810/0/en/CinCor-Pharma-to-be-Acquired-by-AstraZeneca.html"
     notes: "AstraZeneca disclosed $1.3B upfront plus a CVR worth up to $500M tied to baxdrostat qualification and sales milestones."
+    consideration_per_share: 26.0
 
   - target_name: "Biohaven Pharmaceuticals"
     target_ticker: "BHVN"
@@ -415,6 +436,7 @@ deals:
     comp_bucket: "approved_or_commercial"
     source_url: "https://www.pfizer.com/news/press-release/press-release-detail/pfizer-acquire-biohaven-pharmaceuticals"
     notes: "Includes spin-out of non-CGRP assets into New Biohaven."
+    consideration_per_share: 148.5
 
   - target_name: "ChemoCentryx"
     target_ticker: "CCXI"
@@ -430,6 +452,7 @@ deals:
     comp_bucket: "approved_or_commercial"
     source_url: "https://www.amgen.com/newsroom/press-releases/2022/08/amgen-to-acquire-chemocentryx-for-%244-billion-in-cash"
     notes: "Approved rare-immunology product with additional late-stage expansion opportunities."
+    consideration_per_share: 52.0
 
   - target_name: "Sierra Oncology"
     target_ticker: "SRRA"
@@ -445,6 +468,7 @@ deals:
     comp_bucket: "direct_dev_stage"
     source_url: "https://us.gsk.com/en-us/media/press-releases/gsk-reaches-agreement-to-acquire-late-stage-biopharmaceutical-company-sierra-oncology-for-19bn/"
     notes: "Pre-approval hematology/oncology takeout."
+    consideration_per_share: 55.0
 
   - target_name: "Turning Point Therapeutics"
     target_ticker: "TPTX"
@@ -460,6 +484,7 @@ deals:
     comp_bucket: "direct_dev_stage"
     source_url: "https://news.bms.com/news/details/2022/Bristol-Myers-Squibb-to-Acquire-Turning-Point-Therapeutics-a-Leading-Precision-Oncology-Company/default.aspx"
     notes: "BMS described repotrectinib as a late-stage precision oncology asset expected to launch in 2023."
+    consideration_per_share: 76.0
 
   - target_name: "Imago BioSciences"
     target_ticker: "IMGO"
@@ -475,6 +500,7 @@ deals:
     comp_bucket: "direct_dev_stage"
     source_url: "https://www.merck.com/news/merck-to-acquire-imago-biosciences-inc/"
     notes: "Hematology pipeline expansion deal."
+    consideration_per_share: 36.0
 
   - target_name: "Akouos"
     target_ticker: "AKUS"
@@ -505,6 +531,7 @@ deals:
     comp_bucket: "direct_dev_stage"
     source_url: "https://www.merck.com/news/merck-to-acquire-acceleron-pharma-inc/"
     notes: "Also included approved REBLOZYL economics, so it sits between pure development-stage and commercial precedent."
+    consideration_per_share: 180.0
 
   - target_name: "Five Prime Therapeutics"
     target_ticker: "FPRX"
@@ -520,6 +547,7 @@ deals:
     comp_bucket: "direct_dev_stage"
     source_url: "https://wwwext.amgen.com/newsroom/press-releases/2021/03/amgen-to-acquire-five-prime-therapeutics-for-%241-9-billion-in-cash"
     notes: "Single-asset oncology takeout built around bemarituzumab after positive Phase 2 FIGHT data."
+    consideration_per_share: 38.0
 
   - target_name: "Arena Pharmaceuticals"
     target_ticker: "ARNA"
@@ -535,6 +563,7 @@ deals:
     comp_bucket: "direct_dev_stage"
     source_url: "https://www.pfizer.com/news/press-release/press-release-detail/pfizer-acquire-arena-pharmaceuticals"
     notes: "One of the most relevant pre-commercial I&I precedents of the 2020s."
+    consideration_per_share: 100.0
 
   - target_name: "Translate Bio"
     target_ticker: "TBIO"
@@ -550,6 +579,7 @@ deals:
     comp_bucket: "platform_or_preclinical"
     source_url: "https://www.sanofi.com/en/media-room/press-releases/2021/2021-08-03-05-00-00-2273307"
     notes: "Mostly a modality/platform acquisition rather than a clean single-asset comp."
+    consideration_per_share: 38.0
 
   - target_name: "Trillium Therapeutics"
     target_ticker: "TRIL"
@@ -580,6 +610,7 @@ deals:
     comp_bucket: "approved_or_commercial"
     source_url: "https://www.gilead.com/news/news-details/2020/gilead-sciences-to-acquire-immunomedics"
     notes: "Transformational oncology deal centered on an already approved ADC."
+    consideration_per_share: 88.0
 
   - target_name: "MyoKardia"
     target_ticker: "MYOK"
@@ -595,6 +626,7 @@ deals:
     comp_bucket: "direct_dev_stage"
     source_url: "https://news.bms.com/news/details/2020/Bristol-Myers-Squibb-to-Acquire-MyoKardia-for-13.1-Billion-in-Cash/default.aspx"
     notes: "Large-ticket cardiovascular Phase 3 precedent."
+    consideration_per_share: 225.0
 
   - target_name: "Momenta Pharmaceuticals"
     target_ticker: "MNTA"
@@ -610,6 +642,7 @@ deals:
     comp_bucket: "direct_dev_stage"
     source_url: "https://www.jnj.com/media-center/press-releases/johnson-johnson-to-acquire-momenta-pharmaceuticals-inc-expanding-janssens-leadership-in-novel-treatments-for-autoimmune-diseases"
     notes: "Multi-indication immunology asset with broad lifecycle potential."
+    consideration_per_share: 60.25
 
   - target_name: "Principia Biopharma"
     target_ticker: "PRNB"
@@ -625,6 +658,7 @@ deals:
     comp_bucket: "direct_dev_stage"
     source_url: "https://www.sanofi.com/en/media-room/press-releases/2020/2020-08-17-05-00-00-2078993"
     notes: "Sanofi separately cited approximately $3.36B enterprise value under the tender-offer terms."
+    consideration_per_share: 100.0
 
   - target_name: "Prevail Therapeutics"
     target_ticker: "PRVL"

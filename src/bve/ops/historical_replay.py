@@ -57,6 +57,49 @@ from bve.intelligence.thesis_tracker import ClaimType, ThesisTracker
 _OUTPUTS_DIR = Path(__file__).parent.parent.parent.parent / "outputs" / "intelligence"
 REPLAY_STORE_PATH = _OUTPUTS_DIR / "replay_store.sqlite"
 REPLAY_KNOWLEDGE_PATH = _OUTPUTS_DIR / "replay_knowledge.db"
+_DEFAULT_DEAL_UNIVERSE = (
+    Path(__file__).parent.parent.parent.parent / "research" / "mna" / "deal_universe_2020_2026.yaml"
+)
+
+
+# ---------------------------------------------------------------------------
+# Deal universe fallback price loader
+# ---------------------------------------------------------------------------
+
+
+def load_deal_fallback_prices(
+    deal_universe_path: str | Path | None = None,
+) -> dict[str, tuple[date, float]]:
+    """Load per-share consideration prices from the deal universe YAML.
+
+    Returns a dict of ``ticker → (announcement_date, consideration_per_share)``
+    for every deal entry that has both ``target_ticker`` and
+    ``consideration_per_share`` populated.  Used as the primary source for
+    :meth:`HistoricalReplay.seed_prices` acquisition fallback, replacing the
+    need for a hand-crafted caller-side dict.
+
+    Parameters
+    ----------
+    deal_universe_path:
+        Path to the deal universe YAML.  Defaults to
+        ``research/mna/deal_universe_2020_2026.yaml`` relative to the repo root.
+    """
+    path = Path(deal_universe_path or _DEFAULT_DEAL_UNIVERSE)
+    if not path.exists():
+        return {}
+    raw = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    deals = raw.get("deals", []) if isinstance(raw, dict) else raw
+    result: dict[str, tuple[date, float]] = {}
+    for deal in deals:
+        ticker = deal.get("target_ticker")
+        price = deal.get("consideration_per_share")
+        ann_str = deal.get("announcement_date")
+        if ticker and price is not None and ann_str:
+            try:
+                result[ticker] = (date.fromisoformat(ann_str), float(price))
+            except (ValueError, TypeError):
+                continue
+    return result
 
 
 # ---------------------------------------------------------------------------
@@ -951,6 +994,7 @@ class HistoricalReplay:
         end: date,
         *,
         acquisition_fallback: Optional[dict[str, tuple[date, float]]] = None,
+        deal_universe_path: str | Path | None = None,
     ) -> None:
         """Download historical prices from yfinance and store them.
 
@@ -969,9 +1013,30 @@ class HistoricalReplay:
             When yfinance returns an empty or failed result *and* the ticker is
             present in this dict, synthetic flat price history is seeded via
             :meth:`ReplayStore.seed_acquisition_price` (365-day window ending
-            at *announcement_date*).
+            at *announcement_date*).  Takes precedence over deal-universe lookup.
+        deal_universe_path:
+            Optional path to ``deal_universe_2020_2026.yaml``.  When provided
+            (or when the default path exists), consideration prices from the YAML
+            are used as a fallback *after* ``acquisition_fallback`` is checked.
+            Pass ``False`` to disable deal-universe lookup entirely.
         """
         from bve.ingestion.market_data import fetch_price_history
+
+        # Build the merged fallback table: caller dict takes precedence;
+        # deal-universe provides the remaining entries automatically.
+        _deal_fb: dict[str, tuple[date, float]] = (
+            {}
+            if deal_universe_path is False
+            else load_deal_fallback_prices(deal_universe_path or None)
+        )
+        _fb: dict[str, tuple[date, float]] = {**_deal_fb, **(acquisition_fallback or {})}
+
+        def _apply_fallback(ticker: str, source_label: str) -> None:
+            if ticker in _fb:
+                ann_date, price = _fb[ticker]
+                src = "caller" if (acquisition_fallback or {}).get(ticker) else "deal_universe"
+                n = self._rs.seed_acquisition_price(ticker, ann_date, price)
+                print(f"  {ticker}: {n} synthetic rows seeded from {src} fallback @ ${price:.2f}")
 
         for ticker in tickers:
             try:
@@ -982,10 +1047,7 @@ class HistoricalReplay:
                 )
                 if df.empty:
                     print(f"  [WARN] No price data for {ticker}")
-                    if acquisition_fallback and ticker in acquisition_fallback:
-                        ann_date, price = acquisition_fallback[ticker]
-                        n = self._rs.seed_acquisition_price(ticker, ann_date, price)
-                        print(f"  {ticker}: {n} synthetic acquisition-price rows seeded (fallback)")
+                    _apply_fallback(ticker, "empty_df")
                     continue
 
                 rows: list[tuple[date, float]] = []
@@ -1002,17 +1064,11 @@ class HistoricalReplay:
                     print(f"  {ticker}: {len(rows)} price rows inserted")
                 else:
                     print(f"  [WARN] No valid rows parsed for {ticker}")
-                    if acquisition_fallback and ticker in acquisition_fallback:
-                        ann_date, price = acquisition_fallback[ticker]
-                        n = self._rs.seed_acquisition_price(ticker, ann_date, price)
-                        print(f"  {ticker}: {n} synthetic acquisition-price rows seeded (fallback)")
+                    _apply_fallback(ticker, "empty_rows")
 
             except Exception as exc:  # noqa: BLE001
                 print(f"  [WARN] Failed to seed prices for {ticker}: {exc}")
-                if acquisition_fallback and ticker in acquisition_fallback:
-                    ann_date, price = acquisition_fallback[ticker]
-                    n = self._rs.seed_acquisition_price(ticker, ann_date, price)
-                    print(f"  {ticker}: {n} synthetic acquisition-price rows seeded (fallback)")
+                _apply_fallback(ticker, "exception")
 
     def seed_claims(
         self,

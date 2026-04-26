@@ -25,7 +25,7 @@ from datetime import date, datetime, timezone
 import pytest
 
 from bve.intelligence.replay_clock import ReplayClock
-from bve.ops.historical_replay import ReplayStore, HistoricalReplay
+from bve.ops.historical_replay import ReplayStore, HistoricalReplay, load_deal_fallback_prices
 
 
 # ---------------------------------------------------------------------------
@@ -2878,3 +2878,131 @@ def test_seed_prices_fallback_dict_accepted_in_signature(tmp_path):
     fallback: dict = {"TPTX": (date(2022, 6, 3), 76.0)}
     # Call with empty tickers list — just testing signature acceptance (no network hit)
     replay.seed_prices([], date(2022, 1, 1), date(2022, 12, 31), acquisition_fallback=fallback)
+
+
+def test_load_deal_fallback_prices_returns_dict(tmp_path):
+    """load_deal_fallback_prices should parse YAML and return ticker→(date, price) dict."""
+    import yaml
+    deal_yaml = tmp_path / "deals.yaml"
+    deal_yaml.write_text("""
+deals:
+  - target_name: "Karuna Therapeutics"
+    target_ticker: "KRTX"
+    acquirer: "Bristol Myers Squibb"
+    announcement_date: "2023-12-22"
+    headline_value_millions: 14000
+    notes: "BMS deal."
+    consideration_per_share: 330.0
+  - target_name: "Biohaven"
+    target_ticker: "BHVN"
+    acquirer: "Pfizer"
+    announcement_date: "2022-05-10"
+    headline_value_millions: 11600
+    notes: "Pfizer deal."
+    consideration_per_share: 148.50
+  - target_name: "Private Co"
+    acquirer: "Merck"
+    announcement_date: "2022-01-01"
+    headline_value_millions: 1000
+    notes: "No ticker."
+""")
+    result = load_deal_fallback_prices(deal_yaml)
+    assert "KRTX" in result
+    assert result["KRTX"] == (date(2023, 12, 22), 330.0)
+    assert "BHVN" in result
+    assert result["BHVN"] == (date(2022, 5, 10), 148.50)
+    assert len(result) == 2  # private company excluded (no ticker)
+
+
+def test_load_deal_fallback_prices_missing_file_returns_empty():
+    """load_deal_fallback_prices should return empty dict if file does not exist."""
+    result = load_deal_fallback_prices("/nonexistent/path/deals.yaml")
+    assert result == {}
+
+
+def test_load_deal_fallback_prices_excludes_entries_without_price(tmp_path):
+    """Entries without consideration_per_share should be excluded."""
+    deal_yaml = tmp_path / "deals.yaml"
+    deal_yaml.write_text("""
+deals:
+  - target_name: "No Price Co"
+    target_ticker: "NPC"
+    acquirer: "Pfizer"
+    announcement_date: "2022-06-01"
+    headline_value_millions: 500
+    notes: "No per-share price."
+""")
+    result = load_deal_fallback_prices(deal_yaml)
+    assert result == {}
+
+
+def test_seed_prices_uses_deal_universe_fallback_automatically(monkeypatch, tmp_path):
+    """seed_prices should auto-load deal_universe fallback when yfinance returns empty."""
+    import pandas as pd
+    import yaml
+    from bve.ops.historical_replay import HistoricalReplay, ReplayStore
+
+    monkeypatch.setattr(
+        "bve.ingestion.market_data.fetch_price_history",
+        lambda ticker, start, end: pd.DataFrame(),
+    )
+
+    deal_yaml = tmp_path / "deals.yaml"
+    deal_yaml.write_text("""
+deals:
+  - target_name: "Karuna Therapeutics"
+    target_ticker: "KRTX"
+    acquirer: "Bristol Myers Squibb"
+    announcement_date: "2023-12-22"
+    headline_value_millions: 14000
+    notes: "BMS deal."
+    consideration_per_share: 330.0
+""")
+
+    store = ReplayStore(":memory:")
+    kb_path = str(tmp_path / "kb.db")
+    replay = HistoricalReplay(store, kb_path)
+
+    replay.seed_prices(["KRTX"], date(2023, 1, 1), date(2024, 1, 1), deal_universe_path=deal_yaml)
+
+    # Deal-universe fallback should have seeded prices
+    price = store.get_price("KRTX", date(2023, 6, 1))
+    assert price == pytest.approx(330.0)
+
+
+def test_seed_prices_caller_fallback_overrides_deal_universe(monkeypatch, tmp_path):
+    """Explicit acquisition_fallback dict takes precedence over deal_universe."""
+    import pandas as pd
+    from bve.ops.historical_replay import HistoricalReplay, ReplayStore
+
+    monkeypatch.setattr(
+        "bve.ingestion.market_data.fetch_price_history",
+        lambda ticker, start, end: pd.DataFrame(),
+    )
+
+    deal_yaml = tmp_path / "deals.yaml"
+    deal_yaml.write_text("""
+deals:
+  - target_name: "Karuna Therapeutics"
+    target_ticker: "KRTX"
+    acquirer: "Bristol Myers Squibb"
+    announcement_date: "2023-12-22"
+    headline_value_millions: 14000
+    notes: "BMS deal."
+    consideration_per_share: 330.0
+""")
+
+    store = ReplayStore(":memory:")
+    kb_path = str(tmp_path / "kb.db")
+    replay = HistoricalReplay(store, kb_path)
+
+    # Caller supplies a different price — this should win
+    caller_fallback = {"KRTX": (date(2023, 12, 22), 99.0)}
+    replay.seed_prices(
+        ["KRTX"], date(2023, 1, 1), date(2024, 1, 1),
+        acquisition_fallback=caller_fallback,
+        deal_universe_path=deal_yaml,
+    )
+
+    price = store.get_price("KRTX", date(2023, 6, 1))
+    assert price == pytest.approx(99.0)
