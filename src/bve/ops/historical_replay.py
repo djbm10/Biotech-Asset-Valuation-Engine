@@ -28,6 +28,7 @@ import json
 import sqlite3
 import sys
 import uuid
+from dataclasses import asdict
 from calendar import monthrange
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
@@ -96,6 +97,7 @@ class ReplayStore:
                 decision_policy  TEXT NOT NULL,
                 score_version    TEXT NOT NULL,
                 strategy_version TEXT NOT NULL,
+                run_metadata_json TEXT,
                 created_at       TEXT NOT NULL
             );
 
@@ -228,6 +230,17 @@ class ReplayStore:
                 "ALTER TABLE catalyst_events ADD COLUMN snapshot_date TEXT"
             )
             self._conn.commit()
+        replay_run_columns = {
+            row[1]
+            for row in self._conn.execute(
+                "PRAGMA table_info(replay_runs)"
+            ).fetchall()
+        }
+        if "run_metadata_json" not in replay_run_columns:
+            self._conn.execute(
+                "ALTER TABLE replay_runs ADD COLUMN run_metadata_json TEXT"
+            )
+            self._conn.commit()
 
     # ------------------------------------------------------------------
     # Prices
@@ -241,6 +254,52 @@ class ReplayStore:
             [(ticker, d.isoformat(), price) for d, price in rows],
         )
         self._conn.commit()
+
+    def seed_acquisition_price(
+        self,
+        ticker: str,
+        announcement_date: date,
+        price_per_share: float,
+        *,
+        lookback_days: int = 365,
+    ) -> int:
+        """Seed synthetic flat price history for an acquired / delisted ticker.
+
+        For tickers that no longer trade on yfinance, this creates a constant
+        price series (equal to the deal consideration price) covering the
+        ``lookback_days``-day window ending on *announcement_date*.  The flat
+        series lets replay attribution work correctly even when live data is
+        unavailable.
+
+        Parameters
+        ----------
+        ticker:
+            The acquired company's ticker (e.g. "TPTX").
+        announcement_date:
+            The M&A announcement date.  This is the last synthetic row date.
+        price_per_share:
+            The deal consideration per share (e.g. $76.00 for TPTX).
+        lookback_days:
+            How many calendar days before *announcement_date* to cover.
+            Defaults to 365 (12 months).
+
+        Returns
+        -------
+        int
+            Number of price rows inserted.
+        """
+        start = announcement_date - timedelta(days=lookback_days)
+        rows: list[tuple[date, float]] = []
+        current = start
+        while current <= announcement_date:
+            # Include all calendar days — ReplayStore.get_price() uses
+            # a floor-to-most-recent query so gaps are fine, but denser data
+            # prevents gaps in weekly replay windows.
+            rows.append((current, price_per_share))
+            current += timedelta(days=1)
+        if rows:
+            self.insert_prices(ticker, rows)
+        return len(rows)
 
     def get_price(self, ticker: str, price_date: date) -> Optional[float]:
         """
@@ -443,6 +502,7 @@ class ReplayStore:
         decision_policy: str,
         score_version: str,
         strategy_version: str,
+        run_metadata_json: Optional[str] = None,
     ) -> str:
         """Create a new replay run record. Returns run_id."""
         run_id = str(uuid.uuid4())
@@ -450,8 +510,8 @@ class ReplayStore:
             """
             INSERT INTO replay_runs
                 (run_id, start_date, end_date, cadence, decision_policy,
-                 score_version, strategy_version, created_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                 score_version, strategy_version, run_metadata_json, created_at)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 run_id,
@@ -461,6 +521,7 @@ class ReplayStore:
                 decision_policy,
                 score_version,
                 strategy_version,
+                run_metadata_json,
                 datetime.now(timezone.utc).isoformat(),
             ),
         )
@@ -888,12 +949,27 @@ class HistoricalReplay:
         tickers: list[str],
         start: date,
         end: date,
+        *,
+        acquisition_fallback: Optional[dict[str, tuple[date, float]]] = None,
     ) -> None:
-        """
-        Download historical prices from yfinance and store them.
+        """Download historical prices from yfinance and store them.
 
         Failures are handled gracefully — a warning is printed and the loop
         continues with partial data.
+
+        Parameters
+        ----------
+        tickers:
+            List of tickers to seed.
+        start, end:
+            Date range to request from yfinance.
+        acquisition_fallback:
+            Optional mapping of ``ticker → (announcement_date, price_per_share)``
+            for acquired / delisted names where yfinance returns no data.
+            When yfinance returns an empty or failed result *and* the ticker is
+            present in this dict, synthetic flat price history is seeded via
+            :meth:`ReplayStore.seed_acquisition_price` (365-day window ending
+            at *announcement_date*).
         """
         from bve.ingestion.market_data import fetch_price_history
 
@@ -906,6 +982,10 @@ class HistoricalReplay:
                 )
                 if df.empty:
                     print(f"  [WARN] No price data for {ticker}")
+                    if acquisition_fallback and ticker in acquisition_fallback:
+                        ann_date, price = acquisition_fallback[ticker]
+                        n = self._rs.seed_acquisition_price(ticker, ann_date, price)
+                        print(f"  {ticker}: {n} synthetic acquisition-price rows seeded (fallback)")
                     continue
 
                 rows: list[tuple[date, float]] = []
@@ -922,9 +1002,17 @@ class HistoricalReplay:
                     print(f"  {ticker}: {len(rows)} price rows inserted")
                 else:
                     print(f"  [WARN] No valid rows parsed for {ticker}")
+                    if acquisition_fallback and ticker in acquisition_fallback:
+                        ann_date, price = acquisition_fallback[ticker]
+                        n = self._rs.seed_acquisition_price(ticker, ann_date, price)
+                        print(f"  {ticker}: {n} synthetic acquisition-price rows seeded (fallback)")
 
             except Exception as exc:  # noqa: BLE001
                 print(f"  [WARN] Failed to seed prices for {ticker}: {exc}")
+                if acquisition_fallback and ticker in acquisition_fallback:
+                    ann_date, price = acquisition_fallback[ticker]
+                    n = self._rs.seed_acquisition_price(ticker, ann_date, price)
+                    print(f"  {ticker}: {n} synthetic acquisition-price rows seeded (fallback)")
 
     def seed_claims(
         self,
@@ -1241,6 +1329,7 @@ class HistoricalReplay:
         end: date,
         cadence: str = "weekly",
         decision_policy: str = "top2_add",
+        profile: str = "standard",
     ) -> str:
         """
         Execute the replay loop from *start* to *end*.
@@ -1265,6 +1354,14 @@ class HistoricalReplay:
             decision_policy=decision_policy,
             score_version="v2.0",
             strategy_version=self._policy.config.name,
+            run_metadata_json=json.dumps(
+                {
+                    "profile": profile,
+                    "policy_config": _serialize_policy_config(self._policy.config),
+                    "universe_snapshot": self._universe,
+                    "no_lookahead_rule": "all replay queries require timestamp/date <= as_of",
+                }
+            ),
         )
         print(f"Replay run created: {run_id}")
 
@@ -1724,6 +1821,8 @@ class HistoricalReplay:
         }
         returns: list[float] = []
         returns_by_action: dict[str, list[float]] = {}
+        returns_by_tier: dict[str, list[float]] = {}
+        brier_terms: list[float] = []
 
         for d in closed:
             attr = d.get("attribution_type") or "unclassified"
@@ -1734,9 +1833,15 @@ class HistoricalReplay:
 
             r = d.get("return_pct")
             if r is not None:
-                returns.append(float(r))
+                realized_return = float(r)
+                returns.append(realized_return)
                 action = d.get("action", "unknown")
-                returns_by_action.setdefault(action, []).append(float(r))
+                returns_by_action.setdefault(action, []).append(realized_return)
+                tier = _tier_for_score(d.get("composite_score"))
+                returns_by_tier.setdefault(tier, []).append(realized_return)
+                predicted = max(0.0, min(1.0, _coerce_float(d.get("composite_score"), 0.0)))
+                actual = 1.0 if realized_return > 0.0 else 0.0
+                brier_terms.append((predicted - actual) ** 2)
 
         mean_return = (sum(returns) / len(returns)) if returns else None
         hit_rate = (
@@ -1749,6 +1854,13 @@ class HistoricalReplay:
         end = date.fromisoformat(run["end_date"])
         cadence = run.get("cadence", "weekly")
         n_dates = _count_decision_dates(start, end, cadence)
+        run_metadata = self._load_run_metadata(run)
+        mna_metrics = self._compute_mna_metrics(
+            all_decisions=all_decisions,
+            start_date=start,
+            end_date=end,
+            run_metadata=run_metadata,
+        )
 
         summary = ReplaySummary(
             run_id=run_id,
@@ -1762,6 +1874,18 @@ class HistoricalReplay:
             n_resolved=len(closed),
             mean_return_pct=round(mean_return, 4) if mean_return is not None else None,
             hit_rate=round(hit_rate, 4) if hit_rate is not None else None,
+            brier_score=round(sum(brier_terms) / len(brier_terms), 6) if brier_terms else None,
+            max_drawdown_pct=round(_max_drawdown_from_return_pcts(returns), 4),
+            avg_return_by_tier={
+                tier: round(sum(values) / len(values), 4)
+                for tier, values in sorted(returns_by_tier.items())
+                if values
+            },
+            mna_precision_at_k=mna_metrics["precision_at_k"],
+            mna_top_k=mna_metrics["top_k"],
+            mna_acquirer_top1_accuracy=mna_metrics["acquirer_top1_accuracy"],
+            mna_acquirer_top3_accuracy=mna_metrics["acquirer_top3_accuracy"],
+            n_dead_or_acquired_names_in_universe=mna_metrics["n_labeled_names"],
             n_confirmed_thesis=attribution_counts["confirmed_thesis"],
             n_pos_error=attribution_counts["pos_error"],
             n_timing_error=attribution_counts["timing_error"],
@@ -1770,8 +1894,226 @@ class HistoricalReplay:
             n_stop_loss=attribution_counts["stop_loss"],
             n_unclassified=attribution_counts["unclassified"],
             returns_by_action={k: v for k, v in returns_by_action.items()},
+            notes=[
+                "point_in_time_only=historical_prices,historical_events,and signal snapshots use <= as_of_date",
+                "dated_snapshots_only=true",
+                *mna_metrics["notes"],
+            ],
         )
         return summary
+
+    @staticmethod
+    def _load_run_metadata(run: dict[str, Any]) -> dict[str, Any]:
+        raw = run.get("run_metadata_json")
+        if not raw:
+            return {}
+        try:
+            value = json.loads(str(raw))
+        except (TypeError, ValueError, json.JSONDecodeError):
+            return {}
+        return value if isinstance(value, dict) else {}
+
+    @staticmethod
+    def _normalize_text(value: object) -> str | None:
+        if value is None:
+            return None
+        normalized = " ".join(str(value).strip().lower().split())
+        return normalized or None
+
+    def _compute_mna_metrics(
+        self,
+        *,
+        all_decisions: list[dict[str, Any]],
+        start_date: date,
+        end_date: date,
+        run_metadata: dict[str, Any],
+    ) -> dict[str, Any]:
+        notes: list[str] = []
+        universe_snapshot = run_metadata.get("universe_snapshot")
+        if not isinstance(universe_snapshot, list):
+            universe_snapshot = self._universe
+
+        policy_cfg = run_metadata.get("policy_config")
+        max_positions = 0
+        lookahead_days = 365
+        if isinstance(policy_cfg, dict):
+            try:
+                max_positions = int(policy_cfg.get("max_positions") or 0)
+            except (TypeError, ValueError):
+                max_positions = 0
+            try:
+                lookahead_days = int(policy_cfg.get("max_hold_days") or 365)
+            except (TypeError, ValueError):
+                lookahead_days = 365
+        if max_positions <= 0:
+            max_positions = max(1, self._policy.config.max_positions)
+
+        labels_by_asset: dict[str, dict[str, Any]] = {}
+        labels_by_ticker: dict[str, dict[str, Any]] = {}
+        n_labeled_names = 0
+        for raw in universe_snapshot:
+            if not isinstance(raw, dict):
+                continue
+            announcement_raw = raw.get("announcement_date")
+            acquirer_raw = raw.get("acquirer")
+            if not announcement_raw and not acquirer_raw:
+                continue
+            try:
+                announcement_date = (
+                    date.fromisoformat(str(announcement_raw))
+                    if announcement_raw not in (None, "")
+                    else None
+                )
+            except ValueError:
+                announcement_date = None
+            label = {
+                "announcement_date": announcement_date,
+                "acquirer": acquirer_raw,
+            }
+            asset_id = str(raw.get("asset_id") or "").strip()
+            ticker = str(raw.get("ticker") or "").strip().upper()
+            if asset_id:
+                labels_by_asset[asset_id] = label
+            if ticker:
+                labels_by_ticker[ticker] = label
+            n_labeled_names += 1
+
+        if not all_decisions:
+            return {
+                "precision_at_k": None,
+                "top_k": max_positions,
+                "acquirer_top1_accuracy": None,
+                "acquirer_top3_accuracy": None,
+                "n_labeled_names": n_labeled_names,
+                "notes": notes,
+            }
+
+        from bve.intelligence.knowledge_layer import KnowledgeStore
+
+        def _lookup_label(decision: dict[str, Any]) -> dict[str, Any] | None:
+            asset_id = str(decision.get("asset_id") or "").strip()
+            ticker = str(decision.get("ticker") or "").strip().upper()
+            return labels_by_asset.get(asset_id) or labels_by_ticker.get(ticker)
+
+        decisions_by_date: dict[date, list[dict[str, Any]]] = {}
+        for decision in all_decisions:
+            try:
+                decided_at = date.fromisoformat(str(decision["decided_at"])[:10])
+            except (KeyError, TypeError, ValueError):
+                continue
+            decisions_by_date.setdefault(decided_at, []).append(decision)
+
+        top_total = 0
+        top_hits = 0
+        positive_with_acquirer = 0
+        acquirer_top1_hits = 0
+        ks = KnowledgeStore(self._ks_path)
+        try:
+            rows = ks._conn.execute(
+                """
+                SELECT asset_id, ticker, snapshot_date, best_acquirer_id, best_acquirer_name, created_at
+                FROM ma_probability_snapshots
+                WHERE snapshot_date <= ? AND snapshot_date >= ?
+                ORDER BY snapshot_date ASC, rank ASC, asset_id ASC
+                """,
+                (end_date.isoformat(), start_date.isoformat()),
+            ).fetchall()
+        except sqlite3.OperationalError:
+            rows = []
+
+        snapshots_by_asset: dict[str, list[dict[str, Any]]] = {}
+        snapshots_by_ticker: dict[str, list[dict[str, Any]]] = {}
+        for row in rows:
+            record = dict(row)
+            snapshots_by_asset.setdefault(str(record.get("asset_id") or ""), []).append(record)
+            ticker = str(record.get("ticker") or "").strip().upper()
+            if ticker:
+                snapshots_by_ticker.setdefault(ticker, []).append(record)
+
+        for values in snapshots_by_asset.values():
+            values.sort(key=lambda item: (item["snapshot_date"], item["created_at"]))
+        for values in snapshots_by_ticker.values():
+            values.sort(key=lambda item: (item["snapshot_date"], item["created_at"]))
+
+        def _latest_prediction(decision: dict[str, Any]) -> dict[str, Any] | None:
+            try:
+                decided_at = date.fromisoformat(str(decision["decided_at"])[:10])
+            except (KeyError, TypeError, ValueError):
+                return None
+            asset_id = str(decision.get("asset_id") or "")
+            ticker = str(decision.get("ticker") or "").strip().upper()
+            candidates = snapshots_by_asset.get(asset_id) or snapshots_by_ticker.get(ticker) or []
+            best: dict[str, Any] | None = None
+            for item in candidates:
+                try:
+                    snapshot_date = date.fromisoformat(str(item["snapshot_date"]))
+                    created_at = ks._coerce_datetime(item["created_at"])
+                except (TypeError, ValueError):
+                    continue
+                if snapshot_date > decided_at or created_at.date() > decided_at:
+                    continue
+                best = item
+            return best
+
+        for decided_at in sorted(decisions_by_date):
+            ranked = sorted(
+                decisions_by_date[decided_at],
+                key=lambda row: (
+                    -_coerce_float(row.get("composite_score"), 0.0),
+                    str(row.get("ticker") or ""),
+                ),
+            )
+            top_rows = ranked[:max_positions]
+            top_total += len(top_rows)
+            for row in top_rows:
+                label = _lookup_label(row)
+                if not label:
+                    continue
+                announced_at = label.get("announcement_date")
+                if not isinstance(announced_at, date):
+                    continue
+                if announced_at <= decided_at:
+                    continue
+                if announced_at > min(end_date, decided_at + timedelta(days=lookahead_days)):
+                    continue
+                top_hits += 1
+                actual_acquirer = self._normalize_text(label.get("acquirer"))
+                predicted = _latest_prediction(row)
+                predicted_acquirer = None
+                if predicted is not None:
+                    predicted_acquirer = self._normalize_text(
+                        predicted.get("best_acquirer_name") or predicted.get("best_acquirer_id")
+                    )
+                if actual_acquirer is not None and predicted_acquirer is not None:
+                    positive_with_acquirer += 1
+                    if actual_acquirer == predicted_acquirer:
+                        acquirer_top1_hits += 1
+
+        ks.close()
+        if rows:
+            notes.append("mna_predictions=ma_probability_snapshots_as_of_decision_date")
+        else:
+            notes.append("mna_predictions=unavailable_no_ma_probability_snapshots")
+        notes.append(f"mna_dead_or_acquired_names_in_universe={n_labeled_names}")
+        if positive_with_acquirer > 0:
+            notes.append("mna_top3_equals_top1_until_multi_acquirer_candidates_are_persisted")
+
+        return {
+            "precision_at_k": round(top_hits / top_total, 6) if top_total > 0 else None,
+            "top_k": max_positions,
+            "acquirer_top1_accuracy": (
+                round(acquirer_top1_hits / positive_with_acquirer, 6)
+                if positive_with_acquirer > 0
+                else None
+            ),
+            "acquirer_top3_accuracy": (
+                round(acquirer_top1_hits / positive_with_acquirer, 6)
+                if positive_with_acquirer > 0
+                else None
+            ),
+            "n_labeled_names": n_labeled_names,
+            "notes": notes,
+        }
 
 
 # ---------------------------------------------------------------------------
@@ -1847,6 +2189,36 @@ def _normalize_claim_type(raw: object) -> ClaimType:
         "custom": ClaimType.CUSTOM,
     }
     return mapping.get(label, ClaimType.CUSTOM)
+
+
+def _tier_for_score(score: object) -> str:
+    value = _coerce_float(score, 0.0)
+    if value >= 0.70:
+        return "high"
+    if value >= 0.50:
+        return "medium"
+    return "low"
+
+
+def _max_drawdown_from_return_pcts(return_pcts: list[float]) -> float:
+    if not return_pcts:
+        return 0.0
+    equity = 1.0
+    peak = 1.0
+    max_drawdown = 0.0
+    for return_pct in return_pcts:
+        equity *= 1.0 + (return_pct / 100.0)
+        peak = max(peak, equity)
+        if peak <= 0.0:
+            continue
+        max_drawdown = max(max_drawdown, (peak - equity) / peak)
+    return max_drawdown * 100.0
+
+
+def _serialize_policy_config(config: ReplayPolicyConfig) -> dict[str, Any]:
+    payload = asdict(config)
+    payload["actionable_actions"] = sorted(str(item) for item in config.actionable_actions)
+    return payload
 
 
 def _normalize_universe_entry(raw: dict[str, Any]) -> dict[str, Any]:
@@ -2100,7 +2472,13 @@ def _cmd_run(args: list[str]) -> None:
         + ("_openclaim" if policy_cfg.require_open_claim else "")
     )
     replay = HistoricalReplay(rs, str(REPLAY_KNOWLEDGE_PATH), universe=universe, policy_config=policy_cfg)
-    run_id = replay.run(start=start, end=end, cadence=resolved_cadence, decision_policy=policy_tag)
+    run_id = replay.run(
+        start=start,
+        end=end,
+        cadence=resolved_cadence,
+        decision_policy=policy_tag,
+        profile=profile,
+    )
     print(f"\nRun ID: {run_id}")
     summary = replay.summarize(run_id)
     summary.print()

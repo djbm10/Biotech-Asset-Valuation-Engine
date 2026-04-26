@@ -18,6 +18,7 @@ Coverage
 """
 from __future__ import annotations
 
+import json
 import sqlite3
 from datetime import date, datetime, timezone
 
@@ -1220,8 +1221,16 @@ def test_cmd_run_applies_stop_loss_pct_override(tmp_path, monkeypatch):
         ) -> None:
             captured["policy_config"] = policy_config
 
-        def run(self, *, start: date, end: date, cadence: str, decision_policy: str) -> str:
-            captured["run_args"] = (start, end, cadence, decision_policy)
+        def run(
+            self,
+            *,
+            start: date,
+            end: date,
+            cadence: str,
+            decision_policy: str,
+            profile: str,
+        ) -> str:
+            captured["run_args"] = (start, end, cadence, decision_policy, profile)
             return "run-stop-loss"
 
         def summarize(self, run_id: str) -> DummySummary:
@@ -1243,6 +1252,13 @@ def test_cmd_run_applies_stop_loss_pct_override(tmp_path, monkeypatch):
 
     policy_cfg = captured["policy_config"]
     assert policy_cfg.stop_loss_pct == pytest.approx(-25.0)
+    assert captured["run_args"] == (
+        date(2025, 1, 1),
+        date(2025, 1, 8),
+        "weekly",
+        "top2_add_hold30d",
+        "standard",
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -2526,3 +2542,339 @@ def test_competitor_map_keys_are_symmetric():
     all_values = {v for vals in COMPETITOR_MAP.values() for v in vals}
     for key in COMPETITOR_MAP:
         assert key in all_values, f"{key} appears as key but not as a competitor value"
+
+
+def test_replay_summary_includes_public_market_metrics_and_point_in_time_notes(
+    tmp_path,
+    in_memory_store,
+):
+    from bve.intelligence.replay_policy import ReplayDecision
+
+    replay = HistoricalReplay(
+        replay_store=in_memory_store,
+        knowledge_store_path=str(tmp_path / "replay_summary.db"),
+        universe=[],
+    )
+    run_id = in_memory_store.create_run(
+        start_date=date(2025, 1, 1),
+        end_date=date(2025, 3, 1),
+        cadence="weekly",
+        decision_policy="summary_test",
+        score_version="v2.0",
+        strategy_version="summary_test",
+    )
+
+    high_id = in_memory_store.insert_decision(
+        run_id,
+        ReplayDecision(
+            asset_id="a-high",
+            ticker="HIGH",
+            recommended_action="buy",
+            recommended_size_pct=0.10,
+            composite_score=0.80,
+            decided_at=date(2025, 1, 1),
+        ),
+        entry_price=10.0,
+    )
+    medium_id = in_memory_store.insert_decision(
+        run_id,
+        ReplayDecision(
+            asset_id="a-medium",
+            ticker="MED",
+            recommended_action="add",
+            recommended_size_pct=0.08,
+            composite_score=0.60,
+            decided_at=date(2025, 1, 8),
+        ),
+        entry_price=20.0,
+    )
+    low_id = in_memory_store.insert_decision(
+        run_id,
+        ReplayDecision(
+            asset_id="a-low",
+            ticker="LOW",
+            recommended_action="monitor",
+            recommended_size_pct=0.02,
+            composite_score=0.30,
+            decided_at=date(2025, 1, 15),
+        ),
+        entry_price=30.0,
+    )
+
+    in_memory_store.close_decision(
+        high_id,
+        exit_price=12.0,
+        exit_date=date(2025, 1, 31),
+        return_pct=20.0,
+        attribution_type="confirmed_thesis",
+    )
+    in_memory_store.close_decision(
+        medium_id,
+        exit_price=18.0,
+        exit_date=date(2025, 2, 7),
+        return_pct=-10.0,
+        attribution_type="timing_error",
+    )
+    in_memory_store.close_decision(
+        low_id,
+        exit_price=31.5,
+        exit_date=date(2025, 2, 14),
+        return_pct=5.0,
+        attribution_type="market_drift",
+    )
+
+    summary = replay.summarize(run_id)
+
+    assert summary.mean_return_pct == pytest.approx(5.0)
+    assert summary.hit_rate == pytest.approx(0.6667)
+    assert summary.brier_score == pytest.approx(0.296667)
+    assert summary.max_drawdown_pct == pytest.approx(10.0)
+    assert summary.avg_return_by_tier == {
+        "high": 20.0,
+        "low": 5.0,
+        "medium": -10.0,
+    }
+    assert any("point_in_time_only=" in note for note in summary.notes)
+    assert "dated_snapshots_only=true" in summary.notes
+
+
+def test_replay_summary_to_dict_includes_new_metric_fields():
+    from bve.intelligence.replay_summary import ReplaySummary
+
+    summary = ReplaySummary(
+        run_id="run-1",
+        start_date=date(2025, 1, 1),
+        end_date=date(2025, 2, 1),
+        strategy_version="test",
+        score_version="v2.0",
+        brier_score=0.1234,
+        max_drawdown_pct=7.5,
+        avg_return_by_tier={"high": 12.0},
+    )
+
+    payload = summary.to_dict()
+
+    assert payload["brier_score"] == pytest.approx(0.1234)
+    assert payload["max_drawdown_pct"] == pytest.approx(7.5)
+    assert payload["avg_return_by_tier"] == {"high": 12.0}
+
+
+def test_replay_summary_computes_mna_metrics_from_run_snapshot_and_dated_predictions(
+    tmp_path,
+    in_memory_store,
+):
+    from bve.intelligence.knowledge_layer import KnowledgeStore
+    from bve.intelligence.ma_probability import MAProbabilitySnapshotStore
+    from bve.intelligence.replay_policy import ReplayDecision, ReplayPolicyConfig
+
+    ks = KnowledgeStore(str(tmp_path / "replay_mna.db"))
+    MAProbabilitySnapshotStore(ks)
+    ks._conn.execute(
+        """
+        INSERT INTO ma_probability_snapshots(
+            snapshot_date, asset_id, ticker, stage, therapeutic_area,
+            probability, rank, best_acquirer_id, best_acquirer_name,
+            above_alert_threshold, strategic_fit_score, valuation_discount_score,
+            de_risking_stage_score, capital_vulnerability_score,
+            scarcity_score, scarcity_peer_count, scarcity_bucket,
+            enterprise_value_millions, acquisition_discount, days_to_catalyst,
+            estimated_deal_value_low_millions, estimated_deal_value_high_millions,
+            run_id, created_at, p_takeout_calibrated
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """,
+        (
+            "2025-01-01",
+            "a-target",
+            "TGT",
+            "phase_2",
+            "oncology",
+            0.82,
+            1,
+            "pfizer",
+            "Pfizer",
+            1,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            "2025-01-01T00:00:00+00:00",
+            None,
+        ),
+    )
+    ks._conn.commit()
+    ks.close()
+
+    universe = [
+        {
+            "asset_id": "a-target",
+            "ticker": "TGT",
+            "announcement_date": "2025-06-01",
+            "acquirer": "Pfizer",
+        },
+        {
+            "asset_id": "a-control",
+            "ticker": "CTL",
+        },
+    ]
+    replay = HistoricalReplay(
+        replay_store=in_memory_store,
+        knowledge_store_path=str(tmp_path / "replay_mna.db"),
+        universe=universe,
+        policy_config=ReplayPolicyConfig.mna_profile(),
+    )
+    run_id = in_memory_store.create_run(
+        start_date=date(2025, 1, 1),
+        end_date=date(2025, 12, 31),
+        cadence="quarterly",
+        decision_policy="mna_summary_test",
+        score_version="v2.0",
+        strategy_version="mna_top8",
+        run_metadata_json=json.dumps(
+            {
+                "profile": "mna",
+                "policy_config": {
+                    "max_positions": 2,
+                    "max_hold_days": 365,
+                },
+                "universe_snapshot": universe,
+            }
+        ),
+    )
+    first_id = in_memory_store.insert_decision(
+        run_id,
+        ReplayDecision(
+            asset_id="a-target",
+            ticker="TGT",
+            recommended_action="buy",
+            recommended_size_pct=0.10,
+            composite_score=0.90,
+            decided_at=date(2025, 1, 1),
+        ),
+        entry_price=10.0,
+    )
+    second_id = in_memory_store.insert_decision(
+        run_id,
+        ReplayDecision(
+            asset_id="a-control",
+            ticker="CTL",
+            recommended_action="buy",
+            recommended_size_pct=0.10,
+            composite_score=0.70,
+            decided_at=date(2025, 1, 1),
+        ),
+        entry_price=10.0,
+    )
+    in_memory_store.close_decision(
+        first_id,
+        exit_price=13.0,
+        exit_date=date(2025, 6, 1),
+        return_pct=30.0,
+        attribution_type="confirmed_thesis",
+    )
+    in_memory_store.close_decision(
+        second_id,
+        exit_price=9.0,
+        exit_date=date(2025, 6, 1),
+        return_pct=-10.0,
+        attribution_type="market_drift",
+    )
+
+    summary = replay.summarize(run_id)
+
+    assert summary.mna_top_k == 2
+    assert summary.mna_precision_at_k == pytest.approx(0.5)
+    assert summary.mna_acquirer_top1_accuracy == pytest.approx(1.0)
+    assert summary.mna_acquirer_top3_accuracy == pytest.approx(1.0)
+    assert summary.n_dead_or_acquired_names_in_universe == 1
+    assert "mna_predictions=ma_probability_snapshots_as_of_decision_date" in summary.notes
+
+
+# ---------------------------------------------------------------------------
+# Acquisition price fallback tests
+# ---------------------------------------------------------------------------
+
+
+def test_seed_acquisition_price_inserts_flat_history(in_memory_store):
+    """seed_acquisition_price should insert daily rows at the deal price."""
+    ann = date(2022, 6, 3)
+    n = in_memory_store.seed_acquisition_price("TPTX", ann, price_per_share=76.0, lookback_days=30)
+
+    # 31 rows: June 3 inclusive + 30 days back = May 4 → June 3
+    assert n == 31
+
+    # Price should be available within the window
+    assert in_memory_store.get_price("TPTX", date(2022, 5, 15)) == pytest.approx(76.0)
+    assert in_memory_store.get_price("TPTX", date(2022, 6, 3)) == pytest.approx(76.0)
+
+
+def test_seed_acquisition_price_not_available_before_window(in_memory_store):
+    """get_price should return None for dates before the seeded window."""
+    ann = date(2022, 6, 3)
+    in_memory_store.seed_acquisition_price("TPTX", ann, price_per_share=76.0, lookback_days=30)
+
+    # May 3 is before the window (window starts May 4)
+    assert in_memory_store.get_price("TPTX", date(2022, 5, 3)) is None
+
+
+def test_seed_acquisition_price_return_is_zero(in_memory_store):
+    """A flat synthetic price history produces 0% return over any window within it."""
+    ann = date(2022, 6, 3)
+    in_memory_store.seed_acquisition_price("TPTX", ann, price_per_share=76.0, lookback_days=365)
+
+    ret = in_memory_store.get_return("TPTX", date(2022, 1, 1), date(2022, 5, 1))
+    assert ret == pytest.approx(0.0)
+
+
+def test_seed_acquisition_price_default_lookback_covers_12_months(in_memory_store):
+    """Default lookback_days=365 seeds a full year of history."""
+    ann = date(2022, 6, 3)
+    n = in_memory_store.seed_acquisition_price("TPTX", ann, price_per_share=76.0)
+
+    # 366 rows: 365 days back + announcement date itself
+    assert n == 366
+    assert in_memory_store.get_price("TPTX", ann - __import__("datetime").timedelta(days=364)) == pytest.approx(76.0)
+
+
+def test_seed_prices_uses_acquisition_fallback_on_empty_yfinance(monkeypatch, tmp_path):
+    """When yfinance returns no data, seed_prices falls back to acquisition price."""
+    import pandas as pd
+    from bve.ops.historical_replay import HistoricalReplay, ReplayStore
+
+    # Patch fetch_price_history to return empty DataFrame
+    monkeypatch.setattr(
+        "bve.ingestion.market_data.fetch_price_history",
+        lambda ticker, start, end: pd.DataFrame(),
+    )
+
+    store = ReplayStore(":memory:")
+    kb_path = str(tmp_path / "kb.db")
+    replay = HistoricalReplay(store, kb_path)
+
+    fallback = {"TPTX": (date(2022, 6, 3), 76.0)}
+    replay.seed_prices(["TPTX"], date(2022, 1, 1), date(2022, 12, 31), acquisition_fallback=fallback)
+
+    # Fallback should have seeded prices for the 365-day window before announcement
+    price = store.get_price("TPTX", date(2022, 4, 1))
+    assert price == pytest.approx(76.0)
+
+
+def test_seed_prices_fallback_dict_accepted_in_signature(tmp_path):
+    """seed_prices must accept acquisition_fallback without raising."""
+    from bve.ops.historical_replay import HistoricalReplay, ReplayStore
+
+    store = ReplayStore(":memory:")
+    kb_path = str(tmp_path / "kb.db")
+    replay = HistoricalReplay(store, kb_path)
+
+    fallback: dict = {"TPTX": (date(2022, 6, 3), 76.0)}
+    # Call with empty tickers list — just testing signature acceptance (no network hit)
+    replay.seed_prices([], date(2022, 1, 1), date(2022, 12, 31), acquisition_fallback=fallback)
