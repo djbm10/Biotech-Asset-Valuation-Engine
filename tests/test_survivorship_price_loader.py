@@ -370,3 +370,95 @@ class TestSurvivorshipGuardCondition:
 
         assert report.acquired_excluded == []
         assert report.survivorship_bias_guard_satisfied is True
+
+    def test_pre_replay_acquisition_does_not_fail_guard(self, tmp_path):
+        """Acquired ticker whose announcement predates the replay window must NOT
+        fail the survivorship bias guard, even with zero price rows.
+
+        This is the MYOK/IMMU/MNTA/PRNB scenario: they announced in 2020 but a
+        replay starting 2021-01-01 should not require their price data.
+        """
+        store = ReplayStore(str(tmp_path / "rs.db"))
+        store.close()
+
+        # YAML with a deal announced in 2020 — well before the 2023 backtest window
+        deal_yaml = tmp_path / "deals.yaml"
+        deal_yaml.write_text(
+            "deals:\n"
+            "  - target_ticker: MYOK\n"
+            "    announcement_date: '2020-10-05'\n"
+            "    consideration_per_share: 225.0\n"
+        )
+
+        report = generate_missing_price_report(
+            str(tmp_path / "rs.db"),
+            universe_tickers=["MYOK"],
+            backtest_start=date(2023, 1, 1),
+            backtest_end=date(2023, 12, 31),
+            deal_universe_path=deal_yaml,
+        )
+
+        t = report.tickers[0]
+        assert t.ticker == "MYOK"
+        assert t.status == "acquired"
+        assert t.included_in_backtest is False
+        assert t.announcement_date == date(2020, 10, 5)
+        assert t.reason_if_excluded is not None
+        assert t.reason_if_excluded.startswith("acquired_before_replay_start")
+        assert report.acquired_excluded == []
+        assert report.survivorship_bias_guard_satisfied is True
+
+    def test_in_window_acquisition_no_price_data_fails_guard(self, tmp_path):
+        """Acquired ticker whose announcement is INSIDE the replay window and has
+        no seeded price data must fail the guard (genuine survivorship risk)."""
+        store = ReplayStore(str(tmp_path / "rs.db"))
+        store.close()
+
+        deal_yaml = tmp_path / "deals.yaml"
+        deal_yaml.write_text(
+            "deals:\n"
+            "  - target_ticker: KRTX\n"
+            "    announcement_date: '2023-06-01'\n"
+            "    consideration_per_share: 330.0\n"
+        )
+
+        with pytest.raises(RuntimeError, match="Survivorship bias detected"):
+            generate_missing_price_report(
+                str(tmp_path / "rs.db"),
+                universe_tickers=["KRTX"],
+                backtest_start=date(2023, 1, 1),
+                backtest_end=date(2023, 12, 31),
+                deal_universe_path=deal_yaml,
+            )
+
+    def test_in_window_acquisition_with_seeded_data_passes_guard(self, tmp_path):
+        """Acquired ticker inside the replay window that has seeded price data
+        must pass the guard."""
+        store = ReplayStore(str(tmp_path / "rs.db"))
+        ann_date = date(2023, 6, 1)
+        store.seed_acquisition_price("KRTX", ann_date, 330.0, lookback_days=90)
+        store.close()
+
+        deal_yaml = tmp_path / "deals.yaml"
+        deal_yaml.write_text(
+            "deals:\n"
+            "  - target_ticker: KRTX\n"
+            "    announcement_date: '2023-06-01'\n"
+            "    consideration_per_share: 330.0\n"
+        )
+
+        report = generate_missing_price_report(
+            str(tmp_path / "rs.db"),
+            universe_tickers=["KRTX"],
+            backtest_start=date(2023, 1, 1),
+            backtest_end=date(2023, 12, 31),
+            deal_universe_path=deal_yaml,
+        )
+
+        t = report.tickers[0]
+        assert t.ticker == "KRTX"
+        assert t.status == "acquired"
+        assert t.included_in_backtest is True
+        assert t.announcement_date == date(2023, 6, 1)
+        assert report.acquired_excluded == []
+        assert report.survivorship_bias_guard_satisfied is True

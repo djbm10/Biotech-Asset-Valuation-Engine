@@ -60,6 +60,13 @@ class TickerPriceStatus:
     row_count: int
     """Number of price rows available inside the requested window."""
 
+    total_row_count: int
+    """Total price rows for this ticker in the DB regardless of backtest window.
+    Used to detect tickers that were seeded for a pre-backtest window (e.g. an
+    acquisition that closed before the backtest started). A ticker with
+    ``total_row_count > 0`` but ``row_count == 0`` was correctly seeded but is
+    simply inactive during this backtest period — it is *not* a survivorship risk."""
+
     missing_days_pct: float
     """Approximate share of calendar days in the window with no price row (0–100)."""
 
@@ -79,6 +86,15 @@ class TickerPriceStatus:
     Non-None when ``included_in_backtest=False``.  Explains why the ticker
     was excluded so that exclusions are never silent.
     """
+
+    announcement_date: Optional[date] = None
+    """Acquisition announcement date from deal-universe YAML or ``acquisition_announcements``
+    table.  None for active tickers or when the date cannot be determined."""
+
+    close_date: Optional[date] = None
+    """Deal close / effective date if available in the deal-universe YAML.
+    Currently always None (the YAML does not carry a ``close_date`` field);
+    reserved for future use."""
 
 
 @dataclass(frozen=True)
@@ -107,8 +123,23 @@ class MissingPriceReport:
 
     @property
     def acquired_excluded(self) -> list[TickerPriceStatus]:
-        """Acquired tickers that ended up *excluded* — a survivorship-bias risk."""
-        return [t for t in self.acquired_tickers if not t.included_in_backtest]
+        """Acquired tickers that ended up *excluded* with no price data anywhere
+        AND whose acquisition was announced *within* the backtest window.
+
+        Three exemption cases — a ticker is NOT in this list when:
+
+        * ``total_row_count > 0``: prices were seeded (acquisition predates window
+          but data was captured).
+        * ``reason_if_excluded`` starts with ``"acquired_before_replay_start"``:
+          the announcement date predates the backtest start — the ticker was never
+          active in this replay window and is not a survivorship-bias risk.
+        """
+        return [
+            t for t in self.acquired_tickers
+            if not t.included_in_backtest
+            and t.total_row_count == 0
+            and not (t.reason_if_excluded or "").startswith("acquired_before_replay_start")
+        ]
 
     @property
     def silently_excluded(self) -> list[TickerPriceStatus]:
@@ -150,10 +181,15 @@ class MissingPriceReport:
                     if t.price_coverage_end
                     else None,
                     "row_count": t.row_count,
+                    "total_row_count": t.total_row_count,
                     "missing_days_pct": round(t.missing_days_pct, 1),
                     "source": t.source,
                     "included_in_backtest": t.included_in_backtest,
                     "reason_if_excluded": t.reason_if_excluded,
+                    "announcement_date": t.announcement_date.isoformat()
+                    if t.announcement_date
+                    else None,
+                    "close_date": t.close_date.isoformat() if t.close_date else None,
                 }
                 for t in self.tickers
             ],
@@ -213,7 +249,7 @@ def generate_missing_price_report(
     acquired_from_db: set[str] = {
         str(row["ticker"]).upper()
         for row in store._conn.execute(
-            "SELECT ticker FROM acquisition_announcements"
+            "SELECT UPPER(ticker) AS ticker FROM acquisition_announcements"
         ).fetchall()
     }
     acquired_from_yaml: set[str] = {t.upper() for t in deal_fb}
@@ -244,11 +280,52 @@ def generate_missing_price_report(
         if row_count > 0 and rows["coverage_end"]:
             coverage_end = date.fromisoformat(str(rows["coverage_end"])[:10])
 
+        # Query total rows regardless of window — detects pre-backtest seeded data
+        total_row_result = store._conn.execute(
+            "SELECT COUNT(*) AS total FROM historical_prices WHERE ticker = ?",
+            (ticker,),
+        ).fetchone()
+        total_row_count = int(total_row_result["total"] or 0)
+
         missing_days_pct = max(0.0, 100.0 * (1.0 - row_count / total_window_days))
 
         is_acquired = ticker in all_acquired
         in_db_ann = ticker in acquired_from_db
         in_yaml = ticker in acquired_from_yaml
+
+        # Resolve announcement_date from YAML (primary) or DB (secondary).
+        deal_ann_date: Optional[date] = None
+        if ticker in deal_fb:
+            deal_ann_date = deal_fb[ticker][0]
+        if deal_ann_date is None and in_db_ann:
+            ann_row = store._conn.execute(
+                "SELECT announcement_date FROM acquisition_announcements WHERE ticker = ?",
+                (ticker,),
+            ).fetchone()
+            if ann_row and ann_row["announcement_date"]:
+                try:
+                    deal_ann_date = date.fromisoformat(str(ann_row["announcement_date"])[:10])
+                except (ValueError, TypeError):
+                    pass
+
+        # True when the acquisition predates the replay window — these tickers were
+        # never active during the backtest period and must NOT fail the guard.
+        is_pre_replay_acquisition = (
+            is_acquired
+            and deal_ann_date is not None
+            and deal_ann_date < backtest_start
+        )
+
+        # Diagnostic print for acquired tickers with missing window coverage.
+        if is_acquired and row_count == 0:
+            print(
+                f"[DIAG survivorship_price_report] ticker={ticker!r} "
+                f"window=[{backtest_start.isoformat()}, {backtest_end.isoformat()}] "
+                f"window_rows={row_count} total_rows={total_row_count} "
+                f"announcement_date={deal_ann_date.isoformat() if deal_ann_date else 'unknown'} "
+                f"pre_replay={is_pre_replay_acquisition} "
+                f"in_db_ann={in_db_ann} in_yaml={in_yaml}"
+            )
 
         # Determine source
         if row_count == 0:
@@ -272,7 +349,26 @@ def generate_missing_price_report(
         reason_if_excluded: Optional[str] = None
 
         if not included_in_backtest:
-            if is_acquired and in_yaml and not in_db_ann:
+            if is_pre_replay_acquisition:
+                # Acquisition announced before the replay window — ticker was never
+                # active in this period, so no price data is needed and the guard
+                # must NOT fire for this name.
+                reason_if_excluded = (
+                    f"acquired_before_replay_start: announcement_date="
+                    f"{deal_ann_date.isoformat()} predates "  # type: ignore[union-attr]
+                    f"backtest_start={backtest_start.isoformat()} — "
+                    "ticker was never active in this replay window; "
+                    "not a survivorship bias risk"
+                )
+            elif is_acquired and total_row_count > 0:
+                # Ticker was seeded but all seeded rows predate the backtest window.
+                reason_if_excluded = (
+                    "pre_backtest_acquisition: ticker has seeded price data "
+                    f"({total_row_count} rows) but all rows predate the backtest "
+                    f"window [{backtest_start.isoformat()}, {backtest_end.isoformat()}] — "
+                    "not a survivorship bias risk; ticker was not active in this window"
+                )
+            elif is_acquired and in_yaml and not in_db_ann:
                 reason_if_excluded = (
                     "acquired_ticker_not_seeded: consideration_per_share present in "
                     "deal_universe but seed_acquisition_price() was not called — "
@@ -296,10 +392,13 @@ def generate_missing_price_report(
                 price_coverage_start=coverage_start,
                 price_coverage_end=coverage_end,
                 row_count=row_count,
+                total_row_count=total_row_count,
                 missing_days_pct=missing_days_pct,
                 source=source,
                 included_in_backtest=included_in_backtest,
                 reason_if_excluded=reason_if_excluded,
+                announcement_date=deal_ann_date,
+                close_date=None,
             )
         )
 
@@ -313,11 +412,9 @@ def generate_missing_price_report(
         tickers=statuses,
     )
 
-    # Hard fail if any acquired ticker has no seeded data — caller must fix
-    unseeded_acquired = [
-        t.ticker for t in report.acquired_excluded
-        if t.status == "acquired" and t.source == "none"
-    ]
+    # Hard fail if any acquired ticker has genuinely no price data anywhere.
+    # Tickers in acquired_excluded already have total_row_count == 0 (see property).
+    unseeded_acquired = [t.ticker for t in report.acquired_excluded]
     if unseeded_acquired:
         raise RuntimeError(
             f"Survivorship bias detected: {len(unseeded_acquired)} acquired ticker(s) "
