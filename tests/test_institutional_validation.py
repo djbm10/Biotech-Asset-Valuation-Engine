@@ -678,25 +678,31 @@ class TestFpTaxonomy:
         conn = _make_knowledge_db()
         run_false_positive_taxonomy(conn, {"ACME", "RNA"}, tmp_path)
         conn.close()
-        valid_reasons = {"valuation", "timing", "strategic_fit", "candidate_pool",
-                         "financing", "data_quality", "unknown"}
+        # Sprint 17: 7-category taxonomy
+        valid_reasons = {
+            "valuation_only", "no_buyer_urgency", "poor_strategic_fit",
+            "financing_not_pressured", "standalone_path",
+            "internal_acquirer_competition", "data_quality",
+        }
         with open(tmp_path / "false_positive_taxonomy.csv") as f:
             rows = list(csv.DictReader(f))
         for row in rows:
             assert row["fp_reason"] in valid_reasons
 
-    def test_financing_risk_classified_correctly(self):
+    def test_financing_not_pressured_classified_correctly(self):
         snap = {
             "probability": 0.7,
             "strategic_fit_score": 0.5,
             "valuation_discount_score": 0.4,
-            "capital_vulnerability_score": 0.8,  # > 0.6 → financing
+            "capital_vulnerability_score": 0.10,   # low pressure → financing_not_pressured
             "de_risking_stage_score": 0.7,
             "scarcity_score": 0.5,
             "acquisition_discount": 0.1,
-            "days_to_catalyst": 100,
+            "days_to_catalyst": None,               # no near-term catalyst
+            "stage": "phase_2",
+            "acquirer_candidates_json": "[]",
         }
-        assert _classify_fp({}, snap) == "financing"
+        assert _classify_fp({}, snap) == "financing_not_pressured"
 
 
 # ---------------------------------------------------------------------------

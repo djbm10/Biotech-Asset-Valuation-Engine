@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import logging
+import json
 from datetime import date, datetime, time as dtime, timedelta, timezone
 from pathlib import Path
 from types import SimpleNamespace
@@ -18,6 +19,12 @@ from bve.intelligence.acquirer_profiles import AcquirerProfile, AcquirerProfileL
 from bve.intelligence.capital_structure import CapitalRiskLevel, compute_capital_risk_as_of
 from bve.intelligence.comparable_deals import ComparableDealLoader
 from bve.intelligence.knowledge_layer import OpportunityAlertRecord
+from bve.intelligence.ma_scoring import (
+    apply_saturation_penalty,
+    compute_acquirer_fit_decomposed,
+    compute_deal_likelihood,
+    compute_target_attractiveness,
+)
 from bve.intelligence.vulnerability_signals import (
     ExternalDealActivitySignal,
     TargetVulnerabilitySignal,
@@ -406,6 +413,11 @@ class MAAcquirerCandidate(BaseModel):
     estimated_deal_value_source: str | None = None
     explanation: str
 
+    # Three-model decomposition (Sprint 17 — diagnostics only)
+    target_attractiveness_score: float | None = None
+    deal_likelihood_score: float | None = None
+    acquirer_fit_score: float | None = None
+
 
 class MAProbabilityRow(BaseModel):
     """Final ranked M&A probability row for one target."""
@@ -474,6 +486,11 @@ class MAProbabilityRow(BaseModel):
     # Calibration layer — logistic model output, does not affect ranking order
     p_takeout_calibrated: float | None = None
 
+    # Three-model decomposition (Sprint 17 — diagnostics only, does not affect ranking)
+    target_attractiveness_score: float | None = None
+    deal_likelihood_score: float | None = None
+    acquirer_fit_score: float | None = None
+
 
 class MAProbabilityResult(BaseModel):
     """Watchlist-level M&A probability scan output."""
@@ -508,6 +525,7 @@ class MAProbabilitySnapshotRecord(BaseModel):
     rank: int
     best_acquirer_id: str
     best_acquirer_name: str | None = None
+    acquirer_candidates: list[MAAcquirerCandidate] = Field(default_factory=list)
     above_alert_threshold: bool
     strategic_fit_score: float | None = None
     valuation_discount_score: float | None = None
@@ -548,6 +566,7 @@ class MAProbabilitySnapshotStore:
                 rank INTEGER NOT NULL,
                 best_acquirer_id TEXT NOT NULL,
                 best_acquirer_name TEXT,
+                acquirer_candidates_json TEXT,
                 above_alert_threshold INTEGER NOT NULL,
                 strategic_fit_score REAL,
                 valuation_discount_score REAL,
@@ -583,6 +602,11 @@ class MAProbabilitySnapshotStore:
         self.knowledge._ensure_column("ma_probability_snapshots", "stage", "TEXT")
         self.knowledge._ensure_column("ma_probability_snapshots", "therapeutic_area", "TEXT")
         self.knowledge._ensure_column("ma_probability_snapshots", "best_acquirer_name", "TEXT")
+        self.knowledge._ensure_column(
+            "ma_probability_snapshots",
+            "acquirer_candidates_json",
+            "TEXT",
+        )
         self.knowledge._ensure_column("ma_probability_snapshots", "strategic_fit_score", "REAL")
         self.knowledge._ensure_column("ma_probability_snapshots", "valuation_discount_score", "REAL")
         self.knowledge._ensure_column("ma_probability_snapshots", "de_risking_stage_score", "REAL")
@@ -616,6 +640,21 @@ class MAProbabilitySnapshotStore:
             "p_takeout_calibrated",
             "REAL",
         )
+        self.knowledge._ensure_column(
+            "ma_probability_snapshots",
+            "target_attractiveness_score",
+            "REAL",
+        )
+        self.knowledge._ensure_column(
+            "ma_probability_snapshots",
+            "deal_likelihood_score",
+            "REAL",
+        )
+        self.knowledge._ensure_column(
+            "ma_probability_snapshots",
+            "acquirer_fit_score",
+            "REAL",
+        )
         self.knowledge._conn.commit()
 
     @staticmethod
@@ -636,6 +675,7 @@ class MAProbabilitySnapshotStore:
             rank=int(row.rank),
             best_acquirer_id=row.best_acquirer_id,
             best_acquirer_name=row.best_acquirer_name,
+            acquirer_candidates=list(row.acquirer_candidates),
             above_alert_threshold=bool(row.above_alert_threshold),
             strategic_fit_score=float(row.strategic_fit_score),
             valuation_discount_score=float(row.valuation_discount_score),
@@ -704,13 +744,14 @@ class MAProbabilitySnapshotStore:
             INSERT OR REPLACE INTO ma_probability_snapshots(
                 snapshot_date, asset_id, ticker, stage, therapeutic_area,
                 probability, rank, best_acquirer_id, best_acquirer_name,
+                acquirer_candidates_json,
                 above_alert_threshold, strategic_fit_score, valuation_discount_score,
                 de_risking_stage_score, capital_vulnerability_score,
                 scarcity_score, scarcity_peer_count, scarcity_bucket,
                 enterprise_value_millions, acquisition_discount, days_to_catalyst,
                 estimated_deal_value_low_millions, estimated_deal_value_high_millions,
                 run_id, created_at, p_takeout_calibrated
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             [
                 (
@@ -723,6 +764,9 @@ class MAProbabilitySnapshotStore:
                     snapshot.rank,
                     snapshot.best_acquirer_id,
                     snapshot.best_acquirer_name,
+                    json.dumps(
+                        [item.model_dump(mode="json") for item in snapshot.acquirer_candidates]
+                    ),
                     int(snapshot.above_alert_threshold),
                     snapshot.strategic_fit_score,
                     snapshot.valuation_discount_score,
@@ -755,6 +799,7 @@ class MAProbabilitySnapshotStore:
             """
             SELECT snapshot_date, asset_id, ticker, stage, therapeutic_area,
                    probability, rank, best_acquirer_id, best_acquirer_name,
+                   acquirer_candidates_json,
                    above_alert_threshold, strategic_fit_score, valuation_discount_score,
                    de_risking_stage_score, capital_vulnerability_score,
                    scarcity_score, scarcity_peer_count, scarcity_bucket,
@@ -778,6 +823,10 @@ class MAProbabilitySnapshotStore:
                 rank=int(row["rank"]),
                 best_acquirer_id=row["best_acquirer_id"],
                 best_acquirer_name=row["best_acquirer_name"],
+                acquirer_candidates=[
+                    MAAcquirerCandidate.model_validate(item)
+                    for item in json.loads(row["acquirer_candidates_json"] or "[]")
+                ],
                 above_alert_threshold=bool(row["above_alert_threshold"]),
                 strategic_fit_score=(
                     float(row["strategic_fit_score"])
@@ -864,6 +913,7 @@ class MAProbabilitySnapshotStore:
         sql = (
             "SELECT snapshot_date, asset_id, ticker, stage, therapeutic_area, "
             "probability, rank, best_acquirer_id, best_acquirer_name, "
+            "acquirer_candidates_json, "
             "above_alert_threshold, strategic_fit_score, valuation_discount_score, "
             "de_risking_stage_score, capital_vulnerability_score, "
             "scarcity_score, scarcity_peer_count, scarcity_bucket, "
@@ -888,6 +938,10 @@ class MAProbabilitySnapshotStore:
                 rank=int(row["rank"]),
                 best_acquirer_id=row["best_acquirer_id"],
                 best_acquirer_name=row["best_acquirer_name"],
+                acquirer_candidates=[
+                    MAAcquirerCandidate.model_validate(item)
+                    for item in json.loads(row["acquirer_candidates_json"] or "[]")
+                ],
                 above_alert_threshold=bool(row["above_alert_threshold"]),
                 strategic_fit_score=(
                     float(row["strategic_fit_score"])
@@ -1439,6 +1493,9 @@ class MAProbabilityScanner:
                     matched_priorities=list(best.matched_priorities),
                     explanation=_build_row_explanation(best=best, vulnerability=vulnerability),
                     acquirer_candidates=candidates,
+                    target_attractiveness_score=best.target_attractiveness_score,
+                    deal_likelihood_score=best.deal_likelihood_score,
+                    acquirer_fit_score=best.acquirer_fit_score,
                 )
             )
 
@@ -1575,7 +1632,7 @@ class MAProbabilityScanner:
             fit_row=fit_row,
         )
 
-        mna_probability_score = round(
+        raw_mna_score = round(
             (valuation_component_score * weights["acquisition_discount"])
             + (strategic_fit_score * weights["strategic_fit"])
             + (de_risking_stage_score * weights["derisking_stage"])
@@ -1583,6 +1640,20 @@ class MAProbabilityScanner:
             + (scarcity.score * weights["scarcity"]),
             6,
         )
+
+        # Saturation penalty: when multiple sub-scores are simultaneously at cap,
+        # reduce the composite to keep <10% of names at exact maximum.
+        mna_probability_score = apply_saturation_penalty(
+            raw_mna_score,
+            sub_scores=[
+                valuation_component_score,
+                strategic_fit_score,
+                de_risking_stage_score,
+                capital_vulnerability_score,
+                scarcity.score,
+            ],
+        )
+
         adjusted_probability = mna_probability_score * targetability.multiplier
         combined_hard_fails = list(fit_row.hard_fail_reasons)
         combined_hard_fails.extend(targetability.hard_fail_reasons)
@@ -1590,6 +1661,27 @@ class MAProbabilityScanner:
             combined_hard_fails.extend(targetability.notes)
         if targetability.hard_fail_reasons:
             adjusted_probability = 0.0
+
+        # Three-model decomposition (diagnostics only, not used in ranking)
+        ta_score = compute_target_attractiveness(
+            de_risking_stage_score=de_risking_stage_score,
+            valuation_discount_score=valuation_discount_score,
+            scarcity_score=scarcity.score,
+            peak_sales_millions=getattr(acquisition_row, "peak_sales_millions", None),
+        )
+        dl_score = compute_deal_likelihood(
+            cash_runway_pressure_score=vulnerability.cash_runway_pressure_score,
+            external_deal_pressure_score=vulnerability.external_deal_pressure_score,
+            target_signal_score=vulnerability.target_signal_score,
+            days_to_catalyst=getattr(acquisition_row, "days_to_catalyst", None),
+        )
+        af_score = compute_acquirer_fit_decomposed(
+            therapeutic_area_score=fit_row.therapeutic_area_score,
+            modality_score=fit_row.modality_score,
+            strategic_priority_score=fit_row.strategic_priority_score,
+            budget_score=fit_row.budget_score,
+            matched_partnership=fit_row.matched_partnership_target,
+        )
 
         return MAAcquirerCandidate(
             acquirer_id=acquirer.acquirer_id,
@@ -1614,6 +1706,9 @@ class MAProbabilityScanner:
             estimated_deal_value_high_millions=estimated_high,
             estimated_deal_value_source=estimated_source,
             explanation=fit_row.explanation,
+            target_attractiveness_score=ta_score.score,
+            deal_likelihood_score=dl_score.score,
+            acquirer_fit_score=af_score.score,
         )
 
     def _strategic_fit_score(self, fit_row: AcquirerFitRow) -> float:

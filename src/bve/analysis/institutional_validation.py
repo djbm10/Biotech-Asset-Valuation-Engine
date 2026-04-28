@@ -92,6 +92,95 @@ def _pass_fail(condition: bool) -> str:
     return "PASS" if condition else "FAIL"
 
 
+# ---------------------------------------------------------------------------
+# Task D: Acquirer name normalization
+# ---------------------------------------------------------------------------
+
+# Canonical alias map for known pharma name variants
+_ACQUIRER_ALIASES: dict[str, str] = {
+    "bristol myers squibb": "bristol myers squibb",
+    "bristol-myers squibb": "bristol myers squibb",
+    "bms": "bristol myers squibb",
+    "astrazeneca": "astrazeneca",
+    "az": "astrazeneca",
+    "astra zeneca": "astrazeneca",
+    "eli lilly": "eli lilly",
+    "lilly": "eli lilly",
+    "lly": "eli lilly",
+    "johnson johnson": "johnson and johnson",
+    "johnson & johnson": "johnson and johnson",
+    "j&j": "johnson and johnson",
+    "jnj": "johnson and johnson",
+    "abbvie": "abbvie",
+    "abbv": "abbvie",
+    "roche": "roche",
+    "genentech": "roche",
+    "hoffman la roche": "roche",
+    "hoffmann la roche": "roche",
+    "merck": "merck",
+    "merk": "merck",
+    "mrk": "merck",
+    "msd": "merck",
+    "pfizer": "pfizer",
+    "pfe": "pfizer",
+    "novartis": "novartis",
+    "nvs": "novartis",
+    "sanofi": "sanofi",
+    "snfy": "sanofi",
+    "glaxosmithkline": "glaxosmithkline",
+    "gsk": "glaxosmithkline",
+    "agilent technologies": "agilent",
+    "amgen": "amgen",
+    "amgn": "amgen",
+    "biogen": "biogen",
+    "biib": "biogen",
+    "gilead": "gilead",
+    "gilead sciences": "gilead",
+    "gild": "gilead",
+    "regeneron": "regeneron",
+    "regn": "regeneron",
+    "vertex": "vertex",
+    "vrtx": "vertex",
+    "vertex pharmaceuticals": "vertex",
+    "takeda": "takeda",
+    "takeda pharmaceutical": "takeda",
+    "astellas": "astellas",
+    "astellas pharma": "astellas",
+    "daiichi sankyo": "daiichi sankyo",
+    "ono pharmaceutical": "ono pharmaceutical",
+    "eisai": "eisai",
+    "sumitomo pharma": "sumitomo",
+    "sumitomo dainippon": "sumitomo",
+    "boehringer ingelheim": "boehringer ingelheim",
+    "bayer": "bayer",
+    "bayerische": "bayer",
+    "ucb": "ucb",
+    "ipsen": "ipsen",
+    "servier": "servier",
+}
+
+
+def _normalize_acquirer_name(name: str) -> str:
+    """Normalize an acquirer name to a canonical form for matching.
+
+    Handles hyphen/space variants, common abbreviations, and ticker symbols.
+    """
+    if not name:
+        return ""
+    cleaned = name.strip().lower()
+    # Remove punctuation variants
+    cleaned = cleaned.replace("-", " ").replace("&", "and").replace(",", "").replace(".", "")
+    cleaned = " ".join(cleaned.split())  # collapse whitespace
+    # Lookup alias map
+    if cleaned in _ACQUIRER_ALIASES:
+        return _ACQUIRER_ALIASES[cleaned]
+    # Partial prefix match for long names
+    for alias, canonical in _ACQUIRER_ALIASES.items():
+        if len(alias) > 5 and (alias in cleaned or cleaned in alias):
+            return canonical
+    return cleaned
+
+
 def _fmt(v: Any, decimals: int = 4) -> str:
     if v is None:
         return "N/A"
@@ -755,8 +844,8 @@ def run_mna_calibration(
             "pass_brier": _pass_fail(ho_brier_cal <= CRITERIA["mna_brier_max"]),
         },
         "note": (
-            "Raw scores are rank scores (not calibrated probabilities). "
-            "Calibration applied via isotonic regression on train+validation only."
+            "Raw M&A screening scores are rank scores (not calibrated probabilities). "
+            "Sprint 17 saturation penalty applied; isotonic calibration on train+validation only."
         ),
     }
     print(f"  [mna_cal] holdout raw ECE={ho_ece_raw:.4f}, calibrated ECE={ho_ece_cal:.4f}")
@@ -827,13 +916,24 @@ def run_pool_coverage(
 
         rank = None
         in_pool = False
+        actual_acq_lower = actual_acq.lower()  # kept for legacy context; normalization below
+        actual_norm = _normalize_acquirer_name(actual_acq)
         for i, c in enumerate(cands):
-            cname = c.get("acquirer_name", "").lower()
-            # Normalize: "Bristol Myers Squibb" vs "Bristol-Myers Squibb"
-            cname_norm = cname.replace("-", " ").replace("  ", " ")
-            actual_norm = actual_acq_lower.replace("-", " ").replace("  ", " ")
-            if actual_norm in cname_norm or cname_norm in actual_norm or (
-                len(actual_norm) > 5 and actual_norm[:8] in cname_norm
+            cname = c.get("acquirer_name", "")
+            cname_norm = _normalize_acquirer_name(cname)
+            if actual_norm and cname_norm and (
+                actual_norm == cname_norm
+                or actual_norm in cname_norm
+                or cname_norm in actual_norm
+                or (len(actual_norm) > 5 and actual_norm[:8] in cname_norm)
+            ):
+                rank = i + 1
+                in_pool = True
+                break
+            # Fallback: raw lower-case match for any names not in alias map
+            cname_lower = cname.lower()
+            if actual_acq_lower and cname_lower and (
+                actual_acq_lower in cname_lower or cname_lower in actual_acq_lower
             ):
                 rank = i + 1
                 in_pool = True
@@ -956,48 +1056,80 @@ def run_pool_coverage(
 
 
 # ---------------------------------------------------------------------------
-# Task 5: False-positive taxonomy
+# Task 5: False-positive taxonomy (7 categories)
 # ---------------------------------------------------------------------------
 
 _FP_REASONS = {
-    "valuation":     "EV too high or acquisition_discount below threshold",
-    "timing":        "Strategically sound but acquirer not yet ready (pipeline gaps being filled elsewhere)",
-    "strategic_fit": "Score driven by TA/modality match but acquirer has no stated gap",
-    "candidate_pool":"Actual acquirer not modeled in candidate pool",
-    "financing":     "High capital vulnerability reduces real acquirer interest",
-    "data_quality":  "Score driven by stale/missing balance sheet or price data",
-    "unknown":       "No dominant signal; likely noise or idiosyncratic factor",
+    "valuation_only":              "Score driven by rNPV discount alone; EV too high for buyers at current stage",
+    "no_buyer_urgency":            "Strategic fit high but no acquirer has financing pressure or pipeline deadline",
+    "poor_strategic_fit":          "High composite score but weak TA/modality match in acquirer profiles",
+    "financing_not_pressured":     "Company has strong cash runway; no near-term financing trigger for acquirer",
+    "standalone_path":             "Asset has clear standalone commercialization path; acquisition not required",
+    "internal_acquirer_competition": "Best-fit acquirer already has competing internal program; unlikely to acquire",
+    "data_quality":                "Score inflated by stale/missing price data, balance-sheet lag, or synthetic prices",
 }
 
 
 def _classify_fp(row: dict, snap_data: dict) -> str:
-    prob = snap_data.get("probability") or 0
-    strat = snap_data.get("strategic_fit_score") or 0
-    val_disc = snap_data.get("valuation_discount_score") or 0
-    cap_vuln = snap_data.get("capital_vulnerability_score") or 0
-    acq_disc = snap_data.get("acquisition_discount") or 0
+    """Classify a false-positive snapshot into one of 7 categories."""
+    prob = snap_data.get("probability") or 0.0
+    strat = snap_data.get("strategic_fit_score") or 0.0
+    val_disc = snap_data.get("valuation_discount_score") or 0.0
+    de_risk = snap_data.get("de_risking_stage_score") or 0.0
+    cap_vuln = snap_data.get("capital_vulnerability_score") or 0.0
+    acq_disc = snap_data.get("acquisition_discount")
     days_to_cat = snap_data.get("days_to_catalyst")
-    scarcity = snap_data.get("scarcity_score") or 0
+    scarcity = snap_data.get("scarcity_score") or 0.0
+    stage = (snap_data.get("stage") or "").lower()
+    cands_json = snap_data.get("acquirer_candidates_json") or "[]"
+    try:
+        cands = json.loads(cands_json)
+    except Exception:
+        cands = []
 
-    # Data quality: if acquisition_discount is very negative (price > model value)
-    if acq_disc is not None and acq_disc < -0.5:
+    # 1. Data quality: acquisition_discount deeply negative (market price >> rNPV)
+    #    or probability == 1.0 from saturation with no real evidence
+    if acq_disc is not None and acq_disc < -0.60:
         return "data_quality"
-    # Financing risk
-    if cap_vuln > 0.6:
-        return "financing"
-    # Timing: high strategic fit but candidate pool flagged it much earlier
-    if strat > 0.85 and days_to_cat is not None and days_to_cat > 400:
-        return "timing"
-    # Valuation: low valuation discount despite high score
-    if val_disc < 0.3 and prob > 0.7:
-        return "valuation"
-    # Strategic fit: very high strategic but never made top of acquirer list
-    if strat > 0.85:
-        return "strategic_fit"
-    # Candidate pool
-    if scarcity > 0.9 and strat < 0.7:
-        return "candidate_pool"
-    return "unknown"
+    if prob >= 1.0 and strat < 0.60:
+        return "data_quality"
+
+    # 2. Internal acquirer competition: best candidate has a hard_fail for competing program
+    top_hard_fails = cands[0].get("hard_fail_reasons", []) if cands else []
+    if any("competing" in str(r).lower() or "internal" in str(r).lower() for r in top_hard_fails):
+        return "internal_acquirer_competition"
+    # Also flag when best acquirer has a prior deal in the same indication (stage_component=1 but TA=0)
+    if cands:
+        best = cands[0]
+        ta_sc = best.get("therapeutic_area_score") or best.get("strategic_fit_score") or strat
+        if strat > 0.80 and ta_sc < 0.30:
+            return "internal_acquirer_competition"
+
+    # 3. Financing not pressured: company is well-funded, no runway concern
+    if cap_vuln < 0.20 and (days_to_cat is None or days_to_cat > 180):
+        return "financing_not_pressured"
+
+    # 4. Standalone path: late-stage approved or commercial asset with low vulnerability
+    if stage in {"approved", "commercial", "nda_bla"} and cap_vuln < 0.35 and scarcity < 0.50:
+        return "standalone_path"
+
+    # 5. Valuation only: score is high but strategic fit is weak (valuation-driven)
+    if val_disc > 0.70 and strat < 0.55 and prob > 0.65:
+        return "valuation_only"
+    if acq_disc is not None and acq_disc < -0.20 and strat < 0.60:
+        return "valuation_only"
+
+    # 6. No buyer urgency: high strategic fit, long time to catalyst, no external deal pressure
+    if strat > 0.80 and (days_to_cat is None or days_to_cat > 300) and cap_vuln < 0.30:
+        return "no_buyer_urgency"
+
+    # 7. Poor strategic fit: score driven by non-TA factors
+    if strat < 0.55 and de_risk > 0.70:
+        return "poor_strategic_fit"
+    if strat < 0.45:
+        return "poor_strategic_fit"
+
+    return "no_buyer_urgency"
 
 
 def run_false_positive_taxonomy(
@@ -1097,19 +1229,22 @@ def run_false_positive_taxonomy(
         "",
         "## Key Observations",
         "",
-        "- `strategic_fit` and `valuation` dominate because the model assigns high structural scores",
-        "  to all late-stage assets regardless of acquirer pipeline timing.",
-        "- `timing` false positives are the most actionable — they may convert to real deals",
-        "  once the acquirer completes another acquisition or replenishes pipeline budget.",
-        "- `data_quality` flags indicate stale balance-sheet snapshots or pricing anomalies.",
-        "- `candidate_pool` failures mean the actual acquirer was not modeled as a buyer,",
-        "  requiring expansion of the acquirer candidate database.",
+        "- `no_buyer_urgency` and `poor_strategic_fit` dominate: the screening score identifies",
+        "  structurally acquirable names but cannot distinguish timing or urgency.",
+        "- `financing_not_pressured` flags companies with strong cash runway where acquirer",
+        "  has no near-term leverage. These may still transact on strategic terms.",
+        "- `standalone_path` flags late-stage/approved assets that can succeed independently —",
+        "  not every great asset needs to be acquired.",
+        "- `internal_acquirer_competition` flags where the modeled buyer already has a competing",
+        "  internal program, making acquisition redundant for them.",
+        "- `valuation_only` flags indicate overvaluation: target price exceeds model rNPV discount.",
+        "- `data_quality` flags indicate stale balance-sheet or synthetic prices inflating scores.",
         "",
         "## Implication",
         "",
-        "FPR@k ≈ 65-82% is expected in this setting: the model screens IN targets, not timing.",
-        "The correct interpretation is: 'these names are structurally acquirable within a 2-3 year",
-        "window', not 'acquisition will occur within 12 months'.",
+        "FPR@k ≈ 65-82% is expected: the screening score ranks by acquirability, not by deal timing.",
+        "Correct interpretation: 'these names are structurally acquirable within a 2-3 year window'.",
+        "Use the FP taxonomy to triage which names warrant deeper due-diligence priority.",
     ]
     (output_dir / "false_positive_taxonomy.md").write_text("\n".join(lines))
     print(f"  [fp_tax] {len(top50)} false positives classified: {dict(reason_counts)}")
@@ -1389,7 +1524,7 @@ def write_institutional_report(
         "",
         "---",
         "",
-        "## 2. M&A Target Prediction Credibility",
+        "## 2. M&A Target Screening Credibility",
         "",
         f"### Overall verdict: {'CREDIBLE' if mna_target_credible else 'NOT YET CREDIBLE'} (holdout N={mna_n_ho} positive deals)",
         "",
@@ -1409,9 +1544,10 @@ def write_institutional_report(
     lines += [
         "",
         "**Score saturation:**",
-        "- 51.6% of raw M&A probability scores = 1.0 (avg=0.865)",
-        "- Raw scores must be treated as **rank scores**, not probabilities",
-        "- Isotonic calibration applied on train+validation; holdout ECE improves from",
+        "- 51.6% of raw M&A screening scores = 1.0 (avg=0.865) pre-Sprint17 penalty",
+        "- Sprint 17 saturation penalty applied: scores reduced when ≥2 sub-scores at cap",
+        "- Raw scores must be treated as **rank scores**, not calibrated probabilities",
+        "- Isotonic calibration applied on train+validation; holdout ECE changes from",
         f"  {mna_cal.get('holdout_raw', {}).get('ece', 'N/A')} (raw) to "
         f"{mna_cal.get('holdout_calibrated', {}).get('ece', 'N/A')} (calibrated)",
         "",
@@ -1470,7 +1606,7 @@ def write_institutional_report(
         "",
         "## 4. Calibration Credibility",
         "",
-        f"### M&A probability calibration: {'CREDIBLE' if mna_cal_credible else 'NOT YET CREDIBLE'}",
+        f"### M&A screening score calibration: {'CREDIBLE' if mna_cal_credible else 'NOT YET CREDIBLE'}",
         "",
         "| Context | N | Brier | ECE | Pass Brier | Pass ECE |",
         "|---------|---|-------|-----|------------|---------|",
@@ -1540,7 +1676,7 @@ def write_institutional_report(
         "### Not yet appropriate:",
         "",
         "1. Claiming statistical alpha vs XBI (bootstrap p=0.998, corrections fail)",
-        "2. Treating M&A probability scores as calibrated [0,1] probabilities",
+        "2. Treating M&A screening scores as calibrated [0,1] probabilities",
         "3. Reporting lead times without static_screen_flag correction",
         "4. Making position-sizing decisions based on backtest Sharpe (N too small)",
     ]
