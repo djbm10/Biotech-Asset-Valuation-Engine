@@ -736,7 +736,7 @@ class TestLeadTimeCorrection:
         acme = [r for r in rows if r["ticker"] == "ACME"]
         if acme:
             # ACME above_alert_threshold=1 starts at 2022-06-01 (not 2021-02-01), so not static
-            assert acme[0]["is_static_screen_flag"] in ("True", "False")
+            assert acme[0]["static_screen_flag"] in ("True", "False")
 
     def test_corrected_lead_days_not_negative(self, tmp_path):
         import csv

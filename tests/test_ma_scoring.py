@@ -6,6 +6,7 @@ import math
 import pytest
 
 from bve.intelligence.ma_scoring import (
+    COMPOSITE_MAX_WITH_DL_GATE,
     SATURATION_THRESHOLD,
     AcquirerFitDecomposed,
     DealLikelihoodScore,
@@ -13,6 +14,9 @@ from bve.intelligence.ma_scoring import (
     FINANCING_REASON_NOT_PRESSURED,
     FINANCING_REASON_NO_NEAR_TERM_NEED,
     FINANCING_REASON_STANDALONE_VIABLE,
+    FINANCING_REASON_NO_BUYER_URGENCY,
+    FINANCING_REASON_RECENT_FINANCING,
+    FINANCING_REASON_NO_ACTIVIST_PRESSURE,
     TargetAttractivenessScore,
     _LOW_PRESSURE_SCORE_CAP,
     _LOW_FINANCING_PRESSURE_THRESHOLD,
@@ -20,6 +24,7 @@ from bve.intelligence.ma_scoring import (
     apply_saturation_penalty,
     compute_acquirer_fit_decomposed,
     compute_deal_likelihood,
+    compute_mna_composite_score,
     compute_score_saturation_diagnostics,
     compute_target_attractiveness,
 )
@@ -506,3 +511,165 @@ class TestSaturationRateTarget:
             max_scores.append(score)
         # All should be below 1.0 due to 3-extra-cap penalty
         assert all(s < 1.0 for s in max_scores)
+
+
+# ---------------------------------------------------------------------------
+# New reason codes (Sprint 19 T2)
+# ---------------------------------------------------------------------------
+
+class TestNewReasonCodes:
+    def test_no_buyer_urgency_code_when_low_external_activity(self):
+        """Low external deal activity → no_buyer_urgency code when gate fires."""
+        _, _, codes = apply_financing_pressure_gate(
+            0.60,
+            financing_pressure_score=0.10,
+            external_deal_activity_score=0.10,  # below threshold
+        )
+        assert FINANCING_REASON_NO_BUYER_URGENCY in codes
+
+    def test_no_buyer_urgency_code_absent_when_high_external_activity(self):
+        """High external deal activity → no_buyer_urgency code NOT set."""
+        _, _, codes = apply_financing_pressure_gate(
+            0.60,
+            financing_pressure_score=0.10,
+            external_deal_activity_score=0.50,  # above threshold
+        )
+        assert FINANCING_REASON_NO_BUYER_URGENCY not in codes
+
+    def test_recent_financing_code(self):
+        """Recent financing (< 180d) → recent_financing code when gate fires."""
+        _, _, codes = apply_financing_pressure_gate(
+            0.60,
+            financing_pressure_score=0.10,
+            days_since_last_financing=90,
+        )
+        assert FINANCING_REASON_RECENT_FINANCING in codes
+
+    def test_old_financing_no_code(self):
+        """Old financing (>= 180d) → no recent_financing code."""
+        _, _, codes = apply_financing_pressure_gate(
+            0.60,
+            financing_pressure_score=0.10,
+            days_since_last_financing=365,
+        )
+        assert FINANCING_REASON_RECENT_FINANCING not in codes
+
+    def test_no_activist_pressure_code(self):
+        """Low activist signal → no_ownership_activist_pressure code when gate fires."""
+        _, _, codes = apply_financing_pressure_gate(
+            0.60,
+            financing_pressure_score=0.10,
+            activist_signal_score=0.10,  # below 0.20
+        )
+        assert FINANCING_REASON_NO_ACTIVIST_PRESSURE in codes
+
+    def test_activist_present_no_code(self):
+        """High activist signal → no_ownership_activist_pressure code NOT set."""
+        _, _, codes = apply_financing_pressure_gate(
+            0.60,
+            financing_pressure_score=0.10,
+            activist_signal_score=0.50,
+        )
+        assert FINANCING_REASON_NO_ACTIVIST_PRESSURE not in codes
+
+    def test_reason_codes_absent_when_gate_not_fired(self):
+        """New codes are NOT present when financing pressure is high (gate does not fire)."""
+        _, applied, codes = apply_financing_pressure_gate(
+            0.70,
+            financing_pressure_score=0.80,
+            external_deal_activity_score=0.05,
+            days_since_last_financing=30,
+            activist_signal_score=0.05,
+        )
+        assert applied is False
+        assert FINANCING_REASON_NO_BUYER_URGENCY not in codes
+        assert FINANCING_REASON_RECENT_FINANCING not in codes
+        assert FINANCING_REASON_NO_ACTIVIST_PRESSURE not in codes
+
+
+# ---------------------------------------------------------------------------
+# compute_mna_composite_score (Sprint 19 T2)
+# ---------------------------------------------------------------------------
+
+def _make_ta(score: float = 0.70) -> TargetAttractivenessScore:
+    return TargetAttractivenessScore(
+        score=score,
+        de_risking_stage=score,
+        valuation_discount=score,
+        scarcity=score,
+        peak_sales_signal=score,
+    )
+
+
+def _make_dl(score: float = 0.50, gate: bool = False, codes: list | None = None) -> DealLikelihoodScore:
+    return DealLikelihoodScore(
+        score=score,
+        financing_pressure=0.50,
+        external_deal_activity=0.50,
+        insider_board_signals=0.50,
+        catalyst_proximity=0.50,
+        financing_gate_applied=gate,
+        financing_reason_codes=codes or [],
+    )
+
+
+def _make_af(score: float = 0.80) -> AcquirerFitDecomposed:
+    return AcquirerFitDecomposed(
+        score=score,
+        ta_modality_fit=score,
+        pipeline_gap_alignment=score,
+        deal_affordability=score,
+        existing_partnership_bonus=0.0,
+    )
+
+
+class TestComputeMnaCompositeScore:
+    def test_no_gate_no_cap(self):
+        """When DL gate not fired, composite is uncapped weighted sum."""
+        ta = _make_ta(0.80)
+        dl = _make_dl(0.70, gate=False)
+        af = _make_af(0.90)
+        score, caps = compute_mna_composite_score(ta, dl, af)
+        assert 0.0 <= score <= 1.0
+        assert "composite_capped_by_dl_gate" not in caps
+
+    def test_gate_fired_caps_composite(self):
+        """When DL gate fires and composite > COMPOSITE_MAX, it is capped."""
+        ta = _make_ta(1.0)
+        dl = _make_dl(0.40, gate=True, codes=["financing_not_pressured"])
+        af = _make_af(1.0)
+        score, caps = compute_mna_composite_score(ta, dl, af)
+        assert score <= COMPOSITE_MAX_WITH_DL_GATE + 1e-6
+        assert "composite_capped_by_dl_gate" in caps
+
+    def test_gate_fired_but_composite_already_low(self):
+        """When DL gate fires but composite is already below cap, no extra cap applied."""
+        ta = _make_ta(0.30)
+        dl = _make_dl(0.20, gate=True, codes=["financing_not_pressured"])
+        af = _make_af(0.30)
+        score, caps = compute_mna_composite_score(ta, dl, af)
+        assert score <= COMPOSITE_MAX_WITH_DL_GATE
+        assert "composite_capped_by_dl_gate" not in caps
+
+    def test_strategic_fit_alone_cannot_drive_high_score(self):
+        """High TA + AF with low DL gate fired → composite capped below 0.66."""
+        ta = _make_ta(1.0)
+        dl = _make_dl(0.40, gate=True, codes=["financing_not_pressured"])
+        af = _make_af(1.0)
+        score, _ = compute_mna_composite_score(ta, dl, af)
+        # Without the gate: 1.0*0.35 + 0.40*0.25 + 1.0*0.40 = 0.85 (before saturation)
+        # With gate: score <= COMPOSITE_MAX_WITH_DL_GATE
+        assert score <= COMPOSITE_MAX_WITH_DL_GATE + 1e-6
+
+    def test_reason_codes_propagated(self):
+        """Financing reason codes from DL are propagated to cap_reasons."""
+        dl = _make_dl(0.40, gate=True, codes=["financing_not_pressured", "long_runway"])
+        ta = _make_ta(0.90)
+        af = _make_af(0.90)
+        _, caps = compute_mna_composite_score(ta, dl, af)
+        assert "financing_not_pressured" in caps
+        assert "long_runway" in caps
+
+    def test_score_clamped_to_unit_interval(self):
+        score, _ = compute_mna_composite_score(_make_ta(0.0), _make_dl(0.0), _make_af(0.0))
+        assert 0.0 <= score <= 1.0

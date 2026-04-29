@@ -141,6 +141,9 @@ FINANCING_REASON_NOT_PRESSURED = "financing_not_pressured"
 FINANCING_REASON_LONG_RUNWAY = "long_runway"
 FINANCING_REASON_NO_NEAR_TERM_NEED = "no_near_term_funding_need"
 FINANCING_REASON_STANDALONE_VIABLE = "standalone_viability_high"
+FINANCING_REASON_NO_BUYER_URGENCY = "no_buyer_urgency"
+FINANCING_REASON_RECENT_FINANCING = "recent_financing"
+FINANCING_REASON_NO_ACTIVIST_PRESSURE = "no_ownership_activist_pressure"
 
 # Threshold below which financing pressure is considered low (weak pressure)
 _LOW_FINANCING_PRESSURE_THRESHOLD = 0.25
@@ -148,6 +151,12 @@ _LOW_FINANCING_PRESSURE_THRESHOLD = 0.25
 _LOW_PRESSURE_SCORE_CAP = 0.40
 # Scarcity or activist signal that can override the gate (threshold)
 _OVERRIDE_SCARCITY_THRESHOLD = 0.75
+# External deal activity below this → no_buyer_urgency code
+_LOW_EXTERNAL_ACTIVITY_THRESHOLD = 0.20
+# Days since last financing below this → recent_financing code
+_RECENT_FINANCING_DAYS = 180
+# Composite score cap when DL financing gate fires (strategic fit alone insufficient)
+COMPOSITE_MAX_WITH_DL_GATE = 0.65
 
 
 class DealLikelihoodScore(BaseModel):
@@ -245,12 +254,17 @@ def apply_financing_pressure_gate(
     activist_signal_score: float = 0.0,
     cash_runway_quarters: Optional[float] = None,
     has_near_term_catalyst: bool = False,
+    external_deal_activity_score: float = 0.0,
+    days_since_last_financing: Optional[int] = None,
 ) -> tuple[float, bool, list[str]]:
     """Apply low-pressure cap to deal likelihood score.
 
     When financing pressure is low (company is well-funded with no near-term
     capital need), deal likelihood is capped unless a strong scarcity or
     activist/ownership signal overrides the gate.
+
+    Strategic fit alone cannot create high deal likelihood — when the financing
+    gate fires, the DL score is capped at _LOW_PRESSURE_SCORE_CAP.
 
     Returns (capped_score, gate_applied, reason_codes).
 
@@ -265,6 +279,10 @@ def apply_financing_pressure_gate(
             contributes to long_runway code.
         has_near_term_catalyst: True if a catalyst is within 90 days (can partially
             offset low financing pressure).
+        external_deal_activity_score: [0, 1] score reflecting external deal pressure
+            in the same therapeutic area / modality.
+        days_since_last_financing: Days since last capital raise; < 180 days indicates
+            recent financing that reduces near-term capital pressure.
     """
     reason_codes: list[str] = []
 
@@ -277,7 +295,7 @@ def apply_financing_pressure_gate(
     if not pressure_is_low:
         return min(max(raw_score, 0.0), 1.0), False, reason_codes
 
-    # Pressure is low — build reason codes
+    # Pressure is low — build reason codes explaining why deal is unlikely
     reason_codes.append(FINANCING_REASON_NOT_PRESSURED)
     if cash_runway_quarters is not None and cash_runway_quarters >= 8.0:
         reason_codes.append(FINANCING_REASON_LONG_RUNWAY)
@@ -285,6 +303,12 @@ def apply_financing_pressure_gate(
         reason_codes.append(FINANCING_REASON_NO_NEAR_TERM_NEED)
     if financing_pressure_score < 0.10:
         reason_codes.append(FINANCING_REASON_STANDALONE_VIABLE)
+    if external_deal_activity_score < _LOW_EXTERNAL_ACTIVITY_THRESHOLD:
+        reason_codes.append(FINANCING_REASON_NO_BUYER_URGENCY)
+    if days_since_last_financing is not None and days_since_last_financing < _RECENT_FINANCING_DAYS:
+        reason_codes.append(FINANCING_REASON_RECENT_FINANCING)
+    if activist_signal_score < 0.20:
+        reason_codes.append(FINANCING_REASON_NO_ACTIVIST_PRESSURE)
 
     if override_active:
         # Strong scarcity or activist signal overrides the cap
@@ -345,6 +369,7 @@ def compute_deal_likelihood(
     days_to_catalyst: Optional[int],
     scarcity_score: float = 0.0,
     cash_runway_quarters: Optional[float] = None,
+    days_since_last_financing: Optional[int] = None,
 ) -> DealLikelihoodScore:
     """Compute DealLikelihoodScore from vulnerability and catalyst signals.
 
@@ -374,6 +399,8 @@ def compute_deal_likelihood(
         activist_signal_score=target_signal_score,
         cash_runway_quarters=cash_runway_quarters,
         has_near_term_catalyst=has_near_term_catalyst,
+        external_deal_activity_score=external_deal_pressure_score,
+        days_since_last_financing=days_since_last_financing,
     )
 
     return DealLikelihoodScore(
@@ -430,3 +457,35 @@ def compute_acquirer_fit_decomposed(
             "raw_weighted_sum": round(raw, 6),
         },
     )
+
+
+def compute_mna_composite_score(
+    ta: TargetAttractivenessScore,
+    dl: DealLikelihoodScore,
+    af: AcquirerFitDecomposed,
+) -> tuple[float, list[str]]:
+    """Compute the composite M&A screening score from three sub-scores.
+
+    Applies a secondary composite cap when the DL financing gate fired, ensuring
+    that strategic fit alone (high TA + AF) cannot produce a high composite score
+    when deal urgency signals are absent.
+
+    Returns (composite_score, cap_reason_codes).
+    """
+    raw = (
+        ta.score * TARGET_ATTRACTIVENESS_WEIGHT
+        + dl.score * DEAL_LIKELIHOOD_WEIGHT
+        + af.score * ACQUIRER_FIT_WEIGHT
+    )
+    sub = [ta.score, dl.score, af.score]
+    penalised = apply_saturation_penalty(raw, sub_scores=sub)
+
+    cap_reasons: list[str] = []
+    if dl.financing_gate_applied:
+        # Strategic fit (TA + AF) alone is insufficient when DL signals low urgency
+        if penalised > COMPOSITE_MAX_WITH_DL_GATE:
+            penalised = COMPOSITE_MAX_WITH_DL_GATE
+            cap_reasons.append("composite_capped_by_dl_gate")
+        cap_reasons.extend(dl.financing_reason_codes)
+
+    return round(min(max(penalised, 0.0), 1.0), 6), cap_reasons

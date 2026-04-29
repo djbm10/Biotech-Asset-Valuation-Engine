@@ -1285,6 +1285,74 @@ def run_false_positive_taxonomy(
 
 
 # ---------------------------------------------------------------------------
+# Task 5: Score distribution diagnostics
+# ---------------------------------------------------------------------------
+
+def run_score_distribution_diagnostics(
+    knowledge_conn: sqlite3.Connection,
+    output_dir: Path,
+) -> dict:
+    """Compute distribution statistics for mna_screening_score and sub-scores.
+
+    Checks for score saturation (>= 10% at exact max is a problem).
+    Writes score_distribution_diagnostics.csv.
+    Returns dict with per-score diagnostics.
+    """
+    from bve.intelligence.ma_scoring import compute_score_saturation_diagnostics
+
+    cur = knowledge_conn.cursor()
+
+    # Fetch raw composite score (mna_screening_score) and sub-scores
+    cur.execute(
+        """
+        SELECT probability, strategic_fit_score, capital_vulnerability_score,
+               de_risking_stage_score, valuation_discount_score, scarcity_score
+        FROM ma_probability_snapshots
+        WHERE probability IS NOT NULL
+        """
+    )
+    rows = [dict(r) for r in cur.fetchall()]
+
+    def _col(field: str) -> list[float]:
+        return [r[field] for r in rows if r.get(field) is not None]
+
+    score_fields = {
+        "mna_screening_score": "probability",
+        "strategic_fit_score": "strategic_fit_score",
+        "capital_vulnerability_score": "capital_vulnerability_score",
+        "de_risking_stage_score": "de_risking_stage_score",
+        "valuation_discount_score": "valuation_discount_score",
+        "scarcity_score": "scarcity_score",
+    }
+
+    diag_rows = []
+    result: dict[str, dict] = {}
+
+    for display_name, field in score_fields.items():
+        vals = _col(field)
+        diag = compute_score_saturation_diagnostics(vals)
+        saturation_ok = diag["pct_at_cap"] < 0.10
+        result[display_name] = diag
+        diag_rows.append({
+            "score_name": display_name,
+            "n": diag["n"],
+            "mean": diag["mean"],
+            "median": diag["median"],
+            "p10": diag["p10"],
+            "p90": diag["p90"],
+            "pct_at_cap": diag["pct_at_cap"],
+            "pct_at_cap_pct": round(diag["pct_at_cap"] * 100, 2),
+            "entropy": diag["entropy"],
+            "gini": diag["gini"],
+            "saturation_pass": _pass_fail(saturation_ok),
+        })
+
+    _write_csv(diag_rows, output_dir / "score_distribution_diagnostics.csv")
+    print(f"  [score_diag] {len(diag_rows)} score distributions computed")
+    return result
+
+
+# ---------------------------------------------------------------------------
 # Task 6: Lead-time correction
 # ---------------------------------------------------------------------------
 
@@ -1292,13 +1360,25 @@ FIRST_REPLAY_DATE = "2021-02-01"
 SCORE_CHANGE_THRESHOLD = 0.15   # material score change: delta >= 0.15
 
 
+_RANK_JUMP_THRESHOLD = 5    # rank improved by >= 5 positions is a material jump
+_FINANCING_STRESS_THRESHOLD = 0.15  # capital_vulnerability delta >= 0.15 = financing stress
+
+
 def run_lead_time_correction(
     deals: list[dict],
     knowledge_conn: sqlite3.Connection,
     output_dir: Path,
 ) -> dict:
-    """
-    Correct lead time by identifying first_threshold_crossing vs static_screen_flag.
+    """Correct lead time using true_signal_date instead of first replay date.
+
+    Signal sources (earliest wins):
+      1. First threshold crossing (above_alert_threshold)
+      2. First material mna_screening_score change (delta >= 0.15)
+      3. First financing stress change (capital_vulnerability delta >= 0.15)
+      4. First acquirer rank jump (rank improved >= 5 positions)
+
+    Deals flagged at the first replay date with no genuine prior signal are
+    marked static_screen_flag=True.
     """
     cur = knowledge_conn.cursor()
 
@@ -1314,7 +1394,8 @@ def run_lead_time_correction(
 
         cur.execute(
             """
-            SELECT snapshot_date, probability, above_alert_threshold, rank
+            SELECT snapshot_date, probability, above_alert_threshold, rank,
+                   capital_vulnerability_score
             FROM ma_probability_snapshots
             WHERE ticker = ? AND snapshot_date < ?
             ORDER BY snapshot_date
@@ -1325,27 +1406,73 @@ def run_lead_time_correction(
         if not snaps:
             continue
 
-        # Find first snapshot above threshold
+        # Signal source 1: first snapshot above threshold
         first_thresh = next(
             (s for s in snaps if s.get("above_alert_threshold")), None
         )
-        # Find first material score change (delta >= threshold from prior snap)
-        first_change = None
+
+        # Signal source 2: first material mna_screening_score change
+        first_score_change = None
         prev_prob = None
         for s in snaps:
             p = s.get("probability") or 0
             if prev_prob is not None and abs(p - prev_prob) >= SCORE_CHANGE_THRESHOLD:
-                first_change = s
+                first_score_change = s
                 break
             prev_prob = p
 
+        # Signal source 3: first financing stress change (capital_vulnerability delta)
+        first_financing_stress = None
+        prev_vuln = None
+        for s in snaps:
+            v = s.get("capital_vulnerability_score") or 0
+            if prev_vuln is not None and abs(v - prev_vuln) >= _FINANCING_STRESS_THRESHOLD:
+                first_financing_stress = s
+                break
+            prev_vuln = v
+
+        # Signal source 4: first material acquirer rank jump (rank improves significantly)
+        first_rank_jump = None
+        prev_rank = None
+        for s in snaps:
+            r = s.get("rank")
+            if r is not None and prev_rank is not None and (prev_rank - r) >= _RANK_JUMP_THRESHOLD:
+                first_rank_jump = s
+                break
+            if r is not None:
+                prev_rank = r
+
         # Determine if static screen flag: first_flagged == first replay date
         first_snap_date = snaps[0]["snapshot_date"] if snaps else None
-        is_static_flag = first_snap_date == FIRST_REPLAY_DATE and first_thresh and first_thresh["snapshot_date"] == FIRST_REPLAY_DATE
+        is_static_flag = (
+            first_snap_date == FIRST_REPLAY_DATE
+            and first_thresh is not None
+            and first_thresh["snapshot_date"] == FIRST_REPLAY_DATE
+        )
 
-        # True signal date: prefer first material score change, then first threshold crossing
-        true_signal = first_change or first_thresh
-        true_signal_date = true_signal["snapshot_date"] if true_signal else (first_snap_date)
+        # True signal date: earliest of all four signal sources
+        signal_candidates = [
+            s for s in [first_score_change, first_thresh, first_financing_stress, first_rank_jump]
+            if s is not None
+        ]
+        if signal_candidates:
+            true_signal = min(signal_candidates, key=lambda s: s["snapshot_date"])
+        else:
+            true_signal = None
+        true_signal_date = true_signal["snapshot_date"] if true_signal else first_snap_date
+
+        # Determine which signal source triggered
+        signal_source = "none"
+        if true_signal:
+            ts = true_signal["snapshot_date"]
+            if first_score_change and first_score_change["snapshot_date"] == ts:
+                signal_source = "score_change"
+            elif first_financing_stress and first_financing_stress["snapshot_date"] == ts:
+                signal_source = "financing_stress"
+            elif first_rank_jump and first_rank_jump["snapshot_date"] == ts:
+                signal_source = "rank_jump"
+            elif first_thresh and first_thresh["snapshot_date"] == ts:
+                signal_source = "threshold_crossing"
 
         # Compute lead times
         try:
@@ -1367,15 +1494,18 @@ def run_lead_time_correction(
                 "announcement_date": ann_date_str[:10],
                 "first_snapshot_date": first_snap_date,
                 "first_above_threshold_date": first_thresh["snapshot_date"] if first_thresh else None,
-                "first_material_change_date": first_change["snapshot_date"] if first_change else None,
+                "first_score_change_date": first_score_change["snapshot_date"] if first_score_change else None,
+                "first_financing_stress_date": first_financing_stress["snapshot_date"] if first_financing_stress else None,
+                "first_rank_jump_date": first_rank_jump["snapshot_date"] if first_rank_jump else None,
                 "true_signal_date": true_signal_date,
-                "is_static_screen_flag": is_static_flag,
+                "true_signal_source": signal_source,
+                "static_screen_flag": is_static_flag,
                 "nominal_lead_days": nominal_lead,
                 "corrected_lead_days": corrected_lead,
                 "note": (
                     "static_screen_flag: flagged at start of replay, lead time inflated"
                     if is_static_flag
-                    else "true_signal_date from first threshold crossing or score change"
+                    else f"true_signal_date from {signal_source}"
                 ),
             }
         )
@@ -1413,6 +1543,7 @@ def write_institutional_report(
     report: dict,
     dq_summary: dict,
     output_path: Path,
+    score_diag: dict | None = None,
 ) -> None:
 
     splits_data = {s["split"]: s for s in report.get("splits", [])}
@@ -1506,9 +1637,10 @@ def write_institutional_report(
         "",
         "## 1. Public-Market Alpha Credibility",
         "",
-        f"### Overall verdict: {'CREDIBLE' if alpha_credible else 'NOT YET CREDIBLE'}",
+        f"### Overall verdict: {'SUFFICIENT EVIDENCE' if alpha_credible else 'INSUFFICIENT EVIDENCE'}",
+        f"Criterion: N ≥ {CRITERIA['alpha_n_trades_min']} trades AND mean excess > {CRITERIA['alpha_excess_return_pct_min']}% AND holdout CI95 excludes zero.",
         "",
-        "**What the backtest shows:**",
+        "**What the backtest shows (headline: clean-price trades only, no fallback):**",
         "",
         "| Split | N trades | Mean excess (gross) | 95% CI lower | Win rate vs XBI | Bootstrap p | Survives corrections |",
         "|-------|----------|--------------------|--------------|--------------|----|---|",
@@ -1531,24 +1663,58 @@ def write_institutional_report(
             else f"| {split_name} | {n} | N/A | N/A | N/A | N/A | {survives} |"
         )
 
+    clean_n = pub_clean.get("n_trades", 0)
+    clean_mean = pub_clean.get("mean_gross_excess_pct", "N/A")
+    clean_ci_lo = pub_clean.get("ci95_lower_pct", "N/A")
+    clean_ci_hi = pub_clean.get("ci95_upper_pct", "N/A")
+    clean_ci_ok = pub_clean.get("ci95_excludes_zero", False)
+    n_ok_for_claims = clean_n >= 200
+
     lines += [
         "",
-        "**Clean-price (no fallback) version:**",
-        f"- N trades: {pub_clean.get('n_trades', 0)}",
-        f"- Mean excess return: {pub_clean.get('mean_gross_excess_pct', 'N/A')}%",
-        f"- 95% CI: [{pub_clean.get('ci95_lower_pct', 'N/A')}%, {pub_clean.get('ci95_upper_pct', 'N/A')}%]",
-        f"- CI excludes zero: {pub_clean.get('ci95_excludes_zero', False)}",
+        "**Headline (clean-price only — excludes fallback/synthetic prices):**",
+        f"- N trades (real prices): {clean_n} {'' if n_ok_for_claims else '⚠ < 200 required for statistical claims'}",
+        f"- Mean XBI-adjusted excess return: {clean_mean}%",
+        f"- Block-bootstrap 95% CI (ticker-month blocks): [{clean_ci_lo}%, {clean_ci_hi}%]",
+        f"- CI excludes zero: {clean_ci_ok}  |  N ≥ 200 independent decisions: {_pass_fail(n_ok_for_claims)}",
+        "",
+        "**Including fallback/synthetic prices (secondary — do not report as primary alpha):**",
+        "| Split | N trades | N fallback | Fallback% | Mean excess | 95% CI lower | Win vs XBI | Bootstrap p |",
+        "|-------|----------|-----------|-----------|-------------|-------------|-----------|------------|",
+    ]
+
+    for split_name in ("train", "validation", "holdout"):
+        s = splits_data.get(split_name, {})
+        av = s.get("alpha_validation", {})
+        ps = pub_summary.get("split_summary", {}).get(split_name, {})
+        n = av.get("n_trades") or ps.get("n_trades") or 0
+        n_fb = ps.get("n_fallback_price_trades") or 0
+        fb_pct = ps.get("fallback_pct") or 0
+        mean_e = av.get("mean_excess_return")
+        p_boot = av.get("bootstrap_p_value")
+        ci_lo = ps.get("ci95_lower_pct")
+        win = ps.get("win_rate_vs_xbi")
+        lines.append(
+            f"| {split_name} | {n} | {n_fb} | {fb_pct:.1f}% | {mean_e*100:.2f}% | {ci_lo:.2f}% | "
+            f"{win*100:.1f}% | {p_boot:.4f} |"
+            if mean_e is not None and ci_lo is not None and win is not None and p_boot is not None
+            else f"| {split_name} | {n} | {n_fb} | {fb_pct:.1f}% | N/A | N/A | N/A | N/A |"
+        )
+
+    lines += [
         "",
         "**Slippage/liquidity assumptions:**",
         f"- Round-trip slippage: {SLIPPAGE_PCT*100:.0f} bps (liquid mid/large cap biotech, mktcap > $500M assumed)",
         f"- Management/admin: {MANAGEMENT_FEE_PCT*100:.0f} bps/year",
         "- No borrowing costs (long-only strategy)",
+        "- Block-bootstrap uses ticker-month blocks to account for serial correlation",
         "",
         "**Key limitations:**",
+        f"- Total real-price N={clean_n} — need ≥ 200 independent decisions for credible alpha claims",
         f"- Train N={alpha_n_train} is below typical institutional threshold (200+)",
         f"- Bootstrap p={alpha_p_boot:.4f} — alpha does NOT survive multiple-comparison corrections",
-        f"- {dq_summary.get('n_fallback', 0)} of {dq_summary.get('total_tickers', 0)} tickers use fallback prices; bias direction uncertain",
-        f"- {lead_time.get('n_static_screen_flags', 0)} deals have static screen flags (lead time overstated by starting from 2021-02-01)",
+        f"- {dq_summary.get('n_fallback', 0)} of {dq_summary.get('total_tickers', 0)} tickers use fallback prices; excluded from headline alpha",
+        f"- {lead_time.get('n_static_screen_flags', 0)} deals have static_screen_flag (lead time from first replay date, not true signal)",
         "",
         "**What is needed before real use:**",
         "- Minimum 200 trades with real prices for statistical credibility",
@@ -1559,7 +1725,8 @@ def write_institutional_report(
         "",
         "## 2. M&A Target Screening Credibility",
         "",
-        f"### Overall verdict: {'CREDIBLE' if mna_target_credible else 'NOT YET CREDIBLE'} (holdout N={mna_n_ho} positive deals)",
+        f"### Overall verdict: {'SUFFICIENT EVIDENCE' if mna_target_credible else 'INSUFFICIENT EVIDENCE'} (holdout N={mna_n_ho} positive deals)",
+        f"Criterion: holdout precision@k ≥ {CRITERIA['mna_precision_min']} AND AUC ≥ {CRITERIA['mna_auc_min']}.",
         "",
         "| Split | N rows | N positive deals | Precision@10 | Recall@10 | AUC | FPR@10 |",
         "|-------|--------|-----------------|-------------|---------|-----|--------|",
@@ -1577,12 +1744,13 @@ def write_institutional_report(
     lines += [
         "",
         "**Score saturation:**",
-        "- 51.6% of raw M&A screening scores = 1.0 (avg=0.865) pre-Sprint17 penalty",
+        "- 51.6% of `mna_screening_score` values = 1.0 (avg=0.865) pre-Sprint17 penalty",
         "- Sprint 17 saturation penalty applied: scores reduced when ≥2 sub-scores at cap",
-        "- Raw scores must be treated as **rank scores**, not calibrated probabilities",
+        "- `mna_screening_score` must be treated as a **rank score**, NOT a calibrated probability",
         "- Isotonic calibration applied on train+validation; holdout ECE changes from",
         f"  {mna_cal.get('holdout_raw', {}).get('ece', 'N/A')} (raw) to "
         f"{mna_cal.get('holdout_calibrated', {}).get('ece', 'N/A')} (calibrated)",
+        f"- **Calibrated probability display: {'ENABLED (ECE ≤ 0.10)' if mna_cal_credible else 'DISABLED (ECE > 0.10 — use mna_screening_score rank only)'}**",
         "",
         "**Lead-time correction:**",
         f"- {lead_time.get('n_static_screen_flags', 0)} of {lead_time.get('n_deals_with_lead', 0)} deals ({lead_time.get('pct_static', 0)}%) are static_screen_flags",
@@ -1599,7 +1767,8 @@ def write_institutional_report(
         "",
         "## 3. Acquirer-Fit Credibility",
         "",
-        f"### Overall verdict: {'CREDIBLE' if acq_credible else 'NOT YET CREDIBLE'} (holdout N={acq_n_ho} deals)",
+        f"### Overall verdict: {'SUFFICIENT EVIDENCE' if acq_credible else 'INSUFFICIENT EVIDENCE'} (holdout N={acq_n_ho} deals)",
+        f"Criterion: top-1 accuracy ≥ {CRITERIA['acquirer_top1_min']} AND top-5 ≥ {CRITERIA['acquirer_top5_min']}.",
         "",
         "| Split | N deals | Top-1 | Top-3 | Top-5 | MRR | Random Top-1 | Random Top-5 |",
         "|-------|---------|-------|-------|-------|-----|-------------|-------------|",
@@ -1637,32 +1806,76 @@ def write_institutional_report(
         "",
         "---",
         "",
-        "## 4. Calibration Credibility",
+        "## 4. M&A Screening Score Calibration",
         "",
-        f"### M&A screening score calibration: {'CREDIBLE' if mna_cal_credible else 'NOT YET CREDIBLE'}",
+        f"### Calibration status: {'SUFFICIENT EVIDENCE (ECE ≤ 0.10)' if mna_cal_credible else 'INSUFFICIENT EVIDENCE (ECE > 0.10)'}",
+        f"Criterion: holdout ECE ≤ {CRITERIA['mna_ece_max']}.",
+        "",
+        "> **Scores are `mna_screening_score` rank scores, NOT calibrated probabilities.**",
+    ]
+    ece_gate_msg = (
+        "ECE criterion met"
+        if mna_cal_credible
+        else f"ECE {ho_ece:.4f} exceeds threshold {CRITERIA['mna_ece_max']}"
+    )
+    lines += [
+        f"> Calibrated probability display is {'ENABLED' if mna_cal_credible else 'DISABLED'} — {ece_gate_msg}.",
         "",
         "| Context | N | Brier | ECE | Pass Brier | Pass ECE |",
         "|---------|---|-------|-----|------------|---------|",
-        f"| Train+Val (raw) | {mna_cal.get('train_val', {}).get('n', 0)} | {mna_cal.get('train_val', {}).get('brier', 'N/A')} | {mna_cal.get('train_val', {}).get('ece', 'N/A')} | — | — |",
-        f"| Holdout (raw) | {mna_cal.get('holdout_raw', {}).get('n', 0)} | {mna_cal.get('holdout_raw', {}).get('brier', 'N/A')} | {mna_cal.get('holdout_raw', {}).get('ece', 'N/A')} | {mna_cal.get('holdout_raw', {}).get('pass_brier', 'N/A')} | {mna_cal.get('holdout_raw', {}).get('pass_ece', 'N/A')} |",
-        f"| Holdout (calibrated) | {mna_cal.get('holdout_calibrated', {}).get('n', 0)} | {mna_cal.get('holdout_calibrated', {}).get('brier', 'N/A')} | {mna_cal.get('holdout_calibrated', {}).get('ece', 'N/A')} | {mna_cal.get('holdout_calibrated', {}).get('pass_brier', 'N/A')} | {mna_cal.get('holdout_calibrated', {}).get('pass_ece', 'N/A')} |",
+        f"| Train+Val (mna_screening_score raw) | {mna_cal.get('train_val', {}).get('n', 0)} | {mna_cal.get('train_val', {}).get('brier', 'N/A')} | {mna_cal.get('train_val', {}).get('ece', 'N/A')} | — | — |",
+        f"| Holdout (mna_screening_score raw) | {mna_cal.get('holdout_raw', {}).get('n', 0)} | {mna_cal.get('holdout_raw', {}).get('brier', 'N/A')} | {mna_cal.get('holdout_raw', {}).get('ece', 'N/A')} | {mna_cal.get('holdout_raw', {}).get('pass_brier', 'N/A')} | {mna_cal.get('holdout_raw', {}).get('pass_ece', 'N/A')} |",
+        f"| Holdout (calibrated — only use if ECE ≤ 0.10) | {mna_cal.get('holdout_calibrated', {}).get('n', 0)} | {mna_cal.get('holdout_calibrated', {}).get('brier', 'N/A')} | {mna_cal.get('holdout_calibrated', {}).get('ece', 'N/A')} | {mna_cal.get('holdout_calibrated', {}).get('pass_brier', 'N/A')} | {mna_cal.get('holdout_calibrated', {}).get('pass_ece', 'N/A')} |",
         "",
         "See `mna_calibration_curve.csv` and `mna_calibration_by_dimension.csv` for full breakdown.",
         "",
         "---",
         "",
-        "## 5. Data-Quality Limitations",
+        "## 5. Score Distribution Diagnostics",
+        "",
+        "> Saturation target: < 10% of scores at exact cap (≥ 0.95). High saturation reduces discriminative value.",
+        "",
+        "| Score | N | Mean | Median | P10 | P90 | % at cap | Entropy | Saturation |",
+        "|-------|---|------|--------|-----|-----|----------|---------|-----------|",
+    ]
+
+    sd = score_diag or {}
+    for score_name in [
+        "mna_screening_score", "strategic_fit_score",
+        "capital_vulnerability_score", "de_risking_stage_score",
+        "valuation_discount_score", "scarcity_score",
+    ]:
+        d = sd.get(score_name, {})
+        if d:
+            sat_pass = "PASS" if d.get("pct_at_cap", 1.0) < 0.10 else "FAIL"
+            lines.append(
+                f"| {score_name} | {d.get('n', 0)} "
+                f"| {d.get('mean', 0):.3f} | {d.get('median', 0):.3f} "
+                f"| {d.get('p10', 0):.3f} | {d.get('p90', 0):.3f} "
+                f"| {d.get('pct_at_cap', 0)*100:.1f}% "
+                f"| {d.get('entropy', 0):.3f} | {sat_pass} |"
+            )
+        else:
+            lines.append(f"| {score_name} | N/A | N/A | N/A | N/A | N/A | N/A | N/A | N/A |")
+
+    lines += [
+        "",
+        "See `score_distribution_diagnostics.csv` for full breakdown.",
+        "",
+        "---",
+        "",
+        "## 6. Data-Quality Limitations",
         "",
         f"- **{dq_summary.get('n_fallback', 0)} tickers** use fallback/deal_universe prices (one-year synthetic window)",
         f"- **{dq_summary.get('n_missing_all', 0)} tickers** have zero price data and are excluded",
         f"- **{dq_summary.get('n_excluded', 0)} tickers** excluded from backtest entirely",
-        "- `p_takeout_calibrated` is NULL for all 3967 M&A snapshots — calibrated probability never populated",
+        "- `mna_screening_score_calibrated` is NULL for all M&A snapshots — calibrated score never populated in live DB",
         "- Balance-sheet recency: some snapshots use stale filings (>90 days old)",
         f"- Lead-time: {lead_time.get('n_static_screen_flags', 0)}/{lead_time.get('n_deals_with_lead', 0)} deals flagged as static_screen (first replay date = first flag date)",
         "",
         "---",
         "",
-        "## 6. False-Positive Taxonomy",
+        "## 7. False-Positive Taxonomy",
         "",
         f"Top-{fp_tax.get('n_classified', 0)} false positives classified by failure mode:",
         "",
@@ -1683,7 +1896,7 @@ def write_institutional_report(
         "",
         "---",
         "",
-        "## 7. What Is Required Before Real Use",
+        "## 8. What Is Required Before Real Use",
         "",
         "### Minimum requirements for live deployment:",
         "",
@@ -1775,7 +1988,7 @@ def main() -> None:
         "total_tickers": total_tickers,
     }
 
-    print("\n[1/7] Building corrected metrics table...")
+    print("\n[1/8] Building corrected metrics table...")
     metrics = build_corrected_metrics(report, replay_conn)
     metrics_rows = []
     for key, v in metrics.items():
@@ -1785,28 +1998,31 @@ def main() -> None:
     _write_csv(metrics_rows, output_dir / "corrected_metrics_table.csv")
     print(f"  [metrics] {len(metrics_rows)} metrics exported")
 
-    print("\n[2/7] Public-market institutional metrics...")
+    print("\n[2/8] Public-market institutional metrics...")
     pub_summary = run_public_market_metrics(report, replay_conn, output_dir, fallback_tickers)
 
-    print("\n[3/7] M&A calibration diagnostics...")
+    print("\n[3/8] M&A calibration diagnostics...")
     mna_cal = run_mna_calibration(report, knowledge_conn, acquired_tickers, output_dir)
     (output_dir / "mna_calibration_summary.json").write_text(json.dumps(mna_cal, indent=2))
 
-    print("\n[4/7] Candidate-pool coverage diagnostics...")
+    print("\n[4/8] Candidate-pool coverage diagnostics...")
     pool_cov = run_pool_coverage(deals, knowledge_conn, output_dir)
 
-    print("\n[5/7] False-positive taxonomy...")
+    print("\n[5/8] False-positive taxonomy...")
     fp_tax = run_false_positive_taxonomy(knowledge_conn, acquired_tickers, output_dir)
 
-    print("\n[6/7] Lead-time correction...")
+    print("\n[6/8] Lead-time correction...")
     lead_time = run_lead_time_correction(deals, knowledge_conn, output_dir)
 
-    print("\n[7/7] Writing institutional report...")
+    print("\n[7/8] Score distribution diagnostics...")
+    score_diag = run_score_distribution_diagnostics(knowledge_conn, output_dir)
+
+    print("\n[8/8] Writing institutional report...")
     inst_report_path = Path("outputs/analysis/institutional_validation_report.md")
     inst_report_path.parent.mkdir(parents=True, exist_ok=True)
     write_institutional_report(
         metrics, pub_summary, mna_cal, pool_cov, fp_tax, lead_time,
-        report, dq_summary, inst_report_path,
+        report, dq_summary, inst_report_path, score_diag=score_diag,
     )
     # Also write a copy inside output_dir
     (output_dir / "institutional_validation_report.md").write_text(
