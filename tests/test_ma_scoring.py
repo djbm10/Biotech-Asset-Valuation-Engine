@@ -9,7 +9,14 @@ from bve.intelligence.ma_scoring import (
     SATURATION_THRESHOLD,
     AcquirerFitDecomposed,
     DealLikelihoodScore,
+    FINANCING_REASON_LONG_RUNWAY,
+    FINANCING_REASON_NOT_PRESSURED,
+    FINANCING_REASON_NO_NEAR_TERM_NEED,
+    FINANCING_REASON_STANDALONE_VIABLE,
     TargetAttractivenessScore,
+    _LOW_PRESSURE_SCORE_CAP,
+    _LOW_FINANCING_PRESSURE_THRESHOLD,
+    apply_financing_pressure_gate,
     apply_saturation_penalty,
     compute_acquirer_fit_decomposed,
     compute_deal_likelihood,
@@ -238,6 +245,159 @@ class TestDealLikelihoodScore:
             days_to_catalyst=90,
         )
         assert 0.0 <= dl.score <= 1.0
+
+    def test_low_pressure_gate_applies(self):
+        """When cash_runway_pressure_score is very low, gate caps score."""
+        dl = compute_deal_likelihood(
+            cash_runway_pressure_score=0.05,   # well-funded, low pressure
+            external_deal_pressure_score=0.80,
+            target_signal_score=0.10,
+            days_to_catalyst=None,             # no near-term catalyst
+        )
+        assert dl.financing_gate_applied is True
+        assert dl.score <= _LOW_PRESSURE_SCORE_CAP + 1e-5
+        assert FINANCING_REASON_NOT_PRESSURED in dl.financing_reason_codes
+
+    def test_low_pressure_gate_reason_codes(self):
+        """Long runway and no near-term need reason codes are set."""
+        dl = compute_deal_likelihood(
+            cash_runway_pressure_score=0.05,
+            external_deal_pressure_score=0.50,
+            target_signal_score=0.10,
+            days_to_catalyst=None,
+            cash_runway_quarters=10.0,
+        )
+        assert FINANCING_REASON_LONG_RUNWAY in dl.financing_reason_codes
+        assert FINANCING_REASON_NO_NEAR_TERM_NEED in dl.financing_reason_codes
+
+    def test_high_pressure_gate_not_applied(self):
+        """When cash_runway_pressure_score is high, gate is not applied."""
+        dl = compute_deal_likelihood(
+            cash_runway_pressure_score=0.85,
+            external_deal_pressure_score=0.60,
+            target_signal_score=0.30,
+            days_to_catalyst=60,
+        )
+        assert dl.financing_gate_applied is False
+        assert dl.financing_reason_codes == []
+
+    def test_scarcity_override_lifts_gate(self):
+        """High scarcity score overrides the low-pressure cap."""
+        dl = compute_deal_likelihood(
+            cash_runway_pressure_score=0.05,
+            external_deal_pressure_score=0.90,
+            target_signal_score=0.10,
+            days_to_catalyst=None,
+            scarcity_score=0.90,   # very high scarcity overrides gate
+        )
+        assert dl.financing_gate_applied is False
+
+    def test_gate_fields_present_on_model(self):
+        dl = compute_deal_likelihood(
+            cash_runway_pressure_score=0.50,
+            external_deal_pressure_score=0.50,
+            target_signal_score=0.50,
+            days_to_catalyst=30,
+        )
+        assert hasattr(dl, "financing_gate_applied")
+        assert hasattr(dl, "financing_reason_codes")
+        assert isinstance(dl.financing_reason_codes, list)
+
+    def test_near_term_catalyst_prevents_no_near_term_code(self):
+        """Near-term catalyst (<=90d) means no_near_term_funding_need code is absent."""
+        dl = compute_deal_likelihood(
+            cash_runway_pressure_score=0.05,
+            external_deal_pressure_score=0.30,
+            target_signal_score=0.10,
+            days_to_catalyst=30,   # within 90 days
+        )
+        assert FINANCING_REASON_NO_NEAR_TERM_NEED not in dl.financing_reason_codes
+
+
+# ---------------------------------------------------------------------------
+# apply_financing_pressure_gate (unit tests)
+# ---------------------------------------------------------------------------
+
+class TestApplyFinancingPressureGate:
+    def test_high_pressure_no_gate(self):
+        score, applied, codes = apply_financing_pressure_gate(
+            0.70,
+            financing_pressure_score=0.80,
+        )
+        assert applied is False
+        assert codes == []
+        assert score == pytest.approx(0.70, abs=1e-5)
+
+    def test_low_pressure_caps_score(self):
+        score, applied, codes = apply_financing_pressure_gate(
+            0.75,
+            financing_pressure_score=0.10,
+        )
+        assert applied is True
+        assert score <= _LOW_PRESSURE_SCORE_CAP + 1e-5
+        assert FINANCING_REASON_NOT_PRESSURED in codes
+
+    def test_scarcity_override(self):
+        score, applied, codes = apply_financing_pressure_gate(
+            0.75,
+            financing_pressure_score=0.05,
+            scarcity_score=0.90,
+        )
+        assert applied is False  # override active
+        assert score == pytest.approx(0.75, abs=1e-5)
+
+    def test_standalone_viable_code(self):
+        score, applied, codes = apply_financing_pressure_gate(
+            0.60,
+            financing_pressure_score=0.05,  # below 0.10 → standalone_viable
+        )
+        assert FINANCING_REASON_STANDALONE_VIABLE in codes
+
+    def test_long_runway_code(self):
+        _, _, codes = apply_financing_pressure_gate(
+            0.60,
+            financing_pressure_score=0.10,
+            cash_runway_quarters=12.0,
+        )
+        assert FINANCING_REASON_LONG_RUNWAY in codes
+
+    def test_short_runway_no_long_runway_code(self):
+        _, _, codes = apply_financing_pressure_gate(
+            0.60,
+            financing_pressure_score=0.10,
+            cash_runway_quarters=4.0,
+        )
+        assert FINANCING_REASON_LONG_RUNWAY not in codes
+
+    def test_near_term_catalyst_no_near_term_code(self):
+        _, _, codes = apply_financing_pressure_gate(
+            0.60,
+            financing_pressure_score=0.10,
+            has_near_term_catalyst=True,
+        )
+        assert FINANCING_REASON_NO_NEAR_TERM_NEED not in codes
+
+    def test_score_unchanged_when_already_below_cap(self):
+        score, applied, _ = apply_financing_pressure_gate(
+            0.30,  # already below cap
+            financing_pressure_score=0.05,
+        )
+        assert applied is True
+        assert score == pytest.approx(0.30, abs=1e-5)
+
+    def test_output_clamped_to_zero(self):
+        score, _, _ = apply_financing_pressure_gate(
+            -0.10,
+            financing_pressure_score=0.80,
+        )
+        assert score == 0.0
+
+    def test_output_clamped_to_one(self):
+        score, _, _ = apply_financing_pressure_gate(
+            1.50,
+            financing_pressure_score=0.80,
+        )
+        assert score <= 1.0
 
 
 # ---------------------------------------------------------------------------

@@ -131,6 +131,25 @@ class TargetAttractivenessScore(BaseModel):
     diagnostics: dict[str, float] = Field(default_factory=dict)
 
 
+# ---------------------------------------------------------------------------
+# Financing-pressure reason codes
+# ---------------------------------------------------------------------------
+
+# Codes attached when financing pressure gate is applied.
+# These are diagnostic reason codes, not model labels.
+FINANCING_REASON_NOT_PRESSURED = "financing_not_pressured"
+FINANCING_REASON_LONG_RUNWAY = "long_runway"
+FINANCING_REASON_NO_NEAR_TERM_NEED = "no_near_term_funding_need"
+FINANCING_REASON_STANDALONE_VIABLE = "standalone_viability_high"
+
+# Threshold below which financing pressure is considered low (weak pressure)
+_LOW_FINANCING_PRESSURE_THRESHOLD = 0.25
+# Cap applied to deal_likelihood_score when pressure is low and no override signal
+_LOW_PRESSURE_SCORE_CAP = 0.40
+# Scarcity or activist signal that can override the gate (threshold)
+_OVERRIDE_SCARCITY_THRESHOLD = 0.75
+
+
 class DealLikelihoodScore(BaseModel):
     """How likely the target is to transact in the near term.
 
@@ -139,6 +158,12 @@ class DealLikelihoodScore(BaseModel):
     - external_deal_activity: same-space deal signals that pressure standalone path
     - insider_board_signals: management / board change signals
     - catalyst_proximity: inverse distance to next catalyst event
+
+    Gate:
+    - When financing_pressure is below _LOW_FINANCING_PRESSURE_THRESHOLD
+      AND no strong scarcity/activist override signal is present,
+      the final score is capped at _LOW_PRESSURE_SCORE_CAP.
+      Reason codes explain why the gate was applied.
     """
 
     score: float = Field(ge=0.0, le=1.0)
@@ -146,6 +171,10 @@ class DealLikelihoodScore(BaseModel):
     external_deal_activity: float = Field(ge=0.0, le=1.0)
     insider_board_signals: float = Field(ge=0.0, le=1.0)
     catalyst_proximity: float = Field(ge=0.0, le=1.0)
+    # Reason codes populated when financing pressure gate fires
+    financing_reason_codes: list[str] = Field(default_factory=list)
+    # True when the low-pressure gate was applied
+    financing_gate_applied: bool = False
     diagnostics: dict[str, float] = Field(default_factory=dict)
 
 
@@ -208,6 +237,64 @@ def _log_normalise_peak_sales(peak_sales_millions: Optional[float]) -> float:
     return round(min(log_val / _PEAK_SALES_LOG_MAX, 1.0), 6)
 
 
+def apply_financing_pressure_gate(
+    raw_score: float,
+    *,
+    financing_pressure_score: float,
+    scarcity_score: float = 0.0,
+    activist_signal_score: float = 0.0,
+    cash_runway_quarters: Optional[float] = None,
+    has_near_term_catalyst: bool = False,
+) -> tuple[float, bool, list[str]]:
+    """Apply low-pressure cap to deal likelihood score.
+
+    When financing pressure is low (company is well-funded with no near-term
+    capital need), deal likelihood is capped unless a strong scarcity or
+    activist/ownership signal overrides the gate.
+
+    Returns (capped_score, gate_applied, reason_codes).
+
+    Args:
+        raw_score: The uncapped deal_likelihood score.
+        financing_pressure_score: Score [0, 1] reflecting cash runway pressure /
+            capital vulnerability. Low = company is well-funded.
+        scarcity_score: [0, 1] scarcity of this asset class; high scarcity can
+            override the low-pressure gate.
+        activist_signal_score: [0, 1] insider / activist / board-change signal.
+        cash_runway_quarters: Quarters of runway (if known); >= 8 quarters (2 years)
+            contributes to long_runway code.
+        has_near_term_catalyst: True if a catalyst is within 90 days (can partially
+            offset low financing pressure).
+    """
+    reason_codes: list[str] = []
+
+    pressure_is_low = financing_pressure_score < _LOW_FINANCING_PRESSURE_THRESHOLD
+    override_active = (
+        scarcity_score >= _OVERRIDE_SCARCITY_THRESHOLD
+        or activist_signal_score >= _OVERRIDE_SCARCITY_THRESHOLD
+    )
+
+    if not pressure_is_low:
+        return min(max(raw_score, 0.0), 1.0), False, reason_codes
+
+    # Pressure is low — build reason codes
+    reason_codes.append(FINANCING_REASON_NOT_PRESSURED)
+    if cash_runway_quarters is not None and cash_runway_quarters >= 8.0:
+        reason_codes.append(FINANCING_REASON_LONG_RUNWAY)
+    if not has_near_term_catalyst:
+        reason_codes.append(FINANCING_REASON_NO_NEAR_TERM_NEED)
+    if financing_pressure_score < 0.10:
+        reason_codes.append(FINANCING_REASON_STANDALONE_VIABLE)
+
+    if override_active:
+        # Strong scarcity or activist signal overrides the cap
+        return min(max(raw_score, 0.0), 1.0), False, reason_codes
+
+    # Apply cap
+    capped = min(raw_score, _LOW_PRESSURE_SCORE_CAP)
+    return round(min(max(capped, 0.0), 1.0), 6), True, reason_codes
+
+
 def _catalyst_proximity_score(days_to_catalyst: Optional[int]) -> float:
     """Map days-to-next-catalyst to [0, 1]; 0 days = 1.0, >365 days = 0.0."""
     if days_to_catalyst is None or days_to_catalyst < 0:
@@ -256,9 +343,19 @@ def compute_deal_likelihood(
     external_deal_pressure_score: float,
     target_signal_score: float,
     days_to_catalyst: Optional[int],
+    scarcity_score: float = 0.0,
+    cash_runway_quarters: Optional[float] = None,
 ) -> DealLikelihoodScore:
-    """Compute DealLikelihoodScore from vulnerability and catalyst signals."""
+    """Compute DealLikelihoodScore from vulnerability and catalyst signals.
+
+    Applies a financing-pressure gate: when the target is well-funded
+    (cash_runway_pressure_score < 0.25) and no strong scarcity/activist
+    override signal is present, the score is capped at 0.40 to reduce
+    false positives driven purely by strategic attractiveness without any
+    transactional urgency.
+    """
     cat_score = _catalyst_proximity_score(days_to_catalyst)
+    has_near_term_catalyst = days_to_catalyst is not None and days_to_catalyst <= 90
 
     raw = (
         cash_runway_pressure_score * _DL_WEIGHTS["financing_pressure"]
@@ -267,7 +364,17 @@ def compute_deal_likelihood(
         + cat_score * _DL_WEIGHTS["catalyst_proximity"]
     )
     sub = [cash_runway_pressure_score, external_deal_pressure_score, target_signal_score, cat_score]
-    score = apply_saturation_penalty(raw, sub_scores=sub)
+    raw_penalised = apply_saturation_penalty(raw, sub_scores=sub)
+
+    # Apply financing-pressure gate
+    score, gate_applied, reason_codes = apply_financing_pressure_gate(
+        raw_penalised,
+        financing_pressure_score=cash_runway_pressure_score,
+        scarcity_score=scarcity_score,
+        activist_signal_score=target_signal_score,
+        cash_runway_quarters=cash_runway_quarters,
+        has_near_term_catalyst=has_near_term_catalyst,
+    )
 
     return DealLikelihoodScore(
         score=round(score, 6),
@@ -275,9 +382,13 @@ def compute_deal_likelihood(
         external_deal_activity=round(external_deal_pressure_score, 6),
         insider_board_signals=round(target_signal_score, 6),
         catalyst_proximity=round(cat_score, 6),
+        financing_reason_codes=reason_codes,
+        financing_gate_applied=gate_applied,
         diagnostics={
             "n_at_cap": float(sum(1 for s in sub if s >= SATURATION_THRESHOLD)),
             "raw_weighted_sum": round(raw, 6),
+            "raw_penalised": round(raw_penalised, 6),
+            "gate_applied": float(gate_applied),
         },
     )
 

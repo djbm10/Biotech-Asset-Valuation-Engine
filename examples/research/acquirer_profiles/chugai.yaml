@@ -1,0 +1,46 @@
+company: Chugai Pharmaceutical
+ticker: CHGCY
+profile_as_of: 2026-04-07
+market_cap_billions: 40
+cash_billions: 5.0
+acquisition_capacity_millions: 8000
+pipeline_gaps:
+  - therapeutic_area: oncology
+    sub_area: lung_cancer_her2_egfr_next_gen
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [antibody, ADC, small_molecule]
+    budget_ceiling_millions: 6000
+    notes: "Alecensa (alectinib) and Tecentriq (atezolizumab) via Roche/Genentech relationship; next-gen EGFR, HER2-low, and bispecific antibody lung cancer adjacencies are key."
+  - therapeutic_area: hematology
+    sub_area: hemophilia_rare_blood_disorders
+    gap_type: franchise_defense
+    urgency: high
+    preferred_modality: [antibody, bispecific_antibody]
+    budget_ceiling_millions: 5000
+    notes: "Hemlibra (emicizumab) is Chugai's flagship; next-gen hemophilia A/B or rare coagulation disorder assets complement the franchise."
+  - therapeutic_area: rare_disease
+    sub_area: rare_immunological_skeletal
+    gap_type: franchise_extension
+    urgency: medium
+    preferred_modality: [antibody, small_molecule]
+    budget_ceiling_millions: 4000
+    notes: "Chugai has expertise in recycling antibody technology; rare immunological or skeletal diseases (e.g., rare osteoporosis) fit their antibody engineering platform."
+  - therapeutic_area: immunology
+    sub_area: autoimmune_il6_beyond
+    gap_type: franchise_extension
+    urgency: medium
+    preferred_modality: [antibody, bispecific_antibody]
+    budget_ceiling_millions: 4000
+    notes: "Actemra (tocilizumab) IL-6R franchise is mature; next-gen IL-6 trans-signaling, JAK, or bispecific autoimmune antibodies are natural extensions."
+recent_deals:
+  - target: Spark Therapeutics (ophthalmology assets)
+    date: 2019-12-17
+    value_billions: 4.3
+    therapeutic_area: rare_disease
+    modality: gene_therapy
+stated_priorities:
+  - Oncology pipeline through Roche/Genentech collaboration
+  - Hemophilia and rare coagulation disorders
+  - Recycling antibody technology in rare disease and immunology
+  - Japan-first development strategy with global expansion potential

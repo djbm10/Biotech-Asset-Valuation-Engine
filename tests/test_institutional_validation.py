@@ -23,6 +23,7 @@ from bve.analysis.institutional_validation import (
     _ece,
     _isotonic_calibrate,
     _nearest_xbi,
+    _normalize_acquirer_name,
     _pass_fail,
     _xbi_return,
     build_corrected_metrics,
@@ -759,3 +760,122 @@ class TestLeadTimeCorrection:
         result = run_lead_time_correction([], conn, tmp_path)
         conn.close()
         assert result["n_deals_with_lead"] == 0
+
+
+# ---------------------------------------------------------------------------
+# Acquirer alias normalization — Sprint 18
+# ---------------------------------------------------------------------------
+
+
+class TestNormalizeAcquirerName:
+    """Verify alias normalization covers deal-universe acquirers and new profiles."""
+
+    # --- Existing Big Pharma ---
+    def test_bms_variants(self):
+        assert _normalize_acquirer_name("Bristol Myers Squibb") == _normalize_acquirer_name("BMS")
+        assert _normalize_acquirer_name("Bristol-Myers Squibb") == _normalize_acquirer_name("BMS")
+
+    def test_jnj_variants(self):
+        assert _normalize_acquirer_name("Johnson & Johnson") == _normalize_acquirer_name("JNJ")
+        assert _normalize_acquirer_name("J&J") == _normalize_acquirer_name("JNJ")
+
+    def test_astrazeneca_variants(self):
+        assert _normalize_acquirer_name("AstraZeneca") == _normalize_acquirer_name("AZ")
+        assert _normalize_acquirer_name("Astra Zeneca") == _normalize_acquirer_name("AstraZeneca")
+
+    def test_roche_genentech(self):
+        assert _normalize_acquirer_name("Genentech") == _normalize_acquirer_name("Roche")
+
+    def test_merck_variants(self):
+        assert _normalize_acquirer_name("MSD") == _normalize_acquirer_name("Merck")
+        assert _normalize_acquirer_name("MRK") == _normalize_acquirer_name("Merck")
+
+    def test_lilly_variants(self):
+        assert _normalize_acquirer_name("Eli Lilly") == _normalize_acquirer_name("Lilly")
+        assert _normalize_acquirer_name("LLY") == _normalize_acquirer_name("Lilly")
+
+    def test_gilead_variants(self):
+        assert _normalize_acquirer_name("Gilead Sciences") == _normalize_acquirer_name("Gilead")
+        assert _normalize_acquirer_name("GILD") == _normalize_acquirer_name("Gilead")
+
+    def test_abbvie_variants(self):
+        assert _normalize_acquirer_name("AbbVie") == _normalize_acquirer_name("ABBV")
+
+    def test_novartis_variants(self):
+        assert _normalize_acquirer_name("Novartis") == _normalize_acquirer_name("NVS")
+
+    # --- Japanese pharma (Sprint 18 additions) ---
+    def test_lundbeck_with_h_prefix(self):
+        """H. Lundbeck profile name matches 'Lundbeck' in deal universe."""
+        assert _normalize_acquirer_name("H. Lundbeck") == _normalize_acquirer_name("Lundbeck")
+        assert _normalize_acquirer_name("Lundbeck AS") == _normalize_acquirer_name("Lundbeck")
+        assert _normalize_acquirer_name("HLUYY") == _normalize_acquirer_name("Lundbeck")
+
+    def test_kyowa_kirin_variants(self):
+        assert _normalize_acquirer_name("Kyowa Kirin") == _normalize_acquirer_name("KYOCY")
+        assert _normalize_acquirer_name("Kyowa Hakko Kirin") == _normalize_acquirer_name("Kyowa Kirin")
+
+    def test_otsuka_variants(self):
+        assert _normalize_acquirer_name("Otsuka Pharmaceutical") == _normalize_acquirer_name("Otsuka")
+        assert _normalize_acquirer_name("Otsuka Holdings") == _normalize_acquirer_name("Otsuka")
+        assert _normalize_acquirer_name("OTSKY") == _normalize_acquirer_name("Otsuka")
+
+    def test_sumitomo_variants(self):
+        assert _normalize_acquirer_name("Sumitomo Pharma") == _normalize_acquirer_name("SMPNY")
+        assert _normalize_acquirer_name("Sumitomo Dainippon Pharma") == _normalize_acquirer_name("Sumitomo Pharma")
+        assert _normalize_acquirer_name("Sumitomo Dainippon") == _normalize_acquirer_name("Sumitomo Pharma")
+
+    def test_chugai_variants(self):
+        assert _normalize_acquirer_name("Chugai Pharmaceutical") == _normalize_acquirer_name("Chugai")
+        assert _normalize_acquirer_name("CHGCY") == _normalize_acquirer_name("Chugai")
+
+    # --- European pharma (Sprint 18 additions) ---
+    def test_bayer_variants(self):
+        assert _normalize_acquirer_name("Bayer AG") == _normalize_acquirer_name("Bayer")
+        assert _normalize_acquirer_name("BAYRY") == _normalize_acquirer_name("Bayer")
+
+    def test_boehringer_variants(self):
+        assert _normalize_acquirer_name("Boehringer Ingelheim") == "boehringer ingelheim"
+
+    def test_servier_variants(self):
+        assert _normalize_acquirer_name("Servier") == _normalize_acquirer_name("Les Laboratoires Servier")
+
+    def test_ucb_variants(self):
+        assert _normalize_acquirer_name("UCB Pharma") == _normalize_acquirer_name("UCB")
+
+    def test_ipsen_variants(self):
+        assert _normalize_acquirer_name("Ipsen Pharma") == _normalize_acquirer_name("Ipsen")
+
+    # --- Specialty pharma and large biotech ---
+    def test_incyte_variants(self):
+        assert _normalize_acquirer_name("Incyte Corporation") == _normalize_acquirer_name("Incyte")
+        assert _normalize_acquirer_name("INCY") == _normalize_acquirer_name("Incyte")
+
+    def test_jazz_variants(self):
+        assert _normalize_acquirer_name("Jazz Pharmaceuticals") == _normalize_acquirer_name("Jazz")
+        assert _normalize_acquirer_name("Jazz Pharma") == _normalize_acquirer_name("Jazz")
+
+    def test_united_therapeutics_variants(self):
+        assert _normalize_acquirer_name("United Therapeutics") == _normalize_acquirer_name("UTHR")
+
+    # --- Edge cases ---
+    def test_empty_string_returns_empty(self):
+        assert _normalize_acquirer_name("") == ""
+
+    def test_punctuation_stripped(self):
+        name1 = _normalize_acquirer_name("Bristol-Myers Squibb")
+        name2 = _normalize_acquirer_name("Bristol Myers Squibb")
+        assert name1 == name2
+
+    def test_case_insensitive(self):
+        assert _normalize_acquirer_name("PFIZER") == _normalize_acquirer_name("pfizer")
+
+    def test_extra_whitespace_normalized(self):
+        assert _normalize_acquirer_name("  Pfizer  ") == _normalize_acquirer_name("Pfizer")
+
+    def test_jnj_with_janssen_suffix(self):
+        """Profile name 'Johnson & Johnson (Janssen)' matches deal universe 'Johnson & Johnson'."""
+        n1 = _normalize_acquirer_name("Johnson & Johnson (Janssen)")
+        n2 = _normalize_acquirer_name("Johnson & Johnson")
+        # Both should resolve to the same canonical form
+        assert n1 == n2 or n2 in n1 or n1 in n2
