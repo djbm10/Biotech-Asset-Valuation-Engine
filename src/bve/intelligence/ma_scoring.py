@@ -157,6 +157,20 @@ _LOW_EXTERNAL_ACTIVITY_THRESHOLD = 0.20
 _RECENT_FINANCING_DAYS = 180
 # Composite score cap when DL financing gate fires (strategic fit alone insufficient)
 COMPOSITE_MAX_WITH_DL_GATE = 0.65
+# Composite score cap when BOTH financing_not_pressured AND no_buyer_urgency fire
+COMPOSITE_MAX_DUAL_GATE = 0.50
+
+# Transaction driver thresholds — sub-scores must clear these to count as a real driver
+_DRIVER_FINANCING_PRESSURE_MIN = 0.35  # target under meaningful capital pressure
+_DRIVER_EXTERNAL_ACTIVITY_MIN = 0.30   # active same-space deal wave
+_DRIVER_CATALYST_MIN = 0.35            # near-term binary event present
+_DRIVER_SCARCITY_MIN = 0.60            # asset is genuinely scarce for acquirers
+_DRIVER_ACTIVIST_MIN = 0.30            # insider/board/activist signal present
+_DRIVER_VALUATION_MIN = 0.45           # asset trading at meaningful discount to NPV
+
+# Composite caps based on number of independent transaction drivers
+COMPOSITE_MAX_ONE_DRIVER = 0.65   # only 1 driver → same ceiling as DL gate
+COMPOSITE_MAX_ZERO_DRIVERS = 0.45  # pure strategic attractiveness, no urgency signals
 
 
 class DealLikelihoodScore(BaseModel):
@@ -459,6 +473,44 @@ def compute_acquirer_fit_decomposed(
     )
 
 
+def _count_transaction_drivers(
+    ta: TargetAttractivenessScore,
+    dl: DealLikelihoodScore,
+    af: AcquirerFitDecomposed,
+) -> tuple[int, list[str]]:
+    """Count independent transaction drivers beyond pure strategic attractiveness.
+
+    A transaction driver is a signal that the deal could happen NOW, not just
+    that the target is attractive in principle.
+
+    Drivers assessed:
+      1. financing_pressure — target under meaningful capital pressure
+      2. external_deal_activity — same-space deal wave creating buyer urgency
+      3. catalyst_proximity — near-term binary event accelerating deal timeline
+      4. scarcity_plus_fit — asset is genuinely scarce AND a specific acquirer needs it
+      5. activist_ownership — insider / board-change / activist ownership signal
+      6. valuation_distress — deep discount on a de-risked asset (motivated seller)
+
+    Returns (n_drivers, driver_name_list).
+    """
+    drivers: list[str] = []
+
+    if dl.financing_pressure >= _DRIVER_FINANCING_PRESSURE_MIN:
+        drivers.append("financing_pressure")
+    if dl.external_deal_activity >= _DRIVER_EXTERNAL_ACTIVITY_MIN:
+        drivers.append("external_deal_activity")
+    if dl.catalyst_proximity >= _DRIVER_CATALYST_MIN:
+        drivers.append("catalyst_proximity")
+    if ta.scarcity >= _DRIVER_SCARCITY_MIN and af.pipeline_gap_alignment >= 0.50:
+        drivers.append("scarcity_plus_fit")
+    if dl.insider_board_signals >= _DRIVER_ACTIVIST_MIN:
+        drivers.append("activist_ownership")
+    if ta.valuation_discount >= _DRIVER_VALUATION_MIN and ta.de_risking_stage >= 0.50:
+        drivers.append("valuation_distress")
+
+    return len(drivers), drivers
+
+
 def compute_mna_composite_score(
     ta: TargetAttractivenessScore,
     dl: DealLikelihoodScore,
@@ -466,9 +518,16 @@ def compute_mna_composite_score(
 ) -> tuple[float, list[str]]:
     """Compute the composite M&A screening score from three sub-scores.
 
-    Applies a secondary composite cap when the DL financing gate fired, ensuring
-    that strategic fit alone (high TA + AF) cannot produce a high composite score
-    when deal urgency signals are absent.
+    Applies gate caps and a transaction-driver requirement:
+
+    1. Dual gate (financing_not_pressured AND no_buyer_urgency): composite ≤ 0.50
+    2. Single DL gate (financing_not_pressured only): composite ≤ 0.65
+    3. Two-driver requirement: composite > 0.65 requires ≥ 2 independent transaction
+       drivers.  With only 1 driver the ceiling is 0.65; with 0 drivers, 0.45.
+
+    Strategic fit alone (high TA + AF, no urgency signals) cannot produce a
+    composite score above 0.45 when no transaction drivers are present, or 0.65
+    when only one driver fires.
 
     Returns (composite_score, cap_reason_codes).
     """
@@ -481,11 +540,38 @@ def compute_mna_composite_score(
     penalised = apply_saturation_penalty(raw, sub_scores=sub)
 
     cap_reasons: list[str] = []
+    n_drivers, driver_names = _count_transaction_drivers(ta, dl, af)
+
+    # Detect dual gate: both financing_not_pressured AND no_buyer_urgency
+    dual_gate = (
+        FINANCING_REASON_NOT_PRESSURED in dl.financing_reason_codes
+        and FINANCING_REASON_NO_BUYER_URGENCY in dl.financing_reason_codes
+    )
+
+    # Apply gate caps from most to least restrictive
+    if dual_gate and penalised > COMPOSITE_MAX_DUAL_GATE:
+        penalised = COMPOSITE_MAX_DUAL_GATE
+        cap_reasons.append("composite_capped_by_dual_gate")
+    elif dl.financing_gate_applied and penalised > COMPOSITE_MAX_WITH_DL_GATE:
+        penalised = COMPOSITE_MAX_WITH_DL_GATE
+        cap_reasons.append("composite_capped_by_dl_gate")
+
+    # Two-driver requirement: scores above 0.65 require ≥ 2 independent drivers
+    if n_drivers < 2 and penalised > COMPOSITE_MAX_ONE_DRIVER:
+        penalised = COMPOSITE_MAX_ONE_DRIVER
+        cap_reasons.append("composite_needs_two_drivers")
+
+    # Zero-driver floor: no urgency signal at all → hard cap at 0.45
+    if n_drivers == 0 and penalised > COMPOSITE_MAX_ZERO_DRIVERS:
+        penalised = COMPOSITE_MAX_ZERO_DRIVERS
+        cap_reasons.append("composite_capped_zero_drivers")
+
+    # Propagate financing reason codes and attach driver diagnostics
     if dl.financing_gate_applied:
-        # Strategic fit (TA + AF) alone is insufficient when DL signals low urgency
-        if penalised > COMPOSITE_MAX_WITH_DL_GATE:
-            penalised = COMPOSITE_MAX_WITH_DL_GATE
-            cap_reasons.append("composite_capped_by_dl_gate")
         cap_reasons.extend(dl.financing_reason_codes)
+
+    cap_reasons.append(f"n_drivers:{n_drivers}")
+    for d in driver_names:
+        cap_reasons.append(f"driver:{d}")
 
     return round(min(max(penalised, 0.0), 1.0), 6), cap_reasons

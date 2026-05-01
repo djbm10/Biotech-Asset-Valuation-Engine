@@ -128,32 +128,71 @@ _RUNWAY_RISK_SCORES = {
 }
 
 _DERISKING_BUCKET_SCORES = {
-    "phase_3_or_later": 1.00,
-    "phase_2_poc": 0.75,
-    "phase_2_pre_poc": 0.45,
-    "pre_phase_2": 0.10,
-    "unknown": 0.30,
+    "phase_3_or_later": 0.62,   # was 0.82; Phase 3 alone does not auto-max
+    "phase_2_poc": 0.50,        # was 0.70
+    "phase_2_pre_poc": 0.30,    # was 0.45
+    "pre_phase_2": 0.08,        # was 0.10
+    "unknown": 0.20,            # was 0.30
 }
 
 _STAGE_FALLBACK_SCORES = {
     "preclinical": 0.00,
-    "phase_1": 0.25,
-    "phase_2": 0.50,
-    "phase_3": 1.00,
-    "nda_bla": 1.00,
-    "approved": 1.00,
-    "commercial": 1.00,
+    "phase_1": 0.18,    # was 0.25
+    "phase_2": 0.42,    # was 0.50
+    "phase_3": 0.62,    # was 0.80
+    "nda_bla": 0.65,    # was 0.82
+    "approved": 0.58,   # was 0.75
+    "commercial": 0.50, # was 0.70
 }
 
+# Quality-penalty modifiers applied in _derisking_stage_score.
+# These require optional attributes on acquisition_row set by the screener.
+_DERISKING_QUALITY_PENALTIES = {
+    "safety_overhang": -0.12,         # was -0.10; serious safety event
+    "prior_phase3_failure": -0.18,    # was -0.15; prior Phase 3 for same indication failed
+    "label_uncertainty": -0.08,       # was -0.05; regulatory label scope contested
+    "prior_phase2_failure": -0.10,    # NEW: prior Phase 2 failure in same indication
+    "regulatory_risk": -0.08,         # NEW: heightened FDA review complexity flagged
+    "endpoint_in_dispute": -0.07,     # NEW: primary endpoint contested by regulators/KOLs
+}
+
+# Quality bonuses applied in _derisking_stage_score.
+_DERISKING_QUALITY_BONUSES = {
+    "breakthrough_designation": 0.06,  # FDA BTD validates regulatory pathway
+}
+
+# Hard cap on _derisking_stage_score — lowered to prevent auto-saturation.
+# Phase 3 OS RCT + BTD + strong POS uplift peaks at ~0.86, clamped to this cap.
+_DERISKING_STAGE_SCORE_CAP = 0.80  # was 0.90
+
 _DESIGN_TIER_ADJUSTMENTS = {
-    "os_rct": 0.10,
-    "pfs": 0.05,
+    "os_rct": 0.08,     # was 0.10; gold-standard endpoint
+    "pfs": 0.04,        # was 0.05
     "standard": 0.00,
-    "surrogate": -0.10,
+    "surrogate": -0.12, # was -0.10; surrogate endpoints add approval risk
     "single_arm": -0.20,
 }
 
 _SCARCITY_STAGE_ELIGIBLE = {"phase 2", "phase 3", "nda bla", "approved", "commercial"}
+
+# Therapeutic-area competitive pressure sets used by _compute_scarcity_modifiers.
+# High-competition TAs have many approved drugs and active pipelines — genuine scarcity
+# is harder to establish even if the asset is unique within our tracked universe.
+_HIGH_COMPETITION_TAS: frozenset[str] = frozenset({
+    "oncology", "immuno oncology", "immunotherapy", "cancer",
+    "inflammation", "inflammatory", "immunology", "autoimmune", "rheumatology",
+    "depression", "anxiety", "psychiatry", "cns", "central nervous system",
+    "diabetes", "type 2 diabetes", "metabolic", "obesity", "nash", "nafld", "fatty liver",
+    "cardiovascular", "heart failure", "hypertension",
+    "hematology", "infectious disease", "antiviral",
+})
+
+# Medium-competition TAs: meaningful competition but less saturated than the above.
+_MEDIUM_COMPETITION_TAS: frozenset[str] = frozenset({
+    "fibrosis", "pulmonary", "respiratory", "musculoskeletal",
+    "dermatology", "skin", "neurology", "alzheimer", "parkinson",
+    "hepatology", "liver", "kidney", "renal", "urology", "pain", "endocrinology",
+})
 
 
 class MAProbabilityConfig(BaseModel):
@@ -1980,7 +2019,9 @@ class MAProbabilityScanner:
             basis, match_key, stage = descriptor
             eligible_members = key_members.get((basis, match_key), []) if stage in _SCARCITY_STAGE_ELIGIBLE else []
             peer_count = max(len(eligible_members) - 1, 0)
-            score, bucket = _scarcity_score_from_peer_count(peer_count)
+            base_score, bucket = _scarcity_score_from_peer_count(peer_count)
+            modifier = _compute_scarcity_modifiers(prepared.context)
+            score = round(min(max(base_score + modifier, 0.0), 0.80), 6)
             assessments[asset_id] = ScarcityAssessment(
                 asset_id=asset_id,
                 score=score,
@@ -2198,6 +2239,15 @@ def _valuation_component_score(score: float, *, mode: str) -> float:
 
 
 def _derisking_stage_score(acquisition_row) -> float:
+    """Score representing how de-risked the asset is as an acquisition target.
+
+    Base scores are capped at 0.90 (below the saturation threshold of 0.95) to
+    ensure the saturation penalty in _score_acquirer_candidate does not fire
+    solely due to a Phase 3 / NDA asset being in the watchlist.  Quality
+    penalties for safety overhang, prior Phase 3 failure, and label uncertainty
+    can reduce the score further.  The design-tier adjustment and POS uplift can
+    raise it back up, subject to the same 0.90 cap.
+    """
     readiness_bucket = getattr(acquisition_row, "acquisition_readiness_bucket", None)
     stage = _normalize(getattr(acquisition_row, "stage", None))
     design_tier = _normalize(getattr(acquisition_row, "acquisition_readiness_design_tier", None))
@@ -2219,7 +2269,18 @@ def _derisking_stage_score(acquisition_row) -> float:
         score += min(0.10, (float(posterior_pos) - float(prior_pos)) * 0.5)
     if low_power:
         score -= 0.15
-    return min(max(round(score, 6), 0.0), 1.0)
+
+    # Optional quality penalties set by the acquisition screener.
+    for attr, penalty in _DERISKING_QUALITY_PENALTIES.items():
+        if bool(getattr(acquisition_row, attr, False)):
+            score += penalty
+
+    # Optional quality bonuses (e.g. FDA Breakthrough Designation).
+    for attr, bonus in _DERISKING_QUALITY_BONUSES.items():
+        if bool(getattr(acquisition_row, attr, False)):
+            score += bonus
+
+    return min(max(round(score, 6), 0.0), _DERISKING_STAGE_SCORE_CAP)
 
 
 def _estimate_deal_value_range(
@@ -2287,15 +2348,117 @@ def _scarcity_mechanism_key(context) -> str | None:
 
 
 def _scarcity_score_from_peer_count(peer_count: int) -> tuple[float, str]:
-    if peer_count <= 1:
-        return 1.0, "very_high"
+    """Base scarcity score derived from same-indication-mechanism peer count.
+
+    Base scores are substantially lower than historical values because in a
+    curated watchlist every asset appears unique within the tracked universe,
+    meaning peer_count=0 is the norm rather than the exception.  The multi-factor
+    modifiers in _compute_scarcity_modifiers then differentiate based on broader
+    competitive context (TA crowding, modality, orphan status, validated MoA).
+
+    Maximum base score is 0.55; modifiers can push up to the hard cap of 0.80.
+    """
+    if peer_count == 0:
+        return 0.55, "very_high"
     if peer_count <= 3:
-        return 0.8, "high"
+        return 0.38, "high"
     if peer_count <= 6:
-        return 0.55, "medium"
+        return 0.22, "medium"
     if peer_count <= 9:
-        return 0.3, "low"
-    return 0.1, "very_low"
+        return 0.12, "low"
+    return 0.05, "very_low"
+
+
+# ---------------------------------------------------------------------------
+# Scarcity multi-factor modifiers
+# ---------------------------------------------------------------------------
+
+_ORPHAN_RARE_INDICATIONS: frozenset[str] = frozenset({
+    "rare disease",
+    "orphan",
+    "ultra-rare",
+    "lysosomal storage",
+    "gaucher",
+    "fabry",
+    "pompe",
+    "spinal muscular atrophy",
+    "hemophilia",
+    "hereditary angioedema",
+    "transthyretin amyloidosis",
+    # Short abbreviations (sma, hae, attr) removed: substring false-positives
+    # (e.g. "sma" matches "non-small cell"; "attr" matches "attribute").
+    # Full disease names above are sufficient for matching.
+})
+
+_SCARCE_MODALITIES: frozenset[str] = frozenset({
+    "gene therapy",
+    "gene editing",
+    "cell therapy",
+    "car-t",
+    "cart",
+    "mrna",
+    "antisense oligonucleotide",
+    "aso",
+    "rnai",
+    "crispr",
+    "epigenetic",
+    "protein degrader",
+    "protac",
+    "antibody drug conjugate",
+    "adc",
+    "bispecific",
+    "bispecific antibody",
+})
+
+
+def _compute_scarcity_modifiers(context) -> float:
+    """Compute additive scarcity modifier from asset-level context.
+
+    Bonuses (increase scarcity):
+    - Orphan / rare disease indication:          +0.20  (was +0.05)
+    - Novel / scarce modality (ADC, gene therapy, etc.):  +0.15  (was +0.04)
+    - Named validated mechanism of action:       +0.10  (was +0.02)
+
+    Penalties (decrease scarcity due to broader market competition):
+    - High-competition TA (oncology, immuno, diabetes, CVD, etc.):  -0.15
+    - Medium-competition TA (neurology, fibrosis, dermatology, etc.): -0.07
+
+    Returns a float in [-0.20, +0.30].  The caller caps the final score at 0.80.
+    """
+    asset = getattr(context, "asset", None)
+    if asset is None:
+        return 0.0
+
+    modifier = 0.0
+
+    indication = _normalize(getattr(asset, "indication", None)) or ""
+    therapeutic_area = _normalize(getattr(asset, "therapeutic_area", None)) or ""
+    ta_combined = indication + " " + therapeutic_area
+
+    # Orphan / rare disease (strong scarcity signal for acquirers)
+    if any(kw in indication or kw in therapeutic_area for kw in _ORPHAN_RARE_INDICATIONS):
+        modifier += 0.20
+
+    # Novel / scarce modality
+    modality_val = getattr(asset, "modality", None)
+    modality_str = _normalize(
+        getattr(modality_val, "value", None) if modality_val is not None else None
+    ) or ""
+    if any(kw in modality_str for kw in _SCARCE_MODALITIES):
+        modifier += 0.15
+
+    # Explicitly named mechanism of action (validated science)
+    moa = _normalize(getattr(asset, "mechanism_of_action", None))
+    if moa is not None and len(moa) >= 4:
+        modifier += 0.10
+
+    # TA competitive pressure penalties: high competition → lower genuine scarcity
+    if any(kw in ta_combined for kw in _HIGH_COMPETITION_TAS):
+        modifier -= 0.15
+    elif any(kw in ta_combined for kw in _MEDIUM_COMPETITION_TAS):
+        modifier -= 0.07
+
+    return round(min(max(modifier, -0.20), 0.30), 4)
 
 
 def _normalize(value: Optional[str]) -> Optional[str]:

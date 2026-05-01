@@ -673,3 +673,267 @@ class TestComputeMnaCompositeScore:
     def test_score_clamped_to_unit_interval(self):
         score, _ = compute_mna_composite_score(_make_ta(0.0), _make_dl(0.0), _make_af(0.0))
         assert 0.0 <= score <= 1.0
+
+
+# ---------------------------------------------------------------------------
+# Sprint 20: dual gate, two-driver requirement, false-positive guard
+# ---------------------------------------------------------------------------
+
+from bve.intelligence.ma_scoring import (
+    COMPOSITE_MAX_DUAL_GATE,
+    COMPOSITE_MAX_ONE_DRIVER,
+    COMPOSITE_MAX_ZERO_DRIVERS,
+    FINANCING_REASON_NOT_PRESSURED,
+    FINANCING_REASON_NO_BUYER_URGENCY,
+    _count_transaction_drivers,
+)
+
+
+def _make_dl_weak_all() -> DealLikelihoodScore:
+    """DL with all sub-scores below any driver threshold — zero independent drivers."""
+    return DealLikelihoodScore(
+        score=0.20,
+        financing_pressure=0.10,       # below _DRIVER_FINANCING_PRESSURE_MIN (0.35)
+        external_deal_activity=0.10,   # below _DRIVER_EXTERNAL_ACTIVITY_MIN (0.30)
+        insider_board_signals=0.10,    # below _DRIVER_ACTIVIST_MIN (0.30)
+        catalyst_proximity=0.10,       # below _DRIVER_CATALYST_MIN (0.35)
+        financing_gate_applied=True,
+        financing_reason_codes=[
+            FINANCING_REASON_NOT_PRESSURED,
+            FINANCING_REASON_NO_BUYER_URGENCY,
+        ],
+    )
+
+
+def _make_dl_dual_gate() -> DealLikelihoodScore:
+    """DL where both financing_not_pressured AND no_buyer_urgency are set."""
+    return DealLikelihoodScore(
+        score=0.25,
+        financing_pressure=0.10,
+        external_deal_activity=0.08,
+        insider_board_signals=0.15,
+        catalyst_proximity=0.05,
+        financing_gate_applied=True,
+        financing_reason_codes=[
+            FINANCING_REASON_NOT_PRESSURED,
+            FINANCING_REASON_NO_BUYER_URGENCY,
+        ],
+    )
+
+
+class TestDualGateAndDriverRequirement:
+    """Sprint 20: dual gate + two-driver caps on composite score."""
+
+    def test_dual_gate_caps_composite_at_050(self):
+        """When both financing_not_pressured AND no_buyer_urgency fire, cap at 0.50."""
+        ta = _make_ta(1.0)
+        dl = _make_dl_dual_gate()
+        af = _make_af(1.0)
+        score, caps = compute_mna_composite_score(ta, dl, af)
+        assert score <= COMPOSITE_MAX_DUAL_GATE + 1e-6
+        assert "composite_capped_by_dual_gate" in caps
+
+    def test_dual_gate_more_restrictive_than_single_gate(self):
+        """Dual gate (0.50) is stricter than single DL gate (0.65)."""
+        ta = _make_ta(1.0)
+        dl_single = _make_dl(0.40, gate=True, codes=[FINANCING_REASON_NOT_PRESSURED])
+        dl_dual = _make_dl_dual_gate()
+        af = _make_af(1.0)
+        score_single, _ = compute_mna_composite_score(ta, dl_single, af)
+        score_dual, _ = compute_mna_composite_score(ta, dl_dual, af)
+        assert score_dual <= score_single
+        assert score_dual <= COMPOSITE_MAX_DUAL_GATE + 1e-6
+
+    def test_zero_drivers_caps_composite_at_045(self):
+        """Zero independent transaction drivers → composite capped at 0.45."""
+        # Use explicit sub-scores below all driver thresholds:
+        # scarcity < 0.60, valuation_discount < 0.45 prevent TA/AF-based drivers
+        ta = TargetAttractivenessScore(
+            score=0.60,
+            de_risking_stage=0.40,
+            valuation_discount=0.40,  # below _DRIVER_VALUATION_MIN (0.45)
+            scarcity=0.40,            # below _DRIVER_SCARCITY_MIN (0.60)
+            peak_sales_signal=0.40,
+        )
+        dl = _make_dl_weak_all()
+        af = AcquirerFitDecomposed(
+            score=0.60,
+            ta_modality_fit=0.40,
+            pipeline_gap_alignment=0.40,  # below 0.50 threshold for scarcity_plus_fit
+            deal_affordability=0.40,
+            existing_partnership_bonus=0.0,
+        )
+        # raw ≈ 0.60*0.35 + 0.20*0.25 + 0.60*0.40 = 0.50 > 0.45 → cap fires
+        score, caps = compute_mna_composite_score(ta, dl, af)
+        assert score <= COMPOSITE_MAX_ZERO_DRIVERS + 1e-6
+        assert "composite_capped_zero_drivers" in caps
+
+    def test_one_driver_caps_at_065(self):
+        """One independent driver → composite cannot exceed 0.65."""
+        # Only catalyst_proximity fires as a driver; TA/AF sub-scores kept below
+        # driver thresholds to prevent scarcity_plus_fit / valuation_distress drivers
+        dl = DealLikelihoodScore(
+            score=0.45,
+            financing_pressure=0.10,       # not a driver
+            external_deal_activity=0.10,   # not a driver
+            insider_board_signals=0.10,    # not a driver
+            catalyst_proximity=0.80,       # driver: >= 0.35
+            financing_gate_applied=False,
+            financing_reason_codes=[],
+        )
+        ta = TargetAttractivenessScore(
+            score=0.80,
+            de_risking_stage=0.40,
+            valuation_discount=0.40,  # below _DRIVER_VALUATION_MIN (0.45)
+            scarcity=0.40,            # below _DRIVER_SCARCITY_MIN (0.60)
+            peak_sales_signal=0.40,
+        )
+        af = AcquirerFitDecomposed(
+            score=0.80,
+            ta_modality_fit=0.40,
+            pipeline_gap_alignment=0.40,  # below 0.50 threshold
+            deal_affordability=0.40,
+            existing_partnership_bonus=0.0,
+        )
+        # raw ≈ 0.80*0.35 + 0.45*0.25 + 0.80*0.40 = 0.7125 > 0.65 → cap fires
+        score, caps = compute_mna_composite_score(ta, dl, af)
+        assert score <= COMPOSITE_MAX_ONE_DRIVER + 1e-6
+        assert "composite_needs_two_drivers" in caps
+
+    def test_two_drivers_allows_score_above_065(self):
+        """Two or more independent drivers allows composite above 0.65."""
+        dl = DealLikelihoodScore(
+            score=0.90,
+            financing_pressure=0.80,       # driver 1
+            external_deal_activity=0.70,   # driver 2
+            insider_board_signals=0.10,
+            catalyst_proximity=0.10,
+            financing_gate_applied=False,
+            financing_reason_codes=[],
+        )
+        ta = _make_ta(0.80)
+        af = _make_af(0.90)
+        score, caps = compute_mna_composite_score(ta, dl, af)
+        # With 2+ drivers and no gate, score can exceed 0.65
+        assert "composite_needs_two_drivers" not in caps
+        # Score should be above 0.65 given strong inputs
+        assert score > 0.65
+
+    def test_n_drivers_reported_in_reason_codes(self):
+        """n_drivers count always appears as a reason code for diagnostics."""
+        ta = _make_ta(0.70)
+        dl = _make_dl(0.50)
+        af = _make_af(0.70)
+        _, caps = compute_mna_composite_score(ta, dl, af)
+        assert any(c.startswith("n_drivers:") for c in caps)
+
+    def test_driver_names_reported_in_reason_codes(self):
+        """Active driver names appear as 'driver:name' reason codes."""
+        dl = DealLikelihoodScore(
+            score=0.80,
+            financing_pressure=0.80,    # driver
+            external_deal_activity=0.60,  # driver
+            insider_board_signals=0.10,
+            catalyst_proximity=0.10,
+            financing_gate_applied=False,
+            financing_reason_codes=[],
+        )
+        ta = _make_ta(0.70)
+        af = _make_af(0.70)
+        _, caps = compute_mna_composite_score(ta, dl, af)
+        assert "driver:financing_pressure" in caps
+        assert "driver:external_deal_activity" in caps
+
+    def test_count_transaction_drivers_all_zero(self):
+        """All sub-scores below thresholds → 0 drivers."""
+        ta = _make_ta(0.30)
+        dl = _make_dl_weak_all()
+        af = _make_af(0.30)
+        n, names = _count_transaction_drivers(ta, dl, af)
+        assert n == 0
+        assert names == []
+
+    def test_count_transaction_drivers_financing_only(self):
+        """High financing pressure alone → 1 driver."""
+        dl = DealLikelihoodScore(
+            score=0.60,
+            financing_pressure=0.80,
+            external_deal_activity=0.10,
+            insider_board_signals=0.10,
+            catalyst_proximity=0.10,
+            financing_gate_applied=False,
+            financing_reason_codes=[],
+        )
+        ta = _make_ta(0.30)
+        af = _make_af(0.30)
+        n, names = _count_transaction_drivers(ta, dl, af)
+        assert n == 1
+        assert "financing_pressure" in names
+
+    def test_strategic_fit_alone_no_drivers_capped_at_045(self):
+        """Strategic fit alone (high TA+AF, no urgency signals) cannot produce >0.45."""
+        # No financing pressure, no external activity, no catalyst — zero drivers
+        # TA/AF sub-scores kept below driver thresholds to ensure zero-driver path
+        dl = DealLikelihoodScore(
+            score=0.20,
+            financing_pressure=0.05,
+            external_deal_activity=0.05,
+            insider_board_signals=0.05,
+            catalyst_proximity=0.05,
+            financing_gate_applied=True,
+            financing_reason_codes=[
+                FINANCING_REASON_NOT_PRESSURED,
+                FINANCING_REASON_NO_BUYER_URGENCY,
+            ],
+        )
+        ta = TargetAttractivenessScore(
+            score=1.0,
+            de_risking_stage=0.40,
+            valuation_discount=0.40,  # below _DRIVER_VALUATION_MIN (0.45)
+            scarcity=0.40,            # below _DRIVER_SCARCITY_MIN (0.60)
+            peak_sales_signal=0.40,
+        )
+        af = AcquirerFitDecomposed(
+            score=1.0,
+            ta_modality_fit=0.40,
+            pipeline_gap_alignment=0.40,  # below 0.50 threshold
+            deal_affordability=0.40,
+            existing_partnership_bonus=0.0,
+        )
+        # raw ≈ 1.0*0.35 + 0.20*0.25 + 1.0*0.40 = 0.80 → dual gate fires (0.50)
+        # then zero-driver cap fires (0.45)
+        score, caps = compute_mna_composite_score(ta, dl, af)
+        assert score <= COMPOSITE_MAX_ZERO_DRIVERS + 1e-6
+        assert "composite_capped_zero_drivers" in caps
+
+    def test_mna_screening_score_above_080_requires_two_drivers(self):
+        """Score > 0.65 (which is the one-driver ceiling) requires two drivers."""
+        # Build a high-score scenario with only 1 driver (financing_pressure)
+        # TA/AF sub-scores kept below driver thresholds to isolate to 1 driver
+        dl_one_driver = DealLikelihoodScore(
+            score=0.80,
+            financing_pressure=0.80,    # driver 1
+            external_deal_activity=0.10,  # not a driver
+            insider_board_signals=0.10,   # not a driver
+            catalyst_proximity=0.10,      # not a driver
+            financing_gate_applied=False,
+            financing_reason_codes=[],
+        )
+        ta = TargetAttractivenessScore(
+            score=0.90,
+            de_risking_stage=0.40,
+            valuation_discount=0.40,  # below _DRIVER_VALUATION_MIN (0.45)
+            scarcity=0.40,            # below _DRIVER_SCARCITY_MIN (0.60)
+            peak_sales_signal=0.40,
+        )
+        af = AcquirerFitDecomposed(
+            score=0.90,
+            ta_modality_fit=0.40,
+            pipeline_gap_alignment=0.40,  # below 0.50 threshold
+            deal_affordability=0.40,
+            existing_partnership_bonus=0.0,
+        )
+        # raw ≈ 0.90*0.35 + 0.80*0.25 + 0.90*0.40 = 0.875 > 0.65 → cap fires
+        score, caps = compute_mna_composite_score(ta, dl_one_driver, af)
+        assert score <= COMPOSITE_MAX_ONE_DRIVER + 1e-6
+        assert "composite_needs_two_drivers" in caps

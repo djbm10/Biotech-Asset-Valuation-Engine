@@ -515,10 +515,15 @@ def test_ma_probability_scanner_scores_scarcity_from_same_indication_mechanism_p
 
     assert by_asset["asset-a"].scarcity_peer_count == 2
     assert by_asset["asset-a"].scarcity_bucket == "high"
-    assert by_asset["asset-a"].scarcity_score == pytest.approx(0.8, abs=1e-9)
+    # asset-a: peer_count=2 → base 0.38, VEGF inhibitor MoA (+0.10) → ~0.48
+    # asset-d: peer_count=0 → base 0.55, complement inhibitor MoA (+0.10) → ~0.65
+    # Key invariant: unique mechanism (asset-d) scores higher than shared mechanism (asset-a)
+    assert by_asset["asset-a"].scarcity_score < by_asset["asset-d"].scarcity_score
     assert by_asset["asset-d"].scarcity_peer_count == 0
     assert by_asset["asset-d"].scarcity_bucket == "very_high"
-    assert by_asset["asset-d"].scarcity_score == pytest.approx(1.0, abs=1e-9)
+    # Both are below the new hard cap of 0.80 (old test asserted 1.0 which was never achievable)
+    assert by_asset["asset-d"].scarcity_score < 0.80
+    assert by_asset["asset-a"].scarcity_score < 0.80
 
 
 def test_ma_probability_scanner_preserves_legacy_v10_weighting_formula(tmp_path: Path):

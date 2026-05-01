@@ -57,7 +57,8 @@ class DealCoverageResult:
     pool_size: int = 0
 
     # Diagnosis
-    miss_reason: str = ""  # why real buyer missing or low-ranked
+    miss_reason: str = ""            # raw diagnosis string
+    miss_category: str = ""          # canonical category (see _MISS_CATEGORIES)
 
     def as_dict(self) -> dict[str, Any]:
         return {
@@ -77,7 +78,23 @@ class DealCoverageResult:
             "real_buyer_score": self.real_buyer_score,
             "pool_size": self.pool_size,
             "miss_reason": self.miss_reason,
+            "miss_category": self.miss_category,
         }
+
+
+# Canonical miss-reason categories for aggregated reporting.
+# Each DealCoverageResult.miss_category maps to one of these.
+_MISS_CATEGORIES = {
+    "no_profile": "Acquirer has no profile in the profile library — cannot generate as candidate",
+    "alias_mismatch": "Acquirer recognized by alias but name format in candidates differs",
+    "pool_pruned": "Pool is at top_n limit — buyer may exist beyond the stored candidates",
+    "no_prior_snapshot": "Target is in universe but no snapshot exists before announcement",
+    "not_in_universe": "Target ticker was not tracked in our watchlist",
+    "private_deal": "Private company — no ticker for universe matching",
+}
+
+# If pool_size >= this threshold, flag as potentially pruned (not all candidates stored)
+_POOL_PRUNE_THRESHOLD = 12
 
 
 @dataclass
@@ -94,6 +111,7 @@ class CoverageSummary:
     mean_rank_when_present: Optional[float]
     mrr: Optional[float]
     results: list[DealCoverageResult] = field(default_factory=list)
+    miss_category_counts: dict[str, int] = field(default_factory=dict)
 
     def as_dict(self) -> dict[str, Any]:
         return {
@@ -112,6 +130,7 @@ class CoverageSummary:
             "pool_coverage_rate": round(self.in_pool / max(self.in_universe, 1), 4),
             "mean_rank_when_present": self.mean_rank_when_present,
             "mrr": self.mrr,
+            "miss_category_counts": dict(self.miss_category_counts),
             "results": [r.as_dict() for r in self.results],
         }
 
@@ -222,25 +241,43 @@ def _diagnose_miss(
     real_acquirer: str,
     therapeutic_area: str,
     candidates_json: Optional[str],
-) -> str:
-    """Produce a brief reason string when the real buyer is not in the pool."""
+    pool_size: int = 0,
+) -> tuple[str, str]:
+    """Produce (reason_str, miss_category) when the real buyer is not in the pool.
+
+    Categories:
+      - "no_profile": acquirer not recognized in any alias map; likely no profile YAML
+      - "alias_mismatch": recognized by prefix match but canonical name differs
+      - "pool_pruned": pool at top_n limit; buyer may exist beyond stored candidates
+      - "no_prior_snapshot": upstream caller sets this category before calling
+    """
     if not candidates_json:
-        return "no_candidates_stored"
+        if pool_size == 0:
+            return "no_candidates_stored", "pool_pruned"
+        return "candidates_empty", "no_profile"
     try:
         candidates: list[dict[str, Any]] = json.loads(candidates_json)
     except (json.JSONDecodeError, TypeError):
-        return "candidates_parse_error"
+        return "candidates_parse_error", "no_profile"
 
     acquirer_names_in_pool = {
         _normalize_acquirer(c.get("acquirer_name") or "") for c in candidates
     }
-    # Check if acquirer has any profile at all
+    pool_n = len(candidates)
     norm_real = _normalize_acquirer(real_acquirer)
+
+    # Alias / prefix match — acquirer is in pool under a slightly different name
     close_matches = [n for n in acquirer_names_in_pool if norm_real[:6] in n or n[:6] in norm_real]
     if close_matches:
-        return f"acquirer_in_pool_but_name_mismatch: closest={close_matches[0]}"
+        reason = f"acquirer_in_pool_but_name_mismatch: closest={close_matches[0]}"
+        return reason, "alias_mismatch"
 
-    return f"acquirer_not_in_profile_library: {real_acquirer}"
+    # Pool at pruning threshold — buyer may be beyond the stored top_n
+    if pool_n >= _POOL_PRUNE_THRESHOLD:
+        reason = f"pool_pruned_at_{pool_n}_candidates: acquirer_not_found={real_acquirer}"
+        return reason, "pool_pruned"
+
+    return f"acquirer_not_in_profile_library: {real_acquirer}", "no_profile"
 
 
 def analyze_coverage(
@@ -285,6 +322,7 @@ def analyze_coverage(
                 therapeutic_area=ta,
                 in_universe=False,
                 miss_reason="private_company_no_ticker",
+                miss_category="private_deal",
             ))
             continue
 
@@ -302,6 +340,7 @@ def analyze_coverage(
         if ticker not in universe_tickers:
             res.in_universe = False
             res.miss_reason = "ticker_not_in_universe"
+            res.miss_category = "not_in_universe"
             results.append(res)
             continue
 
@@ -311,6 +350,7 @@ def analyze_coverage(
 
         if not snapshots:
             res.miss_reason = "in_universe_but_no_pre_announcement_snapshots"
+            res.miss_category = "no_prior_snapshot"
             results.append(res)
             continue
 
@@ -331,7 +371,9 @@ def analyze_coverage(
         res.pool_size = pool_size
 
         if not res.real_buyer_in_pool:
-            res.miss_reason = _diagnose_miss(acquirer, ta, closest["candidates_json"])
+            reason, category = _diagnose_miss(acquirer, ta, closest["candidates_json"], pool_size)
+            res.miss_reason = reason
+            res.miss_category = category
 
         results.append(res)
 
@@ -349,6 +391,12 @@ def analyze_coverage(
     mean_rank = round(sum(ranks) / len(ranks), 2) if ranks else None
     mrr = round(sum(1 / rk for rk in ranks) / len(ranks), 4) if ranks else None
 
+    # Aggregate miss categories across ALL results (including private deals, not-in-universe)
+    miss_cats: dict[str, int] = {}
+    for r in results:
+        if r.miss_category:
+            miss_cats[r.miss_category] = miss_cats.get(r.miss_category, 0) + 1
+
     return CoverageSummary(
         total_deals=total,
         public_deals=public_count,
@@ -362,6 +410,7 @@ def analyze_coverage(
         mean_rank_when_present=mean_rank,
         mrr=mrr,
         results=results,
+        miss_category_counts=miss_cats,
     )
 
 
@@ -404,11 +453,20 @@ def render_coverage_report(summary: CoverageSummary) -> str:
 
     lines += [
         "",
+        "Miss-category breakdown (generalizable root-cause diagnosis):",
+        f"  {'category':<25} count  description",
+    ]
+    for cat, count in sorted(summary.miss_category_counts.items(), key=lambda x: -x[1]):
+        desc = _MISS_CATEGORIES.get(cat, "")
+        lines.append(f"  {cat:<25} {count:<6} {desc}")
+
+    lines += [
+        "",
         "Failure analysis (buyers missing from pool):",
     ]
     missing = [r for r in summary.results if r.in_universe and r.n_pre_snapshots > 0 and not r.real_buyer_in_pool]
     for r in missing:
-        lines.append(f"  {r.ticker}: real={r.acquirer}  reason={r.miss_reason}")
+        lines.append(f"  {r.ticker}: real={r.acquirer}  cat={r.miss_category}  reason={r.miss_reason}")
 
     return "\n".join(lines)
 
