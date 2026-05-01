@@ -65,7 +65,7 @@ def backfill_ma_probability_snapshots(
     knowledge_db_path: str | Path,
     start_date: date | None = None,
     end_date: date | None = None,
-    score_version: str = "v1.2",
+    score_version: str = "v1.4",  # Sprint 20: first version with derisking+scarcity weights
     dataset_mode: str = "canonical_predeal",
     anchor_days_before_announcement: int = 180,
     controls_per_positive: int = 2,
@@ -196,6 +196,167 @@ def backfill_ma_probability_snapshots(
         )
     finally:
         store.close()
+
+
+
+@dataclass(frozen=True)
+class MARescoredSummary:
+    knowledge_db_path: str
+    score_version: str
+    rows_rescored: int
+    scarcity_cap_rate: float
+    derisking_cap_rate: float
+    mna_screening_cap_rate: float
+
+
+def rescore_ma_probability_snapshots(
+    *,
+    knowledge_db_path: str | Path,
+    watchlist_path: str | Path,
+    score_version: str = "v1.4",
+) -> MARescoredSummary:
+    """Re-score all existing ma_probability_snapshots in-place using Sprint 20 functions.
+
+    Much faster than a full backfill: reads stored sub-scores from the DB,
+    applies the updated _derisking_stage_score and _assess_scarcity functions,
+    and recomputes the composite probability using the requested score_version.
+
+    Use this when scoring logic changes (e.g. Sprint 20) but the raw acquisition
+    screener data (strategic_fit_score, capital_vulnerability_score, etc.) is
+    still valid and does not need regeneration.
+    """
+    import sqlite3
+    from types import SimpleNamespace
+
+    from bve.intelligence.ma_probability import (
+        SCORE_VERSIONS,
+        _compute_scarcity_modifiers,
+        _derisking_stage_score,
+        _scarcity_score_from_peer_count,
+    )
+    from bve.intelligence.ma_scoring import SATURATION_THRESHOLD, apply_saturation_penalty
+
+    if score_version not in SCORE_VERSIONS:
+        raise ValueError(
+            f"Unknown score version {score_version!r}. Valid: {sorted(SCORE_VERSIONS)}"
+        )
+    weights = SCORE_VERSIONS[score_version]
+
+    # Load watchlist for asset indication metadata
+    wl_config = load_watchlist_config(watchlist_path)
+    indication_by_asset: dict[str, str | None] = {
+        getattr(a, "asset_id", None): getattr(a, "indication", None)
+        for a in getattr(wl_config, "watchlist", [])
+    }
+
+    conn = sqlite3.connect(str(knowledge_db_path))
+    conn.row_factory = sqlite3.Row
+    try:
+        rows = conn.execute(
+            "SELECT rowid, asset_id, stage, therapeutic_area, scarcity_peer_count, "
+            "strategic_fit_score, valuation_discount_score, capital_vulnerability_score "
+            "FROM ma_probability_snapshots"
+        ).fetchall()
+
+        updates: list[tuple] = []
+        for row in rows:
+            rowid = row["rowid"]
+            asset_id: str | None = row["asset_id"]
+            stage: str | None = row["stage"]
+            ta: str | None = row["therapeutic_area"]
+            peer_count: int = int(row["scarcity_peer_count"] or 0)
+            sf: float = float(row["strategic_fit_score"] or 0.0)
+            vd: float = float(row["valuation_discount_score"] or 0.0)
+            cv: float = float(row["capital_vulnerability_score"] or 0.0)
+
+            # --- Re-score de_risking_stage_score with Sprint 20 function ---
+            # Quality penalty attributes are not stored; they default to False
+            # (conservative: base-score-only path through _derisking_stage_score).
+            row_ns = SimpleNamespace(
+                stage=stage,
+                acquisition_readiness_bucket=None,
+                acquisition_readiness_design_tier="standard",
+                acquisition_readiness_prior_pos=None,
+                acquisition_readiness_posterior_pos=None,
+                acquisition_readiness_low_power=False,
+                safety_overhang=False,
+                prior_phase3_failure=False,
+                label_uncertainty=False,
+                prior_phase2_failure=False,
+                regulatory_risk=False,
+                endpoint_in_dispute=False,
+                breakthrough_designation=False,
+            )
+            de_risk = _derisking_stage_score(row_ns)
+
+            # --- Re-score scarcity with Sprint 20 function ---
+            base_score, bucket = _scarcity_score_from_peer_count(peer_count)
+            indication = indication_by_asset.get(asset_id)
+            asset_ns = SimpleNamespace(
+                indication=indication,
+                therapeutic_area=ta,
+                modality=None,       # not stored; no modality bonus applied
+                mechanism_of_action=None,  # not stored; no MoA bonus applied
+            )
+            context_ns = SimpleNamespace(asset=asset_ns)
+            modifier = _compute_scarcity_modifiers(context_ns)
+            scarcity = round(min(max(base_score + modifier, 0.0), 0.80), 6)
+
+            # --- Recompute composite probability using new score_version weights ---
+            raw = (
+                vd * weights["acquisition_discount"]
+                + sf * weights["strategic_fit"]
+                + de_risk * weights["derisking_stage"]
+                + cv * weights["capital_vulnerability"]
+                + scarcity * weights["scarcity"]
+            )
+            # The saturation-penalty sub_scores list mirrors _score_acquirer_candidate.
+            # valuation_component_score is approximated by valuation_discount_score
+            # (acquisition_discount weight = 0 for v1.4 so this doesn't affect raw).
+            sub_scores = [vd, sf, de_risk, cv, scarcity]
+            prob = apply_saturation_penalty(raw, sub_scores=sub_scores)
+
+            updates.append((
+                round(de_risk, 6),
+                round(scarcity, 6),
+                bucket,
+                peer_count,
+                round(prob, 6),
+                f"rescored:{score_version}",
+                rowid,
+            ))
+
+        conn.executemany(
+            "UPDATE ma_probability_snapshots SET "
+            "de_risking_stage_score=?, scarcity_score=?, scarcity_bucket=?, "
+            "scarcity_peer_count=?, probability=?, run_id=? WHERE rowid=?",
+            updates,
+        )
+        conn.commit()
+
+        # Compute post-rescore diagnostics
+        rows_after = conn.execute(
+            "SELECT probability, scarcity_score, de_risking_stage_score "
+            "FROM ma_probability_snapshots WHERE probability IS NOT NULL"
+        ).fetchall()
+        scarcity_vals = [float(r[1]) for r in rows_after if r[1] is not None]
+        derisking_vals = [float(r[2]) for r in rows_after if r[2] is not None]
+        prob_vals = [float(r[0]) for r in rows_after if r[0] is not None]
+        n = len(prob_vals)
+        scarcity_cap = sum(1 for s in scarcity_vals if s >= SATURATION_THRESHOLD) / n if n else 0.0
+        derisking_cap = sum(1 for s in derisking_vals if s >= SATURATION_THRESHOLD) / n if n else 0.0
+        mna_cap = sum(1 for s in prob_vals if s >= SATURATION_THRESHOLD) / n if n else 0.0
+
+        return MARescoredSummary(
+            knowledge_db_path=str(Path(knowledge_db_path)),
+            score_version=score_version,
+            rows_rescored=len(updates),
+            scarcity_cap_rate=round(scarcity_cap, 4),
+            derisking_cap_rate=round(derisking_cap, 4),
+            mna_screening_cap_rate=round(mna_cap, 4),
+        )
+    finally:
+        conn.close()
 
 
 def _render_summary(summary: MABackfillSummary) -> str:

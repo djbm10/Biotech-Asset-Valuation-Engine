@@ -99,6 +99,16 @@ SCORE_VERSIONS: dict[str, dict[str, float]] = {
         "capital_vulnerability": 0.00,
         "scarcity": 0.15,
     },
+    # Sprint 20: first version where de-risking stage AND scarcity both have
+    # non-zero weight so the Sprint 20 component improvements are visible in
+    # the composite probability score.
+    "v1.4": {
+        "acquisition_discount": 0.00,
+        "strategic_fit": 0.65,
+        "derisking_stage": 0.20,
+        "capital_vulnerability": 0.05,
+        "scarcity": 0.10,
+    },
 }
 
 _VALUATION_COMPONENT_MODES: dict[str, str] = {
@@ -106,6 +116,7 @@ _VALUATION_COMPONENT_MODES: dict[str, str] = {
     "v1.1": "inverted",
     "v1.2": "inverted",
     "v1.3": "inverted",
+    "v1.4": "inverted",
 }
 
 VULNERABILITY_WEIGHTS: dict[str, float] = {
@@ -136,13 +147,20 @@ _DERISKING_BUCKET_SCORES = {
 }
 
 _STAGE_FALLBACK_SCORES = {
+    # Keys use _normalize() output format (underscores converted to spaces).
+    # _derisking_stage_score calls _normalize(stage) before this lookup.
     "preclinical": 0.00,
-    "phase_1": 0.18,    # was 0.25
-    "phase_2": 0.42,    # was 0.50
-    "phase_3": 0.62,    # was 0.80
-    "nda_bla": 0.65,    # was 0.82
+    "phase 1": 0.18,    # was 0.25
+    "phase 2": 0.42,    # was 0.50
+    "phase 3": 0.62,    # was 0.80
+    "nda bla": 0.65,    # was 0.82
     "approved": 0.58,   # was 0.75
     "commercial": 0.50, # was 0.70
+    # Aliases to tolerate underscored values from non-normalised callers
+    "phase_1": 0.18,
+    "phase_2": 0.42,
+    "phase_3": 0.62,
+    "nda_bla": 0.65,
 }
 
 # Quality-penalty modifiers applied in _derisking_stage_score.
