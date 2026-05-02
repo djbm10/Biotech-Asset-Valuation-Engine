@@ -183,6 +183,42 @@ _DERISKING_QUALITY_BONUSES = {
 # Phase 3 OS RCT + BTD + strong POS uplift peaks at ~0.86, clamped to this cap.
 _DERISKING_STAGE_SCORE_CAP = 0.80  # was 0.90
 
+# ---------------------------------------------------------------------------
+# Strategic-fit score — quality penalties and hard cap (Sprint 21)
+# ---------------------------------------------------------------------------
+# A perfect TA+modality+strategic+budget match scores _STRATEGIC_FIT_HARD_CAP,
+# never 1.0.  Each penalty reflects a concrete quality deficit that reduces the
+# intrinsic strategic value of the acquirer-target pairing.
+_STRATEGIC_FIT_HARD_CAP = 0.80          # no acquirer-target pair is "perfect"
+_STRATEGIC_FIT_PENALTY_WEAK_TA = 0.10   # TA score < 0.50 → weak commercial overlap
+_STRATEGIC_FIT_PENALTY_POOR_MODALITY = 0.10   # modality score < 0.50 → platform mismatch
+_STRATEGIC_FIT_PENALTY_NO_PIPELINE_GAP = 0.15  # strategic priority < 0.50 → no urgency
+_STRATEGIC_FIT_PENALTY_POOR_DEAL_SIZE = 0.10   # budget score < 0.40 → deal too big/small
+_STRATEGIC_FIT_WEAK_TA_THRESHOLD = 0.50
+_STRATEGIC_FIT_POOR_MODALITY_THRESHOLD = 0.50
+_STRATEGIC_FIT_NO_GAP_THRESHOLD = 0.50
+_STRATEGIC_FIT_POOR_DEAL_SIZE_THRESHOLD = 0.40
+STRATEGIC_FIT_REASON_WEAK_TA = "weak_commercial_overlap"
+STRATEGIC_FIT_REASON_POOR_MODALITY = "poor_modality_fit"
+STRATEGIC_FIT_REASON_NO_GAP = "no_pipeline_gap"
+STRATEGIC_FIT_REASON_POOR_DEAL_SIZE = "poor_deal_size_fit"
+
+# ---------------------------------------------------------------------------
+# Transaction-likelihood gate on mna_probability_score (Sprint 21)
+# ---------------------------------------------------------------------------
+# When both financing_not_pressured AND no_buyer_urgency fire on the vulnerability
+# assessment, the final mna_probability_score is capped.  This gate mirrors the
+# compute_mna_composite_score dual-gate but applies to the main scoring path.
+_MNA_PROB_DUAL_GATE_CAP = 0.60       # cap when both low-pressure signals fire
+_MNA_PROB_HIGH_SCORE_FLOOR = 0.75    # scores above this require a real trigger
+# Minimum sub-score thresholds for each transaction trigger
+_TRIGGER_FINANCING_MIN = 0.35
+_TRIGGER_EXTERNAL_MIN = 0.30
+_TRIGGER_CATALYST_MIN = 0.35
+_TRIGGER_ACTIVIST_MIN = 0.30
+_TRIGGER_VALUATION_MIN = 0.45
+_TRIGGER_DERISKING_MIN = 0.50        # valuation distress requires de-risked asset
+
 _DESIGN_TIER_ADJUSTMENTS = {
     "os_rct": 0.08,     # was 0.10; gold-standard endpoint
     "pfs": 0.04,        # was 0.05
@@ -1711,6 +1747,19 @@ class MAProbabilityScanner:
             ],
         )
 
+        # Transaction-likelihood gate (Sprint 21): apply the dual financing-pressure
+        # gate and high-score trigger requirement to the main scoring path, not just
+        # the three-model decomposition diagnostics.
+        mna_probability_score = _apply_transaction_likelihood_gate(
+            mna_probability_score,
+            financing_pressure=vulnerability.cash_runway_pressure_score,
+            external_deal_activity=vulnerability.external_deal_pressure_score,
+            activist_signal=vulnerability.target_signal_score,
+            catalyst_days=getattr(acquisition_row, "days_to_catalyst", None),
+            valuation_discount=valuation_discount_score,
+            de_risking_stage=de_risking_stage_score,
+        )
+
         adjusted_probability = mna_probability_score * targetability.multiplier
         combined_hard_fails = list(fit_row.hard_fail_reasons)
         combined_hard_fails.extend(targetability.hard_fail_reasons)
@@ -1769,6 +1818,16 @@ class MAProbabilityScanner:
         )
 
     def _strategic_fit_score(self, fit_row: AcquirerFitRow) -> float:
+        """Compute strategic fit score with quality penalties and hard cap.
+
+        Base score: weighted average of TA, modality, strategic priority, budget.
+        Penalties applied for concrete quality deficits (Sprint 21):
+          - weak_commercial_overlap: TA score < 0.50 → -0.10
+          - poor_modality_fit: modality score < 0.50 → -0.10
+          - no_pipeline_gap: strategic priority < 0.50 → -0.15
+          - poor_deal_size_fit: budget score < 0.40 → -0.10
+        Hard cap: _STRATEGIC_FIT_HARD_CAP (0.80) regardless of all-perfect sub-scores.
+        """
         fit_weights = self.fit_engine.scorer.config.resolved_weights()
         strategic_weight = (
             fit_weights["therapeutic_area"]
@@ -1784,7 +1843,21 @@ class MAProbabilityScanner:
             + fit_row.strategic_priority_component
             + fit_row.budget_component
         )
-        return min(max(strategic_component / strategic_weight, 0.0), 1.0)
+        base = min(max(strategic_component / strategic_weight, 0.0), 1.0)
+
+        # Quality penalty deductions
+        penalty = 0.0
+        if fit_row.therapeutic_area_score < _STRATEGIC_FIT_WEAK_TA_THRESHOLD:
+            penalty += _STRATEGIC_FIT_PENALTY_WEAK_TA
+        if fit_row.modality_score < _STRATEGIC_FIT_POOR_MODALITY_THRESHOLD:
+            penalty += _STRATEGIC_FIT_PENALTY_POOR_MODALITY
+        if fit_row.strategic_priority_score < _STRATEGIC_FIT_NO_GAP_THRESHOLD:
+            penalty += _STRATEGIC_FIT_PENALTY_NO_PIPELINE_GAP
+        if fit_row.budget_score < _STRATEGIC_FIT_POOR_DEAL_SIZE_THRESHOLD:
+            penalty += _STRATEGIC_FIT_PENALTY_POOR_DEAL_SIZE
+
+        penalized = max(base - penalty, 0.0)
+        return round(min(penalized, _STRATEGIC_FIT_HARD_CAP), 6)
 
     def _assess_vulnerability(
         self,
@@ -2224,6 +2297,61 @@ class MAProbabilityScanner:
         if not active_upcoming:
             return None
         return min(active_upcoming, key=lambda event: (event.expected_date, event.id))
+
+
+def _apply_transaction_likelihood_gate(
+    score: float,
+    *,
+    financing_pressure: float,
+    external_deal_activity: float,
+    activist_signal: float,
+    catalyst_days: Optional[int],
+    valuation_discount: float,
+    de_risking_stage: float,
+) -> float:
+    """Apply transaction-likelihood caps to the main mna_probability_score.
+
+    Two gates (Sprint 21):
+    1. Dual gate: financing_not_pressured AND no_buyer_urgency → cap at 0.60.
+       'Not pressured' = financing_pressure < 0.25.
+       'No buyer urgency' = external_deal_activity < 0.20.
+    2. High-score trigger: score > 0.75 requires at least one real transaction
+       trigger to be present:
+         - financing pressure ≥ 0.35
+         - external deal activity ≥ 0.30
+         - catalyst within range (days ≤ 90 → catalyst_proximity ≥ 0.35)
+         - activist signal ≥ 0.30
+         - valuation distress (discount ≥ 0.45 AND de_risking ≥ 0.50)
+       If none fire, score is capped at _MNA_PROB_HIGH_SCORE_FLOOR (0.75).
+    """
+    financing_not_pressured = financing_pressure < 0.25
+    no_buyer_urgency = external_deal_activity < 0.20
+
+    if financing_not_pressured and no_buyer_urgency and score > _MNA_PROB_DUAL_GATE_CAP:
+        score = _MNA_PROB_DUAL_GATE_CAP
+
+    if score > _MNA_PROB_HIGH_SCORE_FLOOR:
+        # Check for at least one real transaction trigger
+        catalyst_close = (
+            catalyst_days is not None
+            and catalyst_days >= 0
+            and catalyst_days <= 90
+        )
+        valuation_distress = (
+            valuation_discount >= _TRIGGER_VALUATION_MIN
+            and de_risking_stage >= _TRIGGER_DERISKING_MIN
+        )
+        has_trigger = (
+            financing_pressure >= _TRIGGER_FINANCING_MIN
+            or external_deal_activity >= _TRIGGER_EXTERNAL_MIN
+            or catalyst_close
+            or activist_signal >= _TRIGGER_ACTIVIST_MIN
+            or valuation_distress
+        )
+        if not has_trigger:
+            score = _MNA_PROB_HIGH_SCORE_FLOOR
+
+    return round(min(max(score, 0.0), 1.0), 6)
 
 
 def _valuation_discount_score(value: Optional[float]) -> float:

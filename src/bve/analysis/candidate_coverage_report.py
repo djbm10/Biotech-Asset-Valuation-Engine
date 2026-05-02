@@ -157,6 +157,43 @@ _ACQUIRER_ALIASES: dict[str, list[str]] = {
     "astellas pharma": ["astellas", "astellas pharma us", "astellas pharma inc", "4503.t"],
     # GSK: common short form used in deal universe
     "gsk": ["glaxosmithkline", "gsk plc", "glaxo smith kline", "glaxo wellcome"],
+    # --- Sprint 21 additions: unambiguous aliases for major acquirers ---
+    # Merck US (MRK) — must not overlap with Merck KGaA (German, MRCG)
+    "merck": ["merck & co", "merck & co.", "merck sharp & dohme", "msd", "mrk"],
+    # Amgen
+    "amgen": ["amgn", "amgen inc"],
+    # AbbVie
+    "abbvie": ["abbv", "abbvie inc"],
+    # Takeda
+    "takeda": ["takeda pharmaceutical", "takeda pharmaceutical company", "4502.t"],
+    # Sanofi — "sanofi-aventis" was the pre-2011 corporate name still used in some DBs
+    "sanofi": ["sanofi-aventis", "sanofi s.a.", "sanofi sa"],
+    # Biogen
+    "biogen": ["biib", "biogen inc"],
+    # Regeneron
+    "regeneron": ["regn", "regeneron pharmaceuticals"],
+    # Daiichi Sankyo
+    "daiichi sankyo": ["daiichi", "daiichi-sankyo", "4568.t"],
+    # Kyowa Kirin
+    "kyowa kirin": ["kyowa hakko kirin", "kyowa kirin co", "4151.t"],
+    # Boehringer Ingelheim (private — no ticker, but short form widely used)
+    "boehringer ingelheim": ["boehringer", "boehringer ingelheim gmbh"],
+    # Jazz Pharmaceuticals
+    "jazz pharmaceuticals": ["jazz", "jazz pharma", "jazz pharmaceuticals plc"],
+    # Incyte Corporation
+    "incyte": ["incy", "incyte corporation"],
+    # Seagen / Pfizer subsidiary (acquired 2023, still appears in historical data)
+    "seagen": ["seagen inc", "sgen"],
+    # Alexion (AstraZeneca subsidiary since 2021, still appears in retrospective data)
+    "alexion": ["alexion pharmaceuticals", "alxn"],
+    # UCB (Belgian pharma, often missed by prefix match)
+    "ucb": ["ucb s.a.", "ucb sa"],
+    # Ipsen
+    "ipsen": ["ipsen s.a.", "ipsen sa"],
+    # Sumitomo Pharma
+    "sumitomo pharma": ["sumitomo dainippon", "sumitomo dainippon pharma", "4506.t"],
+    # Chugai Pharmaceutical (Roche subsidiary, still profiled independently)
+    "chugai": ["chugai pharmaceutical", "chugai pharma", "4519.t"],
 }
 
 

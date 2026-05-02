@@ -127,21 +127,21 @@ def test_diagnose_miss_not_in_library():
     cands = _make_candidates_json([
         {"acquirer_name": "Pfizer", "mna_probability_score": 0.9},
     ])
-    reason = _diagnose_miss("Astellas", "ophthalmology", cands)
-    assert "acquirer_not_in_profile_library" in reason
+    reason_str, category = _diagnose_miss("Astellas", "ophthalmology", cands)
+    assert "acquirer_not_in_profile_library" in reason_str
 
 
 def test_diagnose_miss_name_mismatch():
     cands = _make_candidates_json([
         {"acquirer_name": "Vertex Pharmaceuticals", "mna_probability_score": 0.9},
     ])
-    reason = _diagnose_miss("Vertex", "immunology", cands)
-    assert "mismatch" in reason or "acquirer_not_in_profile" in reason
+    reason_str, category = _diagnose_miss("Vertex", "immunology", cands)
+    assert "mismatch" in reason_str or "acquirer_not_in_profile" in reason_str
 
 
 def test_diagnose_miss_no_candidates():
-    reason = _diagnose_miss("Pfizer", "oncology", None)
-    assert reason == "no_candidates_stored"
+    reason_str, category = _diagnose_miss("Pfizer", "oncology", None)
+    assert reason_str == "no_candidates_stored"
 
 
 # ---------------------------------------------------------------------------
