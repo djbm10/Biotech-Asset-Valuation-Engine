@@ -184,12 +184,13 @@ _DERISKING_QUALITY_BONUSES = {
 _DERISKING_STAGE_SCORE_CAP = 0.80  # was 0.90
 
 # ---------------------------------------------------------------------------
-# Strategic-fit score — quality penalties and hard cap (Sprint 21)
+# Strategic-fit score — quality penalties, hard cap, and urgency weighting
+# (Sprint 21: penalties + cap; Sprint 22: acquirer-specific urgency multiplier)
 # ---------------------------------------------------------------------------
 # A perfect TA+modality+strategic+budget match scores _STRATEGIC_FIT_HARD_CAP,
 # never 1.0.  Each penalty reflects a concrete quality deficit that reduces the
 # intrinsic strategic value of the acquirer-target pairing.
-_STRATEGIC_FIT_HARD_CAP = 0.80          # no acquirer-target pair is "perfect"
+_STRATEGIC_FIT_HARD_CAP = 0.70          # lowered Sprint 22: high urgency still caps here
 _STRATEGIC_FIT_PENALTY_WEAK_TA = 0.10   # TA score < 0.50 → weak commercial overlap
 _STRATEGIC_FIT_PENALTY_POOR_MODALITY = 0.10   # modality score < 0.50 → platform mismatch
 _STRATEGIC_FIT_PENALTY_NO_PIPELINE_GAP = 0.15  # strategic priority < 0.50 → no urgency
@@ -203,14 +204,31 @@ STRATEGIC_FIT_REASON_POOR_MODALITY = "poor_modality_fit"
 STRATEGIC_FIT_REASON_NO_GAP = "no_pipeline_gap"
 STRATEGIC_FIT_REASON_POOR_DEAL_SIZE = "poor_deal_size_fit"
 
+# Gap urgency multipliers (Sprint 22) — scale the TA component by how urgently
+# the acquirer needs this area.  "medium" (most common) gives base ≈ 0.68 for
+# all-good sub-scores, below the 0.70 cap.  "high" allows ≈ 0.80 → still capped.
+# "none" (no matched gap) uses a very low multiplier — TA overlap is incidental.
+_GAP_URGENCY_MULTIPLIERS: dict[str, float] = {
+    "high": 1.00,    # active pipeline gap, management commentary confirms urgency
+    "medium": 0.55,  # TA overlap present but no explicit pipeline gap stated
+    "low": 0.28,     # tangential exposure; acquirer has internal assets already
+}
+_GAP_URGENCY_NONE_MULTIPLIER = 0.15  # no matched gap → TA relevance is incidental
+
+# BD pattern recency adjustment (Sprint 22) — acquirers with 3+ recent deals
+# show confirmed BD activity; zero deals suggests internal-build preference.
+_BD_PATTERN_BONUS_3_PLUS = 0.03   # ≥3 recent deals: confirmed BD activity
+_BD_PATTERN_PENALTY_ZERO = -0.12  # 0 recent deals: no BD precedent
+
 # ---------------------------------------------------------------------------
 # Transaction-likelihood gate on mna_probability_score (Sprint 21)
 # ---------------------------------------------------------------------------
 # When both financing_not_pressured AND no_buyer_urgency fire on the vulnerability
 # assessment, the final mna_probability_score is capped.  This gate mirrors the
 # compute_mna_composite_score dual-gate but applies to the main scoring path.
-_MNA_PROB_DUAL_GATE_CAP = 0.60       # cap when both low-pressure signals fire
-_MNA_PROB_HIGH_SCORE_FLOOR = 0.75    # scores above this require a real trigger
+_MNA_PROB_DUAL_GATE_CAP = 0.55       # cap when both low-pressure signals fire (Sprint 22: tightened from 0.60)
+_MNA_PROB_NO_TRIGGER_CAP = 0.55      # cap when no transaction trigger fires at all (Sprint 22)
+_MNA_PROB_HIGH_SCORE_FLOOR = 0.75    # scores above this require TWO transaction drivers (Sprint 22)
 # Minimum sub-score thresholds for each transaction trigger
 _TRIGGER_FINANCING_MIN = 0.35
 _TRIGGER_EXTERNAL_MIN = 0.30
@@ -510,6 +528,9 @@ class MAAcquirerCandidate(BaseModel):
     target_attractiveness_score: float | None = None
     deal_likelihood_score: float | None = None
     acquirer_fit_score: float | None = None
+
+    # Transaction-likelihood gate reason codes (Sprint 22)
+    transaction_gate_reason_codes: list[str] = Field(default_factory=list)
 
 
 class MAProbabilityRow(BaseModel):
@@ -1717,7 +1738,7 @@ class MAProbabilityScanner:
             valuation_discount_score,
             mode=self.config.resolved_valuation_component_mode(),
         )
-        strategic_fit_score = self._strategic_fit_score(fit_row)
+        strategic_fit_score = self._strategic_fit_score(fit_row, acquirer=acquirer)
         de_risking_stage_score = _derisking_stage_score(acquisition_row)
         capital_vulnerability_score = vulnerability.capital_vulnerability_score
         estimated_low, estimated_high, estimated_source = _estimate_deal_value_range(
@@ -1747,10 +1768,9 @@ class MAProbabilityScanner:
             ],
         )
 
-        # Transaction-likelihood gate (Sprint 21): apply the dual financing-pressure
-        # gate and high-score trigger requirement to the main scoring path, not just
-        # the three-model decomposition diagnostics.
-        mna_probability_score = _apply_transaction_likelihood_gate(
+        # Transaction-likelihood gate (Sprint 22): dual gate + no-trigger cap +
+        # two-driver requirement applied to the main scoring path.
+        mna_probability_score, gate_reason_codes = _apply_transaction_likelihood_gate(
             mna_probability_score,
             financing_pressure=vulnerability.cash_runway_pressure_score,
             external_deal_activity=vulnerability.external_deal_pressure_score,
@@ -1815,18 +1835,35 @@ class MAProbabilityScanner:
             target_attractiveness_score=ta_score.score,
             deal_likelihood_score=dl_score.score,
             acquirer_fit_score=af_score.score,
+            transaction_gate_reason_codes=gate_reason_codes,
         )
 
-    def _strategic_fit_score(self, fit_row: AcquirerFitRow) -> float:
-        """Compute strategic fit score with quality penalties and hard cap.
+    def _strategic_fit_score(
+        self,
+        fit_row: AcquirerFitRow,
+        *,
+        acquirer: Optional[AcquirerProfile] = None,
+    ) -> float:
+        """Compute strategic fit score with acquirer-specific urgency weighting.
 
-        Base score: weighted average of TA, modality, strategic priority, budget.
-        Penalties applied for concrete quality deficits (Sprint 21):
+        Base score: weighted average of TA (urgency-adjusted), modality,
+        strategic priority, budget (Sprint 22).
+
+        Urgency multiplier scales the TA component by how urgently the acquirer
+        needs this area (from _gap_urgency_for_match → _GAP_URGENCY_MULTIPLIERS):
+          - high (1.00): TA component unchanged; base can reach ~0.80 → capped at 0.70
+          - medium (0.55): typical case; all-good sub-scores → base ≈ 0.68, below cap
+          - low (0.28): tangential overlap; base ≈ 0.61
+          - no match (0.15): incidental TA relevance; base ≈ 0.56
+
+        BD pattern adjustment (Sprint 22): ≥3 recent deals → +0.03; 0 deals → −0.12.
+
+        Quality penalties (Sprint 21):
           - weak_commercial_overlap: TA score < 0.50 → -0.10
           - poor_modality_fit: modality score < 0.50 → -0.10
           - no_pipeline_gap: strategic priority < 0.50 → -0.15
           - poor_deal_size_fit: budget score < 0.40 → -0.10
-        Hard cap: _STRATEGIC_FIT_HARD_CAP (0.80) regardless of all-perfect sub-scores.
+        Hard cap: _STRATEGIC_FIT_HARD_CAP (0.70).
         """
         fit_weights = self.fit_engine.scorer.config.resolved_weights()
         strategic_weight = (
@@ -1837,15 +1874,27 @@ class MAProbabilityScanner:
         )
         if strategic_weight <= 0:
             return 0.0
+
+        # Urgency multiplier on the TA component (Sprint 22)
+        urgency = _gap_urgency_for_match(acquirer, fit_row.matched_therapeutic_gap)
+        urgency_mult = _GAP_URGENCY_MULTIPLIERS.get(
+            urgency or "", _GAP_URGENCY_NONE_MULTIPLIER
+        )
+        adjusted_ta_component = fit_row.therapeutic_area_component * urgency_mult
+
         strategic_component = (
-            fit_row.therapeutic_area_component
+            adjusted_ta_component
             + fit_row.modality_component
             + fit_row.strategic_priority_component
             + fit_row.budget_component
         )
         base = min(max(strategic_component / strategic_weight, 0.0), 1.0)
 
-        # Quality penalty deductions
+        # BD pattern recency adjustment (Sprint 22)
+        bd_adj = _bd_pattern_adjustment(acquirer)
+        base = min(max(base + bd_adj, 0.0), 1.0)
+
+        # Quality penalty deductions (Sprint 21)
         penalty = 0.0
         if fit_row.therapeutic_area_score < _STRATEGIC_FIT_WEAK_TA_THRESHOLD:
             penalty += _STRATEGIC_FIT_PENALTY_WEAK_TA
@@ -2299,6 +2348,46 @@ class MAProbabilityScanner:
         return min(active_upcoming, key=lambda event: (event.expected_date, event.id))
 
 
+def _gap_urgency_for_match(
+    acquirer: Optional[AcquirerProfile],
+    matched_gap: Optional[str],
+) -> Optional[str]:
+    """Return the exposure_level (urgency) for the matched therapeutic gap.
+
+    Matches by the same label produced by acquirer_fit._gap_label():
+        "<therapeutic_area>:<sub_area>" when sub_area is present, else "<therapeutic_area>".
+    Returns None if no match is found or if acquirer / matched_gap are absent.
+    """
+    if acquirer is None or matched_gap is None:
+        return None
+    for gap in acquirer.therapeutic_area_gaps:
+        label = (
+            f"{gap.therapeutic_area}:{gap.sub_area}"
+            if gap.sub_area
+            else str(gap.therapeutic_area)
+        )
+        if label == matched_gap:
+            return gap.exposure_level
+    return None
+
+
+def _bd_pattern_adjustment(acquirer: Optional[AcquirerProfile]) -> float:
+    """Return a BD-pattern recency adjustment based on count of recent deals.
+
+    ≥3 deals: +_BD_PATTERN_BONUS_3_PLUS   (confirmed active acquirer)
+    0 deals:  +_BD_PATTERN_PENALTY_ZERO   (no BD precedent; likely internal-build)
+    1-2 deals: 0.0                         (neutral)
+    """
+    if acquirer is None:
+        return 0.0
+    n_deals = len(acquirer.recent_deal_history)
+    if n_deals >= 3:
+        return _BD_PATTERN_BONUS_3_PLUS
+    if n_deals == 0:
+        return _BD_PATTERN_PENALTY_ZERO
+    return 0.0
+
+
 def _apply_transaction_likelihood_gate(
     score: float,
     *,
@@ -2308,50 +2397,71 @@ def _apply_transaction_likelihood_gate(
     catalyst_days: Optional[int],
     valuation_discount: float,
     de_risking_stage: float,
-) -> float:
+) -> tuple[float, list[str]]:
     """Apply transaction-likelihood caps to the main mna_probability_score.
 
-    Two gates (Sprint 21):
-    1. Dual gate: financing_not_pressured AND no_buyer_urgency → cap at 0.60.
+    Returns (capped_score, reason_codes) where reason_codes lists any caps applied.
+
+    Three gates (Sprint 22):
+    1. No-trigger cap: if no transaction trigger fires at all, cap at
+       _MNA_PROB_NO_TRIGGER_CAP (0.55).  Reason: "missing_trigger:all".
+    2. Dual gate: financing_not_pressured AND no_buyer_urgency → cap at
+       _MNA_PROB_DUAL_GATE_CAP (0.55).  Reason: "dual_gate:low_pressure".
        'Not pressured' = financing_pressure < 0.25.
        'No buyer urgency' = external_deal_activity < 0.20.
-    2. High-score trigger: score > 0.75 requires at least one real transaction
-       trigger to be present:
+    3. High-score two-driver requirement: score > 0.75 requires at least TWO
+       transaction triggers to be present.  If only one fires, score is capped
+       at _MNA_PROB_HIGH_SCORE_FLOOR (0.75).  Reason: "missing_trigger:second".
+       Transaction triggers:
          - financing pressure ≥ 0.35
          - external deal activity ≥ 0.30
-         - catalyst within range (days ≤ 90 → catalyst_proximity ≥ 0.35)
+         - catalyst within range (days ≤ 90)
          - activist signal ≥ 0.30
          - valuation distress (discount ≥ 0.45 AND de_risking ≥ 0.50)
-       If none fire, score is capped at _MNA_PROB_HIGH_SCORE_FLOOR (0.75).
     """
+    reason_codes: list[str] = []
+
+    catalyst_close = (
+        catalyst_days is not None
+        and catalyst_days >= 0
+        and catalyst_days <= 90
+    )
+    valuation_distress = (
+        valuation_discount >= _TRIGGER_VALUATION_MIN
+        and de_risking_stage >= _TRIGGER_DERISKING_MIN
+    )
+
+    # Count fired triggers
+    trigger_flags = [
+        financing_pressure >= _TRIGGER_FINANCING_MIN,
+        external_deal_activity >= _TRIGGER_EXTERNAL_MIN,
+        catalyst_close,
+        activist_signal >= _TRIGGER_ACTIVIST_MIN,
+        valuation_distress,
+    ]
+    n_triggers = sum(trigger_flags)
+
+    # Gate 1: no trigger at all → no-trigger cap
+    if n_triggers == 0 and score > _MNA_PROB_NO_TRIGGER_CAP:
+        score = _MNA_PROB_NO_TRIGGER_CAP
+        reason_codes.append("missing_trigger:all")
+
+    # Gate 2: dual low-pressure gate
     financing_not_pressured = financing_pressure < 0.25
     no_buyer_urgency = external_deal_activity < 0.20
-
     if financing_not_pressured and no_buyer_urgency and score > _MNA_PROB_DUAL_GATE_CAP:
         score = _MNA_PROB_DUAL_GATE_CAP
+        reason_codes.append("dual_gate:low_pressure")
 
-    if score > _MNA_PROB_HIGH_SCORE_FLOOR:
-        # Check for at least one real transaction trigger
-        catalyst_close = (
-            catalyst_days is not None
-            and catalyst_days >= 0
-            and catalyst_days <= 90
-        )
-        valuation_distress = (
-            valuation_discount >= _TRIGGER_VALUATION_MIN
-            and de_risking_stage >= _TRIGGER_DERISKING_MIN
-        )
-        has_trigger = (
-            financing_pressure >= _TRIGGER_FINANCING_MIN
-            or external_deal_activity >= _TRIGGER_EXTERNAL_MIN
-            or catalyst_close
-            or activist_signal >= _TRIGGER_ACTIVIST_MIN
-            or valuation_distress
-        )
-        if not has_trigger:
-            score = _MNA_PROB_HIGH_SCORE_FLOOR
+    # Gate 3: high-score requires two transaction drivers
+    if score > _MNA_PROB_HIGH_SCORE_FLOOR and n_triggers < 2:
+        score = _MNA_PROB_HIGH_SCORE_FLOOR
+        if n_triggers == 0:
+            reason_codes.append("missing_trigger:all")
+        else:
+            reason_codes.append("missing_trigger:second")
 
-    return round(min(max(score, 0.0), 1.0), 6)
+    return round(min(max(score, 0.0), 1.0), 6), reason_codes
 
 
 def _valuation_discount_score(value: Optional[float]) -> float:

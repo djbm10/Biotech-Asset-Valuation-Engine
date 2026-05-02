@@ -78,8 +78,9 @@ def _compute_strategic_fit(
 # ---------------------------------------------------------------------------
 
 class TestStrategicFitScoreConstants:
-    def test_hard_cap_at_080(self):
-        assert _STRATEGIC_FIT_HARD_CAP == 0.80
+    def test_hard_cap_at_070(self):
+        """Sprint 22 lowered the hard cap from 0.80 to 0.70."""
+        assert _STRATEGIC_FIT_HARD_CAP == 0.70
 
     def test_penalties_all_positive(self):
         assert _STRATEGIC_FIT_PENALTY_WEAK_TA > 0
@@ -162,15 +163,18 @@ class TestStrategicFitScorePenalties:
 # ---------------------------------------------------------------------------
 
 class TestStrategicFitScoreCapRate:
-    def test_cap_rate_below_10pct_realistic_population(self):
-        """Over a realistic population of acquirer-target pairs, <10% should
-        hit the hard cap (0.80)."""
+    def test_cap_rate_distribution_has_meaningful_spread(self):
+        """Over a realistic population, the penalty-only helper (no urgency) should
+        show spread.  The <10% cap-rate requirement is validated in test_sprint22_ma_scoring.py
+        where urgency multipliers are also applied.  Here we verify that the inline
+        helper (Sprint 21 penalties only) does not have all scores at the cap.
+        """
         # Realistic distribution: mix of strong, moderate, and weak fits
         population = [
             # Strong fits (top-quartile acquirers)
-            (0.90, 0.85, 0.80, 0.85),  # ideal fit
-            (0.80, 0.75, 0.70, 0.80),  # good fit
-            (0.75, 0.70, 0.65, 0.75),  # above-average
+            (0.90, 0.85, 0.80, 0.85),  # all-good → hits 0.70 cap
+            (0.80, 0.75, 0.70, 0.80),  # good fit → hits 0.70 cap
+            (0.75, 0.70, 0.65, 0.75),  # above-average → hits 0.70 cap
             # Moderate fits (median acquirers)
             (0.65, 0.60, 0.55, 0.65),  # moderate
             (0.55, 0.55, 0.50, 0.60),  # below avg strategic priority
@@ -186,10 +190,14 @@ class TestStrategicFitScoreCapRate:
             (0.70, 0.70, 0.70, 0.30),  # deal size mismatch
         ]
         scores = [_compute_strategic_fit(*p) for p in population]
-        cap_rate = sum(1 for s in scores if s >= _STRATEGIC_FIT_HARD_CAP) / len(scores)
-        assert cap_rate < 0.10, (
-            f"Cap rate too high: {cap_rate:.1%}\n"
-            f"Scores: {[round(s, 3) for s in scores]}"
+        # Without urgency weighting (Sprint 22), strong pairs hit the 0.70 cap.
+        # The key guarantee: score distribution has meaningful spread (not all at cap).
+        spread = max(scores) - min(scores)
+        assert spread >= 0.40, f"Spread too narrow: {spread:.3f}"
+        # At least half the population should score below the hard cap
+        below_cap = sum(1 for s in scores if s < _STRATEGIC_FIT_HARD_CAP)
+        assert below_cap >= len(scores) // 2, (
+            f"Too many at cap without urgency weighting: {below_cap} below cap out of {len(scores)}"
         )
 
     def test_score_distribution_has_spread(self):
@@ -214,7 +222,8 @@ class TestTransactionLikelihoodGate:
 
     def _gate(self, score, *, fp=0.10, eda=0.10, activist=0.10,
               catalyst_days=None, vd=0.20, dr=0.40):
-        return _apply_transaction_likelihood_gate(
+        # Sprint 22: _apply_transaction_likelihood_gate returns (score, reason_codes)
+        result_score, _ = _apply_transaction_likelihood_gate(
             score,
             financing_pressure=fp,
             external_deal_activity=eda,
@@ -223,15 +232,16 @@ class TestTransactionLikelihoodGate:
             valuation_discount=vd,
             de_risking_stage=dr,
         )
+        return result_score
 
     def test_dual_gate_caps_at_mna_prob_dual_gate_cap(self):
-        """Both not-pressured AND no-urgency → score ≤ 0.60."""
+        """Both not-pressured AND no-urgency → score ≤ _MNA_PROB_DUAL_GATE_CAP (0.55)."""
         result = self._gate(0.90, fp=0.10, eda=0.10)
         assert result <= _MNA_PROB_DUAL_GATE_CAP
         assert result == _MNA_PROB_DUAL_GATE_CAP
 
     def test_low_score_unaffected_by_dual_gate(self):
-        """Score already ≤ 0.60 → dual gate has no effect."""
+        """Score already ≤ 0.55 → dual gate and no-trigger cap have no effect."""
         result = self._gate(0.50, fp=0.10, eda=0.10)
         assert result == 0.50
 
@@ -254,49 +264,73 @@ class TestTransactionLikelihoodGate:
         # Dual gate fires first (both low-pressure) → caps at 0.60
         assert result <= _MNA_PROB_HIGH_SCORE_FLOOR
 
-    def test_financing_pressure_trigger_allows_high_score(self):
-        """Financing pressure ≥ threshold bypasses high-score cap."""
-        result = _apply_transaction_likelihood_gate(
+    def test_financing_pressure_trigger_alone_caps_at_floor(self):
+        """Financing pressure alone (1 of 2 required) → capped at _MNA_PROB_HIGH_SCORE_FLOOR.
+
+        Sprint 22: TWO triggers required to exceed 0.75.  One trigger is insufficient.
+        """
+        result_score, reason_codes = _apply_transaction_likelihood_gate(
             0.80,
-            financing_pressure=_TRIGGER_FINANCING_MIN,  # exactly at threshold
-            external_deal_activity=0.10,  # low
+            financing_pressure=_TRIGGER_FINANCING_MIN,  # exactly at threshold (1 trigger)
+            external_deal_activity=0.10,  # low — no second trigger
             activist_signal=0.10,
             catalyst_days=None,
             valuation_discount=0.20,
             de_risking_stage=0.40,
         )
-        # Not both low-pressure (eda < 0.20 but fp >= 0.35 ≥ 0.25 threshold)
-        # fp=0.35 is NOT < 0.25, so not financing_not_pressured → dual gate won't fire
-        # High score: fp >= 0.35 → has_trigger=True → score unchanged
-        assert result == 0.80
+        # fp=0.35 prevents dual gate; n_triggers=1 < 2 → high-score cap fires
+        assert result_score == _MNA_PROB_HIGH_SCORE_FLOOR
+        assert "missing_trigger:second" in reason_codes
 
-    def test_catalyst_trigger_allows_high_score(self):
-        """Near-term catalyst (≤ 90 days) bypasses high-score cap."""
-        result = _apply_transaction_likelihood_gate(
+    def test_catalyst_trigger_alone_caps_at_floor(self):
+        """Catalyst alone (1 of 2 required) → capped at _MNA_PROB_HIGH_SCORE_FLOOR.
+
+        Sprint 22: TWO triggers required.  eda=0.25 does not fire (min 0.30).
+        """
+        result_score, reason_codes = _apply_transaction_likelihood_gate(
             0.80,
             financing_pressure=0.10,  # not pressured
-            external_deal_activity=0.25,  # slightly above 0.20 → no dual gate
+            external_deal_activity=0.25,  # above 0.20 (no dual gate) but < 0.30 (no trigger)
             activist_signal=0.10,
-            catalyst_days=45,  # within 90 days
+            catalyst_days=45,  # 1 trigger: catalyst_close
             valuation_discount=0.20,
             de_risking_stage=0.40,
         )
-        # eda=0.25 ≥ 0.20 → dual gate doesn't fire
-        # catalyst_days=45 ≤ 90 → catalyst trigger fires → score allowed
-        assert result == 0.80
+        # n_triggers=1 (catalyst only) < 2 → high-score cap fires
+        assert result_score == _MNA_PROB_HIGH_SCORE_FLOOR
+        assert "missing_trigger:second" in reason_codes
 
-    def test_valuation_distress_trigger_allows_high_score(self):
-        """Valuation distress (deep discount + de-risked) bypasses cap."""
-        result = _apply_transaction_likelihood_gate(
+    def test_valuation_distress_alone_caps_at_floor(self):
+        """Valuation distress alone (1 of 2 required) → capped at _MNA_PROB_HIGH_SCORE_FLOOR.
+
+        Sprint 22: TWO triggers required to exceed 0.75.
+        """
+        result_score, reason_codes = _apply_transaction_likelihood_gate(
             0.80,
             financing_pressure=0.10,
-            external_deal_activity=0.25,  # above 0.20 → no dual gate
+            external_deal_activity=0.25,  # above 0.20 (no dual gate) but < 0.30 (no trigger)
             activist_signal=0.10,
             catalyst_days=None,
-            valuation_discount=_TRIGGER_VALUATION_MIN,  # 0.45
+            valuation_discount=_TRIGGER_VALUATION_MIN,  # 0.45 — 1 trigger: valuation_distress
             de_risking_stage=_TRIGGER_DERISKING_MIN,    # 0.50
         )
-        assert result == 0.80
+        # n_triggers=1 (valuation distress only) < 2 → high-score cap fires
+        assert result_score == _MNA_PROB_HIGH_SCORE_FLOOR
+        assert "missing_trigger:second" in reason_codes
+
+    def test_two_triggers_allow_high_score(self):
+        """Two triggers allow score > 0.75 (Sprint 22 requirement)."""
+        result_score, reason_codes = _apply_transaction_likelihood_gate(
+            0.80,
+            financing_pressure=_TRIGGER_FINANCING_MIN,   # trigger 1
+            external_deal_activity=_TRIGGER_EXTERNAL_MIN,  # trigger 2
+            activist_signal=0.10,
+            catalyst_days=None,
+            valuation_discount=0.20,
+            de_risking_stage=0.40,
+        )
+        assert result_score == 0.80
+        assert reason_codes == []
 
     def test_dual_gate_cap_is_more_restrictive_than_high_score_floor(self):
         assert _MNA_PROB_DUAL_GATE_CAP <= _MNA_PROB_HIGH_SCORE_FLOOR
