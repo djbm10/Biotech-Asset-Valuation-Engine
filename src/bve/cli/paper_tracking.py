@@ -19,6 +19,7 @@ from pathlib import Path
 from typing import Optional
 
 _DEFAULT_DB = Path("outputs/intelligence/ops.db")
+_DEFAULT_ROLLING_HOLDOUT_REPORT = Path("outputs/analysis/rolling_holdout.json")
 
 
 # ---------------------------------------------------------------------------
@@ -120,6 +121,83 @@ def _compute_paper_score(snap: object) -> tuple[Optional[float], str, list[str]]
 
 
 # ---------------------------------------------------------------------------
+# Sprint 23 Task 5 helpers
+# ---------------------------------------------------------------------------
+
+
+def _load_ece_gate_passes(report_path: Path) -> bool:
+    """Return True only if a saved rolling holdout report shows all ECE gates pass.
+
+    If the file does not exist or cannot be parsed, returns False (conservative).
+    Do NOT call the calibrated score a probability unless this returns True.
+    """
+    try:
+        data = json.loads(report_path.read_text(encoding="utf-8"))
+        return bool(data.get("calibration_gate_passes", False))
+    except Exception:
+        return False
+
+
+def _extract_ma_snapshot_fields(
+    conn,
+    snap_date: date,
+    asset_id: str,
+) -> dict:
+    """Query ma_probability_snapshots for Sprint 23 diagnostic fields.
+
+    Returns a dict with keys: watchlist_type, calibrated_score,
+    transaction_driver_count, gate_reason_codes (list[str]),
+    top5_acquirers (list[str]).
+
+    Returns empty dict if no snapshot found.
+    """
+    try:
+        row = conn.execute(
+            """
+            SELECT watchlist_type, p_takeout_calibrated,
+                   transaction_driver_count, acquirer_candidates_json
+            FROM ma_probability_snapshots
+            WHERE asset_id = ? AND snapshot_date <= ?
+            ORDER BY snapshot_date DESC
+            LIMIT 1
+            """,
+            (asset_id, snap_date.isoformat()),
+        ).fetchone()
+    except Exception:
+        return {}
+
+    if row is None:
+        return {}
+
+    result: dict = {}
+    result["watchlist_type"] = row[0]  # watchlist_type
+    result["calibrated_score"] = row[1]  # p_takeout_calibrated
+    result["transaction_driver_count"] = row[2]  # transaction_driver_count
+
+    # Extract gate_reason_codes and top5_acquirers from candidates JSON
+    candidates_json = row[3]
+    gate_codes: list[str] = []
+    top5: list[str] = []
+    if candidates_json:
+        try:
+            candidates = json.loads(candidates_json)
+            for cand in candidates[:5]:
+                name = cand.get("acquirer_name") or cand.get("acquirer_id", "")
+                if name:
+                    top5.append(name)
+            # Gate reason codes from the best candidate (first in sorted order)
+            if candidates:
+                codes = candidates[0].get("transaction_gate_reason_codes") or []
+                gate_codes = list(codes)
+        except (json.JSONDecodeError, TypeError, AttributeError):
+            pass
+
+    result["gate_reason_codes"] = gate_codes if gate_codes else None
+    result["top5_acquirers"] = top5 if top5 else None
+    return result
+
+
+# ---------------------------------------------------------------------------
 # Snapshot command
 # ---------------------------------------------------------------------------
 
@@ -151,10 +229,24 @@ def snapshot_main(argv: Optional[list[str]] = None) -> None:
         action="store_true",
         help="Print what would be written without modifying the database.",
     )
+    parser.add_argument(
+        "--holdout-report",
+        default=str(_DEFAULT_ROLLING_HOLDOUT_REPORT),
+        help=(
+            "Path to rolling holdout JSON (default: outputs/analysis/rolling_holdout.json). "
+            "Used to determine whether calibrated_score may be labelled as a probability. "
+            "If the file is absent or calibration gate fails, score is labelled 'rank_score'."
+        ),
+    )
     args = parser.parse_args(argv)
 
     snap_date = date.fromisoformat(args.date) if args.date else date.today()
     since_date = snap_date - timedelta(days=args.lookback_days)
+
+    # Determine calibration label: conservative default — only call it a
+    # probability when the rolling ECE gate has been validated.
+    ece_gate_passes = _load_ece_gate_passes(Path(args.holdout_report))
+    calibrated_score_label = "probability_estimate" if ece_gate_passes else "rank_score"
 
     from bve.intelligence.knowledge_layer import KnowledgeStore
 
@@ -191,10 +283,17 @@ def snapshot_main(argv: Optional[list[str]] = None) -> None:
         catalyst_date = getattr(snap, "catalyst_date", None)
         catalyst_str = f"{catalyst_type} {catalyst_date}" if catalyst_type else None
 
+        # Sprint 23 Task 5: pull diagnostic fields from ma_probability_snapshots
+        ma_fields = _extract_ma_snapshot_fields(store._conn, snap_date, asset_id)
+
         if args.dry_run:
+            wt = ma_fields.get("watchlist_type") or "—"
+            cal = ma_fields.get("calibrated_score")
+            cal_str = f"{cal:.3f}" if cal is not None else "—"
             print(
                 f"[DRY-RUN] {snap_date} | {asset_id} ({ticker or '—'}) | "
-                f"{recommendation} | score={composite_score}"
+                f"{recommendation} | score={composite_score} | "
+                f"watchlist={wt} | calibrated={cal_str}({calibrated_score_label})"
             )
             skipped += 1
             continue
@@ -209,6 +308,12 @@ def snapshot_main(argv: Optional[list[str]] = None) -> None:
                 composite_score=composite_score,
                 catalyst=catalyst_str,
                 risk_flags=risk_flags if risk_flags else None,
+                watchlist_type=ma_fields.get("watchlist_type"),
+                calibrated_score=ma_fields.get("calibrated_score"),
+                calibrated_score_label=calibrated_score_label if ma_fields.get("calibrated_score") is not None else None,
+                transaction_driver_count=ma_fields.get("transaction_driver_count"),
+                gate_reason_codes=ma_fields.get("gate_reason_codes"),
+                top5_acquirers=ma_fields.get("top5_acquirers"),
             )
             written += 1
         except Exception as exc:
@@ -280,24 +385,28 @@ def summary_main(argv: Optional[list[str]] = None) -> None:
         return
 
     # Render table
-    col = (12, 14, 14, 8, 6, 7, 8, 30)
+    col = (12, 14, 10, 8, 6, 7, 18, 7, 6, 24)
     header = (
         f"{'Date':<{col[0]}} {'AssetID':<{col[1]}} {'Ticker':<{col[2]}} "
         f"{'Rec':<{col[3]}} {'Score':>{col[4]}} {'MnA%':>{col[5]}} "
-        f"{'Flags':<{col[6]}} {'Catalyst':<{col[7]}}"
+        f"{'Watchlist':<{col[6]}} {'Cal':>{col[7]}} {'Drvrs':>{col[8]}} "
+        f"{'Catalyst':<{col[9]}}"
     )
     print(header)
     print("-" * len(header))
     for row in entries:
-        flags = ""
-        if row.get("risk_flags"):
-            try:
-                flags = ",".join(json.loads(row["risk_flags"]))
-            except (json.JSONDecodeError, TypeError):
-                flags = str(row["risk_flags"])[:8]
         score_str = f"{row['composite_score']:.2f}" if row.get("composite_score") is not None else "—"
         mna_str = f"{row['mna_likelihood']:.2f}" if row.get("mna_likelihood") is not None else "—"
-        catalyst_str = (row.get("catalyst") or "")[:28]
+        wt = (row.get("watchlist_type") or "—")[:col[6] - 1]
+        cal_val = row.get("calibrated_score")
+        cal_label = row.get("calibrated_score_label") or ""
+        if cal_val is not None:
+            prefix = "P" if cal_label == "probability_estimate" else "R"
+            cal_str = f"{prefix}{cal_val:.3f}"
+        else:
+            cal_str = "—"
+        drvrs = str(row["transaction_driver_count"]) if row.get("transaction_driver_count") is not None else "—"
+        catalyst_str = (row.get("catalyst") or "")[:col[9] - 1]
         print(
             f"{row['snapshot_date']:<{col[0]}} "
             f"{(row['asset_id'] or '')[:col[1]-1]:<{col[1]}} "
@@ -305,8 +414,10 @@ def summary_main(argv: Optional[list[str]] = None) -> None:
             f"{row['recommendation']:<{col[3]}} "
             f"{score_str:>{col[4]}} "
             f"{mna_str:>{col[5]}} "
-            f"{flags:<{col[6]}} "
-            f"{catalyst_str:<{col[7]}}"
+            f"{wt:<{col[6]}} "
+            f"{cal_str:>{col[7]}} "
+            f"{drvrs:>{col[8]}} "
+            f"{catalyst_str:<{col[9]}}"
         )
 
     print(f"\nTotal: {len(entries)} entries  (since {since})")

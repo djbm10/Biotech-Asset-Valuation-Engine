@@ -1354,6 +1354,14 @@ class KnowledgeStore:
         self._ensure_column("backtest_snapshots", "catalyst_score", "REAL")
         self._ensure_column("research_reports", "report_version", "TEXT")
         self._ensure_column("research_reports", "model_version", "TEXT")
+        # Sprint 23 Task 5: forward paper log new fields.
+        self._ensure_column("paper_tracking_log", "watchlist_type", "TEXT")
+        self._ensure_column("paper_tracking_log", "calibrated_score", "REAL")
+        self._ensure_column("paper_tracking_log", "calibrated_score_label", "TEXT")
+        self._ensure_column("paper_tracking_log", "transaction_driver_count", "INTEGER")
+        self._ensure_column("paper_tracking_log", "gate_reason_codes", "TEXT")
+        self._ensure_column("paper_tracking_log", "top5_acquirers", "TEXT")
+
         # Wave 3C: reviewer annotation columns on review_decisions.
         self._ensure_column("review_decisions", "reviewer_confidence", "REAL")
         self._ensure_column("review_decisions", "analyst_tags_json", "TEXT")
@@ -6027,6 +6035,12 @@ class KnowledgeStore:
         catalyst: Optional[str] = None,
         thesis: Optional[str] = None,
         risk_flags: Optional[list] = None,
+        watchlist_type: Optional[str] = None,
+        calibrated_score: Optional[float] = None,
+        calibrated_score_label: Optional[str] = None,
+        transaction_driver_count: Optional[int] = None,
+        gate_reason_codes: Optional[list] = None,
+        top5_acquirers: Optional[list] = None,
     ) -> None:
         """Upsert a single paper tracking snapshot row.
 
@@ -6038,8 +6052,10 @@ class KnowledgeStore:
             INSERT OR REPLACE INTO paper_tracking_log(
                 entry_id, snapshot_date, asset_id, ticker, recommendation,
                 composite_score, mna_likelihood, predicted_acquirer,
-                catalyst, thesis, risk_flags, created_at
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                catalyst, thesis, risk_flags, created_at,
+                watchlist_type, calibrated_score, calibrated_score_label,
+                transaction_driver_count, gate_reason_codes, top5_acquirers
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 entry_id,
@@ -6054,6 +6070,12 @@ class KnowledgeStore:
                 thesis,
                 json.dumps(risk_flags) if risk_flags is not None else None,
                 now,
+                watchlist_type,
+                calibrated_score,
+                calibrated_score_label,
+                transaction_driver_count,
+                json.dumps(gate_reason_codes) if gate_reason_codes is not None else None,
+                json.dumps(top5_acquirers) if top5_acquirers is not None else None,
             ),
         )
         self._conn.commit()
