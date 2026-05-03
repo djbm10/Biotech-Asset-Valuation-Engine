@@ -207,6 +207,71 @@ class MARescoredSummary:
     scarcity_cap_rate: float
     derisking_cap_rate: float
     mna_screening_cap_rate: float
+    strategic_fit_cap_rate: float = 0.0
+
+
+def _rescore_candidate_json(
+    candidates_json: str | None,
+    *,
+    strategic_fit_hard_cap: float,
+    apply_gate_fn,
+    cv: float,
+    de_risk: float,
+) -> str:
+    """Apply Sprint 22 caps to each candidate entry inside acquirer_candidates_json.
+
+    - Caps strategic_fit_score at strategic_fit_hard_cap (0.70).
+    - Applies _apply_transaction_likelihood_gate to mna_probability_score /
+      p_acquisition / raw_probability using available sub-scores.
+    - Populates transaction_gate_reason_codes for each candidate.
+
+    Sub-scores not stored in the snapshot (external_deal_activity, activist_signal)
+    default to 0.0 — conservative, so the dual-gate fires more often, which is the
+    correct direction for reducing false positives.
+    """
+    if not candidates_json:
+        return candidates_json or "[]"
+    try:
+        candidates = json.loads(candidates_json)
+    except (json.JSONDecodeError, TypeError):
+        return candidates_json or "[]"
+
+    updated = []
+    for cand in candidates:
+        # Cap strategic_fit_score
+        raw_sf = float(cand.get("strategic_fit_score") or 0.0)
+        capped_sf = round(min(raw_sf, strategic_fit_hard_cap), 6)
+        cand["strategic_fit_score"] = capped_sf
+
+        # Apply transaction-likelihood gate to the candidate's own scores.
+        # Use valuation_discount_score and de_risking_stage_score from the candidate
+        # if present; fall back to the snapshot-level de_risk.
+        vd_cand = float(cand.get("valuation_discount_score") or 0.0)
+        de_risk_cand = float(cand.get("de_risking_stage_score") or de_risk)
+        # financing_pressure: use capital_vulnerability_score from candidate if stored
+        fp_cand = float(cand.get("capital_vulnerability_score") or cv)
+
+        # Apply gate to each score key; capture reason codes from the first (primary) key.
+        gate_codes: list[str] = []
+        for i, score_key in enumerate(("mna_probability_score", "p_acquisition", "raw_probability")):
+            raw_score = float(cand.get(score_key) or 0.0)
+            gated_score, codes = apply_gate_fn(
+                raw_score,
+                financing_pressure=fp_cand,
+                external_deal_activity=0.0,   # not stored in snapshot
+                activist_signal=0.0,           # not stored in snapshot
+                catalyst_days=None,            # not stored per-candidate
+                valuation_discount=vd_cand,
+                de_risking_stage=de_risk_cand,
+            )
+            cand[score_key] = round(gated_score, 6)
+            if i == 0:
+                gate_codes = codes  # capture from primary score before it is capped in-place
+
+        cand["transaction_gate_reason_codes"] = gate_codes
+
+        updated.append(cand)
+    return json.dumps(updated)
 
 
 def rescore_ma_probability_snapshots(
@@ -215,24 +280,30 @@ def rescore_ma_probability_snapshots(
     watchlist_path: str | Path,
     score_version: str = "v1.4",
 ) -> MARescoredSummary:
-    """Re-score all existing ma_probability_snapshots in-place using Sprint 20 functions.
+    """Re-score all existing ma_probability_snapshots in-place using Sprint 22 functions.
 
     Much faster than a full backfill: reads stored sub-scores from the DB,
     applies the updated _derisking_stage_score and _assess_scarcity functions,
+    caps strategic_fit_score at _STRATEGIC_FIT_HARD_CAP (0.70, Sprint 22),
+    applies _apply_transaction_likelihood_gate to the composite (Sprint 22),
     and recomputes the composite probability using the requested score_version.
 
-    Use this when scoring logic changes (e.g. Sprint 20) but the raw acquisition
-    screener data (strategic_fit_score, capital_vulnerability_score, etc.) is
-    still valid and does not need regeneration.
+    Also updates acquirer_candidates_json: caps strategic_fit_score per candidate
+    and populates transaction_gate_reason_codes.
+
+    Use this when scoring logic changes (e.g. Sprint 22) but the raw acquisition
+    screener data does not need full regeneration from the watchlist scanner.
     """
     import sqlite3
     from types import SimpleNamespace
 
     from bve.intelligence.ma_probability import (
         SCORE_VERSIONS,
+        _apply_transaction_likelihood_gate,
         _compute_scarcity_modifiers,
         _derisking_stage_score,
         _scarcity_score_from_peer_count,
+        _STRATEGIC_FIT_HARD_CAP,
     )
     from bve.intelligence.ma_scoring import SATURATION_THRESHOLD, apply_saturation_penalty
 
@@ -254,7 +325,8 @@ def rescore_ma_probability_snapshots(
     try:
         rows = conn.execute(
             "SELECT rowid, asset_id, stage, therapeutic_area, scarcity_peer_count, "
-            "strategic_fit_score, valuation_discount_score, capital_vulnerability_score "
+            "strategic_fit_score, valuation_discount_score, capital_vulnerability_score, "
+            "acquirer_candidates_json "
             "FROM ma_probability_snapshots"
         ).fetchall()
 
@@ -265,9 +337,12 @@ def rescore_ma_probability_snapshots(
             stage: str | None = row["stage"]
             ta: str | None = row["therapeutic_area"]
             peer_count: int = int(row["scarcity_peer_count"] or 0)
-            sf: float = float(row["strategic_fit_score"] or 0.0)
+            sf_raw: float = float(row["strategic_fit_score"] or 0.0)
             vd: float = float(row["valuation_discount_score"] or 0.0)
             cv: float = float(row["capital_vulnerability_score"] or 0.0)
+
+            # --- Sprint 22: cap strategic_fit_score at hard cap ---
+            sf: float = round(min(sf_raw, _STRATEGIC_FIT_HARD_CAP), 6)
 
             # --- Re-score de_risking_stage_score with Sprint 20 function ---
             # Quality penalty attributes are not stored; they default to False
@@ -314,38 +389,65 @@ def rescore_ma_probability_snapshots(
             # valuation_component_score is approximated by valuation_discount_score
             # (acquisition_discount weight = 0 for v1.4 so this doesn't affect raw).
             sub_scores = [vd, sf, de_risk, cv, scarcity]
-            prob = apply_saturation_penalty(raw, sub_scores=sub_scores)
+            prob_penalised = apply_saturation_penalty(raw, sub_scores=sub_scores)
+
+            # --- Sprint 22: apply transaction-likelihood gate ---
+            # external_deal_activity and activist_signal not stored in snapshots;
+            # default to 0.0 (conservative — gate fires more often, reducing FP rate).
+            prob, _gate_codes = _apply_transaction_likelihood_gate(
+                prob_penalised,
+                financing_pressure=cv,
+                external_deal_activity=0.0,
+                activist_signal=0.0,
+                catalyst_days=None,
+                valuation_discount=vd,
+                de_risking_stage=de_risk,
+            )
+
+            # --- Update acquirer_candidates_json with Sprint 22 caps ---
+            updated_json = _rescore_candidate_json(
+                row["acquirer_candidates_json"],
+                strategic_fit_hard_cap=_STRATEGIC_FIT_HARD_CAP,
+                apply_gate_fn=_apply_transaction_likelihood_gate,
+                cv=cv,
+                de_risk=de_risk,
+            )
 
             updates.append((
+                round(sf, 6),
                 round(de_risk, 6),
                 round(scarcity, 6),
                 bucket,
                 peer_count,
                 round(prob, 6),
-                f"rescored:{score_version}",
+                updated_json,
+                f"rescored:{score_version}:sprint22",
                 rowid,
             ))
 
         conn.executemany(
             "UPDATE ma_probability_snapshots SET "
-            "de_risking_stage_score=?, scarcity_score=?, scarcity_bucket=?, "
-            "scarcity_peer_count=?, probability=?, run_id=? WHERE rowid=?",
+            "strategic_fit_score=?, de_risking_stage_score=?, scarcity_score=?, "
+            "scarcity_bucket=?, scarcity_peer_count=?, probability=?, "
+            "acquirer_candidates_json=?, run_id=? WHERE rowid=?",
             updates,
         )
         conn.commit()
 
         # Compute post-rescore diagnostics
         rows_after = conn.execute(
-            "SELECT probability, scarcity_score, de_risking_stage_score "
+            "SELECT probability, scarcity_score, de_risking_stage_score, strategic_fit_score "
             "FROM ma_probability_snapshots WHERE probability IS NOT NULL"
         ).fetchall()
         scarcity_vals = [float(r[1]) for r in rows_after if r[1] is not None]
         derisking_vals = [float(r[2]) for r in rows_after if r[2] is not None]
         prob_vals = [float(r[0]) for r in rows_after if r[0] is not None]
+        sf_vals = [float(r[3]) for r in rows_after if r[3] is not None]
         n = len(prob_vals)
         scarcity_cap = sum(1 for s in scarcity_vals if s >= SATURATION_THRESHOLD) / n if n else 0.0
         derisking_cap = sum(1 for s in derisking_vals if s >= SATURATION_THRESHOLD) / n if n else 0.0
         mna_cap = sum(1 for s in prob_vals if s >= SATURATION_THRESHOLD) / n if n else 0.0
+        sf_cap = sum(1 for s in sf_vals if s >= SATURATION_THRESHOLD) / n if n else 0.0
 
         return MARescoredSummary(
             knowledge_db_path=str(Path(knowledge_db_path)),
@@ -354,6 +456,7 @@ def rescore_ma_probability_snapshots(
             scarcity_cap_rate=round(scarcity_cap, 4),
             derisking_cap_rate=round(derisking_cap, 4),
             mna_screening_cap_rate=round(mna_cap, 4),
+            strategic_fit_cap_rate=round(sf_cap, 4),
         )
     finally:
         conn.close()
