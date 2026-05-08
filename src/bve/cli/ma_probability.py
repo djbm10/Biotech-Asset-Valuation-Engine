@@ -13,6 +13,7 @@ from bve.intelligence.knowledge_layer import KnowledgeStore
 from bve.intelligence.ma_probability import (
     MAProbabilityConfig,
     MAProbabilityResult,
+    MAProbabilityRow,
     MAProbabilityScanner,
 )
 from bve.pipeline.watchlist_runner import load_watchlist_config
@@ -179,6 +180,265 @@ def _fmt_flags(row) -> str:
     return ",".join(flags) if flags else "none"
 
 
+# ---------------------------------------------------------------------------
+# Stage-based industry POS approximations (Biomedtracker averages)
+# ---------------------------------------------------------------------------
+_STAGE_POS_APPROX: dict[str, float] = {
+    "preclinical": 0.05,
+    "phase 1": 0.10,
+    "phase_1": 0.10,
+    "phase 2": 0.25,
+    "phase_2": 0.25,
+    "phase 3": 0.60,
+    "phase_3": 0.60,
+    "nda bla": 0.85,
+    "nda_bla": 0.85,
+    "approved": 1.00,
+    "commercial": 1.00,
+}
+
+# Revenue-to-NPV multiple: NPV_if_approved ≈ peak_sales × this factor.
+# Assumes 12yr patent life, 75% gross margin, 15% discount, 8yr ramp.
+_PEAK_SALES_TO_NPV_MULTIPLE = 4.5
+
+# Acquisition process timeline by stage (min_months, max_months to close).
+# Based on public deal timelines: exploratory (2-4m) + DD (2-4m) + legal (1-3m)
+# + regulatory clearance (2-4m).
+_STAGE_TIMELINE_MONTHS: dict[str, tuple[int, int]] = {
+    "preclinical": (30, 48),
+    "phase 1": (24, 36),
+    "phase_1": (24, 36),
+    "phase 2": (12, 24),
+    "phase_2": (12, 24),
+    "phase 3": (6, 18),
+    "phase_3": (6, 18),
+    "nda bla": (3, 12),
+    "nda_bla": (3, 12),
+    "approved": (3, 9),
+    "commercial": (3, 9),
+}
+
+
+def _npv_if_approved(row: "MAProbabilityRow") -> Optional[float]:
+    """Estimate NPV at 100% approval probability.
+
+    Preference order:
+    1. peak_sales_millions × DCF multiple (most transparent).
+    2. model_rnpv_millions ÷ stage-industry POS (rNPV already has POS baked in).
+    """
+    ps = row.peak_sales_millions
+    if ps is not None and ps > 0:
+        return ps * _PEAK_SALES_TO_NPV_MULTIPLE
+
+    rnpv = row.model_rnpv_millions
+    stage_pos = _STAGE_POS_APPROX.get((row.stage or "").lower().strip(), 0.0)
+    if rnpv is not None and rnpv > 0 and stage_pos > 0:
+        return rnpv / stage_pos
+
+    return None
+
+
+def _derive_model_pos(row: "MAProbabilityRow", npv_if_approved: float) -> float:
+    """Back-derive model POS from rNPV and NPV_if_approved."""
+    rnpv = row.model_rnpv_millions
+    if rnpv is not None and rnpv > 0 and npv_if_approved > 0:
+        return min(1.0, rnpv / npv_if_approved)
+    return _STAGE_POS_APPROX.get((row.stage or "").lower().strip(), 0.25)
+
+
+def _derive_implied_pos(row: "MAProbabilityRow", npv_if_approved: float) -> Optional[float]:
+    """Back-solve market-implied POS from current EV."""
+    ev = row.enterprise_value_millions
+    if ev is None or npv_if_approved <= 0:
+        return None
+    return min(1.0, max(0.0, ev / npv_if_approved))
+
+
+def _timeline_for_row(row: "MAProbabilityRow") -> tuple[int, int]:
+    """Estimate (min_months, max_months) to acquisition close."""
+    stage_key = (row.stage or "").lower().strip()
+    base_min, base_max = _STAGE_TIMELINE_MONTHS.get(stage_key, (18, 30))
+
+    adj = 0
+    if getattr(row, "watchlist_type", None) == "near_term_transaction":
+        adj -= 5
+    if getattr(row, "gap_urgency", None) == "high":
+        adj -= 3
+    if (getattr(row, "transaction_driver_count", None) or 0) >= 2:
+        adj -= 3
+    dtc = getattr(row, "days_to_catalyst", None)
+    if dtc is not None and dtc < 90:
+        adj -= 3
+    if row.capital_vulnerability_score > 0.70:
+        adj -= 4  # distressed → faster process
+
+    min_m = max(3, base_min + adj)
+    max_m = max(min_m + 3, base_max + adj)
+    return min_m, max_m
+
+
+def _format_variant_perception(result: "MAProbabilityResult") -> str:
+    """Section 2: Market mispricing ranked by implied-POS gap.
+
+    Back-solves the market's implicit P(approval) from the current enterprise
+    value and the model's NPV-if-approved estimate, then surfaces the largest
+    gaps as explicit investment edges.
+    """
+    entries: list[tuple[float, str]] = []  # (gap_pp, formatted_line)
+
+    for row in result.rows:
+        npv_approved = _npv_if_approved(row)
+        if npv_approved is None or npv_approved <= 0:
+            continue
+        implied = _derive_implied_pos(row, npv_approved)
+        if implied is None:
+            continue
+        model_pos = _derive_model_pos(row, npv_approved)
+        gap_pp = (model_pos - implied) * 100.0
+
+        ticker = row.ticker or row.asset_id
+        ev_str = _fmt_millions(row.enterprise_value_millions)
+        npv_str = _fmt_millions(npv_approved)
+        ps_str = _fmt_millions(row.peak_sales_millions) if row.peak_sales_millions else f"rNPV/{_fmt_pct(_STAGE_POS_APPROX.get((row.stage or '').lower().strip(), 0.0))}"
+
+        if gap_pp > 0:
+            direction = "UNDERPRICED"
+            edge_str = f"+{gap_pp:.0f}pp edge"
+        elif gap_pp < -2:
+            direction = "OVERPRICED"
+            edge_str = f"{gap_pp:.0f}pp risk"
+        else:
+            direction = "FAIR"
+            edge_str = "at model"
+
+        line = (
+            f"  {ticker:<8}  EV={ev_str:<9}  NPV(approved)={npv_str:<9}  "
+            f"market_POS={_fmt_pct(implied):<7}  model_POS={_fmt_pct(model_pos):<7}  "
+            f"gap={edge_str:<15}  [{direction}]"
+        )
+        if row.peak_sales_millions:
+            line += f"  (peak_sales={ps_str})"
+        entries.append((gap_pp, line))
+
+    if not entries:
+        return ""
+
+    # Sort: largest positive gap (most underpriced) first; overpriced last
+    entries.sort(key=lambda t: -t[0])
+
+    lines = [
+        "",
+        "=" * 100,
+        "VARIANT PERCEPTION — MARKET MISPRICING SCREEN",
+        "  Back-solving implied P(approval) = EV / NPV(approved) vs model P(approval) = rNPV / NPV(approved)",
+        f"  NPV(approved) derived from peak_sales × {_PEAK_SALES_TO_NPV_MULTIPLE}x multiple, or rNPV ÷ stage-industry POS",
+        "  Positive gap = market underprices relative to model → long edge",
+        "=" * 100,
+        f"  {'Ticker':<8}  {'EV':<9}  {'NPV(approved)':<13}  {'Market POS':<7}  {'Model POS':<7}  {'Edge':<15}  Direction",
+        "-" * 100,
+    ]
+    for _, line in entries:
+        lines.append(line)
+    lines.append("-" * 100)
+    lines.append(
+        f"  Note: NPV(approved) = peak_sales × {_PEAK_SALES_TO_NPV_MULTIPLE}x where available, else rNPV ÷ stage-POS."
+        "  Model POS = rNPV ÷ NPV(approved).  Larger gap = larger disagreement = larger edge."
+    )
+    return "\n".join(lines)
+
+
+def _format_acquisition_timeline(result: "MAProbabilityResult") -> str:
+    """Section 3: Acquisition probability ranking with estimated timeline.
+
+    Covers all companies with a realistic chance of acquisition within 2 years.
+    Timeline = process duration from first approach to regulatory close,
+    based on median observed biotech deal timelines (exploratory 2-4m +
+    due diligence 2-4m + legal 1-3m + HSR/regulatory 2-4m = 7-15m base).
+    """
+    rows_with_timeline: list[tuple[float, int, str]] = []  # (score, min_m, line)
+
+    for row in result.rows:
+        score = row.mna_probability_score
+        if score < 0.15:
+            continue
+        min_m, max_m = _timeline_for_row(row)
+        if max_m > 30:
+            continue  # outside 2-year window
+
+        ticker = row.ticker or row.asset_id
+        stage = row.stage or "unknown"
+        acquirer = row.best_acquirer_name or row.best_acquirer_id or "unknown"
+        gap = row.matched_therapeutic_gap or "unknown"
+        urgency = getattr(row, "gap_urgency", None) or "—"
+        watchlist = getattr(row, "watchlist_type", None) or "strategic_watch"
+        drivers = getattr(row, "transaction_driver_count", None)
+        dtc = row.days_to_catalyst
+
+        # Timeline label
+        if max_m <= 9:
+            timeline_label = f"{min_m}-{max_m}m (NEAR TERM)"
+        elif max_m <= 18:
+            timeline_label = f"{min_m}-{max_m}m"
+        else:
+            timeline_label = f"{min_m}-{max_m}m (MEDIUM)"
+
+        # Conviction label
+        if score >= 0.65:
+            conviction = "HIGH"
+        elif score >= 0.45:
+            conviction = "MED"
+        else:
+            conviction = "LOW"
+
+        # Key signal summary
+        signals: list[str] = []
+        if urgency == "high":
+            signals.append("gap-urgency:HIGH")
+        if drivers and drivers >= 2:
+            signals.append(f"{drivers}-drivers")
+        if row.capital_vulnerability_score > 0.60:
+            signals.append("capital-stress")
+        if dtc is not None and dtc < 90:
+            signals.append(f"catalyst-in-{dtc}d")
+        if watchlist == "near_term_transaction":
+            signals.append("near-term-flag")
+        signal_str = " | ".join(signals) if signals else "no-near-term-triggers"
+
+        line = (
+            f"  {ticker:<8}  {_fmt_pct(score):<7}  [{conviction}]  "
+            f"timeline={timeline_label:<22}  stage={stage:<10}  "
+            f"best_acquirer={acquirer:<22}  gap={gap:<30}  {signal_str}"
+        )
+        rows_with_timeline.append((score, min_m, line))
+
+    if not rows_with_timeline:
+        return ""
+
+    rows_with_timeline.sort(key=lambda t: (-t[0], t[1]))
+
+    lines = [
+        "",
+        "=" * 130,
+        "ACQUISITION PROBABILITY RANKING — 2-YEAR SCOPE",
+        "  All companies with realistic acquisition chance within 24 months.",
+        "  Timeline = estimated months from first approach to regulatory close.",
+        "  Process breakdown: exploratory (2-4m) + DD (2-4m) + legal (1-3m) + clearance (2-4m).",
+        "  Adjustments: near_term_transaction flag (−5m), gap_urgency=high (−3m),",
+        "               ≥2 drivers (−3m), catalyst within 90d (−3m), capital stress (−4m).",
+        "=" * 130,
+        f"  {'Ticker':<8}  {'M&A%':<7}  Conv  {'Timeline':<22}  {'Stage':<10}  {'Best Acquirer':<22}  {'Gap':<30}  Signals",
+        "-" * 130,
+    ]
+    for _, _, line in rows_with_timeline:
+        lines.append(line)
+    lines.append("-" * 130)
+    lines.append(
+        f"  {len(rows_with_timeline)} companies in 2-year acquisition scope  |  "
+        f"Threshold: M&A score ≥ 15% and estimated close ≤ 30 months"
+    )
+    return "\n".join(lines)
+
+
 def _format_report(result: MAProbabilityResult) -> str:
     if not result.rows:
         return f"No M&A probability rows found for {result.as_of_date.isoformat()}."
@@ -244,6 +504,15 @@ def _format_report(result: MAProbabilityResult) -> str:
             f"signals={','.join(row.target_signal_ids + row.external_deal_signal_ids) or 'none'}  "
             f"explanation={row.explanation}"
         )
+
+    mispricing_section = _format_variant_perception(result)
+    if mispricing_section:
+        lines.append(mispricing_section)
+
+    timeline_section = _format_acquisition_timeline(result)
+    if timeline_section:
+        lines.append(timeline_section)
+
     return "\n".join(lines)
 
 
