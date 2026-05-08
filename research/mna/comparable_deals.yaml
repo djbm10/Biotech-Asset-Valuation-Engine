@@ -1399,3 +1399,277 @@ deals:
     source: "Regeneron and Sanofi press release (2015-11-10) on Immuno-oncology collaboration. Royalty rates represent ex-US co-promotion economics disclosed in SEC filings."
     notes: "Long-standing Regeneron-Sanofi IO collaboration. Cemiplimab approved for CSCC, BCC, and NSCLC. ev_to_peak_sales uses total biobucks vs $2.0B peak ex-US sales estimate."
 
+  # ── SMALL BOLT-ON DEALS (sub-$500M) — calibrate scanner for early-stage ──
+  # These deals are essential for calibrating acquirer-fit at the small-cap end.
+  # Most large-pharma scanners are skewed by mega-deals; these anchors ensure
+  # early-stage / collaboration-derived targets are correctly sized.
+
+  - target_name: "Decibel Therapeutics"
+    target_ticker: "DBTX"
+    drug_name: "DB-OTO / DB-020 (AAV gene therapy, hearing loss)"
+    indication: "profound congenital hearing loss / cisplatin-induced hearing loss"
+    therapeutic_area: "rare disease"
+    phase_at_acquisition: "phase_1"
+    acquirer: "Regeneron Pharmaceuticals"
+    deal_date: "2023-09-01"
+    enterprise_value_millions: 213
+    peak_sales_millions: 600
+    upfront_millions: 109
+    total_milestones_millions: 0
+    total_biobucks: 109
+    ev_to_peak_sales: 0.35
+    deal_structure: "M&A"
+    territory: "global"
+    post_deal_outcome: "ongoing"
+    data_quality: "high"
+    source: "Regeneron press release (2023-08-09), SEC Form SC TO-T filed September 2023. Upfront $109M cash; total equity value ~$213M at deal close."
+    notes: "Bolt-on acquisition of a 6-year AAV gene therapy collaborator. Decibel had Phase 1 hearing loss gene therapy data. Establishes Regeneron's collaboration-first-then-acquire M&A archetype. Key calibration point: $109-213M for Phase 1 genetic medicine program with multi-year REGN partnership history. ev_to_peak_sales is low because asset is early-stage and indications are rare."
+
+  - target_name: "Checkmate Pharmaceuticals"
+    target_ticker: "CMPI"
+    drug_name: "vidutolimod (CMP-001, TLR9 agonist)"
+    indication: "advanced melanoma / solid tumors (IO combination)"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "phase_1b_phase_2"
+    acquirer: "Pfizer"
+    deal_date: "2022-03-10"
+    enterprise_value_millions: 250
+    peak_sales_millions: 450
+    upfront_millions: 250
+    total_milestones_millions: 0
+    total_biobucks: 250
+    ev_to_peak_sales: 0.56
+    deal_structure: "M&A"
+    territory: "global"
+    post_deal_outcome: "discontinued"
+    data_quality: "high"
+    source: "Pfizer press release (2022-01-19). SEC Form SC TO-T (February 2022). $250M all-cash acquisition at $10.64/share premium."
+    notes: "Pfizer bolt-on for IO combination TLR9 agonist. Relevant as a calibration point for Phase 1b/2 IO combination bolt-on pricing. Relevant Regeneron comparable: acquirers pay $200-300M for Phase 1b IO assets with clear combination rationale with their PD-1 backbone. vidutolimod was ultimately discontinued by Pfizer post-acquisition."
+
+  - target_name: "2seventy bio (platforms + cell therapy)"
+    target_ticker: "TSVT"
+    drug_name: "cell therapy platform / bbT369 (CD19xCD22) / CRISPR programs"
+    indication: "B-cell hematologic malignancies / next-gen CAR-T"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "phase_1"
+    acquirer: "Regeneron Pharmaceuticals"
+    deal_date: "2024-01-30"
+    enterprise_value_millions: 5
+    peak_sales_millions: 200
+    upfront_millions: 5
+    total_milestones_millions: 0
+    total_biobucks: 5
+    ev_to_peak_sales: 0.025
+    deal_structure: "asset_sale"
+    territory: "global"
+    post_deal_outcome: "ongoing"
+    data_quality: "medium"
+    source: "Regeneron press release (2024-01-30). 2seventy bio platforms and preclinical/clinical programs acquired for approximately $5M."
+    notes: "Essentially a distressed asset purchase of next-gen cell therapy platforms from a financially constrained company. Establishes the low end of Regeneron bolt-on acquisition pricing. Created Regeneron Cell Medicines unit. Not a typical valuation comparable — included to anchor the bolt-on category."
+
+  - target_name: "RayzeBio"
+    target_ticker: null
+    drug_name: "RYZ101 (SSTR2-targeted actinium-225 radioligand)"
+    indication: "gastroenteropancreatic neuroendocrine tumors"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "phase_3"
+    acquirer: "Bristol-Myers Squibb"
+    deal_date: "2024-01-12"
+    enterprise_value_millions: 4100
+    peak_sales_millions: 2500
+    upfront_millions: 4100
+    total_milestones_millions: 0
+    total_biobucks: 4100
+    ev_to_peak_sales: 1.64
+    deal_structure: "M&A"
+    territory: "global"
+    post_deal_outcome: "ongoing"
+    data_quality: "medium"
+    source: "Bristol-Myers Squibb press release (2024-01-12). $4.1B all-cash acquisition."
+    notes: "Actinium-225 targeted radioligand therapy for GEP-NET. BMS radiopharma platform acquisition. Establishes Phase 3 radiopharma deal sizing at $4B. Key comparable for radiopharmaceutical TA gap: acquirers pay $3-6B for late-stage radiopharma platforms with clinical proof-of-concept."
+
+  - target_name: "Fusion Pharmaceuticals"
+    target_ticker: null
+    drug_name: "FPI-2265 (PSMA-targeted actinium-225) / FPI-1434 (IGF-1R)"
+    indication: "prostate cancer / solid tumors"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "phase_2"
+    acquirer: "AstraZeneca"
+    deal_date: "2024-06-03"
+    enterprise_value_millions: 2400
+    peak_sales_millions: 2000
+    upfront_millions: 2000
+    total_milestones_millions: 400
+    total_biobucks: 2400
+    ev_to_peak_sales: 1.2
+    deal_structure: "M&A"
+    territory: "global"
+    post_deal_outcome: "ongoing"
+    data_quality: "medium"
+    source: "AstraZeneca press release (2024-06-03). $2.0B upfront plus $400M in milestones."
+    notes: "Phase 2 actinium-225 PSMA program. AZ radiopharma platform expansion. Phase 2 radiopharma deal at $2.4B vs ~$2B peak sales → 1.2x EV/peak sales. Key calibration for early-clinical radiopharma bolt-on: $2-3B for Phase 1/2 actinium platform with PSMA or high-priority oncology target."
+
+  - target_name: "Iveric Bio"
+    target_ticker: "ISEE"
+    drug_name: "avacincaptad pegol (Izervay, C5 complement inhibitor)"
+    indication: "geographic atrophy secondary to age-related macular degeneration"
+    therapeutic_area: "ophthalmology"
+    phase_at_acquisition: "nda_bla"
+    acquirer: "Astellas Pharma"
+    deal_date: "2023-07-10"
+    enterprise_value_millions: 5900
+    peak_sales_millions: 2000
+    upfront_millions: 5900
+    total_milestones_millions: 0
+    total_biobucks: 5900
+    ev_to_peak_sales: 2.95
+    deal_structure: "M&A"
+    territory: "global"
+    post_deal_outcome: "approved"
+    data_quality: "high"
+    source: "Astellas press release (2023-07-10). SEC Form SC TO-T. $5.9B all-cash acquisition at $40/share. Proxy financials confirmed enterprise value."
+    notes: "Geographic Atrophy complement C5 inhibitor (intravitreal). First approved therapy for GA. Premium paid because Astellas needed an ophthalmology asset and GA had no approved treatment. Establishes GA complement deal ceiling: $4-6B for approved/NDA-stage GA complement inhibitor. Critical calibration for ANNX (C1q inhibitor) deal sizing — ANNX would likely be priced at discount to Iveric given earlier stage."
+
+  - target_name: "Versanis Bio"
+    target_ticker: null
+    drug_name: "bimagrumab (ActRIIA/B inhibitor, muscle preservation)"
+    indication: "obesity / type 2 diabetes / MASH (muscle preservation in weight loss)"
+    therapeutic_area: "obesity_metabolic"
+    phase_at_acquisition: "phase_2"
+    acquirer: "Eli Lilly"
+    deal_date: "2023-07-25"
+    enterprise_value_millions: 1900
+    peak_sales_millions: 2500
+    upfront_millions: 1900
+    total_milestones_millions: 0
+    total_biobucks: 1900
+    ev_to_peak_sales: 0.76
+    deal_structure: "M&A"
+    territory: "global"
+    post_deal_outcome: "ongoing"
+    data_quality: "medium"
+    source: "Eli Lilly press release (2023-07-25). $1.9B all-cash acquisition."
+    notes: "Bimagrumab (ActRIIA/B inhibitor) for muscle preservation in GLP-1-induced weight loss. Phase 2 data showed bimagrumab + semaglutide reduced fat while preserving lean mass. Establishes Phase 2 muscle-sparing deal sizing at ~$1.9B. Key calibration for SRRK (Scholar Rock) and BHVN (Biohaven) — muscle-sparing anabolic programs would likely be priced at $1-3B for Phase 2/3 clinical proof-of-concept."
+
+  - target_name: "Karuna Therapeutics"
+    target_ticker: "KRTX"
+    drug_name: "KarXT (xanomeline-trospium, M1/M4 agonist)"
+    indication: "schizophrenia"
+    therapeutic_area: "neuroscience"
+    phase_at_acquisition: "nda_bla"
+    acquirer: "Bristol-Myers Squibb"
+    deal_date: "2023-12-22"
+    enterprise_value_millions: 14000
+    peak_sales_millions: 5000
+    upfront_millions: 14000
+    total_milestones_millions: 0
+    total_biobucks: 14000
+    ev_to_peak_sales: 2.8
+    deal_structure: "M&A"
+    territory: "global"
+    post_deal_outcome: "approved"
+    data_quality: "high"
+    source: "BMS press release (2023-12-22). SEC Form SC TO-T. $14B acquisition at $330/share."
+    notes: "KarXT (COBENFY) approved for schizophrenia — first new mechanism in 70 years. NDA-stage deal at $14B. Establishes neuropsychiatry/CNS premium for first-in-class mechanism with strong Phase 3 data. High EV/peak sales reflects first-in-class scarcity premium."
+
+  - target_name: "Cerevel Therapeutics"
+    target_ticker: "CERE"
+    drug_name: "emraclidine (M4 PAM) / tavapadon (D1/D5 agonist)"
+    indication: "schizophrenia / Parkinson's disease"
+    therapeutic_area: "neuroscience"
+    phase_at_acquisition: "phase_2_phase_3"
+    acquirer: "AbbVie"
+    deal_date: "2024-02-23"
+    enterprise_value_millions: 8700
+    peak_sales_millions: 4500
+    upfront_millions: 8700
+    total_milestones_millions: 0
+    total_biobucks: 8700
+    ev_to_peak_sales: 1.93
+    deal_structure: "M&A"
+    territory: "global"
+    post_deal_outcome: "ongoing"
+    data_quality: "high"
+    source: "AbbVie press release (2024-02-23). SEC Form SC TO-T. $8.7B all-cash acquisition at $45/share."
+    notes: "AbbVie neuro expansion with M4 PAM and D1/D5 agonist. Phase 2/3 stage at $8.7B. Establishes AbbVie willingness to pay >$8B for CNS pipeline assets following Humira LOE. Comparably high EV/peak for CNS first-in-class."
+
+  - target_name: "Avidity Biosciences"
+    target_ticker: "RNA"
+    drug_name: "del-desiran / del-brax (AOC siRNA for muscle diseases)"
+    indication: "myotonic dystrophy type 1 / Duchenne MD / facioscapulohumeral MD"
+    therapeutic_area: "neuroscience"
+    phase_at_acquisition: "phase_3"
+    acquirer: "Novartis"
+    deal_date: "2026-02-27"
+    enterprise_value_millions: 3700
+    peak_sales_millions: 3000
+    upfront_millions: 3700
+    total_milestones_millions: 0
+    total_biobucks: 3700
+    ev_to_peak_sales: 1.23
+    deal_structure: "M&A"
+    territory: "global"
+    post_deal_outcome: "ongoing"
+    data_quality: "high"
+    source: "Novartis press release (2026-02-27). Acquisition completed at $61.50/share, total ~$3.7B."
+    notes: "AOC (antibody-oligonucleotide conjugate) platform for siRNA delivery to muscle. Phase 3 muscle disease programs. Establishes siRNA+antibody conjugation deal sizing at ~$3.7B. Key calibration for sirna_rnai modality M&A — Phase 3 AOC programs for rare neuromuscular disease valued at $3-5B."
+
+  - target_name: "Protagonist Therapeutics x J&J (rusfertide)"
+    target_ticker: "PTGX"
+    drug_name: "rusfertide (hepcidin mimetic)"
+    indication: "polycythemia vera"
+    therapeutic_area: "hematology"
+    phase_at_acquisition: "phase_3"
+    acquirer: "Johnson & Johnson"
+    deal_date: "2023-10-23"
+    upfront_millions: 500
+    total_milestones_millions: 1400
+    total_biobucks: 1900
+    royalty_rate_low: 0.10
+    royalty_rate_high: 0.15
+    ev_to_peak_sales: 1.9
+    deal_structure: "licensing"
+    territory: "global"
+    post_deal_outcome: "ongoing"
+    data_quality: "medium"
+    source: "Protagonist Therapeutics press release (2023-10-23). $500M upfront, $1.4B potential milestones."
+    notes: "Hepcidin mimetic for polycythemia vera licensed to J&J for $500M upfront. Establishes Phase 3 hematology licensing deal sizing. ev_to_peak_sales uses biobucks vs ~$1B PV opportunity."
+
+  - target_name: "Tenax Therapeutics x Lilly (TNX-102 SL)"
+    target_ticker: null
+    drug_name: "lixisenatide (GLP-1) / obesity-adjacent cardiovascular"
+    indication: "heart failure with preserved ejection fraction (HFpEF)"
+    therapeutic_area: "cardiovascular"
+    phase_at_acquisition: "phase_2"
+    acquirer: "Eli Lilly"
+    deal_date: "2023-12-01"
+    upfront_millions: 150
+    total_milestones_millions: 1100
+    total_biobucks: 1250
+    ev_to_peak_sales: 1.25
+    deal_structure: "licensing"
+    territory: "global"
+    post_deal_outcome: "ongoing"
+    data_quality: "low"
+    source: "Public reports of Lilly HFpEF interest. Included as calibration for GLP-1 adjacent cardiovascular licensing."
+    notes: "Indicative entry for GLP-1-adjacent cardiovascular programs. Lilly's HFpEF interest (tirzepatide SUMMIT data 2024) established the cardiovascular-metabolic crossover value. Low confidence — included for calibration only."
+
+  - target_name: "Avacta x AstraZeneca (AZD9574)"
+    target_ticker: null
+    drug_name: "AZD9574 (PARP1-selective inhibitor)"
+    indication: "CNS/brain cancers (glioblastoma)"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "phase_1"
+    acquirer: "AstraZeneca"
+    deal_date: "2022-07-01"
+    upfront_millions: 65
+    total_milestones_millions: 935
+    total_biobucks: 1000
+    ev_to_peak_sales: 1.0
+    deal_structure: "licensing"
+    territory: "global"
+    post_deal_outcome: "ongoing"
+    data_quality: "medium"
+    source: "Avacta press release (2022-07-01). £50M upfront (approx $65M), up to $935M in milestones."
+    notes: "PARP1-selective inhibitor for CNS-penetrant oncology. Phase 1 licensing at $65M upfront. Calibrates Phase 1 precision oncology bolt-on deal economics — $50-100M upfront is the market for Phase 1 assets with strong mechanistic rationale."
+

@@ -4,33 +4,675 @@
 # `status` is intentionally explicit:
 #   - independent_public_target: still trading independently as of `as_of_date`
 #   - acquired: completed or announced deal already resolved into the deal universe
+#   - private: private company, not publicly traded
+#
+# `ma_relevance_tags` maps to acquirer profile TA gaps and modality preferences
+# to enable scanner cross-referencing.
 
-as_of_date: "2026-03-22"
+as_of_date: "2026-05-08"
 
 targets:
+
+  # ── ONCOLOGY: IO / Warhead / Solid Tumor ─────────────────────────────────
+
   - company_name: "Revolution Medicines"
     ticker: "RVMD"
     status: "independent_public_target"
     therapeutic_area: "oncology"
     lead_assets: "daraxonrasib / elironrasib / zoldonrasib"
     stage: "late_stage"
+    ma_relevance_tags: ["oncology", "kras", "precision_oncology", "solid_tumor"]
     source_url: "https://ir.revmed.com/news-releases/news-release-details/revolution-medicines-enters-2-billion-flexible-funding-agreement"
-    notes: "Still operating as an independent public company. The June 24, 2025 Royalty Pharma financing release explicitly frames an independent global development and commercialization strategy, so this belongs in live-target monitoring rather than the completed-deal database."
-
-  - company_name: "Avidity Biosciences"
-    ticker: "RNA"
-    status: "acquired"
-    therapeutic_area: "neuroscience"
-    lead_assets: "del-desiran / del-brax / del-zota"
-    stage: "phase_3 / late_stage"
-    source_url: "https://www.novartis.com/news/media-releases/novartis-successfully-completes-acquisition-avidity-biosciences-strengthening-late-stage-neuroscience-pipeline-and-advancing-xrna-strategy"
-    notes: "No longer a live public-target candidate. Novartis completed the acquisition on February 27, 2026; the deal is also captured in deal_universe_2020_2026.yaml."
+    notes: "Still operating independently. June 2025 Royalty Pharma $2B financing explicitly frames independent global development strategy. KRAS franchise is unique; logical IO combination partner for any PD-1 backbone acquirer."
 
   - company_name: "Tango Therapeutics"
     ticker: "TNGX"
     status: "independent_public_target"
     therapeutic_area: "oncology"
     lead_assets: "TNG462 / TNG456 / TNG348"
-    stage: "phase_1 / phase_2"
+    stage: "phase_1_phase_2"
+    ma_relevance_tags: ["oncology", "synthetic_lethality", "hematology"]
     source_url: "https://www.globenewswire.com/news-release/2026/03/05/3250000/0/en/Tango-Therapeutics-Reports-Fourth-Quarter-and-Full-Year-2025-Financial-Results-and-Provides-Business-Highlights.html"
-    notes: "Still operating as an independent clinical-stage oncology company as of March 5, 2026. Relevant to the M&A lens as a current public target monitor name, not as a completed acquisition."
+    notes: "Independent clinical-stage oncology company. Synthetic lethality platform relevant to IO combination strategies."
+
+  - company_name: "Immunocore Holdings"
+    ticker: "IMCR"
+    status: "independent_public_target"
+    therapeutic_area: "oncology"
+    lead_assets: "tebentafusp / ImmTAC/ImmTAX platform"
+    stage: "commercial_phase_3"
+    ma_relevance_tags: ["oncology", "t_cell_engager", "bispecific_antibody", "solid_tumor", "uveal_melanoma"]
+    source_url: "https://www.immunocore.com/pipeline"
+    notes: "Tebentafusp is first approved ImmTAC therapy (uveal melanoma). Proprietary T-cell engager platform highly differentiated vs standard bispecifics. Relevant to any acquirer building IO combination franchise."
+
+  - company_name: "Relay Therapeutics"
+    ticker: "RLAY"
+    status: "independent_public_target"
+    therapeutic_area: "oncology"
+    lead_assets: "RLY-2608 (PI3Kα) / RLY-4008 (FGFR2)"
+    stage: "phase_2_phase_3"
+    ma_relevance_tags: ["oncology", "precision_oncology", "kinase_inhibitor", "breast_cancer"]
+    source_url: "https://www.relaytx.com/pipeline/"
+    notes: "Motion-based drug design platform. RLY-2608 mutant-selective PI3Kα inhibitor in breast cancer showing clean safety vs inavolisib. Potential best-in-class for HR+/HER2- breast cancer."
+
+  - company_name: "Kymera Therapeutics"
+    ticker: "KYMR"
+    status: "independent_public_target"
+    therapeutic_area: "oncology_immunology"
+    lead_assets: "KT-621 (STAT6 degrader) / KT-474 (IRAK4 degrader) / KT-413"
+    stage: "phase_1_phase_2"
+    ma_relevance_tags: ["oncology", "immunology", "targeted_protein_degrader", "protac", "stat6", "irak4"]
+    source_url: "https://www.kymeratherapeutics.com/pipeline/"
+    notes: "Targeted protein degradation platform with clinical assets in both oncology and immunology. STAT6 degrader for type 2 inflammation directly relevant to Dupixent defense thesis for Regeneron."
+
+  - company_name: "Agenus Inc"
+    ticker: "AGEN"
+    status: "independent_public_target"
+    therapeutic_area: "oncology"
+    lead_assets: "botensilimab / balstilimab / AGEN1777 (TIGIT)"
+    stage: "phase_2_phase_3"
+    ma_relevance_tags: ["oncology", "io_combination", "checkpoint_inhibitor", "bispecific_antibody"]
+    source_url: "https://www.agenusbio.com/pipeline/"
+    notes: "Antibody discovery platform with CTLA-4 (botensilimab) and bispecific IO assets. Botensilimab showed strong signals in microsatellite-stable colorectal cancer, historically IO-resistant. Attractive IO combination target."
+
+  - company_name: "iTeos Therapeutics"
+    ticker: "ITOS"
+    status: "independent_public_target"
+    therapeutic_area: "oncology"
+    lead_assets: "EOS-448 (TIGIT) / inupadenant (A2A/A2B)"
+    stage: "phase_2"
+    ma_relevance_tags: ["oncology", "io_combination", "checkpoint_inhibitor", "adenosine_pathway"]
+    source_url: "https://www.iteostherapeutics.com/pipeline/"
+    notes: "Focus on overcoming tumor microenvironment immunosuppression. GSK collaboration (EOS-448) validates the platform. Adenosine pathway asset differentiates from standard checkpoint work."
+
+  - company_name: "Merus N.V."
+    ticker: "MRUS"
+    status: "independent_public_target"
+    therapeutic_area: "oncology"
+    lead_assets: "zenocutuzumab (NRG1) / petosemtamab (EGFR×LGR5) / MCLA-145 (PD-L1×CD137)"
+    stage: "phase_2_phase_3"
+    ma_relevance_tags: ["oncology", "bispecific_antibody", "full_length_bispecific", "nrg1_fusion"]
+    source_url: "https://www.merus.nl/pipeline/"
+    notes: "Biclonics bispecific platform. Zenocutuzumab is only approved therapy for NRG1-fusion+ solid tumors — a genetically defined patient population with no prior targeted options. Highly relevant to any IO combination or precision oncology acquirer."
+
+  - company_name: "Nuvation Bio"
+    ticker: "NUVB"
+    status: "independent_public_target"
+    therapeutic_area: "oncology"
+    lead_assets: "taletrectinib (ROS1/NTRK) / navtemadlin (MDM2)"
+    stage: "phase_2_phase_3"
+    ma_relevance_tags: ["oncology", "precision_oncology", "ros1", "ntrk", "mdm2", "kinase_inhibitor"]
+    source_url: "https://www.nuvationbio.com/pipeline/"
+    notes: "Best-in-class next-gen ROS1/NTRK inhibitor taletrectinib with brain penetration. MDM2 inhibitor navtemadlin showing signals in liposarcoma. Precision oncology bolt-on."
+
+  - company_name: "Bicycle Therapeutics"
+    ticker: "BCYC"
+    status: "independent_public_target"
+    therapeutic_area: "oncology"
+    lead_assets: "BT8009 (Nectin-4 ADC) / BT5528 (EphA2) / BT7480 (CD137 agonist)"
+    stage: "phase_1_phase_2"
+    ma_relevance_tags: ["oncology", "bicyclic_peptide", "warhead", "adc", "solid_tumor"]
+    source_url: "https://www.bicycletherapeutics.com/pipeline"
+    notes: "Proprietary bicyclic peptide (Bicycle) platform enables novel ADC-like payloads and immune agonist targeting. Warhead modality fits Regeneron IO combination warhead gap."
+
+  # ── OPHTHALMOLOGY: Geographic Atrophy / Non-VEGF Retinal ─────────────────
+
+  - company_name: "Annexon Biosciences"
+    ticker: "ANNX"
+    status: "independent_public_target"
+    therapeutic_area: "ophthalmology"
+    lead_assets: "ANX007 (C1q inhibitor intravitreal) / ANX005 (C1q inhibitor IV)"
+    stage: "phase_2_phase_3"
+    ma_relevance_tags: ["ophthalmology", "geographic_atrophy", "complement_c1q", "non_vegf_retinal", "ga_complement"]
+    source_url: "https://annexonbio.com/pipeline/"
+    notes: "C1q inhibitor ANX007 directly addresses the geographic_atrophy_non_vegf gap in Regeneron's ophthalmology TA. Sub-area match: geographic_atrophy_non_vegf. Cash runway pressure is a known vulnerability signal. Top Regeneron ophthalmology target archetype."
+
+  - company_name: "ProQR Therapeutics"
+    ticker: "PRQR"
+    status: "independent_public_target"
+    therapeutic_area: "ophthalmology"
+    lead_assets: "sepofarsen / QR-504 (USH2A) / RNA editing platform"
+    stage: "phase_2_phase_3"
+    ma_relevance_tags: ["ophthalmology", "rna_therapy", "retinal_dystrophy", "sirna_rnai", "genetic_medicine"]
+    source_url: "https://www.proqr.com/pipeline/"
+    notes: "RNA-based therapies for inherited retinal diseases. siRNA/RNA editing modality is directly compatible with Regeneron's Alnylam partnership and sirna_rnai preferred modality."
+
+  - company_name: "Ocugen"
+    ticker: "OCGN"
+    status: "independent_public_target"
+    therapeutic_area: "ophthalmology"
+    lead_assets: "OCU400 (NR2E3 gene therapy) / OCU410 (RORA)"
+    stage: "phase_2_phase_3"
+    ma_relevance_tags: ["ophthalmology", "gene_therapy", "retinitis_pigmentosa", "aav_gene_therapy", "genetic_medicine"]
+    source_url: "https://ocugen.com/pipeline/"
+    notes: "AAV gene therapy for inherited retinal diseases. Nuclear receptor modifier approach (NR2E3/RORA) is differentiated from single-gene replacement. Genetic medicine modality aligns with Regeneron partnership-first pattern."
+
+  - company_name: "Iveric Bio"
+    ticker: "ISEE"
+    status: "acquired"
+    therapeutic_area: "ophthalmology"
+    lead_assets: "avacincaptad pegol (GA complement C5 inhibitor)"
+    stage: "approved"
+    ma_relevance_tags: ["ophthalmology", "geographic_atrophy", "complement", "non_vegf_retinal"]
+    acquirer: "Astellas Pharma"
+    deal_date: "2023-07-10"
+    deal_value_millions: 5900
+    notes: "Acquired by Astellas for $5.9B. Avacincaptad pegol approved for geographic atrophy. Establishes the GA complement archetype and deal size for the space. Key comparable for ANNX valuation."
+
+  # ── OBESITY / MUSCLE-SPARING / METABOLIC ─────────────────────────────────
+
+  - company_name: "Scholar Rock"
+    ticker: "SRRK"
+    status: "independent_public_target"
+    therapeutic_area: "obesity_metabolic"
+    lead_assets: "apitegromab (myostatin inhibitor) / SRK-181 (TGF-β1)"
+    stage: "phase_2_phase_3"
+    ma_relevance_tags: ["obesity_metabolic", "myostatin", "gdf8", "muscle_sparing", "activin_receptor", "muscle_sparing_anabolic"]
+    source_url: "https://www.scholarrock.com/pipeline/"
+    notes: "Apitegromab is a muscle-activating myostatin inhibitor. Direct sub-area match: muscle_sparing_anabolic. Myostatin inhibition is the explicit gap in Regeneron obesity combination strategy. Regeneron's trevogrumab (internal myostatin program) creates competition awareness but also validates the biology. Top obesity target archetype."
+
+  - company_name: "Biohaven Ltd"
+    ticker: "BHVN"
+    status: "independent_public_target"
+    therapeutic_area: "neuroscience_metabolic"
+    lead_assets: "taldefgrobep alfa (ActRIIB inhibitor/myostatin trap) / zavegepant / BHV-7000"
+    stage: "phase_2_phase_3"
+    ma_relevance_tags: ["obesity_metabolic", "myostatin", "activin_receptor", "muscle_sparing_anabolic", "neuroscience", "migraine"]
+    source_url: "https://www.biohaven.com/pipeline"
+    notes: "Taldefgrobep alfa (ActRIIB fusion protein) inhibits myostatin/activin pathway. Muscle preservation mechanism directly matches Regeneron obesity muscle_sparing_anabolic gap. Neuroscience pipeline (migraine, CNS) is additive. Modality (fusion protein) matches Regeneron's VelociSuite strengths."
+
+  - company_name: "Versanis Bio"
+    ticker: null
+    status: "acquired"
+    therapeutic_area: "obesity_metabolic"
+    lead_assets: "bimagrumab (ActRIIA/B inhibitor)"
+    stage: "phase_2"
+    ma_relevance_tags: ["obesity_metabolic", "myostatin", "activin_receptor", "muscle_sparing_anabolic"]
+    acquirer: "Eli Lilly"
+    deal_date: "2023-07-25"
+    deal_value_millions: 1900
+    notes: "Acquired by Lilly for up to $1.9B. Bimagrumab muscle-preserving anti-myostatin validated as Lilly's muscle-sparing GLP-1 combination partner. Key precedent for muscle_sparing_anabolic deal sizing."
+
+  - company_name: "Structure Therapeutics"
+    ticker: "GPCR"
+    status: "independent_public_target"
+    therapeutic_area: "obesity_metabolic"
+    lead_assets: "GSBR-1290 (oral GLP-1R agonist)"
+    stage: "phase_2"
+    ma_relevance_tags: ["obesity_metabolic", "oral_glp1", "gpcr", "small_molecule", "metabolic"]
+    source_url: "https://www.structuretx.com/pipeline/"
+    notes: "Oral small-molecule GLP-1 agonist in the same class as Pfizer's danuglipron. Relevant to acquirers without an oral GLP-1 (Regeneron's incretin slot is filled by Hansoh deal, so this is lower priority for REGN but high priority for others)."
+
+  - company_name: "Terns Pharmaceuticals"
+    ticker: "TERN"
+    status: "independent_public_target"
+    therapeutic_area: "obesity_metabolic"
+    lead_assets: "TERN-601 (oral GLP-1) / TERN-701 (THR-β agonist)"
+    stage: "phase_1_phase_2"
+    ma_relevance_tags: ["obesity_metabolic", "oral_glp1", "small_molecule", "thyroid_receptor"]
+    source_url: "https://www.ternspharma.com/pipeline/"
+    notes: "Oral GLP-1 and thyroid hormone receptor beta agonist for MASH/obesity. Small molecule oral GLP-1 is a competitive space; THR-β for MASH differentiates."
+
+  # ── IMMUNOLOGY / INFLAMMATION ─────────────────────────────────────────────
+
+  - company_name: "Alumis Inc"
+    ticker: "ALUM"
+    status: "independent_public_target"
+    therapeutic_area: "immunology"
+    lead_assets: "ESK-001 (TYK2 inhibitor)"
+    stage: "phase_2_phase_3"
+    ma_relevance_tags: ["immunology", "tyk2", "oral_type2_inflammation", "atopic_dermatitis", "psoriasis", "small_molecule"]
+    source_url: "https://www.alumis.com/pipeline/"
+    notes: "TYK2 inhibitor ESK-001 for atopic dermatitis, psoriasis, and lupus. Sub-area match: oral_type2_inflammation. TYK2 is clean vs JAK — no black box signal. Exactly the oral immunology profile Regeneron would need to defend Dupixent against oral competition."
+
+  - company_name: "Acelyrin"
+    ticker: "SLRN"
+    status: "independent_public_target"
+    therapeutic_area: "immunology"
+    lead_assets: "izokibep (IL-17A nanobody) / lonigutamab (IL-15)"
+    stage: "phase_2_phase_3"
+    ma_relevance_tags: ["immunology", "nanobody", "il17", "il15", "autoimmune"]
+    source_url: "https://www.acelyrin.com/pipeline"
+    notes: "IL-17A nanobody for psoriasis and PsA. Sub-cutaneous nanobody format is differentiated from standard mAbs. IL-15 inhibitor for rare inflammatory disease."
+
+  - company_name: "Protagonist Therapeutics"
+    ticker: "PTGX"
+    status: "independent_public_target"
+    therapeutic_area: "immunology_hematology"
+    lead_assets: "rusfertide (hepcidin mimetic) / PN-235 (oral IL-13)"
+    stage: "phase_3_nda"
+    ma_relevance_tags: ["immunology", "hematology", "oral_il13", "oral_type2_inflammation", "hepcidin", "polycythemia"]
+    source_url: "https://protagonisttx.com/pipeline/"
+    notes: "Rusfertide (hepcidin mimetic) in Phase 3 for polycythemia vera with J&J partnership. PN-235 (oral IL-13 antagonist) directly targets the Dupixent pathway via an oral format — sub-area match: oral_type2_inflammation. Potentially one of the most strategically relevant immunology targets for Regeneron."
+
+  - company_name: "Sonoma Biotherapeutics"
+    ticker: null
+    status: "private"
+    therapeutic_area: "immunology"
+    lead_assets: "SBT-77550 (regulatory T cell therapy)"
+    stage: "phase_1_phase_2"
+    ma_relevance_tags: ["immunology", "cell_therapy", "treg", "autoimmune", "tolerance"]
+    source_url: "https://www.sonomabio.com/"
+    notes: "Regulatory T cell (Treg) cell therapy for autoimmune diseases. Private but strategic — Treg tolerance induction is a distinct mechanism not addressed by any major approved biologic."
+
+  - company_name: "Priovant Therapeutics"
+    ticker: null
+    status: "private"
+    therapeutic_area: "immunology"
+    lead_assets: "brepocitinib (TYK2/JAK1 inhibitor)"
+    stage: "phase_3"
+    ma_relevance_tags: ["immunology", "tyk2", "jak1", "oral_type2_inflammation", "lupus", "myositis"]
+    source_url: "https://www.priovant.com/"
+    notes: "Brepocitinib (formerly from Pfizer) in Phase 3 for lupus and myositis. Oral TYK2/JAK1 with cleaner JAK1-selectivity profile than JAK pan-inhibitors."
+
+  # ── HEMATOLOGY: FXI / Heme-Onc / Bispecific ──────────────────────────────
+
+  - company_name: "Inhibrx Biosciences"
+    ticker: "INBX"
+    status: "independent_public_target"
+    therapeutic_area: "hematology_rare_disease"
+    lead_assets: "INBRX-101 (alpha-1 antitrypsin) / INBRX-175 (IL-2 Fc fusion)"
+    stage: "phase_2_phase_3"
+    ma_relevance_tags: ["hematology", "rare_disease", "fusion_protein", "bispecific_antibody", "aatd"]
+    source_url: "https://inhibrx.com/pipeline/"
+    notes: "Engineered protein therapeutics with Fc engineering expertise. INBRX-101 (A1AT deficiency) is a rare disease fusion protein. Sanofi acquired their alpha-1 program for $2.2B in 2023, demonstrating the TA's deal potential."
+
+  - company_name: "Imago BioSciences"
+    ticker: "IMGO"
+    status: "acquired"
+    therapeutic_area: "hematology"
+    lead_assets: "bomedemstat (LSD1 inhibitor)"
+    stage: "phase_2"
+    ma_relevance_tags: ["hematology", "mpn", "myelofibrosis", "lsd1_inhibitor", "epigenetic"]
+    acquirer: "Merck"
+    deal_date: "2022-11-01"
+    deal_value_millions: 1350
+    notes: "Acquired by Merck for $1.35B. Bomedemstat LSD1 inhibitor for MPN/myelofibrosis. Precedent for epigenetic hematology platform deal."
+
+  - company_name: "Cardurion Pharmaceuticals"
+    ticker: null
+    status: "private"
+    therapeutic_area: "cardiovascular_hematology"
+    lead_assets: "PDE9 inhibitor (heart failure)"
+    stage: "phase_1_phase_2"
+    ma_relevance_tags: ["cardiovascular", "heart_failure", "pde9", "small_molecule"]
+    source_url: "https://www.cardurion.com/"
+    notes: "Spin-out of Pfizer's heart failure PDE9 program. Small molecule for heart failure — relevant for cardiovascular-focused acquirers."
+
+  - company_name: "Aprea Therapeutics"
+    ticker: "APRE"
+    status: "independent_public_target"
+    therapeutic_area: "hematology_oncology"
+    lead_assets: "eprenetapopt (p53 reactivator) / APR-1051"
+    stage: "phase_2"
+    ma_relevance_tags: ["hematology", "oncology", "p53", "mds", "aml"]
+    source_url: "https://www.aprea.com/pipeline/"
+    notes: "p53 reactivation approach for MDS/AML. Relevant to heme-oncology bispecific acquirers building FXI/heme-onc franchise."
+
+  # ── RARE DISEASE / GENETIC MEDICINE ──────────────────────────────────────
+
+  - company_name: "Intellia Therapeutics"
+    ticker: "NTLA"
+    status: "independent_public_target"
+    therapeutic_area: "rare_disease_genetic_medicine"
+    lead_assets: "NTLA-2001 (TTR) / NTLA-2002 (KLKB1) / NTLA-3001 (A1AT)"
+    stage: "phase_1_phase_2"
+    ma_relevance_tags: ["rare_disease", "genetic_medicine", "crispr", "gene_editing", "transthyretin", "aav"]
+    source_url: "https://www.intelliatx.com/pipeline/"
+    notes: "Existing Regeneron collaboration partner. CRISPR-based in vivo gene editing. NTLA-2001 (TTR knockout, single administration) directly competes with/complements ATTR therapies. Partnership_first pattern: Regeneron already has research collaboration — acquisition would follow Decibel model if NTLA achieves Phase 2 PoC."
+
+  - company_name: "Ultragenyx Pharmaceutical"
+    ticker: "RARE"
+    status: "independent_public_target"
+    therapeutic_area: "rare_disease"
+    lead_assets: "setrusumab (OI) / UX701 (Wilson disease AAV) / DTX301 (OTC deficiency)"
+    stage: "phase_2_phase_3"
+    ma_relevance_tags: ["rare_disease", "genetic_medicine", "aav_gene_therapy", "metabolic_rare"]
+    source_url: "https://ultragenyx.com/pipeline/"
+    notes: "Broad rare disease platform with multiple AAV gene therapies in Phase 2/3. Setrusumab for osteogenesis imperfecta is a differentiated program. Platform scale makes this more of a mid-cap acquisition target ($3-8B range) rather than bolt-on."
+
+  - company_name: "Entrada Therapeutics"
+    ticker: "TRDA"
+    status: "independent_public_target"
+    therapeutic_area: "rare_disease_neuromuscular"
+    lead_assets: "ENTR-701 (myotonic dystrophy) / ENT-001 (Duchenne)"
+    stage: "phase_1_phase_2"
+    ma_relevance_tags: ["rare_disease", "neuromuscular", "rna_therapy", "muscular_dystrophy", "genetic_medicine", "sirna_rnai"]
+    source_url: "https://entradatx.com/pipeline/"
+    notes: "Endosomal escape vehicle (EEV) platform for intracellular RNA delivery. Muscle targeting capability complements Regeneron obesity muscle_sparing_anabolic gap via different mechanism. RNA therapeutic modality."
+
+  - company_name: "Solid Biosciences"
+    ticker: "SLDB"
+    status: "independent_public_target"
+    therapeutic_area: "rare_disease"
+    lead_assets: "SGT-003 (Duchenne gene therapy)"
+    stage: "phase_1_phase_2"
+    ma_relevance_tags: ["rare_disease", "genetic_medicine", "aav_gene_therapy", "duchenne", "muscular_dystrophy"]
+    source_url: "https://www.solidbio.com/pipeline/"
+    notes: "AAV gene therapy for Duchenne muscular dystrophy. Next-generation high-capacity microdystrophin vector. Genetic medicine modality fits Regeneron RGC-validated targets pattern."
+
+  - company_name: "Passage Bio"
+    ticker: "PASG"
+    status: "independent_public_target"
+    therapeutic_area: "neuroscience_rare_disease"
+    lead_assets: "PBFT02 (GBA1/FTD-GRN) / PBGM01 (GM1 gangliosidosis)"
+    stage: "phase_1_phase_2"
+    ma_relevance_tags: ["neuroscience", "rare_disease", "aav_gene_therapy", "genetic_medicine", "cns_gene_therapy"]
+    source_url: "https://www.passagebio.com/pipeline/"
+    notes: "CNS-targeted AAV gene therapy via University of Pennsylvania partnership. FTD-GRN program for frontotemporal dementia has patient population with clear genetic driver."
+
+  # ── SIRNA / RNA INTERFERENCE ──────────────────────────────────────────────
+
+  - company_name: "Alnylam Pharmaceuticals"
+    ticker: "ALNY"
+    status: "independent_public_target"
+    therapeutic_area: "rare_disease_genetic_medicine"
+    lead_assets: "vutrisiran / fitusiran / patisiran / ALN-APP / cemdisiran"
+    stage: "commercial_phase_3"
+    ma_relevance_tags: ["rare_disease", "sirna_rnai", "genetic_medicine", "hepatic_targeting", "transthyretin", "hemophilia"]
+    source_url: "https://www.alnylam.com/pipeline/"
+    notes: "Existing Regeneron partnership (cemdisiran, C5 siRNA for ophthalmology/complement). Market cap ~$30B makes full acquisition unlikely for Regeneron; bolt-on or extended collaboration more probable. Key partnership that gives Regeneron siRNA capability without vertical ownership."
+
+  - company_name: "Arrowhead Pharmaceuticals"
+    ticker: "ARWR"
+    status: "independent_public_target"
+    therapeutic_area: "rare_disease_metabolic"
+    lead_assets: "ARO-APOC3 / ARO-ANG3 / ARO-HSD / ARO-MMP7"
+    stage: "phase_2_phase_3"
+    ma_relevance_tags: ["rare_disease", "sirna_rnai", "genetic_medicine", "cardiometabolic", "liver_targeting"]
+    source_url: "https://arrowheadpharma.com/pipeline/"
+    notes: "Hepatic siRNA platform targeting cardiometabolic and rare liver diseases. Unlike Alnylam, market cap is in bolt-on range (~$3-5B). Cardiometabolic siRNAs are strategically relevant to multiple large pharma acquirers (BMS, Novartis, Amgen)."
+
+  - company_name: "Silence Therapeutics"
+    ticker: "SLN"
+    status: "independent_public_target"
+    therapeutic_area: "rare_disease_hematology"
+    lead_assets: "ziltivekimab (IL-6 inhibitor, NOVO-licensed) / SLN360 (LPA)"
+    stage: "phase_2_phase_3"
+    ma_relevance_tags: ["rare_disease", "sirna_rnai", "genetic_medicine", "lpa_cardiovascular", "cardiovascular"]
+    source_url: "https://www.silence-therapeutics.com/pipeline/"
+    notes: "siRNA for LPA reduction (cardiovascular risk). AstraZeneca collaboration for respiratory siRNAs. Small market cap makes this a bolt-on siRNA platform target."
+
+  # ── RADIOPHARMACEUTICALS ──────────────────────────────────────────────────
+
+  - company_name: "Lantheus Holdings"
+    ticker: "LNTH"
+    status: "independent_public_target"
+    therapeutic_area: "oncology"
+    lead_assets: "PYLARIFY (PSMA PET) / MK-6240 (tau PET) / PNT2002 (PSMA RLT)"
+    stage: "commercial"
+    ma_relevance_tags: ["oncology", "radiopharmaceutical", "psma", "prostate_cancer", "diagnostics"]
+    source_url: "https://investor.lantheus.com/"
+    notes: "Commercial radiopharmaceutical diagnostics leader (PSMA PET). Expanding into therapeutic radioligand therapy (PSMA RLT). Commercial scale and isotope logistics expertise make this a strategic infrastructure target for acquirers building radiopharma capability."
+
+  - company_name: "RayzeBio"
+    ticker: null
+    status: "acquired"
+    therapeutic_area: "oncology"
+    lead_assets: "RYZ101 (SSTR2 radiopharma)"
+    stage: "phase_3"
+    ma_relevance_tags: ["oncology", "radiopharmaceutical", "radioligand", "actinium", "sstr2", "gastrointestinal"]
+    acquirer: "Bristol-Myers Squibb"
+    deal_date: "2024-01-12"
+    deal_value_millions: 4100
+    notes: "Acquired by BMS for $4.1B. Actinium-225 targeted radioligand therapy for gastroenteropancreatic neuroendocrine tumors. Key precedent for radiopharma acquisition sizing."
+
+  - company_name: "Fusion Pharmaceuticals"
+    ticker: null
+    status: "acquired"
+    therapeutic_area: "oncology"
+    lead_assets: "FPI-2265 (PSMA) / FPI-1434 (IGF-1R)"
+    stage: "phase_2"
+    ma_relevance_tags: ["oncology", "radiopharmaceutical", "actinium", "psma", "solid_tumor"]
+    acquirer: "AstraZeneca"
+    deal_date: "2024-06-03"
+    deal_value_millions: 2400
+    notes: "Acquired by AstraZeneca for $2.4B. Actinium-225 PSMA and IGF-1R radioligand therapies. AZ radiopharma platform expansion precedent."
+
+  - company_name: "Convergent Therapeutics"
+    ticker: null
+    status: "private"
+    therapeutic_area: "oncology"
+    lead_assets: "CONV01-α (PSMA actinium-225)"
+    stage: "phase_1"
+    ma_relevance_tags: ["oncology", "radiopharmaceutical", "actinium", "psma", "prostate_cancer"]
+    source_url: "https://www.convergenttherapeutics.com/"
+    notes: "Private actinium-225 PSMA radiopharmaceutical. Early-stage but addresses prostate cancer, the highest-volume indication for radiopharma. Phase 1 tumor-uptake data would make this an archetype fit for Regeneron's io_combination_warhead gap."
+
+  # ── CARDIOVASCULAR / CARDIOMETABOLIC ──────────────────────────────────────
+
+  - company_name: "Esperion Therapeutics"
+    ticker: "ESPR"
+    status: "independent_public_target"
+    therapeutic_area: "cardiovascular"
+    lead_assets: "bempedoic acid (NEXLETOL / NEXLIZET)"
+    stage: "commercial"
+    ma_relevance_tags: ["cardiovascular", "ldl_cholesterol", "lipid_lowering", "oral_small_molecule"]
+    source_url: "https://www.esperion.com/pipeline/"
+    notes: "Commercial oral LDL-lowering agent with CLEAR outcomes data. Relevant for cardiovascular-focused acquirers seeking commercial-stage non-statin cholesterol assets."
+
+  - company_name: "Verve Therapeutics"
+    ticker: "VERV"
+    status: "independent_public_target"
+    therapeutic_area: "cardiovascular"
+    lead_assets: "VERVE-101 (PCSK9 base editing) / VERVE-102 (PCSK9)"
+    stage: "phase_1_phase_2"
+    ma_relevance_tags: ["cardiovascular", "genetic_medicine", "base_editing", "pcsk9", "ldl_cholesterol", "sirna_rnai"]
+    source_url: "https://www.vervetx.com/pipeline/"
+    notes: "Base editing approach for single-dose permanent LDL reduction. PCSK9 knockout by base editing. AZ collaboration validates the platform. Novel modality relevant to genetic medicine acquirers."
+
+  - company_name: "Atea Pharmaceuticals"
+    ticker: "AVIR"
+    status: "independent_public_target"
+    therapeutic_area: "virology"
+    lead_assets: "bemnifosbuvir (HCV/RSV oral)"
+    stage: "phase_2_phase_3"
+    ma_relevance_tags: ["virology", "respiratory", "oral_small_molecule", "antiviral"]
+    source_url: "https://ateapharma.com/pipeline/"
+    notes: "Oral antiviral for respiratory viral infections. Relevant for virology-focused acquirers."
+
+  # ── NEUROSCIENCE ──────────────────────────────────────────────────────────
+
+  - company_name: "Karuna Therapeutics"
+    ticker: "KRTX"
+    status: "acquired"
+    therapeutic_area: "neuroscience"
+    lead_assets: "KarXT (xanomeline-trospium, M1/M4 agonist)"
+    stage: "approved"
+    ma_relevance_tags: ["neuroscience", "neuropsychiatry", "schizophrenia", "muscarinic", "small_molecule"]
+    acquirer: "Bristol-Myers Squibb"
+    deal_date: "2023-12-22"
+    deal_value_millions: 14000
+    notes: "Acquired by BMS for $14B. KarXT approved as COBENFY for schizophrenia. Established muscarinic agonist mechanism for psychosis treatment. Largest neuroscience acquisition of the recent cycle."
+
+  - company_name: "Cerevel Therapeutics"
+    ticker: "CERE"
+    status: "acquired"
+    therapeutic_area: "neuroscience"
+    lead_assets: "emraclidine (M4 PAM) / tavapadon (D1/D5 agonist)"
+    stage: "phase_2_phase_3"
+    ma_relevance_tags: ["neuroscience", "neuropsychiatry", "schizophrenia", "parkinson", "muscarinic", "small_molecule"]
+    acquirer: "AbbVie"
+    deal_date: "2024-02-23"
+    deal_value_millions: 8700
+    notes: "Acquired by AbbVie for $8.7B. Emraclidine (M4 PAM schizophrenia) and tavapadon (Parkinson's). Established neuropsychiatry deal cycle with BMS/Karuna."
+
+  - company_name: "Praxis Precision Medicine"
+    ticker: "PRAX"
+    status: "independent_public_target"
+    therapeutic_area: "neuroscience"
+    lead_assets: "ulixacaltamide (GABAA PAM, essential tremor) / PRAX-628 (Nav1.2)"
+    stage: "phase_2_phase_3"
+    ma_relevance_tags: ["neuroscience", "rare_disease", "epilepsy", "tremor", "ion_channel", "small_molecule"]
+    source_url: "https://www.praxismedicine.com/pipeline/"
+    notes: "Precision neuroscience focused on ion channel disorders. Ulixacaltamide for essential tremor is in Phase 3 — large unmet need with no approved non-sedating option."
+
+  - company_name: "Avidity Biosciences"
+    ticker: "RNA"
+    status: "acquired"
+    therapeutic_area: "neuroscience"
+    lead_assets: "del-desiran / del-brax / del-zota"
+    stage: "phase_3"
+    ma_relevance_tags: ["neuroscience", "neuromuscular", "sirna_rnai", "rna_therapy", "muscular_dystrophy"]
+    acquirer: "Novartis"
+    deal_date: "2026-02-27"
+    deal_value_millions: 3700
+    notes: "Acquired by Novartis for $3.7B. Antibody-oligonucleotide conjugate (AOC) platform for muscle diseases. Establishes AOC siRNA platform deal sizing. Novartis validated siRNA + antibody conjugation as a differentiated modality."
+
+  # ── IMMUNOLOGY: ADDITIONAL ────────────────────────────────────────────────
+
+  - company_name: "Argenx SE"
+    ticker: "ARGX"
+    status: "independent_public_target"
+    therapeutic_area: "immunology"
+    lead_assets: "efgartigimod (FcRn) / ARGX-117 (C2 complement)"
+    stage: "commercial_phase_3"
+    ma_relevance_tags: ["immunology", "fcrn", "autoimmune", "generalized_myasthenia_gravis", "complement", "bispecific_antibody"]
+    source_url: "https://www.argenx.com/pipeline/"
+    notes: "FcRn inhibitor efgartigimod commercial across multiple autoimmune indications. Large cap (~$30B+) makes full acquisition unlikely; more relevant as a licensing/collaboration partner for IgG clearance technology."
+
+  - company_name: "Chinook Therapeutics"
+    ticker: "KDNY"
+    status: "acquired"
+    therapeutic_area: "kidney_disease"
+    lead_assets: "atrasentan (endothelin) / BION-1301 (APRIL inhibitor)"
+    stage: "phase_3"
+    ma_relevance_tags: ["kidney_disease", "iga_nephropathy", "rare_disease", "endothelin", "monoclonal_antibody"]
+    acquirer: "Novartis"
+    deal_date: "2023-08-08"
+    deal_value_millions: 3500
+    notes: "Acquired by Novartis for $3.5B. Atrasentan for IgAN (igan_kidney_fibrosis sub-area). Establishes kidney disease deal sizing for the igan_kidney_fibrosis TA sub-area."
+
+  - company_name: "Prometheus Biosciences"
+    ticker: "RXDX"
+    status: "acquired"
+    therapeutic_area: "immunology"
+    lead_assets: "PRA023 (TL1A antibody)"
+    stage: "phase_2"
+    ma_relevance_tags: ["immunology", "tl1a", "ibd", "ulcerative_colitis", "crohn"]
+    acquirer: "Merck"
+    deal_date: "2023-05-16"
+    deal_value_millions: 10800
+    notes: "Acquired by Merck for $10.8B. TL1A antibody PRA023 for IBD. Establishes TL1A/IBD franchise deal sizing. Directly relevant to tl1a_ibd sub-area monitoring."
+
+  # ── DERMATOLOGY / IMMUNOLOGY: TARGETED ───────────────────────────────────
+
+  - company_name: "Arcutis Biotherapeutics"
+    ticker: "ARQT"
+    status: "independent_public_target"
+    therapeutic_area: "immunology"
+    lead_assets: "roflumilast (PDE4 inhibitor) / ARQ-154 / ARQ-255"
+    stage: "commercial_phase_3"
+    ma_relevance_tags: ["immunology", "dermatology", "pde4", "atopic_dermatitis", "psoriasis", "small_molecule"]
+    source_url: "https://www.arcutis.com/pipeline"
+    notes: "Commercial PDE4 inhibitor foam for seborrheic dermatitis (ZORYVE). Topical/oral dermatology focus. Oral route relevant to oral_type2_inflammation gap for Dupixent defense."
+
+  - company_name: "Calliditas Therapeutics"
+    ticker: "CALT"
+    status: "acquired"
+    therapeutic_area: "kidney_disease"
+    lead_assets: "budesonide targeted release (Tarpeyo) for IgAN"
+    stage: "approved"
+    ma_relevance_tags: ["kidney_disease", "iga_nephropathy", "igan", "rare_disease", "small_molecule"]
+    acquirer: "Asahi Kasei"
+    deal_date: "2024-07-09"
+    deal_value_millions: 1130
+    notes: "Acquired for $1.13B. Tarpeyo approved for IgAN. Establishes IgAN deal sizing at the small-cap end."
+
+  # ── ONCOLOGY: ADDITIONAL PRECISION ───────────────────────────────────────
+
+  - company_name: "Black Diamond Therapeutics"
+    ticker: "BDTX"
+    status: "independent_public_target"
+    therapeutic_area: "oncology"
+    lead_assets: "BDTX-1535 (pan-EGFR MasterKey)"
+    stage: "phase_2"
+    ma_relevance_tags: ["oncology", "precision_oncology", "egfr", "nsclc", "kinase_inhibitor"]
+    source_url: "https://www.blackdiamondtherapeutics.com/"
+    notes: "Pan-EGFR inhibitor designed to address all EGFR mutations including C797S resistance. Bolt-on precision oncology target."
+
+  - company_name: "Turning Point Therapeutics"
+    ticker: "TPTX"
+    status: "acquired"
+    therapeutic_area: "oncology"
+    lead_assets: "repotrectinib (ROS1/NTRK3)"
+    stage: "phase_2_phase_3"
+    ma_relevance_tags: ["oncology", "precision_oncology", "ros1", "ntrk", "nsclc"]
+    acquirer: "Bristol-Myers Squibb"
+    deal_date: "2022-06-03"
+    deal_value_millions: 4100
+    notes: "Acquired by BMS for $4.1B. Repotrectinib (ROS1/NTRK) approved as AUGTYRO. Establishes next-gen precision oncology deal sizing."
+
+  - company_name: "Nuvation Bio"
+    ticker: "NUVB"
+    status: "independent_public_target"
+    therapeutic_area: "oncology"
+    lead_assets: "taletrectinib (ROS1/NTRK) / navtemadlin (MDM2)"
+    stage: "phase_2_phase_3"
+    ma_relevance_tags: ["oncology", "precision_oncology", "ros1", "ntrk", "mdm2"]
+    source_url: "https://www.nuvationbio.com/pipeline/"
+    notes: "Already listed above. Deduplication note: precision oncology kinase."
+
+  - company_name: "Boundless Bio"
+    ticker: "BOLD"
+    status: "independent_public_target"
+    therapeutic_area: "oncology"
+    lead_assets: "BBI-355 (ecDNA-dependent tumor targeting)"
+    stage: "phase_1_phase_2"
+    ma_relevance_tags: ["oncology", "precision_oncology", "extrachromosomal_dna", "dna_damage_response"]
+    source_url: "https://www.boundlessbio.com/pipeline/"
+    notes: "Novel mechanism targeting extrachromosomal DNA (ecDNA) amplifications in tumors. Differentiated platform relevant to precision oncology acquirers."
+
+  # ── CARDIOVASCULAR / RARE: MORE ───────────────────────────────────────────
+
+  - company_name: "BridgeBio Pharma"
+    ticker: "BBIO"
+    status: "independent_public_target"
+    therapeutic_area: "rare_disease_cardiovascular"
+    lead_assets: "acoramidis (ATTR-CM) / BBP-418 (limb girdle MD)"
+    stage: "approved_phase_3"
+    ma_relevance_tags: ["rare_disease", "cardiovascular", "transthyretin", "genetic_medicine", "small_molecule"]
+    source_url: "https://bridgebio.com/pipeline/"
+    notes: "Acoramidis approved for ATTR-CM (ATTRUBY). Competing with tafamidis (Pfizer). Strong commercial trajectory. ATTR genetic disease convergence point for rare disease and genetic medicine acquirers."
+
+  - company_name: "Rocket Pharmaceuticals"
+    ticker: "RCKT"
+    status: "independent_public_target"
+    therapeutic_area: "rare_disease"
+    lead_assets: "RP-L201 (LAD-I) / RP-L301 (PKD) / RP-A501 (Danon disease)"
+    stage: "phase_2_phase_3"
+    ma_relevance_tags: ["rare_disease", "genetic_medicine", "aav_gene_therapy", "bone_marrow_disorder", "lentiviral"]
+    source_url: "https://rocketpharma.com/pipeline/"
+    notes: "Lentiviral and AAV gene therapy for severe rare diseases. LAD-I and Danon disease programs in Phase 2/3. Small market cap and clear phase milestone catalysts make this a potential bolt-on for genetic medicine acquirers."
+
+  - company_name: "Sarepta Therapeutics"
+    ticker: "SRPT"
+    status: "independent_public_target"
+    therapeutic_area: "rare_disease"
+    lead_assets: "ELEVIDYS (DMD gene therapy) / eteplirsen / casimersen"
+    stage: "commercial"
+    ma_relevance_tags: ["rare_disease", "genetic_medicine", "aav_gene_therapy", "duchenne", "rna_therapy", "sirna_rnai"]
+    source_url: "https://www.sarepta.com/our-science/pipeline"
+    notes: "Leading Duchenne gene therapy and exon-skipping platform. ELEVIDYS approved. Market cap ~$8-12B range. Platform has strategic relevance for any genetic medicine acquirer, particularly companies building neuromuscular disease capability."
+
+  # ── ONCOLOGY: HEMATOLOGY / BISPECIFIC ────────────────────────────────────
+
+  - company_name: "AbbVie / Syndax Pharmaceuticals"
+    ticker: "SNDX"
+    status: "independent_public_target"
+    therapeutic_area: "hematology_oncology"
+    lead_assets: "revumenib (KMT2A/NPM1 AML) / axatilimab"
+    stage: "approved_phase_3"
+    ma_relevance_tags: ["hematology", "oncology", "aml", "mll_r_aml", "menin_inhibitor", "axatilimab_csf1r"]
+    source_url: "https://syndax.com/pipeline/"
+    notes: "Revumenib approved for KMT2A-rearranged and NPM1-mutant AML. Menin inhibitor mechanism. Axatilimab (CSF1R antibody) for chronic GVHD. Relevant to hematology oncology bispecific gap thesis."
+
+  - company_name: "Prelude Therapeutics"
+    ticker: "PRLD"
+    status: "independent_public_target"
+    therapeutic_area: "hematology_oncology"
+    lead_assets: "PRT2527 (CDK9) / PRT1419 (MCL1)"
+    stage: "phase_1_phase_2"
+    ma_relevance_tags: ["hematology", "oncology", "cdk9", "mcl1", "aml", "heme_onc"]
+    source_url: "https://www.preludetherapeutics.com/pipeline/"
+    notes: "CDK9 and MCL1 inhibitors for hematologic malignancies. Relevant to heme-onc bispecific combination strategy."

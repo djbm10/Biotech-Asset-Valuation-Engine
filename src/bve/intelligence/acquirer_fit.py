@@ -93,7 +93,19 @@ _CATEGORY_ALIASES: dict[str, set[str]] = {
     },
     "neuropsychiatry": {"schizophrenia", "psychosis", "depression", "anxiety", "neuropsychiatry"},
     "vaccines": {"vaccine", "vaccines", "vaccination", "rsv", "influenza", "flu", "mrna"},
-    "radiopharmaceutical": {"radiopharmaceutical", "radioligand", "lutetium", "actinium", "isotope"},
+    "radiopharmaceutical": {
+        "radiopharmaceutical",
+        "radioligand",
+        "radioligand therapy",
+        "lutetium",
+        "actinium",
+        "isotope",
+        "radiopharma",
+        "rlt",
+        "targeted radionuclide",
+        "alpha therapy",
+        "beta emitter",
+    },
     "genetic_medicine": {
         "genetic",
         "genetics",
@@ -103,13 +115,41 @@ _CATEGORY_ALIASES: dict[str, set[str]] = {
         "editing",
         "rna",
         "oligo",
+        "sirna",
+        "rnai",
+        "antisense",
+        "oligonucleotide",
+        "mrna therapy",
     },
-    "fully_human_antibody": {"antibody", "monoclonal", "mab"},
-    "bispecific_antibody": {"bispecific", "antibody", "xcd3", "xcd28"},
-    "cell_therapy": {"cell", "car t", "cart", "tcr"},
-    "data_genomics_platform": {"data", "genomics", "database", "biobank", "platform"},
-    "oncology": {"oncology", "cancer", "tumor", "hematology"},
-    "rare_disease": {"rare", "orphan", "hearing"},
+    "sirna_rnai": {
+        "sirna",
+        "rnai",
+        "rna interference",
+        "antisense",
+        "antisense oligonucleotide",
+        "aso",
+        "oligonucleotide",
+        "rna silencing",
+    },
+    "fully_human_antibody": {"antibody", "monoclonal", "mab", "immunoglobulin", "igg"},
+    "monoclonal_antibody": {"monoclonal antibody", "mab", "antibody", "immunoglobulin", "igg"},
+    "fusion_protein": {"fusion protein", "trap", "receptor trap", "aflibercept", "etanercept"},
+    "bispecific_antibody": {"bispecific", "antibody", "xcd3", "xcd28", "t cell engager", "t-cell engager"},
+    "cell_therapy": {"cell", "car t", "cart", "tcr", "allogeneic", "autologous"},
+    "data_genomics_platform": {"data", "genomics", "database", "biobank", "platform", "sequencing"},
+    "oncology": {
+        "oncology",
+        "cancer",
+        "tumor",
+        "hematology",
+        "radiopharma",
+        "radioligand",
+        "solid tumor",
+        "lymphoma",
+        "leukemia",
+        "myeloma",
+    },
+    "rare_disease": {"rare", "orphan", "hearing", "ultra rare", "lysosomal storage"},
 }
 
 _EXPOSURE_LEVEL_SCORES = {
@@ -303,6 +343,78 @@ _SUBAREA_SIGNAL_ALIASES: dict[str, set[str]] = {
         "t-cell engager",
     },
     "tl1a_ibd": {"tl1a", "pra023", "prometheus"},
+    "geographic_atrophy_non_vegf": {
+        "geographic atrophy",
+        "ga complement",
+        "complement inhibitor",
+        "c1q",
+        "c3 inhibitor",
+        "htra1",
+        "drusen",
+        "rpe atrophy",
+        "non vegf retinal",
+        "complement mediated retinal",
+    },
+    "muscle_sparing_anabolic": {
+        "myostatin",
+        "gdf8",
+        "activin",
+        "activin receptor",
+        "lean mass",
+        "muscle preservation",
+        "sarcopenia",
+        "anabolic",
+        "muscle sparing",
+        "fat free mass",
+    },
+    "io_combination_warhead": {
+        "radiopharma",
+        "radioligand",
+        "lutetium",
+        "actinium",
+        "warhead",
+        "solid tumor io",
+        "bispecific io",
+        "payload delivery",
+        "tumor targeting",
+    },
+    "oral_type2_inflammation": {
+        "tyk2",
+        "jak1 selective",
+        "type 2 inflammation",
+        "oral atopic",
+        "oral il 4",
+        "oral il 13",
+        "thymic stromal",
+        "tslp oral",
+    },
+    "anticoagulation_factor_xi_or_heme_onc_bispecific": {
+        "fxi",
+        "factor xi",
+        "thrombosis",
+        "anticoagulant",
+        "clotting factor",
+        "thromboembolic",
+        "multiple myeloma bispecific",
+        "b cell lymphoma bispecific",
+    },
+    "rgc_validated_targets": {
+        "genetics validated",
+        "rare genetic",
+        "monogenic",
+        "loss of function",
+        "gain of function variant",
+        "hereditary",
+        "aadc",
+        "ornithine",
+    },
+    "sirna_gene_silencing": {
+        "sirna",
+        "rnai",
+        "rna interference",
+        "rna silencing",
+        "lipid nanoparticle sirna",
+    },
 }
 
 SCORE_VERSIONS: dict[str, dict[str, float]] = {
@@ -1319,24 +1431,49 @@ def _gap_modality_match(
     ) or ""
     preferred_list = list(getattr(gap, "preferred_modality", []) or [])
 
+    best_score = 0.0
+    best_match: Optional[str] = None
+
     for preferred in preferred_list:
         preferred_normalized = _normalize_text(preferred)
         if preferred_normalized is None:
             continue
+        score = 0.0
+
+        # Exact canonical match
         if preferred_normalized == target_modality:
-            return 1.0, preferred.replace(" ", "_")
-        if preferred_normalized == "small molecule" and target_modality == "oral small molecule":
-            return 0.8, preferred.replace(" ", "_")
-        if preferred_normalized == "oral small molecule":
+            score = 1.0
+        elif preferred_normalized == "small molecule" and target_modality == "oral small molecule":
+            score = 0.8
+        elif preferred_normalized == "oral small molecule":
             if target_modality == "oral small molecule":
-                return 1.0, preferred.replace(" ", "_")
-            if target_modality == "small molecule" and "oral" in search_text:
-                return 1.0, preferred.replace(" ", "_")
-        if preferred_normalized == "adc" and target_modality == "adc":
-            return 1.0, "adc"
-        if preferred_normalized == "peptide" and "peptide" in search_text:
-            return 1.0, "peptide"
-    return 0.0, None
+                score = 1.0
+            elif target_modality == "small molecule" and "oral" in search_text:
+                score = 1.0
+        elif preferred_normalized == "adc" and target_modality == "adc":
+            score = 1.0
+        elif preferred_normalized == "peptide" and "peptide" in search_text:
+            score = 1.0
+        else:
+            # Token-overlap fallback via _CATEGORY_ALIASES — catches sirna_rnai,
+            # radiopharmaceutical, bispecific_antibody, monoclonal_antibody, etc.
+            preferred_tokens = _signal_tokens(preferred)
+            target_tokens_set = _signal_tokens(target.modality or "") | _signal_tokens(search_text)
+            overlap = preferred_tokens & target_tokens_set
+            if overlap:
+                # Score is lower for partial match; boost if the category name itself matches
+                pref_canon = preferred_normalized.replace(" ", "_")
+                tgt_canon = (target_modality or "").replace(" ", "_")
+                if pref_canon == tgt_canon or pref_canon in tgt_canon or tgt_canon in pref_canon:
+                    score = 0.9
+                else:
+                    score = 0.7
+
+        if score > best_score:
+            best_score = score
+            best_match = preferred.replace(" ", "_")
+
+    return (best_score, best_match) if best_score > 0.0 else (0.0, None)
 
 
 def _gap_stage_score(stage: Optional[str]) -> float:
@@ -1511,8 +1648,32 @@ def _resolve_target_modality(
         if moa and "bispecific" in moa:
             return "bispecific_antibody"
         return "fully_human_antibody"
-    if normalized in {"gene therapy", "rna therapy"}:
+    if normalized in {"gene therapy", "rna therapy", "aav gene therapy"}:
         return "genetic_medicine"
     if normalized == "cell therapy":
         return "cell_therapy"
+    # siRNA / RNAi mappings
+    if normalized in {"sirna", "rnai", "rna interference", "antisense oligonucleotide", "aso", "oligonucleotide"}:
+        return "sirna_rnai"
+    if normalized in {"sirna rnai", "rna silencing", "antisense"}:
+        return "sirna_rnai"
+    # Radiopharmaceutical mappings
+    if normalized in {
+        "radioligand therapy",
+        "radioligand",
+        "radiopharma",
+        "targeted radionuclide",
+        "alpha therapy",
+        "beta emitter",
+        "rlt",
+    }:
+        return "radiopharmaceutical"
+    # Bispecific antibody mappings
+    if normalized in {"bispecific antibody", "bispecific", "t cell engager", "t-cell engager"}:
+        return "bispecific_antibody"
+    # Monoclonal antibody / fusion protein
+    if normalized in {"monoclonal antibody", "mab", "immunoglobulin"}:
+        return "fully_human_antibody"
+    if normalized in {"fusion protein", "receptor trap", "trap"}:
+        return "fusion_protein"
     return normalized.replace(" ", "_")
