@@ -73,10 +73,27 @@ class MoAExceptionFlag(str, Enum):
 
 
 class SampleSizeAdequacy(str, Enum):
-    WELL_POWERED = "well_powered"    # ≥ 90% power for primary endpoint
-    ADEQUATE = "adequate"            # ~80% power
-    BORDERLINE = "borderline"        # 70–80% power or borderline effect size
-    UNDERPOWERED = "underpowered"    # < 70% power
+    """
+    Statistical power and design adequacy for the primary endpoint.
+
+    Score by power and design quality, NOT raw patient count alone.
+    80 patients can be adequate in rare disease; insufficient in CVOT.
+    Use TA context and expected effect size when assigning this tier.
+
+    TA guidance:
+      Oncology:            50–300 may be adequate depending on endpoint
+      Rare disease:        20–100 acceptable if effect size is large
+      Cardiovascular:      often thousands needed for event reduction
+      CNS/Psychiatry:      larger N due to high placebo response
+      Ophthalmology:       smaller N feasible with paired-eye designs
+      Renal/Metabolic:     large N for hard outcomes (eGFR slope, MACE)
+    """
+    WELL_POWERED  = "well_powered"    # ≥90% power, realistic effect-size assumptions (+0.20)
+    ADEQUATE      = "adequate"        # 80–89% power, standard registrational design (0.00)
+    BORDERLINE    = "borderline"      # 70–79% power or aggressive effect-size assumptions (−0.20)
+    UNDERPOWERED  = "underpowered"    # <70% power; may be too small to prove the claim (−0.45)
+    UNVERIFIABLE  = "unverifiable"    # No disclosed power calc or unclear stat plan (−0.25)
+    EXPLORATORY   = "exploratory"     # Tiny/open-label/signal-seeking; not confirmatory (−0.50)
 
 
 class SafetyProfile(str, Enum):
@@ -447,10 +464,12 @@ _MOA_EXCEPTION_LOGODDS: dict[MoAExceptionFlag, float] = {
 }
 
 _SAMPLE_LOGODDS: dict[SampleSizeAdequacy, float] = {
-    SampleSizeAdequacy.WELL_POWERED: +0.20,
-    SampleSizeAdequacy.ADEQUATE: 0.00,
-    SampleSizeAdequacy.BORDERLINE: -0.25,
-    SampleSizeAdequacy.UNDERPOWERED: -0.50,
+    SampleSizeAdequacy.WELL_POWERED:  +0.20,   # ≥90% power; strong design
+    SampleSizeAdequacy.ADEQUATE:       0.00,   # 80–89%; standard registrational (reference)
+    SampleSizeAdequacy.UNVERIFIABLE:  -0.25,   # No disclosed power calc; cannot confirm adequacy
+    SampleSizeAdequacy.BORDERLINE:    -0.20,   # 70–79% or aggressive effect size (was −0.25)
+    SampleSizeAdequacy.UNDERPOWERED:  -0.45,   # <70% power; real risk of false negative (was −0.50)
+    SampleSizeAdequacy.EXPLORATORY:   -0.50,   # Signal-seeking only; hypothesis-generating
 }
 
 _SAFETY_LOGODDS: dict[SafetyProfile, float] = {
