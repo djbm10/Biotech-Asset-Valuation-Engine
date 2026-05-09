@@ -141,9 +141,15 @@ _H_SAFETY: dict[SafetyProfile, float] = {
     SafetyProfile.CONCERNING:             -0.40,
 }
 _H_COMPETITION: dict[CompetitivePressure, float] = {
-    CompetitivePressure.LOW: +0.15,
-    CompetitivePressure.MODERATE: 0.00,
-    CompetitivePressure.HIGH: -0.15,
+    # Preferred four-tier values
+    CompetitivePressure.LOW_BAR:      +0.10,
+    CompetitivePressure.NORMAL_BAR:    0.00,
+    CompetitivePressure.ELEVATED_BAR: -0.15,
+    CompetitivePressure.HIGH_BAR:     -0.30,
+    # Legacy
+    CompetitivePressure.LOW:          +0.10,
+    CompetitivePressure.MODERATE:      0.00,
+    CompetitivePressure.HIGH:         -0.15,
 }
 _H_BIOMARKER_BONUS = 0.40
 
@@ -203,8 +209,14 @@ def _encode_features(
     safety_serious = 1.0 if sf in _SAFETY_SERIOUS_TIERS else 0.0
 
     cp = adjusters.competitive_pressure
-    competition_low = 1.0 if cp == CompetitivePressure.LOW else 0.0
-    competition_high = 1.0 if cp == CompetitivePressure.HIGH else 0.0
+    _COMPETITION_LOW_TIERS = {CompetitivePressure.LOW_BAR, CompetitivePressure.LOW}
+    _COMPETITION_HIGH_TIERS = {
+        CompetitivePressure.ELEVATED_BAR,
+        CompetitivePressure.HIGH_BAR,
+        CompetitivePressure.HIGH,
+    }
+    competition_low = 1.0 if cp in _COMPETITION_LOW_TIERS else 0.0
+    competition_high = 1.0 if cp in _COMPETITION_HIGH_TIERS else 0.0
 
     return np.array([
         1.0,              # intercept
@@ -473,8 +485,8 @@ def calibration_report() -> str:
         "safety_clean": "≈ +0.10 (clean safety bonus)",
         "safety_concerning": "≈ -0.35 (concerning safety penalty)",
         "safety_serious": "≈ -0.80 (serious safety penalty)",
-        "competition_low": "≈ +0.15 (low competition bonus)",
-        "competition_high": "≈ -0.15 (high competition penalty)",
+        "competition_low": "≈ +0.10 (low_bar: high unmet need, weak/no standard of care)",
+        "competition_high": "≈ −0.15 to −0.30 (elevated/high bar: differentiation or superiority required)",
     }
 
     lines = [

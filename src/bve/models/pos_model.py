@@ -125,9 +125,30 @@ class SafetyProfile(str, Enum):
 
 
 class CompetitivePressure(str, Enum):
-    LOW = "low"                      # Limited / no approved competitors
-    MODERATE = "moderate"            # 1-3 approved competitors; differentiated profile
-    HIGH = "high"                    # Crowded class; commodity-like differentiation
+    """
+    Regulatory / clinical bar the asset must clear given the existing treatment landscape.
+
+    Reflects how hard it is to achieve approval and demonstrate clinically meaningful
+    differentiation — not just how many competitors exist.
+
+    Preferred values (new configs):
+      low_bar, normal_bar, elevated_bar, high_bar
+
+    Legacy values (preserved for backward compatibility):
+      low      → low_bar (+0.10)
+      moderate → normal_bar (0.00)
+      high     → elevated_bar (−0.15)
+    """
+    # ── Preferred four-tier values ───────────────────────────────────────────
+    LOW_BAR      = "low_bar"       # High unmet need; weak/no standard of care (+0.10)
+    NORMAL_BAR   = "normal_bar"    # Accepted endpoint/design for current landscape (0.00)
+    ELEVATED_BAR = "elevated_bar"  # Effective standard exists; meaningful differentiation needed (−0.15)
+    HIGH_BAR     = "high_bar"      # Head-to-head or superiority trial likely required (−0.30)
+
+    # ── Legacy values (backward-compatible) ─────────────────────────────────
+    LOW      = "low"       # Alias for LOW_BAR (+0.10)
+    MODERATE = "moderate"  # Alias for NORMAL_BAR (0.00)
+    HIGH     = "high"      # Alias for ELEVATED_BAR (−0.15)
 
 
 # ---------------------------------------------------------------------------
@@ -507,9 +528,15 @@ _SAFETY_LOGODDS: dict[SafetyProfile, float] = {
 }
 
 _COMPETITION_LOGODDS: dict[CompetitivePressure, float] = {
-    CompetitivePressure.LOW: +0.15,       # Less pressure to show superiority
-    CompetitivePressure.MODERATE: 0.00,
-    CompetitivePressure.HIGH: -0.15,
+    # Preferred four-tier values
+    CompetitivePressure.LOW_BAR:      +0.10,   # High unmet need; minimal bar
+    CompetitivePressure.NORMAL_BAR:    0.00,   # Standard landscape (reference)
+    CompetitivePressure.ELEVATED_BAR: -0.15,   # Differentiation required
+    CompetitivePressure.HIGH_BAR:     -0.30,   # Superiority / head-to-head required
+    # Legacy (backward-compatible)
+    CompetitivePressure.LOW:          +0.10,   # = LOW_BAR (was +0.15)
+    CompetitivePressure.MODERATE:      0.00,   # = NORMAL_BAR
+    CompetitivePressure.HIGH:         -0.15,   # = ELEVATED_BAR
 }
 
 _BIOMARKER_SELECTION_BONUS: float = 0.40  # log-odds bonus for biomarker-enriched population
