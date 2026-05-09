@@ -241,6 +241,126 @@ _ENDPOINT_LOGODDS_BY_TA: dict[str, dict[EndpointType, float]] = {
     },
 
     # ------------------------------------------------------------------
+    # Oncology — solid tumor (granular alias; identical to "oncology" entry)
+    # New configs should prefer oncology_solid when TA is solid tumor.
+    # ------------------------------------------------------------------
+    "oncology_solid": {
+        EndpointType.HARD_CLINICAL:       +0.45,
+        EndpointType.EFS_DFS:             +0.30,
+        EndpointType.PFS:                 +0.15,
+        EndpointType.ORR:                 -0.025,
+        EndpointType.DOR:                  0.00,
+        EndpointType.CR_CRI:              -0.05,
+        EndpointType.MOLECULAR_BIOMARKER: -0.175,
+        EndpointType.QOL_PRO:             +0.075,
+        EndpointType.BIOMARKER_ONLY:      -0.55,
+        EndpointType.SURROGATE_VALIDATED:  +0.15,
+        EndpointType.SURROGATE_NOVEL:     -0.25,
+    },
+
+    # ------------------------------------------------------------------
+    # Psychiatry (split from CNS/neurology 2026-Q2)
+    # High placebo response in MDD/anxiety RCTs; PANSS/MADRS/HDRS validated.
+    # ------------------------------------------------------------------
+    "psychiatry": {
+        EndpointType.HARD_CLINICAL:       +0.45,   # Suicidality endpoints
+        EndpointType.CLINICAL_REMISSION:  +0.30,   # Remission rate (HDRS, PANSS)
+        EndpointType.COGNITIVE_SCALE:     +0.10,   # MADRS, PANSS negative/cognitive
+        EndpointType.QOL_PRO:             +0.05,   # Patient-reported outcomes
+        EndpointType.FUNCTIONAL_IMPROVEMENT: +0.20, # Functional impairment scales
+        EndpointType.IMAGING_ANATOMIC:    +0.05,   # Neuroimaging biomarker
+        EndpointType.MOLECULAR_BIOMARKER: -0.15,   # CSF/plasma biomarkers
+        EndpointType.BIOMARKER_ONLY:      -0.55,
+        EndpointType.SURROGATE_VALIDATED: +0.10,
+        EndpointType.SURROGATE_NOVEL:     -0.35,   # Conservative; high noise field
+    },
+
+    # ------------------------------------------------------------------
+    # Metabolic / endocrine (diabetes, obesity, lipids, NASH)
+    # Well-validated surrogates (HbA1c, weight loss, LDL-C); strong precedent.
+    # ------------------------------------------------------------------
+    "metabolic": {
+        EndpointType.HARD_CLINICAL:       +0.45,   # CV death, HF hospitalization
+        EndpointType.MACE:                +0.40,   # CVOT MACE endpoint
+        EndpointType.HOSPITALIZATION_REDUCTION: +0.30,
+        EndpointType.HBA1C_VALIDATED:     +0.25,   # HbA1c, LDL-C, weight loss — core metabolic
+        EndpointType.FUNCTIONAL_IMPROVEMENT: +0.15, # Liver histology, fibrosis regression
+        EndpointType.QOL_PRO:             +0.10,
+        EndpointType.IMAGING_ANATOMIC:    +0.05,   # MRI-PDFF, liver fat fraction
+        EndpointType.LIVER_ENZYME:        -0.10,   # ALT/AST alone insufficient
+        EndpointType.MOLECULAR_BIOMARKER: -0.15,   # Biomarker-only weak
+        EndpointType.BIOMARKER_ONLY:      -0.50,
+        EndpointType.SURROGATE_VALIDATED: +0.20,
+        EndpointType.SURROGATE_NOVEL:     -0.20,
+    },
+
+    # ------------------------------------------------------------------
+    # Dermatology (psoriasis, atopic dermatitis, alopecia, urticaria)
+    # Objective validated scales (PASI, IGA, EASI); strong IL-17/IL-23 precedent.
+    # ------------------------------------------------------------------
+    "dermatology": {
+        EndpointType.HARD_CLINICAL:       +0.40,
+        EndpointType.VALIDATED_CLINICAL_SCORE: +0.35, # PASI90/100, EASI75/90, IGA 0/1
+        EndpointType.CLINICAL_REMISSION:  +0.30,   # Complete clearance
+        EndpointType.QOL_PRO:             +0.20,   # DLQI, patient-reported itch/NRS
+        EndpointType.IMAGING_ANATOMIC:    +0.10,   # Histology
+        EndpointType.BIOMARKER_ONLY:      -0.50,
+        EndpointType.SURROGATE_VALIDATED: +0.20,
+        EndpointType.SURROGATE_NOVEL:     -0.20,
+    },
+
+    # ------------------------------------------------------------------
+    # Gastroenterology / non-IBD (GERD, IBS, NASH liver-specific, cholestatic)
+    # PRO endpoints carry high placebo response; histologic endpoints more robust.
+    # IBD (Crohn's, UC) should use immunology TA — same ACR/endoscopy framework.
+    # ------------------------------------------------------------------
+    "gastroenterology": {
+        EndpointType.HARD_CLINICAL:       +0.40,   # Mortality, hepatic events
+        EndpointType.FUNCTIONAL_IMPROVEMENT: +0.25, # Histologic fibrosis regression
+        EndpointType.CLINICAL_REMISSION:  +0.20,   # Symptom-free / clinical cure
+        EndpointType.VALIDATED_CLINICAL_SCORE: +0.20, # IBS-SSS, CDAI (shared use)
+        EndpointType.QOL_PRO:             +0.075,  # Symptom PROs; high placebo
+        EndpointType.IMAGING_ANATOMIC:    +0.05,   # MRI-PDFF, liver stiffness
+        EndpointType.LIVER_ENZYME:        -0.10,   # ALT/AST alone insufficient
+        EndpointType.MOLECULAR_BIOMARKER: -0.10,
+        EndpointType.BIOMARKER_ONLY:      -0.50,
+        EndpointType.SURROGATE_VALIDATED: +0.10,
+        EndpointType.SURROGATE_NOVEL:     -0.25,
+    },
+
+    # ------------------------------------------------------------------
+    # Pulmonary / respiratory (COPD, asthma, IPF, PAH, bronchiectasis)
+    # FEV1/FVC and exacerbation reduction accepted; spirometry has placebo noise.
+    # ------------------------------------------------------------------
+    "pulmonary": {
+        EndpointType.HARD_CLINICAL:       +0.45,   # Mortality / transplant-free survival
+        EndpointType.EXACERBATION_REDUCTION: +0.35, # Exacerbation rate reduction
+        EndpointType.HOSPITALIZATION_REDUCTION: +0.30,
+        EndpointType.FUNCTIONAL_IMPROVEMENT: +0.25, # FEV1, 6MWT, DLCO
+        EndpointType.QOL_PRO:             +0.10,   # SGRQ, CAT score; placebo response
+        EndpointType.IMAGING_ANATOMIC:    +0.05,   # CT quantitative imaging
+        EndpointType.MOLECULAR_BIOMARKER: -0.10,   # Biomarker (FeNO, blood eos alone)
+        EndpointType.BIOMARKER_ONLY:      -0.50,
+        EndpointType.SURROGATE_VALIDATED: +0.15,
+        EndpointType.SURROGATE_NOVEL:     -0.25,
+    },
+
+    # ------------------------------------------------------------------
+    # Renal (CKD, IgA nephropathy, FSGS, glomerulonephritis)
+    # eGFR slope accepted by FDA/EMA as approvable endpoint since 2020.
+    # ------------------------------------------------------------------
+    "renal": {
+        EndpointType.HARD_CLINICAL:       +0.45,   # Kidney failure / ESKD
+        EndpointType.HOSPITALIZATION_REDUCTION: +0.30, # AKI hospitalization
+        EndpointType.FUNCTIONAL_IMPROVEMENT: +0.30, # eGFR slope / CKD progression
+        EndpointType.HBA1C_VALIDATED:     +0.20,   # eGFR (analogous to validated surrogate)
+        EndpointType.MOLECULAR_BIOMARKER: -0.10,   # Proteinuria alone borderline
+        EndpointType.BIOMARKER_ONLY:      -0.50,
+        EndpointType.SURROGATE_VALIDATED: +0.20,
+        EndpointType.SURROGATE_NOVEL:     -0.20,
+    },
+
+    # ------------------------------------------------------------------
     # Ophthalmology
     # Visual acuity is the core regulatory endpoint; anatomic biomarkers weak alone.
     # ------------------------------------------------------------------

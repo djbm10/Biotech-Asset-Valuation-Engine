@@ -14,14 +14,25 @@ class DevelopmentStage(str, Enum):
 
 
 class TherapeuticArea(str, Enum):
-    ONCOLOGY = "oncology"
+    # ── Legacy / broad-category TAs (backward-compatible) ──────────────────
+    ONCOLOGY = "oncology"                   # solid tumor default; use ONCOLOGY_SOLID for precision
     RARE_DISEASE = "rare_disease"
-    CNS = "cns"
+    CNS = "cns"                             # neurology; use PSYCHIATRY for pure psychiatric
     CARDIOVASCULAR = "cardiovascular"
-    IMMUNOLOGY = "immunology"
+    IMMUNOLOGY = "immunology"               # broad autoimmune; use sub-TAs for precision
     INFECTIOUS_DISEASE = "infectious_disease"
     OPHTHALMOLOGY = "ophthalmology"
     OTHER = "other"
+
+    # ── Granular TAs (added 2026-Q2) ───────────────────────────────────────
+    ONCOLOGY_SOLID = "oncology_solid"       # solid tumor oncology (subset of ONCOLOGY)
+    HEMATOLOGY = "hematology"               # hematology/oncology (blood cancers)
+    PSYCHIATRY = "psychiatry"               # psychiatric disorders (split from CNS)
+    METABOLIC = "metabolic"                 # metabolic/endocrine (diabetes, obesity, lipids)
+    DERMATOLOGY = "dermatology"             # dermatology (psoriasis, atopic derm, etc.)
+    GASTROENTEROLOGY = "gastroenterology"   # GI/gastroenterology (non-IBD); IBD → IMMUNOLOGY
+    PULMONARY = "pulmonary"                 # pulmonary/respiratory (COPD, asthma, IPF)
+    RENAL = "renal"                         # renal (CKD, IgA nephropathy, glomerulonephritis)
 
 
 class Modality(str, Enum):

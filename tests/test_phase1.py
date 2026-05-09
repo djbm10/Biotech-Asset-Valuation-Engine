@@ -764,8 +764,11 @@ class TestBackwardCompatSnapshot:
         from bve.entities.trial import TrialPhase
         from bve.entities.asset import TherapeuticArea
         pos = compute_pos(TrialPhase.PHASE_3, TherapeuticArea.ONCOLOGY, POSAdjusters())
-        assert pos == pytest.approx(0.5500, abs=0.0005), (
-            f"compute_pos snapshot mismatch: got {pos:.4f}, expected ~0.5500"
+        # Snapshot updated 2026-Q2: oncology Phase 3 base rate updated from 0.55
+        # to 0.495 (weighted avg solid+hematology) plus SURROGATE_VALIDATED +0.15
+        # oncology-TA override → sigmoid(-0.020 + 0.15) ≈ 0.5325.
+        assert pos == pytest.approx(0.5325, abs=0.0005), (
+            f"compute_pos snapshot mismatch: got {pos:.4f}, expected ~0.5325"
         )
 
     def test_mc_snapshot_no_competition(self):
