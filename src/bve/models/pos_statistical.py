@@ -117,9 +117,16 @@ _H_ENDPOINT: dict[EndpointType, float] = {
     EndpointType.BIOMARKER_ONLY: -0.55,
 }
 _H_MOA: dict[MoAPrecedent, float] = {
-    MoAPrecedent.VALIDATED: +0.35,
-    MoAPrecedent.PARTIAL: 0.00,
-    MoAPrecedent.NOVEL: -0.35,
+    # Expanded to match pos_model._MOA_LOGODDS (2026-Q2)
+    MoAPrecedent.VALIDATED:                   +0.35,
+    MoAPrecedent.VALIDATED_CLASS:             +0.35,
+    MoAPrecedent.CLINICALLY_VALIDATED_TARGET: +0.20,
+    MoAPrecedent.PATHWAY_VALIDATED:           +0.05,
+    MoAPrecedent.PARTIAL:                      0.00,
+    MoAPrecedent.PRECLINICAL_ONLY:            -0.20,
+    MoAPrecedent.NOVEL:                       -0.35,
+    MoAPrecedent.PRIOR_FAILURES:              -0.50,
+    MoAPrecedent.KNOWN_LIABILITY:             -0.60,
 }
 _H_SAFETY: dict[SafetyProfile, float] = {
     SafetyProfile.CLEAN: +0.10,
@@ -166,8 +173,10 @@ def _encode_features(
     endpoint_biomarker = 1.0 if et == EndpointType.BIOMARKER_ONLY else 0.0
 
     moa = adjusters.moa_precedent
-    moa_validated = 1.0 if moa == MoAPrecedent.VALIDATED else 0.0
-    moa_novel = 1.0 if moa == MoAPrecedent.NOVEL else 0.0
+    _MOA_VALIDATED_TIERS = {MoAPrecedent.VALIDATED, MoAPrecedent.VALIDATED_CLASS, MoAPrecedent.CLINICALLY_VALIDATED_TARGET}
+    _MOA_NOVEL_TIERS = {MoAPrecedent.NOVEL, MoAPrecedent.PRIOR_FAILURES, MoAPrecedent.KNOWN_LIABILITY, MoAPrecedent.PRECLINICAL_ONLY}
+    moa_validated = 1.0 if moa in _MOA_VALIDATED_TIERS else 0.0
+    moa_novel = 1.0 if moa in _MOA_NOVEL_TIERS else 0.0
 
     biomarker = 1.0 if adjusters.biomarker_selected_population else 0.0
 

@@ -33,9 +33,43 @@ _AA_NDA_DISCOUNT: float = 0.18  # confirmatory trial risk discount for accelerat
 # ---------------------------------------------------------------------------
 
 class MoAPrecedent(str, Enum):
-    VALIDATED = "validated"          # Multiple approved drugs in class; well-understood biology
-    PARTIAL = "partial"              # 1-2 approved drugs or strong preclinical validation
-    NOVEL = "novel"                  # First-in-class; unvalidated target
+    """
+    How clinically validated is the target / mechanism?
+
+    Eight tiers, from established class down to known liability.
+    Legacy values (VALIDATED, PARTIAL, NOVEL) preserved for backward
+    compatibility with existing YAML configs and CSV backtest datasets.
+    """
+    # ── Positive precedent ──────────────────────────────────────────────────
+    VALIDATED = "validated"                   # Multiple approved drugs, same target/MoA (+0.35)
+    VALIDATED_CLASS = "validated_class"       # Explicit alias for VALIDATED; preferred in new configs
+    CLINICALLY_VALIDATED_TARGET = "clinically_validated_target"  # Human efficacy shown, few/no approved (+0.20)
+    PATHWAY_VALIDATED = "pathway_validated"   # Same pathway validated, exact target not (+0.05)
+
+    # ── Neutral ─────────────────────────────────────────────────────────────
+    PARTIAL = "partial"                       # Early human signal or strong translational rationale (0.00)
+
+    # ── Negative precedent ──────────────────────────────────────────────────
+    PRECLINICAL_ONLY = "preclinical_only"     # Animal/in vitro only, no human efficacy (−0.20)
+    NOVEL = "novel"                           # Novel FIC target, no human validation (−0.35)
+    PRIOR_FAILURES = "prior_failures"         # Prior class/target failures in same indication (−0.50)
+    KNOWN_LIABILITY = "known_liability"       # Known translational or safety liability (−0.60)
+
+
+class MoAExceptionFlag(str, Enum):
+    """
+    Override signals that can partially rescue a weak MoA precedent score.
+
+    Applied ADDITIVELY in log-odds space on top of the MoAPrecedent base value.
+    Example: NOVEL (−0.35) + GENETICALLY_VALIDATED_TARGET (+0.20) → −0.15.
+
+    Use in POSAdjusters.moa_exception_flags when evidence warrants it.
+    Do NOT stack flags speculatively; each should be supportable by data.
+    """
+    GENETICALLY_VALIDATED_TARGET = "genetically_validated_target"    # +0.20: strong human genetics (GWAS, Mendelian)
+    HUMAN_PROOF_OF_MECHANISM = "human_proof_of_mechanism"            # +0.15: human POM shown (biomarker, PK/PD)
+    STRONG_BIOMARKER_RESPONSE = "strong_biomarker_response"          # +0.10: clear, dose-dependent biomarker signal
+    PRIOR_FAILURES_DUE_TO_BAD_DRUG = "prior_failures_due_to_bad_drug"  # +0.25: prior failures were drug quality, not target
 
 
 class SampleSizeAdequacy(str, Enum):
@@ -391,9 +425,25 @@ _GENE_THERAPY_LOGODDS: dict[GeneTherapyConcern, float] = {
 }
 
 _MOA_LOGODDS: dict[MoAPrecedent, float] = {
-    MoAPrecedent.VALIDATED: +0.35,
-    MoAPrecedent.PARTIAL: 0.00,
-    MoAPrecedent.NOVEL: -0.35,
+    # Positive precedent
+    MoAPrecedent.VALIDATED:                   +0.35,  # legacy: same as VALIDATED_CLASS
+    MoAPrecedent.VALIDATED_CLASS:             +0.35,  # multiple approved drugs, same target/MoA
+    MoAPrecedent.CLINICALLY_VALIDATED_TARGET: +0.20,  # human efficacy shown; few/no approved
+    MoAPrecedent.PATHWAY_VALIDATED:           +0.05,  # same pathway valid; exact target not
+    # Neutral
+    MoAPrecedent.PARTIAL:                      0.00,  # early human signal / strong translational
+    # Negative precedent
+    MoAPrecedent.PRECLINICAL_ONLY:            -0.20,  # animal/in vitro only; no human efficacy
+    MoAPrecedent.NOVEL:                       -0.35,  # FIC, no human validation
+    MoAPrecedent.PRIOR_FAILURES:              -0.50,  # prior class failures in same indication
+    MoAPrecedent.KNOWN_LIABILITY:             -0.60,  # known translational or safety liability
+}
+
+_MOA_EXCEPTION_LOGODDS: dict[MoAExceptionFlag, float] = {
+    MoAExceptionFlag.GENETICALLY_VALIDATED_TARGET:    +0.20,  # strong human genetics (GWAS, Mendelian)
+    MoAExceptionFlag.HUMAN_PROOF_OF_MECHANISM:        +0.15,  # human POM shown in biomarker/PK-PD
+    MoAExceptionFlag.STRONG_BIOMARKER_RESPONSE:       +0.10,  # clear dose-dependent biomarker signal
+    MoAExceptionFlag.PRIOR_FAILURES_DUE_TO_BAD_DRUG:  +0.25,  # prior failures = drug quality, not target
 }
 
 _SAMPLE_LOGODDS: dict[SampleSizeAdequacy, float] = {
@@ -481,6 +531,17 @@ class POSAdjusters(BaseModel):
         ),
     )
 
+    # MoA exception flags — partial override for weak precedent tiers
+    moa_exception_flags: list[MoAExceptionFlag] = Field(
+        default_factory=list,
+        description=(
+            "Evidence signals that partially rescue a weak MoA precedent score. "
+            "Applied additively in log-odds space on top of the moa_precedent value. "
+            "Example: NOVEL (−0.35) + GENETICALLY_VALIDATED_TARGET (+0.20) → −0.15. "
+            "Do not stack flags speculatively — each must be supportable by data."
+        ),
+    )
+
 
 # ---------------------------------------------------------------------------
 # Core computation
@@ -563,6 +624,9 @@ def _compute_layer1_adjustment(adjusters: POSAdjusters, ta_value: str = "other")
     delta = 0.0
     delta += _endpoint_logodds(adjusters.endpoint_type, ta_value)
     delta += _MOA_LOGODDS[adjusters.moa_precedent]
+    # MoA exception flags: partial override for weak precedent (additive)
+    for flag in adjusters.moa_exception_flags:
+        delta += _MOA_EXCEPTION_LOGODDS.get(flag, 0.0)
     delta += _SAMPLE_LOGODDS[adjusters.sample_size_adequacy]
     delta += _SAFETY_LOGODDS[adjusters.safety_profile]
     delta += _COMPETITION_LOGODDS[adjusters.competitive_pressure]
