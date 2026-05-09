@@ -96,7 +96,7 @@ MC_PATENT_LIFE_STD: float = _a.mc_patent_life_std
 TRIAL_DESIGN_LOGODDS: dict[str, dict[str, float]] = _a.trial_design_logodds
 TRIAL_DESIGN_CAP_POSITIVE: float = _a.trial_design_cap_positive
 TRIAL_DESIGN_CAP_NEGATIVE: float = _a.trial_design_cap_negative
-TRIAL_DESIGN_PHASE_SCALING: dict[str, dict[str, float]] = _a.trial_design_phase_scaling
+TRIAL_DESIGN_PHASE_SCALING: dict[str, float] = _a.trial_design_phase_scaling
 
 # Structural sentinel — not a calibrated value; stays in constants.py
 TRIAL_DESIGN_PHASE_NEUTRAL: str = "neutral"

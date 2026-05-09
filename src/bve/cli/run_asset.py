@@ -26,9 +26,9 @@ from bve.models.pos_model import (
     SampleSizeAdequacy as _SampleSizeAdequacy,
 )
 from bve.models.trial_design_features import (
-    ApprovalPathway as _ApprovalPathway,
-    EndpointBasis as _EndpointBasis,
-    EvidenceDesign as _EvidenceDesign,
+    ComparatorFit as _ComparatorFit,
+    EvidenceDesignQuality as _EvidenceDesignQuality,
+    RegulatoryPathwayRisk as _RegulatoryPathwayRisk,
 )
 
 # Resolved once at import — avoids re-loading YAML on every CLI invocation
@@ -44,9 +44,9 @@ _VALID_MOA_PRECEDENT = {m.value for m in _MoAPrecedent}
 _VALID_SAMPLE_ADEQUACY = {s.value for s in _SampleSizeAdequacy}
 _VALID_SAFETY = {s.value for s in _SafetyProfile}
 _VALID_COMPETITION = {c.value for c in _CompetitivePressure}
-_VALID_ENDPOINT_BASIS = {e.value for e in _EndpointBasis}
-_VALID_EVIDENCE_DESIGN = {e.value for e in _EvidenceDesign}
-_VALID_APPROVAL_PATHWAY = {p.value for p in _ApprovalPathway}
+_VALID_EVIDENCE_DESIGN_QUALITY = {e.value for e in _EvidenceDesignQuality}
+_VALID_COMPARATOR_FIT = {c.value for c in _ComparatorFit}
+_VALID_REGULATORY_PATHWAY_RISK = {r.value for r in _RegulatoryPathwayRisk}
 
 _SAMPLE_SIZE_ADEQUACY_ALIASES = {
     "large": "well_powered",
@@ -158,15 +158,15 @@ def _validate_config(cfg: dict, path: Path) -> None:
             if pc is None:
                 continue
             prefix = f"trial_design.{phase_key}"
-            if pc.get("endpoint_basis"):
-                _check(pc["endpoint_basis"] in _VALID_ENDPOINT_BASIS,
-                       f"{prefix}.endpoint_basis must be one of {sorted(_VALID_ENDPOINT_BASIS)}, got: {pc['endpoint_basis']!r}")
-            if pc.get("evidence_design"):
-                _check(pc["evidence_design"] in _VALID_EVIDENCE_DESIGN,
-                       f"{prefix}.evidence_design must be one of {sorted(_VALID_EVIDENCE_DESIGN)}, got: {pc['evidence_design']!r}")
-            if pc.get("approval_pathway"):
-                _check(pc["approval_pathway"] in _VALID_APPROVAL_PATHWAY,
-                       f"{prefix}.approval_pathway must be one of {sorted(_VALID_APPROVAL_PATHWAY)}, got: {pc['approval_pathway']!r}")
+            if pc.get("evidence_design_quality"):
+                _check(pc["evidence_design_quality"] in _VALID_EVIDENCE_DESIGN_QUALITY,
+                       f"{prefix}.evidence_design_quality must be one of {sorted(_VALID_EVIDENCE_DESIGN_QUALITY)}, got: {pc['evidence_design_quality']!r}")
+            if pc.get("comparator_fit"):
+                _check(pc["comparator_fit"] in _VALID_COMPARATOR_FIT,
+                       f"{prefix}.comparator_fit must be one of {sorted(_VALID_COMPARATOR_FIT)}, got: {pc['comparator_fit']!r}")
+            if pc.get("regulatory_pathway_risk"):
+                _check(pc["regulatory_pathway_risk"] in _VALID_REGULATORY_PATHWAY_RISK,
+                       f"{prefix}.regulatory_pathway_risk must be one of {sorted(_VALID_REGULATORY_PATHWAY_RISK)}, got: {pc['regulatory_pathway_risk']!r}")
 
     if errors:
         print(f"\nERROR: Config validation failed — {path}", file=sys.stderr)
@@ -367,7 +367,7 @@ def _build_design_adjusters(cfg: dict):
     """
     from bve.entities.trial import TrialPhase
     from bve.models.trial_design_features import (
-        ApprovalPathway, EndpointBasis, EvidenceDesign, TrialDesignFeatureSet
+        ComparatorFit, EvidenceDesignQuality, RegulatoryPathwayRisk, TrialDesignFeatureSet
     )
 
     td_cfg = cfg.get("trial_design", {})
@@ -387,9 +387,15 @@ def _build_design_adjusters(cfg: dict):
         if phase_cfg is None:
             continue
         adjusters[phase_enum] = TrialDesignFeatureSet(
-            endpoint_basis=EndpointBasis(phase_cfg.get("endpoint_basis", "surrogate_validated")),
-            evidence_design=EvidenceDesign(phase_cfg.get("evidence_design", "rct_comparative")),
-            approval_pathway=ApprovalPathway(phase_cfg.get("approval_pathway", "standard")),
+            evidence_design_quality=EvidenceDesignQuality(
+                phase_cfg.get("evidence_design_quality", "rct_double_blind")
+            ),
+            comparator_fit=ComparatorFit(
+                phase_cfg.get("comparator_fit", "acceptable_not_ideal")
+            ),
+            regulatory_pathway_risk=RegulatoryPathwayRisk(
+                phase_cfg.get("regulatory_pathway_risk", "standard")
+            ),
         )
 
     return adjusters, True

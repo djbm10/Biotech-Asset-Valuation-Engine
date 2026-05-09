@@ -217,13 +217,12 @@ class AssumptionsLoader:
         if cap_neg is not None and cap_neg >= 0:
             errors.append(f"trial_design.cap_logodds_negative = {cap_neg} must be < 0")
 
-        # phase_scaling: values in (0, 1]
-        for phase, dims in td.get("phase_scaling", {}).items():
-            for dim, v in dims.items():
-                if not (0 < v <= 1.0):
-                    errors.append(
-                        f"trial_design.phase_scaling.{phase}.{dim} = {v} must be in (0, 1]"
-                    )
+        # phase_scaling: single float per phase, values in (0, 1]
+        for phase, v in td.get("phase_scaling", {}).items():
+            if not (0 < float(v) <= 1.0):
+                errors.append(
+                    f"trial_design.phase_scaling.{phase} = {v} must be in (0, 1]"
+                )
 
         if errors:
             self._raise(errors)

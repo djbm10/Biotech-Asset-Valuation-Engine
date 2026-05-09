@@ -562,61 +562,48 @@ trial_design:
 
   logodds:
 
-    endpoint_basis:
-      # Direction: Hwang TJ et al. (2020) JAMA Internal Medicine — confirms surrogates
-      #   have higher post-approval failure rates (~2x). Supports direction of
-      #   hard_clinical > surrogate_validated.
-      # Magnitude: JUDGMENT CALL. +0.35 is a moderate conservative prior.
-      hard_clinical:       0.35    # OS, DFS — most accepted by FDA; Hwang 2020 direction
-      surrogate_validated: 0.00    # Reference: PFS, HbA1c, FEV1, SVR35
-      surrogate_novel:    -0.35    # Uncertain regulatory acceptance; judgment call
-      biomarker_only:     -0.80    # Rarely sufficient standalone; ICH E15 + DiMasi 2021
+    evidence_design_quality:
+      # Dimension 1: How trustworthy and bias-controlled is the evidence package?
+      # Direction: FDA Evidentiary Standards (CDER 2019); Blumenthal GM et al. (2017)
+      #   single-arm Phase 2→3 translation ≈ 40% relative reduction → ~-0.45 log-odds.
+      # Note: single-arm trials are standard at Phase 1 and appropriate in rare/refractory
+      #   oncology. Phase-conditional scaling attenuates penalties at earlier phases.
+      rct_double_blind:       0.20   # Randomized, double-blind, active/placebo-controlled
+      rct_open_label:         0.10   # Randomized controlled, open-label
+      rct_weak_comparator:   -0.05   # Randomized but weak/non-standard comparator
+      single_arm_objective:  -0.10   # Single-arm with objective endpoint (ORR, PFS)
+      single_arm_subjective: -0.30   # Single-arm with subjective endpoint (high bias risk)
+      registry_observational: -0.35  # Registry / external control / observational
 
-    evidence_design:
-      # Direction: FDA Evidentiary Standards for Drug Development, CDER 2019
-      # Single-arm magnitude: Blumenthal GM et al. (2017) The Oncologist —
-      #   single-arm Phase 2→3 translation ≈ 40% relative reduction in success
-      #   → roughly -0.40 to -0.55 log-odds at Phase 3. -0.45 is central estimate.
-      # Note: single_arm is standard at Phase 1 and common in rare/refractory
-      #   oncology Phase 2. Phase-conditional scaling below attenuates this to
-      #   near-zero at Phase 1 to avoid penalizing appropriate designs.
-      rct_comparative:     0.00    # Reference: gold standard RCT
-      rct_non_comparative: -0.15   # Minor penalty vs full RCT; judgment call
-      single_arm:          -0.45   # Phase 3 prior; attenuated at earlier phases
-      registry_based:      -0.70   # Observational; FDA RWE guidance 2021
+    comparator_fit:
+      # Dimension 2: Does the comparator match current clinical practice?
+      # A mismatched comparator limits regulatory interpretability even in an RCT.
+      matches_soc:           0.10   # Comparator matches current standard of care
+      placebo_acceptable:    0.05   # Placebo acceptable (no good SoC exists)
+      acceptable_not_ideal:  0.00   # Baseline: comparator acceptable but not ideal
+      outdated_comparator:  -0.15   # Comparator outdated or clinically weak
+      no_valid_comparator:  -0.30   # No valid comparator where one is expected
 
-    approval_pathway:
-      # WEAK MODIFIERS ONLY — pathway primarily affects time-to-approval
-      # and commercial adoption, not binary approval probability.
-      standard:                0.00   # Reference
-      accelerated_approval:    0.05   # Weak: FDA engagement signal; judgment call
-      breakthrough_designation: 0.10  # Weak: prefer POSAdjusters.has_breakthrough_designation
-      orphan_drug:             0.05   # Weak: regulatory flexibility; judgment call
+    regulatory_pathway_risk:
+      # Dimension 3: How much interpretability / confirmatory risk does the pathway add?
+      # Note: BTD is in Layer 1 (POSAdjusters.has_breakthrough_designation) only.
+      standard:                         0.00   # Standard approval path, accepted precedent
+      orphan_rare_disease:              0.10   # Orphan / rare disease regulatory flexibility
+      accelerated_validated_surrogate: -0.05   # Accelerated approval, validated surrogate
+      accelerated_novel_surrogate:     -0.20   # Accelerated approval, novel/uncertain surrogate
+      no_clear_precedent:              -0.30   # No clear regulatory precedent
 
-  cap_logodds_positive:  0.60   # Max upward combined adjustment (~+14pp at 50% base)
-  cap_logodds_negative: -0.50   # Max downward combined adjustment (~-12pp at 50% base)
+  cap_logodds_positive:  0.30   # Asymmetric: good design helps, but modestly
+  cap_logodds_negative: -0.60   # Bad design can seriously hurt interpretability
 
   phase_scaling:
-    # Phase-conditional attenuation: design effects differ materially by phase.
-    # Phase 1: single-arm + biomarker endpoints are appropriate, not risky.
-    # Phase 3: design choices directly determine FDA approval probability.
-    # All values are JUDGMENT CALLS — no literature directly calibrates these.
-    phase_1:
-      endpoint_basis:    0.15   # PK/biomarker endpoints expected at Phase 1
-      evidence_design:   0.10   # Single-arm universal at Phase 1
-      approval_pathway:  0.40
-    phase_2:
-      endpoint_basis:    0.55
-      evidence_design:   0.60
-      approval_pathway:  0.70
-    phase_3:
-      endpoint_basis:    1.00   # Full effect at Phase 3
-      evidence_design:   1.00
-      approval_pathway:  0.80
-    nda_bla:
-      endpoint_basis:    0.60   # Evidence baked in from prior phases
-      evidence_design:   0.60
-      approval_pathway:  0.50
+    # Single multiplier per phase — design evidence matters more as drug approaches approval.
+    # At Phase 1: design quality is almost irrelevant; single-arm is universal.
+    # At Phase 3: every design choice directly determines FDA approval probability.
+    phase_1: 0.20
+    phase_2: 0.50
+    phase_3: 1.00
+    nda_bla:  0.90
 
 # ==============================================================================
 # Pre-readout trial design scoring
