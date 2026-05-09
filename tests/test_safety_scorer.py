@@ -233,12 +233,12 @@ class TestResultStructure:
 # ---------------------------------------------------------------------------
 
 class TestDefaultParams:
-    def test_manageable_defaults_to_015(self):
-        # Default: reversible=True, monitorable=True, comparable_to_control=True
+    def test_manageable_defaults_to_zero(self):
+        # Default: no positive modifiers → base 0.00 stays 0.00
         r = score_safety(SafetyParams(category=SafetyProfile.MANAGEABLE))
-        assert r.adjustment == pytest.approx(+0.15)
+        assert r.adjustment == pytest.approx(0.00)
 
-    def test_dose_limiting_defaults_are_negative_offset(self):
-        # base=-0.40 + 0.15 = -0.25
+    def test_dose_limiting_defaults_to_base(self):
+        # Default: no positive modifiers → base -0.40 unchanged
         r = score_safety(SafetyParams(category=SafetyProfile.DOSE_LIMITING))
-        assert r.adjustment == pytest.approx(-0.25)
+        assert r.adjustment == pytest.approx(-0.40)

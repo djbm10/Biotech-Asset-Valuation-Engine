@@ -107,15 +107,15 @@ class SafetyParams(BaseModel):
         ),
     )
     reversible: bool = Field(
-        default=True,
+        default=False,
         description="True when AEs typically resolve on dose reduction or discontinuation.",
     )
     monitorable: bool = Field(
-        default=True,
+        default=False,
         description="True when AEs can be detected early via standard lab monitoring.",
     )
     comparable_to_control: bool = Field(
-        default=True,
+        default=False,
         description="True when the AE rate is not meaningfully higher than the control arm.",
     )
     class_known_risk: bool = Field(
