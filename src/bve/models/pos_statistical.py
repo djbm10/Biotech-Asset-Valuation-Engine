@@ -56,6 +56,7 @@ from scipy.special import expit
 from bve.entities.asset import TherapeuticArea
 from bve.entities.trial import EndpointType, TrialPhase
 from bve.models.pos_model import (
+    BiomarkerSelectionStrength,
     CompetitivePressure,
     MoAPrecedent,
     POSAdjusters,
@@ -190,7 +191,12 @@ def _encode_features(
     moa_validated = 1.0 if moa in _MOA_VALIDATED_TIERS else 0.0
     moa_novel = 1.0 if moa in _MOA_NOVEL_TIERS else 0.0
 
-    biomarker = 1.0 if adjusters.biomarker_selected_population else 0.0
+    _BIOMARKER_ACTIVE_TIERS = {
+        BiomarkerSelectionStrength.VALIDATED,
+        BiomarkerSelectionStrength.STRONG_RATIONALE,
+        BiomarkerSelectionStrength.EXPLORATORY,
+    }
+    biomarker = 1.0 if adjusters.biomarker_selection in _BIOMARKER_ACTIVE_TIERS else 0.0
 
     sf = adjusters.safety_profile
     safety_clean = 1.0 if sf == SafetyProfile.CLEAN else 0.0

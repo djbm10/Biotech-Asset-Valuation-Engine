@@ -19,7 +19,11 @@ from bve.entities.indication import Indication
 from bve.entities.trial import ClinicalTrial, EndpointType, TrialPhase, TrialStatus
 
 # Models
-from bve.models.pos_model import POSAdjusters, compute_pos, apply_pos_to_trials, MoAPrecedent, MoAExceptionFlag, SafetyProfile, CompetitivePressure
+from bve.models.pos_model import (
+    POSAdjusters, compute_pos, apply_pos_to_trials,
+    MoAPrecedent, MoAExceptionFlag, SafetyProfile, CompetitivePressure,
+    BiomarkerSelectionStrength, PriorPhaseDataStrength,
+)
 from bve.models.sample_size_scorer import SampleSizeParams, SampleSizeTrialDesign, SampleSizeScoringResult, score_sample_size
 from bve.models.safety_scorer import SafetyParams, SafetyScoringResult, score_safety
 from bve.models.market_model import MarketModel, UptakeCurve
@@ -46,6 +50,7 @@ __all__ = [
     # Models
     "POSAdjusters", "compute_pos", "apply_pos_to_trials",
     "MoAPrecedent", "MoAExceptionFlag", "SafetyProfile", "CompetitivePressure",
+    "BiomarkerSelectionStrength", "PriorPhaseDataStrength",
     "SampleSizeParams", "SampleSizeTrialDesign", "SampleSizeScoringResult", "score_sample_size",
     "SafetyParams", "SafetyScoringResult", "score_safety",
     "MarketModel", "UptakeCurve",

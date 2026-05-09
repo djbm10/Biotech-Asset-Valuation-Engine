@@ -19,7 +19,7 @@ import math
 from enum import Enum
 from typing import Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 
 from bve.config.constants import PHASE_SUCCESS_RATES
 from bve.entities.asset import ApprovalPathwayType, TherapeuticArea
@@ -149,6 +149,37 @@ class CompetitivePressure(str, Enum):
     LOW      = "low"       # Alias for LOW_BAR (+0.10)
     MODERATE = "moderate"  # Alias for NORMAL_BAR (0.00)
     HIGH     = "high"      # Alias for ELEVATED_BAR (−0.15)
+
+
+class BiomarkerSelectionStrength(str, Enum):
+    """
+    Strength of biomarker-based patient enrichment strategy.
+
+    Score reflects both the quality of the predictive biomarker and the
+    regulatory/clinical credibility of the enrichment rationale.
+    Default is NO_SELECTION (0.00 adjustment — neutral).
+    """
+    VALIDATED          = "validated"           # Validated predictive biomarker; strong regulatory precedent (+0.40)
+    STRONG_RATIONALE   = "strong_rationale"    # Strong biologic rationale / enriched subgroup; not yet fully validated (+0.25)
+    EXPLORATORY        = "exploratory"         # Exploratory biomarker subgroup; hypothesis-generating (+0.10)
+    NO_SELECTION       = "no_selection"        # No biomarker-based patient selection (0.00 — reference)
+    POST_HOC_WEAK      = "post_hoc_weak"       # Post-hoc or weak biomarker rationale; potential selection bias (−0.10)
+
+
+class PriorPhaseDataStrength(str, Enum):
+    """
+    Strength of efficacy signal from prior-phase clinical data.
+
+    Captures both the magnitude of the observed signal and how reproducible
+    it is across doses, studies, or patient populations.
+    Default is MIXED (0.00 adjustment — neutral).
+    """
+    STRONG_REPLICATED  = "strong_replicated"   # Strong efficacy replicated across ≥2 studies or cohorts (+0.30)
+    STRONG_SINGLE      = "strong_single"       # Strong efficacy in a single well-conducted study (+0.20)
+    DOSE_RESPONSE      = "dose_response"       # Clean dose-response / exposure-response relationship (+0.15)
+    MIXED              = "mixed"               # Mixed, immature, or inconsistent signal (0.00 — reference)
+    WEAK               = "weak"                # Weak efficacy signal; numerically positive but unconvincing (−0.20)
+    FAILED             = "failed"              # Prior study failed or signal inconsistent across studies (−0.35)
 
 
 # ---------------------------------------------------------------------------
@@ -539,13 +570,35 @@ _COMPETITION_LOGODDS: dict[CompetitivePressure, float] = {
     CompetitivePressure.HIGH:         -0.15,   # = ELEVATED_BAR
 }
 
-_BIOMARKER_SELECTION_BONUS: float = 0.40  # log-odds bonus for biomarker-enriched population
-_PRIOR_PHASE_SUCCESS_BONUS: float = 0.25  # log-odds bonus for strong prior-phase data
+_BIOMARKER_LOGODDS: dict[BiomarkerSelectionStrength, float] = {
+    BiomarkerSelectionStrength.VALIDATED:        +0.40,  # Validated predictive biomarker
+    BiomarkerSelectionStrength.STRONG_RATIONALE: +0.25,  # Strong biologic rationale / enriched subgroup
+    BiomarkerSelectionStrength.EXPLORATORY:      +0.10,  # Exploratory biomarker subgroup
+    BiomarkerSelectionStrength.NO_SELECTION:      0.00,  # No biomarker selection (reference)
+    BiomarkerSelectionStrength.POST_HOC_WEAK:    -0.10,  # Post-hoc or weak biomarker rationale
+}
 
-# Layer 1 combined cap (Sprint 9): applies to the net adjustment from the base rate.
-# Rationale: +0.80 at 32% Phase 2 oncology base → ~47% adjusted POS (plausible for
-# biomarker-selected BTD assets). +1.80 (pre-cap max) → 62% — implausible.
+_PRIOR_PHASE_LOGODDS: dict[PriorPhaseDataStrength, float] = {
+    PriorPhaseDataStrength.STRONG_REPLICATED: +0.30,  # Strong; replicated across ≥2 studies
+    PriorPhaseDataStrength.STRONG_SINGLE:     +0.20,  # Strong; single well-conducted study
+    PriorPhaseDataStrength.DOSE_RESPONSE:     +0.15,  # Clean dose-response / exposure-response
+    PriorPhaseDataStrength.MIXED:              0.00,  # Mixed / immature signal (reference)
+    PriorPhaseDataStrength.WEAK:              -0.20,  # Weak but positive
+    PriorPhaseDataStrength.FAILED:            -0.35,  # Prior failure or inconsistent signal
+}
+
+# Legacy single-value constants — kept for empirical engine backward compat
+_BIOMARKER_SELECTION_BONUS: float = 0.40
+_PRIOR_PHASE_SUCCESS_BONUS: float = 0.25
+
+# Layer 1 combined cap — applies to the net adjustment from the base rate.
+# Rationale: ±0.80 prevents implausible outputs for standard evidence.
+# Extraordinary evidence override: when POSAdjusters.extraordinary_evidence=True,
+# the positive cap expands to +1.00 to credit rare cases with truly exceptional
+# replicated human data (e.g., validated genetic disease with 90% biomarker response).
+# Negative cap remains at −0.80 regardless.
 _L1_CAP_POSITIVE: float = 0.80
+_L1_CAP_POSITIVE_EXTRAORDINARY: float = 1.00
 _L1_CAP_NEGATIVE: float = -0.80
 
 # Breakthrough Therapy Designation: process designation, not approval probability.
@@ -580,19 +633,68 @@ class POSAdjusters(BaseModel):
     safety_profile: SafetyProfile = SafetyProfile.MINOR
     competitive_pressure: CompetitivePressure = CompetitivePressure.MODERATE
 
-    # Boolean qualitative factors
-    biomarker_selected_population: bool = Field(
-        default=False,
-        description="Is the trial in a biomarker-selected (enriched) population?"
+    # Graded qualitative factors (preferred — use these for new configs)
+    biomarker_selection: BiomarkerSelectionStrength = Field(
+        default=BiomarkerSelectionStrength.NO_SELECTION,
+        description=(
+            "Strength of biomarker-based patient enrichment. "
+            "VALIDATED (+0.40): regulatory precedent; STRONG_RATIONALE (+0.25): biologic enrichment; "
+            "EXPLORATORY (+0.10): hypothesis-generating; NO_SELECTION (0.00); POST_HOC_WEAK (−0.10)."
+        ),
     )
-    strong_prior_phase_data: bool = Field(
-        default=False,
-        description="Did prior phase show strong, consistent efficacy signals?"
+    prior_phase_data: PriorPhaseDataStrength = Field(
+        default=PriorPhaseDataStrength.MIXED,
+        description=(
+            "Strength of prior-phase efficacy evidence. "
+            "STRONG_REPLICATED (+0.30): ≥2 studies; STRONG_SINGLE (+0.20); DOSE_RESPONSE (+0.15); "
+            "MIXED (0.00); WEAK (−0.20); FAILED (−0.35)."
+        ),
     )
     has_breakthrough_designation: bool = Field(
         default=False,
-        description="Does the asset have FDA Breakthrough Therapy designation?"
+        description=(
+            "FDA Breakthrough Therapy Designation. Process signal; kept small (+0.05). "
+            "Does NOT represent a meaningful biological probability boost."
+        ),
     )
+    extraordinary_evidence: bool = Field(
+        default=False,
+        description=(
+            "Expert override: expands the positive Layer 1 cap from +0.80 to +1.00. "
+            "Use only when evidence is truly exceptional — replicated human efficacy "
+            "with causal biomarker confirmation (e.g., validated genetic disease, "
+            "90%+ biomarker response replicated across sites). Do not use speculatively."
+        ),
+    )
+
+    # Deprecated boolean fields — kept for backward compatibility with existing YAML
+    # configs, backtest datasets, and older code. Prefer the graded enum fields above.
+    # When set, these are automatically mapped to the corresponding enum tier via the
+    # model_validator below (biomarker_selected_population → VALIDATED,
+    # strong_prior_phase_data → STRONG_SINGLE).
+    biomarker_selected_population: bool = Field(
+        default=False,
+        description="[Deprecated] Use biomarker_selection instead.",
+    )
+    strong_prior_phase_data: bool = Field(
+        default=False,
+        description="[Deprecated] Use prior_phase_data instead.",
+    )
+
+    @model_validator(mode="after")
+    def _backfill_legacy_bools(self) -> "POSAdjusters":
+        """Map deprecated boolean fields to new enum fields when new field is at default."""
+        if (
+            self.biomarker_selected_population
+            and self.biomarker_selection == BiomarkerSelectionStrength.NO_SELECTION
+        ):
+            object.__setattr__(self, "biomarker_selection", BiomarkerSelectionStrength.VALIDATED)
+        if (
+            self.strong_prior_phase_data
+            and self.prior_phase_data == PriorPhaseDataStrength.MIXED
+        ):
+            object.__setattr__(self, "prior_phase_data", PriorPhaseDataStrength.STRONG_SINGLE)
+        return self
 
     # Gene / cell therapy overlay (list of concerns; empty = no modality overlay)
     gene_cell_therapy_concerns: list[GeneTherapyConcern] = Field(
@@ -670,7 +772,10 @@ def compute_pos(
 
     # Cap the combined adjustment (not the absolute log-odds) so the TA base
     # rate is preserved; only analyst qualitative input is bounded.
-    adjustment = max(_L1_CAP_NEGATIVE, min(_L1_CAP_POSITIVE, adjustment))
+    # extraordinary_evidence=True expands the positive cap to +1.00 for cases
+    # with truly exceptional replicated human data.
+    cap_pos = _L1_CAP_POSITIVE_EXTRAORDINARY if adjusters.extraordinary_evidence else _L1_CAP_POSITIVE
+    adjustment = max(_L1_CAP_NEGATIVE, min(cap_pos, adjustment))
     log_odds += adjustment
 
     # Convert back
@@ -704,10 +809,8 @@ def _compute_layer1_adjustment(adjusters: POSAdjusters, ta_value: str = "other")
     delta += _SAFETY_LOGODDS[adjusters.safety_profile]
     delta += _COMPETITION_LOGODDS[adjusters.competitive_pressure]
 
-    if adjusters.biomarker_selected_population:
-        delta += _BIOMARKER_SELECTION_BONUS
-    if adjusters.strong_prior_phase_data:
-        delta += _PRIOR_PHASE_SUCCESS_BONUS
+    delta += _BIOMARKER_LOGODDS[adjusters.biomarker_selection]
+    delta += _PRIOR_PHASE_LOGODDS[adjusters.prior_phase_data]
     if adjusters.has_breakthrough_designation:
         # BTD is a process designation; primary effect is faster review, not higher
         # binary approval probability. +0.05 retains a tiny signal for FDA engagement.
