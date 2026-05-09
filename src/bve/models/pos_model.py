@@ -97,10 +97,31 @@ class SampleSizeAdequacy(str, Enum):
 
 
 class SafetyProfile(str, Enum):
-    CLEAN = "clean"                  # No clinically meaningful safety signals
-    MINOR = "minor"                  # Grade 1-2 AEs; manageable; no Grade 4/5
-    CONCERNING = "concerning"        # Grade 3+ SAEs; dose-limiting toxicities
-    SERIOUS = "serious"              # On-target toxicity, black box warnings
+    """
+    Clinical tolerability risk from prior phase data.
+
+    Six-tier scale reflecting risk that safety will block dosing, approval, or adoption.
+    Score by the PATTERN of risk, not AE grade alone — a reversible Grade 3 lab
+    abnormality is very different from irreversible organ toxicity or mechanism-linked deaths.
+
+    Preferred values (new configs):
+      clean, manageable, monitorable_concern, dose_limiting, serious, mechanism_linked_severe
+
+    Legacy values (preserved for backward compatibility):
+      minor     → treated as manageable (0.00)
+      concerning → treated as dose_limiting (−0.40)
+    """
+    # ── Six-tier preferred values ────────────────────────────────────────────
+    CLEAN                  = "clean"                   # Placebo-like; no meaningful AE/SAE imbalance (+0.10)
+    MANAGEABLE             = "manageable"              # Grade 1-2; low discontinuation — baseline (0.00)
+    MONITORABLE_CONCERN    = "monitorable_concern"     # Lab abnormalities or manageable Grade 3 (−0.20)
+    DOSE_LIMITING          = "dose_limiting"           # DLTs, narrow therapeutic window, high discontinuation (−0.40)
+    SERIOUS                = "serious"                 # SAE imbalance, organ toxicity, treatment-related death signal (−0.65)
+    MECHANISM_LINKED_SEVERE = "mechanism_linked_severe"  # On-target / class-wide boxed-warning-level risk (−0.80)
+
+    # ── Legacy values (backward-compatible) ─────────────────────────────────
+    MINOR      = "minor"       # Alias for MANAGEABLE; Grade 1-2 AEs (0.00)
+    CONCERNING = "concerning"  # Alias for DOSE_LIMITING; Grade 3+ AEs (−0.40)
 
 
 class CompetitivePressure(str, Enum):
@@ -473,10 +494,16 @@ _SAMPLE_LOGODDS: dict[SampleSizeAdequacy, float] = {
 }
 
 _SAFETY_LOGODDS: dict[SafetyProfile, float] = {
-    SafetyProfile.CLEAN: +0.10,
-    SafetyProfile.MINOR: 0.00,
-    SafetyProfile.CONCERNING: -0.35,
-    SafetyProfile.SERIOUS: -0.80,
+    # Six-tier preferred values
+    SafetyProfile.CLEAN:                   +0.10,
+    SafetyProfile.MANAGEABLE:               0.00,
+    SafetyProfile.MONITORABLE_CONCERN:     -0.20,
+    SafetyProfile.DOSE_LIMITING:           -0.40,
+    SafetyProfile.SERIOUS:                 -0.65,
+    SafetyProfile.MECHANISM_LINKED_SEVERE: -0.80,
+    # Legacy (backward-compatible)
+    SafetyProfile.MINOR:                    0.00,   # = MANAGEABLE
+    SafetyProfile.CONCERNING:             -0.40,   # ≈ DOSE_LIMITING (was −0.35)
 }
 
 _COMPETITION_LOGODDS: dict[CompetitivePressure, float] = {

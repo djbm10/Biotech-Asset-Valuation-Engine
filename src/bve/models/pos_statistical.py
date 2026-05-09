@@ -129,10 +129,16 @@ _H_MOA: dict[MoAPrecedent, float] = {
     MoAPrecedent.KNOWN_LIABILITY:             -0.60,
 }
 _H_SAFETY: dict[SafetyProfile, float] = {
-    SafetyProfile.CLEAN: +0.10,
-    SafetyProfile.MINOR: 0.00,
-    SafetyProfile.CONCERNING: -0.35,
-    SafetyProfile.SERIOUS: -0.80,
+    # Six-tier preferred values
+    SafetyProfile.CLEAN:                   +0.10,
+    SafetyProfile.MANAGEABLE:               0.00,
+    SafetyProfile.MONITORABLE_CONCERN:     -0.20,
+    SafetyProfile.DOSE_LIMITING:           -0.40,
+    SafetyProfile.SERIOUS:                 -0.65,
+    SafetyProfile.MECHANISM_LINKED_SEVERE: -0.80,
+    # Legacy
+    SafetyProfile.MINOR:                    0.00,
+    SafetyProfile.CONCERNING:             -0.40,
 }
 _H_COMPETITION: dict[CompetitivePressure, float] = {
     CompetitivePressure.LOW: +0.15,
@@ -182,8 +188,19 @@ def _encode_features(
 
     sf = adjusters.safety_profile
     safety_clean = 1.0 if sf == SafetyProfile.CLEAN else 0.0
-    safety_concerning = 1.0 if sf == SafetyProfile.CONCERNING else 0.0
-    safety_serious = 1.0 if sf == SafetyProfile.SERIOUS else 0.0
+    # concerning bucket: covers monitorable_concern, dose_limiting, and legacy concerning
+    _SAFETY_CONCERNING_TIERS = {
+        SafetyProfile.MONITORABLE_CONCERN,
+        SafetyProfile.DOSE_LIMITING,
+        SafetyProfile.CONCERNING,
+    }
+    safety_concerning = 1.0 if sf in _SAFETY_CONCERNING_TIERS else 0.0
+    # serious bucket: covers serious + mechanism_linked_severe
+    _SAFETY_SERIOUS_TIERS = {
+        SafetyProfile.SERIOUS,
+        SafetyProfile.MECHANISM_LINKED_SEVERE,
+    }
+    safety_serious = 1.0 if sf in _SAFETY_SERIOUS_TIERS else 0.0
 
     cp = adjusters.competitive_pressure
     competition_low = 1.0 if cp == CompetitivePressure.LOW else 0.0
