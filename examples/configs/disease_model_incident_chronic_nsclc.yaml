@@ -1,0 +1,95 @@
+# =============================================================================
+# Incident-Chronic Disease Model Example — NSCLC (Oncology)
+# =============================================================================
+#
+# Disease model: incident_chronic
+#
+# Rationale: NSCLC is a rapidly progressive cancer. The relevant addressable
+# population at any moment is not the accumulated survivor pool (prevalence)
+# but the cohort actively on treatment, sized by:
+#
+#   addressable = annual_incidence × funnel × duration_on_therapy
+#
+# For a 1L EGFR+ therapy with ~6-month median PFS:
+#   annual_incidence_k=240  (US NSCLC incidence ~240k/yr)
+#   diagnosed_fraction=0.92  (high diagnosis rate; most symptomatic)
+#   eligible_rate=0.13       (EGFR+ subset ~13% of NSCLC)
+#   treated_fraction=0.85    (most eligible patients get treated)
+#   duration_on_therapy_months=8  (median PFS ~6-8 months on 1L EGFR TKI)
+#
+# Steady-state addressable at any point in time:
+#   240,000 × 0.92 × 0.13 × 0.85 × (8/12) = ~19,400 patients
+#
+# Compare with prevalent model (would overstate by including 2-5yr survivors):
+#   ~250k prevalent × 0.92 × 0.13 × 0.85 = ~25,400 → 30% overstatement
+#
+# Sprint B1 note: incident_chronic is the recommended disease_model for
+# oncology assets with median duration < 3 years. Use prevalent only when
+# the full survivor pool is genuinely addressable (e.g., maintenance therapy
+# with no defined endpoint, or chronic / lifelong treatment).
+# =============================================================================
+
+asset:
+  id: "nsclc-egfr-example"
+  name: "EXAMPLE-EGFR-TKI"
+  indication: "NSCLC 1L EGFR+"
+  therapeutic_area: "oncology"
+  stage: "phase_3"
+  modality: "small_molecule"
+  discount_rate: 0.10
+
+trials:
+  - phase: "phase_3"
+    success_probability: 0.60
+    duration_years: 3.0
+    cost_millions: 240.0
+  - phase: "nda_bla"
+    success_probability: 0.90
+    duration_years: 1.0
+    cost_millions: 30.0
+
+market:
+  asset_id: "nsclc-egfr-example"
+  therapeutic_area: "oncology"
+  patent_life_years: 10
+  adoption_curve_mode: "s_curve"
+
+  commercial_inputs:
+    patient_pool:
+      indication: "NSCLC 1L EGFR+"
+      disease_model: "incident_chronic"
+      annual_incidence_k: 240.0        # ~240k new NSCLC cases/yr in US
+      diagnosed_fraction: 0.92         # high-symptom disease; most diagnosed
+      eligible_rate: 0.13              # EGFR+ mutation prevalence in non-sq NSCLC
+      treated_fraction: 0.85           # strong treatment uptake in eligible population
+      duration_on_therapy_months: 8.0  # median 1L EGFR TKI PFS ~6-8 months
+      uncertainty_cv: 0.20
+
+    pricing:
+      net_price_usd: 180000            # annual net price (post-G2N) for EGFR TKI
+      wac_per_year_usd: 240000         # WAC (reference for audit)
+      gross_to_net_rate: 0.25          # 25% G2N for specialty oral oncology
+      launch_discount: 0.08
+      annual_erosion_rate: 0.015
+      uncertainty_cv: 0.12
+
+    share:
+      peak_share: 0.18                 # 18% of eligible EGFR+ market
+      years_to_peak: 4
+      share_cv: 0.20
+
+    ex_us_revenue_multiple: 1.35       # EU5 + Japan add-on
+
+  cogs_rate: 0.12
+  sgna_rate_launch: 0.35
+  sgna_rate_mature: 0.18
+  sgna_ramp_years: 5
+
+# ---------------------------------------------------------------------------
+# Implied steady-state addressable patients (point estimate):
+#   240,000 × 0.92 × 0.13 × 0.85 × (8/12) ≈ 19,370 patients
+#
+# Peak US revenue (pre-ex-US):
+#   19,370 × $180,000 × (1 - 0.08) × 0.18 ≈ $577M peak US
+#   Global (× 1.35): ≈ $779M global peak
+# ---------------------------------------------------------------------------
