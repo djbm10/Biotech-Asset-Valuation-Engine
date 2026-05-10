@@ -254,9 +254,14 @@ class TestMilestonePV:
             milestone_pv(m_first_sale, prob, 0.10), rel=1e-6
         )
 
-    def test_sales_threshold_returns_zero(self):
-        """SALES_THRESHOLD not yet implemented — returns 0."""
-        m = Milestone(description="sales", amount_millions=50.0, trigger=MilestoneTrigger.SALES_THRESHOLD)
+    def test_sales_threshold_returns_zero_without_revenue_stream(self):
+        """SALES_THRESHOLD returns 0.0 when no revenue_stream is provided."""
+        m = Milestone(
+            description="sales",
+            amount_millions=50.0,
+            trigger=MilestoneTrigger.SALES_THRESHOLD,
+            sales_threshold_millions=100.0,
+        )
         prob = _prob()
         assert milestone_pv(m, prob, 0.10) == 0.0
 

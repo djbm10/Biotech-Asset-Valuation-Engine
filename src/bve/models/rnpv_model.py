@@ -174,15 +174,29 @@ class RNPVModel:
         trial_costs_pv = cost.total_pv_weighted_millions
 
         # Deal receipts: receivable milestones + upfront
+        # Revenue stream is passed for SALES_THRESHOLD milestone resolution.
         milestone_receipts_pv = sum(
-            milestone_pv(m, prob, r, launch_year_offset=deal.launch_year_offset)
+            milestone_pv(m, prob, r, launch_year_offset=deal.launch_year_offset,
+                         revenue_stream=rev)
             for m in deal.receivable_milestones
         )
         upfront_receipt = deal.upfront_receipt_millions
 
+        # SALES_THRESHOLD payable milestones: CostModel returned 0.0 for these
+        # (no revenue context there). Resolve them here with the revenue stream
+        # and subtract from rNPV to keep cost accounting consistent.
+        from bve.models.deal_economics import MilestoneTrigger
+        sales_threshold_payable_pv = sum(
+            milestone_pv(m, prob, r, launch_year_offset=deal.launch_year_offset,
+                         revenue_stream=rev)
+            for m in deal.payable_milestones
+            if m.trigger == MilestoneTrigger.SALES_THRESHOLD
+        )
+
         rnpv = (
             probability_adjusted_revenue_pv
             - trial_costs_pv
+            - sales_threshold_payable_pv
             + milestone_receipts_pv
             + upfront_receipt
         )

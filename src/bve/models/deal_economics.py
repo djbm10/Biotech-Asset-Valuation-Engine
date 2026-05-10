@@ -65,7 +65,7 @@ from __future__ import annotations
 from enum import Enum
 from typing import Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 
 
 # ---------------------------------------------------------------------------
@@ -109,19 +109,42 @@ class Milestone(BaseModel):
 
     Parameters
     ----------
-    description     : Human-readable label (e.g. "Phase 3 start milestone").
-    amount_millions : Face value in USD millions.  Must be > 0.
-    trigger         : The event that triggers the payment/receipt.
-    trigger_phase   : Required for PHASE_START and PHASE_SUCCESS triggers.
-                      Must match a phase string in ProbabilityResult.phases
-                      (e.g. "phase_1", "phase_2", "phase_3", "nda_bla").
-    direction       : PAYABLE (outflow) or RECEIVABLE (inflow).
+    description             : Human-readable label (e.g. "Phase 3 start milestone").
+    amount_millions         : Face value in USD millions.  Must be > 0.
+    trigger                 : The event that triggers the payment/receipt.
+    trigger_phase           : Required for PHASE_START and PHASE_SUCCESS triggers.
+                              Must match a phase string in ProbabilityResult.phases
+                              (e.g. "phase_1", "phase_2", "phase_3", "nda_bla").
+    direction               : PAYABLE (outflow) or RECEIVABLE (inflow).
+    sales_threshold_millions: Required for SALES_THRESHOLD trigger.  The milestone
+                              is triggered in the first post-launch year where annual
+                              revenue ≥ this value.  Revenue stream must be supplied
+                              to milestone_pv(); otherwise falls back to 0.0.
     """
     description: str
     amount_millions: float = Field(gt=0.0)
     trigger: MilestoneTrigger
     trigger_phase: Optional[str] = None  # e.g. "phase_3"
     direction: MilestoneDirection = MilestoneDirection.PAYABLE
+    sales_threshold_millions: Optional[float] = Field(
+        default=None,
+        gt=0.0,
+        description=(
+            "Revenue threshold (USD millions) for SALES_THRESHOLD trigger. "
+            "Milestone fires in the first year annual revenue ≥ this value. "
+            "Ignored for all other trigger types."
+        ),
+    )
+
+    @model_validator(mode="after")
+    def _validate_sales_threshold(self) -> "Milestone":
+        if (self.trigger == MilestoneTrigger.SALES_THRESHOLD
+                and self.sales_threshold_millions is None):
+            raise ValueError(
+                "Milestone with trigger=SALES_THRESHOLD requires "
+                "sales_threshold_millions to be set."
+            )
+        return self
 
 
 # ---------------------------------------------------------------------------
@@ -198,6 +221,7 @@ def milestone_pv(
     prob: "ProbabilityResult",  # type: ignore[name-defined]
     discount_rate: float,
     launch_year_offset: float = 0.0,
+    revenue_stream: "Optional[RevenueStream]" = None,  # type: ignore[name-defined]
 ) -> float:
     """
     Compute the probability-weighted present value of a single milestone.
@@ -214,21 +238,44 @@ def milestone_pv(
     launch_year_offset  : Years from approval to first commercial sale.
                           Only applied to FIRST_SALE milestones.
                           0.0 (default) = first sale at approval year.
+    revenue_stream      : Optional RevenueStream for SALES_THRESHOLD resolution.
+                          When provided and trigger=SALES_THRESHOLD, finds the first
+                          post-launch year where annual revenue ≥ sales_threshold_millions
+                          and discounts the milestone to that year.
+                          When None and trigger=SALES_THRESHOLD, returns 0.0.
 
-    Returns 0.0 for SALES_THRESHOLD (not yet implemented) or unrecognised trigger_phase.
+    Returns 0.0 for unrecognised trigger_phase.
+    Returns 0.0 for SALES_THRESHOLD when revenue_stream is None or threshold is never crossed.
 
     Timing sources (from module docstring):
-      PHASE_START   → year_start,   P = prob_reaching
-      PHASE_SUCCESS → year_end,     P = prob_reaching × success_probability
-      APPROVAL      → years_to_approval,                 P = cumulative_approval_probability
-      FIRST_SALE    → years_to_approval + launch_year_offset, P = cumulative_approval_probability
+      PHASE_START      → year_start,   P = prob_reaching
+      PHASE_SUCCESS    → year_end,     P = prob_reaching × success_probability
+      APPROVAL         → years_to_approval,                 P = cumulative_approval_probability
+      FIRST_SALE       → years_to_approval + launch_year_offset, P = cumulative_approval_probability
+      SALES_THRESHOLD  → years_to_approval + first year revenue ≥ threshold,
+                         P = cumulative_approval_probability; requires revenue_stream.
     """
     phase_lookup = {p.phase: p for p in prob.phases}
 
     trigger = milestone.trigger
 
     if trigger == MilestoneTrigger.SALES_THRESHOLD:
-        return 0.0  # Reserved for future implementation
+        # Requires revenue_stream; return 0.0 if not provided
+        if revenue_stream is None or milestone.sales_threshold_millions is None:
+            return 0.0
+        threshold = milestone.sales_threshold_millions
+        # Find first year (1-based) where revenue_by_year[yr-1] >= threshold
+        trigger_year: Optional[float] = None
+        for yr_idx, rev in enumerate(revenue_stream.revenue_by_year, start=1):
+            if rev >= threshold:
+                trigger_year = float(yr_idx)
+                break
+        if trigger_year is None:
+            return 0.0  # Threshold never crossed in revenue curve
+        year = prob.years_to_approval + trigger_year
+        prob_payment = prob.cumulative_approval_probability
+        pv = milestone.amount_millions / (1.0 + discount_rate) ** year
+        return round(pv * prob_payment, 4)
 
     if trigger == MilestoneTrigger.APPROVAL:
         year = prob.years_to_approval
