@@ -551,7 +551,12 @@ class CompetitionModel(BaseModel):
         """Competitive share at year 1 (our launch year). Key for initial penetration ceiling."""
         return self.combined_competitor_share(1)
 
-    def sample_launch_outcomes(self, rng: "Any") -> "CompetitionModel":
+    def sample_launch_outcomes(
+        self,
+        rng: "Any",
+        *,
+        launch_timing_std_years: float = 0.0,
+    ) -> "CompetitionModel":
         """
         Return a new CompetitionModel for one Monte Carlo simulation.
 
@@ -564,25 +569,25 @@ class CompetitionModel(BaseModel):
         set to 1.0 so that _single_competitor_share() does not apply a
         second fractional scaling (avoiding double-counting).
 
+        When competitor succeeds (Bernoulli = 1):
+          - approval_probability set to 1.0 (no double-scaling in share calc)
+          - launch_year_relative optionally jittered by Normal(0, launch_timing_std_years),
+            clipped to ≥ 0, modelling regulatory timing uncertainty
+          - market-share ramp and available-market reduction are applied automatically
+            by _single_competitor_share() using the (possibly jittered) launch year
+          - price pressure accumulates via price_pressure_factor_per_competitor
+
+        When competitor fails (Bernoulli = 0):
+          - excluded from sampled model → no market-share effect, no price pressure
+
         Parameters
         ----------
         rng : numpy.random.Generator
-            The simulation's random number generator. Must support .random()
-            returning a uniform [0, 1) float.
-
-        Returns
-        -------
-        CompetitionModel
-            New model containing only the competitors present in this draw.
-            Time-aware launch dynamics (launch_year_relative, years_to_peak)
-            are preserved from the original CompetitorLaunch objects.
-
-        Example
-        -------
-            rng = np.random.default_rng(42)
-            sampled = competition_model.sample_launch_outcomes(rng)
-            # approved competitors: always in sampled.competitors
-            # pipeline (P=0.6): each has 60% chance of being in sampled.competitors
+            The simulation's random number generator.
+        launch_timing_std_years : float
+            Std deviation (years) for launch timing jitter applied to successfully
+            sampled pipeline competitors. Default 0.0 = no jitter (backward-compatible).
+            Approved competitors are never jittered.
         """
         sampled: list[CompetitorLaunch] = []
         for comp in self.competitors:
@@ -590,7 +595,12 @@ class CompetitionModel(BaseModel):
                 sampled.append(comp)
             else:
                 if rng.random() < comp.approval_probability:
-                    sampled.append(comp.model_copy(update={"approval_probability": 1.0}))
+                    updates: dict = {"approval_probability": 1.0}
+                    if launch_timing_std_years > 0.0:
+                        jitter = float(rng.standard_normal()) * launch_timing_std_years
+                        new_yr = max(0.0, comp.launch_year_relative + jitter)
+                        updates["launch_year_relative"] = new_yr
+                    sampled.append(comp.model_copy(update=updates))
         return CompetitionModel(
             competitors=sampled,
             competition_mode=self.competition_mode,
