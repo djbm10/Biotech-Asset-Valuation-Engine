@@ -633,6 +633,18 @@ class ValuationEngine:
         from bve.config.constants import SGNA_RATE_LAUNCH, SGNA_RATE_MATURE
 
         mm = self.market_model
+
+        # Sprint D1: propagate asset modality + resolve cogs_rate from YAML
+        # when cogs_rate was not explicitly set by the caller.
+        # model_copy does NOT re-run validators, so we apply the COGS lookup here.
+        if mm.modality is None:
+            asset_modality_str = self.asset.modality.value
+            updates: dict = {"modality": asset_modality_str}
+            if "cogs_rate" not in mm.model_fields_set:
+                from bve.config.assumptions_loader import AssumptionsLoader
+                updates["cogs_rate"] = AssumptionsLoader.get().cogs_rate(asset_modality_str)
+            mm = mm.model_copy(update=updates)
+
         # Detect non-default (explicitly overridden) SG&A — skip auto-selection
         if mm.sgna_rate_launch != SGNA_RATE_LAUNCH or mm.sgna_rate_mature != SGNA_RATE_MATURE:
             return mm

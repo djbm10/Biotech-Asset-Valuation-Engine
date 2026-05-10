@@ -502,6 +502,16 @@ class MarketModel(BaseModel):
     )
 
     # Cost structure
+    modality: Optional[str] = Field(
+        default=None,
+        description=(
+            "Drug modality string (e.g. 'small_molecule', 'biologic', 'gene_therapy'). "
+            "When set and cogs_rate is NOT explicitly provided, the COGS rate is "
+            "automatically loaded from the industry_assumptions.yaml cogs_rate_by_modality "
+            "table. Explicit cogs_rate always wins regardless of this field. "
+            "Populated automatically by ValuationEngine.from_program() from asset.modality."
+        ),
+    )
     cogs_rate: float = Field(default=0.18, ge=0.0, le=1.0)
     sgna_rate_launch: float = Field(default=SGNA_RATE_LAUNCH, ge=0.0, le=1.0)
     sgna_rate_mature: float = Field(default=SGNA_RATE_MATURE, ge=0.0, le=1.0)
@@ -593,6 +603,23 @@ class MarketModel(BaseModel):
             self.uptake_curve = UptakeCurve.linear_ramp(
                 self.years_to_peak, self.peak_penetration, self.patent_life_years
             )
+        return self
+
+    @model_validator(mode="after")
+    def _resolve_cogs_from_modality(self) -> "MarketModel":
+        """Sprint D1: auto-populate cogs_rate from YAML when not explicitly set.
+
+        Priority order:
+          1. Explicit ``cogs_rate`` in config/code — wins unconditionally.
+          2. ``modality`` is set — load from cogs_rate_by_modality YAML table.
+          3. Neither — keep the field default (0.18, same as 'other').
+        """
+        if "cogs_rate" in self.model_fields_set:
+            return self  # explicit override wins
+        if self.modality is None:
+            return self  # no modality hint; keep default
+        from bve.config.assumptions_loader import AssumptionsLoader  # local import to avoid circular
+        self.cogs_rate = AssumptionsLoader.get().cogs_rate(self.modality)
         return self
 
     @property

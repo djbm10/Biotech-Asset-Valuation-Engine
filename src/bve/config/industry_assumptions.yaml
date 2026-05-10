@@ -260,12 +260,14 @@ commercial:
   cogs_rate_by_modality:
     # COGS as fraction of net revenue (not WAC)
     # Source: public company filings, Evaluate Pharma manufacturing benchmarks
+    # Updated Sprint D1 2026-Q1: biologic and advanced-modality rates revised upward
+    #   to better reflect post-2020 manufacturing cost benchmarks.
     small_molecule: 0.12
-    biologic:       0.20
-    gene_therapy:   0.30   # Viral vector manufacturing is COGS-intensive
-    cell_therapy:   0.40   # Autologous cell therapy: highest manufacturing cost
-    adc:            0.22
-    rna_therapy:    0.18
+    biologic:       0.28   # Recombinant proteins + fill-finish; updated from 0.20
+    gene_therapy:   0.45   # Viral vector COGS; updated from 0.30
+    cell_therapy:   0.60   # Autologous cell therapy: highest manufacturing cost; updated from 0.40
+    adc:            0.30   # ADC synthesis + conjugation; updated from 0.22
+    rna_therapy:    0.22   # LNP formulation + cold-chain; updated from 0.18
     other:          0.18
 
   compliance_by_modality:
