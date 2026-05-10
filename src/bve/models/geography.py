@@ -31,26 +31,44 @@ Revenue formula per region in year t (post-US-launch)
 
     where US_revenue(t') = 0 if t' ≤ 0 or t' > US patent life.
 
-Fractional delay bucketing
---------------------------
-Fractional launch delays are conservatively floored to the nearest integer:
-  - A 1.5-year delay → revenue starts at post-launch year 2 (not year 1).
-  - A 2.0-year delay → revenue starts at post-launch year 3.
-This avoids interpolation complexity and is appropriate for screening-level models.
-Use integer launch_delay_years for precise timing control.
+Fractional launch delay interpolation
+--------------------------------------
+Regional launch delays are handled with linear interpolation — no bucketing or
+rounding. A 1.5-year delay means the region is at "year 1.5" of the US revenue
+curve in that calendar year. Revenue at fractional year positions is computed as:
+
+    interpolated_revenue(fractional_year) =
+        us_revenue(floor(fractional_year)) × (1 − weight)
+        + us_revenue(ceil(fractional_year)) × weight
+    where weight = fractional_year − floor(fractional_year)
+
+If fractional_year < 1.0 (region has not yet reached its first full year of
+launch), regional contribution is 0. This is consistent with the MarketModel
+convention that revenue starts at year 1.
+
+For a 1.5-year delay (EU-typical):
+  - Calendar year 1: fractional = 1 − 1.5 = −0.5 < 1 → 0
+  - Calendar year 2: fractional = 2 − 1.5 =  0.5 < 1 → 0
+  - Calendar year 3: fractional = 3 − 1.5 =  1.5 → interp(rev_yr1, rev_yr2, 0.5)
+  - Calendar year 4: fractional = 4 − 1.5 =  2.5 → interp(rev_yr2, rev_yr3, 0.5)
+
+Integer delays (e.g. 2.0 years) produce exact integer lookup — no interpolation
+needed — and behave identically to the prior implementation.
 
 Sprint A known limitation
 --------------------------
 Revenue is computed over years 1..patent_life_years (the US patent window,
-extended by any new_formulation lifecycle events). Regions with non-zero delays
-contribute revenue from their first active year through patent_life_years.
-The final `delay_bucketed` years of each delayed region's patent window are
-not captured — they fall after the US patent boundary in calendar year terms.
+extended by any new_formulation lifecycle events). The peak_sales_millions
+slow path extends the iteration window by ceil(max_regional_delay) years to
+capture delayed-region peaks that fall just after the US patent boundary.
 
-Example: US patent 12 years, EU5 2-year delay → EU5 contributes years 3..12
-of the US calendar (EU5 years 1..10); EU5 years 11–12 (calendar years 13–14)
-are not modeled. For a 2yr delay asset, this understates EU5 NPV by roughly
-2/12 ≈ 17% of EU5 value (discounting attenuates the impact further).
+However, revenue curves from RevenueModel.compute() are still bounded by
+patent_life_years. Ex-US revenue that would fall in calendar years beyond
+patent_life_years is not captured in annual LOE-tail calculations.
+
+Example: US patent 12 years, EU5 1.5-year delay → EU5 contributes from
+calendar year 3 onward (year 3 = EU5 year 1.5), with the last contribution
+interpolated near year 12. Calendar years 13–14 are excluded.
 
 Future sprints will add per-region patent window extensions to close this gap.
 
@@ -66,6 +84,68 @@ import math
 from typing import Callable, Optional
 
 from pydantic import BaseModel, Field
+
+
+def _interpolate_us_revenue(
+    us_revenue_fn: Callable[[int], float],
+    fractional_year: float,
+) -> float:
+    """
+    Return interpolated US revenue at a fractional year position on the curve.
+
+    This is the core primitive for fractional-delay regional revenue modeling.
+    It maps a (possibly non-integer) year position to a revenue value by
+    linearly interpolating between adjacent integer-year points on the US curve.
+
+    Parameters
+    ----------
+    us_revenue_fn : Callable[[int], float]
+        US-only revenue for a given post-launch integer year.
+        Must return 0.0 for year ≤ 0 or beyond the US patent window.
+    fractional_year : float
+        Position on the US revenue curve, in post-launch year units.
+        May be non-integer (e.g., 1.5 means halfway between year 1 and year 2).
+
+    Returns
+    -------
+    float
+        Interpolated revenue in USD millions.
+
+    Behavior
+    --------
+    - fractional_year < 1.0  → returns 0.0 (region has not yet reached its
+      first full year of launch; consistent with MarketModel year-1 convention).
+    - fractional_year is a whole number  → returns us_revenue_fn(int(year))
+      with no interpolation.
+    - fractional_year is between two integers → linear interpolation:
+        weight = fractional_year − floor(fractional_year)
+        result = us_revenue_fn(lower) × (1 − weight)
+               + us_revenue_fn(upper) × weight
+    - upper exceeds the patent horizon → us_revenue_fn(upper) returns 0.0
+      (handled gracefully by the MarketModel boundary check; no special casing
+      needed here).
+
+    Examples
+    --------
+    # EU5 with 1.5-year delay at calendar year 3:
+    #   fractional_year = 3 − 1.5 = 1.5
+    #   → 0.5 × us_revenue_fn(1) + 0.5 × us_revenue_fn(2)
+    _interpolate_us_revenue(rev_fn, 1.5)
+
+    # Japan with 2.5-year delay at calendar year 5:
+    #   fractional_year = 5 − 2.5 = 2.5
+    #   → 0.5 × us_revenue_fn(2) + 0.5 × us_revenue_fn(3)
+    _interpolate_us_revenue(rev_fn, 2.5)
+    """
+    if fractional_year < 1.0:
+        return 0.0
+    lower = int(math.floor(fractional_year))
+    weight = fractional_year - lower
+    if weight == 0.0:
+        # Exact integer year — no interpolation needed.
+        return us_revenue_fn(lower)
+    upper = lower + 1
+    return us_revenue_fn(lower) * (1.0 - weight) + us_revenue_fn(upper) * weight
 
 
 class RegionalProfile(BaseModel, frozen=True):
@@ -114,7 +194,10 @@ class RegionalProfile(BaseModel, frozen=True):
         ge=0.0,
         description=(
             "Years after US approval before this region's commercial launch. "
-            "Conservatively floor-bucketed: 1.5 → starts at post-launch year 2."
+            "Supports fractional values (e.g., 1.5, 2.5). Revenue at fractional "
+            "positions is linearly interpolated between adjacent integer years of "
+            "the US revenue curve via _interpolate_us_revenue(). "
+            "Regional contribution is 0 until the fractional position reaches 1.0."
         ),
     )
     reimbursement_probability: float = Field(
@@ -152,17 +235,6 @@ class RegionalProfile(BaseModel, frozen=True):
             * self.reimbursement_probability
             * self.probability_of_regional_approval
         )
-
-    @property
-    def delay_years_bucketed(self) -> int:
-        """
-        Launch delay conservatively floored to nearest integer year.
-
-        A 1.5-year delay → 1 year bucketed → regional revenue starts at
-        US post-launch year 2 (i.e., regional year 1 = US year 2).
-        """
-        return int(math.floor(self.launch_delay_years))
-
 
 # Default US profile: full revenue, no delay, certain access.
 _US_DEFAULT = RegionalProfile(
@@ -277,23 +349,33 @@ class GeographySplit(BaseModel, frozen=True):
         Compute total global revenue in post-US-launch year `year`.
 
         For each active region:
-            regional_rev = US_revenue(year − delay_bucketed)
+            fractional_us_year = year − region.launch_delay_years
+            regional_rev = _interpolate_us_revenue(us_revenue_fn, fractional_us_year)
                            × effective_revenue_scalar
 
-        Where:
-          - US_revenue(t') is `us_revenue_fn(t')`, returning 0 for t' ≤ 0
-            or t' beyond the US patent life.
-          - delay_bucketed = floor(launch_delay_years) — conservative bucketing.
-          - effective_revenue_scalar = revenue_ratio × reimbursement_probability
-                                       × probability_of_regional_approval.
+        Fractional-year interpolation
+        ------------------------------
+        Regional revenue at calendar year `year` is computed by placing the
+        region at fractional position `year − launch_delay_years` on the US
+        revenue curve and interpolating linearly:
+
+          - fractional_us_year < 1.0 → 0 (region not yet at its first full year)
+          - fractional_us_year is integer → exact lookup (no interpolation)
+          - fractional_us_year between integers → weighted average of adjacent years
+
+        This means a 1.5-year delayed EU5:
+          year 1: fractional = −0.5 < 1 → 0
+          year 2: fractional =  0.5 < 1 → 0
+          year 3: fractional =  1.5 → 0.5 × us_rev(1) + 0.5 × us_rev(2)
+          year 4: fractional =  2.5 → 0.5 × us_rev(2) + 0.5 × us_rev(3)
 
         Parameters
         ----------
         us_revenue_fn : Callable[[int], float]
-            Function returning US-only revenue for a given post-launch year.
+            US-only revenue for a given post-launch integer year.
             Must return 0.0 for year ≤ 0 or beyond the US patent window.
         year : int
-            Post-US-launch year to compute global revenue for (1-indexed).
+            Calendar post-US-launch year to compute global revenue for.
 
         Returns
         -------
@@ -302,11 +384,8 @@ class GeographySplit(BaseModel, frozen=True):
         """
         total = 0.0
         for region in self.active_regions().values():
-            us_year = year - region.delay_years_bucketed
-            if us_year < 1:
-                # Region has not launched yet relative to the US launch calendar.
-                continue
-            regional_us_rev = us_revenue_fn(us_year)
+            fractional_us_year = year - region.launch_delay_years
+            regional_us_rev = _interpolate_us_revenue(us_revenue_fn, fractional_us_year)
             total += regional_us_rev * region.effective_revenue_scalar
         return total
 

@@ -1,26 +1,28 @@
 """
-Geography Sprint A tests — GeographySplit and RegionalProfile.
+Geography tests — GeographySplit, RegionalProfile, and fractional-year interpolation.
 
 Test coverage:
-  1. RegionalProfile — field validation, effective_revenue_scalar, delay bucketing
+  1. RegionalProfile — field validation, effective_revenue_scalar, launch_delay_years
   2. GeographySplit — active_regions(), implied_ex_us_scalar, defaults
-  3. global_revenue_in_year — arithmetic correctness for single and multi-region
-  4. MarketModel + geography_split — US-only output unchanged (backward compat)
-  5. MarketModel + geography_split — revenue_in_year() is geography-aware
-  6. MarketModel + geography_split overrides ex_us_revenue_multiple (CommercialInputs)
-  7. Delayed regional launches reduce cumulative NPV vs. same multiplier with no delay
-  8. reimbursement_probability and probability_of_regional_approval scale revenue
-  9. Missing optional regions do not error
- 10. peak_sales_millions is geography-aware (global peak ≥ US peak)
- 11. RevenueModel.compute() produces geography-scaled curves
- 12. Existing valuation snapshot still passes (rNPV unchanged for US-only config)
+  3. _interpolate_us_revenue — the interpolation primitive (before/at/after launch)
+  4. global_revenue_in_year — arithmetic for integer and fractional delays
+  5. MarketModel + geography_split — US-only output unchanged (backward compat)
+  6. MarketModel + geography_split — revenue_in_year() is geography-aware
+  7. MarketModel + geography_split overrides ex_us_revenue_multiple
+  8. Fractional delays (1.5, 2.5, 3.5yr) interpolate correctly
+  9. Integer delays unchanged from prior behavior
+ 10. reimbursement_probability and probability_of_regional_approval scale revenue
+ 11. Missing optional regions do not error
+ 12. peak_sales_millions is geography-aware (global peak ≥ US peak)
+ 13. RevenueModel.compute() produces geography-scaled curves
+ 14. Existing valuation snapshot still passes (rNPV unchanged for US-only config)
 """
 from __future__ import annotations
 
 import math
 import pytest
 
-from bve.models.geography import GeographySplit, RegionalProfile
+from bve.models.geography import GeographySplit, RegionalProfile, _interpolate_us_revenue
 from bve.models.market_model import MarketModel
 
 
@@ -88,23 +90,22 @@ class TestRegionalProfile:
         expected = 0.40 * 0.80 * 0.90
         assert r.effective_revenue_scalar == pytest.approx(expected)
 
-    def test_delay_bucketing_floor(self):
-        """1.5-year delay → bucketed to 1 year (floor)."""
+    def test_launch_delay_stored_as_float(self):
+        """Fractional delays are stored exactly — no bucketing or rounding."""
         r = RegionalProfile(revenue_ratio=0.30, launch_delay_years=1.5)
-        assert r.delay_years_bucketed == 1
+        assert r.launch_delay_years == 1.5
 
-    def test_delay_bucketing_exact_integer(self):
+    def test_launch_delay_integer_stored_exactly(self):
         r = RegionalProfile(revenue_ratio=0.30, launch_delay_years=2.0)
-        assert r.delay_years_bucketed == 2
+        assert r.launch_delay_years == 2.0
 
-    def test_delay_bucketing_near_integer(self):
-        """2.9-year delay → bucketed to 2 (floor, not round)."""
-        r = RegionalProfile(revenue_ratio=0.30, launch_delay_years=2.9)
-        assert r.delay_years_bucketed == 2
-
-    def test_zero_delay_bucketed(self):
+    def test_launch_delay_zero(self):
         r = RegionalProfile(revenue_ratio=1.0, launch_delay_years=0.0)
-        assert r.delay_years_bucketed == 0
+        assert r.launch_delay_years == 0.0
+
+    def test_launch_delay_fractional_3_5(self):
+        r = RegionalProfile(revenue_ratio=0.10, launch_delay_years=3.5)
+        assert r.launch_delay_years == 3.5
 
     def test_invalid_revenue_ratio_zero(self):
         with pytest.raises(Exception):
@@ -195,7 +196,68 @@ class TestGeographySplit:
 
 
 # ---------------------------------------------------------------------------
-# 3. global_revenue_in_year arithmetic
+# 3. _interpolate_us_revenue helper
+# ---------------------------------------------------------------------------
+
+class TestInterpolatedRevenue:
+    """Tests for the _interpolate_us_revenue() primitive."""
+
+    def _step_rev(self) -> callable:
+        """US revenue function: 0 before year 1, 100 × year thereafter (capped at year 5)."""
+        return lambda t: float(t * 100) if 1 <= t <= 5 else 0.0
+
+    def test_before_launch_returns_zero(self):
+        """fractional_year < 1 → 0 regardless of US revenue."""
+        rev_fn = self._step_rev()
+        assert _interpolate_us_revenue(rev_fn, 0.0) == 0.0
+        assert _interpolate_us_revenue(rev_fn, 0.5) == 0.0
+        assert _interpolate_us_revenue(rev_fn, 0.99) == 0.0
+        assert _interpolate_us_revenue(rev_fn, -1.5) == 0.0
+
+    def test_exact_integer_no_interpolation(self):
+        """Exact integer years return us_revenue_fn(year) with no weighting."""
+        rev_fn = self._step_rev()
+        assert _interpolate_us_revenue(rev_fn, 1.0) == pytest.approx(100.0)
+        assert _interpolate_us_revenue(rev_fn, 2.0) == pytest.approx(200.0)
+        assert _interpolate_us_revenue(rev_fn, 3.0) == pytest.approx(300.0)
+
+    def test_midpoint_is_average(self):
+        """fractional_year = n.5 → arithmetic mean of year n and n+1."""
+        rev_fn = self._step_rev()
+        # year 1.5 → (100 + 200) / 2 = 150
+        assert _interpolate_us_revenue(rev_fn, 1.5) == pytest.approx(150.0)
+        # year 2.5 → (200 + 300) / 2 = 250
+        assert _interpolate_us_revenue(rev_fn, 2.5) == pytest.approx(250.0)
+        # year 3.5 → (300 + 400) / 2 = 350
+        assert _interpolate_us_revenue(rev_fn, 3.5) == pytest.approx(350.0)
+
+    def test_quarter_point_weights(self):
+        """fractional_year = n.25 → 0.75 × rev(n) + 0.25 × rev(n+1)."""
+        rev_fn = self._step_rev()
+        # year 1.25 → 0.75 × 100 + 0.25 × 200 = 75 + 50 = 125
+        assert _interpolate_us_revenue(rev_fn, 1.25) == pytest.approx(125.0)
+        # year 2.75 → 0.25 × 200 + 0.75 × 300 = 50 + 225 = 275
+        assert _interpolate_us_revenue(rev_fn, 2.75) == pytest.approx(275.0)
+
+    def test_beyond_patent_upper_returns_zero(self):
+        """When upper year exceeds patent, us_revenue_fn returns 0 → graceful handling."""
+        rev_fn = self._step_rev()  # returns 0 for year > 5
+        # year 5.0: exact → 500
+        assert _interpolate_us_revenue(rev_fn, 5.0) == pytest.approx(500.0)
+        # year 5.5: lower=5 (500), upper=6 (0) → 0.5 × 500 + 0.5 × 0 = 250
+        assert _interpolate_us_revenue(rev_fn, 5.5) == pytest.approx(250.0)
+        # year 6.0: beyond patent → 0
+        assert _interpolate_us_revenue(rev_fn, 6.0) == pytest.approx(0.0)
+
+    def test_constant_revenue_fn_midpoint_equals_constant(self):
+        """When US revenue is flat, any fractional year returns the same value."""
+        rev_fn = lambda t: 100.0 if t >= 1 else 0.0
+        for frac in (1.0, 1.3, 1.5, 1.7, 2.0, 2.5, 3.9):
+            assert _interpolate_us_revenue(rev_fn, frac) == pytest.approx(100.0)
+
+
+# ---------------------------------------------------------------------------
+# 4. global_revenue_in_year arithmetic
 # ---------------------------------------------------------------------------
 
 class TestGlobalRevenueArithmetic:
@@ -236,16 +298,19 @@ class TestGlobalRevenueArithmetic:
         # year 3: eu5_year = 3 - 2 = 1 → us_rev(1) × 0.35 = 35.0
         assert geo.global_revenue_in_year(us_rev, year=3) == pytest.approx(135.0)
 
-    def test_fractional_delay_bucketed_conservatively(self):
-        """1.5yr delay → bucketed to 1yr → EU5 active from year 2, not 1.5."""
+    def test_fractional_delay_1_5yr_interpolates(self):
+        """1.5yr delay: EU5 not active until year 3 (fractional 1.5), then interpolated."""
         geo = GeographySplit(
             eu5=RegionalProfile(revenue_ratio=0.35, launch_delay_years=1.5),
         )
         us_rev = self._constant_us_rev(100.0)
-        # year 1: eu5_year = 1 - 1 = 0 → not active
+        # year 1: fractional = -0.5 < 1 → EU5 not active
         assert geo.global_revenue_in_year(us_rev, year=1) == pytest.approx(100.0)
-        # year 2: eu5_year = 2 - 1 = 1 → active (bucketed delay = 1, not 2)
-        assert geo.global_revenue_in_year(us_rev, year=2) == pytest.approx(135.0)
+        # year 2: fractional = 0.5 < 1 → EU5 not active (no floor rounding)
+        assert geo.global_revenue_in_year(us_rev, year=2) == pytest.approx(100.0)
+        # year 3: fractional = 1.5 → interp(us_rev(1), us_rev(2), 0.5) = 100
+        # EU5 contribution: 100 × 0.35 = 35; total = 135
+        assert geo.global_revenue_in_year(us_rev, year=3) == pytest.approx(135.0)
 
     def test_reimbursement_probability_scales_revenue(self):
         geo = GeographySplit(
@@ -408,6 +473,89 @@ class TestMarketModelWithGeography:
         m = _geo_market(geo)
         for yr in range(1, 13):
             _ = m.revenue_in_year(yr)  # must not raise
+
+    def test_fractional_delay_1_5yr_year2_inactive(self):
+        """1.5yr delay: EU5 inactive at year 2 (fractional=0.5 < 1), not floor-bucketed to year 1."""
+        geo = GeographySplit(
+            eu5=RegionalProfile(revenue_ratio=1.0, launch_delay_years=1.5),
+        )
+        m = _geo_market(geo, tam=5_000.0, peak_pen=0.10, years_to_peak=4, patent_life=12)
+        us_yr2 = m._us_base_revenue_in_year(2)
+        global_yr2 = m.revenue_in_year(2)
+        # EU5 inactive (fractional = 0.5 < 1) → global == US
+        assert global_yr2 == pytest.approx(us_yr2)
+
+    def test_fractional_delay_1_5yr_year3_interpolates(self):
+        """1.5yr delay: year 3 → EU5 at fractional 1.5 → interp(us_rev(1), us_rev(2), 0.5)."""
+        geo = GeographySplit(
+            eu5=RegionalProfile(revenue_ratio=1.0, launch_delay_years=1.5),
+        )
+        m = _geo_market(geo, tam=5_000.0, peak_pen=0.10, years_to_peak=4, patent_life=12)
+        us_yr1 = m._us_base_revenue_in_year(1)
+        us_yr2 = m._us_base_revenue_in_year(2)
+        us_yr3 = m._us_base_revenue_in_year(3)
+        eu5_contribution = (us_yr1 + us_yr2) / 2.0  # interp at 1.5 (weight=0.5)
+        expected = us_yr3 + eu5_contribution  # revenue_ratio=1.0 → scalar=1.0
+        assert m.revenue_in_year(3) == pytest.approx(expected, rel=1e-9)
+
+    def test_fractional_delay_2_5yr_year3_inactive(self):
+        """2.5yr delay: EU5 inactive at year 3 (fractional=0.5 < 1), not floor-bucketed to year 2."""
+        geo = GeographySplit(
+            eu5=RegionalProfile(revenue_ratio=1.0, launch_delay_years=2.5),
+        )
+        m = _geo_market(geo, tam=5_000.0, peak_pen=0.10, years_to_peak=4, patent_life=12)
+        us_yr3 = m._us_base_revenue_in_year(3)
+        global_yr3 = m.revenue_in_year(3)
+        # EU5 inactive (fractional = 3 - 2.5 = 0.5 < 1) → global == US
+        assert global_yr3 == pytest.approx(us_yr3)
+
+    def test_fractional_delay_2_5yr_year4_interpolates(self):
+        """2.5yr delay: year 4 → EU5 at fractional 1.5 → interp(us_rev(1), us_rev(2), 0.5)."""
+        geo = GeographySplit(
+            eu5=RegionalProfile(revenue_ratio=1.0, launch_delay_years=2.5),
+        )
+        m = _geo_market(geo, tam=5_000.0, peak_pen=0.10, years_to_peak=4, patent_life=12)
+        us_yr1 = m._us_base_revenue_in_year(1)
+        us_yr2 = m._us_base_revenue_in_year(2)
+        us_yr4 = m._us_base_revenue_in_year(4)
+        eu5_contribution = (us_yr1 + us_yr2) / 2.0  # fractional = 1.5
+        expected = us_yr4 + eu5_contribution
+        assert m.revenue_in_year(4) == pytest.approx(expected, rel=1e-9)
+
+    def test_fractional_delay_3_5yr_year4_inactive(self):
+        """3.5yr delay: EU5 inactive at year 4 (fractional=0.5 < 1)."""
+        geo = GeographySplit(
+            eu5=RegionalProfile(revenue_ratio=1.0, launch_delay_years=3.5),
+        )
+        m = _geo_market(geo, tam=5_000.0, peak_pen=0.10, years_to_peak=4, patent_life=12)
+        us_yr4 = m._us_base_revenue_in_year(4)
+        global_yr4 = m.revenue_in_year(4)
+        assert global_yr4 == pytest.approx(us_yr4)
+
+    def test_fractional_delay_3_5yr_year5_interpolates(self):
+        """3.5yr delay: year 5 → EU5 at fractional 1.5 → interp(us_rev(1), us_rev(2), 0.5)."""
+        geo = GeographySplit(
+            eu5=RegionalProfile(revenue_ratio=1.0, launch_delay_years=3.5),
+        )
+        m = _geo_market(geo, tam=5_000.0, peak_pen=0.10, years_to_peak=4, patent_life=12)
+        us_yr1 = m._us_base_revenue_in_year(1)
+        us_yr2 = m._us_base_revenue_in_year(2)
+        us_yr5 = m._us_base_revenue_in_year(5)
+        eu5_contribution = (us_yr1 + us_yr2) / 2.0  # fractional = 1.5
+        expected = us_yr5 + eu5_contribution
+        assert m.revenue_in_year(5) == pytest.approx(expected, rel=1e-9)
+
+    def test_integer_delay_2yr_unchanged(self):
+        """Integer 2yr delay: year 3 → EU5 at fractional 1.0 (exact integer, no interpolation)."""
+        geo = GeographySplit(
+            eu5=RegionalProfile(revenue_ratio=1.0, launch_delay_years=2.0),
+        )
+        m = _geo_market(geo, tam=5_000.0, peak_pen=0.10, years_to_peak=4, patent_life=12)
+        us_yr1 = m._us_base_revenue_in_year(1)
+        us_yr3 = m._us_base_revenue_in_year(3)
+        # year 3: fractional = 3 - 2 = 1.0 (exact) → us_rev(1)
+        expected = us_yr3 + us_yr1  # revenue_ratio=1.0
+        assert m.revenue_in_year(3) == pytest.approx(expected, rel=1e-9)
 
 
 # ---------------------------------------------------------------------------

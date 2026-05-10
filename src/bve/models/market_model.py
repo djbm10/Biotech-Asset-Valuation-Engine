@@ -455,9 +455,13 @@ class MarketModel(BaseModel):
             # regional peaks that may occur after the US patent boundary.
             geo_extension = 0
             if self.geography_split is not None:
-                geo_extension = max(
-                    r.delay_years_bucketed
-                    for r in self.geography_split.active_regions().values()
+                # ceil() ensures the window is wide enough for any fractional delay:
+                # a 1.5yr delay needs ceil(1.5) = 2 extra years to capture the peak.
+                geo_extension = math.ceil(
+                    max(
+                        r.launch_delay_years
+                        for r in self.geography_split.active_regions().values()
+                    )
                 )
             curve = [
                 self.revenue_in_year(y)
