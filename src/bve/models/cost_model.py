@@ -191,6 +191,7 @@ class CostModel:
         deal: Optional["DealEconomics"] = None,  # type: ignore[name-defined]
         post_approval_rd_millions: float = 0.0,
         cmc_costs: Optional[CMCCosts] = None,
+        cost_inflation_rate: float = 0.0,
     ) -> CostStream:
         """
         Parameters
@@ -204,6 +205,11 @@ class CostModel:
                                    Default 0.0 → no post-approval costs (backward compatible).
         cmc_costs                : CMCCosts for manufacturing/CMC investment.
                                    None → no CMC costs (backward compatible).
+        cost_inflation_rate      : Annual cost inflation applied to trial R&D spend.
+                                   0.0 (default) → no inflation, backward-compatible.
+                                   Each phase cost_millions is inflated by
+                                   (1 + rate)^t before the nominal/real discounting,
+                                   where t is the discount anchor year.
         """
         from bve.models.deal_economics import DealEconomics, milestone_pv
 
@@ -214,6 +220,7 @@ class CostModel:
         phase_costs: list[PhaseCost] = []
         trial_rd_total = 0.0
 
+        inflation = cost_inflation_rate
         for phase in prob.phases:
             cost_after_share = phase.cost_millions * cdev
             mid_year = (phase.year_start + phase.year_end) / 2.0
@@ -221,12 +228,18 @@ class CostModel:
             sp = getattr(phase, "spend_profile", SpendProfile.UNIFORM)
             if sp == SpendProfile.ANNUAL_UNIFORM:
                 pv_cost_gross = sum(
-                    cost_after_share * frac / (1.0 + r) ** yr
+                    cost_after_share * frac
+                    * (1.0 + inflation) ** yr
+                    / (1.0 + r) ** yr
                     for frac, yr in _spend_fraction_weights(phase.year_start, phase.year_end)
                 )
             else:
-                # UNIFORM — exact midpoint, bit-for-bit identical to pre-E1
-                pv_cost_gross = cost_after_share / (1.0 + r) ** mid_year
+                # UNIFORM — exact midpoint, bit-for-bit identical to pre-E1 when inflation=0
+                pv_cost_gross = (
+                    cost_after_share
+                    * (1.0 + inflation) ** mid_year
+                    / (1.0 + r) ** mid_year
+                )
 
             pv_cost_weighted = pv_cost_gross * phase.prob_reaching
 

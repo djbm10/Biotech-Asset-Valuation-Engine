@@ -112,6 +112,7 @@ class ValuationEngine:
         self._commercial_plan: Optional[CommercialPlan] = None  # set by from_program
         self._deal_economics = None  # set by from_program; Optional[DealEconomics]
         self._cmc_costs = None      # set by from_program; Optional[CMCCosts]
+        self._cost_inflation_rate: float = 0.0  # set by from_program
         self.comparable_deals: Optional[list[ComparableDeal]] = comparable_deals
         # EmpiricalPOSEngine (bve.empirical) — None means heuristic / raw trial POS
         self.empirical_pos_engine = empirical_pos_engine
@@ -161,6 +162,7 @@ class ValuationEngine:
         engine._commercial_plan = program.commercial_plan
         engine._deal_economics = program.deal_economics
         engine._cmc_costs = program.cmc_costs
+        engine._cost_inflation_rate = program.cost_inflation_rate
         return engine
 
     def run(self) -> ValuationOutput:
@@ -202,7 +204,8 @@ class ValuationEngine:
         post_rd = self.asset.post_approval_rd_millions
         cost = CostModel.compute(prob, self.asset.discount_rate, deal=deal,
                                  post_approval_rd_millions=post_rd,
-                                 cmc_costs=self._cmc_costs)
+                                 cmc_costs=self._cmc_costs,
+                                 cost_inflation_rate=self._cost_inflation_rate)
         rnpv = RNPVModel.compute(self.asset, prob, rev, cost, deal=deal)
 
         # --- Company NAV ---

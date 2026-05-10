@@ -175,6 +175,18 @@ class DrugAssetProgram(BaseModel):
     commercial_plan: CommercialPlan = Field(default_factory=CommercialPlan)
     deal_economics: DealEconomics = Field(default_factory=DealEconomics)
     cmc_costs: Optional[CMCCosts] = None
+    cost_inflation_rate: float = Field(
+        default=0.0,
+        ge=0.0,
+        description=(
+            "Annual cost inflation rate applied to trial R&D spend. "
+            "0.0 (default): no inflation — backward-compatible. "
+            "Each phase cost is multiplied by (1 + rate)^t before discounting, "
+            "where t is the discounting anchor (midpoint for UNIFORM, "
+            "sub-interval midpoint for ANNUAL_UNIFORM). "
+            "Typical range: 0.02–0.05 (2–5% medical inflation)."
+        ),
+    )
 
     @model_validator(mode="after")
     def _validate_asset_id_consistency(self) -> "DrugAssetProgram":
@@ -205,6 +217,7 @@ class DrugAssetProgram(BaseModel):
         load_loe: bool = True,
         deal_economics: Optional[DealEconomics] = None,
         cmc_costs: Optional[CMCCosts] = None,
+        cost_inflation_rate: float = 0.0,
     ) -> "DrugAssetProgram":
         """
         Build a DrugAssetProgram with an explicit CommercialPlan.
@@ -237,4 +250,5 @@ class DrugAssetProgram(BaseModel):
             commercial_plan=commercial_plan,
             deal_economics=deal_economics or DealEconomics(),
             cmc_costs=cmc_costs,
+            cost_inflation_rate=cost_inflation_rate,
         )
