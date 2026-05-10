@@ -14,10 +14,11 @@ Key uncertain variables and their distributions
 """
 from __future__ import annotations
 
+from enum import Enum
 from typing import TYPE_CHECKING, Optional
 
 import numpy as np
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 from scipy.stats import lognorm, norm
 
 from bve.config.constants import (
@@ -33,6 +34,30 @@ from bve.models.rnpv_model import RNPVResult, compute_rnpv_full
 
 if TYPE_CHECKING:
     from bve.models.deal_economics import DealEconomics
+
+
+class MCMode(str, Enum):
+    """
+    Monte Carlo sampling mode.
+
+    SIMPLE (default)
+        Directly sample ``peak_sales`` as a single log-normal draw.  Fast and
+        appropriate for portfolio screening.
+
+    DRIVER_BASED
+        Decompose peak_sales into its constituent drivers
+        (eligible_patients × net_price × peak_penetration × payer_access × geography)
+        and sample each independently.  Preferred for BD/M&A analysis because
+        individual driver distributions are auditable and correlations are
+        structurally explicit.
+
+    Hard constraint: cannot enable ``sample_peak_sales=True`` AND any driver-based
+    flag simultaneously — doing so would double-count commercial uncertainty.
+    ``_validate_no_double_counting()`` enforces this at construction time.
+    """
+
+    SIMPLE = "simple"
+    DRIVER_BASED = "driver_based"
 
 
 class PhaseSuccessDistribution(BaseModel):
@@ -56,11 +81,35 @@ class MonteCarloParams(BaseModel):
     n_simulations: int = Field(default=MC_N_SIMULATIONS, gt=0)
     random_seed: Optional[int] = None
 
-    # Marginal distribution parameters
+    # Sampling mode
+    mode: MCMode = MCMode.SIMPLE
+
+    # ── SIMPLE mode parameters ──────────────────────────────────────────────
+    # sample_peak_sales=True: draw peak_sales as a single log-normal.
+    # Must be False in DRIVER_BASED mode (enforced by validator below).
+    sample_peak_sales: bool = True
     peak_sales_cv: float = Field(default=MC_PEAK_SALES_CV, gt=0.0)
     discount_rate_std: float = Field(default=MC_DISCOUNT_RATE_STD, gt=0.0)
     years_to_peak_std: float = Field(default=MC_YEARS_TO_PEAK_STD, gt=0.0)
     patent_life_std: float = Field(default=MC_PATENT_LIFE_STD, gt=0.0)
+
+    # ── DRIVER_BASED mode parameters ────────────────────────────────────────
+    # Each flag activates sampling of that driver; its CV controls dispersion.
+    # peak_sales = base_peak × ∏(sampled driver multipliers).
+    sample_eligible_patients: bool = False
+    eligible_patients_cv: float = Field(default=0.30, gt=0.0)
+
+    sample_net_price: bool = False
+    net_price_cv: float = Field(default=0.20, gt=0.0)
+
+    sample_peak_penetration: bool = False
+    peak_penetration_cv: float = Field(default=0.25, gt=0.0)
+
+    sample_payer_access: bool = False
+    payer_access_cv: float = Field(default=0.20, gt=0.0)
+
+    sample_geography: bool = False
+    geography_cv: float = Field(default=0.15, gt=0.0)
 
     # Per-phase success distributions (override trial point estimates)
     phase_distributions: list[PhaseSuccessDistribution] = Field(default_factory=list)
@@ -71,6 +120,36 @@ class MonteCarloParams(BaseModel):
         default=True,
         description="Apply DEFAULT_CORRELATION if correlation_spec is None"
     )
+
+    @model_validator(mode="after")
+    def _validate_no_double_counting(self) -> "MonteCarloParams":
+        """
+        Raise ValueError when peak_sales is sampled directly AND any underlying
+        driver is also being sampled.  That would double-count commercial
+        uncertainty (peak_sales is itself the product of those drivers).
+        """
+        driver_flags = [
+            self.sample_eligible_patients,
+            self.sample_net_price,
+            self.sample_peak_penetration,
+            self.sample_payer_access,
+            self.sample_geography,
+        ]
+        if self.sample_peak_sales and any(driver_flags):
+            active = [
+                name for name, flag in zip(
+                    ["eligible_patients", "net_price", "peak_penetration",
+                     "payer_access", "geography"],
+                    driver_flags,
+                )
+                if flag
+            ]
+            raise ValueError(
+                f"Double-counting: sample_peak_sales=True cannot be combined with "
+                f"driver-based sampling of {active}. "
+                f"Set sample_peak_sales=False when using DRIVER_BASED mode."
+            )
+        return self
 
 
 class MonteCarloResult(BaseModel):
@@ -98,6 +177,9 @@ class MonteCarloResult(BaseModel):
 
     # Which CV was actually used (stage-conditional or explicit override)
     peak_sales_cv_used: float = MC_PEAK_SALES_CV
+
+    # Mode that produced this result
+    mode_used: MCMode = MCMode.SIMPLE
 
     # Expected NAV/share (set externally)
     mean_nav_per_share: Optional[float] = None
@@ -176,12 +258,38 @@ def run_monte_carlo(
     else:
         uniform_samples = {v: rng.uniform(0, 1, n) for v in ["peak_sales", "penetration", "discount_rate", "years_to_peak"]}
 
-    # Peak sales: log-normal via inverse CDF of correlated uniform
+    # Peak sales sampling — SIMPLE mode: single log-normal draw
     base_peak = market_model.peak_sales_millions
-    sigma_ln = np.sqrt(np.log(1 + peak_sales_cv ** 2))
-    mu_ln = np.log(base_peak) - 0.5 * sigma_ln ** 2
-    u_sales = uniform_samples.get("peak_sales", rng.uniform(0, 1, n))
-    peak_sales_samples = lognorm(s=sigma_ln, scale=np.exp(mu_ln)).ppf(np.clip(u_sales, 1e-6, 1 - 1e-6))
+
+    if params.sample_peak_sales:
+        sigma_ln = np.sqrt(np.log(1 + peak_sales_cv ** 2))
+        mu_ln = np.log(base_peak) - 0.5 * sigma_ln ** 2
+        u_sales = uniform_samples.get("peak_sales", rng.uniform(0, 1, n))
+        peak_sales_samples: np.ndarray = lognorm(s=sigma_ln, scale=np.exp(mu_ln)).ppf(
+            np.clip(u_sales, 1e-6, 1 - 1e-6)
+        )
+    else:
+        # DRIVER_BASED mode: build peak_sales from active driver multipliers.
+        # Each driver mult is log-normal with mean=1.0 and the specified CV.
+        # Inactive drivers contribute a multiplier of 1.0 (no variation).
+        peak_sales_samples = np.full(n, base_peak, dtype=float)
+
+    # Pre-sample driver multipliers for DRIVER_BASED mode
+    def _lognormal_mult(cv: float) -> np.ndarray:
+        """Log-normal multiplier with mean=1.0 and coefficient of variation cv."""
+        s = np.sqrt(np.log(1 + cv ** 2))
+        # scale = exp(mu) where mu = -0.5*s^2 ensures median=1 and mean≈1
+        return lognorm(s=s, scale=np.exp(-0.5 * s ** 2)).rvs(n, random_state=rng)
+
+    patient_mults = _lognormal_mult(params.eligible_patients_cv) if params.sample_eligible_patients else np.ones(n)
+    price_mults = _lognormal_mult(params.net_price_cv) if params.sample_net_price else np.ones(n)
+    penetration_mults = _lognormal_mult(params.peak_penetration_cv) if params.sample_peak_penetration else np.ones(n)
+    payer_mults = _lognormal_mult(params.payer_access_cv) if params.sample_payer_access else np.ones(n)
+    geo_mults = _lognormal_mult(params.geography_cv) if params.sample_geography else np.ones(n)
+
+    if not params.sample_peak_sales:
+        # Compose driver multipliers into peak_sales draws
+        peak_sales_samples = base_peak * patient_mults * price_mults * penetration_mults * payer_mults * geo_mults
 
     # Discount rate: normal via inverse CDF
     u_dr = uniform_samples.get("discount_rate", rng.uniform(0, 1, n))
@@ -244,6 +352,7 @@ def run_monte_carlo(
         asset_id=asset.id,
         n_simulations=n,
         peak_sales_cv_used=peak_sales_cv,
+        mode_used=params.mode,
         mean_millions=round(float(np.mean(arr)), 0),
         median_millions=round(float(np.median(arr)), 0),
         std_millions=round(float(np.std(arr)), 0),
