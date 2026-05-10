@@ -14,7 +14,7 @@ from pydantic import BaseModel
 
 from bve.config.constants import PHASE_ORDER
 from bve.entities.asset import Asset
-from bve.entities.trial import ClinicalTrial
+from bve.entities.trial import ClinicalTrial, SpendProfile
 
 
 # ---------------------------------------------------------------------------
@@ -29,6 +29,7 @@ class PhaseResult(BaseModel):
     year_start: float            # years from today when this phase begins
     year_end: float              # years from today when this phase ends
     cost_millions: float         # trial cost — carried for CostModel
+    spend_profile: SpendProfile = SpendProfile.UNIFORM  # forwarded from ClinicalTrial
 
 
 class ProbabilityResult(BaseModel):
@@ -101,6 +102,7 @@ class ProbabilityModel:
                 year_start=year_start,
                 year_end=year_end,
                 cost_millions=trial.cost_millions,
+                spend_profile=trial.spend_profile,
             ))
 
             current_year = year_end

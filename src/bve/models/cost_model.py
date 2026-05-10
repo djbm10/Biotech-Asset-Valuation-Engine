@@ -31,6 +31,7 @@ from typing import Optional
 
 from pydantic import BaseModel
 
+from bve.entities.trial import SpendProfile
 from bve.models.cmc_costs import CMCCosts, CMCTimingMode
 from bve.models.probability_model import ProbabilityResult
 
@@ -136,6 +137,42 @@ def _compute_cmc_pv(
     return round(pv, 2)
 
 
+def _spend_fraction_weights(
+    year_start: float,
+    year_end: float,
+) -> list[tuple[float, float]]:
+    """
+    Split [year_start, year_end) into integer-boundary sub-intervals.
+
+    Returns a list of (fraction, mid_year) pairs where:
+      - fraction  = sub-interval length / total duration  (sums to 1.0)
+      - mid_year  = midpoint of the sub-interval (used as discount anchor)
+
+    Example: year_start=0.5, year_end=3.0 → sub-intervals
+      [0.5, 1.0), [1.0, 2.0), [2.0, 3.0)
+      fractions: 0.5/2.5, 1.0/2.5, 1.0/2.5
+      midpoints: 0.75, 1.5, 2.5
+
+    Degenerate: when duration == 0.0, returns a single entry at year_start.
+    """
+    duration = year_end - year_start
+    if duration <= 0.0:
+        return [(1.0, year_start)]
+
+    result: list[tuple[float, float]] = []
+    current = year_start
+    while current < year_end - 1e-9:
+        # Next integer boundary above current
+        next_int = float(int(current) + 1)
+        segment_end = min(next_int, year_end)
+        interval = segment_end - current
+        fraction = interval / duration
+        mid = (current + segment_end) / 2.0
+        result.append((fraction, mid))
+        current = segment_end
+    return result
+
+
 class CostModel:
     """
     Stateless engine that discounts R&D costs and deal cost terms to PV.
@@ -180,7 +217,17 @@ class CostModel:
         for phase in prob.phases:
             cost_after_share = phase.cost_millions * cdev
             mid_year = (phase.year_start + phase.year_end) / 2.0
-            pv_cost_gross = cost_after_share / (1.0 + r) ** mid_year
+
+            sp = getattr(phase, "spend_profile", SpendProfile.UNIFORM)
+            if sp == SpendProfile.ANNUAL_UNIFORM:
+                pv_cost_gross = sum(
+                    cost_after_share * frac / (1.0 + r) ** yr
+                    for frac, yr in _spend_fraction_weights(phase.year_start, phase.year_end)
+                )
+            else:
+                # UNIFORM — exact midpoint, bit-for-bit identical to pre-E1
+                pv_cost_gross = cost_after_share / (1.0 + r) ** mid_year
+
             pv_cost_weighted = pv_cost_gross * phase.prob_reaching
 
             phase_costs.append(PhaseCost(

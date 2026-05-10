@@ -94,6 +94,26 @@ class GeneTherapyConcern(str, Enum):
     BIOMARKER_ONLY_NO_FUNCTION = "biomarker_only_no_function"          # −0.300
 
 
+class SpendProfile(str, Enum):
+    """
+    How cost_millions is modelled as cash flowing within the phase.
+
+    UNIFORM (default)
+        All cost treated as occurring at the phase midpoint.
+        Backward-compatible — bit-for-bit identical to pre-E1 results.
+        PV = cost / (1+r)^((year_start + year_end) / 2)
+
+    ANNUAL_UNIFORM
+        Cost spread uniformly across integer-year intervals within the phase.
+        Each sub-interval [t, t+1] contributes a fraction proportional to its
+        length; the PV is computed at that sub-interval's midpoint.
+        Produces a slightly lower PV for long phases because spending early in
+        the phase is discounted at a shorter horizon than the overall midpoint.
+    """
+    UNIFORM = "uniform"
+    ANNUAL_UNIFORM = "annual_uniform"
+
+
 class TrialArm(BaseModel):
     label: str
     arm_type: str    # EXPERIMENTAL | ACTIVE_COMPARATOR | PLACEBO_COMPARATOR
@@ -188,6 +208,14 @@ class ClinicalTrial(BaseModel):
     # Timeline + cost
     duration_years: float = Field(gt=0.0)
     cost_millions: float = Field(gt=0.0)
+    spend_profile: SpendProfile = Field(
+        default=SpendProfile.UNIFORM,
+        description=(
+            "How cost_millions is modelled within the phase for discounting. "
+            "'uniform' (default): all cost at midpoint — backward-compatible. "
+            "'annual_uniform': cost spread across integer-year intervals within the phase."
+        ),
+    )
     cost_source: str = Field(
         default="override",
         description=(
