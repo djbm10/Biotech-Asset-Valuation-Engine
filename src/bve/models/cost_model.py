@@ -31,6 +31,7 @@ from typing import Optional
 
 from pydantic import BaseModel
 
+from bve.models.cmc_costs import CMCCosts, CMCTimingMode
 from bve.models.probability_model import ProbabilityResult
 
 
@@ -62,7 +63,10 @@ class CostStream(BaseModel):
     # Post-approval R&D (Phase 4, REMS, pharmacovigilance — Sprint 9.9)
     post_approval_rd_pv_millions: float = 0.0
 
-    # Aggregate: trial R&D (after cdev share) + milestones + upfront + post-approval R&D
+    # CMC / manufacturing investment (Sprint E3)
+    cmc_pv_millions: float = 0.0
+
+    # Aggregate: trial R&D (after cdev share) + milestones + upfront + post-approval R&D + CMC
     total_pv_weighted_millions: float
 
     @property
@@ -82,6 +86,56 @@ class CostStream(BaseModel):
 # Model
 # ---------------------------------------------------------------------------
 
+def _compute_cmc_pv(
+    cmc: CMCCosts,
+    prob: ProbabilityResult,
+    discount_rate: float,
+) -> float:
+    """
+    Probability-weighted PV of CMC/manufacturing costs.
+
+    Discount year is determined by timing_mode:
+      PARALLEL_TO_PHASE_3 → Phase 3 midpoint
+      POST_PHASE_2        → Phase 2 year_end (= Phase 3 year_start)
+      PRE_PHASE_3_START   → Phase 3 year_start
+      CUSTOM_YEAR         → cmc.custom_year
+
+    Probability weight = prob_reaching for Phase 3.  Falls back to the last
+    phase's prob_reaching when no Phase 3 is present in the program.
+    """
+    if cmc.total_millions == 0.0:
+        return 0.0
+
+    # Find relevant phases
+    phases_by_name = {p.phase: p for p in prob.phases}
+    p3 = phases_by_name.get("phase_3")
+    p2 = phases_by_name.get("phase_2")
+
+    # Discount year
+    mode = cmc.timing_mode
+    if mode == CMCTimingMode.CUSTOM_YEAR:
+        year = cmc.custom_year or 0.0
+    elif mode == CMCTimingMode.PARALLEL_TO_PHASE_3:
+        year = (p3.year_start + p3.year_end) / 2.0 if p3 else prob.years_to_approval / 2.0
+    elif mode == CMCTimingMode.POST_PHASE_2:
+        year = p2.year_end if p2 else (p3.year_start if p3 else 0.0)
+    elif mode == CMCTimingMode.PRE_PHASE_3_START:
+        year = p3.year_start if p3 else (p2.year_end if p2 else 0.0)
+    else:
+        year = prob.years_to_approval / 2.0
+
+    # Probability weight: prob_reaching_phase_3; fallback to last phase's prob_reaching
+    if p3 is not None:
+        pw = p3.prob_reaching
+    elif prob.phases:
+        pw = prob.phases[-1].prob_reaching
+    else:
+        pw = prob.cumulative_approval_probability
+
+    pv = cmc.total_millions / (1.0 + discount_rate) ** year * pw
+    return round(pv, 2)
+
+
 class CostModel:
     """
     Stateless engine that discounts R&D costs and deal cost terms to PV.
@@ -99,6 +153,7 @@ class CostModel:
         discount_rate: float,
         deal: Optional["DealEconomics"] = None,  # type: ignore[name-defined]
         post_approval_rd_millions: float = 0.0,
+        cmc_costs: Optional[CMCCosts] = None,
     ) -> CostStream:
         """
         Parameters
@@ -110,6 +165,8 @@ class CostModel:
         post_approval_rd_millions: Post-approval R&D obligations (Phase 4, REMS, etc.)
                                    in USD millions (nominal). Discounted at years_to_approval.
                                    Default 0.0 → no post-approval costs (backward compatible).
+        cmc_costs                : CMCCosts for manufacturing/CMC investment.
+                                   None → no CMC costs (backward compatible).
         """
         from bve.models.deal_economics import DealEconomics, milestone_pv
 
@@ -154,7 +211,10 @@ class CostModel:
             pv_nominal = post_approval_rd_millions / (1.0 + r) ** years_to_approval
             post_approval_pv = round(pv_nominal * prob.cumulative_approval_probability, 2)
 
-        total = round(trial_rd_total + milestone_costs_pv + upfront_cost + post_approval_pv, 2)
+        # CMC / manufacturing investment (Sprint E3)
+        cmc_pv = _compute_cmc_pv(cmc_costs, prob, r) if cmc_costs is not None else 0.0
+
+        total = round(trial_rd_total + milestone_costs_pv + upfront_cost + post_approval_pv + cmc_pv, 2)
 
         return CostStream(
             asset_id=prob.asset_id,
@@ -163,5 +223,6 @@ class CostModel:
             milestone_costs_pv_millions=round(milestone_costs_pv, 2),
             upfront_cost_millions=upfront_cost,
             post_approval_rd_pv_millions=post_approval_pv,
+            cmc_pv_millions=cmc_pv,
             total_pv_weighted_millions=total,
         )

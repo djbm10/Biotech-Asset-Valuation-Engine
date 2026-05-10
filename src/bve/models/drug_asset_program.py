@@ -52,6 +52,7 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from bve.entities.asset import Asset
 from bve.entities.trial import ClinicalTrial, TrialPhase
+from bve.models.cmc_costs import CMCCosts
 from bve.models.deal_economics import DealEconomics
 from bve.models.market_model import MarketModel
 from bve.models.pos_model import POSAdjusters
@@ -173,6 +174,7 @@ class DrugAssetProgram(BaseModel):
     design_features: dict[TrialPhase, TrialDesignFeatureSet] = Field(default_factory=dict)
     commercial_plan: CommercialPlan = Field(default_factory=CommercialPlan)
     deal_economics: DealEconomics = Field(default_factory=DealEconomics)
+    cmc_costs: Optional[CMCCosts] = None
 
     @model_validator(mode="after")
     def _validate_asset_id_consistency(self) -> "DrugAssetProgram":
@@ -202,6 +204,7 @@ class DrugAssetProgram(BaseModel):
         design_features: Optional[dict] = None,
         load_loe: bool = True,
         deal_economics: Optional[DealEconomics] = None,
+        cmc_costs: Optional[CMCCosts] = None,
     ) -> "DrugAssetProgram":
         """
         Build a DrugAssetProgram with an explicit CommercialPlan.
@@ -233,4 +236,5 @@ class DrugAssetProgram(BaseModel):
             design_features=design_features or {},
             commercial_plan=commercial_plan,
             deal_economics=deal_economics or DealEconomics(),
+            cmc_costs=cmc_costs,
         )
