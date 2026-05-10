@@ -185,6 +185,153 @@ class MonteCarloResult(BaseModel):
     mean_nav_per_share: Optional[float] = None
 
 
+class SimulationDraws(BaseModel):
+    """
+    Pre-drawn random values for a single Monte Carlo trial.
+
+    Used as the input to ``_run_single_trial()`` so that each step of the
+    simulation path can be tested in isolation.  All draws are already in the
+    domain of the target variable (e.g. ``discount_rate`` is a probability-clipped
+    float, ``years_to_peak`` is a positive integer).
+    """
+
+    # Step 1 — Clinical: per-phase success probability draws
+    phase_success_probs: dict[str, float]  # {phase.value → sampled probability}
+
+    # Step 3 — Commercial: peak_sales draw (SIMPLE mode) or per-driver mults (DRIVER_BASED)
+    peak_sales_millions: float
+    years_to_peak: int = Field(ge=1, le=20)
+
+    # Step 4 — Payer/geo/competition: sampled CompetitionModel (may be None)
+    competition_model: Optional[object] = None  # CompetitionModel | None
+
+    # Step 5 — Costs / WACC
+    discount_rate: float = Field(ge=0.01, le=0.50)
+
+
+class SimulationOutput(BaseModel):
+    """
+    Output from a single Monte Carlo trial.
+
+    rNPV comes exclusively from a full engine rerun (``compute_rnpv_full()``).
+    The ``engine_rerun`` flag is always True — it exists to make the no-shortcut
+    invariant testable.
+    """
+
+    # Step 11 — rNPV from full engine rerun
+    rnpv_millions: float
+    engine_rerun: bool = True  # invariant: always True
+
+    # Step 7 — P(approval) from engine ProbabilityModel
+    cumulative_success_probability: float
+
+    # Step 8 — Peak revenue from engine RevenueModel
+    peak_sales_millions: float
+
+    # Step 12 — NAV/share
+    nav_millions: float
+    nav_per_share: Optional[float]  # None when shares_outstanding not provided
+
+
+def _run_single_trial(
+    draws: SimulationDraws,
+    asset: Asset,
+    trials: list[ClinicalTrial],
+    market_model: MarketModel,
+    *,
+    loe_profile: Optional[dict] = None,
+    deal: Optional["DealEconomics"] = None,  # type: ignore[name-defined]
+    net_cash_millions: float = 0.0,
+    shares_outstanding_millions: Optional[float] = None,
+) -> SimulationOutput:
+    """
+    Run one Monte Carlo simulation trial through the canonical 12-step path.
+
+    Step ordering
+    -------------
+    1.  Clinical draw   — apply per-phase success probabilities
+    2.  Regulatory      — (embedded in ProbabilityModel via trial sequence)
+    3.  Commercial      — apply peak_sales / driver draws
+    4.  Competition     — apply sampled CompetitionModel
+    5.  Costs / WACC    — apply discount_rate draw
+    6.  Recompute POS   — ProbabilityModel.compute() from engine
+    7.  P(approval)     — cumulative_success_probability from engine
+    8.  Revenue         — RevenueModel.compute() from engine
+    9.  Costs           — CostModel.compute() from engine
+    10. After-tax FCF   — RNPVModel.compute() (tax shield, NOL) from engine
+    11. rNPV            — full engine result (never a direct shock to rNPV)
+    12. NAV/share       — (rNPV + net_cash) / shares_outstanding
+
+    Hard invariant
+    --------------
+    ``SimulationOutput.engine_rerun`` is always ``True``.  rNPV is NEVER computed
+    by shocking the base rNPV directly — the full engine chain reruns on the
+    modified inputs.
+
+    Parameters
+    ----------
+    draws : SimulationDraws
+        Pre-sampled random values for this trial.
+    asset, trials, market_model :
+        Base-case model objects (immutable — not modified in place).
+    loe_profile, deal :
+        Fixed economic context passed unchanged to the engine.
+    net_cash_millions :
+        Net cash added to rNPV for NAV calculation.
+    shares_outstanding_millions :
+        Denominator for NAV/share; None → nav_per_share is None.
+    """
+    # ── Step 1: Clinical — apply per-phase success probability draws ──────
+    sim_trials = [
+        t.model_copy(update={"success_probability": min(0.99, max(0.01, draws.phase_success_probs.get(t.phase.value, t.success_probability)))})
+        for t in trials
+    ]
+
+    # ── Step 3: Commercial — apply peak_sales draw ────────────────────────
+    new_peak_sales = draws.peak_sales_millions
+    if market_model.total_addressable_market_millions is not None:
+        sim_market = market_model.model_copy(
+            update={"total_addressable_market_millions": new_peak_sales / market_model.peak_penetration,
+                    "years_to_peak": draws.years_to_peak, "uptake_curve": None}
+        )
+    else:
+        new_price = new_peak_sales * 1e6 / (
+            (market_model.addressable_patients_annual or 1)
+            * (market_model.compliance_rate or 1)
+            * market_model.peak_penetration
+        )
+        sim_market = market_model.model_copy(
+            update={"net_price_per_patient_usd": new_price,
+                    "years_to_peak": draws.years_to_peak, "uptake_curve": None}
+        )
+
+    # ── Step 4: Payer/geo/competition — apply sampled CompetitionModel ────
+    if draws.competition_model is not None:
+        sim_market = sim_market.model_copy(update={"competition_model": draws.competition_model})
+
+    # ── Step 5: Costs/WACC — apply discount_rate draw ────────────────────
+    sim_asset = asset.model_copy(update={"discount_rate": draws.discount_rate})
+
+    # ── Steps 6–11: Full engine rerun (POS → P(approval) → Revenue → Costs → FCF → rNPV) ──
+    result: RNPVResult = compute_rnpv_full(
+        sim_asset, sim_trials, sim_market,
+        loe_profile=loe_profile, deal=deal,
+    )
+
+    # ── Step 12: NAV/share ────────────────────────────────────────────────
+    nav = result.rnpv_millions + net_cash_millions
+    nav_per_share = (nav / shares_outstanding_millions) if shares_outstanding_millions else None
+
+    return SimulationOutput(
+        rnpv_millions=result.rnpv_millions,
+        engine_rerun=True,  # invariant — always True
+        cumulative_success_probability=result.cumulative_success_probability,
+        peak_sales_millions=result.peak_sales_millions,
+        nav_millions=nav,
+        nav_per_share=nav_per_share,
+    )
+
+
 def _resolve_peak_sales_cv(asset: Asset, params: MonteCarloParams) -> float:
     """
     Return the appropriate peak_sales_cv for this asset.
@@ -304,42 +451,29 @@ def run_monte_carlo(
     simulated: list[float] = []
 
     for i in range(n):
-        sim_asset = asset.model_copy(update={"discount_rate": float(dr_samples[i])})
+        # Build SimulationDraws for this trial
+        phase_probs = {
+            t.phase.value: float(phase_success_samples[t.phase][i])
+            for t in trials
+        }
 
-        new_peak_sales = float(peak_sales_samples[i])
-        if market_model.total_addressable_market_millions is not None:
-            new_tam = new_peak_sales / market_model.peak_penetration
-            sim_market = market_model.model_copy(
-                update={"total_addressable_market_millions": new_tam, "years_to_peak": int(ytp_samples[i]), "uptake_curve": None}
-            )
-        else:
-            # Scale net_price_per_patient to hit new peak sales
-            new_price = new_peak_sales * 1e6 / (
-                (market_model.addressable_patients_annual or 1)
-                * (market_model.compliance_rate or 1)
-                * market_model.peak_penetration
-            )
-            sim_market = market_model.model_copy(
-                update={"net_price_per_patient_usd": new_price, "years_to_peak": int(ytp_samples[i]), "uptake_curve": None}
-            )
-
-        # Phase 1B: per-simulation probabilistic competitor entry.
-        # Approved competitors always present; pipeline competitors included
-        # via Bernoulli draw (approval_probability). See CompetitionModel.sample_launch_outcomes.
+        sampled_comp = None
         if market_model.competition_model is not None and market_model.competition_model.competitors:
             sampled_comp = market_model.competition_model.sample_launch_outcomes(rng)
-            sim_market = sim_market.model_copy(update={"competition_model": sampled_comp})
 
-        sim_trials = [
-            t.model_copy(update={"success_probability": float(phase_success_samples[t.phase][i])})
-            for t in trials
-        ]
+        draws = SimulationDraws(
+            phase_success_probs=phase_probs,
+            peak_sales_millions=float(peak_sales_samples[i]),
+            years_to_peak=int(ytp_samples[i]),
+            competition_model=sampled_comp,
+            discount_rate=float(dr_samples[i]),
+        )
 
-        result: RNPVResult = compute_rnpv_full(
-            sim_asset, sim_trials, sim_market,
+        output = _run_single_trial(
+            draws, asset, trials, market_model,
             loe_profile=loe_profile, deal=deal,
         )
-        simulated.append(result.rnpv_millions)
+        simulated.append(output.rnpv_millions)
 
     arr = np.array(simulated)
     sorted_vals = sorted(simulated)
