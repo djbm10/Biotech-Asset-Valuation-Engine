@@ -24,6 +24,7 @@ from bve.models.commercial_inputs import CommercialInputs
 from bve.models.competition_model import CompetitionModel
 from bve.models.geography import GeographySplit
 from bve.models.launch_archetype import LaunchArchetype
+from bve.models.payer_access import PayerAccessModel
 
 
 class PriceBasis(str, Enum):
@@ -486,6 +487,20 @@ class MarketModel(BaseModel):
         ),
     )
 
+    # --- Payer access (Sprint C1) ---
+    payer_access: Optional[PayerAccessModel] = Field(
+        default=None,
+        description=(
+            "Payer-access modifiers applied to the commercial revenue curve (Sprint C1). "
+            "Models the gap between regulatory approval and effective reimbursement. "
+            "Adjusts peak penetration by access_probability and prior_auth_burden; "
+            "suppresses early-year revenue via coverage_delay_months and step_edit_risk. "
+            "Default None has no effect — all existing configs are fully backward-compatible. "
+            "Anti-double-counting: do not combine step_edit_risk with the "
+            "step_edit_restricted LaunchArchetype or a step-therapy CompetitionModel."
+        ),
+    )
+
     # Cost structure
     cogs_rate: float = Field(default=0.18, ge=0.0, le=1.0)
     sgna_rate_launch: float = Field(default=SGNA_RATE_LAUNCH, ge=0.0, le=1.0)
@@ -598,7 +613,13 @@ class MarketModel(BaseModel):
         """
         # Mode 4: commercial_inputs (geography not applied to CommercialInputs peak)
         if self.commercial_inputs is not None:
-            return self.commercial_inputs.to_peak_sales_millions()
+            peak = self.commercial_inputs.to_peak_sales_millions()
+            if self.payer_access is not None:
+                # Apply the permanent penetration modifiers (access_probability ×
+                # prior_auth_burden factor) to the peak.  Coverage delay and step_edit
+                # are year-specific and cannot be applied to a single peak figure.
+                peak *= self.payer_access.effective_penetration_multiplier()
+            return peak
 
         eff_life = self._effective_patent_life()
         use_slow_path = (
@@ -854,6 +875,14 @@ class MarketModel(BaseModel):
 
         if self.competition_model and years_from_launch > 0:
             base *= self.competition_model.our_available_market_fraction(years_from_launch)
+
+        # Payer-access adjustment (Sprint C1): applied after competition fraction
+        # so that access barriers operate on whatever market share we actually win,
+        # not on the gross addressable pool.  Not applied to LOT mode (handled
+        # at the segment level) — skipped implicitly because lines_of_therapy
+        # returns early above without falling into this block.
+        if self.payer_access is not None and not self.lines_of_therapy:
+            base *= self.payer_access.combined_multiplier(years_from_launch)
 
         return base
 
