@@ -113,6 +113,7 @@ class ValuationEngine:
         self._deal_economics = None  # set by from_program; Optional[DealEconomics]
         self._cmc_costs = None      # set by from_program; Optional[CMCCosts]
         self._cost_inflation_rate: float = 0.0  # set by from_program
+        self._confirmatory_obligation = None  # set by from_program; Optional[ConfirmatoryTrialObligation]
         self.comparable_deals: Optional[list[ComparableDeal]] = comparable_deals
         # EmpiricalPOSEngine (bve.empirical) — None means heuristic / raw trial POS
         self.empirical_pos_engine = empirical_pos_engine
@@ -163,6 +164,7 @@ class ValuationEngine:
         engine._deal_economics = program.deal_economics
         engine._cmc_costs = program.cmc_costs
         engine._cost_inflation_rate = program.cost_inflation_rate
+        engine._confirmatory_obligation = program.confirmatory_obligation
         return engine
 
     def run(self) -> ValuationOutput:
@@ -183,6 +185,21 @@ class ValuationEngine:
 
         # --- Compliance warning for gene/cell therapy ---
         self._check_compliance_rate()
+
+        # --- Confirmatory trial obligation check (Sprint E6) ---
+        if self._confirmatory_obligation is not None and self._confirmatory_obligation.is_at_risk:
+            from bve.models.confirmatory_trial import ConfirmatoryTrialStatus
+            ob = self._confirmatory_obligation
+            warnings.warn(
+                f"Asset '{self.asset.id}': confirmatory trial obligation has status "
+                f"'{ConfirmatoryTrialStatus.WITHDRAWN_FAILED.value}'. "
+                "This represents a material regulatory risk — consider adjusting "
+                "success_probability or program assumptions to reflect potential "
+                "accelerated-approval withdrawal. "
+                f"Obligation: {ob.description or '(no description)'}",
+                UserWarning,
+                stacklevel=2,
+            )
 
         # --- Phase cost default substitution (Sprint E4) ---
         trials = self._apply_trial_cost_defaults(trials)

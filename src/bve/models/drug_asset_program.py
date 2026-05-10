@@ -53,6 +53,7 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator
 from bve.entities.asset import Asset
 from bve.entities.trial import ClinicalTrial, TrialPhase
 from bve.models.cmc_costs import CMCCosts
+from bve.models.confirmatory_trial import ConfirmatoryTrialObligation
 from bve.models.deal_economics import DealEconomics
 from bve.models.market_model import MarketModel
 from bve.models.pos_model import POSAdjusters
@@ -175,6 +176,14 @@ class DrugAssetProgram(BaseModel):
     commercial_plan: CommercialPlan = Field(default_factory=CommercialPlan)
     deal_economics: DealEconomics = Field(default_factory=DealEconomics)
     cmc_costs: Optional[CMCCosts] = None
+    confirmatory_obligation: Optional[ConfirmatoryTrialObligation] = Field(
+        default=None,
+        description=(
+            "Post-approval confirmatory trial obligation (accelerated approval / conditional MA). "
+            "None → no known obligation. When status=WITHDRAWN_FAILED, ValuationEngine "
+            "emits a UserWarning prompting the analyst to adjust POS or program assumptions."
+        ),
+    )
     cost_inflation_rate: float = Field(
         default=0.0,
         ge=0.0,
@@ -218,6 +227,7 @@ class DrugAssetProgram(BaseModel):
         deal_economics: Optional[DealEconomics] = None,
         cmc_costs: Optional[CMCCosts] = None,
         cost_inflation_rate: float = 0.0,
+        confirmatory_obligation: Optional[ConfirmatoryTrialObligation] = None,
     ) -> "DrugAssetProgram":
         """
         Build a DrugAssetProgram with an explicit CommercialPlan.
@@ -251,4 +261,5 @@ class DrugAssetProgram(BaseModel):
             deal_economics=deal_economics or DealEconomics(),
             cmc_costs=cmc_costs,
             cost_inflation_rate=cost_inflation_rate,
+            confirmatory_obligation=confirmatory_obligation,
         )
