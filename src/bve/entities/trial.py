@@ -119,13 +119,16 @@ class ClinicalTrial(BaseModel):
     duration_years: float = Field(gt=0.0)
     cost_millions: float = Field(gt=0.0)
     cost_source: str = Field(
-        default="default",
+        default="override",
         description=(
-            "'default' if cost_millions is the industry median from assumptions.yaml. "
-            "'override' if cost_millions was set from asset-specific research (SEC filings, "
-            "partner disclosures, analyst estimates). Engine warns at run time when 'default' "
-            "is used, because rare-disease Phase 2 (~$15M) and large oncology RCT (~$500M) "
-            "can differ 2-4× from the industry median."
+            "'override' (default): cost_millions is the analyst's asset-specific estimate "
+            "(SEC filings, partner disclosures, CRO quotes). Engine uses it as-is. "
+            "'default': requests TA-calibrated substitution — engine replaces cost_millions "
+            "with the industry median for this TA and phase from phase_cost_defaults "
+            "in industry_assumptions.yaml, and emits a UserWarning. "
+            "'default_applied': set by the engine after substitution (audit trail only). "
+            "Rare-disease Phase 2 (~$30M) vs large oncology RCT (~$300M) differ 10x "
+            "from the cross-TA flat default — always prefer 'override' with a real estimate."
         )
     )
     start_date: Optional[str] = None

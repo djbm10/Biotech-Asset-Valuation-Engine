@@ -180,8 +180,8 @@ class ValuationEngine:
         # --- Compliance warning for gene/cell therapy ---
         self._check_compliance_rate()
 
-        # --- Phase cost override enforcement ---
-        self._check_trial_cost_sources(trials)
+        # --- Phase cost default substitution (Sprint E4) ---
+        trials = self._apply_trial_cost_defaults(trials)
 
         # --- Four-engine base-case rNPV ---
         # CommercialPlan has three states:
@@ -696,18 +696,42 @@ class ValuationEngine:
     # Compliance rate advisory (Sprint 9.6)
     # -----------------------------------------------------------------------
 
-    def _check_trial_cost_sources(self, trials: list) -> None:
-        """Warn when any trial uses the industry median cost rather than an asset-specific estimate."""
+    def _apply_trial_cost_defaults(self, trials: list) -> list:
+        """
+        Substitute TA-calibrated phase costs for trials with cost_source='default'.
+
+        For each trial:
+          - cost_source='default':  replace cost_millions with the TA-specific median
+            from phase_cost_defaults in industry_assumptions.yaml and emit a UserWarning.
+            Sets cost_source='default_applied' on the returned trial for audit traceability.
+          - cost_source='override': leave untouched (analyst estimate is trusted).
+          - cost_source='default_applied': already processed, skip.
+
+        Returns a new list of trials (original list and original trial objects are
+        not mutated — uses model_copy(update=...) on frozen Pydantic models).
+        """
+        from bve.config.assumptions_loader import AssumptionsLoader
+        ta = self.asset.therapeutic_area.value
+        result = []
         for trial in trials:
-            if getattr(trial, "cost_source", "default") == "default":
+            if getattr(trial, "cost_source", "override") == "default":
+                calibrated = AssumptionsLoader.get().phase_cost(ta, trial.phase.value)
                 warnings.warn(
-                    f"Trial '{trial.phase.value}' for asset '{self.asset.id}' is using the "
-                    f"industry median cost (${trial.cost_millions:.0f}M). "
-                    "Override with asset-specific estimates for BD deal accuracy. "
-                    "Set cost_source='override' to suppress this warning.",
+                    f"Trial '{trial.phase.value}' for asset '{self.asset.id}': "
+                    f"applying TA-calibrated default cost ${calibrated:.0f}M "
+                    f"(therapeutic_area='{ta}'). Analyst-provided value "
+                    f"${trial.cost_millions:.0f}M is replaced. "
+                    "Set cost_source='override' and supply an asset-specific estimate "
+                    "(SEC filings, CRO quotes, partner disclosures) to suppress this.",
                     UserWarning,
                     stacklevel=3,
                 )
+                trial = trial.model_copy(update={
+                    "cost_millions": calibrated,
+                    "cost_source": "default_applied",
+                })
+            result.append(trial)
+        return result
 
     def _check_compliance_rate(self) -> None:
         """Warn when gene/cell therapy assets use a compliance_rate < 1.0."""

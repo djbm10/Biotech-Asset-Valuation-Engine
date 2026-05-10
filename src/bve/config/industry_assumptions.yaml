@@ -230,13 +230,157 @@ phase_durations_years:
   nda_bla: 1.5
 
 phase_costs_millions:
-  # Industry medians in USD millions; DiMasi 2016 + Tufts CSDD
-  # Fully-loaded: investigator fees, CRO, CMC, regulatory, internal overhead
-  # These are starting points — asset configs should override with asset-specific estimates
+  # Cross-TA industry medians (backward-compatible flat defaults).
+  # Prefer phase_cost_defaults (below) for TA-specific lookups.
+  # Source: DiMasi JA et al. (2016) J Health Econ; Tufts CSDD
   phase_1:  25.0
   phase_2:  75.0
   phase_3: 225.0
   nda_bla:  35.0
+
+# ==============================================================================
+# Phase cost defaults by therapeutic area (Sprint E4)
+# ==============================================================================
+#
+# Per-TA, per-phase cost medians (USD millions, fully-loaded).
+# Includes: investigator fees, CRO, CMC trial supply, regulatory, internal overhead.
+#
+# Source: DiMasi JA et al. (2016) J Health Econ; Tufts CSDD R&D cost studies;
+#   EvaluatePharma Clinical Trial Cost benchmarks 2022; GlobalData.
+#
+# "all" mirrors phase_costs_millions and serves as the cross-TA fallback.
+#
+# These are POPULATION MEDIANS. Deviations of 3-5x are routine.
+# Always prefer cost_source="override" with an asset-specific estimate.
+#
+# Applied by ValuationEngine._apply_trial_cost_defaults() when
+# a trial carries cost_source="default".
+
+phase_cost_defaults:
+
+  all:
+    # Cross-TA weighted average (matches phase_costs_millions for compatibility)
+    phase_1:  25.0
+    phase_2:  75.0
+    phase_3: 225.0
+    nda_bla:  35.0
+
+  oncology:
+    # Solid + hematology aggregate. Phase 3 driven by large OS-powered RCTs.
+    phase_1:  30.0
+    phase_2:  80.0
+    phase_3: 300.0
+    nda_bla:  45.0
+
+  oncology_solid:
+    # Solid-tumor RCTs: large OS-powered studies (NSCLC, CRC, GBM).
+    # Phase 3 reflects KEYNOTE/CheckMate scale trials.
+    phase_1:  30.0
+    phase_2:  85.0
+    phase_3: 320.0
+    nda_bla:  50.0
+
+  hematology:
+    # Cleaner endpoints (CR, MRD), smaller N → lower Phase 3 vs solid tumors.
+    phase_1:  25.0
+    phase_2:  65.0
+    phase_3: 200.0
+    nda_bla:  40.0
+
+  rare_disease:
+    # Small patient populations → very low Phase 2 cost; Phase 3 intensive
+    # monitoring per patient but modest total N.
+    phase_1:  15.0
+    phase_2:  30.0
+    phase_3: 100.0
+    nda_bla:  25.0
+
+  cns:
+    # Large N required (high placebo response); expensive imaging + biomarkers.
+    # Phase 3 Alzheimer / depression trials frequently $300-500M.
+    phase_1:  35.0
+    phase_2: 100.0
+    phase_3: 350.0
+    nda_bla:  50.0
+
+  psychiatry:
+    # Similar to CNS: large N, placebo response, rating-scale endpoints.
+    phase_1:  30.0
+    phase_2:  90.0
+    phase_3: 300.0
+    nda_bla:  45.0
+
+  cardiovascular:
+    # CVOT-era outcomes trials: very large N (8,000-20,000 patients), long follow-up.
+    # Highest Phase 3 cost across all TAs.
+    phase_1:  40.0
+    phase_2: 120.0
+    phase_3: 400.0
+    nda_bla:  60.0
+
+  immunology:
+    # RA / SLE / IBD / psoriasis: moderate N, well-characterised endpoints.
+    phase_1:  25.0
+    phase_2:  75.0
+    phase_3: 200.0
+    nda_bla:  35.0
+
+  infectious_disease:
+    # Well-characterised endpoints (viral load, clinical cure); efficient trials.
+    phase_1:  20.0
+    phase_2:  55.0
+    phase_3: 175.0
+    nda_bla:  30.0
+
+  ophthalmology:
+    # Objective endpoints (BCVA, retinal OCT); moderate N; efficient execution.
+    phase_1:  20.0
+    phase_2:  60.0
+    phase_3: 180.0
+    nda_bla:  30.0
+
+  metabolic:
+    # GLP-1-era obesity/T2D trials can be large (SURMOUNT scale).
+    # CVOT safety requirement adds significant Phase 3 cost.
+    phase_1:  30.0
+    phase_2:  90.0
+    phase_3: 300.0
+    nda_bla:  45.0
+
+  dermatology:
+    # PASI/IGA endpoints, efficient enrollment, moderate N.
+    phase_1:  20.0
+    phase_2:  60.0
+    phase_3: 180.0
+    nda_bla:  30.0
+
+  gastroenterology:
+    # Symptom PRO endpoints; IBD endoscopy scoring adds monitoring cost.
+    phase_1:  25.0
+    phase_2:  70.0
+    phase_3: 220.0
+    nda_bla:  35.0
+
+  pulmonary:
+    # COPD/IPF/PAH: moderate-large N; spirometry / 6MWT endpoints.
+    phase_1:  30.0
+    phase_2:  85.0
+    phase_3: 260.0
+    nda_bla:  40.0
+
+  renal:
+    # Long eGFR slope trials; CKD Phase 3 requires multi-year follow-up.
+    phase_1:  25.0
+    phase_2:  70.0
+    phase_3: 220.0
+    nda_bla:  35.0
+
+  other:
+    # Fallback — mirrors "all" (cross-TA average)
+    phase_1:  25.0
+    phase_2:  75.0
+    phase_3: 225.0
+    nda_bla:  35.0
 
 
 # ==============================================================================

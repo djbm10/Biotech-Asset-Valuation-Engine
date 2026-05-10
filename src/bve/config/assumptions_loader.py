@@ -57,6 +57,7 @@ _REQUIRED_SECTIONS = {
     "phase_success_rates",
     "phase_durations_years",
     "phase_costs_millions",
+    "phase_cost_defaults",
     "commercial",
     "wacc",
     "monte_carlo",
@@ -292,7 +293,47 @@ class AssumptionsLoader:
 
     @property
     def phase_costs_millions(self) -> MappingProxyType:
+        """Flat cross-TA cost table. Deprecated: prefer phase_cost(ta, phase)."""
         return self._data["phase_costs_millions"]
+
+    @property
+    def phase_cost_defaults(self) -> MappingProxyType:
+        """Full nested table: {therapeutic_area: {phase: cost_millions}}. Read-only."""
+        return self._data["phase_cost_defaults"]
+
+    def phase_cost(self, therapeutic_area: str, phase: str) -> float:
+        """
+        TA-calibrated phase cost in USD millions.
+
+        Looks up ``phase_cost_defaults[therapeutic_area][phase]``.
+        Falls back to ``phase_cost_defaults["all"][phase]`` with a UserWarning when the
+        TA is not in the table, mirroring the phase_success_rates_for() pattern.
+
+        Parameters
+        ----------
+        therapeutic_area:
+            TherapeuticArea enum value string (e.g. ``"oncology"``, ``"rare_disease"``).
+        phase:
+            TrialPhase enum value string (e.g. ``"phase_2"``, ``"phase_3"``).
+
+        Returns
+        -------
+        float
+            Cost in USD millions.
+        """
+        table = self._data["phase_cost_defaults"]
+        if therapeutic_area in table and phase in table[therapeutic_area]:
+            return float(table[therapeutic_area][phase])
+        # TA not found — fall back to cross-TA average
+        if therapeutic_area not in table:
+            warnings.warn(
+                f"Therapeutic area {therapeutic_area!r} not found in "
+                f"phase_cost_defaults. Falling back to 'all'. "
+                f"(assumptions version: {self.version})",
+                UserWarning,
+                stacklevel=2,
+            )
+        return float(table["all"][phase])
 
     # ------------------------------------------------------------------
     # Accessors — commercial defaults
