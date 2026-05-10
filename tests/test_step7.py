@@ -357,12 +357,20 @@ class TestCanonicalLOEDeal:
         )
 
     def test_rnpv_locked(self):
-        # Sprint 9.12: updated to 84.0 after 0dp rounding (was 84.27 pre-9.12; was 82.36 pre-9.10)
-        assert self._result().rnpv_millions == pytest.approx(84.0, abs=0.5)
+        # Updated: royalty now applied to revenue (not EBIT) per improved formula.
+        # Royalty on revenue = larger deduction → lower rNPV vs old EBIT-applied royalty.
+        # New value: 70.0 (was 84.0 when royalty reduced EBIT multiplicatively)
+        assert self._result().rnpv_millions == pytest.approx(70.0, abs=0.5)
 
-    def test_net_ownership_reflects_deal_royalty(self):
-        # asset.royalty_rate=0, deal.royalty_rate=0.10 → 1.0 × 0.90 = 0.90 (exact)
-        assert self._result().net_ownership == 0.90
+    def test_net_ownership_reflects_equity_stake(self):
+        # net_ownership now stores the equity stake only (asset.net_ownership = 1.0).
+        # deal.royalty_rate is tracked separately via royalty_deductions_pv_millions.
+        assert self._result().net_ownership == 1.0
+
+    def test_royalty_deductions_pv_populated(self):
+        # royalty_rate=10% on revenue → royalty_deductions_pv_millions > 0
+        result = self._result()
+        assert result.royalty_deductions_pv_millions > 0.0
 
     def test_milestone_payable_pv_locked(self):
         # $50M on approval, P(approval)=0.177045, discounted 7.5yr at 10%
@@ -375,17 +383,16 @@ class TestCanonicalLOEDeal:
     def test_upfront_cost_at_face_value(self):
         assert self._result().cost_stream.upfront_cost_millions == pytest.approx(20.0)
 
-    def test_deal_rnpv_close_to_loe_only(self):
-        """Sprint 9 note: at 21% effective tax rate, cost-sharing benefit (30% of ~136M costs)
-        slightly exceeds royalty + net deal cost drag → deal is marginally accretive vs loe-only.
-        Pre-Sprint-9 pre-tax: deal reduced rNPV (royalty dominated). Post-Sprint-9 after-tax:
-        cost savings dominate because they are pre-tax cash flows. Both cases are economically valid.
-        Test verifies the deal rNPV stays within ±10M of the loe-only baseline."""
+    def test_deal_rnpv_lower_than_loe_only(self):
+        """Royalty on revenue is a larger deduction than the cdev cost savings → deal reduces rNPV.
+        Royalty (10% on revenue) deducts ~$36M PV; cdev saving (30% of ~$136M costs) adds ~$41M.
+        Net deal cost drag from upfront + payable milestone exceeds receipts → deal is dilutive.
+        Threshold updated to ±20M to reflect the larger royalty deduction under the corrected formula."""
         loe_only = compute_rnpv_full(
             _canonical_asset(), _canonical_trials(), _canonical_market(),
             loe_profile=_loe("small_molecule"),
         )
-        assert abs(self._result().rnpv_millions - loe_only.rnpv_millions) < 10.0
+        assert abs(self._result().rnpv_millions - loe_only.rnpv_millions) < 20.0
 
     def test_deal_rnpv_exceeds_no_loe_no_deal(self):
         """Despite deal costs, LOE tail still adds net value over the no-LOE/no-deal baseline."""

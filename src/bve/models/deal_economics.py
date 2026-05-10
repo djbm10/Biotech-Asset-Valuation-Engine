@@ -187,6 +187,15 @@ class DealEconomics(BaseModel):
     upfront_receipt_millions: float = Field(default=0.0, ge=0.0)
     royalty_rate: float = Field(default=0.0, ge=0.0, le=1.0)
     cdev_cost_share: float = Field(default=1.0, gt=0.0, le=1.0)
+    profit_share_rate: float = Field(
+        default=0.0, ge=0.0, le=1.0,
+        description=(
+            "Fraction of EBIT paid to a deal partner as a profit share. "
+            "Applied to EBIT after royalty deductions, before equity split. "
+            "Distinct from royalty_rate which reduces net revenue (top-line). "
+            "0.0 (default) = no profit share."
+        ),
+    )
     milestones: list[Milestone] = Field(default_factory=list)
     launch_year_offset: float = Field(default=0.0, ge=0.0,
                                       description="Years from approval to first commercial sale")
@@ -206,6 +215,7 @@ class DealEconomics(BaseModel):
             self.upfront_cost_millions > 0
             or self.upfront_receipt_millions > 0
             or self.royalty_rate > 0
+            or self.profit_share_rate > 0
             or self.cdev_cost_share < 1.0
             or self.milestones
             or self.launch_year_offset > 0

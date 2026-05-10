@@ -1,25 +1,59 @@
 """
 RNPVModel — combines ProbabilityResult, RevenueStream, and CostStream into rNPV,
-optionally applying deal-layer economics (royalty stacking, receivable milestones,
-upfront receipts).
+optionally applying deal-layer economics (royalty on revenue, profit share on EBIT,
+receivable milestones, upfront receipts).
 
-This model only does:
-  - Discounting EBIT cash flows to present value (anchored to years_to_approval)
-  - Applying effective ownership (asset.net_ownership stacked with deal.royalty_rate)
-  - Multiplying PV(revenue) by P(approval)
-  - Subtracting probability-weighted PV(costs) [already computed by CostModel]
-  - Adding PV(receivable milestones) and upfront receipts
+Canonical formula
+-----------------
 
-It does not recompute POS, timelines, launch timing, or revenue details.
+rNPV =
+    P(approval) × Σ_t [
+        (EBIT_t − revenue_t × royalty_rate − EBIT_t × profit_share_rate)
+        × (1 − tax_rate_t)
+        × net_ownership
+        / (1 + WACC)^t
+    ]
+    − total_pv_weighted_development_costs
+    + PV(receivable milestones)
+    + upfront_receipt
+
+Where:
+    t                = years_to_approval + commercial_year  (1-indexed from launch)
+    net_ownership    = asset.net_ownership = 1 − asset.royalty_rate  (equity stake only)
+    royalty_rate     = deal.royalty_rate  (paid on net revenue — top-line deduction)
+    profit_share_rate= deal.profit_share_rate  (paid on EBIT after royalty — applied before equity split)
+    tax_rate_t       = 0 during NOL benefit window; effective_tax_rate thereafter
+    total_pv_weighted_development_costs = CostStream.total_pv_weighted_millions
+        (trial R&D + CMC + payable milestones + upfront cost + post-approval R&D)
+
+Ownership vs. deal deductions — explicit separation
+----------------------------------------------------
+  net_ownership    : equity stake in the program (set on Asset, invariant to deal terms)
+  royalty_rate     : royalty paid to deal partner as % of net sales (reduces revenue before EBIT)
+  profit_share_rate: profit split to deal partner as % of EBIT (reduces EBIT after royalty)
+
+Royalties reduce revenue; profit shares reduce EBIT.  These are NOT equivalent:
+a 10% royalty on $100M revenue with 30% EBIT margin reduces EBIT by $10M,
+whereas a 10% profit share on $30M EBIT reduces it by only $3M.
+
+EBIT basis
+----------
+EBIT_t in ebit_by_year is:
+  - Global (all geographies modeled in MarketModel — not US-only)
+  - Post-gross-to-net (payer access × net_price_per_patient applied in RevenueModel)
+  - Post-COGS (cogs_rate × revenue, applied per year in RevenueModel)
+  - Post-SG&A (sgna_rate_launch → sgna_rate_mature ramp over years_to_peak in RevenueModel)
+  - Pre-tax by default; after-tax when effective_tax_rate > 0 and NOL window has expired
+
+NAV and per-share value
+-----------------------
+    NAV = rNPV + company.net_cash_millions
+    NAV/share = NAV / company.diluted_shares_outstanding_millions
 
 Deal economics boundary
 -----------------------
 RevenueModel is NEVER given DealEconomics.  Revenue is gross commercial revenue.
-The ownership reduction (royalty) happens here, after revenue is modelled.
-
-Royalty stacking:
-  effective_net_ownership = asset.net_ownership × (1 − deal.royalty_rate)
-  Setting deal.royalty_rate = 0.0 (default) leaves asset.net_ownership unchanged.
+All deal deductions (royalty, profit share, equity split) happen in RNPVModel.
 
 Entry-point hierarchy
 ---------------------
@@ -70,20 +104,58 @@ class RNPVResult(BaseModel):
     rnpv_millions: float = Field(description="Risk-adjusted NPV in USD millions")
 
     # Revenue decomposition
-    gross_revenue_pv_millions: float = Field(description="Sum of PV(EBIT) pre-probability weighting")
+    gross_revenue_pv_millions: float = Field(
+        description=(
+            "Pre-probability PV of post-deal, after-tax, ownership-adjusted EBIT. "
+            "= Σ_t [(EBIT_t − royalty_t − profit_share_t) × (1−tax) × net_ownership / (1+r)^t]. "
+            "Multiply by cumulative_success_probability to get probability_adjusted_revenue_pv_millions."
+        )
+    )
     probability_adjusted_revenue_pv_millions: float
-    trial_costs_pv_millions: float = Field(description="Sum of probability-weighted PV(costs)")
+    trial_costs_pv_millions: float = Field(
+        description=(
+            "Total probability-weighted PV of all development costs "
+            "(trial R&D + CMC + payable milestones + upfront cost + post-approval R&D). "
+            "See total_pv_weighted_development_costs property for the canonical name."
+        )
+    )
 
     # Deal economics decomposition (zero when no deal terms)
     deal_milestone_receipts_pv_millions: float = 0.0  # PV of receivable milestones
     upfront_receipt_millions: float = 0.0             # Upfront receipt at t=0
+
+    # Deal deduction decomposition — value given up to deal partner on revenue side
+    royalty_deductions_pv_millions: float = Field(
+        default=0.0,
+        description=(
+            "Probability-adjusted PV of royalties paid to deal partner on net revenue. "
+            "= P(approval) × Σ_t [revenue_t × royalty_rate × net_ownership × (1−tax) / (1+r)^t]. "
+            "Zero when deal.royalty_rate = 0."
+        ),
+    )
+    profit_share_deductions_pv_millions: float = Field(
+        default=0.0,
+        description=(
+            "Probability-adjusted PV of profit share paid to deal partner from EBIT. "
+            "= P(approval) × Σ_t [EBIT_t × profit_share_rate × net_ownership × (1−tax) / (1+r)^t]. "
+            "Zero when deal.profit_share_rate = 0."
+        ),
+    )
 
     # Key metrics
     cumulative_success_probability: float
     years_to_launch: float
     peak_sales_millions: float
     discount_rate: float
-    net_ownership: float   # effective ownership after asset royalty × deal royalty stacking
+    net_ownership: float = Field(
+        description=(
+            "Equity stake in the program: asset.net_ownership = 1 − asset.royalty_rate. "
+            "Does NOT include deal.royalty_rate (that reduces revenue) or "
+            "deal.profit_share_rate (that reduces EBIT). "
+            "See royalty_deductions_pv_millions and profit_share_deductions_pv_millions "
+            "for the deal partner's economic share."
+        )
+    )
 
     # Per-phase detail (backward compat)
     phase_breakdown: list[PhaseBreakdown] = Field(default_factory=list)
@@ -115,6 +187,17 @@ class RNPVResult(BaseModel):
         """Probability-weighted PV of trial costs — named consistently for downstream use."""
         return self.trial_costs_pv_millions
 
+    @property
+    def total_pv_weighted_development_costs(self) -> float:
+        """
+        Canonical name for the total cost term subtracted in the rNPV formula.
+
+        Includes: trial R&D (after cdev_share + inflation) + CMC/manufacturing +
+        payable milestones + upfront cost + post-approval R&D obligations.
+        Same value as trial_costs_pv_millions (kept for backward compatibility).
+        """
+        return self.trial_costs_pv_millions
+
 
 # ---------------------------------------------------------------------------
 # RNPVModel — discounting only
@@ -125,17 +208,22 @@ class RNPVModel:
     Stateless engine that combines the three upstream results into rNPV.
 
     Inputs:
-      asset : provides discount_rate and base net_ownership
+      asset : provides discount_rate and net_ownership (equity stake)
       prob  : provides cumulative_approval_probability and years_to_approval
-      rev   : provides ebit_by_year (undiscounted, 1-indexed from launch)
+      rev   : provides ebit_by_year and revenue_by_year (undiscounted, 1-indexed from launch)
       cost  : provides total_pv_weighted_millions (already probability-weighted,
-              includes trial R&D + milestone payables + upfront cost if deal set)
-      deal  : optional DealEconomics for royalty stacking and receivable milestones
+              includes trial R&D + CMC + milestone payables + upfront cost + post-approval R&D)
+      deal  : optional DealEconomics for royalty (on revenue), profit_share (on EBIT),
+              receivable milestones, upfront receipts
 
-    The EBIT cash flow for year yr (1-indexed from launch) is discounted at
-    (years_to_approval + yr), then multiplied by effective_net_ownership.
+    Deal economics applied in order per year:
+      1. royalty_t      = revenue_t × deal.royalty_rate          (top-line deduction)
+      2. profit_share_t = ebit_t    × deal.profit_share_rate     (EBIT-level deduction)
+      3. adjusted_ebit  = ebit_t − royalty_t − profit_share_t
+      4. captured       = adjusted_ebit × (1 − tax) × asset.net_ownership
 
-    rNPV = P(approval) × PV(EBIT × ownership) − PV(costs) + PV(receivable milestones) + upfront receipts
+    rNPV = P(approval) × PV(captured EBIT) − total_pv_weighted_development_costs
+           + PV(receivable milestones) + upfront_receipt
     """
 
     @staticmethod
@@ -150,25 +238,49 @@ class RNPVModel:
 
         deal = deal or DealEconomics()
         r = asset.discount_rate
+        net_ownership = asset.net_ownership  # equity stake only — invariant to deal terms
 
-        # Effective ownership: asset royalty × deal royalty stacked multiplicatively
-        effective_ownership = asset.net_ownership * (1.0 - deal.royalty_rate)
+        royalty_rate = deal.royalty_rate
+        profit_share_rate = deal.profit_share_rate
 
         years_to_launch = prob.years_to_approval
         cum_prob = prob.cumulative_approval_probability
 
-        # Discount UFCF (EBIT × (1 − tax)) anchored to years_to_launch.
+        # Discount post-deal UFCF anchored to years_to_launch.
         # During nol_benefit_years from commercial launch, NOL carryforwards
         # defer cash taxes → effective tax = 0.0 for those years only.
         tax_rate = asset.effective_tax_rate
         nol_window = asset.nol_benefit_years
+
         gross_revenue_pv: float = 0.0
+        royalty_pv_sum: float = 0.0
+        profit_share_pv_sum: float = 0.0
+
+        revenue_series = rev.revenue_by_year  # same length as ebit_by_year
+
         for i, ebit in enumerate(rev.ebit_by_year):
             yr = i + 1                          # 1-indexed year from launch
             abs_year = years_to_launch + yr
             effective_tax = 0.0 if yr <= nol_window else tax_rate
-            after_tax_ebit = ebit * (1.0 - effective_tax)
-            gross_revenue_pv += (after_tax_ebit * effective_ownership) / (1.0 + r) ** abs_year
+
+            revenue_t = revenue_series[i] if i < len(revenue_series) else 0.0
+
+            # Step 1: royalty on net revenue (top-line; larger than EBIT-applied royalty)
+            royalty_t = revenue_t * royalty_rate
+            # Step 2: profit share on EBIT after royalty deduction
+            profit_share_t = ebit * profit_share_rate
+            # Step 3: adjusted EBIT after all deal deductions
+            adjusted_ebit = ebit - royalty_t - profit_share_t
+            # Step 4: after-tax, equity-stake-adjusted capture
+            after_tax_adjusted = adjusted_ebit * (1.0 - effective_tax)
+            captured = after_tax_adjusted * net_ownership
+
+            df = (1.0 + r) ** abs_year
+            gross_revenue_pv += captured / df
+
+            # Track deductions for decomposition reporting (net ownership share, after tax)
+            royalty_pv_sum += (royalty_t * net_ownership * (1.0 - effective_tax)) / df
+            profit_share_pv_sum += (profit_share_t * net_ownership * (1.0 - effective_tax)) / df
 
         probability_adjusted_revenue_pv = gross_revenue_pv * cum_prob
         trial_costs_pv = cost.total_pv_weighted_millions
@@ -226,11 +338,13 @@ class RNPVModel:
             trial_costs_pv_millions=round(trial_costs_pv, 1),          # costs matter to $0.1M
             deal_milestone_receipts_pv_millions=round(milestone_receipts_pv, 1),
             upfront_receipt_millions=upfront_receipt,
+            royalty_deductions_pv_millions=round(royalty_pv_sum * cum_prob, 1),
+            profit_share_deductions_pv_millions=round(profit_share_pv_sum * cum_prob, 1),
             cumulative_success_probability=cum_prob,
             years_to_launch=years_to_launch,
             peak_sales_millions=round(rev.peak_sales_millions, 0),
             discount_rate=r,
-            net_ownership=round(effective_ownership, 6),
+            net_ownership=round(net_ownership, 6),
             effective_tax_rate=tax_rate,
             nol_benefit_years=nol_window,
             phase_breakdown=phase_breakdown,
