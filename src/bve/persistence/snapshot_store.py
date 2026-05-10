@@ -53,6 +53,38 @@ from bve.entities.company_snapshot import (
 
 _DEFAULT_DB_PATH = Path("outputs/snapshots/company_snapshots.db")
 
+_OVERRIDE_LOG_TABLE = """
+CREATE TABLE IF NOT EXISTS override_log (
+    id              INTEGER PRIMARY KEY AUTOINCREMENT,
+    company_id      TEXT NOT NULL,
+    snapshot_id     TEXT NOT NULL,
+    field_name      TEXT NOT NULL,
+    bucket_id       TEXT,
+    old_value_json  TEXT NOT NULL,
+    new_value_json  TEXT NOT NULL,
+    override_by     TEXT NOT NULL,
+    override_at     TEXT NOT NULL,
+    reason          TEXT NOT NULL,
+    evidence_ref    TEXT
+);
+
+CREATE INDEX IF NOT EXISTS idx_override_log_company
+    ON override_log(company_id, override_at DESC);
+"""
+
+# Valid ReviewerState transitions.  Any (from_state, to_state) pair NOT in this
+# set is rejected by transition_state() as an invalid state-machine transition.
+_VALID_TRANSITIONS: frozenset[tuple[str, str]] = frozenset({
+    ("draft",       "reviewed"),
+    ("draft",       "quarantined"),
+    ("reviewed",    "approved"),
+    ("reviewed",    "quarantined"),
+    ("approved",    "quarantined"),
+    ("approved",    "stale"),
+    ("quarantined", "draft"),
+    ("stale",       "draft"),
+})
+
 _SCHEMA = """
 CREATE TABLE IF NOT EXISTS company_snapshots (
     snapshot_id               TEXT PRIMARY KEY,
@@ -151,6 +183,7 @@ class SnapshotStore:
 
     def _init_schema(self) -> None:
         self._conn.executescript(_SCHEMA)
+        self._conn.executescript(_OVERRIDE_LOG_TABLE)
         self._conn.commit()
 
     # ------------------------------------------------------------------
@@ -365,6 +398,16 @@ class SnapshotStore:
             raise ValueError(f"Snapshot {snapshot_id!r} not found.")
 
         old_state = old.reviewer_state
+        transition_key = (old_state.value, new_state.value)
+        if transition_key not in _VALID_TRANSITIONS:
+            raise ValueError(
+                f"Invalid state transition: {old_state.value!r} → {new_state.value!r}. "
+                f"Valid transitions from {old_state.value!r}: "
+                + str(sorted(
+                    t[1] for t in _VALID_TRANSITIONS if t[0] == old_state.value
+                ))
+            )
+
         new_prov = old.provenance.model_copy(update={
             "parent_snapshot_id": snapshot_id,
             "created_by": reviewer,
@@ -380,6 +423,12 @@ class SnapshotStore:
         # must construct a fresh instance
         import uuid as _uuid
         new_id = str(_uuid.uuid4())
+        # When transitioning to APPROVED, pack_version must be >= 1.
+        # The transition itself is the human-review event that justifies it,
+        # so auto-bump if the source snapshot has pack_version=0.
+        if new_state == ReviewerState.APPROVED and new_prov.pack_version < 1:
+            new_prov = new_prov.model_copy(update={"pack_version": 1})
+
         new_snap = CompanySnapshot(
             **{
                 **old.model_dump(),
@@ -464,6 +513,98 @@ class SnapshotStore:
             (snapshot_id,),
         ).fetchall()
         return [dict(r) for r in rows]
+
+    # ------------------------------------------------------------------
+    # Override log (Phase 2B)
+    # ------------------------------------------------------------------
+
+    def log_override(
+        self,
+        company_id: str,
+        snapshot_id: str,
+        field_name: str,
+        old_value: object,
+        new_value: object,
+        override_by: str,
+        reason: str,
+        *,
+        evidence_ref: Optional[str] = None,
+        bucket_id: Optional[str] = None,
+    ) -> int:
+        """
+        Append an override record to the audit log.
+
+        Every manual change to a material field must be logged here so that
+        the override history can be exported for governance review.
+
+        Parameters
+        ----------
+        company_id      : Company this override applies to.
+        snapshot_id     : Snapshot that was the source of the old value.
+        field_name      : Attribute name or bucket_id being overridden.
+        old_value       : Previous value (must be JSON-serializable).
+        new_value       : Replacement value (must be JSON-serializable).
+        override_by     : Analyst / reviewer identity string.
+        reason          : Mandatory free-text explanation.
+        evidence_ref    : Optional citation (e.g. "10-K:2025-12-31:pg42").
+        bucket_id       : Optional bucket_id when overriding a ValueBucket field.
+
+        Returns the rowid of the new log entry.
+        """
+        cursor = self._conn.execute(
+            """
+            INSERT INTO override_log
+                (company_id, snapshot_id, field_name, bucket_id,
+                 old_value_json, new_value_json,
+                 override_by, override_at, reason, evidence_ref)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                company_id, snapshot_id, field_name, bucket_id,
+                json.dumps(old_value), json.dumps(new_value),
+                override_by,
+                datetime.now(timezone.utc).isoformat(),
+                reason, evidence_ref,
+            ),
+        )
+        self._conn.commit()
+        return cursor.lastrowid  # type: ignore[return-value]
+
+    def get_override_log(
+        self,
+        company_id: str,
+        *,
+        limit: int = 50,
+    ) -> list[dict]:
+        """
+        Return override records for a company, newest first.
+
+        Each dict has keys: id, company_id, snapshot_id, field_name, bucket_id,
+        old_value, new_value, override_by, override_at, reason, evidence_ref.
+        """
+        rows = self._conn.execute(
+            """
+            SELECT * FROM override_log
+            WHERE company_id = ?
+            ORDER BY override_at DESC
+            LIMIT ?
+            """,
+            (company_id, limit),
+        ).fetchall()
+        result = []
+        for row in rows:
+            d = dict(row)
+            d["old_value"] = json.loads(d.pop("old_value_json"))
+            d["new_value"] = json.loads(d.pop("new_value_json"))
+            result.append(d)
+        return result
+
+    def export_override_log(self, company_id: str) -> list[dict]:
+        """
+        Return the full override log for a company as a JSON-serializable list.
+        Equivalent to get_override_log with no limit.
+        """
+        return self.get_override_log(company_id, limit=10_000)
 
     # ------------------------------------------------------------------
     # Serialization helpers
