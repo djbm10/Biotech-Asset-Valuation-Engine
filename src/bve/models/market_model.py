@@ -612,6 +612,47 @@ class MarketModel(BaseModel):
             and e.event_type in ("label_expansion", "combination_therapy")
         )
 
+    _LOE_TAIL_KEYS = (
+        "year_1_loss", "year_2_loss", "year_3_loss",
+        "year_4_loss", "year_5_loss",
+    )
+
+    def _make_us_loe_revenue_fn(
+        self,
+        loe_profile: Optional[dict],
+    ):
+        """
+        Return a callable[[int], float] covering both the patent window and LOE tail.
+
+        For year <= effective_patent_life: delegates to _us_base_revenue_in_year().
+        For year in (eff_life, eff_life + loe_tail]: returns peak * (1 - loss_frac).
+        For year beyond that: returns 0.0.
+
+        Used as the base US revenue curve passed to GeographySplit.global_revenue_in_year()
+        when loe_profile is provided alongside geography_split.  Each region's LOE clock
+        therefore starts at its own patent expiry (regional_curve_year > patent_life_years),
+        not the US patent expiry.
+        """
+        eff_life = self._effective_patent_life()
+        peak = self.peak_sales_millions
+
+        def fn(year: int) -> float:
+            if year <= 0:
+                return 0.0
+            if year <= eff_life:
+                return self._us_base_revenue_in_year(year)
+            if loe_profile is None:
+                return 0.0
+            tail_idx = year - eff_life - 1  # 0-based index into _LOE_TAIL_KEYS
+            if tail_idx < 0 or tail_idx >= len(self._LOE_TAIL_KEYS):
+                return 0.0
+            key = self._LOE_TAIL_KEYS[tail_idx]
+            if key not in loe_profile:
+                return 0.0
+            return peak * (1.0 - float(loe_profile[key]))
+
+        return fn
+
     def _us_base_revenue_in_year(self, years_from_launch: int) -> float:
         """
         US-market-only revenue in post-launch year `years_from_launch`.
