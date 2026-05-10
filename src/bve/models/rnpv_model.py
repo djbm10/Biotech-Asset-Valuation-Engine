@@ -7,15 +7,26 @@ Canonical formula
 -----------------
 
 rNPV =
+    P(approval) × PV(after-tax FCF attributable to asset ownership)
+    − total_pv_weighted_development_costs
+    + PV(receivable milestones)
+    + upfront_receipt
+
+Expanded:
+
+rNPV =
     P(approval) × Σ_t [
-        (EBIT_t − revenue_t × royalty_rate − EBIT_t × profit_share_rate)
-        × (1 − tax_rate_t)
-        × net_ownership
-        / (1 + WACC)^t
+        after_tax_FCF_t × net_ownership / (1 + WACC)^t
     ]
     − total_pv_weighted_development_costs
     + PV(receivable milestones)
     + upfront_receipt
+
+Where per year:
+    adjusted_EBIT_t  = EBIT_t − revenue_t × royalty_rate − EBIT_t × profit_share_rate
+    cash_tax_t       = max(adjusted_EBIT_t − usable_NOL_t, 0) × tax_rate_t
+    after_tax_EBIT_t = adjusted_EBIT_t − cash_tax_t
+    after_tax_FCF_t  = after_tax_EBIT_t − maintenance_capex_t − working_capital_t − launch_capex_t
 
 Where:
     t                = years_to_approval + commercial_year  (1-indexed from launch)
@@ -77,6 +88,7 @@ from bve.models.cost_model import CostModel, CostStream
 from bve.models.market_model import MarketModel
 from bve.models.probability_model import ProbabilityModel, ProbabilityResult
 from bve.models.revenue_model import RevenueModel, RevenueStream
+from bve.models.tax_profile import TaxAudit, TaxProfile, compute_year_fcf
 
 if TYPE_CHECKING:
     from bve.models.deal_economics import DealEconomics
@@ -169,6 +181,9 @@ class RNPVResult(BaseModel):
     effective_tax_rate: float = 0.21
     nol_benefit_years: int = 0
 
+    # BD/M&A tax audit (populated only when TaxProfile is supplied; None otherwise)
+    tax_audit: Optional[TaxAudit] = None
+
     # NAV convenience (set externally by valuation engine)
     nav_millions: float = 0.0
     nav_per_share: float = 0.0
@@ -207,22 +222,25 @@ class RNPVModel:
     """
     Stateless engine that combines the three upstream results into rNPV.
 
-    Inputs:
-      asset : provides discount_rate and net_ownership (equity stake)
-      prob  : provides cumulative_approval_probability and years_to_approval
-      rev   : provides ebit_by_year and revenue_by_year (undiscounted, 1-indexed from launch)
-      cost  : provides total_pv_weighted_millions (already probability-weighted,
-              includes trial R&D + CMC + milestone payables + upfront cost + post-approval R&D)
-      deal  : optional DealEconomics for royalty (on revenue), profit_share (on EBIT),
-              receivable milestones, upfront receipts
+    Two tax paths — selected by the presence of tax_profile:
 
-    Deal economics applied in order per year:
-      1. royalty_t      = revenue_t × deal.royalty_rate          (top-line deduction)
-      2. profit_share_t = ebit_t    × deal.profit_share_rate     (EBIT-level deduction)
+    Path A (tax_profile=None, backward compatible):
+      Simple after-tax EBIT: tax = 0 during asset.nol_benefit_years, then
+      asset.effective_tax_rate thereafter.  No audit outputs produced.
+
+    Path B (tax_profile provided, BD/M&A-ready):
+      Per-year NOL-tracking, utilization limit, optional NOL generation,
+      jurisdiction-mode blended rate, maintenance capex, working capital,
+      and one-time launch capex.  Full TaxAudit populated in RNPVResult.
+
+    Deal economics (both paths):
+      1. royalty_t      = revenue_t × deal.royalty_rate        (top-line)
+      2. profit_share_t = ebit_t × deal.profit_share_rate      (EBIT-level)
       3. adjusted_ebit  = ebit_t − royalty_t − profit_share_t
-      4. captured       = adjusted_ebit × (1 − tax) × asset.net_ownership
+      → feed into tax path → after_tax_fcf → × net_ownership → discounted
 
-    rNPV = P(approval) × PV(captured EBIT) − total_pv_weighted_development_costs
+    rNPV = P(approval) × PV(after-tax FCF × ownership)
+           − total_pv_weighted_development_costs
            + PV(receivable milestones) + upfront_receipt
     """
 
@@ -233,6 +251,7 @@ class RNPVModel:
         rev: RevenueStream,
         cost: CostStream,
         deal: Optional["DealEconomics"] = None,
+        tax_profile: Optional[TaxProfile] = None,
     ) -> RNPVResult:
         from bve.models.deal_economics import DealEconomics, milestone_pv
 
@@ -246,41 +265,74 @@ class RNPVModel:
         years_to_launch = prob.years_to_approval
         cum_prob = prob.cumulative_approval_probability
 
-        # Discount post-deal UFCF anchored to years_to_launch.
-        # During nol_benefit_years from commercial launch, NOL carryforwards
-        # defer cash taxes → effective tax = 0.0 for those years only.
-        tax_rate = asset.effective_tax_rate
+        # Tax path selection
+        use_tax_profile = tax_profile is not None
+        # Path A fallback values (used only when tax_profile is None)
+        tax_rate_simple = asset.effective_tax_rate
         nol_window = asset.nol_benefit_years
 
         gross_revenue_pv: float = 0.0
         royalty_pv_sum: float = 0.0
         profit_share_pv_sum: float = 0.0
 
+        # Path B audit accumulators (populated only when tax_profile provided)
+        _pre_tax_adj_ebit: list[float] = []
+        _taxable_income: list[float] = []
+        _nol_used: list[float] = []
+        _remaining_nol: list[float] = []
+        _cash_tax: list[float] = []
+        _after_tax_ebit: list[float] = []
+        _capex: list[float] = []
+        _working_capital: list[float] = []
+        _after_tax_fcf: list[float] = []
+
+        remaining_nol = tax_profile.nol_balance_millions if use_tax_profile else 0.0
         revenue_series = rev.revenue_by_year  # same length as ebit_by_year
 
         for i, ebit in enumerate(rev.ebit_by_year):
-            yr = i + 1                          # 1-indexed year from launch
+            yr = i + 1                              # 1-indexed year from launch
             abs_year = years_to_launch + yr
-            effective_tax = 0.0 if yr <= nol_window else tax_rate
-
             revenue_t = revenue_series[i] if i < len(revenue_series) else 0.0
 
-            # Step 1: royalty on net revenue (top-line; larger than EBIT-applied royalty)
+            # Deal deductions (both paths)
             royalty_t = revenue_t * royalty_rate
-            # Step 2: profit share on EBIT after royalty deduction
             profit_share_t = ebit * profit_share_rate
-            # Step 3: adjusted EBIT after all deal deductions
             adjusted_ebit = ebit - royalty_t - profit_share_t
-            # Step 4: after-tax, equity-stake-adjusted capture
-            after_tax_adjusted = adjusted_ebit * (1.0 - effective_tax)
-            captured = after_tax_adjusted * net_ownership
 
-            df = (1.0 + r) ** abs_year
-            gross_revenue_pv += captured / df
+            if use_tax_profile:
+                # Path B — per-year NOL tracking + FCF adjustments
+                (usable_nol, remaining_nol, taxable_income, cash_tax, after_tax_ebit,
+                 maint_capex, wc, launch_capex_t, after_tax_fcf) = compute_year_fcf(
+                    adjusted_ebit, revenue_t, remaining_nol, tax_profile, yr,
+                )
+                captured = after_tax_fcf * net_ownership
 
-            # Track deductions for decomposition reporting (net ownership share, after tax)
-            royalty_pv_sum += (royalty_t * net_ownership * (1.0 - effective_tax)) / df
-            profit_share_pv_sum += (profit_share_t * net_ownership * (1.0 - effective_tax)) / df
+                # Track deductions (ownership-adjusted, post-FCF-tax)
+                effective_tax_this_yr = cash_tax / adjusted_ebit if adjusted_ebit > 0 else 0.0
+                _pre_tax_adj_ebit.append(round(adjusted_ebit, 2))
+                _taxable_income.append(round(taxable_income, 2))
+                _nol_used.append(round(usable_nol, 2))
+                _remaining_nol.append(round(remaining_nol, 2))
+                _cash_tax.append(round(cash_tax, 2))
+                _after_tax_ebit.append(round(after_tax_ebit, 2))
+                _capex.append(round(maint_capex + launch_capex_t, 2))
+                _working_capital.append(round(wc, 2))
+                _after_tax_fcf.append(round(after_tax_fcf, 2))
+
+                royalty_pv_sum += (royalty_t * net_ownership * (1.0 - effective_tax_this_yr)) / (1.0 + r) ** abs_year
+                profit_share_pv_sum += (profit_share_t * net_ownership * (1.0 - effective_tax_this_yr)) / (1.0 + r) ** abs_year
+
+            else:
+                # Path A — simple nol_benefit_years window (backward compatible)
+                effective_tax = 0.0 if yr <= nol_window else tax_rate_simple
+                after_tax_adjusted = adjusted_ebit * (1.0 - effective_tax)
+                captured = after_tax_adjusted * net_ownership
+
+                df = (1.0 + r) ** abs_year
+                royalty_pv_sum += (royalty_t * net_ownership * (1.0 - effective_tax)) / df
+                profit_share_pv_sum += (profit_share_t * net_ownership * (1.0 - effective_tax)) / df
+
+            gross_revenue_pv += captured / (1.0 + r) ** abs_year
 
         probability_adjusted_revenue_pv = gross_revenue_pv * cum_prob
         trial_costs_pv = cost.total_pv_weighted_millions
@@ -329,6 +381,22 @@ class RNPVModel:
             for pc in cost.phase_costs
         ]
 
+        # Build TaxAudit when Path B was used
+        tax_audit: Optional[TaxAudit] = None
+        if use_tax_profile:
+            tax_audit = TaxAudit(
+                pre_tax_adjusted_ebit_by_year=_pre_tax_adj_ebit,
+                taxable_income_by_year=_taxable_income,
+                nol_used_by_year=_nol_used,
+                remaining_nol_by_year=_remaining_nol,
+                cash_tax_by_year=_cash_tax,
+                after_tax_ebit_by_year=_after_tax_ebit,
+                capex_by_year=_capex,
+                working_capital_by_year=_working_capital,
+                after_tax_fcf_by_year=_after_tax_fcf,
+                tax_profile_used=tax_profile,
+            )
+
         return RNPVResult(
             asset_id=asset.id,
             asset_name=asset.name,
@@ -345,8 +413,9 @@ class RNPVModel:
             peak_sales_millions=round(rev.peak_sales_millions, 0),
             discount_rate=r,
             net_ownership=round(net_ownership, 6),
-            effective_tax_rate=tax_rate,
+            effective_tax_rate=tax_rate_simple,
             nol_benefit_years=nol_window,
+            tax_audit=tax_audit,
             phase_breakdown=phase_breakdown,
             probability_result=prob,
             revenue_stream=rev,
@@ -365,9 +434,10 @@ def compute_rnpv_full(
     *,
     loe_profile: Optional[dict] = None,
     deal: Optional["DealEconomics"] = None,
+    tax_profile: Optional[TaxProfile] = None,
 ) -> RNPVResult:
     """
-    Full economic stack: LOE erosion + deal economics.
+    Full economic stack: LOE erosion + deal economics + optional TaxProfile.
 
     This is the single entry point used by ValuationEngine.run(), Monte Carlo,
     scenario analysis, and sensitivity analysis.  All four paths run the same
@@ -382,13 +452,16 @@ def compute_rnpv_full(
     deal : DealEconomics or None
         Deal terms forwarded to CostModel and RNPVModel.
         None → no deal terms (same as pre-Step-5 behaviour).
+    tax_profile : TaxProfile or None
+        BD/M&A-ready tax and FCF model.  When None (default), the simple
+        nol_benefit_years / effective_tax_rate path on Asset is used.
     """
     prob = ProbabilityModel.compute(asset, trials)
     rev = RevenueModel.compute(market_model, loe_profile=loe_profile)
     post_rd = getattr(asset, "post_approval_rd_millions", 0.0)
     cost = CostModel.compute(prob, asset.discount_rate, deal=deal,
                              post_approval_rd_millions=post_rd)
-    return RNPVModel.compute(asset, prob, rev, cost, deal=deal)
+    return RNPVModel.compute(asset, prob, rev, cost, deal=deal, tax_profile=tax_profile)
 
 
 # ---------------------------------------------------------------------------
