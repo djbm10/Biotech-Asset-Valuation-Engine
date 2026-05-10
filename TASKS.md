@@ -122,12 +122,12 @@ connectors
 - [x] `tests/test_learning_calibration.py` — 91 tests: PredictionLog (18+), OutcomeLinker (15+), Postmortem (15+), Calibration (18+), ShadowBacktest (10+), WeightPromoter (12+)
 
 ### Step 13 — UI (after engines are stable)
-- [ ] Dashboard page
-- [ ] Asset page
-- [ ] Acquirer page
-- [ ] Deals page
-- [ ] Alerts page
-- [ ] Calibration page
+- [x] Dashboard page
+- [x] Asset page
+- [x] Acquirer page
+- [x] Deals page
+- [x] Alerts page
+- [x] Calibration page
 
 ### Deferred (until core loop works)
 - Options IV / instrument sophistication
@@ -596,6 +596,109 @@ added data is decision-useful, not just interesting.
       (ta_match×0.35 + stage×0.20 + mechanism_novelty×0.30 + commercial×0.15; avoid_penalty=0.40)
 - [x] `bve-universe-screen --mna` — FIT + BEST_FIT_FOR columns across all 3 acquirers
 - [x] `tests/test_sprint13.py` — 45 tests covering scoring, YAML structure, edge cases
+
+---
+
+---
+
+## Step 7 & 8 Upgrade — Scenario Analysis + Monte Carlo (Sprints 31–33)
+
+> Upgrades the valuation engine's scenario analysis and Monte Carlo from simple shock tables to
+> full input-rerun models with explicit outcome branches, 23-variable distributions, and
+> institutional-quality outputs.
+>
+> **Core invariant:** never shock final rNPV directly — always shock inputs and rerun the engine.
+
+### Sprint 31 — Enhanced Scenario Analysis
+
+#### Sprint 31A — Scenario shock data model _(pending)_
+- [ ] `src/bve/models/scenario_shock.py` — `ScenarioShock` covering all 6 input categories:
+      Clinical/POS, Regulatory, Commercial, Competition, Costs/FCF, Deal economics
+- [ ] Zero-effect defaults on all fields (no shock = base case)
+- [ ] `tests/test_sprint31a.py` — ≥30 tests: field defaults, zero-effect baseline, per-category shocks
+
+#### Sprint 31B — Enhanced Bull/Base/Bear with full shock categories _(pending)_
+- [ ] Upgrade `build_scenarios()` in `valuation_engine.py` using `ScenarioShock`
+- [ ] Bull: strong clinical, clean safety, broad label, faster approval, higher penetration, delayed competition
+- [ ] Bear: weaker effect, safety concern, narrower label, delayed approval, payer restrictions, higher costs
+- [ ] Each scenario reruns full engine (POS → revenue → competition → costs → tax/FCF → rNPV → NAV/share)
+- [ ] `tests/test_sprint31b.py` — ≥25 tests: shock application, bull > base > bear invariant, no rNPV shortcut
+
+#### Sprint 31C — Scenario-tree mode (clinical / regulatory / commercial branches) _(pending)_
+- [ ] `src/bve/models/scenario_tree.py` — `ScenarioTree` with named outcome branches
+- [ ] Clinical: failure / mixed result / success / strong success
+- [ ] Regulatory: standard / accelerated / narrow label / delay+CRL / confirmatory required
+- [ ] Commercial: strong launch / normal launch / payer-restricted / competitor-disrupted
+- [ ] Named branches map to specific `ScenarioShock` combinations
+- [ ] Endpoint-miss branch: commercial revenue near zero, remaining costs/milestones adjusted
+- [ ] `tests/test_sprint31c.py` — ≥25 tests: all named branches, composition, endpoint-miss near-zero revenue
+
+#### Sprint 31D — Scenario output table (8 fields + kill criteria + memo interpretation) _(pending)_
+- [ ] `ScenarioResult`: scenario_rNPV, scenario_NAV, scenario_NAV_per_share, delta_vs_base,
+      key_assumption_changes, top_value_drivers, kill_criteria_triggered, memo_interpretation
+- [ ] Wire into `ValuationOutput` (all 3 scenarios carry full `ScenarioResult`)
+- [ ] `tests/test_sprint31d.py` — ≥25 tests: field correctness, NAV math, delta sign, kill criteria, memo non-empty
+
+---
+
+### Sprint 32 — Enhanced Monte Carlo
+
+#### Sprint 32A — Dual-mode framework + double-counting validation _(pending)_
+- [ ] `MCMode` enum: `SIMPLE` (fast screening) and `DRIVER_BASED` (BD/M&A preferred)
+- [ ] Mode 1 (Simple): sample peak_sales, POS, timing, WACC, costs, competitor outcomes
+- [ ] Mode 2 (Driver-based): build peak_sales from eligible_patients × net_price × peak_penetration × duration × payer_access × geography × competition
+- [ ] **Hard constraint**: `_validate_no_double_counting()` raises `ValueError` if both active
+- [ ] `tests/test_sprint32a.py` — ≥25 tests: mode selection, driver-based derivation, double-counting ValueError, mode equivalence
+
+#### Sprint 32B — Full MC variable table (23 variables, named distributions) _(pending)_
+- [ ] `MCVariableSpec` (name, distribution_type, params, active flag)
+- [ ] All 23 variables with correct distributions (Beta, Log-normal, Triangular, Normal, Bernoulli)
+- [ ] Confirmatory trial costs: Log-normal with Bernoulli trigger (accelerated approval liability)
+- [ ] Tax/NOL usage: scenario or deterministic
+- [ ] Each variable opt-in so Mode 1 can enable a subset
+- [ ] `tests/test_sprint32b.py` — ≥30 tests: each distribution type, Beta [0,1], Log-normal positivity, Bernoulli 0/1
+
+#### Sprint 32C — Enhanced correlation structure (Gaussian copula rules) _(pending)_
+- [ ] Add positive correlations: clinical data → POS → label breadth → eligible population → penetration → payer access
+- [ ] Add negative correlations: competitors → penetration; payer restrictions → uptake; safety → POS + penetration
+- [ ] Confirm independent: WACC, base COGS, base SG&A, cost inflation
+- [ ] `_validate_correlation_consistency()`: warns when driver-based mode specifies a peak_sales correlation (would double-couple)
+- [ ] `tests/test_sprint32c.py` — ≥20 tests: copula direction, driver-based no double-coupling, independent vars near-zero sample r
+
+#### Sprint 32D — Enhanced pipeline competitor sampling _(pending)_
+- [ ] When competitor succeeds: apply launch timing draw, market-share ramp, available-market reduction, price pressure
+- [ ] When competitor fails: no competitor effect
+- [ ] Verify MC std is measurably wider when approval_probability ≈ 0.5 vs 1.0
+- [ ] `tests/test_sprint32d.py` — ≥20 tests: price pressure present/absent, MC std width comparison, market fraction reduction
+
+#### Sprint 32E — Full 12-step simulation path enforcement _(pending)_
+- [ ] `_run_single_trial(draws, asset, params)` — unit-testable single-simulation function
+- [ ] Canonical order: draw clinical → regulatory → commercial → payer/geo/competition → costs → recompute POS → P(approval) → revenue → costs → after-tax FCF → rNPV → NAV/share
+- [ ] **Hard invariant**: rNPV comes from engine rerun, never from direct rNPV shock
+- [ ] `tests/test_sprint32e.py` — ≥20 tests: step ordering, no-shortcut invariant, NAV/share in every trial
+
+#### Sprint 32F — Enhanced MC outputs + compact audit trail _(pending)_
+- [ ] New `MonteCarloResult` fields: median_rNPV, probability_rNPV_positive, probability_NAV_above_EV,
+      probability_NAV_above_price, expected_upside, expected_downside, downside_value_at_risk,
+      top_variance_drivers, clinical_failure_rate, competitor_disruption_rate, payer_restriction_rate
+- [ ] Compact audit trail stored for P5/P50/P95 representative simulations only:
+      simulation_id, clinical_draw, commercial_draw, cost_draw, competition_draw, rNPV, NAV_per_share,
+      main_value_driver, failure_reason
+- [ ] Full traces NOT stored by default
+- [ ] `tests/test_sprint32f.py` — ≥30 tests: all new fields populated, probability fields [0,1], audit trail has exactly 3 records
+
+---
+
+### Sprint 33 — Validation rules + input guardrails _(pending)_
+- [ ] `validate_mc_params(params) -> list[ValidationIssue]` — returns ERROR and WARNING items
+- [ ] Rule 1 [ERROR]: cannot combine peak_sales sampling + driver-based sampling
+- [ ] Rule 2 [WARNING]: restricted launch archetype + high step-edit risk without a note
+- [ ] Rule 3 [ERROR]: probability values outside [0, 1]
+- [ ] Rule 4 [ERROR]: negative patient counts, prices, costs, or durations
+- [ ] Rule 5 [WARNING]: global revenue > 5× US revenue unless us_revenue_fraction explicitly set
+- [ ] Rule 6 [WARNING]: EU5/Japan/China launch_year < US launch_year unless explicitly flagged
+- [ ] Errors raise `ValueError`; warnings emit `UserWarning`
+- [ ] `tests/test_sprint33.py` — ≥25 tests: each rule independently triggered, correct level, valid inputs → empty list
 
 ---
 

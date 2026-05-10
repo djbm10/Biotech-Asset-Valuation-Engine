@@ -3898,3 +3898,32 @@ Interpretation:
   the wave-tracking history specified in Step 7
 - The next high-leverage work is using the Step 5 templates to add pack entries for
   names currently in `needs_manual_review` due to missing structured company inputs
+
+## 2026-05-10 Valuation Engine Upgrade — Steps 7 & 8 Planning + TaxProfile Complete
+
+### Completed this session
+
+**TaxProfile / BD/M&A FCF model (committed a73f849)**
+- `src/bve/models/tax_profile.py` — `TaxProfile`, `compute_year_fcf()`, `TaxAudit`
+- `src/bve/models/rnpv_model.py` — two-path tax loop (Path A: backward-compat; Path B: per-year NOL balance)
+- `src/bve/models/deal_economics.py` — `profit_share_rate` field (EBIT-level deduction, distinct from royalty)
+- 37 new tests in `tests/test_tax_profile.py`, all passing
+- rNPV formula: royalty on revenue (not EBIT), profit_share on EBIT, NAV = rNPV + net_cash
+
+### Planned — Sprints 31–33 (Steps 7 & 8 upgrade)
+
+Added to TASKS.md as pending work. Build order is:
+
+1. Sprint 31A — `ScenarioShock` data model (6 input categories)
+2. Sprint 31B — Enhanced Bull/Base/Bear (full ScenarioShock, full engine rerun)
+3. Sprint 31C — Scenario-tree mode (clinical/regulatory/commercial outcome branches)
+4. Sprint 31D — `ScenarioResult` output table (8 fields + kill_criteria + memo_interpretation)
+5. Sprint 32A — Monte Carlo dual-mode (Simple / Driver-based) + double-counting validation
+6. Sprint 32B — Full 23-variable MC table with named distributions
+7. Sprint 32C — Enhanced Gaussian copula correlation rules
+8. Sprint 32D — Enhanced competitor sampling (price pressure when competitor succeeds)
+9. Sprint 32E — 12-step simulation path enforcement + `_run_single_trial()`
+10. Sprint 32F — Enhanced MC outputs (14 new fields) + compact P5/P50/P95 audit trail
+11. Sprint 33 — 6 validation rules (errors + warnings) + `validate_mc_params()`
+
+**Core invariant across all sprints:** never shock final rNPV directly — always shock inputs and rerun the full engine chain.
