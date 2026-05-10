@@ -1,7 +1,8 @@
+import warnings
 from enum import Enum
 from typing import Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 from bve.config.constants import PHASE_ORDER
 
@@ -99,6 +100,75 @@ class TrialArm(BaseModel):
     intervention: Optional[str] = None
 
 
+class TrialCostBreakdown(BaseModel):
+    """
+    Audit-only decomposition of ClinicalTrial.cost_millions into sub-components.
+
+    Does NOT affect any computation — the engine uses cost_millions directly.
+    Provides source traceability for cost estimates (CRO bid grids, SEC filings,
+    partner disclosures, analyst estimates).
+
+    All components default to 0.0. Set only the components that are known;
+    any residual can go in other_millions.
+
+    A UserWarning is emitted at ClinicalTrial construction when this breakdown is
+    provided and the sum deviates from cost_millions by more than 5%.
+    """
+    model_config = ConfigDict(frozen=True)
+
+    cro_fees_millions: float = Field(
+        default=0.0, ge=0.0,
+        description="CRO fees: site monitoring, project management, data entry.",
+    )
+    investigator_fees_millions: float = Field(
+        default=0.0, ge=0.0,
+        description="Investigator and site fees: PI grants, site activation, patient visits.",
+    )
+    clinical_supply_millions: float = Field(
+        default=0.0, ge=0.0,
+        description="Drug supply for trial: API, formulation batches, comparator.",
+    )
+    data_management_millions: float = Field(
+        default=0.0, ge=0.0,
+        description="Data management, biostatistics, DSMB, medical monitoring.",
+    )
+    regulatory_millions: float = Field(
+        default=0.0, ge=0.0,
+        description="Regulatory activities: IND/CTA amendments, FDA meeting prep.",
+    )
+    internal_overhead_millions: float = Field(
+        default=0.0, ge=0.0,
+        description="Internal FTE, program management, finance overhead.",
+    )
+    other_millions: float = Field(
+        default=0.0, ge=0.0,
+        description="Other costs not captured in the above categories.",
+    )
+
+    source: Optional[str] = Field(
+        default=None,
+        description="Provenance of this breakdown (e.g. 'CRO bid grid Q3-2026', 'SEC 10-K FY2025').",
+    )
+    notes: Optional[str] = None
+
+    @property
+    def total_millions(self) -> float:
+        """Sum of all cost components in USD millions."""
+        return (
+            self.cro_fees_millions
+            + self.investigator_fees_millions
+            + self.clinical_supply_millions
+            + self.data_management_millions
+            + self.regulatory_millions
+            + self.internal_overhead_millions
+            + self.other_millions
+        )
+
+
+# Maximum allowed deviation between cost_breakdown.total_millions and cost_millions.
+_BREAKDOWN_DEVIATION_THRESHOLD = 0.05   # 5%
+
+
 class ClinicalTrial(BaseModel):
     asset_id: str
     phase: TrialPhase
@@ -131,6 +201,14 @@ class ClinicalTrial(BaseModel):
             "from the cross-TA flat default — always prefer 'override' with a real estimate."
         )
     )
+    cost_breakdown: Optional[TrialCostBreakdown] = Field(
+        default=None,
+        description=(
+            "Audit-only decomposition of cost_millions into sub-components. "
+            "Does not affect computation. If provided, the sum should be within 5% "
+            "of cost_millions; a UserWarning is emitted if it deviates more."
+        ),
+    )
     start_date: Optional[str] = None
     primary_completion_date: Optional[str] = None
 
@@ -145,6 +223,25 @@ class ClinicalTrial(BaseModel):
     data_source: str = "manual"   # manual | clinicaltrials_gov | sec_filing
 
     notes: Optional[str] = None
+
+    @model_validator(mode="after")
+    def _check_breakdown_consistency(self) -> "ClinicalTrial":
+        """Warn when cost_breakdown total deviates more than 5% from cost_millions."""
+        bd = self.cost_breakdown
+        if bd is None or bd.total_millions == 0.0:
+            return self
+        deviation = abs(bd.total_millions - self.cost_millions) / self.cost_millions
+        if deviation > _BREAKDOWN_DEVIATION_THRESHOLD:
+            warnings.warn(
+                f"ClinicalTrial '{self.phase.value}' for asset '{self.asset_id}': "
+                f"cost_breakdown total ${bd.total_millions:.2f}M deviates "
+                f"{deviation:.1%} from cost_millions ${self.cost_millions:.2f}M "
+                f"(threshold {_BREAKDOWN_DEVIATION_THRESHOLD:.0%}). "
+                "Align the breakdown components or update cost_millions.",
+                UserWarning,
+                stacklevel=2,
+            )
+        return self
 
     @property
     def phase_order(self) -> int:
