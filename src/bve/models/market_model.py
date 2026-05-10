@@ -1017,16 +1017,23 @@ class MarketModel(BaseModel):
         """Revenue minus COGS."""
         return self.revenue_in_year(years_from_launch) * (1.0 - self.cogs_rate)
 
-    def sgna_in_year(self, years_from_launch: int) -> float:
-        """SG&A expense in USD millions — declines from launch rate to mature rate."""
+    def _sgna_rate_at_year(self, years_from_launch: int) -> float:
+        """Effective SG&A rate (fraction of revenue) for this year.
+
+        Used by the audit table builder and sgna_in_year(). Returns 0.0 for
+        year ≤ 0; blends between sgna_rate_launch and sgna_rate_mature during
+        the ramp period; returns sgna_rate_mature at or beyond sgna_ramp_years.
+        """
         if years_from_launch <= 0:
             return 0.0
-        rev = self.revenue_in_year(years_from_launch)
         if years_from_launch >= self.sgna_ramp_years:
-            return rev * self.sgna_rate_mature
+            return self.sgna_rate_mature
         blend = years_from_launch / self.sgna_ramp_years
-        rate = self.sgna_rate_launch + blend * (self.sgna_rate_mature - self.sgna_rate_launch)
-        return rev * rate
+        return self.sgna_rate_launch + blend * (self.sgna_rate_mature - self.sgna_rate_launch)
+
+    def sgna_in_year(self, years_from_launch: int) -> float:
+        """SG&A expense in USD millions — declines from launch rate to mature rate."""
+        return self.revenue_in_year(years_from_launch) * self._sgna_rate_at_year(years_from_launch)
 
     def ebit_in_year(self, years_from_launch: int) -> float:
         """EBIT = gross profit - SG&A."""

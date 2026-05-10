@@ -1,0 +1,83 @@
+# =============================================================================
+# Benchmark Config B — Rare Disease Orphan (patient-based, payer access)
+# =============================================================================
+#
+# Purpose:
+#   Regression anchor for patient-based revenue sizing with payer access
+#   modifiers. Tests that access_probability and prior_auth_burden apply the
+#   correct permanent penetration haircut and that the rare_disease_kol
+#   commercial model profile populates SG&A correctly.
+#
+# Expected outputs (deterministic):
+#   gross peak (no payer)    : 3500 × 250000 × 0.45 / 1e6 = 393.75 M
+#   effective_penet_mult     : access_prob × (1 - pa_burden × 0.5)
+#                             = 0.80 × (1 - 0.30 × 0.5) = 0.80 × 0.85 = 0.68
+#   peak_sales_millions      : 393.75 × 0.68 = 267.75 M  (approx)
+#   cogs_rate                : 0.28  (biologic YAML default)
+#   sgna_rate_launch         : 0.25  (rare_disease_kol YAML default)
+#   sgna_rate_mature         : 0.15
+#   sgna_ramp_years          : 4
+#
+# Payer access formula:
+#   effective_penetration_multiplier = access_probability × (1 - prior_auth_burden × 0.5)
+#   = 0.80 × (1 - 0.30 × 0.50) = 0.80 × 0.85 = 0.680
+#
+# Coverage delay (6 months = 0.5 yr) applies only in Year 1:
+#   Year 1 multiplier ≈ 0.68 × (1 - 6/12) = 0.68 × 0.50 = 0.34 — not reflected in peak
+#
+# =============================================================================
+
+asset:
+  id: "benchmark-rd-b"
+  name: "BENCHMARK-RARE-DISEASE-B"
+  indication: "Lysosomal Storage Disorder"
+  therapeutic_area: "rare_disease"
+  stage: "phase_3"
+  modality: "biologic"
+  discount_rate: 0.10
+
+trials:
+  - phase: "phase_3"
+    success_probability: 0.65
+    duration_years: 3.0
+    cost_millions: 120.0
+  - phase: "nda_bla"
+    success_probability: 0.93
+    duration_years: 1.0
+    cost_millions: 18.0
+
+market:
+  asset_id: "benchmark-rd-b"
+  therapeutic_area: "rare_disease"
+
+  # Revenue: patient-based sizing
+  #   addressable = 3500 patients/yr × $250k net × 45% peak share = 393.75M gross
+  addressable_patients_annual: 3500
+  net_price_per_patient_usd: 250000
+  compliance_rate: 1.0                   # biologic infusion — full compliance assumed
+  peak_penetration: 0.45
+  patent_life_years: 15                  # orphan drug exclusivity extension
+
+  # Launch curve: rare_disease_kol archetype (S-curve, slower ramp than oncology)
+  launch_archetype: "rare_disease_kol"
+
+  # Payer access: typical ERT / enzyme-replacement payer environment
+  #   access_probability=0.80 → 20% of patients denied formulary access
+  #   prior_auth_burden=0.30  → PA process reduces effective uptake by 30%×0.5=15%
+  #   effective multiplier    → 0.80 × 0.85 = 0.680
+  payer_access:
+    access_probability: 0.80
+    prior_auth_burden: 0.30
+    coverage_delay_months: 6.0          # 6-month delay on formulary addition post-approval
+    step_edit_risk: 0.0                 # rare disease rarely has step-edit requirements
+
+  # COGS / SG&A: driven by commercial_model profile
+  commercial_model: "rare_disease_kol"
+  # ↳ Loaded from YAML: sgna_rate_launch=0.25, sgna_rate_mature=0.15, sgna_ramp_years=4
+  # cogs_rate defaults to biologic YAML value (0.28) since no explicit override
+
+company:
+  id: "benchmark-rd-co"
+  name: "BenchmarkRD Inc"
+  cash_millions: 250.0
+  shares_outstanding_millions: 80.0

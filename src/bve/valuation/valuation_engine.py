@@ -168,6 +168,15 @@ class ValuationEngine:
         # --- Auto-select SG&A profile and resolve effective market model ---
         market_model = self._resolve_market_model_with_sgna()
 
+        # --- Revenue sanity checks (Task E2) ---
+        from bve.models.revenue_sanity import check_commercial_assumptions
+        for issue in check_commercial_assumptions(market_model):
+            warnings.warn(
+                f"[{issue.code}] {issue.message}",
+                UserWarning,
+                stacklevel=2,
+            )
+
         # --- Compliance warning for gene/cell therapy ---
         self._check_compliance_rate()
 
@@ -279,6 +288,7 @@ class ValuationEngine:
             wacc_vintage=prov["wacc_vintage"],
             analyst_overrides=prov["analyst_overrides"],
             comps_fair_value_band=comps_fair_value_band,
+            revenue_audit_table=rev.audit_table,
         )
 
     # -----------------------------------------------------------------------

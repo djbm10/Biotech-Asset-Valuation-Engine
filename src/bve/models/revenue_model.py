@@ -33,6 +33,7 @@ from typing import Optional
 from pydantic import BaseModel
 
 from bve.models.market_model import MarketModel
+from bve.models.revenue_audit import RevenueAuditTable, build_audit_table
 
 
 _LOE_TAIL_KEYS = (
@@ -87,6 +88,10 @@ class RevenueStream(BaseModel):
     peak_revenue_millions: float   # explicit alias — same value, clearer name for Step 5+
 
     diagnostics: RevenueDiagnostics
+
+    audit_table: Optional[RevenueAuditTable] = None
+    """Year-by-year multiplier decomposition (Task E1). None only when RevenueModel is called
+    without a MarketModel reference (e.g., direct construction in tests)."""
 
     @property
     def total_years(self) -> int:
@@ -205,7 +210,7 @@ class RevenueModel:
             peak_by_segment = {seg: max(curve) if curve else 0.0 for seg, curve in by_segment.items()}
             peak_sales = market_model.peak_sales_millions
 
-            return RevenueStream(
+            stream = RevenueStream(
                 asset_id=market_model.asset_id,
                 patent_life_years=eff_life,
                 geo_extension_years=geo_extension,
@@ -222,6 +227,17 @@ class RevenueModel:
                     peak_sales_by_segment=peak_by_segment,
                 ),
             )
+            stream = stream.model_copy(update={"audit_table": build_audit_table(
+                market_model=market_model,
+                revenue_by_year=revenue_by_year,
+                gross_profit_by_year=gross_profit_by_year,
+                ebit_by_year=ebit_by_year,
+                patent_life_years=eff_life,
+                geo_extension_years=geo_extension,
+                loe_tail_years=loe_tail_count,
+                post_loe_sgna_rate=post_loe_sgna_rate,
+            )})
+            return stream
 
         # -----------------------------------------------------------------------
         # Non-geography path (unchanged)
@@ -277,7 +293,7 @@ class RevenueModel:
 
         peak_sales = market_model.peak_sales_millions
 
-        return RevenueStream(
+        stream = RevenueStream(
             asset_id=market_model.asset_id,
             patent_life_years=pl,
             loe_tail_years=loe_tail_years,
@@ -293,3 +309,13 @@ class RevenueModel:
                 peak_sales_by_segment=peak_by_segment,
             ),
         )
+        return stream.model_copy(update={"audit_table": build_audit_table(
+            market_model=market_model,
+            revenue_by_year=revenue_by_year,
+            gross_profit_by_year=gross_profit_by_year,
+            ebit_by_year=ebit_by_year,
+            patent_life_years=pl,
+            geo_extension_years=0,
+            loe_tail_years=loe_tail_years,
+            post_loe_sgna_rate=post_loe_sgna_rate,
+        )})

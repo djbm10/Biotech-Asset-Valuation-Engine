@@ -18,6 +18,7 @@ from bve.entities.trial import ClinicalTrial
 # which would create a phase2 → valuation_integration → outputs circular import.
 from bve.models.deal_models import ComparableDealAnalysis
 from bve.models.market_model import MarketModel
+from bve.models.revenue_audit import RevenueAuditTable
 from bve.models.monte_carlo import MonteCarloResult
 from bve.models.rnpv_model import RNPVResult
 from bve.valuation.scenario import ScenarioSet
@@ -134,6 +135,17 @@ class ValuationOutput(BaseModel):
         description=(
             "KnowledgeArtifact records for this asset. competitor_landscape artifacts are wired "
             "into the competitive evidence section by MemoEvidenceBuilder."
+        ),
+    )
+
+    # Revenue audit table (populated by ValuationEngine.run())
+    revenue_audit_table: Optional[RevenueAuditTable] = Field(
+        default=None,
+        description=(
+            "Year-by-year revenue decomposition into gross uptake, competition fraction, "
+            "price pressure, payer access, COGS, SG&A, and EBIT. "
+            "Rows correspond 1:1 to RevenueStream.revenue_by_year. "
+            "None only when the engine is invoked without a full MarketModel."
         ),
     )
 
