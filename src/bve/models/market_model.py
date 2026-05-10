@@ -23,6 +23,7 @@ from bve.entities.indication import Indication
 from bve.models.commercial_inputs import CommercialInputs
 from bve.models.competition_model import CompetitionModel
 from bve.models.geography import GeographySplit
+from bve.models.launch_archetype import LaunchArchetype
 
 
 class PriceBasis(str, Enum):
@@ -146,6 +147,127 @@ class UptakeCurve(BaseModel):
             s = peak_penetration / (1.0 + math.exp(-k * (yr - midpoint)))
             percs.append(min(s, peak_penetration))
         return cls(penetrations=percs)
+
+    @classmethod
+    def _slow_s_curve(cls, years_to_peak: int, peak_penetration: float, patent_life: int) -> "UptakeCurve":
+        """
+        Slow-start S-curve for competitive_late and step_edit_restricted archetypes.
+
+        Uses a lower k (flatter sigmoid) and a later midpoint to suppress
+        early-year uptake relative to the standard s_curve():
+          k = 6/ytp  (vs 8/ytp) — less steep inflection
+          midpoint = 0.65 × ytp  (vs 0.50 × ytp) — delayed acceleration phase
+
+        Year 1 penetration is 30–50% lower than the standard S-curve at the
+        same years_to_peak, reflecting payer / switching barriers in competitive
+        or step-edit-restricted markets.
+        """
+        percs = []
+        k = 6.0 / years_to_peak
+        midpoint = years_to_peak * 0.65
+        for yr in range(1, patent_life + 1):
+            s = peak_penetration / (1.0 + math.exp(-k * (yr - midpoint)))
+            percs.append(min(s, peak_penetration))
+        return cls(penetrations=percs)
+
+    @classmethod
+    def _bolus_curve(
+        cls,
+        peak_penetration: float,
+        patent_life: int,
+        ongoing_fraction: float = 0.08,
+    ) -> "UptakeCurve":
+        """
+        Bolus curve for the gene_therapy_bolus archetype.
+
+        Year 1: peak_penetration — full backlog absorption at launch.
+        Year 2+: peak_penetration × ongoing_fraction — incident patients only.
+
+        The ongoing_fraction (default 0.08) represents the ratio of annual
+        incident patients to the total prevalent backlog absorbed at launch.
+        Set to the disease's incidence/prevalence ratio for best accuracy.
+        """
+        percs = [peak_penetration]
+        ongoing = peak_penetration * ongoing_fraction
+        for _ in range(2, patent_life + 1):
+            percs.append(ongoing)
+        return cls(penetrations=percs)
+
+    @classmethod
+    def from_archetype(
+        cls,
+        archetype: LaunchArchetype,
+        peak_penetration: float,
+        patent_life_years: int,
+        optional_overrides: Optional[dict] = None,
+    ) -> "UptakeCurve":
+        """
+        Build an UptakeCurve from a named LaunchArchetype with optional overrides.
+
+        Parameters
+        ----------
+        archetype : LaunchArchetype
+            Named archetype defining default curve shape and years_to_peak.
+        peak_penetration : float
+            Peak market share fraction (0, 1].
+        patent_life_years : int
+            Length of the revenue curve in years.
+        optional_overrides : dict, optional
+            Override any archetype default.  Recognised keys:
+              "years_to_peak"           : int   — override archetype's years_to_peak
+              "use_s_curve"             : bool  — True → force s_curve; False → linear
+              "bolus_ongoing_fraction"  : float — override gene_therapy_bolus steady state
+
+        Returns
+        -------
+        UptakeCurve
+
+        Examples
+        --------
+        # Standard oncology archetype
+        UptakeCurve.from_archetype(
+            LaunchArchetype.ONCOLOGY_SPECIALIST,
+            peak_penetration=0.25,
+            patent_life_years=12,
+        )
+
+        # Rapid orphan with 3yr ramp override
+        UptakeCurve.from_archetype(
+            LaunchArchetype.RAPID_ORPHAN,
+            peak_penetration=0.40,
+            patent_life_years=10,
+            optional_overrides={"years_to_peak": 3},
+        )
+
+        # Gene therapy with tighter incidence/prevalence ratio
+        UptakeCurve.from_archetype(
+            LaunchArchetype.GENE_THERAPY_BOLUS,
+            peak_penetration=0.60,
+            patent_life_years=12,
+            optional_overrides={"bolus_ongoing_fraction": 0.04},
+        )
+        """
+        from bve.models.launch_archetype import ARCHETYPE_SPECS
+
+        spec = ARCHETYPE_SPECS[archetype]
+        overrides = optional_overrides or {}
+
+        ytp = int(overrides.get("years_to_peak", spec.years_to_peak))
+        shape = spec.shape
+
+        # Shape override: explicit use_s_curve bool takes precedence over archetype shape
+        if "use_s_curve" in overrides:
+            shape = "s_curve" if overrides["use_s_curve"] else "linear"
+
+        if shape == "bolus":
+            frac = float(overrides.get("bolus_ongoing_fraction", spec.bolus_ongoing_fraction))
+            return cls._bolus_curve(peak_penetration, patent_life_years, ongoing_fraction=frac)
+        if shape == "s_curve":
+            return cls.s_curve(ytp, peak_penetration, patent_life_years)
+        if shape == "slow_s_curve":
+            return cls._slow_s_curve(ytp, peak_penetration, patent_life_years)
+        # linear
+        return cls.linear_ramp(ytp, peak_penetration, patent_life_years)
 
     def penetration_at_year(self, year: int) -> float:
         """1-indexed year from launch."""
@@ -337,6 +459,19 @@ class MarketModel(BaseModel):
         ),
     )
 
+    # --- Launch archetype (Sprint B2) ---
+    launch_archetype: Optional[LaunchArchetype] = Field(
+        default=None,
+        description=(
+            "Named commercial launch preset (Sprint B2). When set, automatically "
+            "derives years_to_peak and uptake curve shape from the archetype's "
+            "ArchetypeSpec. Any field explicitly set by the caller (years_to_peak, "
+            "adoption_curve_mode, use_s_curve) overrides the archetype default for "
+            "that parameter, so archetypes function as intelligent defaults rather "
+            "than rigid constraints. Existing configs without this field are unaffected."
+        ),
+    )
+
     # --- Geography (Sprint A: Option A+) ---
     geography_split: Optional[GeographySplit] = Field(
         default=None,
@@ -396,6 +531,8 @@ class MarketModel(BaseModel):
         """
         if self.lines_of_therapy:
             return self  # LOT segments set their own curve
+        if self.launch_archetype is not None:
+            return self  # archetype prescribes the shape; no ambiguity warning needed
         if self.adoption_curve_mode == "auto" and self._is_specialty_pharma_ta():
             return self
         if not self._resolved_use_s_curve():
@@ -413,15 +550,34 @@ class MarketModel(BaseModel):
     def _build_uptake_curve(self) -> "MarketModel":
         if self.lines_of_therapy:
             return self  # each segment builds its own curve
-        if self.uptake_curve is None:
-            if self._resolved_use_s_curve():
-                self.uptake_curve = UptakeCurve.s_curve(
-                    self.years_to_peak, self.peak_penetration, self.patent_life_years
-                )
-            else:
-                self.uptake_curve = UptakeCurve.linear_ramp(
-                    self.years_to_peak, self.peak_penetration, self.patent_life_years
-                )
+        if self.uptake_curve is not None:
+            return self  # caller supplied an explicit curve
+        if self.launch_archetype is not None:
+            # Collect only the fields the caller explicitly set — these override archetype defaults.
+            explicitly_set = self.model_fields_set
+            overrides: dict = {}
+            if "years_to_peak" in explicitly_set:
+                overrides["years_to_peak"] = self.years_to_peak
+            if "use_s_curve" in explicitly_set:
+                overrides["use_s_curve"] = self.use_s_curve
+            if "adoption_curve_mode" in explicitly_set and self.adoption_curve_mode != "auto":
+                overrides["use_s_curve"] = self.adoption_curve_mode == "s_curve"
+            self.uptake_curve = UptakeCurve.from_archetype(
+                self.launch_archetype,
+                peak_penetration=self.peak_penetration,
+                patent_life_years=self.patent_life_years,
+                optional_overrides=overrides or None,
+            )
+            return self
+        # No archetype — fall back to pre-B2 logic
+        if self._resolved_use_s_curve():
+            self.uptake_curve = UptakeCurve.s_curve(
+                self.years_to_peak, self.peak_penetration, self.patent_life_years
+            )
+        else:
+            self.uptake_curve = UptakeCurve.linear_ramp(
+                self.years_to_peak, self.peak_penetration, self.patent_life_years
+            )
         return self
 
     @property

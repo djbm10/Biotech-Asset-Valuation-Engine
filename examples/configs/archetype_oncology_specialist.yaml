@@ -1,0 +1,65 @@
+# =============================================================================
+# Launch Archetype Example — oncology_specialist
+# =============================================================================
+#
+# Archetype: oncology_specialist
+#   Shape: S-curve · Years-to-peak: 4
+#   Targeted oncology with companion diagnostic and NCCN guideline path.
+#
+# When to use this archetype:
+#   - Targeted oncology (NSCLC, HR+ BC, AML, CLL) with companion diagnostic
+#   - Guideline incorporation expected within 2–3 years
+#   - Adoption path: ESMO/ASCO abstract → full presentation → NCCN → SoC
+#   - Examples: osimertinib (EGFR+), palbociclib (HR+ BC), venetoclax (CLL)
+#
+# Override examples:
+#   To use a longer ramp for a 2nd-line indication:
+#     launch_archetype: oncology_specialist
+#     years_to_peak: 5          # overrides archetype default of 4
+#
+#   To force linear ramp (not recommended for oncology):
+#     launch_archetype: oncology_specialist
+#     adoption_curve_mode: linear
+#
+# =============================================================================
+
+asset:
+  id: "example-egfr-oncology-specialist"
+  name: "EXAMPLE-EGFR-TKI"
+  indication: "NSCLC 1L EGFR+"
+  therapeutic_area: "oncology"
+  stage: "phase_3"
+  modality: "small_molecule"
+  discount_rate: 0.10
+
+trials:
+  - phase: "phase_3"
+    success_probability: 0.60
+    duration_years: 3.0
+    cost_millions: 200.0
+  - phase: "nda_bla"
+    success_probability: 0.90
+    duration_years: 1.0
+    cost_millions: 25.0
+
+market:
+  asset_id: "example-egfr-oncology-specialist"
+  therapeutic_area: "oncology"
+  patent_life_years: 12
+
+  # Launch archetype — drives years_to_peak and S-curve shape automatically.
+  # No need to set adoption_curve_mode or years_to_peak separately.
+  launch_archetype: "oncology_specialist"
+
+  # Patient-based sizing
+  addressable_patients_annual: 19000   # EGFR+ NSCLC incident treatment pool
+  net_price_per_patient_usd: 180000    # Annual net (post-G2N)
+  peak_penetration: 0.18               # 18% of EGFR+ eligible
+
+  # Override: extend ramp by 1 year vs archetype default (4 → 5)
+  # years_to_peak: 5                   # uncomment to override
+
+  cogs_rate: 0.12
+  sgna_rate_launch: 0.35
+  sgna_rate_mature: 0.18
+  sgna_ramp_years: 5
