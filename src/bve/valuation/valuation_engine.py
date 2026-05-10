@@ -645,6 +645,11 @@ class ValuationEngine:
                 updates["cogs_rate"] = AssumptionsLoader.get().cogs_rate(asset_modality_str)
             mm = mm.model_copy(update=updates)
 
+        # Sprint D2: if a commercial_model profile is set, it owns the SG&A —
+        # skip modality/TA-based engine auto-selection entirely.
+        if mm.commercial_model is not None:
+            return mm
+
         # Detect non-default (explicitly overridden) SG&A — skip auto-selection
         if mm.sgna_rate_launch != SGNA_RATE_LAUNCH or mm.sgna_rate_mature != SGNA_RATE_MATURE:
             return mm

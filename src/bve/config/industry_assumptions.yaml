@@ -322,6 +322,60 @@ commercial:
       rate_mature: 0.20
       ramp_years:  5
 
+  commercial_model_profiles:
+    # Sprint D2: SG&A ramp profiles keyed by commercial model archetype.
+    # Keys use MarketModel field names (sgna_rate_launch, sgna_rate_mature, sgna_ramp_years)
+    # for direct mapping — distinct from sgna_profiles which use rate_launch / rate_mature.
+    #
+    # Source: public company filings, Evaluate Pharma, EvaluatePharma Commercial Insight,
+    #   internal BD modeling practice. Values are evidence-informed priors.
+    #
+    # Apply via MarketModel.commercial_model = "partnered" etc. Individual SG&A fields
+    # can override any profile value on a per-field basis.
+
+    self_commercialized_specialty:
+      # Oncology or specialty biotech building its own sales force.
+      # Mirrors specialty_pharma default.
+      sgna_rate_launch: 0.40
+      sgna_rate_mature: 0.20
+      sgna_ramp_years:  5
+
+    rare_disease_kol:
+      # Rare-disease KOL model: small targeted team, high MSL costs, low rep headcount.
+      # Launch-year SG&A is lower than specialty in absolute dollars (smaller team)
+      # but as % of revenue is still significant due to lower revenue base.
+      sgna_rate_launch: 0.25
+      sgna_rate_mature: 0.12
+      sgna_ramp_years:  4
+
+    partnered:
+      # Partner bears commercial costs; company receives milestone + royalty income.
+      # SG&A represents only co-promotion, medical affairs, and G&A overlay.
+      sgna_rate_launch: 0.12
+      sgna_rate_mature: 0.08
+      sgna_ramp_years:  3
+
+    royalty_only:
+      # Pure royalty stream — company has no commercial infrastructure.
+      # SG&A is essentially zero (a small G&A / IP maintenance allocation).
+      sgna_rate_launch: 0.02
+      sgna_rate_mature: 0.02
+      sgna_ramp_years:  1
+
+    primary_care_salesforce:
+      # Large primary-care indication requiring broad rep coverage.
+      # High absolute and % SG&A; slow maturation as market develops.
+      sgna_rate_launch: 0.55
+      sgna_rate_mature: 0.30
+      sgna_ramp_years:  7
+
+    hospital_specialty:
+      # Hospital/account-based selling model: smaller targeted sales force,
+      # but significant medical affairs and market-access investment.
+      sgna_rate_launch: 0.20
+      sgna_rate_mature: 0.12
+      sgna_ramp_years:  4
+
   defaults:
     # Fallback values used when an asset config does not specify the field.
     # Callers receive a warning when these are applied (see AssumptionsLoader).

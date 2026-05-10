@@ -23,6 +23,7 @@ from bve.entities.indication import Indication
 from bve.models.commercial_inputs import CommercialInputs
 from bve.models.competition_model import CompetitionModel
 from bve.models.geography import GeographySplit
+from bve.models.commercial_model_profile import CommercialModelProfile
 from bve.models.launch_archetype import LaunchArchetype
 from bve.models.payer_access import PayerAccessModel
 
@@ -501,6 +502,19 @@ class MarketModel(BaseModel):
         ),
     )
 
+    # Commercial model — SG&A profile (Sprint D2)
+    commercial_model: Optional[CommercialModelProfile] = Field(
+        default=None,
+        description=(
+            "Named commercial model archetype that sets SG&A ramp defaults. "
+            "When set, sgna_rate_launch/sgna_rate_mature/sgna_ramp_years are loaded from "
+            "industry_assumptions.yaml commercial_model_profiles unless those fields are "
+            "explicitly provided (explicit always wins on a per-field basis). "
+            "When absent, preserves current behavior. "
+            "Suppresses ValuationEngine modality/TA auto-selection of SG&A profiles."
+        ),
+    )
+
     # Cost structure
     modality: Optional[str] = Field(
         default=None,
@@ -620,6 +634,30 @@ class MarketModel(BaseModel):
             return self  # no modality hint; keep default
         from bve.config.assumptions_loader import AssumptionsLoader  # local import to avoid circular
         self.cogs_rate = AssumptionsLoader.get().cogs_rate(self.modality)
+        return self
+
+    @model_validator(mode="after")
+    def _resolve_sgna_from_commercial_model(self) -> "MarketModel":
+        """Sprint D2: auto-populate SG&A fields from commercial_model profile.
+
+        Priority order (per field):
+          1. Explicit field value wins unconditionally.
+          2. commercial_model is set — load from commercial_model_profiles YAML.
+          3. Neither — keep field default.
+
+        Individual SG&A fields can override the profile on a per-field basis.
+        """
+        if self.commercial_model is None:
+            return self
+        from bve.config.assumptions_loader import AssumptionsLoader  # local import to avoid circular
+        profile = AssumptionsLoader.get().commercial_model_profile(self.commercial_model.value)
+        explicitly_set = self.model_fields_set
+        if "sgna_rate_launch" not in explicitly_set:
+            self.sgna_rate_launch = float(profile["sgna_rate_launch"])
+        if "sgna_rate_mature" not in explicitly_set:
+            self.sgna_rate_mature = float(profile["sgna_rate_mature"])
+        if "sgna_ramp_years" not in explicitly_set:
+            self.sgna_ramp_years = int(profile["sgna_ramp_years"])
         return self
 
     @property

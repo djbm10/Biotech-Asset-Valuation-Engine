@@ -361,6 +361,29 @@ class AssumptionsLoader:
         )
         return profiles["default"]
 
+    def commercial_model_profile(self, name: str) -> MappingProxyType:
+        """
+        SG&A ramp profile for a named commercial model archetype (Sprint D2).
+
+        Keys: sgna_rate_launch, sgna_rate_mature, sgna_ramp_years.
+
+        Available profiles: self_commercialized_specialty, rare_disease_kol,
+        partnered, royalty_only, primary_care_salesforce, hospital_specialty.
+        Falls back to 'self_commercialized_specialty' with a UserWarning if the
+        name is not found.
+        """
+        profiles = self._data["commercial"]["commercial_model_profiles"]
+        if name in profiles:
+            return profiles[name]
+        warnings.warn(
+            f"CommercialModelProfile {name!r} not found in commercial_model_profiles. "
+            f"Falling back to 'self_commercialized_specialty'. "
+            f"(assumptions version: {self.version})",
+            UserWarning,
+            stacklevel=2,
+        )
+        return profiles["self_commercialized_specialty"]
+
     @property
     def compliance_by_modality(self) -> MappingProxyType:
         """Compliance rate table keyed by modality string."""
