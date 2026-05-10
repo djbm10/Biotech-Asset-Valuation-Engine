@@ -96,6 +96,21 @@ SCENARIO_BEAR = ScenarioAssumptions(
 
 
 class ScenarioResult(BaseModel):
+    """
+    Full output for one named scenario.
+
+    Core fields (all scenarios):
+        label, description, rnpv_millions, cumulative_success_probability,
+        peak_sales_millions, years_to_launch, nav_millions, nav_per_share
+
+    Extended fields (Sprint 31D — populated by build_scenarios_from_shocks):
+        delta_vs_base            : rNPV difference from base case (None for base itself).
+        key_assumption_changes   : List of human-readable strings describing changed inputs.
+        top_value_drivers        : Inputs responsible for most of the delta_vs_base move.
+        kill_criteria_triggered  : True when scenario meets kill conditions (rNPV < 0 or
+                                   cumulative_success_probability ≤ 0.01).
+        memo_interpretation      : 1–3 sentence plain-English explanation of the scenario.
+    """
     label: str
     description: str
     rnpv_millions: float
@@ -104,6 +119,13 @@ class ScenarioResult(BaseModel):
     years_to_launch: float
     nav_millions: float = 0.0
     nav_per_share: float = 0.0
+
+    # --- Sprint 31D extended fields ---
+    delta_vs_base: Optional[float] = None
+    key_assumption_changes: list[str] = []
+    top_value_drivers: list[str] = []
+    kill_criteria_triggered: bool = False
+    memo_interpretation: str = ""
 
 
 # ---------------------------------------------------------------------------
@@ -328,6 +350,148 @@ def apply_scenario_shock(
     return shocked_asset, shocked_trials, shocked_market, shocked_deal, shocked_tax
 
 
+def _assumption_changes(shock: ScenarioShock) -> list[str]:
+    """Human-readable list of non-default assumptions in a shock."""
+    changes: list[str] = []
+    c = shock.clinical
+    if c.pos_mult != 1.0:
+        changes.append(f"POS ×{c.pos_mult:.2f}")
+    if c.safety_profile_override:
+        changes.append(f"Safety: {c.safety_profile_override}")
+    if c.breakthrough_designation_override is not None:
+        changes.append(f"Breakthrough designation: {c.breakthrough_designation_override}")
+
+    r = shock.regulatory
+    if r.duration_add_years != 0.0:
+        changes.append(f"Phase duration {r.duration_add_years:+.1f}yr")
+    if r.label_breadth_mult != 1.0:
+        changes.append(f"Label breadth ×{r.label_breadth_mult:.2f}")
+    if r.crl_delay_add_years > 0.0:
+        changes.append(f"CRL/delay +{r.crl_delay_add_years:.1f}yr")
+    if r.confirmatory_trial_cost_millions > 0.0:
+        changes.append(f"Confirmatory trial +${r.confirmatory_trial_cost_millions:.0f}M")
+    if r.approval_pathway_override:
+        changes.append(f"Pathway: {r.approval_pathway_override}")
+
+    cm = shock.commercial
+    if cm.peak_penetration_mult != 1.0:
+        changes.append(f"Penetration ×{cm.peak_penetration_mult:.2f}")
+    if cm.net_price_mult != 1.0:
+        changes.append(f"Net price ×{cm.net_price_mult:.2f}")
+    if cm.addressable_patients_mult != 1.0:
+        changes.append(f"Population ×{cm.addressable_patients_mult:.2f}")
+    if cm.payer_access_probability_mult != 1.0:
+        changes.append(f"Payer access ×{cm.payer_access_probability_mult:.2f}")
+    if cm.prior_auth_burden_delta != 0.0:
+        changes.append(f"PA burden {cm.prior_auth_burden_delta:+.2f}")
+    if cm.gross_to_net_rate_delta != 0.0:
+        changes.append(f"G2N {cm.gross_to_net_rate_delta:+.2%}")
+    if cm.years_to_peak_add != 0.0:
+        changes.append(f"Years-to-peak {cm.years_to_peak_add:+.1f}yr")
+
+    co = shock.competition
+    if co.competitor_approval_prob_mult != 1.0:
+        changes.append(f"Competitor approval ×{co.competitor_approval_prob_mult:.2f}")
+    if co.competition_price_pressure_delta != 0.0:
+        changes.append(f"Competition price pressure {co.competition_price_pressure_delta:+.2%}")
+
+    cf = shock.costs_fcf
+    if cf.rd_cost_mult != 1.0:
+        changes.append(f"R&D cost ×{cf.rd_cost_mult:.2f}")
+    if cf.discount_rate_delta != 0.0:
+        changes.append(f"WACC {cf.discount_rate_delta:+.1%}")
+    if cf.cogs_rate_delta != 0.0:
+        changes.append(f"COGS {cf.cogs_rate_delta:+.2%}")
+    if cf.sgna_rate_delta != 0.0:
+        changes.append(f"SG&A {cf.sgna_rate_delta:+.2%}")
+    if cf.tax_rate_delta != 0.0:
+        changes.append(f"Tax rate {cf.tax_rate_delta:+.2%}")
+
+    de = shock.deal_economics
+    if de.royalty_rate_override is not None:
+        changes.append(f"Royalty rate → {de.royalty_rate_override:.1%}")
+    if de.profit_share_rate_override is not None:
+        changes.append(f"Profit-share → {de.profit_share_rate_override:.1%}")
+
+    return changes
+
+
+def _top_drivers(shock: ScenarioShock, delta: Optional[float]) -> list[str]:
+    """Rank assumptions by estimated value impact (heuristic ordering)."""
+    if delta is None:
+        return []
+
+    drivers: list[tuple[float, str]] = []
+    c = shock.clinical
+    if c.pos_mult != 1.0:
+        drivers.append((abs(c.pos_mult - 1.0) * 3.0, f"POS ×{c.pos_mult:.2f}"))
+
+    r = shock.regulatory
+    if r.label_breadth_mult != 1.0:
+        drivers.append((abs(r.label_breadth_mult - 1.0) * 2.0, f"Label breadth ×{r.label_breadth_mult:.2f}"))
+    if r.duration_add_years != 0.0:
+        drivers.append((abs(r.duration_add_years) * 0.5, f"Timeline {r.duration_add_years:+.1f}yr"))
+    if r.crl_delay_add_years > 0.0:
+        drivers.append((r.crl_delay_add_years * 0.4, f"CRL delay +{r.crl_delay_add_years:.1f}yr"))
+
+    cm = shock.commercial
+    if cm.peak_penetration_mult != 1.0:
+        drivers.append((abs(cm.peak_penetration_mult - 1.0) * 2.5, f"Penetration ×{cm.peak_penetration_mult:.2f}"))
+    if cm.net_price_mult != 1.0:
+        drivers.append((abs(cm.net_price_mult - 1.0) * 1.5, f"Net price ×{cm.net_price_mult:.2f}"))
+    if cm.payer_access_probability_mult != 1.0:
+        drivers.append((abs(cm.payer_access_probability_mult - 1.0) * 1.2, f"Payer access ×{cm.payer_access_probability_mult:.2f}"))
+    if cm.gross_to_net_rate_delta != 0.0:
+        drivers.append((abs(cm.gross_to_net_rate_delta) * 1.0, f"G2N {cm.gross_to_net_rate_delta:+.2%}"))
+
+    co = shock.competition
+    if co.competition_price_pressure_delta != 0.0:
+        drivers.append((abs(co.competition_price_pressure_delta) * 0.8, "Competition price pressure"))
+
+    cf = shock.costs_fcf
+    if cf.rd_cost_mult != 1.0:
+        drivers.append((abs(cf.rd_cost_mult - 1.0) * 0.6, f"R&D cost ×{cf.rd_cost_mult:.2f}"))
+    if cf.discount_rate_delta != 0.0:
+        drivers.append((abs(cf.discount_rate_delta) * 2.0, f"WACC {cf.discount_rate_delta:+.1%}"))
+
+    drivers.sort(key=lambda x: x[0], reverse=True)
+    return [d[1] for d in drivers[:5]]  # top 5
+
+
+def _is_kill_criteria(result: "ScenarioResult") -> bool:
+    """True when the scenario meets kill criteria (failure or deeply negative rNPV)."""
+    return (
+        result.rnpv_millions < 0.0
+        or result.cumulative_success_probability <= 0.01
+    )
+
+
+def _memo(result: "ScenarioResult", delta: Optional[float]) -> str:
+    """Generate a 1–2 sentence plain-English interpretation."""
+    if result.cumulative_success_probability <= 0.01:
+        return (
+            f"Endpoint miss — P(approval) collapsed to {result.cumulative_success_probability:.1%}. "
+            f"Asset value is driven entirely by residual cost recovery; no commercial optionality remains."
+        )
+    if result.kill_criteria_triggered:
+        return (
+            f"Scenario produces a negative rNPV of ${result.rnpv_millions:.0f}M "
+            f"({result.cumulative_success_probability:.0%} P(approval), "
+            f"${result.peak_sales_millions:.0f}M peak sales). "
+            f"Kill criteria triggered — risk-adjusted value does not cover development costs."
+        )
+    delta_str = (
+        f" (${delta:+.0f}M vs base)" if delta is not None and delta != 0.0 else ""
+    )
+    sentiment = "positive" if (delta is None or delta >= 0) else "negative"
+    return (
+        f"rNPV of ${result.rnpv_millions:.0f}M{delta_str} with {result.cumulative_success_probability:.0%} "
+        f"P(approval) and ${result.peak_sales_millions:.0f}M peak sales. "
+        f"NAV/share of ${result.nav_per_share:.2f} under this scenario. "
+        f"Value outlook is {sentiment}."
+    )
+
+
 def _apply_shock_scenario(
     asset: Asset,
     trials: list[ClinicalTrial],
@@ -339,6 +503,7 @@ def _apply_shock_scenario(
     loe_profile: Optional[dict] = None,
     deal: Optional["DealEconomics"] = None,
     tax_profile: Optional["TaxProfile"] = None,
+    base_rnpv: Optional[float] = None,
 ) -> ScenarioResult:
     """Run the full engine with a ScenarioShock applied to all inputs."""
     s_asset, s_trials, s_market, s_deal, s_tax = apply_scenario_shock(
@@ -355,7 +520,11 @@ def _apply_shock_scenario(
     nav = result.rnpv_millions + net_cash_millions
     nav_ps = nav / shares_outstanding_millions if shares_outstanding_millions else 0.0
 
-    return ScenarioResult(
+    delta = (result.rnpv_millions - base_rnpv) if base_rnpv is not None else None
+    changes = _assumption_changes(shock)
+    drivers = _top_drivers(shock, delta)
+
+    partial = ScenarioResult(
         label=shock.label,
         description=shock.description,
         rnpv_millions=result.rnpv_millions,
@@ -364,7 +533,14 @@ def _apply_shock_scenario(
         years_to_launch=result.years_to_launch,
         nav_millions=nav,
         nav_per_share=nav_ps,
+        delta_vs_base=delta,
+        key_assumption_changes=changes,
+        top_value_drivers=drivers,
     )
+    # kill and memo depend on the above fields
+    kill = _is_kill_criteria(partial)
+    memo = _memo(partial, delta)
+    return partial.model_copy(update={"kill_criteria_triggered": kill, "memo_interpretation": memo})
 
 
 def build_scenarios_from_shocks(
@@ -398,15 +574,24 @@ def build_scenarios_from_shocks(
             f"build_scenarios_from_shocks requires exactly 3 shocks (bull, base, bear), "
             f"got {len(_shocks)}"
         )
-    results = [
-        _apply_shock_scenario(
-            asset, trials, market_model, s,
-            net_cash_millions, shares_outstanding_millions,
-            loe_profile=loe_profile, deal=deal, tax_profile=tax_profile,
-        )
-        for s in _shocks
-    ]
-    return ScenarioSet(bull=results[0], base=results[1], bear=results[2])
+    # Run base first so bull/bear get delta_vs_base
+    kwargs = dict(
+        net_cash_millions=net_cash_millions,
+        shares_outstanding_millions=shares_outstanding_millions,
+        loe_profile=loe_profile,
+        deal=deal,
+        tax_profile=tax_profile,
+    )
+    base_result = _apply_shock_scenario(asset, trials, market_model, _shocks[1], **kwargs)
+    base_rnpv = base_result.rnpv_millions
+
+    bull_result = _apply_shock_scenario(
+        asset, trials, market_model, _shocks[0], base_rnpv=base_rnpv, **kwargs
+    )
+    bear_result = _apply_shock_scenario(
+        asset, trials, market_model, _shocks[2], base_rnpv=base_rnpv, **kwargs
+    )
+    return ScenarioSet(bull=bull_result, base=base_result, bear=bear_result)
 
 
 class ScenarioSet(BaseModel):
