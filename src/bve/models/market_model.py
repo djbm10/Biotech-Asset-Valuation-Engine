@@ -875,6 +875,12 @@ class MarketModel(BaseModel):
 
         if self.competition_model and years_from_launch > 0:
             base *= self.competition_model.our_available_market_fraction(years_from_launch)
+            # Price pressure (Sprint C2): competitor-driven price erosion applied after
+            # the volume fraction.  The two are ORTHOGONAL — market fraction = volume
+            # effect (fewer patients); price_pressure_multiplier = price effect (lower
+            # net price per patient).  Applying them independently avoids double-counting.
+            # Returns 1.0 with default CompetitionModel (no price pressure configured).
+            base *= self.competition_model.price_pressure_multiplier(years_from_launch)
 
         # Payer-access adjustment (Sprint C1): applied after competition fraction
         # so that access barriers operate on whatever market share we actually win,

@@ -18,6 +18,14 @@ This module models competition explicitly:
   3. Pipeline uncertainty: unapproved competitors are probability-weighted by their
      approval probability.
 
+  4. Competition-driven price pressure (Sprint C2): active approved competitors
+     increase the annual net price erosion rate.  This is ORTHOGONAL to the volume
+     effect (our_available_market_fraction) — they model separate mechanisms:
+       - Volume effect: fewer patients available to us (market-fraction logic).
+       - Price effect: lower net price per patient due to payer negotiation leverage
+         as they can threaten to prefer a competitor.
+     The two adjustments are applied independently; there is NO double-counting.
+
 Model mechanics
 ---------------
 At each year from our launch:
@@ -30,6 +38,25 @@ At each year from our launch:
 
 The 0.10 floor reflects the reality that some patients switch to any new drug with
 better efficacy, tolerability, or convenience — even in saturated markets.
+
+Competition-driven price pressure (Sprint C2)
+---------------------------------------------
+  effective_annual_erosion_rate(year) =
+      base_annual_price_erosion_rate
+      + active_approved_competitor_count(year) × price_pressure_factor_per_competitor
+
+  price_pressure_multiplier(year) =
+      ∏_{y=1}^{year−1} max(0, 1 − effective_annual_erosion_rate(y))
+
+  Price at year t = launch_price × price_pressure_multiplier(t)
+
+Active-competitor counting uses the same _n_active_approved_competitors() method
+as CrowdingModel — only status="approved" competitors with positive market share
+in that year count.  Pipeline competitors are excluded in the base case; in Monte
+Carlo simulations they are included only if sampled as approved via
+sample_launch_outcomes(), where they still retain status="phase_3" etc. so they
+also do NOT count toward price pressure.  This is intentional: the conservative
+design ensures price pressure is driven only by actually-approved drugs on market.
 
 YAML config example (RLY-2608 in PIK3CA+ mBC):
 -----------------------------------------------
@@ -282,6 +309,39 @@ class CompetitionModel(BaseModel):
         ),
     )
 
+    # --- Competition-driven price pressure (Sprint C2) ---
+    base_annual_price_erosion_rate: float = Field(
+        default=0.0,
+        ge=0.0,
+        le=0.50,
+        description=(
+            "Base annual net price erosion rate applied regardless of competitor count. "
+            "Acts as the intercept in the price-pressure formula: "
+            "effective_rate(year) = base_rate + N_active × price_pressure_factor. "
+            "Default 0.0 — no baseline erosion. Typical specialty pharma baseline: "
+            "0.01–0.03 (1–3%% per year in mature classes with some payer renegotiation). "
+            "Combined with price_pressure_factor_per_competitor this drives the total "
+            "year-specific erosion rate applied multiplicatively to the base price."
+        ),
+    )
+    price_pressure_factor_per_competitor: float = Field(
+        default=0.0,
+        ge=0.0,
+        le=0.30,
+        description=(
+            "Incremental annual price erosion per active approved competitor on market (Sprint C2). "
+            "Drives the competition-sensitive component of the price erosion formula: "
+            "effective_rate(year) = base_annual_price_erosion_rate + N_active(year) × factor. "
+            "Default 0.0 — no competition-driven price pressure (backward-compatible). "
+            "Typical empirical values: 0.01–0.03 per competitor (specialty small molecule / "
+            "biologic with biosimilar or generic threat). For gene therapy / orphan drugs "
+            "with no generic path, leave at 0.0. "
+            "ORTHOGONAL to our_available_market_fraction: volume and price effects are "
+            "independent mechanisms. Do NOT double-count by also reducing market fraction "
+            "for price erosion reasons."
+        ),
+    )
+
     def _first_mover_launch_year(self) -> Optional[float]:
         """Earliest launch_year_relative among approved competitors, or None."""
         approved = [c for c in self.competitors if c.status == "approved"]
@@ -363,6 +423,62 @@ class CompetitionModel(BaseModel):
             1 for c in self.competitors
             if c.status == "approved" and self._single_competitor_share(c, year) > 0
         )
+
+    def effective_annual_erosion_rate(self, year: int) -> float:
+        """
+        Total annual net price erosion rate driven by competition in ``year``.
+
+        Formula (Sprint C2):
+            base_annual_price_erosion_rate
+            + _n_active_approved_competitors(year) × price_pressure_factor_per_competitor
+
+        Active-competitor counting:
+            Reuses _n_active_approved_competitors() — only status="approved" competitors
+            with positive market share in year N count.  Pipeline competitors are excluded
+            in the base case (consistent with CrowdingModel's counting convention).
+            In Monte Carlo simulations pipeline drugs that are sampled as approved retain
+            their original status="phase_3" string so they also do not count — see
+            sample_launch_outcomes() docstring.
+
+        Returns 0.0 when both fields are at their defaults (no price pressure configured).
+        Capped at 1.0 to prevent degenerate (negative price) outcomes.
+        """
+        if self.base_annual_price_erosion_rate == 0.0 and self.price_pressure_factor_per_competitor == 0.0:
+            return 0.0
+        n_active = self._n_active_approved_competitors(year)
+        rate = self.base_annual_price_erosion_rate + n_active * self.price_pressure_factor_per_competitor
+        return min(rate, 1.0)
+
+    def price_pressure_multiplier(self, year: int) -> float:
+        """
+        Cumulative net price multiplier at post-launch year ``year``.
+
+        Matches the convention of PricingModel.price_in_year():
+          year=1 → multiplier=1.0  (launch-year price; no erosion yet)
+          year=2 → 1 − effective_rate(year=1)
+          year=t → ∏_{y=1}^{t−1} max(0, 1 − effective_annual_erosion_rate(y))
+
+        The year-by-year erosion rate is re-computed at each step because the
+        number of active approved competitors changes as new drugs launch or
+        ramp up their market share over time.
+
+        Returns 1.0 (no effect) when both price pressure fields are at their
+        defaults — a fast path avoids the loop entirely.
+
+        Example (2 pre-existing approved competitors, factor=0.02/competitor):
+          effective_rate(year=1) = 0.0 + 2 × 0.02 = 0.04
+          effective_rate(year=2) = 0.04   (same competitors still active)
+          price_pressure_multiplier(1) = 1.0
+          price_pressure_multiplier(2) = 1 − 0.04 = 0.96
+          price_pressure_multiplier(3) = 0.96 × (1 − 0.04) = 0.9216
+        """
+        if self.base_annual_price_erosion_rate == 0.0 and self.price_pressure_factor_per_competitor == 0.0:
+            return 1.0  # fast path: no price pressure configured
+        multiplier = 1.0
+        for y in range(1, year):
+            rate = self.effective_annual_erosion_rate(y)
+            multiplier *= max(0.0, 1.0 - rate)
+        return multiplier
 
     def our_available_market_fraction(self, year: int) -> float:
         """
@@ -477,9 +593,13 @@ class CompetitionModel(BaseModel):
                     sampled.append(comp.model_copy(update={"approval_probability": 1.0}))
         return CompetitionModel(
             competitors=sampled,
+            competition_mode=self.competition_mode,
             crowding_model=self.crowding_model,
             first_mover_config=self.first_mover_config,
             saturation_profile=self.saturation_profile,
+            floor_residual_share=self.floor_residual_share,
+            base_annual_price_erosion_rate=self.base_annual_price_erosion_rate,
+            price_pressure_factor_per_competitor=self.price_pressure_factor_per_competitor,
         )
 
     def summary(self) -> str:
