@@ -647,8 +647,11 @@ class TestValidTransitions:
         assert redraft.reviewer_state == ReviewerState.DRAFT
 
 
-class TestInvalidTransitions:
-    """Tests 33–38: Each explicitly invalid transition raises ValueError."""
+class TestPermissiveDefault:
+    """
+    Tests 33–36: default strict=False allows any transition for backward
+    compatibility, emitting UserWarning for non-standard paths.
+    """
 
     @pytest.fixture(autouse=True)
     def _snap(self, store):
@@ -656,21 +659,70 @@ class TestInvalidTransitions:
         self._snap = _make_snapshot(reviewer_state=ReviewerState.DRAFT)
         store.insert_snapshot(self._snap)
 
-    def test_draft_to_approved_rejected(self, store):
-        with pytest.raises(ValueError, match="Invalid state transition"):
-            store.transition_state(
+    def test_draft_to_approved_allowed_by_default(self, store):
+        """DRAFT → APPROVED without strict=True must NOT raise."""
+        with pytest.warns(UserWarning, match="non-standard state transition"):
+            new_snap = store.transition_state(
                 self._snap.snapshot_id, ReviewerState.APPROVED,
-                reviewer="djm", reason="skip review"
+                reviewer="djm", reason="direct approve"
             )
+        assert new_snap.reviewer_state == ReviewerState.APPROVED
 
-    def test_draft_to_stale_rejected(self, store):
-        with pytest.raises(ValueError, match="Invalid state transition"):
-            store.transition_state(
+    def test_draft_to_stale_allowed_by_default(self, store):
+        with pytest.warns(UserWarning):
+            new_snap = store.transition_state(
                 self._snap.snapshot_id, ReviewerState.STALE,
                 reviewer="djm", reason="shortcut"
             )
+        assert new_snap.reviewer_state == ReviewerState.STALE
 
-    def test_approved_to_draft_rejected(self, store):
+    def test_valid_transition_no_warning(self, store):
+        """DRAFT → REVIEWED is in _VALID_TRANSITIONS — no warning emitted."""
+        import warnings as _w
+        with _w.catch_warnings():
+            _w.simplefilter("error")   # any warning would raise
+            new_snap = store.transition_state(
+                self._snap.snapshot_id, ReviewerState.REVIEWED,
+                reviewer="djm", reason="normal review"
+            )
+        assert new_snap.reviewer_state == ReviewerState.REVIEWED
+
+    def test_non_standard_transition_still_persisted(self, store):
+        """Even without strict, the non-standard transition creates a new version."""
+        with pytest.warns(UserWarning):
+            new_snap = store.transition_state(
+                self._snap.snapshot_id, ReviewerState.APPROVED,
+                reviewer="djm", reason="direct"
+            )
+        retrieved = store.get_snapshot(new_snap.snapshot_id)
+        assert retrieved is not None
+        assert retrieved.reviewer_state == ReviewerState.APPROVED
+
+
+class TestInvalidTransitionsStrictMode:
+    """Tests 37–42: strict=True blocks invalid transitions with ValueError."""
+
+    @pytest.fixture(autouse=True)
+    def _snap(self, store):
+        self._store = store
+        self._snap = _make_snapshot(reviewer_state=ReviewerState.DRAFT)
+        store.insert_snapshot(self._snap)
+
+    def test_draft_to_approved_rejected_strict(self, store):
+        with pytest.raises(ValueError, match="Invalid state transition"):
+            store.transition_state(
+                self._snap.snapshot_id, ReviewerState.APPROVED,
+                reviewer="djm", reason="skip review", strict=True
+            )
+
+    def test_draft_to_stale_rejected_strict(self, store):
+        with pytest.raises(ValueError, match="Invalid state transition"):
+            store.transition_state(
+                self._snap.snapshot_id, ReviewerState.STALE,
+                reviewer="djm", reason="shortcut", strict=True
+            )
+
+    def test_approved_to_draft_rejected_strict(self, store):
         reviewed = store.transition_state(
             self._snap.snapshot_id, ReviewerState.REVIEWED, reviewer="djm", reason="r"
         )
@@ -680,10 +732,10 @@ class TestInvalidTransitions:
         with pytest.raises(ValueError, match="Invalid state transition"):
             store.transition_state(
                 approved.snapshot_id, ReviewerState.DRAFT,
-                reviewer="djm", reason="rollback"
+                reviewer="djm", reason="rollback", strict=True
             )
 
-    def test_stale_to_approved_rejected(self, store):
+    def test_stale_to_approved_rejected_strict(self, store):
         reviewed = store.transition_state(
             self._snap.snapshot_id, ReviewerState.REVIEWED, reviewer="djm", reason="r"
         )
@@ -696,74 +748,93 @@ class TestInvalidTransitions:
         with pytest.raises(ValueError, match="Invalid state transition"):
             store.transition_state(
                 stale.snapshot_id, ReviewerState.APPROVED,
-                reviewer="djm", reason="skip redraft"
+                reviewer="djm", reason="skip redraft", strict=True
             )
 
-    def test_reviewed_to_draft_rejected(self, store):
+    def test_reviewed_to_draft_rejected_strict(self, store):
         reviewed = store.transition_state(
             self._snap.snapshot_id, ReviewerState.REVIEWED, reviewer="djm", reason="r"
         )
         with pytest.raises(ValueError, match="Invalid state transition"):
             store.transition_state(
                 reviewed.snapshot_id, ReviewerState.DRAFT,
-                reviewer="djm", reason="rollback"
+                reviewer="djm", reason="rollback", strict=True
             )
 
-    def test_reviewed_to_stale_rejected(self, store):
+    def test_reviewed_to_stale_rejected_strict(self, store):
         reviewed = store.transition_state(
             self._snap.snapshot_id, ReviewerState.REVIEWED, reviewer="djm", reason="r"
         )
         with pytest.raises(ValueError, match="Invalid state transition"):
             store.transition_state(
                 reviewed.snapshot_id, ReviewerState.STALE,
-                reviewer="system", reason="expire"
+                reviewer="system", reason="expire", strict=True
             )
 
 
 class TestFullLifecycles:
-    """Tests 39–40: End-to-end lifecycle flows."""
+    """Tests 43–44: End-to-end lifecycle flows using strict=True."""
 
-    def test_draft_reviewed_approved_stale(self, store):
+    def test_draft_reviewed_approved_stale_strict(self, store):
+        """Full canonical lifecycle with strict mode at each step."""
         snap = _make_snapshot()
         store.insert_snapshot(snap)
 
         reviewed = store.transition_state(
-            snap.snapshot_id, ReviewerState.REVIEWED, reviewer="djm", reason="Q1 review"
+            snap.snapshot_id, ReviewerState.REVIEWED,
+            reviewer="djm", reason="Q1 review", strict=True
         )
         approved = store.transition_state(
             reviewed.snapshot_id, ReviewerState.APPROVED,
-            reviewer="committee", reason="approved for shadow book"
+            reviewer="committee", reason="approved for shadow book", strict=True
         )
         stale = store.transition_state(
             approved.snapshot_id, ReviewerState.STALE,
-            reviewer="system", reason="Q2 data supersedes Q1"
+            reviewer="system", reason="Q2 data supersedes Q1", strict=True
         )
 
         assert stale.reviewer_state == ReviewerState.STALE
         assert stale.provenance.parent_snapshot_id == approved.snapshot_id
 
-        # State log has 3 transitions
         log = store.get_state_log(snap.snapshot_id)
         assert len(log) == 1
         assert log[0]["to_state"] == "reviewed"
 
-    def test_draft_quarantine_redraft_reviewed(self, store):
+    def test_draft_quarantine_redraft_reviewed_strict(self, store):
+        """Quarantine path with strict=True at each step."""
         snap = _make_snapshot()
         store.insert_snapshot(snap)
 
         q = store.transition_state(
             snap.snapshot_id, ReviewerState.QUARANTINED,
-            reviewer="djm", reason="data error found"
+            reviewer="djm", reason="data error found", strict=True
         )
         redraft = store.transition_state(
             q.snapshot_id, ReviewerState.DRAFT,
-            reviewer="djm", reason="corrected cash figure"
+            reviewer="djm", reason="corrected cash figure", strict=True
         )
         reviewed = store.transition_state(
             redraft.snapshot_id, ReviewerState.REVIEWED,
-            reviewer="djm", reason="re-review after fix"
+            reviewer="djm", reason="re-review after fix", strict=True
         )
 
         assert reviewed.reviewer_state == ReviewerState.REVIEWED
         history = store.get_snapshot_history("test-co")
         assert len(history) == 4  # original + q + redraft + reviewed
+
+    def test_direct_draft_to_approved_permissive_lifecycle(self, store):
+        """Without strict, DRAFT → APPROVED works (warns) — backward compat."""
+        snap = _make_snapshot()
+        store.insert_snapshot(snap)
+
+        with pytest.warns(UserWarning):
+            approved = store.transition_state(
+                snap.snapshot_id, ReviewerState.APPROVED,
+                reviewer="djm", reason="expedited approval"
+            )
+
+        stale = store.transition_state(
+            approved.snapshot_id, ReviewerState.STALE,
+            reviewer="system", reason="superseded", strict=True
+        )
+        assert stale.reviewer_state == ReviewerState.STALE

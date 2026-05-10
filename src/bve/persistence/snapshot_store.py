@@ -36,6 +36,7 @@ from __future__ import annotations
 
 import json
 import sqlite3
+import warnings
 from datetime import date, datetime, timezone
 from pathlib import Path
 from typing import Optional
@@ -380,6 +381,7 @@ class SnapshotStore:
         *,
         reviewer: str,
         reason: str,
+        strict: bool = False,
     ) -> CompanySnapshot:
         """
         Transition a snapshot to a new ReviewerState.
@@ -390,8 +392,19 @@ class SnapshotStore:
         - provenance.created_by = reviewer
         - provenance.change_summary = reason
 
+        Parameters
+        ----------
+        strict : bool, default False
+            When False (default): any transition is allowed for backward
+            compatibility.  A UserWarning is emitted when the transition
+            skips the normal workflow (e.g. DRAFT → APPROVED directly).
+            When True: only transitions in _VALID_TRANSITIONS are permitted;
+            invalid transitions raise ValueError.
+
         Returns the new snapshot.
         Raises ValueError if the snapshot does not exist.
+        Raises ValueError (strict=True only) if the transition is not in
+        _VALID_TRANSITIONS.
         """
         old = self.get_snapshot(snapshot_id)
         if old is None:
@@ -400,13 +413,23 @@ class SnapshotStore:
         old_state = old.reviewer_state
         transition_key = (old_state.value, new_state.value)
         if transition_key not in _VALID_TRANSITIONS:
-            raise ValueError(
-                f"Invalid state transition: {old_state.value!r} → {new_state.value!r}. "
-                f"Valid transitions from {old_state.value!r}: "
-                + str(sorted(
-                    t[1] for t in _VALID_TRANSITIONS if t[0] == old_state.value
-                ))
-            )
+            if strict:
+                raise ValueError(
+                    f"Invalid state transition: {old_state.value!r} → {new_state.value!r}. "
+                    f"Valid transitions from {old_state.value!r}: "
+                    + str(sorted(
+                        t[1] for t in _VALID_TRANSITIONS if t[0] == old_state.value
+                    ))
+                )
+            else:
+                warnings.warn(
+                    f"SnapshotStore: non-standard state transition "
+                    f"{old_state.value!r} → {new_state.value!r} for snapshot "
+                    f"{snapshot_id!r}. Use strict=True to enforce the lifecycle "
+                    f"(DRAFT → REVIEWED → APPROVED).",
+                    UserWarning,
+                    stacklevel=2,
+                )
 
         new_prov = old.provenance.model_copy(update={
             "parent_snapshot_id": snapshot_id,
