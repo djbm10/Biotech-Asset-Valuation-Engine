@@ -36,10 +36,18 @@ class SensitivityPoint(BaseModel):
     high_value: float
     low_rnpv: float
     high_rnpv: float
+    # Sprint 35 additions (backward-compatible defaults)
+    base_rnpv: float = 0.0    # rNPV at unshocked base — anchors tornado bars
+    shock_pct: float = 0.0    # shock magnitude as a percentage, e.g. 30.0 = ±30%
+    rank: int = 0             # 1 = largest |swing| (set after sorting)
 
     @property
     def swing(self) -> float:
         return self.high_rnpv - self.low_rnpv
+
+    @property
+    def abs_swing(self) -> float:
+        return abs(self.swing)
 
 
 class ValuationOutput(BaseModel):

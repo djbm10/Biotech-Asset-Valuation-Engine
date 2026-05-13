@@ -249,7 +249,14 @@ class ValuationEngine:
         mc = mc.model_copy(update={"mean_nav_per_share": round(mc_nav_per_share, 2)})
 
         # --- Sensitivity ---
-        sensitivities = self._compute_sensitivities(trials, loe_profile, deal, market_model)
+        from bve.analysis.sensitivity import compute_sensitivity
+        sens_result = compute_sensitivity(
+            self.asset, trials, market_model,
+            base_rnpv=rnpv.rnpv_millions,
+            loe_profile=loe_profile,
+            deal=deal,
+        )
+        sensitivities = sens_result.points
 
         # --- Assumption log ---
         assumption_log = build_assumption_log(
