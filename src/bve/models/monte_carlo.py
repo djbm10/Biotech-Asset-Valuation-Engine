@@ -154,6 +154,30 @@ class MonteCarloParams(BaseModel):
         ),
     )
 
+    # ── Stochastic financing / dilution (P2.2) ───────────────────────────────
+    # sample_financing=True: when the company's cash is insufficient to cover
+    # trial costs, model an equity offering at a stochastic discount.  The
+    # offering dilutes existing shareholders; dilution_factor = pre / post shares.
+    # Requires current_price_per_share and shares_outstanding_millions to be
+    # passed to run_monte_carlo() — otherwise has no effect (safe fallback).
+    sample_financing: bool = Field(
+        default=False,
+        description=(
+            "Model dilutive equity offerings when cash < trial costs. "
+            "Each simulation draws an offering discount from N(0.20, discount_std), "
+            "computes new shares issued, and applies a dilution_factor to rNPV. "
+            "Requires current_price_per_share and shares_outstanding_millions."
+        ),
+    )
+    financing_discount_cv: float = Field(
+        default=0.10, gt=0.0,
+        description=(
+            "Std of the offering discount draw (normal distribution, mean=0.20). "
+            "0.10 → discount ranges ~0%–40% at 2σ. "
+            "Active only when sample_financing=True."
+        ),
+    )
+
     # Per-phase success distributions (override trial point estimates)
     phase_distributions: list[PhaseSuccessDistribution] = Field(default_factory=list)
 
@@ -314,6 +338,18 @@ class SimulationDraws(BaseModel):
         ),
     )
 
+    # Step 6 — Financing dilution (P2.2): fraction of pre-dilution value retained
+    # 1.0 = no dilution (either no financing needed or sample_financing=False).
+    # < 1.0 = dilutive offering occurred; applied to rNPV as existing-shareholder haircut.
+    dilution_factor: float = Field(
+        default=1.0, ge=0.0, le=1.0,
+        description=(
+            "Fraction of rNPV retained after dilutive equity offering. "
+            "1.0 when sample_financing=False or cash is sufficient. "
+            "< 1.0 = shares_pre / shares_post when an offering is modelled."
+        ),
+    )
+
 
 class SimulationOutput(BaseModel):
     """
@@ -442,12 +478,16 @@ def _run_single_trial(
         loe_profile=loe_profile, deal=deal,
     )
 
+    # ── Step 6: Financing dilution (P2.2) — apply existing-shareholder haircut ──
+    # dilution_factor == 1.0 when no financing is modelled (safe default).
+    effective_rnpv = result.rnpv_millions * draws.dilution_factor
+
     # ── Step 12: NAV/share ────────────────────────────────────────────────
-    nav = result.rnpv_millions + net_cash_millions
+    nav = effective_rnpv + net_cash_millions
     nav_per_share = (nav / shares_outstanding_millions) if shares_outstanding_millions else None
 
     return SimulationOutput(
-        rnpv_millions=result.rnpv_millions,
+        rnpv_millions=effective_rnpv,
         engine_rerun=True,  # invariant — always True
         cumulative_success_probability=result.cumulative_success_probability,
         peak_sales_millions=result.peak_sales_millions,
@@ -544,6 +584,28 @@ def run_monte_carlo(
         for idx in range(len(trials)):
             trial_cost_samples[idx] = lognorm(s=s_c, scale=np.exp(mu_c)).rvs(n, random_state=rng)
 
+    # ── P2.2: Stochastic financing discount (normal draws) ────────────────
+    # When cash < trial costs, model a dilutive equity offering at a discount.
+    # Discount ~ N(0.20, financing_discount_cv) clipped to [0.05, 0.50].
+    # dilution_factor = shares_pre / (shares_pre + shares_issued) ∈ [0, 1].
+    financing_discount_samples: np.ndarray = np.full(n, 0.0)
+    base_capital_shortfall: float = 0.0
+    _financing_active = (
+        params.sample_financing
+        and shares_outstanding_millions is not None
+        and shares_outstanding_millions > 0
+        and current_price_per_share is not None
+        and current_price_per_share > 0
+    )
+    if _financing_active:
+        base_trial_costs = sum(t.cost_millions for t in trials)
+        base_capital_shortfall = max(0.0, base_trial_costs - net_cash_millions)
+        if base_capital_shortfall > 0:
+            financing_discount_samples = np.clip(
+                rng.normal(loc=0.20, scale=params.financing_discount_cv, size=n),
+                0.05, 0.50,
+            )
+
     # Correlated sampling for market parameters
     spec = params.correlation_spec
     if spec is None and params.use_default_correlations:
@@ -631,6 +693,17 @@ def run_monte_carlo(
             if trial_cost_samples else {}
         )
 
+        # Compute dilution_factor for this simulation (P2.2)
+        dilution_factor = 1.0
+        if _financing_active and base_capital_shortfall > 0:
+            discount = float(financing_discount_samples[i])
+            offering_price = current_price_per_share * (1.0 - discount)
+            if offering_price > 0 and shares_outstanding_millions:
+                # shares_issued_millions = capital_shortfall($M) / offering_price($/share)
+                shares_issued_millions = base_capital_shortfall / offering_price
+                total_shares = shares_outstanding_millions + shares_issued_millions
+                dilution_factor = shares_outstanding_millions / total_shares
+
         draws = SimulationDraws(
             phase_success_probs=phase_probs,
             phase_duration_mults=dur_mults,
@@ -639,6 +712,7 @@ def run_monte_carlo(
             competition_model=sampled_comp,
             discount_rate=float(dr_samples[i]),
             trial_cost_mults=cost_mults,
+            dilution_factor=dilution_factor,
         )
 
         output = _run_single_trial(
