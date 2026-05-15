@@ -38,6 +38,7 @@ from bve.expectations.market_implied_pos import ImpliedPoSResult, compute_implie
 from bve.models.dilution_model import DilutionAnalysis, compute_dilution_scenarios
 from bve.models.runway_forecast import RunwayForecastV2, compute_runway, estimate_burn_rate
 from bve.models.analog_matcher import AnalogMatchResult, find_analogs
+from bve.models.catalyst_payoff import CatalystPayoffResult, compute_catalyst_payoff
 from bve.valuation.assumptions import build_assumption_log
 from bve.valuation.outputs import SensitivityPoint, ValuationOutput
 from bve.valuation.scenario import build_scenarios
@@ -303,6 +304,7 @@ class ValuationEngine:
         runway_forecast = self._compute_runway_forecast()
         dilution_analysis = self._compute_dilution_analysis(rnpv)
         analog_match = self._compute_analog_match()
+        catalyst_payoff = self._compute_catalyst_payoff(trials, market_model, rnpv)
         top_acquirers = rank_acquirers(
             therapeutic_area=self.asset.therapeutic_area.value,
             modality=self.asset.modality.value,
@@ -335,6 +337,7 @@ class ValuationEngine:
             comps_fair_value_band=comps_fair_value_band,
             revenue_audit_table=rev.audit_table,
             market_expectation=market_expectation,
+            catalyst_payoff=catalyst_payoff,
             analog_match=analog_match,
             top_acquirers=top_acquirers,
             runway_forecast=runway_forecast,
@@ -520,6 +523,28 @@ class ValuationEngine:
                 current_shares=self.company.shares_outstanding_millions * 1_000_000,
                 current_price=price,
                 capital_needed_usd=capital_needed * 1_000_000,
+            )
+        except Exception:
+            return None
+
+    def _compute_catalyst_payoff(
+        self,
+        trials: list,
+        market_model: object,
+        rnpv: "RNPVResult",
+    ) -> Optional[CatalystPayoffResult]:
+        """
+        Compute binary catalyst EV decomposition.  Always returns a result
+        (re-uses pre-computed rnpv for the base case; runs 2 additional
+        scenarios).  Exceptions are swallowed and None returned.
+        """
+        try:
+            loe_profile = getattr(self, "_loe_profile", None)
+            deal = getattr(self, "_deal_economics", None)
+            return compute_catalyst_payoff(
+                self.asset, trials, market_model, rnpv,
+                loe_profile=loe_profile,
+                deal=deal,
             )
         except Exception:
             return None

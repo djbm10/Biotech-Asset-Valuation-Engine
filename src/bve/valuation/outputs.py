@@ -33,6 +33,8 @@ from bve.models.runway_forecast import RunwayForecastV2
 from bve.models.dilution_model import DilutionAnalysis
 # Analog match (models module is standalone — no circular import)
 from bve.models.analog_matcher import AnalogMatchResult
+# Catalyst payoff (models module is standalone — no circular import)
+from bve.models.catalyst_payoff import CatalystPayoffResult
 # NOTE: bve.reporting.evidence and bve.intelligence.schemas cannot be imported here:
 #   bve.reporting.__init__ → memo_generator → ValuationOutput (circular)
 #   bve.intelligence.__init__ → phase2 → valuation_integration → ValuationOutput (circular)
@@ -201,6 +203,18 @@ class ValuationOutput(BaseModel):
         description=(
             "Bull/base/bear dilution scenarios for equity raise needed to fund remaining trial costs. "
             "None when current_price is not available. weighted_dilution_pct is the probability-weighted estimate."
+        ),
+    )
+
+    # Catalyst payoff decomposition (auto-populated by ValuationEngine.run())
+    catalyst_payoff: Optional[CatalystPayoffResult] = Field(
+        default=None,
+        description=(
+            "Binary catalyst EV decomposition: success vs failure rNPV scenarios. "
+            "upside = value_if_success - current_value; "
+            "downside = current_value - value_if_failure; "
+            "delta_ev = pos × upside - (1-pos) × downside. "
+            "signal_strength > 0 = positive EV catalyst."
         ),
     )
 
@@ -387,6 +401,25 @@ class ValuationOutput(BaseModel):
             "runway_date": (
                 self.runway_forecast.runway_date
                 if self.runway_forecast else None
+            ),
+            # Catalyst payoff (None when not computed)
+            "catalyst_upside_millions": (
+                self.catalyst_payoff.upside if self.catalyst_payoff else None
+            ),
+            "catalyst_downside_millions": (
+                self.catalyst_payoff.downside if self.catalyst_payoff else None
+            ),
+            "catalyst_delta_ev_millions": (
+                self.catalyst_payoff.delta_ev if self.catalyst_payoff else None
+            ),
+            "catalyst_signal_strength": (
+                self.catalyst_payoff.signal_strength if self.catalyst_payoff else None
+            ),
+            "catalyst_asymmetry_ratio": (
+                self.catalyst_payoff.asymmetry_ratio if self.catalyst_payoff else None
+            ),
+            "catalyst_ev_label": (
+                self.catalyst_payoff.ev_label if self.catalyst_payoff else None
             ),
             # Analog match (None when no matching analogs found)
             "analog_median_peak_sales_millions": (
