@@ -28,6 +28,9 @@ from bve.valuation.assumptions import AssumptionLog, DecisionFraming
 from bve.expectations.market_implied_pos import ImpliedPoSResult
 # Acquirer match (entities module is standalone — no circular import)
 from bve.entities.acquirer import AcquirerMatch
+# Runway and dilution models (models module is standalone — no circular import)
+from bve.models.runway_forecast import RunwayForecastV2
+from bve.models.dilution_model import DilutionAnalysis
 # NOTE: bve.reporting.evidence and bve.intelligence.schemas cannot be imported here:
 #   bve.reporting.__init__ → memo_generator → ValuationOutput (circular)
 #   bve.intelligence.__init__ → phase2 → valuation_integration → ValuationOutput (circular)
@@ -178,6 +181,24 @@ class ValuationOutput(BaseModel):
             "Top-ranked acquirers from ACQUIRER_UNIVERSE, scored by TA match, LOE urgency, "
             "and budget capacity. Populated by ValuationEngine.run(). Empty list when "
             "rNPV is unavailable or the asset has no clear strategic fit signals."
+        ),
+    )
+
+    # Runway forecast (auto-populated when Company.burn_rate_millions_per_quarter is set)
+    runway_forecast: Optional[RunwayForecastV2] = Field(
+        default=None,
+        description=(
+            "Cash runway forecast computed from company.cash_millions and burn_rate_millions_per_quarter. "
+            "None when burn rate is not available. runway_risk: critical|high|medium|low|comfortable."
+        ),
+    )
+
+    # Dilution analysis (auto-populated when Company.current_price and burn rate are set)
+    dilution_analysis: Optional[DilutionAnalysis] = Field(
+        default=None,
+        description=(
+            "Bull/base/bear dilution scenarios for equity raise needed to fund remaining trial costs. "
+            "None when current_price is not available. weighted_dilution_pct is the probability-weighted estimate."
         ),
     )
 
@@ -342,6 +363,29 @@ class ValuationOutput(BaseModel):
             "top_acquirer_2": self.top_acquirers[1].name if len(self.top_acquirers) > 1 else None,
             "top_acquirer_2_score": self.top_acquirers[1].composite_score if len(self.top_acquirers) > 1 else None,
             "top_acquirer_2_rationale": self.top_acquirers[1].rationale if len(self.top_acquirers) > 1 else None,
+            # Runway flags (None when no burn rate data)
+            "runway_months": (
+                round(self.runway_forecast.runway_months, 1)
+                if self.runway_forecast else None
+            ),
+            "runway_risk": (
+                self.runway_forecast.runway_risk
+                if self.runway_forecast else None
+            ),
+            "runway_date": (
+                self.runway_forecast.runway_date
+                if self.runway_forecast else None
+            ),
+            # Dilution flag (None when no price data)
+            "dilution_weighted_pct": (
+                round(self.dilution_analysis.weighted_dilution_pct, 1)
+                if self.dilution_analysis else None
+            ),
+            "dilution_flag": (
+                "high" if (self.dilution_analysis and self.dilution_analysis.weighted_dilution_pct > 20.0)
+                else ("moderate" if (self.dilution_analysis and self.dilution_analysis.weighted_dilution_pct > 10.0)
+                      else ("low" if self.dilution_analysis else None))
+            ),
         }
 
     def to_json_dict(self) -> dict:

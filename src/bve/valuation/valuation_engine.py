@@ -35,6 +35,8 @@ from bve.models.revenue_model import RevenueModel
 from bve.models.rnpv_model import RNPVModel, RNPVResult, compute_rnpv_full
 from bve.entities.acquirer import rank_acquirers
 from bve.expectations.market_implied_pos import ImpliedPoSResult, compute_implied_pos
+from bve.models.dilution_model import DilutionAnalysis, compute_dilution_scenarios
+from bve.models.runway_forecast import RunwayForecastV2, compute_runway, estimate_burn_rate
 from bve.valuation.assumptions import build_assumption_log
 from bve.valuation.outputs import SensitivityPoint, ValuationOutput
 from bve.valuation.scenario import build_scenarios
@@ -297,6 +299,8 @@ class ValuationEngine:
             )
 
         market_expectation = self._compute_market_expectation(rnpv)
+        runway_forecast = self._compute_runway_forecast()
+        dilution_analysis = self._compute_dilution_analysis(rnpv)
         top_acquirers = rank_acquirers(
             therapeutic_area=self.asset.therapeutic_area.value,
             modality=self.asset.modality.value,
@@ -330,6 +334,8 @@ class ValuationEngine:
             revenue_audit_table=rev.audit_table,
             market_expectation=market_expectation,
             top_acquirers=top_acquirers,
+            runway_forecast=runway_forecast,
+            dilution_analysis=dilution_analysis,
         )
 
     # -----------------------------------------------------------------------
@@ -465,6 +471,55 @@ class ValuationEngine:
             peak_duration_years=float(self.market_model.patent_life_years),
             trial_costs_pv_millions=rnpv.trial_costs_pv_millions,
         )
+
+    def _compute_runway_forecast(self) -> Optional[RunwayForecastV2]:
+        """
+        Compute RunwayForecastV2 from company burn rate when available.
+
+        Returns None when burn_rate_millions_per_quarter is not set or is ≤ 0.
+        """
+        burn_q = self.company.burn_rate_millions_per_quarter
+        if not burn_q or burn_q <= 0:
+            return None
+
+        try:
+            burn_rate = estimate_burn_rate(
+                direct_monthly_usd=burn_q * 1_000_000 / 3.0  # quarter → monthly in USD
+            )
+            return compute_runway(
+                asset_id=self.asset.id,
+                cash_usd=self.company.cash_millions * 1_000_000,
+                burn_rate=burn_rate,
+            )
+        except Exception:
+            return None
+
+    def _compute_dilution_analysis(self, rnpv: RNPVResult) -> Optional[DilutionAnalysis]:
+        """
+        Compute DilutionAnalysis for the capital needed to fund remaining trial costs.
+
+        Returns None when current_price is not set or ≤ 0.
+        Capital needed ≈ total probability-weighted trial costs (already discounted).
+        """
+        price = self.company.current_price
+        if not price or price <= 0:
+            return None
+        if self.company.shares_outstanding_millions <= 0:
+            return None
+
+        capital_needed = max(0.0, rnpv.trial_costs_pv_millions - self.company.net_cash_millions)
+        if capital_needed <= 0:
+            return None  # fully funded — no raise modelled
+
+        try:
+            return compute_dilution_scenarios(
+                asset_id=self.asset.id,
+                current_shares=self.company.shares_outstanding_millions * 1_000_000,
+                current_price=price,
+                capital_needed_usd=capital_needed * 1_000_000,
+            )
+        except Exception:
+            return None
 
     # -----------------------------------------------------------------------
     # Lifecycle events summary
