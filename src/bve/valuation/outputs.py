@@ -31,6 +31,8 @@ from bve.entities.acquirer import AcquirerMatch
 # Runway and dilution models (models module is standalone — no circular import)
 from bve.models.runway_forecast import RunwayForecastV2
 from bve.models.dilution_model import DilutionAnalysis
+# Analog match (models module is standalone — no circular import)
+from bve.models.analog_matcher import AnalogMatchResult
 # NOTE: bve.reporting.evidence and bve.intelligence.schemas cannot be imported here:
 #   bve.reporting.__init__ → memo_generator → ValuationOutput (circular)
 #   bve.intelligence.__init__ → phase2 → valuation_integration → ValuationOutput (circular)
@@ -199,6 +201,16 @@ class ValuationOutput(BaseModel):
         description=(
             "Bull/base/bear dilution scenarios for equity raise needed to fund remaining trial costs. "
             "None when current_price is not available. weighted_dilution_pct is the probability-weighted estimate."
+        ),
+    )
+
+    # Launch analog match (auto-populated by ValuationEngine when mechanism/indication available)
+    analog_match: Optional[AnalogMatchResult] = Field(
+        default=None,
+        description=(
+            "Historical launch analogs matched by mechanism_of_action and indication. "
+            "Contains median_peak_sales_millions as a sanity-check reference for the model's "
+            "commercial assumption. None when no matching analogs are found."
         ),
     )
 
@@ -375,6 +387,32 @@ class ValuationOutput(BaseModel):
             "runway_date": (
                 self.runway_forecast.runway_date
                 if self.runway_forecast else None
+            ),
+            # Analog match (None when no matching analogs found)
+            "analog_median_peak_sales_millions": (
+                self.analog_match.median_peak_sales_millions
+                if self.analog_match and self.analog_match.median_peak_sales_millions is not None
+                else None
+            ),
+            "analog_score": (
+                round(self.analog_match.analog_score, 2)
+                if self.analog_match else None
+            ),
+            "analog_success_rate": (
+                round(self.analog_match.success_rate, 2)
+                if self.analog_match else None
+            ),
+            "analog_n_matched": (
+                len(self.analog_match.matched_analogs)
+                if self.analog_match else None
+            ),
+            "analog_peak_sales_gap_pct": (
+                round(
+                    (self.rnpv.peak_sales_millions / self.analog_match.median_peak_sales_millions - 1) * 100, 1
+                )
+                if (self.analog_match and self.analog_match.median_peak_sales_millions
+                    and self.analog_match.median_peak_sales_millions > 0)
+                else None
             ),
             # Dilution flag (None when no price data)
             "dilution_weighted_pct": (

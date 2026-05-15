@@ -37,6 +37,7 @@ from bve.entities.acquirer import rank_acquirers
 from bve.expectations.market_implied_pos import ImpliedPoSResult, compute_implied_pos
 from bve.models.dilution_model import DilutionAnalysis, compute_dilution_scenarios
 from bve.models.runway_forecast import RunwayForecastV2, compute_runway, estimate_burn_rate
+from bve.models.analog_matcher import AnalogMatchResult, find_analogs
 from bve.valuation.assumptions import build_assumption_log
 from bve.valuation.outputs import SensitivityPoint, ValuationOutput
 from bve.valuation.scenario import build_scenarios
@@ -301,6 +302,7 @@ class ValuationEngine:
         market_expectation = self._compute_market_expectation(rnpv)
         runway_forecast = self._compute_runway_forecast()
         dilution_analysis = self._compute_dilution_analysis(rnpv)
+        analog_match = self._compute_analog_match()
         top_acquirers = rank_acquirers(
             therapeutic_area=self.asset.therapeutic_area.value,
             modality=self.asset.modality.value,
@@ -333,6 +335,7 @@ class ValuationEngine:
             comps_fair_value_band=comps_fair_value_band,
             revenue_audit_table=rev.audit_table,
             market_expectation=market_expectation,
+            analog_match=analog_match,
             top_acquirers=top_acquirers,
             runway_forecast=runway_forecast,
             dilution_analysis=dilution_analysis,
@@ -518,6 +521,27 @@ class ValuationEngine:
                 current_price=price,
                 capital_needed_usd=capital_needed * 1_000_000,
             )
+        except Exception:
+            return None
+
+    def _compute_analog_match(self) -> Optional[AnalogMatchResult]:
+        """
+        Find historical launch analogs using mechanism_of_action and indication.
+
+        Returns None when no matching analogs are found (analog_score stays 0.5,
+        median_peak_sales_millions is None).  Always safe to call — exceptions are
+        swallowed and None returned.
+        """
+        mechanism = self.asset.mechanism_of_action or ""
+        indication = self.asset.indication or ""
+        if not mechanism and not indication:
+            return None
+        try:
+            result = find_analogs(mechanism=mechanism, indication=indication)
+            # Return None when no analogs matched (keeps output clean)
+            if not result.matched_analogs:
+                return None
+            return result
         except Exception:
             return None
 
