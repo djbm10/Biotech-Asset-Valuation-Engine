@@ -32,7 +32,8 @@ from bve.models.monte_carlo import MonteCarloParams, run_monte_carlo
 from bve.models.pos_model import apply_pos_to_trials
 from bve.models.probability_model import ProbabilityModel
 from bve.models.revenue_model import RevenueModel
-from bve.models.rnpv_model import RNPVModel, compute_rnpv_full
+from bve.models.rnpv_model import RNPVModel, RNPVResult, compute_rnpv_full
+from bve.expectations.market_implied_pos import ImpliedPoSResult, compute_implied_pos
 from bve.valuation.assumptions import build_assumption_log
 from bve.valuation.outputs import SensitivityPoint, ValuationOutput
 from bve.valuation.scenario import build_scenarios
@@ -294,6 +295,8 @@ class ValuationEngine:
                 deals=self.comparable_deals,
             )
 
+        market_expectation = self._compute_market_expectation(rnpv)
+
         return ValuationOutput(
             asset=self.asset,
             company=self.company,
@@ -319,6 +322,7 @@ class ValuationEngine:
             analyst_overrides=prov["analyst_overrides"],
             comps_fair_value_band=comps_fair_value_band,
             revenue_audit_table=rev.audit_table,
+            market_expectation=market_expectation,
         )
 
     # -----------------------------------------------------------------------
@@ -420,6 +424,40 @@ class ValuationEngine:
             )
             result.append(trial.model_copy(update={"success_probability": dar.adjusted_pos}))
         return result
+
+    # -----------------------------------------------------------------------
+    # Market-implied expectation
+    # -----------------------------------------------------------------------
+
+    def _compute_market_expectation(self, rnpv: RNPVResult) -> Optional[ImpliedPoSResult]:
+        """
+        Back-solve market-implied PoS from current stock price.
+
+        Returns None when price data is not available (current_price is None or ≤ 0).
+        The result is attached to ValuationOutput.market_expectation.
+        """
+        from datetime import date as _date
+
+        price = self.company.current_price
+        if not price or price <= 0:
+            return None
+        gross_pv = rnpv.gross_revenue_pv_millions
+        if gross_pv <= 0:
+            return None
+
+        return compute_implied_pos(
+            asset_id=self.asset.id,
+            ticker=self.company.ticker or self.asset.id,
+            as_of_date=_date.today(),
+            current_ev_millions=price * self.company.shares_outstanding_millions,
+            net_cash_millions=self.company.net_cash_millions,
+            model_peak_sales_millions=rnpv.peak_sales_millions,
+            model_pos=rnpv.cumulative_success_probability,
+            years_to_peak=rnpv.years_to_launch + self.market_model.years_to_peak,
+            discount_rate=rnpv.discount_rate,
+            peak_duration_years=float(self.market_model.patent_life_years),
+            trial_costs_pv_millions=rnpv.trial_costs_pv_millions,
+        )
 
     # -----------------------------------------------------------------------
     # Lifecycle events summary

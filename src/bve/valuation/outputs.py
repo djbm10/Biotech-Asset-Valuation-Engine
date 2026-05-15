@@ -24,6 +24,8 @@ from bve.models.rnpv_model import RNPVResult
 from bve.valuation.scenario import ScenarioSet
 # Assumption types — assumptions.py does not import from outputs.py.
 from bve.valuation.assumptions import AssumptionLog, DecisionFraming
+# Market-implied expectation (no circular import — expectations module is standalone)
+from bve.expectations.market_implied_pos import ImpliedPoSResult
 # NOTE: bve.reporting.evidence and bve.intelligence.schemas cannot be imported here:
 #   bve.reporting.__init__ → memo_generator → ValuationOutput (circular)
 #   bve.intelligence.__init__ → phase2 → valuation_integration → ValuationOutput (circular)
@@ -157,6 +159,22 @@ class ValuationOutput(BaseModel):
         ),
     )
 
+    # Market-implied expectation (auto-populated by ValuationEngine when price data is available)
+    market_expectation: Optional[ImpliedPoSResult] = Field(
+        default=None,
+        description=(
+            "Back-solved market-implied PoS and peak sales. Populated by ValuationEngine "
+            "when company.current_price > 0. Contains pos_gap (model_pos − implied_pos): "
+            "positive = model more bullish than market; negative = market more bullish."
+        ),
+    )
+
+    # Per-metric evidence grade (populated by caller; keyed by metric name)
+    confidence_tags: dict = Field(
+        default_factory=dict,
+        description="Per-metric evidence grade dictionary (EvidenceGrade values by metric name).",
+    )
+
     # Memo text (populated by reporting layer)
     memo_markdown: Optional[str] = None
 
@@ -279,6 +297,31 @@ class ValuationOutput(BaseModel):
             "comps_peer_median_ev_to_peak_sales": (
                 self.comps_fair_value_band.peer_median_ev_to_peak_sales
                 if self.comps_fair_value_band else None
+            ),
+            # Market-implied expectation delta (None when no price data)
+            "market_implied_pos": (
+                round(self.market_expectation.implied_pos, 3)
+                if self.market_expectation else None
+            ),
+            "market_pos_gap": (
+                round(self.market_expectation.pos_gap, 3)
+                if self.market_expectation else None
+            ),
+            "market_pos_gap_pct": (
+                f"{self.market_expectation.pos_gap:+.1%}"
+                if self.market_expectation else None
+            ),
+            "market_mispricing_direction": (
+                self.market_expectation.mispricing_direction
+                if self.market_expectation else None
+            ),
+            "market_mispricing_magnitude": (
+                self.market_expectation.mispricing_magnitude
+                if self.market_expectation else None
+            ),
+            "market_implied_peak_sales_millions": (
+                round(self.market_expectation.implied_peak_sales_millions, 0)
+                if self.market_expectation else None
             ),
         }
 
