@@ -111,6 +111,49 @@ class MonteCarloParams(BaseModel):
     sample_geography: bool = False
     geography_cv: float = Field(default=0.15, gt=0.0)
 
+    # ── Stochastic timing (P2.1) ─────────────────────────────────────────────
+    # sample_phase_durations=True: draw a gamma multiplier on each trial's duration_years.
+    # Gamma is right-skewed (trials overrun more than they underrun).
+    # CV of ~0.30 reproduces the ~30% coefficient of variation observed in published
+    # clinical trial duration data (Sertkaya et al., FDA/ASPE 2016).
+    sample_phase_durations: bool = Field(
+        default=False,
+        description=(
+            "Draw gamma-distributed duration multipliers (mean=1.0) per phase. "
+            "Each trial's duration_years is scaled by its drawn multiplier. "
+            "Recommended for BD/IC presentations — shows timing tail risk."
+        ),
+    )
+    phase_duration_cv: float = Field(
+        default=0.30, gt=0.0,
+        description=(
+            "CV for phase duration gamma draws. "
+            "0.30 ≈ published industry data (Sertkaya et al. 2016). "
+            "Active only when sample_phase_durations=True."
+        ),
+    )
+
+    # ── Stochastic trial cost (P2.1) ─────────────────────────────────────────
+    # sample_trial_costs=True: draw a lognormal multiplier on each trial's cost_millions.
+    # Lognormal is appropriate because cost overruns are multiplicative and right-skewed.
+    # CV of ~0.35 calibrated to bio/pharmaceutical R&D cost variance in industry data.
+    sample_trial_costs: bool = Field(
+        default=False,
+        description=(
+            "Draw lognormal cost multipliers (mean=1.0) per trial. "
+            "Each trial's cost_millions is scaled by its drawn multiplier. "
+            "Recommended when cost estimates are analyst judgments rather than CRO quotes."
+        ),
+    )
+    trial_cost_cv: float = Field(
+        default=0.35, gt=0.0,
+        description=(
+            "CV for trial cost lognormal draws. "
+            "0.35 ≈ typical R&D cost overrun dispersion. "
+            "Active only when sample_trial_costs=True."
+        ),
+    )
+
     # Per-phase success distributions (override trial point estimates)
     phase_distributions: list[PhaseSuccessDistribution] = Field(default_factory=list)
 
@@ -241,6 +284,16 @@ class SimulationDraws(BaseModel):
     # Step 1 — Clinical: per-phase success probability draws
     phase_success_probs: dict[str, float]  # {phase.value → sampled probability}
 
+    # Step 2 — Timing (P2.1): gamma duration multipliers per phase (mean=1.0)
+    phase_duration_mults: dict[str, float] = Field(
+        default_factory=dict,
+        description=(
+            "{phase.value → gamma multiplier}. "
+            "Empty dict when sample_phase_durations=False (no timing uncertainty). "
+            "Each trial's duration_years is multiplied by this factor."
+        ),
+    )
+
     # Step 3 — Commercial: peak_sales draw (SIMPLE mode) or per-driver mults (DRIVER_BASED)
     peak_sales_millions: float
     years_to_peak: int = Field(ge=1, le=20)
@@ -250,6 +303,16 @@ class SimulationDraws(BaseModel):
 
     # Step 5 — Costs / WACC
     discount_rate: float = Field(ge=0.01, le=0.50)
+
+    # Step 5b — Trial cost multipliers (P2.1): lognormal per trial (mean=1.0)
+    trial_cost_mults: dict[str, float] = Field(
+        default_factory=dict,
+        description=(
+            "{trial_index_str → lognormal multiplier}. "
+            "Empty dict when sample_trial_costs=False (no cost uncertainty). "
+            "Each trial's cost_millions is multiplied by this factor."
+        ),
+    )
 
 
 class SimulationOutput(BaseModel):
@@ -329,6 +392,24 @@ def _run_single_trial(
         t.model_copy(update={"success_probability": min(0.99, max(0.01, draws.phase_success_probs.get(t.phase.value, t.success_probability)))})
         for t in trials
     ]
+
+    # ── Step 2: Timing — apply gamma duration multipliers (P2.1) ──────────
+    if draws.phase_duration_mults:
+        sim_trials = [
+            t.model_copy(update={
+                "duration_years": max(0.25, t.duration_years * draws.phase_duration_mults.get(t.phase.value, 1.0))
+            })
+            for t in sim_trials
+        ]
+
+    # ── Step 5b: Trial cost — apply lognormal cost multipliers (P2.1) ─────
+    if draws.trial_cost_mults:
+        sim_trials = [
+            t.model_copy(update={
+                "cost_millions": max(0.1, t.cost_millions * draws.trial_cost_mults.get(str(idx), 1.0))
+            })
+            for idx, t in enumerate(sim_trials)
+        ]
 
     # ── Step 3: Commercial — apply peak_sales draw ────────────────────────
     new_peak_sales = draws.peak_sales_millions
@@ -442,6 +523,27 @@ def run_monte_carlo(
             b = (1 - mu) * ess
             phase_success_samples[trial.phase] = rng.beta(a, b, n)
 
+    # ── P2.1: Stochastic phase duration (gamma draws) ────────────────────
+    # Gamma parameterisation: shape = 1/cv², scale = cv²  → mean = 1, std = cv
+    phase_duration_samples: dict[str, np.ndarray] = {}
+    if params.sample_phase_durations:
+        cv_d = params.phase_duration_cv
+        shape_d = 1.0 / (cv_d ** 2)
+        scale_d = cv_d ** 2
+        unique_phases = {t.phase.value for t in trials}
+        for phase_val in unique_phases:
+            phase_duration_samples[phase_val] = rng.gamma(shape=shape_d, scale=scale_d, size=n)
+
+    # ── P2.1: Stochastic trial cost (lognormal draws) ─────────────────────
+    # Lognormal with mean=1: s = sqrt(log(1 + cv²)), mu = -0.5*s²
+    trial_cost_samples: dict[int, np.ndarray] = {}
+    if params.sample_trial_costs:
+        cv_c = params.trial_cost_cv
+        s_c = np.sqrt(np.log(1 + cv_c ** 2))
+        mu_c = -0.5 * s_c ** 2
+        for idx in range(len(trials)):
+            trial_cost_samples[idx] = lognorm(s=s_c, scale=np.exp(mu_c)).rvs(n, random_state=rng)
+
     # Correlated sampling for market parameters
     spec = params.correlation_spec
     if spec is None and params.use_default_correlations:
@@ -516,12 +618,27 @@ def run_monte_carlo(
             sampled_comp = market_model.competition_model.sample_launch_outcomes(rng)
             n_sampled_competitors = len(sampled_comp.competitors)
 
+        # Build duration multipliers for this simulation (P2.1)
+        dur_mults = (
+            {phase_val: float(phase_duration_samples[phase_val][i])
+             for phase_val in phase_duration_samples}
+            if phase_duration_samples else {}
+        )
+        # Build cost multipliers for this simulation (P2.1)
+        cost_mults = (
+            {str(idx): float(trial_cost_samples[idx][i])
+             for idx in trial_cost_samples}
+            if trial_cost_samples else {}
+        )
+
         draws = SimulationDraws(
             phase_success_probs=phase_probs,
+            phase_duration_mults=dur_mults,
             peak_sales_millions=float(peak_sales_samples[i]),
             years_to_peak=int(ytp_samples[i]),
             competition_model=sampled_comp,
             discount_rate=float(dr_samples[i]),
+            trial_cost_mults=cost_mults,
         )
 
         output = _run_single_trial(
