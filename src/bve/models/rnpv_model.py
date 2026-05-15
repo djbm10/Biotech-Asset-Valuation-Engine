@@ -193,6 +193,39 @@ class RNPVResult(BaseModel):
         return f"{self.cumulative_success_probability:.1%}"
 
     @property
+    def pre_probability_fcf_pv_millions(self) -> float:
+        """
+        Pre-probability PV of post-deal, after-tax, ownership-adjusted EBIT.
+
+        Alias for ``gross_revenue_pv_millions`` using the preferred institutional name.
+        Multiply by ``cumulative_success_probability`` to get
+        ``probability_adjusted_revenue_pv_millions``.
+        """
+        return self.gross_revenue_pv_millions
+
+    @property
+    def rnpv_display_band_millions(self) -> tuple[float, float]:
+        """
+        rNPV rounded to the nearest $25M band as a (low, high) tuple.
+
+        Avoids false precision — a model with unvalidated inputs should not be
+        presented to the nearest dollar. Use this for IC memos and BD decks.
+        """
+        band = 25.0
+        mid = round(self.rnpv_millions / band) * band
+        return mid - band, mid + band
+
+    @property
+    def rnpv_display_label(self) -> str:
+        """
+        Human-readable rNPV band label, e.g. "$125M–$175M".
+
+        Derived from ``rnpv_display_band_millions``.
+        """
+        lo, hi = self.rnpv_display_band_millions
+        return f"${lo:,.0f}M–${hi:,.0f}M"
+
+    @property
     def pv_revenue_millions(self) -> float:
         """Probability-adjusted PV of revenue — named consistently for downstream use."""
         return self.probability_adjusted_revenue_pv_millions
