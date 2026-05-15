@@ -273,3 +273,113 @@ ACQUIRER_BY_ID: dict[str, AcquirerProfile] = {a.company_id: a for a in ACQUIRER_
 ACQUIRER_BY_TICKER: dict[str, AcquirerProfile] = {
     a.ticker: a for a in ACQUIRER_UNIVERSE if a.ticker
 }
+
+
+# ---------------------------------------------------------------------------
+# Acquirer ranking (v0)
+# ---------------------------------------------------------------------------
+
+class AcquirerMatch(BaseModel):
+    """
+    A single ranked acquirer result.
+
+    Attributes
+    ----------
+    company_id          : Canonical acquirer identifier.
+    name                : Human-readable name.
+    ticker              : Exchange ticker.
+    ta_match            : True if target's TA is in acquirer's strategic_areas.
+    modality_match      : True if target's modality is in acquirer's preferred_modalities.
+    loe_urgency         : Composite LOE urgency score [0–1].
+    budget_ok           : True if acquirer can afford the target at the specified deal size.
+    cash_firepower_millions : Estimated acquisition capacity.
+    composite_score     : Combined ranking score (0–1). Higher is a better fit.
+    rationale           : One-sentence human-readable explanation.
+    """
+    company_id: str
+    name: str
+    ticker: Optional[str] = None
+    ta_match: bool
+    modality_match: bool
+    loe_urgency: float = Field(ge=0.0, le=1.0)
+    budget_ok: bool
+    cash_firepower_millions: float
+    composite_score: float = Field(ge=0.0, le=1.0)
+    rationale: str
+
+
+def rank_acquirers(
+    therapeutic_area: str,
+    modality: str,
+    deal_size_millions: float,
+    top_n: int = 2,
+    universe: Optional[list[AcquirerProfile]] = None,
+    ta_weight: float = 0.45,
+    loe_weight: float = 0.35,
+    budget_weight: float = 0.20,
+) -> list[AcquirerMatch]:
+    """
+    Rank acquirers from ``ACQUIRER_UNIVERSE`` for a given target.
+
+    Composite score = ta_weight × ta_match
+                    + loe_weight × loe_urgency
+                    + budget_weight × budget_ok
+
+    Parameters
+    ----------
+    therapeutic_area    : Target's TA (e.g. "oncology").
+    modality            : Target's modality (e.g. "small_molecule").
+    deal_size_millions  : Estimated deal size (use rNPV or NAV as proxy).
+    top_n               : How many top acquirers to return.
+    universe            : Custom acquirer list (defaults to ACQUIRER_UNIVERSE).
+    ta_weight           : Weight for TA match (0–1).
+    loe_weight          : Weight for LOE urgency (0–1).
+    budget_weight       : Weight for budget fit (0–1).
+
+    Returns
+    -------
+    List of up to *top_n* AcquirerMatch objects, sorted by composite_score desc.
+    """
+    if universe is None:
+        universe = ACQUIRER_UNIVERSE
+
+    results: list[AcquirerMatch] = []
+    for acq in universe:
+        ta = acq.covers_ta(therapeutic_area)
+        mod = acq.covers_modality(modality)
+        loe = acq.loe_urgency
+        budget = acq.can_afford(deal_size_millions)
+
+        score = (
+            ta_weight * float(ta)
+            + loe_weight * loe
+            + budget_weight * float(budget)
+        )
+        score = round(min(1.0, max(0.0, score)), 4)
+
+        reasons: list[str] = []
+        if ta:
+            reasons.append(f"{therapeutic_area} is a strategic area")
+        if loe > 0.1:
+            reasons.append(f"LOE urgency={loe:.2f}")
+        if budget:
+            reasons.append(f"firepower ${acq.cash_firepower_millions:,.0f}M covers deal")
+        elif not budget:
+            reasons.append(f"firepower ${acq.cash_firepower_millions:,.0f}M may be tight")
+        rationale = "; ".join(reasons) if reasons else "no strong strategic fit signals"
+
+        results.append(AcquirerMatch(
+            company_id=acq.company_id,
+            name=acq.name,
+            ticker=acq.ticker,
+            ta_match=ta,
+            modality_match=mod,
+            loe_urgency=loe,
+            budget_ok=budget,
+            cash_firepower_millions=acq.cash_firepower_millions,
+            composite_score=score,
+            rationale=rationale,
+        ))
+
+    results.sort(key=lambda r: r.composite_score, reverse=True)
+    return results[:top_n]

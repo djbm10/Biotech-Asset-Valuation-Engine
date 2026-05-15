@@ -26,6 +26,8 @@ from bve.valuation.scenario import ScenarioSet
 from bve.valuation.assumptions import AssumptionLog, DecisionFraming
 # Market-implied expectation (no circular import — expectations module is standalone)
 from bve.expectations.market_implied_pos import ImpliedPoSResult
+# Acquirer match (entities module is standalone — no circular import)
+from bve.entities.acquirer import AcquirerMatch
 # NOTE: bve.reporting.evidence and bve.intelligence.schemas cannot be imported here:
 #   bve.reporting.__init__ → memo_generator → ValuationOutput (circular)
 #   bve.intelligence.__init__ → phase2 → valuation_integration → ValuationOutput (circular)
@@ -166,6 +168,16 @@ class ValuationOutput(BaseModel):
             "Back-solved market-implied PoS and peak sales. Populated by ValuationEngine "
             "when company.current_price > 0. Contains pos_gap (model_pos − implied_pos): "
             "positive = model more bullish than market; negative = market more bullish."
+        ),
+    )
+
+    # Top acquirers (auto-populated by ValuationEngine — top-2 by composite score)
+    top_acquirers: list[AcquirerMatch] = Field(
+        default_factory=list,
+        description=(
+            "Top-ranked acquirers from ACQUIRER_UNIVERSE, scored by TA match, LOE urgency, "
+            "and budget capacity. Populated by ValuationEngine.run(). Empty list when "
+            "rNPV is unavailable or the asset has no clear strategic fit signals."
         ),
     )
 
@@ -323,6 +335,13 @@ class ValuationOutput(BaseModel):
                 round(self.market_expectation.implied_peak_sales_millions, 0)
                 if self.market_expectation else None
             ),
+            # Top acquirers (names and scores for memo display)
+            "top_acquirer_1": self.top_acquirers[0].name if len(self.top_acquirers) > 0 else None,
+            "top_acquirer_1_score": self.top_acquirers[0].composite_score if len(self.top_acquirers) > 0 else None,
+            "top_acquirer_1_rationale": self.top_acquirers[0].rationale if len(self.top_acquirers) > 0 else None,
+            "top_acquirer_2": self.top_acquirers[1].name if len(self.top_acquirers) > 1 else None,
+            "top_acquirer_2_score": self.top_acquirers[1].composite_score if len(self.top_acquirers) > 1 else None,
+            "top_acquirer_2_rationale": self.top_acquirers[1].rationale if len(self.top_acquirers) > 1 else None,
         }
 
     def to_json_dict(self) -> dict:

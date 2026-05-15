@@ -33,6 +33,7 @@ from bve.models.pos_model import apply_pos_to_trials
 from bve.models.probability_model import ProbabilityModel
 from bve.models.revenue_model import RevenueModel
 from bve.models.rnpv_model import RNPVModel, RNPVResult, compute_rnpv_full
+from bve.entities.acquirer import rank_acquirers
 from bve.expectations.market_implied_pos import ImpliedPoSResult, compute_implied_pos
 from bve.valuation.assumptions import build_assumption_log
 from bve.valuation.outputs import SensitivityPoint, ValuationOutput
@@ -296,6 +297,11 @@ class ValuationEngine:
             )
 
         market_expectation = self._compute_market_expectation(rnpv)
+        top_acquirers = rank_acquirers(
+            therapeutic_area=self.asset.therapeutic_area.value,
+            modality=self.asset.modality.value,
+            deal_size_millions=max(rnpv.rnpv_millions, 100.0),
+        )
 
         return ValuationOutput(
             asset=self.asset,
@@ -323,6 +329,7 @@ class ValuationEngine:
             comps_fair_value_band=comps_fair_value_band,
             revenue_audit_table=rev.audit_table,
             market_expectation=market_expectation,
+            top_acquirers=top_acquirers,
         )
 
     # -----------------------------------------------------------------------
