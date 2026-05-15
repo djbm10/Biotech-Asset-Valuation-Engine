@@ -575,3 +575,390 @@ def compute_mna_composite_score(
         cap_reasons.append(f"driver:{d}")
 
     return round(min(max(penalised, 0.0), 1.0), 6), cap_reasons
+
+
+# ---------------------------------------------------------------------------
+# Watchlist type classification (Sprint 23 Task 3)
+# ---------------------------------------------------------------------------
+
+class WatchlistType:
+    """Two-class taxonomy for M&A watchlist separation.
+
+    STRATEGIC_WATCH: high strategic fit but lacking near-term transaction urgency.
+        - Gate-reason codes include ``financing_not_pressured`` AND ``no_buyer_urgency``, OR
+        - transaction_driver_count < 2
+
+    NEAR_TERM_TRANSACTION: ≥ 2 transaction drivers fired; actionable within typical BD window.
+    """
+
+    STRATEGIC_WATCH = "strategic_watch"
+    NEAR_TERM_TRANSACTION = "near_term_transaction"
+
+
+_GATE_CODE_DUAL_LOW_PRESSURE = "dual_gate:low_pressure"
+_GATE_CODE_MISSING_ALL = "missing_trigger:all"
+
+
+def classify_watchlist_type(
+    *,
+    transaction_driver_count: Optional[int],
+    gate_reason_codes: list[str],
+) -> str:
+    """Classify a scored row as STRATEGIC_WATCH or NEAR_TERM_TRANSACTION.
+
+    Rules (applied in priority order):
+    1. If ``transaction_driver_count`` is known and < 2 → strategic_watch.
+    2. If gate codes include ``"dual_gate:low_pressure"`` (both financing_not_pressured
+       AND no_buyer_urgency fired inside ``_apply_transaction_likelihood_gate``) OR
+       ``"missing_trigger:all"`` (zero triggers) → strategic_watch.
+    3. Otherwise → near_term_transaction.
+
+    Args:
+        transaction_driver_count: Number of transaction triggers that fired for the
+            best acquirer candidate (from ``_apply_transaction_likelihood_gate``).
+            ``None`` means the full live scorer was not run (rescore path); in this
+            case we fall back to gate code inspection.
+        gate_reason_codes: Reason codes from ``transaction_gate_reason_codes`` on the
+            best acquirer candidate (e.g. ``"dual_gate:low_pressure"``,
+            ``"missing_trigger:all"``, ``"missing_trigger:second"``).
+
+    Returns:
+        ``WatchlistType.STRATEGIC_WATCH`` or ``WatchlistType.NEAR_TERM_TRANSACTION``.
+    """
+    if transaction_driver_count is not None and transaction_driver_count < 2:
+        return WatchlistType.STRATEGIC_WATCH
+
+    codes_set = set(gate_reason_codes)
+    if _GATE_CODE_DUAL_LOW_PRESSURE in codes_set or _GATE_CODE_MISSING_ALL in codes_set:
+        return WatchlistType.STRATEGIC_WATCH
+
+    return WatchlistType.NEAR_TERM_TRANSACTION
+
+
+# ---------------------------------------------------------------------------
+# Layer 2 — BD Decision Engine
+# ---------------------------------------------------------------------------
+
+from enum import Enum
+
+
+class DataConfidence(str, Enum):
+    """Data quality level for a scored target.
+
+    Controls a multiplicative confidence adjustment on the final BD Action Score.
+    VERY_LOW targets should be excluded from ranked output entirely.
+    """
+    HIGH = "high"
+    MEDIUM = "medium"
+    LOW = "low"
+    VERY_LOW = "very_low"
+
+
+_DATA_CONFIDENCE_MULTIPLIER: dict[DataConfidence, float] = {
+    DataConfidence.HIGH: 1.00,
+    DataConfidence.MEDIUM: 0.93,
+    DataConfidence.LOW: 0.85,
+    DataConfidence.VERY_LOW: 0.00,  # excluded from ranking
+}
+
+
+class BDActionClassification:
+    """Strategic × transaction-probability decision matrix (2×3 taxonomy)."""
+    ACTIVE_PURSUIT = "Active BD pursuit"
+    BEGIN_RELATIONSHIP = "Begin relationship / monitor catalyst"
+    STRATEGIC_WATCHLIST = "Strategic watchlist"
+    OPPORTUNISTIC_OUTREACH = "Opportunistic outreach"
+    DISTRESSED_NON_CORE = "Distressed but likely non-core"
+    PASS = "Pass"
+
+
+# Thresholds for the 2×3 classification grid
+_SP_HIGH = 0.75   # strategic priority ≥ this → "High"
+_SP_MED = 0.45    # strategic priority ≥ this → "Medium" (else "Low")
+_TP_HIGH = 0.60   # transaction probability ≥ this → "High"
+_TP_MED = 0.40    # transaction probability ≥ this → "Medium" (else "Low")
+
+# Interaction bonus thresholds
+_BONUS_TA_MIN = 0.65
+_BONUS_AF_MIN_CONVERGENCE = 0.65
+_BONUS_AF_MIN_ACTIONABLE = 0.60
+_BONUS_DL_MIN = 0.60
+_BONUS_CAP = 0.08
+
+# Balance / fragility penalty thresholds
+_BALANCE_SEVERE = 0.35   # min/max ratio below this → 0.10 penalty
+_BALANCE_WEAK = 0.50     # min/max ratio below this → 0.05 penalty
+
+# Number of possible transaction drivers (used for normalisation)
+_N_DRIVER_MAX = 6
+
+
+class Layer2Output(BaseModel):
+    """Full BD decision engine output for a single target-acquirer pair."""
+    model_config = {"frozen": True}
+
+    # Three diagnostic scores
+    strategic_priority: float = Field(..., ge=0.0, le=1.0,
+        description="How much the acquirer should want this asset (0.45×AF + 0.35×TA + 0.20×TA.scarcity)")
+    transaction_probability: float = Field(..., ge=0.0, le=1.0,
+        description="Likelihood of a transaction in the next 6–18 months")
+    bd_action_score: float = Field(..., ge=0.0, le=1.0,
+        description="Final composite BD action score after bonuses, penalties, and confidence adjustment")
+
+    # Intermediate values for transparency
+    bd_action_score_raw: float = Field(..., ge=0.0, le=1.0,
+        description="0.50×SP + 0.35×TP + 0.15×AF before bonuses/penalties")
+    bd_action_score_pre_confidence: float = Field(..., ge=0.0, le=1.0,
+        description="Score after bonuses and penalties, before confidence multiplier")
+
+    # Decision output
+    classification: str = Field(...,
+        description="BD action classification from the 2×3 strategic/transaction matrix")
+    recommended_action: str = Field(...,
+        description="Short recommended action string")
+    reason: str = Field(...,
+        description="Plain-English explanation of the classification")
+
+    # Diagnostics
+    n_drivers: int = Field(..., ge=0,
+        description="Number of independent transaction drivers that fired")
+    driver_names: list[str]
+    interaction_bonuses_applied: float = Field(..., ge=0.0, le=_BONUS_CAP)
+    imbalance_penalty_applied: float = Field(..., ge=0.0)
+    data_confidence: DataConfidence
+    confidence_multiplier: float = Field(..., ge=0.0, le=1.0)
+
+
+# ---------------------------------------------------------------------------
+# Layer 2 helpers
+# ---------------------------------------------------------------------------
+
+def _compute_strategic_priority(ta: TargetAttractivenessScore, af: AcquirerFitDecomposed) -> float:
+    """Strategic Priority = 0.45×AF + 0.35×TA + 0.20×TA.scarcity."""
+    raw = 0.45 * af.score + 0.35 * ta.score + 0.20 * ta.scarcity
+    return round(min(max(raw, 0.0), 1.0), 6)
+
+
+def _compute_transaction_probability(
+    ta: TargetAttractivenessScore,
+    dl: DealLikelihoodScore,
+    af: AcquirerFitDecomposed,
+    n_drivers: int,
+) -> float:
+    """Transaction Probability = 0.45×DL + 0.25×AF + 0.15×TA + 0.15×driver_strength."""
+    driver_strength = min(n_drivers / _N_DRIVER_MAX, 1.0)
+    raw = (
+        0.45 * dl.score
+        + 0.25 * af.score
+        + 0.15 * ta.score
+        + 0.15 * driver_strength
+    )
+    return round(min(max(raw, 0.0), 1.0), 6)
+
+
+def _compute_balance_penalty(ta_score: float, dl_score: float, af_score: float) -> float:
+    """Fragility penalty when one sub-score is much weaker than the others."""
+    lo = min(ta_score, dl_score, af_score)
+    hi = max(ta_score, dl_score, af_score)
+    if hi == 0.0:
+        return 0.0
+    balance = lo / hi
+    if balance < _BALANCE_SEVERE:
+        return 0.10
+    if balance < _BALANCE_WEAK:
+        return 0.05
+    return 0.0
+
+
+def _compute_interaction_bonuses(
+    ta: TargetAttractivenessScore,
+    dl: DealLikelihoodScore,
+    af: AcquirerFitDecomposed,
+) -> float:
+    """Interaction bonuses when independent signals reinforce each other.
+
+    Returns total bonus, capped at 0.08.
+    Bonuses only added when signals genuinely converge — they never substitute
+    for a weak base score.
+    """
+    strategic_convergence = 0.04 if (ta.score >= _BONUS_TA_MIN and af.score >= _BONUS_AF_MIN_CONVERGENCE) else 0.0
+    actionable_buyer = 0.04 if (af.score >= _BONUS_AF_MIN_ACTIONABLE and dl.score >= _BONUS_DL_MIN) else 0.0
+    full_convergence = 0.05 if (
+        ta.score >= _BONUS_TA_MIN and dl.score >= _BONUS_DL_MIN and af.score >= _BONUS_AF_MIN_CONVERGENCE
+    ) else 0.0
+    total = strategic_convergence + actionable_buyer + full_convergence
+    return round(min(total, _BONUS_CAP), 6)
+
+
+def _classify_bd_action(
+    strategic_priority: float,
+    transaction_probability: float,
+) -> tuple[str, str, str]:
+    """2×3 decision matrix → (classification, recommended_action, reason)."""
+    if strategic_priority >= _SP_HIGH:
+        sp_tier = "high"
+    elif strategic_priority >= _SP_MED:
+        sp_tier = "medium"
+    else:
+        sp_tier = "low"
+
+    if transaction_probability >= _TP_HIGH:
+        tp_tier = "high"
+    elif transaction_probability >= _TP_MED:
+        tp_tier = "medium"
+    else:
+        tp_tier = "low"
+
+    matrix: dict[tuple[str, str], tuple[str, str, str]] = {
+        ("high", "high"): (
+            BDActionClassification.ACTIVE_PURSUIT,
+            "Pursue full acquisition",
+            "Strong strategic fit and near-term transaction urgency are both present.",
+        ),
+        ("high", "medium"): (
+            BDActionClassification.BEGIN_RELATIONSHIP,
+            "Begin BD dialogue / monitor catalyst",
+            "High strategic priority but transaction is not yet imminent; build relationship now.",
+        ),
+        ("high", "low"): (
+            BDActionClassification.STRATEGIC_WATCHLIST,
+            "Add to strategic watchlist",
+            "Strong fit and asset attractiveness, but weak seller pressure and limited transaction drivers.",
+        ),
+        ("medium", "high"): (
+            BDActionClassification.OPPORTUNISTIC_OUTREACH,
+            "Opportunistic outreach",
+            "Transaction conditions are favorable but strategic fit is moderate; act if valuation is right.",
+        ),
+        ("medium", "medium"): (
+            BDActionClassification.OPPORTUNISTIC_OUTREACH,
+            "Monitor and reassess",
+            "Moderate fit and moderate transaction urgency; revisit after next catalyst.",
+        ),
+        ("medium", "low"): (
+            BDActionClassification.PASS,
+            "Pass",
+            "Limited strategic relevance and no near-term transaction drivers.",
+        ),
+        ("low", "high"): (
+            BDActionClassification.DISTRESSED_NON_CORE,
+            "Monitor for distressed transaction",
+            "High transaction pressure but low strategic fit; asset is likely non-core for this acquirer.",
+        ),
+        ("low", "medium"): (
+            BDActionClassification.PASS,
+            "Pass",
+            "Insufficient strategic priority to justify BD resources.",
+        ),
+        ("low", "low"): (
+            BDActionClassification.PASS,
+            "Pass",
+            "Low strategic relevance and no transaction urgency.",
+        ),
+    }
+    return matrix[(sp_tier, tp_tier)]
+
+
+# ---------------------------------------------------------------------------
+# Main Layer 2 entry point
+# ---------------------------------------------------------------------------
+
+def compute_bd_layer2(
+    ta: TargetAttractivenessScore,
+    dl: DealLikelihoodScore,
+    af: AcquirerFitDecomposed,
+    data_confidence: DataConfidence = DataConfidence.HIGH,
+) -> Layer2Output:
+    """Layer 2 BD Decision Engine.
+
+    Replaces the single composite with three diagnostic scores:
+      1. Strategic Priority   — does the acquirer want this asset?
+      2. Transaction Probability — can it transact in the next 6–18 months?
+      3. BD Action Score      — should we act now?
+
+    Applies:
+      - Balance / fragility penalty when one sub-score dominates
+      - Interaction bonuses when signals genuinely converge (capped at 0.08)
+      - Saturation penalty via apply_saturation_penalty
+      - Data confidence multiplier (VERY_LOW → bd_action_score = 0)
+    """
+    n_drivers, driver_names = _count_transaction_drivers(ta, dl, af)
+
+    strategic_priority = _compute_strategic_priority(ta, af)
+    transaction_probability = _compute_transaction_probability(ta, dl, af, n_drivers)
+
+    # Raw composite
+    bd_action_score_raw = round(min(max(
+        0.50 * strategic_priority + 0.35 * transaction_probability + 0.15 * af.score,
+        0.0,
+    ), 1.0), 6)
+
+    # Fragility penalty
+    penalty = _compute_balance_penalty(ta.score, dl.score, af.score)
+
+    # Interaction bonuses
+    bonuses = _compute_interaction_bonuses(ta, dl, af)
+
+    # Pre-confidence score
+    pre_conf = apply_saturation_penalty(
+        min(max(bd_action_score_raw + bonuses - penalty, 0.0), 1.0),
+        sub_scores=[strategic_priority, transaction_probability, af.score],
+    )
+
+    # Confidence multiplier
+    multiplier = _DATA_CONFIDENCE_MULTIPLIER[data_confidence]
+    bd_action_score = round(min(max(pre_conf * multiplier, 0.0), 1.0), 6)
+
+    classification, recommended_action, reason = _classify_bd_action(
+        strategic_priority, transaction_probability
+    )
+
+    return Layer2Output(
+        strategic_priority=strategic_priority,
+        transaction_probability=transaction_probability,
+        bd_action_score=bd_action_score,
+        bd_action_score_raw=bd_action_score_raw,
+        bd_action_score_pre_confidence=round(pre_conf, 6),
+        classification=classification,
+        recommended_action=recommended_action,
+        reason=reason,
+        n_drivers=n_drivers,
+        driver_names=driver_names,
+        interaction_bonuses_applied=bonuses,
+        imbalance_penalty_applied=penalty,
+        data_confidence=data_confidence,
+        confidence_multiplier=multiplier,
+    )
+
+
+def compute_mna_composite_score(
+    ta: TargetAttractivenessScore,
+    dl: DealLikelihoodScore,
+    af: AcquirerFitDecomposed,
+) -> tuple[float, list[str]]:
+    """Backward-compatible wrapper — delegates to compute_bd_layer2.
+
+    Returns (bd_action_score, reason_codes) where reason_codes preserves
+    the gate-code strings that downstream code (tests, ma_probability.py) inspects.
+    """
+    result = compute_bd_layer2(ta, dl, af, data_confidence=DataConfidence.HIGH)
+
+    # Reconstruct legacy reason code list from Layer2Output diagnostics
+    reason_codes: list[str] = []
+    if dl.financing_gate_applied:
+        reason_codes.extend(dl.financing_reason_codes)
+        reason_codes.append("composite_capped_by_dl_gate")
+    if (
+        FINANCING_REASON_NOT_PRESSURED in dl.financing_reason_codes
+        and FINANCING_REASON_NO_BUYER_URGENCY in dl.financing_reason_codes
+    ):
+        reason_codes.append("composite_capped_by_dual_gate")
+    if result.n_drivers < 2:
+        reason_codes.append("composite_needs_two_drivers")
+    if result.n_drivers == 0:
+        reason_codes.append("composite_capped_zero_drivers")
+    reason_codes.append(f"n_drivers:{result.n_drivers}")
+    for d in result.driver_names:
+        reason_codes.append(f"driver:{d}")
+
+    return result.bd_action_score, reason_codes
