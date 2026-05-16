@@ -95,6 +95,14 @@ NEW_ACQUIRERS: list[AcquirerProfile] = [
         bd_style=BDStyle.BLOCKBUSTER,
         preferred_phase="Phase 3",
         max_deal_size_millions=25_000,
+        loe_cliffs=[
+            LOECliff(product_name="Stelara (ustekinumab)", indication="psoriasis/PsA/CD/UC",
+                     peak_sales_millions=10_500, loe_year=2023, revenue_at_risk_millions=7_000,
+                     replacement_urgency="critical"),
+            LOECliff(product_name="Imbruvica (ibrutinib)", indication="CLL/MCL/WM",
+                     peak_sales_millions=2_500, loe_year=2027, revenue_at_risk_millions=1_500,
+                     replacement_urgency="medium"),
+        ],
         deal_capacity=DealCapacity(
             cash_available_for_deals_millions=24_000,
             estimated_debt_capacity_millions=30_000,
@@ -161,6 +169,14 @@ NEW_ACQUIRERS: list[AcquirerProfile] = [
         bd_style=BDStyle.PLATFORM,
         preferred_phase="Phase 2",
         max_deal_size_millions=20_000,
+        loe_cliffs=[
+            LOECliff(product_name="Aubagio (teriflunomide)", indication="multiple sclerosis",
+                     peak_sales_millions=2_100, loe_year=2023, revenue_at_risk_millions=1_400,
+                     replacement_urgency="medium"),
+            LOECliff(product_name="Plavix (clopidogrel) EU/RoW", indication="cardiovascular",
+                     peak_sales_millions=800, loe_year=2023, revenue_at_risk_millions=400,
+                     replacement_urgency="low"),
+        ],
         deal_capacity=DealCapacity(
             cash_available_for_deals_millions=10_500,
             max_comfortable_deal_size_millions=20_000,
@@ -220,6 +236,14 @@ NEW_ACQUIRERS: list[AcquirerProfile] = [
         bd_style=BDStyle.BOLT_ON,
         preferred_phase="Phase 2",
         max_deal_size_millions=15_000,
+        loe_cliffs=[
+            LOECliff(product_name="Advair/Seretide (fluticasone/salmeterol)", indication="asthma/COPD",
+                     peak_sales_millions=2_500, loe_year=2019, revenue_at_risk_millions=1_500,
+                     replacement_urgency="low"),  # erosion substantially complete
+            LOECliff(product_name="Nucala (mepolizumab)", indication="severe asthma/EGPA/HES",
+                     peak_sales_millions=2_800, loe_year=2030, revenue_at_risk_millions=2_000,
+                     replacement_urgency="low"),
+        ],
         deal_capacity=DealCapacity(
             cash_available_for_deals_millions=9_200,
             max_comfortable_deal_size_millions=15_000,
@@ -346,6 +370,14 @@ NEW_ACQUIRERS: list[AcquirerProfile] = [
         bd_style=BDStyle.BOLT_ON,
         preferred_phase="Phase 2",
         max_deal_size_millions=12_000,
+        loe_cliffs=[
+            LOECliff(product_name="Vyvanse (lisdexamfetamine)", indication="ADHD/BED",
+                     peak_sales_millions=2_800, loe_year=2023, revenue_at_risk_millions=1_800,
+                     replacement_urgency="medium"),  # US generic entry 2023
+            LOECliff(product_name="Entyvio (vedolizumab)", indication="UC/CD",
+                     peak_sales_millions=6_500, loe_year=2026, revenue_at_risk_millions=4_500,
+                     replacement_urgency="critical"),
+        ],
         deal_capacity=DealCapacity(
             cash_available_for_deals_millions=6_500,
             max_comfortable_deal_size_millions=10_000,
@@ -396,6 +428,12 @@ NEW_ACQUIRERS: list[AcquirerProfile] = [
         annual_fcf_millions=3_500,
         market_cap_millions=70_000,
         ebitda_millions=5_000,
+        credit_rating="A3/A-",
+        loe_cliffs=[
+            LOECliff(product_name="Lixiana/Savaysa (edoxaban)", indication="anticoagulation/VTE",
+                     peak_sales_millions=2_000, loe_year=2025, revenue_at_risk_millions=1_200,
+                     replacement_urgency="medium"),
+        ],
         strategic_areas=["oncology", "hematology"],
         preferred_modalities=["antibody_drug_conjugate", "biologic", "bispecific"],
         bd_style=BDStyle.PLATFORM,
@@ -445,6 +483,11 @@ NEW_ACQUIRERS: list[AcquirerProfile] = [
         bd_style=BDStyle.BOLT_ON,
         preferred_phase="Phase 2",
         max_deal_size_millions=5_000,
+        loe_cliffs=[
+            LOECliff(product_name="Cimzia (certolizumab pegol)", indication="RA/PsA/CD/AS",
+                     peak_sales_millions=1_800, loe_year=2024, revenue_at_risk_millions=1_200,
+                     replacement_urgency="high"),
+        ],
         deal_capacity=DealCapacity(
             cash_available_for_deals_millions=3_500,
             max_comfortable_deal_size_millions=5_000,

@@ -133,10 +133,19 @@ MEGA_CAP_ACQUIRERS_V2: list[AcquirerProfile] = [
         company_id="boehringer", name="Boehringer Ingelheim", ticker=None,
         country="Germany",
         cash_millions=8_000, annual_fcf_millions=5_000, market_cap_millions=None,
+        ebitda_millions=7_000, credit_rating="AA (private, estimated)",
         strategic_areas=["cardiometabolic", "respiratory", "oncology", "animal_health",
                          "immunology"],
         preferred_modalities=["small_molecule", "biologic", "antibody"],
         bd_style=BDStyle.MIXED, preferred_phase="Phase 2", max_deal_size_millions=15_000,
+        loe_cliffs=[
+            LOECliff(product_name="Jardiance (empagliflozin)", indication="T2D/HFrEF/HFpEF/CKD",
+                     peak_sales_millions=5_500, loe_year=2027, revenue_at_risk_millions=3_800,
+                     replacement_urgency="high"),
+            LOECliff(product_name="Spiriva (tiotropium)", indication="COPD/asthma",
+                     peak_sales_millions=1_500, loe_year=2022, revenue_at_risk_millions=800,
+                     replacement_urgency="low"),  # erosion substantially complete
+        ],
         deal_capacity=DealCapacity(
             max_comfortable_deal_size_millions=15_000,
         ),
@@ -314,10 +323,18 @@ LARGE_BIOTECH_ACQUIRERS: list[AcquirerProfile] = [
         company_id="biogen", name="Biogen", ticker="BIIB",
         country="United States",
         cash_millions=2_000, debt_millions=6_000, annual_fcf_millions=1_500,
-        market_cap_millions=12_000,
+        market_cap_millions=12_000, ebitda_millions=4_500, credit_rating="Baa2/BBB",
         strategic_areas=["neuroscience", "rare_disease", "neurodegeneration"],
         preferred_modalities=["biologic", "small_molecule", "antisense"],
         bd_style=BDStyle.BOLT_ON, preferred_phase="Phase 2", max_deal_size_millions=5_000,
+        loe_cliffs=[
+            LOECliff(product_name="Tecfidera (dimethyl fumarate)", indication="relapsing MS",
+                     peak_sales_millions=4_000, loe_year=2020, revenue_at_risk_millions=2_500,
+                     replacement_urgency="low"),  # biosimilar erosion substantially complete
+            LOECliff(product_name="Spinraza (nusinersen)", indication="spinal muscular atrophy",
+                     peak_sales_millions=1_900, loe_year=2029, revenue_at_risk_millions=1_200,
+                     replacement_urgency="medium"),  # competition from Zolgensma/risdiplam
+        ],
         deal_capacity=DealCapacity(
             cash_available_for_deals_millions=2_000, max_comfortable_deal_size_millions=5_000,
         ),
@@ -472,10 +489,15 @@ LARGE_BIOTECH_ACQUIRERS: list[AcquirerProfile] = [
         company_id="jazz_pharma", name="Jazz Pharmaceuticals", ticker="JAZZ",
         country="Ireland",
         cash_millions=800, debt_millions=3_500, annual_fcf_millions=800,
-        market_cap_millions=4_000,
+        market_cap_millions=4_000, ebitda_millions=1_200, credit_rating="B1/BB-",
         strategic_areas=["neuroscience", "oncology"],
         preferred_modalities=["small_molecule", "biologic"],
         bd_style=BDStyle.BOLT_ON, preferred_phase="Phase 3", max_deal_size_millions=3_000,
+        loe_cliffs=[
+            LOECliff(product_name="Xyrem (sodium oxybate)", indication="narcolepsy (cataplexy/EDS)",
+                     peak_sales_millions=1_600, loe_year=2023, revenue_at_risk_millions=800,
+                     replacement_urgency="medium"),  # managed via Xywav (low-sodium oxybate) switch
+        ],
         deal_capacity=DealCapacity(
             cash_available_for_deals_millions=800, max_comfortable_deal_size_millions=3_000,
         ),
