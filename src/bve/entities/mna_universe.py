@@ -56,6 +56,7 @@ from bve.entities.acquirer_registry import (
     MEGA_CAP_ACQUIRERS_V2,
     LARGE_BIOTECH_ACQUIRERS,
     CHINA_PHARMA_ACQUIRERS,
+    SPECIALTY_ACQUIRERS,
 )
 from bve.entities.target_registry import (
     TARGET_UNIVERSE_V3,
@@ -2087,6 +2088,9 @@ ACQUIRER_UNIVERSE_V2: dict[str, list[AcquirerProfile]] = {
     # acquirer_registry Phase 2b (BeiGene, Hengrui, Innovent, Akeso, Hansoh,
     #                              CSPC, Sino Biopharm)
     "china_pharma": CHINA_PHARMA_ACQUIRERS,
+    # acquirer_registry_specialty (BioNTech, Ionis, Incyte, Neurocrine, Sobi,
+    #                               Grifols, argenx, Genmab)
+    "specialty_biotech": SPECIALTY_ACQUIRERS,
 }
 
 # Flat list of all unique acquirers (deduped by company_id)

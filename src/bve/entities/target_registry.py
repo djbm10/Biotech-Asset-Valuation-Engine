@@ -65,6 +65,17 @@ from bve.entities.target_registry_asia import (
     JAPAN_BIOTECH_TARGETS,
     INDIA_PHARMA_TARGETS,
 )
+from bve.entities.target_registry_addl import (
+    ONCOLOGY_ADDL,
+    IMMUNOLOGY_ADDL,
+    RARE_DISEASE_ADDL,
+    CNS_ADDL,
+    CARDIOMETABOLIC_ADDL,
+    HEMATOLOGY_ADDL,
+    OPHTHALMOLOGY_ADDL,
+    INFECTIOUS_DISEASE_ADDL,
+    PLATFORM_ADDL,
+)
 
 
 # ---------------------------------------------------------------------------
@@ -96,31 +107,31 @@ STRATEGIC_BIOTECH_HYBRIDS: list[str] = [
 # ---------------------------------------------------------------------------
 TARGET_UNIVERSE_V3: dict[str, list[WatchlistTarget]] = {
     # Section A — Oncology (precision oncology, immuno-oncology, ADC, RAS, etc.)
-    "oncology": ONCOLOGY_TARGETS,
+    "oncology": ONCOLOGY_TARGETS + ONCOLOGY_ADDL,
 
     # Section B — Immunology & Inflammation (autoimmune, TYK2, IL targets, etc.)
-    "immunology": IMMUNOLOGY_TARGETS,
+    "immunology": IMMUNOLOGY_TARGETS + IMMUNOLOGY_ADDL,
 
     # Section C — Rare Disease & Genetic Medicines (gene therapy, oligonucleotide, base editing)
-    "rare_disease": RARE_DISEASE_TARGETS,
+    "rare_disease": RARE_DISEASE_TARGETS + RARE_DISEASE_ADDL,
 
     # Section D — CNS & Neuroscience (neurodegeneration, psychiatry, epilepsy)
-    "cns": CNS_TARGETS,
+    "cns": CNS_TARGETS + CNS_ADDL,
 
     # Section E — Cardiometabolic (NASH/MASH, obesity, lipids, cardiorenal)
-    "cardiometabolic": CARDIOMETABOLIC_TARGETS,
+    "cardiometabolic": CARDIOMETABOLIC_TARGETS + CARDIOMETABOLIC_ADDL,
 
     # Section F — Hematology & Complement (hemoglobinopathies, PNH, AML, MDS)
-    "hematology": HEMATOLOGY_TARGETS,
+    "hematology": HEMATOLOGY_TARGETS + HEMATOLOGY_ADDL,
 
     # Section G — Ophthalmology (wet AMD, geographic atrophy, gene therapy)
-    "ophthalmology": OPHTHALMOLOGY_TARGETS,
+    "ophthalmology": OPHTHALMOLOGY_TARGETS + OPHTHALMOLOGY_ADDL,
 
     # Section H — Infectious Disease & Vaccines (RSV, flu, HBV, antifungal)
-    "infectious_disease": INFECTIOUS_DISEASE_TARGETS,
+    "infectious_disease": INFECTIOUS_DISEASE_TARGETS + INFECTIOUS_DISEASE_ADDL,
 
     # Section I — Platform / AI Drug Discovery (RNA-seq, protein ML, sequencing)
-    "platform": PLATFORM_TARGETS,
+    "platform": PLATFORM_TARGETS + PLATFORM_ADDL,
 
     # Section J — China Biotech (primarily licensing targets, some full M&A)
     "china_biotech": CHINA_BIOTECH_TARGETS,

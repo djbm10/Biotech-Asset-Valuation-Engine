@@ -21,6 +21,7 @@ from bve.entities.acquirer import (
     BDHistoryDetailed, AcquisitionRecord, LicenseRecord,
     AntitrustProfile, LOECliff,
 )
+from bve.entities.acquirer_registry_specialty import SPECIALTY_ACQUIRERS
 
 # ===========================================================================
 # Phase 1 — Missing mega-cap pharma acquirers
@@ -739,6 +740,7 @@ CHINA_PHARMA_ACQUIRERS: list[AcquirerProfile] = [
 
 ALL_NEW_ACQUIRERS: list[AcquirerProfile] = (
     MEGA_CAP_ACQUIRERS_V2 + LARGE_BIOTECH_ACQUIRERS + CHINA_PHARMA_ACQUIRERS
+    + SPECIALTY_ACQUIRERS
 )
 
 ACQUIRER_REGISTRY_BY_ID: dict[str, AcquirerProfile] = {
