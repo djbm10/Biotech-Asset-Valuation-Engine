@@ -1,0 +1,44 @@
+# Role-Based Access Control Permissions
+# Defines what each role is allowed to do.
+
+roles:
+  viewer:
+    permissions:
+      - view_valuation
+      - view_watchlist
+
+  analyst:
+    permissions:
+      - view_valuation
+      - view_watchlist
+      - edit_assumptions
+      - run_calibration
+      - view_proprietary_acquirer_profiles
+
+  reviewer:
+    permissions:
+      - view_valuation
+      - view_watchlist
+      - edit_assumptions
+      - approve_assumptions
+      - run_calibration
+      - export_memo
+      - view_proprietary_acquirer_profiles
+      - view_trade_recommendations
+
+  admin:
+    permissions:
+      - view_valuation
+      - view_watchlist
+      - edit_assumptions
+      - approve_assumptions
+      - run_calibration
+      - export_memo
+      - view_proprietary_acquirer_profiles
+      - view_trade_recommendations
+      - manage_users
+      - view_audit_log
+
+  external_read_only:
+    permissions:
+      - view_valuation
