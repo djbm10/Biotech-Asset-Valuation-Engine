@@ -39,6 +39,7 @@ from bve.models.dilution_model import DilutionAnalysis, compute_dilution_scenari
 from bve.models.runway_forecast import RunwayForecastV2, compute_runway, estimate_burn_rate
 from bve.models.analog_matcher import AnalogMatchResult, find_analogs
 from bve.models.catalyst_payoff import CatalystPayoffResult, compute_catalyst_payoff
+from bve.analysis.variant_perception import VariantPerceptionResult, back_solve_variant_perception
 from bve.valuation.assumptions import build_assumption_log
 from bve.valuation.outputs import SensitivityPoint, ValuationOutput
 from bve.valuation.scenario import build_scenarios
@@ -305,6 +306,7 @@ class ValuationEngine:
         dilution_analysis = self._compute_dilution_analysis(rnpv)
         analog_match = self._compute_analog_match()
         catalyst_payoff = self._compute_catalyst_payoff(trials, market_model, rnpv)
+        variant_perception = self._compute_variant_perception_result(rnpv, market_model)
         top_acquirers = rank_acquirers(
             therapeutic_area=self.asset.therapeutic_area.value,
             modality=self.asset.modality.value,
@@ -342,6 +344,7 @@ class ValuationEngine:
             top_acquirers=top_acquirers,
             runway_forecast=runway_forecast,
             dilution_analysis=dilution_analysis,
+            variant_perception=variant_perception,
         )
 
     # -----------------------------------------------------------------------
@@ -567,6 +570,38 @@ class ValuationEngine:
             if not result.matched_analogs:
                 return None
             return result
+        except Exception:
+            return None
+
+    def _compute_variant_perception_result(
+        self,
+        rnpv: "RNPVResult",
+        market_model: "MarketModel",
+    ) -> Optional[VariantPerceptionResult]:
+        """
+        Back-solve market's implicit assumptions from current stock price.
+
+        Builds a minimal duck-type stub that satisfies back_solve_variant_perception's
+        input requirements without a fully-constructed ValuationOutput (which would
+        create a circular dependency at construction time).
+
+        Returns None when company.current_price is not set or on any exception.
+        """
+        if not self.company.current_price or self.company.current_price <= 0.0:
+            return None
+        try:
+            class _OutputStub:
+                """Minimal duck-type for back_solve_variant_perception."""
+                def __init__(self, company, rnpv, market_model):
+                    self.company = company
+                    self.rnpv = rnpv
+                    self.market_model = market_model
+
+            stub = _OutputStub(self.company, rnpv, market_model)
+            return back_solve_variant_perception(
+                stub,  # type: ignore[arg-type]
+                emit_guardrail_warnings=False,
+            )
         except Exception:
             return None
 

@@ -35,6 +35,8 @@ from bve.models.dilution_model import DilutionAnalysis
 from bve.models.analog_matcher import AnalogMatchResult
 # Catalyst payoff (models module is standalone — no circular import)
 from bve.models.catalyst_payoff import CatalystPayoffResult
+# Variant perception back-solve (analysis module; only imports outputs under TYPE_CHECKING — no cycle)
+from bve.analysis.variant_perception import VariantPerceptionResult
 # NOTE: bve.reporting.evidence and bve.intelligence.schemas cannot be imported here:
 #   bve.reporting.__init__ → memo_generator → ValuationOutput (circular)
 #   bve.intelligence.__init__ → phase2 → valuation_integration → ValuationOutput (circular)
@@ -225,6 +227,18 @@ class ValuationOutput(BaseModel):
             "Historical launch analogs matched by mechanism_of_action and indication. "
             "Contains median_peak_sales_millions as a sanity-check reference for the model's "
             "commercial assumption. None when no matching analogs are found."
+        ),
+    )
+
+    # Variant perception back-solve (auto-populated by ValuationEngine when price data is available)
+    variant_perception: Optional[VariantPerceptionResult] = Field(
+        default=None,
+        description=(
+            "Back-solved market assumptions from current stock price. "
+            "Isolates this asset's implied EV, then inverts the rNPV equation to infer "
+            "market-implied POS, peak sales, penetration, price, and eligible patients. "
+            "None when company.current_price is not set. "
+            "variant_perception_category: clinical | commercial | pricing | mixed | allocation | indeterminate."
         ),
     )
 
@@ -446,6 +460,33 @@ class ValuationOutput(BaseModel):
                 if (self.analog_match and self.analog_match.median_peak_sales_millions
                     and self.analog_match.median_peak_sales_millions > 0)
                 else None
+            ),
+            # Variant perception back-solve (None when no price data)
+            "vp_category": (
+                self.variant_perception.variant_perception_category
+                if self.variant_perception else None
+            ),
+            "vp_implied_pos": (
+                self.variant_perception.base.implied_pos
+                if self.variant_perception and self.variant_perception.base.implied_pos is not None
+                else None
+            ),
+            "vp_pos_gap_pp": (
+                round(
+                    (self.rnpv.cumulative_success_probability
+                     - self.variant_perception.base.implied_pos) * 100, 1
+                )
+                if (self.variant_perception
+                    and self.variant_perception.base.implied_pos is not None)
+                else None
+            ),
+            "vp_implied_peak_sales_millions": (
+                self.variant_perception.base.implied_peak_sales_millions
+                if self.variant_perception else None
+            ),
+            "vp_memo": (
+                self.variant_perception.memo_interpretation
+                if self.variant_perception else None
             ),
             # Dilution flag (None when no price data)
             "dilution_weighted_pct": (
