@@ -389,8 +389,8 @@ def _build_trade_memo(output: "ValuationOutput") -> ICMemo:
         )
     else:
         rec = (
-            f"**Monitor / hold.** Insufficient variant perception edge at current price. "
-            f"Revisit if price dislocates meaningfully from NAV or catalyst timeline firms up."
+            "**Monitor / hold.** Insufficient variant perception edge at current price. "
+            "Revisit if price dislocates meaningfully from NAV or catalyst timeline firms up."
         )
     sections.append(ICMemoSection("Recommendation", rec, required=True))
 

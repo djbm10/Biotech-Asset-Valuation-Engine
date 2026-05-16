@@ -28,7 +28,7 @@ Usage
 """
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from enum import Enum
 from typing import TYPE_CHECKING, Any, Optional
 
@@ -364,7 +364,6 @@ def _generate_trade_view(output: "ValuationOutput") -> ModeView:
 
     # Action
     if vp_pos_gap and abs(vp_pos_gap) >= 15:
-        direction_str = "long" if vp_pos_gap > 0 else "short"
         action = (
             f"Variant perception trade: model is {abs(vp_pos_gap):.0f}pp "
             f"{'above' if vp_pos_gap > 0 else 'below'} market-implied POS — "
