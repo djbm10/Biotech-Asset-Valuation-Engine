@@ -139,11 +139,14 @@ MEGA_CAP_ACQUIRERS_V2: list[AcquirerProfile] = [
         preferred_modalities=["small_molecule", "biologic", "antibody"],
         bd_style=BDStyle.MIXED, preferred_phase="Phase 2", max_deal_size_millions=15_000,
         loe_cliffs=[
-            LOECliff(product_name="Jardiance (empagliflozin)", indication="T2D/HFrEF/HFpEF/CKD",
-                     peak_sales_millions=5_500, loe_year=2027, revenue_at_risk_millions=3_800,
-                     replacement_urgency="high"),
+            LOECliff(product_name="Jardiance (empagliflozin) — BI share", indication="T2D/HFrEF/HFpEF/CKD",
+                     peak_sales_millions=2_750, loe_year=2027, revenue_at_risk_millions=1_900,
+                     replacement_urgency="high",
+                     percent_of_company_revenue=0.11),
+            # Note: Total Jardiance sales ~$5.5B but co-promoted 50/50 with Eli Lilly.
+            # BI receives roughly half the economics. US composition-of-matter patents ~2025-2027.
             LOECliff(product_name="Spiriva (tiotropium)", indication="COPD/asthma",
-                     peak_sales_millions=1_500, loe_year=2022, revenue_at_risk_millions=800,
+                     peak_sales_millions=1_500, loe_year=2022, revenue_at_risk_millions=600,
                      replacement_urgency="low"),  # erosion substantially complete
         ],
         deal_capacity=DealCapacity(

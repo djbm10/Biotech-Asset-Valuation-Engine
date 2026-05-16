@@ -455,7 +455,7 @@ ACQUIRER_UNIVERSE: list[AcquirerProfile] = [
         market_cap_millions=289_717,
         net_debt_millions=38_100,
         ebitda_millions=19_000,
-        credit_rating="AA-/Aa3",
+        credit_rating="A+/A1",  # Novartis rated A+ (S&P) / A1 (Moody's); AA- is too high
         strategic_areas=["oncology", "cardiovascular", "immunology", "neuroscience"],
         preferred_modalities=["small_molecule", "biologic", "radioligand"],
         bd_style=BDStyle.MIXED,
@@ -491,7 +491,7 @@ ACQUIRER_UNIVERSE: list[AcquirerProfile] = [
         annual_fcf_millions=15_000,
         market_cap_millions=240_000,
         ebitda_millions=20_000,
-        credit_rating="AA/Aa1",
+        credit_rating="AA/Aa3",  # Roche: S&P AA, Moody's Aa3 (not Aa1)
         strategic_areas=["oncology", "immunology", "neuroscience", "infectious_disease"],
         preferred_modalities=["biologic", "antibody", "small_molecule"],
         bd_style=BDStyle.PLATFORM,
@@ -588,8 +588,11 @@ ACQUIRER_UNIVERSE: list[AcquirerProfile] = [
         credit_rating="A3/BBB+",
         loe_cliffs=[
             LOECliff(product_name="Veklury (remdesivir)", indication="COVID-19",
-                     peak_sales_millions=3_000, loe_year=2024, revenue_at_risk_millions=2_000,
-                     replacement_urgency="medium"),
+                     peak_sales_millions=3_000, loe_year=2034, revenue_at_risk_millions=1_500,
+                     replacement_urgency="low",
+                     percent_of_company_revenue=0.05),
+            # Note: Veklury decline is market obsolescence (pandemic waning), NOT patent expiry.
+            # Core patents extend to ~2034. Revenue risk is from lack of demand, not generics.
             LOECliff(product_name="Biktarvy (BIC/FTC/TAF)", indication="HIV-1",
                      peak_sales_millions=12_000, loe_year=2033, revenue_at_risk_millions=8_000,
                      replacement_urgency="low"),

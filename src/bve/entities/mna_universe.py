@@ -430,9 +430,12 @@ NEW_ACQUIRERS: list[AcquirerProfile] = [
         ebitda_millions=5_000,
         credit_rating="A3/A-",
         loe_cliffs=[
-            LOECliff(product_name="Lixiana/Savaysa (edoxaban)", indication="anticoagulation/VTE",
-                     peak_sales_millions=2_000, loe_year=2025, revenue_at_risk_millions=1_200,
-                     replacement_urgency="medium"),
+            LOECliff(product_name="Lixiana (edoxaban) — Japan/EU", indication="anticoagulation/VTE",
+                     peak_sales_millions=2_000, loe_year=2026, revenue_at_risk_millions=900,
+                     replacement_urgency="medium",
+                     percent_of_company_revenue=0.12),
+            # Note: US Savaysa has negligible market share (~3% DOAC). Risk is Japan/EU-centric.
+            # Biosimilar entrants in EU edoxaban market accelerating post-2025.
         ],
         strategic_areas=["oncology", "hematology"],
         preferred_modalities=["antibody_drug_conjugate", "biologic", "bispecific"],
