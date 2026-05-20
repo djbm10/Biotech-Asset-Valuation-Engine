@@ -14,6 +14,7 @@ from bve.intelligence.acquirer_fit import (
     AcquirerFitRow,
 )
 from bve.intelligence.acquirer_profiles import AcquirerProfileLoader
+from bve.intelligence.ma_deal_type_formulas import DealTypeOverlayResult
 from bve.intelligence.knowledge_layer import MemoRecord, SourceTrace
 from bve.models.deal_economics import DealEconomics, Milestone, MilestoneDirection, MilestoneTrigger
 from bve.models.drug_asset_program import DrugAssetProgram
@@ -55,6 +56,8 @@ class AcquisitionMemo(BaseModel):
     present_value_of_terms_millions: float
     indicative_terms: IndicativeDealTerms
     rendered_markdown: str
+    deal_type_overlay: Optional[DealTypeOverlayResult] = Field(default=None,
+        description="Deal-type formula overlay result from the 0B scoring engine")
     source_trace: SourceTrace = Field(
         default_factory=lambda: SourceTrace(
             source_type="acquisition_memo_generator",
@@ -344,6 +347,7 @@ class AcquisitionMemoGenerator:
         indicative_terms: IndicativeDealTerms,
         standalone_output,
         post_deal_output,
+        deal_type_overlay: Optional[DealTypeOverlayResult] = None,
     ) -> str:
         pv_of_terms = float(standalone_output.rnpv.rnpv_millions) - float(post_deal_output.rnpv.rnpv_millions)
         lines = [
@@ -398,8 +402,55 @@ class AcquisitionMemoGenerator:
                 f"- Explanation: {fit_row.explanation}",
             ]
         )
+        if deal_type_overlay is not None:
+            lines.append(render_deal_type_overlay_section(deal_type_overlay))
         return "\n".join(lines)
 
 
 def _fmt_millions(value: float) -> str:
     return f"${value:,.1f}M"
+
+
+def render_deal_type_overlay_section(overlay: DealTypeOverlayResult) -> str:
+    """Render a markdown section summarising the deal-type formula overlay."""
+    lines = [
+        "",
+        "---",
+        "",
+        "## 10. Deal-Type Formula Overlay",
+        "",
+        f"**Primary deal type:** `{overlay.primary_deal_type}`",
+    ]
+    if overlay.secondary_deal_types:
+        lines.append(
+            "**Secondary deal types:** "
+            + ", ".join(f"`{s}`" for s in overlay.secondary_deal_types)
+        )
+    lines.extend(
+        [
+            f"**Blended overlay score:** {overlay.blended_deal_type_score:.3f}",
+            f"**Confidence:** {overlay.confidence:.2f}",
+            "",
+            "### Active Formula Scores",
+            "",
+            "| Deal Type | Weight | Raw Score | Weighted Score |",
+            "|-----------|--------|-----------|----------------|",
+        ]
+    )
+    for fs in sorted(overlay.formula_scores, key=lambda f: f.weight, reverse=True):
+        lines.append(
+            f"| `{fs.deal_type}` | {fs.weight:.2f} "
+            f"| {fs.raw_score:.3f} | {fs.weighted_score:.3f} |"
+        )
+
+    if overlay.rationale:
+        lines.extend(["", "### Rationale", ""])
+        for r in overlay.rationale:
+            lines.append(f"- {r}")
+
+    if overlay.data_gaps:
+        lines.extend(["", "### Data Gaps", ""])
+        for gap in overlay.data_gaps:
+            lines.append(f"- {gap}")
+
+    return "\n".join(lines)

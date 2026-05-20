@@ -39,6 +39,12 @@ from typing import Any, Optional
 
 from pydantic import BaseModel, ConfigDict, Field
 
+from bve.intelligence.ma_deal_type_formulas import (
+    DealTypeFormulaInput,
+    DealTypeOverlayResult,
+    compute_deal_type_overlay,
+)
+
 
 # ---------------------------------------------------------------------------
 # Enums
@@ -340,6 +346,11 @@ class Layer4Inputs(BaseModel):
     deal_type_classification: Optional[Any] = Field(default=None,
         description="DealTypeClassification from Layer 0 0B gate; used to annotate output")
 
+    # Deal-type formula input (optional — enables overlay score computation)
+    deal_type_formula_input: Optional[DealTypeFormulaInput] = Field(default=None,
+        description="Signal bag for the 6 deal-type formulas; when provided, "
+                    "deal_type_overlay and final_score_with_overlay are computed")
+
 
 class Layer4Output(BaseModel):
     """Full BD watchlist classification and action routing output."""
@@ -384,6 +395,13 @@ class Layer4Output(BaseModel):
         description="Secondary deal archetypes with weight >= 0.20")
     recommended_model: Optional[str] = Field(default=None,
         description="Recommended scoring model from DealTypeClassification")
+
+    # Deal-type formula overlay (None when deal_type_formula_input not provided)
+    deal_type_overlay: Optional[DealTypeOverlayResult] = Field(default=None,
+        description="Per-deal-type formula scores and blended overlay signal")
+    final_score_with_overlay: Optional[float] = Field(default=None, ge=0.0, le=1.0,
+        description="Advisory blended score: 0.70×final_score + 0.30×blended_deal_type_score; "
+                    "respects the same cap as final_score")
 
 
 # ---------------------------------------------------------------------------
@@ -643,6 +661,19 @@ def compute_layer4(
         if rm is not None:
             recommended_model = str(rm.value) if hasattr(rm, "value") else str(rm)
 
+    # Compute deal-type formula overlay when formula input is provided
+    overlay: Optional[DealTypeOverlayResult] = None
+    final_score_with_overlay: Optional[float] = None
+    if inputs.deal_type_formula_input is not None:
+        overlay = compute_deal_type_overlay(
+            inp=inputs.deal_type_formula_input,
+            primary_deal_type=primary_deal_type,
+            secondary_deal_types=secondary_deal_types,
+        )
+        # 70/30 blend; cap to the same ceiling as final_score
+        raw_blend = 0.70 * inputs.final_score + 0.30 * overlay.blended_deal_type_score
+        final_score_with_overlay = min(inputs.final_score, max(0.0, raw_blend))
+
     return Layer4Output(
         target_name=target_name,
         acquirer_id=acquirer_id,
@@ -661,4 +692,6 @@ def compute_layer4(
         primary_deal_type=primary_deal_type,
         secondary_deal_types=secondary_deal_types,
         recommended_model=recommended_model,
+        deal_type_overlay=overlay,
+        final_score_with_overlay=final_score_with_overlay,
     )
