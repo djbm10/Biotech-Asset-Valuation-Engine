@@ -87,89 +87,89 @@ class TestHardExclusion:
     def test_non_biotech_diversified_excluded(self):
         t = _target(company_taxonomy=CompanyTaxonomy.DIVERSIFIED_CONGLOMERATE)
         dc = _dc(t)
-        passes, code, _ = _evaluate_hard_exclusion(t, dc)
+        passes, code, *_ = _evaluate_hard_exclusion(t, dc)
         assert not passes
         assert code == ExclusionCode.NON_BIOTECH_PHARMA
 
     def test_other_taxonomy_excluded(self):
         t = _target(company_taxonomy=CompanyTaxonomy.OTHER)
         dc = _dc(t)
-        passes, code, _ = _evaluate_hard_exclusion(t, dc)
+        passes, code, *_ = _evaluate_hard_exclusion(t, dc)
         assert not passes
         assert code == ExclusionCode.NON_BIOTECH_PHARMA
 
     def test_known_acquirer_taxonomy_excluded(self):
         t = _target(company_taxonomy=CompanyTaxonomy.ACQUIRER)
         dc = _dc(t)
-        passes, code, _ = _evaluate_hard_exclusion(t, dc)
+        passes, code, *_ = _evaluate_hard_exclusion(t, dc)
         assert not passes
         assert code == ExclusionCode.KNOWN_ACQUIRER
 
     def test_spac_shell_excluded(self):
         t = _target(company_taxonomy=CompanyTaxonomy.SPAC_SHELL)
         dc = _dc(t)
-        passes, code, _ = _evaluate_hard_exclusion(t, dc)
+        passes, code, *_ = _evaluate_hard_exclusion(t, dc)
         assert not passes
         assert code == ExclusionCode.SPAC_SHELL
 
     def test_self_acquisition_excluded(self):
         t = _target(ticker="ACME", acquirer_ticker="ACME")
         dc = _dc(t)
-        passes, code, _ = _evaluate_hard_exclusion(t, dc)
+        passes, code, *_ = _evaluate_hard_exclusion(t, dc)
         assert not passes
         assert code == ExclusionCode.SELF_ACQUISITION
 
     def test_self_acquisition_case_insensitive(self):
         t = _target(ticker="acme", acquirer_ticker="ACME")
         dc = _dc(t)
-        passes, code, _ = _evaluate_hard_exclusion(t, dc)
+        passes, code, *_ = _evaluate_hard_exclusion(t, dc)
         assert not passes
         assert code == ExclusionCode.SELF_ACQUISITION
 
     def test_different_acquirer_ticker_passes(self):
         t = _target(ticker="ACME", acquirer_ticker="BIGPHARMA")
         dc = _dc(t)
-        passes, code, _ = _evaluate_hard_exclusion(t, dc)
+        passes, code, *_ = _evaluate_hard_exclusion(t, dc)
         assert passes
         assert code is None
 
     def test_no_lead_asset_no_platform_excluded(self):
         t = _target(lead_asset_present=False, is_platform_company=False)
         dc = _dc(t)
-        passes, code, _ = _evaluate_hard_exclusion(t, dc)
+        passes, code, *_ = _evaluate_hard_exclusion(t, dc)
         assert not passes
         assert code == ExclusionCode.NO_IDENTIFIABLE_ASSET
 
     def test_no_lead_asset_but_platform_passes(self):
         t = _target(lead_asset_present=False, is_platform_company=True)
         dc = _dc(t)
-        passes, code, _ = _evaluate_hard_exclusion(t, dc)
+        passes, code, *_ = _evaluate_hard_exclusion(t, dc)
         assert passes
 
     def test_failed_lead_no_replacement_excluded(self):
         t = _target(lead_asset_status="failed", has_replacement_asset=False)
         dc = _dc(t)
-        passes, code, _ = _evaluate_hard_exclusion(t, dc)
+        passes, code, *_ = _evaluate_hard_exclusion(t, dc)
         assert not passes
         assert code == ExclusionCode.PERMANENTLY_IMPAIRED_LEAD
 
     def test_failed_lead_with_replacement_passes(self):
         t = _target(lead_asset_status="failed", has_replacement_asset=True)
         dc = _dc(t)
-        passes, code, _ = _evaluate_hard_exclusion(t, dc)
+        passes, code, *_ = _evaluate_hard_exclusion(t, dc)
         assert passes
 
     def test_discontinued_no_replacement_excluded(self):
         t = _target(lead_asset_status="discontinued", has_replacement_asset=False)
         dc = _dc(t)
-        passes, code, _ = _evaluate_hard_exclusion(t, dc)
+        passes, code, *_ = _evaluate_hard_exclusion(t, dc)
         assert not passes
         assert code == ExclusionCode.PERMANENTLY_IMPAIRED_LEAD
 
     def test_safety_blocked_no_replacement_excluded(self):
         t = _target(lead_asset_status="safety_blocked", has_replacement_asset=False)
         dc = _dc(t)
-        passes, code, _ = _evaluate_hard_exclusion(t, dc)
+        passes, code, *_ = _evaluate_hard_exclusion(t, dc)
         assert not passes
         assert code == ExclusionCode.PERMANENTLY_IMPAIRED_LEAD
 
@@ -183,26 +183,26 @@ class TestHardExclusion:
         )
         dc = _dc(t)
         assert dc.grade == DataConfidenceGrade.LOW
-        passes, code, _ = _evaluate_hard_exclusion(t, dc)
+        passes, code, *_ = _evaluate_hard_exclusion(t, dc)
         assert not passes
         assert code == ExclusionCode.INSUFFICIENT_DATA
 
     def test_diagnostics_taxonomy_passes(self):
         t = _target(company_taxonomy=CompanyTaxonomy.DIAGNOSTICS)
         dc = _dc(t)
-        passes, code, _ = _evaluate_hard_exclusion(t, dc)
+        passes, code, *_ = _evaluate_hard_exclusion(t, dc)
         assert passes
 
     def test_tools_taxonomy_passes(self):
         t = _target(company_taxonomy=CompanyTaxonomy.TOOLS)
         dc = _dc(t)
-        passes, code, _ = _evaluate_hard_exclusion(t, dc)
+        passes, code, *_ = _evaluate_hard_exclusion(t, dc)
         assert passes
 
     def test_platform_taxonomy_passes(self):
         t = _target(company_taxonomy=CompanyTaxonomy.PLATFORM)
         dc = _dc(t)
-        passes, code, _ = _evaluate_hard_exclusion(t, dc)
+        passes, code, *_ = _evaluate_hard_exclusion(t, dc)
         assert passes
 
 
@@ -222,20 +222,25 @@ class TestDealTypeClassification:
         assert dt != DealType.PLATFORM_ACQUISITION
 
     def test_approved_revenue_over_50pct_routes_commercial_franchise(self):
-        # Not a hard fail — routes to commercial_franchise_acquisition model
+        # Not a hard fail — routes to commercial_franchise_acquisition model.
+        # Note: routing_note is now the model_routing_reason (no percentage string).
         t = _target(approved_revenue_share=0.65)
         dt, note = _classify_deal_type(t)
         assert dt == DealType.COMMERCIAL_FRANCHISE_ACQUISITION
-        assert "65%" in note
+        assert "commercial_franchise_acquisition" in note
 
-    def test_approved_revenue_exactly_50pct_does_not_route_commercial(self):
-        # 50% is not >50%
+    def test_approved_revenue_exactly_50pct_routes_commercial(self):
+        # With weight-based classifier, 50% approved revenue gives commercial
+        # the highest weight (0.50) vs lead asset (0.40), so commercial wins.
         t = _target(approved_revenue_share=0.50)
         dt, _ = _classify_deal_type(t)
-        assert dt != DealType.COMMERCIAL_FRANCHISE_ACQUISITION
+        assert dt == DealType.COMMERCIAL_FRANCHISE_ACQUISITION
 
     def test_distressed_optionality_routing(self):
-        t = _target(financing_pressure_high=True, lead_asset_quality_low=True)
+        # revenue_concentration=0.0 → no dominant single asset, making distress
+        # (0.40 raw) the highest share after normalization.
+        t = _target(financing_pressure_high=True, lead_asset_quality_low=True,
+                    revenue_concentration=0.0)
         dt, _ = _classify_deal_type(t)
         assert dt == DealType.DISTRESSED_OPTIONALITY
 
@@ -244,10 +249,14 @@ class TestDealTypeClassification:
         dt, _ = _classify_deal_type(t)
         assert dt == DealType.PIPELINE_PORTFOLIO_TAKEOUT
 
-    def test_asset_license_routing_small_ev_with_partnership(self):
+    def test_asset_license_routing_with_strong_encumbrance(self):
+        # Existing partnership + small EV + licensed_in rights + high royalty stack
+        # are required to push licensing share above lead asset share.
         t = _target(
             has_existing_partnership=True,
             enterprise_value_millions=300.0,
+            asset_rights_scope="licensed_in",
+            royalty_stack_rate=0.20,
             product_count=1,
         )
         dt, _ = _classify_deal_type(t)
@@ -258,12 +267,22 @@ class TestDealTypeClassification:
         dt, _ = _classify_deal_type(t)
         assert dt == DealType.SINGLE_ASSET_TAKEOUT
 
-    def test_platform_takes_priority_over_commercial(self):
-        # Platform + high approved revenue → Platform wins (checked first)
+    def test_platform_with_dominant_revenue_routes_commercial_primary(self):
+        # With 80% approved revenue, commercial franchise weight (0.80) dominates
+        # platform weight (0.55) in the weight-based classifier.
+        # Platform is a strong secondary with PLATFORM_LITE modifier.
+        from bve.intelligence.deal_type_classification import classify_deal_type, DealModifier
         t = _target(is_platform_company=True, platform_validated=True,
                     approved_revenue_share=0.80)
         dt, _ = _classify_deal_type(t)
-        assert dt == DealType.PLATFORM_ACQUISITION
+        assert dt == DealType.COMMERCIAL_FRANCHISE_ACQUISITION
+        # Platform signal should appear as secondary or PLATFORM_LITE modifier
+        cls = classify_deal_type(t)
+        has_platform_signal = (
+            DealType.PLATFORM_ACQUISITION in cls.secondary_deal_types
+            or DealModifier.PLATFORM_LITE in cls.modifiers
+        )
+        assert has_platform_signal
 
 
 # ===========================================================================

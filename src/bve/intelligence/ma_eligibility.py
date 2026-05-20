@@ -19,9 +19,24 @@ the scoring layer can consume to:
 from __future__ import annotations
 
 from enum import Enum
-from typing import Literal, Optional
+from typing import Any, Literal, Optional
 
 from pydantic import BaseModel, ConfigDict, Field
+
+# Forward reference for the rich ExclusionAssessment type (imported lazily in
+# _evaluate_hard_exclusion to avoid a circular dependency at module load time).
+# Typed as Any here so mypy does not need to resolve the deferred import.
+ExclusionAssessmentRef = Any
+ExclusionStatusRef = Any
+
+# DealType and DealTypeClassification live in deal_type_classification; imported
+# here so existing callers (e.g. test_sprint36_ma_layer0) can continue to import
+# DealType directly from this module.
+from bve.intelligence.deal_type_classification import (  # noqa: E402
+    DealType,
+    DealTypeClassification,
+    classify_deal_type,
+)
 
 
 # ---------------------------------------------------------------------------
@@ -51,7 +66,13 @@ _ELIGIBLE_TAXONOMIES: frozenset[CompanyTaxonomy] = frozenset({
 
 
 class ExclusionCode(str, Enum):
-    """Reason a target was hard-excluded by Layer 0 (0A)."""
+    """Reason a target was hard-excluded by Layer 0 (0A).
+
+    Legacy codes are preserved for backward compatibility.
+    New codes (ALREADY_ACQUIRED, ROUTED_TO_OTHER_MODEL) were added when 0A
+    was replaced by the structured 11-gate ExclusionEngine in
+    ``bve.intelligence.exclusions``.
+    """
     NON_BIOTECH_PHARMA = "non_biotech_pharma"
     KNOWN_ACQUIRER = "known_acquirer"
     SELF_ACQUISITION = "self_acquisition"
@@ -59,16 +80,9 @@ class ExclusionCode(str, Enum):
     NO_IDENTIFIABLE_ASSET = "no_identifiable_asset"
     PERMANENTLY_IMPAIRED_LEAD = "permanently_impaired_lead"
     INSUFFICIENT_DATA = "insufficient_data"
-
-
-class DealType(str, Enum):
-    """Deal model the target is routed to (0B)."""
-    SINGLE_ASSET_TAKEOUT = "single_asset_takeout"
-    PIPELINE_PORTFOLIO_TAKEOUT = "pipeline_portfolio_takeout"
-    PLATFORM_ACQUISITION = "platform_acquisition"
-    COMMERCIAL_FRANCHISE_ACQUISITION = "commercial_franchise_acquisition"
-    ASSET_LICENSE_PARTNERSHIP = "asset_license_partnership"
-    DISTRESSED_OPTIONALITY = "distressed_optionality"
+    # Added with 11-gate exclusion engine
+    ALREADY_ACQUIRED = "already_acquired"          # → HISTORICAL_ONLY in gate engine
+    ROUTED_TO_OTHER_MODEL = "routed_to_other_model"  # → ROUTE_TO_OTHER_MODEL in gate engine
 
 
 class AffordabilityBand(str, Enum):
@@ -252,6 +266,9 @@ class Layer0Result(BaseModel):
     # 0B — deal-type routing (None when excluded)
     deal_type: Optional[DealType] = None
     deal_type_routing_note: str = ""
+    # Rich multi-label classification — None when target fails hard exclusion.
+    # deal_type is kept as the primary_deal_type for backward compatibility.
+    deal_type_classification: Optional[DealTypeClassification] = None
 
     # 0C — per-acquirer affordability
     affordability: list[AffordabilityResult] = Field(default_factory=list)
@@ -272,6 +289,14 @@ class Layer0Result(BaseModel):
     score_cap: Optional[float] = None    # None = no cap; else clamp mna_probability
     score_multiplier: float = 1.0        # encumbrance × complexity penalty
     layer0_notes: list[str] = Field(default_factory=list)
+
+    # Rich 11-gate exclusion assessment (None when not yet evaluated).
+    # Downstream consumers that need gate-level detail should use this field.
+    # The legacy passes_hard_exclusion / exclusion_code / exclusion_reason fields
+    # remain the primary contract for existing callers.
+    hard_exclusion_assessment: Optional["ExclusionAssessmentRef"] = Field(
+        default=None, exclude=True
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -385,46 +410,161 @@ _PAYER_SCORES: dict[str, float] = {"low": 0.0, "medium": 0.50, "high": 1.0}
 
 # ---------------------------------------------------------------------------
 # Section 0A — Hard Exclusion
+#
+# Replaced by the structured 11-gate ExclusionEngine in
+# ``bve.intelligence.exclusions``.  The bridge function below converts
+# ``TargetEligibilityInput`` → ``CompanyProfile``, runs the gate cascade,
+# then maps the rich ExclusionAssessment back to the legacy
+# (passes, ExclusionCode, reason_str) tuple so all downstream callers remain
+# unchanged.
+#
+# Consumers that need gate-level detail should read
+# ``Layer0Result.hard_exclusion_assessment`` directly.
 # ---------------------------------------------------------------------------
+
+# Taxonomy → entity_type mapping for the exclusion engine
+_TAXONOMY_TO_ENTITY_TYPE: dict[str, str] = {
+    CompanyTaxonomy.THERAPEUTICS.value:            "biotech",
+    CompanyTaxonomy.DIAGNOSTICS.value:             "diagnostics",
+    CompanyTaxonomy.TOOLS.value:                   "tools_reagents",
+    CompanyTaxonomy.PLATFORM.value:                "platform",
+    CompanyTaxonomy.LIFE_SCIENCE_SERVICES.value:   "cro_cdmo",
+    CompanyTaxonomy.ACQUIRER.value:                "biotech",   # is_known_acquirer=True handles it
+    CompanyTaxonomy.SPAC_SHELL.value:              "spac_shell",
+    CompanyTaxonomy.DIVERSIFIED_CONGLOMERATE.value: "diversified_conglomerate",
+    CompanyTaxonomy.OTHER.value:                   "other",
+}
+
+# lead_asset_status mapping from old domain to new
+_LEAD_STATUS_MAP: dict[str, str] = {
+    "active":         "active",
+    # Map generic "failed" to "failed_pivotal" so Gate 4 checks has_salvage_path.
+    # "failed_pivotal_no_path" is reserved for cases where we KNOW no path exists.
+    "failed":         "failed_pivotal",
+    "discontinued":   "discontinued",
+    "safety_blocked": "safety_blocked",
+}
+
+# ExclusionStatus → ExclusionCode bridge (legacy callers need an ExclusionCode)
+def _map_exclusion_status_to_code(
+    status: "ExclusionStatusRef",
+    triggered_rules: list[str],
+) -> ExclusionCode:
+    """Map the gate engine's ExclusionStatus to the legacy ExclusionCode enum."""
+    from bve.intelligence.exclusions import ExclusionStatus as ES
+
+    if status == ES.HISTORICAL_ONLY:
+        return ExclusionCode.ALREADY_ACQUIRED
+    if status == ES.ROUTE_TO_OTHER_MODEL:
+        return ExclusionCode.ROUTED_TO_OTHER_MODEL
+    if status in (ES.DILIGENCE_QUEUE, ES.REFRESH_REQUIRED):
+        return ExclusionCode.INSUFFICIENT_DATA
+    # HARD_FAIL — map via triggered rule IDs where possible
+    first_rule = triggered_rules[0] if triggered_rules else ""
+    if "SPAC" in first_rule:
+        return ExclusionCode.SPAC_SHELL
+    if "ACQUIRER" in first_rule:
+        return ExclusionCode.KNOWN_ACQUIRER
+    if "SELF_ACQ" in first_rule:
+        return ExclusionCode.SELF_ACQUISITION
+    if "NO_VALUE_DRIVER" in first_rule or "MISSING_PIPELINE" in first_rule:
+        return ExclusionCode.NO_IDENTIFIABLE_ASSET
+    if any(x in first_rule for x in ("FAILED_PIVOTAL", "SAFETY_BLOCKED", "DISCONTINUED",
+                                      "ABANDONED", "MECHANISM", "DOSE_WINDOW")):
+        return ExclusionCode.PERMANENTLY_IMPAIRED_LEAD
+    return ExclusionCode.NON_BIOTECH_PHARMA
+
 
 def _evaluate_hard_exclusion(
     t: TargetEligibilityInput,
     data_confidence: DataConfidenceResult,
-) -> tuple[bool, Optional[ExclusionCode], Optional[str]]:
-    """Return (passes, exclusion_code, reason_detail) for 0A hard-exclusion rules.
+) -> tuple[bool, Optional[ExclusionCode], Optional[str], "ExclusionAssessmentRef"]:
+    """Return (passes, exclusion_code, reason_detail, assessment) for 0A.
 
-    Rules are applied in priority order; first match wins.
+    Delegates to the 11-gate ExclusionEngine.  The legacy 3-tuple fields are
+    derived from the richer ExclusionAssessment for backward compatibility.
+
+    A fourth value, the full ExclusionAssessment, is returned so that
+    ``evaluate_layer0()`` can attach it to ``Layer0Result.hard_exclusion_assessment``.
     """
-    # Non-biotech / non-pharma entity (taxonomy-driven, not ticker-driven)
-    if t.company_taxonomy not in _ELIGIBLE_TAXONOMIES:
-        if t.company_taxonomy == CompanyTaxonomy.ACQUIRER:
-            return False, ExclusionCode.KNOWN_ACQUIRER, "taxonomy:known_acquirer"
-        if t.company_taxonomy == CompanyTaxonomy.SPAC_SHELL:
-            return False, ExclusionCode.SPAC_SHELL, "taxonomy:spac_shell"
-        return False, ExclusionCode.NON_BIOTECH_PHARMA, f"taxonomy:{t.company_taxonomy.value}"
+    from bve.intelligence.exclusions import (
+        CompanyProfile as GateCompanyProfile,
+        ExclusionStatus as ES,
+        evaluate_company_exclusions,
+    )
 
-    # Self-acquisition check
-    if t.acquirer_ticker and t.ticker.upper() == t.acquirer_ticker.upper():
-        return False, ExclusionCode.SELF_ACQUISITION, "self_acquisition"
+    # Self-acquisition check (Gate 2 is pair-level; handle here for company gate)
+    if (
+        t.acquirer_ticker
+        and t.ticker
+        and t.acquirer_ticker.upper() == t.ticker.upper()
+    ):
+        # Return a minimal "assessment-like" object so the bridge stays consistent.
+        # We use a namedtuple-style stand-in so callers can read overall_status.
+        class _SelfAcqAssessment:
+            overall_status = ES.HARD_FAIL if hasattr(ES, "HARD_FAIL") else "HARD_FAIL"
+            live_ranking_eligible = False
+            historical_training_eligible = False
+            max_score_cap = None
+            triggered_exclusion_rules = ["G2.SELF_ACQ"]
+            exclusion_reason_summary = "self_acquisition:target_is_acquirer"
+            all_gate_results = []
+            diligence_flags = []
 
-    # No identifiable lead asset or platform
-    if not t.lead_asset_present and not t.is_platform_company:
-        return False, ExclusionCode.NO_IDENTIFIABLE_ASSET, "no_lead_asset_or_platform"
+        # Dynamically resolve ES so the isinstance check works
+        try:
+            from bve.intelligence.exclusions import ExclusionStatus as _ES
+            _SelfAcqAssessment.overall_status = _ES.HARD_FAIL
+        except Exception:
+            pass
 
-    # Permanently impaired lead asset with no replacement
-    if t.lead_asset_status in ("failed", "discontinued", "safety_blocked"):
-        if not t.has_replacement_asset:
-            return (
-                False,
-                ExclusionCode.PERMANENTLY_IMPAIRED_LEAD,
-                f"lead_status:{t.lead_asset_status}:no_replacement",
-            )
+        return (
+            False,
+            ExclusionCode.SELF_ACQUISITION,
+            "self_acquisition:target_ticker_matches_acquirer_ticker",
+            _SelfAcqAssessment(),
+        )
 
-    # Insufficient minimum data
-    if data_confidence.grade == DataConfidenceGrade.LOW:
-        return False, ExclusionCode.INSUFFICIENT_DATA, "data_confidence:low"
+    # Convert TargetEligibilityInput → CompanyProfile
+    entity_type = _TAXONOMY_TO_ENTITY_TYPE.get(
+        t.company_taxonomy.value, "other"
+    )
+    lead_status = _LEAD_STATUS_MAP.get(t.lead_asset_status, "active")
 
-    return True, None, None
+    # Data-confidence LOW maps to financial_data_missing so Gate 6 fires
+    financial_data_missing = data_confidence.grade == DataConfidenceGrade.LOW
+
+    profile = GateCompanyProfile(
+        company_id=t.ticker or "unknown",
+        ticker=t.ticker,
+        entity_type=entity_type,
+        is_known_acquirer=(t.company_taxonomy == CompanyTaxonomy.ACQUIRER),
+        # Gate 3: asset visibility
+        has_lead_asset=t.lead_asset_present,
+        has_platform=t.is_platform_company,
+        has_active_pipeline=t.lead_asset_present or t.is_platform_company,
+        # Gate 4: asset viability
+        lead_asset_status=lead_status,
+        has_salvage_path=t.has_replacement_asset,
+        # Gate 5: IP
+        royalty_stack_rate=t.royalty_stack_rate,
+        has_ip_dispute=t.has_ip_dispute,
+        # Gate 6: financial
+        financial_data_missing=financial_data_missing,
+        # Gate 7: market data — no direct mapping, defaults to PASS
+    )
+
+    assessment = evaluate_company_exclusions(profile)
+    s = assessment.overall_status
+
+    # PASS / SEVERE_CAP / PAIR_LEVEL_CAP → company is eligible
+    if s in (ES.PASS, ES.SEVERE_CAP, ES.PAIR_LEVEL_CAP):
+        return True, None, None, assessment
+
+    # All other statuses block the company from live scoring
+    excl_code = _map_exclusion_status_to_code(s, assessment.triggered_exclusion_rules)
+    reason = assessment.exclusion_reason_summary or s.value
+    return False, excl_code, reason, assessment
 
 
 # ---------------------------------------------------------------------------
@@ -432,42 +572,15 @@ def _evaluate_hard_exclusion(
 # ---------------------------------------------------------------------------
 
 def _classify_deal_type(t: TargetEligibilityInput) -> tuple[DealType, str]:
-    """Route target to the correct deal model. Returns (deal_type, routing_note).
+    """Thin wrapper around classify_deal_type() for backward compatibility.
 
-    Replaces the old ``approved_revenue_share > 50% = hard fail`` rule:
-    commercial companies are valid acquisition targets — they are simply
-    routed to the commercial_franchise_acquisition model instead of the
-    pipeline M&A model.
+    Returns (primary_deal_type, model_routing_reason) matching the old
+    two-tuple contract.  Callers that need the full multi-label classification
+    should use classify_deal_type() directly or read
+    Layer0Result.deal_type_classification.
     """
-    # Platform acquisition: value tied to technology platform, not one drug
-    if t.is_platform_company and t.platform_validated:
-        return DealType.PLATFORM_ACQUISITION, "platform_validated"
-
-    # Commercial franchise: approved revenue dominant
-    if t.approved_revenue_share is not None and t.approved_revenue_share > 0.50:
-        return (
-            DealType.COMMERCIAL_FRANCHISE_ACQUISITION,
-            f"approved_revenue_share:{t.approved_revenue_share:.0%}",
-        )
-
-    # Distressed optionality: financial pressure + uncertain asset quality
-    if t.financing_pressure_high and t.lead_asset_quality_low:
-        return DealType.DISTRESSED_OPTIONALITY, "financing_pressure_high:lead_quality_low"
-
-    # Pipeline portfolio: multiple distinct clinical assets in same TA/modality
-    if t.product_count >= 3 and t.indication_count >= 2:
-        return DealType.PIPELINE_PORTFOLIO_TAKEOUT, f"product_count:{t.product_count}"
-
-    # Asset license / partnership: attractive asset, full takeout unlikely
-    if (
-        t.has_existing_partnership
-        and t.enterprise_value_millions is not None
-        and t.enterprise_value_millions < 500.0
-    ):
-        return DealType.ASSET_LICENSE_PARTNERSHIP, "existing_partnership:ev<500M"
-
-    # Default: single-asset clinical-stage takeout
-    return DealType.SINGLE_ASSET_TAKEOUT, "default:single_lead_asset"
+    classification = classify_deal_type(t)
+    return classification.primary_deal_type, classification.model_routing_reason
 
 
 # ---------------------------------------------------------------------------
@@ -703,8 +816,10 @@ def evaluate_layer0(
     # 0G first — informs 0A (insufficient data exclusion)
     data_confidence = _compute_data_confidence(target)
 
-    # 0A — hard exclusion
-    passes, excl_code, excl_reason = _evaluate_hard_exclusion(target, data_confidence)
+    # 0A — hard exclusion (delegated to 11-gate ExclusionEngine)
+    passes, excl_code, excl_reason, hard_excl_assessment = _evaluate_hard_exclusion(
+        target, data_confidence
+    )
 
     # 0D, 0E, 0F — always computed (useful diagnostics even for excluded targets)
     encumbrance = _evaluate_encumbrance(target)
@@ -714,10 +829,13 @@ def evaluate_layer0(
     # 0B, 0C — only meaningful when target passes hard exclusion
     deal_type: Optional[DealType] = None
     deal_type_note = ""
+    deal_type_cls: Optional[DealTypeClassification] = None
     affordability: list[AffordabilityResult] = []
 
     if passes:
-        deal_type, deal_type_note = _classify_deal_type(target)
+        deal_type_cls = classify_deal_type(target)
+        deal_type = deal_type_cls.primary_deal_type
+        deal_type_note = deal_type_cls.model_routing_reason
         affordability = _evaluate_affordability(target.enterprise_value_millions, acquirers)
 
     # Combined score modifiers
@@ -739,12 +857,25 @@ def evaluate_layer0(
     notes.extend(penalty_codes)
     notes.extend(commercial_complexity.notes)
 
+    # Honour any score cap from the exclusion engine (e.g. SEVERE_CAP gates)
+    engine_cap = (
+        hard_excl_assessment.max_score_cap
+        if hard_excl_assessment is not None and hard_excl_assessment.max_score_cap is not None
+        else None
+    )
+    if engine_cap is not None:
+        score_cap = (
+            min(score_cap, engine_cap) if score_cap is not None else engine_cap
+        )
+        notes.append(f"exclusion_engine_cap:{engine_cap:.2f}")
+
     return Layer0Result(
         passes_hard_exclusion=passes,
         exclusion_code=excl_code,
         exclusion_reason=excl_reason,
         deal_type=deal_type,
         deal_type_routing_note=deal_type_note,
+        deal_type_classification=deal_type_cls,
         affordability=affordability,
         encumbrance=encumbrance,
         commercial_complexity=commercial_complexity,
@@ -753,4 +884,5 @@ def evaluate_layer0(
         score_cap=score_cap,
         score_multiplier=combined_multiplier,
         layer0_notes=notes,
+        hard_exclusion_assessment=hard_excl_assessment,
     )

@@ -35,7 +35,7 @@ Key design principles:
 from __future__ import annotations
 
 from enum import Enum
-from typing import Optional
+from typing import Any, Optional
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -336,6 +336,10 @@ class Layer4Inputs(BaseModel):
         description="True when a major event (safety alert, deal announcement, FDA hold) "
                     "justifies immediate class change without waiting for 2 observations")
 
+    # Deal-type classification from Layer 0 (optional enrichment)
+    deal_type_classification: Optional[Any] = Field(default=None,
+        description="DealTypeClassification from Layer 0 0B gate; used to annotate output")
+
 
 class Layer4Output(BaseModel):
     """Full BD watchlist classification and action routing output."""
@@ -372,6 +376,14 @@ class Layer4Output(BaseModel):
                     "against a candidate change (churn suppression)")
     candidate_class: str = Field(...,
         description="Classification the rules would produce before persistence check")
+
+    # Deal-type fields from Layer 0 0B classification (None when not provided)
+    primary_deal_type: Optional[str] = Field(default=None,
+        description="Primary deal archetype from DealTypeClassification (Layer 0 0B)")
+    secondary_deal_types: list[str] = Field(default_factory=list,
+        description="Secondary deal archetypes with weight >= 0.20")
+    recommended_model: Optional[str] = Field(default=None,
+        description="Recommended scoring model from DealTypeClassification")
 
 
 # ---------------------------------------------------------------------------
@@ -614,6 +626,23 @@ def compute_layer4(
             f"consecutive_signals={inputs.consecutive_new_class_signals})"
         ]
 
+    # Propagate deal-type classification fields if provided
+    dtc = inputs.deal_type_classification
+    primary_deal_type: Optional[str] = None
+    secondary_deal_types: list[str] = []
+    recommended_model: Optional[str] = None
+    if dtc is not None:
+        primary_deal_type = getattr(dtc, "primary_deal_type", None)
+        if primary_deal_type is not None:
+            primary_deal_type = str(primary_deal_type.value) if hasattr(primary_deal_type, "value") else str(primary_deal_type)
+        secondary_deal_types = [
+            str(s.value) if hasattr(s, "value") else str(s)
+            for s in getattr(dtc, "secondary_deal_types", [])
+        ]
+        rm = getattr(dtc, "recommended_model", None)
+        if rm is not None:
+            recommended_model = str(rm.value) if hasattr(rm, "value") else str(rm)
+
     return Layer4Output(
         target_name=target_name,
         acquirer_id=acquirer_id,
@@ -629,4 +658,7 @@ def compute_layer4(
         reason_codes=reason_codes,
         classification_suppressed=suppressed,
         candidate_class=candidate_class.value,
+        primary_deal_type=primary_deal_type,
+        secondary_deal_types=secondary_deal_types,
+        recommended_model=recommended_model,
     )
