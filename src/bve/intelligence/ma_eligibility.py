@@ -38,6 +38,17 @@ from bve.intelligence.deal_type_classification import (  # noqa: E402
     classify_deal_type,
 )
 
+# 0D — Asset-Control / Encumbrance Gate (6-bucket system)
+from bve.intelligence.ma_asset_control import (  # noqa: E402
+    AssetControlResult,
+    compute_asset_control,
+    asset_control_from_target,
+)
+
+# Backward-compatibility alias — existing code that imports EncumbranceFlags from
+# this module (including test_sprint36_ma_layer0) continues to work unchanged.
+EncumbranceFlags = AssetControlResult
+
 
 # ---------------------------------------------------------------------------
 # Enums
@@ -267,20 +278,6 @@ class AffordabilityResult(BaseModel):
         return True
 
 
-class EncumbranceFlags(BaseModel):
-    """Asset-control and encumbrance issues (0D)."""
-    model_config = ConfigDict(frozen=True)
-
-    asset_rights_scope: Literal["global", "regional_split", "licensed_in", "unknown"]
-    has_existing_partnership: bool
-    has_right_of_first_refusal: bool
-    royalty_stack_high: bool          # stack > 15%
-    has_co_development_obligation: bool
-    has_ip_dispute: bool
-    has_manufacturing_dependency: bool
-    penalty_multiplier: float = Field(ge=0.0, le=1.0)   # 1.0 = no penalty
-    encumbrance_codes: list[str]
-
 
 class CommercialComplexityScore(BaseModel):
     """Function-based integration complexity score (0E)."""
@@ -406,23 +403,6 @@ assert abs(sum(_DATA_CONFIDENCE_FIELDS.values()) - 1.0) < 1e-9, "weight sum mism
 _DATA_CONFIDENCE_HIGH_THRESHOLD = 0.75
 _DATA_CONFIDENCE_MEDIUM_THRESHOLD = 0.50
 
-
-# ---------------------------------------------------------------------------
-# 0D — Encumbrance penalty table
-# ---------------------------------------------------------------------------
-
-_ENCUMBRANCE_PENALTIES: dict[str, float] = {
-    "regional_rights_split":    0.10,
-    "licensed_in_rights":       0.08,
-    "right_of_first_refusal":   0.12,
-    "royalty_stack_high":       0.12,
-    "co_development_obligation": 0.08,
-    "ip_dispute":               0.25,
-    "manufacturing_dependency": 0.10,
-}
-
-_ROYALTY_STACK_HIGH_THRESHOLD = 0.15   # 15% cumulative stack is considered "high"
-_ENCUMBRANCE_FLOOR = 0.20              # minimum penalty_multiplier (floor)
 
 
 # ---------------------------------------------------------------------------
@@ -751,56 +731,15 @@ def _evaluate_affordability(
 # ---------------------------------------------------------------------------
 
 def _evaluate_encumbrance(t: TargetEligibilityInput) -> EncumbranceFlags:
-    """Flag encumbrance issues and compute cumulative penalty multiplier."""
-    codes: list[str] = []
-    cumulative_penalty = 0.0
+    """Evaluate 0D asset-control / encumbrance gate using the 6-bucket scoring system.
 
-    def _penalise(code: str) -> None:
-        codes.append(code)
-        nonlocal cumulative_penalty
-        cumulative_penalty += _ENCUMBRANCE_PENALTIES[code]
-
-    if t.asset_rights_scope == "global":
-        codes.append("global_rights:positive")
-    elif t.asset_rights_scope == "regional_split":
-        _penalise("regional_rights_split")
-    elif t.asset_rights_scope == "licensed_in":
-        _penalise("licensed_in_rights")
-    else:  # unknown
-        codes.append("asset_rights_scope:unknown")
-
-    if t.has_right_of_first_refusal:
-        _penalise("right_of_first_refusal")
-
-    royalty_stack_high = bool(
-        t.royalty_stack_rate is not None
-        and t.royalty_stack_rate > _ROYALTY_STACK_HIGH_THRESHOLD
-    )
-    if royalty_stack_high:
-        _penalise("royalty_stack_high")
-
-    if t.has_co_development_obligation:
-        _penalise("co_development_obligation")
-
-    if t.has_ip_dispute:
-        _penalise("ip_dispute")
-
-    if t.has_manufacturing_dependency:
-        _penalise("manufacturing_dependency")
-
-    penalty_multiplier = round(max(1.0 - cumulative_penalty, _ENCUMBRANCE_FLOOR), 6)
-
-    return EncumbranceFlags(
-        asset_rights_scope=t.asset_rights_scope,
-        has_existing_partnership=t.has_existing_partnership,
-        has_right_of_first_refusal=t.has_right_of_first_refusal,
-        royalty_stack_high=royalty_stack_high,
-        has_co_development_obligation=t.has_co_development_obligation,
-        has_ip_dispute=t.has_ip_dispute,
-        has_manufacturing_dependency=t.has_manufacturing_dependency,
-        penalty_multiplier=penalty_multiplier,
-        encumbrance_codes=codes,
-    )
+    Maps coarse TargetEligibilityInput signals to the detailed AssetControlInput
+    sub-scores via ``asset_control_from_target()``, then runs ``compute_asset_control()``
+    to produce an ``AssetControlResult`` (aliased as ``EncumbranceFlags`` for backward
+    compatibility).
+    """
+    inp = asset_control_from_target(t)
+    return compute_asset_control(inp)
 
 
 # ---------------------------------------------------------------------------
