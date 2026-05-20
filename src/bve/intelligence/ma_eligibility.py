@@ -173,14 +173,54 @@ class TargetEligibilityInput(BaseModel):
 
 
 class AcquirerCapacityInput(BaseModel):
-    """Financial capacity of one potential acquirer for the affordability gate."""
+    """Financial capacity of one potential acquirer for the affordability gate (0C).
+
+    Two paths for the stock component:
+
+    **Formula path** (preferred — set ``acquirer_market_cap_millions``):
+        realistic_stock_component =
+            acquirer_market_cap_millions
+            × max_stock_issuance_pct
+            × stock_quality_multiplier
+
+        ``stock_quality_multiplier`` is computed from P/B, volatility, and dilution
+        tolerance unless supplied directly.
+
+    **Pre-computed path** (backward compat — leave ``acquirer_market_cap_millions`` as None):
+        ``realistic_stock_component_millions`` is used as-is.
+    """
 
     acquirer_id: str
     cash_available_millions: float = Field(ge=0.0)
     estimated_debt_capacity_millions: float = Field(ge=0.0, default=0.0)
-    realistic_stock_component_millions: float = Field(ge=0.0, default=0.0)
     minimum_balance_buffer_millions: float = Field(ge=0.0, default=0.0)
     expected_takeout_premium: float = Field(ge=0.0, le=2.0, default=0.35)
+
+    # ── Pre-computed path (backward compat) ──────────────────────────────────
+    realistic_stock_component_millions: float = Field(ge=0.0, default=0.0,
+        description="Pre-computed stock deal capacity; used when acquirer_market_cap_millions "
+                    "is not provided.")
+
+    # ── Formula path: stock-deal realism ─────────────────────────────────────
+    acquirer_market_cap_millions: Optional[float] = Field(default=None, ge=0.0,
+        description="Acquirer market cap; when set, stock component is computed via formula.")
+    max_stock_issuance_pct: float = Field(default=0.10, ge=0.0, le=1.0,
+        description="Maximum fraction of market cap the acquirer can realistically issue "
+                    "as deal consideration without triggering excessive dilution.")
+
+    # Stock quality sub-signals (used to auto-compute stock_quality_multiplier)
+    acquirer_price_to_book: Optional[float] = Field(default=None, ge=0.0,
+        description="Acquirer P/B ratio; premium valuation → better stock currency.")
+    acquirer_stock_volatility_pct: Optional[float] = Field(default=None, ge=0.0,
+        description="Annualised stock volatility %; high vol → target demands cash premium.")
+    investor_dilution_tolerance: float = Field(default=0.50, ge=0.0, le=1.0,
+        description="How much dilution acquirer shareholders will accept (0=intolerant, "
+                    "1=fully tolerant).  Base of the stock quality multiplier.")
+
+    # Override: skip auto-computation and use this value directly
+    stock_quality_multiplier: Optional[float] = Field(default=None, ge=0.0, le=1.0,
+        description="Explicit stock quality multiplier in [0, 1]. When provided, "
+                    "P/B and volatility sub-signals are ignored.")
 
 
 # ---------------------------------------------------------------------------
@@ -188,7 +228,12 @@ class AcquirerCapacityInput(BaseModel):
 # ---------------------------------------------------------------------------
 
 class AffordabilityResult(BaseModel):
-    """Affordability assessment for one acquirer-target pair (0C)."""
+    """Affordability assessment for one acquirer-target pair (0C).
+
+    IMPORTANT — pair-level scope: a HARD_FAIL here removes only this
+    specific acquirer-target pair from consideration.  The target remains
+    eligible for all other acquirers with sufficient capacity.
+    """
     model_config = ConfigDict(frozen=True)
 
     acquirer_id: str
@@ -198,9 +243,28 @@ class AffordabilityResult(BaseModel):
     band: AffordabilityBand
     score_multiplier: float   # 1.0 → 0.90 → 0.60 → 0.0
 
+    # Stock component breakdown
+    stock_component_millions: float = Field(default=0.0, ge=0.0,
+        description="Effective stock deal capacity used in this pair (computed or pre-supplied).")
+    stock_quality_multiplier_applied: Optional[float] = Field(default=None, ge=0.0, le=1.0,
+        description="Stock quality multiplier used when formula path was active; "
+                    "None when pre-computed realistic_stock_component_millions was used.")
+
+    # Pair-level scope note
+    pair_scope_note: str = Field(
+        default="Pair-level result: a hard fail excludes only this acquirer-target pair, "
+                "not the target globally.",
+        description="Reminder that affordability results are pair-specific, not global.",
+    )
+
     @property
     def is_hard_fail(self) -> bool:
         return self.band == AffordabilityBand.HARD_FAIL
+
+    @property
+    def is_pair_level_only(self) -> bool:
+        """Always True — affordability gates never exclude a target globally."""
+        return True
 
 
 class EncumbranceFlags(BaseModel):
@@ -587,20 +651,81 @@ def _classify_deal_type(t: TargetEligibilityInput) -> tuple[DealType, str]:
 # Section 0C — Pair-Specific Affordability Gate
 # ---------------------------------------------------------------------------
 
+def _compute_stock_quality_multiplier(acq: AcquirerCapacityInput) -> float:
+    """Derive how much of the theoretical max stock issuance is usable as currency.
+
+    Returns a value in [0.10, 1.0] based on three signals:
+      - investor_dilution_tolerance: base (how tolerant shareholders are of EPS dilution)
+      - acquirer_price_to_book:      premium valuation = stock is valuable deal currency
+      - acquirer_stock_volatility:   high vol = target demands cash; stock heavily discounted
+
+    If ``acq.stock_quality_multiplier`` is provided directly, that value is returned as-is
+    (after clamping).  If sub-signals are unavailable, defaults produce a neutral 0.50.
+    """
+    # Explicit override — skip computation
+    if acq.stock_quality_multiplier is not None:
+        return max(0.10, min(1.0, acq.stock_quality_multiplier))
+
+    base = acq.investor_dilution_tolerance  # default 0.50
+
+    # Price-to-book adjustment
+    pb_adj = 0.0
+    if acq.acquirer_price_to_book is not None:
+        if acq.acquirer_price_to_book >= 4.0:
+            pb_adj = 0.15   # premium acquirer; stock is strong currency
+        elif acq.acquirer_price_to_book < 1.5:
+            pb_adj = -0.20  # depressed acquirer; target discounts stock heavily
+
+    # Volatility adjustment
+    vol_adj = 0.0
+    if acq.acquirer_stock_volatility_pct is not None:
+        if acq.acquirer_stock_volatility_pct < 20.0:
+            vol_adj = 0.10   # stable large-cap; stock broadly accepted
+        elif acq.acquirer_stock_volatility_pct > 40.0:
+            vol_adj = -0.25  # speculative biotech; target demands cash premium
+        else:
+            vol_adj = -0.10  # moderate biotech volatility range
+
+    return max(0.10, min(1.0, base + pb_adj + vol_adj))
+
+
+def _effective_stock_component(acq: AcquirerCapacityInput) -> tuple[float, Optional[float]]:
+    """Return (stock_component_millions, sqm_applied).
+
+    When acquirer_market_cap_millions is set, uses the formula:
+        stock = market_cap × max_stock_issuance_pct × stock_quality_multiplier
+
+    Otherwise falls back to the pre-supplied realistic_stock_component_millions
+    and returns sqm_applied=None (pre-computed path).
+    """
+    if acq.acquirer_market_cap_millions is not None:
+        sqm = _compute_stock_quality_multiplier(acq)
+        stock_m = acq.acquirer_market_cap_millions * acq.max_stock_issuance_pct * sqm
+        return max(0.0, stock_m), sqm
+    return acq.realistic_stock_component_millions, None
+
+
 def _evaluate_affordability(
     target_ev_millions: Optional[float],
     acquirers: list[AcquirerCapacityInput],
 ) -> list[AffordabilityResult]:
-    """Compute per-acquirer affordability.  Returns empty list when EV is unknown."""
+    """Compute per-acquirer-target-pair affordability.
+
+    Returns empty list when EV is unknown.
+
+    Each result is pair-level only: a HARD_FAIL for one acquirer does not
+    exclude the target from consideration by any other acquirer.
+    """
     if target_ev_millions is None:
         return []
 
     results: list[AffordabilityResult] = []
     for acq in acquirers:
+        stock_component, sqm_applied = _effective_stock_component(acq)
         deal_capacity = max(
             acq.cash_available_millions
             + acq.estimated_debt_capacity_millions
-            + acq.realistic_stock_component_millions
+            + stock_component
             - acq.minimum_balance_buffer_millions,
             0.0,
         )
@@ -615,6 +740,8 @@ def _evaluate_affordability(
             affordability_ratio=round(ratio, 4),
             band=band,
             score_multiplier=mult,
+            stock_component_millions=round(stock_component, 2),
+            stock_quality_multiplier_applied=round(sqm_applied, 4) if sqm_applied is not None else None,
         ))
     return results
 
