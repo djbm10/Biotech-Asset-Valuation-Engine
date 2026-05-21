@@ -528,6 +528,13 @@ class TestCommercialComplexity:
 # ===========================================================================
 
 class TestDistressGuard:
+    """Legacy boolean-signal tests — verifies backward-compat with new composite model.
+
+    financing_pressure_high=True → financing_pressure inferred as 0.75 → pressure ≈ 0.63 (≥ 0.60)
+    lead_asset_quality_low=True  → lead_asset_quality inferred as 0.20 → quality ≈ 0.34 (< 0.35)
+    is_platform_company=True     → platform_validation=0.40 → quality lifts to ~0.40 (≥ 0.35)
+    """
+
     def test_guard_fires_when_all_conditions_met(self):
         t = _target(
             financing_pressure_high=True,
@@ -540,7 +547,7 @@ class TestDistressGuard:
         assert dg.reason_code == "distress_without_strategic_asset"
 
     def test_guard_not_active_when_platform(self):
-        # Platform companies retain strategic value even under distress
+        # Platform companies have higher platform_validation → quality lifts above cap threshold
         t = _target(
             financing_pressure_high=True,
             lead_asset_quality_low=True,
@@ -550,11 +557,13 @@ class TestDistressGuard:
         assert dg.guard_active is False
 
     def test_guard_not_active_quality_ok(self):
+        # lead_asset_quality_low=False → quality high enough to avoid cap
         t = _target(financing_pressure_high=True, lead_asset_quality_low=False)
         dg = _evaluate_distress_guard(t)
         assert dg.guard_active is False
 
     def test_guard_not_active_no_pressure(self):
+        # No financial pressure → pressure score below threshold
         t = _target(financing_pressure_high=False, lead_asset_quality_low=True)
         dg = _evaluate_distress_guard(t)
         assert dg.guard_active is False
@@ -564,6 +573,22 @@ class TestDistressGuard:
         dg = _evaluate_distress_guard(t)
         assert dg.guard_active is True
         assert dg.mna_probability_cap == pytest.approx(0.25)
+
+    def test_new_output_fields_present(self):
+        """New composite model exposes richer diagnostic fields."""
+        t = _target(financing_pressure_high=True, lead_asset_quality_low=True)
+        dg = _evaluate_distress_guard(t)
+        assert 0.0 <= dg.distress_pressure_score <= 1.0
+        assert 0.0 <= dg.distress_quality_score <= 1.0
+        assert 0.0 <= dg.clinical_salvageability_score <= 1.0
+        assert dg.distress_classification is not None
+        assert len(dg.rationale) >= 1
+
+    def test_no_distress_gives_not_distressed_classification(self):
+        t = _target(financing_pressure_high=False)
+        dg = _evaluate_distress_guard(t)
+        from bve.intelligence.ma_distress_guard import DistressClassification
+        assert dg.distress_classification == DistressClassification.NOT_DISTRESSED
 
 
 # ===========================================================================

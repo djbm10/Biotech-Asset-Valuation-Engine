@@ -181,9 +181,41 @@ class TargetEligibilityInput(BaseModel):
     has_ip_dispute: bool = False
     has_manufacturing_dependency: bool = False
 
-    # --- Distress signals (0F) ---
+    # --- Distress signals (0F) — legacy boolean signals (always supported) ---
     financing_pressure_high: bool = False
     lead_asset_quality_low: bool = False
+
+    # --- Distress signals (0F) — extended float inputs (override boolean inference) ---
+    # Pressure signals (0–1)
+    financing_pressure: Optional[float] = Field(default=None, ge=0.0, le=1.0,
+        description="Cash/runway pressure; overrides financing_pressure_high when set")
+    runway_pressure: Optional[float] = Field(default=None, ge=0.0, le=1.0,
+        description="Months of runway pressure (higher = shorter runway)")
+    valuation_distress: Optional[float] = Field(default=None, ge=0.0, le=1.0,
+        description="EV/cash distress signal")
+    capital_market_access_risk: Optional[float] = Field(default=None, ge=0.0, le=1.0,
+        description="Ability to raise equity at acceptable dilution")
+    near_term_funding_need: Optional[float] = Field(default=None, ge=0.0, le=1.0,
+        description="Must raise capital within 12 months")
+    # Quality signals (0–1)
+    lead_asset_quality: Optional[float] = Field(default=None, ge=0.0, le=1.0,
+        description="Clinical/regulatory quality of lead program; overrides lead_asset_quality_low")
+    platform_validation_score: Optional[float] = Field(default=None, ge=0.0, le=1.0,
+        description="Evidence that the platform has validated value; overrides platform_validated bool")
+    clinical_salvageability_score: Optional[float] = Field(default=None, ge=0.0, le=1.0,
+        description="Direct salvageability score; if absent, computed from sub-components")
+    strategic_scarcity: Optional[float] = Field(default=None, ge=0.0, le=1.0,
+        description="How few comparable assets exist (higher = scarcer = more valuable)")
+    asset_control_cleanliness_score: Optional[float] = Field(default=None, ge=0.0, le=1.0,
+        description="Degree of clean title / absence of blocking rights for this asset")
+    # Clinical salvageability sub-components (used when clinical_salvageability_score absent)
+    failed_trial_reason: Optional[str] = None   # "underpowered"|"endpoint_miss"|"fatal_safety"|"mechanism_invalidated"|"unknown"
+    subgroup_signal: Optional[bool] = None
+    dose_response_exists: Optional[bool] = None
+    safety_reversibility: Optional[bool] = None
+    alternative_indications_available: Optional[bool] = None
+    regulatory_path_remaining: Optional[bool] = None
+    mechanism_still_valid: Optional[bool] = None
 
     # --- Data completeness flags (0G) — True when field is known / populated ---
     has_market_cap: bool = False
@@ -296,13 +328,17 @@ class AffordabilityResult(BaseModel):
 
 
 
-class DistressGuard(BaseModel):
-    """Cap guard applied when distress has no strategic backing (0F)."""
-    model_config = ConfigDict(frozen=True)
+# 0F — Distress Quality Guard (full composite model)
+from bve.intelligence.ma_distress_guard import (  # noqa: E402
+    DistressGuardResult,
+    compute_distress_guard,
+    distress_guard_from_target,
+)
 
-    guard_active: bool
-    mna_probability_cap: Optional[float] = None
-    reason_code: Optional[str] = None
+# Backward-compatibility alias — old code importing DistressGuard from this module
+# continues to work.  The new model has richer fields; legacy fields
+# (guard_active, mna_probability_cap, reason_code) are preserved.
+DistressGuard = DistressGuardResult
 
 
 class DataConfidenceResult(BaseModel):
@@ -726,28 +762,18 @@ def _compute_commercial_complexity(t: TargetEligibilityInput) -> CommercialCompl
 # Section 0F — Distress Quality Guard
 # ---------------------------------------------------------------------------
 
-_DISTRESS_GUARD_CAP = 0.25
-
-
 def _evaluate_distress_guard(t: TargetEligibilityInput) -> DistressGuard:
-    """Cap M&A probability when a distressed target has no strategic asset value.
+    """Compute 0F Distress Quality Guard.
 
-    A company in financial distress (high financing pressure) with low-quality
-    lead assets AND no validated platform provides little strategic value beyond
-    a fire-sale option.  Capping prevents the model from ranking broken biotechs
-    highly just because they are cheap.
+    Delegates to compute_distress_guard() via distress_guard_from_target().
+    Returns DistressGuardResult (aliased as DistressGuard for backward compat).
+
+    Core principle:
+        Distress ≠ deal thesis.  High distress + viable asset = possible
+        opportunity (routed).  High distress + weak asset = value trap (capped).
     """
-    if (
-        t.financing_pressure_high
-        and t.lead_asset_quality_low
-        and not t.is_platform_company
-    ):
-        return DistressGuard(
-            guard_active=True,
-            mna_probability_cap=_DISTRESS_GUARD_CAP,
-            reason_code="distress_without_strategic_asset",
-        )
-    return DistressGuard(guard_active=False)
+    inp = distress_guard_from_target(t)
+    return compute_distress_guard(inp)
 
 
 # ---------------------------------------------------------------------------
@@ -843,6 +869,8 @@ def evaluate_layer0(
     if distress_guard.guard_active and distress_guard.mna_probability_cap is not None:
         score_cap = distress_guard.mna_probability_cap
         notes.append(f"distress_guard_cap:{score_cap}")
+    if distress_guard.route_to is not None:
+        notes.append(f"distress_route:{distress_guard.route_to}")
 
     # Propagate encumbrance penalty codes (skip positive / informational entries)
     penalty_codes = [
