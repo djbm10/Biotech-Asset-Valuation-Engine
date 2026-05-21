@@ -511,23 +511,28 @@ class TestDoubleCountGuardMap:
 
 class TestAcquirerBackwardCompat:
     def test_evaluate_layer0_still_accepts_acquirers(self):
-        """Phase 1 must NOT change the evaluate_layer0() signature."""
+        """evaluate_layer0(acquirers=) still works but emits DeprecationWarning.
+        Pair affordability is now a Layer 3A operation (ma_pair_affordability.py)."""
+        import pytest
         acq = AcquirerCapacityInput(
             acquirer_id="PFIZER",
             cash_available_millions=20_000.0,
             estimated_debt_capacity_millions=10_000.0,
         )
-        r = evaluate_layer0(_minimal_target(), acquirers=[acq])
+        with pytest.warns(DeprecationWarning, match="acquirers"):
+            r = evaluate_layer0(_minimal_target(), acquirers=[acq])
         assert isinstance(r, Layer0Result)
-        # Affordability still computed
+        # Affordability still computed via deprecated path
         assert len(r.affordability) == 1
 
     def test_new_fields_still_populated_with_acquirers(self):
+        import pytest
         acq = AcquirerCapacityInput(
             acquirer_id="MRK",
             cash_available_millions=15_000.0,
         )
-        r = evaluate_layer0(_minimal_target(), acquirers=[acq])
+        with pytest.warns(DeprecationWarning, match="acquirers"):
+            r = evaluate_layer0(_minimal_target(), acquirers=[acq])
         assert r.decision_summary is not None
         assert r.live_ranking_eligible is True
         assert "affordability" in r.required_downstream_checks

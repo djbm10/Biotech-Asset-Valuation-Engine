@@ -1,4 +1,7 @@
-"""Tests for 0C Pair-Specific Affordability Gate — upgrades:
+"""Tests for pair-specific affordability (Layer 3A) — ma_pair_affordability.py.
+
+Previously tested as Layer 0C; moved to ma_pair_affordability in Phase 2 Step 5.
+Import path updated from ma_eligibility → ma_pair_affordability.
 
 1. Pair-level clarity:
    - AffordabilityResult carries pair_scope_note + is_pair_level_only property
@@ -16,7 +19,7 @@ from __future__ import annotations
 
 import pytest
 
-from bve.intelligence.ma_eligibility import (
+from bve.intelligence.ma_pair_affordability import (
     AffordabilityBand,
     AcquirerCapacityInput,
     AffordabilityResult,

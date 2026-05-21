@@ -174,7 +174,7 @@ class TestHardExclusion:
         assert code == ExclusionCode.PERMANENTLY_IMPAIRED_LEAD
 
     def test_insufficient_data_excluded(self):
-        # Only 2 fields present → LOW confidence → excluded
+        # Only 2 market fields present → very low confidence → excluded
         t = TargetEligibilityInput(
             ticker="XYZ",
             company_taxonomy=CompanyTaxonomy.THERAPEUTICS,
@@ -182,7 +182,8 @@ class TestHardExclusion:
             has_enterprise_value=True,
         )
         dc = _dc(t)
-        assert dc.grade == DataConfidenceGrade.LOW
+        # New system: LOW or VERY_LOW (2 fields → below 0.40 → VERY_LOW)
+        assert dc.grade in (DataConfidenceGrade.LOW, DataConfidenceGrade.VERY_LOW)
         passes, code, *_ = _evaluate_hard_exclusion(t, dc)
         assert not passes
         assert code == ExclusionCode.INSUFFICIENT_DATA
@@ -596,37 +597,52 @@ class TestDistressGuard:
 # ===========================================================================
 
 class TestDataConfidence:
-    def test_all_fields_present_high_confidence(self):
-        t = _target()   # fixture has all 11 data flags True
+    """Tests for 0G Data Confidence — completeness × reliability composite.
+
+    New system scores each category as completeness × reliability (source quality × freshness).
+    All fields present + SEC-quality source data → HIGH (≥ 0.80).
+    All fields present + default source quality (~0.65) → MEDIUM.
+    Empty target → VERY_LOW (score ≈ 0.0).
+    """
+
+    def test_all_fields_present_sec_quality_high_confidence(self):
+        """All has_* flags True + SEC-filing source quality → HIGH."""
+        t = TargetEligibilityInput(
+            ticker="TEST",
+            has_market_cap=True, has_enterprise_value=True,
+            has_cash_debt=True, has_quarterly_burn=True, has_revenue_mix=True,
+            has_clinical_stage=True, has_trial_status=True, has_asset_ownership_data=True,
+            has_partner_rights_data=True, has_patent_loe_data=True,
+            has_acquirer_profile_data=True,
+            # SEC-quality source data
+            market_data_source_quality=0.95,
+            financial_data_source_quality=0.95,
+            asset_data_source_quality=0.95,
+            rights_ip_source_quality=0.95,
+            acquirer_data_source_quality=0.95,
+        )
         dc = _compute_data_confidence(t)
         assert dc.grade == DataConfidenceGrade.HIGH
-        assert dc.score == pytest.approx(1.0)
+        assert dc.score >= 0.80
         assert dc.eligible_for_ranked_output is True
         assert dc.eligible_for_diligence_queue is False
 
-    def test_no_fields_low_confidence(self):
-        t = TargetEligibilityInput(ticker="XYZ")
-        dc = _compute_data_confidence(t)
-        assert dc.grade == DataConfidenceGrade.LOW
-        assert dc.score == pytest.approx(0.0)
-        assert dc.eligible_for_ranked_output is False
-        assert dc.eligible_for_diligence_queue is True
-
-    def test_medium_confidence_eligible_ranked_and_diligence(self):
-        # has_market_cap (0.12) + has_ev (0.12) + has_cash (0.10) +
-        # has_clinical_stage (0.12) + has_trial_status (0.09) = 0.55 → MEDIUM
-        t = TargetEligibilityInput(
-            ticker="XYZ",
-            has_market_cap=True,
-            has_enterprise_value=True,
-            has_cash_debt=True,
-            has_clinical_stage=True,
-            has_trial_status=True,
-        )
+    def test_all_fields_present_default_quality_is_medium(self):
+        """All has_* flags True but default source quality → MEDIUM (~0.65).
+        Rights/IP default of 0.50 reduces composite below 0.80 threshold."""
+        t = _target()   # fixture has all 11 data flags True, default source quality
         dc = _compute_data_confidence(t)
         assert dc.grade == DataConfidenceGrade.MEDIUM
+        assert 0.60 <= dc.score < 0.80
         assert dc.eligible_for_ranked_output is True
-        assert dc.eligible_for_diligence_queue is True
+
+    def test_no_fields_very_low_confidence(self):
+        t = TargetEligibilityInput(ticker="XYZ")
+        dc = _compute_data_confidence(t)
+        assert dc.grade == DataConfidenceGrade.VERY_LOW
+        assert dc.score == pytest.approx(0.0)
+        assert dc.eligible_for_ranked_output is False
+        assert dc.eligible_for_diligence_queue is False  # VERY_LOW → exclude, not diligence
 
     def test_missing_fields_listed(self):
         t = TargetEligibilityInput(ticker="XYZ", has_market_cap=True)
@@ -641,6 +657,31 @@ class TestDataConfidence:
         dc1 = _compute_data_confidence(t1)
         dc2 = _compute_data_confidence(t2)
         assert dc2.score > dc1.score
+
+    def test_new_output_fields_present(self):
+        t = _target()
+        dc = _compute_data_confidence(t)
+        assert isinstance(dc.category_scores, dict)
+        assert set(dc.category_scores.keys()) == {"financial", "asset", "rights_ip", "market", "acquirer"}
+        assert isinstance(dc.source_quality_summary, dict)
+        assert isinstance(dc.ranking_treatment.value, str)
+        assert isinstance(dc.rationale, list) and len(dc.rationale) >= 1
+
+    def test_stale_data_reduces_score(self):
+        t_fresh = TargetEligibilityInput(
+            ticker="XYZ",
+            has_cash_debt=True, has_quarterly_burn=True, has_revenue_mix=True,
+            financial_data_fresh=True,
+        )
+        t_stale = TargetEligibilityInput(
+            ticker="XYZ",
+            has_cash_debt=True, has_quarterly_burn=True, has_revenue_mix=True,
+            financial_data_fresh=False,
+        )
+        dc_fresh = _compute_data_confidence(t_fresh)
+        dc_stale = _compute_data_confidence(t_stale)
+        assert dc_stale.score < dc_fresh.score
+        assert "financial_data" in dc_stale.stale_fields
 
 
 # ===========================================================================
@@ -667,11 +708,12 @@ class TestEvaluateLayer0:
         assert r.passes_hard_exclusion is True
         assert r.deal_type == DealType.COMMERCIAL_FRANCHISE_ACQUISITION
 
-    def test_affordability_populated_with_acquirers(self):
+    def test_affordability_check_in_required_downstream_checks(self):
+        """Affordability is now a Layer 3A operation; Layer 0 signals it via
+        required_downstream_checks, not by computing pair affordability itself."""
         t = _target()
-        acq = _acquirer()
-        r = evaluate_layer0(t, acquirers=[acq])
-        assert len(r.affordability) == 1
+        r = evaluate_layer0(t)
+        assert "affordability" in r.required_downstream_checks
 
     def test_affordability_empty_without_acquirers(self):
         t = _target()
