@@ -120,13 +120,6 @@ class AffordabilityBand(str, Enum):
     HARD_FAIL = "hard_fail"         # ratio > 1.10
 
 
-class DataConfidenceGrade(str, Enum):
-    """Data completeness grade (0G)."""
-    HIGH = "high"     # score ≥ 0.75 → eligible for ranked output
-    MEDIUM = "medium" # 0.50 ≤ score < 0.75 → eligible but flagged
-    LOW = "low"       # score < 0.50 → diligence queue only
-
-
 # ---------------------------------------------------------------------------
 # Input models
 # ---------------------------------------------------------------------------
@@ -229,6 +222,28 @@ class TargetEligibilityInput(BaseModel):
     has_partner_rights_data: bool = False
     has_patent_loe_data: bool = False
     has_acquirer_profile_data: bool = False
+
+    # --- Data reliability / source quality (0G extended — all optional) ---
+    # Per-category source quality (0–1); typical values:
+    #   0.95=sec_filing, 0.90=annual_report, 0.75=press_release,
+    #   0.45=investor_deck, 0.35=manual_note, 0.50=unknown
+    market_data_source_quality: float = Field(default=0.70, ge=0.0, le=1.0)
+    financial_data_source_quality: float = Field(default=0.70, ge=0.0, le=1.0)
+    asset_data_source_quality: float = Field(default=0.70, ge=0.0, le=1.0)
+    rights_ip_source_quality: float = Field(default=0.50, ge=0.0, le=1.0,
+        description="Rights data often from investor decks — lower default")
+    acquirer_data_source_quality: float = Field(default=0.60, ge=0.0, le=1.0)
+
+    # Per-category freshness (True = recently updated, < ~90 days)
+    market_data_fresh: bool = True
+    financial_data_fresh: bool = True
+    asset_data_fresh: bool = True
+    rights_ip_data_fresh: bool = True
+    acquirer_data_fresh: bool = True
+
+    # Explicit field-level overrides (list of field names known to be stale / unreliable)
+    stale_field_names: list[str] = Field(default_factory=list)
+    low_reliability_field_names: list[str] = Field(default_factory=list)
 
 
 class AcquirerCapacityInput(BaseModel):
@@ -341,15 +356,17 @@ from bve.intelligence.ma_distress_guard import (  # noqa: E402
 DistressGuard = DistressGuardResult
 
 
-class DataConfidenceResult(BaseModel):
-    """Data completeness grade and output eligibility (0G)."""
-    model_config = ConfigDict(frozen=True)
-
-    grade: DataConfidenceGrade
-    score: float = Field(ge=0.0, le=1.0)
-    missing_fields: list[str]
-    eligible_for_ranked_output: bool   # HIGH or MEDIUM
-    eligible_for_diligence_queue: bool # MEDIUM or LOW
+# 0G — Data Confidence Output (completeness × reliability composite)
+from bve.intelligence.ma_data_confidence import (  # noqa: E402
+    DataConfidenceLabel,
+    DataConfidenceResult,
+    compute_data_confidence,
+    data_confidence_from_target,
+)
+# Backward-compatibility alias: DataConfidenceGrade = DataConfidenceLabel
+# All existing code that imports or compares DataConfidenceGrade works unchanged
+# because they are the same object.
+DataConfidenceGrade = DataConfidenceLabel
 
 
 class Layer0Result(BaseModel):
@@ -432,24 +449,7 @@ def _affordability_band(ratio: float) -> tuple[AffordabilityBand, float]:
 # 0G — Data confidence field weights
 # ---------------------------------------------------------------------------
 
-_DATA_CONFIDENCE_FIELDS: dict[str, float] = {
-    "has_market_cap":           0.12,
-    "has_enterprise_value":     0.12,
-    "has_cash_debt":            0.10,
-    "has_quarterly_burn":       0.08,
-    "has_revenue_mix":          0.08,
-    "has_asset_ownership_data": 0.09,
-    "has_clinical_stage":       0.12,
-    "has_trial_status":         0.09,
-    "has_partner_rights_data":  0.07,
-    "has_patent_loe_data":      0.07,
-    "has_acquirer_profile_data": 0.06,
-}
-# Weights must sum to 1.0 (verified at module import)
-assert abs(sum(_DATA_CONFIDENCE_FIELDS.values()) - 1.0) < 1e-9, "weight sum mismatch"
-
-_DATA_CONFIDENCE_HIGH_THRESHOLD = 0.75
-_DATA_CONFIDENCE_MEDIUM_THRESHOLD = 0.50
+# 0G constants removed — scoring delegated to ma_data_confidence.compute_data_confidence()
 
 
 
@@ -577,8 +577,10 @@ def _evaluate_hard_exclusion(
     )
     lead_status = _LEAD_STATUS_MAP.get(t.lead_asset_status, "active")
 
-    # Data-confidence LOW maps to financial_data_missing so Gate 6 fires
-    financial_data_missing = data_confidence.grade == DataConfidenceGrade.LOW
+    # Data-confidence LOW or VERY_LOW maps to financial_data_missing so Gate 6 fires
+    financial_data_missing = data_confidence.grade in (
+        DataConfidenceGrade.LOW, DataConfidenceGrade.VERY_LOW
+    )
 
     profile = GateCompanyProfile(
         company_id=t.ticker or "unknown",
@@ -781,32 +783,13 @@ def _evaluate_distress_guard(t: TargetEligibilityInput) -> DistressGuard:
 # ---------------------------------------------------------------------------
 
 def _compute_data_confidence(t: TargetEligibilityInput) -> DataConfidenceResult:
-    """Grade data completeness and determine output eligibility."""
-    score = 0.0
-    missing: list[str] = []
+    """Compute 0G Data Confidence (completeness × reliability per category).
 
-    for field_name, weight in _DATA_CONFIDENCE_FIELDS.items():
-        if getattr(t, field_name, False):
-            score += weight
-        else:
-            missing.append(field_name[4:])  # strip "has_" prefix for readability
-
-    score = round(min(score, 1.0), 6)
-
-    if score >= _DATA_CONFIDENCE_HIGH_THRESHOLD:
-        grade = DataConfidenceGrade.HIGH
-    elif score >= _DATA_CONFIDENCE_MEDIUM_THRESHOLD:
-        grade = DataConfidenceGrade.MEDIUM
-    else:
-        grade = DataConfidenceGrade.LOW
-
-    return DataConfidenceResult(
-        grade=grade,
-        score=score,
-        missing_fields=missing,
-        eligible_for_ranked_output=grade != DataConfidenceGrade.LOW,
-        eligible_for_diligence_queue=grade != DataConfidenceGrade.HIGH,
-    )
+    Delegates to compute_data_confidence() via data_confidence_from_target().
+    Returns DataConfidenceResult with both spec-defined and backward-compat fields.
+    """
+    inp = data_confidence_from_target(t)
+    return compute_data_confidence(inp)
 
 
 # ---------------------------------------------------------------------------
