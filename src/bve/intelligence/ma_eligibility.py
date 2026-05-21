@@ -45,11 +45,11 @@ from bve.intelligence.deal_type_classification import (  # noqa: E402
     classify_deal_type,
 )
 
-# 0D — Asset-Control / Encumbrance Gate (6-bucket system)
-from bve.intelligence.ma_asset_control import (  # noqa: E402
-    AssetControlResult,
-    compute_asset_control,
-    asset_control_from_target,
+# 0D-T — Target-Level Asset-Control / Encumbrance Profile (Phase 3)
+from bve.intelligence.ma_asset_control_target import (  # noqa: E402
+    AssetControlTargetResult,
+    compute_asset_control_target,
+    asset_control_target_from_target,
 )
 
 # 0E — Target-Level Commercial Integration Complexity Flag
@@ -64,7 +64,8 @@ CommercialComplexityScore = TargetIntegrationComplexityFlag
 
 # Backward-compatibility alias — existing code that imports EncumbranceFlags from
 # this module (including test_sprint36_ma_layer0) continues to work unchanged.
-EncumbranceFlags = AssetControlResult
+# Phase 3: now points to the new target-level result (AssetControlTargetResult).
+EncumbranceFlags = AssetControlTargetResult
 
 
 # ---------------------------------------------------------------------------
@@ -173,8 +174,9 @@ _DOUBLE_COUNT_GUARD_MAP: list[str] = [
     # Issue                  Layer 0 treatment          Layer 3 treatment         Notes
     "affordability         | target_size_prescreen      | pair_penalty_cap@3A     | no_layer4_effect",
     "integration_complexity| flag_only@0E               | pair_penalty_via_G8@3C  | no_layer0_multiplier",
-    "encumbrance_universal | hard_caps_routes@0D        | pair_adjustment@3B      | rnpv_mult@layer4_only",
-    "partner_rights_rofr   | fact_recorded@0D           | buyer_impact@3B_only    | no_layer0_multiplier",
+    "encumbrance_universal | hard_caps_routes@0D-T      | pair_adjustment@3B      | rnpv_mult@layer4_only",
+    "partner_rights_rofr   | fact_recorded@0D-T         | buyer_impact@3B_only    | no_layer0_multiplier",
+    "mfg_complexity_target | flag_recorded@0D-T         | mfg_mismatch_penalty@3B | no_layer0_multiplier",
     "distress              | cap_or_route@0F            | transaction_narrative@3 | no_double_cap",
     "missing_data          | confidence_cap@0G          | exclusion@0A_only       | no_scoring_in_layer3",
     "self_acquisition      | pair_level_check@3_only    | removed_from_0A         | not_in_layer0",
@@ -696,15 +698,20 @@ def _compute_target_size_prescreen(t: "TargetEligibilityInput") -> TargetSizeRes
 # ---------------------------------------------------------------------------
 
 def _evaluate_encumbrance(t: TargetEligibilityInput) -> EncumbranceFlags:
-    """Evaluate 0D asset-control / encumbrance gate using the 6-bucket scoring system.
+    """Evaluate 0D-T target-level asset-control / encumbrance gate.
 
-    Maps coarse TargetEligibilityInput signals to the detailed AssetControlInput
-    sub-scores via ``asset_control_from_target()``, then runs ``compute_asset_control()``
-    to produce an ``AssetControlResult`` (aliased as ``EncumbranceFlags`` for backward
-    compatibility).
+    Phase 3: uses the new target-level module (ma_asset_control_target) which
+    removes pair-specific signals (acquirer_mfg_fit, ROFR blocking this buyer,
+    existing partner bonus) from Layer 0.  Those are resolved in Layer 3B via
+    compute_pair_asset_control().
+
+    Maps coarse TargetEligibilityInput signals to AssetControlTargetInput via
+    ``asset_control_target_from_target()``, then runs
+    ``compute_asset_control_target()`` to produce an ``AssetControlTargetResult``
+    (aliased as ``EncumbranceFlags`` for backward compatibility).
     """
-    inp = asset_control_from_target(t)
-    return compute_asset_control(inp)
+    inp = asset_control_target_from_target(t)
+    return compute_asset_control_target(inp)
 
 
 # ---------------------------------------------------------------------------
@@ -798,6 +805,17 @@ def _compute_required_downstream_checks(
     if getattr(target, "has_right_of_first_refusal", False) or \
        getattr(target, "has_existing_partnership", False):
         checks.append("partner_rights")         # PAIR_LEVEL → Layer 3B
+
+    # Pair asset-control adjustment (Layer 3B) — when 0D-T flags signals
+    # that require buyer-specific resolution: ROFR/partner impact on this
+    # acquirer, or manufacturing complexity requiring acquirer fit assessment.
+    _mfg_complexity = getattr(target, "manufacturing_complexity", "low")
+    if (
+        getattr(target, "has_right_of_first_refusal", False)
+        or getattr(target, "has_existing_partnership", False)
+        or _mfg_complexity in ("medium", "high")
+    ):
+        checks.append("pair_asset_control_adjustment")  # PAIR_LEVEL → Layer 3B
 
     # Antitrust — for deals likely > $1B or therapeutic area overlap risk
     ev = target.enterprise_value_millions or 0.0

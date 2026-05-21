@@ -267,6 +267,24 @@ class AssetControlTargetResult(BaseModel):
         """Backward-compat alias for triggered_encumbrances."""
         return self.triggered_encumbrances
 
+    @property
+    def partner_freedom_score(self) -> float:
+        """Backward-compat alias for partner_encumbrance_facts_score.
+
+        Legacy name from the old ma_asset_control.py partner_freedom bucket.
+        Callers should migrate to partner_encumbrance_facts_score.
+        """
+        return self.partner_encumbrance_facts_score
+
+    @property
+    def manufacturing_control_score(self) -> float:
+        """Backward-compat alias for manufacturing_readiness_score.
+
+        Legacy name from the old ma_asset_control.py manufacturing_control bucket.
+        Callers should migrate to manufacturing_readiness_score.
+        """
+        return self.manufacturing_readiness_score
+
 
 # ---------------------------------------------------------------------------
 # Bucket scoring functions

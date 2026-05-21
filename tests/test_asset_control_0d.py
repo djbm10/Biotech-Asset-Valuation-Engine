@@ -570,6 +570,15 @@ class TestBackwardCompatibility:
         assert isinstance(result, AssetControlResult)
 
     def test_encumbrance_flags_alias_resolves(self):
-        """EncumbranceFlags imported from ma_eligibility is AssetControlResult."""
+        """EncumbranceFlags imported from ma_eligibility is AssetControlTargetResult (Phase 3).
+
+        Phase 3 wired 0D-T (ma_asset_control_target) into evaluate_layer0().
+        EncumbranceFlags now points to AssetControlTargetResult, not the legacy
+        AssetControlResult.  Old AssetControlResult still importable directly
+        from bve.intelligence.ma_asset_control for backward compatibility.
+        """
         from bve.intelligence.ma_eligibility import EncumbranceFlags
-        assert EncumbranceFlags is AssetControlResult
+        from bve.intelligence.ma_asset_control_target import AssetControlTargetResult
+        assert EncumbranceFlags is AssetControlTargetResult
+        # Legacy module still importable independently
+        assert AssetControlResult is not None
