@@ -5,16 +5,22 @@ Before M&A scoring, this module determines:
     0B. Which deal model to route to (deal-type classification)
     0C. Whether each target-acquirer pair is financially feasible (affordability)
     0D. Asset-control / encumbrance issues that reduce deal value
-    0E. Commercial complexity as a function-based integration penalty
+    0E. Target-level commercial integration complexity flag (no score penalty at Layer 0)
     0F. Distress quality guard — cap when distressed target lacks strategic value
     0G. Data confidence grade — how much to trust the model output
 
 Layer 0 does NOT assign M&A probability.  It returns a ``Layer0Result`` that
 the scoring layer can consume to:
     - hard-exclude or route a target
-    - apply a score multiplier (encumbrance × complexity)
+    - apply a score multiplier (encumbrance penalty only — 0E no longer penalises here)
     - apply a probability cap (distress guard)
     - annotate output with data-confidence grade
+
+0E Design note:
+    Layer 0E identifies the target's raw integration complexity and passes it
+    downstream.  The buyer-specific integration penalty is computed in Layer 3
+    via ``compute_pair_integration_adjustment()`` and applied through G8.
+    This prevents double-counting between Layer 0 and Layer 3.
 """
 from __future__ import annotations
 
@@ -44,6 +50,16 @@ from bve.intelligence.ma_asset_control import (  # noqa: E402
     compute_asset_control,
     asset_control_from_target,
 )
+
+# 0E — Target-Level Commercial Integration Complexity Flag
+from bve.intelligence.ma_integration_complexity import (  # noqa: E402
+    TargetIntegrationComplexityFlag,
+    compute_target_integration_complexity,
+)
+
+# Backward-compatibility alias — code that imports CommercialComplexityScore from
+# this module continues to work.  The new model has richer fields (see 0E docs).
+CommercialComplexityScore = TargetIntegrationComplexityFlag
 
 # Backward-compatibility alias — existing code that imports EncumbranceFlags from
 # this module (including test_sprint36_ma_layer0) continues to work unchanged.
@@ -279,15 +295,6 @@ class AffordabilityResult(BaseModel):
 
 
 
-class CommercialComplexityScore(BaseModel):
-    """Function-based integration complexity score (0E)."""
-    model_config = ConfigDict(frozen=True)
-
-    complexity_score: float = Field(ge=0.0, le=1.0)  # 0 = simple, 1 = complex
-    penalty_multiplier: float = Field(ge=0.0, le=1.0) # applied to M&A score
-    components: dict[str, float]
-    notes: list[str]
-
 
 class DistressGuard(BaseModel):
     """Cap guard applied when distress has no strategic backing (0F)."""
@@ -337,8 +344,13 @@ class Layer0Result(BaseModel):
     # 0D — encumbrance
     encumbrance: EncumbranceFlags
 
-    # 0E — commercial complexity
-    commercial_complexity: CommercialComplexityScore
+    # 0E — target-level integration complexity flag (no score penalty at Layer 0)
+    # Buyer-specific penalty is computed in Layer 3 via compute_pair_integration_adjustment().
+    commercial_complexity: CommercialComplexityScore  # alias for TargetIntegrationComplexityFlag
+
+    # 0E convenience fields — surfaced at top level for Layer 3 / G8 consumers
+    raw_integration_complexity_score: float = 0.0
+    requires_buyer_capability_check: bool = False
 
     # 0F — distress guard
     distress_guard: DistressGuard
@@ -348,7 +360,7 @@ class Layer0Result(BaseModel):
 
     # Combined score modifiers (applied regardless of exclusion status)
     score_cap: Optional[float] = None    # None = no cap; else clamp mna_probability
-    score_multiplier: float = 1.0        # encumbrance × complexity penalty
+    score_multiplier: float = 1.0        # encumbrance penalty (0E no longer contributes)
     layer0_notes: list[str] = Field(default_factory=list)
 
     # Rich 11-gate exclusion assessment (None when not yet evaluated).
@@ -404,52 +416,6 @@ _DATA_CONFIDENCE_HIGH_THRESHOLD = 0.75
 _DATA_CONFIDENCE_MEDIUM_THRESHOLD = 0.50
 
 
-
-# ---------------------------------------------------------------------------
-# 0E — Commercial complexity component weights and scorers
-# ---------------------------------------------------------------------------
-
-_COMPLEXITY_WEIGHTS: dict[str, float] = {
-    "product_count":    0.20,
-    "indication_count": 0.12,
-    "revenue_dispersion": 0.10,
-    "salesforce":       0.15,
-    "manufacturing":    0.18,
-    "geography":        0.12,
-    "payer_access":     0.13,
-}
-
-
-def _product_count_complexity(n: int) -> float:
-    if n <= 1:
-        return 0.0
-    if n == 2:
-        return 0.25
-    if n <= 5:
-        return 0.50
-    if n <= 10:
-        return 0.75
-    return 1.00
-
-
-def _indication_count_complexity(n: int) -> float:
-    if n <= 1:
-        return 0.0
-    if n == 2:
-        return 0.40
-    return 0.80
-
-
-def _revenue_dispersion_complexity(concentration: Optional[float]) -> float:
-    """High concentration (single dominant product) = low complexity."""
-    if concentration is None:
-        return 0.40   # neutral when unknown
-    return round(1.0 - concentration, 6)
-
-
-_MANUFACTURING_SCORES: dict[str, float] = {"low": 0.0, "medium": 0.45, "high": 1.0}
-_GEOGRAPHY_SCORES: dict[str, float] = {"local": 0.0, "regional": 0.40, "global": 1.0}
-_PAYER_SCORES: dict[str, float] = {"low": 0.0, "medium": 0.50, "high": 1.0}
 
 
 # ---------------------------------------------------------------------------
@@ -743,54 +709,17 @@ def _evaluate_encumbrance(t: TargetEligibilityInput) -> EncumbranceFlags:
 
 
 # ---------------------------------------------------------------------------
-# Section 0E — Commercial Complexity / Integration Penalty
+# Section 0E — Target-Level Integration Complexity Flag
 # ---------------------------------------------------------------------------
 
 def _compute_commercial_complexity(t: TargetEligibilityInput) -> CommercialComplexityScore:
-    """Score integration complexity; high complexity reduces the score multiplier.
+    """Compute 0E target-level integration complexity flag.
 
-    Unlike the old flat 0.50 multi-product penalty, this function accounts for
-    all seven integration dimensions and partially offsets the penalty when the
-    target has an established commercial infrastructure (approved_revenue > 50%).
+    Delegates to compute_target_integration_complexity().  No score penalty
+    is applied here — the buyer-specific penalty belongs in Layer 3 G8 via
+    compute_pair_integration_adjustment().
     """
-    components: dict[str, float] = {
-        "product_count":    _product_count_complexity(t.product_count),
-        "indication_count": _indication_count_complexity(t.indication_count),
-        "revenue_dispersion": _revenue_dispersion_complexity(t.revenue_concentration),
-        "salesforce":       1.0 if t.salesforce_required else 0.0,
-        "manufacturing":    _MANUFACTURING_SCORES[t.manufacturing_complexity],
-        "geography":        _GEOGRAPHY_SCORES[t.geographic_complexity],
-        "payer_access":     _PAYER_SCORES[t.payer_access_complexity],
-    }
-
-    complexity_score = round(
-        min(sum(components[k] * _COMPLEXITY_WEIGHTS[k] for k in _COMPLEXITY_WEIGHTS), 1.0),
-        6,
-    )
-
-    # Max penalty is 50% reduction; offset by 40% when approved revenue is high
-    # (existing commercial infrastructure reduces integration cost)
-    penalty = complexity_score * 0.50
-    if t.approved_revenue_share is not None and t.approved_revenue_share > 0.50:
-        penalty *= 0.60
-
-    penalty_multiplier = round(max(1.0 - penalty, 0.50), 6)
-
-    notes: list[str] = []
-    if complexity_score > 0.60:
-        if t.revenue_concentration is not None and t.revenue_concentration > 0.70:
-            notes.append("high_complexity_but_concentrated_revenue:manageable")
-        else:
-            notes.append("high_commercial_complexity:integration_risk")
-    if t.salesforce_required and t.manufacturing_complexity == "high":
-        notes.append("dual_execution_risk:salesforce_and_complex_manufacturing")
-
-    return CommercialComplexityScore(
-        complexity_score=complexity_score,
-        penalty_multiplier=penalty_multiplier,
-        components=components,
-        notes=notes,
-    )
+    return compute_target_integration_complexity(t)
 
 
 # ---------------------------------------------------------------------------
@@ -905,10 +834,10 @@ def evaluate_layer0(
         affordability = _evaluate_affordability(target.enterprise_value_millions, acquirers)
 
     # Combined score modifiers
+    # NOTE: 0E no longer contributes to the score multiplier — integration penalty
+    # is applied pair-specifically in Layer 3 via G8.  Only encumbrance (0D) here.
     notes: list[str] = []
-    combined_multiplier = round(
-        encumbrance.penalty_multiplier * commercial_complexity.penalty_multiplier, 6
-    )
+    combined_multiplier = round(encumbrance.penalty_multiplier, 6)
 
     score_cap: Optional[float] = None
     if distress_guard.guard_active and distress_guard.mna_probability_cap is not None:
@@ -921,7 +850,8 @@ def evaluate_layer0(
         if not c.endswith(":positive") and not c.endswith(":unknown") and "unknown" not in c
     ]
     notes.extend(penalty_codes)
-    notes.extend(commercial_complexity.notes)
+    # 0E: append integration risk drivers as informational notes (no penalty)
+    notes.extend(commercial_complexity.complexity_flags)
 
     # Honour any score cap from the exclusion engine (e.g. SEVERE_CAP gates)
     engine_cap = (
@@ -945,6 +875,8 @@ def evaluate_layer0(
         affordability=affordability,
         encumbrance=encumbrance,
         commercial_complexity=commercial_complexity,
+        raw_integration_complexity_score=commercial_complexity.raw_integration_complexity_score,
+        requires_buyer_capability_check=commercial_complexity.requires_buyer_capability_check,
         distress_guard=distress_guard,
         data_confidence=data_confidence,
         score_cap=score_cap,

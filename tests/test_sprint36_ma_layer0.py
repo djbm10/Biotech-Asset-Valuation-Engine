@@ -446,16 +446,31 @@ class TestEncumbranceGate:
 # ===========================================================================
 
 class TestCommercialComplexity:
+    """Tests for 0E TargetIntegrationComplexityFlag (new interface).
+
+    The old CommercialComplexityScore fields (.complexity_score, .penalty_multiplier,
+    .components, .notes) are gone.  New interface:
+      - raw_integration_complexity_score (float 0-1)
+      - complexity_level (IntegrationComplexityLevel enum)
+      - component_scores (dict[str, float])
+      - complexity_flags (list[str])
+      - requires_buyer_capability_check (bool)
+      - rationale (list[str])
+      - data_gaps (list[str])
+    """
+
     def test_single_product_low_complexity(self):
         t = _target(product_count=1, indication_count=1,
                     manufacturing_complexity="low", geographic_complexity="local",
                     payer_access_complexity="low", salesforce_required=False,
-                    revenue_concentration=1.0)   # 100% concentrated → dispersion=0
+                    revenue_concentration=1.0)
         cc = _compute_commercial_complexity(t)
-        assert cc.complexity_score < 0.10   # very simple
-        assert cc.penalty_multiplier == pytest.approx(1.0)  # no meaningful penalty
+        # LOW complexity: raw score < 0.25, no buyer capability check required
+        assert cc.raw_integration_complexity_score < 0.25
+        assert cc.complexity_level.value in ("low", "moderate")
+        assert cc.requires_buyer_capability_check is False
 
-    def test_max_complexity_reduces_multiplier(self):
+    def test_max_complexity_is_high_or_severe(self):
         t = _target(
             product_count=15, indication_count=5,
             manufacturing_complexity="high", geographic_complexity="global",
@@ -463,58 +478,49 @@ class TestCommercialComplexity:
             revenue_concentration=0.10,
         )
         cc = _compute_commercial_complexity(t)
-        assert cc.complexity_score > 0.70
-        assert cc.penalty_multiplier < 0.70
+        assert cc.raw_integration_complexity_score > 0.45
+        assert cc.complexity_level.value in ("high", "severe")
+        assert cc.requires_buyer_capability_check is True
 
-    def test_approved_revenue_offsets_complexity_penalty(self):
-        # High complexity + high approved revenue → penalty partially offset
-        t_no_rev = _target(
-            product_count=10, manufacturing_complexity="high",
-            geographic_complexity="global", payer_access_complexity="high",
-            approved_revenue_share=None,
-        )
-        t_with_rev = _target(
-            product_count=10, manufacturing_complexity="high",
-            geographic_complexity="global", payer_access_complexity="high",
-            approved_revenue_share=0.70,
-        )
-        cc_no = _compute_commercial_complexity(t_no_rev)
-        cc_with = _compute_commercial_complexity(t_with_rev)
-        # With approved revenue, penalty is 60% of what it would be otherwise
-        assert cc_with.penalty_multiplier > cc_no.penalty_multiplier
-
-    def test_penalty_multiplier_floor_50pct(self):
-        t = _target(
-            product_count=20, indication_count=10,
-            manufacturing_complexity="high", geographic_complexity="global",
-            payer_access_complexity="high", salesforce_required=True,
-            revenue_concentration=0.0,
-        )
-        cc = _compute_commercial_complexity(t)
-        assert cc.penalty_multiplier >= 0.50
-
-    def test_dual_execution_risk_note(self):
-        t = _target(salesforce_required=True, manufacturing_complexity="high")
-        cc = _compute_commercial_complexity(t)
-        assert any("dual_execution_risk" in n for n in cc.notes)
-
-    def test_high_complexity_concentrated_revenue_note(self):
-        t = _target(
-            product_count=10, manufacturing_complexity="high",
-            geographic_complexity="global", payer_access_complexity="high",
-            revenue_concentration=0.85, salesforce_required=False,
-        )
-        cc = _compute_commercial_complexity(t)
-        if cc.complexity_score > 0.60:
-            assert any("manageable" in n for n in cc.notes)
-
-    def test_components_keys_present(self):
+    def test_component_scores_keys_present(self):
+        """New component_scores dict uses 8-bucket key names."""
         t = _target()
         cc = _compute_commercial_complexity(t)
-        assert set(cc.components.keys()) == {
-            "product_count", "indication_count", "revenue_dispersion",
-            "salesforce", "manufacturing", "geography", "payer_access",
+        expected_keys = {
+            "product_complexity", "indication_complexity", "salesforce_burden",
+            "manufacturing_transfer_complexity", "geographic_complexity",
+            "payer_access_complexity", "channel_complexity",
+            "systems_compliance_transfer_risk",
         }
+        assert expected_keys.issubset(set(cc.component_scores.keys()))
+
+    def test_complexity_flags_is_list(self):
+        t = _target(manufacturing_complexity="high", geographic_complexity="global")
+        cc = _compute_commercial_complexity(t)
+        assert isinstance(cc.complexity_flags, list)
+
+    def test_high_mfg_and_geo_triggers_buyer_capability_check(self):
+        t = _target(manufacturing_complexity="high", geographic_complexity="global",
+                    payer_access_complexity="high")
+        cc = _compute_commercial_complexity(t)
+        assert cc.requires_buyer_capability_check is True
+
+    def test_rationale_is_nonempty(self):
+        t = _target(product_count=5, manufacturing_complexity="high")
+        cc = _compute_commercial_complexity(t)
+        assert len(cc.rationale) >= 1
+
+    def test_layer0_convenience_fields_propagated(self):
+        """Layer0Result exposes raw_integration_complexity_score and requires_buyer_capability_check."""
+        t = _target(
+            product_count=10, manufacturing_complexity="high",
+            geographic_complexity="global", payer_access_complexity="high",
+        )
+        r = evaluate_layer0(t)
+        assert r.raw_integration_complexity_score == pytest.approx(
+            r.commercial_complexity.raw_integration_complexity_score
+        )
+        assert r.requires_buyer_capability_check == r.commercial_complexity.requires_buyer_capability_check
 
 
 # ===========================================================================
@@ -647,12 +653,20 @@ class TestEvaluateLayer0:
         r = evaluate_layer0(t)
         assert r.affordability == []
 
-    def test_combined_multiplier_product_of_encumbrance_and_complexity(self):
+    def test_score_multiplier_is_encumbrance_only(self):
+        """score_multiplier = encumbrance.penalty_multiplier only.
+        0E no longer contributes to the Layer 0 score multiplier (no double-counting
+        with Layer 3 pair-specific integration penalty via G8).
+        """
         t = _target(has_ip_dispute=True, manufacturing_complexity="high",
                     geographic_complexity="global")
         r = evaluate_layer0(t)
-        expected = r.encumbrance.penalty_multiplier * r.commercial_complexity.penalty_multiplier
-        assert r.score_multiplier == pytest.approx(expected, rel=1e-5)
+        # score_multiplier must equal encumbrance penalty alone
+        assert r.score_multiplier == pytest.approx(r.encumbrance.penalty_multiplier, rel=1e-5)
+        # 0E complexity does NOT reduce score_multiplier
+        assert r.score_multiplier != pytest.approx(
+            r.encumbrance.penalty_multiplier * 0.5, rel=1e-2
+        )
 
     def test_distress_guard_cap_propagated(self):
         t = _target(financing_pressure_high=True, lead_asset_quality_low=True)

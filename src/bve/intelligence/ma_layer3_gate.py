@@ -23,7 +23,6 @@ Key architectural changes vs the old driver-count system:
 """
 from __future__ import annotations
 
-import math
 from typing import Optional
 
 from pydantic import BaseModel, ConfigDict, Field
@@ -153,8 +152,15 @@ class GateInputs(BaseModel):
         description="Deal affordability relative to acquirer capacity (from Layer 1 1E)")
     antitrust_risk_high: bool = Field(default=False,
         description="Elevated antitrust / competition law risk")
+    # Legacy flag — kept for backward compatibility.
+    # When adjusted_integration_penalty is provided, it supersedes this flag.
     integration_complexity_severe: bool = Field(default=False,
         description="Severe integration complexity (manufacturing, platform, geography)")
+    # Pair-specific integration penalty from compute_pair_integration_adjustment().
+    # When set, G8 uses this value with tiered caps instead of the legacy flag.
+    # Penalty 0.50–0.70 → cap 0.60; penalty > 0.70 → cap 0.50 (pair fail if < 0.25 capability).
+    adjusted_integration_penalty: Optional[float] = Field(default=None, ge=0.0, le=1.0,
+        description="Pair-specific integration penalty from Layer 3 / 0E+acquirer capability")
 
 
 # ---------------------------------------------------------------------------
@@ -216,6 +222,13 @@ class Layer3Output(BaseModel):
     near_term_transaction_possible: bool
 
     interpretation: str
+
+    # G8 pair-specific integration adjustment diagnostics (populated when
+    # adjusted_integration_penalty is provided in GateInputs)
+    adjusted_integration_penalty: Optional[float] = Field(default=None,
+        description="Pair-level integration penalty used for G8 (None = legacy flag path)")
+    integration_cap_applied: Optional[float] = Field(default=None,
+        description="Actual G8 cap used (0.60 for penalty 0.50-0.70; 0.50 for >0.70)")
 
 
 # ---------------------------------------------------------------------------
@@ -397,7 +410,7 @@ def _evaluate_gates(
     pre_gate_score: float,
     buckets: DriverBucketResult,
     gate_inputs: GateInputs,
-) -> tuple[float, list[GateResult]]:
+) -> tuple[float, list[GateResult], Optional[float]]:
     """Evaluate all 8 institutional gates and apply the most restrictive cap.
 
     All gates are evaluated independently. The final score is:
@@ -479,16 +492,42 @@ def _evaluate_gates(
         f"asset_control={gate_inputs.asset_control:.2f} < 0.40: "
         f"rights encumbered, composite ≤ {_GATE_CAPS['G7']}"))
 
-    # G8 — Deal Feasibility Gate
+    # G8 — Deal Feasibility Gate (tiered cap when adjusted_integration_penalty provided)
+    adj_penalty = gate_inputs.adjusted_integration_penalty
+    if adj_penalty is not None:
+        # Pair-specific path: use adjusted_integration_penalty with tiered caps.
+        # No double-counting: Layer 0E did not apply a score penalty.
+        integration_trigger = adj_penalty >= 0.50
+        if adj_penalty > 0.70:
+            g8_cap = 0.50
+        else:
+            g8_cap = _GATE_CAPS["G8"]  # 0.60
+        integration_desc = f"adjusted_integration_penalty={adj_penalty:.2f}"
+    else:
+        # Legacy path: fall back to integration_complexity_severe boolean flag
+        integration_trigger = gate_inputs.integration_complexity_severe
+        g8_cap = _GATE_CAPS["G8"]  # 0.60
+        integration_desc = f"integration_complexity_severe={gate_inputs.integration_complexity_severe}"
+
     g8 = (
         gate_inputs.affordability < 0.40
         or gate_inputs.antitrust_risk_high
-        or gate_inputs.integration_complexity_severe
+        or integration_trigger
     )
-    gate_results.append(_gate("G8", g8,
-        f"affordability={gate_inputs.affordability:.2f} < 0.40 "
-        f"or antitrust/integration flag: "
-        f"composite ≤ {_GATE_CAPS['G8']}"))
+    # Apply dynamic G8 cap (may differ from _GATE_CAPS["G8"] under tiered logic)
+    if g8:
+        active_caps.append(g8_cap)
+    gate_results.append(GateResult(
+        gate_id="G8",
+        triggered=g8,
+        cap_applied=g8_cap,
+        description=(
+            f"affordability={gate_inputs.affordability:.2f} < 0.40 "
+            f"or antitrust_risk_high={gate_inputs.antitrust_risk_high} "
+            f"or {integration_desc}: "
+            f"composite ≤ {g8_cap}"
+        ),
+    ))
 
     # Apply most restrictive cap
     if active_caps:
@@ -617,6 +656,11 @@ def compute_layer3(
         buckets, active_gate_ids, pre_gate_score, final_score
     )
 
+    # Derive G8 integration cap diagnostics for the output
+    adj_penalty = gate_inputs.adjusted_integration_penalty
+    g8_result = next((g for g in gate_results if g.gate_id == "G8"), None)
+    integration_cap = g8_result.cap_applied if g8_result and g8_result.triggered else None
+
     return Layer3Output(
         target_name=target_name,
         acquirer_id=acquirer_id,
@@ -629,4 +673,6 @@ def compute_layer3(
         driver_buckets=buckets,
         near_term_transaction_possible=buckets.near_term_transaction_possible,
         interpretation=interpretation,
+        adjusted_integration_penalty=adj_penalty,
+        integration_cap_applied=integration_cap,
     )
