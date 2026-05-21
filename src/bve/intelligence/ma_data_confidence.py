@@ -147,6 +147,12 @@ class DataConfidenceResult(BaseModel):
     ranking_treatment: RankingTreatment
     rationale: list[str]
 
+    # ── Critical field cap results ─────────────────────────────────────────
+    critical_field_caps: list[str] = Field(default_factory=list,
+        description="Reasons why confidence label was reduced by a critical field ceiling rule")
+    field_cap_applied: bool = Field(default=False,
+        description="True when at least one critical-field cap reduced the label below the composite score")
+
     # ── Backward-compatibility aliases ─────────────────────────────────────
     grade: DataConfidenceLabel           # = confidence_label
     score: float                         # = data_confidence_score
@@ -169,6 +175,34 @@ assert abs(sum(_CATEGORY_WEIGHTS.values()) - 1.0) < 1e-9
 
 _FRESHNESS_PENALTY = 0.80   # staleness reduces reliability to 80%
 _RIGHTS_IP_CAP_THRESHOLD = 0.50   # below this → cannot rank above MEDIUM
+
+# Label ordinal — lower number = worse confidence
+_LABEL_ORDINAL: dict[str, int] = {
+    "high":     3,
+    "medium":   2,
+    "low":      1,
+    "very_low": 0,
+}
+
+# Critical field cap rules: (cap_label, condition_name, rationale)
+# Applied after composite + rights/IP gate; take the most restrictive cap.
+_CRITICAL_FIELD_CAPS: list[tuple[str, str, str]] = [
+    (
+        "low",
+        "no_asset_profile",
+        "has_clinical_stage and has_trial_status both missing — no asset profile available → cap LOW",
+    ),
+    (
+        "low",
+        "no_valuation_data",
+        "has_market_cap and has_enterprise_value both missing — valuation impossible → cap LOW",
+    ),
+    (
+        "medium",
+        "no_asset_ownership_data",
+        "has_asset_ownership_data missing — encumbrance cannot be assessed → cap MEDIUM",
+    ),
+]
 
 
 # ---------------------------------------------------------------------------
@@ -250,6 +284,28 @@ def compute_data_confidence(inp: DataConfidenceInput) -> DataConfidenceResult:
             label = DataConfidenceLabel.MEDIUM
             rights_ip_capped = True
 
+    # ── Critical field caps: ceiling rules based on missing key fields ──────
+    critical_caps_applied: list[str] = []
+    label_before_field_caps = label
+    for cap_label_str, condition_name, rationale_text in _CRITICAL_FIELD_CAPS:
+        # Evaluate condition
+        if condition_name == "no_asset_profile":
+            fired = not inp.has_clinical_stage and not inp.has_trial_status
+        elif condition_name == "no_valuation_data":
+            fired = not inp.has_market_cap and not inp.has_enterprise_value
+        elif condition_name == "no_asset_ownership_data":
+            fired = not inp.has_asset_ownership_data
+        else:
+            fired = False
+
+        if fired:
+            cap_label = DataConfidenceLabel(cap_label_str)
+            if _LABEL_ORDINAL[cap_label.value] < _LABEL_ORDINAL[label.value]:
+                label = cap_label
+                critical_caps_applied.append(f"{condition_name}: {rationale_text}")
+
+    field_cap_applied = label != label_before_field_caps
+
     treatment = _ranking_treatment(label)
 
     # ── Missing fields (completeness = 0 for any has_* flag) ──────────────
@@ -313,6 +369,8 @@ def compute_data_confidence(inp: DataConfidenceInput) -> DataConfidenceResult:
             f"{_RIGHTS_IP_CAP_THRESHOLD} → label capped at MEDIUM "
             "(cannot rank above Medium without reliable rights/IP data)"
         )
+    for cap_reason in critical_caps_applied:
+        rationale.append(f"critical_field_cap: {cap_reason}")
     if missing:
         rationale.append(f"missing_fields({len(missing)}): {', '.join(missing[:5])}"
                          + ("…" if len(missing) > 5 else ""))
@@ -329,6 +387,8 @@ def compute_data_confidence(inp: DataConfidenceInput) -> DataConfidenceResult:
         source_quality_summary=sq_summary,
         ranking_treatment=treatment,
         rationale=rationale,
+        critical_field_caps=critical_caps_applied,
+        field_cap_applied=field_cap_applied,
         # backward-compat aliases
         grade=label,
         score=raw_score,

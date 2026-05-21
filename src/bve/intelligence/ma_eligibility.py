@@ -120,6 +120,53 @@ class AffordabilityBand(str, Enum):
     HARD_FAIL = "hard_fail"         # ratio > 1.10
 
 
+class ScopeTag(str, Enum):
+    """Scope classification for every Layer 0 finding.
+
+    Used to annotate which layer is responsible for scoring each issue
+    and to enforce the anti-double-counting contract.
+
+    TARGET_LEVEL  — pertains to the company/entity regardless of acquirer
+    ASSET_LEVEL   — pertains to the specific drug asset / compound
+    PAIR_LEVEL    — requires specific acquirer knowledge; handled in Layer 3
+    MODEL_ROUTING — affects which scoring model / formula is used
+    DATA_QUALITY  — about information completeness or reliability
+    HISTORICAL_ONLY — name no longer active in the live market
+    """
+    TARGET_LEVEL   = "target_level"
+    ASSET_LEVEL    = "asset_level"
+    PAIR_LEVEL     = "pair_level"
+    MODEL_ROUTING  = "model_routing"
+    DATA_QUALITY   = "data_quality"
+    HISTORICAL_ONLY = "historical_only"
+
+
+# ---------------------------------------------------------------------------
+# Anti-double-counting contract
+# ---------------------------------------------------------------------------
+#
+# For each issue category, exactly one layer is allowed to apply a numeric
+# score effect (multiplier, cap, or penalty).  All other layers must treat
+# it as flag / narrative only.
+#
+# Acceptance criterion:
+#   No issue should affect score in both Layer 0 and Layer 3 unless
+#   explicitly listed below with "ALLOWED_IN_BOTH" rationale.
+#
+_DOUBLE_COUNT_GUARD_MAP: list[str] = [
+    # Issue                  Layer 0 treatment          Layer 3 treatment         Notes
+    "affordability         | target_size_prescreen      | pair_penalty_cap@3A     | no_layer4_effect",
+    "integration_complexity| flag_only@0E               | pair_penalty_via_G8@3C  | no_layer0_multiplier",
+    "encumbrance_universal | hard_caps_routes@0D        | pair_adjustment@3B      | rnpv_mult@layer4_only",
+    "partner_rights_rofr   | fact_recorded@0D           | buyer_impact@3B_only    | no_layer0_multiplier",
+    "distress              | cap_or_route@0F            | transaction_narrative@3 | no_double_cap",
+    "missing_data          | confidence_cap@0G          | exclusion@0A_only       | no_scoring_in_layer3",
+    "self_acquisition      | pair_level_check@3_only    | removed_from_0A         | not_in_layer0",
+    "antitrust             | buyer_specific@3D_only     | not_in_layer0           | not_in_layer0",
+    "manufacturing_fit     | universal_readiness@0D     | buyer_fit@3B_only       | no_layer0_pair_mult",
+]
+
+
 # ---------------------------------------------------------------------------
 # Input models
 # ---------------------------------------------------------------------------
@@ -416,6 +463,13 @@ class Layer0Result(BaseModel):
     score_multiplier: float = 1.0        # encumbrance penalty (0E no longer contributes)
     layer0_notes: list[str] = Field(default_factory=list)
 
+    # Phase 1 additions — eligibility flags, scope-tagged diagnostics, 0H summary
+    live_ranking_eligible: bool = False
+    historical_training_eligible: bool = True   # always; even excluded names are training data
+    required_downstream_checks: list[str] = Field(default_factory=list)
+    double_count_guards: list[str] = Field(default_factory=list)
+    decision_summary: Optional["Layer0DecisionSummary"] = None
+
     # Rich 11-gate exclusion assessment (None when not yet evaluated).
     # Downstream consumers that need gate-level detail should use this field.
     # The legacy passes_hard_exclusion / exclusion_code / exclusion_reason fields
@@ -423,6 +477,47 @@ class Layer0Result(BaseModel):
     hard_exclusion_assessment: Optional["ExclusionAssessmentRef"] = Field(
         default=None, exclude=True
     )
+
+
+# ---------------------------------------------------------------------------
+# 0H — Layer 0 Decision Summary
+# ---------------------------------------------------------------------------
+
+class Layer0DecisionSummary(BaseModel):
+    """0H — Layer 0 Decision Summary (audit / human-readable output layer).
+
+    NOT a scoring gate.  Aggregates all Layer 0 gate outputs into a
+    structured, plain-English verdict that makes the assessment auditable.
+    Populated last in evaluate_layer0() after all gates have run.
+    """
+    model_config = ConfigDict(frozen=True)
+
+    # Eligibility
+    live_ranking_eligible: bool
+    historical_training_eligible: bool
+
+    # Routing
+    routing_verdict: str
+    """One of: ELIGIBLE | DILIGENCE_QUEUE | HISTORICAL_ONLY | ROUTE_TO_OTHER_MODEL
+    | EXCLUDED:<code>"""
+
+    # Active modifiers summary
+    active_score_caps: list[float]
+    active_score_multiplier: float
+
+    # Context
+    data_confidence_label: str
+    deal_type_primary: Optional[str]
+
+    # Downstream requirements (pair-level checks the scorer must invoke)
+    required_downstream_checks: list[str]
+
+    # Flags and double-count guards
+    warning_flags: list[str]
+    double_count_guards: list[str]
+
+    # Human-readable verdict
+    plain_english_verdict: str
 
 
 # ---------------------------------------------------------------------------
@@ -793,6 +888,161 @@ def _compute_data_confidence(t: TargetEligibilityInput) -> DataConfidenceResult:
 
 
 # ---------------------------------------------------------------------------
+# Phase 1 helpers — downstream checks, decision summary
+# ---------------------------------------------------------------------------
+
+def _compute_required_downstream_checks(
+    target: "TargetEligibilityInput",
+    passes: bool,
+    commercial_complexity: "CommercialComplexityScore",
+    distress_guard: "DistressGuard",
+    deal_type: Optional[DealType],
+) -> list[str]:
+    """Enumerate the pair-level checks the scoring layer must invoke for this target.
+
+    These checks are NOT performed at Layer 0 (they require acquirer identity or
+    additional data).  They are surfaced here so downstream consumers know exactly
+    what to call.
+
+    Scope tags: all items are PAIR_LEVEL unless noted.
+    """
+    checks: list[str] = []
+    if not passes:
+        return checks
+
+    # Affordability — always required when EV is present; otherwise flag data gap
+    if target.enterprise_value_millions is not None:
+        checks.append("affordability")          # PAIR_LEVEL → Layer 3A
+    else:
+        checks.append("affordability_data_required")  # DATA_QUALITY
+
+    # Buyer integration — when complexity is MODERATE or above
+    if commercial_complexity.requires_buyer_capability_check:
+        checks.append("buyer_integration")      # PAIR_LEVEL → Layer 3C / G8
+
+    # Partner rights — when ROFR or existing partnership exists
+    if getattr(target, "has_right_of_first_refusal", False) or \
+       getattr(target, "has_existing_partnership", False):
+        checks.append("partner_rights")         # PAIR_LEVEL → Layer 3B
+
+    # Antitrust — for deals likely > $1B or therapeutic area overlap risk
+    ev = target.enterprise_value_millions or 0.0
+    mc = target.market_cap_millions or 0.0
+    if max(ev, mc) > 1_000.0:
+        checks.append("antitrust")              # PAIR_LEVEL → Layer 3D
+
+    # Licensing model — when deal type routes to partnership / license
+    if deal_type is not None and deal_type.value in (
+        "asset_license_partnership", "licensing",
+    ):
+        checks.append("licensing_model")        # MODEL_ROUTING
+
+    # Distressed optionality model — when 0F routes
+    if distress_guard.route_to is not None:
+        checks.append("distressed_optionality_model")  # MODEL_ROUTING
+
+    return checks
+
+
+def _routing_verdict(
+    passes: bool,
+    excl_code: Optional[ExclusionCode],
+) -> str:
+    """One-word routing verdict for 0H Decision Summary."""
+    if passes:
+        return "ELIGIBLE"
+    if excl_code == ExclusionCode.ALREADY_ACQUIRED:
+        return "HISTORICAL_ONLY"
+    if excl_code == ExclusionCode.ROUTED_TO_OTHER_MODEL:
+        return "ROUTE_TO_OTHER_MODEL"
+    if excl_code == ExclusionCode.INSUFFICIENT_DATA:
+        return "DILIGENCE_QUEUE"
+    return f"EXCLUDED:{excl_code.value if excl_code else 'unknown'}"
+
+
+def _plain_english_verdict(
+    passes: bool,
+    excl_code: Optional[ExclusionCode],
+    data_confidence_label: "DataConfidenceLabel",
+    deal_type: Optional[DealType],
+    score_cap: Optional[float],
+    distress_guard: "DistressGuard",
+    required_checks: list[str],
+) -> str:
+    """Generate a 2–3 sentence plain-English audit verdict for 0H."""
+    if not passes:
+        if excl_code == ExclusionCode.ALREADY_ACQUIRED:
+            return (
+                "Target has been acquired and is no longer eligible for live ranking. "
+                "Historical data is eligible for model training."
+            )
+        if excl_code == ExclusionCode.INSUFFICIENT_DATA:
+            return (
+                "Target lacks sufficient data for M&A scoring. "
+                "Queued for diligence and data enrichment before re-evaluation."
+            )
+        code_str = excl_code.value if excl_code else "unknown reason"
+        return f"Target excluded ({code_str}) and is not eligible for the M&A scoring pipeline."
+
+    parts: list[str] = []
+
+    deal_str = deal_type.value if deal_type else "undetermined deal type"
+    conf_str = data_confidence_label.value
+    parts.append(f"Target eligible for live ranking as a {deal_str}.")
+    parts.append(f"Data confidence is {conf_str}.")
+
+    if score_cap is not None:
+        parts.append(f"M&A probability capped at {score_cap:.0%} due to distress or structural limit.")
+    elif distress_guard.guard_active:
+        parts.append(f"Distress guard active ({distress_guard.treatment.value}); no hard cap applied.")
+
+    meaningful_checks = [c for c in required_checks if not c.endswith("_data_required")]
+    if meaningful_checks:
+        parts.append(f"Requires downstream pair-level checks: {', '.join(meaningful_checks)}.")
+
+    return " ".join(parts)
+
+
+def _build_decision_summary(
+    passes: bool,
+    excl_code: Optional[ExclusionCode],
+    data_confidence: "DataConfidenceResult",
+    deal_type: Optional[DealType],
+    score_cap: Optional[float],
+    score_multiplier: float,
+    distress_guard: "DistressGuard",
+    required_checks: list[str],
+    warning_flags: list[str],
+) -> "Layer0DecisionSummary":
+    """Build the 0H Layer0DecisionSummary from all gate outputs."""
+    live = passes and excl_code not in (
+        ExclusionCode.ALREADY_ACQUIRED,
+        ExclusionCode.ROUTED_TO_OTHER_MODEL,
+    )
+
+    caps: list[float] = []
+    if score_cap is not None:
+        caps.append(score_cap)
+
+    return Layer0DecisionSummary(
+        live_ranking_eligible=live,
+        historical_training_eligible=True,
+        routing_verdict=_routing_verdict(passes, excl_code),
+        active_score_caps=caps,
+        active_score_multiplier=round(score_multiplier, 4),
+        data_confidence_label=data_confidence.confidence_label.value,
+        deal_type_primary=deal_type.value if deal_type else None,
+        required_downstream_checks=required_checks,
+        warning_flags=warning_flags,
+        double_count_guards=_DOUBLE_COUNT_GUARD_MAP,
+        plain_english_verdict=_plain_english_verdict(
+            passes, excl_code, data_confidence.confidence_label,
+            deal_type, score_cap, distress_guard, required_checks,
+        ),
+    )
+
+
+# ---------------------------------------------------------------------------
 # Main entry point
 # ---------------------------------------------------------------------------
 
@@ -876,6 +1126,43 @@ def evaluate_layer0(
         )
         notes.append(f"exclusion_engine_cap:{engine_cap:.2f}")
 
+    # Phase 1 — eligibility flags
+    live_ranking_eligible = passes and excl_code not in (
+        ExclusionCode.ALREADY_ACQUIRED,
+        ExclusionCode.ROUTED_TO_OTHER_MODEL,
+    )
+
+    # Phase 1 — required downstream pair-level checks
+    required_checks = _compute_required_downstream_checks(
+        target, passes, commercial_complexity, distress_guard, deal_type
+    )
+
+    # Phase 1 — warning flags (non-blocking issues)
+    warning_flags: list[str] = []
+    if data_confidence.field_cap_applied:
+        warning_flags.append(
+            f"data_confidence_field_cap: label reduced to {data_confidence.confidence_label.value}"
+        )
+    if encumbrance.gate_treatment.value not in ("clean", "mild_penalty"):
+        warning_flags.append(f"encumbrance_{encumbrance.gate_treatment.value}")
+    if commercial_complexity.complexity_level.value in ("high", "severe"):
+        warning_flags.append(
+            f"integration_complexity_{commercial_complexity.complexity_level.value}"
+        )
+
+    # Phase 1 — 0H Decision Summary
+    summary = _build_decision_summary(
+        passes=passes,
+        excl_code=excl_code,
+        data_confidence=data_confidence,
+        deal_type=deal_type,
+        score_cap=score_cap,
+        score_multiplier=combined_multiplier,
+        distress_guard=distress_guard,
+        required_checks=required_checks,
+        warning_flags=warning_flags,
+    )
+
     return Layer0Result(
         passes_hard_exclusion=passes,
         exclusion_code=excl_code,
@@ -894,4 +1181,10 @@ def evaluate_layer0(
         score_multiplier=combined_multiplier,
         layer0_notes=notes,
         hard_exclusion_assessment=hard_excl_assessment,
+        # Phase 1 additions
+        live_ranking_eligible=live_ranking_eligible,
+        historical_training_eligible=True,
+        required_downstream_checks=required_checks,
+        double_count_guards=_DOUBLE_COUNT_GUARD_MAP,
+        decision_summary=summary,
     )
