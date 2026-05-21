@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import pytest
 
+from bve.intelligence.ma_eligibility import EncumbranceFlags
 from bve.intelligence.ma_asset_control_target import (
     AssetControlGateTreatment,
     AssetControlTargetInput,
@@ -706,6 +707,10 @@ class TestBackwardCompatLegacy:
     def test_result_is_assetcontroltargetresult_instance(self):
         r = compute_asset_control_target(_inp())
         assert isinstance(r, AssetControlTargetResult)
+
+    def test_encumbrance_flags_alias_resolves(self):
+        # EncumbranceFlags in ma_eligibility must point to the same class
+        assert EncumbranceFlags is AssetControlTargetResult
 
     def test_rationale_non_empty(self):
         r = compute_asset_control_target(_inp())
