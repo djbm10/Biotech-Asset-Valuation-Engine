@@ -8,7 +8,7 @@ from pathlib import Path
 from types import SimpleNamespace
 from typing import Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, model_validator
 
 from bve.intelligence.acquirer_fit import (
     AcquirerFitEngine,
@@ -21,6 +21,7 @@ from bve.intelligence.comparable_deals import ComparableDealLoader
 from bve.intelligence.knowledge_layer import OpportunityAlertRecord
 from bve.intelligence.ma_scoring import (
     apply_saturation_penalty,
+    classify_watchlist_type,
     compute_acquirer_fit_decomposed,
     compute_deal_likelihood,
     compute_target_attractiveness,
@@ -29,6 +30,18 @@ from bve.intelligence.vulnerability_signals import (
     ExternalDealActivitySignal,
     TargetVulnerabilitySignal,
     VulnerabilitySignalLoader,
+)
+from bve.intelligence.ma_eligibility import TargetEligibilityInput, evaluate_layer0
+from bve.intelligence.ma_pair_asset_control import (
+    PairAssetControlInput,
+    PairAssetControlResult,
+    PairAdjustedModifiers,
+    combine_layer0_and_3b,
+    compute_pair_asset_control,
+)
+from bve.intelligence.ma_pair_affordability import (
+    AcquirerCapacityInput,
+    compute_pair_affordability,
 )
 
 
@@ -355,7 +368,7 @@ class TargetabilityHardFailRules(BaseModel):
 
     max_market_cap_billions: float = Field(default=100.0, gt=0.0)
     excluded_tickers: list[str] = Field(default_factory=list)
-    max_approved_revenue_share: float = Field(default=0.50, ge=0.0, le=1.0)
+    max_approved_revenue_share: float = Field(default=0.50, ge=0.0)
 
 
 class TargetabilitySoftPenaltyRules(BaseModel):
@@ -504,6 +517,7 @@ class MAAcquirerCandidate(BaseModel):
     acquirer_id: str
     acquirer_name: str
     mna_probability_score: float
+    mna_targetability_score: float | None = None
     p_acquisition: float
     raw_probability: float
     strategic_fit_score: float
@@ -531,6 +545,24 @@ class MAAcquirerCandidate(BaseModel):
 
     # Transaction-likelihood gate reason codes (Sprint 22)
     transaction_gate_reason_codes: list[str] = Field(default_factory=list)
+    gap_urgency: str | None = None
+    bd_pattern_adjustment: float | None = None
+    transaction_driver_count: int | None = None
+    canonical_acquirer_id: str | None = None
+
+    # C4: Layer 0 + 3A + 3B modifier diagnostics (always populated after C4 wiring)
+    layer3_modifier_multiplier: float = 1.0
+    layer3_modifier_cap: Optional[float] = None
+
+    @model_validator(mode="before")
+    @classmethod
+    def _sync_probability_aliases(cls, data):
+        if isinstance(data, dict):
+            if "mna_probability_score" not in data and "mna_targetability_score" in data:
+                data["mna_probability_score"] = data["mna_targetability_score"]
+            if "mna_targetability_score" not in data and "mna_probability_score" in data:
+                data["mna_targetability_score"] = data["mna_probability_score"]
+        return data
 
 
 class MAProbabilityRow(BaseModel):
@@ -548,6 +580,7 @@ class MAProbabilityRow(BaseModel):
     days_to_catalyst: int | None = None
 
     mna_probability_score: float
+    mna_targetability_score: float | None = None
     p_acquisition: float
     raw_probability: float
     above_alert_threshold: bool
@@ -604,6 +637,21 @@ class MAProbabilityRow(BaseModel):
     target_attractiveness_score: float | None = None
     deal_likelihood_score: float | None = None
     acquirer_fit_score: float | None = None
+    transaction_driver_count: int | None = None
+    gap_urgency: str | None = None
+    bd_pattern_adjustment: float | None = None
+    canonical_acquirer_id: str | None = None
+    watchlist_type: str | None = None
+
+    @model_validator(mode="before")
+    @classmethod
+    def _sync_probability_aliases(cls, data):
+        if isinstance(data, dict):
+            if "mna_probability_score" not in data and "mna_targetability_score" in data:
+                data["mna_probability_score"] = data["mna_targetability_score"]
+            if "mna_targetability_score" not in data and "mna_probability_score" in data:
+                data["mna_targetability_score"] = data["mna_probability_score"]
+        return data
 
 
 class MAProbabilityResult(BaseModel):
@@ -658,6 +706,9 @@ class MAProbabilitySnapshotRecord(BaseModel):
 
     # Calibration layer — logistic model output, does not affect ranking order
     p_takeout_calibrated: float | None = None
+    transaction_driver_count: int | None = None
+    gap_urgency: str | None = None
+    watchlist_type: str | None = None
 
 
 class MAProbabilitySnapshotStore:
@@ -769,6 +820,13 @@ class MAProbabilitySnapshotStore:
             "acquirer_fit_score",
             "REAL",
         )
+        self.knowledge._ensure_column(
+            "ma_probability_snapshots",
+            "transaction_driver_count",
+            "INTEGER",
+        )
+        self.knowledge._ensure_column("ma_probability_snapshots", "gap_urgency", "TEXT")
+        self.knowledge._ensure_column("ma_probability_snapshots", "watchlist_type", "TEXT")
         self.knowledge._conn.commit()
 
     @staticmethod
@@ -826,6 +884,9 @@ class MAProbabilitySnapshotStore:
                 if row.p_takeout_calibrated is not None
                 else None
             ),
+            transaction_driver_count=row.transaction_driver_count,
+            gap_urgency=row.gap_urgency,
+            watchlist_type=row.watchlist_type,
         )
 
     def write_snapshots(
@@ -864,8 +925,9 @@ class MAProbabilitySnapshotStore:
                 scarcity_score, scarcity_peer_count, scarcity_bucket,
                 enterprise_value_millions, acquisition_discount, days_to_catalyst,
                 estimated_deal_value_low_millions, estimated_deal_value_high_millions,
-                run_id, created_at, p_takeout_calibrated
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                run_id, created_at, p_takeout_calibrated,
+                transaction_driver_count, gap_urgency, watchlist_type
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             [
                 (
@@ -897,6 +959,9 @@ class MAProbabilitySnapshotStore:
                     snapshot.run_id,
                     self.knowledge._coerce_datetime(snapshot.created_at).isoformat(),
                     snapshot.p_takeout_calibrated,
+                    snapshot.transaction_driver_count,
+                    snapshot.gap_urgency,
+                    snapshot.watchlist_type,
                 )
                 for snapshot in snapshots
             ],
@@ -919,7 +984,8 @@ class MAProbabilitySnapshotStore:
                    scarcity_score, scarcity_peer_count, scarcity_bucket,
                    enterprise_value_millions, acquisition_discount, days_to_catalyst,
                    estimated_deal_value_low_millions, estimated_deal_value_high_millions,
-                   run_id, created_at, p_takeout_calibrated
+                   run_id, created_at, p_takeout_calibrated,
+                   transaction_driver_count, gap_urgency, watchlist_type
             FROM ma_probability_snapshots
             WHERE snapshot_date = ?
             ORDER BY rank ASC, asset_id ASC
@@ -1005,6 +1071,13 @@ class MAProbabilitySnapshotStore:
                     if row["p_takeout_calibrated"] is not None
                     else None
                 ),
+                transaction_driver_count=(
+                    int(row["transaction_driver_count"])
+                    if row["transaction_driver_count"] is not None
+                    else None
+                ),
+                gap_urgency=row["gap_urgency"],
+                watchlist_type=row["watchlist_type"],
             )
             for row in rows
         }
@@ -1033,7 +1106,8 @@ class MAProbabilitySnapshotStore:
             "scarcity_score, scarcity_peer_count, scarcity_bucket, "
             "enterprise_value_millions, acquisition_discount, days_to_catalyst, "
             "estimated_deal_value_low_millions, estimated_deal_value_high_millions, "
-            "run_id, created_at, p_takeout_calibrated "
+            "run_id, created_at, p_takeout_calibrated, "
+            "transaction_driver_count, gap_urgency, watchlist_type "
             "FROM ma_probability_snapshots"
         )
         if clauses:
@@ -1120,6 +1194,13 @@ class MAProbabilitySnapshotStore:
                     if row["p_takeout_calibrated"] is not None
                     else None
                 ),
+                transaction_driver_count=(
+                    int(row["transaction_driver_count"])
+                    if row["transaction_driver_count"] is not None
+                    else None
+                ),
+                gap_urgency=row["gap_urgency"],
+                watchlist_type=row["watchlist_type"],
             )
             for row in rows
         ]
@@ -1529,6 +1610,10 @@ class MAProbabilityScanner:
             )
             best = candidates[0]
             runner_up = candidates[1].acquirer_id if len(candidates) > 1 else None
+            watchlist_type = classify_watchlist_type(
+                transaction_driver_count=best.transaction_driver_count,
+                gate_reason_codes=best.transaction_gate_reason_codes,
+            )
             rows.append(
                 MAProbabilityRow(
                     asset_id=acquisition_row.asset_id,
@@ -1610,6 +1695,11 @@ class MAProbabilityScanner:
                     target_attractiveness_score=best.target_attractiveness_score,
                     deal_likelihood_score=best.deal_likelihood_score,
                     acquirer_fit_score=best.acquirer_fit_score,
+                    transaction_driver_count=best.transaction_driver_count,
+                    gap_urgency=best.gap_urgency,
+                    bd_pattern_adjustment=best.bd_pattern_adjustment,
+                    canonical_acquirer_id=best.canonical_acquirer_id,
+                    watchlist_type=watchlist_type,
                 )
             )
 
@@ -1770,7 +1860,7 @@ class MAProbabilityScanner:
 
         # Transaction-likelihood gate (Sprint 22): dual gate + no-trigger cap +
         # two-driver requirement applied to the main scoring path.
-        mna_probability_score, gate_reason_codes = _apply_transaction_likelihood_gate(
+        mna_probability_score, gate_reason_codes, n_triggers = _apply_transaction_likelihood_gate(
             mna_probability_score,
             financing_pressure=vulnerability.cash_runway_pressure_score,
             external_deal_activity=vulnerability.external_deal_pressure_score,
@@ -1779,6 +1869,61 @@ class MAProbabilityScanner:
             valuation_discount=valuation_discount_score,
             de_risking_stage=de_risking_stage_score,
         )
+
+        # ── C4: Layer 0 + 3A + 3B modifiers ──────────────────────────────────
+        # Run target-level Layer 0 assessment from acquisition_row signals.
+        _l0_input = _build_target_eligibility_input(acquisition_row)
+        _l0 = evaluate_layer0(_l0_input)
+
+        # Layer 3B: pair-specific asset-control (only when Layer 0 flags it).
+        _pair_3b: Optional[PairAssetControlResult] = None
+        if "pair_asset_control_adjustment" in _l0.required_downstream_checks:
+            _pair_3b = compute_pair_asset_control(PairAssetControlInput(
+                acquirer_id=acquirer.acquirer_id,
+                target_id=getattr(acquisition_row, "asset_id", ""),
+                target_asset_control=_l0.encumbrance,
+                acquirer_is_existing_partner=_acquirer_is_existing_partner(
+                    acquirer, acquisition_row
+                ),
+                rofr_blocks_this_acquirer=getattr(
+                    acquisition_row, "has_right_of_first_refusal", False
+                ),
+                acquirer_manufacturing_fit=getattr(
+                    acquirer, "manufacturing_fit_score", 0.70
+                ),
+            ))
+
+        # Layer 3A: pair affordability — only when target EV is known.
+        # Missing EV does NOT hard-fail: multiplier stays 1.0, reason code noted.
+        _afford_mult = 1.0
+        _l3_reason_codes: list[str] = []
+        _target_ev = getattr(acquisition_row, "enterprise_value_millions", None)
+        if _target_ev is not None:
+            _afford = compute_pair_affordability(
+                _target_ev, _build_acquirer_capacity_input(acquirer)
+            )
+            _afford_mult = _afford.score_multiplier
+        else:
+            _l3_reason_codes.append("affordability_data_required")
+
+        # Combine all modifiers → effective_multiplier and effective_cap.
+        _mods: PairAdjustedModifiers = combine_layer0_and_3b(
+            layer0_score_multiplier=_l0.score_multiplier,
+            layer0_score_cap=_l0.score_cap,
+            target_max_mna_score_cap=_l0.encumbrance.max_mna_score_cap,
+            pair_result=_pair_3b,
+            affordability_score_multiplier=_afford_mult,
+        )
+
+        # Apply modifiers BEFORE targetability.multiplier.
+        # targetability.multiplier covers only commercial-franchise / mega-cap
+        # penalties — it does NOT overlap with encumbrance / affordability / 3B.
+        mna_probability_score = round(
+            mna_probability_score * _mods.effective_multiplier, 6
+        )
+        if _mods.effective_cap is not None:
+            mna_probability_score = min(mna_probability_score, _mods.effective_cap)
+        # ── end C4 ────────────────────────────────────────────────────────────
 
         adjusted_probability = mna_probability_score * targetability.multiplier
         combined_hard_fails = list(fit_row.hard_fail_reasons)
@@ -1808,6 +1953,8 @@ class MAProbabilityScanner:
             budget_score=fit_row.budget_score,
             matched_partnership=fit_row.matched_partnership_target,
         )
+        urgency = _gap_urgency_for_match(acquirer, fit_row.matched_therapeutic_gap)
+        bd_adjustment = _bd_pattern_adjustment(acquirer)
 
         return MAAcquirerCandidate(
             acquirer_id=acquirer.acquirer_id,
@@ -1835,7 +1982,14 @@ class MAProbabilityScanner:
             target_attractiveness_score=ta_score.score,
             deal_likelihood_score=dl_score.score,
             acquirer_fit_score=af_score.score,
-            transaction_gate_reason_codes=gate_reason_codes,
+            transaction_gate_reason_codes=list(gate_reason_codes) + _l3_reason_codes,
+            gap_urgency=urgency,
+            bd_pattern_adjustment=round(bd_adjustment, 6),
+            transaction_driver_count=n_triggers,
+            canonical_acquirer_id=getattr(acquirer, "canonical_acquirer_id", None)
+            or acquirer.acquirer_id,
+            layer3_modifier_multiplier=_mods.effective_multiplier,
+            layer3_modifier_cap=_mods.effective_cap,
         )
 
     def _strategic_fit_score(
@@ -2397,10 +2551,10 @@ def _apply_transaction_likelihood_gate(
     catalyst_days: Optional[int],
     valuation_discount: float,
     de_risking_stage: float,
-) -> tuple[float, list[str]]:
+) -> tuple[float, list[str], int]:
     """Apply transaction-likelihood caps to the main mna_probability_score.
 
-    Returns (capped_score, reason_codes) where reason_codes lists any caps applied.
+    Returns (capped_score, reason_codes, n_triggers) where reason_codes lists any caps applied.
 
     Three gates (Sprint 22):
     1. No-trigger cap: if no transaction trigger fires at all, cap at
@@ -2461,7 +2615,7 @@ def _apply_transaction_likelihood_gate(
         else:
             reason_codes.append("missing_trigger:second")
 
-    return round(min(max(score, 0.0), 1.0), 6), reason_codes
+    return round(min(max(score, 0.0), 1.0), 6), reason_codes, n_triggers
 
 
 def _valuation_discount_score(value: Optional[float]) -> float:
@@ -2729,6 +2883,118 @@ def _upper(value: Optional[str]) -> Optional[str]:
         return None
     normalized = str(value).strip().upper()
     return normalized or None
+
+
+# ---------------------------------------------------------------------------
+# C4 private helpers — Layer 0 / 3A / 3B wiring
+# ---------------------------------------------------------------------------
+
+_VALID_MFG_COMPLEXITY = frozenset({"low", "medium", "high"})
+_VALID_RIGHTS_SCOPE = frozenset({"global", "regional_split", "licensed_in", "unknown"})
+
+
+def _build_target_eligibility_input(acquisition_row) -> TargetEligibilityInput:
+    """Build a TargetEligibilityInput from a live acquisition row using safe defaults.
+
+    All optional encumbrance fields default to False / None so that missing
+    data on the acquisition_row produces the most conservative (clean) assumption
+    at Layer 0, exactly as intended — callers that want precise 0D-T scoring must
+    populate the corresponding fields on their acquisition_row objects.
+
+    Data-completeness flags (has_*) are auto-derived from value presence where
+    possible, and also read from the row when explicitly set.  This prevents Gate 6
+    (financial going-concern) from firing just because the row doesn't carry every
+    has_* boolean explicitly.
+    """
+    mfg = getattr(acquisition_row, "manufacturing_complexity", "low")
+    if mfg not in _VALID_MFG_COMPLEXITY:
+        mfg = "low"
+    rights = getattr(acquisition_row, "asset_rights_scope", "global")
+    if rights not in _VALID_RIGHTS_SCOPE:
+        rights = "global"
+
+    mc = getattr(acquisition_row, "market_cap_millions", None)
+    ev = getattr(acquisition_row, "enterprise_value_millions", None)
+    stage = getattr(acquisition_row, "stage", None)
+
+    return TargetEligibilityInput(
+        ticker=getattr(acquisition_row, "ticker", None) or "UNKNOWN",
+        lead_asset_stage=stage,
+        market_cap_millions=mc,
+        enterprise_value_millions=ev,
+        asset_rights_scope=rights,
+        has_existing_partnership=getattr(acquisition_row, "has_existing_partnership", False),
+        has_right_of_first_refusal=getattr(acquisition_row, "has_right_of_first_refusal", False),
+        manufacturing_complexity=mfg,
+        royalty_stack_rate=getattr(acquisition_row, "royalty_stack_rate", None),
+        has_co_development_obligation=getattr(
+            acquisition_row, "has_co_development_obligation", False
+        ),
+        has_ip_dispute=getattr(acquisition_row, "has_ip_dispute", False),
+        has_manufacturing_dependency=getattr(
+            acquisition_row, "has_manufacturing_dependency", False
+        ),
+        has_asset_ownership_data=getattr(acquisition_row, "has_asset_ownership_data", False),
+        has_partner_rights_data=getattr(acquisition_row, "has_partner_rights_data", False),
+        # 0G data-completeness: auto-derived from value presence + explicit row flags
+        has_market_cap=mc is not None,
+        has_enterprise_value=ev is not None,
+        has_clinical_stage=stage is not None,
+        has_cash_debt=getattr(acquisition_row, "has_cash_debt", False),
+        has_quarterly_burn=getattr(acquisition_row, "has_quarterly_burn", False),
+        has_revenue_mix=getattr(acquisition_row, "has_revenue_mix", False),
+        has_trial_status=getattr(acquisition_row, "has_trial_status", False),
+        has_patent_loe_data=getattr(acquisition_row, "has_patent_loe_data", False),
+        has_acquirer_profile_data=getattr(acquisition_row, "has_acquirer_profile_data", False),
+    )
+
+
+def _build_acquirer_capacity_input(acquirer: AcquirerProfile) -> AcquirerCapacityInput:
+    """Build an AcquirerCapacityInput from an AcquirerProfile.
+
+    Uses acquisition_capacity_millions when set (the curated capacity ceiling),
+    falling back to cash_billions × 1000.  Market cap is passed when available
+    so the formula path can estimate the stock deal component.
+    """
+    if acquirer.acquisition_capacity_millions is not None:
+        cash_avail = acquirer.acquisition_capacity_millions
+    elif acquirer.cash_billions is not None:
+        cash_avail = acquirer.cash_billions * 1000.0
+    else:
+        cash_avail = 0.0
+    cap_millions = (
+        acquirer.market_cap_billions * 1000.0
+        if acquirer.market_cap_billions is not None
+        else None
+    )
+    return AcquirerCapacityInput(
+        acquirer_id=acquirer.acquirer_id,
+        cash_available_millions=cash_avail,
+        acquirer_market_cap_millions=cap_millions,
+    )
+
+
+def _acquirer_is_existing_partner(
+    acquirer: AcquirerProfile,
+    acquisition_row,
+) -> bool:
+    """Return True if acquirer has an active partnership with this target.
+
+    Matches against ExistingPartnership.target (ticker or company name) using
+    a case-insensitive substring check.  Returns False when no ticker/asset_id
+    is available on the acquisition_row.
+    """
+    target_ticker = (_upper(getattr(acquisition_row, "ticker", None)) or "")
+    target_id = (getattr(acquisition_row, "asset_id", None) or "").lower()
+    if not target_ticker and not target_id:
+        return False
+    for p in acquirer.existing_partnerships:
+        p_upper = (p.target or "").upper()
+        if target_ticker and target_ticker in p_upper:
+            return True
+        if target_id and target_id in p_upper.lower():
+            return True
+    return False
 
 
 def _build_row_explanation(
