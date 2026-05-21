@@ -35,6 +35,7 @@ Manufacturing mismatch rules (per product spec):
 """
 from __future__ import annotations
 
+from dataclasses import dataclass
 from typing import Optional
 
 from pydantic import BaseModel, ConfigDict, Field
@@ -327,4 +328,118 @@ def compute_pair_asset_control(inp: PairAssetControlInput) -> PairAssetControlRe
         partner_bonus_applied=partner_bonus_applied,
         rationale=rationale,
         data_gaps=data_gaps,
+    )
+
+
+# ---------------------------------------------------------------------------
+# Layer 3B combination helper
+# ---------------------------------------------------------------------------
+
+@dataclass(frozen=True)
+class PairAdjustedModifiers:
+    """Combined score modifiers for a single acquirer-target pair.
+
+    Produced by ``combine_layer0_and_3b()`` and consumed by the Layer 3
+    orchestrator to assemble ``pre_gate_score`` and ``effective_cap`` before
+    calling ``compute_layer3()``.
+
+    Fields
+    ------
+    effective_multiplier
+        Product of target-level, pair-level, and affordability multipliers.
+        Applied to the raw score *before* Layer 3 gate evaluation.
+        Formula::
+
+            effective_multiplier =
+                layer0_score_multiplier        # 0D-T encumbrance.penalty_multiplier
+                × pair_result.pair_multiplier  # 3B ROFR / consent / mfg mismatch
+                × affordability_score_mult     # 3A pair affordability
+
+    effective_cap
+        Tightest cap from all independent sources, or ``None`` when no cap
+        applies.  Applied to ``final_score`` *after* Layer 3 gates.
+        Formula::
+
+            effective_cap = min(
+                layer0_score_cap,          # 0F distress guard cap
+                target_max_mna_score_cap,  # 0D-T gate treatment (SEVERE/ROUTE)
+                pair_result.pair_cap,      # 3B ROFR / mfg mismatch cap
+                integration_cap,           # G8 pair integration cap
+            )
+
+    pair_asset_control
+        The raw ``PairAssetControlResult`` from 3B, or ``None`` when no 3B
+        signals were present and 3B was not invoked.
+    """
+
+    effective_multiplier: float
+    effective_cap: Optional[float]
+    pair_asset_control: Optional[PairAssetControlResult]
+
+
+def combine_layer0_and_3b(
+    layer0_score_multiplier: float,
+    layer0_score_cap: Optional[float],
+    target_max_mna_score_cap: Optional[float],
+    pair_result: Optional[PairAssetControlResult],
+    affordability_score_multiplier: float = 1.0,
+    integration_cap: Optional[float] = None,
+) -> PairAdjustedModifiers:
+    """Combine Layer 0 target-level and Layer 3B pair-specific score modifiers.
+
+    Anti-double-counting contract
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    ``layer0_score_multiplier`` covers universal target encumbrances evaluated
+    without knowing the buyer (0D-T).  ``pair_result.pair_multiplier`` covers
+    buyer-specific signals that 0D-T deliberately omits: ROFR impact on *this*
+    acquirer, consent rights, manufacturing fit, existing-partner waiver.
+    These score independent risk sources and never overlap.
+
+    The ``_assert_no_pair_contamination()`` guard in ``compute_pair_asset_control()``
+    prevents pair-specific encumbrance codes from appearing in the target result,
+    enforcing the contract at runtime.
+
+    Parameters
+    ----------
+    layer0_score_multiplier:
+        ``Layer0Result.score_multiplier`` (= ``encumbrance.penalty_multiplier``).
+    layer0_score_cap:
+        ``Layer0Result.score_cap`` (from 0F distress guard; ``None`` = no cap).
+    target_max_mna_score_cap:
+        ``Layer0Result.encumbrance.max_mna_score_cap`` (from 0D-T gate; ``None`` = no cap).
+    pair_result:
+        ``PairAssetControlResult`` from ``compute_pair_asset_control()``, or
+        ``None`` when ``"pair_asset_control_adjustment"`` was not in
+        ``required_downstream_checks``.
+    affordability_score_multiplier:
+        ``AffordabilityResult.score_multiplier`` from Layer 3A (defaults to 1.0
+        when affordability has not been evaluated).
+    integration_cap:
+        Cap from Layer 3 G8 pair-integration check (``None`` = not triggered).
+
+    Returns
+    -------
+    PairAdjustedModifiers
+    """
+    pair_mult = pair_result.pair_multiplier if pair_result is not None else 1.0
+    effective_mult = round(
+        layer0_score_multiplier * pair_mult * affordability_score_multiplier,
+        6,
+    )
+
+    caps = [
+        c for c in (
+            layer0_score_cap,
+            target_max_mna_score_cap,
+            pair_result.pair_cap if pair_result is not None else None,
+            integration_cap,
+        )
+        if c is not None
+    ]
+    effective_cap = round(min(caps), 4) if caps else None
+
+    return PairAdjustedModifiers(
+        effective_multiplier=effective_mult,
+        effective_cap=effective_cap,
+        pair_asset_control=pair_result,
     )

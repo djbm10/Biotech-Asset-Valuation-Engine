@@ -636,6 +636,17 @@ def asset_control_target_from_target(t: object) -> AssetControlTargetInput:
     else:
         global_rights, key_geo, indication_ctrl = 0.65, 0.65, 0.75
 
+    # Option A (Phase 3 Step 4): global + no-partnership + no-ROFR implies minimal
+    # change-of-control friction.  The CoC field default (0.70) is conservative for
+    # a structurally clean asset; raise to 0.85 when the target is demonstrably
+    # unencumbered at target level.
+    clean_global = (
+        rights_scope == "global"
+        and not has_partnership
+        and not has_rofr
+    )
+    coc_freedom = 0.85 if clean_global else 0.70
+
     # ── Economic Control ──────────────────────────────────────────────────────
     royalty_cleanliness = max(0.10, 1.0 - royalty_rate * 2.5)
     cost_oblig_clean = 0.45 if has_cdev else 0.87
@@ -674,6 +685,16 @@ def asset_control_target_from_target(t: object) -> AssetControlTargetInput:
     has_pat = _g("has_patent_loe_data", False)
     cmc_comp = 0.70 if has_pat else 0.55
 
+    # Option A (Phase 3 Step 4): when the target has structured ownership and
+    # partner-rights data on record, regulatory file and data room readiness are
+    # better than the generic unknown defaults.  These flags signal the data package
+    # is reasonably complete, not just that some data exists.
+    has_ownership_data = _g("has_asset_ownership_data", False)
+    has_partner_rights_data = _g("has_partner_rights_data", False)
+    data_package_present = has_ownership_data and has_partner_rights_data
+    reg_file_comp = 0.72 if data_package_present else 0.65
+    data_room = 0.70 if data_package_present else 0.62
+
     fully_licensed = (rights_scope == "licensed_in")
     royalty_stack_high = royalty_rate > _ROYALTY_STACK_HIGH_THRESHOLD
 
@@ -681,6 +702,7 @@ def asset_control_target_from_target(t: object) -> AssetControlTargetInput:
         global_rights_control=global_rights,
         key_geography_control=key_geo,
         indication_control=indication_ctrl,
+        change_of_control_freedom=coc_freedom,
         royalty_cleanliness=round(royalty_cleanliness, 4),
         cost_obligation_cleanliness=cost_oblig_clean,
         no_blocking_rights=blocking_score,
@@ -694,6 +716,8 @@ def asset_control_target_from_target(t: object) -> AssetControlTargetInput:
         manufacturing_complexity=mfg_complexity,
         clinical_data_completeness=clin_comp,
         cmc_package_completeness=cmc_comp,
+        regulatory_file_completeness=reg_file_comp,
+        data_room_readiness=data_room,
         fully_licensed_away=fully_licensed,
         has_ip_dispute=has_ip_disp,
         has_right_of_first_refusal=has_rofr,
