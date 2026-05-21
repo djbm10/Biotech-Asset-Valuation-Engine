@@ -3,7 +3,8 @@
 Before M&A scoring, this module determines:
     0A. Whether a target is eligible for analysis (hard exclusion)
     0B. Which deal model to route to (deal-type classification)
-    0C. Whether each target-acquirer pair is financially feasible (affordability)
+    0C. Target-size pre-screen — bucket + buyer universe annotation (no score effect)
+        [Pair affordability moved to Layer 3A in ma_pair_affordability.py (Phase 2)]
     0D. Asset-control / encumbrance issues that reduce deal value
     0E. Target-level commercial integration complexity flag (no score penalty at Layer 0)
     0F. Distress quality guard — cap when distressed target lacks strategic value
@@ -112,12 +113,27 @@ class ExclusionCode(str, Enum):
     ROUTED_TO_OTHER_MODEL = "routed_to_other_model"  # → ROUTE_TO_OTHER_MODEL in gate engine
 
 
-class AffordabilityBand(str, Enum):
-    """Affordability bracket for a single acquirer-target pair (0C)."""
-    NO_PENALTY = "no_penalty"       # ratio ≤ 0.50
-    MILD_PENALTY = "mild_penalty"   # 0.50 < ratio ≤ 0.85
-    SEVERE_PENALTY = "severe_penalty"   # 0.85 < ratio ≤ 1.10
-    HARD_FAIL = "hard_fail"         # ratio > 1.10
+# ---------------------------------------------------------------------------
+# 0C — Pair Affordability (moved to ma_pair_affordability in Phase 2)
+#
+# AffordabilityBand, AcquirerCapacityInput, AffordabilityResult and the
+# internal helper functions are now defined in ma_pair_affordability.py.
+# They are re-exported here for backward compatibility.  Direct imports
+# from this module will continue to work until Phase 3 removes these
+# re-exports.
+# ---------------------------------------------------------------------------
+from bve.intelligence.ma_pair_affordability import (  # noqa: E402, F401
+    AffordabilityBand,
+    AcquirerCapacityInput,
+    AffordabilityResult,
+    _AFFORDABILITY_BANDS,
+    _affordability_band,
+    _compute_stock_quality_multiplier,
+    _effective_stock_component,
+    _evaluate_affordability,           # deprecated alias for compute_pair_affordability_batch
+    compute_pair_affordability,
+    compute_pair_affordability_batch,
+)
 
 
 class ScopeTag(str, Enum):
@@ -293,102 +309,6 @@ class TargetEligibilityInput(BaseModel):
     low_reliability_field_names: list[str] = Field(default_factory=list)
 
 
-class AcquirerCapacityInput(BaseModel):
-    """Financial capacity of one potential acquirer for the affordability gate (0C).
-
-    Two paths for the stock component:
-
-    **Formula path** (preferred — set ``acquirer_market_cap_millions``):
-        realistic_stock_component =
-            acquirer_market_cap_millions
-            × max_stock_issuance_pct
-            × stock_quality_multiplier
-
-        ``stock_quality_multiplier`` is computed from P/B, volatility, and dilution
-        tolerance unless supplied directly.
-
-    **Pre-computed path** (backward compat — leave ``acquirer_market_cap_millions`` as None):
-        ``realistic_stock_component_millions`` is used as-is.
-    """
-
-    acquirer_id: str
-    cash_available_millions: float = Field(ge=0.0)
-    estimated_debt_capacity_millions: float = Field(ge=0.0, default=0.0)
-    minimum_balance_buffer_millions: float = Field(ge=0.0, default=0.0)
-    expected_takeout_premium: float = Field(ge=0.0, le=2.0, default=0.35)
-
-    # ── Pre-computed path (backward compat) ──────────────────────────────────
-    realistic_stock_component_millions: float = Field(ge=0.0, default=0.0,
-        description="Pre-computed stock deal capacity; used when acquirer_market_cap_millions "
-                    "is not provided.")
-
-    # ── Formula path: stock-deal realism ─────────────────────────────────────
-    acquirer_market_cap_millions: Optional[float] = Field(default=None, ge=0.0,
-        description="Acquirer market cap; when set, stock component is computed via formula.")
-    max_stock_issuance_pct: float = Field(default=0.10, ge=0.0, le=1.0,
-        description="Maximum fraction of market cap the acquirer can realistically issue "
-                    "as deal consideration without triggering excessive dilution.")
-
-    # Stock quality sub-signals (used to auto-compute stock_quality_multiplier)
-    acquirer_price_to_book: Optional[float] = Field(default=None, ge=0.0,
-        description="Acquirer P/B ratio; premium valuation → better stock currency.")
-    acquirer_stock_volatility_pct: Optional[float] = Field(default=None, ge=0.0,
-        description="Annualised stock volatility %; high vol → target demands cash premium.")
-    investor_dilution_tolerance: float = Field(default=0.50, ge=0.0, le=1.0,
-        description="How much dilution acquirer shareholders will accept (0=intolerant, "
-                    "1=fully tolerant).  Base of the stock quality multiplier.")
-
-    # Override: skip auto-computation and use this value directly
-    stock_quality_multiplier: Optional[float] = Field(default=None, ge=0.0, le=1.0,
-        description="Explicit stock quality multiplier in [0, 1]. When provided, "
-                    "P/B and volatility sub-signals are ignored.")
-
-
-# ---------------------------------------------------------------------------
-# Output models
-# ---------------------------------------------------------------------------
-
-class AffordabilityResult(BaseModel):
-    """Affordability assessment for one acquirer-target pair (0C).
-
-    IMPORTANT — pair-level scope: a HARD_FAIL here removes only this
-    specific acquirer-target pair from consideration.  The target remains
-    eligible for all other acquirers with sufficient capacity.
-    """
-    model_config = ConfigDict(frozen=True)
-
-    acquirer_id: str
-    expected_acquisition_cost_millions: float
-    deal_capacity_millions: float
-    affordability_ratio: float
-    band: AffordabilityBand
-    score_multiplier: float   # 1.0 → 0.90 → 0.60 → 0.0
-
-    # Stock component breakdown
-    stock_component_millions: float = Field(default=0.0, ge=0.0,
-        description="Effective stock deal capacity used in this pair (computed or pre-supplied).")
-    stock_quality_multiplier_applied: Optional[float] = Field(default=None, ge=0.0, le=1.0,
-        description="Stock quality multiplier used when formula path was active; "
-                    "None when pre-computed realistic_stock_component_millions was used.")
-
-    # Pair-level scope note
-    pair_scope_note: str = Field(
-        default="Pair-level result: a hard fail excludes only this acquirer-target pair, "
-                "not the target globally.",
-        description="Reminder that affordability results are pair-specific, not global.",
-    )
-
-    @property
-    def is_hard_fail(self) -> bool:
-        return self.band == AffordabilityBand.HARD_FAIL
-
-    @property
-    def is_pair_level_only(self) -> bool:
-        """Always True — affordability gates never exclude a target globally."""
-        return True
-
-
-
 
 # 0F — Distress Quality Guard (full composite model)
 from bve.intelligence.ma_distress_guard import (  # noqa: E402
@@ -520,24 +440,7 @@ class Layer0DecisionSummary(BaseModel):
     plain_english_verdict: str
 
 
-# ---------------------------------------------------------------------------
-# 0C — Affordability band configuration
-# ---------------------------------------------------------------------------
-
-# (upper_bound_inclusive, band, score_multiplier)
-_AFFORDABILITY_BANDS: list[tuple[float, AffordabilityBand, float]] = [
-    (0.50, AffordabilityBand.NO_PENALTY, 1.00),
-    (0.85, AffordabilityBand.MILD_PENALTY, 0.90),
-    (1.10, AffordabilityBand.SEVERE_PENALTY, 0.60),
-    (float("inf"), AffordabilityBand.HARD_FAIL, 0.00),
-]
-
-
-def _affordability_band(ratio: float) -> tuple[AffordabilityBand, float]:
-    for upper, band, mult in _AFFORDABILITY_BANDS:
-        if ratio <= upper:
-            return band, mult
-    return AffordabilityBand.HARD_FAIL, 0.00
+# 0C band config lives in ma_pair_affordability._AFFORDABILITY_BANDS
 
 
 # ---------------------------------------------------------------------------
@@ -634,7 +537,21 @@ def _evaluate_hard_exclusion(
         evaluate_company_exclusions,
     )
 
-    # Self-acquisition check (Gate 2 is pair-level; handle here for company gate)
+    # Self-acquisition check
+    # ── MIGRATION NOTE (Phase 2 / Sprint 37) ───────────────────────────────
+    # This check is pair-context logic (it fires only when acquirer_ticker is
+    # explicitly passed alongside the target).  It is kept here temporarily
+    # for backward compatibility.
+    #
+    # Migration plan:
+    #   Phase 3 will move it to Layer 3 pair-exclusion logic so that:
+    #   (a) Layer 0 remains purely target-level, and
+    #   (b) self-acquisition is checked per-pair in the same gate that handles
+    #       antitrust and buyer-specific ROFR conflicts.
+    #
+    # The _DOUBLE_COUNT_GUARD_MAP entry records the intent:
+    #   "self_acquisition | pair_level_check@3_only | removed_from_0A | not_in_layer0"
+    # ── END MIGRATION NOTE ──────────────────────────────────────────────────
     if (
         t.acquirer_ticker
         and t.ticker
@@ -727,102 +644,13 @@ def _classify_deal_type(t: TargetEligibilityInput) -> tuple[DealType, str]:
 
 
 # ---------------------------------------------------------------------------
-# Section 0C — Pair-Specific Affordability Gate
+# Section 0C — now lives in ma_pair_affordability (Layer 3A)
+#
+# The pair affordability functions are imported at the top of this module
+# as backward-compat re-exports.  The helpers (_compute_stock_quality_multiplier,
+# _effective_stock_component, _evaluate_affordability) are available under
+# the same names via those re-exports.
 # ---------------------------------------------------------------------------
-
-def _compute_stock_quality_multiplier(acq: AcquirerCapacityInput) -> float:
-    """Derive how much of the theoretical max stock issuance is usable as currency.
-
-    Returns a value in [0.10, 1.0] based on three signals:
-      - investor_dilution_tolerance: base (how tolerant shareholders are of EPS dilution)
-      - acquirer_price_to_book:      premium valuation = stock is valuable deal currency
-      - acquirer_stock_volatility:   high vol = target demands cash; stock heavily discounted
-
-    If ``acq.stock_quality_multiplier`` is provided directly, that value is returned as-is
-    (after clamping).  If sub-signals are unavailable, defaults produce a neutral 0.50.
-    """
-    # Explicit override — skip computation
-    if acq.stock_quality_multiplier is not None:
-        return max(0.10, min(1.0, acq.stock_quality_multiplier))
-
-    base = acq.investor_dilution_tolerance  # default 0.50
-
-    # Price-to-book adjustment
-    pb_adj = 0.0
-    if acq.acquirer_price_to_book is not None:
-        if acq.acquirer_price_to_book >= 4.0:
-            pb_adj = 0.15   # premium acquirer; stock is strong currency
-        elif acq.acquirer_price_to_book < 1.5:
-            pb_adj = -0.20  # depressed acquirer; target discounts stock heavily
-
-    # Volatility adjustment
-    vol_adj = 0.0
-    if acq.acquirer_stock_volatility_pct is not None:
-        if acq.acquirer_stock_volatility_pct < 20.0:
-            vol_adj = 0.10   # stable large-cap; stock broadly accepted
-        elif acq.acquirer_stock_volatility_pct > 40.0:
-            vol_adj = -0.25  # speculative biotech; target demands cash premium
-        else:
-            vol_adj = -0.10  # moderate biotech volatility range
-
-    return max(0.10, min(1.0, base + pb_adj + vol_adj))
-
-
-def _effective_stock_component(acq: AcquirerCapacityInput) -> tuple[float, Optional[float]]:
-    """Return (stock_component_millions, sqm_applied).
-
-    When acquirer_market_cap_millions is set, uses the formula:
-        stock = market_cap × max_stock_issuance_pct × stock_quality_multiplier
-
-    Otherwise falls back to the pre-supplied realistic_stock_component_millions
-    and returns sqm_applied=None (pre-computed path).
-    """
-    if acq.acquirer_market_cap_millions is not None:
-        sqm = _compute_stock_quality_multiplier(acq)
-        stock_m = acq.acquirer_market_cap_millions * acq.max_stock_issuance_pct * sqm
-        return max(0.0, stock_m), sqm
-    return acq.realistic_stock_component_millions, None
-
-
-def _evaluate_affordability(
-    target_ev_millions: Optional[float],
-    acquirers: list[AcquirerCapacityInput],
-) -> list[AffordabilityResult]:
-    """Compute per-acquirer-target-pair affordability.
-
-    Returns empty list when EV is unknown.
-
-    Each result is pair-level only: a HARD_FAIL for one acquirer does not
-    exclude the target from consideration by any other acquirer.
-    """
-    if target_ev_millions is None:
-        return []
-
-    results: list[AffordabilityResult] = []
-    for acq in acquirers:
-        stock_component, sqm_applied = _effective_stock_component(acq)
-        deal_capacity = max(
-            acq.cash_available_millions
-            + acq.estimated_debt_capacity_millions
-            + stock_component
-            - acq.minimum_balance_buffer_millions,
-            0.0,
-        )
-        expected_cost = target_ev_millions * (1.0 + acq.expected_takeout_premium)
-        ratio = expected_cost / deal_capacity if deal_capacity > 0.0 else float("inf")
-        band, mult = _affordability_band(ratio)
-
-        results.append(AffordabilityResult(
-            acquirer_id=acq.acquirer_id,
-            expected_acquisition_cost_millions=round(expected_cost, 2),
-            deal_capacity_millions=round(deal_capacity, 2),
-            affordability_ratio=round(ratio, 4),
-            band=band,
-            score_multiplier=mult,
-            stock_component_millions=round(stock_component, 2),
-            stock_quality_multiplier_applied=round(sqm_applied, 4) if sqm_applied is not None else None,
-        ))
-    return results
 
 
 # ---------------------------------------------------------------------------
@@ -1054,18 +882,32 @@ def evaluate_layer0(
 
     Evaluation order:
         0G (data confidence) → 0A (hard exclusion) → 0D, 0E, 0F (always)
-        → 0B, 0C (only when target passes 0A)
+        → 0B (only when target passes 0A)
 
     Args:
         target: All eligibility signals for the target company.
-        acquirers: Optional list of acquirer capacity records.  When provided,
-            a per-pair affordability result is computed for each.
+        acquirers: **DEPRECATED** — passing acquirers here triggers the old
+            Layer 0C pair-affordability path.  This parameter will be removed
+            in Phase 3.  Pair affordability is now a Layer 3A operation; use
+            ``compute_pair_affordability_batch()`` from ``ma_pair_affordability``
+            and check ``Layer0Result.required_downstream_checks`` to know when
+            to invoke it.
 
     Returns:
         ``Layer0Result`` with all 7 sub-assessments and combined score modifiers.
     """
+    import warnings
     if acquirers is None:
         acquirers = []
+    elif acquirers:
+        warnings.warn(
+            "The `acquirers` parameter of evaluate_layer0() is deprecated and will be "
+            "removed in Phase 3.  Pair affordability is now a Layer 3A operation. "
+            "Use compute_pair_affordability_batch() from bve.intelligence.ma_pair_affordability "
+            "and check Layer0Result.required_downstream_checks for when to call it.",
+            DeprecationWarning,
+            stacklevel=2,
+        )
 
     # 0G first — informs 0A (insufficient data exclusion)
     data_confidence = _compute_data_confidence(target)
