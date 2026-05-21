@@ -335,6 +335,13 @@ from bve.intelligence.ma_data_confidence import (  # noqa: E402
 # because they are the same object.
 DataConfidenceGrade = DataConfidenceLabel
 
+# 0C (new) — Target-Size Pre-Screen (informational only, no score effect)
+from bve.intelligence.ma_target_size import (  # noqa: E402
+    TargetSizeInput,
+    TargetSizeResult,
+    compute_target_size,
+)
+
 
 class Layer0Result(BaseModel):
     """Complete Layer 0 M&A eligibility assessment output.
@@ -358,7 +365,14 @@ class Layer0Result(BaseModel):
     # deal_type is kept as the primary_deal_type for backward compatibility.
     deal_type_classification: Optional[DealTypeClassification] = None
 
-    # 0C — per-acquirer affordability
+    # 0C (new) — target-size pre-screen (informational; no score effect at Layer 0)
+    # Annotates size bucket and buyer-universe implications.  Pair affordability
+    # penalty is applied at Layer 3A via compute_pair_affordability_batch().
+    target_size: Optional[TargetSizeResult] = None
+
+    # 0C (legacy, deprecated) — per-acquirer pair affordability
+    # Populated only when evaluate_layer0() is called with the deprecated
+    # acquirers= parameter.  Will be removed in Phase 3.
     affordability: list[AffordabilityResult] = Field(default_factory=list)
 
     # 0D — encumbrance
@@ -428,6 +442,10 @@ class Layer0DecisionSummary(BaseModel):
     # Context
     data_confidence_label: str
     deal_type_primary: Optional[str]
+
+    # 0C target-size context (informational; never a scoring gate)
+    target_size_bucket: Optional[str] = None         # TargetSizeBucket.value or None
+    target_size_reference_millions: Optional[float] = None
 
     # Downstream requirements (pair-level checks the scorer must invoke)
     required_downstream_checks: list[str]
@@ -644,7 +662,27 @@ def _classify_deal_type(t: TargetEligibilityInput) -> tuple[DealType, str]:
 
 
 # ---------------------------------------------------------------------------
-# Section 0C — now lives in ma_pair_affordability (Layer 3A)
+# Section 0C (new) — Target-Size Pre-Screen
+# ---------------------------------------------------------------------------
+
+def _compute_target_size_prescreen(t: "TargetEligibilityInput") -> TargetSizeResult:
+    """Compute 0C target-size pre-screen.
+
+    Always computed (like 0D/0E/0F), even for excluded targets, because the
+    size bucket is useful diagnostic context regardless of eligibility status.
+
+    No score multiplier or cap is applied here.  Size-based buyer filtering
+    happens in Layer 3A via compute_pair_affordability_batch().
+    """
+    return compute_target_size(TargetSizeInput(
+        target_id=t.ticker or "unknown",
+        enterprise_value_millions=t.enterprise_value_millions,
+        market_cap_millions=t.market_cap_millions,
+    ))
+
+
+# ---------------------------------------------------------------------------
+# Section 0C (legacy) — Pair Affordability
 #
 # The pair affordability functions are imported at the top of this module
 # as backward-compat re-exports.  The helpers (_compute_stock_quality_multiplier,
@@ -725,6 +763,7 @@ def _compute_required_downstream_checks(
     commercial_complexity: "CommercialComplexityScore",
     distress_guard: "DistressGuard",
     deal_type: Optional[DealType],
+    target_size: Optional["TargetSizeResult"] = None,
 ) -> list[str]:
     """Enumerate the pair-level checks the scoring layer must invoke for this target.
 
@@ -743,6 +782,13 @@ def _compute_required_downstream_checks(
         checks.append("affordability")          # PAIR_LEVEL → Layer 3A
     else:
         checks.append("affordability_data_required")  # DATA_QUALITY
+
+    # 0C target-size annotations — inform Layer 3A acquirer filtering
+    if target_size is not None:
+        if target_size.requires_large_cap_buyer:
+            checks.append("large_cap_buyer_required")   # TARGET_LEVEL → Layer 3A filter
+        if target_size.sub_scale_flag:
+            checks.append("sub_scale_target_review")    # TARGET_LEVEL → Layer 3A review
 
     # Buyer integration — when complexity is MODERATE or above
     if commercial_complexity.requires_buyer_capability_check:
@@ -796,6 +842,7 @@ def _plain_english_verdict(
     score_cap: Optional[float],
     distress_guard: "DistressGuard",
     required_checks: list[str],
+    target_size: Optional["TargetSizeResult"] = None,
 ) -> str:
     """Generate a 2–3 sentence plain-English audit verdict for 0H."""
     if not passes:
@@ -819,6 +866,24 @@ def _plain_english_verdict(
     parts.append(f"Target eligible for live ranking as a {deal_str}.")
     parts.append(f"Data confidence is {conf_str}.")
 
+    # 0C size note (informational — not a scoring gate)
+    if target_size is not None:
+        if target_size.mega_deal_flag:
+            parts.append(
+                f"Mega-deal tier ({target_size.reference_value_millions:,.0f}M); "
+                "top-10 pharma acquirers only."
+            )
+        elif target_size.sub_scale_flag:
+            parts.append(
+                f"Sub-scale target ({target_size.reference_value_millions:,.0f}M); "
+                "bolt-on deal review required."
+            )
+        elif target_size.requires_large_cap_buyer:
+            parts.append(
+                f"Large-cap deal tier ({target_size.reference_value_millions:,.0f}M); "
+                "investment-grade acquirer required."
+            )
+
     if score_cap is not None:
         parts.append(f"M&A probability capped at {score_cap:.0%} due to distress or structural limit.")
     elif distress_guard.guard_active:
@@ -841,6 +906,7 @@ def _build_decision_summary(
     distress_guard: "DistressGuard",
     required_checks: list[str],
     warning_flags: list[str],
+    target_size: Optional["TargetSizeResult"] = None,
 ) -> "Layer0DecisionSummary":
     """Build the 0H Layer0DecisionSummary from all gate outputs."""
     live = passes and excl_code not in (
@@ -860,12 +926,19 @@ def _build_decision_summary(
         active_score_multiplier=round(score_multiplier, 4),
         data_confidence_label=data_confidence.confidence_label.value,
         deal_type_primary=deal_type.value if deal_type else None,
+        target_size_bucket=(
+            target_size.size_bucket.value if target_size is not None else None
+        ),
+        target_size_reference_millions=(
+            target_size.reference_value_millions if target_size is not None else None
+        ),
         required_downstream_checks=required_checks,
         warning_flags=warning_flags,
         double_count_guards=_DOUBLE_COUNT_GUARD_MAP,
         plain_english_verdict=_plain_english_verdict(
             passes, excl_code, data_confidence.confidence_label,
             deal_type, score_cap, distress_guard, required_checks,
+            target_size=target_size,
         ),
     )
 
@@ -917,7 +990,8 @@ def evaluate_layer0(
         target, data_confidence
     )
 
-    # 0D, 0E, 0F — always computed (useful diagnostics even for excluded targets)
+    # 0C, 0D, 0E, 0F — always computed (useful diagnostics even for excluded targets)
+    target_size = _compute_target_size_prescreen(target)
     encumbrance = _evaluate_encumbrance(target)
     commercial_complexity = _compute_commercial_complexity(target)
     distress_guard = _evaluate_distress_guard(target)
@@ -974,9 +1048,10 @@ def evaluate_layer0(
         ExclusionCode.ROUTED_TO_OTHER_MODEL,
     )
 
-    # Phase 1 — required downstream pair-level checks
+    # Phase 1 + Phase 2 — required downstream pair-level checks
     required_checks = _compute_required_downstream_checks(
-        target, passes, commercial_complexity, distress_guard, deal_type
+        target, passes, commercial_complexity, distress_guard, deal_type,
+        target_size=target_size,
     )
 
     # Phase 1 — warning flags (non-blocking issues)
@@ -992,7 +1067,7 @@ def evaluate_layer0(
             f"integration_complexity_{commercial_complexity.complexity_level.value}"
         )
 
-    # Phase 1 — 0H Decision Summary
+    # Phase 1 + Phase 2 — 0H Decision Summary
     summary = _build_decision_summary(
         passes=passes,
         excl_code=excl_code,
@@ -1003,6 +1078,7 @@ def evaluate_layer0(
         distress_guard=distress_guard,
         required_checks=required_checks,
         warning_flags=warning_flags,
+        target_size=target_size,
     )
 
     return Layer0Result(
@@ -1012,6 +1088,9 @@ def evaluate_layer0(
         deal_type=deal_type,
         deal_type_routing_note=deal_type_note,
         deal_type_classification=deal_type_cls,
+        # 0C new — target-size pre-screen (always populated)
+        target_size=target_size,
+        # 0C legacy — pair affordability (populated only via deprecated acquirers= path)
         affordability=affordability,
         encumbrance=encumbrance,
         commercial_complexity=commercial_complexity,
