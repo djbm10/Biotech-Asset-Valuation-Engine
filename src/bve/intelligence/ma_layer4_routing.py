@@ -39,6 +39,11 @@ from typing import Any, Optional
 
 from pydantic import BaseModel, ConfigDict, Field
 
+from bve.intelligence.ma_deal_structure_bonus import (
+    DealStructureResidualInputs,
+    DealStructureResidualResult,
+    compute_deal_structure_residual_bonus,
+)
 from bve.intelligence.ma_deal_type_formulas import (
     DealTypeFormulaInput,
     DealTypeOverlayResult,
@@ -351,6 +356,18 @@ class Layer4Inputs(BaseModel):
         description="Signal bag for the 6 deal-type formulas; when provided, "
                     "deal_type_overlay and final_score_with_overlay are computed")
 
+    # Phase 4C: residual deal-structure bonus (disabled by default)
+    deal_structure_residual_inputs: Optional[DealStructureResidualInputs] = Field(
+        default=None,
+        description="Non-overlapping residual deal-structure signals for the additive "
+                    "bonus.  When None, deal_structure_residual_bonus is not computed.",
+    )
+    enable_deal_structure_bonus: bool = Field(
+        default=False,
+        description="Config gate: when False (default) the residual bonus is computed "
+                    "but NOT added to final_score.  Set True only in experimental runs.",
+    )
+
 
 class Layer4Output(BaseModel):
     """Full BD watchlist classification and action routing output."""
@@ -402,6 +419,18 @@ class Layer4Output(BaseModel):
     final_score_with_overlay: Optional[float] = Field(default=None, ge=0.0, le=1.0,
         description="Advisory blended score: 0.70×final_score + 0.30×blended_deal_type_score; "
                     "respects the same cap as final_score")
+
+    # Phase 4C: residual deal-structure bonus (additive-only, max +0.08)
+    deal_structure_residual: Optional[DealStructureResidualResult] = Field(
+        default=None,
+        description="Residual bonus computed from non-overlapping deal-structure signals; "
+                    "memo-only unless enable_deal_structure_bonus=True",
+    )
+    final_score_with_structure_bonus: Optional[float] = Field(
+        default=None, ge=0.0, le=1.0,
+        description="final_score + deal_structure_residual_bonus when the config flag is "
+                    "enabled and target passes hard gates; always >= final_score",
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -799,6 +828,36 @@ def compute_layer4(
         raw_blend = 0.70 * inputs.final_score + 0.30 * overlay.blended_deal_type_score
         final_score_with_overlay = min(inputs.final_score, max(0.0, raw_blend))
 
+    # Step 6: Phase 4C — residual deal-structure bonus
+    # Hard-fail classes that cannot receive the bonus even when enabled.
+    _HARD_FAIL_CLASSES = {WatchlistClass.PASS, WatchlistClass.DATA_INSUFFICIENT}
+
+    deal_structure_residual: Optional[DealStructureResidualResult] = None
+    final_score_with_structure_bonus: Optional[float] = None
+
+    if inputs.deal_structure_residual_inputs is not None:
+        deal_structure_residual = compute_deal_structure_residual_bonus(
+            inputs.deal_structure_residual_inputs
+        )
+        # Stamp whether the config flag was enabled on this run
+        deal_structure_residual = DealStructureResidualResult(
+            **deal_structure_residual.model_dump() | {"bonus_enabled": inputs.enable_deal_structure_bonus}
+        )
+        if (
+            inputs.enable_deal_structure_bonus
+            and final_class not in _HARD_FAIL_CLASSES
+        ):
+            bonus = deal_structure_residual.deal_structure_residual_bonus
+            # Additive-only, never reduces final_score
+            final_score_with_structure_bonus = min(
+                1.0, inputs.final_score + bonus
+            )
+            reason_codes = reason_codes + [
+                f"deal_structure_residual_bonus_applied={bonus:.4f} "
+                f"(residual_structure_score="
+                f"{deal_structure_residual.residual_structure_score:.4f})"
+            ]
+
     return Layer4Output(
         target_name=target_name,
         acquirer_id=acquirer_id,
@@ -819,4 +878,6 @@ def compute_layer4(
         recommended_model=recommended_model,
         deal_type_overlay=overlay,
         final_score_with_overlay=final_score_with_overlay,
+        deal_structure_residual=deal_structure_residual,
+        final_score_with_structure_bonus=final_score_with_structure_bonus,
     )
