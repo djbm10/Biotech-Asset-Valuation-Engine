@@ -599,6 +599,112 @@ def _confidence_level(inputs: Layer4Inputs, watchlist_class: WatchlistClass) -> 
 
 
 # ---------------------------------------------------------------------------
+# Deal-type formula auto-builder
+# ---------------------------------------------------------------------------
+
+# Licensing encumbrance level → approximate royalty stack rate
+_LICENSING_ENC_TO_ROYALTY: dict[str, float] = {
+    "none": 0.0,
+    "low": 0.05,
+    "medium": 0.12,
+    "high": 0.22,
+}
+
+
+def _auto_build_formula_input(
+    dtc_obj: Any,
+    inputs: "Layer4Inputs",
+) -> tuple[DealTypeFormulaInput, list[str]]:
+    """Derive a DealTypeFormulaInput from DealTypeClassification + Layer4Inputs.
+
+    Uses Layer4Inputs signals where available (higher reliability) and falls
+    back to DealTypeClassification value-share estimates for deal-type-specific
+    fields.  Structural data gaps (signals not derivable without a full
+    TargetEligibilityInput) are recorded in the returned list and will also
+    appear as data_gaps in the formula output through the formula functions'
+    own default-detection logic.
+
+    Gate primacy: the returned input is advisory only.  The overlay score
+    produced from it does NOT alter final_score or watchlist_class.
+
+    Returns
+    -------
+    (DealTypeFormulaInput, list[str])
+        Tuple of the constructed input and the list of structural data gaps.
+    """
+    gaps: list[str] = []
+
+    # ── Deal-type weights (from classification) ──────────────────────────────
+    weights: dict[str, float] = {}
+    raw_weights = getattr(dtc_obj, "deal_type_weights", None)
+    if raw_weights:
+        weights = {str(k): float(v) for k, v in raw_weights.items()}
+    else:
+        gaps.append("deal_type_weights: not in classification object, equal weights used")
+
+    # ── Base asset quality ────────────────────────────────────────────────────
+    # asset_quality from Layer4Inputs is the best available uniform proxy for
+    # the six formula sub-scores (clinical_evidence, differentiation, …).
+    # This is an approximation; finer-grained sub-scores require Layer 1 data.
+    aq = inputs.asset_quality
+    gaps.append("quality_sub_scores: using layer4 asset_quality as uniform proxy")
+
+    # ── Acquirer TA fit ───────────────────────────────────────────────────────
+    acquirer_ta_fit = inputs.strategic_fit
+
+    # ── Platform signals ──────────────────────────────────────────────────────
+    platform_share = float(getattr(dtc_obj, "platform_value_share", None) or 0.0)
+    is_platform = platform_share > 0.10
+    # platform_validated and platform_breadth require TargetEligibilityInput
+    gaps.append("platform_validated: not derivable, defaulting to False")
+    gaps.append("platform_breadth: not derivable, using formula default 0.40")
+
+    # ── Commercial franchise signals ──────────────────────────────────────────
+    rev_share_raw = getattr(dtc_obj, "approved_revenue_value_share", None)
+    approved_rev_share = float(rev_share_raw) if rev_share_raw is not None else 0.0
+    # revenue_durability and salesforce_required require TargetEligibilityInput
+    gaps.append("revenue_durability: not derivable, using formula default 0.50")
+    gaps.append("salesforce_required: not derivable, defaulting to False")
+
+    # ── Licensing / encumbrance signals ───────────────────────────────────────
+    lic_enc = str(getattr(dtc_obj, "licensing_encumbrance", None) or "none")
+    royalty_est = _LICENSING_ENC_TO_ROYALTY.get(lic_enc, 0.0)
+    # has_existing_partnership requires TargetEligibilityInput
+    gaps.append("has_existing_partnership: not derivable, defaulting to False")
+    gaps.append("asset_rights_scope: not derivable, defaulting to 'owned'")
+
+    # ── Distress signals ──────────────────────────────────────────────────────
+    distress_flag = bool(getattr(dtc_obj, "distress_flag", False))
+    # months_cash_runway and catalyst_within_90_days not in Layer4Inputs or DTC
+    gaps.append("months_cash_runway: not derivable, using formula default 24")
+    gaps.append("catalyst_within_90_days: not derivable, defaulting to False")
+
+    # ── Pipeline breadth signals ──────────────────────────────────────────────
+    # product_count and indication_count are not stored in DealTypeClassification
+    # or Layer4Inputs; the formulas use defaults of 1.
+    gaps.append("product_count: not derivable, using formula default 1")
+    gaps.append("indication_count: not derivable, using formula default 1")
+
+    return (
+        DealTypeFormulaInput(
+            clinical_evidence=aq,
+            differentiation=aq,
+            regulatory_path=aq,
+            ip_durability=aq,
+            cmc_feasibility=aq,
+            commercial_meaningfulness=aq,
+            acquirer_ta_fit=acquirer_ta_fit,
+            is_platform_company=is_platform,
+            approved_revenue_share=approved_rev_share,
+            financing_pressure_high=distress_flag,
+            royalty_stack_rate=royalty_est,
+            deal_type_weights=weights,
+        ),
+        gaps,
+    )
+
+
+# ---------------------------------------------------------------------------
 # Main entry point
 # ---------------------------------------------------------------------------
 
@@ -661,15 +767,34 @@ def compute_layer4(
         if rm is not None:
             recommended_model = str(rm.value) if hasattr(rm, "value") else str(rm)
 
-    # Compute deal-type formula overlay when formula input is provided
+    # Resolve the formula input: use explicit input if provided; otherwise
+    # auto-build from DealTypeClassification + Layer4Inputs when available.
+    # Auto-building produces a DealTypeFormulaInput populated with Layer4 signals
+    # and conservative defaults for fields that require TargetEligibilityInput.
+    # Gate primacy: the overlay is advisory only — final_score and watchlist_class
+    # are unchanged regardless of whether the input was explicit or auto-built.
+    _formula_input = inputs.deal_type_formula_input
+    _auto_built = False
+    _auto_gaps: list[str] = []
+    if _formula_input is None and dtc is not None:
+        _formula_input, _auto_gaps = _auto_build_formula_input(dtc, inputs)
+        _auto_built = True
+
+    # Compute deal-type formula overlay when a formula input is available
     overlay: Optional[DealTypeOverlayResult] = None
     final_score_with_overlay: Optional[float] = None
-    if inputs.deal_type_formula_input is not None:
+    if _formula_input is not None:
         overlay = compute_deal_type_overlay(
-            inp=inputs.deal_type_formula_input,
+            inp=_formula_input,
             primary_deal_type=primary_deal_type,
             secondary_deal_types=secondary_deal_types,
         )
+        if _auto_built:
+            reason_codes = reason_codes + [
+                f"deal_type_overlay_auto_built: derived from layer4 signals "
+                f"({len(_auto_gaps)} structural data gap(s)); "
+                "blended_deal_type_score is advisory only"
+            ]
         # 70/30 blend; cap to the same ceiling as final_score
         raw_blend = 0.70 * inputs.final_score + 0.30 * overlay.blended_deal_type_score
         final_score_with_overlay = min(inputs.final_score, max(0.0, raw_blend))

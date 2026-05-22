@@ -14,7 +14,12 @@ from bve.intelligence.acquirer_fit import (
     AcquirerFitRow,
 )
 from bve.intelligence.acquirer_profiles import AcquirerProfileLoader
-from bve.intelligence.ma_deal_type_formulas import DealTypeOverlayResult
+from bve.intelligence.deal_type_classification import classify_deal_type
+from bve.intelligence.ma_deal_type_formulas import (
+    DealTypeFormulaInput,
+    DealTypeOverlayResult,
+    compute_deal_type_overlay,
+)
 from bve.intelligence.knowledge_layer import MemoRecord, SourceTrace
 from bve.models.deal_economics import DealEconomics, Milestone, MilestoneDirection, MilestoneTrigger
 from bve.models.drug_asset_program import DrugAssetProgram
@@ -163,6 +168,10 @@ class AcquisitionMemoGenerator:
             deal_economics=indicative_terms.deal_economics,
         )
 
+        # Auto-compute deal-type overlay from classification + fit_row signals.
+        # This is advisory only — it does not alter fit_score or memo structure.
+        deal_type_overlay = _build_overlay_from_fit_row(fit_row, context)
+
         base_markdown = generate_memo(standalone_output, memo_type="bd")
         rendered_markdown = base_markdown.rstrip() + "\n\n" + self._render_addendum(
             fit_row=fit_row,
@@ -170,6 +179,7 @@ class AcquisitionMemoGenerator:
             indicative_terms=indicative_terms,
             standalone_output=standalone_output,
             post_deal_output=post_deal_output,
+            deal_type_overlay=deal_type_overlay,
         )
 
         memo = AcquisitionMemo(
@@ -196,6 +206,7 @@ class AcquisitionMemoGenerator:
             ),
             indicative_terms=indicative_terms,
             rendered_markdown=rendered_markdown,
+            deal_type_overlay=deal_type_overlay,
         )
         if persist:
             if self.knowledge is None:
@@ -405,6 +416,63 @@ class AcquisitionMemoGenerator:
         if deal_type_overlay is not None:
             lines.append(render_deal_type_overlay_section(deal_type_overlay))
         return "\n".join(lines)
+
+
+def _build_overlay_from_fit_row(
+    fit_row: AcquirerFitRow,
+    context: object,
+) -> Optional[DealTypeOverlayResult]:
+    """Derive a deal-type formula overlay from AcquirerFitRow + asset context.
+
+    Runs classify_deal_type() on the context object (expects TargetEligibilityInput-
+    compatible attributes via getattr-with-default) to get a DealTypeClassification,
+    then builds a DealTypeFormulaInput from fit_row scoring components and the
+    classification's value-share estimates.
+
+    Returns None if classify_deal_type() raises or the context lacks sufficient data.
+    Conservative defaults are used for signals not derivable from fit_row; these are
+    reflected as data_gaps in the returned overlay.
+
+    Gate primacy: the overlay is advisory only; it does not alter fit_score.
+    """
+    try:
+        dtc = classify_deal_type(context)
+    except Exception:
+        return None
+
+    # Use fit_row score components as quality proxies
+    # fit_score is the overall acquirer fit; therapeutic_area_score proxies TA fit
+    aq_proxy = float(getattr(fit_row, "therapeutic_area_score", None) or fit_row.fit_score)
+    ta_fit = float(getattr(fit_row, "therapeutic_area_score", None) or fit_row.fit_score)
+
+    platform_share = float(dtc.platform_value_share or 0.0)
+    is_platform = platform_share > 0.10
+
+    royalty_map = {"none": 0.0, "low": 0.05, "medium": 0.12, "high": 0.22}
+    royalty_est = royalty_map.get(str(dtc.licensing_encumbrance or "none"), 0.0)
+
+    weights = {str(k): float(v) for k, v in dtc.deal_type_weights.items()}
+
+    inp = DealTypeFormulaInput(
+        clinical_evidence=aq_proxy,
+        differentiation=aq_proxy,
+        regulatory_path=aq_proxy,
+        ip_durability=aq_proxy,
+        cmc_feasibility=aq_proxy,
+        commercial_meaningfulness=aq_proxy,
+        acquirer_ta_fit=ta_fit,
+        is_platform_company=is_platform,
+        approved_revenue_share=float(dtc.approved_revenue_value_share or 0.0),
+        financing_pressure_high=dtc.distress_flag,
+        royalty_stack_rate=royalty_est,
+        deal_type_weights=weights,
+    )
+
+    return compute_deal_type_overlay(
+        inp=inp,
+        primary_deal_type=dtc.primary_deal_type.value,
+        secondary_deal_types=[s.value for s in dtc.secondary_deal_types],
+    )
 
 
 def _fmt_millions(value: float) -> str:

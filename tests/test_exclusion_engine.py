@@ -737,11 +737,18 @@ class TestGate9CommercialRelevance:
 # ===========================================================================
 
 class TestGate10ModelRouting:
+    # ── Legacy literals (backward compatibility) ─────────────────────────────
     @pytest.mark.parametrize("dtc,expected_model", [
+        # Legacy Gate 10 literals — must still route correctly via _LEGACY_GATE10_MAP
         ("licensing_only", RoutingModel.LICENSING_MODEL),
         ("distress_only", RoutingModel.DISTRESSED_OPTIONALITY_MODEL),
         ("commercial_only", RoutingModel.COMMERCIAL_FRANCHISE_MODEL),
         ("platform_only", RoutingModel.PLATFORM_ACQUISITION_MODEL),
+        # Canonical DealType values — preferred path for new callers
+        ("asset_license_partnership", RoutingModel.LICENSING_MODEL),
+        ("distressed_optionality", RoutingModel.DISTRESSED_OPTIONALITY_MODEL),
+        ("commercial_franchise_acquisition", RoutingModel.COMMERCIAL_FRANCHISE_MODEL),
+        ("platform_acquisition", RoutingModel.PLATFORM_ACQUISITION_MODEL),
     ])
     def test_explicit_routing(self, dtc, expected_model):
         p = CompanyProfile(company_id="X", entity_type="biotech",
@@ -758,12 +765,40 @@ class TestGate10ModelRouting:
         assert r.historical_training_eligible is True
 
     def test_standard_pipeline_passes(self):
+        """Legacy 'standard_pipeline' maps to PASS via _LEGACY_GATE10_MAP."""
         p = CompanyProfile(company_id="X", entity_type="biotech",
                            deal_type_classification="standard_pipeline")
         r = evaluate_company_exclusions(p)
         gate10 = next(g for g in r.all_gate_results
                       if g.gate_name == GateName.GATE_10_MODEL_ROUTING)
         assert gate10.status == ExclusionStatus.PASS
+
+    @pytest.mark.parametrize("dtc", [
+        "single_asset_takeout",
+        "pipeline_portfolio_takeout",
+    ])
+    def test_canonical_standard_types_pass(self, dtc):
+        """Canonical types that run through the standard M&A model → PASS at Gate 10."""
+        p = CompanyProfile(company_id="X", entity_type="biotech",
+                           deal_type_classification=dtc)
+        r = evaluate_company_exclusions(p)
+        gate10 = next(g for g in r.all_gate_results
+                      if g.gate_name == GateName.GATE_10_MODEL_ROUTING)
+        assert gate10.status == ExclusionStatus.PASS
+        # Must not route away from the standard M&A model
+        assert r.routed_model is None
+
+    def test_legacy_and_canonical_routing_produce_same_result(self):
+        """Legacy 'licensing_only' and canonical 'asset_license_partnership' are equivalent."""
+        from bve.intelligence.exclusions import evaluate_company_exclusions as ece
+        p_legacy = CompanyProfile(company_id="X", entity_type="biotech",
+                                  deal_type_classification="licensing_only")
+        p_canonical = CompanyProfile(company_id="X", entity_type="biotech",
+                                     deal_type_classification="asset_license_partnership")
+        r_legacy = ece(p_legacy)
+        r_canonical = ece(p_canonical)
+        assert r_legacy.overall_status == r_canonical.overall_status
+        assert r_legacy.routed_model == r_canonical.routed_model
 
     def test_none_classification_passes(self):
         p = _clean_company()
