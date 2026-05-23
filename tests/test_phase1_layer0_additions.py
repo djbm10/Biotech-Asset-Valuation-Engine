@@ -18,7 +18,6 @@ from __future__ import annotations
 import pytest
 
 from bve.intelligence.ma_eligibility import (
-    AcquirerCapacityInput,
     CompanyTaxonomy,
     ExclusionCode,
     Layer0DecisionSummary,
@@ -506,33 +505,11 @@ class TestDoubleCountGuardMap:
 
 
 # ---------------------------------------------------------------------------
-# Acquirer inputs still work (backward compat — signature unchanged)
+# Affordability field backward compat
 # ---------------------------------------------------------------------------
 
-class TestAcquirerBackwardCompat:
-    def test_evaluate_layer0_still_accepts_acquirers(self):
-        """evaluate_layer0(acquirers=) still works but emits DeprecationWarning.
-        Pair affordability is now a Layer 3A operation (ma_pair_affordability.py)."""
-        import pytest
-        acq = AcquirerCapacityInput(
-            acquirer_id="PFIZER",
-            cash_available_millions=20_000.0,
-            estimated_debt_capacity_millions=10_000.0,
-        )
-        with pytest.warns(DeprecationWarning, match="acquirers"):
-            r = evaluate_layer0(_minimal_target(), acquirers=[acq])
-        assert isinstance(r, Layer0Result)
-        # Affordability still computed via deprecated path
-        assert len(r.affordability) == 1
-
-    def test_new_fields_still_populated_with_acquirers(self):
-        import pytest
-        acq = AcquirerCapacityInput(
-            acquirer_id="MRK",
-            cash_available_millions=15_000.0,
-        )
-        with pytest.warns(DeprecationWarning, match="acquirers"):
-            r = evaluate_layer0(_minimal_target(), acquirers=[acq])
-        assert r.decision_summary is not None
-        assert r.live_ranking_eligible is True
-        assert "affordability" in r.required_downstream_checks
+class TestAffordabilityFieldCompat:
+    def test_affordability_field_always_empty_list(self):
+        """Layer0Result.affordability is always []; pair affordability is Layer 3A."""
+        r = evaluate_layer0(_minimal_target())
+        assert r.affordability == []

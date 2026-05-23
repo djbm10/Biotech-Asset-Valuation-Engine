@@ -12,8 +12,8 @@ pair into a BD watchlist class and produces a full action recommendation:
   active_pursuit     → High fit + real transaction setup — begin BD process
   process_ready      → Strong target likely to transact soon — prepare now
 
-Each output includes:
-  watchlist_class         seven-tier BD routing class
+Primary live outputs (used in M&A scoring / BD routing):
+  watchlist_class         seven-tier BD routing class  ← LIVE
   recommended_bd_action   short imperative action string
   recommended_structure   deal structure (full_acquisition, option_to_acquire, …)
   time_horizon            expected transaction window
@@ -24,13 +24,25 @@ Each output includes:
   reason_codes            machine-readable codes explaining the decision
   owner_next_step         first BD action for the responsible team
 
+Diagnostic / memo-only outputs (NOT used in live M&A scoring):
+  deal_type_overlay                   — per-deal-type formula scores (Phase 4B)
+  blended_deal_type_score             — inside deal_type_overlay; memo display only
+  diagnostic_deal_type_score_ceiling  — 0.70×final_score + 0.30×blended_deal_type_score,
+                                        capped at final_score; cannot raise live score
+  deal_structure_residual             — residual bonus computation (Phase 4C)
+  final_score_with_structure_bonus    — live only when enable_deal_structure_bonus=True
+                                        (disabled by default)
+
 Key design principles:
   • Classification rules are applied in strict priority order; first match wins.
   • Persistence suppression: a class change requires 2 consecutive weekly
     observations OR one major-event override to prevent noisy churn.
   • Deal structure is chosen from 8 options based on asset quality, clinical
     stage, strategic fit, feasibility, and control.
-  • Promotion and demotion triggers are per-class advisory strings.
+  • blended_deal_type_score is DIAGNOSTIC/MEMO-ONLY and is never wired into
+    live M&A probability or watchlist classification.
+  • deal_structure_residual_bonus is disabled by default
+    (enable_deal_structure_bonus=False in Layer4Inputs).
 """
 from __future__ import annotations
 
@@ -416,9 +428,20 @@ class Layer4Output(BaseModel):
     # Deal-type formula overlay (None when deal_type_formula_input not provided)
     deal_type_overlay: Optional[DealTypeOverlayResult] = Field(default=None,
         description="Per-deal-type formula scores and blended overlay signal")
-    final_score_with_overlay: Optional[float] = Field(default=None, ge=0.0, le=1.0,
-        description="Advisory blended score: 0.70×final_score + 0.30×blended_deal_type_score; "
-                    "respects the same cap as final_score")
+    diagnostic_deal_type_score_ceiling: Optional[float] = Field(default=None, ge=0.0, le=1.0,
+        description="DIAGNOSTIC / MEMO-ONLY. "
+                    "0.70×final_score + 0.30×blended_deal_type_score, capped at final_score. "
+                    "This can only reduce or hold final_score — it can never increase it. "
+                    "Not used in live M&A scoring or watchlist classification.")
+
+    @property
+    def final_score_with_overlay(self) -> Optional[float]:
+        """Deprecated alias for diagnostic_deal_type_score_ceiling.
+
+        Use diagnostic_deal_type_score_ceiling instead.
+        This alias is retained for one release cycle to avoid breaking existing callers.
+        """
+        return self.diagnostic_deal_type_score_ceiling
 
     # Phase 4C: residual deal-structure bonus (additive-only, max +0.08)
     deal_structure_residual: Optional[DealStructureResidualResult] = Field(
@@ -811,7 +834,7 @@ def compute_layer4(
 
     # Compute deal-type formula overlay when a formula input is available
     overlay: Optional[DealTypeOverlayResult] = None
-    final_score_with_overlay: Optional[float] = None
+    _diagnostic_ceiling: Optional[float] = None
     if _formula_input is not None:
         overlay = compute_deal_type_overlay(
             inp=_formula_input,
@@ -822,11 +845,11 @@ def compute_layer4(
             reason_codes = reason_codes + [
                 f"deal_type_overlay_auto_built: derived from layer4 signals "
                 f"({len(_auto_gaps)} structural data gap(s)); "
-                "blended_deal_type_score is advisory only"
+                "blended_deal_type_score is diagnostic/memo-only"
             ]
-        # 70/30 blend; cap to the same ceiling as final_score
+        # 70/30 diagnostic blend — caps at final_score (cannot improve score)
         raw_blend = 0.70 * inputs.final_score + 0.30 * overlay.blended_deal_type_score
-        final_score_with_overlay = min(inputs.final_score, max(0.0, raw_blend))
+        _diagnostic_ceiling = min(inputs.final_score, max(0.0, raw_blend))
 
     # Step 6: Phase 4C — residual deal-structure bonus
     # Hard-fail classes that cannot receive the bonus even when enabled.
@@ -877,7 +900,7 @@ def compute_layer4(
         secondary_deal_types=secondary_deal_types,
         recommended_model=recommended_model,
         deal_type_overlay=overlay,
-        final_score_with_overlay=final_score_with_overlay,
+        diagnostic_deal_type_score_ceiling=_diagnostic_ceiling,
         deal_structure_residual=deal_structure_residual,
         final_score_with_structure_bonus=final_score_with_structure_bonus,
     )

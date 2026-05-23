@@ -12,14 +12,21 @@ opportunity is:
   5. Quality-driven, not distress   (Gate 6 — Capital Pressure Without Quality)
   6. Economically executable        (Gates 7 & 8 — Control + Feasibility)
 
-Key architectural changes vs the old driver-count system:
+Layer 3 is PAIR-SPECIFIC.  It scores each (target, acquirer) pair independently:
+  • G7  — pair affordability from Layer 3A (ma_pair_affordability.py)
+  • G8  — pair integration capability (buyer-specific complexity adjustment)
+  • 3B  — pair asset control / ROFR / partner / manufacturing fit
+          (ma_pair_asset_control.py → compute_pair_asset_control())
 
+Key architectural principles:
   • Six transaction driver BUCKETS replace raw signal counting.  Each bucket
     aggregates multiple signals and produces a continuous strength score.
   • Driver strength is a weighted average of all bucket scores, not a binary
     count.  A barely-triggered bucket contributes less than a strong one.
   • All gates are evaluated independently; the MOST RESTRICTIVE cap wins.
   • final_score = min(pre_gate_score, most_restrictive_active_cap)
+  • Layer 0 encumbrance / distress caps are applied BEFORE Layer 3 gates
+    (pre_gate_score already reflects Layer 0 score_multiplier and score_cap).
 """
 from __future__ import annotations
 

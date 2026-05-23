@@ -1,27 +1,32 @@
 """Layer 0 — Target Eligibility, Deal-Type Routing, and Data-Quality Gate.
 
-Before M&A scoring, this module determines:
-    0A. Whether a target is eligible for analysis (hard exclusion)
-    0B. Which deal model to route to (deal-type classification)
-    0C. Target-size pre-screen — bucket + buyer universe annotation (no score effect)
-        [Pair affordability moved to Layer 3A in ma_pair_affordability.py (Phase 2)]
-    0D. Asset-control / encumbrance issues that reduce deal value
-    0E. Target-level commercial integration complexity flag (no score penalty at Layer 0)
-    0F. Distress quality guard — cap when distressed target lacks strategic value
-    0G. Data confidence grade — how much to trust the model output
+Layer 0 is TARGET-LEVEL ONLY.  It answers: "Is this company an eligible and
+meaningful M&A candidate, and if so, what type of deal does it represent?"
 
-Layer 0 does NOT assign M&A probability.  It returns a ``Layer0Result`` that
-the scoring layer can consume to:
-    - hard-exclude or route a target
-    - apply a score multiplier (encumbrance penalty only — 0E no longer penalises here)
-    - apply a probability cap (distress guard)
-    - annotate output with data-confidence grade
+Sub-gates (all target-level; no pair-specific scoring here):
+    0A. Hard exclusion     — company taxonomy, governance, data-quality hard fails
+    0B. Deal-type routing  — classify primary deal archetype (single_asset_takeout,
+                             pipeline_portfolio_takeout, platform_acquisition, etc.)
+    0C. Target-size        — bucket annotation + buyer-universe flag (informational only;
+                             no score effect at Layer 0; pair affordability is Layer 3A)
+    0D. Encumbrance        — target-level ROFR / IP / manufacturing burden that reduces
+                             deal attractiveness (score_multiplier ≤ 1.0)
+    0E. Integration        — target's structural complexity flag (raw score only;
+                             buyer-specific adjustment is Layer 3 G8)
+    0F. Distress guard     — cap score when distressed target lacks strategic value
+    0G. Data confidence    — grade how much to trust model output
 
-0E Design note:
-    Layer 0E identifies the target's raw integration complexity and passes it
-    downstream.  The buyer-specific integration penalty is computed in Layer 3
-    via ``compute_pair_integration_adjustment()`` and applied through G8.
-    This prevents double-counting between Layer 0 and Layer 3.
+What Layer 0 does NOT do:
+    • No pair-specific affordability  — this is Layer 3A (ma_pair_affordability.py)
+    • No buyer-specific ROFR / partner / manufacturing adjustment — Layer 3B
+                             (ma_pair_asset_control.py compute_pair_asset_control())
+    • No integration capability scoring vs a specific buyer — Layer 3 G8
+
+Outputs (Layer0Result):
+    score_multiplier    — encumbrance penalty (0D only; 0E no longer contributes)
+    score_cap           — distress guard cap (0F) or exclusion engine cap
+    required_downstream_checks — which Layer 3 pair checks must run (affordability,
+                             integration, asset control)
 """
 from __future__ import annotations
 
@@ -117,23 +122,13 @@ class ExclusionCode(str, Enum):
 # ---------------------------------------------------------------------------
 # 0C — Pair Affordability (moved to ma_pair_affordability in Phase 2)
 #
-# AffordabilityBand, AcquirerCapacityInput, AffordabilityResult and the
-# internal helper functions are now defined in ma_pair_affordability.py.
-# They are re-exported here for backward compatibility.  Direct imports
-# from this module will continue to work until Phase 3 removes these
-# re-exports.
+# All affordability symbols now live in ma_pair_affordability.py.
+# Import directly from there: AffordabilityBand, AcquirerCapacityInput,
+# AffordabilityResult, compute_pair_affordability, compute_pair_affordability_batch.
+# The re-export shim that lived here was removed in Phase 3 cleanup.
 # ---------------------------------------------------------------------------
-from bve.intelligence.ma_pair_affordability import (  # noqa: E402, F401
-    AffordabilityBand,
-    AcquirerCapacityInput,
-    AffordabilityResult,
-    _AFFORDABILITY_BANDS,
-    _affordability_band,
-    _compute_stock_quality_multiplier,
-    _effective_stock_component,
-    _evaluate_affordability,           # deprecated alias for compute_pair_affordability_batch
-    compute_pair_affordability,
-    compute_pair_affordability_batch,
+from bve.intelligence.ma_pair_affordability import (  # noqa: E402
+    AffordabilityResult,              # needed by Layer0Result.affordability field type
 )
 
 
@@ -372,9 +367,10 @@ class Layer0Result(BaseModel):
     # penalty is applied at Layer 3A via compute_pair_affordability_batch().
     target_size: Optional[TargetSizeResult] = None
 
-    # 0C (legacy, deprecated) — per-acquirer pair affordability
-    # Populated only when evaluate_layer0() is called with the deprecated
-    # acquirers= parameter.  Will be removed in Phase 3.
+    # 0C (legacy, compat) — per-acquirer pair affordability
+    # Always empty [].  Retained for backward compatibility with callers that
+    # read this field without setting it.  Pair affordability is a Layer 3A
+    # operation via compute_pair_affordability_batch() in ma_pair_affordability.
     affordability: list[AffordabilityResult] = Field(default_factory=list)
 
     # 0D — encumbrance
@@ -967,7 +963,6 @@ def _build_decision_summary(
 
 def evaluate_layer0(
     target: TargetEligibilityInput,
-    acquirers: Optional[list[AcquirerCapacityInput]] = None,
 ) -> Layer0Result:
     """Run all Layer 0 checks for a single target.
 
@@ -975,30 +970,22 @@ def evaluate_layer0(
         0G (data confidence) → 0A (hard exclusion) → 0D, 0E, 0F (always)
         → 0B (only when target passes 0A)
 
-    Args:
-        target: All eligibility signals for the target company.
-        acquirers: **DEPRECATED** — passing acquirers here triggers the old
-            Layer 0C pair-affordability path.  This parameter will be removed
-            in Phase 3.  Pair affordability is now a Layer 3A operation; use
-            ``compute_pair_affordability_batch()`` from ``ma_pair_affordability``
-            and check ``Layer0Result.required_downstream_checks`` to know when
-            to invoke it.
+    Layer 0 is target-level only:
+        • eligibility gates, routing flags, score caps
+        • target-level encumbrance multiplier (0D)
+        • target-level distress guard cap (0F)
+        • deal-type classification for routing (0B)
+        • no pair-specific affordability (moved to Layer 3A)
+        • no buyer-specific ROFR / partner / manufacturing adjustment (Layer 3B)
+
+    Pair-specific scoring (affordability, integration capability, asset control):
+        Use compute_pair_affordability_batch() from ma_pair_affordability and
+        compute_pair_asset_control() from ma_pair_asset_control.
+        Layer0Result.required_downstream_checks lists which pair checks apply.
 
     Returns:
         ``Layer0Result`` with all 7 sub-assessments and combined score modifiers.
     """
-    import warnings
-    if acquirers is None:
-        acquirers = []
-    elif acquirers:
-        warnings.warn(
-            "The `acquirers` parameter of evaluate_layer0() is deprecated and will be "
-            "removed in Phase 3.  Pair affordability is now a Layer 3A operation. "
-            "Use compute_pair_affordability_batch() from bve.intelligence.ma_pair_affordability "
-            "and check Layer0Result.required_downstream_checks for when to call it.",
-            DeprecationWarning,
-            stacklevel=2,
-        )
 
     # 0G first — informs 0A (insufficient data exclusion)
     data_confidence = _compute_data_confidence(target)
@@ -1014,17 +1001,15 @@ def evaluate_layer0(
     commercial_complexity = _compute_commercial_complexity(target)
     distress_guard = _evaluate_distress_guard(target)
 
-    # 0B, 0C — only meaningful when target passes hard exclusion
+    # 0B — only meaningful when target passes hard exclusion
     deal_type: Optional[DealType] = None
     deal_type_note = ""
     deal_type_cls: Optional[DealTypeClassification] = None
-    affordability: list[AffordabilityResult] = []
 
     if passes:
         deal_type_cls = classify_deal_type(target)
         deal_type = deal_type_cls.primary_deal_type
         deal_type_note = deal_type_cls.model_routing_reason
-        affordability = _evaluate_affordability(target.enterprise_value_millions, acquirers)
 
     # Combined score modifiers
     # NOTE: 0E no longer contributes to the score multiplier — integration penalty
@@ -1106,10 +1091,9 @@ def evaluate_layer0(
         deal_type=deal_type,
         deal_type_routing_note=deal_type_note,
         deal_type_classification=deal_type_cls,
-        # 0C new — target-size pre-screen (always populated)
+        # 0C — target-size pre-screen (always populated)
         target_size=target_size,
-        # 0C legacy — pair affordability (populated only via deprecated acquirers= path)
-        affordability=affordability,
+        # affordability omitted — always default [] (deprecated path removed)
         encumbrance=encumbrance,
         commercial_complexity=commercial_complexity,
         raw_integration_complexity_score=commercial_complexity.raw_integration_complexity_score,

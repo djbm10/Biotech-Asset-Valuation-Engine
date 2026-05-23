@@ -25,7 +25,6 @@ from bve.intelligence.ma_eligibility import (
     evaluate_layer0,
     TargetEligibilityInput,
     CompanyTaxonomy,
-    AcquirerCapacityInput,
 )
 from bve.intelligence.ma_target_size import TargetSizeBucket
 
@@ -343,28 +342,17 @@ class TestPlainEnglishVerdictSizeNotes:
 # 11. Backward compat: acquirers= still works, no extra warnings
 # ---------------------------------------------------------------------------
 
-class TestBackwardCompatStillWorks:
+class TestAffordabilityFieldCompat:
 
-    def test_acquirers_path_still_populates_affordability(self):
-        acq = AcquirerCapacityInput(
-            acquirer_id="ACQ",
-            cash_available_millions=5_000.0,
-            estimated_debt_capacity_millions=2_000.0,
-            realistic_stock_component_millions=1_000.0,
-        )
-        import warnings
-        with warnings.catch_warnings(record=True) as w:
-            warnings.simplefilter("always")
-            r = evaluate_layer0(_full_data_target(ev=2_000.0), acquirers=[acq])
-        # affordability still populated
-        assert len(r.affordability) == 1
-        # target_size also populated
+    def test_affordability_always_empty_list(self):
+        """Layer0Result.affordability is always []; pair affordability is Layer 3A."""
+        r = evaluate_layer0(_full_data_target(ev=2_000.0))
+        assert r.affordability == []
+        # target_size still populated
         assert r.target_size is not None
-        # exactly one DeprecationWarning (the acquirers= path)
-        dep_warnings = [x for x in w if issubclass(x.category, DeprecationWarning)]
-        assert len(dep_warnings) == 1
 
-    def test_no_extra_warnings_when_no_acquirers(self):
+    def test_no_deprecation_warnings_from_evaluate_layer0(self):
+        """evaluate_layer0() emits no DeprecationWarnings."""
         import warnings
         with warnings.catch_warnings(record=True) as w:
             warnings.simplefilter("always")

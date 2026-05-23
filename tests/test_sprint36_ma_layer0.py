@@ -13,8 +13,6 @@ Covers:
 import pytest
 
 from bve.intelligence.ma_eligibility import (
-    AffordabilityBand,
-    AcquirerCapacityInput,
     CommercialComplexityScore,
     CompanyTaxonomy,
     DataConfidenceGrade,
@@ -23,15 +21,19 @@ from bve.intelligence.ma_eligibility import (
     ExclusionCode,
     Layer0Result,
     TargetEligibilityInput,
-    _affordability_band,
     _compute_commercial_complexity,
     _compute_data_confidence,
-    _evaluate_affordability,
     _evaluate_distress_guard,
     _evaluate_encumbrance,
     _evaluate_hard_exclusion,
     _classify_deal_type,
     evaluate_layer0,
+)
+from bve.intelligence.ma_pair_affordability import (
+    AffordabilityBand,
+    AcquirerCapacityInput,
+    _affordability_band,
+    _evaluate_affordability,
 )
 
 
