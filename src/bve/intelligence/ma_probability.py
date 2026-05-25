@@ -648,6 +648,12 @@ class MAProbabilityRow(BaseModel):
     canonical_acquirer_id: str | None = None
     watchlist_type: str | None = None
 
+    # Block 1–4 enrichment fields (optional; populated by enrich_row_with_buyer_thesis)
+    buyer_thesis_tier: str | None = None               # UnderwriteThesis.value
+    transaction_realism_label: str | None = None       # e.g. "HIGH", "MODERATE"
+    recommended_deal_structure: str | None = None      # RecommendedStructure.value
+    probability_band_display: str | None = None        # human-readable band or RANK_ONLY text
+
     @model_validator(mode="before")
     @classmethod
     def _sync_probability_aliases(cls, data):
@@ -3040,3 +3046,72 @@ def _build_row_explanation(
     if best.hard_fail_reasons:
         parts.append("hard fails " + ", ".join(best.hard_fail_reasons))
     return "; ".join(parts)
+
+
+# ---------------------------------------------------------------------------
+# Block 1–4 enrichment layer
+# ---------------------------------------------------------------------------
+
+def enrich_row_with_buyer_thesis(
+    row: "MAProbabilityRow",
+    *,
+    mandate_inputs: dict,
+    conflict_inputs: dict,
+    relationship_inputs: dict,
+    realism_inputs: dict,
+    segment_outcomes: list[int] | None = None,
+    segment_label: str = "",
+    minimum_n: int = 10,
+) -> "MAProbabilityRow":
+    """
+    Enrich a MAProbabilityRow with Block 1–4 outputs.
+
+    Computes:
+      - BuyerTargetThesis (Block 1) → buyer_thesis_tier
+      - TransactionRealismScore (Block 2) → transaction_realism_label
+      - DealStructureRationale (Block 3) → recommended_deal_structure
+      - CalibratedProbabilityBand (Block 4) → probability_band_display
+        (only when segment_outcomes is provided; RANK_ONLY when N < minimum_n)
+
+    Does NOT modify any existing scoring fields. Returns a new row via model_copy.
+    """
+    from bve.intelligence.ma_buyer_mandate import compute_buyer_mandate_score
+    from bve.intelligence.ma_internal_conflict import compute_internal_conflict
+    from bve.intelligence.ma_relationship_history import compute_relationship_history
+    from bve.intelligence.ma_buyer_thesis import build_buyer_target_thesis
+    from bve.intelligence.ma_transaction_realism import compute_transaction_realism
+    from bve.intelligence.ma_deal_structure_rationale import build_deal_structure_rationale
+    from bve.intelligence.ma_calibrated_probability_band import compute_probability_band
+
+    # Block 1: Buyer thesis
+    mandate = compute_buyer_mandate_score(mandate_inputs)
+    conflict = compute_internal_conflict(conflict_inputs)
+    relationship = compute_relationship_history(relationship_inputs)
+    thesis = build_buyer_target_thesis(
+        mandate_score=mandate,
+        conflict_score=conflict,
+        relationship_score=relationship,
+    )
+
+    # Block 2: Transaction realism
+    realism = compute_transaction_realism(realism_inputs)
+
+    # Block 3: Deal structure rationale
+    structure_rationale = build_deal_structure_rationale(thesis=thesis, realism=realism)
+
+    # Block 4: Probability band (optional)
+    band_display: str | None = None
+    if segment_outcomes is not None:
+        band = compute_probability_band(
+            segment_outcomes,
+            minimum_n=minimum_n,
+            segment_label=segment_label,
+        )
+        band_display = band.label_text
+
+    return row.model_copy(update={
+        "buyer_thesis_tier": thesis.underwrite_thesis.value,
+        "transaction_realism_label": realism.realism_label,
+        "recommended_deal_structure": structure_rationale.recommended_structure.value,
+        "probability_band_display": band_display,
+    })
