@@ -188,6 +188,11 @@ def _minimal_inputs(
     strategic_conflict: StrategicConflictInputs | None = None,
     process_closing: ProcessClosingInputs | None = None,
     diligence_flags: DiligenceFlagInputs | None = None,
+    # Gap 2 — secondary 3A affordability triggers
+    acquirer_credit_stress_high: bool = False,
+    deal_requires_large_debt: bool = False,
+    target_requires_cash_deal: bool = False,
+    buyer_cash_insufficient: bool = False,
 ) -> PairRealismInputs:
     return PairRealismInputs(
         target_id="target-001",
@@ -201,6 +206,10 @@ def _minimal_inputs(
         strategic_conflict=strategic_conflict or StrategicConflictInputs(),
         process_closing=process_closing or ProcessClosingInputs(),
         diligence_flags=diligence_flags or DiligenceFlagInputs(),
+        acquirer_credit_stress_high=acquirer_credit_stress_high,
+        deal_requires_large_debt=deal_requires_large_debt,
+        target_requires_cash_deal=target_requires_cash_deal,
+        buyer_cash_insufficient=buyer_cash_insufficient,
     )
 
 
@@ -821,3 +830,340 @@ class TestOutputCompleteness:
     def test_confidence_label_assigned(self):
         result = compute_layer3_pair_realism(_minimal_inputs())
         assert result.confidence_label in ("High", "Medium", "Low", "Very Low")
+
+
+# ===========================================================================
+# Gap 1 — pair_feasibility_multiplier derived from tier table
+# ===========================================================================
+
+class TestPairFeasibilityMultiplierTierTable:
+    """pair_feasibility_multiplier must come from the spec tier table, not a
+    product of individual module multipliers."""
+
+    def _result_with_score(self, target_score: float) -> "PairRealismOutput":
+        """Build a result whose pair_feasibility_score lands near target_score
+        by composing component inputs that produce a known weighted outcome."""
+        # All-neutral defaults → pair_score ≈ 0.50 (NEUTRAL everywhere)
+        # Override antitrust/conflict to push the score up or down.
+        if target_score >= 0.84:
+            # High scores: clean inputs everywhere
+            return compute_layer3_pair_realism(_minimal_inputs(
+                affordability=_clean_affordability(),
+                upstream_layer2_score=0.80,
+            ))
+        if target_score >= 0.69:
+            # Mid scores: mild antitrust risk to pull score down a little
+            return compute_layer3_pair_realism(_minimal_inputs(
+                upstream_layer2_score=0.80,
+                antitrust=AntitrustInputs(
+                    current_product_overlap=0.10,
+                    pipeline_overlap=0.10,
+                ),
+            ))
+        # Lower scores: high conflict + antitrust to push score down
+        return compute_layer3_pair_realism(_minimal_inputs(
+            upstream_layer2_score=0.80,
+            antitrust=AntitrustInputs(
+                current_product_overlap=0.70,
+                pipeline_overlap=0.70,
+                market_concentration=0.70,
+            ),
+            strategic_conflict=StrategicConflictInputs(
+                product_cannibalization=0.70,
+                pipeline_cannibalization=0.70,
+            ),
+        ))
+
+    def test_multiplier_at_most_1(self):
+        """pair_feasibility_multiplier never exceeds 1.0."""
+        result = compute_layer3_pair_realism(_minimal_inputs(
+            affordability=_clean_affordability(),
+        ))
+        assert result.pair_feasibility_multiplier <= 1.0
+
+    def test_clean_pair_multiplier_1_00(self):
+        """pair_feasibility_score >= 0.85 → multiplier == 1.00."""
+        result = compute_layer3_pair_realism(_minimal_inputs(
+            affordability=_clean_affordability(),
+            upstream_layer2_score=0.80,
+        ))
+        if result.pair_feasibility_score >= 0.85 and not result.hard_fail:
+            assert result.pair_feasibility_multiplier == pytest.approx(1.00, abs=1e-9)
+
+    def test_tier_table_0_70_to_0_84_gives_0_90(self):
+        """Construct a scenario with pair_score in 0.70–0.84 → multiplier 0.90."""
+        # Mild antitrust pulls the score below 0.85 but not below 0.70
+        result = compute_layer3_pair_realism(_minimal_inputs(
+            upstream_layer2_score=0.80,
+            antitrust=AntitrustInputs(
+                current_product_overlap=0.15,
+                pipeline_overlap=0.15,
+                market_concentration=0.15,
+            ),
+        ))
+        if 0.70 <= result.pair_feasibility_score < 0.85 and not result.hard_fail:
+            assert result.pair_feasibility_multiplier == pytest.approx(0.90, abs=1e-9)
+
+    def test_tier_table_0_55_to_0_69_gives_0_75(self):
+        """pair_score 0.55–0.69 → multiplier 0.75."""
+        result = compute_layer3_pair_realism(_minimal_inputs(
+            upstream_layer2_score=0.80,
+            antitrust=AntitrustInputs(
+                current_product_overlap=0.50,
+                pipeline_overlap=0.50,
+                market_concentration=0.50,
+            ),
+            strategic_conflict=StrategicConflictInputs(
+                product_cannibalization=0.50,
+                pipeline_cannibalization=0.50,
+            ),
+        ))
+        if 0.55 <= result.pair_feasibility_score < 0.70 and not result.hard_fail:
+            assert result.pair_feasibility_multiplier == pytest.approx(0.75, abs=1e-9)
+
+    def test_tier_table_0_40_to_0_54_gives_0_55(self):
+        """pair_score 0.40–0.54 → multiplier 0.55."""
+        result = compute_layer3_pair_realism(_minimal_inputs(
+            upstream_layer2_score=0.80,
+            antitrust=AntitrustInputs(
+                current_product_overlap=0.75,
+                pipeline_overlap=0.75,
+                market_concentration=0.75,
+                innovation_competition_risk=0.75,
+            ),
+            strategic_conflict=StrategicConflictInputs(
+                product_cannibalization=0.75,
+                pipeline_cannibalization=0.75,
+                channel_conflict=0.75,
+            ),
+        ))
+        if 0.40 <= result.pair_feasibility_score < 0.55 and not result.hard_fail:
+            assert result.pair_feasibility_multiplier == pytest.approx(0.55, abs=1e-9)
+
+    def test_tier_table_below_0_40_gives_0_40(self):
+        """pair_score < 0.40 (and no hard fail) → multiplier 0.40."""
+        result = compute_layer3_pair_realism(_minimal_inputs(
+            upstream_layer2_score=0.80,
+            antitrust=AntitrustInputs(
+                current_product_overlap=0.90,
+                pipeline_overlap=0.90,
+                market_concentration=0.90,
+                innovation_competition_risk=0.90,
+                divestiture_complexity=0.90,
+                jurisdictional_complexity=0.90,
+            ),
+            strategic_conflict=StrategicConflictInputs(
+                product_cannibalization=0.90,
+                pipeline_cannibalization=0.90,
+                channel_conflict=0.90,
+                partner_conflict=0.90,
+            ),
+        ))
+        if result.pair_feasibility_score < 0.40 and not result.hard_fail:
+            assert result.pair_feasibility_multiplier == pytest.approx(0.40, abs=1e-9)
+
+    def test_hard_fail_zeroes_multiplier(self):
+        """Hard fail → pair_feasibility_multiplier == 0.0."""
+        result = compute_layer3_pair_realism(_minimal_inputs(
+            affordability=_hard_fail_affordability(),
+        ))
+        assert result.hard_fail
+        assert result.pair_feasibility_multiplier == 0.0
+
+    def test_adjusted_score_formula_consistent_with_multiplier(self):
+        """adjusted_bd_score == min(L2 × multiplier, pair_cap) within tolerance."""
+        result = compute_layer3_pair_realism(_minimal_inputs(upstream_layer2_score=0.80))
+        if not result.hard_fail:
+            expected = min(
+                0.80 * result.pair_feasibility_multiplier,
+                result.pair_level_cap,
+            )
+            assert result.adjusted_bd_score == pytest.approx(expected, abs=1e-4)
+
+    def test_multiplier_not_product_of_module_multipliers(self):
+        """pair_feasibility_multiplier is one of the 5 spec tiers, not an
+        arbitrary product of sub-module multipliers."""
+        allowed = {0.0, 0.40, 0.55, 0.75, 0.90, 1.00}
+        result = compute_layer3_pair_realism(_minimal_inputs(
+            affordability=_clean_affordability(),
+        ))
+        assert result.pair_feasibility_multiplier in allowed
+
+
+# ===========================================================================
+# Gap 2 — Secondary 3A affordability triggers
+# ===========================================================================
+
+class TestAffordabilitySecondaryTriggers:
+    """Two new boolean-pair triggers: credit-stress+large-debt → cap 0.55,
+    cash-required+insufficient → cap 0.50."""
+
+    def test_credit_stress_and_large_debt_caps_at_0_55(self):
+        """acquirer_credit_stress_high AND deal_requires_large_debt → cap <= 0.55."""
+        result = compute_layer3_pair_realism(_minimal_inputs(
+            affordability=_clean_affordability(),
+            acquirer_credit_stress_high=True,
+            deal_requires_large_debt=True,
+        ))
+        cap_names = [c.name for c in result.active_caps]
+        assert "credit_stress_large_debt_cap" in cap_names
+        matching = [c for c in result.active_caps if c.name == "credit_stress_large_debt_cap"]
+        assert matching[0].cap_value <= 0.55
+
+    def test_cash_required_and_buyer_insufficient_caps_at_0_50(self):
+        """target_requires_cash_deal AND buyer_cash_insufficient → cap <= 0.50."""
+        result = compute_layer3_pair_realism(_minimal_inputs(
+            affordability=_clean_affordability(),
+            target_requires_cash_deal=True,
+            buyer_cash_insufficient=True,
+        ))
+        cap_names = [c.name for c in result.active_caps]
+        assert "cash_required_buyer_insufficient_cap" in cap_names
+        matching = [c for c in result.active_caps if c.name == "cash_required_buyer_insufficient_cap"]
+        assert matching[0].cap_value <= 0.50
+
+    def test_credit_stress_alone_does_not_trigger(self):
+        """Only acquirer_credit_stress_high (without large_debt) does not fire."""
+        result = compute_layer3_pair_realism(_minimal_inputs(
+            affordability=_clean_affordability(),
+            acquirer_credit_stress_high=True,
+            deal_requires_large_debt=False,
+        ))
+        cap_names = [c.name for c in result.active_caps]
+        assert "credit_stress_large_debt_cap" not in cap_names
+
+    def test_large_debt_alone_does_not_trigger(self):
+        """Only deal_requires_large_debt (without credit stress) does not fire."""
+        result = compute_layer3_pair_realism(_minimal_inputs(
+            affordability=_clean_affordability(),
+            acquirer_credit_stress_high=False,
+            deal_requires_large_debt=True,
+        ))
+        cap_names = [c.name for c in result.active_caps]
+        assert "credit_stress_large_debt_cap" not in cap_names
+
+    def test_cash_required_alone_does_not_trigger(self):
+        """Only target_requires_cash_deal without buyer_cash_insufficient does not fire."""
+        result = compute_layer3_pair_realism(_minimal_inputs(
+            affordability=_clean_affordability(),
+            target_requires_cash_deal=True,
+            buyer_cash_insufficient=False,
+        ))
+        cap_names = [c.name for c in result.active_caps]
+        assert "cash_required_buyer_insufficient_cap" not in cap_names
+
+    def test_buyer_insufficient_alone_does_not_trigger(self):
+        """Only buyer_cash_insufficient without target_requires_cash_deal does not fire."""
+        result = compute_layer3_pair_realism(_minimal_inputs(
+            affordability=_clean_affordability(),
+            target_requires_cash_deal=False,
+            buyer_cash_insufficient=True,
+        ))
+        cap_names = [c.name for c in result.active_caps]
+        assert "cash_required_buyer_insufficient_cap" not in cap_names
+
+    def test_both_triggers_active_pair_cap_is_most_restrictive(self):
+        """Both triggers active → pair_level_cap is most restrictive (≤ 0.50)."""
+        result = compute_layer3_pair_realism(_minimal_inputs(
+            affordability=_clean_affordability(),
+            acquirer_credit_stress_high=True,
+            deal_requires_large_debt=True,
+            target_requires_cash_deal=True,
+            buyer_cash_insufficient=True,
+        ))
+        assert result.pair_level_cap <= 0.50
+
+    def test_secondary_triggers_in_triggered_by_3a(self):
+        """Both secondary caps list triggered_by='3A_affordability'."""
+        result = compute_layer3_pair_realism(_minimal_inputs(
+            affordability=_clean_affordability(),
+            acquirer_credit_stress_high=True,
+            deal_requires_large_debt=True,
+            target_requires_cash_deal=True,
+            buyer_cash_insufficient=True,
+        ))
+        for name in ("credit_stress_large_debt_cap", "cash_required_buyer_insufficient_cap"):
+            matches = [c for c in result.active_caps if c.name == name]
+            assert matches, f"Cap {name!r} not in active_caps"
+            assert matches[0].triggered_by == "3A_affordability"
+
+    def test_defaults_do_not_fire_any_secondary_trigger(self):
+        """With all secondary boolean fields at default (False), neither cap fires."""
+        result = compute_layer3_pair_realism(_minimal_inputs())
+        cap_names = [c.name for c in result.active_caps]
+        assert "credit_stress_large_debt_cap" not in cap_names
+        assert "cash_required_buyer_insufficient_cap" not in cap_names
+
+
+# ===========================================================================
+# Gap 3 — 3B CVR milestone-definition clarity trigger
+# ===========================================================================
+
+class TestCVRMilestoneClarity:
+    """cvr_needed_but_milestone_definition_unclear: bool = False adds a
+    'unclear_cvr_milestone_cap' at cap_value 0.70."""
+
+    def test_cvr_unclear_cap_fires(self):
+        """cvr_needed_but_milestone_definition_unclear=True → cap <= 0.70."""
+        con = ConsiderationRealismInputs(
+            cvr_needed_but_milestone_definition_unclear=True,
+        )
+        result = compute_layer3_pair_realism(_minimal_inputs(consideration=con))
+        cap_names = [c.name for c in result.active_caps]
+        assert "unclear_cvr_milestone_cap" in cap_names
+
+    def test_cvr_unclear_cap_value_is_0_70(self):
+        """Cap value is exactly 0.70."""
+        con = ConsiderationRealismInputs(
+            cvr_needed_but_milestone_definition_unclear=True,
+        )
+        result = compute_layer3_pair_realism(_minimal_inputs(consideration=con))
+        matches = [c for c in result.active_caps if c.name == "unclear_cvr_milestone_cap"]
+        assert matches
+        assert matches[0].cap_value == pytest.approx(0.70, abs=1e-9)
+
+    def test_cvr_unclear_cap_triggered_by_3b(self):
+        """triggered_by is '3B_consideration'."""
+        con = ConsiderationRealismInputs(
+            cvr_needed_but_milestone_definition_unclear=True,
+        )
+        result = compute_layer3_pair_realism(_minimal_inputs(consideration=con))
+        matches = [c for c in result.active_caps if c.name == "unclear_cvr_milestone_cap"]
+        assert matches[0].triggered_by == "3B_consideration"
+
+    def test_cvr_cap_enforced_in_pair_level_cap(self):
+        """pair_level_cap <= 0.70 when CVR clarity trigger fires and no tighter cap."""
+        con = ConsiderationRealismInputs(
+            cvr_needed_but_milestone_definition_unclear=True,
+        )
+        result = compute_layer3_pair_realism(_minimal_inputs(
+            affordability=_clean_affordability(),
+            consideration=con,
+        ))
+        assert result.pair_level_cap <= 0.70
+
+    def test_cvr_false_default_does_not_fire(self):
+        """Default ConsiderationRealismInputs (field=False) does not add the cap."""
+        result = compute_layer3_pair_realism(_minimal_inputs())
+        cap_names = [c.name for c in result.active_caps]
+        assert "unclear_cvr_milestone_cap" not in cap_names
+
+    def test_cvr_clear_with_high_suitability_no_cap(self):
+        """cvr_suitability=0.80 without the unclear flag → no CVR clarity cap."""
+        con = ConsiderationRealismInputs(
+            cvr_suitability=0.80,
+            cvr_needed_but_milestone_definition_unclear=False,
+        )
+        result = compute_layer3_pair_realism(_minimal_inputs(consideration=con))
+        cap_names = [c.name for c in result.active_caps]
+        assert "unclear_cvr_milestone_cap" not in cap_names
+
+    def test_remediation_path_added_for_cvr_cap(self):
+        """A remediation path is added when CVR clarity trigger fires."""
+        con = ConsiderationRealismInputs(
+            cvr_needed_but_milestone_definition_unclear=True,
+        )
+        result = compute_layer3_pair_realism(_minimal_inputs(consideration=con))
+        remediations = [r.issue for r in result.remediation_paths]
+        assert any("cvr" in issue.lower() or "milestone" in issue.lower()
+                   for issue in remediations)

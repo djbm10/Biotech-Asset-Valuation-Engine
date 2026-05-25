@@ -202,6 +202,8 @@ class ConsiderationRealismInputs(BaseModel):
     target_requires_cash_certainty: bool = False
     cvr_suitability: float = Field(default=_NEUTRAL, ge=0.0, le=1.0,
         description="Suitability of a CVR/milestone structure for this binary asset")
+    cvr_needed_but_milestone_definition_unclear: bool = Field(default=False,
+        description="CVR/milestone structure appears needed but milestone definition is unclear")
     target_shareholder_acceptability: float = Field(default=_NEUTRAL, ge=0.0, le=1.0)
     acquirer_shareholder_acceptability: float = Field(default=_NEUTRAL, ge=0.0, le=1.0)
     precedent_consistency: float = Field(default=_NEUTRAL, ge=0.0, le=1.0,
@@ -422,6 +424,16 @@ class PairRealismInputs(BaseModel):
     integration: Optional[PairIntegrationAdjustment] = Field(default=None,
         description="From compute_pair_integration_adjustment() in ma_integration_complexity")
 
+    # 3A extended affordability triggers (not captured in AffordabilityResult)
+    acquirer_credit_stress_high: bool = Field(default=False,
+        description="Acquirer is under credit / rating stress")
+    deal_requires_large_debt: bool = Field(default=False,
+        description="Transaction requires substantial debt financing")
+    target_requires_cash_deal: bool = Field(default=False,
+        description="Target (board/shareholders) requires cash-certain consideration")
+    buyer_cash_insufficient: bool = Field(default=False,
+        description="Acquirer does not have sufficient cash for a cash deal")
+
     # New component inputs
     consideration: ConsiderationRealismInputs = Field(
         default_factory=ConsiderationRealismInputs)
@@ -520,6 +532,11 @@ _BAND_REMEDIATION: dict[AffordabilityBand, Layer3RemediationPath] = {
 
 def _score_affordability(
     aff: Optional[AffordabilityResult],
+    *,
+    acquirer_credit_stress_high: bool = False,
+    deal_requires_large_debt: bool = False,
+    target_requires_cash_deal: bool = False,
+    buyer_cash_insufficient: bool = False,
 ) -> tuple[Layer3AffordabilityOutput, list[Layer3Cap], list[Layer3HardFail], list[Layer3RemediationPath]]:
     caps: list[Layer3Cap] = []
     fails: list[Layer3HardFail] = []
@@ -566,6 +583,37 @@ def _score_affordability(
             severity="mild",
         ))
         remediations.append(_BAND_REMEDIATION[AffordabilityBand.MILD_PENALTY])
+
+    # Secondary 3A triggers (pair-level, independent of ratio band)
+    if acquirer_credit_stress_high and deal_requires_large_debt:
+        caps.append(Layer3Cap(
+            name="credit_stress_large_debt_cap",
+            cap_value=0.55,
+            reason="Acquirer has credit stress and the transaction requires substantial debt financing.",
+            triggered_by="3A_affordability",
+            severity="severe",
+        ))
+        remediations.append(Layer3RemediationPath(
+            issue="Credit stress + large debt requirement",
+            remediation="Explore equity-only structure, partner financing, or smaller tranche",
+            likely_deal_structure="equity_or_partner_financed",
+            feasibility=0.45,
+        ))
+
+    if target_requires_cash_deal and buyer_cash_insufficient:
+        caps.append(Layer3Cap(
+            name="cash_required_buyer_insufficient_cap",
+            cap_value=0.50,
+            reason="Target requires cash certainty but buyer does not have sufficient cash capacity.",
+            triggered_by="3A_affordability",
+            severity="severe",
+        ))
+        remediations.append(Layer3RemediationPath(
+            issue="Cash deal required; buyer cash insufficient",
+            remediation="Arrange bridge financing, committed backstop, or restructure as contingent payment",
+            likely_deal_structure="bridge_or_contingent",
+            feasibility=0.40,
+        ))
 
     pos = [f"ratio={ratio:.2f}: within capacity"] if band == AffordabilityBand.NO_PENALTY else []
     neg = [f"ratio={ratio:.2f}: stretches buyer capacity"] if band in (
@@ -624,6 +672,22 @@ def _score_consideration(
             reason="Acquirer stock quality < 0.40: stock consideration unlikely to be accepted",
             triggered_by="3B_consideration",
             severity="meaningful",
+        ))
+
+    # CVR/milestone structure needed but definition unclear
+    if inp.cvr_needed_but_milestone_definition_unclear:
+        caps.append(Layer3Cap(
+            name="unclear_cvr_milestone_cap",
+            cap_value=0.70,
+            reason="CVR or milestone structure appears needed, but milestone definition is unclear.",
+            triggered_by="3B_consideration",
+            severity="meaningful",
+        ))
+        remediations.append(Layer3RemediationPath(
+            issue="CVR/milestone structure needed; milestone definition unclear",
+            remediation="Define clear, objective, measurable milestone triggers before signing",
+            likely_deal_structure="cvr_milestone",
+            feasibility=0.60,
         ))
 
     raw = _w_sum(_CONSIDERATION_WEIGHTS, {
@@ -1276,7 +1340,13 @@ def compute_layer3_pair_realism(inputs: PairRealismInputs) -> PairRealismOutput:
     all_missing: list[str] = []
 
     # ── Score each component ───────────────────────────────────────────────
-    aff_out, c, f, r = _score_affordability(inputs.affordability)
+    aff_out, c, f, r = _score_affordability(
+        inputs.affordability,
+        acquirer_credit_stress_high=inputs.acquirer_credit_stress_high,
+        deal_requires_large_debt=inputs.deal_requires_large_debt,
+        target_requires_cash_deal=inputs.target_requires_cash_deal,
+        buyer_cash_insufficient=inputs.buyer_cash_insufficient,
+    )
     all_caps += c
     all_fails += f
     all_remediations += r
@@ -1335,33 +1405,31 @@ def compute_layer3_pair_realism(inputs: PairRealismInputs) -> PairRealismOutput:
     cap_values = [c.cap_value for c in all_caps]
     pair_level_cap = round(min(cap_values), 4) if cap_values else 1.0
 
-    # ── Multiplier: product of score_multipliers from pre-computed results ─
-    aff_mult = (
-        inputs.affordability.score_multiplier
-        if inputs.affordability is not None else 1.0
-    )
-    rc_mult = (
-        inputs.rights_control.pair_multiplier
-        if inputs.rights_control is not None else 1.0
-    )
-    int_mult = (
-        inputs.integration.multiplier
-        if inputs.integration is not None else 1.0
-    )
-    # New components: derive multiplier from treatment severity
-    ant_mult = 1.0
-    for cap in [c for c in all_caps if c.triggered_by == "3E_antitrust"]:
-        ant_mult = min(ant_mult, cap.cap_value)
-
-    combined_multiplier = round(_CLAMP(aff_mult * rc_mult * int_mult), 4)
-    pair_feasibility_multiplier = combined_multiplier  # antitrust/conflict caps applied via cap system
+    # ── Pair feasibility multiplier — derived from pair_feasibility_score tier table ──
+    # Spec: ≥0.85 → ×1.00, 0.70–0.84 → ×0.90, 0.55–0.69 → ×0.75,
+    #        0.40–0.54 → ×0.55, <0.40 → ×0.40; hard fail → ×0.00
+    if hard_fail:
+        pair_feasibility_multiplier = 0.0
+    elif pair_score >= 0.85:
+        pair_feasibility_multiplier = 1.00
+    elif pair_score >= 0.70:
+        pair_feasibility_multiplier = 0.90
+    elif pair_score >= 0.55:
+        pair_feasibility_multiplier = 0.75
+    elif pair_score >= 0.40:
+        pair_feasibility_multiplier = 0.55
+    else:
+        pair_feasibility_multiplier = 0.40
 
     # ── Adjusted BD score ─────────────────────────────────────────────────
     if hard_fail:
         adjusted_bd_score = 0.0
     else:
         adjusted_bd_score = round(
-            _CLAMP(min(inputs.upstream_layer2_score * combined_multiplier, pair_level_cap)),
+            _CLAMP(min(
+                inputs.upstream_layer2_score * pair_feasibility_multiplier,
+                pair_level_cap,
+            )),
             4,
         )
 
@@ -1399,7 +1467,7 @@ def compute_layer3_pair_realism(inputs: PairRealismInputs) -> PairRealismOutput:
         fails=all_fails,
         adjusted=adjusted_bd_score,
         pair_cap=pair_level_cap,
-        multiplier=combined_multiplier,
+        multiplier=pair_feasibility_multiplier,
         pair_score=pair_score,
         caps=all_caps,
     )
