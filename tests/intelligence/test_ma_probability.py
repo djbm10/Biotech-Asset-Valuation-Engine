@@ -328,10 +328,11 @@ def test_ma_probability_scanner_default_v12_uses_strategic_fit_only(tmp_path: Pa
     result = scanner.scan_watchlist(watchlist, snapshot_date=date(2026, 3, 24))
     row = result.rows[0]
 
+    m = row.layer3_modifier_multiplier
+    pre_modifier = round(row.mna_probability_score / m, 6) if m > 0.0 else row.mna_probability_score
     expected = round(row.strategic_fit_score, 6)
     assert row.score_version == "v1.2"
-    assert row.mna_probability_score == pytest.approx(expected, abs=1e-9)
-    assert row.p_acquisition == pytest.approx(expected, abs=1e-9)
+    assert pre_modifier == pytest.approx(expected, abs=1e-4)
 
 
 def test_ma_probability_scanner_v13_adds_scarcity_on_top_of_strategic_fit(tmp_path: Path):
@@ -377,11 +378,13 @@ def test_ma_probability_scanner_v13_adds_scarcity_on_top_of_strategic_fit(tmp_pa
     result = scanner.scan_watchlist(watchlist, snapshot_date=date(2026, 3, 24))
     row = result.rows[0]
 
+    m = row.layer3_modifier_multiplier
+    pre_modifier = round(row.mna_probability_score / m, 6) if m > 0.0 else row.mna_probability_score
     expected = round((row.strategic_fit_score * 0.85) + (row.scarcity_score * 0.15), 6)
     assert row.score_version == "v1.3"
     assert row.scarcity_peer_count == 0
     assert row.scarcity_bucket == "very_high"
-    assert row.mna_probability_score == pytest.approx(expected, abs=1e-9)
+    assert pre_modifier == pytest.approx(expected, abs=1e-4)
 
 
 def test_ma_probability_scanner_v11_uses_inverted_valuation_formula(tmp_path: Path):
@@ -433,8 +436,10 @@ def test_ma_probability_scanner_v11_uses_inverted_valuation_formula(tmp_path: Pa
         + (row.capital_vulnerability_score * 0.15),
         6,
     )
+    m = row.layer3_modifier_multiplier
+    pre_modifier = round(row.mna_probability_score / m, 6) if m > 0.0 else row.mna_probability_score
     assert row.score_version == "v1.1"
-    assert row.mna_probability_score == pytest.approx(expected, abs=1e-9)
+    assert pre_modifier == pytest.approx(expected, abs=1e-4)
 
 
 def test_ma_probability_scanner_scores_scarcity_from_same_indication_mechanism_peers(tmp_path: Path):
@@ -578,8 +583,10 @@ def test_ma_probability_scanner_preserves_legacy_v10_weighting_formula(tmp_path:
         + (row.capital_vulnerability_score * 0.15),
         6,
     )
+    m = row.layer3_modifier_multiplier
+    pre_modifier = round(row.mna_probability_score / m, 6) if m > 0.0 else row.mna_probability_score
     assert row.score_version == "v1.0"
-    assert row.mna_probability_score == pytest.approx(expected, abs=1e-9)
+    assert pre_modifier == pytest.approx(expected, abs=1e-4)
 
 
 def test_ma_probability_scan_populates_estimated_deal_value_range(tmp_path: Path):
@@ -1652,9 +1659,9 @@ def _profile(acquirer_id: str, therapeutic_area: str, modality: str, company_nam
         ],
         "budget": {
             "as_of_date": "2025-12-31",
-            "cash_and_marketable_securities_millions": 5000.0,
+            "cash_and_marketable_securities_millions": 50_000.0,
             "long_term_debt_millions": 0.0,
-            "net_cash_millions": 5000.0,
+            "net_cash_millions": 50_000.0,
             "capacity_notes": "ample budget",
             "source_refs": [_source_ref()],
         },

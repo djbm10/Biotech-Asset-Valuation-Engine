@@ -630,6 +630,11 @@ class MAProbabilityRow(BaseModel):
 
     acquirer_candidates: list[MAAcquirerCandidate] = Field(default_factory=list)
 
+    # C4: Layer 0 + 3A + 3B combined modifier applied to the formula score.
+    # Pre-modifier score = mna_probability_score / layer3_modifier_multiplier
+    # (useful for formula-version verification; 1.0 means no modifier applied)
+    layer3_modifier_multiplier: float = 1.0
+
     # Calibration layer — logistic model output, does not affect ranking order
     p_takeout_calibrated: float | None = None
 
@@ -1638,7 +1643,12 @@ class MAProbabilityScanner:
                     mna_probability_score=best.mna_probability_score,
                     p_acquisition=best.p_acquisition,
                     raw_probability=best.raw_probability,
-                    above_alert_threshold=best.mna_probability_score >= self.config.alert_threshold,
+                    layer3_modifier_multiplier=best.layer3_modifier_multiplier,
+                    above_alert_threshold=(
+                        best.mna_probability_score / best.layer3_modifier_multiplier
+                        if best.layer3_modifier_multiplier > 0.0
+                        else best.mna_probability_score
+                    ) >= self.config.alert_threshold,
                     score_version=self.config.score_version,
                     best_acquirer_id=best.acquirer_id,
                     best_acquirer_name=best.acquirer_name,
@@ -1769,7 +1779,7 @@ class MAProbabilityScanner:
             n_above_alert_threshold=sum(
                 1
                 for row in all_ranked_rows
-                if row.mna_probability_score >= self.config.alert_threshold
+                if row.above_alert_threshold
             ),
             alerts_emitted=monitor_result.alerts_emitted,
             alerts_suppressed_as_duplicate=monitor_result.alerts_suppressed_as_duplicate,
@@ -2960,6 +2970,8 @@ def _build_acquirer_capacity_input(acquirer: AcquirerProfile) -> AcquirerCapacit
         cash_avail = acquirer.acquisition_capacity_millions
     elif acquirer.cash_billions is not None:
         cash_avail = acquirer.cash_billions * 1000.0
+    elif acquirer.budget is not None:
+        cash_avail = acquirer.budget.net_cash_millions or 0.0
     else:
         cash_avail = 0.0
     cap_millions = (
