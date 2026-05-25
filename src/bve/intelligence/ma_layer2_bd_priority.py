@@ -245,6 +245,13 @@ class Layer2StrategicPriority(BaseModel):
     confidence: float = Field(..., ge=0.0, le=1.0)
     caps: list[str] = Field(default_factory=list)
     rationale: str = ""
+    # Block 1: pair-level urgency stored for downstream transparency
+    strategic_urgency_score: Optional[float] = Field(
+        default=None,
+        ge=0.0,
+        le=1.0,
+        description="Pair-level strategic timing pressure applied as a blend modifier.",
+    )
 
 
 class Layer2DealMomentum(BaseModel):
@@ -356,6 +363,10 @@ class Layer2StrategicPriorityInputs(BaseModel):
 
     When layer1_output is provided to Layer2Inputs, these fields are
     auto-populated from the Layer 1 engine result if not specified explicitly.
+
+    strategic_urgency_score is PAIR-level timing pressure (this buyer + this target,
+    e.g. patent cliff alignment, competitor acquisition pressure on this target).
+    It is distinct from pipeline_gap_urgency which is buyer-level (generic gap).
     """
     model_config = ConfigDict(frozen=True)
 
@@ -365,6 +376,17 @@ class Layer2StrategicPriorityInputs(BaseModel):
     acquirer_strategic_fit: Optional[float] = Field(None, ge=0.0, le=1.0)
     pipeline_gap_urgency: Optional[float] = Field(None, ge=0.0, le=1.0)
     strategic_option_value: Optional[float] = Field(None, ge=0.0, le=1.0)
+    # Block 1: pair-level timing pressure — separate from buyer-level pipeline_gap_urgency
+    strategic_urgency_score: Optional[float] = Field(
+        None,
+        ge=0.0,
+        le=1.0,
+        description=(
+            "Pair-level strategic timing pressure: how urgent is THIS buyer + THIS target "
+            "combination right now (e.g. patent cliff alignment, first-mover window)? "
+            "Must not duplicate pipeline_gap_urgency which is buyer-level."
+        ),
+    )
 
 
 class Layer2TargetSidePressureInputs(BaseModel):
@@ -402,6 +424,103 @@ class Layer2InformationReadinessInputs(BaseModel):
     known_missing_items: list[str] = Field(default_factory=list)
 
 
+class PreliminaryTransactionFrictionInputs(BaseModel):
+    """
+    Simple pre-pair friction signals — Block 1F.
+
+    These are OBVIOUS barriers observable before a full pair-level analysis:
+      • obvious_seller_unwillingness: public statements / actions signalling no-deal
+      • obvious_price_mismatch: publicly stated price expectations vs market
+      • obvious_rights_issue: known in-licensed IP or ROFR that blocks outright sale
+      • obvious_process_signal: ongoing strategic review, conflicting process
+      • obvious_data_gap: core diligence data provably unavailable (e.g. in FDA review)
+
+    NOT the full TransactionRealismScore (Layer 3 / Block 2):
+      - No pair-specific affordability
+      - No integration modelling
+      - No circular dependency on Layer 2 scores
+
+    UNKNOWN inputs (None) → treated as 0.0 (no friction assumed).
+    """
+    model_config = ConfigDict(frozen=True)
+
+    obvious_seller_unwillingness: Optional[float] = Field(None, ge=0.0, le=1.0)
+    obvious_price_mismatch: Optional[float] = Field(None, ge=0.0, le=1.0)
+    obvious_rights_issue: Optional[float] = Field(None, ge=0.0, le=1.0)
+    obvious_process_signal: Optional[float] = Field(None, ge=0.0, le=1.0)
+    obvious_data_gap: Optional[float] = Field(None, ge=0.0, le=1.0)
+
+
+class PreliminaryTransactionFrictionResult(BaseModel):
+    """Output of compute_preliminary_friction."""
+    model_config = ConfigDict(frozen=True)
+
+    friction_score: float = Field(..., ge=0.0, le=1.0)
+    friction_label: str  # CLEAN | MILD_FRICTION | HIGH_FRICTION | BLOCK
+    active_friction_signals: list[str] = Field(default_factory=list)
+
+
+# Friction label thresholds
+_FRICTION_BLOCK_THRESHOLD: float = 0.80
+_FRICTION_HIGH_THRESHOLD: float = 0.55
+_FRICTION_MILD_THRESHOLD: float = 0.20
+
+# Friction signal weights (must sum to 1.0)
+_FRICTION_WEIGHTS: dict[str, float] = {
+    "obvious_seller_unwillingness": 0.30,
+    "obvious_price_mismatch": 0.25,
+    "obvious_rights_issue": 0.20,
+    "obvious_process_signal": 0.15,
+    "obvious_data_gap": 0.10,
+}
+assert abs(sum(_FRICTION_WEIGHTS.values()) - 1.0) < 1e-9
+
+
+def compute_preliminary_friction(
+    inputs: PreliminaryTransactionFrictionInputs,
+) -> PreliminaryTransactionFrictionResult:
+    """
+    Compute pre-pair transaction friction from 5 simple observable signals.
+
+    UNKNOWN (None) → no friction assumed (benefit of doubt).
+    Does NOT depend on any Layer 2 sub-scores (no circularity).
+    """
+    active_signals: list[str] = []
+    score = 0.0
+
+    field_map = {
+        "obvious_seller_unwillingness": inputs.obvious_seller_unwillingness,
+        "obvious_price_mismatch": inputs.obvious_price_mismatch,
+        "obvious_rights_issue": inputs.obvious_rights_issue,
+        "obvious_process_signal": inputs.obvious_process_signal,
+        "obvious_data_gap": inputs.obvious_data_gap,
+    }
+    for field, value in field_map.items():
+        if value is None:
+            continue  # UNKNOWN → 0.0 benefit of doubt
+        val = max(0.0, min(1.0, float(value)))
+        score += _FRICTION_WEIGHTS[field] * val
+        if val > 0.30:
+            active_signals.append(field)
+
+    score = max(0.0, min(1.0, score))
+
+    if score >= _FRICTION_BLOCK_THRESHOLD:
+        label = "BLOCK"
+    elif score >= _FRICTION_HIGH_THRESHOLD:
+        label = "HIGH_FRICTION"
+    elif score >= _FRICTION_MILD_THRESHOLD:
+        label = "MILD_FRICTION"
+    else:
+        label = "CLEAN"
+
+    return PreliminaryTransactionFrictionResult(
+        friction_score=round(score, 6),
+        friction_label=label,
+        active_friction_signals=active_signals,
+    )
+
+
 class Layer2Inputs(BaseModel):
     """Top-level Layer 2 inputs for a single BD target.
 
@@ -429,6 +548,16 @@ class Layer2Inputs(BaseModel):
     acquirer_pull: list[AcquirerPullInputRow] = Field(default_factory=list)
     information_readiness: Layer2InformationReadinessInputs = Field(
         default_factory=Layer2InformationReadinessInputs
+    )
+
+    # Block 1: pre-pair simple friction signals
+    preliminary_transaction_friction: Optional[PreliminaryTransactionFrictionInputs] = Field(
+        default=None,
+        description=(
+            "Obvious pre-pair friction signals (seller unwillingness, price mismatch, etc.). "
+            "When present, high friction adds a warning to output but does NOT hard-block "
+            "action_classification. Full pair realism belongs in Layer 3."
+        ),
     )
 
     # Layer 3-only inputs — accepted for pass-through, never affect score
@@ -565,6 +694,15 @@ def _score_strategic_priority(
     def mk(v: float, m: bool, name: str, note: str) -> L2ScoreComponent:
         return _make_comp(v, conf, rationale=note, missing=[name] if m else [])
 
+    # Block 1: blend in pair-level strategic urgency when provided.
+    # Blend weight: 15% urgency, 85% base SP score.
+    # UNKNOWN (None) → no change to backward compat.
+    _URGENCY_BLEND: float = 0.15
+    urgency_raw = sp_in.strategic_urgency_score
+    if urgency_raw is not None:
+        urgency_val = _clamp(float(urgency_raw))
+        raw = _clamp(raw * (1.0 - _URGENCY_BLEND) + urgency_val * _URGENCY_BLEND)
+
     return Layer2StrategicPriority(
         layer1_attractiveness=mk(l1a, l1a_m, "layer1_attractiveness_score",
                                   "Layer 1 capped strategic attractiveness score"),
@@ -580,6 +718,7 @@ def _score_strategic_priority(
         confidence=round(conf, 6),
         caps=caps,
         rationale=_sp_rat(raw),
+        strategic_urgency_score=urgency_raw,
     )
 
 
@@ -1180,6 +1319,20 @@ def compute_layer2_bd_priority(inputs: Layer2Inputs) -> Layer2BDOutput:
                        sp.strategic_option_value] for d in c.missing_data]
     ))
     warnings = _ownership_warnings(inputs)
+
+    # Block 1: preliminary friction — add warning when any signal is elevated.
+    # Never hard-blocks action_classification; full realism belongs in Layer 3.
+    if inputs.preliminary_transaction_friction is not None:
+        friction_result = compute_preliminary_friction(inputs.preliminary_transaction_friction)
+        if friction_result.friction_label != "CLEAN" or friction_result.active_friction_signals:
+            signal_list = ", ".join(friction_result.active_friction_signals) or "unspecified"
+            warnings.append(
+                f"preliminary_friction:{friction_result.friction_label};"
+                f"signals=[{signal_list}];"
+                f"score={friction_result.friction_score:.2f};"
+                "full_realism_scoring_belongs_in_layer3"
+            )
+
     all_caps = list(sp.caps) + list(dm.caps) + final_caps
 
     return Layer2BDOutput(
