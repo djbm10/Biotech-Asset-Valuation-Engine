@@ -625,3 +625,191 @@ def compute_layer5(inputs: Layer5Inputs) -> Layer5Output:
         model_version=inputs.model_version,
         interpretation=interpretation,
     )
+
+
+# ---------------------------------------------------------------------------
+# New Layer 5 public API (5A–5H wrappers)
+# ---------------------------------------------------------------------------
+# These functions expose the new institutional-grade Layer 5 submodules via a
+# single unified import path.  The old compute_layer5() contract is preserved
+# above; nothing here modifies it.
+
+from typing import Any  # noqa: E402  (placed here to avoid polluting old API)
+
+
+def build_historical_ma_outcome_dataset(
+    raw_cases: list[dict],
+    *,
+    observation_window_months: int = 12,
+    exclude_leaky: bool = True,
+) -> list:
+    """5A — Build a validated historical outcome dataset.
+
+    Wraps :mod:`bve.intelligence.ma_outcome_dataset`.
+
+    Args:
+        raw_cases: Raw case dicts as described in OutcomeDatasetConfig.
+        observation_window_months: Primary labelling window.
+        exclude_leaky: If True, cases with lookahead violations are excluded.
+
+    Returns:
+        List of :class:`~bve.intelligence.ma_calibration_models.HistoricalMAOutcome`.
+    """
+    from bve.intelligence.ma_calibration_models import OutcomeDatasetConfig
+    from bve.intelligence.ma_outcome_dataset import build_historical_ma_outcome_dataset as _build
+
+    config = OutcomeDatasetConfig(
+        observation_window_months=observation_window_months,
+        exclude_leaky_cases=exclude_leaky,
+    )
+    return _build(raw_cases, config)
+
+
+def fit_layer5_calibration(
+    cases: list,
+    *,
+    model_version: str = "v1",
+    dataset_version: str = "v1",
+    artifact_id: Optional[str] = None,
+) -> Any:
+    """5C — Fit a calibration artifact from historical outcomes.
+
+    Wraps :func:`bve.intelligence.ma_probability_calibration.calibrate_ma_scores`.
+
+    Returns:
+        :class:`~bve.intelligence.ma_calibration_models.CalibrationArtifact`
+    """
+    from datetime import date as _date
+    from bve.intelligence.ma_calibration_models import (
+        CalibrationGovernanceMetadata,
+        Layer5CalibrationConfig,
+    )
+    from bve.intelligence.ma_probability_calibration import calibrate_ma_scores
+
+    config = Layer5CalibrationConfig(
+        model_version=model_version,
+        dataset_version=dataset_version,
+    )
+    governance = CalibrationGovernanceMetadata(
+        model_version=model_version,
+        calibration_dataset_version=dataset_version,
+        calibration_date=_date.today(),
+        calibration_artifact_id=artifact_id,
+    )
+    aid = artifact_id or f"artifact_{_date.today().isoformat()}"
+    return calibrate_ma_scores(cases, config, artifact_id=aid, governance=governance)
+
+
+def apply_layer5_calibration(raw_score: float, artifact: Any) -> tuple:
+    """5C — Apply a fitted artifact to a new raw score.
+
+    Wraps :func:`bve.intelligence.ma_probability_calibration.predict_calibrated_probabilities`.
+
+    Returns:
+        (CalibratedProbabilitySet, CalibrationQualityLabel, do_not_use, reason)
+    """
+    from bve.intelligence.ma_probability_calibration import predict_calibrated_probabilities
+    return predict_calibrated_probabilities(raw_score, artifact)
+
+
+def generate_segment_diagnostics(
+    cases: list,
+    dimensions: Optional[list[str]] = None,
+) -> list:
+    """5D — Compute segment calibration diagnostics.
+
+    Wraps :func:`bve.intelligence.ma_segment_calibration.compute_segment_diagnostics`.
+
+    Returns:
+        List of :class:`~bve.intelligence.ma_calibration_models.SegmentDiagnostics`.
+    """
+    from bve.intelligence.ma_segment_calibration import compute_segment_diagnostics
+    return compute_segment_diagnostics(cases, dimensions)
+
+
+def generate_threshold_recommendations(
+    cases: list,
+    operating_mode: str = "balanced",
+    *,
+    cost_matrix: Optional[dict] = None,
+) -> list:
+    """5E — Generate threshold recommendations for the given operating mode.
+
+    Wraps :func:`bve.intelligence.ma_threshold_optimizer.optimize_thresholds`.
+
+    Returns:
+        List of :class:`~bve.intelligence.ma_calibration_models.ThresholdRecommendation`.
+    """
+    from bve.intelligence.ma_calibration_models import OperatingMode
+    from bve.intelligence.ma_threshold_optimizer import optimize_thresholds
+
+    try:
+        mode = OperatingMode(operating_mode)
+    except ValueError:
+        mode = OperatingMode.BALANCED
+    return optimize_thresholds(cases, mode, cost_matrix=cost_matrix)
+
+
+def create_postmortem_for_case(
+    case: Any,
+    *,
+    layer4_route: Optional[str] = None,
+    predicted_probabilities: Optional[dict] = None,
+    predicted_acquisition: bool = False,
+) -> Any:
+    """5F — Create a postmortem record for a resolved historical case.
+
+    Wraps :func:`bve.intelligence.ma_postmortem.create_postmortem`.
+
+    Returns:
+        :class:`~bve.intelligence.ma_calibration_models.PostmortemRecord`
+    """
+    from bve.intelligence.ma_postmortem import create_postmortem
+    return create_postmortem(
+        case,
+        layer4_route=layer4_route,
+        predicted_probabilities=predicted_probabilities,
+        predicted_acquisition=predicted_acquisition,
+    )
+
+
+def detect_drift(
+    historical_cases: list,
+    recent_cases: list,
+    *,
+    rolling_window: int = 50,
+) -> Any:
+    """5G — Run drift detection comparing historical and recent case windows.
+
+    Wraps :func:`bve.intelligence.ma_drift_detection.run_drift_detection`.
+
+    Returns:
+        :class:`~bve.intelligence.ma_calibration_models.DriftReport`
+    """
+    from bve.intelligence.ma_drift_detection import run_drift_detection
+    return run_drift_detection(
+        historical_cases, recent_cases, rolling_window=rolling_window
+    )
+
+
+def generate_model_governance_report(
+    artifact: Any,
+    *,
+    drift_report: Optional[Any] = None,
+    threshold_recs: Optional[list] = None,
+    include_model_card: bool = True,
+) -> dict:
+    """5H — Generate a full governance report for a calibration artifact.
+
+    Wraps :func:`bve.intelligence.ma_model_governance.generate_governance_report`.
+
+    Returns:
+        Governance report dict (see ma_model_governance for field details).
+    """
+    from bve.intelligence.ma_model_governance import generate_governance_report
+    return generate_governance_report(
+        artifact,
+        drift_report=drift_report,
+        threshold_recs=threshold_recs,
+        include_model_card=include_model_card,
+    )
