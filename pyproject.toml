@@ -90,6 +90,8 @@ bve-seed-replay-claims   = "bve.cli.seed_replay_claims:main"
 bve-claim-resolve        = "bve.cli.claim_resolve:main"
 bve-paper-snapshot       = "bve.cli.paper_tracking:snapshot_main"
 bve-paper-summary        = "bve.cli.paper_tracking:summary_main"
+bve-report               = "bve.cli.bve_report:main"
+bve-validate             = "bve.cli.bve_validate:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
