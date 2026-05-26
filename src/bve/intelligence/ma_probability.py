@@ -660,6 +660,10 @@ class MAProbabilityRow(BaseModel):
     management_risk_summary: str | None = None         # plain-English summary
     management_gate: str | None = None                 # ManagementGate.value
 
+    # Score drivers and suppressors (populated by compute_score_drivers_suppressors)
+    score_drivers: list[str] = Field(default_factory=list)
+    score_suppressors: list[str] = Field(default_factory=list)
+
     @model_validator(mode="before")
     @classmethod
     def _sync_probability_aliases(cls, data):
@@ -1756,7 +1760,7 @@ class MAProbabilityScanner:
         policy_rows = self._apply_calibration_policy(all_ranked_rows)
         limit = top_n or self.config.top_n
         ranked_rows = [
-            row.model_copy(update={"rank": idx + 1})
+            compute_score_drivers_suppressors(row.model_copy(update={"rank": idx + 1}))
             for idx, row in enumerate(policy_rows[:limit])
         ]
         snapshots_written = 0
@@ -3052,6 +3056,59 @@ def _build_row_explanation(
     if best.hard_fail_reasons:
         parts.append("hard fails " + ", ".join(best.hard_fail_reasons))
     return "; ".join(parts)
+
+
+# ---------------------------------------------------------------------------
+# Score drivers and suppressors
+# ---------------------------------------------------------------------------
+
+_DRIVER_THRESHOLD = 0.60   # component score >= this → driver
+_SUPPRESSOR_THRESHOLD = 0.35  # component score <= this → suppressor
+
+_COMPONENT_LABELS: dict[str, str] = {
+    "strategic_fit_score": "strategic fit",
+    "valuation_discount_score": "acquisition discount",
+    "de_risking_stage_score": "de-risking / stage",
+    "capital_vulnerability_score": "capital vulnerability",
+    "scarcity_score": "scarcity",
+}
+
+
+def compute_score_drivers_suppressors(row: "MAProbabilityRow") -> "MAProbabilityRow":
+    """Return a new MAProbabilityRow with score_drivers and score_suppressors populated.
+
+    Drivers are components scoring >= 0.60; suppressors score <= 0.35.
+    Does not mutate the input row.
+    """
+    drivers: list[str] = []
+    suppressors: list[str] = []
+
+    component_values: dict[str, float | None] = {
+        "strategic_fit_score": row.strategic_fit_score,
+        "valuation_discount_score": row.valuation_discount_score,
+        "de_risking_stage_score": row.de_risking_stage_score,
+        "capital_vulnerability_score": row.capital_vulnerability_score,
+        "scarcity_score": row.scarcity_score,
+    }
+
+    for field_name, label in _COMPONENT_LABELS.items():
+        value = component_values[field_name]
+        if value is None:
+            continue
+        if value >= _DRIVER_THRESHOLD:
+            drivers.append(f"{label} ({value:.2f})")
+        elif value <= _SUPPRESSOR_THRESHOLD:
+            suppressors.append(f"{label} ({value:.2f})")
+
+    # Sort drivers descending (highest score first), cap at 3
+    drivers.sort(key=lambda s: -float(s.split("(")[-1].rstrip(")")))
+    drivers = drivers[:3]
+
+    # Sort suppressors ascending (lowest score first), cap at 2
+    suppressors.sort(key=lambda s: float(s.split("(")[-1].rstrip(")")))
+    suppressors = suppressors[:2]
+
+    return row.model_copy(update={"score_drivers": drivers, "score_suppressors": suppressors})
 
 
 # ---------------------------------------------------------------------------

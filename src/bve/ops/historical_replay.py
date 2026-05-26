@@ -2118,6 +2118,22 @@ class HistoricalReplay:
                 skill_returns.append(float(r))
         skill_mean = (sum(skill_returns) / len(skill_returns)) if skill_returns else None
 
+        # XBI-adjusted alpha: alpha = return_pct - xbi_return_during_hold
+        xbi_alphas: list[float] = []
+        xbi_returns: list[float] = []
+        for d in closed:
+            r = d.get("return_pct")
+            xbi = d.get("xbi_return_during_hold")
+            if r is not None and xbi is not None:
+                xbi_returns.append(float(xbi))
+                xbi_alphas.append(float(r) - float(xbi))
+        mean_xbi = (sum(xbi_returns) / len(xbi_returns)) if xbi_returns else None
+        mean_alpha = (sum(xbi_alphas) / len(xbi_alphas)) if xbi_alphas else None
+        alpha_hit_rate = (
+            sum(1 for a in xbi_alphas if a > 0) / len(xbi_alphas)
+            if xbi_alphas else None
+        )
+
         # Estimate n_decision_dates from run metadata
         start = date.fromisoformat(run["start_date"])
         end = date.fromisoformat(run["end_date"])
@@ -2177,6 +2193,10 @@ class HistoricalReplay:
                 round(skill_mean, 4) if skill_mean is not None else None
             ),
             n_skill_adjusted_decisions=len(skill_returns),
+            mean_xbi_return_pct=round(mean_xbi, 4) if mean_xbi is not None else None,
+            mean_alpha_pct=round(mean_alpha, 4) if mean_alpha is not None else None,
+            alpha_hit_rate=round(alpha_hit_rate, 4) if alpha_hit_rate is not None else None,
+            n_with_xbi_data=len(xbi_alphas),
             validation_status="directional_only",
             notes=[
                 "point_in_time_only=historical_prices,historical_events,and signal snapshots use <= as_of_date",

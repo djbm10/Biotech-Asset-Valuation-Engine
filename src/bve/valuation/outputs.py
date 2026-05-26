@@ -319,6 +319,25 @@ class ValuationOutput(BaseModel):
         return round(max(0.0, min(1.0, pos)), 4)
 
     @property
+    def pos_comparison_text(self) -> Optional[str]:
+        """Human-readable POS comparison string.
+
+        Returns None when market-implied POS is unavailable (no price data).
+        Example: "Model POS: 45.0% | Market-implied: 38.0% | Gap: +7.0pp (underpriced)"
+        """
+        if self.market_expectation is None:
+            return None
+        model_pos = self.rnpv.cumulative_success_probability
+        implied = self.market_expectation.implied_pos
+        gap_pp = self.market_expectation.pos_gap * 100
+        direction = self.market_expectation.mispricing_direction or "aligned"
+        return (
+            f"Model POS: {model_pos:.0%} | "
+            f"Market-implied: {implied:.0%} | "
+            f"Gap: {gap_pp:+.1f}pp ({direction})"
+        )
+
+    @property
     def summary_dict(self) -> dict:
         """Flat dict suitable for reporting and templates."""
         return {
@@ -371,6 +390,9 @@ class ValuationOutput(BaseModel):
                 self.comps_fair_value_band.peer_median_ev_to_peak_sales
                 if self.comps_fair_value_band else None
             ),
+            # Model POS (always available; pos_comparison_text None without price data)
+            "model_pos": round(self.rnpv.cumulative_success_probability, 4),
+            "pos_comparison_text": self.pos_comparison_text if self.market_expectation is not None else None,
             # Market-implied expectation delta (None when no price data)
             "market_implied_pos": (
                 round(self.market_expectation.implied_pos, 3)
