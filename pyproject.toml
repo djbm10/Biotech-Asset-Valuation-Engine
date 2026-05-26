@@ -92,6 +92,11 @@ bve-paper-snapshot       = "bve.cli.paper_tracking:snapshot_main"
 bve-paper-summary        = "bve.cli.paper_tracking:summary_main"
 bve-report               = "bve.cli.bve_report:main"
 bve-validate             = "bve.cli.bve_validate:main"
+bve-refresh-market-data  = "bve.cli.bve_refresh_market_data:main"
+bve-refresh-financials   = "bve.cli.bve_refresh_financials:main"
+bve-profile-audit        = "bve.cli.bve_profile_audit:main"
+bve-trial-diff           = "bve.cli.bve_trial_diff:main"
+bve-input-integrity      = "bve.cli.bve_input_integrity:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

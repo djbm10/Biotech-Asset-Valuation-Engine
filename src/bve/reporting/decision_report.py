@@ -29,6 +29,7 @@ from typing import Any, Optional
 
 from bve.reporting.provenance import ProvenanceItem, render_provenance_table
 from bve.reporting.validation_summary import ValidationSummaryData, render_validation_summary
+from bve.refresh.input_integrity import InputIntegrityScore, render_input_integrity
 
 
 _NA = "Not available"
@@ -83,6 +84,7 @@ class DecisionReportInput:
     validation_summary: Optional[ValidationSummaryData] = None
     provenance_items: list[ProvenanceItem] = field(default_factory=list)
     staleness_warnings: list[str] = field(default_factory=list)
+    input_integrity: Optional[InputIntegrityScore] = None
     notes: list[str] = field(default_factory=list)
 
 
@@ -461,6 +463,13 @@ def render_decision_report(report_input: DecisionReportInput) -> str:
         _rnpv_section(report_input),
         _ma_section(report_input),
         _staleness_section(report_input),
+    ]
+
+    # Input integrity section (when available)
+    if report_input.input_integrity is not None:
+        parts.append(render_input_integrity(report_input.input_integrity))
+
+    parts += [
         render_provenance_table(
             provenance,
             section_title="Assumption Provenance",
