@@ -459,6 +459,15 @@ class Layer1Inputs(BaseModel):
     structural_cleanliness: Layer1StructuralCleanlinessInputs = Field(
         default_factory=Layer1StructuralCleanlinessInputs
     )
+    # Block 6E: optional management quality overlay
+    # UNKNOWN management → lower confidence only, no score penalty
+    management_quality_score: Optional[object] = Field(
+        None,
+        description=(
+            "ManagementQualityScore from Block 6. When provided, weak management gates "
+            "lower Layer 1 confidence and add management drivers. Never hard-kills a target."
+        )
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -575,6 +584,11 @@ class Layer1Output(BaseModel):
 
     # Flag: low confidence → push to diligence queue
     low_confidence_diligence_queue: bool = False
+
+    # Block 6E: management quality overlay (optional)
+    management_risk_band: Optional[str] = None
+    management_gate: Optional[str] = None
+    management_confidence_cap_applied: bool = False
 
 
 # ---------------------------------------------------------------------------
@@ -1415,6 +1429,49 @@ def compute_layer1_strategic_attractiveness(inputs: Layer1Inputs) -> Layer1Outpu
     missing_data = _build_missing_data(aq, ss, vc, ts, sc)
     diligence = _build_diligence_questions(aq, inputs.value_creation, sc)
 
+    # Step 7 (Block 6E): Optional management quality overlay
+    # Does NOT change scores — only adjusts confidence and adds drivers/diligence items.
+    # UNKNOWN management → lower confidence only. No score penalty ever.
+    mgmt = inputs.management_quality_score  # type: ignore[attr-defined]
+    mgmt_risk_band: Optional[str] = None
+    mgmt_gate: Optional[str] = None
+    mgmt_cap_applied = False
+    if mgmt is not None:
+        mgmt_risk_band = mgmt.risk_band.value if hasattr(mgmt.risk_band, "value") else str(mgmt.risk_band)
+        mgmt_gate = mgmt.gate.value if hasattr(mgmt.gate, "value") else str(mgmt.gate)
+        _mgmt_neg = list(mgmt.negative_drivers) if mgmt.negative_drivers else []
+        # Translate management drivers to Layer 1 negative signals
+        _mgmt_l1_neg: list[str] = []
+        _mgmt_driver_map = {
+            "wrong_trial_risk": "management_execution_risk: wrong_trial_risk",
+            "low_disclosure_transparency": "disclosure_quality_risk",
+            "financing_value_destruction_risk": "capital_allocation_risk",
+            "poor_partnering_history": "partnering_judgment_risk",
+            "governance_alignment_risk": "management_execution_risk: governance_alignment",
+        }
+        for driver in _mgmt_neg:
+            _mgmt_l1_neg.append(_mgmt_driver_map.get(driver, driver))
+        top_neg = list(top_neg) + _mgmt_l1_neg
+
+        # Confidence adjustments — gates that warrant a confidence cap
+        _cap_gates = {"cap_confidence", "cap_active_pursuit",
+                      "structure_around_management_risk"}
+        if mgmt_gate in _cap_gates or mgmt_risk_band in {"high", "severe"}:
+            # Cap confidence by a modest amount (never below 0.25)
+            overall_confidence = round(_clamp(overall_confidence * 0.85, lo=0.25), 6)
+            multiplier = _confidence_multiplier(overall_confidence)
+            confidence_adjusted_score = round(_clamp(capped_score * multiplier), 6)
+            low_confidence_flag = low_confidence_flag or overall_confidence < 0.50
+            mgmt_cap_applied = True
+
+        # Diligence items from management quality
+        if mgmt.missing_components:
+            diligence = list(diligence) + [
+                f"Management diligence: no data available for {comp}. "
+                "Recommend direct management meeting or SEC filing review."
+                for comp in mgmt.missing_components[:3]
+            ]
+
     return Layer1Output(
         asset_quality=aq,
         strategic_scarcity=ss,
@@ -1435,4 +1492,7 @@ def compute_layer1_strategic_attractiveness(inputs: Layer1Inputs) -> Layer1Outpu
         plain_english_verdict=plain_english_verdict,
         anti_double_counting_notes=ANTI_DOUBLE_COUNTING_NOTES,
         low_confidence_diligence_queue=low_confidence_flag,
+        management_risk_band=mgmt_risk_band,
+        management_gate=mgmt_gate,
+        management_confidence_cap_applied=mgmt_cap_applied,
     )

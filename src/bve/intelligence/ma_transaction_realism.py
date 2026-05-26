@@ -18,7 +18,7 @@ Key design rules:
 """
 from __future__ import annotations
 
-from typing import Any
+from typing import Any, Optional
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -104,6 +104,15 @@ class TransactionRealismScore(BaseModel):
     friction_notes: list[str] = Field(default_factory=list)
     diligence_items: list[str] = Field(default_factory=list)
     rationale: str = ""
+
+    # Block 6F: optional management quality overlay
+    # Does NOT double-count financing_pressure (already in Layer 1 transaction_setup)
+    management_transaction_behavior_score: Optional[float] = Field(
+        None, ge=0.0, le=1.0,
+        description="Blended management BD/governance behavior signal from Block 6"
+    )
+    management_risk_band: Optional[str] = None
+    management_risk_summary: Optional[str] = None
 
 
 # ---------------------------------------------------------------------------
@@ -426,7 +435,11 @@ def _score_rights_clarity(rights: dict[str, Any]) -> tuple[float, float, list[st
 # TransactionRealismScore top-level
 # ---------------------------------------------------------------------------
 
-def compute_transaction_realism(inputs: dict[str, Any]) -> TransactionRealismScore:
+def compute_transaction_realism(
+    inputs: dict[str, Any],
+    *,
+    management_quality: Optional[Any] = None,
+) -> TransactionRealismScore:
     """
     Compute full transaction realism from seller readiness, price alignment,
     and rights clarity.
@@ -435,6 +448,12 @@ def compute_transaction_realism(inputs: dict[str, Any]) -> TransactionRealismSco
       - seller_readiness: dict  (see compute_seller_readiness inputs)
       - price_expectation: dict  (see compute_price_alignment inputs)
       - rights_clarity: dict  (rofr_present, partner_rights_issue, ip_licensing_barrier)
+
+    Block 6F: optional management_quality (ManagementQualityScore) overlay.
+      - Poor bd_partnering_judgment → lower confidence in seller readiness
+      - Poor governance_alignment → cap active pursuit, but NOT cap licensing/partnership
+      - UNKNOWN management → lower confidence only, no score penalty
+      - Does NOT double-count financing_pressure (already in Layer 1 transaction_setup)
 
     UNKNOWN inputs at any level → neutral score, lower confidence, diligence flag.
     ROFR present → friction note, NOT hard_fail.
@@ -469,6 +488,50 @@ def compute_transaction_realism(inputs: dict[str, Any]) -> TransactionRealismSco
     diligence_items = list(dict.fromkeys(
         sr.missing_data + pa.missing_data + rc_missing
     ))
+    friction_notes = list(friction_notes)
+
+    # Block 6F: management quality overlay
+    mgmt_behavior_score: Optional[float] = None
+    mgmt_risk_band: Optional[str] = None
+    mgmt_risk_summary: Optional[str] = None
+
+    if management_quality is not None:
+        mgmt_risk_band = (
+            management_quality.risk_band.value
+            if hasattr(management_quality.risk_band, "value")
+            else str(management_quality.risk_band)
+        )
+        mgmt_risk_summary = getattr(management_quality, "management_risk_summary", None)
+        bd = getattr(management_quality, "component_breakdown", {})
+
+        # Derive a blended management transaction behavior signal
+        bd_part = bd.get("bd_partnering_judgment")
+        gov_part = bd.get("governance_alignment")
+        if bd_part is not None or gov_part is not None:
+            parts = [v for v in [bd_part, gov_part] if v is not None]
+            mgmt_behavior_score = round(sum(parts) / len(parts), 6)
+
+        # Poor bd_partnering_judgment → lower confidence (not a hard cap)
+        if bd_part is not None and bd_part < 0.40:
+            overall_confidence = _clamp(overall_confidence * 0.88)
+            friction_notes.append(
+                "management_bd_partnering_risk: poor BD judgment may affect seller engagement"
+            )
+
+        # Poor governance_alignment → flag active pursuit, but do NOT cap licensing
+        if gov_part is not None and gov_part < 0.35:
+            overall_confidence = _clamp(overall_confidence * 0.85)
+            friction_notes.append(
+                "management_governance_risk: governance concerns cap full acquisition confidence"
+            )
+            is_diligence_required = True
+
+        # UNKNOWN management → lower confidence slightly, no other effect
+        if mgmt_risk_band == "unknown":
+            overall_confidence = _clamp(overall_confidence * 0.92)
+            diligence_items = list(dict.fromkeys(
+                diligence_items + ["management_quality_unknown: route to management diligence"]
+            ))
 
     return TransactionRealismScore(
         realism_score=round(realism_score, 6),
@@ -485,4 +548,7 @@ def compute_transaction_realism(inputs: dict[str, Any]) -> TransactionRealismSco
             f"label={_classify_realism(realism_score)}; "
             f"sr={sr.readiness_score:.3f}; pa={pa.alignment_score:.3f}; rc={rc_score:.3f}"
         ),
+        management_transaction_behavior_score=mgmt_behavior_score,
+        management_risk_band=mgmt_risk_band,
+        management_risk_summary=mgmt_risk_summary,
     )

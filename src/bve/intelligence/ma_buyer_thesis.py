@@ -14,6 +14,7 @@ Rules:
 from __future__ import annotations
 
 from enum import Enum
+from typing import Optional
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -58,6 +59,11 @@ class BuyerTargetThesis(BaseModel):
     mandate_score: float = Field(..., ge=0.0, le=1.0)
     conflict_score: float = Field(..., ge=0.0, le=1.0)
     relationship_score: float = Field(..., ge=0.0, le=1.0)
+
+    # Block 6 management quality overlay (optional; None = not yet assessed)
+    management_risk_band: Optional[str] = None
+    management_risk_summary: Optional[str] = None
+    management_value_preservation_flag: bool = False
 
 
 # ---------------------------------------------------------------------------
@@ -107,12 +113,18 @@ def build_buyer_target_thesis(
     mandate_score: BuyerMandateScore,
     conflict_score: InternalConflictScore,
     relationship_score: RelationshipHistoryScore,
+    management_quality=None,
 ) -> BuyerTargetThesis:
     """
     Aggregate component scores into a BuyerTargetThesis.
 
     Confidence is propagated conservatively: overall_confidence = min of components.
     BLOCKING conflict → PASS immediately.
+
+    management_quality: optional ManagementQualityScore — when provided, management
+    risk band and summary are attached, and severe/high risk adds a negative signal.
+    Does NOT change thesis tier or confidence (management is value-preservation,
+    not deal probability).
     """
     positive_signals: list[str] = []
     negative_signals: list[str] = []
@@ -157,6 +169,22 @@ def build_buyer_target_thesis(
 
     thesis = _classify_thesis(thesis_score, conflict_score.conflict_level)
 
+    # Block 6: management quality overlay — informational, never changes thesis tier
+    mgmt_risk_band: Optional[str] = None
+    mgmt_risk_summary: Optional[str] = None
+    mgmt_value_flag: bool = False
+    if management_quality is not None:
+        mgmt_risk_band = management_quality.risk_band.value
+        mgmt_risk_summary = management_quality.management_risk_summary
+        if mgmt_risk_band in {"high", "severe"}:
+            negative_signals.append(f"management_risk:{mgmt_risk_band}")
+            mgmt_value_flag = True
+        if management_quality.negative_drivers:
+            for driver in management_quality.negative_drivers:
+                signal = f"mgmt_{driver}"
+                if signal not in negative_signals:
+                    negative_signals.append(signal)
+
     return BuyerTargetThesis(
         underwrite_thesis=thesis,
         thesis_score=round(thesis_score, 6),
@@ -175,4 +203,7 @@ def build_buyer_target_thesis(
         mandate_score=round(mandate_contrib, 6),
         conflict_score=round(conflict_score.conflict_score, 6),
         relationship_score=round(rel_contrib, 6),
+        management_risk_band=mgmt_risk_band,
+        management_risk_summary=mgmt_risk_summary,
+        management_value_preservation_flag=mgmt_value_flag,
     )

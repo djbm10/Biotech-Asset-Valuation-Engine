@@ -20,6 +20,7 @@ ROFR present → steer toward STRUCTURED or OPTION structures and add caveat.
 from __future__ import annotations
 
 from enum import Enum
+from typing import Optional
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -56,6 +57,10 @@ class DealStructureRationale(BaseModel):
     diligence_items: list[str] = Field(default_factory=list)
     thesis_tier: str = ""
     realism_label: str = ""
+
+    # Block 6 management quality overlay (optional)
+    management_risk_band: Optional[str] = None
+    management_gate: Optional[str] = None
 
 
 # ---------------------------------------------------------------------------
@@ -97,12 +102,17 @@ def build_deal_structure_rationale(
     *,
     thesis: BuyerTargetThesis,
     realism: TransactionRealismScore,
+    management_quality=None,
 ) -> DealStructureRationale:
     """
     Produce a DealStructureRationale from BuyerTargetThesis + TransactionRealismScore.
 
     Routing is deterministic and priority-ordered. Confidence propagates from
     both inputs proportionally.
+
+    management_quality: optional ManagementQualityScore — when provided, weak trial
+    execution or poor capital allocation can bias the structure recommendation toward
+    staged/option structures. Governance risk adds a caveat. Does NOT hard-kill.
     """
     caveats: list[str] = []
     diligence_items: list[list[str]] = [realism.diligence_items]
@@ -111,6 +121,30 @@ def build_deal_structure_rationale(
     rofr_friction = any("rofr" in note.lower() for note in realism.friction_notes)
     if rofr_friction:
         caveats.append("rofr_present:legal_review_required_before_outreach")
+
+    # Block 6: extract management signals (do not hard-kill; bias structure only)
+    mgmt_risk_band: Optional[str] = None
+    mgmt_gate: Optional[str] = None
+    _mgmt_weak_trial_design = False
+    _mgmt_poor_capital_allocation = False
+    _mgmt_governance_risk = False
+    _mgmt_unknown = False
+    if management_quality is not None:
+        mgmt_risk_band = management_quality.risk_band.value
+        mgmt_gate = management_quality.gate.value
+        bd = management_quality.component_breakdown
+        if bd.get("trial_design_judgment", 1.0) < 0.40:
+            _mgmt_weak_trial_design = True
+            caveats.append("management_trial_design_risk:consider_staged_structure")
+        if bd.get("capital_allocation_discipline", 1.0) < 0.35:
+            _mgmt_poor_capital_allocation = True
+            caveats.append("management_capital_risk:prefer_milestone_heavy_structure")
+        if bd.get("governance_alignment", 1.0) < 0.35:
+            _mgmt_governance_risk = True
+            caveats.append("management_governance_risk:legal_review_required")
+        if mgmt_risk_band == "unknown":
+            _mgmt_unknown = True
+            diligence_items.append(["management_quality_unknown:diligence_required"])
 
     # Collect missing diligence items
     flat_diligence = list(dict.fromkeys(
@@ -137,6 +171,8 @@ def build_deal_structure_rationale(
             diligence_items=flat_diligence,
             thesis_tier=thesis.underwrite_thesis.value,
             realism_label=realism.realism_label,
+            management_risk_band=mgmt_risk_band,
+            management_gate=mgmt_gate,
         )
 
     # 2. Very low overall confidence → diligence first
@@ -155,6 +191,8 @@ def build_deal_structure_rationale(
             diligence_items=flat_diligence,
             thesis_tier=thesis.underwrite_thesis.value,
             realism_label=realism.realism_label,
+            management_risk_band=mgmt_risk_band,
+            management_gate=mgmt_gate,
         )
 
     # 3. Route by thesis + realism combination
@@ -163,9 +201,10 @@ def build_deal_structure_rationale(
 
     if t == UnderwriteThesis.STRONG_BUY:
         if r in {"HIGH", "MODERATE_HIGH"}:
-            if rofr_friction:
+            if rofr_friction or _mgmt_weak_trial_design or _mgmt_poor_capital_allocation:
                 structure = RecommendedStructure.STRUCTURED_ACQUISITION_WITH_MILESTONES
-                caveats.append("rofr_redirected_from_full_to_structured")
+                if rofr_friction:
+                    caveats.append("rofr_redirected_from_full_to_structured")
             else:
                 structure = RecommendedStructure.FULL_ACQUISITION
         elif r in {"MODERATE"}:
@@ -175,9 +214,10 @@ def build_deal_structure_rationale(
 
     elif t == UnderwriteThesis.BUY:
         if r in {"HIGH", "MODERATE_HIGH"}:
-            if rofr_friction:
+            if rofr_friction or _mgmt_weak_trial_design or _mgmt_poor_capital_allocation:
                 structure = RecommendedStructure.STRUCTURED_ACQUISITION_WITH_MILESTONES
-                caveats.append("rofr_redirected_from_full_to_structured")
+                if rofr_friction:
+                    caveats.append("rofr_redirected_from_full_to_structured")
             else:
                 structure = RecommendedStructure.FULL_ACQUISITION
         elif r == "MODERATE":
@@ -204,4 +244,6 @@ def build_deal_structure_rationale(
         diligence_items=flat_diligence,
         thesis_tier=thesis.underwrite_thesis.value,
         realism_label=realism.realism_label,
+        management_risk_band=mgmt_risk_band,
+        management_gate=mgmt_gate,
     )

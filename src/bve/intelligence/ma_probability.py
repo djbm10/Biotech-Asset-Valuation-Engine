@@ -654,6 +654,12 @@ class MAProbabilityRow(BaseModel):
     recommended_deal_structure: str | None = None      # RecommendedStructure.value
     probability_band_display: str | None = None        # human-readable band or RANK_ONLY text
 
+    # Block 6 management quality enrichment (optional; populated when management data available)
+    management_quality_composite: float | None = None  # 0–1 weighted composite
+    management_risk_band: str | None = None            # ManagementRiskBand.value
+    management_risk_summary: str | None = None         # plain-English summary
+    management_gate: str | None = None                 # ManagementGate.value
+
     @model_validator(mode="before")
     @classmethod
     def _sync_probability_aliases(cls, data):

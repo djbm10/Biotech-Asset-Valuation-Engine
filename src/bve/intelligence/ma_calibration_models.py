@@ -141,6 +141,10 @@ class ErrorType(str, Enum):
     ROUTE_ERROR                               = "route_error"
     STRUCTURE_ERROR                           = "structure_error"
     THRESHOLD_ERROR                           = "threshold_error"
+    MANAGEMENT_RAN_WRONG_TRIAL                = "management_ran_wrong_trial"
+    MANAGEMENT_POOR_BD_JUDGMENT               = "management_poor_bd_judgment"
+    MANAGEMENT_CAPITAL_DESTRUCTION            = "management_capital_destruction"
+    MANAGEMENT_GOVERNANCE_BLOCKED_DEAL        = "management_governance_blocked_deal"
     UNKNOWN_ERROR                             = "unknown_error"
 
 
