@@ -813,3 +813,71 @@ def generate_model_governance_report(
         threshold_recs=threshold_recs,
         include_model_card=include_model_card,
     )
+
+
+def generate_layer_validation_report(
+    cases_validated: dict,
+    *,
+    known_answer_cases: int = 0,
+    top_k_precision: Optional[float] = None,
+    base_rate_coverage: Optional[float] = None,
+) -> dict:
+    """5H — Generate a layer-by-layer validation report.
+
+    Wraps :func:`bve.intelligence.ma_model_governance.generate_layer_validation_report`.
+
+    Args:
+        cases_validated: Dict mapping :class:`~bve.intelligence.ma_calibration_models.LayerValidated`
+            to the number of validated cases.
+        known_answer_cases: Count of cases with known historical outcomes.
+        top_k_precision: Precision at top-K for the end-to-end pipeline.
+        base_rate_coverage: Fraction of cases where base-rate calibration applies.
+
+    Returns:
+        Dict with keys: validation_date, layers, summary_status, limitations.
+    """
+    from bve.intelligence.ma_model_governance import generate_layer_validation_report as _gen
+    return _gen(
+        cases_validated,
+        known_answer_cases=known_answer_cases,
+        top_k_precision=top_k_precision,
+        base_rate_coverage=base_rate_coverage,
+    )
+
+
+def build_prediction_audit_record(
+    output: Any,
+    *,
+    run_id: Optional[str] = None,
+    user_id: Optional[str] = None,
+) -> dict:
+    """5H — Build a structured audit record for a single Layer 5 prediction.
+
+    Wraps :func:`bve.intelligence.ma_model_governance.build_audit_record`.
+
+    Args:
+        output: :class:`~bve.intelligence.ma_calibration_models.Layer5CalibrationOutput`.
+        run_id: Optional run identifier for batch tracing.
+        user_id: Optional user/system identifier who triggered the run.
+
+    Returns:
+        Dict suitable for serialisation to a JSONL audit log.
+    """
+    from bve.intelligence.ma_model_governance import build_audit_record
+    return build_audit_record(output, run_id=run_id, user_id=user_id)
+
+
+def write_prediction_audit_log(
+    records: list[dict],
+    path: str,
+) -> None:
+    """5H — Append audit records to a JSONL file (one record per line).
+
+    Wraps :func:`bve.intelligence.ma_model_governance.write_audit_log`.
+
+    Args:
+        records: List of audit record dicts (from :func:`build_prediction_audit_record`).
+        path: Absolute path to the JSONL file (parent dirs created automatically).
+    """
+    from bve.intelligence.ma_model_governance import write_audit_log
+    write_audit_log(records, path)
