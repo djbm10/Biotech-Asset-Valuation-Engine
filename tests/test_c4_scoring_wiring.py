@@ -100,6 +100,7 @@ def _make_acquirer(
         market_cap_billions=market_cap_billions,
         existing_partnerships=existing_partnerships or [],
         manufacturing_fit_score=manufacturing_fit_score,
+        budget=None,
     )
 
 

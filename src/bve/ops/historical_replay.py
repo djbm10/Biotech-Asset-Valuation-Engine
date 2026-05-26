@@ -25,6 +25,7 @@ Usage
 from __future__ import annotations
 
 import json
+import statistics
 import sqlite3
 import sys
 import uuid
@@ -181,7 +182,18 @@ class ReplayStore:
                 exit_price      REAL,
                 return_pct      REAL,
                 attribution_type TEXT,
-                is_closed       INTEGER NOT NULL DEFAULT 0
+                is_closed       INTEGER NOT NULL DEFAULT 0,
+                days_to_catalyst_at_entry INTEGER,
+                decision_cluster_id TEXT,
+                catalyst_event_id TEXT,
+                phase TEXT,
+                xbi_return_during_hold REAL,
+                ibb_return_during_hold REAL,
+                spy_return_during_hold REAL,
+                xbi_above_20d_ma_at_entry INTEGER,
+                gross_return_pct REAL,
+                friction_cost_bps REAL,
+                net_return_pct REAL
             );
 
             CREATE INDEX IF NOT EXISTS idx_replay_decisions_run
@@ -300,6 +312,34 @@ class ReplayStore:
                 "ALTER TABLE replay_runs ADD COLUMN run_metadata_json TEXT"
             )
             self._conn.commit()
+        replay_decision_columns = {
+            row[1]
+            for row in self._conn.execute(
+                "PRAGMA table_info(replay_decisions)"
+            ).fetchall()
+        }
+        for column_name, column_type in {
+            "days_to_catalyst_at_entry": "INTEGER",
+            "decision_cluster_id": "TEXT",
+            "catalyst_event_id": "TEXT",
+            "phase": "TEXT",
+            "xbi_return_during_hold": "REAL",
+            "ibb_return_during_hold": "REAL",
+            "spy_return_during_hold": "REAL",
+            "xbi_above_20d_ma_at_entry": "INTEGER",
+            "gross_return_pct": "REAL",
+            "friction_cost_bps": "REAL",
+            "net_return_pct": "REAL",
+        }.items():
+            if column_name not in replay_decision_columns:
+                try:
+                    self._conn.execute(
+                        f"ALTER TABLE replay_decisions ADD COLUMN {column_name} {column_type}"
+                    )
+                except sqlite3.OperationalError as exc:
+                    if "duplicate column name" not in str(exc).lower():
+                        raise
+        self._conn.commit()
 
     # ------------------------------------------------------------------
     # Prices
@@ -551,6 +591,28 @@ class ReplayStore:
                 pass
         return result
 
+    def get_nearest_upcoming_event(
+        self,
+        asset_id: str,
+        as_of_date: date,
+        lookahead_days: int = 365,
+    ) -> Optional[dict]:
+        """Return the nearest upcoming historical event for an asset."""
+        window_end = (as_of_date + timedelta(days=lookahead_days)).isoformat()
+        row = self._conn.execute(
+            """
+            SELECT event_id, asset_id, ticker, event_type, announced_at, effective_date
+            FROM historical_events
+            WHERE asset_id = ?
+              AND announced_at > ?
+              AND announced_at <= ?
+            ORDER BY announced_at ASC
+            LIMIT 1
+            """,
+            (asset_id, as_of_date.isoformat(), window_end),
+        ).fetchone()
+        return dict(row) if row else None
+
     def get_recent_attributions(
         self,
         run_id: str,
@@ -633,8 +695,9 @@ class ReplayStore:
             """
             INSERT INTO replay_decisions
                 (decision_id, run_id, asset_id, ticker, decided_at, action,
-                 size_pct, composite_score, entry_price, is_closed)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0)
+                 size_pct, composite_score, entry_price, is_closed,
+                 days_to_catalyst_at_entry, decision_cluster_id, catalyst_event_id, phase)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 0, ?, ?, ?, ?)
             """,
             (
                 decision_id,
@@ -646,6 +709,10 @@ class ReplayStore:
                 decision.recommended_size_pct,
                 decision.composite_score,
                 entry_price,
+                decision.days_to_catalyst_at_entry,
+                decision.decision_cluster_id,
+                decision.catalyst_event_id,
+                decision.phase,
             ),
         )
         self._conn.commit()
@@ -668,6 +735,13 @@ class ReplayStore:
         exit_date: date,
         return_pct: Optional[float],
         attribution_type: str,
+        *,
+        xbi_return_during_hold: Optional[float] = None,
+        ibb_return_during_hold: Optional[float] = None,
+        spy_return_during_hold: Optional[float] = None,
+        xbi_above_20d_ma_at_entry: Optional[bool] = None,
+        friction_cost_bps: Optional[float] = None,
+        net_return_pct: Optional[float] = None,
     ) -> None:
         """Close a decision by recording exit data."""
         self._conn.execute(
@@ -677,6 +751,13 @@ class ReplayStore:
                    exit_price       = ?,
                    return_pct       = ?,
                    attribution_type = ?,
+                   xbi_return_during_hold = ?,
+                   ibb_return_during_hold = ?,
+                   spy_return_during_hold = ?,
+                   xbi_above_20d_ma_at_entry = ?,
+                   gross_return_pct = ?,
+                   friction_cost_bps = ?,
+                   net_return_pct = ?,
                    is_closed        = 1
              WHERE decision_id = ?
             """,
@@ -685,6 +766,14 @@ class ReplayStore:
                 exit_price,
                 return_pct,
                 attribution_type,
+                xbi_return_during_hold,
+                ibb_return_during_hold,
+                spy_return_during_hold,
+                int(xbi_above_20d_ma_at_entry)
+                if xbi_above_20d_ma_at_entry is not None else None,
+                return_pct,
+                friction_cost_bps,
+                net_return_pct,
                 decision_id,
             ),
         )
@@ -1551,7 +1640,7 @@ class HistoricalReplay:
         # Build v2.0 composite score contexts (no-lookahead: all signals as of as_of)
         contexts = self._build_score_contexts(universe, as_of)
 
-        report = gen.generate(candidates, top_n=10, week_ending=as_of, contexts=contexts)
+        report = gen.generate(candidates, top_n=20, week_ending=as_of, contexts=contexts)
 
         # Log v2.0 signal attribution summary for this step
         n_with_signals = sum(
@@ -1627,7 +1716,21 @@ class HistoricalReplay:
         )
 
         # Persist each decision
+        universe_by_asset = {u["asset_id"]: u for u in universe}
         for dec in decisions:
+            upcoming = self._rs.get_nearest_upcoming_event(dec.asset_id, as_of)
+            if upcoming is not None:
+                try:
+                    event_date = date.fromisoformat(str(upcoming["announced_at"])[:10])
+                    dec.days_to_catalyst_at_entry = (event_date - as_of).days
+                except (TypeError, ValueError):
+                    dec.days_to_catalyst_at_entry = None
+                dec.catalyst_event_id = str(upcoming.get("event_id") or "")
+                dec.decision_cluster_id = f"{dec.ticker}_{dec.catalyst_event_id}"
+            else:
+                dec.decision_cluster_id = f"{dec.ticker}_no_catalyst"
+            raw_phase = universe_by_asset.get(dec.asset_id, {}).get("phase")
+            dec.phase = str(raw_phase) if raw_phase not in (None, "") else None
             entry_price = self._rs.get_price(dec.ticker, as_of)
             self._rs.insert_decision(run_id, dec, entry_price)
 
@@ -1716,6 +1819,22 @@ class HistoricalReplay:
             entry_price = dec.get("entry_price")
 
             return_pct = self._rs.compute_return_pct(entry_price, exit_price)
+            from bve.analysis.friction_model import INSTITUTIONAL_FRICTIONS
+
+            friction_cost_bps = INSTITUTIONAL_FRICTIONS.round_trip_cost_bps
+            net_return_pct = (
+                INSTITUTIONAL_FRICTIONS.net_return(return_pct)
+                if return_pct is not None else None
+            )
+            xbi_return = self._rs.get_return("XBI", entry_date, as_of)
+            ibb_return = self._rs.get_return("IBB", entry_date, as_of)
+            spy_return = self._rs.get_return("SPY", entry_date, as_of)
+            xbi_entry = self._rs.get_price("XBI", entry_date)
+            xbi_ma = self._rs.get_ma("XBI", entry_date, window_days=20)
+            xbi_above_ma = (
+                xbi_entry >= xbi_ma
+                if xbi_entry is not None and xbi_ma is not None else None
+            )
 
             # Check for events within the hold window (entry → exit) only.
             # Using all-history events would attribute a June catalyst to an
@@ -1732,6 +1851,12 @@ class HistoricalReplay:
                 exit_date=as_of,
                 return_pct=return_pct,
                 attribution_type=attribution,
+                xbi_return_during_hold=xbi_return,
+                ibb_return_during_hold=ibb_return,
+                spy_return_during_hold=spy_return,
+                xbi_above_20d_ma_at_entry=xbi_above_ma,
+                friction_cost_bps=friction_cost_bps,
+                net_return_pct=net_return_pct,
             )
             self._policy.record_closed_position(
                 asset_id=str(dec["asset_id"]),
@@ -1762,6 +1887,10 @@ class HistoricalReplay:
                 continue
 
             asset_id = str(dec["asset_id"])
+            from bve.analysis.friction_model import INSTITUTIONAL_FRICTIONS
+
+            friction_cost_bps = INSTITUTIONAL_FRICTIONS.round_trip_cost_bps
+            net_return_pct = INSTITUTIONAL_FRICTIONS.net_return(unrealized_return)
             print(f"Stop-loss triggered: {asset_id} at {unrealized_return:.1f}%")
             self._rs.close_decision(
                 decision_id=str(dec["decision_id"]),
@@ -1769,6 +1898,8 @@ class HistoricalReplay:
                 exit_date=as_of,
                 return_pct=unrealized_return,
                 attribution_type="stop_loss",
+                friction_cost_bps=friction_cost_bps,
+                net_return_pct=net_return_pct,
             )
             self._policy.record_closed_position(
                 asset_id=asset_id,
@@ -1915,7 +2046,10 @@ class HistoricalReplay:
             "unclassified": 0,
         }
         returns: list[float] = []
+        net_returns: list[float] = []
+        friction_costs: list[float] = []
         returns_by_action: dict[str, list[float]] = {}
+        returns_by_attribution: dict[str, list[float]] = {}
         returns_by_tier: dict[str, list[float]] = {}
         brier_terms: list[float] = []
 
@@ -1930,6 +2064,7 @@ class HistoricalReplay:
             if r is not None:
                 realized_return = float(r)
                 returns.append(realized_return)
+                returns_by_attribution.setdefault(attr, []).append(realized_return)
                 action = d.get("action", "unknown")
                 returns_by_action.setdefault(action, []).append(realized_return)
                 tier = _tier_for_score(d.get("composite_score"))
@@ -1937,12 +2072,51 @@ class HistoricalReplay:
                 predicted = max(0.0, min(1.0, _coerce_float(d.get("composite_score"), 0.0)))
                 actual = 1.0 if realized_return > 0.0 else 0.0
                 brier_terms.append((predicted - actual) ** 2)
+            if d.get("net_return_pct") is not None:
+                net_returns.append(float(d["net_return_pct"]))
+            if d.get("friction_cost_bps") is not None:
+                friction_costs.append(float(d["friction_cost_bps"]))
 
         mean_return = (sum(returns) / len(returns)) if returns else None
+        net_mean_return = (sum(net_returns) / len(net_returns)) if net_returns else None
+        friction_mean = (sum(friction_costs) / len(friction_costs)) if friction_costs else None
         hit_rate = (
             sum(1 for r in returns if r > 0) / len(returns)
             if returns else None
         )
+        total_abs_pnl = sum(abs(r) for values in returns_by_attribution.values() for r in values)
+        mean_by_attr: dict[str, Optional[float]] = {}
+        median_by_attr: dict[str, Optional[float]] = {}
+        pnl_by_attr: dict[str, Optional[float]] = {}
+        for attr, values in returns_by_attribution.items():
+            mean_by_attr[attr] = round(statistics.mean(values), 4) if values else None
+            median_by_attr[attr] = round(statistics.median(values), 4) if values else None
+            pnl_by_attr[attr] = (
+                round(sum(values) / total_abs_pnl, 6)
+                if values and total_abs_pnl > 0 else None
+            )
+
+        cluster_ids: set[str] = set()
+        independent_n = 0
+        for d in closed:
+            cid = d.get("decision_cluster_id")
+            if cid and not str(cid).endswith("_no_catalyst"):
+                cluster_ids.add(str(cid))
+            else:
+                independent_n += 1
+        independent_n += len(cluster_ids)
+
+        # Skill-adjusted return excludes pos_error and market_drift so beta/luck
+        # cannot inflate stated model skill.
+        skill_returns: list[float] = []
+        for d in closed:
+            attr = d.get("attribution_type") or "unclassified"
+            r = d.get("net_return_pct")
+            if r is None:
+                r = d.get("return_pct")
+            if r is not None and attr not in {"pos_error", "market_drift"}:
+                skill_returns.append(float(r))
+        skill_mean = (sum(skill_returns) / len(skill_returns)) if skill_returns else None
 
         # Estimate n_decision_dates from run metadata
         start = date.fromisoformat(run["start_date"])
@@ -1968,6 +2142,11 @@ class HistoricalReplay:
             n_actionable=len(actionable),
             n_resolved=len(closed),
             mean_return_pct=round(mean_return, 4) if mean_return is not None else None,
+            gross_mean_return_pct=round(mean_return, 4) if mean_return is not None else None,
+            net_mean_return_pct=(
+                round(net_mean_return, 4) if net_mean_return is not None else None
+            ),
+            friction_cost_mean_bps=round(friction_mean, 4) if friction_mean is not None else None,
             hit_rate=round(hit_rate, 4) if hit_rate is not None else None,
             brier_score=round(sum(brier_terms) / len(brier_terms), 6) if brier_terms else None,
             max_drawdown_pct=round(_max_drawdown_from_return_pcts(returns), 4),
@@ -1989,9 +2168,20 @@ class HistoricalReplay:
             n_stop_loss=attribution_counts["stop_loss"],
             n_unclassified=attribution_counts["unclassified"],
             returns_by_action={k: v for k, v in returns_by_action.items()},
+            returns_by_attribution=returns_by_attribution,
+            mean_return_by_attribution=mean_by_attr,
+            median_return_by_attribution=median_by_attr,
+            pnl_contribution_by_attribution=pnl_by_attr,
+            n_independent_decisions=independent_n,
+            skill_adjusted_mean_return_pct=(
+                round(skill_mean, 4) if skill_mean is not None else None
+            ),
+            n_skill_adjusted_decisions=len(skill_returns),
+            validation_status="directional_only",
             notes=[
                 "point_in_time_only=historical_prices,historical_events,and signal snapshots use <= as_of_date",
                 "dated_snapshots_only=true",
+                "skill_adjusted_return_excludes=pos_error_and_market_drift_decisions",
                 *mna_metrics["notes"],
             ],
         )
@@ -2602,7 +2792,142 @@ def _cmd_summary(args: list[str]) -> None:
     replay = HistoricalReplay(rs, str(REPLAY_KNOWLEDGE_PATH), universe=UNIVERSE)
     summary = replay.summarize(run_id)
     summary.print()
+    decisions = rs.get_run_decisions(run_id)
+    closed = [d for d in decisions if d.get("return_pct") is not None and d.get("is_closed")]
+
+    if len(closed) >= 5:
+        from bve.analysis.replay_significance import analyze, print_report
+
+        return_field = (
+            "net_return_pct"
+            if any(d.get("net_return_pct") is not None for d in closed)
+            else "return_pct"
+        )
+        sig_result = analyze(
+            closed,
+            run_id=run_id,
+            bootstrap_samples=2000,
+            cluster_by="asset_catalyst",
+            return_field=return_field,
+        )
+        print_report(sig_result)
+    else:
+        print(f"  Significance: N={len(closed)} — minimum 5 closed decisions required")
+
+    if len(closed) >= 15:
+        from bve.analysis.replay_significance import (
+            permutation_test,
+            print_permutation_report,
+        )
+
+        try:
+            print_permutation_report(permutation_test(closed))
+        except ValueError as exc:
+            print(f"  Permutation test skipped: {exc}")
+
+    if closed and summary.mean_return_pct is not None:
+        from bve.analysis.baselines import BaselineCandidate, BaselineConfig, BaselineRunner
+
+        candidates = [
+            BaselineCandidate(
+                ticker=str(d.get("ticker") or ""),
+                return_pct=d.get("return_pct"),
+                phase=d.get("phase") or "phase_2",
+                catalyst_days_away=d.get("days_to_catalyst_at_entry"),
+                ranking_score=d.get("composite_score"),
+            )
+            for d in closed
+        ]
+        runner = BaselineRunner(BaselineConfig(top_n=max(1, min(5, len(candidates)))))
+        baselines = runner.run_all(candidates)
+        print(runner.print_comparison(summary.mean_return_pct, len(closed), baselines))
+
+    losers = [d for d in closed if d.get("return_pct") is not None and float(d["return_pct"]) < 0]
+    if losers:
+        from bve.analysis.failure_diagnostics import FailureTrade, diagnose_failures
+
+        trades = [
+            FailureTrade(
+                decision_id=str(d.get("decision_id") or ""),
+                asset_id=str(d.get("asset_id") or ""),
+                company_id="",
+                model_score=_coerce_float(d.get("composite_score"), 0.0),
+                return_pct=float(d["return_pct"]),
+                attribution=str(d.get("attribution_type") or "unclassified"),
+                entry_date=str(d.get("decided_at") or "")[:10] or None,
+                days_to_catalyst_at_entry=d.get("days_to_catalyst_at_entry"),
+                xbi_return_over_hold=d.get("xbi_return_during_hold"),
+            )
+            for d in losers
+        ]
+        print(diagnose_failures(trades, model_name=f"run_{run_id[:8]}").summary())
+
+    if any(d.get("xbi_return_during_hold") is not None for d in closed):
+        from bve.analysis.regime_analysis import compute_regime_report
+
+        print(compute_regime_report(closed).summary())
     rs.close()
+
+
+def _cmd_walk_forward(args: list[str]) -> None:
+    """walk-forward --run-id <run_id> [--save-csv PATH] [--save-yaml PATH] [--stability-report]"""
+    run_id: Optional[str] = None
+    save_csv: Optional[str] = None
+    save_yaml: Optional[str] = None
+    stability_report = False
+    i = 0
+    while i < len(args):
+        if args[i] == "--run-id":
+            run_id = args[i + 1]
+            i += 2
+        elif args[i] == "--save-csv":
+            save_csv = args[i + 1]
+            i += 2
+        elif args[i] == "--save-yaml":
+            save_yaml = args[i + 1]
+            i += 2
+        elif args[i] == "--stability-report":
+            stability_report = True
+            i += 1
+        else:
+            i += 1
+    if not run_id:
+        print("Usage: walk-forward --run-id <run_id> [--save-csv PATH] [--save-yaml PATH]")
+        sys.exit(1)
+
+    rs = ReplayStore(str(REPLAY_STORE_PATH))
+    decisions = [
+        d for d in rs.get_run_decisions(run_id)
+        if d.get("return_pct") is not None and d.get("is_closed")
+    ]
+    rs.close()
+    if len(decisions) < 20:
+        print(f"Walk-forward requires >=20 closed decisions; found {len(decisions)}.")
+        return
+
+    from bve.analysis.walk_forward import run_walk_forward
+
+    decision_dicts = [
+        {
+            "entry_date": str(d.get("decided_at") or "")[:10],
+            "return_pct": d.get("net_return_pct")
+            if d.get("net_return_pct") is not None else d.get("return_pct"),
+            "composite_score": d.get("composite_score"),
+            "asset_id": d.get("asset_id"),
+            "days_to_catalyst": d.get("days_to_catalyst_at_entry"),
+        }
+        for d in decisions
+    ]
+    report = run_walk_forward(decision_dicts, model_name=f"run_{run_id[:8]}")
+    print(report.summary())
+    if save_csv:
+        Path(save_csv).parent.mkdir(parents=True, exist_ok=True)
+        report.save_csv(save_csv)
+    if save_yaml:
+        Path(save_yaml).parent.mkdir(parents=True, exist_ok=True)
+        report.save_locked_policy_yaml(save_yaml)
+    if stability_report:
+        print(report.parameter_stability_report())
 
 
 def _cmd_inspect(args: list[str]) -> None:
@@ -2773,7 +3098,19 @@ def _cmd_significance(args: list[str]) -> None:
         sys.exit(1)
 
     from bve.analysis.replay_significance import analyze, print_report
-    result = analyze(closed, run_id=run_id, bootstrap_samples=bootstrap_samples, seed=seed)
+    return_field = (
+        "net_return_pct"
+        if any(d.get("net_return_pct") is not None for d in closed)
+        else "return_pct"
+    )
+    result = analyze(
+        closed,
+        run_id=run_id,
+        bootstrap_samples=bootstrap_samples,
+        seed=seed,
+        cluster_by="asset_catalyst",
+        return_field=return_field,
+    )
     print_report(result)
 
 
@@ -2790,6 +3127,7 @@ if __name__ == "__main__":
         "seed-signals": _cmd_seed_signals,
         "run": _cmd_run,
         "summary": _cmd_summary,
+        "walk-forward": _cmd_walk_forward,
         "inspect": _cmd_inspect,
         "significance": _cmd_significance,
     }

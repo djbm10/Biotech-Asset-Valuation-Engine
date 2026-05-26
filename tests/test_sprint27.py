@@ -321,7 +321,7 @@ class TestThesisClaimsBackfillerSeed:
 # ===========================================================================
 
 class TestDefaultYamlIntegrity:
-    def test_default_yaml_loads_38_claims(self):
+    def test_default_yaml_loads_89_claims(self):
         from bve.ops.thesis_claims_backfiller import ThesisClaimsBackfiller, _DEFAULT_YAML
         import sqlite3, tempfile
         # Seed into a temp DB just to validate full load+seed path
@@ -329,7 +329,7 @@ class TestDefaultYamlIntegrity:
             db = str(Path(td) / "temp.db")
             bf = ThesisClaimsBackfiller(db, yaml_path=_DEFAULT_YAML)
             claims = bf.load()
-            assert len(claims) == 38
+            assert len(claims) == 89
 
     def test_all_resolved_at_after_created_at(self):
         from bve.ops.thesis_claims_backfiller import ThesisClaimsBackfiller, _DEFAULT_YAML
@@ -348,7 +348,7 @@ class TestDefaultYamlIntegrity:
         db = str(tmp_path / "temp.db")
         bf = ThesisClaimsBackfiller(db, yaml_path=_DEFAULT_YAML)
         result = bf.seed()
-        assert result["inserted"] == 38
+        assert result["inserted"] == 89
         assert result["skipped"] == 0
 
 
