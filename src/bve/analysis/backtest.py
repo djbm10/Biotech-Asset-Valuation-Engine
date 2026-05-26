@@ -1,9 +1,9 @@
 """
 Backtesting: validate POS model predictions against historical drug trial outcomes.
 
-Loads the 40-program oncology dataset from research/data/oncology_phase_transitions.csv,
-runs the heuristic and statistical POS models on each program's feature set, and computes
-calibration metrics.
+Loads the oncology dataset from research/data/oncology_phase_transitions.csv (and optional
+multi-TA datasets), runs the heuristic and statistical POS models on each program's feature
+set, and computes calibration metrics.
 
 Key metrics
 -----------
@@ -26,14 +26,28 @@ Usage
     report = run_backtest_from_csv("research/data/oncology_phase_transitions.csv")
     print(print_report(report))
 
-    # Or run as a script
+    # Multi-TA combined backtest
+    from bve.analysis.backtest import run_combined_backtest_from_files
+    report = run_combined_backtest_from_files({
+        "oncology": "research/data/oncology_phase_transitions.csv",
+        "immunology": "research/data/immunology_phase_transitions.csv",
+        "rare_disease": "research/data/rare_disease_phase_transitions.csv",
+        "cns": "research/data/cns_phase_transitions.csv",
+        "cardiovascular": "research/data/cardiovascular_phase_transitions.csv",
+    })
+    print(print_report(report))
+
+    # Or run as a script (single TA)
     python -m bve.analysis.backtest research/data/oncology_phase_transitions.csv
+    # Combined multi-TA run
+    python -m bve.analysis.backtest --multi-ta
 """
 from __future__ import annotations
 
 import sys
 from dataclasses import dataclass, field
 from pathlib import Path
+from typing import Optional
 
 import numpy as np
 
@@ -56,6 +70,7 @@ class BacktestCase:
     biomarker_enriched: bool
     safety_profile: str        # "clean" | "minor" | "concerning" | "serious"
     competitive_pressure: str  # "low" | "moderate" | "high"
+    therapeutic_area: str = "oncology"  # TA for POS base rate lookup
     notes: str = ""
 
     @property
@@ -128,6 +143,7 @@ class BacktestReport:
 
     # Raw results for downstream analysis
     results: list[BacktestResult] = field(default_factory=list)
+    calibration_suite: Optional[object] = None
 
     @property
     def heuristic_lift_over_noskill(self) -> float:
@@ -141,6 +157,44 @@ class BacktestReport:
         if self.no_skill_brier_score == 0:
             return 0.0
         return 1.0 - self.statistical_brier_score / self.no_skill_brier_score
+
+    def to_calibration_records(self):
+        """Convert results to calibration records using actual heuristic scores."""
+        from bve.analysis.pos_calibration import POSCalibrationRecord
+
+        return [
+            POSCalibrationRecord(
+                therapeutic_area=r.case.therapeutic_area,
+                phase=r.case.phase,
+                predicted_pos=r.heuristic_pos,
+                actual_success=r.case.success,
+                drug=r.case.drug,
+                company=r.case.company,
+                indication=r.case.indication,
+                year=r.case.year,
+                notes=r.case.notes,
+            )
+            for r in self.results
+        ]
+
+    def to_calibration_records_statistical(self):
+        """Convert results to calibration records using actual statistical scores."""
+        from bve.analysis.pos_calibration import POSCalibrationRecord
+
+        return [
+            POSCalibrationRecord(
+                therapeutic_area=r.case.therapeutic_area,
+                phase=r.case.phase,
+                predicted_pos=r.statistical_pos,
+                actual_success=r.case.success,
+                drug=r.case.drug,
+                company=r.case.company,
+                indication=r.case.indication,
+                year=r.case.year,
+                notes=r.case.notes,
+            )
+            for r in self.results
+        ]
 
 
 # ---------------------------------------------------------------------------
@@ -218,13 +272,19 @@ def _build_calibration(results: list[BacktestResult], use_statistical: bool) -> 
 # CSV loading
 # ---------------------------------------------------------------------------
 
-def load_cases_from_csv(csv_path: str | Path) -> list[BacktestCase]:
+def load_cases_from_csv(csv_path: str | Path, therapeutic_area: str = "oncology") -> list[BacktestCase]:
     """
-    Load BacktestCase list from the oncology_phase_transitions.csv format.
+    Load BacktestCase list from a phase_transitions.csv file.
 
     Expected columns: drug, company, indication, phase_start, outcome, year,
     moa_precedent, biomarker_enriched, safety_profile, competitive_pressure,
     endpoint_type, notes
+
+    Args:
+        csv_path: Path to the CSV file.
+        therapeutic_area: TA string for POS base rate lookup (e.g. "oncology",
+            "immunology", "rare_disease", "cns", "cardiovascular"). Defaults
+            to "oncology" for backward compatibility.
     """
     import csv
 
@@ -247,6 +307,7 @@ def load_cases_from_csv(csv_path: str | Path) -> list[BacktestCase]:
                 biomarker_enriched=row.get("biomarker_enriched", "false").strip().lower() == "true",
                 safety_profile=row.get("safety_profile", "minor").strip(),
                 competitive_pressure=row.get("competitive_pressure", "moderate").strip(),
+                therapeutic_area=therapeutic_area,
                 notes=row.get("notes", "").strip(),
             ))
     return cases
@@ -273,6 +334,7 @@ def run_backtest(cases: list[BacktestCase]) -> BacktestReport:
     moa_map = {m.value: m for m in MoAPrecedent}
     safety_map = {s.value: s for s in SafetyProfile}
     competition_map = {c.value: c for c in CompetitivePressure}
+    ta_map = {e.value: e for e in TherapeuticArea}
 
     results = []
     for case in cases:
@@ -286,7 +348,7 @@ def run_backtest(cases: list[BacktestCase]) -> BacktestReport:
             competitive_pressure=competition_map.get(case.competitive_pressure, CompetitivePressure.MODERATE),
             biomarker_selected_population=case.biomarker_enriched,
         )
-        ta = TherapeuticArea.ONCOLOGY  # all cases in current dataset are oncology
+        ta = ta_map.get(case.therapeutic_area, TherapeuticArea.OTHER)
 
         h_pos = compute_pos(phase_enum, ta, adj)
         s_pos = compute_pos_statistical(phase_enum, ta, adj)
@@ -335,10 +397,70 @@ def run_backtest(cases: list[BacktestCase]) -> BacktestReport:
     )
 
 
-def run_backtest_from_csv(csv_path: str | Path) -> BacktestReport:
+def run_backtest_from_csv(csv_path: str | Path, therapeutic_area: str = "oncology") -> BacktestReport:
     """Load CSV and run full backtest. Convenience wrapper."""
-    cases = load_cases_from_csv(csv_path)
-    return run_backtest(cases)
+    cases = load_cases_from_csv(csv_path, therapeutic_area=therapeutic_area)
+    report = run_backtest(cases)
+    from bve.analysis.pos_calibration import run_pos_calibration_from_records
+
+    report.calibration_suite = run_pos_calibration_from_records(
+        report.to_calibration_records(),
+        model_name=f"heuristic_{therapeutic_area}",
+        time_split_year=2020,
+    )
+    return report
+
+
+# Default multi-TA file map relative to project root
+_DEFAULT_TA_CSV_MAP: dict[str, str] = {
+    "oncology": "research/data/oncology_phase_transitions.csv",
+    "immunology": "research/data/immunology_phase_transitions.csv",
+    "rare_disease": "research/data/rare_disease_phase_transitions.csv",
+    "cns": "research/data/cns_phase_transitions.csv",
+    "cardiovascular": "research/data/cardiovascular_phase_transitions.csv",
+}
+
+
+def run_combined_backtest_from_files(
+    ta_csv_map: dict[str, str] | None = None,
+) -> tuple[BacktestReport, dict[str, BacktestReport]]:
+    """
+    Run POS backtest across multiple therapeutic areas and return combined + per-TA reports.
+
+    Args:
+        ta_csv_map: Mapping of TA name → CSV path. Defaults to all 5 standard TA files.
+
+    Returns:
+        Tuple of (combined_report, per_ta_reports) where combined_report pools all cases
+        and per_ta_reports maps TA name → individual BacktestReport.
+
+    Missing files are skipped with a warning.
+    """
+    import warnings
+
+    if ta_csv_map is None:
+        ta_csv_map = _DEFAULT_TA_CSV_MAP
+
+    all_cases: list[BacktestCase] = []
+    per_ta: dict[str, BacktestReport] = {}
+
+    for ta, csv_path in ta_csv_map.items():
+        path = Path(csv_path)
+        if not path.exists():
+            warnings.warn(f"Skipping {ta}: file not found at {csv_path}", stacklevel=2)
+            continue
+        cases = load_cases_from_csv(path, therapeutic_area=ta)
+        if not cases:
+            warnings.warn(f"Skipping {ta}: no valid cases loaded from {csv_path}", stacklevel=2)
+            continue
+        per_ta[ta] = run_backtest(cases)
+        all_cases.extend(cases)
+
+    if not all_cases:
+        raise ValueError("No valid cases loaded from any TA file.")
+
+    combined = run_backtest(all_cases)
+    return combined, per_ta
 
 
 # ---------------------------------------------------------------------------
@@ -346,12 +468,25 @@ def run_backtest_from_csv(csv_path: str | Path) -> BacktestReport:
 # ---------------------------------------------------------------------------
 
 def print_report(report: BacktestReport) -> str:
-    """Format a BacktestReport as a human-readable string."""
+    """Format a BacktestReport as a human-readable string.
+
+    Always prepends the hard validation disclaimer. This output is
+    RESEARCH_GRADE for oncology (N=99) and UNVALIDATED for all other TAs.
+    """
+    from bve.validation.model_grade import (
+        BacktestValidationStatus,
+        validation_disclaimer,
+    )
+    disclaimer = validation_disclaimer(BacktestValidationStatus.RESEARCH_GRADE)
+    # Derive label from TA mix in results
+    ta_set = {r.case.therapeutic_area for r in report.results} if report.results else {"oncology"}
+    ta_label = "/".join(sorted(ta_set)) if len(ta_set) > 1 else next(iter(ta_set))
+
     lines = [
-        "",
+        disclaimer,
         "=" * 65,
         "  BVE POS Model Backtest Report",
-        f"  Dataset: {report.n_total} oncology programs ({report.n_phase2} Phase 2, "
+        f"  Dataset: {report.n_total} {ta_label} programs ({report.n_phase2} Phase 2, "
         f"{report.n_phase3} Phase 3)",
         f"  Base rate (actual success): {report.n_success}/{report.n_total} = "
         f"{report.n_success/report.n_total:.1%}",
@@ -414,11 +549,41 @@ def print_report(report: BacktestReport) -> str:
 # ---------------------------------------------------------------------------
 
 if __name__ == "__main__":
-    csv_path = sys.argv[1] if len(sys.argv) > 1 else "research/data/oncology_phase_transitions.csv"
-    try:
-        report = run_backtest_from_csv(csv_path)
-        print(print_report(report))
-    except FileNotFoundError:
-        print(f"ERROR: CSV file not found: {csv_path}", file=sys.stderr)
-        print("Run from the project root: python -m bve.analysis.backtest research/data/oncology_phase_transitions.csv")
-        sys.exit(1)
+    if "--multi-ta" in sys.argv:
+        # Run combined 5-TA backtest
+        try:
+            combined, per_ta = run_combined_backtest_from_files()
+            # Per-TA summary
+            print("=" * 65)
+            print("  Per-TA Backtest Summary")
+            print(f"  {'TA':<20} {'N':>5}  {'Base%':>6}  {'H-Brier':>8}  {'H-AUC':>7}  {'Lift':>7}")
+            print("  " + "─" * 56)
+            for ta_name, rpt in sorted(per_ta.items()):
+                base = rpt.n_success / rpt.n_total if rpt.n_total else 0
+                lift = rpt.heuristic_lift_over_noskill
+                print(
+                    f"  {ta_name:<20} {rpt.n_total:>5}  {base:>6.1%}  "
+                    f"{rpt.heuristic_brier_score:>8.4f}  {rpt.heuristic_auc:>7.4f}  {lift:>+7.1%}"
+                )
+            print()
+            print(print_report(combined))
+        except (FileNotFoundError, ValueError) as exc:
+            print(f"ERROR: {exc}", file=sys.stderr)
+            sys.exit(1)
+    else:
+        csv_path = sys.argv[1] if len(sys.argv) > 1 else "research/data/oncology_phase_transitions.csv"
+        # Infer TA from filename
+        _fname = Path(csv_path).stem
+        _ta = "oncology"
+        for _candidate in ("immunology", "rare_disease", "cns", "cardiovascular"):
+            if _candidate in _fname:
+                _ta = _candidate
+                break
+        try:
+            report = run_backtest_from_csv(csv_path, therapeutic_area=_ta)
+            print(print_report(report))
+        except FileNotFoundError:
+            print(f"ERROR: CSV file not found: {csv_path}", file=sys.stderr)
+            print("Run from the project root: python -m bve.analysis.backtest research/data/oncology_phase_transitions.csv")
+            print("Or run: python -m bve.analysis.backtest --multi-ta")
+            sys.exit(1)
