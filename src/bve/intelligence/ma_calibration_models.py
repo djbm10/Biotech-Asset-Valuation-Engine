@@ -145,6 +145,12 @@ class ErrorType(str, Enum):
     MANAGEMENT_POOR_BD_JUDGMENT               = "management_poor_bd_judgment"
     MANAGEMENT_CAPITAL_DESTRUCTION            = "management_capital_destruction"
     MANAGEMENT_GOVERNANCE_BLOCKED_DEAL        = "management_governance_blocked_deal"
+    # Block 11 additions
+    MANAGEMENT_DILUTED_BEFORE_CATALYST        = "management_diluted_before_catalyst"
+    MANAGEMENT_OVERPROMOTED_WEAK_DATA         = "management_overpromoted_weak_data"
+    MANAGEMENT_PARTNERED_TOO_EARLY            = "management_partnered_too_early"
+    MANAGEMENT_REFUSED_VALUE_MAXIMIZING_DEAL  = "management_refused_value_maximizing_deal"
+    MANAGEMENT_EXECUTED_BETTER_THAN_EXPECTED  = "management_executed_better_than_expected"
     UNKNOWN_ERROR                             = "unknown_error"
 
 

@@ -85,6 +85,8 @@ class DecisionReportInput:
     provenance_items: list[ProvenanceItem] = field(default_factory=list)
     staleness_warnings: list[str] = field(default_factory=list)
     input_integrity: Optional[InputIntegrityScore] = None
+    management_quality: Optional[Any] = None   # ManagementQualityScore
+    management_diligence_questions: list[Any] = field(default_factory=list)  # ManagementDiligenceQuestion
     notes: list[str] = field(default_factory=list)
 
 
@@ -396,6 +398,81 @@ def _prediction_log_section(report_input: DecisionReportInput) -> str:
     return "\n".join(lines)
 
 
+def _management_section(report_input: DecisionReportInput) -> str:
+    """Management Quality section — risk band, composite, gate, drivers, diligence."""
+    mq = report_input.management_quality
+    if mq is None:
+        return ""
+
+    lines = ["## Management Quality", ""]
+
+    risk_band = getattr(mq, "risk_band", None)
+    band_str = risk_band.value.upper() if hasattr(risk_band, "value") else str(risk_band) if risk_band else _NA
+    composite = getattr(mq, "composite", None)
+    composite_str = f"{composite:.2f}" if composite is not None else _NA
+    confidence = getattr(mq, "confidence", None)
+    conf_str = confidence.value if hasattr(confidence, "value") else str(confidence) if confidence else _NA
+    gate = getattr(mq, "gate", None)
+    gate_str = gate.value if hasattr(gate, "value") else str(gate) if gate else _NA
+    staleness = getattr(mq, "staleness_warning", False)
+    summary = getattr(mq, "management_risk_summary", "") or ""
+
+    lines += [
+        "| Metric | Value |",
+        "|---|---|",
+        f"| Risk band | `{band_str}` |",
+        f"| Composite score | {composite_str} |",
+        f"| Confidence | {conf_str} |",
+        f"| Gate | `{gate_str}` |",
+    ]
+    if staleness:
+        lines.append("| ⚠ Staleness warning | Data > 180 days old — confidence degraded |")
+    lines.append("")
+
+    if summary:
+        lines += [f"> {summary}", ""]
+
+    positive = getattr(mq, "positive_drivers", []) or []
+    negative = getattr(mq, "negative_drivers", []) or []
+
+    if positive:
+        lines += ["### Positive Indicators", ""]
+        for p in positive:
+            lines.append(f"- {p}")
+        lines.append("")
+
+    if negative:
+        lines += ["### Value-Destruction Flags", ""]
+        for n in negative:
+            lines.append(f"- ⚠ {n}")
+        lines.append("")
+
+    # Diligence questions (CRITICAL/HIGH only, max 5)
+    questions = report_input.management_diligence_questions or []
+    if not questions:
+        # Auto-generate from the score if questions weren't pre-supplied
+        try:
+            from bve.intelligence.ma_management_diligence import (
+                generate_management_diligence_questions,
+            )
+            questions = generate_management_diligence_questions(mq)
+        except Exception:
+            questions = []
+
+    priority_filter = {"CRITICAL", "HIGH"}
+    high_priority = [q for q in questions if getattr(q, "priority", "") in priority_filter][:5]
+    if high_priority:
+        lines += ["### Key Diligence Questions", ""]
+        for q in high_priority:
+            owner = getattr(q, "owner", "")
+            priority = getattr(q, "priority", "")
+            question = getattr(q, "question", str(q))
+            lines.append(f"- **[{priority} / {owner}]** {question}")
+        lines.append("")
+
+    return "\n".join(lines)
+
+
 def _notes_section(report_input: DecisionReportInput) -> str:
     """Footer notes."""
     notes = report_input.notes
@@ -468,6 +545,11 @@ def render_decision_report(report_input: DecisionReportInput) -> str:
     # Input integrity section (when available)
     if report_input.input_integrity is not None:
         parts.append(render_input_integrity(report_input.input_integrity))
+
+    # Management quality section (when available)
+    mgmt_section = _management_section(report_input)
+    if mgmt_section:
+        parts.append(mgmt_section)
 
     parts += [
         render_provenance_table(

@@ -366,9 +366,13 @@ def compute_management_quality_score(
         if available.get("trial_design_judgment", 1.0) < _GATE_TRIGGER:
             negative_drivers.append("wrong_trial_risk")
         if available.get("disclosure_transparency", 1.0) < _GATE_TRIGGER:
+            # Both names: legacy internal name + canonical Block 11 name
             negative_drivers.append("low_disclosure_transparency")
+            negative_drivers.append("overpromotional_disclosure")
         if available.get("capital_allocation_discipline", 1.0) < _GATE_TRIGGER:
+            # Both names: legacy internal name + canonical Block 11 name
             negative_drivers.append("financing_value_destruction_risk")
+            negative_drivers.append("bad_financing_timing")
         if available.get("bd_partnering_judgment", 1.0) < _GATE_TRIGGER:
             negative_drivers.append("poor_partnering_history")
         if available.get("governance_alignment", 1.0) < _GATE_TRIGGER:
@@ -380,6 +384,9 @@ def compute_management_quality_score(
             positive_drivers.append("strong_bd_partnering")
         if available.get("disclosure_transparency", 0.0) >= 0.75:
             positive_drivers.append("high_disclosure_quality")
+        # value_preserving_management: composite quality ≥ 0.80 across all dims
+        if composite is not None and composite >= 0.80:
+            positive_drivers.append("value_preserving_management")
 
         # Gate based on component-level triggers
         gate = compute_management_gate(ManagementQualityScore(
