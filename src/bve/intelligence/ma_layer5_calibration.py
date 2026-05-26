@@ -38,8 +38,11 @@ Time windows:
 """
 from __future__ import annotations
 
+import json
 import math
+import warnings
 from enum import Enum
+from pathlib import Path
 from typing import Optional
 
 from pydantic import BaseModel, ConfigDict, Field
@@ -57,6 +60,52 @@ from pydantic import BaseModel, ConfigDict, Field
 #   rank_score 0.80 (process ready)    → logistic ≈ 0.72
 _LOGISTIC_SLOPE: float = 8.0
 _LOGISTIC_MIDPOINT: float = 0.68
+
+# Path to fitted calibration parameters (written by ma_backtest.save_calibration_params)
+_CALIBRATION_PARAMS_PATH: Path = (
+    Path(__file__).parent.parent / "config" / "ma_calibration_params.json"
+)
+
+
+def _try_load_calibration_params() -> tuple[float, float]:
+    """Load (slope, midpoint) from fitted JSON if available.
+
+    Falls back to hard-coded defaults with a UserWarning when:
+    - The file does not exist (no calibration has been run yet).
+    - The file is malformed or missing required keys.
+
+    Returns
+    -------
+    tuple[float, float]
+        (slope, midpoint)
+    """
+    if not _CALIBRATION_PARAMS_PATH.exists():
+        warnings.warn(
+            f"No fitted calibration params found at {_CALIBRATION_PARAMS_PATH}. "
+            "Using hard-coded defaults (slope=8.0, midpoint=0.68). "
+            "Run ma_backtest.fit_logistic_calibration() and save_calibration_params() "
+            "to replace these un-validated constants.",
+            UserWarning,
+            stacklevel=2,
+        )
+        return _LOGISTIC_SLOPE, _LOGISTIC_MIDPOINT
+
+    try:
+        data = json.loads(_CALIBRATION_PARAMS_PATH.read_text())
+        return float(data["slope"]), float(data["midpoint"])
+    except (KeyError, ValueError, json.JSONDecodeError) as exc:
+        warnings.warn(
+            f"Failed to parse calibration params at {_CALIBRATION_PARAMS_PATH}: {exc}. "
+            "Using hard-coded defaults (slope=8.0, midpoint=0.68).",
+            UserWarning,
+            stacklevel=2,
+        )
+        return _LOGISTIC_SLOPE, _LOGISTIC_MIDPOINT
+
+
+# Attempt to load fitted params; fall back to hard-coded defaults.
+# These are used by _derive_logistic_probability().
+_EFFECTIVE_SLOPE, _EFFECTIVE_MIDPOINT = _try_load_calibration_params()
 
 # Shrinkage weight tiers: (base_rate_weight, logistic_weight, bucket_weight)
 _SHRINKAGE_SMALL: tuple[float, float, float] = (0.60, 0.20, 0.20)     # n < 10
@@ -298,8 +347,13 @@ def _expit(x: float) -> float:
 
 
 def _derive_logistic_probability(rank_score: float) -> float:
-    """Map rank_score to a calibrated logistic probability via sigmoid transform."""
-    return round(_expit(_LOGISTIC_SLOPE * (rank_score - _LOGISTIC_MIDPOINT)), 6)
+    """Map rank_score to a calibrated logistic probability via sigmoid transform.
+
+    Uses ``_EFFECTIVE_SLOPE`` and ``_EFFECTIVE_MIDPOINT``, which are loaded from
+    ``ma_calibration_params.json`` at import time when the file is present, and
+    fall back to the hard-coded ``_LOGISTIC_SLOPE``/``_LOGISTIC_MIDPOINT`` otherwise.
+    """
+    return round(_expit(_EFFECTIVE_SLOPE * (rank_score - _EFFECTIVE_MIDPOINT)), 6)
 
 
 def _shrinkage_weights(n: int) -> tuple[float, float, float]:
