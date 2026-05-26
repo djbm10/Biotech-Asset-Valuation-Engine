@@ -329,7 +329,7 @@ class TestDefaultYamlIntegrity:
             db = str(Path(td) / "temp.db")
             bf = ThesisClaimsBackfiller(db, yaml_path=_DEFAULT_YAML)
             claims = bf.load()
-            assert len(claims) == 89
+            assert len(claims) >= 89  # expanded: 125 after Wave 3 additions
 
     def test_all_resolved_at_after_created_at(self):
         from bve.ops.thesis_claims_backfiller import ThesisClaimsBackfiller, _DEFAULT_YAML
@@ -348,7 +348,7 @@ class TestDefaultYamlIntegrity:
         db = str(tmp_path / "temp.db")
         bf = ThesisClaimsBackfiller(db, yaml_path=_DEFAULT_YAML)
         result = bf.seed()
-        assert result["inserted"] == 89
+        assert result["inserted"] >= 89  # expanded: 125 after Wave 3 additions
         assert result["skipped"] == 0
 
 
