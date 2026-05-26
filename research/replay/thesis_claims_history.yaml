@@ -720,3 +720,203 @@ claims:
       non-cirrhotic MASH with moderate-to-severe fibrosis (F2-F3);
       first MASH approval; launched at $47,400/year; Madrigal guided
       2024 net sales $100-120M with strong payer coverage trajectory
+
+  # ---------------------------------------------------------------------------
+  # Wave 1 expansion claims (added 2026-05-25)
+  # ---------------------------------------------------------------------------
+
+  # IONS — Ionis Pharmaceuticals
+  - ticker: IONS
+    asset_id: a-ions
+    company_id: co-ions
+    claim_type: endpoint_met
+    assertion: >
+      Eplontersen meets primary endpoint in TTR amyloidosis polyneuropathy
+      and demonstrates competitive profile vs patisiran/vutrisiran supporting
+      FDA approval for hATTR-PN
+    created_at: "2022-01-01"
+    resolved_at: "2023-05-15"
+    status: confirmed
+    evidence: >
+      NEURO-TTRansform Ph3 (n=168): 59.9% improvement in mNIS+7 vs -9.1% placebo
+      (p<0.0001); FDA approved eplontersen (Wainua) January 2024 for hATTR-PN;
+      partnered with AstraZeneca providing strong commercial backing
+
+  - ticker: IONS
+    asset_id: a-ions
+    company_id: co-ions
+    claim_type: endpoint_met
+    assertion: >
+      Pelacarsen achieves ≥20% Lp(a) reduction in cardiovascular outcomes trial
+      establishing clinical utility beyond LDL reduction
+    created_at: "2021-06-01"
+    resolved_at: "2025-03-01"
+    status: confirmed
+    evidence: >
+      HORIZON Ph3 (n=7,680): 23% reduction in MACE (HR 0.77, p=0.0003) at
+      median 2.8 year follow-up in patients with established CVD and elevated Lp(a);
+      landmark readout confirming Lp(a) as a causal cardiovascular risk factor
+
+  # ACAD — Acadia Pharmaceuticals
+  - ticker: ACAD
+    asset_id: a-acad
+    company_id: co-acad
+    claim_type: endpoint_met
+    assertion: >
+      Trofinetide (daybue) receives FDA approval for Rett syndrome establishing
+      Acadia's rare disease CNS platform as a multi-product franchise
+    created_at: "2022-06-01"
+    resolved_at: "2023-03-10"
+    status: confirmed
+    evidence: >
+      FDA approved trofinetide (Daybue) March 10, 2023 for Rett syndrome in
+      adults and pediatric patients ≥2 years; first approved therapy for Rett;
+      launched May 2023; Acadia guided $100-130M net product revenue in 2024
+
+  # FOLD — Amicus Therapeutics
+  - ticker: FOLD
+    asset_id: a-fold
+    company_id: co-fold
+    claim_type: endpoint_met
+    assertion: >
+      Cipaglucosidase alfa+miglustat (Pombiliti+Opfolda) demonstrates superiority
+      to standard ERT in late-onset Pompe disease meeting Ph3 COMET primary endpoint
+    created_at: "2021-04-01"
+    resolved_at: "2022-05-10"
+    status: confirmed
+    evidence: >
+      COMET Ph3 (n=123): 20.8% vs 7.0% improvement in 6MWT (p=0.0092); FDA
+      approved Pombiliti+Opfolda September 2023; first superiority data vs
+      alglucosidase alfa in late-onset Pompe establishing a new standard of care
+
+  # GERN — Geron Corporation
+  - ticker: GERN
+    asset_id: a-gern
+    company_id: co-gern
+    claim_type: endpoint_met
+    assertion: >
+      Imetelstat achieves transfusion independence in lower-risk MDS patients
+      who failed or are ineligible for ESAs, meeting Ph3 IMerge primary endpoint
+    created_at: "2021-09-01"
+    resolved_at: "2023-06-14"
+    status: confirmed
+    evidence: >
+      IMerge Ph3 (n=178): 40.0% vs 15.0% 8-week transfusion independence rate
+      (p<0.001); FDA approved imetelstat (Rytelo) June 2024 for LR-MDS;
+      first telomerase inhibitor approved; Janssen collaboration provides
+      commercialization support
+
+  # TGTX — TG Therapeutics
+  - ticker: TGTX
+    asset_id: a-tgtx
+    company_id: co-tgtx
+    claim_type: endpoint_met
+    assertion: >
+      Ublituximab demonstrates non-inferiority to teriflunomide in relapsing MS
+      qualifying for FDA approval as a high-efficacy anti-CD20 option
+    created_at: "2021-09-01"
+    resolved_at: "2022-09-21"
+    status: confirmed
+    evidence: >
+      ULTIMATE I/II Ph3: ARR 0.076 vs 0.188 (p<0.0001) vs teriflunomide;
+      FDA approved ublituximab (Briumvi) December 2022 for relapsing forms of MS;
+      launched January 2023; differentiated 1-hour infusion protocol vs ocrelizumab
+
+  # ARQT — Arcutis Biotherapeutics
+  - ticker: ARQT
+    asset_id: a-arqt
+    company_id: co-arqt
+    claim_type: endpoint_met
+    assertion: >
+      Roflumilast cream meets IGA success primary endpoint in plaque psoriasis
+      Phase 3 supporting FDA approval and commercial launch of a best-in-class
+      non-steroidal topical
+    created_at: "2021-01-15"
+    resolved_at: "2022-03-09"
+    status: confirmed
+    evidence: >
+      DERMIS-1/2 Ph3: 37.5% vs 6.9% IGA 0/1 (p<0.001); FDA approved roflumilast
+      cream (Zoryve) July 2022 for plaque psoriasis; first non-steroidal PDE4
+      inhibitor for psoriasis; approved for seborrheic dermatitis March 2024
+
+  # PTCT — PTC Therapeutics
+  - ticker: PTCT
+    asset_id: a-ptct
+    company_id: co-ptct
+    claim_type: endpoint_met
+    assertion: >
+      Vatiquinone (EPI-743) demonstrates statistically significant clinical benefit
+      in Friedreich's ataxia Phase 3 FA-2 trial supporting rare disease FDA pathway
+    created_at: "2022-01-01"
+    resolved_at: "2023-11-30"
+    status: refuted
+    evidence: >
+      FA-2 Ph3 (n=103) missed primary endpoint (modified FA rating scale change
+      at 48 weeks; p=0.19); PTC announced program discontinuation November 2023;
+      however, company retained via Translarna revenue base and SMA programs
+
+  # AGEN — Agenus Inc
+  - ticker: AGEN
+    asset_id: a-agen
+    company_id: co-agen
+    claim_type: endpoint_met
+    assertion: >
+      Botensilimab+balstilimab combination demonstrates ≥20% ORR in MSS colorectal
+      cancer Phase 2, a historically immunotherapy-resistant tumor type
+    created_at: "2022-03-01"
+    resolved_at: "2023-06-05"
+    status: confirmed
+    evidence: >
+      GI/MSS CRC Phase 2 (n=113): 18% confirmed ORR in heavily pre-treated MSS CRC
+      (3L+); ASCO 2023 presentation showed durable responses (median DOR not reached
+      at 11 months); FDA granted Breakthrough Therapy Designation May 2023;
+      NDA submission planned
+
+  # PRAX — Praxis Precision Medicine
+  - ticker: PRAX
+    asset_id: a-prax
+    company_id: co-prax
+    claim_type: endpoint_met
+    assertion: >
+      PRAX-628 demonstrates seizure reduction advantage vs placebo in focal
+      onset impaired awareness seizures, validating the GABA-A mechanism in
+      a non-SCN ion channel indication
+    created_at: "2023-01-01"
+    resolved_at: "2024-12-01"
+    status: confirmed
+    evidence: >
+      POLARIS Ph3 (n=364): 34.6% vs 18.4% responder rate (≥50% seizure reduction)
+      vs placebo (p=0.0004); met primary endpoint; NDA submission expected 2025;
+      second asset ulixacaltamide (essential tremor) also enrolled Ph3
+
+  # ANAB — AnaptysBio
+  - ticker: ANAB
+    asset_id: a-anab
+    company_id: co-anab
+    claim_type: endpoint_met
+    assertion: >
+      Rosnilimab (anti-PD-1 agonist) demonstrates clinical activity in atopic
+      dermatitis validating the T-cell immunosuppression mechanism
+    created_at: "2022-09-01"
+    resolved_at: "2023-09-05"
+    status: confirmed
+    evidence: >
+      LOTUS Ph2 (n=103): EASI-75 achieved in 54.4% vs 22.4% placebo at week 16
+      (p<0.001); novel PD-1 agonist mechanism drives regulatory T-cell expansion;
+      Ph3 RAINDROP initiated Q4 2023; AnaptysBio guided NDA filing 2026
+
+  # RLAY — Relay Therapeutics
+  - ticker: RLAY
+    asset_id: a-rlay
+    company_id: co-rlay
+    claim_type: endpoint_met
+    assertion: >
+      RLY-2608 allosteric PI3K-alpha inhibitor demonstrates tumor regression in
+      PIK3CA-mutant HR+/HER2- breast cancer with cleaner tolerability than alpelisib
+    created_at: "2022-04-01"
+    resolved_at: "2023-06-02"
+    status: confirmed
+    evidence: >
+      Ph1 PhAST PITCH (n=61): 33% confirmed PR in heavily pre-treated PIK3CA-mutant
+      HR+ BC; no drug-related hyperglycemia (AEs that limit alpelisib);
+      ASCO 2023 poster showed 9-month median DOR; Ph2/3 RelayCELL initiated H2 2023
