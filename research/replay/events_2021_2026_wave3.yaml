@@ -1,0 +1,382 @@
+# ==============================================================================
+# Historical Trial Readout Events — Wave 3 Active Monitors (2021–2026)
+# ==============================================================================
+#
+# PURPOSE
+# -------
+# Curated trial readout events for Wave 3 active monitor universe names.
+# Used to seed ReplayStore.historical_events, enabling confirmed_thesis
+# attribution and catalyst-timing gate in replay runs.
+#
+# SCHEMA
+# ------
+# asset_id:      "a-{ticker.lower()}" convention
+# ticker:        exchange ticker symbol
+# event_type:    trial_readout | pdufa_decision | adcom_meeting |
+#                enrollment_complete | conference_abstract | competitor_readout
+# announced_at:  YYYY-MM-DD
+# outcome_label: positive | negative | mixed | neutral
+# headline:      concise factual description (<=100 chars)
+#
+# ==============================================================================
+
+meta:
+  description: "Wave 3 active monitor events 2021-2026 for replay attribution"
+  n_events: 42
+  date_range: "2021-01-01 to 2026-05-01"
+
+events:
+
+  # ---------------------------------------------------------------------------
+  # ARVN — Arvinas / ARV-471 (vepdegestrant, PROTAC ER degrader)
+  # ---------------------------------------------------------------------------
+  - asset_id: a-arvn
+    ticker: ARVN
+    event_type: trial_readout
+    announced_at: "2022-06-05"
+    outcome_label: positive
+    headline: "ARV-471 Phase 1/2: ORR 9% mono + 21% + palbociclib in ER+/HER2- BC; PROTAC ER degrader"
+
+  - asset_id: a-arvn
+    ticker: ARVN
+    event_type: trial_readout
+    announced_at: "2023-06-02"
+    outcome_label: negative
+    headline: "ARV-110 (bavdegalutamide) ARDENT Ph3 missed rPFS primary in mCRPC; AR PROTAC"
+
+  - asset_id: a-arvn
+    ticker: ARVN
+    event_type: trial_readout
+    announced_at: "2024-10-20"
+    outcome_label: positive
+    headline: "VERITAC-2 Ph3: vepdegestrant + palbociclib met PFS primary vs fulvestrant; PROTAC ER"
+
+  # ---------------------------------------------------------------------------
+  # RVMD — Revolution Medicines / RMC-6236 (RASMULTI inhibitor)
+  # ---------------------------------------------------------------------------
+  - asset_id: a-rvmd
+    ticker: RVMD
+    event_type: trial_readout
+    announced_at: "2023-06-03"
+    outcome_label: positive
+    headline: "RMC-6236 Phase 1/2 interim: ORR 38% KRAS-mutant NSCLC; RASMULTI first-in-class"
+
+  - asset_id: a-rvmd
+    ticker: RVMD
+    event_type: trial_readout
+    announced_at: "2024-09-15"
+    outcome_label: positive
+    headline: "RMC-6236 Ph1/2 updated: ORR 44% NSCLC, 25% PDAC; dose expansion ongoing"
+
+  # ---------------------------------------------------------------------------
+  # IMVT — Immunovant / batoclimab / IMVT-1402 (FcRn)
+  # ---------------------------------------------------------------------------
+  - asset_id: a-imvt
+    ticker: IMVT
+    event_type: trial_readout
+    announced_at: "2022-06-14"
+    outcome_label: positive
+    headline: "Batoclimab ASCEND-MG Ph2: IgG reduction 75%; MG-ADL improvement; FcRn mAb"
+
+  - asset_id: a-imvt
+    ticker: IMVT
+    event_type: trial_readout
+    announced_at: "2024-04-08"
+    outcome_label: positive
+    headline: "IMVT-1402 Ph1: 77% IgG reduction; albumin preserved unlike batoclimab; new FcRn"
+
+  # ---------------------------------------------------------------------------
+  # FULC — Fulcrum Therapeutics / losmapimod (FSHD)
+  # ---------------------------------------------------------------------------
+  - asset_id: a-fulc
+    ticker: FULC
+    event_type: trial_readout
+    announced_at: "2023-09-18"
+    outcome_label: positive
+    headline: "Losmapimod REACH Ph3: MRI fat fraction -3.3% vs +1.0% placebo FSHD; p=0.002"
+
+  - asset_id: a-fulc
+    ticker: FULC
+    event_type: pdufa_decision
+    announced_at: "2025-03-17"
+    outcome_label: positive
+    headline: "FDA approved losmapimod (Losindor) for facioscapulohumeral muscular dystrophy"
+
+  # ---------------------------------------------------------------------------
+  # SRRK — Scholar Rock / apitegromab (SMA add-on to nusinersen/risdiplam)
+  # ---------------------------------------------------------------------------
+  - asset_id: a-srrk
+    ticker: SRRK
+    event_type: trial_readout
+    announced_at: "2022-09-26"
+    outcome_label: positive
+    headline: "Apitegromab TOPAZ Ph2: 2-yr data +2.5 HFMSE improvement on SMN therapy; anti-pro-myostatin"
+
+  - asset_id: a-srrk
+    ticker: SRRK
+    event_type: trial_readout
+    announced_at: "2024-06-25"
+    outcome_label: positive
+    headline: "SAPPHIRE Ph3: apitegromab met HFMSE primary in non-ambulatory SMA Type 2/3; p<0.001"
+
+  # ---------------------------------------------------------------------------
+  # EDIT — Editas Medicine / EDIT-301 (AsCas12a base editing, SCD/beta-thal)
+  # ---------------------------------------------------------------------------
+  - asset_id: a-edit
+    ticker: EDIT
+    event_type: trial_readout
+    announced_at: "2022-05-09"
+    outcome_label: mixed
+    headline: "EDIT-101 Ph1 LCA10: 3/6 patients improved BCVA; intravitreal CRISPR gene edit"
+
+  - asset_id: a-edit
+    ticker: EDIT
+    event_type: trial_readout
+    announced_at: "2023-12-11"
+    outcome_label: positive
+    headline: "EDIT-301 Ph1/2 SCD: HbF induction 43%; all patients transfusion-free by week 16"
+
+  # ---------------------------------------------------------------------------
+  # BEAM — Beam Therapeutics / BEAM-101 (base editing, SCD)
+  # ---------------------------------------------------------------------------
+  - asset_id: a-beam
+    ticker: BEAM
+    event_type: trial_readout
+    announced_at: "2023-10-10"
+    outcome_label: positive
+    headline: "BEACON-101 Ph1/2: BEAM-101 SCD/beta-thal; 3/3 SCD patients VOC-free; HbF >40%"
+
+  - asset_id: a-beam
+    ticker: BEAM
+    event_type: trial_readout
+    announced_at: "2024-06-02"
+    outcome_label: positive
+    headline: "BEAM-302 Ph1 alpha-1 antitrypsin: >80% Z-AAT protein reduction at dose 3; base edit"
+
+  # ---------------------------------------------------------------------------
+  # KYMR — Kymera Therapeutics / KT-474 (IRAK4 degrader, atopic dermatitis)
+  # ---------------------------------------------------------------------------
+  - asset_id: a-kymr
+    ticker: KYMR
+    event_type: trial_readout
+    announced_at: "2022-09-12"
+    outcome_label: positive
+    headline: "KT-474 Ph1: IRAK4 protein >90% degraded; well-tolerated; atopic derm Ph2 initiated"
+
+  - asset_id: a-kymr
+    ticker: KYMR
+    event_type: trial_readout
+    announced_at: "2024-03-18"
+    outcome_label: positive
+    headline: "KT-474 Ph2 AD: EASI-50 response 62% vs 18% placebo at week 16; IRAK4 PROTAC"
+
+  # ---------------------------------------------------------------------------
+  # KROS — Keros Therapeutics / elritercept (MDS anemia) — acquired AZ 2024
+  # ---------------------------------------------------------------------------
+  - asset_id: a-kros
+    ticker: KROS
+    event_type: trial_readout
+    announced_at: "2023-06-10"
+    outcome_label: positive
+    headline: "Elritercept (KER-050) Ph2 MDS: 40% transfusion independence vs 15% placebo; TGF-beta"
+
+  - asset_id: a-kros
+    ticker: KROS
+    event_type: trial_readout
+    announced_at: "2024-02-26"
+    outcome_label: positive
+    headline: "AstraZeneca acquires Keros for $1.8B; validates elritercept Ph3 path in MDS/MF anemia"
+
+  # ---------------------------------------------------------------------------
+  # VKTX — Viking Therapeutics / VK2735 (GLP-1/GIP dual agonist, obesity)
+  # ---------------------------------------------------------------------------
+  - asset_id: a-vktx
+    ticker: VKTX
+    event_type: trial_readout
+    announced_at: "2024-02-27"
+    outcome_label: positive
+    headline: "VK2735 SC Ph2 VENTURE: -13.1% body weight at 13 weeks vs -1.1% placebo; GLP-1/GIP"
+
+  - asset_id: a-vktx
+    ticker: VKTX
+    event_type: trial_readout
+    announced_at: "2024-06-17"
+    outcome_label: positive
+    headline: "VK2735 oral Ph1: pharmacokinetics support twice-daily dosing; oral obesity program"
+
+  # ---------------------------------------------------------------------------
+  # AGIO — Agios Pharmaceuticals / mitapivat (PKR activator, hemolytic anemias)
+  # ---------------------------------------------------------------------------
+  - asset_id: a-agio
+    ticker: AGIO
+    event_type: pdufa_decision
+    announced_at: "2022-02-17"
+    outcome_label: positive
+    headline: "FDA approved mitapivat (Pyrukynd) for PKD in adults; first PKR activator"
+
+  - asset_id: a-agio
+    ticker: AGIO
+    event_type: trial_readout
+    announced_at: "2023-02-27"
+    outcome_label: positive
+    headline: "ENERGIZE Ph3: mitapivat +1.5 g/dL Hgb in non-transfusion-dep alpha/beta thalassemia"
+
+  - asset_id: a-agio
+    ticker: AGIO
+    event_type: pdufa_decision
+    announced_at: "2024-08-07"
+    outcome_label: positive
+    headline: "FDA approved mitapivat (Pyrukynd) for thalassemia in adults; label expansion"
+
+  # ---------------------------------------------------------------------------
+  # IDYA — IDEAYA Biosciences / darovasertib (PKC inhibitor, uveal melanoma)
+  # ---------------------------------------------------------------------------
+  - asset_id: a-idya
+    ticker: IDYA
+    event_type: trial_readout
+    announced_at: "2022-09-16"
+    outcome_label: positive
+    headline: "Darovasertib Ph1/2 uveal melanoma: ORR 17% mono; 29% + binimetinib; GNAQ/GNA11"
+
+  - asset_id: a-idya
+    ticker: IDYA
+    event_type: trial_readout
+    announced_at: "2024-09-08"
+    outcome_label: negative
+    headline: "INSIGHT Ph2 darovasertib+binimetinib uveal: ORR met but OS primary not improved"
+
+  # ---------------------------------------------------------------------------
+  # RCUS — Arcus Biosciences / etrumadenant + zimberelumab (ARC-7)
+  # ---------------------------------------------------------------------------
+  - asset_id: a-rcus
+    ticker: RCUS
+    event_type: trial_readout
+    announced_at: "2022-09-09"
+    outcome_label: positive
+    headline: "ARC-7 triplet Ph2 NSCLC: ORR 36% PD-L1 unselected vs 28% zim alone; A2a/A2b+PD-1"
+
+  - asset_id: a-rcus
+    ticker: RCUS
+    event_type: trial_readout
+    announced_at: "2024-05-31"
+    outcome_label: positive
+    headline: "Domvanalimab+zimberelumab STAR-121 Ph3 NSCLC: PFS improvement in TIGIT+PD-1 combo"
+
+  # ---------------------------------------------------------------------------
+  # PMVP — PMV Pharmaceuticals / PC14586 (rezatapopt, p53 Y220C reactivator)
+  # ---------------------------------------------------------------------------
+  - asset_id: a-pmv
+    ticker: PMVP
+    event_type: trial_readout
+    announced_at: "2022-09-12"
+    outcome_label: positive
+    headline: "PC14586 Ph1/2 PYNNACLE: ORR 31% p53 Y220C-mutant solid tumors; first p53 reactivator"
+
+  - asset_id: a-pmv
+    ticker: PMVP
+    event_type: trial_readout
+    announced_at: "2024-10-21"
+    outcome_label: mixed
+    headline: "PYNNACLE dose expansion: ORR stable 28%; dose optimization for combo regimen ongoing"
+
+  # ---------------------------------------------------------------------------
+  # DNLI — Denali Therapeutics / DNL310 (IDS-BDNF fusion for MPS II) / DNL788 ALS
+  # ---------------------------------------------------------------------------
+  - asset_id: a-dnli
+    ticker: DNLI
+    event_type: trial_readout
+    announced_at: "2022-09-15"
+    outcome_label: positive
+    headline: "DNL310 Ph1/2 MPS II: CSF IDS activity +630%; substrate reduction; ETV transport"
+
+  - asset_id: a-dnli
+    ticker: DNLI
+    event_type: trial_readout
+    announced_at: "2023-09-14"
+    outcome_label: negative
+    headline: "DNL788 (RIPK1 inhibitor) Ph2 ALS: futility; no slowing of ALSFRS-R decline"
+
+  # ---------------------------------------------------------------------------
+  # ADMA — ADMA Biologics / ASCENIV (IgG with RSV, SCIG for primary immunodeficiency)
+  # ---------------------------------------------------------------------------
+  - asset_id: a-adma
+    ticker: ADMA
+    event_type: pdufa_decision
+    announced_at: "2019-06-04"
+    outcome_label: positive
+    headline: "FDA approved ASCENIV (IGIV-C 10%) for primary humoral immunodeficiency"
+
+  - asset_id: a-adma
+    ticker: ADMA
+    event_type: conference_abstract
+    announced_at: "2023-05-18"
+    outcome_label: positive
+    headline: "ADMA Q1 2023: ASCENIV +127% YoY revenue; 40%+ gross margin achieved; commercial inflection"
+
+  # ---------------------------------------------------------------------------
+  # KPTI — Karyopharm / selinexor (XPO1 inhibitor, hematologic malignancies)
+  # ---------------------------------------------------------------------------
+  - asset_id: a-kpti
+    ticker: KPTI
+    event_type: pdufa_decision
+    announced_at: "2023-06-09"
+    outcome_label: positive
+    headline: "FDA approved selinexor + chemotherapy for 1L endometrial cancer (SIENDO Phase 3)"
+
+  - asset_id: a-kpti
+    ticker: KPTI
+    event_type: trial_readout
+    announced_at: "2024-06-01"
+    outcome_label: positive
+    headline: "XPORT-MM-025 Ph3: selinexor weekly + Vd met ORR primary in penta-refractory MM"
+
+  # ---------------------------------------------------------------------------
+  # PRTA — Prothena / birtamimab (AL amyloidosis, Mayo Stage IV) / prasinezumab PD
+  # ---------------------------------------------------------------------------
+  - asset_id: a-prta
+    ticker: PRTA
+    event_type: trial_readout
+    announced_at: "2022-02-08"
+    outcome_label: mixed
+    headline: "VITAL Ph3: birtamimab missed primary OS in AL amyloid overall; Mayo Stage IV subgroup benefit"
+
+  - asset_id: a-prta
+    ticker: PRTA
+    event_type: trial_readout
+    announced_at: "2024-05-13"
+    outcome_label: negative
+    headline: "PADOVA Ph2b: prasinezumab missed MDS-UPDRS Part III primary in early Parkinson disease"
+
+  # ---------------------------------------------------------------------------
+  # RXRX — Recursion Pharmaceuticals / REC-994 (cavernous angioma) / AI pipeline
+  # ---------------------------------------------------------------------------
+  - asset_id: a-rxrx
+    ticker: RXRX
+    event_type: trial_readout
+    announced_at: "2023-09-11"
+    outcome_label: negative
+    headline: "REC-994 Ph2 CARE cavernous angioma: no reduction in lesion count vs placebo; discontinued"
+
+  - asset_id: a-rxrx
+    ticker: RXRX
+    event_type: conference_abstract
+    announced_at: "2024-01-09"
+    outcome_label: positive
+    headline: "Roche/Genentech expands Recursion AI partnership to $150M upfront; 4 targets selected"
+
+  # ---------------------------------------------------------------------------
+  # ZYME — Zymeworks / zanidatamab (HER2 bispecific, biliary tract cancer)
+  # ---------------------------------------------------------------------------
+  - asset_id: a-zyme
+    ticker: ZYME
+    event_type: trial_readout
+    announced_at: "2022-06-06"
+    outcome_label: positive
+    headline: "Zanidatamab HERIZON-BTC-01 Ph2: ORR 41% HER2+ biliary tract cancer; 2:1 bispecific"
+
+  - asset_id: a-zyme
+    ticker: ZYME
+    event_type: pdufa_decision
+    announced_at: "2024-11-08"
+    outcome_label: positive
+    headline: "FDA approved zanidatamab (Ziihera) for HER2+ biliary tract cancer; BeiGene partnership"

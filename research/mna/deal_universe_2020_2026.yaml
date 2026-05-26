@@ -1224,3 +1224,326 @@ deals:
     comp_bucket: "negative_outcome"
     notes: "Announced major restructuring and wind-down June 2024 after reproxalap Phase 3 dry eye trial (TRANQUILITY-2) failed to meet primary endpoint and a second Phase 3 was also unsuccessful. ADX-2191 (intravitreal) program also halted. No acquirer despite ophthalmology deal interest from Merck, Novartis. Cash returned to shareholders."
     consideration_per_share: 0.0
+
+  - target_name: "Clovis Oncology"
+    target_ticker: "CLVS"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2022-12-07"
+    headline_value_millions: 0
+    headline_value_basis: "chapter_11_filing"
+    lead_asset: "Rubraca (rucaparib)"
+    indication: "BRCA-mutant ovarian cancer / prostate cancer"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "approved"
+    comp_bucket: "negative_outcome"
+    notes: "Filed Chapter 11 December 7, 2022. Rubraca was FDA-approved but faced intense competition from olaparib (Lynparza) and niraparib. Failed to carve out a commercially viable niche; ran out of cash. No acquirer at a viable price despite PARP inhibitor class being strategic. AstraZeneca acquired Lynparza rights, not Clovis."
+    consideration_per_share: 0.0
+
+  - target_name: "Zafgen"
+    target_ticker: "ZFGN"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2020-10-05"
+    headline_value_millions: 0
+    headline_value_basis: "dissolution"
+    lead_asset: "ZGN-1061 (MetAP2 inhibitor)"
+    indication: "severe obesity / Prader-Willi syndrome"
+    therapeutic_area: "metabolic"
+    phase_at_acquisition: "phase_2"
+    comp_bucket: "negative_outcome"
+    notes: "Dissolved October 2020 after ZGN-1061 Phase 2 dose-finding failed to demonstrate sufficient weight loss signal. Prior asset beloranib had been halted for cardiovascular deaths. Management pursued strategic alternatives for over a year; no acquirer emerged. Cash returned to shareholders."
+    consideration_per_share: 0.0
+
+  - target_name: "Bind Therapeutics"
+    target_ticker: "BIND"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2016-09-28"
+    headline_value_millions: 0
+    headline_value_basis: "chapter_11_filing"
+    lead_asset: "BIND-014 (nanoparticle docetaxel)"
+    indication: "non-small cell lung cancer / cervical cancer"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "phase_2"
+    comp_bucket: "negative_outcome"
+    notes: "Filed Chapter 11 September 2016 after BIND-014 Phase 2 failed to demonstrate superiority over standard docetaxel. Nanoparticle targeted delivery platform could not rescue the payload. No acquirer. Platform technology sold in bankruptcy for nominal amount."
+    consideration_per_share: 0.0
+
+  - target_name: "NewLink Genetics"
+    target_ticker: "NLNK"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2019-11-04"
+    headline_value_millions: 0
+    headline_value_basis: "dissolution"
+    lead_asset: "algenpantucel-L / indoximod"
+    indication: "pancreatic cancer / melanoma"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "phase_3"
+    comp_bucket: "negative_outcome"
+    notes: "Dissolved November 2019 after algenpantucel-L Phase 3 IMPRESS trial failed (2016) and strategic alternatives process yielded no buyer. IDO pathway inhibitor indoximod also failed. Announced wind-down after exhausting financing options. Illustrates that Phase 3 failure removes most acquisition interest even for novel mechanisms."
+    consideration_per_share: 0.0
+
+  - target_name: "Merrimack Pharmaceuticals"
+    target_ticker: "MACK"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2021-10-18"
+    headline_value_millions: 0
+    headline_value_basis: "dissolution"
+    lead_asset: "MM-310 / CARMA platform"
+    indication: "HER3-expressing solid tumors"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "phase_1"
+    comp_bucket: "negative_outcome"
+    notes: "Fully dissolved October 2021 after selling MM-398 (irinotecan liposome, Onivyde) to Ipsen in 2017 for $575M and failing to advance remaining pipeline. CARMA immune cell engineering platform and MM-310 ADC both discontinued. No acquirer for the remaining stub despite antibody-drug conjugate market being active."
+    consideration_per_share: 0.0
+
+  - target_name: "G1 Therapeutics"
+    target_ticker: "GTHX"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2024-01-08"
+    headline_value_millions: 0
+    headline_value_basis: "dissolution"
+    lead_asset: "Cosela (trilaciclib)"
+    indication: "myelosuppression prevention in chemotherapy"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "approved"
+    comp_bucket: "negative_outcome"
+    notes: "Announced dissolution January 2024 after Cosela (trilaciclib) achieved FDA approval but failed commercially due to limited uptake in chemotherapy-treated patients and a small addressable population. Lerociclib CDK4/6 inhibitor also discontinued. Ran strategic alternatives process in 2023; no acquirer emerged at viable terms."
+    consideration_per_share: 0.0
+
+  - target_name: "Aralez Pharmaceuticals"
+    target_ticker: "ARLZ"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2018-08-10"
+    headline_value_millions: 0
+    headline_value_basis: "chapter_11_filing"
+    lead_asset: "Yosprala (aspirin+omeprazole) / Toprol-XL generic"
+    indication: "cardiovascular / pain management"
+    therapeutic_area: "cardiovascular"
+    phase_at_acquisition: "approved"
+    comp_bucket: "negative_outcome"
+    notes: "Filed Chapter 11 August 2018 after Yosprala commercial launch underperformed and debt burden from merger of Tribute Pharma and Pozen became unsustainable. No strategic acquirer for the combined entity. Assets sold piecemeal in bankruptcy."
+    consideration_per_share: 0.0
+
+  - target_name: "Trevena"
+    target_ticker: "TRVN"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2024-07-08"
+    headline_value_millions: 0
+    headline_value_basis: "chapter_7_liquidation"
+    lead_asset: "Olinvyk (oliceridine IV)"
+    indication: "moderate-to-severe acute pain"
+    therapeutic_area: "cns"
+    phase_at_acquisition: "approved"
+    comp_bucket: "negative_outcome"
+    notes: "Filed Chapter 7 liquidation July 2024. Ran formal strategic review July–October 2023 with no acquirer. Hospital formulary access for Olinvyk remained minimal; mu-opioid GPCR biased agonist had insufficient differentiation in a crowded opioid space with regulatory headwinds. Assets liquidated."
+    consideration_per_share: 0.0
+
+  - target_name: "Kala Bio"
+    target_ticker: "KALA"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2024-05-02"
+    headline_value_millions: 0
+    headline_value_basis: "dissolution"
+    lead_asset: "KPI-012 / loteprednol (Eysuvis)"
+    indication: "persistent corneal epithelial defects / dry eye"
+    therapeutic_area: "ophthalmology"
+    phase_at_acquisition: "phase_2"
+    comp_bucket: "negative_outcome"
+    notes: "Announced dissolution May 2024. KPI-012 Phase 2 for persistent corneal epithelial defects missed primary endpoint. Eysuvis (loteprednol) commercial launch was insufficient to fund further R&D. No acquirer despite ophthalmology being a target-rich deal area. Cash returned to shareholders after wind-down."
+    consideration_per_share: 0.0
+
+  - target_name: "Atara Biotherapeutics"
+    target_ticker: "ATRA"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2024-10-14"
+    headline_value_millions: 0
+    headline_value_basis: "dissolution"
+    lead_asset: "tabelecleucel (tab-cel)"
+    indication: "EBV-positive post-transplant lymphoproliferative disease"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "approved"
+    comp_bucket: "negative_outcome"
+    notes: "Announced dissolution October 2024. Tab-cel received conditional approval in EU (2022) and FDA approval (2024) for EBV+ PTLD but commercial uptake was too limited to fund operations. Allogeneic T-cell therapy platform could not attract acquirer at viable terms. Rare disease ultra-small market limited deal interest."
+    consideration_per_share: 0.0
+
+  - target_name: "Humanigen"
+    target_ticker: "HGEN"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2022-03-14"
+    headline_value_millions: 0
+    headline_value_basis: "dissolution"
+    lead_asset: "lenzilumab"
+    indication: "COVID-19 cytokine storm / AML"
+    therapeutic_area: "immunology"
+    phase_at_acquisition: "phase_3"
+    comp_bucket: "negative_outcome"
+    notes: "Dissolved March 2022 after FDA rejected lenzilumab BLA for COVID-19 cytokine storm (January 2022). Company had pivoted heavily to COVID-19; GM-CSF antibody lacked sufficient evidence vs standard of care. Ran strategic alternatives process in late 2021 with no acquirer. AML program also discontinued."
+    consideration_per_share: 0.0
+
+  - target_name: "Corbus Pharmaceuticals"
+    target_ticker: "CRBP"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "program_failure_no_deal"
+    announcement_date: "2021-11-22"
+    headline_value_millions: 0
+    headline_value_basis: "program_failure_restructuring"
+    lead_asset: "lenabasum"
+    indication: "systemic sclerosis / cystic fibrosis / dermatomyositis"
+    therapeutic_area: "immunology"
+    phase_at_acquisition: "phase_3"
+    comp_bucket: "negative_outcome"
+    notes: "Lenabasum Phase 3 RESOLVE-1 failed primary endpoint in SSc (November 2021). CF and dermatomyositis Phase 3 trials also halted. Company pivoted to oncology assets but could not attract acquirer for the failed CB2 agonist platform. Major restructuring; majority of staff laid off. No deal materialized for core assets."
+    consideration_per_share: 0.0
+
+  - target_name: "AMAG Pharmaceuticals"
+    target_ticker: "AMAG"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2021-02-02"
+    headline_value_millions: 0
+    headline_value_basis: "dissolution"
+    lead_asset: "Feraheme (ferumoxytol) / Intrarosa"
+    indication: "iron deficiency anemia / female sexual dysfunction"
+    therapeutic_area: "hematology"
+    phase_at_acquisition: "approved"
+    comp_bucket: "negative_outcome"
+    notes: "Dissolved February 2021. Sold women's health assets (Intrarosa/Vyleesi) to Covis in 2020 and ferumoxytol rights prior. Remaining shell could not attract acquirer; wound down operations. Feraheme was subsequently acquired by American Regent separately. Illustrates asset-level vs company-level M&A dynamics."
+    consideration_per_share: 0.0
+
+  - target_name: "Chiasma"
+    target_ticker: "CHMA"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2021-09-10"
+    headline_value_millions: 0
+    headline_value_basis: "dissolution"
+    lead_asset: "Mycapssa (octreotide capsules)"
+    indication: "acromegaly"
+    therapeutic_area: "endocrine"
+    phase_at_acquisition: "approved"
+    comp_bucket: "negative_outcome"
+    notes: "Dissolved September 2021. Mycapssa received FDA approval June 2020 as the first oral somatostatin analog for acromegaly but faced slow commercial uptake. Strongbridge acquired North American rights; remaining company wound down with no acquirer for the entity. Limited market size constrained deal value."
+    consideration_per_share: 0.0
+
+  - target_name: "Conatus Pharmaceuticals"
+    target_ticker: "CNAT"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2022-08-08"
+    headline_value_millions: 0
+    headline_value_basis: "dissolution"
+    lead_asset: "emricasan"
+    indication: "NASH with fibrosis / acute-on-chronic liver failure"
+    therapeutic_area: "metabolic"
+    phase_at_acquisition: "phase_3"
+    comp_bucket: "negative_outcome"
+    notes: "Dissolved August 2022. Emricasan Phase 3 ENCORE-NF/LF/PH failed all three endpoints in NASH and portal hypertension (2019-2020). Caspase inhibitor mechanism failed despite Phase 2 biomarker signal. Ran strategic alternatives including licensing discussions; no deal. NASH graveyard of Phase 3 failures."
+    consideration_per_share: 0.0
+
+  - target_name: "Advaxis"
+    target_ticker: "ADXS"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2023-04-18"
+    headline_value_millions: 0
+    headline_value_basis: "dissolution"
+    lead_asset: "ADXS-504 / axalimogene filolisbac (AXAL)"
+    indication: "HPV-associated cervical cancer / prostate cancer"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "phase_2"
+    comp_bucket: "negative_outcome"
+    notes: "Dissolved April 2023. Listeria-based cancer immunotherapy platform produced mixed Phase 2 results. AXAL failed Phase 3 in cervical cancer (GOG/NRG study). Multiple financing rounds diluted shareholders. No acquirer for Lm-based immunotherapy platform despite checkpoint combination interest."
+    consideration_per_share: 0.0
+
+  - target_name: "CytRx Corporation"
+    target_ticker: "CYTX"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2023-06-12"
+    headline_value_millions: 0
+    headline_value_basis: "dissolution"
+    lead_asset: "aldoxorubicin / ladr-7 (LADR)"
+    indication: "soft tissue sarcoma"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "phase_2"
+    comp_bucket: "negative_outcome"
+    notes: "Dissolved June 2023. Aldoxorubicin Phase 3 failed in soft tissue sarcoma (2015); subsequent pH-sensitive prodrug LADR program failed to attract partnership or funding. Multiple attempts at strategic alternatives and licensing yielded no deal. Extended development timelines on insufficient capital led to dissolution."
+    consideration_per_share: 0.0
+
+  - target_name: "InVivo Therapeutics"
+    target_ticker: "NVIV"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2022-06-03"
+    headline_value_millions: 0
+    headline_value_basis: "dissolution"
+    lead_asset: "NVG-291 / biopolymer scaffold"
+    indication: "spinal cord injury"
+    therapeutic_area: "cns"
+    phase_at_acquisition: "phase_1"
+    comp_bucket: "negative_outcome"
+    notes: "Dissolved June 2022 after FDA placed NVG-291 on clinical hold and earlier biopolymer scaffold program was discontinued following an FDA safety action. Spinal cord injury mechanistic complexity and lack of approved analogues made deal impossible. Going concern warnings preceded wind-down."
+    consideration_per_share: 0.0
+
+  - target_name: "Regado Biosciences"
+    target_ticker: "RGBP"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2015-05-06"
+    headline_value_millions: 0
+    headline_value_basis: "dissolution"
+    lead_asset: "REG1 (pegnivacogin + anivamersen)"
+    indication: "acute coronary syndrome"
+    therapeutic_area: "cardiovascular"
+    phase_at_acquisition: "phase_3"
+    comp_bucket: "negative_outcome"
+    notes: "Dissolved May 2015 after REGULATE-PCI Phase 3 was halted for anaphylaxis (allergic reactions in ~10 patients). REG1 was a RNA aptamer anticoagulant with reversal agent; safety signal was fatal to the program. No acquirer for the platform. Illustrates how phase 3 safety halts preclude acquisition."
+    consideration_per_share: 0.0
+
+
+
+  - target_name: "Diffusion Pharmaceuticals"
+    target_ticker: "DFFN"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2023-12-26"
+    headline_value_millions: 0
+    headline_value_basis: "dissolution"
+    lead_asset: "TSC (trans sodium crocetinate)"
+    indication: "glioblastoma / COVID-19 / stroke"
+    therapeutic_area: "cns"
+    phase_at_acquisition: "phase_2"
+    comp_bucket: "negative_outcome"
+    notes: "Dissolved December 2023. TSC Phase 2 in GBM failed; COVID-19 and stroke pivots also failed. Small molecule oxygen diffusion enhancer mechanism lacked mechanistic validation. No acquirer for the multi-indication pivot strategy. Going concern warnings from 2022."
+    consideration_per_share: 0.0
+

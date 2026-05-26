@@ -1,0 +1,245 @@
+# Historical trial readout events: 2018–2020
+# Format mirrors events_2021_2026_wave2.yaml
+# These events enable replay decisions in the 2018-2020 window
+# Seeded via: python -m bve.cli.seed_replay_events --events research/replay/events_2018_2020.yaml
+
+events:
+  - ticker: ALNY
+    asset_id: a-givosiran
+    event_type: trial_readout
+    description: "givosiran ENVISION Ph3 primary endpoint met: 74% annualized attack reduction vs placebo in acute hepatic porphyria"
+    announced_at: "2018-12-21"
+    outcome: positive
+    notes: "Landmark AHP trial; FDA approved November 2019. Confirms ALAS1 RNAi mechanism."
+
+  - ticker: ALNY
+    asset_id: a-lumasiran
+    event_type: trial_readout
+    description: "lumasiran ILLUMINATE-A Ph3 met primary: 65% plasma oxalate reduction at 6 months in primary hyperoxaluria type 1"
+    announced_at: "2020-09-30"
+    outcome: positive
+    notes: "FDA approved November 2020. HAO1 RNAi; ultra-rare pediatric indication."
+
+  - ticker: IONS
+    asset_id: a-ionis-apoa
+    event_type: trial_readout
+    description: "AKCEA-APO(a)-LRx Ph2 dose-finding: up to 92% Lp(a) reduction in patients with elevated Lp(a)"
+    announced_at: "2019-11-18"
+    outcome: positive
+    notes: "GalNAc-conjugated ASO; data supported Phase 3 HORIZON trial initiation."
+
+  - ticker: IONS
+    asset_id: a-ionis-angptl3
+    event_type: trial_readout
+    description: "IONIS-ANGPTL3-LRx Ph2 TRANSLATE: 73% ANGPTL3 reduction and 53% TG reduction in severe hypertriglyceridemia"
+    announced_at: "2019-05-19"
+    outcome: positive
+    notes: "GalNAc-ASO; licensed to AstraZeneca for CVOT; very clean safety profile."
+
+  - ticker: BIIB
+    asset_id: a-aducanumab
+    event_type: trial_readout
+    description: "aducanumab ENGAGE/EMERGE Phase 3 futility analysis: trials halted for futility; subsequent re-analysis shows EMERGE positive"
+    announced_at: "2019-03-21"
+    outcome: negative
+    notes: "Complex: initial futility halt (March 2019) followed by data re-analysis supporting EMERGE. FDA accelerated approval 2021 remains controversial."
+
+  - ticker: BIIB
+    asset_id: a-nusinersen-ph3b
+    event_type: trial_readout
+    description: "nusinersen SHINE open-label extension 5-year data: sustained motor function improvement in SMA across all types"
+    announced_at: "2019-06-03"
+    outcome: positive
+    notes: "Long-term efficacy data supporting continued commercial use. SMA standard of care."
+
+  - ticker: ACAD
+    asset_id: a-pimavanserin-dementia
+    event_type: trial_readout
+    description: "pimavanserin HARMONY Phase 3 interim analysis: 44% relapse reduction at week 12 in dementia-related psychosis"
+    announced_at: "2020-02-24"
+    outcome: positive
+    notes: "Interim positive supported NDA filing. Ultimately FDA rejected 2021 citing lack of efficacy replication at week 26."
+
+  - ticker: ARGX
+    asset_id: a-efgartigimod
+    event_type: trial_readout
+    description: "efgartigimod Phase 2 ADAPT MG: 68% vs 30% MG-ADL responder rate in AChR+ generalized myasthenia gravis"
+    announced_at: "2019-09-23"
+    outcome: positive
+    notes: "FcRn mechanism; IgG reduction mechanism. Supported Phase 3 ADAPT+ initiation. FDA approved December 2021."
+
+  - ticker: ARWR
+    asset_id: a-aro-aat
+    event_type: trial_readout
+    description: "ARO-AAT (fazirsiran) Phase 2 dose-ranging: >80% reduction in liver Z-AAT protein; all doses well-tolerated"
+    announced_at: "2019-06-17"
+    outcome: positive
+    notes: "Alpha-1 antitrypsin deficiency; RNAi subcutaneous bimonthly; liver-directed. Phase 3 SEQUOIA initiated 2020."
+
+  - ticker: ARWR
+    asset_id: a-aro-apoc3
+    event_type: trial_readout
+    description: "ARO-APOC3 (olezarsen) Phase 2: up to 79% TG reduction in familial chylomicronemia syndrome"
+    announced_at: "2020-05-13"
+    outcome: positive
+    notes: "APOC3 RNAi; subcutaneous; FCS and mixed dyslipidemia. Partnership with Ionis/AstraZeneca pathway."
+
+  - ticker: BBIO
+    asset_id: a-acoramidis
+    event_type: trial_readout
+    description: "acoramidis (AG10) ADVENTREX Phase 2: near-complete TTR stabilization (>99%) in ATTR cardiomyopathy; 6MWT maintained"
+    announced_at: "2020-08-06"
+    outcome: positive
+    notes: "TTR stabilizer; superior biochemical effect vs tafamidis. Phase 3 ATTRibute-CM ongoing. FDA approved 2024."
+
+  - ticker: ESPR
+    asset_id: a-bempedoic-acid
+    event_type: trial_readout
+    description: "bempedoic acid CLEAR Harmony Phase 3: -18% LDL-C reduction in statin-intolerant patients; clean safety at 1 year"
+    announced_at: "2019-09-02"
+    outcome: positive
+    notes: "ATP citrate lyase inhibitor; oral; no muscle-related AEs unlike statins. FDA approved February 2020."
+
+  - ticker: RCKT
+    asset_id: a-rp-a501
+    event_type: trial_readout
+    description: "RP-A501 (danicopan? / AAV9-LAMP2) Phase 1 interim: Danon disease gene therapy shows LAMP2B expression in 3/3 patients with cardiac improvement"
+    announced_at: "2019-11-11"
+    outcome: positive
+    notes: "Ultra-rare pediatric cardiomyopathy; AAV9 gene therapy; first human data for Danon disease treatment."
+
+  - ticker: SNDX
+    asset_id: a-entinostat
+    event_type: trial_readout
+    description: "entinostat ENCORE 301 Phase 3: no improvement in PFS vs placebo added to exemestane in HR+ HER2- mBC"
+    announced_at: "2019-04-09"
+    outcome: negative
+    notes: "HDAC1/3 inhibitor missed primary PFS endpoint. Multiple entinostat Phase 3 failures across tumor types. NDA rejected."
+
+  - ticker: PTCT
+    asset_id: a-risdiplam
+    event_type: trial_readout
+    description: "risdiplam SUNFISH Part 2 Ph3: RULM motor function score +1.36 vs -0.19 placebo (p=0.0156) in SMA Types 2/3"
+    announced_at: "2020-02-28"
+    outcome: positive
+    notes: "Oral SMN2 splice modifier; FIREFISH (Type 1) also positive. FDA approved August 2020. PTCT co-development with Roche."
+
+  - ticker: MRUS
+    asset_id: a-zenocutuzumab
+    event_type: trial_readout
+    description: "zenocutuzumab eNRGy Phase 2 interim: 35% ORR in NRG1 fusion+ solid tumors including NSCLC and pancreatic cancer"
+    announced_at: "2020-10-08"
+    outcome: positive
+    notes: "Anti-HER2/HER3 bispecific; NRG1 fusion is rare oncogenic driver; first targeted therapy for this biomarker."
+
+  - ticker: IMCR
+    asset_id: a-telisotuzumab
+    event_type: trial_readout
+    description: "telisotuzumab vedotin (ABBV-399) Phase 2 LUMINOSITY: 35% ORR in c-Met+ NSCLC nonsquamous after platinum failure"
+    announced_at: "2020-09-20"
+    outcome: positive
+    notes: "c-Met ADC; AbbVie collaboration; c-Met overexpression enriched. Phase 3 TeliMET NSCLC-01 ongoing."
+
+  - ticker: LNTH
+    asset_id: a-piflufolastat-f18
+    event_type: trial_readout
+    description: "18F-DCFPyL (piflufolastat F18) OSPREY Phase 3: 84.8% positive predictive value for pelvic LN metastases in prostate cancer"
+    announced_at: "2020-09-14"
+    outcome: positive
+    notes: "PSMA-targeted PET agent; PRECISION trial also positive. FDA approved May 2021 (Pylarify)."
+
+  - ticker: PRQR
+    asset_id: a-sepofarsen
+    event_type: trial_readout
+    description: "sepofarsen Phase 2 ILLUMINATE interim: +12-letter BCVA improvement at 6 months in CEP290-associated LCA10"
+    announced_at: "2019-09-09"
+    outcome: positive
+    notes: "RNA antisense therapy; intravitreal; ultra-rare Leber congenital amaurosis type 10. Phase 3 ILLUMINATE ongoing."
+
+  - ticker: RARE
+    asset_id: a-triheptanoin
+    event_type: trial_readout
+    description: "triheptanoin (UX007) KOIOS Phase 3: no significant reduction in hypoglycemic events vs placebo in LCHAD/TFP deficiency"
+    announced_at: "2019-12-16"
+    outcome: negative
+    notes: "Anaplerotic medium-chain triglyceride oil; FDA declined approval in 2020; ultra-rare fatty acid oxidation disorder."
+
+  - ticker: FOLD
+    asset_id: a-migalastat
+    event_type: trial_readout
+    description: "migalastat 3-year open-label extension data: sustained renal function (eGFR) and cardiac outcomes in Fabry disease patients with amenable mutations"
+    announced_at: "2018-11-14"
+    outcome: positive
+    notes: "Long-term durability data supporting commercial differentiation vs ERT for Fabry amenable mutations."
+
+  - ticker: GERN
+    asset_id: a-imetelstat
+    event_type: trial_readout
+    description: "imetelstat IMbark Phase 2 in MF: dose-dependent SVR and symptom response; 21% SVR50 at 9.4mg/kg dose"
+    announced_at: "2018-06-05"
+    outcome: positive
+    notes: "Telomerase inhibitor; cytopenias are dose-limiting but acceptable at lower dose. Led to IMerge Phase 3 in MDS."
+
+  - ticker: TGTX
+    asset_id: a-ublituximab
+    event_type: trial_readout
+    description: "ublituximab ULTIMATE I/II Ph3 interim: ARR 0.076 vs 0.188 teriflunomide; rapid B-cell depletion with 1-hour infusion"
+    announced_at: "2020-09-23"
+    outcome: positive
+    notes: "IV anti-CD20; ULTIMATE primary endpoint met. FDA approved January 2023 (Briumvi)."
+
+  - ticker: ANAB
+    asset_id: a-imsidolimab
+    event_type: trial_readout
+    description: "imsidolimab ANB020 Phase 2 AD: failed primary EASI50 endpoint at week 16 vs placebo in atopic dermatitis"
+    announced_at: "2020-02-03"
+    outcome: negative
+    notes: "IL-33 antibody; failed in atopic dermatitis; company pivoted to prurigo nodularis and pustular psoriasis."
+
+  - ticker: AGEN
+    asset_id: a-botensilimab
+    event_type: trial_readout
+    description: "botensilimab (AGEN1181) Phase 1 dose escalation: ORR 13% monotherapy in heavily pretreated solid tumors including MSS-CRC"
+    announced_at: "2020-06-01"
+    outcome: positive
+    notes: "Fc-enhanced anti-CTLA-4; MSS colorectal cancer activity is notable (usually checkpoint-unresponsive). Phase 2 ACCENT ongoing."
+
+  - ticker: BCYC
+    asset_id: a-bcn057
+    event_type: trial_readout
+    description: "BT8009 (nectin-4 bicycle toxin conjugate) first-in-human Phase 1: dose-dependent anti-tumor activity; no peripheral neuropathy"
+    announced_at: "2020-11-10"
+    outcome: positive
+    notes: "Bicycle toxin conjugate; differentiated from ADCs by Bicycle scaffold; urothelial cancer primary indication."
+
+  - ticker: ARQT
+    asset_id: a-roflumilast-cream
+    event_type: trial_readout
+    description: "roflumilast cream (ARQ-151) Phase 3 INTEGUMENT-1/2: IGA success 29% vs 8% placebo in plaque psoriasis at week 8"
+    announced_at: "2020-08-10"
+    outcome: positive
+    notes: "Topical PDE4 inhibitor; first new topical mechanism for psoriasis; non-steroidal. FDA approved July 2022 (Zoryve)."
+
+  - ticker: PTGX
+    asset_id: a-setrusumab
+    event_type: trial_readout
+    description: "setrusumab ASTEROID Phase 3: no significant reduction in fracture rate vs placebo in osteogenesis imperfecta over 2 years"
+    announced_at: "2022-09-12"
+    outcome: negative
+    notes: "Anti-sclerostin antibody; trial underpowered for fracture endpoint; Ultragenyx partnership. Development discontinued."
+
+  - ticker: ALUM
+    asset_id: a-atibuclimab
+    event_type: trial_readout
+    description: "atibuclimab (pozelimab) Phase 2 COMPOSER: PIGA mutation PNH patients showed rapid and sustained hemolysis control"
+    announced_at: "2020-08-24"
+    outcome: positive
+    notes: "Anti-C5 antibody; subcutaneous weekly; Regeneron. Phase 3 for CHAPLE disease and PNH."
+
+  - ticker: VKTX
+    asset_id: a-vk2809
+    event_type: trial_readout
+    description: "VK2809 Phase 2b VOYAGE: liver fat reduction -56% vs -14% placebo by MRI-PDFF at 12 weeks in NASH/high LDL"
+    announced_at: "2020-10-15"
+    outcome: positive
+    notes: "Selective THR-beta agonist; Phase 2b positive liver fat; Phase 3 VOYAGE-II initiated. Competitive with resmetirom."

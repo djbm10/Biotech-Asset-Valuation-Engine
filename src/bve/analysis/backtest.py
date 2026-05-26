@@ -418,6 +418,9 @@ _DEFAULT_TA_CSV_MAP: dict[str, str] = {
     "rare_disease": "research/data/rare_disease_phase_transitions.csv",
     "cns": "research/data/cns_phase_transitions.csv",
     "cardiovascular": "research/data/cardiovascular_phase_transitions.csv",
+    "metabolic": "research/data/metabolic_phase_transitions.csv",
+    "hematology": "research/data/hematology_phase_transitions.csv",
+    "infectious_disease": "research/data/infectious_disease_phase_transitions.csv",
 }
 
 
