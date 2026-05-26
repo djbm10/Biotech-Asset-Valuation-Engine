@@ -70,6 +70,13 @@ class ValidationSummaryData:
     calibration_params_n_positive: int = 0
     calibration_params_training_window: Optional[str] = None
 
+    # --- Known-answer suite (Block 10) ---
+    known_answer_n_cases: int = 0
+    known_answer_n_pass: int = 0
+    known_answer_n_fail: int = 0
+    known_answer_n_definitions_only: int = 0
+    known_answer_overall_pass: Optional[bool] = None  # None = not run
+
     # --- Metadata ---
     generated_at: str = ""
     notes: list[str] = field(default_factory=list)
@@ -85,6 +92,7 @@ def build_validation_summary(
     ma_backtest_result: Optional[object] = None,
     pos_backtest_result: Optional[object] = None,
     calibration_params_path: Optional[Path] = None,
+    known_answer_suite_result: Optional[object] = None,
 ) -> ValidationSummaryData:
     """Assemble a ValidationSummaryData from available evidence objects.
 
@@ -182,6 +190,18 @@ def build_validation_summary(
 
     except ImportError:
         data.notes.append("ma_backtest module not available — calibration param status unknown.")
+
+    # 5. Known-answer suite
+    if known_answer_suite_result is not None:
+        data.known_answer_n_cases = getattr(known_answer_suite_result, "n_cases", 0)
+        data.known_answer_n_pass = getattr(known_answer_suite_result, "n_pass", 0)
+        data.known_answer_n_fail = getattr(known_answer_suite_result, "n_fail", 0)
+        data.known_answer_n_definitions_only = getattr(
+            known_answer_suite_result, "n_definitions_only", 0
+        )
+        data.known_answer_overall_pass = getattr(
+            known_answer_suite_result, "overall_pass", None
+        )
 
     return data
 
@@ -307,6 +327,31 @@ def render_validation_summary(data: ValidationSummaryData) -> str:
         f"| Training window | {data.calibration_params_training_window or _NA} |",
         "",
     ]
+
+    # --- Known-answer suite ---
+    if data.known_answer_n_cases > 0 or data.known_answer_overall_pass is not None:
+        ka_status = _NA
+        if data.known_answer_overall_pass is True:
+            ka_status = "PASS"
+        elif (
+            data.known_answer_n_cases > 0
+            and data.known_answer_n_definitions_only == data.known_answer_n_cases
+        ):
+            ka_status = "DEFINITIONS ONLY"
+        elif data.known_answer_overall_pass is False:
+            ka_status = "FAIL"
+        lines += [
+            "### Known-Answer Suite (Block 10)",
+            "",
+            "| Metric | Value |",
+            "|---|---|",
+            f"| Cases | {data.known_answer_n_cases if data.known_answer_n_cases else _NA} |",
+            f"| Pass | {data.known_answer_n_pass} |",
+            f"| Fail | {data.known_answer_n_fail} |",
+            f"| Definitions only | {data.known_answer_n_definitions_only} |",
+            f"| Overall status | `{ka_status}` |",
+            "",
+        ]
 
     # Notes
     if data.notes:

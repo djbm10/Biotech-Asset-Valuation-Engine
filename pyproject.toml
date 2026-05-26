@@ -97,6 +97,7 @@ bve-refresh-financials   = "bve.cli.bve_refresh_financials:main"
 bve-profile-audit        = "bve.cli.bve_profile_audit:main"
 bve-trial-diff           = "bve.cli.bve_trial_diff:main"
 bve-input-integrity      = "bve.cli.bve_input_integrity:main"
+bve-known-answer-validate = "bve.cli.bve_known_answer_validate:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

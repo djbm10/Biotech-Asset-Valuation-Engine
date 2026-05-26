@@ -83,6 +83,20 @@ def _load_pos_backtest_result() -> object | None:
         return None
 
 
+def _load_known_answer_suite(cases_path: str | None) -> object | None:
+    """Run the known-answer validation suite (definitions-only mode)."""
+    try:
+        from bve.validation.known_answer_cases import load_cases
+        from bve.validation.known_answer_validator import run_suite
+
+        cases = load_cases(cases_path)
+        if not cases:
+            return None
+        return run_suite(cases)
+    except Exception:
+        return None
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(
         prog="bve-validate",
@@ -121,6 +135,17 @@ def main(argv: list[str] | None = None) -> int:
         action="store_true",
         help="Skip POS calibration loading.",
     )
+    parser.add_argument(
+        "--no-known-answers",
+        action="store_true",
+        help="Skip known-answer suite.",
+    )
+    parser.add_argument(
+        "--known-answer-cases",
+        default=None,
+        dest="known_answer_cases",
+        help="Path to known-answer cases YAML. Defaults to bundled cases.yaml.",
+    )
     args = parser.parse_args(argv)
 
     print("[bve-validate] Loading validation evidence...", file=sys.stderr)
@@ -137,6 +162,10 @@ def main(argv: list[str] | None = None) -> int:
         None if args.no_pos_backtest
         else _load_pos_backtest_result()
     )
+    ka_result = (
+        None if args.no_known_answers
+        else _load_known_answer_suite(args.known_answer_cases)
+    )
 
     from bve.reporting.validation_summary import (
         build_validation_summary,
@@ -146,6 +175,7 @@ def main(argv: list[str] | None = None) -> int:
         replay_summary=replay_summary,
         ma_backtest_result=ma_result,
         pos_backtest_result=pos_result,
+        known_answer_suite_result=ka_result,
     )
     rendered = render_validation_summary(data)
 
