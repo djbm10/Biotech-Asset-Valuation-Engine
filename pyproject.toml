@@ -101,6 +101,7 @@ bve-known-answer-validate = "bve.cli.bve_known_answer_validate:main"
 bve-evaluate-target      = "bve.workflows.evaluate_target:main"
 bve-morning-screen       = "bve.workflows.morning_screen:main"
 bve-init-asset           = "bve.workflows.init_asset:main"
+bve-audit-intelligence   = "tools.audit_import_graph:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
