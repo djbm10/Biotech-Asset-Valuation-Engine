@@ -296,6 +296,11 @@ top_level_module_map:
     primary_question: 6
     role: workflow review and approval processes
     state: current
+  - module: workflows
+    kind: package
+    primary_question: 6
+    role: end-to-end orchestration entry points for BD professionals and analysts
+    state: current
   - module: review_app.py
     kind: module
     primary_question: 6
