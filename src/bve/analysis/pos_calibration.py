@@ -143,6 +143,77 @@ class CalibrationBucket:
 
 
 @dataclass
+class ReliabilityBin:
+    """One equal-width bin in a reliability diagram.
+
+    Unlike CalibrationBucket (which uses fixed edges), ReliabilityBin bins are
+    constructed for equal-width intervals of the predicted probability space.
+    actual_rate and calibration_error are NaN when the bin is empty (n == 0).
+    """
+    bin_label: str          # e.g. "0.20–0.40"
+    n: int
+    n_success: int
+    predicted_mean: float
+    actual_rate: float      # NaN when n == 0
+    calibration_error: float  # actual_rate - predicted_mean; NaN when n == 0
+
+
+def build_reliability_diagram(
+    records: list["POSCalibrationRecord"],
+    n_bins: int = 5,
+) -> list[ReliabilityBin]:
+    """Build equal-width reliability diagram bins over [0, 1].
+
+    Parameters
+    ----------
+    records : list[POSCalibrationRecord]
+        Calibration records to bin.
+    n_bins : int
+        Number of equal-width bins.  Default 5 (every 20pp).
+
+    Returns
+    -------
+    list[ReliabilityBin]
+        n_bins bins; empty bins have n=0, actual_rate=NaN, calibration_error=NaN.
+    """
+    bin_width = 1.0 / n_bins
+    bins: list[ReliabilityBin] = []
+
+    for i in range(n_bins):
+        lo = i * bin_width
+        hi = (i + 1) * bin_width
+        label = f"{lo:.2f}–{hi:.2f}"
+        in_bin = [r for r in records if lo <= r.predicted_pos < hi]
+        # Last bin includes 1.0 (for records exactly at 1.0)
+        if i == n_bins - 1:
+            in_bin = [r for r in records if lo <= r.predicted_pos <= hi]
+
+        if not in_bin:
+            bins.append(ReliabilityBin(
+                bin_label=label,
+                n=0,
+                n_success=0,
+                predicted_mean=float("nan"),
+                actual_rate=float("nan"),
+                calibration_error=float("nan"),
+            ))
+        else:
+            pred_mean = sum(r.predicted_pos for r in in_bin) / len(in_bin)
+            n_s = sum(1 for r in in_bin if r.actual_success)
+            act_rate = n_s / len(in_bin)
+            bins.append(ReliabilityBin(
+                bin_label=label,
+                n=len(in_bin),
+                n_success=n_s,
+                predicted_mean=round(pred_mean, 4),
+                actual_rate=round(act_rate, 4),
+                calibration_error=round(act_rate - pred_mean, 4),
+            ))
+
+    return bins
+
+
+@dataclass
 class TACalibrationResult:
     """Per-TA calibration metrics."""
     therapeutic_area: str
@@ -158,6 +229,15 @@ class TACalibrationResult:
     is_low_n: bool                       # N < MIN_N_FOR_RELIABLE_ESTIMATE
     calibration_buckets: list[CalibrationBucket] = field(default_factory=list)
     note: str = ""
+
+    # --- Block 19 additions ---
+    insufficient_data_warning: bool = False
+    """True when n < MIN_N_FOR_RELIABLE_ESTIMATE.  Metrics are computed for
+    reference but should not be used for calibration decisions."""
+    insufficient_data_message: str = ""
+    """Human-readable explanation when insufficient_data_warning is True."""
+    reliability_diagram: list[ReliabilityBin] = field(default_factory=list)
+    """Equal-width reliability bins (5 by default) for visual calibration check."""
 
     @property
     def brier_skill(self) -> Optional[float]:
@@ -226,6 +306,16 @@ class POSCalibrationSuite:
     in_sample: list[TACalibrationResult] = field(default_factory=list)
     oos: list[TACalibrationResult] = field(default_factory=list)
     overall: Optional[TACalibrationResult] = None
+
+    @property
+    def n_total(self) -> int:
+        """Total number of input records (alias for n_total_records)."""
+        return self.n_total_records
+
+    @property
+    def ta_results(self) -> list[TACalibrationResult]:
+        """All in-sample TA calibration results."""
+        return self.in_sample
 
     @property
     def n_tas_with_data(self) -> int:
@@ -424,8 +514,16 @@ def _compute_ta_metrics(records: list[POSCalibrationRecord]) -> TACalibrationRes
         ))
 
     note = ""
-    if n < MIN_N_FOR_RELIABLE_ESTIMATE:
+    insufficient_data_warning = n < MIN_N_FOR_RELIABLE_ESTIMATE
+    insufficient_data_message = ""
+    if insufficient_data_warning:
         note = f"Low N={n}; estimates unreliable (need ≥{MIN_N_FOR_RELIABLE_ESTIMATE})"
+        insufficient_data_message = (
+            f"Insufficient data: N={n} < {MIN_N_FOR_RELIABLE_ESTIMATE}; "
+            "metrics computed for reference only."
+        )
+
+    reliability_diagram = build_reliability_diagram(records)
 
     return TACalibrationResult(
         therapeutic_area=ta,
@@ -438,9 +536,12 @@ def _compute_ta_metrics(records: list[POSCalibrationRecord]) -> TACalibrationRes
         brier_score=round(brier, 4),
         auc=round(auc, 4) if not math.isnan(auc) else None,
         ece=round(ece, 4),
-        is_low_n=n < MIN_N_FOR_RELIABLE_ESTIMATE,
+        is_low_n=insufficient_data_warning,
         calibration_buckets=buckets,
         note=note,
+        insufficient_data_warning=insufficient_data_warning,
+        insufficient_data_message=insufficient_data_message,
+        reliability_diagram=reliability_diagram,
     )
 
 
@@ -646,6 +747,15 @@ def infer_ta_from_indication(indication: str) -> str:
 
 def _heuristic_pos_from_row(row: dict, phase: str) -> float:
     """Estimate POS from feature set for CSV-loaded records without stored model outputs."""
+    import warnings
+
+    warnings.warn(
+        "_heuristic_pos_from_row() reconstructs a simplified proxy of model predictions. "
+        "Use BacktestReport.to_calibration_records() for actual model scores. "
+        "Calibration metrics computed via this path do not reflect true model performance.",
+        DeprecationWarning,
+        stacklevel=2,
+    )
     from bve.config.assumptions_loader import AssumptionsLoader
     ta_str = row.get("therapeutic_area", "other") or "other"
     try:

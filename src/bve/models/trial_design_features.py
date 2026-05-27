@@ -60,7 +60,21 @@ from bve.config.constants import (
 )
 
 if TYPE_CHECKING:
-    from bve.models.pos_model import POSAdjusters
+    from bve.models.pos_model import (
+        BiomarkerSelectionStrength,
+        MoAExceptionFlag,
+        POSAdjusters,
+    )
+
+# Surrogate endpoint types that overlap with ACCELERATED_NOVEL_SURROGATE pathway risk
+_SURROGATE_OVERLAP_ENDPOINT_TYPES: frozenset[str] = frozenset([
+    "surrogate_novel",
+    "biomarker_only",
+    "molecular_biomarker",
+])
+
+# Log-odds magnitude used by ACCELERATED_NOVEL_SURROGATE (for double-count estimation)
+_ACCELERATED_NOVEL_SURROGATE_LOGODDS_MAGNITUDE: float = 0.20
 
 
 # ---------------------------------------------------------------------------
@@ -390,20 +404,118 @@ def check_pos_layer_overlap(
     pos_adjusters : POSAdjusters
     design_features : TrialDesignFeatureSet
     phase : str, optional
-        Unused in the current implementation; kept for API compatibility.
+        Kept for API compatibility; used for future phase-specific checks.
     allow_overlap : bool, optional
-        Unused; kept for API compatibility.
+        When True, return a clean report without checks (used for explicit overrides).
 
     Returns
     -------
     LayerOverlapReport
-        Always clean (no overlaps) for the current Layer 2 design.
+        Clean when no overlaps detected; non-clean otherwise.
+
+    Detected overlaps
+    -----------------
+    1. Surrogate endpoint double-count (Layer 1 ↔ Layer 2)
+       POSAdjusters.endpoint_type in {SURROGATE_NOVEL, BIOMARKER_ONLY, MOLECULAR_BIOMARKER}
+       AND TrialDesignFeatureSet.regulatory_pathway_risk == ACCELERATED_NOVEL_SURROGATE
+       → Both penalise the same "novel surrogate" risk.
+       Classified as CRITICAL.
+
+    2. Biomarker selection double-count (intra-Layer-1)
+       MoAExceptionFlag.STRONG_BIOMARKER_RESPONSE in pos_adjusters.moa_exception_flags
+       AND pos_adjusters.biomarker_selection in {STRONG_RATIONALE, VALIDATED}
+       → The same biomarker evidence is credited via both the MoA exception flag
+         (mechanism engagement) and the patient-selection enrichment strength.
     """
+    if allow_overlap:
+        return LayerOverlapReport(
+            overlapping_signals=[],
+            recommendations=[],
+            has_critical_overlap=False,
+            estimated_double_count_logodds=0.0,
+        )
+
+    # Lazy import to avoid circular at module level (pos_model imports from this module)
+    from bve.models.pos_model import (  # noqa: PLC0415
+        BiomarkerSelectionStrength,
+        MoAExceptionFlag,
+        _BIOMARKER_LOGODDS,
+        _MOA_EXCEPTION_LOGODDS,
+    )
+
+    overlapping: list[str] = []
+    recommendations: list[str] = []
+    double_count: float = 0.0
+    has_critical = False
+
+    # -------------------------------------------------------------------
+    # Overlap 1: surrogate endpoint type + accelerated novel surrogate pathway
+    # -------------------------------------------------------------------
+    endpoint_value = pos_adjusters.endpoint_type.value
+    is_surrogate_type = endpoint_value in _SURROGATE_OVERLAP_ENDPOINT_TYPES
+    is_novel_acc_pathway = (
+        design_features.regulatory_pathway_risk
+        == RegulatoryPathwayRisk.ACCELERATED_NOVEL_SURROGATE
+    )
+    if is_surrogate_type and is_novel_acc_pathway:
+        # Look up the Layer 2 logodds magnitude for this endpoint type (generic fallback)
+        from bve.models.pos_model import _ENDPOINT_LOGODDS_GENERIC  # noqa: PLC0415
+        from bve.entities.trial import EndpointType  # noqa: PLC0415
+        try:
+            ep = EndpointType(endpoint_value)
+            lo_endpoint = abs(_ENDPOINT_LOGODDS_GENERIC.get(ep, 0.0))
+        except ValueError:
+            lo_endpoint = 0.20
+        overlap_mag = round(min(lo_endpoint, _ACCELERATED_NOVEL_SURROGATE_LOGODDS_MAGNITUDE), 4)
+        overlapping.append(
+            f"endpoint_type={endpoint_value!r} (Layer 1) + "
+            "regulatory_pathway_risk=ACCELERATED_NOVEL_SURROGATE (Layer 2): "
+            "both penalise the novel-surrogate regulatory risk."
+        )
+        recommendations.append(
+            "In Layer 1, endpoint_type scores scientific endpoint quality. "
+            "In Layer 2, RegulatoryPathwayRisk scores regulatory interpretability risk. "
+            "These partially overlap for novel surrogates. "
+            "Consider reducing one dimension by the estimated overlap magnitude "
+            f"({overlap_mag:+.2f} log-odds) or accepting the conservative double-penalisation."
+        )
+        double_count += overlap_mag
+        has_critical = True
+
+    # -------------------------------------------------------------------
+    # Overlap 2: intra-Layer-1 biomarker double-count
+    # -------------------------------------------------------------------
+    _biomarker_overlap_tiers = {
+        BiomarkerSelectionStrength.STRONG_RATIONALE,
+        BiomarkerSelectionStrength.VALIDATED,
+    }
+    has_sbr_flag = MoAExceptionFlag.STRONG_BIOMARKER_RESPONSE in pos_adjusters.moa_exception_flags
+    has_strong_biomarker = pos_adjusters.biomarker_selection in _biomarker_overlap_tiers
+
+    if has_sbr_flag and has_strong_biomarker:
+        sbr_lo = _MOA_EXCEPTION_LOGODDS[MoAExceptionFlag.STRONG_BIOMARKER_RESPONSE]
+        bsel_lo = _BIOMARKER_LOGODDS[pos_adjusters.biomarker_selection]
+        overlap_mag = round(min(sbr_lo, bsel_lo), 4)
+        overlapping.append(
+            f"MoAExceptionFlag.STRONG_BIOMARKER_RESPONSE (Layer 1 MoA exception) + "
+            f"BiomarkerSelectionStrength.{pos_adjusters.biomarker_selection.value} "
+            "(Layer 1 patient enrichment): "
+            "the same biomarker evidence is credited twice."
+        )
+        recommendations.append(
+            "Use MoAExceptionFlag.STRONG_BIOMARKER_RESPONSE only for MoA target validation "
+            "(dose-dependent biomarker confirms mechanism engagement). "
+            "Use BiomarkerSelectionStrength for patient-enrichment enrichment quality. "
+            "If the same biomarker serves both purposes, credit the higher-value tier and "
+            "set the other to its reference/neutral value to avoid double-counting."
+        )
+        double_count += overlap_mag
+
     return LayerOverlapReport(
-        overlapping_signals=[],
-        recommendations=[],
-        has_critical_overlap=False,
-        estimated_double_count_logodds=0.0,
+        overlapping_signals=overlapping,
+        recommendations=recommendations,
+        has_critical_overlap=has_critical,
+        estimated_double_count_logodds=round(double_count, 4),
     )
 
 
