@@ -208,8 +208,8 @@ class TestGeneTherapyConcerns:
         adj_gt = POSAdjusters(
             gene_cell_therapy_concerns=[GeneTherapyConcern.DURABLE_FUNCTIONAL_CORRECTION]
         )
-        base = _compute_layer1_adjustment(adj_base)
-        gt = _compute_layer1_adjustment(adj_gt)
+        base, _ = _compute_layer1_adjustment(adj_base)
+        gt, _ = _compute_layer1_adjustment(adj_gt)
         assert gt > base
 
     def test_serious_safety_concern_lowers_pos(self):
@@ -217,8 +217,8 @@ class TestGeneTherapyConcerns:
         adj_gt = POSAdjusters(
             gene_cell_therapy_concerns=[GeneTherapyConcern.SERIOUS_SAFETY_CONCERN]
         )
-        base = _compute_layer1_adjustment(adj_base)
-        gt = _compute_layer1_adjustment(adj_gt)
+        base, _ = _compute_layer1_adjustment(adj_base)
+        gt, _ = _compute_layer1_adjustment(adj_gt)
         assert gt < base
 
     def test_multiple_concerns_are_additive(self):
@@ -231,8 +231,8 @@ class TestGeneTherapyConcerns:
                 GeneTherapyConcern.SHORT_FOLLOWUP_ONLY,
             ]
         )
-        single = _compute_layer1_adjustment(adj_single)
-        double = _compute_layer1_adjustment(adj_double)
+        single, _ = _compute_layer1_adjustment(adj_single)
+        double, _ = _compute_layer1_adjustment(adj_double)
         # Adding SHORT_FOLLOWUP_ONLY (negative) to DURABLE_FUNCTIONAL_CORRECTION (positive)
         expected_diff = _GENE_THERAPY_LOGODDS[GeneTherapyConcern.SHORT_FOLLOWUP_ONLY]
         assert pytest.approx(double - single, abs=1e-6) == expected_diff
@@ -240,7 +240,9 @@ class TestGeneTherapyConcerns:
     def test_empty_concerns_no_effect(self):
         adj_none = POSAdjusters(gene_cell_therapy_concerns=[])
         adj_def = POSAdjusters()
-        assert _compute_layer1_adjustment(adj_none) == _compute_layer1_adjustment(adj_def)
+        none_delta, _ = _compute_layer1_adjustment(adj_none)
+        def_delta, _ = _compute_layer1_adjustment(adj_def)
+        assert none_delta == def_delta
 
     def test_waning_risk_plus_safety_concern_large_penalty(self):
         adj = POSAdjusters(
@@ -250,7 +252,9 @@ class TestGeneTherapyConcerns:
             ]
         )
         adj_base = POSAdjusters()
-        delta = _compute_layer1_adjustment(adj) - _compute_layer1_adjustment(adj_base)
+        adj_val, _ = _compute_layer1_adjustment(adj)
+        base_val, _ = _compute_layer1_adjustment(adj_base)
+        delta = adj_val - base_val
         expected = (
             _GENE_THERAPY_LOGODDS[GeneTherapyConcern.WANING_EFFECT_RISK]
             + _GENE_THERAPY_LOGODDS[GeneTherapyConcern.SERIOUS_SAFETY_CONCERN]
