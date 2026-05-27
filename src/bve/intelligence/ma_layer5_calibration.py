@@ -291,6 +291,89 @@ _ENCUMBRANCE_MULTIPLIERS: dict[DealEncumbranceType, float] = {
 }
 
 
+class AntitrustRiskTier(str, Enum):
+    """
+    Analyst assessment of antitrust risk for a potential acquisition.
+
+    Applies a closing-probability multiplier to p_effective_close_12m only —
+    p_any_strategic_transaction_12m is never mutated.
+
+    Tier multipliers (base; regime modifier stacked additively):
+      LOW:     1.00  (no material antitrust concern)
+      MEDIUM:  0.88  (possible second-request; deal may close with remedies)
+      HIGH:    0.72  (significant overlap; divestiture or remedy likely required)
+      BLOCKED: 0.00  (regulatory block near-certain; deal cannot close)
+      UNKNOWN: 1.00  (status unknown; confidence degrades one tier only)
+    """
+    LOW     = "low"
+    MEDIUM  = "medium"
+    HIGH    = "high"
+    BLOCKED = "blocked"
+    UNKNOWN = "unknown"
+
+
+class AntitrustRegime(str, Enum):
+    """
+    Regulatory regime context for antitrust assessment.
+
+    Applied as an additive modifier to the tier base multiplier:
+      US_PERMISSIVE:       +0.05  (current administration favouring M&A)
+      US_STANDARD:          0.00  (baseline US antitrust posture)
+      US_HOSTILE:          -0.08  (aggressive FTC/DOJ posture)
+      EU_STANDARD:         -0.03  (EU standard review; marginally stricter than US)
+      MULTI_JURISDICTIONAL:-0.10  (multiple filing jurisdictions; complexity premium)
+    """
+    US_PERMISSIVE        = "us_permissive"
+    US_STANDARD          = "us_standard"
+    US_HOSTILE           = "us_hostile"
+    EU_STANDARD          = "eu_standard"
+    MULTI_JURISDICTIONAL = "multi_jurisdictional"
+
+
+_ANTITRUST_TIER_BASE: dict[AntitrustRiskTier, float] = {
+    AntitrustRiskTier.LOW:     1.00,
+    AntitrustRiskTier.MEDIUM:  0.88,
+    AntitrustRiskTier.HIGH:    0.72,
+    AntitrustRiskTier.BLOCKED: 0.00,
+    AntitrustRiskTier.UNKNOWN: 1.00,  # lowers confidence only, not estimate
+}
+
+_ANTITRUST_REGIME_MODIFIER: dict[AntitrustRegime, float] = {
+    AntitrustRegime.US_PERMISSIVE:        +0.05,
+    AntitrustRegime.US_STANDARD:           0.00,
+    AntitrustRegime.US_HOSTILE:           -0.08,
+    AntitrustRegime.EU_STANDARD:          -0.03,
+    AntitrustRegime.MULTI_JURISDICTIONAL: -0.10,
+}
+
+# Tiers that warrant an antitrust_flag (LOW is noise; NONE/None → no flag)
+_ANTITRUST_FLAG_TIERS = frozenset([
+    AntitrustRiskTier.MEDIUM,
+    AntitrustRiskTier.HIGH,
+    AntitrustRiskTier.BLOCKED,
+    AntitrustRiskTier.UNKNOWN,
+])
+
+
+def _compute_antitrust_multiplier(
+    tier: Optional["AntitrustRiskTier"],
+    regime: Optional["AntitrustRegime"],
+) -> float:
+    """Compute the antitrust closing-probability multiplier.
+
+    For BLOCKED tier, always returns 0.0 regardless of regime.
+    For UNKNOWN tier, returns 1.0 (confidence degraded separately).
+    For all others: base + regime_modifier, clamped to [0.0, 1.0].
+    """
+    if tier is None:
+        return 1.0
+    if tier == AntitrustRiskTier.BLOCKED:
+        return 0.0
+    base = _ANTITRUST_TIER_BASE[tier]
+    modifier = _ANTITRUST_REGIME_MODIFIER.get(regime, 0.0) if regime is not None else 0.0
+    return round(min(max(base + modifier, 0.0), 1.0), 6)
+
+
 _SELLER_WILLINGNESS_SCORES: dict[SellerWillingness, float] = {
     SellerWillingness.ACTIVELY_SEEKING: 0.90,
     SellerWillingness.OPEN:             0.70,
@@ -441,6 +524,23 @@ class Layer5Inputs(BaseModel):
             "Block 29 deal encumbrance type. When set, applies a closing-probability "
             "multiplier to p_effective_close_12m only. UNKNOWN degrades confidence one "
             "tier but does not reduce the point estimate."
+        ),
+    )
+
+    # --- Block 30: antitrust regime context ---
+    antitrust_risk_tier: Optional[AntitrustRiskTier] = Field(
+        default=None,
+        description=(
+            "Block 30 antitrust risk tier. Applied multiplicatively to "
+            "p_effective_close_12m after encumbrance (Block 29). "
+            "BLOCKED → p_effective=0. UNKNOWN → confidence degrades only."
+        ),
+    )
+    antitrust_regime: Optional[AntitrustRegime] = Field(
+        default=None,
+        description=(
+            "Block 30 regulatory jurisdiction context. Adds a signed modifier "
+            "to the tier base multiplier (e.g. US_HOSTILE=-0.08)."
         ),
     )
 
@@ -619,6 +719,21 @@ class Layer5Output(BaseModel):
     encumbrance_multiplier_applied: float = Field(
         default=1.0,
         description="Encumbrance closing multiplier used (audit). 1.0 when no encumbrance.",
+    )
+
+    # --- Block 30: antitrust regime fields ---
+    antitrust_multiplier_applied: float = Field(
+        default=1.0,
+        description=(
+            "Antitrust closing-probability multiplier applied to p_effective_close_12m "
+            "(after encumbrance). 1.0 when no antitrust input or LOW tier."
+        ),
+    )
+    antitrust_flag: Optional[str] = Field(
+        default=None,
+        description=(
+            "Set for MEDIUM/HIGH/BLOCKED/UNKNOWN tiers. None for LOW or unset."
+        ),
     )
 
     # Metadata
@@ -1088,6 +1203,18 @@ def compute_layer5(inputs: Layer5Inputs) -> Layer5Output:
         _idx_enc = _tier_order_enc.index(confidence)
         confidence = _tier_order_enc[min(_idx_enc + 1, len(_tier_order_enc) - 1)]
 
+    # Block 30 (pre-compute): degrade confidence for UNKNOWN antitrust tier
+    _at_tier_pre = inputs.antitrust_risk_tier
+    if _at_tier_pre == AntitrustRiskTier.UNKNOWN:
+        _tier_order_at = [
+            ConfidenceLevel.HIGH,
+            ConfidenceLevel.MEDIUM,
+            ConfidenceLevel.LOW,
+            ConfidenceLevel.VERY_LOW,
+        ]
+        _idx_at = _tier_order_at.index(confidence)
+        confidence = _tier_order_at[min(_idx_at + 1, len(_tier_order_at) - 1)]
+
     range_lo, range_hi = _probability_range(p12m, confidence)
 
     # Step 5: divergence flag
@@ -1178,6 +1305,24 @@ def compute_layer5(inputs: Layer5Inputs) -> Layer5Output:
         elif _enc == DealEncumbranceType.OPTION_TO_ACQUIRE:
             _encumbrance_flag = "deal_encumbrance_option_to_acquire"
 
+    # Block 30: antitrust regime — apply multiplicatively after encumbrance
+    _at_tier = inputs.antitrust_risk_tier
+    _at_regime = inputs.antitrust_regime
+    _at_multiplier = _compute_antitrust_multiplier(_at_tier, _at_regime)
+    _p_effective_close = round(min(max(_p_effective_close * _at_multiplier, 0.0), 1.0), 6)
+
+    # Build antitrust_flag
+    _antitrust_flag: Optional[str] = None
+    if _at_tier is not None and _at_tier in _ANTITRUST_FLAG_TIERS:
+        if _at_tier == AntitrustRiskTier.BLOCKED:
+            _antitrust_flag = "antitrust_blocked"
+        elif _at_tier == AntitrustRiskTier.UNKNOWN:
+            _antitrust_flag = "antitrust_unknown"
+        else:
+            _antitrust_flag = f"antitrust_{_at_tier.value}"
+            if _at_regime is not None:
+                _antitrust_flag += f"_{_at_regime.value}"
+
     return Layer5Output(
         target_name=inputs.target_name,
         acquirer_id=inputs.acquirer_id,
@@ -1225,6 +1370,9 @@ def compute_layer5(inputs: Layer5Inputs) -> Layer5Output:
         p_effective_close_12m=_p_effective_close,
         encumbrance_flag=_encumbrance_flag,
         encumbrance_multiplier_applied=_enc_multiplier,
+        # Block 30: antitrust regime fields
+        antitrust_multiplier_applied=_at_multiplier,
+        antitrust_flag=_antitrust_flag,
         as_of_date=inputs.as_of_date,
         model_version=inputs.model_version,
         interpretation=interpretation,
