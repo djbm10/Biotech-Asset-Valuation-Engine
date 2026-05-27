@@ -1,14 +1,150 @@
 # Product Specification — Biotech Asset Valuation Engine
 
-**Version:** 1.0
-**Date:** 2026-04-09
-**Status:** Phase 0 baseline — governs all subsequent development
+**Version:** 2.0
+**Date:** 2026-05-26
+**Status:** Current — governs all development and output communication
 
 ---
 
+## 1. What BVE Is
+
+BVE helps biotech investors and BD/strategy teams evaluate whether a biotech asset is
+**undervalued by the market**, **strategically actionable for BD/M&A**, or **worth
+monitoring before a clinical or regulatory catalyst**.
+
+It is a structured research and triage engine — not an autonomous investment system.
+Every output is annotated with its confidence level and the assumptions that drive it.
+
+---
+
+## 2. Who It Is For
+
+| Audience | Primary question BVE answers | Primary workflow |
+|---|---|---|
+| **BD / Corporate Strategy** | Is this target actionable? Which buyers fit? | `bve-evaluate-target` |
+| **Biotech Investors** | Is this asset undervalued? What does the market imply? | `bve-morning-screen` |
+| **Analysts / Researchers** | How credible are the model outputs? What is validated? | `bve-validate` |
+
+---
+
+## 3. The Three Canonical Workflows
+
+### Workflow 1 — Evaluate Target
+
+```bash
+bve-evaluate-target --ticker SRPT
+```
+
+**Output:** A single Markdown decision report composing:
+- Valuation (rNPV, NAV/share, implied upside vs. market)
+- M&A probability score and best-fit acquirer
+- Management quality assessment and auto-generated diligence questions
+- Input integrity and staleness flags
+- Prediction log history for the ticker
+- Model validation summary
+
+**Use when:** You have a specific company in mind and need a structured, all-surfaces
+view before a meeting, diligence call, or investment committee.
+
+**Trust level:** Model-dependent. Accuracy depends on the quality of the underlying
+valuation config and how recently it was updated. Check the staleness section.
+
+---
+
+### Workflow 2 — Morning Screen
+
+```bash
+bve-morning-screen
+bve-morning-screen --top 15 --output outputs/screen_2026-05-26.md
+```
+
+**Output:** A ranked daily screen with six sections:
+1. Top M&A / BD Action Candidates (ranked by M&A probability score)
+2. Top Valuation Dislocations (sorted by absolute implied upside)
+3. Catalyst / Watchlist Items (upcoming catalysts from tracked universe)
+4. ClinicalTrials.gov Changes (trial status diffs)
+5. Stale / Low-Integrity Inputs (tickers with staleness warnings)
+6. Unresolved Prediction Log Items (open predictions awaiting resolution)
+
+**Use when:** Starting the day and need to know what in the tracked universe deserves
+attention. The screen degrades gracefully — any section with no data says so clearly.
+
+**Trust level:** Directional. Rankings are relative within the currently tracked
+universe. Assets not in `outputs/intelligence/ops.db` are invisible.
+
+---
+
+### Workflow 3 — Validate Model
+
+```bash
+bve-validate
+bve-validate --output outputs/validation_report.md
+```
+
+**Output:** A validation and credibility report covering:
+- POS model backtest grade (Brier score, AUC, calibration buckets)
+- Known-answer suite results (historical cases with verifiable outcomes)
+- Model governance summary
+- Overall letter grade (A / B / C / D)
+
+**Use when:** Before presenting outputs to a new audience, after a material model
+change, or as a regular credibility check before acting on any screen output.
+
+**Trust level:** Validated. This is the highest-confidence surface in BVE. A grade
+below B is a signal to re-examine upstream calibration before using other outputs.
+
+---
+
+## 4. What to Trust — Output Confidence Table
+
+For the full score-by-score breakdown, see [`docs/output_trust_guide.md`](output_trust_guide.md).
+
+| Output | Confidence | Short answer |
+|---|---|---|
+| rNPV / NAV/share | Model-dependent | Right math; inspect the inputs and tornado first |
+| P(approval) | Directional | Use for ranking, not absolute probability |
+| M&A probability score | Directional | Screen signal; not a deal forecast |
+| Model validation grade | Validated | Most reliable output in the system |
+| POS backtest (Brier/AUC) | Validated | N=99 oncology; ~15% skill vs. baseline |
+| Backtest alpha (replay) | Not yet actionable | Directionally positive; statistically underpowered |
+| Management quality | Analyst-judgment | Structured diligence template, not an empirical score |
+
+---
+
+## 5. What Not to Over-Trust
+
+1. **Screening-grade configs** — peak sales assumptions can be off by 5–10x when
+   built from industry defaults. Check `_meta.screening_grade` before any capital use.
+2. **M&A probability as a percentage** — it is a rank signal, not a calibrated forecast.
+   Never cite it as "X% probability of acquisition" in an external document.
+3. **Stale outputs** — the morning screen pulls from stored files. If the last run was
+   >90 days ago, the ranking is degraded.
+4. **Management quality composite number** — the components are structured expert inputs,
+   not statistically calibrated. Use the diligence questions, not the composite.
+5. **Backtest alpha claims** — current N ≈ 60–130 decisions is below the ~111 threshold
+   for p < 0.10. Do not cite as demonstrated forward alpha.
+
+---
+
+## 6. Scaffolding a New Asset
+
+```bash
+bve-init-asset --ticker SRPT
+```
+
+Creates seven annotated template files under `configs/SRPT/` and `outputs/SRPT/`.
+Fill in the templates and run `bve-asset --config configs/SRPT/asset_profile.yaml`
+to generate the valuation output that powers `bve-evaluate-target`.
+
+---
+
+---
+
+## Mode Governance (unchanged from v1.0)
+
 ## Purpose
 
-This document defines the three operating modes of the Biotech Asset Valuation Engine, the
+This section defines the three operating modes of the Biotech Asset Valuation Engine, the
 rules that govern each mode, and the explicit prohibitions that prevent the system from
 exceeding its current level of validation.
 
