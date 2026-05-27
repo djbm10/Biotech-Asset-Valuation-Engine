@@ -253,7 +253,15 @@ class TestFallbackConfidenceCap:
         out = compute_layer5(inp)
         assert out.confidence_level in ("low", "very_low")
 
-    def test_segment_report_allows_high_confidence(self):
+    def test_segment_report_allows_high_confidence(self, tmp_path, monkeypatch):
+        # Block 22: HIGH confidence requires a fitted calibration. Monkeypatch a valid file.
+        import json
+        params_file = tmp_path / "ma_calibration_params.json"
+        params_file.write_text(json.dumps({"slope": 8.0, "midpoint": 0.68}))
+        monkeypatch.setattr(
+            "bve.intelligence.ma_layer5_calibration._CALIBRATION_PARAMS_PATH",
+            params_file,
+        )
         inp = _base_inputs(
             data_confidence_score=0.90,
             n_comparable_observations=25,

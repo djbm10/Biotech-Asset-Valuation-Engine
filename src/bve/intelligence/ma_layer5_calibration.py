@@ -359,6 +359,21 @@ class Layer5Output(BaseModel):
         description="ScoreComposition attribution breakdown. None unless "
                     "Layer5Inputs.include_decomposition=True.")
 
+    # --- Block 22: calibration truthfulness ---
+    calibration_fitted: bool = Field(
+        default=False,
+        description="True only when ma_calibration_params.json exists and parses. "
+                    "False means hard-coded defaults (slope=8.0, midpoint=0.68) are in use.",
+    )
+    calibration_params_source: str = Field(
+        default="hard_coded_defaults",
+        description="'fitted_file' when params loaded from JSON; 'hard_coded_defaults' otherwise.",
+    )
+    calibration_warning: Optional[str] = Field(
+        default=None,
+        description="Set to a warning string when calibration_fitted=False; None when fitted.",
+    )
+
     # Metadata
     as_of_date: str
     model_version: str
@@ -626,6 +641,26 @@ def _build_interpretation(
 
 
 # ---------------------------------------------------------------------------
+# Block 22: calibration truthfulness helpers
+# ---------------------------------------------------------------------------
+
+def _is_calibration_fitted() -> bool:
+    """Return True when ma_calibration_params.json exists AND parses successfully.
+
+    Checked at call time (not import time) so monkeypatching in tests works correctly.
+    """
+    if not _CALIBRATION_PARAMS_PATH.exists():
+        return False
+    try:
+        data = json.loads(_CALIBRATION_PARAMS_PATH.read_text())
+        float(data["slope"])
+        float(data["midpoint"])
+        return True
+    except (KeyError, ValueError, json.JSONDecodeError):
+        return False
+
+
+# ---------------------------------------------------------------------------
 # Block 20: resolve_comparable_bucket_rate helper
 # ---------------------------------------------------------------------------
 
@@ -694,6 +729,20 @@ def compute_layer5(inputs: Layer5Inputs) -> Layer5Output:
     # Step 4: band, confidence, range
     band = _probability_band(p12m)
     confidence = _confidence_level(inputs)
+
+    # Block 22: calibration truthfulness — cap confidence when logistic is unfitted
+    cal_fitted = _is_calibration_fitted()
+    if not cal_fitted and confidence != ConfidenceLevel.VERY_LOW:
+        confidence = ConfidenceLevel.VERY_LOW
+    cal_params_source = "fitted_file" if cal_fitted else "hard_coded_defaults"
+    cal_warning: Optional[str] = (
+        None if cal_fitted else (
+            "Logistic calibration uses hard-coded defaults (slope=8.0, midpoint=0.68). "
+            "Run fit_logistic_calibration() and save_calibration_params() to replace "
+            "these un-validated constants."
+        )
+    )
+
     range_lo, range_hi = _probability_range(p12m, confidence)
 
     # Step 5: divergence flag
@@ -791,6 +840,9 @@ def compute_layer5(inputs: Layer5Inputs) -> Layer5Output:
         logistic_probability_used=round(logistic_prob, 6),
         shrinkage_weights=weights,
         score_composition=score_composition,
+        calibration_fitted=cal_fitted,
+        calibration_params_source=cal_params_source,
+        calibration_warning=cal_warning,
         as_of_date=inputs.as_of_date,
         model_version=inputs.model_version,
         interpretation=interpretation,

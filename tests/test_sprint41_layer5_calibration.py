@@ -770,7 +770,15 @@ class TestLogisticProbabilitySource:
 class TestProcessReadyIntegration:
     """High-readiness target: strong signals, high confidence."""
 
-    def test_process_ready_scenario(self):
+    def test_process_ready_scenario(self, tmp_path, monkeypatch):
+        # Block 22: HIGH confidence requires a fitted calibration. Monkeypatch a valid file.
+        import json
+        params_file = tmp_path / "ma_calibration_params.json"
+        params_file.write_text(json.dumps({"slope": 8.0, "midpoint": 0.68}))
+        monkeypatch.setattr(
+            "bve.intelligence.ma_layer5_calibration._CALIBRATION_PARAMS_PATH",
+            params_file,
+        )
         inputs = Layer5Inputs(
             rank_score=0.82,
             rank_percentile=0.90,
@@ -790,7 +798,7 @@ class TestProcessReadyIntegration:
             target_name="TargetCo",
         )
         result = compute_layer5(inputs)
-        # High confidence expected (data_confidence=0.90, n=35)
+        # High confidence expected (data_confidence=0.90, n=35, calibration_fitted=True)
         assert result.confidence_level == ConfidenceLevel.HIGH.value
         # p12m should be meaningful
         assert result.p_takeout_12m > 0.15
@@ -801,7 +809,15 @@ class TestProcessReadyIntegration:
         # Positive drivers
         assert len(result.top_positive_drivers) >= 2
 
-    def test_process_ready_display_shows_percentage(self):
+    def test_process_ready_display_shows_percentage(self, tmp_path, monkeypatch):
+        # Block 22: HIGH confidence requires a fitted calibration. Monkeypatch a valid file.
+        import json
+        params_file = tmp_path / "ma_calibration_params.json"
+        params_file.write_text(json.dumps({"slope": 8.0, "midpoint": 0.68}))
+        monkeypatch.setattr(
+            "bve.intelligence.ma_layer5_calibration._CALIBRATION_PARAMS_PATH",
+            params_file,
+        )
         inputs = Layer5Inputs(
             rank_score=0.82,
             rank_percentile=0.90,
@@ -895,7 +911,15 @@ class TestStrategicRadarIntegration:
         result = compute_layer5(inputs)
         assert "Strategic-radar" in result.calibration_cohort
 
-    def test_strategic_radar_low_confidence_band_only_display(self):
+    def test_strategic_radar_low_confidence_band_only_display(self, tmp_path, monkeypatch):
+        # Block 22: confidence cap removed when calibration is fitted.
+        import json
+        params_file = tmp_path / "ma_calibration_params.json"
+        params_file.write_text(json.dumps({"slope": 8.0, "midpoint": 0.68}))
+        monkeypatch.setattr(
+            "bve.intelligence.ma_layer5_calibration._CALIBRATION_PARAMS_PATH",
+            params_file,
+        )
         inputs = Layer5Inputs(
             rank_score=0.45,
             rank_percentile=0.40,
