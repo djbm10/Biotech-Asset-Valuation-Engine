@@ -25,7 +25,7 @@ from pydantic import BaseModel, Field, model_validator
 
 from bve.config.constants import PHASE_SUCCESS_RATES
 from bve.entities.asset import ApprovalPathwayType, TherapeuticArea
-from bve.entities.trial import EndpointType, GeneTherapyConcern, TrialPhase
+from bve.entities.trial import BreakthroughDesignationType, EndpointType, GeneTherapyConcern, TrialPhase
 
 _AA_NDA_DISCOUNT: float = 0.18  # confirmatory trial risk discount for accelerated approval
 
@@ -775,8 +775,33 @@ _L1_CAP_NEGATIVE: float = -0.80
 
 # Breakthrough Therapy Designation: process designation, not approval probability.
 # Primary effect is faster FDA review, not higher binary approval likelihood.
-# +0.05 retains a tiny signal for FDA engagement level. (Was +0.20 pre-Sprint-9.)
-_BTD_LOGODDS: float = 0.05
+# Block 28: type-conditional table replaces flat constant.
+# EVIDENCE-INFORMED PRIORS — conservative values per reviewer guidance.
+_BTD_LOGODDS: float = 0.05  # kept for backward compat; GRANTED_STANDARD maps here
+
+_BTD_LOGODDS_BY_TYPE: dict[BreakthroughDesignationType, float] = {
+    BreakthroughDesignationType.NONE:                  0.00,
+    BreakthroughDesignationType.FAST_TRACK_ONLY:      +0.02,  # process only; minimal POS signal
+    BreakthroughDesignationType.GRANTED_STANDARD:     +0.05,  # same as pre-Block-28 default
+    BreakthroughDesignationType.GRANTED_RARE_HEME:    +0.10,  # best translation evidence
+    BreakthroughDesignationType.GRANTED_SOLID_TUMOR:  +0.03,  # selection-bias adjusted
+    BreakthroughDesignationType.GRANTED_EARLY_PHASE:  +0.08,  # strong early FDA engagement
+    BreakthroughDesignationType.BREAKTHROUGH_REVOKED: -0.15,  # loss of FDA confidence signal
+}
+
+# BTD types that trigger the timeline_acceleration_flag
+_BTD_TIMELINE_ACCELERATION_TYPES = frozenset([
+    BreakthroughDesignationType.GRANTED_STANDARD,
+    BreakthroughDesignationType.GRANTED_RARE_HEME,
+    BreakthroughDesignationType.GRANTED_SOLID_TUMOR,
+    BreakthroughDesignationType.GRANTED_EARLY_PHASE,
+])
+
+# BTD types that can trigger overlap warning (high-tier BTD with strong prior + exceeds_mcid)
+_BTD_OVERLAP_WARNING_TYPES = frozenset([
+    BreakthroughDesignationType.GRANTED_RARE_HEME,
+    BreakthroughDesignationType.GRANTED_EARLY_PHASE,
+])
 
 
 # ---------------------------------------------------------------------------
@@ -841,7 +866,20 @@ class POSAdjusters(BaseModel):
         default=False,
         description=(
             "FDA Breakthrough Therapy Designation. Process signal; kept small (+0.05). "
-            "Does NOT represent a meaningful biological probability boost."
+            "Does NOT represent a meaningful biological probability boost. "
+            "Block 28: use breakthrough_designation (BreakthroughDesignationType) for "
+            "type-conditional log-odds. When breakthrough_designation is set, it takes "
+            "precedence over this bool."
+        ),
+    )
+    # --- Block 28: type-conditional BTD field ---
+    breakthrough_designation: Optional[BreakthroughDesignationType] = Field(
+        default=None,
+        description=(
+            "Block 28: FDA BTD context. Overrides has_breakthrough_designation when set. "
+            "GRANTED_STANDARD (+0.05) is backward-compatible with has_breakthrough_designation=True. "
+            "BREAKTHROUGH_REVOKED (-0.15) penalises loss of FDA confidence. "
+            "None: falls back to has_breakthrough_designation bool."
         ),
     )
     extraordinary_evidence: bool = Field(
@@ -1066,10 +1104,17 @@ def _compute_layer1_adjustment(
 
     delta += _BIOMARKER_LOGODDS[adjusters.biomarker_selection]
     delta += _PRIOR_PHASE_LOGODDS[adjusters.prior_phase_data]
-    if adjusters.has_breakthrough_designation:
-        # BTD is a process designation; primary effect is faster review, not higher
-        # binary approval probability. +0.05 retains a tiny signal for FDA engagement.
-        delta += _BTD_LOGODDS
+    # Block 28: BTD type-conditional log-odds
+    # breakthrough_designation takes precedence over has_breakthrough_designation bool.
+    _btd_type: Optional[BreakthroughDesignationType] = adjusters.breakthrough_designation
+    if _btd_type is None:
+        # Backward compat: map bool to type
+        _btd_type = (
+            BreakthroughDesignationType.GRANTED_STANDARD
+            if adjusters.has_breakthrough_designation
+            else BreakthroughDesignationType.NONE
+        )
+    delta += _BTD_LOGODDS_BY_TYPE[_btd_type]
 
     # Gene / cell therapy overlays (additive; no effect when list is empty)
     for concern in adjusters.gene_cell_therapy_concerns:
@@ -1114,13 +1159,23 @@ class POSComputeResult:
           "dose_selection_unknown"       — DoseSelectionConfidence.UNKNOWN
           "clinical_effect_unknown"      — ClinicalEffectMagnitude.UNKNOWN (Phase 2/3 only)
           "placebo_response_unassessed"  — PlaceboResponseConcern.UNKNOWN (applicable TA/phase)
+          "btd_may_overlap_prior_data_and_effect_magnitude" — Block 28 overlap warning
     phase_realism_applied : bool
         True when phase-gated Block 18 adjusters (ClinicalEffectMagnitude,
         PlaceboResponseConcern) were active — i.e., phase is Phase 2 or Phase 3.
+    btd_timeline_acceleration_flag : bool
+        Block 28: True when a GRANTED_* BTD type is set (not NONE, FAST_TRACK, or REVOKED).
+        Signals faster FDA review timeline — useful in M&A urgency scoring.
+    btd_overlap_warning : Optional[str]
+        Block 28: Set when high-tier BTD (RARE_HEME/EARLY_PHASE) co-occurs with
+        strong prior phase data AND EXCEEDS_MCID clinical effect magnitude.
+        Signals potential double-counting; analyst should review log-odds manually.
     """
     pos: float
     confidence_flags: list[str] = dc_field(default_factory=list)
     phase_realism_applied: bool = False
+    btd_timeline_acceleration_flag: bool = False
+    btd_overlap_warning: Optional[str] = None
 
 
 def compute_pos_detailed(
@@ -1172,10 +1227,36 @@ def compute_pos_detailed(
     pos = round(1.0 / (1.0 + math.exp(-log_odds)), 4)
     phase_realism_applied = phase in _REALISM_APPLICABLE_PHASES
 
+    # Block 28: BTD timeline acceleration flag + overlap warning
+    _btd_effective = adjusters.breakthrough_designation
+    if _btd_effective is None:
+        _btd_effective = (
+            BreakthroughDesignationType.GRANTED_STANDARD
+            if adjusters.has_breakthrough_designation
+            else BreakthroughDesignationType.NONE
+        )
+    _btd_timeline_flag = _btd_effective in _BTD_TIMELINE_ACCELERATION_TYPES
+
+    _btd_overlap_warning: Optional[str] = None
+    if _btd_effective in _BTD_OVERLAP_WARNING_TYPES:
+        _strong_prior = adjusters.prior_phase_data in (
+            PriorPhaseDataStrength.STRONG_REPLICATED,
+            PriorPhaseDataStrength.STRONG_SINGLE,
+        )
+        _exceeds_mcid = adjusters.clinical_effect_magnitude == ClinicalEffectMagnitude.EXCEEDS_MCID
+        if _strong_prior and _exceeds_mcid:
+            _btd_overlap_warning = (
+                "BTD signal may partially overlap strong prior phase data + effect magnitude; "
+                "review log-odds to avoid double-counting."
+            )
+            confidence_flags = list(confidence_flags) + ["btd_may_overlap_prior_data_and_effect_magnitude"]
+
     return POSComputeResult(
         pos=pos,
         confidence_flags=confidence_flags,
         phase_realism_applied=phase_realism_applied,
+        btd_timeline_acceleration_flag=_btd_timeline_flag,
+        btd_overlap_warning=_btd_overlap_warning,
     )
 
 

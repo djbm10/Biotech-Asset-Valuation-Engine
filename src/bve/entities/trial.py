@@ -94,6 +94,27 @@ class GeneTherapyConcern(str, Enum):
     BIOMARKER_ONLY_NO_FUNCTION = "biomarker_only_no_function"          # −0.300
 
 
+class BreakthroughDesignationType(str, Enum):
+    """
+    FDA Breakthrough Therapy Designation (BTD) context.
+
+    BTD is primarily a TIMELINE ACCELERATION signal — faster FDA engagement and
+    rolling review.  The POS effect is modest; do not use large log-odds.
+    Overlap warning is emitted when high-tier BTD co-occurs with strong prior
+    phase data + EXCEEDS_MCID clinical effect magnitude.
+
+    has_breakthrough_designation=True (bool) maps to GRANTED_STANDARD (+0.05).
+    has_breakthrough_designation=False maps to NONE (0.00).
+    """
+    NONE                 = "none"                # No BTD; no adjustment
+    FAST_TRACK_ONLY      = "fast_track_only"     # Fast Track designation; weaker signal
+    GRANTED_STANDARD     = "granted_standard"    # BTD granted; standard Phase 2/3
+    GRANTED_RARE_HEME    = "granted_rare_heme"   # Rare disease or hematology BTD
+    GRANTED_SOLID_TUMOR  = "granted_solid_tumor" # Solid tumor; crowded field
+    GRANTED_EARLY_PHASE  = "granted_early_phase" # BTD at Phase 1 — strong FDA engagement
+    BREAKTHROUGH_REVOKED = "breakthrough_revoked"  # Withdrawn/rescinded
+
+
 class SpendProfile(str, Enum):
     """
     How cost_millions is modelled as cash flowing within the phase.
