@@ -258,6 +258,39 @@ class SellerWillingness(str, Enum):
     UNKNOWN          = "unknown"
 
 
+class DealEncumbranceType(str, Enum):
+    """
+    Type of deal encumbrance affecting closing probability for a full acquisition.
+
+    Encumbrances affect p_effective_close_12m only — NOT p_any_strategic_transaction_12m.
+    The calibrated strategic interest signal must never be mutated.
+
+    ROFR (Right of First Refusal):  acquirer must match any third-party offer — chills
+        competitive tension most severely. Multiplier: 0.75.
+    ROFN (Right of First Negotiation): acquirer must be offered first chance to negotiate
+        — less restrictive than ROFR. Multiplier: 0.90.
+    OPTION_TO_ACQUIRE: a partner holds an option to acquire before open market — minor
+        friction on timing, not competition. Multiplier: 0.95.
+    NONE: no encumbrance; full acquisition open. Multiplier: 1.0.
+    UNKNOWN: no evidence of encumbrance status. Point estimate unchanged; confidence
+        degrades one tier. Multiplier: 1.0 (unknown ≠ present).
+    """
+    NONE             = "none"
+    ROFR             = "rofr"
+    ROFN             = "rofn"
+    OPTION_TO_ACQUIRE = "option_to_acquire"
+    UNKNOWN          = "unknown"
+
+
+_ENCUMBRANCE_MULTIPLIERS: dict[DealEncumbranceType, float] = {
+    DealEncumbranceType.NONE:             1.00,
+    DealEncumbranceType.OPTION_TO_ACQUIRE: 0.95,
+    DealEncumbranceType.ROFN:             0.90,
+    DealEncumbranceType.ROFR:             0.75,
+    DealEncumbranceType.UNKNOWN:          1.00,  # lowers confidence only, not estimate
+}
+
+
 _SELLER_WILLINGNESS_SCORES: dict[SellerWillingness, float] = {
     SellerWillingness.ACTIVELY_SEEKING: 0.90,
     SellerWillingness.OPEN:             0.70,
@@ -399,6 +432,16 @@ class Layer5Inputs(BaseModel):
         default=CatalystType.UNKNOWN,
         description="Type of next material catalyst. Higher-stakes types + near-term "
                     "timing → more front-loaded probability distribution.",
+    )
+
+    # --- Block 29: deal encumbrance context ---
+    deal_encumbrance: Optional[DealEncumbranceType] = Field(
+        default=None,
+        description=(
+            "Block 29 deal encumbrance type. When set, applies a closing-probability "
+            "multiplier to p_effective_close_12m only. UNKNOWN degrades confidence one "
+            "tier but does not reduce the point estimate."
+        ),
     )
 
     # Metadata
@@ -552,6 +595,30 @@ class Layer5Output(BaseModel):
     scale_18m_exponent_applied: float = Field(
         default=_SCALE_18M_EXPONENT,
         description="Actual 18m survival exponent used (audit). 1.35 = neutral default.",
+    )
+
+    # --- Block 29: deal encumbrance fields ---
+    p_effective_close_12m: float = Field(
+        default=0.0,
+        ge=0.0,
+        le=1.0,
+        description=(
+            "Post-encumbrance 12-month closing probability. "
+            "= p_any_strategic_transaction_12m × encumbrance_multiplier_applied. "
+            "Separate from p_any (which is never mutated by encumbrance). "
+            "Use this when estimating probability of a FULL ACQUISITION completing."
+        ),
+    )
+    encumbrance_flag: Optional[str] = Field(
+        default=None,
+        description=(
+            "Set when deal_encumbrance is an active type (ROFR/ROFN/OPTION/UNKNOWN). "
+            "None when deal_encumbrance is NONE or unset."
+        ),
+    )
+    encumbrance_multiplier_applied: float = Field(
+        default=1.0,
+        description="Encumbrance closing multiplier used (audit). 1.0 when no encumbrance.",
     )
 
     # Metadata
@@ -1008,6 +1075,19 @@ def compute_layer5(inputs: Layer5Inputs) -> Layer5Output:
         _idx = _tier_order.index(confidence)
         confidence = _tier_order[min(_idx + 1, len(_tier_order) - 1)]
 
+    # Block 29 (pre-compute): degrade confidence for UNKNOWN encumbrance
+    # The multiplier and p_effective_close are computed after p_any is assigned (below).
+    _enc_pre = inputs.deal_encumbrance
+    if _enc_pre == DealEncumbranceType.UNKNOWN:
+        _tier_order_enc = [
+            ConfidenceLevel.HIGH,
+            ConfidenceLevel.MEDIUM,
+            ConfidenceLevel.LOW,
+            ConfidenceLevel.VERY_LOW,
+        ]
+        _idx_enc = _tier_order_enc.index(confidence)
+        confidence = _tier_order_enc[min(_idx_enc + 1, len(_tier_order_enc) - 1)]
+
     range_lo, range_hi = _probability_range(p12m, confidence)
 
     # Step 5: divergence flag
@@ -1078,6 +1158,26 @@ def compute_layer5(inputs: Layer5Inputs) -> Layer5Output:
     # p_takeout_12m is the deprecated alias for p_full_acquisition_12m
     p_takeout_alias = p_full_acq
 
+    # Block 29: deal encumbrance — compute p_effective_close_12m
+    # Must run AFTER p_any is assigned (p_any must not be mutated).
+    # Confidence degradation for UNKNOWN is applied here too (after range is computed).
+    _enc = inputs.deal_encumbrance
+    _enc_type = _enc if _enc is not None else DealEncumbranceType.NONE
+    _enc_multiplier: float = _ENCUMBRANCE_MULTIPLIERS[_enc_type]
+    _p_effective_close = round(min(max(p_any * _enc_multiplier, 0.0), 1.0), 6)
+
+    # Build encumbrance_flag: set for active/unknown, None for NONE or unset
+    _encumbrance_flag: Optional[str] = None
+    if _enc is not None and _enc != DealEncumbranceType.NONE:
+        if _enc == DealEncumbranceType.UNKNOWN:
+            _encumbrance_flag = "deal_encumbrance_unknown"
+        elif _enc == DealEncumbranceType.ROFR:
+            _encumbrance_flag = "deal_encumbrance_rofr"
+        elif _enc == DealEncumbranceType.ROFN:
+            _encumbrance_flag = "deal_encumbrance_rofn"
+        elif _enc == DealEncumbranceType.OPTION_TO_ACQUIRE:
+            _encumbrance_flag = "deal_encumbrance_option_to_acquire"
+
     return Layer5Output(
         target_name=inputs.target_name,
         acquirer_id=inputs.acquirer_id,
@@ -1121,6 +1221,10 @@ def compute_layer5(inputs: Layer5Inputs) -> Layer5Output:
         timing_rationale=_timing_rat,
         scale_6m_applied=_scale_6m,
         scale_18m_exponent_applied=_exponent_18m,
+        # Block 29: deal encumbrance fields
+        p_effective_close_12m=_p_effective_close,
+        encumbrance_flag=_encumbrance_flag,
+        encumbrance_multiplier_applied=_enc_multiplier,
         as_of_date=inputs.as_of_date,
         model_version=inputs.model_version,
         interpretation=interpretation,
