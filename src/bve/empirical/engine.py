@@ -492,7 +492,8 @@ class EmpiricalPOSEngine:
     @staticmethod
     def _layer1_adjustment(adjusters) -> float:
         from bve.models.pos_model import _compute_layer1_adjustment
-        return _compute_layer1_adjustment(adjusters)
+        delta, _flags = _compute_layer1_adjustment(adjusters)
+        return delta
 
     @staticmethod
     def _layer1_adjustment_detailed(adjusters) -> list:

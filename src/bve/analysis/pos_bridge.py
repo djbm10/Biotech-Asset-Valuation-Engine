@@ -195,6 +195,7 @@ def compute_phase_pos_calibrated(
     """
     from bve.models.pos_model import POSAdjusters, _compute_layer1_adjustment  # noqa: F401
 
+    adjusters_provided = adjusters is not None
     if adjusters is None:
         adjusters = POSAdjusters()
 
@@ -225,7 +226,11 @@ def compute_phase_pos_calibrated(
 
     try:
         from bve.models.pos_model import _L1_CAP_NEGATIVE, _L1_CAP_POSITIVE
-        adjustment = _compute_layer1_adjustment(adjusters)
+        from bve.entities.trial import TrialPhase as _TP_ADJ
+        if phase == _TP_ADJ.NDA_BLA and not adjusters_provided:
+            adjustment = 0.0
+        else:
+            adjustment, _flags = _compute_layer1_adjustment(adjusters, ta_value=ta_str)
         adjustment = max(_L1_CAP_NEGATIVE, min(_L1_CAP_POSITIVE, adjustment))
         log_odds += adjustment
     except Exception:

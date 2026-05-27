@@ -16,6 +16,7 @@ Reference: Lee et al. (2019) "Predicting drug development pipeline results"
 from __future__ import annotations
 
 import math
+from dataclasses import dataclass, field as dc_field
 from enum import Enum
 from typing import Optional
 
@@ -587,6 +588,115 @@ _PRIOR_PHASE_LOGODDS: dict[PriorPhaseDataStrength, float] = {
     PriorPhaseDataStrength.FAILED:            -0.35,  # Prior failure or inconsistent signal
 }
 
+# ---------------------------------------------------------------------------
+# Block 18 — Scientific Realism adjusters
+# ---------------------------------------------------------------------------
+
+class DoseSelectionConfidence(str, Enum):
+    """
+    Confidence that the dose being advanced is clinically optimal.
+
+    PK/PD characterisation is a consistent Phase 2→3 failure contributor.
+    Use UNKNOWN when dose justification is absent — this reduces POS confidence
+    (output flag) but does not penalise the point estimate.
+
+    Design: downside-only.  Good dose selection avoids a penalty; it does not
+    make the biology more likely to work.
+
+    Log-odds:
+      PK_PD_MODELED                    0.00  (no penalty — optimal)
+      EXPOSURE_RESPONSE_CHARACTERIZED  0.00  (no penalty)
+      EMPIRICAL_FROM_MTD              -0.10  (empirical dose, no exposure model)
+      EMPIRICAL_NO_PD_CONFIRMATION    -0.25  (no PD readout confirming dose)
+      UNKNOWN                          0.00  + confidence_flag "dose_selection_unknown"
+    """
+    PK_PD_MODELED                   = "pk_pd_modeled"
+    EXPOSURE_RESPONSE_CHARACTERIZED = "exposure_response_characterized"
+    EMPIRICAL_FROM_MTD              = "empirical_from_mtd"
+    EMPIRICAL_NO_PD_CONFIRMATION    = "empirical_no_pd_confirmation"
+    UNKNOWN                         = "unknown"
+
+
+class ClinicalEffectMagnitude(str, Enum):
+    """
+    Magnitude of observed clinical effect relative to the minimum clinically
+    important difference (MCID) for the primary endpoint.
+
+    IMPORTANT: MCID is user-curated and endpoint-context dependent.  The model
+    does not know MCID automatically — you must assess it relative to the
+    specific endpoint and TA (e.g., HbA1c reduction, eGFR slope, MADRS score,
+    FEV1, ORR).  Do not assign a tier without knowing the relevant MCID.
+
+    Applies only to Phase 2 and Phase 3.  Silent no-op at Phase 1 and NDA/BLA.
+
+    Log-odds (Phase 2/3 only):
+      EXCEEDS_MCID  +0.25
+      MEETS_MCID     0.00  (reference)
+      BELOW_MCID    -0.30
+      UNKNOWN        0.00  + confidence_flag "clinical_effect_unknown"
+
+    Default: UNKNOWN — not MEETS_MCID.  Unknown ≠ meets threshold.
+    """
+    EXCEEDS_MCID = "exceeds_mcid"
+    MEETS_MCID   = "meets_mcid"
+    BELOW_MCID   = "below_mcid"
+    UNKNOWN      = "unknown"
+
+
+class PlaceboResponseConcern(str, Enum):
+    """
+    Risk that high placebo response will inflate apparent treatment effect and
+    prevent clean statistical separation.
+
+    Applies only to Phase 2 and Phase 3 in CNS, psychiatry, gastroenterology,
+    and pain indications.  Silent no-op for all other TAs and phases.
+
+    Log-odds (applicable TAs and phases only):
+      UNKNOWN   0.00  + confidence_flag "placebo_response_unassessed"
+      NONE      0.00  (explicitly assessed — no placebo inflation risk)
+      MODERATE -0.15
+      HIGH     -0.30
+
+    Default: UNKNOWN — not NONE.  Unassessed ≠ no risk.
+    """
+    UNKNOWN  = "unknown"
+    NONE     = "none"
+    MODERATE = "moderate"
+    HIGH     = "high"
+
+
+_DOSE_SELECTION_LOGODDS: dict[DoseSelectionConfidence, float] = {
+    DoseSelectionConfidence.PK_PD_MODELED:                    0.00,
+    DoseSelectionConfidence.EXPOSURE_RESPONSE_CHARACTERIZED:  0.00,
+    DoseSelectionConfidence.EMPIRICAL_FROM_MTD:              -0.10,
+    DoseSelectionConfidence.EMPIRICAL_NO_PD_CONFIRMATION:    -0.25,
+    DoseSelectionConfidence.UNKNOWN:                          0.00,  # flag only
+}
+
+_CLINICAL_EFFECT_LOGODDS: dict[ClinicalEffectMagnitude, float] = {
+    ClinicalEffectMagnitude.EXCEEDS_MCID: +0.25,
+    ClinicalEffectMagnitude.MEETS_MCID:   0.00,
+    ClinicalEffectMagnitude.BELOW_MCID:  -0.30,
+    ClinicalEffectMagnitude.UNKNOWN:      0.00,  # flag only
+}
+
+_PLACEBO_RESPONSE_LOGODDS: dict[PlaceboResponseConcern, float] = {
+    PlaceboResponseConcern.UNKNOWN:   0.00,  # flag only
+    PlaceboResponseConcern.NONE:      0.00,
+    PlaceboResponseConcern.MODERATE: -0.15,
+    PlaceboResponseConcern.HIGH:     -0.30,
+}
+
+# TAs where placebo response concern is clinically meaningful
+_PLACEBO_CONCERN_TAS: frozenset[str] = frozenset([
+    "cns", "psychiatry", "gastroenterology", "pain",
+])
+
+# Phases where ClinicalEffectMagnitude and PlaceboResponseConcern apply
+_REALISM_APPLICABLE_PHASES: frozenset[TrialPhase] = frozenset([
+    TrialPhase.PHASE_2, TrialPhase.PHASE_3,
+])
+
 # Legacy single-value constants — kept for empirical engine backward compat
 _BIOMARKER_SELECTION_BONUS: float = 0.40
 _PRIOR_PHASE_SUCCESS_BONUS: float = 0.25
@@ -667,6 +777,34 @@ class POSAdjusters(BaseModel):
         ),
     )
 
+    # --- Block 18: Scientific Realism adjusters ---
+    dose_selection_confidence: DoseSelectionConfidence = Field(
+        default=DoseSelectionConfidence.UNKNOWN,
+        description=(
+            "Confidence in clinical dose optimality. Downside-only adjuster. "
+            "PK_PD_MODELED (0.00) through EMPIRICAL_NO_PD_CONFIRMATION (-0.25). "
+            "UNKNOWN: no point-estimate change; sets confidence_flag 'dose_selection_unknown'."
+        ),
+    )
+    clinical_effect_magnitude: ClinicalEffectMagnitude = Field(
+        default=ClinicalEffectMagnitude.UNKNOWN,
+        description=(
+            "Observed effect size vs MCID. Phase 2/3 only; silent no-op elsewhere. "
+            "MCID is user-curated and endpoint-specific — do not assign without knowing "
+            "the relevant threshold for this TA/endpoint. "
+            "EXCEEDS_MCID (+0.25), MEETS_MCID (0.00), BELOW_MCID (-0.30). "
+            "UNKNOWN: no point-estimate change; sets confidence_flag 'clinical_effect_unknown'."
+        ),
+    )
+    placebo_response_concern: PlaceboResponseConcern = Field(
+        default=PlaceboResponseConcern.UNKNOWN,
+        description=(
+            "Placebo inflation risk. CNS/psychiatry/GI/pain, Phase 2/3 only; silent no-op elsewhere. "
+            "UNKNOWN (default): unassessed — 0.00 delta + flag 'placebo_response_unassessed'. "
+            "NONE: explicitly assessed as no risk (0.00). MODERATE (-0.15), HIGH (-0.30)."
+        ),
+    )
+
     # Deprecated boolean fields — kept for backward compatibility with existing YAML
     # configs, backtest datasets, and older code. Prefer the graded enum fields above.
     # When set, these are automatically mapped to the corresponding enum tier via the
@@ -743,6 +881,7 @@ def compute_pos(
     -------
     float in (0, 1) — estimated probability of passing this phase
     """
+    adjusters_provided = adjusters is not None
     if adjusters is None:
         adjusters = POSAdjusters()
 
@@ -768,7 +907,10 @@ def compute_pos(
     log_odds = math.log(base_rate / (1.0 - base_rate))
 
     # Apply adjusters — sum into a named delta for cap enforcement
-    adjustment = _compute_layer1_adjustment(adjusters, ta_value=ta_key)
+    if phase == TrialPhase.NDA_BLA and not adjusters_provided:
+        adjustment = 0.0
+    else:
+        adjustment, _flags = _compute_layer1_adjustment(adjusters, ta_value=ta_key, phase=phase)
 
     # Cap the combined adjustment (not the absolute log-odds) so the TA base
     # rate is preserved; only analyst qualitative input is bounded.
@@ -791,15 +933,32 @@ def _endpoint_logodds(endpoint_type: EndpointType, ta_value: str) -> float:
     return _ENDPOINT_LOGODDS_GENERIC.get(endpoint_type, 0.0)
 
 
-def _compute_layer1_adjustment(adjusters: POSAdjusters, ta_value: str = "other") -> float:
+def _compute_layer1_adjustment(
+    adjusters: POSAdjusters,
+    ta_value: str = "other",
+    phase: Optional[TrialPhase] = None,
+) -> tuple[float, list[str]]:
     """
     Sum all Layer 1 qualitative adjusters into a single log-odds delta.
 
-    ta_value: TherapeuticArea.value string used for TA-specific endpoint scoring.
-    Extracted as a named function so tests can verify the raw adjustment
-    (pre-cap) and cap boundary behaviour independently.
+    Parameters
+    ----------
+    adjusters : POSAdjusters
+    ta_value  : TherapeuticArea.value string for TA-specific endpoint scoring.
+    phase     : TrialPhase — required for Block 18 phase-gated adjusters
+                (ClinicalEffectMagnitude, PlaceboResponseConcern).
+                When None, phase-gated adjusters are skipped.
+
+    Returns
+    -------
+    tuple[float, list[str]]
+        (total_delta, confidence_flags)
+        confidence_flags: list of string keys where an UNKNOWN/unassessed tier
+        was used.  The caller decides how to surface these.
     """
-    delta = 0.0
+    delta: float = 0.0
+    confidence_flags: list[str] = []
+
     delta += _endpoint_logodds(adjusters.endpoint_type, ta_value)
     delta += _MOA_LOGODDS[adjusters.moa_precedent]
     # MoA exception flags: partial override for weak precedent (additive)
@@ -820,7 +979,108 @@ def _compute_layer1_adjustment(adjusters: POSAdjusters, ta_value: str = "other")
     for concern in adjusters.gene_cell_therapy_concerns:
         delta += _GENE_THERAPY_LOGODDS.get(concern, 0.0)
 
-    return delta
+    # --- Block 18: Scientific Realism adjusters ---
+
+    # Dose selection: downside-only; always applies (not phase-gated)
+    delta += _DOSE_SELECTION_LOGODDS[adjusters.dose_selection_confidence]
+    if adjusters.dose_selection_confidence == DoseSelectionConfidence.UNKNOWN:
+        confidence_flags.append("dose_selection_unknown")
+
+    # Clinical effect magnitude: Phase 2/3 only
+    if phase in _REALISM_APPLICABLE_PHASES:
+        delta += _CLINICAL_EFFECT_LOGODDS[adjusters.clinical_effect_magnitude]
+        if adjusters.clinical_effect_magnitude == ClinicalEffectMagnitude.UNKNOWN:
+            confidence_flags.append("clinical_effect_unknown")
+
+    # Placebo response concern: Phase 2/3, applicable TAs only
+    if phase in _REALISM_APPLICABLE_PHASES and ta_value in _PLACEBO_CONCERN_TAS:
+        delta += _PLACEBO_RESPONSE_LOGODDS[adjusters.placebo_response_concern]
+        if adjusters.placebo_response_concern == PlaceboResponseConcern.UNKNOWN:
+            confidence_flags.append("placebo_response_unassessed")
+
+    return delta, confidence_flags
+
+
+@dataclass
+class POSComputeResult:
+    """
+    Detailed output from compute_pos_detailed().
+
+    Attributes
+    ----------
+    pos : float
+        Probability of success for this phase. Identical to what compute_pos() returns.
+    confidence_flags : list[str]
+        Keys where an UNKNOWN/unassessed tier was used in Layer 1 adjusters.
+        These do not change the point estimate but indicate where analyst input
+        is missing.  Surface to the user as data-quality warnings.
+        Possible values:
+          "dose_selection_unknown"       — DoseSelectionConfidence.UNKNOWN
+          "clinical_effect_unknown"      — ClinicalEffectMagnitude.UNKNOWN (Phase 2/3 only)
+          "placebo_response_unassessed"  — PlaceboResponseConcern.UNKNOWN (applicable TA/phase)
+    phase_realism_applied : bool
+        True when phase-gated Block 18 adjusters (ClinicalEffectMagnitude,
+        PlaceboResponseConcern) were active — i.e., phase is Phase 2 or Phase 3.
+    """
+    pos: float
+    confidence_flags: list[str] = dc_field(default_factory=list)
+    phase_realism_applied: bool = False
+
+
+def compute_pos_detailed(
+    phase: TrialPhase,
+    therapeutic_area: TherapeuticArea,
+    adjusters: Optional[POSAdjusters] = None,
+    approval_pathway: Optional[ApprovalPathwayType] = None,
+) -> POSComputeResult:
+    """
+    Compute POS with full confidence flag output.
+
+    Same logic as compute_pos() but returns a POSComputeResult carrying
+    the confidence_flags list from _compute_layer1_adjustment().
+
+    Use this when you need to surface data-quality warnings alongside the
+    point estimate (e.g., in decision reports, validation output).
+    Use compute_pos() when only the float is needed.
+    """
+    adjusters_provided = adjusters is not None
+    if adjusters is None:
+        adjusters = POSAdjusters()
+
+    ta_key = therapeutic_area.value
+    base_rates = PHASE_SUCCESS_RATES.get(ta_key) or PHASE_SUCCESS_RATES["all"]
+    base_rate = base_rates.get(phase.value, 0.40)
+
+    if (
+        approval_pathway is not None
+        and approval_pathway == ApprovalPathwayType.ACCELERATED
+        and phase == TrialPhase.NDA_BLA
+    ):
+        base_rate = base_rate * (1.0 - _AA_NDA_DISCOUNT)
+
+    base_rate = max(0.01, min(0.99, base_rate))
+    log_odds = math.log(base_rate / (1.0 - base_rate))
+
+    if phase == TrialPhase.NDA_BLA and not adjusters_provided:
+        adjustment = 0.0
+        confidence_flags: list[str] = []
+    else:
+        adjustment, confidence_flags = _compute_layer1_adjustment(
+            adjusters, ta_value=ta_key, phase=phase
+        )
+
+    cap_pos = _L1_CAP_POSITIVE_EXTRAORDINARY if adjusters.extraordinary_evidence else _L1_CAP_POSITIVE
+    adjustment = max(_L1_CAP_NEGATIVE, min(cap_pos, adjustment))
+    log_odds += adjustment
+
+    pos = round(1.0 / (1.0 + math.exp(-log_odds)), 4)
+    phase_realism_applied = phase in _REALISM_APPLICABLE_PHASES
+
+    return POSComputeResult(
+        pos=pos,
+        confidence_flags=confidence_flags,
+        phase_realism_applied=phase_realism_applied,
+    )
 
 
 def compute_cumulative_pos(phase_pos_list: list[float]) -> float:
