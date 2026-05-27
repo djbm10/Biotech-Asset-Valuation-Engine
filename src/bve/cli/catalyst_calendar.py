@@ -1,135 +1,114 @@
-"""
-CLI: bve-catalyst-calendar — display upcoming catalyst events ranked by signal strength.
+"""CLI: bve-catalyst-calendar — ranked catalyst edge screen.
+
+Combines model POS, market-implied POS, upcoming catalyst dates, and binary
+event volatility to rank where BVE disagrees with the market ahead of a
+near-term event.
 
 Usage
 -----
     bve-catalyst-calendar
-    bve-catalyst-calendar --asset MRTX
-    bve-catalyst-calendar --days-ahead 90
-    bve-catalyst-calendar --asset MRTX --days-ahead 180 --db outputs/intel/knowledge.db
+    bve-catalyst-calendar --tickers SRPT VKTX ALNY
+    bve-catalyst-calendar --days 90
+    bve-catalyst-calendar --min-edge 0.10
+    bve-catalyst-calendar --output outputs/calendar_2026-05-26.md
+    bve-catalyst-calendar --json
+    bve-catalyst-calendar --skip-refresh       # offline / test mode
 
 Output columns
 --------------
-    date | asset | type | signal_strength | delta_ev ($M) | asymmetry | confidence
+    Ticker | Event | Date | Days | Model P | Mkt P | Gap | Mkt Cap | Move% | Edge | Conf
 """
 from __future__ import annotations
 
-import argparse
+import json
 import sys
+from pathlib import Path
 
 
-_CAP_RISK_WARN = {"high", "critical"}
+def main(argv: list[str] | None = None) -> int:
+    import argparse
 
-
-def _extract_cap_risk(ev) -> str:
-    """
-    Extract capital_risk label from the event description tag if present.
-    Returns a display string with a warning marker for HIGH/CRITICAL.
-    """
-    desc = getattr(ev, "description", "") or ""
-    # Description tag format: "cap_risk=<level>" (set by pipeline when available)
-    for part in desc.split("|"):
-        part = part.strip()
-        if part.startswith("cap_risk="):
-            level = part.split("=", 1)[1].strip().lower()
-            if level in _CAP_RISK_WARN:
-                return f"⚠ {level}"
-            return level
-    return "—"
-
-
-def _fmt_float(v, fmt=".2f") -> str:
-    if v is None:
-        return "—"
-    if v == float("inf"):
-        return "∞"
-    return f"{v:{fmt}}"
-
-
-def main() -> None:
     parser = argparse.ArgumentParser(
-        description="Display upcoming catalyst events ranked by signal strength."
+        prog="bve-catalyst-calendar",
+        description=(
+            "Display upcoming catalyst events ranked by edge score "
+            "(POS gap × event materiality × confidence × timing)."
+        ),
     )
     parser.add_argument(
-        "--asset",
-        metavar="ASSET_ID",
-        default=None,
-        help="Filter to a specific asset_id (or ticker)",
+        "--tickers", nargs="+", metavar="TICKER", default=None,
+        help="Restrict to these tickers. Default: full tracked universe.",
     )
     parser.add_argument(
-        "--days-ahead",
-        type=int,
-        default=90,
-        metavar="N",
-        help="Only show catalysts within N days (default 90)",
+        "--days", type=int, default=180, metavar="N",
+        help="Only include events within N days (default 180).",
     )
     parser.add_argument(
-        "--db",
-        default="outputs/intelligence_phase2/knowledge.db",
-        metavar="PATH",
-        help="Path to the KnowledgeStore SQLite database",
+        "--min-edge", type=float, default=0.0, dest="min_edge", metavar="FLOAT",
+        help="Hide rows with edge_score < FLOAT (default 0.0 = show all).",
     )
     parser.add_argument(
-        "--all",
-        action="store_true",
-        dest="show_all",
-        help="Include resolved / inactive catalysts",
+        "--output", default=None, metavar="PATH",
+        help="Write Markdown output to PATH (default: stdout).",
     )
-    args = parser.parse_args()
+    parser.add_argument(
+        "--json", action="store_true", dest="emit_json",
+        help="Emit JSON array instead of Markdown.",
+    )
+    parser.add_argument(
+        "--skip-refresh", action="store_true", dest="skip_refresh",
+        help="Skip live market/financial fetch (offline / test mode).",
+    )
+    parser.add_argument(
+        "--ops-db", default=None, dest="ops_db", metavar="PATH",
+        help="Path to intelligence ops.db (default: outputs/intelligence/ops.db).",
+    )
+    parser.add_argument(
+        "--outputs-dir", default=None, dest="outputs_dir", metavar="PATH",
+        help="Root outputs directory (default: outputs/).",
+    )
+    args = parser.parse_args(argv)
 
-    from bve.intelligence.knowledge_layer import KnowledgeStore
+    root = Path("outputs")
+    ops_db = Path(args.ops_db) if args.ops_db else (root / "intelligence" / "ops.db")
+    outputs_dir = Path(args.outputs_dir) if args.outputs_dir else root
 
-    try:
-        ks = KnowledgeStore(db_path=args.db)
-    except Exception as exc:
-        print(f"ERROR: could not open knowledge store at {args.db!r}: {exc}", file=sys.stderr)
-        sys.exit(1)
+    from bve.intelligence.catalyst_edge_calendar import CatalystEdgeCalendar
 
-    events = ks.get_catalyst_events(
-        asset_id=args.asset,
-        active_only=not args.show_all,
-        days_ahead=args.days_ahead,
+    calendar = CatalystEdgeCalendar(
+        ops_db=ops_db,
+        outputs_dir=outputs_dir,
+        max_days_forward=args.days,
+        skip_market_refresh=args.skip_refresh,
     )
 
-    if not events:
-        print("No catalyst events found.")
-        return
+    records = calendar.build(tickers=args.tickers)
 
-    # Sort by signal_strength descending (None treated as 0)
-    events_sorted = sorted(
-        events,
-        key=lambda e: (e.signal_strength or 0.0),
-        reverse=True,
-    )
+    # Apply min-edge filter
+    if args.min_edge > 0:
+        records = [r for r in records if (r.edge_score or 0.0) >= args.min_edge]
 
-    # Header
-    col_w = [12, 16, 22, 16, 15, 12, 12, 10]
-    headers = ["date", "asset", "type", "signal_strength", "delta_ev ($M)", "asymmetry", "confidence", "cap_risk"]
-    row_fmt = "  ".join(f"{{:<{w}}}" for w in col_w)
+    # Format output
+    if args.emit_json:
+        output = json.dumps([r.to_dict() for r in records], indent=2, default=str)
+    else:
+        output = calendar.render_markdown(records)
+        if records:
+            output += (
+                f"\n*{len(records)} event(s) shown"
+                f" | window: {args.days}d"
+                f" | min-edge: {args.min_edge:.2f}*\n"
+            )
 
-    print()
-    print(row_fmt.format(*headers))
-    print("  ".join("─" * w for w in col_w))
+    if args.output:
+        Path(args.output).parent.mkdir(parents=True, exist_ok=True)
+        Path(args.output).write_text(output, encoding="utf-8")
+        print(f"[bve-catalyst-calendar] Written to {args.output}", file=sys.stderr)
+    else:
+        print(output)
 
-    for ev in events_sorted:
-        # Attempt to pull capital_risk from the event description metadata
-        # (stored as a structured tag when capital_structure_assessment was run)
-        cap_risk_label = _extract_cap_risk(ev)
-        print(row_fmt.format(
-            str(ev.expected_date),
-            (ev.asset_id or "—")[:col_w[1]],
-            ev.catalyst_type.value[:col_w[2]],
-            _fmt_float(ev.signal_strength, ".4f"),
-            _fmt_float(ev.delta_ev, ".1f"),
-            _fmt_float(ev.asymmetry_ratio, ".2f"),
-            ev.date_confidence,
-            cap_risk_label,
-        ))
-
-    print()
-    print(f"  {len(events_sorted)} catalysts shown  |  window: next {args.days_ahead} days")
-    print()
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    raise SystemExit(main())

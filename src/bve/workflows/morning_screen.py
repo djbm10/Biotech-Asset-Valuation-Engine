@@ -6,9 +6,10 @@ tracked universe.  Sections (all optional / degrade gracefully):
   1. Top M&A / BD Action Candidates   — ranked by M&A probability score
   2. Top Valuation Dislocations       — tickers with valuation output + implied upside
   3. Catalyst / Watchlist Items       — upcoming catalysts from UNIVERSE
-  4. ClinicalTrials.gov Changes       — trial status diffs if trial_diff available
-  5. Stale / Low-Integrity Inputs     — tickers with staleness warnings
-  6. Unresolved Prediction Log Items  — open predictions awaiting resolution
+  4. Catalyst Edge Opportunities      — POS gap × event materiality × timing (top 5)
+  5. ClinicalTrials.gov Changes       — trial status diffs if trial_diff available
+  6. Stale / Low-Integrity Inputs     — tickers with staleness warnings
+  7. Unresolved Prediction Log Items  — open predictions awaiting resolution
 
 Usage (Python)
 --------------
@@ -271,7 +272,67 @@ def _render_stale_section(stale: list[dict]) -> str:
 
 
 # ---------------------------------------------------------------------------
-# Section 6: Unresolved prediction log items
+# Section 6: Catalyst Edge Opportunities (top-5 ranked by edge_score)
+# ---------------------------------------------------------------------------
+
+def _load_catalyst_edge(ops_db: Path, outputs_dir: Path, top_n: int) -> list[object]:
+    """Load top catalyst edge records — skips live refresh for screen speed."""
+    try:
+        from bve.intelligence.catalyst_edge_calendar import CatalystEdgeCalendar
+        cal = CatalystEdgeCalendar(
+            ops_db=ops_db,
+            outputs_dir=outputs_dir,
+            skip_market_refresh=True,
+            max_days_forward=180,
+        )
+        records = cal.build()
+        return [r for r in records if r.edge_score is not None][:top_n]
+    except Exception:
+        return []
+
+
+def _render_catalyst_edge_section(records: list[object]) -> str:
+    lines = ["## Catalyst Edge Opportunities", ""]
+    if not records:
+        lines += [
+            "_No catalyst edge data. Seed catalysts with `bve-seed-catalysts` "
+            "and run `bve-asset` to populate valuation outputs._",
+            "",
+        ]
+        return "\n".join(lines)
+
+    lines += [
+        "| Ticker | Event | Date | Days | Model P | Gap | Move% | Edge | Conf |",
+        "|---|---|---|---|---|---|---|---|---|",
+    ]
+    for r in records:
+        def _p(v: object) -> str:
+            return f"{float(v):.1%}" if v is not None else "—"
+
+        def _f(v: object, fmt: str = ".3f") -> str:
+            return f"{float(v):{fmt}}" if v is not None else "—"
+
+        gap_raw = getattr(r, "pos_gap", None)
+        if gap_raw is None:
+            gap_s = "—"
+        elif float(gap_raw) > 0:
+            gap_s = f"+{float(gap_raw):.1%}"
+        else:
+            gap_s = f"{float(gap_raw):.1%}"
+
+        move = getattr(r, "expected_move_proxy", None)
+        lines.append(
+            f"| {r.ticker} | {r.event_type[:22]} | {getattr(r, 'expected_date', None) or '—'}"
+            f" | {getattr(r, 'days_to_event', None) or '—'}"
+            f" | {_p(r.model_pos)} | {gap_s}"
+            f" | {_f(move, '.0%')} | {_f(r.edge_score)} | {r.confidence} |"
+        )
+    lines.append("")
+    return "\n".join(lines)
+
+
+# ---------------------------------------------------------------------------
+# Section 7: Unresolved prediction log items
 # ---------------------------------------------------------------------------
 
 def _load_unresolved_predictions(pred_db: Path) -> list[dict]:
@@ -361,6 +422,7 @@ def morning_screen(
     changes      = _load_trial_diffs() if include_trial_diff else []
     stale        = _load_stale_inputs(outputs_dir)
     predictions  = _load_unresolved_predictions(pred_db)
+    edge_records = _load_catalyst_edge(ops_db, outputs_dir, 5)
 
     header = "\n".join([
         f"# BVE Morning Screen — {as_of.isoformat()}",
@@ -376,6 +438,7 @@ def morning_screen(
         _render_ma_section(ma_rows, top_n),
         _render_valuation_section(dislocations),
         _render_catalyst_section(catalysts),
+        _render_catalyst_edge_section(edge_records),
     ]
     if include_trial_diff:
         parts.append(_render_trial_diff_section(changes))
