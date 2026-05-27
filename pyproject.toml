@@ -102,6 +102,7 @@ bve-evaluate-target      = "bve.workflows.evaluate_target:main"
 bve-morning-screen       = "bve.workflows.morning_screen:main"
 bve-init-asset           = "bve.workflows.init_asset:main"
 bve-audit-intelligence   = "tools.audit_import_graph:main"
+bve-ma-base-rate-report  = "bve.cli.ma_base_rate_report:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

@@ -16,9 +16,12 @@ Feature set (all observable before announcement)
 
 Dataset
 -------
-N=40 observations: 20 acquisitions (label=1) + 20 non-acquisitions (label=0).
-All deals verified from public announcements; non-acquired companies confirmed
-independent as of 2024-06-30.
+Core dataset: N=40 (20 acquisitions label=1, 20 non-acquisitions label=0).
+Expanded dataset (MA_EXPANDED_DATASET): 20 positives + 100+ typed negatives from
+ma_negative_set.py, with NegativeType separation (NORMAL_INDEPENDENT,
+STRATEGIC_REVIEW_NO_DEAL, DISTRESS_NO_DEAL, FAILED_PROCESS,
+BANKRUPTCY_OR_LIQUIDATION).  Bankruptcy cases carry calibration_exclude=True and
+are excluded from the strategic-deal base-rate denominator.
 
 Output
 ------
@@ -52,6 +55,8 @@ class MABacktestRecord:
     has_partnership: int        # 1 = existing partner; 0 = standalone
     loe_urgency: int            # 1 = buyer LOE creating urgency; 0 = no LOE signal
     acquirer: Optional[str] = None  # populated for label=1
+    negative_type: Optional[str] = None  # NegativeType.value; None for positives
+    calibration_exclude: bool = False    # True for bankruptcy/liquidation cases
 
 
 MA_BACKTEST_DATASET: list[MABacktestRecord] = [
@@ -99,6 +104,41 @@ MA_BACKTEST_DATASET: list[MABacktestRecord] = [
     MABacktestRecord("Sutro Biopharma", 2023, 0, 1.0, 1, 1, 0, 0, 0),
     MABacktestRecord("Enanta Pharmaceuticals", 2023, 0, 2.0, 0, 1, 0, 0, 0),
 ]
+
+
+def _build_expanded_dataset() -> list[MABacktestRecord]:
+    """Merge the 20 core positives with 100+ typed negatives."""
+    from bve.intelligence.ma_negative_set import TYPED_NEGATIVE_DATASET
+
+    _TA_ONCOLOGY = frozenset({"oncology", "rare"})
+
+    positives = [r for r in MA_BACKTEST_DATASET if r.label == 1]
+    expanded: list[MABacktestRecord] = list(positives)
+
+    for neg in TYPED_NEGATIVE_DATASET:
+        expanded.append(MABacktestRecord(
+            company=neg.company,
+            year=neg.year,
+            label=0,
+            phase_score=neg.phase_score,
+            ta_oncology=1 if neg.therapeutic_area in _TA_ONCOLOGY else 0,
+            single_asset=1,   # single-asset default for small biotechs
+            is_discounted=1 if neg.negative_type.value in (
+                "distress_no_deal", "bankruptcy_or_liquidation"
+            ) else 0,
+            has_partnership=0,
+            loe_urgency=0,
+            acquirer=None,
+            negative_type=neg.negative_type.value,
+            calibration_exclude=neg.calibration_exclude,
+        ))
+    return expanded
+
+
+# Expanded dataset — 20 positives + 100+ typed negatives.
+# Constructed lazily to avoid import-time circular dependency.
+MA_EXPANDED_DATASET: list[MABacktestRecord] = _build_expanded_dataset()
+
 
 FEATURE_NAMES = [
     "phase_score",
@@ -153,6 +193,14 @@ class MABacktestResult:
     intercept: float
     baseline_rate: float
     skill_vs_baseline: float
+    # Block 17 additions
+    n_by_negative_type: dict[str, int] = None  # type: ignore[assignment]
+    calibration_base_rate: float = 0.0  # excl. bankruptcy from denominator
+
+    def __post_init__(self) -> None:
+        # Default mutable field — frozen dataclass requires object.__setattr__
+        if self.n_by_negative_type is None:
+            object.__setattr__(self, "n_by_negative_type", {})
 
 
 # ---------------------------------------------------------------------------
@@ -206,12 +254,27 @@ def run_ma_backtest(
     -------
     MABacktestResult
     """
-    records = dataset if dataset is not None else MA_BACKTEST_DATASET
+    records = dataset if dataset is not None else MA_EXPANDED_DATASET
     X = _extract_features(records)
     y = np.array([r.label for r in records], dtype=float)
     n_pos = int(y.sum())
     n_neg = int(len(y) - n_pos)
     baseline_rate = float(y.mean())
+
+    # Negative-type breakdown
+    n_by_negative_type: dict[str, int] = {}
+    n_calibration_negatives = 0
+    for r in records:
+        if r.label == 0:
+            key = r.negative_type or "untyped"
+            n_by_negative_type[key] = n_by_negative_type.get(key, 0) + 1
+            if not r.calibration_exclude:
+                n_calibration_negatives += 1
+    calibration_base_rate = (
+        n_pos / (n_pos + n_calibration_negatives)
+        if (n_pos + n_calibration_negatives) > 0
+        else 0.0
+    )
 
     # Standardise features (mean 0, std 1) for numerically stable L-BFGS-B
     mu = X.mean(axis=0)
@@ -268,6 +331,8 @@ def run_ma_backtest(
         intercept=round(intercept_orig, 4),
         baseline_rate=round(baseline_rate, 4),
         skill_vs_baseline=round(skill, 4),
+        n_by_negative_type=n_by_negative_type,
+        calibration_base_rate=round(calibration_base_rate, 4),
     )
 
 
