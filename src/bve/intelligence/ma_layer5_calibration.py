@@ -265,6 +265,14 @@ class Layer5Inputs(BaseModel):
     estimated_deal_value_low_millions: Optional[float] = Field(default=None)
     estimated_deal_value_high_millions: Optional[float] = Field(default=None)
 
+    # --- Block 20: transaction type split inputs ---
+    acquisition_fraction: float = Field(default=0.60, ge=0.0, le=1.0,
+        description="Historical full-acquisition share of strategic transactions")
+    license_fraction: float = Field(default=0.35, ge=0.0, le=1.0,
+        description="Historical licensing/partnership share of strategic transactions")
+    comparable_bucket_rate_source: str = Field(default="",
+        description="Source of comparable_bucket_rate: 'segment_report' | 'fallback' | ''")
+
     # Metadata
     as_of_date: str = Field(default="",
         description="ISO date string for this observation (YYYY-MM-DD)")
@@ -327,6 +335,20 @@ class Layer5Output(BaseModel):
         description="Logistic probability value used in the shrinkage blend")
     shrinkage_weights: tuple[float, float, float] = Field(...,
         description="(base_rate_weight, logistic_weight, bucket_weight) used")
+
+    # --- Block 20: transaction type separation ---
+    p_any_strategic_transaction_12m: float = Field(..., ge=0.0, le=1.0,
+        description="Calibrated 12-month probability of ANY strategic transaction "
+                    "(acquisition OR license/partnership)")
+    p_full_acquisition_12m: float = Field(..., ge=0.0, le=1.0,
+        description="Derived split: acquisition_fraction × p_any_strategic_transaction_12m. "
+                    "HEURISTIC — derived from transaction mix prior, not independently calibrated.")
+    p_license_or_partner_12m: float = Field(..., ge=0.0, le=1.0,
+        description="Derived split: license_fraction × p_any_strategic_transaction_12m. "
+                    "HEURISTIC — derived from transaction mix prior, not independently calibrated.")
+    bucket_rate_warning: Optional[str] = Field(default=None,
+        description="Set when comparable_bucket_rate is from a fallback source, "
+                    "not a segment-specific empirical estimate. Confidence capped at Low.")
 
     # Metadata
     as_of_date: str
@@ -414,6 +436,10 @@ def _confidence_level(inputs: Layer5Inputs) -> ConfidenceLevel:
     MEDIUM:  data_confidence ≥ 0.65 OR n_comparable ≥ 10  (and not HIGH)
     LOW:     data_confidence ≥ 0.50  (and not MEDIUM or HIGH)
     VERY_LOW: data_confidence < 0.50
+
+    Block 20 — bucket_rate_source cap:
+    When comparable_bucket_rate_source is 'fallback' or '' (unknown), confidence
+    is capped at LOW regardless of data_confidence_score or n_comparable_observations.
     """
     if inputs.data_confidence_score < _LOW_CONFIDENCE_DATA_MIN:
         return ConfidenceLevel.VERY_LOW
@@ -422,15 +448,22 @@ def _confidence_level(inputs: Layer5Inputs) -> ConfidenceLevel:
         inputs.data_confidence_score >= _HIGH_CONFIDENCE_DATA_MIN
         and inputs.n_comparable_observations >= _HIGH_CONFIDENCE_N_MIN
     ):
-        return ConfidenceLevel.HIGH
-
-    if (
+        raw = ConfidenceLevel.HIGH
+    elif (
         inputs.data_confidence_score >= _MEDIUM_CONFIDENCE_DATA_MIN
         or inputs.n_comparable_observations >= _MEDIUM_CONFIDENCE_N_MIN
     ):
-        return ConfidenceLevel.MEDIUM
+        raw = ConfidenceLevel.MEDIUM
+    else:
+        raw = ConfidenceLevel.LOW
 
-    return ConfidenceLevel.LOW
+    # Cap at LOW when bucket rate is explicitly from a fallback source.
+    # "" = legacy/unset — no cap applied (backward-compatible).
+    if inputs.comparable_bucket_rate_source == "fallback":
+        if raw in (ConfidenceLevel.HIGH, ConfidenceLevel.MEDIUM):
+            return ConfidenceLevel.LOW
+
+    return raw
 
 
 def _probability_range(p12m: float, confidence: ConfidenceLevel) -> tuple[float, float]:
@@ -584,6 +617,35 @@ def _build_interpretation(
 
 
 # ---------------------------------------------------------------------------
+# Block 20: resolve_comparable_bucket_rate helper
+# ---------------------------------------------------------------------------
+
+def resolve_comparable_bucket_rate(
+    rate: float,
+    source: str,
+) -> tuple[float, str]:
+    """Resolve the comparable bucket rate and its source label.
+
+    Parameters
+    ----------
+    rate:
+        The candidate comparable bucket rate (0.0–1.0).
+    source:
+        Provider label: 'segment_report' indicates an empirically-derived rate;
+        any other value ('' or 'fallback') is treated as a fallback estimate.
+
+    Returns
+    -------
+    tuple[float, str]
+        (rate, normalised_source) where normalised_source is
+        'segment_report' or 'fallback'.
+    """
+    if source == "segment_report":
+        return rate, "segment_report"
+    return rate, "fallback"
+
+
+# ---------------------------------------------------------------------------
 # Main entry point
 # ---------------------------------------------------------------------------
 
@@ -653,13 +715,31 @@ def compute_layer5(inputs: Layer5Inputs) -> Layer5Output:
         pos_drivers, neg_drivers, inputs.watchlist_class,
     )
 
+    # Block 20: transaction type separation
+    _bucket_src = inputs.comparable_bucket_rate_source
+    bucket_rate_warning: Optional[str] = None
+    if _bucket_src == "fallback":
+        bucket_rate_warning = (
+            "comparable_bucket_rate is from a fallback source, not a segment-specific "
+            "empirical estimate. Confidence capped at Low; treat splits as approximate."
+        )
+    p_any = p12m  # p_any_strategic_transaction_12m == the primary calibrated output
+    p_full_acq = round(inputs.acquisition_fraction * p_any, 4)
+    p_license = round(inputs.license_fraction * p_any, 4)
+    # p_takeout_12m is the deprecated alias for p_full_acquisition_12m
+    p_takeout_alias = p_full_acq
+
     return Layer5Output(
         target_name=inputs.target_name,
         acquirer_id=inputs.acquirer_id,
         rank_score=inputs.rank_score,
-        p_takeout_12m=p12m,
+        p_takeout_12m=p_takeout_alias,
         p_takeout_6m=p6m,
         p_takeout_18m=p18m,
+        p_any_strategic_transaction_12m=p_any,
+        p_full_acquisition_12m=p_full_acq,
+        p_license_or_partner_12m=p_license,
+        bucket_rate_warning=bucket_rate_warning,
         probability_band=band.value,
         probability_range_low=range_lo,
         probability_range_high=range_hi,
