@@ -25,7 +25,7 @@ from pydantic import BaseModel, Field, model_validator
 
 from bve.config.constants import PHASE_SUCCESS_RATES
 from bve.entities.asset import ApprovalPathwayType, TherapeuticArea
-from bve.entities.trial import BreakthroughDesignationType, EndpointType, GeneTherapyConcern, TrialPhase
+from bve.entities.trial import BreakthroughDesignationType, EndpointType, GeneTherapyConcern, GeneTherapyModality, TrialPhase
 
 _AA_NDA_DISCOUNT: float = 0.18  # confirmatory trial risk discount for accelerated approval
 
@@ -566,7 +566,24 @@ _GENE_THERAPY_LOGODDS: dict[GeneTherapyConcern, float] = {
     GeneTherapyConcern.SERIOUS_SAFETY_CONCERN:         -0.425,  # midpoint −0.25 to −0.60
     GeneTherapyConcern.MANUFACTURING_INCONSISTENCY:    -0.300,  # midpoint −0.20 to −0.40
     GeneTherapyConcern.BIOMARKER_ONLY_NO_FUNCTION:     -0.300,  # midpoint −0.20 to −0.40
+    # Block 32: 5 new concerns (EVIDENCE-INFORMED PRIORS)
+    GeneTherapyConcern.CAPSID_IMMUNOGENICITY:           -0.225,  # pre-existing immunity; redose risk
+    GeneTherapyConcern.INSERTIONAL_MUTAGENESIS_RISK:    -0.175,  # lentiviral/retroviral integration
+    GeneTherapyConcern.SINGLE_DOSE_DURABILITY_UNPROVEN: -0.150,  # short F/U + no re-dosing option
+    GeneTherapyConcern.MANUFACTURING_SCALE_RISK:        -0.250,  # vector yield / batch consistency
+    GeneTherapyConcern.ALLOGENEIC_REJECTION_RISK:       -0.200,  # host rejection of allo product
 }
+
+# Block 32: stacking caps to prevent catastrophic over-penalisation
+# Durability-related concerns: their combined log-odds are capped at this floor
+_GT_DURABILITY_CONCERNS = frozenset([
+    GeneTherapyConcern.SHORT_FOLLOWUP_ONLY,
+    GeneTherapyConcern.WANING_EFFECT_RISK,
+    GeneTherapyConcern.SINGLE_DOSE_DURABILITY_UNPROVEN,
+])
+_GT_MAX_DURABILITY_PENALTY: float = -0.30  # sum of durability concerns capped here
+
+_GT_MAX_TOTAL_OVERLAY: float = -0.60  # total GT log-odds floor (all concerns combined)
 
 _MOA_LOGODDS: dict[MoAPrecedent, float] = {
     # Positive precedent
@@ -920,6 +937,17 @@ class POSAdjusters(BaseModel):
         ),
     )
 
+    # --- Block 32: gene therapy modality (context-only; zero baseline) ---
+    gene_therapy_modality: GeneTherapyModality = Field(
+        default=GeneTherapyModality.UNKNOWN,
+        description=(
+            "Block 32: Gene/cell therapy delivery modality. Context-only — modality "
+            "does NOT independently adjust POS (all modality_adjustment=0.00). "
+            "Use gene_cell_therapy_concerns for actual POS adjustment. "
+            "Modality informs which concerns are relevant but does not score them."
+        ),
+    )
+
     # Deprecated boolean fields — kept for backward compatibility with existing YAML
     # configs, backtest datasets, and older code. Prefer the graded enum fields above.
     # When set, these are automatically mapped to the corresponding enum tier via the
@@ -1116,9 +1144,22 @@ def _compute_layer1_adjustment(
         )
     delta += _BTD_LOGODDS_BY_TYPE[_btd_type]
 
-    # Gene / cell therapy overlays (additive; no effect when list is empty)
+    # Gene / cell therapy overlays (Block 32: capped to prevent stacking abuse)
+    _gt_durability_sum: float = 0.0
+    _gt_total_sum: float = 0.0
     for concern in adjusters.gene_cell_therapy_concerns:
-        delta += _GENE_THERAPY_LOGODDS.get(concern, 0.0)
+        _logodds = _GENE_THERAPY_LOGODDS.get(concern, 0.0)
+        if concern in _GT_DURABILITY_CONCERNS and _logodds < 0:
+            _gt_durability_sum += _logodds
+        _gt_total_sum += _logodds
+    # Apply durability cap (negative penalties only)
+    if _gt_durability_sum < _GT_MAX_DURABILITY_PENALTY:
+        _non_durability_sum = _gt_total_sum - _gt_durability_sum
+        _gt_total_sum = _GT_MAX_DURABILITY_PENALTY + _non_durability_sum
+    # Apply total overlay cap
+    if _gt_total_sum < _GT_MAX_TOTAL_OVERLAY:
+        _gt_total_sum = _GT_MAX_TOTAL_OVERLAY
+    delta += _gt_total_sum
 
     # --- Block 18: Scientific Realism adjusters ---
 

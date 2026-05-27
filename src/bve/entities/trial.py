@@ -84,7 +84,13 @@ class GeneTherapyConcern(str, Enum):
 
     These are NOT substitutes for endpoint_type — they are overlays that
     capture modality-specific risk and durability signals.
+
+    Block 32 additions (5 new values):
+      CAPSID_IMMUNOGENICITY, INSERTIONAL_MUTAGENESIS_RISK,
+      SINGLE_DOSE_DURABILITY_UNPROVEN, MANUFACTURING_SCALE_RISK,
+      ALLOGENEIC_REJECTION_RISK
     """
+    # Original 7 concerns (unchanged)
     DURABLE_FUNCTIONAL_CORRECTION = "durable_functional_correction"   # +0.275
     DURABLE_BIOMARKER_CAUSAL = "durable_biomarker_causal"             # +0.175
     SHORT_FOLLOWUP_ONLY = "short_followup_only"                        # −0.175
@@ -92,6 +98,33 @@ class GeneTherapyConcern(str, Enum):
     SERIOUS_SAFETY_CONCERN = "serious_safety_concern"                  # −0.425
     MANUFACTURING_INCONSISTENCY = "manufacturing_inconsistency"        # −0.300
     BIOMARKER_ONLY_NO_FUNCTION = "biomarker_only_no_function"          # −0.300
+    # Block 32: 5 new concerns
+    CAPSID_IMMUNOGENICITY         = "capsid_immunogenicity"           # −0.225
+    INSERTIONAL_MUTAGENESIS_RISK  = "insertional_mutagenesis_risk"    # −0.175
+    SINGLE_DOSE_DURABILITY_UNPROVEN = "single_dose_durability_unproven"  # −0.150
+    MANUFACTURING_SCALE_RISK      = "manufacturing_scale_risk"        # −0.250
+    ALLOGENEIC_REJECTION_RISK     = "allogeneic_rejection_risk"       # −0.200
+
+
+class GeneTherapyModality(str, Enum):
+    """
+    Gene / cell therapy delivery modality. Context-only field — zero baseline log-odds.
+
+    Block 32: modality is an informational context field that guides which concerns
+    are relevant to flag. It does NOT independently adjust POS (all modality_adjustment=0.00).
+
+    Use POSAdjusters.gene_cell_therapy_concerns for actual POS adjustment.
+    """
+    UNKNOWN               = "unknown"
+    AAV_IN_VIVO           = "aav_in_vivo"
+    LENTIVIRAL_EX_VIVO    = "lentiviral_ex_vivo"
+    RETROVIRAL_EX_VIVO    = "retroviral_ex_vivo"
+    CAR_T_AUTOLOGOUS      = "car_t_autologous"
+    CAR_T_ALLOGENEIC      = "car_t_allogeneic"
+    LNP_MRNA              = "lnp_mrna"
+    BASE_EDITING          = "base_editing"
+    PRIME_EDITING         = "prime_editing"
+    ZINC_FINGER_NUCLEASE  = "zinc_finger_nuclease"
 
 
 class BreakthroughDesignationType(str, Enum):
