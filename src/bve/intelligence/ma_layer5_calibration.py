@@ -45,7 +45,7 @@ from enum import Enum
 from pathlib import Path
 from typing import Optional
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
 # ---------------------------------------------------------------------------
@@ -188,6 +188,51 @@ _GATE_CHANGE_SUGGESTIONS: dict[str, str] = {
 # Enums
 # ---------------------------------------------------------------------------
 
+class SellerWillingness(str, Enum):
+    """
+    Observable anchor points for analyst assessment of management/board receptivity
+    to a sale or partnership transaction.
+
+    Anchors are grounded in observable events (not opinion). Ordered by signal strength.
+
+    Cross-reference: ManagementReceptivity (ma_management_receptivity.py) captures the
+    ACQUIRER's perspective on whether sell-side management would engage. SellerWillingness
+    is the SELL-SIDE analyst assessment of the board/CEO disposition, grounded in
+    observable signals (press release, banker mandate, defensive measures).
+    These are complementary, not redundant — use both when evidence exists for each.
+
+    Scores:
+      ACTIVELY_SEEKING  0.90  Board/banker mandate confirmed (press release, banker hired)
+      OPEN              0.70  CEO public statements, investor day comments, prior strategic review
+      NEUTRAL           0.50  No public signal either way (known-neutral, not unknown)
+      RELUCTANT         0.30  Defensive anti-takeover measure adopted (staggered board, etc.)
+      HOSTILE           0.10  Poison pill, publicly declined bid, founder defense on record
+      UNKNOWN           0.50  No evidence available; confidence degraded one tier (differs
+                              from NEUTRAL — represents absence of knowledge, not neutral signal)
+    """
+    ACTIVELY_SEEKING = "actively_seeking"
+    OPEN             = "open"
+    NEUTRAL          = "neutral"
+    RELUCTANT        = "reluctant"
+    HOSTILE          = "hostile"
+    UNKNOWN          = "unknown"
+
+
+_SELLER_WILLINGNESS_SCORES: dict[SellerWillingness, float] = {
+    SellerWillingness.ACTIVELY_SEEKING: 0.90,
+    SellerWillingness.OPEN:             0.70,
+    SellerWillingness.NEUTRAL:          0.50,
+    SellerWillingness.RELUCTANT:        0.30,
+    SellerWillingness.HOSTILE:          0.10,
+    SellerWillingness.UNKNOWN:          0.50,  # same as NEUTRAL; flag added separately
+}
+
+
+def seller_willingness_to_score(willingness: SellerWillingness) -> float:
+    """Map SellerWillingness anchor to a float score in [0, 1]."""
+    return _SELLER_WILLINGNESS_SCORES[willingness]
+
+
 class ConfidenceLevel(str, Enum):
     HIGH = "high"
     MEDIUM = "medium"
@@ -249,7 +294,15 @@ class Layer5Inputs(BaseModel):
     asset_quality: float = Field(..., ge=0.0, le=1.0,
         description="Layer 1 asset quality score")
     seller_willingness: float = Field(..., ge=0.0, le=1.0,
-        description="Layer 1 seller willingness score")
+        description="Layer 1 seller willingness score (overridden by seller_willingness_anchor)")
+    # Block 27: observable anchor for seller willingness
+    seller_willingness_anchor: Optional[SellerWillingness] = Field(
+        default=None,
+        description=(
+            "Block 27 observable anchor. When set, overrides seller_willingness float. "
+            "UNKNOWN adds a confidence flag and degrades confidence one tier."
+        ),
+    )
     active_driver_bucket_count: int = Field(default=0, ge=0,
         description="Number of active transaction driver buckets (Layer 3)")
     active_gate_ids: list[str] = Field(default_factory=list,
@@ -302,6 +355,14 @@ class Layer5Inputs(BaseModel):
         description="Model version for auditability")
     target_name: str = Field(default="Unknown")
     acquirer_id: Optional[str] = Field(default=None)
+
+    @model_validator(mode="after")
+    def _resolve_seller_willingness_anchor(self) -> "Layer5Inputs":
+        """Block 27: override seller_willingness float when anchor is set."""
+        if self.seller_willingness_anchor is not None:
+            score = seller_willingness_to_score(self.seller_willingness_anchor)
+            object.__setattr__(self, "seller_willingness", score)
+        return self
 
 
 class Layer5Output(BaseModel):
@@ -390,6 +451,13 @@ class Layer5Output(BaseModel):
     calibration_warning: Optional[str] = Field(
         default=None,
         description="Set to a warning string when calibration_fitted=False; None when fitted.",
+    )
+
+    # --- Block 27: seller willingness flag ---
+    seller_willingness_flag: Optional[str] = Field(
+        default=None,
+        description="Set to 'seller_willingness_unknown' when seller_willingness_anchor=UNKNOWN. "
+                    "Signals that seller willingness is unknown (not neutral); confidence degrades.",
     )
 
     # --- Block 26: probability source tags ---
@@ -783,6 +851,21 @@ def compute_layer5(inputs: Layer5Inputs) -> Layer5Output:
         )
     )
 
+    # Block 27: seller willingness unknown — degrade confidence one tier
+    _seller_anchor = inputs.seller_willingness_anchor
+    seller_willingness_flag: Optional[str] = None
+    if _seller_anchor == SellerWillingness.UNKNOWN:
+        seller_willingness_flag = "seller_willingness_unknown"
+        # Degrade confidence by one tier (floor at VERY_LOW)
+        _tier_order = [
+            ConfidenceLevel.HIGH,
+            ConfidenceLevel.MEDIUM,
+            ConfidenceLevel.LOW,
+            ConfidenceLevel.VERY_LOW,
+        ]
+        _idx = _tier_order.index(confidence)
+        confidence = _tier_order[min(_idx + 1, len(_tier_order) - 1)]
+
     range_lo, range_hi = _probability_range(p12m, confidence)
 
     # Step 5: divergence flag
@@ -883,6 +966,8 @@ def compute_layer5(inputs: Layer5Inputs) -> Layer5Output:
         calibration_fitted=cal_fitted,
         calibration_params_source=cal_params_source,
         calibration_warning=cal_warning,
+        # Block 27: seller willingness flag
+        seller_willingness_flag=seller_willingness_flag,
         # Block 26: probability source tags
         p_any_source=ProbabilitySource.CALIBRATED if cal_fitted else ProbabilitySource.FALLBACK,
         p_full_acquisition_source=ProbabilitySource.DERIVED,
