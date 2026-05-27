@@ -156,17 +156,59 @@ class RegulatoryPathwayRisk(str, Enum):
 
 
 # ---------------------------------------------------------------------------
+# Dimension 4 — Clinical Effect Magnitude
+# ---------------------------------------------------------------------------
+
+class ClinicalEffectMagnitude(str, Enum):
+    """
+    Observed effect size relative to minimal clinically important difference (MCID).
+
+    Captures whether early efficacy data suggest a clinically meaningful benefit.
+    UNKNOWN is the reference (zero adjustment) — use when no Phase 2 data yet.
+
+    Log-odds (pre-scaling, Phase 3 baseline):
+      EXCEEDS_MCID   +0.25  Clearly exceeds MCID (e.g., ΔFEV1 >200 ml, ORR >30%)
+      MEETS_MCID     +0.10  Meets but does not clearly exceed MCID
+      UNKNOWN         0.00  No MCID data available (reference; no adjustment)
+      BELOW_MCID     −0.15  Effect below MCID threshold; regulatory concern
+
+    Overlap warning: EXCEEDS_MCID partially overlaps with Layer 1
+    BiomarkerSelectionStrength.VALIDATED / STRONG_RATIONALE and with
+    MoAExceptionFlag.STRONG_BIOMARKER_RESPONSE / HUMAN_PROOF_OF_MECHANISM.
+    Use check_pos_layer_overlap() to detect and quantify.
+    """
+    EXCEEDS_MCID = "exceeds_mcid"
+    MEETS_MCID   = "meets_mcid"
+    UNKNOWN      = "unknown"
+    BELOW_MCID   = "below_mcid"
+
+
+# Log-odds table for ClinicalEffectMagnitude (not in TRIAL_DESIGN_LOGODDS — internal only)
+_EFFECT_MAGNITUDE_LOGODDS: dict[ClinicalEffectMagnitude, float] = {
+    ClinicalEffectMagnitude.EXCEEDS_MCID: +0.25,
+    ClinicalEffectMagnitude.MEETS_MCID:   +0.10,
+    ClinicalEffectMagnitude.UNKNOWN:       0.00,
+    ClinicalEffectMagnitude.BELOW_MCID:   -0.15,
+}
+
+# Overlap magnitudes for Pattern 3 and Pattern 4 detection
+_PATTERN3_BIOMARKER_MCID_DOUBLE_COUNT: float = 0.15
+_PATTERN4_MOA_EXCEPTION_MCID_DOUBLE_COUNT: float = 0.10
+
+
+# ---------------------------------------------------------------------------
 # Feature set
 # ---------------------------------------------------------------------------
 
 class TrialDesignFeatureSet(BaseModel):
     """
-    Three-dimensional trial design feature set for POS Layer 2.
+    Four-dimensional trial design feature set for POS Layer 2.
 
-    Defaults represent the "best case" design scenario:
+    Defaults represent the reference design scenario:
       - rct_double_blind: randomized, double-blind, controlled (+0.20)
       - acceptable_not_ideal: comparator is adequate (0.00)
       - standard: standard regulatory path (0.00)
+      - unknown: no MCID data available (0.00)
 
     Always pass `phase` to compute_adjusted_pos() — the appropriate phase
     scaling depends on which trial phase is being evaluated.
@@ -174,6 +216,7 @@ class TrialDesignFeatureSet(BaseModel):
     evidence_design_quality: EvidenceDesignQuality = EvidenceDesignQuality.RCT_DOUBLE_BLIND
     comparator_fit: ComparatorFit = ComparatorFit.ACCEPTABLE_NOT_IDEAL
     regulatory_pathway_risk: RegulatoryPathwayRisk = RegulatoryPathwayRisk.STANDARD
+    clinical_effect_magnitude: ClinicalEffectMagnitude = ClinicalEffectMagnitude.UNKNOWN
 
     def compute_adjusted_pos(
         self,
@@ -297,12 +340,14 @@ def compute_design_adjusted_pos(
     edq_raw = logodds["evidence_design_quality"].get(features.evidence_design_quality.value, 0.0)
     cf_raw  = logodds["comparator_fit"].get(features.comparator_fit.value, 0.0)
     rpr_raw = logodds["regulatory_pathway_risk"].get(features.regulatory_pathway_risk.value, 0.0)
+    cem_raw = _EFFECT_MAGNITUDE_LOGODDS.get(features.clinical_effect_magnitude, 0.0)
 
     edq_adj = edq_raw * scaling
     cf_adj  = cf_raw  * scaling
     rpr_adj = rpr_raw * scaling
+    cem_adj = cem_raw * scaling
 
-    uncapped = edq_adj + cf_adj + rpr_adj
+    uncapped = edq_adj + cf_adj + rpr_adj + cem_adj
 
     capped = uncapped
     cap_applied: Optional[str] = None
@@ -320,6 +365,7 @@ def compute_design_adjusted_pos(
         "evidence_design_quality": scaling,
         "comparator_fit": scaling,
         "regulatory_pathway_risk": scaling,
+        "clinical_effect_magnitude": scaling,
     }
 
     return DesignAdjustedPOSResult(
@@ -331,6 +377,7 @@ def compute_design_adjusted_pos(
             "evidence_design_quality": round(edq_adj, 4),
             "comparator_fit": round(cf_adj, 4),
             "regulatory_pathway_risk": round(rpr_adj, 4),
+            "clinical_effect_magnitude": round(cem_adj, 4),
         },
         phase_scaling_applied=scaling_dict,
         was_capped=cap_applied is not None,
@@ -439,6 +486,7 @@ def check_pos_layer_overlap(
     from bve.models.pos_model import (  # noqa: PLC0415
         BiomarkerSelectionStrength,
         MoAExceptionFlag,
+        MoAPrecedent,
         _BIOMARKER_LOGODDS,
         _MOA_EXCEPTION_LOGODDS,
     )
@@ -510,6 +558,81 @@ def check_pos_layer_overlap(
             "set the other to its reference/neutral value to avoid double-counting."
         )
         double_count += overlap_mag
+
+    # -------------------------------------------------------------------
+    # Overlap 3: strong biomarker selection + ClinicalEffectMagnitude.EXCEEDS_MCID
+    # -------------------------------------------------------------------
+    _strong_biomarker_tiers = {
+        BiomarkerSelectionStrength.VALIDATED,
+        BiomarkerSelectionStrength.STRONG_RATIONALE,
+    }
+    is_strong_biomarker = pos_adjusters.biomarker_selection in _strong_biomarker_tiers
+    is_exceeds_mcid = design_features.clinical_effect_magnitude == ClinicalEffectMagnitude.EXCEEDS_MCID
+
+    if is_strong_biomarker and is_exceeds_mcid:
+        overlapping.append(
+            f"BiomarkerSelectionStrength.{pos_adjusters.biomarker_selection.value} "
+            "(Layer 1 patient enrichment) + ClinicalEffectMagnitude.EXCEEDS_MCID "
+            "(Layer 2): strong biomarker selection already implies an enriched population "
+            "with large effect size; EXCEEDS_MCID further credits that same enrichment."
+        )
+        recommendations.append(
+            "When a validated/strong predictive biomarker is used for patient enrichment, "
+            "the associated effect size uplift is partly captured in Layer 1. "
+            "Consider reducing ClinicalEffectMagnitude to MEETS_MCID, or reduce the "
+            "biomarker selection tier, to avoid double-counting the enrichment benefit. "
+            f"Estimated overlap: {_PATTERN3_BIOMARKER_MCID_DOUBLE_COUNT:+.2f} log-odds."
+        )
+        double_count += _PATTERN3_BIOMARKER_MCID_DOUBLE_COUNT
+
+    # -------------------------------------------------------------------
+    # Overlap 4: MoA exception flag (STRONG_BIOMARKER_RESPONSE / HUMAN_POM) + EXCEEDS_MCID
+    # -------------------------------------------------------------------
+    _mcid_overlap_flags = {
+        MoAExceptionFlag.STRONG_BIOMARKER_RESPONSE,
+        MoAExceptionFlag.HUMAN_PROOF_OF_MECHANISM,
+    }
+    active_mcid_flags = [f for f in pos_adjusters.moa_exception_flags if f in _mcid_overlap_flags]
+
+    if active_mcid_flags and is_exceeds_mcid:
+        flag_names = ", ".join(f.value for f in active_mcid_flags)
+        overlapping.append(
+            f"MoAExceptionFlag({flag_names}) (Layer 1 MoA exception) + "
+            "ClinicalEffectMagnitude.EXCEEDS_MCID (Layer 2): "
+            "both flags reference the same early clinical signal "
+            "(strong human data = high effect magnitude)."
+        )
+        recommendations.append(
+            "Strong early clinical signal is already reflected in "
+            f"MoAExceptionFlag({flag_names}). "
+            "Setting ClinicalEffectMagnitude.EXCEEDS_MCID additionally credits "
+            "the same human evidence. Consider reducing ClinicalEffectMagnitude to "
+            f"MEETS_MCID or UNKNOWN. Estimated overlap: "
+            f"{_PATTERN4_MOA_EXCEPTION_MCID_DOUBLE_COUNT:+.2f} log-odds."
+        )
+        double_count += _PATTERN4_MOA_EXCEPTION_MCID_DOUBLE_COUNT
+
+    # -------------------------------------------------------------------
+    # Overlap 5: intra-Layer-1 — HUMAN_PROOF_OF_MECHANISM + CLINICALLY_VALIDATED_TARGET
+    # -------------------------------------------------------------------
+    has_human_pom = MoAExceptionFlag.HUMAN_PROOF_OF_MECHANISM in pos_adjusters.moa_exception_flags
+    has_cvt = pos_adjusters.moa_precedent == MoAPrecedent.CLINICALLY_VALIDATED_TARGET
+
+    if has_human_pom and has_cvt:
+        overlapping.append(
+            "MoAExceptionFlag.HUMAN_PROOF_OF_MECHANISM (Layer 1 MoA exception) + "
+            "MoAPrecedent.CLINICALLY_VALIDATED_TARGET (Layer 1 MoA precedent): "
+            "CLINICALLY_VALIDATED_TARGET means human efficacy is shown, which IS the "
+            "definition of human proof of mechanism — the same evidence is credited twice."
+        )
+        recommendations.append(
+            "CLINICALLY_VALIDATED_TARGET already encodes that human efficacy/POM has been "
+            "demonstrated. Remove HUMAN_PROOF_OF_MECHANISM from moa_exception_flags, or "
+            "downgrade moa_precedent to PATHWAY_VALIDATED if only mechanism (not clinical "
+            "outcome) has been shown. Estimated overlap: +0.15 log-odds."
+        )
+        double_count += 0.15
+        has_critical = True
 
     return LayerOverlapReport(
         overlapping_signals=overlapping,
