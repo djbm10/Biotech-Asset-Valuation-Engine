@@ -22,6 +22,7 @@ import pytest
 from bve.analysis.ma_backtest import (
     FEATURE_NAMES,
     MA_BACKTEST_DATASET,
+    MA_EXPANDED_DATASET,
     MABacktestRecord,
     MABacktestResult,
     predict_ma_probability,
@@ -85,7 +86,8 @@ class TestRunMABacktest:
         assert self.result.n_positive == n_pos
 
     def test_n_negative_matches_dataset(self):
-        n_neg = sum(1 for r in MA_BACKTEST_DATASET if r.label == 0)
+        # Block 17 expanded raw negatives into typed negatives; result uses MA_EXPANDED_DATASET
+        n_neg = sum(1 for r in MA_EXPANDED_DATASET if r.label == 0)
         assert self.result.n_negative == n_neg
 
     def test_auc_above_random(self):
