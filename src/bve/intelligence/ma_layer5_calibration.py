@@ -265,6 +265,10 @@ class Layer5Inputs(BaseModel):
     estimated_deal_value_low_millions: Optional[float] = Field(default=None)
     estimated_deal_value_high_millions: Optional[float] = Field(default=None)
 
+    # --- Block 21: score decomposition opt-in ---
+    include_decomposition: bool = Field(default=False,
+        description="When True, attach a ScoreComposition attribution breakdown to Layer5Output")
+
     # --- Block 20: transaction type split inputs ---
     acquisition_fraction: float = Field(default=0.60, ge=0.0, le=1.0,
         description="Historical full-acquisition share of strategic transactions")
@@ -349,6 +353,11 @@ class Layer5Output(BaseModel):
     bucket_rate_warning: Optional[str] = Field(default=None,
         description="Set when comparable_bucket_rate is from a fallback source, "
                     "not a segment-specific empirical estimate. Confidence capped at Low.")
+
+    # --- Block 21: score decomposition (attribution layer, opt-in) ---
+    score_composition: Optional[Any] = Field(default=None,
+        description="ScoreComposition attribution breakdown. None unless "
+                    "Layer5Inputs.include_decomposition=True.")
 
     # Metadata
     as_of_date: str
@@ -715,6 +724,32 @@ def compute_layer5(inputs: Layer5Inputs) -> Layer5Output:
         pos_drivers, neg_drivers, inputs.watchlist_class,
     )
 
+    # Block 21: score decomposition (attribution only — computed after all scores are final)
+    score_composition = None
+    if inputs.include_decomposition:
+        from bve.intelligence.ma_score_decomposition import compute_score_decomposition
+        score_composition = compute_score_decomposition(
+            target_name=inputs.target_name,
+            acquirer_id=inputs.acquirer_id,
+            final_score=inputs.rank_score,
+            rank_score=inputs.rank_score,
+            asset_quality=inputs.asset_quality,
+            seller_willingness=inputs.seller_willingness,
+            strategic_priority=inputs.strategic_priority,
+            transaction_probability=inputs.transaction_probability,
+            active_driver_bucket_count=inputs.active_driver_bucket_count,
+            active_gate_ids=inputs.active_gate_ids,
+            watchlist_class=inputs.watchlist_class,
+            data_confidence_score=inputs.data_confidence_score,
+            base_rate=inputs.base_rate,
+            comparable_bucket_rate=inputs.comparable_bucket_rate,
+            comparable_bucket_rate_source=inputs.comparable_bucket_rate_source,
+            n_comparable_observations=inputs.n_comparable_observations,
+            shrinkage_weights=weights,
+            calibration_base_rate=inputs.base_rate,
+            calibration_comparable_rate=inputs.comparable_bucket_rate,
+        )
+
     # Block 20: transaction type separation
     _bucket_src = inputs.comparable_bucket_rate_source
     bucket_rate_warning: Optional[str] = None
@@ -755,6 +790,7 @@ def compute_layer5(inputs: Layer5Inputs) -> Layer5Output:
         estimated_deal_value_high_millions=inputs.estimated_deal_value_high_millions,
         logistic_probability_used=round(logistic_prob, 6),
         shrinkage_weights=weights,
+        score_composition=score_composition,
         as_of_date=inputs.as_of_date,
         model_version=inputs.model_version,
         interpretation=interpretation,
