@@ -16,6 +16,7 @@ Reference: Lee et al. (2019) "Predicting drug development pipeline results"
 from __future__ import annotations
 
 import math
+import warnings
 from dataclasses import dataclass, field as dc_field
 from enum import Enum
 from typing import Optional
@@ -150,6 +151,58 @@ class CompetitivePressure(str, Enum):
     LOW      = "low"       # Alias for LOW_BAR (+0.10)
     MODERATE = "moderate"  # Alias for NORMAL_BAR (0.00)
     HIGH     = "high"      # Alias for ELEVATED_BAR (−0.15)
+
+
+class RegulatoryApprovalBar(str, Enum):
+    """
+    How high is the regulatory / clinical approval bar for this asset?
+
+    Reflects how competitive the approved treatment landscape is, which determines
+    how differentiated the new drug must be to gain regulatory acceptance.
+    This is a POS adjuster — use in POSAdjusters.regulatory_approval_bar.
+
+    For commercial launch-time competition, use CommercialCrowding instead.
+
+    Log-odds:
+      UNCROWDED     +0.10  <3 approved drugs; regulator accepts monotherapy vs placebo
+      MODERATE       0.00  3-5 approved drugs; reference bar (standard RCT design)
+      CROWDED       -0.10  5-10 approved; meaningful differentiation required
+      HIGHLY_CROWDED -0.20  >10 approved; head-to-head or superiority likely required
+      UNKNOWN        0.00  No data; treated as MODERATE (adds confidence flag)
+    """
+    UNCROWDED      = "uncrowded"       # <3 approved drugs in class (+0.10)
+    MODERATE       = "moderate"        # 3-5 approved (+0.00, reference)
+    CROWDED        = "crowded"         # 5-10 approved (−0.10)
+    HIGHLY_CROWDED = "highly_crowded"  # >10 approved (−0.20)
+    UNKNOWN        = "unknown"         # No data (0.00 + flag)
+
+
+class CommercialCrowding(str, Enum):
+    """
+    Market competition intensity at launch time. Affects REVENUE SHARE, not P(approval).
+
+    Use this in CompetitionModel / MarketModel pricing assumptions — NOT in POSAdjusters.
+    P(approval) is determined by regulatory bar (RegulatoryApprovalBar), which looks at
+    how hard it is to demonstrate differentiation. Commercial crowding is a post-approval
+    concept — how much of the market can the drug capture.
+    """
+    MONOPOLY        = "monopoly"        # No competing approved therapies at launch
+    LOW             = "low"             # Few competitors; limited share pressure
+    MODERATE        = "moderate"        # Standard competitive market
+    HIGH            = "high"            # Multiple established competitors
+    DOMINANT_PLAYER = "dominant_player" # One entrenched player controls >50% share
+
+
+# Mapping from legacy CompetitivePressure values to RegulatoryApprovalBar
+_COMPETITIVE_PRESSURE_TO_RAB: dict[str, RegulatoryApprovalBar] = {
+    "low_bar":      RegulatoryApprovalBar.UNCROWDED,
+    "normal_bar":   RegulatoryApprovalBar.MODERATE,
+    "elevated_bar": RegulatoryApprovalBar.CROWDED,
+    "high_bar":     RegulatoryApprovalBar.HIGHLY_CROWDED,
+    "low":          RegulatoryApprovalBar.UNCROWDED,
+    "moderate":     RegulatoryApprovalBar.MODERATE,
+    "high":         RegulatoryApprovalBar.CROWDED,
+}
 
 
 class BiomarkerSelectionStrength(str, Enum):
@@ -571,6 +624,15 @@ _COMPETITION_LOGODDS: dict[CompetitivePressure, float] = {
     CompetitivePressure.HIGH:         -0.15,   # = ELEVATED_BAR
 }
 
+# Block 25: new primary logodds table for RegulatoryApprovalBar
+_REGULATORY_APPROVAL_BAR_LOGODDS: dict[RegulatoryApprovalBar, float] = {
+    RegulatoryApprovalBar.UNCROWDED:      +0.10,  # <3 approved; low bar
+    RegulatoryApprovalBar.MODERATE:        0.00,  # 3-5 approved; reference
+    RegulatoryApprovalBar.CROWDED:        -0.10,  # 5-10 approved; differentiation required
+    RegulatoryApprovalBar.HIGHLY_CROWDED: -0.20,  # >10 approved; superiority likely needed
+    RegulatoryApprovalBar.UNKNOWN:         0.00,  # treated as MODERATE; adds confidence flag
+}
+
 _BIOMARKER_LOGODDS: dict[BiomarkerSelectionStrength, float] = {
     BiomarkerSelectionStrength.VALIDATED:        +0.40,  # Validated predictive biomarker
     BiomarkerSelectionStrength.STRONG_RATIONALE: +0.25,  # Strong biologic rationale / enriched subgroup
@@ -741,7 +803,22 @@ class POSAdjusters(BaseModel):
     moa_precedent: MoAPrecedent = MoAPrecedent.PARTIAL
     sample_size_adequacy: SampleSizeAdequacy = SampleSizeAdequacy.ADEQUATE
     safety_profile: SafetyProfile = SafetyProfile.MINOR
-    competitive_pressure: CompetitivePressure = CompetitivePressure.MODERATE
+
+    # Block 25: primary field — use regulatory_approval_bar in new code
+    regulatory_approval_bar: RegulatoryApprovalBar = Field(
+        default=RegulatoryApprovalBar.MODERATE,
+        description=(
+            "Regulatory approval bar (Block 25). How differentiated must the drug be? "
+            "UNCROWDED (+0.10): minimal standard-of-care; MODERATE (0.00): reference; "
+            "CROWDED (-0.10): meaningful differentiation required; "
+            "HIGHLY_CROWDED (-0.20): head-to-head or superiority needed."
+        ),
+    )
+    # Block 25: deprecated — kept for backward compatibility only
+    competitive_pressure: Optional[CompetitivePressure] = Field(
+        default=None,
+        description="[Deprecated] Use regulatory_approval_bar instead.",
+    )
 
     # Graded qualitative factors (preferred — use these for new configs)
     biomarker_selection: BiomarkerSelectionStrength = Field(
@@ -832,6 +909,25 @@ class POSAdjusters(BaseModel):
             and self.prior_phase_data == PriorPhaseDataStrength.MIXED
         ):
             object.__setattr__(self, "prior_phase_data", PriorPhaseDataStrength.STRONG_SINGLE)
+        return self
+
+    @model_validator(mode="after")
+    def _handle_competitive_pressure_alias(self) -> "POSAdjusters":
+        """Block 25: map deprecated competitive_pressure → regulatory_approval_bar."""
+        if self.competitive_pressure is None:
+            return self
+        warnings.warn(
+            "POSAdjusters.competitive_pressure is deprecated. "
+            "Use regulatory_approval_bar (RegulatoryApprovalBar) instead.",
+            DeprecationWarning,
+            stacklevel=3,
+        )
+        # Only override regulatory_approval_bar when caller did not set it explicitly
+        if self.regulatory_approval_bar == RegulatoryApprovalBar.MODERATE:
+            mapped = _COMPETITIVE_PRESSURE_TO_RAB.get(
+                self.competitive_pressure.value, RegulatoryApprovalBar.MODERATE
+            )
+            object.__setattr__(self, "regulatory_approval_bar", mapped)
         return self
 
     # Gene / cell therapy overlay (list of concerns; empty = no modality overlay)
@@ -966,7 +1062,7 @@ def _compute_layer1_adjustment(
         delta += _MOA_EXCEPTION_LOGODDS.get(flag, 0.0)
     delta += _SAMPLE_LOGODDS[adjusters.sample_size_adequacy]
     delta += _SAFETY_LOGODDS[adjusters.safety_profile]
-    delta += _COMPETITION_LOGODDS[adjusters.competitive_pressure]
+    delta += _REGULATORY_APPROVAL_BAR_LOGODDS[adjusters.regulatory_approval_bar]
 
     delta += _BIOMARKER_LOGODDS[adjusters.biomarker_selection]
     delta += _PRIOR_PHASE_LOGODDS[adjusters.prior_phase_data]
