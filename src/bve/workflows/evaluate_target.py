@@ -118,8 +118,37 @@ def _load_prediction_log(ticker: str, db_path: Path) -> list[dict]:
         return []
 
 
-def _load_input_integrity(ticker: str, *, skip_refresh: bool) -> Optional[object]:
-    """Attempt a lightweight input integrity check.  Skipped when skip_refresh=True."""
+def _load_asset_state(ticker: str) -> Optional[object]:
+    """Load AssetState from DB (DB-first pattern).  Returns None on failure."""
+    try:
+        from bve.persistence.db import engine, session_scope
+        from bve.state.asset_repository import AssetRepository
+
+        AssetRepository.create_table(engine)
+        with session_scope() as session:
+            repo = AssetRepository(session)
+            return repo.load(ticker)
+    except Exception:
+        return None
+
+
+def _load_input_integrity(
+    ticker: str,
+    *,
+    skip_refresh: bool,
+    asset_state: Optional[object] = None,
+) -> Optional[object]:
+    """Return an InputIntegrityScore for *ticker*.
+
+    Priority order:
+    1. If *asset_state* is available, return its ``integrity_score`` directly
+       (already computed during last DB upsert — avoids duplicate live fetch).
+    2. Otherwise, attempt a live refresh (skipped when skip_refresh=True).
+    """
+    if asset_state is not None:
+        score = getattr(asset_state, "integrity_score", None)
+        if score is not None:
+            return score
     if skip_refresh:
         return None
     try:
@@ -186,11 +215,16 @@ def evaluate_target(
     ops_db = ops_db or (root / "intelligence" / "ops.db")
     pred_db = prediction_log_db or (root / "intelligence" / "prediction_log.db")
 
+    asset_state        = _load_asset_state(ticker)
     valuation_output   = _load_valuation(ticker, outputs_dir)
     ma_row             = _load_ma_row(ticker, ops_db)
     management_quality = _load_management_quality(ticker, outputs_dir)
     log_entries        = _load_prediction_log(ticker, pred_db)
-    input_integrity    = _load_input_integrity(ticker, skip_refresh=skip_refresh)
+    input_integrity    = _load_input_integrity(
+        ticker,
+        skip_refresh=skip_refresh,
+        asset_state=asset_state,
+    )
 
     from bve.reporting.validation_summary import build_validation_summary
     validation_summary = build_validation_summary()

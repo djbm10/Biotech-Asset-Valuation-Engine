@@ -37,6 +37,32 @@ from typing import Optional
 
 
 # ---------------------------------------------------------------------------
+# DB seeding helpers (graceful — init_asset still works offline / pre-migrate)
+# ---------------------------------------------------------------------------
+
+def _seed_db_state(ticker: str, asset_profile_path: Path) -> bool:
+    """Seed a skeleton AssetState into the DB after YAML scaffold.
+
+    Returns True on success, False if DB is unavailable (e.g. no engine config).
+    Never raises.
+    """
+    try:
+        from bve.persistence.db import engine, session_scope
+        from bve.state.asset_repository import AssetRepository, _scaffold_state
+
+        AssetRepository.create_table(engine)
+        with session_scope() as session:
+            repo = AssetRepository(session)
+            existing = repo.load(ticker)
+            if existing is None:
+                state = _scaffold_state(ticker, asset_profile_path)
+                repo.upsert(state)
+        return True
+    except Exception:
+        return False
+
+
+# ---------------------------------------------------------------------------
 # Template content
 # ---------------------------------------------------------------------------
 
@@ -308,6 +334,10 @@ def init_asset(
 
     _json_file("management_quality.json", _MANAGEMENT_QUALITY_JSON)
     _json_file("financial_snapshot.json", _FINANCIAL_SNAPSHOT_JSON)
+
+    # Seed the DB with a skeleton AssetState so bve-evaluate-target can load
+    # DB-first even before the analyst fills in the YAML templates.
+    _seed_db_state(ticker, cfg_dir / "asset_profile.yaml")
 
     return created
 

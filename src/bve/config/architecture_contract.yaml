@@ -296,6 +296,11 @@ top_level_module_map:
     primary_question: 6
     role: workflow review and approval processes
     state: current
+  - module: state
+    kind: package
+    primary_question: 6
+    role: database-first composite asset state layer (YAML=template, DB=live source)
+    state: current
   - module: workflows
     kind: package
     primary_question: 6

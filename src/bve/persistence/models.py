@@ -506,3 +506,30 @@ class ParameterVersion(Base):
     decisions: Mapped[list[DecisionRecord]] = relationship(
         "DecisionRecord", back_populates="parameter_version"
     )
+
+
+# ---------------------------------------------------------------------------
+# asset_state  (Block 15 — database-first composite state per ticker)
+# ---------------------------------------------------------------------------
+
+class AssetStateRecord(Base):
+    """Composite per-ticker state record.
+
+    Stores all refresh surfaces as JSON blobs so the ``AssetRepository`` can
+    round-trip an ``AssetState`` without multiple table joins.  This table is
+    keyed by ticker and is upserted (not insert-only) — it always reflects the
+    *current* state, not a history.
+    """
+
+    __tablename__ = "asset_state"
+
+    ticker: Mapped[str] = mapped_column(String(20), primary_key=True)
+    company_name: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    last_refreshed: Mapped[str | None] = mapped_column(String(20), nullable=True)
+    market_data_json: Mapped[dict | None] = mapped_column(JSON, nullable=True)
+    financials_json: Mapped[dict | None] = mapped_column(JSON, nullable=True)
+    clinical_json: Mapped[list | None] = mapped_column(JSON, nullable=True)
+    valuation_json: Mapped[dict | None] = mapped_column(JSON, nullable=True)
+    provenance_json: Mapped[list | None] = mapped_column(JSON, nullable=True)
+    integrity_json: Mapped[dict | None] = mapped_column(JSON, nullable=True)
+    updated_at: Mapped[datetime] = mapped_column(DateTime, default=_now, onupdate=_now)
