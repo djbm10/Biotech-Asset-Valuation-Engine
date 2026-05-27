@@ -195,6 +195,24 @@ class ConfidenceLevel(str, Enum):
     VERY_LOW = "very_low"
 
 
+class ProbabilitySource(str, Enum):
+    """
+    Epistemological source for a probability estimate.
+
+    CALIBRATED  — shrinkage blend with a fitted logistic curve
+                  (ma_calibration_params.json present and valid)
+    DERIVED     — fraction or time-scaling applied to a CALIBRATED parent;
+                  not independently calibrated
+    FALLBACK    — shrinkage blend using hard-coded default logistic parameters;
+                  logistic curve has not been fitted to held-out data
+    RANK_ONLY   — ordering signal only; no statistical probability interpretation
+    """
+    CALIBRATED = "calibrated"
+    DERIVED    = "derived"
+    FALLBACK   = "fallback"
+    RANK_ONLY  = "rank_only"
+
+
 class ProbabilityBand(str, Enum):
     VERY_LOW = "Very low"
     LOW = "Low"
@@ -372,6 +390,28 @@ class Layer5Output(BaseModel):
     calibration_warning: Optional[str] = Field(
         default=None,
         description="Set to a warning string when calibration_fitted=False; None when fitted.",
+    )
+
+    # --- Block 26: probability source tags ---
+    p_any_source: ProbabilitySource = Field(
+        default=ProbabilitySource.FALLBACK,
+        description="CALIBRATED when logistic params are fitted; FALLBACK when using defaults.",
+    )
+    p_full_acquisition_source: ProbabilitySource = Field(
+        default=ProbabilitySource.DERIVED,
+        description="Always DERIVED (acquisition_fraction × p_any; not independently calibrated).",
+    )
+    p_license_or_partner_source: ProbabilitySource = Field(
+        default=ProbabilitySource.DERIVED,
+        description="Always DERIVED (license_fraction × p_any; not independently calibrated).",
+    )
+    p_takeout_6m_source: ProbabilitySource = Field(
+        default=ProbabilitySource.DERIVED,
+        description="Always DERIVED (time-scaled from p_any_12m via hazard-rate approximation).",
+    )
+    p_takeout_18m_source: ProbabilitySource = Field(
+        default=ProbabilitySource.DERIVED,
+        description="Always DERIVED (time-scaled from p_any_12m via survival function scaling).",
     )
 
     # Metadata
@@ -843,6 +883,12 @@ def compute_layer5(inputs: Layer5Inputs) -> Layer5Output:
         calibration_fitted=cal_fitted,
         calibration_params_source=cal_params_source,
         calibration_warning=cal_warning,
+        # Block 26: probability source tags
+        p_any_source=ProbabilitySource.CALIBRATED if cal_fitted else ProbabilitySource.FALLBACK,
+        p_full_acquisition_source=ProbabilitySource.DERIVED,
+        p_license_or_partner_source=ProbabilitySource.DERIVED,
+        p_takeout_6m_source=ProbabilitySource.DERIVED,
+        p_takeout_18m_source=ProbabilitySource.DERIVED,
         as_of_date=inputs.as_of_date,
         model_version=inputs.model_version,
         interpretation=interpretation,
