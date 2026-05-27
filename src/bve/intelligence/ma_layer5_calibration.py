@@ -117,9 +117,30 @@ _SHRINKAGE_SMALL_N: int = 10
 _SHRINKAGE_MODERATE_N: int = 20
 _SHRINKAGE_STANDARD_N: int = 30
 
-# Time-window scaling
+# Time-window scaling (Block 31: defaults preserved for UNKNOWN/None catalyst)
 _SCALE_6M: float = 0.55
 _SCALE_18M_EXPONENT: float = 1.35  # survival: 1 − (1 − p12m)^exponent
+
+# Block 31: Catalyst-based dynamic scaling tables (keyed by timing_shape string)
+_HIGH_STAKE_CATALYST_TYPES = frozenset([
+    "phase_3_readout", "regulatory_decision",
+])
+_MEANINGFUL_CATALYST_TYPES = frozenset([
+    "phase_2_poc", "fda_meeting", "phase_3_readout", "regulatory_decision",
+])
+
+_6M_SCALE_TABLE: dict[str, float] = {
+    "strongly_front_loaded": 0.80,
+    "front_loaded":          0.68,
+    "neutral":               0.55,   # EVIDENCE-INFORMED DEFAULT; matches old constant
+    "back_loaded":           0.38,
+}
+_18M_EXPONENT_TABLE: dict[str, float] = {
+    "strongly_front_loaded": 1.10,
+    "front_loaded":          1.25,
+    "neutral":               1.35,   # EVIDENCE-INFORMED DEFAULT; matches old constant
+    "back_loaded":           1.55,
+}
 
 # Probability band thresholds (exclusive upper bound)
 _BAND_VERY_LOW_MAX: float = 0.05
@@ -187,6 +208,25 @@ _GATE_CHANGE_SUGGESTIONS: dict[str, str] = {
 # ---------------------------------------------------------------------------
 # Enums
 # ---------------------------------------------------------------------------
+
+class CatalystType(str, Enum):
+    """
+    Type of the next material catalyst for this asset/company.
+
+    Drives 6m/18m hazard-rate scaling.  Higher-stakes catalysts + near-term timing
+    produce strongly front-loaded probability distributions.
+
+    UNKNOWN is the default — preserves existing fixed-constant behaviour exactly
+    (scale_6m=0.55, scale_18m_exponent=1.35).
+    """
+    NONE               = "none"                # No binary catalyst; continuous progress
+    INVESTOR_UPDATE    = "investor_update"     # Conference, investor day — minor
+    PHASE_2_POC        = "phase_2_poc"         # Phase 2 proof-of-concept readout
+    FDA_MEETING        = "fda_meeting"         # Type B/C meeting or advisory committee
+    REGULATORY_DECISION = "regulatory_decision"  # PDUFA date, EMA opinion, CRL response
+    PHASE_3_READOUT    = "phase_3_readout"    # Pivotal Phase 3 top-line data
+    UNKNOWN            = "unknown"             # No catalyst schedule available (default)
+
 
 class SellerWillingness(str, Enum):
     """
@@ -348,6 +388,19 @@ class Layer5Inputs(BaseModel):
     comparable_bucket_rate_source: str = Field(default="",
         description="Source of comparable_bucket_rate: 'segment_report' | 'fallback' | ''")
 
+    # --- Block 31: catalyst timing context ---
+    days_to_catalyst: Optional[int] = Field(
+        default=None,
+        ge=0,
+        description="Calendar days from as_of_date to next material catalyst. "
+                    "None = no schedule available. Drives 6m/18m hazard scaling.",
+    )
+    catalyst_type: CatalystType = Field(
+        default=CatalystType.UNKNOWN,
+        description="Type of next material catalyst. Higher-stakes types + near-term "
+                    "timing → more front-loaded probability distribution.",
+    )
+
     # Metadata
     as_of_date: str = Field(default="",
         description="ISO date string for this observation (YYYY-MM-DD)")
@@ -482,6 +535,25 @@ class Layer5Output(BaseModel):
         description="Always DERIVED (time-scaled from p_any_12m via survival function scaling).",
     )
 
+    # --- Block 31: catalyst timing audit fields ---
+    timing_shape: str = Field(
+        default="neutral",
+        description="Timing shape derived from catalyst proximity: "
+                    "strongly_front_loaded / front_loaded / neutral / back_loaded.",
+    )
+    timing_rationale: str = Field(
+        default="",
+        description="Human-readable explanation of timing shape applied.",
+    )
+    scale_6m_applied: float = Field(
+        default=_SCALE_6M,
+        description="Actual 6m hazard scale used (audit). 0.55 = neutral default.",
+    )
+    scale_18m_exponent_applied: float = Field(
+        default=_SCALE_18M_EXPONENT,
+        description="Actual 18m survival exponent used (audit). 1.35 = neutral default.",
+    )
+
     # Metadata
     as_of_date: str
     model_version: str
@@ -537,14 +609,80 @@ def _compute_p12m(
     return round(min(max(p, 0.0), 1.0), 6)
 
 
-def _compute_time_windows(p12m: float) -> tuple[float, float]:
+# ---------------------------------------------------------------------------
+# Block 31: catalyst timing helpers
+# ---------------------------------------------------------------------------
+
+def _compute_timing_shape(
+    days: Optional[int],
+    catalyst_type: "CatalystType",
+) -> str:
+    """Derive timing shape from catalyst proximity and type.
+
+    Returns one of: strongly_front_loaded / front_loaded / neutral / back_loaded.
+
+    Rules:
+    - UNKNOWN type OR no days → neutral (backward-compat default)
+    - NONE type → neutral (no binary catalyst; continuous hazard)
+    - days > 365 → back_loaded (regardless of type)
+    - days <= 90 AND high-stake type (Phase 3 / regulatory) → strongly_front_loaded
+    - days <= 180 AND meaningful type (Phase 2+, FDA meeting) → front_loaded
+    - otherwise → neutral
+    """
+    if catalyst_type == CatalystType.UNKNOWN or catalyst_type == CatalystType.NONE:
+        return "neutral"
+    if days is None:
+        return "neutral"
+    if days > 365:
+        return "back_loaded"
+    if days <= 90 and catalyst_type.value in _HIGH_STAKE_CATALYST_TYPES:
+        return "strongly_front_loaded"
+    if days <= 180 and catalyst_type.value in _MEANINGFUL_CATALYST_TYPES:
+        return "front_loaded"
+    return "neutral"
+
+
+def _timing_rationale(shape: str, days: Optional[int], catalyst_type: "CatalystType") -> str:
+    """Build a human-readable rationale string for the timing shape."""
+    if shape == "neutral":
+        if catalyst_type == CatalystType.UNKNOWN or days is None:
+            return "No catalyst schedule available; using neutral hazard distribution."
+        if catalyst_type == CatalystType.NONE:
+            return "No binary catalyst event; continuous progress hazard applied."
+        return "Catalyst timing neutral; standard hazard distribution applied."
+    days_str = f"{days}d" if days is not None else "unknown"
+    type_str = catalyst_type.value.replace("_", " ")
+    if shape == "strongly_front_loaded":
+        return (
+            f"High-stakes {type_str} catalyst in {days_str}; "
+            "probability strongly front-loaded into 6m window."
+        )
+    if shape == "front_loaded":
+        return (
+            f"Material {type_str} catalyst in {days_str}; "
+            "probability moderately front-loaded into 6m window."
+        )
+    return (
+        f"{type_str.capitalize()} catalyst in {days_str} (>12m horizon); "
+        "probability back-loaded toward 18m window."
+    )
+
+
+def _compute_time_windows(
+    p12m: float,
+    scale_6m: float = _SCALE_6M,
+    exponent_18m: float = _SCALE_18M_EXPONENT,
+) -> tuple[float, float]:
     """Derive 6-month and 18-month probabilities from the 12-month estimate.
 
-    p_6m  ≈ p_12m × 0.55  (hazard-rate scaling)
-    p_18m ≈ 1 − (1 − p_12m)^1.35  (survival function)
+    p_6m  ≈ p_12m × scale_6m  (hazard-rate scaling; default 0.55)
+    p_18m ≈ 1 − (1 − p_12m)^exponent_18m  (survival function; default 1.35)
+
+    Block 31: scale_6m and exponent_18m are now dynamic based on catalyst timing.
+    Default values preserve existing behaviour exactly (backward compat).
     """
-    p6m = round(min(max(p12m * _SCALE_6M, 0.0), 1.0), 6)
-    p18m = round(min(max(1.0 - (1.0 - p12m) ** _SCALE_18M_EXPONENT, 0.0), 1.0), 6)
+    p6m = round(min(max(p12m * scale_6m, 0.0), 1.0), 6)
+    p18m = round(min(max(1.0 - (1.0 - p12m) ** exponent_18m, 0.0), 1.0), 6)
     return p6m, p18m
 
 
@@ -831,8 +969,12 @@ def compute_layer5(inputs: Layer5Inputs) -> Layer5Output:
         inputs.base_rate, logistic_prob, inputs.comparable_bucket_rate, weights
     )
 
-    # Step 3: time windows
-    p6m, p18m = _compute_time_windows(p12m)
+    # Step 3: time windows (Block 31: catalyst-based dynamic scaling)
+    _timing_shape = _compute_timing_shape(inputs.days_to_catalyst, inputs.catalyst_type)
+    _scale_6m = _6M_SCALE_TABLE[_timing_shape]
+    _exponent_18m = _18M_EXPONENT_TABLE[_timing_shape]
+    _timing_rat = _timing_rationale(_timing_shape, inputs.days_to_catalyst, inputs.catalyst_type)
+    p6m, p18m = _compute_time_windows(p12m, scale_6m=_scale_6m, exponent_18m=_exponent_18m)
 
     # Step 4: band, confidence, range
     band = _probability_band(p12m)
@@ -974,6 +1116,11 @@ def compute_layer5(inputs: Layer5Inputs) -> Layer5Output:
         p_license_or_partner_source=ProbabilitySource.DERIVED,
         p_takeout_6m_source=ProbabilitySource.DERIVED,
         p_takeout_18m_source=ProbabilitySource.DERIVED,
+        # Block 31: catalyst timing audit fields
+        timing_shape=_timing_shape,
+        timing_rationale=_timing_rat,
+        scale_6m_applied=_scale_6m,
+        scale_18m_exponent_applied=_exponent_18m,
         as_of_date=inputs.as_of_date,
         model_version=inputs.model_version,
         interpretation=interpretation,
