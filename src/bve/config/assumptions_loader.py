@@ -664,3 +664,61 @@ class AssumptionsLoader:
             for k in ("source", "n_programs", "date_range", "confidence", "ta_fallback")
             if k in entry
         }
+
+    # --- Block 35: modality-specific phase rates ---
+
+    @property
+    def modality_phase_rates(self) -> dict:
+        """Block 35: Full modality_phase_rates dict from YAML.
+
+        Returns a plain dict of {modality_key: {phase: rate, metadata...}}.
+        Keys include gene_therapy_aav, gene_therapy_lentiviral, car_t_autologous,
+        car_t_allogeneic, lnp_mrna, aso_rnai, biologic_antibody.
+        """
+        return dict(self._data.get("modality_phase_rates", {}))
+
+    def get_modality_phase_rate(
+        self, modality_key: str, phase: str
+    ) -> Optional[float]:
+        """Block 35: Return the phase rate for a modality key.
+
+        Returns None with UserWarning if modality_key not found.
+        Returns None silently if phase not in the modality entry.
+        """
+        mpr = self._data.get("modality_phase_rates", {})
+        if modality_key not in mpr:
+            warnings.warn(
+                f"Modality {modality_key!r} not found in modality_phase_rates. "
+                "Falling back to TA base rate.",
+                UserWarning,
+                stacklevel=2,
+            )
+            return None
+        entry = mpr[modality_key]
+        rate = entry.get(phase)
+        if rate is None:
+            return None
+        return float(rate)
+
+    def get_modality_phase_metadata(
+        self, modality_key: str
+    ) -> Optional[dict]:
+        """Block 35: Return metadata dict for a modality entry.
+
+        Returns {source, n_programs, date_range, confidence, status},
+        or None with UserWarning if key not found.
+        """
+        mpr = self._data.get("modality_phase_rates", {})
+        if modality_key not in mpr:
+            warnings.warn(
+                f"Modality {modality_key!r} not found in modality_phase_rates.",
+                UserWarning,
+                stacklevel=2,
+            )
+            return None
+        entry = mpr[modality_key]
+        return {
+            k: entry[k]
+            for k in ("source", "n_programs", "date_range", "confidence", "status")
+            if k in entry
+        }

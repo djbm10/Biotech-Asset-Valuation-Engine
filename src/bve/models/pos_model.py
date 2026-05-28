@@ -1079,6 +1079,20 @@ class POSAdjusters(BaseModel):
 
 
 # ---------------------------------------------------------------------------
+# Block 35: GeneTherapyModality → modality_phase_rates YAML key mapping
+# ---------------------------------------------------------------------------
+
+_MODALITY_KEY_MAP: dict[GeneTherapyModality, str] = {
+    GeneTherapyModality.AAV_IN_VIVO:          "gene_therapy_aav",
+    GeneTherapyModality.LENTIVIRAL_EX_VIVO:   "gene_therapy_lentiviral",
+    GeneTherapyModality.CAR_T_AUTOLOGOUS:     "car_t_autologous",
+    GeneTherapyModality.CAR_T_ALLOGENEIC:     "car_t_allogeneic",
+    GeneTherapyModality.LNP_MRNA:             "lnp_mrna",
+    # UNKNOWN and other modalities: no mapping → TA base rate used
+}
+
+
+# ---------------------------------------------------------------------------
 # Core computation
 # ---------------------------------------------------------------------------
 
@@ -1130,7 +1144,16 @@ def compute_pos(
     base_rates = PHASE_SUCCESS_RATES.get(ta_key) or PHASE_SUCCESS_RATES["all"]
     base_rate = base_rates.get(phase_key, 0.40)
 
-    # Block 33: indication subtype base rate override
+    # Block 35: modality-specific base rate override (before subtype check)
+    _modality = adjusters.gene_therapy_modality
+    _modality_yaml_key = _MODALITY_KEY_MAP.get(_modality)
+    if _modality_yaml_key is not None:
+        from bve.config.assumptions_loader import AssumptionsLoader as _AL
+        _mod_rate = _AL.get().get_modality_phase_rate(_modality_yaml_key, phase_key)
+        if _mod_rate is not None:
+            base_rate = _mod_rate
+
+    # Block 33: indication subtype base rate override (wins over modality)
     _subtype_key = adjusters.indication_subtype
     if _subtype_key is not None:
         from bve.config.assumptions_loader import AssumptionsLoader as _AL
@@ -1318,6 +1341,9 @@ class POSComputeResult:
     subtype_ta_fallback: Optional[str] = None
     # Block 34E: absolute POS ceiling audit field
     ceiling_applied: bool = False
+    # Block 35: modality base rate audit fields
+    modality_base_rate_used: Optional[float] = None
+    modality_key_used: Optional[str] = None
 
 
 def compute_pos_detailed(
@@ -1344,16 +1370,33 @@ def compute_pos_detailed(
     base_rates = PHASE_SUCCESS_RATES.get(ta_key) or PHASE_SUCCESS_RATES["all"]
     base_rate = base_rates.get(phase.value, 0.40)
 
-    # Block 33: indication subtype base rate override (adjusters is always set by here)
+    # Block 35: modality-specific base rate override (before subtype check)
+    _modality = adjusters.gene_therapy_modality
+    _modality_yaml_key = _MODALITY_KEY_MAP.get(_modality)
+    _modality_base_rate: Optional[float] = None
+    _modality_key_used: Optional[str] = None
+    if _modality_yaml_key is not None:
+        from bve.config.assumptions_loader import AssumptionsLoader as _AL
+        _mod_rate = _AL.get().get_modality_phase_rate(_modality_yaml_key, phase.value)
+        if _mod_rate is not None:
+            base_rate = _mod_rate
+            _modality_base_rate = _mod_rate
+            _modality_key_used = _modality_yaml_key
+
+    # Block 33: indication subtype base rate override (wins over modality)
     _subtype_key = adjusters.indication_subtype
     _subtype_base_rate: Optional[float] = None
     _subtype_confidence: Optional[str] = None
     _subtype_ta_fallback: Optional[str] = None
+    _modality_overridden_by_subtype = False
     if _subtype_key is not None:
         from bve.config.assumptions_loader import AssumptionsLoader as _AL
         _loader = _AL.get()
         _sub_rate = _loader.get_indication_subtype_rate(_subtype_key, phase.value)
         if _sub_rate is not None:
+            # Subtype wins; if modality was also set, emit flag
+            if _modality_base_rate is not None:
+                _modality_overridden_by_subtype = True
             base_rate = _sub_rate
             _subtype_base_rate = _sub_rate
             _meta = _loader.get_indication_subtype_metadata(_subtype_key)
@@ -1418,6 +1461,10 @@ def compute_pos_detailed(
             )
             confidence_flags = list(confidence_flags) + ["btd_may_overlap_prior_data_and_effect_magnitude"]
 
+    # Block 35: emit flag when modality was overridden by subtype
+    if _modality_overridden_by_subtype:
+        confidence_flags = list(confidence_flags) + ["modality_base_rate_overridden_by_subtype"]
+
     return POSComputeResult(
         pos=pos,
         confidence_flags=confidence_flags,
@@ -1429,6 +1476,8 @@ def compute_pos_detailed(
         subtype_confidence=_subtype_confidence,
         subtype_ta_fallback=_subtype_ta_fallback,
         ceiling_applied=_ceiling_applied,
+        modality_base_rate_used=_modality_base_rate if not _modality_overridden_by_subtype else None,
+        modality_key_used=_modality_key_used if not _modality_overridden_by_subtype else None,
     )
 
 

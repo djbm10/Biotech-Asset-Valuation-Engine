@@ -1253,3 +1253,155 @@ transaction_mix_by_stage:
     license_or_partnership: 0.35
     source: "EY Firepower 2022 blended industry average"
     notes: "Flat prior when stage unknown; mirrors Block 20 flat defaults"
+
+
+# ==============================================================================
+# Modality-specific phase success rates (Block 35)
+# ==============================================================================
+#
+# Evidence-informed priors for advanced modalities with distinct clinical attrition
+# profiles compared to broad TA averages. These rates override the TA-level base
+# rate when gene_therapy_modality is set on POSAdjusters.
+#
+# IMPORTANT: These are PRIOR ESTIMATES, not empirically backtested values.
+# Modality-specific clinical sample sizes are small (N=10-40 per phase), and
+# approval patterns are recent (most post-2017). Confidence is low-to-medium;
+# treat as directional priors pending future backtesting.
+#
+# Hierarchy: indication_subtype > modality > TA
+#   If both modality and indication_subtype are set, subtype wins and flag
+#   "modality_base_rate_overridden_by_subtype" is emitted.
+#
+# Sources:
+#   - FDA CDER Advanced Technologies (ATMP) approval data 2012-2023
+#   - Alliance for Regenerative Medicine (ARM) Pipeline Report 2022
+#   - BioMedTracker specialty modality analysis 2022
+#   - Citeline ATMP clinical development tracker 2023
+#   - Wilson JM (2020) Hum Gene Ther — AAV clinical trial outcomes
+#   - Naldini L (2019) Nat Rev Genet — lentiviral gene therapy status
+#   - June CH et al. (2018) Science — CAR-T clinical development
+#   - Yin H et al. (2017) Nat Rev Genet — nucleic acid therapeutics
+
+modality_phase_rates:
+
+  gene_therapy_aav:
+    # AAV in vivo gene therapy: good Phase 1 safety/tolerability, but Phase 2
+    # immunogenicity and durability failures drive ~38% phase 2 success.
+    # Phase 3 remains hard: manufacturing, patient selection, long-term follow-up.
+    phase_1: 0.55
+    phase_2: 0.38
+    phase_3: 0.50
+    nda_bla: 0.82
+    source: "Wilson JM 2020 Hum Gene Ther; FDA CDER ATMP 2012-2023; ARM Pipeline 2022"
+    n_programs: 28
+    date_range: "2012-2023"
+    confidence: "low"
+    status: "prior_estimate_not_backtested"
+    notes: >
+      AAV-in-vivo programs: immunogenicity at Phase 2 is the key attrition driver.
+      Phase 3 failures mainly from manufacturing consistency and long-term durability
+      claims. n_programs is indicative; sample small. Phase 3 rate reflects limited data.
+
+  gene_therapy_lentiviral:
+    # Lentiviral ex-vivo gene therapy: broader Phase 1 safety profile than AAV
+    # (patient cell selection limits systemic exposure) but complex manufacturing
+    # limits scalability and introduces Phase 2→3 attrition.
+    phase_1: 0.52
+    phase_2: 0.35
+    phase_3: 0.48
+    nda_bla: 0.79
+    source: "Naldini L 2019 Nat Rev Genet; FDA CDER ATMP 2012-2023; ARM Pipeline 2022"
+    n_programs: 18
+    date_range: "2013-2023"
+    confidence: "low"
+    status: "prior_estimate_not_backtested"
+    notes: >
+      Lentiviral ex-vivo: genotoxicity / insertional mutagenesis concerns reduce
+      phase_2 rate vs AAV. Small N; prior is uncertain.
+
+  car_t_autologous:
+    # Autologous CAR-T: highest Phase 1 success (active in refractory heme malignancies),
+    # Phase 2 attrition from CRS/neurotox management; strong NDA/BLA success once Phase 3 met.
+    phase_1: 0.60
+    phase_2: 0.45
+    phase_3: 0.62
+    nda_bla: 0.88
+    source: "June CH 2018 Science; FDA CDER 2022; Citeline ATMP 2023; ARM 2022"
+    n_programs: 35
+    date_range: "2014-2023"
+    confidence: "low_medium"
+    status: "prior_estimate_not_backtested"
+    notes: >
+      CAR-T autologous: favorable efficacy in heavily pretreated heme malignancies drives
+      higher Phase 1 and Phase 2 rates vs TA average. Phase 3 attrition mainly from SoC
+      change and reimbursement requirements. NDA/BLA success high once Phase 3 data in hand.
+
+  car_t_allogeneic:
+    # Allogeneic (off-the-shelf) CAR-T: earlier stage; higher Phase 1 attrition from
+    # graft-vs-host disease and rejection concerns; Phase 2 remains exploratory.
+    phase_1: 0.44
+    phase_2: 0.30
+    phase_3: 0.45
+    nda_bla: 0.75
+    source: "ARM Pipeline 2022; Citeline ATMP 2023; FDA CDER advanced therapies briefing 2022"
+    n_programs: 15
+    date_range: "2018-2023"
+    confidence: "low"
+    status: "prior_estimate_not_backtested"
+    notes: >
+      Allogeneic CAR-T: nascent clinical field; very few Phase 3 completions as of 2023.
+      Rates reflect early Phase 1/2 observations + expert prior. High uncertainty.
+
+  lnp_mrna:
+    # LNP-formulated mRNA therapeutics: strong preclinical-to-Phase 1 translation
+    # supported by COVID vaccine data; Phase 2 POS varies widely by indication.
+    phase_1: 0.58
+    phase_2: 0.42
+    phase_3: 0.60
+    nda_bla: 0.85
+    source: "Yin H 2017 Nat Rev Genet; FDA CDER 2022-2023; EMA ATMP data; BioMedTracker 2022"
+    n_programs: 22
+    date_range: "2016-2023"
+    confidence: "low_medium"
+    status: "prior_estimate_not_backtested"
+    notes: >
+      mRNA/LNP: rapidly growing modality with heterogeneous indication distribution.
+      Rates informed by infectious disease (COVID, RSV) + rare disease programs.
+      Non-vaccine indications may have lower POS than the rates above suggest.
+
+  aso_rnai:
+    # ASO and RNAi (siRNA/shRNA/miRNA) oligonucleotide therapies: well-established modality
+    # with multiple approved drugs (Spinraza, Onpattro, Inclisiran). Higher base rates
+    # reflect a maturing, validated platform.
+    phase_1: 0.57
+    phase_2: 0.40
+    phase_3: 0.58
+    nda_bla: 0.87
+    source: "FDA CDER approved oligonucleotide therapeutics 2023; BioMedTracker 2022; Citeline 2023"
+    n_programs: 40
+    date_range: "2010-2023"
+    confidence: "medium"
+    status: "prior_estimate_not_backtested"
+    notes: >
+      ASO/RNAi: most validated of the advanced modalities with >5 approved drugs.
+      Higher confidence than gene/cell therapy categories. Rates are more stable.
+      Includes both gapmers and siRNA/conjugated platforms.
+
+  biologic_antibody:
+    # Monoclonal antibodies and antibody-derived biologics (bispecifics, ADC backbones).
+    # Serves as the reference modality — rates approximately equal to TA-level averages
+    # across oncology/immunology, reflecting the large, well-characterized data pool.
+    phase_1: 0.62
+    phase_2: 0.38
+    phase_3: 0.61
+    nda_bla: 0.88
+    source: "Biomedtracker/IQVIA 2021; Citeline Pharmaprojects 2023; DiMasi et al. 2016"
+    n_programs: 180
+    date_range: "2005-2023"
+    confidence: "medium_high"
+    status: "prior_estimate_not_backtested"
+    notes: >
+      Antibody/biologic: largest dataset; rates closely mirror IQVIA cross-TA averages.
+      Acts as the reference modality to validate the model against known benchmarks.
+      Note: this is gene_therapy_modality-agnostic — biologic_antibody is accessible
+      via the YAML but not currently mapped to a GeneTherapyModality enum value.
