@@ -776,6 +776,95 @@ _REALISM_APPLICABLE_PHASES: frozenset[TrialPhase] = frozenset([
     TrialPhase.PHASE_2, TrialPhase.PHASE_3,
 ])
 
+
+# ---------------------------------------------------------------------------
+# Block 36 — Data Maturity + CMC Risk adjusters
+# ---------------------------------------------------------------------------
+
+class DataMaturityLevel(str, Enum):
+    """
+    Maturity / completeness of the efficacy data package at time of assessment.
+
+    Phase gate: Phase 2 and Phase 3 ONLY. Silent no-op at Phase 1 and NDA/BLA.
+    NDA/BLA: data maturity is already locked by the time of filing.
+    Phase 1: primary objective is safety; efficacy data maturity is irrelevant.
+
+    Log-odds (Phase 2/3 only):
+      MATURE_FINAL               0.00  final readout, primary events mature
+      INTERIM_PRE_PLANNED       -0.10  pre-planned interim, adequate events
+      IMMATURE_ONGOING          -0.20  OS/PFS ongoing, primary not reached
+      EARLY_INTERIM_UNPLANNED   -0.35  early/unplanned; high reversal risk
+      UNKNOWN                    0.00  + confidence_flag "data_maturity_unknown"
+
+    Default: UNKNOWN — unassessed ≠ mature.
+    """
+    MATURE_FINAL             = "mature_final"
+    INTERIM_PRE_PLANNED      = "interim_pre_planned"
+    IMMATURE_ONGOING         = "immature_ongoing"
+    EARLY_INTERIM_UNPLANNED  = "early_interim_unplanned"
+    UNKNOWN                  = "unknown"
+
+
+class CMCRiskLevel(str, Enum):
+    """
+    Chemistry, Manufacturing, and Controls (CMC) risk level.
+
+    Captures manufacturing readiness risk — a consistent Phase 3 → NDA failure driver,
+    especially for biologics, gene therapies, and cell therapies.
+
+    Phase gate for NUMERICAL PENALTY: Phase 3 and NDA/BLA only.
+    EARLY WARNING at Phase 1/2 for complex modalities (gene_therapy_modality != UNKNOWN):
+      when cmc_risk == UNKNOWN, emits flag "cmc_risk_unassessed_complex_modality"
+      WITHOUT changing the point estimate.
+
+    Log-odds (Phase 3/NDA only):
+      PROVEN_SCALABLE    0.00  commercial-scale manufacturing demonstrated
+      LATE_STAGE_DEV    -0.10  Phase 3 manufacturing in progress, feasible
+      DEVELOPMENT_STAGE -0.20  process not yet locked; scale challenges likely
+      KNOWN_ISSUES      -0.40  prior batch failures or CRO changes on record
+      UNKNOWN            0.00  + confidence_flag "cmc_risk_unknown"
+                               (at Phase 3/NDA; early warning at Phase 1/2 for complex modalities)
+
+    Default: UNKNOWN — unassessed ≠ proven.
+    """
+    PROVEN_SCALABLE   = "proven_scalable"
+    LATE_STAGE_DEV    = "late_stage_dev"
+    DEVELOPMENT_STAGE = "development_stage"
+    KNOWN_ISSUES      = "known_issues"
+    UNKNOWN           = "unknown"
+
+
+_DATA_MATURITY_LOGODDS: dict[DataMaturityLevel, float] = {
+    DataMaturityLevel.MATURE_FINAL:            0.00,  # reference
+    DataMaturityLevel.INTERIM_PRE_PLANNED:    -0.10,  # pre-planned interim
+    DataMaturityLevel.IMMATURE_ONGOING:       -0.20,  # primary not yet reached
+    DataMaturityLevel.EARLY_INTERIM_UNPLANNED: -0.35,  # early/unplanned; high reversal risk
+    DataMaturityLevel.UNKNOWN:                 0.00,  # flag only
+}
+
+_CMC_RISK_LOGODDS: dict[CMCRiskLevel, float] = {
+    CMCRiskLevel.PROVEN_SCALABLE:    0.00,  # reference
+    CMCRiskLevel.LATE_STAGE_DEV:    -0.10,
+    CMCRiskLevel.DEVELOPMENT_STAGE: -0.20,
+    CMCRiskLevel.KNOWN_ISSUES:      -0.40,
+    CMCRiskLevel.UNKNOWN:            0.00,  # flag only
+}
+
+# Phases where DataMaturityLevel penalty applies
+_DATA_MATURITY_APPLICABLE_PHASES: frozenset[TrialPhase] = frozenset([
+    TrialPhase.PHASE_2, TrialPhase.PHASE_3,
+])
+
+# Phases where CMCRiskLevel NUMERICAL PENALTY applies
+_CMC_RISK_PENALTY_PHASES: frozenset[TrialPhase] = frozenset([
+    TrialPhase.PHASE_3, TrialPhase.NDA_BLA,
+])
+
+# Phases where CMC EARLY WARNING (flag only) applies for complex modalities
+_CMC_EARLY_WARNING_PHASES: frozenset[TrialPhase] = frozenset([
+    TrialPhase.PHASE_1, TrialPhase.PHASE_2,
+])
+
 # Legacy single-value constants — kept for empirical engine backward compat
 _BIOMARKER_SELECTION_BONUS: float = 0.40
 _PRIOR_PHASE_SUCCESS_BONUS: float = 0.25
@@ -952,6 +1041,30 @@ class POSAdjusters(BaseModel):
             "Placebo inflation risk. CNS/psychiatry/GI/pain, Phase 2/3 only; silent no-op elsewhere. "
             "UNKNOWN (default): unassessed — 0.00 delta + flag 'placebo_response_unassessed'. "
             "NONE: explicitly assessed as no risk (0.00). MODERATE (-0.15), HIGH (-0.30)."
+        ),
+    )
+
+    # --- Block 36: Data Maturity + CMC Risk ---
+    data_maturity: DataMaturityLevel = Field(
+        default=DataMaturityLevel.UNKNOWN,
+        description=(
+            "Block 36: Data maturity / completeness of efficacy evidence. "
+            "Phase 2/3 only; silent at Phase 1 and NDA/BLA. "
+            "MATURE_FINAL (0.00): final readout; INTERIM_PRE_PLANNED (-0.10): pre-planned interim; "
+            "IMMATURE_ONGOING (-0.20): primary not yet reached; "
+            "EARLY_INTERIM_UNPLANNED (-0.35): high reversal risk. "
+            "UNKNOWN: no point-estimate change; sets flag 'data_maturity_unknown'."
+        ),
+    )
+    cmc_risk: CMCRiskLevel = Field(
+        default=CMCRiskLevel.UNKNOWN,
+        description=(
+            "Block 36: Chemistry/Manufacturing/Controls risk. "
+            "Numerical penalty at Phase 3 and NDA/BLA. "
+            "Early warning flag at Phase 1/2 for complex modalities (gene_therapy_modality != UNKNOWN). "
+            "PROVEN_SCALABLE (0.00): commercial-scale demonstrated; LATE_STAGE_DEV (-0.10); "
+            "DEVELOPMENT_STAGE (-0.20): process not locked; KNOWN_ISSUES (-0.40): prior failures. "
+            "UNKNOWN: no point-estimate change; sets flag 'cmc_risk_unknown' at Phase 3/NDA."
         ),
     )
 
@@ -1296,6 +1409,29 @@ def _compute_layer1_adjustment(
         delta += _PLACEBO_RESPONSE_LOGODDS[adjusters.placebo_response_concern]
         if adjusters.placebo_response_concern == PlaceboResponseConcern.UNKNOWN:
             confidence_flags.append("placebo_response_unassessed")
+
+    # --- Block 36: Data Maturity ---
+    # Numerical penalty at Phase 2 and Phase 3 only.
+    if phase in _DATA_MATURITY_APPLICABLE_PHASES:
+        delta += _DATA_MATURITY_LOGODDS[adjusters.data_maturity]
+        if adjusters.data_maturity == DataMaturityLevel.UNKNOWN:
+            confidence_flags.append("data_maturity_unknown")
+
+    # --- Block 36: CMC Risk ---
+    # Numerical penalty at Phase 3 and NDA/BLA.
+    # Early warning (flag only, no penalty) at Phase 1/2 for complex modalities.
+    if phase in _CMC_RISK_PENALTY_PHASES:
+        delta += _CMC_RISK_LOGODDS[adjusters.cmc_risk]
+        if adjusters.cmc_risk == CMCRiskLevel.UNKNOWN:
+            confidence_flags.append("cmc_risk_unknown")
+    elif phase in _CMC_EARLY_WARNING_PHASES:
+        # For complex modalities (gene/cell therapy) at Phase 1/2:
+        # if cmc_risk is UNKNOWN, emit early warning flag (no penalty).
+        _is_complex_modality = (
+            adjusters.gene_therapy_modality != GeneTherapyModality.UNKNOWN
+        )
+        if _is_complex_modality and adjusters.cmc_risk == CMCRiskLevel.UNKNOWN:
+            confidence_flags.append("cmc_risk_unassessed_complex_modality")
 
     return delta, confidence_flags
 
