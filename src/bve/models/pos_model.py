@@ -865,6 +865,120 @@ _CMC_EARLY_WARNING_PHASES: frozenset[TrialPhase] = frozenset([
     TrialPhase.PHASE_1, TrialPhase.PHASE_2,
 ])
 
+# ---------------------------------------------------------------------------
+# Block 39: CompetitiveBenchmarkPosition + PriorRegulatoryAction
+# ---------------------------------------------------------------------------
+
+class CompetitiveBenchmarkPosition(str, Enum):
+    """
+    Efficacy/safety profile of the program vs the current standard of care
+    or leading approved competitor.
+
+    Phase gate: Phase 2 and Phase 3 ONLY. Silent no-op at Phase 1 and NDA/BLA.
+
+    Log-odds:
+      BEST_IN_CLASS     +0.20  clearly superior efficacy or safety vs SoC
+      COMPETITIVE        0.00  comparable; reference tier
+      BELOW_COMPARATOR  -0.25  measurably inferior on key endpoint
+      CLEARLY_INFERIOR  -0.50  substantial inferiority on primary and safety
+      UNKNOWN            0.00  + confidence_flag "competitive_benchmark_unknown"
+    """
+    BEST_IN_CLASS    = "best_in_class"
+    COMPETITIVE      = "competitive"
+    BELOW_COMPARATOR = "below_comparator"
+    CLEARLY_INFERIOR = "clearly_inferior"
+    UNKNOWN          = "unknown"
+
+
+_COMPETITIVE_BENCHMARK_LOGODDS: dict[CompetitiveBenchmarkPosition, float] = {
+    CompetitiveBenchmarkPosition.BEST_IN_CLASS:    +0.20,
+    CompetitiveBenchmarkPosition.COMPETITIVE:       0.00,
+    CompetitiveBenchmarkPosition.BELOW_COMPARATOR: -0.25,
+    CompetitiveBenchmarkPosition.CLEARLY_INFERIOR: -0.50,
+    CompetitiveBenchmarkPosition.UNKNOWN:           0.00,  # flag only
+}
+
+_COMPETITIVE_BENCHMARK_PHASES: frozenset[TrialPhase] = frozenset([
+    TrialPhase.PHASE_2, TrialPhase.PHASE_3,
+])
+
+
+class PriorRegulatoryAction(str, Enum):
+    """
+    Prior adverse regulatory actions on this molecule.
+
+    Phase gate:
+      CLINICAL_HOLD_SAFETY, CLINICAL_HOLD_CMC — ALL phases
+      All others — Phase 3 and NDA/BLA only
+
+    Log-odds (before penalty scaling):
+      CLINICAL_HOLD_SAFETY        -0.45
+      CLINICAL_HOLD_CMC           -0.20
+      CRL_SAFETY                  -0.50
+      CRL_EFFICACY                -0.35
+      CRL_CMC                     -0.25
+      ADVISORY_COMMITTEE_NEGATIVE -0.30
+      PRIOR_REFUSAL_TO_FILE       -0.35
+
+    Stacking cap: total penalty cannot exceed -0.60.
+    """
+    CLINICAL_HOLD_SAFETY        = "clinical_hold_safety"
+    CLINICAL_HOLD_CMC           = "clinical_hold_cmc"
+    CRL_SAFETY                  = "crl_safety"
+    CRL_EFFICACY                = "crl_efficacy"
+    CRL_CMC                     = "crl_cmc"
+    ADVISORY_COMMITTEE_NEGATIVE = "advisory_committee_negative"
+    PRIOR_REFUSAL_TO_FILE       = "prior_refusal_to_file"
+
+
+_REGULATORY_ACTION_LOGODDS: dict[PriorRegulatoryAction, float] = {
+    PriorRegulatoryAction.CLINICAL_HOLD_SAFETY:        -0.45,
+    PriorRegulatoryAction.CLINICAL_HOLD_CMC:           -0.20,
+    PriorRegulatoryAction.CRL_SAFETY:                  -0.50,
+    PriorRegulatoryAction.CRL_EFFICACY:                -0.35,
+    PriorRegulatoryAction.CRL_CMC:                     -0.25,
+    PriorRegulatoryAction.ADVISORY_COMMITTEE_NEGATIVE: -0.30,
+    PriorRegulatoryAction.PRIOR_REFUSAL_TO_FILE:       -0.35,
+}
+
+# Clinical holds apply at ALL phases; CRL/AdCom/RTF apply at Phase 3 + NDA only
+_REGULATORY_ACTION_ALL_PHASES: frozenset[PriorRegulatoryAction] = frozenset([
+    PriorRegulatoryAction.CLINICAL_HOLD_SAFETY,
+    PriorRegulatoryAction.CLINICAL_HOLD_CMC,
+])
+
+_REGULATORY_ACTION_LATE_PHASES: frozenset[TrialPhase] = frozenset([
+    TrialPhase.PHASE_3, TrialPhase.NDA_BLA,
+])
+
+_REGULATORY_ACTION_MAX_TOTAL: float = -0.60
+
+
+class RegulatoryActionRecord(BaseModel):
+    """
+    A prior regulatory action with contextual penalty scaling.
+
+    Penalty multiplier:
+      issue_resolved=True  AND  same_indication=False → 0.20
+      issue_resolved=True  (same_indication=True)     → 0.50
+      same_indication=False (issue_resolved=False)    → 0.40
+      default (same_indication=True, unresolved)      → 1.00
+    """
+    action: PriorRegulatoryAction
+    same_molecule: bool = True
+    same_indication: bool = True
+    issue_resolved: bool = False
+
+    def penalty_multiplier(self) -> float:
+        if self.issue_resolved and not self.same_indication:
+            return 0.20
+        if self.issue_resolved:
+            return 0.50
+        if not self.same_indication:
+            return 0.40
+        return 1.00
+
+
 # Legacy single-value constants — kept for empirical engine backward compat
 _BIOMARKER_SELECTION_BONUS: float = 0.40
 _PRIOR_PHASE_SUCCESS_BONUS: float = 0.25
@@ -1088,6 +1202,26 @@ class POSAdjusters(BaseModel):
             "does NOT independently adjust POS (all modality_adjustment=0.00). "
             "Use gene_cell_therapy_concerns for actual POS adjustment. "
             "Modality informs which concerns are relevant but does not score them."
+        ),
+    )
+
+    # --- Block 39: Competitive Benchmark + Prior Regulatory Actions ---
+    competitive_benchmark: CompetitiveBenchmarkPosition = Field(
+        default=CompetitiveBenchmarkPosition.UNKNOWN,
+        description=(
+            "Block 39: Program's efficacy/safety position vs standard of care. "
+            "Phase 2/3 only; silent at Phase 1 and NDA/BLA. "
+            "BEST_IN_CLASS (+0.20), COMPETITIVE (0.00), BELOW_COMPARATOR (-0.25), "
+            "CLEARLY_INFERIOR (-0.50). UNKNOWN: no point-estimate change; "
+            "sets flag 'competitive_benchmark_unknown'."
+        ),
+    )
+    prior_regulatory_actions: list[RegulatoryActionRecord] = Field(
+        default_factory=list,
+        description=(
+            "Block 39: Prior adverse regulatory actions on this molecule. "
+            "Clinical holds apply at all phases; CRL/AdCom/RTF apply at Phase 3/NDA only. "
+            "Penalties are scaled by RegulatoryActionRecord context and capped at -0.60 total."
         ),
     )
 
@@ -1432,6 +1566,32 @@ def _compute_layer1_adjustment(
         )
         if _is_complex_modality and adjusters.cmc_risk == CMCRiskLevel.UNKNOWN:
             confidence_flags.append("cmc_risk_unassessed_complex_modality")
+
+    # --- Block 39: Competitive Benchmark Position ---
+    # Phase 2/3 only; silent at Phase 1 and NDA/BLA.
+    if phase in _COMPETITIVE_BENCHMARK_PHASES:
+        delta += _COMPETITIVE_BENCHMARK_LOGODDS[adjusters.competitive_benchmark]
+        if adjusters.competitive_benchmark == CompetitiveBenchmarkPosition.UNKNOWN:
+            confidence_flags.append("competitive_benchmark_unknown")
+
+    # --- Block 39: Prior Regulatory Actions ---
+    # Clinical holds: all phases. CRL/AdCom/RTF: Phase 3 + NDA/BLA only.
+    if adjusters.prior_regulatory_actions:
+        _reg_delta: float = 0.0
+        for _rec in adjusters.prior_regulatory_actions:
+            _action = _rec.action
+            # Phase gate
+            _applies = (
+                _action in _REGULATORY_ACTION_ALL_PHASES
+                or phase in _REGULATORY_ACTION_LATE_PHASES
+            )
+            if not _applies:
+                continue
+            _base_penalty = _REGULATORY_ACTION_LOGODDS[_action]
+            _reg_delta += _base_penalty * _rec.penalty_multiplier()
+        # Apply stacking cap
+        _reg_delta = max(_reg_delta, _REGULATORY_ACTION_MAX_TOTAL)
+        delta += _reg_delta
 
     return delta, confidence_flags
 
