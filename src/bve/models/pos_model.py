@@ -1480,6 +1480,10 @@ class POSComputeResult:
     # Block 35: modality base rate audit fields
     modality_base_rate_used: Optional[float] = None
     modality_key_used: Optional[str] = None
+    # Block 38: opt-in uncertainty interval fields (None when include_ci=False)
+    pos_ci_low: Optional[float] = None
+    pos_ci_high: Optional[float] = None
+    pos_ci_width: Optional[float] = None
 
 
 def compute_pos_detailed(
@@ -1487,6 +1491,8 @@ def compute_pos_detailed(
     therapeutic_area: TherapeuticArea,
     adjusters: Optional[POSAdjusters] = None,
     approval_pathway: Optional[ApprovalPathwayType] = None,
+    include_ci: bool = False,
+    n_mc_samples: int = 500,
 ) -> POSComputeResult:
     """
     Compute POS with full confidence flag output.
@@ -1497,6 +1503,15 @@ def compute_pos_detailed(
     Use this when you need to surface data-quality warnings alongside the
     point estimate (e.g., in decision reports, validation output).
     Use compute_pos() when only the float is needed.
+
+    Parameters
+    ----------
+    include_ci : bool
+        Block 38: When True, also run compute_pos_with_ci() and populate
+        pos_ci_low, pos_ci_high, pos_ci_width on the result. Default OFF
+        (CI computation adds MC overhead).
+    n_mc_samples : int
+        Number of MC samples for CI computation (ignored when include_ci=False).
     """
     adjusters_provided = adjusters is not None
     if adjusters is None:
@@ -1601,6 +1616,20 @@ def compute_pos_detailed(
     if _modality_overridden_by_subtype:
         confidence_flags = list(confidence_flags) + ["modality_base_rate_overridden_by_subtype"]
 
+    # Block 38: opt-in CI computation
+    _pos_ci_low: Optional[float] = None
+    _pos_ci_high: Optional[float] = None
+    _pos_ci_width: Optional[float] = None
+    if include_ci:
+        _ci = compute_pos_with_ci(
+            phase, therapeutic_area, adjusters,
+            approval_pathway=approval_pathway,
+            n_mc_samples=n_mc_samples,
+        )
+        _pos_ci_low = _ci.pos_ci_low
+        _pos_ci_high = _ci.pos_ci_high
+        _pos_ci_width = _ci.pos_ci_width
+
     return POSComputeResult(
         pos=pos,
         confidence_flags=confidence_flags,
@@ -1614,6 +1643,301 @@ def compute_pos_detailed(
         ceiling_applied=_ceiling_applied,
         modality_base_rate_used=_modality_base_rate if not _modality_overridden_by_subtype else None,
         modality_key_used=_modality_key_used if not _modality_overridden_by_subtype else None,
+        pos_ci_low=_pos_ci_low,
+        pos_ci_high=_pos_ci_high,
+        pos_ci_width=_pos_ci_width,
+    )
+
+
+# ---------------------------------------------------------------------------
+# Block 38 — POS Uncertainty Intervals
+# ---------------------------------------------------------------------------
+# Triangular(min, mode, max) per adjuster.  UNKNOWN adjusters have non-zero
+# spread to represent ignorance — NOT zero variance.
+#
+# Convention: (min_logodds, max_logodds) — mode = existing point estimate.
+# Sources: judgment-call ranges around the point estimates.
+# ---------------------------------------------------------------------------
+
+@dataclass
+class POSWithCI:
+    """
+    Block 38: POS point estimate + 90% confidence interval.
+
+    Attributes
+    ----------
+    pos : float
+        Point estimate — identical to compute_pos() output.
+    pos_ci_low : float
+        5th percentile of MC distribution over adjuster uncertainty.
+    pos_ci_high : float
+        95th percentile of MC distribution over adjuster uncertainty.
+    pos_ci_width : float
+        ci_high − ci_low (90% interval width).
+    n_mc_samples : int
+        Number of Monte Carlo samples used.
+    """
+    pos: float
+    pos_ci_low: float
+    pos_ci_high: float
+    pos_ci_width: float
+    n_mc_samples: int
+
+
+# Adjuster uncertainty bounds: dict[value, (min_delta, max_delta)]
+# Mode = the point estimate from the existing log-odds tables.
+# UNKNOWN entries have non-zero spread (ignorance ≠ zero variance).
+
+# Endpoint bounds: cover common legacy + key specific endpoint types.
+# For endpoint types not listed, _sample_pos_logodds uses +/-0.20 fallback.
+_ENDPOINT_LOGODDS_BOUNDS_GENERIC: dict[EndpointType, tuple[float, float]] = {
+    EndpointType.HARD_CLINICAL:        (+0.10, +0.50),
+    EndpointType.SURROGATE_VALIDATED:  (-0.10, +0.30),
+    EndpointType.SURROGATE_NOVEL:      (-0.35, 0.00),
+    EndpointType.BIOMARKER_ONLY:       (-0.55, -0.15),
+    EndpointType.PFS:                  (-0.10, +0.30),
+    EndpointType.ORR:                  (-0.10, +0.25),
+    EndpointType.COGNITIVE_SCALE:      (-0.25, +0.05),
+    EndpointType.QOL_PRO:              (-0.20, +0.10),
+}
+
+_MOA_LOGODDS_BOUNDS: dict[MoAPrecedent, tuple[float, float]] = {
+    MoAPrecedent.VALIDATED:                  (+0.25, +0.50),
+    MoAPrecedent.VALIDATED_CLASS:            (+0.25, +0.50),
+    MoAPrecedent.CLINICALLY_VALIDATED_TARGET:(+0.10, +0.30),
+    MoAPrecedent.PATHWAY_VALIDATED:          (-0.05, +0.15),
+    MoAPrecedent.PARTIAL:                    (-0.10, +0.10),  # slight uncertainty at neutral
+    MoAPrecedent.PRECLINICAL_ONLY:           (-0.35, -0.05),
+    MoAPrecedent.NOVEL:                      (-0.50, -0.20),
+    MoAPrecedent.PRIOR_FAILURES:             (-0.65, -0.35),
+    MoAPrecedent.KNOWN_LIABILITY:            (-0.75, -0.45),
+}
+
+_SAMPLE_LOGODDS_BOUNDS: dict[SampleSizeAdequacy, tuple[float, float]] = {
+    SampleSizeAdequacy.WELL_POWERED:   (+0.10, +0.30),
+    SampleSizeAdequacy.ADEQUATE:       (-0.10, +0.10),
+    SampleSizeAdequacy.UNVERIFIABLE:   (-0.35, -0.10),
+    SampleSizeAdequacy.BORDERLINE:     (-0.30, -0.10),
+    SampleSizeAdequacy.UNDERPOWERED:   (-0.55, -0.30),
+    SampleSizeAdequacy.EXPLORATORY:    (-0.60, -0.35),
+}
+
+_BIOMARKER_LOGODDS_BOUNDS: dict[BiomarkerSelectionStrength, tuple[float, float]] = {
+    BiomarkerSelectionStrength.VALIDATED:        (+0.30, +0.55),
+    BiomarkerSelectionStrength.STRONG_RATIONALE: (+0.15, +0.40),
+    BiomarkerSelectionStrength.EXPLORATORY:      (+0.00, +0.20),
+    BiomarkerSelectionStrength.NO_SELECTION:     (-0.05, +0.05),
+    BiomarkerSelectionStrength.POST_HOC_WEAK:    (-0.20, +0.00),
+}
+
+_PRIOR_PHASE_LOGODDS_BOUNDS: dict[PriorPhaseDataStrength, tuple[float, float]] = {
+    PriorPhaseDataStrength.STRONG_REPLICATED: (+0.20, +0.45),
+    PriorPhaseDataStrength.STRONG_SINGLE:     (+0.10, +0.35),
+    PriorPhaseDataStrength.DOSE_RESPONSE:     (+0.05, +0.25),
+    PriorPhaseDataStrength.MIXED:             (-0.10, +0.10),
+    PriorPhaseDataStrength.WEAK:              (-0.30, -0.10),
+    PriorPhaseDataStrength.FAILED:            (-0.50, -0.20),
+}
+
+_DOSE_SELECTION_LOGODDS_BOUNDS: dict[DoseSelectionConfidence, tuple[float, float]] = {
+    DoseSelectionConfidence.PK_PD_MODELED:                   (-0.05, +0.05),
+    DoseSelectionConfidence.EXPOSURE_RESPONSE_CHARACTERIZED: (-0.05, +0.05),
+    DoseSelectionConfidence.EMPIRICAL_FROM_MTD:              (-0.20, 0.00),
+    DoseSelectionConfidence.EMPIRICAL_NO_PD_CONFIRMATION:    (-0.35, -0.10),
+    DoseSelectionConfidence.UNKNOWN:                         (-0.20, +0.10),  # UNKNOWN: wide
+}
+
+_CLINICAL_EFFECT_LOGODDS_BOUNDS: dict[ClinicalEffectMagnitude, tuple[float, float]] = {
+    ClinicalEffectMagnitude.EXCEEDS_MCID:  (+0.15, +0.40),
+    ClinicalEffectMagnitude.MEETS_MCID:    (-0.10, +0.10),
+    ClinicalEffectMagnitude.BELOW_MCID:    (-0.45, -0.15),
+    ClinicalEffectMagnitude.UNKNOWN:       (-0.20, +0.20),  # UNKNOWN: wide
+}
+
+_DATA_MATURITY_LOGODDS_BOUNDS: dict[DataMaturityLevel, tuple[float, float]] = {
+    DataMaturityLevel.MATURE_FINAL:           (-0.05, +0.05),
+    DataMaturityLevel.INTERIM_PRE_PLANNED:    (-0.20, 0.00),
+    DataMaturityLevel.IMMATURE_ONGOING:       (-0.30, -0.05),
+    DataMaturityLevel.EARLY_INTERIM_UNPLANNED:(-0.50, -0.15),
+    DataMaturityLevel.UNKNOWN:               (-0.25, +0.05),  # UNKNOWN: wide
+}
+
+_CMC_RISK_LOGODDS_BOUNDS: dict[CMCRiskLevel, tuple[float, float]] = {
+    CMCRiskLevel.PROVEN_SCALABLE:    (-0.05, +0.05),
+    CMCRiskLevel.LATE_STAGE_DEV:     (-0.20, 0.00),
+    CMCRiskLevel.DEVELOPMENT_STAGE:  (-0.30, -0.05),
+    CMCRiskLevel.KNOWN_ISSUES:       (-0.55, -0.20),
+    CMCRiskLevel.UNKNOWN:            (-0.30, +0.05),  # UNKNOWN gene therapy: wide; other: narrower
+}
+
+
+def _triangular_sample(rng: "random.Random", mode: float, lo: float, hi: float) -> float:  # noqa: F821
+    """Sample from Triangular(lo, mode, hi) using inversion method."""
+    if lo >= hi:
+        return mode
+    c = (mode - lo) / (hi - lo)
+    u = rng.random()
+    if u < c:
+        return lo + math.sqrt(u * (hi - lo) * (mode - lo))
+    else:
+        return hi - math.sqrt((1.0 - u) * (hi - lo) * (hi - mode))
+
+
+def _sample_pos_logodds(
+    rng: "random.Random",  # noqa: F821
+    adjusters: POSAdjusters,
+    ta_value: str,
+    phase: Optional[TrialPhase],
+) -> float:
+    """
+    Sample a single log-odds adjustment using Triangular distributions per adjuster.
+
+    UNKNOWN adjusters have wider bounds than explicitly-set values.
+    """
+    delta: float = 0.0
+
+    # Endpoint type
+    mode = _endpoint_logodds(adjusters.endpoint_type, ta_value)
+    _ep_bounds = _ENDPOINT_LOGODDS_BOUNDS_GENERIC.get(adjusters.endpoint_type, (-0.20, +0.20))
+    delta += _triangular_sample(rng, mode, _ep_bounds[0], _ep_bounds[1])
+
+    # MoA precedent
+    mode = _MOA_LOGODDS.get(adjusters.moa_precedent, 0.0)
+    _moa_bounds = _MOA_LOGODDS_BOUNDS.get(adjusters.moa_precedent, (-0.10, +0.10))
+    delta += _triangular_sample(rng, mode, _moa_bounds[0], _moa_bounds[1])
+
+    # Sample size adequacy
+    mode = _SAMPLE_LOGODDS.get(adjusters.sample_size_adequacy, 0.0)
+    _ss_bounds = _SAMPLE_LOGODDS_BOUNDS.get(adjusters.sample_size_adequacy, (-0.15, +0.15))
+    delta += _triangular_sample(rng, mode, _ss_bounds[0], _ss_bounds[1])
+
+    # Biomarker
+    mode = _BIOMARKER_LOGODDS.get(adjusters.biomarker_selection, 0.0)
+    _bio_bounds = _BIOMARKER_LOGODDS_BOUNDS.get(adjusters.biomarker_selection, (-0.10, +0.10))
+    delta += _triangular_sample(rng, mode, _bio_bounds[0], _bio_bounds[1])
+
+    # Prior phase data
+    mode = _PRIOR_PHASE_LOGODDS.get(adjusters.prior_phase_data, 0.0)
+    _pp_bounds = _PRIOR_PHASE_LOGODDS_BOUNDS.get(adjusters.prior_phase_data, (-0.10, +0.10))
+    delta += _triangular_sample(rng, mode, _pp_bounds[0], _pp_bounds[1])
+
+    # Dose selection (always applies)
+    mode = _DOSE_SELECTION_LOGODDS.get(adjusters.dose_selection_confidence, 0.0)
+    _ds_bounds = _DOSE_SELECTION_LOGODDS_BOUNDS.get(adjusters.dose_selection_confidence, (-0.10, +0.10))
+    delta += _triangular_sample(rng, mode, _ds_bounds[0], _ds_bounds[1])
+
+    # Clinical effect magnitude: Phase 2/3 only
+    if phase in _REALISM_APPLICABLE_PHASES:
+        mode = _CLINICAL_EFFECT_LOGODDS.get(adjusters.clinical_effect_magnitude, 0.0)
+        _ce_bounds = _CLINICAL_EFFECT_LOGODDS_BOUNDS.get(adjusters.clinical_effect_magnitude, (-0.10, +0.10))
+        delta += _triangular_sample(rng, mode, _ce_bounds[0], _ce_bounds[1])
+
+    # Data maturity: Phase 2/3 only
+    if phase in _DATA_MATURITY_APPLICABLE_PHASES:
+        mode = _DATA_MATURITY_LOGODDS.get(adjusters.data_maturity, 0.0)
+        _dm_bounds = _DATA_MATURITY_LOGODDS_BOUNDS.get(adjusters.data_maturity, (-0.10, +0.10))
+        delta += _triangular_sample(rng, mode, _dm_bounds[0], _dm_bounds[1])
+
+    # CMC risk: Phase 3/NDA only
+    if phase in _CMC_RISK_PENALTY_PHASES:
+        mode = _CMC_RISK_LOGODDS.get(adjusters.cmc_risk, 0.0)
+        _cmc_bounds = _CMC_RISK_LOGODDS_BOUNDS.get(adjusters.cmc_risk, (-0.10, +0.10))
+        delta += _triangular_sample(rng, mode, _cmc_bounds[0], _cmc_bounds[1])
+
+    # Cap (same caps as point estimate)
+    cap_pos = _L1_CAP_POSITIVE_EXTRAORDINARY if adjusters.extraordinary_evidence else _L1_CAP_POSITIVE
+    return max(_L1_CAP_NEGATIVE, min(cap_pos, delta))
+
+
+def compute_pos_with_ci(
+    phase: TrialPhase,
+    therapeutic_area: TherapeuticArea,
+    adjusters: Optional[POSAdjusters] = None,
+    approval_pathway: Optional[ApprovalPathwayType] = None,
+    n_mc_samples: int = 500,
+    seed: Optional[int] = None,
+) -> POSWithCI:
+    """
+    Block 38: Compute POS point estimate plus 90% confidence interval.
+
+    Uses Triangular(min, mode, max) distributions per adjuster to propagate
+    adjuster uncertainty into a CI over the final POS.
+
+    UNKNOWN adjusters have WIDER bounds than explicitly-set values — ignorance
+    is represented as wider uncertainty, not zero variance.
+
+    Parameters
+    ----------
+    phase, therapeutic_area, adjusters, approval_pathway
+        Same as compute_pos().
+    n_mc_samples : int
+        Number of Monte Carlo samples (default 500).
+    seed : Optional[int]
+        Random seed for reproducibility.
+
+    Returns
+    -------
+    POSWithCI with pos (point estimate), pos_ci_low (5th pct), pos_ci_high (95th pct),
+    pos_ci_width, n_mc_samples.
+    """
+    import random as _random
+
+    if adjusters is None:
+        adjusters = POSAdjusters()
+
+    # Point estimate (same as compute_pos)
+    point_pos = compute_pos(phase, therapeutic_area, adjusters, approval_pathway=approval_pathway)
+
+    ta_key = therapeutic_area.value
+    base_rates = PHASE_SUCCESS_RATES.get(ta_key) or PHASE_SUCCESS_RATES["all"]
+    base_rate = base_rates.get(phase.value, 0.40)
+
+    # Apply modality / subtype overrides for base rate
+    _modality_yaml_key = _MODALITY_KEY_MAP.get(adjusters.gene_therapy_modality)
+    if _modality_yaml_key is not None:
+        from bve.config.assumptions_loader import AssumptionsLoader as _AL
+        _mod_rate = _AL.get().get_modality_phase_rate(_modality_yaml_key, phase.value)
+        if _mod_rate is not None:
+            base_rate = _mod_rate
+    if adjusters.indication_subtype is not None:
+        from bve.config.assumptions_loader import AssumptionsLoader as _AL
+        _sub_rate = _AL.get().get_indication_subtype_rate(adjusters.indication_subtype, phase.value)
+        if _sub_rate is not None:
+            base_rate = _sub_rate
+
+    _raw_base_rate = base_rate
+    if (
+        approval_pathway is not None
+        and approval_pathway == ApprovalPathwayType.ACCELERATED
+        and phase == TrialPhase.NDA_BLA
+    ):
+        base_rate = base_rate * (1.0 - _AA_NDA_DISCOUNT)
+
+    base_rate = max(0.01, min(0.99, base_rate))
+    base_logodds = math.log(base_rate / (1.0 - base_rate))
+    _ceiling = _pos_ceiling(_raw_base_rate)
+
+    rng = _random.Random(seed)
+    samples: list[float] = []
+    for _ in range(n_mc_samples):
+        _delta = _sample_pos_logodds(rng, adjusters, ta_value=ta_key, phase=phase)
+        _lo = base_logodds + _delta
+        _raw = 1.0 / (1.0 + math.exp(-_lo))
+        samples.append(min(_raw, _ceiling))
+
+    samples.sort()
+    ci_idx_low = int(0.05 * n_mc_samples)
+    ci_idx_high = int(0.95 * n_mc_samples)
+    ci_idx_high = min(ci_idx_high, n_mc_samples - 1)
+    pos_ci_low = round(samples[ci_idx_low], 4)
+    pos_ci_high = round(samples[ci_idx_high], 4)
+
+    return POSWithCI(
+        pos=point_pos,
+        pos_ci_low=pos_ci_low,
+        pos_ci_high=pos_ci_high,
+        pos_ci_width=round(pos_ci_high - pos_ci_low, 4),
+        n_mc_samples=n_mc_samples,
     )
 
 
