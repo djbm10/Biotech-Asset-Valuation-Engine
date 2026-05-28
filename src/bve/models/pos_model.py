@@ -937,6 +937,18 @@ class POSAdjusters(BaseModel):
         ),
     )
 
+    # --- Block 33: indication subtype base rate ---
+    indication_subtype: Optional[str] = Field(
+        default=None,
+        description=(
+            "Block 33: Indication subtype key from indication_subtype_rates in "
+            "industry_assumptions.yaml. Overrides the broad TA base rate when set. "
+            "Emits subtype_key_used, subtype_base_rate_used, subtype_confidence, "
+            "subtype_ta_fallback in POSComputeResult. "
+            "Falls back to TA rate with UserWarning if key unknown."
+        ),
+    )
+
     # --- Block 32: gene therapy modality (context-only; zero baseline) ---
     gene_therapy_modality: GeneTherapyModality = Field(
         default=GeneTherapyModality.UNKNOWN,
@@ -1053,6 +1065,14 @@ def compute_pos(
     # Look up base rate; fall back to "all" if TA not found
     base_rates = PHASE_SUCCESS_RATES.get(ta_key) or PHASE_SUCCESS_RATES["all"]
     base_rate = base_rates.get(phase_key, 0.40)
+
+    # Block 33: indication subtype base rate override
+    _subtype_key = adjusters.indication_subtype
+    if _subtype_key is not None:
+        from bve.config.assumptions_loader import AssumptionsLoader as _AL
+        _sub_rate = _AL.get().get_indication_subtype_rate(_subtype_key, phase_key)
+        if _sub_rate is not None:
+            base_rate = _sub_rate
 
     # Accelerated approval: apply confirmatory trial risk discount at NDA/BLA phase.
     # AA programs using surrogate endpoints face ~15-20% post-market withdrawal/
@@ -1217,6 +1237,11 @@ class POSComputeResult:
     phase_realism_applied: bool = False
     btd_timeline_acceleration_flag: bool = False
     btd_overlap_warning: Optional[str] = None
+    # Block 33: subtype base rate audit fields
+    subtype_base_rate_used: Optional[float] = None
+    subtype_key_used: Optional[str] = None
+    subtype_confidence: Optional[str] = None
+    subtype_ta_fallback: Optional[str] = None
 
 
 def compute_pos_detailed(
@@ -1242,6 +1267,23 @@ def compute_pos_detailed(
     ta_key = therapeutic_area.value
     base_rates = PHASE_SUCCESS_RATES.get(ta_key) or PHASE_SUCCESS_RATES["all"]
     base_rate = base_rates.get(phase.value, 0.40)
+
+    # Block 33: indication subtype base rate override (adjusters is always set by here)
+    _subtype_key = adjusters.indication_subtype
+    _subtype_base_rate: Optional[float] = None
+    _subtype_confidence: Optional[str] = None
+    _subtype_ta_fallback: Optional[str] = None
+    if _subtype_key is not None:
+        from bve.config.assumptions_loader import AssumptionsLoader as _AL
+        _loader = _AL.get()
+        _sub_rate = _loader.get_indication_subtype_rate(_subtype_key, phase.value)
+        if _sub_rate is not None:
+            base_rate = _sub_rate
+            _subtype_base_rate = _sub_rate
+            _meta = _loader.get_indication_subtype_metadata(_subtype_key)
+            if _meta:
+                _subtype_confidence = _meta.get("confidence")
+                _subtype_ta_fallback = _meta.get("ta_fallback")
 
     if (
         approval_pathway is not None
@@ -1298,6 +1340,10 @@ def compute_pos_detailed(
         phase_realism_applied=phase_realism_applied,
         btd_timeline_acceleration_flag=_btd_timeline_flag,
         btd_overlap_warning=_btd_overlap_warning,
+        subtype_base_rate_used=_subtype_base_rate,
+        subtype_key_used=_subtype_key if _subtype_base_rate is not None else None,
+        subtype_confidence=_subtype_confidence,
+        subtype_ta_fallback=_subtype_ta_fallback,
     )
 
 

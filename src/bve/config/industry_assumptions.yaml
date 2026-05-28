@@ -1105,3 +1105,97 @@ llm_extraction:
   auto_threshold:     0.50   # ≥ 0.50: auto-processed (sampled for QA)
   calibration_status: "uncalibrated"
   calibration_required_n: 200
+
+# Block 33 — Indication-Subtype Base Rates
+# 8 high-impact subtypes where published phase transition data materially differs
+# from the broad TA base rate. Each entry REQUIRES source metadata to prevent
+# phantom precision. Use ta_fallback when indication_subtype is not set.
+# EVIDENCE-INFORMED PRIORS — do not override without updated published data.
+indication_subtype_rates:
+  gbm:
+    phase_1: 0.440
+    phase_2: 0.120
+    phase_3: 0.280
+    nda_bla: 0.880
+    source: "Vivien et al. 2022 Neuro-Oncology; Citeline 2023"
+    n_programs: 87
+    date_range: "2010-2022"
+    confidence: "medium"
+    ta_fallback: "oncology_solid"
+
+  alzheimers:
+    phase_1: 0.470
+    phase_2: 0.180
+    phase_3: 0.420
+    nda_bla: 0.840
+    source: "Cummings et al. 2019 Alzheimers Dementia; Citeline 2023"
+    n_programs: 65
+    date_range: "2010-2021"
+    confidence: "medium"
+    ta_fallback: "cns"
+
+  ultra_rare_monogenic:
+    phase_1: 0.710
+    phase_2: 0.580
+    phase_3: 0.700
+    nda_bla: 0.960
+    source: "Evaluate Pharma Orphan Drug 2022; FDA rare peds review"
+    n_programs: 38
+    date_range: "2012-2022"
+    confidence: "medium"
+    ta_fallback: "rare_disease"
+
+  nsclc_targeted:
+    phase_1: 0.510
+    phase_2: 0.280
+    phase_3: 0.510
+    nda_bla: 0.930
+    source: "Thomas 2016; IQVIA IO/targeted oncology subset 2021"
+    n_programs: 52
+    date_range: "2012-2021"
+    confidence: "medium"
+    ta_fallback: "oncology_solid"
+
+  nsclc_io_refractory:
+    phase_1: 0.480
+    phase_2: 0.190
+    phase_3: 0.390
+    nda_bla: 0.900
+    source: "Vaddepally et al. 2020; Citeline checkpoint subset 2022"
+    n_programs: 44
+    date_range: "2014-2022"
+    confidence: "low"
+    ta_fallback: "oncology_solid"
+
+  cll_btk_era:
+    phase_1: 0.520
+    phase_2: 0.380
+    phase_3: 0.630
+    nda_bla: 0.920
+    source: "Biomedtracker hematology subset; BTK approvals 2014-2022"
+    n_programs: 28
+    date_range: "2014-2022"
+    confidence: "low"
+    ta_fallback: "hematology"
+
+  psychiatry_mdd:
+    phase_1: 0.510
+    phase_2: 0.220
+    phase_3: 0.530
+    nda_bla: 0.910
+    source: "Khan 2012 JAMA; Citeline psychiatric subset 2022"
+    n_programs: 74
+    date_range: "2005-2021"
+    confidence: "medium"
+    ta_fallback: "psychiatry"
+
+  pain_chronic:
+    phase_1: 0.450
+    phase_2: 0.200
+    phase_3: 0.450
+    nda_bla: 0.860
+    source: "Moore et al. 2015 BMJ; Citeline pain subset"
+    n_programs: 61
+    date_range: "2005-2021"
+    confidence: "low"
+    ta_fallback: "cns"

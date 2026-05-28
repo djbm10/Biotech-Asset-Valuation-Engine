@@ -565,3 +565,58 @@ class AssumptionsLoader:
     @property
     def sources(self) -> tuple:
         return self._data["meta"].get("sources", ())
+
+    # --- Block 33: indication-subtype base rates ---
+
+    @property
+    def indication_subtype_rates(self) -> dict:
+        """Return the full indication_subtype_rates dict from YAML.
+
+        Keys are subtype strings (e.g. 'gbm', 'alzheimers').
+        Each value contains phase rates + metadata fields.
+        """
+        return dict(self._data.get("indication_subtype_rates", {}))
+
+    def get_indication_subtype_rate(
+        self, subtype_key: str, phase: str
+    ) -> Optional[float]:
+        """Return the phase success rate for a specific indication subtype.
+
+        Returns None and emits a UserWarning when subtype_key is not in the YAML.
+        Phase keys are: phase_1, phase_2, phase_3, nda_bla.
+        """
+        subtypes = self._data.get("indication_subtype_rates", {})
+        if subtype_key not in subtypes:
+            import warnings
+            warnings.warn(
+                f"Indication subtype {subtype_key!r} not found in indication_subtype_rates. "
+                f"Falling back to TA base rate.",
+                UserWarning,
+                stacklevel=2,
+            )
+            return None
+        return subtypes[subtype_key].get(phase)
+
+    def get_indication_subtype_metadata(
+        self, subtype_key: str
+    ) -> Optional[dict]:
+        """Return metadata dict for an indication subtype.
+
+        Returns {source, n_programs, date_range, confidence, ta_fallback},
+        or None with UserWarning if key not found.
+        """
+        subtypes = self._data.get("indication_subtype_rates", {})
+        if subtype_key not in subtypes:
+            import warnings
+            warnings.warn(
+                f"Indication subtype {subtype_key!r} not found in indication_subtype_rates.",
+                UserWarning,
+                stacklevel=2,
+            )
+            return None
+        entry = subtypes[subtype_key]
+        return {
+            k: entry[k]
+            for k in ("source", "n_programs", "date_range", "confidence", "ta_fallback")
+            if k in entry
+        }
