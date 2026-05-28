@@ -1199,3 +1199,57 @@ indication_subtype_rates:
     date_range: "2005-2021"
     confidence: "low"
     ta_fallback: "cns"
+
+# ---------------------------------------------------------------------------
+# Block 37A — Stage-specific M&A transaction type priors
+#
+# For each development stage, the fraction of strategic transactions that close
+# as full acquisitions vs licensing/partnership deals.
+# Source: EY Firepower / BioCentury deal database analysis 2018-2023;
+#         McKinsey biotech BD report 2022; Citeline Pharma Intelligence.
+# Note: acquisition + license_or_partnership < 1.0 intentionally.
+#       Remainder (~5-15%) = asset swaps, JVs, co-promotion, option structures.
+# These are PRIOR ESTIMATES; no formal calibration to held-out data.
+# ---------------------------------------------------------------------------
+transaction_mix_by_stage:
+  preclinical:
+    acquisition: 0.15
+    license_or_partnership: 0.75
+    source: "EY Firepower 2022; BioCentury early-stage deal analysis"
+    notes: "Partners prefer options / licenses at preclinical — full buyout rare"
+
+  phase_1:
+    acquisition: 0.25
+    license_or_partnership: 0.65
+    source: "EY Firepower 2022; BioCentury deal analysis 2018-2023"
+    notes: "Some acquisitions but licensing dominant at Phase 1"
+
+  phase_2:
+    acquisition: 0.40
+    license_or_partnership: 0.55
+    source: "EY Firepower 2022; McKinsey Biotech BD Report 2022"
+    notes: "Mixed: Phase 2 data unlocks acquisition, but licensing still common"
+
+  phase_3:
+    acquisition: 0.65
+    license_or_partnership: 0.30
+    source: "EY Firepower 2022; Citeline Ph3 deal analysis 2015-2023"
+    notes: "Phase 3 data clarity shifts balance strongly toward acquisition"
+
+  nda_bla:
+    acquisition: 0.75
+    license_or_partnership: 0.20
+    source: "EY Firepower 2022; regulatory filing deal flow analysis"
+    notes: "NDA/BLA filing triggers acquisition wave; rare licensing at this stage"
+
+  approved:
+    acquisition: 0.80
+    license_or_partnership: 0.15
+    source: "EY Firepower 2022; post-approval M&A analysis"
+    notes: "Approved assets almost always acquired; co-promotion occasionally"
+
+  fallback:
+    acquisition: 0.60
+    license_or_partnership: 0.35
+    source: "EY Firepower 2022 blended industry average"
+    notes: "Flat prior when stage unknown; mirrors Block 20 flat defaults"

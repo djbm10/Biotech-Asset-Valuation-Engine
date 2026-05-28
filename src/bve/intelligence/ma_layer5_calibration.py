@@ -408,10 +408,11 @@ class ProbabilitySource(str, Enum):
                   logistic curve has not been fitted to held-out data
     RANK_ONLY   — ordering signal only; no statistical probability interpretation
     """
-    CALIBRATED = "calibrated"
-    DERIVED    = "derived"
-    FALLBACK   = "fallback"
-    RANK_ONLY  = "rank_only"
+    CALIBRATED            = "calibrated"
+    DERIVED               = "derived"
+    DERIVED_STAGE_ADJUSTED = "derived_stage_adjusted"  # Block 37A: stage-specific fraction applied
+    FALLBACK              = "fallback"
+    RANK_ONLY             = "rank_only"
 
 
 class ProbabilityBand(str, Enum):
@@ -495,6 +496,19 @@ class Layer5Inputs(BaseModel):
     # --- Block 21: score decomposition opt-in ---
     include_decomposition: bool = Field(default=False,
         description="When True, attach a ScoreComposition attribution breakdown to Layer5Output")
+
+    # --- Block 37A: stage-specific transaction type priors ---
+    target_stage: Optional[str] = Field(
+        default=None,
+        description=(
+            "Block 37A: Development stage of the target asset. When set, overrides "
+            "acquisition_fraction and license_fraction with stage-specific priors from "
+            "transaction_mix_by_stage in industry_assumptions.yaml. "
+            "Valid values: preclinical, phase_1, phase_2, phase_3, nda_bla, approved. "
+            "Falls back to 'fallback' entry with UserWarning when stage not found. "
+            "None: uses acquisition_fraction / license_fraction flat defaults."
+        ),
+    )
 
     # --- Block 20: transaction type split inputs ---
     acquisition_fraction: float = Field(default=0.60, ge=0.0, le=1.0,
@@ -1280,8 +1294,21 @@ def compute_layer5(inputs: Layer5Inputs) -> Layer5Output:
             "empirical estimate. Confidence capped at Low; treat splits as approximate."
         )
     p_any = p12m  # p_any_strategic_transaction_12m == the primary calibrated output
-    p_full_acq = round(inputs.acquisition_fraction * p_any, 4)
-    p_license = round(inputs.license_fraction * p_any, 4)
+
+    # Block 37A: stage-adjusted transaction type fractions
+    _stage_adjusted = False
+    if inputs.target_stage is not None:
+        from bve.config.assumptions_loader import AssumptionsLoader as _AL
+        _mix = _AL.get().get_transaction_mix(inputs.target_stage)
+        _acq_fraction = _mix["acquisition"]
+        _lic_fraction = _mix["license_or_partnership"]
+        _stage_adjusted = True
+    else:
+        _acq_fraction = inputs.acquisition_fraction
+        _lic_fraction = inputs.license_fraction
+
+    p_full_acq = round(_acq_fraction * p_any, 4)
+    p_license = round(_lic_fraction * p_any, 4)
     # p_takeout_12m is the deprecated alias for p_full_acquisition_12m
     p_takeout_alias = p_full_acq
 
@@ -1357,8 +1384,12 @@ def compute_layer5(inputs: Layer5Inputs) -> Layer5Output:
         seller_willingness_flag=seller_willingness_flag,
         # Block 26: probability source tags
         p_any_source=ProbabilitySource.CALIBRATED if cal_fitted else ProbabilitySource.FALLBACK,
-        p_full_acquisition_source=ProbabilitySource.DERIVED,
-        p_license_or_partner_source=ProbabilitySource.DERIVED,
+        p_full_acquisition_source=(
+            ProbabilitySource.DERIVED_STAGE_ADJUSTED if _stage_adjusted else ProbabilitySource.DERIVED
+        ),
+        p_license_or_partner_source=(
+            ProbabilitySource.DERIVED_STAGE_ADJUSTED if _stage_adjusted else ProbabilitySource.DERIVED
+        ),
         p_takeout_6m_source=ProbabilitySource.DERIVED,
         p_takeout_18m_source=ProbabilitySource.DERIVED,
         # Block 31: catalyst timing audit fields

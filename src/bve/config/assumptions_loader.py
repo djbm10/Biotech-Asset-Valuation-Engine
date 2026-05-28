@@ -569,6 +569,50 @@ class AssumptionsLoader:
     # --- Block 33: indication-subtype base rates ---
 
     @property
+    def transaction_mix_by_stage(self) -> dict:
+        """
+        Block 37A: Stage-specific M&A transaction type priors.
+
+        Returns the full transaction_mix_by_stage dict from YAML.
+        Keys: preclinical, phase_1, phase_2, phase_3, nda_bla, approved, fallback.
+        Each value: {acquisition: float, license_or_partnership: float, ...metadata}.
+        """
+        return dict(self._data.get("transaction_mix_by_stage", {}))
+
+    def get_transaction_mix(self, stage: str) -> dict:
+        """
+        Block 37A: Return acquisition and license fractions for a given stage.
+
+        Falls back to 'fallback' entry with UserWarning when stage is not found.
+
+        Parameters
+        ----------
+        stage : str
+            Development stage key (e.g. 'phase_2', 'phase_3', 'preclinical').
+
+        Returns
+        -------
+        dict with 'acquisition' and 'license_or_partnership' keys.
+        """
+        tmbs = self._data.get("transaction_mix_by_stage", {})
+        if stage in tmbs:
+            return {
+                "acquisition": float(tmbs[stage]["acquisition"]),
+                "license_or_partnership": float(tmbs[stage]["license_or_partnership"]),
+            }
+        warnings.warn(
+            f"Stage {stage!r} not found in transaction_mix_by_stage. "
+            "Falling back to 'fallback' entry.",
+            UserWarning,
+            stacklevel=2,
+        )
+        fallback = tmbs.get("fallback", {"acquisition": 0.60, "license_or_partnership": 0.35})
+        return {
+            "acquisition": float(fallback["acquisition"]),
+            "license_or_partnership": float(fallback["license_or_partnership"]),
+        }
+
+    @property
     def indication_subtype_rates(self) -> dict:
         """Return the full indication_subtype_rates dict from YAML.
 
