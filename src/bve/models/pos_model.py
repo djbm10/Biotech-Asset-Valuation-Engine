@@ -1350,13 +1350,23 @@ def _pos_ceiling(base_rate: float) -> float:
     Prevents implausible output highs without trapping low-base-rate programs:
         ceiling = min(0.75, max(base_rate * 2.5, base_rate + 0.25))
 
+    IMPORTANT: returns 1.0 (no ceiling) when the base rate itself exceeds the
+    computed ceiling (e.g. NDA/BLA phases where base rates are 0.82–0.94).
+    This prevents the ceiling from masking high-approval-probability phases where
+    the industry base rate already reflects the historical approval likelihood.
+
     Examples:
         base_rate=0.10 → min(0.75, max(0.25, 0.35)) = 0.35
         base_rate=0.40 → min(0.75, max(1.00, 0.65)) = 0.75
-        base_rate=0.60 → min(0.75, max(1.50, 0.85)) = 0.75
+        base_rate=0.60 → min(0.75, max(1.50, 0.85)) = 0.75  (adjusters still capped)
         GBM (0.12)     → min(0.75, max(0.30, 0.37)) = 0.37
+        NDA/BLA (0.916) → 0.75 < 0.916 → returns 1.0 (ceiling inactive)
     """
-    return min(0.75, max(base_rate * 2.5, base_rate + 0.25))
+    raw_ceiling = min(0.75, max(base_rate * 2.5, base_rate + 0.25))
+    # Do not cap when base rate already exceeds the ceiling
+    if raw_ceiling < base_rate:
+        return 1.0
+    return raw_ceiling
 
 
 def compute_pos(
