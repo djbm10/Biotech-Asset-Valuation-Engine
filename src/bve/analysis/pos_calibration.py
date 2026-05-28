@@ -60,17 +60,31 @@ SUPPORTED_TAS = [
 
 MIN_N_FOR_RELIABLE_ESTIMATE = 20
 
-BASE_RATE_INDUSTRY: dict[str, dict[str, float]] = {
-    # Phase 2 / Phase 3 historical success rates by TA
-    # Source: Biomedtracker / Citeline 2023 industry averages
-    "oncology":      {"phase_2": 0.40, "phase_3": 0.62},
-    "cns":           {"phase_2": 0.30, "phase_3": 0.52},
-    "cardiovascular":{"phase_2": 0.43, "phase_3": 0.57},
-    "metabolic":     {"phase_2": 0.44, "phase_3": 0.59},
-    "immunology":    {"phase_2": 0.46, "phase_3": 0.68},
-    "rare_disease":  {"phase_2": 0.50, "phase_3": 0.72},
-    "other":         {"phase_2": 0.38, "phase_3": 0.57},
-}
+
+def _build_base_rate_industry() -> dict[str, dict[str, float]]:
+    """
+    Build BASE_RATE_INDUSTRY from AssumptionsLoader so calibration uses the same
+    base rates as the POS model.  Previously this was a hardcoded dict that diverged
+    from industry_assumptions.yaml (e.g. oncology phase_2 was 0.40 vs model's 0.248),
+    which made Brier/AUC scores appear better than they were.
+    Block 34A fix.
+    """
+    import warnings as _w
+    from bve.config.assumptions_loader import AssumptionsLoader as _AL
+    loader = _AL.get()
+    result: dict[str, dict[str, float]] = {}
+    for ta in SUPPORTED_TAS:
+        with _w.catch_warnings(record=True):
+            _w.simplefilter("always")
+            rates = loader.phase_success_rates_for(ta)
+        result[ta] = {
+            "phase_2": float(rates.get("phase_2", 0.40)),
+            "phase_3": float(rates.get("phase_3", 0.60)),
+        }
+    return result
+
+
+BASE_RATE_INDUSTRY: dict[str, dict[str, float]] = _build_base_rate_industry()
 
 
 # ---------------------------------------------------------------------------

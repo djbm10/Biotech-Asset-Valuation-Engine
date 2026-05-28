@@ -289,6 +289,8 @@ def compute_design_adjusted_pos(
     features: TrialDesignFeatureSet,
     phase: str,
     settings: Optional[dict] = None,
+    *,
+    base_rate: Optional[float] = None,
 ) -> DesignAdjustedPOSResult:
     """
     Apply trial design feature adjustments to a base POS estimate.
@@ -308,6 +310,11 @@ def compute_design_adjusted_pos(
     settings : dict, optional
         Override cap values only. Keys: "cap_logodds_positive", "cap_logodds_negative".
         When None, reads from bve.config.constants.
+    base_rate : float, optional
+        Block 34D: When provided, the COMBINED L1+L2 log-odds delta (measured from
+        base_rate, not from base_pos) is capped at COMBINED_L1_L2_CAP_POSITIVE /
+        COMBINED_L1_L2_CAP_NEGATIVE.  Pass the TA phase base rate (before any
+        adjustments) to enforce the combined cap.  When None, only the L2 cap applies.
 
     Returns
     -------
@@ -360,6 +367,19 @@ def compute_design_adjusted_pos(
 
     adjusted_logodds = base_logodds + capped
     adjusted_pos = 1.0 / (1.0 + math.exp(-adjusted_logodds))
+
+    # Block 34D: combined L1+L2 cap — measured from original base_rate (not base_pos)
+    if base_rate is not None:
+        from bve.models.pos_model import COMBINED_L1_L2_CAP_POSITIVE, COMBINED_L1_L2_CAP_NEGATIVE
+        _br = max(0.001, min(0.999, base_rate))
+        _base_rate_logodds = math.log(_br / (1.0 - _br))
+        _adjusted_clamped = max(0.001, min(0.999, adjusted_pos))
+        _adjusted_logodds2 = math.log(_adjusted_clamped / (1.0 - _adjusted_clamped))
+        _combined_delta = _adjusted_logodds2 - _base_rate_logodds
+        if _combined_delta > COMBINED_L1_L2_CAP_POSITIVE:
+            adjusted_pos = 1.0 / (1.0 + math.exp(-(_base_rate_logodds + COMBINED_L1_L2_CAP_POSITIVE)))
+        elif _combined_delta < COMBINED_L1_L2_CAP_NEGATIVE:
+            adjusted_pos = 1.0 / (1.0 + math.exp(-(_base_rate_logodds + COMBINED_L1_L2_CAP_NEGATIVE)))
 
     scaling_dict = {
         "evidence_design_quality": scaling,

@@ -790,6 +790,15 @@ _L1_CAP_POSITIVE: float = 0.80
 _L1_CAP_POSITIVE_EXTRAORDINARY: float = 1.00
 _L1_CAP_NEGATIVE: float = -0.80
 
+# Block 34D — Combined Layer 1 + Layer 2 cap.
+# L1 cap is ±0.80; L2 cap is +0.30/−0.60. Without a combined cap, stacking both
+# layers allows total adjustment up to +1.10 or −1.40, which is implausible.
+# Combined cap: ±0.90 (tighter than the sum of individual caps).
+# Applied via compute_design_adjusted_pos(base_rate=...) in trial_design_features.py
+# and in _apply_design_adjustments() in valuation_engine.py.
+COMBINED_L1_L2_CAP_POSITIVE: float = 0.90
+COMBINED_L1_L2_CAP_NEGATIVE: float = -0.90
+
 # Breakthrough Therapy Designation: process designation, not approval probability.
 # Primary effect is faster FDA review, not higher binary approval likelihood.
 # Block 28: type-conditional table replaces flat constant.
@@ -903,9 +912,18 @@ class POSAdjusters(BaseModel):
         default=False,
         description=(
             "Expert override: expands the positive Layer 1 cap from +0.80 to +1.00. "
-            "Use only when evidence is truly exceptional — replicated human efficacy "
-            "with causal biomarker confirmation (e.g., validated genetic disease, "
-            "90%+ biomarker response replicated across sites). Do not use speculatively."
+            "Requires ALL of: prior_phase_data=STRONG_REPLICATED, biomarker_selection=VALIDATED, "
+            "clinical_effect_magnitude=EXCEEDS_MCID, AND a non-empty extraordinary_evidence_rationale. "
+            "If any condition is missing, emits UserWarning and resets to False. Block 34B."
+        ),
+    )
+    extraordinary_evidence_rationale: str = Field(
+        default="",
+        description=(
+            "Block 34B: Required text justification when extraordinary_evidence=True. "
+            "Must be non-empty to activate the expanded cap. "
+            "Example: '91%% biomarker correction replicated across 3 independent cohorts'. "
+            "Do not populate without meeting all three evidentiary conditions."
         ),
     )
 
@@ -975,6 +993,36 @@ class POSAdjusters(BaseModel):
     )
 
     @model_validator(mode="after")
+    def _gate_extraordinary_evidence(self) -> "POSAdjusters":
+        """
+        Block 34B: extraordinary_evidence=True is only valid when ALL of:
+          1. prior_phase_data == STRONG_REPLICATED
+          2. biomarker_selection == VALIDATED
+          3. clinical_effect_magnitude == EXCEEDS_MCID
+          4. extraordinary_evidence_rationale is non-empty
+        If any condition is unmet, emit UserWarning and reset to False.
+        """
+        if not self.extraordinary_evidence:
+            return self
+        conditions_met = (
+            self.prior_phase_data == PriorPhaseDataStrength.STRONG_REPLICATED
+            and self.biomarker_selection == BiomarkerSelectionStrength.VALIDATED
+            and self.clinical_effect_magnitude == ClinicalEffectMagnitude.EXCEEDS_MCID
+            and bool(self.extraordinary_evidence_rationale)
+        )
+        if not conditions_met:
+            warnings.warn(
+                "extraordinary_evidence=True requires ALL of: "
+                "prior_phase_data=STRONG_REPLICATED, biomarker_selection=VALIDATED, "
+                "clinical_effect_magnitude=EXCEEDS_MCID, AND non-empty "
+                "extraordinary_evidence_rationale. Resetting to False.",
+                UserWarning,
+                stacklevel=2,
+            )
+            object.__setattr__(self, "extraordinary_evidence", False)
+        return self
+
+    @model_validator(mode="after")
     def _backfill_legacy_bools(self) -> "POSAdjusters":
         """Map deprecated boolean fields to new enum fields when new field is at default."""
         if (
@@ -1034,6 +1082,22 @@ class POSAdjusters(BaseModel):
 # Core computation
 # ---------------------------------------------------------------------------
 
+def _pos_ceiling(base_rate: float) -> float:
+    """
+    Block 34E: Absolute POS ceiling formula.
+
+    Prevents implausible output highs without trapping low-base-rate programs:
+        ceiling = min(0.75, max(base_rate * 2.5, base_rate + 0.25))
+
+    Examples:
+        base_rate=0.10 → min(0.75, max(0.25, 0.35)) = 0.35
+        base_rate=0.40 → min(0.75, max(1.00, 0.65)) = 0.75
+        base_rate=0.60 → min(0.75, max(1.50, 0.85)) = 0.75
+        GBM (0.12)     → min(0.75, max(0.30, 0.37)) = 0.37
+    """
+    return min(0.75, max(base_rate * 2.5, base_rate + 0.25))
+
+
 def compute_pos(
     phase: TrialPhase,
     therapeutic_area: TherapeuticArea,
@@ -1074,6 +1138,9 @@ def compute_pos(
         if _sub_rate is not None:
             base_rate = _sub_rate
 
+    # Block 34E: capture raw base rate (before AA discount) for absolute ceiling
+    _raw_base_rate = base_rate
+
     # Accelerated approval: apply confirmatory trial risk discount at NDA/BLA phase.
     # AA programs using surrogate endpoints face ~15-20% post-market withdrawal/
     # conversion failure rate. This is a BASE RATE correction, not a log-odds adjuster.
@@ -1104,6 +1171,10 @@ def compute_pos(
 
     # Convert back
     pos = 1.0 / (1.0 + math.exp(-log_odds))
+
+    # Block 34E: apply absolute POS ceiling
+    pos = min(pos, _pos_ceiling(_raw_base_rate))
+
     return round(pos, 4)
 
 
@@ -1193,6 +1264,9 @@ def _compute_layer1_adjustment(
         delta += _CLINICAL_EFFECT_LOGODDS[adjusters.clinical_effect_magnitude]
         if adjusters.clinical_effect_magnitude == ClinicalEffectMagnitude.UNKNOWN:
             confidence_flags.append("clinical_effect_unknown")
+    elif phase == TrialPhase.NDA_BLA and adjusters.clinical_effect_magnitude != ClinicalEffectMagnitude.UNKNOWN:
+        # Block 34C: field is non-UNKNOWN at NDA/BLA — not applicable; emit informational flag
+        confidence_flags.append("clinical_effect_magnitude_not_applicable_at_nda")
 
     # Placebo response concern: Phase 2/3, applicable TAs only
     if phase in _REALISM_APPLICABLE_PHASES and ta_value in _PLACEBO_CONCERN_TAS:
@@ -1242,6 +1316,8 @@ class POSComputeResult:
     subtype_key_used: Optional[str] = None
     subtype_confidence: Optional[str] = None
     subtype_ta_fallback: Optional[str] = None
+    # Block 34E: absolute POS ceiling audit field
+    ceiling_applied: bool = False
 
 
 def compute_pos_detailed(
@@ -1285,6 +1361,9 @@ def compute_pos_detailed(
                 _subtype_confidence = _meta.get("confidence")
                 _subtype_ta_fallback = _meta.get("ta_fallback")
 
+    # Block 34E: capture raw base rate (before AA discount) for absolute ceiling
+    _raw_base_rate = base_rate
+
     if (
         approval_pathway is not None
         and approval_pathway == ApprovalPathwayType.ACCELERATED
@@ -1307,7 +1386,12 @@ def compute_pos_detailed(
     adjustment = max(_L1_CAP_NEGATIVE, min(cap_pos, adjustment))
     log_odds += adjustment
 
-    pos = round(1.0 / (1.0 + math.exp(-log_odds)), 4)
+    _raw_pos = 1.0 / (1.0 + math.exp(-log_odds))
+
+    # Block 34E: apply absolute POS ceiling
+    _ceiling = _pos_ceiling(_raw_base_rate)
+    _ceiling_applied = _raw_pos > _ceiling
+    pos = round(min(_raw_pos, _ceiling), 4)
     phase_realism_applied = phase in _REALISM_APPLICABLE_PHASES
 
     # Block 28: BTD timeline acceleration flag + overlap warning
@@ -1344,6 +1428,7 @@ def compute_pos_detailed(
         subtype_key_used=_subtype_key if _subtype_base_rate is not None else None,
         subtype_confidence=_subtype_confidence,
         subtype_ta_fallback=_subtype_ta_fallback,
+        ceiling_applied=_ceiling_applied,
     )
 
 
