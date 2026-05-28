@@ -245,6 +245,11 @@ class TestGeneTherapyConcerns:
         assert none_delta == def_delta
 
     def test_waning_risk_plus_safety_concern_large_penalty(self):
+        """
+        WANING_EFFECT_RISK + SERIOUS_SAFETY_CONCERN = -0.65 uncapped, but
+        Block 32's _GT_MAX_TOTAL_OVERLAY cap of -0.60 truncates this to -0.60.
+        """
+        from bve.models.pos_model import _GT_MAX_TOTAL_OVERLAY
         adj = POSAdjusters(
             gene_cell_therapy_concerns=[
                 GeneTherapyConcern.WANING_EFFECT_RISK,
@@ -255,11 +260,13 @@ class TestGeneTherapyConcerns:
         adj_val, _ = _compute_layer1_adjustment(adj)
         base_val, _ = _compute_layer1_adjustment(adj_base)
         delta = adj_val - base_val
-        expected = (
+        uncapped_sum = (
             _GENE_THERAPY_LOGODDS[GeneTherapyConcern.WANING_EFFECT_RISK]
             + _GENE_THERAPY_LOGODDS[GeneTherapyConcern.SERIOUS_SAFETY_CONCERN]
         )
-        assert pytest.approx(delta, abs=1e-6) == expected
+        # Combination exceeds cap; actual delta equals the capped value
+        expected_capped = max(uncapped_sum, _GT_MAX_TOTAL_OVERLAY)
+        assert pytest.approx(delta, abs=1e-6) == expected_capped
 
     def test_gene_therapy_pos_in_rare_disease(self):
         """Durable functional correction in rare disease should give strong POS lift."""

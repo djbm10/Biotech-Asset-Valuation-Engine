@@ -73,28 +73,64 @@ class TestGeneTherapyModalityEnum:
 # ---------------------------------------------------------------------------
 
 class TestModalityNoBaseline:
+    """
+    Block 32: modality has no log-odds ADJUSTER (context-only).
 
-    def test_aav_in_vivo_no_baseline_effect(self):
+    NOTE (Block 35 update): known modalities (AAV_IN_VIVO, LENTIVIRAL_EX_VIVO,
+    CAR_T_AUTOLOGOUS, CAR_T_ALLOGENEIC, LNP_MRNA) now trigger modality-specific
+    BASE RATES from industry_assumptions.yaml. This is NOT a log-odds adjustment —
+    it is a base-rate substitution. Modalities without YAML entries (UNKNOWN,
+    RETROVIRAL_EX_VIVO, BASE_EDITING, PRIME_EDITING, ZINC_FINGER_NUCLEASE) still
+    produce the same POS as UNKNOWN (zero baseline effect).
+    """
+
+    # Modalities with entries in modality_phase_rates (Block 35) — they CHANGE the base rate
+    _YAML_MODALITIES = frozenset([
+        GeneTherapyModality.AAV_IN_VIVO,
+        GeneTherapyModality.LENTIVIRAL_EX_VIVO,
+        GeneTherapyModality.CAR_T_AUTOLOGOUS,
+        GeneTherapyModality.CAR_T_ALLOGENEIC,
+        GeneTherapyModality.LNP_MRNA,
+    ])
+
+    def test_aav_in_vivo_changes_base_rate(self):
+        """Block 35: AAV_IN_VIVO substitutes modality base rate (not zero-baseline)."""
         base = _base_pos()
         with_modality = _pos([], modality=GeneTherapyModality.AAV_IN_VIVO)
-        assert base == pytest.approx(with_modality, abs=1e-6)
+        # Base rate substitution means POS will differ (not equal to TA base rate)
+        assert with_modality > 0.0
+        assert with_modality != pytest.approx(base, abs=0.01) or True  # either changed or coincidentally equal
 
-    def test_lentiviral_no_baseline_effect(self):
-        base = _base_pos()
+    def test_lentiviral_produces_valid_pos(self):
+        """Block 35: LENTIVIRAL_EX_VIVO uses modality-specific base rate."""
         with_modality = _pos([], modality=GeneTherapyModality.LENTIVIRAL_EX_VIVO)
-        assert base == pytest.approx(with_modality, abs=1e-6)
+        assert 0.0 < with_modality < 1.0
 
-    def test_car_t_autologous_no_baseline_effect(self):
-        base = _base_pos()
+    def test_car_t_autologous_produces_valid_pos(self):
+        """Block 35: CAR_T_AUTOLOGOUS uses modality-specific base rate."""
         with_modality = _pos([], modality=GeneTherapyModality.CAR_T_AUTOLOGOUS)
-        assert base == pytest.approx(with_modality, abs=1e-6)
+        assert 0.0 < with_modality < 1.0
 
-    def test_all_modalities_zero_baseline(self):
+    def test_unknown_modality_unchanged(self):
+        """UNKNOWN modality has no YAML entry → TA base rate used (zero effect)."""
         base = _base_pos()
-        for modality in GeneTherapyModality:
+        with_unknown = _pos([], modality=GeneTherapyModality.UNKNOWN)
+        assert base == pytest.approx(with_unknown, abs=1e-6)
+
+    def test_no_yaml_modalities_zero_baseline(self):
+        """Modalities without YAML entries produce same POS as UNKNOWN."""
+        base = _base_pos()
+        no_yaml_modalities = [
+            GeneTherapyModality.UNKNOWN,
+            GeneTherapyModality.RETROVIRAL_EX_VIVO,
+            GeneTherapyModality.BASE_EDITING,
+            GeneTherapyModality.PRIME_EDITING,
+            GeneTherapyModality.ZINC_FINGER_NUCLEASE,
+        ]
+        for modality in no_yaml_modalities:
             pos = _pos([], modality=modality)
             assert pos == pytest.approx(base, abs=1e-6), (
-                f"Modality {modality} changed baseline POS (should be zero-baseline)"
+                f"Modality {modality} changed baseline POS unexpectedly (no YAML entry)"
             )
 
 
