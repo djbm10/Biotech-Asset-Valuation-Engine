@@ -3,54 +3,155 @@ ticker: REGN
 profile_as_of: 2026-04-07
 market_cap_billions: 62
 cash_billions: 14.3
+acquisition_capacity_millions: 20000
+
+# ── Deal style (elite profile)  ──────────────────────────────────────────────
+# Regeneron acquires for PLATFORM or PIPELINE bolt-on that fits VelocImmune.
+# Very antibody/bispecific-centric — rarely acquires small molecules.
+# Prefers Phase 2+ with human antibody validation data.
+# Historically low deal frequency, high scientific selectivity.
+# Key franchise anchors: Dupixent (IL-4/IL-13, type-2 inflammation),
+# Libtayo (PD-1 oncology), Eylea (VEGF ophthalmology).
+deal_style: "platform_antibody_engineering_bolt_on"
+platform_bias: "velocimmune_human_antibody"
+indication_signals:
+  # Dupixent next-wave type-2 inflammation
+  - atopic_dermatitis
+  - asthma
+  - chronic_rhinosinusitis
+  - eosinophilic_esophagitis
+  - prurigo_nodularis
+  - urticaria
+  - type2_inflammation
+  - il33
+  - tslp
+  - ox40l
+  # Oncology bispecific
+  - solid_tumor
+  - psma
+  - muc16
+  - pd1
+  - cemiplimab
+  - bispecific_tcell_engager
+  # Ophthalmology
+  - amd
+  - geographic_atrophy
+  - retinal_vein_occlusion
+  - diabetic_macular_edema
+  - rare_retinal
+  - vegf
+  # Rare disease
+  - familial_hypercholesterolemia
+  - homozygous_fh
+  - angioedema
+  - rare_lipid
+
 pipeline_gaps:
-  - therapeutic_area: oncology
-    sub_area: bispecific_antibody_solid_tumor
-    gap_type: franchise_extension
-    urgency: high
-    preferred_modality: [bispecific, antibody]
-    budget_ceiling_millions: 10000
-    notes: "Libtayo (cemiplimab) PD-1 anchor; VelocImmune-derived bispecifics in solid tumors (PSMAxCD3, MUC16xCD3) remain the core oncology extension."
   - therapeutic_area: immunology
     sub_area: dupixent_next_wave_il33_ox40l
     gap_type: franchise_extension
     urgency: high
-    preferred_modality: [antibody, biologic]
+    preferred_modality: [antibody, bispecific, biologic]
+    budget_ceiling_millions: 15000
+    notes: |
+      Dupixent (dupilumab, $14B+ revenue 2025) dominates type-2 inflammation.
+      Next wave: IL-33 (itepekimab internal), OX40L (amlitelimab from Sanofi JV),
+      TSLP, and novel atopic mechanisms. Seeking: validated antibody/bispecific assets
+      in type-2 inflammation adjacency (eczema, asthma, eosinophilic conditions,
+      prurigo, urticaria). Must have human antibody data. Phase 2+ preferred.
+
+  - therapeutic_area: oncology
+    sub_area: bispecific_antibody_solid_tumor
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [bispecific, antibody, ADC]
     budget_ceiling_millions: 12000
-    notes: "Dupixent franchise (with Sanofi) is mature across atopic derm/asthma/CRSwNP; IL-33, TSLP, OX40L represent the next type-2 inflammatory wave Regeneron is building internally."
+    notes: |
+      Libtayo (cemiplimab) PD-1 anchor. VelocImmune-derived bispecifics:
+      PSMAxCD3 (Phase 2 prostate), MUC16xCD3 (Phase 2 ovarian), FLT3xCD3 (AML).
+      Seeking: differentiated solid tumor bispecifics or T-cell engagers that
+      complement cemiplimab combination strategy. ADCs evaluated opportunistically.
+
   - therapeutic_area: ophthalmology
     sub_area: dry_amd_geographic_atrophy_next
     gap_type: franchise_extension
-    urgency: medium
+    urgency: high
     preferred_modality: [antibody, gene_therapy, small_molecule]
     budget_ceiling_millions: 8000
-    notes: "Eylea LOE drives urgency for next ophthalmic franchise; GA and rare retinal disease mechanisms remain priority."
+    notes: |
+      Eylea (aflibercept) LOE drives urgency. Eylea HD (2mg) buys time.
+      Seeking: geographic atrophy (complement C3/C5, visual cycle), rare retinal
+      disease, or novel ophthalmic mechanisms to anchor next ophthalmic franchise.
+      Gene therapy for inherited retinal disease (IRD) is high priority.
+
+  - therapeutic_area: neuroscience
+    sub_area: alzheimers_neuroinflammation
+    gap_type: selective_gap
+    urgency: medium
+    preferred_modality: [antibody, bispecific]
+    budget_ceiling_millions: 8000
+    notes: |
+      Regeneron VelocImmune generates best-in-class antibodies for neuroinflammation.
+      REGN4461 (leptin receptor) and REGN3500 (IL-33 brain) establish neuroscience.
+      Interest: neuro-inflammation, microglial biology, Alzheimer's adjacent mechanisms
+      where antibody engineering provides differentiated modality advantage.
+
   - therapeutic_area: rare_disease
     sub_area: lipodystrophy_rare_metabolic
     gap_type: selective_gap
     urgency: medium
-    preferred_modality: [antibody, protein]
-    budget_ceiling_millions: 5000
-    notes: "Evkeeza (evinacumab) rare hypercholesterolemia sets rare metabolic precedent; adjacent rare lipid/metabolic disorders remain open."
-  - therapeutic_area: neuroscience
-    sub_area: alzheimers_inflammation_based
-    gap_type: selective_gap
-    urgency: medium
-    preferred_modality: [antibody, bispecific]
+    preferred_modality: [antibody, protein, gene_therapy]
     budget_ceiling_millions: 6000
-    notes: "Regeneron VelocImmune platform well-suited to neuro-inflammation targets for Alzheimer's adjacent mechanisms."
+    notes: |
+      Evkeeza (evinacumab, ANGPTL3) for homozygous FH and severe hypertriglyceridemia.
+      Precedent for rare lipid/metabolic disorders with antibody mechanism.
+      Adjacent: lipoprotein(a), PCSK9 next-gen, other rare dyslipidemias.
+
+  - therapeutic_area: immunology
+    sub_area: hereditary_angioedema
+    gap_type: selective_gap
+    urgency: low
+    preferred_modality: [antibody, small_molecule]
+    budget_ceiling_millions: 4000
+    notes: |
+      CXCL10 and kallikrein-kinin system experience from internal programs.
+      HAE (hereditary angioedema) fits complement/kinin biology antibody platform.
+      Low urgency given no current LOE pressure in this space.
+
 recent_deals:
-  - target: Intellia Therapeutics (NTLA-2001 collaboration)
-    date: 2016-01-01
-    value_billions: 0.1
-    therapeutic_area: rare_disease
-    modality: gene_editing
   - target: Checkmate Pharmaceuticals
     date: 2021-03-02
     value_billions: 0.25
     therapeutic_area: oncology
     modality: biologic
+  - target: 2seventy bio (bb2121/Abecma partial rights)
+    date: 2023-09-01
+    value_billions: 0.23
+    therapeutic_area: oncology
+    modality: cell_therapy
+  - target: Decibel Therapeutics
+    date: 2023-11-01
+    value_billions: 0.11
+    therapeutic_area: rare_disease
+    modality: gene_therapy
+
+existing_partnerships:
+  - target: Intellia Therapeutics
+    partnership_type: co_development
+    therapeutic_area: rare_disease
+    description: "NTLA-2001 (ATTR amyloidosis) and hemophilia B in vivo gene editing co-development. Regeneron has rights to certain Intellia-discovered in vivo programs."
+    year_initiated: 2016
+    acquisition_option: false
+  - target: Sanofi
+    partnership_type: co_development
+    therapeutic_area: immunology
+    description: "Long-running Dupixent commercialization partnership. Sanofi books revenue globally; Regeneron has US co-promotion rights and receives royalties. Not acquisition-relevant but shapes combined portfolio synergies."
+    year_initiated: 2014
+    acquisition_option: false
+
 stated_priorities:
-  - "VelocImmune-derived bispecific oncology pipeline is the primary new growth engine."
-  - "Dupixent next-generation type-2 inflammatory disease mechanisms are internal priority."
-  - "Ophthalmic franchise renewal post-Eylea LOE is a near-term priority."
+  - "VelocImmune-derived bispecific oncology pipeline (PSMAxCD3, MUC16xCD3) is the primary new growth engine post-Eylea."
+  - "Dupixent next-generation type-2 inflammation: IL-33, OX40L, and novel atopic mechanisms are internal and bolt-on priority."
+  - "Ophthalmic franchise renewal post-Eylea LOE — geographic atrophy and gene therapy for inherited retinal disease are urgent."
+  - "Decibel Therapeutics acquisition demonstrates interest in gene therapy for hearing loss and rare sensory disease."
+  - "Strongly prefers antibody/bispecific modality via VelocImmune; rarely acquires small molecules or cell therapies independently."
