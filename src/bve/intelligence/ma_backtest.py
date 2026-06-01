@@ -722,3 +722,144 @@ def build_backtest_records_from_deal_universe(
     ]
 
     return positives + negatives
+
+
+# ---------------------------------------------------------------------------
+# Calibration-cases record builder (Block D)
+# ---------------------------------------------------------------------------
+
+# Composite rank_score weights for the three YAML feature columns.
+# These approximate Layer 3 signal contribution using available features:
+#   asset_quality   ≈ target_quality (0.35)
+#   acquirer_fit    ≈ buyer_mandate + strategic_fit (0.35)
+#   seller_willing  ≈ seller_readiness (0.20)
+#   stage_factor    ≈ deal_momentum + other residual (0.10)
+_CALIB_WEIGHT_ASSET_QUALITY: float = 0.35
+_CALIB_WEIGHT_ACQUIRER_FIT: float = 0.35
+_CALIB_WEIGHT_SELLER_WILLINGNESS: float = 0.20
+_CALIB_WEIGHT_STAGE: float = 0.10
+
+_STAGE_FACTOR: dict[str, float] = {
+    "approved":    0.90,
+    "nda_bla":     0.80,
+    "pdufa_pending": 0.80,
+    "phase_3":     0.70,
+    "phase_2/3":   0.65,
+    "phase_2":     0.60,
+    "phase_1/2":   0.55,
+    "phase_1":     0.50,
+    "preclinical": 0.40,
+    "discovery":   0.35,
+}
+_STAGE_FACTOR_DEFAULT: float = 0.58
+
+
+def _stage_factor(stage: Optional[str]) -> float:
+    if not stage:
+        return _STAGE_FACTOR_DEFAULT
+    return _STAGE_FACTOR.get(stage.lower(), _STAGE_FACTOR_DEFAULT)
+
+
+def _composite_score_from_yaml_features(
+    asset_quality: float,
+    acquirer_fit: float,
+    seller_willingness: float,
+    stage: Optional[str],
+) -> float:
+    """Compute a rank_score proxy from the three YAML feature columns.
+
+    This is used for retroactive calibration where the full Layer 3 pipeline
+    cannot be re-run. The weights approximate the relative contribution of
+    each signal domain in Layer 3. The result is a bounded [0.0, 1.0] float.
+    """
+    raw = (
+        _CALIB_WEIGHT_ASSET_QUALITY * asset_quality
+        + _CALIB_WEIGHT_ACQUIRER_FIT * acquirer_fit
+        + _CALIB_WEIGHT_SELLER_WILLINGNESS * seller_willingness
+        + _CALIB_WEIGHT_STAGE * _stage_factor(stage)
+    )
+    return round(min(max(raw, 0.0), 1.0), 4)
+
+
+_DEFAULT_CALIBRATION_CASES_PATH = (
+    Path(__file__).parent.parent.parent.parent
+    / "research" / "mna" / "historical_calibration_cases.yaml"
+)
+
+
+def build_backtest_records_from_calibration_cases(
+    calibration_cases_path: Optional[str | Path] = None,
+) -> list[MABacktestRecord]:
+    """Build labeled backtest records from historical_calibration_cases.yaml.
+
+    Unlike ``build_backtest_records_from_deal_universe``, this builder uses
+    real labeled data (both positives and negatives) with hand-estimated
+    feature scores per observation, giving a genuine held-out dataset for
+    logistic calibration fitting.
+
+    Score proxy:
+        rank_score ≈ 0.35 * asset_quality + 0.35 * acquirer_fit
+                   + 0.20 * seller_willingness + 0.10 * stage_factor
+
+    Parameters
+    ----------
+    calibration_cases_path:
+        Path to the YAML. Defaults to
+        ``research/mna/historical_calibration_cases.yaml``.
+
+    Returns
+    -------
+    list[MABacktestRecord]
+        One record per case in the YAML (positives + negatives combined).
+    """
+    try:
+        import yaml  # type: ignore[import]
+    except ImportError:
+        raise ImportError(
+            "PyYAML is required for build_backtest_records_from_calibration_cases(). "
+            "Install it with: pip install pyyaml"
+        )
+
+    yaml_path = (
+        Path(calibration_cases_path)
+        if calibration_cases_path is not None
+        else _DEFAULT_CALIBRATION_CASES_PATH
+    )
+
+    with open(yaml_path, "r") as fh:
+        data = yaml.safe_load(fh)
+
+    cases = data.get("cases", [])
+    records: list[MABacktestRecord] = []
+
+    for case in cases:
+        asset_quality = float(case.get("asset_quality_score_as_of") or 0.5)
+        acquirer_fit = float(case.get("acquirer_fit_score_as_of") or 0.5)
+        seller_willingness = float(case.get("seller_willingness_as_of") or 0.5)
+        stage = case.get("target_stage")
+        label = 1 if case.get("outcome_12m") else 0
+
+        score = _composite_score_from_yaml_features(
+            asset_quality=asset_quality,
+            acquirer_fit=acquirer_fit,
+            seller_willingness=seller_willingness,
+            stage=stage,
+        )
+
+        obs_date_str = case.get("observation_date")
+        obs_date: Optional[date] = None
+        if obs_date_str:
+            try:
+                obs_date = date.fromisoformat(str(obs_date_str))
+            except ValueError:
+                pass
+
+        records.append(MABacktestRecord(
+            score=score,
+            label=label,
+            ticker=case.get("ticker"),
+            prediction_date=obs_date,
+            outcome_type=case.get("outcome_type"),
+        ))
+
+    return records
