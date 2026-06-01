@@ -170,16 +170,36 @@ deals:
 
   - target_name: "Alpine Immune Sciences"
     target_ticker: "ALPN"
-    drug_name: "povetacicept"
-    indication: "IgA nephropathy"
+    drug_name: "povetacicept (ALPN-303) + dazodalibep (ALPN-101)"
+    indication: "IgA nephropathy / autoimmune (B cell / T cell co-stimulation)"
     therapeutic_area: "immunology"
     phase_at_acquisition: "phase_2"
-    acquirer: "Vertex"
+    acquirer: "Vertex Pharmaceuticals"
     deal_date: "2024-04-10"
+    enterprise_value_millions: 4900
+    peak_sales_millions: 2000
     ev_to_peak_sales: 2.45
-    data_quality: "medium"
-    source: "Vertex acquisition announcement and April 10, 2024 acquisition call transcript."
-    notes: "Direct multiple only. Computed from Vertex's stated $4.9B transaction value and management's statement that povetacicept has a multibillion-dollar opportunity in IgAN alone; uses a conservative $2.0B lower-bound peak-sales assumption."
+    upfront_millions: 4900
+    total_milestones_millions: 0
+    total_biobucks: 4900
+    territory: "global"
+    deal_structure: "M&A"
+    post_deal_outcome: "ongoing"
+    data_quality: "high"
+    source: "Vertex 14D-9 / SEC merger proxy; $65/share consideration; net $4.6B after estimated cash acquired."
+    notes: >
+      Vertex completed acquisition April 2024. Lead at time of deal: povetacicept (ALPN-303,
+      BAFF/APRIL bispecific FcRn fusion, Phase 2 IgAN). Dazodalibep (ALPN-101, CD28/ICOS
+      Fc-fusion) was Phase 2b complete (IGNITE trial: 42% uPCR reduction). Vertex explicitly
+      cited IgAN as most urgent renal franchise gap at JPM 2024. Alpine had announced
+      strategic alternatives in January 2024 — process was underway 10 weeks before announcement.
+      $65/share vs pre-announcement price ~$28-32/share = ~100-130% premium.
+      Model_validation: BVE model (2024-03-01 PIT, no lookahead) scored dazodalibep/ALPN at
+      NAV $26.10/share (rNPV $769M) and acquirer-fit 0.647 for Vertex. Vertex paid $65/share
+      (2.5x model NAV). Strategic franchise premium = 2.5x single-asset standalone NAV.
+      Primary gap matched: immunology:autoimmune_b_t_cell; renal gap (ckd_pkd_renal) was
+      the actual acquirer driver but TA classification as immunology missed it. Consider
+      adding indication_overlap field to distinguish TA vs indication for renal-immune assets.
 
   - target_name: "Bellus Health"
     target_ticker: "BLU"

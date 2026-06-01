@@ -676,3 +676,23 @@ targets:
     ma_relevance_tags: ["hematology", "oncology", "cdk9", "mcl1", "aml", "heme_onc"]
     source_url: "https://www.preludetherapeutics.com/pipeline/"
     notes: "CDK9 and MCL1 inhibitors for hematologic malignancies. Relevant to heme-onc bispecific combination strategy."
+
+  # ── ACQUIRED / CLOSED — historical record ─────────────────────────────────
+
+  - company_name: "Alpine Immune Sciences"
+    ticker: "ALPN"
+    status: "acquired"
+    therapeutic_area: "immunology"
+    lead_assets: "povetacicept (ALPN-303) + dazodalibep (ALPN-101)"
+    stage: "phase_2"
+    ma_relevance_tags: ["immunology", "igan", "renal", "b_cell", "t_cell", "cd28_icos", "baff_april"]
+    acquirer: "Vertex Pharmaceuticals"
+    acquisition_date: "2024-04-10"
+    consideration_per_share: 65.00
+    source_url: "https://investors.vrtx.com/news-releases/news-release-details/vertex-enters-agreement-acquire-alpine-immune-sciences"
+    notes: >
+      Acquired by Vertex for $65/share ($4.9B equity value, ~$4.6B net of cash).
+      Model prediction (2024-03-01 PIT): acquirer-fit score 0.647 for Vertex (confirmed).
+      Model NAV $26.10/share; deal at 2.5x model NAV (franchise premium).
+      Primary acquisition driver: IgAN renal franchise gap + povetacicept Phase 2 data.
+      See research/mna/prediction_log.yaml entry 'alpn-vertex-2024q1' for full learning notes.

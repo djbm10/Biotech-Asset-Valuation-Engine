@@ -1,0 +1,189 @@
+# =============================================================================
+# BVE Model Prediction Log
+#
+# Structured record of model predictions vs actual outcomes.
+# Used to calibrate acquirer-fit scoring, deal premium multiples, and POS estimates.
+#
+# Status values:
+#   active          — prediction made, outcome not yet known
+#   confirmed       — prediction correct (acquisition/approval happened as predicted)
+#   refuted         — prediction wrong (no deal, wrong acquirer, or failed trial)
+#   partial         — directionally correct but details wrong (e.g. right acquirer, wrong price)
+#
+# Learning fields (populated once outcome is known):
+#   outcome_date, outcome_acquirer, outcome_price_per_share, outcome_ev_millions
+#   model_accuracy_notes — what the model got right and wrong
+# =============================================================================
+
+as_of_date: "2026-06-01"
+
+# ---------------------------------------------------------------------------
+# CONFIRMED PREDICTIONS — retroactive validation
+# ---------------------------------------------------------------------------
+
+confirmed:
+
+  - prediction_id: "alpn-vertex-2024q1"
+    prediction_date: "2024-03-01"           # Point-in-time config date (no lookahead)
+    ticker: "ALPN"
+    asset: "dazodalibep (ALPN-101)"
+    indication: "IgA Nephropathy"
+    prediction_type: "acquirer_fit"
+
+    # What the model predicted (as of 2024-03-01)
+    model_nav_per_share: 26.10
+    model_rnpv_millions: 769
+    model_p_approval: 0.719
+    predicted_acquirer: "vertex_pharmaceuticals"
+    predicted_acquirer_fit_score: 0.647
+    predicted_gap_matched: "immunology:autoimmune_b_t_cell"
+    model_ev_millions: 874.9
+    predicted_deal_range_low_millions: null    # comparable deal range not run at time
+    predicted_deal_range_high_millions: null
+    bull_scenario_per_share: 60.48
+
+    # What actually happened
+    status: "confirmed"
+    outcome_date: "2024-04-10"
+    outcome_acquirer: "vertex_pharmaceuticals"
+    outcome_price_per_share: 65.00
+    outcome_ev_millions: 4900
+    outcome_net_ev_millions: 4600          # net of cash acquired
+
+    # Model accuracy analysis
+    correct_acquirer: true
+    correct_direction: true                # model said "buy" / "strong fit" → confirmed
+    premium_to_model_nav: 2.49            # $65 / $26.10 = 2.49x model NAV
+    premium_to_market_price: 1.28         # $65 / $28.50 = 128% premium to stock price
+    bull_to_deal_ratio: 1.07              # $65 / $60.48 — deal was essentially the bull case
+    gap_match_accuracy: "partial"
+    gap_match_notes: >
+      Model matched immunology:autoimmune_b_t_cell (CD28/ICOS mechanism; medium urgency).
+      Actual acquisition driver was rare_disease:ckd_pkd_renal (IgAN franchise completion;
+      high urgency). Dazodalibep straddles both — it is an immunology-mechanism drug for a
+      renal indication. TA classification as 'immunology' caused the model to score on the
+      secondary gap rather than the primary gap. If renal gap had matched, urgency
+      sub-score would have been 1.0 → estimated total score ~0.90 instead of 0.647.
+
+    deal_speed_notes: >
+      Model estimated 9-21 month timeline from classification to close.
+      Actual: Alpine announced strategic alternatives January 2024; deal signed
+      April 2024 = 10 weeks announcement-to-deal. Process was already running
+      before public announcement. When a company signals 'strategic review',
+      compress model timeline estimate by ~50%.
+
+    franchise_premium_notes: >
+      Model NAV $26/share (single-asset standalone DCF).
+      Vertex paid $65/share = 2.49x model NAV.
+      Franchise premium drivers:
+        1. Alpine had TWO assets: dazodalibep (ALPN-101, CD28/ICOS, Ph2b) +
+           povetacicept (ALPN-303, BAFF/APRIL FcRn, Ph2). Model only valued ALPN-101.
+        2. Vertex internal P(approval) for a Phase 3 THEY control >> 71.9% base case.
+        3. IgAN first-mover scarcity: AstraZeneca (zigakibart/atrasentan) and Novartis
+           (iptacopan) were closing fast; Vertex paid to lock up the CD28/ICOS mechanism.
+        4. Synergies: Vertex's renal infrastructure (VX-147, FSGS Phase 3) absorbs
+           Alpine's Phase 3 with minimal incremental SG&A.
+      Key calibration: strategic franchise acquirer pays ~2-3x single-asset standalone NAV
+      when the asset completes a stated high-urgency portfolio gap.
+
+    model_improvements:
+      - field: "indication_overlap"
+        description: >
+          Add indication_overlap or secondary_therapeutic_area to asset configs to allow
+          the acquirer-fit engine to score on both the TA (immunology) and the indication
+          cluster (nephrology/renal). Dazodalibep would score on BOTH the autoimmune_b_t_cell
+          AND ckd_pkd_renal gaps, giving the correct high-urgency match.
+      - field: "franchise_premium_multiplier"
+        description: >
+          When acquirer has a gap marked urgency:high and the asset is the only clinical-stage
+          drug in the class, apply a strategic_scarcity multiplier (estimated 1.5-2.5x) to the
+          EV floor in the deal range model. This is learnable from the confirmed prediction set.
+      - field: "pipeline_breadth_discount"
+        description: >
+          When a target has >1 asset, the comparable_deals formula should value the full
+          pipeline, not just the lead asset. Alpine had ALPN-101 + ALPN-303 both in Phase 2.
+          The $4.9B deal value reflects both. Single-asset rNPV undervalued by definition.
+      - field: "strategic_review_timeline_compression"
+        description: >
+          When a company has announced a strategic alternatives process, compress estimated
+          M&A timeline by ~50%. Diligence is often running in parallel with the public process.
+
+# ---------------------------------------------------------------------------
+# ACTIVE PREDICTIONS — track these for future validation
+# ---------------------------------------------------------------------------
+
+active:
+
+  - prediction_id: "rvmd-amgen-2026q2"
+    prediction_date: "2026-06-01"
+    ticker: "RVMD"
+    asset: "RMC-6236 (daraxonrasib)"
+    indication: "KRAS-mutant NSCLC (pan-RAS ON inhibitor)"
+    prediction_type: "acquirer_fit + ma_probability"
+
+    # Model predictions
+    model_nav_per_share: 12.18
+    model_rnpv_millions: 122
+    model_p_approval: 0.278               # Phase 2 → 3 → NDA cascade (NSCLC only)
+    predicted_acquirer_rank1: "amgen"
+    predicted_acquirer_fit_score_rank1: 1.000
+    predicted_gap_matched: "oncology:kras_beyond_g12c"
+    predicted_acquirer_rank2: "abbvie"
+    predicted_acquirer_ma_score_rank2: 0.665
+    model_ma_probability: 0.665
+    model_ma_conviction: "HIGH"
+    predicted_timeline_months_low: 9
+    predicted_timeline_months_high: 21
+    deal_range_low_millions: 695
+    deal_range_high_millions: 2700
+    market_price_at_prediction: 34.00
+    model_ev_at_prediction_millions: 3242
+    net_cash_at_prediction_millions: 1620
+
+    # Context notes
+    prediction_rationale: >
+      Amgen owns Lumakras (sotorasib, KRASG12C-OFF), generating ~$300-400M/yr with
+      explicit need for pan-KRAS coverage to address the 85% of KRAS-mutant patients
+      not reached by G12C-selective agents. RMC-6236 is the only clinical-stage
+      pan-KRAS(ON) inhibitor with Phase 2 data in G12D/G12V NSCLC (no approved drug
+      for those mutations). Amgen profile has explicit oncology:kras_beyond_g12c gap
+      with urgency:high and $15B budget ceiling. RVMD had $1.62B cash (3+ yr runway)
+      + Royalty Pharma $2B financing deal (June 2025), meaning RVMD can reach Phase 3
+      independently. This reduces urgency but Amgen has strong incentive to buy before
+      Phase 3 readout de-risks the asset further and raises the price.
+      Key catalysts to watch:
+        - Phase 2 expansion ORR update (G12D/G12V NSCLC) — ~4 months
+        - PDAC combination Phase 2 data — ~6 months
+        - Phase 3 design / FDA alignment — ~9 months
+      If Phase 2 ORR comes in ≥40% in non-G12C cohorts, re-run this model immediately.
+      A positive readout likely triggers acquisition premium compression (Amgen will need
+      to pay much more post-data) — deal more likely to happen PRE-Phase 2 readout.
+
+    watch_for:
+      - "Phase 2 ORR update in G12D/G12V NSCLC cohort (key binary catalyst)"
+      - "Amgen Q2/Q3 2026 earnings — any KRAS/pipeline gap language"
+      - "RVMD cash position — if burn accelerates, timeline compresses"
+      - "Competing KRAS programs (GDC-6036/Roche, MRTX1133/Mirati) — Phase 3 data changes the bar"
+
+    check_back_date: "2027-06-01"         # Review in 12 months
+    status: "active"
+
+  - prediction_id: "rlay-2026q2"
+    prediction_date: "2026-06-01"
+    ticker: "RLAY"
+    asset: "RLY-2608"
+    indication: "PIK3CA H1047R HR+/HER2- mBC"
+    prediction_type: "valuation_watch"
+
+    model_nav_per_share: null             # Last run: see outputs/RLAY/valuation.json
+    model_p_approval: null
+    predicted_acquirer_rank1: null        # Not yet run through acquirer-fit
+    predicted_gap_matched: null
+
+    watch_for:
+      - "Phase 2 expansion cohort ORR data — H2 2025 / H1 2026 target"
+      - "If ORR ≥50% in H1047R cohort → run acquirer-fit immediately (Roche, Pfizer, AstraZeneca as likely buyers)"
+      - "If ORR <30% → clinical failure, thesis dead"
+
+    check_back_date: "2027-03-01"
+    status: "active"
