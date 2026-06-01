@@ -93,6 +93,21 @@ def _resolve_acquirer_id(raw_name: str) -> Optional[str]:
     return _ACQUIRER_ALIAS_MAP.get(raw_name.strip().lower())
 
 
+def _primary_indication(raw: str) -> str:
+    """Extract the primary indication from a compound string.
+
+    Compound indications in deal records often look like:
+        "IgA nephropathy / autoimmune (B cell / T cell co-stimulation)"
+        "ulcerative colitis / Crohn's disease"
+    We take only the text before the first "/" or "(" to get the canonical
+    primary indication that the cross-TA wiring can look up.
+    """
+    for sep in ("/", "(", ";"):
+        if sep in raw:
+            raw = raw.split(sep)[0]
+    return raw.strip()
+
+
 # ---------------------------------------------------------------------------
 # Data containers
 # ---------------------------------------------------------------------------
@@ -210,12 +225,13 @@ def run_acquirer_fit_backtest(
         if ev_ps is None and ev is not None and ps and ps > 0:
             ev_ps = round(ev / ps, 3)
 
+        raw_indication = record.get("indication", "")
         target = AcquirerFitCandidate(
             asset_id=f"bt_{record.get('target_name', 'unknown').lower().replace(' ', '_')[:30]}",
             company_name=record.get("target_name"),
             ticker=record.get("target_ticker"),
             therapeutic_area=record.get("therapeutic_area", ""),
-            indication=record.get("indication", ""),
+            indication=_primary_indication(raw_indication),
             modality=record.get("modality"),
             stage=record.get("phase_at_acquisition", ""),
             enterprise_value_millions=ev,
