@@ -1,0 +1,153 @@
+# =============================================================================
+# Alpine Immune Sciences — dazodalibep (ALPN-101)
+# CD28/ICOS bispecific Fc-fusion | IgA Nephropathy
+# POINT-IN-TIME: 2024-03-01 (before Vertex acquisition announcement 2024-04-23)
+# =============================================================================
+#
+# NO-LOOKAHEAD DISCIPLINE:
+#   All data sourced from public information available BEFORE 2024-04-23.
+#   Sources:
+#     - Alpine Q4 2023 / FY2023 earnings (Feb 2024)
+#     - ASN Kidney Week 2023 — IGNITE Phase 2b results (Oct 2023)
+#     - Alpine 10-K 2023 (Feb 2024)
+#     - Barclays Healthcare Conference Jan 2024 (strategic alternatives)
+#     - NCT04702165 (IGNITE trial ClinicalTrials.gov)
+#     - FDA guidance IgAN surrogate endpoints (2023)
+#
+# EXCLUDED (lookahead):
+#   - $65/share Vertex acquisition (April 2024)
+#   - ALPN-303 povetacicept Phase 3 initiation (post-acquisition)
+#   - Vertex cash injection and combined pipeline restructuring
+# =============================================================================
+
+analyst_notes: >
+  Dazodalibep (ALPN-101) is a CD28/ICOS bispecific Fc-fusion antagonist blocking
+  T/B cell co-stimulatory signals upstream of the IgA nephropathy inflammatory cascade.
+  Phase 2b IGNITE trial (N=38, 24-week) reported at ASN October 2023:
+    - uPCR reduction: ~42% from baseline (primary endpoint met)
+    - eGFR stabilization maintained through 24 weeks
+    - No serious safety signals; well-tolerated biweekly IV
+  Differentiated from Filspari (endothelin-A antagonist) and Tarpeyo (mucosal steroid):
+  dazodalibep attacks the immune etiology rather than downstream hemodynamics.
+  Alpine announced exploration of strategic alternatives January 2024 — explicit
+  process signal. IgA nephropathy is Vertex's stated renal franchise priority.
+  As of March 2024 Alpine has ~$380M cash and ~18 months runway; no dilutive
+  financing needed before Phase 3 initiation.
+
+# ---------------------------------------------------------------------------
+# Asset
+# ---------------------------------------------------------------------------
+asset:
+  id: "alpn-dazodalibep-igan"
+  name: "dazodalibep (ALPN-101)"
+  indication: "IgA Nephropathy (Phase 2b complete, Phase 3 planning)"
+  therapeutic_area: "immunology"
+  stage: "phase_2"
+  modality: "biologic"
+  mechanism_of_action: >
+    CD28/ICOS bispecific Fc-fusion protein antagonist. Selectively blocks CD28
+    and ICOS co-stimulatory signals driving pathogenic T follicular helper cell
+    activation and downstream IgA1-producing B cell differentiation.
+    Targets immunological root cause of IgAN rather than hemodynamic or
+    mucosal pathway.
+  discount_rate: 0.11
+  royalty_rate: 0.0
+
+  differentiation_notes: >
+    1. Novel upstream immune mechanism (CD28/ICOS) — no approved drug in class.
+    2. IGNITE Phase 2b positive: 42% uPCR reduction, eGFR stabilization, clean safety.
+    3. Distinct from Filspari (ET-A antagonist) and Tarpeyo (mucosal budesonide) —
+       potentially additive in combination and non-overlapping patient selection.
+    4. Biweekly IV dosing — appropriate for nephrology specialist channel.
+    5. Strategic review ongoing — explicit willingness to transact.
+
+  competitor_assets:
+    - "sparsentan (Filspari) — FDA approved 2023 for IgAN (ET-A + AT1R dual antagonist)"
+    - "budesonide (Tarpeyo/Nefecon) — FDA approved 2021 for IgAN (mucosal steroid)"
+    - "atrasentan (AstraZeneca/Chinook) — Phase 3 IgAN (ET-A selective)"
+    - "zigakibart (AstraZeneca) — Phase 3 IgAN (complement C3d antibody)"
+    - "iptacopan (Novartis) — Phase 3 IgAN (complement factor B)"
+
+  upcoming_catalysts:
+    - description: "Phase 3 design finalization / IND meeting with FDA"
+      timing_months: 6
+      catalyst_type: fda_meeting
+    - description: "24-month IGNITE extension data — durability of uPCR effect"
+      timing_months: 9
+      catalyst_type: phase_2_poc
+
+# ---------------------------------------------------------------------------
+# Company (as of Q1 2024)
+# ---------------------------------------------------------------------------
+company:
+  id: "alpn-pit-2024q1"
+  name: "Alpine Immune Sciences"
+  ticker: "ALPN"
+  cash_millions: 382.0
+  debt_millions: 0.0
+  shares_outstanding_millions: 44.1
+  burn_rate_millions_per_quarter: 47.0
+  current_price: 28.50
+  ownership_stakes:
+    - asset_id: "alpn-dazodalibep-igan"
+      fraction: 1.0
+
+# ---------------------------------------------------------------------------
+# Clinical trials (Phase 3 and NDA remaining)
+# ---------------------------------------------------------------------------
+trials:
+  - phase: "phase_3"
+    success_probability: 0.58
+    duration_years: 3.5
+    cost_millions: 280.0
+    endpoint_type: "surrogate_validated"
+    notes: >
+      Phase 3 IgAN superiority or non-inferiority trial vs current SoC.
+      Likely 200-300 patient RCT with 24-month uPCR and eGFR co-primary endpoints.
+      FDA surrogate pathway validated by Filspari approval de-risks regulatory path.
+
+  - phase: "nda_bla"
+    success_probability: 0.85
+    duration_years: 1.5
+    cost_millions: 40.0
+    endpoint_type: "surrogate_validated"
+    notes: "NDA/BLA submission following Phase 3 success."
+
+# ---------------------------------------------------------------------------
+# POS Model (optional — overrides YAML point estimates if enabled)
+# ---------------------------------------------------------------------------
+pos_adjusters:
+  apply_pos_model: true
+
+  phase_3:
+    regulatory_approval_bar: "crowded"          # Filspari + Tarpeyo approved; meaningful differentiation required
+    competitive_benchmark: "competitive"         # Differentiated MoA vs approved drugs; not yet head-to-head
+    prior_phase_data: "strong_single"            # IGNITE Phase 2b positive; single completed study
+    biomarker_selection: "validated"             # uPCR/proteinuria — FDA-validated IgAN surrogate
+    safety_profile: "minor"                      # Clean Phase 2b safety; well-tolerated biweekly IV
+    data_maturity: "mature_final"                # Phase 2b complete final readout (Oct 2023)
+    cmc_risk: "late_stage_dev"                   # Biologic Fc-fusion; manufacturing in progress
+    moa_precedent: "partial"                     # CD28/ICOS class — no prior approval; novel upstream target
+    sample_size_adequacy: "adequate"             # Phase 3 planned 200-300 patient RCT
+
+  nda_bla:
+    regulatory_approval_bar: "crowded"
+    biomarker_selection: "validated"
+    safety_profile: "minor"
+    data_maturity: "mature_final"
+    cmc_risk: "late_stage_dev"
+    moa_precedent: "partial"
+    sample_size_adequacy: "adequate"
+
+# ---------------------------------------------------------------------------
+# Market model — IgA Nephropathy
+# ---------------------------------------------------------------------------
+market_model:
+  addressable_patients_annual: 85000
+  net_price_per_patient_usd: 125000
+  peak_penetration: 0.12
+  years_to_peak: 5
+  patent_life_years: 11
+  cogs_rate: 0.22
+  sgna_rate_launch: 0.38
+  sgna_rate_mature: 0.20

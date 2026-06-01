@@ -20,8 +20,14 @@ from bve.entities.asset import Modality as _Modality
 from bve.entities.asset import TherapeuticArea as _TherapeuticArea
 from bve.entities.trial import EndpointType as _EndpointType
 from bve.models.pos_model import (
+    BiomarkerSelectionStrength as _BiomarkerSelectionStrength,
+    CMCRiskLevel as _CMCRiskLevel,
+    CompetitiveBenchmarkPosition as _CompetitiveBenchmarkPosition,
     CompetitivePressure as _CompetitivePressure,
+    DataMaturityLevel as _DataMaturityLevel,
     MoAPrecedent as _MoAPrecedent,
+    PriorPhaseDataStrength as _PriorPhaseDataStrength,
+    RegulatoryApprovalBar as _RegulatoryApprovalBar,
     SafetyProfile as _SafetyProfile,
     SampleSizeAdequacy as _SampleSizeAdequacy,
 )
@@ -44,6 +50,12 @@ _VALID_MOA_PRECEDENT = {m.value for m in _MoAPrecedent}
 _VALID_SAMPLE_ADEQUACY = {s.value for s in _SampleSizeAdequacy}
 _VALID_SAFETY = {s.value for s in _SafetyProfile}
 _VALID_COMPETITION = {c.value for c in _CompetitivePressure}
+_VALID_RAB = {r.value for r in _RegulatoryApprovalBar}
+_VALID_BIOMARKER_SELECTION = {b.value for b in _BiomarkerSelectionStrength}
+_VALID_PRIOR_PHASE = {p.value for p in _PriorPhaseDataStrength}
+_VALID_DATA_MATURITY = {d.value for d in _DataMaturityLevel}
+_VALID_CMC_RISK = {c.value for c in _CMCRiskLevel}
+_VALID_COMP_BENCHMARK = {c.value for c in _CompetitiveBenchmarkPosition}
 _VALID_EVIDENCE_DESIGN_QUALITY = {e.value for e in _EvidenceDesignQuality}
 _VALID_COMPARATOR_FIT = {c.value for c in _ComparatorFit}
 _VALID_REGULATORY_PATHWAY_RISK = {r.value for r in _RegulatoryPathwayRisk}
@@ -150,6 +162,24 @@ def _validate_config(cfg: dict, path: Path) -> None:
             if pc.get("competitive_pressure"):
                 _check(pc["competitive_pressure"] in _VALID_COMPETITION,
                        f"{prefix}.competitive_pressure must be one of {sorted(_VALID_COMPETITION)}, got: {pc['competitive_pressure']!r}")
+            if pc.get("regulatory_approval_bar"):
+                _check(pc["regulatory_approval_bar"] in _VALID_RAB,
+                       f"{prefix}.regulatory_approval_bar must be one of {sorted(_VALID_RAB)}, got: {pc['regulatory_approval_bar']!r}")
+            if pc.get("biomarker_selection"):
+                _check(pc["biomarker_selection"] in _VALID_BIOMARKER_SELECTION,
+                       f"{prefix}.biomarker_selection must be one of {sorted(_VALID_BIOMARKER_SELECTION)}, got: {pc['biomarker_selection']!r}")
+            if pc.get("prior_phase_data"):
+                _check(pc["prior_phase_data"] in _VALID_PRIOR_PHASE,
+                       f"{prefix}.prior_phase_data must be one of {sorted(_VALID_PRIOR_PHASE)}, got: {pc['prior_phase_data']!r}")
+            if pc.get("data_maturity"):
+                _check(pc["data_maturity"] in _VALID_DATA_MATURITY,
+                       f"{prefix}.data_maturity must be one of {sorted(_VALID_DATA_MATURITY)}, got: {pc['data_maturity']!r}")
+            if pc.get("cmc_risk"):
+                _check(pc["cmc_risk"] in _VALID_CMC_RISK,
+                       f"{prefix}.cmc_risk must be one of {sorted(_VALID_CMC_RISK)}, got: {pc['cmc_risk']!r}")
+            if pc.get("competitive_benchmark"):
+                _check(pc["competitive_benchmark"] in _VALID_COMP_BENCHMARK,
+                       f"{prefix}.competitive_benchmark must be one of {sorted(_VALID_COMP_BENCHMARK)}, got: {pc['competitive_benchmark']!r}")
 
     td = cfg.get("trial_design", {})
     if td.get("apply_design_model"):
@@ -318,10 +348,26 @@ def _build_objects(cfg: dict):
 
 
 def _build_pos_adjusters(cfg: dict):
-    """Parse optional pos_adjusters section from config."""
+    """Parse optional pos_adjusters section from config.
+
+    Supports both legacy field names (competitive_pressure, biomarker_selected_population,
+    strong_prior_phase_data) and new field names (regulatory_approval_bar, biomarker_selection,
+    prior_phase_data, data_maturity, cmc_risk, competitive_benchmark). New fields take
+    precedence when both are present.
+    """
     from bve.entities.trial import TrialPhase
     from bve.models.pos_model import (
-        POSAdjusters, CompetitivePressure, MoAPrecedent, SafetyProfile, SampleSizeAdequacy
+        BiomarkerSelectionStrength,
+        CMCRiskLevel,
+        CompetitiveBenchmarkPosition,
+        CompetitivePressure,
+        DataMaturityLevel,
+        MoAPrecedent,
+        POSAdjusters,
+        PriorPhaseDataStrength,
+        RegulatoryApprovalBar,
+        SafetyProfile,
+        SampleSizeAdequacy,
     )
     from bve.entities.trial import EndpointType
 
@@ -341,7 +387,8 @@ def _build_pos_adjusters(cfg: dict):
         phase_cfg = pos_cfg.get(phase_key)
         if phase_cfg is None:
             continue
-        adjusters[phase_enum] = POSAdjusters(
+
+        kwargs: dict = dict(
             endpoint_type=EndpointType(phase_cfg.get("endpoint_type", "surrogate_validated")),
             moa_precedent=MoAPrecedent(phase_cfg.get("moa_precedent", "partial")),
             sample_size_adequacy=SampleSizeAdequacy(
@@ -350,11 +397,35 @@ def _build_pos_adjusters(cfg: dict):
                 )
             ),
             safety_profile=SafetyProfile(phase_cfg.get("safety_profile", "minor")),
-            competitive_pressure=CompetitivePressure(phase_cfg.get("competitive_pressure", "moderate")),
-            biomarker_selected_population=phase_cfg.get("biomarker_selected_population", False),
-            strong_prior_phase_data=phase_cfg.get("strong_prior_phase_data", False),
             has_breakthrough_designation=phase_cfg.get("has_breakthrough_designation", False),
         )
+
+        # New field names take precedence over legacy fields
+        if phase_cfg.get("regulatory_approval_bar"):
+            kwargs["regulatory_approval_bar"] = RegulatoryApprovalBar(phase_cfg["regulatory_approval_bar"])
+        elif phase_cfg.get("competitive_pressure"):
+            kwargs["competitive_pressure"] = CompetitivePressure(phase_cfg["competitive_pressure"])
+
+        if phase_cfg.get("biomarker_selection"):
+            kwargs["biomarker_selection"] = BiomarkerSelectionStrength(phase_cfg["biomarker_selection"])
+        elif phase_cfg.get("biomarker_selected_population"):
+            kwargs["biomarker_selected_population"] = phase_cfg["biomarker_selected_population"]
+
+        if phase_cfg.get("prior_phase_data"):
+            kwargs["prior_phase_data"] = PriorPhaseDataStrength(phase_cfg["prior_phase_data"])
+        elif phase_cfg.get("strong_prior_phase_data"):
+            kwargs["strong_prior_phase_data"] = phase_cfg["strong_prior_phase_data"]
+
+        if phase_cfg.get("data_maturity"):
+            kwargs["data_maturity"] = DataMaturityLevel(phase_cfg["data_maturity"])
+
+        if phase_cfg.get("cmc_risk"):
+            kwargs["cmc_risk"] = CMCRiskLevel(phase_cfg["cmc_risk"])
+
+        if phase_cfg.get("competitive_benchmark"):
+            kwargs["competitive_benchmark"] = CompetitiveBenchmarkPosition(phase_cfg["competitive_benchmark"])
+
+        adjusters[phase_enum] = POSAdjusters(**kwargs)
 
     return adjusters, True
 

@@ -1,0 +1,179 @@
+# =============================================================================
+# Revolution Medicines (RVMD) — RMC-6236
+# Pan-RAS(ON) tri-complex inhibitor | KRAS-mutant NSCLC (primary) + PDAC
+# CURRENT: 2026-06-01
+# =============================================================================
+#
+# Sources (all public):
+#   - RVMD Q4 2025 / FY2025 earnings and 10-K (Feb 2026)
+#   - AACR 2025 / ASCO 2025 RMC-6236 Phase 1/2 data presentations
+#   - ClinicalTrials.gov NCT05379985 (RMC-6236-001 study)
+#   - FDA KRASG12C precedent: sotorasib (AMG510, 2021) + adagrasib (2022)
+#   - IQVIA oncology market data (KRAS-mutant NSCLC/PDAC)
+#   - Revolution Medicines Investor Day 2025 pipeline update
+# =============================================================================
+
+analyst_notes: >
+  RMC-6236 is a first-in-class pan-RAS(ON) inhibitor targeting the active
+  GTP-bound state of RAS using a tri-complex mechanism (RMC-6236 + RASGAP334).
+  Unlike sotorasib/adagrasib (KRASG12C-OFF selective), RMC-6236 is active across
+  multiple KRAS mutations (G12D, G12V, G12C, G12A, G12R, G12S) and NRAS/HRAS.
+  This represents the first clinical activity against KRASG12D and G12V — the
+  two most prevalent mutations in PDAC and NSCLC with no approved inhibitors.
+
+  Phase 1/2 data (2024-2025):
+    - NSCLC KRAS G12X: ORR ~35-45% in non-G12C cohorts; ~25-30% in G12C cohorts
+    - PDAC KRAS G12X: ORR ~20-30% (historically no targeted options in PDAC)
+    - Combination with SHP2i (RMC-4630): enhanced depth/duration in early data
+    - Key DLT at higher doses: diarrhea and rash (manageable)
+
+  Key differentiation:
+    - Only clinical-stage pan-KRAS inhibitor with activity against G12D/G12V
+    - Activity in adagrasib/sotorasib-resistant settings (different binding state)
+    - Broad KRAS coverage = larger addressable population than G12C-selective agents
+    - Combination franchise with SHP2i creates portfolio value beyond monotherapy
+
+  M&A context: RVMD has no commercial products; cash runway ~3+ years.
+  Market cap ~$4-6B range. Amgen (sotorasib/Lumakras) has explicitly stated
+  need for pan-KRAS capability. RVMD represents the leading pan-RAS clinical asset.
+
+# ---------------------------------------------------------------------------
+# Asset
+# ---------------------------------------------------------------------------
+asset:
+  id: "rvmd-rmc6236-nsclc"
+  name: "RMC-6236"
+  indication: "KRAS-mutant NSCLC (G12X, non-G12C primary; G12C secondary)"
+  therapeutic_area: "oncology"
+  stage: "phase_2"
+  modality: "small_molecule"
+  mechanism_of_action: >
+    Tri-complex pan-RAS(ON) inhibitor. Forms a ternary complex with RASGAP334
+    and GTP-bound (active) RAS, stabilizing RAS in an inactive conformation.
+    Active against KRASG12C, G12D, G12V, G12A, G12R, G12S and NRAS/HRAS
+    oncoproteins in the GTP-loaded active state.
+  discount_rate: 0.10
+  royalty_rate: 0.0
+
+  differentiation_notes: >
+    1. ONLY clinical-stage inhibitor with activity against KRASG12D and G12V.
+    2. Active state (ON) mechanism: different binding pocket from G12C-selective drugs,
+       active in sotorasib/adagrasib-resistant tumors.
+    3. Broader KRAS coverage = addressable ~60-70% of all KRAS-mutant cancers vs
+       ~15% for G12C-selective agents.
+    4. Combination franchise with RMC-4630 (SHP2i) tested clinically — portfolio play.
+    5. First-mover advantage: no approved pan-KRAS inhibitor exists; regulatory bar
+       is vs chemo/IO standard-of-care, not vs another targeted inhibitor.
+
+  competitor_assets:
+    - "sotorasib (Lumakras, Amgen) — FDA approved 2021 KRASG12C NSCLC (G12C-OFF)"
+    - "adagrasib (Krazati, BMS/Mirati) — FDA approved 2022 KRASG12C NSCLC (G12C-OFF)"
+    - "RMC-9805 (RevMed) — KRASG12D(ON) selective, Phase 1 (internal)"
+    - "RMC-6291 (RevMed) — KRASG12C(ON) selective, Phase 1 (internal)"
+    - "GDC-6036 (Roche/Genentech) — KRASG12C, Phase 2"
+    - "BI-1701963 (Boehringer) — KRAS/SOS1, Phase 2"
+
+  upcoming_catalysts:
+    - description: "Phase 2 expansion cohort ORR update (G12D/G12V non-G12C NSCLC)"
+      timing_months: 4
+      catalyst_type: phase_2_poc
+    - description: "PDAC combination (RMC-6236 + RMC-4630) Phase 2 data"
+      timing_months: 6
+      catalyst_type: phase_2_poc
+    - description: "Phase 3 design / FDA alignment for registrational NSCLC trial"
+      timing_months: 9
+      catalyst_type: fda_meeting
+
+# ---------------------------------------------------------------------------
+# Company (current)
+# ---------------------------------------------------------------------------
+company:
+  id: "rvmd-current"
+  name: "Revolution Medicines"
+  ticker: "RVMD"
+  cash_millions: 1620.0
+  debt_millions: 0.0
+  shares_outstanding_millions: 143.0
+  burn_rate_millions_per_quarter: 120.0
+  current_price: 34.00
+  ownership_stakes:
+    - asset_id: "rvmd-rmc6236-nsclc"
+      fraction: 1.0
+
+# ---------------------------------------------------------------------------
+# Clinical trials
+# ---------------------------------------------------------------------------
+trials:
+  - phase: "phase_2"
+    success_probability: 0.45
+    duration_years: 2.0
+    cost_millions: 180.0
+    endpoint_type: "orr"
+    notes: >
+      Phase 2 ORR/DOR evaluation in KRAS G12X (non-G12C) NSCLC.
+      Accelerated approval via ORR is plausible given KRASG12D/G12V
+      unmet need; full approval requires PFS/OS confirmation.
+
+  - phase: "phase_3"
+    success_probability: 0.52
+    duration_years: 3.0
+    cost_millions: 350.0
+    endpoint_type: "pfs"
+    notes: >
+      Randomized Phase 3 vs docetaxel or chemo in KRAS G12X 2L+ NSCLC.
+      KRASG12C cohort may use sotorasib/adagrasib as active comparator.
+
+  - phase: "nda_bla"
+    success_probability: 0.88
+    duration_years: 1.0
+    cost_millions: 35.0
+    endpoint_type: "surrogate_validated"
+    notes: "NDA filing following Phase 3 success; possible accelerated approval in non-G12C earlier."
+
+# ---------------------------------------------------------------------------
+# POS Model
+# ---------------------------------------------------------------------------
+pos_adjusters:
+  apply_pos_model: true
+
+  phase_2:
+    regulatory_approval_bar: "highly_crowded"   # NSCLC: extreme competition (osimertinib, IO combos, sotorasib/adagrasib, ADCs)
+    competitive_benchmark: "best_in_class"       # Only pan-KRAS(ON) inhibitor; G12D/G12V = no approved comparator
+    prior_phase_data: "mixed"                    # Phase 1/2 data encouraging; not yet replicated in randomized trial
+    biomarker_selection: "validated"             # KRAS mutation testing (NGS/PCR) — established companion Dx
+    safety_profile: "minor"                      # Grade 1-2 diarrhea/rash; no unexpected serious safety concerns
+    data_maturity: "interim_pre_planned"         # Phase 1/2 dose expansion ongoing
+    cmc_risk: "proven_scalable"                  # Small molecule; commercial-scale feasible
+    moa_precedent: "validated"                   # KRASG12C validated by sotorasib/adagrasib; pan-KRAS is novel extension
+    sample_size_adequacy: "adequate"
+
+  phase_3:
+    regulatory_approval_bar: "highly_crowded"
+    competitive_benchmark: "best_in_class"
+    prior_phase_data: "strong_single"            # Phase 2 data assumed positive if Phase 3 initiates
+    biomarker_selection: "validated"
+    safety_profile: "minor"
+    data_maturity: "mature_final"
+    cmc_risk: "proven_scalable"
+    moa_precedent: "validated"
+    sample_size_adequacy: "adequate"
+
+  nda_bla:
+    regulatory_approval_bar: "highly_crowded"
+    biomarker_selection: "validated"
+    safety_profile: "minor"
+    moa_precedent: "validated"
+    sample_size_adequacy: "adequate"
+
+# ---------------------------------------------------------------------------
+# Market model — KRAS-mutant NSCLC (primary US)
+# ---------------------------------------------------------------------------
+market_model:
+  addressable_patients_annual: 27000
+  net_price_per_patient_usd: 195000
+  peak_penetration: 0.22
+  years_to_peak: 5
+  patent_life_years: 12
+  cogs_rate: 0.18
+  sgna_rate_launch: 0.35
+  sgna_rate_mature: 0.18

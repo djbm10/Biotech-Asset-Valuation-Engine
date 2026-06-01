@@ -1,0 +1,81 @@
+# Vertex Pharmaceuticals — POINT-IN-TIME profile as of 2024-03-01
+# LOOKAHEAD REMOVED:
+#   - Alpine Immune Sciences acquisition (announced 2024-04-23) NOT included
+#   - Immunology franchise from Alpine NOT in stated priorities
+# INCLUDED (pre-March 2024 public info):
+#   - InflaRx acquisition (Feb 2024) included
+#   - Entrada Therapeutics acquisition (Dec 2023) included
+#   - IgAN/renal franchise gap — publicly stated priority pre-acquisition
+
+company: Vertex Pharmaceuticals
+ticker: VRTX
+profile_as_of: 2024-03-01
+market_cap_billions: 112
+cash_billions: 10.8
+acquisition_capacity_millions: 14000
+pipeline_gaps:
+  - therapeutic_area: rare_disease
+    sub_area: pain_non_opioid_nav18
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [small_molecule]
+    budget_ceiling_millions: 8000
+    notes: "VX-548 (suzetrigine) filed NDA Jan 2024 for acute pain — second NaV inhibitor and chronic pain expansion needed."
+  - therapeutic_area: rare_disease
+    sub_area: ckd_pkd_renal
+    gap_type: selective_gap
+    urgency: high
+    preferred_modality: [small_molecule, antibody, biologic_antibody]
+    budget_ceiling_millions: 10000
+    notes: >
+      IgA nephropathy and polycystic kidney disease are publicly stated renal
+      franchise priorities (CEO R&D Day 2023, JP Morgan 2024). VX-147 (APOL1 inhibitor)
+      in Phase 3 FSGS; bolt-on IgAN or renal immune asset would complete the kidney franchise.
+      Vertex explicitly cited IgAN as white space at JPM 2024.
+  - therapeutic_area: rare_disease
+    sub_area: alpha1_antitrypsin_deficiency
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [small_molecule, RNA_therapy]
+    budget_ceiling_millions: 8000
+    notes: "VX-634 AATD in phase 2; combination/backbone strategy parallels CF corrector approach."
+  - therapeutic_area: immunology
+    sub_area: autoimmune_b_t_cell
+    gap_type: selective_gap
+    urgency: medium
+    preferred_modality: [biologic_antibody, cell_therapy]
+    budget_ceiling_millions: 10000
+    notes: >
+      Casgevy (exa-cel) validates ex vivo gene editing for severe autoimmune conditions.
+      B/T cell co-stimulation and complement-driven autoimmune disease adjacent to
+      the renal franchise; CD28/ICOS pathway assets would complement IgAN strategy.
+  - therapeutic_area: rare_disease
+    sub_area: dm1_myotonic_dystrophy
+    gap_type: selective_gap
+    urgency: medium
+    preferred_modality: [small_molecule, ASO]
+    budget_ceiling_millions: 6000
+    notes: "DM1 is a priority rare neuromuscular disease with DMPK-targeting small molecules emerging."
+recent_deals:
+  - target: InflaRx
+    date: 2024-02-27
+    value_billions: 0.12
+    therapeutic_area: immunology
+    modality: antibody
+  - target: Entrada Therapeutics
+    date: 2023-12-04
+    value_billions: 0.14
+    therapeutic_area: rare_disease
+    modality: cell_penetrating_peptide
+existing_partnerships:
+  - target: CRISPR Therapeutics
+    partnership_type: co_development
+    therapeutic_area: rare_disease
+    description: "Co-development of Casgevy (exa-cel) for sickle cell disease and beta-thalassemia"
+    year_initiated: 2015
+    acquisition_option: false
+stated_priorities:
+  - "Rare disease franchise diversification beyond CF: pain (VX-548 filed), kidney (IgAN, FSGS, PKD), AATD."
+  - "Cell and gene therapy via CRISPR Therapeutics partnership establishes platform for further gene editing acquisitions."
+  - "Renal franchise build-out is the most urgent 2024 pipeline gap; IgAN and complement-driven nephrology are active search areas."
+  - "DM1 and rare neuromuscular disease represent the next rare-disease white space after kidney."

@@ -1,0 +1,8 @@
+# Revolution Medicines — current M&A and POS analysis
+watchlist:
+  - company_id: rvmd-current
+    asset_id: rvmd-rmc6236-nsclc
+    drug_name: RMC-6236
+    indication: KRAS-mutant NSCLC (pan-RAS ON inhibitor)
+    ticker: RVMD
+    valuation_config: examples/configs/rvmd_rmc6236_2026.yaml

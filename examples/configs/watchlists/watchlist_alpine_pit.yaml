@@ -1,0 +1,9 @@
+# Point-in-time watchlist: Alpine dazodalibep as of 2024-03-01
+# Used for backtesting Vertex acquirer fit BEFORE the April 2024 acquisition.
+watchlist:
+  - company_id: alpn-pit-2024q1
+    asset_id: alpn-dazodalibep-igan
+    drug_name: dazodalibep (ALPN-101)
+    indication: IgA Nephropathy
+    ticker: ALPN
+    valuation_config: examples/configs/alpine_dazodalibep_pit_2024q1.yaml
