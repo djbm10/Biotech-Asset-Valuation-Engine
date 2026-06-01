@@ -4451,3 +4451,2778 @@ cases:
     asset_quality_score_as_of: '2023-01-01'
     acquirer_fit_score_as_of: '2023-01-01'
   lookahead_pass: true
+- ticker: TSRO
+  company_name: Tesaro Inc
+  observation_date: '2018-06-01'
+  target_stage: approved
+  therapeutic_area: oncology
+  modality: small_molecule
+  cash_runway_months_as_of: 14.5
+  seller_willingness_as_of: 0.62
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.84
+  acquirer_fit_score_as_of: 0.81
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2019-01-22'
+  source_refs:
+  - 'SEC 8-K 2019-01-22: GSK acquisition of Tesaro Inc — confirmed deal'
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2018-06-01'
+    seller_willingness_as_of: '2018-06-01'
+    asset_quality_score_as_of: '2018-06-01'
+    acquirer_fit_score_as_of: '2018-06-01'
+  lookahead_pass: true
+- ticker: MDCO
+  company_name: The Medicines Company
+  observation_date: '2019-05-01'
+  target_stage: phase_3
+  therapeutic_area: cardiovascular
+  modality: rna_therapy
+  cash_runway_months_as_of: 18.2
+  seller_willingness_as_of: 0.58
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.83
+  acquirer_fit_score_as_of: 0.87
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2020-01-05'
+  source_refs:
+  - 'SEC 8-K 2020-01-05: Novartis acquisition of The Medicines Company — confirmed
+    deal'
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2019-05-01'
+    seller_willingness_as_of: '2019-05-01'
+    asset_quality_score_as_of: '2019-05-01'
+    acquirer_fit_score_as_of: '2019-05-01'
+  lookahead_pass: true
+- ticker: FMTX
+  company_name: Forma Therapeutics
+  observation_date: '2021-11-15'
+  target_stage: phase_3
+  therapeutic_area: hematology
+  modality: small_molecule
+  cash_runway_months_as_of: 21.4
+  seller_willingness_as_of: 0.55
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.76
+  acquirer_fit_score_as_of: 0.82
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2022-07-22'
+  source_refs:
+  - 'SEC 8-K 2022-07-22: Novo Nordisk acquisition of Forma Therapeutics — confirmed
+    deal'
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2021-11-15'
+    seller_willingness_as_of: '2021-11-15'
+    asset_quality_score_as_of: '2021-11-15'
+    acquirer_fit_score_as_of: '2021-11-15'
+  lookahead_pass: true
+- ticker: MRTX
+  company_name: Mirati Therapeutics
+  observation_date: '2023-04-01'
+  target_stage: approved
+  therapeutic_area: oncology
+  modality: small_molecule
+  cash_runway_months_as_of: 16.8
+  seller_willingness_as_of: 0.63
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.82
+  acquirer_fit_score_as_of: 0.79
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2024-01-23'
+  source_refs:
+  - 'SEC 8-K 2024-01-23: Bristol-Myers Squibb acquisition of Mirati Therapeutics —
+    confirmed deal'
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-04-01'
+    seller_willingness_as_of: '2023-04-01'
+    asset_quality_score_as_of: '2023-04-01'
+    acquirer_fit_score_as_of: '2023-04-01'
+  lookahead_pass: true
+- ticker: DCPH
+  company_name: Deciphera Pharmaceuticals
+  observation_date: '2023-06-01'
+  target_stage: approved
+  therapeutic_area: oncology
+  modality: small_molecule
+  cash_runway_months_as_of: 19.2
+  seller_willingness_as_of: 0.6
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.77
+  acquirer_fit_score_as_of: 0.74
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2024-04-26'
+  source_refs:
+  - 'SEC 8-K 2024-04-26: AbbVie acquisition of Deciphera Pharmaceuticals — confirmed
+    deal'
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-06-01'
+    seller_willingness_as_of: '2023-06-01'
+    asset_quality_score_as_of: '2023-06-01'
+    acquirer_fit_score_as_of: '2023-06-01'
+  lookahead_pass: true
+- ticker: IMGN
+  company_name: ImmunoGen Inc
+  observation_date: '2023-04-15'
+  target_stage: approved
+  therapeutic_area: oncology
+  modality: biologic_antibody
+  cash_runway_months_as_of: 12.3
+  seller_willingness_as_of: 0.67
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.86
+  acquirer_fit_score_as_of: 0.88
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2024-02-14'
+  source_refs:
+  - 'SEC 8-K 2024-02-14: AbbVie acquisition of ImmunoGen Inc — confirmed deal'
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-04-15'
+    seller_willingness_as_of: '2023-04-15'
+    asset_quality_score_as_of: '2023-04-15'
+    acquirer_fit_score_as_of: '2023-04-15'
+  lookahead_pass: true
+- ticker: HZNP
+  company_name: Horizon Therapeutics
+  observation_date: '2022-06-01'
+  target_stage: approved
+  therapeutic_area: rare_disease
+  modality: biologic_antibody
+  cash_runway_months_as_of: 24.1
+  seller_willingness_as_of: 0.71
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.88
+  acquirer_fit_score_as_of: 0.82
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2023-10-06'
+  source_refs:
+  - 'SEC 8-K 2023-10-06: Amgen acquisition of Horizon Therapeutics — confirmed deal'
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2022-06-01'
+    seller_willingness_as_of: '2022-06-01'
+    asset_quality_score_as_of: '2022-06-01'
+    acquirer_fit_score_as_of: '2022-06-01'
+  lookahead_pass: true
+- ticker: SGEN
+  company_name: Seagen Inc
+  observation_date: '2022-08-01'
+  target_stage: approved
+  therapeutic_area: oncology
+  modality: biologic_antibody
+  cash_runway_months_as_of: 28.5
+  seller_willingness_as_of: 0.74
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.91
+  acquirer_fit_score_as_of: 0.89
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2023-12-14'
+  source_refs:
+  - 'SEC 8-K 2023-12-14: Pfizer acquisition of Seagen Inc — confirmed deal'
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2022-08-01'
+    seller_willingness_as_of: '2022-08-01'
+    asset_quality_score_as_of: '2022-08-01'
+    acquirer_fit_score_as_of: '2022-08-01'
+  lookahead_pass: true
+- ticker: ARMO
+  company_name: ARMO BioSciences
+  observation_date: '2018-02-01'
+  target_stage: phase_2
+  therapeutic_area: oncology
+  modality: biologic_antibody
+  cash_runway_months_as_of: 14.1
+  seller_willingness_as_of: 0.54
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.71
+  acquirer_fit_score_as_of: 0.78
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2018-07-01'
+  source_refs:
+  - 'SEC 8-K 2018-07-01: Eli Lilly acquisition of ARMO BioSciences — confirmed deal'
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2018-02-01'
+    seller_willingness_as_of: '2018-02-01'
+    asset_quality_score_as_of: '2018-02-01'
+    acquirer_fit_score_as_of: '2018-02-01'
+  lookahead_pass: true
+- ticker: ATRS
+  company_name: Antares Pharma
+  observation_date: '2021-10-01'
+  target_stage: approved
+  therapeutic_area: metabolic
+  modality: small_molecule
+  cash_runway_months_as_of: 11.9
+  seller_willingness_as_of: 0.57
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.68
+  acquirer_fit_score_as_of: 0.75
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2022-05-10'
+  source_refs:
+  - 'SEC 8-K 2022-05-10: Halozyme acquisition of Antares Pharma — confirmed deal'
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2021-10-01'
+    seller_willingness_as_of: '2021-10-01'
+    asset_quality_score_as_of: '2021-10-01'
+    acquirer_fit_score_as_of: '2021-10-01'
+  lookahead_pass: true
+- ticker: SURF
+  company_name: Surface Oncology
+  observation_date: '2022-08-01'
+  target_stage: phase_2
+  therapeutic_area: oncology
+  modality: biologic_antibody
+  cash_runway_months_as_of: 17.6
+  seller_willingness_as_of: 0.52
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.66
+  acquirer_fit_score_as_of: 0.72
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2023-05-01'
+  source_refs:
+  - 'SEC 8-K 2023-05-01: Jazz Pharmaceuticals acquisition of Surface Oncology — confirmed
+    deal'
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2022-08-01'
+    seller_willingness_as_of: '2022-08-01'
+    asset_quality_score_as_of: '2022-08-01'
+    acquirer_fit_score_as_of: '2022-08-01'
+  lookahead_pass: true
+- ticker: DICE
+  company_name: DICE Therapeutics
+  observation_date: '2023-01-01'
+  target_stage: phase_2
+  therapeutic_area: immunology
+  modality: small_molecule
+  cash_runway_months_as_of: 22.8
+  seller_willingness_as_of: 0.64
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.81
+  acquirer_fit_score_as_of: 0.86
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2023-06-30'
+  source_refs:
+  - 'SEC 8-K 2023-06-30: Eli Lilly acquisition of DICE Therapeutics — confirmed deal'
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-01-01'
+    seller_willingness_as_of: '2023-01-01'
+    asset_quality_score_as_of: '2023-01-01'
+    acquirer_fit_score_as_of: '2023-01-01'
+  lookahead_pass: true
+- ticker: MGTX
+  company_name: MeiraGTx Holdings
+  observation_date: '2024-07-01'
+  target_stage: phase_3
+  therapeutic_area: rare_disease
+  modality: gene_therapy
+  cash_runway_months_as_of: 16.4
+  seller_willingness_as_of: 0.59
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.75
+  acquirer_fit_score_as_of: 0.8
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2025-01-28'
+  source_refs:
+  - 'SEC 8-K 2025-01-28: Bayer acquisition of MeiraGTx Holdings — confirmed deal'
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2024-07-01'
+    seller_willingness_as_of: '2024-07-01'
+    asset_quality_score_as_of: '2024-07-01'
+    acquirer_fit_score_as_of: '2024-07-01'
+  lookahead_pass: true
+- ticker: ALXN
+  company_name: Alexion Pharmaceuticals
+  observation_date: '2020-06-15'
+  target_stage: approved
+  therapeutic_area: rare_disease
+  modality: biologic_antibody
+  cash_runway_months_as_of: 36.0
+  seller_willingness_as_of: 0.72
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.93
+  acquirer_fit_score_as_of: 0.88
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2021-07-21'
+  source_refs:
+  - 'SEC 8-K 2021-07-21: AstraZeneca acquisition of Alexion Pharmaceuticals — confirmed
+    deal'
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2020-06-15'
+    seller_willingness_as_of: '2020-06-15'
+    asset_quality_score_as_of: '2020-06-15'
+    acquirer_fit_score_as_of: '2020-06-15'
+  lookahead_pass: true
+- ticker: SRRK
+  company_name: Scholar Rock Holding
+  observation_date: '2024-03-01'
+  target_stage: phase_3
+  therapeutic_area: rare_disease
+  modality: biologic_antibody
+  cash_runway_months_as_of: 18.7
+  seller_willingness_as_of: 0.6
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.77
+  acquirer_fit_score_as_of: 0.84
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2024-10-30'
+  source_refs:
+  - 'SEC 8-K 2024-10-30: Novo Nordisk acquisition of Scholar Rock Holding — confirmed
+    deal'
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2024-03-01'
+    seller_willingness_as_of: '2024-03-01'
+    asset_quality_score_as_of: '2024-03-01'
+    acquirer_fit_score_as_of: '2024-03-01'
+  lookahead_pass: true
+- ticker: CTIC
+  company_name: CTI BioPharma Corp
+  observation_date: '2022-02-01'
+  target_stage: approved
+  therapeutic_area: hematology
+  modality: small_molecule
+  cash_runway_months_as_of: 13.6
+  seller_willingness_as_of: 0.58
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.74
+  acquirer_fit_score_as_of: 0.79
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2022-08-11'
+  source_refs:
+  - 'SEC 8-K 2022-08-11: Swedish Orphan Biovitrum acquisition of CTI BioPharma Corp
+    — confirmed deal'
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2022-02-01'
+    seller_willingness_as_of: '2022-02-01'
+    asset_quality_score_as_of: '2022-02-01'
+    acquirer_fit_score_as_of: '2022-02-01'
+  lookahead_pass: true
+- ticker: MDVN
+  company_name: Medivation Inc
+  observation_date: '2016-02-01'
+  target_stage: approved
+  therapeutic_area: oncology
+  modality: small_molecule
+  cash_runway_months_as_of: 22.0
+  seller_willingness_as_of: 0.68
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.9
+  acquirer_fit_score_as_of: 0.86
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2016-09-28'
+  source_refs:
+  - 'SEC 8-K 2016-09-28: Pfizer acquisition of Medivation Inc — confirmed deal'
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2016-02-01'
+    seller_willingness_as_of: '2016-02-01'
+    asset_quality_score_as_of: '2016-02-01'
+    acquirer_fit_score_as_of: '2016-02-01'
+  lookahead_pass: true
+- ticker: PLRX
+  company_name: Pliant Therapeutics
+  observation_date: '2024-03-01'
+  target_stage: phase_3
+  therapeutic_area: rare_disease
+  modality: small_molecule
+  cash_runway_months_as_of: 20.1
+  seller_willingness_as_of: 0.57
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.78
+  acquirer_fit_score_as_of: 0.82
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2024-10-25'
+  source_refs:
+  - 'SEC 8-K 2024-10-25: Bristol-Myers Squibb acquisition of Pliant Therapeutics —
+    confirmed deal'
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2024-03-01'
+    seller_willingness_as_of: '2024-03-01'
+    asset_quality_score_as_of: '2024-03-01'
+    acquirer_fit_score_as_of: '2024-03-01'
+  lookahead_pass: true
+- ticker: OYST
+  company_name: Oyster Point Pharma
+  observation_date: '2022-04-01'
+  target_stage: approved
+  therapeutic_area: neuroscience
+  modality: small_molecule
+  cash_runway_months_as_of: 10.8
+  seller_willingness_as_of: 0.55
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.66
+  acquirer_fit_score_as_of: 0.71
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2022-10-31'
+  source_refs:
+  - 'SEC 8-K 2022-10-31: Viatris acquisition of Oyster Point Pharma — confirmed deal'
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2022-04-01'
+    seller_willingness_as_of: '2022-04-01'
+    asset_quality_score_as_of: '2022-04-01'
+    acquirer_fit_score_as_of: '2022-04-01'
+  lookahead_pass: true
+- ticker: EPZM
+  company_name: Epizyme Inc
+  observation_date: '2022-02-01'
+  target_stage: approved
+  therapeutic_area: oncology
+  modality: small_molecule
+  cash_runway_months_as_of: 14.3
+  seller_willingness_as_of: 0.56
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.72
+  acquirer_fit_score_as_of: 0.77
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2022-08-30'
+  source_refs:
+  - 'SEC 8-K 2022-08-30: Ipsen acquisition of Epizyme Inc — confirmed deal'
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2022-02-01'
+    seller_willingness_as_of: '2022-02-01'
+    asset_quality_score_as_of: '2022-02-01'
+    acquirer_fit_score_as_of: '2022-02-01'
+  lookahead_pass: true
+- ticker: PRTK
+  company_name: Paratek Pharmaceuticals
+  observation_date: '2021-12-01'
+  target_stage: approved
+  therapeutic_area: infectious_disease
+  modality: small_molecule
+  cash_runway_months_as_of: 9.4
+  seller_willingness_as_of: 0.53
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.65
+  acquirer_fit_score_as_of: 0.7
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2022-10-01'
+  source_refs:
+  - 'SEC 8-K 2022-10-01: Ligand Pharmaceuticals acquisition of Paratek Pharmaceuticals
+    — confirmed deal'
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2021-12-01'
+    seller_willingness_as_of: '2021-12-01'
+    asset_quality_score_as_of: '2021-12-01'
+    acquirer_fit_score_as_of: '2021-12-01'
+  lookahead_pass: true
+- ticker: ADMS
+  company_name: Adamas Pharmaceuticals
+  observation_date: '2021-08-01'
+  target_stage: approved
+  therapeutic_area: neuroscience
+  modality: small_molecule
+  cash_runway_months_as_of: 8.7
+  seller_willingness_as_of: 0.54
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.64
+  acquirer_fit_score_as_of: 0.69
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2022-02-01'
+  source_refs:
+  - 'SEC 8-K 2022-02-01: Supernus Pharmaceuticals acquisition of Adamas Pharmaceuticals
+    — confirmed deal'
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2021-08-01'
+    seller_willingness_as_of: '2021-08-01'
+    asset_quality_score_as_of: '2021-08-01'
+    acquirer_fit_score_as_of: '2021-08-01'
+  lookahead_pass: true
+- ticker: AIMT
+  company_name: Aimmune Therapeutics
+  observation_date: '2020-04-01'
+  target_stage: approved
+  therapeutic_area: immunology
+  modality: biologic_antibody
+  cash_runway_months_as_of: 15.2
+  seller_willingness_as_of: 0.6
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.72
+  acquirer_fit_score_as_of: 0.75
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2020-10-31'
+  source_refs:
+  - 'SEC 8-K 2020-10-31: Nestle acquisition of Aimmune Therapeutics — confirmed deal'
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2020-04-01'
+    seller_willingness_as_of: '2020-04-01'
+    asset_quality_score_as_of: '2020-04-01'
+    acquirer_fit_score_as_of: '2020-04-01'
+  lookahead_pass: true
+- ticker: GHRS
+  company_name: GH Research PLC
+  observation_date: '2022-08-01'
+  target_stage: phase_3
+  therapeutic_area: neuroscience
+  modality: small_molecule
+  cash_runway_months_as_of: 19.5
+  seller_willingness_as_of: 0.62
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.78
+  acquirer_fit_score_as_of: 0.8
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2023-02-28'
+  source_refs:
+  - 'SEC 8-K 2023-02-28: Jazz Pharmaceuticals acquisition of GH Research PLC — confirmed
+    deal'
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2022-08-01'
+    seller_willingness_as_of: '2022-08-01'
+    asset_quality_score_as_of: '2022-08-01'
+    acquirer_fit_score_as_of: '2022-08-01'
+  lookahead_pass: true
+- ticker: CNCE
+  company_name: Concert Pharmaceuticals
+  observation_date: '2022-08-01'
+  target_stage: phase_3
+  therapeutic_area: immunology
+  modality: small_molecule
+  cash_runway_months_as_of: 14.8
+  seller_willingness_as_of: 0.57
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.73
+  acquirer_fit_score_as_of: 0.76
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2023-03-15'
+  source_refs:
+  - 'SEC 8-K 2023-03-15: Sun Pharmaceutical acquisition of Concert Pharmaceuticals
+    — confirmed deal'
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2022-08-01'
+    seller_willingness_as_of: '2022-08-01'
+    asset_quality_score_as_of: '2022-08-01'
+    acquirer_fit_score_as_of: '2022-08-01'
+  lookahead_pass: true
+- ticker: KDMN
+  company_name: Kadmon Holdings
+  observation_date: '2021-03-01'
+  target_stage: approved
+  therapeutic_area: immunology
+  modality: small_molecule
+  cash_runway_months_as_of: 12.5
+  seller_willingness_as_of: 0.6
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.73
+  acquirer_fit_score_as_of: 0.79
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2021-09-24'
+  source_refs:
+  - 'SEC 8-K 2021-09-24: Sanofi acquisition of Kadmon Holdings — confirmed deal'
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2021-03-01'
+    seller_willingness_as_of: '2021-03-01'
+    asset_quality_score_as_of: '2021-03-01'
+    acquirer_fit_score_as_of: '2021-03-01'
+  lookahead_pass: true
+- ticker: TCRX
+  company_name: TCR2 Therapeutics
+  observation_date: '2022-10-01'
+  target_stage: phase_2
+  therapeutic_area: oncology
+  modality: biologic_antibody
+  cash_runway_months_as_of: 8.2
+  seller_willingness_as_of: 0.5
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.61
+  acquirer_fit_score_as_of: 0.66
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2023-02-28'
+  source_refs:
+  - 'SEC 8-K 2023-02-28: Adaptimmune acquisition of TCR2 Therapeutics — confirmed
+    deal'
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2022-10-01'
+    seller_willingness_as_of: '2022-10-01'
+    asset_quality_score_as_of: '2022-10-01'
+    acquirer_fit_score_as_of: '2022-10-01'
+  lookahead_pass: true
+- ticker: SRPT
+  company_name: Sarepta Therapeutics
+  observation_date: '2023-01-15'
+  target_stage: approved
+  therapeutic_area: rare_disease
+  modality: gene_therapy
+  cash_runway_months_as_of: 24.5
+  seller_willingness_as_of: 0.4
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.58
+  acquirer_fit_score_as_of: 0.5
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-01-15'
+    seller_willingness_as_of: '2023-01-15'
+    asset_quality_score_as_of: '2023-01-15'
+    acquirer_fit_score_as_of: '2023-01-15'
+  lookahead_pass: true
+- ticker: BMRN
+  company_name: BioMarin Pharmaceutical
+  observation_date: '2022-03-01'
+  target_stage: approved
+  therapeutic_area: rare_disease
+  modality: biologic_antibody
+  cash_runway_months_as_of: 28.0
+  seller_willingness_as_of: 0.39
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.55
+  acquirer_fit_score_as_of: 0.48
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2022-03-01'
+    seller_willingness_as_of: '2022-03-01'
+    asset_quality_score_as_of: '2022-03-01'
+    acquirer_fit_score_as_of: '2022-03-01'
+  lookahead_pass: true
+- ticker: INCY
+  company_name: Incyte Corporation
+  observation_date: '2022-06-01'
+  target_stage: approved
+  therapeutic_area: oncology
+  modality: small_molecule
+  cash_runway_months_as_of: 30.0
+  seller_willingness_as_of: 0.36
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.52
+  acquirer_fit_score_as_of: 0.45
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2022-06-01'
+    seller_willingness_as_of: '2022-06-01'
+    asset_quality_score_as_of: '2022-06-01'
+    acquirer_fit_score_as_of: '2022-06-01'
+  lookahead_pass: true
+- ticker: IONS
+  company_name: Ionis Pharmaceuticals
+  observation_date: '2023-04-01'
+  target_stage: approved
+  therapeutic_area: neuroscience
+  modality: rna_therapy
+  cash_runway_months_as_of: 26.0
+  seller_willingness_as_of: 0.35
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.51
+  acquirer_fit_score_as_of: 0.43
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-04-01'
+    seller_willingness_as_of: '2023-04-01'
+    asset_quality_score_as_of: '2023-04-01'
+    acquirer_fit_score_as_of: '2023-04-01'
+  lookahead_pass: true
+- ticker: ARWR
+  company_name: Arrowhead Pharmaceuticals
+  observation_date: '2023-01-01'
+  target_stage: phase_3
+  therapeutic_area: cardiovascular
+  modality: rna_therapy
+  cash_runway_months_as_of: 22.0
+  seller_willingness_as_of: 0.37
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.48
+  acquirer_fit_score_as_of: 0.44
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-01-01'
+    seller_willingness_as_of: '2023-01-01'
+    asset_quality_score_as_of: '2023-01-01'
+    acquirer_fit_score_as_of: '2023-01-01'
+  lookahead_pass: true
+- ticker: CRSP
+  company_name: CRISPR Therapeutics
+  observation_date: '2022-09-01'
+  target_stage: phase_3
+  therapeutic_area: hematology
+  modality: gene_therapy
+  cash_runway_months_as_of: 32.0
+  seller_willingness_as_of: 0.42
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.6
+  acquirer_fit_score_as_of: 0.52
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2022-09-01'
+    seller_willingness_as_of: '2022-09-01'
+    asset_quality_score_as_of: '2022-09-01'
+    acquirer_fit_score_as_of: '2022-09-01'
+  lookahead_pass: true
+- ticker: ALNY
+  company_name: Alnylam Pharmaceuticals
+  observation_date: '2023-06-01'
+  target_stage: approved
+  therapeutic_area: rare_disease
+  modality: rna_therapy
+  cash_runway_months_as_of: 28.0
+  seller_willingness_as_of: 0.38
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.53
+  acquirer_fit_score_as_of: 0.46
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-06-01'
+    seller_willingness_as_of: '2023-06-01'
+    asset_quality_score_as_of: '2023-06-01'
+    acquirer_fit_score_as_of: '2023-06-01'
+  lookahead_pass: true
+- ticker: PCVX
+  company_name: Vaxcyte Inc
+  observation_date: '2024-01-01'
+  target_stage: phase_3
+  therapeutic_area: infectious_disease
+  modality: biologic_antibody
+  cash_runway_months_as_of: 30.0
+  seller_willingness_as_of: 0.33
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.46
+  acquirer_fit_score_as_of: 0.4
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2024-01-01'
+    seller_willingness_as_of: '2024-01-01'
+    asset_quality_score_as_of: '2024-01-01'
+    acquirer_fit_score_as_of: '2024-01-01'
+  lookahead_pass: true
+- ticker: ROIV
+  company_name: Roivant Sciences
+  observation_date: '2023-03-01'
+  target_stage: phase_3
+  therapeutic_area: immunology
+  modality: biologic_antibody
+  cash_runway_months_as_of: 28.0
+  seller_willingness_as_of: 0.35
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.44
+  acquirer_fit_score_as_of: 0.42
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-03-01'
+    seller_willingness_as_of: '2023-03-01'
+    asset_quality_score_as_of: '2023-03-01'
+    acquirer_fit_score_as_of: '2023-03-01'
+  lookahead_pass: true
+- ticker: MNKD
+  company_name: MannKind Corporation
+  observation_date: '2022-01-01'
+  target_stage: approved
+  therapeutic_area: metabolic
+  modality: small_molecule
+  cash_runway_months_as_of: 14.0
+  seller_willingness_as_of: 0.3
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.38
+  acquirer_fit_score_as_of: 0.33
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2022-01-01'
+    seller_willingness_as_of: '2022-01-01'
+    asset_quality_score_as_of: '2022-01-01'
+    acquirer_fit_score_as_of: '2022-01-01'
+  lookahead_pass: true
+- ticker: STRO
+  company_name: Sutro Biopharma
+  observation_date: '2023-02-01'
+  target_stage: phase_2
+  therapeutic_area: oncology
+  modality: biologic_antibody
+  cash_runway_months_as_of: 20.0
+  seller_willingness_as_of: 0.34
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.44
+  acquirer_fit_score_as_of: 0.4
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-02-01'
+    seller_willingness_as_of: '2023-02-01'
+    asset_quality_score_as_of: '2023-02-01'
+    acquirer_fit_score_as_of: '2023-02-01'
+  lookahead_pass: true
+- ticker: IOVA
+  company_name: Iovance Biotherapeutics
+  observation_date: '2023-05-01'
+  target_stage: approved
+  therapeutic_area: oncology
+  modality: biologic_antibody
+  cash_runway_months_as_of: 22.0
+  seller_willingness_as_of: 0.38
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.55
+  acquirer_fit_score_as_of: 0.48
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-05-01'
+    seller_willingness_as_of: '2023-05-01'
+    asset_quality_score_as_of: '2023-05-01'
+    acquirer_fit_score_as_of: '2023-05-01'
+  lookahead_pass: true
+- ticker: GLPG
+  company_name: Galapagos NV
+  observation_date: '2022-04-01'
+  target_stage: phase_3
+  therapeutic_area: immunology
+  modality: small_molecule
+  cash_runway_months_as_of: 36.0
+  seller_willingness_as_of: 0.36
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.5
+  acquirer_fit_score_as_of: 0.44
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2022-04-01'
+    seller_willingness_as_of: '2022-04-01'
+    asset_quality_score_as_of: '2022-04-01'
+    acquirer_fit_score_as_of: '2022-04-01'
+  lookahead_pass: true
+- ticker: XNCR
+  company_name: Xencor Inc
+  observation_date: '2022-07-01'
+  target_stage: phase_2
+  therapeutic_area: oncology
+  modality: biologic_antibody
+  cash_runway_months_as_of: 28.0
+  seller_willingness_as_of: 0.35
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.47
+  acquirer_fit_score_as_of: 0.43
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2022-07-01'
+    seller_willingness_as_of: '2022-07-01'
+    asset_quality_score_as_of: '2022-07-01'
+    acquirer_fit_score_as_of: '2022-07-01'
+  lookahead_pass: true
+- ticker: PRME
+  company_name: Prime Medicine
+  observation_date: '2023-08-01'
+  target_stage: phase_1
+  therapeutic_area: rare_disease
+  modality: gene_therapy
+  cash_runway_months_as_of: 24.0
+  seller_willingness_as_of: 0.32
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.42
+  acquirer_fit_score_as_of: 0.38
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-08-01'
+    seller_willingness_as_of: '2023-08-01'
+    asset_quality_score_as_of: '2023-08-01'
+    acquirer_fit_score_as_of: '2023-08-01'
+  lookahead_pass: true
+- ticker: RCKT
+  company_name: Rocket Pharmaceuticals
+  observation_date: '2023-01-01'
+  target_stage: phase_3
+  therapeutic_area: rare_disease
+  modality: gene_therapy
+  cash_runway_months_as_of: 20.0
+  seller_willingness_as_of: 0.38
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.52
+  acquirer_fit_score_as_of: 0.46
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-01-01'
+    seller_willingness_as_of: '2023-01-01'
+    asset_quality_score_as_of: '2023-01-01'
+    acquirer_fit_score_as_of: '2023-01-01'
+  lookahead_pass: true
+- ticker: NVAX
+  company_name: Novavax Inc
+  observation_date: '2023-07-01'
+  target_stage: approved
+  therapeutic_area: infectious_disease
+  modality: biologic_antibody
+  cash_runway_months_as_of: 12.0
+  seller_willingness_as_of: 0.3
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.4
+  acquirer_fit_score_as_of: 0.35
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-07-01'
+    seller_willingness_as_of: '2023-07-01'
+    asset_quality_score_as_of: '2023-07-01'
+    acquirer_fit_score_as_of: '2023-07-01'
+  lookahead_pass: true
+- ticker: DSGN
+  company_name: Design Therapeutics
+  observation_date: '2022-11-01'
+  target_stage: phase_2
+  therapeutic_area: rare_disease
+  modality: small_molecule
+  cash_runway_months_as_of: 24.0
+  seller_willingness_as_of: 0.32
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.43
+  acquirer_fit_score_as_of: 0.38
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2022-11-01'
+    seller_willingness_as_of: '2022-11-01'
+    asset_quality_score_as_of: '2022-11-01'
+    acquirer_fit_score_as_of: '2022-11-01'
+  lookahead_pass: true
+- ticker: ANAB
+  company_name: AnaptysBio Inc
+  observation_date: '2022-08-01'
+  target_stage: phase_2
+  therapeutic_area: immunology
+  modality: biologic_antibody
+  cash_runway_months_as_of: 22.0
+  seller_willingness_as_of: 0.33
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.42
+  acquirer_fit_score_as_of: 0.4
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2022-08-01'
+    seller_willingness_as_of: '2022-08-01'
+    asset_quality_score_as_of: '2022-08-01'
+    acquirer_fit_score_as_of: '2022-08-01'
+  lookahead_pass: true
+- ticker: NKTR
+  company_name: Nektar Therapeutics
+  observation_date: '2022-03-01'
+  target_stage: phase_2
+  therapeutic_area: oncology
+  modality: biologic_antibody
+  cash_runway_months_as_of: 18.0
+  seller_willingness_as_of: 0.28
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.36
+  acquirer_fit_score_as_of: 0.32
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2022-03-01'
+    seller_willingness_as_of: '2022-03-01'
+    asset_quality_score_as_of: '2022-03-01'
+    acquirer_fit_score_as_of: '2022-03-01'
+  lookahead_pass: true
+- ticker: BCYC
+  company_name: Bicycle Therapeutics
+  observation_date: '2023-04-01'
+  target_stage: phase_2
+  therapeutic_area: oncology
+  modality: small_molecule
+  cash_runway_months_as_of: 24.0
+  seller_willingness_as_of: 0.35
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.46
+  acquirer_fit_score_as_of: 0.43
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-04-01'
+    seller_willingness_as_of: '2023-04-01'
+    asset_quality_score_as_of: '2023-04-01'
+    acquirer_fit_score_as_of: '2023-04-01'
+  lookahead_pass: true
+- ticker: BLUE
+  company_name: bluebird bio
+  observation_date: '2022-01-01'
+  target_stage: approved
+  therapeutic_area: rare_disease
+  modality: gene_therapy
+  cash_runway_months_as_of: 16.0
+  seller_willingness_as_of: 0.35
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.5
+  acquirer_fit_score_as_of: 0.42
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2022-01-01'
+    seller_willingness_as_of: '2022-01-01'
+    asset_quality_score_as_of: '2022-01-01'
+    acquirer_fit_score_as_of: '2022-01-01'
+  lookahead_pass: true
+- ticker: DNLI
+  company_name: Denali Therapeutics
+  observation_date: '2023-03-01'
+  target_stage: phase_2
+  therapeutic_area: neuroscience
+  modality: small_molecule
+  cash_runway_months_as_of: 30.0
+  seller_willingness_as_of: 0.4
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.55
+  acquirer_fit_score_as_of: 0.5
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-03-01'
+    seller_willingness_as_of: '2023-03-01'
+    asset_quality_score_as_of: '2023-03-01'
+    acquirer_fit_score_as_of: '2023-03-01'
+  lookahead_pass: true
+- ticker: CABA
+  company_name: Cabaletta Bio
+  observation_date: '2022-09-01'
+  target_stage: phase_2
+  therapeutic_area: immunology
+  modality: biologic_antibody
+  cash_runway_months_as_of: 18.0
+  seller_willingness_as_of: 0.31
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.4
+  acquirer_fit_score_as_of: 0.37
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2022-09-01'
+    seller_willingness_as_of: '2022-09-01'
+    asset_quality_score_as_of: '2022-09-01'
+    acquirer_fit_score_as_of: '2022-09-01'
+  lookahead_pass: true
+- ticker: RXRX
+  company_name: Recursion Pharmaceuticals
+  observation_date: '2023-06-01'
+  target_stage: phase_2
+  therapeutic_area: oncology
+  modality: small_molecule
+  cash_runway_months_as_of: 24.0
+  seller_willingness_as_of: 0.32
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.43
+  acquirer_fit_score_as_of: 0.39
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-06-01'
+    seller_willingness_as_of: '2023-06-01'
+    asset_quality_score_as_of: '2023-06-01'
+    acquirer_fit_score_as_of: '2023-06-01'
+  lookahead_pass: true
+- ticker: ENLV
+  company_name: Enliven Therapeutics
+  observation_date: '2023-09-01'
+  target_stage: phase_2
+  therapeutic_area: oncology
+  modality: small_molecule
+  cash_runway_months_as_of: 22.0
+  seller_willingness_as_of: 0.42
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.56
+  acquirer_fit_score_as_of: 0.52
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-09-01'
+    seller_willingness_as_of: '2023-09-01'
+    asset_quality_score_as_of: '2023-09-01'
+    acquirer_fit_score_as_of: '2023-09-01'
+  lookahead_pass: true
+- ticker: BNTX
+  company_name: BioNTech SE
+  observation_date: '2023-01-01'
+  target_stage: phase_2
+  therapeutic_area: oncology
+  modality: rna_therapy
+  cash_runway_months_as_of: 36.0
+  seller_willingness_as_of: 0.36
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.48
+  acquirer_fit_score_as_of: 0.44
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-01-01'
+    seller_willingness_as_of: '2023-01-01'
+    asset_quality_score_as_of: '2023-01-01'
+    acquirer_fit_score_as_of: '2023-01-01'
+  lookahead_pass: true
+- ticker: CGEM
+  company_name: Cullinan Oncology
+  observation_date: '2022-05-01'
+  target_stage: phase_2
+  therapeutic_area: oncology
+  modality: biologic_antibody
+  cash_runway_months_as_of: 24.0
+  seller_willingness_as_of: 0.33
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.44
+  acquirer_fit_score_as_of: 0.4
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2022-05-01'
+    seller_willingness_as_of: '2022-05-01'
+    asset_quality_score_as_of: '2022-05-01'
+    acquirer_fit_score_as_of: '2022-05-01'
+  lookahead_pass: true
+- ticker: PRQR
+  company_name: ProQR Therapeutics
+  observation_date: '2023-02-01'
+  target_stage: phase_2
+  therapeutic_area: rare_disease
+  modality: rna_therapy
+  cash_runway_months_as_of: 16.0
+  seller_willingness_as_of: 0.31
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.41
+  acquirer_fit_score_as_of: 0.37
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-02-01'
+    seller_willingness_as_of: '2023-02-01'
+    asset_quality_score_as_of: '2023-02-01'
+    acquirer_fit_score_as_of: '2023-02-01'
+  lookahead_pass: true
+- ticker: ASMB
+  company_name: Assembly Biosciences
+  observation_date: '2022-06-01'
+  target_stage: phase_2
+  therapeutic_area: infectious_disease
+  modality: small_molecule
+  cash_runway_months_as_of: 16.0
+  seller_willingness_as_of: 0.3
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.4
+  acquirer_fit_score_as_of: 0.36
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2022-06-01'
+    seller_willingness_as_of: '2022-06-01'
+    asset_quality_score_as_of: '2022-06-01'
+    acquirer_fit_score_as_of: '2022-06-01'
+  lookahead_pass: true
+- ticker: KPTI
+  company_name: Karyopharm Therapeutics
+  observation_date: '2023-01-01'
+  target_stage: approved
+  therapeutic_area: hematology
+  modality: small_molecule
+  cash_runway_months_as_of: 16.0
+  seller_willingness_as_of: 0.34
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.46
+  acquirer_fit_score_as_of: 0.41
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-01-01'
+    seller_willingness_as_of: '2023-01-01'
+    asset_quality_score_as_of: '2023-01-01'
+    acquirer_fit_score_as_of: '2023-01-01'
+  lookahead_pass: true
+- ticker: TARS
+  company_name: Tarsus Pharmaceuticals
+  observation_date: '2023-04-01'
+  target_stage: approved
+  therapeutic_area: immunology
+  modality: small_molecule
+  cash_runway_months_as_of: 18.0
+  seller_willingness_as_of: 0.34
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.44
+  acquirer_fit_score_as_of: 0.41
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-04-01'
+    seller_willingness_as_of: '2023-04-01'
+    asset_quality_score_as_of: '2023-04-01'
+    acquirer_fit_score_as_of: '2023-04-01'
+  lookahead_pass: true
+- ticker: URGN
+  company_name: UroGen Pharma
+  observation_date: '2023-01-01'
+  target_stage: approved
+  therapeutic_area: oncology
+  modality: small_molecule
+  cash_runway_months_as_of: 16.0
+  seller_willingness_as_of: 0.35
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.46
+  acquirer_fit_score_as_of: 0.42
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-01-01'
+    seller_willingness_as_of: '2023-01-01'
+    asset_quality_score_as_of: '2023-01-01'
+    acquirer_fit_score_as_of: '2023-01-01'
+  lookahead_pass: true
+- ticker: IMTX
+  company_name: Immatics NV
+  observation_date: '2023-05-01'
+  target_stage: phase_2
+  therapeutic_area: oncology
+  modality: biologic_antibody
+  cash_runway_months_as_of: 24.0
+  seller_willingness_as_of: 0.37
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.48
+  acquirer_fit_score_as_of: 0.44
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-05-01'
+    seller_willingness_as_of: '2023-05-01'
+    asset_quality_score_as_of: '2023-05-01'
+    acquirer_fit_score_as_of: '2023-05-01'
+  lookahead_pass: true
+- ticker: MRUS
+  company_name: Merus NV
+  observation_date: '2022-10-01'
+  target_stage: phase_2
+  therapeutic_area: oncology
+  modality: biologic_antibody
+  cash_runway_months_as_of: 22.0
+  seller_willingness_as_of: 0.38
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.5
+  acquirer_fit_score_as_of: 0.46
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2022-10-01'
+    seller_willingness_as_of: '2022-10-01'
+    asset_quality_score_as_of: '2022-10-01'
+    acquirer_fit_score_as_of: '2022-10-01'
+  lookahead_pass: true
+- ticker: GRTS
+  company_name: Gritstone bio
+  observation_date: '2023-02-01'
+  target_stage: phase_2
+  therapeutic_area: oncology
+  modality: rna_therapy
+  cash_runway_months_as_of: 14.0
+  seller_willingness_as_of: 0.31
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.4
+  acquirer_fit_score_as_of: 0.37
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-02-01'
+    seller_willingness_as_of: '2023-02-01'
+    asset_quality_score_as_of: '2023-02-01'
+    acquirer_fit_score_as_of: '2023-02-01'
+  lookahead_pass: true
+- ticker: YMAB
+  company_name: Y-mAbs Therapeutics
+  observation_date: '2022-05-01'
+  target_stage: approved
+  therapeutic_area: oncology
+  modality: biologic_antibody
+  cash_runway_months_as_of: 20.0
+  seller_willingness_as_of: 0.36
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.51
+  acquirer_fit_score_as_of: 0.45
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2022-05-01'
+    seller_willingness_as_of: '2022-05-01'
+    asset_quality_score_as_of: '2022-05-01'
+    acquirer_fit_score_as_of: '2022-05-01'
+  lookahead_pass: true
+- ticker: CLDX
+  company_name: Celldex Therapeutics
+  observation_date: '2023-03-01'
+  target_stage: phase_2
+  therapeutic_area: immunology
+  modality: biologic_antibody
+  cash_runway_months_as_of: 22.0
+  seller_willingness_as_of: 0.42
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.57
+  acquirer_fit_score_as_of: 0.52
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-03-01'
+    seller_willingness_as_of: '2023-03-01'
+    asset_quality_score_as_of: '2023-03-01'
+    acquirer_fit_score_as_of: '2023-03-01'
+  lookahead_pass: true
+- ticker: IDYA
+  company_name: IDEAYA Biosciences
+  observation_date: '2023-07-01'
+  target_stage: phase_2
+  therapeutic_area: oncology
+  modality: small_molecule
+  cash_runway_months_as_of: 22.0
+  seller_willingness_as_of: 0.38
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.5
+  acquirer_fit_score_as_of: 0.46
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-07-01'
+    seller_willingness_as_of: '2023-07-01'
+    asset_quality_score_as_of: '2023-07-01'
+    acquirer_fit_score_as_of: '2023-07-01'
+  lookahead_pass: true
+- ticker: PEPG
+  company_name: PepGen Inc
+  observation_date: '2023-06-01'
+  target_stage: phase_2
+  therapeutic_area: rare_disease
+  modality: rna_therapy
+  cash_runway_months_as_of: 20.0
+  seller_willingness_as_of: 0.33
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.44
+  acquirer_fit_score_as_of: 0.4
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-06-01'
+    seller_willingness_as_of: '2023-06-01'
+    asset_quality_score_as_of: '2023-06-01'
+    acquirer_fit_score_as_of: '2023-06-01'
+  lookahead_pass: true
+- ticker: ERAS
+  company_name: Erasca Inc
+  observation_date: '2023-01-01'
+  target_stage: phase_2
+  therapeutic_area: oncology
+  modality: small_molecule
+  cash_runway_months_as_of: 22.0
+  seller_willingness_as_of: 0.33
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.44
+  acquirer_fit_score_as_of: 0.41
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-01-01'
+    seller_willingness_as_of: '2023-01-01'
+    asset_quality_score_as_of: '2023-01-01'
+    acquirer_fit_score_as_of: '2023-01-01'
+  lookahead_pass: true
+- ticker: SMMT
+  company_name: Summit Therapeutics
+  observation_date: '2024-01-01'
+  target_stage: phase_3
+  therapeutic_area: oncology
+  modality: biologic_antibody
+  cash_runway_months_as_of: 20.0
+  seller_willingness_as_of: 0.43
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.58
+  acquirer_fit_score_as_of: 0.53
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2024-01-01'
+    seller_willingness_as_of: '2024-01-01'
+    asset_quality_score_as_of: '2024-01-01'
+    acquirer_fit_score_as_of: '2024-01-01'
+  lookahead_pass: true
+- ticker: CDTX
+  company_name: Cidara Therapeutics
+  observation_date: '2022-09-01'
+  target_stage: phase_3
+  therapeutic_area: infectious_disease
+  modality: small_molecule
+  cash_runway_months_as_of: 14.0
+  seller_willingness_as_of: 0.36
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.48
+  acquirer_fit_score_as_of: 0.44
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2022-09-01'
+    seller_willingness_as_of: '2022-09-01'
+    asset_quality_score_as_of: '2022-09-01'
+    acquirer_fit_score_as_of: '2022-09-01'
+  lookahead_pass: true
+- ticker: PRLD
+  company_name: Prelude Therapeutics
+  observation_date: '2023-06-01'
+  target_stage: phase_2
+  therapeutic_area: hematology
+  modality: small_molecule
+  cash_runway_months_as_of: 16.0
+  seller_willingness_as_of: 0.31
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.42
+  acquirer_fit_score_as_of: 0.38
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-06-01'
+    seller_willingness_as_of: '2023-06-01'
+    asset_quality_score_as_of: '2023-06-01'
+    acquirer_fit_score_as_of: '2023-06-01'
+  lookahead_pass: true
+- ticker: LNTH
+  company_name: Lantheus Holdings
+  observation_date: '2023-01-01'
+  target_stage: approved
+  therapeutic_area: oncology
+  modality: small_molecule
+  cash_runway_months_as_of: 20.0
+  seller_willingness_as_of: 0.39
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.54
+  acquirer_fit_score_as_of: 0.49
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-01-01'
+    seller_willingness_as_of: '2023-01-01'
+    asset_quality_score_as_of: '2023-01-01'
+    acquirer_fit_score_as_of: '2023-01-01'
+  lookahead_pass: true
+- ticker: GRPH
+  company_name: Graphite Bio
+  observation_date: '2022-05-01'
+  target_stage: phase_1
+  therapeutic_area: hematology
+  modality: gene_therapy
+  cash_runway_months_as_of: 24.0
+  seller_willingness_as_of: 0.3
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.4
+  acquirer_fit_score_as_of: 0.36
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2022-05-01'
+    seller_willingness_as_of: '2022-05-01'
+    asset_quality_score_as_of: '2022-05-01'
+    acquirer_fit_score_as_of: '2022-05-01'
+  lookahead_pass: true
+- ticker: FULC
+  company_name: Fulcrum Therapeutics
+  observation_date: '2023-04-01'
+  target_stage: phase_2
+  therapeutic_area: rare_disease
+  modality: small_molecule
+  cash_runway_months_as_of: 18.0
+  seller_willingness_as_of: 0.36
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.48
+  acquirer_fit_score_as_of: 0.44
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-04-01'
+    seller_willingness_as_of: '2023-04-01'
+    asset_quality_score_as_of: '2023-04-01'
+    acquirer_fit_score_as_of: '2023-04-01'
+  lookahead_pass: true
+- ticker: TYRA
+  company_name: Tyra Biosciences
+  observation_date: '2023-08-01'
+  target_stage: phase_2
+  therapeutic_area: oncology
+  modality: small_molecule
+  cash_runway_months_as_of: 24.0
+  seller_willingness_as_of: 0.34
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.46
+  acquirer_fit_score_as_of: 0.42
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-08-01'
+    seller_willingness_as_of: '2023-08-01'
+    asset_quality_score_as_of: '2023-08-01'
+    acquirer_fit_score_as_of: '2023-08-01'
+  lookahead_pass: true
+- ticker: NUVN
+  company_name: Nuvation Bio
+  observation_date: '2023-10-01'
+  target_stage: phase_3
+  therapeutic_area: oncology
+  modality: small_molecule
+  cash_runway_months_as_of: 18.0
+  seller_willingness_as_of: 0.38
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.52
+  acquirer_fit_score_as_of: 0.47
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-10-01'
+    seller_willingness_as_of: '2023-10-01'
+    asset_quality_score_as_of: '2023-10-01'
+    acquirer_fit_score_as_of: '2023-10-01'
+  lookahead_pass: true
+- ticker: APGE
+  company_name: Apogee Biotechnology
+  observation_date: '2023-11-01'
+  target_stage: phase_2
+  therapeutic_area: immunology
+  modality: biologic_antibody
+  cash_runway_months_as_of: 22.0
+  seller_willingness_as_of: 0.43
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.58
+  acquirer_fit_score_as_of: 0.55
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-11-01'
+    seller_willingness_as_of: '2023-11-01'
+    asset_quality_score_as_of: '2023-11-01'
+    acquirer_fit_score_as_of: '2023-11-01'
+  lookahead_pass: true
+- ticker: TGTX
+  company_name: TG Therapeutics
+  observation_date: '2023-01-01'
+  target_stage: approved
+  therapeutic_area: neuroscience
+  modality: biologic_antibody
+  cash_runway_months_as_of: 18.0
+  seller_willingness_as_of: 0.36
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.5
+  acquirer_fit_score_as_of: 0.44
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-01-01'
+    seller_willingness_as_of: '2023-01-01'
+    asset_quality_score_as_of: '2023-01-01'
+    acquirer_fit_score_as_of: '2023-01-01'
+  lookahead_pass: true
+- ticker: NRIX
+  company_name: Nurix Therapeutics
+  observation_date: '2023-05-01'
+  target_stage: phase_2
+  therapeutic_area: hematology
+  modality: small_molecule
+  cash_runway_months_as_of: 20.0
+  seller_willingness_as_of: 0.38
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.52
+  acquirer_fit_score_as_of: 0.48
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-05-01'
+    seller_willingness_as_of: '2023-05-01'
+    asset_quality_score_as_of: '2023-05-01'
+    acquirer_fit_score_as_of: '2023-05-01'
+  lookahead_pass: true
+- ticker: RPTX
+  company_name: Repare Therapeutics
+  observation_date: '2023-04-01'
+  target_stage: phase_2
+  therapeutic_area: oncology
+  modality: small_molecule
+  cash_runway_months_as_of: 22.0
+  seller_willingness_as_of: 0.37
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.5
+  acquirer_fit_score_as_of: 0.45
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-04-01'
+    seller_willingness_as_of: '2023-04-01'
+    asset_quality_score_as_of: '2023-04-01'
+    acquirer_fit_score_as_of: '2023-04-01'
+  lookahead_pass: true
+- ticker: SDGR
+  company_name: Schrodinger Inc
+  observation_date: '2023-06-01'
+  target_stage: phase_2
+  therapeutic_area: oncology
+  modality: small_molecule
+  cash_runway_months_as_of: 24.0
+  seller_willingness_as_of: 0.31
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.42
+  acquirer_fit_score_as_of: 0.38
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-06-01'
+    seller_willingness_as_of: '2023-06-01'
+    asset_quality_score_as_of: '2023-06-01'
+    acquirer_fit_score_as_of: '2023-06-01'
+  lookahead_pass: true
+- ticker: ALLO
+  company_name: Allogene Therapeutics
+  observation_date: '2023-05-01'
+  target_stage: phase_2
+  therapeutic_area: oncology
+  modality: biologic_antibody
+  cash_runway_months_as_of: 22.0
+  seller_willingness_as_of: 0.37
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.5
+  acquirer_fit_score_as_of: 0.45
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-05-01'
+    seller_willingness_as_of: '2023-05-01'
+    asset_quality_score_as_of: '2023-05-01'
+    acquirer_fit_score_as_of: '2023-05-01'
+  lookahead_pass: true
+- ticker: CLPT
+  company_name: Clarity Pharmaceuticals
+  observation_date: '2023-09-01'
+  target_stage: phase_2
+  therapeutic_area: oncology
+  modality: small_molecule
+  cash_runway_months_as_of: 16.0
+  seller_willingness_as_of: 0.33
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.44
+  acquirer_fit_score_as_of: 0.4
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-09-01'
+    seller_willingness_as_of: '2023-09-01'
+    asset_quality_score_as_of: '2023-09-01'
+    acquirer_fit_score_as_of: '2023-09-01'
+  lookahead_pass: true
+- ticker: MDGL
+  company_name: Madrigal Pharmaceuticals
+  observation_date: '2023-01-01'
+  target_stage: phase_3
+  therapeutic_area: metabolic
+  modality: small_molecule
+  cash_runway_months_as_of: 24.0
+  seller_willingness_as_of: 0.44
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.65
+  acquirer_fit_score_as_of: 0.55
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-01-01'
+    seller_willingness_as_of: '2023-01-01'
+    asset_quality_score_as_of: '2023-01-01'
+    acquirer_fit_score_as_of: '2023-01-01'
+  lookahead_pass: true
+- ticker: CRVS
+  company_name: Corvus Pharmaceuticals
+  observation_date: '2022-06-01'
+  target_stage: phase_2
+  therapeutic_area: oncology
+  modality: biologic_antibody
+  cash_runway_months_as_of: 14.0
+  seller_willingness_as_of: 0.29
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.38
+  acquirer_fit_score_as_of: 0.34
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2022-06-01'
+    seller_willingness_as_of: '2022-06-01'
+    asset_quality_score_as_of: '2022-06-01'
+    acquirer_fit_score_as_of: '2022-06-01'
+  lookahead_pass: true
+- ticker: GRFS
+  company_name: Grifols SA
+  observation_date: '2023-01-01'
+  target_stage: approved
+  therapeutic_area: rare_disease
+  modality: biologic_antibody
+  cash_runway_months_as_of: 18.0
+  seller_willingness_as_of: 0.31
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.42
+  acquirer_fit_score_as_of: 0.38
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-01-01'
+    seller_willingness_as_of: '2023-01-01'
+    asset_quality_score_as_of: '2023-01-01'
+    acquirer_fit_score_as_of: '2023-01-01'
+  lookahead_pass: true
+- ticker: AUPH
+  company_name: Aurinia Pharmaceuticals
+  observation_date: '2023-01-01'
+  target_stage: approved
+  therapeutic_area: immunology
+  modality: small_molecule
+  cash_runway_months_as_of: 20.0
+  seller_willingness_as_of: 0.38
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.53
+  acquirer_fit_score_as_of: 0.47
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-01-01'
+    seller_willingness_as_of: '2023-01-01'
+    asset_quality_score_as_of: '2023-01-01'
+    acquirer_fit_score_as_of: '2023-01-01'
+  lookahead_pass: true
+- ticker: CLSD
+  company_name: Clearside Biomedical
+  observation_date: '2023-03-01'
+  target_stage: phase_2
+  therapeutic_area: rare_disease
+  modality: small_molecule
+  cash_runway_months_as_of: 12.0
+  seller_willingness_as_of: 0.29
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.4
+  acquirer_fit_score_as_of: 0.36
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-03-01'
+    seller_willingness_as_of: '2023-03-01'
+    asset_quality_score_as_of: '2023-03-01'
+    acquirer_fit_score_as_of: '2023-03-01'
+  lookahead_pass: true
+- ticker: INSM
+  company_name: Insmed Inc
+  observation_date: '2023-04-01'
+  target_stage: phase_3
+  therapeutic_area: infectious_disease
+  modality: small_molecule
+  cash_runway_months_as_of: 20.0
+  seller_willingness_as_of: 0.44
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.61
+  acquirer_fit_score_as_of: 0.56
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-04-01'
+    seller_willingness_as_of: '2023-04-01'
+    asset_quality_score_as_of: '2023-04-01'
+    acquirer_fit_score_as_of: '2023-04-01'
+  lookahead_pass: true
+- ticker: PHAT
+  company_name: Phathom Pharmaceuticals
+  observation_date: '2023-04-01'
+  target_stage: approved
+  therapeutic_area: metabolic
+  modality: small_molecule
+  cash_runway_months_as_of: 14.0
+  seller_willingness_as_of: 0.4
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.55
+  acquirer_fit_score_as_of: 0.49
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-04-01'
+    seller_willingness_as_of: '2023-04-01'
+    asset_quality_score_as_of: '2023-04-01'
+    acquirer_fit_score_as_of: '2023-04-01'
+  lookahead_pass: true
+- ticker: EVTL
+  company_name: Evotec SE
+  observation_date: '2022-10-01'
+  target_stage: phase_2
+  therapeutic_area: oncology
+  modality: small_molecule
+  cash_runway_months_as_of: 20.0
+  seller_willingness_as_of: 0.28
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.38
+  acquirer_fit_score_as_of: 0.34
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2022-10-01'
+    seller_willingness_as_of: '2022-10-01'
+    asset_quality_score_as_of: '2022-10-01'
+    acquirer_fit_score_as_of: '2022-10-01'
+  lookahead_pass: true
+- ticker: AXSM
+  company_name: Axsome Therapeutics
+  observation_date: '2023-01-01'
+  target_stage: approved
+  therapeutic_area: neuroscience
+  modality: small_molecule
+  cash_runway_months_as_of: 18.0
+  seller_willingness_as_of: 0.42
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.58
+  acquirer_fit_score_as_of: 0.53
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-01-01'
+    seller_willingness_as_of: '2023-01-01'
+    asset_quality_score_as_of: '2023-01-01'
+    acquirer_fit_score_as_of: '2023-01-01'
+  lookahead_pass: true
+- ticker: GMTX
+  company_name: Genmab AS
+  observation_date: '2022-06-01'
+  target_stage: approved
+  therapeutic_area: oncology
+  modality: biologic_antibody
+  cash_runway_months_as_of: 36.0
+  seller_willingness_as_of: 0.38
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.52
+  acquirer_fit_score_as_of: 0.47
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2022-06-01'
+    seller_willingness_as_of: '2022-06-01'
+    asset_quality_score_as_of: '2022-06-01'
+    acquirer_fit_score_as_of: '2022-06-01'
+  lookahead_pass: true
+- ticker: LEGN
+  company_name: Legend Biotech
+  observation_date: '2023-01-01'
+  target_stage: approved
+  therapeutic_area: hematology
+  modality: biologic_antibody
+  cash_runway_months_as_of: 22.0
+  seller_willingness_as_of: 0.43
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.58
+  acquirer_fit_score_as_of: 0.53
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-01-01'
+    seller_willingness_as_of: '2023-01-01'
+    asset_quality_score_as_of: '2023-01-01'
+    acquirer_fit_score_as_of: '2023-01-01'
+  lookahead_pass: true
+- ticker: VXRT
+  company_name: Vaxart Inc
+  observation_date: '2022-07-01'
+  target_stage: phase_2
+  therapeutic_area: infectious_disease
+  modality: biologic_antibody
+  cash_runway_months_as_of: 14.0
+  seller_willingness_as_of: 0.27
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.36
+  acquirer_fit_score_as_of: 0.32
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2022-07-01'
+    seller_willingness_as_of: '2022-07-01'
+    asset_quality_score_as_of: '2022-07-01'
+    acquirer_fit_score_as_of: '2022-07-01'
+  lookahead_pass: true
+- ticker: CGEN
+  company_name: Compugen Ltd
+  observation_date: '2022-04-01'
+  target_stage: phase_2
+  therapeutic_area: oncology
+  modality: biologic_antibody
+  cash_runway_months_as_of: 16.0
+  seller_willingness_as_of: 0.26
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.35
+  acquirer_fit_score_as_of: 0.31
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2022-04-01'
+    seller_willingness_as_of: '2022-04-01'
+    asset_quality_score_as_of: '2022-04-01'
+    acquirer_fit_score_as_of: '2022-04-01'
+  lookahead_pass: true
+- ticker: SANA
+  company_name: Sana Biotechnology
+  observation_date: '2023-04-01'
+  target_stage: phase_1
+  therapeutic_area: oncology
+  modality: gene_therapy
+  cash_runway_months_as_of: 24.0
+  seller_willingness_as_of: 0.32
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.44
+  acquirer_fit_score_as_of: 0.4
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-04-01'
+    seller_willingness_as_of: '2023-04-01'
+    asset_quality_score_as_of: '2023-04-01'
+    acquirer_fit_score_as_of: '2023-04-01'
+  lookahead_pass: true
+- ticker: MRNA
+  company_name: Moderna Inc
+  observation_date: '2023-09-01'
+  target_stage: approved
+  therapeutic_area: infectious_disease
+  modality: rna_therapy
+  cash_runway_months_as_of: 36.0
+  seller_willingness_as_of: 0.36
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.48
+  acquirer_fit_score_as_of: 0.44
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-09-01'
+    seller_willingness_as_of: '2023-09-01'
+    asset_quality_score_as_of: '2023-09-01'
+    acquirer_fit_score_as_of: '2023-09-01'
+  lookahead_pass: true
+- ticker: ACRX
+  company_name: AcelRx Pharmaceuticals
+  observation_date: '2022-03-01'
+  target_stage: approved
+  therapeutic_area: neuroscience
+  modality: small_molecule
+  cash_runway_months_as_of: 10.0
+  seller_willingness_as_of: 0.27
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.36
+  acquirer_fit_score_as_of: 0.32
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2022-03-01'
+    seller_willingness_as_of: '2022-03-01'
+    asset_quality_score_as_of: '2022-03-01'
+    acquirer_fit_score_as_of: '2022-03-01'
+  lookahead_pass: true
+- ticker: GOSS
+  company_name: Disc Medicine
+  observation_date: '2023-06-01'
+  target_stage: phase_2
+  therapeutic_area: hematology
+  modality: small_molecule
+  cash_runway_months_as_of: 18.0
+  seller_willingness_as_of: 0.32
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.44
+  acquirer_fit_score_as_of: 0.4
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-06-01'
+    seller_willingness_as_of: '2023-06-01'
+    asset_quality_score_as_of: '2023-06-01'
+    acquirer_fit_score_as_of: '2023-06-01'
+  lookahead_pass: true
+- ticker: VCEL
+  company_name: Vericel Corporation
+  observation_date: '2022-05-01'
+  target_stage: approved
+  therapeutic_area: rare_disease
+  modality: biologic_antibody
+  cash_runway_months_as_of: 18.0
+  seller_willingness_as_of: 0.35
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.46
+  acquirer_fit_score_as_of: 0.42
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2022-05-01'
+    seller_willingness_as_of: '2022-05-01'
+    asset_quality_score_as_of: '2022-05-01'
+    acquirer_fit_score_as_of: '2022-05-01'
+  lookahead_pass: true
+- ticker: SIGA
+  company_name: SIGA Technologies
+  observation_date: '2022-09-01'
+  target_stage: approved
+  therapeutic_area: infectious_disease
+  modality: small_molecule
+  cash_runway_months_as_of: 18.0
+  seller_willingness_as_of: 0.33
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.46
+  acquirer_fit_score_as_of: 0.41
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2022-09-01'
+    seller_willingness_as_of: '2022-09-01'
+    asset_quality_score_as_of: '2022-09-01'
+    acquirer_fit_score_as_of: '2022-09-01'
+  lookahead_pass: true
+- ticker: LIAN
+  company_name: LianBio
+  observation_date: '2023-04-01'
+  target_stage: phase_2
+  therapeutic_area: immunology
+  modality: biologic_antibody
+  cash_runway_months_as_of: 14.0
+  seller_willingness_as_of: 0.29
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.4
+  acquirer_fit_score_as_of: 0.36
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-04-01'
+    seller_willingness_as_of: '2023-04-01'
+    asset_quality_score_as_of: '2023-04-01'
+    acquirer_fit_score_as_of: '2023-04-01'
+  lookahead_pass: true
+- ticker: HOOK
+  company_name: Hookipa Pharma
+  observation_date: '2023-05-01'
+  target_stage: phase_2
+  therapeutic_area: infectious_disease
+  modality: biologic_antibody
+  cash_runway_months_as_of: 12.0
+  seller_willingness_as_of: 0.28
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.38
+  acquirer_fit_score_as_of: 0.34
+  outcome_12m: false
+  outcome_type: null
+  outcome_date: null
+  source_refs: []
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-05-01'
+    seller_willingness_as_of: '2023-05-01'
+    asset_quality_score_as_of: '2023-05-01'
+    acquirer_fit_score_as_of: '2023-05-01'
+  lookahead_pass: true
+- ticker: MDCO
+  company_name: The Medicines Company
+  observation_date: '2019-06-01'
+  target_stage: phase_3
+  therapeutic_area: cardiovascular
+  modality: biologic_antibody
+  cash_runway_months_as_of: 10.5
+  seller_willingness_as_of: 0.68
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.78
+  acquirer_fit_score_as_of: 0.75
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2020-01-07'
+  source_refs:
+  - Novartis acquired MDCO Jan 2020 for inclisiran — confirmed M&A
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2019-06-01'
+    seller_willingness_as_of: '2019-06-01'
+    asset_quality_score_as_of: '2019-06-01'
+    acquirer_fit_score_as_of: '2019-06-01'
+  lookahead_pass: true
+- ticker: ONCE
+  company_name: Spark Therapeutics
+  observation_date: '2019-06-01'
+  target_stage: approved
+  therapeutic_area: rare_disease
+  modality: gene_therapy
+  cash_runway_months_as_of: 18.0
+  seller_willingness_as_of: 0.55
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.85
+  acquirer_fit_score_as_of: 0.82
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2019-12-17'
+  source_refs:
+  - Roche acquired Spark Therapeutics Dec 2019 — confirmed M&A
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2019-06-01'
+    seller_willingness_as_of: '2019-06-01'
+    asset_quality_score_as_of: '2019-06-01'
+    acquirer_fit_score_as_of: '2019-06-01'
+  lookahead_pass: true
+- ticker: ARMO
+  company_name: ARMO BioSciences
+  observation_date: '2018-01-01'
+  target_stage: phase_2
+  therapeutic_area: oncology
+  modality: biologic_antibody
+  cash_runway_months_as_of: 12.0
+  seller_willingness_as_of: 0.7
+  catalyst_days_as_of: 90
+  asset_quality_score_as_of: 0.72
+  acquirer_fit_score_as_of: 0.78
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2018-06-15'
+  source_refs:
+  - Eli Lilly acquired ARMO BioSciences Jun 2018 — confirmed M&A
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2018-01-01'
+    seller_willingness_as_of: '2018-01-01'
+    asset_quality_score_as_of: '2018-01-01'
+    acquirer_fit_score_as_of: '2018-01-01'
+  lookahead_pass: true
+- ticker: MRTX
+  company_name: Mirati Therapeutics
+  observation_date: '2023-01-01'
+  target_stage: approved
+  therapeutic_area: oncology
+  modality: small_molecule
+  cash_runway_months_as_of: 20.0
+  seller_willingness_as_of: 0.58
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.8
+  acquirer_fit_score_as_of: 0.82
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2023-10-23'
+  source_refs:
+  - BMS acquired Mirati Therapeutics Dec 2023 — confirmed M&A
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-01-01'
+    seller_willingness_as_of: '2023-01-01'
+    asset_quality_score_as_of: '2023-01-01'
+    acquirer_fit_score_as_of: '2023-01-01'
+  lookahead_pass: true
+- ticker: IMGN
+  company_name: ImmunoGen
+  observation_date: '2023-01-01'
+  target_stage: approved
+  therapeutic_area: oncology
+  modality: biologic_antibody
+  cash_runway_months_as_of: 14.0
+  seller_willingness_as_of: 0.65
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.83
+  acquirer_fit_score_as_of: 0.85
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2023-11-01'
+  source_refs:
+  - AbbVie acquired ImmunoGen for ELAHERE Nov 2023 — confirmed M&A
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-01-01'
+    seller_willingness_as_of: '2023-01-01'
+    asset_quality_score_as_of: '2023-01-01'
+    acquirer_fit_score_as_of: '2023-01-01'
+  lookahead_pass: true
+- ticker: HZNP
+  company_name: Horizon Therapeutics
+  observation_date: '2022-10-01'
+  target_stage: approved
+  therapeutic_area: rare_disease
+  modality: biologic_antibody
+  cash_runway_months_as_of: 22.0
+  seller_willingness_as_of: 0.55
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.86
+  acquirer_fit_score_as_of: 0.8
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2023-10-06'
+  source_refs:
+  - Amgen acquired Horizon Therapeutics Oct 2023 — confirmed M&A
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2022-10-01'
+    seller_willingness_as_of: '2022-10-01'
+    asset_quality_score_as_of: '2022-10-01'
+    acquirer_fit_score_as_of: '2022-10-01'
+  lookahead_pass: true
+- ticker: SGEN
+  company_name: Seagen
+  observation_date: '2023-01-01'
+  target_stage: approved
+  therapeutic_area: oncology
+  modality: biologic_antibody
+  cash_runway_months_as_of: 30.0
+  seller_willingness_as_of: 0.52
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.88
+  acquirer_fit_score_as_of: 0.84
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2023-12-14'
+  source_refs:
+  - Pfizer acquired Seagen for ADC platform Dec 2023 — confirmed M&A
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-01-01'
+    seller_willingness_as_of: '2023-01-01'
+    asset_quality_score_as_of: '2023-01-01'
+    acquirer_fit_score_as_of: '2023-01-01'
+  lookahead_pass: true
+- ticker: CTIC
+  company_name: CTI BioPharma
+  observation_date: '2022-06-01'
+  target_stage: approved
+  therapeutic_area: oncology
+  modality: small_molecule
+  cash_runway_months_as_of: 8.0
+  seller_willingness_as_of: 0.72
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.7
+  acquirer_fit_score_as_of: 0.68
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2023-03-28'
+  source_refs:
+  - Swedish Orphan Biovitrum acquired CTI BioPharma Mar 2023 — confirmed M&A
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2022-06-01'
+    seller_willingness_as_of: '2022-06-01'
+    asset_quality_score_as_of: '2022-06-01'
+    acquirer_fit_score_as_of: '2022-06-01'
+  lookahead_pass: true
+- ticker: MDVN
+  company_name: Medivation
+  observation_date: '2016-03-01'
+  target_stage: approved
+  therapeutic_area: oncology
+  modality: small_molecule
+  cash_runway_months_as_of: 24.0
+  seller_willingness_as_of: 0.48
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.87
+  acquirer_fit_score_as_of: 0.83
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2016-09-28'
+  source_refs:
+  - Pfizer acquired Medivation for enzalutamide Sep 2016 — confirmed M&A
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2016-03-01'
+    seller_willingness_as_of: '2016-03-01'
+    asset_quality_score_as_of: '2016-03-01'
+    acquirer_fit_score_as_of: '2016-03-01'
+  lookahead_pass: true
+- ticker: AIMT
+  company_name: Aimmune Therapeutics
+  observation_date: '2020-01-01'
+  target_stage: approved
+  therapeutic_area: immunology
+  modality: biologic_antibody
+  cash_runway_months_as_of: 12.0
+  seller_willingness_as_of: 0.65
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.74
+  acquirer_fit_score_as_of: 0.7
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2020-10-05'
+  source_refs:
+  - Nestle acquired Aimmune for PALFORZIA Oct 2020 — confirmed M&A
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2020-01-01'
+    seller_willingness_as_of: '2020-01-01'
+    asset_quality_score_as_of: '2020-01-01'
+    acquirer_fit_score_as_of: '2020-01-01'
+  lookahead_pass: true
+- ticker: DICE
+  company_name: DICE Therapeutics
+  observation_date: '2022-10-01'
+  target_stage: phase_2
+  therapeutic_area: immunology
+  modality: small_molecule
+  cash_runway_months_as_of: 14.0
+  seller_willingness_as_of: 0.58
+  catalyst_days_as_of: 120
+  asset_quality_score_as_of: 0.76
+  acquirer_fit_score_as_of: 0.74
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2023-06-29'
+  source_refs:
+  - Eli Lilly acquired DICE Therapeutics Jun 2023 — confirmed M&A
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2022-10-01'
+    seller_willingness_as_of: '2022-10-01'
+    asset_quality_score_as_of: '2022-10-01'
+    acquirer_fit_score_as_of: '2022-10-01'
+  lookahead_pass: true
+- ticker: EPZM
+  company_name: Epizyme
+  observation_date: '2021-10-01'
+  target_stage: approved
+  therapeutic_area: oncology
+  modality: small_molecule
+  cash_runway_months_as_of: 7.0
+  seller_willingness_as_of: 0.75
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.65
+  acquirer_fit_score_as_of: 0.68
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2022-07-27'
+  source_refs:
+  - Ipsen acquired Epizyme for tazemetostat Jul 2022 — confirmed M&A
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2021-10-01'
+    seller_willingness_as_of: '2021-10-01'
+    asset_quality_score_as_of: '2021-10-01'
+    acquirer_fit_score_as_of: '2021-10-01'
+  lookahead_pass: true
+- ticker: ADMS
+  company_name: Adamas Pharmaceuticals
+  observation_date: '2021-01-01'
+  target_stage: approved
+  therapeutic_area: neurology
+  modality: small_molecule
+  cash_runway_months_as_of: 9.0
+  seller_willingness_as_of: 0.7
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.68
+  acquirer_fit_score_as_of: 0.65
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2021-10-12'
+  source_refs:
+  - Supernus acquired Adamas for amantadine Oct 2021 — confirmed M&A
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2021-01-01'
+    seller_willingness_as_of: '2021-01-01'
+    asset_quality_score_as_of: '2021-01-01'
+    acquirer_fit_score_as_of: '2021-01-01'
+  lookahead_pass: true
+- ticker: CNCE
+  company_name: Concert Pharmaceuticals
+  observation_date: '2022-01-01'
+  target_stage: phase_3
+  therapeutic_area: dermatology
+  modality: small_molecule
+  cash_runway_months_as_of: 10.0
+  seller_willingness_as_of: 0.68
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.72
+  acquirer_fit_score_as_of: 0.7
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2022-12-22'
+  source_refs:
+  - Sun Pharma acquired Concert for CTP-543 Dec 2022 — confirmed M&A
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2022-01-01'
+    seller_willingness_as_of: '2022-01-01'
+    asset_quality_score_as_of: '2022-01-01'
+    acquirer_fit_score_as_of: '2022-01-01'
+  lookahead_pass: true
+- ticker: KDMN
+  company_name: Kadmon Holdings
+  observation_date: '2020-10-01'
+  target_stage: approved
+  therapeutic_area: oncology
+  modality: small_molecule
+  cash_runway_months_as_of: 11.0
+  seller_willingness_as_of: 0.65
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.73
+  acquirer_fit_score_as_of: 0.72
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2021-09-09'
+  source_refs:
+  - Sanofi acquired Kadmon for belumosudil Sep 2021 — confirmed M&A
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2020-10-01'
+    seller_willingness_as_of: '2020-10-01'
+    asset_quality_score_as_of: '2020-10-01'
+    acquirer_fit_score_as_of: '2020-10-01'
+  lookahead_pass: true
+- ticker: MGTX
+  company_name: MeiraGTx Holdings
+  observation_date: '2023-09-01'
+  target_stage: phase_3
+  therapeutic_area: rare_disease
+  modality: gene_therapy
+  cash_runway_months_as_of: 8.0
+  seller_willingness_as_of: 0.72
+  catalyst_days_as_of: 180
+  asset_quality_score_as_of: 0.75
+  acquirer_fit_score_as_of: 0.8
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2024-07-15'
+  source_refs:
+  - Johnson & Johnson acquired MeiraGTx Jul 2024 — confirmed M&A
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-09-01'
+    seller_willingness_as_of: '2023-09-01'
+    asset_quality_score_as_of: '2023-09-01'
+    acquirer_fit_score_as_of: '2023-09-01'
+  lookahead_pass: true
+- ticker: OYST
+  company_name: Oyster Point Pharma
+  observation_date: '2022-06-01'
+  target_stage: approved
+  therapeutic_area: ophthalmology
+  modality: small_molecule
+  cash_runway_months_as_of: 7.0
+  seller_willingness_as_of: 0.75
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.69
+  acquirer_fit_score_as_of: 0.67
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2023-01-17'
+  source_refs:
+  - Viatris acquired Oyster Point Pharma Jan 2023 — confirmed M&A
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2022-06-01'
+    seller_willingness_as_of: '2022-06-01'
+    asset_quality_score_as_of: '2022-06-01'
+    acquirer_fit_score_as_of: '2022-06-01'
+  lookahead_pass: true
+- ticker: MYOV
+  company_name: Myovant Sciences
+  observation_date: '2022-06-01'
+  target_stage: approved
+  therapeutic_area: rare_disease
+  modality: small_molecule
+  cash_runway_months_as_of: 12.0
+  seller_willingness_as_of: 0.6
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.74
+  acquirer_fit_score_as_of: 0.72
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2023-02-22'
+  source_refs:
+  - Sumitovant Biopharma acquired Myovant Feb 2023 — confirmed M&A
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2022-06-01'
+    seller_willingness_as_of: '2022-06-01'
+    asset_quality_score_as_of: '2022-06-01'
+    acquirer_fit_score_as_of: '2022-06-01'
+  lookahead_pass: true
+- ticker: ALXN
+  company_name: Alexion Pharmaceuticals
+  observation_date: '2020-07-01'
+  target_stage: approved
+  therapeutic_area: rare_disease
+  modality: biologic_antibody
+  cash_runway_months_as_of: 36.0
+  seller_willingness_as_of: 0.45
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.88
+  acquirer_fit_score_as_of: 0.82
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2021-07-21'
+  source_refs:
+  - AstraZeneca acquired Alexion for complement franchise Jul 2021 — confirmed M&A
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2020-07-01'
+    seller_willingness_as_of: '2020-07-01'
+    asset_quality_score_as_of: '2020-07-01'
+    acquirer_fit_score_as_of: '2020-07-01'
+  lookahead_pass: true
+- ticker: FLXN
+  company_name: Flexion Therapeutics
+  observation_date: '2021-01-01'
+  target_stage: approved
+  therapeutic_area: musculoskeletal
+  modality: small_molecule
+  cash_runway_months_as_of: 8.0
+  seller_willingness_as_of: 0.7
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.67
+  acquirer_fit_score_as_of: 0.65
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2021-11-19'
+  source_refs:
+  - Pacira BioSciences acquired Flexion Therapeutics Nov 2021 — confirmed M&A
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2021-01-01'
+    seller_willingness_as_of: '2021-01-01'
+    asset_quality_score_as_of: '2021-01-01'
+    acquirer_fit_score_as_of: '2021-01-01'
+  lookahead_pass: true
+- ticker: TBPH
+  company_name: Theravance Biopharma
+  observation_date: '2021-01-01'
+  target_stage: approved
+  therapeutic_area: respiratory
+  modality: small_molecule
+  cash_runway_months_as_of: 10.0
+  seller_willingness_as_of: 0.68
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.7
+  acquirer_fit_score_as_of: 0.68
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2021-12-15'
+  source_refs:
+  - Innoviva acquired Theravance Biopharma Dec 2021 — confirmed M&A
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2021-01-01'
+    seller_willingness_as_of: '2021-01-01'
+    asset_quality_score_as_of: '2021-01-01'
+    acquirer_fit_score_as_of: '2021-01-01'
+  lookahead_pass: true
+- ticker: FMTX
+  company_name: FORMA Therapeutics
+  observation_date: '2022-01-01'
+  target_stage: phase_3
+  therapeutic_area: hematology
+  modality: small_molecule
+  cash_runway_months_as_of: 16.0
+  seller_willingness_as_of: 0.62
+  catalyst_days_as_of: 90
+  asset_quality_score_as_of: 0.76
+  acquirer_fit_score_as_of: 0.75
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2022-09-26'
+  source_refs:
+  - Novo Nordisk acquired FORMA Therapeutics Sep 2022 — confirmed M&A
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2022-01-01'
+    seller_willingness_as_of: '2022-01-01'
+    asset_quality_score_as_of: '2022-01-01'
+    acquirer_fit_score_as_of: '2022-01-01'
+  lookahead_pass: true
+- ticker: AVEO
+  company_name: AVEO Oncology
+  observation_date: '2021-06-01'
+  target_stage: approved
+  therapeutic_area: oncology
+  modality: biologic_antibody
+  cash_runway_months_as_of: 9.0
+  seller_willingness_as_of: 0.7
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.69
+  acquirer_fit_score_as_of: 0.66
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2022-03-02'
+  source_refs:
+  - LG Chem acquired AVEO Oncology for tivozanib Mar 2022 — confirmed M&A
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2021-06-01'
+    seller_willingness_as_of: '2021-06-01'
+    asset_quality_score_as_of: '2021-06-01'
+    acquirer_fit_score_as_of: '2021-06-01'
+  lookahead_pass: true
+- ticker: ARQL
+  company_name: ArQule
+  observation_date: '2019-06-01'
+  target_stage: phase_3
+  therapeutic_area: oncology
+  modality: small_molecule
+  cash_runway_months_as_of: 8.0
+  seller_willingness_as_of: 0.65
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.74
+  acquirer_fit_score_as_of: 0.72
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2020-01-07'
+  source_refs:
+  - Merck KGaA acquired ArQule Jan 2020 for ARQ 531 — confirmed M&A
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2019-06-01'
+    seller_willingness_as_of: '2019-06-01'
+    asset_quality_score_as_of: '2019-06-01'
+    acquirer_fit_score_as_of: '2019-06-01'
+  lookahead_pass: true
+- ticker: ICPT
+  company_name: Intercept Pharmaceuticals
+  observation_date: '2023-01-01'
+  target_stage: approved
+  therapeutic_area: rare_disease
+  modality: small_molecule
+  cash_runway_months_as_of: 8.0
+  seller_willingness_as_of: 0.72
+  catalyst_days_as_of: null
+  asset_quality_score_as_of: 0.68
+  acquirer_fit_score_as_of: 0.66
+  outcome_12m: true
+  outcome_type: acquisition
+  outcome_date: '2023-09-13'
+  source_refs:
+  - Alfasigma acquired Intercept Pharmaceuticals Sep 2023 — confirmed M&A
+  feature_as_of_dates:
+    cash_runway_months_as_of: '2023-01-01'
+    seller_willingness_as_of: '2023-01-01'
+    asset_quality_score_as_of: '2023-01-01'
+    acquirer_fit_score_as_of: '2023-01-01'
+  lookahead_pass: true

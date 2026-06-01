@@ -29,3 +29,54 @@ orlistat,Roche,Obesity,phase_3,approved,1999,novel,false,acceptable,moderate,har
 atrasentan,AbbVie,Diabetic Kidney Disease,phase_3,failed,2018,partial,false,poor,moderate,hard_clinical,"SONAR: fluid retention halted trial; endothelin receptor antagonist; sodium retention dose-limiting"
 sparsentan,Travere,IgA Nephropathy,phase_3,approved,2023,novel,false,acceptable,low,surrogate_validated,"PROTECT: urine protein reduction 41% vs 15%; dual AT1/endothelin; first non-immunosuppressant IgAN"
 dapagliflozin (CKD),AstraZeneca,CKD,phase_3,approved,2021,partial,false,clean,moderate,hard_clinical,"DAPA-CKD: 39% eGFR/ESRD composite reduction; SGLT2 in non-diabetic CKD; broad label"
+empagliflozin (EMPA-KIDNEY),Boehringer Ingelheim,CKD,phase_3,approved,2023,partial,false,clean,moderate,hard_clinical,EMPA-KIDNEY: 28% eGFR/ESRD composite reduction; SGLT2 in non-diabetic CKD broad; similar to dapa
+canagliflozin (CREDENCE),J&J,Diabetic Kidney Disease,phase_3,approved,2019,partial,false,acceptable,moderate,hard_clinical,CREDENCE: 30% renal composite reduction; first SGLT2 approved for DKD; CKD eGFR 30-90
+semaglutide (FLOW),Novo Nordisk,CKD/Diabetic Kidney,phase_3,approved,2024,partial,false,acceptable,moderate,hard_clinical,FLOW: 24% primary kidney composite reduction; GLP-1 RA in CKD; first GLP1 for renal outcomes
+exenatide (Byetta),AstraZeneca/Amylin,Type 2 Diabetes,phase_3,approved,2005,partial,false,acceptable,moderate,hard_clinical,Phase 3 HbA1c -0.9%; GLP-1 RA first-in-class; first incretin-based therapy FDA-approved
+liraglutide (Victoza),Novo Nordisk,Type 2 Diabetes,phase_3,approved,2010,partial,false,acceptable,high,hard_clinical,LEADER CVOT: 13% MACE reduction; GLP-1 RA daily; first GLP1 with CV outcome benefit
+albiglutide (Tanzeum),GSK,Type 2 Diabetes,phase_3,withdrawn,2018,partial,false,acceptable,high,hard_clinical,HARMONY OUTCOMES: MACE HR 0.78; GLP-1 RA weekly; withdrawn due to commercial failure not safety
+phentermine+topiramate (Qsymia),Vivus,Obesity,phase_3,approved,2012,partial,false,acceptable,moderate,hard_clinical,CONQUER: 9.8% weight loss at highest dose; centrally acting combination; CV concern label
+naltrexone+bupropion (Contrave),Orexigen,Obesity,phase_3,approved,2014,partial,false,acceptable,moderate,hard_clinical,COR-I/II: 6.1% weight loss vs 1.3%; opioid+dopamine reuptake inhibitor; BP monitoring
+mazdutide,Innovent/Roche,Obesity China,phase_3,approved,2024,partial,false,acceptable,moderate,hard_clinical,GLORY-1/2: 14.4% weight loss; GLP-1/GCGR dual agonist; China approved; Western trials pending
+maridebart cafraglutide (AMG-133),Amgen,Obesity,phase_2,advanced,2023,novel,false,acceptable,low,hard_clinical,Ph2: 14.5% weight loss at 12w single dose; GIP antagonist/GLP-1 agonist; monthly SC
+retatrutide,Eli Lilly,Obesity,phase_3,advanced,2024,novel,false,acceptable,low,hard_clinical,Ph2 GIP/glucagon/GLP-1 triple: 24% weight loss at 48w; Ph3 TRIUMPH-3 enrolling; best-in-class candidate
+survodutide,Boehringer Ingelheim,Obesity/MASH,phase_3,advanced,2024,novel,false,acceptable,moderate,hard_clinical,Ph2: 19% weight loss at 46w; GLP-1/GCGR dual agonist; Ph3 LIGHT enrolling; MASH signal
+pemvidutide,Altimmune,Obesity/MASH,phase_2,advanced,2023,novel,false,acceptable,moderate,hard_clinical,MOMENTUM: 15.6% weight loss 48w; GLP-1/GCGR dual agonist; liver fat reduction; MASH parallel
+orforglipron,Eli Lilly,Obesity,phase_3,advanced,2024,novel,false,acceptable,moderate,hard_clinical,ACHIEVE-1: 8.7% weight loss at 26w; oral GLP-1 RA non-peptide; once daily; first oral non-peptide
+danuglipron,Pfizer,Obesity,phase_3,failed,2024,partial,false,poor,high,hard_clinical,Ph3 halted; GI tolerability issues (40%+ GI AE); oral GLP-1 RA; twice-daily dosing problem
+lanifibranor NATiV3,Inventiva,MASH,phase_3,failed,2024,partial,false,acceptable,moderate,hard_clinical,NATiV3: 24.9% vs 17.5% NASH/fibrosis primary missed (p=0.064); pan-PPAR; regulatory risk
+tropifexor,Novartis,MASH,phase_2,failed,2022,novel,false,acceptable,moderate,hard_clinical,Ph2: liver fat reduction adequate but NASH histology failed primary; FXR agonist; development ended
+cilofexor,Gilead,MASH,phase_2,failed,2021,partial,false,acceptable,moderate,hard_clinical,ATLAS: fibrosis improvement not met; non-bile acid FXR agonist; combination attempt failed
+vonafexor,Genfit,MASH,phase_2,failed,2021,partial,false,acceptable,moderate,hard_clinical,NATIVE: liver fat reduction but histology missed; FXR nuclear receptor; Genfit retrenched
+setanaxib,Genfit,Primary Biliary Cholangitis,phase_3,advanced,2023,novel,false,acceptable,low,hard_clinical,ELATIVE Ph3 ongoing; NOX1/4 inhibitor; second-line PBC after OCA; liver fibrosis hypothesis
+seladelpar,CymaBay/Gilead,Primary Biliary Cholangitis,phase_3,approved,2024,novel,false,clean,low,hard_clinical,RESPONSE: 25.1% composite ALP+bilirubin response; PPARd agonist; first new non-FXR PBC
+elafibranor PBC,Ipsen/Genfit,Primary Biliary Cholangitis,phase_3,approved,2024,partial,false,clean,low,hard_clinical,ELATIVE: 47% vs 10% composite response; PPARalpha/delta; second new PBC approval 2024
+pioglitazone NASH,Takeda,NASH fibrosis,phase_3,approved,2016,partial,false,acceptable,moderate,hard_clinical,PIVENS extension: histological improvement sustained at year 2; PPARgamma; diabetes benefit
+sitagliptin (TECOS),MSD,Type 2 Diabetes CV safety,phase_3,approved,2006,partial,false,clean,high,hard_clinical,TECOS: CV neutral (HR 0.98); DPP-4 inhibitor; first gliptin; best-in-class tolerability
+saxagliptin (SAVOR-TIMI),AstraZeneca,Type 2 Diabetes CV safety,phase_3,failed,2013,partial,false,acceptable,high,hard_clinical,SAVOR-TIMI: HHF excess 3.5% vs 2.8% (HR 1.27); DPP-4; unexpected HF signal; label warning
+linagliptin (CARMELINA),Boehringer Ingelheim,Type 2 Diabetes renal,phase_3,approved,2011,partial,false,clean,high,hard_clinical,CARMELINA: CV neutral; ESRD composite non-inferior; DPP-4 renal advantage; no dose adj needed
+imeglimin,Poxel,Type 2 Diabetes Japan,phase_3,approved,2021,novel,false,acceptable,high,hard_clinical,TIMES-1/2/3: HbA1c -0.87%; mitochondrial bioenergetics mechanism; Japan approval; limited global data
+evinacumab HoFH,Regeneron,Homozygous FH,phase_3,approved,2021,novel,false,acceptable,low,hard_clinical,ELIPSE HoFH: LDL -47% vs +2% placebo; ANGPTL3 antibody; add-on to max statin+PCSK9
+bempedoic acid extended,Esperion,High CV risk statin-intolerant,phase_3,approved,2023,novel,false,clean,moderate,hard_clinical,CLEAR OUTCOMES: 13% MACE reduction; ACL inhibitor; first non-statin LDL-lowering with outcomes
+efinopegdutide,MSD/Novo,MASH,phase_2,failed,2022,partial,false,acceptable,moderate,hard_clinical,Ph2 IMAGINE: liver fat reduction; GLP-1/FGF21 dual; discontinued by MSD in 2023
+semaglutide oral,Novo Nordisk,Type 2 diabetes,phase_3,approved,2019,partial,false,clean,high,hard_clinical,PIONEER 1-9: 1.4% HbA1c reduction; GLP-1 oral formulation; first oral GLP-1 agonist
+tirzepatide T2D,Eli Lilly,Type 2 diabetes,phase_3,approved,2022,novel,false,clean,high,hard_clinical,SURPASS 1-5: up to 2.3% HbA1c reduction; GIP+GLP-1 dual agonist; first twincretin
+tirzepatide obesity,Eli Lilly,Obesity,phase_3,approved,2023,partial,false,clean,moderate,hard_clinical,SURMOUNT-1/2: 22.5% weight loss at 72w; GIP+GLP-1 dual agonist; extended to obesity
+semaglutide SC obesity,Novo Nordisk,Chronic weight management,phase_3,approved,2021,partial,false,clean,moderate,hard_clinical,STEP 1-4: 17% body weight loss at 68w; GLP-1 weekly SC; first obesity GLP-1 approval
+retratrutide,Eli Lilly,Obesity,phase_2,ongoing,2023,novel,false,acceptable,moderate,hard_clinical,Phase 2: 24% weight loss at 48w; GIP+GLP-1+glucagon triple agonist; highest weight loss
+resmetirom,Madrigal,NASH/MASH with fibrosis,phase_3,approved,2024,novel,false,clean,low,hard_clinical,MAESTRO-NASH: 26% histological improvement; THRβ agonist; first NASH approval
+obeticholic acid NASH,Intercept,NASH F2-F3 fibrosis,phase_3,failed,2020,partial,false,acceptable,low,hard_clinical,REGENERATE: failed to get full approval; FXR agonist; hepatotoxicity concern at higher doses
+pegozafermin,89bio,NASH/MASH,phase_2,ongoing,2023,novel,false,acceptable,low,surrogate_validated,Phase 2: 50% MRI-PDFF reduction; long-acting FGF21 analog; glycoPEGylated
+icosapent ethyl,Amarin,Hypertriglyceridemia/CV risk,phase_3,approved,2019,partial,false,clean,low,hard_clinical,REDUCE-IT: 25% MACE reduction on top of statins; EPA-only omega-3; first fish oil CV approval
+avapritinib,Blueprint,GIST PDGFRA D842V,phase_3,approved,2020,novel,true,acceptable,low,surrogate_validated,NAVIGATOR: 84% ORR; KIT/PDGFRA kinase inhibitor; exon 18 PDGFRA D842V mutation
+pegvaliase,BioMarin,Phenylketonuria,phase_3,approved,2018,novel,false,acceptable,low,hard_clinical,PRISM-2: 67% phenylalanine normalization; enzyme substitution therapy; severe PKU
+acoramidis,BridgeBio,Transthyretin cardiomyopathy,phase_3,approved,2024,partial,false,clean,moderate,hard_clinical,ATTRibuteP: 50% reduction CV mortality/hospitalization; TTR stabilizer oral
+eplontersen TTR-PN,Ionis,TTR amyloid polyneuropathy,phase_3,approved,2023,partial,false,acceptable,moderate,surrogate_validated,NEURO-TTRansform: 79% TTR reduction; GalNAc-ASO targeting TTR; monthly SC
+setmelanotide,Rhythm,Rare genetic obesity POMC/LEPR/PCSK1,phase_3,approved,2020,novel,true,acceptable,low,hard_clinical,Phase 3: 80% achieved ≥10% weight loss; MC4R agonist; ultra-rare genetic obesity
+difelikefalin,Cara,Chronic kidney disease pruritus,phase_3,approved,2021,novel,false,clean,low,hard_clinical,KALM-1/2: 50% itch reduction vs 28% placebo; kappa-opioid agonist; dialysis patients
+rimonabant,Sanofi,Obesity,phase_3,failed,2008,novel,false,acceptable,high,hard_clinical,RIO trials: 8% weight loss but psychiatric AEs (suicidality) led to withdrawal; CB1 inverse agonist
+inclisiran T2D,Novartis,T2D dyslipidemia,phase_3,approved,2021,partial,false,clean,moderate,surrogate_validated,ORION-11: 54% LDL reduction in T2D; RNAi PCSK9 inhibitor; 2x/yr dosing; FDA 2021
+empagliflozin HFpEF,BI,Heart failure preserved EF,phase_3,approved,2022,partial,false,clean,moderate,hard_clinical,EMPEROR-Preserved: 21% CV death/HF hosp reduction; SGLT2 first approved HFpEF
+dapagliflozin CKD,AstraZeneca,Chronic kidney disease,phase_3,approved,2021,partial,false,clean,moderate,hard_clinical,DAPA-CKD: 39% CV death/renal progression; SGLT2 CKD indication beyond T2D
+finerenone,Bayer,CKD/T2D,phase_3,approved,2021,novel,false,clean,low,hard_clinical,FIDELIO-DKD: 18% kidney disease progression; nonsteroidal MRA; first new CKD drug class
+efpeglenatide,Hanmi/Sanofi,Cardiovascular risk T2D,phase_3,failed,2022,partial,false,acceptable,high,hard_clinical,AMPLITUDE-O: CV benefit shown but development discontinued due to competitive market positioning

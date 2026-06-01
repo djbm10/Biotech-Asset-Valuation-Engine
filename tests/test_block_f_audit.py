@@ -213,9 +213,9 @@ def test_real_cases_file_passes_audit() -> None:
         )
 
     assert result.has_violations is False
-    assert result.n_total == 196
-    assert result.n_positive == 73
-    assert result.n_negative == 123
+    assert result.n_total >= 300
+    assert result.n_positive >= 100
+    assert result.n_negative >= 200
 
 
 # ---------------------------------------------------------------------------

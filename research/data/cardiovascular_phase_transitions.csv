@@ -42,3 +42,35 @@ dronedarone (HFrEF),Sanofi,Heart Failure (EF<35%),phase_3,failed,2008,partial,fa
 abelacimab (Ph2),Anthos/Novartis,Atrial Fibrillation stroke prevention,phase_2,advanced,2022,novel,false,clean,low,hard_clinical,"AZALEA Ph2: 80% stroke/SE reduction vs rivaroxaban; Factor XI mAb; Phase 3 LILAC-AF enrolling"
 colchicine (LoDoCo2),Agepha/Nora,Stable CAD,phase_3,approved,2023,partial,false,acceptable,moderate,hard_clinical,"LoDoCo2: MACE HR 0.69 (31% reduction); anti-inflammatory mechanism; generic; label expansion post-hoc"
 ziltivekimab (RESCUE),AZ/Novo,CRP-elevated HF/ASCVD,phase_2,advanced,2022,novel,true,clean,low,hard_clinical,"RESCUE: 65-77% hsCRP reduction; IL-6 ligand trap; enriched hsCRP>2; RACING Ph3 in HFpEF enrolling"
+tirofiban,Medicure/MSD,ACS antiplatelet,phase_3,approved,1998,novel,false,acceptable,high,hard_clinical,RESTORE: MACE reduction in NSTEMI with PCI; IIb/IIIa antagonist; short half-life; niche use
+ranolazine (Ranexa),Gilead,Stable Angina,phase_3,approved,2006,novel,false,acceptable,moderate,hard_clinical,MARISA: improved exercise time; partial fatty acid oxidation inhibitor; additive to nitrates
+ivabradine (Corlanor),Servier/Amgen,Heart Failure rEF,phase_3,approved,2015,partial,false,clean,low,hard_clinical,SHIFT: 18% CV death/HF hospitalization (HR 0.82); If channel; resting HR >=70 required
+trandolapril,Abbott,Heart Failure post-MI,phase_3,approved,1995,partial,false,acceptable,moderate,hard_clinical,TRACE: 22% mortality reduction post-MI LV dysfunction; ACE inhibitor; historical landmark
+allopurinol angina,Napp/Pfizer,Stable Angina,phase_3,failed,2016,partial,false,acceptable,low,hard_clinical,OPT-CHF: no significant exercise capacity improvement in stable angina; xanthine oxidase; negative
+obicetrapib,NewAmsterdam,LDL-C reduction,phase_3,advanced,2024,partial,false,clean,low,hard_clinical,BROADWAY/PREVAIL: LDL -51%; CETP inhibitor; fourth-generation; OCEAN Phase 3 MACE ongoing
+milvexian,BMS/J&J,AF stroke prevention,phase_3,advanced,2024,novel,false,clean,low,hard_clinical,LIBREXIA-AF Ph3 ongoing; Factor XIa small molecule; AXIOMATIC-TKA showed safety signal low
+asundexian,Bayer,AF stroke prevention,phase_3,failed,2024,partial,false,clean,moderate,hard_clinical,OCEANIC-AF: non-inferior to apixaban not shown; Factor XIa; Bayer discontinued development
+dapagliflozin (HFpEF),AstraZeneca,Heart Failure pEF,phase_3,approved,2023,partial,false,clean,moderate,hard_clinical,DELIVER: 18% CV death/worsening HF composite reduction; SGLT2 extended to HFpEF; landmark
+empagliflozin (HFpEF),Boehringer Ingelheim,Heart Failure pEF,phase_3,approved,2022,partial,false,clean,high,hard_clinical,EMPEROR-Preserved: 21% CV death/HHF reduction; first SGLT2 for HFpEF; practice-changing
+spironolactone (TOPCAT),Pfizer,Heart Failure pEF,phase_3,failed,2014,partial,false,acceptable,low,hard_clinical,TOPCAT: overall HR 0.89 p=0.14; MRA for HFpEF; regional heterogeneity by enrollment site
+tolvaptan (outcomes),Otsuka,Heart Failure outcomes,phase_3,failed,2012,partial,false,acceptable,moderate,hard_clinical,EVEREST long-term: all-cause mortality no benefit; V2 antagonist; only hyponatremia label
+elamipretide,Stealth BioTherapeutics,Heart Failure with preserved EF,phase_3,failed,2020,novel,false,acceptable,low,hard_clinical,ENDEAVOR: 6MWT no improvement; mitochondrial membrane cardiolipin; rare-focused mitochondria
+atenolol CV prevention,ICI/AZ,Hypertension outcomes,phase_3,approved,1985,partial,false,acceptable,moderate,hard_clinical,Historical: UKPDS/STOP: beta-blocker CV endpoint; inferior to RAAS in ASCOT head-to-head
+patisiran CV,Alnylam,ATTR Cardiomyopathy,phase_3,approved,2023,partial,false,clean,moderate,hard_clinical,APOLLO-B: 28.7 point KCCQ improvement vs 20.8; TTR RNAi extended to cardiomyopathy
+vutrisiran CV,Alnylam,ATTR Cardiomyopathy,phase_3,approved,2024,partial,false,clean,moderate,hard_clinical,HELIOS-B: CV death/HHF composite 28% reduction; GalNAc-RNAi quarterly; ATTR-CM
+abelacimab CV trial,Anthos,AF stroke prevention,phase_3,advanced,2025,novel,false,clean,low,hard_clinical,LILAC-AF Ph3 enrolling; Factor XI mAb; AZALEA Ph2 80% stroke reduction vs rivaroxaban
+canagliflozin CV outcomes,J&J,Heart failure/CKD,phase_3,approved,2019,partial,false,acceptable,moderate,hard_clinical,CREDENCE: 30% reduction CV death/HF hospitalization; SGLT2; CKD indication
+dapagliflozin HF,AstraZeneca,Heart failure reduced EF,phase_3,approved,2020,partial,false,clean,high,hard_clinical,DAPA-HF: 26% CV death/worsening HF; SGLT2 first approved for HFrEF
+sacubitril/valsartan,Novartis,Heart failure reduced EF,phase_3,approved,2015,partial,false,acceptable,low,hard_clinical,PARADIGM-HF: 20% CV death/HF hospitalization vs enalapril; ARNI first in class
+rivaroxaban AF,Bayer/J&J,Atrial fibrillation stroke prevention,phase_3,approved,2011,partial,false,acceptable,high,hard_clinical,ROCKET-AF: non-inferior to warfarin for stroke/systemic embolism; Factor Xa inhibitor
+apixaban PE,BMS/Pfizer,Pulmonary embolism,phase_3,approved,2013,partial,false,clean,moderate,hard_clinical,AMPLIFY: 84% reduction major bleeding vs LMWH/warfarin; Factor Xa inhibitor
+edoxaban AF,Daiichi Sankyo,Atrial fibrillation stroke prevention,phase_3,approved,2015,partial,false,clean,high,hard_clinical,ENGAGE-AF: non-inferior to warfarin; once-daily Factor Xa inhibitor; fourth DOAC
+patiromer,Vifor,Hyperkalemia,phase_3,approved,2015,novel,false,clean,low,hard_clinical,Phase 3: 98% vs 33% normokalemia at 4 weeks; potassium binder; CKD/HF patients
+ticagrelor stroke,AstraZeneca,TIA/minor ischemic stroke,phase_3,failed,2019,partial,false,acceptable,moderate,hard_clinical,THALES: 17% RRR stroke/death vs aspirin alone but excess bleeding; marginal benefit
+omecamtiv mecarbil,Cytokinetics,Heart failure with reduced EF,phase_3,failed,2021,novel,false,acceptable,low,hard_clinical,GALACTIC-HF: modest 8% RRR composite; cardiac myosin activator; marginal benefit
+eplontersen,Ionis/AstraZeneca,TTR amyloidosis polyneuropathy,phase_3,approved,2023,partial,false,acceptable,moderate,surrogate_validated,NEURO-TTRansform: 79% TTR reduction; ASO targeting TTR; GalNAc-conjugated
+zilebesiran,Alnylam,Hypertension,phase_2,ongoing,2023,novel,false,clean,low,surrogate_validated,KARDIA-2: 14 mmHg SBP reduction; siRNA angiotensinogen; once-yearly dosing
+mavacamten,Bristol-Myers,Hypertrophic obstructive cardiomyopathy,phase_3,approved,2022,novel,false,acceptable,low,hard_clinical,EXPLORER-HCM: LVOT gradient -49 mmHg; cardiac myosin inhibitor; first-in-class HOCM
+bempedoic acid,Esperion,LDL lowering hypercholesterolemia,phase_3,approved,2020,partial,false,clean,high,surrogate_validated,CLEAR Harmony: 18% LDL reduction on top of maximally tolerated statins
+semaglutide CV,Novo Nordisk,CV risk reduction in obesity,phase_3,approved,2023,partial,false,acceptable,moderate,hard_clinical,SELECT: 20% MACE reduction in obese non-diabetics; GLP-1 expanded CV label
+zofenopril heart failure,Menarini,Post-MI left ventricular dysfunction,phase_3,failed,2018,partial,false,acceptable,high,hard_clinical,SMILE-4: non-inferior to ramipril; ACE inhibitor; no differentiation vs established therapy

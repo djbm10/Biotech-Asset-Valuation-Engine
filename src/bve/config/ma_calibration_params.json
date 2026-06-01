@@ -1,12 +1,12 @@
 {
-  "slope": 1.187748,
-  "midpoint": 0.990731,
-  "n_positive": 73,
-  "n_negative": 123,
-  "base_rate": 0.372449,
-  "auc": 0.9947,
-  "brier_score": 0.211007,
-  "training_window": "2018-06-07 to 2025-08-20",
-  "created_at": "2026-06-01T22:39:13.112639+00:00",
+  "slope": 1.574566,
+  "midpoint": 0.84165,
+  "n_positive": 125,
+  "n_negative": 200,
+  "base_rate": 0.384615,
+  "auc": 0.9974,
+  "brier_score": 0.199617,
+  "training_window": "2016-02-01 to 2025-08-20",
+  "created_at": "2026-06-01T23:22:42.083246+00:00",
   "source": "fitted"
 }
