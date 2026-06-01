@@ -48,6 +48,15 @@ class CanonicalIndication(BaseModel):
     aliases: list[str]                  # All synonym strings that map here
     therapeutic_area: Optional[str] = None   # Links to TherapeuticArea enum value
 
+    # Cross-TA fields: for indications that span multiple therapeutic areas
+    # (e.g. IgA Nephropathy is both immunology AND renal/rare_disease).
+    # secondary_therapeutic_areas: additional TA values used to expand the
+    #   acquirer-fit TA match beyond the primary therapeutic_area.
+    # cross_ta_signals: extra token signals for sub_area matching
+    #   (e.g. "ckd", "renal", "nephropathy" for IgAN → matches ckd_pkd_renal gaps).
+    secondary_therapeutic_areas: list[str] = Field(default_factory=list)
+    cross_ta_signals: list[str] = Field(default_factory=list)
+
 
 class CanonicalTarget(BaseModel):
     """Registry entry for a single canonical biological target."""

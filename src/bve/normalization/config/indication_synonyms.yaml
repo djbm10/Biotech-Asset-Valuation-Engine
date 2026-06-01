@@ -67,6 +67,8 @@ indications:
   - id: IND_systemic_lupus_erythematosus
     name: Systemic Lupus Erythematosus
     therapeutic_area: immunology
+    secondary_therapeutic_areas: [rare_disease]
+    cross_ta_signals: [lupus_nephritis, renal, nephropathy, kidney, lupus, sle, complement, autoimmune]
     aliases:
       - systemic lupus erythematosus
       - sle
@@ -77,6 +79,8 @@ indications:
   - id: IND_anca_vasculitis
     name: ANCA-Associated Vasculitis
     therapeutic_area: immunology
+    secondary_therapeutic_areas: [rare_disease]
+    cross_ta_signals: [renal, nephropathy, glomerulonephritis, vasculitis, kidney, anca, nephrology]
     aliases:
       - anca-associated vasculitis
       - anca associated vasculitis
@@ -97,6 +101,8 @@ indications:
   - id: IND_iga_nephropathy
     name: IgA Nephropathy
     therapeutic_area: immunology
+    secondary_therapeutic_areas: [rare_disease]
+    cross_ta_signals: [ckd, pkd, renal, nephropathy, kidney, glomerulonephritis, fsgs, igan, nephrology]
     aliases:
       - iga nephropathy
       - berger's disease
@@ -114,6 +120,8 @@ indications:
   - id: IND_myasthenia_gravis
     name: Generalized Myasthenia Gravis
     therapeutic_area: immunology
+    secondary_therapeutic_areas: [rare_disease]
+    cross_ta_signals: [neuromuscular, nmj, acetylcholine, fcrn, igg, muscle, rare_neuromuscular]
     aliases:
       - generalized myasthenia gravis
       - myasthenia gravis
@@ -211,6 +219,8 @@ indications:
       - crpc
       - castration-resistant prostate cancer
       - advanced prostate cancer and endometriosis
+      - prostate cancer / solid tumors
+      - prostate cancer and solid tumors
 
   - id: IND_colorectal_cancer
     name: Colorectal Cancer
@@ -259,6 +269,8 @@ indications:
       - gbm
       - glioblastoma
       - recurrent glioblastoma
+      - cns/brain cancers (glioblastoma)
+      - cns brain cancers glioblastoma
 
   - id: IND_cscc
     name: Cutaneous Squamous Cell Carcinoma
@@ -349,6 +361,14 @@ indications:
       - myelofibrosis with anemia
       - primary myelofibrosis
       - mf
+
+  - id: IND_polycythemia_vera
+    name: Polycythemia Vera
+    therapeutic_area: oncology
+    aliases:
+      - polycythemia vera
+      - polycythaemia vera
+      - pv
 
   - id: IND_myelodysplastic_syndrome
     name: Myelodysplastic Syndrome / AML
@@ -540,11 +560,14 @@ indications:
   - id: IND_myotonic_dystrophy
     name: Myotonic Dystrophy
     therapeutic_area: cns
+    secondary_therapeutic_areas: [rare_disease]
+    cross_ta_signals: [neuromuscular, muscular_dystrophy, dm1, dmpk, rare_neuromuscular, muscle, rna_therapy]
     aliases:
       - myotonic dystrophy
       - myotonic dystrophy type 1
       - dm1
       - myotonic dystrophy type 1 and facioscapulohumeral muscular dystrophy
+      - myotonic dystrophy type 1 / duchenne md / facioscapulohumeral md
       - facioscapulohumeral muscular dystrophy
       - fshd
 
@@ -567,6 +590,18 @@ indications:
       - haemophilia a
       - factor viii deficiency
       - severe hemophilia a
+
+  - id: IND_hearing_loss
+    name: Hearing Loss
+    therapeutic_area: rare_disease
+    aliases:
+      - hearing loss
+      - sensorineural hearing loss
+      - congenital hearing loss
+      - profound congenital hearing loss
+      - cisplatin-induced hearing loss
+      - cisplatin induced hearing loss
+      - profound congenital hearing loss / cisplatin-induced hearing loss
 
   - id: IND_alpha1_antitrypsin
     name: Alpha-1 Antitrypsin Deficiency
@@ -635,6 +670,7 @@ indications:
       - dry amd
       - dry age-related macular degeneration
       - advanced dry amd
+      - geographic atrophy secondary to age-related macular degeneration
 
   - id: IND_dry_eye_disease
     name: Dry Eye Disease

@@ -97,6 +97,21 @@ def get_indication(canonical_id: str) -> Optional[CanonicalIndication]:
     return INDICATION_REGISTRY.get(canonical_id)
 
 
+def lookup_indication(raw_text: str) -> Optional[CanonicalIndication]:
+    """Resolve a raw indication string to a CanonicalIndication via alias map.
+
+    Returns None if no alias match is found. Callers should treat None as
+    'no enrichment available' rather than an error — the gap-matching logic
+    falls back to token-based matching when this returns None.
+    """
+    if not raw_text:
+        return None
+    canonical_id = INDICATION_ALIAS_MAP.get(_norm(raw_text))
+    if canonical_id is None:
+        return None
+    return INDICATION_REGISTRY.get(canonical_id)
+
+
 def get_target(canonical_id: str) -> Optional[CanonicalTarget]:
     return TARGET_REGISTRY.get(canonical_id)
 

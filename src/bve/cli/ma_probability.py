@@ -260,7 +260,10 @@ def _timeline_for_row(row: "MAProbabilityRow") -> tuple[int, int]:
     base_min, base_max = _STAGE_TIMELINE_MONTHS.get(stage_key, (18, 30))
 
     adj = 0
-    if getattr(row, "watchlist_type", None) == "near_term_transaction":
+    watchlist_type = getattr(row, "watchlist_type", None)
+    if hasattr(watchlist_type, "value"):
+        watchlist_type = watchlist_type.value
+    if watchlist_type == "near_term_transaction":
         adj -= 5
     if getattr(row, "gap_urgency", None) == "high":
         adj -= 3
@@ -371,6 +374,8 @@ def _format_acquisition_timeline(result: "MAProbabilityResult") -> str:
         gap = row.matched_therapeutic_gap or "unknown"
         urgency = getattr(row, "gap_urgency", None) or "—"
         watchlist = getattr(row, "watchlist_type", None) or "strategic_watch"
+        if hasattr(watchlist, "value"):
+            watchlist = watchlist.value
         drivers = getattr(row, "transaction_driver_count", None)
         dtc = row.days_to_catalyst
 

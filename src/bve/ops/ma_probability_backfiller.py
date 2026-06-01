@@ -255,7 +255,7 @@ def _rescore_candidate_json(
         gate_codes: list[str] = []
         for i, score_key in enumerate(("mna_probability_score", "p_acquisition", "raw_probability")):
             raw_score = float(cand.get(score_key) or 0.0)
-            gated_score, codes = apply_gate_fn(
+            gated_score, codes, _n_triggers = apply_gate_fn(
                 raw_score,
                 financing_pressure=fp_cand,
                 external_deal_activity=0.0,   # not stored in snapshot
@@ -323,6 +323,16 @@ def rescore_ma_probability_snapshots(
     conn = sqlite3.connect(str(knowledge_db_path))
     conn.row_factory = sqlite3.Row
     try:
+        existing_columns = {
+            str(row["name"])
+            for row in conn.execute("PRAGMA table_info(ma_probability_snapshots)").fetchall()
+        }
+        if "acquirer_candidates_json" not in existing_columns:
+            conn.execute(
+                "ALTER TABLE ma_probability_snapshots "
+                "ADD COLUMN acquirer_candidates_json TEXT"
+            )
+
         rows = conn.execute(
             "SELECT rowid, asset_id, stage, therapeutic_area, scarcity_peer_count, "
             "strategic_fit_score, valuation_discount_score, capital_vulnerability_score, "
@@ -394,7 +404,7 @@ def rescore_ma_probability_snapshots(
             # --- Sprint 22: apply transaction-likelihood gate ---
             # external_deal_activity and activist_signal not stored in snapshots;
             # default to 0.0 (conservative — gate fires more often, reducing FP rate).
-            prob, _gate_codes = _apply_transaction_likelihood_gate(
+            prob, _gate_codes, _n_triggers = _apply_transaction_likelihood_gate(
                 prob_penalised,
                 financing_pressure=cv,
                 external_deal_activity=0.0,

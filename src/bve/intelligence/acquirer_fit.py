@@ -5,6 +5,8 @@ from datetime import date, datetime, timezone
 import re
 from typing import Optional
 
+from bve.normalization.registries import lookup_indication
+
 from pydantic import BaseModel, Field, model_validator
 
 from bve.intelligence.acquirer_profiles import AcquirerProfile, AcquirerProfileLoader
@@ -432,6 +434,7 @@ SCORE_VERSIONS: dict[str, dict[str, float]] = {
 def _normalize_text(value: Optional[str]) -> Optional[str]:
     if value is None:
         return None
+    value = getattr(value, "value", value)
     normalized = str(value).strip().lower().replace("'", "")
     normalized = re.sub(r"[^a-z0-9]+", " ", normalized)
     normalized = " ".join(normalized.split())
@@ -818,11 +821,15 @@ class AcquirerFitScorer:
                 ),
                 6,
             )
+            hard_fail_reasons = self._pipeline_gap_hard_fail_reasons(target)
+            fit_score = raw_fit_score
+            if hard_fail_reasons:
+                fit_score = round(raw_fit_score * self.config.hard_fail_penalty_multiplier, 6)
 
             gap_match = {
-                "fit_score": raw_fit_score,
+                "fit_score": fit_score,
                 "raw_fit_score": raw_fit_score,
-                "passes_hard_filters": True,
+                "passes_hard_filters": not hard_fail_reasons,
                 "therapeutic_area_score": round(ta_match, 6),
                 "modality_score": round(modality_match, 6),
                 "stage_score": round(stage_score, 6),
@@ -835,7 +842,7 @@ class AcquirerFitScorer:
                 "strategic_priority_component": partnership_component,
                 "valuation_component": 0.0,
                 "budget_component": budget_component,
-                "hard_fail_reasons": [],
+                "hard_fail_reasons": hard_fail_reasons,
                 "matched_therapeutic_gap": _gap_label(gap),
                 "matched_modality": matched_modality,
                 "matched_priorities": [],
@@ -923,6 +930,10 @@ class AcquirerFitScorer:
             score_version=self.config.score_version,
             **best_match,
         )
+
+    def _pipeline_gap_hard_fail_reasons(self, target: AcquirerFitCandidate) -> list[str]:
+        _stage_score, stage_hard_fails = self._score_stage(target=target)
+        return list(dict.fromkeys(stage_hard_fails))
 
     def score_candidates(
         self,
@@ -1393,6 +1404,19 @@ def _gap_therapeutic_area_match(
         target.indication,
         *target.priority_tags,
     )
+
+    # Cross-TA enrichment: look up the indication in the canonical registry.
+    # If it has secondary_therapeutic_areas or cross_ta_signals, add those to
+    # the token sets so that e.g. IgA Nephropathy (immunology) also matches
+    # ckd_pkd_renal (rare_disease) gaps.
+    canonical_ind = lookup_indication(target.indication or "")
+    if canonical_ind is not None:
+        for secondary_ta in canonical_ind.secondary_therapeutic_areas:
+            target_area_signals |= _signal_tokens(secondary_ta)
+        for cross_signal in canonical_ind.cross_ta_signals:
+            target_context_signals |= _specific_signal_tokens(cross_signal)
+            target_context_signals.add(_normalize_text(cross_signal) or cross_signal)
+
     if not target_area_signals and not target_context_signals:
         return 0.0
 
