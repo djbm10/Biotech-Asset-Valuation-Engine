@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from datetime import date, datetime, timezone
+from pathlib import Path
 import re
 from typing import Optional
 
@@ -22,6 +23,7 @@ from bve.intelligence.comparable_deals import (
     ComparableDealLoader,
     ComparableDealMatcher,
 )
+from bve.analysis.deal_premium import DealPremiumEngine
 
 _LATE_STAGE = {"phase_3", "nda_bla", "approved", "commercial"}
 _PRE_PHASE_2 = {"preclinical", "phase_1"}
@@ -650,6 +652,11 @@ class AcquirerFitRow(AcquirerFitScore):
     comparable_n: int = 0
     comparable_percentile_vs_peers: float | None = None
     comparable_peer_median_ev_to_peak_sales: float | None = None
+    # Deal premium estimate (Block 3A/3B)
+    deal_premium_ev_ps_p25: float | None = None
+    deal_premium_ev_ps_median: float | None = None
+    deal_premium_ev_ps_p75: float | None = None
+    deal_premium_tier: str | None = None
 
 
 class AcquirerFitResult(BaseModel):
@@ -1159,6 +1166,12 @@ class AcquirerFitEngine:
             require_acquisition_readiness=self.integration_config.require_acquisition_readiness
         )
         self.scorer = AcquirerFitScorer(resolved_fit_config)
+        try:
+            self.deal_premium_engine: Optional[DealPremiumEngine] = DealPremiumEngine.from_file(
+                Path(self.integration_config.comparable_deals_path)
+            )
+        except Exception:
+            self.deal_premium_engine = None
         self.acquisition_screener = AcquisitionScreener(
             AcquisitionScreenConfig(
                 threshold=self.integration_config.acquisition_threshold,
@@ -1265,6 +1278,22 @@ class AcquirerFitEngine:
             target=candidate,
             comparable_analysis=comparable_analysis,
         )
+        # Deal premium estimate (Block 3B)
+        dp_p25 = dp_median = dp_p75 = dp_tier = None
+        if self.deal_premium_engine is not None and candidate.stage:
+            try:
+                dp = self.deal_premium_engine.estimate(
+                    phase=candidate.stage,
+                    therapeutic_area=candidate.therapeutic_area or "oncology",
+                    acquirer_fit_score=score.fit_score,
+                )
+                dp_p25 = dp.ev_to_peak_sales_p25
+                dp_median = dp.ev_to_peak_sales_median
+                dp_p75 = dp.ev_to_peak_sales_p75
+                dp_tier = dp.premium_tier
+            except Exception:
+                pass
+
         return AcquirerFitRow(
             **score.model_dump(),
             company_id=candidate.company_id,
@@ -1281,6 +1310,10 @@ class AcquirerFitEngine:
             comparable_n=comparable_analysis.n_comps,
             comparable_percentile_vs_peers=comparable_analysis.percentile_vs_comps,
             comparable_peer_median_ev_to_peak_sales=comparable_analysis.peer_median_ev_to_peak_sales,
+            deal_premium_ev_ps_p25=dp_p25,
+            deal_premium_ev_ps_median=dp_median,
+            deal_premium_ev_ps_p75=dp_p75,
+            deal_premium_tier=dp_tier,
         )
 
     def _build_candidate(

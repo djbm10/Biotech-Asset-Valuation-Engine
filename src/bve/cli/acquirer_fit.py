@@ -183,11 +183,20 @@ def _format_report(result: AcquirerFitResult) -> str:
             f"{_fmt_status(row):<{widths[10]}}"
         )
         priorities = ", ".join(row.matched_priorities) if row.matched_priorities else "none"
+        dp_str = ""
+        if row.deal_premium_ev_ps_median is not None:
+            dp_str = (
+                f"  deal_ev/ps=[{_fmt_ratio(row.deal_premium_ev_ps_p25)}"
+                f"–{_fmt_ratio(row.deal_premium_ev_ps_p75)}]"
+                f"(med={_fmt_ratio(row.deal_premium_ev_ps_median)}"
+                f",tier={row.deal_premium_tier or 'n/a'})"
+            )
         lines.append(
             "      "
             f"priorities={priorities}  "
             f"valuation={row.valuation_source}  "
-            f"comps={row.comparable_n}  "
+            f"comps={row.comparable_n}"
+            f"{dp_str}  "
             f"explanation={row.explanation}"
         )
     return "\n".join(lines)
