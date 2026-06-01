@@ -38,12 +38,12 @@ from __future__ import annotations
 
 import math
 import logging
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Optional
 
 import numpy as np
 from scipy.optimize import minimize
-from scipy.special import expit, logit as scipy_logit
+from scipy.special import expit
 
 logger = logging.getLogger(__name__)
 
@@ -180,8 +180,6 @@ def _pava(y: list[float], w: Optional[list[float]] = None) -> list[float]:
 
     # Expand back to n values
     result: list[float] = []
-    idx = 0
-    w_remaining = list(w)
     for sum_wy, sum_w in blocks:
         block_mean = sum_wy / sum_w
         block_n = round(sum_w)  # works for integer weights

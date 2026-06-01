@@ -222,7 +222,7 @@ class EventImpactLedger:
     # Public API
     # ------------------------------------------------------------------
 
-    def compute_scores(self, store: "KnowledgeStore") -> list[EventImpactScore]:  # type: ignore[name-defined]
+    def compute_scores(self, store: "KnowledgeStore") -> list[EventImpactScore]:  # type: ignore[name-defined]  # noqa: F821
         """
         Read resolved event_outcomes from *store* and compute EWM scores.
 
@@ -237,14 +237,14 @@ class EventImpactLedger:
     def save_scores(
         self,
         scores: list[EventImpactScore],
-        store: "KnowledgeStore",  # type: ignore[name-defined]
+        store: "KnowledgeStore",  # type: ignore[name-defined]  # noqa: F821
     ) -> None:
         """Upsert all scores into the event_scores table."""
         for score in scores:
             store.upsert_event_score(score)
 
     def run(
-        self, store: "KnowledgeStore"  # type: ignore[name-defined]
+        self, store: "KnowledgeStore"  # type: ignore[name-defined]  # noqa: F821
     ) -> list[EventImpactScore]:
         """Compute and persist scores in one call. Returns the computed scores."""
         scores = self.compute_scores(store)
@@ -255,7 +255,7 @@ class EventImpactLedger:
     # Internal
     # ------------------------------------------------------------------
 
-    def _fetch_resolved_outcomes(self, store: "KnowledgeStore") -> list[dict]:  # type: ignore[name-defined]
+    def _fetch_resolved_outcomes(self, store: "KnowledgeStore") -> list[dict]:  # type: ignore[name-defined]  # noqa: F821
         """
         Query event_outcomes joined to structured_signals for enrichment.
 

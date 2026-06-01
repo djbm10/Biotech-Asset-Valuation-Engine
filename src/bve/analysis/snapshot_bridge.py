@@ -24,7 +24,7 @@ from typing import Optional
 import yaml
 
 
-def load_underwriting_pack(path: str | Path) -> "CompanySnapshot":
+def load_underwriting_pack(path: str | Path) -> "CompanySnapshot":  # noqa: F821
     """
     Load an underwriting pack YAML and return a validated CompanySnapshot.
 
@@ -148,7 +148,7 @@ def load_underwriting_pack(path: str | Path) -> "CompanySnapshot":
     )
 
 
-def _value_bucket_from_dict(d: dict, default_type: str) -> "ValueBucket":
+def _value_bucket_from_dict(d: dict, default_type: str) -> "ValueBucket":  # noqa: F821
     from bve.entities.company_snapshot import ValueBucket
 
     return ValueBucket(
@@ -170,11 +170,11 @@ def _value_bucket_from_dict(d: dict, default_type: str) -> "ValueBucket":
 
 
 def sotp_result_from_snapshot(
-    snapshot: "CompanySnapshot",
+    snapshot: "CompanySnapshot",  # noqa: F821
     *,
     rank: int = 0,
     ranked_sotp_discount: Optional[float] = None,
-) -> "CompanySOTPResult":
+) -> "CompanySOTPResult":  # noqa: F821
     """
     Derive a CompanySOTPResult from a canonical CompanySnapshot.
 

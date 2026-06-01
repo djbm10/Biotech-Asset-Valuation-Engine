@@ -228,10 +228,10 @@ class DealEconomics(BaseModel):
 
 def milestone_pv(
     milestone: Milestone,
-    prob: "ProbabilityResult",  # type: ignore[name-defined]
+    prob: "ProbabilityResult",  # type: ignore[name-defined]  # noqa: F821
     discount_rate: float,
     launch_year_offset: float = 0.0,
-    revenue_stream: "Optional[RevenueStream]" = None,  # type: ignore[name-defined]
+    revenue_stream: "Optional[RevenueStream]" = None,  # type: ignore[name-defined]  # noqa: F821
 ) -> float:
     """
     Compute the probability-weighted present value of a single milestone.

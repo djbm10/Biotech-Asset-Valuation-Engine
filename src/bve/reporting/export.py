@@ -32,8 +32,6 @@ def markdown_to_docx(
     """
     try:
         from docx import Document
-        from docx.shared import Pt, RGBColor
-        from docx.enum.text import WD_ALIGN_PARAGRAPH
     except ImportError:
         raise ImportError("python-docx required: pip install python-docx")
 

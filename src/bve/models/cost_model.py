@@ -188,7 +188,7 @@ class CostModel:
     def compute(
         prob: ProbabilityResult,
         discount_rate: float,
-        deal: Optional["DealEconomics"] = None,  # type: ignore[name-defined]
+        deal: Optional["DealEconomics"] = None,  # type: ignore[name-defined]  # noqa: F821
         post_approval_rd_millions: float = 0.0,
         cmc_costs: Optional[CMCCosts] = None,
         cost_inflation_rate: float = 0.0,

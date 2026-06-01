@@ -10,6 +10,7 @@ The three sub-scores are additive diagnostics attached to each row.
 from __future__ import annotations
 
 import math
+from enum import Enum
 from typing import Optional
 
 from pydantic import BaseModel, Field
@@ -511,72 +512,6 @@ def _count_transaction_drivers(
     return len(drivers), drivers
 
 
-def compute_mna_composite_score(
-    ta: TargetAttractivenessScore,
-    dl: DealLikelihoodScore,
-    af: AcquirerFitDecomposed,
-) -> tuple[float, list[str]]:
-    """Compute the composite M&A screening score from three sub-scores.
-
-    Applies gate caps and a transaction-driver requirement:
-
-    1. Dual gate (financing_not_pressured AND no_buyer_urgency): composite ≤ 0.50
-    2. Single DL gate (financing_not_pressured only): composite ≤ 0.65
-    3. Two-driver requirement: composite > 0.65 requires ≥ 2 independent transaction
-       drivers.  With only 1 driver the ceiling is 0.65; with 0 drivers, 0.45.
-
-    Strategic fit alone (high TA + AF, no urgency signals) cannot produce a
-    composite score above 0.45 when no transaction drivers are present, or 0.65
-    when only one driver fires.
-
-    Returns (composite_score, cap_reason_codes).
-    """
-    raw = (
-        ta.score * TARGET_ATTRACTIVENESS_WEIGHT
-        + dl.score * DEAL_LIKELIHOOD_WEIGHT
-        + af.score * ACQUIRER_FIT_WEIGHT
-    )
-    sub = [ta.score, dl.score, af.score]
-    penalised = apply_saturation_penalty(raw, sub_scores=sub)
-
-    cap_reasons: list[str] = []
-    n_drivers, driver_names = _count_transaction_drivers(ta, dl, af)
-
-    # Detect dual gate: both financing_not_pressured AND no_buyer_urgency
-    dual_gate = (
-        FINANCING_REASON_NOT_PRESSURED in dl.financing_reason_codes
-        and FINANCING_REASON_NO_BUYER_URGENCY in dl.financing_reason_codes
-    )
-
-    # Apply gate caps from most to least restrictive
-    if dual_gate and penalised > COMPOSITE_MAX_DUAL_GATE:
-        penalised = COMPOSITE_MAX_DUAL_GATE
-        cap_reasons.append("composite_capped_by_dual_gate")
-    elif dl.financing_gate_applied and penalised > COMPOSITE_MAX_WITH_DL_GATE:
-        penalised = COMPOSITE_MAX_WITH_DL_GATE
-        cap_reasons.append("composite_capped_by_dl_gate")
-
-    # Two-driver requirement: scores above 0.65 require ≥ 2 independent drivers
-    if n_drivers < 2 and penalised > COMPOSITE_MAX_ONE_DRIVER:
-        penalised = COMPOSITE_MAX_ONE_DRIVER
-        cap_reasons.append("composite_needs_two_drivers")
-
-    # Zero-driver floor: no urgency signal at all → hard cap at 0.45
-    if n_drivers == 0 and penalised > COMPOSITE_MAX_ZERO_DRIVERS:
-        penalised = COMPOSITE_MAX_ZERO_DRIVERS
-        cap_reasons.append("composite_capped_zero_drivers")
-
-    # Propagate financing reason codes and attach driver diagnostics
-    if dl.financing_gate_applied:
-        cap_reasons.extend(dl.financing_reason_codes)
-
-    cap_reasons.append(f"n_drivers:{n_drivers}")
-    for d in driver_names:
-        cap_reasons.append(f"driver:{d}")
-
-    return round(min(max(penalised, 0.0), 1.0), 6), cap_reasons
-
-
 # ---------------------------------------------------------------------------
 # Watchlist type classification (Sprint 23 Task 3)
 # ---------------------------------------------------------------------------
@@ -638,8 +573,6 @@ def classify_watchlist_type(
 # ---------------------------------------------------------------------------
 # Layer 2 — BD Decision Engine
 # ---------------------------------------------------------------------------
-
-from enum import Enum
 
 
 class DataConfidence(str, Enum):
