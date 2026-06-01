@@ -553,7 +553,7 @@ def print_report(report: BacktestReport) -> str:
 
 if __name__ == "__main__":
     if "--multi-ta" in sys.argv:
-        # Run combined 5-TA backtest
+        # Run combined 8-TA backtest
         try:
             combined, per_ta = run_combined_backtest_from_files()
             # Per-TA summary
