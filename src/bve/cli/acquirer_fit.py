@@ -191,12 +191,18 @@ def _format_report(result: AcquirerFitResult) -> str:
                 f"(med={_fmt_ratio(row.deal_premium_ev_ps_median)}"
                 f",tier={row.deal_premium_tier or 'n/a'})"
             )
+        syn_str = ""
+        if row.portfolio_synergy_score is not None:
+            syn_str = f"  synergy={row.portfolio_synergy_score:.2f}"
+            if row.portfolio_synergy_top_match:
+                syn_str += f"(vs={row.portfolio_synergy_top_match})"
         lines.append(
             "      "
             f"priorities={priorities}  "
             f"valuation={row.valuation_source}  "
             f"comps={row.comparable_n}"
-            f"{dp_str}  "
+            f"{dp_str}"
+            f"{syn_str}  "
             f"explanation={row.explanation}"
         )
     return "\n".join(lines)

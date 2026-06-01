@@ -24,6 +24,10 @@ from bve.intelligence.comparable_deals import (
     ComparableDealMatcher,
 )
 from bve.analysis.deal_premium import DealPremiumEngine
+from bve.analysis.synergy_graph import (
+    SynergyAssetProfile,
+    score_acquirer_portfolio_fit,
+)
 
 _LATE_STAGE = {"phase_3", "nda_bla", "approved", "commercial"}
 _PRE_PHASE_2 = {"preclinical", "phase_1"}
@@ -657,6 +661,9 @@ class AcquirerFitRow(AcquirerFitScore):
     deal_premium_ev_ps_median: float | None = None
     deal_premium_ev_ps_p75: float | None = None
     deal_premium_tier: str | None = None
+    # Portfolio synergy score (Block 4B)
+    portfolio_synergy_score: float | None = None
+    portfolio_synergy_top_match: str | None = None
 
 
 class AcquirerFitResult(BaseModel):
@@ -1223,12 +1230,14 @@ class AcquirerFitEngine:
         )
 
         asset_by_id = {getattr(asset, "asset_id"): asset for asset in watchlist}
+        acquirer_portfolio = self._build_acquirer_portfolio(profile)
         integrated_rows = [
             self._build_row(
                 acquirer=profile,
                 asset=asset_by_id[row.asset_id],
                 acquisition_row=row,
                 comparable_deals=deals,
+                acquirer_portfolio=acquirer_portfolio,
             )
             for row in acquisition_result.rows
         ]
@@ -1257,6 +1266,25 @@ class AcquirerFitEngine:
             rows=ranked_rows,
         )
 
+    @staticmethod
+    def _build_acquirer_portfolio(acquirer: AcquirerProfile) -> list[SynergyAssetProfile]:
+        """Build SynergyAssetProfile list from an acquirer's recent deal history."""
+        portfolio: list[SynergyAssetProfile] = []
+        for deal in acquirer.recent_deal_history:
+            portfolio.append(SynergyAssetProfile(
+                asset_id=deal.deal_name,
+                therapeutic_area=deal.therapeutic_area,
+                modality=deal.modality,
+                signals=[deal.therapeutic_area, deal.modality],
+            ))
+        for partnership in acquirer.existing_partnerships:
+            portfolio.append(SynergyAssetProfile(
+                asset_id=partnership.target,
+                therapeutic_area=partnership.therapeutic_area,
+                signals=[partnership.therapeutic_area, partnership.partnership_type],
+            ))
+        return portfolio
+
     def _build_row(
         self,
         *,
@@ -1264,6 +1292,7 @@ class AcquirerFitEngine:
         asset: object,
         acquisition_row: AcquisitionScreenRow,
         comparable_deals: list[ComparableDeal],
+        acquirer_portfolio: Optional[list[SynergyAssetProfile]] = None,
     ) -> AcquirerFitRow:
         candidate = self._build_candidate(asset=asset, acquisition_row=acquisition_row)
         comparable_analysis = ComparableDealMatcher.analyze(
@@ -1278,6 +1307,28 @@ class AcquirerFitEngine:
             target=candidate,
             comparable_analysis=comparable_analysis,
         )
+        # Portfolio synergy score (Block 4B)
+        syn_score: Optional[float] = None
+        syn_top_match: Optional[str] = None
+        if acquirer_portfolio:
+            try:
+                candidate_profile = SynergyAssetProfile(
+                    asset_id=candidate.asset_id,
+                    therapeutic_area=candidate.therapeutic_area or "",
+                    indication=candidate.indication or "",
+                    modality=candidate.modality or "",
+                    signals=list(candidate.priority_tags),
+                )
+                total_syn, syn_edges = score_acquirer_portfolio_fit(
+                    candidate_profile, acquirer_portfolio
+                )
+                if total_syn > 0:
+                    syn_score = total_syn
+                    if syn_edges:
+                        syn_top_match = syn_edges[0].asset_id_b
+            except Exception:
+                pass
+
         # Deal premium estimate (Block 3B)
         dp_p25 = dp_median = dp_p75 = dp_tier = None
         if self.deal_premium_engine is not None and candidate.stage:
@@ -1314,6 +1365,8 @@ class AcquirerFitEngine:
             deal_premium_ev_ps_median=dp_median,
             deal_premium_ev_ps_p75=dp_p75,
             deal_premium_tier=dp_tier,
+            portfolio_synergy_score=syn_score,
+            portfolio_synergy_top_match=syn_top_match,
         )
 
     def _build_candidate(
