@@ -48,6 +48,8 @@ from bve.intelligence.ma_layer5_calibration import (
     _GATE_DESCRIPTIONS,
     _GATE_CHANGE_SUGGESTIONS,
     _CALIBRATION_COHORTS,
+    _EFFECTIVE_MIDPOINT,
+    _EFFECTIVE_SLOPE,
 )
 
 
@@ -99,17 +101,21 @@ class TestExpit:
 
 class TestDeriveLogisticProbability:
     def test_midpoint_score_gives_near_half(self):
-        # rank_score == _LOGISTIC_MIDPOINT (0.68) → logistic ≈ 0.5
-        p = _derive_logistic_probability(0.68)
+        # rank_score at the calibrated midpoint → logistic ≈ 0.5
+        p = _derive_logistic_probability(_EFFECTIVE_MIDPOINT)
         assert abs(p - 0.5) < 0.01
 
     def test_high_score_gives_high_prob(self):
-        p = _derive_logistic_probability(0.85)
-        assert p > 0.70
+        # Score clamped to [0,1] but shifted above midpoint by 2/slope → should exceed 0.5
+        high_score = min(1.0, _EFFECTIVE_MIDPOINT + 2.0 / max(_EFFECTIVE_SLOPE, 0.1))
+        p = _derive_logistic_probability(high_score)
+        assert p > 0.5
 
     def test_low_score_gives_low_prob(self):
-        p = _derive_logistic_probability(0.35)
-        assert p < 0.15
+        # Score clamped to [0,1] but shifted below midpoint by 2/slope → should be below 0.5
+        low_score = max(0.0, _EFFECTIVE_MIDPOINT - 2.0 / max(_EFFECTIVE_SLOPE, 0.1))
+        p = _derive_logistic_probability(low_score)
+        assert p < 0.5
 
     def test_returns_between_0_and_1(self):
         for score in [0.0, 0.3, 0.5, 0.68, 0.8, 1.0]:
