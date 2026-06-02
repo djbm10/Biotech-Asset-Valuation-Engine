@@ -99,6 +99,23 @@ jobs:
             --ledger outputs/intelligence/evidence_ledger.jsonl \
             --as-of "${{ steps.vars.outputs.as_of }}" || true
 
+      - name: Validate ledger before run
+        run: |
+          bve-ledger-validate \
+            --ledger outputs/intelligence/evidence_ledger.jsonl \
+            --as-of "${{ steps.vars.outputs.as_of }}" || true
+
+      - name: Smoke test (dry-run)
+        run: |
+          bve-weekly-run \
+            --targets research/universe/targets.yaml \
+            --acquirers research/universe/acquirers.yaml \
+            --overrides research/universe/manual_overrides.yaml \
+            --ledger outputs/intelligence/evidence_ledger.jsonl \
+            --as-of "${{ steps.vars.outputs.as_of }}" \
+            --score-mode "${{ steps.vars.outputs.score_mode }}" \
+            --dry-run
+
       - name: Run daily BVE pipeline
         run: |
           bve-weekly-run \
@@ -120,6 +137,20 @@ jobs:
             --ledger outputs/intelligence/evidence_ledger.jsonl \
             --as-of "${{ steps.vars.outputs.as_of }}" || true
 
+      - name: Validate ledger after run
+        run: |
+          bve-ledger-validate \
+            --ledger outputs/intelligence/evidence_ledger.jsonl \
+            --as-of "${{ steps.vars.outputs.as_of }}" || true
+
+      - name: Generate ledger manifest
+        run: |
+          bve-ledger-manifest \
+            --ledger outputs/intelligence/evidence_ledger.jsonl \
+            --run-id "daily-${{ steps.vars.outputs.as_of }}" \
+            --as-of "${{ steps.vars.outputs.as_of }}" \
+            --output outputs/intelligence/ledger_manifest.json || true
+
       - name: Upload daily reports
         uses: actions/upload-artifact@v4
         with:
@@ -135,9 +166,11 @@ jobs:
           git config user.name "bve-bot"
           git config user.email "bve-bot@noreply.github.com"
 
-          # Copy ledger to temp location outside the working tree
+          # Copy ledger + manifest to temp location outside the working tree
           LEDGER_TMP="$RUNNER_TEMP/evidence_ledger.jsonl"
+          MANIFEST_TMP="$RUNNER_TEMP/ledger_manifest.json"
           cp outputs/intelligence/evidence_ledger.jsonl "$LEDGER_TMP"
+          cp outputs/intelligence/ledger_manifest.json "$MANIFEST_TMP" 2>/dev/null || true
 
           git fetch origin data || true
 
@@ -151,12 +184,39 @@ jobs:
 
           mkdir -p outputs/intelligence
           cp "$LEDGER_TMP" outputs/intelligence/evidence_ledger.jsonl
+          [ -f "$MANIFEST_TMP" ] && cp "$MANIFEST_TMP" outputs/intelligence/ledger_manifest.json || true
 
           git add outputs/intelligence/evidence_ledger.jsonl
+          git add outputs/intelligence/ledger_manifest.json 2>/dev/null || true
 
           if git diff --cached --quiet; then
             echo "No ledger changes to commit."
           else
             git commit -m "chore(data): update evidence ledger ${{ steps.vars.outputs.as_of }}"
-            git push origin HEAD:data
+
+            # Push with retry + rebase on conflict
+            for attempt in 1 2 3; do
+              if git push origin HEAD:data; then
+                echo "Push succeeded on attempt $attempt."
+                break
+              fi
+              if [ "$attempt" -lt 3 ]; then
+                echo "Push failed (attempt $attempt), rebasing and retrying..."
+                git fetch origin data
+                git rebase origin/data || { echo "Rebase failed — aborting"; exit 1; }
+              else
+                echo "Push failed after 3 attempts."
+                exit 1
+              fi
+            done
           fi
+
+      - name: Upload failure diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bve-failure-${{ steps.vars.outputs.as_of }}
+          path: |
+            outputs/daily/${{ steps.vars.outputs.as_of }}
+            outputs/intelligence/evidence_ledger.jsonl
+          retention-days: 7

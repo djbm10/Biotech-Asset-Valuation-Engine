@@ -113,6 +113,10 @@ bve-ma-audit             = "bve.cli.ma_calibration_audit_cli:main"
 bve-scan-universe        = "bve.cli.universe_scanner_cli:main"
 bve-ingest-live          = "bve.cli.ingest_live_cli:main"
 bve-ledger-stats         = "bve.cli.ledger_stats_cli:main"
+bve-ledger-validate      = "bve.cli.ledger_validate_cli:main"
+bve-ledger-manifest      = "bve.cli.ledger_manifest_cli:main"
+bve-reproduce-run        = "bve.cli.reproduce_run_cli:main"
+bve-review-events        = "bve.cli.review_events_cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

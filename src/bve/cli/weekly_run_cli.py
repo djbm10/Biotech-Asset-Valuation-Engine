@@ -73,6 +73,11 @@ def main(
     parser.add_argument("--lookback-days", type=int, default=14,
                         help="Lookback window in days for live ingestion")
     parser.add_argument("--dry-run",      action="store_true")
+    parser.add_argument(
+        "--decisions",
+        default=None,
+        help="Path to review_decisions.yaml; activates approved-only vs provisional delta reporting.",
+    )
     args = parser.parse_args(argv)
 
     as_of = date.fromisoformat(args.as_of) if args.as_of else date.today()
@@ -172,8 +177,18 @@ def main(
             target_profiles  = enricher2.enrich_targets()
             acquirer_profiles = enricher2.enrich_acquirers()
 
-    # ── Step 5: Run screen ─────────────────────────────────────────────────
-    from bve.ingestion.review_gate import ScoreMode
+    # ── Step 5: Load review decisions (optional) ──────────────────────────
+    from bve.ingestion.review_gate import ReviewGate, ScoreMode
+
+    gate = ReviewGate()
+    if args.decisions:
+        from bve.ingestion.review_apply import apply_decisions_to_gate, load_review_decisions_yaml
+
+        decisions = load_review_decisions_yaml(args.decisions)
+        n = apply_decisions_to_gate(decisions, gate)
+        print(f"Review decisions loaded:  {n} from {args.decisions}")
+
+    # ── Step 6: Run screen ─────────────────────────────────────────────────
     from bve.intelligence.weekly_ma_screen import WeeklyMAScreen
 
     score_mode = ScoreMode(args.score_mode)
@@ -187,7 +202,7 @@ def main(
         min_coverage=args.min_coverage,
     )
 
-    # ── Load previous result for diff ─────────────────────────────────────
+    # ── Load previous result for score diff ───────────────────────────────
     prev_result = None
     if args.prev_output:
         prev_screen_path = Path(args.prev_output) / "screen_result.json"
@@ -212,6 +227,25 @@ def main(
     if ranked:
         top = ranked[0]
         print(f"Top target:              {top.ticker} ({top.ma_probability:.1%})")
+
+    # ── Approved-only vs provisional delta (when --decisions provided) ─────
+    if args.decisions:
+        result_approved = screen.run(
+            as_of_date=as_of,
+            targets=list(target_profiles.values()),
+            acquirers=list(acquirer_profiles.values()),
+            ledger=ledger,
+            score_mode=ScoreMode.APPROVED_ONLY,
+            min_coverage=args.min_coverage,
+        )
+        prov_scores = {r.ticker: r.ma_probability for r in result.ranked_targets}
+        appr_scores = {r.ticker: r.ma_probability for r in result_approved.ranked_targets}
+        print("\nApproved-only vs provisional delta (MA probability):")
+        for ticker in sorted(prov_scores):
+            prov = prov_scores[ticker]
+            appr = appr_scores.get(ticker, 0.0)
+            if abs(prov - appr) > 0.005:
+                print(f"  {ticker:<10} approved={appr:.3f}  provisional={prov:.3f}  Δ={prov-appr:+.3f}")
 
     if args.dry_run:
         print("Dry run successful. No files written.")
@@ -240,4 +274,26 @@ def main(
 
     for p in all_paths:
         print(f"  {p.name}")
+
+    # ── Step 7: Write run_context.json ────────────────────────────────────
+    try:
+        from bve.run.run_context import capture_run_context
+
+        ctx = capture_run_context(
+            as_of_date=as_of.isoformat(),
+            score_mode=args.score_mode,
+            lookback_days=args.lookback_days,
+            ingest_live=args.ingest_live,
+            input_files={
+                "targets": str(targets_path),
+                "acquirers": str(acquirers_path),
+                "overrides": str(overrides_path),
+                "ledger": str(ledger_path),
+            },
+        ).mark_completed()
+        ctx.save(output_dir / "run_context.json")
+        print("  run_context.json")
+    except Exception as exc:  # pragma: no cover — defensive
+        print(f"WARNING: could not write run_context.json: {exc}", file=sys.stderr)
+
     return 0
