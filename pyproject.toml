@@ -111,6 +111,7 @@ bve-audit-intelligence   = "tools.audit_import_graph:main"
 bve-ma-base-rate-report  = "bve.cli.ma_base_rate_report:main"
 bve-ma-audit             = "bve.cli.ma_calibration_audit_cli:main"
 bve-scan-universe        = "bve.cli.universe_scanner_cli:main"
+bve-ingest-live          = "bve.cli.ingest_live_cli:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
