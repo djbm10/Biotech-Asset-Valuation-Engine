@@ -1,0 +1,162 @@
+name: Daily BVE Run
+
+on:
+  schedule:
+    - cron: "17 11 * * *"
+  workflow_dispatch:
+    inputs:
+      as_of_date:
+        description: "As-of date YYYY-MM-DD. Empty = today."
+        required: false
+        default: ""
+      score_mode:
+        description: "Score mode"
+        required: true
+        default: "provisional"
+        type: choice
+        options:
+          - approved_only
+          - provisional
+          - all_auto
+      lookback_days:
+        description: "Lookback days for live ingestion"
+        required: true
+        default: "3"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: bve-ledger
+  cancel-in-progress: false
+
+jobs:
+  daily-run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Check out main branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install package
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+
+      - name: Resolve run variables
+        id: vars
+        shell: bash
+        run: |
+          AS_OF="${{ inputs.as_of_date }}"
+          SCORE_MODE="${{ inputs.score_mode }}"
+          LOOKBACK_DAYS="${{ inputs.lookback_days }}"
+
+          if [ -z "$AS_OF" ]; then
+            AS_OF="$(date -u +%F)"
+          fi
+
+          if [ -z "$SCORE_MODE" ]; then
+            SCORE_MODE="provisional"
+          fi
+
+          if [ -z "$LOOKBACK_DAYS" ]; then
+            LOOKBACK_DAYS="3"
+          fi
+
+          echo "as_of=$AS_OF"             >> "$GITHUB_OUTPUT"
+          echo "score_mode=$SCORE_MODE"   >> "$GITHUB_OUTPUT"
+          echo "lookback_days=$LOOKBACK_DAYS" >> "$GITHUB_OUTPUT"
+
+      - name: Restore ledger from data branch
+        shell: bash
+        run: |
+          mkdir -p outputs/intelligence
+
+          git fetch origin data --depth=1 || true
+
+          if git show-ref --verify --quiet refs/remotes/origin/data; then
+            git checkout origin/data -- outputs/intelligence/evidence_ledger.jsonl || true
+          fi
+
+          if [ ! -f outputs/intelligence/evidence_ledger.jsonl ]; then
+            touch outputs/intelligence/evidence_ledger.jsonl
+          fi
+
+          echo "Ledger records before run:"
+          wc -l outputs/intelligence/evidence_ledger.jsonl || true
+
+      - name: Ledger health before run
+        run: |
+          bve-ledger-stats \
+            --ledger outputs/intelligence/evidence_ledger.jsonl \
+            --as-of "${{ steps.vars.outputs.as_of }}" || true
+
+      - name: Run daily BVE pipeline
+        run: |
+          bve-weekly-run \
+            --targets research/universe/targets.yaml \
+            --acquirers research/universe/acquirers.yaml \
+            --overrides research/universe/manual_overrides.yaml \
+            --ledger outputs/intelligence/evidence_ledger.jsonl \
+            --as-of "${{ steps.vars.outputs.as_of }}" \
+            --lookback-days "${{ steps.vars.outputs.lookback_days }}" \
+            --score-mode "${{ steps.vars.outputs.score_mode }}" \
+            --output "outputs/daily/${{ steps.vars.outputs.as_of }}" \
+            --ingest-live
+
+      - name: Ledger health after run
+        run: |
+          echo "Ledger records after run:"
+          wc -l outputs/intelligence/evidence_ledger.jsonl || true
+          bve-ledger-stats \
+            --ledger outputs/intelligence/evidence_ledger.jsonl \
+            --as-of "${{ steps.vars.outputs.as_of }}" || true
+
+      - name: Upload daily reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: bve-daily-${{ steps.vars.outputs.as_of }}
+          path: outputs/daily/${{ steps.vars.outputs.as_of }}
+          retention-days: 30
+
+      - name: Persist ledger to data branch
+        shell: bash
+        run: |
+          set -e
+
+          git config user.name "bve-bot"
+          git config user.email "bve-bot@noreply.github.com"
+
+          # Copy ledger to temp location outside the working tree
+          LEDGER_TMP="$RUNNER_TEMP/evidence_ledger.jsonl"
+          cp outputs/intelligence/evidence_ledger.jsonl "$LEDGER_TMP"
+
+          git fetch origin data || true
+
+          # Switch to data branch (or create it as orphan if it does not exist)
+          if git show-ref --verify --quiet refs/remotes/origin/data; then
+            git switch -C data origin/data
+          else
+            git switch --orphan data
+            git rm -rf . || true
+          fi
+
+          mkdir -p outputs/intelligence
+          cp "$LEDGER_TMP" outputs/intelligence/evidence_ledger.jsonl
+
+          git add outputs/intelligence/evidence_ledger.jsonl
+
+          if git diff --cached --quiet; then
+            echo "No ledger changes to commit."
+          else
+            git commit -m "chore(data): update evidence ledger ${{ steps.vars.outputs.as_of }}"
+            git push origin HEAD:data
+          fi
