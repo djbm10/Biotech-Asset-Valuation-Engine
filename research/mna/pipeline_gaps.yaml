@@ -13,9 +13,123 @@ acquirers:
   - acquirer_id: "regeneron"
     company_name: "Regeneron Pharmaceuticals"
     ticker: "REGN"
-    profile_as_of: "2026-05-08"
+    profile_as_of: "2026-06-02"
     acquisition_capacity_millions: 2000.0
-    source_notes: "Manual curation from Regeneron investor materials, SEC-filed JPMorgan deck, Q4 2025 / Q1 2026 earnings transcripts, and Regeneron press releases. Deal-size bands derived from deal history analysis (Checkmate $250M, Decibel $109M, Telix $40M, 2seventy $5M) and management commentary characterizing transformative M&A as value-destructive. Updated May 2026 to add oncology and hematology TA gaps, siRNA and radiopharmaceutical modality entries, sub-area and budget-ceiling specificity on all TA gaps, Telix / Checkmate / Libtayo deal history, existing partnership records, and acquisition_capacity field."
+    acquirer_type: "large_cap_platform_biopharma_internal_first_BD_selective"
+    urgency_qualitative: "medium"
+    urgency_numeric_0_to_1: 0.57
+    urgency_rationale: "Large balance sheet ($18.5B cash Q1 2026) and nearly 50 clinical candidates reduce urgency, but ophthalmology franchise succession and selective extension in immunology/oncology still create targeted need. Management is selective but active in BD."
+    source_notes: "Manual curation from Regeneron investor materials, SEC-filed JPMorgan deck, Q4 2025 / Q1 2026 earnings transcripts, and Regeneron press releases. Updated June 2026: budget to Q1 2026 ($18.54B cash, $1.99B debt); added acquirer_type, urgency, scoring_weights, encumbrance_constraints, BD_appetite_signals, preferred_target_profile, positive_fit_areas, negative_fit_areas. Deal-size bands from Checkmate $250M, Decibel $109M, Telix $40M, 2seventy $5M; management characterizes transformative M&A as value-destructive."
+
+    preferred_target_profile:
+      market_cap_sweet_spot_usd: [250000000, 5000000000]
+      market_cap_stretch_usd: [5000000000, 8000000000]
+      preferred_valuation_sweet_spot_upfront_usd: [5000000, 500000000]
+      preferred_valuation_stretch_total_biobucks_usd: [500000000, 2500000000]
+      market_cap_rationale: "Inferred from bolt-on acquisitions and milestone-heavy collaborations. Actual deal upfront/equity checks are usually small ($5M-$250M) even when strategic importance is high. Company has capacity for more but public messaging argues against routine mega-M&A."
+      source_refs:
+        - source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-acquire-decibel-therapeutics-strengthening-gene/"
+        - source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-expands-clinical-stage-obesity-portfolio-strategic/"
+        - source_url: "https://investor.regeneron.com/static-files/718ea4f2-7a0f-4623-bf91-a701ead1cc44"
+      preferred_deal_types:
+        - strategic_collaboration
+        - in_license
+        - rights_acquisition
+        - bolt_on_acquisition
+        - selective_full_company_acquisition
+
+    scoring_weights:
+      structural_weight: 0.35
+      evidence_weight: 0.45
+      encumbrance_weight: 0.20
+      formula: "final_score = 0.35*structural_score + 0.45*evidence_score - 0.20*encumbrance_penalty"
+      rationale: "Because Regeneron's modality aperture is broad, evidence and management signals do more work than structural fit alone. Encumbrance must bite hard because Sanofi/Bayer already dilute economics on major franchises, and management is unusually explicit about BD selectivity."
+
+    encumbrance_constraints:
+      - condition: "lead_asset_rights_controlled_by_direct_competitor_in_core_market"
+        recommended_penalty_pct: -25
+        rationale: "Regeneron is selective; economics leakage undermines the targeted BD logic."
+      - condition: "dupixent_immunology_economics_diluted_by_overlapping_target_rights_or_unclear_field_overlap"
+        recommended_penalty_pct: -15
+        rationale: "Sanofi collaboration already shapes economics in major I&I franchises; unclear field overlap creates negotiation complexity."
+      - condition: "ex_us_ophthalmology_retinal_rights_already_fragmented"
+        recommended_penalty_pct: -15
+        rationale: "Bayer already controls important ex-US ophthalmology/EYLEA economics; further fragmentation of retinal rights reduces deal value."
+      - condition: "platform_requires_specialized_manufacturing_without_clear_control_rights_transferable"
+        recommended_penalty_pct: -10
+        rationale: "Relevant for radiopharma, cell therapy, and gene therapy; must be acquirable with manufacturing control."
+      - condition: "total_transaction_value_implies_large_MA_without_clear_platform_synergy"
+        recommended_penalty_pct: -20
+        rationale: "Management has been unusually explicit that large M&A often destroys value; >$2B acquisition ceiling is effectively a cultural veto unless synergy is overwhelming."
+
+    BD_appetite_signals:
+      - date: "2026-04-29"
+        quote_excerpt: "share repurchases and dividends as well as business development"
+        interpretation: "BD is presented as an active pillar of capital allocation alongside buybacks; not an afterthought."
+        source_url: "https://investor.regeneron.com/static-files/659792d1-9f8e-49d7-a61e-625cb0b96aea"
+        source_note: "Official IR Q1 2026 earnings-call transcript."
+      - date: "2026-01-30"
+        quote_excerpt: "complementary business development"
+        interpretation: "Management favors targeted, additive BD that complements existing platforms over transformative M&A."
+        source_url: "https://investor.regeneron.com/static-files/e1a0c96b-d854-4adb-8508-a2c5ae2e4f70"
+        source_note: "Official IR Q4 2025 earnings-call transcript."
+      - date: "2025-01-13"
+        quote_excerpt: "historically put about 95% of R&D resources into internal initiatives"
+        interpretation: "Management is explicit that internal innovation comes first; external BD is the deliberate supplement, not the primary R&D engine."
+        source_url: "https://investor.regeneron.com/static-files/718ea4f2-7a0f-4623-bf91-a701ead1cc44"
+        source_note: "Official IR JPMorgan Healthcare Conference 2025 deck."
+
+    positive_fit_areas:
+      - area: "ophthalmology_durability_retina_and_ga_or_non_vegf"
+        recommended_score_boost: 0.15
+        rationale: "EYLEA HD grew +52% Q1 2026 but total EYLEA franchise (HD+2mg) fell ~10%. Geographic Atrophy (non-VEGF) is the top unmet gap; complement inhibitors (C1q, C3) and HtrA1 inhibitors directly address biology EYLEA cannot. Sustained-release delivery platforms (>6-month dosing) are a secondary target."
+        source_refs:
+          - source_date: "2026-04-29"
+            source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-reports-first-quarter-2026-financial-and-operating/"
+      - area: "antibody_and_bispecific_platforms"
+        recommended_score_boost: 0.12
+        rationale: "VelociSuite/VelocImmune is Regeneron's deepest platform; targets with validated antibody or bispecific assets against novel antigens are easiest to integrate and most directly leverage internal capabilities."
+      - area: "immunology_and_inflammation_franchise_extensions"
+        recommended_score_boost: 0.12
+        rationale: "Dupixent ~$18B global FY2025 revenue (with Sanofi); next-gen long-acting biologics and oral alternatives to protect and extend the franchise are strategic gaps."
+        source_refs:
+          - source_date: "2026-04-29"
+            source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-reports-first-quarter-2026-financial-and-operating/"
+      - area: "genetic_medicines_gene_editing_and_delivery"
+        recommended_score_boost: 0.10
+        rationale: "Mammoth, Intellia, Tessera collaborations and RGC (2M+ sequenced individuals) validate the pipeline. RGC-discovered targets that lack a development partner are highest priority for licensing or acquisition."
+        source_refs:
+          - source_date: "2024-04-25"
+            source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-and-mammoth-biosciences-collaborate-pursue-next/"
+      - area: "oncology_radiopharma_and_cell_therapy_combo_platforms"
+        recommended_score_boost: 0.10
+        rationale: "Libtayo PD-1 backbone + xCD3/xCD28 bispecifics + Telix radiopharma collaboration confirm combination IO + warhead strategy. Platforms providing novel tumor-selective payloads score highest."
+        source_refs:
+          - source_date: "2026-04-13"
+            source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-and-telix-announce-strategic-radiopharma-collaboration/"
+      - area: "cardio_metabolic_muscle_sparing_anabolic_combo_enablers"
+        recommended_score_boost: 0.06
+        rationale: "Hansoh GLP-1/GIP fills the incretin slot (Phase 3); next gap is a muscle-sparing anabolic combination partner (myostatin/GDF8/activin inhibitor) to enable triple-combination obesity positioning."
+        source_refs:
+          - source_date: "2025-06-02"
+            source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-expands-clinical-stage-obesity-portfolio-strategic/"
+
+    negative_fit_areas:
+      - area: "mega_cap_MA_without_clear_platform_synergy"
+        recommended_penalty: 0.20
+        rationale: "Management has been unusually explicit that large M&A often destroys value; >$2B acquisition is a cultural veto unless overwhelming synergy exists."
+      - area: "heavily_encumbered_competitor_partnered_assets"
+        recommended_penalty: 0.25
+        rationale: "Rights leakage costs are especially high for a selective acquirer already managing Sanofi/Bayer collaboration economics."
+      - area: "undifferentiated_small_molecule_single_asset_companies"
+        recommended_penalty: 0.15
+        rationale: "No leverage of VelociSuite platform; only exception is oral I&I inhibitors defending Dupixent with clean safety profile."
+      - area: "anti_vegf_me_too_ophthalmology_without_durability_or_differentiation"
+        recommended_penalty: 0.15
+        rationale: "Ophthalmology TA fit alone is not enough; must address GA (non-VEGF) or demonstrate sustained-release durability advantage."
+      - area: "assets_complicating_sanofi_or_bayer_economic_structures_without_control_benefit"
+        recommended_penalty: 0.15
+        rationale: "Collaboration economics already reduce clean ownership of Dupixent (Sanofi) and EYLEA (Bayer); further dilution is a hard negative."
 
     therapeutic_area_gaps:
       - therapeutic_area: "ophthalmology"
@@ -420,17 +534,29 @@ acquirers:
         notes: "Acquired vidutolimod (CMP-001), a VLP-based TLR9 agonist for IO combinations with cemiplimab. Phase 1b asset at acquisition. Demonstrates appetite for novel IO mechanism bolt-ons in the $200-300M range when the asset directly extends the Libtayo backbone."
 
     budget:
-      as_of_date: "2025-12-31"
-      cash_and_marketable_securities_millions: 18865.8
-      long_term_debt_millions: 1985.9
-      net_cash_millions: 16879.9
-      capacity_notes: "Net cash $16.9B as of December 31, 2025. Annual free cash flow approximately $4.1B. Capital deployment priorities: R&D ($5.9-6.1B guided for 2026), share repurchases ($3.4B in 2025), dividends ($400M in 2025), and committed domestic manufacturing investment ($7B+, including $2B Saratoga Springs facility). Practical deal-size bands from deal history and management commentary: <$500M is the sweet spot for outright acquisitions (Checkmate $250M, Decibel $109M, Telix $40M, 2seventy $5M); $500M-$2B is accessible for high-conviction strategic moves or rights consolidation (Libtayo $900M); $2B-$5B is possible for a genuinely transformative modality platform but culturally unlikely; >$5B has been explicitly characterized by management as value-destructive. No management-disclosed hard cap; behavioral acquisition ceiling estimated at $2B for external outright acquisitions."
+      as_of_date: "2026-03-31"
+      cash_and_marketable_securities_millions: 18539.7
+      long_term_debt_millions: 1986.0
+      net_cash_millions: 16553.7
+      net_cash_management_reported_millions: 15800.0
+      net_cash_basis_note: "Simple balance-sheet subtraction gives ~$16.55B; management Q1 2026 call described 'cash and marketable securities less debt' as $15.8B. Use simple balance-sheet version in deterministic model; management figure as conservative cross-check."
+      capacity_notes: "Net cash ~$16.55B as of March 31, 2026. Annual FCF ~$4-5B. Capital deployment: R&D ($5.9-6.1B guided 2026), share repurchases ($3.4B in 2025), dividends ($400M in 2025), and committed manufacturing investment ($7B+ domestic, including $2B Saratoga Springs). Practical deal-size bands from deal history and management commentary: <$500M is the sweet spot for outright acquisitions (Checkmate $250M, Decibel $109M, Telix $40M, 2seventy $5M); $500M-$2B is accessible for high-conviction rights consolidation (Libtayo $900M); $2B-$5B is possible for a genuinely transformative modality platform but culturally unlikely; >$5B has been explicitly characterized by management as value-destructive. Behavioral acquisition ceiling estimated at $2B for outright external acquisitions."
       source_refs:
+        - source_date: "2026-04-29"
+          source_type: "earnings_release"
+          source_title: "Regeneron Reports First Quarter 2026 Financial and Operating Results"
+          source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-reports-first-quarter-2026-financial-and-operating/"
+          note: "Cash and marketable securities $18.5397B; long-term debt $1.986B as of March 31, 2026. Management Q1 2026 call: 'cash and marketable securities less debt' described as ~$15.8B."
+        - source_date: "2026-03-31"
+          source_type: "10_q_filing"
+          source_title: "Regeneron Q1 2026 Form 10-Q"
+          source_url: "https://www.sec.gov/Archives/edgar/data/872589/000087258926000016/regn-20260331.htm"
+          note: "Balance sheet: cash/securities $18.54B; long-term debt $1.986B as of March 31, 2026."
         - source_date: "2026-01-30"
           source_type: "earnings_release"
           source_title: "Regeneron Reports Fourth Quarter and Full Year 2025 Financial and Operating Results"
           source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-reports-fourth-quarter-and-full-year-2025-financial"
-          note: "Cash and marketable securities $18.8658B; long-term debt $1.9859B as of December 31, 2025. 2026 R&D guidance $5.9-6.1B. FCF and capital return commentary provided in the earnings call."
+          note: "FY2025 reference: cash $18.866B; debt $1.986B. Updated to Q1 2026 in current profile."
 
     existing_partnerships:
       - target: "ALNY"
@@ -1535,51 +1661,370 @@ acquirers:
   - acquirer_id: "vertex_pharmaceuticals"
     company_name: "Vertex Pharmaceuticals"
     ticker: "VRTX"
-    profile_as_of: "2026-05-08"
+    profile_as_of: "2026-06-02"
     acquisition_capacity_millions: 8000.0
-    source_notes: "Curated from Vertex investor day 2025, Q4 2025 earnings, and deal history. Vertex's CF franchise (Trikafta/Kaftrio, $9B+ revenue) generates exceptional FCF with limited patent pressure until 2037. Casgevy (CRISPR, sickle cell) with CRISPR Therapeutics validates genetic medicine. Active in M&A: Alpine Immune ($4.9B 2024, APRIL inhibitor), Indevus/small deals. Strategy: dominate CF, expand into genetic medicine and serious diseases with high unmet need."
+    acquirer_type: "large_cap_specialty_biopharma_diversifying_from_CF"
+    urgency_qualitative: "medium_high"
+    urgency_numeric_0_to_1: 0.70
+    urgency_rationale: "Very strong cash generation and active diversification, but CF still dominates the current P&L. Renal, pain, and T1D remain strategic build-outs. $500M+ non-CF 2026 guidance confirms real but early diversification."
+    source_notes: "Curated from Vertex Q1 2026 earnings, Q4 2025 earnings, Q1 2026 10-Q SEC filing, and full deal history. Vertex's CF franchise (Trikafta/Kaftrio, ~$9B+ revenue, ~98% of Q1 2026 product revenue) generates exceptional FCF with limited patent pressure until ~2037. Q1 2026: $13.0B cash, no balance-sheet interest-bearing debt, guides to $500M+ non-CF 2026 revenue. Strategy: dominate CF, expand into genetic medicine, renal disease, T1D cell therapy, pain, and B-cell immunology in specialty markets only."
+
+    preferred_target_profile:
+      market_cap_sweet_spot_usd: [500000000, 7000000000]
+      market_cap_stretch_usd: [7000000000, 10000000000]
+      preferred_valuation_sweet_spot_usd: [250000000, 5000000000]
+      preferred_valuation_stretch_usd: [5000000000, 7000000000]
+      market_cap_rationale: "Inferred from Semma ($950M preclinical), ViaCyte ($320M), Alpine ($4.9B Phase 2/3), Entrada ($250M platform). Vertex can pay $5B+ for a franchise-defining asset."
+      source_refs:
+        - source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-enters-agreement-acquire-alpine-immune-sciences"
+        - source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-acquire-semma-therapeutics-goal-developing-curative-cell"
+      preferred_deal_types:
+        - full_acquisition
+        - global_or_major_market_license
+        - platform_plus_lead_asset
+        - structured_collaboration_with_option
+
+    scoring_weights:
+      structural_weight: 0.45
+      evidence_weight: 0.35
+      encumbrance_weight: 0.20
+      formula: "final_score = 0.45*structural_score + 0.35*evidence_score - 0.20*encumbrance_penalty"
+      rationale: "Vertex's strategic aperture is coherent (specialty markets, causal biology, five specific franchises), so structural fit is highly informative. Evidence modulates timing and urgency."
+
+    positive_fit_areas:
+      - area: "renal_autoimmune_and_genetic_kidney"
+        recommended_score_boost: 0.15
+        rationale: "Povetacicept (ex-ALPN-303, APRIL/BAFF inhibitor) in Phase 3 for IgAN/pMN/gMG; inaxaplin in Phase 3 for AMKD; VX-407 in Phase 2 for ADPKD. Kidney is a three-program franchise. Alpine at $4.9B demonstrates willingness to pay franchise-defining prices for renal/immunology assets."
+        source_refs:
+          - source_date: "2026-04-30"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-reports-first-quarter-2026-financial-results"
+      - area: "type_1_diabetes_cell_replacement_and_immune_evasion"
+        recommended_score_boost: 0.15
+        rationale: "Semma ($950M, 2019) + ViaCyte ($320M, 2022) + zimislecel (dosing resumed 2026) show durable multi-year T1D commitment. Key unmet gap: immune evasion for device-free, immunosuppression-free islet cell therapy."
+        source_refs:
+          - source_date: "2026-03-31"
+            source_url: "https://www.sec.gov/Archives/edgar/data/875320/000087532026000173/vrtx-20260331.htm"
+      - area: "pain_ion_channel_and_peripheral_neuropathy"
+        recommended_score_boost: 0.12
+        rationale: "JOURNAVX (suzetrigine/VX-548, NaV1.8 inhibitor) launched commercially. VX-993 and NaV1.7 pipeline extending franchise. Peripheral neuropathy assets can leverage existing JOURNAVX sales infrastructure."
+        source_refs:
+          - source_date: "2026-04-30"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-reports-first-quarter-2026-financial-results"
+      - area: "B_cell_mediated_autoimmune_disease_specialty_only"
+        recommended_score_boost: 0.10
+        rationale: "Alpine acquisition and WuXi trispecific license (Q4 2025) both point to B-cell immunology interest. Specialty indications (kidney, neurological) only — not broad primary care."
+        source_refs:
+          - source_date: "2024-04-10"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-enters-agreement-acquire-alpine-immune-sciences"
+          - source_date: "2026-02-12"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-reports-fourth-quarter-and-full-year-2025-financial"
+      - area: "severe_specialty_genetic_medicine_or_delivery_platform"
+        recommended_score_boost: 0.09
+        rationale: "CASGEVY (SCD/TDT, with CRSP), Entrada DM1 collaboration ($250M), and RNA/oligonucleotide adjacency. In vivo editing or RNA-targeted approaches in severe genetic diseases with validated targets are high priority."
+        source_refs:
+          - source_date: "2022-12-08"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-and-entrada-therapeutics-establish-collaboration-discover"
+      - area: "rare_disease_specialty_franchise_builders"
+        recommended_score_boost: 0.08
+        rationale: "Vertex 10-Q explicitly: 'supplement our internal research by acquiring technologies and programs and collaborating as needed in our therapeutic areas of interest, while continuing to focus on specialty markets.'"
+        source_refs:
+          - source_date: "2026-03-31"
+            source_url: "https://www.sec.gov/Archives/edgar/data/875320/000087532026000173/vrtx-20260331.htm"
+
+    negative_fit_areas:
+      - area: "broad_primary_care_obesity_or_metabolic_assets"
+        recommended_penalty: 0.15
+        rationale: "Weak match for Vertex's specialty-market operating model and commercial footprint."
+      - area: "commodity_oncology_without_causal_biology_or_platform_edge"
+        recommended_penalty: 0.15
+        rationale: "Recent deal history does not support generic oncology roll-up behavior."
+      - area: "heavily_encumbered_or_fragmented_rights_assets"
+        recommended_penalty: 0.20
+        rationale: "Vertex's pattern strongly favors control of core programs and major markets."
+      - area: "large_salesforce_general_medicine_commercial_models"
+        recommended_penalty: 0.15
+        rationale: "Misaligned with Vertex's specialty-only commercial infrastructure."
+      - area: "very_early_single_asset_without_platform_optionality"
+        recommended_penalty: 0.10
+        rationale: "Vertex will do early deals, but only where modality/platform adjacency is demonstrably high."
+
+    encumbrance_constraints:
+      - condition: "US_or_EU_rights_unavailable_on_lead_asset"
+        recommended_penalty_pct: -25
+        rationale: "Vertex deal pattern favors control of core major markets."
+      - condition: "core_manufacturing_or_process_know_how_not_transferable_for_cell_gene_therapy"
+        recommended_penalty_pct: -15
+        rationale: "Vertex is building biologics, cell and gene therapy capabilities; manufacturability matters."
+      - condition: "lead_asset_already_partnered_to_direct_competitor_in_core_market"
+        recommended_penalty_pct: -20
+        rationale: "Reduces strategic control and synergy capture."
+      - condition: "target_requires_broad_primary_care_commercial_footprint"
+        recommended_penalty_pct: -15
+        rationale: "Weak fit with specialty-market orientation."
+      - condition: "only_regional_rights_outside_core_markets_available"
+        recommended_penalty_pct: -10
+        rationale: "Vertex can tolerate Asia carve-outs, but not if the thesis requires US/EU control."
+
+    BD_appetite_signals:
+      - date: "2026-05-04"
+        quote_excerpt: "strategic growth opportunities"
+        interpretation: "Share repurchases are not meant to crowd out M&A or licensing flexibility; cash is explicitly earmarked for strategic deployment."
+        source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-reports-first-quarter-2026-financial-results"
+        source_note: "Q1 2026 earnings release."
+      - date: "2026-02-12"
+        quote_excerpt: "internal and external innovation"
+        interpretation: "Cash deployment framework explicitly leaves room for external innovation alongside internal programs."
+        source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-reports-fourth-quarter-and-full-year-2025-financial"
+        source_note: "Q4 2025 earnings release."
+
+    strategic_context:
+      - statement: "CF remains the dominant revenue base; Q1 2026 CF product revenue was $2.915B out of $2.987B total product revenue (~98%)."
+        source_url: "https://www.sec.gov/Archives/edgar/data/875320/000087532026000173/vrtx-20260331.htm"
+      - statement: "Vertex guides to $500M+ of 2026 non-CF revenue; diversification is real but still early relative to the CF base."
+        source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-reports-first-quarter-2026-financial-results"
+      - statement: "Renal disease is a major expansion axis: povetacicept in IgAN/pMN/gMG, inaxaplin in AMKD, VX-407 in ADPKD — three programs, one franchise."
+        source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-reports-fourth-quarter-and-full-year-2025-financial"
+      - statement: "T1D remains strategic despite VX-264 manufacturing setback; zimislecel dosing resumed; company had earlier acquired Semma ($950M) and ViaCyte ($320M)."
+        source_url: "https://www.sec.gov/Archives/edgar/data/875320/000087532026000173/vrtx-20260331.htm"
+      - statement: "Pain is now a commercial and pipeline platform: JOURNAVX (suzetrigine, NaV1.8) launched; VX-993 and NaV1.7-related work extending the thesis."
+        source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-reports-first-quarter-2026-financial-results"
+      - statement: "Vertex explicitly pursues specialty markets and supplements internal R&D by acquiring technologies/programs and collaborating as needed in its therapeutic areas of interest."
+        source_url: "https://www.sec.gov/Archives/edgar/data/875320/000087532026000173/vrtx-20260331.htm"
 
     therapeutic_area_gaps:
       - therapeutic_area: "rare_disease"
         exposure_type: "strategic_expansion"
         exposure_level: "high"
-        sub_area: "genetic_medicine_and_pain"
+        sub_area: "genetic_medicine_and_severe_specialty_diseases"
         preferred_modality:
           - "genetic_medicine"
           - "sirna_rnai"
           - "small_molecule"
+          - "gene_editing"
         budget_ceiling_millions: 8000.0
-        rationale: "Vertex has expanded beyond CF into acute pain (VX-548, NaV1.8 inhibitor — Phase 3), sickle cell/thalassemia (Casgevy via CRISPR), kidney disease (IgAN), and AATD. The gap is additional genetic diseases where: (a) a validated human genetic target exists; (b) small molecule or RNA approach is feasible; (c) market is significant and unmet need is high. APOL1-mediated kidney disease, ATTR amyloidosis, and myotonic dystrophy are candidates."
+        rationale: "Vertex has expanded beyond CF into acute pain (VX-548, NaV1.8), sickle cell/thalassemia (Casgevy via CRISPR), kidney disease (IgAN/FSGS/AMKD/ADPKD), and AATD. The gap is additional severe genetic diseases where: (a) a validated human genetic target exists; (b) small molecule, RNA, or gene-editing approach is feasible; (c) market is significant and unmet need is high. APOL1-mediated kidney disease (gap bridging rare and kidney TA), ATTR amyloidosis, myotonic dystrophy type 1/2, and selected neuromuscular/neurological genetic diseases are candidate archetypes. Vertex will tolerate early-stage (Phase 1 or even preclinical) assets here if the platform/modality adjacency is strong and the target biology is human-genetics-validated."
+        source_refs:
+          - source_date: "2026-04-30"
+            source_type: "earnings_release"
+            source_title: "Vertex Reports First Quarter 2026 Financial Results"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-reports-first-quarter-2026-financial-results"
+            note: "Management reiterated expansion into serious genetic diseases with high unmet need. Non-CF pipeline update covers renal, T1D, pain, and genetic medicine."
+          - source_date: "2026-03-31"
+            source_type: "10_q_filing"
+            source_title: "Vertex Q1 2026 Form 10-Q"
+            source_url: "https://www.sec.gov/Archives/edgar/data/875320/000087532026000173/vrtx-20260331.htm"
+            note: "10-Q explicitly states Vertex focuses on specialty markets and acquires technologies and programs in its therapeutic areas of interest."
 
       - therapeutic_area: "kidney_disease"
         exposure_type: "strategic_expansion"
         exposure_level: "high"
-        sub_area: "igan_and_fsgs"
+        sub_area: "igan_fsgs_amkd_adpkd_and_complement_mediated_kidney"
         preferred_modality:
           - "monoclonal_antibody"
+          - "fusion_protein"
           - "small_molecule"
           - "sirna_rnai"
         budget_ceiling_millions: 6000.0
-        rationale: "Alpine Immune ($4.9B 2024) brought ALPN-303 (APRIL/BAFF inhibitor) for IgAN and lupus nephritis. The gap is expanding the kidney disease franchise beyond APRIL inhibition — FSGS (focal segmental glomerulosclerosis), APOL1-mediated kidney disease, or diabetic nephropathy."
+        rationale: "Alpine Immune Sciences ($4.9B, 2024) brought povetacicept (APRIL/BAFF inhibitor, ex-ALPN-303) for IgAN, pMN, and gMG. Inaxaplin is in Phase 3 for APOL1-mediated kidney disease (AMKD). VX-407 is in Phase 2 for ADPKD. The next gap is expanding the kidney franchise: FSGS (focal segmental glomerulosclerosis), APOL1-mediated disease in additional patient populations, complement inhibition for progressive kidney disease, or alternative mechanisms in IgAN not covered by the APRIL/BAFF axis. The Alpine deal establishes willingness to pay $3-5B for a genuinely franchise-defining renal/immunology asset with Phase 2/3 data."
+        source_refs:
+          - source_date: "2024-04-10"
+            source_type: "press_release"
+            source_title: "Vertex Enters into Agreement to Acquire Alpine Immune Sciences"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-enters-agreement-acquire-alpine-immune-sciences"
+            note: "Alpine acquisition at $4.9B for APRIL/BAFF inhibitor confirms willingness for large franchise-defining kidney/immunology deals."
+          - source_date: "2026-04-30"
+            source_type: "earnings_release"
+            source_title: "Vertex Reports First Quarter 2026 Financial Results"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-reports-first-quarter-2026-financial-results"
+            note: "Povetacicept Phase 3 updates across IgAN/pMN/gMG; inaxaplin Phase 3 AMKD; VX-407 Phase 2 ADPKD — kidney is now a three-program, multiple-indication franchise."
+
+      - therapeutic_area: "pain"
+        exposure_type: "strategic_expansion"
+        exposure_level: "high"
+        sub_area: "ion_channel_pain_and_peripheral_neuropathy"
+        preferred_modality:
+          - "small_molecule"
+        budget_ceiling_millions: 5000.0
+        rationale: "JOURNAVX (suzetrigine/VX-548, NaV1.8 inhibitor) is commercially launched in acute pain and generating early prescription ramp data. VX-993 and NaV1.7-related programs are in Phase 1/2. The pain franchise gap is extending ion-channel leadership into: (a) NaV1.7 inhibition for a broader chronic pain population (inherited erythromelalgia, CRPS, broader peripheral neuropathy); (b) TRPV1, TRPM8, or other peripheral pain channel inhibitors with a clean safety profile; (c) peripheral neuropathy assets (diabetic, chemotherapy-induced) that can leverage the existing JOURNAVX sales infrastructure. The ideal acquisition is a Phase 2-ready small molecule ion-channel asset with Phase 1 safety data and a defined indication path in peripheral or neuropathic pain."
+        source_refs:
+          - source_date: "2026-04-30"
+            source_type: "earnings_release"
+            source_title: "Vertex Reports First Quarter 2026 Financial Results"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-reports-first-quarter-2026-financial-results"
+            note: "JOURNAVX commercial launch updates; VX-993 Phase 1 advancing; NaV1.7 programs described as extending the pain franchise."
+          - source_date: "2026-02-12"
+            source_type: "earnings_release"
+            source_title: "Vertex Reports Fourth Quarter and Full Year 2025 Financial Results"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-reports-fourth-quarter-and-full-year-2025-financial"
+            note: "Pain franchise described as a commercial and pipeline platform with NaV1.8, NaV1.7, and broader peripheral pain programs as the three-phase build."
+
+      - therapeutic_area: "rare_disease"
+        exposure_type: "strategic_expansion"
+        exposure_level: "high"
+        sub_area: "type_1_diabetes_cell_replacement_and_immune_evasion"
+        preferred_modality:
+          - "cell_therapy"
+          - "gene_editing"
+        budget_ceiling_millions: 5000.0
+        rationale: "Semma ($950M, 2019) and ViaCyte ($320M, 2022) established Vertex's T1D cell therapy commitment with multiple years of investment. VX-880 (adult stem-cell-derived islets, device-based) and VX-264 are advancing; zimislecel dosing resumed after a manufacturing hold in 2026. VX-264 setback highlights the primary remaining challenge: immune evasion enabling device-free, immunosuppression-free islet cell transplant that can scale broadly. Assets that solve immune evasion — HLA-engineered universal donor cells, CD47 overexpression, regulatory T-cell co-therapy, or tolerance induction strategies — or that improve islet survival/function in diabetic hosts are highest-priority external targets. A non-cell approach achieving similar insulin restoration without immunosuppression would also be evaluated if the evidence is compelling."
+        source_refs:
+          - source_date: "2026-03-31"
+            source_type: "10_q_filing"
+            source_title: "Vertex Q1 2026 Form 10-Q"
+            source_url: "https://www.sec.gov/Archives/edgar/data/875320/000087532026000173/vrtx-20260331.htm"
+            note: "Zimislecel (VX-264 next-gen) dosing resumed; VX-880 Phase 1/2 ongoing; T1D cell replacement reaffirmed as strategic despite manufacturing setback."
+          - source_date: "2022-07-11"
+            source_type: "press_release"
+            source_title: "Vertex to Acquire ViaCyte"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-acquire-viacyte-goal-accelerating-its-potentially"
+            note: "Second T1D cell therapy acquisition in 3 years confirms durable strategic commitment at meaningful deal sizes."
+
+      - therapeutic_area: "immunology"
+        exposure_type: "strategic_expansion"
+        exposure_level: "medium"
+        sub_area: "B_cell_mediated_autoimmune_disease_specialty_only"
+        preferred_modality:
+          - "bispecific_antibody"
+          - "monoclonal_antibody"
+          - "fusion_protein"
+          - "small_molecule"
+        budget_ceiling_millions: 4000.0
+        rationale: "The $4.9B Alpine acquisition added a BAFF/APRIL inhibitor platform (povetacicept) for kidney and systemic autoimmune diseases. The WuXi Biologics trispecific autoimmune license (disclosed Q4 2025) reinforces B-cell biology interest. The specific gap is deepening the B-cell immunology franchise in specialty indications: CD20 bispecifics, BCMA/APRIL dual-targeting, plasma cell depletion strategies, or selected innate immune mechanisms in autoimmune kidney/neurology (gMG, MN, lupus nephritis). Important constraint: Vertex will NOT pursue broad primary-care autoimmune indications (RA, psoriasis, IBD) without a renal or rare-disease extension that aligns with the specialty-market operating model."
+        notes: "The WuXi trispecific license was publicly disclosed with no deal economics. It confirms preclinical platform appetite in B-cell autoimmune disease, but the structure suggests Vertex is not yet ready to acquire at scale in this area without more clinical validation."
+        source_refs:
+          - source_date: "2024-04-10"
+            source_type: "press_release"
+            source_title: "Vertex Enters into Agreement to Acquire Alpine Immune Sciences"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-enters-agreement-acquire-alpine-immune-sciences"
+            note: "APRIL/BAFF inhibitor establishes B-cell autoimmune franchise with multi-indication scope including IgAN, lupus nephritis, pMN, gMG."
+          - source_date: "2026-02-12"
+            source_type: "earnings_release"
+            source_title: "Vertex Reports Fourth Quarter and Full Year 2025 Financial Results"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-reports-fourth-quarter-and-full-year-2025-financial"
+            note: "WuXi Biologics trispecific autoimmune license disclosed. Confirms appetite for novel B-cell targeting platforms in autoimmune disease."
 
     preferred_modalities:
       - modality: "small_molecule"
         preference_strength: "high"
-        rationale: "CF correctors (Trikafta) and pain (VX-548) demonstrate small molecule engine strength."
+        rationale: "CF correctors (Trikafta/Kaftrio) and pain (VX-548/suzetrigine, NaV1.8 inhibitor) demonstrate Vertex's deepest small molecule discovery and manufacturing capability. Any highly selective, mechanism-based small molecule in a priority TA with Phase 1 safety and Phase 2 activity data will be evaluated at scale."
+        source_refs:
+          - source_date: "2026-04-30"
+            source_type: "earnings_release"
+            source_title: "Vertex Reports First Quarter 2026 Financial Results"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-reports-first-quarter-2026-financial-results"
+
+      - modality: "cell_therapy"
+        preference_strength: "high"
+        rationale: "T1D cell replacement is a multi-year, multi-acquisition strategic commitment (Semma 2019, ViaCyte 2022, internal VX-880/VX-264 programs). Cell therapy is Vertex's highest-investment clinical-stage non-CF program."
+        source_refs:
+          - source_date: "2019-09-03"
+            source_type: "press_release"
+            source_title: "Vertex to Acquire Semma Therapeutics"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-acquire-semma-therapeutics-goal-developing-curative-cell"
+          - source_date: "2022-07-11"
+            source_type: "press_release"
+            source_title: "Vertex to Acquire ViaCyte"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-acquire-viacyte-goal-accelerating-its-potentially"
+
+      - modality: "gene_editing"
+        preference_strength: "high"
+        rationale: "Casgevy (CRISPR, with CRSP) for SCD/TDT is the world's first approved CRISPR therapy and establishes gene editing as a core commercial pillar. In vivo gene editing in severe genetic diseases where Vertex has causal-biology expertise is a priority."
+        source_refs:
+          - source_date: "2026-04-30"
+            source_type: "earnings_release"
+            source_title: "Vertex Reports First Quarter 2026 Financial Results"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-reports-first-quarter-2026-financial-results"
+
       - modality: "genetic_medicine"
         preference_strength: "high"
-        rationale: "Casgevy CRISPR collaboration establishes genetic medicine as a core pillar."
-      - modality: "sirna_rnai"
+        rationale: "Entrada collaboration (DM1, $250M total: $224M upfront + $26M equity) shows willingness to partner early for genetic medicine delivery platforms. siRNA, oligonucleotides, and RNA-targeted approaches in severe specialty diseases are directly acquirable, especially if the genetic target is validated."
+        source_refs:
+          - source_date: "2022-12-08"
+            source_type: "press_release"
+            source_title: "Vertex and Entrada Therapeutics Establish Collaboration to Discover and Develop New DM1 Medicines"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-and-entrada-therapeutics-establish-collaboration-discover"
+
+      - modality: "monoclonal_antibody_or_fusion_protein"
         preference_strength: "medium"
-        rationale: "RNA approaches for genetic diseases being evaluated."
+        rationale: "Povetacicept (ex-ALPN-303) is Vertex's first large-molecule program at scale and established large-molecule manufacturing capability. B-cell-targeting biologics in kidney or selected autoimmune specialty indications are in scope, but this is not a core capability — Vertex would need to build or partner CMC for novel antibody programs."
+        source_refs:
+          - source_date: "2024-04-10"
+            source_type: "press_release"
+            source_title: "Vertex Enters into Agreement to Acquire Alpine Immune Sciences"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-enters-agreement-acquire-alpine-immune-sciences"
+
+      - modality: "broad_primary_care_biologic"
+        preference_strength: "low"
+        rationale: "Vertex has explicitly stated it focuses on specialty markets. Large-scale primary care biologics requiring broad SG&A infrastructure are outside the operating model. Strong structural TA match alone does not overcome the commercial infrastructure mismatch."
+        source_refs:
+          - source_date: "2026-03-31"
+            source_type: "10_q_filing"
+            source_title: "Vertex Q1 2026 Form 10-Q"
+            source_url: "https://www.sec.gov/Archives/edgar/data/875320/000087532026000173/vrtx-20260331.htm"
 
     strategic_priorities:
-      - priority: "Expand into serious genetic diseases with high unmet need beyond CF"
+      - priority: "Expand CF franchise leadership while deploying cash into specialty disease adjacencies with high unmet need and causal biology"
         priority_strength: "high"
-      - priority: "Build kidney disease franchise around IgAN and FSGS"
+        source_refs:
+          - source_date: "2026-04-30"
+            source_type: "earnings_release"
+            source_title: "Vertex Reports First Quarter 2026 Financial Results"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-reports-first-quarter-2026-financial-results"
+            note: "Guides $500M+ non-CF 2026 revenue. CF franchise still dominant but non-CF pipeline is advancing across renal, T1D, pain, and genetic medicine."
+
+      - priority: "Build a kidney disease franchise spanning IgAN, FSGS, AMKD, and ADPKD — Vertex's clearest current adjacency after the Alpine acquisition"
         priority_strength: "high"
-      - priority: "Establish acute pain franchise via NaV1.8 inhibitor"
+        source_refs:
+          - source_date: "2026-04-30"
+            source_type: "earnings_release"
+            source_title: "Vertex Reports First Quarter 2026 Financial Results"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-reports-first-quarter-2026-financial-results"
+            note: "Three renal programs in Phase 2/3: povetacicept (IgAN/pMN/gMG), inaxaplin (AMKD), VX-407 (ADPKD)."
+
+      - priority: "Achieve curative-intent T1D cell therapy with immune evasion enabling device-free, immunosuppression-free islet transplant"
+        priority_strength: "high"
+        source_refs:
+          - source_date: "2026-03-31"
+            source_type: "10_q_filing"
+            source_title: "Vertex Q1 2026 Form 10-Q"
+            source_url: "https://www.sec.gov/Archives/edgar/data/875320/000087532026000173/vrtx-20260331.htm"
+            note: "Zimislecel dosing resumed; Vertex continues T1D investment. Immune evasion for device-free transplant is the stated long-term goal."
+
+      - priority: "Establish pain as the second commercial franchise via NaV1.8 (JOURNAVX) and extend to NaV1.7 and peripheral neuropathy"
+        priority_strength: "high"
+        source_refs:
+          - source_date: "2026-04-30"
+            source_type: "earnings_release"
+            source_title: "Vertex Reports First Quarter 2026 Financial Results"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-reports-first-quarter-2026-financial-results"
+            note: "JOURNAVX commercial launch ongoing; VX-993 Phase 1 advancing; NaV1.7 programs extending the ion-channel pain franchise."
+
+      - priority: "Acquire technologies and programs in therapeutic areas of interest while maintaining specialty-market focus — explicitly stated in 10-Q"
+        priority_strength: "high"
+        source_refs:
+          - source_date: "2026-03-31"
+            source_type: "10_q_filing"
+            source_title: "Vertex Q1 2026 Form 10-Q"
+            source_url: "https://www.sec.gov/Archives/edgar/data/875320/000087532026000173/vrtx-20260331.htm"
+            note: "Direct 10-Q language: 'supplement our internal research by acquiring technologies and programs and collaborating as needed in our therapeutic areas of interest, while continuing to focus on specialty markets.'"
+
+      - priority: "Extend genetic medicine capabilities into severe specialty diseases beyond CF and hemoglobinopathies"
         priority_strength: "medium"
+        source_refs:
+          - source_date: "2022-12-08"
+            source_type: "press_release"
+            source_title: "Vertex and Entrada Therapeutics Establish Collaboration to Discover and Develop New DM1 Medicines"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-and-entrada-therapeutics-establish-collaboration-discover"
+            note: "Entrada collaboration ($250M) for DM1 using oligonucleotide delivery platform. Shows willingness to partner early for genetic medicine platforms outside CF."
+
+      - priority: "Deepen B-cell immunology franchise in specialty indications using biologics, bispecifics, and targeted delivery — early-stage, option-value driven"
+        priority_strength: "medium"
+        source_refs:
+          - source_date: "2026-02-12"
+            source_type: "earnings_release"
+            source_title: "Vertex Reports Fourth Quarter and Full Year 2025 Financial Results"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-reports-fourth-quarter-and-full-year-2025-financial"
+            note: "WuXi trispecific autoimmune license disclosed Q4 2025. Preclinical stage. Confirms appetite for B-cell targeting platforms in specialty autoimmune disease."
 
     recent_deal_history:
       - deal_name: "Alpine Immune Sciences acquisition"
@@ -1592,17 +2037,91 @@ acquirers:
         upfront_millions: 4900.0
         implied_value_band_millions_low: 4900.0
         implied_value_band_millions_high: 4900.0
-        source_url: "https://www.vrtx.com/news-releases/news-release-details/vertex-pharmaceuticals-completes-acquisition-alpine-immune"
+        source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-enters-agreement-acquire-alpine-immune-sciences"
+        notes: "Franchise-defining renal/immunology acquisition. Lead asset povetacicept (APRIL/BAFF inhibitor) in IgAN/pMN/gMG. Multiple autoimmune indications. Establishes willingness to pay $3-5B for a franchise-defining specialty asset. Single largest acquisition in Vertex history."
+
+      - deal_name: "Entrada Therapeutics DM1 collaboration"
+        status: "active"
+        announcement_date: "2022-12-08"
+        deal_type: "global_collaboration"
+        therapeutic_area: "genetic_medicine_neuromuscular"
+        modality: "oligonucleotide_endosomal_escape_delivery"
+        stage_context: "platform_preclinical"
+        upfront_millions: 224.0
+        equity_millions: 26.0
+        implied_value_band_millions_low: 250.0
+        implied_value_band_millions_high: 250.0
+        source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-and-entrada-therapeutics-establish-collaboration-discover"
+        notes: "$224M upfront plus $26M equity ($250M total). Oligonucleotide/VBCE endosomal escape delivery platform for DM1 (myotonic dystrophy type 1). Shows willingness to do platform collaborations in genetic medicine at $250M scale with milestone optionality."
+
+      - deal_name: "ViaCyte acquisition"
+        status: "completed"
+        announcement_date: "2022-07-11"
+        deal_type: "acquisition"
+        therapeutic_area: "diabetes_t1d"
+        modality: "cell_therapy"
+        stage_context: "phase_1_2"
+        upfront_millions: 320.0
+        implied_value_band_millions_low: 320.0
+        implied_value_band_millions_high: 320.0
+        source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-acquire-viacyte-goal-accelerating-its-potentially"
+        notes: "Second T1D cell therapy acquisition in 3 years ($950M Semma + $320M ViaCyte). Confirmed T1D cell replacement as a sustained, funded strategic investment. ViaCyte had device-encapsulated approach; combination with Semma's open islet strategy gave Vertex optionality."
+
+      - deal_name: "Semma Therapeutics acquisition"
+        status: "completed"
+        announcement_date: "2019-09-03"
+        deal_type: "acquisition"
+        therapeutic_area: "diabetes_t1d"
+        modality: "cell_therapy"
+        stage_context: "preclinical"
+        upfront_millions: 950.0
+        implied_value_band_millions_low: 950.0
+        implied_value_band_millions_high: 950.0
+        source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-acquire-semma-therapeutics-goal-developing-curative-cell"
+        notes: "Doug Melton's islet cell replacement platform. $950M for a preclinical-stage asset. Establishes the pattern of paying up for curative-intent, causal-biology platforms in priority TAs even before Phase 1 human data."
+
+      - deal_name: "WuXi Biologics trispecific autoimmune license"
+        status: "active"
+        announcement_date: "2025-12-31"
+        deal_type: "global_license"
+        therapeutic_area: "immunology_autoimmune"
+        modality: "trispecific_antibody"
+        stage_context: "preclinical"
+        upfront_millions: null
+        implied_value_band_millions_low: null
+        implied_value_band_millions_high: null
+        source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-reports-fourth-quarter-and-full-year-2025-financial"
+        notes: "Economics not publicly disclosed. Confirms willingness to add preclinical B-cell autoimmune platforms. Shows interest in trispecific antibody engineering capabilities in the specialty autoimmune disease space."
+
+    existing_partnerships:
+      - target: "CRSP"
+        partnership_type: "co_development_co_commercialization"
+        therapeutic_area: "hematology"
+        description: "Joint development and commercialization of Casgevy (exagamglogene autotemcel, exa-cel), the world's first approved CRISPR/Cas9-based gene-editing therapy, for sickle cell disease and transfusion-dependent beta-thalassemia. Vertex leads global commercialization; CRSP contributes gene-editing science and shares manufacturing. Revenue: ~60% Vertex / ~40% CRSP on applicable markets."
+        year_initiated: 2015
+        acquisition_option: false
+
+      - target: "Entrada Therapeutics"
+        partnership_type: "research_collaboration"
+        therapeutic_area: "genetic_medicine_neuromuscular"
+        description: "Global DM1 (myotonic dystrophy type 1) collaboration using Entrada's endosomal escape VBCE delivery platform. Vertex paid $224M upfront + $26M equity. Multiple delivery applications in scope beyond the initial DM1 program."
+        year_initiated: 2022
+        acquisition_option: false
 
     budget:
       as_of_date: "2026-03-31"
       cash_and_marketable_securities_millions: 13000.0
-      long_term_debt_millions: 1500.0
-      net_cash_millions: 11500.0
-      capacity_notes: "Vertex has $13.0B in cash, cash equivalents, and marketable securities as of Q1 2026 (March 31, 2026) — strongest balance sheet in large-cap biotech. $4B+ annual FCF from CF franchise. Net cash ~$11.5B after ~$1.5B debt. Deal ceiling $10-15B for the right strategic fit. Preferred bolt-on $2-6B. acquisition_capacity_millions is conservative given pristine balance sheet and growing FCF."
+      long_term_debt_millions: 0.0
+      net_cash_millions: 13000.0
+      capacity_notes: "Vertex has $13.0B in cash, cash equivalents, and marketable securities as of Q1 2026 (March 31, 2026). No balance-sheet interest-bearing debt (only an undrawn $500M revolving credit facility — not drawn). $4B+ annual FCF from CF franchise. acquisition_capacity_millions of 8000 is conservative; $13B cash + growing FCF from CF makes deals of $10-15B structurally possible for the right franchise-defining target. Preferred bolt-on sweet spot: $500M-$5B. Alpine ($4.9B) is the current reference ceiling for a single deal."
       source_refs:
         - source_date: "2026-04-30"
           source_type: "earnings_release"
-          source_title: "Vertex Pharmaceuticals Q1 2026 Financial Results"
-          source_url: "https://investors.vrtx.com/"
-          note: "Vertex reported $13.0B cash, cash equivalents, and marketable securities as of March 31, 2026. Long-term debt ~$1.5B; net cash ~$11.5B. Cash increased from ~$11B at FY2025 year-end driven by continued CF franchise FCF generation."
+          source_title: "Vertex Reports First Quarter 2026 Financial Results"
+          source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-reports-first-quarter-2026-financial-results"
+          note: "Vertex reported $13.0B cash, cash equivalents, and marketable securities as of March 31, 2026. Annual FCF $4B+. No long-term interest-bearing debt; undrawn $500M revolver only."
+        - source_date: "2026-03-31"
+          source_type: "10_q_filing"
+          source_title: "Vertex Q1 2026 Form 10-Q"
+          source_url: "https://www.sec.gov/Archives/edgar/data/875320/000087532026000173/vrtx-20260331.htm"
+          note: "Balance sheet confirms $13.0B cash/securities; no long-term interest-bearing debt line item. Revolving credit facility ($500M, undrawn) is the only debt instrument."

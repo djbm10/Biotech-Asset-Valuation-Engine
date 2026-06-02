@@ -21,12 +21,14 @@ def test_acquirer_profile_loader_parses_repository_yaml():
     dataset = AcquirerProfileLoader.load(path)
     regeneron = AcquirerProfileLoader.get_acquirer(dataset, "ReGeNeRoN")
 
-    assert dataset.as_of_date.isoformat() == "2026-03-24"
-    assert len(dataset.acquirers) == 1
+    assert dataset.as_of_date.isoformat() == "2026-05-08"
+    assert len(dataset.acquirers) >= 4
     assert regeneron.company_name == "Regeneron Pharmaceuticals"
-    assert regeneron.budget.net_cash_millions == pytest.approx(16879.9, abs=1e-9)
+    assert regeneron.budget.net_cash_millions == pytest.approx(16553.7, abs=1e-9)
     assert len(regeneron.therapeutic_area_gaps) >= 4
-    assert regeneron.recent_deal_history[0].deal_name == "Hansoh HS-20094 in-license"
+    assert regeneron.recent_deal_history[0].deal_name == (
+        "Telix Pharmaceuticals radiopharmaceutical collaboration"
+    )
 
 
 def test_acquirer_profile_loader_parses_curated_pfizer_profile():
