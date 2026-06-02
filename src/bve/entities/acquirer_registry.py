@@ -32,12 +32,12 @@ MEGA_CAP_ACQUIRERS_V2: list[AcquirerProfile] = [
     AcquirerProfile(
         company_id="vertex", name="Vertex Pharmaceuticals", ticker="VRTX",
         country="United States",
-        cash_millions=15_000, annual_fcf_millions=4_500, market_cap_millions=110_000,
+        cash_millions=13_000, annual_fcf_millions=4_500, market_cap_millions=110_000,
         strategic_areas=["rare_disease", "pain", "kidney_disease", "genetic_medicines", "diabetes_cell_therapy"],
         preferred_modalities=["small_molecule", "cell_therapy", "gene_editing"],
         bd_style=BDStyle.PLATFORM, preferred_phase="Phase 2", max_deal_size_millions=20_000,
         deal_capacity=DealCapacity(
-            cash_available_for_deals_millions=15_000, max_comfortable_deal_size_millions=20_000,
+            cash_available_for_deals_millions=13_000, max_comfortable_deal_size_millions=20_000,
             debt_capacity_millions=10_000,
         ),
         ta_priorities={"rare_disease": 1.0, "pain": 0.8, "kidney_disease": 0.8,
@@ -51,11 +51,11 @@ MEGA_CAP_ACQUIRERS_V2: list[AcquirerProfile] = [
                               therapeutic_area="diabetes_cell_therapy", deal_size_millions=950),
         ]),
         notes=(
-            "CF monopoly (Trikafta LOE ~2037) generates $15B+ cash; zero debt. "
-            "Next wave: FSGS (inaxaplin Phase 3), Journavx (VX-548 pain approved 2024), "
+            "CF monopoly (Trikafta LOE ~2037) generates strong FCF; $13.0B cash/securities Q1 2026. "
+            "Next wave: FSGS (inaxaplin Phase 3), Journavx (VX-548 NaV1.8 pain, commercial 2024), "
             "islet cell therapy (VX-880, VX-264), Casgevy (SCD/TDT with CRSP). "
             "Acquisitive in rare disease, precision medicine, genetic medicines. "
-            "Data confidence: high (0.85)."
+            "Data confidence: high (0.85). Cash source: VRTX Q1 2026 earnings (2026-04-30)."
         ),
     ),
 
@@ -63,30 +63,50 @@ MEGA_CAP_ACQUIRERS_V2: list[AcquirerProfile] = [
         company_id="regeneron", name="Regeneron Pharmaceuticals", ticker="REGN",
         country="United States",
         cash_millions=14_000, annual_fcf_millions=3_000, market_cap_millions=45_000,
-        strategic_areas=["immunology", "ophthalmology", "oncology", "genetic_medicines"],
+        strategic_areas=["immunology", "ophthalmology", "oncology", "genetic_medicines",
+                         "obesity_cardiometabolic"],
         preferred_modalities=["biologic", "monoclonal_antibody", "bispecific"],
         bd_style=BDStyle.PLATFORM, preferred_phase="Phase 2", max_deal_size_millions=15_000,
         loe_cliffs=[
-            LOECliff(product_name="Eylea", indication="wet AMD/DR",
-                     peak_sales_millions=6_000, loe_year=2025, revenue_at_risk_millions=3_500),
+            # Q1 2026 picture: EYLEA HD (8mg) grew +52% YoY in Q1 2026; legacy EYLEA (2mg)
+            # declining rapidly as biosimilars compete. Total U.S. EYLEA franchise (HD+2mg)
+            # was down ~10% Q1 2026. Thesis: PROTECT EYLEA HD leadership + diversify into GA/
+            # non-VEGF ophthalmology. NOT an "EYLEA collapse" thesis — HD is the bright spot.
+            LOECliff(product_name="EYLEA (2mg legacy)", indication="wet AMD/DR — biosimilar erosion",
+                     peak_sales_millions=4_000, loe_year=2023, revenue_at_risk_millions=2_500),
+            LOECliff(product_name="EYLEA HD (8mg)", indication="wet AMD/DR — growing franchise",
+                     peak_sales_millions=3_000, loe_year=2032, revenue_at_risk_millions=500),
         ],
         deal_capacity=DealCapacity(
             cash_available_for_deals_millions=14_000, max_comfortable_deal_size_millions=15_000,
         ),
-        ta_priorities={"immunology": 1.0, "ophthalmology": 0.75, "oncology": 0.70,
-                       "genetic_medicines": 0.65, "cardiovascular": 0.50},
+        ta_priorities={"immunology": 1.0, "ophthalmology": 0.80, "oncology": 0.70,
+                       "genetic_medicines": 0.65, "cardiovascular": 0.55,
+                       "obesity_cardiometabolic": 0.60},
         modality_capabilities=ModalityCapabilities(monoclonal_antibody=1.0, bispecific=0.85,
                                                    small_molecule=0.5),
         bd_history_detailed=BDHistoryDetailed(
             acquisitions=[
                 AcquisitionRecord(target="Checkmate Pharmaceuticals", year=2021,
                                   therapeutic_area="oncology", deal_size_millions=250),
+                AcquisitionRecord(target="2seventy bio (platforms)", year=2024,
+                                  therapeutic_area="cell_therapy", deal_size_millions=5),
+                AcquisitionRecord(target="Decibel Therapeutics", year=2024,
+                                  therapeutic_area="hearing_gene_therapy", deal_size_millions=109),
             ],
             licenses=[
                 LicenseRecord(partner="Sanofi", direction="out", year=2003,
                               therapeutic_area="immunology", asset="Dupixent/Kevzara"),
                 LicenseRecord(partner="Bayer", direction="out", year=2012,
                               therapeutic_area="ophthalmology", asset="Eylea ex-US"),
+                LicenseRecord(partner="Alnylam", direction="in", year=2019,
+                              therapeutic_area="cardiometabolic", asset="cemdisiran siRNA collab"),
+                LicenseRecord(partner="Hansoh", direction="in", year=2024,
+                              therapeutic_area="obesity_cardiometabolic",
+                              asset="olatorepatide (GLP-1/GIP dual agonist, Phase 3)"),
+                LicenseRecord(partner="Telix Pharmaceuticals", direction="in", year=2026,
+                              therapeutic_area="oncology_radiopharma",
+                              asset="radiopharmaceutical oncology collaboration"),
             ],
         ),
         antitrust=AntitrustProfile(
@@ -94,11 +114,16 @@ MEGA_CAP_ACQUIRERS_V2: list[AcquirerProfile] = [
             market_share_risk_areas=["ophthalmology"],
         ),
         notes=(
-            "Cash-rich despite lower market cap post-Eylea biosimilar erosion. "
-            "Dupixent (with Sanofi) $14B+ revenue; LOE ~2031+. "
-            "Strong in-house R&D culture; targeted acquisitions supplement pipeline. "
-            "REGN7075 (MUC16/CD3 bispecific), REGN5458, cemiplimab lifecycle. "
-            "Data confidence: medium-high (0.78)."
+            "Q1 2026 EYLEA update: EYLEA HD (8mg) grew +52% YoY; total U.S. EYLEA "
+            "franchise (HD+2mg) down ~10% as legacy 2mg faces biosimilar erosion. "
+            "Thesis is FRANCHISE EXTENSION — not EYLEA collapse. Seeking GA (geographic "
+            "atrophy), sustained-release delivery, and non-VEGF retinal mechanisms. "
+            "Dupixent (with Sanofi) ~$18B global 2025 revenue; LOE ~2031+. "
+            "Obesity: olatorepatide (GLP-1/GIP, Phase 3) licensed from Hansoh 2024; "
+            "trevogrumab (myostatin inhibitor) Phase 2 for muscle preservation. "
+            "Oncology: Libtayo + bispecifics (linvoseltamab, odronextamab); Telix radiopharma collab. "
+            "Genetics Center (2M+ genomes) drives evidence-backed target selection. "
+            "Data confidence: high (0.82). EYLEA source: REGN Q1 2026 earnings (2026-05-01)."
         ),
     ),
 

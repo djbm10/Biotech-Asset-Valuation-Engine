@@ -553,6 +553,9 @@ class AcquirerFitCandidate(BaseModel):
     ev_to_peak_sales: float | None = Field(default=None, ge=0.0)
     priority_tags: list[str] = Field(default_factory=list)
     notes: list[str] = Field(default_factory=list)
+    # Encumbrance: True when the lead asset has a major licensing/co-develop partnership
+    # that would require consent, right-of-first-refusal, or rights buyout in an acquisition.
+    has_partner_encumbrance: bool = False
 
     @classmethod
     def from_acquisition_row(
@@ -579,6 +582,7 @@ class AcquirerFitCandidate(BaseModel):
             acquisition_readiness_bucket=getattr(row, "acquisition_readiness_bucket", None),
             ev_to_peak_sales=getattr(row, "ev_to_peak_sales", None),
             priority_tags=list(priority_tags or []),
+            has_partner_encumbrance=bool(getattr(row, "has_partner_encumbrance", False)),
         )
 
 
@@ -625,6 +629,32 @@ class AcquirerFitScore(BaseModel):
     budget_headroom_millions: float | None = None
 
     explanation: str
+
+    # ---------------------------------------------------------------------------
+    # Phase 1: Score decomposition — structural vs. evidence-backed
+    # ---------------------------------------------------------------------------
+    # structural_score: built purely from static priors (TA, modality, stage).
+    #   Can be computed without any real-world evidence. Label: "hypothesis ranking."
+    # evidence_score: built from evidence-dependent dimensions (strategic_priority,
+    #   valuation comps, budget). Higher when real deal history and pipeline-gap
+    #   declarations are available.
+    # coverage_score: 0–1 fraction of scored dimensions backed by real evidence.
+    #   < 0.5 → label as "structural_hypothesis"; ≥ 0.5 → "evidence_backed".
+    # encumbrance_penalty: 0.0 normally; 0.20 when the target's lead asset has a
+    #   major licensing or co-development partner whose consent would be required.
+    # suppression_reason: human-readable string when encumbrance or hard-fail
+    #   penalty was applied; None otherwise.
+    # top_positive_reasons / top_negative_reasons: up to 4 plain-language factors
+    #   driving the score up or down — for explainable output shown to analysts.
+    # score_type_label: "structural_hypothesis" | "evidence_backed".
+    structural_score: float = 0.0
+    evidence_score: float = 0.0
+    coverage_score: float = 0.0
+    encumbrance_penalty: float = 0.0
+    suppression_reason: str | None = None
+    top_positive_reasons: list[str] = Field(default_factory=list)
+    top_negative_reasons: list[str] = Field(default_factory=list)
+    score_type_label: str = "structural_hypothesis"
 
 
 class AcquirerFitIntegrationConfig(BaseModel):
@@ -678,6 +708,110 @@ class AcquirerFitResult(BaseModel):
     n_with_comps: int
     n_passing_hard_filters: int
     rows: list[AcquirerFitRow] = Field(default_factory=list)
+
+
+# ---------------------------------------------------------------------------
+# Score decomposition helpers (Phase 1)
+# ---------------------------------------------------------------------------
+
+_ENCUMBRANCE_PENALTY_RATE: float = 0.20  # 20% haircut on fit_score for partnered lead asset
+
+
+def _compute_structural_score(
+    ta_score: float,
+    modality_score: float,
+    stage_score: float,
+) -> float:
+    """Weighted average of TA + modality + stage — no evidence required."""
+    return round(ta_score * 0.45 + modality_score * 0.30 + stage_score * 0.25, 6)
+
+
+def _compute_evidence_score(
+    strategic_score: float,
+    valuation_score: float,
+    budget_score: float,
+) -> float:
+    """Weighted average of evidence-dependent dimensions."""
+    return round(strategic_score * 0.45 + valuation_score * 0.30 + budget_score * 0.25, 6)
+
+
+def _compute_coverage_score(strategic_score: float, valuation_source: str) -> float:
+    """0–1 fraction of scored dimensions backed by real evidence.
+
+    strategic_priority > 0  → pipeline-gap declaration found (+0.5)
+    valuation_source has real comps → comparable deal data found (+0.5)
+    """
+    coverage = 0.0
+    if strategic_score > 0.0:
+        coverage += 0.5
+    if valuation_source not in ("no_ev_data", "neutral", "pipeline_gap_formula", ""):
+        coverage += 0.5
+    return round(min(coverage, 1.0), 6)
+
+
+def _score_type_label(coverage: float) -> str:
+    return "evidence_backed" if coverage >= 0.5 else "structural_hypothesis"
+
+
+def _build_top_positive_reasons(
+    *,
+    ta_score: float,
+    modality_score: float,
+    stage_score: float,
+    strategic_score: float,
+    valuation_score: float,
+    budget_score: float,
+    matched_gap: Optional[str],
+    matched_modality: Optional[str],
+    matched_priorities: list[str],
+) -> list[str]:
+    reasons: list[str] = []
+    if ta_score >= 0.8:
+        label = matched_gap or "therapeutic area"
+        reasons.append(f"Strong TA alignment: {label}")
+    elif ta_score >= 0.5:
+        label = matched_gap or "partial TA match"
+        reasons.append(f"Moderate TA alignment: {label}")
+    if modality_score >= 0.8:
+        label = matched_modality or "preferred modality"
+        reasons.append(f"High modality fit: {label}")
+    if stage_score >= 0.8:
+        reasons.append("Late/commercial stage — de-risked asset")
+    if strategic_score >= 0.7:
+        prio = matched_priorities[0] if matched_priorities else "declared pipeline gap"
+        reasons.append(f"Matches strategic priority: {prio}")
+    elif strategic_score >= 0.4:
+        reasons.append("Partial strategic priority alignment")
+    if valuation_score >= 0.8:
+        reasons.append("Attractive valuation vs comparable deals")
+    if budget_score >= 0.8:
+        reasons.append("Well within acquirer deal capacity")
+    return reasons[:4]
+
+
+def _build_top_negative_reasons(
+    *,
+    ta_score: float,
+    modality_score: float,
+    stage_score: float,
+    hard_fail_reasons: list[str],
+    encumbrance_penalty: float,
+    budget_headroom_millions: Optional[float],
+) -> list[str]:
+    reasons: list[str] = []
+    for r in hard_fail_reasons[:2]:
+        reasons.append(r)
+    if encumbrance_penalty > 0.0:
+        reasons.append(f"Partner encumbrance: -{int(encumbrance_penalty * 100)}% fit penalty")
+    if ta_score < 0.3:
+        reasons.append("Weak TA alignment with acquirer priorities")
+    if modality_score < 0.3:
+        reasons.append("Modality not in acquirer preferred set")
+    if stage_score < 0.5:
+        reasons.append("Early stage increases execution risk")
+    if budget_headroom_millions is not None and budget_headroom_millions < 0:
+        reasons.append(f"Exceeds deal capacity by ${abs(int(budget_headroom_millions)):,}M")
+    return reasons[:4]
 
 
 class AcquirerFitScorer:
@@ -749,6 +883,30 @@ class AcquirerFitScorer:
         if hard_fail_reasons:
             fit_score = round(raw_fit_score * self.config.hard_fail_penalty_multiplier, 6)
 
+        # Phase 1 — score decomposition
+        encumbrance_penalty = _ENCUMBRANCE_PENALTY_RATE if target.has_partner_encumbrance else 0.0
+        if encumbrance_penalty > 0.0:
+            fit_score = round(fit_score * (1.0 - encumbrance_penalty), 6)
+        structural = _compute_structural_score(ta_score, modality_score, stage_score)
+        evidence = _compute_evidence_score(strategic_score, valuation_score, budget_score)
+        coverage = _compute_coverage_score(strategic_score, valuation_source)
+        suppression = (
+            f"partner_encumbrance: {int(encumbrance_penalty * 100)}% haircut"
+            if encumbrance_penalty > 0.0
+            else (hard_fail_reasons[0] if hard_fail_reasons else None)
+        )
+        positives = _build_top_positive_reasons(
+            ta_score=ta_score, modality_score=modality_score, stage_score=stage_score,
+            strategic_score=strategic_score, valuation_score=valuation_score,
+            budget_score=budget_score, matched_gap=matched_gap,
+            matched_modality=matched_modality, matched_priorities=matched_priorities,
+        )
+        negatives = _build_top_negative_reasons(
+            ta_score=ta_score, modality_score=modality_score, stage_score=stage_score,
+            hard_fail_reasons=hard_fail_reasons, encumbrance_penalty=encumbrance_penalty,
+            budget_headroom_millions=budget_headroom,
+        )
+
         return AcquirerFitScore(
             acquirer_id=acquirer.acquirer_id,
             asset_id=target.asset_id,
@@ -794,6 +952,14 @@ class AcquirerFitScorer:
                 budget_headroom=budget_headroom,
                 hard_fail_reasons=hard_fail_reasons,
             ),
+            structural_score=structural,
+            evidence_score=evidence,
+            coverage_score=coverage,
+            encumbrance_penalty=encumbrance_penalty,
+            suppression_reason=suppression,
+            top_positive_reasons=positives,
+            top_negative_reasons=negatives,
+            score_type_label=_score_type_label(coverage),
         )
 
     def _score_target_against_pipeline_gaps(
@@ -839,6 +1005,39 @@ class AcquirerFitScorer:
             fit_score = raw_fit_score
             if hard_fail_reasons:
                 fit_score = round(raw_fit_score * self.config.hard_fail_penalty_multiplier, 6)
+            encumbrance_penalty = _ENCUMBRANCE_PENALTY_RATE if target.has_partner_encumbrance else 0.0
+            if encumbrance_penalty > 0.0:
+                fit_score = round(fit_score * (1.0 - encumbrance_penalty), 6)
+
+            # Phase 1 decomposition
+            _gap_strategic = max(urgency_weight, partnership_score)
+            _gap_structural = _compute_structural_score(ta_match, modality_match, stage_score)
+            _gap_evidence = _compute_evidence_score(_gap_strategic, 0.0, budget_fit)
+            _gap_coverage = _compute_coverage_score(_gap_strategic, "pipeline_gap_formula")
+            _gap_suppression = (
+                f"partner_encumbrance: {int(encumbrance_penalty * 100)}% haircut"
+                if encumbrance_penalty > 0.0
+                else None
+            )
+            _gap_positives = _build_top_positive_reasons(
+                ta_score=ta_match,
+                modality_score=modality_match,
+                stage_score=stage_score,
+                strategic_score=_gap_strategic,
+                valuation_score=0.0,
+                budget_score=budget_fit,
+                matched_gap=_gap_label(gap),
+                matched_modality=matched_modality,
+                matched_priorities=[],
+            )
+            _gap_negatives = _build_top_negative_reasons(
+                ta_score=ta_match,
+                modality_score=modality_match,
+                stage_score=stage_score,
+                hard_fail_reasons=hard_fail_reasons,
+                encumbrance_penalty=encumbrance_penalty,
+                budget_headroom_millions=budget_headroom,
+            )
 
             gap_match = {
                 "fit_score": fit_score,
@@ -847,7 +1046,7 @@ class AcquirerFitScorer:
                 "therapeutic_area_score": round(ta_match, 6),
                 "modality_score": round(modality_match, 6),
                 "stage_score": round(stage_score, 6),
-                "strategic_priority_score": round(max(urgency_weight, partnership_score), 6),
+                "strategic_priority_score": round(_gap_strategic, 6),
                 "valuation_score": 0.0,
                 "budget_score": round(budget_fit, 6),
                 "therapeutic_area_component": therapeutic_area_component,
@@ -882,6 +1081,14 @@ class AcquirerFitScorer:
                     budget_fit=budget_fit,
                     budget_headroom=budget_headroom,
                 ),
+                "structural_score": _gap_structural,
+                "evidence_score": _gap_evidence,
+                "coverage_score": _gap_coverage,
+                "encumbrance_penalty": encumbrance_penalty,
+                "suppression_reason": _gap_suppression,
+                "top_positive_reasons": _gap_positives,
+                "top_negative_reasons": _gap_negatives,
+                "score_type_label": _score_type_label(_gap_coverage),
             }
 
             if best_match is None or (
@@ -934,6 +1141,14 @@ class AcquirerFitScorer:
                 budget_required_millions=target.model_rnpv_millions,
                 budget_headroom_millions=None,
                 explanation=f"{acquirer.acquirer_id} fit 0.000: no pipeline gaps available",
+                structural_score=0.0,
+                evidence_score=0.0,
+                coverage_score=0.0,
+                encumbrance_penalty=0.0,
+                suppression_reason=None,
+                top_positive_reasons=[],
+                top_negative_reasons=[],
+                score_type_label="structural_hypothesis",
             )
 
         return AcquirerFitScore(

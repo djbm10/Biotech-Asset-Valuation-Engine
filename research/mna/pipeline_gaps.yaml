@@ -1595,14 +1595,14 @@ acquirers:
         source_url: "https://www.vrtx.com/news-releases/news-release-details/vertex-pharmaceuticals-completes-acquisition-alpine-immune"
 
     budget:
-      as_of_date: "2025-12-31"
-      cash_and_marketable_securities_millions: 11000.0
+      as_of_date: "2026-03-31"
+      cash_and_marketable_securities_millions: 13000.0
       long_term_debt_millions: 1500.0
-      net_cash_millions: 9500.0
-      capacity_notes: "Vertex has $11B+ cash and minimal debt — one of the healthiest balance sheets in biotech. $4B+ annual FCF from CF franchise. Deal ceiling $8-12B. Preferred bolt-on $2-6B. Strong balance sheet allows opportunistic large deals for the right strategic fit. acquisition_capacity_millions is conservative given pristine balance sheet."
+      net_cash_millions: 11500.0
+      capacity_notes: "Vertex has $13.0B in cash, cash equivalents, and marketable securities as of Q1 2026 (March 31, 2026) — strongest balance sheet in large-cap biotech. $4B+ annual FCF from CF franchise. Net cash ~$11.5B after ~$1.5B debt. Deal ceiling $10-15B for the right strategic fit. Preferred bolt-on $2-6B. acquisition_capacity_millions is conservative given pristine balance sheet and growing FCF."
       source_refs:
-        - source_date: "2026-02-05"
+        - source_date: "2026-04-30"
           source_type: "earnings_release"
-          source_title: "Vertex Pharmaceuticals Q4 and Full Year 2025 Financial Results"
+          source_title: "Vertex Pharmaceuticals Q1 2026 Financial Results"
           source_url: "https://investors.vrtx.com/"
-          note: "Vertex maintains minimal debt. Net cash of ~$9.5B reflects cash less the Alpine acquisition financing. Best-in-class balance sheet among large-cap biotech."
+          note: "Vertex reported $13.0B cash, cash equivalents, and marketable securities as of March 31, 2026. Long-term debt ~$1.5B; net cash ~$11.5B. Cash increased from ~$11B at FY2025 year-end driven by continued CF franchise FCF generation."
