@@ -2783,3 +2783,608 @@ RCUS:
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
   notes: "Domvanalimab (anti-TIGIT) + zimberelimab (anti-PD-1) in Phase 3 STAR-221 for NSCLC. Etrumadenant (adenosine pathway). Gilead collaboration with option to acquire. Leading TIGIT program; strategic IO acquisition candidate."
+
+# ---------------------------------------------------------------------------
+# Oncology — next-gen CAR-T / bispecific / synthetic lethality
+# ---------------------------------------------------------------------------
+
+ACLX:
+  name: Arcellx
+  ticker: ACLX
+  cik: "0001842840"
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - oncology
+    - hematology
+  lead_asset: anito-cel
+  lead_asset_stage: phase3
+  lead_asset_phase: phase3
+  modality: cell_therapy
+  lead_modality: cell_therapy
+  lead_indication: relapsed/refractory multiple myeloma
+  aliases:
+    - Arcellx
+    - ARC-SparX
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: mid
+  platform_type: car_t_mm
+  has_partner_encumbrance: false
+  cash_position_source: sec_10q_2025q4
+  rd_expense_source: sec_10k_2025
+  last_verified_date: "2026-06-01"
+  notes: "Anito-cel (GPRC5D-targeted CAR-T) Phase 3 iMMagine-3 for RRMM. Differentiated low-cytokine-release profile. Gilead/Kite partnership provides commercial infrastructure. High value to BMY/GILD/JNJ for MM franchise expansion."
+
+IDYA:
+  name: IDEAYA Biosciences
+  ticker: IDYA
+  cik: "0001701846"
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - oncology
+  lead_asset: darovasertib
+  lead_asset_stage: phase3
+  lead_asset_phase: phase3
+  modality: small_molecule
+  lead_modality: small_molecule
+  lead_indication: uveal melanoma / GNAQ/GNA11-mutant tumors
+  aliases:
+    - IDEAYA
+    - IDEAYA Biosciences
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: synthetic_lethality
+  has_partner_encumbrance: true
+  cash_position_source: sec_10q_2025q4
+  rd_expense_source: sec_10k_2025
+  last_verified_date: "2026-06-01"
+  notes: "Darovasertib (PKC inhibitor) Phase 3 in uveal melanoma; WEE1 + PARP synthetic lethality platform in BRCA/HRD tumors. GSK partnership. Synthetic lethality precision oncology thesis with validated mechanisms. Attractive tuck-in for oncology-focused acquirers."
+
+ZYME:
+  name: Zymeworks
+  ticker: ZYME
+  cik: "0001403708"
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - oncology
+    - hematology
+  lead_asset: zanidatamab
+  lead_asset_stage: phase3
+  lead_asset_phase: phase3
+  modality: antibody_drug_conjugate
+  lead_modality: antibody_drug_conjugate
+  lead_indication: HER2-amplified biliary tract cancer / gastroesophageal cancer
+  aliases:
+    - Zymeworks
+    - zanidatamab
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: adc_bispecific
+  has_partner_encumbrance: true
+  cash_position_source: sec_10q_2025q4
+  rd_expense_source: sec_10k_2025
+  last_verified_date: "2026-06-01"
+  notes: "Zanidatamab (HER2 bispecific) partnered with BeiGene and Jazz. ZW171 (CD38xCD3 bispecific) Phase 1. ADC/bispecific engineering platform. Pipeline diversified in HER2+ cancers across GI and lung. Attractive to acquirers seeking ADC/bispecific capabilities and HER2-franchise complement."
+
+MGNX:
+  name: MacroGenics
+  ticker: MGNX
+  cik: "0001125613"
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - oncology
+    - hematology
+    - immunology
+  lead_asset: vobramitamab duocarmazine
+  lead_asset_stage: phase2
+  lead_asset_phase: phase2
+  modality: antibody_drug_conjugate
+  lead_modality: antibody_drug_conjugate
+  lead_indication: prostate cancer / B7-H3+ solid tumors
+  aliases:
+    - MacroGenics
+    - DART platform
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: dart_bispecific
+  has_partner_encumbrance: false
+  cash_position_source: sec_10q_2025q4
+  rd_expense_source: sec_10k_2025
+  last_verified_date: "2026-06-01"
+  notes: "DART (Dual-Affinity Re-Targeting) bispecific antibody platform. Margetuximab (Margenza) HER2+ BC commercial — modest revenue. Vobramitamab duocarmazine (B7-H3 ADC) Phase 2/3. MGD013 (PD-1xLAG-3 bispecific). Platform technology valuable to acquirers seeking bispecific capability."
+
+KURA:
+  name: Kura Oncology
+  ticker: KURA
+  cik: "0001512673"
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - oncology
+    - hematology
+  lead_asset: zificiclib
+  lead_asset_stage: phase3
+  lead_asset_phase: phase3
+  modality: small_molecule
+  lead_modality: small_molecule
+  lead_indication: NPM1-mutant AML / menin inhibitor
+  aliases:
+    - Kura Oncology
+    - zificiclib
+    - menin inhibitor
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: menin_inhibitor
+  has_partner_encumbrance: false
+  cash_position_source: sec_10q_2025q4
+  rd_expense_source: sec_10k_2025
+  last_verified_date: "2026-06-01"
+  notes: "Zificiclib (KO-539, menin inhibitor) Phase 3 for NPM1-mutant/KMT2A-rearranged AML. Menin inhibition is validated new mechanism in AML with Syndax/revumenib leading. Kura offers competing asset with differentiated dosing profile. Attractive for AML-focused acquirers (BMY, GILD, ABBV)."
+
+AGIO:
+  name: Agios Pharmaceuticals
+  ticker: AGIO
+  cik: "0001431270"
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - oncology
+    - hematology
+    - rare_disease
+  lead_asset: vorasidenib
+  lead_asset_stage: commercial
+  lead_asset_phase: commercial
+  modality: small_molecule
+  lead_modality: small_molecule
+  lead_indication: IDH1/2-mutant glioma (grade 2)
+  aliases:
+    - Agios
+    - Voranigo
+    - vorasidenib
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: mid
+  platform_type: cellular_metabolism
+  has_partner_encumbrance: false
+  cash_position_source: sec_10q_2025q4
+  rd_expense_source: sec_10k_2025
+  last_verified_date: "2026-06-01"
+  notes: "Vorasidenib (Voranigo) approved 2023 for IDH1/2-mutant low-grade glioma — first oral treatment in this setting. Thalassemia franchise (mitapivat) commercial. Previously sold oncology assets to Servier. Cellular metabolism expertise in cancer and rare heme. Attractive commercial asset for CNS-oncology focused acquirers."
+
+ERAS:
+  name: Erasca
+  ticker: ERAS
+  cik: "0001754068"
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - oncology
+  lead_asset: naporafenib
+  lead_asset_stage: phase3
+  lead_asset_phase: phase3
+  modality: small_molecule
+  lead_modality: small_molecule
+  lead_indication: NRAS-mutant melanoma / RAS/MAPK pathway cancers
+  aliases:
+    - Erasca
+    - naporafenib
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: ras_mapk_oncology
+  has_partner_encumbrance: true
+  cash_position_source: sec_10q_2025q4
+  rd_expense_source: sec_10k_2025
+  last_verified_date: "2026-06-01"
+  notes: "Naporafenib (pan-RAF inhibitor) Phase 3 in NRAS-mutant melanoma (partnered with Novartis). ERAS-007 (ERK1/2 inhibitor) Phase 2 in colorectal/pancreatic cancer. RAS/MAPK pathway pipeline complements RVMD and others. Attractive to RAS-focused acquirers (MRK, NVS)."
+
+NUVB:
+  name: Nuvation Bio
+  ticker: NUVB
+  cik: "0001801315"
+  exchange: NYSE
+  company_type: drug_developer
+  therapeutic_areas:
+    - oncology
+  lead_asset: taletrectinib
+  lead_asset_stage: phase2
+  lead_asset_phase: phase2
+  modality: small_molecule
+  lead_modality: small_molecule
+  lead_indication: ROS1+ / NTRK+ non-small cell lung cancer
+  aliases:
+    - Nuvation Bio
+    - taletrectinib
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: precision_oncology
+  has_partner_encumbrance: false
+  cash_position_source: sec_10q_2025q4
+  rd_expense_source: sec_10k_2025
+  last_verified_date: "2026-06-01"
+  notes: "Taletrectinib (next-gen ROS1/NTRK inhibitor) Phase 2 with strong efficacy data in ROS1+ NSCLC vs entrectinib/crizotinib resistance. Multiple precision oncology programs. SPAC-formed company with Pappas Capital backing. Potential tuck-in for precision oncology-focused acquirers."
+
+# ---------------------------------------------------------------------------
+# Rare Disease — gene therapy / novel mechanisms
+# ---------------------------------------------------------------------------
+
+PRME:
+  name: Prime Medicine
+  ticker: PRME
+  cik: "0001803599"
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - rare_disease
+    - hematology
+    - ophthalmology
+  lead_asset: PM359
+  lead_asset_stage: phase1
+  lead_asset_phase: phase1
+  modality: gene_editing
+  lead_modality: gene_editing
+  lead_indication: chronic granulomatous disease (CGD)
+  aliases:
+    - Prime Medicine
+    - prime editing
+    - PM359
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: prime_editing_gene_therapy
+  has_partner_encumbrance: false
+  cash_position_source: sec_10q_2025q4
+  rd_expense_source: sec_10k_2025
+  last_verified_date: "2026-06-01"
+  notes: "Prime editing platform — next-generation gene editing enabling precise insertions, deletions, and all 12 point mutation types without double-strand breaks. Lead PM359 Phase 1 in CGD. Broader pipeline in SCD, macular degeneration, Wilson's disease. Backed by David Liu lab. Strategic platform acquisition target for gene therapy-building acquirers (VRTX, RHHBY, PFE)."
+
+AUPH:
+  name: Aurinia Pharmaceuticals
+  ticker: AUPH
+  cik: null
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - immunology
+    - rare_disease
+  lead_asset: voclosporin
+  lead_asset_stage: commercial
+  lead_asset_phase: commercial
+  modality: small_molecule
+  lead_modality: small_molecule
+  lead_indication: lupus nephritis (LN)
+  aliases:
+    - Aurinia
+    - voclosporin
+    - Lupkynis
+  is_single_asset_company: true
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: calcineurin_inhibitor
+  has_partner_encumbrance: false
+  cash_position_source: sec_10q_2025q4
+  rd_expense_source: sec_10k_2025
+  last_verified_date: "2026-06-01"
+  notes: "Voclosporin (Lupkynis) approved 2021 — first oral calcineurin inhibitor for lupus nephritis. Commercial-stage with durable efficacy data. Lupus nephritis remains underserved despite BLyS/BAFF biologics. Attractive commercial asset for autoimmune-focused acquirers (AZN, ABBV, SNY)."
+
+SPRY:
+  name: Spyre Therapeutics
+  ticker: SPRY
+  cik: "0001899529"
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - immunology
+    - rare_disease
+    - gastrointestinal
+  lead_asset: SPY001
+  lead_asset_stage: phase2
+  lead_asset_phase: phase2
+  modality: biologic
+  lead_modality: biologic
+  lead_indication: myasthenia gravis / FcRn-mediated autoimmune diseases
+  aliases:
+    - Spyre Therapeutics
+    - SPY001
+    - FcRn bispecific
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: fcrn_bispecific_platform
+  has_partner_encumbrance: false
+  cash_position_source: sec_10q_2025q4
+  rd_expense_source: sec_10k_2025
+  last_verified_date: "2026-06-01"
+  notes: "Differentiated FcRn bispecific antibody platform targeting multiple autoimmune indications simultaneously. SPY001 in Phase 2 for myasthenia gravis and IBD. Spun out from Aeglea Biotherapeutics with FcRn platform. FcRn inhibition is validated mechanism (efgartigimod/argenx); Spyre's bispecific approach could enable superior efficacy."
+
+OCUL:
+  name: Ocugen
+  ticker: OCUL
+  cik: "0001372514"
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - ophthalmology
+    - rare_disease
+  lead_asset: OCU400
+  lead_asset_stage: phase3
+  lead_asset_phase: phase3
+  modality: cell_gene
+  lead_modality: cell_gene
+  lead_indication: retinitis pigmentosa (gene-agnostic)
+  aliases:
+    - Ocugen
+    - OCU400
+    - NR2E3 gene therapy
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: nano
+  platform_type: ocular_gene_therapy
+  has_partner_encumbrance: false
+  cash_position_source: sec_10q_2025q4
+  rd_expense_source: sec_10k_2025
+  last_verified_date: "2026-06-01"
+  notes: "OCU400 Phase 3 for retinitis pigmentosa — gene-agnostic modifier therapy approach (NR2E3 nuclear receptor) distinct from gene replacement. Broad RP coverage regardless of causative mutation. Bifunctional vector platform. Attractive niche target for ophthalmology-focused acquirers (RHHBY, REGN, NVS) seeking gene therapy foothold in RP."
+
+PLRX:
+  name: Pliant Therapeutics
+  ticker: PLRX
+  cik: "0001691936"
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - rare_disease
+    - respiratory
+    - gastrointestinal
+  lead_asset: bexotegrast
+  lead_asset_stage: phase3
+  lead_asset_phase: phase3
+  modality: small_molecule
+  lead_modality: small_molecule
+  lead_indication: idiopathic pulmonary fibrosis (IPF)
+  aliases:
+    - Pliant Therapeutics
+    - bexotegrast
+    - PLN-74809
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: integrin_fibrosis
+  has_partner_encumbrance: false
+  cash_position_source: sec_10q_2025q4
+  rd_expense_source: sec_10k_2025
+  last_verified_date: "2026-06-01"
+  notes: "Bexotegrast (αvβ6/αvβ1 dual integrin inhibitor) Phase 3 BEACON-IPF for idiopathic pulmonary fibrosis. Phase 2 showed significant FVC stabilization over nintedanib/pirfenidone background. Also in primary sclerosing cholangitis. Integrin-targeting fibrosis platform relevant to NVS/RHHBY/AZN given lung/liver interests."
+
+# ---------------------------------------------------------------------------
+# CNS / Neurology — novel mechanisms
+# ---------------------------------------------------------------------------
+
+ANAB:
+  name: AnaptysBio
+  ticker: ANAB
+  cik: "0001358190"
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - immunology
+    - dermatology
+    - rare_disease
+  lead_asset: imsidolimab
+  lead_asset_stage: phase3
+  lead_asset_phase: phase3
+  modality: biologic
+  lead_modality: biologic
+  lead_indication: generalized pustular psoriasis / palmoplantar pustulosis
+  aliases:
+    - AnaptysBio
+    - imsidolimab
+    - ANB020
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: somatic_hypermutation
+  has_partner_encumbrance: false
+  cash_position_source: sec_10q_2025q4
+  rd_expense_source: sec_10k_2025
+  last_verified_date: "2026-06-01"
+  notes: "Imsidolimab (anti-IL-36R) Phase 3 for generalized pustular psoriasis and palmoplantar pustulosis — rare but severe immune dermatology conditions. Rosnilimab (anti-PD-1 agonist) Phase 2 in rheumatoid arthritis and alopecia areata. Somatic hypermutation antibody discovery platform. Attractive immunology/derm tuck-in for ABBV/JNJ/REGN."
+
+LBPH:
+  name: Longboard Pharmaceuticals
+  ticker: LBPH
+  cik: "0001776197"
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - neuroscience
+    - rare_disease
+  lead_asset: bexicaserin
+  lead_asset_stage: phase3
+  lead_asset_phase: phase3
+  modality: small_molecule
+  lead_modality: small_molecule
+  lead_indication: developmental and epileptic encephalopathies (DEE)
+  aliases:
+    - Longboard Pharmaceuticals
+    - bexicaserin
+    - LP352
+    - 5HT2C agonist
+  is_single_asset_company: true
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: serotonin_cns
+  has_partner_encumbrance: false
+  cash_position_source: sec_10q_2025q4
+  rd_expense_source: sec_10k_2025
+  last_verified_date: "2026-06-01"
+  notes: "Bexicaserin (5-HT2C agonist) Phase 3 PACIFIC study for Dravet syndrome and other developmental/epileptic encephalopathies. Highly differentiated from GABA-mechanism antiseizure drugs. Strong Phase 2 efficacy (>50% seizure reduction). Potential acquisition target for CNS-focused acquirers (ABBV after Cerevel, JAZZ, Biogen) seeking rare epilepsy assets."
+
+# ---------------------------------------------------------------------------
+# Metabolic / Cardiometabolic
+# ---------------------------------------------------------------------------
+
+GPCR:
+  name: Structure Therapeutics
+  ticker: GPCR
+  cik: "0001878155"
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - metabolic
+    - cardiovascular
+    - rare_disease
+  lead_asset: GSBR-1290
+  lead_asset_stage: phase2
+  lead_asset_phase: phase2
+  modality: small_molecule
+  lead_modality: small_molecule
+  lead_indication: obesity / type 2 diabetes (GLP-1R agonist oral)
+  aliases:
+    - Structure Therapeutics
+    - GSBR-1290
+    - oral GLP-1
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: gpcr_small_molecule
+  has_partner_encumbrance: false
+  cash_position_source: sec_10q_2025q4
+  rd_expense_source: sec_10k_2025
+  last_verified_date: "2026-06-01"
+  notes: "GSBR-1290 — oral small molecule GLP-1R agonist Phase 2 for obesity and T2D. GPCR structure-based drug discovery platform leveraging cryo-EM for CNS/metabolic receptors. Differentiated oral formulation vs. injectable semaglutide/tirzepatide. Highly strategic for NVO, LLY, AMGN in oral obesity pipeline competition."
+
+# ---------------------------------------------------------------------------
+# Immunology / Dermatology
+# ---------------------------------------------------------------------------
+
+ACRS:
+  name: Aclaris Therapeutics
+  ticker: ACRS
+  cik: "0001481697"
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - dermatology
+    - immunology
+  lead_asset: ATI-501
+  lead_asset_stage: phase3
+  lead_asset_phase: phase3
+  modality: small_molecule
+  lead_modality: small_molecule
+  lead_indication: alopecia areata (oral JAK inhibitor)
+  aliases:
+    - Aclaris Therapeutics
+    - ATI-501
+    - zunsemetinib
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: nano
+  platform_type: jak_derm_immunology
+  has_partner_encumbrance: false
+  cash_position_source: sec_10q_2025q4
+  rd_expense_source: sec_10k_2025
+  last_verified_date: "2026-06-01"
+  notes: "ATI-501 (oral JAK1/3 inhibitor) Phase 3 for alopecia areata in a validated mechanism (Eli Lilly/baricitinib, Pfizer/ritlecitinib approved). Zunsemetinib (ATI-450, MK2 inhibitor) for RA/inflammatory. Smaller JAK inhibitor competitor to Pfizer/Lilly franchise. Potential acquisition target for derm/immunology acquirers."
+
+ITOS:
+  name: iTeos Therapeutics
+  ticker: ITOS
+  cik: "0001816586"
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - oncology
+    - immunology
+  lead_asset: inupadenant
+  lead_asset_stage: phase2
+  lead_asset_phase: phase2
+  modality: small_molecule
+  lead_modality: small_molecule
+  lead_indication: solid tumors (A2A adenosine receptor antagonist)
+  aliases:
+    - iTeos Therapeutics
+    - inupadenant
+    - EOS-850
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: immuno_oncology
+  has_partner_encumbrance: true
+  cash_position_source: sec_10q_2025q4
+  rd_expense_source: sec_10k_2025
+  last_verified_date: "2026-06-01"
+  notes: "Inupadenant (A2AR adenosine pathway antagonist) Phase 2 with GSK partnership. EOS-448 (anti-TIGIT) Phase 2/3 with BMS partnership. Adenosine pathway is validated immunosuppression target in solid tumors. Dual-partnered with two major acquirers (GSK, BMY) creating strategic acquisition tension. Belgian biotech with US operations."
+
+# ---------------------------------------------------------------------------
+# Platform / AI Drug Discovery
+# ---------------------------------------------------------------------------
+
+CNTA:
+  name: Centessa Pharmaceuticals
+  ticker: CNTA
+  cik: "0001823844"
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - rare_disease
+    - neuroscience
+    - hematology
+    - oncology
+  lead_asset: SRP-9001
+  lead_asset_stage: phase2
+  lead_asset_phase: phase2
+  modality: small_molecule
+  lead_modality: small_molecule
+  lead_indication: narcolepsy type 1 / orexin receptor agonist
+  aliases:
+    - Centessa Pharmaceuticals
+    - orexin program
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: multi_program_platform
+  has_partner_encumbrance: false
+  cash_position_source: sec_10q_2025q4
+  rd_expense_source: sec_10k_2025
+  last_verified_date: "2026-06-01"
+  notes: "Multi-asset biotech with focused discovery platform. Orexin receptor 2 agonist for narcolepsy type 1 (validated by Takeda/suvorexant). Lixivaptan for autosomal dominant polycystic kidney disease (ADPKD) Phase 3. Multiple rare disease programs. Portfolio approach reduces single-asset risk. Attractive mid-stage platform for acquirers in CNS and rare disease."
+
+ABSI:
+  name: Absci Corporation
+  ticker: ABSI
+  cik: "0001832928"
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - oncology
+    - immunology
+    - rare_disease
+  lead_asset: ABS-101
+  lead_asset_stage: preclinical
+  lead_asset_phase: preclinical
+  modality: biologic
+  lead_modality: biologic
+  lead_indication: AI-designed antibody therapeutics (undisclosed indication)
+  aliases:
+    - Absci
+    - Absci Corporation
+    - AI protein design
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: nano
+  platform_type: ai_drug_discovery
+  has_partner_encumbrance: false
+  cash_position_source: sec_10q_2025q4
+  rd_expense_source: sec_10k_2025
+  last_verified_date: "2026-06-01"
+  notes: "Generative AI drug design platform enabling rapid antibody discovery and optimization. SynBio protein expression + ML models for de novo antibody design without animal immunization. ABS-101 (AI-designed anti-CD3xCD19 bispecific) preclinical. Platform partnerships with AZN, Sanofi, Merck KGaA. Strategic platform acquisition target for AI-differentiated drug discovery."

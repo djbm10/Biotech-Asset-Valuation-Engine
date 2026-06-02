@@ -261,6 +261,11 @@ top_level_module_map:
     primary_question: 2
     role: regulatory pathway and approval-risk modeling
     state: current
+  - module: run
+    kind: package
+    primary_question: 6
+    role: run context and execution entry-point helpers
+    state: current
   - module: runtime
     kind: package
     primary_question: 6

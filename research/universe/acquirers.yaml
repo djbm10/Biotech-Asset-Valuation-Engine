@@ -689,3 +689,287 @@ MRCGF:
   patent_cliff_exposure: "Mavenclad (cladribine) MS franchise modest exposure. Rebif (interferon beta) generic pressure ongoing. Net: manageable, but Bavencio (avelumab) co-promotion competitive pressure from dominant anti-PD-1 agents."
   last_verified_date: "2026-06-01"
   notes: "Bavencio (avelumab), Tepmetko (tepotinib) in oncology. Mavenclad for MS. Distinct from Merck & Co (MRK). Active oncology BD; German pharma arm of Merck KGaA. ADC and IO interests growing."
+
+# ---------------------------------------------------------------------------
+# Japanese Pharma — ADC / CNS / Rare Disease
+# ---------------------------------------------------------------------------
+
+DSNKY:
+  name: Daiichi Sankyo
+  ticker: DSNKY
+  cik: null
+  therapeutic_areas:
+    - oncology
+    - rare_disease
+    - cardiovascular
+  modalities:
+    - antibody_drug_conjugate
+    - small_molecule
+    - biologic
+  deal_size_range_millions: [500, 20000]
+  preferred_stages:
+    - phase1
+    - phase2
+    - phase3
+    - commercial
+  include_as_acquirer: true
+  strategic_priorities:
+    - adc_platform_expansion_next_gen
+    - oncology_solid_tumors_hematology
+    - rare_disease_rare_cardiovascular
+    - licensing_platform_payloads_linkers
+  patent_cliff_exposure: "Lixiana (edoxaban) competitive pressure from generic DOACs long-term. ADC portfolio (T-DXd, dato-DXd, I-DM1) is relatively IP-protected through 2030s. Strategic need to add next-gen ADC payloads and novel targets before current ADCs genericize."
+  last_verified_date: "2026-06-01"
+  notes: "World leader in antibody-drug conjugates. T-DXd (trastuzumab deruxtecan/Enhertu) partnered with AZN and MRK — blockbuster in HER2+ cancers. dato-DXd (datopotamab deruxtecan) in NSCLC/TNBC. Actively seeking ADC payload/linker technologies, novel tumor targets, and rare disease expansion. Willing to pay strategic premiums for ADC-enabling platforms."
+
+ESALF:
+  name: Eisai
+  ticker: ESALF
+  cik: null
+  therapeutic_areas:
+    - neuroscience
+    - oncology
+    - rare_disease
+  modalities:
+    - small_molecule
+    - biologic
+    - antibody_drug_conjugate
+  deal_size_range_millions: [300, 10000]
+  preferred_stages:
+    - phase2
+    - phase3
+    - commercial
+  include_as_acquirer: true
+  strategic_priorities:
+    - alzheimers_neurodegeneration_leqembi_lifecycle
+    - oncology_adc_lenvatinib_succession
+    - rare_neurological_epilepsy
+    - cns_psychiatry_new_mechanisms
+  patent_cliff_exposure: "Halaven (eribulin) generic pressure ongoing. Aricept (donepezil) fully generic. Leqembi (lecanemab, with Biogen) is the core revenue driver mid-decade. LOE risk for legacy CNS assets drives urgency for new neurology acquisitions."
+  last_verified_date: "2026-06-01"
+  notes: "Co-developer of Leqembi (lecanemab) with Biogen for Alzheimer's. Lenvima (lenvatinib) in multiple oncology indications with MRK. Active in rare neurological diseases and epilepsy (perampanel/Fycompa). Seeking post-Leqembi CNS pipeline and ADC oncology bolt-ons."
+
+SMPMF:
+  name: Sumitomo Pharma
+  ticker: SMPMF
+  cik: null
+  therapeutic_areas:
+    - neuroscience
+    - oncology
+    - rare_disease
+    - other
+  modalities:
+    - small_molecule
+    - biologic
+    - cell_gene
+  deal_size_range_millions: [300, 8000]
+  preferred_stages:
+    - phase2
+    - phase3
+    - commercial
+  include_as_acquirer: true
+  strategic_priorities:
+    - cns_psychiatry_schizophrenia_depression
+    - rare_disease_regenerative_medicine
+    - oncology_targeted_tuck_ins
+    - reproductive_womens_health
+  patent_cliff_exposure: "Latuda (lurasidone) US generic competition ongoing — significant revenue erosion from $2B+ peak. Orgovyx (relugolix) and Myfembree provide partial offset. Net ~$1.5B+ revenue gap drives urgent CNS/oncology pipeline refill through BD."
+  last_verified_date: "2026-06-01"
+  notes: "Sumitomo Pharma (formerly Sumitomo Dainippon after Roivant partial stake). US arm Sunovion — Latuda (lurasidone) major LOE. Orgovyx (relugolix) for prostate cancer with Myovant Sciences (acquired). Active in CNS psychiatry acquisitions and rare disease regenerative medicine."
+
+OTSKY:
+  name: Otsuka Holdings
+  ticker: OTSKY
+  cik: null
+  therapeutic_areas:
+    - neuroscience
+    - rare_disease
+    - cardiovascular
+    - gastrointestinal
+  modalities:
+    - small_molecule
+    - biologic
+  deal_size_range_millions: [300, 10000]
+  preferred_stages:
+    - phase2
+    - phase3
+    - commercial
+  include_as_acquirer: true
+  strategic_priorities:
+    - cns_psychiatry_abilify_successors
+    - rare_disease_nephrology
+    - cardiovascular_heart_failure
+    - digital_therapeutics_mental_health
+  patent_cliff_exposure: "Abilify (aripiprazole) fully generic. Samsca/Jinarc (tolvaptan) autosomal dominant PKD — niche competitive pressure. Abilify Maintena (long-acting) stable but matures ~2029. Net: moderate cliff, driving CNS and rare disease BD."
+  last_verified_date: "2026-06-01"
+  notes: "Abilify franchise (fully generic) was anchor revenue. Samsca/Jinarc for ADPKD is rare disease anchor. Abilify Maintena (depot aripiprazole) longer exclusivity. Seeking next-generation CNS/psychiatry assets and rare renal disease pipeline. Active digital health/therapeutics investments alongside traditional pharma."
+
+# ---------------------------------------------------------------------------
+# European Mid-Large Pharma — Specialty Focus
+# ---------------------------------------------------------------------------
+
+BAYRY:
+  name: Bayer AG
+  ticker: BAYRY
+  cik: null
+  therapeutic_areas:
+    - oncology
+    - cardiovascular
+    - rare_disease
+    - other
+  modalities:
+    - small_molecule
+    - biologic
+    - rna
+  deal_size_range_millions: [500, 15000]
+  preferred_stages:
+    - phase2
+    - phase3
+    - commercial
+  include_as_acquirer: true
+  strategic_priorities:
+    - oncology_radiopharma_expansion
+    - cardiovascular_renal_finerenone_lifecycle
+    - rare_disease_hemophilia_gene_therapy
+    - womens_health_reproductive
+  patent_cliff_exposure: "Xarelto (rivaroxaban) co-marketed with JNJ — major LOE by 2026–2027. Eylea (aflibercept, US rights via REGN) biosimilar risk. Combined ~$5B+ revenue exposure driving need for oncology and radiopharma acquisitions."
+  last_verified_date: "2026-06-01"
+  notes: "Oncology: Nubeqa (darolutamide) growing; BAY 2927088 (HER2/EGFR bispecific TKI) promising; expanding radiopharma (PSMA, FAP targets). Cardiovascular: Kerendia (finerenone) CKD/heart failure. Rare: hemophilia gene therapy interest (following Asklepios partnership). Actively scouting radiopharmaceutical targets and novel oncology mechanisms."
+
+HLUYY:
+  name: H. Lundbeck
+  ticker: HLUYY
+  cik: null
+  therapeutic_areas:
+    - neuroscience
+    - rare_disease
+  modalities:
+    - small_molecule
+    - biologic
+    - antisense
+  deal_size_range_millions: [300, 8000]
+  preferred_stages:
+    - phase2
+    - phase3
+    - commercial
+  include_as_acquirer: true
+  strategic_priorities:
+    - alzheimers_cns_neurodegeneration
+    - migraine_headache_cgrp_successor
+    - rare_neurological_epilepsy_rare_cns
+    - psychiatry_schizophrenia_depression
+  patent_cliff_exposure: "Brintellix (vortioxetine) patent cliff approaching ~2027–2028. Vyepti (eptinezumab) growing. Trintellix/Brintellix represent ~$1.5B at risk. Driving need for next CNS mechanism acquisition or in-licensing."
+  last_verified_date: "2026-06-01"
+  notes: "Pure-play CNS company. Eptinezumab (Vyepti) for migraine. Brexanolone partner (Sage/BIIB). Acquired Alder BioPharmaceuticals (CGRP) 2019. Seeking next-gen Alzheimer's, epilepsy, and psychiatry assets. DNA scope in CNS is broad: from migraine to ALS to psychiatry. Willing buyer for rare neurological diseases."
+
+UCBFF:
+  name: UCB SA
+  ticker: UCBFF
+  cik: null
+  therapeutic_areas:
+    - neuroscience
+    - rare_disease
+    - immunology
+    - musculoskeletal
+  modalities:
+    - biologic
+    - small_molecule
+    - antisense
+  deal_size_range_millions: [300, 10000]
+  preferred_stages:
+    - phase2
+    - phase3
+    - commercial
+  include_as_acquirer: true
+  strategic_priorities:
+    - epilepsy_next_generation_assets
+    - bone_rare_disease_biologic
+    - neurology_neuromuscular_rare
+    - immunology_inflammation_new_mechanisms
+  patent_cliff_exposure: "Vimpat (lacosamide) major generic risk ~2022–2026 US — already impacting revenue. Cimzia (certolizumab) biosimilar competition 2024+. Combined ~$2B+ revenue at risk requiring new commercial assets."
+  last_verified_date: "2026-06-01"
+  notes: "Romosozumab (Evenity, co-marketed with Amgen) osteoporosis. Zilucoplan for generalized MG. Bimekizumab (Bimzelx) IL-17A/F for psoriasis and PsA — commercial launch. Acquisitions include Ra Pharmaceuticals (complement). Seeking rare neurological diseases, complement biology, bone/rare metabolic, and epilepsy follow-ons."
+
+IPSEY:
+  name: Ipsen SA
+  ticker: IPSEY
+  cik: null
+  therapeutic_areas:
+    - rare_disease
+    - oncology
+    - neuroscience
+    - gastrointestinal
+  modalities:
+    - biologic
+    - small_molecule
+    - antibody_drug_conjugate
+  deal_size_range_millions: [200, 5000]
+  preferred_stages:
+    - phase2
+    - phase3
+    - commercial
+  include_as_acquirer: true
+  strategic_priorities:
+    - rare_disease_liver_hematology
+    - oncology_neuroendocrine_pnet
+    - cns_movement_disorders_neurotoxin
+    - gastrointestinal_rare_gi
+  patent_cliff_exposure: "Somatuline (lanreotide) biosimilar competition underway — major revenue erosion from ~$1.5B peak. Decapeptyl (triptorelin) generics pressure. Net ~$1.5B+ at risk driving rare disease and oncology acquisitions."
+  last_verified_date: "2026-06-01"
+  notes: "Rare disease focus: palovarotene (IPEX, fibrodysplasia ossificans progressiva) commercial; cabozantinib (Cabometyx, licensed from Exelixis) in RCC/HCC. Oncology: lanreotide neuroendocrine tumors. Neurotoxin franchise (Dysport, botulinum toxin). Active acquirer of rare metabolic and rare liver disease. Mid-cap acquirer with selective BD."
+
+CSLLY:
+  name: CSL Limited
+  ticker: CSLLY
+  cik: null
+  therapeutic_areas:
+    - rare_disease
+    - hematology
+    - immunology
+    - cardiovascular
+    - vaccines
+  modalities:
+    - biologic
+    - small_molecule
+    - vaccine
+  deal_size_range_millions: [500, 20000]
+  preferred_stages:
+    - phase2
+    - phase3
+    - commercial
+  include_as_acquirer: true
+  strategic_priorities:
+    - rare_bleeding_hemophilia_gene_therapy
+    - immunoglobulin_alpha1_antitrypsin
+    - cardiovascular_renal_garadacimab
+    - influenza_vaccine_seqirus_expansion
+  patent_cliff_exposure: "Plasma-derived therapies face increasing recombinant/gene therapy competition. Haegarda (subcutaneous C1-esterase inhibitor) faces KALVISTA and gene therapy competition for HAE. Long-term existential pressure from gene therapies for hemophilia."
+  last_verified_date: "2026-06-01"
+  notes: "CSL Behring: global leader in plasma protein therapies (IgG, albumin, clotting factors). Hemgenix (etranacogene dezaparvovec) gene therapy for hemophilia B launched. Garadacimab (factor XIIa) in HAE and thrombosis. Seqirus: seasonal influenza vaccines. Very large balance sheet (~$14B revenue) enabling mega-acquisitions in rare heme and immunology."
+
+JAZZ:
+  name: Jazz Pharmaceuticals
+  ticker: JAZZ
+  cik: "0001232524"
+  therapeutic_areas:
+    - neuroscience
+    - oncology
+    - rare_disease
+  modalities:
+    - small_molecule
+    - biologic
+    - rna
+  deal_size_range_millions: [300, 8000]
+  preferred_stages:
+    - phase2
+    - phase3
+    - commercial
+  include_as_acquirer: true
+  strategic_priorities:
+    - cns_sleep_narcolepsy_oxybate_lifecycle
+    - oncology_hematology_aml_mds
+    - rare_disease_cannabis_medicine
+    - neuroscience_movement_rare_neurological
+  patent_cliff_exposure: "Xyrem (sodium oxybate) generic competition post-2023; Xywav (low-sodium formulation) provides some migration but faces pressure. Vyxeos (daunorubicin/cytarabine liposomal) moderate AML competition. Net: ~$2B+ revenue at risk from Xyrem transition."
+  last_verified_date: "2026-06-01"
+  notes: "CNS leader: Xywav/Xyrem oxybate franchise for narcolepsy/cataplexy. Epidiolex (cannabidiol) for rare epilepsies (LGS, Dravet) — acquired with GW Pharma $7.2B 2021. Vyxeos in AML. Seeking next CNS sleep/epilepsy/neurology assets and hematologic oncology bolt-ons. Irish domicile, US-focused operations."
