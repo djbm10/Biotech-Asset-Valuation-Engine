@@ -1,12 +1,11 @@
-# Biotech M&A Acquirer Universe — Phase 2
+# Biotech M&A Acquirer Universe — Phase 2M
 #
 # 23 large-pharma / large-biotech acquirers.
 # Foreign names use ADR ticker where available; cik is null for non-US filers.
 #
-# Mandatory fields: ticker, name, therapeutic_areas, modalities,
-#   deal_size_range_millions, preferred_stages, include_as_acquirer
-#
-# Optional: cik, notes
+# Required (Phase 2M): ticker, name, therapeutic_areas, modalities,
+#   deal_size_range_millions, last_verified_date
+# Optional: cik, strategic_priorities, patent_cliff_exposure, notes
 
 # ---------------------------------------------------------------------------
 # US Large-Cap Pharma
@@ -34,6 +33,13 @@ PFE:
     - phase3
     - commercial
   include_as_acquirer: true
+  strategic_priorities:
+    - oncology_adc_expansion
+    - rare_disease_gene_therapy
+    - rna_medicines
+    - cardiovascular_metabolic
+  patent_cliff_exposure: "Eliquis (apixaban) LOE 2026–2028; Ibrance (palbociclib) loss expected ~2027. Approximately $17B in annual revenue at risk by 2030 driving urgent BD pipeline refill."
+  last_verified_date: "2026-06-01"
   notes: "Post-Seagen: major oncology/ADC acquirer. Also active in rare disease, RNA medicine (BioNTech). Large balance sheet. Seeking revenue-generating or late-stage pipeline to replace COVID windfall."
 
 MRK:
@@ -57,6 +63,13 @@ MRK:
     - phase3
     - commercial
   include_as_acquirer: true
+  strategic_priorities:
+    - keytruda_succession_oncology
+    - next_gen_io_adcs
+    - cardiovascular_pcsk9_obesity
+    - vaccines_infectious_disease
+  patent_cliff_exposure: "Keytruda (pembrolizumab) US LOE ~2028. Approximately $25B annual revenue at risk — most urgent patent cliff in the industry. Active in acquiring post-Keytruda pipeline."
+  last_verified_date: "2026-06-01"
   notes: "Keytruda revenue cliff beyond 2028 drives urgency for oncology/IO bolt-ons. Deep interest in next-gen IO, ADCs, and cardiovascular (PCSK9, obesity adjacencies). Very active BD pipeline."
 
 BMY:
@@ -80,6 +93,13 @@ BMY:
     - phase3
     - commercial
   include_as_acquirer: true
+  strategic_priorities:
+    - oncology_io_succession
+    - cardiovascular_afib_heart_failure
+    - cell_therapy_next_gen
+    - hematology_myeloid
+  patent_cliff_exposure: "Revlimid (lenalidomide) generic erosion ongoing. Opdivo (nivolumab) biosimilar risk ~2028–2030. Combined ~$10B+ annual revenue exposure over 5-year horizon."
+  last_verified_date: "2026-06-01"
   notes: "Revlimid LOE creates major revenue gap. Active in oncology, IO, cardiovascular (Eliquis), and now CNS (KarXT acquisition). Cell therapy manufacturing infrastructure. LOC urgency = aggressive BD."
 
 JNJ:
@@ -102,6 +122,13 @@ JNJ:
     - phase3
     - commercial
   include_as_acquirer: true
+  strategic_priorities:
+    - oncology_multiple_myeloma_solid_tumors
+    - immunology_inflammation
+    - neuroscience_psychiatry
+    - mab_adc_bispecific_platform
+  patent_cliff_exposure: "Stelara (ustekinumab) biosimilar competition from 2025. Imbruvica (ibrutinib) co-promote erosion. Darzalex (daratumumab) faces biologic competition mid-decade."
+  last_verified_date: "2026-06-01"
   notes: "Janssen: large oncology/immunology buyer. Post-consumer split focused on pharma. CARVYKTI/cilta-cel gives cell therapy infrastructure. Frequent large deals (ITCI, Abiomed, Ambrx)."
 
 ABBV:
@@ -123,6 +150,13 @@ ABBV:
     - phase3
     - commercial
   include_as_acquirer: true
+  strategic_priorities:
+    - immunology_next_humira_wave
+    - neuroscience_psychiatry_cns
+    - oncology_hematology_tuck_ins
+    - dermatology_aesthetics
+  patent_cliff_exposure: "Humira (adalimumab) biosimilar competition fully underway 2024–2025. Revenue erosion partially offset by Skyrizi/Rinvoq ramp, but ~$10B+ replacement needed by 2030."
+  last_verified_date: "2026-06-01"
   notes: "Post-Humira: heavy immunology/neuroscience BD. Skyrizi + Rinvoq growing but patent exposure beyond 2030. Active acquirer in neuroscience (Cerevel, ImmunoGen, Landos, DCPH). Derm/inflammation franchise priorities."
 
 AMGN:
@@ -145,6 +179,13 @@ AMGN:
     - phase3
     - commercial
   include_as_acquirer: true
+  strategic_priorities:
+    - obesity_marítide_glp1
+    - oncology_kras_bispecific
+    - cardiovascular_lipid_lowering
+    - rare_disease_following_horizon
+  patent_cliff_exposure: "Enbrel (etanercept) biosimilar erosion ongoing US. Prolia/Xgeva (denosumab) biosimilar risk ~2025–2027. Combined ~$8B annual revenue at risk."
+  last_verified_date: "2026-06-01"
   notes: "MariTide (obesity bispecific) and broad cardiometabolic interest. KRAS franchise (sotorasib). Large Horizon Therapeutics acquisition (rare disease). BD appetite for metabolic, rare, and oncology."
 
 GILD:
@@ -167,6 +208,13 @@ GILD:
     - phase3
     - commercial
   include_as_acquirer: true
+  strategic_priorities:
+    - hiv_hbv_cure_strategy
+    - oncology_adc_io
+    - inflammation_autoimmune
+    - cell_therapy_car_t
+  patent_cliff_exposure: "Biktarvy (HIV) LOE ~2033 provides near-term revenue protection. Vesicant cell therapy (Yescarta/Tecartus) competitive pressure from allogeneic entrants. Strategic need to diversify from antiviral dependency."
+  last_verified_date: "2026-06-01"
   notes: "Kite (cell therapy), Immunomedics (ADC), Arcus partnership (IO). HBV cure strategy active. Oncology and inflammatory disease focus. Seeking to diversify from antiviral dependency."
 
 REGN:
@@ -189,6 +237,13 @@ REGN:
     - phase3
     - commercial
   include_as_acquirer: true
+  strategic_priorities:
+    - dupixent_lifecycle_expansion
+    - oncology_hematology_bispecific
+    - eylea_successor_ophthalmology
+    - rare_disease_platform
+  patent_cliff_exposure: "EYLEA (aflibercept) biosimilar competition from 2025–2026. Dupixent IP protection stronger (~2031+). Kevzara (sarilumab) modest revenue at risk."
+  last_verified_date: "2026-06-01"
   notes: "VelociGene/VelocImmune antibody platform. Dupixent expanding across atopic conditions. EYLEA successor. Linvoseltamab and odronextamab in heme-onc. Selective but willing to acquire platform-enabling companies."
 
 VRTX:
@@ -211,6 +266,13 @@ VRTX:
     - phase3
     - commercial
   include_as_acquirer: true
+  strategic_priorities:
+    - rare_genetic_disease_pipeline
+    - pain_nav18_successor
+    - kidney_disease_pkd_igan
+    - gene_editing_platform_expansion
+  patent_cliff_exposure: "CF franchise Trikafta/Kaftrio LOE ~2037+ provides long runway. No major near-term cliff, but seeking to deploy $10B+ cash reserves in rare disease acquisitions before CF generic risk materializes."
+  last_verified_date: "2026-06-01"
   notes: "Casgevy (with CRSP) for SCD/TDT. CF franchise (Trikafta) generating cash. Pain (suzetrigine/NaV1.8) commercial. Actively seeking rare disease / genetic medicine to deploy CF cash. Disciplined buyer."
 
 LLY:
@@ -234,6 +296,13 @@ LLY:
     - phase3
     - commercial
   include_as_acquirer: true
+  strategic_priorities:
+    - obesity_glp1_pipeline_expansion
+    - oncology_radiopharmaceuticals_adc
+    - immunology_inflammation
+    - alzheimers_neurodegenerative
+  patent_cliff_exposure: "Trulicity (dulaglutide) biosimilar risk ~2027–2029; revenue declining as Mounjaro/Zepbound cannibalize. Taltz (ixekizumab) biosimilar competition 2026+. Net: offset by obesity franchise, but oncology pipeline needed."
+  last_verified_date: "2026-06-01"
   notes: "Tirzepatide (Mounjaro/Zepbound) weight loss leader. Massive market cap and FCF generating urgency to deploy capital. Pursuing oncology (Morphic, Point Biopharma), immunology, and neuro. Most active acquirer 2023-2025."
 
 # ---------------------------------------------------------------------------
@@ -258,6 +327,13 @@ NVO:
     - phase3
     - commercial
   include_as_acquirer: true
+  strategic_priorities:
+    - obesity_beyond_semaglutide
+    - cardiovascular_heart_failure
+    - rare_hematology_haemophilia
+    - cagrisema_successor_pipeline
+  patent_cliff_exposure: "Victoza (liraglutide) biosimilar competition ongoing. Ozempic/Wegovy (semaglutide) LOE ~2031–2033. Long runway but need next-generation obesity and cardiometabolic assets urgently."
+  last_verified_date: "2026-06-01"
   notes: "Ozempic/Wegovy (semaglutide) leader in GLP-1. CagriSema and beyond-obesity pipeline. Active rare heme (Alhemo/marstacimab). Cardiovascular (mim8). Massive balance sheet; seeking obesity-adjacent and rare heme acquisitions."
 
 NVS:
@@ -282,6 +358,13 @@ NVS:
     - phase3
     - commercial
   include_as_acquirer: true
+  strategic_priorities:
+    - radioligand_therapy_expansion
+    - gene_therapy_ophthalmic_neuro
+    - cardiovascular_renal
+    - oncology_immunology_bolt_ons
+  patent_cliff_exposure: "Cosentyx (secukinumab) biosimilar risk ~2028. Entresto (sacubitril/valsartan) generic competition ~2025–2026. Combined ~$10B exposure driving need for new commercial-stage assets."
+  last_verified_date: "2026-06-01"
   notes: "Radioligand therapy (Lutathera, Pluvicto), RNA medicines (Gyroscope). Oncology and rare disease focus. Spinoff of Sandoz (generics) sharpens innovative pharma focus. Strong gene therapy infrastructure."
 
 RHHBY:
@@ -307,6 +390,13 @@ RHHBY:
     - phase3
     - commercial
   include_as_acquirer: true
+  strategic_priorities:
+    - oncology_next_gen_adc_bispecific
+    - rare_disease_neurology
+    - ophthalmology_gene_therapy
+    - diagnostics_digital_health_integration
+  patent_cliff_exposure: "Avastin (bevacizumab), Herceptin (trastuzumab), MabThera/Rituxan (rituximab) all facing deep biosimilar erosion — combined ~$8B peak revenue now largely generic. Urgent need to fill revenue gap."
+  last_verified_date: "2026-06-01"
   notes: "Genentech-led oncology/rare/neuro. Losing Avastin/Rituxan/Herceptin biosimilar revenue. Active in gene therapy (ophthalmo), CNS (gantenerumab lessons), RNAi (Alnylam partnership). Frequent large deals."
 
 AZN:
@@ -331,6 +421,13 @@ AZN:
     - phase3
     - commercial
   include_as_acquirer: true
+  strategic_priorities:
+    - oncology_adc_data_dxd_succession
+    - cardiovascular_renal_metabolic
+    - rare_disease_alexion_platform
+    - respiratory_next_generation
+  patent_cliff_exposure: "Symbicort (budesonide/formoterol) generic erosion significant. Farxiga (dapagliflozin) biosimilar risk ~2028. Imfinzi (durvalumab) competitive pressure from anti-PD-1 leaders."
+  last_verified_date: "2026-06-01"
   notes: "Largest oncology ADC portfolio. Dato-DXd and T-DXd with Daiichi Sankyo. Eplontersen (Wainua) with Ionis. Cardiovascular (dapagliflozin) + Rare disease (Alexion). Prolific deal-maker in oncology and rare."
 
 SNY:
@@ -354,6 +451,13 @@ SNY:
     - phase3
     - commercial
   include_as_acquirer: true
+  strategic_priorities:
+    - immunology_dupixent_lifecycle
+    - oncology_adc_pipeline
+    - mrna_vaccines_pipeline
+    - rare_blood_genzyme_expansion
+  patent_cliff_exposure: "Dupixent (dupilumab) LOE ~2031–2033 (US). Aubagio (teriflunomide) generic competition ongoing. Seeking to build oncology and next-immunology pipeline ahead of Dupixent exposure."
+  last_verified_date: "2026-06-01"
   notes: "Dupixent franchise anchors immunology. Rare blood (Genzyme/rare, Altuviiio/fitusiran). mRNA vaccines (BioNTech partnership). Seeking oncology bolt-ons and next immunology wave. Active BD team."
 
 GSK:
@@ -377,6 +481,13 @@ GSK:
     - phase3
     - commercial
   include_as_acquirer: true
+  strategic_priorities:
+    - oncology_gynecological_dostarlimab
+    - respiratory_il5_il13_succession
+    - hiv_long_acting_pipeline
+    - vaccines_meningitis_pneumococcal
+  patent_cliff_exposure: "Advair (fluticasone/salmeterol) fully generic. Breo/Nucala biosimilar risk approaching mid-decade. HIV portfolio (Biktarvy equivalent) mid-decade exposure. Net: manageable relative to peers."
+  last_verified_date: "2026-06-01"
   notes: "Shingrix and HIV portfolio. Jemperli (dostarlimab) in oncology. Depemokimab in respiratory. Seeking next respiratory/oncology/HIV wave. More selective acquirer; prefers bolt-on to mega-deals."
 
 TAK:
@@ -399,6 +510,13 @@ TAK:
     - phase3
     - commercial
   include_as_acquirer: true
+  strategic_priorities:
+    - gi_entyvio_succession
+    - rare_disease_hae_plasma
+    - oncology_targeted_hematology
+    - neuroscience_narcolepsy_cns
+  patent_cliff_exposure: "Entyvio (vedolizumab) LOE ~2025–2026 biosimilar competition. Vyvanse (lisdexamfetamine) generic 2023. Combined ~$8B+ revenue at risk requiring active BD to offset Shire portfolio decline."
+  last_verified_date: "2026-06-01"
   notes: "GI franchise (Entyvio/vedolizumab). Rare disease/HAE (lanadelumab). TAK-861 for narcolepsy type 1 Phase 3. Historically active acquirer (Shire for rare disease). Debt-constrained but still selective BD."
 
 # ---------------------------------------------------------------------------
@@ -423,6 +541,13 @@ BIIB:
     - phase3
     - commercial
   include_as_acquirer: true
+  strategic_priorities:
+    - alzheimers_neurodegeneration
+    - ms_next_gen_succession
+    - rare_neurological_disease
+    - depression_psychiatry_expansion
+  patent_cliff_exposure: "Tecfidera (dimethyl fumarate) generic erosion ongoing. Tysabri (natalizumab) biosimilar risk mid-decade. Multiple sclerosis portfolio broadly at risk as oral agents genericize."
+  last_verified_date: "2026-06-01"
   notes: "Lecanemab (Leqembi) Alzheimer's launch with Eisai. Zuranolone (Zurzuvae) with Sage. Antisense partnerships with Ionis. Rebuilding pipeline post-multiple sclerosis maturity. Neuro-focused acquirer."
 
 UTHR:
@@ -443,6 +568,13 @@ UTHR:
     - phase3
     - commercial
   include_as_acquirer: true
+  strategic_priorities:
+    - pulmonary_arterial_hypertension_tyvaso
+    - xenotransplantation_organ_manufacturing
+    - rare_pulmonary_vascular_disease
+    - cell_gene_therapy_niche
+  patent_cliff_exposure: "Tyvaso (treprostinil inhaled) competition from generic treprostinil; Remodulin (IV treprostinil) generic pressure. Managed through Tyvaso DPI reformulation. Moderate cliff risk offset by xenotransplantation pipeline."
+  last_verified_date: "2026-06-01"
   notes: "Pulmonary arterial hypertension franchise (Tyvaso, Remodulin). Manufactured organs/xenotransplantation. Selectively acquires niche rare pulmonary or organ biotech. Smaller deal range but very focused."
 
 INCY:
@@ -462,6 +594,13 @@ INCY:
     - phase3
     - commercial
   include_as_acquirer: true
+  strategic_priorities:
+    - jak_inhibitor_lifecycle
+    - oncology_hematology_tuck_ins
+    - dermatology_immunology_expansion
+    - myelofibrosis_gvhd_pipeline
+  patent_cliff_exposure: "Jakafi (ruxolitinib) LOE ~2028–2029 US. Opzelura (ruxolitinib cream) IP well-protected. Strategic need to find post-Jakafi revenue driver through oncology/immunology BD before 2028 cliff."
+  last_verified_date: "2026-06-01"
   notes: "JAK inhibitor franchise (Jakafi/ruxolitinib, Opzelura). Active oncology/immunology BD. Frequent acquirer of oncology tuck-ins and inflammation assets. Strong in heme-onc and derm specialty."
 
 MRNA:
@@ -483,6 +622,13 @@ MRNA:
     - phase3
     - commercial
   include_as_acquirer: true
+  strategic_priorities:
+    - mrna_delivery_improvement
+    - personalized_cancer_vaccine_pipeline
+    - rare_disease_mrna_enzyme_replacement
+    - respiratory_flu_covid_rsv_pipeline
+  patent_cliff_exposure: "COVID vaccine revenue declining steeply from $18B peak to low single digits. mRESVIA (RSV) launched but modest. Strategic urgency to establish non-COVID revenue through oncology (mRNA-4157) and rare disease mRNA programs."
+  last_verified_date: "2026-06-01"
   notes: "mRNA platform beyond COVID. mRNA-4157 (personalized cancer vaccine with Merck) Phase 3. Rare disease (propionic acidemia, methylmalonic acidemia). Seeks mRNA-enabling technology and delivery improvements."
 
 # ---------------------------------------------------------------------------
@@ -509,6 +655,13 @@ ALPMY:
     - phase3
     - commercial
   include_as_acquirer: true
+  strategic_priorities:
+    - oncology_adc_xtandi_succession
+    - urology_bladder_prostate
+    - gene_therapy_audentes_expansion
+    - transplant_immunosuppression
+  patent_cliff_exposure: "Xtandi (enzalutamide) LOE ~2027. Padcev (enfortumab vedotin) co-commercialized with Pfizer — LOE risk ~2030+. Xtandi cliff drives urgency for oncology pipeline refill."
+  last_verified_date: "2026-06-01"
   notes: "Xtandi (enzalutamide) in prostate cancer, Padcev (enfortumab vedotin, with Pfizer) ADC. Gene therapy via Audentes (AT132 for X-linked MTM). Active oncology and urology buyer. ADC expertise growing."
 
 MRCGF:
@@ -528,4 +681,11 @@ MRCGF:
     - phase3
     - commercial
   include_as_acquirer: true
+  strategic_priorities:
+    - oncology_io_bavencio_succession
+    - multiple_sclerosis_mavenclad_pipeline
+    - immuno_oncology_io_combination
+    - neuroscience_ms_nmo_rare
+  patent_cliff_exposure: "Mavenclad (cladribine) MS franchise modest exposure. Rebif (interferon beta) generic pressure ongoing. Net: manageable, but Bavencio (avelumab) co-promotion competitive pressure from dominant anti-PD-1 agents."
+  last_verified_date: "2026-06-01"
   notes: "Bavencio (avelumab), Tepmetko (tepotinib) in oncology. Mavenclad for MS. Distinct from Merck & Co (MRK). Active oncology BD; German pharma arm of Merck KGaA. ADC and IO interests growing."
