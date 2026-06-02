@@ -1,0 +1,1032 @@
+# Biotech M&A Target Universe — Phase 2
+#
+# 50 drug-developer targets selected for:
+#   - Plausible acquisition size (nano → mid cap)
+#   - Defined lead asset with known phase
+#   - Strategic fit to large-pharma therapeutic areas
+#   - Exclude tools/services/diagnostics-only names
+#
+# Mandatory fields: ticker, name, exchange, company_type,
+#   therapeutic_areas, lead_asset, lead_asset_phase, lead_modality,
+#   lead_indication, is_single_asset_company, include_in_screen
+#
+# Optional: cik, market_cap_bucket, platform_type,
+#           has_partner_encumbrance, notes
+#
+# Phases: preclinical | phase1 | phase2 | phase3 | commercial | unknown
+# Modalities: small_molecule | biologic | antibody_drug_conjugate |
+#             cell_gene | cell_therapy | rna | gene_editing |
+#             base_editing | antisense | vaccine | unknown
+# TAs: oncology | rare_disease | immunology | neuroscience |
+#      cardiovascular | infectious_disease | metabolic |
+#      dermatology | ophthalmology | respiratory | hematology |
+#      musculoskeletal | gastrointestinal | other
+
+# ---------------------------------------------------------------------------
+# Oncology — targeted / platform
+# ---------------------------------------------------------------------------
+
+RVMD:
+  name: Revolution Medicines
+  ticker: RVMD
+  cik: "0001628171"
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - oncology
+  lead_asset: daraxonrasib
+  lead_asset_phase: phase3
+  lead_modality: small_molecule
+  lead_indication: RAS-mutant solid tumors
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: mid
+  platform_type: ras_oncology
+  has_partner_encumbrance: false
+  notes: "KRAS/RAS oncology platform; daraxonrasib Phase 3 in RAS-mutant PDAC and CRC. High strategic interest from oncology-focused acquirers."
+
+BPMC:
+  name: Blueprint Medicines
+  ticker: BPMC
+  cik: null
+  exchange: NASDAQ
+  company_type: commercial
+  therapeutic_areas:
+    - oncology
+  lead_asset: avapritinib
+  lead_asset_phase: commercial
+  lead_modality: small_molecule
+  lead_indication: PDGFRA-mutant GIST and indolent systemic mastocytosis
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: mid
+  platform_type: precision_oncology
+  has_partner_encumbrance: false
+  notes: "Two commercial products (avapritinib/Ayvakit, pralsetinib/Gavreto). Clean acquisition — growing revenue, KIT/RET/PDGFRA franchise."
+
+ARVN:
+  name: Arvinas
+  ticker: ARVN
+  cik: null
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - oncology
+  lead_asset: vepdegestrant
+  lead_asset_phase: phase3
+  lead_modality: small_molecule
+  lead_indication: ER+/HER2- metastatic breast cancer
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: protac_targeted_protein_degradation
+  has_partner_encumbrance: true
+  notes: "PROTAC/TPD platform. Vepdegestrant (ARV-471) in Phase 3 VERITAC-2 trial. Pfizer collaboration on ARV-471. Platform has broad application beyond breast cancer."
+
+KYMR:
+  name: Kymera Therapeutics
+  ticker: KYMR
+  cik: null
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - oncology
+    - immunology
+  lead_asset: KY-1005
+  lead_asset_phase: phase2
+  lead_modality: small_molecule
+  lead_indication: atopic dermatitis and inflammatory conditions
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: targeted_protein_degradation
+  has_partner_encumbrance: false
+  notes: "TPD platform with STAT6 (KY-1005), IRAK4 (KY-1022), and TYK2 degraders. Sanofi collaboration. Early but differentiated mechanistically from competitors."
+
+MRUS:
+  name: Merus NV
+  ticker: MRUS
+  cik: null
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - oncology
+  lead_asset: zenocutuzumab
+  lead_asset_phase: phase2
+  lead_modality: biologic
+  lead_indication: NRG1-fusion-positive cancers
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: bispecific_antibody
+  has_partner_encumbrance: true
+  notes: "Bispecific antibody (Biclonics) platform. Zenocutuzumab received breakthrough designation for NRG1+ cancers. Petosemtamab (EGFR/LGR5) in Phase 2/3 for CRC. Onco-focused acquirers interested."
+
+IOVA:
+  name: Iovance Biotherapeutics
+  ticker: IOVA
+  cik: null
+  exchange: NASDAQ
+  company_type: commercial
+  therapeutic_areas:
+    - oncology
+  lead_asset: lifileucel
+  lead_asset_phase: commercial
+  lead_modality: cell_therapy
+  lead_indication: advanced melanoma
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: til_therapy
+  has_partner_encumbrance: false
+  notes: "First FDA-approved TIL therapy (Amtagvi for melanoma). Expanding to cervical cancer and solid tumors. Capital-intensive manufacturing. Potential for strategic partnership or acquisition."
+
+CLDX:
+  name: Celldex Therapeutics
+  ticker: CLDX
+  cik: null
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - immunology
+    - oncology
+  lead_asset: CDX-0159
+  lead_asset_phase: phase3
+  lead_modality: biologic
+  lead_indication: chronic spontaneous urticaria
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: antibody
+  has_partner_encumbrance: false
+  notes: "Anti-KIT antibody CDX-0159 in Phase 3 for urticaria. CDX-622 (anti-TSLP) for asthma. Immunology/derm interest from AZ, Sanofi, AbbVie."
+
+REPL:
+  name: Replimune Group
+  ticker: REPL
+  cik: null
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - oncology
+  lead_asset: vusolimogene oderparepvec
+  lead_asset_phase: phase3
+  lead_modality: biologic
+  lead_indication: advanced melanoma
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: micro
+  platform_type: oncolytic_virus
+  has_partner_encumbrance: false
+  notes: "RP1 (vusolimogene) + nivolumab combo in Phase 3 IGNYTE trial for melanoma. Oncolytic virus platform differentiated in immuno-oncology. Bristol-Myers/Roche IO interest."
+
+RLAY:
+  name: Relay Therapeutics
+  ticker: RLAY
+  cik: null
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - oncology
+  lead_asset: RLY-2608
+  lead_asset_phase: phase2
+  lead_modality: small_molecule
+  lead_indication: PI3Kα-mutant hormone receptor-positive breast cancer
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: conformational_dynamics
+  has_partner_encumbrance: false
+  notes: "Computational-driven drug discovery. RLY-2608 (PI3Kα) + RLY-5836 (PI3Kα combo). Platform differentiated vs traditional structure-based design."
+
+JANX:
+  name: Janux Therapeutics
+  ticker: JANX
+  cik: null
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - oncology
+  lead_asset: JANX007
+  lead_asset_phase: phase1
+  lead_modality: biologic
+  lead_indication: metastatic castration-resistant prostate cancer
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: micro
+  platform_type: tumor_activated_bispecific
+  has_partner_encumbrance: false
+  notes: "TRACTr platform (tumor-activated T-cell engagers). JANX007 (PSMA×CD3) and JANX008 (HER2×CD3) in Phase 1. Activation mechanism reduces systemic toxicity."
+
+NURIX:
+  name: Nurix Therapeutics
+  ticker: NURIX
+  cik: null
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - oncology
+    - immunology
+  lead_asset: NX-2127
+  lead_asset_phase: phase2
+  lead_modality: small_molecule
+  lead_indication: relapsed/refractory CLL and non-Hodgkin lymphoma
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: micro
+  platform_type: ubiquitin_biology_degrader
+  has_partner_encumbrance: false
+  notes: "BTK degrader NX-2127 and NX-5948 in Phase 1/2 for B-cell malignancies. Gilead collaboration on immunology degraders. Resistance-overcoming mechanism attractive to heme-onc acquirers."
+
+NUVL:
+  name: Nuvalent
+  ticker: NUVL
+  cik: null
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - oncology
+  lead_asset: NVL-520
+  lead_asset_phase: phase2
+  lead_modality: small_molecule
+  lead_indication: ROS1-positive non-small cell lung cancer
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: precision_oncology_kinase
+  has_partner_encumbrance: false
+  notes: "Next-gen ROS1 (NVL-520) and ALK (NVL-655) inhibitors designed to overcome resistance to first-gen TKIs. Clean binary regulatory path. Attractive tuck-in for lung cancer franchise."
+
+TGTX:
+  name: TG Therapeutics
+  ticker: TGTX
+  cik: null
+  exchange: NASDAQ
+  company_type: commercial
+  therapeutic_areas:
+    - neuroscience
+  lead_asset: ublituximab
+  lead_asset_phase: commercial
+  lead_modality: biologic
+  lead_indication: relapsing forms of multiple sclerosis
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: antibody
+  has_partner_encumbrance: false
+  notes: "Briumvi (ublituximab) approved for MS. CD20 B-cell depletion mechanism. Growing market share vs ofatumumab. Neuroscience-focused acquirers (Biogen, Roche, Novartis)."
+
+YMAB:
+  name: Y-mAbs Therapeutics
+  ticker: YMAB
+  cik: null
+  exchange: NASDAQ
+  company_type: commercial
+  therapeutic_areas:
+    - oncology
+  lead_asset: naxitamab
+  lead_asset_phase: commercial
+  lead_modality: biologic
+  lead_indication: high-risk neuroblastoma
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: micro
+  platform_type: antibody
+  has_partner_encumbrance: false
+  notes: "Danyelza (naxitamab) approved for r/r high-risk neuroblastoma. Omburtamab NDA filed for leptomeningeal metastases. Pediatric oncology niche; small commercial scale."
+
+LNTH:
+  name: Lantheus Holdings
+  ticker: LNTH
+  cik: null
+  exchange: NASDAQ
+  company_type: commercial
+  therapeutic_areas:
+    - oncology
+  lead_asset: PYLARIFY
+  lead_asset_phase: commercial
+  lead_modality: small_molecule
+  lead_indication: PSMA-positive prostate cancer imaging
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: mid
+  platform_type: radiopharmaceutical_diagnostics
+  has_partner_encumbrance: false
+  notes: "PYLARIFY (piflufolastat F 18) is leading PSMA PET imaging agent. Strong revenue growth. Radiopharmaceutical platform (PSMA, FAP, amyloid). Strategic interest from Novartis (Lutathera), Eli Lilly."
+
+# ---------------------------------------------------------------------------
+# Rare Disease
+# ---------------------------------------------------------------------------
+
+BEAM:
+  name: Beam Therapeutics
+  ticker: BEAM
+  cik: null
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - rare_disease
+    - hematology
+  lead_asset: BEAM-101
+  lead_asset_phase: phase1
+  lead_modality: base_editing
+  lead_indication: sickle cell disease
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: base_editing
+  has_partner_encumbrance: false
+  notes: "Proprietary base editing platform. BEAM-101 for SCD (ex vivo), BEAM-302 for alpha-1 antitrypsin, BEAM-201 AML. Differentiated from CRISPR/base cut approaches."
+
+RCKT:
+  name: Rocket Pharmaceuticals
+  ticker: RCKT
+  cik: null
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - rare_disease
+    - hematology
+  lead_asset: RP-L201
+  lead_asset_phase: phase2
+  lead_modality: cell_gene
+  lead_indication: leukocyte adhesion deficiency type I
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: micro
+  platform_type: lentiviral_gene_therapy
+  has_partner_encumbrance: false
+  notes: "Lentiviral gene therapy platform. RP-L201 (LAD-I) Phase 2, RP-A501 (Danon disease, AAV9) Phase 2, RP-L102 (Fanconi anemia) Phase 2. Multiple rare disease assets; clean acquisition targets for gene therapy strategy."
+
+CRSP:
+  name: CRISPR Therapeutics
+  ticker: CRSP
+  cik: null
+  exchange: NASDAQ
+  company_type: commercial
+  therapeutic_areas:
+    - rare_disease
+    - hematology
+    - cardiovascular
+  lead_asset: casgevy
+  lead_asset_phase: commercial
+  lead_modality: gene_editing
+  lead_indication: sickle cell disease and transfusion-dependent beta-thalassemia
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: crispr_cas9
+  has_partner_encumbrance: true
+  notes: "Casgevy (exagamglogene autotemcel) co-approved with Vertex for SCD/TDT. CTX310 (ATTR), CTX320 (Lp(a)) in Phase 1/2. Vertex partnership on ex vivo; owns in vivo and cardiovascular pipeline independently."
+
+RARE:
+  name: Ultragenyx Pharmaceutical
+  ticker: RARE
+  cik: null
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - rare_disease
+  lead_asset: setrusumab
+  lead_asset_phase: phase3
+  lead_modality: biologic
+  lead_indication: osteogenesis imperfecta
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: rare_metabolic_bone
+  has_partner_encumbrance: true
+  notes: "Setrusumab (anti-sclerostin) with Ultragenyx/Mereo for OI. UX701 (AAV gene therapy for Wilson disease) Phase 1/2. Multiple rare bone/metabolic programs. BioMarin/Sanofi rare disease interest."
+
+IONS:
+  name: Ionis Pharmaceuticals
+  ticker: IONS
+  cik: "0000768408"
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - rare_disease
+    - neuroscience
+    - cardiovascular
+  lead_asset: eplontersen
+  lead_asset_phase: commercial
+  lead_modality: antisense
+  lead_indication: hereditary transthyretin-mediated amyloid polyneuropathy
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: mid
+  platform_type: antisense_oligonucleotide
+  has_partner_encumbrance: true
+  notes: "Established ASO platform with Wainua (eplontersen) co-commercialized with AZ. Tofersen (Qalsody) for ALS/SOD1. Deep late-stage pipeline. Large for outright acquisition but pipeline partnerships common."
+
+BMRN:
+  name: BioMarin Pharmaceutical
+  ticker: BMRN
+  cik: "0001048268"
+  exchange: NASDAQ
+  company_type: commercial
+  therapeutic_areas:
+    - rare_disease
+  lead_asset: delandistrogene moxeparvovec
+  lead_asset_phase: commercial
+  lead_modality: cell_gene
+  lead_indication: Duchenne muscular dystrophy
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: large
+  platform_type: rare_disease_multi_modality
+  has_partner_encumbrance: false
+  notes: "Elevidys (delandistrogene) FDA approved for DMD. Palovarotene (Sohonos) for FOP. Established rare metabolic franchise (Naglazyme, Aldurazyme, Palynziq). Large target; most plausible for mega-pharma strategic transaction."
+
+PTCT:
+  name: PTC Therapeutics
+  ticker: PTCT
+  cik: null
+  exchange: NASDAQ
+  company_type: commercial
+  therapeutic_areas:
+    - rare_disease
+  lead_asset: ataluren
+  lead_asset_phase: commercial
+  lead_modality: small_molecule
+  lead_indication: Duchenne muscular dystrophy (nonsense mutations)
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: rare_disease_read_through
+  has_partner_encumbrance: false
+  notes: "Translarna (ataluren) approved ex-US for DMD nonsense mutations. Vatiquinone (NPC) Phase 3. Multiple neuromuscular rare disease assets. Mid-size acquirers (Sarepta, Biogen, Roche) would be interested."
+
+NTLA:
+  name: Intellia Therapeutics
+  ticker: NTLA
+  cik: "0001550694"
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - rare_disease
+    - cardiovascular
+  lead_asset: NTLA-2001
+  lead_asset_phase: phase3
+  lead_modality: gene_editing
+  lead_indication: transthyretin amyloidosis with cardiomyopathy
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: crispr_in_vivo
+  has_partner_encumbrance: true
+  notes: "In vivo CRISPR/Cas9 gene editing. NTLA-2001 (ATTR-CM) Phase 3, NTLA-2002 (HAE) Phase 2. Regeneron collaboration. First in vivo CRISPR data readout expected to be pivotal."
+
+EDIT:
+  name: Editas Medicine
+  ticker: EDIT
+  cik: null
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - rare_disease
+    - hematology
+    - ophthalmology
+  lead_asset: EDIT-301
+  lead_asset_phase: phase1
+  lead_modality: gene_editing
+  lead_indication: sickle cell disease and transfusion-dependent beta-thalassemia
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: nano
+  platform_type: crispr_cas12a
+  has_partner_encumbrance: false
+  notes: "CRISPR Cas12a (AsCas12a) ex vivo for SCD/TDT. Challenged financial position; distressed target that may seek partnership or sale. AbbVie collaboration previously terminated."
+
+FOLD:
+  name: Amicus Therapeutics
+  ticker: FOLD
+  cik: null
+  exchange: NASDAQ
+  company_type: commercial
+  therapeutic_areas:
+    - rare_disease
+  lead_asset: migalastat
+  lead_asset_phase: commercial
+  lead_modality: small_molecule
+  lead_indication: Fabry disease (amenable mutations)
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: rare_lysosomal_storage
+  has_partner_encumbrance: false
+  notes: "Galafold (migalastat) approved for Fabry disease. AT-GAA (cipaglucosidase alfa + miglustat) for Pompe disease. Established rare metabolic franchise. Sanofi/BioMarin/Takeda interest."
+
+KNSA:
+  name: Kiniksa Pharmaceuticals
+  ticker: KNSA
+  cik: null
+  exchange: NASDAQ
+  company_type: commercial
+  therapeutic_areas:
+    - rare_disease
+    - cardiovascular
+  lead_asset: rilonacept
+  lead_asset_phase: commercial
+  lead_modality: biologic
+  lead_indication: recurrent pericarditis
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: il1_pathway
+  has_partner_encumbrance: false
+  notes: "Arcalyst (rilonacept) sole approved treatment for recurrent pericarditis. Mavrilimumab (anti-GM-CSFR) Phase 3 for giant cell arteritis. Niche cardiovascular/inflammatory franchise."
+
+PRTA:
+  name: Prothena Corporation
+  ticker: PRTA
+  cik: null
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - rare_disease
+    - neuroscience
+  lead_asset: birtamimab
+  lead_asset_phase: phase3
+  lead_modality: biologic
+  lead_indication: AL amyloidosis
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: protein_aggregation
+  has_partner_encumbrance: false
+  notes: "Birtamimab Phase 3 VITAL trial for AL amyloidosis. PRX012 (amyloid beta) for Alzheimer's. Roche previously held a stake/collaboration. Amyloidosis platform with rare disease + neurodegeneration optionality."
+
+LRMR:
+  name: Larimar Therapeutics
+  ticker: LRMR
+  cik: null
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - rare_disease
+    - neuroscience
+  lead_asset: CTI-1601
+  lead_asset_phase: phase3
+  lead_modality: small_molecule
+  lead_indication: Friedreich's ataxia
+  is_single_asset_company: true
+  include_in_screen: true
+  market_cap_bucket: nano
+  platform_type: frataxin_replacement
+  has_partner_encumbrance: false
+  notes: "CTI-1601 (frataxin replacement) in Phase 3 for Friedreich's ataxia. Only meaningful asset. Binary risk; high strategic value if successful given no approved treatments."
+
+# ---------------------------------------------------------------------------
+# Immunology / Dermatology
+# ---------------------------------------------------------------------------
+
+IMVT:
+  name: Immunovant
+  ticker: IMVT
+  cik: null
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - immunology
+  lead_asset: batoclimab
+  lead_asset_phase: phase3
+  lead_modality: biologic
+  lead_indication: myasthenia gravis and IgG-mediated autoimmune diseases
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: fcrn_inhibition
+  has_partner_encumbrance: true
+  notes: "Anti-FcRn batoclimab and IMVT-1402 for broad IgG-mediated autoimmune indications (MG, TED, CIDP, warm AIHA). Roivant partnership. Competing in highly active FcRn space (UCB/rozanolixizumab, argenx)."
+
+ARQT:
+  name: Arcutis Biotherapeutics
+  ticker: ARQT
+  cik: null
+  exchange: NASDAQ
+  company_type: commercial
+  therapeutic_areas:
+    - dermatology
+    - immunology
+  lead_asset: roflumilast cream
+  lead_asset_phase: commercial
+  lead_modality: small_molecule
+  lead_indication: plaque psoriasis and seborrheic dermatitis
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: dermatology_topical
+  has_partner_encumbrance: false
+  notes: "Zoryve (roflumilast) cream FDA approved for plaque psoriasis and SD. Zoryve foam for seborrheic dermatitis. Topical PDE4 inhibitor. Abbvie/LEO Pharma derm franchise interest."
+
+NKTR:
+  name: Nektar Therapeutics
+  ticker: NKTR
+  cik: null
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - immunology
+    - oncology
+  lead_asset: NKTR-358
+  lead_asset_phase: phase2
+  lead_modality: biologic
+  lead_indication: systemic lupus erythematosus and atopic dermatitis
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: micro
+  platform_type: peg_chemistry_biologic
+  has_partner_encumbrance: true
+  notes: "NKTR-358 (LY3471851) Treg stimulator co-developed with Eli Lilly. NKTR-255 (IL-15) with Affimed for NK cell amplification in oncology. Challenged history but differentiated regulatory T-cell biology."
+
+ARDX:
+  name: Ardelyx
+  ticker: ARDX
+  cik: null
+  exchange: NASDAQ
+  company_type: commercial
+  therapeutic_areas:
+    - gastrointestinal
+    - rare_disease
+  lead_asset: tenapanor
+  lead_asset_phase: commercial
+  lead_indication: irritable bowel syndrome with constipation and hyperphosphatemia in dialysis patients
+  lead_modality: small_molecule
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: intestinal_biology
+  has_partner_encumbrance: false
+  notes: "Ibsrela (tenapanor) for IBS-C and Xphozah for hyperphosphatemia in dialysis. Two approved products. AstraZeneca partnership for hyperphosphatemia in some markets."
+
+ALXO:
+  name: ALX Oncology
+  ticker: ALXO
+  cik: null
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - oncology
+  lead_asset: evorpacept
+  lead_asset_phase: phase2
+  lead_modality: biologic
+  lead_indication: AML and myelodysplastic syndrome
+  is_single_asset_company: true
+  include_in_screen: true
+  market_cap_bucket: nano
+  platform_type: cd47_myeloid_checkpoint
+  has_partner_encumbrance: false
+  notes: "Evorpacept (anti-CD47) myeloid checkpoint inhibitor. Combination data with azacitidine in AML/MDS. Distressed valuation; binary Phase 3 risk. Potential value if data confirms mechanism."
+
+# ---------------------------------------------------------------------------
+# Neuroscience
+# ---------------------------------------------------------------------------
+
+ACAD:
+  name: ACADIA Pharmaceuticals
+  ticker: ACAD
+  cik: "0001015739"
+  exchange: NASDAQ
+  company_type: commercial
+  therapeutic_areas:
+    - neuroscience
+  lead_asset: pimavanserin
+  lead_asset_phase: commercial
+  lead_modality: small_molecule
+  lead_indication: Parkinson's disease psychosis
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: serotonin_gpcr
+  has_partner_encumbrance: false
+  notes: "Nuplazid (pimavanserin) approved for Parkinson's disease psychosis and Rett syndrome agitation. Trofinetide (Daybue) for Rett syndrome. Growing neuro specialty franchise."
+
+SAGE:
+  name: Sage Therapeutics
+  ticker: SAGE
+  cik: null
+  exchange: NASDAQ
+  company_type: commercial
+  therapeutic_areas:
+    - neuroscience
+  lead_asset: zuranolone
+  lead_asset_phase: commercial
+  lead_modality: small_molecule
+  lead_indication: major depressive disorder and postpartum depression
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: gaba_modulation
+  has_partner_encumbrance: true
+  notes: "Zuranolone (Zurzuvae) co-commercialized with Biogen for MDD/PPD. Brexanolone (Zulresso) for PPD. GABA modulator platform. Biogen holds rights; acquisition by Biogen or third party complex but possible."
+
+ALKS:
+  name: Alkermes
+  ticker: ALKS
+  cik: "0000826327"
+  exchange: NASDAQ
+  company_type: commercial
+  therapeutic_areas:
+    - neuroscience
+  lead_asset: LYBALVI
+  lead_asset_phase: commercial
+  lead_modality: small_molecule
+  lead_indication: schizophrenia and bipolar I disorder
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: cns_neuropsychiatric
+  has_partner_encumbrance: false
+  notes: "LYBALVI (olanzapine/samidorphan) for schizophrenia/bipolar. Vivitrol (naltrexone) for addiction. ALKS 2680 for narcolepsy Phase 3. Neuroscience/addiction specialty franchise. Plausible for CNS-focused acquirer."
+
+HRMY:
+  name: Harmony Biosciences
+  ticker: HRMY
+  cik: null
+  exchange: NASDAQ
+  company_type: commercial
+  therapeutic_areas:
+    - neuroscience
+    - rare_disease
+  lead_asset: pitolisant
+  lead_asset_phase: commercial
+  lead_modality: small_molecule
+  lead_indication: narcolepsy with cataplexy and excessive daytime sleepiness
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: histamine_h3_cns
+  has_partner_encumbrance: false
+  notes: "Wakix (pitolisant) approved for narcolepsy. First histamine H3 receptor antagonist. HBS-101 in Phase 2. Rare sleep disorder niche with pricing power. Possible tuck-in for CNS acquirer."
+
+VERV:
+  name: Verve Therapeutics
+  ticker: VERV
+  cik: null
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - cardiovascular
+    - rare_disease
+  lead_asset: VERVE-101
+  lead_asset_phase: phase1
+  lead_modality: rna
+  lead_indication: heterozygous familial hypercholesterolemia
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: micro
+  platform_type: base_editing_cardiovascular
+  has_partner_encumbrance: true
+  notes: "Base editing to permanently silence PCSK9 in liver. Heart-1 Phase 1b data showing durable LDL reduction. AstraZeneca collaboration. High strategic interest from cardiovascular acquirers (AZ, Novartis, Amgen)."
+
+# ---------------------------------------------------------------------------
+# Metabolic / Obesity / Cardiometabolic
+# ---------------------------------------------------------------------------
+
+VKTX:
+  name: Viking Therapeutics
+  ticker: VKTX
+  cik: null
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - metabolic
+    - rare_disease
+  lead_asset: VK2735
+  lead_asset_phase: phase3
+  lead_modality: small_molecule
+  lead_indication: obesity
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: mid
+  platform_type: metabolic_glp1_gip
+  has_partner_encumbrance: false
+  notes: "VK2735 (oral GLP-1/GIP dual agonist) in Phase 3 for obesity. Also injectable formulation in Phase 2. VK0214 for X-ALD (Phase 2). Strong obesity strategic interest; multiple large pharma seeking differentiated oral GLP-1."
+
+MDGL:
+  name: Madrigal Pharmaceuticals
+  ticker: MDGL
+  cik: null
+  exchange: NASDAQ
+  company_type: commercial
+  therapeutic_areas:
+    - metabolic
+  lead_asset: resmetirom
+  lead_asset_phase: commercial
+  lead_modality: small_molecule
+  lead_indication: metabolic dysfunction-associated steatohepatitis with moderate to advanced fibrosis
+  is_single_asset_company: true
+  include_in_screen: true
+  market_cap_bucket: mid
+  platform_type: thyroid_receptor_beta
+  has_partner_encumbrance: false
+  notes: "Rezdiffra (resmetirom) first and only FDA-approved treatment for MASH — landmark approval March 2024. Commercial ramp ongoing. TR-beta agonist. Strong acquisition interest from pharma building GI/metabolic franchise."
+
+ESPR:
+  name: Esperion Therapeutics
+  ticker: ESPR
+  cik: null
+  exchange: NASDAQ
+  company_type: commercial
+  therapeutic_areas:
+    - cardiovascular
+  lead_asset: bempedoic acid
+  lead_asset_phase: commercial
+  lead_modality: small_molecule
+  lead_indication: LDL-C reduction / atherosclerotic cardiovascular disease
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: micro
+  platform_type: acl_inhibitor
+  has_partner_encumbrance: true
+  notes: "Nexletol/Nexlizet (bempedoic acid ± ezetimibe) approved for LDL-C lowering. CLEAR outcomes trial showed CV event reduction. DSP partnership. Niche but growing cardiovascular market."
+
+# ---------------------------------------------------------------------------
+# Genetic Medicine / RNA / Gene Editing
+# ---------------------------------------------------------------------------
+
+SGMO:
+  name: Sangamo Therapeutics
+  ticker: SGMO
+  cik: null
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - rare_disease
+    - hematology
+  lead_asset: isaralgagene civaparvovec
+  lead_asset_phase: phase3
+  lead_modality: cell_gene
+  lead_indication: Fabry disease
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: nano
+  platform_type: zinc_finger_nuclease_aav
+  has_partner_encumbrance: true
+  notes: "ZFN and AAV gene therapy platform. ST-920 (Fabry) Phase 3 STAAR trial. Multiple partnerships (Sanofi, Biogen, Pfizer legacy). Financially challenged; potential asset sale or acquisition at distressed valuation."
+
+RGNX:
+  name: REGENXBIO
+  ticker: RGNX
+  cik: null
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - ophthalmology
+    - rare_disease
+    - neuroscience
+  lead_asset: RGX-314
+  lead_asset_phase: phase3
+  lead_modality: cell_gene
+  lead_indication: wet age-related macular degeneration
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: micro
+  platform_type: aav_gene_therapy_nab
+  has_partner_encumbrance: true
+  notes: "NAV technology AAV capsid licensing and gene therapy pipeline. RGX-314 (wet AMD) Phase 3, collaboration with AbbVie. RGX-202 (DMD) Phase 2. AAV IP portfolio is independently valuable."
+
+ADVM:
+  name: Adverum Biotechnologies
+  ticker: ADVM
+  cik: null
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - ophthalmology
+  lead_asset: ADVM-022
+  lead_asset_phase: phase2
+  lead_modality: cell_gene
+  lead_indication: wet age-related macular degeneration and diabetic macular edema
+  is_single_asset_company: true
+  include_in_screen: true
+  market_cap_bucket: nano
+  platform_type: aav_intravitreal_gene_therapy
+  has_partner_encumbrance: false
+  notes: "Single intravitreal injection AAV gene therapy for retinal disease. ADVM-022 encodes anti-VEGF (aflibercept variant). Distressed; potential acqui-hire or asset deal for retinal gene therapy."
+
+ARWR:
+  name: Arrowhead Pharmaceuticals
+  ticker: ARWR
+  cik: null
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - cardiovascular
+    - metabolic
+    - respiratory
+  lead_asset: ARO-APOC3
+  lead_asset_phase: phase3
+  lead_modality: rna
+  lead_indication: severe hypertriglyceridemia
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: rnai_subcutaneous
+  has_partner_encumbrance: true
+  notes: "SC-delivered RNAi platform. ARO-APOC3 (SHTG) Phase 3, ARO-ANG3 (hypercholesterolemia), ARO-LUNG2 (AATD). JNJ, Amgen, Horizon Therapeutics partnerships. Broad pipeline across cardiometabolic."
+
+# ---------------------------------------------------------------------------
+# Commercial Specialty
+# ---------------------------------------------------------------------------
+
+KRYS:
+  name: Krystal Biotech
+  ticker: KRYS
+  cik: null
+  exchange: NASDAQ
+  company_type: commercial
+  therapeutic_areas:
+    - rare_disease
+    - dermatology
+  lead_asset: beremagene geperpavec
+  lead_asset_phase: commercial
+  lead_modality: cell_gene
+  lead_indication: dystrophic epidermolysis bullosa
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: herpes_simplex_gene_therapy
+  has_partner_encumbrance: false
+  notes: "Vyjuvek (beremagene geperpavec/B-VEC) approved for DEB — first redosable gene therapy applied topically. Rare skin disease. Expanding to other rare derm indications. Roche/Novartis rare derm interest."
+
+VCEL:
+  name: Vericel Corporation
+  ticker: VCEL
+  cik: null
+  exchange: NASDAQ
+  company_type: commercial
+  therapeutic_areas:
+    - musculoskeletal
+  lead_asset: MACI
+  lead_asset_phase: commercial
+  lead_modality: cell_therapy
+  lead_indication: symptomatic articular cartilage defects of the knee
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: autologous_cell_therapy
+  has_partner_encumbrance: false
+  notes: "MACI (autologous chondrocytes) and Epicel (skin grafts for severe burns). Niche commercial cell therapy. Growing sports medicine market. Modest strategic value; acquisition premium limited."
+
+PCVX:
+  name: Vaxcyte
+  ticker: PCVX
+  cik: null
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - infectious_disease
+  lead_asset: VAX-24
+  lead_asset_phase: phase3
+  lead_modality: biologic
+  lead_indication: invasive pneumococcal disease in adults
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: pneumococcal_vaccine
+  has_partner_encumbrance: false
+  notes: "VAX-24 (24-valent pneumococcal conjugate) Phase 3 vs Prevnar 20. VAX-31 expanding to 31 serotypes. Differentiated vs Pfizer/Merck by serotype coverage and chemistry. Pfizer/MSD vaccine franchise interest."
+
+# ---------------------------------------------------------------------------
+# Additional high-quality targets
+# ---------------------------------------------------------------------------
+
+STRO:
+  name: Sutro Biopharma
+  ticker: STRO
+  cik: null
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - oncology
+  lead_asset: STRO-002
+  lead_asset_phase: phase2
+  lead_modality: antibody_drug_conjugate
+  lead_indication: ovarian cancer and endometrial cancer
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: nano
+  platform_type: adc_xchem
+  has_partner_encumbrance: true
+  notes: "XpressCF cell-free protein synthesis platform for ADC manufacturing. STRO-002 (anti-folate receptor alpha ADC) Phase 2. Bristol-Myers and J&J partnerships. ADC platform interest given Pfizer/Seagen era."
+
+ALGS:
+  name: Aligos Therapeutics
+  ticker: ALGS
+  cik: null
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - infectious_disease
+  lead_asset: ALG-020572
+  lead_asset_phase: phase2
+  lead_modality: rna
+  lead_indication: chronic hepatitis B
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: nano
+  platform_type: rna_biology_hbv
+  has_partner_encumbrance: false
+  notes: "HBV functional cure pipeline: ALG-020572 (siRNA), ALG-010133 (S-antigen transport inhibitor). Gilead/AbbVie HBV cure strategy interest. RNA/capsid assembly modulator combination approach."

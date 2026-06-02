@@ -1,0 +1,531 @@
+# Biotech M&A Acquirer Universe — Phase 2
+#
+# 23 large-pharma / large-biotech acquirers.
+# Foreign names use ADR ticker where available; cik is null for non-US filers.
+#
+# Mandatory fields: ticker, name, therapeutic_areas, modalities,
+#   deal_size_range_millions, preferred_stages, include_as_acquirer
+#
+# Optional: cik, notes
+
+# ---------------------------------------------------------------------------
+# US Large-Cap Pharma
+# ---------------------------------------------------------------------------
+
+PFE:
+  name: Pfizer
+  ticker: PFE
+  cik: "0000078003"
+  therapeutic_areas:
+    - oncology
+    - rare_disease
+    - immunology
+    - infectious_disease
+    - cardiovascular
+  modalities:
+    - small_molecule
+    - biologic
+    - antibody_drug_conjugate
+    - mrna
+    - cell_gene
+  deal_size_range_millions: [1000, 60000]
+  preferred_stages:
+    - phase2
+    - phase3
+    - commercial
+  include_as_acquirer: true
+  notes: "Post-Seagen: major oncology/ADC acquirer. Also active in rare disease, RNA medicine (BioNTech). Large balance sheet. Seeking revenue-generating or late-stage pipeline to replace COVID windfall."
+
+MRK:
+  name: Merck & Co
+  ticker: MRK
+  cik: "0000310158"
+  therapeutic_areas:
+    - oncology
+    - cardiovascular
+    - infectious_disease
+    - immunology
+    - neuroscience
+  modalities:
+    - biologic
+    - small_molecule
+    - antibody_drug_conjugate
+    - vaccine
+  deal_size_range_millions: [2000, 50000]
+  preferred_stages:
+    - phase2
+    - phase3
+    - commercial
+  include_as_acquirer: true
+  notes: "Keytruda revenue cliff beyond 2028 drives urgency for oncology/IO bolt-ons. Deep interest in next-gen IO, ADCs, and cardiovascular (PCSK9, obesity adjacencies). Very active BD pipeline."
+
+BMY:
+  name: Bristol-Myers Squibb
+  ticker: BMY
+  cik: "0000014272"
+  therapeutic_areas:
+    - oncology
+    - cardiovascular
+    - immunology
+    - hematology
+    - neuroscience
+  modalities:
+    - biologic
+    - small_molecule
+    - cell_therapy
+    - antibody_drug_conjugate
+  deal_size_range_millions: [2000, 50000]
+  preferred_stages:
+    - phase2
+    - phase3
+    - commercial
+  include_as_acquirer: true
+  notes: "Revlimid LOE creates major revenue gap. Active in oncology, IO, cardiovascular (Eliquis), and now CNS (KarXT acquisition). Cell therapy manufacturing infrastructure. LOC urgency = aggressive BD."
+
+JNJ:
+  name: Johnson & Johnson
+  ticker: JNJ
+  cik: "0000200406"
+  therapeutic_areas:
+    - oncology
+    - immunology
+    - neuroscience
+    - infectious_disease
+  modalities:
+    - biologic
+    - small_molecule
+    - antibody_drug_conjugate
+    - cell_therapy
+  deal_size_range_millions: [1000, 60000]
+  preferred_stages:
+    - phase2
+    - phase3
+    - commercial
+  include_as_acquirer: true
+  notes: "Janssen: large oncology/immunology buyer. Post-consumer split focused on pharma. CARVYKTI/cilta-cel gives cell therapy infrastructure. Frequent large deals (ITCI, Abiomed, Ambrx)."
+
+ABBV:
+  name: AbbVie
+  ticker: ABBV
+  cik: "0001551152"
+  therapeutic_areas:
+    - immunology
+    - oncology
+    - neuroscience
+    - dermatology
+  modalities:
+    - biologic
+    - small_molecule
+    - antibody_drug_conjugate
+  deal_size_range_millions: [1000, 30000]
+  preferred_stages:
+    - phase2
+    - phase3
+    - commercial
+  include_as_acquirer: true
+  notes: "Post-Humira: heavy immunology/neuroscience BD. Skyrizi + Rinvoq growing but patent exposure beyond 2030. Active acquirer in neuroscience (Cerevel, ImmunoGen, Landos, DCPH). Derm/inflammation franchise priorities."
+
+AMGN:
+  name: Amgen
+  ticker: AMGN
+  cik: "0000820081"
+  therapeutic_areas:
+    - oncology
+    - cardiovascular
+    - immunology
+    - rare_disease
+    - metabolic
+  modalities:
+    - biologic
+    - small_molecule
+    - antibody_drug_conjugate
+  deal_size_range_millions: [1000, 30000]
+  preferred_stages:
+    - phase2
+    - phase3
+    - commercial
+  include_as_acquirer: true
+  notes: "MariTide (obesity bispecific) and broad cardiometabolic interest. KRAS franchise (sotorasib). Large Horizon Therapeutics acquisition (rare disease). BD appetite for metabolic, rare, and oncology."
+
+GILD:
+  name: Gilead Sciences
+  ticker: GILD
+  cik: "0000882184"
+  therapeutic_areas:
+    - oncology
+    - infectious_disease
+    - immunology
+    - hematology
+  modalities:
+    - small_molecule
+    - cell_therapy
+    - antibody_drug_conjugate
+    - rna
+  deal_size_range_millions: [1000, 25000]
+  preferred_stages:
+    - phase2
+    - phase3
+    - commercial
+  include_as_acquirer: true
+  notes: "Kite (cell therapy), Immunomedics (ADC), Arcus partnership (IO). HBV cure strategy active. Oncology and inflammatory disease focus. Seeking to diversify from antiviral dependency."
+
+REGN:
+  name: Regeneron Pharmaceuticals
+  ticker: REGN
+  cik: "0000872589"
+  therapeutic_areas:
+    - oncology
+    - ophthalmology
+    - immunology
+    - rare_disease
+    - cardiovascular
+  modalities:
+    - biologic
+    - antibody_drug_conjugate
+  deal_size_range_millions: [500, 20000]
+  preferred_stages:
+    - phase1
+    - phase2
+    - phase3
+    - commercial
+  include_as_acquirer: true
+  notes: "VelociGene/VelocImmune antibody platform. Dupixent expanding across atopic conditions. EYLEA successor. Linvoseltamab and odronextamab in heme-onc. Selective but willing to acquire platform-enabling companies."
+
+VRTX:
+  name: Vertex Pharmaceuticals
+  ticker: VRTX
+  cik: "0000875320"
+  therapeutic_areas:
+    - rare_disease
+    - hematology
+    - pain
+    - kidney_disease
+  modalities:
+    - small_molecule
+    - gene_editing
+    - cell_gene
+  deal_size_range_millions: [500, 20000]
+  preferred_stages:
+    - phase1
+    - phase2
+    - phase3
+    - commercial
+  include_as_acquirer: true
+  notes: "Casgevy (with CRSP) for SCD/TDT. CF franchise (Trikafta) generating cash. Pain (suzetrigine/NaV1.8) commercial. Actively seeking rare disease / genetic medicine to deploy CF cash. Disciplined buyer."
+
+LLY:
+  name: Eli Lilly
+  ticker: LLY
+  cik: "0000059478"
+  therapeutic_areas:
+    - metabolic
+    - oncology
+    - immunology
+    - neuroscience
+    - cardiovascular
+  modalities:
+    - biologic
+    - small_molecule
+    - rna
+    - antibody_drug_conjugate
+  deal_size_range_millions: [2000, 50000]
+  preferred_stages:
+    - phase2
+    - phase3
+    - commercial
+  include_as_acquirer: true
+  notes: "Tirzepatide (Mounjaro/Zepbound) weight loss leader. Massive market cap and FCF generating urgency to deploy capital. Pursuing oncology (Morphic, Point Biopharma), immunology, and neuro. Most active acquirer 2023-2025."
+
+# ---------------------------------------------------------------------------
+# European / International (US-listed ADR or primary)
+# ---------------------------------------------------------------------------
+
+NVO:
+  name: Novo Nordisk
+  ticker: NVO
+  cik: null
+  therapeutic_areas:
+    - metabolic
+    - cardiovascular
+    - rare_disease
+    - hematology
+  modalities:
+    - biologic
+    - small_molecule
+  deal_size_range_millions: [1000, 25000]
+  preferred_stages:
+    - phase2
+    - phase3
+    - commercial
+  include_as_acquirer: true
+  notes: "Ozempic/Wegovy (semaglutide) leader in GLP-1. CagriSema and beyond-obesity pipeline. Active rare heme (Alhemo/marstacimab). Cardiovascular (mim8). Massive balance sheet; seeking obesity-adjacent and rare heme acquisitions."
+
+NVS:
+  name: Novartis
+  ticker: NVS
+  cik: null
+  therapeutic_areas:
+    - oncology
+    - cardiovascular
+    - rare_disease
+    - immunology
+    - neuroscience
+  modalities:
+    - small_molecule
+    - biologic
+    - rna
+    - cell_gene
+    - antibody_drug_conjugate
+  deal_size_range_millions: [1000, 25000]
+  preferred_stages:
+    - phase2
+    - phase3
+    - commercial
+  include_as_acquirer: true
+  notes: "Radioligand therapy (Lutathera, Pluvicto), RNA medicines (Gyroscope). Oncology and rare disease focus. Spinoff of Sandoz (generics) sharpens innovative pharma focus. Strong gene therapy infrastructure."
+
+RHHBY:
+  name: Roche / Genentech
+  ticker: RHHBY
+  cik: null
+  therapeutic_areas:
+    - oncology
+    - rare_disease
+    - neuroscience
+    - ophthalmology
+    - immunology
+  modalities:
+    - biologic
+    - small_molecule
+    - antibody_drug_conjugate
+    - rna
+    - cell_gene
+  deal_size_range_millions: [1000, 40000]
+  preferred_stages:
+    - phase1
+    - phase2
+    - phase3
+    - commercial
+  include_as_acquirer: true
+  notes: "Genentech-led oncology/rare/neuro. Losing Avastin/Rituxan/Herceptin biosimilar revenue. Active in gene therapy (ophthalmo), CNS (gantenerumab lessons), RNAi (Alnylam partnership). Frequent large deals."
+
+AZN:
+  name: AstraZeneca
+  ticker: AZN
+  cik: null
+  therapeutic_areas:
+    - oncology
+    - cardiovascular
+    - respiratory
+    - rare_disease
+    - immunology
+  modalities:
+    - small_molecule
+    - biologic
+    - antibody_drug_conjugate
+    - cell_therapy
+    - antisense
+  deal_size_range_millions: [500, 40000]
+  preferred_stages:
+    - phase2
+    - phase3
+    - commercial
+  include_as_acquirer: true
+  notes: "Largest oncology ADC portfolio. Dato-DXd and T-DXd with Daiichi Sankyo. Eplontersen (Wainua) with Ionis. Cardiovascular (dapagliflozin) + Rare disease (Alexion). Prolific deal-maker in oncology and rare."
+
+SNY:
+  name: Sanofi
+  ticker: SNY
+  cik: null
+  therapeutic_areas:
+    - immunology
+    - rare_disease
+    - oncology
+    - vaccines
+    - cardiovascular
+  modalities:
+    - biologic
+    - small_molecule
+    - mrna
+    - antibody_drug_conjugate
+  deal_size_range_millions: [500, 25000]
+  preferred_stages:
+    - phase2
+    - phase3
+    - commercial
+  include_as_acquirer: true
+  notes: "Dupixent franchise anchors immunology. Rare blood (Genzyme/rare, Altuviiio/fitusiran). mRNA vaccines (BioNTech partnership). Seeking oncology bolt-ons and next immunology wave. Active BD team."
+
+GSK:
+  name: GlaxoSmithKline
+  ticker: GSK
+  cik: null
+  therapeutic_areas:
+    - infectious_disease
+    - oncology
+    - immunology
+    - respiratory
+    - vaccines
+  modalities:
+    - small_molecule
+    - biologic
+    - vaccine
+    - antibody_drug_conjugate
+  deal_size_range_millions: [500, 20000]
+  preferred_stages:
+    - phase2
+    - phase3
+    - commercial
+  include_as_acquirer: true
+  notes: "Shingrix and HIV portfolio. Jemperli (dostarlimab) in oncology. Depemokimab in respiratory. Seeking next respiratory/oncology/HIV wave. More selective acquirer; prefers bolt-on to mega-deals."
+
+TAK:
+  name: Takeda Pharmaceutical
+  ticker: TAK
+  cik: null
+  therapeutic_areas:
+    - rare_disease
+    - gastrointestinal
+    - oncology
+    - neuroscience
+  modalities:
+    - small_molecule
+    - biologic
+    - cell_gene
+    - antibody_drug_conjugate
+  deal_size_range_millions: [500, 15000]
+  preferred_stages:
+    - phase2
+    - phase3
+    - commercial
+  include_as_acquirer: true
+  notes: "GI franchise (Entyvio/vedolizumab). Rare disease/HAE (lanadelumab). TAK-861 for narcolepsy type 1 Phase 3. Historically active acquirer (Shire for rare disease). Debt-constrained but still selective BD."
+
+# ---------------------------------------------------------------------------
+# Large-Cap Biotech (frequent acquirers)
+# ---------------------------------------------------------------------------
+
+BIIB:
+  name: Biogen
+  ticker: BIIB
+  cik: "0000875045"
+  therapeutic_areas:
+    - neuroscience
+    - rare_disease
+    - immunology
+  modalities:
+    - biologic
+    - small_molecule
+    - antisense
+  deal_size_range_millions: [500, 15000]
+  preferred_stages:
+    - phase2
+    - phase3
+    - commercial
+  include_as_acquirer: true
+  notes: "Lecanemab (Leqembi) Alzheimer's launch with Eisai. Zuranolone (Zurzuvae) with Sage. Antisense partnerships with Ionis. Rebuilding pipeline post-multiple sclerosis maturity. Neuro-focused acquirer."
+
+UTHR:
+  name: United Therapeutics
+  ticker: UTHR
+  cik: "0001082554"
+  therapeutic_areas:
+    - rare_disease
+    - cardiovascular
+    - respiratory
+  modalities:
+    - small_molecule
+    - biologic
+    - cell_gene
+  deal_size_range_millions: [200, 5000]
+  preferred_stages:
+    - phase2
+    - phase3
+    - commercial
+  include_as_acquirer: true
+  notes: "Pulmonary arterial hypertension franchise (Tyvaso, Remodulin). Manufactured organs/xenotransplantation. Selectively acquires niche rare pulmonary or organ biotech. Smaller deal range but very focused."
+
+INCY:
+  name: Incyte Corporation
+  ticker: INCY
+  cik: "0000879169"
+  therapeutic_areas:
+    - oncology
+    - immunology
+    - dermatology
+  modalities:
+    - small_molecule
+    - biologic
+  deal_size_range_millions: [500, 10000]
+  preferred_stages:
+    - phase2
+    - phase3
+    - commercial
+  include_as_acquirer: true
+  notes: "JAK inhibitor franchise (Jakafi/ruxolitinib, Opzelura). Active oncology/immunology BD. Frequent acquirer of oncology tuck-ins and inflammation assets. Strong in heme-onc and derm specialty."
+
+MRNA:
+  name: Moderna
+  ticker: MRNA
+  cik: "0001682852"
+  therapeutic_areas:
+    - infectious_disease
+    - oncology
+    - rare_disease
+    - cardiovascular
+    - respiratory
+  modalities:
+    - mrna
+  deal_size_range_millions: [500, 15000]
+  preferred_stages:
+    - phase1
+    - phase2
+    - phase3
+    - commercial
+  include_as_acquirer: true
+  notes: "mRNA platform beyond COVID. mRNA-4157 (personalized cancer vaccine with Merck) Phase 3. Rare disease (propionic acidemia, methylmalonic acidemia). Seeks mRNA-enabling technology and delivery improvements."
+
+# ---------------------------------------------------------------------------
+# Mid-Large Specialty Pharma with Active BD
+# ---------------------------------------------------------------------------
+
+ALPMY:
+  name: Astellas Pharma
+  ticker: ALPMY
+  cik: null
+  therapeutic_areas:
+    - oncology
+    - urology
+    - rare_disease
+    - transplant
+  modalities:
+    - small_molecule
+    - biologic
+    - cell_gene
+    - antibody_drug_conjugate
+  deal_size_range_millions: [500, 10000]
+  preferred_stages:
+    - phase2
+    - phase3
+    - commercial
+  include_as_acquirer: true
+  notes: "Xtandi (enzalutamide) in prostate cancer, Padcev (enfortumab vedotin, with Pfizer) ADC. Gene therapy via Audentes (AT132 for X-linked MTM). Active oncology and urology buyer. ADC expertise growing."
+
+MRCGF:
+  name: Merck KGaA / EMD Serono
+  ticker: MRCGF
+  cik: null
+  therapeutic_areas:
+    - oncology
+    - immunology
+    - neuroscience
+  modalities:
+    - biologic
+    - small_molecule
+  deal_size_range_millions: [500, 10000]
+  preferred_stages:
+    - phase2
+    - phase3
+    - commercial
+  include_as_acquirer: true
+  notes: "Bavencio (avelumab), Tepmetko (tepotinib) in oncology. Mavenclad for MS. Distinct from Merck & Co (MRK). Active oncology BD; German pharma arm of Merck KGaA. ADC and IO interests growing."
