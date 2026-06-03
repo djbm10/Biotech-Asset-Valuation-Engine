@@ -253,8 +253,11 @@ class TestScoreMode:
     def test_approved_returns_one_in_all_modes(self):
         d = ReviewDecision(event_hash="a", status=ReviewStatus.APPROVED)
         self.gate.record_decision(d)
-        for mode in ScoreMode:
-            assert self.gate.weight_factor("a", mode) == 1.0
+        # STRUCTURAL always returns 0.0 (no ledger events count in that mode)
+        non_structural = [m for m in ScoreMode if m != ScoreMode.STRUCTURAL]
+        for mode in non_structural:
+            assert self.gate.weight_factor("a", mode) == 1.0, f"Expected 1.0 for mode={mode}"
+        assert self.gate.weight_factor("a", ScoreMode.STRUCTURAL) == 0.0
 
     def test_rejected_returns_zero_in_all_modes(self):
         d = ReviewDecision(event_hash="r", status=ReviewStatus.REJECTED)

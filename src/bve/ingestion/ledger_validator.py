@@ -60,6 +60,11 @@ from pathlib import Path
 from typing import Optional
 
 from bve.ingestion.event_classifier import MAX_SINGLE_EVENT_DELTA
+from bve.ingestion.evidence_ledger import (
+    VALID_ENTITY_TYPES,
+    VALID_SIGNAL_TYPES,
+    EvidenceLedger,
+)
 
 _REQUIRED_FIELDS = frozenset(
     [
@@ -257,6 +262,20 @@ class LedgerValidator:
         elif deltas is not None:
             err(f"S1: score_deltas must be a dict, got {type(deltas).__name__}")
 
+        # S3 — signal_type vocab (Phase 5 optional field)
+        signal_type = rec.get("signal_type")
+        if signal_type is not None and signal_type not in VALID_SIGNAL_TYPES:
+            warn(f"S3: signal_type '{signal_type}' not in VALID_SIGNAL_TYPES")
+
+        # S4 — entity_type vocab (Phase 5 optional field)
+        entity_type = rec.get("entity_type")
+        if entity_type is not None and entity_type not in VALID_ENTITY_TYPES:
+            err(f"S4: entity_type '{entity_type}' not in {sorted(VALID_ENTITY_TYPES)}")
+
+        # S5 — pair_entity required when entity_type == "pair"
+        if entity_type == "pair" and not rec.get("pair_entity"):
+            err("S5: pair_entity is required when entity_type='pair'")
+
         # I1 — event_hash non-empty
         evt_hash = rec.get("event_hash", "")
         if not isinstance(evt_hash, str) or not evt_hash.strip():
@@ -274,6 +293,115 @@ class LedgerValidator:
 
         if not had_error:
             result.valid_records += 1
+
+
+# ------------------------------------------------------------------
+# Minimum evidence coverage checker (Phase 5 / 5C)
+# ------------------------------------------------------------------
+
+
+@dataclass
+class PairEvidenceReport:
+    """
+    Evidence coverage assessment for one (acquirer, target) pair.
+
+    A pair is considered defensible when all three thresholds are met:
+      - acquirer_count ≥ 2  (acquirer side is supported by ≥2 records)
+      - target_count   ≥ 3  (target side is supported by ≥3 records)
+      - pair_count     ≥ 1  (at least one pair-specific synergy or conflict record)
+
+    Usage::
+
+        from bve.ingestion.ledger_validator import check_pair_evidence_coverage
+        from bve.ingestion.evidence_ledger import EvidenceLedger
+
+        ledger = EvidenceLedger()
+        report = check_pair_evidence_coverage(ledger, "VRTX", "TVTX")
+        if not report.is_defensible:
+            print(f"Gap: {report.gap_summary}")
+    """
+
+    acquirer_ticker: str
+    target_ticker: str
+    acquirer_count: int
+    target_count: int
+    pair_count: int
+    is_defensible: bool
+    gap_summary: str
+
+
+def check_pair_evidence_coverage(
+    ledger: EvidenceLedger,
+    acquirer_ticker: str,
+    target_ticker: str,
+    *,
+    min_acquirer: int = 2,
+    min_target: int = 3,
+    min_pair: int = 1,
+    as_of_date: Optional[date] = None,
+) -> PairEvidenceReport:
+    """
+    Check whether a (acquirer, target) pair has sufficient evidence to be defensible.
+
+    Parameters
+    ----------
+    ledger:
+        An EvidenceLedger instance (already pointing at the JSONL file).
+    acquirer_ticker:
+        Ticker of the acquirer (e.g. "VRTX").
+    target_ticker:
+        Ticker of the target (e.g. "TVTX").
+    min_acquirer / min_target / min_pair:
+        Minimum record counts; defaults match the Phase 5 specification.
+    as_of_date:
+        When provided, only records with event_date ≤ as_of_date are counted.
+    """
+    # Count records for acquirer (using ticker = acquirer_ticker OR entity_type = acquirer)
+    acquirer_records = ledger.get_records(
+        ticker=acquirer_ticker,
+        until_date=as_of_date,
+    )
+    acquirer_count = len(acquirer_records)
+
+    # Count records for target (ticker = target_ticker)
+    target_records = ledger.get_records(
+        ticker=target_ticker,
+        until_date=as_of_date,
+    )
+    target_count = len(target_records)
+
+    # Count pair-specific records — entity_type="pair" with both tickers present
+    # We check ticker == acquirer OR == target, and pair_entity == the other
+    pair_count = 0
+    for rec in acquirer_records + target_records:
+        if getattr(rec, "entity_type", None) == "pair":
+            pe = getattr(rec, "pair_entity", None) or ""
+            primary = rec.ticker.upper()
+            other = pe.upper()
+            both = {primary, other}
+            if both == {acquirer_ticker.upper(), target_ticker.upper()}:
+                pair_count += 1
+
+    gaps = []
+    if acquirer_count < min_acquirer:
+        gaps.append(f"acquirer({acquirer_ticker})={acquirer_count}<{min_acquirer}")
+    if target_count < min_target:
+        gaps.append(f"target({target_ticker})={target_count}<{min_target}")
+    if pair_count < min_pair:
+        gaps.append(f"pair={pair_count}<{min_pair}")
+
+    is_defensible = len(gaps) == 0
+    gap_summary = "; ".join(gaps) if gaps else "all thresholds met"
+
+    return PairEvidenceReport(
+        acquirer_ticker=acquirer_ticker,
+        target_ticker=target_ticker,
+        acquirer_count=acquirer_count,
+        target_count=target_count,
+        pair_count=pair_count,
+        is_defensible=is_defensible,
+        gap_summary=gap_summary,
+    )
 
 
 # ------------------------------------------------------------------

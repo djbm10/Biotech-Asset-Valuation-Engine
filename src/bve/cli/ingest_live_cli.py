@@ -42,6 +42,15 @@ def main(
     parser.add_argument("--as-of",         default=None)
     parser.add_argument("--output",        default=None)
     parser.add_argument("--dry-run",       action="store_true")
+    parser.add_argument(
+        "--sources",
+        default=None,
+        help=(
+            "Comma-separated list of data sources to run. "
+            "Choices: sec, clinicaltrials, fda, press_releases, earnings_calls. "
+            "Default: all sources."
+        ),
+    )
     args = parser.parse_args(argv)
 
     as_of = date.fromisoformat(args.as_of) if args.as_of else date.today()
@@ -108,6 +117,12 @@ def main(
         fda_source=_fda_source,
     )
 
+    sources = (
+        [s.strip() for s in args.sources.split(",") if s.strip()]
+        if args.sources
+        else None
+    )
+
     result = runner.run(
         targets=target_profiles,
         acquirers=acquirer_profiles,
@@ -116,6 +131,7 @@ def main(
         lookback_days=args.lookback_days,
         output_dir=output_dir if not args.dry_run else None,
         dry_run=args.dry_run,
+        sources=sources,
     )
 
     # ── Summary ───────────────────────────────────────────────────────────

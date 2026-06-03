@@ -63,7 +63,8 @@ def main(
     parser.add_argument("--ledger",       default="outputs/intelligence/evidence_ledger.jsonl")
     parser.add_argument("--as-of",        default=None)
     parser.add_argument("--score-mode",   default="provisional",
-                        choices=["approved_only", "provisional", "all_auto"])
+                        choices=["approved_only", "provisional", "all_auto",
+                                 "structural", "evidence_backed"])
     parser.add_argument("--output",       default=None)
     parser.add_argument("--prev-output",  default=None,
                         help="Previous run output dir (for score change diff)")

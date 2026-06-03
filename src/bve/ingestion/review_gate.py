@@ -9,16 +9,25 @@ reviewer's disposition: APPROVE / REJECT / DOWNGRADE.
 
 Score modes
 -----------
-Three modes control which events are counted in `EvidenceLedger.compute_score_state()`:
+Five modes control which events are counted in `EvidenceLedger.compute_score_state()`:
 
-  approved_only   — only events with review_status=APPROVED count
-                    (highest precision; requires staffed review pipeline)
-  provisional     — APPROVED events count at full weight;
-                    PENDING events count at 50% weight;
-                    REJECTED events are excluded
-                    (default for live operation)
-  all_auto        — all non-rejected events count regardless of review status
-                    (for rapid prototyping / backtests without a review queue)
+  approved_only    — only events with review_status=APPROVED count
+                     (highest precision; requires staffed review pipeline)
+  provisional      — APPROVED events count at full weight;
+                     PENDING events count at 50% weight;
+                     REJECTED events are excluded
+                     (default for live operation)
+  all_auto         — all non-rejected events count regardless of review status
+                     (for rapid prototyping / backtests without a review queue)
+  structural       — ledger events have ZERO weight; scores come from structural
+                     features only (acquirer profile fit, deal size, encumbrance).
+                     Use for a "cold start" run before any evidence is ingested, or
+                     to show the full universe without evidence bias.
+  evidence_backed  — same event weighting as provisional, but callers should
+                     additionally suppress pairs with evidence coverage_score < 0.5.
+                     Use for the second pass of the two-run workflow pattern:
+                       Run 1 (structural)       → full universe, no evidence weight
+                       Run 2 (evidence_backed)  → defensible pairs only, with evidence
 
 ScoreMode is an enum; passing the wrong string raises ValueError at construction,
 preventing silent misconfiguration.
@@ -46,6 +55,18 @@ class ScoreMode(str, Enum):
     APPROVED_ONLY = "approved_only"
     PROVISIONAL = "provisional"
     ALL_AUTO = "all_auto"
+    STRUCTURAL = "structural"
+    EVIDENCE_BACKED = "evidence_backed"
+
+    @property
+    def requires_coverage_filter(self) -> bool:
+        """
+        True when the caller should additionally suppress pairs whose evidence
+        coverage_score is below the minimum defensibility threshold (0.5).
+
+        Only EVIDENCE_BACKED sets this flag; all other modes show the full universe.
+        """
+        return self == ScoreMode.EVIDENCE_BACKED
 
 
 # Default threshold above which events are auto-flagged for review
@@ -145,10 +166,17 @@ class ReviewGate:
         """
         Return the weight multiplier (0..1) for one event given the score mode.
 
-        approved_only : APPROVED→1.0, DOWNGRADED→factor, PENDING→0.0, REJECTED→0.0
-        provisional   : APPROVED→1.0, DOWNGRADED→factor, PENDING→0.5,  REJECTED→0.0
-        all_auto      : APPROVED→1.0, DOWNGRADED→factor, PENDING→1.0,  REJECTED→0.0
+        approved_only    : APPROVED→1.0, DOWNGRADED→factor, PENDING→0.0, REJECTED→0.0
+        provisional      : APPROVED→1.0, DOWNGRADED→factor, PENDING→0.5, REJECTED→0.0
+        all_auto         : APPROVED→1.0, DOWNGRADED→factor, PENDING→1.0, REJECTED→0.0
+        structural       : always 0.0 — ledger events never contribute to scores
+        evidence_backed  : same as provisional (0.5 for PENDING); caller must also
+                           filter pairs by coverage_score (see requires_coverage_filter)
         """
+        # STRUCTURAL: ledger events have no weight regardless of review status
+        if mode == ScoreMode.STRUCTURAL:
+            return 0.0
+
         decision = self._decisions.get(event_hash)
         status = decision.status if decision else ReviewStatus.PENDING
 
@@ -162,7 +190,7 @@ class ReviewGate:
         # PENDING — depends on mode
         if mode == ScoreMode.APPROVED_ONLY:
             return 0.0
-        if mode == ScoreMode.PROVISIONAL:
+        if mode in (ScoreMode.PROVISIONAL, ScoreMode.EVIDENCE_BACKED):
             return 0.5
         # ALL_AUTO
         return 1.0

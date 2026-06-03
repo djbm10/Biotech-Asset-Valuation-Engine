@@ -31,7 +31,8 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument("--as-of",      default=None)
     parser.add_argument("--score-mode", default="provisional",
-                        choices=["approved_only", "provisional", "all_auto"])
+                        choices=["approved_only", "provisional", "all_auto",
+                                 "structural", "evidence_backed"])
     parser.add_argument("--output",     default="outputs/screen/screen_result.json")
     parser.add_argument("--min-coverage", type=float, default=0.20)
     parser.add_argument("--dry-run",    action="store_true")

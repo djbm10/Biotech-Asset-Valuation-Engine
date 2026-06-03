@@ -535,6 +535,32 @@ class LiveIngestionRunner:
     # Public entry point
     # ------------------------------------------------------------------
 
+    # ------------------------------------------------------------------
+    # Source stubs (press_releases / earnings_calls) — Phase 6A
+    # These return empty lists until real adapters are wired in.
+    # ------------------------------------------------------------------
+
+    @staticmethod
+    def _press_releases_stub(ticker: str, profile_data: dict, lookback_days: int) -> list:
+        return []
+
+    @staticmethod
+    def _earnings_calls_stub(ticker: str, profile_data: dict, lookback_days: int) -> list:
+        return []
+
+    # Canonical mapping: CLI flag name → (fetch_fn, source_type_key)
+    _SOURCE_REGISTRY: dict[str, tuple[str, str]] = {
+        "sec":            ("_sec",                 "sec_filing"),
+        "clinicaltrials": ("_ctgov",               "clinicaltrials_gov"),
+        "fda":            ("_fda",                 "fda_website"),
+        "press_releases": ("_press_releases_stub", "press_release"),
+        "earnings_calls": ("_earnings_calls_stub", "earnings_release"),
+    }
+
+    # ------------------------------------------------------------------
+    # Public entry point
+    # ------------------------------------------------------------------
+
     def run(
         self,
         targets: dict[str, Any],   # ticker → TargetProfileEnriched (or dict)
@@ -544,9 +570,19 @@ class LiveIngestionRunner:
         lookback_days: int = 14,
         output_dir: Optional[Path] = None,
         dry_run: bool = False,
+        sources: Optional[list[str]] = None,
     ) -> IngestionRunResult:
         """
         Run the full ingestion pipeline for all tickers in the universe.
+
+        Parameters
+        ----------
+        sources:
+            List of source names to run. Accepted values: ``sec``,
+            ``clinicaltrials``, ``fda``, ``press_releases``,
+            ``earnings_calls``. Pass ``None`` (default) to run all three
+            live sources (sec, clinicaltrials, fda). Unknown names are
+            silently skipped with a warning.
 
         Returns an IngestionRunResult with counts and output paths.
         """
@@ -563,16 +599,24 @@ class LiveIngestionRunner:
             if ticker not in all_profiles:
                 all_profiles[ticker] = ("acquirer", self._profile_to_dict(profile))
 
+        # Build the ordered list of (fetch_fn, src_key) pairs based on the sources filter
+        _default_sources = ["sec", "clinicaltrials", "fda"]
+        requested = sources if sources is not None else _default_sources
+        active_sources: list[tuple[Any, str]] = []
+        for name in requested:
+            if name not in self._SOURCE_REGISTRY:
+                logger.warning("Unknown source '%s' — skipping.", name)
+                continue
+            attr_name, src_key = self._SOURCE_REGISTRY[name]
+            fn = getattr(self, attr_name)
+            active_sources.append((fn, src_key))
+
         # Collect all raw items
         items: list[tuple[RawIngestionItem, str]] = []  # (item, role)
-        source_breakdown: dict[str, int] = {"sec_filing": 0, "clinicaltrials_gov": 0, "fda_website": 0}
+        source_breakdown: dict[str, int] = {src_key: 0 for _, src_key in active_sources}
 
         for ticker, (role, pdata) in all_profiles.items():
-            for fetch_fn, src_key in [
-                (self._sec,   "sec_filing"),
-                (self._ctgov, "clinicaltrials_gov"),
-                (self._fda,   "fda_website"),
-            ]:
+            for fetch_fn, src_key in active_sources:
                 try:
                     raw_items = fetch_fn(ticker, pdata, lookback_days)
                     for item in raw_items:

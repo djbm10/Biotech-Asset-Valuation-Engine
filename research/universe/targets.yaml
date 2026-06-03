@@ -47,6 +47,8 @@ RVMD:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - regeneron_oncology_combinations
   notes: "KRAS/RAS oncology platform; daraxonrasib Phase 3 in RAS-mutant PDAC and CRC. High strategic interest from oncology-focused acquirers."
 
 BPMC:
@@ -74,6 +76,8 @@ BPMC:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - regeneron_oncology_combinations
   notes: "Two commercial products (avapritinib/Ayvakit, pralsetinib/Gavreto). Clean acquisition — growing revenue, KIT/RET/PDGFRA franchise."
 
 ARVN:
@@ -100,6 +104,9 @@ ARVN:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - regeneron_oncology_combinations
+  encumbrance_notes: "Pfizer co-develops vepdegestrant (ARV-471) under collaboration agreement; deal structuring for any acquirer must account for Pfizer's option/rights on lead asset."
   notes: "PROTAC/TPD platform. Vepdegestrant (ARV-471) in Phase 3 VERITAC-2 trial. Pfizer collaboration. Platform has broad application beyond breast cancer."
 
 KYMR:
@@ -127,6 +134,8 @@ KYMR:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - regeneron_immunology_inflammation
   notes: "TPD platform with STAT6 (KY-1005), IRAK4 (KY-1022), and TYK2 degraders. Sanofi collaboration. Early but differentiated mechanistically from competitors."
 
 MRUS:
@@ -153,6 +162,9 @@ MRUS:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - regeneron_antibody_bispecific
+    - regeneron_oncology_combinations
   notes: "Bispecific antibody (Biclonics) platform. Zenocutuzumab received breakthrough designation for NRG1+ cancers. Petosemtamab in Phase 2/3 for CRC. Onco-focused acquirers interested."
 
 IOVA:
@@ -179,6 +191,8 @@ IOVA:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - regeneron_oncology_combinations
   notes: "First FDA-approved TIL therapy (Amtagvi for melanoma). Expanding to cervical cancer and solid tumors. Capital-intensive manufacturing. Potential strategic partnership or acquisition target."
 
 CLDX:
@@ -284,6 +298,9 @@ JANX:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - regeneron_antibody_bispecific
+    - regeneron_oncology_combinations
   notes: "TRACTr platform (tumor-activated T-cell engagers). JANX007 (PSMA×CD3) and JANX008 (HER2×CD3) in Phase 1. Activation mechanism reduces systemic toxicity."
 
 NURIX:
@@ -311,6 +328,9 @@ NURIX:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - regeneron_oncology_combinations
+    - regeneron_immunology_inflammation
   notes: "BTK degrader NX-2127 and NX-5948 in Phase 1/2 for B-cell malignancies. Gilead collaboration on immunology degraders. Resistance-overcoming mechanism attractive to heme-onc acquirers."
 
 NUVL:
@@ -449,6 +469,9 @@ BEAM:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - vertex_gene_editing_delivery
+    - regeneron_genetics_gene_therapy
   notes: "Proprietary base editing platform. BEAM-101 for SCD (ex vivo), BEAM-302 for alpha-1 antitrypsin, BEAM-201 AML. Differentiated from CRISPR/base cut approaches."
 
 RCKT:
@@ -477,6 +500,9 @@ RCKT:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - vertex_rare_disease
+    - regeneron_genetics_gene_therapy
   notes: "Lentiviral gene therapy platform. RP-L201 (LAD-I) Phase 2, RP-A501 (Danon disease, AAV9) Phase 2, RP-L102 (Fanconi anemia) Phase 2. Multiple rare disease assets; clean acquisition for gene therapy strategy."
 
 CRSP:
@@ -505,6 +531,10 @@ CRSP:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - vertex_t1d_cell_therapy
+    - vertex_gene_editing_delivery
+  encumbrance_notes: "Vertex co-develops Casgevy (ex vivo CRISPR for SCD/TDT) and has deep operational integration; outright CRSP acquisition by Vertex would create conflict-of-interest. Vertex may prefer licensing CRSP in vivo platforms rather than full acquisition. Any third-party acquirer would inherit the Vertex collaboration economics on Casgevy."
   notes: "Casgevy (exagamglogene autotemcel) co-approved with Vertex for SCD/TDT. CTX310 (ATTR), CTX320 (Lp(a)) in Phase 1/2. Vertex partnership on ex vivo; owns in vivo and cardiovascular pipeline independently."
 
 RARE:
@@ -560,6 +590,10 @@ IONS:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - vertex_gene_editing_delivery
+    - vertex_rare_disease
+    - regeneron_genetics_gene_therapy
   notes: "Established ASO platform with Wainua (eplontersen) co-commercialized with AZ. Tofersen (Qalsody) for ALS/SOD1. Deep late-stage pipeline. Large for outright acquisition but pipeline partnerships common."
 
 BMRN:
@@ -586,6 +620,8 @@ BMRN:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - vertex_rare_disease
   notes: "Elevidys (delandistrogene) FDA approved for DMD. Palovarotene (Sohonos) for FOP. Established rare metabolic franchise (Naglazyme, Aldurazyme, Palynziq). Large target; most plausible for mega-pharma strategic transaction."
 
 PTCT:
@@ -613,6 +649,8 @@ PTCT:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - vertex_rare_disease
   notes: "Translarna (ataluren) approved ex-US for DMD nonsense mutations. Vatiquinone (NPC) Phase 3. Multiple neuromuscular rare disease assets. Mid-size acquirers (Sarepta, Biogen, Roche) would be interested."
 
 NTLA:
@@ -640,6 +678,9 @@ NTLA:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - vertex_gene_editing_delivery
+    - regeneron_genetics_gene_therapy
   notes: "In vivo CRISPR/Cas9 gene editing. NTLA-2001 (ATTR-CM) Phase 3, NTLA-2002 (HAE) Phase 2. Regeneron collaboration. First in vivo CRISPR data readout expected to be pivotal."
 
 EDIT:
@@ -668,6 +709,9 @@ EDIT:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - vertex_gene_editing_delivery
+    - regeneron_genetics_gene_therapy
   notes: "CRISPR Cas12a (AsCas12a) ex vivo for SCD/TDT. Challenged financial position; distressed target that may seek partnership or sale. AbbVie collaboration previously terminated."
 
 FOLD:
@@ -695,6 +739,8 @@ FOLD:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - vertex_rare_disease
   notes: "Galafold (migalastat) approved for Fabry disease. AT-GAA (cipaglucosidase alfa + miglustat) for Pompe disease. Established rare metabolic franchise. Sanofi/BioMarin/Takeda interest."
 
 KNSA:
@@ -776,6 +822,8 @@ LRMR:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - vertex_rare_disease
   notes: "CTI-1601 (frataxin replacement) in Phase 3 for Friedreich's ataxia. Only meaningful asset. Binary risk; high strategic value if successful given no approved treatments."
 
 # ---------------------------------------------------------------------------
@@ -806,6 +854,8 @@ IMVT:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - regeneron_immunology_inflammation
   notes: "Anti-FcRn batoclimab and IMVT-1402 for broad IgG-mediated autoimmune indications (MG, TED, CIDP, warm AIHA). Roivant partnership. Competing in highly active FcRn space."
 
 ARQT:
@@ -833,6 +883,8 @@ ARQT:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - regeneron_immunology_inflammation
   notes: "Zoryve (roflumilast) cream FDA approved for plaque psoriasis and SD. Zoryve foam for seborrheic dermatitis. Topical PDE4 inhibitor. Abbvie/LEO Pharma derm franchise interest."
 
 NKTR:
@@ -1167,6 +1219,9 @@ SGMO:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - vertex_gene_editing_delivery
+    - regeneron_genetics_gene_therapy
   notes: "ZFN and AAV gene therapy platform. ST-920 (Fabry) Phase 3 STAAR trial. Multiple partnerships (Sanofi, Biogen, Pfizer legacy). Financially challenged; potential asset sale or acquisition at distressed valuation."
 
 RGNX:
@@ -1195,6 +1250,10 @@ RGNX:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - regeneron_ophthalmology_durability
+    - regeneron_genetics_gene_therapy
+  encumbrance_notes: "AbbVie holds co-development and commercialization rights to RGX-314 (AAV-based anti-VEGF for wet AMD) — the most strategically relevant asset for Regeneron. Any RGNX acquisition by REGN must account for AbbVie's rights on RGX-314. The platform and DMD program (RGX-202) remain unencumbered; whole-company acquisition for platform value is structurally feasible but RGX-314 revenue would not accrue to REGN."
   notes: "NAV technology AAV capsid licensing and gene therapy pipeline. RGX-314 (wet AMD) Phase 3, collaboration with AbbVie. RGX-202 (DMD) Phase 2. AAV IP portfolio is independently valuable."
 
 ADVM:
@@ -1221,6 +1280,9 @@ ADVM:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - regeneron_ophthalmology_durability
+    - regeneron_genetics_gene_therapy
   notes: "Single intravitreal injection AAV gene therapy for retinal disease. ADVM-022 encodes anti-VEGF (aflibercept variant). Distressed; potential acqui-hire or asset deal for retinal gene therapy."
 
 ARWR:
@@ -1249,6 +1311,9 @@ ARWR:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - vertex_gene_editing_delivery
+    - regeneron_genetics_gene_therapy
   notes: "SC-delivered RNAi platform. ARO-APOC3 (SHTG) Phase 3, ARO-ANG3 (hypercholesterolemia), ARO-LUNG2 (AATD). JNJ, Amgen, Horizon Therapeutics partnerships. Broad pipeline across cardiometabolic."
 
 # ---------------------------------------------------------------------------
@@ -1281,6 +1346,8 @@ KRYS:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - vertex_rare_disease
   notes: "Vyjuvek (beremagene geperpavec/B-VEC) approved for DEB — first redosable gene therapy applied topically. Rare skin disease. Expanding to other rare derm indications. Roche/Novartis rare derm interest."
 
 VCEL:
@@ -1500,6 +1567,9 @@ XNCR:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - regeneron_antibody_bispecific
+    - regeneron_oncology_combinations
   notes: "XmAb bispecific platform. Vudalimab (PD-1/CTLA-4) differentiated CTLA-4 approach with lower toxicity. Multiple partnerships with Aimmune, Alexion, Genentech, Janssen. Platform value alone justifies acquisition."
 
 AGEN:
@@ -1526,6 +1596,9 @@ AGEN:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - regeneron_antibody_bispecific
+    - regeneron_oncology_combinations
   notes: "Botensilimab (Fc-enhanced CTLA-4) + balstilimab (PD-1) combination showing activity in cold tumors. Antibody discovery platform with multiple partnered programs. Distressed valuation belies pipeline quality."
 
 CGON:
@@ -1635,6 +1708,8 @@ GRTS:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - regeneron_oncology_combinations
   notes: "GRANITE individualized neoantigen cancer vaccine (mRNA + viral vector) plus EDGE tumor-agnostic vaccine. Distressed valuation; compelling technology with Merck/MSD partnership precedent in personalized mRNA vaccines."
 
 HOOK:
@@ -1662,6 +1737,8 @@ HOOK:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - regeneron_oncology_combinations
   notes: "Arenavirus-based immunotherapy platform. HB-200 (HPV16 HNSCC) in Phase 2. Roche/Genentech collaboration for HNSCC and liver cancer. Viral vector immunotherapy differentiated from peptide vaccines."
 
 ALLO:
@@ -1689,6 +1766,8 @@ ALLO:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - regeneron_oncology_combinations
   notes: "AlloCAR T platform: off-the-shelf allogeneic CAR-T with TALEN gene editing. ALLO-501A (CD19) and ALLO-647 (CD70) for hematologic malignancies. Pfizer partnership. Strategic interest from cell therapy-building acquirers."
 
 TYRA:
@@ -1742,6 +1821,9 @@ IMTX:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - regeneron_antibody_bispecific
+    - regeneron_oncology_combinations
   notes: "TCR-T cell therapy and bispecific TCR platform. IMA203 (PRAME) in Phase 2 across multiple solid tumors. BMS and Genentech partnerships for bispecific TCR programs. Differentiated MHC-presented target space."
 
 FATE:
@@ -1770,6 +1852,9 @@ FATE:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - regeneron_oncology_combinations
+    - vertex_t1d_cell_therapy
   notes: "iPSC-derived NK and T-cell therapy platform. FT576 (anti-BCMA, MM) and FT819 (CD19 T-cell, NHL) in Phase 1. Off-the-shelf allogeneic approach using single master iPSC line. J&J/Janssen had major collaboration."
 
 # ---------------------------------------------------------------------------
@@ -1830,6 +1915,10 @@ BLUE:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - vertex_rare_disease
+    - regeneron_genetics_gene_therapy
+  encumbrance_notes: "bluebird bio has complex equity and royalty obligations including a royalty monetization agreement with Royalty Pharma on Lyfgenia; acquirer must model royalty stack on commercial products. Commercial execution challenges have depressed valuation — motivated seller dynamic present."
   notes: "Zynteglo (beti-cel) for TDT and Skysona (elivaldogene autotemcel) for CALD approved. Lyfgenia (lovotibeglogene) for SCD. Three approved gene therapies; commercial execution challenges but platform highly valuable."
 
 TVTX:
@@ -1857,6 +1946,8 @@ TVTX:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - vertex_kidney_renal
   notes: "Filspari (sparsentan) approved for IgA nephropathy — dual endothelin/angiotensin receptor antagonist. FSGS program ongoing. Rare kidney franchise with growing unmet need; potential tuck-in for Roche, Novartis, or GSK."
 
 EWTX:
@@ -1937,6 +2028,8 @@ ALDX:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - regeneron_ophthalmology_durability
   notes: "Reproxalap (aldehyde trap) in Phase 3 for dry eye disease and uveitis. Novel mechanism trapping reactive aldehyde species (RASP). Ophthalmology franchise; Roche/Regeneron/AbbVie ophthalmic interest."
 
 INSM:
@@ -2099,6 +2192,9 @@ SRPT:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - vertex_rare_disease
+    - regeneron_genetics_gene_therapy
   notes: "Multiple FDA-approved exon-skipping antisense oligos for DMD (Exondys 51, Vyondys 53, Amondys 45, Viltepso). SRP-9001 gene therapy. Dominant DMD franchise platform; plausible target for Roche, Pfizer, or Novartis rare disease strategy."
 
 ALNY:
@@ -2126,6 +2222,10 @@ ALNY:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - vertex_gene_editing_delivery
+    - vertex_rare_disease
+    - regeneron_genetics_gene_therapy
   notes: "Pioneer and leader in RNAi therapeutics. Onpattro, Amvuttra (vutrisiran) for hATTR. Leqvio (inclisiran) royalties from Novartis. Large but plausible for Roche or Sanofi to take out the RNAi platform."
 
 # ---------------------------------------------------------------------------
@@ -2184,6 +2284,8 @@ PRAX:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - vertex_pain_ion_channel
   notes: "Ulixacaltamide (T-type calcium channel blocker) in Phase 3 ESSENTIAL trial for essential tremor. PRAX-628 (Nav1.2) for rare epilepsies. Precision neurology with genetically-defined patient populations."
 
 CMPS:
@@ -2376,6 +2478,8 @@ AKBA:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - vertex_kidney_renal
   notes: "Vafseo (vadadustat) FDA approved for dialysis-dependent CKD anemia — oral HIF-PH inhibitor. Otsuka co-development and commercialization partnership. Niche renal anemia space; distressed valuation post-approval challenges."
 
 # ---------------------------------------------------------------------------
@@ -2407,6 +2511,8 @@ CABA:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - regeneron_immunology_inflammation
   notes: "CABA-201 targets BCMA to eliminate long-lived plasma cells driving autoantibody-mediated diseases. Early deep remission data in SLE and PM/DM. Chinese hospital data and Kyverna precedent validate mechanism."
 
 RAPT:
@@ -2436,6 +2542,8 @@ RAPT:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - regeneron_immunology_inflammation
   notes: "Zelnecirnon (FLX475, CCR4 inhibitor) in Phase 3 for atopic dermatitis. Oral small molecule differentiated from dupilumab/JAK inhibitors by CCR4 selectivity. AbbVie/LEO/Lilly derm franchise interest."
 
 APGE:
@@ -2464,6 +2572,9 @@ APGE:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - regeneron_immunology_inflammation
+    - regeneron_antibody_bispecific
   notes: "APG777 (TSLP/IL-13 bispecific) in Phase 2 for atopic derm and EoE. APG808 (IL-13/IL-33 bispecific) preclinical for asthma. Novel bispecific cytokine blocking approach to broad Th2 inflammatory diseases."
 
 VERA:
@@ -2493,6 +2604,8 @@ VERA:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - vertex_kidney_renal
   notes: "Atacicept (TACI-Fc, dual BAFF/APRIL blocker) in Phase 3 ORIGIN trial for IgA nephropathy. Also in Phase 2 for MSA. Differentiated upstream B-cell mechanism vs Filspari and budesonide. Novartis/Roche rare autoimmune interest."
 
 # ---------------------------------------------------------------------------
@@ -2582,6 +2695,8 @@ ABCL:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - regeneron_antibody_bispecific
   notes: "AI-powered single B-cell antibody discovery. Enabled COVID bamlanivimab with Lilly. Broad pharma partnerships. Growing owned pipeline using internal platform. Strategic interest from any company needing antibody discovery capability."
 
 ROIV:
@@ -2643,6 +2758,9 @@ MGTX:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - regeneron_ophthalmology_durability
+    - regeneron_genetics_gene_therapy
   notes: "Ocular and neural AAV gene therapy. AAV-RPGR Phase 3 for XLRP, MGT009 for XLF. J&J (Janssen) collaboration for gene regulation and ocular programs. Ophthalmic gene therapy in active M&A space (Roche, Novartis)."
 
 HRTX:
@@ -2782,6 +2900,8 @@ RCUS:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - regeneron_oncology_combinations
   notes: "Domvanalimab (anti-TIGIT) + zimberelimab (anti-PD-1) in Phase 3 STAR-221 for NSCLC. Etrumadenant (adenosine pathway). Gilead collaboration with option to acquire. Leading TIGIT program; strategic IO acquisition candidate."
 
 # ---------------------------------------------------------------------------
@@ -2814,6 +2934,8 @@ ACLX:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - regeneron_oncology_combinations
   notes: "Anito-cel (GPRC5D-targeted CAR-T) Phase 3 iMMagine-3 for RRMM. Differentiated low-cytokine-release profile. Gilead/Kite partnership provides commercial infrastructure. High value to BMY/GILD/JNJ for MM franchise expansion."
 
 IDYA:
@@ -2869,6 +2991,9 @@ ZYME:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - regeneron_antibody_bispecific
+    - regeneron_oncology_combinations
   notes: "Zanidatamab (HER2 bispecific) partnered with BeiGene and Jazz. ZW171 (CD38xCD3 bispecific) Phase 1. ADC/bispecific engineering platform. Pipeline diversified in HER2+ cancers across GI and lung. Attractive to acquirers seeking ADC/bispecific capabilities and HER2-franchise complement."
 
 MGNX:
@@ -2898,6 +3023,9 @@ MGNX:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - regeneron_antibody_bispecific
+    - regeneron_oncology_combinations
   notes: "DART (Dual-Affinity Re-Targeting) bispecific antibody platform. Margetuximab (Margenza) HER2+ BC commercial — modest revenue. Vobramitamab duocarmazine (B7-H3 ADC) Phase 2/3. MGD013 (PD-1xLAG-3 bispecific). Platform technology valuable to acquirers seeking bispecific capability."
 
 KURA:
@@ -3045,6 +3173,9 @@ PRME:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - vertex_gene_editing_delivery
+    - regeneron_genetics_gene_therapy
   notes: "Prime editing platform — next-generation gene editing enabling precise insertions, deletions, and all 12 point mutation types without double-strand breaks. Lead PM359 Phase 1 in CGD. Broader pipeline in SCD, macular degeneration, Wilson's disease. Backed by David Liu lab. Strategic platform acquisition target for gene therapy-building acquirers (VRTX, RHHBY, PFE)."
 
 AUPH:
@@ -3074,6 +3205,8 @@ AUPH:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - vertex_kidney_renal
   notes: "Voclosporin (Lupkynis) approved 2021 — first oral calcineurin inhibitor for lupus nephritis. Commercial-stage with durable efficacy data. Lupus nephritis remains underserved despite BLyS/BAFF biologics. Attractive commercial asset for autoimmune-focused acquirers (AZN, ABBV, SNY)."
 
 SPRY:
@@ -3133,6 +3266,9 @@ OCUL:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - regeneron_ophthalmology_durability
+    - regeneron_genetics_gene_therapy
   notes: "OCU400 Phase 3 for retinitis pigmentosa — gene-agnostic modifier therapy approach (NR2E3 nuclear receptor) distinct from gene replacement. Broad RP coverage regardless of causative mutation. Bifunctional vector platform. Attractive niche target for ophthalmology-focused acquirers (RHHBY, REGN, NVS) seeking gene therapy foothold in RP."
 
 PLRX:
@@ -3197,6 +3333,9 @@ ANAB:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - regeneron_immunology_inflammation
+    - regeneron_antibody_bispecific
   notes: "Imsidolimab (anti-IL-36R) Phase 3 for generalized pustular psoriasis and palmoplantar pustulosis — rare but severe immune dermatology conditions. Rosnilimab (anti-PD-1 agonist) Phase 2 in rheumatoid arthritis and alopecia areata. Somatic hypermutation antibody discovery platform. Attractive immunology/derm tuck-in for ABBV/JNJ/REGN."
 
 LBPH:
@@ -3357,6 +3496,9 @@ CNTA:
   cash_position_source: sec_10q_2025q4
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - vertex_kidney_renal
+    - vertex_rare_disease
   notes: "Multi-asset biotech with focused discovery platform. Orexin receptor 2 agonist for narcolepsy type 1 (validated by Takeda/suvorexant). Lixivaptan for autosomal dominant polycystic kidney disease (ADPKD) Phase 3. Multiple rare disease programs. Portfolio approach reduces single-asset risk. Attractive mid-stage platform for acquirers in CNS and rare disease."
 
 ABSI:
@@ -3388,3 +3530,172 @@ ABSI:
   rd_expense_source: sec_10k_2025
   last_verified_date: "2026-06-01"
   notes: "Generative AI drug design platform enabling rapid antibody discovery and optimization. SynBio protein expression + ML models for de novo antibody design without animal immunization. ABS-101 (AI-designed anti-CD3xCD19 bispecific) preclinical. Platform partnerships with AZN, Sanofi, Merck KGaA. Strategic platform acquisition target for AI-differentiated drug discovery."
+
+# ---------------------------------------------------------------------------
+# Vertex buckets — T1D cell therapy / gene editing / delivery
+# ---------------------------------------------------------------------------
+
+SANA:
+  name: Sana Biotechnology
+  ticker: SANA
+  cik: "0001773427"
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - rare_disease
+    - metabolic
+    - hematology
+  lead_asset: SC451
+  lead_asset_stage: phase2
+  lead_asset_phase: phase2
+  modality: cell_therapy
+  lead_modality: cell_therapy
+  lead_indication: Type 1 diabetes — allogeneic stem cell-derived islet cell replacement
+  aliases:
+    - Sana Biotechnology
+    - Sana Bio
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: allogeneic_cell_therapy_gene_correction
+  has_partner_encumbrance: false
+  cash_position_source: sec_10q_2026q1
+  rd_expense_source: sec_10k_2025
+  last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - vertex_t1d_cell_therapy
+    - vertex_gene_editing_delivery
+  notes: "SC451 is an allogeneic, immune-evasion-enabled stem cell-derived islet cell product for T1D — the direct strategic adjacency to Vertex's VX-880/VX-264 programs and ViaCyte/Semma acquisitions. SC262 uses Sana's ex vivo gene correction platform for B-cell malignancies. The hypoimmune engineering platform (HIP) is designed to evade immune rejection without immunosuppression, matching Vertex's stated T1D goal. Small cap with capital needs — motivated seller dynamic."
+
+FDMT:
+  name: 4D Molecular Therapeutics
+  ticker: FDMT
+  cik: "0001837013"
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - ophthalmology
+    - respiratory
+    - rare_disease
+  lead_asset: 4D-150
+  lead_asset_stage: phase2
+  lead_asset_phase: phase2
+  modality: cell_gene
+  lead_modality: cell_gene
+  lead_indication: Wet AMD and diabetic macular edema — dual-vector intravitreal AAV gene therapy
+  aliases:
+    - 4D Molecular
+    - 4DMT
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: micro
+  platform_type: aav_gene_therapy_synthetic_capsid
+  has_partner_encumbrance: false
+  cash_position_source: sec_10q_2026q1
+  rd_expense_source: sec_10k_2025
+  last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - regeneron_ophthalmology_durability
+    - regeneron_genetics_gene_therapy
+    - vertex_gene_editing_delivery
+  notes: "4D-150 is a single intravitreal injection dual-vector AAV gene therapy delivering both VEGF-trap and anti-PDGF for wet AMD and DME — a direct threat and adjacency to EYLEA franchise. Phase 2 data showed durable vision gains. Regeneron's core strategic interest: a gene therapy that can replace chronic EYLEA injections with one-time dosing would either cannibalize or defend the franchise. 4D-710 targets CF lung with CFTR mRNA (Phase 1/2), creating Vertex cross-interest. Synthetic capsid (R100) platform enables tissue-specific targeting. Micro cap — capital constrained, strong acquisition candidate."
+
+# ---------------------------------------------------------------------------
+# Vertex buckets — gene editing / mRNA / rare disease platforms
+# ---------------------------------------------------------------------------
+
+ARCT:
+  name: Arcturus Therapeutics
+  ticker: ARCT
+  cik: "0001634997"
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - rare_disease
+    - respiratory
+    - metabolic
+  lead_asset: LUNAR-OTC
+  lead_asset_stage: phase3
+  lead_asset_phase: phase3
+  modality: rna
+  lead_modality: rna
+  lead_indication: OTC deficiency (ornithine transcarbamylase) — STARR mRNA liver delivery
+  aliases:
+    - Arcturus
+    - Arcturus Therapeutics
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: mrna_starr_lnp_delivery
+  has_partner_encumbrance: false
+  cash_position_source: sec_10q_2026q1
+  rd_expense_source: sec_10k_2025
+  last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - vertex_gene_editing_delivery
+    - vertex_rare_disease
+    - regeneron_genetics_gene_therapy
+  notes: "LUNAR-OTC (STARR mRNA for OTC deficiency) is in Phase 3 with strong prior signal — pivotal dataset expected 2026. LUNAR-CF (CFTR mRNA for cystic fibrosis) in Phase 1/2 is a direct Vertex CF adjacency. STARR technology (self-transcribing and replicating RNA) achieves prolonged expression from a single dose using LNP delivery. For Vertex, ARCT's CF mRNA program represents a potential second modality for CF beyond small-molecule correctors. For Regeneron, the OTC/rare genetic disease STARR platform fits the genetics mission. Platform + near-term Phase 3 data = strong near-term deal window."
+
+SRRK:
+  name: Scholar Rock
+  ticker: SRRK
+  cik: "0001727263"
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - rare_disease
+    - neuroscience
+    - metabolic
+  lead_asset: apitegromab
+  lead_asset_stage: phase3
+  lead_asset_phase: phase3
+  modality: biologic
+  lead_modality: biologic
+  lead_indication: Spinal muscular atrophy (SMA) — selective GDF11/myostatin inhibitor
+  aliases:
+    - Scholar Rock
+    - ScholarRock
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: tgf_beta_selective_inhibition
+  has_partner_encumbrance: false
+  cash_position_source: sec_10q_2026q1
+  rd_expense_source: sec_10k_2025
+  last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - vertex_rare_disease
+  notes: "Apitegromab (anti-latent myostatin) showed positive Phase 3 SAPPHIRE trial data in SMA patients on background nusinersen or risdiplam. Phase 3 data adds muscle function complement to the approved SMN-targeting therapies. SMA is a validated rare disease franchise with high specialty-market pricing. Vertex's rare disease commercial infrastructure can absorb a narrow-indication biologic with well-defined patient population. Second program ZM003 (anti-latent GDF8 for obesity) provides optionality. Mid-stage platform with TGF-beta biology expertise applicable across rare neuromuscular diseases."
+
+IBRX:
+  name: Inhibrx Biosciences
+  ticker: IBRX
+  cik: "0001804176"
+  exchange: NASDAQ
+  company_type: drug_developer
+  therapeutic_areas:
+    - rare_disease
+    - immunology
+  lead_asset: INBRX-101
+  lead_asset_stage: phase2
+  lead_asset_phase: phase2
+  modality: biologic
+  lead_modality: biologic
+  lead_indication: Alpha-1 antitrypsin deficiency (AATD) — engineered recombinant AAT
+  aliases:
+    - Inhibrx Biosciences
+    - Inhibrx Bio
+  is_single_asset_company: false
+  include_in_screen: true
+  market_cap_bucket: small
+  platform_type: multi_domain_bispecific_rare_disease
+  has_partner_encumbrance: false
+  cash_position_source: sec_10q_2026q1
+  rd_expense_source: sec_10k_2025
+  last_verified_date: "2026-06-01"
+  primary_acquirer_buckets:
+    - vertex_rare_disease
+    - regeneron_immunology_inflammation
+    - regeneron_antibody_bispecific
+  notes: "INBRX-101 is an engineered recombinant alpha-1 antitrypsin (AAT) with extended half-life for AATD — a rare genetic disease with high specialty pricing and limited competition. INBRX-106 (hexavalent OX40L/TNF bispecific for autoimmune disease, Phase 1) demonstrates Inhibrx's multi-domain protein engineering platform. AATD patient population (severe ZZ genotype) is well-defined with documented unmet need. For Vertex: lung genetic disease adjacency to CF franchise. For Regeneron: OX40L/TNF bispecific fits the antibody engineering platform and inflammation franchise."
