@@ -1,0 +1,91 @@
+# Source Registry — VRTX/REGN Backtest Research
+# Each source entry defines provenance validation rules and priority weighting.
+# extraction_method: one of {press_release_text, sec_filing_text, ct_gov_api, fda_api,
+#                             news_article, analyst_report, annual_report, manual_research}
+# reliability: 1=primary_official 2=regulatory_filing 3=secondary_confirmed 4=unverified
+
+sources:
+
+  vertex_press_release:
+    display_name: "Vertex Pharmaceuticals Official Press Release"
+    base_url: "https://investors.vrtx.com"
+    reliability: 1
+    extraction_method: press_release_text
+    requires_date_field: source_published_date
+    notes: "Primary source for Vertex deal announcements. IR site press releases are point-in-time."
+
+  regeneron_press_release:
+    display_name: "Regeneron Pharmaceuticals Official Press Release"
+    base_url: "https://investor.regeneron.com"
+    reliability: 1
+    extraction_method: press_release_text
+    requires_date_field: source_published_date
+    notes: "Primary source for Regeneron deal announcements."
+
+  semma_press_release:
+    display_name: "Semma Therapeutics / HSCI Press Release"
+    base_url: "https://hsci.harvard.edu"
+    reliability: 1
+    extraction_method: press_release_text
+    requires_date_field: source_published_date
+    notes: "Semma was a Harvard Stem Cell Institute spinout; was private at acquisition."
+
+  alpine_sec_filing:
+    display_name: "Alpine Immune Sciences SEC Filing (ALPN)"
+    base_url: "https://www.sec.gov/cgi-bin/browse-edgar"
+    cik: "0001697805"
+    reliability: 2
+    extraction_method: sec_filing_text
+    requires_date_field: source_published_date
+    notes: "ALPN was public (NASDAQ); merger proxy and 8-K filings confirm deal terms."
+
+  decibel_sec_filing:
+    display_name: "Decibel Therapeutics SEC Filing (DBTX)"
+    base_url: "https://www.sec.gov/cgi-bin/browse-edgar"
+    cik: "0001801849"
+    reliability: 2
+    extraction_method: sec_filing_text
+    requires_date_field: source_published_date
+    notes: "DBTX was public (NASDAQ); merger agreement and 8-K filings confirm terms."
+
+  clinicaltrials_gov:
+    display_name: "ClinicalTrials.gov API v2"
+    base_url: "https://clinicaltrials.gov/api/v2/studies"
+    reliability: 2
+    extraction_method: ct_gov_api
+    requires_date_field: data_as_of_date
+    notes: "Point-in-time history not directly available; must use record update dates as proxy."
+
+  openfda_api:
+    display_name: "OpenFDA Drug Approvals API"
+    base_url: "https://api.fda.gov/drug/drugsfda.json"
+    reliability: 2
+    extraction_method: fda_api
+    requires_date_field: data_as_of_date
+
+  sec_edgar_api:
+    display_name: "SEC EDGAR Full-Text Search API"
+    base_url: "https://efts.sec.gov/LATEST/search-index"
+    reliability: 2
+    extraction_method: sec_filing_text
+    notes: "Used for 8-K event filings, annual reports (10-K), proxy statements."
+
+  yfinance_historical:
+    display_name: "Yahoo Finance Historical Price Data"
+    base_url: "https://finance.yahoo.com"
+    reliability: 3
+    extraction_method: market_data_api
+    requires_date_field: data_as_of_date
+    notes: "Point-in-time price/market cap approximation; adjusted for splits. Not survivorship-free for delisted names."
+
+  news_fallback:
+    display_name: "News Article (tertiary fallback)"
+    reliability: 4
+    extraction_method: news_article
+    notes: "Use only when no primary or secondary source exists. Must cite URL and publication date."
+
+  research_gap:
+    display_name: "Research Gap — source not identified"
+    reliability: 5
+    extraction_method: manual_research
+    notes: "Placeholder for unverified deal entries. These are excluded from primary metrics."

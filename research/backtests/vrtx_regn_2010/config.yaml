@@ -1,0 +1,81 @@
+# VRTX / REGN Historical Backtest — Configuration
+# This file controls all tunable parameters for the backtest pipeline.
+# DO NOT change weights or thresholds after seeing results (look-ahead bias).
+
+backtest_id: vrtx_regn_2010
+acquirers:
+  - VRTX
+  - REGN
+since_year: 2010
+snapshot_days: [365, 180, 90, 30]
+
+# Negative sampling
+min_negatives_per_positive: 30
+max_negatives_per_positive: 50
+negative_sampling_strategy: hard_negative   # hard_negative | random_biotech
+
+# Deal inclusion rules
+include_verified_only_by_default: true       # CLI flag --include-unverified-deals overrides
+include_deal_types:                          # first-pass scoring
+  - full_acquisition
+  - asset_acquisition
+exclude_deal_types_from_ranking:
+  - rights_acquisition                       # e.g., Libtayo rights restructuring
+  - collaboration                            # kept in dataset, not in ranking metrics
+
+# Feature provenance requirements
+require_source_url: true
+require_source_published_date: true
+require_data_as_of_date: true
+require_extraction_method: true
+require_confidence: true
+
+# Leakage guard label field names (any feature column matching these is blocked)
+leakage_label_columns:
+  - actual_deal
+  - acquired
+  - acquisition
+  - premium
+  - deal_premium
+  - post_deal
+  - future_
+  - later_approved
+  - outcome_
+  - deal_value
+  - announced_date
+
+# Scoring
+score_mode: approved_only                    # approved_only | provisional | structural
+pair_scorer_version: "1.0"
+
+# Metrics to compute
+ranking_metrics:
+  - top_1_hit_rate
+  - top_3_hit_rate
+  - top_5_hit_rate
+  - top_10_hit_rate
+  - top_decile_hit_rate
+  - mean_percentile_rank
+  - median_percentile_rank
+  - mean_reciprocal_rank
+  - auc_roc
+  - brier_score
+  - precision_at_5
+  - precision_at_10
+  - calibration_error
+
+# rNPV comparison
+rnpv_vs_deal_value:
+  enabled: true
+  tolerance_pct: 0.50   # flag if rNPV > 2x or < 0.5x deal value
+
+# Report emphasis
+report_emphasis_snapshot_days: [90, 180]
+
+# Output paths (relative to research/backtests/vrtx_regn_2010/)
+paths:
+  seeds_dir: seeds
+  raw_dir: raw
+  curated_dir: curated
+  rnpv_configs_dir: rnpv_configs
+  outputs_dir: outputs
