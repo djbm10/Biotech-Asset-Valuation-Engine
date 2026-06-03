@@ -186,6 +186,11 @@ top_level_module_map:
     primary_question: 5
     role: alpha validation and excess-return analysis
     state: current
+  - module: backtest_research
+    kind: package
+    primary_question: 3
+    role: VRTX/REGN historical M&A backtest — dataset builder, feature store, backtest runner, report writer
+    state: current
   - module: benchmark
     kind: package
     primary_question: 3
