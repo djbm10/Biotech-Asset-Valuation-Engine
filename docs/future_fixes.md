@@ -136,6 +136,14 @@ A clean Phase 2 on a hard clinical endpoint tells you both "the endpoint was cre
 "the molecule worked on that endpoint." Counting endpoint type again on top of the Phase 2
 result is partial double-counting.
 
+**When endpoint type should matter by phase**
+
+| When you're assessing POS | What endpoint type is doing | Should it matter? |
+|---|---|---|
+| Pre-Phase 1 (no human data) | Tells you how credible the upcoming readout will be | A lot — it's one of your only signals |
+| Pre-Phase 3 (have Phase 1+2 data) | Tells you how the Phase 3 is designed | Somewhat — but Phase 2 results already ran on this endpoint and showed what they showed |
+| Pre-NDA (have Phase 1+2+3 data) | Retrospective design note | Almost nothing — the data exists, endpoint quality is baked in |
+
 **Concrete example**
 
 Pre-Phase 1 (no human data): endpoint type is a major signal.
