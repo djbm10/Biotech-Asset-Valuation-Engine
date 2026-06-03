@@ -378,6 +378,48 @@ class ReportWriter:
             "| The rNPV estimates are reliable | **No — key fields are null** |",
             "| The backtest is coworker-demo safe | **Yes, with this section included** |",
             "",
+            "---",
+            "",
+            "## 18. Dataset Maturity",
+            "",
+            "> This section tracks the dataset's maturity level.  **Do not graduate to",
+            "> Level 2 or Level 3 without completing the criteria listed below.**",
+            "",
+            "### Maturity levels",
+            "",
+            "| Level | Name | Criteria | Status |",
+            "|---|---|---|---|",
+            "| 1 | Framework-complete | ≥1 verified deal per acquirer; leakage guard passes; "
+            "hard-negative CSV exists; report includes predictive-accuracy disclaimer | "
+            "**CURRENT** |",
+            "| 2 | Buyer-specific audit-ready | ≥5 verified deals total; every negative manually "
+            "reviewed (`manual_review_status=reviewed_ok`); no-deal years audited with "
+            "annual_report_checked=TRUE; ≥30 negatives per verified deal | Incomplete |",
+            "| 3 | Statistically predictive | ≥20 verified deals across ≥3 acquirers; "
+            "AUC > 0.70 with p-value < 0.05; rNPV fields filled from primary sources; "
+            "calibration study across diverse acquirer types | Not started |",
+            "",
+            "### Current state (Level 1)",
+            "",
+            "| Criterion | Met? | Notes |",
+            "|---|---|---|",
+            "| Verified deals (VRTX) | 2 of 2+ | Semma 2019, Alpine 2024 |",
+            "| Verified deals (REGN) | 1 of 1+ | Decibel 2023 |",
+            "| Leakage guard | Yes | All rows pass; no violations detected |",
+            "| Hard-negative CSV | Yes | 7 deal buckets, ~250 candidates in curated CSV |",
+            "| Predictive-accuracy disclaimer | Yes | Section 17 included in every report |",
+            "| No-deal year audit | Partial | CSV created; SEC/annual report checks pending |",
+            "| Negative manual review | No | All rows remain `manual_review_status=pending` |",
+            "",
+            "### Gap to Level 2",
+            "",
+            "1. Confirm ViaCyte ($320M 2022) via official Vertex press release → adds 1 verified deal",
+            "2. Confirm Checkmate Pharma (REGN 2022) via official Regeneron press release → adds 1 verified deal",
+            "3. Manually review every negative in `candidate_universe_by_deal_bucket.csv`",
+            "   and set `manual_review_status=reviewed_ok` or `flagged`",
+            "4. Complete no-deal year audit: set `annual_report_checked=TRUE` for all VRTX/REGN years",
+            "5. Confirm or expand Exonics and 2seventy deal scope",
+            "",
         ]
 
         return "\n".join(lines) + "\n"

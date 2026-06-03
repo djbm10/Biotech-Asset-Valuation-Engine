@@ -235,13 +235,23 @@ class TestSeedInvariants:
         expected = {("VRTX", "SEMMA"), ("VRTX", "ALPN"), ("REGN", "DBTX")}
         assert verified == expected
 
-    def test_unverified_deals_have_research_gap_source(self):
+    def test_unverified_deals_have_documented_source(self):
+        # Block 12B promoted some deals to secondary_references_only / reuters_secondary.
+        # All unverified sources must be one of these allowlisted values (not empty).
+        _VALID_UNVERIFIED = {
+            "research_gap",
+            "secondary_references_only",
+            "reuters_secondary",
+            "partial_secondary",
+        }
         rows = _load_seed()
         for r in rows:
             if r.get("verified", "").upper() != "TRUE":
-                assert "research_gap" in r.get("verification_source", ""), (
+                src = r.get("verification_source", "").strip()
+                assert any(v in src for v in _VALID_UNVERIFIED), (
                     f"Unverified deal {r['acquirer_ticker']}/{r['target_ticker']} "
-                    "must have 'research_gap' in verification_source"
+                    f"has unrecognised verification_source '{src}'; "
+                    f"expected one of {_VALID_UNVERIFIED}"
                 )
 
     def test_all_verified_deals_have_https_url(self):

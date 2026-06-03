@@ -109,6 +109,11 @@ class CandidateUniverseBuilder:
     For a given (acquirer, deal, snapshot_date), generate a universe of
     candidates including the actual target plus hard negatives.
 
+    Candidate sourcing priority:
+    1. ``BucketCandidateLoader`` — deal-specific curated CSV (preferred)
+    2. ``candidate_seed`` override (for tests / custom runs)
+    3. ``_CANDIDATE_SEED`` fallback (25-company generic list)
+
     Usage::
 
         builder = CandidateUniverseBuilder()
@@ -125,6 +130,14 @@ class CandidateUniverseBuilder:
         candidate_seed: Optional[list[dict[str, Any]]] = None,
     ) -> None:
         self._seed = candidate_seed or _CANDIDATE_SEED
+        # Lazy-loaded; None until first use
+        self._bucket_loader: Optional[Any] = None
+
+    def _get_bucket_loader(self) -> Any:
+        if self._bucket_loader is None:
+            from bve.backtest_research.bucket_candidate_loader import BucketCandidateLoader
+            self._bucket_loader = BucketCandidateLoader()
+        return self._bucket_loader
 
     def build(
         self,
@@ -178,19 +191,67 @@ class CandidateUniverseBuilder:
         min_count: int,
         max_count: int,
     ) -> list[CandidatePair]:
+        # Priority 1: bucket-specific curated candidates
+        loader = self._get_bucket_loader()
+        if loader.is_available():
+            bucket_candidates = loader.load_for_deal(deal.deal_id)
+            if bucket_candidates:
+                return self._build_pairs_from_entries(
+                    bucket_candidates, deal, snapshot_date, days_before, max_count,
+                    negative_reason="bucket_curated",
+                )
+
+        # Priority 2/3: seed list with TA filter (original behaviour)
+        return self._build_pairs_from_seed(deal, snapshot_date, days_before, max_count)
+
+    def _build_pairs_from_entries(
+        self,
+        entries: list[dict[str, Any]],
+        deal: Any,
+        snapshot_date: date,
+        days_before: int,
+        max_count: int,
+        negative_reason: str,
+    ) -> list[CandidatePair]:
+        negatives: list[CandidatePair] = []
+        for entry in entries:
+            if len(negatives) >= max_count:
+                break
+            if entry["ticker"].upper() == deal.target_ticker.upper():
+                continue
+            negatives.append(CandidatePair(
+                deal_id=deal.deal_id,
+                acquirer_ticker=deal.acquirer_ticker,
+                target_ticker=entry["ticker"],
+                target_name=entry["name"],
+                snapshot_date=snapshot_date.isoformat(),
+                days_before=days_before,
+                is_actual_target=False,
+                therapeutic_area=entry.get("ta", ""),
+                modality=entry.get("modality", ""),
+                lead_asset_stage=entry.get("stage", ""),
+                is_hard_negative=True,
+                negative_reason=negative_reason,
+            ))
+        return negatives
+
+    def _build_pairs_from_seed(
+        self,
+        deal: Any,
+        snapshot_date: date,
+        days_before: int,
+        max_count: int,
+    ) -> list[CandidatePair]:
         ta = deal.therapeutic_area
         adjacent_tas = {ta} | set(_TA_ADJACENCY.get(ta, []))
         negatives: list[CandidatePair] = []
         for entry in self._seed:
             if len(negatives) >= max_count:
                 break
-            # Skip actual target
             if entry["ticker"].upper() == deal.target_ticker.upper():
                 continue
-            # TA filter: same or adjacent
             entry_ta = entry.get("ta", "")
             if not any(ata in entry_ta or entry_ta in ata for ata in adjacent_tas):
-                # not adjacent; still include if same broad TA keyword
                 if not any(k in entry_ta for k in ta.split("_")):
                     continue
             negatives.append(CandidatePair(
