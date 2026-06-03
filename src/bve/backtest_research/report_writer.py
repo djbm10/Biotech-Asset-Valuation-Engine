@@ -11,9 +11,26 @@ included where N is small.
 from __future__ import annotations
 
 import csv
+import subprocess
 from datetime import date
 from pathlib import Path
 from typing import Any
+
+
+def _git_info() -> tuple[str, bool]:
+    """Return (short_commit, is_dirty)."""
+    try:
+        sha = subprocess.run(
+            ["git", "rev-parse", "--short", "HEAD"],
+            capture_output=True, text=True, timeout=5,
+        ).stdout.strip() or "unknown"
+        dirty = bool(subprocess.run(
+            ["git", "status", "--porcelain"],
+            capture_output=True, text=True, timeout=5,
+        ).stdout.strip())
+        return sha, dirty
+    except Exception:
+        return "unknown", False
 
 
 class ReportWriter:
@@ -69,6 +86,9 @@ class ReportWriter:
         errors: list[dict[str, Any]],
     ) -> str:
         today = date.today().isoformat()
+        git_sha, git_dirty = _git_info()
+        git_note = f"`{git_sha}`{'  ⚠ dirty (uncommitted changes)' if git_dirty else ''}"
+
         n_rows = len(results)
         n_positives = sum(1 for r in results if str(r.get("label_is_positive", "")).lower() == "true")
         n_gaps = len(gaps)
@@ -81,6 +101,7 @@ class ReportWriter:
             "",
             f"Generated: {today}  ",
             "Dataset: VRTX and REGN as acquirers, 2010–present  ",
+            f"Git commit: {git_note}  ",
             "",
             "---",
             "",
@@ -290,6 +311,72 @@ class ReportWriter:
             "   and compare standalone rNPV to actual deal values.",
             "6. **N > 10 verified deals needed** for statistically meaningful hit rates.",
             "   Consider expanding to PFE, ABBV, or AZ as additional acquirers.",
+            "",
+            "---",
+            "",
+            "## 17. Why This Is Not Yet Proof of Predictive Accuracy",
+            "",
+            "> **This section is mandatory reading before citing any numbers from this report.**",
+            "",
+            "### 17.1  N=3 verified deals — no statistical power",
+            "",
+            "The entire backtest rests on **three confirmed acquisitions**: Semma (2019),",
+            "Alpine (2024), and Decibel (2023).  With N=3 positives spread across four",
+            "snapshot windows, every hit-rate figure (Top-1, MRR, AUC) has a 95% confidence",
+            "interval that spans roughly 0%–100%.  A model that randomly ranks targets",
+            "has a meaningful probability of achieving the same observed hit rates by chance.",
+            "",
+            "**Do not present hit-rate numbers to external stakeholders without this caveat.**",
+            "",
+            "### 17.2  Hard-negative manual review is incomplete",
+            "",
+            "The negative candidate pool was assembled semi-automatically from a seed list of",
+            "25 companies.  **No human has reviewed every negative for plausibility.**",
+            "If any negatives are unrealistically easy to distinguish (e.g. wrong TA, wrong",
+            "size, already acquired by the snapshot date), the hit rate is inflated.",
+            "See `vrtx_regn_hard_negative_audit.csv` — all rows marked `manual_review_status=pending`",
+            "require human sign-off before these metrics are trustworthy.",
+            "",
+            "### 17.3  rNPV assumptions are incomplete",
+            "",
+            "The rNPV YAML configs in `rnpv_configs/` contain null placeholders for:",
+            "- Total addressable market (TAM)",
+            "- Peak penetration",
+            "- Trial costs",
+            "- Patent life",
+            "",
+            "Until these fields are filled from primary public sources as of each snapshot_date,",
+            "there is no validated rNPV signal.  The model is scoring on structural/TA/size",
+            "features only — not on fundamental value analysis.",
+            "",
+            "### 17.4  ClinicalTrials.gov is not point-in-time",
+            "",
+            "Trial phase data uses `last_update_posted` as a proxy for historical state.",
+            "For studies that updated shortly before each snapshot, there is a minor",
+            "look-ahead bias that cannot be quantified without a true archive.",
+            "",
+            "### 17.5  Survivorship bias in negative pool",
+            "",
+            "Companies that were acquired, delisted, or merged before the snapshot date",
+            "may be absent from yfinance and therefore absent from the negative pool.",
+            "This makes the ranking task easier than it would have been in practice.",
+            "",
+            "### 17.6  Broader calibration required",
+            "",
+            "This backtest uses VRTX and REGN only — two mid-large acquirers with clear",
+            "therapeutic focus.  The model may not generalise to acquirers with broader",
+            "mandates (diversified pharma, PE-backed platforms).  A calibration study",
+            "across 5+ acquirers and 20+ deals is needed before generalisation claims.",
+            "",
+            "### Summary judgment",
+            "",
+            "| Claim | Supported? |",
+            "|---|---|",
+            "| The model does not use post-announcement data | **Yes — LeakageGuard verified** |",
+            "| The model ranks actual targets above hard negatives | **Directionally plausible, not statistically proven** |",
+            "| The model has predictive accuracy for future deals | **Not demonstrated** |",
+            "| The rNPV estimates are reliable | **No — key fields are null** |",
+            "| The backtest is coworker-demo safe | **Yes, with this section included** |",
             "",
         ]
 

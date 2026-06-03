@@ -180,6 +180,25 @@ class BacktestRunner:
                 f"PASSED,{audit.rows_audited},{audit.columns_audited},0\n",
                 encoding="utf-8",
             )
+
+            # Source freshness audit
+            from bve.backtest_research.source_freshness_audit import write_freshness_audit
+            write_freshness_audit(
+                rows,
+                output_dir / "vrtx_regn_source_freshness_audit.csv",
+            )
+
+            # Hard-negative audit
+            from bve.backtest_research.hard_negative_audit import (
+                HardNegativeAuditBuilder,
+                write_hard_negative_audit,
+            )
+            neg_audit_rows = HardNegativeAuditBuilder().build(rows)
+            write_hard_negative_audit(
+                neg_audit_rows,
+                output_dir / "vrtx_regn_hard_negative_audit.csv",
+            )
+
             print(f"Outputs written to: {output_dir}")
 
         return {
@@ -414,6 +433,20 @@ def main(argv: list[str] | None = None) -> int:
 
     runner = BacktestRunner(score_mode=args.score_mode)
     output_dir = Path(args.output)
+
+    # Write run manifest before scoring (captures git state + config hashes)
+    if not args.dry_run:
+        from bve.backtest_research.run_manifest import write_manifest
+        config_path = Path(args.dataset).parent / "config.yaml"
+        write_manifest(
+            output_dir=output_dir,
+            config_path=config_path if config_path.exists() else None,
+            seed_csv_path=feature_store_path,
+            cli_args=sys.argv[1:],
+            include_unverified_deals=False,
+            score_mode=args.score_mode,
+        )
+
     try:
         summary = runner.run(
             feature_store_path=feature_store_path,
