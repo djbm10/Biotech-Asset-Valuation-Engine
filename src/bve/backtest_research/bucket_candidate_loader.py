@@ -51,14 +51,34 @@ class BucketCandidateLoader:
     # Public API
     # ------------------------------------------------------------------
 
-    def load_for_deal(self, deal_id: str) -> list[dict[str, Any]]:
-        """
-        Return all candidate rows whose bucket matches ``deal_id``.
+    #: Statuses that are approved for scoring
+    APPROVED_STATUSES: frozenset[str] = frozenset({
+        "approved_core",
+        "approved_adjacent",
+        "approved_stretch",
+    })
 
-        Matching rules (in priority order):
-        1. ``bucket_name == deal_id``
-        2. ``deal_id.startswith(bucket_name)``  (e.g. bucket=VRTX_SEMMA_2019 matches
-           deal=VRTX_SEMMA_20190903)
+    def load_for_deal(
+        self,
+        deal_id: str,
+        approved_only: bool = True,
+        include_pending: bool = False,
+    ) -> list[dict[str, Any]]:
+        """
+        Return candidate rows whose bucket matches ``deal_id``.
+
+        Parameters
+        ----------
+        deal_id:
+            The deal identifier (exact or prefix match against bucket_name).
+        approved_only:
+            When True (default), only return rows with
+            ``manual_review_status`` in APPROVED_STATUSES.
+            When False, all non-rejected rows are returned.
+        include_pending:
+            When True, also include rows with status ``pending``,
+            ``needs_source``, and ``needs_snapshot_check``.
+            Has no effect when ``approved_only=True``.
 
         Returns an empty list when no rows match or the CSV does not exist.
         Each returned dict has normalised keys ready for ``CandidateUniverseBuilder``.
@@ -67,8 +87,20 @@ class BucketCandidateLoader:
         matched: list[dict[str, Any]] = []
         for row in all_rows:
             bucket = row.get("bucket_name", "")
-            if bucket == deal_id or deal_id.startswith(bucket):
-                matched.append(self._normalise(row))
+            if not (bucket == deal_id or deal_id.startswith(bucket)):
+                continue
+            status = row.get("manual_review_status", "pending").strip()
+            # Always exclude explicitly rejected rows
+            if status.startswith("reject_"):
+                continue
+            if approved_only:
+                if status not in self.APPROVED_STATUSES:
+                    continue
+            elif not include_pending:
+                # exclude pending/needs_* unless include_pending
+                if status in ("pending", "needs_source", "needs_snapshot_check"):
+                    continue
+            matched.append(self._normalise(row))
         return matched
 
     def available_buckets(self) -> list[str]:

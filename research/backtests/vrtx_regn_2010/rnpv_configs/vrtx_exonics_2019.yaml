@@ -1,0 +1,69 @@
+# rNPV config: VRTX / Exonics Therapeutics (DMD / DM1 gene editing)
+# Snapshot date: 2019-06-06 (announcement)
+# rnpv_tier: structural_valuation_only
+#
+# Rationale: Preclinical platform acquisition with milestone-heavy economics.
+# Correct framing: upfront as floor, milestone total as option-value ceiling.
+# Full rNPV not appropriate until target population, dose/pricing, delivery
+# feasibility, and PoS are sourced from pre-announcement public data.
+
+deal_id: VRTX_EXONICS_20190606
+acquirer: VRTX
+target: EXON
+target_name: Exonics Therapeutics
+asset: dmd_dm1_gene_editing_exon_skipping_platform
+rnpv_tier: structural_valuation_only
+
+indication:
+  primary: duchenne_muscular_dystrophy
+  secondary: myotonic_dystrophy_type_1
+
+valuation_method:
+  approach: milestone_economics
+  upfront_usd_m: 245
+  milestone_ceiling_usd_m: 1000
+  total_possible_value_usd_m: 1000
+  source: vertex_press_release_20190606
+  confidence: confirmed
+  note: >
+    $245M upfront is the floor value (paid at closing).
+    ~$1B including milestones is the option-value ceiling.
+    Do not model the full $1B as expected value — milestones
+    are contingent on clinical/regulatory success.
+
+structural_signals:
+  modality: gene_editing_exon_skipping
+  platform_breadth: dmd_plus_dm1_indicates_platform_not_single_asset
+  stage_at_deal: preclinical
+  acquirer_rationale: >
+    Vertex expanding into rare neuromuscular disease; gene editing adjacent
+    to CRISPR Therapeutics collaboration; Exonics' IP on CRISPR-based exon
+    skipping complementary to Vertex's CF gene editing work
+
+patient_population_us:
+  dmd_total: 15000
+  dmd_exon_skippable_subset_pct: 0.30
+  dm1_total: 50000
+  source_class: published_dmd_epidemiology
+  confidence: medium_for_totals_low_for_skippable_subset
+  lookahead_safe: true
+
+price_note: >
+  No approved CRISPR/gene-editing DMD therapy existed in 2019.
+  Sarepta exon-skipping drugs approved at ~$300k-$1M/yr are partial analogs.
+  Gene editing pricing is highly uncertain at preclinical stage — do not use
+  a single price assumption without wide uncertainty bands.
+
+rnpv_full_required_inputs:
+  - target_population_with_source
+  - price_per_year_or_per_treatment_with_analog_source
+  - delivery_feasibility_assessment
+  - manufacturing_cost_estimate
+  - PoS_by_phase_with_source
+  - patent_life_from_filing_date
+
+notes: >
+  Structural valuation only. Exonics was a preclinical platform company.
+  The strategic value to VRTX was gene-editing capability for neuromuscular disease,
+  IP on exon-skipping approaches, and team/talent — not near-term DCF.
+  Report this as: floor=$245M (confirmed), ceiling=$1B (contingent milestones).

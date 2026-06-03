@@ -1,0 +1,78 @@
+# rNPV config: VRTX / Alpine Immune Sciences (povetacicept)
+# Snapshot date: 2024-04-10 (announcement)
+# rnpv_tier: benchmarked_rnpv
+# Sources: WSJ deal article (patient population), Reuters/Filspari pricing analog
+#
+# IMPORTANT: Do not use 2026 Phase 3 results in the 2024 backtest.
+# Those results were published after the acquisition and must NOT be used
+# as model inputs for the 2024 snapshot. They are available for post-hoc
+# realized-outcome comparison only.
+
+deal_id: VRTX_ALPINE_20240410
+acquirer: VRTX
+target: ALPN
+target_name: Alpine Immune Sciences
+asset: povetacicept
+rnpv_tier: benchmarked_rnpv
+
+indication:
+  primary: IgA_nephropathy
+  secondary: ~
+
+patient_population_us:
+  value: 130000
+  source_class: wsj_deal_article
+  source_note: "WSJ reported IgAN affects ~130,000 people in the US at deal announcement"
+  confidence: medium
+  lookahead_safe: true
+
+price_benchmark:
+  asset_class: approved_oral_IgAN_drug
+  analog: Filspari (sparsentan) by Travere Therapeutics
+  value_per_month_usd: 9900
+  annualized_usd: 118800
+  source_class: reuters_fda_approval_coverage
+  source_note: "Reuters reported Filspari ~$9,900/month at US FDA approval (2023)"
+  confidence: medium
+  lookahead_safe: true
+
+phase_at_snapshot: phase_2
+next_milestone: phase_3_initiation
+launch_year_assumption:
+  base: 2027
+  bear: 2029
+  bull: 2026
+  confidence: low
+  note: "Phase 2 data at snapshot; Phase 3 required; typical 2-4yr path post Phase 2"
+
+peak_penetration:
+  low: 0.05
+  mid: 0.15
+  high: 0.30
+  source_class: class_analog_igan_drugs
+  confidence: medium
+
+probability_of_success:
+  low: 0.35
+  mid: 0.50
+  high: 0.65
+  source_class: phase2_immunology_industry_base_rate
+  note: "BAFF/APRIL mechanism has proof of concept from atacicept (Vera); Phase 2 data on povetacicept positive but Phase 3 not started"
+  confidence: medium
+  lookahead_safe: true
+
+discount_rate: 0.11
+commercial_margin: 0.65
+
+remaining_rd_cost_usd_m:
+  low: 300
+  mid: 600
+  high: 900
+  source_class: phase3_immunology_benchmark
+  confidence: low
+
+notes: >
+  Benchmarked rNPV using Filspari/Travere as price analog and WSJ patient population.
+  Key uncertainties: IgAN disease-modification vs symptom control affects pricing power;
+  povetacicept dual BAFF/APRIL mechanism may command premium over mono-blockade analogs.
+  Do not use post-announcement Phase 3 data (published 2026) as 2024 model input.

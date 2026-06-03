@@ -214,6 +214,121 @@ class TestGoldenSourceREGNDecibel:
 
 
 # ---------------------------------------------------------------------------
+# Golden source assertions — VRTX / Exonics Therapeutics
+# ---------------------------------------------------------------------------
+
+class TestGoldenSourceVRTXExonics:
+    """
+    Authoritative record: Vertex acquires Exonics Therapeutics, announced 2019-06-06.
+    Source: https://news.vrtx.com/news-releases/news-release-details/
+            vertex-expands-new-disease-areas-and-enhances-gene-editing
+    Deal value: $245M upfront + up to ~$1B including milestones.
+    Lead asset: DMD/DM1 gene editing / exon-skipping platform (preclinical).
+    Indication: Duchenne muscular dystrophy.
+    """
+
+    def test_announced_date_is_2019_06_06(self):
+        rows = _load_seed()
+        deal = _get_deal(rows, "VRTX", "EXON")
+        assert deal["announced_date"] == "2019-06-06"
+
+    def test_upfront_value_is_245_million(self):
+        rows = _load_seed()
+        deal = _get_deal(rows, "VRTX", "EXON")
+        assert float(deal["upfront_usd_millions"]) == pytest.approx(245.0)
+
+    def test_cvr_max_is_1000_million(self):
+        rows = _load_seed()
+        deal = _get_deal(rows, "VRTX", "EXON")
+        assert float(deal["cvr_max_usd_millions"]) == pytest.approx(1000.0)
+
+    def test_deal_type_is_full_acquisition(self):
+        rows = _load_seed()
+        deal = _get_deal(rows, "VRTX", "EXON")
+        assert deal["deal_type"] == "full_acquisition"
+
+    def test_therapeutic_area_contains_neuromuscular(self):
+        rows = _load_seed()
+        deal = _get_deal(rows, "VRTX", "EXON")
+        assert "neuromuscular" in deal["therapeutic_area"]
+
+    def test_modality_is_gene_editing(self):
+        rows = _load_seed()
+        deal = _get_deal(rows, "VRTX", "EXON")
+        assert deal["lead_asset_modality"] == "gene_editing"
+
+    def test_verification_source_is_vertex_press_release(self):
+        rows = _load_seed()
+        deal = _get_deal(rows, "VRTX", "EXON")
+        assert deal["verification_source"] == "vertex_press_release"
+
+    def test_verification_url_contains_vrtx_domain(self):
+        rows = _load_seed()
+        deal = _get_deal(rows, "VRTX", "EXON")
+        assert "vrtx.com" in deal["verification_url"]
+
+    def test_label_set_is_primary_full_company_acquisition(self):
+        rows = _load_seed()
+        deal = _get_deal(rows, "VRTX", "EXON")
+        assert deal["label_set"] == "primary_full_company_acquisition"
+
+
+# ---------------------------------------------------------------------------
+# Golden source assertions — VRTX / ViaCyte
+# ---------------------------------------------------------------------------
+
+class TestGoldenSourceVRTXViaCyte:
+    """
+    Authoritative record: Vertex acquires ViaCyte, announced 2022-07-11.
+    Source: https://news.vrtx.com/news-releases/news-release-details/
+            vertex-acquire-viacyte-goal-accelerating-its-potentially
+    Deal value: $320M all-cash.
+    Lead asset: PEC-01 / PEC-Direct / PEC-Encap (stem-cell pancreatic progenitors).
+    Indication: Type 1 diabetes.
+    """
+
+    def test_announced_date_is_2022_07_11(self):
+        rows = _load_seed()
+        deal = _get_deal(rows, "VRTX", "VCYT")
+        assert deal["announced_date"] == "2022-07-11"
+
+    def test_deal_value_is_320_million(self):
+        rows = _load_seed()
+        deal = _get_deal(rows, "VRTX", "VCYT")
+        assert float(deal["deal_value_usd_millions"]) == pytest.approx(320.0)
+
+    def test_deal_type_is_full_acquisition(self):
+        rows = _load_seed()
+        deal = _get_deal(rows, "VRTX", "VCYT")
+        assert deal["deal_type"] == "full_acquisition"
+
+    def test_therapeutic_area_is_diabetes_endocrine(self):
+        rows = _load_seed()
+        deal = _get_deal(rows, "VRTX", "VCYT")
+        assert deal["therapeutic_area"] == "diabetes_endocrine"
+
+    def test_modality_is_cell_therapy(self):
+        rows = _load_seed()
+        deal = _get_deal(rows, "VRTX", "VCYT")
+        assert deal["lead_asset_modality"] == "cell_therapy"
+
+    def test_verification_source_is_vertex_press_release(self):
+        rows = _load_seed()
+        deal = _get_deal(rows, "VRTX", "VCYT")
+        assert deal["verification_source"] == "vertex_press_release"
+
+    def test_verification_url_contains_vrtx_domain(self):
+        rows = _load_seed()
+        deal = _get_deal(rows, "VRTX", "VCYT")
+        assert "vrtx.com" in deal["verification_url"]
+
+    def test_label_set_is_primary_full_company_acquisition(self):
+        rows = _load_seed()
+        deal = _get_deal(rows, "VRTX", "VCYT")
+        assert deal["label_set"] == "primary_full_company_acquisition"
+
+
+# ---------------------------------------------------------------------------
 # Seed invariants
 # ---------------------------------------------------------------------------
 
@@ -222,17 +337,24 @@ class TestSeedInvariants:
     Invariants that must hold for the entire seed file regardless of specific deals.
     """
 
-    def test_exactly_three_verified_deals(self):
+    def test_exactly_five_verified_deals(self):
         rows = _load_seed()
-        assert len(_verified(rows)) == 3, (
-            f"Expected 3 verified deals, got {len(_verified(rows))}.  "
+        assert len(_verified(rows)) == 5, (
+            f"Expected 5 verified deals, got {len(_verified(rows))}.  "
+            "Block 13 promoted EXON + VCYT to verified=TRUE.  "
             "Add unverified deals with verified=FALSE, not verified=TRUE."
         )
 
-    def test_verified_deals_are_vrtx_semma_vrtx_alpn_regn_dbtx(self):
+    def test_verified_deals_are_five_expected(self):
         rows = _load_seed()
         verified = {(r["acquirer_ticker"], r["target_ticker"]) for r in _verified(rows)}
-        expected = {("VRTX", "SEMMA"), ("VRTX", "ALPN"), ("REGN", "DBTX")}
+        expected = {
+            ("VRTX", "SEMMA"),
+            ("VRTX", "ALPN"),
+            ("VRTX", "VCYT"),
+            ("VRTX", "EXON"),
+            ("REGN", "DBTX"),
+        }
         assert verified == expected
 
     def test_unverified_deals_have_documented_source(self):
