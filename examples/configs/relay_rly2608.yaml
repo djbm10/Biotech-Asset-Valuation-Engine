@@ -158,6 +158,28 @@ market_model:
   sgna_rate_launch: 0.40              # Year 1-2 post-launch investment (KOL, payer access)
   sgna_rate_mature: 0.20              # Year 5+ steady-state
 
+  # Sprint 14 — explicit patient × price × share build-up (adds transparency,
+  # widens MC by propagating population and pricing uncertainty independently).
+  # When commercial_inputs is set, peak_sales_millions is derived from it;
+  # addressable_patients_annual / net_price_per_patient_usd above remain for
+  # the existing revenue curve calculation.
+  commercial_inputs:
+    patient_pool:
+      indication: "HR+/HER2- mBC H1047R-selected"
+      prevalence_thousands: 25          # ~25k US women with HR+/HER2- mBC H1047R+ at any time
+      diagnosed_fraction: 0.92          # high diagnosis rate in mBC (symptomatic)
+      treated_fraction: 0.74            # fraction receiving active therapy (ex. end of life)
+      uncertainty_cv: 0.25
+    pricing:
+      net_price_usd: 180000             # matches net_price_per_patient_usd above
+      launch_discount: 0.05             # incremental payer discount at launch
+      annual_erosion_rate: 0.015        # mild real price erosion; branded oncology
+      uncertainty_cv: 0.12
+    share:
+      peak_share: 0.22                  # matches peak_penetration above
+      years_to_peak: 5
+      share_cv: 0.20
+
 # ---------------------------------------------------------------------------
 # POS Model (optional — overrides YAML point estimates if enabled)
 # ---------------------------------------------------------------------------

@@ -6,6 +6,8 @@ Docs: https://clinicaltrials.gov/data-api/api
 from __future__ import annotations
 
 import time
+import warnings
+from dataclasses import dataclass, field
 from typing import Any, Optional
 
 import requests
@@ -254,3 +256,144 @@ def fetch_trial_by_nct(nct_id: str, asset_id: str) -> Optional[ClinicalTrial]:
     if not proto:
         return None
     return parse_trial(proto, asset_id=asset_id)
+
+
+# ---------------------------------------------------------------------------
+# CT.gov registry validation
+# ---------------------------------------------------------------------------
+
+@dataclass
+class ValidationResult:
+    """
+    Result of comparing a ClinicalTrial object against the live CT.gov registry.
+
+    Fields
+    ------
+    nct_id          : The NCT identifier that was looked up.
+    registry_found  : True if the registry returned a valid protocol section.
+    phase_match     : True/False on match; None if not determinable.
+    status_match    : True/False on match; None if not determinable.
+    endpoint_match  : True/False on match; None if not determinable.
+    mismatches      : Human-readable descriptions of each field mismatch.
+    evidence_grade  : Derived evidence quality string:
+                        "calibrated"        — all comparable fields match
+                        "evidence_informed" — no mismatches but some fields not comparable
+                        "unvalidated"       — any field mismatch detected
+    """
+    nct_id: str
+    registry_found: bool
+    phase_match: Optional[bool] = None
+    status_match: Optional[bool] = None
+    endpoint_match: Optional[bool] = None
+    mismatches: list[str] = field(default_factory=list)
+    evidence_grade: str = "unvalidated"
+
+
+def validate_against_registry(nct_id: str, trial: ClinicalTrial) -> ValidationResult:
+    """
+    Validate a ClinicalTrial object against the live ClinicalTrials.gov registry.
+
+    Fetches the live protocol for *nct_id*, then compares:
+    - ``trial.phase`` vs registry phase
+    - ``trial.status`` vs registry overall status (when ``trial.status`` is set)
+    - ``trial.primary_endpoint`` vs registry primary outcome measure (when set)
+
+    Mismatches emit ``UserWarning`` and degrade ``evidence_grade`` to
+    ``"unvalidated"``. When all comparable fields match the grade is
+    ``"calibrated"``. When no mismatches exist but some fields could not be
+    compared the grade is ``"evidence_informed"``.
+
+    Parameters
+    ----------
+    nct_id : str
+        The NCT identifier to look up (e.g. "NCT04083976").
+    trial : ClinicalTrial
+        The analyst-provided trial object to validate.
+
+    Returns
+    -------
+    ValidationResult
+    """
+    result = ValidationResult(nct_id=nct_id, registry_found=False)
+
+    try:
+        proto = fetch_study(nct_id.strip().upper())
+    except Exception as exc:
+        warnings.warn(
+            f"CT.gov validation: failed to fetch {nct_id}: {exc}",
+            UserWarning,
+            stacklevel=2,
+        )
+        result.evidence_grade = "unvalidated"
+        return result
+
+    if not proto:
+        warnings.warn(
+            f"CT.gov validation: no registry record found for {nct_id}.",
+            UserWarning,
+            stacklevel=2,
+        )
+        result.evidence_grade = "unvalidated"
+        return result
+
+    result.registry_found = True
+
+    # --- Phase comparison ---
+    registry_phase = _parse_phase(proto)
+    if registry_phase is not None:
+        result.phase_match = registry_phase == trial.phase
+        if not result.phase_match:
+            msg = (
+                f"CT.gov validation [{nct_id}]: phase mismatch — "
+                f"registry={registry_phase.value!r}, trial={trial.phase.value!r}."
+            )
+            warnings.warn(msg, UserWarning, stacklevel=2)
+            result.mismatches.append(msg)
+
+    # --- Status comparison ---
+    if hasattr(trial, "status") and trial.status is not None:
+        registry_status = _parse_status(proto)
+        if registry_status != TrialStatus.UNKNOWN:
+            result.status_match = registry_status == trial.status
+            if not result.status_match:
+                msg = (
+                    f"CT.gov validation [{nct_id}]: status mismatch — "
+                    f"registry={registry_status.value!r}, trial={trial.status.value!r}."
+                )
+                warnings.warn(msg, UserWarning, stacklevel=2)
+                result.mismatches.append(msg)
+
+    # --- Primary endpoint comparison ---
+    if trial.primary_endpoint:
+        registry_endpoint = _parse_primary_endpoint(proto)
+        if registry_endpoint:
+            # Fuzzy: check if either string contains the other's key terms (case-insensitive)
+            trial_ep_lower = trial.primary_endpoint.lower()
+            registry_ep_lower = registry_endpoint.lower()
+            # Consider a match if there is >50% word overlap (avoids false negatives from
+            # minor phrasing differences; analysts often paraphrase CT.gov language)
+            trial_words = set(trial_ep_lower.split())
+            registry_words = set(registry_ep_lower.split())
+            common = trial_words & registry_words
+            overlap = len(common) / max(len(trial_words), len(registry_words), 1)
+            result.endpoint_match = overlap > 0.5
+            if not result.endpoint_match:
+                msg = (
+                    f"CT.gov validation [{nct_id}]: primary endpoint mismatch — "
+                    f"registry={registry_endpoint!r}, trial={trial.primary_endpoint!r}."
+                )
+                warnings.warn(msg, UserWarning, stacklevel=2)
+                result.mismatches.append(msg)
+
+    # --- Derive evidence grade ---
+    if result.mismatches:
+        result.evidence_grade = "unvalidated"
+    else:
+        # All checked fields matched; if at least one field was actually compared → calibrated
+        any_compared = any(
+            v is not None
+            for v in (result.phase_match, result.status_match, result.endpoint_match)
+        )
+        result.evidence_grade = "calibrated" if any_compared else "evidence_informed"
+
+    return result

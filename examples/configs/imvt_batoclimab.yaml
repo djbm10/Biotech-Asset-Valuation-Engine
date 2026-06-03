@@ -1,0 +1,210 @@
+# =============================================================================
+# Immunovant (IMVT) — batoclimab (IMVT-1401)
+# Anti-FcRn antibody | Myasthenia Gravis (gMG) + CIDP + Thyroid Eye Disease
+# =============================================================================
+#
+# Data sources (all public):
+#   - IMVT ASCEND MG Ph3 (NCT04963270) — primary readout Q1 2025
+#   - IMVT 10-K 2024; Q3 2025 earnings
+#   - FcRn inhibitor competitive landscape: efgartigimod (argenx), rozanolixizumab (UCB)
+#   - FDA approval efgartigimod (Vyvgart) June 2021 — pricing / G2N benchmark
+#   - SSR Health G2N: rare disease / neurology specialty 30-40%
+#   - gMG epidemiology: ~60K US symptomatic (treated) gMG patients; CIDP ~100K
+#   - EvaluatePharma FcRn market projections
+#
+# Patient-flow chain (gMG primary):
+#   US gMG symptomatic: ~60K
+#   Diagnosed: 80% (late-stage MG under neurologist care; some subclinical)
+#   Eligible (AChR/MuSK+ label, moderate-severe: MG-ADL ≥ 6): 55%
+#   Treatment rate: 65% of eligible (fraction pursuing IVIg / biologic-class Rx)
+#   → Addressable: 60K × 0.80 × 0.55 × 0.65 ≈ 17,160 patients
+#
+# Multi-indication upside: CIDP, TED (thyroid eye disease), ITP — not modeled here.
+# SC formulation (every-2-week or monthly) being developed for convenience.
+# =============================================================================
+
+analyst_notes: >
+  Batoclimab (IMVT-1401) is a high-affinity anti-FcRn antibody that reduces
+  IgG autoantibodies by blocking FcRn-mediated IgG recycling. ASCEND MG Ph3
+  primary readout showed ~60% responder rate (MG-ADL improvement ≥2 at week 12),
+  competitive with efgartigimod and rozanolixizumab. Differentiated by SC+IV
+  flexibility, monthly dosing option, and deep IgG suppression (~75-80%).
+  LDL elevation was the key safety signal in earlier batoclimab (200mg weekly)
+  — managed with dose selection in IMVT-1402 reformulation; 680mg Q2W or
+  monthly schedule reduces LDL signal.  Key debate: differentiation vs.
+  efgartigimod in the gMG FcRn class; CIDP + TED expansion optionality.
+
+# ---------------------------------------------------------------------------
+# Asset
+# ---------------------------------------------------------------------------
+asset:
+  id: "batoclimab"
+  name: "batoclimab (IMVT-1401 / IMVT-1402)"
+  indication: "Generalized Myasthenia Gravis (gMG) — AChR/MuSK+ moderate-severe, US"
+  therapeutic_area: "other"          # Rare disease / neurology → 'other'
+  stage: "phase_3"
+  modality: "biologic"               # Full-length IgG1 monoclonal antibody
+  mechanism_of_action: >
+    Anti-neonatal Fc receptor (FcRn) monoclonal antibody. FcRn rescues IgG
+    from lysosomal degradation; blocking FcRn → IgG half-life shortens →
+    IgG levels fall ~70-80%. Reduces pathogenic AChR and MuSK autoantibodies
+    driving gMG symptoms without broad immunosuppression.
+  discount_rate: 0.110   # 11% WACC — Phase 3, rare disease
+  royalty_rate: 0.0
+
+  differentiation_notes: >
+    1. Deep IgG suppression (~75-80% reduction); among highest in FcRn class.
+    2. SC + IV options: flexibility for physician/patient preference.
+    3. Monthly dosing option (Q4W SC) under development — differentiated vs.
+       efgartigimod (weekly IV or biweekly SC).
+    4. LDL signal managed with 340mg Q2W schedule (lower than 200mg QW).
+    5. Multi-indication portfolio: CIDP, TED, ITP each meaningful NPV additions.
+
+  competitor_assets:
+    - "Efgartigimod (Vyvgart/Vyvgart Hytrulo, argenx) — FcRn, approved gMG+CIDP, market leader"
+    - "Rozanolixizumab (Rystiggo, UCB) — FcRn, approved gMG"
+    - "Nipocalimab (J&J) — FcRn, Phase 3 gMG + multiple indications"
+    - "Inebelizumab (Uplizna, Horizon/Amgen) — anti-CD19, IgG4 MG niche"
+
+  upcoming_catalysts:
+    - description: "ASCEND MG sNDA filing / FDA approval decision"
+      expected_date: "2026-Q1"
+      catalyst_type: "regulatory"
+      probability_positive: 0.75
+    - description: "ASCEND CIDP Ph3 primary readout (MRC score)"
+      expected_date: "2026-Q3"
+      catalyst_type: "readout"
+      probability_positive: 0.60
+    - description: "TED (thyroid eye disease) Ph2 data presentation"
+      expected_date: "2026-H2"
+      catalyst_type: "readout"
+      probability_positive: 0.55
+    - description: "Monthly SC dosing schedule data update"
+      expected_date: "2026-H2"
+      catalyst_type: "milestone"
+      probability_positive: 0.70
+
+# ---------------------------------------------------------------------------
+# Company
+# ---------------------------------------------------------------------------
+company:
+  id: "immunovant"
+  name: "Immunovant Inc."
+  ticker: "IMVT"
+  cash_millions: 750.0
+  debt_millions: 0.0
+  shares_outstanding_millions: 118.0
+  burn_rate_millions_per_quarter: 60.0
+  current_price: 18.0
+  notes: >
+    Roivant subsidiary (~50% shareholder). Cash runway ~3 years at current burn.
+    No debt. Roivant provides operational support. CIDP expansion is the key
+    NPV multiplier — if CIDP readout positive, addressable triples vs. gMG alone.
+
+# ---------------------------------------------------------------------------
+# Trials
+# ---------------------------------------------------------------------------
+trials:
+  - phase: "phase_3"
+    nct_id: "NCT04963270"           # ASCEND MG
+    success_probability: 0.73       # Ph3 data already positive; modeling NDA path
+    duration_years: 0.5
+    cost_millions: 20.0             # Remaining Ph3 ops + NDA prep
+    enrollment: 200
+    primary_endpoint: "MG-ADL improvement ≥2 at Week 12 (responder rate vs placebo)"
+    endpoint_type: "surrogate_validated"
+    notes: >
+      ASCEND MG Ph3 primary endpoint met (MG-ADL ≥2 responder rate ~60% vs ~40%
+      placebo; approximate, Q1 2025 readout). NDA filing underway; FDA approval
+      expected Q1/Q2 2026. Modeling as near-complete Phase 3.
+
+  - phase: "nda_bla"
+    nct_id: null
+    success_probability: 0.88
+    duration_years: 1.0
+    cost_millions: 15.0
+    enrollment: 1
+    primary_endpoint: "BLA submission and FDA approval (Priority Review likely)"
+    endpoint_type: "hard_clinical"
+    notes: >
+      Rare disease (gMG) qualifies for priority review (6-month). BLA as biologic.
+      FcRn class well-characterized at FDA (efgartigimod, rozanolixizumab approved).
+      Risk: LDL class labeling requirement + REMS potential.
+
+# ---------------------------------------------------------------------------
+# Market Model — Mode 4: patient-flow build-up
+# ---------------------------------------------------------------------------
+market_model:
+  asset_id: "batoclimab"
+
+  peak_penetration: 0.28
+  addressable_patients_annual: 17200
+  net_price_per_patient_usd: 95000
+
+  patent_life_years: 12
+  years_to_peak: 5
+  launch_year: 2026
+  revenue_start_year: 2026
+
+  cogs_rate: 0.20                 # Biologic manufacturing; higher COGS
+  sgna_rate_launch: 0.55          # Rare disease requires high MSL density
+  sgna_rate_mature: 0.28
+
+  commercial_inputs:
+    patient_pool:
+      indication: "Generalized MG (gMG) — AChR/MuSK+ moderate-severe"
+      prevalence_thousands: 60.0      # ~60K US symptomatic gMG
+      diagnosed_fraction: 0.80        # ~80% under neurologist management
+      eligible_rate: 0.55             # Moderate-severe label gate (MG-ADL threshold)
+      treated_fraction: 0.65          # High in biologic-class for treatment-refractory
+      uncertainty_cv: 0.25
+    pricing:
+      wac_per_year_usd: 150000        # FcRn class pricing: efgartigimod ~$150K+/year
+      gross_to_net_rate: 0.36         # 36% rare disease G2N; co-pay assist + payer rebates
+      # net = 150,000 × 0.64 = $96,000 per patient per year
+      launch_discount: 0.10           # Launch-year access investment
+      annual_erosion_rate: 0.015
+      uncertainty_cv: 0.15
+    share:
+      peak_share: 0.28               # 28% of addressable (FcRn class splits with efgartigimod)
+      years_to_peak: 5
+      share_cv: 0.25
+    ex_us_revenue_multiple: 1.40     # EU + Japan meaningful; ex-US slower uptake in rare neurology
+
+# ---------------------------------------------------------------------------
+# POS model
+# ---------------------------------------------------------------------------
+pos_adjusters:
+  apply_pos_model: true
+
+  phase_3:
+    endpoint_type: "surrogate_validated"   # MG-ADL validated FDA endpoint for gMG
+    moa_precedent: "validated"            # FcRn class validated (2 FDA approvals)
+    sample_size_adequacy: "adequate"      # n=200 adequate for gMG (rare disease)
+    safety_profile: "minor"         # LDL elevation: managed but labeling impact
+    competitive_pressure: "moderate"       # FcRn class growing but gMG is large enough
+    biomarker_selected_population: true  # AChR/MuSK+ (85% gMG; AChR predominant)
+    strong_prior_phase_data: true        # ASCEND MG positive
+
+# ---------------------------------------------------------------------------
+# Competition
+# ---------------------------------------------------------------------------
+competition:
+  - name: "Efgartigimod (argenx)"
+    status: "approved"
+    launch_year_relative: -3
+    peak_market_share: 0.35
+    years_to_peak: 4
+    approval_probability: 1.0
+  - name: "Rozanolixizumab (UCB)"
+    status: "approved"
+    launch_year_relative: -2
+    peak_market_share: 0.10
+    years_to_peak: 4
+    approval_probability: 1.0
+  - name: "Nipocalimab (J&J)"
+    status: "phase_3"
+    launch_year_relative: 2
+    peak_market_share: 0.12
+    years_to_peak: 4
+    approval_probability: 0.65

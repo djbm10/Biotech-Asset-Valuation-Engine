@@ -1,3 +1,26 @@
+{#
+  Evidence macro — renders a section's evidence as a compact table + gap warnings.
+  Usage: {{ evidence_block(evidence.biology) }}
+  Outputs nothing when the section has no refs and no gaps.
+#}
+{% macro evidence_block(sec) %}
+{% if sec and (sec.refs or sec.unsupported_claims) %}
+**Evidence & Sources**
+
+{% if sec.refs %}
+| # | Type | Label | Confidence | As Of |
+|---|------|-------|-----------|-------|
+{% for ref in sec.refs %}| {{ loop.index }} | {{ ref.source_type | replace("_", " ") | title }} | {{ ref.label }}{% if ref.url %} · [↗]({{ ref.url }}){% endif %} | {{ ref.confidence_label }} | {{ ref.as_of_date or "—" }} |
+{% endfor %}
+{% endif %}
+{% if sec.unsupported_claims %}
+{% for gap in sec.unsupported_claims %}
+> ⚠️ **Evidence gap:** {{ gap }}
+{% endfor %}
+{% endif %}
+{% endif %}
+{% endmacro %}
+
 ---
 title: "{{ d.asset_name }} — BD Acquisition Analysis"
 subtitle: "{{ d.indication }} | {{ d.stage | upper | replace('_',' ') }}"
@@ -65,6 +88,11 @@ Key valuation anchors:
 - **{{ cat.catalyst_type | title }}** ({{ cat.expected_date or "TBD" }}): {{ cat.description }}{% if cat.probability_positive %} — est. {{ "%.0f"|format(cat.probability_positive * 100) }}% probability positive{% endif %}
 {% endfor %}
 {% endif %}
+
+### Biology & Mechanism Evidence
+{{ evidence_block(evidence.biology) }}
+### Trial Evidence & Sources
+{{ evidence_block(evidence.trial) }}
 
 ---
 
@@ -197,17 +225,104 @@ Probability of positive value: **{{ d.mc_prob_positive }}**
 | IP / patent risk | [Low/Med/High] | [Patent landscape to review] |
 {% endif %}
 
+### Competitive Landscape Evidence
+{{ evidence_block(evidence.competitive) }}
+
 ---
 
-## 8. Deal Considerations
+## 8. Deal Comps & Deal Considerations
+
+{% if comps and comps.match_tier != "no_comps" %}
+{% set hq = comps.hq_fair_value_band %}
+{% set fvb = comps.fair_value_band %}
+### Comparable M&A Transactions
+
+**Match:** {{ comps.match_tier | replace("_", " ") | title }} · **{{ comps.n_comps }} total comps** · **{{ comps.n_hq_comps }} high-quality comps** (SEC-disclosed or press-release with stated deal value)
+{% if comps.n_comps < 3 %}
+> ⚠️ **Thin comp set (n={{ comps.n_comps }}):** Quantile ranges below have low statistical power. Treat as directional anchors only; weight rNPV scenario analysis more heavily.
+{% elif comps.n_hq_comps < 3 %}
+> ℹ️ **Low high-quality comp count (n_hq={{ comps.n_hq_comps }}):** Most comps rely on analyst estimates rather than SEC-disclosed figures. Bands shown from all comps; high-quality-only band may have fewer data points.
+{% endif %}
+
+**EV / Peak Sales — comp set:** P25 {{ "%.2fx"|format(comps.peer_min_ev_to_peak_sales) }} · Median **{{ "%.2fx"|format(comps.peer_median_ev_to_peak_sales) }}** · P75 {{ "%.2fx"|format(comps.peer_max_ev_to_peak_sales) }}
+**Asset model EV/peak sales:** {{ "%.2fx"|format(comps.asset_ev_to_peak_sales) }} — **{{ "%.0f"|format(comps.percentile_vs_comps * 100) }}th percentile** vs. comp set · {{ "%.0f"|format(comps.premium_discount_vs_median * 100) if comps.premium_discount_vs_median is not none else "—" }}% vs. median
+
+#### All-Comps Fair Value Band
+
+| Metric | P25 | Median (P50) | P75 | n |
+|--------|-----|-------------|-----|---|
+{% if fvb and fvb.n_comps_with_ev >= 2 %}
+| Enterprise Value ($M) | ${{ "%.0f"|format(fvb.ev_p25) }}M | **${{ "%.0f"|format(fvb.ev_p50) }}M** | ${{ "%.0f"|format(fvb.ev_p75) }}M | {{ fvb.n_comps_with_ev }} |
+{% endif %}
+{% if fvb and fvb.n_comps_with_upfront >= 2 %}
+| Upfront Cash ($M) | ${{ "%.0f"|format(fvb.upfront_p25) }}M | **${{ "%.0f"|format(fvb.upfront_p50) }}M** | ${{ "%.0f"|format(fvb.upfront_p75) }}M | {{ fvb.n_comps_with_upfront }} |
+{% endif %}
+{% if fvb and fvb.n_comps_with_biobucks >= 2 %}
+| Total Biobucks ($M) | ${{ "%.0f"|format(fvb.biobucks_p25) }}M | **${{ "%.0f"|format(fvb.biobucks_p50) }}M** | ${{ "%.0f"|format(fvb.biobucks_p75) }}M | {{ fvb.n_comps_with_biobucks }} |
+{% endif %}
+
+{% if hq and (hq.n_comps_with_ev >= 2 or hq.n_comps_with_upfront >= 2) %}
+#### High-Quality-Only Band (SEC-disclosed / stated deal value)
+
+| Metric | P25 | Median (P50) | P75 | n |
+|--------|-----|-------------|-----|---|
+{% if hq.n_comps_with_ev >= 2 %}
+| Enterprise Value ($M) | ${{ "%.0f"|format(hq.ev_p25) }}M | **${{ "%.0f"|format(hq.ev_p50) }}M** | ${{ "%.0f"|format(hq.ev_p75) }}M | {{ hq.n_comps_with_ev }} |
+{% endif %}
+{% if hq.n_comps_with_upfront >= 2 %}
+| Upfront Cash ($M) | ${{ "%.0f"|format(hq.upfront_p25) }}M | **${{ "%.0f"|format(hq.upfront_p50) }}M** | ${{ "%.0f"|format(hq.upfront_p75) }}M | {{ hq.n_comps_with_upfront }} |
+{% endif %}
+{% if hq.n_comps_with_biobucks >= 2 %}
+| Total Biobucks ($M) | ${{ "%.0f"|format(hq.biobucks_p25) }}M | **${{ "%.0f"|format(hq.biobucks_p50) }}M** | ${{ "%.0f"|format(hq.biobucks_p75) }}M | {{ hq.n_comps_with_biobucks }} |
+{% endif %}
+
+{% endif %}
+**Matched comparables:** {{ comps.matched_targets | join(" · ") }}
+
+{{ evidence_block(evidence.comps) }}
+{% else %}
+*No comparable deal data available for {{ d.stage | replace("_", " ") | upper }} {{ d.therapeutic_area | replace("_", " ") | title }} at this time. Add deals to research/mna/comparable_deals.yaml or supply comparable_deals to ValuationEngine.*
+
+{{ evidence_block(evidence.comps) }}
+{% endif %}
+### Deal Framework
 
 *[BD team to populate: deal structure, license vs. acquisition, milestones, royalties, manufacturing/CMC considerations, strategic synergies, competing bids]*
 
 **Suggested deal framework:**
 - Structure: [License-in / Co-development / Full acquisition]
+{% if comps and comps.fair_value_band and comps.fair_value_band.upfront_p50 %}
+- Target upfront: ~${{ "%.0f"|format(comps.fair_value_band.upfront_p50) }}M (comp set median; P25–P75: ${{ "%.0f"|format(comps.fair_value_band.upfront_p25) }}M–${{ "%.0f"|format(comps.fair_value_band.upfront_p75) }}M)
+{% else %}
 - Target upfront: [To be determined based on competitive tension and strategic priority]
+{% endif %}
 - Milestone structure: Phase 3 initiation / NDA submission / Approval / Sales milestones
 - Royalty tiers: [10–15% net sales, depending on geography split]
+
+{% if comps and comps.match_tier != "no_comps" %}
+### What Would Make This Wrong
+
+The following are structured falsification conditions — scenarios that would materially change the deal rationale or valuation. Validate each before finalizing deal terms.
+
+**Clinical / scientific risks:**
+1. **Phase transition failure:** Asset has P(success) of {{ "%.0f"|format(d.combined_pos_pct | default(0)) }}% through approval. A negative Ph{{ d.stage | replace("phase_", "") | replace("_", "/") }} readout invalidates comps-based valuation entirely — comp set prices expected success, not failure.
+2. **Endpoint selection:** If the primary endpoint does not map to the endpoints used by comparable trials (e.g., biomarker vs. clinical outcome), regulators may require additional confirmatory trials, extending timeline by 2–4 years.
+3. **Safety surprise:** Comps with clean safety profiles command 1.5–3× valuation premiums over those with boxed warnings or REMS. Any on-target toxicity signal not present in comparable programs would displace the asset to the low end of the P25 band or below.
+
+**Market / commercial risks:**
+4. **Competitive entrants:** If {{ d.n_competitors | default("2+") }} additional competitors reach approval before this asset, peak penetration assumptions shrink. Each additional approved entrant in the same class typically compresses market share by 20–40%.
+5. **Pricing / payer pressure:** Comparable EVs assume current reimbursement trajectories. A 20–30% reduction in net pricing (IRA negotiation, formulary exclusion) would compress the EV/peak-sales multiple by ~0.3–0.7× vs. comp median.
+6. **Peak-sales miss:** The rNPV model assumes peak penetration of {{ "%.0f"|format(market.peak_penetration * 100) }}% of TAM (~${{ "%.0f"|format(d.peak_sales_millions | default(0)) }}M peak sales). A 30% downside on penetration alone reduces EV by ~${{ "%.0f"|format(d.rnpv_millions * 0.3 | default(0)) }}M in model terms.
+
+**Structural / deal risks:**
+7. **Alternative deals:** If the target signs an exclusivity arrangement with another acquirer or licenses key IP to a third party before close, the comparable deal framework may not reflect the post-encumbrance value.
+8. **IP expiry / freedom-to-operate:** Comp set assumes clean IP position. If a key patent is invalidated or generic entry occurs earlier than modeled (before year {{ market.patent_life_years }}), comp-based EV bands are overstated.
+{% if comps.match_tier == "phase_only" %}
+9. **Match quality caveat:** Comp set is matched on phase only (not indication or therapeutic area). EV/peak-sales multiples for this therapeutic area ({{ d.therapeutic_area | replace("_", " ") | title }}) may differ materially from the cross-indication phase-only median of {{ "%.2fx"|format(comps.peer_median_ev_to_peak_sales) }}. Request indication-specific BD research before finalizing term sheet.
+{% endif %}
+{% endif %}
+
+{{ evidence_block(evidence.falsification) }}
 
 ---
 
@@ -228,6 +343,8 @@ Every assumption that materially affects rNPV is listed below.
 | Peak Penetration | {{ "%.0f"|format(market.peak_penetration * 100) }}% | % | Analyst estimate | Low | High |
 | Patent Life | {{ market.patent_life_years }} yrs | years | Estimated from IP position | Medium | Medium |
 {% endif %}
+
+{{ evidence_block(evidence.assumptions) }}
 
 ---
 

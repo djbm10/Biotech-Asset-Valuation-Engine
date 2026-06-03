@@ -1,0 +1,229 @@
+# Underwriting Pack — Intellia Therapeutics (NTLA)
+# Q2 2026 | As of: 2026-04-09
+# Analyst: djm
+# Status: DRAFT — pending second reviewer
+
+company_id: "ntla"
+company_name: "Intellia Therapeutics Inc."
+ticker: "NTLA"
+as_of_date: "2026-04-09"
+pack_quarter: "2026Q2"
+
+# ─────────────────────────────────────────────────────────────────────
+# Market data  (point-in-time)
+# ─────────────────────────────────────────────────────────────────────
+market:
+  market_cap_millions: 2000.0       # ~$2.0B at $15/share × ~133M shares
+  enterprise_value_millions: 1100.0 # market cap minus net cash (~$900M)
+  share_price: 15.0
+  source_ref: "yfinance:2026-04-09"
+
+# ─────────────────────────────────────────────────────────────────────
+# Balance sheet  (10-Q Dec 2025; filed Feb 2026)
+# ─────────────────────────────────────────────────────────────────────
+balance_sheet:
+  cash_millions: 1000.0   # cash + short-term investments; Regeneron collaboration proceeds included
+  debt_millions: 100.0    # minimal long-term obligations
+  source_ref: "10-Q:2025-12-31:balance_sheet"
+
+# ─────────────────────────────────────────────────────────────────────
+# Modeled assets
+# ─────────────────────────────────────────────────────────────────────
+modeled_assets:
+  - bucket_id: "ntla_ntla2001"
+    label: "NTLA-2001 — TTR Amyloidosis (in vivo CRISPR, Ph3 MAGNITUDE, Regeneron partner)"
+    value_millions: 2200.0
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/ntla_ntla2001.yaml:2026-04-09"
+    as_of_date: "2026-04-09"
+    confidence: 0.72
+    corroboration_count: 2
+    corroboration_refs:
+      - "NTLA-2001 Ph1: 93% TTR reduction at 12mo, durable single-dose"
+      - "Regeneron collaboration: $150M upfront; co-develop + co-commercialize"
+    notes: >
+      In vivo CRISPR-Cas9 LNP editing of TTR gene in liver. Single-dose, durable
+      TTR knockdown >90%. Ph3 MAGNITUDE vs placebo in hATTR polyneuropathy.
+      Competitive: inclisiran (RNA interference, repeat dosing), vutrisiran (Alnylam).
+      Single-dose permanent CRISPR differentiation. Regeneron co-development reduces
+      cost/risk. rNPV: NTLA's ~50% economics, POS 68%, peak $2B shared sales,
+      discount 10.5%.
+
+  - bucket_id: "ntla_ntla2002"
+    label: "NTLA-2002 — Hereditary Angioedema (in vivo CRISPR, Ph2/3 HAELO)"
+    value_millions: 900.0
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/ntla_ntla2002.yaml:2026-04-09"
+    as_of_date: "2026-04-09"
+    confidence: 0.65
+    corroboration_count: 1
+    corroboration_refs:
+      - "NTLA-2002 Ph1: 95% kallikrein reduction, 0 HAE attacks at 6mo (vs 3.7 baseline)"
+    notes: >
+      In vivo CRISPR knockout of KLKB1 (prekallikrein) gene. Phase 1 data:
+      near-complete kallikrein suppression, attack-free at 6mo. HAE addressable:
+      ~15k US patients, >$1B market. Competitive: berotralstat, garadacimab,
+      donidalorsen. NTLA-2002 may offer permanent protection from single dose.
+      Ph2/3 HAELO primary: attack rate reduction. rNPV: unpartnered, POS 62%,
+      peak $1B, discount 10.5%.
+
+  - bucket_id: "ntla_ntla3001"
+    label: "NTLA-3001 — Alpha-1 Antitrypsin Deficiency (in vivo CRISPR correction, Ph1)"
+    value_millions: 400.0
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/ntla_ntla3001.yaml:2026-04-09"
+    as_of_date: "2026-04-09"
+    confidence: 0.42
+    corroboration_count: 0
+    corroboration_refs: []
+    notes: >
+      CRISPR correction of Z-mutation in SERPINA1 gene. First in-class CRISPR
+      correction (not just knockout). Phase 1. AATD addressable: ~100k PiZZ
+      patients. Very early. Proof-of-concept human data would validate in vivo
+      CRISPR correction.
+
+# ─────────────────────────────────────────────────────────────────────
+# Platform value
+# ─────────────────────────────────────────────────────────────────────
+platform_value:
+  bucket_id: "ntla_platform"
+  label: "In vivo CRISPR platform — LNP delivery + ex vivo cell therapy"
+  value_millions: 600.0
+  methodology: "analyst_estimate"
+  source_type: "analyst_bridge"
+  source_ref: "top25_pack_2026q2:NTLA:platform"
+  as_of_date: "2026-04-09"
+  confidence: 0.55
+  corroboration_count: 0
+  corroboration_refs: []
+  notes: >
+    Proprietary LNP-based delivery for in vivo CRISPR. Two validated human proof
+    points (TTR, HAE). Ex vivo program (NTLA-5001, AML) with Novartis. Platform
+    value supported by MAGNITUDE Ph3 initiation.
+
+# ─────────────────────────────────────────────────────────────────────
+# Unmodeled pipeline
+# ─────────────────────────────────────────────────────────────────────
+unmodeled_pipeline:
+  bucket_id: "ntla_unmodeled"
+  label: "Early in vivo CRISPR (cardiovascular PCSK9, other liver)"
+  value_millions: 200.0
+  methodology: "rule_of_thumb"
+  source_type: "analyst_bridge"
+  source_ref: "top25_pack_2026q2:NTLA:unmodeled"
+  as_of_date: "2026-04-09"
+  confidence: 0.38
+  corroboration_count: 0
+  corroboration_refs: []
+  notes: >
+    PCSK9 knockout program (cardiovascular, NTLA-2003) Ph1. If successful, large
+    market. Minimal value assigned pre-data.
+
+# ─────────────────────────────────────────────────────────────────────
+# Royalty streams  (none — no royalty receivables at this time)
+# ─────────────────────────────────────────────────────────────────────
+royalty_streams: []
+
+# ─────────────────────────────────────────────────────────────────────
+# Dilution bridge  (10-Q Dec 2025)
+# ─────────────────────────────────────────────────────────────────────
+dilution:
+  current_shares_millions: 133.0
+  expected_dilution_pct: 0.12       # 12% expected dilution for Ph3 completion
+  financing_runway_quarters: 9.0    # ~2.25 years runway at current burn
+  atm_active: false
+  atm_remaining_millions: null
+  shelf_registration_millions: 600.0
+  warrant_shares_millions: 0.0
+  convertible_shares_millions: 0.0
+  source_ref: "10-Q:2025-12-31:capitalization"
+  as_of_date: "2025-12-31"
+  notes: >
+    Well-funded at $1B. Regeneron collaboration reduces cash burn on NTLA-2001.
+    ~9 quarters runway. Modest dilution expected for Ph3 completion.
+
+# ─────────────────────────────────────────────────────────────────────
+# Catalysts
+# ─────────────────────────────────────────────────────────────────────
+catalysts:
+  - description: "MAGNITUDE Ph3 readout — NTLA-2001 hATTR polyneuropathy"
+    expected_date: "2027-Q2"
+    catalyst_type: "readout"
+    probability_positive: 0.68
+    source_ref: "clinicaltrials.gov:NCT05638022"
+    notes: >
+      Primary mNIS+7 neurological score at 18mo. Positive = first approved in vivo
+      CRISPR therapy. Defines the field.
+
+  - description: "HAELO Ph2/3 readout — NTLA-2002 HAE attack rate"
+    expected_date: "2026-Q4"
+    catalyst_type: "readout"
+    probability_positive: 0.65
+    source_ref: "clinicaltrials.gov:NCT05765578"
+    notes: >
+      Earlier readout than MAGNITUDE. HAE is cleaner endpoint. Positive =
+      validates in vivo CRISPR in second indication.
+
+  - description: "NTLA-3001 Ph1 AAT correction signal — first in vivo CRISPR correction data"
+    expected_date: "2026-Q3"
+    catalyst_type: "readout"
+    probability_positive: 0.58
+    source_ref: "NTLA pipeline 2026"
+    notes: >
+      First human data on CRISPR gene correction (not just knockout). Platform
+      milestone regardless of AATD commercial size.
+
+# ─────────────────────────────────────────────────────────────────────
+# Management flags  (none flagged at this review)
+# ─────────────────────────────────────────────────────────────────────
+management_flags: []
+
+# ─────────────────────────────────────────────────────────────────────
+# Confidence metadata
+# ─────────────────────────────────────────────────────────────────────
+confidence:
+  overall_confidence: 0.66
+  notes: >
+    Two strong Ph1 datasets (TTR, HAE) support Ph3 advancement. Regeneron
+    partnership validates NTLA-2001. Main risk: Ph3 TTR trial readout not until
+    2027. Near-term catalysts (HAELO, NTLA-3001) provide 2026 data flow.
+
+# ─────────────────────────────────────────────────────────────────────
+# Provenance
+# ─────────────────────────────────────────────────────────────────────
+provenance:
+  pack_version: 1
+  pack_quarter: "2026Q2"
+  created_by: "djm"
+  change_summary: "Initial Q2 2026 pack."
+
+# SOTP check (manual reconciliation — why does model differ from market?):
+#
+#   Market cap:                $2,000M
+#   SOTP equity value:
+#     Net cash:                  +$900M  (1000 - 100)
+#     NTLA-2001 rNPV:           +$2,200M
+#     NTLA-2002 rNPV:             +$900M
+#     NTLA-3001 rNPV:             +$400M
+#     Platform:                   +$600M
+#     Unmodeled:                  +$200M
+#     Dilution reserve:           -$240M  (~12% × $15 × 133M)
+#     ────────────────────────────────────
+#     SOTP total:               ~$4,960M
+#   Market cap:                $2,000M
+#   SOTP discount:             +148% (model ~2.5x market)
+#   Assessment: Market at 40% of SOTP — significant discount for pre-Ph3-readout
+#   in vivo CRISPR. TTR MAGNITUDE readout ~2027 is the primary value unlock.
+#   HAELO HAE (2026-Q4) is the near-term catalyst. Market is not pricing
+#   single-dose permanent gene editing premium.
+
+reviewer_state: "draft"
+
+notes: >
+  NTLA is the purest in vivo CRISPR play. Single-dose permanent correction is
+  the differentiation vs. repeat-dosing RNA interference. Key question: does
+  MAGNITUDE replicate the dramatic Ph1 TTR reduction in a Ph3 endpoint (mNIS+7)
+  that requires clinical benefit, not just biomarker?

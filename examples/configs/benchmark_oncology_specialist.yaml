@@ -1,0 +1,64 @@
+# =============================================================================
+# Benchmark Config A — Oncology Specialist (TAM-based, simple)
+# =============================================================================
+#
+# Purpose:
+#   Regression anchor for the base revenue model with an oncology_specialist
+#   launch archetype and no optional features (no payer, no competition,
+#   no geography, no LOE erosion override).
+#
+# Expected outputs (deterministic):
+#   peak_sales_millions  : 160.0  (TAM × penetration = 2000 × 0.08)
+#   revenue_year_1       :  32.0  (Year 1 of S-curve ≈ 20% of peak)
+#   cogs_rate            :   0.14 (small_molecule YAML default)
+#   sgna_rate_launch     :   0.40 (self_commercialized_specialty default)
+#   sgna_rate_mature     :   0.20
+#   sgna_ramp_years      :   5
+#
+# Verification:
+#   python -m bve.cli.run_asset --config examples/configs/benchmark_oncology_specialist.yaml
+#
+# Formula check:
+#   peak_sales = total_addressable_market_millions × peak_penetration
+#              = 2000 × 0.08 = 160.0 M
+#
+#   gross_profit_at_peak = 160.0 × (1 - 0.14) = 137.6 M
+#   sgna_at_peak (mature) = 160.0 × 0.20 = 32.0 M
+#   ebit_at_peak          = 137.6 - 32.0 = 105.6 M
+#
+# =============================================================================
+
+asset:
+  id: "benchmark-onc-a"
+  name: "BENCHMARK-ONCOLOGY-A"
+  indication: "NSCLC 2L"
+  therapeutic_area: "oncology"
+  stage: "phase_3"
+  modality: "small_molecule"
+  discount_rate: 0.10
+
+trials:
+  - phase: "phase_3"
+    success_probability: 0.55
+    duration_years: 3.0
+    cost_millions: 180.0
+  - phase: "nda_bla"
+    success_probability: 0.90
+    duration_years: 1.0
+    cost_millions: 20.0
+
+market:
+  asset_id: "benchmark-onc-a"
+  therapeutic_area: "oncology"
+
+  # Revenue: TAM-based (simplest mode — easiest to verify)
+  total_addressable_market_millions: 2000.0
+  peak_penetration: 0.08
+  patent_life_years: 12
+
+  # Launch curve: oncology_specialist archetype (S-curve, years_to_peak=4)
+  launch_archetype: "oncology_specialist"
+
+  # COGS / SG&A: all defaults (no explicit overrides)
+  # cogs_rate will be loaded from YAML: small_molecule → 0.14
+  # sgna: from self_commercialized_specialty defaults → launch=0.40, mature=0.20, ramp=5yr

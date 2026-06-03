@@ -1,0 +1,91 @@
+# =============================================================================
+# Commercial Model Profile Example — Partnered Asset (Sprint D2)
+# =============================================================================
+#
+# Scenario: Phase 2b CNS asset out-licensed to a large pharma partner after
+#   Phase 1 proof-of-concept. Company retains milestone rights and a 12%
+#   royalty on net sales but has no direct commercial infrastructure.
+#
+# CommercialModelProfile: partnered
+#   sgna_rate_launch: 0.12  (partner bears field force; company keeps med affairs)
+#   sgna_rate_mature: 0.08  (steady-state co-promotion oversight + G&A)
+#   sgna_ramp_years:  3     (fast maturation — partner brand already established)
+#
+# Compare to self_commercialized_specialty (default):
+#   sgna_rate_launch: 0.40 → 0.12  (-28 pp launch SG&A)
+#   sgna_rate_mature: 0.20 → 0.08  (-12 pp mature SG&A)
+#   Effect on EBIT margin: +16 to +28 pp higher across product life
+#
+# Per-field override example:
+#   Adding sgna_rate_launch: 0.18 (explicit) while keeping commercial_model: partnered
+#   would set launch=0.18 (explicit) but still use profile for mature=0.08 and ramp=3.
+#
+# Anti-double-counting note:
+#   The royalty_rate on the Asset entity (royalty PAID OUT by the company) is
+#   separate from this SG&A profile. When modeling the licensee's economics,
+#   use DealEconomics.royalty_rate instead.
+#
+# =============================================================================
+
+asset:
+  id: "cns-partnered-phase2b"
+  name: "EXAMPLE-CNS-PARTNERED"
+  indication: "Major Depressive Disorder (MDD) — treatment-resistant"
+  therapeutic_area: "cns"
+  stage: "phase_2"
+  modality: "small_molecule"
+  discount_rate: 0.10
+
+trials:
+  - phase: "phase_2"
+    success_probability: 0.40         # CNS Phase 2 success rate; precedent-limited
+    duration_years: 2.5
+    cost_millions: 85.0
+  - phase: "phase_3"
+    success_probability: 0.55         # conditional on Phase 2 success
+    duration_years: 3.0
+    cost_millions: 220.0
+  - phase: "nda_bla"
+    success_probability: 0.88
+    duration_years: 1.0
+    cost_millions: 20.0
+
+market:
+  asset_id: "cns-partnered-phase2b"
+  therapeutic_area: "cns"
+  patent_life_years: 12
+
+  # --- Market sizing ---
+  total_addressable_market_millions: 3200.0   # TRD market; partner's addressable population
+  peak_penetration: 0.06                       # 6% class share; differentiated MoA
+
+  # --- Launch archetype ---
+  # oncology_specialist used as a proxy for specialist-driven psychiatry launch
+  launch_archetype: "oncology_specialist"
+
+  # --- Commercial model (Sprint D2) ---
+  # Partnered: company has no direct sales force.
+  # sgna_rate_launch/mature/ramp_years auto-populated from YAML profile.
+  commercial_model: "partnered"
+
+  # --- COGS: small_molecule auto-populated from YAML (Sprint D1) ---
+  # Explicit override below is omitted intentionally to demonstrate auto-population.
+  # modality: "small_molecule"  ← populated automatically by ValuationEngine
+  # cogs_rate: 0.12             ← loaded from YAML cogs_rate_by_modality
+
+  # --- Cost structure override example ---
+  # Uncomment to override a single SG&A field while keeping the rest from the profile:
+  # sgna_rate_launch: 0.18   # explicit override: co-promotion phase is heavier than typical
+
+# -----------------------------------------------------------------------------
+# Revenue impact summary:
+#
+# partnered SG&A profile vs. self_commercialized_specialty default:
+#   Year 1 SG&A:    12% vs 40% of revenue  → EBIT margin higher by ~28 pp
+#   Year 5+ SG&A:    8% vs 20% of revenue  → EBIT margin higher by ~12 pp
+#
+# COGS (small_molecule, YAML default): 12%
+#   Gross margin at peak: ~88% (before SG&A)
+#   EBIT margin at mature: 88% - 8% = ~80% (partnered)
+#   vs                     88% - 20% = ~68% (self-commercialized)
+# -----------------------------------------------------------------------------

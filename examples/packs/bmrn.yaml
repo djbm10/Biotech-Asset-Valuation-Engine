@@ -1,0 +1,236 @@
+# Underwriting Pack — BioMarin Pharmaceutical Inc. (BMRN)
+# Q2 2026 | As of: 2026-04-09
+# Analyst: djm
+# Status: DRAFT — pending second reviewer
+
+company_id: "bmrn"
+company_name: "BioMarin Pharmaceutical Inc."
+ticker: "BMRN"
+as_of_date: "2026-04-09"
+pack_quarter: "2026Q2"
+
+# ─────────────────────────────────────────────────────────────────────
+# Market data  (yfinance 2026-04-09)
+# ─────────────────────────────────────────────────────────────────────
+market:
+  market_cap_millions: 11500.0     # ~$11.5B at $63/share × ~182M shares
+  enterprise_value_millions: 11200.0  # market cap minus net cash
+  share_price: 63.0
+  source_ref: "yfinance:2026-04-09"
+
+# ─────────────────────────────────────────────────────────────────────
+# Balance sheet  (10-K Dec 2025; filed Feb 2026)
+# ─────────────────────────────────────────────────────────────────────
+balance_sheet:
+  cash_millions: 1800.0    # cash + short-term investments
+  debt_millions: 1500.0    # long-term debt (senior notes)
+  source_ref: "10-K:2025-12-31:balance_sheet"
+
+# ─────────────────────────────────────────────────────────────────────
+# Modeled assets
+# ─────────────────────────────────────────────────────────────────────
+modeled_assets:
+  - bucket_id: "bmrn_voxzogo"
+    label: "Voxzogo (vosoritide) — Achondroplasia (approved, commercial)"
+    value_millions: 4800.0
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/bmrn_voxzogo.yaml:2026-04-09"
+    as_of_date: "2026-04-09"
+    confidence: 0.88
+    corroboration_count: 2
+    corroboration_refs:
+      - "BMRN 2025 full-year Voxzogo revenue $450M"
+      - "SVB Leerink peak sales est $1.8B achondroplasia"
+    notes: >
+      Approved 2021 EU, 2022 US for achondroplasia (growth restriction). Daily SC injection.
+      First disease-modifying therapy. ~250k patients globally, ~10k new/yr in US.
+      Revenue ~$450M in 2025, growing ~30%/yr. Peak sales estimate $1.5-2B. 12y patent
+      life, discount 10%, rNPV on full commercial trajectory. Oral formulation in Ph1 —
+      potential label-expanding upgrade.
+
+  - bucket_id: "bmrn_roctavian"
+    label: "Roctavian (valoctocogene roxaparvovec) — Hemophilia A gene therapy"
+    value_millions: 400.0
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/bmrn_roctavian.yaml:2026-04-09"
+    as_of_date: "2026-04-09"
+    confidence: 0.45
+    corroboration_count: 1
+    corroboration_refs:
+      - "FDA approval June 2023; EU conditional approval 2022"
+    notes: >
+      First gene therapy for hemophilia A. FDA approved June 2023 ($2.9M list price).
+      Commercial uptake materially below expectations — durability concerns (Factor VIII
+      levels declining 2-3yr post-treatment), payer outcomes-based contract challenges.
+      Revenue ~$50M 2025 (vs $500M+ peak expectation). Massively de-risked downward.
+      rNPV now reflects slow-ramp durability-limited scenario. May be an option value.
+
+  - bucket_id: "bmrn_rare_enzymes"
+    label: "Rare disease enzyme portfolio (Naglazyme, Palynziq, Brineura, Aldurazyme)"
+    value_millions: 3200.0
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/bmrn_rare_enzymes.yaml:2026-04-09"
+    as_of_date: "2026-04-09"
+    confidence: 0.85
+    corroboration_count: 1
+    corroboration_refs:
+      - "BMRN 2025 earnings: combined rare enzyme revenue ~$700M"
+    notes: >
+      Mature ultra-rare disease franchise: Naglazyme (MPS VI), Palynziq (PKU adults),
+      Brineura (CLN2), Aldurazyme (MPS I, co-promote with Genzyme/Sanofi). Combined
+      ~$700M revenue, high margins, slow growth/decline. rNPV on 10y remaining cash
+      flows with moderate erosion assumption. Stable but not a growth driver.
+
+  - bucket_id: "bmrn_bmn307"
+    label: "BMN 307 — PKU (gene therapy, Ph3 PHEARLESS)"
+    value_millions: 900.0
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/bmrn_bmn307.yaml:2026-04-09"
+    as_of_date: "2026-04-09"
+    confidence: 0.60
+    corroboration_count: 0
+    corroboration_refs: []
+    notes: >
+      AAV5 gene therapy for PKU. Ph3 PHEARLESS ongoing. Palynziq already approved (ERT).
+      Gene therapy could offer functional cure (~normal Phe levels). ~16k PKU patients
+      in US eligible. Readout 2026-Q3. POS ~55% given Ph2 data. rNPV: peak $600M
+      (competitive with Palynziq; pricing at $2-3M one-time).
+
+# ─────────────────────────────────────────────────────────────────────
+# Platform value
+# ─────────────────────────────────────────────────────────────────────
+platform_value:
+  bucket_id: "bmrn_platform"
+  label: "Rare disease platform — next-gen AAV gene therapy + small molecule"
+  value_millions: 600.0
+  methodology: "analyst_estimate"
+  source_type: "analyst_bridge"
+  source_ref: "top25_pack_2026q2:BMRN:platform"
+  as_of_date: "2026-04-09"
+  confidence: 0.60
+  corroboration_count: 0
+  corroboration_refs: []
+  notes: >
+    Deep rare disease operational expertise (manufacturing, regulatory, payer).
+    Voxzogo oral Ph1, next-gen AAV capsid research. Conservatively valued —
+    platform value more operational than pipeline-driven.
+
+# ─────────────────────────────────────────────────────────────────────
+# Unmodeled pipeline
+# ─────────────────────────────────────────────────────────────────────
+unmodeled_pipeline:
+  bucket_id: "bmrn_unmodeled"
+  label: "Early pipeline (oral vosoritide, achondroplasia in utero, other CNS)"
+  value_millions: 300.0
+  methodology: "rule_of_thumb"
+  source_type: "analyst_bridge"
+  source_ref: "top25_pack_2026q2:BMRN:unmodeled"
+  as_of_date: "2026-04-09"
+  confidence: 0.45
+  corroboration_count: 0
+  corroboration_refs: []
+  notes: "Oral vosoritide Ph1 — if successful, extends Voxzogo franchise vs. SC. Modest value until proof of concept."
+
+# ─────────────────────────────────────────────────────────────────────
+# Royalty streams  (none — BMRN retains commercialization rights on primary assets)
+# ─────────────────────────────────────────────────────────────────────
+royalty_streams: []
+
+# ─────────────────────────────────────────────────────────────────────
+# Dilution bridge  (10-K Dec 2025)
+# ─────────────────────────────────────────────────────────────────────
+dilution:
+  current_shares_millions: 182.0
+  expected_dilution_pct: 0.04       # 4% expected; commercial-stage, largely self-funding
+  financing_runway_quarters: null   # self-funding from Voxzogo + enzyme cash flows
+  atm_active: false
+  atm_remaining_millions: null
+  shelf_registration_millions: 1000.0
+  warrant_shares_millions: 0.0
+  convertible_shares_millions: 5.8
+  source_ref: "10-K:2025-12-31:capitalization"
+  as_of_date: "2025-12-31"
+  notes: >
+    Commercial-stage company; largely self-funding from Voxzogo + enzyme portfolio cash flows.
+    $1.5B debt manageable. No near-term equity raise expected.
+
+# ─────────────────────────────────────────────────────────────────────
+# Catalysts
+# ─────────────────────────────────────────────────────────────────────
+catalysts:
+  - description: "PHEARLESS Ph3 readout — BMN 307 PKU gene therapy"
+    expected_date: "2026-Q3"
+    catalyst_type: "readout"
+    probability_positive: 0.55
+    source_ref: "clinicaltrials.gov:NCT04480372"
+    notes: "Primary: Phe levels normalization at 52 weeks. Positive = major de-risking of gene therapy franchise."
+
+  - description: "Voxzogo oral Ph1 data — extended convenience formulation"
+    expected_date: "2026-H2"
+    catalyst_type: "readout"
+    probability_positive: 0.65
+    source_ref: "BMRN pipeline update 2026"
+    notes: "If oral achieves equivalent efficacy vs. SC, meaningfully expands addressable population and extends exclusivity."
+
+  - description: "Roctavian commercial update — durability + payer access trajectory"
+    expected_date: "2026-Q2"
+    catalyst_type: "milestone"
+    probability_positive: 0.45
+    source_ref: "BMRN Q1 2026 earnings"
+    notes: "3-year Factor VIII durability data emerging. Sustained levels = payer coverage restoration. Decline = write-down scenario."
+
+# ─────────────────────────────────────────────────────────────────────
+# Management flags  (none flagged at this review)
+# ─────────────────────────────────────────────────────────────────────
+management_flags: []
+
+# ─────────────────────────────────────────────────────────────────────
+# Confidence metadata
+# ─────────────────────────────────────────────────────────────────────
+confidence:
+  overall_confidence: 0.76
+  notes: >
+    Multi-asset commercial company. Voxzogo well-sourced and growing. Rare enzyme
+    portfolio stable. Roctavian is the key uncertainty — current assignment ($400M)
+    may be too high or too low depending on 3yr durability data. BMN 307 Ph3 is
+    the next major binary event.
+
+# ─────────────────────────────────────────────────────────────────────
+# Provenance
+# ─────────────────────────────────────────────────────────────────────
+provenance:
+  pack_version: 1
+  pack_quarter: "2026Q2"
+  created_by: "djm"
+  change_summary: "Initial Q2 2026 pack. Roctavian marked down to durability-limited scenario."
+
+# SOTP check:
+#   Market cap:              $11,500M
+#   SOTP equity value:
+#     Net cash:              +$300M   (1800 - 1500)
+#     Voxzogo rNPV:         +$4,800M
+#     Roctavian rNPV:         +$400M
+#     Rare enzymes rNPV:    +$3,200M
+#     BMN 307 rNPV:           +$900M
+#     Platform:               +$600M
+#     Unmodeled:              +$300M
+#     Dilution reserve:       -$455M  (~4% × $63 × 182M)
+#     ────────────────────────────────
+#     SOTP total:            ~$10,045M
+#   SOTP discount:           ~-13% (market 13% above model)
+#   Assessment: Market is pricing Roctavian recovery optionality and giving
+#   credit for Voxzogo's growth trajectory. Model may be conservative on
+#   Voxzogo peak (~$1.8B est). Roctavian durability data in 2026 is the
+#   swing factor — good data could add $1-2B; bad data = write-down confirmed.
+
+reviewer_state: "draft"
+
+notes: >
+  BMRN is the benchmark rare disease franchise. Key review question: does Roctavian
+  ($400M assigned) correctly reflect the durability-limited scenario, or is there
+  recovery optionality being missed? Raise to $800M if 3yr Factor VIII data confirms
+  durable response in majority of patients.

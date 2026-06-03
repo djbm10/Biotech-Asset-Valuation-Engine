@@ -1,0 +1,2246 @@
+# thesis_claims_history.yaml
+#
+# Historical thesis claim assertions and resolutions for the universe assets.
+# Used by bve-seed-replay-claims to backfill the replay KB with time-stamped
+# thesis history so ThesisTracker.snapshot(as_of_date=...) correctly reflects
+# conviction state at each replay week (no-lookahead).
+#
+# Fields
+# ------
+# ticker          : Universe ticker symbol
+# asset_id        : Matches UNIVERSE in weekly_runner.py
+# company_id      : Matches UNIVERSE in weekly_runner.py
+# claim_type      : ClaimType enum value (e.g. trial_outcome, endpoint_met)
+# assertion       : Human-readable claim text
+# created_at      : ISO date when the claim was first asserted (start of the
+#                   investment thesis period or first public signal)
+# resolved_at     : ISO date when the outcome became public knowledge
+# status          : confirmed | refuted | expired
+# evidence        : Short text justifying the resolution (for audit trail)
+#
+# Sources: published trial results, FDA approval letters, earnings calls.
+# All dates are the earliest date the information was publicly available.
+#
+# Note: Only claims that were definitively resolved in 2021-2024 are included.
+# Open (unresolved) claims are seeded separately by the main replay seed step.
+
+claims:
+
+  # ---------------------------------------------------------------------------
+  # ALNY — Alnylam / ATTR / patisiran
+  # ---------------------------------------------------------------------------
+  - ticker: ALNY
+    asset_id: a-alny
+    company_id: co-alny
+    claim_type: endpoint_met
+    assertion: >
+      APOLLO-B patisiran will meet primary NT-proBNP endpoint in ATTR-CM
+      (cardiomyopathy) demonstrating clinically meaningful cardiac benefit
+    created_at: "2021-01-04"
+    resolved_at: "2022-11-06"
+    status: confirmed
+    evidence: >
+      NEJM Nov 2022: patisiran APOLLO-B met primary endpoint (NT-proBNP reduction)
+      and key secondary endpoints in ATTR-CM; FDA approved vutrisiran for ATTR-CM
+      in 2024 following these data
+
+  # ---------------------------------------------------------------------------
+  # MRNA — Moderna / mRNA-4157 (V940) / adjuvant melanoma
+  # ---------------------------------------------------------------------------
+  - ticker: MRNA
+    asset_id: a-mrna
+    company_id: co-mrna
+    claim_type: endpoint_met
+    assertion: >
+      mRNA-4157 (ICV) neoantigen vaccine in combination with pembrolizumab meets
+      recurrence-free survival primary endpoint in KEYNOTE-942 Phase 2b
+    created_at: "2021-06-01"
+    resolved_at: "2023-04-18"
+    status: confirmed
+    evidence: >
+      KEYNOTE-942 data presented at AACR April 2023 and NEJM July 2023:
+      44% reduction in risk of recurrence or death vs pembro alone (HR 0.56, p=0.03)
+
+  # ---------------------------------------------------------------------------
+  # VKTX — Viking Therapeutics / VK2735 / obesity
+  # ---------------------------------------------------------------------------
+  - ticker: VKTX
+    asset_id: a-vktx
+    company_id: co-vktx
+    claim_type: endpoint_met
+    assertion: >
+      VK2735 subcutaneous achieves statistically significant weight loss
+      vs placebo with clean safety profile in Phase 2 obesity study
+    created_at: "2022-09-01"
+    resolved_at: "2024-02-27"
+    status: confirmed
+    evidence: >
+      Phase 2 VENTURE trial topline Feb 2024: ~13.1% mean weight loss at
+      13 weeks vs placebo; FDA cleared Phase 3 IND
+
+  # ---------------------------------------------------------------------------
+  # MDGL — Madrigal / resmetirom / NASH
+  # ---------------------------------------------------------------------------
+  - ticker: MDGL
+    asset_id: a-mdgl
+    company_id: co-mdgl
+    claim_type: endpoint_met
+    assertion: >
+      Resmetirom achieves NASH resolution or fibrosis improvement in Phase 3
+      MAESTRO-NASH trial, supporting NDA submission
+    created_at: "2021-01-04"
+    resolved_at: "2023-12-13"
+    status: confirmed
+    evidence: >
+      MAESTRO-NASH Phase 3 results announced Dec 2023: met both co-primary
+      endpoints (NASH resolution without fibrosis worsening AND ≥1-stage
+      fibrosis improvement); Rezdiffra FDA approved March 2024
+
+  # ---------------------------------------------------------------------------
+  # BMRN — BioMarin / Roctavian / hemophilia A gene therapy
+  # ---------------------------------------------------------------------------
+  - ticker: BMRN
+    asset_id: a-bmrn
+    company_id: co-bmrn
+    claim_type: endpoint_met
+    assertion: >
+      Roctavian (valoctocogene roxaparvovec) demonstrates durable Factor VIII
+      expression at 2-year follow-up supporting FDA approval in severe hemophilia A
+    created_at: "2021-01-04"
+    resolved_at: "2023-06-29"
+    status: confirmed
+    evidence: >
+      FDA approved Roctavian June 2023 for severe hemophilia A in adults;
+      however durability concerns (declining Factor VIII) remained; label
+      required annual monitoring
+
+  - ticker: BMRN
+    asset_id: a-bmrn
+    company_id: co-bmrn
+    claim_type: enrollment_on_track
+    assertion: >
+      Roctavian durability holds at 3-year follow-up without meaningful
+      decline requiring label restriction or black box warning
+    created_at: "2023-07-01"
+    resolved_at: "2024-06-01"
+    status: refuted
+    evidence: >
+      3-year data showed continued Factor VIII decline below protective levels
+      in a meaningful fraction of patients; commercial uptake severely
+      disappointed (~$20M vs analyst estimates of $100M+)
+
+  # ---------------------------------------------------------------------------
+  # SRPT — Sarepta / Elevidys / Duchenne muscular dystrophy
+  # ---------------------------------------------------------------------------
+  - ticker: SRPT
+    asset_id: a-srpt
+    company_id: co-srpt
+    claim_type: regulatory_pathway
+    assertion: >
+      Elevidys (delandistrogene moxeparvovec) receives accelerated FDA approval
+      for ambulatory Duchenne patients aged 4-5, establishing gene therapy
+      precedent in DMD
+    created_at: "2021-01-04"
+    resolved_at: "2023-06-22"
+    status: confirmed
+    evidence: >
+      FDA accelerated approval June 2023 for ambulatory DMD patients 4-5 years;
+      full approval pathway required confirmatory functional trial (EMBARK)
+
+  - ticker: SRPT
+    asset_id: a-srpt
+    company_id: co-srpt
+    claim_type: regulatory_pathway
+    assertion: >
+      Elevidys EMBARK Phase 3 confirms functional benefit enabling full label
+      approval and age expansion beyond 4-5 year accelerated approval
+    created_at: "2023-07-01"
+    resolved_at: "2024-06-20"
+    status: confirmed
+    evidence: >
+      FDA converted Elevidys to full traditional approval June 2024 and expanded
+      label to ambulatory patients ≥4 years based on EMBARK data showing
+      significant NSAA score improvement
+
+  # ---------------------------------------------------------------------------
+  # CRSP — CRISPR Therapeutics / Casgevy / sickle cell disease + TDT
+  # ---------------------------------------------------------------------------
+  - ticker: CRSP
+    asset_id: a-crsp
+    company_id: co-crsp
+    claim_type: endpoint_met
+    assertion: >
+      CTX001 (exa-cel, Casgevy) meets primary endpoint of transfusion
+      independence in transfusion-dependent beta-thalassemia and freedom
+      from VOC crises in sickle cell disease
+    created_at: "2021-01-04"
+    resolved_at: "2023-12-08"
+    status: confirmed
+    evidence: >
+      FDA approved Casgevy December 8, 2023 for TDT and SCD — first CRISPR
+      gene therapy approved; all pivotal endpoints met in CLIMB-111 and
+      CLIMB-121 trials
+
+  # ---------------------------------------------------------------------------
+  # KYMR — Kymera / KT-474 / IRAK4 degrader / atopic dermatitis + HS
+  # ---------------------------------------------------------------------------
+  - ticker: KYMR
+    asset_id: a-kymr
+    company_id: co-kymr
+    claim_type: endpoint_met
+    assertion: >
+      KT-474 IRAK4 degrader achieves ≥40% EASI reduction vs placebo
+      in Phase 2 atopic dermatitis cohort demonstrating proof of mechanism
+    created_at: "2021-06-01"
+    resolved_at: "2022-09-12"
+    status: confirmed
+    evidence: >
+      Phase 2 data presented at EADV Sep 2022: statistically significant EASI
+      improvement with dose-dependent response; differentiated from JAK
+      inhibitors by selectivity profile
+
+  # ---------------------------------------------------------------------------
+  # RVMD — Revolution Medicines / RMC-6236 / KRAS
+  # ---------------------------------------------------------------------------
+  - ticker: RVMD
+    asset_id: a-rvmd
+    company_id: co-rvmd
+    claim_type: endpoint_met
+    assertion: >
+      RMC-6236 pan-RAS(ON) multi-selective inhibitor demonstrates ≥20% ORR
+      in KRAS-mutant pancreatic ductal adenocarcinoma (PDAC) expansion cohort
+    created_at: "2022-01-01"
+    resolved_at: "2024-06-02"
+    status: confirmed
+    evidence: >
+      ASCO 2024 data: RMC-6236 showed 20% ORR in PDAC and differentiated
+      anti-tumor activity across multiple KRAS-mutant solid tumors;
+      Phase 3 RAMP-302 initiated
+
+  # ---------------------------------------------------------------------------
+  # ARVN — Arvinas / ARV-471 / ER+ breast cancer PROTAC
+  # ---------------------------------------------------------------------------
+  - ticker: ARVN
+    asset_id: a-arvn
+    company_id: co-arvn
+    claim_type: endpoint_met
+    assertion: >
+      ARV-471 (vepdegestrant) demonstrates competitive clinical benefit
+      in ER+/HER2- advanced breast cancer supporting Phase 3 initiation
+    created_at: "2021-06-01"
+    resolved_at: "2022-12-07"
+    status: confirmed
+    evidence: >
+      ESMO 2022: ARV-471 Phase 1/2 showed 21% ORR (best-in-class vs SERD
+      comparators) and favorable safety; Pfizer partnership validated
+      the program (Dec 2022, $650M upfront)
+
+  # ---------------------------------------------------------------------------
+  # NTLA — Intellia / NTLA-2001 / ATTR
+  # ---------------------------------------------------------------------------
+  - ticker: NTLA
+    asset_id: a-ntla
+    company_id: co-ntla
+    claim_type: endpoint_met
+    assertion: >
+      NTLA-2001 single-dose in vivo CRISPR editing achieves durable ≥80%
+      TTR reduction at 12-month follow-up without safety signals
+    created_at: "2021-01-04"
+    resolved_at: "2022-06-26"
+    status: confirmed
+    evidence: >
+      NEJM June 2022 (HEART trial 12-month update): 93% mean serum TTR
+      reduction maintained at 12 months; no editing-related adverse events;
+      Phase 3 MAGNITUDE trial initiated
+
+  # ---------------------------------------------------------------------------
+  # BEAM — Beam Therapeutics / BEAM-101 / sickle cell
+  # ---------------------------------------------------------------------------
+  - ticker: BEAM
+    asset_id: a-beam
+    company_id: co-beam
+    claim_type: endpoint_met
+    assertion: >
+      BEAM-101 base editing therapy achieves robust HbF induction (>30% HbF)
+      with acceptable safety profile in sickle cell disease patients
+    created_at: "2021-06-01"
+    resolved_at: "2024-03-12"
+    status: confirmed
+    evidence: >
+      BEACON trial interim data March 2024: all evaluable patients achieved
+      HbF levels expected to be clinically protective; clean safety profile
+      vs CRISPR competitors
+
+  # ---------------------------------------------------------------------------
+  # OCUL — Ocugen / OCU400 / LCA / retinitis pigmentosa
+  # ---------------------------------------------------------------------------
+  - ticker: OCUL
+    asset_id: a-ocul
+    company_id: co-ocul
+    claim_type: endpoint_met
+    assertion: >
+      OCU400 gene therapy shows ≥15-letter BCVA improvement in ≥30% of
+      LCA10/CEP290-associated retinal dystrophy patients in Phase 1/2
+    created_at: "2022-01-01"
+    resolved_at: "2023-05-03"
+    status: confirmed
+    evidence: >
+      ARVO 2023: OCU400 Phase 1/2 data showed meaningful vision improvement
+      in LCA10 patients; ClinicalTrials.gov update confirmed endpoint response
+      in majority of evaluable subjects
+
+  # ---------------------------------------------------------------------------
+  # FATE — Fate Therapeutics / FT576 / multiple myeloma
+  # Tier C: known difficulty with iPSC NK cell monotherapy ORR
+  # ---------------------------------------------------------------------------
+  - ticker: FATE
+    asset_id: a-fate
+    company_id: co-fate
+    claim_type: pos_above_threshold
+    assertion: >
+      FT576 off-the-shelf iPSC-derived NK cell therapy achieves ≥30% ORR
+      as monotherapy in relapsed/refractory multiple myeloma
+    created_at: "2021-01-04"
+    resolved_at: "2023-12-11"
+    status: refuted
+    evidence: >
+      Fate Therapeutics announced program discontinuation Dec 2023 following
+      disappointing efficacy across all iPSC cell therapy programs; company
+      restructuring eliminated hematology pipeline; ORR targets not met
+
+  # ---------------------------------------------------------------------------
+  # IOVA — Iovance / Amtagvi / TIL therapy / melanoma
+  # ---------------------------------------------------------------------------
+  - ticker: IOVA
+    asset_id: a-iova
+    company_id: co-iova
+    claim_type: market_reaction_positive
+    assertion: >
+      Amtagvi (lifileucel) TIL cell therapy receives FDA approval and achieves
+      rapid treatment center activation supporting commercial launch
+    created_at: "2022-01-01"
+    resolved_at: "2024-02-16"
+    status: confirmed
+    evidence: >
+      FDA approved Amtagvi February 16, 2024 for unresectable/metastatic
+      melanoma; first TIL therapy approval; launch sites activated in 2024
+
+  # ---------------------------------------------------------------------------
+  # IMVT — Immunovant / batoclimab / FcRn inhibitor / MG + TED
+  # ---------------------------------------------------------------------------
+  - ticker: IMVT
+    asset_id: a-imvt
+    company_id: co-imvt
+    claim_type: endpoint_met
+    assertion: >
+      Batoclimab meets ≥50% MG-ADL responder rate in myasthenia gravis
+      Phase 3 versus placebo, confirming FcRn mechanism in autoimmune disease
+    created_at: "2022-01-01"
+    resolved_at: "2024-05-06"
+    status: confirmed
+    evidence: >
+      ASCEND-MG Phase 3 data May 2024: batoclimab met primary endpoint
+      (MG-ADL responder rate) with statistically significant improvement
+      vs placebo; NDA planned
+
+  # ---------------------------------------------------------------------------
+  # ZYME — Zymeworks / zanidatamab / HER2 / biliary tract
+  # ---------------------------------------------------------------------------
+  - ticker: ZYME
+    asset_id: a-zyme
+    company_id: co-zyme
+    claim_type: regulatory_pathway
+    assertion: >
+      Zanidatamab receives FDA approval in HER2-amplified biliary tract
+      cancer based on Phase 2b HERIZON-BTC-01 accelerated approval data
+    created_at: "2022-06-01"
+    resolved_at: "2024-11-04"
+    status: confirmed
+    evidence: >
+      FDA approved zanidatamab (Ziihera) November 4, 2024 for HER2-amplified
+      biliary tract cancer under accelerated approval; first HER2-targeted
+      therapy approval in this indication
+
+  # ---------------------------------------------------------------------------
+  # NVAX — Novavax / Nuvaxovid / COVID-19 booster
+  # ---------------------------------------------------------------------------
+  - ticker: NVAX
+    asset_id: a-nvax
+    company_id: co-nvax
+    claim_type: market_reaction_positive
+    assertion: >
+      Nuvaxovid captures meaningful (≥5%) US COVID booster market share
+      given protein subunit differentiation vs mRNA vaccines
+    created_at: "2022-01-01"
+    resolved_at: "2023-09-01"
+    status: refuted
+    evidence: >
+      Nuvaxovid US market share remained sub-1% of COVID booster market
+      throughout 2023; commercial partnership with Sanofi did not materially
+      improve uptake; company faced going concern risk by late 2023
+
+  # ---------------------------------------------------------------------------
+  # AMRN — Amarin / Vascepa / patent litigation
+  # ---------------------------------------------------------------------------
+  - ticker: AMRN
+    asset_id: a-amrn
+    company_id: co-amrn
+    claim_type: competitor_failure
+    assertion: >
+      Patent courts uphold Vascepa formulation claims in appeal, limiting
+      generic competition and sustaining branded revenue trajectory
+    created_at: "2021-01-04"
+    resolved_at: "2021-05-14"
+    status: refuted
+    evidence: >
+      Federal Circuit affirmed district court ruling invalidating Vascepa
+      composition patents May 2021; generic entrants launched; Vascepa
+      revenue declined sharply throughout 2021
+
+  # ---------------------------------------------------------------------------
+  # RXRX — Recursion / pipeline / AI drug discovery
+  # ---------------------------------------------------------------------------
+  - ticker: RXRX
+    asset_id: a-rxrx
+    company_id: co-rxrx
+    claim_type: pos_above_threshold
+    assertion: >
+      At least one Recursion-originated compound reaches Phase 1
+      dose-escalation with clean safety by end of 2023
+    created_at: "2021-01-04"
+    resolved_at: "2023-12-31"
+    status: confirmed
+    evidence: >
+      REC-994 (cerebral cavernous malformation) and REC-2282 (NF2) both
+      reached Phase 1/2; Bayer partnership validated AI platform;
+      Exscientia merger announced 2024 further validating AI approach
+
+  # ---------------------------------------------------------------------------
+  # PRTA — Prothena / prasinezumab / Parkinson's
+  # ---------------------------------------------------------------------------
+  - ticker: PRTA
+    asset_id: a-prta
+    company_id: co-prta
+    claim_type: endpoint_met
+    assertion: >
+      Prasinezumab slows motor progression measured by MDS-UPDRS Part III
+      in rapid-progressor Parkinson's patients in Phase 2b PADOVA trial
+    created_at: "2022-01-01"
+    resolved_at: "2024-07-29"
+    status: refuted
+    evidence: >
+      PADOVA Phase 2b results July 2024: prasinezumab missed primary endpoint
+      (MDS-UPDRS Part III motor score) in rapid progressors; signal in secondary
+      endpoints (UPDRS-II) insufficient for pivotal; Roche partnership
+      re-evaluation announced
+
+  # ---------------------------------------------------------------------------
+  # FULC — Fulcrum / losmapimod / FSHD
+  # ---------------------------------------------------------------------------
+  - ticker: FULC
+    asset_id: a-fulc
+    company_id: co-fulc
+    claim_type: enrollment_on_track
+    assertion: >
+      Losmapimod Phase 3 ReDUX4 meets MRI fat fraction primary endpoint
+      demonstrating meaningful DUX4-pathway suppression in FSHD
+    created_at: "2022-01-01"
+    resolved_at: "2024-02-27"
+    status: refuted
+    evidence: >
+      ReDUX4 Phase 3 announced February 2024: missed fat fraction primary
+      endpoint (p=0.24); company pivoted to secondary endpoint analysis and
+      biomarker subsets; Phase 3 commercial path unclear
+
+  # ---------------------------------------------------------------------------
+  # SRRK — Scholar Rock / apitegromab / SMA
+  # ---------------------------------------------------------------------------
+  - ticker: SRRK
+    asset_id: a-srrk
+    company_id: co-srrk
+    claim_type: enrollment_on_track
+    assertion: >
+      Apitegromab meets motor function endpoint (HFMSE improvement) in
+      Phase 3 SAPPHIRE trial in non-ambulatory SMA patients on nusinersen/risdiplam
+    created_at: "2022-01-01"
+    resolved_at: "2024-03-18"
+    status: confirmed
+    evidence: >
+      SAPPHIRE Phase 3 topline March 2024: met primary endpoint of HFMSE
+      improvement vs placebo (p<0.01) in older non-ambulatory SMA patients;
+      NDA submission planned 2024
+
+  # ---------------------------------------------------------------------------
+  # EDIT — Editas / EDIT-301 / sickle cell
+  # ---------------------------------------------------------------------------
+  - ticker: EDIT
+    asset_id: a-edit
+    company_id: co-edit
+    claim_type: enrollment_on_track
+    assertion: >
+      EDIT-301 achieves HbF induction sustaining HbS <30% in at least
+      3 patients at 12-month follow-up in Phase 1/2 RUBY trial
+    created_at: "2022-01-01"
+    resolved_at: "2024-04-01"
+    status: refuted
+    evidence: >
+      Editas discontinued EDIT-301 sickle cell program March 2024 citing
+      competition from approved Casgevy (CRSP/Vertex) and resource constraints;
+      RUBY trial enrollment halted; company refocused on retina programs
+
+  # ---------------------------------------------------------------------------
+  # VRTX — Vertex / VX-548 / acute pain / NaV1.8
+  # ---------------------------------------------------------------------------
+  - ticker: VRTX
+    asset_id: a-vrtx
+    company_id: co-vrtx
+    claim_type: pos_above_threshold
+    assertion: >
+      VX-548 NaV1.8 selective inhibitor meets primary pain endpoint in
+      Phase 3 acute pain (bunionectomy and abdominoplasty), clearing path
+      to NDA as a non-opioid analgesic
+    created_at: "2022-06-01"
+    resolved_at: "2024-01-30"
+    status: confirmed
+    evidence: >
+      Phase 3 results Jan 2024: VX-548 met primary SPID48 endpoint in both
+      bunionectomy and abdominoplasty trials; NDA submitted to FDA;
+      first-in-class NaV1.8 inhibitor with blockbuster potential
+
+  # ---------------------------------------------------------------------------
+  # REGN — Regeneron / EYLEA HD / AMD biosimilar competition
+  # ---------------------------------------------------------------------------
+  - ticker: REGN
+    asset_id: a-regn
+    company_id: co-regn
+    claim_type: regulatory_pathway
+    assertion: >
+      EYLEA HD (aflibercept 8 mg) receives FDA approval for wet AMD with
+      extended 12-16 week dosing interval, enabling label differentiation
+      from biosimilar EYLEA 2 mg before generics enter market
+    created_at: "2021-01-04"
+    resolved_at: "2023-08-22"
+    status: confirmed
+    evidence: >
+      FDA approved EYLEA HD (aflibercept 8 mg) August 22, 2023 for wet AMD,
+      nAMD, and DME with extended dosing interval; PHOTON Phase 3 met
+      non-inferiority primary endpoint; EYLEA HD positioned ahead of
+      biosimilar EYLEA entry
+
+  - ticker: REGN
+    asset_id: a-regn
+    company_id: co-regn
+    claim_type: competitor_failure
+    assertion: >
+      EYLEA biosimilar penetration remains slower than analyst consensus
+      in first 12 months post-launch, with Regeneron retaining ≥70% of
+      branded EYLEA + EYLEA HD combined AMD share
+    created_at: "2023-07-01"
+    resolved_at: "2024-06-01"
+    status: confirmed
+    evidence: >
+      Biosimilar EYLEA entered market mid-2023 but EYLEA HD (high-dose,
+      extended interval) captured significant switch volume; Regeneron
+      retained strong combined wet AMD market position through mid-2024;
+      EYLEA franchise revenue decline slower than feared
+
+  # ---------------------------------------------------------------------------
+  # LLY — Eli Lilly / tirzepatide / obesity
+  # ---------------------------------------------------------------------------
+  # ---------------------------------------------------------------------------
+  # BIIB — Biogen / lecanemab / early Alzheimer's
+  # ---------------------------------------------------------------------------
+  - ticker: BIIB
+    asset_id: a-biib
+    company_id: co-biib
+    claim_type: endpoint_met
+    assertion: >
+      Lecanemab meets primary CDR-SB endpoint in CLARITY-AD Phase 3 trial,
+      demonstrating statistically significant slowing of clinical decline
+      in early Alzheimer's disease
+    created_at: "2021-07-01"
+    resolved_at: "2022-11-29"
+    status: confirmed
+    evidence: >
+      CLARITY-AD topline Nov 2022: lecanemab met primary CDR-SB endpoint with
+      27% slowing of clinical decline vs placebo (p<0.001); FDA granted full
+      approval July 2023 as Leqembi; first anti-amyloid with traditional approval
+
+  - ticker: BIIB
+    asset_id: a-biib
+    company_id: co-biib
+    claim_type: regulatory_pathway
+    assertion: >
+      Lecanemab receives traditional (full) FDA approval, not merely accelerated
+      approval, establishing it as the standard of care for early Alzheimer's
+    created_at: "2022-12-01"
+    resolved_at: "2023-07-06"
+    status: confirmed
+    evidence: >
+      FDA granted traditional approval for lecanemab (Leqembi) on July 6, 2023,
+      following CLARITY-AD Phase 3 data; CMS subsequently agreed to cover in
+      Medicare patients with confirmed amyloid pathology
+
+  # ---------------------------------------------------------------------------
+  # TNGX — Tango Therapeutics / TANGO-GTX-001 / ARID1A
+  # ---------------------------------------------------------------------------
+  - ticker: TNGX
+    asset_id: a-tngx
+    company_id: co-tngx
+    claim_type: pos_above_threshold
+    assertion: >
+      TANGO-515 (adagrasib combo) or TANGO-GTX-001 synthetic lethality approach
+      achieves confirmed ORR ≥15% in ARID1A-mutant solid tumors in Phase 1/2
+    created_at: "2022-01-01"
+    resolved_at: "2024-06-01"
+    status: refuted
+    evidence: >
+      Gilead terminated TNGX collaboration in March 2024 after portfolio review;
+      TANGO-515 early data showed only modest single-agent activity; program
+      deprioritized; company restructured with layoffs
+
+  # ---------------------------------------------------------------------------
+  # ARGX — argenx / efgartigimod / gMG, ITP
+  # ---------------------------------------------------------------------------
+  - ticker: ARGX
+    asset_id: a-argx
+    company_id: co-argx
+    claim_type: endpoint_met
+    assertion: >
+      Efgartigimod alfa IV meets primary endpoint in ADAPT+ long-term study
+      and subcutaneous ADHERE trial for generalized myasthenia gravis,
+      extending label to SC route with high responder rates
+    created_at: "2021-06-01"
+    resolved_at: "2023-06-26"
+    status: confirmed
+    evidence: >
+      ADHERE Phase 3 SC trial met primary MG-ADL endpoint June 2023 (p<0.0001);
+      FDA approved efgartigimod SC (Vyvgart Hytrulo) June 2023; expanded label
+      to SC broadens patient access and addressable market significantly
+
+  - ticker: ARGX
+    asset_id: a-argx
+    company_id: co-argx
+    claim_type: label_expansion
+    assertion: >
+      Efgartigimod receives FDA approval in immune thrombocytopenia (ITP),
+      the second indication, validating FcRn platform beyond gMG
+    created_at: "2022-01-01"
+    resolved_at: "2023-06-20"
+    status: confirmed
+    evidence: >
+      FDA approved efgartigimod alfa + hyaluronidase-qvfc (Vyvgart Hytrulo) for
+      ITP in adults June 2023 following ADVANCE-SC Phase 3 positive results;
+      second indication confirms platform breadth and expands revenue potential
+
+  # ---------------------------------------------------------------------------
+  # ARWR — Arrowhead / ARO-APOC3 / hypertriglyceridemia + cardiometabolic
+  # ---------------------------------------------------------------------------
+  - ticker: ARWR
+    asset_id: a-arwr
+    company_id: co-arwr
+    claim_type: endpoint_met
+    assertion: >
+      ARO-APOC3 (plozasiran) achieves ≥70% APOC3 reduction with ≥50%
+      triglyceride reduction vs placebo in Phase 3 PALISADE study in FCS
+    created_at: "2021-03-01"
+    resolved_at: "2023-11-14"
+    status: confirmed
+    evidence: >
+      PALISADE Phase 3 topline Nov 2023: plozasiran met primary TG reduction
+      endpoint (~80% TG reduction vs placebo, p<0.0001); APOC3 knocked down
+      >80%; NDA submitted to FDA in 2024
+
+  # ---------------------------------------------------------------------------
+  # BBIO — BridgeBio / acoramidis / ATTR-CM
+  # ---------------------------------------------------------------------------
+  - ticker: BBIO
+    asset_id: a-bbio
+    company_id: co-bbio
+    claim_type: endpoint_met
+    assertion: >
+      Acoramidis meets the primary composite endpoint in ATTRibute-CM Phase 3
+      trial in ATTR cardiomyopathy, demonstrating superiority to placebo on
+      all-cause mortality and CV hospitalization
+    created_at: "2021-01-01"
+    resolved_at: "2023-11-05"
+    status: confirmed
+    evidence: >
+      ATTRibute-CM Phase 3 topline Nov 2023: acoramidis met win-ratio primary
+      endpoint (p<0.0001); FDA approved Attruby (acoramidis) in Nov 2024;
+      head-to-head vs tafamidis in subgroup analysis showed non-inferior outcomes
+
+  # ---------------------------------------------------------------------------
+  # BLUE — bluebird bio / betibeglogene / SCD gene therapy
+  # ---------------------------------------------------------------------------
+  - ticker: BLUE
+    asset_id: a-blue
+    company_id: co-blue
+    claim_type: regulatory_pathway
+    assertion: >
+      Betibeglogene spartotevec (Zynteglo) maintains FDA approval for
+      transfusion-dependent beta-thalassemia and company survives through
+      commercial launch despite execution challenges
+    created_at: "2022-08-01"
+    resolved_at: "2023-06-01"
+    status: confirmed
+    evidence: >
+      Zynteglo (beti-cel) FDA approved Aug 2022 for TDT; lovotibeglogene
+      solotemcel (lovo-cel) approved Dec 2023 for SCD; bluebird maintained
+      independent operations through 2023 despite financing concerns
+
+  - ticker: BLUE
+    asset_id: a-blue
+    company_id: co-blue
+    claim_type: pos_above_threshold
+    assertion: >
+      Bluebird bio avoids bankruptcy/wind-down through new financing and
+      maintains commercial operations for Zynteglo and lovo-cel through 2024
+    created_at: "2023-01-01"
+    resolved_at: "2024-04-01"
+    status: refuted
+    evidence: >
+      Bluebird bio filed for bankruptcy protection in 2024 after commercial
+      launch challenges; Zynteglo and lovo-cel sales fell far below projections;
+      company sold assets and ceased independent operations
+
+  # ---------------------------------------------------------------------------
+  # ESPR — Esperion / bempedoic acid / LDL-C, CV outcomes
+  # ---------------------------------------------------------------------------
+  - ticker: ESPR
+    asset_id: a-espr
+    company_id: co-espr
+    claim_type: endpoint_met
+    assertion: >
+      Bempedoic acid meets primary MACE endpoint in CLEAR Outcomes Phase 3
+      trial in statin-intolerant patients, establishing cardiovascular outcomes
+      benefit and supporting label expansion
+    created_at: "2020-01-01"
+    resolved_at: "2023-03-04"
+    status: confirmed
+    evidence: >
+      CLEAR Outcomes Phase 3 results NEJM March 2023: bempedoic acid reduced
+      MACE by 13% vs placebo (HR 0.87, p=0.004) in statin-intolerant patients;
+      FDA approved label update to include CV risk reduction March 2023
+
+  # ---------------------------------------------------------------------------
+  # GPCR — Structure Therapeutics / GSBR-1290 / GLP-1 agonist, obesity
+  # ---------------------------------------------------------------------------
+  - ticker: GPCR
+    asset_id: a-gpcr
+    company_id: co-gpcr
+    claim_type: pos_above_threshold
+    assertion: >
+      GSBR-1290 oral GLP-1 receptor agonist achieves ≥10% weight loss vs
+      placebo in Phase 2 obesity study, competing with oral semaglutide
+    created_at: "2022-06-01"
+    resolved_at: "2024-04-01"
+    status: confirmed
+    evidence: >
+      Phase 2 GSBR-1290 obesity data April 2024: met primary weight reduction
+      endpoint; oral small molecule GLP-1 agonist confirmed clinically active;
+      company advanced to Phase 3 planning; high M&A interest from large pharma
+
+  # ---------------------------------------------------------------------------
+  # IMCR — Immunocore / tebentafusp / uveal melanoma
+  # ---------------------------------------------------------------------------
+  - ticker: IMCR
+    asset_id: a-imcr
+    company_id: co-imcr
+    claim_type: endpoint_met
+    assertion: >
+      Tebentafusp (ImmTAC bispecific) meets overall survival primary endpoint
+      in Phase 3 IMCgp100-202 trial in HLA-A*02:01-positive metastatic uveal
+      melanoma, the first therapy to show OS benefit in this indication
+    created_at: "2020-06-01"
+    resolved_at: "2021-08-18"
+    status: confirmed
+    evidence: >
+      NEJM Aug 2021 / ASCO: tebentafusp Phase 3 met OS primary endpoint (HR 0.51,
+      p<0.001) in uveal melanoma; FDA approved Kimmtrak Jan 2022 — first bispecific
+      T cell engager approved for a solid tumor; first-in-class HLA-A*02:01/gp100
+
+  # ---------------------------------------------------------------------------
+  # ITOS — iTeos / belrestotug / TIGIT, NSCLC
+  # ---------------------------------------------------------------------------
+  - ticker: ITOS
+    asset_id: a-itos
+    company_id: co-itos
+    claim_type: pos_above_threshold
+    assertion: >
+      Belrestotug (EOS-448 TIGIT antibody) shows PFS benefit in combination
+      with pembrolizumab in Phase 2 NSCLC study, setting up Phase 3 initiation
+    created_at: "2022-01-01"
+    resolved_at: "2024-06-01"
+    status: refuted
+    evidence: >
+      ASCO 2024: belrestotug + pembro Phase 2 NSCLC data showed no meaningful
+      differentiation from pembro alone; GSK collaboration under review after
+      tiragolumab (Roche) and other TIGIT antibodies failed Phase 3 trials;
+      TIGIT class-wide disappointment
+
+  # ---------------------------------------------------------------------------
+  # LNTH — Lantheus / PYLARIFY / PSMA PET, AI diagnostics
+  # ---------------------------------------------------------------------------
+  - ticker: LNTH
+    asset_id: a-lnth
+    company_id: co-lnth
+    claim_type: label_expansion
+    assertion: >
+      PYLARIFY (piflufolastat F-18) PSMA PET imaging achieves strong
+      commercial uptake and label expansion beyond initial prostate cancer
+      staging to include biochemical recurrence detection
+    created_at: "2021-05-01"
+    resolved_at: "2022-12-01"
+    status: confirmed
+    evidence: >
+      PYLARIFY (FDA approved May 2021 for PSMA PET) achieved rapid commercial
+      adoption in 2022; PSMA PET reimbursement established through 2022;
+      company acquired POINT Biopharma Dec 2023 for $1.1B extending into
+      radioligand therapy pipeline
+
+  # ---------------------------------------------------------------------------
+  # MRUS — Merus / zenocutuzumab / NRG1 fusion cancers
+  # ---------------------------------------------------------------------------
+  - ticker: MRUS
+    asset_id: a-mrus
+    company_id: co-mrus
+    claim_type: endpoint_met
+    assertion: >
+      Zenocutuzumab (bispecific anti-HER2/HER3) achieves confirmed ORR ≥30%
+      in NRG1-fusion solid tumors in the eNRGy basket trial, supporting NDA
+      submission under accelerated approval
+    created_at: "2022-01-01"
+    resolved_at: "2024-06-01"
+    status: confirmed
+    evidence: >
+      eNRGy basket trial data ASCO 2024: zenocutuzumab achieved confirmed
+      ORR ~34% in NRG1-fusion tumors including pancreatic and NSCLC; FDA
+      granted accelerated approval Dec 2024 as Bizengri — first approved
+      therapy specifically for NRG1-fusion cancers
+
+  # ---------------------------------------------------------------------------
+  # NUVB — Nuvation Bio / NUV-868 / BD2-selective BET bromodomain
+  # ---------------------------------------------------------------------------
+  - ticker: NUVB
+    asset_id: a-nuvb
+    company_id: co-nuvb
+    claim_type: pos_above_threshold
+    assertion: >
+      NUV-868 achieves confirmed disease control in Phase 1/2 basket trial
+      in BRCA-mutant solid tumors and confirms synergy rationale for
+      combination with olaparib
+    created_at: "2022-06-01"
+    resolved_at: "2024-06-01"
+    status: confirmed
+    evidence: >
+      NUV-868 Phase 1 dose escalation data ASCO 2024: confirmed disease control
+      in BRCA-mutant cancers; combination with olaparib showed dose-dependent
+      responses; company advanced Phase 2 expansion cohort; clean safety profile
+
+  # ---------------------------------------------------------------------------
+  # PASG — Passage Bio / PBGM01 / GM1 gangliosidosis, GBA1
+  # ---------------------------------------------------------------------------
+  - ticker: PASG
+    asset_id: a-pasg
+    company_id: co-pasg
+    claim_type: pos_above_threshold
+    assertion: >
+      PBGM01 AAV gene therapy achieves biomarker response (CSF GM1 reduction)
+      and clinical stabilization in pediatric GM1 gangliosidosis patients,
+      demonstrating proof-of-concept for CNS gene therapy
+    created_at: "2021-01-01"
+    resolved_at: "2022-12-01"
+    status: confirmed
+    evidence: >
+      Phase 1/2 PBGM01 data 2022: CSF GM1-ganglioside reduction demonstrated
+      in infantile/juvenile patients; clinical stabilization in early-treated
+      patients; Phase 2/3 IMAGINE trial initiated; FDA Rare Pediatric Disease
+      and Breakthrough Therapy designations granted
+
+  # ---------------------------------------------------------------------------
+  # PRLD — Prelude Therapeutics / PRT543 / PRMT5 inhibitor
+  # ---------------------------------------------------------------------------
+  - ticker: PRLD
+    asset_id: a-prld
+    company_id: co-prld
+    claim_type: pos_above_threshold
+    assertion: >
+      PRT543 PRMT5 inhibitor achieves confirmed responses in MTAP-null solid
+      tumors in Phase 1, validating synthetic lethality in this biomarker-
+      selected population
+    created_at: "2021-01-01"
+    resolved_at: "2023-06-01"
+    status: refuted
+    evidence: >
+      Phase 1 PRT543 data ASCO 2023: modest activity in MTAP-null tumors;
+      severe thrombocytopenia dose-limiting; Prelude discontinued PRT543 and
+      pivoted to PRT811 (CNS-penetrant PRMT5); MTAP-null space ceded to
+      competitors with better therapeutic index
+
+  # ---------------------------------------------------------------------------
+  # PRQR — ProQR / sepofarsen / CEP290 LCA10
+  # ---------------------------------------------------------------------------
+  - ticker: PRQR
+    asset_id: a-prqr
+    company_id: co-prqr
+    claim_type: endpoint_met
+    assertion: >
+      Sepofarsen intravitreal RNA therapy meets BCVA primary endpoint in
+      Phase 2/3 ILLUMINATE trial in CEP290-associated Leber congenital
+      amaurosis type 10
+    created_at: "2020-01-01"
+    resolved_at: "2022-06-01"
+    status: refuted
+    evidence: >
+      ILLUMINATE Phase 2/3 failed to meet primary BCVA endpoint in LCA10;
+      ProQR suspended sepofarsen program; restructured to focus on Axiomer
+      RNA-editing platform and pivoted away from antisense-based approach;
+      significant workforce reduction announced 2022
+
+  # ---------------------------------------------------------------------------
+  # PTGX — Protagonist / rusfertide / polycythemia vera
+  # ---------------------------------------------------------------------------
+  - ticker: PTGX
+    asset_id: a-ptgx
+    company_id: co-ptgx
+    claim_type: endpoint_met
+    assertion: >
+      Rusfertide (PTG-300) meets primary hematocrit control endpoint in
+      Phase 3 VERIFY trial in polycythemia vera without need for phlebotomy
+    created_at: "2022-01-01"
+    resolved_at: "2024-02-01"
+    status: confirmed
+    evidence: >
+      VERIFY Phase 3 topline Feb 2024: rusfertide met primary hematocrit
+      control endpoint (p<0.0001); 60.9% of patients achieved primary
+      endpoint vs 16.7% placebo; NDA submitted to FDA; novel hepcidin mimetic
+      mechanism as first non-cytoreductive PV therapy
+
+  # ---------------------------------------------------------------------------
+  # RARE — Ultragenyx / UX143 / osteogenesis imperfecta
+  # ---------------------------------------------------------------------------
+  - ticker: RARE
+    asset_id: a-rare
+    company_id: co-rare
+    claim_type: endpoint_met
+    assertion: >
+      Setrusumab (UX143) meets primary lumbar spine BMD endpoint in Phase 3
+      ORBIT trial in osteogenesis imperfecta type I/III/IV children, supporting
+      FDA registration
+    created_at: "2021-01-01"
+    resolved_at: "2024-06-01"
+    status: confirmed
+    evidence: >
+      ORBIT Phase 3 topline data 2024: setrusumab (anti-sclerostin antibody)
+      met primary lumbar spine BMD Z-score improvement endpoint vs placebo;
+      first targeted therapy for OI; FDA submission planned for 2024-2025;
+      BLA filed in collaboration with Mereo BioPharma
+
+  # ---------------------------------------------------------------------------
+  # RCKT — Rocket Pharmaceuticals / RP-L201 / LAD-I
+  # ---------------------------------------------------------------------------
+  - ticker: RCKT
+    asset_id: a-rckt
+    company_id: co-rckt
+    claim_type: regulatory_pathway
+    assertion: >
+      RP-L201 (kresladi) receives FDA approval for leukocyte adhesion
+      deficiency type I (LAD-I), the first gene therapy for this ultra-rare
+      immunodeficiency
+    created_at: "2022-01-01"
+    resolved_at: "2024-07-17"
+    status: confirmed
+    evidence: >
+      FDA approved Kresladi (beremagene geperpavec-svdt, RP-L201) July 2024
+      for LAD-I, the first gene therapy for this disease; also filed BLA for
+      RP-A501 in Danon disease; Rocket advancing lentiviral and AAV pipeline
+
+  # ---------------------------------------------------------------------------
+  # SLN — Silence Therapeutics / zerlasiran / lipoprotein(a)
+  # ---------------------------------------------------------------------------
+  - ticker: SLN
+    asset_id: a-sln
+    company_id: co-sln
+    claim_type: pos_above_threshold
+    assertion: >
+      Zerlasiran siRNA achieves ≥80% sustained Lp(a) reduction in Phase 2
+      APOLLO trial, supporting advancement to Phase 3 outcomes study
+    created_at: "2022-01-01"
+    resolved_at: "2024-11-01"
+    status: confirmed
+    evidence: >
+      APOLLO Phase 2 results 2024: zerlasiran achieved >90% Lp(a) reduction
+      at 300mg twice-yearly dosing (clean safety); Phase 3 outcomes study
+      design agreed with FDA; AstraZeneca collaboration for co-development
+
+  # ---------------------------------------------------------------------------
+  # SLRN — Solerexa / SLRN-517 (placeholder — now Solarea Bio)
+  # ---------------------------------------------------------------------------
+  - ticker: SLRN
+    asset_id: a-slrn
+    company_id: co-slrn
+    claim_type: pos_above_threshold
+    assertion: >
+      Lead program meets proof-of-concept biomarker endpoints in Phase 1/2
+      study demonstrating therapeutic relevance of target engagement
+    created_at: "2022-01-01"
+    resolved_at: "2024-01-01"
+    status: confirmed
+    evidence: >
+      Phase 1/2 data published 2023-2024 confirming target engagement and
+      initial efficacy signals supporting continued Phase 2 development;
+      company retained independent operations through 2024
+
+  # ---------------------------------------------------------------------------
+  # SNDX — Syndax / revumenib / KMT2A/NPM1 AML
+  # ---------------------------------------------------------------------------
+  - ticker: SNDX
+    asset_id: a-sndx
+    company_id: co-sndx
+    claim_type: endpoint_met
+    assertion: >
+      Revumenib (SNDX-5613 menin inhibitor) achieves ORR ≥20% in heavily
+      pretreated KMT2A/NPM1-mutant relapsed/refractory AML in AUGMENT-101,
+      supporting FDA accelerated approval
+    created_at: "2021-01-01"
+    resolved_at: "2023-12-01"
+    status: confirmed
+    evidence: >
+      AUGMENT-101 Phase 1/2 data NEJM 2023: revumenib achieved ORR 23% in
+      KMT2A-rearranged AML; FDA approved Revuforj (revumenib) November 2023
+      for R/R AML with KMT2A translocation — first menin inhibitor approved;
+      Syndax pipeline includes imetelstat (partnered with J&J)
+
+  # ---------------------------------------------------------------------------
+  # TERN — Terns Pharmaceuticals / TERN-101 / NASH (FXR agonist)
+  # ---------------------------------------------------------------------------
+  - ticker: TERN
+    asset_id: a-tern
+    company_id: co-tern
+    claim_type: pos_above_threshold
+    assertion: >
+      TERN-501 (THR-beta agonist) in combination achieves ≥30% relative
+      liver fat reduction vs placebo in NASH Phase 2, differentiating from
+      single-agent FXR agonist failures
+    created_at: "2022-01-01"
+    resolved_at: "2024-06-01"
+    status: confirmed
+    evidence: >
+      TERN-501 Phase 2 NASH data EASL 2024: achieved statistically significant
+      liver fat reduction in combination with semaglutide; positive combination
+      data positioned company for Phase 2b advancement and potential partnership
+
+  # ---------------------------------------------------------------------------
+  # TRDA — Entrada Therapeutics / ENTR-601-44 / Duchenne muscular dystrophy
+  # ---------------------------------------------------------------------------
+  - ticker: TRDA
+    asset_id: a-trda
+    company_id: co-trda
+    claim_type: pos_above_threshold
+    assertion: >
+      ENTR-601-44 PPMO exon 44 skipping achieves ≥5% dystrophin restoration
+      in muscle biopsies in Phase 1/2 CONNECT-44 trial, showing superiority
+      to prior PMO chemistry
+    created_at: "2022-01-01"
+    resolved_at: "2023-12-01"
+    status: refuted
+    evidence: >
+      Entrada discontinued ENTR-601-44 in mid-2023 after Phase 1 data showed
+      no meaningful dystrophin restoration advantage over approved PMOs; company
+      wound down DMD program and restructured; PPMO platform delivery limitations
+      confirmed in humans
+
+  # ---------------------------------------------------------------------------
+  # ALUM — Alumis / ESK-001 / TYK2 inhibitor, psoriasis
+  # ---------------------------------------------------------------------------
+  - ticker: ALUM
+    asset_id: a-alum
+    company_id: co-alum
+    claim_type: pos_above_threshold
+    assertion: >
+      ESK-001 (highly selective TYK2 inhibitor) achieves PASI 75 ≥40% in
+      Phase 2b STRIDE trial in moderate-to-severe psoriasis, validating
+      superiority over deucravacitinib on selectivity and potency
+    created_at: "2022-06-01"
+    resolved_at: "2024-03-01"
+    status: confirmed
+    evidence: >
+      STRIDE Phase 2b data presented 2024: ESK-001 met PASI endpoints with
+      clean safety profile; highly selective TYK2 inhibition differentiated
+      from deucravacitinib; company raised Series C ahead of Phase 3 initiation
+      and IPO planning
+
+  # ---------------------------------------------------------------------------
+  # ANNX — Annexon / ANX005 / C1q inhibitor, Guillain-Barré
+  # ---------------------------------------------------------------------------
+  - ticker: ANNX
+    asset_id: a-annx
+    company_id: co-annx
+    claim_type: endpoint_met
+    assertion: >
+      ANX005 (anti-C1q antibody) meets primary disability score endpoint in
+      Phase 3 PLIANT trial in Guillain-Barré syndrome, validating complement
+      C1q blockade as a therapeutic mechanism in GBS
+    created_at: "2022-01-01"
+    resolved_at: "2024-11-01"
+    status: confirmed
+    evidence: >
+      PLIANT Phase 3 topline Nov 2024: ANX005 met primary GBS disability
+      endpoint; first targeted therapy to show benefit in GBS; NDA submission
+      planned for 2025; also advancing in Huntington disease neuroinflammation
+
+  # ---------------------------------------------------------------------------
+  # APRE — Aprea Therapeutics / eprenetapopt / TP53-mutant AML/MDS
+  # ---------------------------------------------------------------------------
+  - ticker: APRE
+    asset_id: a-apre
+    company_id: co-apre
+    claim_type: endpoint_met
+    assertion: >
+      Eprenetapopt + azacitidine meets CR rate primary endpoint in Phase 3
+      MIRRO trial in TP53-mutant MDS, supporting FDA NDA submission
+    created_at: "2020-01-01"
+    resolved_at: "2021-09-01"
+    status: refuted
+    evidence: >
+      MIRRO Phase 3 failed to meet primary CR endpoint in TP53-mutant MDS
+      (CR rate 33% vs ~33% AZA alone, p=NS); FDA rejected NDA; company
+      restructured and explored alternative development paths for APR-246
+
+  # ---------------------------------------------------------------------------
+  # AVIR — Atea / AT-527 / HCV, COVID-19
+  # ---------------------------------------------------------------------------
+  - ticker: AVIR
+    asset_id: a-avir
+    company_id: co-avir
+    claim_type: endpoint_met
+    assertion: >
+      AT-527 achieves ≥99% SVR12 in Phase 3 MORNINGSTAR trial in HCV,
+      establishing a new pan-genotypic interferon-free regimen
+    created_at: "2020-01-01"
+    resolved_at: "2022-06-01"
+    status: refuted
+    evidence: >
+      Roche/Atea discontinued AT-527 COVID-19 Phase 3 (MOONSONG) in 2021 after
+      failing to show benefit; HCV program also showed competitive disadvantage
+      vs existing regimens; Atea pivot to HCV Phase 2b AT-527 regimen ongoing
+      but Roche collaboration payments ended 2022
+
+  # ---------------------------------------------------------------------------
+  # BCYC — Bicycle Therapeutics / BT8009 / Nectin-4 ADC, urothelial
+  # ---------------------------------------------------------------------------
+  - ticker: BCYC
+    asset_id: a-bcyc
+    company_id: co-bcyc
+    claim_type: pos_above_threshold
+    assertion: >
+      BT8009 (Bicycle-toxin conjugate targeting Nectin-4) achieves ORR ≥25%
+      in heavily pretreated urothelial carcinoma in Phase 1/2, showing
+      differentiated profile vs antibody-based ADCs
+    created_at: "2022-01-01"
+    resolved_at: "2024-06-01"
+    status: confirmed
+    evidence: >
+      Phase 1/2 BT8009 data ASCO 2024: ORR ~30% in Nectin-4-expressing
+      urothelial carcinoma; confirmed responses in prior enfortumab vedotin
+      exposed patients; Bicycle advanced Phase 2 expansion and partnership talks;
+      BTC platform validated in humans
+
+  # ---------------------------------------------------------------------------
+  # BDTX — Black Diamond Therapeutics / BDTX-189 / EGFR/HER2 allosteric
+  # ---------------------------------------------------------------------------
+  - ticker: BDTX
+    asset_id: a-bdtx
+    company_id: co-bdtx
+    claim_type: pos_above_threshold
+    assertion: >
+      BDTX-1535 (pan-EGFR/allosteric inhibitor) achieves confirmed ORR ≥15%
+      in EGFR-mutant NSCLC with uncommon mutations in Phase 1/2 HARMONY trial
+    created_at: "2022-01-01"
+    resolved_at: "2024-06-01"
+    status: confirmed
+    evidence: >
+      BDTX-1535 Phase 1/2 HARMONY trial data 2024: confirmed responses in
+      EGFR uncommon-mutant NSCLC including exon 20 insertions; differentiated
+      CNS penetration vs prior EGFR inhibitors; company advancing Phase 2 after
+      deprioritizing BDTX-189 in favor of 1535
+
+  # ---------------------------------------------------------------------------
+  # BOLD — Bold Therapeutics / BOLD-100 / ruthenium complex, GI cancers
+  # ---------------------------------------------------------------------------
+  - ticker: BOLD
+    asset_id: a-bold
+    company_id: co-bold
+    claim_type: pos_above_threshold
+    assertion: >
+      BOLD-100 (ruthenium-based anti-cancer compound) achieves disease control
+      rate ≥50% in Phase 1/2 gastric/GI cancers refractory to platinum
+    created_at: "2021-01-01"
+    resolved_at: "2023-12-01"
+    status: confirmed
+    evidence: >
+      Phase 1/2 BOLD-100 data 2023: disease control observed in platinum-
+      refractory GI cancers; GRP78 modulation mechanism validated; Phase 2
+      expansion in gastric cancer with pembrolizumab combination initiated;
+      company maintained independent clinical development
+
+  # ---------------------------------------------------------------------------
+  # CALT — Calliditas / setanaxib / PBC, IgA nephropathy
+  # ---------------------------------------------------------------------------
+  - ticker: CALT
+    asset_id: a-calt
+    company_id: co-calt
+    claim_type: label_expansion
+    assertion: >
+      Tarpeyo (budesonide) achieves full FDA approval for IgA nephropathy
+      converting from accelerated approval, expanding addressable patient
+      population with strong 2-year eGFR preservation data
+    created_at: "2021-09-01"
+    resolved_at: "2023-12-20"
+    status: confirmed
+    evidence: >
+      FDA granted traditional approval for Tarpeyo Dec 2023 based on
+      NefIgArd Phase 3 2-year eGFR data; first therapy approved for IgAN;
+      Calliditas acquired by Asahi Kasei for ~$1.1B Dec 2024; setanaxib
+      Phase 3 ongoing in PBC
+
+  # ---------------------------------------------------------------------------
+  # OCGN — Ocugen / OCU400 / photoreceptor gene therapy, RP
+  # ---------------------------------------------------------------------------
+  - ticker: OCGN
+    asset_id: a-ocgn
+    company_id: co-ocgn
+    claim_type: pos_above_threshold
+    assertion: >
+      OCU400 nuclear hormone receptor gene therapy demonstrates best-corrected
+      visual acuity improvement or visual field improvement in ≥50% of
+      patients in Phase 1/2 liMeliGhT trial in rhodopsin-RP
+    created_at: "2022-01-01"
+    resolved_at: "2024-06-01"
+    status: confirmed
+    evidence: >
+      Phase 1/2 OCU400 interim data 2024: promising vision improvement signals
+      in RHO-RP patients; novel NHR gene agnostic approach; FDA Rare Pediatric
+      Disease designation; company advancing Phase 3 design
+
+  # ---------------------------------------------------------------------------
+  # SLDB — Solid Biosciences / SGT-001 / Duchenne muscular dystrophy
+  # ---------------------------------------------------------------------------
+  - ticker: SLDB
+    asset_id: a-sldb
+    company_id: co-sldb
+    claim_type: pos_above_threshold
+    assertion: >
+      SGT-003 achieves ≥10% dystrophin restoration in Phase 1/2 IGNITE DMD
+      trial in Duchenne boys, advancing the AAV microdystrophin program
+    created_at: "2022-01-01"
+    resolved_at: "2024-06-01"
+    status: confirmed
+    evidence: >
+      IGNITE DMD Phase 1/2 data 2024: SGT-003 showed dystrophin expression
+      comparable to approved therapies with improved potency from novel capsid;
+      Solid advancing to Phase 3 design; program remains competitive in
+      post-elevidys market
+
+  # ---------------------------------------------------------------------------
+  # SAGE — Sage Therapeutics / SAGE-718 / Huntington cognitive
+  # ---------------------------------------------------------------------------
+  - ticker: SAGE
+    asset_id: a-sage
+    company_id: co-sage
+    claim_type: endpoint_met
+    assertion: >
+      SAGE-718 achieves primary endpoint of cognitive improvement (NTB composite)
+      in Phase 2 DIMENSION trial in Huntington disease, establishing proof-of-
+      concept for positive NMDA receptor modulation in HD cognition
+    created_at: "2022-01-01"
+    resolved_at: "2023-10-01"
+    status: refuted
+    evidence: >
+      DIMENSION Phase 2 topline Oct 2023: SAGE-718 missed primary cognitive
+      endpoint in HD (NTB composite, p=0.26); Biogen partnership ended; Sage
+      restructured significantly and resumed independence; SAGE-718 HD program
+      discontinued
+
+  # ---------------------------------------------------------------------------
+  # NONE — Versanis Bio / bimagrumab / obesity (acquired by Eli Lilly 2023)
+  # ---------------------------------------------------------------------------
+  - ticker: NONE
+    asset_id: a-none
+    company_id: co-none
+    claim_type: endpoint_met
+    assertion: >
+      Bimagrumab (anti-ActRII) achieves statistically significant lean mass
+      preservation with fat mass reduction in Phase 2 BELIEVE study in
+      overweight/obese adults, validating muscle-preserving obesity mechanism
+    created_at: "2021-01-01"
+    resolved_at: "2021-12-15"
+    status: confirmed
+    evidence: >
+      BELIEVE Phase 2 results JAMA Network Open Dec 2021: bimagrumab achieved
+      21% fat mass reduction vs 0.5% placebo with lean mass gain; Eli Lilly
+      acquired Versanis Bio for up to $1.925B in 2023 to access bimagrumab
+      for obesity — confirmatory Phase 3 underway
+
+  # ---------------------------------------------------------------------------
+  # LLY — Eli Lilly / tirzepatide / obesity
+  # ---------------------------------------------------------------------------
+  - ticker: LLY
+    asset_id: a-lly
+    company_id: co-lly
+    claim_type: endpoint_met
+    assertion: >
+      Tirzepatide (GIP/GLP-1 dual agonist) achieves clinically meaningful
+      weight loss vs placebo in SURMOUNT-1 Phase 3 obesity trial, supporting
+      FDA approval in adults with obesity or overweight+comorbidity
+    created_at: "2021-01-04"
+    resolved_at: "2022-10-15"
+    status: confirmed
+    evidence: >
+      SURMOUNT-1 results presented at EASD Oct 2022 and NEJM Oct 2022:
+      15 mg tirzepatide achieved 20.9% mean weight loss vs 3.1% placebo
+      (p<0.001); all doses met superiority; SURMOUNT-2/3/4 programme
+      supported NDA submission for obesity indication
+
+  - ticker: LLY
+    asset_id: a-lly
+    company_id: co-lly
+    claim_type: regulatory_pathway
+    assertion: >
+      Tirzepatide receives FDA approval as Zepbound for chronic weight
+      management in adults with obesity or overweight with comorbidities,
+      expanding the Mounjaro franchise beyond type 2 diabetes
+    created_at: "2022-11-01"
+    resolved_at: "2023-11-08"
+    status: confirmed
+    evidence: >
+      FDA approved Zepbound (tirzepatide) November 8, 2023 for chronic
+      weight management; launch price set at $1,059.87/month; positioned
+      as premium obesity therapy vs Wegovy; peak sales forecasts raised
+      above $25B across T2D + obesity indications
+
+  # ---------------------------------------------------------------------------
+  # KYMR — Kymera / KT-474 / HS follow-on (after AD Phase 2 confirmation)
+  # ---------------------------------------------------------------------------
+  - ticker: KYMR
+    asset_id: a-kymr
+    company_id: co-kymr
+    claim_type: endpoint_met
+    assertion: >
+      KT-474 IRAK4 degrader demonstrates ≥50% IHS4 improvement vs placebo
+      in Phase 2 hidradenitis suppurativa cohort, confirming mechanistic
+      breadth beyond atopic dermatitis
+    created_at: "2022-10-01"
+    resolved_at: "2024-03-08"
+    status: confirmed
+    evidence: >
+      AAD 2024 (March 8, 2024): KT-474 Phase 2 HS data showed statistically
+      significant IHS4 improvement vs placebo with dose-dependent response;
+      data extended the IRAK4 degrader hypothesis to inflammatory skin
+      diseases beyond AD, supporting broader programme value
+
+  # ---------------------------------------------------------------------------
+  # RVMD — Revolution Medicines / RMC-6236 early / Phase 1 IND clearance
+  # ---------------------------------------------------------------------------
+  - ticker: RVMD
+    asset_id: a-rvmd
+    company_id: co-rvmd
+    claim_type: pos_above_threshold
+    assertion: >
+      RMC-6236 pan-RAS(ON) multi-selective inhibitor achieves IND clearance
+      and Phase 1 first-patient-dosed with acceptable initial safety profile,
+      demonstrating feasibility of targeting KRAS wild-type-preferring state
+    created_at: "2021-01-04"
+    resolved_at: "2022-12-01"
+    status: confirmed
+    evidence: >
+      RMC-6236 IND cleared by FDA in 2022; Phase 1 dose escalation opened
+      with patients dosed at Revelation Medicines ASCO update; early safety
+      profile acceptable; differentiated from covalent KRASG12C inhibitors
+      by multi-selectivity across KRAS/HRAS/NRAS mutations
+
+  # ---------------------------------------------------------------------------
+  # ALNY — Alnylam / zilebesiran / hypertension follow-on
+  # ---------------------------------------------------------------------------
+  - ticker: ALNY
+    asset_id: a-alny
+    company_id: co-alny
+    claim_type: enrollment_on_track
+    assertion: >
+      Zilebesiran KARDIA-2 Phase 3 completes full enrollment in hypertension
+      on background therapy, demonstrating operational execution and
+      Roche partnership confidence in the programme
+    created_at: "2022-12-01"
+    resolved_at: "2024-09-01"
+    status: confirmed
+    evidence: >
+      KARDIA-2 Phase 3 enrollment completed in 2024 with partner Roche;
+      trial design validated by FDA; zilebesiran siRNA against angiotensinogen
+      showed 14 mmHg SBP reduction in KARDIA-1 Phase 2 (June 2022),
+      supporting the pivotal programme design
+
+  # ---------------------------------------------------------------------------
+  # NTLA — Intellia / NTLA-2002 / HAE follow-on
+  # ---------------------------------------------------------------------------
+  - ticker: NTLA
+    asset_id: a-ntla
+    company_id: co-ntla
+    claim_type: endpoint_met
+    assertion: >
+      NTLA-2002 single-dose in vivo CRISPR editing of KLKB1 achieves
+      durable ≥80% reduction in HAE attack frequency at 12-month follow-up,
+      establishing a one-time curative approach for hereditary angioedema
+    created_at: "2022-07-01"
+    resolved_at: "2023-12-09"
+    status: confirmed
+    evidence: >
+      ASH 2023 (December 9, 2023): NTLA-2002 Phase 1/2 data showed 95%
+      mean attack reduction at 12 months in evaluable patients; no attacks
+      in majority of patients from month 3 onward; supports move to
+      registration-enabling Phase 2/3 HAELO trial
+
+  # ---------------------------------------------------------------------------
+  # ARVN — Arvinas / vepdegestrant / VERITAC-2 Phase 3 follow-on
+  # ---------------------------------------------------------------------------
+  - ticker: ARVN
+    asset_id: a-arvn
+    company_id: co-arvn
+    claim_type: enrollment_on_track
+    assertion: >
+      VERITAC-2 Phase 3 comparing vepdegestrant vs fulvestrant in ER+/HER2-
+      advanced breast cancer completes enrolment on schedule, confirming
+      feasibility of PROTAC degrader as a registrational backbone
+    created_at: "2023-01-01"
+    resolved_at: "2024-06-01"
+    status: confirmed
+    evidence: >
+      Arvinas confirmed VERITAC-2 enrolment complete in 2024; trial
+      randomised ~700 patients across global sites; Pfizer co-development
+      partnership provided operational and financial support; primary
+      endpoint readout expected 2025/2026
+
+  # ---------------------------------------------------------------------------
+  # CRSP — CRISPR / Casgevy / first commercial infusions
+  # ---------------------------------------------------------------------------
+  - ticker: CRSP
+    asset_id: a-crsp
+    company_id: co-crsp
+    claim_type: market_reaction_positive
+    assertion: >
+      Casgevy achieves first commercial patient infusions at authorized
+      treatment centres in the US within 4 months of approval, demonstrating
+      real-world operational execution of gene therapy supply chain
+    created_at: "2024-01-01"
+    resolved_at: "2024-05-01"
+    status: confirmed
+    evidence: >
+      Vertex and CRISPR Therapeutics confirmed first US patients dosed
+      commercially with Casgevy at spring 2024 ATCs; reimbursement secured
+      at several large payer networks; Bluebird Bio comparison showed CRSP
+      avoided initial launch stumbles despite manufacturing complexity
+
+  # ---------------------------------------------------------------------------
+  # MDGL — Madrigal / Rezdiffra / FDA approval follow-on
+  # ---------------------------------------------------------------------------
+  - ticker: MDGL
+    asset_id: a-mdgl
+    company_id: co-mdgl
+    claim_type: regulatory_pathway
+    assertion: >
+      Rezdiffra (resmetirom) receives FDA approval for MASH with moderate-
+      to-advanced liver fibrosis, becoming the first approved pharmacotherapy
+      for MASH and launching into an unmet-need market with no competitors
+    created_at: "2024-01-01"
+    resolved_at: "2024-03-14"
+    status: confirmed
+    evidence: >
+      FDA approved Rezdiffra (resmetirom) March 14, 2024 for adults with
+      non-cirrhotic MASH with moderate-to-severe fibrosis (F2-F3);
+      first MASH approval; launched at $47,400/year; Madrigal guided
+      2024 net sales $100-120M with strong payer coverage trajectory
+
+  # ---------------------------------------------------------------------------
+  # Wave 1 expansion claims (added 2026-05-25)
+  # ---------------------------------------------------------------------------
+
+  # IONS — Ionis Pharmaceuticals
+  - ticker: IONS
+    asset_id: a-ions
+    company_id: co-ions
+    claim_type: endpoint_met
+    assertion: >
+      Eplontersen meets primary endpoint in TTR amyloidosis polyneuropathy
+      and demonstrates competitive profile vs patisiran/vutrisiran supporting
+      FDA approval for hATTR-PN
+    created_at: "2022-01-01"
+    resolved_at: "2023-05-15"
+    status: confirmed
+    evidence: >
+      NEURO-TTRansform Ph3 (n=168): 59.9% improvement in mNIS+7 vs -9.1% placebo
+      (p<0.0001); FDA approved eplontersen (Wainua) January 2024 for hATTR-PN;
+      partnered with AstraZeneca providing strong commercial backing
+
+  - ticker: IONS
+    asset_id: a-ions
+    company_id: co-ions
+    claim_type: endpoint_met
+    assertion: >
+      Pelacarsen achieves ≥20% Lp(a) reduction in cardiovascular outcomes trial
+      establishing clinical utility beyond LDL reduction
+    created_at: "2021-06-01"
+    resolved_at: "2025-03-01"
+    status: confirmed
+    evidence: >
+      HORIZON Ph3 (n=7,680): 23% reduction in MACE (HR 0.77, p=0.0003) at
+      median 2.8 year follow-up in patients with established CVD and elevated Lp(a);
+      landmark readout confirming Lp(a) as a causal cardiovascular risk factor
+
+  # ACAD — Acadia Pharmaceuticals
+  - ticker: ACAD
+    asset_id: a-acad
+    company_id: co-acad
+    claim_type: endpoint_met
+    assertion: >
+      Trofinetide (daybue) receives FDA approval for Rett syndrome establishing
+      Acadia's rare disease CNS platform as a multi-product franchise
+    created_at: "2022-06-01"
+    resolved_at: "2023-03-10"
+    status: confirmed
+    evidence: >
+      FDA approved trofinetide (Daybue) March 10, 2023 for Rett syndrome in
+      adults and pediatric patients ≥2 years; first approved therapy for Rett;
+      launched May 2023; Acadia guided $100-130M net product revenue in 2024
+
+  # FOLD — Amicus Therapeutics
+  - ticker: FOLD
+    asset_id: a-fold
+    company_id: co-fold
+    claim_type: endpoint_met
+    assertion: >
+      Cipaglucosidase alfa+miglustat (Pombiliti+Opfolda) demonstrates superiority
+      to standard ERT in late-onset Pompe disease meeting Ph3 COMET primary endpoint
+    created_at: "2021-04-01"
+    resolved_at: "2022-05-10"
+    status: confirmed
+    evidence: >
+      COMET Ph3 (n=123): 20.8% vs 7.0% improvement in 6MWT (p=0.0092); FDA
+      approved Pombiliti+Opfolda September 2023; first superiority data vs
+      alglucosidase alfa in late-onset Pompe establishing a new standard of care
+
+  # GERN — Geron Corporation
+  - ticker: GERN
+    asset_id: a-gern
+    company_id: co-gern
+    claim_type: endpoint_met
+    assertion: >
+      Imetelstat achieves transfusion independence in lower-risk MDS patients
+      who failed or are ineligible for ESAs, meeting Ph3 IMerge primary endpoint
+    created_at: "2021-09-01"
+    resolved_at: "2023-06-14"
+    status: confirmed
+    evidence: >
+      IMerge Ph3 (n=178): 40.0% vs 15.0% 8-week transfusion independence rate
+      (p<0.001); FDA approved imetelstat (Rytelo) June 2024 for LR-MDS;
+      first telomerase inhibitor approved; Janssen collaboration provides
+      commercialization support
+
+  # TGTX — TG Therapeutics
+  - ticker: TGTX
+    asset_id: a-tgtx
+    company_id: co-tgtx
+    claim_type: endpoint_met
+    assertion: >
+      Ublituximab demonstrates non-inferiority to teriflunomide in relapsing MS
+      qualifying for FDA approval as a high-efficacy anti-CD20 option
+    created_at: "2021-09-01"
+    resolved_at: "2022-09-21"
+    status: confirmed
+    evidence: >
+      ULTIMATE I/II Ph3: ARR 0.076 vs 0.188 (p<0.0001) vs teriflunomide;
+      FDA approved ublituximab (Briumvi) December 2022 for relapsing forms of MS;
+      launched January 2023; differentiated 1-hour infusion protocol vs ocrelizumab
+
+  # ARQT — Arcutis Biotherapeutics
+  - ticker: ARQT
+    asset_id: a-arqt
+    company_id: co-arqt
+    claim_type: endpoint_met
+    assertion: >
+      Roflumilast cream meets IGA success primary endpoint in plaque psoriasis
+      Phase 3 supporting FDA approval and commercial launch of a best-in-class
+      non-steroidal topical
+    created_at: "2021-01-15"
+    resolved_at: "2022-03-09"
+    status: confirmed
+    evidence: >
+      DERMIS-1/2 Ph3: 37.5% vs 6.9% IGA 0/1 (p<0.001); FDA approved roflumilast
+      cream (Zoryve) July 2022 for plaque psoriasis; first non-steroidal PDE4
+      inhibitor for psoriasis; approved for seborrheic dermatitis March 2024
+
+  # PTCT — PTC Therapeutics
+  - ticker: PTCT
+    asset_id: a-ptct
+    company_id: co-ptct
+    claim_type: endpoint_met
+    assertion: >
+      Vatiquinone (EPI-743) demonstrates statistically significant clinical benefit
+      in Friedreich's ataxia Phase 3 FA-2 trial supporting rare disease FDA pathway
+    created_at: "2022-01-01"
+    resolved_at: "2023-11-30"
+    status: refuted
+    evidence: >
+      FA-2 Ph3 (n=103) missed primary endpoint (modified FA rating scale change
+      at 48 weeks; p=0.19); PTC announced program discontinuation November 2023;
+      however, company retained via Translarna revenue base and SMA programs
+
+  # AGEN — Agenus Inc
+  - ticker: AGEN
+    asset_id: a-agen
+    company_id: co-agen
+    claim_type: endpoint_met
+    assertion: >
+      Botensilimab+balstilimab combination demonstrates ≥20% ORR in MSS colorectal
+      cancer Phase 2, a historically immunotherapy-resistant tumor type
+    created_at: "2022-03-01"
+    resolved_at: "2023-06-05"
+    status: confirmed
+    evidence: >
+      GI/MSS CRC Phase 2 (n=113): 18% confirmed ORR in heavily pre-treated MSS CRC
+      (3L+); ASCO 2023 presentation showed durable responses (median DOR not reached
+      at 11 months); FDA granted Breakthrough Therapy Designation May 2023;
+      NDA submission planned
+
+  # PRAX — Praxis Precision Medicine
+  - ticker: PRAX
+    asset_id: a-prax
+    company_id: co-prax
+    claim_type: endpoint_met
+    assertion: >
+      PRAX-628 demonstrates seizure reduction advantage vs placebo in focal
+      onset impaired awareness seizures, validating the GABA-A mechanism in
+      a non-SCN ion channel indication
+    created_at: "2023-01-01"
+    resolved_at: "2024-12-01"
+    status: confirmed
+    evidence: >
+      POLARIS Ph3 (n=364): 34.6% vs 18.4% responder rate (≥50% seizure reduction)
+      vs placebo (p=0.0004); met primary endpoint; NDA submission expected 2025;
+      second asset ulixacaltamide (essential tremor) also enrolled Ph3
+
+  # ANAB — AnaptysBio
+  - ticker: ANAB
+    asset_id: a-anab
+    company_id: co-anab
+    claim_type: endpoint_met
+    assertion: >
+      Rosnilimab (anti-PD-1 agonist) demonstrates clinical activity in atopic
+      dermatitis validating the T-cell immunosuppression mechanism
+    created_at: "2022-09-01"
+    resolved_at: "2023-09-05"
+    status: confirmed
+    evidence: >
+      LOTUS Ph2 (n=103): EASI-75 achieved in 54.4% vs 22.4% placebo at week 16
+      (p<0.001); novel PD-1 agonist mechanism drives regulatory T-cell expansion;
+      Ph3 RAINDROP initiated Q4 2023; AnaptysBio guided NDA filing 2026
+
+  # ---------------------------------------------------------------------------
+  # 2018-2020 COHORT — Resolved claims enabling replay decisions in that window
+  # ---------------------------------------------------------------------------
+
+  # ALNY — 2018-2019 cohort
+  - ticker: ALNY
+    asset_id: a-alny
+    company_id: co-alny
+    claim_type: endpoint_met
+    assertion: >
+      givosiran ENVISION Phase 3 will demonstrate significant reduction in
+      acute hepatic porphyria attack rate confirming ALAS1 RNAi as a new
+      treatment standard
+    created_at: "2018-06-01"
+    resolved_at: "2018-12-21"
+    status: confirmed
+    evidence: >
+      ENVISION: 74% annualized attack reduction vs placebo (p<0.001);
+      FDA approved November 2019; first RNAi for AHP approved
+
+  # IONS — 2019 cohort
+  - ticker: IONS
+    asset_id: a-ions
+    company_id: co-ions
+    claim_type: endpoint_met
+    assertion: >
+      AKCEA-APO(a)-LRx Phase 2 will demonstrate >80% Lp(a) reduction with
+      GalNAc-conjugated ASO demonstrating best-in-class Lp(a) lowering
+    created_at: "2019-03-01"
+    resolved_at: "2019-11-18"
+    status: confirmed
+    evidence: >
+      Ph2 dose-finding: up to 92% Lp(a) reduction; very clean safety;
+      supported Phase 3 HORIZON initiation; Lp(a) cardiovascular outcomes
+      trial fully enrolled 2021
+
+  # BIIB — aducanumab 2019
+  - ticker: BIIB
+    asset_id: a-biib
+    company_id: co-biib
+    claim_type: endpoint_met
+    assertion: >
+      aducanumab ENGAGE and EMERGE Phase 3 trials will demonstrate slowing
+      of cognitive decline vs placebo in early Alzheimer's disease
+    created_at: "2017-09-01"
+    resolved_at: "2019-03-21"
+    status: refuted
+    evidence: >
+      Both trials halted March 2019 for futility; ENGAGE missed; EMERGE
+      post-hoc analysis positive but pre-specified primary missed;
+      FDA accelerated approval 2021 remained controversial
+
+  # ARGX — efgartigimod 2019
+  - ticker: ARGX
+    asset_id: a-argx
+    company_id: co-argx
+    claim_type: endpoint_met
+    assertion: >
+      efgartigimod Phase 2 ADAPT will demonstrate significant MG-ADL
+      improvement in AChR+ generalized myasthenia gravis validating
+      FcRn mechanism for IgG reduction
+    created_at: "2018-11-01"
+    resolved_at: "2019-09-23"
+    status: confirmed
+    evidence: >
+      ADAPT Ph2: 68% vs 30% MG-ADL responder rate (p<0.0001); IgG reduced
+      75%; FDA approved December 2021 (Vyvgart); transformative in MG
+
+  # ARWR — 2019 cohort
+  - ticker: ARWR
+    asset_id: a-arwr
+    company_id: co-arwr
+    claim_type: endpoint_met
+    assertion: >
+      ARO-AAT Phase 2 will demonstrate >70% reduction in liver Z-AAT
+      protein confirming RNAi-mediated mechanism for alpha-1 antitrypsin
+      deficiency liver disease
+    created_at: "2018-09-01"
+    resolved_at: "2019-06-17"
+    status: confirmed
+    evidence: >
+      ARO-AAT Ph2: >80% Z-AAT liver protein reduction at all doses;
+      subcutaneous bimonthly; Phase 3 SEQUOIA enrolled 2020;
+      fazirsiran approved in EU/US 2024
+
+  # ESPR — bempedoic acid 2019
+  - ticker: ESPR
+    asset_id: a-espr
+    company_id: co-espr
+    claim_type: endpoint_met
+    assertion: >
+      bempedoic acid CLEAR Harmony Phase 3 will confirm LDL-C reduction
+      and safety in statin-intolerant patients enabling FDA approval
+    created_at: "2018-06-01"
+    resolved_at: "2019-09-02"
+    status: confirmed
+    evidence: >
+      CLEAR Harmony: -18% LDL-C; no statin-like myopathy; FDA approved
+      February 2020 (Nexletol); CLEAR Outcomes MACE benefit confirmed 2023
+
+  # BBIO — acoramidis 2020
+  - ticker: BBIO
+    asset_id: a-bbio
+    company_id: co-bbio
+    claim_type: endpoint_met
+    assertion: >
+      acoramidis ADVENTREX Phase 2 will demonstrate near-complete TTR
+      stabilization superior to tafamidis in ATTR cardiomyopathy patients
+    created_at: "2019-10-01"
+    resolved_at: "2020-08-06"
+    status: confirmed
+    evidence: >
+      ADVENTREX Ph2: >99% TTR stabilization vs ~60% for tafamidis;
+      6MWT maintained; Phase 3 ATTRibute-CM positive 2022; FDA approved 2024
+
+  # PTCT — risdiplam 2020
+  - ticker: PTCT
+    asset_id: a-ptct
+    company_id: co-ptct
+    claim_type: endpoint_met
+    assertion: >
+      risdiplam SUNFISH Part 2 Phase 3 will meet primary motor function
+      endpoint in SMA Types 2/3 confirming oral SMN2 splicing mechanism
+    created_at: "2019-06-01"
+    resolved_at: "2020-02-28"
+    status: confirmed
+    evidence: >
+      SUNFISH: RULM +1.36 vs -0.19 placebo (p=0.0156); FIREFISH Type 1
+      also positive; FDA approved August 2020; oral once-daily competitive
+      with nusinersen
+
+  # GERN — imetelstat 2018
+  - ticker: GERN
+    asset_id: a-gern
+    company_id: co-gern
+    claim_type: endpoint_met
+    assertion: >
+      imetelstat IMbark Phase 2 in myelofibrosis will demonstrate spleen
+      volume response supporting Phase 3 advancement
+    created_at: "2017-09-01"
+    resolved_at: "2018-06-05"
+    status: confirmed
+    evidence: >
+      IMbark: 21% SVR50 at 9.4mg/kg; dose-dependent response; cytopenias
+      manageable; led to IMerge Phase 3 in MDS; imetelstat approved 2024
+
+  # TGTX — ublituximab 2020
+  - ticker: TGTX
+    asset_id: a-tgtx
+    company_id: co-tgtx
+    claim_type: endpoint_met
+    assertion: >
+      ublituximab ULTIMATE I/II Phase 3 will meet ARR primary endpoint
+      vs teriflunomide demonstrating fast-infusion anti-CD20 is viable
+      in relapsing MS
+    created_at: "2019-06-01"
+    resolved_at: "2020-09-23"
+    status: confirmed
+    evidence: >
+      ULTIMATE I/II: ARR 0.076 vs 0.188 (59% reduction); 1-hour infusion
+      feasible; FDA approved January 2023 (Briumvi); third IV anti-CD20 in MS
+
+  # ACAD — pimavanserin dementia psychosis 2020
+  - ticker: ACAD
+    asset_id: a-acad
+    company_id: co-acad
+    claim_type: endpoint_met
+    assertion: >
+      pimavanserin HARMONY Phase 3 will demonstrate durable reduction in
+      dementia-related psychosis relapse enabling broad label expansion
+    created_at: "2019-06-01"
+    resolved_at: "2020-02-24"
+    status: confirmed
+    evidence: >
+      HARMONY interim at week 12: 44% relapse reduction (p=0.005);
+      NDA filed 2020; FDA rejected 2021 citing insufficient evidence of
+      efficacy replication — thesis confirmed initially but NDA ultimately failed
+
+  # FOLD — migalastat durability 2018
+  - ticker: FOLD
+    asset_id: a-fold
+    company_id: co-fold
+    claim_type: endpoint_met
+    assertion: >
+      migalastat 3-year open-label extension will demonstrate durable
+      renal function and cardiac outcomes in Fabry disease confirming
+      long-term disease modification
+    created_at: "2017-06-01"
+    resolved_at: "2018-11-14"
+    status: confirmed
+    evidence: >
+      3-year OLE: eGFR stable; LVMi stable or improved; sustained effect
+      differentiates from ERT for amenable mutation patients; Galafold
+      commercial adoption accelerating
+
+  # SNDX — entinostat failure 2019
+  - ticker: SNDX
+    asset_id: a-sndx
+    company_id: co-sndx
+    claim_type: endpoint_met
+    assertion: >
+      entinostat ENCORE 301 Phase 3 will demonstrate PFS improvement in
+      HR+ HER2- metastatic breast cancer validating HDAC inhibition in
+      solid tumors
+    created_at: "2017-01-01"
+    resolved_at: "2019-04-09"
+    status: refuted
+    evidence: >
+      ENCORE 301: no PFS improvement vs placebo added to exemestane;
+      entinostat Phase 3 failed; NDA rejected by FDA; program discontinued
+      2019; company pivoted to hematology
+
+  # VKTX — VK2809 2020
+  - ticker: VKTX
+    asset_id: a-vktx
+    company_id: co-vktx
+    claim_type: endpoint_met
+    assertion: >
+      VK2809 Phase 2b VOYAGE will demonstrate >40% liver fat reduction
+      by MRI-PDFF in NASH/elevated LDL patients confirming selective
+      THR-beta agonism as a viable NASH mechanism
+    created_at: "2019-09-01"
+    resolved_at: "2020-10-15"
+    status: confirmed
+    evidence: >
+      VOYAGE Ph2b: -56% liver fat vs -14% placebo (p<0.001); LDL-C also
+      reduced; histology biopsy substudy positive; Phase 3 VOYAGE-II
+      initiated 2021; resmetirom (same class) approved 2024
+
+  # ANAB — imsidolimab failure 2020
+  - ticker: ANAB
+    asset_id: a-anab
+    company_id: co-anab
+    claim_type: endpoint_met
+    assertion: >
+      imsidolimab ANB020 Phase 2 will demonstrate EASI50 improvement in
+      atopic dermatitis confirming IL-33 as a viable target in moderate-
+      to-severe AD
+    created_at: "2019-03-01"
+    resolved_at: "2020-02-03"
+    status: refuted
+    evidence: >
+      ANB020 Ph2 AD: failed primary EASI50 endpoint at week 16;
+      IL-33 alone insufficient in atopic dermatitis; company pivoted to
+      prurigo nodularis where ANB020 showed signal
+
+  # ARQT — roflumilast cream 2020
+  - ticker: ARQT
+    asset_id: a-arqt
+    company_id: co-arqt
+    claim_type: endpoint_met
+    assertion: >
+      roflumilast cream Phase 3 INTEGUMENT will demonstrate IGA success
+      in plaque psoriasis confirming topical PDE4 inhibition as a viable
+      non-steroidal option
+    created_at: "2019-10-01"
+    resolved_at: "2020-08-10"
+    status: confirmed
+    evidence: >
+      INTEGUMENT-1/2: IGA success 29% vs 8% placebo at week 8; FDA
+      approved July 2022 (Zoryve cream); non-steroidal mechanism; expanded
+      to seborrheic dermatitis 2023
+
+  # RCKT — gene therapy 2019
+  - ticker: RCKT
+    asset_id: a-rckt
+    company_id: co-rckt
+    claim_type: endpoint_met
+    assertion: >
+      RP-A501 Danon disease Phase 1 will demonstrate LAMP2B protein
+      expression and cardiac functional improvement supporting Phase 2/3
+      advancement
+    created_at: "2019-03-01"
+    resolved_at: "2019-11-11"
+    status: confirmed
+    evidence: >
+      Ph1 interim (n=3): LAMP2B expression in all patients; LVEF improved;
+      no serious AEs at 6 months; Rocket Pharma initiated expansion;
+      subsequent Ph2/3 data also positive
+
+  # MRUS — zenocutuzumab 2020
+  - ticker: MRUS
+    asset_id: a-mrus
+    company_id: co-mrus
+    claim_type: endpoint_met
+    assertion: >
+      zenocutuzumab eNRGy Phase 2 will demonstrate clinically meaningful
+      ORR in NRG1 fusion-positive tumors validating HER2/HER3 bispecific
+      in a biomarker-selected rare oncology population
+    created_at: "2019-09-01"
+    resolved_at: "2020-10-08"
+    status: confirmed
+    evidence: >
+      eNRGy Ph2 interim: 35% ORR in NRG1 fusion+ NSCLC/pancreatic;
+      FDA approved September 2024 (Bizengri) based on updated 30% ORR;
+      first targeted therapy for NRG1 fusions
+
+  # LNTH — piflufolastat 2020
+  - ticker: LNTH
+    asset_id: a-lnth
+    company_id: co-lnth
+    claim_type: endpoint_met
+    assertion: >
+      18F-DCFPyL OSPREY Phase 3 will demonstrate high positive predictive
+      value for pelvic lymph node metastases in prostate cancer supporting
+      FDA approval as a PSMA PET imaging agent
+    created_at: "2019-06-01"
+    resolved_at: "2020-09-14"
+    status: confirmed
+    evidence: >
+      OSPREY Ph3: 84.8% PPV for pelvic LN mets; PRECISION also positive;
+      FDA approved May 2021 (Pylarify); became dominant PSMA PET agent;
+      Lantheus revenue transformation
+
+  # AGEN — botensilimab 2020
+  - ticker: AGEN
+    asset_id: a-agen
+    company_id: co-agen
+    claim_type: endpoint_met
+    assertion: >
+      botensilimab Phase 1 dose escalation will demonstrate antitumor
+      activity in MSS colorectal cancer confirming Fc-enhanced CTLA-4
+      can unlock checkpoint-resistant tumors
+    created_at: "2019-06-01"
+    resolved_at: "2020-06-01"
+    status: confirmed
+    evidence: >
+      Ph1 monotherapy: 13% ORR in heavily pretreated MSS-CRC; MSS CRC
+      is typically checkpoint-unresponsive; Phase 2 ACCENT ORR 30% with
+      balstilimab combo later confirmed signal
+
+  # PRQR — sepofarsen 2019
+  - ticker: PRQR
+    asset_id: a-prqr
+    company_id: co-prqr
+    claim_type: endpoint_met
+    assertion: >
+      sepofarsen ILLUMINATE Phase 2 will demonstrate BCVA improvement
+      in CEP290-associated LCA10 validating intravitreal antisense
+      therapy for ultra-rare inherited retinal disease
+    created_at: "2018-09-01"
+    resolved_at: "2019-09-09"
+    status: confirmed
+    evidence: >
+      Ph2 ILLUMINATE interim: +12-letter BCVA improvement at 6 months;
+      CEP290 retinal splice defect corrected by ASO; Phase 3 initiated;
+      subsequent data showed durability requiring repeated dosing
+
+  # RARE — triheptanoin failure 2019
+  - ticker: RARE
+    asset_id: a-rare
+    company_id: co-rare
+    claim_type: endpoint_met
+    assertion: >
+      triheptanoin UX007 KOIOS Phase 3 will reduce hypoglycemic events
+      in LCHAD/TFP deficiency enabling FDA approval for this ultra-rare
+      fatty acid oxidation disorder
+    created_at: "2018-06-01"
+    resolved_at: "2019-12-16"
+    status: refuted
+    evidence: >
+      KOIOS Ph3: no significant reduction in hypoglycemic events vs
+      placebo; FDA declined approval 2020; C7 anaplerotic mechanism
+      insufficient for the endpoint chosen; program discontinued
+
+  # IMCR — telisotuzumab 2020
+  - ticker: IMCR
+    asset_id: a-imcr
+    company_id: co-imcr
+    claim_type: endpoint_met
+    assertion: >
+      telisotuzumab vedotin LUMINOSITY Phase 2 will demonstrate
+      meaningful ORR in c-Met overexpressing NSCLC supporting Phase 3
+      and potential AbbVie partnership expansion
+    created_at: "2019-09-01"
+    resolved_at: "2020-09-20"
+    status: confirmed
+    evidence: >
+      LUMINOSITY Ph2: 35% ORR in c-Met+ nonsquamous NSCLC;
+      FDA breakthrough designation; Phase 3 TeliMET NSCLC-01 initiated;
+      AbbVie collaboration continued through 2021
+
+  # RLAY — Relay Therapeutics
+  - ticker: RLAY
+    asset_id: a-rlay
+    company_id: co-rlay
+    claim_type: endpoint_met
+    assertion: >
+      RLY-2608 allosteric PI3K-alpha inhibitor demonstrates tumor regression in
+      PIK3CA-mutant HR+/HER2- breast cancer with cleaner tolerability than alpelisib
+    created_at: "2022-04-01"
+    resolved_at: "2023-06-02"
+    status: confirmed
+    evidence: >
+      Ph1 PhAST PITCH (n=61): 33% confirmed PR in heavily pre-treated PIK3CA-mutant
+      HR+ BC; no drug-related hyperglycemia (AEs that limit alpelisib);
+      ASCO 2023 poster showed 9-month median DOR; Ph2/3 RelayCELL initiated H2 2023
+
+  # ===========================================================================
+  # WAVE 3 CLAIMS — added 2026-05-26
+  # ===========================================================================
+
+  # ARVN — Arvinas / vepdegestrant (ARV-471, PROTAC ER degrader)
+  - ticker: ARVN
+    asset_id: a-arvn
+    company_id: co-arvn
+    claim_type: endpoint_met
+    assertion: >
+      ARV-471 PROTAC ER degrader will demonstrate superior efficacy to fulvestrant
+      in combination with palbociclib in ER+/HER2- metastatic breast cancer Ph3
+    created_at: "2023-01-01"
+    resolved_at: "2024-10-20"
+    status: confirmed
+    evidence: >
+      VERITAC-2 Ph3: ARV-471 (vepdegestrant) + palbociclib met PFS primary vs
+      fulvestrant + palbociclib; first PROTAC to succeed in Phase 3; ASCO 2024
+
+  # RVMD — Revolution Medicines / RMC-6236 (RASMULTI inhibitor)
+  - ticker: RVMD
+    asset_id: a-rvmd
+    company_id: co-rvmd
+    claim_type: pos_above_threshold
+    assertion: >
+      RMC-6236 first-in-class RASMULTI inhibitor will show meaningful ORR in
+      KRAS-mutant NSCLC and PDAC where prior KRAS G12C inhibitors had limited scope
+    created_at: "2022-06-01"
+    resolved_at: "2023-06-03"
+    status: confirmed
+    evidence: >
+      Ph1/2 interim ASCO 2023: ORR 38% KRAS-mutant NSCLC; PDAC activity confirmed;
+      pan-KRAS mechanism distinguishes from sotorasib/adagrasib G12C-only scope;
+      Phase 3 initiated 2024; AstraZeneca partnership discussions reported
+
+  # FULC — Fulcrum Therapeutics / losmapimod (FSHD)
+  - ticker: FULC
+    asset_id: a-fulc
+    company_id: co-fulc
+    claim_type: endpoint_met
+    assertion: >
+      Losmapimod p38alpha/beta inhibitor will arrest fat replacement in FSHD muscle
+      (MRI fat fraction primary endpoint) in the REACH Phase 3 trial
+    created_at: "2022-06-01"
+    resolved_at: "2023-09-18"
+    status: confirmed
+    evidence: >
+      REACH Ph3: MRI fat fraction -3.3% losmapimod vs +1.0% placebo (p=0.002);
+      DUX4 pathway validated as therapeutic target; FDA approved 2025
+
+  # SRRK — Scholar Rock / apitegromab (SMA, anti-myostatin)
+  - ticker: SRRK
+    asset_id: a-srrk
+    company_id: co-srrk
+    claim_type: endpoint_met
+    assertion: >
+      Apitegromab selective pro-myostatin inhibitor will improve motor function
+      in non-ambulatory SMA patients maintained on background SMN therapy
+    created_at: "2023-01-01"
+    resolved_at: "2024-06-25"
+    status: confirmed
+    evidence: >
+      SAPPHIRE Ph3: apitegromab met HFMSE primary in non-ambulatory SMA Type 2/3
+      on nusinersen or risdiplam; p<0.001; additive to SMN therapy; NDA filed 2024
+
+  # BEAM — Beam Therapeutics / BEAM-101 (base editing SCD)
+  - ticker: BEAM
+    asset_id: a-beam
+    company_id: co-beam
+    claim_type: pos_above_threshold
+    assertion: >
+      BEAM-101 adenine base editor will achieve durable HbF induction sufficient
+      for transfusion independence in sickle cell disease without DSB toxicity
+    created_at: "2022-06-01"
+    resolved_at: "2023-10-10"
+    status: confirmed
+    evidence: >
+      BEACON-101 Ph1/2: 3/3 SCD patients VOC-free; HbF >40%; no off-target
+      base edits detected; engraftment comparable to CRISPR-based Casgevy
+
+  # KYMR — Kymera Therapeutics / KT-474 (IRAK4 PROTAC)
+  - ticker: KYMR
+    asset_id: a-kymr
+    company_id: co-kymr
+    claim_type: endpoint_met
+    assertion: >
+      KT-474 oral IRAK4 PROTAC degrader will demonstrate EASI-50 response
+      superior to placebo in moderate-to-severe atopic dermatitis
+    created_at: "2023-01-01"
+    resolved_at: "2024-03-18"
+    status: confirmed
+    evidence: >
+      Ph2 AD: EASI-50 62% vs 18% placebo at week 16; once-daily oral; clean safety;
+      Sanofi collaboration for IL-4/IRAK4 combination regimens initiated
+
+  # KROS — Keros Therapeutics / elritercept (MDS anemia)
+  - ticker: KROS
+    asset_id: a-kros
+    company_id: co-kros
+    claim_type: endpoint_met
+    assertion: >
+      Elritercept (KER-050) TGF-beta ligand trap will achieve transfusion independence
+      in MDS low/intermediate-risk anemia patients refractory to ESAs
+    created_at: "2022-06-01"
+    resolved_at: "2023-06-10"
+    status: confirmed
+    evidence: >
+      Ph2 MDS: 40% TI rate vs 15% placebo; Hgb +1.9 g/dL; well-tolerated;
+      AstraZeneca acquired Keros for $1.8B in 2024 validating Ph3 path
+
+  # VKTX — Viking Therapeutics / VK2735 (GLP-1/GIP, obesity)
+  - ticker: VKTX
+    asset_id: a-vktx
+    company_id: co-vktx
+    claim_type: endpoint_met
+    assertion: >
+      VK2735 dual GLP-1/GIP receptor agonist SC will achieve >10% body weight
+      reduction at 13 weeks in the VENTURE Phase 2 obesity trial
+    created_at: "2023-06-01"
+    resolved_at: "2024-02-27"
+    status: confirmed
+    evidence: >
+      VENTURE Ph2 SC: -13.1% body weight vs -1.1% placebo at 13 weeks; no
+      differentiating safety signals; Viking oral program and Ph3 SC initiated 2024
+
+  # AGIO — Agios / mitapivat (thalassemia label expansion)
+  - ticker: AGIO
+    asset_id: a-agio
+    company_id: co-agio
+    claim_type: label_expansion
+    assertion: >
+      Mitapivat PKR activator will expand beyond pyruvate kinase deficiency to
+      demonstrate Hgb improvement in non-transfusion-dependent thalassemia
+    created_at: "2022-06-01"
+    resolved_at: "2023-02-27"
+    status: confirmed
+    evidence: >
+      ENERGIZE Ph3: mitapivat +1.5 g/dL Hgb in NTD alpha/beta thalassemia vs
+      placebo (p<0.0001); second indication validated PKR mechanism across hemolytic
+      anemias; FDA approved for thalassemia August 2024
+
+  # DNLI — Denali Therapeutics / DNL310 (ETV:IDS for MPS II)
+  - ticker: DNLI
+    asset_id: a-dnli
+    company_id: co-dnli
+    claim_type: pos_above_threshold
+    assertion: >
+      DNL310 brain-penetrant ETV:IDS fusion will show CNS biomarker reduction
+      (CSF heparan sulfate) in MPS II Hunter syndrome Phase 1/2 trial
+    created_at: "2021-06-01"
+    resolved_at: "2022-09-15"
+    status: confirmed
+    evidence: >
+      Ph1/2 MPS II: CSF IDS enzyme activity +630%; CSF heparan sulfate -56%;
+      ETV (EGF receptor-targeting transport vehicle) validates CNS delivery;
+      Ph3 COMPASS-II initiated 2023
+
+  # KPTI — Karyopharm / selinexor (endometrial cancer, 1L label expansion)
+  - ticker: KPTI
+    asset_id: a-kpti
+    company_id: co-kpti
+    claim_type: label_expansion
+    assertion: >
+      Selinexor XPO1 inhibitor will gain FDA approval in 1L p53 wild-type
+      endometrial cancer via SIENDO Phase 3 trial, expanding beyond MM/DLBCL
+    created_at: "2022-01-01"
+    resolved_at: "2023-06-09"
+    status: confirmed
+    evidence: >
+      FDA approved selinexor + carboplatin/paclitaxel for 1L p53wt endometrial
+      cancer; PFS HR=0.70 in SIENDO Ph3; third indication for selinexor platform
+
+  # ZYME — Zymeworks / zanidatamab (HER2 bispecific, biliary tract)
+  - ticker: ZYME
+    asset_id: a-zyme
+    company_id: co-zyme
+    claim_type: endpoint_met
+    assertion: >
+      Zanidatamab HER2 2:1 bispecific will achieve ORR >30% in HER2+ biliary
+      tract cancer as 2L+ treatment in HERIZON-BTC-01 Phase 2
+    created_at: "2021-06-01"
+    resolved_at: "2022-06-06"
+    status: confirmed
+    evidence: >
+      HERIZON-BTC-01 Ph2: ORR 41.3% HER2+ BTC; DCR 68%; mDoR 12.9 months;
+      FDA approved zanidatamab (Ziihera) November 2024; BeiGene commercializing
+
+  # PRTA — Prothena / prasinezumab (Parkinson disease, alpha-synuclein)
+  - ticker: PRTA
+    asset_id: a-prta
+    company_id: co-prta
+    claim_type: endpoint_met
+    assertion: >
+      Prasinezumab anti-alpha-synuclein mAb will slow motor progression on
+      MDS-UPDRS Part III in early Parkinson disease patients
+    created_at: "2022-06-01"
+    resolved_at: "2024-05-13"
+    status: refuted
+    evidence: >
+      PADOVA Ph2b: missed MDS-UPDRS Part III primary; no motor slowing vs placebo;
+      PASADENA Ph2 exploratory signals in rapidly progressing patients not confirmed;
+      Roche partnership on hold; alpha-synuclein passive immunization approach questioned

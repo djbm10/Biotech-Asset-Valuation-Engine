@@ -1,0 +1,80 @@
+company: Bristol-Myers Squibb
+ticker: BMY
+profile_as_of: 2026-04-07
+market_cap_billions: 130
+cash_billions: 8.4
+pipeline_gaps:
+  - therapeutic_area: neuroscience
+    sub_area: neuropsychiatry_cns
+    gap_type: strategic_entry
+    urgency: high
+    preferred_modality: [small_molecule, antibody]
+    budget_ceiling_millions: 15000
+    notes: "Karuna acquisition established CNS presence; next-gen neuropsychiatry (schizophrenia, MDD) bolt-ons remain strategic."
+  - therapeutic_area: oncology
+    sub_area: radiopharmaceuticals_rdc
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [radiopharmaceutical]
+    budget_ceiling_millions: 12000
+    notes: "RayzeBio acquisition seeds RDC platform; additional targeting ligands, isotopes, and neuroendocrine-tumor radioligand assets are needed to build a full franchise."
+  - therapeutic_area: oncology
+    sub_area: celmod_myeloma_degrader
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [degrader]
+    budget_ceiling_millions: 10000
+    notes: "Revlimid LOE drives urgency for next-gen CELMoD and cereblon/protein-degrader assets in multiple myeloma and adjacent plasma-cell malignancies."
+  - therapeutic_area: oncology
+    sub_area: nsclc_ros1_alk_trk_kinase
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [small_molecule]
+    budget_ceiling_millions: 9000
+    notes: "Turning Point / Mirati-style precision-oncology kinase assets remain a repeatable bolt-on category for BMS, especially ROS1, ALK, TRK, and NSCLC registrational programs."
+  - therapeutic_area: immunology
+    sub_area: il23_il17_psoriasis
+    gap_type: LOE_exposure
+    urgency: medium
+    preferred_modality: [biologic, small_molecule]
+    budget_ceiling_millions: 8000
+    notes: "Opdivo franchise continues, but PD-1 checkpoint maturing — downstream IO combo and I&I assets remain open."
+  - therapeutic_area: cardiovascular
+    sub_area: factor_xi_oral_anticoagulant
+    gap_type: selective_gap
+    urgency: medium
+    preferred_modality: [small_molecule, antibody]
+    budget_ceiling_millions: 8000
+    notes: "Eliquis LOE approaching mid-2020s; FXIa inhibitors as next-gen anticoagulants remain strategic."
+  - therapeutic_area: cardiovascular
+    sub_area: cardiomyopathy_hcm_cardiac_muscle
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [small_molecule]
+    budget_ceiling_millions: 15000
+    notes: "MyoKardia demonstrated explicit appetite for cardiomyopathy and sarcomere-biology bolt-ons."
+recent_deals:
+  - target: Karuna Therapeutics
+    date: 2024-03-05
+    value_billions: 14.0
+    therapeutic_area: neuroscience
+    modality: small_molecule
+  - target: RayzeBio
+    date: 2024-02-06
+    value_billions: 4.1
+    therapeutic_area: oncology
+    modality: radiopharmaceutical
+  - target: Mirati Therapeutics
+    date: 2024-04-23
+    value_billions: 4.8
+    therapeutic_area: oncology
+    modality: small_molecule
+  - target: SystImmune
+    date: 2024-07-08
+    value_billions: 8.4
+    therapeutic_area: oncology
+    modality: ADC
+stated_priorities:
+  - "CNS/neuropsychiatry is the new growth platform following Karuna; follow-on deals likely."
+  - "Radiopharmaceuticals and protein degraders are the two emerging oncology platform bets."
+  - "Bolt-on cardiovascular and immunology deals remain in scope at sub-$10B scale."

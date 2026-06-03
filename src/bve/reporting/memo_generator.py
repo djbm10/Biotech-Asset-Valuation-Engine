@@ -14,6 +14,7 @@ from typing import Literal
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 from bve.config.constants import MEMO_AUTHOR, MEMO_DISCLAIMER
+from bve.reporting.evidence_builder import MemoEvidenceBuilder
 from bve.valuation.outputs import ValuationOutput
 
 MemoType = Literal["bd", "vc", "hf"]
@@ -38,6 +39,9 @@ def _build_context(output: ValuationOutput, memo_type: MemoType) -> dict:
         "rnpv_prob_adj_revenue_pv": output.rnpv.probability_adjusted_revenue_pv_millions,
         "rnpv_trial_costs_pv": output.rnpv.trial_costs_pv_millions,
         "shares_outstanding_millions": output.company.shares_outstanding_millions,
+        # Falsification section helpers
+        "combined_pos_pct": round(output.rnpv.cumulative_success_probability * 100, 1),
+        "n_competitors": len(output.asset.competitor_assets),
     })
 
     # Phases detail (for timeline tables)
@@ -73,9 +77,12 @@ def _build_context(output: ValuationOutput, memo_type: MemoType) -> dict:
         "implied_pos_pct": f"{output.implied_pos:.1%}" if output.implied_pos is not None else None,
         "implied_pos": output.implied_pos,
         "lifecycle_events": output.lifecycle_events_applied,
+        "comps": output.comps_fair_value_band,
         "author": MEMO_AUTHOR,
         "disclaimer": MEMO_DISCLAIMER,
         "memo_type": memo_type,
+        # Structured evidence bundle — always present (empty sections if no data)
+        "evidence": MemoEvidenceBuilder.build(output),
     }
 
 
@@ -96,6 +103,22 @@ def _make_env() -> Environment:
 
     env.filters["format_int"] = format_int
     return env
+
+
+class MemoGenerator:
+    """Thin class wrapper around generate_memo / save_memo for test and API convenience."""
+
+    def generate(self, output: ValuationOutput, memo_type: MemoType = "bd") -> str:
+        return generate_memo(output, memo_type=memo_type)
+
+    def save(
+        self,
+        output: ValuationOutput,
+        memo_type: MemoType = "bd",
+        output_dir: str | Path = "memos",
+        filename: str | None = None,
+    ) -> Path:
+        return save_memo(output, memo_type=memo_type, output_dir=output_dir, filename=filename)
 
 
 def generate_memo(
@@ -123,8 +146,9 @@ def generate_memo(
     context = _build_context(output, memo_type)
     rendered = template.render(**context)
 
-    # Attach rendered memo to output object for convenience
+    # Attach rendered memo and evidence to output object for convenience
     output.memo_markdown = rendered
+    output.memo_evidence = context["evidence"]
     return rendered
 
 

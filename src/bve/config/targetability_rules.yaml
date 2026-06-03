@@ -1,0 +1,81 @@
+# Hard-fail rules: asset is disqualified as an M&A target (legacy TargetabilityFilter).
+# Note: max_approved_revenue_share is no longer a hard fail — commercial companies
+# are routed to commercial_franchise_acquisition model by Layer 0 (ma_eligibility.py).
+hard_fails:
+  # Market cap > $100B is no longer a universal hard fail.
+  # It triggers large-deal routing and requires acquirer-specific affordability
+  # validation via Layer 0 / 0C (AcquirerCapacityInput affordability gate).
+  max_market_cap_billions: 100
+  excluded_tickers:
+    - LLY
+    - PFE
+    - MRK
+    - JNJ
+    - NVS
+    - AZN
+    - ROG
+    - NVO
+    - SAN
+    - GSK
+    - BMY
+    - ABBV
+    - TAK
+    - GILD
+    - AMGN
+    - REGN
+    - VRTX
+    - BIIB
+    - ALNY
+    - BMRN
+    - MRNA
+  # DEPRECATED: approved_revenue_share > 0.50 was previously a hard fail.
+  # Now routed to commercial_franchise_acquisition by Layer 0 0B.
+  # Kept here at 1.01 (unreachable) for backward compatibility.
+  max_approved_revenue_share: 1.01
+
+# Soft penalties: reduce targetability score but do not eliminate (legacy path).
+soft_penalties:
+  # DEPRECATED: flat multi-product penalty replaced by function-based
+  # CommercialComplexityScore in Layer 0 0E (ma_eligibility.py).
+  multi_product_commercial_penalty: 0.50
+  market_cap_penalty_start_billions: 20
+  market_cap_penalty_end_billions: 100
+
+# Layer 0 configuration (ma_eligibility.py — institutional-grade pre-filter).
+layer0:
+  # 0A — taxonomy-driven exclusion categories
+  excluded_taxonomies:
+    - diversified_conglomerate
+    - other
+  acquirer_taxonomies:
+    - acquirer
+  shell_taxonomies:
+    - spac_shell
+
+  # 0B — commercial-franchise routing threshold
+  # approved_revenue_share above this → commercial_franchise_acquisition model
+  commercial_franchise_routing_threshold: 0.50
+
+  # 0C — affordability band thresholds (affordability_ratio = expected_cost / deal_capacity)
+  affordability:
+    no_penalty_ratio: 0.50        # ratio <= this: no penalty
+    mild_penalty_ratio: 0.85      # no_penalty < ratio <= this: mild penalty (×0.90)
+    severe_penalty_ratio: 1.10    # mild < ratio <= this: severe penalty (×0.60)
+    # ratio > severe_penalty_ratio: hard fail for that acquirer-target pair (×0.0)
+    mild_penalty_multiplier: 0.90
+    severe_penalty_multiplier: 0.60
+
+  # 0D — encumbrance penalty rates
+  encumbrance:
+    royalty_stack_high_threshold: 0.15   # cumulative royalty rate above this = "high"
+    encumbrance_floor: 0.20              # minimum penalty_multiplier regardless of issues
+
+  # 0F — distress quality guard
+  distress_guard:
+    mna_probability_cap: 0.25
+    reason_code: distress_without_strategic_asset
+
+  # 0G — data confidence thresholds
+  data_confidence:
+    high_threshold: 0.75   # score >= this: HIGH grade
+    medium_threshold: 0.50 # score >= this: MEDIUM grade; below: LOW grade

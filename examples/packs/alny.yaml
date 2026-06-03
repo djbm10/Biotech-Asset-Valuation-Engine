@@ -1,0 +1,217 @@
+# Underwriting Pack — Alnylam Pharmaceuticals Inc. (ALNY)
+# Q2 2026 | As of: 2026-04-09
+# Analyst: djm
+# Status: DRAFT — pending second reviewer
+
+company_id: "alny"
+company_name: "Alnylam Pharmaceuticals Inc."
+ticker: "ALNY"
+as_of_date: "2026-04-09"
+pack_quarter: "2026Q2"
+
+# ─────────────────────────────────────────────────────────────────────
+# Market data  (yfinance 2026-04-09)
+# ─────────────────────────────────────────────────────────────────────
+market:
+  market_cap_millions: 22000.0     # ~$22B at ~$200/share × ~104.5M shares
+  enterprise_value_millions: 20500.0  # market cap minus net cash (~$1,300M)
+  share_price: 200.0
+  source_ref: "yfinance:2026-04-09"
+
+# ─────────────────────────────────────────────────────────────────────
+# Balance sheet  (10-K Dec 2025; filed early 2026)
+# ─────────────────────────────────────────────────────────────────────
+balance_sheet:
+  cash_millions: 2800.0    # cash + short-term investments
+  debt_millions: 1500.0    # convertible notes outstanding (~due 2027)
+  source_ref: "10-K:2025-12-31:balance_sheet"
+
+# ─────────────────────────────────────────────────────────────────────
+# Modeled assets
+# ─────────────────────────────────────────────────────────────────────
+modeled_assets:
+  - bucket_id: "alny_inclisiran"
+    label: "Inclisiran (Leqvio) — LDL-C (partnered Novartis)"
+    value_millions: 3200.0
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/alny_inclisiran.yaml:2026-04-09"
+    as_of_date: "2026-04-09"
+    confidence: 0.85
+    corroboration_count: 2
+    corroboration_refs:
+      - "Novartis 2025 annual report royalty guidance"
+      - "Wall Street consensus ~$3B rNPV for royalty stream"
+    notes: >
+      Approved 2021 US/EU. Peak US+EU sales ~$2.5B (Novartis guided). ALNY receives
+      tiered royalties ~20%. rNPV on royalty stream, 12y remaining exclusivity.
+
+  - bucket_id: "alny_vutrisiran"
+    label: "Vutrisiran (Amvuttra) — hATTR amyloidosis (ALNY-owned)"
+    value_millions: 5800.0
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/alny_vutrisiran.yaml:2026-04-09"
+    as_of_date: "2026-04-09"
+    confidence: 0.88
+    corroboration_count: 2
+    corroboration_refs:
+      - "HELIOS-B results, NEJM 2024"
+      - "SVB Leerink peak sales est $4.5B blended"
+    notes: >
+      Approved 2022 hATTR-PN; sNDA for hATTR-CM (HELIOS-B Ph3 positive). CM indication
+      adds ~$3B peak sales opportunity. rNPV blended across PN+CM, 10y remaining
+      exclusivity, 10.5% discount.
+
+  - bucket_id: "alny_fitusiran"
+    label: "Fitusiran — Hemophilia A/B (partnered Sanofi)"
+    value_millions: 900.0
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/alny_fitusiran.yaml:2026-04-09"
+    as_of_date: "2026-04-09"
+    confidence: 0.72
+    corroboration_count: 1
+    corroboration_refs:
+      - "Sanofi partner disclosures 2025"
+    notes: >
+      Phase 3 ATLAS program complete. Approved EU; FDA PDUFA pending 2026.
+      Sanofi commercializes; ALNY royalty ~15-20% on net sales. Hemophilia
+      market ~$12B. rNPV on ALNY's royalty interest only.
+
+# ─────────────────────────────────────────────────────────────────────
+# Platform value
+# ─────────────────────────────────────────────────────────────────────
+platform_value:
+  bucket_id: "alny_platform"
+  label: "RNAi platform — next-gen siRNA + ESC+ conjugate platform"
+  value_millions: 1800.0
+  methodology: "analyst_estimate"
+  source_type: "analyst_bridge"
+  source_ref: "top25_pack_2026q2:ALNY:platform"
+  as_of_date: "2026-04-09"
+  confidence: 0.70
+  corroboration_count: 0
+  corroboration_refs: []
+  notes: >
+    Broadest RNAi delivery platform in industry. GalNAc conjugate enables liver
+    delivery; ESC+ extends durability. Option value on zilebesiran (HTN, Ph2/3),
+    ALN-APP (Alzheimer's, Ph1), other early pipeline. Conservative estimate
+    pending Ph3 HTN data.
+
+# ─────────────────────────────────────────────────────────────────────
+# Unmodeled pipeline
+# ─────────────────────────────────────────────────────────────────────
+unmodeled_pipeline:
+  bucket_id: "alny_unmodeled"
+  label: "Early RNAi pipeline (ALN-APP, ALN-XDH, ALN-HBV)"
+  value_millions: 400.0
+  methodology: "rule_of_thumb"
+  source_type: "analyst_bridge"
+  source_ref: "top25_pack_2026q2:ALNY:unmodeled"
+  as_of_date: "2026-04-09"
+  confidence: 0.50
+  corroboration_count: 0
+  corroboration_refs: []
+  notes: >
+    Multiple Ph1 programs. HTN (zilebesiran) partnered J&J — large market, Ph2
+    data positive. Sum-of-stages rule of thumb.
+
+# ─────────────────────────────────────────────────────────────────────
+# Royalty streams  (royalties already captured in modeled_assets —
+# inclisiran and fitusiran rNPV both model ALNY's royalty interest only)
+# ─────────────────────────────────────────────────────────────────────
+royalty_streams: []
+
+# ─────────────────────────────────────────────────────────────────────
+# Dilution bridge  (10-K Dec 2025)
+# ─────────────────────────────────────────────────────────────────────
+dilution:
+  current_shares_millions: 104.5
+  expected_dilution_pct: 0.03       # minimal; fully funded
+  financing_runway_quarters: null   # funded well beyond any near-term need
+  atm_active: false
+  atm_remaining_millions: null
+  shelf_registration_millions: 1500.0
+  warrant_shares_millions: 0.0
+  convertible_shares_millions: 8.2  # ~$1.5B converts outstanding
+  source_ref: "10-K:2025-12-31:capitalization"
+  as_of_date: "2025-12-31"
+  notes: >
+    Fully funded. $1.5B converts due 2027. No equity raise expected near-term.
+
+# ─────────────────────────────────────────────────────────────────────
+# Catalysts
+# ─────────────────────────────────────────────────────────────────────
+catalysts:
+  - description: "FDA action — fitusiran hemophilia A/B (PDUFA 2026-Q1/Q2)"
+    expected_date: "2026-Q1"
+    catalyst_type: "readout"
+    probability_positive: 0.80
+    source_ref: "FDA PDUFA calendar 2026"
+    notes: ""
+
+  - description: "Ph3 KARDIA-2 data — zilebesiran HTN (J&J partnership)"
+    expected_date: "2026-Q3"
+    catalyst_type: "readout"
+    probability_positive: 0.65
+    source_ref: "clinicaltrials.gov:NCT05103228"
+    notes: ""
+
+  - description: "hATTR-CM label expansion — Amvuttra sNDA FDA action"
+    expected_date: "2026-Q1"
+    catalyst_type: "fda_action"
+    probability_positive: 0.85
+    source_ref: "HELIOS-B sNDA filing 2025"
+    notes: ""
+
+# ─────────────────────────────────────────────────────────────────────
+# Management flags  (none flagged at this review)
+# ─────────────────────────────────────────────────────────────────────
+management_flags: []
+
+# ─────────────────────────────────────────────────────────────────────
+# Confidence metadata
+# ─────────────────────────────────────────────────────────────────────
+confidence:
+  overall_confidence: 0.82
+  notes: >
+    Approved assets (inclisiran, vutrisiran, fitusiran) are well-sourced with
+    good corroboration. Vutrisiran CM rNPV carries highest conviction given
+    HELIOS-B positive data. Platform value carries medium confidence (0.70)
+    pending Ph3 HTN data on zilebesiran. Main uncertainty: CM label expansion
+    timing and peak penetration assumptions.
+
+# ─────────────────────────────────────────────────────────────────────
+# Provenance
+# ─────────────────────────────────────────────────────────────────────
+provenance:
+  pack_version: 1
+  pack_quarter: "2026Q2"
+  created_by: "djm"
+  change_summary: "Initial Q2 2026 pack. Three approved assets modeled; platform + unmodeled pipeline assigned conservatively."
+
+# SOTP check (manual reconciliation, must answer: "why does model differ from market?"):
+#
+#   Market cap:                   $22,000M
+#   SOTP equity value:
+#     Net cash:                    +$1,300M  (2800 - 1500)
+#     Inclisiran rNPV:             +$3,200M
+#     Vutrisiran rNPV:             +$5,800M
+#     Fitusiran rNPV:                +$900M
+#     Platform:                    +$1,800M
+#     Unmodeled:                     +$400M
+#     Dilution reserve:              -$660M  (≈3% dilution × $200 × 104.5M)
+#     ────────────────────────────────────
+#     SOTP total:                 ~$12,740M
+#   SOTP discount:               ~-42% (market ~$9,260M premium to model)
+#   Assessment: Model is intentionally conservative on rNPVs (discounts at
+#   10.5%, 10y exclusivity). Market is pricing ~2x the modeled rNPV on
+#   vutrisiran given CM label + international expansion. Not a buy signal —
+#   model needs CM scenario upgrade to close the gap. Residual premium likely
+#   reflects full zilebesiran HTN optionality and broader CNS/metabolic pipeline
+#   not captured in any modeled bucket.
+
+reviewer_state: "draft"
+
+notes: ""

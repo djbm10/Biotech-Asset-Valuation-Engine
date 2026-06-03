@@ -1,0 +1,115 @@
+company: Takeda Pharmaceutical
+ticker: TAK
+profile_as_of: 2026-04-10
+market_cap_billions: 48.0
+cash_billions: 4.5
+acquisition_capacity_millions: 15000   # Constrained by Shire debt; ~$30B gross debt load; incremental deals ≤$15B
+
+pipeline_gaps:
+  - therapeutic_area: oncology
+    sub_area: adc_solid_tumor_precision
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [ADC, bispecific, small_molecule]
+    budget_ceiling_millions: 12000
+    notes: >
+      Velcade/Ninlaro LOE creates urgency for next hematology/oncology platform.
+      Fruzaqla (fruquintinib) acquired via C.H.I. provides CRC footprint.
+      High interest in HER3-ADC, TROP2-ADC, and precision solid tumor mechanisms
+      (e.g., KRAS G12C/G12D, PRMT5 inhibitors). Would consider Ph2+ assets with
+      clear path to Ph3 in CRC, gastric, lung.
+
+  - therapeutic_area: gastroenterology
+    sub_area: ibd_gut_immunology
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [small_molecule, biologic, antisense]
+    budget_ceiling_millions: 10000
+    notes: >
+      Entyvio (vedolizumab) GI franchise generates >$5B/year; SC formulation adds 2y.
+      Active interest in next-gen gut-selective mechanisms post-Entyvio LOE (~2028).
+      IL-34, TL1A, FGF inhibitors in IBD all of interest. GI oncology (GE junction,
+      PDAC) also priority alongside gut inflammation franchise.
+
+  - therapeutic_area: neuroscience
+    sub_area: rare_cns_neuropsychiatry
+    gap_type: franchise_extension
+    urgency: medium
+    preferred_modality: [small_molecule, gene_therapy, antisense]
+    budget_ceiling_millions: 8000
+    notes: >
+      Vyvanse/Mydayis LOE (2023-2026). Active CNS R&D including orexin receptor
+      agonists for narcolepsy and depression. Rare neurological disease (spinocerebellar
+      ataxia, rare epilepsy) are priority bolt-ons given existing CNS infrastructure.
+
+  - therapeutic_area: rare_disease
+    sub_area: hae_rare_metabolic
+    gap_type: new_franchise
+    urgency: medium
+    preferred_modality: [small_molecule, biologic, RNA]
+    budget_ceiling_millions: 6000
+    notes: >
+      TAK-771 (darebactum HAE oral) in Phase 2/3. Active interest in rare disease
+      with validated biology, high unmet need, and orphan economics similar to Entyvio.
+      Rare metabolic and hematology adjacent to current capabilities.
+
+recent_deals:
+  - target: Nimbus Therapeutics (TAK-279, IL-17)
+    date: 2023-01-23
+    value_billions: 4.0
+    therapeutic_area: immunology
+    modality: small_molecule
+
+  - target: Ariad Pharmaceuticals (Brigatinib)
+    date: 2017-02-16
+    value_billions: 5.2
+    therapeutic_area: oncology
+    modality: small_molecule
+
+  - target: Shire Plc
+    date: 2019-01-08
+    value_billions: 62.0
+    therapeutic_area: rare_disease
+    modality: biologic
+
+  - target: Maverick Therapeutics (COBRA bispecific)
+    date: 2022-01-10
+    value_billions: 0.525
+    therapeutic_area: oncology
+    modality: bispecific
+
+existing_partnerships:
+  - target: Protagonist Therapeutics
+    partnership_type: licensing_in
+    therapeutic_area: hematology
+    description: >
+      Rusfertide (PTG-300, hepcidin mimetic) licensed for polycythemia vera.
+      Takeda holds exclusive worldwide rights ex-Japan.
+    year_initiated: 2020
+    acquisition_option: false
+
+  - target: Ovid Therapeutics
+    partnership_type: co_development
+    therapeutic_area: neuroscience
+    description: >
+      Soticlestat co-development for Dravet syndrome and Lennox-Gastaut syndrome.
+      Takeda and Ovid sharing Phase 3 costs; Takeda holds commercialization rights
+      in US and EU.
+    year_initiated: 2017
+    acquisition_option: true
+
+  - target: Galapagos
+    partnership_type: co_development
+    therapeutic_area: gastroenterology
+    description: >
+      Ziritaxestat (GLPG1690, autotaxin inhibitor IPF). Program terminated 2021
+      after Phase 3 failure; prior collaboration documented here for reference.
+      No current active collaboration.
+    year_initiated: 2019
+    acquisition_option: false
+
+stated_priorities:
+  - "Oncology (ADC, precision solid tumor, hematology) is the highest strategic priority post-Shire deleveraging."
+  - "GI/IBD franchise protection post-Entyvio LOE; next-gen gut-selective or complementary GI oncology assets."
+  - "CNS rare disease — orexin, rare epilepsy, spinocerebellar degenerations adjacent to existing infrastructure."
+  - "Discipline on deal size: Takeda targets bolt-on acquisitions ≤$10-15B given Shire debt burden."

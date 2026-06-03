@@ -1,0 +1,75 @@
+drug,company,indication,phase_start,outcome,year,moa_precedent,biomarker_enriched,safety_profile,competitive_pressure,endpoint_type,notes
+eculizumab,Alexion,PNH,phase_3,approved,2007,novel,true,clean,low,hard_clinical,"TRIUMPH: hemolysis rate 0 vs 73% (p<0.001); C5 complement first in class; ultra-rare"
+alglucosidase alfa (ERT),Genzyme,Pompe Disease,phase_3,approved,2006,novel,false,acceptable,low,hard_clinical,"LOTS: 6MWT +25.1m vs -3.0m; ERT mechanism; no prior approved therapy"
+idursulfase,Shire,Hunter Syndrome MPS II,phase_3,approved,2006,partial,false,acceptable,low,surrogate_validated,"GAG urinary substrate reduction; ERT mechanism; accelerated rare enzyme approval"
+laronidase,Genzyme,MPS I,phase_3,approved,2003,novel,false,acceptable,low,hard_clinical,"Phase 3 6MWT improvement; ERT for Hurler syndrome; ultra-rare"
+taliglucerase alfa,Protalix,Gaucher Disease Type 1,phase_3,approved,2012,partial,false,clean,moderate,surrogate_validated,"Splenomegaly reduction; non-inferior to imiglucerase; biosimilar ERT"
+ivacaftor,Vertex,Cystic Fibrosis G551D,phase_3,approved,2012,novel,true,clean,low,hard_clinical,"STRIVE: FEV1 +10.4%; CFTR potentiator; first disease-modifying CF therapy; biomarker-enriched"
+lumacaftor+ivacaftor,Vertex,Cystic Fibrosis F508del,phase_3,approved,2015,partial,true,acceptable,low,hard_clinical,"TRAFFIC/TRANSPORT: FEV1 +2.6-4.0%; CFTR corrector+potentiator; modest effect"
+tezacaftor+ivacaftor,Vertex,Cystic Fibrosis F508del,phase_3,approved,2018,partial,true,clean,low,hard_clinical,"EVOLVENT: FEV1 +6.8% in heterozygous F508del; improved tolerability vs lumacaftor"
+elexacaftor+teza+iva (Trikafta),Vertex,Cystic Fibrosis F508del,phase_3,approved,2019,partial,true,clean,low,hard_clinical,"AURORA: FEV1 +14.3%; triple combo; 90% CF patients eligible; transformative"
+sebelipase alfa,Synageva/Alexion,LAL Deficiency,phase_3,approved,2015,novel,false,acceptable,low,hard_clinical,"Lysosomal acid lipase deficiency; liver function endpoint; rare enzyme deficiency"
+migalastat,Amicus Therapeutics,Fabry Disease,phase_3,approved,2018,novel,true,clean,low,hard_clinical,"ATTRACT: non-inferior to ERT in GL-3 substrate; pharmacological chaperone; amenable mutations"
+patisiran,Alnylam,hATTR Polyneuropathy,phase_3,approved,2018,novel,false,clean,low,hard_clinical,"APOLLO: mNIS+7 -34 vs +25 (p<0.001); RNAi first in class; TTR amyloidosis"
+inotersen,Ionis/Akcea,hATTR Polyneuropathy,phase_3,approved,2018,partial,false,acceptable,low,hard_clinical,"NEURO-TTR: mNIS+7 -19.7 vs +26 (p<0.001); antisense; competitive with patisiran"
+givosiran,Alnylam,Acute Hepatic Porphyria,phase_3,approved,2019,novel,false,clean,low,hard_clinical,"ENVISION: 74% annualized attack reduction; ALAS1 RNAi; ultra-rare orphan"
+nusinersen,Biogen/Ionis,SMA Type 1,phase_3,approved,2016,novel,false,acceptable,low,hard_clinical,"ENDEAR: 51% motor milestone responder vs 0% (p<0.001); first SMA therapy"
+onasemnogene (Zolgensma),AveXis/Novartis,SMA Type 1,phase_3,approved,2019,partial,false,acceptable,low,hard_clinical,"STRIVE: 91% event-free survival at 14 months; AAV9 gene therapy; $2.1M price"
+risdiplam,Roche,SMA Types 1-3,phase_3,approved,2020,partial,false,clean,high,hard_clinical,"FIREFISH/SUNFISH: motor milestone improvement; oral SMN2 splicing; competitive"
+betibeglogene (Zynteglo),bluebird bio,Beta Thalassemia,phase_3,approved,2022,novel,true,clean,low,hard_clinical,"Northstar-3: 89% transfusion independence; LentiGlobin gene therapy; HbAT87Q"
+exa-cel (Casgevy),CRISPR/Vertex,Sickle Cell Disease,phase_3,approved,2023,novel,true,acceptable,low,hard_clinical,"CLIMB-121: 93.5% vaso-occlusive crisis free; first CRISPR therapy; HbF induction"
+voxelotor (Oxbryta),GBT/Pfizer,Sickle Cell Disease,phase_3,approved,2019,novel,false,acceptable,moderate,hard_clinical,"HOPE: 51% Hgb responder vs 7% placebo; hemoglobin stabilizer; withdrawn 2023 safety"
+crizanlizumab,Novartis,Sickle Cell Disease,phase_2,approved,2019,novel,false,clean,moderate,surrogate_validated,"SUSTAIN: 45% VOC reduction vs placebo; P-selectin; accelerated approval; CRL 2024"
+vosoritide,BioMarin,Achondroplasia,phase_3,approved,2021,novel,false,clean,low,hard_clinical,"Phase 3: +1.57 cm/yr annualized growth velocity vs placebo; CNP analogue; first for ACH"
+lumasiran,Alnylam,Primary Hyperoxaluria Type 1,phase_3,approved,2020,novel,true,clean,low,hard_clinical,"ILLUMINATE-A/B: 65% plasma oxalate reduction; HAO1 RNAi; ultra-rare metabolism"
+inclisiran,Novartis/Medicines Co,Hypercholesterolemia,phase_3,approved,2021,novel,false,clean,high,hard_clinical,"ORION-10/11: 50% LDL reduction at 17 months; PCSK9 RNAi; twice-yearly dosing"
+eplontersen,Ionis/AstraZeneca,hATTR Polyneuropathy,phase_3,approved,2023,partial,false,clean,moderate,hard_clinical,"NEURO-TTRansform: 59.9% mNIS+7 improvement; ligand-conjugated ASO; GalNAc delivery"
+tofersen,Biogen/Ionis,ALS SOD1-mutant,phase_3,advanced,2023,novel,true,acceptable,low,hard_clinical,"VALOR: missed primary at 28 weeks; plasma NfL reduction confirmed; FDA approved on biomarker 2023"
+ataluren,PTC Therapeutics,DMD nonsense mutation,phase_3,failed,2017,novel,true,acceptable,low,hard_clinical,"ACT DMD: missed primary 6MWT; non-significant 15m advantage; approved EU not US"
+delandistrogene (Elevidys),Sarepta,Duchenne Muscular Dystrophy,phase_3,approved,2023,novel,false,clean,low,surrogate_validated,"SRP-9001: micro-dystrophin expression +4.3% NSAA vs placebo; accelerated approval; gene therapy"
+LYS-SAF302 (OTL-201),Lysogene,MPS IIIA (Sanfilippo A),phase_2,failed,2022,novel,false,acceptable,low,surrogate_validated,"Phase 2 missed CSF heparan sulfate endpoint; intrathecal AAV5; trial design issues"
+GAL-F2 (tralesinidase alfa),Genzyme,MPS VI,phase_3,approved,2005,partial,false,acceptable,low,surrogate_validated,"GAG urinary substrate endpoint; ERT for Maroteaux-Lamy; rare approved pathway"
+coagulation factor IX (Hemgenix),CSL Behring,Hemophilia B,phase_3,approved,2022,novel,false,clean,low,hard_clinical,"HOPE-B: 54% bleed rate reduction; first one-time gene therapy for hemB; AAV5"
+fitusiran,Sanofi,Hemophilia A/B,phase_3,approved,2024,novel,false,acceptable,moderate,hard_clinical,"ATLAS-A/B: 90% bleed rate reduction; AT reduction RNAi subcutaneous; once-monthly"
+cidofovir (hMPXV/VZV),Gilead,Rare viral (mpox),phase_2,failed,2022,partial,false,acceptable,moderate,hard_clinical,"Failed mpox endpoint; pre-existing antivirals lacked required efficacy signal"
+avalglucosidase alfa (Nexviazyme),Sanofi,Late-onset Pompe Disease,phase_3,approved,2021,partial,false,clean,moderate,hard_clinical,"COMET: 6MWT +30.8m vs +0m vs alglucosidase; higher-dose next-gen ERT; superior to first-gen"
+cipaglucosidase+miglustat,Amicus,Pompe Disease,phase_3,approved,2023,partial,false,clean,moderate,hard_clinical,"PROPEL: 6MWT +20.8m; ERT+chaperone stabilized; first oral pharmacological chaperone combo"
+idecabtagene vicleucel (Abecma),BMS/Bluebird,Multiple Myeloma R/R,phase_2,approved,2021,novel,false,acceptable,moderate,surrogate_validated,"KarMMa: ORR 73%, CR 33%; BCMA CAR-T; first BCMA-directed therapy; manufacturing bottleneck"
+ciltacabtagene autoleucel (Carvykti),J&J/Legend,Multiple Myeloma R/R,phase_2,approved,2022,partial,false,acceptable,moderate,surrogate_validated,"CARTITUDE-1: ORR 98%, CR 78%; BCMA CAR-T second; superior depth vs Abecma; manufacturing limited"
+olipudase alfa (Xenpozyme),Sanofi,ASMD Type A/B,phase_3,approved,2022,novel,false,acceptable,low,surrogate_validated,"ASCEND/ASCEND-Peds: spleen volume -39% vs +15%; acid sphingomyelinase ERT; ultra-rare"
+setrusumab,Mereo/Ultragenyx,Osteogenesis Imperfecta,phase_3,failed,2022,novel,false,acceptable,low,hard_clinical,"ASTEROID Ph3: fracture rate no significant reduction vs placebo; anti-sclerostin antibody; underpowered"
+asfotase alfa,Alexion,Hypophosphatasia (pediatric),phase_2,approved,2015,novel,false,acceptable,low,hard_clinical,"Open-label: 77% alive at 1yr vs 27% historical; TNSALP ERT; pivotal accelerated approval; ultra-rare"
+AVXS-101 (SMA Type 2/3),AveXis/Novartis,SMA Type 2/3,phase_3,failed,2022,partial,false,acceptable,moderate,hard_clinical,"STR1VE-EU ambulation endpoint missed in older SMA patients; AAV9 gene therapy less effective in treated patients"
+neovastat (AE-941),Aeterna Zentaris,Renal Cell Carcinoma (rare),phase_3,failed,2004,novel,false,acceptable,low,hard_clinical,"Antiangiogenic failed OS endpoint; shark cartilage extract; poor mechanistic rationale; negative result"
+REC-2282,Recursion,NF2-meningioma,phase_2,failed,2023,novel,true,acceptable,low,surrogate_validated,"Phase 2 STELLAR missed volumetric tumor response; PI3K inhibitor; rare CNS tumor; trial discontinued"
+ravulizumab (Ultomiris),Alexion/AZ,PNH,phase_3,approved,2018,partial,true,clean,low,hard_clinical,ALXN1210-PNH-301: non-inferior transfusion avoidance 94.2% vs 93.9%; C5 long-acting; every-8wk
+iptacopan PNH,Novartis,PNH,phase_3,approved,2023,novel,false,clean,low,hard_clinical,APPLY-PNH: 82.3% vs 2.0% Hgb increase >=2g/dL; Factor B inhibitor oral; first oral PNH therapy
+pegcetacoplan (Empaveli),Apellis,PNH,phase_3,approved,2021,novel,false,clean,low,hard_clinical,PEGASUS: hemolysis control non-inferior; C3 inhibitor; broader coverage including extravascular
+agalsidase beta (Fabrazyme),Genzyme/Sanofi,Fabry Disease,phase_3,approved,2003,novel,false,acceptable,low,hard_clinical,FOS: renal clearance of GL-3 substrate; ERT every 2 weeks; FDA approved 2003
+pegunigalsidase alfa (Elfabrio),Protalix/Chiesi,Fabry Disease,phase_3,approved,2023,partial,false,acceptable,moderate,hard_clinical,BALANCE: non-inferior GFR preservation vs agalsidase beta; PEGylated ERT; monthly IV
+ozanimod PPMS,BMS,Primary Progressive MS,phase_3,failed,2022,partial,false,acceptable,low,hard_clinical,DAYBREAK: PPMS failed to show disability reduction; S1P for relapsing only; mechanism insufficient
+dinutuximab (Unituxin),United Therapeutics,Neuroblastoma,phase_3,approved,2015,novel,false,poor,low,hard_clinical,ANE-B/D: 13% vs 6% 2yr EFS improvement; anti-GD2 IV; pediatric orphan; severe pain AEs
+cerliponase alfa (Brineura),BioMarin,CLN2 Batten Disease,phase_2,approved,2017,novel,false,acceptable,low,surrogate_validated,Ph2: 6-point motor language scale vs historical decline; TPP1 ERT intracerebroventricular; first Batten
+iduronate-2-sulfatase (Hunterase),Green Cross,Hunter Syndrome,phase_3,approved,2012,partial,false,acceptable,low,surrogate_validated,Phase 3: 6MWT improvement; idursulfase biosimilar; Asian approval; comparator to shire ERT
+lenmeldy,Orchard,Metachromatic Leukodystrophy,phase_3,approved,2024,novel,false,acceptable,low,hard_clinical,OTL-200: 20/20 pre-symptomatic late-infantile MLD survived without rapid decline; ex vivo HSC GT
+LentiGlobin bb1111 SCD,bluebird bio,Sickle Cell Disease,phase_3,approved,2023,novel,false,clean,low,hard_clinical,HGB-206: 93.5% VOC-free at 24m post-infusion; BCL11A enhancer; FDA approved Lyfgenia
+fidanacogene (Beqvez),Pfizer,Hemophilia B,phase_3,approved,2024,partial,false,clean,low,hard_clinical,BENEGENE-2: ABR 71.4% reduction vs prophylaxis; AAV-FIX Padua; Q1yr IV; durable
+eptinezumab NMOSD,Lundbeck,NMOSD prevention,phase_3,advanced,2023,partial,true,clean,low,hard_clinical,FIGARO Ph3 in NMOSD ongoing; anti-CGRP extended to rare CNS autoimmune indication
+odevixibat (Bylvay),Albireo/AZ,Progressive Familial Intrahepatic Cholestasis,phase_3,approved,2021,novel,false,acceptable,low,hard_clinical,PEDFIC-1: 52% vs 9% reduction in serum bile acid; IBAT inhibitor; first PFIC drug approved
+maralixibat (Livmarli),Mirum,Alagille Syndrome cholestasis,phase_2,approved,2021,partial,false,acceptable,low,surrogate_validated,ICONIC/ICONIC-S: serum bile acid reduction; IBAT inhibitor; first ALGS-specific therapy
+vestronidase alfa (Mepsevii),Ultragenyx,MPS VII,phase_3,approved,2017,partial,false,acceptable,low,surrogate_validated,Phase 3: urinary GAG reduction; ERT for Sly syndrome; ultra-rare only ~800 patients US
+triheptanoin (UX007),Ultragenyx,Long-Chain Fatty Acid Oxidation Disorders,phase_3,approved,2020,novel,false,acceptable,low,hard_clinical,CL-001: 43% vs 17% reduction in major clinical events; anaplerotic C7 triglyceride; LCHAD/TFP/VLCAD
+sapropterin (Kuvan),BioMarin,Phenylketonuria,phase_3,approved,2007,novel,true,clean,low,surrogate_validated,PKU-001/002: 23% phenylalanine reduction in BH4-responsive; cofactor therapy; biomarker-enriched
+casimersen,Sarepta,Duchenne muscular dystrophy exon 45,phase_3,approved,2021,partial,true,clean,low,surrogate_validated,ESSENCE: 0.76% dystrophin increase; exon 45 skipping; ASO PMO chemistry
+viltolarsen,Nippon Shinyaku,Duchenne muscular dystrophy exon 53,phase_2,approved,2020,partial,true,acceptable,low,surrogate_validated,Phase 2: 5.9% dystrophin; exon 53 ASO PMO; Japan-originated; accelerated FDA
+tazemetostat SWI/SNF,Epizyme/Ipsen,Epithelioid sarcoma,phase_2,approved,2020,novel,true,acceptable,low,surrogate_validated,Phase 2: 15% ORR in ES; EZH2 inhibitor; first approved epigenetic oncology therapy
+avalglucosidase alfa,Sanofi,Pompe disease,phase_3,approved,2021,partial,false,clean,moderate,hard_clinical,COMET: 30.8% vs 23.6% ambulation at 52w vs alglucosidase; new GAA enzyme replacement
+cipaglucosidase alfa+miglustat,Sanofi/Amicus,Pompe disease,phase_3,approved,2023,partial,false,clean,moderate,hard_clinical,PROPEL: 23% vs 15% 6MWD improvement; next-gen GAA + stabilizer; late-onset Pompe
+pabinafusp alfa,JCR/Takeda,Hunter syndrome with CNS involvement,phase_2,approved,2021,novel,false,acceptable,low,hard_clinical,Phase 2: neurological stabilization vs IV idursulfase; BBB-crossing IDS enzyme
+melphalan flufenamide,Oncopeptides,Relapsed refractory multiple myeloma,phase_2,failed,2021,partial,false,acceptable,moderate,hard_clinical,ANCHOR/OCEAN: initial approval revoked; peptide-drug conjugate; futility analysis led to withdrawal
+inclacumab,Global Blood Therapeutics,Sickle cell disease VOC,phase_3,failed,2022,partial,false,clean,low,hard_clinical,REACH: failed primary endpoint for VOC reduction; P-selectin antibody; competitive with crizanlizumab
+mavorixafor,X4 Pharma,WHIM syndrome,phase_3,approved,2024,novel,true,acceptable,low,hard_clinical,4WHIM: 100% infection-free on mavorixafor vs 27%; CXCR4 antagonist; ultra-rare primary immunodeficiency
+delandistrogene moxeparvovec,Sarepta,Duchenne muscular dystrophy,phase_3,approved,2023,novel,true,clean,low,surrogate_validated,EMBARK: accelerated approval; 0.7 NSAA improvement vs placebo; micro-dystrophin gene therapy
+fordadistrogene movaparvovec,Pfizer,Duchenne muscular dystrophy,phase_3,failed,2024,novel,true,acceptable,moderate,surrogate_validated,CIFFREO: failed to meet functional endpoint vs placebo; micro-dystrophin AAV gene therapy
+SPK-8011,Spark,Hemophilia A,phase_1,failed,2021,partial,false,acceptable,moderate,surrogate_validated,Phase 1: 28% factor VIII increase but variable durability; AAV2/LK03 capsid; discontinued in favor of new capsid
+coagulation factor VIII SQ,Roche,Hemophilia A,phase_3,ongoing,2023,partial,false,clean,moderate,surrogate_validated,HAVEN 7: 37 IU/kg sustained factor VIII with monthly SC; FVIII subcutaneous formulation

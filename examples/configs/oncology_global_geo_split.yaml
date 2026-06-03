@@ -1,0 +1,138 @@
+# =============================================================================
+# Global Oncology Asset — Geography Split Example (Sprint A)
+# =============================================================================
+#
+# Demonstrates the Option A+ GeographySplit architecture:
+# - US primary market (full revenue basis)
+# - EU5 at ~32% of US peak with 2.0-year launch delay and HTA uncertainty
+# - Japan at ~13% of US peak with 2.5-year delay
+# - China at ~10% of US peak with 3.5-year delay and higher regulatory risk
+# - Rest of World basket at ~7% of US peak with 2.0-year delay
+#
+# Revenue formula per region in year t (post-US-launch):
+#   regional_rev(t) = US_revenue(t − delay_bucketed)
+#                     × revenue_ratio
+#                     × reimbursement_probability
+#                     × probability_of_regional_approval
+#
+# Fractional delays are conservatively floor-bucketed:
+#   2.5yr delay → bucketed to 2yr → revenue starts at post-launch year 3.
+#
+# Regional revenue ratio benchmarks (specialty oncology, typical ranges):
+#   EU5:   0.28–0.40  (pricing 55-70% of US; larger combined population)
+#   Japan: 0.10–0.18  (pricing ~50% of US; PMDA conservative reimbursement)
+#   China: 0.06–0.15  (pricing ~25% of US; NMPA uncertain + large upside)
+#   ROW:   0.05–0.12  (basket of smaller ex-US markets)
+#
+# Sprint A limitation: revenue is computed over US patent window years only
+# (patent_life_years + any new_formulation extensions). Each region contributes
+# revenue from its delayed launch through year patent_life_years. The final
+# delay_bucketed years of each delayed region's patent window are not captured.
+# =============================================================================
+
+asset:
+  id: "example-oncology-global"
+  name: "EXAMPLE-001"
+  indication: "Advanced Solid Tumor (Global)"
+  therapeutic_area: "oncology"
+  stage: "phase_3"
+  modality: "small_molecule"
+  discount_rate: 0.10
+
+trials:
+  - phase: "phase_3"
+    success_probability: 0.55
+    duration_years: 3.5
+    cost_millions: 280.0
+  - phase: "nda_bla"
+    success_probability: 0.88
+    duration_years: 1.5
+    cost_millions: 40.0
+
+market:
+  asset_id: "example-oncology-global"
+  therapeutic_area: "oncology"
+
+  # --- US market sizing (patient-based) ---
+  # Treat the primary market parameters as US-only.
+  # Ex-US is modeled entirely through geography_split.
+  addressable_patients_annual: 22000       # US addressable population
+  net_price_per_patient_usd: 180000.0      # Annual net price (post-G2N)
+  compliance_rate: 0.82                    # Average fraction of year on therapy
+  peak_penetration: 0.18                   # Peak US market penetration
+  years_to_peak: 5                         # Years from US launch to US peak
+  patent_life_years: 12
+
+  # Specialty pharma → S-curve adoption (KOL-driven, not mass market)
+  adoption_curve_mode: "s_curve"
+
+  # --- Geography: Option A+ ---
+  # Each region's annual revenue = US_revenue(t − delay) × effective_scalar
+  # where effective_scalar = revenue_ratio × reimbursement_probability
+  #                          × probability_of_regional_approval
+  #
+  # US region always defaults to revenue_ratio=1.0, no delay, 100% access.
+  # Only set it explicitly if modeling a US reimbursement haircut.
+  geography_split:
+
+    # EU5 (France, Germany, Italy, Spain, United Kingdom)
+    # Revenue ratio: ~32% of US (pricing ~60% × population ~75% of US addressable)
+    # Delay: 2.0 years (EMA review ~1yr + member-state reimbursement ~1yr)
+    # Reimbursement: 0.85 — HTA uncertainty in Germany (AMNOG) / France (ASMR)
+    eu5:
+      revenue_ratio: 0.32
+      launch_delay_years: 2.0
+      reimbursement_probability: 0.85
+      probability_of_regional_approval: 1.0
+
+    # Japan (PMDA-regulated)
+    # Revenue ratio: ~13% of US (pricing ~50% × smaller addressable population)
+    # Delay: 2.5 years (PMDA review + MHLW reimbursement; local data may be needed)
+    # Approval probability: 0.92 — PMDA generally accepts global trials for oncology
+    #   but occasionally requests bridging data
+    japan:
+      revenue_ratio: 0.13
+      launch_delay_years: 2.5
+      reimbursement_probability: 0.90
+      probability_of_regional_approval: 0.92
+
+    # China (NMPA-regulated)
+    # Revenue ratio: ~10% of US (pricing ~25% × large but price-compressed market)
+    # Delay: 3.5 years (NMPA review often requires local clinical data)
+    # Reimbursement: 0.70 — NRDL negotiation uncertain for premium-priced oncology
+    # Approval probability: 0.80 — NMPA has independent requirements; local data risk
+    china:
+      revenue_ratio: 0.10
+      launch_delay_years: 3.5
+      reimbursement_probability: 0.70
+      probability_of_regional_approval: 0.80
+
+    # Rest of World (Canada, Australia, LatAm, GCC, SEA, other ex-Asia Pacific)
+    # Revenue ratio: ~7% of US (basket of smaller markets, variable pricing)
+    # Delay: 2.0 years (country-by-country approvals staggered)
+    # Reimbursement: 0.75 — payer landscape varies significantly across markets
+    rest_of_world:
+      revenue_ratio: 0.07
+      launch_delay_years: 2.0
+      reimbursement_probability: 0.75
+      probability_of_regional_approval: 0.95
+
+  # ---- Cost structure ----
+  cogs_rate: 0.15          # Small molecule COGS (manufacturing)
+  sgna_rate_launch: 0.40   # SG&A at launch (self-commercialized specialty)
+  sgna_rate_mature: 0.20   # SG&A at maturity
+  sgna_ramp_years: 5
+
+# ------------------------------------------------------------------------------
+# Implied global/US revenue ratio at steady state (all regions at peak, no delay):
+#   1.0 (US) + 0.32×0.85 (EU5) + 0.13×0.90×0.92 (Japan)
+#   + 0.10×0.70×0.80 (China) + 0.07×0.75×0.95 (ROW)
+#   ≈ 1.0 + 0.272 + 0.108 + 0.056 + 0.050
+#   ≈ 1.49x global/US (steady-state, probability-weighted)
+#
+# With launch delays, the discounted global/US NPV ratio will be lower:
+#   EU5 at 2yr delay and discount rate 10% → delay factor ≈ 0.83
+#   Japan at 2yr delay → delay factor ≈ 0.83
+#   China at 3yr delay → delay factor ≈ 0.75
+# So the NPV-weighted global/US ratio ≈ 1.38–1.42x (rough estimate).
+# ------------------------------------------------------------------------------

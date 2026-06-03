@@ -1,0 +1,112 @@
+company: Daiichi Sankyo
+ticker: DSNKY
+profile_as_of: 2026-04-10
+market_cap_billions: 65.0
+cash_billions: 8.0
+acquisition_capacity_millions: 12000   # Constrained by AstraZeneca ADC co-dev outlays; mid-size bolt-ons preferred
+
+pipeline_gaps:
+  - therapeutic_area: oncology
+    sub_area: adc_next_gen_payloads
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [ADC, bispecific]
+    budget_ceiling_millions: 10000
+    notes: >
+      ADC-first company: Enhertu (T-DXd), Datopotamab deruxtecan, and patritumab
+      deruxtecan are the core franchise. Active interest in novel ADC targets (e.g.,
+      CDH6, CEACAM5, MUC16, B7-H3) and next-gen payloads (topoisomerase II inhibitors,
+      microtubule agents, STING agonists). Willing to in-license novel target/linker-payload
+      combinations or outright acquire small ADC biotechs pre-Ph3.
+
+  - therapeutic_area: oncology
+    sub_area: bispecific_t_cell_engager
+    gap_type: new_franchise
+    urgency: high
+    preferred_modality: [bispecific, antibody]
+    budget_ceiling_millions: 8000
+    notes: >
+      T-cell engager / immune cell recruiter space is a strategic adjacency to ADC
+      platform. DXd-bispecific combinations being explored internally. Willing to
+      partner or acquire bispecific platforms that complement ADC tumor targeting:
+      CD3xTumor, FcgRIIIaxTumor, or NK-cell engagers (CD16a).
+
+  - therapeutic_area: oncology
+    sub_area: hematology_myeloid
+    gap_type: franchise_extension
+    urgency: medium
+    preferred_modality: [ADC, small_molecule, bispecific]
+    budget_ceiling_millions: 6000
+    notes: >
+      Myeloid malignancies (AML, MDS, MDS/AML) are a gap vs. ADC peers that have
+      CD33-ADC and CD123-targeting assets. Willing to acquire or partner for myeloid
+      ADC with validated Ph2 data.
+
+  - therapeutic_area: cardiovascular
+    sub_area: factor_xi_thrombosis
+    gap_type: new_franchise
+    urgency: low
+    preferred_modality: [small_molecule, antisense]
+    budget_ceiling_millions: 4000
+    notes: >
+      Edoxaban (Lixiana) LOE in EU creates interest in next-gen anticoagulant. Factor
+      XI is the emerging target (selective, lower bleeding). Late interest — priority
+      is oncology but CV adjacency would be considered at Phase 2+ with clean safety.
+
+recent_deals:
+  - target: AstraZeneca (Enhertu/Dato-DXd partnership)
+    date: 2019-03-28
+    value_billions: 6.9
+    therapeutic_area: oncology
+    modality: ADC
+
+  - target: Merck KGaA (patritumab deruxtecan co-develop)
+    date: 2023-10-18
+    value_billions: 5.5
+    therapeutic_area: oncology
+    modality: ADC
+
+  - target: Bristol-Myers Squibb (ifinatamab deruxtecan I-DXd)
+    date: 2024-10-03
+    value_billions: 5.8
+    therapeutic_area: oncology
+    modality: ADC
+
+existing_partnerships:
+  - target: AstraZeneca
+    partnership_type: co_development
+    therapeutic_area: oncology
+    description: >
+      Global co-development and commercialization partnership for Enhertu (T-DXd)
+      and Dato-DXd. AstraZeneca co-funds Phase 3 development and co-commercializes
+      in US and EU; Daiichi Sankyo retains Japan rights and all royalty economics.
+      Deal value $6.9B upfront + up to $1.35B milestones per program.
+    year_initiated: 2019
+    acquisition_option: false
+
+  - target: Merck KGaA
+    partnership_type: co_development
+    therapeutic_area: oncology
+    description: >
+      Patritumab deruxtecan (HER3-DXd) global collaboration. Merck KGaA co-develops
+      and co-commercializes ex-Japan; Daiichi Sankyo retains manufacturing and Japan.
+      $4B upfront + milestones. Key signal: Daiichi Sankyo prioritizes ADC partnerships
+      with major pharma rather than M&A for scale.
+    year_initiated: 2023
+    acquisition_option: false
+
+  - target: Bristol-Myers Squibb
+    partnership_type: co_development
+    therapeutic_area: oncology
+    description: >
+      Ifinatamab deruxtecan (I-DXd; B7-H3-targeting ADC) global co-development.
+      BMS co-funds Phase 3 development for SCLC and other indications. $4B upfront.
+    year_initiated: 2024
+    acquisition_option: false
+
+stated_priorities:
+  - "ADC franchise expansion: novel targets, next-gen payloads, combination strategies with immuno-oncology."
+  - "Bispecific / T-cell engager adjacency to ADC platform — emerging priority for solid tumor immune activation."
+  - "Bolt-on acquisitions (≤$8-10B) of Phase 2+ ADC or bispecific programs in solid tumor oncology."
+  - "Japan-first: Daiichi Sankyo retains Japan commercialization across all partnerships. Targets must have Japan path."
+  - "Partnership model preferred over full acquisition for major programs; acquiring smaller discovery-stage ADC companies is the primary M&A mode."

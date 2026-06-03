@@ -1,0 +1,61 @@
+company: Johnson & Johnson (Janssen)
+ticker: JNJ
+profile_as_of: 2026-04-07
+market_cap_billions: 385
+cash_billions: 22.0
+pipeline_gaps:
+  - therapeutic_area: oncology
+    sub_area: bispecific_cart_next_gen
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [bispecific, CAR_T, ADC]
+    budget_ceiling_millions: 20000
+    notes: "Carvykti/Tecvayli BCMA franchise maturing; next tumor antigen for bispecific/CAR-T (GPRC5D done, FcRH5 done, next targets remain open)."
+  - therapeutic_area: immunology
+    sub_area: post_stelara_il23_il17
+    gap_type: LOE_exposure
+    urgency: high
+    preferred_modality: [biologic, oral_small_molecule]
+    budget_ceiling_millions: 15000
+    notes: "Stelara LOE is current — Tremfya (IL-23) is the successor but next derm/IBD mechanism slot remains open."
+  - therapeutic_area: neuroscience
+    sub_area: treatment_resistant_depression_cns
+    gap_type: franchise_extension
+    urgency: medium
+    preferred_modality: [small_molecule]
+    budget_ceiling_millions: 10000
+    notes: "Spravato (esketamine) TRD franchise opens CNS adjacency to next-gen depression and anxiety mechanisms."
+  - therapeutic_area: cardiovascular
+    sub_area: pulmonary_hypertension_cvrenal
+    gap_type: selective_gap
+    urgency: medium
+    preferred_modality: [small_molecule, antibody]
+    budget_ceiling_millions: 8000
+    notes: "J&J cardiovascular presence thinned post-spin-offs; targeted CV bolt-ons at sub-$10B scale remain plausible."
+  - therapeutic_area: oncology
+    sub_area: prostate_cancer_next_gen
+    gap_type: franchise_extension
+    urgency: medium
+    preferred_modality: [small_molecule, radiopharmaceutical]
+    budget_ceiling_millions: 10000
+    notes: "Zytiga legacy and next-gen PSMA-targeted therapies (Akeega partnership) create CRPC adjacency."
+recent_deals:
+  - target: Protagonist Therapeutics (oral rusfertide partnership)
+    date: 2024-04-08
+    value_billions: 1.0
+    therapeutic_area: rare_blood_disease
+    modality: peptide
+  - target: Ambrx Biopharma (partial — AZ won)
+    date: 2023-01-26
+    value_billions: 0.0
+    therapeutic_area: oncology
+    modality: ADC
+  - target: Aragon Pharmaceuticals (historical)
+    date: 2013-06-10
+    value_billions: 1.0
+    therapeutic_area: oncology
+    modality: small_molecule
+stated_priorities:
+  - "Multiple myeloma next-generation bispecific/CAR-T franchise extension is the top oncology focus."
+  - "Post-Stelara immunology succession and derm/IBD bolt-ons remain active priorities."
+  - "Neuroscience/CNS is an emerging adjacency following Spravato's TRD approval."

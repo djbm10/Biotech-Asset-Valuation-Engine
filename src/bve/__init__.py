@@ -19,7 +19,13 @@ from bve.entities.indication import Indication
 from bve.entities.trial import ClinicalTrial, EndpointType, TrialPhase, TrialStatus
 
 # Models
-from bve.models.pos_model import POSAdjusters, compute_pos, apply_pos_to_trials, MoAPrecedent, SafetyProfile, CompetitivePressure
+from bve.models.pos_model import (
+    POSAdjusters, compute_pos, apply_pos_to_trials,
+    MoAPrecedent, MoAExceptionFlag, SafetyProfile, CompetitivePressure,
+    BiomarkerSelectionStrength, PriorPhaseDataStrength,
+)
+from bve.models.sample_size_scorer import SampleSizeParams, SampleSizeTrialDesign, SampleSizeScoringResult, score_sample_size
+from bve.models.safety_scorer import SafetyParams, SafetyScoringResult, score_safety
 from bve.models.market_model import MarketModel, UptakeCurve
 from bve.models.rnpv_model import RNPVResult, compute_rnpv
 from bve.models.monte_carlo import MonteCarloParams, MonteCarloResult, PhaseSuccessDistribution, run_monte_carlo
@@ -43,7 +49,10 @@ __all__ = [
     "ClinicalTrial", "EndpointType", "TrialPhase", "TrialStatus",
     # Models
     "POSAdjusters", "compute_pos", "apply_pos_to_trials",
-    "MoAPrecedent", "SafetyProfile", "CompetitivePressure",
+    "MoAPrecedent", "MoAExceptionFlag", "SafetyProfile", "CompetitivePressure",
+    "BiomarkerSelectionStrength", "PriorPhaseDataStrength",
+    "SampleSizeParams", "SampleSizeTrialDesign", "SampleSizeScoringResult", "score_sample_size",
+    "SafetyParams", "SafetyScoringResult", "score_safety",
     "MarketModel", "UptakeCurve",
     "RNPVResult", "compute_rnpv",
     "MonteCarloParams", "MonteCarloResult", "PhaseSuccessDistribution", "run_monte_carlo",

@@ -1,0 +1,19 @@
+explicit_hard_fails:
+  - ticker: LLY
+    reason: mega_cap_buyer
+    note: "Large-cap strategic buyer; exclude from target list."
+  - ticker: NVO
+    reason: mega_cap_buyer
+    note: "Large-cap strategic buyer; exclude from target list."
+  - ticker: PFE
+    reason: mega_cap_buyer
+    note: "Large-cap strategic buyer; exclude from target list."
+  - ticker: REGN
+    reason: mega_cap_buyer
+    note: "Large-cap strategic buyer; exclude from target list."
+  - ticker: VRTX
+    reason: established_large_cap_operator
+    note: "Diversified large-cap operator; screening-grade config EV understates company size."
+  - ticker: BIIB
+    reason: established_large_cap_operator
+    note: "Established commercial operator; screening-grade config EV understates company size."

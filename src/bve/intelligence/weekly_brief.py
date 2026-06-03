@@ -28,9 +28,12 @@ import json
 import math
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 
 from pydantic import BaseModel, Field
+
+if TYPE_CHECKING:
+    from bve.intelligence.knowledge_layer import KnowledgeStore
 
 
 # ---------------------------------------------------------------------------
@@ -97,6 +100,11 @@ class WeeklyOpportunityBrief(BaseModel):
 
     # --- Top opportunities from the ranking engine ---
     top_opportunities: list[dict] = Field(default_factory=list)
+    top_opportunities_source_mode: str = "valuation_diffs"
+    top_opportunities_reference_date: Optional[date] = None
+    strict_top_opportunities: list[dict] = Field(default_factory=list)
+    strict_top_opportunities_source_mode: Optional[str] = None
+    strict_top_opportunities_reference_date: Optional[date] = None
 
     # --- Event-type distribution (event_type -> count of diffs) ---
     event_type_counts: dict[str, int] = Field(default_factory=dict)
@@ -337,8 +345,75 @@ class WeeklyBriefGenerator:
         brief.net_delta_npv_accepted_millions = round(net_delta, 2)
         brief.net_confidence_weighted_delta_npv_millions = round(net_weighted_delta, 2)
 
+        company_snapshot_date, company_top = self._top_opportunities_from_company_snapshots(
+            store,
+            as_of=period_end,
+        )
+        if company_top:
+            brief.top_opportunities_source_mode = "company_sotp_snapshot"
+            brief.top_opportunities_reference_date = company_snapshot_date
+            brief.top_opportunities = company_top
+            strict_snapshot_date, strict_company_top = self._top_opportunities_from_company_snapshots(
+                store,
+                as_of=period_end,
+                allowed_action_policies=("buy", "watch"),
+            )
+            brief.strict_top_opportunities_source_mode = "company_sotp_snapshot"
+            brief.strict_top_opportunities_reference_date = strict_snapshot_date
+            brief.strict_top_opportunities = strict_company_top
+        else:
+            brief.top_opportunities_source_mode = "valuation_diffs"
+            brief.top_opportunities = self._top_opportunities_from_diffs(store)
+
+        return brief
+
+    def _top_opportunities_from_company_snapshots(
+        self,
+        store: "KnowledgeStore",  # type: ignore[name-defined]
+        *,
+        as_of: date,
+        allowed_action_policies: tuple[str, ...] = ("buy", "watch", "needs_manual_review"),
+    ) -> tuple[Optional[date], list[dict]]:
+        snapshot_date, raw_rows = store.get_company_sotp_snapshots_on_or_before(as_of, limit=500)
+        if snapshot_date is None or not raw_rows:
+            return None, []
+
+        allowed = {policy.lower() for policy in allowed_action_policies}
+        filtered = [
+            row
+            for row in raw_rows
+            if bool(row.get("balance_sheet_passes_recency_gate", False))
+            and str(row.get("action_policy") or "").lower() in allowed
+        ]
+        filtered.sort(
+            key=lambda row: (
+                -float(row.get("ranked_sotp_discount") or 0.0),
+                str(row.get("ticker") or ""),
+            )
+        )
+        top: list[dict] = []
+        for idx, row in enumerate(filtered[: self.top_n], start=1):
+            top.append(
+                {
+                    "rank": idx,
+                    "ticker": row.get("ticker") or "",
+                    "company_name": row.get("company_name") or "",
+                    "ranked_sotp_discount": float(row.get("ranked_sotp_discount") or 0.0),
+                    "action_policy": row.get("action_policy") or "—",
+                    "enterprise_value_millions": row.get("enterprise_value_millions"),
+                    "sotp_equity_value_millions": row.get("sotp_equity_value_millions"),
+                    "modeled_asset_coverage_pct": row.get("modeled_asset_coverage_pct"),
+                    "balance_sheet_snapshot_date": row.get("balance_sheet_snapshot_date"),
+                }
+            )
+        return snapshot_date, top
+
+    def _top_opportunities_from_diffs(
+        self,
+        store: "KnowledgeStore",  # type: ignore[name-defined]
+    ) -> list[dict]:
         # ------------------------------------------------------------------
-        # 5. Top opportunities — lightweight ranking from all-time diffs
+        # Top opportunities — lightweight ranking from all-time diffs
         #
         # Score = sigmoid(|delta_npv| / 50) × extraction_confidence × recency
         # where recency = 0.5 ^ (days_since / half_life=14).
@@ -361,7 +436,6 @@ class WeeklyBriefGenerator:
         scored: list[dict] = []
         for r in all_diff_rows:
             delta = r["delta_npv"] or 0.0
-            # Fetch confidence from linked structured_signal
             conf: float = 0.5
             if r["event_id"]:
                 sig_row = store._conn.execute(
@@ -376,7 +450,6 @@ class WeeklyBriefGenerator:
                     except Exception:
                         pass
 
-            # Recency
             try:
                 from datetime import timezone as _tz
                 created_str = (r["created_at"] or "")[:19]
@@ -389,17 +462,18 @@ class WeeklyBriefGenerator:
             val_score = 1.0 / (1.0 + math.exp(-abs(delta) / 50.0))
             composite = 0.50 * val_score + 0.25 * conf + 0.25 * recency
 
-            scored.append({
-                "rank": 0,  # set below
-                "asset_id": r["asset_id"] or "",
-                "delta_npv_millions": delta,
-                "composite_score": round(composite, 4),
-                "signal_event_type": r["event_type"],
-                "extraction_confidence": conf,
-                "run_id": r["run_id"],
-            })
+            scored.append(
+                {
+                    "rank": 0,
+                    "asset_id": r["asset_id"] or "",
+                    "delta_npv_millions": delta,
+                    "composite_score": round(composite, 4),
+                    "signal_event_type": r["event_type"],
+                    "extraction_confidence": conf,
+                    "run_id": r["run_id"],
+                }
+            )
 
-        # Deduplicate by asset_id — keep highest score per asset
         seen: dict[str, dict] = {}
         for s in scored:
             key = s["asset_id"]
@@ -409,9 +483,7 @@ class WeeklyBriefGenerator:
         top = sorted(seen.values(), key=lambda x: x["composite_score"], reverse=True)[: self.top_n]
         for i, opp in enumerate(top, start=1):
             opp["rank"] = i
-        brief.top_opportunities = top
-
-        return brief
+        return top
 
 
 # ---------------------------------------------------------------------------

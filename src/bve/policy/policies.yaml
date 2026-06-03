@@ -1,0 +1,27 @@
+# Decision Policies Configuration
+# These are the default thresholds — override per-fund in fund-specific configs.
+
+bd_screening:
+  active_pursuit_min_score: 0.75
+  require_asset_quality_min: 0.60
+  require_strategic_fit_min: 0.70
+  require_seller_willingness_min: 0.40
+  allowed_actions:
+    - monitor
+    - relationship_build
+    - request_cda
+    - diligence_memo
+    - pursue_option_deal
+
+hedge_fund_event:
+  require_expected_return_min: 0.20
+  require_liquidity_min_usd: 5000000
+  max_position_size_pct_nav: 2.0
+  require_downside_floor: true
+  catalyst_horizon_max_days: 180
+
+vc_underwriting:
+  require_biology_score_min: 0.65
+  require_capital_to_poc_under: 100000000
+  require_exit_universe_min_buyers: 3
+  require_platform_optionality: false

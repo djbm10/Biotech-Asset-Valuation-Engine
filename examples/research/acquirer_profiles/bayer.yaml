@@ -1,0 +1,58 @@
+company: Bayer AG
+ticker: BAYRY
+profile_as_of: 2026-04-07
+market_cap_billions: 24
+cash_billions: 3.2
+acquisition_capacity_millions: 8000
+pipeline_gaps:
+  - therapeutic_area: oncology
+    sub_area: radioligand_radiopharma
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [radioligand, small_molecule]
+    budget_ceiling_millions: 6000
+    notes: "Nubeqa (darolutamide) and Stivarga anchor oncology; radioligand therapy (Xofigo follow-on) is the most urgent pipeline adjacency following Novartis/Lantheus momentum."
+  - therapeutic_area: cardiovascular
+    sub_area: hfpef_novel_cv_mechanisms
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [small_molecule, oral]
+    budget_ceiling_millions: 8000
+    notes: "Xarelto LOE and Kerendia (finerenone) launch make next-gen HFpEF / CKD-cardiorenal mechanisms and novel oral anticoagulation adjacencies urgent priorities."
+  - therapeutic_area: gynecology
+    sub_area: endometriosis_uterine_fibroids
+    gap_type: franchise_extension
+    urgency: medium
+    preferred_modality: [small_molecule, oral]
+    budget_ceiling_millions: 5000
+    notes: "Visanne (dienogest) and continued women's-health franchise build; next-gen endometriosis or uterine fibroid oral agents are bolt-on candidates."
+  - therapeutic_area: ophthalmology
+    sub_area: wet_amd_retinal_disease
+    gap_type: strategic_entry
+    urgency: medium
+    preferred_modality: [antibody, small_molecule, gene_therapy]
+    budget_ceiling_millions: 5000
+    notes: "Eylea (brolucizumab collaboration) established retinal presence; next-gen anti-VEGF or complement retinal assets are potential in-licensing or acquisition targets."
+  - therapeutic_area: rare_disease
+    sub_area: genetic_clotting_disorders
+    gap_type: franchise_extension
+    urgency: medium
+    preferred_modality: [gene_therapy, antibody, small_molecule]
+    budget_ceiling_millions: 5000
+    notes: "Hemophilia franchise via gene-therapy collaboration; rare bleeding disorders and complement-hemophilia adjacencies remain open."
+recent_deals:
+  - target: Asklepios BioPharmaceutical (AskBio)
+    date: 2020-10-30
+    value_billions: 4.0
+    therapeutic_area: gene_therapy
+    modality: gene_therapy
+  - target: Vividion Therapeutics
+    date: 2021-07-26
+    value_billions: 1.5
+    therapeutic_area: oncology
+    modality: small_molecule
+stated_priorities:
+  - Radioligand therapy and oncology franchise extension
+  - Cardiovascular-renal franchise defense and next-gen oral agents
+  - Women's health and gynecology portfolio
+  - Gene therapy capability building

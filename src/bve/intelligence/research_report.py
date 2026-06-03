@@ -32,8 +32,8 @@ def _utcnow() -> datetime:
 
 _TEMPLATE_DIR = Path(__file__).resolve().parents[1] / "reporting" / "templates"
 _TEMPLATE_NAME = "research_report.md.j2"
-_REPORT_VERSION = "v1.1"
-_MODEL_VERSION = "deterministic-research-report-1.1"
+_REPORT_VERSION = "v1.2"
+_MODEL_VERSION = "deterministic-research-report-1.2"
 
 
 class ResearchReport(BaseModel):
@@ -52,6 +52,7 @@ class ResearchReport(BaseModel):
     financial_model: str
     risk_factors: str
     calibration_metrics: str
+    company_sotp_snapshot: Optional[dict[str, Any]] = None
     rendered_markdown: str
     cited_dossier_ids: list[str] = Field(default_factory=list)
     cited_literature_review_ids: list[str] = Field(default_factory=list)
@@ -79,6 +80,7 @@ class ResearchReportContext(BaseModel):
     financial_model: str
     risk_factors: str
     calibration_metrics: str
+    company_sotp_snapshot: Optional[dict[str, Any]] = None
     competitive_entries: list[dict[str, Any]] = Field(default_factory=list)
     cited_dossier_ids: list[str] = Field(default_factory=list)
     cited_literature_review_ids: list[str] = Field(default_factory=list)
@@ -126,6 +128,12 @@ class ResearchReportGenerator:
             company_id=company_id,
             generated_at=generated_at,
         )
+        company_sotp_snapshot = self._load_company_sotp_snapshot(
+            store,
+            company_id=company_id,
+            asset_id=asset_id,
+            generated_at=generated_at,
+        )
         moa_summary = self._load_moa_summary(store, asset_id=asset_id)
         calibration = self._calibration_metrics(store, asset_id=asset_id)
         latest_diff = dossier.recent_changes[0] if dossier.recent_changes else None
@@ -148,7 +156,11 @@ class ResearchReportGenerator:
         )
         clinical_evidence = self._clinical_evidence(literature=literature)
         competitive_analysis = self._competitive_analysis(landscape=landscape)
-        financial_model = self._financial_model(dossier=dossier, latest_diff=latest_diff)
+        financial_model = self._financial_model(
+            dossier=dossier,
+            latest_diff=latest_diff,
+            company_sotp_snapshot=company_sotp_snapshot,
+        )
         risk_factors = "\n".join([f"- {item}" for item in risk_items])
         calibration_metrics = self._calibration_text(calibration=calibration)
 
@@ -165,6 +177,7 @@ class ResearchReportGenerator:
             store=store,
             dossier=dossier,
             generated_at=generated_at,
+            company_sotp_snapshot=company_sotp_snapshot,
         )
 
         report_id = self._report_id(
@@ -191,6 +204,7 @@ class ResearchReportGenerator:
             financial_model=financial_model,
             risk_factors=risk_factors,
             calibration_metrics=calibration_metrics,
+            company_sotp_snapshot=company_sotp_snapshot,
             competitive_entries=competitive_entries,
             cited_dossier_ids=cited_dossier_ids,
             cited_literature_review_ids=cited_literature_review_ids,
@@ -243,6 +257,7 @@ class ResearchReportGenerator:
             financial_model=context.financial_model,
             risk_factors=context.risk_factors,
             calibration_metrics=context.calibration_metrics,
+            company_sotp_snapshot=context.company_sotp_snapshot,
             rendered_markdown=rendered_markdown,
             cited_dossier_ids=context.cited_dossier_ids,
             cited_literature_review_ids=context.cited_literature_review_ids,
@@ -322,6 +337,33 @@ class ResearchReportGenerator:
         return dict(props.get("moa_summary") or {})
 
     @staticmethod
+    def _load_company_sotp_snapshot(
+        store: KnowledgeStore,
+        *,
+        company_id: Optional[str],
+        asset_id: str,
+        generated_at: datetime,
+    ) -> Optional[dict[str, Any]]:
+        as_of = generated_at.date()
+        if company_id:
+            snapshot = store.get_company_sotp_snapshot_for_company_id_on_or_before(
+                company_id=company_id,
+                as_of=as_of,
+            )
+            if snapshot is not None:
+                return snapshot
+        node = store.find_node_by_external_id(NodeType.ASSET, asset_id)
+        if node is not None:
+            props = dict(node.properties or {})
+            ticker = props.get("ticker")
+            if ticker:
+                return store.get_company_sotp_snapshot_for_ticker_on_or_before(
+                    ticker=str(ticker),
+                    as_of=as_of,
+                )
+        return None
+
+    @staticmethod
     def _executive_summary(
         *,
         asset_id: str,
@@ -381,7 +423,12 @@ class ResearchReportGenerator:
         return "; ".join(lines)
 
     @staticmethod
-    def _financial_model(*, dossier: DossierRecord, latest_diff) -> str:
+    def _financial_model(
+        *,
+        dossier: DossierRecord,
+        latest_diff,
+        company_sotp_snapshot: Optional[dict[str, Any]],
+    ) -> str:
         snapshot = dossier.latest_valuation_snapshot or {}
         assumptions = dossier.current_assumptions or {}
         base = (
@@ -389,6 +436,15 @@ class ResearchReportGenerator:
             f"nav_per_share={snapshot.get('nav_per_share')}. "
             f"Tracked assumptions={len(assumptions)}."
         )
+        if company_sotp_snapshot is not None:
+            base = (
+                f"{base} Company SOTP: ticker={company_sotp_snapshot.get('ticker')}, "
+                f"ranked_discount={company_sotp_snapshot.get('ranked_sotp_discount')}, "
+                f"action_policy={company_sotp_snapshot.get('action_policy')}, "
+                f"sotp_equity_value_millions={company_sotp_snapshot.get('sotp_equity_value_millions')}, "
+                f"enterprise_value_millions={company_sotp_snapshot.get('enterprise_value_millions')}, "
+                f"balance_sheet_snapshot_date={company_sotp_snapshot.get('balance_sheet_snapshot_date')}."
+            )
         if latest_diff is None:
             return base
         return (
@@ -470,6 +526,7 @@ class ResearchReportGenerator:
         store: KnowledgeStore,
         dossier: DossierRecord,
         generated_at: datetime,
+        company_sotp_snapshot: Optional[dict[str, Any]],
     ) -> dict[str, Any]:
         valuation_parameters = dict(dossier.current_assumptions or {})
 
@@ -499,6 +556,7 @@ class ResearchReportGenerator:
             "valuation_parameters": valuation_parameters,
             "event_scores": event_scores_sorted,
             "propagation_parameters": propagation_parameters,
+            "company_sotp_snapshot": company_sotp_snapshot,
         }
 
     @staticmethod

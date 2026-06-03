@@ -1,0 +1,163 @@
+# Underwriting Pack Template — Top-25 Quarterly Review
+# Version: 1.0
+# Updated: 2026-04-09
+#
+# Fill this template for each name in the capital-candidate universe.
+# A completed, reviewed pack (reviewer_state: reviewed, pack_version >= 1)
+# is required before any name can receive capital-deployment action labels.
+# See docs/PRODUCT_SPEC.md for the full governance table.
+#
+# All value_millions fields are USD millions.
+# All dates must be ISO 8601: YYYY-MM-DD
+
+company_id: "TICKER"           # lowercase ticker used as internal ID
+company_name: "Company Name Inc."
+ticker: "TICKER"               # uppercase exchange ticker
+as_of_date: "2026-04-01"       # date this pack was prepared
+pack_quarter: "2026Q2"         # reporting quarter this pack covers
+
+# ─────────────────────────────────────────────────────────────────────
+# Market data  (point-in-time — source yfinance or replay store)
+# ─────────────────────────────────────────────────────────────────────
+market:
+  market_cap_millions: 0.0
+  enterprise_value_millions: 0.0
+  share_price: 0.0
+  source_ref: "yfinance:YYYY-MM-DD"
+
+# ─────────────────────────────────────────────────────────────────────
+# Balance sheet  (source 10-Q or 10-K; must be dated)
+# ─────────────────────────────────────────────────────────────────────
+balance_sheet:
+  cash_millions: 0.0
+  debt_millions: 0.0
+  source_ref: "10-Q:YYYY-MM-DD"
+
+# ─────────────────────────────────────────────────────────────────────
+# Modeled assets  (one entry per asset with a bve-asset config run)
+# methodology must be "rnpv" for modeled assets.
+# ─────────────────────────────────────────────────────────────────────
+modeled_assets:
+  - bucket_id: "ticker_asset1"
+    label: "Drug Name — Indication"
+    value_millions: 0.0            # rNPV output from bve-asset run
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/ticker_asset1.yaml:YYYY-MM-DD"
+    as_of_date: "2026-04-01"
+    confidence: 0.80
+    corroboration_count: 0
+    corroboration_refs: []
+    notes: ""
+
+# ─────────────────────────────────────────────────────────────────────
+# Platform value  (technology platform / IP beyond current pipeline)
+# Use methodology: analyst_estimate or rule_of_thumb.
+# confidence ≤ 0.70 for unmodeled platform value.
+# ─────────────────────────────────────────────────────────────────────
+platform_value:
+  bucket_id: "ticker_platform"
+  label: "Platform / technology value"
+  value_millions: 0.0
+  methodology: "analyst_estimate"
+  source_type: "analyst_bridge"
+  source_ref: "top25_pack_2026q2:TICKER:platform"
+  as_of_date: "2026-04-01"
+  confidence: 0.60
+  corroboration_count: 0
+  corroboration_refs: []
+  notes: "Estimate only — no formal platform valuation available."
+
+# ─────────────────────────────────────────────────────────────────────
+# Unmodeled pipeline  (pipeline assets not yet in a bve-asset config)
+# Keep this conservative — it is the hardest bucket to justify.
+# ─────────────────────────────────────────────────────────────────────
+unmodeled_pipeline:
+  bucket_id: "ticker_unmodeled"
+  label: "Unmodeled pipeline optionality"
+  value_millions: 0.0
+  methodology: "rule_of_thumb"
+  source_type: "analyst_bridge"
+  source_ref: "top25_pack_2026q2:TICKER:unmodeled"
+  as_of_date: "2026-04-01"
+  confidence: 0.55
+  corroboration_count: 0
+  corroboration_refs: []
+  notes: "Sum of unmodeled stage × historical deal comps; wide uncertainty band."
+
+# ─────────────────────────────────────────────────────────────────────
+# Royalty streams  (milestone / royalty receivables from partnerships)
+# ─────────────────────────────────────────────────────────────────────
+royalty_streams: []
+# Example:
+#   - bucket_id: "ticker_royalty1"
+#     label: "Partner royalty stream — Drug Name"
+#     value_millions: 0.0
+#     methodology: "dcf"
+#     source_type: "contractual"
+#     source_ref: "10-K:2025:royalty_schedule_pg44"
+#     as_of_date: "2026-04-01"
+#     confidence: 0.80
+
+# ─────────────────────────────────────────────────────────────────────
+# Dilution bridge  (source must be most recent SEC filing)
+# ─────────────────────────────────────────────────────────────────────
+dilution:
+  current_shares_millions: 0.0
+  expected_dilution_pct: 0.0       # fraction: 0.10 = 10% expected dilution
+  financing_runway_quarters: null  # null if unknown or fully funded
+  atm_active: false
+  atm_remaining_millions: null
+  shelf_registration_millions: null
+  warrant_shares_millions: 0.0
+  convertible_shares_millions: 0.0
+  source_ref: "10-Q:YYYY-MM-DD:capitalization"
+  as_of_date: "2026-04-01"
+  notes: ""
+
+# ─────────────────────────────────────────────────────────────────────
+# Catalysts  (key upcoming events with timing and probability estimate)
+# ─────────────────────────────────────────────────────────────────────
+catalysts:
+  - description: "Phase X readout — Drug Name (Indication)"
+    expected_date: "2026-QX"
+    catalyst_type: "readout"          # readout | fda_action | partnership | milestone | financing
+    probability_positive: 0.55
+    source_ref: "clinicaltrials.gov:NCT_ID"
+    notes: ""
+
+# ─────────────────────────────────────────────────────────────────────
+# Management flags  (leave empty if none; fill severity carefully)
+# ─────────────────────────────────────────────────────────────────────
+management_flags: []
+# Example:
+#   - flag_type: "ceo_change"
+#     flagged_date: "2026-01-15"
+#     severity: "watch"
+#     description: "CEO transition announced; new CEO starting Q2 2026."
+#     source_ref: "8-K:2026-01-15"
+#     resolved: false
+
+# ─────────────────────────────────────────────────────────────────────
+# Confidence metadata  (analyst assessment)
+# ─────────────────────────────────────────────────────────────────────
+confidence:
+  overall_confidence: 0.70    # 0.0–1.0; ≥ 0.85 = high, 0.65–0.85 = medium, < 0.65 = low
+  notes: ""
+
+# ─────────────────────────────────────────────────────────────────────
+# Provenance metadata
+# ─────────────────────────────────────────────────────────────────────
+provenance:
+  pack_version: 1             # must be ≥ 1 for APPROVED state
+  pack_quarter: "2026Q2"
+  created_by: "analyst_initials"
+  change_summary: "Initial Q2 2026 pack"
+
+# ─────────────────────────────────────────────────────────────────────
+# Reviewer state  (advance through: draft → reviewed → approved)
+# DO NOT set to "approved" without sign-off from a second reviewer.
+# ─────────────────────────────────────────────────────────────────────
+reviewer_state: "draft"
+
+notes: ""

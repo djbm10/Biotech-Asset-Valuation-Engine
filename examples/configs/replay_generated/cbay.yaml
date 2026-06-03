@@ -1,0 +1,64 @@
+asset:
+  id: a-cbay
+  name: seladelpar
+  indication: primary biliary cholangitis
+  therapeutic_area: other
+  stage: nda_bla
+  modality: small_molecule
+  discount_rate: 0.105
+company:
+  id: cbay-replay
+  name: CymaBay Therapeutics
+  ticker: CBAY
+  cash_millions: 774.03
+  debt_millions: 0.0
+  shares_outstanding_millions: 774.03
+  burn_rate_millions_per_quarter: 30.0
+  current_price: 10.0
+  notes: screening-grade replay config
+trials:
+- phase: nda_bla
+  success_probability: 0.87
+  duration_years: 1.5
+  cost_millions: 35.0
+  endpoint_type: surrogate_validated
+  notes: screening-grade default trial chain
+market_model:
+  total_addressable_market_millions: 21666.67
+  peak_penetration: 0.12
+  years_to_peak: 5
+  patent_life_years: 9
+  cogs_rate: 0.15
+  sgna_rate_launch: 0.4
+  sgna_rate_mature: 0.2
+  commercial_inputs:
+    patient_pool:
+      indication: Primary biliary cholangitis
+      prevalence_thousands: 538.3
+      diagnosed_fraction: 1.0
+      eligible_rate: 1.0
+      treated_fraction: 1.0
+      addressable_k: 538.3
+      uncertainty_cv: 0.20
+    pricing:
+      wac_per_year_usd: 43750
+      gross_to_net_rate: 0.20
+      launch_discount: 0.0
+      annual_erosion_rate: 0.02
+      uncertainty_cv: 0.12
+    share:
+      peak_share: 0.12
+      years_to_peak: 5
+      share_cv: 0.20
+    ex_us_revenue_multiple: 1.15
+_meta:
+  config_version: replay-screening-v1
+  source: replay_watchlist_builder
+  screening_grade: true
+  source_ticker: CBAY
+  source_universe_stage: nda_bla
+  source_tags:
+  - mna_public_deal_universe
+  single_asset: true
+  heuristic_market_cap_millions: 7740.31
+  heuristic_peak_sales_millions: 2600.0

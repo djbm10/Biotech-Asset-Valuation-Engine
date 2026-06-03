@@ -18,12 +18,14 @@ Coverage
 """
 from __future__ import annotations
 
-from datetime import date, datetime, timezone, timedelta
+import json
+import sqlite3
+from datetime import date, datetime, timedelta, timezone
 
 import pytest
 
 from bve.intelligence.replay_clock import ReplayClock
-from bve.ops.historical_replay import ReplayStore, HistoricalReplay
+from bve.ops.historical_replay import ReplayStore, HistoricalReplay, load_deal_fallback_prices
 
 
 # ---------------------------------------------------------------------------
@@ -127,6 +129,7 @@ def test_replay_store_creates_tables(in_memory_store):
     assert "historical_prices" in tables
     assert "historical_events" in tables
     assert "replay_decisions" in tables
+    assert "balance_sheet_snapshots" in tables
 
 
 # ---------------------------------------------------------------------------
@@ -152,6 +155,20 @@ def test_replay_store_get_price_multiple_rows(in_memory_store):
     assert in_memory_store.get_price(ticker, date(2025, 4, 1)) == pytest.approx(100.0)
     assert in_memory_store.get_price(ticker, date(2025, 4, 2)) == pytest.approx(105.0)
     assert in_memory_store.get_price(ticker, date(2025, 4, 3)) == pytest.approx(98.0)
+
+
+def test_replay_store_get_price_falls_back_to_prior_trading_day(in_memory_store):
+    ticker = "VKTX"
+    in_memory_store.insert_prices(
+        ticker,
+        [
+            (date(2025, 6, 6), 42.50),  # Friday
+            (date(2025, 6, 9), 44.00),  # Monday
+        ],
+    )
+
+    price = in_memory_store.get_price(ticker, date(2025, 6, 8))  # Sunday
+    assert price == pytest.approx(42.50)
 
 
 # ---------------------------------------------------------------------------
@@ -534,6 +551,101 @@ def test_replay_store_insert_and_get_open_decisions(in_memory_store):
     assert open_decs[0]["is_closed"] == 0
 
 
+def test_step_decision_records_entry_price_from_historical_prices(tmp_path, in_memory_store):
+    run_id = in_memory_store.create_run(
+        start_date=date(2025, 6, 1),
+        end_date=date(2025, 6, 30),
+        cadence="weekly",
+        decision_policy="top2_add",
+        score_version="v2.0",
+        strategy_version="top2_add",
+    )
+    in_memory_store.insert_prices(
+        "VKTX",
+        [
+            (date(2025, 6, 6), 42.50),
+        ],
+    )
+
+    universe = [
+        dict(
+            asset_id="a-vktx",
+            ticker="VKTX",
+            company_id="co-vktx",
+            ranking_score=1.0,
+            opportunity_score=1.0,
+            catalyst="VK2735 Phase 2",
+            indication="obesity",
+        ),
+    ]
+    replay = HistoricalReplay(
+        replay_store=in_memory_store,
+        knowledge_store_path=str(tmp_path / "replay_kb_entry_price.db"),
+        universe=universe,
+    )
+
+    decisions = replay._step_decision(ReplayClock(date(2025, 6, 8)), run_id, universe)
+
+    assert len(decisions) == 1
+    all_decs = in_memory_store.get_run_decisions(run_id)
+    assert len(all_decs) == 1
+    assert all_decs[0]["entry_price"] == pytest.approx(42.50)
+
+
+def test_step_decision_skips_assets_without_entry_price(tmp_path, in_memory_store):
+    from bve.intelligence.replay_policy import ReplayPolicyConfig
+
+    run_id = in_memory_store.create_run(
+        start_date=date(2025, 6, 1),
+        end_date=date(2025, 6, 30),
+        cadence="weekly",
+        decision_policy="price_gate_test",
+        score_version="v2.0",
+        strategy_version="price_gate_test",
+    )
+    in_memory_store.insert_prices("LIVE", [(date(2025, 6, 1), 100.0)])
+
+    universe = [
+        dict(
+            asset_id="a-no-price",
+            ticker="MISS",
+            company_id="co-miss",
+            ranking_score=1.0,
+            opportunity_score=1.0,
+            catalyst="Missing price catalyst",
+            indication="oncology",
+            claim_type="custom",
+            claim_assertion="missing price",
+        ),
+        dict(
+            asset_id="a-priced",
+            ticker="LIVE",
+            company_id="co-live",
+            ranking_score=1.0,
+            opportunity_score=1.0,
+            catalyst="Live catalyst",
+            indication="oncology",
+            claim_type="custom",
+            claim_assertion="has price",
+        ),
+    ]
+    replay = HistoricalReplay(
+        replay_store=in_memory_store,
+        knowledge_store_path=str(tmp_path / "replay_kb_price_gate.db"),
+        universe=universe,
+        policy_config=ReplayPolicyConfig(max_positions=1, max_single_pct=0.10),
+    )
+
+    decisions = replay._step_decision(ReplayClock(date(2025, 6, 1)), run_id, universe)
+
+    assert len(decisions) == 1
+    assert decisions[0].asset_id == "a-priced"
+    stored = in_memory_store.get_run_decisions(run_id)
+    assert len(stored) == 1
+    assert stored[0]["ticker"] == "LIVE"
+    assert stored[0]["entry_price"] == pytest.approx(100.0)
+
+
 def test_replay_store_close_decision(in_memory_store):
     from bve.intelligence.replay_policy import ReplayDecision
 
@@ -570,6 +682,583 @@ def test_replay_store_close_decision(in_memory_store):
 
     open_decs = in_memory_store.get_open_decisions(run_id)
     assert len(open_decs) == 0
+
+
+def test_step_resolve_populates_exit_price_and_return_pct(tmp_path, in_memory_store):
+    from bve.intelligence.replay_policy import ReplayDecision, ReplayPolicyConfig
+
+    run_id = in_memory_store.create_run(
+        start_date=date(2025, 1, 1),
+        end_date=date(2025, 2, 1),
+        cadence="weekly",
+        decision_policy="top2_add",
+        score_version="v2.0",
+        strategy_version="top2_add",
+    )
+    replay = HistoricalReplay(
+        replay_store=in_memory_store,
+        knowledge_store_path=str(tmp_path / "replay_kb_exit_price.db"),
+        universe=[],
+        policy_config=ReplayPolicyConfig(max_hold_days=7),
+    )
+
+    in_memory_store.insert_prices(
+        "VKTX",
+        [
+            (date(2025, 1, 10), 110.0),  # Friday before Sunday exit
+        ],
+    )
+    decision_id = in_memory_store.insert_decision(
+        run_id,
+        ReplayDecision(
+            asset_id="a-vktx",
+            ticker="VKTX",
+            recommended_action="buy",
+            recommended_size_pct=0.05,
+            composite_score=0.80,
+            decided_at=date(2025, 1, 5),  # Sunday
+        ),
+        entry_price=100.0,
+    )
+
+    replay._step_resolve(ReplayClock(date(2025, 1, 12)), run_id)
+
+    decisions = in_memory_store.get_run_decisions(run_id)
+    assert decisions[0]["decision_id"] == decision_id
+    assert decisions[0]["is_closed"] == 1
+    assert decisions[0]["exit_price"] == pytest.approx(110.0)
+    assert decisions[0]["return_pct"] == pytest.approx(10.0)
+
+
+def test_replay_store_backfill_decision_prices_fills_nulls(in_memory_store):
+    from bve.intelligence.replay_policy import ReplayDecision
+
+    run_id = in_memory_store.create_run(
+        start_date=date(2025, 4, 1),
+        end_date=date(2025, 5, 31),
+        cadence="weekly",
+        decision_policy="top2_add",
+        score_version="v2.0",
+        strategy_version="top2_add",
+    )
+    in_memory_store.insert_prices(
+        "ALNY",
+        [
+            (date(2025, 4, 4), 200.0),  # Friday before Sunday entry
+            (date(2025, 5, 9), 220.0),  # Friday before Sunday exit
+        ],
+    )
+
+    decision_id = in_memory_store.insert_decision(
+        run_id,
+        ReplayDecision(
+            asset_id="a-alny",
+            ticker="ALNY",
+            recommended_action="buy",
+            recommended_size_pct=0.05,
+            composite_score=0.75,
+            decided_at=date(2025, 4, 6),  # Sunday
+        ),
+        entry_price=None,
+    )
+    in_memory_store.close_decision(
+        decision_id,
+        exit_price=None,
+        exit_date=date(2025, 5, 11),  # Sunday
+        return_pct=None,
+        attribution_type="unclassified",
+    )
+
+    updated = in_memory_store.backfill_decision_prices(run_id)
+
+    decisions = in_memory_store.get_run_decisions(run_id)
+    assert updated == 1
+    assert decisions[0]["entry_price"] == pytest.approx(200.0)
+    assert decisions[0]["exit_price"] == pytest.approx(220.0)
+    assert decisions[0]["return_pct"] == pytest.approx(10.0)
+
+
+def test_step_resolve_updates_loss_block_state(tmp_path, in_memory_store):
+    from bve.intelligence.replay_policy import ReplayDecision, ReplayPolicyConfig
+
+    run_id = in_memory_store.create_run(
+        start_date=date(2025, 1, 1),
+        end_date=date(2025, 2, 1),
+        cadence="weekly",
+        decision_policy="top2_add",
+        score_version="v2.0",
+        strategy_version="top2_add",
+    )
+    replay = HistoricalReplay(
+        replay_store=in_memory_store,
+        knowledge_store_path=str(tmp_path / "replay_kb_loss.db"),
+        universe=[],
+        policy_config=ReplayPolicyConfig(max_hold_days=7),
+    )
+
+    in_memory_store.insert_prices(
+        "VKTX",
+        [
+            (date(2025, 1, 1), 100.0),
+            (date(2025, 1, 8), 80.0),
+        ],
+    )
+    decision_id = in_memory_store.insert_decision(
+        run_id,
+        ReplayDecision(
+            asset_id="a-vktx",
+            ticker="VKTX",
+            recommended_action="buy",
+            recommended_size_pct=0.05,
+            composite_score=0.80,
+            decided_at=date(2025, 1, 1),
+        ),
+        entry_price=100.0,
+    )
+
+    replay._step_resolve(ReplayClock(date(2025, 1, 8)), run_id)
+
+    decisions = in_memory_store.get_run_decisions(run_id)
+    assert decisions[0]["decision_id"] == decision_id
+    assert decisions[0]["is_closed"] == 1
+    assert decisions[0]["return_pct"] == pytest.approx(-20.0)
+    assert replay._policy.is_asset_blocked("a-vktx", date(2025, 1, 8)) is True
+
+
+def test_step_stop_loss_closes_position_when_threshold_breached(
+    tmp_path,
+    in_memory_store,
+    capsys: pytest.CaptureFixture[str],
+):
+    from bve.intelligence.replay_policy import ReplayDecision, ReplayPolicyConfig
+
+    run_id = in_memory_store.create_run(
+        start_date=date(2025, 1, 1),
+        end_date=date(2025, 2, 1),
+        cadence="weekly",
+        decision_policy="top2_add",
+        score_version="v2.0",
+        strategy_version="top2_add",
+    )
+    replay = HistoricalReplay(
+        replay_store=in_memory_store,
+        knowledge_store_path=str(tmp_path / "replay_kb_stop_loss.db"),
+        universe=[],
+        policy_config=ReplayPolicyConfig(max_hold_days=365, stop_loss_pct=-40.0),
+    )
+
+    in_memory_store.insert_prices(
+        "VKTX",
+        [
+            (date(2025, 1, 1), 100.0),
+            (date(2025, 1, 8), 55.0),
+        ],
+    )
+    decision_id = in_memory_store.insert_decision(
+        run_id,
+        ReplayDecision(
+            asset_id="a-vktx",
+            ticker="VKTX",
+            recommended_action="buy",
+            recommended_size_pct=0.05,
+            composite_score=0.80,
+            decided_at=date(2025, 1, 1),
+        ),
+        entry_price=100.0,
+    )
+
+    triggered = replay._step_stop_loss(ReplayClock(date(2025, 1, 8)), run_id)
+
+    decisions = in_memory_store.get_run_decisions(run_id)
+    assert triggered == 1
+    assert decisions[0]["decision_id"] == decision_id
+    assert decisions[0]["is_closed"] == 1
+    assert decisions[0]["exit_price"] == pytest.approx(55.0)
+    assert decisions[0]["exit_date"] == "2025-01-08"
+    assert decisions[0]["return_pct"] == pytest.approx(-45.0)
+    assert "Stop-loss triggered: a-vktx at -45.0%" in capsys.readouterr().out
+
+
+def test_step_stop_loss_does_not_close_position_within_threshold(tmp_path, in_memory_store):
+    from bve.intelligence.replay_policy import ReplayDecision, ReplayPolicyConfig
+
+    run_id = in_memory_store.create_run(
+        start_date=date(2025, 1, 1),
+        end_date=date(2025, 2, 1),
+        cadence="weekly",
+        decision_policy="top2_add",
+        score_version="v2.0",
+        strategy_version="top2_add",
+    )
+    replay = HistoricalReplay(
+        replay_store=in_memory_store,
+        knowledge_store_path=str(tmp_path / "replay_kb_stop_loss_safe.db"),
+        universe=[],
+        policy_config=ReplayPolicyConfig(max_hold_days=365, stop_loss_pct=-40.0),
+    )
+
+    in_memory_store.insert_prices(
+        "VKTX",
+        [
+            (date(2025, 1, 1), 100.0),
+            (date(2025, 1, 8), 70.0),
+        ],
+    )
+    in_memory_store.insert_decision(
+        run_id,
+        ReplayDecision(
+            asset_id="a-vktx",
+            ticker="VKTX",
+            recommended_action="buy",
+            recommended_size_pct=0.05,
+            composite_score=0.80,
+            decided_at=date(2025, 1, 1),
+        ),
+        entry_price=100.0,
+    )
+
+    triggered = replay._step_stop_loss(ReplayClock(date(2025, 1, 8)), run_id)
+
+    decisions = in_memory_store.get_run_decisions(run_id)
+    assert triggered == 0
+    assert decisions[0]["is_closed"] == 0
+    assert decisions[0]["exit_price"] is None
+    assert decisions[0]["return_pct"] is None
+
+
+def test_step_stop_loss_triggers_loss_blocking_for_reentry(tmp_path, in_memory_store):
+    from bve.intelligence.replay_policy import ReplayDecision, ReplayPolicyConfig
+
+    run_id = in_memory_store.create_run(
+        start_date=date(2025, 1, 1),
+        end_date=date(2025, 2, 1),
+        cadence="weekly",
+        decision_policy="top2_add",
+        score_version="v2.0",
+        strategy_version="top2_add",
+    )
+    universe = [
+        dict(
+            asset_id="a-vktx",
+            ticker="VKTX",
+            company_id="co-vktx",
+            ranking_score=1.0,
+            opportunity_score=1.0,
+            catalyst="VK2735 Phase 2",
+            indication="obesity",
+        ),
+    ]
+    replay = HistoricalReplay(
+        replay_store=in_memory_store,
+        knowledge_store_path=str(tmp_path / "replay_kb_stop_loss_block.db"),
+        universe=universe,
+        policy_config=ReplayPolicyConfig(
+            max_positions=1,
+            max_hold_days=365,
+            stop_loss_pct=-40.0,
+        ),
+    )
+
+    in_memory_store.insert_prices(
+        "VKTX",
+        [
+            (date(2025, 1, 1), 100.0),
+            (date(2025, 1, 8), 55.0),
+        ],
+    )
+    in_memory_store.insert_decision(
+        run_id,
+        ReplayDecision(
+            asset_id="a-vktx",
+            ticker="VKTX",
+            recommended_action="buy",
+            recommended_size_pct=0.05,
+            composite_score=0.80,
+            decided_at=date(2025, 1, 1),
+        ),
+        entry_price=100.0,
+    )
+
+    replay._step_stop_loss(ReplayClock(date(2025, 1, 8)), run_id)
+    decisions = replay._step_decision(ReplayClock(date(2025, 1, 8)), run_id, universe)
+
+    assert decisions == []
+    assert replay._policy.is_asset_blocked("a-vktx", date(2025, 1, 8)) is True
+    assert len(in_memory_store.get_run_decisions(run_id)) == 1
+
+
+def test_step_stop_loss_sets_attribution_type(tmp_path, in_memory_store):
+    from bve.intelligence.replay_policy import ReplayDecision, ReplayPolicyConfig
+
+    run_id = in_memory_store.create_run(
+        start_date=date(2025, 1, 1),
+        end_date=date(2025, 2, 1),
+        cadence="weekly",
+        decision_policy="top2_add",
+        score_version="v2.0",
+        strategy_version="top2_add",
+    )
+    replay = HistoricalReplay(
+        replay_store=in_memory_store,
+        knowledge_store_path=str(tmp_path / "replay_kb_stop_loss_attr.db"),
+        universe=[],
+        policy_config=ReplayPolicyConfig(max_hold_days=365, stop_loss_pct=-40.0),
+    )
+
+    in_memory_store.insert_prices(
+        "VKTX",
+        [
+            (date(2025, 1, 1), 100.0),
+            (date(2025, 1, 8), 55.0),
+        ],
+    )
+    in_memory_store.insert_decision(
+        run_id,
+        ReplayDecision(
+            asset_id="a-vktx",
+            ticker="VKTX",
+            recommended_action="buy",
+            recommended_size_pct=0.05,
+            composite_score=0.80,
+            decided_at=date(2025, 1, 1),
+        ),
+        entry_price=100.0,
+    )
+
+    replay._step_stop_loss(ReplayClock(date(2025, 1, 8)), run_id)
+
+    decisions = in_memory_store.get_run_decisions(run_id)
+    assert decisions[0]["attribution_type"] == "stop_loss"
+
+
+def test_run_applies_stop_loss_before_new_decisions(tmp_path, in_memory_store, monkeypatch):
+    from bve.intelligence.replay_policy import ReplayDecision, ReplayPolicyConfig
+
+    universe = [
+        dict(
+            asset_id="a-alny",
+            ticker="ALNY",
+            company_id="co-alny",
+            ranking_score=1.0,
+            opportunity_score=1.0,
+            catalyst="ALN-APP Phase 3",
+            indication="cardiometabolic",
+        ),
+    ]
+    replay = HistoricalReplay(
+        replay_store=in_memory_store,
+        knowledge_store_path=str(tmp_path / "replay_kb_stop_loss_order.db"),
+        universe=universe,
+        policy_config=ReplayPolicyConfig(
+            max_positions=1,
+            max_open_positions=1,
+            max_hold_days=365,
+            stop_loss_pct=-40.0,
+        ),
+    )
+    in_memory_store.insert_prices(
+        "VKTX",
+        [
+            (date(2025, 1, 1), 100.0),
+            (date(2025, 1, 8), 55.0),
+        ],
+    )
+    in_memory_store.insert_prices("ALNY", [(date(2025, 1, 8), 200.0)])
+
+    real_create_run = in_memory_store.create_run
+
+    def create_run_with_open_position(*args, **kwargs):
+        run_id = real_create_run(*args, **kwargs)
+        in_memory_store.insert_decision(
+            run_id,
+            ReplayDecision(
+                asset_id="a-vktx",
+                ticker="VKTX",
+                recommended_action="buy",
+                recommended_size_pct=0.05,
+                composite_score=0.80,
+                decided_at=date(2025, 1, 1),
+            ),
+            entry_price=100.0,
+        )
+        return run_id
+
+    monkeypatch.setattr(in_memory_store, "create_run", create_run_with_open_position)
+
+    run_id = replay.run(
+        start=date(2025, 1, 8),
+        end=date(2025, 1, 8),
+        cadence="weekly",
+        decision_policy="stop_loss_order_test",
+    )
+
+    decisions = in_memory_store.get_run_decisions(run_id)
+    assert len(decisions) == 2
+    closed = next(d for d in decisions if d["asset_id"] == "a-vktx")
+    new_entry = next(d for d in decisions if d["asset_id"] == "a-alny")
+    assert closed["attribution_type"] == "stop_loss"
+    assert closed["is_closed"] == 1
+    assert new_entry["is_closed"] == 0
+    assert new_entry["entry_price"] == pytest.approx(200.0)
+
+
+def test_step_decision_respects_max_open_positions(tmp_path, in_memory_store):
+    from bve.intelligence.replay_policy import ReplayDecision, ReplayPolicyConfig
+
+    run_id = in_memory_store.create_run(
+        start_date=date(2025, 6, 1),
+        end_date=date(2025, 6, 30),
+        cadence="weekly",
+        decision_policy="top2_add",
+        score_version="v2.0",
+        strategy_version="top2_add",
+    )
+    universe = [
+        dict(
+            asset_id="a-vktx",
+            ticker="VKTX",
+            company_id="co-vktx",
+            ranking_score=1.0,
+            opportunity_score=1.0,
+            catalyst="VK2735 Phase 2",
+            indication="obesity",
+        ),
+        dict(
+            asset_id="a-alny",
+            ticker="ALNY",
+            company_id="co-alny",
+            ranking_score=0.9,
+            opportunity_score=0.9,
+            catalyst="Zilebesiran",
+            indication="RNAi",
+        ),
+    ]
+    replay = HistoricalReplay(
+        replay_store=in_memory_store,
+        knowledge_store_path=str(tmp_path / "replay_kb_open_cap.db"),
+        universe=universe,
+        policy_config=ReplayPolicyConfig(max_positions=8, max_open_positions=1),
+    )
+    in_memory_store.insert_decision(
+        run_id,
+        ReplayDecision(
+            asset_id="a-beam",
+            ticker="BEAM",
+            recommended_action="buy",
+            recommended_size_pct=0.10,
+            composite_score=0.95,
+            decided_at=date(2025, 6, 1),
+        ),
+        entry_price=100.0,
+    )
+
+    decisions = replay._step_decision(ReplayClock(date(2025, 6, 8)), run_id, universe)
+
+    assert decisions == []
+    assert len(in_memory_store.get_run_decisions(run_id)) == 1
+
+
+def test_replay_run_supports_quarterly_cadence(tmp_path, in_memory_store):
+    from bve.intelligence.replay_policy import ReplayPolicyConfig
+
+    replay = HistoricalReplay(
+        replay_store=in_memory_store,
+        knowledge_store_path=str(tmp_path / "replay_kb_quarterly.db"),
+        universe=[],
+        policy_config=ReplayPolicyConfig(max_positions=0),
+    )
+
+    run_id = replay.run(
+        start=date(2025, 1, 1),
+        end=date(2025, 7, 1),
+        cadence="quarterly",
+        decision_policy="quarterly_test",
+    )
+    summary = replay.summarize(run_id)
+
+    assert summary.n_decision_dates == 3
+
+
+def test_mna_profile_sets_phase4_defaults():
+    from bve.intelligence.replay_policy import ReplayPolicyConfig
+
+    cfg = ReplayPolicyConfig.mna_profile()
+
+    assert cfg.name == "mna_top8"
+    assert cfg.max_positions == 8
+    assert cfg.max_open_positions == 8
+    assert cfg.max_single_pct == pytest.approx(0.125)
+    assert cfg.max_total_exposure_pct == pytest.approx(1.0)
+    assert cfg.max_hold_days == 365
+    assert cfg.catalyst_timing is False
+    assert cfg.require_catalyst_within_days == 0
+    assert cfg.loss_block_threshold_pct == pytest.approx(-40.0)
+
+
+def test_cmd_run_applies_stop_loss_pct_override(tmp_path, monkeypatch):
+    from bve.ops import historical_replay as hr
+
+    captured: dict[str, object] = {}
+
+    class DummyStore:
+        def __init__(self, db_path: str) -> None:
+            self.db_path = db_path
+
+        def close(self) -> None:
+            return None
+
+    class DummySummary:
+        def print(self) -> None:
+            return None
+
+    class DummyReplay:
+        def __init__(
+            self,
+            replay_store,
+            knowledge_store_path: str,
+            universe: list[dict],
+            policy_config,
+        ) -> None:
+            captured["policy_config"] = policy_config
+
+        def run(
+            self,
+            *,
+            start: date,
+            end: date,
+            cadence: str,
+            decision_policy: str,
+            profile: str,
+        ) -> str:
+            captured["run_args"] = (start, end, cadence, decision_policy, profile)
+            return "run-stop-loss"
+
+        def summarize(self, run_id: str) -> DummySummary:
+            captured["run_id"] = run_id
+            return DummySummary()
+
+    monkeypatch.setattr(hr, "_OUTPUTS_DIR", tmp_path)
+    monkeypatch.setattr(hr, "ReplayStore", DummyStore)
+    monkeypatch.setattr(hr, "HistoricalReplay", DummyReplay)
+    monkeypatch.setattr(hr, "load_replay_universe", lambda universe_file=None: [])
+
+    hr._cmd_run(
+        [
+            "--start", "2025-01-01",
+            "--end", "2025-01-08",
+            "--stop-loss-pct", "-25.0",
+        ]
+    )
+
+    policy_cfg = captured["policy_config"]
+    assert policy_cfg.stop_loss_pct == pytest.approx(-25.0)
+    assert captured["run_args"] == (
+        date(2025, 1, 1),
+        date(2025, 1, 8),
+        "weekly",
+        "top2_add_hold30d",
+        "standard",
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -777,3 +1466,1680 @@ def test_claim_resolution_reset_between_runs(tmp_path, in_memory_store):
 
     # The set should have been reset (stale {9999} cleared)
     assert 9999 not in replay._resolved_event_ids
+
+
+# ---------------------------------------------------------------------------
+# v2.0 signal query methods on ReplayStore
+# ---------------------------------------------------------------------------
+
+def test_get_catalyst_signal_strength_no_data(in_memory_store):
+    """Returns None when catalyst_events table is empty."""
+    result = in_memory_store.get_catalyst_signal_strength("a-vktx", date(2025, 6, 1))
+    assert result is None
+
+
+def test_get_catalyst_signal_strength_returns_most_recent_before_as_of(in_memory_store):
+    """Returns most-recently-dated signal_strength for asset on or before as_of; ignores future."""
+    conn = in_memory_store._conn
+    conn.execute(
+        "INSERT INTO catalyst_events (event_id, asset_id, ticker, event_type, event_date, signal_strength) VALUES (?, ?, ?, ?, ?, ?)",
+        ("ev-1", "a-vktx", "VKTX", "readout", "2025-05-01", 1.5),
+    )
+    conn.execute(
+        "INSERT INTO catalyst_events (event_id, asset_id, ticker, event_type, event_date, signal_strength) VALUES (?, ?, ?, ?, ?, ?)",
+        ("ev-2", "a-vktx", "VKTX", "readout", "2025-06-01", 2.5),
+    )
+    conn.execute(
+        "INSERT INTO catalyst_events (event_id, asset_id, ticker, event_type, event_date, signal_strength) VALUES (?, ?, ?, ?, ?, ?)",
+        ("ev-3", "a-vktx", "VKTX", "readout", "2025-07-01", 3.5),  # future
+    )
+    conn.commit()
+
+    result = in_memory_store.get_catalyst_signal_strength("a-vktx", date(2025, 6, 15))
+    assert result == pytest.approx(2.5)  # 3.5 excluded (future)
+
+
+def test_get_catalyst_signal_strength_excludes_competitor_readout(in_memory_store):
+    """COMPETITOR_READOUT events are excluded from own-asset catalyst strength."""
+    conn = in_memory_store._conn
+    conn.execute(
+        "INSERT INTO catalyst_events (event_id, asset_id, ticker, event_type, event_date, signal_strength) VALUES (?, ?, ?, ?, ?, ?)",
+        ("ev-c1", "a-vktx", "VKTX", "COMPETITOR_READOUT", "2025-05-01", 3.0),
+    )
+    conn.commit()
+
+    result = in_memory_store.get_catalyst_signal_strength("a-vktx", date(2025, 6, 1))
+    assert result is None
+
+
+def test_get_enrollment_flags_no_data(in_memory_store):
+    """Returns None when no enrollment snapshot exists."""
+    result = in_memory_store.get_enrollment_flags("a-vktx", date(2025, 6, 1))
+    assert result is None
+
+
+def test_get_enrollment_flags_returns_latest_before_as_of(in_memory_store):
+    """Returns the most recent snapshot on or before as_of."""
+    conn = in_memory_store._conn
+    conn.execute(
+        "INSERT INTO enrollment_snapshots VALUES (?, ?, ?, ?, ?, ?)",
+        ("snap-1", "a-vktx", "2025-04-01", 0, 0, 0),
+    )
+    conn.execute(
+        "INSERT INTO enrollment_snapshots VALUES (?, ?, ?, ?, ?, ?)",
+        ("snap-2", "a-vktx", "2025-06-01", 1, 1, 0),  # stalling + velocity_low
+    )
+    conn.execute(
+        "INSERT INTO enrollment_snapshots VALUES (?, ?, ?, ?, ?, ?)",
+        ("snap-3", "a-vktx", "2025-07-01", 0, 0, 1),  # future
+    )
+    conn.commit()
+
+    result = in_memory_store.get_enrollment_flags("a-vktx", date(2025, 6, 15))
+    assert result is not None
+    assert result["site_stalling"] is True
+    assert result["velocity_low"] is True
+    assert result["slippage_alert"] is False  # snap-3 excluded (future)
+
+
+def test_get_phase_correlation_no_data(in_memory_store):
+    """Returns (None, None) when no phase correlation signal exists."""
+    prior, posterior = in_memory_store.get_phase_correlation("a-vktx", date(2025, 6, 1))
+    assert prior is None
+    assert posterior is None
+
+
+def test_get_phase_correlation_returns_most_recent(in_memory_store):
+    """Returns phase_prior_pos and phase_posterior_pos from most recent signal."""
+    conn = in_memory_store._conn
+    conn.execute(
+        "INSERT INTO structured_signals VALUES (?, ?, ?, ?, ?, ?, ?)",
+        ("sig-1", "a-vktx", "2025-05-01", "phase_correlation", None, 0.40, 0.55),
+    )
+    conn.execute(
+        "INSERT INTO structured_signals VALUES (?, ?, ?, ?, ?, ?, ?)",
+        ("sig-2", "a-vktx", "2025-08-01", "phase_correlation", None, 0.42, 0.60),  # future
+    )
+    conn.commit()
+
+    prior, posterior = in_memory_store.get_phase_correlation("a-vktx", date(2025, 6, 1))
+    assert prior == pytest.approx(0.40)
+    assert posterior == pytest.approx(0.55)
+
+
+def test_get_endpoint_z_score_no_data(in_memory_store):
+    """Returns None when no structured signal with z_score exists."""
+    result = in_memory_store.get_endpoint_z_score("a-vktx", date(2025, 6, 1))
+    assert result is None
+
+
+def test_get_endpoint_z_score_returns_most_recent(in_memory_store):
+    """Returns z_score from most recent signal on or before as_of."""
+    conn = in_memory_store._conn
+    conn.execute(
+        "INSERT INTO structured_signals VALUES (?, ?, ?, ?, ?, ?, ?)",
+        ("sig-z1", "a-alny", "2025-03-01", "readout", 1.8, None, None),
+    )
+    conn.execute(
+        "INSERT INTO structured_signals VALUES (?, ?, ?, ?, ?, ?, ?)",
+        ("sig-z2", "a-alny", "2025-09-01", "readout", 2.4, None, None),  # future
+    )
+    conn.commit()
+
+    result = in_memory_store.get_endpoint_z_score("a-alny", date(2025, 6, 1))
+    assert result == pytest.approx(1.8)
+
+
+def test_get_competitor_signals_empty(in_memory_store):
+    """Returns empty list when no COMPETITOR_READOUT events exist."""
+    result = in_memory_store.get_competitor_signals("a-vktx", date(2025, 6, 1))
+    assert result == []
+
+
+def test_get_competitor_signals_within_window(in_memory_store):
+    """Returns competitor signal_strengths within 60 days; excludes outside window."""
+    conn = in_memory_store._conn
+    conn.execute(
+        "INSERT INTO catalyst_events (event_id, asset_id, ticker, event_type, event_date, signal_strength) VALUES (?, ?, ?, ?, ?, ?)",
+        ("comp-1", "a-vktx", "VKTX", "COMPETITOR_READOUT", "2025-04-10", 0.8),  # too old
+    )
+    conn.execute(
+        "INSERT INTO catalyst_events (event_id, asset_id, ticker, event_type, event_date, signal_strength) VALUES (?, ?, ?, ?, ?, ?)",
+        ("comp-2", "a-vktx", "VKTX", "COMPETITOR_READOUT", "2025-05-15", 1.2),  # within 60d
+    )
+    conn.execute(
+        "INSERT INTO catalyst_events (event_id, asset_id, ticker, event_type, event_date, signal_strength) VALUES (?, ?, ?, ?, ?, ?)",
+        ("comp-3", "a-vktx", "VKTX", "COMPETITOR_READOUT", "2025-07-01", 2.0),  # future
+    )
+    conn.commit()
+
+    result = in_memory_store.get_competitor_signals("a-vktx", date(2025, 6, 10), window_days=60)
+    assert len(result) == 1
+    assert result[0] == pytest.approx(1.2)
+
+
+def test_get_capital_risk_level_no_data(in_memory_store):
+    """Returns None when no capital snapshot exists."""
+    result = in_memory_store.get_capital_risk_level("a-vktx", date(2025, 6, 1))
+    assert result is None
+
+
+def test_get_capital_risk_level_returns_most_recent(in_memory_store):
+    """Returns capital_risk_level string from most recent snapshot."""
+    conn = in_memory_store._conn
+    conn.execute(
+        "INSERT INTO capital_snapshots VALUES (?, ?, ?, ?, ?)",
+        ("cap-1", "a-vktx", "2025-04-01", 8.0, "LOW"),
+    )
+    conn.execute(
+        "INSERT INTO capital_snapshots VALUES (?, ?, ?, ?, ?)",
+        ("cap-2", "a-vktx", "2025-06-01", 3.0, "HIGH"),
+    )
+    conn.execute(
+        "INSERT INTO capital_snapshots VALUES (?, ?, ?, ?, ?)",
+        ("cap-3", "a-vktx", "2025-08-01", 1.5, "CRITICAL"),  # future
+    )
+    conn.commit()
+
+    result = in_memory_store.get_capital_risk_level("a-vktx", date(2025, 6, 15))
+    assert result == "HIGH"
+
+
+def test_balance_sheet_snapshot_roundtrip(in_memory_store):
+    in_memory_store.upsert_balance_sheet_snapshot(
+        ticker="VKTX",
+        snapshot_date=date(2025, 5, 10),
+        period_end_date=date(2025, 3, 31),
+        form_type="10-Q",
+        cash_millions=420.0,
+        debt_millions=15.0,
+        shares_outstanding_millions=110.5,
+        burn_rate_millions_per_quarter=32.0,
+        source_type="sec_edgar_company_facts",
+        source_ref="0000000000:10-Q:2025-05-10",
+    )
+
+    row = in_memory_store.get_balance_sheet_snapshot("VKTX", date(2025, 6, 1))
+    assert row is not None
+    assert row["ticker"] == "VKTX"
+    assert row["snapshot_date"] == "2025-05-10"
+    assert row["period_end_date"] == "2025-03-31"
+    assert row["cash_millions"] == pytest.approx(420.0)
+    assert row["shares_outstanding_millions"] == pytest.approx(110.5)
+    assert row["source_ref"] == "0000000000:10-Q:2025-05-10"
+
+
+# ---------------------------------------------------------------------------
+# v2.0: replay loop produces score_version = "v2.0"
+# ---------------------------------------------------------------------------
+
+def test_replay_step_decision_produces_v2_score(tmp_path, in_memory_store):
+    """
+    _step_decision passes contexts to ActionableGenerator, which sets
+    score_version = "v2.0" on the WeeklyActionableReport whenever the
+    universe is non-empty (contexts dict is non-empty → v2.0 path).
+    """
+    from bve.intelligence.actionable_output import ActionableGenerator, ScoredCandidate
+
+    universe = [
+        dict(
+            asset_id="a-vktx", ticker="VKTX", company_id="co-vktx",
+            ranking_score=0.72, opportunity_score=0.78,
+            catalyst="VK2735 Ph2", indication="obesity",
+            claim_type="ENDPOINT_MET", claim_assertion="trial meets endpoint",
+        ),
+        dict(
+            asset_id="a-alny", ticker="ALNY", company_id="co-alny",
+            ranking_score=0.68, opportunity_score=0.70,
+            catalyst="Zilebesiran readout", indication="hypertension",
+            claim_type="ENDPOINT_MET", claim_assertion="trial meets endpoint",
+        ),
+    ]
+
+    ks_path = str(tmp_path / "replay_kb.db")
+    replay = HistoricalReplay(
+        replay_store=in_memory_store,
+        knowledge_store_path=ks_path,
+        universe=universe,
+    )
+
+    # Insert catalyst signal data for one asset so contexts are populated
+    in_memory_store._conn.execute(
+        "INSERT INTO catalyst_events (event_id, asset_id, ticker, event_type, event_date, signal_strength) VALUES (?, ?, ?, ?, ?, ?)",
+        ("ev-v2", "a-vktx", "VKTX", "readout", "2025-05-20", 1.5),
+    )
+    in_memory_store._conn.commit()
+
+    as_of = date(2025, 6, 1)
+
+    # Build contexts directly and verify they contain v2.0 signal data
+    contexts = replay._build_score_contexts(universe, as_of)
+    assert "a-vktx" in contexts
+    assert "a-alny" in contexts
+    # VKTX has catalyst data; ALNY does not (None is neutral)
+    assert contexts["a-vktx"].catalyst_signal_strength == pytest.approx(1.5)
+    assert contexts["a-alny"].catalyst_signal_strength is None
+
+    # Generate report with contexts — effective_version must be v2.0
+    gen = ActionableGenerator()
+    candidates = [
+        ScoredCandidate(
+            asset_id=u["asset_id"],
+            ticker=u["ticker"],
+            ranking_score=u["ranking_score"],
+            opportunity_score=u["opportunity_score"],
+        )
+        for u in universe
+    ]
+    report = gen.generate(candidates, top_n=10, week_ending=as_of, contexts=contexts)
+    assert report.score_version == "v2.0"
+
+
+def test_replay_step_decision_v2_no_signal_data_still_v2(tmp_path, in_memory_store):
+    """
+    Even with no signal data, _build_score_contexts returns a non-empty
+    dict of default contexts, so score_version remains "v2.0".
+    """
+    from bve.intelligence.actionable_output import ActionableGenerator, ScoredCandidate
+
+    universe = [
+        dict(
+            asset_id="a-ntla", ticker="NTLA", company_id="co-ntla",
+            ranking_score=0.60, opportunity_score=0.55,
+            catalyst="NTLA-2001", indication="ATTR",
+            claim_type="ENDPOINT_MET", claim_assertion="meets endpoint",
+        ),
+    ]
+
+    ks_path = str(tmp_path / "replay_kb_v2.db")
+    replay = HistoricalReplay(
+        replay_store=in_memory_store,
+        knowledge_store_path=ks_path,
+        universe=universe,
+    )
+
+    as_of = date(2025, 6, 1)
+    contexts = replay._build_score_contexts(universe, as_of)
+
+    # All signals are None/default — context still present
+    assert "a-ntla" in contexts
+    ctx = contexts["a-ntla"]
+    assert ctx.catalyst_signal_strength is None
+    assert ctx.enrollment_site_stalling is False
+    assert ctx.capital_risk is None
+
+    gen = ActionableGenerator()
+    candidates = [
+        ScoredCandidate(
+            asset_id=u["asset_id"],
+            ticker=u["ticker"],
+            ranking_score=u["ranking_score"],
+            opportunity_score=u["opportunity_score"],
+        )
+        for u in universe
+    ]
+    report = gen.generate(candidates, top_n=10, week_ending=as_of, contexts=contexts)
+    assert report.score_version == "v2.0"
+
+
+def test_new_signal_tables_exist(in_memory_store):
+    """All four new v2.0 signal tables are created by _ensure_schema."""
+    conn = in_memory_store._conn
+    tables = {
+        row[0]
+        for row in conn.execute(
+            "SELECT name FROM sqlite_master WHERE type='table'"
+        ).fetchall()
+    }
+    assert "catalyst_events" in tables
+    assert "enrollment_snapshots" in tables
+    assert "structured_signals" in tables
+    assert "capital_snapshots" in tables
+
+
+# ---------------------------------------------------------------------------
+# seed_signals_from_knowledge_store (Approach A)
+# ---------------------------------------------------------------------------
+
+def _make_fake_knowledge_db(path: str) -> None:
+    """Create a minimal KnowledgeStore-shaped SQLite with signal data."""
+    import json
+    conn = sqlite3.connect(path)
+    conn.execute(
+        """
+        CREATE TABLE catalyst_events (
+            id TEXT PRIMARY KEY,
+            asset_id TEXT,
+            catalyst_type TEXT,
+            expected_date TEXT,
+            payload_json TEXT,
+            is_active INTEGER DEFAULT 1,
+            resolved INTEGER DEFAULT 0,
+            created_at TEXT,
+            updated_at TEXT
+        )
+        """
+    )
+    conn.execute(
+        """
+        CREATE TABLE enrollment_snapshots (
+            id TEXT PRIMARY KEY,
+            asset_id TEXT,
+            snapshot_date TEXT,
+            payload_json TEXT,
+            nct_id TEXT,
+            created_at TEXT
+        )
+        """
+    )
+    conn.execute(
+        """
+        CREATE TABLE structured_signals (
+            id TEXT PRIMARY KEY,
+            asset_id TEXT,
+            signal_date TEXT,
+            event_type TEXT,
+            payload_json TEXT,
+            created_at TEXT,
+            extraction_result_id TEXT,
+            company_id TEXT,
+            event_id TEXT,
+            source_trace_json TEXT
+        )
+        """
+    )
+
+    # Insert a catalyst event with signal_strength in payload_json
+    conn.execute(
+        "INSERT INTO catalyst_events VALUES (?,?,?,?,?,?,?,?,?)",
+        (
+            "ks-cat-1", "a-vktx", "trial_readout", "2025-05-01",
+            json.dumps({"signal_strength": 1.8}), 1, 0,
+            "2025-01-01T00:00:00Z", "2025-01-01T00:00:00Z",
+        ),
+    )
+    # Insert a catalyst event WITHOUT signal_strength (still copied, signal_strength=NULL)
+    conn.execute(
+        "INSERT INTO catalyst_events VALUES (?,?,?,?,?,?,?,?,?)",
+        (
+            "ks-cat-2", "a-alny", "pdufa_decision", "2025-07-15",
+            json.dumps({}), 1, 0,
+            "2025-02-01T00:00:00Z", "2025-02-01T00:00:00Z",
+        ),
+    )
+    # Insert a COMPETITOR_READOUT event
+    conn.execute(
+        "INSERT INTO catalyst_events VALUES (?,?,?,?,?,?,?,?,?)",
+        (
+            "ks-cat-3", "a-vktx", "competitor_readout", "2025-06-10",
+            json.dumps({"signal_strength": 0.9}), 1, 0,
+            "2025-03-01T00:00:00Z", "2025-03-01T00:00:00Z",
+        ),
+    )
+    # Enrollment snapshot
+    conn.execute(
+        "INSERT INTO enrollment_snapshots VALUES (?,?,?,?,?,?)",
+        (
+            "ks-enroll-1", "a-vktx", "2025-04-01",
+            json.dumps({"site_stalling": True, "velocity_low": False, "slippage_alert": False}),
+            "NCT001", "2025-04-01T00:00:00Z",
+        ),
+    )
+    # Structured signal with z_score
+    conn.execute(
+        "INSERT INTO structured_signals VALUES (?,?,?,?,?,?,?,?,?,?)",
+        (
+            "ks-sig-1", "a-vktx", "2025-05-15", "trial_readout",
+            json.dumps({"z_score": 1.5, "primary_endpoint_met": True}),
+            "2025-05-15T00:00:00Z", None, "co-vktx", "ev-1", "{}",
+        ),
+    )
+    # Structured signal without z_score (should be skipped)
+    conn.execute(
+        "INSERT INTO structured_signals VALUES (?,?,?,?,?,?,?,?,?,?)",
+        (
+            "ks-sig-2", "a-alny", "2025-06-01", "trial_readout",
+            json.dumps({"primary_endpoint_met": True}),
+            "2025-06-01T00:00:00Z", None, "co-alny", "ev-2", "{}",
+        ),
+    )
+
+    conn.commit()
+    conn.close()
+
+
+def test_seed_signals_from_knowledge_store_catalyst_events(tmp_path, in_memory_store):
+    """catalyst_events are copied from KS with signal_strength from payload_json."""
+    kb_path = str(tmp_path / "ops.db")
+    _make_fake_knowledge_db(kb_path)
+
+    universe = [
+        dict(asset_id="a-vktx", ticker="VKTX", company_id="co-vktx",
+             ranking_score=0.70, opportunity_score=0.78,
+             catalyst="test", indication="obesity",
+             claim_type="ENDPOINT_MET", claim_assertion="test"),
+        dict(asset_id="a-alny", ticker="ALNY", company_id="co-alny",
+             ranking_score=0.68, opportunity_score=0.70,
+             catalyst="test", indication="RNAi",
+             claim_type="ENDPOINT_MET", claim_assertion="test"),
+    ]
+    ks_path = str(tmp_path / "replay_kb.db")
+    replay = HistoricalReplay(
+        replay_store=in_memory_store,
+        knowledge_store_path=ks_path,
+        universe=universe,
+    )
+
+    counts = replay.seed_signals_from_knowledge_store(kb_path)
+
+    # 3 catalyst_events (ks-cat-1, ks-cat-2, ks-cat-3)
+    assert counts["catalyst_events"] == 3
+
+    # VKTX catalyst event: signal_strength=1.8
+    row = in_memory_store._conn.execute(
+        "SELECT signal_strength FROM catalyst_events WHERE event_id = 'ks-cat-1'"
+    ).fetchone()
+    assert row is not None
+    assert row["signal_strength"] == pytest.approx(1.8)
+
+    # ALNY catalyst event: signal_strength=NULL (not in payload)
+    row = in_memory_store._conn.execute(
+        "SELECT signal_strength FROM catalyst_events WHERE event_id = 'ks-cat-2'"
+    ).fetchone()
+    assert row is not None
+    assert row["signal_strength"] is None
+
+    # Ticker is resolved from the universe map
+    row = in_memory_store._conn.execute(
+        "SELECT ticker FROM catalyst_events WHERE event_id = 'ks-cat-1'"
+    ).fetchone()
+    assert row["ticker"] == "VKTX"
+
+
+def test_seed_signals_from_knowledge_store_enrollment_snapshots(tmp_path, in_memory_store):
+    """enrollment_snapshots are copied with flags extracted from payload_json."""
+    kb_path = str(tmp_path / "ops2.db")
+    _make_fake_knowledge_db(kb_path)
+
+    universe = [
+        dict(asset_id="a-vktx", ticker="VKTX", company_id="co-vktx",
+             ranking_score=0.70, opportunity_score=0.78,
+             catalyst="test", indication="obesity",
+             claim_type="ENDPOINT_MET", claim_assertion="test"),
+    ]
+    ks_path = str(tmp_path / "replay_kb2.db")
+    replay = HistoricalReplay(
+        replay_store=in_memory_store,
+        knowledge_store_path=ks_path,
+        universe=universe,
+    )
+    counts = replay.seed_signals_from_knowledge_store(kb_path)
+
+    assert counts["enrollment_snapshots"] == 1
+
+    row = in_memory_store._conn.execute(
+        "SELECT site_stalling, velocity_low, slippage_alert "
+        "FROM enrollment_snapshots WHERE snapshot_id = 'ks-enroll-1'"
+    ).fetchone()
+    assert row is not None
+    assert row["site_stalling"] == 1
+    assert row["velocity_low"] == 0
+    assert row["slippage_alert"] == 0
+
+
+def test_seed_signals_from_knowledge_store_structured_signals(tmp_path, in_memory_store):
+    """structured_signals with z_score are copied; rows without z_score are skipped."""
+    kb_path = str(tmp_path / "ops3.db")
+    _make_fake_knowledge_db(kb_path)
+
+    universe = [
+        dict(asset_id="a-vktx", ticker="VKTX", company_id="co-vktx",
+             ranking_score=0.70, opportunity_score=0.78,
+             catalyst="test", indication="obesity",
+             claim_type="ENDPOINT_MET", claim_assertion="test"),
+    ]
+    ks_path = str(tmp_path / "replay_kb3.db")
+    replay = HistoricalReplay(
+        replay_store=in_memory_store,
+        knowledge_store_path=ks_path,
+        universe=universe,
+    )
+    counts = replay.seed_signals_from_knowledge_store(kb_path)
+
+    # Only ks-sig-1 (has z_score); ks-sig-2 (no z_score) should be skipped
+    assert counts["structured_signals"] == 1
+
+    row = in_memory_store._conn.execute(
+        "SELECT z_score FROM structured_signals WHERE signal_id = 'ks-sig-1'"
+    ).fetchone()
+    assert row is not None
+    assert row["z_score"] == pytest.approx(1.5)
+
+
+def test_seed_signals_missing_knowledge_db_returns_zero_counts(tmp_path, in_memory_store):
+    """Gracefully handles a missing knowledge DB — returns zero counts, no crash."""
+    universe: list[dict] = []
+    ks_path = str(tmp_path / "replay_kb4.db")
+    replay = HistoricalReplay(
+        replay_store=in_memory_store,
+        knowledge_store_path=ks_path,
+        universe=universe,
+    )
+    counts = replay.seed_signals_from_knowledge_store(str(tmp_path / "nonexistent.db"))
+    # Opens OK (SQLite creates empty file), but all tables missing → counts all 0
+    assert counts["catalyst_events"] == 0
+    assert counts["enrollment_snapshots"] == 0
+    assert counts["structured_signals"] == 0
+
+
+# ---------------------------------------------------------------------------
+# seed_signals_from_event_calendar (Approach B)
+# ---------------------------------------------------------------------------
+
+def test_seed_signals_from_event_calendar_inserts_rows(tmp_path, in_memory_store):
+    """
+    For assets with historical_events, synthetic catalyst_events are inserted
+    with signal_strength derived from ranking/opportunity scores.
+    """
+    universe = [
+        dict(asset_id="a-vktx", ticker="VKTX", company_id="co-vktx",
+             ranking_score=0.72, opportunity_score=0.78,
+             catalyst="VK2735 Ph2", indication="obesity",
+             claim_type="ENDPOINT_MET", claim_assertion="test"),
+        dict(asset_id="a-ntla", ticker="NTLA", company_id="co-ntla",
+             ranking_score=0.60, opportunity_score=0.55,
+             catalyst="NTLA-2001", indication="ATTR",
+             claim_type="ENDPOINT_MET", claim_assertion="test"),
+    ]
+
+    # Insert historical_events for VKTX only; NTLA has none
+    in_memory_store.insert_event(
+        asset_id="a-vktx", ticker="VKTX",
+        event_type="readout", announced_at=date(2024, 6, 10),
+        effective_date=date(2024, 6, 10),
+        outcome_label="positive", headline="Phase 2 results",
+    )
+
+    ks_path = str(tmp_path / "replay_kb5.db")
+    replay = HistoricalReplay(
+        replay_store=in_memory_store,
+        knowledge_store_path=ks_path,
+        universe=universe,
+    )
+
+    n = replay.seed_signals_from_event_calendar()
+
+    # Only VKTX has a historical_event; NTLA is skipped
+    assert n == 1
+
+    row = in_memory_store._conn.execute(
+        "SELECT event_type, signal_strength FROM catalyst_events "
+        "WHERE asset_id = 'a-vktx'"
+    ).fetchone()
+    assert row is not None
+    assert row["event_type"] == "trial_readout"
+    # signal_strength = (0.72 + 0.78) / 2 * 0.25 = 0.1875
+    assert row["signal_strength"] == pytest.approx(0.1875)
+
+
+def test_seed_signals_from_event_calendar_no_events_skipped(tmp_path, in_memory_store):
+    """Assets with no historical_events produce no synthetic rows."""
+    universe = [
+        dict(asset_id="a-no-events", ticker="NOEVT", company_id="co-ne",
+             ranking_score=0.60, opportunity_score=0.55,
+             catalyst="test", indication="test",
+             claim_type="ENDPOINT_MET", claim_assertion="test"),
+    ]
+    ks_path = str(tmp_path / "replay_kb6.db")
+    replay = HistoricalReplay(
+        replay_store=in_memory_store,
+        knowledge_store_path=ks_path,
+        universe=universe,
+    )
+    n = replay.seed_signals_from_event_calendar()
+    assert n == 0
+
+
+# ---------------------------------------------------------------------------
+# End-to-end: after seeding, generate() produces v2.0 output
+# ---------------------------------------------------------------------------
+
+def test_after_seeding_replay_produces_v2_output(tmp_path, in_memory_store):
+    """
+    After seed_signals_from_event_calendar inserts catalyst signal data,
+    _build_score_contexts returns non-None catalyst_signal_strength and
+    gen.generate(contexts=...) produces score_version == "v2.0".
+    """
+    from bve.intelligence.actionable_output import ActionableGenerator, ScoredCandidate
+
+    universe = [
+        dict(asset_id="a-vktx", ticker="VKTX", company_id="co-vktx",
+             ranking_score=0.72, opportunity_score=0.78,
+             catalyst="VK2735 Ph2", indication="obesity",
+             claim_type="ENDPOINT_MET", claim_assertion="test"),
+    ]
+
+    # Seed a historical event so the synthetic seeder has data to work with
+    in_memory_store.insert_event(
+        asset_id="a-vktx", ticker="VKTX",
+        event_type="readout", announced_at=date(2024, 6, 10),
+        effective_date=date(2024, 6, 10),
+        outcome_label="positive", headline="Ph2 results",
+    )
+
+    ks_path = str(tmp_path / "replay_kb7.db")
+    replay = HistoricalReplay(
+        replay_store=in_memory_store,
+        knowledge_store_path=ks_path,
+        universe=universe,
+    )
+
+    # Run Approach B synthetic seed
+    n = replay.seed_signals_from_event_calendar()
+    assert n == 1
+
+    # Build contexts — should now have non-None catalyst_signal_strength for VKTX
+    as_of = date(2025, 6, 1)
+    contexts = replay._build_score_contexts(universe, as_of)
+    assert contexts["a-vktx"].catalyst_signal_strength is not None
+
+    # Generate report — must be v2.0
+    gen = ActionableGenerator()
+    candidates = [
+        ScoredCandidate(
+            asset_id=u["asset_id"],
+            ticker=u["ticker"],
+            ranking_score=u["ranking_score"],
+            opportunity_score=u["opportunity_score"],
+        )
+        for u in universe
+    ]
+    report = gen.generate(candidates, top_n=10, week_ending=as_of, contexts=contexts)
+    assert report.score_version == "v2.0"
+
+    # Verify signal_adjustments are non-zero for VKTX (has positive catalyst signal)
+    vktx_opp = next(o for o in report.opportunities if o.ticker == "VKTX")
+    assert vktx_opp.signal_adjustment_total != 0.0
+    assert vktx_opp.signal_adjustments.get("catalyst_ev", 0.0) != 0.0
+
+
+# ---------------------------------------------------------------------------
+# Schema migration: snapshot_date column added to existing DB
+# ---------------------------------------------------------------------------
+
+def test_migrate_schema_adds_snapshot_date_column(tmp_path):
+    """An existing DB without snapshot_date gets the column on next open."""
+    import sqlite3 as _sqlite3
+
+    db_path = str(tmp_path / "old_store.db")
+
+    # Build a DB without snapshot_date (pre-migration schema)
+    conn = _sqlite3.connect(db_path)
+    conn.execute(
+        "CREATE TABLE catalyst_events "
+        "(event_id TEXT PRIMARY KEY, asset_id TEXT NOT NULL, ticker TEXT NOT NULL, "
+        " event_type TEXT NOT NULL, event_date TEXT NOT NULL, signal_strength REAL)"
+    )
+    conn.commit()
+    conn.close()
+
+    # Opening via ReplayStore should run _migrate_schema and add snapshot_date
+    store = ReplayStore(db_path)
+    cols = {row[1] for row in store._conn.execute("PRAGMA table_info(catalyst_events)").fetchall()}
+    assert "snapshot_date" in cols
+    store.close()
+
+
+def test_migrate_schema_idempotent(tmp_path):
+    """Opening the same DB twice does not raise an error."""
+    db_path = str(tmp_path / "store2.db")
+    store1 = ReplayStore(db_path)
+    store1.close()
+    store2 = ReplayStore(db_path)  # second open — migration guard must be a no-op
+    cols = {row[1] for row in store2._conn.execute("PRAGMA table_info(catalyst_events)").fetchall()}
+    assert "snapshot_date" in cols
+    store2.close()
+
+
+# ---------------------------------------------------------------------------
+# get_catalyst_signal_strength: recency ordering with snapshot_date
+# ---------------------------------------------------------------------------
+
+def test_get_catalyst_signal_strength_snapshot_date_ordering(in_memory_store):
+    """
+    When two rows have the same event_date but different snapshot_dates,
+    the one with the later snapshot_date wins (recency ordering).
+    """
+    conn = in_memory_store._conn
+    # Same event_date, older snapshot measured lower signal
+    conn.execute(
+        "INSERT INTO catalyst_events "
+        "(event_id, asset_id, ticker, event_type, event_date, signal_strength, snapshot_date) "
+        "VALUES (?, ?, ?, ?, ?, ?, ?)",
+        ("ev-old", "a-vktx", "VKTX", "readout", "2025-07-01", 0.5, "2025-05-01"),
+    )
+    # Newer snapshot_date measured higher signal (more confident proximity)
+    conn.execute(
+        "INSERT INTO catalyst_events "
+        "(event_id, asset_id, ticker, event_type, event_date, signal_strength, snapshot_date) "
+        "VALUES (?, ?, ?, ?, ?, ?, ?)",
+        ("ev-new", "a-vktx", "VKTX", "readout", "2025-07-01", 0.9, "2025-06-01"),
+    )
+    conn.commit()
+
+    result = in_memory_store.get_catalyst_signal_strength("a-vktx", date(2025, 6, 15))
+    # Should return 0.9 (newer snapshot) not 0.5 (older) and not MAX(both)
+    assert result == pytest.approx(0.9)
+
+
+# ---------------------------------------------------------------------------
+# SignalBackfiller — unit tests
+# ---------------------------------------------------------------------------
+
+def test_signal_backfiller_catalyst_signals_proximity(in_memory_store):
+    """backfill_catalyst_signals inserts proximity-based rows into catalyst_events."""
+    from bve.ops.signal_backfiller import SignalBackfiller
+
+    # Seed a future event so the backfiller has a catalyst to reference
+    in_memory_store._conn.execute(
+        "INSERT INTO historical_events "
+        "(event_id, asset_id, ticker, event_type, announced_at) "
+        "VALUES (?, ?, ?, ?, ?)",
+        ("he-1", "a-vktx", "VKTX", "trial_readout", "2025-03-15"),
+    )
+    in_memory_store._conn.commit()
+
+    bf = SignalBackfiller(in_memory_store)
+    universe = [dict(asset_id="a-vktx", ticker="VKTX")]
+
+    # Step from 2025-01-01 with 30-day cadence — 2025-03-15 is 73 days from 2025-01-01
+    n = bf.backfill_catalyst_signals(
+        universe,
+        start_date=date(2025, 1, 1),
+        end_date=date(2025, 3, 1),
+        step_days=30,
+    )
+    assert n > 0
+
+    # Rows should have snapshot_date set to step dates, event_date = 2025-03-15
+    rows = in_memory_store._conn.execute(
+        "SELECT snapshot_date, event_date, signal_strength FROM catalyst_events "
+        "WHERE asset_id = 'a-vktx' AND event_type = 'trial_readout' "
+        "AND snapshot_date IS NOT NULL ORDER BY snapshot_date"
+    ).fetchall()
+    assert len(rows) >= 1
+
+    # Each row should have snapshot_date != event_date (time-varying)
+    for row in rows:
+        assert row["snapshot_date"] != row["event_date"]
+        assert row["signal_strength"] is not None
+        assert 0.0 <= row["signal_strength"] <= 0.10 + 1e-6
+
+
+def test_signal_backfiller_catalyst_signals_vary_over_time(in_memory_store):
+    """
+    Integration: signal_strength decreases as the catalyst date approaches
+    (counter-intuitively, base × (1 - days/90) increases as days decreases).
+    """
+    from bve.ops.signal_backfiller import SignalBackfiller
+
+    # Catalyst on 2025-03-31 (91 days after 2025-01-01)
+    in_memory_store._conn.execute(
+        "INSERT INTO historical_events "
+        "(event_id, asset_id, ticker, event_type, announced_at) "
+        "VALUES (?, ?, ?, ?, ?)",
+        ("he-vary", "a-vktx", "VKTX", "trial_readout", "2025-03-31"),
+    )
+    in_memory_store._conn.commit()
+
+    bf = SignalBackfiller(in_memory_store)
+    universe = [dict(asset_id="a-vktx", ticker="VKTX")]
+
+    # Backfill at 30-day steps: 2025-01-01 and 2025-01-31
+    bf.backfill_catalyst_signals(
+        universe,
+        start_date=date(2025, 1, 1),
+        end_date=date(2025, 1, 31),
+        step_days=30,
+    )
+
+    rows = in_memory_store._conn.execute(
+        "SELECT snapshot_date, signal_strength FROM catalyst_events "
+        "WHERE asset_id = 'a-vktx' AND event_type = 'trial_readout' "
+        "AND snapshot_date IS NOT NULL ORDER BY snapshot_date"
+    ).fetchall()
+
+    # 2025-01-01: days=89 → 0.10*(1-89/90) ≈ 0.001; >90 would give 0.02
+    # 2025-01-31: days=59 → 0.10*(1-59/90) ≈ 0.034
+    assert len(rows) >= 2
+    signals = [row["signal_strength"] for row in rows]
+    # Signal at 2025-01-31 (59 days away) should be larger than at 2025-01-01 (89 days away)
+    assert signals[-1] > signals[0]
+
+
+def test_signal_backfiller_catalyst_signals_base_score_not_circular(in_memory_store):
+    """
+    base_score = 0.10 regardless of ranking_score or opportunity_score.
+    Max achievable signal is 0.10 (at days=0).
+    """
+    from bve.ops.signal_backfiller import SignalBackfiller, _BASE_SCORE
+
+    in_memory_store._conn.execute(
+        "INSERT INTO historical_events "
+        "(event_id, asset_id, ticker, event_type, announced_at) "
+        "VALUES (?, ?, ?, ?, ?)",
+        ("he-base", "a-vktx", "VKTX", "trial_readout", "2025-02-15"),
+    )
+    in_memory_store._conn.commit()
+
+    bf = SignalBackfiller(in_memory_store)
+    # High-conviction universe entry — ranking/opportunity scores must NOT bleed in
+    universe = [dict(asset_id="a-vktx", ticker="VKTX",
+                     ranking_score=0.99, opportunity_score=0.99)]
+
+    bf.backfill_catalyst_signals(
+        universe,
+        start_date=date(2025, 2, 14),
+        end_date=date(2025, 2, 14),
+        step_days=1,
+    )
+
+    rows = in_memory_store._conn.execute(
+        "SELECT signal_strength FROM catalyst_events "
+        "WHERE asset_id = 'a-vktx' AND snapshot_date IS NOT NULL"
+    ).fetchall()
+    assert rows, "Expected at least one row"
+    for row in rows:
+        assert row["signal_strength"] <= _BASE_SCORE + 1e-6
+
+
+def test_signal_backfiller_competitor_signals_inserted(in_memory_store):
+    """backfill_competitor_signals inserts COMPETITOR_READOUT rows."""
+    from bve.ops.signal_backfiller import SignalBackfiller
+
+    # Seed a competitor event for a-ntla (competitor of a-crsp)
+    in_memory_store._conn.execute(
+        "INSERT INTO historical_events "
+        "(event_id, asset_id, ticker, event_type, announced_at) "
+        "VALUES (?, ?, ?, ?, ?)",
+        ("he-ntla", "a-ntla", "NTLA", "trial_readout", "2025-04-10"),
+    )
+    in_memory_store._conn.commit()
+
+    bf = SignalBackfiller(in_memory_store)
+    n = bf.backfill_competitor_signals({"a-crsp": ["a-ntla"]})
+    assert n == 1
+
+    row = in_memory_store._conn.execute(
+        "SELECT asset_id, ticker, event_type, signal_strength, snapshot_date "
+        "FROM catalyst_events WHERE event_type = 'COMPETITOR_READOUT'"
+    ).fetchone()
+    assert row is not None
+    assert row["asset_id"] == "a-crsp"       # our asset
+    assert row["ticker"] == "NTLA"           # competitor ticker
+    assert row["snapshot_date"] == "2025-04-10"
+    assert row["signal_strength"] == pytest.approx(0.30)
+
+
+def test_signal_backfiller_competitor_signals_excluded_from_own_catalyst(in_memory_store):
+    """COMPETITOR_READOUT rows are not returned by get_catalyst_signal_strength."""
+    from bve.ops.signal_backfiller import SignalBackfiller
+
+    in_memory_store._conn.execute(
+        "INSERT INTO historical_events "
+        "(event_id, asset_id, ticker, event_type, announced_at) "
+        "VALUES (?, ?, ?, ?, ?)",
+        ("he-beam", "a-beam", "BEAM", "trial_readout", "2025-05-01"),
+    )
+    in_memory_store._conn.commit()
+
+    bf = SignalBackfiller(in_memory_store)
+    bf.backfill_competitor_signals({"a-crsp": ["a-beam"]})
+
+    # get_catalyst_signal_strength for a-crsp should return None
+    # (COMPETITOR_READOUT rows excluded from own-asset query)
+    result = in_memory_store.get_catalyst_signal_strength("a-crsp", date(2025, 6, 1))
+    assert result is None
+
+
+def test_signal_backfiller_capital_risk_no_crash_empty_universe(in_memory_store):
+    """backfill_capital_risk with empty universe returns 0 and does not raise."""
+    from bve.ops.signal_backfiller import SignalBackfiller
+
+    bf = SignalBackfiller(in_memory_store)
+    n = bf.backfill_capital_risk([])
+    assert n == 0
+
+
+def test_signal_backfiller_capital_risk_writes_balance_sheet_snapshot(
+    in_memory_store,
+    monkeypatch,
+):
+    from bve.ops.signal_backfiller import SignalBackfiller
+
+    monkeypatch.setattr("bve.ingestion.sec_edgar.get_cik", lambda ticker: "0000123456")
+    monkeypatch.setattr(
+        "bve.ingestion.sec_edgar.get_company_facts",
+        lambda cik: {
+            "us-gaap": {
+                "CashAndCashEquivalentsAtCarryingValue": {
+                    "units": {
+                        "USD": [
+                            {
+                                "form": "10-Q",
+                                "filed": "2025-05-10",
+                                "end": "2025-03-31",
+                                "val": 420_000_000,
+                            }
+                        ]
+                    }
+                },
+                "ResearchAndDevelopmentExpense": {
+                    "units": {
+                        "USD": [
+                            {
+                                "form": "10-K",
+                                "filed": "2025-02-20",
+                                "end": "2024-12-31",
+                                "val": 120_000_000,
+                            }
+                        ]
+                    }
+                },
+                "LongTermDebt": {
+                    "units": {
+                        "USD": [
+                            {
+                                "form": "10-Q",
+                                "filed": "2025-05-10",
+                                "end": "2025-03-31",
+                                "val": 30_000_000,
+                            }
+                        ]
+                    }
+                },
+            },
+            "dei": {
+                "EntityCommonStockSharesOutstanding": {
+                    "units": {
+                        "shares": [
+                            {
+                                "form": "10-Q",
+                                "filed": "2025-05-10",
+                                "end": "2025-03-31",
+                                "val": 105_000_000,
+                            }
+                        ]
+                    }
+                }
+            },
+        },
+    )
+
+    bf = SignalBackfiller(in_memory_store)
+    n = bf.backfill_capital_risk([{"asset_id": "a-vktx", "ticker": "VKTX"}])
+    assert n == 1
+
+    row = in_memory_store.get_balance_sheet_snapshot("VKTX", date(2025, 6, 1))
+    assert row is not None
+    assert row["cash_millions"] == pytest.approx(420.0)
+    assert row["debt_millions"] == pytest.approx(30.0)
+    assert row["shares_outstanding_millions"] == pytest.approx(105.0)
+    assert row["burn_rate_millions_per_quarter"] == pytest.approx(30.0)
+    assert row["source_type"] == "sec_edgar_company_facts"
+
+
+def test_signal_backfiller_catalyst_signals_no_events_skips(in_memory_store):
+    """backfill_catalyst_signals returns 0 when no historical_events exist."""
+    from bve.ops.signal_backfiller import SignalBackfiller
+
+    bf = SignalBackfiller(in_memory_store)
+    universe = [dict(asset_id="a-vktx", ticker="VKTX")]
+    n = bf.backfill_catalyst_signals(
+        universe,
+        start_date=date(2025, 1, 1),
+        end_date=date(2025, 3, 1),
+        step_days=30,
+    )
+    assert n == 0
+
+
+def test_signal_backfiller_catalyst_signals_idempotent(in_memory_store):
+    """Running backfill twice does not duplicate rows (INSERT OR REPLACE)."""
+    from bve.ops.signal_backfiller import SignalBackfiller
+
+    in_memory_store._conn.execute(
+        "INSERT INTO historical_events "
+        "(event_id, asset_id, ticker, event_type, announced_at) "
+        "VALUES (?, ?, ?, ?, ?)",
+        ("he-idem", "a-vktx", "VKTX", "trial_readout", "2025-03-15"),
+    )
+    in_memory_store._conn.commit()
+
+    bf = SignalBackfiller(in_memory_store)
+    universe = [dict(asset_id="a-vktx", ticker="VKTX")]
+    params = dict(
+        universe=universe,
+        start_date=date(2025, 1, 1),
+        end_date=date(2025, 2, 1),
+        step_days=30,
+    )
+    n1 = bf.backfill_catalyst_signals(**params)
+    n2 = bf.backfill_catalyst_signals(**params)
+    assert n1 == n2
+
+    count = in_memory_store._conn.execute(
+        "SELECT COUNT(*) FROM catalyst_events WHERE asset_id='a-vktx' AND snapshot_date IS NOT NULL"
+    ).fetchone()[0]
+    # Two runs with INSERT OR REPLACE — row count equals one run's output
+    assert count == n1
+
+
+def test_competitor_map_keys_are_symmetric():
+    """Every key in COMPETITOR_MAP also appears as a value in another key's list."""
+    from bve.ops.signal_backfiller import COMPETITOR_MAP
+
+    all_values = {v for vals in COMPETITOR_MAP.values() for v in vals}
+    for key in COMPETITOR_MAP:
+        assert key in all_values, f"{key} appears as key but not as a competitor value"
+
+
+def test_replay_summary_includes_public_market_metrics_and_point_in_time_notes(
+    tmp_path,
+    in_memory_store,
+):
+    from bve.intelligence.replay_policy import ReplayDecision
+
+    replay = HistoricalReplay(
+        replay_store=in_memory_store,
+        knowledge_store_path=str(tmp_path / "replay_summary.db"),
+        universe=[],
+    )
+    run_id = in_memory_store.create_run(
+        start_date=date(2025, 1, 1),
+        end_date=date(2025, 3, 1),
+        cadence="weekly",
+        decision_policy="summary_test",
+        score_version="v2.0",
+        strategy_version="summary_test",
+    )
+
+    high_id = in_memory_store.insert_decision(
+        run_id,
+        ReplayDecision(
+            asset_id="a-high",
+            ticker="HIGH",
+            recommended_action="buy",
+            recommended_size_pct=0.10,
+            composite_score=0.80,
+            decided_at=date(2025, 1, 1),
+        ),
+        entry_price=10.0,
+    )
+    medium_id = in_memory_store.insert_decision(
+        run_id,
+        ReplayDecision(
+            asset_id="a-medium",
+            ticker="MED",
+            recommended_action="add",
+            recommended_size_pct=0.08,
+            composite_score=0.60,
+            decided_at=date(2025, 1, 8),
+        ),
+        entry_price=20.0,
+    )
+    low_id = in_memory_store.insert_decision(
+        run_id,
+        ReplayDecision(
+            asset_id="a-low",
+            ticker="LOW",
+            recommended_action="monitor",
+            recommended_size_pct=0.02,
+            composite_score=0.30,
+            decided_at=date(2025, 1, 15),
+        ),
+        entry_price=30.0,
+    )
+
+    in_memory_store.close_decision(
+        high_id,
+        exit_price=12.0,
+        exit_date=date(2025, 1, 31),
+        return_pct=20.0,
+        attribution_type="confirmed_thesis",
+    )
+    in_memory_store.close_decision(
+        medium_id,
+        exit_price=18.0,
+        exit_date=date(2025, 2, 7),
+        return_pct=-10.0,
+        attribution_type="timing_error",
+    )
+    in_memory_store.close_decision(
+        low_id,
+        exit_price=31.5,
+        exit_date=date(2025, 2, 14),
+        return_pct=5.0,
+        attribution_type="market_drift",
+    )
+
+    summary = replay.summarize(run_id)
+
+    assert summary.mean_return_pct == pytest.approx(5.0)
+    assert summary.hit_rate == pytest.approx(0.6667)
+    assert summary.brier_score == pytest.approx(0.296667)
+    assert summary.max_drawdown_pct == pytest.approx(10.0)
+    assert summary.avg_return_by_tier == {
+        "high": 20.0,
+        "low": 5.0,
+        "medium": -10.0,
+    }
+    assert any("point_in_time_only=" in note for note in summary.notes)
+    assert "dated_snapshots_only=true" in summary.notes
+
+
+def test_replay_summary_to_dict_includes_new_metric_fields():
+    from bve.intelligence.replay_summary import ReplaySummary
+
+    summary = ReplaySummary(
+        run_id="run-1",
+        start_date=date(2025, 1, 1),
+        end_date=date(2025, 2, 1),
+        strategy_version="test",
+        score_version="v2.0",
+        brier_score=0.1234,
+        max_drawdown_pct=7.5,
+        avg_return_by_tier={"high": 12.0},
+    )
+
+    payload = summary.to_dict()
+
+    assert payload["brier_score"] == pytest.approx(0.1234)
+    assert payload["max_drawdown_pct"] == pytest.approx(7.5)
+    assert payload["avg_return_by_tier"] == {"high": 12.0}
+
+
+def test_replay_summary_computes_mna_metrics_from_run_snapshot_and_dated_predictions(
+    tmp_path,
+    in_memory_store,
+):
+    from bve.intelligence.knowledge_layer import KnowledgeStore
+    from bve.intelligence.ma_probability import MAProbabilitySnapshotStore
+    from bve.intelligence.replay_policy import ReplayDecision, ReplayPolicyConfig
+
+    ks = KnowledgeStore(str(tmp_path / "replay_mna.db"))
+    MAProbabilitySnapshotStore(ks)
+    ks._conn.execute(
+        """
+        INSERT INTO ma_probability_snapshots(
+            snapshot_date, asset_id, ticker, stage, therapeutic_area,
+            probability, rank, best_acquirer_id, best_acquirer_name,
+            above_alert_threshold, strategic_fit_score, valuation_discount_score,
+            de_risking_stage_score, capital_vulnerability_score,
+            scarcity_score, scarcity_peer_count, scarcity_bucket,
+            enterprise_value_millions, acquisition_discount, days_to_catalyst,
+            estimated_deal_value_low_millions, estimated_deal_value_high_millions,
+            run_id, created_at, p_takeout_calibrated
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        """,
+        (
+            "2025-01-01",
+            "a-target",
+            "TGT",
+            "phase_2",
+            "oncology",
+            0.82,
+            1,
+            "pfizer",
+            "Pfizer",
+            1,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            "2025-01-01T00:00:00+00:00",
+            None,
+        ),
+    )
+    ks._conn.commit()
+    ks.close()
+
+    universe = [
+        {
+            "asset_id": "a-target",
+            "ticker": "TGT",
+            "announcement_date": "2025-06-01",
+            "acquirer": "Pfizer",
+        },
+        {
+            "asset_id": "a-control",
+            "ticker": "CTL",
+        },
+    ]
+    replay = HistoricalReplay(
+        replay_store=in_memory_store,
+        knowledge_store_path=str(tmp_path / "replay_mna.db"),
+        universe=universe,
+        policy_config=ReplayPolicyConfig.mna_profile(),
+    )
+    run_id = in_memory_store.create_run(
+        start_date=date(2025, 1, 1),
+        end_date=date(2025, 12, 31),
+        cadence="quarterly",
+        decision_policy="mna_summary_test",
+        score_version="v2.0",
+        strategy_version="mna_top8",
+        run_metadata_json=json.dumps(
+            {
+                "profile": "mna",
+                "policy_config": {
+                    "max_positions": 2,
+                    "max_hold_days": 365,
+                },
+                "universe_snapshot": universe,
+            }
+        ),
+    )
+    first_id = in_memory_store.insert_decision(
+        run_id,
+        ReplayDecision(
+            asset_id="a-target",
+            ticker="TGT",
+            recommended_action="buy",
+            recommended_size_pct=0.10,
+            composite_score=0.90,
+            decided_at=date(2025, 1, 1),
+        ),
+        entry_price=10.0,
+    )
+    second_id = in_memory_store.insert_decision(
+        run_id,
+        ReplayDecision(
+            asset_id="a-control",
+            ticker="CTL",
+            recommended_action="buy",
+            recommended_size_pct=0.10,
+            composite_score=0.70,
+            decided_at=date(2025, 1, 1),
+        ),
+        entry_price=10.0,
+    )
+    in_memory_store.close_decision(
+        first_id,
+        exit_price=13.0,
+        exit_date=date(2025, 6, 1),
+        return_pct=30.0,
+        attribution_type="confirmed_thesis",
+    )
+    in_memory_store.close_decision(
+        second_id,
+        exit_price=9.0,
+        exit_date=date(2025, 6, 1),
+        return_pct=-10.0,
+        attribution_type="market_drift",
+    )
+
+    summary = replay.summarize(run_id)
+
+    assert summary.mna_top_k == 2
+    assert summary.mna_precision_at_k == pytest.approx(0.5)
+    assert summary.mna_acquirer_top1_accuracy == pytest.approx(1.0)
+    assert summary.mna_acquirer_top3_accuracy == pytest.approx(1.0)
+    assert summary.n_dead_or_acquired_names_in_universe == 1
+    assert "mna_predictions=ma_probability_snapshots_as_of_decision_date" in summary.notes
+
+
+# ---------------------------------------------------------------------------
+# Acquisition price fallback tests
+# ---------------------------------------------------------------------------
+
+
+def test_seed_acquisition_price_inserts_flat_history(in_memory_store):
+    """seed_acquisition_price should insert daily rows at the deal price.
+    The anti-leakage guard means pre-announcement queries return None;
+    only on/after the announcement date is the deal price accessible."""
+    ann = date(2022, 6, 3)
+    n = in_memory_store.seed_acquisition_price("TPTX", ann, price_per_share=76.0, lookback_days=30)
+
+    # 31 rows: June 3 inclusive + 30 days back = May 4 → June 3
+    assert n == 31
+
+    # Pre-announcement: guard returns None (no leakage)
+    assert in_memory_store.get_price("TPTX", date(2022, 5, 15)) is None
+
+    # On the announcement date: price available
+    assert in_memory_store.get_price("TPTX", date(2022, 6, 3)) == pytest.approx(76.0)
+
+
+def test_seed_acquisition_price_not_available_before_window(in_memory_store):
+    """get_price should return None for dates before the seeded window."""
+    ann = date(2022, 6, 3)
+    in_memory_store.seed_acquisition_price("TPTX", ann, price_per_share=76.0, lookback_days=30)
+
+    # May 3 is before the window (window starts May 4)
+    assert in_memory_store.get_price("TPTX", date(2022, 5, 3)) is None
+
+
+def test_seed_acquisition_price_return_is_zero(in_memory_store):
+    """A flat synthetic price history produces 0% return for a window that starts
+    at or after the announcement date (same price → same return).
+    Pre-announcement queries return None (anti-leakage guard)."""
+    ann = date(2022, 6, 3)
+    in_memory_store.seed_acquisition_price("TPTX", ann, price_per_share=76.0, lookback_days=365)
+
+    # Pre-announcement: guard blocks both prices → None
+    ret_pre = in_memory_store.get_return("TPTX", date(2022, 1, 1), date(2022, 5, 1))
+    assert ret_pre is None
+
+    # Starting at announcement date → both prices are the same → 0% return
+    ret_at = in_memory_store.get_return("TPTX", ann, ann)
+    assert ret_at == pytest.approx(0.0)
+
+
+def test_seed_acquisition_price_default_lookback_covers_12_months(in_memory_store):
+    """Default lookback_days=365 seeds a full year of history (366 rows including
+    announcement date).  Pre-announcement queries return None due to the leakage guard;
+    the announcement date itself is accessible."""
+    ann = date(2022, 6, 3)
+    n = in_memory_store.seed_acquisition_price("TPTX", ann, price_per_share=76.0)
+
+    # 366 rows: 365 days back + announcement date itself
+    assert n == 366
+    # Pre-announcement: guard returns None
+    assert in_memory_store.get_price("TPTX", ann - __import__("datetime").timedelta(days=364)) is None
+    # On announcement date: accessible
+    assert in_memory_store.get_price("TPTX", ann) == pytest.approx(76.0)
+
+
+def test_seed_prices_uses_acquisition_fallback_on_empty_yfinance(monkeypatch, tmp_path):
+    """When yfinance returns no data, seed_prices falls back to acquisition price."""
+    import pandas as pd
+    from bve.ops.historical_replay import HistoricalReplay, ReplayStore
+
+    # Patch fetch_price_history to return empty DataFrame
+    monkeypatch.setattr(
+        "bve.ingestion.market_data.fetch_price_history",
+        lambda ticker, start, end: pd.DataFrame(),
+    )
+
+    store = ReplayStore(":memory:")
+    kb_path = str(tmp_path / "kb.db")
+    replay = HistoricalReplay(store, kb_path)
+
+    fallback = {"TPTX": (date(2022, 6, 3), 76.0)}
+    replay.seed_prices(["TPTX"], date(2022, 1, 1), date(2022, 12, 31), acquisition_fallback=fallback)
+
+    # Fallback seeded flat prices up to and including announcement date.
+    # Pre-announcement guard returns None; at announcement date price is accessible.
+    pre_ann_price = store.get_price("TPTX", date(2022, 4, 1))
+    assert pre_ann_price is None
+    ann_price = store.get_price("TPTX", date(2022, 6, 3))
+    assert ann_price == pytest.approx(76.0)
+
+
+def test_seed_prices_fallback_dict_accepted_in_signature(tmp_path):
+    """seed_prices must accept acquisition_fallback without raising."""
+    from bve.ops.historical_replay import HistoricalReplay, ReplayStore
+
+    store = ReplayStore(":memory:")
+    kb_path = str(tmp_path / "kb.db")
+    replay = HistoricalReplay(store, kb_path)
+
+    fallback: dict = {"TPTX": (date(2022, 6, 3), 76.0)}
+    # Call with empty tickers list — just testing signature acceptance (no network hit)
+    replay.seed_prices([], date(2022, 1, 1), date(2022, 12, 31), acquisition_fallback=fallback)
+
+
+def test_load_deal_fallback_prices_returns_dict(tmp_path):
+    """load_deal_fallback_prices should parse YAML and return ticker→(date, price) dict."""
+    import yaml
+    deal_yaml = tmp_path / "deals.yaml"
+    deal_yaml.write_text("""
+deals:
+  - target_name: "Karuna Therapeutics"
+    target_ticker: "KRTX"
+    acquirer: "Bristol Myers Squibb"
+    announcement_date: "2023-12-22"
+    headline_value_millions: 14000
+    notes: "BMS deal."
+    consideration_per_share: 330.0
+  - target_name: "Biohaven"
+    target_ticker: "BHVN"
+    acquirer: "Pfizer"
+    announcement_date: "2022-05-10"
+    headline_value_millions: 11600
+    notes: "Pfizer deal."
+    consideration_per_share: 148.50
+  - target_name: "Private Co"
+    acquirer: "Merck"
+    announcement_date: "2022-01-01"
+    headline_value_millions: 1000
+    notes: "No ticker."
+""")
+    result = load_deal_fallback_prices(deal_yaml)
+    assert "KRTX" in result
+    assert result["KRTX"] == (date(2023, 12, 22), 330.0)
+    assert "BHVN" in result
+    assert result["BHVN"] == (date(2022, 5, 10), 148.50)
+    assert len(result) == 2  # private company excluded (no ticker)
+
+
+def test_load_deal_fallback_prices_missing_file_returns_empty():
+    """load_deal_fallback_prices should return empty dict if file does not exist."""
+    result = load_deal_fallback_prices("/nonexistent/path/deals.yaml")
+    assert result == {}
+
+
+def test_load_deal_fallback_prices_excludes_entries_without_price(tmp_path):
+    """Entries without consideration_per_share should be excluded."""
+    deal_yaml = tmp_path / "deals.yaml"
+    deal_yaml.write_text("""
+deals:
+  - target_name: "No Price Co"
+    target_ticker: "NPC"
+    acquirer: "Pfizer"
+    announcement_date: "2022-06-01"
+    headline_value_millions: 500
+    notes: "No per-share price."
+""")
+    result = load_deal_fallback_prices(deal_yaml)
+    assert result == {}
+
+
+def test_seed_prices_uses_deal_universe_fallback_automatically(monkeypatch, tmp_path):
+    """seed_prices should auto-load deal_universe fallback when yfinance returns empty."""
+    import pandas as pd
+    import yaml
+    from bve.ops.historical_replay import HistoricalReplay, ReplayStore
+
+    monkeypatch.setattr(
+        "bve.ingestion.market_data.fetch_price_history",
+        lambda ticker, start, end: pd.DataFrame(),
+    )
+
+    deal_yaml = tmp_path / "deals.yaml"
+    deal_yaml.write_text("""
+deals:
+  - target_name: "Karuna Therapeutics"
+    target_ticker: "KRTX"
+    acquirer: "Bristol Myers Squibb"
+    announcement_date: "2023-12-22"
+    headline_value_millions: 14000
+    notes: "BMS deal."
+    consideration_per_share: 330.0
+""")
+
+    store = ReplayStore(":memory:")
+    kb_path = str(tmp_path / "kb.db")
+    replay = HistoricalReplay(store, kb_path)
+
+    replay.seed_prices(["KRTX"], date(2023, 1, 1), date(2024, 1, 1), deal_universe_path=deal_yaml)
+
+    # Pre-announcement (2023-06-01 < 2023-12-22) → None due to leakage guard
+    pre_price = store.get_price("KRTX", date(2023, 6, 1))
+    assert pre_price is None
+
+    # On announcement date → accessible
+    ann_price = store.get_price("KRTX", date(2023, 12, 22))
+    assert ann_price == pytest.approx(330.0)
+
+
+def test_seed_prices_caller_fallback_overrides_deal_universe(monkeypatch, tmp_path):
+    """Explicit acquisition_fallback dict takes precedence over deal_universe."""
+    import pandas as pd
+    from bve.ops.historical_replay import HistoricalReplay, ReplayStore
+
+    monkeypatch.setattr(
+        "bve.ingestion.market_data.fetch_price_history",
+        lambda ticker, start, end: pd.DataFrame(),
+    )
+
+    deal_yaml = tmp_path / "deals.yaml"
+    deal_yaml.write_text("""
+deals:
+  - target_name: "Karuna Therapeutics"
+    target_ticker: "KRTX"
+    acquirer: "Bristol Myers Squibb"
+    announcement_date: "2023-12-22"
+    headline_value_millions: 14000
+    notes: "BMS deal."
+    consideration_per_share: 330.0
+""")
+
+    store = ReplayStore(":memory:")
+    kb_path = str(tmp_path / "kb.db")
+    replay = HistoricalReplay(store, kb_path)
+
+    # Caller supplies a different price — this should win
+    caller_fallback = {"KRTX": (date(2023, 12, 22), 99.0)}
+    replay.seed_prices(
+        ["KRTX"], date(2023, 1, 1), date(2024, 1, 1),
+        acquisition_fallback=caller_fallback,
+        deal_universe_path=deal_yaml,
+    )
+
+    # Caller fallback wins over deal universe (same announcement date → 99.0 not 330.0).
+    # Pre-announcement guard still fires: June 1 < Dec 22 → None
+    pre_price = store.get_price("KRTX", date(2023, 6, 1))
+    assert pre_price is None
+
+    # On announcement date → caller's price (99.0) is used, not deal universe (330.0)
+    ann_price = store.get_price("KRTX", date(2023, 12, 22))
+    assert ann_price == pytest.approx(99.0)
+
+
+# ---------------------------------------------------------------------------
+# Sprint 16 audit: acquisition price leakage guard
+# ---------------------------------------------------------------------------
+
+
+def test_get_price_returns_none_before_announcement_date(tmp_path):
+    """get_price() must return None for dates strictly before announcement_date
+    when synthetic prices were seeded via seed_acquisition_price().
+    This prevents deal consideration prices from leaking into pre-announcement
+    signal generation, ranking, or valuation."""
+    store = ReplayStore(":memory:")
+    ann_date = date(2023, 12, 22)
+    store.seed_acquisition_price("KRTX", ann_date, 330.0, lookback_days=365)
+
+    # Day before announcement — must be None (leakage guard fires)
+    assert store.get_price("KRTX", ann_date - timedelta(days=1)) is None
+
+    # One year before announcement — must be None
+    assert store.get_price("KRTX", date(2022, 12, 22)) is None
+
+
+def test_get_price_returns_price_at_announcement_date(tmp_path):
+    """get_price() returns the deal price on the announcement date itself."""
+    store = ReplayStore(":memory:")
+    ann_date = date(2023, 12, 22)
+    store.seed_acquisition_price("KRTX", ann_date, 330.0, lookback_days=365)
+
+    # On the announcement date — price is available
+    assert store.get_price("KRTX", ann_date) == pytest.approx(330.0)
+
+    # After announcement date — price is available (forward dates within seed range)
+    assert store.get_price("KRTX", ann_date + timedelta(days=1)) == pytest.approx(330.0)
+
+
+def test_acquisition_guard_does_not_affect_real_prices(tmp_path):
+    """Tickers with no acquisition record are unaffected by the guard."""
+    store = ReplayStore(":memory:")
+    # Seed real (non-acquisition) prices for ticker AAPL
+    rows = [(date(2023, 1, d), 150.0 + d) for d in range(1, 10)]
+    store.insert_prices("AAPL", rows)
+
+    # No guard — prices accessible for any date in range
+    assert store.get_price("AAPL", date(2023, 1, 5)) == pytest.approx(155.0)
+    assert store.get_price("AAPL", date(2022, 12, 31)) is None  # no data before range
+
+
+def test_pre_announcement_leakage_would_inflate_returns(tmp_path):
+    """Regression test: verify that WITHOUT the guard, using deal price pre-announcement
+    artificially returns 0% (flat line) instead of None.
+    WITH the guard, pre-announcement queries return None, forcing callers to handle
+    missing data rather than computing bogus 0% returns.
+
+    This tests that get_return() propagates None when pre-announcement price is queried.
+    """
+    store = ReplayStore(":memory:")
+    ann_date = date(2023, 12, 22)
+    store.seed_acquisition_price("KRTX", ann_date, 330.0, lookback_days=365)
+
+    # Without guard: get_return(pre_ann, post_ann) would return 0.0 (flat synthetic line)
+    # With guard: entry price is None → get_return returns None → caller must handle it
+    entry_date = ann_date - timedelta(days=30)  # pre-announcement
+    exit_date = ann_date                          # at announcement
+
+    ret = store.get_return("KRTX", entry_date, exit_date)
+    # Guard fires: entry_price is None → return is None (not 0.0)
+    assert ret is None, (
+        "Pre-announcement get_return must be None — "
+        "returning 0.0 would be a false positive (deal price masquerading as market price)"
+    )
+
+
+def test_seed_acquisition_price_records_announcement_in_table(tmp_path):
+    """seed_acquisition_price() must write a row to acquisition_announcements."""
+    store = ReplayStore(":memory:")
+    ann_date = date(2024, 3, 15)
+    store.seed_acquisition_price("TPTX", ann_date, 76.0, lookback_days=90)
+
+    row = store._conn.execute(
+        "SELECT announcement_date FROM acquisition_announcements WHERE ticker = 'TPTX'"
+    ).fetchone()
+    assert row is not None
+    assert row["announcement_date"] == "2024-03-15"
+
+
+def test_multiple_acquired_tickers_independent_guards(tmp_path):
+    """Each acquired ticker has its own guard; one ticker's guard does not
+    block another ticker's pre-announcement queries."""
+    store = ReplayStore(":memory:")
+    ann_a = date(2023, 6, 1)
+    ann_b = date(2023, 9, 1)
+    store.seed_acquisition_price("TICKA", ann_a, 50.0, lookback_days=180)
+    store.seed_acquisition_price("TICKB", ann_b, 80.0, lookback_days=180)
+
+    # TICKA before ann_a → None
+    assert store.get_price("TICKA", ann_a - timedelta(days=1)) is None
+    # TICKA at ann_a → price available
+    assert store.get_price("TICKA", ann_a) == pytest.approx(50.0)
+
+    # TICKB before ann_b → None
+    assert store.get_price("TICKB", ann_b - timedelta(days=1)) is None
+    # TICKB at ann_b → price available
+    assert store.get_price("TICKB", ann_b) == pytest.approx(80.0)
+
+    # TICKA is unaffected by TICKB's guard and vice versa
+    # TICKA after its own ann_a, but before TICKB's ann_b → price available
+    assert store.get_price("TICKA", date(2023, 7, 1)) == pytest.approx(50.0)

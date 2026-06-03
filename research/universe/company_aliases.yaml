@@ -1,0 +1,983 @@
+# Company Aliases — for news/RSS headline matching
+#
+# Format per ticker:
+#   canonical_name : official company name used in all outputs
+#   ticker         : exchange ticker
+#   cik            : SEC CIK (null for foreign companies)
+#   aliases        : list of name variants found in news/press releases
+#   assets         : drug/asset names (INN + codes + brand names)
+#
+# Usage: EventClassifier and LiveIngestionRunner use this map to assign
+# a ticker to a news headline that mentions a company or asset name.
+
+# ---------------------------------------------------------------------------
+# Targets
+# ---------------------------------------------------------------------------
+
+RVMD:
+  canonical_name: Revolution Medicines
+  ticker: RVMD
+  cik: "0001628171"
+  aliases:
+    - Revolution Medicines
+    - Revolution Medicines Inc
+    - RevMed
+  assets:
+    - daraxonrasib
+    - RMC-6236
+    - RMC-9805
+    - RMC-4630
+    - RAS
+
+BPMC:
+  canonical_name: Blueprint Medicines
+  ticker: BPMC
+  cik: null
+  aliases:
+    - Blueprint Medicines
+    - Blueprint Medicines Corporation
+  assets:
+    - avapritinib
+    - Ayvakit
+    - pralsetinib
+    - Gavreto
+    - BLU-808
+
+ARVN:
+  canonical_name: Arvinas
+  ticker: ARVN
+  cik: null
+  aliases:
+    - Arvinas
+    - Arvinas Inc
+  assets:
+    - vepdegestrant
+    - ARV-471
+    - ARV-110
+    - bavdegalutamide
+    - PROTAC
+
+KYMR:
+  canonical_name: Kymera Therapeutics
+  ticker: KYMR
+  cik: null
+  aliases:
+    - Kymera Therapeutics
+    - Kymera
+  assets:
+    - KY-1005
+    - KY-1022
+    - KYM-001
+    - KYM-003
+
+MRUS:
+  canonical_name: Merus NV
+  ticker: MRUS
+  cik: null
+  aliases:
+    - Merus
+    - Merus NV
+    - Merus B.V.
+  assets:
+    - zenocutuzumab
+    - MCLA-128
+    - petosemtamab
+    - MCLA-158
+    - Biclonics
+
+IOVA:
+  canonical_name: Iovance Biotherapeutics
+  ticker: IOVA
+  cik: null
+  aliases:
+    - Iovance Biotherapeutics
+    - Iovance
+    - Lion Biotechnologies
+  assets:
+    - lifileucel
+    - Amtagvi
+    - LN-145
+    - TIL therapy
+
+CLDX:
+  canonical_name: Celldex Therapeutics
+  ticker: CLDX
+  cik: null
+  aliases:
+    - Celldex Therapeutics
+    - Celldex
+  assets:
+    - CDX-0159
+    - CDX-622
+    - barzolvolimab
+
+REPL:
+  canonical_name: Replimune Group
+  ticker: REPL
+  cik: null
+  aliases:
+    - Replimune
+    - Replimune Group
+  assets:
+    - vusolimogene oderparepvec
+    - RP1
+    - RP2
+    - RP3
+
+RLAY:
+  canonical_name: Relay Therapeutics
+  ticker: RLAY
+  cik: null
+  aliases:
+    - Relay Therapeutics
+    - Relay Tx
+  assets:
+    - RLY-2608
+    - RLY-5836
+
+JANX:
+  canonical_name: Janux Therapeutics
+  ticker: JANX
+  cik: null
+  aliases:
+    - Janux Therapeutics
+    - Janux
+  assets:
+    - JANX007
+    - JANX008
+    - TRACTr
+
+NURIX:
+  canonical_name: Nurix Therapeutics
+  ticker: NURIX
+  cik: null
+  aliases:
+    - Nurix Therapeutics
+    - Nurix
+  assets:
+    - NX-2127
+    - NX-5948
+    - BTK degrader
+
+NUVL:
+  canonical_name: Nuvalent
+  ticker: NUVL
+  cik: null
+  aliases:
+    - Nuvalent
+    - Nuvalent Inc
+  assets:
+    - NVL-520
+    - NVL-655
+
+TGTX:
+  canonical_name: TG Therapeutics
+  ticker: TGTX
+  cik: null
+  aliases:
+    - TG Therapeutics
+    - TGTX
+  assets:
+    - ublituximab
+    - Briumvi
+    - umbralisib
+
+YMAB:
+  canonical_name: Y-mAbs Therapeutics
+  ticker: YMAB
+  cik: null
+  aliases:
+    - Y-mAbs Therapeutics
+    - Y-mAbs
+    - Ymabs
+  assets:
+    - naxitamab
+    - Danyelza
+    - omburtamab
+
+LNTH:
+  canonical_name: Lantheus Holdings
+  ticker: LNTH
+  cik: null
+  aliases:
+    - Lantheus Holdings
+    - Lantheus
+  assets:
+    - PYLARIFY
+    - piflufolastat F 18
+    - MK-6240
+    - florzolotau
+
+BEAM:
+  canonical_name: Beam Therapeutics
+  ticker: BEAM
+  cik: null
+  aliases:
+    - Beam Therapeutics
+    - Beam Tx
+  assets:
+    - BEAM-101
+    - BEAM-201
+    - BEAM-302
+    - base editing
+
+RCKT:
+  canonical_name: Rocket Pharmaceuticals
+  ticker: RCKT
+  cik: null
+  aliases:
+    - Rocket Pharmaceuticals
+    - Rocket Pharma
+  assets:
+    - RP-L201
+    - RP-A501
+    - RP-L102
+
+CRSP:
+  canonical_name: CRISPR Therapeutics
+  ticker: CRSP
+  cik: null
+  aliases:
+    - CRISPR Therapeutics
+    - CRISPR Tx
+  assets:
+    - casgevy
+    - exagamglogene autotemcel
+    - exa-cel
+    - CTX001
+    - CTX310
+    - CTX320
+
+RARE:
+  canonical_name: Ultragenyx Pharmaceutical
+  ticker: RARE
+  cik: null
+  aliases:
+    - Ultragenyx Pharmaceutical
+    - Ultragenyx
+  assets:
+    - setrusumab
+    - UX701
+    - delandistrogene
+    - Crysvita
+
+IONS:
+  canonical_name: Ionis Pharmaceuticals
+  ticker: IONS
+  cik: "0000768408"
+  aliases:
+    - Ionis Pharmaceuticals
+    - Ionis
+    - ISIS Pharmaceuticals
+  assets:
+    - eplontersen
+    - Wainua
+    - tofersen
+    - Qalsody
+    - pelacarsen
+    - ASO
+
+BMRN:
+  canonical_name: BioMarin Pharmaceutical
+  ticker: BMRN
+  cik: "0001048268"
+  aliases:
+    - BioMarin Pharmaceutical
+    - BioMarin
+  assets:
+    - delandistrogene moxeparvovec
+    - Elevidys
+    - palovarotene
+    - Sohonos
+    - Roctavian
+    - Vimizim
+
+PTCT:
+  canonical_name: PTC Therapeutics
+  ticker: PTCT
+  cik: null
+  aliases:
+    - PTC Therapeutics
+    - PTC
+  assets:
+    - ataluren
+    - Translarna
+    - vatiquinone
+    - Emflaza
+
+NTLA:
+  canonical_name: Intellia Therapeutics
+  ticker: NTLA
+  cik: "0001550694"
+  aliases:
+    - Intellia Therapeutics
+    - Intellia
+  assets:
+    - NTLA-2001
+    - nexiguran ziclumeran
+    - NTLA-2002
+    - in vivo CRISPR
+
+EDIT:
+  canonical_name: Editas Medicine
+  ticker: EDIT
+  cik: null
+  aliases:
+    - Editas Medicine
+    - Editas
+  assets:
+    - EDIT-301
+    - EDIT-101
+    - AsCas12a
+
+FOLD:
+  canonical_name: Amicus Therapeutics
+  ticker: FOLD
+  cik: null
+  aliases:
+    - Amicus Therapeutics
+    - Amicus
+  assets:
+    - migalastat
+    - Galafold
+    - cipaglucosidase alfa
+    - AT-GAA
+    - Pombiliti
+
+KNSA:
+  canonical_name: Kiniksa Pharmaceuticals
+  ticker: KNSA
+  cik: null
+  aliases:
+    - Kiniksa Pharmaceuticals
+    - Kiniksa
+  assets:
+    - rilonacept
+    - Arcalyst
+    - mavrilimumab
+
+PRTA:
+  canonical_name: Prothena Corporation
+  ticker: PRTA
+  cik: null
+  aliases:
+    - Prothena Corporation
+    - Prothena
+  assets:
+    - birtamimab
+    - PRX012
+    - PRX004
+    - NEOD001
+
+LRMR:
+  canonical_name: Larimar Therapeutics
+  ticker: LRMR
+  cik: null
+  aliases:
+    - Larimar Therapeutics
+    - Larimar
+  assets:
+    - CTI-1601
+    - nomlabofusp
+    - frataxin
+    - Friedreich's ataxia
+
+IMVT:
+  canonical_name: Immunovant
+  ticker: IMVT
+  cik: null
+  aliases:
+    - Immunovant
+    - Immunovant Inc
+  assets:
+    - batoclimab
+    - IMVT-1402
+    - anti-FcRn
+    - FcRn inhibitor
+
+ARQT:
+  canonical_name: Arcutis Biotherapeutics
+  ticker: ARQT
+  cik: null
+  aliases:
+    - Arcutis Biotherapeutics
+    - Arcutis
+  assets:
+    - roflumilast cream
+    - Zoryve
+    - roflumilast foam
+
+NKTR:
+  canonical_name: Nektar Therapeutics
+  ticker: NKTR
+  cik: null
+  aliases:
+    - Nektar Therapeutics
+    - Nektar
+  assets:
+    - NKTR-358
+    - LY3471851
+    - NKTR-255
+    - rezpegaldesleukin
+
+ARDX:
+  canonical_name: Ardelyx
+  ticker: ARDX
+  cik: null
+  aliases:
+    - Ardelyx
+    - Ardelyx Inc
+  assets:
+    - tenapanor
+    - Ibsrela
+    - Xphozah
+
+ALXO:
+  canonical_name: ALX Oncology
+  ticker: ALXO
+  cik: null
+  aliases:
+    - ALX Oncology
+    - ALX Oncology Inc
+  assets:
+    - evorpacept
+    - ALX148
+    - CD47
+
+ACAD:
+  canonical_name: ACADIA Pharmaceuticals
+  ticker: ACAD
+  cik: "0001015739"
+  aliases:
+    - ACADIA Pharmaceuticals
+    - ACADIA
+    - Acadia Pharma
+  assets:
+    - pimavanserin
+    - Nuplazid
+    - trofinetide
+    - Daybue
+
+SAGE:
+  canonical_name: Sage Therapeutics
+  ticker: SAGE
+  cik: null
+  aliases:
+    - Sage Therapeutics
+    - Sage
+  assets:
+    - zuranolone
+    - Zurzuvae
+    - brexanolone
+    - Zulresso
+    - SAGE-718
+
+ALKS:
+  canonical_name: Alkermes
+  ticker: ALKS
+  cik: "0000826327"
+  aliases:
+    - Alkermes
+    - Alkermes plc
+  assets:
+    - LYBALVI
+    - olanzapine/samidorphan
+    - Vivitrol
+    - naltrexone
+    - ALKS 2680
+
+HRMY:
+  canonical_name: Harmony Biosciences
+  ticker: HRMY
+  cik: null
+  aliases:
+    - Harmony Biosciences
+    - Harmony
+  assets:
+    - pitolisant
+    - Wakix
+    - HBS-101
+
+VERV:
+  canonical_name: Verve Therapeutics
+  ticker: VERV
+  cik: null
+  aliases:
+    - Verve Therapeutics
+    - Verve
+  assets:
+    - VERVE-101
+    - VERVE-102
+    - PCSK9 base editing
+
+VKTX:
+  canonical_name: Viking Therapeutics
+  ticker: VKTX
+  cik: null
+  aliases:
+    - Viking Therapeutics
+    - Viking
+  assets:
+    - VK2735
+    - VK0214
+    - VK2809
+
+MDGL:
+  canonical_name: Madrigal Pharmaceuticals
+  ticker: MDGL
+  cik: null
+  aliases:
+    - Madrigal Pharmaceuticals
+    - Madrigal
+  assets:
+    - resmetirom
+    - Rezdiffra
+    - MGL-3196
+
+ESPR:
+  canonical_name: Esperion Therapeutics
+  ticker: ESPR
+  cik: null
+  aliases:
+    - Esperion Therapeutics
+    - Esperion
+  assets:
+    - bempedoic acid
+    - Nexletol
+    - Nexlizet
+    - ETC-1002
+
+SGMO:
+  canonical_name: Sangamo Therapeutics
+  ticker: SGMO
+  cik: null
+  aliases:
+    - Sangamo Therapeutics
+    - Sangamo
+    - Sangamo Biosciences
+  assets:
+    - isaralgagene civaparvovec
+    - ST-920
+    - SAR445136
+    - zinc finger nuclease
+    - ZFN
+
+RGNX:
+  canonical_name: REGENXBIO
+  ticker: RGNX
+  cik: null
+  aliases:
+    - REGENXBIO
+    - RegenxBio
+    - REGENX
+  assets:
+    - RGX-314
+    - RGX-202
+    - NAV technology
+
+ADVM:
+  canonical_name: Adverum Biotechnologies
+  ticker: ADVM
+  cik: null
+  aliases:
+    - Adverum Biotechnologies
+    - Adverum
+  assets:
+    - ADVM-022
+    - ixoberogene soroparvovec
+
+ARWR:
+  canonical_name: Arrowhead Pharmaceuticals
+  ticker: ARWR
+  cik: null
+  aliases:
+    - Arrowhead Pharmaceuticals
+    - Arrowhead
+    - Arrowhead Research
+  assets:
+    - ARO-APOC3
+    - olpasiran
+    - ARO-ANG3
+    - ARO-LUNG2
+    - plozasiran
+
+KRYS:
+  canonical_name: Krystal Biotech
+  ticker: KRYS
+  cik: null
+  aliases:
+    - Krystal Biotech
+    - Krystal
+  assets:
+    - beremagene geperpavec
+    - B-VEC
+    - Vyjuvek
+    - KB105
+    - KB301
+
+VCEL:
+  canonical_name: Vericel Corporation
+  ticker: VCEL
+  cik: null
+  aliases:
+    - Vericel Corporation
+    - Vericel
+    - MiMedx
+  assets:
+    - MACI
+    - Epicel
+    - autologous chondrocytes
+
+PCVX:
+  canonical_name: Vaxcyte
+  ticker: PCVX
+  cik: null
+  aliases:
+    - Vaxcyte
+    - Vaxcyte Inc
+    - SutroVax
+  assets:
+    - VAX-24
+    - VAX-31
+    - pneumococcal conjugate
+
+STRO:
+  canonical_name: Sutro Biopharma
+  ticker: STRO
+  cik: null
+  aliases:
+    - Sutro Biopharma
+    - Sutro
+  assets:
+    - STRO-002
+    - STRO-001
+    - XpressCF
+
+ALGS:
+  canonical_name: Aligos Therapeutics
+  ticker: ALGS
+  cik: null
+  aliases:
+    - Aligos Therapeutics
+    - Aligos
+  assets:
+    - ALG-020572
+    - ALG-010133
+    - S-antigen transport inhibitor
+
+# ---------------------------------------------------------------------------
+# Acquirers (abbreviated aliases — full detail in acquirers.yaml)
+# ---------------------------------------------------------------------------
+
+PFE:
+  canonical_name: Pfizer
+  ticker: PFE
+  cik: "0000078003"
+  aliases:
+    - Pfizer
+    - Pfizer Inc
+    - Pfizer plc
+  assets: []
+
+MRK:
+  canonical_name: Merck & Co
+  ticker: MRK
+  cik: "0000310158"
+  aliases:
+    - Merck
+    - Merck & Co
+    - Merck Sharp & Dohme
+    - MSD
+  assets:
+    - Keytruda
+    - pembrolizumab
+
+BMY:
+  canonical_name: Bristol-Myers Squibb
+  ticker: BMY
+  cik: "0000014272"
+  aliases:
+    - Bristol-Myers Squibb
+    - BMS
+    - Bristol Myers
+  assets: []
+
+JNJ:
+  canonical_name: Johnson & Johnson
+  ticker: JNJ
+  cik: "0000200406"
+  aliases:
+    - Johnson & Johnson
+    - J&J
+    - Janssen
+    - Janssen Pharmaceuticals
+    - Johnson and Johnson
+  assets: []
+
+ABBV:
+  canonical_name: AbbVie
+  ticker: ABBV
+  cik: "0001551152"
+  aliases:
+    - AbbVie
+    - AbbVie Inc
+  assets:
+    - Humira
+    - adalimumab
+    - Skyrizi
+    - risankizumab
+    - Rinvoq
+
+AMGN:
+  canonical_name: Amgen
+  ticker: AMGN
+  cik: "0000820081"
+  aliases:
+    - Amgen
+    - Amgen Inc
+  assets:
+    - sotorasib
+    - Lumakras
+    - MariTide
+
+GILD:
+  canonical_name: Gilead Sciences
+  ticker: GILD
+  cik: "0000882184"
+  aliases:
+    - Gilead Sciences
+    - Gilead
+  assets:
+    - Yescarta
+    - axicabtagene
+    - trodelvy
+    - sacituzumab govitecan
+
+REGN:
+  canonical_name: Regeneron Pharmaceuticals
+  ticker: REGN
+  cik: "0000872589"
+  aliases:
+    - Regeneron Pharmaceuticals
+    - Regeneron
+  assets:
+    - Dupixent
+    - dupilumab
+    - Eylea
+    - aflibercept
+
+VRTX:
+  canonical_name: Vertex Pharmaceuticals
+  ticker: VRTX
+  cik: "0000875320"
+  aliases:
+    - Vertex Pharmaceuticals
+    - Vertex
+    - Vertex Pharma
+  assets:
+    - Trikafta
+    - elexacaftor
+    - ivacaftor
+    - casgevy
+    - suzetrigine
+
+LLY:
+  canonical_name: Eli Lilly
+  ticker: LLY
+  cik: "0000059478"
+  aliases:
+    - Eli Lilly
+    - Eli Lilly and Company
+    - Lilly
+  assets:
+    - tirzepatide
+    - Mounjaro
+    - Zepbound
+    - donanemab
+    - Kisunla
+
+NVO:
+  canonical_name: Novo Nordisk
+  ticker: NVO
+  cik: null
+  aliases:
+    - Novo Nordisk
+    - Novo Nordisk A/S
+    - NovoNordisk
+  assets:
+    - semaglutide
+    - Ozempic
+    - Wegovy
+    - cagrilintide
+    - CagriSema
+
+NVS:
+  canonical_name: Novartis
+  ticker: NVS
+  cik: null
+  aliases:
+    - Novartis
+    - Novartis AG
+    - Novartis International
+  assets:
+    - Kisqali
+    - ribociclib
+    - Pluvicto
+    - lutetium PSMA
+
+RHHBY:
+  canonical_name: Roche / Genentech
+  ticker: RHHBY
+  cik: null
+  aliases:
+    - Roche
+    - Genentech
+    - F. Hoffmann-La Roche
+    - Hoffmann-La Roche
+    - Chugai
+  assets:
+    - atezolizumab
+    - Tecentriq
+    - gantenerumab
+
+AZN:
+  canonical_name: AstraZeneca
+  ticker: AZN
+  cik: null
+  aliases:
+    - AstraZeneca
+    - AstraZeneca PLC
+    - AZ
+    - MedImmune
+  assets:
+    - Tagrisso
+    - osimertinib
+    - trastuzumab deruxtecan
+    - Enhertu
+    - datopotamab deruxtecan
+    - Dato-DXd
+
+SNY:
+  canonical_name: Sanofi
+  ticker: SNY
+  cik: null
+  aliases:
+    - Sanofi
+    - Sanofi SA
+    - Genzyme
+    - Sanofi-Aventis
+  assets:
+    - Dupixent
+    - dupilumab
+    - Altuviiio
+    - fitusiran
+
+GSK:
+  canonical_name: GlaxoSmithKline
+  ticker: GSK
+  cik: null
+  aliases:
+    - GlaxoSmithKline
+    - GSK
+    - GSK plc
+  assets:
+    - Shingrix
+    - shingles vaccine
+    - Jemperli
+    - dostarlimab
+
+TAK:
+  canonical_name: Takeda Pharmaceutical
+  ticker: TAK
+  cik: null
+  aliases:
+    - Takeda
+    - Takeda Pharmaceutical
+    - Takeda Pharmaceutical Company
+  assets:
+    - Entyvio
+    - vedolizumab
+    - lanadelumab
+    - Takhzyro
+
+BIIB:
+  canonical_name: Biogen
+  ticker: BIIB
+  cik: "0000875045"
+  aliases:
+    - Biogen
+    - Biogen Inc
+    - Biogen Idec
+  assets:
+    - lecanemab
+    - Leqembi
+    - Tysabri
+    - natalizumab
+    - zuranolone
+
+UTHR:
+  canonical_name: United Therapeutics
+  ticker: UTHR
+  cik: "0001082554"
+  aliases:
+    - United Therapeutics
+    - United Therapeutics Corporation
+  assets:
+    - Tyvaso
+    - treprostinil
+    - Remodulin
+
+INCY:
+  canonical_name: Incyte Corporation
+  ticker: INCY
+  cik: "0000879169"
+  aliases:
+    - Incyte
+    - Incyte Corporation
+  assets:
+    - ruxolitinib
+    - Jakafi
+    - Opzelura
+
+MRNA:
+  canonical_name: Moderna
+  ticker: MRNA
+  cik: "0001682852"
+  aliases:
+    - Moderna
+    - Moderna Inc
+    - ModernaTX
+  assets:
+    - mRNA-1273
+    - Spikevax
+    - mRNA-4157
+    - V940
+
+ALPMY:
+  canonical_name: Astellas Pharma
+  ticker: ALPMY
+  cik: null
+  aliases:
+    - Astellas
+    - Astellas Pharma
+    - Astellas Pharma Inc
+  assets:
+    - enzalutamide
+    - Xtandi
+    - enfortumab vedotin
+    - Padcev
+
+MRCGF:
+  canonical_name: Merck KGaA
+  ticker: MRCGF
+  cik: null
+  aliases:
+    - Merck KGaA
+    - EMD Serono
+    - Merck Serono
+    - EMD
+  assets:
+    - avelumab
+    - Bavencio
+    - tepotinib
+    - Tepmetko

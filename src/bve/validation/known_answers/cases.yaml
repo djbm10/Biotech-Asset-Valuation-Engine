@@ -1,0 +1,157 @@
+# Known-Answer Validation Cases for BVE
+#
+# Each case is a historical biotech deal used as a directional benchmark.
+# The model_value_range_millions fields define what a well-calibrated BVE
+# run should approximately produce for this asset. The observed_deal_value
+# is the actual acquisition price (may include strategic premium).
+#
+# Validation philosophy:
+# - We do NOT require perfect price prediction.
+# - A "pass" means the model produced a value in the right ballpark and
+#   directionally recommended this as a buy/acquisition target.
+# - N=5 cases, all acquisitions, across oncology, immunology, cardiology,
+#   neuroscience, and oncology/ADC platforms.
+
+schema_version: 1
+description: >
+  Starter known-answer cases for BVE directional institutional validation.
+  All cases are completed acquisitions with public deal terms.
+
+cases:
+
+  - case_id: prometheus_merck_2023
+    company_name: Prometheus Biosciences
+    ticker: RXDX
+    description: >
+      Merck acquired Prometheus Biosciences for $10.8B (USD) in April 2023.
+      Lead asset PRA023 (tulisokibart, anti-TL1A mAb) was in Phase 2 for
+      ulcerative colitis and Crohn's disease with compelling early efficacy
+      and biomarker-selected patient enrichment. Deal price was ~$200/share,
+      ~75% premium to unaffected price.
+    deal_year: 2023
+    observed_deal_value_millions: 10800
+    deal_premium_pct: 75.4
+    expected_deal_type: acquisition
+    expected_primary_buyer: Merck
+    expected_buyer_therapeutic_areas:
+      - immunology
+      - gastroenterology
+      - inflammatory_bowel_disease
+    model_value_range_millions_low: 5000
+    model_value_range_millions_high: 16000
+    thesis_direction: long
+    validation_notes: >
+      Biomarker-enriched Phase 2 design in high-need GI indication with strong
+      precedent (mirikizumab, risankizumab) for TL1A pathway. Model should
+      capture the option value of late-stage readout and strategic scarcity
+      premium for best-in-class UC/Crohn's assets.
+
+  - case_id: acceleron_merck_2021
+    company_name: Acceleron Pharma
+    ticker: XLRN
+    description: >
+      Merck acquired Acceleron Pharma for $11.5B in November 2021.
+      Lead asset sotatercept (activin receptor-Fc fusion) was in Phase 3 for
+      pulmonary arterial hypertension (PAH), a rare cardiovascular disease
+      with high unmet need. Deal price was $180/share, ~33% premium.
+    deal_year: 2021
+    observed_deal_value_millions: 11500
+    deal_premium_pct: 33.0
+    expected_deal_type: acquisition
+    expected_primary_buyer: Merck
+    expected_buyer_therapeutic_areas:
+      - cardiovascular
+      - pulmonary_hypertension
+      - rare_disease
+    model_value_range_millions_low: 7000
+    model_value_range_millions_high: 16000
+    thesis_direction: long
+    validation_notes: >
+      Sotatercept's Phase 2 PULSAR data showed significant 6MWD improvement,
+      highest on record for PAH. Phase 3 STELLAR readout pending at deal time.
+      Model should reflect high late-stage Ph3 base rate + rare disease pricing
+      power (remsima analogy). Strategic fit: Merck lacked cardiovascular
+      pipeline depth post-Adempas losses.
+
+  - case_id: myokardia_bms_2020
+    company_name: MyoKardia
+    ticker: MYOK
+    description: >
+      Bristol-Myers Squibb acquired MyoKardia for $13.1B in November 2020.
+      Lead asset mavacamten (cardiac myosin inhibitor) was in Phase 3 for
+      obstructive hypertrophic cardiomyopathy (oHCM) with strong EXPLORER-HCM
+      data. Deal price was $225/share, ~61% premium to 30-day VWAP.
+    deal_year: 2020
+    observed_deal_value_millions: 13100
+    deal_premium_pct: 61.0
+    expected_deal_type: acquisition
+    expected_primary_buyer: Bristol-Myers Squibb
+    expected_buyer_therapeutic_areas:
+      - cardiovascular
+      - rare_disease
+      - hematology
+    model_value_range_millions_low: 8000
+    model_value_range_millions_high: 18000
+    thesis_direction: long
+    validation_notes: >
+      EXPLORER-HCM was highly positive: mavacamten met primary endpoint with
+      36% achieving clinical response vs 17% placebo. First-in-class cardiac
+      myosin inhibitor with durable mechanism differentiation. BMS was deepening
+      cardiovascular franchise (Eliquis LOE 2026 concern). NDA filed pre-deal.
+      Model should capture near-approval stage premium and strong Ph3 base rate.
+
+  - case_id: karuna_bms_2024
+    company_name: Karuna Therapeutics
+    ticker: KRTX
+    description: >
+      Bristol-Myers Squibb acquired Karuna Therapeutics for $14.0B in March 2024.
+      Lead asset KarXT (xanomeline-trospium) had received FDA approval for
+      schizophrenia in September 2023 (first new mechanism in 35 years).
+      Deal price was $330/share, ~53% premium to unaffected price.
+    deal_year: 2024
+    observed_deal_value_millions: 14000
+    deal_premium_pct: 53.0
+    expected_deal_type: acquisition
+    expected_primary_buyer: Bristol-Myers Squibb
+    expected_buyer_therapeutic_areas:
+      - neuroscience
+      - psychiatry
+      - cns
+    model_value_range_millions_low: 9000
+    model_value_range_millions_high: 20000
+    thesis_direction: long
+    validation_notes: >
+      KarXT was the first schizophrenia drug with a new mechanism (muscarinic
+      agonism) in decades, avoiding dopamine receptor side effects. FDA approved
+      September 2023. BMS needed CNS pipeline to replace Revlimid+Eliquis LOE
+      runway. Model should reflect post-approval commercial ramp value plus
+      pipeline extensions (Alzheimer's psychosis, bipolar). Strategic fit:
+      BMS CNS platform is thin.
+
+  - case_id: seagen_pfizer_2023
+    company_name: Seagen Inc
+    ticker: SGEN
+    description: >
+      Pfizer acquired Seagen for $43.0B in December 2023 (regulatory
+      clearance December 2023). Seagen was the ADC (antibody-drug conjugate)
+      platform leader with 4 approved products (Adcetris, Padcev, Tukysa,
+      Tivdak) and deep pipeline. Deal price was $229/share, ~33% premium.
+    deal_year: 2023
+    observed_deal_value_millions: 43000
+    deal_premium_pct: 33.0
+    expected_deal_type: acquisition
+    expected_primary_buyer: Pfizer
+    expected_buyer_therapeutic_areas:
+      - oncology
+      - hematology
+      - adc_platform
+    model_value_range_millions_low: 28000
+    model_value_range_millions_high: 55000
+    thesis_direction: long
+    validation_notes: >
+      Seagen had 4 approved ADCs + the dominant IP and manufacturing platform
+      in ADC oncology. Pfizer needed pipeline to offset Paxlovid + Ibrance
+      LOE cliff. Model must handle multi-product commercial franchise (not just
+      single-asset rNPV): a multi-indication approach is essential. ADC market
+      expected to grow to >$20B by 2030. Model should weight platform value
+      and approved product revenue streams.

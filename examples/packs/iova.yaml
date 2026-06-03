@@ -1,0 +1,217 @@
+# Underwriting Pack — Iovance Biotherapeutics (IOVA)
+# Q2 2026 | As of: 2026-04-09
+# Analyst: djm
+# Status: DRAFT — pending second reviewer
+
+company_id: "iova"
+company_name: "Iovance Biotherapeutics Inc."
+ticker: "IOVA"
+as_of_date: "2026-04-09"
+pack_quarter: "2026Q2"
+
+# ─────────────────────────────────────────────────────────────────────
+# Market data  (point-in-time)
+# ─────────────────────────────────────────────────────────────────────
+market:
+  market_cap_millions: 2800.0      # ~$2.8B at $9/share × ~311M shares
+  enterprise_value_millions: 2400.0 # market cap minus net cash (~$400M)
+  share_price: 9.0
+  source_ref: "yfinance:2026-04-09"
+
+# ─────────────────────────────────────────────────────────────────────
+# Balance sheet  (10-Q Dec 2025; filed Feb 2026)
+# ─────────────────────────────────────────────────────────────────────
+balance_sheet:
+  cash_millions: 600.0    # cash + short-term investments
+  debt_millions: 200.0    # convertible notes outstanding
+  source_ref: "10-Q:2025-12-31:balance_sheet"
+
+# ─────────────────────────────────────────────────────────────────────
+# Modeled assets
+# ─────────────────────────────────────────────────────────────────────
+modeled_assets:
+  - bucket_id: "iova_amtagvi_melanoma"
+    label: "Amtagvi (lifileucel) — Melanoma (TIL therapy, approved Feb 2024)"
+    value_millions: 2200.0
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/iova_amtagvi_melanoma.yaml:2026-04-09"
+    as_of_date: "2026-04-09"
+    confidence: 0.72
+    corroboration_count: 2
+    corroboration_refs:
+      - "FDA approval February 2024 for unresectable/metastatic melanoma"
+      - "C-144-01 Ph2: ORR 31.4% in anti-PD1-pretreated melanoma (5 prior therapies median)"
+    notes: >
+      First tumor-infiltrating lymphocyte (TIL) therapy approved. Melanoma addressable:
+      ~8k US patients/yr with anti-PD1-refractory disease. $515k list price.
+      Manufacturing: 22-day personalized process. Ramp constrained by Authorized Treatment
+      Center capacity. 2025 revenue ~$120M. Peak sales est $700M-1B US+EU.
+      rNPV: 12y, discount 11%, 80% P(EU approval 2026).
+
+  - bucket_id: "iova_amtagvi_nsclc"
+    label: "Amtagvi — NSCLC TIL (Ph3 IOV-LUN-202)"
+    value_millions: 800.0
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/iova_amtagvi_nsclc.yaml:2026-04-09"
+    as_of_date: "2026-04-09"
+    confidence: 0.52
+    corroboration_count: 1
+    corroboration_refs:
+      - "IOV-LUN-202 Ph3 enrollment ongoing; NSCLC Ph2 ORR 21% in PD-L1 high"
+    notes: >
+      Ph3 in anti-PD1-refractory NSCLC. Much larger addressable than melanoma
+      (~50k US patients). Ph2 ORR 21% in PD-L1 high. Ph3 POS 45%. If approved,
+      5x revenue upside vs melanoma alone. rNPV: peak $2B NSCLC, POS 45%, 12y.
+
+  - bucket_id: "iova_iov3001"
+    label: "IOV-3001 (next-gen TIL) — Solid tumors (Ph1/2)"
+    value_millions: 300.0
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/iova_iov3001.yaml:2026-04-09"
+    as_of_date: "2026-04-09"
+    confidence: 0.40
+    corroboration_count: 0
+    corroboration_refs: []
+    notes: >
+      Next-gen engineered TIL with improved persistence and tumor penetration.
+      Ph1/2 multi-tumor. Early option value.
+
+# ─────────────────────────────────────────────────────────────────────
+# Platform value
+# ─────────────────────────────────────────────────────────────────────
+platform_value:
+  bucket_id: "iova_platform"
+  label: "TIL manufacturing platform — scale + next-gen TIL"
+  value_millions: 400.0
+  methodology: "analyst_estimate"
+  source_type: "analyst_bridge"
+  source_ref: "top25_pack_2026q2:IOVA:platform"
+  as_of_date: "2026-04-09"
+  confidence: 0.55
+  corroboration_count: 0
+  corroboration_refs: []
+  notes: >
+    IOVA's manufacturing platform is the moat — 22-day personalized TIL expansion.
+    Scale-up to meet commercial demand is the execution challenge. Platform value
+    contingent on demonstrating manufacturing scalability.
+
+# ─────────────────────────────────────────────────────────────────────
+# Unmodeled pipeline
+# ─────────────────────────────────────────────────────────────────────
+unmodeled_pipeline:
+  bucket_id: "iova_unmodeled"
+  label: "TIL in cervical cancer, H&N (Ph2 exploratory)"
+  value_millions: 150.0
+  methodology: "rule_of_thumb"
+  source_type: "analyst_bridge"
+  source_ref: "top25_pack_2026q2:IOVA:unmodeled"
+  as_of_date: "2026-04-09"
+  confidence: 0.38
+  corroboration_count: 0
+  corroboration_refs: []
+  notes: >
+    TIL may have activity in HPV+ cancers. Ph2 data in cervical/H&N.
+    Minimal value until Ph3 design.
+
+# ─────────────────────────────────────────────────────────────────────
+# Royalty streams  (none — IOVA retains full commercialization rights)
+# ─────────────────────────────────────────────────────────────────────
+royalty_streams: []
+
+# ─────────────────────────────────────────────────────────────────────
+# Dilution bridge  (10-Q Dec 2025)
+# ─────────────────────────────────────────────────────────────────────
+dilution:
+  current_shares_millions: 311.0
+  expected_dilution_pct: 0.20       # 20% expected raise as manufacturing scales
+  financing_runway_quarters: 5.0    # ~5 quarters at ~$450M/yr burn
+  atm_active: true
+  atm_remaining_millions: 150.0
+  shelf_registration_millions: 500.0
+  warrant_shares_millions: 0.0
+  convertible_shares_millions: 8.5
+  source_ref: "10-Q:2025-12-31:capitalization"
+  as_of_date: "2025-12-31"
+  notes: >
+    Commercial stage but not yet profitable. ~$600M cash, burn ~$450M/yr.
+    ~5 quarters runway. Raise expected as manufacturing scales. Convertible
+    notes outstanding. High dilution risk.
+
+# ─────────────────────────────────────────────────────────────────────
+# Catalysts
+# ─────────────────────────────────────────────────────────────────────
+catalysts:
+  - description: "EU approval — Amtagvi melanoma (EMA review)"
+    expected_date: "2026-Q2"
+    catalyst_type: "fda_action"
+    probability_positive: 0.78
+    source_ref: "EMA review timeline 2025-2026"
+    notes: "EMA positive opinion expected. EU approval doubles addressable market."
+
+  - description: "IOV-LUN-202 Ph3 interim — NSCLC TIL efficacy"
+    expected_date: "2027-Q1"
+    catalyst_type: "readout"
+    probability_positive: 0.45
+    source_ref: "clinicaltrials.gov:NCT05738889"
+    notes: >
+      Ph3 in NSCLC. Positive = transforms IOVA from single-indication to
+      multi-tumor platform.
+
+  - description: "Q2 2026 commercial update — Amtagvi scripts, ATC expansion"
+    expected_date: "2026-Q2"
+    catalyst_type: "milestone"
+    probability_positive: 0.70
+    source_ref: "IOVA Q1 2026 earnings"
+    notes: "ATC count and Rx volume determine revenue ramp trajectory."
+
+# ─────────────────────────────────────────────────────────────────────
+# Management flags  (none flagged at this review)
+# ─────────────────────────────────────────────────────────────────────
+management_flags: []
+
+# ─────────────────────────────────────────────────────────────────────
+# Confidence metadata
+# ─────────────────────────────────────────────────────────────────────
+confidence:
+  overall_confidence: 0.64
+  notes: >
+    Commercial stage with approved asset but manufacturing-constrained ramp.
+    Tight cash runway. EU approval is near-term de-risking catalyst. NSCLC Ph3
+    is the long-term value creator. Dilution risk elevated.
+
+# ─────────────────────────────────────────────────────────────────────
+# Provenance
+# ─────────────────────────────────────────────────────────────────────
+provenance:
+  pack_version: 1
+  pack_quarter: "2026Q2"
+  created_by: "djm"
+  change_summary: "Initial Q2 2026 pack. Amtagvi approved; commercial launch ongoing."
+
+# SOTP check (manual reconciliation, must answer: "why does model differ from market?"):
+#
+#   Market cap:                $2,800M
+#   SOTP equity value:
+#     Net cash:                  +$400M  (600 - 200)
+#     Amtagvi melanoma rNPV:    +$2,200M
+#     Amtagvi NSCLC rNPV:         +$800M
+#     IOV-3001 rNPV:              +$300M
+#     Platform:                   +$400M
+#     Unmodeled:                  +$150M
+#     Dilution reserve:           -$561M  (~20% dilution × $9 × 311M)
+#     ────────────────────────────────
+#     SOTP total:               ~$3,689M
+#   SOTP discount:             +32% (model 32% above market)
+#   Assessment: Market at 76% of SOTP — manufacturing execution discount +
+#   dilution risk. EU approval and NSCLC Ph3 are unpriced options. Reasonable
+#   discount for early-commercial ramp uncertainty.
+
+reviewer_state: "draft"
+
+notes: >
+  IOVA is the TIL therapy pure play. The manufacturing moat is real but so is
+  the constraint. Key review: is $2.2B melanoma rNPV achievable given
+  manufacturing scale challenges and $515k price point payer friction?

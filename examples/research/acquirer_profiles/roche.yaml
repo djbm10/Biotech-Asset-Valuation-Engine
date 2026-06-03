@@ -1,0 +1,56 @@
+company: Roche / Genentech
+ticker: RHHBY
+profile_as_of: 2026-04-07
+market_cap_billions: 235
+cash_billions: 7.8
+pipeline_gaps:
+  - therapeutic_area: obesity
+    sub_area: glp1_next_generation
+    gap_type: strategic_entry
+    urgency: high
+    preferred_modality: [small_molecule, peptide, oral_small_molecule]
+    budget_ceiling_millions: 20000
+    notes: "Carmot acquisition added GLP-1 peptides; differentiated oral or once-monthly incretin assets remain a priority for metabolic leadership."
+  - therapeutic_area: neuroscience
+    sub_area: neurodegeneration_tau_alpha_syn
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [antibody, small_molecule, ASO]
+    budget_ceiling_millions: 15000
+    notes: "Ocrevus MS franchise is mature; tau, alpha-synuclein, and TDP-43 mechanisms remain strategic gaps."
+  - therapeutic_area: oncology
+    sub_area: tcr_t_cell_engager
+    gap_type: selective_gap
+    urgency: high
+    preferred_modality: [bispecific, TCR_therapy]
+    budget_ceiling_millions: 10000
+    notes: "HER2/PD-L1 bispecifics covered; TCR-based immunotherapy and next-gen T cell engagers remain open."
+  - therapeutic_area: ophthalmology
+    sub_area: dry_amd_geographic_atrophy
+    gap_type: franchise_extension
+    urgency: medium
+    preferred_modality: [antibody, small_molecule, gene_therapy]
+    budget_ceiling_millions: 8000
+    notes: "Faricimab in wet AMD; dry AMD and geographic atrophy remain open adjacencies."
+  - therapeutic_area: rare_disease
+    sub_area: hereditary_angioedema
+    gap_type: selective_gap
+    urgency: medium
+    preferred_modality: [antibody, ASO, small_molecule]
+    budget_ceiling_millions: 6000
+    notes: "Hemlibra rare disease franchise has adjacency to HAE and related complement/bradykinin disorders."
+recent_deals:
+  - target: Carmot Therapeutics
+    date: 2024-01-02
+    value_billions: 2.7
+    therapeutic_area: obesity
+    modality: peptide
+  - target: Telavant Holdings
+    date: 2023-10-23
+    value_billions: 7.25
+    therapeutic_area: immunology
+    modality: antibody
+stated_priorities:
+  - "Obesity/metabolic is the new platform entry area; GLP-1 follow-on deals remain active."
+  - "Neurodegeneration beyond MS is a stated priority following Alzheimer's setbacks industry-wide."
+  - "Ophthalmology and rare disease remain core Genentech franchise areas."

@@ -1,0 +1,78 @@
+asset:
+  id: a-vktx
+  name: VK2735
+  indication: obesity / NASH
+  therapeutic_area: other
+  stage: phase_3
+  modality: small_molecule
+  discount_rate: 0.11
+company:
+  id: vktx-replay
+  name: VKTX
+  ticker: VKTX
+  cash_millions: 1070.1
+  debt_millions: 0.0
+  shares_outstanding_millions: 212.26
+  burn_rate_millions_per_quarter: 45.0
+  current_price: 33.61
+  notes: screening-grade replay config
+trials:
+- phase: phase_3
+  success_probability: 0.6
+  duration_years: 3.5
+  cost_millions: 225.0
+  endpoint_type: surrogate_validated
+  notes: screening-grade default trial chain
+- phase: nda_bla
+  success_probability: 0.87
+  duration_years: 1.5
+  cost_millions: 35.0
+  endpoint_type: surrogate_validated
+  notes: screening-grade default trial chain
+market_model:
+  total_addressable_market_millions: 37500.0
+  peak_penetration: 0.12
+  years_to_peak: 5
+  patent_life_years: 12
+  cogs_rate: 0.15
+  sgna_rate_launch: 0.4
+  sgna_rate_mature: 0.2
+  commercial_inputs:
+    patient_pool:
+      indication: Obesity and NASH
+      prevalence_thousands: 4166.7
+      diagnosed_fraction: 1.0
+      eligible_rate: 1.0
+      treated_fraction: 1.0
+      addressable_k: 4166.7
+      uncertainty_cv: 0.20
+    pricing:
+      wac_per_year_usd: 10000
+      gross_to_net_rate: 0.25
+      launch_discount: 0.0
+      annual_erosion_rate: 0.02
+      uncertainty_cv: 0.12
+    share:
+      peak_share: 0.12
+      years_to_peak: 5
+      share_cv: 0.20
+    ex_us_revenue_multiple: 1.2
+_meta:
+  config_version: replay-screening-v1
+  source: replay_watchlist_builder
+  screening_grade: true
+  source_ticker: VKTX
+  source_universe_stage: ''
+  source_tags:
+  - baseline_replay_universe
+  single_asset: true
+  heuristic_market_cap_millions: 7133.99
+  heuristic_peak_sales_millions: 4500.0
+  config_valid_from: "2023-01-01"
+  config_valid_from_rationale: >
+    VK2735 obesity thesis (GLP-1/GIP dual agonist, Phase 3 VENTURE, $37.5B TAM) was not
+    the primary investment thesis before 2023. Pre-2023, VKTX was primarily a NASH
+    (VK2809) and hip-fracture (VK5211) company with a ~$300-800M market cap. Applying the
+    Phase 3 obesity config to 2021-2022 snapshots produces a false ~7x extreme-discount
+    signal that reflects lookahead bias, not a real mispricing signal. Snpshots before this
+    date should be excluded from the company backtest.

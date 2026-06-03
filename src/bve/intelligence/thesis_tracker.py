@@ -494,10 +494,26 @@ class ThesisTracker:
             ).fetchall()
         claims = [self._row_to_claim(dict(r)) for r in rows]
 
-        open_claims = [c for c in claims if c.status == "open"]
-        confirmed = [c for c in claims if c.status == "confirmed"]
-        refuted = [c for c in claims if c.status == "refuted"]
-        expired = [c for c in claims if c.status == "expired"]
+        # When time-frozen, treat claims resolved after as_of_date as still open
+        # (no-lookahead: the resolution hadn't happened yet at that date).
+        if as_of_date is not None:
+            as_of_dt = datetime(
+                as_of_date.year, as_of_date.month, as_of_date.day,
+                23, 59, 59, tzinfo=timezone.utc,
+            )
+            def _effective_status(c: "ThesisClaim") -> str:
+                if c.status != "open" and c.resolved_at is not None:
+                    if c.resolved_at > as_of_dt:
+                        return "open"
+                return c.status
+        else:
+            def _effective_status(c: "ThesisClaim") -> str:  # type: ignore[misc]
+                return c.status
+
+        open_claims = [c for c in claims if _effective_status(c) == "open"]
+        confirmed = [c for c in claims if _effective_status(c) == "confirmed"]
+        refuted = [c for c in claims if _effective_status(c) == "refuted"]
+        expired = [c for c in claims if _effective_status(c) == "expired"]
 
         n_resolved = len(confirmed) + len(refuted) + len(expired)
         strength: Optional[float] = None

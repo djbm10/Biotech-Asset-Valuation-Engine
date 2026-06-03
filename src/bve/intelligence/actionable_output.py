@@ -24,21 +24,29 @@ Design principles
 Score version registry
 ----------------------
   v1.0   ranking=0.50, thesis=0.30, opportunity=0.20   (initial weights, 2026-Q1)
+  v2.0   same base weights + six additive signal layers (catalyst_ev, enrollment,
+         phase_correlation, endpoint_z, competitor_impact, capital_risk)
 
 Action taxonomy
 ---------------
   buy       — open new position; high conviction (composite ≥ 0.70)
   add       — increase existing position; medium conviction (0.50 ≤ composite < 0.70)
+  reduce    — trim existing position; HIGH capital risk forced composite below 0.50
   monitor   — watch only; caution flag raised or below buy/add threshold (0.30 ≤ composite < 0.50)
-  avoid     — do not act; composite below minimum threshold (< 0.30)
+  avoid     — do not act; composite below minimum threshold (< 0.30) OR CRITICAL capital risk
 """
 from __future__ import annotations
 
 from dataclasses import dataclass, field
 from datetime import date, datetime, timezone
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 
 from pydantic import BaseModel, Field
+
+from bve.intelligence.capital_structure import CapitalRiskLevel
+
+if TYPE_CHECKING:
+    from bve.intelligence.composite_scorer import CompositeScoreContext
 
 
 # ---------------------------------------------------------------------------
@@ -47,6 +55,9 @@ from pydantic import BaseModel, Field
 
 SCORE_VERSIONS: dict[str, dict[str, float]] = {
     "v1.0": {"ranking": 0.50, "thesis": 0.30, "opportunity": 0.20},
+    # v2.0 uses the same base weights; the signal adjustment amounts are logged
+    # per-opportunity in ActionableOpportunity.signal_adjustments.
+    "v2.0": {"ranking": 0.50, "thesis": 0.30, "opportunity": 0.20},
 }
 
 CURRENT_SCORE_VERSION = "v1.0"
@@ -64,18 +75,30 @@ class ScoredCandidate:
     Callers populate this from whatever ranking / opportunity sources they
     have.  All fields except ``asset_id``, ``ticker``, and ``ranking_score``
     are optional.
+
+    screening_grade
+        When True, this candidate was built from a parametric / heuristic
+        config (``_meta.screening_grade: true``).  The actionable generator
+        will never assign ``"buy"`` or ``"add"`` to screening-grade names;
+        they are clamped to ``"monitor"`` at most.  See docs/PRODUCT_SPEC.md.
     """
 
     asset_id: str
     ticker: str
     ranking_score: float            # 0.0–1.0, from ranking engine
     opportunity_score: float = 0.0  # 0.0–1.0, from OpportunityScanner
-    thesis_strength: Optional[float] = None   # from ThesisTracker.snapshot()
-    critic_severity: Optional[str] = None     # "caution" | "warning" | None
+    thesis_strength: Optional[float] = None        # from ThesisTracker.snapshot()
+    n_open_claims: int = 0                          # from ThesisTracker.snapshot().n_open
+    critic_severity: Optional[str] = None          # "caution" | "warning" | None
+    capital_risk_level: Optional[CapitalRiskLevel] = None  # from CapitalStructureAssessment
     catalyst_description: str = ""
     indication: str = ""
     company_id: str = ""
+    company_action_policy: Optional[str] = None
+    company_action_reason: str = ""
+    company_snapshot_date: Optional[date] = None
     extra_risk_flags: list[str] = field(default_factory=list)
+    screening_grade: bool = False
 
 
 # ---------------------------------------------------------------------------
@@ -126,9 +149,16 @@ class ActionableOpportunity(BaseModel):
     opportunity_component: float
     score_version: str
     thesis_strength: Optional[float] = None
+    n_open_claims: int = 0
     critic_severity: Optional[str] = None
+    company_action_policy: Optional[str] = None
+    company_action_reason: str = ""
+    company_snapshot_date: Optional[date] = None
     risk_flags: list[str] = Field(default_factory=list)
     one_line_summary: str = ""
+    # v2.0 signal attribution — empty for v1.0 runs
+    signal_adjustments: dict[str, float] = Field(default_factory=dict)
+    signal_adjustment_total: float = 0.0
 
 
 # ---------------------------------------------------------------------------
@@ -175,7 +205,9 @@ class WeeklyActionableReport(BaseModel):
     opportunities: list[ActionableOpportunity] = Field(default_factory=list)
     n_considered: int = 0
     n_filtered_by_min_score: int = 0
+    n_filtered_by_company_gate: int = 0
     n_elevated_by_critic: int = 0
+    n_clamped_by_screening_gate: int = 0
     has_actionable: bool = False
 
 
@@ -225,6 +257,7 @@ class ActionableGenerator:
         *,
         top_n: int = 5,
         week_ending: Optional[date] = None,
+        contexts: Optional[dict[str, "CompositeScoreContext"]] = None,
     ) -> WeeklyActionableReport:
         """
         Generate a ``WeeklyActionableReport`` from *candidates*.
@@ -237,15 +270,28 @@ class ActionableGenerator:
             Maximum number of opportunities to include.
         week_ending:
             Week-end date for the report.  Defaults to today.
+        contexts:
+            Optional dict mapping ``asset_id`` → ``CompositeScoreContext``.
+            When provided for an asset, six additional signal layers are
+            applied additively to the composite score.  Enables v2.0 scoring.
+            Missing context for an asset → signal adjustments are all 0.0.
 
         Returns
         -------
         WeeklyActionableReport — always populated, never None.
         """
+        from bve.intelligence.composite_scorer import CompositeScorer
+
         n_considered = len(candidates)
         n_filtered = 0
+        n_filtered_by_company_gate = 0
         n_elevated = 0
+        n_clamped_screening = 0
         results: list[ActionableOpportunity] = []
+
+        # Build the signal scorer lazily — only when contexts are supplied
+        scorer = CompositeScorer() if contexts else None
+        effective_version = "v2.0" if contexts else self.score_version
 
         w_r = self.weights["ranking"]
         w_t = self.weights["thesis"]
@@ -254,27 +300,64 @@ class ActionableGenerator:
         for cand in candidates:
             thesis_val = cand.thesis_strength if cand.thesis_strength is not None else 0.0
 
-            # Weighted components
+            # Base weighted components (unchanged from v1.0)
             r_comp = w_r * cand.ranking_score
             t_comp = w_t * thesis_val
             o_comp = w_o * cand.opportunity_score
-            composite = r_comp + t_comp + o_comp
+            base_composite = r_comp + t_comp + o_comp
+
+            # Signal adjustments (v2.0 path)
+            signal_adj: dict[str, float] = {}
+            signal_total = 0.0
+            if scorer is not None and contexts is not None:
+                ctx = contexts.get(cand.asset_id)
+                if ctx is not None:
+                    signal_adj = scorer.compute_adjustments(ctx)
+                    signal_total = CompositeScorer.total(signal_adj)
+
+            composite = max(0.0, min(1.0, base_composite + signal_total))
+            assert 0.0 <= composite <= 1.0, f"Composite out of bounds: {composite}"
 
             if composite < self.min_composite_score:
                 n_filtered += 1
                 continue
 
+            # Resolve effective capital risk: context-level takes precedence
+            effective_capital_risk: Optional[CapitalRiskLevel] = cand.capital_risk_level
+            if contexts is not None:
+                ctx = contexts.get(cand.asset_id)
+                if ctx is not None and ctx.capital_risk is not None:
+                    effective_capital_risk = ctx.capital_risk
+
             # Determine action
             action, was_elevated = self._determine_action(
-                composite, cand.critic_severity
+                composite, cand.critic_severity, effective_capital_risk
             )
             if was_elevated:
                 n_elevated += 1
+            action, filtered_by_company_gate = self._apply_company_policy_gate(
+                action,
+                cand.company_action_policy,
+            )
+            if filtered_by_company_gate:
+                n_filtered_by_company_gate += 1
+                continue
+
+            # Screening-grade gate (Phase 0 — docs/PRODUCT_SPEC.md):
+            # Heuristic configs cannot produce capital-deployment action labels.
+            # Clamp "buy"/"add" to "monitor" and record the clamping.
+            if cand.screening_grade and action in ("buy", "add"):
+                action = "monitor"
+                n_clamped_screening += 1
+                cand.extra_risk_flags.append(
+                    "SCREENING-GRADE: capital action blocked — underwriting pack required "
+                    "before this name can receive a buy/add label (see docs/PRODUCT_SPEC.md)"
+                )
 
             # Sizing: proportional to composite, clipped
             raw_size = composite * self.max_position_pct
             size = max(self.min_position_pct, min(self.max_position_pct, raw_size))
-            if action in ("monitor", "avoid"):
+            if action in ("monitor", "avoid", "reduce"):
                 size = 0.0
 
             risk_flags = self._build_risk_flags(cand, composite)
@@ -291,11 +374,17 @@ class ActionableGenerator:
                 ranking_component=round(r_comp, 4),
                 thesis_component=round(t_comp, 4),
                 opportunity_component=round(o_comp, 4),
-                score_version=self.score_version,
+                score_version=effective_version,
                 thesis_strength=cand.thesis_strength,
+                n_open_claims=getattr(cand, "n_open_claims", 0),
                 critic_severity=cand.critic_severity,
+                company_action_policy=cand.company_action_policy,
+                company_action_reason=cand.company_action_reason,
+                company_snapshot_date=cand.company_snapshot_date,
                 risk_flags=risk_flags,
                 one_line_summary=summary,
+                signal_adjustments=signal_adj,
+                signal_adjustment_total=round(signal_total, 4),
             ))
 
         # Sort by composite descending, take top_n
@@ -306,12 +395,14 @@ class ActionableGenerator:
 
         return WeeklyActionableReport(
             week_ending=week_ending or date.today(),
-            score_version=self.score_version,
+            score_version=effective_version,
             score_weights=dict(self.weights),
             opportunities=results,
             n_considered=n_considered,
             n_filtered_by_min_score=n_filtered,
+            n_filtered_by_company_gate=n_filtered_by_company_gate,
             n_elevated_by_critic=n_elevated,
+            n_clamped_by_screening_gate=n_clamped_screening,
             has_actionable=has_actionable,
         )
 
@@ -323,12 +414,21 @@ class ActionableGenerator:
         self,
         composite: float,
         critic_severity: Optional[str],
+        capital_risk: Optional[CapitalRiskLevel] = None,
     ) -> tuple[str, bool]:
         """
         Return ``(action, was_elevated_by_critic)``.
 
+        Capital risk hard gates (Task 9.16):
+          CRITICAL → force "avoid" regardless of composite score.
+          HIGH     → if composite < 0.50, action = "reduce" (position reduction signal).
+
         Critic CAUTION downgrades buy/add → monitor.
         """
+        # Hard gate: CRITICAL capital risk forces avoid regardless of composite
+        if capital_risk == CapitalRiskLevel.CRITICAL:
+            return "avoid", False
+
         if composite >= 0.70:
             base_action = "buy"
         elif composite >= 0.50:
@@ -338,6 +438,11 @@ class ActionableGenerator:
         else:
             base_action = "avoid"
 
+        # HIGH capital risk: if composite fell below 0.50 (e.g. due to -0.08 signal),
+        # signal an explicit reduce rather than generic monitor
+        if capital_risk == CapitalRiskLevel.HIGH and composite < 0.50:
+            base_action = "reduce"
+
         was_elevated = False
         if critic_severity == "caution" and base_action in ("buy", "add"):
             base_action = "monitor"
@@ -346,8 +451,38 @@ class ActionableGenerator:
         return base_action, was_elevated
 
     @staticmethod
+    def _apply_company_policy_gate(
+        action: str,
+        company_action_policy: Optional[str],
+    ) -> tuple[str, bool]:
+        policy = (company_action_policy or "").strip().lower()
+        if policy in {"avoid", "needs_manual_review"}:
+            return "avoid", True
+        if policy == "watch" and action in {"buy", "add"}:
+            return "monitor", False
+        return action, False
+
+    @staticmethod
     def _build_risk_flags(cand: ScoredCandidate, composite: float) -> list[str]:
         flags: list[str] = []
+        if cand.capital_risk_level == CapitalRiskLevel.CRITICAL:
+            flags.append("CRITICAL: capital risk — potential insolvency before catalyst")
+        elif cand.capital_risk_level == CapitalRiskLevel.HIGH:
+            flags.append("HIGH capital risk: dilutive raise likely before catalyst")
+        company_policy = (cand.company_action_policy or "").strip().lower()
+        if company_policy == "watch":
+            flags.append(
+                f"COMPANY WATCH: {cand.company_action_reason or 'company SOTP policy gate'}"
+            )
+        elif company_policy == "avoid":
+            flags.append(
+                f"COMPANY AVOID: {cand.company_action_reason or 'company SOTP policy gate'}"
+            )
+        elif company_policy == "needs_manual_review":
+            flags.append(
+                "COMPANY MANUAL REVIEW: "
+                f"{cand.company_action_reason or 'company SOTP recency/coverage/confidence gate'}"
+            )
         if cand.critic_severity == "caution":
             flags.append("CAUTION: critic flagged high-severity concern")
         elif cand.critic_severity == "warning":

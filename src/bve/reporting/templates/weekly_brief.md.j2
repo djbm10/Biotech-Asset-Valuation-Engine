@@ -1,4 +1,5 @@
 # Weekly Opportunity Brief
+**[MODE: SCREENING]** Heuristic-grade rankings only. No capital-deployment actions.
 **Period:** {{ brief.period_start }} → {{ brief.period_end }}
 **Generated:** {{ brief.generated_at.strftime('%Y-%m-%d %H:%M UTC') }}
 
@@ -27,11 +28,21 @@
 ## Top Opportunities
 
 {% if brief.top_opportunities %}
+{% if brief.top_opportunities_source_mode == "company_sotp_snapshot" %}
+**Source:** company_sotp_snapshot{% if brief.top_opportunities_reference_date %} (reference {{ brief.top_opportunities_reference_date }}){% endif %}
+
+| Rank | Ticker | Company | Disc | Policy | SOTP ($M) | EV ($M) | Coverage | BS Snapshot |
+|---|---|---|---|---|---|---|---|---|
+{% for opp in brief.top_opportunities %}
+| {{ opp.rank }} | {{ opp.ticker or "—" }} | {{ opp.company_name or "—" }} | {{ "%.2fx" | format(opp.ranked_sotp_discount) }} | {{ opp.action_policy or "—" }} | {{ opp.sotp_equity_value_millions | dollar if opp.sotp_equity_value_millions is not none else "—" }} | {{ opp.enterprise_value_millions | dollar if opp.enterprise_value_millions is not none else "—" }} | {{ opp.modeled_asset_coverage_pct | pct if opp.modeled_asset_coverage_pct is not none else "—" }} | {{ opp.balance_sheet_snapshot_date or "—" }} |
+{% endfor %}
+{% else %}
 | Rank | Asset | ΔNPV ($M) | Score | Event Type | Confidence | Mispricing |
 |---|---|---|---|---|---|---|
 {% for opp in brief.top_opportunities %}
 | {{ opp.rank }} | {{ opp.asset_id }} | {{ opp.delta_npv_millions | dollar }} | {{ "%.3f" | format(opp.composite_score) }} | {{ opp.signal_event_type or "—" }} | {{ opp.extraction_confidence | pct }} | {{ opp.mispricing_score | dollar if opp.mispricing_score is not none else "—" }} |
 {% endfor %}
+{% endif %}
 {% else %}
 *No ranked opportunities — run the watchlist to populate rankings.*
 {% endif %}

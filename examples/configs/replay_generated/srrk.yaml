@@ -1,0 +1,70 @@
+asset:
+  id: a-srrk
+  name: apitegromab
+  indication: "musculoskeletal \u2014 spinal muscular atrophy / cachexia"
+  therapeutic_area: rare_disease
+  stage: phase_3
+  modality: biologic
+  discount_rate: 0.11
+company:
+  id: srrk-replay
+  name: SRRK
+  ticker: SRRK
+  cash_millions: 963.09
+  debt_millions: 0.0
+  shares_outstanding_millions: 145.16
+  burn_rate_millions_per_quarter: 45.0
+  current_price: 44.23
+  notes: screening-grade replay config
+trials:
+- phase: phase_3
+  success_probability: 0.62
+  duration_years: 3.5
+  cost_millions: 225.0
+  endpoint_type: surrogate_validated
+  notes: screening-grade default trial chain
+- phase: nda_bla
+  success_probability: 0.89
+  duration_years: 1.5
+  cost_millions: 35.0
+  endpoint_type: surrogate_validated
+  notes: screening-grade default trial chain
+market_model:
+  total_addressable_market_millions: 4000.0
+  peak_penetration: 0.3
+  years_to_peak: 5
+  patent_life_years: 13
+  cogs_rate: 0.15
+  sgna_rate_launch: 0.4
+  sgna_rate_mature: 0.2
+  commercial_inputs:
+    patient_pool:
+      indication: Musculoskeletal rare disease
+      prevalence_thousands: 145.5
+      diagnosed_fraction: 1.0
+      eligible_rate: 1.0
+      treated_fraction: 1.0
+      addressable_k: 145.5
+      uncertainty_cv: 0.20
+    pricing:
+      wac_per_year_usd: 31250
+      gross_to_net_rate: 0.20
+      launch_discount: 0.0
+      annual_erosion_rate: 0.02
+      uncertainty_cv: 0.12
+    share:
+      peak_share: 0.3
+      years_to_peak: 5
+      share_cv: 0.20
+    ex_us_revenue_multiple: 1.1
+_meta:
+  config_version: replay-screening-v1
+  source: replay_watchlist_builder
+  screening_grade: true
+  source_ticker: SRRK
+  source_universe_stage: ''
+  source_tags:
+  - baseline_replay_universe
+  single_asset: true
+  heuristic_market_cap_millions: 6420.59
+  heuristic_peak_sales_millions: 1200.0

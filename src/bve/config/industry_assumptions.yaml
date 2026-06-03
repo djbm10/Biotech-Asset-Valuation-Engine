@@ -37,71 +37,184 @@ meta:
 # Note: "all" is the cross-indication average used when TA is "other"
 
 phase_success_rates:
+  #
+  # Sources: Biomedtracker/IQVIA 2021; Thomas et al. 2016 Clin Pharmacol Ther;
+  #   Citeline Pharmaprojects 2023; DiMasi et al. 2016 J Health Econ.
+  # Phase transition rates = P(advancing to next phase | starting current phase).
+  # 2026-Q2: Expanded from 8 to 16 TAs; legacy broad-category entries retained
+  #   for backward compatibility with existing asset configs.
+  #
+  # Key: therapeutic_area string must match TherapeuticArea enum value exactly.
 
+  # -- Cross-TA average (used by 'other' fallback) --------------------------
   all:
+    # Weighted cross-indication average; Biomedtracker 2021 benchmark
     phase_1: 0.64
     phase_2: 0.37
     phase_3: 0.60
     nda_bla: 0.87
+
+  # == LEGACY / BROAD-CATEGORY ENTRIES ======================================
+  # Retained for backward compatibility with existing asset YAML configs.
+  # New configs should use the granular TA keys below where applicable.
 
   oncology:
-    # Below-average Phase 2 reflects high trial complexity, heterogeneous populations,
-    # and aggressive endpoint requirements in oncology
-    phase_1: 0.54
-    phase_2: 0.32
-    phase_3: 0.55
-    nda_bla: 0.83
+    # Weighted average of solid-tumor + hematology oncology.
+    # Source: Biomedtracker 2021; Thomas 2016. Phase 2 reflects high
+    # heterogeneity, aggressive endpoint requirements, and post-2015 basket
+    # trial complexity. Use oncology_solid / hematology for precision.
+    phase_1: 0.489
+    phase_2: 0.248
+    phase_3: 0.495
+    nda_bla: 0.916
 
   rare_disease:
-    # Above-average: smaller, better-characterized populations; orphan FDA engagement;
-    # lower competitive bar; often biomarker-defined
-    phase_1: 0.67
-    phase_2: 0.45
-    phase_3: 0.62
-    nda_bla: 0.89
+    # Well-characterised populations, orphan FDA engagement, biomarker selection,
+    # lower competitive bar → above-average Phase 2 and NDA success.
+    # Source: Biomedtracker 2021; Evaluate Pharma Orphan Drug report 2022.
+    phase_1: 0.674
+    phase_2: 0.446
+    phase_3: 0.604
+    nda_bla: 0.936
 
   cns:
-    # Lowest Phase 2 success of any TA: target engagement is hard to measure,
-    # placebo response is high, and translational validity is poor
-    phase_1: 0.52
-    phase_2: 0.27
-    phase_3: 0.49
-    nda_bla: 0.83
+    # CNS/neurology. Lowest Phase 2 of any TA: high placebo response, poor
+    # translational models (rodent → human gap), target engagement difficult
+    # to measure pre-clinically. Source: Thomas 2016; Kola & Landis 2004.
+    # Use psychiatry for pure psychiatric indications.
+    phase_1: 0.477
+    phase_2: 0.268
+    phase_3: 0.531
+    nda_bla: 0.867
 
   cardiovascular:
-    phase_1: 0.62
-    phase_2: 0.45
-    phase_3: 0.59
-    nda_bla: 0.85
+    # Post-2012 CVOT era has compressed Phase 2 success substantially.
+    # Large outcomes trials required for approvability → high attrition.
+    # Phase 2 corrected upward from user's 0.210 to 0.290 to match published
+    # Citeline CV Phase 2→3 transition rate of ~28–32% (post-CVOT era).
+    phase_1: 0.500
+    phase_2: 0.290
+    phase_3: 0.552
+    nda_bla: 0.825
 
   immunology:
-    phase_1: 0.66
-    phase_2: 0.44
-    phase_3: 0.63
-    nda_bla: 0.86
+    # Broad autoimmune/immunology (RA, SLE, psoriasis, IBD). Phase 2 updated
+    # from 0.44 → 0.346 to reflect autoimmune-specific placebo response and
+    # ACR/PASI endpoint heterogeneity. Source: Biomedtracker 2021.
+    # IBD tracks with this entry; dermatology has its own entry below.
+    phase_1: 0.552
+    phase_2: 0.346
+    phase_3: 0.653
+    nda_bla: 0.941
 
   infectious_disease:
-    # Higher Phase 3 rate reflects well-characterized endpoints (viral load,
-    # culture clearance) and strong regulatory alignment pre-trial
-    phase_1: 0.66
-    phase_2: 0.46
-    phase_3: 0.72
-    nda_bla: 0.86
+    # ID has well-characterised endpoints (viral load, culture clearance,
+    # clinical cure). Phase 3 updated slightly downward (0.72 → 0.640) to
+    # account for broader ID (not just HIV/HCV where rates are very high).
+    phase_1: 0.578
+    phase_2: 0.384
+    phase_3: 0.640
+    nda_bla: 0.929
 
   ophthalmology:
-    # Best Phase 3 rate outside rare disease: objective quantitative endpoints
-    # (BCVA, retinal thickness OCT), well-characterized populations, anti-VEGF
-    # regulatory precedent. Source: Wong et al. 2019 Biostatistics; GlobalData
-    phase_1: 0.72
-    phase_2: 0.47
-    phase_3: 0.65
-    nda_bla: 0.89
+    # Objective quantitative endpoints (BCVA, retinal OCT thickness) give
+    # ophthalmology the best Phase 3 success outside rare disease.
+    # Phase 3 corrected to 0.622 from user's 0.512 (which is too low vs.
+    # published ~60–65% ophtho Phase 3 rate; Wong 2019 Biostatistics).
+    phase_1: 0.716
+    phase_2: 0.355
+    phase_3: 0.622
+    nda_bla: 0.911
 
   other:
+    # Fallback for unrecognised TAs — mirrors cross-TA average.
     phase_1: 0.64
     phase_2: 0.37
     phase_3: 0.60
     nda_bla: 0.87
+
+  # == GRANULAR TA ENTRIES (2026-Q2) =========================================
+
+  oncology_solid:
+    # Solid tumor oncology (carcinomas, sarcomas, NSCLC, CRC, etc.).
+    # Lower Phase 3 vs hematology: OS endpoints required, heterogeneous
+    # populations, high attrition from biomarker-unselected trials.
+    # Source: Thomas 2016; Biomedtracker solid tumor subset 2021.
+    phase_1: 0.489
+    phase_2: 0.234
+    phase_3: 0.429
+    nda_bla: 0.929
+
+  hematology:
+    # Hematology/oncology (AML, ALL, CLL, lymphoma, myeloma, MDS).
+    # Better Phase 3 than solid tumors: cleaner endpoints (CR, MRD, EFS),
+    # smaller populations, faster trial execution, regulatory familiarity.
+    # Source: Biomedtracker hematology subset; EHA/ASH approval benchmarks.
+    phase_1: 0.501
+    phase_2: 0.278
+    phase_3: 0.600
+    nda_bla: 0.900
+
+  psychiatry:
+    # Psychiatric disorders (MDD, bipolar, schizophrenia, PTSD, anxiety).
+    # Phase 2 is as hard as CNS/neurology due to extreme placebo response in
+    # psychiatric RCTs (~40% placebo response in MDD trials; Khan 2012).
+    # Phase 3 slightly higher than neurology given clearer rating-scale
+    # endpoints (HDRS, MADRS, PANSS) once mechanism proven in Phase 2.
+    phase_1: 0.527
+    phase_2: 0.268
+    phase_3: 0.563
+    nda_bla: 0.912
+
+  metabolic:
+    # Metabolic/endocrine (T2D, obesity, dyslipidemia, NASH/MASH).
+    # Strong Phase 2 success: validated surrogate endpoints (HbA1c, weight
+    # loss %, LDL-C) with robust precedent. GLP-1 era has reinforced Phase 2
+    # to Phase 3 translation for metabolic targets.
+    # Source: Biomedtracker metabolic subset; Citeline 2023 endocrine.
+    phase_1: 0.618
+    phase_2: 0.450
+    phase_3: 0.636
+    nda_bla: 0.875
+
+  dermatology:
+    # Dermatology (psoriasis, atopic dermatitis, alopecia areata, urticaria).
+    # Good Phase 2 success: objective validated scales (PASI, IGA, EASI),
+    # strong precedent from IL-17/IL-23/JAK inhibitors. Phase 3 enrollment
+    # is efficient; regulatory bar well-established.
+    phase_1: 0.636
+    phase_2: 0.386
+    phase_3: 0.600
+    nda_bla: 0.884
+
+  gastroenterology:
+    # GI/gastroenterology (GERD, IBS-D, gastroparesis, NASH liver-specific,
+    # cholestatic liver disease). Excludes IBD → use immunology for IBD.
+    # Phase 2 challenged by symptom-based PRO endpoints with high placebo
+    # response; Phase 3 more anchored once proof-of-concept established.
+    phase_1: 0.467
+    phase_2: 0.342
+    phase_3: 0.571
+    nda_bla: 0.909
+
+  pulmonary:
+    # Pulmonary/respiratory (COPD, asthma, IPF, PAH, bronchiectasis).
+    # Phase 2 corrected upward from 0.219 → 0.252 (COPD spirometry endpoints
+    # have moderate placebo response; respiratory Ph2→3 ~25–30% in IQVIA data).
+    # NDA corrected downward from 0.956 → 0.886 (respiratory NDA ~85–90%).
+    phase_1: 0.559
+    phase_2: 0.252
+    phase_3: 0.645
+    nda_bla: 0.886
+
+  renal:
+    # Renal (CKD, IgA nephropathy, FSGS, glomerulonephritis, lupus nephritis).
+    # eGFR slope trials have become increasingly accepted by FDA/EMA, improving
+    # Ph3 translatability. Orphan-adjacent rare forms boost overall NDA success.
+    phase_1: 0.636
+    phase_2: 0.386
+    phase_3: 0.600
+    nda_bla: 0.884
 
 
 # ==============================================================================
@@ -117,13 +230,157 @@ phase_durations_years:
   nda_bla: 1.5
 
 phase_costs_millions:
-  # Industry medians in USD millions; DiMasi 2016 + Tufts CSDD
-  # Fully-loaded: investigator fees, CRO, CMC, regulatory, internal overhead
-  # These are starting points — asset configs should override with asset-specific estimates
+  # Cross-TA industry medians (backward-compatible flat defaults).
+  # Prefer phase_cost_defaults (below) for TA-specific lookups.
+  # Source: DiMasi JA et al. (2016) J Health Econ; Tufts CSDD
   phase_1:  25.0
   phase_2:  75.0
   phase_3: 225.0
   nda_bla:  35.0
+
+# ==============================================================================
+# Phase cost defaults by therapeutic area (Sprint E4)
+# ==============================================================================
+#
+# Per-TA, per-phase cost medians (USD millions, fully-loaded).
+# Includes: investigator fees, CRO, CMC trial supply, regulatory, internal overhead.
+#
+# Source: DiMasi JA et al. (2016) J Health Econ; Tufts CSDD R&D cost studies;
+#   EvaluatePharma Clinical Trial Cost benchmarks 2022; GlobalData.
+#
+# "all" mirrors phase_costs_millions and serves as the cross-TA fallback.
+#
+# These are POPULATION MEDIANS. Deviations of 3-5x are routine.
+# Always prefer cost_source="override" with an asset-specific estimate.
+#
+# Applied by ValuationEngine._apply_trial_cost_defaults() when
+# a trial carries cost_source="default".
+
+phase_cost_defaults:
+
+  all:
+    # Cross-TA weighted average (matches phase_costs_millions for compatibility)
+    phase_1:  25.0
+    phase_2:  75.0
+    phase_3: 225.0
+    nda_bla:  35.0
+
+  oncology:
+    # Solid + hematology aggregate. Phase 3 driven by large OS-powered RCTs.
+    phase_1:  30.0
+    phase_2:  80.0
+    phase_3: 300.0
+    nda_bla:  45.0
+
+  oncology_solid:
+    # Solid-tumor RCTs: large OS-powered studies (NSCLC, CRC, GBM).
+    # Phase 3 reflects KEYNOTE/CheckMate scale trials.
+    phase_1:  30.0
+    phase_2:  85.0
+    phase_3: 320.0
+    nda_bla:  50.0
+
+  hematology:
+    # Cleaner endpoints (CR, MRD), smaller N → lower Phase 3 vs solid tumors.
+    phase_1:  25.0
+    phase_2:  65.0
+    phase_3: 200.0
+    nda_bla:  40.0
+
+  rare_disease:
+    # Small patient populations → very low Phase 2 cost; Phase 3 intensive
+    # monitoring per patient but modest total N.
+    phase_1:  15.0
+    phase_2:  30.0
+    phase_3: 100.0
+    nda_bla:  25.0
+
+  cns:
+    # Large N required (high placebo response); expensive imaging + biomarkers.
+    # Phase 3 Alzheimer / depression trials frequently $300-500M.
+    phase_1:  35.0
+    phase_2: 100.0
+    phase_3: 350.0
+    nda_bla:  50.0
+
+  psychiatry:
+    # Similar to CNS: large N, placebo response, rating-scale endpoints.
+    phase_1:  30.0
+    phase_2:  90.0
+    phase_3: 300.0
+    nda_bla:  45.0
+
+  cardiovascular:
+    # CVOT-era outcomes trials: very large N (8,000-20,000 patients), long follow-up.
+    # Highest Phase 3 cost across all TAs.
+    phase_1:  40.0
+    phase_2: 120.0
+    phase_3: 400.0
+    nda_bla:  60.0
+
+  immunology:
+    # RA / SLE / IBD / psoriasis: moderate N, well-characterised endpoints.
+    phase_1:  25.0
+    phase_2:  75.0
+    phase_3: 200.0
+    nda_bla:  35.0
+
+  infectious_disease:
+    # Well-characterised endpoints (viral load, clinical cure); efficient trials.
+    phase_1:  20.0
+    phase_2:  55.0
+    phase_3: 175.0
+    nda_bla:  30.0
+
+  ophthalmology:
+    # Objective endpoints (BCVA, retinal OCT); moderate N; efficient execution.
+    phase_1:  20.0
+    phase_2:  60.0
+    phase_3: 180.0
+    nda_bla:  30.0
+
+  metabolic:
+    # GLP-1-era obesity/T2D trials can be large (SURMOUNT scale).
+    # CVOT safety requirement adds significant Phase 3 cost.
+    phase_1:  30.0
+    phase_2:  90.0
+    phase_3: 300.0
+    nda_bla:  45.0
+
+  dermatology:
+    # PASI/IGA endpoints, efficient enrollment, moderate N.
+    phase_1:  20.0
+    phase_2:  60.0
+    phase_3: 180.0
+    nda_bla:  30.0
+
+  gastroenterology:
+    # Symptom PRO endpoints; IBD endoscopy scoring adds monitoring cost.
+    phase_1:  25.0
+    phase_2:  70.0
+    phase_3: 220.0
+    nda_bla:  35.0
+
+  pulmonary:
+    # COPD/IPF/PAH: moderate-large N; spirometry / 6MWT endpoints.
+    phase_1:  30.0
+    phase_2:  85.0
+    phase_3: 260.0
+    nda_bla:  40.0
+
+  renal:
+    # Long eGFR slope trials; CKD Phase 3 requires multi-year follow-up.
+    phase_1:  25.0
+    phase_2:  70.0
+    phase_3: 220.0
+    nda_bla:  35.0
+
+  other:
+    # Fallback — mirrors "all" (cross-TA average)
+    phase_1:  25.0
+    phase_2:  75.0
+    phase_3: 225.0
+    nda_bla:  35.0
 
 
 # ==============================================================================
@@ -147,24 +404,126 @@ commercial:
   cogs_rate_by_modality:
     # COGS as fraction of net revenue (not WAC)
     # Source: public company filings, Evaluate Pharma manufacturing benchmarks
+    # Updated Sprint D1 2026-Q1: biologic and advanced-modality rates revised upward
+    #   to better reflect post-2020 manufacturing cost benchmarks.
     small_molecule: 0.12
-    biologic:       0.20
-    gene_therapy:   0.30   # Viral vector manufacturing is COGS-intensive
-    cell_therapy:   0.40   # Autologous cell therapy: highest manufacturing cost
-    adc:            0.22
-    rna_therapy:    0.18
+    biologic:       0.28   # Recombinant proteins + fill-finish; updated from 0.20
+    gene_therapy:   0.45   # Viral vector COGS; updated from 0.30
+    cell_therapy:   0.60   # Autologous cell therapy: highest manufacturing cost; updated from 0.40
+    adc:            0.30   # ADC synthesis + conjugation; updated from 0.22
+    rna_therapy:    0.22   # LNP formulation + cold-chain; updated from 0.18
     other:          0.18
 
+  compliance_by_modality:
+    # Fraction of modeled treatment duration patients remain adherent.
+    # For single-administration therapies (gene/cell), compliance = 1.0 by definition.
+    # Source: published adherence studies + internal modeling practice.
+    gene_therapy:   1.00   # single administration; no ongoing adherence
+    cell_therapy:   1.00   # single administration
+    biologic_iv:    0.95   # monitored infusion; high adherence
+    biologic_sc:    0.83   # self-injection; moderate drop-off
+    small_molecule: 0.78   # oral; consistent with published adherence literature
+    adc:            0.95   # IV monitored oncology setting
+    rna_therapy:    0.85   # typically SC; moderate
+    other:          0.80   # conservative fallback
+
   sgna:
-    # SG&A as fraction of net revenue — ramps down as product matures
+    # SG&A as fraction of net revenue — ramps down as product matures.
+    # This is the legacy key preserved for backward compatibility.
+    # New code should use sgna_profiles["default"] (maps to specialty_pharma).
     rate_launch: 0.40   # Years 1-2 post-launch: KOL, payer access, patient support
     rate_mature: 0.20   # Year 5+ steady-state: reduced promotion, established access
     ramp_years:  5      # Linear ramp from launch to mature rate over this many years
 
+  sgna_profiles:
+    # Modality/TA-specific SG&A ramp profiles.
+    # Source: public company filings, Evaluate Pharma, internal BD modeling practice.
+    # All profiles represent guidance; asset configs should override when known.
+
+    specialty_pharma:        # default for oncology small molecule, immunology
+      rate_launch: 0.40
+      rate_mature: 0.20
+      ramp_years:  5
+
+    rare_disease:            # smaller patient population; more MSL/advocacy-heavy
+      rate_launch: 0.45
+      rate_mature: 0.22
+      ramp_years:  4         # faster maturation (smaller, targeted launch)
+
+    gene_cell_therapy:       # treatment center setup, patient ID programs, no repeat Rx
+      rate_launch: 0.55      # higher: one-time dosing requires intensive pre/post support
+      rate_mature: 0.28
+      ramp_years:  7         # slow maturation; program complexity high long-term
+
+    primary_care:            # broad indication, high patient volumes, competitive market
+      rate_launch: 0.50
+      rate_mature: 0.30
+      ramp_years:  6
+
+    # Legacy alias — maps to specialty_pharma for backward compat
+    default:
+      rate_launch: 0.40
+      rate_mature: 0.20
+      ramp_years:  5
+
+  commercial_model_profiles:
+    # Sprint D2: SG&A ramp profiles keyed by commercial model archetype.
+    # Keys use MarketModel field names (sgna_rate_launch, sgna_rate_mature, sgna_ramp_years)
+    # for direct mapping — distinct from sgna_profiles which use rate_launch / rate_mature.
+    #
+    # Source: public company filings, Evaluate Pharma, EvaluatePharma Commercial Insight,
+    #   internal BD modeling practice. Values are evidence-informed priors.
+    #
+    # Apply via MarketModel.commercial_model = "partnered" etc. Individual SG&A fields
+    # can override any profile value on a per-field basis.
+
+    self_commercialized_specialty:
+      # Oncology or specialty biotech building its own sales force.
+      # Mirrors specialty_pharma default.
+      sgna_rate_launch: 0.40
+      sgna_rate_mature: 0.20
+      sgna_ramp_years:  5
+
+    rare_disease_kol:
+      # Rare-disease KOL model: small targeted team, high MSL costs, low rep headcount.
+      # Launch-year SG&A is lower than specialty in absolute dollars (smaller team)
+      # but as % of revenue is still significant due to lower revenue base.
+      sgna_rate_launch: 0.25
+      sgna_rate_mature: 0.12
+      sgna_ramp_years:  4
+
+    partnered:
+      # Partner bears commercial costs; company receives milestone + royalty income.
+      # SG&A represents only co-promotion, medical affairs, and G&A overlay.
+      sgna_rate_launch: 0.12
+      sgna_rate_mature: 0.08
+      sgna_ramp_years:  3
+
+    royalty_only:
+      # Pure royalty stream — company has no commercial infrastructure.
+      # SG&A is essentially zero (a small G&A / IP maintenance allocation).
+      sgna_rate_launch: 0.02
+      sgna_rate_mature: 0.02
+      sgna_ramp_years:  1
+
+    primary_care_salesforce:
+      # Large primary-care indication requiring broad rep coverage.
+      # High absolute and % SG&A; slow maturation as market develops.
+      sgna_rate_launch: 0.55
+      sgna_rate_mature: 0.30
+      sgna_ramp_years:  7
+
+    hospital_specialty:
+      # Hospital/account-based selling model: smaller targeted sales force,
+      # but significant medical affairs and market-access investment.
+      sgna_rate_launch: 0.20
+      sgna_rate_mature: 0.12
+      sgna_ramp_years:  4
+
   defaults:
     # Fallback values used when an asset config does not specify the field.
     # Callers receive a warning when these are applied (see AssumptionsLoader).
-    discount_rate: 0.10     # = wacc.default; duplicated here for explicit CLI fallback
+    discount_rate: 0.12     # = wacc.default; duplicated here for explicit CLI fallback
     peak_penetration: 0.10  # Conservative placeholder; asset configs should always override
     cogs_rate: 0.18         # = cogs_rate_by_modality["other"]; used when modality unknown
 
@@ -175,10 +534,31 @@ commercial:
 
 wacc:
   # Source: Damodaran biotech sector; BVP Emerging Pharma dataset
-  default:    0.10   # Standard clinical-stage biotech
-  small_cap:  0.12   # < $500M market cap: higher equity risk premium
-  large_cap:  0.09   # > $5B market cap: lower risk, more diversified pipeline
-  risk_free:  0.04   # Approximate current 10-year Treasury proxy
+  # Updated 2026-Q1: risk-free rate has risen to ~4.2-4.3%; defaults raised accordingly.
+  vintage:     "2026-Q1"    # update each year when recalibrating
+  default:     0.12         # clinical-stage biotech (was 0.10 pre-Sprint-9)
+  small_cap:   0.14         # < $500M market cap: higher equity risk premium
+  large_cap:   0.10         # > $5B market cap: lower risk, more diversified pipeline
+  risk_free:   0.043        # 10Y Treasury proxy 2026-Q1
+  erp_biotech: 0.077        # biotech equity risk premium used to derive defaults above
+
+
+# ==============================================================================
+# Tax treatment
+# ==============================================================================
+#
+# US statutory corporate rate post-TCJA (2018). Clinical-stage biotechs often
+# have NOL carryforwards that defer cash taxes for years post-approval.
+# effective_rate_default models the steady-state blended effective rate once
+# NOLs are exhausted. Callers may override on Asset when non-US domicile or
+# a known NOL position requires a different rate.
+#
+# Source: US statutory rate 21%; blended effective rate ~18-22% for specialty
+# pharma (company filings, FactSet tax-rate benchmarking).
+
+tax:
+  effective_rate_default: 0.21   # US statutory post-TCJA; override per asset
+  nol_benefit_years: 0           # default = no NOL modeling (conservative)
 
 
 # ==============================================================================
@@ -188,15 +568,34 @@ wacc:
 monte_carlo:
 
   phase_ess:
-    # Beta distribution equivalent sample sizes for phase success rates
-    # Higher ESS = tighter prior = less MC spread on phase POS
-    # These are population-level priors; asset configs may override per-phase
-    phase_1: 30
-    phase_2: 25
-    phase_3: 20
-    nda_bla: 40
+    # Beta distribution equivalent sample sizes for phase success rates.
+    # Higher ESS = tighter prior = less MC spread on phase POS.
+    # Stage-differentiated: more precedent data at Phase 3/NDA → tighter prior.
+    # These are population-level priors; asset configs may override per-phase.
+    phase_1: 20    # wider distribution for early-stage uncertainty (was 30)
+    phase_2: 25    # unchanged
+    phase_3: 25    # tighter at Phase 3: more precedent data (was 20)
+    nda_bla: 45    # regulatory precedent well-established (was 40)
 
-  peak_sales_cv:     0.35   # Log-normal CV for peak sales uncertainty (±35%)
+  # Flat fallback CV used when stage-conditional entry is absent.
+  # Overridden at runtime by peak_sales_cv_by_stage (keyed on asset.stage).
+  peak_sales_cv:     0.35   # fallback; prefer stage-conditional table below
+
+  # Stage-conditional log-normal CV for peak sales.
+  # Earlier stages have genuinely wider commercial uncertainty:
+  #   Phase 1: 10x variation plausible (mechanism unproven in humans)
+  #   Phase 3: narrower; market model substantially defined by that point
+  # When asset.stage is present, run_monte_carlo() uses this table instead of
+  # the flat peak_sales_cv above.
+  peak_sales_cv_by_stage:
+    preclinical: 0.65 # widest: pre-human, extreme commercial uncertainty
+    phase_1:   0.60   # 10x variation plausible; mechanism unproven in humans
+    phase_2:   0.45   # 5x variation plausible; early efficacy signal present
+    phase_3:   0.30   # market model substantially defined by this stage
+    nda_bla:   0.20   # filing stage; commercial model well-anchored
+    approved:  0.15   # prescriber data beginning to anchor the estimate
+    default:   0.35   # fallback for unrecognised stage values
+
   discount_rate_std: 0.02   # Normal std dev on WACC in MC (±2pp)
   years_to_peak_std: 1.5    # Normal std dev on years-to-peak in MC (±1.5 years)
   patent_life_std:   1.0    # Normal std dev on patent life in MC (±1 year)
@@ -234,28 +633,36 @@ loe_erosion_profiles:
     year_1_loss: 0.40    # Year 1 post-LOE: generic entry, -40% of peak revenue
     year_2_loss: 0.65    # Year 2: further erosion
     year_3_loss: 0.80    # Year 3: deep generic competition
-    terminal_loss: 0.85  # Year 4+: branded floor (~15% of peak retained)
+    year_4_loss: 0.88    # Year 4: near-full generic substitution
+    year_5_loss: 0.92    # Year 5: minimal branded residual
+    terminal_loss: 0.95  # Year 6+: ~5% branded floor
     post_loe_sgna_fraction: 0.25  # 25% of mature branded SG&A remains post-LOE
 
   biologic:
     year_1_loss: 0.20    # Biosimilar entry is slower; branded retains ~80% year 1
     year_2_loss: 0.40
     year_3_loss: 0.60
-    terminal_loss: 0.70  # Year 4+: branded retains ~30% of peak
+    year_4_loss: 0.68    # Year 4: continued biosimilar penetration
+    year_5_loss: 0.72    # Year 5: branded retains ~28% of peak
+    terminal_loss: 0.75  # Year 6+: branded retains ~25% of peak
     post_loe_sgna_fraction: 0.30  # KOL/advocacy maintenance continues longer
 
   gene_therapy:
     year_1_loss: 0.05    # Single-administration; limited generic/biosimilar risk
     year_2_loss: 0.10
     year_3_loss: 0.15
-    terminal_loss: 0.20
+    year_4_loss: 0.18    # Very slow erosion — manufacturing complexity protects
+    year_5_loss: 0.20    # ~80% of peak retained
+    terminal_loss: 0.22
     post_loe_sgna_fraction: 0.10  # Minimal; no ongoing patient recruitment needed
 
   cell_therapy:
     year_1_loss: 0.05
     year_2_loss: 0.10
     year_3_loss: 0.15
-    terminal_loss: 0.20
+    year_4_loss: 0.18
+    year_5_loss: 0.20
+    terminal_loss: 0.22
     post_loe_sgna_fraction: 0.10
 
   adc:
@@ -263,21 +670,27 @@ loe_erosion_profiles:
     year_1_loss: 0.25
     year_2_loss: 0.50
     year_3_loss: 0.65
-    terminal_loss: 0.75
+    year_4_loss: 0.72    # Year 4
+    year_5_loss: 0.76    # Year 5
+    terminal_loss: 0.78
     post_loe_sgna_fraction: 0.25
 
   rna_therapy:
     year_1_loss: 0.15
     year_2_loss: 0.35
     year_3_loss: 0.55
-    terminal_loss: 0.65
+    year_4_loss: 0.63    # Year 4
+    year_5_loss: 0.67    # Year 5
+    terminal_loss: 0.70
     post_loe_sgna_fraction: 0.25
 
   other:
     year_1_loss: 0.40
     year_2_loss: 0.65
     year_3_loss: 0.80
-    terminal_loss: 0.85
+    year_4_loss: 0.88
+    year_5_loss: 0.92
+    terminal_loss: 0.95
     post_loe_sgna_fraction: 0.25
 
 
@@ -301,6 +714,36 @@ competition:
 
 
 # ==============================================================================
+# POS model Layer 1 caps
+# ==============================================================================
+#
+# Layer 1 (POSAdjusters) had no combined cap before Sprint 9.
+# Maximum theoretical stacked upward adjustment was +1.80 log-odds, pushing a
+# 32% oncology Phase 2 base to ~62% — implausible for any indication.
+#
+# The cap applies to the ADJUSTMENT relative to the base rate (not the absolute
+# log-odds), so the TA prior is preserved and only analyst qualitative input is
+# bounded. +0.80 log-odds at 32% Phase 2 base → ~47% adjusted POS — aggressive
+# but not impossible for a biomarker-selected Breakthrough-designated asset.
+#
+# btd_logodds: Breakthrough Therapy Designation is a PROCESS designation.
+# Primary effect is faster review, not higher binary approval probability.
+# Prior literature shows no significant PoS lift once controlling for indication
+# and target quality. Value reduced from +0.20 to +0.05 (Sprint 9).
+
+pos_model:
+  layer1_cap_logodds_positive:  0.80   # max combined upward adjustment (Sprint 9; was uncapped)
+  layer1_cap_logodds_negative: -0.80   # symmetric downward cap
+  btd_logodds: 0.05                    # was 0.20; BTD = process, not probability
+  accelerated_approval_nda_discount: 0.18
+  # Discount applied to base NDA/BLA success rate for accelerated approval programs.
+  # AA programs using single-arm surrogate endpoints have historically faced ~15-20%
+  # post-market withdrawal/conversion failure rate (FDA AA withdrawal data 2013-2023).
+  # This discount is applied at the NDA/BLA phase only, as a base-rate correction
+  # (not a log-odds adjuster). Source: Darrow JJ et al. (2021) JAMA Internal Medicine.
+
+
+# ==============================================================================
 # Trial design log-odds adjustments (Phase 1A)
 # ==============================================================================
 #
@@ -319,61 +762,48 @@ trial_design:
 
   logodds:
 
-    endpoint_basis:
-      # Direction: Hwang TJ et al. (2020) JAMA Internal Medicine — confirms surrogates
-      #   have higher post-approval failure rates (~2x). Supports direction of
-      #   hard_clinical > surrogate_validated.
-      # Magnitude: JUDGMENT CALL. +0.35 is a moderate conservative prior.
-      hard_clinical:       0.35    # OS, DFS — most accepted by FDA; Hwang 2020 direction
-      surrogate_validated: 0.00    # Reference: PFS, HbA1c, FEV1, SVR35
-      surrogate_novel:    -0.35    # Uncertain regulatory acceptance; judgment call
-      biomarker_only:     -0.80    # Rarely sufficient standalone; ICH E15 + DiMasi 2021
+    evidence_design_quality:
+      # Dimension 1: How trustworthy and bias-controlled is the evidence package?
+      # Direction: FDA Evidentiary Standards (CDER 2019); Blumenthal GM et al. (2017)
+      #   single-arm Phase 2→3 translation ≈ 40% relative reduction → ~-0.45 log-odds.
+      # Note: single-arm trials are standard at Phase 1 and appropriate in rare/refractory
+      #   oncology. Phase-conditional scaling attenuates penalties at earlier phases.
+      rct_double_blind:       0.20   # Randomized, double-blind, active/placebo-controlled
+      rct_open_label:         0.10   # Randomized controlled, open-label
+      rct_weak_comparator:   -0.05   # Randomized but weak/non-standard comparator
+      single_arm_objective:  -0.10   # Single-arm with objective endpoint (ORR, PFS)
+      single_arm_subjective: -0.30   # Single-arm with subjective endpoint (high bias risk)
+      registry_observational: -0.35  # Registry / external control / observational
 
-    evidence_design:
-      # Direction: FDA Evidentiary Standards for Drug Development, CDER 2019
-      # Single-arm magnitude: Blumenthal GM et al. (2017) The Oncologist —
-      #   single-arm Phase 2→3 translation ≈ 40% relative reduction in success
-      #   → roughly -0.40 to -0.55 log-odds at Phase 3. -0.45 is central estimate.
-      # Note: single_arm is standard at Phase 1 and common in rare/refractory
-      #   oncology Phase 2. Phase-conditional scaling below attenuates this to
-      #   near-zero at Phase 1 to avoid penalizing appropriate designs.
-      rct_comparative:     0.00    # Reference: gold standard RCT
-      rct_non_comparative: -0.15   # Minor penalty vs full RCT; judgment call
-      single_arm:          -0.45   # Phase 3 prior; attenuated at earlier phases
-      registry_based:      -0.70   # Observational; FDA RWE guidance 2021
+    comparator_fit:
+      # Dimension 2: Does the comparator match current clinical practice?
+      # A mismatched comparator limits regulatory interpretability even in an RCT.
+      matches_soc:           0.10   # Comparator matches current standard of care
+      placebo_acceptable:    0.05   # Placebo acceptable (no good SoC exists)
+      acceptable_not_ideal:  0.00   # Baseline: comparator acceptable but not ideal
+      outdated_comparator:  -0.15   # Comparator outdated or clinically weak
+      no_valid_comparator:  -0.30   # No valid comparator where one is expected
 
-    approval_pathway:
-      # WEAK MODIFIERS ONLY — pathway primarily affects time-to-approval
-      # and commercial adoption, not binary approval probability.
-      standard:                0.00   # Reference
-      accelerated_approval:    0.05   # Weak: FDA engagement signal; judgment call
-      breakthrough_designation: 0.10  # Weak: prefer POSAdjusters.has_breakthrough_designation
-      orphan_drug:             0.05   # Weak: regulatory flexibility; judgment call
+    regulatory_pathway_risk:
+      # Dimension 3: How much interpretability / confirmatory risk does the pathway add?
+      # Note: BTD is in Layer 1 (POSAdjusters.has_breakthrough_designation) only.
+      standard:                         0.00   # Standard approval path, accepted precedent
+      orphan_rare_disease:              0.10   # Orphan / rare disease regulatory flexibility
+      accelerated_validated_surrogate: -0.05   # Accelerated approval, validated surrogate
+      accelerated_novel_surrogate:     -0.20   # Accelerated approval, novel/uncertain surrogate
+      no_clear_precedent:              -0.30   # No clear regulatory precedent
 
-  cap_logodds_positive:  0.60   # Max upward combined adjustment (~+14pp at 50% base)
-  cap_logodds_negative: -0.50   # Max downward combined adjustment (~-12pp at 50% base)
+  cap_logodds_positive:  0.30   # Asymmetric: good design helps, but modestly
+  cap_logodds_negative: -0.60   # Bad design can seriously hurt interpretability
 
   phase_scaling:
-    # Phase-conditional attenuation: design effects differ materially by phase.
-    # Phase 1: single-arm + biomarker endpoints are appropriate, not risky.
-    # Phase 3: design choices directly determine FDA approval probability.
-    # All values are JUDGMENT CALLS — no literature directly calibrates these.
-    phase_1:
-      endpoint_basis:    0.15   # PK/biomarker endpoints expected at Phase 1
-      evidence_design:   0.10   # Single-arm universal at Phase 1
-      approval_pathway:  0.40
-    phase_2:
-      endpoint_basis:    0.55
-      evidence_design:   0.60
-      approval_pathway:  0.70
-    phase_3:
-      endpoint_basis:    1.00   # Full effect at Phase 3
-      evidence_design:   1.00
-      approval_pathway:  0.80
-    nda_bla:
-      endpoint_basis:    0.60   # Evidence baked in from prior phases
-      evidence_design:   0.60
-      approval_pathway:  0.50
+    # Single multiplier per phase — design evidence matters more as drug approaches approval.
+    # At Phase 1: design quality is almost irrelevant; single-arm is universal.
+    # At Phase 3: every design choice directly determines FDA approval probability.
+    phase_1: 0.20
+    phase_2: 0.50
+    phase_3: 1.00
+    nda_bla:  0.90
 
 # ==============================================================================
 # Pre-readout trial design scoring
@@ -613,3 +1043,365 @@ competitor_impact:
 
   # Floor guard on std_dev (same as catalyst_calendar)
   std_floor_multiplier: 0.50
+
+# ==============================================================================
+# Composite Scoring Weights — v2.0 signal layer
+# Wave K: ActionableGenerator extended scoring
+# ==============================================================================
+#
+# These weights control how much each additive signal layer shifts the
+# composite score.  Base composite = ranking×0.50 + thesis×0.30 + opp×0.20.
+# Signal adjustments are additive and logged per-opportunity for attribution.
+#
+# catalyst_ev:
+#   Multiplied by CatalystEvent.signal_strength (clipped to ±1).
+#   High positive signal_strength (EV >> std) lifts the composite.
+#   Default 0.15 → max lift/drag of ±0.15 from a ±1 clipped signal.
+#
+# enrollment:
+#   Multiplied by flag penalty totals:
+#     site_stalling OR velocity_low  → −0.05 each
+#     slippage_alert                 → −0.10
+#   Default 1.00 → penalties applied at face value.
+#
+# phase_correlation:
+#   Multiplied by (posterior_pos − prior_pos) delta from PhaseCorrelationUpdater.
+#   Delta is bounded ±0.25 by the updater.
+#   Default 0.25 → max ±0.0625 contribution.
+#
+# endpoint_z:
+#   Multiplied by EndpointEvaluation.z_score (clipped to ±2).
+#   EXCELLENT readout (z ≈ 2) adds +0.10; BELOW_SOC (z ≈ −2) removes −0.10.
+#   Default 0.05 → max ±0.10 contribution.
+#
+# competitor_impact:
+#   Mean competitor signal_strength (clipped to ±1), negated.
+#   High competitor signal_strength → drag on our composite.
+#   Default 0.05 → max ±0.05 contribution.
+#
+# capital_risk:
+#   Multiplied by risk discount per level:
+#     LOW = 0.00, MEDIUM = −0.03, HIGH = −0.08, CRITICAL = −0.15
+#   Default 1.00 → discounts applied at face value.
+
+scoring_weights:
+  catalyst_ev:        0.15
+  enrollment:         1.00
+  phase_correlation:  0.25
+  endpoint_z:         0.05
+  competitor_impact:  0.05
+  capital_risk:       1.00
+
+# LLM extraction confidence thresholds (Task 9.17 — Sprint 9 Phase 4)
+# IMPORTANT: These thresholds are PROVISIONAL and uncalibrated.
+# Calibration requires ≥ 200 labeled signal outcomes (forecast_records with
+# resolved=1). Until that threshold is reached, confidence_calibration_status
+# in CalibrationReport will read "uncalibrated" as an explicit audit flag.
+# Do NOT tune these values without running Platt scaling or isotonic regression
+# on predicted_confidence vs outcome_correct.
+llm_extraction:
+  discard_threshold:  0.30   # signals below this are discarded entirely
+  review_threshold:   0.50   # 0.30–0.50: routed to ReviewQueue for human review
+  auto_threshold:     0.50   # ≥ 0.50: auto-processed (sampled for QA)
+  calibration_status: "uncalibrated"
+  calibration_required_n: 200
+
+# Block 33 — Indication-Subtype Base Rates
+# 8 high-impact subtypes where published phase transition data materially differs
+# from the broad TA base rate. Each entry REQUIRES source metadata to prevent
+# phantom precision. Use ta_fallback when indication_subtype is not set.
+# EVIDENCE-INFORMED PRIORS — do not override without updated published data.
+indication_subtype_rates:
+  gbm:
+    phase_1: 0.440
+    phase_2: 0.120
+    phase_3: 0.280
+    nda_bla: 0.880
+    source: "Vivien et al. 2022 Neuro-Oncology; Citeline 2023"
+    n_programs: 87
+    date_range: "2010-2022"
+    confidence: "medium"
+    ta_fallback: "oncology_solid"
+
+  alzheimers:
+    phase_1: 0.470
+    phase_2: 0.180
+    phase_3: 0.420
+    nda_bla: 0.840
+    source: "Cummings et al. 2019 Alzheimers Dementia; Citeline 2023"
+    n_programs: 65
+    date_range: "2010-2021"
+    confidence: "medium"
+    ta_fallback: "cns"
+
+  ultra_rare_monogenic:
+    phase_1: 0.710
+    phase_2: 0.580
+    phase_3: 0.700
+    nda_bla: 0.960
+    source: "Evaluate Pharma Orphan Drug 2022; FDA rare peds review"
+    n_programs: 38
+    date_range: "2012-2022"
+    confidence: "medium"
+    ta_fallback: "rare_disease"
+
+  nsclc_targeted:
+    phase_1: 0.510
+    phase_2: 0.280
+    phase_3: 0.510
+    nda_bla: 0.930
+    source: "Thomas 2016; IQVIA IO/targeted oncology subset 2021"
+    n_programs: 52
+    date_range: "2012-2021"
+    confidence: "medium"
+    ta_fallback: "oncology_solid"
+
+  nsclc_io_refractory:
+    phase_1: 0.480
+    phase_2: 0.190
+    phase_3: 0.390
+    nda_bla: 0.900
+    source: "Vaddepally et al. 2020; Citeline checkpoint subset 2022"
+    n_programs: 44
+    date_range: "2014-2022"
+    confidence: "low"
+    ta_fallback: "oncology_solid"
+
+  cll_btk_era:
+    phase_1: 0.520
+    phase_2: 0.380
+    phase_3: 0.630
+    nda_bla: 0.920
+    source: "Biomedtracker hematology subset; BTK approvals 2014-2022"
+    n_programs: 28
+    date_range: "2014-2022"
+    confidence: "low"
+    ta_fallback: "hematology"
+
+  psychiatry_mdd:
+    phase_1: 0.510
+    phase_2: 0.220
+    phase_3: 0.530
+    nda_bla: 0.910
+    source: "Khan 2012 JAMA; Citeline psychiatric subset 2022"
+    n_programs: 74
+    date_range: "2005-2021"
+    confidence: "medium"
+    ta_fallback: "psychiatry"
+
+  pain_chronic:
+    phase_1: 0.450
+    phase_2: 0.200
+    phase_3: 0.450
+    nda_bla: 0.860
+    source: "Moore et al. 2015 BMJ; Citeline pain subset"
+    n_programs: 61
+    date_range: "2005-2021"
+    confidence: "low"
+    ta_fallback: "cns"
+
+# ---------------------------------------------------------------------------
+# Block 37A — Stage-specific M&A transaction type priors
+#
+# For each development stage, the fraction of strategic transactions that close
+# as full acquisitions vs licensing/partnership deals.
+# Source: EY Firepower / BioCentury deal database analysis 2018-2023;
+#         McKinsey biotech BD report 2022; Citeline Pharma Intelligence.
+# Note: acquisition + license_or_partnership < 1.0 intentionally.
+#       Remainder (~5-15%) = asset swaps, JVs, co-promotion, option structures.
+# These are PRIOR ESTIMATES; no formal calibration to held-out data.
+# ---------------------------------------------------------------------------
+transaction_mix_by_stage:
+  preclinical:
+    acquisition: 0.15
+    license_or_partnership: 0.75
+    source: "EY Firepower 2022; BioCentury early-stage deal analysis"
+    notes: "Partners prefer options / licenses at preclinical — full buyout rare"
+
+  phase_1:
+    acquisition: 0.25
+    license_or_partnership: 0.65
+    source: "EY Firepower 2022; BioCentury deal analysis 2018-2023"
+    notes: "Some acquisitions but licensing dominant at Phase 1"
+
+  phase_2:
+    acquisition: 0.40
+    license_or_partnership: 0.55
+    source: "EY Firepower 2022; McKinsey Biotech BD Report 2022"
+    notes: "Mixed: Phase 2 data unlocks acquisition, but licensing still common"
+
+  phase_3:
+    acquisition: 0.65
+    license_or_partnership: 0.30
+    source: "EY Firepower 2022; Citeline Ph3 deal analysis 2015-2023"
+    notes: "Phase 3 data clarity shifts balance strongly toward acquisition"
+
+  nda_bla:
+    acquisition: 0.75
+    license_or_partnership: 0.20
+    source: "EY Firepower 2022; regulatory filing deal flow analysis"
+    notes: "NDA/BLA filing triggers acquisition wave; rare licensing at this stage"
+
+  approved:
+    acquisition: 0.80
+    license_or_partnership: 0.15
+    source: "EY Firepower 2022; post-approval M&A analysis"
+    notes: "Approved assets almost always acquired; co-promotion occasionally"
+
+  fallback:
+    acquisition: 0.60
+    license_or_partnership: 0.35
+    source: "EY Firepower 2022 blended industry average"
+    notes: "Flat prior when stage unknown; mirrors Block 20 flat defaults"
+
+
+# ==============================================================================
+# Modality-specific phase success rates (Block 35)
+# ==============================================================================
+#
+# Evidence-informed priors for advanced modalities with distinct clinical attrition
+# profiles compared to broad TA averages. These rates override the TA-level base
+# rate when gene_therapy_modality is set on POSAdjusters.
+#
+# IMPORTANT: These are PRIOR ESTIMATES, not empirically backtested values.
+# Modality-specific clinical sample sizes are small (N=10-40 per phase), and
+# approval patterns are recent (most post-2017). Confidence is low-to-medium;
+# treat as directional priors pending future backtesting.
+#
+# Hierarchy: indication_subtype > modality > TA
+#   If both modality and indication_subtype are set, subtype wins and flag
+#   "modality_base_rate_overridden_by_subtype" is emitted.
+#
+# Sources:
+#   - FDA CDER Advanced Technologies (ATMP) approval data 2012-2023
+#   - Alliance for Regenerative Medicine (ARM) Pipeline Report 2022
+#   - BioMedTracker specialty modality analysis 2022
+#   - Citeline ATMP clinical development tracker 2023
+#   - Wilson JM (2020) Hum Gene Ther — AAV clinical trial outcomes
+#   - Naldini L (2019) Nat Rev Genet — lentiviral gene therapy status
+#   - June CH et al. (2018) Science — CAR-T clinical development
+#   - Yin H et al. (2017) Nat Rev Genet — nucleic acid therapeutics
+
+modality_phase_rates:
+
+  gene_therapy_aav:
+    # AAV in vivo gene therapy: good Phase 1 safety/tolerability, but Phase 2
+    # immunogenicity and durability failures drive ~38% phase 2 success.
+    # Phase 3 remains hard: manufacturing, patient selection, long-term follow-up.
+    phase_1: 0.55
+    phase_2: 0.38
+    phase_3: 0.50
+    nda_bla: 0.82
+    source: "Wilson JM 2020 Hum Gene Ther; FDA CDER ATMP 2012-2023; ARM Pipeline 2022"
+    n_programs: 28
+    date_range: "2012-2023"
+    confidence: "low"
+    status: "prior_estimate_not_backtested"
+    notes: >
+      AAV-in-vivo programs: immunogenicity at Phase 2 is the key attrition driver.
+      Phase 3 failures mainly from manufacturing consistency and long-term durability
+      claims. n_programs is indicative; sample small. Phase 3 rate reflects limited data.
+
+  gene_therapy_lentiviral:
+    # Lentiviral ex-vivo gene therapy: broader Phase 1 safety profile than AAV
+    # (patient cell selection limits systemic exposure) but complex manufacturing
+    # limits scalability and introduces Phase 2→3 attrition.
+    phase_1: 0.52
+    phase_2: 0.35
+    phase_3: 0.48
+    nda_bla: 0.79
+    source: "Naldini L 2019 Nat Rev Genet; FDA CDER ATMP 2012-2023; ARM Pipeline 2022"
+    n_programs: 18
+    date_range: "2013-2023"
+    confidence: "low"
+    status: "prior_estimate_not_backtested"
+    notes: >
+      Lentiviral ex-vivo: genotoxicity / insertional mutagenesis concerns reduce
+      phase_2 rate vs AAV. Small N; prior is uncertain.
+
+  car_t_autologous:
+    # Autologous CAR-T: highest Phase 1 success (active in refractory heme malignancies),
+    # Phase 2 attrition from CRS/neurotox management; strong NDA/BLA success once Phase 3 met.
+    phase_1: 0.60
+    phase_2: 0.45
+    phase_3: 0.62
+    nda_bla: 0.88
+    source: "June CH 2018 Science; FDA CDER 2022; Citeline ATMP 2023; ARM 2022"
+    n_programs: 35
+    date_range: "2014-2023"
+    confidence: "low_medium"
+    status: "prior_estimate_not_backtested"
+    notes: >
+      CAR-T autologous: favorable efficacy in heavily pretreated heme malignancies drives
+      higher Phase 1 and Phase 2 rates vs TA average. Phase 3 attrition mainly from SoC
+      change and reimbursement requirements. NDA/BLA success high once Phase 3 data in hand.
+
+  car_t_allogeneic:
+    # Allogeneic (off-the-shelf) CAR-T: earlier stage; higher Phase 1 attrition from
+    # graft-vs-host disease and rejection concerns; Phase 2 remains exploratory.
+    phase_1: 0.44
+    phase_2: 0.30
+    phase_3: 0.45
+    nda_bla: 0.75
+    source: "ARM Pipeline 2022; Citeline ATMP 2023; FDA CDER advanced therapies briefing 2022"
+    n_programs: 15
+    date_range: "2018-2023"
+    confidence: "low"
+    status: "prior_estimate_not_backtested"
+    notes: >
+      Allogeneic CAR-T: nascent clinical field; very few Phase 3 completions as of 2023.
+      Rates reflect early Phase 1/2 observations + expert prior. High uncertainty.
+
+  lnp_mrna:
+    # LNP-formulated mRNA therapeutics: strong preclinical-to-Phase 1 translation
+    # supported by COVID vaccine data; Phase 2 POS varies widely by indication.
+    phase_1: 0.58
+    phase_2: 0.42
+    phase_3: 0.60
+    nda_bla: 0.85
+    source: "Yin H 2017 Nat Rev Genet; FDA CDER 2022-2023; EMA ATMP data; BioMedTracker 2022"
+    n_programs: 22
+    date_range: "2016-2023"
+    confidence: "low_medium"
+    status: "prior_estimate_not_backtested"
+    notes: >
+      mRNA/LNP: rapidly growing modality with heterogeneous indication distribution.
+      Rates informed by infectious disease (COVID, RSV) + rare disease programs.
+      Non-vaccine indications may have lower POS than the rates above suggest.
+
+  aso_rnai:
+    # ASO and RNAi (siRNA/shRNA/miRNA) oligonucleotide therapies: well-established modality
+    # with multiple approved drugs (Spinraza, Onpattro, Inclisiran). Higher base rates
+    # reflect a maturing, validated platform.
+    phase_1: 0.57
+    phase_2: 0.40
+    phase_3: 0.58
+    nda_bla: 0.87
+    source: "FDA CDER approved oligonucleotide therapeutics 2023; BioMedTracker 2022; Citeline 2023"
+    n_programs: 40
+    date_range: "2010-2023"
+    confidence: "medium"
+    status: "prior_estimate_not_backtested"
+    notes: >
+      ASO/RNAi: most validated of the advanced modalities with >5 approved drugs.
+      Higher confidence than gene/cell therapy categories. Rates are more stable.
+      Includes both gapmers and siRNA/conjugated platforms.
+
+  biologic_antibody:
+    # Monoclonal antibodies and antibody-derived biologics (bispecifics, ADC backbones).
+    # Serves as the reference modality — rates approximately equal to TA-level averages
+    # across oncology/immunology, reflecting the large, well-characterized data pool.
+    phase_1: 0.62
+    phase_2: 0.38
+    phase_3: 0.61
+    nda_bla: 0.88
+    source: "Biomedtracker/IQVIA 2021; Citeline Pharmaprojects 2023; DiMasi et al. 2016"
+    n_programs: 180
+    date_range: "2005-2023"
+    confidence: "medium_high"
+    status: "prior_estimate_not_backtested"
+    notes: >
+      Antibody/biologic: largest dataset; rates closely mirror IQVIA cross-TA averages.
+      Acts as the reference modality to validate the model against known benchmarks.
+      Note: this is gene_therapy_modality-agnostic — biologic_antibody is accessible
+      via the YAML but not currently mapped to a GeneTherapyModality enum value.

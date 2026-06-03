@@ -18,6 +18,14 @@ This module models competition explicitly:
   3. Pipeline uncertainty: unapproved competitors are probability-weighted by their
      approval probability.
 
+  4. Competition-driven price pressure (Sprint C2): active approved competitors
+     increase the annual net price erosion rate.  This is ORTHOGONAL to the volume
+     effect (our_available_market_fraction) — they model separate mechanisms:
+       - Volume effect: fewer patients available to us (market-fraction logic).
+       - Price effect: lower net price per patient due to payer negotiation leverage
+         as they can threaten to prefer a competitor.
+     The two adjustments are applied independently; there is NO double-counting.
+
 Model mechanics
 ---------------
 At each year from our launch:
@@ -30,6 +38,25 @@ At each year from our launch:
 
 The 0.10 floor reflects the reality that some patients switch to any new drug with
 better efficacy, tolerability, or convenience — even in saturated markets.
+
+Competition-driven price pressure (Sprint C2)
+---------------------------------------------
+  effective_annual_erosion_rate(year) =
+      base_annual_price_erosion_rate
+      + active_approved_competitor_count(year) × price_pressure_factor_per_competitor
+
+  price_pressure_multiplier(year) =
+      ∏_{y=1}^{year−1} max(0, 1 − effective_annual_erosion_rate(y))
+
+  Price at year t = launch_price × price_pressure_multiplier(t)
+
+Active-competitor counting uses the same _n_active_approved_competitors() method
+as CrowdingModel — only status="approved" competitors with positive market share
+in that year count.  Pipeline competitors are excluded in the base case; in Monte
+Carlo simulations they are included only if sampled as approved via
+sample_launch_outcomes(), where they still retain status="phase_3" etc. so they
+also do NOT count toward price pressure.  This is intentional: the conservative
+design ensures price pressure is driven only by actually-approved drugs on market.
 
 YAML config example (RLY-2608 in PIK3CA+ mBC):
 -----------------------------------------------
@@ -246,14 +273,17 @@ class CompetitionModel(BaseModel):
         per-competitor. Future enhancement; currently falls back to "steal".
 
     Invariants (enforced in tests, not runtime):
-      - our_available_market_fraction(year) ∈ [0.10, 1.0] for all years
+      - our_available_market_fraction(year) ∈ [floor_residual_share, 1.0] for all years
+        (default floor is 0.0 — callers must set floor_residual_share explicitly if a
+        non-zero floor is desired; 0.10 was the legacy hardcoded value)
       - combined_competitor_share(year) ≥ 0 for all years (market expansion
         is represented as negative competitor share, clamped to 0 in combined)
 
     Note: combined_competitor_share + our_available_market_fraction can sum to
-    more than 1.0 in crowded markets because our available fraction has a floor
-    of 0.10. This is intentional: even in saturated markets, some patients switch
-    to any meaningfully differentiated new entrant.
+    more than 1.0 in crowded markets when floor_residual_share > 0. This is
+    intentional: even in saturated markets, some patients switch to any meaningfully
+    differentiated new entrant. Set floor_residual_share=0.0 (default) to disable
+    this behavior and allow full crowding out.
     """
     competitors: list[CompetitorLaunch] = []
     competition_mode: str = Field(
@@ -268,6 +298,49 @@ class CompetitionModel(BaseModel):
     crowding_model: CrowdingModel = Field(default_factory=CrowdingModel)
     first_mover_config: FirstMoverConfig = Field(default_factory=FirstMoverConfig)
     saturation_profile: ClassSaturationProfile = Field(default_factory=ClassSaturationProfile)
+    floor_residual_share: float = Field(
+        default=0.0,
+        ge=0.0,
+        lt=1.0,
+        description=(
+            "Minimum fraction of the market always available to us regardless of competitor share. "
+            "Set to 0.10 to replicate legacy behavior (10%% floor for differentiated new entrants). "
+            "Default 0.0 allows full crowding out — callers opt in to a floor explicitly."
+        ),
+    )
+
+    # --- Competition-driven price pressure (Sprint C2) ---
+    base_annual_price_erosion_rate: float = Field(
+        default=0.0,
+        ge=0.0,
+        le=0.50,
+        description=(
+            "Base annual net price erosion rate applied regardless of competitor count. "
+            "Acts as the intercept in the price-pressure formula: "
+            "effective_rate(year) = base_rate + N_active × price_pressure_factor. "
+            "Default 0.0 — no baseline erosion. Typical specialty pharma baseline: "
+            "0.01–0.03 (1–3%% per year in mature classes with some payer renegotiation). "
+            "Combined with price_pressure_factor_per_competitor this drives the total "
+            "year-specific erosion rate applied multiplicatively to the base price."
+        ),
+    )
+    price_pressure_factor_per_competitor: float = Field(
+        default=0.0,
+        ge=0.0,
+        le=0.30,
+        description=(
+            "Incremental annual price erosion per active approved competitor on market (Sprint C2). "
+            "Drives the competition-sensitive component of the price erosion formula: "
+            "effective_rate(year) = base_annual_price_erosion_rate + N_active(year) × factor. "
+            "Default 0.0 — no competition-driven price pressure (backward-compatible). "
+            "Typical empirical values: 0.01–0.03 per competitor (specialty small molecule / "
+            "biologic with biosimilar or generic threat). For gene therapy / orphan drugs "
+            "with no generic path, leave at 0.0. "
+            "ORTHOGONAL to our_available_market_fraction: volume and price effects are "
+            "independent mechanisms. Do NOT double-count by also reducing market fraction "
+            "for price erosion reasons."
+        ),
+    )
 
     def _first_mover_launch_year(self) -> Optional[float]:
         """Earliest launch_year_relative among approved competitors, or None."""
@@ -351,12 +424,69 @@ class CompetitionModel(BaseModel):
             if c.status == "approved" and self._single_competitor_share(c, year) > 0
         )
 
+    def effective_annual_erosion_rate(self, year: int) -> float:
+        """
+        Total annual net price erosion rate driven by competition in ``year``.
+
+        Formula (Sprint C2):
+            base_annual_price_erosion_rate
+            + _n_active_approved_competitors(year) × price_pressure_factor_per_competitor
+
+        Active-competitor counting:
+            Reuses _n_active_approved_competitors() — only status="approved" competitors
+            with positive market share in year N count.  Pipeline competitors are excluded
+            in the base case (consistent with CrowdingModel's counting convention).
+            In Monte Carlo simulations pipeline drugs that are sampled as approved retain
+            their original status="phase_3" string so they also do not count — see
+            sample_launch_outcomes() docstring.
+
+        Returns 0.0 when both fields are at their defaults (no price pressure configured).
+        Capped at 1.0 to prevent degenerate (negative price) outcomes.
+        """
+        if self.base_annual_price_erosion_rate == 0.0 and self.price_pressure_factor_per_competitor == 0.0:
+            return 0.0
+        n_active = self._n_active_approved_competitors(year)
+        rate = self.base_annual_price_erosion_rate + n_active * self.price_pressure_factor_per_competitor
+        return min(rate, 1.0)
+
+    def price_pressure_multiplier(self, year: int) -> float:
+        """
+        Cumulative net price multiplier at post-launch year ``year``.
+
+        Matches the convention of PricingModel.price_in_year():
+          year=1 → multiplier=1.0  (launch-year price; no erosion yet)
+          year=2 → 1 − effective_rate(year=1)
+          year=t → ∏_{y=1}^{t−1} max(0, 1 − effective_annual_erosion_rate(y))
+
+        The year-by-year erosion rate is re-computed at each step because the
+        number of active approved competitors changes as new drugs launch or
+        ramp up their market share over time.
+
+        Returns 1.0 (no effect) when both price pressure fields are at their
+        defaults — a fast path avoids the loop entirely.
+
+        Example (2 pre-existing approved competitors, factor=0.02/competitor):
+          effective_rate(year=1) = 0.0 + 2 × 0.02 = 0.04
+          effective_rate(year=2) = 0.04   (same competitors still active)
+          price_pressure_multiplier(1) = 1.0
+          price_pressure_multiplier(2) = 1 − 0.04 = 0.96
+          price_pressure_multiplier(3) = 0.96 × (1 − 0.04) = 0.9216
+        """
+        if self.base_annual_price_erosion_rate == 0.0 and self.price_pressure_factor_per_competitor == 0.0:
+            return 1.0  # fast path: no price pressure configured
+        multiplier = 1.0
+        for y in range(1, year):
+            rate = self.effective_annual_erosion_rate(y)
+            multiplier *= max(0.0, 1.0 - rate)
+        return multiplier
+
     def our_available_market_fraction(self, year: int) -> float:
         """
         Fraction of total addressable market available to us after competitor dynamics.
 
-        Without saturation: floor of 0.10 (even in crowded markets, differentiated
-        drugs retain some patients).
+        Without saturation: applies ``floor_residual_share`` (default 0.0).
+        Set ``floor_residual_share=0.10`` to replicate legacy behavior where even
+        in crowded markets a differentiated new entrant retains at least 10%.
 
         With saturation_profile.enabled=True: headroom is capped at
         (saturation_ceiling - combined_competitor_share). The floor itself is also
@@ -372,15 +502,15 @@ class CompetitionModel(BaseModel):
         reflects actual market impact.
         """
         combined = self.combined_competitor_share(year)
+        floor = self.floor_residual_share
 
         if self.saturation_profile.enabled:
             ceiling = self.saturation_profile.saturation_ceiling
             headroom = max(0.0, ceiling - combined)
             expansion = self.saturation_profile.market_expansion_factor
-            floor = min(0.10, headroom)
+            floor = min(floor, headroom)
             available = max(floor, min(headroom * expansion, 1.0 - combined))
         else:
-            floor = 0.10
             available = max(floor, 1.0 - combined)
 
         if self.crowding_model.enabled:
@@ -421,7 +551,12 @@ class CompetitionModel(BaseModel):
         """Competitive share at year 1 (our launch year). Key for initial penetration ceiling."""
         return self.combined_competitor_share(1)
 
-    def sample_launch_outcomes(self, rng: "Any") -> "CompetitionModel":
+    def sample_launch_outcomes(
+        self,
+        rng: "Any",
+        *,
+        launch_timing_std_years: float = 0.0,
+    ) -> "CompetitionModel":
         """
         Return a new CompetitionModel for one Monte Carlo simulation.
 
@@ -434,25 +569,25 @@ class CompetitionModel(BaseModel):
         set to 1.0 so that _single_competitor_share() does not apply a
         second fractional scaling (avoiding double-counting).
 
+        When competitor succeeds (Bernoulli = 1):
+          - approval_probability set to 1.0 (no double-scaling in share calc)
+          - launch_year_relative optionally jittered by Normal(0, launch_timing_std_years),
+            clipped to ≥ 0, modelling regulatory timing uncertainty
+          - market-share ramp and available-market reduction are applied automatically
+            by _single_competitor_share() using the (possibly jittered) launch year
+          - price pressure accumulates via price_pressure_factor_per_competitor
+
+        When competitor fails (Bernoulli = 0):
+          - excluded from sampled model → no market-share effect, no price pressure
+
         Parameters
         ----------
         rng : numpy.random.Generator
-            The simulation's random number generator. Must support .random()
-            returning a uniform [0, 1) float.
-
-        Returns
-        -------
-        CompetitionModel
-            New model containing only the competitors present in this draw.
-            Time-aware launch dynamics (launch_year_relative, years_to_peak)
-            are preserved from the original CompetitorLaunch objects.
-
-        Example
-        -------
-            rng = np.random.default_rng(42)
-            sampled = competition_model.sample_launch_outcomes(rng)
-            # approved competitors: always in sampled.competitors
-            # pipeline (P=0.6): each has 60% chance of being in sampled.competitors
+            The simulation's random number generator.
+        launch_timing_std_years : float
+            Std deviation (years) for launch timing jitter applied to successfully
+            sampled pipeline competitors. Default 0.0 = no jitter (backward-compatible).
+            Approved competitors are never jittered.
         """
         sampled: list[CompetitorLaunch] = []
         for comp in self.competitors:
@@ -460,12 +595,21 @@ class CompetitionModel(BaseModel):
                 sampled.append(comp)
             else:
                 if rng.random() < comp.approval_probability:
-                    sampled.append(comp.model_copy(update={"approval_probability": 1.0}))
+                    updates: dict = {"approval_probability": 1.0}
+                    if launch_timing_std_years > 0.0:
+                        jitter = float(rng.standard_normal()) * launch_timing_std_years
+                        new_yr = max(0.0, comp.launch_year_relative + jitter)
+                        updates["launch_year_relative"] = new_yr
+                    sampled.append(comp.model_copy(update=updates))
         return CompetitionModel(
             competitors=sampled,
+            competition_mode=self.competition_mode,
             crowding_model=self.crowding_model,
             first_mover_config=self.first_mover_config,
             saturation_profile=self.saturation_profile,
+            floor_residual_share=self.floor_residual_share,
+            base_annual_price_erosion_rate=self.base_annual_price_erosion_rate,
+            price_pressure_factor_per_competitor=self.price_pressure_factor_per_competitor,
         )
 
     def summary(self) -> str:

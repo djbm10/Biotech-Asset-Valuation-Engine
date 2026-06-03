@@ -14,14 +14,25 @@ class DevelopmentStage(str, Enum):
 
 
 class TherapeuticArea(str, Enum):
-    ONCOLOGY = "oncology"
+    # ── Legacy / broad-category TAs (backward-compatible) ──────────────────
+    ONCOLOGY = "oncology"                   # solid tumor default; use ONCOLOGY_SOLID for precision
     RARE_DISEASE = "rare_disease"
-    CNS = "cns"
+    CNS = "cns"                             # neurology; use PSYCHIATRY for pure psychiatric
     CARDIOVASCULAR = "cardiovascular"
-    IMMUNOLOGY = "immunology"
+    IMMUNOLOGY = "immunology"               # broad autoimmune; use sub-TAs for precision
     INFECTIOUS_DISEASE = "infectious_disease"
     OPHTHALMOLOGY = "ophthalmology"
     OTHER = "other"
+
+    # ── Granular TAs (added 2026-Q2) ───────────────────────────────────────
+    ONCOLOGY_SOLID = "oncology_solid"       # solid tumor oncology (subset of ONCOLOGY)
+    HEMATOLOGY = "hematology"               # hematology/oncology (blood cancers)
+    PSYCHIATRY = "psychiatry"               # psychiatric disorders (split from CNS)
+    METABOLIC = "metabolic"                 # metabolic/endocrine (diabetes, obesity, lipids)
+    DERMATOLOGY = "dermatology"             # dermatology (psoriasis, atopic derm, etc.)
+    GASTROENTEROLOGY = "gastroenterology"   # GI/gastroenterology (non-IBD); IBD → IMMUNOLOGY
+    PULMONARY = "pulmonary"                 # pulmonary/respiratory (COPD, asthma, IPF)
+    RENAL = "renal"                         # renal (CKD, IgA nephropathy, glomerulonephritis)
 
 
 class Modality(str, Enum):
@@ -32,6 +43,12 @@ class Modality(str, Enum):
     ADC = "adc"
     RNA_THERAPY = "rna_therapy"
     OTHER = "other"
+
+
+class ApprovalPathwayType(str, Enum):
+    STANDARD = "standard"
+    ACCELERATED = "accelerated"      # AA under Subpart H; surrogate endpoint; confirmatory required
+    PRIORITY_REVIEW = "priority_review"  # process only; no probability change
 
 
 class Catalyst(BaseModel):
@@ -51,14 +68,56 @@ class Asset(BaseModel):
     modality: Modality = Modality.SMALL_MOLECULE
     mechanism_of_action: Optional[str] = None
 
+    # Biological target + canonical normalization fields
+    # biological_target: the molecular target (e.g. "PD-1", "VEGF").
+    #   Distinct from mechanism_of_action; populated when known.
+    biological_target: Optional[str] = None
+    # canonical_* are populated by IndicationNormalizer / TargetNormalizer /
+    # MOANormalizer on ingest or by SimilarityScorer on first use.
+    canonical_indication: Optional[str] = None  # e.g. "IND_ulcerative_colitis"
+    canonical_target: Optional[str] = None       # e.g. "TGT_pd1"
+    canonical_moa: Optional[str] = None          # e.g. "MOA_pd1_checkpoint_inhibitor"
+
     # Development timeline
     launch_year: Optional[int] = None
     patent_expiry_year: Optional[int] = None
 
     # Economics
     discount_rate: float = Field(
-        default=0.10, gt=0.0, lt=1.0,
+        default=0.12, gt=0.0, lt=1.0,
         description="WACC used to discount cash flows"
+    )
+    effective_tax_rate: float = Field(
+        default=0.21, ge=0.0, le=0.50,
+        description=(
+            "Effective corporate tax rate applied to EBIT to derive UFCF. "
+            "Default 21% (US statutory post-TCJA). Override for non-US domicile "
+            "or assets with known NOL carryforward positions."
+        )
+    )
+    nol_benefit_years: int = Field(
+        default=0, ge=0,
+        description=(
+            "Years from first commercial revenue where NOL carryforwards defer "
+            "cash taxes. During this window effective_tax_rate is treated as 0.0. "
+            "Set to 0 to disable NOL modeling."
+        )
+    )
+    approval_pathway: ApprovalPathwayType = Field(
+        default=ApprovalPathwayType.STANDARD,
+        description=(
+            "Regulatory approval pathway. ACCELERATED applies a confirmatory trial "
+            "risk discount to the NDA/BLA success rate (~18% reduction, reflecting "
+            "post-market withdrawal/conversion failure rates for surrogate-based AA)."
+        )
+    )
+    post_approval_rd_millions: float = Field(
+        default=0.0, ge=0.0,
+        description=(
+            "Expected post-approval R&D obligations in USD millions (nominal, undiscounted). "
+            "Includes: Phase 4 commitments, REMS program, pharmacovigilance, label "
+            "expansion studies. Discounted at years_to_approval in CostModel."
+        )
     )
     royalty_rate: float = Field(
         default=0.0, ge=0.0, le=1.0,

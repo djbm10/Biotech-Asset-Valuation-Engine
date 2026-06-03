@@ -136,7 +136,7 @@ class AssetClusterer:
 
     def cluster(
         self,
-        store: "KnowledgeStore",  # type: ignore[name-defined]
+        store: "KnowledgeStore",  # type: ignore[name-defined]  # noqa: F821
         asset_ids: list[str],
         *,
         asset_stats: Optional[dict[str, dict]] = None,
@@ -247,7 +247,7 @@ class AssetClusterer:
 
     def _cluster_label(
         self,
-        store: "KnowledgeStore",  # type: ignore[name-defined]
+        store: "KnowledgeStore",  # type: ignore[name-defined]  # noqa: F821
         asset_ids: list[str],
         asset_to_node: dict[str, Optional[str]],
     ) -> str:
@@ -354,7 +354,7 @@ class PortfolioRankingEngine:
 
     def rank(
         self,
-        store: "KnowledgeStore",  # type: ignore[name-defined]
+        store: "KnowledgeStore",  # type: ignore[name-defined]  # noqa: F821
         *,
         asset_ids: Optional[list[str]] = None,
     ) -> PortfolioRankingResult:
@@ -521,7 +521,7 @@ class PortfolioRankingEngine:
 
     @staticmethod
     def _company_for_asset(
-        store: "KnowledgeStore",  # type: ignore[name-defined]
+        store: "KnowledgeStore",  # type: ignore[name-defined]  # noqa: F821
         asset_id: str,
     ) -> Optional[str]:
         row = store._conn.execute(
@@ -538,7 +538,7 @@ class PortfolioRankingEngine:
 
     @staticmethod
     def _indication_key_for_asset(
-        store: "KnowledgeStore",  # type: ignore[name-defined]
+        store: "KnowledgeStore",  # type: ignore[name-defined]  # noqa: F821
         asset_id: str,
     ) -> str:
         row = store._conn.execute(

@@ -43,7 +43,7 @@ For overriding in tests (alternate YAML file):
 from __future__ import annotations
 
 import warnings
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 from types import MappingProxyType
 from typing import Any, Optional
@@ -57,6 +57,7 @@ _REQUIRED_SECTIONS = {
     "phase_success_rates",
     "phase_durations_years",
     "phase_costs_millions",
+    "phase_cost_defaults",
     "commercial",
     "wacc",
     "monte_carlo",
@@ -105,7 +106,10 @@ class AssumptionsLoader:
             raw: dict = yaml.safe_load(f)
         self._data: MappingProxyType = _freeze(raw)
         self._path = path
-        self._loaded_at = datetime.utcnow().isoformat(timespec="seconds") + "Z"
+        self._loaded_at = datetime.now(timezone.utc).isoformat(timespec="seconds").replace(
+            "+00:00",
+            "Z",
+        )
         self._validate()
 
     # ------------------------------------------------------------------
@@ -214,13 +218,12 @@ class AssumptionsLoader:
         if cap_neg is not None and cap_neg >= 0:
             errors.append(f"trial_design.cap_logodds_negative = {cap_neg} must be < 0")
 
-        # phase_scaling: values in (0, 1]
-        for phase, dims in td.get("phase_scaling", {}).items():
-            for dim, v in dims.items():
-                if not (0 < v <= 1.0):
-                    errors.append(
-                        f"trial_design.phase_scaling.{phase}.{dim} = {v} must be in (0, 1]"
-                    )
+        # phase_scaling: single float per phase, values in (0, 1]
+        for phase, v in td.get("phase_scaling", {}).items():
+            if not (0 < float(v) <= 1.0):
+                errors.append(
+                    f"trial_design.phase_scaling.{phase} = {v} must be in (0, 1]"
+                )
 
         if errors:
             self._raise(errors)
@@ -290,7 +293,47 @@ class AssumptionsLoader:
 
     @property
     def phase_costs_millions(self) -> MappingProxyType:
+        """Flat cross-TA cost table. Deprecated: prefer phase_cost(ta, phase)."""
         return self._data["phase_costs_millions"]
+
+    @property
+    def phase_cost_defaults(self) -> MappingProxyType:
+        """Full nested table: {therapeutic_area: {phase: cost_millions}}. Read-only."""
+        return self._data["phase_cost_defaults"]
+
+    def phase_cost(self, therapeutic_area: str, phase: str) -> float:
+        """
+        TA-calibrated phase cost in USD millions.
+
+        Looks up ``phase_cost_defaults[therapeutic_area][phase]``.
+        Falls back to ``phase_cost_defaults["all"][phase]`` with a UserWarning when the
+        TA is not in the table, mirroring the phase_success_rates_for() pattern.
+
+        Parameters
+        ----------
+        therapeutic_area:
+            TherapeuticArea enum value string (e.g. ``"oncology"``, ``"rare_disease"``).
+        phase:
+            TrialPhase enum value string (e.g. ``"phase_2"``, ``"phase_3"``).
+
+        Returns
+        -------
+        float
+            Cost in USD millions.
+        """
+        table = self._data["phase_cost_defaults"]
+        if therapeutic_area in table and phase in table[therapeutic_area]:
+            return float(table[therapeutic_area][phase])
+        # TA not found — fall back to cross-TA average
+        if therapeutic_area not in table:
+            warnings.warn(
+                f"Therapeutic area {therapeutic_area!r} not found in "
+                f"phase_cost_defaults. Falling back to 'all'. "
+                f"(assumptions version: {self.version})",
+                UserWarning,
+                stacklevel=2,
+            )
+        return float(table["all"][phase])
 
     # ------------------------------------------------------------------
     # Accessors — commercial defaults
@@ -332,8 +375,80 @@ class AssumptionsLoader:
 
     @property
     def sgna(self) -> MappingProxyType:
-        """Keys: rate_launch, rate_mature, ramp_years."""
+        """Keys: rate_launch, rate_mature, ramp_years. Legacy accessor; see sgna_profile()."""
         return self._data["commercial"]["sgna"]
+
+    @property
+    def sgna_profiles(self) -> MappingProxyType:
+        """Full table of SG&A profiles keyed by profile name."""
+        return self._data["commercial"]["sgna_profiles"]
+
+    def sgna_profile(self, name: str) -> MappingProxyType:
+        """
+        SG&A ramp profile for a named commercial profile.
+
+        Available profiles: specialty_pharma, rare_disease, gene_cell_therapy,
+        primary_care, default.  Falls back to 'default' (= specialty_pharma)
+        with a UserWarning if the name is not found.
+        """
+        profiles = self._data["commercial"]["sgna_profiles"]
+        if name in profiles:
+            return profiles[name]
+        warnings.warn(
+            f"SG&A profile {name!r} not found in sgna_profiles. "
+            f"Falling back to 'default'. (assumptions version: {self.version})",
+            UserWarning,
+            stacklevel=2,
+        )
+        return profiles["default"]
+
+    def commercial_model_profile(self, name: str) -> MappingProxyType:
+        """
+        SG&A ramp profile for a named commercial model archetype (Sprint D2).
+
+        Keys: sgna_rate_launch, sgna_rate_mature, sgna_ramp_years.
+
+        Available profiles: self_commercialized_specialty, rare_disease_kol,
+        partnered, royalty_only, primary_care_salesforce, hospital_specialty.
+        Falls back to 'self_commercialized_specialty' with a UserWarning if the
+        name is not found.
+        """
+        profiles = self._data["commercial"]["commercial_model_profiles"]
+        if name in profiles:
+            return profiles[name]
+        warnings.warn(
+            f"CommercialModelProfile {name!r} not found in commercial_model_profiles. "
+            f"Falling back to 'self_commercialized_specialty'. "
+            f"(assumptions version: {self.version})",
+            UserWarning,
+            stacklevel=2,
+        )
+        return profiles["self_commercialized_specialty"]
+
+    @property
+    def compliance_by_modality(self) -> MappingProxyType:
+        """Compliance rate table keyed by modality string."""
+        return self._data["commercial"]["compliance_by_modality"]
+
+    def compliance_rate(self, modality: str) -> float:
+        """
+        Compliance rate for a modality.
+
+        Falls back to 'other' (0.80) with a UserWarning if not found.
+        For 'biologic' (generic), returns the biologic_iv rate (conservative default).
+        """
+        table = self._data["commercial"]["compliance_by_modality"]
+        # biologic (generic) → biologic_iv as conservative default
+        lookup = "biologic_iv" if modality == "biologic" else modality
+        if lookup in table:
+            return float(table[lookup])
+        warnings.warn(
+            f"Modality {modality!r} not found in compliance_by_modality. "
+            f"Falling back to 'other'. (assumptions version: {self.version})",
+            UserWarning,
+            stacklevel=2,
+        )
+        return float(table["other"])
 
     @property
     def commercial_defaults(self) -> MappingProxyType:
@@ -364,6 +479,12 @@ class AssumptionsLoader:
     @property
     def mc_peak_sales_cv(self) -> float:
         return float(self._data["monte_carlo"]["peak_sales_cv"])
+
+    @property
+    def mc_peak_sales_cv_by_stage(self) -> dict[str, float]:
+        """Stage-conditional peak_sales_cv table. Falls back to flat cv if absent."""
+        table = self._data["monte_carlo"].get("peak_sales_cv_by_stage", {})
+        return {k: float(v) for k, v in table.items()}
 
     @property
     def mc_discount_rate_std(self) -> float:
@@ -444,3 +565,160 @@ class AssumptionsLoader:
     @property
     def sources(self) -> tuple:
         return self._data["meta"].get("sources", ())
+
+    # --- Block 33: indication-subtype base rates ---
+
+    @property
+    def transaction_mix_by_stage(self) -> dict:
+        """
+        Block 37A: Stage-specific M&A transaction type priors.
+
+        Returns the full transaction_mix_by_stage dict from YAML.
+        Keys: preclinical, phase_1, phase_2, phase_3, nda_bla, approved, fallback.
+        Each value: {acquisition: float, license_or_partnership: float, ...metadata}.
+        """
+        return dict(self._data.get("transaction_mix_by_stage", {}))
+
+    def get_transaction_mix(self, stage: str) -> dict:
+        """
+        Block 37A: Return acquisition and license fractions for a given stage.
+
+        Falls back to 'fallback' entry with UserWarning when stage is not found.
+
+        Parameters
+        ----------
+        stage : str
+            Development stage key (e.g. 'phase_2', 'phase_3', 'preclinical').
+
+        Returns
+        -------
+        dict with 'acquisition' and 'license_or_partnership' keys.
+        """
+        tmbs = self._data.get("transaction_mix_by_stage", {})
+        if stage in tmbs:
+            return {
+                "acquisition": float(tmbs[stage]["acquisition"]),
+                "license_or_partnership": float(tmbs[stage]["license_or_partnership"]),
+            }
+        warnings.warn(
+            f"Stage {stage!r} not found in transaction_mix_by_stage. "
+            "Falling back to 'fallback' entry.",
+            UserWarning,
+            stacklevel=2,
+        )
+        fallback = tmbs.get("fallback", {"acquisition": 0.60, "license_or_partnership": 0.35})
+        return {
+            "acquisition": float(fallback["acquisition"]),
+            "license_or_partnership": float(fallback["license_or_partnership"]),
+        }
+
+    @property
+    def indication_subtype_rates(self) -> dict:
+        """Return the full indication_subtype_rates dict from YAML.
+
+        Keys are subtype strings (e.g. 'gbm', 'alzheimers').
+        Each value contains phase rates + metadata fields.
+        """
+        return dict(self._data.get("indication_subtype_rates", {}))
+
+    def get_indication_subtype_rate(
+        self, subtype_key: str, phase: str
+    ) -> Optional[float]:
+        """Return the phase success rate for a specific indication subtype.
+
+        Returns None and emits a UserWarning when subtype_key is not in the YAML.
+        Phase keys are: phase_1, phase_2, phase_3, nda_bla.
+        """
+        subtypes = self._data.get("indication_subtype_rates", {})
+        if subtype_key not in subtypes:
+            import warnings
+            warnings.warn(
+                f"Indication subtype {subtype_key!r} not found in indication_subtype_rates. "
+                f"Falling back to TA base rate.",
+                UserWarning,
+                stacklevel=2,
+            )
+            return None
+        return subtypes[subtype_key].get(phase)
+
+    def get_indication_subtype_metadata(
+        self, subtype_key: str
+    ) -> Optional[dict]:
+        """Return metadata dict for an indication subtype.
+
+        Returns {source, n_programs, date_range, confidence, ta_fallback},
+        or None with UserWarning if key not found.
+        """
+        subtypes = self._data.get("indication_subtype_rates", {})
+        if subtype_key not in subtypes:
+            import warnings
+            warnings.warn(
+                f"Indication subtype {subtype_key!r} not found in indication_subtype_rates.",
+                UserWarning,
+                stacklevel=2,
+            )
+            return None
+        entry = subtypes[subtype_key]
+        return {
+            k: entry[k]
+            for k in ("source", "n_programs", "date_range", "confidence", "ta_fallback")
+            if k in entry
+        }
+
+    # --- Block 35: modality-specific phase rates ---
+
+    @property
+    def modality_phase_rates(self) -> dict:
+        """Block 35: Full modality_phase_rates dict from YAML.
+
+        Returns a plain dict of {modality_key: {phase: rate, metadata...}}.
+        Keys include gene_therapy_aav, gene_therapy_lentiviral, car_t_autologous,
+        car_t_allogeneic, lnp_mrna, aso_rnai, biologic_antibody.
+        """
+        return dict(self._data.get("modality_phase_rates", {}))
+
+    def get_modality_phase_rate(
+        self, modality_key: str, phase: str
+    ) -> Optional[float]:
+        """Block 35: Return the phase rate for a modality key.
+
+        Returns None with UserWarning if modality_key not found.
+        Returns None silently if phase not in the modality entry.
+        """
+        mpr = self._data.get("modality_phase_rates", {})
+        if modality_key not in mpr:
+            warnings.warn(
+                f"Modality {modality_key!r} not found in modality_phase_rates. "
+                "Falling back to TA base rate.",
+                UserWarning,
+                stacklevel=2,
+            )
+            return None
+        entry = mpr[modality_key]
+        rate = entry.get(phase)
+        if rate is None:
+            return None
+        return float(rate)
+
+    def get_modality_phase_metadata(
+        self, modality_key: str
+    ) -> Optional[dict]:
+        """Block 35: Return metadata dict for a modality entry.
+
+        Returns {source, n_programs, date_range, confidence, status},
+        or None with UserWarning if key not found.
+        """
+        mpr = self._data.get("modality_phase_rates", {})
+        if modality_key not in mpr:
+            warnings.warn(
+                f"Modality {modality_key!r} not found in modality_phase_rates.",
+                UserWarning,
+                stacklevel=2,
+            )
+            return None
+        entry = mpr[modality_key]
+        return {
+            k: entry[k]
+            for k in ("source", "n_programs", "date_range", "confidence", "status")
+            if k in entry
+        }

@@ -504,12 +504,17 @@ class IntelligenceService:
                 )
         else:
             try:
+                metrics_dashboard = self.metrics_dashboard.build(
+                    as_of=_utcnow().date(),
+                    reference_time=_utcnow(),
+                )
                 cache = self.cache_store.write(
                     source_run_id=run_id,
                     source_model_version=self.config.source_model_version,
                     payload={
                         "watchlist_summary": watchlist_summary.model_dump(mode="json"),
                         "opportunity_scan": scan.model_dump(mode="json"),
+                        "metrics_dashboard": metrics_dashboard.model_dump(mode="json"),
                     },
                     generated_at=_utcnow(),
                 )

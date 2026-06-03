@@ -101,9 +101,9 @@ class TestBackwardCompat:
     """compute_rnpv() must remain unchanged — no LOE, no deal."""
 
     def test_compute_rnpv_returns_no_loe_baseline(self):
-        """compute_rnpv() without LOE must still return ~118.72."""
+        """compute_rnpv() without LOE baseline. Sprint 9: updated to 65.13 after UFCF/tax fix."""
         result = compute_rnpv(_asset(), _trials(), _market())
-        assert result.rnpv_millions == pytest.approx(118.72, abs=0.5)
+        assert result.rnpv_millions == pytest.approx(65.13, abs=0.5)
 
     def test_compute_rnpv_no_milestone_receipts(self):
         result = compute_rnpv(_asset(), _trials(), _market())
@@ -145,8 +145,9 @@ class TestComputeRnpvFull:
         assert with_loe.rnpv_millions > no_loe.rnpv_millions
 
     def test_loe_value_matches_step3_snapshot(self):
+        # Sprint 9.10: 83.13 after LOE 3→5 extension (was 81.01 pre-9.10)
         result = compute_rnpv_full(_asset(), _trials(), _market(), loe_profile=_loe())
-        assert result.rnpv_millions == pytest.approx(138.82, abs=0.5)
+        assert result.rnpv_millions == pytest.approx(83.13, abs=0.5)
 
     def test_deal_royalty_reduces_rnpv(self):
         no_deal = compute_rnpv_full(_asset(), _trials(), _market(), loe_profile=_loe())
@@ -454,11 +455,9 @@ class TestSnapshotLOEIncludedMC:
     """
     Locked regression snapshot for MC with LOE.
 
-    Previous snapshot (Step 2, no LOE): mean ≈ 123.75 (seed=0, n=1000).
-    Step 6 snapshot (with LOE):         mean ≈ 144.57 (seed=0, n=1000).
-
-    The gap (~21M) reflects the discounted value of the 3-year LOE tail
-    weighted by P(approval) and averaged over stochastic market draws.
+    Sprint 9 update: all values reflect 21% effective tax rate (UFCF fix, Task 9.1).
+    Pre-Sprint-9 values: no-LOE mean ≈ 123.75, LOE mean ≈ 144.57.
+    Post-Sprint-9 values: no-LOE mean ≈ 69.51, LOE mean ≈ 85.96.
     """
 
     def test_mc_snapshot_with_loe_seed0_n1000(self):
@@ -468,16 +467,16 @@ class TestSnapshotLOEIncludedMC:
             MonteCarloParams(n_simulations=1000, random_seed=0),
             loe_profile=loe,
         )
-        # Locked: 144.57 ± 5 (abs tolerance covers sampling noise at n=1000)
-        assert mc.mean_millions == pytest.approx(144.57, abs=5.0)
+        # Sprint 9: updated to 85.96 (was 144.57 pre-Sprint-9)
+        assert mc.mean_millions == pytest.approx(85.96, abs=5.0)
 
     def test_mc_snapshot_without_loe_still_matches_old_baseline(self):
-        """compute_rnpv_full with no LOE reproduces the pre-Step-3 MC baseline."""
+        """Sprint 9: no-LOE MC baseline updated to 69.51 after UFCF/tax fix (was 123.75)."""
         mc = run_monte_carlo(
             _asset(), _trials(), _market(),
             MonteCarloParams(n_simulations=1000, random_seed=0),
         )
-        assert mc.mean_millions == pytest.approx(123.75, abs=5.0)
+        assert mc.mean_millions == pytest.approx(69.51, abs=5.0)
 
 
 # ---------------------------------------------------------------------------

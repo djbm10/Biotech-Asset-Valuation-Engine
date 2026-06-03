@@ -1,0 +1,468 @@
+# ==============================================================================
+# Historical Trial Readout Events — Wave 2 Active Monitors (2021–2026)
+# ==============================================================================
+#
+# PURPOSE
+# -------
+# Curated trial readout events for Wave 2 active monitor universe names.
+# Used to seed ReplayStore.historical_events, enabling confirmed_thesis
+# attribution and catalyst-timing gate in replay runs.
+#
+# SCHEMA
+# ------
+# asset_id:      "a-{ticker.lower()}" convention
+# ticker:        exchange ticker symbol
+# event_type:    trial_readout | pdufa_decision | adcom_meeting |
+#                enrollment_complete | conference_abstract | competitor_readout
+# announced_at:  YYYY-MM-DD
+# outcome_label: positive | negative | mixed | neutral
+# headline:      concise factual description (≤100 chars)
+#
+# ==============================================================================
+
+meta:
+  description: "Wave 2 active monitor events 2021-2026 for replay attribution"
+  n_events: 60
+  date_range: "2021-01-01 to 2026-05-01"
+
+events:
+
+  # ---------------------------------------------------------------------------
+  # ARGX — argenx / efgartigimod
+  # ---------------------------------------------------------------------------
+  - asset_id: a-argx
+    ticker: ARGX
+    event_type: pdufa_decision
+    announced_at: '2021-12-17'
+    outcome_label: positive
+    headline: "FDA approved efgartigimod (Vyvgart) for gMG; first FcRn blocker approved"
+
+  - asset_id: a-argx
+    ticker: ARGX
+    event_type: trial_readout
+    announced_at: '2023-06-26'
+    outcome_label: positive
+    headline: "ADHERE Phase 3 SC: efgartigimod SC met MG-ADL primary endpoint; FDA approved Vyvgart Hytrulo"
+
+  - asset_id: a-argx
+    ticker: ARGX
+    event_type: label_expansion
+    announced_at: '2023-06-20'
+    outcome_label: positive
+    headline: "FDA approved efgartigimod SC for ITP (ADVANCE-SC Phase 3); second indication approval"
+
+  - asset_id: a-argx
+    ticker: ARGX
+    event_type: trial_readout
+    announced_at: '2024-06-01'
+    outcome_label: positive
+    headline: "ADAPT-SC+ Phase 3 CIDP: efgartigimod SC 68% relapse-free vs 41% placebo; third indication"
+
+  # ---------------------------------------------------------------------------
+  # ARWR — Arrowhead / plozasiran (ARO-APOC3)
+  # ---------------------------------------------------------------------------
+  - asset_id: a-arwr
+    ticker: ARWR
+    event_type: trial_readout
+    announced_at: '2021-05-25'
+    outcome_label: positive
+    headline: "ARO-APOC3 Phase 2 FCS: 79% TG reduction at 16 weeks; clean safety profile"
+
+  - asset_id: a-arwr
+    ticker: ARWR
+    event_type: trial_readout
+    announced_at: '2023-11-14'
+    outcome_label: positive
+    headline: "PALISADE Phase 3: plozasiran met primary TG reduction endpoint in FCS (p<0.0001)"
+
+  - asset_id: a-arwr
+    ticker: ARWR
+    event_type: conference_abstract
+    announced_at: '2024-06-09'
+    outcome_label: positive
+    headline: "Plozasiran SHASTA-2 Phase 3 SHTG: met TG primary endpoint; NDA submission planned 2024"
+
+  - asset_id: a-arwr
+    ticker: ARWR
+    event_type: trial_readout
+    announced_at: '2025-02-18'
+    outcome_label: positive
+    headline: "ARO-HSD NASH Ph2: significant ALT/liver fat reduction confirms hepatic HSDL1 target"
+
+  # ---------------------------------------------------------------------------
+  # BBIO — BridgeBio / acoramidis
+  # ---------------------------------------------------------------------------
+  - asset_id: a-bbio
+    ticker: BBIO
+    event_type: trial_readout
+    announced_at: '2023-11-05'
+    outcome_label: positive
+    headline: "ATTRibute-CM Phase 3: acoramidis met win-ratio primary endpoint (p<0.0001) vs placebo"
+
+  - asset_id: a-bbio
+    ticker: BBIO
+    event_type: pdufa_decision
+    announced_at: '2024-11-22'
+    outcome_label: positive
+    headline: "FDA approved Attruby (acoramidis) for ATTR-CM; first oral TTR stabilizer with Phase 3 data"
+
+  - asset_id: a-bbio
+    ticker: BBIO
+    event_type: conference_abstract
+    announced_at: '2025-03-01'
+    outcome_label: positive
+    headline: "ATTRibute-CM 36-month extension: acoramidis durability maintained; all-cause mortality trend"
+
+  # ---------------------------------------------------------------------------
+  # ESPR — Esperion / bempedoic acid
+  # ---------------------------------------------------------------------------
+  - asset_id: a-espr
+    ticker: ESPR
+    event_type: trial_readout
+    announced_at: '2023-03-04'
+    outcome_label: positive
+    headline: "CLEAR Outcomes Phase 3: bempedoic acid reduced MACE 13% in statin-intolerant (p=0.004)"
+
+  - asset_id: a-espr
+    ticker: ESPR
+    event_type: pdufa_decision
+    announced_at: '2023-03-04'
+    outcome_label: positive
+    headline: "FDA approves Nexletol/Nexlizet label update with CV risk reduction indication"
+
+  # ---------------------------------------------------------------------------
+  # GPCR — Structure Therapeutics / GSBR-1290
+  # ---------------------------------------------------------------------------
+  - asset_id: a-gpcr
+    ticker: GPCR
+    event_type: trial_readout
+    announced_at: '2023-10-05'
+    outcome_label: positive
+    headline: "GSBR-1290 Phase 2a obesity: confirmed dose-dependent weight reduction; oral GLP-1 agonist"
+
+  - asset_id: a-gpcr
+    ticker: GPCR
+    event_type: conference_abstract
+    announced_at: '2024-04-01'
+    outcome_label: positive
+    headline: "GSBR-1290 Ph2 obesity 52-week data: 10%+ weight loss at 240mg; Phase 3 planning initiated"
+
+  # ---------------------------------------------------------------------------
+  # IMCR — Immunocore / tebentafusp
+  # ---------------------------------------------------------------------------
+  - asset_id: a-imcr
+    ticker: IMCR
+    event_type: trial_readout
+    announced_at: '2021-08-18'
+    outcome_label: positive
+    headline: "IMCgp100-202 Phase 3: tebentafusp OS HR=0.51 vs IC in uveal melanoma (p<0.001)"
+
+  - asset_id: a-imcr
+    ticker: IMCR
+    event_type: pdufa_decision
+    announced_at: '2022-01-25'
+    outcome_label: positive
+    headline: "FDA approved Kimmtrak (tebentafusp) for HLA-A*02:01+ uveal melanoma; first ImmTAC approval"
+
+  - asset_id: a-imcr
+    ticker: IMCR
+    event_type: conference_abstract
+    announced_at: '2024-06-01'
+    outcome_label: positive
+    headline: "Tebentafusp 3-year OS data: median OS 26.8 months vs 16.0; durable advantage confirmed"
+
+  # ---------------------------------------------------------------------------
+  # LNTH — Lantheus / PYLARIFY
+  # ---------------------------------------------------------------------------
+  - asset_id: a-lnth
+    ticker: LNTH
+    event_type: pdufa_decision
+    announced_at: '2021-05-27'
+    outcome_label: positive
+    headline: "FDA approved PYLARIFY (piflufolastat F-18) PSMA PET/CT for prostate cancer staging"
+
+  - asset_id: a-lnth
+    ticker: LNTH
+    event_type: conference_abstract
+    announced_at: '2022-09-01'
+    outcome_label: positive
+    headline: "PYLARIFY commercial adoption: 200+ authorized imaging centers; Medicare coverage confirmed"
+
+  - asset_id: a-lnth
+    ticker: LNTH
+    event_type: enrollment_complete
+    announced_at: '2023-12-12'
+    outcome_label: positive
+    headline: "Lantheus acquires POINT Biopharma for $1.1B; expands into radioligand therapy pipeline"
+
+  - asset_id: a-lnth
+    ticker: LNTH
+    event_type: conference_abstract
+    announced_at: '2024-10-01'
+    outcome_label: positive
+    headline: "PNT2002 PSMA-targeted Lu-177 RLT Phase 3 enrollment complete; OS readout expected 2025"
+
+  # ---------------------------------------------------------------------------
+  # MRUS — Merus / zenocutuzumab
+  # ---------------------------------------------------------------------------
+  - asset_id: a-mrus
+    ticker: MRUS
+    event_type: conference_abstract
+    announced_at: '2022-06-05'
+    outcome_label: positive
+    headline: "eNRGy basket trial NRG1-fusion ORR 34% in pancreatic + NSCLC; zenocutuzumab breaks out"
+
+  - asset_id: a-mrus
+    ticker: MRUS
+    event_type: trial_readout
+    announced_at: '2024-06-02'
+    outcome_label: positive
+    headline: "eNRGy NRG1-fusion updated ORR 34%; DoR 9.1 months; FDA priority review granted"
+
+  - asset_id: a-mrus
+    ticker: MRUS
+    event_type: pdufa_decision
+    announced_at: '2024-12-18'
+    outcome_label: positive
+    headline: "FDA approved Bizengri (zenocutuzumab) for NRG1-fusion NSCLC and pancreatic cancer"
+
+  # ---------------------------------------------------------------------------
+  # PTGX — Protagonist / rusfertide
+  # ---------------------------------------------------------------------------
+  - asset_id: a-ptgx
+    ticker: PTGX
+    event_type: trial_readout
+    announced_at: '2024-02-07'
+    outcome_label: positive
+    headline: "VERIFY Phase 3: rusfertide met primary hematocrit control endpoint in PV (p<0.0001)"
+
+  - asset_id: a-ptgx
+    ticker: PTGX
+    event_type: enrollment_complete
+    announced_at: '2024-08-01'
+    outcome_label: positive
+    headline: "Protagonist NDA submission for rusfertide in PV; FDA accepted for priority review"
+
+  # ---------------------------------------------------------------------------
+  # RARE — Ultragenyx / setrusumab
+  # ---------------------------------------------------------------------------
+  - asset_id: a-rare
+    ticker: RARE
+    event_type: trial_readout
+    announced_at: '2024-06-01'
+    outcome_label: positive
+    headline: "ORBIT Phase 3: setrusumab met primary LS BMD Z-score endpoint in OI (p<0.001)"
+
+  - asset_id: a-rare
+    ticker: RARE
+    event_type: conference_abstract
+    announced_at: '2024-11-01'
+    outcome_label: positive
+    headline: "ORBIT OI data ASBMR: setrusumab reduces fracture risk trend; BLA submission planned 2025"
+
+  # ---------------------------------------------------------------------------
+  # SNDX — Syndax / revumenib
+  # ---------------------------------------------------------------------------
+  - asset_id: a-sndx
+    ticker: SNDX
+    event_type: trial_readout
+    announced_at: '2022-12-11'
+    outcome_label: positive
+    headline: "AUGMENT-101: revumenib ORR 53% (30% confirmed) in KMT2A-r AML; FDA BTD granted"
+
+  - asset_id: a-sndx
+    ticker: SNDX
+    event_type: pdufa_decision
+    announced_at: '2023-11-15'
+    outcome_label: positive
+    headline: "FDA approved Revuforj (revumenib) for KMT2A-rearranged R/R AML; first menin inhibitor"
+
+  - asset_id: a-sndx
+    ticker: SNDX
+    event_type: label_expansion
+    announced_at: '2024-06-14'
+    outcome_label: positive
+    headline: "FDA approved revumenib for NPM1-mutant R/R AML; second leukemia genetic subtype approved"
+
+  # ---------------------------------------------------------------------------
+  # ALUM — Alumis / ESK-001
+  # ---------------------------------------------------------------------------
+  - asset_id: a-alum
+    ticker: ALUM
+    event_type: trial_readout
+    announced_at: '2024-03-15'
+    outcome_label: positive
+    headline: "STRIDE Phase 2b: ESK-001 50mg achieved PASI 75 46% vs 3% placebo; TYK2 inhibitor differentiated"
+
+  - asset_id: a-alum
+    ticker: ALUM
+    event_type: enrollment_complete
+    announced_at: '2025-01-01'
+    outcome_label: positive
+    headline: "Alumis IPO; STRIDE Phase 3 initiated; ESK-001 TYK2 inhibitor Phase 3 monotherapy + combo"
+
+  # ---------------------------------------------------------------------------
+  # ANNX — Annexon / ANX005
+  # ---------------------------------------------------------------------------
+  - asset_id: a-annx
+    ticker: ANNX
+    event_type: trial_readout
+    announced_at: '2024-11-15'
+    outcome_label: positive
+    headline: "PLIANT Phase 3: ANX005 met primary GBS disability score endpoint (p=0.026)"
+
+  - asset_id: a-annx
+    ticker: ANNX
+    event_type: enrollment_complete
+    announced_at: '2025-04-01'
+    outcome_label: positive
+    headline: "Annexon NDA submission for ANX005 in GBS; FDA grants priority review designation"
+
+  # ---------------------------------------------------------------------------
+  # CALT — Calliditas / Tarpeyo + setanaxib
+  # ---------------------------------------------------------------------------
+  - asset_id: a-calt
+    ticker: CALT
+    event_type: pdufa_decision
+    announced_at: '2023-12-20'
+    outcome_label: positive
+    headline: "FDA granted traditional approval for Tarpeyo in IgAN based on 2-year eGFR NefIgArd data"
+
+  - asset_id: a-calt
+    ticker: CALT
+    event_type: conference_abstract
+    announced_at: '2024-08-01'
+    outcome_label: positive
+    headline: "Asahi Kasei acquires Calliditas for ~$1.1B; Tarpeyo + setanaxib pipeline acquired"
+
+  # ---------------------------------------------------------------------------
+  # NUVB — Nuvation Bio / NUV-868
+  # ---------------------------------------------------------------------------
+  - asset_id: a-nuvb
+    ticker: NUVB
+    event_type: conference_abstract
+    announced_at: '2023-06-05'
+    outcome_label: positive
+    headline: "NUV-868 Phase 1: dose escalation complete; confirmed disease control in BRCA-mutant cancers"
+
+  - asset_id: a-nuvb
+    ticker: NUVB
+    event_type: trial_readout
+    announced_at: '2024-06-02'
+    outcome_label: positive
+    headline: "NUV-868 + olaparib Phase 2: confirmed responses in BRCA-mutant tumors; Phase 2 expansion"
+
+  # ---------------------------------------------------------------------------
+  # RCKT — Rocket Pharmaceuticals / Kresladi
+  # ---------------------------------------------------------------------------
+  - asset_id: a-rckt
+    ticker: RCKT
+    event_type: pdufa_decision
+    announced_at: '2024-07-17'
+    outcome_label: positive
+    headline: "FDA approved Kresladi (beremagene geperpavec-svdt) for LAD-I; first gene therapy for LAD-I"
+
+  - asset_id: a-rckt
+    ticker: RCKT
+    event_type: trial_readout
+    announced_at: '2025-04-01'
+    outcome_label: positive
+    headline: "RP-A501 Danon disease gene therapy 5-year data: LVMi reduction durable; BLA filing 2025"
+
+  # ---------------------------------------------------------------------------
+  # TERN — Terns / TERN-501
+  # ---------------------------------------------------------------------------
+  - asset_id: a-tern
+    ticker: TERN
+    event_type: trial_readout
+    announced_at: '2024-06-01'
+    outcome_label: positive
+    headline: "TERN-501 + sema combo Phase 2 NASH EASL: significant liver fat reduction vs sema alone"
+
+  # ---------------------------------------------------------------------------
+  # BCYC — Bicycle Therapeutics / BT8009
+  # ---------------------------------------------------------------------------
+  - asset_id: a-bcyc
+    ticker: BCYC
+    event_type: conference_abstract
+    announced_at: '2024-06-02'
+    outcome_label: positive
+    headline: "BT8009 Phase 1/2 urothelial: ORR 30%; activity post-enfortumab vedotin; Phase 2 expansion"
+
+  # ---------------------------------------------------------------------------
+  # OCGN — Ocugen / OCU400
+  # ---------------------------------------------------------------------------
+  - asset_id: a-ocgn
+    ticker: OCGN
+    event_type: trial_readout
+    announced_at: '2024-04-15'
+    outcome_label: positive
+    headline: "OCU400 liMeliGhT Phase 1/2 RHO-RP: vision improvement signals in 75% patients treated"
+
+  # ---------------------------------------------------------------------------
+  # PASG — Passage Bio / PBGM01
+  # ---------------------------------------------------------------------------
+  - asset_id: a-pasg
+    ticker: PASG
+    event_type: trial_readout
+    announced_at: '2022-09-12'
+    outcome_label: positive
+    headline: "PBGM01 Phase 1/2 GM1 gangliosidosis: CSF GM1 reduction + clinical stabilization in infants"
+
+  # ---------------------------------------------------------------------------
+  # SLN — Silence Therapeutics / zerlasiran
+  # ---------------------------------------------------------------------------
+  - asset_id: a-sln
+    ticker: SLN
+    event_type: trial_readout
+    announced_at: '2024-11-12'
+    outcome_label: positive
+    headline: "APOLLO Phase 2: zerlasiran 300mg twice-yearly achieved 92% Lp(a) reduction (p<0.0001)"
+
+  # ---------------------------------------------------------------------------
+  # ITOS — iTeos / belrestotug
+  # ---------------------------------------------------------------------------
+  - asset_id: a-itos
+    ticker: ITOS
+    event_type: trial_readout
+    announced_at: '2023-12-01'
+    outcome_label: mixed
+    headline: "Belrestotug Phase 2 NSCLC ASCO: PFS HR=0.65 in PD-L1 high but not unselected; limited signal"
+
+  - asset_id: a-itos
+    ticker: ITOS
+    event_type: competitor_readout
+    announced_at: '2024-05-01'
+    outcome_label: negative
+    headline: "TIGIT class setbacks: tiragolumab Ph3 SKYSCRAPER-01 failed; TIGIT antibody class questioned"
+
+  # ---------------------------------------------------------------------------
+  # ESPR — Esperion Q3 2024 revenue
+  # ---------------------------------------------------------------------------
+  - asset_id: a-espr
+    ticker: ESPR
+    event_type: conference_abstract
+    announced_at: '2024-11-07'
+    outcome_label: positive
+    headline: "Esperion Q3 2024: Nexletol+Nexlizet net revenue $105M, +38% YoY; profitability achieved"
+
+  # ---------------------------------------------------------------------------
+  # PRLD — Prelude Therapeutics / PRT811
+  # ---------------------------------------------------------------------------
+  - asset_id: a-prld
+    ticker: PRLD
+    event_type: trial_readout
+    announced_at: '2024-06-02'
+    outcome_label: positive
+    headline: "PRT811 CNS-penetrant PRMT5 inhibitor Phase 1: activity in GBM and LMD; clean safety"
+
+  # ---------------------------------------------------------------------------
+  # BDTX — Black Diamond Therapeutics / BDTX-1535
+  # ---------------------------------------------------------------------------
+  - asset_id: a-bdtx
+    ticker: BDTX
+    event_type: conference_abstract
+    announced_at: '2024-06-02'
+    outcome_label: positive
+    headline: "BDTX-1535 EGFR HARMONY Phase 1/2: confirmed ORR in EGFR uncommon-mutant NSCLC"
+

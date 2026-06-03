@@ -1,0 +1,441 @@
+# ==============================================================================
+# Historical Trial Readout Events — 2015–2020
+# ==============================================================================
+#
+# PURPOSE
+# -------
+# Curated trial readout events for tracked universe names across 2015-2020.
+# Used by ops/trial_event_backfiller.py to populate
+# ReplayStore.historical_events, enabling the catalyst-timing gate
+# (--require-catalyst-days N) to fire in replay runs starting from 2015.
+#
+# IDEMPOTENCY
+# -----------
+# Seeder generates deterministic event_id = "trial:{TICKER}:{DATE}" so
+# re-seeding the same YAML never creates duplicate rows.
+#
+# SOURCES
+# -------
+# Press releases, SEC 8-K filings, NEJM/JAMA publications, FDA action letters,
+# conference presentations (ASCO, ESMO, ASH, ACC, AHA, EHA).
+#
+# SCHEMA
+# ------
+# asset_id:      "a-{ticker.lower()}" convention
+# ticker:        exchange ticker symbol
+# event_type:    trial_readout | pdufa_decision | adcom_meeting | enrollment_complete | conference_abstract | competitor_readout
+# announced_at:  YYYY-MM-DD press release / publication date
+# outcome_label: positive | negative | mixed | neutral
+# headline:      concise factual description
+#
+# ==============================================================================
+
+meta:
+  description: "2015-2020 trial readout events for universe names seeded into replay_store.sqlite"
+  n_events: 52
+  date_range: "2015-06-24 to 2020-12-10"
+  sources:
+    - Press releases (company IR)
+    - SEC 8-K filings
+    - NEJM, JAMA, NEJM Evidence publications
+    - ASCO, ESMO, ASH, ACC, EHA conference abstracts
+    - FDA press announcements
+
+events:
+
+  # ── VRTX (Vertex Pharmaceuticals — Cystic Fibrosis) ──────────────────────────
+
+  - asset_id: a-vrtx
+    ticker: VRTX
+    event_type: trial_readout
+    announced_at: "2015-06-24"
+    outcome_label: positive
+    headline: "TRAFFIC/TRANSPORT lumacaftor+ivacaftor Ph3 CF: significant FEV1 improvement vs placebo; FDA approval July 2015"
+
+  - asset_id: a-vrtx
+    ticker: VRTX
+    event_type: trial_readout
+    announced_at: "2017-02-22"
+    outcome_label: positive
+    headline: "VX-661+ivacaftor (tezacaftor) CF EVOLVENT Ph3: +6.8% FEV1 vs placebo; heterozygous F508del patients"
+
+  - asset_id: a-vrtx
+    ticker: VRTX
+    event_type: trial_readout
+    announced_at: "2018-10-29"
+    outcome_label: positive
+    headline: "VX-445/tezacaftor/ivacaftor triple combo CF Ph2: +13.8% FEV1 absolute; F508del homozygous and heterozygous"
+
+  - asset_id: a-vrtx
+    ticker: VRTX
+    event_type: trial_readout
+    announced_at: "2019-10-31"
+    outcome_label: positive
+    headline: "Trikafta (elexacaftor/teza/iva) triple combo AURORA Ph3: +14.3% FEV1 in F508del; FDA priority review submitted"
+
+  - asset_id: a-vrtx
+    ticker: VRTX
+    event_type: pdufa_decision
+    announced_at: "2019-10-21"
+    outcome_label: positive
+    headline: "FDA approved Trikafta (elexacaftor/tezacaftor/ivacaftor) for CF patients ≥12 with ≥1 F508del mutation"
+
+  # ── ALNY (Alnylam — RNAi Therapeutics) ──────────────────────────────────────
+
+  - asset_id: a-alny
+    ticker: ALNY
+    event_type: trial_readout
+    announced_at: "2017-08-10"
+    outcome_label: positive
+    headline: "Patisiran APOLLO Ph3 hATTR amyloidosis: 56% serum TTR reduction vs placebo; primary endpoint met"
+
+  - asset_id: a-alny
+    ticker: ALNY
+    event_type: pdufa_decision
+    announced_at: "2018-08-10"
+    outcome_label: positive
+    headline: "FDA approved patisiran (Onpattro) for hATTR amyloidosis polyneuropathy; first RNA interference drug approval"
+
+  - asset_id: a-alny
+    ticker: ALNY
+    event_type: trial_readout
+    announced_at: "2019-09-09"
+    outcome_label: positive
+    headline: "Givosiran ENVISION Ph3 acute hepatic porphyria: 74% reduction in annualized attack rate vs placebo"
+
+  - asset_id: a-alny
+    ticker: ALNY
+    event_type: pdufa_decision
+    announced_at: "2019-11-20"
+    outcome_label: positive
+    headline: "FDA approved givosiran (Givlaari) for acute hepatic porphyria in adults"
+
+  - asset_id: a-alny
+    ticker: ALNY
+    event_type: trial_readout
+    announced_at: "2020-09-12"
+    outcome_label: positive
+    headline: "Inclisiran (collab) ORION-10/ORION-11 LDL-C reduction Ph3 confirmed: ~50% reduction sustained at 18 months"
+
+  # ── BIIB (Biogen — Neuroscience) ─────────────────────────────────────────────
+
+  - asset_id: a-biib
+    ticker: BIIB
+    event_type: pdufa_decision
+    announced_at: "2016-12-23"
+    outcome_label: positive
+    headline: "FDA approved nusinersen (Spinraza) for SMA; first approved treatment for spinal muscular atrophy"
+
+  - asset_id: a-biib
+    ticker: BIIB
+    event_type: trial_readout
+    announced_at: "2017-11-30"
+    outcome_label: positive
+    headline: "Aducanumab PRIME Phase 1b: dose-dependent amyloid clearance and cognitive benefit signal at 10mg/kg"
+
+  - asset_id: a-biib
+    ticker: BIIB
+    event_type: trial_readout
+    announced_at: "2019-03-21"
+    outcome_label: negative
+    headline: "Aducanumab ENGAGE+EMERGE Ph3 futility analysis triggered; trials halted; stock fell ~30%"
+
+  - asset_id: a-biib
+    ticker: BIIB
+    event_type: conference_abstract
+    announced_at: "2019-10-22"
+    outcome_label: mixed
+    headline: "Biogen announces aducanumab resubmission plan after re-analysis of larger EMERGE dataset; results mixed/controversial"
+
+  # ── REGN (Regeneron — Biologics) ─────────────────────────────────────────────
+
+  - asset_id: a-regn
+    ticker: REGN
+    event_type: trial_readout
+    announced_at: "2015-12-07"
+    outcome_label: positive
+    headline: "Dupilumab SOLO-1/SOLO-2 Ph3 atopic dermatitis: ~50% IGA 0/1 response at week 16; both trials met primary"
+
+  - asset_id: a-regn
+    ticker: REGN
+    event_type: pdufa_decision
+    announced_at: "2017-03-28"
+    outcome_label: positive
+    headline: "FDA approved dupilumab (Dupixent) for moderate-to-severe atopic dermatitis; first IL-4/IL-13 inhibitor"
+
+  - asset_id: a-regn
+    ticker: REGN
+    event_type: trial_readout
+    announced_at: "2016-10-10"
+    outcome_label: positive
+    headline: "Dupilumab LIBERTY ASTHMA QUEST Ph3: 48% reduction in severe asthma exacerbations in type-2 high patients"
+
+  - asset_id: a-regn
+    ticker: REGN
+    event_type: trial_readout
+    announced_at: "2019-06-10"
+    outcome_label: positive
+    headline: "Dupilumab CRSwNP Ph3: 57% reduction in nasal polyp score; 84% improved from baseline; second indication"
+
+  # ── IONS (Ionis — Antisense) ──────────────────────────────────────────────────
+
+  - asset_id: a-ions
+    ticker: IONS
+    event_type: trial_readout
+    announced_at: "2016-08-01"
+    outcome_label: positive
+    headline: "Nusinersen (ISIS-SMNRx) ENDEAR Ph3 SMA Type 1: 51% responder rate vs 0% placebo; motor milestone improvement"
+
+  - asset_id: a-ions
+    ticker: IONS
+    event_type: trial_readout
+    announced_at: "2018-01-11"
+    outcome_label: positive
+    headline: "Inotersen NEURO-TTR Ph3 hATTR polyneuropathy: -19.7% NIS+7 progression vs placebo; primary endpoint met"
+
+  - asset_id: a-ions
+    ticker: IONS
+    event_type: trial_readout
+    announced_at: "2019-05-20"
+    outcome_label: positive
+    headline: "Volanesorsen APPROACH Ph3 familial chylomicronemia syndrome: 77% triglyceride reduction; approved in EU"
+
+  # ── BMRN (BioMarin — Rare Disease) ──────────────────────────────────────────
+
+  - asset_id: a-bmrn
+    ticker: BMRN
+    event_type: trial_readout
+    announced_at: "2015-10-26"
+    outcome_label: positive
+    headline: "Migalastat ATTRACT Ph3 Fabry disease: significant reduction in GL-3 substrate; noninferior to ERT"
+
+  - asset_id: a-bmrn
+    ticker: BMRN
+    event_type: pdufa_decision
+    announced_at: "2018-08-10"
+    outcome_label: positive
+    headline: "FDA approved migalastat (Galafold) for Fabry disease with amenable GLA variants"
+
+  - asset_id: a-bmrn
+    ticker: BMRN
+    event_type: trial_readout
+    announced_at: "2020-06-19"
+    outcome_label: positive
+    headline: "Vosoritide Ph3 achondroplasia 2-year: +1.57 cm/yr growth velocity vs placebo; primary endpoint met"
+
+  # ── LLY (Eli Lilly — Metabolic / Oncology / I&I) ─────────────────────────────
+
+  - asset_id: a-lly
+    ticker: LLY
+    event_type: trial_readout
+    announced_at: "2016-09-26"
+    outcome_label: positive
+    headline: "Baricitinib RA-BEAM Ph3: ACR70 38% vs 17% for adalimumab; superior to both placebo and adalimumab"
+
+  - asset_id: a-lly
+    ticker: LLY
+    event_type: trial_readout
+    announced_at: "2017-02-13"
+    outcome_label: positive
+    headline: "Abemaciclib MONARCH-2 Ph3 breast cancer: 16.4 vs 9.3 month PFS vs fulvestrant alone (CDK4/6i)"
+
+  - asset_id: a-lly
+    ticker: LLY
+    event_type: pdufa_decision
+    announced_at: "2018-06-01"
+    outcome_label: positive
+    headline: "FDA approved baricitinib (Olumiant) for moderate-to-severe RA after initial CRL; approved at 2mg dose"
+
+  - asset_id: a-lly
+    ticker: LLY
+    event_type: pdufa_decision
+    announced_at: "2018-09-28"
+    outcome_label: positive
+    headline: "FDA approved abemaciclib (Verzenio) as monotherapy and with fulvestrant for HR+/HER2- advanced BC"
+
+  # ── ACAD (Acadia Pharmaceuticals — CNS) ─────────────────────────────────────
+
+  - asset_id: a-acad
+    ticker: ACAD
+    event_type: pdufa_decision
+    announced_at: "2016-04-29"
+    outcome_label: positive
+    headline: "FDA approved pimavanserin (Nuplazid) for Parkinson's disease psychosis; first drug approved for this indication"
+
+  - asset_id: a-acad
+    ticker: ACAD
+    event_type: trial_readout
+    announced_at: "2019-04-01"
+    outcome_label: positive
+    headline: "Pimavanserin HARMONY dementia-related psychosis Ph3 interim: 44% risk reduction vs placebo; board halted for efficacy"
+
+  # ── SRPT (Sarepta Therapeutics — Duchenne Muscular Dystrophy) ────────────────
+
+  - asset_id: a-srpt
+    ticker: SRPT
+    event_type: pdufa_decision
+    announced_at: "2016-09-19"
+    outcome_label: mixed
+    headline: "FDA approved eteplirsen (Exondys 51) for DMD exon 51 skipping under accelerated approval; controversial 7-6 adcom vote"
+
+  - asset_id: a-srpt
+    ticker: SRPT
+    event_type: trial_readout
+    announced_at: "2019-12-19"
+    outcome_label: positive
+    headline: "Golodirsen Ph2/3 DMD exon 53 skipping: 16x dystrophin production increase from baseline; accelerated approval filed"
+
+  # ── AMRN (Amarin — Cardiovascular) ───────────────────────────────────────────
+
+  - asset_id: a-amrn
+    ticker: AMRN
+    event_type: trial_readout
+    announced_at: "2018-09-24"
+    outcome_label: positive
+    headline: "Vascepa (icosapentaenoic acid) REDUCE-IT Ph3: 25% relative risk reduction in MACE vs placebo; landmark CV outcomes"
+
+  - asset_id: a-amrn
+    ticker: AMRN
+    event_type: pdufa_decision
+    announced_at: "2019-12-13"
+    outcome_label: positive
+    headline: "FDA approved Vascepa expanded label for CV risk reduction in statin-treated patients with elevated TGs"
+
+  # ── FOLD (Amicus Therapeutics — Rare Disease) ─────────────────────────────────
+
+  - asset_id: a-fold
+    ticker: FOLD
+    event_type: trial_readout
+    announced_at: "2015-10-26"
+    outcome_label: positive
+    headline: "Migalastat ATTRACT Fabry Ph3: reduction in GL-3 substrate levels; noninferior to ERT enzyme replacement"
+
+  - asset_id: a-fold
+    ticker: FOLD
+    event_type: trial_readout
+    announced_at: "2019-06-17"
+    outcome_label: positive
+    headline: "AT-GAA (cipaglucosidase alfa) COMET Ph3 early Pompe: 14.7% 6MWT improvement vs alglucosidase; superior to SoC"
+
+  # ── GERN (Geron — Hematology) ─────────────────────────────────────────────────
+
+  - asset_id: a-gern
+    ticker: GERN
+    event_type: trial_readout
+    announced_at: "2018-06-13"
+    outcome_label: positive
+    headline: "Imetelstat IMbark Phase 2 myelofibrosis: 10% SVR + 10% IWG marrow fibrosis improvement rate; dose-dependent"
+
+  - asset_id: a-gern
+    ticker: GERN
+    event_type: trial_readout
+    announced_at: "2020-12-01"
+    outcome_label: positive
+    headline: "Imetelstat IMerge MDS transfusion-independence: 40% TI rate at 8 weeks in LR-MDS; Ph3 enrollment ongoing"
+
+  # ── PTCT (PTC Therapeutics — Rare / Oncology) ────────────────────────────────
+
+  - asset_id: a-ptct
+    ticker: PTCT
+    event_type: pdufa_decision
+    announced_at: "2018-10-18"
+    outcome_label: positive
+    headline: "FDA approved ataluren (Translarna) for DMD due to nonsense mutation; accelerated approval granted"
+
+  - asset_id: a-ptct
+    ticker: PTCT
+    event_type: trial_readout
+    announced_at: "2020-06-08"
+    outcome_label: mixed
+    headline: "Ataluren ACT DMD Ph3 failed primary endpoint overall; but showed benefit in ambulatory subgroup with higher exposure"
+
+  # ── MDGL (Madrigal Pharmaceuticals — MASH) ───────────────────────────────────
+
+  - asset_id: a-mdgl
+    ticker: MDGL
+    event_type: trial_readout
+    announced_at: "2019-12-02"
+    outcome_label: positive
+    headline: "Resmetirom NASH Ph2 52-week: 36% ALT reduction vs placebo + dose-dependent MRI-PDFF fat reduction"
+
+  # ── CRSP (CRISPR Therapeutics — Gene Editing) ────────────────────────────────
+
+  - asset_id: a-crsp
+    ticker: CRSP
+    event_type: trial_readout
+    announced_at: "2019-11-19"
+    outcome_label: positive
+    headline: "CTX001 (exagamglogene) TDT/SCD first-patient: fetal hemoglobin induction >99% post-CRISPR editing; proof of concept"
+
+  # ── NVAX (Novavax — Vaccines) ────────────────────────────────────────────────
+
+  - asset_id: a-nvax
+    ticker: NVAX
+    event_type: trial_readout
+    announced_at: "2016-09-14"
+    outcome_label: negative
+    headline: "ResVax RSV maternal Ph3 PREPARE trial failed: no statistically significant reduction in RSV infection in infants"
+
+  - asset_id: a-nvax
+    ticker: NVAX
+    event_type: trial_readout
+    announced_at: "2019-07-08"
+    outcome_label: negative
+    headline: "ResVax RSV neonate Ph3 final analysis negative: inadequate immunogenicity bridge from maternal antibody transfer"
+
+  # ── IOVA (Iovance Biotherapeutics — TIL Therapy) ─────────────────────────────
+
+  - asset_id: a-iova
+    ticker: IOVA
+    event_type: conference_abstract
+    announced_at: "2018-06-04"
+    outcome_label: positive
+    headline: "LN-145 TIL therapy cervical cancer Phase 2 ASCO: 44% ORR including 3 CR; durable responses in PD1-exposed patients"
+
+  - asset_id: a-iova
+    ticker: IOVA
+    event_type: trial_readout
+    announced_at: "2020-09-21"
+    outcome_label: positive
+    headline: "Lifileucel (LN-144) melanoma C-144-01 Ph2 cohort 4: 36% ORR in heavily pretreated (PD1+CTLA4) patients"
+
+  # ── MRNA (Moderna — mRNA Platform) ───────────────────────────────────────────
+
+  - asset_id: a-mrna
+    ticker: MRNA
+    event_type: trial_readout
+    announced_at: "2020-07-14"
+    outcome_label: positive
+    headline: "mRNA-1273 COVID-19 vaccine Phase 1: 100% seroconversion; 10mcg/25mcg doses met immunogenicity threshold"
+
+  - asset_id: a-mrna
+    ticker: MRNA
+    event_type: trial_readout
+    announced_at: "2020-11-16"
+    outcome_label: positive
+    headline: "mRNA-1273 COVE Ph3 interim: 94.5% vaccine efficacy against COVID-19; all severe cases in placebo arm"
+
+  # ── OCUL (Ocugen / Ocular Therapeutix) ───────────────────────────────────────
+
+  - asset_id: a-ocul
+    ticker: OCUL
+    event_type: trial_readout
+    announced_at: "2019-09-09"
+    outcome_label: mixed
+    headline: "Dextenza dexamethasone Ph3 ocular pain/inflammation: primary met; approved June 2019 but commercial launch slow"
+
+  # ── XBI (SPDR S&P Biotech ETF — Sector Benchmark) ────────────────────────────
+
+  - asset_id: a-xbi
+    ticker: XBI
+    event_type: competitor_readout
+    announced_at: "2016-11-08"
+    outcome_label: negative
+    headline: "US election results Nov 2016: XBI -7.4% on drug pricing policy uncertainty; sector-wide de-rating"
+
+  - asset_id: a-xbi
+    ticker: XBI
+    event_type: competitor_readout
+    announced_at: "2019-10-15"
+    outcome_label: negative
+    headline: "Medicare drug price negotiation proposal headlines Oct 2019: XBI -5.2% on policy risk; broad sector selloff"

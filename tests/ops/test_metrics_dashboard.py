@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from datetime import date, datetime, timezone
+from types import SimpleNamespace
 
 from bve.alerts.alert_config import AlertThresholdsConfig, AlertsConfig
 from bve.alerts.alert_router import AlertRouter
@@ -128,6 +129,163 @@ def test_metrics_dashboard_builds_daily_counts_and_top_opportunities(tmp_path) -
         assert snapshot.top_opportunities[0].asset_id == "asset-a"
         assert snapshot.top_opportunities[0].days_since_event == 1
         assert all(check.passed for check in snapshot.health_checks)
+    finally:
+        store.close()
+
+
+def test_metrics_dashboard_prefers_company_sotp_snapshots_for_top_opportunities(tmp_path) -> None:
+    db_path = tmp_path / "knowledge_company.db"
+    store = KnowledgeStore(str(db_path))
+    try:
+        store.write_company_sotp_snapshots(
+            [
+                SimpleNamespace(
+                    ticker="AAA",
+                    company_id="co-aaa",
+                    company_name="AAA Bio",
+                    snapshot_date=date(2026, 3, 10),
+                    rank=1,
+                    market_cap_millions=500.0,
+                    enterprise_value_millions=420.0,
+                    sotp_equity_value_millions=840.0,
+                    sotp_per_share=8.4,
+                    sotp_discount=1.68,
+                    ranked_sotp_discount=1.55,
+                    modeled_asset_coverage_pct=0.82,
+                    asset_count_modeled=1,
+                    modeled_asset_ids=["asset-a"],
+                    config_quality_summary="curated",
+                    modeled_asset_confidence_min=0.88,
+                    modeled_asset_confidence_avg=0.91,
+                    action_policy="buy",
+                    action_reason="ranked_discount_above_buy_threshold:1.55x",
+                    market_cap_source="unit_test",
+                    balance_sheet_source="sec_edgar_company_facts",
+                    balance_sheet_source_ref="unit-test",
+                    balance_sheet_snapshot_date=date(2026, 2, 28),
+                    balance_sheet_period_end_date=date(2025, 12, 31),
+                    balance_sheet_form_type="10-K",
+                    balance_sheet_is_point_in_time=True,
+                    balance_sheet_age_days=11,
+                    balance_sheet_passes_recency_gate=True,
+                    balance_sheet_recency_penalty=1.0,
+                    buckets=[],
+                    limitations=[],
+                    notes=None,
+                )
+            ]
+        )
+
+        dashboard = MetricsDashboard(store)
+        snapshot = dashboard.build(
+            days=3,
+            top_n=5,
+            as_of=date(2026, 3, 10),
+            reference_time=datetime(2026, 3, 10, 16, 0, tzinfo=timezone.utc),
+        )
+
+        assert snapshot.top_opportunities_source_mode == "company_sotp_snapshot"
+        assert snapshot.top_opportunities_reference_date == date(2026, 3, 10)
+        assert len(snapshot.top_opportunities) == 1
+        assert snapshot.top_opportunities[0].ticker == "AAA"
+        assert snapshot.top_opportunities[0].action_policy == "buy"
+        assert snapshot.top_opportunities[0].ranked_sotp_discount == 1.55
+        assert snapshot.strict_top_opportunities_source_mode == "company_sotp_snapshot"
+        assert snapshot.strict_top_opportunities_reference_date == date(2026, 3, 10)
+        assert len(snapshot.strict_top_opportunities) == 1
+        assert snapshot.strict_top_opportunities[0].ticker == "AAA"
+    finally:
+        store.close()
+
+
+def test_metrics_dashboard_primary_includes_needs_manual_review_but_strict_does_not(tmp_path) -> None:
+    db_path = tmp_path / "knowledge_company_needs_manual.db"
+    store = KnowledgeStore(str(db_path))
+    try:
+        store.write_company_sotp_snapshots(
+            [
+                SimpleNamespace(
+                    ticker="AAA",
+                    company_id="co-aaa",
+                    company_name="AAA Bio",
+                    snapshot_date=date(2026, 3, 10),
+                    rank=1,
+                    market_cap_millions=500.0,
+                    enterprise_value_millions=420.0,
+                    sotp_equity_value_millions=840.0,
+                    sotp_per_share=8.4,
+                    sotp_discount=1.95,
+                    ranked_sotp_discount=1.95,
+                    modeled_asset_coverage_pct=0.82,
+                    asset_count_modeled=1,
+                    modeled_asset_ids=["asset-a"],
+                    config_quality_summary="curated",
+                    modeled_asset_confidence_min=0.88,
+                    modeled_asset_confidence_avg=0.91,
+                    action_policy="needs_manual_review",
+                    action_reason="manual_review",
+                    market_cap_source="unit_test",
+                    balance_sheet_source="sec_edgar_company_facts",
+                    balance_sheet_source_ref="unit-test",
+                    balance_sheet_snapshot_date=date(2026, 2, 28),
+                    balance_sheet_period_end_date=date(2025, 12, 31),
+                    balance_sheet_form_type="10-K",
+                    balance_sheet_is_point_in_time=True,
+                    balance_sheet_age_days=11,
+                    balance_sheet_passes_recency_gate=True,
+                    balance_sheet_recency_penalty=1.0,
+                    buckets=[],
+                    limitations=[],
+                    notes=None,
+                ),
+                SimpleNamespace(
+                    ticker="BBB",
+                    company_id="co-bbb",
+                    company_name="BBB Bio",
+                    snapshot_date=date(2026, 3, 10),
+                    rank=2,
+                    market_cap_millions=400.0,
+                    enterprise_value_millions=320.0,
+                    sotp_equity_value_millions=640.0,
+                    sotp_per_share=6.4,
+                    sotp_discount=1.40,
+                    ranked_sotp_discount=1.40,
+                    modeled_asset_coverage_pct=0.80,
+                    asset_count_modeled=1,
+                    modeled_asset_ids=["asset-b"],
+                    config_quality_summary="curated",
+                    modeled_asset_confidence_min=0.85,
+                    modeled_asset_confidence_avg=0.89,
+                    action_policy="buy",
+                    action_reason="buy",
+                    market_cap_source="unit_test",
+                    balance_sheet_source="sec_edgar_company_facts",
+                    balance_sheet_source_ref="unit-test",
+                    balance_sheet_snapshot_date=date(2026, 2, 28),
+                    balance_sheet_period_end_date=date(2025, 12, 31),
+                    balance_sheet_form_type="10-K",
+                    balance_sheet_is_point_in_time=True,
+                    balance_sheet_age_days=11,
+                    balance_sheet_passes_recency_gate=True,
+                    balance_sheet_recency_penalty=1.0,
+                    buckets=[],
+                    limitations=[],
+                    notes=None,
+                ),
+            ]
+        )
+
+        dashboard = MetricsDashboard(store)
+        snapshot = dashboard.build(
+            days=3,
+            top_n=5,
+            as_of=date(2026, 3, 10),
+            reference_time=datetime(2026, 3, 10, 16, 0, tzinfo=timezone.utc),
+        )
+
+        assert snapshot.top_opportunities[0].ticker == "AAA"
+        assert snapshot.top_opportunities[0].action_policy == "needs_manual_review"
+        assert [row.ticker for row in snapshot.strict_top_opportunities] == ["BBB"]
     finally:
         store.close()
 

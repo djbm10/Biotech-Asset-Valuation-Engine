@@ -1,0 +1,234 @@
+# =============================================================================
+# Kymera Therapeutics (KYMR) — KT-474
+# IRAK4 PROTAC degrader | Atopic Dermatitis (AD) + Hidradenitis Suppurativa (HS)
+# =============================================================================
+#
+# Data sources (all public):
+#   - KYMR Ph2 IRAK4 AD/HS data (ASCO / KYMR investor presentations 2024-2025)
+#   - Kymera 10-K 2024 / Q4 2025 earnings
+#   - Evaluate Pharma / sellside peak sales consensus for AD market
+#   - SSR Health G2N data: specialty derm biologics typically 35-45%
+#   - IGA scoring / EASI endpoints validated by FDA for AD drug approvals
+#   - Epidemiology: AAD / UpToDate; GlobalData AD prevalence
+#
+# Patient-flow chain:
+#   US AD prevalent: ~16.5M (all adults). Moderate-severe AD (label-eligible): ~3.5M.
+#   Diagnosed (by dermatologist, not self-managed): 55% of moderate-severe
+#   Eligible (inadequate response to dupilumab or JAK-naïve biologic label criteria): 25%
+#   Treatment rate: 60% (high because this is refractory/biologic-experienced group)
+#   → Addressable: 3,500K × 0.55 × 0.25 × 0.60 ≈ 288,750 patients
+#
+# Note: Also in HS (hidradenitis suppurativa) — modeled separately in pipeline_value.
+# KT-474 is oral, once-daily — potentially differentiated vs. injectable biologics.
+# =============================================================================
+
+analyst_notes: >
+  KT-474 is Kymera's lead IRAK4 PROTAC degrader (IND-filed Sanofi program;
+  Kymera retains US rights). IRAK4 sits upstream of IL-1/IL-17/IL-18 signaling,
+  key to IL-33-mediated AD and toll-like receptor (TLR)/IL-36 signaling in HS.
+  Ph2 proof-of-concept data in AD (≥50% EASI improvement in ~70% of patients)
+  and HS (HiSCR50 in ~60%) positions KT-474 as a dual-indication PROTAC with
+  a differentiated MoA vs. JAK inhibitors (no kinase inhibition → no boxed warning
+  signal, potentially cleaner cardiovascular/immunosuppression profile).
+  Key risk: Phase 3 size/cost; oral vs. injection may drive payer preference.
+  Sanofi holds ex-US rights; US rNPV accrues to KYMR.
+
+# ---------------------------------------------------------------------------
+# Asset
+# ---------------------------------------------------------------------------
+asset:
+  id: "kt-474"
+  name: "KT-474"
+  indication: "Moderate-severe Atopic Dermatitis (AD) — US"
+  therapeutic_area: "other"          # Immunology / derm → 'other' bucket
+  stage: "phase_2"
+  modality: "small_molecule"         # Oral PROTAC (degrader)
+  mechanism_of_action: >
+    IRAK4 (IL-1 receptor-associated kinase 4) PROTAC degrader.
+    Engages CRBN E3 ligase to ubiquitinate and degrade IRAK4 protein.
+    Blocks both kinase-dependent (TLR/IL-1R) and kinase-independent
+    (MyD88 scaffold) IRAK4 signaling — broader suppression than kinase
+    inhibitors. Reduces TNF, IL-6, IL-12, IL-17, IL-18 downstream.
+  discount_rate: 0.115    # 11.5% WACC — clinical-stage with dual-indication upside
+  royalty_rate: 0.0        # US-only; Sanofi has ex-US royalties (not modeled here)
+
+  differentiation_notes: >
+    1. PROTAC degrader: removes IRAK4 protein entirely (not just inhibits kinase).
+    2. No boxed warning profile expected (not a JAK inhibitor); FDA sensitive to JAKi signals.
+    3. Oral once-daily: convenience advantage over dupilumab (biweekly injection).
+    4. Dual-indication: AD + HS from same mechanism (IRAK4 relevant in both).
+    5. Sanofi partnership validates ex-US commercial potential.
+
+  competitor_assets:
+    - "Dupilumab (Dupixent, Sanofi/Regeneron) — IL-4/IL-13 biologic, dominant market leader"
+    - "Tralokinumab (Adbry, LEO Pharma) — IL-13 biologic, approved"
+    - "Abrocitinib (Cibinqo, Pfizer) — JAK1 inhibitor, oral, boxed warning"
+    - "Upadacitinib (Rinvoq, AbbVie) — JAK1 inhibitor, oral, boxed warning"
+    - "Lebrikizumab (Ebglyss, Lilly/Almirall) — IL-13 biologic, approved"
+    - "Nemolizumab (Nemluvio, Galderma) — IL-31Ra, approved 2024"
+
+  upcoming_catalysts:
+    - description: "KT-474 Ph2b AD primary endpoint readout (EASI-75 at 16 weeks)"
+      expected_date: "2026-H1"
+      catalyst_type: "readout"
+      probability_positive: 0.60
+    - description: "KT-474 Ph2 HS readout (HiSCR50)"
+      expected_date: "2026-H1"
+      catalyst_type: "readout"
+      probability_positive: 0.55
+    - description: "Phase 3 initiation announcement (pending Ph2b success)"
+      expected_date: "2026-H2"
+      catalyst_type: "milestone"
+      probability_positive: 0.55
+
+# ---------------------------------------------------------------------------
+# Company
+# ---------------------------------------------------------------------------
+company:
+  id: "kymera-therapeutics"
+  name: "Kymera Therapeutics"
+  ticker: "KYMR"
+  cash_millions: 900.0
+  debt_millions: 0.0
+  shares_outstanding_millions: 58.5
+  burn_rate_millions_per_quarter: 45.0
+  current_price: 25.0
+  notes: >
+    Sanofi partnership (KT-474 ex-US) provided $150M upfront + milestones.
+    Net cash ~$900M; runway ~5 years at current burn. No debt. Pipeline also
+    includes MDM2 degrader (oncology) and STAT3 degrader (oncology).
+
+# ---------------------------------------------------------------------------
+# Trials
+# ---------------------------------------------------------------------------
+trials:
+  - phase: "phase_2"
+    nct_id: "NCT05127928"
+    success_probability: 0.60
+    duration_years: 1.5
+    cost_millions: 55.0
+    enrollment: 200
+    primary_endpoint: "EASI-75 at Week 16 (vs placebo in mod-severe AD)"
+    endpoint_type: "surrogate_validated"
+    notes: >
+      Ph2b dose-finding (50mg, 100mg QD). EASI-75 primary; IGA 0/1 secondary.
+      Ph1b showed dose-dependent EASI improvement. Ph2b includes placebo
+      control to confirm signal for Phase 3 powering.
+
+  - phase: "phase_3"
+    nct_id: null
+    success_probability: 0.60
+    duration_years: 3.0
+    cost_millions: 280.0
+    enrollment: 700
+    primary_endpoint: "EASI-75 at Week 16 + IGA 0/1 (vs placebo; superiority)"
+    endpoint_type: "surrogate_validated"
+    notes: >
+      Two confirmatory Ph3s expected (FDA AD precedent). Each ~700 patients.
+      KT-474 vs placebo; dupilumab-experienced subgroup important for label.
+      Modeling as single aggregated Phase 3 line with combined cost.
+
+  - phase: "nda_bla"
+    nct_id: null
+    success_probability: 0.90
+    duration_years: 1.5
+    cost_millions: 20.0
+    enrollment: 1
+    primary_endpoint: "NDA submission and FDA review"
+    endpoint_type: "hard_clinical"
+    notes: >
+      AD is FDA priority; PDUFA 12-month standard review expected. Small molecule
+      NDA (oral) — manufacturing simpler than biologic BLA.
+
+# ---------------------------------------------------------------------------
+# Market Model — Mode 4: patient-flow build-up
+# ---------------------------------------------------------------------------
+market_model:
+  asset_id: "kt-474"
+
+  peak_penetration: 0.10
+  addressable_patients_annual: 289000
+  net_price_per_patient_usd: 28000
+
+  patent_life_years: 12
+  years_to_peak: 5
+  launch_year: 2030                 # Estimated approval ~2029-2030
+  revenue_start_year: 2030
+
+  cogs_rate: 0.15
+  sgna_rate_launch: 0.50
+  sgna_rate_mature: 0.22
+
+  commercial_inputs:
+    patient_pool:
+      indication: "Moderate-severe AD (biologic-eligible)"
+      prevalence_thousands: 3500.0    # ~3.5M moderate-severe AD adults in US
+      diagnosed_fraction: 0.55        # ~55% under active dermatologist care
+      eligible_rate: 0.25             # Label gate: inadequate biologic/syst. response
+      treated_fraction: 0.60          # High uptake in this refractory subgroup
+      uncertainty_cv: 0.28
+    pricing:
+      wac_per_year_usd: 48000         # Comparable to abrocitinib/upadacitinib WAC
+      gross_to_net_rate: 0.40         # 40% specialty derm G2N; co-pay card + PBM rebates
+      # net = 48,000 × 0.60 = $28,800 per patient per year
+      launch_discount: 0.10           # Launch-year access discounts
+      annual_erosion_rate: 0.02
+      uncertainty_cv: 0.15
+    share:
+      peak_share: 0.10               # 10% of addressable at peak (crowded IL class)
+      years_to_peak: 5
+      share_cv: 0.25
+    ex_us_revenue_multiple: 1.0       # US-only model (Sanofi holds ex-US)
+
+# ---------------------------------------------------------------------------
+# POS model
+# ---------------------------------------------------------------------------
+pos_adjusters:
+  apply_pos_model: true
+
+  phase_2:
+    endpoint_type: "surrogate_validated"    # EASI validated FDA surrogate in AD
+    moa_precedent: "partial"               # PROTAC novel; IRAK4 kinase inhibitor failed (PF-06650833)
+    sample_size_adequacy: "borderline"     # Ph2b n=200 adequate for signal; Ph3 needs larger
+    safety_profile: "clean"               # No kinase inhibition; no JAK safety concern expected
+    competitive_pressure: "high"          # Dupilumab dominant; JAKi crowded
+    biomarker_selected_population: false
+    strong_prior_phase_data: true         # Ph1b EASI improvement signal
+
+  phase_3:
+    endpoint_type: "surrogate_validated"
+    moa_precedent: "partial"
+    sample_size_adequacy: "adequate"
+    safety_profile: "clean"
+    competitive_pressure: "high"
+    biomarker_selected_population: false
+    strong_prior_phase_data: true
+
+# ---------------------------------------------------------------------------
+# Competition
+# ---------------------------------------------------------------------------
+competition:
+  - name: "Dupilumab (Sanofi/Regeneron)"
+    status: "approved"
+    launch_year_relative: -5
+    peak_market_share: 0.35
+    years_to_peak: 3
+    approval_probability: 1.0
+  - name: "Upadacitinib (AbbVie)"
+    status: "approved"
+    launch_year_relative: -3
+    peak_market_share: 0.12
+    years_to_peak: 4
+    approval_probability: 1.0
+  - name: "Abrocitinib (Pfizer)"
+    status: "approved"
+    launch_year_relative: -3
+    peak_market_share: 0.06
+    years_to_peak: 4
+    approval_probability: 1.0
+  - name: "Tralokinumab (LEO Pharma)"
+    status: "approved"
+    launch_year_relative: -4
+    peak_market_share: 0.05
+    years_to_peak: 4
+    approval_probability: 1.0

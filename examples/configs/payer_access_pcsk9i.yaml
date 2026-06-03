@@ -1,0 +1,110 @@
+# =============================================================================
+# Payer Access Example — PCSK9i-style Specialty Drug (Sprint C1)
+# =============================================================================
+#
+# Scenario: Second-entry PCSK9i inhibitor (LDL-lowering specialty biologic)
+#
+# Payer access context:
+#   - Only ~70% of commercial plans grant formulary access at launch
+#     (first-entry incumbent has preferred status with most PBMs)
+#   - 6-month delay before Medicare/Medicaid coverage takes effect
+#     (HHS negotiation + CMS coverage determination process)
+#   - High prior-authorisation burden: cardiologists estimate >50% of scripts
+#     fail first PA review due to LDL threshold requirements
+#   - Step-edit requirement: patients must fail a statin + ezetimibe before
+#     PCSK9i is approved (applies primarily in Year 1–2 as PA workflows mature)
+#
+# Without payer_access: peak penetration = 4% of eligible pool
+# With payer_access:    effective peak   = 4% × 0.70 × (1 - 0.55 × 0.5) ≈ 2.1%
+#                       Year-1 revenue   = base × 0.70 × 0.725 × 0.5 × 0.50 ≈ 12.7% of base
+#
+# Anti-double-counting note:
+#   This model uses launch_archetype: competitive_late (slow S-curve, ytp=5).
+#   The archetype already suppresses Year-1/2 ramp via the curve shape.
+#   step_edit_risk here provides additional multiplicative suppression ON TOP
+#   of the slow S-curve, which IS intentional in this competitive_late scenario
+#   because the step-edit barrier is a separate, explicit payer-policy mechanism.
+#   If you use step_edit_restricted archetype, omit step_edit_risk to avoid
+#   double-counting the suppression.
+#
+# =============================================================================
+
+asset:
+  id: "pcsk9i-second-entry"
+  name: "EXAMPLE-PCSK9I-2"
+  indication: "Heterozygous Familial Hypercholesterolaemia (HeFH) + ASCVD"
+  therapeutic_area: "cardiovascular"
+  stage: "phase_3"
+  modality: "biologic"
+  discount_rate: 0.10
+
+trials:
+  - phase: "phase_3"
+    success_probability: 0.70        # LDL reduction endpoint; precedent established
+    duration_years: 3.5
+    cost_millions: 380.0
+  - phase: "nda_bla"
+    success_probability: 0.92
+    duration_years: 1.0
+    cost_millions: 40.0
+
+market:
+  asset_id: "pcsk9i-second-entry"
+  therapeutic_area: "cardiovascular"
+  patent_life_years: 12
+
+  # --- Market sizing ---
+  total_addressable_market_millions: 8500.0    # Full class TAM ($8.5B)
+  peak_penetration: 0.04                       # 4% gross class share (before access barriers)
+
+  # --- Launch archetype ---
+  # competitive_late: slow S-curve (k=6/ytp, midpoint=0.65×ytp), ytp=5
+  # Suppresses Year-1 ramp to reflect payer inertia / incumbent formulary lock-in.
+  launch_archetype: "competitive_late"
+
+  # --- Payer access modifiers (Sprint C1) ---
+  payer_access:
+    # Only 70% of payers grant formulary coverage; incumbent holds preferred status
+    access_probability: 0.70
+
+    # CMS coverage determination adds 6 months before meaningful reimbursement
+    coverage_delay_months: 6.0
+
+    # High PA burden: LDL threshold + statin failure documentation required
+    prior_auth_burden: 0.55
+
+    # Step-edit requirement (must fail statin + ezetimibe first)
+    # Most acute in Year 1 as PA workflow templates are being set up
+    # Note: combine with competitive_late archetype intentionally here —
+    #       archetype models uptake curve shape; step_edit_risk models
+    #       an explicit payer-policy gate that is orthogonal to the ramp shape.
+    step_edit_risk: 0.50
+
+  cogs_rate: 0.22                             # biologic manufacturing COGS
+  sgna_rate_launch: 0.45                      # heavy detailing to cardiologists
+  sgna_rate_mature: 0.22
+  sgna_ramp_years: 5
+
+# ---------------------------------------------------------------------------
+# Revenue impact summary:
+#
+# effective_penetration_multiplier = 0.70 × (1 - 0.55 × 0.5)
+#                                  = 0.70 × 0.725
+#                                  = 0.5075
+#
+# Year 1 combined multiplier:
+#   0.5075 × coverage_delay(1=0.5) × step_edit(1=0.50) = 0.5075 × 0.5 × 0.50 ≈ 0.127
+#   → Year 1 revenue ≈ 12.7% of gross revenue before access barriers
+#
+# Year 2 combined multiplier:
+#   0.5075 × 1.0 × 0.75 = 0.381
+#   → Year 2 revenue ≈ 38.1% of gross
+#
+# Year 3+ combined multiplier:
+#   0.5075 × 1.0 × 1.0 = 0.5075
+#   → Year 3+ revenue ≈ 50.8% of gross (permanent loss from formulary + PA)
+#
+# Peak US revenue (before competition fraction):
+#   $8,500M × 4% × 0.5075 ≈ $173M gross peak
+#   vs $8,500M × 4% = $340M without payer barriers
+# ---------------------------------------------------------------------------

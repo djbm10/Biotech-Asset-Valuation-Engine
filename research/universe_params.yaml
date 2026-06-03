@@ -1,0 +1,480 @@
+# ==============================================================================
+# Universe Valuation Parameters — Screening Grade
+# ==============================================================================
+#
+# PURPOSE
+# -------
+# Minimal per-ticker overrides that allow the parametric DrugAssetProgram builder
+# (ops/universe_configs.py) to produce a "screening-grade" valuation for every
+# name in weekly_runner.UNIVERSE without a full hand-written YAML config.
+#
+# ACCURACY TIER
+# -------------
+# These are SCREENING-GRADE estimates, not portfolio-grade BD memos.
+# - peak_sales_millions: conservative-to-mid consensus range midpoint
+# - years_to_approval: rough estimate from current phase, not trial-specific
+# - single_asset: false means the market-implied PoS is an APPROXIMATION; the
+#   company's EV reflects multiple pipeline programs so the back-solve is not
+#   clean. The spread signal is still directionally useful but should be
+#   interpreted with caution for multi-program names.
+#
+# UPDATE CADENCE
+# --------------
+# Review after each quarterly earnings cycle. Update peak_sales_millions and
+# years_to_approval when material new data changes the range.
+#
+# SOURCES
+# -------
+# Peak sales: conservative midpoint of public analyst consensus ranges (Goldman,
+# Morgan Stanley, Leerink, SVB, William Blair). All are PUBLIC information.
+# Years to approval: estimated from current clinical stage and typical timelines.
+#
+# ==============================================================================
+
+meta:
+  version: "2026-Q1"
+  last_updated: "2026-03-28"
+
+universe:
+
+  # ─── Tier A: medium-high conviction, active catalysts ──────────────────────
+
+  VKTX:
+    program_label: "VK2735 — obesity (oral + subcutaneous)"
+    ta: other              # metabolic not in YAML; maps to "all" base rates
+    modality: small_molecule
+    phase: phase_3         # subcutaneous Ph3; oral Ph2 (use leading program)
+    peak_sales_millions: 4500
+    years_to_approval: 2.5
+    patent_life_years: 12
+    single_asset: true
+    catalyst_date: "2026-06-15"    # VK2735 oral Ph2 readout H1 2026 (half_year confidence)
+    approximation_note: null
+    source_note: >
+      Consensus range $3-8B. Used conservative midpoint at $4.5B reflecting
+      crowded GLP-1 market (Ozempic, Zepbound, orforglipron) and price competition.
+
+  ALNY:
+    program_label: "zilebesiran — hypertension (KARDIA-2 Ph3)"
+    ta: cardiovascular
+    modality: rna_therapy
+    phase: phase_3
+    peak_sales_millions: 3500
+    years_to_approval: 2.0
+    patent_life_years: 14
+    single_asset: false    # platform: vutrisiran (approved), inclisiran partnership, ORION-3
+    catalyst_date: "2026-06-30"    # KARDIA-2 readout H1 2026 (half_year confidence)
+    approximation_note: >
+      Multi-program: vutrisiran TTR cardiomyopathy approved, inclisiran partnership
+      generates royalties. PoS spread approximates the zilebesiran value; total EV
+      includes both programs. Use with caution.
+    source_note: >
+      Zilebesiran consensus range $2-5B. Used $3.5B reflecting competitive
+      anti-hypertensives and step-therapy position behind generic SOC.
+
+  SRPT:
+    program_label: "SRP-9003 — LGMD2E (limb-girdle muscular dystrophy Ph3)"
+    ta: rare_disease
+    modality: gene_therapy
+    phase: phase_3
+    peak_sales_millions: 1800
+    years_to_approval: 2.5
+    patent_life_years: 15
+    single_asset: false    # Elevidys (SRP-9001) approved; dominates EV
+    approximation_note: >
+      EV heavily influenced by Elevidys (approved) label breadth. The PoS spread
+      approximates SRP-9003 pipeline only; Elevidys commercial ramp is the dominant
+      driver. Spread signal unreliable.
+    source_note: >
+      LGMD2E consensus range $1-2.5B. Used $1.8B; small orphan indication.
+
+  KYMR:
+    program_label: "KT-474 — STAT6 degrader (atopic dermatitis Ph2)"
+    ta: immunology
+    modality: small_molecule
+    phase: phase_2
+    peak_sales_millions: 2200
+    years_to_approval: 4.0
+    patent_life_years: 12
+    single_asset: true
+    catalyst_date: "2026-07-31"    # KT-474 Ph2 atopic derm readout mid-2026 (quarter confidence)
+    approximation_note: null
+    source_note: >
+      KT-474 consensus range $1.5-3B. Used $2.2B reflecting competitive dupilumab
+      market and uncertainty around STAT6 degrader vs. biologic positioning.
+
+  ARVN:
+    program_label: "ARV-471 (vepdegestrant) — ER+/HER2- breast cancer (VERITAC-2 Ph3)"
+    ta: oncology
+    modality: small_molecule
+    phase: phase_3
+    peak_sales_millions: 2800
+    years_to_approval: 2.5
+    patent_life_years: 12
+    single_asset: true
+    catalyst_date: "2026-09-30"    # VERITAC-2 PFS interim H2 2026 (estimate)
+    approximation_note: null
+    source_note: >
+      ARV-471 consensus range $2-4B. Used $2.8B reflecting CDK4/6i + fulvestrant
+      competition and potential combination-only positioning.
+
+  RVMD:
+    program_label: "RMC-6236 — pan-RAS (PDAC / NSCLC Ph1/2)"
+    ta: oncology
+    modality: small_molecule
+    phase: phase_2         # leading PDAC expansion cohort
+    peak_sales_millions: 3000
+    years_to_approval: 5.0
+    patent_life_years: 12
+    single_asset: true
+    catalyst_date: "2026-07-31"    # RMC-6236 PDAC ORR update mid-2026 (quarter confidence)
+    approximation_note: null
+    source_note: >
+      RMC-6236 consensus range $2-4B. Used $3B; broad RAS coverage offsets
+      heterogeneous efficacy across mutation types.
+
+  NTLA:
+    program_label: "NTLA-2001 — in vivo ATTR cardiomyopathy (Ph1)"
+    ta: rare_disease
+    modality: gene_therapy
+    phase: phase_1
+    peak_sales_millions: 2800
+    years_to_approval: 7.0
+    patent_life_years: 15
+    single_asset: true
+    catalyst_date: "2026-09-30"    # NTLA-2001 Ph1 12-month durability data H2 2026 (estimate)
+    approximation_note: null
+    source_note: >
+      NTLA-2001 consensus range $2-4B. Used $2.8B; TTR market competitive
+      (tafamidis, patisiran, vutrisiran) but in vivo editing could command premium.
+
+  BEAM:
+    program_label: "BEAM-101 — SCD (base editing Ph1/2)"
+    ta: rare_disease
+    modality: gene_therapy
+    phase: phase_1
+    peak_sales_millions: 2200
+    years_to_approval: 6.0
+    patent_life_years: 15
+    single_asset: true
+    catalyst_date: "2026-09-30"    # BEAM-101 initial efficacy H2 2026 (estimate)
+    approximation_note: null
+    source_note: >
+      BEAM-101 consensus range $1.5-3B. Used $2.2B; Casgevy already approved
+      limits addressable population but pricing can be high in severe SCD.
+
+  IMVT:
+    program_label: "batoclimab IMVT-1401 — MG / thyroid eye disease (Ph3)"
+    ta: immunology
+    modality: biologic
+    phase: phase_3
+    peak_sales_millions: 2200
+    years_to_approval: 2.0
+    patent_life_years: 13
+    single_asset: true
+    catalyst_date: "2026-07-31"    # batoclimab ASCEND+ MG readout mid-2026 (quarter confidence)
+    approximation_note: null
+    source_note: >
+      Batoclimab consensus range $1.5-3B. Used $2.2B across MG + TED + AIHA;
+      FcRn market competitive (rozanolixizumab, nipocalimab, efgartigimod).
+
+  MDGL:
+    program_label: "Rezdiffra (resmetirom) — MASH F2-F4 (approved)"
+    ta: other              # metabolic NASH
+    modality: small_molecule
+    phase: approved
+    peak_sales_millions: 4000
+    years_to_approval: 0.0
+    patent_life_years: 11   # approximate remaining exclusivity
+    single_asset: true
+    catalyst_date: "2026-05-15"    # EASL 2026 real-world outcomes data (quarter confidence)
+    approximation_note: >
+      Drug is already approved. Implied PoS back-solve returns P=1.0 conceptually.
+      Use this entry to track commercial ramp mispricing (model rNPV vs current EV)
+      rather than PoS spread. spread_pp will be near zero by construction.
+    source_note: >
+      Rezdiffra consensus peak sales range $3-6B. Used $4B reflecting NASH market
+      adoption curve uncertainty and potential pipeline competition.
+
+  # ─── Tier A / medium conviction ────────────────────────────────────────────
+
+  CRSP:
+    program_label: "CTX310 — hypercholesterolemia (in vivo CRISPR IND)"
+    ta: cardiovascular
+    modality: gene_therapy
+    phase: phase_1         # Casgevy approved; next pipeline asset
+    peak_sales_millions: 2000
+    years_to_approval: 8.0
+    patent_life_years: 15
+    single_asset: false    # Casgevy (SCD) approved, generates revenue
+    approximation_note: >
+      Casgevy commercial launch is the dominant near-term EV driver. CTX310 is
+      early pipeline; the PoS spread reflects the total CRISPR platform option
+      value, not a single asset. Directionally useful, not precise.
+    source_note: >
+      CTX310 consensus speculative: $2B midpoint for hypercholesterolemia if
+      CRISPR durability confirmed. Casgevy peak $2-3B (small SCD population).
+
+  BMRN:
+    program_label: "BMN 333 — achondroplasia (Ph2/3)"
+    ta: rare_disease
+    modality: biologic
+    phase: phase_3
+    peak_sales_millions: 1200
+    years_to_approval: 3.5
+    patent_life_years: 13
+    single_asset: false    # Roctavian (hemophilia), vosoritide approved, PKU franchise
+    approximation_note: >
+      Multi-program platform (Roctavian, vosoritide, PKU). EV reflects franchise;
+      BMN 333 is the primary pipeline catalyst but not the only driver. Spread
+      approximation only.
+    source_note: >
+      BMN 333 consensus range $800M-$1.5B. Used $1.2B for achondroplasia label
+      expansion; modest competitive overhang from vosoritide cannibalization.
+
+  VRTX:
+    program_label: "VX-548 — acute pain (NDA/BLA)"
+    ta: other              # pain / CNS not clean mapping; use 'other'
+    modality: small_molecule
+    phase: nda_bla
+    peak_sales_millions: 2000
+    years_to_approval: 0.8
+    patent_life_years: 12
+    single_asset: false    # CF franchise (Trikafta), APOL1 Ph2, pain — 3 platforms
+    catalyst_date: "2026-06-15"    # VX-548 PDUFA action date Q2 2026 (quarter confidence)
+    approximation_note: >
+      EV dominated by Trikafta CF franchise ($9B+/yr revenue). VX-548 pain and
+      APOL1 kidney disease are pipeline optionality. Implied PoS from single VX-548
+      program will always appear deep discount vs total EV. Spread signal not
+      meaningful for VRTX. Flag: multi-program.
+    source_note: >
+      VX-548 consensus pain range $1.5-3B. Used $2B for non-opioid acute pain
+      assuming clean NDA approval and robust real-world uptake.
+
+  REGN:
+    program_label: "dupilumab — COPD new indication (NDA pending)"
+    ta: immunology
+    modality: biologic
+    phase: nda_bla
+    peak_sales_millions: 5000
+    years_to_approval: 0.8
+    patent_life_years: 10   # approximate remaining dupilumab exclusivity
+    single_asset: false    # Dupixent ~$15B/yr, Eylea, Kevzara, oncology pipeline
+    catalyst_date: "2026-06-30"    # dupilumab COPD sBLA FDA action date Q2 2026 (quarter confidence)
+    approximation_note: >
+      EV reflects the entire REGN franchise ($180B+ market cap). Any single-program
+      PoS back-solve is meaningless here. The spread signal is not applicable.
+      Include for completeness but treat implied_pos as noise.
+    source_note: >
+      Dupilumab COPD incremental peak range $2-7B on top of existing indications.
+      Used $5B for new COPD indication only (existing indications excluded).
+
+  LLY:
+    program_label: "orforglipron — oral GLP-1 (obesity + T2D Ph3)"
+    ta: other              # metabolic
+    modality: small_molecule
+    phase: phase_3
+    peak_sales_millions: 8000
+    years_to_approval: 3.0
+    patent_life_years: 12
+    single_asset: false    # tirzepatide, donanemab, mirikizumab — large franchise
+    approximation_note: >
+      EV dominated by tirzepatide (Zepbound/Mounjaro) ~$20B+/yr already. Orforglipron
+      is incremental pipeline; implied PoS back-solve from full EV is not meaningful.
+      Flag: mega-cap, multi-program. Spread signal not applicable.
+    source_note: >
+      Orforglipron consensus range $5-12B. Used $8B reflecting displacement of
+      injectable GLP-1 market with oral convenience benefit.
+
+  # ─── Tier B / weak conviction ──────────────────────────────────────────────
+
+  RXRX:
+    program_label: "RX-10785 — first Recursion-originated Ph1 compound"
+    ta: oncology           # first IND likely oncology
+    modality: small_molecule
+    phase: phase_1
+    peak_sales_millions: 1000
+    years_to_approval: 8.0
+    patent_life_years: 12
+    single_asset: false    # platform company; EV is AI/compute platform value
+    approximation_note: >
+      EV reflects AI drug discovery platform value, Nvidia partnership, and pipeline
+      option value across 40+ programs. Single-compound implied PoS has essentially
+      no signal here. Include for completeness only.
+    source_note: >
+      First IND compound; purely speculative $1B peak. Range entirely uncertain.
+
+  MRNA:
+    program_label: "mRNA-4157 — individualized cancer vaccine (KEYNOTE-942 Ph3)"
+    ta: oncology
+    modality: biologic     # mRNA vaccine
+    phase: phase_3
+    peak_sales_millions: 3000
+    years_to_approval: 3.0
+    patent_life_years: 12
+    single_asset: false    # COVID vaccine (declining), flu, RSV, cancer — multi-program
+    approximation_note: >
+      EV includes declining COVID vaccine base ($2-3B/yr) plus pipeline optionality.
+      The ICV oncology vaccine could dominate if successful but EV reflects
+      probability-weighted portfolio. Spread is approximate.
+    source_note: >
+      mRNA-4157 ICV consensus range $2-5B in melanoma and other solid tumors.
+      Used $3B reflecting broad label potential but clinical complexity.
+
+  FULC:
+    program_label: "losmapimod — FSHD (Ph3 LOTR)"
+    ta: rare_disease
+    modality: small_molecule
+    phase: phase_3
+    peak_sales_millions: 800
+    years_to_approval: 2.5
+    patent_life_years: 13
+    single_asset: true
+    catalyst_date: "2026-09-30"    # losmapimod LOTR Ph3 readout H2 2026 (estimate)
+    approximation_note: null
+    source_note: >
+      Losmapimod FSHD consensus range $500M-$1.2B. Used $800M for small orphan
+      indication; no approved therapies creates pricing power but small population.
+
+  FATE:
+    program_label: "FT576 — iPSC-NK myeloma (Ph1)"
+    ta: oncology
+    modality: cell_therapy
+    phase: phase_1
+    peak_sales_millions: 1200
+    years_to_approval: 7.0
+    patent_life_years: 14
+    single_asset: false    # multiple iPSC programs, J&J partnership
+    approximation_note: >
+      EV partially reflects J&J partnership payments and multiple NK/T-cell programs.
+      FT576 is one of several parallel assets. Spread is an approximation.
+    source_note: >
+      FT576 consensus speculative; range $800M-$1.5B. Used $1.2B.
+
+  OCUL:
+    program_label: "OCU400 — LCA10/RP (Ph2/3)"
+    ta: ophthalmology
+    modality: gene_therapy
+    phase: phase_2
+    peak_sales_millions: 600
+    years_to_approval: 3.5
+    patent_life_years: 14
+    single_asset: true
+    catalyst_date: "2026-09-30"    # OCU400 BCVA data H2 2026 (estimate)
+    approximation_note: null
+    source_note: >
+      OCU400 consensus range $400M-$800M. Used $600M; rare retinal disease
+      (LCA10 is ultra-rare), potential expansion to broader RP.
+
+  SRRK:
+    program_label: "apitegromab — SMA (TOPAZ Ph3)"
+    ta: rare_disease
+    modality: biologic
+    phase: phase_3
+    peak_sales_millions: 1200
+    years_to_approval: 2.0
+    patent_life_years: 13
+    single_asset: true
+    catalyst_date: "2026-07-31"    # apitegromab TOPAZ 12-month data mid-2026 (quarter confidence)
+    approximation_note: null
+    source_note: >
+      Apitegromab SMA consensus range $800M-$1.8B. Used $1.2B; competitive
+      with nusinersen, risdiplam, and Zolgensma.
+
+  IOVA:
+    program_label: "Amtagvi (lifileucel) — TIL therapy melanoma (approved)"
+    ta: oncology
+    modality: cell_therapy
+    phase: approved
+    peak_sales_millions: 1200
+    years_to_approval: 0.0
+    patent_life_years: 12   # approximate remaining exclusivity
+    single_asset: true
+    catalyst_date: "2026-06-01"    # ASCO 2026 real-world TIL outcomes data (estimate)
+    approximation_note: >
+      Drug approved; same note as MDGL — PoS spread near zero by construction.
+      Use to track commercial ramp mispricing.
+    source_note: >
+      Amtagvi consensus range $800M-$1.5B; commercial ramp to ~250 treatment
+      centers is rate-limiting. Used $1.2B.
+
+  # ─── Tier C: known failures / distressed ───────────────────────────────────
+
+  NVAX:
+    program_label: "nuvaxovid — COVID protein-subunit booster (approved)"
+    ta: infectious_disease
+    modality: biologic
+    phase: approved
+    peak_sales_millions: 600
+    years_to_approval: 0.0
+    patent_life_years: 8    # short remaining exclusivity, generic competition building
+    single_asset: true
+    catalyst_date: null
+    approximation_note: >
+      Drug approved; commercial stage. PoS spread near zero. Use to track
+      mispricing of commercial execution vs model revenue forecast.
+    source_note: >
+      Nuvaxovid consensus range $400M-$800M peak. Used $600M; declining COVID
+      booster market, Sanofi co-promotion helps but capped by vaccine fatigue.
+
+  PRTA:
+    program_label: "prasinezumab — Parkinson's (PADOVA Ph2b extension)"
+    ta: cns
+    modality: biologic
+    phase: phase_2
+    peak_sales_millions: 1500
+    years_to_approval: 6.0
+    patent_life_years: 13
+    single_asset: true
+    catalyst_date: "2026-09-30"    # prasinezumab PADOVA extension analysis H2 2026 (estimate)
+    approximation_note: null
+    source_note: >
+      Prasinezumab consensus speculative; range $1-2B in rapid-progressors.
+      Used $1.5B; Parkinson's is large but subgroup selection limits addressable pool.
+
+  EDIT:
+    program_label: "EDIT-301 — SCD/beta-thal (CRISPR Ph1/2)"
+    ta: rare_disease
+    modality: gene_therapy
+    phase: phase_1
+    peak_sales_millions: 1800
+    years_to_approval: 6.5
+    patent_life_years: 15
+    single_asset: true
+    catalyst_date: "2026-09-30"    # EDIT-301 durability data H2 2026 (estimate)
+    approximation_note: null
+    source_note: >
+      EDIT-301 consensus range $1.5-3B. Used $1.8B; Casgevy and bluebird
+      competitive, but HbF induction approach may have durability advantage.
+
+  AMRN:
+    program_label: "Vascepa (icosapentaenoic acid) — cardiovascular (approved)"
+    ta: cardiovascular
+    modality: small_molecule
+    phase: approved
+    peak_sales_millions: 600
+    years_to_approval: 0.0
+    patent_life_years: 5    # severely at risk from generics
+    single_asset: true
+    catalyst_date: null
+    approximation_note: >
+      Approved product in patent challenge. PoS spread not applicable.
+      Commercial stage; use to track royalty/licensing optionality vs EV.
+    source_note: >
+      Vascepa current run-rate declining due to generic entry; $400-700M range.
+      Used $600M. Patent challenge outcome is binary event.
+
+  ZYME:
+    program_label: "zanidatamab — HER2+ biliary tract cancer (BLA pending)"
+    ta: oncology
+    modality: biologic
+    phase: nda_bla
+    peak_sales_millions: 1500
+    years_to_approval: 0.8
+    patent_life_years: 12
+    single_asset: true
+    catalyst_date: "2026-07-15"    # zanidatamab BLA PDUFA action date mid-2026 (quarter confidence)
+    approximation_note: null
+    source_note: >
+      Zanidatamab consensus range $1-2B. Used $1.5B across BTC + potential
+      expansions; competitive with pertuzumab, T-DM1, trastuzumab biosimilars.

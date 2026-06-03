@@ -1,0 +1,46 @@
+company: Incyte Corporation
+ticker: INCY
+profile_as_of: 2026-04-07
+market_cap_billions: 12
+cash_billions: 3.0
+acquisition_capacity_millions: 6000
+pipeline_gaps:
+  - therapeutic_area: hematology
+    sub_area: myeloproliferative_neoplasms_jak_beyond
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [small_molecule, antibody]
+    budget_ceiling_millions: 5000
+    notes: "Jakafi (ruxolitinib) LOE exposure in myelofibrosis drives urgency for next-gen JAK2, BET, or myeloid differentiation agents; PV/ET expansion also a priority."
+  - therapeutic_area: immunology
+    sub_area: atopic_dermatitis_gvhd_jak
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [small_molecule, oral_jak, antibody]
+    budget_ceiling_millions: 4000
+    notes: "Opzelura (ruxolitinib topical) for AD and chronic GvHD expands the JAK franchise; next-gen TYK2, JAK1-selective, or complementary IL-4/IL-13 blockade adjacency is open."
+  - therapeutic_area: oncology
+    sub_area: solid_tumor_precision_oncology
+    gap_type: strategic_entry
+    urgency: medium
+    preferred_modality: [small_molecule, antibody, ADC]
+    budget_ceiling_millions: 4000
+    notes: "Incyte has internal oncology pipeline including FGFR inhibitor pemigatinib (Pemazyre); broadening into additional precision oncology mechanisms would reduce Jakafi concentration risk."
+  - therapeutic_area: immunology
+    sub_area: autoimmune_vitiligo_alopecia
+    gap_type: franchise_extension
+    urgency: medium
+    preferred_modality: [small_molecule, oral_jak]
+    budget_ceiling_millions: 3000
+    notes: "Opzelura labelling in vitiligo creates dermatology franchise; alopecia areata or additional autoimmune JAK indications are natural extensions."
+recent_deals:
+  - target: Villaris Therapeutics
+    date: 2021-06-01
+    value_billions: 0.75
+    therapeutic_area: hematology
+    modality: small_molecule
+stated_priorities:
+  - MPN/hematology franchise protection and post-Jakafi LOE pipeline
+  - JAK franchise expansion into autoimmune dermatology
+  - Precision oncology pipeline diversification
+  - Dermatology build-out in inflammatory skin diseases

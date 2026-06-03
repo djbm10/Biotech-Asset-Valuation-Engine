@@ -31,8 +31,8 @@ _SRC = Path(__file__).resolve().parent.parent  # src/
 if str(_SRC) not in sys.path:
     sys.path.insert(0, str(_SRC))
 
-from bve.intelligence.knowledge_layer import KnowledgeStore, SourceTrace
-from bve.intelligence.schemas.runs import ReviewDecision
+from bve.intelligence.knowledge_layer import KnowledgeStore, SourceTrace  # noqa: E402
+from bve.intelligence.schemas.runs import ReviewDecision  # noqa: E402
 
 # ---------------------------------------------------------------------------
 # Constants

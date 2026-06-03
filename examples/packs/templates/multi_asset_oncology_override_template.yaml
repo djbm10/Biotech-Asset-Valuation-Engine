@@ -1,0 +1,112 @@
+# Company SOTP Override Template — Multi-Asset Oncology Archetype
+# ─────────────────────────────────────────────────────────────────
+# Use for: oncology companies where multiple pipeline programs, an IO or precision
+# platform, and financing dependence materially expand value beyond the lead asset.
+# Examples: AGEN (botensilimab IO), KYMR (TPD oncology), IOVA (cell therapy),
+#           BHVN (neuro-oncology), PRAX (CNS/neuro pipeline).
+#
+# Evidence standards for this archetype:
+#   company_disclosure (investor-day pipeline map, partnership announcements): 0.72-0.80
+#   analyst_bridge (stage × deal-comp estimates for named programs):           0.60-0.68
+#   inferred (platform value, pre-IND optionality):                            0.55-0.65
+#
+# Step-4 enforcement rules (encoded in CompanySOTPBuilder defaults):
+#   Single bucket > 25% of SOTP without ≥2 independent source_refs → needs_manual_review
+#   Total manual bucket share > 35% with avg confidence < 0.80    → needs_manual_review
+#
+# Multi-asset oncology typically has 40-70% manual bucket share.
+# Split the pipeline into 2-4 named program buckets rather than one lump sum.
+# Keep any single program bucket ≤ 20% of SOTP, or provide ≥2 source_refs.
+# ─────────────────────────────────────────────────────────────────
+
+# Replace TICKER with the company ticker (e.g. AGEN, KYMR, IOVA, BHVN, PRAX)
+TICKER:
+  notes: >
+    Multi-asset [IO / precision oncology / CNS / cell therapy] company. The lead
+    modeled asset does not capture the full pipeline or platform value. Manual buckets
+    should reflect named programs only — avoid speculative unspecified optionality.
+    Target manual bucket share: 40-70% of SOTP; maintain avg confidence ≥ 0.65.
+  inputs:
+
+    # ── Named program 1 (most advanced non-modeled asset) ─────────────────────
+    # Use a separate bucket for each program that is Phase 1 or later AND is not
+    # already in a standalone bve-asset config. Do NOT double-count programs that
+    # have their own rNPV configs — use only unmodeled programs here.
+    - bucket_id: TICKER_program_1
+      bucket_type: unmodeled_pipeline
+      label: "[Drug Name] — [Indication] (Phase X)"
+      value_millions: 0.0         # fill: stage × deal-comp estimate
+      as_of_date: "YYYY-MM-DD"
+      confidence: 0.65            # Phase 2+: 0.65-0.70; Phase 1: 0.60-0.65; pre-IND: 0.55
+      source: analyst_manual_pack
+      source_ref: "pack_YYYYQN:TICKER:program_1|clinicaltrials.gov:NCT_ID"
+      source_kind: analyst_bridge  # upgrade to company_disclosure if value explicitly stated by mgmt
+      notes: >
+        Stage: Phase [X]. Indication: [indication]. NCT: [NCT_ID].
+        Value methodology: published [Phase X oncology] deal comps × PoS-adjusted NPV.
+        Deal comp references: [cite 2-3 comparable transactions].
+
+    # ── Named program 2 (second major unmodeled asset) ────────────────────────
+    - bucket_id: TICKER_program_2
+      bucket_type: unmodeled_pipeline
+      label: "[Drug Name] — [Indication] (Phase X)"
+      value_millions: 0.0
+      as_of_date: "YYYY-MM-DD"
+      confidence: 0.62            # typically slightly lower than program_1 (earlier stage / less data)
+      source: analyst_manual_pack
+      source_ref: "pack_YYYYQN:TICKER:program_2|clinicaltrials.gov:NCT_ID"
+      source_kind: analyst_bridge
+      notes: >
+        Stage: Phase [X]. Indication: [indication]. NCT: [NCT_ID].
+
+    # ── Platform value (oncology / IO / precision) ───────────────────────────
+    # The discovery / technology platform beyond the current named programs.
+    # Only include if the platform has commercial precedent (licensing, partnerships,
+    # or explicitly valued at investor day). For early-stage platforms with no
+    # validated licensing, set value to $0 or a low placeholder.
+    - bucket_id: TICKER_platform
+      bucket_type: platform
+      label: "[IO / ADC / TPD / cell therapy] platform value"
+      value_millions: 0.0         # fill: platform estimate; keep conservative
+      as_of_date: "YYYY-MM-DD"
+      confidence: 0.62            # 0.60-0.65 for unvalidated platform; 0.70-0.75 if licensing revenue exists
+      source: analyst_manual_pack
+      source_ref: "pack_YYYYQN:TICKER:platform"
+      source_kind: analyst_bridge  # upgrade to company_disclosure if investor-day disclosure exists
+      notes: >
+        Platform value estimated from: [describe methodology].
+        Peer precedents: [2-3 platform transaction references].
+        Licensing pipeline: [number of active programs / partnerships].
+
+    # ── Dilution reserve ──────────────────────────────────────────────────────
+    # Multi-asset oncology companies are almost always pre-commercial and face
+    # significant financing risk. This bucket is required unless the company has
+    # ≥3 years of cash runway AND no ATM/shelf active.
+    - bucket_id: TICKER_dilution_reserve
+      bucket_type: dilution_reserve
+      label: "Financing dilution reserve"
+      value_millions: 0.0         # fill: negative value; see calculation note below
+      as_of_date: "YYYY-MM-DD"
+      confidence: 0.75            # 0.72-0.80; anchor to most recent SEC capitalization table
+      source: financing_path_manual_pack
+      source_ref: "10-Q:YYYY-MM-DD:capitalization|pack_YYYYQN:TICKER:dilution"
+      source_kind: analyst_bridge  # upgrade to sec_filing if ATM/shelf quantified in SEC filing
+      notes: >
+        Dilution calculation: (burn $[X]M/quarter × [X] quarters to next major catalyst)
+        net of current cash $[X]M. ATM/shelf: [reference 10-Q or S-3].
+        Key catalyst that could reduce dilution need: [Phase X readout / partnership milestone].
+
+# ─────────────────────────────────────────────────────────────────
+# Usage notes:
+#
+# 1. Replace all TICKER placeholders with the real ticker.
+# 2. Create one program bucket per named clinical-stage asset (Phase 1+).
+#    Aggregate pre-IND programs into one "early-pipeline" bucket with 0.55 confidence.
+# 3. Never include a program already covered by a standalone bve-asset rNPV config.
+# 4. If any single program bucket will exceed 25% of total SOTP, add a second
+#    corroborating source_ref (e.g. ClinicalTrials.gov + a deal comp reference).
+# 5. Total manual bucket share will typically be 40-70% for this archetype.
+#    Maintain per-bucket confidence ≥ 0.62 to keep avg above the 0.65 quality floor.
+# 6. Copy this block into research/company_sotp_overrides.yaml under the ticker.
+# 7. Run company_sotp_backfiller after adding to verify action policy improves.
+# ─────────────────────────────────────────────────────────────────

@@ -12,6 +12,10 @@ Also includes:
 - Competition model share invariants (time-aware, 0.10 floor)
 - Cap stress analysis (decision robustness)
 - Phase required enforcement (phase=None → ValueError)
+
+Layer 2 dimensions (EvidenceDesignQuality, ComparatorFit, RegulatoryPathwayRisk)
+replace the old (EndpointBasis, EvidenceDesign, ApprovalPathway) trio.
+Phase scaling is a single multiplier per phase, not per-dimension.
 """
 from __future__ import annotations
 
@@ -19,12 +23,12 @@ import numpy as np
 import pytest
 
 from bve.models.trial_design_features import (
-    ApprovalPathway,
     CapStressResult,
+    ComparatorFit,
     DesignAdjustedPOSResult,
-    EndpointBasis,
-    EvidenceDesign,
+    EvidenceDesignQuality,
     LayerOverlapReport,
+    RegulatoryPathwayRisk,
     TrialDesignFeatureSet,
     cap_stress_analysis,
     check_pos_layer_overlap,
@@ -121,12 +125,15 @@ class TestPhaseRequired:
         result = compute_design_adjusted_pos(0.55, features, phase=TRIAL_DESIGN_PHASE_NEUTRAL)
         assert 0.0 < result.adjusted_pos < 1.0
 
-    def test_neutral_phase_uses_all_ones_scaling(self):
+    def test_neutral_phase_uses_scaling_of_one(self):
         """Phase 'neutral' should apply scaling=1.0 to all dimensions."""
-        features = TrialDesignFeatureSet(evidence_design=EvidenceDesign.SINGLE_ARM)
+        features = TrialDesignFeatureSet(
+            evidence_design_quality=EvidenceDesignQuality.SINGLE_ARM_OBJECTIVE
+        )
         result = compute_design_adjusted_pos(0.55, features, phase=TRIAL_DESIGN_PHASE_NEUTRAL)
-        assert result.phase_scaling_applied["evidence_design"] == pytest.approx(1.0)
-        assert result.phase_scaling_applied["endpoint_basis"] == pytest.approx(1.0)
+        assert result.phase_scaling_applied["evidence_design_quality"] == pytest.approx(1.0)
+        assert result.phase_scaling_applied["comparator_fit"] == pytest.approx(1.0)
+        assert result.phase_scaling_applied["regulatory_pathway_risk"] == pytest.approx(1.0)
 
     def test_compute_adjusted_pos_method_requires_phase(self):
         """TrialDesignFeatureSet.compute_adjusted_pos also requires phase."""
@@ -140,46 +147,77 @@ class TestPhaseRequired:
 # ---------------------------------------------------------------------------
 
 class TestTrialDesignMonotonicity:
-    def test_rct_higher_pos_than_single_arm(self):
-        """RCT with comparator should give higher adjusted POS than single-arm design."""
+    def test_rct_double_blind_higher_than_single_arm(self):
+        """RCT double-blind should give higher adjusted POS than single-arm design."""
         base_pos = 0.55
-        rct = TrialDesignFeatureSet(evidence_design=EvidenceDesign.RCT_COMPARATIVE)
-        single = TrialDesignFeatureSet(evidence_design=EvidenceDesign.SINGLE_ARM)
+        rct = TrialDesignFeatureSet(evidence_design_quality=EvidenceDesignQuality.RCT_DOUBLE_BLIND)
+        single = TrialDesignFeatureSet(evidence_design_quality=EvidenceDesignQuality.SINGLE_ARM_OBJECTIVE)
         res_rct = compute_design_adjusted_pos(base_pos, rct, phase="phase_3")
         res_single = compute_design_adjusted_pos(base_pos, single, phase="phase_3")
         assert res_rct.adjusted_pos > res_single.adjusted_pos
 
-    def test_hard_endpoint_higher_than_surrogate_novel(self):
-        """Hard clinical endpoint should give higher adjusted POS than novel surrogate."""
+    def test_evidence_design_quality_monotonically_decreases(self):
+        """Design quality must decrease monotonically from RCT_DOUBLE_BLIND to REGISTRY_OBSERVATIONAL."""
         base_pos = 0.55
-        hard = TrialDesignFeatureSet(endpoint_basis=EndpointBasis.HARD_CLINICAL)
-        novel = TrialDesignFeatureSet(endpoint_basis=EndpointBasis.SURROGATE_NOVEL)
-        res_hard = compute_design_adjusted_pos(base_pos, hard, phase="phase_3")
-        res_novel = compute_design_adjusted_pos(base_pos, novel, phase="phase_3")
-        assert res_hard.adjusted_pos > res_novel.adjusted_pos
+        order = [
+            EvidenceDesignQuality.RCT_DOUBLE_BLIND,
+            EvidenceDesignQuality.RCT_OPEN_LABEL,
+            EvidenceDesignQuality.RCT_WEAK_COMPARATOR,
+            EvidenceDesignQuality.SINGLE_ARM_OBJECTIVE,
+            EvidenceDesignQuality.SINGLE_ARM_SUBJECTIVE,
+            EvidenceDesignQuality.REGISTRY_OBSERVATIONAL,
+        ]
+        pos_values = [
+            compute_design_adjusted_pos(
+                base_pos, TrialDesignFeatureSet(evidence_design_quality=edq), phase="phase_3"
+            ).adjusted_pos
+            for edq in order
+        ]
+        for i in range(len(pos_values) - 1):
+            assert pos_values[i] > pos_values[i + 1], (
+                f"Expected {order[i].value} > {order[i+1].value}: "
+                f"{pos_values[i]:.4f} vs {pos_values[i+1]:.4f}"
+            )
 
-    def test_validated_surrogate_between_hard_and_novel(self):
-        """Validated surrogate should fall between hard endpoint and novel surrogate."""
+    def test_comparator_fit_ordering(self):
+        """MATCHES_SOC > ACCEPTABLE_NOT_IDEAL > NO_VALID_COMPARATOR."""
         base_pos = 0.55
-        hard = compute_design_adjusted_pos(base_pos, TrialDesignFeatureSet(endpoint_basis=EndpointBasis.HARD_CLINICAL), phase="phase_3")
-        validated = compute_design_adjusted_pos(base_pos, TrialDesignFeatureSet(endpoint_basis=EndpointBasis.SURROGATE_VALIDATED), phase="phase_3")
-        novel = compute_design_adjusted_pos(base_pos, TrialDesignFeatureSet(endpoint_basis=EndpointBasis.SURROGATE_NOVEL), phase="phase_3")
-        assert hard.adjusted_pos > validated.adjusted_pos > novel.adjusted_pos
-
-    def test_approval_pathway_ordering(self):
-        """BTD > standard in terms of adjusted POS (all else equal)."""
-        base_pos = 0.55
-        btd = compute_design_adjusted_pos(
+        best = compute_design_adjusted_pos(
             base_pos,
-            TrialDesignFeatureSet(approval_pathway=ApprovalPathway.BREAKTHROUGH_DESIGNATION),
+            TrialDesignFeatureSet(comparator_fit=ComparatorFit.MATCHES_SOC),
+            phase="phase_3",
+        )
+        neutral = compute_design_adjusted_pos(
+            base_pos,
+            TrialDesignFeatureSet(comparator_fit=ComparatorFit.ACCEPTABLE_NOT_IDEAL),
+            phase="phase_3",
+        )
+        worst = compute_design_adjusted_pos(
+            base_pos,
+            TrialDesignFeatureSet(comparator_fit=ComparatorFit.NO_VALID_COMPARATOR),
+            phase="phase_3",
+        )
+        assert best.adjusted_pos > neutral.adjusted_pos > worst.adjusted_pos
+
+    def test_regulatory_pathway_ordering(self):
+        """ORPHAN_RARE_DISEASE > STANDARD > NO_CLEAR_PRECEDENT."""
+        base_pos = 0.55
+        orphan = compute_design_adjusted_pos(
+            base_pos,
+            TrialDesignFeatureSet(regulatory_pathway_risk=RegulatoryPathwayRisk.ORPHAN_RARE_DISEASE),
             phase="phase_3",
         )
         standard = compute_design_adjusted_pos(
             base_pos,
-            TrialDesignFeatureSet(approval_pathway=ApprovalPathway.STANDARD),
+            TrialDesignFeatureSet(regulatory_pathway_risk=RegulatoryPathwayRisk.STANDARD),
             phase="phase_3",
         )
-        assert btd.adjusted_pos > standard.adjusted_pos
+        no_precedent = compute_design_adjusted_pos(
+            base_pos,
+            TrialDesignFeatureSet(regulatory_pathway_risk=RegulatoryPathwayRisk.NO_CLEAR_PRECEDENT),
+            phase="phase_3",
+        )
+        assert orphan.adjusted_pos > standard.adjusted_pos > no_precedent.adjusted_pos
 
 
 # ---------------------------------------------------------------------------
@@ -189,21 +227,20 @@ class TestTrialDesignMonotonicity:
 class TestTrialDesignCap:
     def test_combined_positive_adjustments_hit_cap(self):
         """
-        Check that total_logodds_adjustment <= TRIAL_DESIGN_CAP_POSITIVE always holds,
-        and that the uncapped value reflects Phase 3-scaled actual values.
-
-        At Phase 3: hard_clinical (0.35 × 1.0) + rct_comparative (0.0) + BTD (0.10 × 0.80)
-        = 0.35 + 0.0 + 0.08 = 0.43 — below cap, so NOT capped.
+        All-positive combination at Phase 3 should hit the +0.30 cap.
+        rct_double_blind (+0.20) + matches_soc (+0.10) + orphan_rare_disease (+0.10) = +0.40
+        → capped at +0.30.
         """
         features = TrialDesignFeatureSet(
-            endpoint_basis=EndpointBasis.HARD_CLINICAL,
-            evidence_design=EvidenceDesign.RCT_COMPARATIVE,
-            approval_pathway=ApprovalPathway.BREAKTHROUGH_DESIGNATION,
+            evidence_design_quality=EvidenceDesignQuality.RCT_DOUBLE_BLIND,
+            comparator_fit=ComparatorFit.MATCHES_SOC,
+            regulatory_pathway_risk=RegulatoryPathwayRisk.ORPHAN_RARE_DISEASE,
         )
         result = compute_design_adjusted_pos(base_pos=0.55, features=features, phase="phase_3")
-        assert result.uncapped_logodds_adjustment == pytest.approx(0.43, abs=0.01)
-        assert not result.was_capped
-        assert result.total_logodds_adjustment <= TRIAL_DESIGN_CAP_POSITIVE
+        assert result.uncapped_logodds_adjustment == pytest.approx(0.40, abs=0.01)
+        assert result.was_capped
+        assert result.cap_applied == "positive"
+        assert result.total_logodds_adjustment == pytest.approx(TRIAL_DESIGN_CAP_POSITIVE, abs=0.001)
 
     def test_cap_activates_when_exceeded(self):
         """
@@ -211,26 +248,21 @@ class TestTrialDesignCap:
         should be capped and was_capped should be True.
         """
         features = TrialDesignFeatureSet(
-            endpoint_basis=EndpointBasis.HARD_CLINICAL,
-            evidence_design=EvidenceDesign.RCT_COMPARATIVE,
-            approval_pathway=ApprovalPathway.BREAKTHROUGH_DESIGNATION,
+            evidence_design_quality=EvidenceDesignQuality.RCT_DOUBLE_BLIND,
+            comparator_fit=ComparatorFit.MATCHES_SOC,
         )
-        # Force a low cap so that 0.43 uncapped → capped at 0.10
-        from bve.config.constants import TRIAL_DESIGN_LOGODDS
-        settings = dict(TRIAL_DESIGN_LOGODDS)
-        settings["cap_logodds_positive"] = 0.10
-        settings["cap_logodds_negative"] = -0.50
+        settings = {"cap_logodds_positive": 0.05, "cap_logodds_negative": -0.60}
         result = compute_design_adjusted_pos(base_pos=0.55, features=features, phase="phase_3", settings=settings)
         assert result.was_capped
         assert result.cap_applied == "positive"
-        assert result.total_logodds_adjustment == pytest.approx(0.10, abs=0.001)
+        assert result.total_logodds_adjustment == pytest.approx(0.05, abs=0.001)
 
     def test_negative_cap_activates(self):
         """Stacking maximum negative features should hit TRIAL_DESIGN_CAP_NEGATIVE."""
         features = TrialDesignFeatureSet(
-            endpoint_basis=EndpointBasis.BIOMARKER_ONLY,    # -0.80 × 1.0
-            evidence_design=EvidenceDesign.REGISTRY_BASED,  # -0.70 × 1.0
-            approval_pathway=ApprovalPathway.STANDARD,      # 0.0
+            evidence_design_quality=EvidenceDesignQuality.REGISTRY_OBSERVATIONAL,  # -0.35
+            comparator_fit=ComparatorFit.NO_VALID_COMPARATOR,                       # -0.30
+            regulatory_pathway_risk=RegulatoryPathwayRisk.NO_CLEAR_PRECEDENT,       # -0.30
         )
         result = compute_design_adjusted_pos(base_pos=0.55, features=features, phase="phase_3")
         assert result.was_capped
@@ -240,9 +272,9 @@ class TestTrialDesignCap:
     def test_breakdown_sums_to_uncapped(self):
         """adjustment_breakdown values should sum to uncapped_logodds_adjustment."""
         features = TrialDesignFeatureSet(
-            endpoint_basis=EndpointBasis.HARD_CLINICAL,
-            evidence_design=EvidenceDesign.SINGLE_ARM,
-            approval_pathway=ApprovalPathway.ACCELERATED_APPROVAL,
+            evidence_design_quality=EvidenceDesignQuality.SINGLE_ARM_OBJECTIVE,
+            comparator_fit=ComparatorFit.OUTDATED_COMPARATOR,
+            regulatory_pathway_risk=RegulatoryPathwayRisk.ACCELERATED_NOVEL_SURROGATE,
         )
         result = compute_design_adjusted_pos(base_pos=0.55, features=features, phase="phase_3")
         bd_sum = sum(result.adjustment_breakdown.values())
@@ -257,14 +289,14 @@ class TestTrialDesignBounds:
     def test_adjusted_pos_strictly_between_zero_and_one(self):
         """Adjusted POS must remain strictly in (0, 1) for extreme inputs."""
         extreme_positive = TrialDesignFeatureSet(
-            endpoint_basis=EndpointBasis.HARD_CLINICAL,
-            evidence_design=EvidenceDesign.RCT_COMPARATIVE,
-            approval_pathway=ApprovalPathway.BREAKTHROUGH_DESIGNATION,
+            evidence_design_quality=EvidenceDesignQuality.RCT_DOUBLE_BLIND,
+            comparator_fit=ComparatorFit.MATCHES_SOC,
+            regulatory_pathway_risk=RegulatoryPathwayRisk.ORPHAN_RARE_DISEASE,
         )
         extreme_negative = TrialDesignFeatureSet(
-            endpoint_basis=EndpointBasis.BIOMARKER_ONLY,
-            evidence_design=EvidenceDesign.REGISTRY_BASED,
-            approval_pathway=ApprovalPathway.STANDARD,
+            evidence_design_quality=EvidenceDesignQuality.REGISTRY_OBSERVATIONAL,
+            comparator_fit=ComparatorFit.NO_VALID_COMPARATOR,
+            regulatory_pathway_risk=RegulatoryPathwayRisk.NO_CLEAR_PRECEDENT,
         )
         for base in [0.001, 0.50, 0.999]:
             r_pos = compute_design_adjusted_pos(base, extreme_positive, phase="phase_3")
@@ -272,13 +304,27 @@ class TestTrialDesignBounds:
             assert 0.0 < r_pos.adjusted_pos < 1.0
             assert 0.0 < r_neg.adjusted_pos < 1.0
 
-    def test_default_features_leave_pos_unchanged(self):
-        """Default TrialDesignFeatureSet (all reference values) should not change base_pos."""
+    def test_default_features_produce_positive_adjustment(self):
+        """
+        Default TrialDesignFeatureSet (RCT_DOUBLE_BLIND + ACCEPTABLE_NOT_IDEAL + STANDARD)
+        gives a positive adjustment at Phase 3: +0.20 × 1.0 = +0.20.
+        """
         features = TrialDesignFeatureSet()
         result = compute_design_adjusted_pos(base_pos=0.55, features=features, phase="phase_3")
-        assert result.adjusted_pos == pytest.approx(0.55, abs=0.001)
-        assert result.total_logodds_adjustment == pytest.approx(0.0, abs=0.001)
+        assert result.total_logodds_adjustment == pytest.approx(0.20, abs=0.001)
+        assert result.adjusted_pos > 0.55
         assert not result.was_capped
+
+    def test_acceptable_not_ideal_standard_gives_zero_for_cf_rpr(self):
+        """ComparatorFit and RegulatoryPathwayRisk baseline values give 0 contribution."""
+        features = TrialDesignFeatureSet(
+            evidence_design_quality=EvidenceDesignQuality.RCT_OPEN_LABEL,  # +0.10
+            comparator_fit=ComparatorFit.ACCEPTABLE_NOT_IDEAL,              #  0.00
+            regulatory_pathway_risk=RegulatoryPathwayRisk.STANDARD,         #  0.00
+        )
+        result = compute_design_adjusted_pos(base_pos=0.55, features=features, phase="phase_3")
+        assert result.adjustment_breakdown["comparator_fit"] == pytest.approx(0.0, abs=0.001)
+        assert result.adjustment_breakdown["regulatory_pathway_risk"] == pytest.approx(0.0, abs=0.001)
 
 
 # ---------------------------------------------------------------------------
@@ -404,41 +450,55 @@ class TestPhaseConditionalScaling:
     def test_single_arm_penalty_stronger_at_phase3_than_phase1(self):
         """Single-arm penalty must be substantially larger at Phase 3 than Phase 1."""
         base_pos = 0.55
-        features = TrialDesignFeatureSet(evidence_design=EvidenceDesign.SINGLE_ARM)
+        features = TrialDesignFeatureSet(
+            evidence_design_quality=EvidenceDesignQuality.SINGLE_ARM_SUBJECTIVE
+        )
         res_p3 = compute_design_adjusted_pos(base_pos, features, phase="phase_3")
         res_p1 = compute_design_adjusted_pos(base_pos, features, phase="phase_1")
         assert res_p3.adjusted_pos < res_p1.adjusted_pos
-        p3_delta = base_pos - res_p3.adjusted_pos
-        p1_delta = base_pos - res_p1.adjusted_pos
-        assert p3_delta > p1_delta * 3, (
-            f"Phase 3 single-arm delta ({p3_delta:.3f}) should be ≥3× Phase 1 delta ({p1_delta:.3f})"
+        # Phase 3 scaling=1.0, Phase 1 scaling=0.20 → ratio ≥ 3×
+        p3_lo = abs(res_p3.total_logodds_adjustment)
+        p1_lo = abs(res_p1.total_logodds_adjustment)
+        assert p3_lo > p1_lo * 3, (
+            f"Phase 3 |logodds| ({p3_lo:.3f}) should be ≥3× Phase 1 ({p1_lo:.3f})"
         )
 
-    def test_biomarker_endpoint_minimal_at_phase1(self):
-        """Biomarker-only endpoint should barely change POS at Phase 1 (appropriate design)."""
+    def test_risky_design_minimal_at_phase1(self):
+        """Subjective single-arm should barely change POS at Phase 1 (small scaling)."""
         base_pos = 0.65
-        features = TrialDesignFeatureSet(endpoint_basis=EndpointBasis.BIOMARKER_ONLY)
+        features = TrialDesignFeatureSet(
+            evidence_design_quality=EvidenceDesignQuality.SINGLE_ARM_SUBJECTIVE
+        )
         res_p1 = compute_design_adjusted_pos(base_pos, features, phase="phase_1")
         res_p3 = compute_design_adjusted_pos(base_pos, features, phase="phase_3")
-        assert abs(res_p1.adjusted_pos - base_pos) < 0.05
-        assert abs(res_p3.adjusted_pos - base_pos) > 0.10
+        # Phase 1: -0.30 × 0.20 = -0.06 → small change
+        assert abs(res_p1.adjusted_pos - base_pos) < 0.03
+        # Phase 3: -0.30 × 1.00 = -0.30 → large change
+        assert abs(res_p3.adjusted_pos - base_pos) > 0.05
 
     def test_phase_scaling_fields_in_result(self):
-        """phase_scaling_applied should report the scaling used for audit."""
-        features = TrialDesignFeatureSet(evidence_design=EvidenceDesign.SINGLE_ARM)
+        """phase_scaling_applied should report the scaling multiplier for audit."""
+        features = TrialDesignFeatureSet(
+            evidence_design_quality=EvidenceDesignQuality.SINGLE_ARM_OBJECTIVE
+        )
         result = compute_design_adjusted_pos(0.55, features, phase="phase_1")
         from bve.config.constants import TRIAL_DESIGN_PHASE_SCALING
-        expected = TRIAL_DESIGN_PHASE_SCALING["phase_1"]
-        assert result.phase_scaling_applied["evidence_design"] == pytest.approx(
-            expected["evidence_design"], abs=0.001
+        expected_scale = TRIAL_DESIGN_PHASE_SCALING["phase_1"]
+        assert result.phase_scaling_applied["evidence_design_quality"] == pytest.approx(
+            expected_scale, abs=0.001
         )
+        # All three dimensions get the same multiplier
+        assert result.phase_scaling_applied["comparator_fit"] == pytest.approx(expected_scale, abs=0.001)
+        assert result.phase_scaling_applied["regulatory_pathway_risk"] == pytest.approx(expected_scale, abs=0.001)
 
     def test_neutral_differs_from_phase1(self):
-        """Explicit 'neutral' phase should give larger effects than phase_1."""
-        features = TrialDesignFeatureSet(evidence_design=EvidenceDesign.SINGLE_ARM)
+        """Explicit 'neutral' phase should give larger magnitude than phase_1."""
+        features = TrialDesignFeatureSet(
+            evidence_design_quality=EvidenceDesignQuality.SINGLE_ARM_SUBJECTIVE
+        )
         res_neutral = compute_design_adjusted_pos(0.55, features, phase=TRIAL_DESIGN_PHASE_NEUTRAL)
         res_p1 = compute_design_adjusted_pos(0.55, features, phase="phase_1")
-        # neutral applies 1.0 scaling; phase_1 applies 0.10 → neutral has larger penalty
+        # neutral applies 1.0 scaling; phase_1 applies 0.20 → neutral has larger penalty
         assert res_neutral.adjusted_pos < res_p1.adjusted_pos
 
 
@@ -447,53 +507,68 @@ class TestPhaseConditionalScaling:
 # ---------------------------------------------------------------------------
 
 class TestLayerOverlap:
-    def test_no_overlap_when_clean(self):
-        """Default POSAdjusters + default TrialDesignFeatureSet: no overlaps."""
+    """
+    The new Layer 2 (EvidenceDesignQuality, ComparatorFit, RegulatoryPathwayRisk)
+    is orthogonal to Layer 1 by design — BTD is in Layer 1 only, and endpoint
+    quality is not a Layer 2 dimension. check_pos_layer_overlap() always returns
+    a clean report.
+    """
+
+    def test_no_overlap_with_default_settings(self):
+        """Default POSAdjusters + default TrialDesignFeatureSet: always clean."""
         from bve.models.pos_model import POSAdjusters
         adj = POSAdjusters()
         features = TrialDesignFeatureSet()
         report = check_pos_layer_overlap(adj, features, phase="phase_3")
         assert report.is_clean()
         assert not report.has_critical_overlap
+        assert report.estimated_double_count_logodds == pytest.approx(0.0)
 
-    def test_endpoint_quality_overlap_detected(self):
-        """
-        Non-default endpoint_type AND non-default endpoint_basis → critical overlap.
-        """
-        from bve.models.pos_model import POSAdjusters
-        from bve.entities.trial import EndpointType
-        adj = POSAdjusters(endpoint_type=EndpointType.HARD_CLINICAL)  # non-default
-        features = TrialDesignFeatureSet(endpoint_basis=EndpointBasis.HARD_CLINICAL)  # non-default
-        report = check_pos_layer_overlap(adj, features, phase="phase_3")
-        assert report.has_critical_overlap
-        assert any("Endpoint quality" in s for s in report.overlapping_signals)
-        assert len(report.recommendations) >= 1
-
-    def test_btd_overlap_detected(self):
-        """has_breakthrough_designation=True AND BREAKTHROUGH_DESIGNATION → critical overlap."""
+    def test_no_overlap_with_btd_in_layer1(self):
+        """BTD in Layer 1 only (not in new Layer 2) → no overlap."""
         from bve.models.pos_model import POSAdjusters
         adj = POSAdjusters(has_breakthrough_designation=True)
-        features = TrialDesignFeatureSet(approval_pathway=ApprovalPathway.BREAKTHROUGH_DESIGNATION)
+        features = TrialDesignFeatureSet(
+            regulatory_pathway_risk=RegulatoryPathwayRisk.ORPHAN_RARE_DISEASE
+        )
         report = check_pos_layer_overlap(adj, features, phase="phase_3")
-        assert report.has_critical_overlap
-        assert any("Breakthrough" in s for s in report.overlapping_signals)
-
-    def test_btd_no_overlap_when_only_in_one_layer(self):
-        """BTD in POSAdjusters only (no design features BTD) → no overlap."""
-        from bve.models.pos_model import POSAdjusters
-        adj = POSAdjusters(has_breakthrough_designation=True)
-        features = TrialDesignFeatureSet(approval_pathway=ApprovalPathway.STANDARD)
-        report = check_pos_layer_overlap(adj, features, phase="phase_3")
+        assert report.is_clean()
         assert not report.has_critical_overlap
 
-    def test_double_count_magnitude_nonzero_for_critical_overlap(self):
-        """Estimated double-count magnitude should be non-zero when critical overlap exists."""
+    def test_no_overlap_with_aggressive_layer1_settings(self):
+        """Non-default Layer 1 adjusters combined with any Layer 2 features → always clean."""
         from bve.models.pos_model import POSAdjusters
         from bve.entities.trial import EndpointType
-        adj = POSAdjusters(endpoint_type=EndpointType.HARD_CLINICAL)
-        features = TrialDesignFeatureSet(endpoint_basis=EndpointBasis.HARD_CLINICAL)
+        from bve.models.pos_model import BiomarkerSelectionStrength, PriorPhaseDataStrength
+        adj = POSAdjusters(
+            endpoint_type=EndpointType.HARD_CLINICAL,
+            has_breakthrough_designation=True,
+            biomarker_selection=BiomarkerSelectionStrength.VALIDATED,
+            prior_phase_data=PriorPhaseDataStrength.STRONG_REPLICATED,
+        )
+        features = TrialDesignFeatureSet(
+            evidence_design_quality=EvidenceDesignQuality.RCT_DOUBLE_BLIND,
+            comparator_fit=ComparatorFit.MATCHES_SOC,
+            regulatory_pathway_risk=RegulatoryPathwayRisk.ACCELERATED_VALIDATED_SURROGATE,
+        )
         report = check_pos_layer_overlap(adj, features, phase="phase_3")
-        assert report.estimated_double_count_logodds > 0.0
+        assert report.is_clean()
+
+    def test_overlap_report_summary_shows_clean(self):
+        """summary() returns clean message when no overlaps."""
+        from bve.models.pos_model import POSAdjusters
+        adj = POSAdjusters()
+        features = TrialDesignFeatureSet()
+        report = check_pos_layer_overlap(adj, features)
+        assert "No signal overlaps" in report.summary()
+
+    def test_overlap_report_is_clean_method(self):
+        """is_clean() returns True when no overlapping signals."""
+        from bve.models.pos_model import POSAdjusters
+        report = check_pos_layer_overlap(POSAdjusters(), TrialDesignFeatureSet())
+        assert report.is_clean()
+        assert isinstance(report.overlapping_signals, list)
+        assert len(report.overlapping_signals) == 0
 
 
 # ---------------------------------------------------------------------------
@@ -504,9 +579,9 @@ class TestCrossAxisIndependence:
     def test_all_positive_axes_bounded_by_cap(self):
         """Total adjustment must never exceed TRIAL_DESIGN_CAP_POSITIVE."""
         features = TrialDesignFeatureSet(
-            endpoint_basis=EndpointBasis.HARD_CLINICAL,
-            evidence_design=EvidenceDesign.RCT_COMPARATIVE,
-            approval_pathway=ApprovalPathway.BREAKTHROUGH_DESIGNATION,
+            evidence_design_quality=EvidenceDesignQuality.RCT_DOUBLE_BLIND,
+            comparator_fit=ComparatorFit.MATCHES_SOC,
+            regulatory_pathway_risk=RegulatoryPathwayRisk.ORPHAN_RARE_DISEASE,
         )
         result = compute_design_adjusted_pos(0.55, features, phase="phase_3")
         assert result.total_logodds_adjustment <= TRIAL_DESIGN_CAP_POSITIVE + 1e-9
@@ -516,46 +591,45 @@ class TestCrossAxisIndependence:
     def test_all_negative_axes_bounded_by_negative_cap(self):
         """Total adjustment must never be below TRIAL_DESIGN_CAP_NEGATIVE."""
         features = TrialDesignFeatureSet(
-            endpoint_basis=EndpointBasis.BIOMARKER_ONLY,
-            evidence_design=EvidenceDesign.REGISTRY_BASED,
-            approval_pathway=ApprovalPathway.STANDARD,
+            evidence_design_quality=EvidenceDesignQuality.REGISTRY_OBSERVATIONAL,
+            comparator_fit=ComparatorFit.NO_VALID_COMPARATOR,
+            regulatory_pathway_risk=RegulatoryPathwayRisk.NO_CLEAR_PRECEDENT,
         )
         result = compute_design_adjusted_pos(0.55, features, phase="phase_3")
         assert result.total_logodds_adjustment >= TRIAL_DESIGN_CAP_NEGATIVE - 1e-9
         assert result.was_capped
         assert result.cap_applied == "negative"
 
-    def test_adjusted_pos_monotonic_in_endpoint_basis(self):
-        """hard_clinical > surrogate_validated > surrogate_novel > biomarker_only at Phase 3."""
+    def test_each_dimension_independently_adjusts_pos(self):
+        """Adjusting one dimension should shift POS independently of the others."""
         base = 0.50
-        results = {
-            eb: compute_design_adjusted_pos(base, TrialDesignFeatureSet(endpoint_basis=eb), phase="phase_3")
-            for eb in [
-                EndpointBasis.HARD_CLINICAL,
-                EndpointBasis.SURROGATE_VALIDATED,
-                EndpointBasis.SURROGATE_NOVEL,
-                EndpointBasis.BIOMARKER_ONLY,
-            ]
-        }
-        assert results[EndpointBasis.HARD_CLINICAL].adjusted_pos > results[EndpointBasis.SURROGATE_VALIDATED].adjusted_pos
-        assert results[EndpointBasis.SURROGATE_VALIDATED].adjusted_pos > results[EndpointBasis.SURROGATE_NOVEL].adjusted_pos
-        assert results[EndpointBasis.SURROGATE_NOVEL].adjusted_pos > results[EndpointBasis.BIOMARKER_ONLY].adjusted_pos
+        # Only change evidence_design_quality, keep others at baseline
+        r_best = compute_design_adjusted_pos(
+            base,
+            TrialDesignFeatureSet(evidence_design_quality=EvidenceDesignQuality.RCT_DOUBLE_BLIND),
+            phase="phase_3",
+        )
+        r_worst = compute_design_adjusted_pos(
+            base,
+            TrialDesignFeatureSet(evidence_design_quality=EvidenceDesignQuality.REGISTRY_OBSERVATIONAL),
+            phase="phase_3",
+        )
+        assert r_best.adjusted_pos > r_worst.adjusted_pos
+        # Difference should be meaningful at Phase 3
+        assert r_best.adjusted_pos - r_worst.adjusted_pos > 0.10
 
-    def test_adjusted_pos_monotonic_in_evidence_design(self):
-        """RCT_COMPARATIVE > RCT_NON_COMPARATIVE > SINGLE_ARM > REGISTRY_BASED at Phase 3."""
+    def test_three_dimensions_combine_additively(self):
+        """Sum of individual contributions equals combined uncapped adjustment."""
         base = 0.50
-        order = [
-            EvidenceDesign.RCT_COMPARATIVE,
-            EvidenceDesign.RCT_NON_COMPARATIVE,
-            EvidenceDesign.SINGLE_ARM,
-            EvidenceDesign.REGISTRY_BASED,
-        ]
-        pos_values = [
-            compute_design_adjusted_pos(base, TrialDesignFeatureSet(evidence_design=ed), phase="phase_3").adjusted_pos
-            for ed in order
-        ]
-        for i in range(len(pos_values) - 1):
-            assert pos_values[i] > pos_values[i + 1]
+        features = TrialDesignFeatureSet(
+            evidence_design_quality=EvidenceDesignQuality.RCT_OPEN_LABEL,  # +0.10
+            comparator_fit=ComparatorFit.PLACEBO_ACCEPTABLE,               # +0.05
+            regulatory_pathway_risk=RegulatoryPathwayRisk.STANDARD,        #  0.00
+        )
+        result = compute_design_adjusted_pos(base, features, phase="phase_3")
+        # At Phase 3: (0.10 + 0.05 + 0.00) × 1.0 = +0.15 → not capped
+        assert result.uncapped_logodds_adjustment == pytest.approx(0.15, abs=0.001)
+        assert not result.was_capped
 
 
 # ---------------------------------------------------------------------------
@@ -635,7 +709,9 @@ class TestCompetitionModelInvariants:
 class TestCapStressAnalysis:
     def test_cap_stress_returns_multiple_scenarios(self):
         """cap_stress_analysis should return one result per multiplier."""
-        features = TrialDesignFeatureSet(endpoint_basis=EndpointBasis.HARD_CLINICAL)
+        features = TrialDesignFeatureSet(
+            evidence_design_quality=EvidenceDesignQuality.RCT_DOUBLE_BLIND
+        )
         result = cap_stress_analysis(0.55, features, phase="phase_3")
         assert len(result.stress_results) == 5  # default 5 multipliers
 
@@ -645,8 +721,8 @@ class TestCapStressAnalysis:
         above 0.50 threshold regardless of cap variation.
         """
         features = TrialDesignFeatureSet(
-            endpoint_basis=EndpointBasis.HARD_CLINICAL,
-            evidence_design=EvidenceDesign.RCT_COMPARATIVE,
+            evidence_design_quality=EvidenceDesignQuality.RCT_DOUBLE_BLIND,
+            comparator_fit=ComparatorFit.MATCHES_SOC,
         )
         result = cap_stress_analysis(0.70, features, phase="phase_3", threshold=0.50)
         assert result.conclusion_stable
@@ -654,18 +730,17 @@ class TestCapStressAnalysis:
     def test_cap_stress_conclusion_unstable_near_threshold(self):
         """
         A case near the threshold that flips with cap variation is flagged.
-        Use a very tight cap (low multiplier) that can push below threshold.
+        default features (RCT_DOUBLE_BLIND) at Phase 3 give +0.20. With cap=0.001
+        adjustment≈0 → pos≈0.48 (below). With cap=10.0 → adjustment=+0.20 → pos>0.50.
         """
-        # base_pos near threshold + design adjustment that barely crosses it
-        # Use custom caps to force instability: cap at 0.001 vs 2.0 should flip
-        features = TrialDesignFeatureSet(endpoint_basis=EndpointBasis.HARD_CLINICAL)
+        features = TrialDesignFeatureSet()  # RCT_DOUBLE_BLIND gives +0.20 at Phase 3
         result = cap_stress_analysis(
             0.48, features, phase="phase_3",
             cap_multipliers=[0.001, 1.0, 10.0],  # extremes to force flip
             threshold=0.50,
         )
-        # With cap=0.001: adjustment≈0 → pos≈0.48 (below threshold)
-        # With cap=10.0: adjustment≈0.35 → pos well above threshold
+        # With cap×0.001: adjustment≈0 → pos≈0.48 (below threshold)
+        # With cap×10.0: adjustment=+0.20 → pos > 0.50
         assert not result.conclusion_stable
 
     def test_cap_stress_summary_format(self):
@@ -678,7 +753,9 @@ class TestCapStressAnalysis:
 
     def test_cap_stress_pos_range_ordered(self):
         """Min pos across stress scenarios should be ≤ base ≤ max pos."""
-        features = TrialDesignFeatureSet(endpoint_basis=EndpointBasis.HARD_CLINICAL)
+        features = TrialDesignFeatureSet(
+            evidence_design_quality=EvidenceDesignQuality.RCT_DOUBLE_BLIND
+        )
         result = cap_stress_analysis(0.55, features, phase="phase_3")
         lo, hi = result.pos_range()
         assert lo <= result.base_result.adjusted_pos <= hi
@@ -726,8 +803,8 @@ class TestBackwardCompatSnapshot:
         from bve.models.rnpv_model import compute_rnpv
         asset, trials, market = self._make_base_setup()
         result = compute_rnpv(asset, trials, market)
-        assert result.rnpv_millions == pytest.approx(118.72, abs=0.5), (
-            f"rNPV snapshot mismatch: got {result.rnpv_millions:.2f}, expected ~118.72"
+        assert result.rnpv_millions == pytest.approx(65.13, abs=0.5), (
+            f"rNPV snapshot mismatch: got {result.rnpv_millions:.2f}, expected ~65.13"
         )
 
     def test_pos_model_snapshot(self):
@@ -735,8 +812,11 @@ class TestBackwardCompatSnapshot:
         from bve.entities.trial import TrialPhase
         from bve.entities.asset import TherapeuticArea
         pos = compute_pos(TrialPhase.PHASE_3, TherapeuticArea.ONCOLOGY, POSAdjusters())
-        assert pos == pytest.approx(0.5500, abs=0.0005), (
-            f"compute_pos snapshot mismatch: got {pos:.4f}, expected ~0.5500"
+        # Snapshot updated 2026-Q2: oncology Phase 3 base rate updated from 0.55
+        # to 0.495 (weighted avg solid+hematology) plus SURROGATE_VALIDATED +0.15
+        # oncology-TA override → sigmoid(-0.020 + 0.15) ≈ 0.5325.
+        assert pos == pytest.approx(0.5325, abs=0.0005), (
+            f"compute_pos snapshot mismatch: got {pos:.4f}, expected ~0.5325"
         )
 
     def test_mc_snapshot_no_competition(self):
@@ -744,8 +824,8 @@ class TestBackwardCompatSnapshot:
         asset, trials, market = self._make_base_setup()
         params = MonteCarloParams(n_simulations=1000, random_seed=0)
         mc = run_monte_carlo(asset, trials, market, params)
-        assert mc.mean_millions == pytest.approx(123.75, abs=15.0), (
-            f"MC mean snapshot mismatch: got {mc.mean_millions:.1f}, expected ~123.75 ± 15"
+        assert mc.mean_millions == pytest.approx(69.51, abs=15.0), (
+            f"MC mean snapshot mismatch: got {mc.mean_millions:.1f}, expected ~69.51 ± 15"
         )
         assert mc.percentile_95_millions > 2 * mc.percentile_50_millions
 
@@ -761,9 +841,9 @@ class TestValuationEngineDesignModel:
     These verify that:
       1. design_adjusters + apply_design_model=True reduces POS for risky designs
       2. apply_design_model=False leaves trials unchanged (backward compat)
-      3. RCT/standard (reference) design produces same POS as no design model
+      3. Default design (RCT_DOUBLE_BLIND) INCREASES P(Approval) vs no design model
       4. Single-arm Phase 3 reduces P(Approval) more than single-arm Phase 2
-      5. Overlap warning fires when both layers use non-default endpoint settings
+      5. L1 + L2 combination passes the (always-clean) overlap check
     """
 
     def _make_simple_engine(self, design_adjusters=None, apply_design_model=False):
@@ -803,66 +883,66 @@ class TestValuationEngineDesignModel:
             mc_params=MonteCarloParams(n_simulations=500, random_seed=0),
         )
 
-    def test_single_arm_phase2_reduces_prob_approval(self):
-        """Enabling single-arm Phase 2 design penalty must reduce cumulative P(Approval)."""
+    def test_single_arm_subjective_phase2_reduces_prob_approval(self):
+        """Risky Phase 2 design (single-arm subjective) must reduce cumulative P(Approval)."""
         from bve.entities.trial import TrialPhase
-        from bve.models.trial_design_features import TrialDesignFeatureSet, EvidenceDesign
+        from bve.models.trial_design_features import (
+            EvidenceDesignQuality, TrialDesignFeatureSet
+        )
 
         engine_no_design = self._make_simple_engine()
         result_no_design = engine_no_design.run()
 
         design_adjusters = {
-            TrialPhase.PHASE_2: TrialDesignFeatureSet(evidence_design=EvidenceDesign.SINGLE_ARM),
+            TrialPhase.PHASE_2: TrialDesignFeatureSet(
+                evidence_design_quality=EvidenceDesignQuality.SINGLE_ARM_SUBJECTIVE
+            ),
         }
         engine_design = self._make_simple_engine(design_adjusters=design_adjusters, apply_design_model=True)
         result_design = engine_design.run()
 
-        # P(Approval) = product of all phase POS; must be lower with single-arm penalty
         p_approval_no_design = result_no_design.rnpv.cumulative_success_probability
         p_approval_design = result_design.rnpv.cumulative_success_probability
         assert p_approval_design < p_approval_no_design, (
-            f"P(Approval) should decrease with single-arm penalty: "
+            f"P(Approval) should decrease with risky design: "
             f"{p_approval_design:.4f} < {p_approval_no_design:.4f}"
         )
 
-    def test_rct_standard_design_equals_no_design(self):
-        """Reference design (RCT/standard/surrogate_validated) must not change rNPV."""
+    def test_default_design_increases_prob_approval(self):
+        """Default TrialDesignFeatureSet (RCT_DOUBLE_BLIND +0.20) increases P(Approval)."""
         from bve.entities.trial import TrialPhase
-        from bve.models.trial_design_features import (
-            TrialDesignFeatureSet, EndpointBasis, EvidenceDesign, ApprovalPathway
-        )
+        from bve.models.trial_design_features import TrialDesignFeatureSet
 
         engine_no_design = self._make_simple_engine()
         result_no_design = engine_no_design.run()
 
-        # All-reference design: zero adjustment expected
-        reference = TrialDesignFeatureSet(
-            endpoint_basis=EndpointBasis.SURROGATE_VALIDATED,
-            evidence_design=EvidenceDesign.RCT_COMPARATIVE,
-            approval_pathway=ApprovalPathway.STANDARD,
-        )
         design_adjusters = {
-            TrialPhase.PHASE_2: reference,
-            TrialPhase.PHASE_3: reference,
-            TrialPhase.NDA_BLA: reference,
+            TrialPhase.PHASE_2: TrialDesignFeatureSet(),
+            TrialPhase.PHASE_3: TrialDesignFeatureSet(),
+            TrialPhase.NDA_BLA: TrialDesignFeatureSet(),
         }
         engine_design = self._make_simple_engine(design_adjusters=design_adjusters, apply_design_model=True)
         result_design = engine_design.run()
 
-        assert result_design.rnpv.rnpv_millions == pytest.approx(
-            result_no_design.rnpv.rnpv_millions, abs=0.01
+        assert result_design.rnpv.cumulative_success_probability > (
+            result_no_design.rnpv.cumulative_success_probability
         )
 
     def test_single_arm_phase3_reduces_more_than_phase2(self):
         """
-        Single-arm at Phase 3 (full scaling=1.0) should reduce P(Approval) more
-        than single-arm at Phase 2 (scaling=0.60), given same base POS.
+        Single-arm at Phase 3 (scaling=1.0) should reduce P(Approval) more
+        than single-arm at Phase 2 (scaling=0.50).
         """
         from bve.entities.trial import TrialPhase
-        from bve.models.trial_design_features import TrialDesignFeatureSet, EvidenceDesign
+        from bve.models.trial_design_features import (
+            EvidenceDesignQuality, TrialDesignFeatureSet
+        )
 
-        design_ph2 = {TrialPhase.PHASE_2: TrialDesignFeatureSet(evidence_design=EvidenceDesign.SINGLE_ARM)}
-        design_ph3 = {TrialPhase.PHASE_3: TrialDesignFeatureSet(evidence_design=EvidenceDesign.SINGLE_ARM)}
+        risky = TrialDesignFeatureSet(
+            evidence_design_quality=EvidenceDesignQuality.SINGLE_ARM_SUBJECTIVE
+        )
+        design_ph2 = {TrialPhase.PHASE_2: risky}
+        design_ph3 = {TrialPhase.PHASE_3: risky}
 
         eng_ph2 = self._make_simple_engine(design_adjusters=design_ph2, apply_design_model=True)
         eng_ph3 = self._make_simple_engine(design_adjusters=design_ph3, apply_design_model=True)
@@ -881,13 +961,18 @@ class TestValuationEngineDesignModel:
     def test_apply_design_false_leaves_trials_unchanged(self):
         """apply_design_model=False must produce identical output even if adjusters provided."""
         from bve.entities.trial import TrialPhase
-        from bve.models.trial_design_features import TrialDesignFeatureSet, EvidenceDesign
+        from bve.models.trial_design_features import (
+            EvidenceDesignQuality, TrialDesignFeatureSet
+        )
 
         design_adjusters = {
-            TrialPhase.PHASE_2: TrialDesignFeatureSet(evidence_design=EvidenceDesign.SINGLE_ARM),
-            TrialPhase.PHASE_3: TrialDesignFeatureSet(evidence_design=EvidenceDesign.SINGLE_ARM),
+            TrialPhase.PHASE_2: TrialDesignFeatureSet(
+                evidence_design_quality=EvidenceDesignQuality.SINGLE_ARM_SUBJECTIVE
+            ),
+            TrialPhase.PHASE_3: TrialDesignFeatureSet(
+                evidence_design_quality=EvidenceDesignQuality.SINGLE_ARM_SUBJECTIVE
+            ),
         }
-        # apply_design_model=False → adjusters ignored
         eng_disabled = self._make_simple_engine(design_adjusters=design_adjusters, apply_design_model=False)
         eng_none = self._make_simple_engine()
 
@@ -895,19 +980,21 @@ class TestValuationEngineDesignModel:
             eng_none.run().rnpv.rnpv_millions, abs=0.01
         )
 
-    def test_overlap_warning_fires_for_critical_combination(self):
+    def test_layer1_layer2_combination_passes_overlap_check(self):
         """
-        When both pos_adjusters.endpoint_type and design_features.endpoint_basis
-        are non-default simultaneously, a UserWarning is raised.
+        New Layer 2 is orthogonal to Layer 1 — any L1+L2 combination should pass
+        check_pos_layer_overlap without raising ValueError.
         """
-        import warnings
         from bve.entities.asset import Asset, DevelopmentStage, TherapeuticArea, Modality
         from bve.entities.company import Company
         from bve.entities.trial import ClinicalTrial, TrialPhase, EndpointType
         from bve.models.market_model import MarketModel
         from bve.models.monte_carlo import MonteCarloParams
         from bve.models.pos_model import POSAdjusters
-        from bve.models.trial_design_features import TrialDesignFeatureSet, EndpointBasis
+        from bve.models.trial_design_features import (
+            ComparatorFit, EvidenceDesignQuality,
+            RegulatoryPathwayRisk, TrialDesignFeatureSet,
+        )
         from bve.valuation.valuation_engine import ValuationEngine
 
         asset = Asset(
@@ -928,11 +1015,20 @@ class TestValuationEngineDesignModel:
             asset_id="overlap-001", total_addressable_market_millions=3000.0,
             peak_penetration=0.15, years_to_peak=4, patent_life_years=10,
         )
+        # Non-default L1: endpoint_type, has_breakthrough_designation
         pos_adjusters = {
-            TrialPhase.PHASE_3: POSAdjusters(endpoint_type=EndpointType.HARD_CLINICAL)
+            TrialPhase.PHASE_3: POSAdjusters(
+                endpoint_type=EndpointType.HARD_CLINICAL,
+                has_breakthrough_designation=True,
+            )
         }
+        # Non-default L2: all dimensions non-default — no overlap expected
         design_adjusters = {
-            TrialPhase.PHASE_3: TrialDesignFeatureSet(endpoint_basis=EndpointBasis.HARD_CLINICAL)
+            TrialPhase.PHASE_3: TrialDesignFeatureSet(
+                evidence_design_quality=EvidenceDesignQuality.RCT_DOUBLE_BLIND,
+                comparator_fit=ComparatorFit.MATCHES_SOC,
+                regulatory_pathway_risk=RegulatoryPathwayRisk.ORPHAN_RARE_DISEASE,
+            )
         }
         engine = ValuationEngine(
             asset, company, trials, market,
@@ -942,8 +1038,6 @@ class TestValuationEngineDesignModel:
             apply_design_model=True,
             mc_params=MonteCarloParams(n_simulations=100, random_seed=0),
         )
-        with warnings.catch_warnings(record=True) as w:
-            warnings.simplefilter("always")
-            engine.run()
-        assert any("overlap" in str(warning.message).lower() or "double" in str(warning.message).lower()
-                   for warning in w), "Expected overlap warning was not raised"
+        # Should NOT raise — new L2 is orthogonal to L1
+        result = engine.run()
+        assert result.rnpv.rnpv_millions is not None

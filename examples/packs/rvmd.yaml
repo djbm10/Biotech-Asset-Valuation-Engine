@@ -1,0 +1,213 @@
+# Underwriting Pack — Revolution Medicines Inc. (RVMD)
+# Q2 2026 | As of: 2026-04-09
+# Analyst: djm
+# Status: DRAFT — pending second reviewer
+
+company_id: "rvmd"
+company_name: "Revolution Medicines Inc."
+ticker: "RVMD"
+as_of_date: "2026-04-09"
+pack_quarter: "2026Q2"
+
+# ─────────────────────────────────────────────────────────────────────
+# Market data  (point-in-time)
+# ─────────────────────────────────────────────────────────────────────
+market:
+  market_cap_millions: 6200.0      # ~$6.2B at $32/share × ~193M shares
+  enterprise_value_millions: 4400.0 # market cap minus net cash
+  share_price: 32.0
+  source_ref: "yfinance:2026-04-09"
+
+# ─────────────────────────────────────────────────────────────────────
+# Balance sheet  (10-K 2025-12-31)
+# ─────────────────────────────────────────────────────────────────────
+balance_sheet:
+  cash_millions: 1900.0    # cash + short-term investments
+  debt_millions: 100.0
+  source_ref: "10-K:2025-12-31:balance_sheet"
+
+# ─────────────────────────────────────────────────────────────────────
+# Modeled assets  (rNPV runs for each program)
+# ─────────────────────────────────────────────────────────────────────
+modeled_assets:
+  - bucket_id: "rvmd_rmc6236_nsclc"
+    label: "RMC-6236 (pan-RAS(ON)) — NSCLC (KRAS mut, Ph3 RASQ-LUNG)"
+    value_millions: 3800.0
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/rvmd_rmc6236_nsclc.yaml:2026-04-09"
+    as_of_date: "2026-04-09"
+    confidence: 0.72
+    corroboration_count: 1
+    corroboration_refs:
+      - "SVB Leerink RVMD initiation: RMC-6236 peak sales NSCLC $2.5B est"
+    notes: >
+      RMC-6236 is a RAS(ON) multi-selective inhibitor covering KRASG12X, NRASG12X, and HRASG12X
+      mutations. Phase 3 RASQ-LUNG trial in KRAS-mutant NSCLC (2L+). KRAS mutations in ~30%
+      NSCLC (~50k US patients/yr). Base-rate Ph3 NSCLC POS ~45%. rNPV: peak US+EU sales
+      ~$2.5B, 12y patent life, 10.5% discount, unpartnered (RVMD retains full rights).
+
+  - bucket_id: "rvmd_rmc6236_pdac"
+    label: "RMC-6236 — PDAC (KRAS mut, Ph3 RASQ-PDAC)"
+    value_millions: 1400.0
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/rvmd_rmc6236_pdac.yaml:2026-04-09"
+    as_of_date: "2026-04-09"
+    confidence: 0.62
+    corroboration_count: 0
+    corroboration_refs: []
+    notes: >
+      Ph3 RASQ-PDAC in KRAS-mutant pancreatic cancer (2L). KRAS mut in ~90% PDAC.
+      Very high unmet need — median OS ~6mo 2L. POS lower (~35%) given PDAC difficulty.
+      rNPV: peak sales ~$1.2B (orphan-like pricing), separate from NSCLC program.
+      Positive PDAC data would be significant de-risking for the platform.
+
+  - bucket_id: "rvmd_rmc9805"
+    label: "RMC-9805 (KRASG12D(ON)) — PDAC + CRC (Ph1/2)"
+    value_millions: 600.0
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/rvmd_rmc9805.yaml:2026-04-09"
+    as_of_date: "2026-04-09"
+    confidence: 0.45
+    corroboration_count: 0
+    corroboration_refs: []
+    notes: >
+      G12D-selective RAS(ON) inhibitor. KRASG12D is most common mutation in PDAC (~40%).
+      Phase 1/2; early clinical signals promising. Rule-of-thumb stage value.
+      de-risking requires single-agent efficacy data.
+
+# ─────────────────────────────────────────────────────────────────────
+# Platform value
+# ─────────────────────────────────────────────────────────────────────
+platform_value:
+  bucket_id: "rvmd_platform"
+  label: "RAS(ON) inhibitor platform — next-gen combinations + other RAS alleles"
+  value_millions: 500.0
+  methodology: "analyst_estimate"
+  source_type: "analyst_bridge"
+  source_ref: "top25_pack_2026q2:RVMD:platform"
+  as_of_date: "2026-04-09"
+  confidence: 0.55
+  corroboration_count: 0
+  corroboration_refs: []
+  notes: >
+    RMC-6291 (KRASG12C(ON)) in combos with SHP2i (RMC-4630). Multiple allele-specific
+    programs. Platform value contingent on RASQ-LUNG Ph3 readout — positive data would
+    materially re-rate this bucket.
+
+# ─────────────────────────────────────────────────────────────────────
+# Unmodeled pipeline
+# ─────────────────────────────────────────────────────────────────────
+unmodeled_pipeline:
+  bucket_id: "rvmd_unmodeled"
+  label: "Early RAS combination pipeline (SHP2i combos, next-gen allele-selective)"
+  value_millions: 200.0
+  methodology: "rule_of_thumb"
+  source_type: "analyst_bridge"
+  source_ref: "top25_pack_2026q2:RVMD:unmodeled"
+  as_of_date: "2026-04-09"
+  confidence: 0.40
+  corroboration_count: 0
+  corroboration_refs: []
+  notes: "Minimal value until Phase 3 readouts de-risk platform."
+
+# ─────────────────────────────────────────────────────────────────────
+# Royalty streams  (none — RVMD retains full rights on core programs)
+# ─────────────────────────────────────────────────────────────────────
+royalty_streams: []
+
+# ─────────────────────────────────────────────────────────────────────
+# Dilution bridge  (10-K 2025-12-31)
+# ─────────────────────────────────────────────────────────────────────
+dilution:
+  current_shares_millions: 193.0
+  expected_dilution_pct: 0.12       # 12% expected raise for Ph3 completion + launch prep
+  financing_runway_quarters: 8.0    # ~2 years runway at current burn (~$700M/yr)
+  atm_active: false
+  atm_remaining_millions: null
+  shelf_registration_millions: 1500.0
+  warrant_shares_millions: 0.0
+  convertible_shares_millions: 0.0
+  source_ref: "10-K:2025-12-31:capitalization"
+  as_of_date: "2025-12-31"
+  notes: >
+    Pre-revenue; Ph3 trials are capital-intensive. ~2 years runway at current burn (~$700M/yr).
+    Expected raise before RASQ-LUNG readout. 12% dilution estimate for Ph3 completion + launch prep.
+
+# ─────────────────────────────────────────────────────────────────────
+# Catalysts
+# ─────────────────────────────────────────────────────────────────────
+catalysts:
+  - description: "RASQ-LUNG Ph3 interim/readout — RMC-6236 KRAS-mut NSCLC"
+    expected_date: "2027-Q1"
+    catalyst_type: "readout"
+    probability_positive: 0.45
+    source_ref: "clinicaltrials.gov:NCT06128096"
+    notes: "Primary endpoint OS/PFS in 2L KRAS-mut NSCLC. Binary event — defines platform value."
+
+  - description: "RASQ-PDAC Ph3 readout — RMC-6236 KRAS-mut pancreatic cancer"
+    expected_date: "2027-Q2"
+    catalyst_type: "readout"
+    probability_positive: 0.35
+    source_ref: "clinicaltrials.gov:NCT06128083"
+    notes: "2L PDAC. Very high unmet need but historically difficult endpoint. Separate from NSCLC."
+
+  - description: "RMC-6236 Ph1/2 expansion cohort data — NSCLC (dose confirmation)"
+    expected_date: "2026-Q2"
+    catalyst_type: "readout"
+    probability_positive: 0.70
+    source_ref: "ASCO 2026 abstract submission"
+    notes: "Interim Ph1/2 data expected at major conference. Key for dose selection into Ph3."
+
+# ─────────────────────────────────────────────────────────────────────
+# Management flags  (none flagged at this review)
+# ─────────────────────────────────────────────────────────────────────
+management_flags: []
+
+# ─────────────────────────────────────────────────────────────────────
+# Confidence metadata
+# ─────────────────────────────────────────────────────────────────────
+confidence:
+  overall_confidence: 0.62
+  notes: >
+    Pre-revenue Ph3-stage company. High binary risk on RASQ-LUNG readout (~2027).
+    Balance sheet well-sourced. rNPV values are wide-uncertainty estimates —
+    oncology Ph3 POS ~45% is generous given NSCLC competitive landscape (AMG510,
+    adagrasib). Confidence low until Ph3 interim data signal.
+
+# ─────────────────────────────────────────────────────────────────────
+# Provenance
+# ─────────────────────────────────────────────────────────────────────
+provenance:
+  pack_version: 1
+  pack_quarter: "2026Q2"
+  created_by: "djm"
+  change_summary: "Initial Q2 2026 pack. Pre-Ph3-readout stage."
+
+# SOTP check:
+#   Market cap:              $6,200M
+#   SOTP equity value:
+#     Net cash:              +$1,800M  (1900 - 100)
+#     RMC-6236 NSCLC rNPV:  +$3,800M
+#     RMC-6236 PDAC rNPV:   +$1,400M
+#     RMC-9805 rNPV:          +$600M
+#     Platform:               +$500M
+#     Unmodeled:              +$200M
+#     Dilution reserve:       -$739M  (~12% × $32 × 193M)
+#     ────────────────────────────────
+#     SOTP total:            ~$7,561M
+#   SOTP discount:           ~+22% (model 22% above market)
+#   Assessment: Market is pricing ~82% of SOTP — appropriate discount for
+#   pre-readout Ph3 binary risk. Model is aggressive on NSCLC POS (45%).
+#   If RASQ-LUNG reads out positive, re-rate to $10B+ range. Watch Ph1/2
+#   dose confirmation data at ASCO 2026.
+
+reviewer_state: "draft"
+
+notes: >
+  RVMD is the canonical RAS(ON) inhibitor play. Key question: does RMC-6236
+  demonstrate OS benefit in NSCLC where KRASG12C-selective agents (sotorasib,
+  adagrasib) have shown PFS but limited OS? Multi-selective mechanism is the
+  differentiation thesis. De-risking event is 2026 Ph1/2 conference data.

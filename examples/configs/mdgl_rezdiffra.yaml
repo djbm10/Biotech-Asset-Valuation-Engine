@@ -1,0 +1,190 @@
+# =============================================================================
+# Madrigal Pharmaceuticals (MDGL) — Rezdiffra (resmetirom)
+# THRbeta agonist | MASH (metabolic-associated steatohepatitis) F2-F3 fibrosis
+# =============================================================================
+#
+# Data sources (all public):
+#   - FDA approval March 14 2024 (NDA 217785)
+#   - MAESTRO-NASH Ph3 NEJM 2024 (Harrison et al.)
+#   - Madrigal 10-K 2023; Q4 2025 earnings call
+#   - Royalty Pharma financing deal (Dec 2023) — implied NPV floor ~$4B
+#   - SSR Health G2N database (specialty pharma 35-45% typical)
+#   - Evaluate Pharma / consensus peak sales ~$3.5B US
+#   - IQVIA MASH epidemiology; American Liver Foundation prevalence data
+#
+# Patient-flow chain (full funnel):
+#   US MASH prevalent: 5M total, but F2-F3 eligible population is restricted
+#   Diagnosed: 25% (most MASH undiagnosed or diagnosed incidentally)
+#   Eligible (F2-F3 label criteria, MAESTRO-NASH like FIB-4 selection): 30%
+#   Treatment rate: 40% (of eligible; some managed watchfully or with GLP-1 only)
+#   → Addressable: 5M × 0.25 × 0.30 × 0.40 = 150,000 patients
+#
+# All figures approximate as of Q1 2026 snapshot.
+# =============================================================================
+
+analyst_notes: >
+  Rezdiffra (resmetirom) is the first and only FDA-approved treatment for
+  MASH with moderate-to-severe liver fibrosis (F2-F4). THRbeta selectivity
+  reduces hepatic fat without systemic thyroid effects. MAESTRO-NASH Ph3:
+  25.9% fibrosis improvement vs 14.2% placebo (p<0.001), and 26.0% NASH
+  resolution vs 9.7% placebo. Approved March 2024; commercial launch ongoing.
+  Key debate: pace of diagnosis infrastructure build-out (FIB-4 screening
+  + biopsy confirmation gate), GLP-1 combination potential, and payer
+  coverage criteria.  WAC ~$47,400/year; net after GLP-1 bundling concerns
+  expected to be ~$26-30K.
+
+# ---------------------------------------------------------------------------
+# Asset
+# ---------------------------------------------------------------------------
+asset:
+  id: "rezdiffra"
+  name: "Rezdiffra (resmetirom)"
+  indication: "MASH with moderate-severe liver fibrosis (F2-F3), US"
+  therapeutic_area: "other"          # metabolic / NASH — maps to 'other' in base rates
+  stage: "approved"
+  modality: "small_molecule"
+  mechanism_of_action: >
+    Thyroid hormone receptor beta (THRbeta) agonist. Selective hepatic
+    THRbeta activation reduces hepatic fat via fatty acid oxidation,
+    de novo lipogenesis suppression, and cholesterol metabolism, without
+    systemic cardiac/bone effects mediated by THRalpha.
+  discount_rate: 0.095    # ~9.5% WACC — commercial-stage specialty pharma
+  royalty_rate: 0.0        # Fully owned; Royalty Pharma deal is debt, not royalty
+
+  differentiation_notes: >
+    1. Only approved MASH drug: first-mover brand, payer coverage precedent.
+    2. Non-overlapping MoA with GLP-1s — additive, not competitive.
+    3. THRbeta selectivity: 28× selectivity over THRalpha (cardiac sparing).
+    4. 30mg and 80mg doses by body weight — simple tiered dosing.
+    5. 10-year Hatch-Waxman exclusivity from 2024 (to ~2034).
+
+  competitor_assets:
+    - "Semaglutide (Ozempic/Wegovy, Novo Nordisk) — GLP-1, MASH Ph3 ESSENCE readout 2025"
+    - "Lanifibranor (Inventiva) — pan-PPAR, Ph3 NATiV3 failed 2024"
+    - "Obeticholic acid (Ocaliva, IPSEN) — FXR agonist; REGENERATE failed primary 2023"
+    - "Efruxifermin (Akero Therapeutics) — FGF21 analog, Ph3 SYNCHRONY ongoing"
+    - "Tirzepatide (Mounjaro, Lilly) — GIP/GLP-1, SYNERGY-NASH Ph3 readout 2025"
+
+  upcoming_catalysts:
+    - description: "Q1/Q2 2026 commercial update — Rezdiffra TRx, payer coverage, net price"
+      expected_date: "2026-Q2"
+      catalyst_type: "milestone"
+      probability_positive: 0.75
+    - description: "MAESTRO-NASH OUTCOMES (F4 cirrhosis) interim readout"
+      expected_date: "2027-Q1"
+      catalyst_type: "readout"
+      probability_positive: 0.45
+    - description: "GLP-1 combination trial initiation or co-promotion partnership"
+      expected_date: "2026-H2"
+      catalyst_type: "partnership"
+      probability_positive: 0.55
+
+# ---------------------------------------------------------------------------
+# Company
+# ---------------------------------------------------------------------------
+company:
+  id: "madrigal-pharmaceuticals"
+  name: "Madrigal Pharmaceuticals"
+  ticker: "MDGL"
+  cash_millions: 1100.0
+  debt_millions: 500.0          # Royalty Pharma royalty financing obligation
+  shares_outstanding_millions: 17.9
+  burn_rate_millions_per_quarter: 60.0   # Commercial + ongoing trials
+  current_price: 290.0
+  notes: >
+    Single-asset commercial stage. Royalty Pharma deal provides non-dilutive
+    capital. Net cash ~$600M. ATM active ($300M remaining). Very low share
+    count (18M) = high per-share sensitivity to Rezdiffra trajectory.
+
+# ---------------------------------------------------------------------------
+# Trials (remaining regulatory milestones)
+# ---------------------------------------------------------------------------
+# Approved — no remaining Ph3 required for base indication.
+# Modeling NDA/sNDA for cirrhosis (F4) expansion and LOE horizon.
+trials:
+  - phase: "nda_bla"
+    nct_id: "NCT04176172"           # MAESTRO-NASH — already approved; model NDA as complete
+    success_probability: 0.99        # Approved March 2024
+    duration_years: 0.1              # Nominal; already approved
+    cost_millions: 1.0               # Nominal; already approved
+    enrollment: 966
+    primary_endpoint: "NASH resolution + NF1BS improvement (achieved — FDA approved March 2024)"
+    endpoint_type: "surrogate_validated"
+    notes: >
+      Already approved. Modeling nda_bla as complete (duration=0, cost=0) so that
+      rNPV engine recognises the approval and projects revenue from launch_year.
+      LOE horizon from approval date (~2034 composition of matter).
+
+# ---------------------------------------------------------------------------
+# Market Model — Mode 4: explicit patient-flow commercial build-up
+# ---------------------------------------------------------------------------
+market_model:
+  asset_id: "rezdiffra"
+
+  # Mode 4 — explicit patient × price × share decomposition
+  # Backward compat: peak_penetration and addressable_patients_annual provided
+  # as cross-checks; commercial_inputs drives actual rNPV calculation.
+  peak_penetration: 0.12          # 12% peak share of addressable (cross-check)
+  addressable_patients_annual: 150000   # cross-check: funnel output below
+  net_price_per_patient_usd: 28000      # cross-check: WAC-derived net price
+
+  patent_life_years: 10           # 2024–2034 composition of matter
+  years_to_peak: 4                # 2024 launch → peak ~2028
+  launch_year: 2024
+  revenue_start_year: 2024        # Already launched
+
+  # Cost structure (commercial stage)
+  cogs_rate: 0.12                 # Low COGS — oral tablet, specialty manufacturing
+  sgna_rate_launch: 0.55          # Heavy MSL/commercial investment; launch overhead
+  sgna_rate_mature: 0.25          # Mature commercial steady-state
+
+  # Mode 4: explicit commercial build-up
+  commercial_inputs:
+    patient_pool:
+      indication: "MASH F2-F3"
+      prevalence_thousands: 5000.0   # 5M US MASH prevalent (conservative; actual ~15M total)
+      diagnosed_fraction: 0.25       # Only ~25% formally diagnosed (FIB-4 / biopsy-confirmed)
+      eligible_rate: 0.30            # F2-F3 label gate: ~30% of diagnosed have qualifying fibrosis stage
+      treated_fraction: 0.40         # 40% of eligible initiate pharmacotherapy
+      uncertainty_cv: 0.30           # High uncertainty on diagnosis build-out rate
+    pricing:
+      wac_per_year_usd: 47400        # WAC per year (30mg; 80mg similar price)
+      gross_to_net_rate: 0.41        # 41% G2N: Medicaid/PBM rebates + co-pay assistance
+      # net = 47,400 × 0.59 = $27,966 per patient per year
+      launch_discount: 0.08          # Incremental launch-year payer discount
+      annual_erosion_rate: 0.01      # Low erosion — first-mover; generic threat remote until 2034
+      uncertainty_cv: 0.12
+    share:
+      peak_share: 0.12               # 12% of addressable at peak (consensus ~15%; conservative)
+      years_to_peak: 4
+      share_cv: 0.25
+    ex_us_revenue_multiple: 1.35     # EU5 + Japan add-on (~35% uplift); slower ex-US uptake
+
+# ---------------------------------------------------------------------------
+# POS model
+# ---------------------------------------------------------------------------
+pos_adjusters:
+  apply_pos_model: false   # Already approved; POS model not applicable
+
+# ---------------------------------------------------------------------------
+# Competition
+# ---------------------------------------------------------------------------
+competition:
+  - name: "Semaglutide MASH (Novo Nordisk)"
+    status: "phase_3"
+    launch_year_relative: 2        # ~2026 if ESSENCE positive
+    peak_market_share: 0.08        # Small MASH-specific share; GLP-1s will likely be combo
+    years_to_peak: 3
+    approval_probability: 0.65
+  - name: "Tirzepatide MASH (Lilly)"
+    status: "phase_3"
+    launch_year_relative: 2
+    peak_market_share: 0.06
+    years_to_peak: 3
+    approval_probability: 0.60
+  - name: "Efruxifermin (Akero)"
+    status: "phase_3"
+    launch_year_relative: 3
+    peak_market_share: 0.04
+    years_to_peak: 4
+    approval_probability: 0.45

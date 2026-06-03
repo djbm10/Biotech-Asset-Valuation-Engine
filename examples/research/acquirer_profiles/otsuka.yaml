@@ -1,0 +1,51 @@
+company: Otsuka Pharmaceutical
+ticker: OTSKY
+profile_as_of: 2026-04-07
+market_cap_billions: 15
+cash_billions: 3.5
+acquisition_capacity_millions: 7000
+pipeline_gaps:
+  - therapeutic_area: neuroscience
+    sub_area: schizophrenia_bipolar_cns
+    gap_type: LOE_exposure
+    urgency: high
+    preferred_modality: [small_molecule, oral, long_acting_injectable]
+    budget_ceiling_millions: 6000
+    notes: "Abilify (aripiprazole) loss of exclusivity and Rexulti (brexpiprazole) maturity create urgency for next-gen CNS assets in schizophrenia, treatment-resistant depression, or bipolar spectrum disorders."
+  - therapeutic_area: nephrology
+    sub_area: autosomal_dominant_pkd
+    gap_type: franchise_defense
+    urgency: high
+    preferred_modality: [small_molecule, oral]
+    budget_ceiling_millions: 5000
+    notes: "Jynarque/Samsca (tolvaptan) is the main ADPKD asset; next-gen ADPKD mechanisms or adjacent rare kidney disease assets are natural follow-on candidates."
+  - therapeutic_area: oncology
+    sub_area: hematology_leukemia_lymphoma
+    gap_type: strategic_entry
+    urgency: medium
+    preferred_modality: [small_molecule, antibody]
+    budget_ceiling_millions: 5000
+    notes: "Otsuka has demonstrated oncology ambitions (Lonsurf/trifluridine with Taiho); hematologic malignancies are a stated growth area."
+  - therapeutic_area: rare_disease
+    sub_area: rare_metabolic_mitochondrial
+    gap_type: strategic_entry
+    urgency: medium
+    preferred_modality: [small_molecule, gene_therapy, antibody]
+    budget_ceiling_millions: 4000
+    notes: "Otsuka's Gesynta (bardoxolone for rare renal) and rare disease track record make metabolic and mitochondrial rare disease assets consistent targets."
+recent_deals:
+  - target: Kalobios Pharmaceuticals
+    date: 2016-01-01
+    value_billions: 0.1
+    therapeutic_area: rare_disease
+    modality: antibody
+  - target: Astex Pharmaceuticals
+    date: 2013-08-01
+    value_billions: 0.86
+    therapeutic_area: oncology
+    modality: small_molecule
+stated_priorities:
+  - CNS portfolio reinvigoration post-Abilify LOE
+  - Rare kidney disease franchise defense
+  - Oncology pipeline through Taiho collaboration
+  - Rare metabolic disease expansion

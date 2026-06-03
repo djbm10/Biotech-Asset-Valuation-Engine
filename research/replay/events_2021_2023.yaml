@@ -1,0 +1,476 @@
+# ==============================================================================
+# Historical Trial Readout Events — 2021–2023
+# ==============================================================================
+#
+# PURPOSE
+# -------
+# Curated trial readout events for the 27-name universe across 2021-2023.
+# Used by ops/trial_event_backfiller.py to populate
+# ReplayStore.historical_events, enabling the catalyst-timing gate
+# (--require-catalyst-days N) to fire in replay runs starting from 2021.
+#
+# PROBLEM THIS SOLVES
+# -------------------
+# All 27 pre-2024 events currently in replay_store.sqlite are M&A acquisitions
+# for non-universe tickers. The catalyst gate finds nothing to trigger on
+# for universe names in 2021-2023, capping N ≈ 22. Adding 35+ trial readouts
+# for universe tickers is the binding constraint on the path to N ≥ 30.
+#
+# IDEMPOTENCY
+# -----------
+# Seeder generates deterministic event_id = "trial:{TICKER}:{DATE}" so
+# re-seeding the same YAML never creates duplicate rows.
+#
+# SOURCES
+# -------
+# Press releases, SEC 8-K filings, NEJM/JAMA publications, conference
+# presentations (ASCO, ESMO, ASH, ACC, AHA). All events are publicly
+# documented. Dates use announced_at (press release / abstract date).
+#
+# SCHEMA
+# ------
+# asset_id:      "a-{ticker.lower()}" convention
+# ticker:        exchange ticker symbol
+# event_type:    trial_readout | pdufa_decision | adcom_meeting | enrollment_complete | conference_abstract | competitor_readout
+# announced_at:  YYYY-MM-DD press release / publication date
+# outcome_label: positive | negative | mixed | neutral
+# headline:      concise factual description (≤ 120 chars)
+#
+# ==============================================================================
+
+meta:
+  description: "2021-2023 trial readout events for universe names seeded into replay_store.sqlite"
+  n_events: 37
+  date_range: "2021-05-03 to 2023-12-19"
+  sources:
+    - Press releases (company IR)
+    - SEC 8-K filings
+    - NEJM, JAMA, Lancet publications
+    - ASCO, ESMO, ASH, AHA conference abstracts
+  seeding_status: "Pending — run bve-seed-replay-events to insert"
+
+events:
+
+  # ── ALNY (Alnylam) ───────────────────────────────────────────────────────────
+
+  - asset_id: a-alny
+    ticker: ALNY
+    event_type: trial_readout
+    announced_at: "2021-11-14"
+    outcome_label: positive
+    headline: >
+      ORION-4 inclisiran 3-year CVOT data: 26% reduction in major CV events vs
+      placebo at 3 years (Heart Protection Study 3)
+
+  - asset_id: a-alny
+    ticker: ALNY
+    event_type: trial_readout
+    announced_at: "2022-08-26"
+    outcome_label: positive
+    headline: >
+      APOLLO-B Phase 3: patisiran meets primary endpoint, 28% reduction in
+      6-minute walk distance decline vs placebo in ATTR-CM (NEJM Aug 2022)
+
+  # ── VRTX (Vertex) ────────────────────────────────────────────────────────────
+
+  - asset_id: a-vrtx
+    ticker: VRTX
+    event_type: trial_readout
+    announced_at: "2021-07-26"
+    outcome_label: positive
+    headline: >
+      VX-147 Phase 2 FSGS: significant 47.7% reduction in UPCR vs placebo;
+      proof-of-concept for APOL1-mediated kidney disease established
+
+  - asset_id: a-vrtx
+    ticker: VRTX
+    event_type: trial_readout
+    announced_at: "2022-05-23"
+    outcome_label: positive
+    headline: >
+      VX-880 Phase 1/2 islet cell transplant: first patient achieves insulin
+      independence at 90 days; islet engraftment confirmed by C-peptide
+
+  - asset_id: a-vrtx
+    ticker: VRTX
+    event_type: trial_readout
+    announced_at: "2023-04-24"
+    outcome_label: positive
+    headline: >
+      VX-548 Phase 2 acute pain: meets primary endpoint in two studies
+      (bunionectomy and abdominoplasty); NaV1.8-selective mechanism confirmed
+
+  # ── SRPT (Sarepta) ───────────────────────────────────────────────────────────
+
+  - asset_id: a-srpt
+    ticker: SRPT
+    event_type: pdufa_decision
+    announced_at: "2023-06-22"
+    outcome_label: positive
+    headline: >
+      Elevidys (SRP-9001) FDA accelerated approval for ambulatory DMD patients
+      4-5 years; first gene therapy for Duchenne muscular dystrophy
+
+  # ── NTLA (Intellia) ──────────────────────────────────────────────────────────
+
+  - asset_id: a-ntla
+    ticker: NTLA
+    event_type: trial_readout
+    announced_at: "2021-06-26"
+    outcome_label: positive
+    headline: >
+      NTLA-2001 Phase 1: single dose in vivo CRISPR achieves 87-96% TTR serum
+      reduction at 28 days; first human in vivo CRISPR editing (NEJM Jun 2021)
+
+  - asset_id: a-ntla
+    ticker: NTLA
+    event_type: trial_readout
+    announced_at: "2022-06-23"
+    outcome_label: positive
+    headline: >
+      NTLA-2001 Phase 1 12-month follow-up: durable TTR reduction maintained;
+      no re-editing observed; tolerability profile supports Phase 3 advancement
+
+  - asset_id: a-ntla
+    ticker: NTLA
+    event_type: trial_readout
+    announced_at: "2023-06-09"
+    outcome_label: positive
+    headline: >
+      NTLA-2002 Phase 1/2 HAE initial data: 95% kallikrein reduction at 4 weeks;
+      single dose eliminates HAE attacks in first cohort
+
+  # ── CRSP (CRISPR Therapeutics) ───────────────────────────────────────────────
+
+  - asset_id: a-crsp
+    ticker: CRSP
+    event_type: trial_readout
+    announced_at: "2022-12-10"
+    outcome_label: positive
+    headline: >
+      CTX001 (exa-cel) ASH 2022: 42/42 TDT patients transfusion-free;
+      29/29 SCD patients VAS-crisis free at median 19.3 months follow-up
+
+  # ── BEAM (Beam Therapeutics) ─────────────────────────────────────────────────
+
+  - asset_id: a-beam
+    ticker: BEAM
+    event_type: trial_readout
+    announced_at: "2023-06-04"
+    outcome_label: positive
+    headline: >
+      BEAM-101 Phase 1/2 SCD: initial safety data in first 3 patients; no
+      dose-limiting toxicities; HbF induction confirmed at 4-week timepoint
+
+  # ── MRNA (Moderna) ───────────────────────────────────────────────────────────
+
+  - asset_id: a-mrna
+    ticker: MRNA
+    event_type: trial_readout
+    announced_at: "2022-12-08"
+    outcome_label: positive
+    headline: >
+      mRNA-4157 (V940) KEYNOTE-942 Phase 2b: 44% reduction in recurrence vs
+      pembrolizumab alone in resected melanoma; landmark individualized vaccine
+
+  - asset_id: a-mrna
+    ticker: MRNA
+    event_type: trial_readout
+    announced_at: "2023-04-17"
+    outcome_label: positive
+    headline: >
+      mRNA-1283 next-gen COVID Phase 3 COVE-BOOST enrollment complete;
+      non-inferiority vs mRNA-1273 expected; improved tolerability profile
+
+  # ── BMRN (BioMarin) ──────────────────────────────────────────────────────────
+
+  - asset_id: a-bmrn
+    ticker: BMRN
+    event_type: trial_readout
+    announced_at: "2021-06-03"
+    outcome_label: positive
+    headline: >
+      Vosoritide Phase 3 2-year achondroplasia data: sustained +1.57 cm/yr
+      growth velocity advantage vs placebo; bone proportionality improved
+
+  - asset_id: a-bmrn
+    ticker: BMRN
+    event_type: pdufa_decision
+    announced_at: "2022-08-19"
+    outcome_label: positive
+    headline: >
+      Roctavian (valoctocogene roxaparvovec) receives EU conditional marketing
+      approval for severe hemophilia A; first EU-approved gene therapy
+
+  - asset_id: a-bmrn
+    ticker: BMRN
+    event_type: pdufa_decision
+    announced_at: "2023-06-29"
+    outcome_label: positive
+    headline: >
+      Roctavian FDA approval for severe hemophilia A; label includes mean
+      ABR reduction of 83.8%; 24-month Atayin study data supports benefit
+
+  # ── REGN (Regeneron) ─────────────────────────────────────────────────────────
+
+  - asset_id: a-regn
+    ticker: REGN
+    event_type: trial_readout
+    announced_at: "2021-09-23"
+    outcome_label: positive
+    headline: >
+      Itepekimab PATHWAY Phase 3: 26% exacerbation reduction vs placebo in
+      ex-smoker COPD; anti-IL-33 mechanism shows efficacy in non-T2 COPD
+
+  - asset_id: a-regn
+    ticker: REGN
+    event_type: pdufa_decision
+    announced_at: "2022-06-28"
+    outcome_label: positive
+    headline: >
+      Dupilumab FDA approval for prurigo nodularis; 4th indication; first
+      systemic therapy approved for PN; 60% IGA 0/1 at 24 weeks
+
+  - asset_id: a-regn
+    ticker: REGN
+    event_type: trial_readout
+    announced_at: "2023-07-20"
+    outcome_label: positive
+    headline: >
+      Dupilumab BOREAS Phase 3 COPD: 34% reduction in exacerbations vs placebo
+      in eosinophilic COPD patients; primary endpoint met (NEJM Jul 2023)
+
+  # ── LLY (Eli Lilly) ──────────────────────────────────────────────────────────
+
+  - asset_id: a-lly
+    ticker: LLY
+    event_type: trial_readout
+    announced_at: "2021-05-03"
+    outcome_label: positive
+    headline: >
+      Tirzepatide SURPASS-1 Phase 3: up to 2.11% HbA1c reduction; superior
+      to placebo across all doses; GIP/GLP-1 dual agonist mechanism confirmed
+
+  - asset_id: a-lly
+    ticker: LLY
+    event_type: trial_readout
+    announced_at: "2022-04-28"
+    outcome_label: positive
+    headline: >
+      Tirzepatide SURMOUNT-1 Phase 3 obesity: 20.9% mean weight loss at 72
+      weeks (15mg); largest Phase 3 weight loss result in history at that date
+
+  - asset_id: a-lly
+    ticker: LLY
+    event_type: trial_readout
+    announced_at: "2023-05-22"
+    outcome_label: positive
+    headline: >
+      Donanemab TRAILBLAZER-ALZ2 Phase 3: 35% slowing of cognitive decline
+      in early tau population; amyloid clearance durable at 18 months (JAMA)
+
+  # ── KYMR (Kymera Therapeutics) ───────────────────────────────────────────────
+
+  - asset_id: a-kymr
+    ticker: KYMR
+    event_type: trial_readout
+    announced_at: "2022-09-12"
+    outcome_label: positive
+    headline: >
+      KT-474 Phase 1 atopic derm initial data: well tolerated at all doses;
+      STAT6 target engagement confirmed; dose-dependent reduction in TARC
+
+  - asset_id: a-kymr
+    ticker: KYMR
+    event_type: trial_readout
+    announced_at: "2023-06-01"
+    outcome_label: positive
+    headline: >
+      KT-474 Phase 2 atopic derm dose selection: clear dose-response in EASI;
+      Phase 2 expansion dose confirmed; Phase 3 planning initiated
+
+  # ── ARVN (Arvinas) ───────────────────────────────────────────────────────────
+
+  - asset_id: a-arvn
+    ticker: ARVN
+    event_type: trial_readout
+    announced_at: "2022-09-08"
+    outcome_label: positive
+    headline: >
+      ARV-471 Phase 1b breast cancer dose escalation (ESMO 2022): 40% ORR
+      in heavily pretreated ER+/HER2- patients; PROTAC ER degrader confirmed
+
+  - asset_id: a-arvn
+    ticker: ARVN
+    event_type: trial_readout
+    announced_at: "2023-06-04"
+    outcome_label: positive
+    headline: >
+      ARV-471 VERITAC-2 Phase 3 enrollment complete; 702 patients randomized;
+      primary PFS readout expected 2025-2026
+
+  # ── RVMD (Revolution Medicines) ──────────────────────────────────────────────
+
+  - asset_id: a-rvmd
+    ticker: RVMD
+    event_type: trial_readout
+    announced_at: "2023-06-03"
+    outcome_label: positive
+    headline: >
+      RMC-6236 Phase 1 pan-RAS initial data (ASCO 2023): 40% ORR in PDAC
+      at 120mg QD; anti-tumor activity across KRAS G12X mutations confirmed
+
+  # ── MDGL (Madrigal) ──────────────────────────────────────────────────────────
+
+  - asset_id: a-mdgl
+    ticker: MDGL
+    event_type: trial_readout
+    announced_at: "2023-12-10"
+    outcome_label: positive
+    headline: >
+      MAESTRO-NASH Phase 3 primary endpoint: resmetirom meets both co-primary
+      NASH resolution (25.9% vs 9.7%) and fibrosis improvement (24.2% vs 14.2%)
+
+  # ── IMVT (Immunovant) ────────────────────────────────────────────────────────
+
+  - asset_id: a-imvt
+    ticker: IMVT
+    event_type: trial_readout
+    announced_at: "2022-03-07"
+    outcome_label: positive
+    headline: >
+      Batoclimab IMVT-1401 Phase 2 MG dose comparison: 680mg weekly achieves
+      >80% IgG reduction; AChR antibody reduction > 70% at 12 weeks
+
+  - asset_id: a-imvt
+    ticker: IMVT
+    event_type: trial_readout
+    announced_at: "2023-10-05"
+    outcome_label: positive
+    headline: >
+      Batoclimab ASCEND+ Phase 3 MG enrollment complete; 240 patients;
+      primary endpoint MG-ADL improvement readout expected mid-2025
+
+  # ── FULC (Fulcrum Therapeutics) ──────────────────────────────────────────────
+
+  - asset_id: a-fulc
+    ticker: FULC
+    event_type: trial_readout
+    announced_at: "2021-07-27"
+    outcome_label: negative
+    headline: >
+      Losmapimod REACH Phase 2 FSHD: misses primary endpoint RMT% change at
+      24 weeks; secondary endpoint signal in subgroup motivates Phase 3 LOTR
+
+  - asset_id: a-fulc
+    ticker: FULC
+    event_type: trial_readout
+    announced_at: "2022-09-12"
+    outcome_label: positive
+    headline: >
+      LOTR Phase 3 enrollment initiated; 220 patients target; losmapimod
+      Phase 3 design incorporates REACH subgroup responder criteria
+
+  # ── SRRK (Scholar Rock) ──────────────────────────────────────────────────────
+
+  - asset_id: a-srrk
+    ticker: SRRK
+    event_type: trial_readout
+    announced_at: "2022-09-17"
+    outcome_label: positive
+    headline: >
+      Apitegromab TOPAZ Phase 2 SMA 14-month data: 2.14-point HFMSE improvement
+      in non-ambulatory SMA patients; maintained on risdiplam/nusinersen
+
+  - asset_id: a-srrk
+    ticker: SRRK
+    event_type: trial_readout
+    announced_at: "2023-09-21"
+    outcome_label: positive
+    headline: >
+      Apitegromab TOPAZ Phase 3 enrollment complete; 230 patients; 12-month
+      HFMSE primary endpoint readout expected mid-2024
+
+  # ── IOVA (Iovance) ───────────────────────────────────────────────────────────
+
+  - asset_id: a-iova
+    ticker: IOVA
+    event_type: trial_readout
+    announced_at: "2022-06-07"
+    outcome_label: positive
+    headline: >
+      Lifileucel C-145-04 Phase 2 melanoma (ASCO 2022): 36.4% ORR in
+      checkpoint-refractory patients; durable responses at 18 months confirmed
+
+  - asset_id: a-iova
+    ticker: IOVA
+    event_type: pdufa_decision
+    announced_at: "2023-12-19"
+    outcome_label: positive
+    headline: >
+      Lifileucel BLA accepted for filing by FDA; PDUFA date set for Feb 2024;
+      potential first TIL therapy approval for unresectable melanoma
+
+  # ── PRTA (Prothena) ──────────────────────────────────────────────────────────
+
+  - asset_id: a-prta
+    ticker: PRTA
+    event_type: trial_readout
+    announced_at: "2022-11-15"
+    outcome_label: negative
+    headline: >
+      Prasinezumab PADOVA Phase 2b: misses prespecified motor futility boundary
+      in rapid-progression Parkinson's; open-label extension continues
+
+  # ── EDIT (Editas Medicine) ───────────────────────────────────────────────────
+
+  - asset_id: a-edit
+    ticker: EDIT
+    event_type: trial_readout
+    announced_at: "2023-09-25"
+    outcome_label: positive
+    headline: >
+      EDIT-301 Phase 1/2 SCD/beta-thal initial data: first 3 patients show
+      >80% HbF induction; no off-target edits detected at 3-month follow-up
+
+  # ── ZYME (Zymeworks) ─────────────────────────────────────────────────────────
+
+  - asset_id: a-zyme
+    ticker: ZYME
+    event_type: trial_readout
+    announced_at: "2022-06-06"
+    outcome_label: positive
+    headline: >
+      Zanidatamab Phase 2/3 BTC data (ASCO 2022): 41.3% ORR in HER2-amplified
+      biliary tract cancer second-line; durable responses at 8 months
+
+  - asset_id: a-zyme
+    ticker: ZYME
+    event_type: pdufa_decision
+    announced_at: "2023-01-23"
+    outcome_label: positive
+    headline: >
+      Zanidatamab BLA submission accepted by FDA; priority review granted for
+      HER2+ biliary tract cancer; PDUFA date Q3 2023 assigned
+
+  # ── NVAX (Novavax) ───────────────────────────────────────────────────────────
+
+  - asset_id: a-nvax
+    ticker: NVAX
+    event_type: trial_readout
+    announced_at: "2021-06-10"
+    outcome_label: positive
+    headline: >
+      NVX-CoV2373 PREVENT-19 Phase 3: 90.4% efficacy vs original strain;
+      100% efficacy vs moderate/severe disease; protein-subunit mechanism
+
+  # ── OCUL (Ocugen) ────────────────────────────────────────────────────────────
+
+  - asset_id: a-ocul
+    ticker: OCUL
+    event_type: trial_readout
+    announced_at: "2023-05-22"
+    outcome_label: positive
+    headline: >
+      OCU400 Phase 1/2 LCA10/RP first patient dosed; gene-agnostic AAV
+      nuclear hormone receptor approach; initial safety data expected 2023

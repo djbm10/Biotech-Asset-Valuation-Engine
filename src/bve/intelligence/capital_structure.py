@@ -117,6 +117,23 @@ def compute_capital_risk(
     *,
     cfg: Optional[dict] = None,
 ) -> tuple[CapitalRiskLevel, float]:
+    return compute_capital_risk_as_of(
+        catalyst_expected_date,
+        cash_runway_quarters,
+        burn_rate_monthly_millions,
+        as_of=date.today(),
+        cfg=cfg,
+    )
+
+
+def compute_capital_risk_as_of(
+    catalyst_expected_date: date,
+    cash_runway_quarters: float,
+    burn_rate_monthly_millions: float,
+    *,
+    as_of: Optional[date] = None,
+    cfg: Optional[dict] = None,
+) -> tuple[CapitalRiskLevel, float]:
     """
     Classify capital risk for a catalyst based on cash runway vs time to event.
 
@@ -139,8 +156,9 @@ def compute_capital_risk(
     thresholds = (_cfg(cfg).get("risk_thresholds") or
                   _CONFIG_DEFAULTS["risk_thresholds"])
     high_gap   = float(thresholds.get("high_gap_months",   6))
+    reference_date = as_of or date.today()
 
-    months_to_catalyst = (catalyst_expected_date - date.today()).days / 30.0
+    months_to_catalyst = (catalyst_expected_date - reference_date).days / 30.0
     runway_months      = cash_runway_quarters * 3.0
     gap_months         = months_to_catalyst - runway_months
 

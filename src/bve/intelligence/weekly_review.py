@@ -120,6 +120,18 @@ class SizingQuality(BaseModel):
     n_oversized: int = 0                      # executed_size > recommended_size + 2pp
 
 
+class PolicyAudit(BaseModel):
+    """Coverage and action mix for persisted Step 5 policy snapshots."""
+
+    n_policy_snapshots: int = 0
+    n_buy: int = 0
+    n_add: int = 0
+    n_monitor: int = 0
+    n_avoid: int = 0
+    avg_sizing_pct: Optional[float] = None
+    n_blocked_by_company_gate: int = 0
+
+
 # ---------------------------------------------------------------------------
 # WeeklyReviewReport
 # ---------------------------------------------------------------------------
@@ -159,6 +171,7 @@ class WeeklyReviewReport(BaseModel):
     market_timing: MarketTimingAccuracy = Field(default_factory=MarketTimingAccuracy)
     thesis: ThesisAccuracy = Field(default_factory=ThesisAccuracy)
     sizing: SizingQuality = Field(default_factory=SizingQuality)
+    policy_audit: PolicyAudit = Field(default_factory=PolicyAudit)
     top_miss: Optional[str] = None
     top_win: Optional[str] = None
     calibration_drift_fired: bool = False
@@ -247,6 +260,7 @@ class WeeklyReviewEngine:
         market_timing = self._compute_market_timing(start, end)
         thesis = self._compute_thesis_accuracy(start, end)
         sizing = self._compute_sizing_quality()
+        policy_audit = self._compute_policy_audit(start, end)
         top_miss, top_win = self._compute_top_miss_win(start, end)
         drift = self._check_calibration_drift(start, end)
 
@@ -257,6 +271,7 @@ class WeeklyReviewEngine:
             market_timing=market_timing,
             thesis=thesis,
             sizing=sizing,
+            policy_audit=policy_audit,
             top_miss=top_miss,
             top_win=top_win,
             calibration_drift_fired=drift,
@@ -583,6 +598,50 @@ class WeeklyReviewEngine:
             pct_diverged=pct,
             avg_size_divergence_pct=avg_div,
             n_oversized=n_oversized,
+        )
+
+    # ------------------------------------------------------------------
+    # Section: Policy audit
+    # ------------------------------------------------------------------
+
+    def _compute_policy_audit(self, start: date, end: date) -> PolicyAudit:
+        """Summarize persisted Step 5 policy rows in the window."""
+        try:
+            rows = self.store._conn.execute(
+                """
+                SELECT action, sizing_pct, company_action_policy
+                  FROM equity_policy_snapshots
+                 WHERE as_of_date BETWEEN ? AND ?
+                """,
+                (start.isoformat(), end.isoformat()),
+            ).fetchall()
+        except Exception:
+            return PolicyAudit()
+
+        n_rows = len(rows)
+        if n_rows == 0:
+            return PolicyAudit()
+
+        actions = [str(row["action"] or "").lower() for row in rows]
+        sizes = [
+            float(row["sizing_pct"])
+            for row in rows
+            if row["sizing_pct"] is not None
+        ]
+        blocked = sum(
+            1
+            for row in rows
+            if str(row["company_action_policy"] or "").lower()
+            in {"avoid", "needs_manual_review"}
+        )
+        return PolicyAudit(
+            n_policy_snapshots=n_rows,
+            n_buy=sum(1 for action in actions if action == "buy"),
+            n_add=sum(1 for action in actions if action == "add"),
+            n_monitor=sum(1 for action in actions if action == "monitor"),
+            n_avoid=sum(1 for action in actions if action == "avoid"),
+            avg_sizing_pct=round(sum(sizes) / len(sizes), 4) if sizes else None,
+            n_blocked_by_company_gate=blocked,
         )
 
     # ------------------------------------------------------------------

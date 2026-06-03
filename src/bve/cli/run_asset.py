@@ -15,23 +15,59 @@ from pathlib import Path
 import yaml
 
 from bve.config.assumptions_loader import AssumptionsLoader as _AssumptionsLoader
+from bve.entities.asset import DevelopmentStage as _DevelopmentStage
+from bve.entities.asset import Modality as _Modality
+from bve.entities.asset import TherapeuticArea as _TherapeuticArea
+from bve.entities.trial import EndpointType as _EndpointType
+from bve.models.pos_model import (
+    BiomarkerSelectionStrength as _BiomarkerSelectionStrength,
+    CMCRiskLevel as _CMCRiskLevel,
+    CompetitiveBenchmarkPosition as _CompetitiveBenchmarkPosition,
+    CompetitivePressure as _CompetitivePressure,
+    DataMaturityLevel as _DataMaturityLevel,
+    MoAPrecedent as _MoAPrecedent,
+    PriorPhaseDataStrength as _PriorPhaseDataStrength,
+    RegulatoryApprovalBar as _RegulatoryApprovalBar,
+    SafetyProfile as _SafetyProfile,
+    SampleSizeAdequacy as _SampleSizeAdequacy,
+)
+from bve.models.trial_design_features import (
+    ComparatorFit as _ComparatorFit,
+    EvidenceDesignQuality as _EvidenceDesignQuality,
+    RegulatoryPathwayRisk as _RegulatoryPathwayRisk,
+)
 
 # Resolved once at import — avoids re-loading YAML on every CLI invocation
 _COMMERCIAL_DEFAULTS = _AssumptionsLoader.get().commercial_defaults
 _MC_DEFAULTS = _AssumptionsLoader.get()
 
 
-_VALID_THERAPEUTIC_AREAS = {"oncology", "rare_disease", "cns", "cardiovascular", "immunology", "infectious_disease", "ophthalmology", "other"}
-_VALID_STAGES = {"phase_1", "phase_2", "phase_3", "nda_bla"}
-_VALID_MODALITIES = {"small_molecule", "biologic", "cell_gene", "adc", "other"}
-_VALID_ENDPOINT_TYPES = {"hard_clinical", "surrogate_validated", "surrogate_novel", "biomarker_only"}
-_VALID_MOA_PRECEDENT = {"validated", "partial", "novel"}
-_VALID_SAMPLE_ADEQUACY = {"well_powered", "adequate", "borderline", "underpowered"}
-_VALID_SAFETY = {"clean", "minor", "concerning", "serious"}
-_VALID_COMPETITION = {"low", "moderate", "high"}
-_VALID_ENDPOINT_BASIS = {"hard_clinical", "surrogate_validated", "surrogate_novel", "biomarker_only"}
-_VALID_EVIDENCE_DESIGN = {"rct_comparative", "rct_non_comparative", "single_arm", "registry_based"}
-_VALID_APPROVAL_PATHWAY = {"standard", "accelerated_approval", "breakthrough_designation", "orphan_drug"}
+_VALID_THERAPEUTIC_AREAS = {ta.value for ta in _TherapeuticArea}
+_VALID_STAGES = {s.value for s in _DevelopmentStage}
+_VALID_MODALITIES = {m.value for m in _Modality}
+_VALID_ENDPOINT_TYPES = {e.value for e in _EndpointType}
+_VALID_MOA_PRECEDENT = {m.value for m in _MoAPrecedent}
+_VALID_SAMPLE_ADEQUACY = {s.value for s in _SampleSizeAdequacy}
+_VALID_SAFETY = {s.value for s in _SafetyProfile}
+_VALID_COMPETITION = {c.value for c in _CompetitivePressure}
+_VALID_RAB = {r.value for r in _RegulatoryApprovalBar}
+_VALID_BIOMARKER_SELECTION = {b.value for b in _BiomarkerSelectionStrength}
+_VALID_PRIOR_PHASE = {p.value for p in _PriorPhaseDataStrength}
+_VALID_DATA_MATURITY = {d.value for d in _DataMaturityLevel}
+_VALID_CMC_RISK = {c.value for c in _CMCRiskLevel}
+_VALID_COMP_BENCHMARK = {c.value for c in _CompetitiveBenchmarkPosition}
+_VALID_EVIDENCE_DESIGN_QUALITY = {e.value for e in _EvidenceDesignQuality}
+_VALID_COMPARATOR_FIT = {c.value for c in _ComparatorFit}
+_VALID_REGULATORY_PATHWAY_RISK = {r.value for r in _RegulatoryPathwayRisk}
+
+_SAMPLE_SIZE_ADEQUACY_ALIASES = {
+    "large": "well_powered",
+}
+
+
+def _normalize_sample_size_adequacy(value: str) -> str:
+    """Normalize legacy sample-size labels to current enum values."""
+    return _SAMPLE_SIZE_ADEQUACY_ALIASES.get(value, value)
 
 
 def _validate_config(cfg: dict, path: Path) -> None:
@@ -112,14 +148,38 @@ def _validate_config(cfg: dict, path: Path) -> None:
                 _check(pc["moa_precedent"] in _VALID_MOA_PRECEDENT,
                        f"{prefix}.moa_precedent must be one of {sorted(_VALID_MOA_PRECEDENT)}, got: {pc['moa_precedent']!r}")
             if pc.get("sample_size_adequacy"):
-                _check(pc["sample_size_adequacy"] in _VALID_SAMPLE_ADEQUACY,
-                       f"{prefix}.sample_size_adequacy must be one of {sorted(_VALID_SAMPLE_ADEQUACY)}, got: {pc['sample_size_adequacy']!r}")
+                sample_size_value = _normalize_sample_size_adequacy(
+                    str(pc["sample_size_adequacy"])
+                )
+                _check(sample_size_value in _VALID_SAMPLE_ADEQUACY,
+                       f"{prefix}.sample_size_adequacy must be one of "
+                       f"{sorted(_VALID_SAMPLE_ADEQUACY)}"
+                       f" (legacy aliases: {sorted(_SAMPLE_SIZE_ADEQUACY_ALIASES)}), "
+                       f"got: {pc['sample_size_adequacy']!r}")
             if pc.get("safety_profile"):
                 _check(pc["safety_profile"] in _VALID_SAFETY,
                        f"{prefix}.safety_profile must be one of {sorted(_VALID_SAFETY)}, got: {pc['safety_profile']!r}")
             if pc.get("competitive_pressure"):
                 _check(pc["competitive_pressure"] in _VALID_COMPETITION,
                        f"{prefix}.competitive_pressure must be one of {sorted(_VALID_COMPETITION)}, got: {pc['competitive_pressure']!r}")
+            if pc.get("regulatory_approval_bar"):
+                _check(pc["regulatory_approval_bar"] in _VALID_RAB,
+                       f"{prefix}.regulatory_approval_bar must be one of {sorted(_VALID_RAB)}, got: {pc['regulatory_approval_bar']!r}")
+            if pc.get("biomarker_selection"):
+                _check(pc["biomarker_selection"] in _VALID_BIOMARKER_SELECTION,
+                       f"{prefix}.biomarker_selection must be one of {sorted(_VALID_BIOMARKER_SELECTION)}, got: {pc['biomarker_selection']!r}")
+            if pc.get("prior_phase_data"):
+                _check(pc["prior_phase_data"] in _VALID_PRIOR_PHASE,
+                       f"{prefix}.prior_phase_data must be one of {sorted(_VALID_PRIOR_PHASE)}, got: {pc['prior_phase_data']!r}")
+            if pc.get("data_maturity"):
+                _check(pc["data_maturity"] in _VALID_DATA_MATURITY,
+                       f"{prefix}.data_maturity must be one of {sorted(_VALID_DATA_MATURITY)}, got: {pc['data_maturity']!r}")
+            if pc.get("cmc_risk"):
+                _check(pc["cmc_risk"] in _VALID_CMC_RISK,
+                       f"{prefix}.cmc_risk must be one of {sorted(_VALID_CMC_RISK)}, got: {pc['cmc_risk']!r}")
+            if pc.get("competitive_benchmark"):
+                _check(pc["competitive_benchmark"] in _VALID_COMP_BENCHMARK,
+                       f"{prefix}.competitive_benchmark must be one of {sorted(_VALID_COMP_BENCHMARK)}, got: {pc['competitive_benchmark']!r}")
 
     td = cfg.get("trial_design", {})
     if td.get("apply_design_model"):
@@ -128,15 +188,15 @@ def _validate_config(cfg: dict, path: Path) -> None:
             if pc is None:
                 continue
             prefix = f"trial_design.{phase_key}"
-            if pc.get("endpoint_basis"):
-                _check(pc["endpoint_basis"] in _VALID_ENDPOINT_BASIS,
-                       f"{prefix}.endpoint_basis must be one of {sorted(_VALID_ENDPOINT_BASIS)}, got: {pc['endpoint_basis']!r}")
-            if pc.get("evidence_design"):
-                _check(pc["evidence_design"] in _VALID_EVIDENCE_DESIGN,
-                       f"{prefix}.evidence_design must be one of {sorted(_VALID_EVIDENCE_DESIGN)}, got: {pc['evidence_design']!r}")
-            if pc.get("approval_pathway"):
-                _check(pc["approval_pathway"] in _VALID_APPROVAL_PATHWAY,
-                       f"{prefix}.approval_pathway must be one of {sorted(_VALID_APPROVAL_PATHWAY)}, got: {pc['approval_pathway']!r}")
+            if pc.get("evidence_design_quality"):
+                _check(pc["evidence_design_quality"] in _VALID_EVIDENCE_DESIGN_QUALITY,
+                       f"{prefix}.evidence_design_quality must be one of {sorted(_VALID_EVIDENCE_DESIGN_QUALITY)}, got: {pc['evidence_design_quality']!r}")
+            if pc.get("comparator_fit"):
+                _check(pc["comparator_fit"] in _VALID_COMPARATOR_FIT,
+                       f"{prefix}.comparator_fit must be one of {sorted(_VALID_COMPARATOR_FIT)}, got: {pc['comparator_fit']!r}")
+            if pc.get("regulatory_pathway_risk"):
+                _check(pc["regulatory_pathway_risk"] in _VALID_REGULATORY_PATHWAY_RISK,
+                       f"{prefix}.regulatory_pathway_risk must be one of {sorted(_VALID_REGULATORY_PATHWAY_RISK)}, got: {pc['regulatory_pathway_risk']!r}")
 
     if errors:
         print(f"\nERROR: Config validation failed — {path}", file=sys.stderr)
@@ -239,11 +299,40 @@ def _build_objects(cfg: dict):
     lc_cfgs = m.get("lifecycle_events", [])
     lifecycle_events = [LifecycleEvent(**e) for e in lc_cfgs] if lc_cfgs else []
 
+    # Mode 4: commercial_inputs (patient × price × share decomposition)
+    commercial_inputs = None
+    ci_cfg = m.get("commercial_inputs")
+    if ci_cfg:
+        from bve.models.commercial_inputs import CommercialInputs, PatientPool, PricingModel, ShareModel
+        pp_cfg = ci_cfg["patient_pool"]
+        pr_cfg = ci_cfg["pricing"]
+        sh_cfg = ci_cfg["share"]
+        patient_pool = PatientPool(**pp_cfg)
+        # Support both from_wac() path and direct net_price_usd path
+        if "wac_per_year_usd" in pr_cfg and "gross_to_net_rate" in pr_cfg and "net_price_usd" not in pr_cfg:
+            pricing = PricingModel.from_wac(
+                wac_per_year_usd=pr_cfg["wac_per_year_usd"],
+                gross_to_net_rate=pr_cfg["gross_to_net_rate"],
+                launch_discount=pr_cfg.get("launch_discount", 0.10),
+                annual_erosion_rate=pr_cfg.get("annual_erosion_rate", 0.02),
+                uncertainty_cv=pr_cfg.get("uncertainty_cv", 0.15),
+            )
+        else:
+            pricing = PricingModel(**pr_cfg)
+        share = ShareModel(**sh_cfg)
+        commercial_inputs = CommercialInputs(
+            patient_pool=patient_pool,
+            pricing=pricing,
+            share=share,
+            ex_us_revenue_multiple=ci_cfg.get("ex_us_revenue_multiple", 1.0),
+        )
+
     market_model = MarketModel(
         asset_id=asset.id,
         lines_of_therapy=lots,
         competition_model=competition,
         lifecycle_events=lifecycle_events,
+        commercial_inputs=commercial_inputs,
         total_addressable_market_millions=m.get("total_addressable_market_millions"),
         addressable_patients_annual=m.get("addressable_patients_annual"),
         net_price_per_patient_usd=m.get("net_price_per_patient_usd"),
@@ -259,10 +348,26 @@ def _build_objects(cfg: dict):
 
 
 def _build_pos_adjusters(cfg: dict):
-    """Parse optional pos_adjusters section from config."""
+    """Parse optional pos_adjusters section from config.
+
+    Supports both legacy field names (competitive_pressure, biomarker_selected_population,
+    strong_prior_phase_data) and new field names (regulatory_approval_bar, biomarker_selection,
+    prior_phase_data, data_maturity, cmc_risk, competitive_benchmark). New fields take
+    precedence when both are present.
+    """
     from bve.entities.trial import TrialPhase
     from bve.models.pos_model import (
-        POSAdjusters, CompetitivePressure, MoAPrecedent, SafetyProfile, SampleSizeAdequacy
+        BiomarkerSelectionStrength,
+        CMCRiskLevel,
+        CompetitiveBenchmarkPosition,
+        CompetitivePressure,
+        DataMaturityLevel,
+        MoAPrecedent,
+        POSAdjusters,
+        PriorPhaseDataStrength,
+        RegulatoryApprovalBar,
+        SafetyProfile,
+        SampleSizeAdequacy,
     )
     from bve.entities.trial import EndpointType
 
@@ -282,16 +387,45 @@ def _build_pos_adjusters(cfg: dict):
         phase_cfg = pos_cfg.get(phase_key)
         if phase_cfg is None:
             continue
-        adjusters[phase_enum] = POSAdjusters(
+
+        kwargs: dict = dict(
             endpoint_type=EndpointType(phase_cfg.get("endpoint_type", "surrogate_validated")),
             moa_precedent=MoAPrecedent(phase_cfg.get("moa_precedent", "partial")),
-            sample_size_adequacy=SampleSizeAdequacy(phase_cfg.get("sample_size_adequacy", "adequate")),
+            sample_size_adequacy=SampleSizeAdequacy(
+                _normalize_sample_size_adequacy(
+                    phase_cfg.get("sample_size_adequacy", "adequate")
+                )
+            ),
             safety_profile=SafetyProfile(phase_cfg.get("safety_profile", "minor")),
-            competitive_pressure=CompetitivePressure(phase_cfg.get("competitive_pressure", "moderate")),
-            biomarker_selected_population=phase_cfg.get("biomarker_selected_population", False),
-            strong_prior_phase_data=phase_cfg.get("strong_prior_phase_data", False),
             has_breakthrough_designation=phase_cfg.get("has_breakthrough_designation", False),
         )
+
+        # New field names take precedence over legacy fields
+        if phase_cfg.get("regulatory_approval_bar"):
+            kwargs["regulatory_approval_bar"] = RegulatoryApprovalBar(phase_cfg["regulatory_approval_bar"])
+        elif phase_cfg.get("competitive_pressure"):
+            kwargs["competitive_pressure"] = CompetitivePressure(phase_cfg["competitive_pressure"])
+
+        if phase_cfg.get("biomarker_selection"):
+            kwargs["biomarker_selection"] = BiomarkerSelectionStrength(phase_cfg["biomarker_selection"])
+        elif phase_cfg.get("biomarker_selected_population"):
+            kwargs["biomarker_selected_population"] = phase_cfg["biomarker_selected_population"]
+
+        if phase_cfg.get("prior_phase_data"):
+            kwargs["prior_phase_data"] = PriorPhaseDataStrength(phase_cfg["prior_phase_data"])
+        elif phase_cfg.get("strong_prior_phase_data"):
+            kwargs["strong_prior_phase_data"] = phase_cfg["strong_prior_phase_data"]
+
+        if phase_cfg.get("data_maturity"):
+            kwargs["data_maturity"] = DataMaturityLevel(phase_cfg["data_maturity"])
+
+        if phase_cfg.get("cmc_risk"):
+            kwargs["cmc_risk"] = CMCRiskLevel(phase_cfg["cmc_risk"])
+
+        if phase_cfg.get("competitive_benchmark"):
+            kwargs["competitive_benchmark"] = CompetitiveBenchmarkPosition(phase_cfg["competitive_benchmark"])
+
+        adjusters[phase_enum] = POSAdjusters(**kwargs)
 
     return adjusters, True
 
@@ -304,7 +438,7 @@ def _build_design_adjusters(cfg: dict):
     """
     from bve.entities.trial import TrialPhase
     from bve.models.trial_design_features import (
-        ApprovalPathway, EndpointBasis, EvidenceDesign, TrialDesignFeatureSet
+        ComparatorFit, EvidenceDesignQuality, RegulatoryPathwayRisk, TrialDesignFeatureSet
     )
 
     td_cfg = cfg.get("trial_design", {})
@@ -324,9 +458,15 @@ def _build_design_adjusters(cfg: dict):
         if phase_cfg is None:
             continue
         adjusters[phase_enum] = TrialDesignFeatureSet(
-            endpoint_basis=EndpointBasis(phase_cfg.get("endpoint_basis", "surrogate_validated")),
-            evidence_design=EvidenceDesign(phase_cfg.get("evidence_design", "rct_comparative")),
-            approval_pathway=ApprovalPathway(phase_cfg.get("approval_pathway", "standard")),
+            evidence_design_quality=EvidenceDesignQuality(
+                phase_cfg.get("evidence_design_quality", "rct_double_blind")
+            ),
+            comparator_fit=ComparatorFit(
+                phase_cfg.get("comparator_fit", "acceptable_not_ideal")
+            ),
+            regulatory_pathway_risk=RegulatoryPathwayRisk(
+                phase_cfg.get("regulatory_pathway_risk", "standard")
+            ),
         )
 
     return adjusters, True

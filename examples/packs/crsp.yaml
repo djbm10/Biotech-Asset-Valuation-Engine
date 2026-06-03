@@ -1,0 +1,219 @@
+# Underwriting Pack — CRISPR Therapeutics AG (CRSP)
+# Q2 2026 | As of: 2026-04-09
+# Analyst: djm
+# Status: DRAFT — pending second reviewer
+
+company_id: "crsp"
+company_name: "CRISPR Therapeutics AG"
+ticker: "CRSP"
+as_of_date: "2026-04-09"
+pack_quarter: "2026Q2"
+
+# ─────────────────────────────────────────────────────────────────────
+# Market data  (point-in-time 2026-04-09)
+# ─────────────────────────────────────────────────────────────────────
+market:
+  market_cap_millions: 3500.0      # ~$3.5B at $46/share × ~76M shares
+  enterprise_value_millions: 1800.0 # market cap minus net cash (~$1.7B)
+  share_price: 46.0
+  source_ref: "yfinance:2026-04-09"
+
+# ─────────────────────────────────────────────────────────────────────
+# Balance sheet  (10-K 2025-12-31)
+# ─────────────────────────────────────────────────────────────────────
+balance_sheet:
+  cash_millions: 1800.0    # cash + short-term investments
+  debt_millions: 100.0     # minimal long-term obligations
+  source_ref: "10-K:2025-12-31:balance_sheet"
+
+# ─────────────────────────────────────────────────────────────────────
+# Modeled assets
+# ─────────────────────────────────────────────────────────────────────
+modeled_assets:
+  - bucket_id: "crsp_casgevy"
+    label: "Casgevy (exa-cel) — SCD/TDT (CRISPR, partnered Vertex)"
+    value_millions: 1200.0
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/crsp_casgevy.yaml:2026-04-09"
+    as_of_date: "2026-04-09"
+    confidence: 0.65
+    corroboration_count: 1
+    corroboration_refs:
+      - "Vertex/CRSP commercial update 2025: ~100 patients treated, $2.2M list price"
+    notes: >
+      Approved Dec 2023 US/EU. CRSP receives ~40% of profits from Vertex partnership.
+      One-time gene therapy; slow commercial ramp due to treatment center capacity +
+      payer outcomes contracting. ~150 patients treated 2025. rNPV on CRSP's ~40%
+      profit share: peak scenario $500M/yr CRSP share, discounted at 11%, 12y.
+
+  - bucket_id: "crsp_ctx110"
+    label: "CTX110 (CD19 allo CAR-T) — B-cell malignancies + autoimmune (Ph1/2)"
+    value_millions: 600.0
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/crsp_ctx110.yaml:2026-04-09"
+    as_of_date: "2026-04-09"
+    confidence: 0.45
+    corroboration_count: 1
+    corroboration_refs:
+      - "CTX110 Ph1 data Blood 2024: ORR 73% r/r LBCL, durable responses at 12mo"
+    notes: >
+      Allogeneic CRISPR-edited CD19 CAR-T. Ph1/2 data strong in B-cell lymphoma.
+      Autoimmune indication (SLE) cohort added. Competitive: BEAM-201, Kyverna
+      (autologous). Differentiation: allogeneic = off-the-shelf. rNPV: POS 45% to
+      Ph3, peak $1.5B.
+
+  - bucket_id: "crsp_ctx112"
+    label: "CTX112 (CD70 allo CAR-T) — AML/MDS (Ph1)"
+    value_millions: 300.0
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/crsp_ctx112.yaml:2026-04-09"
+    as_of_date: "2026-04-09"
+    confidence: 0.38
+    corroboration_count: 0
+    corroboration_refs: []
+    notes: >
+      Phase 1 in relapsed/refractory AML. CD70 expressed on AML blasts. Very early;
+      option value only.
+
+# ─────────────────────────────────────────────────────────────────────
+# Platform value
+# ─────────────────────────────────────────────────────────────────────
+platform_value:
+  bucket_id: "crsp_platform"
+  label: "CRISPR gene editing platform — in vivo + allo cell therapy"
+  value_millions: 500.0
+  methodology: "analyst_estimate"
+  source_type: "analyst_bridge"
+  source_ref: "top25_pack_2026q2:CRSP:platform"
+  as_of_date: "2026-04-09"
+  confidence: 0.55
+  corroboration_count: 0
+  corroboration_refs: []
+  notes: >
+    CTX001 approval validates platform. In vivo CRISPR programs preclinical. Pfizer
+    collaboration ended; CRSP fully independent. Conservative pending next clinical
+    proof point.
+
+# ─────────────────────────────────────────────────────────────────────
+# Unmodeled pipeline
+# ─────────────────────────────────────────────────────────────────────
+unmodeled_pipeline:
+  bucket_id: "crsp_unmodeled"
+  label: "Early CRISPR pipeline (in vivo hemoglobin, next-gen CAR-T)"
+  value_millions: 150.0
+  methodology: "rule_of_thumb"
+  source_type: "analyst_bridge"
+  source_ref: "top25_pack_2026q2:CRSP:unmodeled"
+  as_of_date: "2026-04-09"
+  confidence: 0.35
+  corroboration_count: 0
+  corroboration_refs: []
+  notes: >
+    Minimal value — pre-IND stage. Next-gen allo CAR-T (4-edit, less immunogenic)
+    in development.
+
+# ─────────────────────────────────────────────────────────────────────
+# Royalty streams  (none — profit share embedded in Casgevy modeled asset)
+# ─────────────────────────────────────────────────────────────────────
+royalty_streams: []
+
+# ─────────────────────────────────────────────────────────────────────
+# Dilution bridge  (10-K 2025-12-31)
+# ─────────────────────────────────────────────────────────────────────
+dilution:
+  current_shares_millions: 76.0
+  expected_dilution_pct: 0.10       # 10% expected over next 24 months
+  financing_runway_quarters: 10.0   # ~$400M/yr burn; ~2.5 years runway
+  atm_active: false
+  atm_remaining_millions: null
+  shelf_registration_millions: 800.0
+  warrant_shares_millions: 0.0
+  convertible_shares_millions: 0.0
+  source_ref: "10-K:2025-12-31:capitalization"
+  as_of_date: "2025-12-31"
+  notes: >
+    Well-funded at $1.8B cash. ~$400M/yr burn. 10 quarters runway. Modest dilution
+    for Ph3 CAR-T programs. $800M shelf available but ATM not active; no converts
+    or warrants outstanding.
+
+# ─────────────────────────────────────────────────────────────────────
+# Catalysts
+# ─────────────────────────────────────────────────────────────────────
+catalysts:
+  - description: "CTX110 autoimmune cohort (SLE) Ph1 data — allo CAR-T"
+    expected_date: "2026-Q3"
+    catalyst_type: "readout"
+    probability_positive: 0.62
+    source_ref: "CRSP pipeline 2026"
+    notes: >
+      Deep remission data in SLE = major re-rating event. Autoimmune CAR-T thesis
+      validation.
+
+  - description: "Casgevy commercial update — patient volumes, payer coverage"
+    expected_date: "2026-Q2"
+    catalyst_type: "milestone"
+    probability_positive: 0.65
+    source_ref: "VRTX/CRSP Q1 2026 earnings"
+    notes: >
+      Script ramp trajectory determines whether $1.2B rNPV assumption holds.
+
+  - description: "CTX112 Ph1 AML efficacy data"
+    expected_date: "2026-H2"
+    catalyst_type: "readout"
+    probability_positive: 0.50
+    source_ref: "ASH 2026"
+    notes: >
+      AML is difficult endpoint. First efficacy signal determines whether program
+      advances.
+
+# ─────────────────────────────────────────────────────────────────────
+# Management flags  (none flagged at this review)
+# ─────────────────────────────────────────────────────────────────────
+management_flags: []
+
+# ─────────────────────────────────────────────────────────────────────
+# Confidence metadata
+# ─────────────────────────────────────────────────────────────────────
+confidence:
+  overall_confidence: 0.60
+  notes: >
+    Single approved asset (Casgevy) with slow commercial ramp. CTX110 autoimmune
+    is the re-rating catalyst. Cash well-funded. Low-medium confidence given
+    execution uncertainty on Casgevy + competitive allo CAR-T landscape.
+
+# ─────────────────────────────────────────────────────────────────────
+# Provenance
+# ─────────────────────────────────────────────────────────────────────
+provenance:
+  pack_version: 1
+  pack_quarter: "2026Q2"
+  created_by: "djm"
+  change_summary: "Initial Q2 2026 pack."
+
+# SOTP check (manual reconciliation — why does model differ from market?):
+#
+#   Market cap:                $3,500M
+#   SOTP equity value:
+#     Net cash:                +$1,700M  (1800 - 100)
+#     Casgevy rNPV:            +$1,200M
+#     CTX110 rNPV:               +$600M
+#     CTX112 rNPV:               +$300M
+#     Platform:                  +$500M
+#     Unmodeled:                 +$150M
+#     Dilution reserve:          -$350M  (~10% × $46 × 76M)
+#     ─────────────────────────────────
+#     SOTP total:              ~$4,100M
+#   SOTP discount:             ~+17% (model above market)
+#   Assessment: Market is applying commercial execution discount on Casgevy ramp.
+#   CTX110 autoimmune is unpriced option. Fair discount given slow Casgevy uptake.
+
+reviewer_state: "draft"
+
+notes: >
+  CRSP is a bet on allo CAR-T and autoimmune cell therapy. The Casgevy thesis is
+  partially validated but commercial ramp is the key near-term signal. Key review:
+  is $1.2B Casgevy rNPV appropriate given CRSP's ~40% profit share and slow patient
+  uptake?

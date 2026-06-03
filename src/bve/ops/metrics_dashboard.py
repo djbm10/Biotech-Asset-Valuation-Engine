@@ -33,12 +33,22 @@ class TopOpportunitySummary(BaseModel):
 
     snapshot_date: date
     rank: int
-    asset_id: str
+    asset_id: Optional[str] = None
+    ticker: Optional[str] = None
+    company_id: Optional[str] = None
+    company_name: Optional[str] = None
     score: float
     mispricing: Optional[float] = None
     confidence: float
     event_type: Optional[str] = None
     days_since_event: Optional[int] = None
+    source_mode: str = "opportunity_snapshot"
+    action_policy: Optional[str] = None
+    ranked_sotp_discount: Optional[float] = None
+    enterprise_value_millions: Optional[float] = None
+    sotp_equity_value_millions: Optional[float] = None
+    modeled_asset_coverage_pct: Optional[float] = None
+    balance_sheet_snapshot_date: Optional[date] = None
 
 
 class RunHealthCheck(BaseModel):
@@ -78,6 +88,11 @@ class MetricsDashboardSnapshot(BaseModel):
     diffs_per_day: list[DailyMetricPoint] = Field(default_factory=list)
     alerts_per_day: list[DailyMetricPoint] = Field(default_factory=list)
     top_opportunities: list[TopOpportunitySummary] = Field(default_factory=list)
+    top_opportunities_source_mode: str = "opportunity_snapshot"
+    top_opportunities_reference_date: Optional[date] = None
+    strict_top_opportunities: list[TopOpportunitySummary] = Field(default_factory=list)
+    strict_top_opportunities_source_mode: Optional[str] = None
+    strict_top_opportunities_reference_date: Optional[date] = None
     health_checks: list[RunHealthCheck] = Field(default_factory=list)
 
 
@@ -333,6 +348,15 @@ class MetricsDashboard:
     ) -> MetricsDashboardSnapshot:
         as_of_date = as_of or (reference_time.date() if reference_time is not None else _utcnow().date())
         checked_at = self.knowledge._coerce_datetime(reference_time)
+        top_source_mode, top_reference_date, top_rows = self._top_opportunities(
+            as_of=as_of_date,
+            top_n=top_n,
+        )
+        strict_source_mode, strict_reference_date, strict_top_rows = self._top_opportunities(
+            as_of=as_of_date,
+            top_n=top_n,
+            allowed_action_policies=("buy", "watch"),
+        )
         return MetricsDashboardSnapshot(
             generated_at=checked_at,
             as_of_date=as_of_date,
@@ -364,7 +388,12 @@ class MetricsDashboard:
                 days=days,
                 as_of=as_of_date,
             ),
-            top_opportunities=self._top_opportunities(as_of=as_of_date, top_n=top_n),
+            top_opportunities=top_rows,
+            top_opportunities_source_mode=top_source_mode,
+            top_opportunities_reference_date=top_reference_date,
+            strict_top_opportunities=strict_top_rows,
+            strict_top_opportunities_source_mode=strict_source_mode,
+            strict_top_opportunities_reference_date=strict_reference_date,
             health_checks=self.health_monitor.evaluate(
                 reference_time=checked_at,
                 latest_metrics=latest_metrics,
@@ -406,28 +435,103 @@ class MetricsDashboard:
             for offset in range(n_days)
         ]
 
-    def _top_opportunities(self, *, as_of: date, top_n: int) -> list[TopOpportunitySummary]:
+    def _top_opportunities(
+        self,
+        *,
+        as_of: date,
+        top_n: int,
+        allowed_action_policies: tuple[str, ...] = ("buy", "watch", "needs_manual_review"),
+    ) -> tuple[str, Optional[date], list[TopOpportunitySummary]]:
+        company_snapshot_date, company_rows = self.knowledge.get_company_sotp_snapshots_on_or_before(
+            as_of,
+            limit=max(50, int(top_n) * 5),
+        )
+        if company_snapshot_date is not None and company_rows:
+            allowed = {policy.lower() for policy in allowed_action_policies}
+            filtered = [
+                row
+                for row in company_rows
+                if bool(row.get("balance_sheet_passes_recency_gate", False))
+                and str(row.get("action_policy") or "").lower() in allowed
+            ]
+            filtered.sort(
+                key=lambda row: (
+                    -float(row.get("ranked_sotp_discount") or 0.0),
+                    str(row.get("ticker") or ""),
+                )
+            )
+            return (
+                "company_sotp_snapshot",
+                company_snapshot_date,
+                [
+                    TopOpportunitySummary(
+                        snapshot_date=row["snapshot_date"],
+                        rank=idx,
+                        asset_id=(row.get("modeled_asset_ids") or [None])[0],
+                        ticker=row.get("ticker"),
+                        company_id=row.get("company_id"),
+                        company_name=row.get("company_name"),
+                        score=float(row.get("ranked_sotp_discount") or 0.0),
+                        mispricing=(
+                            round(float(row["ranked_sotp_discount"]) - 1.0, 6)
+                            if row.get("ranked_sotp_discount") is not None
+                            else None
+                        ),
+                        confidence=float(row.get("modeled_asset_confidence_min") or 0.0),
+                        source_mode="company_sotp_snapshot",
+                        action_policy=row.get("action_policy"),
+                        ranked_sotp_discount=(
+                            float(row["ranked_sotp_discount"])
+                            if row.get("ranked_sotp_discount") is not None
+                            else None
+                        ),
+                        enterprise_value_millions=(
+                            float(row["enterprise_value_millions"])
+                            if row.get("enterprise_value_millions") is not None
+                            else None
+                        ),
+                        sotp_equity_value_millions=(
+                            float(row["sotp_equity_value_millions"])
+                            if row.get("sotp_equity_value_millions") is not None
+                            else None
+                        ),
+                        modeled_asset_coverage_pct=(
+                            float(row["modeled_asset_coverage_pct"])
+                            if row.get("modeled_asset_coverage_pct") is not None
+                            else None
+                        ),
+                        balance_sheet_snapshot_date=row.get("balance_sheet_snapshot_date"),
+                    )
+                    for idx, row in enumerate(filtered[: max(1, int(top_n))], start=1)
+                ],
+            )
+
         snapshot_date = self.snapshot_store.latest_snapshot_date_on_or_before(as_of)
         if snapshot_date is None:
-            return []
+            return "opportunity_snapshot", None, []
         rows = self.snapshot_store.get_snapshots(
             snapshot_date=snapshot_date,
             top_n=max(1, int(top_n)),
             limit=max(1, int(top_n)),
         )
-        return [
-            TopOpportunitySummary(
-                snapshot_date=row.snapshot_date,
-                rank=row.rank,
-                asset_id=row.asset_id,
-                score=row.score,
-                mispricing=row.mispricing,
-                confidence=row.confidence,
-                event_type=row.event_type,
-                days_since_event=self._days_since_event(asset_id=row.asset_id, as_of=snapshot_date),
-            )
-            for row in rows
-        ]
+        return (
+            "opportunity_snapshot",
+            snapshot_date,
+            [
+                TopOpportunitySummary(
+                    snapshot_date=row.snapshot_date,
+                    rank=row.rank,
+                    asset_id=row.asset_id,
+                    score=row.score,
+                    mispricing=row.mispricing,
+                    confidence=row.confidence,
+                    event_type=row.event_type,
+                    days_since_event=self._days_since_event(asset_id=row.asset_id, as_of=snapshot_date),
+                    source_mode="opportunity_snapshot",
+                )
+                for row in rows
+            ],
+        )
 
     def _days_since_event(self, *, asset_id: str, as_of: date) -> Optional[int]:
         rows = self.knowledge.get_structured_signals(asset_id=asset_id, limit=1)

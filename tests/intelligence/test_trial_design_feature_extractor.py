@@ -18,9 +18,8 @@ from bve.intelligence.trial_design_feature_extractor import (
     _clamp_proposed_pos,
 )
 from bve.models.trial_design_features import (
-    EndpointBasis,
-    EvidenceDesign,
-    ApprovalPathway,
+    EvidenceDesignQuality,
+    RegulatoryPathwayRisk,
 )
 
 
@@ -94,7 +93,7 @@ def extractor() -> TrialDesignFeatureExtractor:
 class TestRCTHardClinical:
     """Randomized, double-blind, OS-endpoint Phase 3 → positive PoS adjustment."""
 
-    def test_evidence_design_is_rct_comparative(self, extractor):
+    def test_evidence_design_is_rct_double_blind(self, extractor):
         record = _build_ct_record(
             allocation="RANDOMIZED",
             masking="DOUBLE",
@@ -102,14 +101,17 @@ class TestRCTHardClinical:
         )
         result = extractor.assess(record, "asset-001", "engine-001", base_pos=0.45)
         assert not result.assessment_skipped
-        assert result.features.evidence_design == EvidenceDesign.RCT_COMPARATIVE
+        assert result.features.evidence_design_quality == EvidenceDesignQuality.RCT_DOUBLE_BLIND
 
-    def test_endpoint_basis_is_hard_clinical(self, extractor):
+    def test_hard_endpoint_rct_gives_positive_adjustment(self, extractor):
+        """Randomized double-blind OS trial → evidence_design_quality=RCT_DOUBLE_BLIND → +adj."""
         record = _build_ct_record(
+            allocation="RANDOMIZED",
+            masking="DOUBLE",
             primary_outcome_measure="Overall Survival (OS)",
         )
         result = extractor.assess(record, "asset-001", "engine-001", base_pos=0.45)
-        assert result.features.endpoint_basis == EndpointBasis.HARD_CLINICAL
+        assert result.features.evidence_design_quality == EvidenceDesignQuality.RCT_DOUBLE_BLIND
 
     def test_adjusted_pos_exceeds_base_pos(self, extractor):
         """Hard clinical + RCT_COMPARATIVE → positive design log-odds → adjusted > base."""
@@ -151,21 +153,24 @@ class TestRCTHardClinical:
 class TestSingleArmSurrogate:
     """Single-arm, PFS endpoint Phase 3 → negative PoS adjustment vs baseline."""
 
-    def test_evidence_design_is_single_arm(self, extractor):
+    def test_evidence_design_is_single_arm_objective(self, extractor):
         record = _build_ct_record(
             allocation="",        # not randomized
             masking="NONE",
             primary_outcome_measure="Progression-Free Survival",
         )
         result = extractor.assess(record, "asset-002", "engine-002", base_pos=0.45)
-        assert result.features.evidence_design == EvidenceDesign.SINGLE_ARM
+        assert result.features.evidence_design_quality == EvidenceDesignQuality.SINGLE_ARM_OBJECTIVE
 
-    def test_endpoint_basis_is_surrogate_validated(self, extractor):
+    def test_surrogate_endpoint_single_arm_has_lower_design_quality(self, extractor):
+        """Non-randomised PFS trial → SINGLE_ARM_OBJECTIVE evidence design quality."""
         record = _build_ct_record(
+            allocation="",
+            masking="NONE",
             primary_outcome_measure="Progression-Free Survival",
         )
         result = extractor.assess(record, "asset-002", "engine-002", base_pos=0.45)
-        assert result.features.endpoint_basis == EndpointBasis.SURROGATE_VALIDATED
+        assert result.features.evidence_design_quality == EvidenceDesignQuality.SINGLE_ARM_OBJECTIVE
 
     def test_adjusted_pos_below_rct_adjusted_pos(self, extractor):
         """Single-arm has lower PoS than RCT at Phase 3 due to evidence_design penalty."""
@@ -333,22 +338,24 @@ class TestSkipCases:
 # ---------------------------------------------------------------------------
 
 class TestApprovalPathwayDetection:
-    def test_breakthrough_keyword_in_title(self, extractor):
+    def test_breakthrough_keyword_in_title_maps_to_standard(self, extractor):
+        # BTD is intentionally absent from RegulatoryPathwayRisk (Layer 1 only)
+        # — breakthrough title maps to STANDARD to avoid double-counting.
         record = _build_ct_record(
             title="Breakthrough Therapy Designation Phase 3 Study of Drug X"
         )
         result = extractor.assess(record, "asset-p", "engine-p", base_pos=0.40)
-        assert result.features.approval_pathway == ApprovalPathway.BREAKTHROUGH_DESIGNATION
+        assert result.features.regulatory_pathway_risk == RegulatoryPathwayRisk.STANDARD
 
     def test_orphan_keyword(self, extractor):
         record = _build_ct_record(title="Phase 3 Orphan Drug Study in Rare Condition")
         result = extractor.assess(record, "asset-p", "engine-p", base_pos=0.40)
-        assert result.features.approval_pathway == ApprovalPathway.ORPHAN_DRUG
+        assert result.features.regulatory_pathway_risk == RegulatoryPathwayRisk.ORPHAN_RARE_DISEASE
 
     def test_standard_when_no_keyword(self, extractor):
         record = _build_ct_record(title="A Phase 3 Randomized Trial")
         result = extractor.assess(record, "asset-p", "engine-p", base_pos=0.40)
-        assert result.features.approval_pathway == ApprovalPathway.STANDARD
+        assert result.features.regulatory_pathway_risk == RegulatoryPathwayRisk.STANDARD
 
 
 # ---------------------------------------------------------------------------

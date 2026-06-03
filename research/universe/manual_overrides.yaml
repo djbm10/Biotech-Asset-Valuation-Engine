@@ -1,0 +1,189 @@
+# Manual Overrides — Phase 2
+#
+# Fields here WIN over any automated API extraction.
+# Use this file when: a company name/phase is ambiguous, APIs return stale data,
+# or the lead asset changes between API updates.
+#
+# Rule: if a key is present here, profile_enricher uses it and skips the API call
+# for that field. Missing keys fall through to API enrichment.
+#
+# Format: ticker → field → value (same field names as TargetEntry / AcquirerEntry)
+
+# ---------------------------------------------------------------------------
+# Targets — lead asset / phase / TA overrides
+# ---------------------------------------------------------------------------
+
+RVMD:
+  lead_asset: daraxonrasib
+  lead_asset_phase: phase3
+  lead_modality: small_molecule
+  lead_indication: RAS-mutant solid tumors
+  therapeutic_areas: [oncology]
+  is_single_asset_company: false
+  company_type: drug_developer
+
+VKTX:
+  lead_asset: VK2735
+  lead_asset_phase: phase3
+  lead_modality: small_molecule
+  lead_indication: obesity
+  therapeutic_areas: [metabolic]
+  is_single_asset_company: false
+  company_type: drug_developer
+
+MDGL:
+  lead_asset: resmetirom
+  lead_asset_phase: commercial
+  lead_modality: small_molecule
+  lead_indication: metabolic dysfunction-associated steatohepatitis
+  therapeutic_areas: [metabolic]
+  is_single_asset_company: true
+  company_type: commercial
+
+BEAM:
+  lead_asset: BEAM-101
+  lead_asset_phase: phase1
+  lead_modality: base_editing
+  lead_indication: sickle cell disease
+  therapeutic_areas: [rare_disease, hematology]
+  is_single_asset_company: false
+  company_type: drug_developer
+
+NTLA:
+  lead_asset: NTLA-2001
+  lead_asset_phase: phase3
+  lead_modality: gene_editing
+  lead_indication: transthyretin amyloidosis with cardiomyopathy
+  therapeutic_areas: [rare_disease, cardiovascular]
+  is_single_asset_company: false
+  company_type: drug_developer
+
+CRSP:
+  lead_asset: casgevy
+  lead_asset_phase: commercial
+  lead_modality: gene_editing
+  lead_indication: sickle cell disease and transfusion-dependent beta-thalassemia
+  therapeutic_areas: [rare_disease, hematology, cardiovascular]
+  is_single_asset_company: false
+  company_type: commercial
+
+ARVN:
+  lead_asset: vepdegestrant
+  lead_asset_phase: phase3
+  lead_modality: small_molecule
+  lead_indication: ER+/HER2- metastatic breast cancer
+  therapeutic_areas: [oncology]
+  is_single_asset_company: false
+  company_type: drug_developer
+  has_partner_encumbrance: true
+
+KYMR:
+  lead_asset: KY-1005
+  lead_asset_phase: phase2
+  lead_modality: small_molecule
+  lead_indication: atopic dermatitis
+  therapeutic_areas: [immunology, oncology]
+  is_single_asset_company: false
+  company_type: drug_developer
+
+IMVT:
+  lead_asset: batoclimab
+  lead_asset_phase: phase3
+  lead_modality: biologic
+  lead_indication: myasthenia gravis and IgG-mediated autoimmune diseases
+  therapeutic_areas: [immunology]
+  is_single_asset_company: false
+  company_type: drug_developer
+
+ARWR:
+  lead_asset: ARO-APOC3
+  lead_asset_phase: phase3
+  lead_modality: rna
+  lead_indication: severe hypertriglyceridemia
+  therapeutic_areas: [cardiovascular, metabolic]
+  is_single_asset_company: false
+  company_type: drug_developer
+
+NUVL:
+  lead_asset: NVL-520
+  lead_asset_phase: phase2
+  lead_modality: small_molecule
+  lead_indication: ROS1-positive non-small cell lung cancer
+  therapeutic_areas: [oncology]
+  is_single_asset_company: false
+  company_type: drug_developer
+
+RLAY:
+  lead_asset: RLY-2608
+  lead_asset_phase: phase2
+  lead_modality: small_molecule
+  lead_indication: PI3Kα-mutant hormone receptor-positive breast cancer
+  therapeutic_areas: [oncology]
+  is_single_asset_company: false
+  company_type: drug_developer
+
+LRMR:
+  lead_asset: CTI-1601
+  lead_asset_phase: phase3
+  lead_modality: small_molecule
+  lead_indication: Friedreich's ataxia
+  therapeutic_areas: [rare_disease, neuroscience]
+  is_single_asset_company: true
+  company_type: drug_developer
+
+REPL:
+  lead_asset: vusolimogene oderparepvec
+  lead_asset_phase: phase3
+  lead_modality: biologic
+  lead_indication: advanced melanoma
+  therapeutic_areas: [oncology]
+  is_single_asset_company: false
+  company_type: drug_developer
+
+SGMO:
+  lead_asset: isaralgagene civaparvovec
+  lead_asset_phase: phase3
+  lead_modality: cell_gene
+  lead_indication: Fabry disease
+  therapeutic_areas: [rare_disease]
+  is_single_asset_company: false
+  company_type: drug_developer
+  # Note: ST-920 Phase 3 STAAR trial; disappointing enrollment data reported.
+  # Financials challenging; watch for distressed signals.
+
+PRTA:
+  lead_asset: birtamimab
+  lead_asset_phase: phase3
+  lead_modality: biologic
+  lead_indication: AL amyloidosis
+  therapeutic_areas: [rare_disease, neuroscience]
+  is_single_asset_company: false
+  company_type: drug_developer
+
+# ---------------------------------------------------------------------------
+# Acquirers — priority area overrides (mostly static priors, rarely change)
+# ---------------------------------------------------------------------------
+
+LLY:
+  therapeutic_areas: [metabolic, oncology, immunology, neuroscience, cardiovascular]
+  # Note: Mounjaro/Zepbound revenue surge making Lilly the most active large-cap buyer.
+  # Obesity-adjacent and oncology are top BD priorities.
+
+MRK:
+  therapeutic_areas: [oncology, cardiovascular, infectious_disease, immunology, neuroscience]
+  # Note: Keytruda patent cliff 2028 drives large oncology BD urgency.
+
+BMY:
+  therapeutic_areas: [oncology, cardiovascular, immunology, hematology, neuroscience]
+  # Note: Revlimid LOE creates revenue gap. KarXT acquisition shows neuro expansion.
+  # TPD/protein degradation interest (Mirati, RayzeBio, Karuna precedents).
+
+ABBV:
+  therapeutic_areas: [immunology, oncology, neuroscience, dermatology]
+  # Note: Post-Humira diversification. Neuroscience expansion (Cerevel Therapeutics).
+  # Aesthetics (Allergan/Botox) and derm add BD angles.
+
+VRTX:
+  therapeutic_areas: [rare_disease, hematology, pain, kidney_disease]
+  # Note: Pain medicine (suzetrigine/Journavx) commercial launch.
+  # Gene editing infrastructure via casgevy partnership. Disciplined acquirer.

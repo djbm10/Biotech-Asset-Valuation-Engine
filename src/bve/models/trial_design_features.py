@@ -1,50 +1,46 @@
 """
-Trial design feature adjustment: 3-dimensional endpoint classification.
+POS Layer 2 — Trial Design / Regulatory Evidence Quality.
 
-Separates the single endpoint_type adjuster (in POSAdjusters) into three
-orthogonal dimensions that capture distinct regulatory risk factors:
+Applies a second, orthogonal adjustment on top of Layer 1 POS based on whether
+the clinical evidence package is designed well enough to support approval.
 
-  1. EndpointBasis:    WHAT is being measured (hard outcome vs. surrogate)
-  2. EvidenceDesign:  HOW the evidence is generated (RCT vs. single-arm)
-  3. ApprovalPathway: WHICH regulatory pathway is expected
+  Layer 1 scores WHAT evidence is being generated (endpoint type, MoA, safety…).
+  Layer 2 scores HOW trustworthy and regulator-acceptable that evidence is.
 
-These adjustments are EVIDENCE-INFORMED PRIORS intended for scenario
-differentiation and sensitivity analysis. They are not statistically estimated
-coefficients. A 10-15pp swing in POS is plausible given the difference between
-an RCT with hard endpoints vs a single-arm trial using a novel surrogate, but
-the exact values are judgment calls — not regression outputs.
+Three orthogonal dimensions
+---------------------------
+1. EvidenceDesignQuality — bias control and study design rigor
+2. ComparatorFit         — does the comparator match current clinical practice?
+3. RegulatoryPathwayRisk — interpretability / confirmatory risk from the pathway
 
-Phase is required
------------------
-compute_design_adjusted_pos() requires an explicit `phase` argument because:
-  - Design effects are NOT the same across phases. Single-arm at Phase 1 is
-    universal and appropriate; single-arm at Phase 3 pivotal is a risk.
-  - Defaulting to Phase 3 (maximum effect) would silently overstate impact for
-    any Phase 1 or Phase 2 trial where phase was not specified.
-  - Institutional principle: missing data should not increase estimated effect
-    sizes. Require explicit phase to avoid silent amplification.
+Phase-dependent scaling (single multiplier)
+-------------------------------------------
+Design quality matters more as the drug approaches approval:
+
+  Phase 1: 0.20  (design almost irrelevant; single-arm is universal)
+  Phase 2: 0.50
+  Phase 3: 1.00  (every design choice directly determines FDA probability)
+  NDA/BLA: 0.90
+
+Cap: +0.30 / −0.60 (asymmetric)
+Good design helps, but modestly. Bad design can kill interpretability.
+
+Anti-double-counting
+--------------------
+The new Layer 2 dimensions are orthogonal to Layer 1 by design:
+  - EvidenceDesignQuality: study design rigor → not in Layer 1
+  - ComparatorFit: comparator appropriateness → not in Layer 1
+  - RegulatoryPathwayRisk: pathway interpretability risk → not in Layer 1
+
+BTD (breakthrough designation) lives only in Layer 1 (POSAdjusters.
+has_breakthrough_designation). It is intentionally absent from
+RegulatoryPathwayRisk to prevent double-counting.
+
+Use check_pos_layer_overlap() to formally verify any combination.
 
 Valid phase values: "phase_1", "phase_2", "phase_3", "nda_bla"
-Use TRIAL_DESIGN_PHASE_NEUTRAL ("neutral") ONLY when phase is genuinely unknown
-and you want explicit maximum-effect estimates as a stress test.
-
-Anti-double-counting policy
-----------------------------
-This module introduces a second layer of POS adjustment on top of POSAdjusters
-(in pos_model.py). Several signals overlap between layers:
-
-  1. Endpoint quality: POSAdjusters.endpoint_type ↔ TrialDesignFeatureSet.endpoint_basis
-     → Use ONE, not both. TrialDesignFeatureSet.endpoint_basis is more granular.
-
-  2. BTD signal: POSAdjusters.has_breakthrough_designation ↔ ApprovalPathway.BREAKTHROUGH_DESIGNATION
-     → Use ONE. POSAdjusters version has the primary calibrated effect (+0.20 log-odds).
-     → ApprovalPathway.BREAKTHROUGH_DESIGNATION is a weak residual (+0.10 log-odds × phase scale)
-       intended for analysts using TrialDesignFeatureSet WITHOUT POSAdjusters.
-
-Use check_pos_layer_overlap() to audit a specific combination before accepting results.
-
-Log-odds adjustment values, phase scaling, and full provenance are in
-bve.config.constants (TRIAL_DESIGN_LOGODDS, TRIAL_DESIGN_PHASE_SCALING).
+Use TRIAL_DESIGN_PHASE_NEUTRAL ("neutral") for explicit maximum-effect mode
+when phase is genuinely unknown (all scaling = 1.0).
 """
 from __future__ import annotations
 
@@ -64,90 +60,163 @@ from bve.config.constants import (
 )
 
 if TYPE_CHECKING:
-    from bve.models.pos_model import POSAdjusters
+    from bve.models.pos_model import (
+        BiomarkerSelectionStrength,
+        MoAExceptionFlag,
+        POSAdjusters,
+    )
+
+# Surrogate endpoint types that overlap with ACCELERATED_NOVEL_SURROGATE pathway risk
+_SURROGATE_OVERLAP_ENDPOINT_TYPES: frozenset[str] = frozenset([
+    "surrogate_novel",
+    "biomarker_only",
+    "molecular_biomarker",
+])
+
+# Log-odds magnitude used by ACCELERATED_NOVEL_SURROGATE (for double-count estimation)
+_ACCELERATED_NOVEL_SURROGATE_LOGODDS_MAGNITUDE: float = 0.20
 
 
-class EndpointBasis(str, Enum):
+# ---------------------------------------------------------------------------
+# Dimension 1 — Evidence Design Quality
+# ---------------------------------------------------------------------------
+
+class EvidenceDesignQuality(str, Enum):
     """
-    Primary endpoint type — WHAT is being measured.
+    Study design rigor — HOW well bias is controlled.
 
-    Captures the regulatory weight given to the measured outcome:
-      - HARD_CLINICAL: directly observed clinical outcome (OS, EFS, time to
-        dialysis, complete remission). Most accepted for regular approval.
-      - SURROGATE_VALIDATED: surrogate correlated with clinical benefit and
-        FDA-accepted as primary for the indication (PFS in oncology, HbA1c
-        in diabetes, FEV1 in CF, SVR35 in myelofibrosis).
-      - SURROGATE_NOVEL: proposed surrogate without established FDA acceptance
-        for this indication. Higher regulatory risk.
-      - BIOMARKER_ONLY: pharmacodynamic or biomarker endpoint; insufficient
-        as standalone primary for regular approval in most indications.
+    Phase-conditional scaling attenuates penalties at Phase 1 where
+    single-arm is universal and appropriate.
+
+    Log-odds (pre-scaling, Phase 3 baseline):
+      RCT_DOUBLE_BLIND      +0.20   Strongest bias control
+      RCT_OPEN_LABEL        +0.10   Good design, some bias risk
+      RCT_WEAK_COMPARATOR   −0.05   Comparator limits interpretability
+      SINGLE_ARM_OBJECTIVE  −0.10   Acceptable in some oncology/rare settings
+      SINGLE_ARM_SUBJECTIVE −0.30   High bias risk
+      REGISTRY_OBSERVATIONAL−0.35   Weakest confirmatory evidence
     """
-    HARD_CLINICAL = "hard_clinical"
-    SURROGATE_VALIDATED = "surrogate_validated"
-    SURROGATE_NOVEL = "surrogate_novel"
-    BIOMARKER_ONLY = "biomarker_only"
+    RCT_DOUBLE_BLIND       = "rct_double_blind"
+    RCT_OPEN_LABEL         = "rct_open_label"
+    RCT_WEAK_COMPARATOR    = "rct_weak_comparator"
+    SINGLE_ARM_OBJECTIVE   = "single_arm_objective"
+    SINGLE_ARM_SUBJECTIVE  = "single_arm_subjective"
+    REGISTRY_OBSERVATIONAL = "registry_observational"
 
 
-class EvidenceDesign(str, Enum):
+# ---------------------------------------------------------------------------
+# Dimension 2 — Comparator / Standard-of-Care Fit
+# ---------------------------------------------------------------------------
+
+class ComparatorFit(str, Enum):
     """
-    Study design — HOW the evidence is generated.
+    Does the comparator match current clinical practice?
 
-    NOTE: single-arm trials are standard at Phase 1 and common in rare/refractory
-    oncology. The SINGLE_ARM penalty is attenuated to ~zero at Phase 1 via
-    phase-conditional scaling. Always provide phase to get appropriate attenuation.
+    A mismatched comparator limits regulatory and clinical interpretability
+    even in a well-run RCT.
 
-      - RCT_COMPARATIVE: randomized, controlled with active or placebo
-        comparator (gold standard). Baseline reference.
-      - RCT_NON_COMPARATIVE: randomized but without a meaningful comparator.
-      - SINGLE_ARM: non-randomized; meaningful regulatory risk only at Phase 3.
-      - REGISTRY_BASED: observational evidence; highest regulatory risk.
+    Log-odds (pre-scaling):
+      MATCHES_SOC          +0.10   Comparator matches current standard of care
+      PLACEBO_ACCEPTABLE   +0.05   Placebo acceptable (no good SoC exists)
+      ACCEPTABLE_NOT_IDEAL  0.00   Baseline: acceptable but not ideal
+      OUTDATED_COMPARATOR  −0.15   Comparator outdated or clinically weak
+      NO_VALID_COMPARATOR  −0.30   No valid comparator where one is expected
     """
-    RCT_COMPARATIVE = "rct_comparative"
-    RCT_NON_COMPARATIVE = "rct_non_comparative"
-    SINGLE_ARM = "single_arm"
-    REGISTRY_BASED = "registry_based"
+    MATCHES_SOC          = "matches_soc"
+    PLACEBO_ACCEPTABLE   = "placebo_acceptable"
+    ACCEPTABLE_NOT_IDEAL = "acceptable_not_ideal"
+    OUTDATED_COMPARATOR  = "outdated_comparator"
+    NO_VALID_COMPARATOR  = "no_valid_comparator"
 
 
-class ApprovalPathway(str, Enum):
+# ---------------------------------------------------------------------------
+# Dimension 3 — Regulatory Pathway Risk
+# ---------------------------------------------------------------------------
+
+class RegulatoryPathwayRisk(str, Enum):
     """
-    Regulatory approval pathway — WHICH FDA mechanism is expected.
+    Regulatory pathway interpretability / confirmatory risk.
 
-    CAUTION: Pathway designations primarily affect time-to-approval and commercial
-    adoption, not binary approval probability. Adjustments here are WEAK MODIFIERS
-    (+0.05–0.10 log-odds, further attenuated by phase scaling).
+    Note: Breakthrough Designation (BTD) is handled exclusively in Layer 1
+    (POSAdjusters.has_breakthrough_designation). It is intentionally absent
+    here to prevent double-counting.
 
-    DOUBLE-COUNTING RISK: POSAdjusters.has_breakthrough_designation (pos_model.py)
-    has the primary BTD signal (+0.20 log-odds). Do NOT use BREAKTHROUGH_DESIGNATION
-    here AND has_breakthrough_designation=True in the same computation.
-    Use check_pos_layer_overlap() to audit.
-
-      - STANDARD: standard review; baseline reference.
-      - ACCELERATED_APPROVAL: FDA AA; surrogate endpoint accepted as primary.
-      - BREAKTHROUGH_DESIGNATION: BTD. Weak residual prior here — prefer
-        POSAdjusters.has_breakthrough_designation for the primary signal.
-      - ORPHAN_DRUG: ODD; regulatory flexibility; lower enrollment burden.
+    Log-odds (pre-scaling):
+      STANDARD                          0.00   Standard path, accepted precedent
+      ORPHAN_RARE_DISEASE              +0.10   Regulatory flexibility with strong rationale
+      ACCELERATED_VALIDATED_SURROGATE  −0.05   AA with validated surrogate (confirmatory risk)
+      ACCELERATED_NOVEL_SURROGATE      −0.20   AA with novel/uncertain surrogate (higher risk)
+      NO_CLEAR_PRECEDENT               −0.30   No clear regulatory path
     """
-    STANDARD = "standard"
-    ACCELERATED_APPROVAL = "accelerated_approval"
-    BREAKTHROUGH_DESIGNATION = "breakthrough_designation"
-    ORPHAN_DRUG = "orphan_drug"
+    STANDARD                         = "standard"
+    ORPHAN_RARE_DISEASE              = "orphan_rare_disease"
+    ACCELERATED_VALIDATED_SURROGATE  = "accelerated_validated_surrogate"
+    ACCELERATED_NOVEL_SURROGATE      = "accelerated_novel_surrogate"
+    NO_CLEAR_PRECEDENT               = "no_clear_precedent"
 
+
+# ---------------------------------------------------------------------------
+# Dimension 4 — Clinical Effect Magnitude
+# ---------------------------------------------------------------------------
+
+class ClinicalEffectMagnitude(str, Enum):
+    """
+    Observed effect size relative to minimal clinically important difference (MCID).
+
+    Captures whether early efficacy data suggest a clinically meaningful benefit.
+    UNKNOWN is the reference (zero adjustment) — use when no Phase 2 data yet.
+
+    Log-odds (pre-scaling, Phase 3 baseline):
+      EXCEEDS_MCID   +0.25  Clearly exceeds MCID (e.g., ΔFEV1 >200 ml, ORR >30%)
+      MEETS_MCID     +0.10  Meets but does not clearly exceed MCID
+      UNKNOWN         0.00  No MCID data available (reference; no adjustment)
+      BELOW_MCID     −0.15  Effect below MCID threshold; regulatory concern
+
+    Overlap warning: EXCEEDS_MCID partially overlaps with Layer 1
+    BiomarkerSelectionStrength.VALIDATED / STRONG_RATIONALE and with
+    MoAExceptionFlag.STRONG_BIOMARKER_RESPONSE / HUMAN_PROOF_OF_MECHANISM.
+    Use check_pos_layer_overlap() to detect and quantify.
+    """
+    EXCEEDS_MCID = "exceeds_mcid"
+    MEETS_MCID   = "meets_mcid"
+    UNKNOWN      = "unknown"
+    BELOW_MCID   = "below_mcid"
+
+
+# Log-odds table for ClinicalEffectMagnitude (not in TRIAL_DESIGN_LOGODDS — internal only)
+_EFFECT_MAGNITUDE_LOGODDS: dict[ClinicalEffectMagnitude, float] = {
+    ClinicalEffectMagnitude.EXCEEDS_MCID: +0.25,
+    ClinicalEffectMagnitude.MEETS_MCID:   +0.10,
+    ClinicalEffectMagnitude.UNKNOWN:       0.00,
+    ClinicalEffectMagnitude.BELOW_MCID:   -0.15,
+}
+
+# Overlap magnitudes for Pattern 3 and Pattern 4 detection
+_PATTERN3_BIOMARKER_MCID_DOUBLE_COUNT: float = 0.15
+_PATTERN4_MOA_EXCEPTION_MCID_DOUBLE_COUNT: float = 0.10
+
+
+# ---------------------------------------------------------------------------
+# Feature set
+# ---------------------------------------------------------------------------
 
 class TrialDesignFeatureSet(BaseModel):
     """
-    Three-dimensional trial design feature set.
+    Four-dimensional trial design feature set for POS Layer 2.
 
-    Defaults represent the reference/baseline scenario:
-      - Surrogate-validated endpoint (most common Phase 3 scenario)
-      - RCT with comparator (gold standard design)
-      - Standard regulatory pathway (no special designation)
+    Defaults represent the reference design scenario:
+      - rct_double_blind: randomized, double-blind, controlled (+0.20)
+      - acceptable_not_ideal: comparator is adequate (0.00)
+      - standard: standard regulatory path (0.00)
+      - unknown: no MCID data available (0.00)
 
-    Always pass `phase` to compute_adjusted_pos() — the appropriate attenuation
-    depends on which trial phase is being evaluated.
+    Always pass `phase` to compute_adjusted_pos() — the appropriate phase
+    scaling depends on which trial phase is being evaluated.
     """
-    endpoint_basis: EndpointBasis = EndpointBasis.SURROGATE_VALIDATED
-    evidence_design: EvidenceDesign = EvidenceDesign.RCT_COMPARATIVE
-    approval_pathway: ApprovalPathway = ApprovalPathway.STANDARD
+    evidence_design_quality: EvidenceDesignQuality = EvidenceDesignQuality.RCT_DOUBLE_BLIND
+    comparator_fit: ComparatorFit = ComparatorFit.ACCEPTABLE_NOT_IDEAL
+    regulatory_pathway_risk: RegulatoryPathwayRisk = RegulatoryPathwayRisk.STANDARD
+    clinical_effect_magnitude: ClinicalEffectMagnitude = ClinicalEffectMagnitude.UNKNOWN
 
     def compute_adjusted_pos(
         self,
@@ -157,6 +226,10 @@ class TrialDesignFeatureSet(BaseModel):
         """Apply design adjustment to base_pos. phase is required."""
         return compute_design_adjusted_pos(base_pos, self, phase=phase)
 
+
+# ---------------------------------------------------------------------------
+# Result dataclass
+# ---------------------------------------------------------------------------
 
 @dataclass
 class DesignAdjustedPOSResult:
@@ -175,8 +248,9 @@ class DesignAdjustedPOSResult:
         Combined log-odds shift before cap (post-scaling).
     adjustment_breakdown : dict[str, float]
         Phase-scaled log-odds contribution from each dimension (pre-cap).
+        Keys: "evidence_design_quality", "comparator_fit", "regulatory_pathway_risk".
     phase_scaling_applied : dict[str, float]
-        The scaling factor used for each dimension. All 1.0 when phase="neutral".
+        The scaling factor applied. All keys hold the same scalar multiplier.
     was_capped : bool
         True if the combined adjustment was clipped by the configured cap.
     cap_applied : str | None
@@ -192,20 +266,31 @@ class DesignAdjustedPOSResult:
     cap_applied: Optional[str]
 
 
-# Valid phase values recognized by compute_design_adjusted_pos
-_VALID_PHASES = frozenset(TRIAL_DESIGN_PHASE_SCALING.keys()) | {TRIAL_DESIGN_PHASE_NEUTRAL}
-_NEUTRAL_SCALING: dict[str, float] = {
-    "endpoint_basis": 1.0,
-    "evidence_design": 1.0,
-    "approval_pathway": 1.0,
-}
+# ---------------------------------------------------------------------------
+# Phase validation helpers
+# ---------------------------------------------------------------------------
 
+_VALID_PHASES = frozenset(TRIAL_DESIGN_PHASE_SCALING.keys()) | {TRIAL_DESIGN_PHASE_NEUTRAL}
+_NEUTRAL_SCALING_FACTOR: float = 1.0
+
+
+def _get_scaling_factor(phase: str) -> float:
+    if phase == TRIAL_DESIGN_PHASE_NEUTRAL:
+        return _NEUTRAL_SCALING_FACTOR
+    return float(TRIAL_DESIGN_PHASE_SCALING[phase])
+
+
+# ---------------------------------------------------------------------------
+# Main scoring function
+# ---------------------------------------------------------------------------
 
 def compute_design_adjusted_pos(
     base_pos: float,
     features: TrialDesignFeatureSet,
     phase: str,
     settings: Optional[dict] = None,
+    *,
+    base_rate: Optional[float] = None,
 ) -> DesignAdjustedPOSResult:
     """
     Apply trial design feature adjustments to a base POS estimate.
@@ -214,42 +299,31 @@ def compute_design_adjusted_pos(
     ----------
     base_pos : float
         Starting probability of success in (0, 1). Typically from compute_pos()
-        or from a TA-specific base rate in PHASE_SUCCESS_RATES.
+        or from a TA-specific base rate.
     features : TrialDesignFeatureSet
-        The 3-dimensional endpoint feature set to apply.
+        The 3-dimensional design feature set to apply.
     phase : str
         Trial phase key. REQUIRED — design effects differ materially by phase.
         Valid values: "phase_1", "phase_2", "phase_3", "nda_bla",
         or TRIAL_DESIGN_PHASE_NEUTRAL ("neutral") for explicit maximum-effect
         estimates when phase is genuinely unknown.
-
-        Institutional rationale: missing phase must not silently increase effect
-        sizes. Phase 3 has the highest endpoint/evidence scaling (1.0); using
-        Phase 3 as a default would overstate impact for Phase 1 and Phase 2 trials.
-
     settings : dict, optional
-        Override for TRIAL_DESIGN_LOGODDS constants. Optional keys
-        "cap_logodds_positive" and "cap_logodds_negative" override cap values.
+        Override cap values only. Keys: "cap_logodds_positive", "cap_logodds_negative".
         When None, reads from bve.config.constants.
+    base_rate : float, optional
+        Block 34D: When provided, the COMBINED L1+L2 log-odds delta (measured from
+        base_rate, not from base_pos) is capped at COMBINED_L1_L2_CAP_POSITIVE /
+        COMBINED_L1_L2_CAP_NEGATIVE.  Pass the TA phase base rate (before any
+        adjustments) to enforce the combined cap.  When None, only the L2 cap applies.
 
     Returns
     -------
     DesignAdjustedPOSResult
-        Adjusted POS with full breakdown of each dimension's contribution,
-        phase scaling applied, and cap metadata.
 
     Raises
     ------
     ValueError
-        If phase is not a recognized value. The error message lists valid options.
-
-    Notes
-    -----
-    - Phase scaling is applied to each dimension's raw log-odds value before
-      summation and capping.
-    - This function should NOT be combined with POSAdjusters.endpoint_type
-      on the same trial — double-counting risk. Use check_pos_layer_overlap()
-      to audit any combination before accepting results.
+        If phase is not a recognized value.
     """
     if phase not in _VALID_PHASES:
         raise ValueError(
@@ -258,33 +332,29 @@ def compute_design_adjusted_pos(
             f"explicit maximum-effect mode when phase is genuinely unknown."
         )
 
+    cap_pos = TRIAL_DESIGN_CAP_POSITIVE
+    cap_neg = TRIAL_DESIGN_CAP_NEGATIVE
     if settings is not None:
-        logodds_table = settings
-        cap_pos = float(settings.get("cap_logodds_positive", TRIAL_DESIGN_CAP_POSITIVE))
-        cap_neg = float(settings.get("cap_logodds_negative", TRIAL_DESIGN_CAP_NEGATIVE))
-    else:
-        logodds_table = TRIAL_DESIGN_LOGODDS
-        cap_pos = TRIAL_DESIGN_CAP_POSITIVE
-        cap_neg = TRIAL_DESIGN_CAP_NEGATIVE
+        cap_pos = float(settings.get("cap_logodds_positive", cap_pos))
+        cap_neg = float(settings.get("cap_logodds_negative", cap_neg))
 
-    # Phase scaling: "neutral" → all 1.0 (documented maximum-effect mode)
-    if phase == TRIAL_DESIGN_PHASE_NEUTRAL:
-        scaling = _NEUTRAL_SCALING
-    else:
-        scaling = TRIAL_DESIGN_PHASE_SCALING[phase]
+    scaling = _get_scaling_factor(phase)
 
     base_pos = max(0.001, min(0.999, base_pos))
     base_logodds = math.log(base_pos / (1.0 - base_pos))
 
-    eb_raw = logodds_table["endpoint_basis"].get(features.endpoint_basis.value, 0.0)
-    ed_raw = logodds_table["evidence_design"].get(features.evidence_design.value, 0.0)
-    ap_raw = logodds_table["approval_pathway"].get(features.approval_pathway.value, 0.0)
+    logodds = TRIAL_DESIGN_LOGODDS
+    edq_raw = logodds["evidence_design_quality"].get(features.evidence_design_quality.value, 0.0)
+    cf_raw  = logodds["comparator_fit"].get(features.comparator_fit.value, 0.0)
+    rpr_raw = logodds["regulatory_pathway_risk"].get(features.regulatory_pathway_risk.value, 0.0)
+    cem_raw = _EFFECT_MAGNITUDE_LOGODDS.get(features.clinical_effect_magnitude, 0.0)
 
-    eb_adj = eb_raw * scaling.get("endpoint_basis", 1.0)
-    ed_adj = ed_raw * scaling.get("evidence_design", 1.0)
-    ap_adj = ap_raw * scaling.get("approval_pathway", 1.0)
+    edq_adj = edq_raw * scaling
+    cf_adj  = cf_raw  * scaling
+    rpr_adj = rpr_raw * scaling
+    cem_adj = cem_raw * scaling
 
-    uncapped = eb_adj + ed_adj + ap_adj
+    uncapped = edq_adj + cf_adj + rpr_adj + cem_adj
 
     capped = uncapped
     cap_applied: Optional[str] = None
@@ -298,21 +368,38 @@ def compute_design_adjusted_pos(
     adjusted_logodds = base_logodds + capped
     adjusted_pos = 1.0 / (1.0 + math.exp(-adjusted_logodds))
 
+    # Block 34D: combined L1+L2 cap — measured from original base_rate (not base_pos)
+    if base_rate is not None:
+        from bve.models.pos_model import COMBINED_L1_L2_CAP_POSITIVE, COMBINED_L1_L2_CAP_NEGATIVE
+        _br = max(0.001, min(0.999, base_rate))
+        _base_rate_logodds = math.log(_br / (1.0 - _br))
+        _adjusted_clamped = max(0.001, min(0.999, adjusted_pos))
+        _adjusted_logodds2 = math.log(_adjusted_clamped / (1.0 - _adjusted_clamped))
+        _combined_delta = _adjusted_logodds2 - _base_rate_logodds
+        if _combined_delta > COMBINED_L1_L2_CAP_POSITIVE:
+            adjusted_pos = 1.0 / (1.0 + math.exp(-(_base_rate_logodds + COMBINED_L1_L2_CAP_POSITIVE)))
+        elif _combined_delta < COMBINED_L1_L2_CAP_NEGATIVE:
+            adjusted_pos = 1.0 / (1.0 + math.exp(-(_base_rate_logodds + COMBINED_L1_L2_CAP_NEGATIVE)))
+
+    scaling_dict = {
+        "evidence_design_quality": scaling,
+        "comparator_fit": scaling,
+        "regulatory_pathway_risk": scaling,
+        "clinical_effect_magnitude": scaling,
+    }
+
     return DesignAdjustedPOSResult(
         adjusted_pos=round(adjusted_pos, 4),
         base_pos=round(base_pos, 4),
         total_logodds_adjustment=round(capped, 4),
         uncapped_logodds_adjustment=round(uncapped, 4),
         adjustment_breakdown={
-            "endpoint_basis": round(eb_adj, 4),
-            "evidence_design": round(ed_adj, 4),
-            "approval_pathway": round(ap_adj, 4),
+            "evidence_design_quality": round(edq_adj, 4),
+            "comparator_fit": round(cf_adj, 4),
+            "regulatory_pathway_risk": round(rpr_adj, 4),
+            "clinical_effect_magnitude": round(cem_adj, 4),
         },
-        phase_scaling_applied={
-            "endpoint_basis": scaling.get("endpoint_basis", 1.0),
-            "evidence_design": scaling.get("evidence_design", 1.0),
-            "approval_pathway": scaling.get("approval_pathway", 1.0),
-        },
+        phase_scaling_applied=scaling_dict,
         was_capped=cap_applied is not None,
         cap_applied=cap_applied,
     )
@@ -327,8 +414,10 @@ class LayerOverlapReport:
     """
     Report on signal overlaps between POSAdjusters and TrialDesignFeatureSet.
 
-    This is an AUDIT tool — it does not prevent computation, only reports
-    whether the combination is methodologically sound.
+    The new Layer 2 (EvidenceDesignQuality, ComparatorFit, RegulatoryPathwayRisk)
+    is designed to be orthogonal to Layer 1. BTD is in Layer 1 only; endpoint
+    quality is not a Layer 2 dimension. In practice this function always returns
+    a clean report for the current Layer 2 design.
 
     Attributes
     ----------
@@ -337,13 +426,9 @@ class LayerOverlapReport:
     recommendations : list[str]
         Specific actions to resolve each overlap.
     has_critical_overlap : bool
-        True if any overlap is classified as "critical" (likely to materially
-        double-count). A critical overlap invalidates the combined POS estimate
-        unless the analyst can justify the combination.
+        True if any overlap is classified as "critical".
     estimated_double_count_logodds : float
         Conservative lower bound on the log-odds magnitude being double-counted.
-        This is the overlap contribution that would need to be removed to avoid
-        double-counting. Not exact — for order-of-magnitude awareness only.
     """
     overlapping_signals: list[str]
     recommendations: list[str]
@@ -370,112 +455,210 @@ def check_pos_layer_overlap(
     pos_adjusters: "POSAdjusters",
     design_features: TrialDesignFeatureSet,
     phase: Optional[str] = None,
+    *,
+    allow_overlap: bool = False,
 ) -> LayerOverlapReport:
     """
     Audit a POSAdjusters + TrialDesignFeatureSet combination for double-counting.
 
-    Two signals are considered overlapping when the same real-world factor
-    (endpoint quality, BTD status) is independently counted in both layers,
-    resulting in its effect being amplified beyond what a single-layer model
-    would produce.
+    The current Layer 2 (EvidenceDesignQuality, ComparatorFit, RegulatoryPathwayRisk)
+    is orthogonal to Layer 1 by design — BTD is in Layer 1 only, and endpoint
+    quality is not a Layer 2 dimension. This function always returns a clean report
+    for the current Layer 2 design.
 
     Parameters
     ----------
     pos_adjusters : POSAdjusters
-        The heuristic layer (from pos_model.compute_pos).
     design_features : TrialDesignFeatureSet
-        The design layer (from compute_design_adjusted_pos).
     phase : str, optional
-        Phase context for estimating scaled magnitudes. None uses raw values.
+        Kept for API compatibility; used for future phase-specific checks.
+    allow_overlap : bool, optional
+        When True, return a clean report without checks (used for explicit overrides).
 
     Returns
     -------
     LayerOverlapReport
-        Lists all detected overlaps and resolution recommendations.
+        Clean when no overlaps detected; non-clean otherwise.
 
-    Policy
-    ------
-    Critical overlaps (likely invalidate combined estimate):
-      1. Endpoint quality: pos_adjusters.endpoint_type non-default AND
-         design_features.endpoint_basis non-default
-         → The same endpoint quality signal counted in both layers.
-         → Resolution: set endpoint_type=SURROGATE_VALIDATED (neutral) in POSAdjusters.
+    Detected overlaps
+    -----------------
+    1. Surrogate endpoint double-count (Layer 1 ↔ Layer 2)
+       POSAdjusters.endpoint_type in {SURROGATE_NOVEL, BIOMARKER_ONLY, MOLECULAR_BIOMARKER}
+       AND TrialDesignFeatureSet.regulatory_pathway_risk == ACCELERATED_NOVEL_SURROGATE
+       → Both penalise the same "novel surrogate" risk.
+       Classified as CRITICAL.
 
-      2. BTD status: pos_adjusters.has_breakthrough_designation=True AND
-         design_features.approval_pathway=BREAKTHROUGH_DESIGNATION
-         → BTD signal counted in both layers.
-         → Resolution: set has_breakthrough_designation=False in POSAdjusters
-           OR set approval_pathway=STANDARD in TrialDesignFeatureSet.
+    2. Biomarker selection double-count (intra-Layer-1)
+       MoAExceptionFlag.STRONG_BIOMARKER_RESPONSE in pos_adjusters.moa_exception_flags
+       AND pos_adjusters.biomarker_selection in {STRONG_RATIONALE, VALIDATED}
+       → The same biomarker evidence is credited via both the MoA exception flag
+         (mechanism engagement) and the patient-selection enrichment strength.
     """
-    from bve.entities.trial import EndpointType
+    if allow_overlap:
+        return LayerOverlapReport(
+            overlapping_signals=[],
+            recommendations=[],
+            has_critical_overlap=False,
+            estimated_double_count_logodds=0.0,
+        )
+
+    # Lazy import to avoid circular at module level (pos_model imports from this module)
+    from bve.models.pos_model import (  # noqa: PLC0415
+        BiomarkerSelectionStrength,
+        MoAExceptionFlag,
+        MoAPrecedent,
+        _BIOMARKER_LOGODDS,
+        _MOA_EXCEPTION_LOGODDS,
+    )
 
     overlapping: list[str] = []
     recommendations: list[str] = []
-    double_count_lo: float = 0.0
+    double_count: float = 0.0
     has_critical = False
 
-    # Check 1: endpoint quality overlap
-    endpoint_type_is_default = (pos_adjusters.endpoint_type == EndpointType.SURROGATE_VALIDATED)
-    endpoint_basis_is_default = (design_features.endpoint_basis == EndpointBasis.SURROGATE_VALIDATED)
-    if not endpoint_type_is_default and not endpoint_basis_is_default:
-        has_critical = True
-        # Rough magnitude: both layers have non-zero endpoint adjustment
-        from bve.models.pos_model import _ENDPOINT_LOGODDS
-        pa_lo = abs(_ENDPOINT_LOGODDS.get(pos_adjusters.endpoint_type, 0.0))
-        td_lo_raw = abs(TRIAL_DESIGN_LOGODDS["endpoint_basis"].get(
-            design_features.endpoint_basis.value, 0.0
-        ))
-        # Scale design contribution by phase if available
-        td_lo_scale = 1.0
-        if phase and phase != TRIAL_DESIGN_PHASE_NEUTRAL:
-            td_lo_scale = TRIAL_DESIGN_PHASE_SCALING.get(phase, {}).get("endpoint_basis", 1.0)
-        td_lo = td_lo_raw * td_lo_scale
-        overlap_lo = min(pa_lo, td_lo)  # conservative: minimum of the two
-        double_count_lo += overlap_lo
+    # -------------------------------------------------------------------
+    # Overlap 1: surrogate endpoint type + accelerated novel surrogate pathway
+    # -------------------------------------------------------------------
+    endpoint_value = pos_adjusters.endpoint_type.value
+    is_surrogate_type = endpoint_value in _SURROGATE_OVERLAP_ENDPOINT_TYPES
+    is_novel_acc_pathway = (
+        design_features.regulatory_pathway_risk
+        == RegulatoryPathwayRisk.ACCELERATED_NOVEL_SURROGATE
+    )
+    if is_surrogate_type and is_novel_acc_pathway:
+        # Look up the Layer 2 logodds magnitude for this endpoint type (generic fallback)
+        from bve.models.pos_model import _ENDPOINT_LOGODDS_GENERIC  # noqa: PLC0415
+        from bve.entities.trial import EndpointType  # noqa: PLC0415
+        try:
+            ep = EndpointType(endpoint_value)
+            lo_endpoint = abs(_ENDPOINT_LOGODDS_GENERIC.get(ep, 0.0))
+        except ValueError:
+            lo_endpoint = 0.20
+        overlap_mag = round(min(lo_endpoint, _ACCELERATED_NOVEL_SURROGATE_LOGODDS_MAGNITUDE), 4)
         overlapping.append(
-            f"Endpoint quality: pos_adjusters.endpoint_type={pos_adjusters.endpoint_type.value!r} "
-            f"(non-default) AND design_features.endpoint_basis={design_features.endpoint_basis.value!r} "
-            f"(non-default). Both count endpoint quality. "
-            f"Estimated overlap: {overlap_lo:+.2f} log-odds."
+            f"endpoint_type={endpoint_value!r} (Layer 1) + "
+            "regulatory_pathway_risk=ACCELERATED_NOVEL_SURROGATE (Layer 2): "
+            "both penalise the novel-surrogate regulatory risk."
         )
         recommendations.append(
-            "Set pos_adjusters.endpoint_type=EndpointType.SURROGATE_VALIDATED (neutral) when using "
-            "TrialDesignFeatureSet.endpoint_basis for endpoint quality, OR set "
-            "design_features.endpoint_basis=EndpointBasis.SURROGATE_VALIDATED (neutral) and keep "
-            "endpoint_type in POSAdjusters."
+            "In Layer 1, endpoint_type scores scientific endpoint quality. "
+            "In Layer 2, RegulatoryPathwayRisk scores regulatory interpretability risk. "
+            "These partially overlap for novel surrogates. "
+            "Consider reducing one dimension by the estimated overlap magnitude "
+            f"({overlap_mag:+.2f} log-odds) or accepting the conservative double-penalisation."
         )
+        double_count += overlap_mag
+        has_critical = True
 
-    # Check 2: BTD overlap
-    btd_in_pos = pos_adjusters.has_breakthrough_designation
-    btd_in_design = (design_features.approval_pathway == ApprovalPathway.BREAKTHROUGH_DESIGNATION)
-    if btd_in_pos and btd_in_design:
-        has_critical = True
-        pa_btd_lo = 0.20  # from _BREAKTHROUGH_BONUS in pos_model.py
-        td_btd_raw = TRIAL_DESIGN_LOGODDS["approval_pathway"].get("breakthrough_designation", 0.0)
-        td_btd_scale = 1.0
-        if phase and phase != TRIAL_DESIGN_PHASE_NEUTRAL:
-            td_btd_scale = TRIAL_DESIGN_PHASE_SCALING.get(phase, {}).get("approval_pathway", 1.0)
-        td_btd = td_btd_raw * td_btd_scale
-        overlap_btd = min(pa_btd_lo, td_btd)
-        double_count_lo += overlap_btd
+    # -------------------------------------------------------------------
+    # Overlap 2: intra-Layer-1 biomarker double-count
+    # -------------------------------------------------------------------
+    _biomarker_overlap_tiers = {
+        BiomarkerSelectionStrength.STRONG_RATIONALE,
+        BiomarkerSelectionStrength.VALIDATED,
+    }
+    has_sbr_flag = MoAExceptionFlag.STRONG_BIOMARKER_RESPONSE in pos_adjusters.moa_exception_flags
+    has_strong_biomarker = pos_adjusters.biomarker_selection in _biomarker_overlap_tiers
+
+    if has_sbr_flag and has_strong_biomarker:
+        sbr_lo = _MOA_EXCEPTION_LOGODDS[MoAExceptionFlag.STRONG_BIOMARKER_RESPONSE]
+        bsel_lo = _BIOMARKER_LOGODDS[pos_adjusters.biomarker_selection]
+        overlap_mag = round(min(sbr_lo, bsel_lo), 4)
         overlapping.append(
-            f"Breakthrough designation: pos_adjusters.has_breakthrough_designation=True AND "
-            f"design_features.approval_pathway=BREAKTHROUGH_DESIGNATION. "
-            f"BTD signal counted in both layers. "
-            f"Estimated overlap: {overlap_btd:+.2f} log-odds."
+            f"MoAExceptionFlag.STRONG_BIOMARKER_RESPONSE (Layer 1 MoA exception) + "
+            f"BiomarkerSelectionStrength.{pos_adjusters.biomarker_selection.value} "
+            "(Layer 1 patient enrichment): "
+            "the same biomarker evidence is credited twice."
         )
         recommendations.append(
-            "Set pos_adjusters.has_breakthrough_designation=False when using "
-            "ApprovalPathway.BREAKTHROUGH_DESIGNATION in TrialDesignFeatureSet, OR "
-            "set design_features.approval_pathway=ApprovalPathway.STANDARD and keep "
-            "has_breakthrough_designation in POSAdjusters (which has the primary calibrated signal)."
+            "Use MoAExceptionFlag.STRONG_BIOMARKER_RESPONSE only for MoA target validation "
+            "(dose-dependent biomarker confirms mechanism engagement). "
+            "Use BiomarkerSelectionStrength for patient-enrichment enrichment quality. "
+            "If the same biomarker serves both purposes, credit the higher-value tier and "
+            "set the other to its reference/neutral value to avoid double-counting."
         )
+        double_count += overlap_mag
+
+    # -------------------------------------------------------------------
+    # Overlap 3: strong biomarker selection + ClinicalEffectMagnitude.EXCEEDS_MCID
+    # -------------------------------------------------------------------
+    _strong_biomarker_tiers = {
+        BiomarkerSelectionStrength.VALIDATED,
+        BiomarkerSelectionStrength.STRONG_RATIONALE,
+    }
+    is_strong_biomarker = pos_adjusters.biomarker_selection in _strong_biomarker_tiers
+    is_exceeds_mcid = design_features.clinical_effect_magnitude == ClinicalEffectMagnitude.EXCEEDS_MCID
+
+    if is_strong_biomarker and is_exceeds_mcid:
+        overlapping.append(
+            f"BiomarkerSelectionStrength.{pos_adjusters.biomarker_selection.value} "
+            "(Layer 1 patient enrichment) + ClinicalEffectMagnitude.EXCEEDS_MCID "
+            "(Layer 2): strong biomarker selection already implies an enriched population "
+            "with large effect size; EXCEEDS_MCID further credits that same enrichment."
+        )
+        recommendations.append(
+            "When a validated/strong predictive biomarker is used for patient enrichment, "
+            "the associated effect size uplift is partly captured in Layer 1. "
+            "Consider reducing ClinicalEffectMagnitude to MEETS_MCID, or reduce the "
+            "biomarker selection tier, to avoid double-counting the enrichment benefit. "
+            f"Estimated overlap: {_PATTERN3_BIOMARKER_MCID_DOUBLE_COUNT:+.2f} log-odds."
+        )
+        double_count += _PATTERN3_BIOMARKER_MCID_DOUBLE_COUNT
+
+    # -------------------------------------------------------------------
+    # Overlap 4: MoA exception flag (STRONG_BIOMARKER_RESPONSE / HUMAN_POM) + EXCEEDS_MCID
+    # -------------------------------------------------------------------
+    _mcid_overlap_flags = {
+        MoAExceptionFlag.STRONG_BIOMARKER_RESPONSE,
+        MoAExceptionFlag.HUMAN_PROOF_OF_MECHANISM,
+    }
+    active_mcid_flags = [f for f in pos_adjusters.moa_exception_flags if f in _mcid_overlap_flags]
+
+    if active_mcid_flags and is_exceeds_mcid:
+        flag_names = ", ".join(f.value for f in active_mcid_flags)
+        overlapping.append(
+            f"MoAExceptionFlag({flag_names}) (Layer 1 MoA exception) + "
+            "ClinicalEffectMagnitude.EXCEEDS_MCID (Layer 2): "
+            "both flags reference the same early clinical signal "
+            "(strong human data = high effect magnitude)."
+        )
+        recommendations.append(
+            "Strong early clinical signal is already reflected in "
+            f"MoAExceptionFlag({flag_names}). "
+            "Setting ClinicalEffectMagnitude.EXCEEDS_MCID additionally credits "
+            "the same human evidence. Consider reducing ClinicalEffectMagnitude to "
+            f"MEETS_MCID or UNKNOWN. Estimated overlap: "
+            f"{_PATTERN4_MOA_EXCEPTION_MCID_DOUBLE_COUNT:+.2f} log-odds."
+        )
+        double_count += _PATTERN4_MOA_EXCEPTION_MCID_DOUBLE_COUNT
+
+    # -------------------------------------------------------------------
+    # Overlap 5: intra-Layer-1 — HUMAN_PROOF_OF_MECHANISM + CLINICALLY_VALIDATED_TARGET
+    # -------------------------------------------------------------------
+    has_human_pom = MoAExceptionFlag.HUMAN_PROOF_OF_MECHANISM in pos_adjusters.moa_exception_flags
+    has_cvt = pos_adjusters.moa_precedent == MoAPrecedent.CLINICALLY_VALIDATED_TARGET
+
+    if has_human_pom and has_cvt:
+        overlapping.append(
+            "MoAExceptionFlag.HUMAN_PROOF_OF_MECHANISM (Layer 1 MoA exception) + "
+            "MoAPrecedent.CLINICALLY_VALIDATED_TARGET (Layer 1 MoA precedent): "
+            "CLINICALLY_VALIDATED_TARGET means human efficacy is shown, which IS the "
+            "definition of human proof of mechanism — the same evidence is credited twice."
+        )
+        recommendations.append(
+            "CLINICALLY_VALIDATED_TARGET already encodes that human efficacy/POM has been "
+            "demonstrated. Remove HUMAN_PROOF_OF_MECHANISM from moa_exception_flags, or "
+            "downgrade moa_precedent to PATHWAY_VALIDATED if only mechanism (not clinical "
+            "outcome) has been shown. Estimated overlap: +0.15 log-odds."
+        )
+        double_count += 0.15
+        has_critical = True
 
     return LayerOverlapReport(
         overlapping_signals=overlapping,
         recommendations=recommendations,
         has_critical_overlap=has_critical,
-        estimated_double_count_logodds=round(double_count_lo, 4),
+        estimated_double_count_logodds=round(double_count, 4),
     )
 
 
@@ -489,16 +672,13 @@ class CapStressResult:
     Output of cap_stress_analysis().
 
     Shows how adjusted_pos changes as the cap value is varied by ±fraction.
-    Institutional use: if the decision conclusion (e.g., adjusted_pos > 0.50)
-    changes with cap variation, the conclusion is not robust to cap choice.
 
     Attributes
     ----------
     base_result : DesignAdjustedPOSResult
         The result at the nominal cap values.
     stress_results : list[tuple[float, float, DesignAdjustedPOSResult]]
-        List of (cap_pos_multiplier, cap_neg_multiplier, result) for each
-        stress scenario tested.
+        List of (cap_pos_multiplier, cap_neg_multiplier, result) for each stress scenario.
     conclusion_stable : bool
         True if the binary conclusion (adjusted_pos > threshold) does not change
         across any stress scenario.
@@ -536,25 +716,17 @@ def cap_stress_analysis(
     """
     Test robustness of adjusted_pos to variation in cap values.
 
-    Reruns compute_design_adjusted_pos with caps scaled by each multiplier in
-    cap_multipliers. If the binary decision (adjusted_pos > threshold) changes
-    across scenarios, the result is flagged as not conclusion-stable.
-
     Parameters
     ----------
     base_pos : float
-        Base POS to adjust.
     features : TrialDesignFeatureSet
-        Trial design features.
     phase : str
-        Trial phase (required, same as compute_design_adjusted_pos).
     cap_multipliers : list[float], optional
-        Multipliers applied to both TRIAL_DESIGN_CAP_POSITIVE and
-        TRIAL_DESIGN_CAP_NEGATIVE. Default: [0.80, 0.90, 1.00, 1.10, 1.20].
+        Multipliers applied to both caps. Default: [0.80, 0.90, 1.00, 1.10, 1.20].
     threshold : float
-        Decision threshold for conclusion stability. Default 0.50 (pass/fail).
+        Decision threshold for conclusion stability. Default 0.50.
     settings : dict, optional
-        Base settings override (same as compute_design_adjusted_pos).
+        Base settings override.
 
     Returns
     -------
@@ -575,9 +747,10 @@ def cap_stress_analysis(
     base_decision = base_result.adjusted_pos > threshold
 
     for mult in cap_multipliers:
-        stressed_settings = dict(settings or TRIAL_DESIGN_LOGODDS)
-        stressed_settings["cap_logodds_positive"] = base_cap_pos * mult
-        stressed_settings["cap_logodds_negative"] = base_cap_neg * mult
+        stressed_settings = {
+            "cap_logodds_positive": base_cap_pos * mult,
+            "cap_logodds_negative": base_cap_neg * mult,
+        }
         result = compute_design_adjusted_pos(base_pos, features, phase=phase, settings=stressed_settings)
         stress_results.append((mult, mult, result))
 

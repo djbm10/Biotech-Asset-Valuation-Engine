@@ -1,0 +1,235 @@
+# Underwriting Pack — Immunovant Inc. (IMVT)
+# Q2 2026 | As of: 2026-04-09
+# Analyst: djm
+# Status: DRAFT — pending second reviewer
+
+company_id: "imvt"
+company_name: "Immunovant Inc."
+ticker: "IMVT"
+as_of_date: "2026-04-09"
+pack_quarter: "2026Q2"
+
+# ─────────────────────────────────────────────────────────────────────
+# Market data  (point-in-time)
+# ─────────────────────────────────────────────────────────────────────
+market:
+  market_cap_millions: 3800.0      # ~$3.8B at $28/share × ~135M shares
+  enterprise_value_millions: 3200.0 # market cap minus net cash
+  share_price: 28.0
+  source_ref: "yfinance:2026-04-09"
+
+# ─────────────────────────────────────────────────────────────────────
+# Balance sheet  (10-Q Dec 2025; filed Feb 2026)
+# ─────────────────────────────────────────────────────────────────────
+balance_sheet:
+  cash_millions: 700.0
+  debt_millions: 100.0
+  source_ref: "10-Q:2025-12-31:balance_sheet"
+
+# ─────────────────────────────────────────────────────────────────────
+# Modeled assets
+# ─────────────────────────────────────────────────────────────────────
+modeled_assets:
+  - bucket_id: "imvt_batoclimab_mg"
+    label: "Batoclimab — Generalized Myasthenia Gravis (FcRn inhibitor, Ph3)"
+    value_millions: 1800.0
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/imvt_batoclimab_mg.yaml:2026-04-09"
+    as_of_date: "2026-04-09"
+    confidence: 0.68
+    corroboration_count: 1
+    corroboration_refs:
+      - "IMVT ADAPTMG Ph3 MG interim: primary endpoint met, QMG score improvement vs placebo"
+    notes: >
+      Batoclimab (anti-FcRn mAb) reduces IgG including pathogenic autoantibodies.
+      Ph3 ADAPTMG: met primary endpoint (QMG score reduction). MG addressable ~65k US
+      patients. Competitive: efgartigimod (argenx, approved), rozanolixizumab (UCB),
+      nipocalimab (J&J Ph3). Late to market but differentiated dosing (SC monthly).
+      rNPV: Ph3 POS 72% (met endpoint), peak $900M US+EU, 10y exclusivity, 10.5%.
+
+  - bucket_id: "imvt_batoclimab_ted"
+    label: "Batoclimab — Thyroid Eye Disease (FcRn inhibitor, Ph3 FORTIFY)"
+    value_millions: 1400.0
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/imvt_batoclimab_ted.yaml:2026-04-09"
+    as_of_date: "2026-04-09"
+    confidence: 0.65
+    corroboration_count: 1
+    corroboration_refs:
+      - "FORTIFY Ph3 enrollment complete; readout expected 2026-Q2"
+    notes: >
+      TED addressable: ~10k newly diagnosed patients/yr US. Tepezza (IGF-1R) approved
+      (H-E by AbbVie/Horizon). FcRn mechanism reduces IgG-driven orbital inflammation.
+      FORTIFY Ph3 primary: proptosis responder rate at 24 weeks. Competitive with
+      Tepezza but different mechanism; potential for patients who fail/relapse.
+      rNPV: POS 60%, peak $700M, 12y exclusivity.
+
+  - bucket_id: "imvt_batoclimab_cidp"
+    label: "Batoclimab — CIDP (FcRn inhibitor, Ph3)"
+    value_millions: 900.0
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/imvt_batoclimab_cidp.yaml:2026-04-09"
+    as_of_date: "2026-04-09"
+    confidence: 0.60
+    corroboration_count: 0
+    corroboration_refs: []
+    notes: >
+      CIDP ~40k US patients. Efgartigimod approved in CIDP 2023. FcRn class effect
+      suggests high probability of efficacy. Late to market — needs differentiated
+      dosing or subgroup labeling. Ph3 ongoing; readout 2026-Q4. POS 55%.
+
+  - bucket_id: "imvt_imvt1402"
+    label: "IMVT-1402 — Next-gen FcRn (autoimmune, Phase 2/3)"
+    value_millions: 700.0
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/imvt_imvt1402.yaml:2026-04-09"
+    as_of_date: "2026-04-09"
+    confidence: 0.52
+    corroboration_count: 0
+    corroboration_refs: []
+    notes: >
+      Next-generation anti-FcRn antibody with potentially improved IgG lowering and
+      differentiated dosing. Ph2 data in multiple autoimmune indications. Provides
+      pipeline depth beyond batoclimab patent life. Option value only.
+
+# ─────────────────────────────────────────────────────────────────────
+# Platform value
+# ─────────────────────────────────────────────────────────────────────
+platform_value:
+  bucket_id: "imvt_platform"
+  label: "FcRn inhibitor platform — additional autoimmune indications"
+  value_millions: 400.0
+  methodology: "analyst_estimate"
+  source_type: "analyst_bridge"
+  source_ref: "top25_pack_2026q2:IMVT:platform"
+  as_of_date: "2026-04-09"
+  confidence: 0.55
+  corroboration_count: 0
+  corroboration_refs: []
+  notes: >
+    Warm autoimmune hemolytic anemia (WAIHA), pemphigus vulgaris, other IgG-mediated
+    conditions. FcRn class has broad applicability. Conservative — needs NDA filing
+    in lead indication before platform value warrants higher assignment.
+
+# ─────────────────────────────────────────────────────────────────────
+# Unmodeled pipeline
+# ─────────────────────────────────────────────────────────────────────
+unmodeled_pipeline:
+  bucket_id: "imvt_unmodeled"
+  label: "Early FcRn pipeline (WAIHA, pemphigus, other IgG-mediated)"
+  value_millions: 200.0
+  methodology: "rule_of_thumb"
+  source_type: "analyst_bridge"
+  source_ref: "top25_pack_2026q2:IMVT:unmodeled"
+  as_of_date: "2026-04-09"
+  confidence: 0.40
+  corroboration_count: 0
+  corroboration_refs: []
+  notes: "Minimal until batoclimab NDA filed and payer landscape established."
+
+# ─────────────────────────────────────────────────────────────────────
+# Royalty streams  (none — IMVT retains full commercialization rights)
+# ─────────────────────────────────────────────────────────────────────
+royalty_streams: []
+
+# ─────────────────────────────────────────────────────────────────────
+# Dilution bridge  (10-Q Dec 2025)
+# ─────────────────────────────────────────────────────────────────────
+dilution:
+  current_shares_millions: 135.0
+  expected_dilution_pct: 0.15       # ~15% dilution for NDA + launch readiness
+  financing_runway_quarters: 6.0    # ~$700M cash, burn ~$350-400M/yr
+  atm_active: false
+  atm_remaining_millions: null
+  shelf_registration_millions: 600.0
+  warrant_shares_millions: 0.0
+  convertible_shares_millions: 0.0
+  source_ref: "10-Q:2025-12-31:capitalization"
+  as_of_date: "2025-12-31"
+  notes: >
+    Pre-revenue. ~$700M cash, burn ~$350-400M/yr. ~6 quarters runway.
+    Raise expected before NDA filing / commercial launch. 15% dilution estimate
+    for NDA + launch readiness.
+
+# ─────────────────────────────────────────────────────────────────────
+# Catalysts
+# ─────────────────────────────────────────────────────────────────────
+catalysts:
+  - description: "FORTIFY Ph3 readout — batoclimab TED (proptosis responder)"
+    expected_date: "2026-Q2"
+    catalyst_type: "readout"
+    probability_positive: 0.60
+    source_ref: "clinicaltrials.gov:NCT05338229"
+    notes: "Primary: proptosis responder rate. Positive = NDA pathway clear for TED; significant de-risking."
+
+  - description: "ADAPTMG NDA filing — batoclimab MG (post-Ph3 primary met)"
+    expected_date: "2026-Q3"
+    catalyst_type: "fda_action"
+    probability_positive: 0.82
+    source_ref: "IMVT pipeline update 2026"
+    notes: "Ph3 primary endpoint met. NDA submission expected H1/H2 2026. Filing is execution risk, not clinical."
+
+  - description: "CIDP Ph3 readout — batoclimab"
+    expected_date: "2026-Q4"
+    catalyst_type: "readout"
+    probability_positive: 0.55
+    source_ref: "clinicaltrials.gov:NCT05737498"
+    notes: "Late-to-market in CIDP (efgartigimod approved). Differentiated dosing needed for commercial success."
+
+# ─────────────────────────────────────────────────────────────────────
+# Management flags  (none flagged at this review)
+# ─────────────────────────────────────────────────────────────────────
+management_flags: []
+
+# ─────────────────────────────────────────────────────────────────────
+# Confidence metadata
+# ─────────────────────────────────────────────────────────────────────
+confidence:
+  overall_confidence: 0.68
+  notes: >
+    Multi-indication FcRn inhibitor company. MG endpoint is met — NDA filing is the
+    next gate. TED and CIDP carry binary readout risk. Main concern is competitive
+    positioning vs. efgartigimod (argenx) which has first-mover advantage in all three
+    indications. Dosing convenience (monthly SC) is the differentiation thesis.
+    Cash runway ~6 quarters is tight.
+
+# ─────────────────────────────────────────────────────────────────────
+# Provenance
+# ─────────────────────────────────────────────────────────────────────
+provenance:
+  pack_version: 1
+  pack_quarter: "2026Q2"
+  created_by: "djm"
+  change_summary: "Initial Q2 2026 pack. ADAPTMG MG endpoint met; TED + CIDP Ph3 readouts pending."
+
+# SOTP check:
+#   Market cap:              $3,800M
+#   SOTP equity value:
+#     Net cash:              +$600M   (700 - 100)
+#     Batoclimab MG rNPV:   +$1,800M
+#     Batoclimab TED rNPV:  +$1,400M
+#     Batoclimab CIDP rNPV:   +$900M
+#     IMVT-1402 rNPV:         +$700M
+#     Platform:               +$400M
+#     Unmodeled:              +$200M
+#     Dilution reserve:       -$567M  (~15% × $28 × 135M)
+#     ────────────────────────────────
+#     SOTP total:            ~$5,433M
+#   SOTP discount:           ~+43% (model 43% above market)
+#   Assessment: Market is at ~70% of SOTP — discounting competitive risk
+#   vs efgartigimod (argenx first-mover) and cash runway tightness.
+#   If TED FORTIFY reads positive (2026-Q2), SOTP narrows substantially.
+#   Key risk: argenx gains dominant share in MG + CIDP before batoclimab launch.
+
+reviewer_state: "draft"
+
+notes: >
+  IMVT is a high-quality FcRn inhibitor company with a validated mechanism but
+  late-to-market timing risk. The differentiation thesis rests on monthly SC dosing
+  vs. efgartigimod's biweekly IV. Key review question: Is the competitive positioning
+  strong enough in MG to justify $1.8B rNPV given argenx's head start and label
+  expansion in CIDP? Watch FORTIFY TED readout (2026-Q2) as the first signal.

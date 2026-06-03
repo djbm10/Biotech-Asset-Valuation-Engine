@@ -1,0 +1,68 @@
+company: Sanofi
+ticker: SNY
+profile_as_of: 2026-04-07
+market_cap_billions: 148
+cash_billions: 9.2
+pipeline_gaps:
+  - therapeutic_area: immunology
+    sub_area: next_gen_atopic_inflammatory
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [biologic, antibody]
+    budget_ceiling_millions: 20000
+    notes: "Dupixent (IL-4Rα) is the core franchise; IL-33, TSLP, OX40L, and other type-2 immune mechanisms are the next wave Sanofi is actively building toward."
+  - therapeutic_area: rare_disease
+    sub_area: alpha1_antitrypsin_rare_respiratory
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [protein, biologic, mRNA, gene_therapy]
+    budget_ceiling_millions: 8000
+    notes: "Inhibrx INBRX-101 acquisition adds AAT deficiency; adjacent rare respiratory enzyme replacement remains open."
+  - therapeutic_area: immunology
+    sub_area: systemic_lupus_erythematosus
+    gap_type: selective_gap
+    urgency: high
+    preferred_modality: [biologic, small_molecule]
+    budget_ceiling_millions: 12000
+    notes: "Dupixent does not cover SLE/lupus nephritis; BAFF/BLyS, type-1 IFN, and B-cell targeted mechanisms remain open."
+  - therapeutic_area: immunology
+    sub_area: type1_diabetes_autoimmunity
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [biologic, protein, small_molecule]
+    budget_ceiling_millions: 12000
+    notes: "Provention established a type 1 diabetes autoimmunity foothold; adjacent immune-interception assets remain strategic."
+  - therapeutic_area: oncology
+    sub_area: oncology_reentry_targeted
+    gap_type: strategic_entry
+    urgency: medium
+    preferred_modality: [ADC, bispecific, small_molecule]
+    budget_ceiling_millions: 10000
+    notes: "Sanofi largely exited oncology; selective re-entry via validated ADC or bispecific targets with commercial clarity is being evaluated."
+  - therapeutic_area: vaccines
+    sub_area: respiratory_vaccine_mrna
+    gap_type: franchise_extension
+    urgency: medium
+    preferred_modality: [mRNA, protein_subunit]
+    budget_ceiling_millions: 6000
+    notes: "RSV and next-gen influenza vaccines remain strategic for Sanofi Vaccines unit."
+recent_deals:
+  - target: Inhibrx (INBRX-101 program)
+    date: 2024-02-12
+    value_billions: 1.7
+    therapeutic_area: rare_disease
+    modality: biologic
+  - target: Vigil Neuroscience
+    date: 2023-02-07
+    value_billions: 0.87
+    therapeutic_area: neuroscience
+    modality: antibody
+  - target: Translate Bio
+    date: 2021-08-02
+    value_billions: 3.2
+    therapeutic_area: vaccines
+    modality: mRNA
+stated_priorities:
+  - "Dupixent franchise extension via next-gen type-2 inflammatory disease mechanisms is the top BD priority."
+  - "Rare disease bolt-ons with validated biology and clear regulatory path are actively targeted."
+  - "Selective oncology re-entry via platform deals (ADC, bispecific) is under active consideration."

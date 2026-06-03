@@ -1,0 +1,46 @@
+# Known company/asset aliases for VRTX/REGN backtest deduplication
+# Maps alternate names → canonical ticker or entity_id
+
+company_aliases:
+  "Semma Therapeutics": SEMMA
+  "Semma": SEMMA
+  "Alpine Immune Sciences": ALPN
+  "Alpine": ALPN
+  "Decibel Therapeutics": DBTX
+  "Decibel": DBTX
+  "ViaCyte": VCYT
+  "ViaCyte Inc": VCYT
+  "Exonics Therapeutics": EXON_BT  # private; not public ticker
+  "Exonics": EXON_BT
+  "Checkmate Pharmaceuticals": CMPI
+  "Checkmate": CMPI
+  "2seventy bio": TSVT
+  "2seventy": TSVT
+  "bluebird bio myeloma assets": TSVT_ASSETS
+
+asset_aliases:
+  "VX-880": "VX880"
+  "stem cell-derived islets": "VX880"
+  "povetacicept": "ALPN101"
+  "ALPN-101": "ALPN101"
+  "DB-OTO": "DBOTO"
+  "PEC-01": "PEC01"
+  "PEC-Direct": "PEC01"
+  "vidutolimod": "CMP001"
+  "CMP-001": "CMP001"
+  "cemiplimab": "REGN2810"
+  "Libtayo": "REGN2810"
+  "bb2121": "idecabtagene_vicleucel"
+  "ide-cel": "idecabtagene_vicleucel"
+
+therapeutic_area_aliases:
+  "T1D": "type_1_diabetes"
+  "type 1 diabetes": "type_1_diabetes"
+  "IGAN": "iga_nephropathy"
+  "IgAN": "iga_nephropathy"
+  "IgA nephropathy": "iga_nephropathy"
+  "OTOF": "otoferlin_related_hearing_loss"
+  "otoferlin hearing loss": "otoferlin_related_hearing_loss"
+  "DMD": "duchenne_muscular_dystrophy"
+  "NSCLC": "non_small_cell_lung_cancer"
+  "PD-1": "pd1_checkpoint"

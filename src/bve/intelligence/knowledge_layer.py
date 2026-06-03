@@ -28,6 +28,9 @@ from bve.intelligence.taxonomy import EventType
 
 if TYPE_CHECKING:  # pragma: no cover
     from bve.connectors.market_prices import MarketPriceRecord
+    from bve.intelligence.acquisition_screen import AcquisitionDiscountSnapshot
+    from bve.intelligence.catalyst_calendar import CatalystEvent
+    from bve.intelligence.enrollment_snapshot_extractor import EnrollmentSnapshot
     from bve.intelligence.market_expectations import MarketExpectation
     from bve.ops.data_quality import DataQualityScore
 
@@ -63,6 +66,23 @@ class StructuredSignalRecord(BaseModel):
 
     id: str
     extraction_result_id: str
+    payload_json: dict
+    created_at: datetime
+
+
+class EvidenceFactRecord(BaseModel):
+    """Persisted evidence fact."""
+
+    fact_id: str
+    company_id: str
+    asset_id: str
+    fact_namespace: str
+    fact_key: str
+    entity_type: str
+    entity_id: str
+    source_type: str
+    conflict_status: str
+    is_active: bool
     payload_json: dict
     created_at: datetime
 
@@ -111,6 +131,80 @@ class OpportunityAlertRecord(BaseModel):
     run_id: Optional[str] = None
     created_at: datetime
     payload_json: dict[str, Any] = Field(default_factory=dict)
+
+
+class CompanySOTPSnapshotRecord(BaseModel):
+    """Persisted point-in-time company SOTP row."""
+
+    ticker: str
+    company_id: str
+    company_name: str
+    snapshot_date: date
+    rank: int = 0
+    market_cap_millions: float
+    enterprise_value_millions: float
+    sotp_equity_value_millions: float
+    sotp_per_share: float
+    sotp_discount: float
+    ranked_sotp_discount: float
+    reconciliation_gap_millions: float = 0.0
+    reconciliation_gap_pct: float = 0.0
+    reconciliation_status: Optional[str] = None
+    reconciliation_passes_gate: bool = True
+    mcap_trend_3m_pct: Optional[float] = None
+    sotp_tier: Optional[str] = None
+    sotp_action: Optional[str] = None
+    sotp_confidence_tier: Optional[str] = None
+    sotp_tier_reason: Optional[str] = None
+    modeled_asset_coverage_pct: float
+    asset_count_modeled: int
+    modeled_asset_ids: list[str] = Field(default_factory=list)
+    config_quality_summary: Optional[str] = None
+    modeled_asset_confidence_min: float = 0.0
+    modeled_asset_confidence_avg: float = 0.0
+    action_policy: Optional[str] = None
+    action_reason: Optional[str] = None
+    market_cap_source: Optional[str] = None
+    balance_sheet_source: Optional[str] = None
+    balance_sheet_source_ref: Optional[str] = None
+    balance_sheet_snapshot_date: Optional[date] = None
+    balance_sheet_period_end_date: Optional[date] = None
+    balance_sheet_form_type: Optional[str] = None
+    balance_sheet_is_point_in_time: bool = False
+    balance_sheet_age_days: Optional[int] = None
+    balance_sheet_passes_recency_gate: bool = False
+    balance_sheet_recency_penalty: float = 1.0
+    bucket_count: int = 0
+    buckets: list[dict[str, Any]] = Field(default_factory=list)
+    limitations: list[str] = Field(default_factory=list)
+    notes: Optional[str] = None
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+
+class EquityPolicySnapshotRecord(BaseModel):
+    """Persisted Step 5 equity-policy audit row."""
+
+    ticker: str
+    as_of_date: date
+    reference_snapshot_date: Optional[date] = None
+    company_snapshot_date: Optional[date] = None
+    source_mode: str = "heuristic_company_snapshot"
+    company_action_policy: Optional[str] = None
+    company_action_reason: Optional[str] = None
+    company_ranked_discount: Optional[float] = None
+    composite_score: Optional[float] = None
+    current_price: Optional[float] = None
+    base_sotp_per_share: Optional[float] = None
+    bear_sotp_per_share: Optional[float] = None
+    bull_sotp_per_share: Optional[float] = None
+    conviction: Optional[float] = None
+    adv_millions: Optional[float] = None
+    next_catalyst_days: Optional[int] = None
+    catalyst_description: Optional[str] = None
+    action: str
+    sizing_pct: float = 0.0
+    rationale: str
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 
 class DataRetentionResult(BaseModel):
@@ -291,7 +385,122 @@ class KnowledgeStore:
         if column not in cols:
             self._conn.execute(f"ALTER TABLE {table} ADD COLUMN {column} {ddl}")
 
+    def _migrate_screen_snapshots_asset_key(self) -> None:
+        row = self._conn.execute(
+            """
+            SELECT sql
+            FROM sqlite_master
+            WHERE type = 'table' AND name = 'screen_snapshots'
+            """
+        ).fetchone()
+        if row is None or row[0] is None:
+            return
+        normalized_sql = str(row[0]).replace(" ", "").replace("\n", "").lower()
+        if "unique(ticker,snapshot_date,asset_id)" in normalized_sql:
+            self._conn.execute(
+                """
+                CREATE INDEX IF NOT EXISTS idx_screen_snapshots_asset_date
+                    ON screen_snapshots(asset_id, snapshot_date DESC)
+                """
+            )
+            return
+
+        columns = {
+            row["name"]
+            for row in self._conn.execute("PRAGMA table_info(screen_snapshots)").fetchall()
+        }
+        select_expr = {
+            "snapshot_id": "snapshot_id",
+            "ticker": "ticker",
+            "asset_id": "COALESCE(asset_id, '')" if "asset_id" in columns else "''",
+            "snapshot_date": "snapshot_date",
+            "program_label": "program_label" if "program_label" in columns else "NULL",
+            "stage": "stage" if "stage" in columns else "NULL",
+            "ta": "ta" if "ta" in columns else "NULL",
+            "model_pos": "model_pos" if "model_pos" in columns else "NULL",
+            "implied_pos": "implied_pos" if "implied_pos" in columns else "NULL",
+            "spread_pp": "spread_pp" if "spread_pp" in columns else "NULL",
+            "rnpv_millions": "rnpv_millions" if "rnpv_millions" in columns else "NULL",
+            "ev_millions": "ev_millions" if "ev_millions" in columns else "NULL",
+            "acquisition_discount_pct": (
+                "acquisition_discount_pct" if "acquisition_discount_pct" in columns else "NULL"
+            ),
+            "next_catalyst": "next_catalyst" if "next_catalyst" in columns else "NULL",
+            "catalyst_date": "catalyst_date" if "catalyst_date" in columns else "NULL",
+            "days_to_catalyst": "days_to_catalyst" if "days_to_catalyst" in columns else "NULL",
+            "single_asset": "single_asset" if "single_asset" in columns else "1",
+            "approximation_warning": (
+                "approximation_warning" if "approximation_warning" in columns else "NULL"
+            ),
+            "thesis_strength": "thesis_strength" if "thesis_strength" in columns else "NULL",
+            "market_exceeds_model": (
+                "market_exceeds_model" if "market_exceeds_model" in columns else "0"
+            ),
+            "config_quality": "config_quality" if "config_quality" in columns else "NULL",
+            "created_at": "created_at" if "created_at" in columns else "CURRENT_TIMESTAMP",
+        }
+        target_columns = list(select_expr.keys())
+        select_sql = ",\n                ".join(select_expr[column] for column in target_columns)
+        insert_columns_sql = ", ".join(target_columns)
+
+        self._conn.executescript(
+            f"""
+            CREATE TABLE IF NOT EXISTS screen_snapshots__migrated (
+                snapshot_id       TEXT PRIMARY KEY,
+                ticker            TEXT NOT NULL,
+                asset_id          TEXT NOT NULL DEFAULT '',
+                snapshot_date     TEXT NOT NULL,
+                program_label     TEXT,
+                stage             TEXT,
+                ta                TEXT,
+                model_pos         REAL,
+                implied_pos       REAL,
+                spread_pp         REAL,
+                rnpv_millions     REAL,
+                ev_millions       REAL,
+                acquisition_discount_pct REAL,
+                next_catalyst     TEXT,
+                catalyst_date     TEXT,
+                days_to_catalyst  INTEGER,
+                single_asset      INTEGER NOT NULL DEFAULT 1,
+                approximation_warning TEXT,
+                thesis_strength   REAL,
+                market_exceeds_model INTEGER NOT NULL DEFAULT 0,
+                config_quality    TEXT,
+                created_at        TEXT NOT NULL,
+                UNIQUE(ticker, snapshot_date, asset_id)
+            );
+            INSERT OR REPLACE INTO screen_snapshots__migrated({insert_columns_sql})
+            SELECT
+                {select_sql}
+            FROM screen_snapshots;
+            DROP TABLE screen_snapshots;
+            ALTER TABLE screen_snapshots__migrated RENAME TO screen_snapshots;
+            CREATE INDEX IF NOT EXISTS idx_screen_snapshots_date
+                ON screen_snapshots(snapshot_date DESC);
+            CREATE INDEX IF NOT EXISTS idx_screen_snapshots_ticker_date
+                ON screen_snapshots(ticker, snapshot_date DESC);
+            CREATE INDEX IF NOT EXISTS idx_screen_snapshots_asset_date
+                ON screen_snapshots(asset_id, snapshot_date DESC);
+            """
+        )
+
     def _init_schema(self) -> None:
+        # Pre-migration: add columns that the executescript's CREATE INDEX
+        # statements reference, before the script runs.  Guard against the
+        # table not yet existing (fresh DB — executescript will create it).
+        tables = {
+            row[0]
+            for row in self._conn.execute(
+                "SELECT name FROM sqlite_master WHERE type='table'"
+            ).fetchall()
+        }
+        if "structured_signals" in tables:
+            self._ensure_column("structured_signals", "extraction_result_id", "TEXT")
+            self._ensure_column("structured_signals", "created_at", "TEXT")
+        if "screen_snapshots" in tables:
+            self._ensure_column("screen_snapshots", "asset_id", "TEXT NOT NULL DEFAULT ''")
+
         cur = self._conn.cursor()
         cur.executescript(
             """
@@ -335,6 +544,22 @@ class KnowledgeStore:
                 asset_id TEXT,
                 event_type TEXT,
                 signal_date TEXT,
+                created_at TEXT NOT NULL,
+                payload_json TEXT NOT NULL,
+                source_trace_json TEXT NOT NULL
+            );
+
+            CREATE TABLE IF NOT EXISTS evidence_facts (
+                fact_id TEXT PRIMARY KEY,
+                company_id TEXT NOT NULL,
+                asset_id TEXT NOT NULL,
+                fact_namespace TEXT NOT NULL,
+                fact_key TEXT NOT NULL,
+                entity_type TEXT NOT NULL,
+                entity_id TEXT NOT NULL,
+                source_type TEXT NOT NULL,
+                conflict_status TEXT NOT NULL,
+                is_active INTEGER NOT NULL DEFAULT 0,
                 created_at TEXT NOT NULL,
                 payload_json TEXT NOT NULL,
                 source_trace_json TEXT NOT NULL
@@ -569,6 +794,27 @@ class KnowledgeStore:
                 computed_at TEXT NOT NULL
             );
 
+            CREATE TABLE IF NOT EXISTS acquisition_discount_snapshots (
+                snapshot_id TEXT PRIMARY KEY,
+                asset_id TEXT NOT NULL,
+                ticker TEXT,
+                snapshot_date TEXT NOT NULL,
+                formula_version TEXT NOT NULL,
+                model_rnpv_millions REAL,
+                model_pos REAL,
+                market_cap_millions REAL,
+                market_cap_as_of TEXT,
+                market_cap_source TEXT,
+                enterprise_value_millions REAL,
+                net_cash_millions REAL,
+                ev_methodology TEXT NOT NULL,
+                acquisition_discount REAL,
+                passes_threshold INTEGER NOT NULL DEFAULT 0,
+                exclusion_reason TEXT,
+                created_at TEXT NOT NULL,
+                UNIQUE(asset_id, snapshot_date, formula_version)
+            );
+
             -- Cross-asset propagation proposals (Wave D).
             -- Generated when a trigger signal (competitor failure, safety event)
             -- implies a valuation assumption change on a peer asset.
@@ -585,6 +831,205 @@ class KnowledgeStore:
             );
             CREATE INDEX IF NOT EXISTS idx_propagation_proposals_target
                 ON propagation_proposals(target_asset_id, status, created_at);
+
+            -- Universe implied PoS screen snapshots (Sprint 10 / Task 10.4).
+            -- One row per modeled asset per snapshot_date (UPSERT semantics).
+            CREATE TABLE IF NOT EXISTS screen_snapshots (
+                snapshot_id       TEXT PRIMARY KEY,
+                ticker            TEXT NOT NULL,
+                asset_id          TEXT NOT NULL DEFAULT '',
+                snapshot_date     TEXT NOT NULL,
+                program_label     TEXT,
+                stage             TEXT,
+                ta                TEXT,
+                model_pos         REAL,
+                implied_pos       REAL,
+                spread_pp         REAL,
+                rnpv_millions     REAL,
+                ev_millions       REAL,
+                acquisition_discount_pct REAL,
+                next_catalyst     TEXT,
+                catalyst_date     TEXT,
+                days_to_catalyst  INTEGER,
+                single_asset      INTEGER NOT NULL DEFAULT 1,
+                approximation_warning TEXT,
+                thesis_strength   REAL,
+                market_exceeds_model INTEGER NOT NULL DEFAULT 0,
+                config_quality    TEXT,
+                created_at        TEXT NOT NULL,
+                UNIQUE(ticker, snapshot_date, asset_id)
+            );
+            CREATE INDEX IF NOT EXISTS idx_screen_snapshots_date
+                ON screen_snapshots(snapshot_date DESC);
+            CREATE INDEX IF NOT EXISTS idx_screen_snapshots_ticker_date
+                ON screen_snapshots(ticker, snapshot_date DESC);
+            CREATE INDEX IF NOT EXISTS idx_screen_snapshots_asset_date
+                ON screen_snapshots(asset_id, snapshot_date DESC);
+
+            CREATE TABLE IF NOT EXISTS company_sotp_snapshots (
+                snapshot_id       TEXT PRIMARY KEY,
+                ticker            TEXT NOT NULL,
+                company_id        TEXT NOT NULL,
+                company_name      TEXT NOT NULL,
+                snapshot_date     TEXT NOT NULL,
+                rank              INTEGER NOT NULL DEFAULT 0,
+                market_cap_millions REAL NOT NULL,
+                enterprise_value_millions REAL NOT NULL,
+                sotp_equity_value_millions REAL NOT NULL,
+                sotp_per_share    REAL NOT NULL,
+                sotp_discount     REAL NOT NULL,
+                ranked_sotp_discount REAL NOT NULL,
+                reconciliation_gap_millions REAL NOT NULL DEFAULT 0.0,
+                reconciliation_gap_pct REAL NOT NULL DEFAULT 0.0,
+                reconciliation_status TEXT,
+                reconciliation_passes_gate INTEGER NOT NULL DEFAULT 1,
+                mcap_trend_3m_pct REAL,
+                sotp_tier TEXT,
+                sotp_action TEXT,
+                sotp_confidence_tier TEXT,
+                sotp_tier_reason TEXT,
+                modeled_asset_coverage_pct REAL NOT NULL,
+                asset_count_modeled INTEGER NOT NULL DEFAULT 0,
+                modeled_asset_ids_json TEXT NOT NULL,
+                config_quality_summary TEXT,
+                modeled_asset_confidence_min REAL,
+                modeled_asset_confidence_avg REAL,
+                manual_bucket_share_pct REAL NOT NULL DEFAULT 0.0,
+                manual_bucket_confidence_avg REAL,
+                n_bucket_sources INTEGER NOT NULL DEFAULT 0,
+                action_policy     TEXT,
+                action_reason     TEXT,
+                market_cap_source TEXT,
+                balance_sheet_source TEXT,
+                balance_sheet_source_ref TEXT,
+                balance_sheet_snapshot_date TEXT,
+                balance_sheet_period_end_date TEXT,
+                balance_sheet_form_type TEXT,
+                balance_sheet_is_point_in_time INTEGER NOT NULL DEFAULT 0,
+                balance_sheet_age_days INTEGER,
+                balance_sheet_passes_recency_gate INTEGER NOT NULL DEFAULT 0,
+                balance_sheet_recency_penalty REAL NOT NULL DEFAULT 1.0,
+                bucket_count      INTEGER NOT NULL DEFAULT 0,
+                buckets_json      TEXT NOT NULL,
+                limitations_json  TEXT NOT NULL,
+                notes             TEXT,
+                created_at        TEXT NOT NULL,
+                UNIQUE(ticker, snapshot_date)
+            );
+            CREATE INDEX IF NOT EXISTS idx_company_sotp_snapshots_date
+                ON company_sotp_snapshots(snapshot_date DESC);
+            CREATE INDEX IF NOT EXISTS idx_company_sotp_snapshots_ticker_date
+                ON company_sotp_snapshots(ticker, snapshot_date DESC);
+
+            CREATE TABLE IF NOT EXISTS equity_policy_snapshots (
+                snapshot_id       TEXT PRIMARY KEY,
+                ticker            TEXT NOT NULL,
+                as_of_date        TEXT NOT NULL,
+                reference_snapshot_date TEXT,
+                company_snapshot_date TEXT,
+                source_mode       TEXT NOT NULL,
+                company_action_policy TEXT,
+                company_action_reason TEXT,
+                company_ranked_discount REAL,
+                composite_score   REAL,
+                current_price     REAL,
+                base_sotp_per_share REAL,
+                bear_sotp_per_share REAL,
+                bull_sotp_per_share REAL,
+                conviction        REAL,
+                adv_millions      REAL,
+                next_catalyst_days INTEGER,
+                catalyst_description TEXT,
+                action            TEXT NOT NULL,
+                sizing_pct        REAL NOT NULL DEFAULT 0.0,
+                rationale         TEXT NOT NULL,
+                created_at        TEXT NOT NULL,
+                UNIQUE(ticker, as_of_date)
+            );
+            CREATE INDEX IF NOT EXISTS idx_equity_policy_snapshots_as_of
+                ON equity_policy_snapshots(as_of_date DESC);
+            CREATE INDEX IF NOT EXISTS idx_equity_policy_snapshots_ticker_as_of
+                ON equity_policy_snapshots(ticker, as_of_date DESC);
+
+            -- Rules-based universe snapshots (Sprint 12B).
+            -- Each row captures the filter result for one ticker on one build date.
+            CREATE TABLE IF NOT EXISTS universe_snapshots (
+                snapshot_id    TEXT PRIMARY KEY,
+                ticker         TEXT NOT NULL,
+                build_date     TEXT NOT NULL,
+                company_name   TEXT,
+                market_cap_m   REAL,
+                adv_m          REAL,
+                has_phase2_plus INTEGER NOT NULL DEFAULT 0,
+                active_nct_ids TEXT,           -- JSON array of NCT IDs
+                passed         INTEGER NOT NULL DEFAULT 0,
+                exclusion_reason TEXT,
+                sources        TEXT,            -- JSON array of source names
+                created_at     TEXT NOT NULL,
+                UNIQUE(ticker, build_date)
+            );
+            CREATE INDEX IF NOT EXISTS idx_universe_snapshots_date
+                ON universe_snapshots(build_date DESC);
+            CREATE INDEX IF NOT EXISTS idx_universe_snapshots_passed
+                ON universe_snapshots(build_date, passed);
+
+            CREATE TABLE IF NOT EXISTS pos_predictions (
+                id              TEXT PRIMARY KEY,
+                program_id      TEXT NOT NULL,
+                ticker          TEXT NOT NULL,
+                ta              TEXT,
+                phase           TEXT,
+                model_pos       REAL NOT NULL,
+                implied_pos     REAL,
+                spread_pp       REAL,
+                peak_sales_millions REAL,
+                rnpv_millions   REAL,
+                predicted_at    TEXT NOT NULL,
+                trial_end_expected TEXT,
+                created_at      TEXT NOT NULL
+            );
+            CREATE INDEX IF NOT EXISTS idx_pos_predictions_program
+                ON pos_predictions(program_id, predicted_at DESC);
+            CREATE INDEX IF NOT EXISTS idx_pos_predictions_ticker
+                ON pos_predictions(ticker, predicted_at DESC);
+
+            CREATE TABLE IF NOT EXISTS pos_outcomes (
+                id              TEXT PRIMARY KEY,
+                program_id      TEXT NOT NULL,
+                outcome_date    TEXT,
+                outcome_type    TEXT CHECK(outcome_type IN (
+                    'approval', 'crl', 'failure_efficacy', 'failure_safety',
+                    'partial_approval', 'discontinued', 'ongoing'
+                )),
+                trial_name      TEXT,
+                source          TEXT,
+                created_at      TEXT NOT NULL,
+                UNIQUE(program_id)
+            );
+            CREATE INDEX IF NOT EXISTS idx_pos_outcomes_program
+                ON pos_outcomes(program_id);
+
+            CREATE TABLE IF NOT EXISTS detected_events (
+                id              TEXT PRIMARY KEY,
+                ticker          TEXT NOT NULL,
+                asset_id        TEXT NOT NULL,
+                event_type      TEXT NOT NULL,
+                headline        TEXT NOT NULL,
+                headline_key    TEXT NOT NULL,  -- first 80 chars for dedup
+                source_url      TEXT,
+                detected_at     TEXT NOT NULL,
+                detected_date   TEXT NOT NULL,  -- YYYY-MM-DD for dedup
+                requires_recompute INTEGER NOT NULL DEFAULT 0,
+                extra_json      TEXT,
+                created_at      TEXT NOT NULL,
+                UNIQUE(ticker, event_type, headline_key, detected_date)
+            );
+            CREATE INDEX IF NOT EXISTS idx_detected_events_ticker
+                ON detected_events(ticker);
+            CREATE INDEX IF NOT EXISTS idx_detected_events_detected_at
+                ON detected_events(detected_at DESC);
+            CREATE INDEX IF NOT EXISTS idx_detected_events_recompute
+                ON detected_events(requires_recompute, detected_at DESC);
 
             CREATE INDEX IF NOT EXISTS idx_raw_documents_created
                 ON raw_documents(created_at);
@@ -604,6 +1049,10 @@ class KnowledgeStore:
                 ON structured_signals(company_id, asset_id, signal_date);
             CREATE INDEX IF NOT EXISTS idx_signals_type_date
                 ON structured_signals(event_type, signal_date);
+            CREATE INDEX IF NOT EXISTS idx_evidence_facts_entity_key
+                ON evidence_facts(company_id, asset_id, fact_key, created_at);
+            CREATE INDEX IF NOT EXISTS idx_evidence_facts_active
+                ON evidence_facts(is_active, fact_key, created_at);
 
             CREATE INDEX IF NOT EXISTS idx_events_signal
                 ON events(signal_id);
@@ -666,6 +1115,12 @@ class KnowledgeStore:
                 ON event_outcomes(fully_resolved, signal_date);
             CREATE INDEX IF NOT EXISTS idx_expectations_asset_date
                 ON market_expectations(asset_id, expectation_date);
+            CREATE INDEX IF NOT EXISTS idx_acquisition_discount_asset_date
+                ON acquisition_discount_snapshots(asset_id, snapshot_date DESC);
+            CREATE INDEX IF NOT EXISTS idx_acquisition_discount_threshold
+                ON acquisition_discount_snapshots(
+                    snapshot_date, passes_threshold, acquisition_discount DESC
+                );
 
             -- Knowledge graph (2A).
             CREATE TABLE IF NOT EXISTS kg_nodes (
@@ -850,6 +1305,31 @@ class KnowledgeStore:
 
             CREATE INDEX IF NOT EXISTS idx_outcome_override_event
                 ON outcome_override_log(event_id);
+
+            -- Forward paper tracking log (Task 23).
+            -- One row per (date, asset) — represents what we would recommend
+            -- without committing real capital.  Append via INSERT OR REPLACE.
+            CREATE TABLE IF NOT EXISTS paper_tracking_log (
+                entry_id           TEXT PRIMARY KEY,
+                snapshot_date      TEXT NOT NULL,
+                asset_id           TEXT NOT NULL,
+                ticker             TEXT,
+                recommendation     TEXT NOT NULL,
+                composite_score    REAL,
+                mna_likelihood     REAL,
+                predicted_acquirer TEXT,
+                catalyst           TEXT,
+                thesis             TEXT,
+                risk_flags         TEXT,
+                created_at         TEXT NOT NULL,
+                UNIQUE(snapshot_date, asset_id)
+            );
+
+            CREATE INDEX IF NOT EXISTS idx_paper_tracking_log_date
+                ON paper_tracking_log(snapshot_date);
+
+            CREATE INDEX IF NOT EXISTS idx_paper_tracking_log_asset
+                ON paper_tracking_log(asset_id, snapshot_date);
             """
         )
 
@@ -874,10 +1354,27 @@ class KnowledgeStore:
         self._ensure_column("backtest_snapshots", "catalyst_score", "REAL")
         self._ensure_column("research_reports", "report_version", "TEXT")
         self._ensure_column("research_reports", "model_version", "TEXT")
+        # Sprint 23 Task 5: forward paper log new fields.
+        self._ensure_column("paper_tracking_log", "watchlist_type", "TEXT")
+        self._ensure_column("paper_tracking_log", "calibrated_score", "REAL")
+        self._ensure_column("paper_tracking_log", "calibrated_score_label", "TEXT")
+        self._ensure_column("paper_tracking_log", "transaction_driver_count", "INTEGER")
+        self._ensure_column("paper_tracking_log", "gate_reason_codes", "TEXT")
+        self._ensure_column("paper_tracking_log", "top5_acquirers", "TEXT")
+
         # Wave 3C: reviewer annotation columns on review_decisions.
         self._ensure_column("review_decisions", "reviewer_confidence", "REAL")
         self._ensure_column("review_decisions", "analyst_tags_json", "TEXT")
         self._ensure_column("review_decisions", "supporting_quote", "TEXT")
+
+        # Task 9.22: signal → assumption lineage columns on audit_log.
+        # These link an accepted review decision to the specific assumption change
+        # it triggered, enabling a compliance reviewer to reconstruct "why did X change".
+        self._ensure_column("audit_log", "assumption_field", "TEXT")
+        self._ensure_column("audit_log", "assumption_old_value", "TEXT")
+        self._ensure_column("audit_log", "assumption_new_value", "TEXT")
+        self._ensure_column("audit_log", "evidence_signal_id", "TEXT")
+        self._ensure_column("audit_log", "review_decision_id", "TEXT")
 
         # Wave 0.5: outcome truth taxonomy on event_outcomes.
         # outcome_label separates trial truth from market reaction.
@@ -885,6 +1382,61 @@ class KnowledgeStore:
         #         "market_reaction_only" | "unresolved"
         self._ensure_column("event_outcomes", "outcome_label", "TEXT")
         self._ensure_column("event_outcomes", "outcome_resolution_source", "TEXT")
+
+        # Sprint 25: thesis_strength on screen_snapshots.
+        # Populated by weekly_runner via ThesisTracker.snapshot() at screen time.
+        self._ensure_column("screen_snapshots", "thesis_strength", "REAL")
+        self._ensure_column("screen_snapshots", "asset_id", "TEXT NOT NULL DEFAULT ''")
+        self._ensure_column(
+            "screen_snapshots",
+            "market_exceeds_model",
+            "INTEGER NOT NULL DEFAULT 0",
+        )
+        self._ensure_column("screen_snapshots", "config_quality", "TEXT")
+        self._migrate_screen_snapshots_asset_key()
+        self._ensure_column("company_sotp_snapshots", "config_quality_summary", "TEXT")
+        self._ensure_column("company_sotp_snapshots", "modeled_asset_confidence_min", "REAL")
+        self._ensure_column("company_sotp_snapshots", "modeled_asset_confidence_avg", "REAL")
+        self._ensure_column("company_sotp_snapshots", "manual_bucket_share_pct", "REAL NOT NULL DEFAULT 0.0")
+        self._ensure_column("company_sotp_snapshots", "manual_bucket_confidence_avg", "REAL")
+        self._ensure_column("company_sotp_snapshots", "n_bucket_sources", "INTEGER NOT NULL DEFAULT 0")
+        self._ensure_column("company_sotp_snapshots", "action_policy", "TEXT")
+        self._ensure_column("company_sotp_snapshots", "action_reason", "TEXT")
+        self._ensure_column("company_sotp_snapshots", "market_cap_source", "TEXT")
+        self._ensure_column("company_sotp_snapshots", "balance_sheet_source", "TEXT")
+        self._ensure_column("company_sotp_snapshots", "balance_sheet_source_ref", "TEXT")
+        self._ensure_column("company_sotp_snapshots", "balance_sheet_snapshot_date", "TEXT")
+        self._ensure_column("company_sotp_snapshots", "balance_sheet_period_end_date", "TEXT")
+        self._ensure_column("company_sotp_snapshots", "balance_sheet_form_type", "TEXT")
+        self._ensure_column(
+            "company_sotp_snapshots",
+            "balance_sheet_is_point_in_time",
+            "INTEGER NOT NULL DEFAULT 0",
+        )
+        self._ensure_column("company_sotp_snapshots", "balance_sheet_age_days", "INTEGER")
+        self._ensure_column(
+            "company_sotp_snapshots",
+            "balance_sheet_passes_recency_gate",
+            "INTEGER NOT NULL DEFAULT 0",
+        )
+        self._ensure_column(
+            "company_sotp_snapshots",
+            "balance_sheet_recency_penalty",
+            "REAL NOT NULL DEFAULT 1.0",
+        )
+        self._ensure_column("company_sotp_snapshots", "reconciliation_gap_millions", "REAL NOT NULL DEFAULT 0.0")
+        self._ensure_column("company_sotp_snapshots", "reconciliation_gap_pct", "REAL NOT NULL DEFAULT 0.0")
+        self._ensure_column("company_sotp_snapshots", "reconciliation_status", "TEXT")
+        self._ensure_column("company_sotp_snapshots", "reconciliation_passes_gate", "INTEGER NOT NULL DEFAULT 1")
+        self._ensure_column("company_sotp_snapshots", "mcap_trend_3m_pct", "REAL")
+        self._ensure_column("company_sotp_snapshots", "sotp_tier", "TEXT")
+        self._ensure_column("company_sotp_snapshots", "sotp_action", "TEXT")
+        self._ensure_column("company_sotp_snapshots", "sotp_confidence_tier", "TEXT")
+        self._ensure_column("company_sotp_snapshots", "sotp_tier_reason", "TEXT")
+        self._ensure_column("company_sotp_snapshots", "bucket_count", "INTEGER NOT NULL DEFAULT 0")
+        self._ensure_column("company_sotp_snapshots", "buckets_json", "TEXT")
+        self._ensure_column("company_sotp_snapshots", "limitations_json", "TEXT")
+
 
         # Wave E-lite: stratification buckets on forecast_records.
         # Required for PoS recalibration by (indication × phase × endpoint_type).
@@ -1186,6 +1738,56 @@ class KnowledgeStore:
         self._conn.commit()
         return record
 
+    def add_evidence_fact(
+        self,
+        fact: Any,
+        source_trace: SourceTrace,
+    ) -> EvidenceFactRecord:
+        payload = fact.model_dump(mode="json") if hasattr(fact, "model_dump") else dict(fact)
+        record = EvidenceFactRecord(
+            fact_id=str(payload.get("fact_id")),
+            company_id=str(payload.get("company_id")),
+            asset_id=str(payload.get("asset_id")),
+            fact_namespace=str(payload.get("fact_namespace")),
+            fact_key=str(payload.get("fact_key")),
+            entity_type=str(payload.get("entity_type")),
+            entity_id=str(payload.get("entity_id")),
+            source_type=str(
+                (payload.get("provenance") or {}).get("source_type")
+                or payload.get("source_type")
+                or ""
+            ),
+            conflict_status=str(payload.get("conflict_status") or "pending"),
+            is_active=bool(payload.get("is_active")),
+            payload_json=payload,
+            created_at=self._coerce_datetime(payload.get("created_at")),
+        )
+        self._conn.execute(
+            """
+            INSERT OR REPLACE INTO evidence_facts(
+                fact_id, company_id, asset_id, fact_namespace, fact_key, entity_type, entity_id,
+                source_type, conflict_status, is_active, created_at, payload_json, source_trace_json
+            ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                record.fact_id,
+                record.company_id,
+                record.asset_id,
+                record.fact_namespace,
+                record.fact_key,
+                record.entity_type,
+                record.entity_id,
+                record.source_type,
+                record.conflict_status,
+                1 if record.is_active else 0,
+                record.created_at.isoformat(),
+                self._json_dump(record.payload_json),
+                source_trace.model_dump_json(),
+            ),
+        )
+        self._conn.commit()
+        return record
+
     def link_event_signal(self, event_id: str, signal_id: str) -> None:
         """Explicitly link an event to a structured signal."""
         self._conn.execute(
@@ -1277,6 +1879,34 @@ class KnowledgeStore:
                 processed_at_iso,
             ),
         )
+
+    def mark_document_hash_processed_explicit(
+        self,
+        *,
+        source: str,
+        document_hash: str,
+        raw_document_id: str,
+        processed_at: datetime,
+    ) -> None:
+        processed_at_iso = self._coerce_datetime(processed_at).isoformat()
+        self._conn.execute(
+            """
+            INSERT INTO processed_document_hashes(
+                source, document_hash, raw_document_id, first_processed_at, last_processed_at
+            ) VALUES (?, ?, ?, ?, ?)
+            ON CONFLICT(source, document_hash) DO UPDATE SET
+                raw_document_id = excluded.raw_document_id,
+                last_processed_at = excluded.last_processed_at
+            """,
+            (
+                source,
+                document_hash,
+                raw_document_id,
+                processed_at_iso,
+                processed_at_iso,
+            ),
+        )
+        self._conn.commit()
 
     def event_exists(self, event_id: str) -> bool:
         row = self._conn.execute(
@@ -2278,6 +2908,1154 @@ class KnowledgeStore:
             computed_at=self._coerce_datetime(row["computed_at"]),
         )
 
+    def upsert_acquisition_discount_snapshot(
+        self,
+        snapshot: "AcquisitionDiscountSnapshot",
+    ) -> None:
+        """Insert or replace one acquisition discount snapshot row."""
+        self._conn.execute(
+            """
+            INSERT OR REPLACE INTO acquisition_discount_snapshots(
+                snapshot_id, asset_id, ticker, snapshot_date, formula_version,
+                model_rnpv_millions, model_pos, market_cap_millions, market_cap_as_of,
+                market_cap_source, enterprise_value_millions, net_cash_millions,
+                ev_methodology, acquisition_discount, passes_threshold,
+                exclusion_reason, created_at
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                snapshot.snapshot_id,
+                snapshot.asset_id,
+                snapshot.ticker,
+                snapshot.snapshot_date.isoformat(),
+                snapshot.formula_version,
+                snapshot.model_rnpv_millions,
+                snapshot.model_pos,
+                snapshot.market_cap_millions,
+                snapshot.market_cap_as_of.isoformat() if snapshot.market_cap_as_of else None,
+                snapshot.market_cap_source,
+                snapshot.enterprise_value_millions,
+                snapshot.net_cash_millions,
+                snapshot.ev_methodology,
+                snapshot.acquisition_discount,
+                1 if snapshot.passes_threshold else 0,
+                snapshot.exclusion_reason,
+                snapshot.created_at.isoformat(),
+            ),
+        )
+        self._conn.commit()
+
+    def get_latest_acquisition_discount_snapshot(
+        self,
+        asset_id: str,
+    ) -> Optional["AcquisitionDiscountSnapshot"]:
+        """Return the most recent acquisition discount snapshot for *asset_id*."""
+        row = self._conn.execute(
+            """
+            SELECT snapshot_id, asset_id, ticker, snapshot_date, formula_version,
+                   model_rnpv_millions, model_pos, market_cap_millions, market_cap_as_of,
+                   market_cap_source, enterprise_value_millions, net_cash_millions,
+                   ev_methodology, acquisition_discount, passes_threshold,
+                   exclusion_reason, created_at
+            FROM acquisition_discount_snapshots
+            WHERE asset_id = ?
+            ORDER BY snapshot_date DESC, created_at DESC
+            LIMIT 1
+            """,
+            (asset_id,),
+        ).fetchone()
+        if row is None:
+            return None
+        from bve.intelligence.acquisition_screen import AcquisitionDiscountSnapshot
+
+        return AcquisitionDiscountSnapshot(
+            snapshot_id=row["snapshot_id"],
+            asset_id=row["asset_id"],
+            ticker=row["ticker"],
+            snapshot_date=date.fromisoformat(row["snapshot_date"]),
+            formula_version=row["formula_version"],
+            model_rnpv_millions=row["model_rnpv_millions"],
+            model_pos=row["model_pos"],
+            market_cap_millions=row["market_cap_millions"],
+            market_cap_as_of=(
+                date.fromisoformat(row["market_cap_as_of"])
+                if row["market_cap_as_of"]
+                else None
+            ),
+            market_cap_source=row["market_cap_source"],
+            enterprise_value_millions=row["enterprise_value_millions"],
+            net_cash_millions=row["net_cash_millions"],
+            ev_methodology=row["ev_methodology"],
+            acquisition_discount=row["acquisition_discount"],
+            passes_threshold=bool(row["passes_threshold"]),
+            exclusion_reason=row["exclusion_reason"],
+            created_at=self._coerce_datetime(row["created_at"]),
+        )
+
+    def list_acquisition_discount_snapshots(
+        self,
+        *,
+        asset_id: Optional[str] = None,
+        snapshot_date: Optional[date] = None,
+        passes_threshold: Optional[bool] = None,
+        limit: int = 100,
+    ) -> list["AcquisitionDiscountSnapshot"]:
+        """List acquisition discount snapshots with optional filters."""
+        clauses = []
+        params: list[object] = []
+        if asset_id is not None:
+            clauses.append("asset_id = ?")
+            params.append(asset_id)
+        if snapshot_date is not None:
+            clauses.append("snapshot_date = ?")
+            params.append(snapshot_date.isoformat())
+        if passes_threshold is not None:
+            clauses.append("passes_threshold = ?")
+            params.append(1 if passes_threshold else 0)
+
+        sql = (
+            "SELECT snapshot_id, asset_id, ticker, snapshot_date, formula_version, "
+            "model_rnpv_millions, model_pos, market_cap_millions, market_cap_as_of, "
+            "market_cap_source, enterprise_value_millions, net_cash_millions, "
+            "ev_methodology, acquisition_discount, passes_threshold, "
+            "exclusion_reason, created_at "
+            "FROM acquisition_discount_snapshots"
+        )
+        if clauses:
+            sql += " WHERE " + " AND ".join(clauses)
+        sql += " ORDER BY snapshot_date DESC, acquisition_discount DESC, created_at DESC LIMIT ?"
+        params.append(limit)
+
+        rows = self._conn.execute(sql, params).fetchall()
+        from bve.intelligence.acquisition_screen import AcquisitionDiscountSnapshot
+
+        snapshots: list[AcquisitionDiscountSnapshot] = []
+        for row in rows:
+            snapshots.append(
+                AcquisitionDiscountSnapshot(
+                    snapshot_id=row["snapshot_id"],
+                    asset_id=row["asset_id"],
+                    ticker=row["ticker"],
+                    snapshot_date=date.fromisoformat(row["snapshot_date"]),
+                    formula_version=row["formula_version"],
+                    model_rnpv_millions=row["model_rnpv_millions"],
+                    model_pos=row["model_pos"],
+                    market_cap_millions=row["market_cap_millions"],
+                    market_cap_as_of=(
+                        date.fromisoformat(row["market_cap_as_of"])
+                        if row["market_cap_as_of"]
+                        else None
+                    ),
+                    market_cap_source=row["market_cap_source"],
+                    enterprise_value_millions=row["enterprise_value_millions"],
+                    net_cash_millions=row["net_cash_millions"],
+                    ev_methodology=row["ev_methodology"],
+                    acquisition_discount=row["acquisition_discount"],
+                    passes_threshold=bool(row["passes_threshold"]),
+                    exclusion_reason=row["exclusion_reason"],
+                    created_at=self._coerce_datetime(row["created_at"]),
+                )
+            )
+        return snapshots
+
+    # ------------------------------------------------------------------
+    # Screen snapshots  (Sprint 10, Task 10.4)
+    # ------------------------------------------------------------------
+
+    def write_screen_snapshots(
+        self,
+        rows: "list",  # ScreenRow from bve.analysis.implied_pos_batch
+        snapshot_date: Optional[date] = None,
+    ) -> int:
+        """
+        Upsert a list of ScreenRow objects into screen_snapshots.
+
+        Parameters
+        ----------
+        rows          : list of ScreenRow from implied_pos_batch.run_screen()
+        snapshot_date : override date (default: each row's data_date)
+
+        Returns the number of rows written.
+        """
+        from uuid import uuid4
+
+        written = 0
+        for row in rows:
+            snap_date = snapshot_date or row.data_date
+            self._conn.execute(
+                """
+                INSERT OR REPLACE INTO screen_snapshots(
+                    snapshot_id, ticker, asset_id, snapshot_date, program_label, stage, ta,
+                    model_pos, implied_pos, spread_pp, rnpv_millions, ev_millions,
+                    acquisition_discount_pct, next_catalyst, catalyst_date,
+                    days_to_catalyst, single_asset, approximation_warning,
+                    thesis_strength, market_exceeds_model, config_quality, created_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    str(uuid4()),
+                    row.ticker,
+                    getattr(row, "asset_id", "") or "",
+                    snap_date.isoformat(),
+                    row.program_label,
+                    row.stage,
+                    row.ta,
+                    row.model_pos,
+                    row.implied_pos,
+                    row.spread_pp,
+                    row.rnpv_millions,
+                    row.ev_millions,
+                    row.acquisition_discount_pct,
+                    row.next_catalyst,
+                    row.catalyst_date.isoformat() if row.catalyst_date else None,
+                    row.days_to_catalyst,
+                    1 if row.single_asset else 0,
+                    row.approximation_warning,
+                    getattr(row, "thesis_strength", None),
+                    1 if getattr(row, "market_exceeds_model", False) else 0,
+                    getattr(row, "config_quality", None),
+                    datetime.now(timezone.utc).isoformat(timespec="seconds").replace(
+                        "+00:00",
+                        "Z",
+                    ),
+                ),
+            )
+            written += 1
+        self._conn.commit()
+        return written
+
+    def get_screen_snapshots(
+        self,
+        snapshot_date: Optional[date] = None,
+        *,
+        ticker: Optional[str] = None,
+        limit: int = 200,
+    ) -> "list[dict]":
+        """
+        Return screen snapshot rows as plain dicts (keys = column names).
+
+        Parameters
+        ----------
+        snapshot_date : if given, return rows for that date only;
+                        otherwise return the most recent date's rows
+        ticker        : if given, filter to a single ticker
+        limit         : max rows returned
+        """
+        clauses: list[str] = []
+        params: list[object] = []
+
+        if snapshot_date is not None:
+            clauses.append("snapshot_date = ?")
+            params.append(snapshot_date.isoformat())
+        else:
+            # Most recent date
+            latest_row = self._conn.execute(
+                "SELECT MAX(snapshot_date) FROM screen_snapshots"
+            ).fetchone()
+            if latest_row is None or latest_row[0] is None:
+                return []
+            clauses.append("snapshot_date = ?")
+            params.append(latest_row[0])
+
+        if ticker is not None:
+            clauses.append("ticker = ?")
+            params.append(ticker)
+
+        sql = (
+            "SELECT ticker, asset_id, snapshot_date, program_label, stage, ta, "
+            "model_pos, implied_pos, spread_pp, rnpv_millions, ev_millions, "
+            "acquisition_discount_pct, next_catalyst, catalyst_date, "
+            "days_to_catalyst, single_asset, approximation_warning, "
+            "thesis_strength, market_exceeds_model, config_quality, created_at "
+            "FROM screen_snapshots"
+        )
+        if clauses:
+            sql += " WHERE " + " AND ".join(clauses)
+        sql += " ORDER BY spread_pp DESC NULLS LAST, rnpv_millions DESC, ticker ASC, asset_id ASC LIMIT ?"
+        params.append(limit)
+
+        return [dict(r) for r in self._conn.execute(sql, params).fetchall()]
+
+    def list_screen_snapshot_dates(self) -> list[date]:
+        """Return all distinct snapshot_dates in descending order."""
+        rows = self._conn.execute(
+            "SELECT DISTINCT snapshot_date FROM screen_snapshots "
+            "ORDER BY snapshot_date DESC"
+        ).fetchall()
+        return [date.fromisoformat(r[0]) for r in rows]
+
+    def latest_screen_snapshot_date_on_or_before(self, as_of: date) -> Optional[date]:
+        """Return the most recent screen_snapshot date on or before *as_of*."""
+        row = self._conn.execute(
+            "SELECT MAX(snapshot_date) FROM screen_snapshots WHERE snapshot_date <= ?",
+            (as_of.isoformat(),),
+        ).fetchone()
+        if row is None or row[0] is None:
+            return None
+        return date.fromisoformat(str(row[0]))
+
+    def get_screen_snapshots_on_or_before(
+        self,
+        as_of: date,
+        *,
+        ticker: Optional[str] = None,
+        limit: int = 200,
+    ) -> tuple[Optional[date], "list[dict]"]:
+        """
+        Return screen snapshots for the latest snapshot_date on or before *as_of*.
+
+        Returns ``(resolved_snapshot_date, rows)``. If no snapshot exists on or before
+        *as_of*, returns ``(None, [])``.
+        """
+        snapshot_date = self.latest_screen_snapshot_date_on_or_before(as_of)
+        if snapshot_date is None:
+            return None, []
+        return snapshot_date, self.get_screen_snapshots(
+            snapshot_date=snapshot_date,
+            ticker=ticker,
+            limit=limit,
+        )
+
+    def get_screen_snapshot_for_ticker_on_or_before(
+        self,
+        *,
+        ticker: str,
+        as_of: date,
+    ) -> Optional[dict]:
+        """
+        Return the latest stored screen snapshot for one ticker on or before *as_of*.
+
+        Unlike ``get_screen_snapshots_on_or_before()``, this resolves the latest
+        snapshot date for the specific ticker rather than the global screen date.
+        """
+        row = self._conn.execute(
+            """
+            SELECT ticker, snapshot_date, program_label, stage, ta,
+                   asset_id,
+                   model_pos, implied_pos, spread_pp, rnpv_millions, ev_millions,
+                   acquisition_discount_pct, next_catalyst, catalyst_date,
+                   days_to_catalyst, single_asset, approximation_warning,
+                   thesis_strength, market_exceeds_model, config_quality, created_at
+            FROM screen_snapshots
+            WHERE ticker = ? AND snapshot_date <= ?
+            ORDER BY snapshot_date DESC, spread_pp DESC NULLS LAST, rnpv_millions DESC, asset_id ASC
+            LIMIT 1
+            """,
+            (ticker, as_of.isoformat()),
+        ).fetchone()
+        return dict(row) if row is not None else None
+
+    def get_screen_snapshot_for_asset_on_or_before(
+        self,
+        *,
+        asset_id: str,
+        as_of: date,
+    ) -> Optional[dict]:
+        """
+        Return the latest stored screen snapshot for one asset on or before *as_of*.
+        """
+        row = self._conn.execute(
+            """
+            SELECT ticker, asset_id, snapshot_date, program_label, stage, ta,
+                   model_pos, implied_pos, spread_pp, rnpv_millions, ev_millions,
+                   acquisition_discount_pct, next_catalyst, catalyst_date,
+                   days_to_catalyst, single_asset, approximation_warning,
+                   thesis_strength, market_exceeds_model, config_quality, created_at
+            FROM screen_snapshots
+            WHERE asset_id = ? AND snapshot_date <= ?
+            ORDER BY snapshot_date DESC
+            LIMIT 1
+            """,
+            (asset_id, as_of.isoformat()),
+        ).fetchone()
+        return dict(row) if row is not None else None
+
+    # ------------------------------------------------------------------
+    # Company SOTP snapshots
+    # ------------------------------------------------------------------
+
+    def write_company_sotp_snapshots(
+        self,
+        rows: "list",
+        snapshot_date: Optional[date] = None,
+    ) -> int:
+        from uuid import uuid4
+
+        rows = list(rows)
+        snapshot_dates = {
+            (snapshot_date or getattr(row, "snapshot_date")).isoformat()
+            for row in rows
+        }
+        for snap_date in snapshot_dates:
+            self._conn.execute(
+                "DELETE FROM company_sotp_snapshots WHERE snapshot_date = ?",
+                (snap_date,),
+            )
+
+        written = 0
+        for row in rows:
+            snap_date = snapshot_date or getattr(row, "snapshot_date")
+            buckets = [
+                bucket.model_dump(mode="json") if hasattr(bucket, "model_dump") else dict(bucket)
+                for bucket in getattr(row, "buckets", [])
+            ]
+            limitations = list(getattr(row, "limitations", []))
+            modeled_asset_ids = list(getattr(row, "modeled_asset_ids", []))
+            balance_sheet_snapshot_date = getattr(row, "balance_sheet_snapshot_date", None)
+            balance_sheet_period_end_date = getattr(row, "balance_sheet_period_end_date", None)
+            self._conn.execute(
+                """
+                INSERT OR REPLACE INTO company_sotp_snapshots(
+                    snapshot_id, ticker, company_id, company_name, snapshot_date, rank,
+                    market_cap_millions, enterprise_value_millions, sotp_equity_value_millions,
+                    sotp_per_share, sotp_discount, ranked_sotp_discount,
+                    reconciliation_gap_millions, reconciliation_gap_pct,
+                    reconciliation_status, reconciliation_passes_gate,
+                    mcap_trend_3m_pct, sotp_tier, sotp_action, sotp_confidence_tier,
+                    sotp_tier_reason, modeled_asset_coverage_pct, asset_count_modeled, modeled_asset_ids_json,
+                    config_quality_summary, modeled_asset_confidence_min,
+                    modeled_asset_confidence_avg, manual_bucket_share_pct,
+                    manual_bucket_confidence_avg, n_bucket_sources,
+                    action_policy, action_reason,
+                    market_cap_source, balance_sheet_source, balance_sheet_source_ref,
+                    balance_sheet_snapshot_date, balance_sheet_period_end_date,
+                    balance_sheet_form_type, balance_sheet_is_point_in_time,
+                    balance_sheet_age_days, balance_sheet_passes_recency_gate,
+                    balance_sheet_recency_penalty, bucket_count, buckets_json,
+                    limitations_json, notes, created_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    str(uuid4()),
+                    getattr(row, "ticker"),
+                    getattr(row, "company_id"),
+                    getattr(row, "company_name"),
+                    snap_date.isoformat(),
+                    int(getattr(row, "rank", 0)),
+                    float(getattr(row, "market_cap_millions")),
+                    float(getattr(row, "enterprise_value_millions")),
+                    float(getattr(row, "sotp_equity_value_millions")),
+                    float(getattr(row, "sotp_per_share")),
+                    float(getattr(row, "sotp_discount")),
+                    float(getattr(row, "ranked_sotp_discount")),
+                    float(getattr(row, "reconciliation_gap_millions", 0.0)),
+                    float(getattr(row, "reconciliation_gap_pct", 0.0)),
+                    getattr(row, "reconciliation_status", None),
+                    1 if bool(getattr(row, "reconciliation_passes_gate", True)) else 0,
+                    (
+                        float(getattr(row, "mcap_trend_3m_pct"))
+                        if getattr(row, "mcap_trend_3m_pct", None) is not None
+                        else None
+                    ),
+                    getattr(row, "sotp_tier", None),
+                    getattr(row, "sotp_action", None),
+                    getattr(row, "sotp_confidence_tier", None),
+                    getattr(row, "sotp_tier_reason", None),
+                    float(getattr(row, "modeled_asset_coverage_pct")),
+                    int(getattr(row, "asset_count_modeled")),
+                    json.dumps(modeled_asset_ids),
+                    getattr(row, "config_quality_summary", None),
+                    float(getattr(row, "modeled_asset_confidence_min", 0.0)),
+                    float(getattr(row, "modeled_asset_confidence_avg", 0.0)),
+                    float(getattr(row, "manual_bucket_share_pct", 0.0)),
+                    (
+                        float(getattr(row, "manual_bucket_confidence_avg"))
+                        if getattr(row, "manual_bucket_confidence_avg", None) is not None
+                        else None
+                    ),
+                    int(getattr(row, "n_bucket_sources", 0)),
+                    getattr(row, "action_policy", None),
+                    getattr(row, "action_reason", None),
+                    getattr(row, "market_cap_source", None),
+                    getattr(row, "balance_sheet_source", None),
+                    getattr(row, "balance_sheet_source_ref", None),
+                    (
+                        balance_sheet_snapshot_date.isoformat()
+                        if balance_sheet_snapshot_date is not None
+                        else None
+                    ),
+                    (
+                        balance_sheet_period_end_date.isoformat()
+                        if balance_sheet_period_end_date is not None
+                        else None
+                    ),
+                    getattr(row, "balance_sheet_form_type", None),
+                    1 if bool(getattr(row, "balance_sheet_is_point_in_time", False)) else 0,
+                    getattr(row, "balance_sheet_age_days", None),
+                    1 if bool(getattr(row, "balance_sheet_passes_recency_gate", False)) else 0,
+                    float(getattr(row, "balance_sheet_recency_penalty", 1.0)),
+                    len(buckets),
+                    json.dumps(buckets),
+                    json.dumps(limitations),
+                    getattr(row, "notes", None),
+                    datetime.now(timezone.utc).isoformat(timespec="seconds").replace(
+                        "+00:00",
+                        "Z",
+                    ),
+                ),
+            )
+            written += 1
+        self._conn.commit()
+        return written
+
+    def get_company_sotp_snapshots(
+        self,
+        snapshot_date: Optional[date] = None,
+        *,
+        ticker: Optional[str] = None,
+        limit: int = 200,
+    ) -> "list[dict]":
+        clauses: list[str] = []
+        params: list[object] = []
+
+        if snapshot_date is not None:
+            clauses.append("snapshot_date = ?")
+            params.append(snapshot_date.isoformat())
+        else:
+            latest_row = self._conn.execute(
+                "SELECT MAX(snapshot_date) FROM company_sotp_snapshots"
+            ).fetchone()
+            if latest_row is None or latest_row[0] is None:
+                return []
+            clauses.append("snapshot_date = ?")
+            params.append(latest_row[0])
+
+        if ticker is not None:
+            clauses.append("ticker = ?")
+            params.append(ticker)
+
+        sql = (
+            "SELECT ticker, company_id, company_name, snapshot_date, rank, "
+            "market_cap_millions, enterprise_value_millions, sotp_equity_value_millions, "
+            "sotp_per_share, sotp_discount, ranked_sotp_discount, "
+            "reconciliation_gap_millions, reconciliation_gap_pct, reconciliation_status, reconciliation_passes_gate, "
+            "mcap_trend_3m_pct, sotp_tier, sotp_action, sotp_confidence_tier, sotp_tier_reason, modeled_asset_coverage_pct, "
+            "asset_count_modeled, modeled_asset_ids_json, config_quality_summary, "
+            "modeled_asset_confidence_min, modeled_asset_confidence_avg, "
+            "manual_bucket_share_pct, manual_bucket_confidence_avg, n_bucket_sources, "
+            "action_policy, action_reason, market_cap_source, balance_sheet_source, balance_sheet_source_ref, "
+            "balance_sheet_snapshot_date, balance_sheet_period_end_date, balance_sheet_form_type, "
+            "balance_sheet_is_point_in_time, balance_sheet_age_days, "
+            "balance_sheet_passes_recency_gate, balance_sheet_recency_penalty, bucket_count, "
+            "buckets_json, limitations_json, notes, created_at "
+            "FROM company_sotp_snapshots"
+        )
+        if clauses:
+            sql += " WHERE " + " AND ".join(clauses)
+        sql += " ORDER BY ranked_sotp_discount DESC, ticker ASC LIMIT ?"
+        params.append(limit)
+
+        rows = self._conn.execute(sql, params).fetchall()
+        return [self._decode_company_sotp_snapshot_row(dict(row)) for row in rows]
+
+    def list_company_sotp_snapshot_dates(self) -> list[date]:
+        rows = self._conn.execute(
+            "SELECT DISTINCT snapshot_date FROM company_sotp_snapshots ORDER BY snapshot_date DESC"
+        ).fetchall()
+        return [date.fromisoformat(r[0]) for r in rows]
+
+    def latest_company_sotp_snapshot_date_on_or_before(self, as_of: date) -> Optional[date]:
+        row = self._conn.execute(
+            "SELECT MAX(snapshot_date) FROM company_sotp_snapshots WHERE snapshot_date <= ?",
+            (as_of.isoformat(),),
+        ).fetchone()
+        if row is None or row[0] is None:
+            return None
+        return date.fromisoformat(str(row[0]))
+
+    def get_company_sotp_snapshots_on_or_before(
+        self,
+        as_of: date,
+        *,
+        ticker: Optional[str] = None,
+        limit: int = 200,
+    ) -> tuple[Optional[date], "list[dict]"]:
+        snapshot_date = self.latest_company_sotp_snapshot_date_on_or_before(as_of)
+        if snapshot_date is None:
+            return None, []
+        return snapshot_date, self.get_company_sotp_snapshots(
+            snapshot_date=snapshot_date,
+            ticker=ticker,
+            limit=limit,
+        )
+
+    def get_company_sotp_snapshot_for_ticker_on_or_before(
+        self,
+        *,
+        ticker: str,
+        as_of: date,
+    ) -> Optional[dict]:
+        row = self._conn.execute(
+            """
+            SELECT ticker, company_id, company_name, snapshot_date, rank,
+                   market_cap_millions, enterprise_value_millions, sotp_equity_value_millions,
+                   sotp_per_share, sotp_discount, ranked_sotp_discount,
+                   reconciliation_gap_millions, reconciliation_gap_pct,
+                   reconciliation_status, reconciliation_passes_gate,
+                   mcap_trend_3m_pct, sotp_tier, sotp_action, sotp_confidence_tier,
+                   sotp_tier_reason, modeled_asset_coverage_pct, asset_count_modeled, modeled_asset_ids_json,
+                   config_quality_summary, modeled_asset_confidence_min,
+                   modeled_asset_confidence_avg, manual_bucket_share_pct,
+                   manual_bucket_confidence_avg, n_bucket_sources, action_policy, action_reason,
+                   market_cap_source, balance_sheet_source, balance_sheet_source_ref,
+                   balance_sheet_snapshot_date, balance_sheet_period_end_date,
+                   balance_sheet_form_type, balance_sheet_is_point_in_time,
+                   balance_sheet_age_days, balance_sheet_passes_recency_gate,
+                   balance_sheet_recency_penalty, bucket_count, buckets_json,
+                   limitations_json, notes, created_at
+            FROM company_sotp_snapshots
+            WHERE ticker = ? AND snapshot_date <= ?
+            ORDER BY snapshot_date DESC, ranked_sotp_discount DESC
+            LIMIT 1
+            """,
+            (ticker, as_of.isoformat()),
+        ).fetchone()
+        if row is None:
+            return None
+        return self._decode_company_sotp_snapshot_row(dict(row))
+
+    def get_company_sotp_snapshot_for_company_id_on_or_before(
+        self,
+        *,
+        company_id: str,
+        as_of: date,
+    ) -> Optional[dict]:
+        row = self._conn.execute(
+            """
+            SELECT ticker, company_id, company_name, snapshot_date, rank,
+                   market_cap_millions, enterprise_value_millions, sotp_equity_value_millions,
+                   sotp_per_share, sotp_discount, ranked_sotp_discount,
+                   reconciliation_gap_millions, reconciliation_gap_pct,
+                   reconciliation_status, reconciliation_passes_gate,
+                   mcap_trend_3m_pct, sotp_tier, sotp_action, sotp_confidence_tier,
+                   sotp_tier_reason, modeled_asset_coverage_pct, asset_count_modeled, modeled_asset_ids_json,
+                   config_quality_summary, modeled_asset_confidence_min,
+                   modeled_asset_confidence_avg, manual_bucket_share_pct,
+                   manual_bucket_confidence_avg, n_bucket_sources, action_policy, action_reason,
+                   market_cap_source, balance_sheet_source, balance_sheet_source_ref,
+                   balance_sheet_snapshot_date, balance_sheet_period_end_date,
+                   balance_sheet_form_type, balance_sheet_is_point_in_time,
+                   balance_sheet_age_days, balance_sheet_passes_recency_gate,
+                   balance_sheet_recency_penalty, bucket_count, buckets_json,
+                   limitations_json, notes, created_at
+            FROM company_sotp_snapshots
+            WHERE company_id = ? AND snapshot_date <= ?
+            ORDER BY snapshot_date DESC, ranked_sotp_discount DESC
+            LIMIT 1
+            """,
+            (company_id, as_of.isoformat()),
+        ).fetchone()
+        if row is None:
+            return None
+        return self._decode_company_sotp_snapshot_row(dict(row))
+
+    # ------------------------------------------------------------------
+    # Equity policy snapshots
+    # ------------------------------------------------------------------
+
+    def write_equity_policy_snapshots(
+        self,
+        rows: list[EquityPolicySnapshotRecord],
+    ) -> int:
+        from uuid import uuid4
+
+        if not rows:
+            return 0
+
+        written = 0
+        for row in rows:
+            self._conn.execute(
+                """
+                INSERT OR REPLACE INTO equity_policy_snapshots(
+                    snapshot_id, ticker, as_of_date, reference_snapshot_date,
+                    company_snapshot_date, source_mode, company_action_policy,
+                    company_action_reason, company_ranked_discount, composite_score,
+                    current_price, base_sotp_per_share, bear_sotp_per_share,
+                    bull_sotp_per_share, conviction, adv_millions,
+                    next_catalyst_days, catalyst_description, action, sizing_pct,
+                    rationale, created_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    str(uuid4()),
+                    row.ticker,
+                    row.as_of_date.isoformat(),
+                    (
+                        row.reference_snapshot_date.isoformat()
+                        if row.reference_snapshot_date is not None
+                        else None
+                    ),
+                    (
+                        row.company_snapshot_date.isoformat()
+                        if row.company_snapshot_date is not None
+                        else None
+                    ),
+                    row.source_mode,
+                    row.company_action_policy,
+                    row.company_action_reason,
+                    row.company_ranked_discount,
+                    row.composite_score,
+                    row.current_price,
+                    row.base_sotp_per_share,
+                    row.bear_sotp_per_share,
+                    row.bull_sotp_per_share,
+                    row.conviction,
+                    row.adv_millions,
+                    row.next_catalyst_days,
+                    row.catalyst_description,
+                    row.action,
+                    row.sizing_pct,
+                    row.rationale,
+                    self._coerce_datetime(row.created_at).isoformat(timespec="seconds").replace(
+                        "+00:00",
+                        "Z",
+                    ),
+                ),
+            )
+            written += 1
+        self._conn.commit()
+        return written
+
+    def get_equity_policy_snapshots(
+        self,
+        as_of_date: Optional[date] = None,
+        *,
+        ticker: Optional[str] = None,
+        limit: int = 200,
+    ) -> list[dict[str, Any]]:
+        clauses: list[str] = []
+        params: list[object] = []
+
+        if as_of_date is not None:
+            clauses.append("as_of_date = ?")
+            params.append(as_of_date.isoformat())
+        else:
+            latest_row = self._conn.execute(
+                "SELECT MAX(as_of_date) FROM equity_policy_snapshots"
+            ).fetchone()
+            if latest_row is None or latest_row[0] is None:
+                return []
+            clauses.append("as_of_date = ?")
+            params.append(latest_row[0])
+
+        if ticker is not None:
+            clauses.append("ticker = ?")
+            params.append(ticker)
+
+        sql = (
+            "SELECT ticker, as_of_date, reference_snapshot_date, company_snapshot_date, "
+            "source_mode, company_action_policy, company_action_reason, company_ranked_discount, "
+            "composite_score, current_price, base_sotp_per_share, bear_sotp_per_share, "
+            "bull_sotp_per_share, conviction, adv_millions, next_catalyst_days, "
+            "catalyst_description, action, sizing_pct, rationale, created_at "
+            "FROM equity_policy_snapshots"
+        )
+        if clauses:
+            sql += " WHERE " + " AND ".join(clauses)
+        sql += " ORDER BY composite_score DESC NULLS LAST, ticker ASC LIMIT ?"
+        params.append(limit)
+        rows = self._conn.execute(sql, params).fetchall()
+        return [self._decode_equity_policy_snapshot_row(dict(row)) for row in rows]
+
+    def get_equity_policy_snapshot_for_ticker_on_or_before(
+        self,
+        *,
+        ticker: str,
+        as_of: date,
+    ) -> Optional[dict[str, Any]]:
+        row = self._conn.execute(
+            """
+            SELECT ticker, as_of_date, reference_snapshot_date, company_snapshot_date,
+                   source_mode, company_action_policy, company_action_reason,
+                   company_ranked_discount, composite_score, current_price,
+                   base_sotp_per_share, bear_sotp_per_share, bull_sotp_per_share,
+                   conviction, adv_millions, next_catalyst_days, catalyst_description,
+                   action, sizing_pct, rationale, created_at
+            FROM equity_policy_snapshots
+            WHERE ticker = ? AND as_of_date <= ?
+            ORDER BY as_of_date DESC
+            LIMIT 1
+            """,
+            (ticker, as_of.isoformat()),
+        ).fetchone()
+        if row is None:
+            return None
+        return self._decode_equity_policy_snapshot_row(dict(row))
+
+    @staticmethod
+    def _decode_equity_policy_snapshot_row(row: dict[str, Any]) -> dict[str, Any]:
+        for key in ("as_of_date", "reference_snapshot_date", "company_snapshot_date"):
+            if row.get(key):
+                row[key] = date.fromisoformat(str(row[key]))
+            else:
+                row[key] = None
+        row["created_at"] = KnowledgeStore._coerce_datetime(row.get("created_at"))
+        return row
+
+    @staticmethod
+    def _decode_company_sotp_snapshot_row(row: dict[str, Any]) -> dict[str, Any]:
+        row["snapshot_date"] = date.fromisoformat(str(row["snapshot_date"]))
+        if row.get("balance_sheet_snapshot_date"):
+            row["balance_sheet_snapshot_date"] = date.fromisoformat(
+                str(row["balance_sheet_snapshot_date"])
+            )
+        else:
+            row["balance_sheet_snapshot_date"] = None
+        if row.get("balance_sheet_period_end_date"):
+            row["balance_sheet_period_end_date"] = date.fromisoformat(
+                str(row["balance_sheet_period_end_date"])
+            )
+        else:
+            row["balance_sheet_period_end_date"] = None
+        row["balance_sheet_is_point_in_time"] = bool(row.get("balance_sheet_is_point_in_time", 0))
+        row["balance_sheet_passes_recency_gate"] = bool(
+            row.get("balance_sheet_passes_recency_gate", 0)
+        )
+        row["reconciliation_passes_gate"] = bool(row.get("reconciliation_passes_gate", 1))
+        if row.get("mcap_trend_3m_pct") is not None:
+            row["mcap_trend_3m_pct"] = float(row["mcap_trend_3m_pct"])
+        row["modeled_asset_ids"] = json.loads(row.pop("modeled_asset_ids_json", "[]") or "[]")
+        row["buckets"] = json.loads(row.pop("buckets_json", "[]") or "[]")
+        row["limitations"] = json.loads(row.pop("limitations_json", "[]") or "[]")
+        row["created_at"] = row.get("created_at")
+        return row
+
+    # ------------------------------------------------------------------
+    # Universe snapshots  (Sprint 12B)
+    # ------------------------------------------------------------------
+
+    def write_universe_snapshot(self, candidates: "list") -> int:
+        """
+        Upsert UniverseCandidate rows into universe_snapshots.
+        Returns number of rows written.
+        """
+        import json as _json
+        from uuid import uuid4
+
+        written = 0
+        for c in candidates:
+            self._conn.execute(
+                """
+                INSERT OR REPLACE INTO universe_snapshots(
+                    snapshot_id, ticker, build_date, company_name,
+                    market_cap_m, adv_m, has_phase2_plus, active_nct_ids,
+                    passed, exclusion_reason, sources, created_at
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    str(uuid4()),
+                    c.ticker,
+                    c.as_of.isoformat(),
+                    c.company_name,
+                    c.market_cap_m,
+                    c.adv_m,
+                    1 if c.has_phase2_plus else 0,
+                    _json.dumps(c.active_phase2_studies),
+                    1 if c.passed else 0,
+                    c.exclusion_reason,
+                    _json.dumps(c.sources),
+                    datetime.now(timezone.utc).isoformat(timespec="seconds").replace(
+                        "+00:00",
+                        "Z",
+                    ),
+                ),
+            )
+            written += 1
+        self._conn.commit()
+        return written
+
+    def get_universe_snapshot(
+        self,
+        build_date: Optional[date] = None,
+        *,
+        passed_only: bool = False,
+        limit: int = 300,
+    ) -> list[dict]:
+        """
+        Return universe snapshot rows as plain dicts.
+
+        Parameters
+        ----------
+        build_date  : filter to specific date; if None returns most recent build
+        passed_only : if True, return only rows where passed=1
+        limit       : max rows
+        """
+        import json as _json
+
+        clauses: list[str] = []
+        params: list[object] = []
+
+        if build_date is not None:
+            clauses.append("build_date = ?")
+            params.append(build_date.isoformat())
+        else:
+            latest = self._conn.execute(
+                "SELECT MAX(build_date) FROM universe_snapshots"
+            ).fetchone()
+            if latest is None or latest[0] is None:
+                return []
+            clauses.append("build_date = ?")
+            params.append(latest[0])
+
+        if passed_only:
+            clauses.append("passed = 1")
+
+        sql = (
+            "SELECT ticker, build_date, company_name, market_cap_m, adv_m, "
+            "has_phase2_plus, active_nct_ids, passed, exclusion_reason, sources "
+            "FROM universe_snapshots"
+        )
+        if clauses:
+            sql += " WHERE " + " AND ".join(clauses)
+        sql += " ORDER BY passed DESC, market_cap_m DESC LIMIT ?"
+        params.append(limit)
+
+        rows = self._conn.execute(sql, params).fetchall()
+        result = []
+        for r in rows:
+            d = dict(r)
+            d["has_phase2_plus"] = bool(d["has_phase2_plus"])
+            d["passed"] = bool(d["passed"])
+            d["active_nct_ids"] = _json.loads(d["active_nct_ids"] or "[]")
+            d["sources"] = _json.loads(d["sources"] or "[]")
+            result.append(d)
+        return result
+
+    def list_universe_build_dates(self) -> list[date]:
+        """Return all distinct universe build dates in descending order."""
+        rows = self._conn.execute(
+            "SELECT DISTINCT build_date FROM universe_snapshots "
+            "ORDER BY build_date DESC"
+        ).fetchall()
+        return [date.fromisoformat(r[0]) for r in rows]
+
+    # ------------------------------------------------------------------
+    # Sprint 16 — pos_predictions + pos_outcomes (calibration database)
+    # ------------------------------------------------------------------
+
+    def insert_pos_prediction(self, pred: "PredictionRecord") -> str:  # type: ignore[name-defined]  # noqa: F821
+        """
+        Insert one PredictionRecord into pos_predictions.
+
+        Discipline: ONLY call at the time the prediction is made.
+        Returns the new row id.
+        """
+        import uuid as _uuid
+        from datetime import datetime as _dt, timezone as _tz
+
+        row_id = str(_uuid.uuid4())
+        created_at = _dt.now(_tz.utc).isoformat(timespec="seconds")
+        predicted_at = (
+            pred.predicted_at.isoformat()
+            if pred.predicted_at is not None
+            else created_at[:10]
+        )
+        trial_end = (
+            pred.trial_end_expected.isoformat()
+            if pred.trial_end_expected is not None
+            else None
+        )
+        self._conn.execute(
+            """
+            INSERT INTO pos_predictions(
+                id, program_id, ticker, ta, phase, model_pos, implied_pos,
+                spread_pp, peak_sales_millions, rnpv_millions,
+                predicted_at, trial_end_expected, created_at
+            ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                row_id, pred.program_id, pred.ticker, pred.ta, pred.phase,
+                pred.model_pos, pred.implied_pos, pred.spread_pp,
+                pred.peak_sales_millions, pred.rnpv_millions,
+                predicted_at, trial_end, created_at,
+            ),
+        )
+        self._conn.commit()
+        return row_id
+
+    def get_pos_predictions(
+        self,
+        *,
+        program_id: Optional[str] = None,
+        ticker: Optional[str] = None,
+        limit: int = 1000,
+    ) -> list[dict]:
+        """Return pos_predictions rows as dicts, newest first."""
+        clauses: list[str] = []
+        params: list = []
+        if program_id is not None:
+            clauses.append("program_id = ?")
+            params.append(program_id)
+        if ticker is not None:
+            clauses.append("ticker = ?")
+            params.append(ticker)
+        where = f"WHERE {' AND '.join(clauses)}" if clauses else ""
+        cols = [
+            "id", "program_id", "ticker", "ta", "phase", "model_pos", "implied_pos",
+            "spread_pp", "peak_sales_millions", "rnpv_millions",
+            "predicted_at", "trial_end_expected", "created_at",
+        ]
+        rows = self._conn.execute(
+            f"SELECT {', '.join(cols)} FROM pos_predictions {where} "
+            f"ORDER BY predicted_at DESC LIMIT ?",
+            params + [limit],
+        ).fetchall()
+        return [dict(zip(cols, r)) for r in rows]
+
+    def upsert_pos_outcome(self, outcome: "OutcomeRecord") -> None:  # type: ignore[name-defined]  # noqa: F821
+        """
+        Insert or replace one OutcomeRecord in pos_outcomes.
+
+        UNIQUE(program_id) — one outcome per program.
+        """
+        import uuid as _uuid
+        from datetime import datetime as _dt, timezone as _tz
+
+        row_id = str(_uuid.uuid4())
+        created_at = _dt.now(_tz.utc).isoformat(timespec="seconds")
+        outcome_date = (
+            outcome.outcome_date.isoformat()
+            if outcome.outcome_date is not None
+            else None
+        )
+        self._conn.execute(
+            """
+            INSERT OR REPLACE INTO pos_outcomes(
+                id, program_id, outcome_date, outcome_type, trial_name, source, created_at
+            ) VALUES(?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                row_id, outcome.program_id, outcome_date, outcome.outcome_type,
+                outcome.trial_name, outcome.source, created_at,
+            ),
+        )
+        self._conn.commit()
+
+    def get_pos_outcomes(
+        self,
+        *,
+        program_id: Optional[str] = None,
+        outcome_type: Optional[str] = None,
+    ) -> list[dict]:
+        """Return pos_outcomes rows as dicts."""
+        clauses: list[str] = []
+        params: list = []
+        if program_id is not None:
+            clauses.append("program_id = ?")
+            params.append(program_id)
+        if outcome_type is not None:
+            clauses.append("outcome_type = ?")
+            params.append(outcome_type)
+        where = f"WHERE {' AND '.join(clauses)}" if clauses else ""
+        cols = ["id", "program_id", "outcome_date", "outcome_type", "trial_name", "source", "created_at"]
+        rows = self._conn.execute(
+            f"SELECT {', '.join(cols)} FROM pos_outcomes {where}",
+            params,
+        ).fetchall()
+        return [dict(zip(cols, r)) for r in rows]
+
+    # ------------------------------------------------------------------
+    # Sprint 15 — detected_events (real-time event monitor)
+    # ------------------------------------------------------------------
+
+    def insert_detected_events(self, events: "list") -> int:
+        """
+        Insert DetectedEvent list into detected_events table.
+
+        Deduplication: UNIQUE(ticker, event_type, headline_key, detected_date).
+        Duplicate rows are silently ignored (INSERT OR IGNORE).
+
+        Returns number of rows actually inserted.
+        """
+        import json as _json
+        from datetime import datetime as _dt, timezone as _tz
+
+        inserted = 0
+        for ev in events:
+            import uuid as _uuid
+            row_id = str(_uuid.uuid4())
+            headline_key = ev.headline[:80]
+            detected_at_str = (
+                ev.detected_at.isoformat()
+                if hasattr(ev.detected_at, "isoformat")
+                else str(ev.detected_at)
+            )
+            detected_date = detected_at_str[:10]  # YYYY-MM-DD
+            created_at = _dt.now(_tz.utc).isoformat(timespec="seconds")
+            cursor = self._conn.execute(
+                """
+                INSERT OR IGNORE INTO detected_events(
+                    id, ticker, asset_id, event_type, headline, headline_key,
+                    source_url, detected_at, detected_date, requires_recompute,
+                    extra_json, created_at
+                ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """,
+                (
+                    row_id,
+                    ev.ticker,
+                    ev.asset_id,
+                    ev.event_type,
+                    ev.headline,
+                    headline_key,
+                    ev.source_url,
+                    detected_at_str,
+                    detected_date,
+                    1 if ev.requires_recompute else 0,
+                    _json.dumps(ev.extra) if ev.extra else None,
+                    created_at,
+                ),
+            )
+            inserted += cursor.rowcount
+        self._conn.commit()
+        return inserted
+
+    def get_detected_events(
+        self,
+        since: Optional[str] = None,
+        *,
+        ticker: Optional[str] = None,
+        requires_recompute: Optional[bool] = None,
+        limit: int = 500,
+    ) -> list[dict]:
+        """
+        Return detected_events rows as list of dicts.
+
+        Parameters
+        ----------
+        since           : ISO datetime string; only events detected_at >= since
+        ticker          : filter to one ticker
+        requires_recompute : filter to rows where requires_recompute matches
+        limit           : max rows (default 500)
+        """
+        clauses: list[str] = []
+        params: list = []
+
+        if since is not None:
+            clauses.append("detected_at >= ?")
+            params.append(since)
+        if ticker is not None:
+            clauses.append("ticker = ?")
+            params.append(ticker)
+        if requires_recompute is not None:
+            clauses.append("requires_recompute = ?")
+            params.append(1 if requires_recompute else 0)
+
+        where = f"WHERE {' AND '.join(clauses)}" if clauses else ""
+        rows = self._conn.execute(
+            f"SELECT id, ticker, asset_id, event_type, headline, headline_key, "
+            f"source_url, detected_at, detected_date, requires_recompute, extra_json, created_at "
+            f"FROM detected_events {where} "
+            f"ORDER BY detected_at DESC LIMIT ?",
+            params + [limit],
+        ).fetchall()
+
+        cols = [
+            "id", "ticker", "asset_id", "event_type", "headline", "headline_key",
+            "source_url", "detected_at", "detected_date", "requires_recompute",
+            "extra_json", "created_at",
+        ]
+        return [dict(zip(cols, r)) for r in rows]
+
     def add_review_decision(
         self,
         decision: ReviewDecision,
@@ -2318,6 +4096,21 @@ class KnowledgeStore:
             ),
         )
         # Append-only audit log entry for every review decision (Wave 3C).
+        # For ACCEPTED decisions, populate lineage fields (Task 9.22) so a
+        # compliance reviewer can answer "why did assumption X change?".
+        lineage: dict = {}
+        if decision.decision == "accepted" and decision.override_value is not None:
+            lineage["assumption_field"] = "override_value"
+            lineage["assumption_new_value"] = str(decision.override_value)
+            # Surface the signal_id from the proposal when available
+            try:
+                proposal = self.get_proposal(decision.proposal_id)
+                if proposal:
+                    lineage["evidence_signal_id"] = getattr(proposal, "signal_id", None)
+            except Exception:
+                pass
+            lineage["review_decision_id"] = decision.id
+
         self._append_audit_log(
             event_type="review_decision",
             entity_type="proposal",
@@ -2325,6 +4118,7 @@ class KnowledgeStore:
             actor_id=decision.reviewer_id,
             action=decision.decision,
             payload_json=decision.model_dump_json(),
+            **lineage,
         )
         self._conn.commit()
 
@@ -2341,16 +4135,29 @@ class KnowledgeStore:
         actor_id: Optional[str],
         action: str,
         payload_json: str,
+        # Task 9.22 — optional signal-to-assumption lineage fields
+        assumption_field: Optional[str] = None,
+        assumption_old_value: Optional[str] = None,
+        assumption_new_value: Optional[str] = None,
+        evidence_signal_id: Optional[str] = None,
+        review_decision_id: Optional[str] = None,
     ) -> None:
-        """Append one row to the append-only audit_log table."""
+        """Append one row to the append-only audit_log table.
+
+        The five optional lineage fields (Task 9.22) link an accepted review
+        decision to the specific assumption change it triggered.  Pass them
+        when recording an ACCEPTED decision that modifies a valuation field.
+        """
         import uuid as _uuid
 
         self._conn.execute(
             """
             INSERT INTO audit_log
                 (audit_id, event_type, entity_type, entity_id,
-                 actor_id, action, payload_json, created_at)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+                 actor_id, action, payload_json, created_at,
+                 assumption_field, assumption_old_value, assumption_new_value,
+                 evidence_signal_id, review_decision_id)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 str(_uuid.uuid4()),
@@ -2361,6 +4168,11 @@ class KnowledgeStore:
                 action,
                 payload_json,
                 datetime.now(timezone.utc).isoformat(),
+                assumption_field,
+                assumption_old_value,
+                assumption_new_value,
+                evidence_signal_id,
+                review_decision_id,
             ),
         )
 
@@ -2371,12 +4183,18 @@ class KnowledgeStore:
         entity_id: Optional[str] = None,
         actor_id: Optional[str] = None,
         action: Optional[str] = None,
+        assumption_field: Optional[str] = None,
+        signal_id: Optional[str] = None,
         limit: int = 100,
     ) -> list[dict]:
         """
         Return audit log rows as plain dicts, newest first.
 
         All filter parameters are optional; unset parameters match any value.
+
+        Task 9.22 additions:
+          assumption_field — filter to rows where a specific field was changed
+          signal_id        — filter to rows linked to a specific evidence signal
         """
         clauses: list[str] = []
         params: list = []
@@ -2393,6 +4211,12 @@ class KnowledgeStore:
         if action is not None:
             clauses.append("action = ?")
             params.append(action)
+        if assumption_field is not None:
+            clauses.append("assumption_field = ?")
+            params.append(assumption_field)
+        if signal_id is not None:
+            clauses.append("evidence_signal_id = ?")
+            params.append(signal_id)
 
         sql = "SELECT * FROM audit_log"
         if clauses:
@@ -2604,6 +4428,37 @@ class KnowledgeStore:
                 )
             )
         return out
+
+    def get_evidence_facts(
+        self,
+        *,
+        company_id: Optional[str] = None,
+        asset_id: Optional[str] = None,
+        fact_key: Optional[str] = None,
+        only_active: bool = False,
+        limit: int = 200,
+    ) -> list[dict]:
+        clauses = []
+        params: list[object] = []
+        if company_id is not None:
+            clauses.append("company_id = ?")
+            params.append(company_id)
+        if asset_id is not None:
+            clauses.append("asset_id = ?")
+            params.append(asset_id)
+        if fact_key is not None:
+            clauses.append("fact_key = ?")
+            params.append(fact_key)
+        if only_active:
+            clauses.append("is_active = 1")
+
+        sql = "SELECT payload_json FROM evidence_facts"
+        if clauses:
+            sql += " WHERE " + " AND ".join(clauses)
+        sql += " ORDER BY created_at DESC LIMIT ?"
+        params.append(limit)
+        rows = self._conn.execute(sql, params).fetchall()
+        return [json.loads(row["payload_json"]) for row in rows]
 
     def apply_retention_policy(
         self,
@@ -4161,3 +6016,101 @@ class KnowledgeStore:
         })
         self.upsert_catalyst_event(updated)
         return True
+
+    # ------------------------------------------------------------------
+    # Paper tracking log
+    # ------------------------------------------------------------------
+
+    def write_paper_tracking_entry(
+        self,
+        entry_id: str,
+        snapshot_date: "date",
+        asset_id: str,
+        recommendation: str,
+        *,
+        ticker: Optional[str] = None,
+        composite_score: Optional[float] = None,
+        mna_likelihood: Optional[float] = None,
+        predicted_acquirer: Optional[str] = None,
+        catalyst: Optional[str] = None,
+        thesis: Optional[str] = None,
+        risk_flags: Optional[list] = None,
+        watchlist_type: Optional[str] = None,
+        calibrated_score: Optional[float] = None,
+        calibrated_score_label: Optional[str] = None,
+        transaction_driver_count: Optional[int] = None,
+        gate_reason_codes: Optional[list] = None,
+        top5_acquirers: Optional[list] = None,
+    ) -> None:
+        """Upsert a single paper tracking snapshot row.
+
+        Replaces any existing entry for (snapshot_date, asset_id).
+        """
+        now = datetime.now(timezone.utc).isoformat()
+        self._conn.execute(
+            """
+            INSERT OR REPLACE INTO paper_tracking_log(
+                entry_id, snapshot_date, asset_id, ticker, recommendation,
+                composite_score, mna_likelihood, predicted_acquirer,
+                catalyst, thesis, risk_flags, created_at,
+                watchlist_type, calibrated_score, calibrated_score_label,
+                transaction_driver_count, gate_reason_codes, top5_acquirers
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                entry_id,
+                snapshot_date.isoformat() if hasattr(snapshot_date, "isoformat") else str(snapshot_date),
+                asset_id,
+                ticker,
+                recommendation,
+                composite_score,
+                mna_likelihood,
+                predicted_acquirer,
+                catalyst,
+                thesis,
+                json.dumps(risk_flags) if risk_flags is not None else None,
+                now,
+                watchlist_type,
+                calibrated_score,
+                calibrated_score_label,
+                transaction_driver_count,
+                json.dumps(gate_reason_codes) if gate_reason_codes is not None else None,
+                json.dumps(top5_acquirers) if top5_acquirers is not None else None,
+            ),
+        )
+        self._conn.commit()
+
+    def get_paper_tracking_entries(
+        self,
+        *,
+        since: Optional["date"] = None,
+        asset_id: Optional[str] = None,
+        limit: int = 200,
+    ) -> list[dict]:
+        """Return paper tracking entries ordered by (snapshot_date DESC, asset_id).
+
+        Parameters
+        ----------
+        since:
+            If provided, only return entries with snapshot_date >= since.
+        asset_id:
+            If provided, filter to a single asset.
+        limit:
+            Maximum number of rows to return.
+        """
+        clauses: list[str] = []
+        params: list = []
+        if since is not None:
+            clauses.append("snapshot_date >= ?")
+            params.append(since.isoformat() if hasattr(since, "isoformat") else str(since))
+        if asset_id is not None:
+            clauses.append("asset_id = ?")
+            params.append(asset_id)
+        where = ("WHERE " + " AND ".join(clauses)) if clauses else ""
+        params.append(limit)
+        rows = self._conn.execute(
+            f"SELECT * FROM paper_tracking_log {where} "
+            f"ORDER BY snapshot_date DESC, asset_id ASC LIMIT ?",
+            params,
+        ).fetchall()
+        return [dict(row) for row in rows]

@@ -1,0 +1,99 @@
+# =============================================================================
+# Benchmark Config C — Gene Therapy One-Time (incident_one_time, bolus launch)
+# =============================================================================
+#
+# Purpose:
+#   Regression anchor for the gene therapy revenue profile:
+#     - incident_one_time disease model (PatientPool)
+#     - gene_therapy_bolus launch archetype (Year 1 = backlog absorption, Year 2+ incident)
+#     - CommercialInputs-based peak sizing
+#
+# Expected outputs (deterministic):
+#   addressable_year1  = incident_k×1000 × diagnosed × eligible × treated
+#                      + backlog (prevalence_thousands×1000 × diagnosed × eligible × treated × backlog_years)
+#   addressable_year1  = 0.8×1000×0.70×0.75×0.65 + 20000×0.70×0.75×0.65×1.0
+#                      = 273 + 6825 = 7098 patients (approx)
+#   peak_share          = 0.55
+#   net_price_usd       = 1900000 (= WAC × (1 - G2N) = 2000000 × 0.95)
+#   peak_sales_year1    = 7098 × 1900000 × 0.55 / 1e6 ≈ 7415 M  (backlog-dominated)
+#
+#   Year 2+ addressable = incident-only = 273 patients
+#   peak_sales_year2+   = 273 × 1900000 × 0.55 / 1e6 ≈ 285 M
+#
+# Key ratios:
+#   Year1 / Year2 ratio ≈ 26× (backlog dominates Year 1)
+#   This front-loading is the defining characteristic of gene therapy bolus economics.
+#
+# Revenue profile shape:
+#   Year 1 : very high (backlog absorption)
+#   Year 2+: drops sharply to incident-only steady state (ongoing_fraction ≈ 0.04)
+#
+# =============================================================================
+
+asset:
+  id: "benchmark-gt-c"
+  name: "BENCHMARK-GENE-THERAPY-C"
+  indication: "Haemophilia A"
+  therapeutic_area: "rare_disease"
+  stage: "phase_3"
+  modality: "gene_therapy"
+  discount_rate: 0.12
+
+trials:
+  - phase: "phase_3"
+    success_probability: 0.55
+    duration_years: 4.0
+    cost_millions: 350.0
+  - phase: "nda_bla"
+    success_probability: 0.88
+    duration_years: 1.5
+    cost_millions: 50.0
+
+market:
+  asset_id: "benchmark-gt-c"
+  therapeutic_area: "rare_disease"
+  patent_life_years: 12
+
+  # Launch archetype: gene_therapy_bolus
+  #   Year 1 = peak (backlog); Year 2+ = incident steady state
+  launch_archetype: "gene_therapy_bolus"
+
+  # CommercialInputs: patient × price × share
+  commercial_inputs:
+    patient_pool:
+      indication: "Haemophilia A"
+      disease_model: "incident_one_time"  # one-time curative treatment
+      annual_incidence_k: 0.8             # ~800 new diagnoses/yr in US (severe + moderate)
+      prevalence_thousands: 20.0          # ~20k living with haemophilia A in US
+      diagnosed_fraction: 0.70
+      eligible_rate: 0.75                 # excludes those with inhibitors / contraindications
+      treated_fraction: 0.65
+      backlog_years: 1.0                  # 1 year of pent-up demand absorbed at launch
+
+    pricing:
+      # WAC: $2M; G2N: 5% → net_price_usd = 1.9M
+      net_price_usd: 1900000
+      wac_per_year_usd: 2000000
+      gross_to_net_rate: 0.05
+      launch_discount: 0.05
+      annual_erosion_rate: 0.01           # minimal price erosion for gene therapy
+      uncertainty_cv: 0.12
+
+    share:
+      peak_share: 0.55                    # 55% of eligible — moderate unmet need
+      years_to_peak: 1                    # bolus: steady state from Year 2
+      share_cv: 0.20
+
+    ex_us_revenue_multiple: 1.10          # EU market (limited; regulatory lag)
+
+  # COGS / SG&A
+  cogs_rate: 0.35                         # gene therapy: AAV vector manufacturing cost
+  sgna_rate_launch: 0.20                  # rare disease specialist model, low salesforce
+  sgna_rate_mature: 0.12
+  sgna_ramp_years: 3
+
+company:
+  id: "benchmark-gt-co"
+  name: "BenchmarkGT Inc"
+  cash_millions: 400.0
+  shares_outstanding_millions: 100.0

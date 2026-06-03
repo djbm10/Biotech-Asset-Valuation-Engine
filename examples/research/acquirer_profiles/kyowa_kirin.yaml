@@ -1,0 +1,46 @@
+company: Kyowa Kirin
+ticker: KYOCY
+profile_as_of: 2026-04-07
+market_cap_billions: 8
+cash_billions: 2.0
+acquisition_capacity_millions: 4000
+pipeline_gaps:
+  - therapeutic_area: nephrology
+    sub_area: ckd_renal_bone_disease
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [antibody, small_molecule]
+    budget_ceiling_millions: 3000
+    notes: "Crysvita (burosumab) for FGF23-related disorders anchors nephrology franchise; adjacent renal osteodystrophy, hyperphosphatemia, or CKD-mineral-bone disorder assets are targets."
+  - therapeutic_area: rare_disease
+    sub_area: rare_genetic_neurological
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [antibody, gene_therapy, small_molecule]
+    budget_ceiling_millions: 3000
+    notes: "Kyowa Kirin has rare disease capabilities (POTELLIGENT ADCP-enhanced antibody platform); rare neurological and metabolic rare diseases are stated expansion areas."
+  - therapeutic_area: oncology
+    sub_area: hematologic_malignancies_antibody
+    gap_type: strategic_entry
+    urgency: medium
+    preferred_modality: [antibody, bispecific_antibody]
+    budget_ceiling_millions: 2500
+    notes: "Poteligeo (mogamulizumab) and mogamulizumab-based CCR4 franchise; bispecific or next-gen hematology antibody adjacency are potential in-licensing or acquisition targets."
+  - therapeutic_area: immunology
+    sub_area: allergy_atopic_rare_autoimmune
+    gap_type: strategic_entry
+    urgency: medium
+    preferred_modality: [antibody, small_molecule]
+    budget_ceiling_millions: 2000
+    notes: "Kyowa Kirin is building an immunology/allergy pipeline; rare autoimmune or type-2 inflammation mechanisms are consistent with their platform capabilities."
+recent_deals:
+  - target: ProQR Therapeutics (RNA program)
+    date: 2023-01-01
+    value_billions: 0.2
+    therapeutic_area: rare_disease
+    modality: RNA
+stated_priorities:
+  - Nephrology and rare renal bone disease franchise
+  - Rare disease expansion via POTELLIGENT-capable antibodies
+  - Oncology hematology pipeline
+  - Allergy and immunology adjacencies

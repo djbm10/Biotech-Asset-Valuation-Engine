@@ -33,9 +33,9 @@ from scipy.stats import norm
 from bve.intelligence.schemas.proposals import AssumptionChangeProposal
 from bve.intelligence.taxonomy import ChangeMode, EventType
 from bve.models.trial_design_features import (
-    ApprovalPathway,
-    EndpointBasis,
-    EvidenceDesign,
+    ComparatorFit,
+    EvidenceDesignQuality,
+    RegulatoryPathwayRisk,
     TrialDesignFeatureSet,
     compute_design_adjusted_pos,
 )
@@ -383,9 +383,9 @@ class TrialDesignFeatureExtractor:
 
         rationale_parts = [
             f"Pre-readout design scoring for {nct_id or 'unknown NCT'} ({phase}).",
-            f"Endpoint: {features.endpoint_basis.value},",
-            f"Design: {features.evidence_design.value},",
-            f"Pathway: {features.approval_pathway.value}.",
+            f"Design quality: {features.evidence_design_quality.value},",
+            f"Comparator: {features.comparator_fit.value},",
+            f"Pathway risk: {features.regulatory_pathway_risk.value}.",
             f"ΔPoS: {delta_pp:+.3f} ({delta_pp / base_pos * 100.0:+.1f}% relative).",
         ]
         if low_power_flag and power is not None:
@@ -458,68 +458,50 @@ class TrialDesignFeatureExtractor:
 
     def _extract_features(self, proto: dict, title: str) -> TrialDesignFeatureSet:
         design_mod   = proto.get("designModule", {})
-        outcomes_mod = proto.get("outcomesModule", {})
 
-        # Endpoint basis — from first primary outcome measure text
-        primary_outcomes = outcomes_mod.get("primaryOutcomes", [])
-        if isinstance(primary_outcomes, (list, tuple)) and primary_outcomes:
-            first        = primary_outcomes[0]
-            measure_text = (first.get("measure") or "").lower() if isinstance(first, dict) else ""
-        else:
-            measure_text = ""
-        endpoint_basis = self._classify_endpoint(measure_text)
-
-        # Evidence design — from designInfo.allocation and maskingInfo.masking
+        # Evidence design quality — from designInfo.allocation and maskingInfo.masking
         design_info  = design_mod.get("designInfo", {})
         allocation   = (design_info.get("allocation") or design_mod.get("allocation") or "").upper()
         masking_info = design_info.get("maskingInfo", {})
         masking      = (masking_info.get("masking") or "").upper()
-        evidence_design = self._classify_evidence_design(allocation, masking)
+        evidence_design_quality = self._classify_evidence_design(allocation, masking)
 
-        # Approval pathway — from title keywords
-        approval_pathway = self._classify_approval_pathway(title, proto)
+        # Regulatory pathway risk — from title keywords
+        regulatory_pathway_risk = self._classify_approval_pathway(title, proto)
 
         return TrialDesignFeatureSet(
-            endpoint_basis   = endpoint_basis,
-            evidence_design  = evidence_design,
-            approval_pathway = approval_pathway,
+            evidence_design_quality  = evidence_design_quality,
+            comparator_fit           = ComparatorFit.ACCEPTABLE_NOT_IDEAL,
+            regulatory_pathway_risk  = regulatory_pathway_risk,
         )
 
     @staticmethod
-    def _classify_endpoint(measure_lower: str) -> EndpointBasis:
-        for kw in _HARD_CLINICAL_KW:
-            if kw in measure_lower:
-                return EndpointBasis.HARD_CLINICAL
-        for kw in _SURROGATE_VALIDATED_KW:
-            if kw in measure_lower:
-                return EndpointBasis.SURROGATE_VALIDATED
-        for kw in _BIOMARKER_KW:
-            if kw in measure_lower:
-                return EndpointBasis.BIOMARKER_ONLY
-        return EndpointBasis.SURROGATE_VALIDATED  # reference default
-
-    @staticmethod
-    def _classify_evidence_design(allocation: str, masking: str) -> EvidenceDesign:
+    def _classify_evidence_design(allocation: str, masking: str) -> EvidenceDesignQuality:
+        """Map ClinicalTrials.gov allocation/masking fields to EvidenceDesignQuality."""
         is_randomized  = "RANDOMIZED" in allocation
         is_double_plus = any(m in masking for m in ("DOUBLE", "TRIPLE", "QUADRUPLE"))
         if is_randomized and is_double_plus:
-            return EvidenceDesign.RCT_COMPARATIVE
+            return EvidenceDesignQuality.RCT_DOUBLE_BLIND
         if is_randomized:
-            return EvidenceDesign.RCT_NON_COMPARATIVE
-        return EvidenceDesign.SINGLE_ARM
+            return EvidenceDesignQuality.RCT_OPEN_LABEL
+        return EvidenceDesignQuality.SINGLE_ARM_OBJECTIVE
 
     @staticmethod
-    def _classify_approval_pathway(title: str, proto: dict) -> ApprovalPathway:
+    def _classify_approval_pathway(title: str, proto: dict) -> RegulatoryPathwayRisk:
+        """Map ClinicalTrials.gov title keywords to RegulatoryPathwayRisk.
+
+        Note: Breakthrough Designation (BTD) is handled exclusively in Layer 1
+        (POSAdjusters.has_breakthrough_designation) to prevent double-counting.
+        Title mentions of BTD are therefore mapped to STANDARD here.
+        """
         id_mod         = proto.get("identificationModule", {})
         official_title = (id_mod.get("officialTitle") or "").lower()
         combined       = title.lower() + " " + official_title
-        if "breakthrough" in combined:
-            return ApprovalPathway.BREAKTHROUGH_DESIGNATION
         if "orphan" in combined:
-            return ApprovalPathway.ORPHAN_DRUG
+            return RegulatoryPathwayRisk.ORPHAN_RARE_DISEASE
         if "accelerated" in combined:
-            return ApprovalPathway.ACCELERATED_APPROVAL
-        return ApprovalPathway.STANDARD
+            return RegulatoryPathwayRisk.ACCELERATED_VALIDATED_SURROGATE
+        return RegulatoryPathwayRisk.STANDARD
 
     @staticmethod
     def _extract_enrollment(design_mod: dict) -> Optional[int]:

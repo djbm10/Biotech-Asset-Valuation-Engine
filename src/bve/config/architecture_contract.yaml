@@ -1,0 +1,916 @@
+version: 1
+as_of: 2026-04-17
+owner: architecture-freeze-phase-a
+source_of_truth: docs/architecture/master_architecture.md
+
+six_question_contract:
+  - question_id: 1
+    question: What is this asset?
+    primary_modules:
+      - entities
+      - normalization
+      - connectors
+      - ingestion
+      - dossier
+  - question_id: 2
+    question: How good is the science and trial design?
+    primary_modules:
+      - models
+      - features
+      - empirical
+      - similarity
+  - question_id: 3
+    question: What is the real probability of success?
+    primary_modules:
+      - models
+      - empirical
+      - intelligence
+  - question_id: 4
+    question: What is it worth?
+    primary_modules:
+      - valuation
+      - analysis
+      - models
+  - question_id: 5
+    question: What is the market pricing in?
+    primary_modules:
+      - analysis
+      - intelligence
+      - event_study
+  - question_id: 6
+    question: What should I do now?
+    primary_modules:
+      - intelligence
+      - alerts
+      - pipeline
+      - ops
+
+top_level_module_map:
+  - module: agents
+    kind: package
+    primary_question: 1
+    role: connector orchestration for raw evidence acquisition
+    state: current
+  - module: alerts
+    kind: package
+    primary_question: 6
+    role: alert routing and action escalation
+    state: current
+  - module: analysis
+    kind: package
+    primary_question: 5
+    role: implied probability, validation, calibration, sizing, backtests
+    state: current
+  - module: architecture
+    kind: package
+    primary_question: 6
+    role: architecture contract loading and validation
+    state: current
+  - module: cli
+    kind: package
+    primary_question: 6
+    role: operator-facing execution entry points
+    state: current
+  - module: config
+    kind: package
+    primary_question: 1
+    role: shared assumptions, calibration, and architecture contracts
+    state: current
+  - module: connectors
+    kind: package
+    primary_question: 1
+    role: source fetchers for public data systems
+    state: current
+  - module: dossier
+    kind: package
+    primary_question: 1
+    role: graph-ready asset and company dossier assembly
+    state: current
+  - module: empirical
+    kind: package
+    primary_question: 3
+    role: statistical priors, overlays, and calibration logic
+    state: current
+  - module: entities
+    kind: package
+    primary_question: 1
+    role: typed domain entities and snapshots
+    state: current
+  - module: event_study
+    kind: package
+    primary_question: 5
+    role: event outcome and abnormal-return analysis
+    state: current
+  - module: features
+    kind: package
+    primary_question: 2
+    role: engineered trial and diligence features
+    state: current
+  - module: ingestion
+    kind: package
+    primary_question: 1
+    role: legacy/raw ingestion boundary for source loading
+    state: current
+  - module: intelligence
+    kind: package
+    primary_question: 6
+    role: knowledge store, ranking, thesis, expectations, decision logic
+    state: current
+  - module: models
+    kind: package
+    primary_question: 2
+    role: scientific, regulatory, commercial, and probability models
+    state: current
+  - module: normalization
+    kind: package
+    primary_question: 1
+    role: alias resolution and vocabulary normalization
+    state: current
+  - module: ops
+    kind: package
+    primary_question: 6
+    role: recompute orchestration, backfills, and control-plane jobs
+    state: current
+  - module: persistence
+    kind: package
+    primary_question: 1
+    role: storage plumbing for durable records
+    state: current
+  - module: pipeline
+    kind: package
+    primary_question: 6
+    role: watchlist state machine and change detection
+    state: current
+  - module: refresh
+    kind: package
+    primary_question: 1
+    role: live data refresh for market, financial, profile, and trial inputs with staleness tracking
+    state: current
+  - module: reporting
+    kind: package
+    primary_question: 6
+    role: memo, export, and tabular reporting outputs
+    state: current
+  - module: services
+    kind: package
+    primary_question: 6
+    role: service wrappers and long-running process boundaries
+    state: current
+  - module: similarity
+    kind: package
+    primary_question: 2
+    role: nearest-neighbor and comparable-program matching
+    state: current
+  - module: ui
+    kind: package
+    primary_question: 6
+    role: dashboard and operator-facing views
+    state: current
+  - module: utils
+    kind: package
+    primary_question: 1
+    role: shared date and utility helpers
+    state: current
+  - module: valuation
+    kind: package
+    primary_question: 4
+    role: end-to-end valuation engine and outputs
+    state: current
+  - module: visualization
+    kind: package
+    primary_question: 6
+    role: charts, timelines, and portfolio visuals
+    state: current
+  - module: alpha
+    kind: package
+    primary_question: 5
+    role: alpha validation and excess-return analysis
+    state: current
+  - module: benchmark
+    kind: package
+    primary_question: 3
+    role: benchmark models and baseline comparisons
+    state: current
+  - module: biology
+    kind: package
+    primary_question: 2
+    role: biological feature and mechanism modeling
+    state: current
+  - module: data
+    kind: package
+    primary_question: 1
+    role: data source contracts and quality checks
+    state: current
+  - module: deals
+    kind: package
+    primary_question: 4
+    role: deal structure and transaction economics
+    state: current
+  - module: evidence
+    kind: package
+    primary_question: 1
+    role: evidence objects and provenance handling
+    state: current
+  - module: expectations
+    kind: package
+    primary_question: 5
+    role: market expectation and implied probability modeling
+    state: current
+  - module: governance
+    kind: package
+    primary_question: 6
+    role: governance policy and approval controls
+    state: current
+  - module: knowledge
+    kind: package
+    primary_question: 1
+    role: knowledge graph and persistence interfaces
+    state: current
+  - module: learning
+    kind: package
+    primary_question: 3
+    role: feedback learning and model improvement loops
+    state: current
+  - module: pipelines
+    kind: package
+    primary_question: 6
+    role: newer pipeline orchestration components
+    state: current
+  - module: pit
+    kind: package
+    primary_question: 1
+    role: point-in-time data handling and guards
+    state: current
+  - module: policy
+    kind: package
+    primary_question: 6
+    role: decision and review policy definitions
+    state: current
+  - module: portfolio
+    kind: package
+    primary_question: 6
+    role: portfolio construction and exposure management
+    state: current
+  - module: redteam
+    kind: package
+    primary_question: 6
+    role: red-team critique and challenge workflows
+    state: current
+  - module: regulatory
+    kind: package
+    primary_question: 2
+    role: regulatory pathway and approval-risk modeling
+    state: current
+  - module: run
+    kind: package
+    primary_question: 6
+    role: run context and execution entry-point helpers
+    state: current
+  - module: runtime
+    kind: package
+    primary_question: 6
+    role: runtime configuration and execution support
+    state: current
+  - module: scenarios
+    kind: package
+    primary_question: 4
+    role: scenario definitions and valuation cases
+    state: current
+  - module: security
+    kind: package
+    primary_question: 6
+    role: security controls and access policy
+    state: current
+  - module: trading
+    kind: package
+    primary_question: 6
+    role: trading policy and execution abstractions
+    state: current
+  - module: trials
+    kind: package
+    primary_question: 2
+    role: clinical trial models and derived features
+    state: current
+  - module: validation
+    kind: package
+    primary_question: 3
+    role: validation grades and model governance checks
+    state: current
+  - module: workflow
+    kind: package
+    primary_question: 6
+    role: workflow review and approval processes
+    state: current
+  - module: state
+    kind: package
+    primary_question: 6
+    role: database-first composite asset state layer (YAML=template, DB=live source)
+    state: current
+  - module: workflows
+    kind: package
+    primary_question: 6
+    role: end-to-end orchestration entry points for BD professionals and analysts
+    state: current
+  - module: review_app.py
+    kind: module
+    primary_question: 6
+    role: review workflow application entry point
+    state: current
+
+module_contracts:
+  - contract_id: asset_identity_and_evidence
+    scope_modules:
+      - entities
+      - normalization
+      - connectors
+      - ingestion
+      - dossier
+      - persistence
+      - utils
+    question: 1
+    required_inputs:
+      - raw source documents or API payloads
+      - ticker, company name, asset name, or trial identifier
+      - synonym tables for company, asset, target, and indication aliases
+      - as_of date and source timestamps
+    output_contract:
+      value: normalized entity records and dossier facts
+      confidence: field-level extraction or resolver confidence on [0,1]
+      provenance: source URL or filing id plus document hash and extraction trace
+      freshness: source published_at and last_verified_at
+      explainability: normalized aliases, matched evidence snippets, and unresolved conflicts
+      downstream_dependencies:
+        - science_and_design_assessment
+        - probability_stack_and_regulatory_inference
+        - valuation_and_market_gap
+    score_ownership:
+      - resolver_match_confidence
+      - dossier_completeness_pct
+    confidence_rules:
+      - SEC/FDA/ClinicalTrials.gov direct fields outrank press and inferred fields.
+      - Alias resolution confidence must fall when a symbol or asset maps to multiple candidates.
+    provenance_rules:
+      - Every persisted fact must carry source kind, identifier, and as_of date.
+      - Conflicting facts remain visible; the resolver chooses a current winner but keeps alternates.
+    freshness_rules:
+      - Registry and market-derived facts go stale after their published cadence is exceeded.
+      - Manual overrides must record override timestamp and reviewer identity.
+    recalculation_triggers:
+      - new source document for a mapped company or asset
+      - alias table change
+      - dossier rebuild request
+      - point-in-time replay date change
+  - contract_id: science_and_design_assessment
+    scope_modules:
+      - models
+      - features
+      - similarity
+    question: 2
+    required_inputs:
+      - normalized trial records
+      - biomarker, mechanism, modality, and endpoint features
+      - comparable program set
+      - safety observations and prior-study evidence
+    output_contract:
+      value: science and trial-design assessments, feature vectors, and rationale
+      confidence: evidence-coverage-weighted confidence with explicit missing-data penalties
+      provenance: citation list back to trial registry, publications, filings, and internal feature derivations
+      freshness: last evidence date used in the assessment
+      explainability: top positives, top risks, nearest analogs, and kill criteria
+      downstream_dependencies:
+        - probability_stack_and_regulatory_inference
+        - valuation_and_market_gap
+        - decision_and_alerting
+    score_ownership:
+      - trial_design_score
+      - mechanism_plausibility_score
+      - analog_similarity_score
+    confidence_rules:
+      - Confidence cannot exceed evidence breadth; sparse or single-source science stays capped.
+      - Safety findings with unresolved seriousness reduce confidence even when directional view is positive.
+    provenance_rules:
+      - Derived science features must list the raw fields they were computed from.
+    freshness_rules:
+      - Design assessments must refresh when trial status, endpoint, enrollment, or comparator changes.
+    recalculation_triggers:
+      - trial registry update
+      - new publication or conference abstract
+      - safety signal added
+      - analog library update
+  - contract_id: probability_stack_and_regulatory_inference
+    scope_modules:
+      - models
+      - empirical
+      - intelligence
+    question: 3
+    required_inputs:
+      - science and design outputs
+      - empirical phase priors and overlays
+      - regulatory pathway features
+      - management, financing, competition, and timing modifiers
+    output_contract:
+      value: predictive success probabilities and scenario weights
+      confidence: calibration-aware confidence including data sufficiency and analog coverage
+      provenance: priors table version, feature snapshot, and adjustment trace
+      freshness: feature snapshot date and calibration version timestamp
+      explainability: base rate, each adjustment, analog comparisons, and unresolved model conflicts
+      downstream_dependencies:
+        - valuation_and_market_gap
+        - decision_and_alerting
+        - monitoring_and_calibration
+    score_ownership:
+      - model_pos
+      - calibrated_pos
+      - regulatory_success_probability
+    confidence_rules:
+      - Predictive outputs must separate model confidence from raw probability level.
+      - Out-of-domain assets or phases degrade confidence even when the numeric probability is stable.
+    provenance_rules:
+      - Every probability output must record prior source, feature set version, and calibration mode.
+    freshness_rules:
+      - Probabilities are stale when any material upstream fact is stale or a newer calibration exists.
+    recalculation_triggers:
+      - upstream science/design change
+      - calibration table update
+      - financing or competition state change
+      - regulatory event or guidance update
+  - contract_id: valuation_and_market_gap
+    scope_modules:
+      - valuation
+      - analysis
+      - event_study
+      - models
+      - intelligence
+    question: 4
+    required_inputs:
+      - probability stack outputs
+      - commercial, market-access, and cost assumptions
+      - balance-sheet and cap-structure snapshot
+      - live or replay market prices
+    output_contract:
+      value: rNPV, company SOTP, implied probability, market-gap, and scenario valuation outputs
+      confidence: confidence propagated from upstream predictive modules plus balance-sheet quality
+      provenance: config snapshot, market snapshot, balance-sheet sources, and scenario assumptions
+      freshness: market snapshot date plus last verified financial-source date
+      explainability: bridge from facts to valuation, scenario tables, and value-driver sensitivities
+      downstream_dependencies:
+        - decision_and_alerting
+        - monitoring_and_calibration
+    score_ownership:
+      - model_rnpv_millions
+      - implied_pos
+      - pos_gap
+      - mispricing
+      - company_sotp_discount
+    confidence_rules:
+      - Market-gap outputs inherit the weakest material upstream confidence input.
+      - Screening-grade assumptions cannot be upgraded to capital-candidate confidence without reviewer approval.
+    provenance_rules:
+      - Market outputs must identify whether they came from replay, stored snapshot, or live connector data.
+    freshness_rules:
+      - Market-dependent outputs go stale on the next trading day unless replay mode pins them.
+      - Balance-sheet facts go stale after the next filing deadline or financing event.
+    recalculation_triggers:
+      - price move or market-cap update
+      - financing event
+      - valuation config or assumption change
+      - upstream probability change
+  - contract_id: decision_and_alerting
+    scope_modules:
+      - intelligence
+      - alerts
+      - pipeline
+      - ops
+      - cli
+      - ui
+      - visualization
+      - services
+      - review_app.py
+    question: 6
+    required_inputs:
+      - valuation and market-gap outputs
+      - portfolio context snapshot
+      - thesis state and catalyst calendar
+      - operating mode and governance gates
+    output_contract:
+      value: action recommendation, alert records, portfolio actions, and review artifacts
+      confidence: action confidence distinct from predictive confidence and tied to policy gates
+      provenance: recommendation timestamp, upstream run ids, reviewer state, and alert audit trail
+      freshness: decision timestamp and source-run timestamps
+      explainability: why-now summary, catalyst context, blockers, and mode-gate rationale
+      downstream_dependencies:
+        - monitoring_and_calibration
+    score_ownership:
+      - actionable_composite_score
+      - recommended_size_pct
+      - setup_score
+    confidence_rules:
+      - Screening mode blocks capital-action labels regardless of numeric edge.
+      - Action confidence must fall when portfolio crowding, stale facts, or unresolved conflicts are present.
+    provenance_rules:
+      - Recommendations must be traceable to exact upstream runs and policy versions.
+    freshness_rules:
+      - Actions become stale when thesis, catalyst, price, or portfolio context changes materially.
+    recalculation_triggers:
+      - upstream valuation/market gap change
+      - catalyst window change
+      - portfolio exposure change
+      - governance mode change
+  - contract_id: monitoring_and_calibration
+    scope_modules:
+      - analysis
+      - empirical
+      - ops
+      - reporting
+    question: 6
+    required_inputs:
+      - stored predictions and realized outcomes
+      - alert history and decision records
+      - performance metrics and backtest artifacts
+      - stale-data and data-quality summaries
+    output_contract:
+      value: calibration reports, post-mortems, dashboards, and recompute plans
+      confidence: QA confidence tied to sample size, coverage, and replay integrity
+      provenance: source run ids, evaluation windows, and benchmark definitions
+      freshness: evaluation window end date and metric computation timestamp
+      explainability: error buckets, before/after comparisons, and failed gates
+      downstream_dependencies:
+        - probability_stack_and_regulatory_inference
+        - decision_and_alerting
+    score_ownership:
+      - brier_score
+      - calibration_slope
+      - scenario_error
+      - stale_input_rate
+    confidence_rules:
+      - QA outputs must disclose sample size and cannot imply certainty from sparse history.
+    provenance_rules:
+      - Every calibration result records the replay window and inclusion rules used.
+    freshness_rules:
+      - Calibration outputs stale when a new quarter of outcomes arrives or validation spec changes.
+    recalculation_triggers:
+      - realized outcome added
+      - post-mortem completed
+      - validation harness spec update
+      - data quality threshold breach
+
+score_registry:
+  - score_name: resolver_match_confidence
+    owner_module: normalization
+    score_type: descriptive
+    question: 1
+    description: confidence that an alias or raw mention resolved to the correct entity
+  - score_name: dossier_completeness_pct
+    owner_module: dossier
+    score_type: calibration / QA
+    question: 1
+    description: percent of required asset dossier fields populated from evidence
+  - score_name: trial_design_score
+    owner_module: models/trial_design_features.py
+    score_type: predictive
+    question: 2
+    description: design-quality assessment used in downstream PoS and diligence
+  - score_name: mechanism_plausibility_score
+    owner_module: planned/science_engine
+    score_type: predictive
+    question: 2
+    description: structured judgment on whether target biology and mechanism support efficacy
+  - score_name: model_pos
+    owner_module: models/pos_model.py
+    score_type: predictive
+    question: 3
+    description: modeled probability of success before market comparison
+  - score_name: calibrated_pos
+    owner_module: empirical/engine.py
+    score_type: predictive
+    question: 3
+    description: empirically calibrated probability overlay
+  - score_name: regulatory_success_probability
+    owner_module: planned/probability_stack.py
+    score_type: predictive
+    question: 3
+    description: explicit regulatory approval probability in the layered stack
+  - score_name: model_rnpv_millions
+    owner_module: valuation/valuation_engine.py
+    score_type: predictive
+    question: 4
+    description: risk-adjusted value under current model assumptions
+  - score_name: implied_pos
+    owner_module: analysis/implied_pos.py
+    score_type: descriptive
+    question: 5
+    description: market-implied success probability back-solved from valuation assumptions
+  - score_name: mispricing
+    owner_module: intelligence/market_expectations.py
+    score_type: descriptive
+    question: 5
+    description: spread between modeled value and market value
+  - score_name: actionable_composite_score
+    owner_module: intelligence/actionable_output.py
+    score_type: decision
+    question: 6
+    description: policy score that maps ranking, thesis, and opportunity into action labels
+  - score_name: recommended_size_pct
+    owner_module: analysis/position_sizer.py
+    score_type: decision
+    question: 6
+    description: target position size under current portfolio and policy rules
+  - score_name: brier_score
+    owner_module: analysis/calibration_metrics.py
+    score_type: calibration / QA
+    question: 6
+    description: realized probability calibration quality
+  - score_name: stale_input_rate
+    owner_module: ops/data_quality.py
+    score_type: calibration / QA
+    question: 6
+    description: percent of material fields beyond freshness threshold
+
+planned_module_contracts:
+  - contract_id: canonical_asset_graph
+    phase: B
+    goal: graph-native entity layer replacing scattered point-in-time configs
+    required_inputs:
+      - normalized entities and alias tables
+      - existing dossier facts
+      - trial, company, and relationship evidence
+    output_contract:
+      value: graph entities, edges, and graph-backed asset dossier
+      confidence: edge and entity confidence with conflict visibility
+      provenance: evidence node ids and source traces for every edge
+      freshness: per-node and per-edge as_of timestamps
+      explainability: graph traversal showing why a fact or relationship exists
+      downstream_dependencies:
+        - fully_automated_evidence_ingestion
+        - financing_engine
+        - dynamic_competition_engine
+    recalculation_triggers:
+      - entity merge or split
+      - new relationship evidence
+      - alias table update
+  - contract_id: fully_automated_evidence_ingestion
+    phase: C
+    goal: daily refreshable dossiers without manual YAML entry
+    required_inputs:
+      - connector fetchers
+      - parser and extractor pipelines
+      - dedupe keys and conflict-resolution policy
+    output_contract:
+      value: structured facts with confidence and provenance wrappers for each source family
+      confidence: per-field extraction confidence plus source reliability floor
+      provenance: raw document pointers and parse/extract trace
+      freshness: fetch time, publish time, and last successful parse time
+      explainability: extracted snippets, parser provenance, and conflict resolution notes
+      downstream_dependencies:
+        - canonical_asset_graph
+        - science_diligence_engine
+        - market_expectations_core
+    recalculation_triggers:
+      - scheduled daily refresh
+      - new filing, PR, transcript, registry change, or FDA action
+  - contract_id: science_diligence_engine
+    phase: D
+    goal: decompose science judgment into auditable sub-scores
+    required_inputs:
+      - graph-backed scientific facts
+      - trial design features
+      - analog winners and failures
+      - safety and translational evidence
+    output_contract:
+      value: science_score, design_score, risks, positives, analogs, and kill criteria
+      confidence: evidence-coverage-aware confidence band
+      provenance: cited evidence per sub-score
+      freshness: last scientific evidence update
+      explainability: plain-English rationale for each positive and risk
+      downstream_dependencies:
+        - layered_probability_stack
+        - catalyst_payoff_trees
+    recalculation_triggers:
+      - new scientific evidence
+      - analog library change
+      - safety update
+  - contract_id: layered_probability_stack
+    phase: E
+    goal: separate technical, regulatory, label, and commercial realization probabilities
+    required_inputs:
+      - science_diligence_engine outputs
+      - regulatory inference
+      - management, financing, competition, and access features
+    output_contract:
+      value: technical, regulatory, label, commercial, and scenario probability outputs
+      confidence: calibration-aware confidence per layer
+      provenance: feature snapshots, analog comparisons, and calibration version
+      freshness: latest upstream evidence timestamp
+      explainability: approval vs delay vs setback scenario reasoning
+      downstream_dependencies:
+        - dynamic_competition_engine
+        - financing_engine
+        - market_expectations_core
+    recalculation_triggers:
+      - upstream evidence change
+      - calibration update
+      - regulatory or safety event
+  - contract_id: dynamic_competition_engine
+    phase: F
+    goal: live competitor map with event-driven rerating
+    required_inputs:
+      - asset graph
+      - competitor program facts
+      - event feed for competitors
+    output_contract:
+      value: exposure map and rerated competition assumptions
+      confidence: confidence by overlap quality and evidence coverage
+      provenance: competitor evidence chain and overlap rationale
+      freshness: last competitor refresh timestamp
+      explainability: why each competitor matters and which assumptions moved
+      downstream_dependencies:
+        - layered_probability_stack
+        - market_access_engine
+        - catalyst_payoff_trees
+    recalculation_triggers:
+      - competitor readout
+      - approval or discontinuation
+      - safety or payer event
+  - contract_id: financing_engine
+    phase: G
+    goal: runway, raise timing, dilution, and distress modeling
+    required_inputs:
+      - balance-sheet snapshots
+      - burn history
+      - catalyst calendar
+      - equity-value scenarios
+    output_contract:
+      value: runway, financing probability, dilution band, and financing-adjusted value
+      confidence: balance-sheet-source confidence plus scenario-width penalty
+      provenance: filing dates, cash bridges, and financing assumption trace
+      freshness: filing date and market snapshot date
+      explainability: why the model expects a raise and under what conditions
+      downstream_dependencies:
+        - layered_probability_stack
+        - market_expectations_core
+        - catalyst_payoff_trees
+    recalculation_triggers:
+      - filing or financing event
+      - major price move
+      - catalyst schedule change
+  - contract_id: market_access_engine
+    phase: H
+    goal: patient funnel, reimbursement, and launch realism
+    required_inputs:
+      - indication epidemiology
+      - pricing and reimbursement proxies
+      - geography and segment assumptions
+      - competition state
+    output_contract:
+      value: accessible patient pool, adoption curve, realized price, and commercial distribution
+      confidence: confidence by quality of access and pricing evidence
+      provenance: epidemiology, pricing, and payer evidence
+      freshness: last commercial-input refresh
+      explainability: patient funnel and access bottleneck narrative
+      downstream_dependencies:
+        - market_expectations_core
+        - catalyst_payoff_trees
+    recalculation_triggers:
+      - payer or formulary change
+      - pricing update
+      - label change
+  - contract_id: market_expectations_core
+    phase: I
+    goal: put market-implied assumptions at the center of every report
+    required_inputs:
+      - layered_probability_stack outputs
+      - financing_engine outputs
+      - market_access_engine outputs
+      - market prices and consensus context
+    output_contract:
+      value: implied PoS, implied peak sales, implied dilution, and valuation delta table
+      confidence: confidence tied to quality of market and balance-sheet inputs
+      provenance: exact price snapshot and model snapshot ids
+      freshness: market date and snapshot ids
+      explainability: variable-by-variable decomposition of market disagreement
+      downstream_dependencies:
+        - variant_view_engine
+        - portfolio_decision_engine
+    recalculation_triggers:
+      - price move
+      - estimate revision
+      - upstream predictive or financing change
+  - contract_id: variant_view_engine
+    phase: J
+    goal: encode the explicit disagreement with the market
+    required_inputs:
+      - market_expectations_core outputs
+      - catalyst calendar
+      - evidence supporting deltas
+    output_contract:
+      value: thesis card with consensus vs model assumptions and falsifiers
+      confidence: confidence in each stated delta
+      provenance: evidence links for each disagreement
+      freshness: last thesis update
+      explainability: why the gap exists and what resolves it
+      downstream_dependencies:
+        - catalyst_payoff_trees
+        - portfolio_decision_engine
+    recalculation_triggers:
+      - evidence for any tracked delta changes
+      - consensus expectation update
+      - market repricing
+  - contract_id: catalyst_payoff_trees
+    phase: K
+    goal: event distributions instead of simple catalyst boosts
+    required_inputs:
+      - variant_view_engine outputs
+      - layered_probability_stack outputs
+      - financing_engine outputs
+      - event-study history
+    output_contract:
+      value: event scenarios, expected return, downside skew, and pre/post-event actions
+      confidence: confidence based on analog event coverage and scenario stability
+      provenance: scenario assumptions and analog event set
+      freshness: latest catalyst date and scenario refresh time
+      explainability: why each scenario exists and how it impacts value
+      downstream_dependencies:
+        - portfolio_decision_engine
+        - continuous_monitoring
+    recalculation_triggers:
+      - catalyst date shift
+      - new analog event
+      - financing or competition change
+  - contract_id: portfolio_decision_engine
+    phase: L
+    goal: portfolio-aware sizing and exposure control
+    required_inputs:
+      - catalyst_payoff_trees outputs
+      - current portfolio exposures and constraints
+      - liquidity and crowding data
+    output_contract:
+      value: target position, event cap, add/reduce amount, and scenario-weighted exposure
+      confidence: confidence tied to portfolio data quality and scenario breadth
+      provenance: portfolio snapshot id and policy version
+      freshness: portfolio snapshot timestamp
+      explainability: how portfolio context changed the recommendation
+      downstream_dependencies:
+        - continuous_monitoring
+        - calibration_feedback_loop
+    recalculation_triggers:
+      - portfolio position change
+      - liquidity change
+      - updated payoff tree
+  - contract_id: continuous_monitoring
+    phase: M
+    goal: daily refresh and event-driven recompute of only affected assets
+    required_inputs:
+      - scheduled connector jobs
+      - recompute dependency graph
+      - alert policies
+    output_contract:
+      value: refreshed assets, recompute queue, and material alerts
+      confidence: job-health and source-health confidence
+      provenance: job run ids and affected upstream records
+      freshness: last successful job timestamps
+      explainability: why an asset reran and why an alert fired
+      downstream_dependencies:
+        - calibration_feedback_loop
+        - operating_layer
+    recalculation_triggers:
+      - scheduled daily scan
+      - event-driven source update
+      - large stock move
+  - contract_id: calibration_feedback_loop
+    phase: N
+    goal: feed post-mortems back into priors, penalties, and scenario weights
+    required_inputs:
+      - realized outcomes
+      - historical predictions
+      - post-mortem taxonomy
+    output_contract:
+      value: updated priors, penalties, and calibration reports
+      confidence: confidence based on sample size and stability tests
+      provenance: outcome set, evaluation window, and update rationale
+      freshness: latest incorporated outcome date
+      explainability: what changed in calibration and why
+      downstream_dependencies:
+        - operating_layer
+    recalculation_triggers:
+      - quarter-end calibration run
+      - enough new outcomes in a bucket
+      - major regime break detected
+  - contract_id: operating_layer
+    phase: O
+    goal: reproducible, explorable, auditable system interface
+    required_inputs:
+      - score registry
+      - alert audit log
+      - calibration reports
+      - per-asset provenance data
+    output_contract:
+      value: dashboards, scenario diff viewer, provenance explorer, and audit surfaces
+      confidence: confidence in operational completeness and auditability
+      provenance: every changed value and supporting artifact ids
+      freshness: dashboard refresh timestamps
+      explainability: direct path from recommendation back to facts and model changes
+      downstream_dependencies: []
+    recalculation_triggers:
+      - upstream value change
+      - alert creation
+      - post-mortem completion

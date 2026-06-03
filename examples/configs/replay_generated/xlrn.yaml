@@ -1,0 +1,69 @@
+asset:
+  id: a-xlrn
+  name: sotatercept
+  indication: pulmonary arterial hypertension
+  therapeutic_area: cardiovascular
+  stage: phase_3
+  modality: small_molecule
+  discount_rate: 0.11
+company:
+  id: xlrn-replay
+  name: Acceleron Pharma
+  ticker: XLRN
+  cash_millions: 1123.6
+  debt_millions: 0.0
+  shares_outstanding_millions: 749.07
+  burn_rate_millions_per_quarter: 45.0
+  current_price: 10.0
+  notes: screening-grade replay config
+trials:
+- phase: phase_3
+  success_probability: 0.59
+  duration_years: 3.5
+  cost_millions: 225.0
+  endpoint_type: surrogate_validated
+  notes: screening-grade default trial chain
+- phase: nda_bla
+  success_probability: 0.85
+  duration_years: 1.5
+  cost_millions: 35.0
+  endpoint_type: surrogate_validated
+  notes: screening-grade default trial chain
+market_model:
+  total_addressable_market_millions: 34500.0
+  peak_penetration: 0.15
+  years_to_peak: 5
+  patent_life_years: 10
+  cogs_rate: 0.15
+  sgna_rate_launch: 0.4
+  sgna_rate_mature: 0.2
+  commercial_inputs:
+    patient_pool:
+      indication: Pulmonary arterial hypertension
+      prevalence_thousands: 1006.5
+      diagnosed_fraction: 0.80
+      eligible_rate: 0.60
+      treated_fraction: 0.70
+      uncertainty_cv: 0.20
+    pricing:
+      wac_per_year_usd: 100000
+      gross_to_net_rate: 0.15
+      launch_discount: 0.0
+      annual_erosion_rate: 0.02
+      uncertainty_cv: 0.12
+    share:
+      peak_share: 0.15
+      years_to_peak: 5
+      share_cv: 0.20
+    ex_us_revenue_multiple: 1.2
+_meta:
+  config_version: replay-screening-v1
+  source: replay_watchlist_builder
+  screening_grade: true
+  source_ticker: XLRN
+  source_universe_stage: phase_3
+  source_tags:
+  - mna_public_deal_universe
+  single_asset: true
+  heuristic_market_cap_millions: 7490.69
+  heuristic_peak_sales_millions: 5175.0

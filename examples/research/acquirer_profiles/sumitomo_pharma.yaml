@@ -1,0 +1,38 @@
+company: Sumitomo Pharma
+ticker: SMPNY
+profile_as_of: 2026-04-07
+market_cap_billions: 3
+cash_billions: 1.5
+acquisition_capacity_millions: 3000
+pipeline_gaps:
+  - therapeutic_area: neuroscience
+    sub_area: schizophrenia_depression_cns
+    gap_type: LOE_exposure
+    urgency: high
+    preferred_modality: [small_molecule, oral]
+    budget_ceiling_millions: 2500
+    notes: "Latuda (lurasidone) LOE and U.S. revenue concentration make next-gen CNS assets—especially schizophrenia, bipolar depression, and treatment-resistant depression—the most urgent pipeline gap."
+  - therapeutic_area: oncology
+    sub_area: solid_tumor_targeted_therapy
+    gap_type: strategic_entry
+    urgency: medium
+    preferred_modality: [small_molecule, antibody, ADC]
+    budget_ceiling_millions: 2000
+    notes: "Sumitomo has oncology assets via Roivant/MyoKardia; broadening oncology beyond current pipeline in precision solid tumors would reduce CNS revenue concentration."
+  - therapeutic_area: rare_disease
+    sub_area: rare_cns_metabolic
+    gap_type: strategic_entry
+    urgency: medium
+    preferred_modality: [small_molecule, gene_therapy]
+    budget_ceiling_millions: 2000
+    notes: "Sumitomo's rare-disease history (ulotaront) and CNS capabilities make rare neurological or metabolic diseases natural adjacencies."
+recent_deals:
+  - target: Roivant Sciences (Myovant/Immunovant stakes)
+    date: 2022-10-01
+    value_billions: 3.0
+    therapeutic_area: rare_disease
+    modality: antibody
+stated_priorities:
+  - CNS franchise renewal beyond Latuda
+  - Rare neurological and psychiatric disease
+  - Oncology pipeline diversification

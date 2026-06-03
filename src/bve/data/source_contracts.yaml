@@ -1,0 +1,130 @@
+# Data Source Contracts
+# Every source used in Lane 1 or Lane 2 models must be documented here.
+
+clinicaltrials_gov:
+  source_type: public
+  license_status: public
+  allowed_use: commercial
+  refresh_frequency: weekly
+  primary_key: nct_id
+  point_in_time_available: partial
+  survivorship_bias_risk: low
+  restatement_policy: sponsor_updated_anytime
+  fallback_source: null
+  confidence_weight: 0.80
+  fields_used:
+    - nct_id
+    - enrollment
+    - primary_endpoint
+    - status
+    - completion_date
+    - phase
+    - sponsor
+    - interventions
+  limitations:
+    - sponsor-updated (may reflect current, not historical, truth)
+    - completion dates may slip without notice
+    - not always historically point-in-time before ClinicalTrials.gov v2 API
+    - some endpoints vague or composite
+
+sec_edgar:
+  source_type: public
+  license_status: public
+  allowed_use: commercial
+  refresh_frequency: quarterly
+  primary_key: cik
+  point_in_time_available: full
+  survivorship_bias_risk: low
+  restatement_policy: amendments_appended_with_original
+  fallback_source: null
+  confidence_weight: 0.90
+  fields_used:
+    - cash_and_equivalents
+    - rd_expense
+    - shares_outstanding
+    - total_assets
+    - total_liabilities
+  limitations:
+    - restatements possible; always use filed_at date for PIT queries
+    - non-GAAP items not standardised
+
+yfinance:
+  source_type: scraped
+  license_status: scraped
+  allowed_use: research_only
+  refresh_frequency: daily
+  primary_key: ticker_date
+  point_in_time_available: none
+  survivorship_bias_risk: medium
+  restatement_policy: no_history_of_changes
+  fallback_source: null
+  confidence_weight: 0.60
+  fields_used:
+    - close_price
+    - volume
+    - market_cap
+    - shares_outstanding
+  limitations:
+    - not point-in-time safe; prices may be adjusted retroactively
+    - delisted tickers excluded → survivorship bias in returns
+    - not suitable for commercial production use without vendor license
+
+fda_drug_database:
+  source_type: public
+  license_status: public
+  allowed_use: commercial
+  refresh_frequency: monthly
+  primary_key: application_number
+  point_in_time_available: partial
+  survivorship_bias_risk: low
+  restatement_policy: label_updates_tracked
+  fallback_source: null
+  confidence_weight: 0.85
+  fields_used:
+    - application_number
+    - approval_date
+    - drug_name
+    - indication
+    - sponsor
+    - priority_review
+    - breakthrough_designation
+  limitations:
+    - historical approval history available; label changes not always dated
+
+biomedtracker_base_rates:
+  source_type: licensed
+  license_status: licensed
+  allowed_use: internal_only
+  refresh_frequency: annual
+  primary_key: ta_phase
+  point_in_time_available: none
+  survivorship_bias_risk: medium
+  restatement_policy: full_refresh_annually
+  fallback_source: null
+  confidence_weight: 0.75
+  fields_used:
+    - phase_success_rate_by_ta
+    - phase_success_rate_by_modality
+  limitations:
+    - aggregate rates only; no drug-level granularity
+    - not point-in-time; current year rates used for historical simulation
+
+iqvia_estimates:
+  source_type: licensed
+  license_status: licensed
+  allowed_use: internal_only
+  refresh_frequency: quarterly
+  primary_key: drug_date
+  point_in_time_available: partial
+  survivorship_bias_risk: high
+  restatement_policy: estimates_revised_without_history
+  fallback_source: null
+  confidence_weight: 0.65
+  fields_used:
+    - peak_sales_estimate
+    - launch_year_estimate
+    - addressable_patients
+  limitations:
+    - consensus estimates revised without retaining history → survivorship bias
+    - drugs that failed removed from dataset retroactively
+    - must document bias mitigation before use in models

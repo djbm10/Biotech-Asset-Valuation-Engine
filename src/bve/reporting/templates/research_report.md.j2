@@ -29,6 +29,17 @@ Model Version: {{ report.model_version }}
 ## Financial Model
 {{ report.financial_model }}
 
+{% if report.company_sotp_snapshot %}
+### Company SOTP Snapshot
+- ticker: {{ report.company_sotp_snapshot.ticker }}
+- snapshot_date: {{ report.company_sotp_snapshot.snapshot_date }}
+- ranked_sotp_discount: {{ report.company_sotp_snapshot.ranked_sotp_discount }}
+- action_policy: {{ report.company_sotp_snapshot.action_policy or "n/a" }}
+- sotp_equity_value_millions: {{ report.company_sotp_snapshot.sotp_equity_value_millions }}
+- enterprise_value_millions: {{ report.company_sotp_snapshot.enterprise_value_millions }}
+- balance_sheet_snapshot_date: {{ report.company_sotp_snapshot.balance_sheet_snapshot_date or "n/a" }}
+{% endif %}
+
 ## Risk Factors
 {{ report.risk_factors }}
 
@@ -39,6 +50,7 @@ Model Version: {{ report.model_version }}
 - valuation_parameters: {{ report.input_snapshot.valuation_parameters | length if report.input_snapshot and report.input_snapshot.valuation_parameters else 0 }}
 - event_scores: {{ report.input_snapshot.event_scores | length if report.input_snapshot and report.input_snapshot.event_scores else 0 }}
 - propagation_parameters: {{ report.input_snapshot.propagation_parameters | length if report.input_snapshot and report.input_snapshot.propagation_parameters else 0 }}
+- company_sotp_snapshot: {{ "present" if report.input_snapshot and report.input_snapshot.company_sotp_snapshot else "none" }}
 
 ## Sources
 - dossier_ids: {{ report.cited_dossier_ids | join(", ") if report.cited_dossier_ids else "none" }}

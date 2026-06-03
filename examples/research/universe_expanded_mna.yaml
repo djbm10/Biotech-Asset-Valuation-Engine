@@ -1,0 +1,3291 @@
+as_of_date: '2026-05-08'
+benchmark_ticker: XBI
+recommended_replay_start: '2021-01-01'
+recommended_backfill_start: '2021-01-01'
+recommended_backfill_end: '2026-05-08'
+source_counts:
+  baseline_replay_universe: 27
+  mna_public_deal_universe: 89
+  mna_target_monitor: 62
+  universe_registry: 30
+universe:
+- ticker: ACAD
+  company_id: co-acad
+  asset_id: asset-acad-pimavanserin-mdd
+  company_name: Acadia Pharmaceuticals
+  drug_name: Pimavanserin
+  indication: Major depressive disorder adjunctive
+  therapeutic_area: cns
+  stage: phase_3
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Pimavanserin retains strategic optionality in Major depressive
+    disorder adjunctive.
+  catalyst: Pimavanserin development progress in Major depressive disorder adjunctive
+  source: universe_registry
+  source_tags:
+  - universe_registry
+- ticker: ACHN
+  company_id: co-achn
+  asset_id: a-achn
+  company_name: Achaogen
+  drug_name: Zemdri (plazomicin)
+  indication: complicated urinary tract infections caused by Enterobacteriaceae
+  therapeutic_area: anti-infective
+  stage: approved
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Zemdri (plazomicin) could attract strategic interest in complicated
+    urinary tract infections caused by Enterobacteriaceae.
+  catalyst: None announced Achaogen acquisition on 2019-04-15
+  announcement_date: '2019-04-15'
+  acquirer: ''
+  headline_value_millions: 0
+  comp_bucket: negative_outcome
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: ADXS
+  company_id: co-adxs
+  asset_id: a-adxs
+  company_name: Advaxis
+  drug_name: ADXS-504 / axalimogene filolisbac (AXAL)
+  indication: HPV-associated cervical cancer / prostate cancer
+  therapeutic_area: oncology
+  stage: phase_2
+  ranking_score: 0.54
+  opportunity_score: 0.52
+  conviction: medium
+  claim_type: custom
+  claim_assertion: ADXS-504 / axalimogene filolisbac (AXAL) could attract strategic
+    interest in HPV-associated cervical cancer / prostate cancer.
+  catalyst: None announced Advaxis acquisition on 2023-04-18
+  announcement_date: '2023-04-18'
+  acquirer: ''
+  headline_value_millions: 0
+  comp_bucket: negative_outcome
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: AGEN
+  company_id: co-agen
+  asset_id: asset-agen-botensilimab
+  company_name: Agenus
+  drug_name: Botensilimab
+  indication: Metastatic MSS colorectal cancer
+  therapeutic_area: oncology
+  stage: phase_2
+  ranking_score: 0.54
+  opportunity_score: 0.52
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Botensilimab retains strategic optionality in Metastatic MSS colorectal
+    cancer.
+  catalyst: Botensilimab development progress in Metastatic MSS colorectal cancer
+  source: universe_registry
+  source_tags:
+  - mna_target_monitor
+  - universe_registry
+  status: independent_public_target
+- ticker: AKUS
+  company_id: co-akus
+  asset_id: a-akus
+  company_name: Akouos
+  drug_name: AK-OTOF
+  indication: sensorineural hearing loss
+  therapeutic_area: genetic medicine
+  stage: phase_1 / platform
+  ranking_score: 0.5
+  opportunity_score: 0.48
+  conviction: low-medium
+  claim_type: custom
+  claim_assertion: AK-OTOF could attract strategic interest in sensorineural hearing
+    loss.
+  catalyst: Eli Lilly announced Akouos acquisition on 2022-10-18
+  announcement_date: '2022-10-18'
+  acquirer: Eli Lilly
+  headline_value_millions: 610
+  comp_bucket: platform_or_preclinical
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: ALDX
+  company_id: co-aldx
+  asset_id: a-aldx
+  company_name: Aldeyra Therapeutics
+  drug_name: reproxalap
+  indication: dry eye disease / allergic conjunctivitis
+  therapeutic_area: ophthalmology
+  stage: phase_3
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: reproxalap could attract strategic interest in dry eye disease
+    / allergic conjunctivitis.
+  catalyst: None announced Aldeyra Therapeutics acquisition on 2024-06-14
+  announcement_date: '2024-06-14'
+  acquirer: ''
+  headline_value_millions: 0
+  comp_bucket: negative_outcome
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: ALNY
+  company_id: co-alny
+  asset_id: a-alny
+  indication: "RNAi \u2014 TTR / hypertension / NASH"
+  ranking_score: 0.72
+  opportunity_score: 0.7
+  conviction: medium-high
+  catalyst: Alnylam zilebesiran Ph3 KARDIA-2 readout; vutrisiran label expansion
+  claim_type: endpoint_met
+  claim_assertion: Zilebesiran meets primary BP endpoint in KARDIA-2
+  source: baseline_replay_universe
+  source_tags:
+  - baseline_replay_universe
+  - mna_target_monitor
+  - universe_registry
+  company_name: Alnylam Pharmaceuticals
+  drug_name: Vutrisiran
+  therapeutic_area: cardiovascular
+  stage: phase_3
+  status: independent_public_target
+- ticker: ALPN
+  company_id: co-alpn
+  asset_id: a-alpn
+  company_name: Alpine Immune Sciences
+  drug_name: povetacicept
+  indication: IgA nephropathy
+  therapeutic_area: immunology
+  stage: phase_2 / phase_3_ready
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: povetacicept could attract strategic interest in IgA nephropathy.
+  catalyst: Vertex announced Alpine Immune Sciences acquisition on 2024-04-10
+  announcement_date: '2024-04-10'
+  acquirer: Vertex
+  headline_value_millions: 4900
+  comp_bucket: direct_dev_stage
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+  - mna_target_monitor
+  status: acquired
+- ticker: ALUM
+  company_id: co-alum
+  asset_id: a-alum
+  company_name: Alumis Inc
+  drug_name: ESK-001 (TYK2 inhibitor)
+  indication: immunology
+  therapeutic_area: immunology
+  stage: phase_2_phase_3
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Alumis Inc remains a live strategic optionality name in immunology.
+  catalyst: 'M&A monitor: ESK-001 (TYK2 inhibitor)'
+  status: independent_public_target
+  source: mna_target_monitor
+  source_tags:
+  - mna_target_monitor
+- ticker: AMAG
+  company_id: co-amag
+  asset_id: a-amag
+  company_name: AMAG Pharmaceuticals
+  drug_name: Feraheme (ferumoxytol) / Intrarosa
+  indication: iron deficiency anemia / female sexual dysfunction
+  therapeutic_area: hematology
+  stage: approved
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Feraheme (ferumoxytol) / Intrarosa could attract strategic interest
+    in iron deficiency anemia / female sexual dysfunction.
+  catalyst: None announced AMAG Pharmaceuticals acquisition on 2021-02-02
+  announcement_date: '2021-02-02'
+  acquirer: ''
+  headline_value_millions: 0
+  comp_bucket: negative_outcome
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: AMAM
+  company_id: co-amam
+  asset_id: a-amam
+  company_name: Ambrx
+  drug_name: ARX517
+  indication: metastatic castration-resistant prostate cancer
+  therapeutic_area: oncology
+  stage: phase_1
+  ranking_score: 0.5
+  opportunity_score: 0.48
+  conviction: low-medium
+  claim_type: custom
+  claim_assertion: ARX517 could attract strategic interest in metastatic castration-resistant
+    prostate cancer.
+  catalyst: Johnson & Johnson announced Ambrx acquisition on 2024-01-08
+  announcement_date: '2024-01-08'
+  acquirer: Johnson & Johnson
+  headline_value_millions: 2000
+  comp_bucket: platform_or_preclinical
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: AMRN
+  company_id: co-amrn
+  asset_id: a-amrn
+  indication: "cardiovascular \u2014 Vascepa (icosapentaenoic acid)"
+  ranking_score: 0.12
+  opportunity_score: 0.1
+  conviction: very-low
+  catalyst: Vascepa patent challenge outcome; potential acquisition / licensing deal
+  claim_type: competitor_failure
+  claim_assertion: Patent courts uphold Vascepa formulation claims, limiting generic
+    entry
+  source: baseline_replay_universe
+  source_tags:
+  - baseline_replay_universe
+  company_name: AMRN
+- ticker: ANAB
+  company_id: co-anab
+  asset_id: asset-anab-rosnilimab
+  company_name: AnaptysBio
+  drug_name: Rosnilimab
+  indication: Rheumatoid arthritis
+  therapeutic_area: immunology
+  stage: phase_2
+  ranking_score: 0.54
+  opportunity_score: 0.52
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Rosnilimab retains strategic optionality in Rheumatoid arthritis.
+  catalyst: Rosnilimab development progress in Rheumatoid arthritis
+  source: universe_registry
+  source_tags:
+  - universe_registry
+- ticker: ANAC
+  company_id: co-anac
+  asset_id: a-anac
+  company_name: Anacor Pharmaceuticals
+  drug_name: crisaborole
+  indication: mild-to-moderate atopic dermatitis
+  therapeutic_area: dermatology
+  stage: phase_3 / pdufa_pending
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: crisaborole could attract strategic interest in mild-to-moderate
+    atopic dermatitis.
+  catalyst: Pfizer announced Anacor Pharmaceuticals acquisition on 2016-05-18
+  announcement_date: '2016-05-18'
+  acquirer: Pfizer
+  headline_value_millions: 5200
+  comp_bucket: direct_dev_stage
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: ANNX
+  company_id: co-annx
+  asset_id: a-annx
+  company_name: Annexon Biosciences
+  drug_name: ANX007 (C1q inhibitor intravitreal) / ANX005 (C1q inhibitor IV)
+  indication: ophthalmology
+  therapeutic_area: ophthalmology
+  stage: phase_2_phase_3
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Annexon Biosciences remains a live strategic optionality name in
+    ophthalmology.
+  catalyst: 'M&A monitor: ANX007 (C1q inhibitor intravitreal) / ANX005 (C1q inhibitor
+    IV)'
+  status: independent_public_target
+  source: mna_target_monitor
+  source_tags:
+  - mna_target_monitor
+- ticker: APRE
+  company_id: co-apre
+  asset_id: a-apre
+  company_name: Aprea Therapeutics
+  drug_name: eprenetapopt (p53 reactivator) / APR-1051
+  indication: hematology_oncology
+  therapeutic_area: hematology_oncology
+  stage: phase_2
+  ranking_score: 0.54
+  opportunity_score: 0.52
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Aprea Therapeutics remains a live strategic optionality name in
+    hematology_oncology.
+  catalyst: 'M&A monitor: eprenetapopt (p53 reactivator) / APR-1051'
+  status: independent_public_target
+  source: mna_target_monitor
+  source_tags:
+  - mna_target_monitor
+- ticker: ARGX
+  company_id: co-argx
+  asset_id: a-argx
+  company_name: Argenx SE
+  drug_name: efgartigimod (FcRn) / ARGX-117 (C2 complement)
+  indication: immunology
+  therapeutic_area: immunology
+  stage: commercial_phase_3
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Argenx SE remains a live strategic optionality name in immunology.
+  catalyst: 'M&A monitor: efgartigimod (FcRn) / ARGX-117 (C2 complement)'
+  status: independent_public_target
+  source: mna_target_monitor
+  source_tags:
+  - mna_target_monitor
+- ticker: ARIA
+  company_id: co-aria
+  asset_id: a-aria
+  company_name: Ariad Pharmaceuticals
+  drug_name: brigatinib / ponatinib
+  indication: ALK+ non-small cell lung cancer / CML
+  therapeutic_area: oncology
+  stage: approved / nda_pending
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: brigatinib / ponatinib could attract strategic interest in ALK+
+    non-small cell lung cancer / CML.
+  catalyst: Takeda announced Ariad Pharmaceuticals acquisition on 2017-01-09
+  announcement_date: '2017-01-09'
+  acquirer: Takeda
+  headline_value_millions: 5200
+  comp_bucket: approved_or_commercial
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: ARLZ
+  company_id: co-arlz
+  asset_id: a-arlz
+  company_name: Aralez Pharmaceuticals
+  drug_name: Yosprala (aspirin+omeprazole) / Toprol-XL generic
+  indication: cardiovascular / pain management
+  therapeutic_area: cardiovascular
+  stage: approved
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Yosprala (aspirin+omeprazole) / Toprol-XL generic could attract
+    strategic interest in cardiovascular / pain management.
+  catalyst: None announced Aralez Pharmaceuticals acquisition on 2018-08-10
+  announcement_date: '2018-08-10'
+  acquirer: ''
+  headline_value_millions: 0
+  comp_bucket: negative_outcome
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: ARNA
+  company_id: co-arna
+  asset_id: a-arna
+  company_name: Arena Pharmaceuticals
+  drug_name: etrasimod
+  indication: ulcerative colitis
+  therapeutic_area: immunology
+  stage: nda_bla / late_stage
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: etrasimod could attract strategic interest in ulcerative colitis.
+  catalyst: Pfizer announced Arena Pharmaceuticals acquisition on 2021-12-13
+  announcement_date: '2021-12-13'
+  acquirer: Pfizer
+  headline_value_millions: 6700
+  comp_bucket: direct_dev_stage
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: ARQT
+  company_id: co-arqt
+  asset_id: asset-arqt-roflumilast-ad
+  company_name: Arcutis Biotherapeutics
+  drug_name: Roflumilast cream
+  indication: Atopic dermatitis
+  therapeutic_area: immunology
+  stage: phase_3
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Roflumilast cream retains strategic optionality in Atopic dermatitis.
+  catalyst: Roflumilast cream development progress in Atopic dermatitis
+  source: universe_registry
+  source_tags:
+  - mna_target_monitor
+  - universe_registry
+  status: independent_public_target
+- ticker: ARRY
+  company_id: co-arry
+  asset_id: a-arry
+  company_name: Array BioPharma
+  drug_name: binimetinib / encorafenib (Mektovi/Braftovi)
+  indication: BRAF V600E/K-mutant melanoma
+  therapeutic_area: oncology
+  stage: approved
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: binimetinib / encorafenib (Mektovi/Braftovi) could attract strategic
+    interest in BRAF V600E/K-mutant melanoma.
+  catalyst: Pfizer announced Array BioPharma acquisition on 2019-06-17
+  announcement_date: '2019-06-17'
+  acquirer: Pfizer
+  headline_value_millions: 11400
+  comp_bucket: approved_or_commercial
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: ARVN
+  company_id: co-arvn
+  asset_id: a-arvn
+  indication: "PROTAC protein degradation \u2014 ER+ breast cancer / AR prostate cancer"
+  ranking_score: 0.63
+  opportunity_score: 0.66
+  conviction: medium-high
+  catalyst: ARV-471 VERITAC-2 Ph3 PFS readout in ER+/HER2- breast cancer
+  claim_type: endpoint_met
+  claim_assertion: ARV-471 meets PFS primary endpoint in VERITAC-2 vs exemestane
+  source: baseline_replay_universe
+  source_tags:
+  - baseline_replay_universe
+  company_name: ARVN
+- ticker: ARWR
+  company_id: co-arwr
+  asset_id: a-arwr
+  company_name: Arrowhead Pharmaceuticals
+  drug_name: ARO-APOC3 / ARO-ANG3 / ARO-HSD / ARO-MMP7
+  indication: rare_disease_metabolic
+  therapeutic_area: rare_disease_metabolic
+  stage: phase_2_phase_3
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Arrowhead Pharmaceuticals remains a live strategic optionality
+    name in rare_disease_metabolic.
+  catalyst: 'M&A monitor: ARO-APOC3 / ARO-ANG3 / ARO-HSD / ARO-MMP7'
+  status: independent_public_target
+  source: mna_target_monitor
+  source_tags:
+  - mna_target_monitor
+- ticker: ATRA
+  company_id: co-atra
+  asset_id: a-atra
+  company_name: Atara Biotherapeutics
+  drug_name: tabelecleucel (tab-cel)
+  indication: EBV-positive post-transplant lymphoproliferative disease
+  therapeutic_area: oncology
+  stage: approved
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: tabelecleucel (tab-cel) could attract strategic interest in EBV-positive
+    post-transplant lymphoproliferative disease.
+  catalyst: None announced Atara Biotherapeutics acquisition on 2024-10-14
+  announcement_date: '2024-10-14'
+  acquirer: ''
+  headline_value_millions: 0
+  comp_bucket: negative_outcome
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: AVIR
+  company_id: co-avir
+  asset_id: a-avir
+  company_name: Atea Pharmaceuticals
+  drug_name: bemnifosbuvir (HCV/RSV oral)
+  indication: virology
+  therapeutic_area: virology
+  stage: phase_2_phase_3
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Atea Pharmaceuticals remains a live strategic optionality name
+    in virology.
+  catalyst: 'M&A monitor: bemnifosbuvir (HCV/RSV oral)'
+  status: independent_public_target
+  source: mna_target_monitor
+  source_tags:
+  - mna_target_monitor
+- ticker: BBIO
+  company_id: co-bbio
+  asset_id: a-bbio
+  company_name: BridgeBio Pharma
+  drug_name: acoramidis (ATTR-CM) / BBP-418 (limb girdle MD)
+  indication: rare_disease_cardiovascular
+  therapeutic_area: rare_disease_cardiovascular
+  stage: approved_phase_3
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: BridgeBio Pharma remains a live strategic optionality name in rare_disease_cardiovascular.
+  catalyst: 'M&A monitor: acoramidis (ATTR-CM) / BBP-418 (limb girdle MD)'
+  status: independent_public_target
+  source: mna_target_monitor
+  source_tags:
+  - mna_target_monitor
+- ticker: BCYC
+  company_id: co-bcyc
+  asset_id: a-bcyc
+  company_name: Bicycle Therapeutics
+  drug_name: BT8009 (Nectin-4 ADC) / BT5528 (EphA2) / BT7480 (CD137 agonist)
+  indication: oncology
+  therapeutic_area: oncology
+  stage: phase_1_phase_2
+  ranking_score: 0.54
+  opportunity_score: 0.52
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Bicycle Therapeutics remains a live strategic optionality name
+    in oncology.
+  catalyst: 'M&A monitor: BT8009 (Nectin-4 ADC) / BT5528 (EphA2) / BT7480 (CD137 agonist)'
+  status: independent_public_target
+  source: mna_target_monitor
+  source_tags:
+  - mna_target_monitor
+- ticker: BDTX
+  company_id: co-bdtx
+  asset_id: a-bdtx
+  company_name: Black Diamond Therapeutics
+  drug_name: BDTX-1535 (pan-EGFR MasterKey)
+  indication: oncology
+  therapeutic_area: oncology
+  stage: phase_2
+  ranking_score: 0.54
+  opportunity_score: 0.52
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Black Diamond Therapeutics remains a live strategic optionality
+    name in oncology.
+  catalyst: 'M&A monitor: BDTX-1535 (pan-EGFR MasterKey)'
+  status: independent_public_target
+  source: mna_target_monitor
+  source_tags:
+  - mna_target_monitor
+- ticker: BEAM
+  company_id: co-beam
+  asset_id: a-beam
+  indication: "base editing \u2014 SCD / AML / immunology"
+  ranking_score: 0.42
+  opportunity_score: 0.48
+  conviction: low-medium
+  catalyst: BEAM-101 SCD Ph1/2 initial efficacy; BEAM-201 AML IND
+  claim_type: endpoint_met
+  claim_assertion: BEAM-101 achieves HbF induction with clean safety at 6 months
+  source: baseline_replay_universe
+  source_tags:
+  - baseline_replay_universe
+  - universe_registry
+  company_name: Beam Therapeutics
+  drug_name: BEAM-101
+  therapeutic_area: rare_disease
+  stage: phase_1
+- ticker: BHVN
+  company_id: co-bhvn
+  asset_id: a-bhvn
+  company_name: Biohaven Pharmaceuticals
+  drug_name: Nurtec ODT / zavegepant
+  indication: migraine
+  therapeutic_area: neuroscience
+  stage: approved
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Nurtec ODT / zavegepant could attract strategic interest in migraine.
+  catalyst: Pfizer announced Biohaven Pharmaceuticals acquisition on 2022-05-10
+  announcement_date: '2022-05-10'
+  acquirer: Pfizer
+  headline_value_millions: 11600
+  comp_bucket: approved_or_commercial
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+  - mna_target_monitor
+  status: independent_public_target
+- ticker: BIIB
+  company_id: co-biib
+  asset_id: asset-biib-lecanemab
+  company_name: Biogen
+  drug_name: Lecanemab
+  indication: Early Alzheimer's disease
+  therapeutic_area: cns
+  stage: nda_bla
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Lecanemab retains strategic optionality in Early Alzheimer's disease.
+  catalyst: Lecanemab development progress in Early Alzheimer's disease
+  source: universe_registry
+  source_tags:
+  - universe_registry
+- ticker: BIND
+  company_id: co-bind
+  asset_id: a-bind
+  company_name: Bind Therapeutics
+  drug_name: BIND-014 (docetaxel nanoparticle)
+  indication: non-small cell lung cancer / prostate cancer
+  therapeutic_area: oncology
+  stage: phase_2
+  ranking_score: 0.54
+  opportunity_score: 0.52
+  conviction: medium
+  claim_type: custom
+  claim_assertion: BIND-014 (docetaxel nanoparticle) could attract strategic interest
+    in non-small cell lung cancer / prostate cancer.
+  catalyst: None announced Bind Therapeutics acquisition on 2016-09-28
+  announcement_date: '2016-09-28'
+  acquirer: ''
+  headline_value_millions: 0
+  comp_bucket: negative_outcome
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: BLU
+  company_id: co-blu
+  asset_id: a-blu
+  company_name: Bellus Health
+  drug_name: camlipixant
+  indication: refractory chronic cough
+  therapeutic_area: respiratory
+  stage: phase_3
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: camlipixant could attract strategic interest in refractory chronic
+    cough.
+  catalyst: GSK announced Bellus Health acquisition on 2023-04-18
+  announcement_date: '2023-04-18'
+  acquirer: GSK
+  headline_value_millions: 2000
+  comp_bucket: direct_dev_stage
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: BLUE
+  company_id: co-blue
+  asset_id: asset-blue-lovocel
+  company_name: bluebird bio
+  drug_name: Lovotibeglogene autotemcel
+  indication: Sickle cell disease
+  therapeutic_area: rare_disease
+  stage: nda_bla
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Lovotibeglogene autotemcel retains strategic optionality in Sickle
+    cell disease.
+  catalyst: Lovotibeglogene autotemcel development progress in Sickle cell disease
+  source: universe_registry
+  source_tags:
+  - universe_registry
+- ticker: BMRN
+  company_id: co-bmrn
+  asset_id: a-bmrn
+  indication: "rare disease \u2014 PKU / hemophilia / achondroplasia"
+  ranking_score: 0.54
+  opportunity_score: 0.5
+  conviction: medium
+  catalyst: Roctavian haemophilia A label durability data; BMN 333 achondroplasia
+    Ph3
+  claim_type: enrollment_on_track
+  claim_assertion: Roctavian durability holds at 3-year follow-up; no label change
+    needed
+  source: baseline_replay_universe
+  source_tags:
+  - baseline_replay_universe
+  - universe_registry
+  company_name: BioMarin Pharmaceutical
+  drug_name: Roctavian
+  therapeutic_area: rare_disease
+  stage: nda_bla
+- ticker: BOLD
+  company_id: co-bold
+  asset_id: a-bold
+  company_name: Boundless Bio
+  drug_name: BBI-355 (ecDNA-dependent tumor targeting)
+  indication: oncology
+  therapeutic_area: oncology
+  stage: phase_1_phase_2
+  ranking_score: 0.54
+  opportunity_score: 0.52
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Boundless Bio remains a live strategic optionality name in oncology.
+  catalyst: 'M&A monitor: BBI-355 (ecDNA-dependent tumor targeting)'
+  status: independent_public_target
+  source: mna_target_monitor
+  source_tags:
+  - mna_target_monitor
+- ticker: CALT
+  company_id: co-calt
+  asset_id: a-calt
+  company_name: Calliditas Therapeutics
+  drug_name: budesonide targeted release (Tarpeyo) for IgAN
+  indication: kidney_disease
+  therapeutic_area: kidney_disease
+  stage: approved
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Calliditas Therapeutics remains a live strategic optionality name
+    in kidney_disease.
+  catalyst: 'M&A monitor: budesonide targeted release (Tarpeyo) for IgAN'
+  status: acquired
+  source: mna_target_monitor
+  source_tags:
+  - mna_target_monitor
+- ticker: CBAY
+  company_id: co-cbay
+  asset_id: a-cbay
+  company_name: CymaBay Therapeutics
+  drug_name: seladelpar
+  indication: primary biliary cholangitis
+  therapeutic_area: hepatology
+  stage: nda_bla
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: seladelpar could attract strategic interest in primary biliary
+    cholangitis.
+  catalyst: Gilead Sciences announced CymaBay Therapeutics acquisition on 2024-02-12
+  announcement_date: '2024-02-12'
+  acquirer: Gilead Sciences
+  headline_value_millions: 4300
+  comp_bucket: direct_dev_stage
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: CCXI
+  company_id: co-ccxi
+  asset_id: a-ccxi
+  company_name: ChemoCentryx
+  drug_name: Tavneos (avacopan)
+  indication: ANCA-associated vasculitis
+  therapeutic_area: immunology
+  stage: approved
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Tavneos (avacopan) could attract strategic interest in ANCA-associated
+    vasculitis.
+  catalyst: Amgen announced ChemoCentryx acquisition on 2022-08-04
+  announcement_date: '2022-08-04'
+  acquirer: Amgen
+  headline_value_millions: 4000
+  comp_bucket: approved_or_commercial
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: CERE
+  company_id: co-cere
+  asset_id: a-cere
+  company_name: Cerevel Therapeutics
+  drug_name: emraclidine
+  indication: schizophrenia
+  therapeutic_area: neuroscience
+  stage: phase_2
+  ranking_score: 0.54
+  opportunity_score: 0.52
+  conviction: medium
+  claim_type: custom
+  claim_assertion: emraclidine could attract strategic interest in schizophrenia.
+  catalyst: AbbVie announced Cerevel Therapeutics acquisition on 2023-12-06
+  announcement_date: '2023-12-06'
+  acquirer: AbbVie
+  headline_value_millions: 8700
+  comp_bucket: direct_dev_stage
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+  - mna_target_monitor
+  status: acquired
+- ticker: CFRX
+  company_id: co-cfrx
+  asset_id: a-cfrx
+  company_name: ContraFect
+  drug_name: exebacase (CF-301)
+  indication: Staphylococcus aureus bacteremia including right-sided endocarditis
+  therapeutic_area: anti-infective
+  stage: phase_3
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: exebacase (CF-301) could attract strategic interest in Staphylococcus
+    aureus bacteremia including right-sided endocarditis.
+  catalyst: None announced ContraFect acquisition on 2023-05-22
+  announcement_date: '2023-05-22'
+  acquirer: ''
+  headline_value_millions: 0
+  comp_bucket: negative_outcome
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: CHMA
+  company_id: co-chma
+  asset_id: a-chma
+  company_name: Chiasma
+  drug_name: Mycapssa (octreotide capsules)
+  indication: acromegaly
+  therapeutic_area: endocrine
+  stage: approved
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Mycapssa (octreotide capsules) could attract strategic interest
+    in acromegaly.
+  catalyst: None announced Chiasma acquisition on 2021-09-10
+  announcement_date: '2021-09-10'
+  acquirer: ''
+  headline_value_millions: 0
+  comp_bucket: negative_outcome
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: CINC
+  company_id: co-cinc
+  asset_id: a-cinc
+  company_name: CinCor Pharma
+  drug_name: baxdrostat
+  indication: treatment-resistant and uncontrolled hypertension
+  therapeutic_area: cardiovascular
+  stage: phase_2
+  ranking_score: 0.54
+  opportunity_score: 0.52
+  conviction: medium
+  claim_type: custom
+  claim_assertion: baxdrostat could attract strategic interest in treatment-resistant
+    and uncontrolled hypertension.
+  catalyst: AstraZeneca announced CinCor Pharma acquisition on 2023-01-09
+  announcement_date: '2023-01-09'
+  acquirer: AstraZeneca
+  headline_value_millions: 1800
+  comp_bucket: direct_dev_stage
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: CLVS
+  company_id: co-clvs
+  asset_id: a-clvs
+  company_name: Clovis Oncology
+  drug_name: Rubraca (rucaparib)
+  indication: BRCA-mutant ovarian cancer / prostate cancer
+  therapeutic_area: oncology
+  stage: approved
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Rubraca (rucaparib) could attract strategic interest in BRCA-mutant
+    ovarian cancer / prostate cancer.
+  catalyst: None announced Clovis Oncology acquisition on 2022-12-07
+  announcement_date: '2022-12-07'
+  acquirer: ''
+  headline_value_millions: 0
+  comp_bucket: negative_outcome
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: CNAT
+  company_id: co-cnat
+  asset_id: a-cnat
+  company_name: Conatus Pharmaceuticals
+  drug_name: emricasan
+  indication: NASH with fibrosis / acute-on-chronic liver failure
+  therapeutic_area: metabolic
+  stage: phase_3
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: emricasan could attract strategic interest in NASH with fibrosis
+    / acute-on-chronic liver failure.
+  catalyst: None announced Conatus Pharmaceuticals acquisition on 2022-08-08
+  announcement_date: '2022-08-08'
+  acquirer: ''
+  headline_value_millions: 0
+  comp_bucket: negative_outcome
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: CORT
+  company_id: co-cort
+  asset_id: a-cort
+  company_name: Corcept Therapeutics
+  drug_name: mifepristone (CORT125134)
+  indication: triple-negative breast cancer
+  therapeutic_area: oncology
+  stage: phase_3
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: mifepristone (CORT125134) could attract strategic interest in triple-negative
+    breast cancer.
+  catalyst: None announced Corcept Therapeutics acquisition on 2019-11-04
+  announcement_date: '2019-11-04'
+  acquirer: ''
+  headline_value_millions: 0
+  comp_bucket: negative_outcome
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: CRBP
+  company_id: co-crbp
+  asset_id: a-crbp
+  company_name: Corbus Pharmaceuticals
+  drug_name: lenabasum
+  indication: systemic sclerosis / cystic fibrosis / dermatomyositis
+  therapeutic_area: immunology
+  stage: phase_3
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: lenabasum could attract strategic interest in systemic sclerosis
+    / cystic fibrosis / dermatomyositis.
+  catalyst: None announced Corbus Pharmaceuticals acquisition on 2021-11-22
+  announcement_date: '2021-11-22'
+  acquirer: ''
+  headline_value_millions: 0
+  comp_bucket: negative_outcome
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: CRSP
+  company_id: co-crsp
+  asset_id: a-crsp
+  indication: SCD / beta-thal / diabetes
+  ranking_score: 0.55
+  opportunity_score: 0.58
+  conviction: medium
+  catalyst: Casgevy commercial uptake trajectory; CTX310 IND data
+  claim_type: enrollment_on_track
+  claim_assertion: Casgevy treatment center activation on pace with 12-month guidance
+  source: baseline_replay_universe
+  source_tags:
+  - baseline_replay_universe
+  - universe_registry
+  company_name: CRISPR Therapeutics
+  drug_name: Casgevy
+  therapeutic_area: rare_disease
+  stage: nda_bla
+- ticker: CYTX
+  company_id: co-cytx
+  asset_id: a-cytx
+  company_name: CytRx Corporation
+  drug_name: aldoxorubicin / ladr-7 (LADR)
+  indication: soft tissue sarcoma
+  therapeutic_area: oncology
+  stage: phase_2
+  ranking_score: 0.54
+  opportunity_score: 0.52
+  conviction: medium
+  claim_type: custom
+  claim_assertion: aldoxorubicin / ladr-7 (LADR) could attract strategic interest
+    in soft tissue sarcoma.
+  catalyst: None announced CytRx Corporation acquisition on 2023-06-12
+  announcement_date: '2023-06-12'
+  acquirer: ''
+  headline_value_millions: 0
+  comp_bucket: negative_outcome
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: DFFN
+  company_id: co-dffn
+  asset_id: a-dffn
+  company_name: Diffusion Pharmaceuticals
+  drug_name: TSC (trans sodium crocetinate)
+  indication: glioblastoma / COVID-19 / stroke
+  therapeutic_area: cns
+  stage: phase_2
+  ranking_score: 0.54
+  opportunity_score: 0.52
+  conviction: medium
+  claim_type: custom
+  claim_assertion: TSC (trans sodium crocetinate) could attract strategic interest
+    in glioblastoma / COVID-19 / stroke.
+  catalyst: None announced Diffusion Pharmaceuticals acquisition on 2023-12-26
+  announcement_date: '2023-12-26'
+  acquirer: ''
+  headline_value_millions: 0
+  comp_bucket: negative_outcome
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: DMTX
+  company_id: co-dmtx
+  asset_id: a-dmtx
+  company_name: Dimension Therapeutics
+  drug_name: DTX201
+  indication: hemophilia B
+  therapeutic_area: rare disease
+  stage: phase_1_2
+  ranking_score: 0.5
+  opportunity_score: 0.48
+  conviction: low-medium
+  claim_type: custom
+  claim_assertion: DTX201 could attract strategic interest in hemophilia B.
+  catalyst: Ultragenyx Pharmaceutical announced Dimension Therapeutics acquisition
+    on 2017-01-09
+  announcement_date: '2017-01-09'
+  acquirer: Ultragenyx Pharmaceutical
+  headline_value_millions: 151
+  comp_bucket: platform_or_preclinical
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: DRNA
+  company_id: co-drna
+  asset_id: a-drna
+  company_name: Dicerna Pharmaceuticals
+  drug_name: nedosiran / GalXC RNAi platform
+  indication: rare cardiometabolic and liver diseases
+  therapeutic_area: cardiometabolic
+  stage: phase_2 / platform
+  ranking_score: 0.54
+  opportunity_score: 0.52
+  conviction: medium
+  claim_type: custom
+  claim_assertion: nedosiran / GalXC RNAi platform could attract strategic interest
+    in rare cardiometabolic and liver diseases.
+  catalyst: Novo Nordisk announced Dicerna Pharmaceuticals acquisition on 2021-11-22
+  announcement_date: '2021-11-22'
+  acquirer: Novo Nordisk
+  headline_value_millions: 3300
+  comp_bucket: direct_dev_stage
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: EDIT
+  company_id: co-edit
+  asset_id: a-edit
+  indication: "CRISPR gene editing \u2014 SCD / LCA10 / AML"
+  ranking_score: 0.17
+  opportunity_score: 0.14
+  conviction: very-low
+  catalyst: EDIT-301 SCD Ph1/2 durability data; cash runway / partnership decision
+  claim_type: enrollment_on_track
+  claim_assertion: EDIT-301 achieves HbF induction sustaining HbS <30% at 12 months
+  source: baseline_replay_universe
+  source_tags:
+  - baseline_replay_universe
+  - universe_registry
+  company_name: Editas Medicine
+  drug_name: Reni-cel
+  therapeutic_area: rare_disease
+  stage: phase_1
+- ticker: ESPR
+  company_id: co-espr
+  asset_id: a-espr
+  company_name: Esperion Therapeutics
+  drug_name: bempedoic acid (NEXLETOL / NEXLIZET)
+  indication: cardiovascular
+  therapeutic_area: cardiovascular
+  stage: commercial
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Esperion Therapeutics remains a live strategic optionality name
+    in cardiovascular.
+  catalyst: 'M&A monitor: bempedoic acid (NEXLETOL / NEXLIZET)'
+  status: independent_public_target
+  source: mna_target_monitor
+  source_tags:
+  - mna_target_monitor
+- ticker: FATE
+  company_id: co-fate
+  asset_id: a-fate
+  indication: "iPSC-derived NK / T-cell therapy \u2014 AML / myeloma"
+  ranking_score: 0.33
+  opportunity_score: 0.3
+  conviction: low
+  catalyst: FT576 iPSC-NK myeloma Ph1 ORR update; partnership decision from J&J
+  claim_type: pos_above_threshold
+  claim_assertion: "FT576 achieves \u226530% ORR in RRMM monotherapy arm"
+  source: baseline_replay_universe
+  source_tags:
+  - baseline_replay_universe
+  - mna_public_deal_universe
+  - universe_registry
+  company_name: Fate Therapeutics
+  drug_name: FT576
+  therapeutic_area: oncology
+  stage: phase_1
+  announcement_date: '2024-04-01'
+  acquirer: ''
+  headline_value_millions: 0
+  comp_bucket: negative_outcome
+- ticker: FOLD
+  company_id: co-fold
+  asset_id: asset-fold-atg-aa
+  company_name: Amicus Therapeutics
+  drug_name: AT-GAA
+  indication: Pompe disease
+  therapeutic_area: rare_disease
+  stage: nda_bla
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: AT-GAA retains strategic optionality in Pompe disease.
+  catalyst: AT-GAA development progress in Pompe disease
+  source: universe_registry
+  source_tags:
+  - universe_registry
+- ticker: FPRX
+  company_id: co-fprx
+  asset_id: a-fprx
+  company_name: Five Prime Therapeutics
+  drug_name: bemarituzumab
+  indication: FGFR2b-positive gastric and gastroesophageal junction cancer
+  therapeutic_area: oncology
+  stage: phase_2
+  ranking_score: 0.54
+  opportunity_score: 0.52
+  conviction: medium
+  claim_type: custom
+  claim_assertion: bemarituzumab could attract strategic interest in FGFR2b-positive
+    gastric and gastroesophageal junction cancer.
+  catalyst: Amgen announced Five Prime Therapeutics acquisition on 2021-03-04
+  announcement_date: '2021-03-04'
+  acquirer: Amgen
+  headline_value_millions: 1900
+  comp_bucket: direct_dev_stage
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: FTSV
+  company_id: co-ftsv
+  asset_id: a-ftsv
+  company_name: Forty Seven
+  drug_name: magrolimab
+  indication: hematologic malignancies (CD47 blockade)
+  therapeutic_area: oncology
+  stage: phase_1_2
+  ranking_score: 0.5
+  opportunity_score: 0.48
+  conviction: low-medium
+  claim_type: custom
+  claim_assertion: magrolimab could attract strategic interest in hematologic malignancies
+    (CD47 blockade).
+  catalyst: Gilead Sciences announced Forty Seven acquisition on 2020-03-02
+  announcement_date: '2020-03-02'
+  acquirer: Gilead Sciences
+  headline_value_millions: 4900
+  comp_bucket: direct_dev_stage
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: FULC
+  company_id: co-fulc
+  asset_id: a-fulc
+  indication: "rare muscle disease \u2014 FSHD / SMA"
+  ranking_score: 0.38
+  opportunity_score: 0.36
+  conviction: low-medium
+  catalyst: Losmapimod Ph3 FSHD MRI/functional read; RO7204239 collaboration milestone
+  claim_type: enrollment_on_track
+  claim_assertion: Losmapimod Ph3 hits MRI fat fraction primary endpoint (p<0.05)
+  source: baseline_replay_universe
+  source_tags:
+  - baseline_replay_universe
+  company_name: FULC
+- ticker: GBT
+  company_id: co-gbt
+  asset_id: a-gbt
+  company_name: Global Blood Therapeutics
+  drug_name: Oxbryta (voxelotor)
+  indication: sickle cell disease
+  therapeutic_area: rare disease / hematology
+  stage: approved
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Oxbryta (voxelotor) could attract strategic interest in sickle
+    cell disease.
+  catalyst: Pfizer announced Global Blood Therapeutics acquisition on 2022-08-08
+  announcement_date: '2022-08-08'
+  acquirer: Pfizer
+  headline_value_millions: 5400
+  comp_bucket: approved_or_commercial
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: GERN
+  company_id: co-gern
+  asset_id: asset-gern-imetelstat
+  company_name: Geron
+  drug_name: Imetelstat
+  indication: Lower-risk MDS
+  therapeutic_area: oncology
+  stage: nda_bla
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Imetelstat retains strategic optionality in Lower-risk MDS.
+  catalyst: Imetelstat development progress in Lower-risk MDS
+  source: universe_registry
+  source_tags:
+  - universe_registry
+- ticker: GEVA
+  company_id: co-geva
+  asset_id: a-geva
+  company_name: Synageva BioPharma
+  drug_name: Kanuma (sebelipase alfa)
+  indication: lysosomal acid lipase deficiency
+  therapeutic_area: rare disease
+  stage: nda_bla
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Kanuma (sebelipase alfa) could attract strategic interest in lysosomal
+    acid lipase deficiency.
+  catalyst: Alexion Pharmaceuticals announced Synageva BioPharma acquisition on 2015-05-06
+  announcement_date: '2015-05-06'
+  acquirer: Alexion Pharmaceuticals
+  headline_value_millions: 8400
+  comp_bucket: direct_dev_stage
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: GNCA
+  company_id: co-gnca
+  asset_id: a-gnca
+  company_name: Genocea Biosciences
+  drug_name: GEN-011
+  indication: non-small cell lung cancer (neoantigen-directed T cell therapy)
+  therapeutic_area: oncology
+  stage: phase_2
+  ranking_score: 0.54
+  opportunity_score: 0.52
+  conviction: medium
+  claim_type: custom
+  claim_assertion: GEN-011 could attract strategic interest in non-small cell lung
+    cancer (neoantigen-directed T cell therapy).
+  catalyst: None announced Genocea Biosciences acquisition on 2022-04-06
+  announcement_date: '2022-04-06'
+  acquirer: ''
+  headline_value_millions: 0
+  comp_bucket: negative_outcome
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: GPCR
+  company_id: co-gpcr
+  asset_id: a-gpcr
+  company_name: Structure Therapeutics
+  drug_name: GSBR-1290 (oral GLP-1R agonist)
+  indication: obesity_metabolic
+  therapeutic_area: obesity_metabolic
+  stage: phase_2
+  ranking_score: 0.54
+  opportunity_score: 0.52
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Structure Therapeutics remains a live strategic optionality name
+    in obesity_metabolic.
+  catalyst: 'M&A monitor: GSBR-1290 (oral GLP-1R agonist)'
+  status: independent_public_target
+  source: mna_target_monitor
+  source_tags:
+  - mna_target_monitor
+- ticker: GTHX
+  company_id: co-gthx
+  asset_id: a-gthx
+  company_name: G1 Therapeutics
+  drug_name: Cosela (trilaciclib)
+  indication: myelosuppression prevention in chemotherapy
+  therapeutic_area: oncology
+  stage: approved
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Cosela (trilaciclib) could attract strategic interest in myelosuppression
+    prevention in chemotherapy.
+  catalyst: None announced G1 Therapeutics acquisition on 2024-01-08
+  announcement_date: '2024-01-08'
+  acquirer: ''
+  headline_value_millions: 0
+  comp_bucket: negative_outcome
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: HARP
+  company_id: co-harp
+  asset_id: a-harp
+  company_name: Harpoon Therapeutics
+  drug_name: HPN328 (MK-6070)
+  indication: small-cell lung cancer / neuroendocrine tumors
+  therapeutic_area: oncology
+  stage: phase_2
+  ranking_score: 0.54
+  opportunity_score: 0.52
+  conviction: medium
+  claim_type: custom
+  claim_assertion: HPN328 (MK-6070) could attract strategic interest in small-cell
+    lung cancer / neuroendocrine tumors.
+  catalyst: Merck announced Harpoon Therapeutics acquisition on 2023-12-20
+  announcement_date: '2023-12-20'
+  acquirer: Merck
+  headline_value_millions: 680
+  comp_bucket: direct_dev_stage
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: HGEN
+  company_id: co-hgen
+  asset_id: a-hgen
+  company_name: Humanigen
+  drug_name: lenzilumab
+  indication: COVID-19 cytokine storm / AML
+  therapeutic_area: immunology
+  stage: phase_3
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: lenzilumab could attract strategic interest in COVID-19 cytokine
+    storm / AML.
+  catalyst: None announced Humanigen acquisition on 2022-03-14
+  announcement_date: '2022-03-14'
+  acquirer: ''
+  headline_value_millions: 0
+  comp_bucket: negative_outcome
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: IMCR
+  company_id: co-imcr
+  asset_id: a-imcr
+  company_name: Immunocore Holdings
+  drug_name: tebentafusp / ImmTAC/ImmTAX platform
+  indication: oncology
+  therapeutic_area: oncology
+  stage: commercial_phase_3
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Immunocore Holdings remains a live strategic optionality name in
+    oncology.
+  catalyst: 'M&A monitor: tebentafusp / ImmTAC/ImmTAX platform'
+  status: independent_public_target
+  source: mna_target_monitor
+  source_tags:
+  - mna_target_monitor
+- ticker: IMGO
+  company_id: co-imgo
+  asset_id: a-imgo
+  company_name: Imago BioSciences
+  drug_name: bomedemstat
+  indication: essential thrombocythemia / myelofibrosis
+  therapeutic_area: hematology
+  stage: phase_2
+  ranking_score: 0.54
+  opportunity_score: 0.52
+  conviction: medium
+  claim_type: custom
+  claim_assertion: bomedemstat could attract strategic interest in essential thrombocythemia
+    / myelofibrosis.
+  catalyst: Merck announced Imago BioSciences acquisition on 2022-11-21
+  announcement_date: '2022-11-21'
+  acquirer: Merck
+  headline_value_millions: 1350
+  comp_bucket: direct_dev_stage
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+  - mna_target_monitor
+  status: acquired
+- ticker: IMMU
+  company_id: co-immu
+  asset_id: a-immu
+  company_name: Immunomedics
+  drug_name: Trodelvy
+  indication: metastatic triple-negative breast cancer
+  therapeutic_area: oncology
+  stage: approved
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Trodelvy could attract strategic interest in metastatic triple-negative
+    breast cancer.
+  catalyst: Gilead Sciences announced Immunomedics acquisition on 2020-09-13
+  announcement_date: '2020-09-13'
+  acquirer: Gilead Sciences
+  headline_value_millions: 21000
+  comp_bucket: approved_or_commercial
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: IMVT
+  company_id: co-imvt
+  asset_id: a-imvt
+  indication: "FcRn \u2014 myasthenia gravis / thyroid eye disease / warm AIHA"
+  ranking_score: 0.56
+  opportunity_score: 0.58
+  conviction: medium
+  catalyst: Batoclimab ASCEND+ Ph3 MG readout; nipocalimab competitive read-across
+  claim_type: endpoint_met
+  claim_assertion: "Batoclimab meets MG-ADL responder rate \u226550% in ASCEND+ vs\
+    \ placebo"
+  source: baseline_replay_universe
+  source_tags:
+  - baseline_replay_universe
+  - universe_registry
+  company_name: Immunovant
+  drug_name: Batoclimab
+  therapeutic_area: immunology
+  stage: phase_3
+- ticker: INBX
+  company_id: co-inbx
+  asset_id: a-inbx
+  company_name: Inhibrx
+  drug_name: INBRX-101
+  indication: alpha-1 antitrypsin deficiency
+  therapeutic_area: rare disease
+  stage: phase_2
+  ranking_score: 0.54
+  opportunity_score: 0.52
+  conviction: medium
+  claim_type: custom
+  claim_assertion: INBRX-101 could attract strategic interest in alpha-1 antitrypsin
+    deficiency.
+  catalyst: Sanofi announced Inhibrx acquisition on 2024-01-23
+  announcement_date: '2024-01-23'
+  acquirer: Sanofi
+  headline_value_millions: 1700
+  comp_bucket: direct_dev_stage
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+  - mna_target_monitor
+  status: independent_public_target
+- ticker: IONS
+  company_id: co-ions
+  asset_id: asset-ions-olezarsen
+  company_name: Ionis Pharmaceuticals
+  drug_name: Olezarsen
+  indication: Familial chylomicronemia syndrome
+  therapeutic_area: rare_disease
+  stage: nda_bla
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Olezarsen retains strategic optionality in Familial chylomicronemia
+    syndrome.
+  catalyst: Olezarsen development progress in Familial chylomicronemia syndrome
+  source: universe_registry
+  source_tags:
+  - universe_registry
+- ticker: IOVA
+  company_id: co-iova
+  asset_id: a-iova
+  indication: "TIL therapy \u2014 melanoma / NSCLC / cervical"
+  ranking_score: 0.44
+  opportunity_score: 0.4
+  conviction: low-medium
+  catalyst: Amtagvi commercial uptake trajectory; LN-145 NSCLC Ph2 expansion ORR
+  claim_type: market_reaction_positive
+  claim_assertion: Amtagvi treatment centers reach 50 sites by end of 2025; ramp holds
+  source: baseline_replay_universe
+  source_tags:
+  - baseline_replay_universe
+  company_name: IOVA
+- ticker: ISEE
+  company_id: co-isee
+  asset_id: a-isee
+  company_name: Iveric Bio
+  drug_name: avacincaptad pegol
+  indication: geographic atrophy
+  therapeutic_area: ophthalmology
+  stage: nda_bla
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: avacincaptad pegol could attract strategic interest in geographic
+    atrophy.
+  catalyst: Astellas announced Iveric Bio acquisition on 2023-04-30
+  announcement_date: '2023-04-30'
+  acquirer: Astellas
+  headline_value_millions: 5900
+  comp_bucket: direct_dev_stage
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+  - mna_target_monitor
+  status: acquired
+- ticker: ITCI
+  company_id: co-itci
+  asset_id: a-itci
+  company_name: Intra-Cellular Therapies
+  drug_name: Caplyta (lumateperone)
+  indication: schizophrenia and bipolar depression
+  therapeutic_area: neuroscience
+  stage: approved
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Caplyta (lumateperone) could attract strategic interest in schizophrenia
+    and bipolar depression.
+  catalyst: Johnson & Johnson announced Intra-Cellular Therapies acquisition on 2025-01-13
+  announcement_date: '2025-01-13'
+  acquirer: Johnson & Johnson
+  headline_value_millions: 14600
+  comp_bucket: approved_or_commercial
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: ITOS
+  company_id: co-itos
+  asset_id: a-itos
+  company_name: iTeos Therapeutics
+  drug_name: EOS-448 (TIGIT) / inupadenant (A2A/A2B)
+  indication: oncology
+  therapeutic_area: oncology
+  stage: phase_2
+  ranking_score: 0.54
+  opportunity_score: 0.52
+  conviction: medium
+  claim_type: custom
+  claim_assertion: iTeos Therapeutics remains a live strategic optionality name in
+    oncology.
+  catalyst: 'M&A monitor: EOS-448 (TIGIT) / inupadenant (A2A/A2B)'
+  status: independent_public_target
+  source: mna_target_monitor
+  source_tags:
+  - mna_target_monitor
+- ticker: JUNO
+  company_id: co-juno
+  asset_id: a-juno
+  company_name: Juno Therapeutics
+  drug_name: lisocabtagene maraleucel (JCAR017)
+  indication: relapsed or refractory large B-cell lymphoma
+  therapeutic_area: oncology
+  stage: phase_2
+  ranking_score: 0.54
+  opportunity_score: 0.52
+  conviction: medium
+  claim_type: custom
+  claim_assertion: lisocabtagene maraleucel (JCAR017) could attract strategic interest
+    in relapsed or refractory large B-cell lymphoma.
+  catalyst: Bristol Myers Squibb announced Juno Therapeutics acquisition on 2018-01-22
+  announcement_date: '2018-01-22'
+  acquirer: Bristol Myers Squibb
+  headline_value_millions: 9000
+  comp_bucket: direct_dev_stage
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: KALA
+  company_id: co-kala
+  asset_id: a-kala
+  company_name: Kala Bio
+  drug_name: KPI-012 / loteprednol (Eysuvis)
+  indication: persistent corneal epithelial defects / dry eye
+  therapeutic_area: ophthalmology
+  stage: phase_2
+  ranking_score: 0.54
+  opportunity_score: 0.52
+  conviction: medium
+  claim_type: custom
+  claim_assertion: KPI-012 / loteprednol (Eysuvis) could attract strategic interest
+    in persistent corneal epithelial defects / dry eye.
+  catalyst: None announced Kala Bio acquisition on 2024-05-02
+  announcement_date: '2024-05-02'
+  acquirer: ''
+  headline_value_millions: 0
+  comp_bucket: negative_outcome
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: KDNY
+  company_id: co-kdny
+  asset_id: a-kdny
+  company_name: Chinook Therapeutics
+  drug_name: atrasentan / zigakibart
+  indication: IgA nephropathy
+  therapeutic_area: nephrology
+  stage: phase_3
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: atrasentan / zigakibart could attract strategic interest in IgA
+    nephropathy.
+  catalyst: Novartis announced Chinook Therapeutics acquisition on 2023-06-12
+  announcement_date: '2023-06-12'
+  acquirer: Novartis
+  headline_value_millions: 3500
+  comp_bucket: direct_dev_stage
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+  - mna_target_monitor
+  status: acquired
+- ticker: KITE
+  company_id: co-kite
+  asset_id: a-kite
+  company_name: Kite Pharma
+  drug_name: axicabtagene ciloleucel (Yescarta)
+  indication: relapsed or refractory large B-cell lymphoma
+  therapeutic_area: oncology
+  stage: nda_bla
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: axicabtagene ciloleucel (Yescarta) could attract strategic interest
+    in relapsed or refractory large B-cell lymphoma.
+  catalyst: Gilead Sciences announced Kite Pharma acquisition on 2017-08-28
+  announcement_date: '2017-08-28'
+  acquirer: Gilead Sciences
+  headline_value_millions: 11900
+  comp_bucket: direct_dev_stage
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: KRTX
+  company_id: co-krtx
+  asset_id: a-krtx
+  company_name: Karuna Therapeutics
+  drug_name: KarXT
+  indication: schizophrenia
+  therapeutic_area: neuroscience
+  stage: nda_bla
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: KarXT could attract strategic interest in schizophrenia.
+  catalyst: Bristol Myers Squibb announced Karuna Therapeutics acquisition on 2023-12-22
+  announcement_date: '2023-12-22'
+  acquirer: Bristol Myers Squibb
+  headline_value_millions: 14000
+  comp_bucket: direct_dev_stage
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+  - mna_target_monitor
+  status: acquired
+- ticker: KYMR
+  company_id: co-kymr
+  asset_id: a-kymr
+  indication: "protein degradation \u2014 STAT6 / IRAKIMiD / MDM2"
+  ranking_score: 0.65
+  opportunity_score: 0.68
+  conviction: medium-high
+  catalyst: KT-474 STAT6 degrader Ph2 atopic derm readout; KT-333 STAT3 lymphoma data
+  claim_type: endpoint_met
+  claim_assertion: "KT-474 achieves \u226550% EASI reduction vs placebo in Ph2 atopic\
+    \ derm"
+  source: baseline_replay_universe
+  source_tags:
+  - baseline_replay_universe
+  - mna_target_monitor
+  - universe_registry
+  company_name: Kymera Therapeutics
+  drug_name: KT-474
+  therapeutic_area: immunology
+  stage: phase_2
+  status: independent_public_target
+- ticker: LBPH
+  company_id: co-lbph
+  asset_id: a-lbph
+  company_name: Longboard Pharmaceuticals
+  drug_name: bexicaserin
+  indication: developmental and epileptic encephalopathies
+  therapeutic_area: neuroscience
+  stage: phase_3
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: bexicaserin could attract strategic interest in developmental and
+    epileptic encephalopathies.
+  catalyst: Lundbeck announced Longboard Pharmaceuticals acquisition on 2024-10-14
+  announcement_date: '2024-10-14'
+  acquirer: Lundbeck
+  headline_value_millions: 2600
+  comp_bucket: direct_dev_stage
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: LLY
+  company_id: co-lly
+  asset_id: a-lly
+  indication: obesity / diabetes / Alzheimer's
+  ranking_score: 0.45
+  opportunity_score: 0.28
+  conviction: medium
+  catalyst: Zepbound share vs semaglutide; orforglipron oral data
+  claim_type: market_reaction_positive
+  claim_assertion: GLP-1 dominance persists but expectations leave little upside
+  source: baseline_replay_universe
+  source_tags:
+  - baseline_replay_universe
+  company_name: LLY
+- ticker: LNTH
+  company_id: co-lnth
+  asset_id: a-lnth
+  company_name: Lantheus Holdings
+  drug_name: PYLARIFY (PSMA PET) / MK-6240 (tau PET) / PNT2002 (PSMA RLT)
+  indication: oncology
+  therapeutic_area: oncology
+  stage: commercial
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Lantheus Holdings remains a live strategic optionality name in
+    oncology.
+  catalyst: 'M&A monitor: PYLARIFY (PSMA PET) / MK-6240 (tau PET) / PNT2002 (PSMA
+    RLT)'
+  status: independent_public_target
+  source: mna_target_monitor
+  source_tags:
+  - mna_target_monitor
+- ticker: LOXO
+  company_id: co-loxo
+  asset_id: a-loxo
+  company_name: Loxo Oncology
+  drug_name: larotrectinib (Vitrakvi) / LOXO-292 (selpercatinib)
+  indication: NTRK fusion-positive solid tumors / RET fusion-positive NSCLC
+  therapeutic_area: oncology
+  stage: approved / phase_1_2
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: larotrectinib (Vitrakvi) / LOXO-292 (selpercatinib) could attract
+    strategic interest in NTRK fusion-positive solid tumors / RET fusion-positive
+    NSCLC.
+  catalyst: Eli Lilly announced Loxo Oncology acquisition on 2019-01-07
+  announcement_date: '2019-01-07'
+  acquirer: Eli Lilly
+  headline_value_millions: 8000
+  comp_bucket: direct_dev_stage
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: MACK
+  company_id: co-mack
+  asset_id: a-mack
+  company_name: Merrimack Pharmaceuticals
+  drug_name: MM-310 / CARMA platform
+  indication: HER3-expressing solid tumors
+  therapeutic_area: oncology
+  stage: phase_1
+  ranking_score: 0.5
+  opportunity_score: 0.48
+  conviction: low-medium
+  claim_type: custom
+  claim_assertion: MM-310 / CARMA platform could attract strategic interest in HER3-expressing
+    solid tumors.
+  catalyst: None announced Merrimack Pharmaceuticals acquisition on 2021-10-18
+  announcement_date: '2021-10-18'
+  acquirer: ''
+  headline_value_millions: 0
+  comp_bucket: negative_outcome
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: MDGL
+  company_id: co-mdgl
+  asset_id: a-mdgl
+  indication: "NASH / MASH \u2014 resmetirom"
+  ranking_score: 0.6
+  opportunity_score: 0.62
+  conviction: medium
+  catalyst: Rezdiffra (resmetirom) Rx uptake trajectory; label expansion to F2 fibrosis
+  claim_type: market_reaction_positive
+  claim_assertion: "Rezdiffra achieves \u226540,000 prescriptions in first full year\
+    \ post-launch"
+  source: baseline_replay_universe
+  source_tags:
+  - baseline_replay_universe
+  - universe_registry
+  company_name: Madrigal Pharmaceuticals
+  drug_name: Resmetirom
+  therapeutic_area: other
+  stage: nda_bla
+- ticker: MDVN
+  company_id: co-mdvn
+  asset_id: a-mdvn
+  company_name: Medivation
+  drug_name: Xtandi (enzalutamide)
+  indication: metastatic castration-resistant prostate cancer
+  therapeutic_area: oncology
+  stage: approved
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Xtandi (enzalutamide) could attract strategic interest in metastatic
+    castration-resistant prostate cancer.
+  catalyst: Pfizer announced Medivation acquisition on 2016-08-22
+  announcement_date: '2016-08-22'
+  acquirer: Pfizer
+  headline_value_millions: 14300
+  comp_bucket: approved_or_commercial
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: MNTA
+  company_id: co-mnta
+  asset_id: a-mnta
+  company_name: Momenta Pharmaceuticals
+  drug_name: nipocalimab
+  indication: autoantibody-driven autoimmune diseases
+  therapeutic_area: immunology
+  stage: phase_2
+  ranking_score: 0.54
+  opportunity_score: 0.52
+  conviction: medium
+  claim_type: custom
+  claim_assertion: nipocalimab could attract strategic interest in autoantibody-driven
+    autoimmune diseases.
+  catalyst: Johnson & Johnson announced Momenta Pharmaceuticals acquisition on 2020-08-19
+  announcement_date: '2020-08-19'
+  acquirer: Johnson & Johnson
+  headline_value_millions: 6500
+  comp_bucket: direct_dev_stage
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: MORF
+  company_id: co-morf
+  asset_id: a-morf
+  company_name: Morphic
+  drug_name: MORF-057
+  indication: ulcerative colitis / Crohn's disease
+  therapeutic_area: immunology
+  stage: phase_2
+  ranking_score: 0.54
+  opportunity_score: 0.52
+  conviction: medium
+  claim_type: custom
+  claim_assertion: MORF-057 could attract strategic interest in ulcerative colitis
+    / Crohn's disease.
+  catalyst: Eli Lilly announced Morphic acquisition on 2024-07-08
+  announcement_date: '2024-07-08'
+  acquirer: Eli Lilly
+  headline_value_millions: 3200
+  comp_bucket: direct_dev_stage
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: MRNA
+  company_id: co-mrna
+  asset_id: a-mrna
+  indication: "mRNA \u2014 flu / RSV / cancer vaccines"
+  ranking_score: 0.5
+  opportunity_score: 0.52
+  conviction: medium
+  catalyst: mRNA-1283 next-gen COVID/flu combo Ph3; individualized cancer vaccine
+    Ph3
+  claim_type: endpoint_met
+  claim_assertion: mRNA-4157 (ICV) meets RFS endpoint in KEYNOTE-942 registrational
+  source: baseline_replay_universe
+  source_tags:
+  - baseline_replay_universe
+  - universe_registry
+  company_name: Moderna
+  drug_name: mRNA-4157
+  therapeutic_area: oncology
+  stage: phase_3
+- ticker: MRUS
+  company_id: co-mrus
+  asset_id: a-mrus
+  company_name: Merus N.V.
+  drug_name: "zenocutuzumab (NRG1) / petosemtamab (EGFR\xD7LGR5) / MCLA-145 (PD-L1\xD7\
+    CD137)"
+  indication: oncology
+  therapeutic_area: oncology
+  stage: phase_2_phase_3
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Merus N.V. remains a live strategic optionality name in oncology.
+  catalyst: "M&A monitor: zenocutuzumab (NRG1) / petosemtamab (EGFR\xD7LGR5) / MCLA-145\
+    \ (PD-L1\xD7CD137)"
+  status: independent_public_target
+  source: mna_target_monitor
+  source_tags:
+  - mna_target_monitor
+- ticker: MYOK
+  company_id: co-myok
+  asset_id: a-myok
+  company_name: MyoKardia
+  drug_name: mavacamten
+  indication: obstructive hypertrophic cardiomyopathy
+  therapeutic_area: cardiovascular
+  stage: phase_3
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: mavacamten could attract strategic interest in obstructive hypertrophic
+    cardiomyopathy.
+  catalyst: Bristol Myers Squibb announced MyoKardia acquisition on 2020-10-05
+  announcement_date: '2020-10-05'
+  acquirer: Bristol Myers Squibb
+  headline_value_millions: 13100
+  comp_bucket: direct_dev_stage
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: NBRV
+  company_id: co-nbrv
+  asset_id: a-nbrv
+  company_name: Nabriva Therapeutics
+  drug_name: XENLETA (lefamulin)
+  indication: community-acquired bacterial pneumonia
+  therapeutic_area: anti-infective
+  stage: approved
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: XENLETA (lefamulin) could attract strategic interest in community-acquired
+    bacterial pneumonia.
+  catalyst: None announced Nabriva Therapeutics acquisition on 2023-12-01
+  announcement_date: '2023-12-01'
+  acquirer: ''
+  headline_value_millions: 0
+  comp_bucket: negative_outcome
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: NLNK
+  company_id: co-nlnk
+  asset_id: a-nlnk
+  company_name: NewLink Genetics
+  drug_name: algenpantucel-L / indoximod
+  indication: pancreatic cancer / melanoma
+  therapeutic_area: oncology
+  stage: phase_3
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: algenpantucel-L / indoximod could attract strategic interest in
+    pancreatic cancer / melanoma.
+  catalyst: None announced NewLink Genetics acquisition on 2019-11-04
+  announcement_date: '2019-11-04'
+  acquirer: ''
+  headline_value_millions: 0
+  comp_bucket: negative_outcome
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: NONE
+  company_id: co-none
+  asset_id: a-none
+  company_name: Versanis Bio
+  drug_name: bimagrumab (ActRIIA/B inhibitor)
+  indication: obesity_metabolic
+  therapeutic_area: obesity_metabolic
+  stage: phase_2
+  ranking_score: 0.54
+  opportunity_score: 0.52
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Versanis Bio remains a live strategic optionality name in obesity_metabolic.
+  catalyst: 'M&A monitor: bimagrumab (ActRIIA/B inhibitor)'
+  status: acquired
+  source: mna_target_monitor
+  source_tags:
+  - mna_target_monitor
+- ticker: NTLA
+  company_id: co-ntla
+  asset_id: a-ntla
+  indication: "in vivo gene editing \u2014 ATTR / HAE"
+  ranking_score: 0.62
+  opportunity_score: 0.65
+  conviction: medium
+  catalyst: NTLA-2001 Ph1 durability data; NTLA-2002 HAE Ph3 start
+  claim_type: endpoint_met
+  claim_assertion: NTLA-2001 durable TTR reduction at 12-month follow-up
+  source: baseline_replay_universe
+  source_tags:
+  - baseline_replay_universe
+  - mna_target_monitor
+  - universe_registry
+  company_name: Intellia Therapeutics
+  drug_name: NTLA-2001
+  therapeutic_area: cardiovascular
+  stage: phase_1
+  status: independent_public_target
+- ticker: NUVB
+  company_id: co-nuvb
+  asset_id: a-nuvb
+  company_name: Nuvation Bio
+  drug_name: taletrectinib (ROS1/NTRK) / navtemadlin (MDM2)
+  indication: oncology
+  therapeutic_area: oncology
+  stage: phase_2_phase_3
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Nuvation Bio remains a live strategic optionality name in oncology.
+  catalyst: 'M&A monitor: taletrectinib (ROS1/NTRK) / navtemadlin (MDM2)'
+  status: independent_public_target
+  source: mna_target_monitor
+  source_tags:
+  - mna_target_monitor
+- ticker: NVAX
+  company_id: co-nvax
+  asset_id: a-nvax
+  indication: "protein subunit vaccines \u2014 COVID / flu"
+  ranking_score: 0.22
+  opportunity_score: 0.18
+  conviction: very-low
+  catalyst: COVID booster season share; Sanofi co-promotion milestone
+  claim_type: market_reaction_positive
+  claim_assertion: "Nuvaxovid captures \u22655% of US COVID booster market in 2025\
+    \ fall season"
+  source: baseline_replay_universe
+  source_tags:
+  - baseline_replay_universe
+  company_name: NVAX
+- ticker: NVIV
+  company_id: co-nviv
+  asset_id: a-nviv
+  company_name: InVivo Therapeutics
+  drug_name: NVG-291 / biopolymer scaffold
+  indication: spinal cord injury
+  therapeutic_area: cns
+  stage: phase_1
+  ranking_score: 0.5
+  opportunity_score: 0.48
+  conviction: low-medium
+  claim_type: custom
+  claim_assertion: NVG-291 / biopolymer scaffold could attract strategic interest
+    in spinal cord injury.
+  catalyst: None announced InVivo Therapeutics acquisition on 2022-06-03
+  announcement_date: '2022-06-03'
+  acquirer: ''
+  headline_value_millions: 0
+  comp_bucket: negative_outcome
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: OCGN
+  company_id: co-ocgn
+  asset_id: a-ocgn
+  company_name: Ocugen
+  drug_name: OCU400 (NR2E3 gene therapy) / OCU410 (RORA)
+  indication: ophthalmology
+  therapeutic_area: ophthalmology
+  stage: phase_2_phase_3
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Ocugen remains a live strategic optionality name in ophthalmology.
+  catalyst: 'M&A monitor: OCU400 (NR2E3 gene therapy) / OCU410 (RORA)'
+  status: independent_public_target
+  source: mna_target_monitor
+  source_tags:
+  - mna_target_monitor
+- ticker: OCUL
+  company_id: co-ocul
+  asset_id: a-ocul
+  indication: "rare retinal disease \u2014 LCA10 / RP"
+  ranking_score: 0.3
+  opportunity_score: 0.28
+  conviction: low
+  catalyst: OCU400 (LCA10/RP) Ph2/3 best-corrected visual acuity data
+  claim_type: endpoint_met
+  claim_assertion: "OCU400 shows \u226515-letter BCVA improvement in \u226540% of\
+    \ LCA10 patients"
+  source: baseline_replay_universe
+  source_tags:
+  - baseline_replay_universe
+  company_name: OCUL
+- ticker: OTIC
+  company_id: co-otic
+  asset_id: a-otic
+  company_name: Otonomy
+  drug_name: OTO-413
+  indication: sensorineural hearing loss
+  therapeutic_area: otology
+  stage: phase_2
+  ranking_score: 0.54
+  opportunity_score: 0.52
+  conviction: medium
+  claim_type: custom
+  claim_assertion: OTO-413 could attract strategic interest in sensorineural hearing
+    loss.
+  catalyst: None announced Otonomy acquisition on 2021-12-21
+  announcement_date: '2021-12-21'
+  acquirer: ''
+  headline_value_millions: 0
+  comp_bucket: negative_outcome
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: PAND
+  company_id: co-pand
+  asset_id: a-pand
+  company_name: Pandion Therapeutics
+  drug_name: PT-101
+  indication: autoimmune diseases (IBD / T1D)
+  therapeutic_area: immunology
+  stage: phase_1
+  ranking_score: 0.5
+  opportunity_score: 0.48
+  conviction: low-medium
+  claim_type: custom
+  claim_assertion: PT-101 could attract strategic interest in autoimmune diseases
+    (IBD / T1D).
+  catalyst: Merck announced Pandion Therapeutics acquisition on 2021-03-29
+  announcement_date: '2021-03-29'
+  acquirer: Merck
+  headline_value_millions: 1850
+  comp_bucket: platform_or_preclinical
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: PASG
+  company_id: co-pasg
+  asset_id: a-pasg
+  company_name: Passage Bio
+  drug_name: PBFT02 (GBA1/FTD-GRN) / PBGM01 (GM1 gangliosidosis)
+  indication: neuroscience_rare_disease
+  therapeutic_area: neuroscience_rare_disease
+  stage: phase_1_phase_2
+  ranking_score: 0.54
+  opportunity_score: 0.52
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Passage Bio remains a live strategic optionality name in neuroscience_rare_disease.
+  catalyst: 'M&A monitor: PBFT02 (GBA1/FTD-GRN) / PBGM01 (GM1 gangliosidosis)'
+  status: independent_public_target
+  source: mna_target_monitor
+  source_tags:
+  - mna_target_monitor
+- ticker: PRAX
+  company_id: co-prax
+  asset_id: asset-prax-prax944
+  company_name: Praxis Precision Medicines
+  drug_name: Ulixacaltamide
+  indication: Essential tremor
+  therapeutic_area: cns
+  stage: phase_3
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Ulixacaltamide retains strategic optionality in Essential tremor.
+  catalyst: Ulixacaltamide development progress in Essential tremor
+  source: universe_registry
+  source_tags:
+  - mna_target_monitor
+  - universe_registry
+  status: independent_public_target
+- ticker: PRLD
+  company_id: co-prld
+  asset_id: a-prld
+  company_name: Prelude Therapeutics
+  drug_name: PRT2527 (CDK9) / PRT1419 (MCL1)
+  indication: hematology_oncology
+  therapeutic_area: hematology_oncology
+  stage: phase_1_phase_2
+  ranking_score: 0.54
+  opportunity_score: 0.52
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Prelude Therapeutics remains a live strategic optionality name
+    in hematology_oncology.
+  catalyst: 'M&A monitor: PRT2527 (CDK9) / PRT1419 (MCL1)'
+  status: independent_public_target
+  source: mna_target_monitor
+  source_tags:
+  - mna_target_monitor
+- ticker: PRNB
+  company_id: co-prnb
+  asset_id: a-prnb
+  company_name: Principia Biopharma
+  drug_name: rilzabrutinib / tolebrutinib
+  indication: autoimmune and allergic diseases / multiple sclerosis
+  therapeutic_area: immunology
+  stage: phase_2 / phase_3
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: rilzabrutinib / tolebrutinib could attract strategic interest in
+    autoimmune and allergic diseases / multiple sclerosis.
+  catalyst: Sanofi announced Principia Biopharma acquisition on 2020-08-17
+  announcement_date: '2020-08-17'
+  acquirer: Sanofi
+  headline_value_millions: 3680
+  comp_bucket: direct_dev_stage
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: PRQR
+  company_id: co-prqr
+  asset_id: a-prqr
+  company_name: ProQR Therapeutics
+  drug_name: sepofarsen / QR-504 (USH2A) / RNA editing platform
+  indication: ophthalmology
+  therapeutic_area: ophthalmology
+  stage: phase_2_phase_3
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: ProQR Therapeutics remains a live strategic optionality name in
+    ophthalmology.
+  catalyst: 'M&A monitor: sepofarsen / QR-504 (USH2A) / RNA editing platform'
+  status: independent_public_target
+  source: mna_target_monitor
+  source_tags:
+  - mna_target_monitor
+- ticker: PRTA
+  company_id: co-prta
+  asset_id: a-prta
+  indication: "neurodegenerative \u2014 Parkinson's / Alzheimer's (alpha-syn / tau\
+    \ / ATTR)"
+  ranking_score: 0.19
+  opportunity_score: 0.16
+  conviction: very-low
+  catalyst: Prasinezumab (alpha-syn) Ph2b PADOVA extension; PRX012 ATTR-CM Ph1
+  claim_type: endpoint_met
+  claim_assertion: Prasinezumab slows motor progression in rapid-progressors in Ph2b
+    extension
+  source: baseline_replay_universe
+  source_tags:
+  - baseline_replay_universe
+  company_name: PRTA
+- ticker: PRVB
+  company_id: co-prvb
+  asset_id: a-prvb
+  company_name: Provention Bio
+  drug_name: TZIELD
+  indication: delay of stage 3 type 1 diabetes
+  therapeutic_area: immunology / endocrinology
+  stage: approved
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: TZIELD could attract strategic interest in delay of stage 3 type
+    1 diabetes.
+  catalyst: Sanofi announced Provention Bio acquisition on 2023-03-13
+  announcement_date: '2023-03-13'
+  acquirer: Sanofi
+  headline_value_millions: 2900
+  comp_bucket: approved_or_commercial
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: PRVL
+  company_id: co-prvl
+  asset_id: a-prvl
+  company_name: Prevail Therapeutics
+  drug_name: PR001 / PR006
+  indication: Parkinson's disease with GBA1 mutations / frontotemporal dementia with
+    GRN mutations
+  therapeutic_area: neuroscience
+  stage: phase_1 / 2
+  ranking_score: 0.5
+  opportunity_score: 0.48
+  conviction: low-medium
+  claim_type: custom
+  claim_assertion: PR001 / PR006 could attract strategic interest in Parkinson's disease
+    with GBA1 mutations / frontotemporal dementia with GRN mutations.
+  catalyst: Eli Lilly announced Prevail Therapeutics acquisition on 2020-12-15
+  announcement_date: '2020-12-15'
+  acquirer: Eli Lilly
+  headline_value_millions: 1040
+  comp_bucket: platform_or_preclinical
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: PTCT
+  company_id: co-ptct
+  asset_id: asset-ptct-sepiapterin
+  company_name: PTC Therapeutics
+  drug_name: Sepiapterin
+  indication: Phenylketonuria
+  therapeutic_area: rare_disease
+  stage: phase_3
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Sepiapterin retains strategic optionality in Phenylketonuria.
+  catalyst: Sepiapterin development progress in Phenylketonuria
+  source: universe_registry
+  source_tags:
+  - universe_registry
+- ticker: PTGX
+  company_id: co-ptgx
+  asset_id: a-ptgx
+  company_name: Protagonist Therapeutics
+  drug_name: rusfertide (hepcidin mimetic) / PN-235 (oral IL-13)
+  indication: immunology_hematology
+  therapeutic_area: immunology_hematology
+  stage: phase_3_nda
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Protagonist Therapeutics remains a live strategic optionality name
+    in immunology_hematology.
+  catalyst: 'M&A monitor: rusfertide (hepcidin mimetic) / PN-235 (oral IL-13)'
+  status: independent_public_target
+  source: mna_target_monitor
+  source_tags:
+  - mna_target_monitor
+- ticker: RAPT
+  company_id: co-rapt
+  asset_id: a-rapt
+  company_name: RAPT Therapeutics
+  drug_name: ozureprubart
+  indication: food allergy prophylaxis
+  therapeutic_area: immunology
+  stage: phase_2b
+  ranking_score: 0.54
+  opportunity_score: 0.52
+  conviction: medium
+  claim_type: custom
+  claim_assertion: ozureprubart could attract strategic interest in food allergy prophylaxis.
+  catalyst: GSK announced RAPT Therapeutics acquisition on 2026-01-20
+  announcement_date: '2026-01-20'
+  acquirer: GSK
+  headline_value_millions: 2200
+  comp_bucket: direct_dev_stage
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: RARE
+  company_id: co-rare
+  asset_id: a-rare
+  company_name: Ultragenyx Pharmaceutical
+  drug_name: setrusumab (OI) / UX701 (Wilson disease AAV) / DTX301 (OTC deficiency)
+  indication: rare_disease
+  therapeutic_area: rare_disease
+  stage: phase_2_phase_3
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Ultragenyx Pharmaceutical remains a live strategic optionality
+    name in rare_disease.
+  catalyst: 'M&A monitor: setrusumab (OI) / UX701 (Wilson disease AAV) / DTX301 (OTC
+    deficiency)'
+  status: independent_public_target
+  source: mna_target_monitor
+  source_tags:
+  - mna_target_monitor
+- ticker: RARX
+  company_id: co-rarx
+  asset_id: a-rarx
+  company_name: Ra Pharmaceuticals
+  drug_name: zilucoplan
+  indication: generalized myasthenia gravis
+  therapeutic_area: neuroscience
+  stage: phase_3
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: zilucoplan could attract strategic interest in generalized myasthenia
+    gravis.
+  catalyst: UCB announced Ra Pharmaceuticals acquisition on 2020-02-28
+  announcement_date: '2020-02-28'
+  acquirer: UCB
+  headline_value_millions: 2100
+  comp_bucket: direct_dev_stage
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: RCKT
+  company_id: co-rckt
+  asset_id: a-rckt
+  company_name: Rocket Pharmaceuticals
+  drug_name: RP-L201 (LAD-I) / RP-L301 (PKD) / RP-A501 (Danon disease)
+  indication: rare_disease
+  therapeutic_area: rare_disease
+  stage: phase_2_phase_3
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Rocket Pharmaceuticals remains a live strategic optionality name
+    in rare_disease.
+  catalyst: 'M&A monitor: RP-L201 (LAD-I) / RP-L301 (PKD) / RP-A501 (Danon disease)'
+  status: independent_public_target
+  source: mna_target_monitor
+  source_tags:
+  - mna_target_monitor
+- ticker: RCPT
+  company_id: co-rcpt
+  asset_id: a-rcpt
+  company_name: Receptos
+  drug_name: ozanimod
+  indication: relapsing multiple sclerosis / ulcerative colitis
+  therapeutic_area: immunology
+  stage: phase_3
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: ozanimod could attract strategic interest in relapsing multiple
+    sclerosis / ulcerative colitis.
+  catalyst: Celgene announced Receptos acquisition on 2015-07-14
+  announcement_date: '2015-07-14'
+  acquirer: Celgene
+  headline_value_millions: 7300
+  comp_bucket: direct_dev_stage
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: REGN
+  company_id: co-regn
+  asset_id: a-regn
+  indication: oncology / immunology / eye
+  ranking_score: 0.52
+  opportunity_score: 0.4
+  conviction: medium
+  catalyst: Dupixent label expansions; EYLEA HD biosimilar competition
+  claim_type: competitor_failure
+  claim_assertion: EYLEA biosimilar penetration slower than feared; pricing holds
+  source: baseline_replay_universe
+  source_tags:
+  - baseline_replay_universe
+  - universe_registry
+  company_name: Regeneron Pharmaceuticals
+  drug_name: Dupilumab
+  therapeutic_area: immunology
+  stage: nda_bla
+- ticker: RETA
+  company_id: co-reta
+  asset_id: a-reta
+  company_name: Reata Pharmaceuticals
+  drug_name: Skyclarys (omaveloxolone)
+  indication: Friedreich's ataxia
+  therapeutic_area: rare disease
+  stage: approved
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Skyclarys (omaveloxolone) could attract strategic interest in Friedreich's
+    ataxia.
+  catalyst: Biogen announced Reata Pharmaceuticals acquisition on 2023-07-28
+  announcement_date: '2023-07-28'
+  acquirer: Biogen
+  headline_value_millions: 7300
+  comp_bucket: approved_or_commercial
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: RGBP
+  company_id: co-rgbp
+  asset_id: a-rgbp
+  company_name: Regado Biosciences
+  drug_name: REG1 (pegnivacogin + anivamersen)
+  indication: acute coronary syndrome
+  therapeutic_area: cardiovascular
+  stage: phase_3
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: REG1 (pegnivacogin + anivamersen) could attract strategic interest
+    in acute coronary syndrome.
+  catalyst: None announced Regado Biosciences acquisition on 2015-05-06
+  announcement_date: '2015-05-06'
+  acquirer: ''
+  headline_value_millions: 0
+  comp_bucket: negative_outcome
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: RIGL
+  company_id: co-rigl
+  asset_id: a-rigl
+  company_name: Rigel Pharmaceuticals
+  drug_name: fostamatinib
+  indication: immune thrombocytopenia
+  therapeutic_area: immunology
+  stage: phase_3
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: fostamatinib could attract strategic interest in immune thrombocytopenia.
+  catalyst: AstraZeneca announced Rigel Pharmaceuticals acquisition on 2017-07-10
+  announcement_date: '2017-07-10'
+  acquirer: AstraZeneca
+  headline_value_millions: 1360
+  comp_bucket: direct_dev_stage
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: RLAY
+  company_id: co-rlay
+  asset_id: asset-rlay-rly2608
+  company_name: Relay Therapeutics
+  drug_name: RLY-2608
+  indication: PI3Ka-mutated breast cancer
+  therapeutic_area: oncology
+  stage: phase_1
+  ranking_score: 0.5
+  opportunity_score: 0.48
+  conviction: low-medium
+  claim_type: custom
+  claim_assertion: RLY-2608 retains strategic optionality in PI3Ka-mutated breast
+    cancer.
+  catalyst: RLY-2608 development progress in PI3Ka-mutated breast cancer
+  source: universe_registry
+  source_tags:
+  - mna_target_monitor
+  - universe_registry
+  status: independent_public_target
+- ticker: RNA
+  company_id: co-rna
+  asset_id: a-rna
+  company_name: Avidity Biosciences
+  drug_name: del-desiran / del-brax / del-zota
+  indication: myotonic dystrophy type 1 / facioscapulohumeral muscular dystrophy /
+    Duchenne muscular dystrophy
+  therapeutic_area: neuroscience
+  stage: phase_3 / late_stage
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: del-desiran / del-brax / del-zota could attract strategic interest
+    in myotonic dystrophy type 1 / facioscapulohumeral muscular dystrophy / Duchenne
+    muscular dystrophy.
+  catalyst: Novartis announced Avidity Biosciences acquisition on 2025-10-26
+  announcement_date: '2025-10-26'
+  acquirer: Novartis
+  headline_value_millions: 12000
+  comp_bucket: direct_dev_stage
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+  - mna_target_monitor
+  status: acquired
+- ticker: RVMD
+  company_id: co-rvmd
+  asset_id: a-rvmd
+  indication: "RAS oncology \u2014 KRAS G12C/D, pan-RAS"
+  ranking_score: 0.61
+  opportunity_score: 0.64
+  conviction: medium
+  catalyst: RMC-6236 pan-RAS Ph1/2 PDAC expansion cohort ORR; RMC-9805 KRAS G12D IND
+  claim_type: endpoint_met
+  claim_assertion: "RMC-6236 achieves \u226520% ORR in KRAS-mutant PDAC expansion\
+    \ cohort"
+  source: baseline_replay_universe
+  source_tags:
+  - baseline_replay_universe
+  - mna_target_monitor
+  company_name: Revolution Medicines
+  drug_name: daraxonrasib / elironrasib / zoldonrasib
+  therapeutic_area: oncology
+  stage: late_stage
+  status: independent_public_target
+- ticker: RXDX
+  company_id: co-rxdx
+  asset_id: a-rxdx
+  company_name: Ignyta
+  drug_name: entrectinib
+  indication: ROS1+ NSCLC / NTRK fusion-positive solid tumors
+  therapeutic_area: oncology
+  stage: phase_2
+  ranking_score: 0.54
+  opportunity_score: 0.52
+  conviction: medium
+  claim_type: custom
+  claim_assertion: entrectinib could attract strategic interest in ROS1+ NSCLC / NTRK
+    fusion-positive solid tumors.
+  catalyst: Roche announced Ignyta acquisition on 2018-01-09
+  announcement_date: '2018-01-09'
+  acquirer: Roche
+  headline_value_millions: 1700
+  comp_bucket: direct_dev_stage
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+  - mna_target_monitor
+  status: acquired
+- ticker: RXRX
+  company_id: co-rxrx
+  asset_id: a-rxrx
+  indication: AI-enabled rare disease / oncology
+  ranking_score: 0.38
+  opportunity_score: 0.42
+  conviction: low-medium
+  catalyst: "First AI-generated IND \u2192 Ph1 data; Recursion-Nvidia compute milestones"
+  claim_type: pos_above_threshold
+  claim_assertion: At least one Recursion-originated compound reaches Ph1 dose escalation
+  source: baseline_replay_universe
+  source_tags:
+  - baseline_replay_universe
+  - universe_registry
+  company_name: Recursion Pharmaceuticals
+  drug_name: REC-994
+  therapeutic_area: cns
+  stage: phase_2
+- ticker: RYZB
+  company_id: co-ryzb
+  asset_id: a-ryzb
+  company_name: RayzeBio
+  drug_name: RYZ101
+  indication: gastroenteropancreatic neuroendocrine tumors
+  therapeutic_area: oncology
+  stage: phase_3
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: RYZ101 could attract strategic interest in gastroenteropancreatic
+    neuroendocrine tumors.
+  catalyst: Bristol Myers Squibb announced RayzeBio acquisition on 2023-12-26
+  announcement_date: '2023-12-26'
+  acquirer: Bristol Myers Squibb
+  headline_value_millions: 4100
+  comp_bucket: direct_dev_stage
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: SAGE
+  company_id: co-sage
+  asset_id: asset-sage-sage718
+  company_name: Sage Therapeutics
+  drug_name: SAGE-718
+  indication: Cognitive impairment in Huntington disease
+  therapeutic_area: cns
+  stage: phase_2
+  ranking_score: 0.54
+  opportunity_score: 0.52
+  conviction: medium
+  claim_type: custom
+  claim_assertion: SAGE-718 retains strategic optionality in Cognitive impairment
+    in Huntington disease.
+  catalyst: SAGE-718 development progress in Cognitive impairment in Huntington disease
+  source: universe_registry
+  source_tags:
+  - universe_registry
+- ticker: SGYP
+  company_id: co-sgyp
+  asset_id: a-sgyp
+  company_name: Synergy Pharmaceuticals
+  drug_name: Trulance (plecanatide)
+  indication: irritable bowel syndrome with constipation / chronic idiopathic constipation
+  therapeutic_area: gastroenterology
+  stage: approved
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Trulance (plecanatide) could attract strategic interest in irritable
+    bowel syndrome with constipation / chronic idiopathic constipation.
+  catalyst: None announced Synergy Pharmaceuticals acquisition on 2019-01-12
+  announcement_date: '2019-01-12'
+  acquirer: ''
+  headline_value_millions: 0
+  comp_bucket: negative_outcome
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: SLDB
+  company_id: co-sldb
+  asset_id: a-sldb
+  company_name: Solid Biosciences
+  drug_name: SGT-003 (Duchenne gene therapy)
+  indication: rare_disease
+  therapeutic_area: rare_disease
+  stage: phase_1_phase_2
+  ranking_score: 0.54
+  opportunity_score: 0.52
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Solid Biosciences remains a live strategic optionality name in
+    rare_disease.
+  catalyst: 'M&A monitor: SGT-003 (Duchenne gene therapy)'
+  status: independent_public_target
+  source: mna_target_monitor
+  source_tags:
+  - mna_target_monitor
+- ticker: SLN
+  company_id: co-sln
+  asset_id: a-sln
+  company_name: Silence Therapeutics
+  drug_name: ziltivekimab (IL-6 inhibitor, NOVO-licensed) / SLN360 (LPA)
+  indication: rare_disease_hematology
+  therapeutic_area: rare_disease_hematology
+  stage: phase_2_phase_3
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Silence Therapeutics remains a live strategic optionality name
+    in rare_disease_hematology.
+  catalyst: 'M&A monitor: ziltivekimab (IL-6 inhibitor, NOVO-licensed) / SLN360 (LPA)'
+  status: independent_public_target
+  source: mna_target_monitor
+  source_tags:
+  - mna_target_monitor
+- ticker: SLRN
+  company_id: co-slrn
+  asset_id: a-slrn
+  company_name: Acelyrin
+  drug_name: izokibep (IL-17A nanobody) / lonigutamab (IL-15)
+  indication: immunology
+  therapeutic_area: immunology
+  stage: phase_2_phase_3
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Acelyrin remains a live strategic optionality name in immunology.
+  catalyst: 'M&A monitor: izokibep (IL-17A nanobody) / lonigutamab (IL-15)'
+  status: independent_public_target
+  source: mna_target_monitor
+  source_tags:
+  - mna_target_monitor
+- ticker: SNDX
+  company_id: co-sndx
+  asset_id: a-sndx
+  company_name: AbbVie / Syndax Pharmaceuticals
+  drug_name: revumenib (KMT2A/NPM1 AML) / axatilimab
+  indication: hematology_oncology
+  therapeutic_area: hematology_oncology
+  stage: approved_phase_3
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: AbbVie / Syndax Pharmaceuticals remains a live strategic optionality
+    name in hematology_oncology.
+  catalyst: 'M&A monitor: revumenib (KMT2A/NPM1 AML) / axatilimab'
+  status: independent_public_target
+  source: mna_target_monitor
+  source_tags:
+  - mna_target_monitor
+- ticker: SPNV
+  company_id: co-spnv
+  asset_id: asset-spnv-deepview
+  company_name: Spectral AI
+  drug_name: DeepView AI
+  indication: Burn wound healing assessment
+  therapeutic_area: other
+  stage: phase_3
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: DeepView AI retains strategic optionality in Burn wound healing
+    assessment.
+  catalyst: DeepView AI development progress in Burn wound healing assessment
+  source: universe_registry
+  source_tags:
+  - universe_registry
+- ticker: SRNE
+  company_id: co-srne
+  asset_id: a-srne
+  company_name: Sorrento Therapeutics
+  drug_name: COVIDROPS / palmitoylethanolamide portfolio
+  indication: COVID-19 / pain / oncology (multiple failed programs)
+  therapeutic_area: oncology / immunology
+  stage: phase_1_2_multiple
+  ranking_score: 0.5
+  opportunity_score: 0.48
+  conviction: low-medium
+  claim_type: custom
+  claim_assertion: COVIDROPS / palmitoylethanolamide portfolio could attract strategic
+    interest in COVID-19 / pain / oncology (multiple failed programs).
+  catalyst: None announced Sorrento Therapeutics acquisition on 2023-02-13
+  announcement_date: '2023-02-13'
+  acquirer: ''
+  headline_value_millions: 0
+  comp_bucket: negative_outcome
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: SRPT
+  company_id: co-srpt
+  asset_id: a-srpt
+  indication: DMD gene therapy
+  ranking_score: 0.68
+  opportunity_score: 0.75
+  conviction: medium-high
+  catalyst: Elevidys full approval confirmation; SRP-9003 (LGMD2E) Ph3 data
+  claim_type: regulatory_pathway
+  claim_assertion: Elevidys receives broad label conversion (not restricted to ambulatory)
+  source: baseline_replay_universe
+  source_tags:
+  - baseline_replay_universe
+  - mna_target_monitor
+  - universe_registry
+  company_name: Sarepta Therapeutics
+  drug_name: SRP-9001
+  therapeutic_area: rare_disease
+  stage: nda_bla
+  status: independent_public_target
+- ticker: SRRA
+  company_id: co-srra
+  asset_id: a-srra
+  company_name: Sierra Oncology
+  drug_name: momelotinib
+  indication: myelofibrosis
+  therapeutic_area: oncology
+  stage: nda_bla
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: momelotinib could attract strategic interest in myelofibrosis.
+  catalyst: GSK announced Sierra Oncology acquisition on 2022-04-13
+  announcement_date: '2022-04-13'
+  acquirer: GSK
+  headline_value_millions: 1900
+  comp_bucket: direct_dev_stage
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: SRRK
+  company_id: co-srrk
+  asset_id: a-srrk
+  indication: "musculoskeletal \u2014 spinal muscular atrophy / cachexia"
+  ranking_score: 0.36
+  opportunity_score: 0.34
+  conviction: low-medium
+  catalyst: Apitegromab TOPAZ Ph3 SMA motor function data; NDA readiness review
+  claim_type: enrollment_on_track
+  claim_assertion: Apitegromab meets HFMSE motor function endpoint at 12 months in
+    TOPAZ
+  source: baseline_replay_universe
+  source_tags:
+  - baseline_replay_universe
+  - mna_target_monitor
+  company_name: Scholar Rock
+  drug_name: "apitegromab (myostatin inhibitor) / SRK-181 (TGF-\u03B21)"
+  therapeutic_area: obesity_metabolic
+  stage: phase_2_phase_3
+  status: independent_public_target
+- ticker: TBIO
+  company_id: co-tbio
+  asset_id: a-tbio
+  company_name: Translate Bio
+  drug_name: mRNA vaccine and therapeutic platform
+  indication: vaccines / cystic fibrosis / rare pulmonary diseases
+  therapeutic_area: platform
+  stage: platform / early_clinical
+  ranking_score: 0.45
+  opportunity_score: 0.44
+  conviction: low
+  claim_type: custom
+  claim_assertion: mRNA vaccine and therapeutic platform could attract strategic interest
+    in vaccines / cystic fibrosis / rare pulmonary diseases.
+  catalyst: Sanofi announced Translate Bio acquisition on 2021-08-03
+  announcement_date: '2021-08-03'
+  acquirer: Sanofi
+  headline_value_millions: 3200
+  comp_bucket: platform_or_preclinical
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: TERN
+  company_id: co-tern
+  asset_id: a-tern
+  company_name: Terns Pharmaceuticals
+  drug_name: "TERN-601 (oral GLP-1) / TERN-701 (THR-\u03B2 agonist)"
+  indication: obesity_metabolic
+  therapeutic_area: obesity_metabolic
+  stage: phase_1_phase_2
+  ranking_score: 0.54
+  opportunity_score: 0.52
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Terns Pharmaceuticals remains a live strategic optionality name
+    in obesity_metabolic.
+  catalyst: "M&A monitor: TERN-601 (oral GLP-1) / TERN-701 (THR-\u03B2 agonist)"
+  status: independent_public_target
+  source: mna_target_monitor
+  source_tags:
+  - mna_target_monitor
+- ticker: TGTX
+  company_id: co-tgtx
+  asset_id: asset-tgtx-ublituximab-ms
+  company_name: TG Therapeutics
+  drug_name: Ublituximab
+  indication: Relapsing multiple sclerosis
+  therapeutic_area: cns
+  stage: nda_bla
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Ublituximab retains strategic optionality in Relapsing multiple
+    sclerosis.
+  catalyst: Ublituximab development progress in Relapsing multiple sclerosis
+  source: universe_registry
+  source_tags:
+  - universe_registry
+- ticker: THOR
+  company_id: co-thor
+  asset_id: a-thor
+  company_name: Synthorx
+  drug_name: THOR-707
+  indication: solid tumors (IL-2 cytokine conjugate)
+  therapeutic_area: oncology
+  stage: phase_1
+  ranking_score: 0.5
+  opportunity_score: 0.48
+  conviction: low-medium
+  claim_type: custom
+  claim_assertion: THOR-707 could attract strategic interest in solid tumors (IL-2
+    cytokine conjugate).
+  catalyst: Sanofi announced Synthorx acquisition on 2019-12-09
+  announcement_date: '2019-12-09'
+  acquirer: Sanofi
+  headline_value_millions: 2500
+  comp_bucket: direct_dev_stage
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: TKAI
+  company_id: co-tkai
+  asset_id: a-tkai
+  company_name: Tokai Pharmaceuticals
+  drug_name: galeterone
+  indication: metastatic castration-resistant prostate cancer
+  therapeutic_area: oncology
+  stage: phase_3
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: galeterone could attract strategic interest in metastatic castration-resistant
+    prostate cancer.
+  catalyst: None announced Tokai Pharmaceuticals acquisition on 2018-01-11
+  announcement_date: '2018-01-11'
+  acquirer: ''
+  headline_value_millions: 0
+  comp_bucket: negative_outcome
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: TNGX
+  company_id: co-tngx
+  asset_id: a-tngx
+  company_name: Tango Therapeutics
+  drug_name: TNG462 / TNG456 / TNG348
+  indication: oncology
+  therapeutic_area: oncology
+  stage: phase_1_phase_2
+  ranking_score: 0.54
+  opportunity_score: 0.52
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Tango Therapeutics remains a live strategic optionality name in
+    oncology.
+  catalyst: 'M&A monitor: TNG462 / TNG456 / TNG348'
+  status: independent_public_target
+  source: mna_target_monitor
+  source_tags:
+  - mna_target_monitor
+- ticker: TPTX
+  company_id: co-tptx
+  asset_id: a-tptx
+  company_name: Turning Point Therapeutics
+  drug_name: repotrectinib
+  indication: ROS1-positive non-small cell lung cancer
+  therapeutic_area: oncology
+  stage: phase_2 / registrational
+  ranking_score: 0.54
+  opportunity_score: 0.52
+  conviction: medium
+  claim_type: custom
+  claim_assertion: repotrectinib could attract strategic interest in ROS1-positive
+    non-small cell lung cancer.
+  catalyst: Bristol Myers Squibb announced Turning Point Therapeutics acquisition
+    on 2022-06-03
+  announcement_date: '2022-06-03'
+  acquirer: Bristol Myers Squibb
+  headline_value_millions: 4100
+  comp_bucket: direct_dev_stage
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+  - mna_target_monitor
+  status: acquired
+- ticker: TRDA
+  company_id: co-trda
+  asset_id: a-trda
+  company_name: Entrada Therapeutics
+  drug_name: ENTR-701 (myotonic dystrophy) / ENT-001 (Duchenne)
+  indication: rare_disease_neuromuscular
+  therapeutic_area: rare_disease_neuromuscular
+  stage: phase_1_phase_2
+  ranking_score: 0.54
+  opportunity_score: 0.52
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Entrada Therapeutics remains a live strategic optionality name
+    in rare_disease_neuromuscular.
+  catalyst: 'M&A monitor: ENTR-701 (myotonic dystrophy) / ENT-001 (Duchenne)'
+  status: independent_public_target
+  source: mna_target_monitor
+  source_tags:
+  - mna_target_monitor
+- ticker: TRIL
+  company_id: co-tril
+  asset_id: a-tril
+  company_name: Trillium Therapeutics
+  drug_name: TTI-622 / TTI-621
+  indication: hematologic malignancies
+  therapeutic_area: oncology
+  stage: phase_1b / 2
+  ranking_score: 0.5
+  opportunity_score: 0.48
+  conviction: low-medium
+  claim_type: custom
+  claim_assertion: TTI-622 / TTI-621 could attract strategic interest in hematologic
+    malignancies.
+  catalyst: Pfizer announced Trillium Therapeutics acquisition on 2021-08-23
+  announcement_date: '2021-08-23'
+  acquirer: Pfizer
+  headline_value_millions: 2260
+  comp_bucket: direct_dev_stage
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: TRVN
+  company_id: co-trvn
+  asset_id: a-trvn
+  company_name: Trevena
+  drug_name: Olinvyk (oliceridine IV)
+  indication: moderate-to-severe acute pain
+  therapeutic_area: cns
+  stage: approved
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Olinvyk (oliceridine IV) could attract strategic interest in moderate-to-severe
+    acute pain.
+  catalyst: None announced Trevena acquisition on 2024-07-08
+  announcement_date: '2024-07-08'
+  acquirer: ''
+  headline_value_millions: 0
+  comp_bucket: negative_outcome
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: TSRO
+  company_id: co-tsro
+  asset_id: a-tsro
+  company_name: Tesaro
+  drug_name: Zejula (niraparib)
+  indication: ovarian cancer (PARP inhibitor)
+  therapeutic_area: oncology
+  stage: approved
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Zejula (niraparib) could attract strategic interest in ovarian
+    cancer (PARP inhibitor).
+  catalyst: GSK announced Tesaro acquisition on 2018-12-03
+  announcement_date: '2018-12-03'
+  acquirer: GSK
+  headline_value_millions: 5100
+  comp_bucket: approved_or_commercial
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: VERV
+  company_id: co-verv
+  asset_id: a-verv
+  company_name: Verve Therapeutics
+  drug_name: VERVE-102
+  indication: heterozygous familial hypercholesterolemia / ASCVD
+  therapeutic_area: cardiovascular
+  stage: phase_1b
+  ranking_score: 0.5
+  opportunity_score: 0.48
+  conviction: low-medium
+  claim_type: custom
+  claim_assertion: VERVE-102 could attract strategic interest in heterozygous familial
+    hypercholesterolemia / ASCVD.
+  catalyst: Eli Lilly announced Verve Therapeutics acquisition on 2025-06-17
+  announcement_date: '2025-06-17'
+  acquirer: Eli Lilly
+  headline_value_millions: 1300
+  comp_bucket: platform_or_preclinical
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+  - mna_target_monitor
+  status: independent_public_target
+- ticker: VKTX
+  company_id: co-vktx
+  asset_id: a-vktx
+  indication: obesity / NASH
+  ranking_score: 0.7
+  opportunity_score: 0.78
+  conviction: medium-high
+  catalyst: VK2735 oral Ph2 readout; subcutaneous Ph3 enrollment completion
+  claim_type: endpoint_met
+  claim_assertion: VK2735 oral meets >10% weight loss primary endpoint in Ph2
+  source: baseline_replay_universe
+  source_tags:
+  - baseline_replay_universe
+  company_name: VKTX
+- ticker: VRNA
+  company_id: co-vrna
+  asset_id: a-vrna
+  company_name: Verona Pharma
+  drug_name: Ohtuvayre (ensifentrine)
+  indication: COPD maintenance treatment
+  therapeutic_area: respiratory
+  stage: approved
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Ohtuvayre (ensifentrine) could attract strategic interest in COPD
+    maintenance treatment.
+  catalyst: Merck announced Verona Pharma acquisition on 2025-07-09
+  announcement_date: '2025-07-09'
+  acquirer: Merck
+  headline_value_millions: 10000
+  comp_bucket: approved_or_commercial
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: VRTX
+  company_id: co-vrtx
+  asset_id: a-vrtx
+  indication: CF / pain / APOL1
+  ranking_score: 0.58
+  opportunity_score: 0.55
+  conviction: medium
+  catalyst: VX-548 NDA decision + non-opioid pain label expansion
+  claim_type: pos_above_threshold
+  claim_assertion: Pipeline PoS > market-implied; VX-548 label expansion underpriced
+  source: baseline_replay_universe
+  source_tags:
+  - baseline_replay_universe
+  - universe_registry
+  company_name: Vertex Pharmaceuticals
+  drug_name: VX-121/tezacaftor/deutivacaftor
+  therapeutic_area: rare_disease
+  stage: phase_3
+- ticker: XLRN
+  company_id: co-xlrn
+  asset_id: a-xlrn
+  company_name: Acceleron Pharma
+  drug_name: sotatercept
+  indication: pulmonary arterial hypertension
+  therapeutic_area: cardiovascular
+  stage: phase_3
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: sotatercept could attract strategic interest in pulmonary arterial
+    hypertension.
+  catalyst: Merck announced Acceleron Pharma acquisition on 2021-09-30
+  announcement_date: '2021-09-30'
+  acquirer: Merck
+  headline_value_millions: 11500
+  comp_bucket: direct_dev_stage
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: ZFGN
+  company_id: co-zfgn
+  asset_id: a-zfgn
+  company_name: Zafgen
+  drug_name: ZGN-1061 (MetAP2 inhibitor)
+  indication: severe obesity / Prader-Willi syndrome
+  therapeutic_area: metabolic
+  stage: phase_2
+  ranking_score: 0.54
+  opportunity_score: 0.52
+  conviction: medium
+  claim_type: custom
+  claim_assertion: ZGN-1061 (MetAP2 inhibitor) could attract strategic interest in
+    severe obesity / Prader-Willi syndrome.
+  catalyst: None announced Zafgen acquisition on 2020-10-05
+  announcement_date: '2020-10-05'
+  acquirer: ''
+  headline_value_millions: 0
+  comp_bucket: negative_outcome
+  source: mna_public_deal_universe
+  source_tags:
+  - mna_public_deal_universe
+- ticker: ZYME
+  company_id: co-zyme
+  asset_id: a-zyme
+  indication: "oncology \u2014 HER2 bispecific / ADC"
+  ranking_score: 0.28
+  opportunity_score: 0.24
+  conviction: low
+  catalyst: Zanidatamab (HER2 bispecific) BLA FDA decision in biliary tract cancer
+  claim_type: regulatory_pathway
+  claim_assertion: Zanidatamab receives FDA approval in biliary tract cancer (BTC)
+  source: baseline_replay_universe
+  source_tags:
+  - baseline_replay_universe
+  company_name: ZYME

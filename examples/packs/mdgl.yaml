@@ -1,0 +1,201 @@
+# Underwriting Pack — Madrigal Pharmaceuticals (MDGL)
+# Q2 2026 | As of: 2026-04-09
+# Analyst: djm
+# Status: DRAFT — pending second reviewer
+
+company_id: "mdgl"
+company_name: "Madrigal Pharmaceuticals Inc."
+ticker: "MDGL"
+as_of_date: "2026-04-09"
+pack_quarter: "2026Q2"
+
+# ─────────────────────────────────────────────────────────────────────
+# Market data  (point-in-time approx early April 2026)
+# ─────────────────────────────────────────────────────────────────────
+market:
+  market_cap_millions: 5200.0      # ~$5.2B at ~$290/share × ~17.9M shares
+  enterprise_value_millions: 4600.0 # market cap minus net cash (~$600M)
+  share_price: 290.0
+  source_ref: "yfinance:2026-04-09"
+
+# ─────────────────────────────────────────────────────────────────────
+# Balance sheet  (10-K 2025-12-31)
+# ─────────────────────────────────────────────────────────────────────
+balance_sheet:
+  cash_millions: 1100.0   # cash + equivalents + short-term investments
+  debt_millions: 500.0    # royalty financing from Royalty Pharma
+  source_ref: "10-K:2025-12-31:balance_sheet"
+
+# ─────────────────────────────────────────────────────────────────────
+# Modeled assets
+# ─────────────────────────────────────────────────────────────────────
+modeled_assets:
+  - bucket_id: "mdgl_rezdiffra"
+    label: "Rezdiffra (resmetirom) — MASH/NASH with fibrosis (THRbeta)"
+    value_millions: 6800.0
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/mdgl_rezdiffra.yaml:2026-04-09"
+    as_of_date: "2026-04-09"
+    confidence: 0.88
+    corroboration_count: 3
+    corroboration_refs:
+      - "FDA approval March 2024 PR Newswire"
+      - "MAESTRO-NASH NEJM 2024"
+      - "Royalty Pharma financing deal implies ~$4B NPV floor"
+    notes: >
+      Approved for moderate-severe MASH (F2-F3 fibrosis). MAESTRO-NASH Ph3:
+      26% fibrosis improvement vs 14% placebo. Peak sales estimates $3B-$5B US
+      (consensus ~$3.5B). MASH addressable: ~1.5M patients diagnosed/eligible
+      in US initially. Royalty Pharma co-pay program; payer coverage expanding.
+      Launched early 2024. rNPV: 10y remaining exclusivity (Hatch-Waxman),
+      discount 10.5%, peak penetration 8% of addressable MASH.
+
+# ─────────────────────────────────────────────────────────────────────
+# Platform value
+# ─────────────────────────────────────────────────────────────────────
+platform_value:
+  bucket_id: "mdgl_platform"
+  label: "THRbeta platform — MASH combinations + CV indications"
+  value_millions: 350.0
+  methodology: "analyst_estimate"
+  source_type: "analyst_bridge"
+  source_ref: "top25_pack_2026q2:MDGL:platform"
+  as_of_date: "2026-04-09"
+  confidence: 0.55
+  corroboration_count: 0
+  corroboration_refs: []
+  notes: >
+    Potential combinations with GLP-1s (semaglutide, tirzepatide) being
+    studied. THRbeta has LDL-lowering + hepatic fat reduction. MASH + CV
+    combination trials planned. Conservative — requires new clinical data.
+
+# ─────────────────────────────────────────────────────────────────────
+# Unmodeled pipeline
+# ─────────────────────────────────────────────────────────────────────
+unmodeled_pipeline:
+  bucket_id: "mdgl_unmodeled"
+  label: "Rezdiffra in MASH cirrhosis (F4) — MAESTRO-NASH OUTCOMES"
+  value_millions: 600.0
+  methodology: "rule_of_thumb"
+  source_type: "analyst_bridge"
+  source_ref: "top25_pack_2026q2:MDGL:unmodeled"
+  as_of_date: "2026-04-09"
+  confidence: 0.50
+  corroboration_count: 0
+  corroboration_refs: []
+  notes: >
+    MAESTRO-NASH OUTCOMES trial (F4 cirrhosis, decompensation prevention)
+    ongoing. Readout ~2027. Cirrhosis addressable market is larger but POS
+    lower. Rule of thumb on unrisked opportunity.
+
+# ─────────────────────────────────────────────────────────────────────
+# Royalty streams  (royalty obligation TO Royalty Pharma, not from;
+# already captured in debt on balance sheet)
+# ─────────────────────────────────────────────────────────────────────
+royalty_streams: []
+
+# ─────────────────────────────────────────────────────────────────────
+# Dilution bridge  (10-K 2025-12-31)
+# ─────────────────────────────────────────────────────────────────────
+dilution:
+  current_shares_millions: 17.9
+  expected_dilution_pct: 0.10       # 10% expected — may need equity raise as launch scales
+  financing_runway_quarters: 8.0    # ~2 years at current burn rate
+  atm_active: true
+  atm_remaining_millions: 300.0
+  shelf_registration_millions: 750.0
+  warrant_shares_millions: 0.0
+  convertible_shares_millions: 0.0
+  source_ref: "10-K:2025-12-31:capitalization"
+  as_of_date: "2025-12-31"
+  notes: >
+    Royalty Pharma deal provides non-dilutive capital. ATM active.
+    Expected raise as launch investment scales; shares outstanding very low
+    (18M) so dilution in share count is manageable.
+
+# ─────────────────────────────────────────────────────────────────────
+# Catalysts
+# ─────────────────────────────────────────────────────────────────────
+catalysts:
+  - description: "Q1/Q2 2026 commercial update — Rezdiffra scripts, payer coverage, net price"
+    expected_date: "2026-Q1"
+    catalyst_type: "milestone"
+    probability_positive: 0.75
+    source_ref: "MDGL earnings call Q1 2026"
+    notes: >
+      Analyst consensus ~$200-300M 2026E revenue. Coverage and script trends
+      are key signal.
+
+  - description: "MAESTRO-NASH OUTCOMES (F4 cirrhosis) interim analysis"
+    expected_date: "2027-Q1"
+    catalyst_type: "readout"
+    probability_positive: 0.45
+    source_ref: "clinicaltrials.gov:NCT04173104"
+    notes: >
+      Phase 3 event-driven; interim ~2027. Positive = label expansion to
+      cirrhosis, doubles addressable.
+
+  - description: "GLP-1 combination trial initiation or partnership announcement"
+    expected_date: "2026-H2"
+    catalyst_type: "partnership"
+    probability_positive: 0.55
+    source_ref: "MDGL pipeline 2026"
+    notes: >
+      Industry-wide interest in MASH + GLP-1 combos. MDGL has the only
+      approved MASH drug.
+
+# ─────────────────────────────────────────────────────────────────────
+# Management flags  (none flagged at this review)
+# ─────────────────────────────────────────────────────────────────────
+management_flags: []
+
+# ─────────────────────────────────────────────────────────────────────
+# Confidence metadata
+# ─────────────────────────────────────────────────────────────────────
+confidence:
+  overall_confidence: 0.78
+  notes: >
+    Single-asset company; Rezdiffra is well-sourced (approved, launching).
+    Main risk is commercial execution vs. consensus expectations. Modeled
+    asset confidence high given FDA approval and Phase 3 data. Unmodeled
+    pipeline and platform carry materially lower confidence and wide
+    uncertainty bands.
+
+# ─────────────────────────────────────────────────────────────────────
+# Provenance
+# ─────────────────────────────────────────────────────────────────────
+provenance:
+  pack_version: 1
+  pack_quarter: "2026Q2"
+  created_by: "djm"
+  change_summary: "Initial Q2 2026 pack. Rezdiffra approved and launching; OUTCOMES trial ongoing."
+
+# SOTP check (manual reconciliation, must answer: "why does model differ from market?"):
+#
+#   Market cap:                $5,200M
+#   SOTP equity value:
+#     Net cash:                  +$600M  (1,100 - 500)
+#     Rezdiffra rNPV:           +$6,800M
+#     Platform:                   +$350M
+#     Unmodeled (cirrhosis):      +$600M
+#     Dilution reserve:           -$521M  (≈10% dilution × $290 × 17.9M)
+#     ────────────────────────────────
+#     SOTP total:               ~$7,829M
+#   SOTP discount:             ~+34% (model ~51% above market)
+#   Assessment: Model is pricing peak case. Market is ~66% of SOTP,
+#   consistent with launch-stage haircut on unproven commercial trajectory.
+#   The gap narrows as script data confirms ramp. Watch Q1/Q2 Rx numbers
+#   closely. rNPV assumes 8% peak penetration; if payer friction compresses
+#   real-world penetration to 4-5%, fair value converges toward market.
+
+reviewer_state: "draft"
+
+notes: >
+  MDGL is a single-asset commercial-stage name; all conviction rests on
+  Rezdiffra's launch execution. Key debate: whether analyst consensus
+  ~$3.5B peak sales holds given payer friction and GLP-1 competition
+  entering MASH space. The Royalty Pharma structure is non-dilutive but
+  creates an obligation that is already in the debt line — do not double-
+  count as a platform validation signal. Revisit after Q1 2026 earnings
+  for first real-world script and net price data.

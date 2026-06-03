@@ -1,0 +1,160 @@
+# Scenario Library
+# Named reusable stress scenarios for IC memos and portfolio risk assessment.
+# Every IC memo must include: base, bear, bull, and top 3 stress scenarios.
+
+scenarios:
+  # --- Regulatory ---
+  fda_raises_endpoint_bar:
+    name: "FDA raises endpoint bar"
+    category: regulatory
+    description: "FDA requires OS rather than PFS/ORR as primary endpoint"
+    affected_inputs:
+      - trial_duration
+      - trial_cost
+      - pos_phase3
+    shocks:
+      trial_duration: +2.0      # years added
+      trial_cost: +0.30         # +30%
+      pos_phase3: -0.10         # absolute POS reduction
+    rationale: "Increasing FDA scrutiny on surrogate endpoints in oncology"
+    expected_output_effect: "rNPV -25% to -40%"
+
+  fda_crl:
+    name: "FDA issues Complete Response Letter"
+    category: regulatory
+    description: "FDA refuses to approve; requires additional study"
+    affected_inputs:
+      - years_to_approval
+      - trial_cost
+      - pos_nda_bla
+    shocks:
+      years_to_approval: +2.5
+      trial_cost: +0.50
+      pos_nda_bla: -0.30
+    rationale: "~20% of NDAs receive CRL; safety or CMC issues most common"
+    expected_output_effect: "rNPV -50% to -70%"
+
+  # --- Competitive ---
+  competitor_beats_to_market:
+    name: "Competitor beats asset to market"
+    category: competitive
+    description: "Lead competitor receives approval 18+ months ahead"
+    affected_inputs:
+      - peak_penetration
+      - years_to_peak
+    shocks:
+      peak_penetration: -0.40   # lose 40% of peak share to first-mover advantage
+      years_to_peak: +2.0
+    rationale: "First-mover advantage drives 30-60% market share premium in specialty drugs"
+    expected_output_effect: "rNPV -30% to -50%"
+
+  market_becomes_crowded:
+    name: "Market becomes crowded (3+ new entrants)"
+    category: competitive
+    description: "Multiple late-stage programs succeed; class saturation"
+    affected_inputs:
+      - peak_penetration
+      - net_price
+    shocks:
+      peak_penetration: -0.50
+      net_price: -0.20
+    rationale: "Class saturation drives pricing pressure and share dilution"
+    expected_output_effect: "rNPV -40% to -60%"
+
+  # --- Financing ---
+  financing_window_closes:
+    name: "Financing window closes"
+    category: financing
+    description: "Biotech risk-off: company must raise equity at 30% discount"
+    affected_inputs:
+      - dilution_probability
+      - discount_rate
+    shocks:
+      dilution_probability: +0.40
+      discount_rate: +0.02
+    rationale: "Biotech bear markets create 20-30% dilution events for pre-revenue companies"
+    expected_output_effect: "NAV/share -20% to -35%"
+
+  # --- Clinical ---
+  trial_delayed_18_months:
+    name: "Trial delayed 18 months"
+    category: clinical
+    description: "Enrollment shortfall or safety hold delays primary readout"
+    affected_inputs:
+      - years_to_approval
+      - trial_cost
+    shocks:
+      years_to_approval: +1.5
+      trial_cost: +0.20
+    rationale: "~30% of Phase 3 trials experience significant delays"
+    expected_output_effect: "rNPV -15% to -25%"
+
+  adverse_event_emerges:
+    name: "Adverse event emerges in Phase 3"
+    category: clinical
+    description: "Unexpected safety signal leads to protocol amendment and label restriction"
+    affected_inputs:
+      - pos_phase3
+      - peak_penetration
+      - addressable_patients
+    shocks:
+      pos_phase3: -0.15
+      peak_penetration: -0.25
+      addressable_patients: -0.30
+    rationale: "Safety restrictions reduce eligible population and physician willingness to prescribe"
+    expected_output_effect: "rNPV -35% to -55%"
+
+  # --- Commercial / Market access ---
+  payer_restricts_access:
+    name: "Payer restricts access (step therapy)"
+    category: commercial
+    description: "Major payers require failure of 2 prior therapies before coverage"
+    affected_inputs:
+      - peak_penetration
+      - years_to_peak
+    shocks:
+      peak_penetration: -0.30
+      years_to_peak: +1.5
+    rationale: "Step therapy can reduce effective addressable population by 30-50%"
+    expected_output_effect: "rNPV -20% to -35%"
+
+  # --- M&A ---
+  acquirer_fills_gap_elsewhere:
+    name: "Acquirer fills gap elsewhere"
+    category: mna
+    description: "Primary acquirer candidate acquires competing asset or builds internal program"
+    affected_inputs:
+      - mna_probability
+      - mna_premium
+    shocks:
+      mna_probability: -0.30
+      mna_premium: -0.10
+    rationale: "Acquirer pipeline gaps can be filled by multiple routes"
+    expected_output_effect: "M&A score -25% to -40%"
+
+  loe_urgency_accelerates:
+    name: "LOE urgency accelerates acquirer timeline"
+    category: mna
+    description: "Acquirer faces accelerating LOE cliff; must acquire faster"
+    affected_inputs:
+      - mna_probability
+      - mna_timing_months
+    shocks:
+      mna_probability: +0.20
+      mna_timing_months: -12
+    rationale: "LOE pressure creates time-bound acquisition urgency"
+    expected_output_effect: "M&A score +15% to +25%"
+
+  # --- Market risk-off ---
+  biotech_risk_off_drawdown:
+    name: "Biotech market risk-off drawdown"
+    category: market
+    description: "XBI falls 30%; sector re-rating compresses multiples"
+    affected_inputs:
+      - discount_rate
+      - dilution_probability
+    shocks:
+      discount_rate: +0.03
+      dilution_probability: +0.25
+    rationale: "Sector drawdowns increase cost of capital and dilution risk for pre-revenue companies"
+    expected_output_effect: "NAV/share -20% to -40%"

@@ -1,3 +1,19 @@
+{% macro evidence_block(sec) %}
+{% if sec and (sec.refs or sec.unsupported_claims) %}
+**Evidence & Sources**
+{% if sec.refs %}
+| # | Type | Label | Confidence | As Of |
+|---|------|-------|-----------|-------|
+{% for ref in sec.refs %}| {{ loop.index }} | {{ ref.source_type | replace("_", " ") | title }} | {{ ref.label }}{% if ref.url %} · [↗]({{ ref.url }}){% endif %} | {{ ref.confidence_label }} | {{ ref.as_of_date or "—" }} |
+{% endfor %}
+{% endif %}
+{% if sec.unsupported_claims %}
+{% for gap in sec.unsupported_claims %}
+> ⚠️ **Evidence gap:** {{ gap }}
+{% endfor %}
+{% endif %}
+{% endif %}
+{% endmacro %}
 ---
 title: "{{ d.asset_name }} / {{ d.ticker or d.company }} — HF Event-Driven Analysis"
 date: "{{ d.analysis_date }}"
@@ -37,6 +53,8 @@ memo_type: Hedge Fund
 {% endfor %}
 {% endif %}
 
+{{ evidence_block(evidence.falsification) }}
+
 ---
 
 ## 2. Catalyst Calendar
@@ -50,6 +68,8 @@ memo_type: Hedge Fund
 {% endfor %}
 
 **Next catalyst:** [Identify and date the single most important near-term catalyst]
+
+{{ evidence_block(evidence.trial) }}
 
 ---
 
@@ -118,6 +138,8 @@ Benchmarked against {{ "XBI" }} (SPDR S&P Biotech ETF):
 - Average 2-day CAR at **positive** Phase 3 readouts (comparable assets): +[xx]%
 - Average 2-day CAR at **negative** Phase 3 readouts: –[xx]%
 - Our base-case expected move: +[xx]% on success ({{ d.prob_approval_pct }} weight), –[xx]% on failure
+
+{{ evidence_block(evidence.assumptions) }}
 
 ---
 

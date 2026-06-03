@@ -1,0 +1,46 @@
+company: Servier
+ticker: null
+profile_as_of: 2026-04-07
+market_cap_billions: null
+cash_billions: 2.5
+acquisition_capacity_millions: 5000
+pipeline_gaps:
+  - therapeutic_area: oncology
+    sub_area: leukemia_lymphoma_hematology
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [small_molecule, antibody, ADC]
+    budget_ceiling_millions: 4000
+    notes: "Tibsovo (ivosidenib) anchors hematology; IDH2 or adjacent AML/MDS mechanisms, BCL-2 combinations, or ALL treatment remain the primary oncology expansion areas."
+  - therapeutic_area: neuroscience
+    sub_area: depression_anxiety_cns
+    gap_type: franchise_defense
+    urgency: high
+    preferred_modality: [small_molecule, oral]
+    budget_ceiling_millions: 3000
+    notes: "Servier is one of Europe's largest CNS-focused companies (Valdoxan, Sertraline generics); branded CNS assets for depression, anxiety, or cognitive impairment fit Servier's core franchise."
+  - therapeutic_area: cardiovascular
+    sub_area: heart_failure_ischemia
+    gap_type: franchise_defense
+    urgency: medium
+    preferred_modality: [small_molecule, oral]
+    budget_ceiling_millions: 3000
+    notes: "Procoralan (ivabradine) and legacy CV pipeline; next-gen heart failure and ischemic heart disease mechanisms are consistent with the franchise."
+  - therapeutic_area: oncology
+    sub_area: solid_tumor_dna_damage_response
+    gap_type: strategic_entry
+    urgency: medium
+    preferred_modality: [small_molecule]
+    budget_ceiling_millions: 2500
+    notes: "Servier acquired IDH inhibitor capabilities via Agios; DDR (PARP, ATR, WEE1) mechanisms in solid tumors are natural adjacencies."
+recent_deals:
+  - target: Agios Pharmaceuticals (oncology business)
+    date: 2021-06-18
+    value_billions: 1.8
+    therapeutic_area: oncology
+    modality: small_molecule
+stated_priorities:
+  - Hematologic oncology franchise extension from IDH inhibitors
+  - CNS portfolio renewal and franchise defense
+  - Cardiovascular rare disease adjacencies
+  - DDR oncology mechanisms

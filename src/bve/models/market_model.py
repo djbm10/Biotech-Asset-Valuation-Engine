@@ -12,13 +12,27 @@ Mode 1 is the recommended approach for oncology assets where 1L/2L/3L dynamics d
 from __future__ import annotations
 
 import math
-from typing import Optional
+import warnings
+from enum import Enum
+from typing import Literal, Optional
 
 from pydantic import BaseModel, Field, field_validator, model_validator
 
 from bve.config.constants import SGNA_RATE_LAUNCH, SGNA_RATE_MATURE, SGNA_RAMP_YEARS
 from bve.entities.indication import Indication
+from bve.models.commercial_inputs import CommercialInputs
 from bve.models.competition_model import CompetitionModel
+from bve.models.geography import GeographySplit
+from bve.models.commercial_model_profile import CommercialModelProfile
+from bve.models.launch_archetype import LaunchArchetype
+from bve.models.payer_access import PayerAccessModel
+
+
+class PriceBasis(str, Enum):
+    """Whether net_price_per_patient_usd is already net of gross-to-net discounts."""
+    NET = "net"     # already net of G2N — no adjustment applied (default)
+    WAC = "wac"     # wholesale acquisition cost — G2N will be auto-applied when gross_to_net_rate is set
+    LIST = "list"   # same as WAC for modeling purposes
 
 
 class LifecycleEvent(BaseModel):
@@ -136,6 +150,127 @@ class UptakeCurve(BaseModel):
             percs.append(min(s, peak_penetration))
         return cls(penetrations=percs)
 
+    @classmethod
+    def _slow_s_curve(cls, years_to_peak: int, peak_penetration: float, patent_life: int) -> "UptakeCurve":
+        """
+        Slow-start S-curve for competitive_late and step_edit_restricted archetypes.
+
+        Uses a lower k (flatter sigmoid) and a later midpoint to suppress
+        early-year uptake relative to the standard s_curve():
+          k = 6/ytp  (vs 8/ytp) — less steep inflection
+          midpoint = 0.65 × ytp  (vs 0.50 × ytp) — delayed acceleration phase
+
+        Year 1 penetration is 30–50% lower than the standard S-curve at the
+        same years_to_peak, reflecting payer / switching barriers in competitive
+        or step-edit-restricted markets.
+        """
+        percs = []
+        k = 6.0 / years_to_peak
+        midpoint = years_to_peak * 0.65
+        for yr in range(1, patent_life + 1):
+            s = peak_penetration / (1.0 + math.exp(-k * (yr - midpoint)))
+            percs.append(min(s, peak_penetration))
+        return cls(penetrations=percs)
+
+    @classmethod
+    def _bolus_curve(
+        cls,
+        peak_penetration: float,
+        patent_life: int,
+        ongoing_fraction: float = 0.08,
+    ) -> "UptakeCurve":
+        """
+        Bolus curve for the gene_therapy_bolus archetype.
+
+        Year 1: peak_penetration — full backlog absorption at launch.
+        Year 2+: peak_penetration × ongoing_fraction — incident patients only.
+
+        The ongoing_fraction (default 0.08) represents the ratio of annual
+        incident patients to the total prevalent backlog absorbed at launch.
+        Set to the disease's incidence/prevalence ratio for best accuracy.
+        """
+        percs = [peak_penetration]
+        ongoing = peak_penetration * ongoing_fraction
+        for _ in range(2, patent_life + 1):
+            percs.append(ongoing)
+        return cls(penetrations=percs)
+
+    @classmethod
+    def from_archetype(
+        cls,
+        archetype: LaunchArchetype,
+        peak_penetration: float,
+        patent_life_years: int,
+        optional_overrides: Optional[dict] = None,
+    ) -> "UptakeCurve":
+        """
+        Build an UptakeCurve from a named LaunchArchetype with optional overrides.
+
+        Parameters
+        ----------
+        archetype : LaunchArchetype
+            Named archetype defining default curve shape and years_to_peak.
+        peak_penetration : float
+            Peak market share fraction (0, 1].
+        patent_life_years : int
+            Length of the revenue curve in years.
+        optional_overrides : dict, optional
+            Override any archetype default.  Recognised keys:
+              "years_to_peak"           : int   — override archetype's years_to_peak
+              "use_s_curve"             : bool  — True → force s_curve; False → linear
+              "bolus_ongoing_fraction"  : float — override gene_therapy_bolus steady state
+
+        Returns
+        -------
+        UptakeCurve
+
+        Examples
+        --------
+        # Standard oncology archetype
+        UptakeCurve.from_archetype(
+            LaunchArchetype.ONCOLOGY_SPECIALIST,
+            peak_penetration=0.25,
+            patent_life_years=12,
+        )
+
+        # Rapid orphan with 3yr ramp override
+        UptakeCurve.from_archetype(
+            LaunchArchetype.RAPID_ORPHAN,
+            peak_penetration=0.40,
+            patent_life_years=10,
+            optional_overrides={"years_to_peak": 3},
+        )
+
+        # Gene therapy with tighter incidence/prevalence ratio
+        UptakeCurve.from_archetype(
+            LaunchArchetype.GENE_THERAPY_BOLUS,
+            peak_penetration=0.60,
+            patent_life_years=12,
+            optional_overrides={"bolus_ongoing_fraction": 0.04},
+        )
+        """
+        from bve.models.launch_archetype import ARCHETYPE_SPECS
+
+        spec = ARCHETYPE_SPECS[archetype]
+        overrides = optional_overrides or {}
+
+        ytp = int(overrides.get("years_to_peak", spec.years_to_peak))
+        shape = spec.shape
+
+        # Shape override: explicit use_s_curve bool takes precedence over archetype shape
+        if "use_s_curve" in overrides:
+            shape = "s_curve" if overrides["use_s_curve"] else "linear"
+
+        if shape == "bolus":
+            frac = float(overrides.get("bolus_ongoing_fraction", spec.bolus_ongoing_fraction))
+            return cls._bolus_curve(peak_penetration, patent_life_years, ongoing_fraction=frac)
+        if shape == "s_curve":
+            return cls.s_curve(ytp, peak_penetration, patent_life_years)
+        if shape == "slow_s_curve":
+            return cls._slow_s_curve(ytp, peak_penetration, patent_life_years)
+        # linear
+        return cls.linear_ramp(ytp, peak_penetration, patent_life_years)
+
     def penetration_at_year(self, year: int) -> float:
         """1-indexed year from launch."""
         if year <= 0:
@@ -177,7 +312,10 @@ class LineOfTherapySegment(BaseModel):
         default=0.0, ge=0.0,
         description="Years after asset launch before this LOT indication is available (e.g., 2L label + 1yr -> 3L)"
     )
-    use_s_curve: bool = Field(default=False)
+    use_s_curve: Optional[bool] = Field(
+        default=None,
+        description="Override uptake shape for this LOT. None defers to MarketModel specialty default.",
+    )
 
     @property
     def peak_sales_millions(self) -> float:
@@ -189,12 +327,18 @@ class LineOfTherapySegment(BaseModel):
             / 1e6
         )
 
-    def _get_uptake_curve(self, patent_life: int) -> UptakeCurve:
-        if self.use_s_curve:
+    def _get_uptake_curve(self, patent_life: int, default_use_s_curve: bool = False) -> UptakeCurve:
+        use_s_curve = self.use_s_curve if self.use_s_curve is not None else default_use_s_curve
+        if use_s_curve:
             return UptakeCurve.s_curve(self.years_to_peak, self.peak_penetration, patent_life)
         return UptakeCurve.linear_ramp(self.years_to_peak, self.peak_penetration, patent_life)
 
-    def revenue_in_year(self, years_from_asset_launch: int, patent_life: int) -> float:
+    def revenue_in_year(
+        self,
+        years_from_asset_launch: int,
+        patent_life: int,
+        default_use_s_curve: bool = False,
+    ) -> float:
         """
         Revenue N years from the asset's first launch (accounting for launch_delay_years).
         Patent clock runs from asset launch, not LOT-specific launch.
@@ -206,7 +350,10 @@ class LineOfTherapySegment(BaseModel):
         # Stop at patent expiry measured from asset launch
         if years_from_asset_launch > patent_life:
             return 0.0
-        pen = self._get_uptake_curve(patent_life).penetration_at_year(max(1, lot_year_int))
+        pen = self._get_uptake_curve(
+            patent_life,
+            default_use_s_curve=default_use_s_curve,
+        ).penetration_at_year(max(1, lot_year_int))
         return (
             self.patients_annual
             * self.net_price_per_patient_usd
@@ -218,6 +365,10 @@ class LineOfTherapySegment(BaseModel):
 
 class MarketModel(BaseModel):
     asset_id: str
+    therapeutic_area: Optional[str] = Field(
+        default=None,
+        description="Optional TA hint used for adoption defaults and pricing validation.",
+    )
 
     # --- Mode 1: multi-line of therapy (recommended for oncology) ---
     lines_of_therapy: list[LineOfTherapySegment] = Field(
@@ -233,6 +384,22 @@ class MarketModel(BaseModel):
     net_price_per_patient_usd: Optional[float] = Field(
         default=None, gt=0.0,
         description="Annual net price (after gross-to-net) per patient in USD"
+    )
+    price_basis: PriceBasis = Field(
+        default=PriceBasis.NET,
+        description=(
+            "Whether net_price_per_patient_usd is already net of gross-to-net discounts. "
+            "If WAC/LIST, set gross_to_net_rate to auto-apply G2N at revenue calculation time. "
+            "Typical G2N by modality: small_molecule 30-45%, biologic 15-30%, gene_therapy 5-10%."
+        )
+    )
+    gross_to_net_rate: Optional[float] = Field(
+        default=None, ge=0.0, le=1.0,
+        description=(
+            "Gross-to-net discount rate (0.0–1.0). Applied multiplicatively to "
+            "net_price_per_patient_usd when price_basis is WAC or LIST. "
+            "e.g., 0.30 means 30% of WAC is rebated/discounted, effective price = WAC × 0.70."
+        )
     )
     compliance_rate: float = Field(
         default=0.80, gt=0.0, le=1.0,
@@ -253,6 +420,13 @@ class MarketModel(BaseModel):
     )
     years_to_peak: int = Field(default=5, gt=0)
     patent_life_years: int = Field(default=12, gt=0)
+    adoption_curve_mode: Literal["auto", "linear", "s_curve"] = Field(
+        default="auto",
+        description=(
+            "Commercial uptake curve selection. "
+            "'auto' defaults specialty pharma (oncology/rare_disease/CNS) to S-curve."
+        ),
+    )
     use_s_curve: bool = Field(default=False, description="Use S-curve instead of linear ramp")
 
     # --- Competitive dynamics (optional) ---
@@ -275,7 +449,83 @@ class MarketModel(BaseModel):
         ),
     )
 
+    # --- Mode 4: explicit commercial build-up (patient × price × share) ---
+    commercial_inputs: Optional["CommercialInputs"] = Field(
+        default=None,
+        description=(
+            "Explicit patient × price × share decomposition (Sprint 14). "
+            "When set, peak_sales_millions is derived from "
+            "commercial_inputs.to_peak_sales_millions() and MC sampling uses "
+            "commercial_inputs.sample_peak_sales(rng). Backward-compatible — "
+            "existing configs without this field are unaffected."
+        ),
+    )
+
+    # --- Launch archetype (Sprint B2) ---
+    launch_archetype: Optional[LaunchArchetype] = Field(
+        default=None,
+        description=(
+            "Named commercial launch preset (Sprint B2). When set, automatically "
+            "derives years_to_peak and uptake curve shape from the archetype's "
+            "ArchetypeSpec. Any field explicitly set by the caller (years_to_peak, "
+            "adoption_curve_mode, use_s_curve) overrides the archetype default for "
+            "that parameter, so archetypes function as intelligent defaults rather "
+            "than rigid constraints. Existing configs without this field are unaffected."
+        ),
+    )
+
+    # --- Geography (Sprint A: Option A+) ---
+    geography_split: Optional[GeographySplit] = Field(
+        default=None,
+        description=(
+            "Multi-region revenue breakdown for global asset valuation. "
+            "When set, revenue_in_year() computes global revenue by summing "
+            "per-region contributions: US_revenue(t − delay) × revenue_ratio "
+            "× reimbursement_probability × probability_of_regional_approval. "
+            "When not set, behavior is US-only (modes 1–3) or as defined by "
+            "CommercialInputs.ex_us_revenue_multiple (mode 4). "
+            "geography_split overrides ex_us_revenue_multiple when both are set."
+        ),
+    )
+
+    # --- Payer access (Sprint C1) ---
+    payer_access: Optional[PayerAccessModel] = Field(
+        default=None,
+        description=(
+            "Payer-access modifiers applied to the commercial revenue curve (Sprint C1). "
+            "Models the gap between regulatory approval and effective reimbursement. "
+            "Adjusts peak penetration by access_probability and prior_auth_burden; "
+            "suppresses early-year revenue via coverage_delay_months and step_edit_risk. "
+            "Default None has no effect — all existing configs are fully backward-compatible. "
+            "Anti-double-counting: do not combine step_edit_risk with the "
+            "step_edit_restricted LaunchArchetype or a step-therapy CompetitionModel."
+        ),
+    )
+
+    # Commercial model — SG&A profile (Sprint D2)
+    commercial_model: Optional[CommercialModelProfile] = Field(
+        default=None,
+        description=(
+            "Named commercial model archetype that sets SG&A ramp defaults. "
+            "When set, sgna_rate_launch/sgna_rate_mature/sgna_ramp_years are loaded from "
+            "industry_assumptions.yaml commercial_model_profiles unless those fields are "
+            "explicitly provided (explicit always wins on a per-field basis). "
+            "When absent, preserves current behavior. "
+            "Suppresses ValuationEngine modality/TA auto-selection of SG&A profiles."
+        ),
+    )
+
     # Cost structure
+    modality: Optional[str] = Field(
+        default=None,
+        description=(
+            "Drug modality string (e.g. 'small_molecule', 'biologic', 'gene_therapy'). "
+            "When set and cogs_rate is NOT explicitly provided, the COGS rate is "
+            "automatically loaded from the industry_assumptions.yaml cogs_rate_by_modality "
+            "table. Explicit cogs_rate always wins regardless of this field. "
+            "Populated automatically by ValuationEngine.from_program() from asset.modality."
+        ),
+    )
     cogs_rate: float = Field(default=0.18, ge=0.0, le=1.0)
     sgna_rate_launch: float = Field(default=SGNA_RATE_LAUNCH, ge=0.0, le=1.0)
     sgna_rate_mature: float = Field(default=SGNA_RATE_MATURE, ge=0.0, le=1.0)
@@ -285,13 +535,53 @@ class MarketModel(BaseModel):
     def _check_mode(self) -> "MarketModel":
         if self.lines_of_therapy:
             return self  # multi-line mode; segment-level validation is handled by LineOfTherapySegment
+        if self.commercial_inputs is not None:
+            return self  # mode 4: commercial_inputs provides peak_sales_millions
         patient_mode = self.addressable_patients_annual and self.net_price_per_patient_usd
         tam_mode = self.total_addressable_market_millions is not None
         if not patient_mode and not tam_mode:
             raise ValueError(
                 "Provide one of: (1) lines_of_therapy segments, "
                 "(2) addressable_patients_annual + net_price_per_patient_usd, "
-                "or (3) total_addressable_market_millions"
+                "(3) total_addressable_market_millions, "
+                "or (4) commercial_inputs (PatientPool × PricingModel × ShareModel)"
+            )
+        return self
+
+    @model_validator(mode="after")
+    def _check_price_basis(self) -> "MarketModel":
+        """Validate G2N configuration and apply auto-adjustment for WAC/LIST inputs."""
+        if self.lines_of_therapy:
+            return self  # LOT segments manage pricing individually
+        if self.net_price_per_patient_usd is None:
+            return self  # TAM-based or unset; nothing to check
+
+        for message in self.pricing_validation_messages():
+            warnings.warn(message, UserWarning, stacklevel=2)
+        return self
+
+    @model_validator(mode="after")
+    def _check_uptake_shape(self) -> "MarketModel":
+        """Warn when a non-LOT model uses linear uptake for an unspecified asset.
+
+        Specialty pharma (oncology, rare disease, CNS) typically shows S-curve
+        KOL-driven adoption. Linear ramp front-loads revenue, overstating early
+        cash flows that are disproportionately weighted by discounting.
+        """
+        if self.lines_of_therapy:
+            return self  # LOT segments set their own curve
+        if self.launch_archetype is not None:
+            return self  # archetype prescribes the shape; no ambiguity warning needed
+        if self.adoption_curve_mode == "auto" and self._is_specialty_pharma_ta():
+            return self
+        if not self._resolved_use_s_curve():
+            warnings.warn(
+                f"MarketModel for asset '{self.asset_id}' is using a linear uptake "
+                "ramp. For specialty pharma assets (oncology, rare disease, CNS), "
+                "an S-curve better reflects realistic KOL-driven adoption. "
+                "Set adoption_curve_mode='s_curve' to suppress this warning.",
+                UserWarning,
+                stacklevel=2,
             )
         return self
 
@@ -299,15 +589,75 @@ class MarketModel(BaseModel):
     def _build_uptake_curve(self) -> "MarketModel":
         if self.lines_of_therapy:
             return self  # each segment builds its own curve
-        if self.uptake_curve is None:
-            if self.use_s_curve:
-                self.uptake_curve = UptakeCurve.s_curve(
-                    self.years_to_peak, self.peak_penetration, self.patent_life_years
-                )
-            else:
-                self.uptake_curve = UptakeCurve.linear_ramp(
-                    self.years_to_peak, self.peak_penetration, self.patent_life_years
-                )
+        if self.uptake_curve is not None:
+            return self  # caller supplied an explicit curve
+        if self.launch_archetype is not None:
+            # Collect only the fields the caller explicitly set — these override archetype defaults.
+            explicitly_set = self.model_fields_set
+            overrides: dict = {}
+            if "years_to_peak" in explicitly_set:
+                overrides["years_to_peak"] = self.years_to_peak
+            if "use_s_curve" in explicitly_set:
+                overrides["use_s_curve"] = self.use_s_curve
+            if "adoption_curve_mode" in explicitly_set and self.adoption_curve_mode != "auto":
+                overrides["use_s_curve"] = self.adoption_curve_mode == "s_curve"
+            self.uptake_curve = UptakeCurve.from_archetype(
+                self.launch_archetype,
+                peak_penetration=self.peak_penetration,
+                patent_life_years=self.patent_life_years,
+                optional_overrides=overrides or None,
+            )
+            return self
+        # No archetype — fall back to pre-B2 logic
+        if self._resolved_use_s_curve():
+            self.uptake_curve = UptakeCurve.s_curve(
+                self.years_to_peak, self.peak_penetration, self.patent_life_years
+            )
+        else:
+            self.uptake_curve = UptakeCurve.linear_ramp(
+                self.years_to_peak, self.peak_penetration, self.patent_life_years
+            )
+        return self
+
+    @model_validator(mode="after")
+    def _resolve_cogs_from_modality(self) -> "MarketModel":
+        """Sprint D1: auto-populate cogs_rate from YAML when not explicitly set.
+
+        Priority order:
+          1. Explicit ``cogs_rate`` in config/code — wins unconditionally.
+          2. ``modality`` is set — load from cogs_rate_by_modality YAML table.
+          3. Neither — keep the field default (0.18, same as 'other').
+        """
+        if "cogs_rate" in self.model_fields_set:
+            return self  # explicit override wins
+        if self.modality is None:
+            return self  # no modality hint; keep default
+        from bve.config.assumptions_loader import AssumptionsLoader  # local import to avoid circular
+        self.cogs_rate = AssumptionsLoader.get().cogs_rate(self.modality)
+        return self
+
+    @model_validator(mode="after")
+    def _resolve_sgna_from_commercial_model(self) -> "MarketModel":
+        """Sprint D2: auto-populate SG&A fields from commercial_model profile.
+
+        Priority order (per field):
+          1. Explicit field value wins unconditionally.
+          2. commercial_model is set — load from commercial_model_profiles YAML.
+          3. Neither — keep field default.
+
+        Individual SG&A fields can override the profile on a per-field basis.
+        """
+        if self.commercial_model is None:
+            return self
+        from bve.config.assumptions_loader import AssumptionsLoader  # local import to avoid circular
+        profile = AssumptionsLoader.get().commercial_model_profile(self.commercial_model.value)
+        explicitly_set = self.model_fields_set
+        if "sgna_rate_launch" not in explicitly_set:
+            self.sgna_rate_launch = float(profile["sgna_rate_launch"])
+        if "sgna_rate_mature" not in explicitly_set:
+            self.sgna_rate_mature = float(profile["sgna_rate_mature"])
+        if "sgna_ramp_years" not in explicitly_set:
+            self.sgna_ramp_years = int(profile["sgna_ramp_years"])
         return self
 
     @property
@@ -315,38 +665,135 @@ class MarketModel(BaseModel):
         """
         Peak annual revenue in USD millions.
 
-        Slow path (iterate revenue curve) is used when:
-          - competition_model is set (competition-adjusted peak), OR
-          - lifecycle_events are present (TAM/penetration multipliers shift the peak
-            and the static formula would understate post-event revenue).
+        Priority order:
+          0. commercial_inputs — derives peak from explicit patient × price × share
+          1. competition_model or lifecycle_events or geography_split — slow path
+          2. lines_of_therapy — sum of segment peaks
+          3. patient-based — addressable × price × penetration
+          4. TAM-based — TAM × penetration
 
-        Fast path (static formula) is used otherwise for efficiency.
+        When geography_split is set, the iteration window is extended by the
+        maximum regional launch delay to capture delayed-region peaks that may
+        occur after the US patent window ends.
         """
+        # Mode 4: commercial_inputs (geography not applied to CommercialInputs peak)
+        if self.commercial_inputs is not None:
+            peak = self.commercial_inputs.to_peak_sales_millions()
+            if self.payer_access is not None:
+                # Apply the permanent penetration modifiers (access_probability ×
+                # prior_auth_burden factor) to the peak.  Coverage delay and step_edit
+                # are year-specific and cannot be applied to a single peak figure.
+                peak *= self.payer_access.effective_penetration_multiplier()
+            return peak
+
         eff_life = self._effective_patent_life()
         use_slow_path = (
             (self.competition_model and self.competition_model.competitors)
             or bool(self.lifecycle_events)
+            or self.geography_split is not None
         )
         if use_slow_path:
-            curve = [self.revenue_in_year(y) for y in range(1, eff_life + 1)]
+            # Extend the window by the largest regional delay so we capture
+            # regional peaks that may occur after the US patent boundary.
+            geo_extension = 0
+            if self.geography_split is not None:
+                # ceil() ensures the window is wide enough for any fractional delay:
+                # a 1.5yr delay needs ceil(1.5) = 2 extra years to capture the peak.
+                geo_extension = math.ceil(
+                    max(
+                        r.launch_delay_years
+                        for r in self.geography_split.active_regions().values()
+                    )
+                )
+            curve = [
+                self.revenue_in_year(y)
+                for y in range(1, eff_life + geo_extension + 1)
+            ]
             return max(curve) if curve else 0.0
         if self.lines_of_therapy:
-            return sum(seg.peak_sales_millions for seg in self.lines_of_therapy)
-        if self.addressable_patients_annual and self.net_price_per_patient_usd:
+            return max(
+                (
+                    sum(
+                        seg.revenue_in_year(
+                            year,
+                            eff_life,
+                            default_use_s_curve=self._is_specialty_pharma_ta(),
+                        )
+                        for seg in self.lines_of_therapy
+                    )
+                    for year in range(1, eff_life + 1)
+                ),
+                default=0.0,
+            )
+        eff_price = self._effective_price_per_patient
+        if self.addressable_patients_annual and eff_price:
             return (
                 self.addressable_patients_annual
-                * self.net_price_per_patient_usd
+                * eff_price
                 * self.compliance_rate
                 * self.peak_penetration
                 / 1e6
             )
         return (self.total_addressable_market_millions or 0) * self.peak_penetration
 
+    @property
+    def _effective_price_per_patient(self) -> Optional[float]:
+        """Return net_price_per_patient_usd after applying G2N adjustment if price_basis is WAC/LIST."""
+        if self.net_price_per_patient_usd is None:
+            return None
+        if self.price_basis in (PriceBasis.WAC, PriceBasis.LIST) and self.gross_to_net_rate is not None:
+            return self.net_price_per_patient_usd * (1.0 - self.gross_to_net_rate)
+        return self.net_price_per_patient_usd
+
+    @property
+    def effective_price_per_patient_usd(self) -> Optional[float]:
+        """Public alias for the price used in revenue calculations."""
+        return self._effective_price_per_patient
+
+    def _is_specialty_pharma_ta(self) -> bool:
+        value = (self.therapeutic_area or "").strip().lower().replace(" ", "_")
+        return value in {"oncology", "rare_disease", "cns"}
+
+    def _resolved_use_s_curve(self) -> bool:
+        if self.adoption_curve_mode == "s_curve":
+            return True
+        if self.adoption_curve_mode == "linear":
+            return False
+        if self.use_s_curve:
+            return True
+        return self._is_specialty_pharma_ta()
+
+    def pricing_validation_messages(self) -> list[str]:
+        """Return deterministic pricing validation messages for reporting/tests."""
+        messages: list[str] = []
+        if self.net_price_per_patient_usd is None:
+            return messages
+        if (
+            self.price_basis in (PriceBasis.WAC, PriceBasis.LIST)
+            and self.gross_to_net_rate is None
+        ):
+            messages.append(
+                f"MarketModel for asset '{self.asset_id}': price_basis={self.price_basis.value!r} "
+                "but no gross_to_net_rate is set. Revenue will NOT be adjusted for G2N discounts. "
+                "Set gross_to_net_rate (e.g., 0.30 for typical small-molecule) to auto-apply."
+            )
+        if (
+            self.net_price_per_patient_usd > 2_000_000
+            and self.price_basis == PriceBasis.NET
+        ):
+            messages.append(
+                f"MarketModel for asset '{self.asset_id}': "
+                f"net_price_per_patient_usd={self.net_price_per_patient_usd:,.0f} is unusually "
+                "high. Confirm this is a net price (post-G2N) and not a WAC/list price. "
+                "Set price_basis=PriceBasis.WAC and gross_to_net_rate if a G2N adjustment is needed."
+            )
+        return messages
+
     def _get_uptake_curve(self) -> UptakeCurve:
         """Return uptake_curve, rebuilding if None (e.g. after model_copy with update)."""
         if self.uptake_curve is not None:
             return self.uptake_curve
-        if self.use_s_curve:
+        if self._resolved_use_s_curve():
             return UptakeCurve.s_curve(self.years_to_peak, self.peak_penetration, self.patent_life_years)
         return UptakeCurve.linear_ramp(self.years_to_peak, self.peak_penetration, self.patent_life_years)
 
@@ -407,29 +854,67 @@ class MarketModel(BaseModel):
             and e.event_type in ("label_expansion", "combination_therapy")
         )
 
-    def revenue_in_year(self, years_from_launch: int) -> float:
+    _LOE_TAIL_KEYS = (
+        "year_1_loss", "year_2_loss", "year_3_loss",
+        "year_4_loss", "year_5_loss",
+    )
+
+    def _make_us_loe_revenue_fn(
+        self,
+        loe_profile: Optional[dict],
+    ):
         """
-        Gross revenue (net of G2N, pre-COGS) in USD millions, N years from launch.
+        Return a callable[[int], float] covering both the patent window and LOE tail.
 
-        Lifecycle event ordering (applied before competition fraction):
-          1. Compute base revenue from uptake curve (patient × price × penetration)
-             or TAM × penetration.
-          2. Apply _lifecycle_penetration_boost() to penetration (modes 2 and 3 only),
-             clamped to [0, 1.0], before computing base.
-          3. Multiply base by _lifecycle_tam_multiplier() — TAM expansion reflects
-             new addressable patients from label expansions / combination approvals.
-          4. Apply competition_model.our_available_market_fraction() — competitive
-             dynamics operate on the already-expanded TAM.
+        For year <= effective_patent_life: delegates to _us_base_revenue_in_year().
+        For year in (eff_life, eff_life + loe_tail]: returns peak * (1 - loss_frac).
+        For year beyond that: returns 0.0.
 
-        LOE delay from new_formulation events is reflected by using
-        _effective_patent_life() as the patent boundary instead of patent_life_years.
-        In multi-LOT mode, the effective patent life is passed to each segment.
+        Used as the base US revenue curve passed to GeographySplit.global_revenue_in_year()
+        when loe_profile is provided alongside geography_split.  Each region's LOE clock
+        therefore starts at its own patent expiry (regional_curve_year > patent_life_years),
+        not the US patent expiry.
+        """
+        eff_life = self._effective_patent_life()
+        peak = self.peak_sales_millions
+
+        def fn(year: int) -> float:
+            if year <= 0:
+                return 0.0
+            if year <= eff_life:
+                return self._us_base_revenue_in_year(year)
+            if loe_profile is None:
+                return 0.0
+            tail_idx = year - eff_life - 1  # 0-based index into _LOE_TAIL_KEYS
+            if tail_idx < 0 or tail_idx >= len(self._LOE_TAIL_KEYS):
+                return 0.0
+            key = self._LOE_TAIL_KEYS[tail_idx]
+            if key not in loe_profile:
+                return 0.0
+            return peak * (1.0 - float(loe_profile[key]))
+
+        return fn
+
+    def _us_base_revenue_in_year(self, years_from_launch: int) -> float:
+        """
+        US-market-only revenue in post-launch year `years_from_launch`.
+
+        This is the canonical single-geography revenue calculation — identical
+        to the pre-geography revenue_in_year() logic. Used as the base curve
+        for per-region geography computation in global_revenue_in_year().
+
+        Returns 0.0 for year ≤ 0 or beyond the effective patent life.
+        Does NOT apply geography_split scaling (that happens in revenue_in_year).
         """
         eff_life = self._effective_patent_life()
 
         if self.lines_of_therapy:
             base = sum(
-                seg.revenue_in_year(years_from_launch, eff_life)
+                seg.revenue_in_year(
+                    years_from_launch,
+                    eff_life,
+                    default_use_s_curve=self._is_specialty_pharma_ta(),
+                )
                 for seg in self.lines_of_therapy
             )
             # TAM multiplier applies to aggregate LOT revenue (penetration boost is
@@ -440,10 +925,11 @@ class MarketModel(BaseModel):
         else:
             base_pen = self._get_uptake_curve().penetration_at_year(years_from_launch)
             pen = min(1.0, base_pen + self._lifecycle_penetration_boost(years_from_launch))
-            if self.addressable_patients_annual and self.net_price_per_patient_usd:
+            eff_price = self._effective_price_per_patient
+            if self.addressable_patients_annual and eff_price:
                 base = (
                     self.addressable_patients_annual
-                    * self.net_price_per_patient_usd
+                    * eff_price
                     * self.compliance_rate
                     * pen
                     / 1e6
@@ -454,8 +940,58 @@ class MarketModel(BaseModel):
 
         if self.competition_model and years_from_launch > 0:
             base *= self.competition_model.our_available_market_fraction(years_from_launch)
+            # Price pressure (Sprint C2): competitor-driven price erosion applied after
+            # the volume fraction.  The two are ORTHOGONAL — market fraction = volume
+            # effect (fewer patients); price_pressure_multiplier = price effect (lower
+            # net price per patient).  Applying them independently avoids double-counting.
+            # Returns 1.0 with default CompetitionModel (no price pressure configured).
+            base *= self.competition_model.price_pressure_multiplier(years_from_launch)
+
+        # Payer-access adjustment (Sprint C1): applied after competition fraction
+        # so that access barriers operate on whatever market share we actually win,
+        # not on the gross addressable pool.  Not applied to LOT mode (handled
+        # at the segment level) — skipped implicitly because lines_of_therapy
+        # returns early above without falling into this block.
+        if self.payer_access is not None and not self.lines_of_therapy:
+            base *= self.payer_access.combined_multiplier(years_from_launch)
 
         return base
+
+    def revenue_in_year(self, years_from_launch: int) -> float:
+        """
+        Gross revenue (net of G2N, pre-COGS) in USD millions, N years from launch.
+
+        When geography_split is set, returns global revenue — the sum of all
+        regional contributions using the US revenue curve shifted per region:
+
+            global_rev(t) = Σ_region US_revenue(t − delay_region)
+                              × revenue_ratio_region
+                              × reimbursement_probability_region
+                              × approval_probability_region
+
+        When geography_split is not set, returns US-only revenue (same behavior
+        as pre-geography versions of this model).
+
+        Lifecycle event ordering within _us_base_revenue_in_year (applied before
+        the competition fraction and geography scaling):
+          1. Compute base revenue from uptake curve (patient × price × penetration)
+             or TAM × penetration.
+          2. Apply _lifecycle_penetration_boost() to penetration (modes 2 and 3
+             only), clamped to [0, 1.0], before computing base.
+          3. Multiply base by _lifecycle_tam_multiplier() — TAM expansion reflects
+             new addressable patients from label expansions / combination approvals.
+          4. Apply competition_model.our_available_market_fraction() — competitive
+             dynamics operate on the already-expanded TAM.
+
+        LOE delay from new_formulation events is reflected by using
+        _effective_patent_life() as the patent boundary instead of patent_life_years.
+        In multi-LOT mode, the effective patent life is passed to each segment.
+        """
+        if self.geography_split is not None:
+            return self.geography_split.global_revenue_in_year(
+                self._us_base_revenue_in_year, years_from_launch
+            )
+        return self._us_base_revenue_in_year(years_from_launch)
 
     def revenue_by_lot(self) -> dict[str, list[float]]:
         """
@@ -467,7 +1003,11 @@ class MarketModel(BaseModel):
             return {"total": self.revenue_curve()}
         return {
             seg.line: [
-                seg.revenue_in_year(y, self.patent_life_years)
+                seg.revenue_in_year(
+                    y,
+                    self.patent_life_years,
+                    default_use_s_curve=self._is_specialty_pharma_ta(),
+                )
                 for y in range(1, self.patent_life_years + 1)
             ]
             for seg in self.lines_of_therapy
@@ -477,16 +1017,23 @@ class MarketModel(BaseModel):
         """Revenue minus COGS."""
         return self.revenue_in_year(years_from_launch) * (1.0 - self.cogs_rate)
 
-    def sgna_in_year(self, years_from_launch: int) -> float:
-        """SG&A expense in USD millions — declines from launch rate to mature rate."""
+    def _sgna_rate_at_year(self, years_from_launch: int) -> float:
+        """Effective SG&A rate (fraction of revenue) for this year.
+
+        Used by the audit table builder and sgna_in_year(). Returns 0.0 for
+        year ≤ 0; blends between sgna_rate_launch and sgna_rate_mature during
+        the ramp period; returns sgna_rate_mature at or beyond sgna_ramp_years.
+        """
         if years_from_launch <= 0:
             return 0.0
-        rev = self.revenue_in_year(years_from_launch)
         if years_from_launch >= self.sgna_ramp_years:
-            return rev * self.sgna_rate_mature
+            return self.sgna_rate_mature
         blend = years_from_launch / self.sgna_ramp_years
-        rate = self.sgna_rate_launch + blend * (self.sgna_rate_mature - self.sgna_rate_launch)
-        return rev * rate
+        return self.sgna_rate_launch + blend * (self.sgna_rate_mature - self.sgna_rate_launch)
+
+    def sgna_in_year(self, years_from_launch: int) -> float:
+        """SG&A expense in USD millions — declines from launch rate to mature rate."""
+        return self.revenue_in_year(years_from_launch) * self._sgna_rate_at_year(years_from_launch)
 
     def ebit_in_year(self, years_from_launch: int) -> float:
         """EBIT = gross profit - SG&A."""

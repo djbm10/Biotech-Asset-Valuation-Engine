@@ -1,0 +1,149 @@
+company: Vertex Pharmaceuticals
+ticker: VRTX
+profile_as_of: 2026-04-07
+market_cap_billions: 108
+cash_billions: 11.0
+acquisition_capacity_millions: 15000
+
+# ── Deal style (elite profile)  ──────────────────────────────────────────────
+# Vertex is highly selective: only acquires assets with genetic/biomarker-defined
+# patient populations, proven mechanism (human PoC), and transformative potential.
+# It never does oncology, neuroscience, or cardiovascular.
+# Typical deal range: $100M tuck-in to $5B strategic bolt-on. No mega-mergers.
+# Pays franchise premiums (2–3× rNPV) for assets that slot into an existing platform.
+deal_style: "asset_centric_precision_medicine"
+therapeutic_area_exclusions:
+  - oncology
+  - neuroscience
+  - cardiovascular
+  - metabolic
+indication_signals:
+  # Explicit indication-level signals — any asset in these areas is Vertex-relevant
+  - iga_nephropathy
+  - igan
+  - pkd
+  - polycystic_kidney
+  - ckd
+  - aatd
+  - alpha_1_antitrypsin
+  - myotonic_dystrophy
+  - dm1
+  - sickle_cell
+  - beta_thalassemia
+  - cystic_fibrosis
+  - pain_nav18
+  - suzetrigine
+  - autoimmune_b_cell
+  - baff
+  - april
+
+pipeline_gaps:
+  - therapeutic_area: rare_disease
+    sub_area: ckd_pkd_renal
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [small_molecule, antibody, bispecific]
+    budget_ceiling_millions: 12000
+    notes: |
+      Active IgA nephropathy program (povetacicept/ALPN-303, acquired via Alpine 2024)
+      plus internal PKD and complement programs. Seeking bolt-on renal/immunology assets
+      that extend the kidney franchise (FSGS, ANCA vasculitis, lupus nephritis, complement).
+      Alpine acquisition at $4.9B ($65/share vs ~$26 NAV) demonstrates willingness to
+      pay 2-3x strategic premium for franchise-completing assets.
+
+  - therapeutic_area: rare_disease
+    sub_area: pain_non_opioid_nav18
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [small_molecule]
+    budget_ceiling_millions: 8000
+    notes: |
+      VX-548 (suzetrigine, NaV1.8) approved for acute pain Jan 2025.
+      Seeking: NaV1.8 chronic pain extension, NaV1.7 assets, and combination-therapy
+      partners. Target profile: Phase 2+, genetic/biomarker-defined, non-opioid MOA.
+
+  - therapeutic_area: rare_disease
+    sub_area: alpha1_antitrypsin_deficiency
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [small_molecule, RNA_therapy, gene_therapy]
+    budget_ceiling_millions: 8000
+    notes: |
+      VX-634 in phase 2 AATD. Combination/backbone strategy mirrors CF corrector success.
+      Attractive: any AATD asset in Phase 1/2 with PiZZ patient population, or gene
+      therapy approaches with durable A1AT restoration.
+
+  - therapeutic_area: immunology
+    sub_area: autoimmune_b_t_cell
+    gap_type: selective_gap
+    urgency: medium
+    preferred_modality: [antibody, bispecific, cell_therapy, gene_editing]
+    budget_ceiling_millions: 12000
+    notes: |
+      Post-Alpine acquisition: autoimmune B-cell / T-cell co-stimulation adjacency now
+      a priority. Looking for BAFF/APRIL pathway, complement, FcRn, or other
+      precision-immunology assets that complement povetacicept and dazodalibep.
+      Must have human PoC in autoimmune indication with genetic/biomarker-defined patients.
+
+  - therapeutic_area: rare_disease
+    sub_area: dm1_myotonic_dystrophy
+    gap_type: selective_gap
+    urgency: medium
+    preferred_modality: [small_molecule, ASO, RNA_therapy]
+    budget_ceiling_millions: 6000
+    notes: |
+      DM1 (myotonic dystrophy type 1) is a declared priority rare neuromuscular indication.
+      DMPK-targeting small molecules and RNA therapies actively evaluated.
+
+  - therapeutic_area: rare_disease
+    sub_area: sickle_cell_beta_thal
+    gap_type: franchise_extension
+    urgency: low
+    preferred_modality: [gene_therapy, gene_editing, cell_therapy]
+    budget_ceiling_millions: 5000
+    notes: |
+      Casgevy (exa-cel, with CRISPR Tx) established gene editing platform.
+      Opportunistic bolt-ons for hemoglobinopathies; lower urgency now that Casgevy
+      is approved.
+
+recent_deals:
+  - target: Alpine Immune Sciences
+    date: 2024-04-23
+    value_billions: 4.9
+    therapeutic_area: immunology
+    modality: antibody
+  - target: InflaRx
+    date: 2024-02-27
+    value_billions: 0.12
+    therapeutic_area: immunology
+    modality: antibody
+  - target: Entrada Therapeutics
+    date: 2023-12-04
+    value_billions: 0.14
+    therapeutic_area: rare_disease
+    modality: cell_penetrating_peptide
+  - target: CRISPR Therapeutics (Casgevy commercialization)
+    date: 2023-11-01
+    value_billions: 0.2
+    therapeutic_area: rare_disease
+    modality: gene_editing
+  - target: Fulcrum Therapeutics
+    date: 2019-09-01
+    value_billions: 0.04
+    therapeutic_area: rare_disease
+    modality: small_molecule
+
+existing_partnerships:
+  - target: CRISPR Therapeutics
+    partnership_type: co_development
+    therapeutic_area: rare_disease
+    description: "Co-development of Casgevy (exa-cel) for sickle cell disease and beta-thalassemia. Casgevy approved Dec 2023 (FDA) and Feb 2024 (EU)."
+    year_initiated: 2015
+    acquisition_option: false
+
+stated_priorities:
+  - "Rare disease franchise diversification beyond CF is the explicit CEO-level priority: pain (NaV1.8), kidney disease (IgAN/PKD), AATD, DM1."
+  - "Precision immunology entry via Alpine acquisition (2024) opens autoimmune adjacency with BAFF/APRIL and complement biology."
+  - "Cell and gene therapy via CRISPR Therapeutics partnership and Casgevy approval establishes ex vivo gene editing platform."
+  - "Never acquires oncology, CNS/neurology, or cardiovascular assets — these are explicit strategic exclusions confirmed by management."
+  - "Pays franchise premiums (2-3x rNPV) for assets with biomarker-defined populations that slot into an existing program line."

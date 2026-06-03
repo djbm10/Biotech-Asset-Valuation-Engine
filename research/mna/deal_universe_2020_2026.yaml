@@ -1,0 +1,1549 @@
+# Broad acquisition universe for manual biotech M&A research.
+#
+# This file is intentionally broader than `comparable_deals.yaml`.
+# Use it as the sourcing pool, then promote only the best-fit transactions into
+# the screenable comp set once EV/peak-sales data is robust enough.
+#
+# `comp_bucket` guide:
+#   - direct_dev_stage: good starting point for single-asset Phase 2/3 or NDA comps
+#   - approved_or_commercial: useful context, but often richer than development-stage comps
+#   - platform_or_preclinical: strategic precedent, usually not suitable for simple EV/peak medians
+#
+# `headline_value_millions` is the transaction value stated in the source.
+# See `headline_value_basis` and `notes` for upfront/CVR/milestone nuances.
+
+as_of_date: "2026-03-22"
+
+# =============================================================================
+# 2015–2019 HISTORICAL ACQUISITIONS — for extended replay horizon
+#
+# Added to support the 2015–2026 replay run and enable statistical graduation.
+# Same schema as 2020–2026 deals above. Phase designations reflect status at
+# the time of announcement, not the final approved label.
+# =============================================================================
+
+deals:
+  # ---- 2015 ----
+
+  - target_name: "Receptos"
+    target_ticker: "RCPT"
+    acquirer: "Celgene"
+    acquirer_category: "large_biotech"
+    announcement_date: "2015-07-14"
+    headline_value_millions: 7300
+    headline_value_basis: "equity_value"
+    lead_asset: "ozanimod"
+    indication: "relapsing multiple sclerosis / ulcerative colitis"
+    therapeutic_area: "immunology"
+    phase_at_acquisition: "phase_3"
+    comp_bucket: "direct_dev_stage"
+    notes: "Celgene paid $232/share. Ozanimod later approved by FDA 2020. Landmark Phase 3 immunology takeout."
+    consideration_per_share: 232.0
+
+  - target_name: "Synageva BioPharma"
+    target_ticker: "GEVA"
+    acquirer: "Alexion Pharmaceuticals"
+    acquirer_category: "large_biotech"
+    announcement_date: "2015-05-06"
+    headline_value_millions: 8400
+    headline_value_basis: "equity_value"
+    lead_asset: "Kanuma (sebelipase alfa)"
+    indication: "lysosomal acid lipase deficiency"
+    therapeutic_area: "rare disease"
+    phase_at_acquisition: "nda_bla"
+    comp_bucket: "direct_dev_stage"
+    notes: "Alexion paid $115/share. Kanuma approved December 2015. Classic rare-disease ultra-orphan deal."
+    consideration_per_share: 115.0
+
+  - target_name: "CoLucid Pharmaceuticals"
+    acquirer: "Eli Lilly"
+    acquirer_category: "big_pharma"
+    announcement_date: "2015-11-09"
+    headline_value_millions: 960
+    headline_value_basis: "equity_value"
+    lead_asset: "lasmiditan"
+    indication: "acute migraine treatment"
+    therapeutic_area: "neuroscience"
+    phase_at_acquisition: "phase_3"
+    comp_bucket: "direct_dev_stage"
+    notes: "Private-company deal. Lasmiditan (Reyvow) later approved by FDA October 2019. First-in-class 5-HT1F agonist."
+
+  # ---- 2016 ----
+
+  - target_name: "Medivation"
+    target_ticker: "MDVN"
+    acquirer: "Pfizer"
+    acquirer_category: "big_pharma"
+    announcement_date: "2016-08-22"
+    headline_value_millions: 14300
+    headline_value_basis: "equity_value"
+    lead_asset: "Xtandi (enzalutamide)"
+    indication: "metastatic castration-resistant prostate cancer"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "approved"
+    comp_bucket: "approved_or_commercial"
+    notes: "Pfizer paid $81.50/share after contested bidding process. Enzalutamide was approved and generating substantial revenue."
+    consideration_per_share: 81.5
+
+  - target_name: "Anacor Pharmaceuticals"
+    target_ticker: "ANAC"
+    acquirer: "Pfizer"
+    acquirer_category: "big_pharma"
+    announcement_date: "2016-05-18"
+    headline_value_millions: 5200
+    headline_value_basis: "equity_value"
+    lead_asset: "crisaborole"
+    indication: "mild-to-moderate atopic dermatitis"
+    therapeutic_area: "dermatology"
+    phase_at_acquisition: "phase_3 / pdufa_pending"
+    comp_bucket: "direct_dev_stage"
+    notes: "Pfizer paid $99.25/share. Crisaborole (Eucrisa) approved December 2016."
+    consideration_per_share: 99.25
+
+  # ---- 2017 ----
+
+  - target_name: "Kite Pharma"
+    target_ticker: "KITE"
+    acquirer: "Gilead Sciences"
+    acquirer_category: "large_biotech"
+    announcement_date: "2017-08-28"
+    headline_value_millions: 11900
+    headline_value_basis: "equity_value"
+    lead_asset: "axicabtagene ciloleucel (Yescarta)"
+    indication: "relapsed or refractory large B-cell lymphoma"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "nda_bla"
+    comp_bucket: "direct_dev_stage"
+    notes: "Gilead paid $180/share. Yescarta approved October 2017. Defining CAR-T acquisition."
+    consideration_per_share: 180.0
+
+  - target_name: "Ariad Pharmaceuticals"
+    target_ticker: "ARIA"
+    acquirer: "Takeda"
+    acquirer_category: "big_pharma"
+    announcement_date: "2017-01-09"
+    headline_value_millions: 5200
+    headline_value_basis: "equity_value"
+    lead_asset: "brigatinib / ponatinib"
+    indication: "ALK+ non-small cell lung cancer / CML"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "approved / nda_pending"
+    comp_bucket: "approved_or_commercial"
+    notes: "Takeda paid $24/share. Brigatinib (Alunbrig) approved April 2017."
+    consideration_per_share: 24.0
+
+  - target_name: "Dimension Therapeutics"
+    target_ticker: "DMTX"
+    acquirer: "Ultragenyx Pharmaceutical"
+    acquirer_category: "large_biotech"
+    announcement_date: "2017-01-09"
+    headline_value_millions: 151
+    headline_value_basis: "equity_value"
+    lead_asset: "DTX201"
+    indication: "hemophilia B"
+    therapeutic_area: "rare disease"
+    phase_at_acquisition: "phase_1_2"
+    comp_bucket: "platform_or_preclinical"
+    notes: "Ultragenyx paid $6.00/share. Small-cap gene therapy acquisition for AAV hemophilia program."
+    consideration_per_share: 6.0
+
+  - target_name: "Rigel Pharmaceuticals"
+    target_ticker: "RIGL"
+    acquirer: "AstraZeneca"
+    acquirer_category: "big_pharma"
+    announcement_date: "2017-07-10"
+    headline_value_millions: 1360
+    headline_value_basis: "up_to_total_value"
+    lead_asset: "fostamatinib"
+    indication: "immune thrombocytopenia"
+    therapeutic_area: "immunology"
+    phase_at_acquisition: "phase_3"
+    comp_bucket: "direct_dev_stage"
+    notes: "AstraZeneca acquired fostamatinib rights via a $400M upfront collaboration plus milestones. Fostamatinib (Tavalisse) later approved by FDA 2018 and sold by Rigel directly; deal restructured. Listed here as the major partnering event."
+    consideration_per_share: null
+
+  # ---- 2018 ----
+
+  - target_name: "Juno Therapeutics"
+    target_ticker: "JUNO"
+    acquirer: "Bristol Myers Squibb"
+    acquirer_category: "big_pharma"
+    announcement_date: "2018-01-22"
+    headline_value_millions: 9000
+    headline_value_basis: "equity_value"
+    lead_asset: "lisocabtagene maraleucel (JCAR017)"
+    indication: "relapsed or refractory large B-cell lymphoma"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "phase_2"
+    comp_bucket: "direct_dev_stage"
+    notes: "BMS paid $87/share to complete the acquisition (already owned ~9% stake). JCAR017 (Breyanzi) approved February 2021."
+    consideration_per_share: 87.0
+
+  - target_name: "Tesaro"
+    target_ticker: "TSRO"
+    acquirer: "GSK"
+    acquirer_category: "big_pharma"
+    announcement_date: "2018-12-03"
+    headline_value_millions: 5100
+    headline_value_basis: "equity_value"
+    lead_asset: "Zejula (niraparib)"
+    indication: "ovarian cancer (PARP inhibitor)"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "approved"
+    comp_bucket: "approved_or_commercial"
+    notes: "GSK paid $75/share. Niraparib was commercially launched. Strategic entry into oncology for GSK."
+    consideration_per_share: 75.0
+
+  - target_name: "Ignyta"
+    target_ticker: "RXDX"
+    acquirer: "Roche"
+    acquirer_category: "big_pharma"
+    announcement_date: "2018-01-09"
+    headline_value_millions: 1700
+    headline_value_basis: "equity_value"
+    lead_asset: "entrectinib"
+    indication: "ROS1+ NSCLC / NTRK fusion-positive solid tumors"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "phase_2"
+    comp_bucket: "direct_dev_stage"
+    notes: "Roche paid $27/share. Entrectinib (Rozlytrek) approved August 2019."
+    consideration_per_share: 27.0
+
+  - target_name: "Array BioPharma"
+    target_ticker: "ARRY"
+    acquirer: "Pfizer"
+    acquirer_category: "big_pharma"
+    announcement_date: "2019-06-17"
+    headline_value_millions: 11400
+    headline_value_basis: "equity_value"
+    lead_asset: "binimetinib / encorafenib (Mektovi/Braftovi)"
+    indication: "BRAF V600E/K-mutant melanoma"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "approved"
+    comp_bucket: "approved_or_commercial"
+    notes: "Pfizer paid $48/share. Binimetinib and encorafenib were already approved. Pfizer's largest oncology deal of the era."
+    consideration_per_share: 48.0
+
+  # ---- 2019 ----
+
+  - target_name: "Loxo Oncology"
+    target_ticker: "LOXO"
+    acquirer: "Eli Lilly"
+    acquirer_category: "big_pharma"
+    announcement_date: "2019-01-07"
+    headline_value_millions: 8000
+    headline_value_basis: "equity_value"
+    lead_asset: "larotrectinib (Vitrakvi) / LOXO-292 (selpercatinib)"
+    indication: "NTRK fusion-positive solid tumors / RET fusion-positive NSCLC"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "approved / phase_1_2"
+    comp_bucket: "direct_dev_stage"
+    notes: "Lilly paid $235/share. Larotrectinib already approved; LOXO-292 later approved as Retevmo (2020)."
+    consideration_per_share: 235.0
+
+  - target_name: "Synthorx"
+    target_ticker: "THOR"
+    acquirer: "Sanofi"
+    acquirer_category: "big_pharma"
+    announcement_date: "2019-12-09"
+    headline_value_millions: 2500
+    headline_value_basis: "equity_value"
+    lead_asset: "THOR-707"
+    indication: "solid tumors (IL-2 cytokine conjugate)"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "phase_1"
+    comp_bucket: "direct_dev_stage"
+    notes: "Sanofi paid $68/share. THOR-707 was early clinical; subsequent trials showed limited efficacy and program was stopped. Illustrates risk of early-stage acquisitions with unproven mechanism."
+    consideration_per_share: 68.0
+
+  - target_name: "Forty Seven"
+    target_ticker: "FTSV"
+    acquirer: "Gilead Sciences"
+    acquirer_category: "large_biotech"
+    announcement_date: "2020-03-02"
+    headline_value_millions: 4900
+    headline_value_basis: "equity_value"
+    lead_asset: "magrolimab"
+    indication: "hematologic malignancies (CD47 blockade)"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "phase_1_2"
+    comp_bucket: "direct_dev_stage"
+    notes: "Gilead paid $95.50/share. Magrolimab Phase 3 subsequently failed in MDS (2023) and AML, but the acquisition was a significant CD47 platform bet. Listed under 2020 announcement date."
+    consideration_per_share: 95.5
+
+  - target_name: "Ra Pharmaceuticals"
+    target_ticker: "RARX"
+    acquirer: "UCB"
+    acquirer_category: "big_pharma"
+    announcement_date: "2020-02-28"
+    headline_value_millions: 2100
+    headline_value_basis: "equity_value"
+    lead_asset: "zilucoplan"
+    indication: "generalized myasthenia gravis"
+    therapeutic_area: "neuroscience"
+    phase_at_acquisition: "phase_3"
+    comp_bucket: "direct_dev_stage"
+    notes: "UCB paid $48/share. Zilucoplan (Zilbrysq) approved October 2023. Late-stage gMG complement inhibitor takeout."
+    consideration_per_share: 48.0
+
+  - target_name: "Therachon"
+    acquirer: "Pfizer"
+    acquirer_category: "big_pharma"
+    announcement_date: "2019-06-17"
+    headline_value_millions: 810
+    headline_value_basis: "up_to_total_value"
+    lead_asset: "TA-46 (vosoritide)"
+    indication: "achondroplasia"
+    therapeutic_area: "rare disease"
+    phase_at_acquisition: "phase_3"
+    comp_bucket: "direct_dev_stage"
+    notes: "Pfizer acquired Therachon (private) for $340M upfront plus up to $470M milestones. Note: Pfizer later divested the program; BioMarin acquired vosoritide rights. Announcement date overlaps with Array BioPharma announcement."
+
+  # 2015–2019 Negative Examples — Bankruptcies and wind-downs
+
+  - target_name: "Bind Therapeutics"
+    target_ticker: "BIND"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2016-09-28"
+    headline_value_millions: 0
+    headline_value_basis: "chapter_11_filing"
+    lead_asset: "BIND-014 (docetaxel nanoparticle)"
+    indication: "non-small cell lung cancer / prostate cancer"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "phase_2"
+    comp_bucket: "negative_outcome"
+    notes: "Filed Chapter 11 September 28, 2016. BIND-014 Phase 2 data were insufficient for advancement. Early nanoparticle drug delivery platform failed to attract acquirer despite novel mechanism."
+    consideration_per_share: 0.0
+
+  - target_name: "Tokai Pharmaceuticals"
+    target_ticker: "TKAI"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2018-01-11"
+    headline_value_millions: 0
+    headline_value_basis: "dissolution"
+    lead_asset: "galeterone"
+    indication: "metastatic castration-resistant prostate cancer"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "phase_3"
+    comp_bucket: "negative_outcome"
+    notes: "Announced dissolution January 2018 after galeterone Phase 3 ARMOR3-SV trial was discontinued in 2016 due to futility (interim analysis). No acquirer despite active mCRPC M&A environment (Medivation had just been acquired for $14.3B)."
+    consideration_per_share: 0.0
+
+  - target_name: "Corcept Therapeutics"
+    target_ticker: "CORT"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "program_failure_no_deal"
+    announcement_date: "2019-11-04"
+    headline_value_millions: 0
+    headline_value_basis: "phase_3_failure"
+    lead_asset: "mifepristone (CORT125134)"
+    indication: "triple-negative breast cancer"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "phase_3"
+    comp_bucket: "negative_outcome"
+    notes: "CORT125134 Phase 3 GRADIENT trial failed November 2019. Company survived on Korlym revenue but the oncology program attracted no M&A. Illustrates that a failed Phase 3 in a competitive TA (TNBC) rarely generates acquisition interest even with a marketed product base."
+    consideration_per_share: null
+
+  # ---- 2020 (continued) ----
+
+  - target_name: "RAPT Therapeutics"
+    target_ticker: "RAPT"
+    acquirer: "GSK"
+    acquirer_category: "big_pharma"
+    announcement_date: "2026-01-20"
+    headline_value_millions: 2200
+    headline_value_basis: "equity_value"
+    lead_asset: "ozureprubart"
+    indication: "food allergy prophylaxis"
+    therapeutic_area: "immunology"
+    phase_at_acquisition: "phase_2b"
+    comp_bucket: "direct_dev_stage"
+    source_url: "https://www.gsk.com/en-gb/media/press-releases/gsk-enters-agreement-to-acquire-rapt-therapeutics/"
+    notes: "GSK disclosed $2.2B aggregate equity value and $1.9B upfront investment net of cash acquired."
+    consideration_per_share: 68.0
+
+  - target_name: "Verona Pharma"
+    target_ticker: "VRNA"
+    acquirer: "Merck"
+    acquirer_category: "big_pharma"
+    announcement_date: "2025-07-09"
+    headline_value_millions: 10000
+    headline_value_basis: "transaction_value"
+    lead_asset: "Ohtuvayre (ensifentrine)"
+    indication: "COPD maintenance treatment"
+    therapeutic_area: "respiratory"
+    phase_at_acquisition: "approved"
+    comp_bucket: "approved_or_commercial"
+    source_url: "https://www.merck.com/news/merck-to-acquire-verona-pharma-expanding-its-portfolio-to-include-ohtuvayre-ensifentrine-a-first-in-class-copd-maintenance-treatment-for-adults-and-expected-to-drive-growth-into-the-next-dec/"
+    notes: "Commercial-stage respiratory asset; useful precedent but not a clean development-stage comp."
+    consideration_per_share: 46.0
+
+  - target_name: "Avidity Biosciences"
+    target_ticker: "RNA"
+    acquirer: "Novartis"
+    acquirer_category: "big_pharma"
+    announcement_date: "2025-10-26"
+    headline_value_millions: 12000
+    headline_value_basis: "equity_value"
+    lead_asset: "del-desiran / del-brax / del-zota"
+    indication: "myotonic dystrophy type 1 / facioscapulohumeral muscular dystrophy / Duchenne muscular dystrophy"
+    therapeutic_area: "neuroscience"
+    phase_at_acquisition: "phase_3 / late_stage"
+    comp_bucket: "direct_dev_stage"
+    source_url: "https://www.novartis.com/news/media-releases/novartis-successfully-completes-acquisition-avidity-biosciences-strengthening-late-stage-neuroscience-pipeline-and-advancing-xrna-strategy"
+    notes: "Novartis completed the acquisition on February 27, 2026 and disclosed approximately $12B fully diluted equity value and approximately $11B enterprise value."
+    consideration_per_share: 61.0
+
+  - target_name: "Anthos Therapeutics"
+    acquirer: "Novartis"
+    acquirer_category: "big_pharma"
+    announcement_date: "2025-02-11"
+    headline_value_millions: 925
+    headline_value_basis: "upfront_cash"
+    lead_asset: "abelacimab"
+    indication: "stroke and systemic embolism prevention in atrial fibrillation"
+    therapeutic_area: "cardiovascular"
+    phase_at_acquisition: "phase_3"
+    comp_bucket: "direct_dev_stage"
+    source_url: "https://www.novartis.com/news/media-releases/novartis-bolsters-late-stage-cardiovascular-pipeline-agreement-acquire-anthos-therapeutics-usd-925-million-upfront"
+    notes: "Private-company takeout. Late-stage FXI anticoagulation asset."
+
+  - target_name: "Intra-Cellular Therapies"
+    target_ticker: "ITCI"
+    acquirer: "Johnson & Johnson"
+    acquirer_category: "big_pharma"
+    announcement_date: "2025-01-13"
+    headline_value_millions: 14600
+    headline_value_basis: "equity_value"
+    lead_asset: "Caplyta (lumateperone)"
+    indication: "schizophrenia and bipolar depression"
+    therapeutic_area: "neuroscience"
+    phase_at_acquisition: "approved"
+    comp_bucket: "approved_or_commercial"
+    source_url: "https://www.investor.jnj.com/news/news-details/2025/Johnson--Johnson-Strengthens-Neuroscience-Leadership-with-Acquisition-of-Intra-Cellular-Therapies-Inc/default.aspx?68094312_page=2"
+    notes: "J&J described Caplyta as having $5B+ peak-year sales potential."
+    consideration_per_share: 132.0
+
+  - target_name: "IDRx"
+    acquirer: "GSK"
+    acquirer_category: "big_pharma"
+    announcement_date: "2025-01-13"
+    headline_value_millions: 1150
+    headline_value_basis: "up_to_total_value"
+    lead_asset: "IDRX-42"
+    indication: "gastrointestinal stromal tumors"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "phase_2 / registrational_ready"
+    comp_bucket: "direct_dev_stage"
+    source_url: "https://www.gsk.com/en-gb/media/press-releases/gsk-enters-agreement-to-acquire-idrx-inc/"
+    notes: "GSK disclosed $1.0B upfront plus a $150M regulatory approval milestone."
+
+  - target_name: "Verve Therapeutics"
+    target_ticker: "VERV"
+    acquirer: "Eli Lilly"
+    acquirer_category: "big_pharma"
+    announcement_date: "2025-06-17"
+    headline_value_millions: 1300
+    headline_value_basis: "up_to_total_value"
+    lead_asset: "VERVE-102"
+    indication: "heterozygous familial hypercholesterolemia / ASCVD"
+    therapeutic_area: "cardiovascular"
+    phase_at_acquisition: "phase_1b"
+    comp_bucket: "platform_or_preclinical"
+    source_url: "https://investor.lilly.com/news-releases/news-release-details/lilly-acquire-verve-therapeutics-advance-one-time-treatments"
+    notes: "Very early for strict M&A comps, but relevant as a one-time genetic-medicine cardiovascular precedent."
+    consideration_per_share: 10.0
+
+  - target_name: "Longboard Pharmaceuticals"
+    target_ticker: "LBPH"
+    acquirer: "Lundbeck"
+    acquirer_category: "large_biotech"
+    announcement_date: "2024-10-14"
+    headline_value_millions: 2600
+    headline_value_basis: "equity_value"
+    lead_asset: "bexicaserin"
+    indication: "developmental and epileptic encephalopathies"
+    therapeutic_area: "neuroscience"
+    phase_at_acquisition: "phase_3"
+    comp_bucket: "direct_dev_stage"
+    source_url: "https://www.lundbeck.com/us/newsroom/2024/lundbeck-to-acquire-longboard-pharmaceuticals-in-a-strategic-deal"
+    notes: "Lundbeck also disclosed approximately $2.5B net of cash."
+    consideration_per_share: 60.0
+
+  - target_name: "EyeBio"
+    acquirer: "Merck"
+    acquirer_category: "big_pharma"
+    announcement_date: "2024-05-29"
+    headline_value_millions: 3000
+    headline_value_basis: "up_to_total_value"
+    lead_asset: "Restoret (EYE103)"
+    indication: "diabetic macular edema / neovascular age-related macular degeneration"
+    therapeutic_area: "ophthalmology"
+    phase_at_acquisition: "late_phase / pivotal_ready"
+    comp_bucket: "direct_dev_stage"
+    source_url: "https://www.merck.com/news/merck-to-acquire-eyebio/"
+    notes: "Merck disclosed $1.3B upfront plus up to $1.7B in future milestones."
+
+  - target_name: "Alpine Immune Sciences"
+    target_ticker: "ALPN"
+    acquirer: "Vertex"
+    acquirer_category: "large_biotech"
+    announcement_date: "2024-04-10"
+    headline_value_millions: 4900
+    headline_value_basis: "equity_value"
+    lead_asset: "povetacicept"
+    indication: "IgA nephropathy"
+    therapeutic_area: "immunology"
+    phase_at_acquisition: "phase_2 / phase_3_ready"
+    comp_bucket: "direct_dev_stage"
+    source_url: "https://investors.vrtx.com/news-releases/news-release-details/vertex-enters-agreement-acquire-alpine-immune-sciences"
+    notes: "Vertex also disclosed approximately $4.6B net of estimated cash acquired."
+    consideration_per_share: 65.0
+
+  - target_name: "Inhibrx"
+    target_ticker: "INBX"
+    acquirer: "Sanofi"
+    acquirer_category: "big_pharma"
+    announcement_date: "2024-01-23"
+    headline_value_millions: 1700
+    headline_value_basis: "equity_value"
+    lead_asset: "INBRX-101"
+    indication: "alpha-1 antitrypsin deficiency"
+    therapeutic_area: "rare disease"
+    phase_at_acquisition: "phase_2"
+    comp_bucket: "direct_dev_stage"
+    source_url: "https://www.sanofi.com/en/media-room/press-releases/2024/2024-01-23-06-30-00-2813696"
+    notes: "Complex structure with $30/share cash, a $5 CVR and spin-out of non-INBRX-101 assets."
+    consideration_per_share: 30.0
+
+  - target_name: "Morphic"
+    target_ticker: "MORF"
+    acquirer: "Eli Lilly"
+    acquirer_category: "big_pharma"
+    announcement_date: "2024-07-08"
+    headline_value_millions: 3200
+    headline_value_basis: "equity_value"
+    lead_asset: "MORF-057"
+    indication: "ulcerative colitis / Crohn's disease"
+    therapeutic_area: "immunology"
+    phase_at_acquisition: "phase_2"
+    comp_bucket: "direct_dev_stage"
+    source_url: "https://investor.lilly.com/news-releases/news-release-details/lilly-acquire-morphic-improve-outcomes-patients-inflammatory"
+    notes: "Classic oral-I&I Phase 2 takeout."
+    consideration_per_share: 57.0
+
+  - target_name: "CymaBay Therapeutics"
+    target_ticker: "CBAY"
+    acquirer: "Gilead Sciences"
+    acquirer_category: "large_biotech"
+    announcement_date: "2024-02-12"
+    headline_value_millions: 4300
+    headline_value_basis: "equity_value"
+    lead_asset: "seladelpar"
+    indication: "primary biliary cholangitis"
+    therapeutic_area: "hepatology"
+    phase_at_acquisition: "nda_bla"
+    comp_bucket: "direct_dev_stage"
+    source_url: "https://www.gilead.com/news/news-details/2024/gilead-sciences-expands-liver-portfolio-with-acquisition-of-cymabay-therapeutics"
+    notes: "Priority-review-stage liver asset; one of the cleaner late-stage precedents."
+    consideration_per_share: 32.5
+
+  - target_name: "Ambrx"
+    target_ticker: "AMAM"
+    acquirer: "Johnson & Johnson"
+    acquirer_category: "big_pharma"
+    announcement_date: "2024-01-08"
+    headline_value_millions: 2000
+    headline_value_basis: "equity_value"
+    lead_asset: "ARX517"
+    indication: "metastatic castration-resistant prostate cancer"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "phase_1"
+    comp_bucket: "platform_or_preclinical"
+    source_url: "https://www.jnj.com/media-center/press-releases/johnson-johnson-to-acquire-ambrx-advancing-next-generation-antibody-drug-conjugates-to-transform-the-treatment-of-cancer"
+    notes: "Clinical-stage ADC platform plus multiple oncology programs; less clean than a single-asset comp."
+
+  - target_name: "Mariana Oncology"
+    acquirer: "Novartis"
+    acquirer_category: "big_pharma"
+    announcement_date: "2024-05-02"
+    headline_value_millions: 1750
+    headline_value_basis: "up_to_total_value"
+    lead_asset: "MC-339"
+    indication: "small cell lung cancer"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "preclinical"
+    comp_bucket: "platform_or_preclinical"
+    source_url: "https://www.novartis.com/news/media-releases/novartis-enters-agreement-acquire-mariana-oncology-strengthening-radioligand-therapy-pipeline"
+    notes: "Novartis disclosed a $1.0B upfront payment plus $750M in milestone payments."
+
+  - target_name: "Karuna Therapeutics"
+    target_ticker: "KRTX"
+    acquirer: "Bristol Myers Squibb"
+    acquirer_category: "big_pharma"
+    announcement_date: "2023-12-22"
+    headline_value_millions: 14000
+    headline_value_basis: "equity_value"
+    lead_asset: "KarXT"
+    indication: "schizophrenia"
+    therapeutic_area: "neuroscience"
+    phase_at_acquisition: "nda_bla"
+    comp_bucket: "direct_dev_stage"
+    source_url: "https://news.bms.com/news/corporate-financial/2023/Bristol-Myers-Squibb-Strengthens-Neuroscience-Portfolio-with-Acquisition-of-Karuna-Therapeutics/default.aspx?linkId=256710596"
+    notes: "BMS also disclosed approximately $12.7B net of estimated cash acquired."
+    consideration_per_share: 330.0
+
+  - target_name: "Harpoon Therapeutics"
+    target_ticker: "HARP"
+    acquirer: "Merck"
+    acquirer_category: "big_pharma"
+    announcement_date: "2023-12-20"
+    headline_value_millions: 680
+    headline_value_basis: "equity_value"
+    lead_asset: "HPN328 (MK-6070)"
+    indication: "small-cell lung cancer / neuroendocrine tumors"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "phase_2"
+    comp_bucket: "direct_dev_stage"
+    source_url: "https://www.merck.com/news/merck-and-harpoon-therapeutics-announce-definitive-agreement-under-which-merck-will-acquire-harpoon-therapeutics/"
+    notes: "Merck later described the transaction as approximately $765M including acquired cash and transaction costs, but the signed announcement used approximately $680M equity value."
+    consideration_per_share: 23.0
+
+  - target_name: "Cerevel Therapeutics"
+    target_ticker: "CERE"
+    acquirer: "AbbVie"
+    acquirer_category: "big_pharma"
+    announcement_date: "2023-12-06"
+    headline_value_millions: 8700
+    headline_value_basis: "equity_value"
+    lead_asset: "emraclidine"
+    indication: "schizophrenia"
+    therapeutic_area: "neuroscience"
+    phase_at_acquisition: "phase_2"
+    comp_bucket: "direct_dev_stage"
+    source_url: "https://news.abbvie.com/2023-12-06-AbbVie-to-Acquire-Cerevel-Therapeutics-in-Transformative-Transaction-to-Strengthen-Neuroscience-Pipeline"
+    notes: "Pipeline deal with several clinical assets; emraclidine is the lead anchor."
+    consideration_per_share: 45.0
+
+  - target_name: "RayzeBio"
+    target_ticker: "RYZB"
+    acquirer: "Bristol Myers Squibb"
+    acquirer_category: "big_pharma"
+    announcement_date: "2023-12-26"
+    headline_value_millions: 4100
+    headline_value_basis: "equity_value"
+    lead_asset: "RYZ101"
+    indication: "gastroenteropancreatic neuroendocrine tumors"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "phase_3"
+    comp_bucket: "direct_dev_stage"
+    source_url: "https://news.bms.com/news/details/2023/Bristol-Myers-Squibb-Adds-Premier-Radiopharmaceutical-Platform-with-Acquisition-of-RayzeBio/"
+    notes: "BMS also disclosed approximately $3.6B net of estimated cash acquired."
+    consideration_per_share: 62.5
+
+  - target_name: "Prometheus Biosciences"
+    target_ticker: "RXDX"
+    acquirer: "Merck"
+    acquirer_category: "big_pharma"
+    announcement_date: "2023-04-16"
+    headline_value_millions: 10800
+    headline_value_basis: "equity_value"
+    lead_asset: "PRA023"
+    indication: "ulcerative colitis / Crohn's disease"
+    therapeutic_area: "immunology"
+    phase_at_acquisition: "phase_2"
+    comp_bucket: "direct_dev_stage"
+    source_url: "https://www.merck.com/news/merck-strengthens-immunology-pipeline-with-acquisition-of-prometheus-biosciences-inc/"
+    notes: "Large-ticket Phase 2 immunology takeout with precision-medicine platform characteristics."
+    consideration_per_share: 200.0
+
+  - target_name: "Chinook Therapeutics"
+    target_ticker: "KDNY"
+    acquirer: "Novartis"
+    acquirer_category: "big_pharma"
+    announcement_date: "2023-06-12"
+    headline_value_millions: 3500
+    headline_value_basis: "up_to_total_value"
+    lead_asset: "atrasentan / zigakibart"
+    indication: "IgA nephropathy"
+    therapeutic_area: "nephrology"
+    phase_at_acquisition: "phase_3"
+    comp_bucket: "direct_dev_stage"
+    source_url: "https://www.novartis.com/news/media-releases/novartis-bolsters-innovative-medicines-strategy-and-renal-pipeline-agreement-acquire-chinook-therapeutics-usd-32bn-upfront-usd-40-share"
+    notes: "Novartis disclosed $3.2B upfront plus a CVR worth up to $300M."
+    consideration_per_share: 40.0
+
+  - target_name: "Iveric Bio"
+    target_ticker: "ISEE"
+    acquirer: "Astellas"
+    acquirer_category: "big_pharma"
+    announcement_date: "2023-04-30"
+    headline_value_millions: 5900
+    headline_value_basis: "equity_value"
+    lead_asset: "avacincaptad pegol"
+    indication: "geographic atrophy"
+    therapeutic_area: "ophthalmology"
+    phase_at_acquisition: "nda_bla"
+    comp_bucket: "direct_dev_stage"
+    source_url: "https://www.astellas.com/en/news/27741"
+    notes: "PDUFA-stage ophthalmology takeout."
+    consideration_per_share: 40.0
+
+  - target_name: "Bellus Health"
+    target_ticker: "BLU"
+    acquirer: "GSK"
+    acquirer_category: "big_pharma"
+    announcement_date: "2023-04-18"
+    headline_value_millions: 2000
+    headline_value_basis: "equity_value"
+    lead_asset: "camlipixant"
+    indication: "refractory chronic cough"
+    therapeutic_area: "respiratory"
+    phase_at_acquisition: "phase_3"
+    comp_bucket: "direct_dev_stage"
+    source_url: "https://www.gsk.com/en-gb/media/press-releases/gsk-reaches-agreement-to-acquire-late-stage-biopharmaceutical-company-bellus-health/"
+    notes: "Late-stage single-asset respiratory deal."
+    consideration_per_share: 14.75
+
+  - target_name: "Reata Pharmaceuticals"
+    target_ticker: "RETA"
+    acquirer: "Biogen"
+    acquirer_category: "large_biotech"
+    announcement_date: "2023-07-28"
+    headline_value_millions: 7300
+    headline_value_basis: "enterprise_value"
+    lead_asset: "Skyclarys (omaveloxolone)"
+    indication: "Friedreich's ataxia"
+    therapeutic_area: "rare disease"
+    phase_at_acquisition: "approved"
+    comp_bucket: "approved_or_commercial"
+    source_url: "https://investors.biogen.com/news-releases/news-release-details/biogen-acquire-reata-pharmaceuticals"
+    notes: "Biogen explicitly framed the transaction at approximately $7.3B enterprise value."
+    consideration_per_share: 172.5
+
+  - target_name: "Provention Bio"
+    target_ticker: "PRVB"
+    acquirer: "Sanofi"
+    acquirer_category: "big_pharma"
+    announcement_date: "2023-03-13"
+    headline_value_millions: 2900
+    headline_value_basis: "equity_value"
+    lead_asset: "TZIELD"
+    indication: "delay of stage 3 type 1 diabetes"
+    therapeutic_area: "immunology / endocrinology"
+    phase_at_acquisition: "approved"
+    comp_bucket: "approved_or_commercial"
+    source_url: "https://www.sanofi.com/en/media-room/press-releases/2023/2023-03-13-06-00-00-2625367"
+    notes: "Commercial-stage but still relevant for immunology/autoimmune franchise building."
+    consideration_per_share: 25.0
+
+  - target_name: "CinCor Pharma"
+    target_ticker: "CINC"
+    acquirer: "AstraZeneca"
+    acquirer_category: "big_pharma"
+    announcement_date: "2023-01-09"
+    headline_value_millions: 1800
+    headline_value_basis: "up_to_total_value"
+    lead_asset: "baxdrostat"
+    indication: "treatment-resistant and uncontrolled hypertension"
+    therapeutic_area: "cardiovascular"
+    phase_at_acquisition: "phase_2"
+    comp_bucket: "direct_dev_stage"
+    source_url: "https://www.globenewswire.com/news-release/2023/01/09/2584810/0/en/CinCor-Pharma-to-be-Acquired-by-AstraZeneca.html"
+    notes: "AstraZeneca disclosed $1.3B upfront plus a CVR worth up to $500M tied to baxdrostat qualification and sales milestones."
+    consideration_per_share: 26.0
+
+  - target_name: "Biohaven Pharmaceuticals"
+    target_ticker: "BHVN"
+    acquirer: "Pfizer"
+    acquirer_category: "big_pharma"
+    announcement_date: "2022-05-10"
+    headline_value_millions: 11600
+    headline_value_basis: "cash_consideration"
+    lead_asset: "Nurtec ODT / zavegepant"
+    indication: "migraine"
+    therapeutic_area: "neuroscience"
+    phase_at_acquisition: "approved"
+    comp_bucket: "approved_or_commercial"
+    source_url: "https://www.pfizer.com/news/press-release/press-release-detail/pfizer-acquire-biohaven-pharmaceuticals"
+    notes: "Includes spin-out of non-CGRP assets into New Biohaven."
+    consideration_per_share: 148.5
+
+  - target_name: "ChemoCentryx"
+    target_ticker: "CCXI"
+    acquirer: "Amgen"
+    acquirer_category: "large_biotech"
+    announcement_date: "2022-08-04"
+    headline_value_millions: 4000
+    headline_value_basis: "cash_consideration"
+    lead_asset: "Tavneos (avacopan)"
+    indication: "ANCA-associated vasculitis"
+    therapeutic_area: "immunology"
+    phase_at_acquisition: "approved"
+    comp_bucket: "approved_or_commercial"
+    source_url: "https://www.amgen.com/newsroom/press-releases/2022/08/amgen-to-acquire-chemocentryx-for-%244-billion-in-cash"
+    notes: "Approved rare-immunology product with additional late-stage expansion opportunities."
+    consideration_per_share: 52.0
+
+  - target_name: "Sierra Oncology"
+    target_ticker: "SRRA"
+    acquirer: "GSK"
+    acquirer_category: "big_pharma"
+    announcement_date: "2022-04-13"
+    headline_value_millions: 1900
+    headline_value_basis: "equity_value"
+    lead_asset: "momelotinib"
+    indication: "myelofibrosis"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "nda_bla"
+    comp_bucket: "direct_dev_stage"
+    source_url: "https://us.gsk.com/en-us/media/press-releases/gsk-reaches-agreement-to-acquire-late-stage-biopharmaceutical-company-sierra-oncology-for-19bn/"
+    notes: "Pre-approval hematology/oncology takeout."
+    consideration_per_share: 55.0
+
+  - target_name: "Turning Point Therapeutics"
+    target_ticker: "TPTX"
+    acquirer: "Bristol Myers Squibb"
+    acquirer_category: "big_pharma"
+    announcement_date: "2022-06-03"
+    headline_value_millions: 4100
+    headline_value_basis: "equity_value"
+    lead_asset: "repotrectinib"
+    indication: "ROS1-positive non-small cell lung cancer"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "phase_2 / registrational"
+    comp_bucket: "direct_dev_stage"
+    source_url: "https://news.bms.com/news/details/2022/Bristol-Myers-Squibb-to-Acquire-Turning-Point-Therapeutics-a-Leading-Precision-Oncology-Company/default.aspx"
+    notes: "BMS described repotrectinib as a late-stage precision oncology asset expected to launch in 2023."
+    consideration_per_share: 76.0
+
+  - target_name: "Imago BioSciences"
+    target_ticker: "IMGO"
+    acquirer: "Merck"
+    acquirer_category: "big_pharma"
+    announcement_date: "2022-11-21"
+    headline_value_millions: 1350
+    headline_value_basis: "equity_value"
+    lead_asset: "bomedemstat"
+    indication: "essential thrombocythemia / myelofibrosis"
+    therapeutic_area: "hematology"
+    phase_at_acquisition: "phase_2"
+    comp_bucket: "direct_dev_stage"
+    source_url: "https://www.merck.com/news/merck-to-acquire-imago-biosciences-inc/"
+    notes: "Hematology pipeline expansion deal."
+    consideration_per_share: 36.0
+
+  - target_name: "Akouos"
+    target_ticker: "AKUS"
+    acquirer: "Eli Lilly"
+    acquirer_category: "big_pharma"
+    announcement_date: "2022-10-18"
+    headline_value_millions: 610
+    headline_value_basis: "up_to_total_value"
+    lead_asset: "AK-OTOF"
+    indication: "sensorineural hearing loss"
+    therapeutic_area: "genetic medicine"
+    phase_at_acquisition: "phase_1 / platform"
+    comp_bucket: "platform_or_preclinical"
+    source_url: "https://investor.lilly.com/news-releases/news-release-details/lilly-acquire-akouos-discover-and-develop-treatments-hearing"
+    notes: "Lilly disclosed approximately $487M upfront plus CVR for aggregate value up to approximately $610M."
+
+  - target_name: "Acceleron Pharma"
+    target_ticker: "XLRN"
+    acquirer: "Merck"
+    acquirer_category: "big_pharma"
+    announcement_date: "2021-09-30"
+    headline_value_millions: 11500
+    headline_value_basis: "equity_value"
+    lead_asset: "sotatercept"
+    indication: "pulmonary arterial hypertension"
+    therapeutic_area: "cardiovascular"
+    phase_at_acquisition: "phase_3"
+    comp_bucket: "direct_dev_stage"
+    source_url: "https://www.merck.com/news/merck-to-acquire-acceleron-pharma-inc/"
+    notes: "Also included approved REBLOZYL economics, so it sits between pure development-stage and commercial precedent."
+    consideration_per_share: 180.0
+
+  - target_name: "Five Prime Therapeutics"
+    target_ticker: "FPRX"
+    acquirer: "Amgen"
+    acquirer_category: "large_biotech"
+    announcement_date: "2021-03-04"
+    headline_value_millions: 1900
+    headline_value_basis: "equity_value"
+    lead_asset: "bemarituzumab"
+    indication: "FGFR2b-positive gastric and gastroesophageal junction cancer"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "phase_2"
+    comp_bucket: "direct_dev_stage"
+    source_url: "https://wwwext.amgen.com/newsroom/press-releases/2021/03/amgen-to-acquire-five-prime-therapeutics-for-%241-9-billion-in-cash"
+    notes: "Single-asset oncology takeout built around bemarituzumab after positive Phase 2 FIGHT data."
+    consideration_per_share: 38.0
+
+  - target_name: "Arena Pharmaceuticals"
+    target_ticker: "ARNA"
+    acquirer: "Pfizer"
+    acquirer_category: "big_pharma"
+    announcement_date: "2021-12-13"
+    headline_value_millions: 6700
+    headline_value_basis: "equity_value"
+    lead_asset: "etrasimod"
+    indication: "ulcerative colitis"
+    therapeutic_area: "immunology"
+    phase_at_acquisition: "nda_bla / late_stage"
+    comp_bucket: "direct_dev_stage"
+    source_url: "https://www.pfizer.com/news/press-release/press-release-detail/pfizer-acquire-arena-pharmaceuticals"
+    notes: "One of the most relevant pre-commercial I&I precedents of the 2020s."
+    consideration_per_share: 100.0
+
+  - target_name: "Translate Bio"
+    target_ticker: "TBIO"
+    acquirer: "Sanofi"
+    acquirer_category: "big_pharma"
+    announcement_date: "2021-08-03"
+    headline_value_millions: 3200
+    headline_value_basis: "equity_value"
+    lead_asset: "mRNA vaccine and therapeutic platform"
+    indication: "vaccines / cystic fibrosis / rare pulmonary diseases"
+    therapeutic_area: "platform"
+    phase_at_acquisition: "platform / early_clinical"
+    comp_bucket: "platform_or_preclinical"
+    source_url: "https://www.sanofi.com/en/media-room/press-releases/2021/2021-08-03-05-00-00-2273307"
+    notes: "Mostly a modality/platform acquisition rather than a clean single-asset comp."
+    consideration_per_share: 38.0
+
+  - target_name: "Trillium Therapeutics"
+    target_ticker: "TRIL"
+    acquirer: "Pfizer"
+    acquirer_category: "big_pharma"
+    announcement_date: "2021-08-23"
+    headline_value_millions: 2260
+    headline_value_basis: "equity_value"
+    lead_asset: "TTI-622 / TTI-621"
+    indication: "hematologic malignancies"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "phase_1b / 2"
+    comp_bucket: "direct_dev_stage"
+    source_url: "https://www.pfizer.com/news/press-release/press-release-detail/pfizer-acquire-trillium-therapeutics-inc"
+    notes: "Early clinical oncology takeout built around the CD47 axis."
+
+  - target_name: "Immunomedics"
+    target_ticker: "IMMU"
+    acquirer: "Gilead Sciences"
+    acquirer_category: "large_biotech"
+    announcement_date: "2020-09-13"
+    headline_value_millions: 21000
+    headline_value_basis: "transaction_value"
+    lead_asset: "Trodelvy"
+    indication: "metastatic triple-negative breast cancer"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "approved"
+    comp_bucket: "approved_or_commercial"
+    source_url: "https://www.gilead.com/news/news-details/2020/gilead-sciences-to-acquire-immunomedics"
+    notes: "Transformational oncology deal centered on an already approved ADC."
+    consideration_per_share: 88.0
+
+  - target_name: "MyoKardia"
+    target_ticker: "MYOK"
+    acquirer: "Bristol Myers Squibb"
+    acquirer_category: "big_pharma"
+    announcement_date: "2020-10-05"
+    headline_value_millions: 13100
+    headline_value_basis: "transaction_value"
+    lead_asset: "mavacamten"
+    indication: "obstructive hypertrophic cardiomyopathy"
+    therapeutic_area: "cardiovascular"
+    phase_at_acquisition: "phase_3"
+    comp_bucket: "direct_dev_stage"
+    source_url: "https://news.bms.com/news/details/2020/Bristol-Myers-Squibb-to-Acquire-MyoKardia-for-13.1-Billion-in-Cash/default.aspx"
+    notes: "Large-ticket cardiovascular Phase 3 precedent."
+    consideration_per_share: 225.0
+
+  - target_name: "Momenta Pharmaceuticals"
+    target_ticker: "MNTA"
+    acquirer: "Johnson & Johnson"
+    acquirer_category: "big_pharma"
+    announcement_date: "2020-08-19"
+    headline_value_millions: 6500
+    headline_value_basis: "transaction_value"
+    lead_asset: "nipocalimab"
+    indication: "autoantibody-driven autoimmune diseases"
+    therapeutic_area: "immunology"
+    phase_at_acquisition: "phase_2"
+    comp_bucket: "direct_dev_stage"
+    source_url: "https://www.jnj.com/media-center/press-releases/johnson-johnson-to-acquire-momenta-pharmaceuticals-inc-expanding-janssens-leadership-in-novel-treatments-for-autoimmune-diseases"
+    notes: "Multi-indication immunology asset with broad lifecycle potential."
+    consideration_per_share: 60.25
+
+  - target_name: "Principia Biopharma"
+    target_ticker: "PRNB"
+    acquirer: "Sanofi"
+    acquirer_category: "big_pharma"
+    announcement_date: "2020-08-17"
+    headline_value_millions: 3680
+    headline_value_basis: "equity_value"
+    lead_asset: "rilzabrutinib / tolebrutinib"
+    indication: "autoimmune and allergic diseases / multiple sclerosis"
+    therapeutic_area: "immunology"
+    phase_at_acquisition: "phase_2 / phase_3"
+    comp_bucket: "direct_dev_stage"
+    source_url: "https://www.sanofi.com/en/media-room/press-releases/2020/2020-08-17-05-00-00-2078993"
+    notes: "Sanofi separately cited approximately $3.36B enterprise value under the tender-offer terms."
+    consideration_per_share: 100.0
+
+  - target_name: "Prevail Therapeutics"
+    target_ticker: "PRVL"
+    acquirer: "Eli Lilly"
+    acquirer_category: "big_pharma"
+    announcement_date: "2020-12-15"
+    headline_value_millions: 1040
+    headline_value_basis: "up_to_total_value"
+    lead_asset: "PR001 / PR006"
+    indication: "Parkinson's disease with GBA1 mutations / frontotemporal dementia with GRN mutations"
+    therapeutic_area: "neuroscience"
+    phase_at_acquisition: "phase_1 / 2"
+    comp_bucket: "platform_or_preclinical"
+    source_url: "https://investor.lilly.com/news-releases/news-release-details/lilly-announces-agreement-acquire-prevail-therapeutics"
+    notes: "Gene-therapy platform plus clinical neuroscience assets; $880M upfront with CVR value up to $160M."
+
+  - target_name: "VelosBio"
+    acquirer: "Merck"
+    acquirer_category: "big_pharma"
+    announcement_date: "2020-11-05"
+    headline_value_millions: 2750
+    headline_value_basis: "cash_consideration"
+    lead_asset: "VLS-101"
+    indication: "hematologic malignancies / solid tumors"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "phase_1 / 2"
+    comp_bucket: "platform_or_preclinical"
+    source_url: "https://www.merck.com/news/merck-to-acquire-velosbio/"
+    notes: "Private-company oncology deal centered on a ROR1-targeted ADC."
+
+  - target_name: "Pandion Therapeutics"
+    target_ticker: "PAND"
+    acquirer: "Merck"
+    acquirer_category: "big_pharma"
+    announcement_date: "2021-03-29"
+    headline_value_millions: 1850
+    headline_value_basis: "equity_value"
+    lead_asset: "PT-101"
+    indication: "autoimmune diseases (IBD / T1D)"
+    therapeutic_area: "immunology"
+    phase_at_acquisition: "phase_1"
+    comp_bucket: "platform_or_preclinical"
+    source_url: "https://www.merck.com/news/merck-to-acquire-pandion-therapeutics/"
+    notes: "Platform-stage IL-2 agonist deal; $60/share. Merck acquired to build an engineered cytokine portfolio."
+
+  - target_name: "Dicerna Pharmaceuticals"
+    target_ticker: "DRNA"
+    acquirer: "Novo Nordisk"
+    acquirer_category: "big_pharma"
+    announcement_date: "2021-11-22"
+    headline_value_millions: 3300
+    headline_value_basis: "equity_value"
+    lead_asset: "nedosiran / GalXC RNAi platform"
+    indication: "rare cardiometabolic and liver diseases"
+    therapeutic_area: "cardiometabolic"
+    phase_at_acquisition: "phase_2 / platform"
+    comp_bucket: "direct_dev_stage"
+    source_url: "https://www.novonordisk.com/media/news-archive/news-details.1876558.html"
+    notes: "Novo Nordisk acquired Dicerna to strengthen RNAi capabilities; $38.25/share, approx. $3.3B equity value."
+
+  - target_name: "Global Blood Therapeutics"
+    target_ticker: "GBT"
+    acquirer: "Pfizer"
+    acquirer_category: "big_pharma"
+    announcement_date: "2022-08-08"
+    headline_value_millions: 5400
+    headline_value_basis: "equity_value"
+    lead_asset: "Oxbryta (voxelotor)"
+    indication: "sickle cell disease"
+    therapeutic_area: "rare disease / hematology"
+    phase_at_acquisition: "approved"
+    comp_bucket: "approved_or_commercial"
+    source_url: "https://www.pfizer.com/news/press-release/press-release-detail/pfizer-acquire-global-blood-therapeutics-gbt"
+    notes: "Pfizer paid $68.50/share. Oxbryta was subsequently withdrawn from market in 2023 after safety concerns."
+
+# =============================================================================
+# NEGATIVE OUTCOMES — Bankruptcies, wind-downs, and program failures with no M&A
+#
+# These are ground-truth NEGATIVE M&A examples for backtest calibration.
+# outcome_type: "bankruptcy_or_wind_down" signals no acquisition occurred.
+# headline_value_millions: 0, consideration_per_share: 0.0
+#
+# Rationale: including only completed acquisitions creates survivorship bias —
+# the model would never learn that distressed assets routinely go un-acquired.
+# =============================================================================
+
+  - target_name: "Synergy Pharmaceuticals"
+    target_ticker: "SGYP"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2019-01-12"
+    headline_value_millions: 0
+    headline_value_basis: "chapter_11_filing"
+    lead_asset: "Trulance (plecanatide)"
+    indication: "irritable bowel syndrome with constipation / chronic idiopathic constipation"
+    therapeutic_area: "gastroenterology"
+    phase_at_acquisition: "approved"
+    comp_bucket: "negative_outcome"
+    notes: "Filed Chapter 11 bankruptcy January 12, 2019. Plecanatide was FDA-approved but could not gain traction against Linzess. No acquirer emerged. Assets sold piecemeal in bankruptcy."
+    consideration_per_share: 0.0
+
+  - target_name: "Achaogen"
+    target_ticker: "ACHN"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2019-04-15"
+    headline_value_millions: 0
+    headline_value_basis: "chapter_11_filing"
+    lead_asset: "Zemdri (plazomicin)"
+    indication: "complicated urinary tract infections caused by Enterobacteriaceae"
+    therapeutic_area: "anti-infective"
+    phase_at_acquisition: "approved"
+    comp_bucket: "negative_outcome"
+    notes: "Filed Chapter 11 April 15, 2019. Plazomicin was FDA-approved June 2018, but the antibiotic market reimbursement environment made commercialization unviable. No acquirer took the company; assets acquired by licensee Cipla in bankruptcy proceedings."
+    consideration_per_share: 0.0
+
+  - target_name: "Otonomy"
+    target_ticker: "OTIC"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2021-12-21"
+    headline_value_millions: 0
+    headline_value_basis: "dissolution"
+    lead_asset: "OTO-413"
+    indication: "sensorineural hearing loss"
+    therapeutic_area: "otology"
+    phase_at_acquisition: "phase_2"
+    comp_bucket: "negative_outcome"
+    notes: "Ceased operations December 21, 2021 after OTO-413 Phase 2 trial failed to meet primary endpoint. Board authorized wind-down and dissolution. No acquirer. Final trading price ~$1.50/share."
+    consideration_per_share: 0.0
+
+  - target_name: "Genocea Biosciences"
+    target_ticker: "GNCA"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2022-04-06"
+    headline_value_millions: 0
+    headline_value_basis: "dissolution"
+    lead_asset: "GEN-011"
+    indication: "non-small cell lung cancer (neoantigen-directed T cell therapy)"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "phase_2"
+    comp_bucket: "negative_outcome"
+    notes: "Announced wind-down and dissolution April 6, 2022 after GEN-011 Phase 2 ATLAS-TN data were insufficient to justify advancement. No acquirer despite oncology-favorable deal environment. Final price ~$0.50/share."
+    consideration_per_share: 0.0
+
+  - target_name: "Sorrento Therapeutics"
+    target_ticker: "SRNE"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2023-02-13"
+    headline_value_millions: 0
+    headline_value_basis: "chapter_11_filing"
+    lead_asset: "COVIDROPS / palmitoylethanolamide portfolio"
+    indication: "COVID-19 / pain / oncology (multiple failed programs)"
+    therapeutic_area: "oncology / immunology"
+    phase_at_acquisition: "phase_1_2_multiple"
+    comp_bucket: "negative_outcome"
+    notes: "Filed Chapter 11 bankruptcy February 13, 2023. Multiple clinical-stage assets across oncology and infectious disease failed or were commercially unviable. Significant governance and financial irregularities. No strategic acquirer emerged."
+    consideration_per_share: 0.0
+
+  - target_name: "ContraFect"
+    target_ticker: "CFRX"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2023-05-22"
+    headline_value_millions: 0
+    headline_value_basis: "dissolution"
+    lead_asset: "exebacase (CF-301)"
+    indication: "Staphylococcus aureus bacteremia including right-sided endocarditis"
+    therapeutic_area: "anti-infective"
+    phase_at_acquisition: "phase_3"
+    comp_bucket: "negative_outcome"
+    notes: "Ceased operations May 22, 2023 after exebacase Phase 3 DISRUPT trial failed (October 2022). First-in-class lysin antibiotic platform could not attract acquirer post-Phase 3 failure despite novel mechanism. Assets dissolved."
+    consideration_per_share: 0.0
+
+  - target_name: "Nabriva Therapeutics"
+    target_ticker: "NBRV"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2023-12-01"
+    headline_value_millions: 0
+    headline_value_basis: "chapter_11_filing"
+    lead_asset: "XENLETA (lefamulin)"
+    indication: "community-acquired bacterial pneumonia"
+    therapeutic_area: "anti-infective"
+    phase_at_acquisition: "approved"
+    comp_bucket: "negative_outcome"
+    notes: "Filed Chapter 11 December 2023. XENLETA was FDA-approved August 2019 but achieved minimal commercial uptake. Anti-infective market dynamics and lack of reimbursement drove commercial failure. No acquirer. Illustrates that FDA approval alone does not guarantee M&A interest."
+    consideration_per_share: 0.0
+
+  - target_name: "Fate Therapeutics"
+    target_ticker: "FATE"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2024-04-01"
+    headline_value_millions: 0
+    headline_value_basis: "dissolution"
+    lead_asset: "FT596 / FT538 (iPSC-derived NK/T-cell therapies)"
+    indication: "hematologic malignancies / multiple myeloma / AML"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "phase_1_2"
+    comp_bucket: "negative_outcome"
+    notes: "Announced wind-down and dissolution April 2024 after multiple iPSC-derived cell therapy programs failed to demonstrate sufficient clinical efficacy in Phase 1/2 trials. Despite strong scientific differentiation and an allogeneic platform, no acquirer emerged at a viable price. Highlights that scientific novelty alone does not protect against wind-down absent efficacy signals."
+    consideration_per_share: 0.0
+
+  - target_name: "Aldeyra Therapeutics"
+    target_ticker: "ALDX"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2024-06-14"
+    headline_value_millions: 0
+    headline_value_basis: "strategic_restructuring_dissolution"
+    lead_asset: "reproxalap"
+    indication: "dry eye disease / allergic conjunctivitis"
+    therapeutic_area: "ophthalmology"
+    phase_at_acquisition: "phase_3"
+    comp_bucket: "negative_outcome"
+    notes: "Announced major restructuring and wind-down June 2024 after reproxalap Phase 3 dry eye trial (TRANQUILITY-2) failed to meet primary endpoint and a second Phase 3 was also unsuccessful. ADX-2191 (intravitreal) program also halted. No acquirer despite ophthalmology deal interest from Merck, Novartis. Cash returned to shareholders."
+    consideration_per_share: 0.0
+
+  - target_name: "Clovis Oncology"
+    target_ticker: "CLVS"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2022-12-07"
+    headline_value_millions: 0
+    headline_value_basis: "chapter_11_filing"
+    lead_asset: "Rubraca (rucaparib)"
+    indication: "BRCA-mutant ovarian cancer / prostate cancer"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "approved"
+    comp_bucket: "negative_outcome"
+    notes: "Filed Chapter 11 December 7, 2022. Rubraca was FDA-approved but faced intense competition from olaparib (Lynparza) and niraparib. Failed to carve out a commercially viable niche; ran out of cash. No acquirer at a viable price despite PARP inhibitor class being strategic. AstraZeneca acquired Lynparza rights, not Clovis."
+    consideration_per_share: 0.0
+
+  - target_name: "Zafgen"
+    target_ticker: "ZFGN"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2020-10-05"
+    headline_value_millions: 0
+    headline_value_basis: "dissolution"
+    lead_asset: "ZGN-1061 (MetAP2 inhibitor)"
+    indication: "severe obesity / Prader-Willi syndrome"
+    therapeutic_area: "metabolic"
+    phase_at_acquisition: "phase_2"
+    comp_bucket: "negative_outcome"
+    notes: "Dissolved October 2020 after ZGN-1061 Phase 2 dose-finding failed to demonstrate sufficient weight loss signal. Prior asset beloranib had been halted for cardiovascular deaths. Management pursued strategic alternatives for over a year; no acquirer emerged. Cash returned to shareholders."
+    consideration_per_share: 0.0
+
+  - target_name: "Bind Therapeutics"
+    target_ticker: "BIND"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2016-09-28"
+    headline_value_millions: 0
+    headline_value_basis: "chapter_11_filing"
+    lead_asset: "BIND-014 (nanoparticle docetaxel)"
+    indication: "non-small cell lung cancer / cervical cancer"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "phase_2"
+    comp_bucket: "negative_outcome"
+    notes: "Filed Chapter 11 September 2016 after BIND-014 Phase 2 failed to demonstrate superiority over standard docetaxel. Nanoparticle targeted delivery platform could not rescue the payload. No acquirer. Platform technology sold in bankruptcy for nominal amount."
+    consideration_per_share: 0.0
+
+  - target_name: "NewLink Genetics"
+    target_ticker: "NLNK"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2019-11-04"
+    headline_value_millions: 0
+    headline_value_basis: "dissolution"
+    lead_asset: "algenpantucel-L / indoximod"
+    indication: "pancreatic cancer / melanoma"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "phase_3"
+    comp_bucket: "negative_outcome"
+    notes: "Dissolved November 2019 after algenpantucel-L Phase 3 IMPRESS trial failed (2016) and strategic alternatives process yielded no buyer. IDO pathway inhibitor indoximod also failed. Announced wind-down after exhausting financing options. Illustrates that Phase 3 failure removes most acquisition interest even for novel mechanisms."
+    consideration_per_share: 0.0
+
+  - target_name: "Merrimack Pharmaceuticals"
+    target_ticker: "MACK"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2021-10-18"
+    headline_value_millions: 0
+    headline_value_basis: "dissolution"
+    lead_asset: "MM-310 / CARMA platform"
+    indication: "HER3-expressing solid tumors"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "phase_1"
+    comp_bucket: "negative_outcome"
+    notes: "Fully dissolved October 2021 after selling MM-398 (irinotecan liposome, Onivyde) to Ipsen in 2017 for $575M and failing to advance remaining pipeline. CARMA immune cell engineering platform and MM-310 ADC both discontinued. No acquirer for the remaining stub despite antibody-drug conjugate market being active."
+    consideration_per_share: 0.0
+
+  - target_name: "G1 Therapeutics"
+    target_ticker: "GTHX"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2024-01-08"
+    headline_value_millions: 0
+    headline_value_basis: "dissolution"
+    lead_asset: "Cosela (trilaciclib)"
+    indication: "myelosuppression prevention in chemotherapy"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "approved"
+    comp_bucket: "negative_outcome"
+    notes: "Announced dissolution January 2024 after Cosela (trilaciclib) achieved FDA approval but failed commercially due to limited uptake in chemotherapy-treated patients and a small addressable population. Lerociclib CDK4/6 inhibitor also discontinued. Ran strategic alternatives process in 2023; no acquirer emerged at viable terms."
+    consideration_per_share: 0.0
+
+  - target_name: "Aralez Pharmaceuticals"
+    target_ticker: "ARLZ"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2018-08-10"
+    headline_value_millions: 0
+    headline_value_basis: "chapter_11_filing"
+    lead_asset: "Yosprala (aspirin+omeprazole) / Toprol-XL generic"
+    indication: "cardiovascular / pain management"
+    therapeutic_area: "cardiovascular"
+    phase_at_acquisition: "approved"
+    comp_bucket: "negative_outcome"
+    notes: "Filed Chapter 11 August 2018 after Yosprala commercial launch underperformed and debt burden from merger of Tribute Pharma and Pozen became unsustainable. No strategic acquirer for the combined entity. Assets sold piecemeal in bankruptcy."
+    consideration_per_share: 0.0
+
+  - target_name: "Trevena"
+    target_ticker: "TRVN"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2024-07-08"
+    headline_value_millions: 0
+    headline_value_basis: "chapter_7_liquidation"
+    lead_asset: "Olinvyk (oliceridine IV)"
+    indication: "moderate-to-severe acute pain"
+    therapeutic_area: "cns"
+    phase_at_acquisition: "approved"
+    comp_bucket: "negative_outcome"
+    notes: "Filed Chapter 7 liquidation July 2024. Ran formal strategic review July–October 2023 with no acquirer. Hospital formulary access for Olinvyk remained minimal; mu-opioid GPCR biased agonist had insufficient differentiation in a crowded opioid space with regulatory headwinds. Assets liquidated."
+    consideration_per_share: 0.0
+
+  - target_name: "Kala Bio"
+    target_ticker: "KALA"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2024-05-02"
+    headline_value_millions: 0
+    headline_value_basis: "dissolution"
+    lead_asset: "KPI-012 / loteprednol (Eysuvis)"
+    indication: "persistent corneal epithelial defects / dry eye"
+    therapeutic_area: "ophthalmology"
+    phase_at_acquisition: "phase_2"
+    comp_bucket: "negative_outcome"
+    notes: "Announced dissolution May 2024. KPI-012 Phase 2 for persistent corneal epithelial defects missed primary endpoint. Eysuvis (loteprednol) commercial launch was insufficient to fund further R&D. No acquirer despite ophthalmology being a target-rich deal area. Cash returned to shareholders after wind-down."
+    consideration_per_share: 0.0
+
+  - target_name: "Atara Biotherapeutics"
+    target_ticker: "ATRA"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2024-10-14"
+    headline_value_millions: 0
+    headline_value_basis: "dissolution"
+    lead_asset: "tabelecleucel (tab-cel)"
+    indication: "EBV-positive post-transplant lymphoproliferative disease"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "approved"
+    comp_bucket: "negative_outcome"
+    notes: "Announced dissolution October 2024. Tab-cel received conditional approval in EU (2022) and FDA approval (2024) for EBV+ PTLD but commercial uptake was too limited to fund operations. Allogeneic T-cell therapy platform could not attract acquirer at viable terms. Rare disease ultra-small market limited deal interest."
+    consideration_per_share: 0.0
+
+  - target_name: "Humanigen"
+    target_ticker: "HGEN"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2022-03-14"
+    headline_value_millions: 0
+    headline_value_basis: "dissolution"
+    lead_asset: "lenzilumab"
+    indication: "COVID-19 cytokine storm / AML"
+    therapeutic_area: "immunology"
+    phase_at_acquisition: "phase_3"
+    comp_bucket: "negative_outcome"
+    notes: "Dissolved March 2022 after FDA rejected lenzilumab BLA for COVID-19 cytokine storm (January 2022). Company had pivoted heavily to COVID-19; GM-CSF antibody lacked sufficient evidence vs standard of care. Ran strategic alternatives process in late 2021 with no acquirer. AML program also discontinued."
+    consideration_per_share: 0.0
+
+  - target_name: "Corbus Pharmaceuticals"
+    target_ticker: "CRBP"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "program_failure_no_deal"
+    announcement_date: "2021-11-22"
+    headline_value_millions: 0
+    headline_value_basis: "program_failure_restructuring"
+    lead_asset: "lenabasum"
+    indication: "systemic sclerosis / cystic fibrosis / dermatomyositis"
+    therapeutic_area: "immunology"
+    phase_at_acquisition: "phase_3"
+    comp_bucket: "negative_outcome"
+    notes: "Lenabasum Phase 3 RESOLVE-1 failed primary endpoint in SSc (November 2021). CF and dermatomyositis Phase 3 trials also halted. Company pivoted to oncology assets but could not attract acquirer for the failed CB2 agonist platform. Major restructuring; majority of staff laid off. No deal materialized for core assets."
+    consideration_per_share: 0.0
+
+  - target_name: "AMAG Pharmaceuticals"
+    target_ticker: "AMAG"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2021-02-02"
+    headline_value_millions: 0
+    headline_value_basis: "dissolution"
+    lead_asset: "Feraheme (ferumoxytol) / Intrarosa"
+    indication: "iron deficiency anemia / female sexual dysfunction"
+    therapeutic_area: "hematology"
+    phase_at_acquisition: "approved"
+    comp_bucket: "negative_outcome"
+    notes: "Dissolved February 2021. Sold women's health assets (Intrarosa/Vyleesi) to Covis in 2020 and ferumoxytol rights prior. Remaining shell could not attract acquirer; wound down operations. Feraheme was subsequently acquired by American Regent separately. Illustrates asset-level vs company-level M&A dynamics."
+    consideration_per_share: 0.0
+
+  - target_name: "Chiasma"
+    target_ticker: "CHMA"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2021-09-10"
+    headline_value_millions: 0
+    headline_value_basis: "dissolution"
+    lead_asset: "Mycapssa (octreotide capsules)"
+    indication: "acromegaly"
+    therapeutic_area: "endocrine"
+    phase_at_acquisition: "approved"
+    comp_bucket: "negative_outcome"
+    notes: "Dissolved September 2021. Mycapssa received FDA approval June 2020 as the first oral somatostatin analog for acromegaly but faced slow commercial uptake. Strongbridge acquired North American rights; remaining company wound down with no acquirer for the entity. Limited market size constrained deal value."
+    consideration_per_share: 0.0
+
+  - target_name: "Conatus Pharmaceuticals"
+    target_ticker: "CNAT"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2022-08-08"
+    headline_value_millions: 0
+    headline_value_basis: "dissolution"
+    lead_asset: "emricasan"
+    indication: "NASH with fibrosis / acute-on-chronic liver failure"
+    therapeutic_area: "metabolic"
+    phase_at_acquisition: "phase_3"
+    comp_bucket: "negative_outcome"
+    notes: "Dissolved August 2022. Emricasan Phase 3 ENCORE-NF/LF/PH failed all three endpoints in NASH and portal hypertension (2019-2020). Caspase inhibitor mechanism failed despite Phase 2 biomarker signal. Ran strategic alternatives including licensing discussions; no deal. NASH graveyard of Phase 3 failures."
+    consideration_per_share: 0.0
+
+  - target_name: "Advaxis"
+    target_ticker: "ADXS"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2023-04-18"
+    headline_value_millions: 0
+    headline_value_basis: "dissolution"
+    lead_asset: "ADXS-504 / axalimogene filolisbac (AXAL)"
+    indication: "HPV-associated cervical cancer / prostate cancer"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "phase_2"
+    comp_bucket: "negative_outcome"
+    notes: "Dissolved April 2023. Listeria-based cancer immunotherapy platform produced mixed Phase 2 results. AXAL failed Phase 3 in cervical cancer (GOG/NRG study). Multiple financing rounds diluted shareholders. No acquirer for Lm-based immunotherapy platform despite checkpoint combination interest."
+    consideration_per_share: 0.0
+
+  - target_name: "CytRx Corporation"
+    target_ticker: "CYTX"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2023-06-12"
+    headline_value_millions: 0
+    headline_value_basis: "dissolution"
+    lead_asset: "aldoxorubicin / ladr-7 (LADR)"
+    indication: "soft tissue sarcoma"
+    therapeutic_area: "oncology"
+    phase_at_acquisition: "phase_2"
+    comp_bucket: "negative_outcome"
+    notes: "Dissolved June 2023. Aldoxorubicin Phase 3 failed in soft tissue sarcoma (2015); subsequent pH-sensitive prodrug LADR program failed to attract partnership or funding. Multiple attempts at strategic alternatives and licensing yielded no deal. Extended development timelines on insufficient capital led to dissolution."
+    consideration_per_share: 0.0
+
+  - target_name: "InVivo Therapeutics"
+    target_ticker: "NVIV"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2022-06-03"
+    headline_value_millions: 0
+    headline_value_basis: "dissolution"
+    lead_asset: "NVG-291 / biopolymer scaffold"
+    indication: "spinal cord injury"
+    therapeutic_area: "cns"
+    phase_at_acquisition: "phase_1"
+    comp_bucket: "negative_outcome"
+    notes: "Dissolved June 2022 after FDA placed NVG-291 on clinical hold and earlier biopolymer scaffold program was discontinued following an FDA safety action. Spinal cord injury mechanistic complexity and lack of approved analogues made deal impossible. Going concern warnings preceded wind-down."
+    consideration_per_share: 0.0
+
+  - target_name: "Regado Biosciences"
+    target_ticker: "RGBP"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2015-05-06"
+    headline_value_millions: 0
+    headline_value_basis: "dissolution"
+    lead_asset: "REG1 (pegnivacogin + anivamersen)"
+    indication: "acute coronary syndrome"
+    therapeutic_area: "cardiovascular"
+    phase_at_acquisition: "phase_3"
+    comp_bucket: "negative_outcome"
+    notes: "Dissolved May 2015 after REGULATE-PCI Phase 3 was halted for anaphylaxis (allergic reactions in ~10 patients). REG1 was a RNA aptamer anticoagulant with reversal agent; safety signal was fatal to the program. No acquirer for the platform. Illustrates how phase 3 safety halts preclude acquisition."
+    consideration_per_share: 0.0
+
+
+
+  - target_name: "Diffusion Pharmaceuticals"
+    target_ticker: "DFFN"
+    acquirer: null
+    acquirer_category: null
+    outcome_type: "bankruptcy_or_wind_down"
+    announcement_date: "2023-12-26"
+    headline_value_millions: 0
+    headline_value_basis: "dissolution"
+    lead_asset: "TSC (trans sodium crocetinate)"
+    indication: "glioblastoma / COVID-19 / stroke"
+    therapeutic_area: "cns"
+    phase_at_acquisition: "phase_2"
+    comp_bucket: "negative_outcome"
+    notes: "Dissolved December 2023. TSC Phase 2 in GBM failed; COVID-19 and stroke pivots also failed. Small molecule oxygen diffusion enhancer mechanism lacked mechanistic validation. No acquirer for the multi-indication pivot strategy. Going concern warnings from 2022."
+    consideration_per_share: 0.0
+

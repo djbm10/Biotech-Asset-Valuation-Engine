@@ -73,7 +73,8 @@ class TestCrowdingApplied:
         assert abs(model.our_available_market_fraction(1) - base) < 1e-9
 
     def test_crowding_respects_floor(self):
-        """Very aggressive crowding should not push below 0.10 floor."""
+        """Very aggressive crowding should not push below the configured floor.
+        floor_residual_share defaults to 0.0 (configurable); set 0.10 to test floor behavior."""
         heavy_competitors = [
             CompetitorLaunch(
                 name=f"c{i}",
@@ -88,6 +89,7 @@ class TestCrowdingApplied:
         model = CompetitionModel(
             competitors=heavy_competitors,
             crowding_model=CrowdingModel(enabled=True, crowding_threshold=2, share_decay_per_competitor=0.50),
+            floor_residual_share=0.10,  # explicit floor; default is 0.0
         )
         assert model.our_available_market_fraction(1) >= 0.10
 

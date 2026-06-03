@@ -83,6 +83,7 @@ MC_RANDOM_SEED: int | None = None       # operational default
 
 MC_PHASE_ESS: dict[str, int] = _a.mc_phase_ess
 MC_PEAK_SALES_CV: float = _a.mc_peak_sales_cv
+MC_PEAK_SALES_CV_BY_STAGE: dict[str, float] = _a.mc_peak_sales_cv_by_stage
 MC_DISCOUNT_RATE_STD: float = _a.mc_discount_rate_std
 MC_YEARS_TO_PEAK_STD: float = _a.mc_years_to_peak_std
 MC_PATENT_LIFE_STD: float = _a.mc_patent_life_std
@@ -95,7 +96,7 @@ MC_PATENT_LIFE_STD: float = _a.mc_patent_life_std
 TRIAL_DESIGN_LOGODDS: dict[str, dict[str, float]] = _a.trial_design_logodds
 TRIAL_DESIGN_CAP_POSITIVE: float = _a.trial_design_cap_positive
 TRIAL_DESIGN_CAP_NEGATIVE: float = _a.trial_design_cap_negative
-TRIAL_DESIGN_PHASE_SCALING: dict[str, dict[str, float]] = _a.trial_design_phase_scaling
+TRIAL_DESIGN_PHASE_SCALING: dict[str, float] = _a.trial_design_phase_scaling
 
 # Structural sentinel — not a calibrated value; stays in constants.py
 TRIAL_DESIGN_PHASE_NEUTRAL: str = "neutral"

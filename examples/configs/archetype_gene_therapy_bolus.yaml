@@ -1,0 +1,103 @@
+# =============================================================================
+# Launch Archetype Example — gene_therapy_bolus
+# =============================================================================
+#
+# Archetype: gene_therapy_bolus
+#   Shape: bolus · Years-to-peak: 1
+#   Year 1 = full peak (prevalent backlog absorbed at launch).
+#   Year 2+ = ongoing_fraction × peak (incident-only steady state).
+#
+# When to use this archetype:
+#   - Single-administration curative or durable treatment (gene therapy,
+#     CAR-T, one-time surgical intervention)
+#   - Year 1 revenue dominated by backlog of prevalent patients waiting for approval
+#   - bolus_ongoing_fraction default = 0.08; set to incidence/prevalence ratio
+#     of the specific disease (e.g., 0.03–0.05 for very-rare diseases)
+#   - Pair with disease_model='incident_one_time' on PatientPool for full
+#     patient-flow consistency (Sprint B1)
+#   - Examples: Zolgensma (SMA, ~0.04 ratio), Luxturna (RPE65), Hemgenix (haemophilia B)
+#
+# Revenue profile:
+#   Year 1: penetration = peak_penetration (backlog absorption)
+#   Year 2+: penetration = peak_penetration × bolus_ongoing_fraction
+#
+# Front-loading ratio = 1 / bolus_ongoing_fraction = ~12.5× at 0.08
+#
+# =============================================================================
+
+asset:
+  id: "example-gt-sma-bolus"
+  name: "EXAMPLE-GT-SMA"
+  indication: "Spinal Muscular Atrophy (SMA)"
+  therapeutic_area: "rare_disease"
+  stage: "phase_3"
+  modality: "gene_therapy"
+  discount_rate: 0.12    # higher discount; binary Phase 3 risk
+
+trials:
+  - phase: "phase_3"
+    success_probability: 0.55
+    duration_years: 3.5
+    cost_millions: 320.0
+  - phase: "nda_bla"
+    success_probability: 0.88
+    duration_years: 1.5
+    cost_millions: 45.0
+
+market:
+  asset_id: "example-gt-sma-bolus"
+  therapeutic_area: "rare_disease"
+  patent_life_years: 12
+
+  # Launch archetype — automatically produces bolus curve (Year 1 at peak, Year 2+ ongoing).
+  launch_archetype: "gene_therapy_bolus"
+
+  # Commercial inputs using incident_one_time disease model (Sprint B1)
+  commercial_inputs:
+    patient_pool:
+      indication: "SMA"
+      disease_model: "incident_one_time"
+      annual_incidence_k: 1.0         # ~1,000 new SMA diagnoses/yr in US
+      prevalence_thousands: 25.0      # ~25k living with SMA in US
+      diagnosed_fraction: 0.60
+      eligible_rate: 0.80
+      treated_fraction: 0.70
+      backlog_years: 1.0
+      uncertainty_cv: 0.30
+
+    pricing:
+      net_price_usd: 2100000          # Zolgensma reference: ~$2.1M single dose
+      wac_per_year_usd: 2200000
+      gross_to_net_rate: 0.045        # minimal G2N for rare one-time treatments
+      launch_discount: 0.05
+      annual_erosion_rate: 0.01
+      uncertainty_cv: 0.10
+
+    share:
+      peak_share: 0.60                # 60% of eligible — high unmet need
+      years_to_peak: 1                # bolus: peak at Year 1 by definition
+      share_cv: 0.15
+
+    ex_us_revenue_multiple: 1.20      # EU + Japan (limited; regulatory uncertainty)
+
+  cogs_rate: 0.30                     # gene therapy COGS is higher (viral vector mfg)
+  sgna_rate_launch: 0.25
+  sgna_rate_mature: 0.15
+  sgna_ramp_years: 3
+
+# ---------------------------------------------------------------------------
+# Notes on bolus_ongoing_fraction override:
+#
+# The archetype default (0.08) can be overridden via UptakeCurve.from_archetype():
+#
+#   UptakeCurve.from_archetype(
+#       LaunchArchetype.GENE_THERAPY_BOLUS,
+#       peak_penetration=0.60,
+#       patent_life_years=12,
+#       optional_overrides={"bolus_ongoing_fraction": 0.04},  # SMA incidence/prevalence ratio
+#   )
+#
+# For YAML-based configs, set years_to_peak: 1 and use the bolus archetype;
+# commercial_inputs.share.years_to_peak is a separate parameter that controls
+# the PatientPool ShareModel ramp and does not override the archetype bolus shape.
+# ---------------------------------------------------------------------------

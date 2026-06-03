@@ -254,9 +254,14 @@ class TestMilestonePV:
             milestone_pv(m_first_sale, prob, 0.10), rel=1e-6
         )
 
-    def test_sales_threshold_returns_zero(self):
-        """SALES_THRESHOLD not yet implemented — returns 0."""
-        m = Milestone(description="sales", amount_millions=50.0, trigger=MilestoneTrigger.SALES_THRESHOLD)
+    def test_sales_threshold_returns_zero_without_revenue_stream(self):
+        """SALES_THRESHOLD returns 0.0 when no revenue_stream is provided."""
+        m = Milestone(
+            description="sales",
+            amount_millions=50.0,
+            trigger=MilestoneTrigger.SALES_THRESHOLD,
+            sales_threshold_millions=100.0,
+        )
         prob = _prob()
         assert milestone_pv(m, prob, 0.10) == 0.0
 
@@ -371,10 +376,11 @@ class TestRNPVModelWithDeal:
         with_royalty = self._base_results(deal=DealEconomics(royalty_rate=0.10))
         assert with_royalty.rnpv_millions < base.rnpv_millions
 
-    def test_royalty_stacks_multiplicatively_with_asset_royalty(self):
+    def test_asset_royalty_sets_net_ownership(self):
         """
-        asset.net_ownership=0.90, deal.royalty_rate=0.10
-        effective_ownership = 0.90 × 0.90 = 0.81
+        asset.net_ownership=0.90 (asset.royalty_rate=0.10).
+        deal.royalty_rate is applied to revenue independently — does not reduce net_ownership.
+        net_ownership stores the equity stake only.
         """
         asset_with_royalty = _asset(royalty_rate=0.10)
         prob = ProbabilityModel.compute(asset_with_royalty, _trials())
@@ -382,7 +388,10 @@ class TestRNPVModelWithDeal:
         deal = DealEconomics(royalty_rate=0.10)
         cost = CostModel.compute(prob, asset_with_royalty.discount_rate, deal=deal)
         rnpv = RNPVModel.compute(asset_with_royalty, prob, rev, cost, deal=deal)
-        assert rnpv.net_ownership == pytest.approx(0.90 * 0.90, rel=1e-6)
+        # net_ownership = equity stake = asset.net_ownership = 0.90 (invariant to deal.royalty_rate)
+        assert rnpv.net_ownership == pytest.approx(0.90, rel=1e-6)
+        # royalty on revenue tracked separately
+        assert rnpv.royalty_deductions_pv_millions > 0.0
 
     def test_receivable_milestone_increases_rnpv(self):
         """An approval milestone receipt (after discounting and probability weighting) increases rNPV."""
@@ -404,7 +413,8 @@ class TestRNPVModelWithDeal:
         cost = CostModel.compute(prob, 0.10, deal=deal)
         rnpv = RNPVModel.compute(_asset(), prob, rev, cost, deal=deal)
         expected_pv = milestone_pv(recv, prob, 0.10)
-        assert rnpv.deal_milestone_receipts_pv_millions == pytest.approx(expected_pv, abs=0.01)
+        # Sprint 9.12: deal_milestone_receipts_pv_millions is rounded to 1dp, so allow 0.1 tolerance
+        assert rnpv.deal_milestone_receipts_pv_millions == pytest.approx(expected_pv, abs=0.1)
 
     def test_upfront_receipt_added_at_face_value(self):
         """Upfront receipt is at t=0 so no discounting — full amount adds to rNPV."""
@@ -416,11 +426,13 @@ class TestRNPVModelWithDeal:
         )
         assert with_receipt.upfront_receipt_millions == 50.0
 
-    def test_net_ownership_reflects_deal_royalty(self):
+    def test_net_ownership_is_equity_stake_only(self):
         deal = DealEconomics(royalty_rate=0.15)
         rnpv = self._base_results(deal=deal)
-        # asset royalty_rate=0, deal royalty=0.15 → ownership = 1.0 × 0.85 = 0.85
-        assert rnpv.net_ownership == pytest.approx(0.85, rel=1e-6)
+        # net_ownership = equity stake = asset.net_ownership = 1.0 (asset royalty_rate=0)
+        # deal.royalty_rate reduces revenue, not net_ownership
+        assert rnpv.net_ownership == pytest.approx(1.0, rel=1e-6)
+        assert rnpv.royalty_deductions_pv_millions > 0.0
 
     def test_payable_milestone_reduces_rnpv(self):
         """A payable milestone increases costs → reduces rNPV."""
@@ -558,65 +570,87 @@ class TestBackwardCompatWithDeal:
 
 # ---------------------------------------------------------------------------
 # TestRoyaltyMathFormula
-# Explicit numeric proof: captured_revenue = gross_ebit × net_ownership × (1 − royalty_rate)
+# Verify royalty-on-revenue and profit_share-on-EBIT semantics
 # ---------------------------------------------------------------------------
 
 class TestRoyaltyMathFormula:
     """
-    Verify the royalty stacking formula numerically.
+    Verify the deal deduction formula numerically.
 
-    Formula (from rnpv_model.py):
-      effective_ownership = asset.net_ownership × (1 − deal.royalty_rate)
-      probability_adjusted_revenue_pv = Σ [ebit_yr × effective_ownership / (1+r)^yr] × P(approval)
+    Corrected formula (from rnpv_model.py):
+      royalty_t      = revenue_t × deal.royalty_rate       (top-line deduction)
+      profit_share_t = ebit_t    × deal.profit_share_rate  (EBIT-level deduction)
+      adjusted_ebit  = ebit_t − royalty_t − profit_share_t
+      captured       = adjusted_ebit × (1 − tax) × asset.net_ownership
 
-    Proof: ratio of gross_revenue_pv with two different royalty stacks must equal
-    the ratio of their effective ownerships.
+    Key invariants:
+      - net_ownership = asset.net_ownership (equity stake; invariant to deal terms)
+      - Royalty on revenue produces a LARGER deduction than equal % applied to EBIT
+        (because revenue >> EBIT by the EBIT margin factor)
+      - profit_share on EBIT produces exactly profit_share_rate × EBIT deduction
     """
 
-    def _revenue_pv(self, asset_royalty: float, deal_royalty: float) -> tuple[float, float]:
-        """Return (gross_revenue_pv_millions, effective_ownership) for given royalty params."""
+    def _compute(self, asset_royalty: float = 0.0, deal_royalty: float = 0.0,
+                 profit_share: float = 0.0) -> RNPVResult:
         asset = _asset(royalty_rate=asset_royalty)
-        deal = DealEconomics(royalty_rate=deal_royalty)
+        deal = DealEconomics(royalty_rate=deal_royalty, profit_share_rate=profit_share)
         prob = ProbabilityModel.compute(asset, _trials())
         rev = RevenueModel.compute(_market())
         cost = CostModel.compute(prob, asset.discount_rate, deal=deal)
-        rnpv = RNPVModel.compute(asset, prob, rev, cost, deal=deal)
-        return rnpv.gross_revenue_pv_millions, rnpv.net_ownership
+        return RNPVModel.compute(asset, prob, rev, cost, deal=deal)
 
     def test_zero_royalties_gives_full_ownership(self):
-        _, ownership = self._revenue_pv(asset_royalty=0.0, deal_royalty=0.0)
-        assert ownership == pytest.approx(1.0, rel=1e-9)
+        result = self._compute(asset_royalty=0.0, deal_royalty=0.0)
+        assert result.net_ownership == pytest.approx(1.0, rel=1e-9)
 
-    def test_asset_royalty_reduces_ownership(self):
-        """asset.royalty_rate=0.20 → net_ownership=0.80, deal royalty=0."""
-        _, ownership = self._revenue_pv(asset_royalty=0.20, deal_royalty=0.0)
-        assert ownership == pytest.approx(0.80, rel=1e-9)
+    def test_asset_royalty_sets_net_ownership(self):
+        """asset.royalty_rate=0.20 → net_ownership=0.80 (equity stake only)."""
+        result = self._compute(asset_royalty=0.20, deal_royalty=0.0)
+        assert result.net_ownership == pytest.approx(0.80, rel=1e-9)
 
-    def test_deal_royalty_stacks_multiplicatively(self):
-        """asset.royalty_rate=0.20, deal.royalty_rate=0.10 → 0.80 × 0.90 = 0.72."""
-        _, ownership = self._revenue_pv(asset_royalty=0.20, deal_royalty=0.10)
-        assert ownership == pytest.approx(0.80 * 0.90, rel=1e-9)
+    def test_deal_royalty_does_not_reduce_net_ownership(self):
+        """deal.royalty_rate applied to revenue, not equity stake — net_ownership unchanged."""
+        result_no_deal = self._compute(asset_royalty=0.20, deal_royalty=0.0)
+        result_with_deal = self._compute(asset_royalty=0.20, deal_royalty=0.10)
+        assert result_no_deal.net_ownership == pytest.approx(0.80, rel=1e-9)
+        assert result_with_deal.net_ownership == pytest.approx(0.80, rel=1e-9)
 
-    def test_revenue_ratio_matches_ownership_ratio(self):
+    def test_royalty_on_revenue_larger_deduction_than_ebit_percentage(self):
         """
-        gross_revenue_pv encodes effective_ownership in every term.
-        Ratio of gross_revenue_pv(ownership_A) / gross_revenue_pv(ownership_B)
-        must equal ownership_A / ownership_B.
+        Royalty on revenue deducts more than an equal % on EBIT.
+        With 30% EBIT margin: a 10% royalty on revenue reduces EBIT by 10/30 ≈ 33%,
+        whereas old formula (10% on EBIT) only reduced it by 10%.
+        gross_revenue_pv(royalty=0.10) < gross_revenue_pv(no_royalty) × (1 − 0.10)
         """
-        pv_full, own_full = self._revenue_pv(asset_royalty=0.0, deal_royalty=0.0)
-        pv_half, own_half = self._revenue_pv(asset_royalty=0.0, deal_royalty=0.50)
-        # own_half = 0.50; pv should be half of pv_full (abs tolerance for 2dp rounding)
-        assert pv_half == pytest.approx(pv_full * (own_half / own_full), abs=0.02)
+        base = self._compute(deal_royalty=0.0)
+        with_royalty = self._compute(deal_royalty=0.10)
+        # The deduction is MORE than 10% of the base PV
+        assert with_royalty.gross_revenue_pv_millions < base.gross_revenue_pv_millions * 0.90
 
-    def test_formula_explicit_numeric(self):
-        """
-        asset.royalty_rate=0, deal.royalty_rate=0.10.
-        captured_revenue = gross_ebit × 1.0 × (1 − 0.10) = gross_ebit × 0.90
-        Verify: gross_revenue_pv(royalty=0.10) = gross_revenue_pv(royalty=0) × 0.90
-        """
-        pv_base, _ = self._revenue_pv(asset_royalty=0.0, deal_royalty=0.0)
-        pv_royalty, _ = self._revenue_pv(asset_royalty=0.0, deal_royalty=0.10)
-        assert pv_royalty == pytest.approx(pv_base * 0.90, abs=0.02)
+    def test_royalty_deductions_pv_zero_when_no_royalty(self):
+        result = self._compute(deal_royalty=0.0)
+        assert result.royalty_deductions_pv_millions == pytest.approx(0.0)
+
+    def test_royalty_deductions_pv_positive_when_royalty_set(self):
+        result = self._compute(deal_royalty=0.10)
+        assert result.royalty_deductions_pv_millions > 0.0
+
+    def test_profit_share_deductions_zero_when_no_profit_share(self):
+        result = self._compute(profit_share=0.0)
+        assert result.profit_share_deductions_pv_millions == pytest.approx(0.0)
+
+    def test_profit_share_deductions_positive_when_set(self):
+        result = self._compute(profit_share=0.20)
+        assert result.profit_share_deductions_pv_millions > 0.0
+
+    def test_profit_share_reduces_rnpv(self):
+        base = self._compute(profit_share=0.0)
+        with_ps = self._compute(profit_share=0.20)
+        assert with_ps.rnpv_millions < base.rnpv_millions
+
+    def test_total_pv_weighted_development_costs_alias(self):
+        result = self._compute()
+        assert result.total_pv_weighted_development_costs == result.trial_costs_pv_millions
 
 
 # ---------------------------------------------------------------------------

@@ -1,0 +1,126 @@
+# =============================================================================
+# Incident-One-Time Disease Model Example — SMA Gene Therapy
+# =============================================================================
+#
+# Disease model: incident_one_time
+#
+# Rationale: Spinal muscular atrophy (SMA) gene therapy is a one-time curative
+# treatment. Revenue dynamics are fundamentally different from chronic therapies:
+#
+#   Year 1:   large (backlog of prevalent untreated patients absorbed at launch)
+#             + annual incident (new diagnoses each year)
+#   Year 2+:  only annual incident patients (no new backlog; existing patients cured)
+#
+# Formula:
+#   Year 1 addressable = (prevalence_eligible × backlog_years)
+#                       + (annual_incidence × funnel)
+#   Year 2+ addressable = annual_incidence × funnel
+#
+# SMA example:
+#   ~25k US patients living with SMA (2/3 with onset before 18mo)
+#   ~1,000 new SMA diagnoses per year (newborn screening catching most)
+#   Eligible: those with 1-3 copies SMN2, pre-symptomatic or early-stage
+#
+# Year 1 (with 1yr backlog):
+#   25,000 × 0.60 × 0.80 × 0.70 × 1.0 = 8,400 from backlog
+#   + 1,000 × 0.60 × 0.80 × 0.70 = 336 incident
+#   → 8,736 addressable Year 1
+#
+# Year 2+:
+#   1,000 × 0.60 × 0.80 × 0.70 = 336/yr (incident only)
+#
+# Revenue front-loading ratio: 8,736 / 336 ≈ 26× Year 1 vs steady state
+# This is the defining commercial feature of one-time gene therapy.
+#
+# Sprint B1 note: For gene therapies, the backlog_years parameter controls
+# how many years of accumulated untreated patients are absorbed at launch.
+# backlog_years=1.0 is the conservative base case; consider 2.0-3.0 for
+# diseases with a long diagnostic lag or historical treatment gap.
+# =============================================================================
+
+asset:
+  id: "sma-gene-therapy-example"
+  name: "EXAMPLE-GT-SMA"
+  indication: "Spinal Muscular Atrophy (SMA)"
+  therapeutic_area: "rare_disease"
+  stage: "phase_3"
+  modality: "gene_therapy"
+  discount_rate: 0.12          # higher discount rate for GT; binary Phase 3 risk
+
+trials:
+  - phase: "phase_3"
+    success_probability: 0.55   # GT Phase 3 is high-risk/high-reward
+    duration_years: 3.5
+    cost_millions: 320.0
+  - phase: "nda_bla"
+    success_probability: 0.88
+    duration_years: 1.5
+    cost_millions: 45.0
+
+market:
+  asset_id: "sma-gene-therapy-example"
+  therapeutic_area: "rare_disease"
+  patent_life_years: 12
+  adoption_curve_mode: "s_curve"
+
+  commercial_inputs:
+    patient_pool:
+      indication: "SMA"
+      disease_model: "incident_one_time"
+
+      # Annual incidence (required for incident_one_time)
+      annual_incidence_k: 1.0          # ~1,000 new SMA diagnoses/yr in US
+
+      # Prevalent pool (optional backlog at launch)
+      prevalence_thousands: 25.0       # ~25k living with SMA in US
+
+      # Funnel fractions
+      diagnosed_fraction: 0.60         # newborn screening catching ~60% of eligible
+      eligible_rate: 0.80              # eligible based on SMN2 copy number + stage
+      treated_fraction: 0.70           # not all eligible families opt in immediately
+
+      # Backlog configuration
+      backlog_years: 1.0               # absorb 1yr of prevalent backlog at launch
+                                       # (conservative; many patients wait for approval)
+
+      uncertainty_cv: 0.30             # higher uncertainty for rare disease
+
+    pricing:
+      # SMA gene therapy single-dose pricing (Zolgensma reference: ~$2.1M)
+      net_price_usd: 2100000           # one-time net price per patient (post-G2N)
+      wac_per_year_usd: 2200000        # WAC reference
+      gross_to_net_rate: 0.045         # minimal G2N for rare one-time treatments
+      launch_discount: 0.05
+      annual_erosion_rate: 0.01        # minimal erosion (monopoly position expected)
+      uncertainty_cv: 0.10
+
+    share:
+      peak_share: 0.60                 # 60% of eligible treated — high unmet need
+      years_to_peak: 2                 # rapid uptake for a curative therapy
+      share_cv: 0.15
+
+    ex_us_revenue_multiple: 1.20       # EU + Japan limited (regulatory uncertainty)
+
+  cogs_rate: 0.30                      # gene therapy COGS is higher (viral vector mfg)
+  sgna_rate_launch: 0.25
+  sgna_rate_mature: 0.15
+  sgna_ramp_years: 3
+
+# ---------------------------------------------------------------------------
+# Revenue profile summary:
+#
+# Year 1 addressable:
+#   backlog = 25,000 × 0.60 × 0.80 × 0.70 × 1.0 = 8,400
+#   incident= 1,000 × 0.60 × 0.80 × 0.70 = 336
+#   total = 8,736 × 60% share × $2.1M net × 0.95 launch discount ≈ $10.5B (US)
+#   ... scaled down by global reach × ex_us_multiple ... ≈ ~$1.2B global peak revenue
+#
+# Year 2+ addressable:
+#   336/yr × 60% share × $2.1M ≈ $425M/yr ongoing (before ex-US)
+#
+# Front-loading ratio: Year 1 / Year 2+ ≈ 26×
+#
+# For NPV, the large Year 1 cash flow is discounted minimally (near-term);
+# ongoing cash flows are small but indefinite. This makes GT valuations
+# highly sensitive to discount rate and backlog assumptions.
+# ---------------------------------------------------------------------------

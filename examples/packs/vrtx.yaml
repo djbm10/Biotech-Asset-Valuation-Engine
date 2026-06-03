@@ -1,0 +1,257 @@
+# Underwriting Pack — Vertex Pharmaceuticals Inc. (VRTX)
+# Q2 2026 | As of: 2026-04-09
+# Analyst: djm
+# Status: DRAFT — pending second reviewer
+
+company_id: "vrtx"
+company_name: "Vertex Pharmaceuticals Inc."
+ticker: "VRTX"
+as_of_date: "2026-04-09"
+pack_quarter: "2026Q2"
+
+# ─────────────────────────────────────────────────────────────────────
+# Market data  (point-in-time approx early April 2026)
+# ─────────────────────────────────────────────────────────────────────
+market:
+  market_cap_millions: 115000.0      # ~$115B at ~$450/share × ~258M shares
+  enterprise_value_millions: 108000.0 # market cap minus net cash (~$9.5B)
+  share_price: 450.0
+  source_ref: "yfinance:2026-04-09"
+
+# ─────────────────────────────────────────────────────────────────────
+# Balance sheet  (10-K Dec 2025; filed Feb 2026)
+# ─────────────────────────────────────────────────────────────────────
+balance_sheet:
+  cash_millions: 12000.0    # cash + short-term investments (Q4 2025 10-K)
+  debt_millions: 2500.0     # long-term debt
+  source_ref: "10-K:2025-12-31:balance_sheet"
+
+# ─────────────────────────────────────────────────────────────────────
+# Modeled assets
+# ─────────────────────────────────────────────────────────────────────
+modeled_assets:
+  - bucket_id: "vrtx_cf_franchise"
+    label: "CF franchise (Trikafta/Kaftrio + Vanzacaftor triple)"
+    value_millions: 72000.0
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/vrtx_cf_franchise.yaml:2026-04-09"
+    as_of_date: "2026-04-09"
+    confidence: 0.92
+    corroboration_count: 3
+    corroboration_refs:
+      - "Vertex 2025 full-year guidance $11B revenue"
+      - "Morgan Stanley VRTX model $65B-$75B CF NPV"
+      - "IQVIA CF patient registry data"
+    notes: >
+      Dominant CF franchise; ~90% CF patients modulator-eligible. Trikafta
+      (elexacaftor/tezacaftor/ivacaftor) ~$9B annual revenue, peak ~$10B by 2027.
+      Next-gen vanzacaftor triple in Phase 3 — once-daily, non-inferior efficacy,
+      extends exclusivity ~8 years. rNPV on blended franchise: patent life to ~2037
+      (vanzacaftor), discount 9.5%, 85% P(franchise continuation), COGS ~25%.
+
+  - bucket_id: "vrtx_suzetrigine"
+    label: "Suzetrigine (VX-548) — acute/chronic pain (Nav1.8)"
+    value_millions: 8500.0
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/vrtx_suzetrigine.yaml:2026-04-09"
+    as_of_date: "2026-04-09"
+    confidence: 0.75
+    corroboration_count: 2
+    corroboration_refs:
+      - "FDA approval Jan 2025"
+      - "Jefferies suzetrigine peak sales $4B (2025)"
+    notes: >
+      First NaV1.8 inhibitor approved. FDA approved January 2025 for
+      moderate-severe acute pain. First-in-class non-opioid. Acute pain
+      addressable market >$8B. Chronic pain (DRG pain, lumbosacral
+      radiculopathy) Ph3 ongoing. Peak sales est $3B-5B if chronic pain label
+      achieved. rNPV blended across acute + chronic scenarios. Competitive risk:
+      opioid generic competition but different mechanism.
+
+  - bucket_id: "vrtx_casgevy"
+    label: "Casgevy (exa-cel) — SCD/TDT (CRISPR, partnered CRSP)"
+    value_millions: 2200.0
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/vrtx_casgevy.yaml:2026-04-09"
+    as_of_date: "2026-04-09"
+    confidence: 0.68
+    corroboration_count: 1
+    corroboration_refs:
+      - "VRTX/CRSP 2024 commercial update"
+    notes: >
+      Approved Dec 2023 US/EU. First CRISPR therapy. $2.2M list price. Uptake
+      constrained by manufacturing, authorized treatment centers, payer
+      negotiations. Ramp slower than expected. VRTX retains ~60% of profits,
+      CRSP ~40%. Addressable: ~50k SCD + ~30k TDT globally. rNPV on VRTX
+      profit share.
+
+  - bucket_id: "vrtx_inaxaplin"
+    label: "Inaxaplin (VX-147) — APOL1-mediated kidney disease"
+    value_millions: 3800.0
+    methodology: "rnpv"
+    source_type: "modeled"
+    source_ref: "bve-asset:configs/vrtx_inaxaplin.yaml:2026-04-09"
+    as_of_date: "2026-04-09"
+    confidence: 0.70
+    corroboration_count: 1
+    corroboration_refs:
+      - "Phase 2 data NEJM 2023, eGFR + proteinuria"
+    notes: >
+      Phase 3 AMPLITUDE trial ongoing. APOL1 high-risk variants in ~13% of
+      African Americans. Ph2 showed significant proteinuria reduction. Ph3
+      primary endpoint: eGFR slope. Readout expected 2026-Q2/Q3. Large unmet
+      need; no approved APOL1 therapies. Addressable: ~100k US patients with
+      APOL1-MKD. rNPV: Ph3 POS 55%, peak sales $2.5B if approved.
+
+# ─────────────────────────────────────────────────────────────────────
+# Platform value
+# ─────────────────────────────────────────────────────────────────────
+platform_value:
+  bucket_id: "vrtx_platform"
+  label: "Small molecule + gene editing platform (AAT, DM1, pain pipeline)"
+  value_millions: 4500.0
+  methodology: "analyst_estimate"
+  source_type: "analyst_bridge"
+  source_ref: "top25_pack_2026q2:VRTX:platform"
+  as_of_date: "2026-04-09"
+  confidence: 0.65
+  corroboration_count: 0
+  corroboration_refs: []
+  notes: >
+    AAT deficiency (VX-634 Ph2), DMT1 (partnered Arbor Biotech), next-gen pain
+    (multiple NaV isoforms). Conservative — real value is CF franchise durability
+    and pain pipeline optionality.
+
+# ─────────────────────────────────────────────────────────────────────
+# Unmodeled pipeline
+# ─────────────────────────────────────────────────────────────────────
+unmodeled_pipeline:
+  bucket_id: "vrtx_unmodeled"
+  label: "Early pipeline (VX-880 T1D islet transplant, NaV1.7/1.8/1.9 next-gen)"
+  value_millions: 1200.0
+  methodology: "rule_of_thumb"
+  source_type: "analyst_bridge"
+  source_ref: "top25_pack_2026q2:VRTX:unmodeled"
+  as_of_date: "2026-04-09"
+  confidence: 0.50
+  corroboration_count: 0
+  corroboration_refs: []
+  notes: >
+    T1D cell therapy (VX-880/264) Ph1/2 — potential $10B+ market but very early.
+    Multiple NaV isoforms in preclinical. Wide uncertainty.
+
+# ─────────────────────────────────────────────────────────────────────
+# Royalty streams  (none — VRTX vertically integrated, no material royalties)
+# ─────────────────────────────────────────────────────────────────────
+royalty_streams: []
+
+# ─────────────────────────────────────────────────────────────────────
+# Dilution bridge  (10-K Dec 2025)
+# ─────────────────────────────────────────────────────────────────────
+dilution:
+  current_shares_millions: 258.0
+  expected_dilution_pct: 0.02        # minimal dilution; buyback program active
+  financing_runway_quarters: null    # self-funding; $12B cash
+  atm_active: false
+  atm_remaining_millions: null
+  shelf_registration_millions: null
+  warrant_shares_millions: 0.0
+  convertible_shares_millions: 0.0
+  source_ref: "10-K:2025-12-31:capitalization"
+  as_of_date: "2025-12-31"
+  notes: "Self-funding. Buyback program: $3B authorized. No dilution risk."
+
+# ─────────────────────────────────────────────────────────────────────
+# Catalysts
+# ─────────────────────────────────────────────────────────────────────
+catalysts:
+  - description: "AMPLITUDE Ph3 readout — inaxaplin APOL1-MKD"
+    expected_date: "2026-Q2"
+    catalyst_type: "readout"
+    probability_positive: 0.55
+    source_ref: "clinicaltrials.gov:NCT05312879"
+    notes: "Primary endpoint eGFR slope. Readout expected Q2/Q3 2026."
+
+  - description: "Vanzacaftor triple Phase 3 NDA submission / FDA approval"
+    expected_date: "2026-Q2"
+    catalyst_type: "fda_action"
+    probability_positive: 0.90
+    source_ref: "VRTX pipeline update 2026"
+    notes: >
+      Once-daily next-gen CF triple; Phase 3 non-inferior to Trikafta.
+      NDA submission on track; high regulatory confidence given CF franchise
+      track record and clean safety profile.
+
+  - description: "Suzetrigine chronic pain (lumbosacral radiculopathy) Ph3 readout"
+    expected_date: "2026-H2"
+    catalyst_type: "readout"
+    probability_positive: 0.55
+    source_ref: "clinicaltrials.gov:NCT05729451"
+    notes: >
+      Positive readout would meaningfully expand addressable market beyond
+      acute pain and support the higher end of peak sales estimates ($4B-5B).
+
+# ─────────────────────────────────────────────────────────────────────
+# Management flags  (none flagged at this review)
+# ─────────────────────────────────────────────────────────────────────
+management_flags: []
+
+# ─────────────────────────────────────────────────────────────────────
+# Confidence metadata
+# ─────────────────────────────────────────────────────────────────────
+confidence:
+  overall_confidence: 0.85
+  notes: >
+    CF franchise highly de-risked — commercial, cash-generative, and fortified
+    by next-gen vanzacaftor. Suzetrigine and inaxaplin carry execution risk
+    (chronic pain label not yet in hand; AMPLITUDE readout pending). Casgevy
+    ramp slower than expected but economics well-defined. Balance sheet
+    exceptional; no financing risk.
+
+# ─────────────────────────────────────────────────────────────────────
+# Provenance
+# ─────────────────────────────────────────────────────────────────────
+provenance:
+  pack_version: 1
+  pack_quarter: "2026Q2"
+  created_by: "djm"
+  change_summary: "Initial Q2 2026 pack. CF franchise dominant; suzetrigine approved; inaxaplin Ph3 binary pending."
+
+# SOTP check (manual reconciliation — why does model differ from market?):
+#
+#   Market cap:                         $115,000M
+#   SOTP equity value:
+#     Net cash:                           +$9,500M  (12,000 - 2,500)
+#     CF franchise rNPV:                 +$72,000M
+#     Suzetrigine rNPV:                   +$8,500M
+#     Casgevy rNPV:                       +$2,200M
+#     Inaxaplin rNPV:                     +$3,800M
+#     Platform:                           +$4,500M
+#     Unmodeled:                          +$1,200M
+#     Dilution reserve:                   -$2,322M  (≈2% dilution × $450 × 258M)
+#     ─────────────────────────────────────────────
+#     SOTP total:                       ~$99,378M
+#
+#   SOTP vs market:                    ~-$15,622M (model ~14% below market cap)
+#   SOTP discount (market premium):    ~+16% (market trading above model)
+#
+#   Assessment: Model is deliberately conservative on suzetrigine (chronic pain
+#   label not yet achieved; only acute pain approved) and platform (AAT, DM1
+#   not modeled). Market is assigning a premium consistent with Vertex's track
+#   record of execution, CF franchise durability, and pipeline conversion optionality.
+#   The ~16% premium is not unreasonable given: (1) vanzacaftor extends CF exclusivity
+#   to ~2037, (2) suzetrigine chronic pain readout could add $3B-5B peak sales,
+#   (3) inaxaplin is a large unmet need with clear Ph2 signal. Not obviously mispriced;
+#   premium is attributable to near-term catalysts and execution credibility.
+
+reviewer_state: "draft"
+
+notes: >
+  Vertex is the reference large-cap biotech pack in this universe. CF franchise
+  dominates (~72% of modeled asset value) and is highly de-risked. The key
+  investment question is whether suzetrigine achieves a chronic pain label — a
+  positive readout would close most of the market premium gap in the model.
+  Inaxaplin AMPLITUDE readout (2026-Q2/Q3) is the highest-impact binary catalyst.

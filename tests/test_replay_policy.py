@@ -97,6 +97,34 @@ def test_select_max_positions_one():
     assert len(decisions) == 1
 
 
+def test_select_respects_max_open_positions_capacity():
+    policy = ReplayPolicy(ReplayPolicyConfig(max_positions=8, max_open_positions=3))
+    opps = [
+        _make_opportunity("a-vktx", "VKTX", "buy", 0.90),
+        _make_opportunity("a-alny", "ALNY", "buy", 0.85),
+        _make_opportunity("a-ntla", "NTLA", "buy", 0.80),
+    ]
+    report = _make_report(opps)
+
+    decisions = policy.select(report, open_asset_ids={"a-beam", "a-crsp"})
+
+    assert len(decisions) == 1
+    assert decisions[0].asset_id == "a-vktx"
+
+
+def test_select_returns_no_decisions_when_open_positions_at_cap():
+    policy = ReplayPolicy(ReplayPolicyConfig(max_positions=8, max_open_positions=2))
+    report = _make_report(
+        [
+            _make_opportunity("a-vktx", "VKTX", "buy", 0.90),
+            _make_opportunity("a-alny", "ALNY", "buy", 0.85),
+        ]
+    )
+
+    decisions = policy.select(report, open_asset_ids={"a-beam", "a-crsp"})
+    assert decisions == []
+
+
 # ---------------------------------------------------------------------------
 # 2. Skip assets already in open_asset_ids
 # ---------------------------------------------------------------------------
@@ -335,6 +363,11 @@ def test_exit_date_custom_hold():
     assert policy.exit_date(entry) == expected
 
 
+def test_default_stop_loss_threshold():
+    cfg = ReplayPolicyConfig()
+    assert cfg.stop_loss_pct == pytest.approx(-40.0)
+
+
 # ---------------------------------------------------------------------------
 # 10. Empty report → empty decisions
 # ---------------------------------------------------------------------------
@@ -457,6 +490,80 @@ def test_cooling_none_cooling_set_no_effect():
     report = _make_report(opps)
     decisions = policy.select(report, cooling_asset_ids=None)
     assert len(decisions) == 1
+
+
+# ---------------------------------------------------------------------------
+# Loss-based blocking tests
+# ---------------------------------------------------------------------------
+
+def test_asset_blocked_after_large_loss_then_unblocked_after_eight_weeks():
+    policy = ReplayPolicy(ReplayPolicyConfig(max_positions=1))
+    policy.record_closed_position("a-vktx", date(2025, 1, 1), -20.0)
+
+    blocked_report = _make_report(
+        [_make_opportunity("a-vktx", "VKTX", "buy", 0.80)],
+        week_ending=date(2025, 2, 15),
+    )
+    assert policy.select(blocked_report) == []
+
+    unblocked_report = _make_report(
+        [_make_opportunity("a-vktx", "VKTX", "buy", 0.80)],
+        week_ending=date(2025, 2, 26),
+    )
+    decisions = policy.select(unblocked_report)
+    assert len(decisions) == 1
+    assert decisions[0].asset_id == "a-vktx"
+
+
+def test_only_one_entry_per_asset_per_step(capsys: pytest.CaptureFixture[str]):
+    policy = ReplayPolicy(
+        ReplayPolicyConfig(
+            max_positions=3,
+            max_total_exposure_pct=0.20,
+        )
+    )
+    report = _make_report([
+        _make_opportunity("a-vktx", "VKTX", "buy", 0.90),
+        _make_opportunity("a-vktx", "VKTX", "add", 0.85),
+        _make_opportunity("a-alny", "ALNY", "buy", 0.80),
+    ])
+
+    decisions = policy.select(report)
+
+    assert [d.asset_id for d in decisions] == ["a-vktx", "a-alny"]
+    assert capsys.readouterr().out.count("Skipped duplicate entry for a-vktx") == 1
+
+
+def test_asset_permanently_blocked_after_three_consecutive_losses(
+    capsys: pytest.CaptureFixture[str],
+):
+    policy = ReplayPolicy(ReplayPolicyConfig(max_positions=1, max_consecutive_losses=3))
+    policy.record_closed_position("a-vktx", date(2025, 1, 1), -5.0)
+    policy.record_closed_position("a-vktx", date(2025, 1, 15), -6.0)
+    policy.record_closed_position("a-vktx", date(2025, 1, 29), -7.0)
+
+    report = _make_report(
+        [_make_opportunity("a-vktx", "VKTX", "buy", 0.80)],
+        week_ending=date(2025, 2, 5),
+    )
+    assert policy.select(report) == []
+    assert "Permanently blocked a-vktx: 3 consecutive losses" in capsys.readouterr().out
+
+
+def test_loss_blocking_does_not_affect_other_assets():
+    policy = ReplayPolicy(ReplayPolicyConfig(max_positions=2))
+    policy.record_closed_position("a-vktx", date(2025, 1, 1), -20.0)
+
+    report = _make_report(
+        [
+            _make_opportunity("a-vktx", "VKTX", "buy", 0.90),
+            _make_opportunity("a-alny", "ALNY", "buy", 0.80),
+        ],
+        week_ending=date(2025, 1, 20),
+    )
+
+    decisions = policy.select(report)
+    assert [d.asset_id for d in decisions] == ["a-alny"]
 
 
 # ---------------------------------------------------------------------------

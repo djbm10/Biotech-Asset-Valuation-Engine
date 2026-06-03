@@ -1,0 +1,68 @@
+company: Novartis
+ticker: NVS
+profile_as_of: 2026-04-07
+market_cap_billions: 255
+cash_billions: 11.2
+pipeline_gaps:
+  - therapeutic_area: kidney_disease
+    sub_area: igan_kidney_fibrosis
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [antibody, small_molecule]
+    budget_ceiling_millions: 12000
+    notes: "Chinook acquisition (atrasentan/zigakibart for IgAN) seeds kidney franchise; adjacent complement, TGF-beta, and kidney fibrosis mechanisms remain open."
+  - therapeutic_area: oncology
+    sub_area: bet_epigenetic_myelofibrosis
+    gap_type: franchise_extension
+    urgency: medium
+    preferred_modality: [small_molecule, degrader]
+    budget_ceiling_millions: 10000
+    notes: "MorphoSys/pelabresib BET inhibitor seeds a BET and epigenetic-myelofibrosis thesis; next-gen bromodomain, degrader, and JAK-combination programs are strategic, but generic heme assets are less relevant."
+  - therapeutic_area: immunology
+    sub_area: pruritus_skin_cxcr3_il31
+    gap_type: franchise_extension
+    urgency: medium
+    preferred_modality: [small_molecule, antibody]
+    budget_ceiling_millions: 8000
+    notes: "Cosentyx (IL-17A) and Calypso CXCR3 asset build dermatology adjacency beyond plaque psoriasis."
+  - therapeutic_area: cardiovascular
+    sub_area: hfpef_cardio_renal
+    gap_type: adjacent_expansion
+    urgency: medium
+    preferred_modality: [small_molecule, antibody]
+    budget_ceiling_millions: 10000
+    notes: "Entresto HFrEF franchise; HFpEF and cardio-renal adjacency beyond ARNI are strategic next steps."
+  - therapeutic_area: neuroscience
+    sub_area: gene_therapy_cns_expansion
+    gap_type: franchise_extension
+    urgency: medium
+    preferred_modality: [gene_therapy, ASO]
+    budget_ceiling_millions: 8000
+    notes: "Zolgensma SMA gene therapy platform; CNS gene therapy indications (SMA plus) and next AAV targets remain open."
+  - therapeutic_area: neuroscience
+    sub_area: neuromuscular_rna_oligo_gene_editing
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [rna, ASO, genetic_medicine, small_molecule]
+    budget_ceiling_millions: 12000
+    notes: "RNA / oligonucleotide neuromuscular and CNS assets are a logical extension of the Zolgensma and inherited-disease franchise, including myotonic dystrophy, facioscapulohumeral muscular dystrophy, and Duchenne programs."
+recent_deals:
+  - target: MorphoSys
+    date: 2024-05-22
+    value_billions: 2.9
+    therapeutic_area: oncology
+    modality: small_molecule
+  - target: Chinook Therapeutics
+    date: 2023-08-07
+    value_billions: 3.2
+    therapeutic_area: kidney_disease
+    modality: antibody
+  - target: Calypso Biotech
+    date: 2023-10-26
+    value_billions: 1.4
+    therapeutic_area: immunology
+    modality: antibody
+stated_priorities:
+  - "Kidney disease/IgAN franchise expansion is the most recently seeded growth platform."
+  - "Oncology hematology next-gen (myelofibrosis, AML) remains a core BD priority."
+  - "Cardiovascular/heart failure adjacency to Entresto and gene therapy CNS expansion are medium-term priorities."

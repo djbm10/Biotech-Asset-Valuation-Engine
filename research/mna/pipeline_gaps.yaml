@@ -1,0 +1,2127 @@
+# Curated acquirer-side pipeline-gap profiles used by the acquirer-fit layer.
+#
+# Keep every profile:
+# - attributable to dated primary sources where possible
+# - explicit about whether a gap is LOE-driven, franchise-defense-driven, or a
+#   strategic expansion area
+# - conservative when deal-value ceilings or debt-capacity limits are not
+#   directly disclosed by management
+
+as_of_date: "2026-05-08"
+
+acquirers:
+  - acquirer_id: "regeneron"
+    company_name: "Regeneron Pharmaceuticals"
+    ticker: "REGN"
+    profile_as_of: "2026-06-02"
+    acquisition_capacity_millions: 2000.0
+    acquirer_type: "large_cap_platform_biopharma_internal_first_BD_selective"
+    urgency_qualitative: "medium"
+    urgency_numeric_0_to_1: 0.57
+    urgency_rationale: "Large balance sheet ($18.5B cash Q1 2026) and nearly 50 clinical candidates reduce urgency, but ophthalmology franchise succession and selective extension in immunology/oncology still create targeted need. Management is selective but active in BD."
+    source_notes: "Manual curation from Regeneron investor materials, SEC-filed JPMorgan deck, Q4 2025 / Q1 2026 earnings transcripts, and Regeneron press releases. Updated June 2026: budget to Q1 2026 ($18.54B cash, $1.99B debt); added acquirer_type, urgency, scoring_weights, encumbrance_constraints, BD_appetite_signals, preferred_target_profile, positive_fit_areas, negative_fit_areas. Deal-size bands from Checkmate $250M, Decibel $109M, Telix $40M, 2seventy $5M; management characterizes transformative M&A as value-destructive."
+
+    preferred_target_profile:
+      market_cap_sweet_spot_usd: [250000000, 5000000000]
+      market_cap_stretch_usd: [5000000000, 8000000000]
+      preferred_valuation_sweet_spot_upfront_usd: [5000000, 500000000]
+      preferred_valuation_stretch_total_biobucks_usd: [500000000, 2500000000]
+      market_cap_rationale: "Inferred from bolt-on acquisitions and milestone-heavy collaborations. Actual deal upfront/equity checks are usually small ($5M-$250M) even when strategic importance is high. Company has capacity for more but public messaging argues against routine mega-M&A."
+      source_refs:
+        - source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-acquire-decibel-therapeutics-strengthening-gene/"
+        - source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-expands-clinical-stage-obesity-portfolio-strategic/"
+        - source_url: "https://investor.regeneron.com/static-files/718ea4f2-7a0f-4623-bf91-a701ead1cc44"
+      preferred_deal_types:
+        - strategic_collaboration
+        - in_license
+        - rights_acquisition
+        - bolt_on_acquisition
+        - selective_full_company_acquisition
+
+    scoring_weights:
+      structural_weight: 0.35
+      evidence_weight: 0.45
+      encumbrance_weight: 0.20
+      formula: "final_score = 0.35*structural_score + 0.45*evidence_score - 0.20*encumbrance_penalty"
+      rationale: "Because Regeneron's modality aperture is broad, evidence and management signals do more work than structural fit alone. Encumbrance must bite hard because Sanofi/Bayer already dilute economics on major franchises, and management is unusually explicit about BD selectivity."
+
+    encumbrance_constraints:
+      - condition: "lead_asset_rights_controlled_by_direct_competitor_in_core_market"
+        recommended_penalty_pct: -25
+        rationale: "Regeneron is selective; economics leakage undermines the targeted BD logic."
+      - condition: "dupixent_immunology_economics_diluted_by_overlapping_target_rights_or_unclear_field_overlap"
+        recommended_penalty_pct: -15
+        rationale: "Sanofi collaboration already shapes economics in major I&I franchises; unclear field overlap creates negotiation complexity."
+      - condition: "ex_us_ophthalmology_retinal_rights_already_fragmented"
+        recommended_penalty_pct: -15
+        rationale: "Bayer already controls important ex-US ophthalmology/EYLEA economics; further fragmentation of retinal rights reduces deal value."
+      - condition: "platform_requires_specialized_manufacturing_without_clear_control_rights_transferable"
+        recommended_penalty_pct: -10
+        rationale: "Relevant for radiopharma, cell therapy, and gene therapy; must be acquirable with manufacturing control."
+      - condition: "total_transaction_value_implies_large_MA_without_clear_platform_synergy"
+        recommended_penalty_pct: -20
+        rationale: "Management has been unusually explicit that large M&A often destroys value; >$2B acquisition ceiling is effectively a cultural veto unless synergy is overwhelming."
+
+    BD_appetite_signals:
+      - date: "2026-04-29"
+        quote_excerpt: "share repurchases and dividends as well as business development"
+        interpretation: "BD is presented as an active pillar of capital allocation alongside buybacks; not an afterthought."
+        source_url: "https://investor.regeneron.com/static-files/659792d1-9f8e-49d7-a61e-625cb0b96aea"
+        source_note: "Official IR Q1 2026 earnings-call transcript."
+      - date: "2026-01-30"
+        quote_excerpt: "complementary business development"
+        interpretation: "Management favors targeted, additive BD that complements existing platforms over transformative M&A."
+        source_url: "https://investor.regeneron.com/static-files/e1a0c96b-d854-4adb-8508-a2c5ae2e4f70"
+        source_note: "Official IR Q4 2025 earnings-call transcript."
+      - date: "2025-01-13"
+        quote_excerpt: "historically put about 95% of R&D resources into internal initiatives"
+        interpretation: "Management is explicit that internal innovation comes first; external BD is the deliberate supplement, not the primary R&D engine."
+        source_url: "https://investor.regeneron.com/static-files/718ea4f2-7a0f-4623-bf91-a701ead1cc44"
+        source_note: "Official IR JPMorgan Healthcare Conference 2025 deck."
+
+    positive_fit_areas:
+      - area: "ophthalmology_durability_retina_and_ga_or_non_vegf"
+        recommended_score_boost: 0.15
+        rationale: "EYLEA HD grew +52% Q1 2026 but total EYLEA franchise (HD+2mg) fell ~10%. Geographic Atrophy (non-VEGF) is the top unmet gap; complement inhibitors (C1q, C3) and HtrA1 inhibitors directly address biology EYLEA cannot. Sustained-release delivery platforms (>6-month dosing) are a secondary target."
+        source_refs:
+          - source_date: "2026-04-29"
+            source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-reports-first-quarter-2026-financial-and-operating/"
+      - area: "antibody_and_bispecific_platforms"
+        recommended_score_boost: 0.12
+        rationale: "VelociSuite/VelocImmune is Regeneron's deepest platform; targets with validated antibody or bispecific assets against novel antigens are easiest to integrate and most directly leverage internal capabilities."
+      - area: "immunology_and_inflammation_franchise_extensions"
+        recommended_score_boost: 0.12
+        rationale: "Dupixent ~$18B global FY2025 revenue (with Sanofi); next-gen long-acting biologics and oral alternatives to protect and extend the franchise are strategic gaps."
+        source_refs:
+          - source_date: "2026-04-29"
+            source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-reports-first-quarter-2026-financial-and-operating/"
+      - area: "genetic_medicines_gene_editing_and_delivery"
+        recommended_score_boost: 0.10
+        rationale: "Mammoth, Intellia, Tessera collaborations and RGC (2M+ sequenced individuals) validate the pipeline. RGC-discovered targets that lack a development partner are highest priority for licensing or acquisition."
+        source_refs:
+          - source_date: "2024-04-25"
+            source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-and-mammoth-biosciences-collaborate-pursue-next/"
+      - area: "oncology_radiopharma_and_cell_therapy_combo_platforms"
+        recommended_score_boost: 0.10
+        rationale: "Libtayo PD-1 backbone + xCD3/xCD28 bispecifics + Telix radiopharma collaboration confirm combination IO + warhead strategy. Platforms providing novel tumor-selective payloads score highest."
+        source_refs:
+          - source_date: "2026-04-13"
+            source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-and-telix-announce-strategic-radiopharma-collaboration/"
+      - area: "cardio_metabolic_muscle_sparing_anabolic_combo_enablers"
+        recommended_score_boost: 0.06
+        rationale: "Hansoh GLP-1/GIP fills the incretin slot (Phase 3); next gap is a muscle-sparing anabolic combination partner (myostatin/GDF8/activin inhibitor) to enable triple-combination obesity positioning."
+        source_refs:
+          - source_date: "2025-06-02"
+            source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-expands-clinical-stage-obesity-portfolio-strategic/"
+
+    negative_fit_areas:
+      - area: "mega_cap_MA_without_clear_platform_synergy"
+        recommended_penalty: 0.20
+        rationale: "Management has been unusually explicit that large M&A often destroys value; >$2B acquisition is a cultural veto unless overwhelming synergy exists."
+      - area: "heavily_encumbered_competitor_partnered_assets"
+        recommended_penalty: 0.25
+        rationale: "Rights leakage costs are especially high for a selective acquirer already managing Sanofi/Bayer collaboration economics."
+      - area: "undifferentiated_small_molecule_single_asset_companies"
+        recommended_penalty: 0.15
+        rationale: "No leverage of VelociSuite platform; only exception is oral I&I inhibitors defending Dupixent with clean safety profile."
+      - area: "anti_vegf_me_too_ophthalmology_without_durability_or_differentiation"
+        recommended_penalty: 0.15
+        rationale: "Ophthalmology TA fit alone is not enough; must address GA (non-VEGF) or demonstrate sustained-release durability advantage."
+      - area: "assets_complicating_sanofi_or_bayer_economic_structures_without_control_benefit"
+        recommended_penalty: 0.15
+        rationale: "Collaboration economics already reduce clean ownership of Dupixent (Sanofi) and EYLEA (Bayer); further dilution is a hard negative."
+
+    therapeutic_area_gaps:
+      - therapeutic_area: "ophthalmology"
+        exposure_type: "loe_and_franchise_defense"
+        exposure_level: "high"
+        sub_area: "geographic_atrophy_non_vegf"
+        preferred_modality:
+          - "fully_human_antibody"
+          - "monoclonal_antibody"
+          - "fusion_protein"
+        budget_ceiling_millions: 3000.0
+        rationale: "Ophthalmology is Regeneron's clearest franchise-defense gap. U.S. EYLEA HD + EYLEA sales declined 27% in FY2025 as biosimilars entered. The specific unmet gap is a non-VEGF treatment for Geographic Atrophy — a condition where VEGF inhibition is largely ineffective. Complement inhibitors (C1q, C3) and HtrA1 inhibitors address GA biology that EYLEA does not. An acquired GA asset would slot directly into the existing EYLEA retinal sales force, minimizing commercial overlay costs. Sustained-release delivery platforms (hydrogel, bioerodible implant) allowing >6-month dosing are a secondary target to neutralize injection-fatigue competition."
+        source_refs:
+          - source_date: "2026-01-30"
+            source_type: "earnings_release"
+            source_title: "Regeneron Reports Fourth Quarter and Full Year 2025 Financial and Operating Results"
+            source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-reports-fourth-quarter-and-full-year-2025-financial"
+            note: "FY2025 U.S. EYLEA HD + EYLEA sales down 27% vs FY2024. Geographic Atrophy named as a key indication for retinal franchise extension."
+          - source_date: "2025-01-13"
+            source_type: "investor_presentation"
+            source_title: "J.P. Morgan Healthcare Conference 2025 Strategy & Business Update"
+            source_url: "https://www.sec.gov/Archives/edgar/data/872589/000110465925002826/tm253014d1_ex99-2.htm"
+            note: "Positioned EYLEA HD as the standard in retinal disease; highlighted broader retinal disease pipeline and label expansion."
+
+      - therapeutic_area: "oncology"
+        exposure_type: "strategic_expansion"
+        exposure_level: "high"
+        sub_area: "io_combination_warhead"
+        preferred_modality:
+          - "radiopharmaceutical"
+          - "adc"
+          - "bispecific_antibody"
+        budget_ceiling_millions: 1500.0
+        rationale: "Oncology is Regeneron's second strategic growth pillar. Management is building a dominant position in retargeted immune therapies — T-cell engagers (CD3), costimulatory bispecifics (CD28), and radiopharmaceuticals — anchored to the Libtayo PD-1 foundation. The April 2026 Telix radiopharma collaboration confirms appetite for oncology warhead modalities that pair with Regeneron's targeting antibodies. The specific gap is a platform or clinical-stage asset that delivers lethal payloads (radioligand, ADC payload, bispecific retargeting) to tumors currently unresponsive to Libtayo monotherapy. Targets with Phase 1 safety and tumor-uptake data in solid tumors are the primary acquisition archetype."
+        source_refs:
+          - source_date: "2026-01-30"
+            source_type: "earnings_call_transcript"
+            source_title: "Regeneron Pharmaceuticals Q4 2025 Earnings Conference Call Transcript"
+            source_url: "https://investor.regeneron.com/static-files/e1a0c96b-d854-4adb-8508-a2c5ae2e4f70"
+            note: "Management highlighted fianlimab (LAG-3), CD3/CD28 costimulatory bispecifics, and radiopharmaceuticals as key oncology growth areas."
+          - source_date: "2025-01-13"
+            source_type: "investor_presentation"
+            source_title: "J.P. Morgan Healthcare Conference 2025 Strategy & Business Update"
+            source_url: "https://www.sec.gov/Archives/edgar/data/872589/000110465925002826/tm253014d1_ex99-2.htm"
+            note: "xCD3 and xCD28 oncology bispecifics described as a core combination-medicine strategy anchored to cemiplimab/Libtayo."
+
+      - therapeutic_area: "immunology_inflammation"
+        exposure_type: "franchise_defense"
+        exposure_level: "medium"
+        sub_area: "oral_type2_inflammation"
+        preferred_modality:
+          - "small_molecule"
+          - "monoclonal_antibody"
+        budget_ceiling_millions: 1500.0
+        rationale: "Dupixent ($17.8B global FY2025 sales) faces emerging competition from oral IL-4/IL-13 pathway and oral JAK-targeted agents in atopic dermatitis and asthma. The specific gap is an oral inhibitor — or an ultra-long-acting biologic reducing injection frequency to quarterly or less — that addresses patients who prefer oral dosing. This is the only TA where Regeneron's modality preference expands to small molecules. Key requirement: no JAK-like black box risk. Dupixent IP runway extends to 2031+ which reduces urgency compared to the ophthalmology gap, but the oral threat is real and growing."
+        notes: "A small molecule acquisition here would be uniquely motivated by competitive defense, not platform synergy. Safety profile is the primary gate: any black box risk makes the asset a non-starter as a Dupixent complement."
+        source_refs:
+          - source_date: "2026-01-30"
+            source_type: "earnings_call_transcript"
+            source_title: "Regeneron Pharmaceuticals Q4 2025 Earnings Conference Call Transcript"
+            source_url: "https://investor.regeneron.com/static-files/e1a0c96b-d854-4adb-8508-a2c5ae2e4f70"
+            note: "Highlighted long-acting IL-4R, IL-13, IL-4/IL-13 bispecific programs and next-generation biologics for type 2 inflammation as the primary internal response to competition."
+
+      - therapeutic_area: "obesity_metabolic"
+        exposure_type: "strategic_expansion"
+        exposure_level: "high"
+        sub_area: "muscle_sparing_anabolic"
+        preferred_modality:
+          - "monoclonal_antibody"
+          - "bispecific_antibody"
+        budget_ceiling_millions: 1200.0
+        rationale: "Obesity is Regeneron's most urgent new strategic pillar. Having secured an incretin anchor via the Hansoh GLP-1/GIP in-license (olatorepatide, Phase 3), the next gap is explicitly a muscle-preserving anabolic agent — a myostatin, GDF8, or activin inhibitor — that pairs with the incretin to ensure quality of weight loss (fat loss without muscle loss). Regeneron already has internal myostatin work (trevogrumab, Phase 2) and activin programs; a bolt-on Phase 2 asset with validated fat-vs-muscle differentiation data would enable a triple-therapy positioning that Lilly and Novo Nordisk cannot currently replicate. This gap is NOT for another incretin or GLP-1 — that slot is filled."
+        source_refs:
+          - source_date: "2025-06-02"
+            source_type: "press_release"
+            source_title: "Regeneron Expands Clinical-Stage Obesity Portfolio with Strategic In-Licensing of Novel Dual GLP-1/GIP Receptor Agonist"
+            source_url: "https://investor.regeneron.com/node/31066/pdf"
+            note: "Hansoh deal framed around quality of weight loss, muscle preservation, and comorbidities. Signals the incretin slot is filled and next priority is a combination muscle-sparing partner."
+          - source_date: "2025-01-13"
+            source_type: "investor_presentation"
+            source_title: "J.P. Morgan Healthcare Conference 2025 Strategy & Business Update"
+            source_url: "https://www.sec.gov/Archives/edgar/data/872589/000110465925002826/tm253014d1_ex99-2.htm"
+            note: "Obesity combinations positioned as a differentiated growth opportunity emphasizing quality of weight loss."
+
+      - therapeutic_area: "hematology"
+        exposure_type: "franchise_extension"
+        exposure_level: "medium"
+        sub_area: "anticoagulation_factor_xi_or_heme_onc_bispecific"
+        preferred_modality:
+          - "monoclonal_antibody"
+          - "bispecific_antibody"
+        budget_ceiling_millions: 1000.0
+        rationale: "Regeneron has two internal Factor XI antibodies (REGN7508/REGN9933) in Phase 3 anticoagulation and a growing heme-oncology bispecific franchise (linvoseltamab for MM, odronextamab for B-NHL). M&A here would target either: (a) a specialized Factor XI inhibitor with proof-of-concept data showing zero major bleeds in high-risk patients, enabling the world's safest anticoagulant franchise; or (b) a bispecific or next-generation cell therapy asset in Multiple Myeloma or Lymphoma that consolidates market position around linvoseltamab and odronextamab. Urgency is medium — internal programs are advanced but consolidation of adjacent assets is strategically logical."
+        source_refs:
+          - source_date: "2026-01-30"
+            source_type: "earnings_call_transcript"
+            source_title: "Regeneron Pharmaceuticals Q4 2025 Earnings Conference Call Transcript"
+            source_url: "https://investor.regeneron.com/static-files/e1a0c96b-d854-4adb-8508-a2c5ae2e4f70"
+            note: "Linvoseltamab approval in multiple myeloma and odronextamab pivotal progression in B-NHL highlighted as hematology growth drivers."
+
+      - therapeutic_area: "genetic_medicines_rare_disease"
+        exposure_type: "strategic_expansion"
+        exposure_level: "medium"
+        sub_area: "rgc_validated_targets"
+        preferred_modality:
+          - "sirna"
+          - "aav_gene_therapy"
+        budget_ceiling_millions: 500.0
+        rationale: "Genetic medicines are a stated expansion priority where Regeneron pairs its Regeneron Genetics Center (RGC, 2M+ sequenced individuals) with targeted external assets. M&A urgency is moderate: Regeneron accesses most genetic medicine capabilities through alliances (Alnylam for siRNA, Intellia for CRISPR) rather than outright acquisitions. The primary acquisition pattern is the Decibel model — license and collaborate first, acquire after multi-year partnership de-risks the science to Phase 1/2 human validation. Target profile: a company that has achieved proof-of-concept in a genetic disease target discovered by the RGC but lacks global clinical development scale."
+        source_refs:
+          - source_date: "2025-01-13"
+            source_type: "investor_presentation"
+            source_title: "J.P. Morgan Healthcare Conference 2025 Strategy & Business Update"
+            source_url: "https://www.sec.gov/Archives/edgar/data/872589/000110465925002826/tm253014d1_ex99-2.htm"
+            note: "Genetics, sequencing, proteomics, and genetic medicines named as core platform pillars."
+          - source_date: "2023-08-09"
+            source_type: "press_release"
+            source_title: "Regeneron to Acquire Decibel Therapeutics, Strengthening Gene Therapy and Hearing Loss Programs"
+            source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-acquire-decibel-therapeutics-strengthening-gene/"
+            note: "Decibel was a 6-year collaborator. Acquisition directly tied to strengthening genetic medicines. Establishes the collaboration-first, then acquire pattern for this TA."
+
+    preferred_modalities:
+      - modality: "bispecific_antibody"
+        preference_strength: "high"
+        rationale: "Bispecific antibodies are Regeneron's highest-priority external acquisition modality. The VelociSuite platform is purpose-built for engineering bispecifics, and the xCD3 and xCD28 platforms for T-cell retargeting and costimulation are core to the IO strategy. Targets with validated bispecific assets against novel tumor antigens are the easiest to integrate — Regeneron can reformat the antibody arms using its internal platform and pair the asset with Libtayo. Most acquirable archetype from the scanner's perspective."
+        source_refs:
+          - source_date: "2025-01-13"
+            source_type: "investor_presentation"
+            source_title: "J.P. Morgan Healthcare Conference 2025 Strategy & Business Update"
+            source_url: "https://www.sec.gov/Archives/edgar/data/872589/000110465925002826/tm253014d1_ex99-2.htm"
+            note: "Described antibody and bispecific leadership and xCD3/xCD28 oncology combination platforms."
+          - source_date: "2026-01-30"
+            source_type: "earnings_call_transcript"
+            source_title: "Regeneron Pharmaceuticals Q4 2025 Earnings Conference Call Transcript"
+            source_url: "https://investor.regeneron.com/static-files/e1a0c96b-d854-4adb-8508-a2c5ae2e4f70"
+            note: "IL-4/IL-13 bispecific programs and CD3/CD28 oncology bispecifics highlighted as strategic priorities."
+
+      - modality: "fully_human_antibody"
+        preference_strength: "high"
+        rationale: "Fully human monoclonal antibodies are Regeneron's core discovery and manufacturing modality. VelocImmune generates fully human mAbs by design; the internal CMC infrastructure is optimized for large-molecule biologics. Targets with validated mAbs against novel, genetics-backed targets in priority TAs are a natural fit and the lowest-friction path to integration."
+        source_refs:
+          - source_date: "2025-01-13"
+            source_type: "investor_presentation"
+            source_title: "J.P. Morgan Healthcare Conference 2025 Strategy & Business Update"
+            source_url: "https://www.sec.gov/Archives/edgar/data/872589/000110465925002826/tm253014d1_ex99-2.htm"
+            note: "VelocImmune antibody leadership and VelociSuite platform called out as core competitive advantages."
+
+      - modality: "sirna_rnai"
+        preference_strength: "high"
+        rationale: "siRNA is Regeneron's established core third modality alongside antibodies and fusion proteins, de-risked through a decade-long partnership with Alnylam. Cemdisiran (siRNA targeting C5, licensed from Alnylam) is in Phase 3 for myasthenia gravis, PNH, and Geographic Atrophy — the modality is operational, not experimental. Targets with lead siRNA assets addressing a genetically validated indication are directly acquirable, particularly if the genetic target has been independently validated by the RGC. The Alnylam partnership does not create exclusivity on all siRNA — standalone siRNA companies in non-overlapping indications are legitimate targets."
+        source_refs:
+          - source_date: "2026-01-30"
+            source_type: "earnings_call_transcript"
+            source_title: "Regeneron Pharmaceuticals Q4 2025 Earnings Conference Call Transcript"
+            source_url: "https://investor.regeneron.com/static-files/e1a0c96b-d854-4adb-8508-a2c5ae2e4f70"
+            note: "Cemdisiran (siRNA) highlighted in Phase 3 across multiple indications; Alnylam collaboration described as core to the pipeline."
+          - source_date: "2025-01-13"
+            source_type: "investor_presentation"
+            source_title: "J.P. Morgan Healthcare Conference 2025 Strategy & Business Update"
+            source_url: "https://www.sec.gov/Archives/edgar/data/872589/000110465925002826/tm253014d1_ex99-2.htm"
+            note: "Genetic medicines and targeted RNA therapy named as a platform-building priority."
+
+      - modality: "radiopharmaceutical"
+        preference_strength: "medium"
+        rationale: "Radiopharmaceuticals are an emerging strategic pillar confirmed by the April 2026 Telix collaboration. Regeneron's strategic logic is distinct: it provides the targeting antibody moiety via VelocImmune while a partner provides radioligand chemistry and isotope manufacturing. This means Regeneron is most interested in clinical-stage radiopharma assets or platforms where it can own the targeting antibody and out-license or partner the isotope work, rather than building full vertical radiopharmaceutical manufacturing. Phase 1 assets showing tumor-specific uptake in a high-priority oncology indication are the primary screening target."
+        source_refs:
+          - source_date: "2026-01-30"
+            source_type: "earnings_call_transcript"
+            source_title: "Regeneron Pharmaceuticals Q4 2025 Earnings Conference Call Transcript"
+            source_url: "https://investor.regeneron.com/static-files/e1a0c96b-d854-4adb-8508-a2c5ae2e4f70"
+            note: "Management highlighted expansion into radiopharmaceuticals as part of the oncology platform-building strategy."
+
+      - modality: "genetic_medicine"
+        preference_strength: "medium"
+        rationale: "Gene therapy (AAV) is accessed primarily via collaborations (Intellia for CRISPR/Cas9) or selective bolt-on acquisitions of multi-year collaborators (Decibel for AAV hearing loss). The collaboration-first pattern means standalone gene therapy companies are unlikely acquisition targets unless Regeneron has had a prior research relationship. Manufacturing overhead and delivery complexity are meaningful barriers. The asset must address an RGC-validated genetic target in a priority TA and have at least Phase 1 human data."
+        source_refs:
+          - source_date: "2023-08-09"
+            source_type: "press_release"
+            source_title: "Regeneron to Acquire Decibel Therapeutics, Strengthening Gene Therapy and Hearing Loss Programs"
+            source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-acquire-decibel-therapeutics-strengthening-gene/"
+            note: "Used M&A to acquire a 6-year AAV gene therapy collaborator after multi-year partnership de-risked the science."
+          - source_date: "2025-01-13"
+            source_type: "investor_presentation"
+            source_title: "J.P. Morgan Healthcare Conference 2025 Strategy & Business Update"
+            source_url: "https://www.sec.gov/Archives/edgar/data/872589/000110465925002826/tm253014d1_ex99-2.htm"
+            note: "Intellia CRISPR collaboration and genetic medicines listed as platform-building priorities."
+
+      - modality: "cell_therapy"
+        preference_strength: "medium"
+        rationale: "Cell therapy is a selected adjacency, not a core platform. Regeneron created a dedicated internal unit (Regeneron Cell Medicines) via the 2seventy transaction (2024) focused on next-generation CAR-T and TCR programs. First-generation autologous CAR-T is not of interest. Acquisition appetite exists only for next-gen allogeneic or antibody-armored cell therapy platforms where the VelociSuite can provide the targeting moiety. Standalone cell therapy companies without clear antibody-combination potential are unlikely targets."
+        source_refs:
+          - source_date: "2024-01-30"
+            source_type: "press_release"
+            source_title: "Regeneron Announces Formation of Regeneron Cell Medicines with the Acquisition of 2seventy bio Platforms and Preclinical and Clinical Programs"
+            source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-announces-formation-regeneron-cell-medicines/"
+            note: "Created Regeneron Cell Medicines to combine next-gen cell therapies with internal antibody and bispecific capabilities."
+
+      - modality: "data_genomics_platform"
+        preference_strength: "medium"
+        rationale: "Large-scale human genetics datasets are a core strategic asset via the RGC (2M+ sequenced individuals). The 23andMe bid (2025) showed willingness to use M&A for dataset expansion even when the target had no therapeutic assets. Acquisition of a biobank, clinical genomics database, or consumer genetics platform would expand the RGC's target validation capabilities. These acquisitions are platform plays, not pipeline plays."
+        source_refs:
+          - source_date: "2025-05-19"
+            source_type: "press_release"
+            source_title: "Regeneron Enters into Asset Purchase Agreement to Acquire 23andMe for $256 Million"
+            source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-enters-asset-purchase-agreement-acquire-23andmer-256/"
+            note: "Bid framed as strengthening genetics-guided research. Ultimately withdrew from the reopened bid process, but appetite for genomics data assets remains."
+          - source_date: "2025-01-13"
+            source_type: "investor_presentation"
+            source_title: "J.P. Morgan Healthcare Conference 2025 Strategy & Business Update"
+            source_url: "https://www.sec.gov/Archives/edgar/data/872589/000110465925002826/tm253014d1_ex99-2.htm"
+            note: "DNA-linked healthcare database and genomics highlighted as a strategic differentiator."
+
+      - modality: "small_molecule"
+        preference_strength: "low"
+        rationale: "Small molecules are explicitly avoided by Regeneron because they do not leverage the VelociSuite platform, require separate chemistry and manufacturing infrastructure, and do not fit the genetics-validated biologics discovery model. The sole exception is oral inhibitors for type 2 inflammation (atopic dermatitis, asthma) where patient preference for oral dosing creates a strategic need to defend the Dupixent franchise. Outside this narrow context, small molecule acquisitions are not part of the playbook. Any small molecule target must demonstrate no JAK-like black box safety signal."
+        source_refs:
+          - source_date: "2026-01-30"
+            source_type: "earnings_release"
+            source_title: "Regeneron Reports Fourth Quarter and Full Year 2025 Financial and Operating Results"
+            source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-reports-fourth-quarter-and-full-year-2025-financial"
+            note: "2026 R&D pipeline spans biologics, genetic medicines, and radiopharmaceuticals with no new internal small molecule programs. Small molecule avoidance is implicit throughout platform commentary."
+
+    strategic_priorities:
+      - priority: "Pursue only bolt-on, complementary business development — explicitly avoid transformative M&A characterized by management as value-destructive"
+        priority_strength: "high"
+        source_refs:
+          - source_date: "2026-01-30"
+            source_type: "earnings_release"
+            source_title: "Regeneron Reports Fourth Quarter and Full Year 2025 Financial and Operating Results"
+            source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-reports-fourth-quarter-and-full-year-2025-financial"
+            note: "CFO commentary stated 2026 focus remained on internal investments and complementary business development. Management has repeatedly characterized large-scale M&A as value-destructive."
+
+      - priority: "Defend and extend ophthalmology leadership via Geographic Atrophy treatments and sustained-release retinal platforms"
+        priority_strength: "high"
+        source_refs:
+          - source_date: "2025-01-13"
+            source_type: "investor_presentation"
+            source_title: "J.P. Morgan Healthcare Conference 2025 Strategy & Business Update"
+            source_url: "https://www.sec.gov/Archives/edgar/data/872589/000110465925002826/tm253014d1_ex99-2.htm"
+            note: "Emphasized broadening retinal indications including GA, dosing flexibility, and product-profile upgrades for EYLEA HD."
+          - source_date: "2026-01-30"
+            source_type: "earnings_release"
+            source_title: "Regeneron Reports Fourth Quarter and Full Year 2025 Financial and Operating Results"
+            source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-reports-fourth-quarter-and-full-year-2025-financial"
+            note: "2026 milestones highlighted ophthalmology programs and GA retinal extension."
+
+      - priority: "Build a dominant oncology IO combination platform using Libtayo as the PD-1 backbone and adding warhead modalities (bispecifics, radiopharmaceuticals, ADCs)"
+        priority_strength: "high"
+        source_refs:
+          - source_date: "2026-01-30"
+            source_type: "earnings_call_transcript"
+            source_title: "Regeneron Pharmaceuticals Q4 2025 Earnings Conference Call Transcript"
+            source_url: "https://investor.regeneron.com/static-files/e1a0c96b-d854-4adb-8508-a2c5ae2e4f70"
+            note: "Management highlighted fianlimab (LAG-3), CD3/CD28 bispecifics, and radiopharmaceuticals as the combination IO pipeline around Libtayo."
+
+      - priority: "Maintain immunology and inflammation leadership through next-generation long-acting biologics and oral alternatives to Dupixent"
+        priority_strength: "high"
+        source_refs:
+          - source_date: "2026-01-30"
+            source_type: "earnings_call_transcript"
+            source_title: "Regeneron Pharmaceuticals Q4 2025 Earnings Conference Call Transcript"
+            source_url: "https://investor.regeneron.com/static-files/e1a0c96b-d854-4adb-8508-a2c5ae2e4f70"
+            note: "Committed to long-acting IL-4R, IL-13, IL-4/IL-13 bispecific programs and next-generation approaches to protect the Dupixent franchise."
+
+      - priority: "Build differentiated obesity combinations focused on quality of weight loss — fat loss with muscle preservation — to compete with Lilly and Novo Nordisk"
+        priority_strength: "high"
+        source_refs:
+          - source_date: "2025-06-02"
+            source_type: "press_release"
+            source_title: "Regeneron Expands Clinical-Stage Obesity Portfolio with Strategic In-Licensing of Novel Dual GLP-1/GIP Receptor Agonist"
+            source_url: "https://investor.regeneron.com/node/31066/pdf"
+            note: "Hansoh deal framed around quality of weight loss, muscle preservation, and comorbidities."
+          - source_date: "2025-01-13"
+            source_type: "investor_presentation"
+            source_title: "J.P. Morgan Healthcare Conference 2025 Strategy & Business Update"
+            source_url: "https://www.sec.gov/Archives/edgar/data/872589/000110465925002826/tm253014d1_ex99-2.htm"
+            note: "Obesity combination programs positioned as a differentiated growth opportunity."
+
+      - priority: "Use genetics-guided discovery (RGC, 2M+ sequenced individuals) to shape both internal R&D and selective external licensing and acquisitions"
+        priority_strength: "high"
+        source_refs:
+          - source_date: "2025-01-13"
+            source_type: "investor_presentation"
+            source_title: "J.P. Morgan Healthcare Conference 2025 Strategy & Business Update"
+            source_url: "https://www.sec.gov/Archives/edgar/data/872589/000110465925002826/tm253014d1_ex99-2.htm"
+            note: "DNA-linked database, genetics, proteomics, and targeted medicine named as future-positioning pillars."
+          - source_date: "2025-05-19"
+            source_type: "press_release"
+            source_title: "Regeneron Enters into Asset Purchase Agreement to Acquire 23andMe for $256 Million"
+            source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-enters-asset-purchase-agreement-acquire-23andmer-256/"
+            note: "23andMe bid positioned as a genetics-guided research and data-scale expansion."
+
+      - priority: "Acquire only after multi-year scientific partnership has de-risked the biology — the Decibel model — preferring licensing over M&A for early-stage modalities"
+        priority_strength: "medium"
+        source_refs:
+          - source_date: "2023-08-09"
+            source_type: "press_release"
+            source_title: "Regeneron to Acquire Decibel Therapeutics, Strengthening Gene Therapy and Hearing Loss Programs"
+            source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-acquire-decibel-therapeutics-strengthening-gene/"
+            note: "Decibel was a 6-year collaborator. Pattern: license/partner first, acquire after Phase 1/2 human validation. Exemplifies the M&A archetype for genetic medicine and platform plays."
+
+    recent_deal_history:
+      - deal_name: "Telix Pharmaceuticals radiopharmaceutical collaboration"
+        status: "announced"
+        announcement_date: "2026-04-01"
+        deal_type: "collaboration"
+        therapeutic_area: "oncology"
+        modality: "radiopharmaceutical"
+        stage_context: "clinical_platform"
+        upfront_millions: 40.0
+        milestone_potential_millions: null
+        implied_value_band_millions_low: 40.0
+        implied_value_band_millions_high: 40.0
+        source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-and-telix-pharmaceuticals-enter-radiopharmaceutical/"
+        notes: "Confirms radiopharmaceuticals as a new oncology strategic pillar. Establishes the targeting-antibody + radioligand-partner model. Signals appetite for clinical-stage radiopharma assets or deeper acquisitions if the collaboration demonstrates tumor-selective uptake."
+
+      - deal_name: "Hansoh HS-20094 in-license"
+        status: "announced"
+        announcement_date: "2025-06-02"
+        deal_type: "in_licensing"
+        therapeutic_area: "obesity"
+        modality: "dual_glp1_gip"
+        stage_context: "phase_3"
+        upfront_millions: 80.0
+        milestone_potential_millions: 1930.0
+        royalty_terms: "low_double_digit"
+        implied_value_band_millions_low: 80.0
+        implied_value_band_millions_high: 2010.0
+        source_url: "https://investor.regeneron.com/node/31066/pdf"
+        notes: "Provides the incretin anchor for the obesity combination platform. The GLP-1/GIP slot is now filled; next priority is a muscle-sparing anabolic combination partner. Preferred structure was in-licensing with low upfront rather than outright acquisition."
+
+      - deal_name: "23andMe asset purchase agreement"
+        status: "did_not_close"
+        announcement_date: "2025-05-19"
+        deal_type: "asset_purchase_agreement"
+        therapeutic_area: "genetics_platform"
+        modality: "data_genomics_platform"
+        stage_context: "platform"
+        upfront_millions: 256.0
+        implied_value_band_millions_low: 256.0
+        implied_value_band_millions_high: 256.0
+        source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-enters-asset-purchase-agreement-acquire-23andmer-256/"
+        notes: "Confirmed appetite for genomics data assets. Withdrew from reopened bid process when it became competitive. Illustrates that data platform deals are in the playbook at sub-$300M range."
+
+      - deal_name: "Regeneron Cell Medicines / 2seventy bio platform acquisition"
+        status: "announced"
+        announcement_date: "2024-01-30"
+        deal_type: "platform_and_pipeline_rights_acquisition"
+        therapeutic_area: "oncology_immunology"
+        modality: "cell_therapy"
+        stage_context: "preclinical_and_clinical_platform"
+        upfront_millions: 5.0
+        milestone_potential_millions: null
+        royalty_terms: "low_single_digit"
+        implied_value_band_millions_low: 5.0
+        implied_value_band_millions_high: null
+        source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-announces-formation-regeneron-cell-medicines/"
+        notes: "Minimal upfront; Regeneron assumed ongoing infrastructure and personnel costs. Illustrates that modality-platform acquisitions can occur with near-zero upfront when the science is nascent. Created the dedicated Regeneron Cell Medicines unit."
+
+      - deal_name: "Decibel Therapeutics acquisition"
+        status: "completed"
+        announcement_date: "2023-08-09"
+        deal_type: "acquisition"
+        therapeutic_area: "hearing_loss_rare_disease"
+        modality: "aav_gene_therapy"
+        stage_context: "phase_1_2"
+        upfront_millions: 109.0
+        milestone_potential_millions: 104.0
+        royalty_terms: null
+        implied_value_band_millions_low: 109.0
+        implied_value_band_millions_high: 213.0
+        source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-acquire-decibel-therapeutics-strengthening-gene/"
+        notes: "Canonical acquisition archetype: 6-year collaborator acquired after Phase 1/2 human validation. Low upfront ($109M); milestones tied to clinical outcomes. Establishes the collaboration-first, acquisition-second pattern for all platform modality deals."
+
+      - deal_name: "Sanofi Libtayo global rights consolidation"
+        status: "completed"
+        announcement_date: "2022-06-13"
+        deal_type: "rights_buyback"
+        therapeutic_area: "oncology"
+        modality: "monoclonal_antibody"
+        stage_context: "commercial"
+        upfront_millions: 900.0
+        milestone_potential_millions: null
+        royalty_terms: null
+        implied_value_band_millions_low: 900.0
+        implied_value_band_millions_high: 900.0
+        source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-and-sanofi-expand-cemiplimab-commercialization-rights"
+        notes: "Acquired full global cemiplimab commercial rights from Sanofi for $900M. Demonstrates that the $500M-$1B range is clearly accessible when Regeneron is consolidating full economics on a core IO cornerstone. This is a rights re-acquisition, not a new asset deal — the behavior is different from external M&A."
+
+      - deal_name: "Checkmate Pharmaceuticals acquisition"
+        status: "completed"
+        announcement_date: "2022-04-01"
+        deal_type: "acquisition"
+        therapeutic_area: "oncology"
+        modality: "vlp_toll_like_receptor"
+        stage_context: "phase_1b"
+        upfront_millions: 250.0
+        milestone_potential_millions: null
+        implied_value_band_millions_low: 250.0
+        implied_value_band_millions_high: 250.0
+        source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-acquires-checkmate-pharmaceuticals"
+        notes: "Acquired vidutolimod (CMP-001), a VLP-based TLR9 agonist for IO combinations with cemiplimab. Phase 1b asset at acquisition. Demonstrates appetite for novel IO mechanism bolt-ons in the $200-300M range when the asset directly extends the Libtayo backbone."
+
+    budget:
+      as_of_date: "2026-03-31"
+      cash_and_marketable_securities_millions: 18539.7
+      long_term_debt_millions: 1986.0
+      net_cash_millions: 16553.7
+      net_cash_management_reported_millions: 15800.0
+      net_cash_basis_note: "Simple balance-sheet subtraction gives ~$16.55B; management Q1 2026 call described 'cash and marketable securities less debt' as $15.8B. Use simple balance-sheet version in deterministic model; management figure as conservative cross-check."
+      capacity_notes: "Net cash ~$16.55B as of March 31, 2026. Annual FCF ~$4-5B. Capital deployment: R&D ($5.9-6.1B guided 2026), share repurchases ($3.4B in 2025), dividends ($400M in 2025), and committed manufacturing investment ($7B+ domestic, including $2B Saratoga Springs). Practical deal-size bands from deal history and management commentary: <$500M is the sweet spot for outright acquisitions (Checkmate $250M, Decibel $109M, Telix $40M, 2seventy $5M); $500M-$2B is accessible for high-conviction rights consolidation (Libtayo $900M); $2B-$5B is possible for a genuinely transformative modality platform but culturally unlikely; >$5B has been explicitly characterized by management as value-destructive. Behavioral acquisition ceiling estimated at $2B for outright external acquisitions."
+      source_refs:
+        - source_date: "2026-04-29"
+          source_type: "earnings_release"
+          source_title: "Regeneron Reports First Quarter 2026 Financial and Operating Results"
+          source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-reports-first-quarter-2026-financial-and-operating/"
+          note: "Cash and marketable securities $18.5397B; long-term debt $1.986B as of March 31, 2026. Management Q1 2026 call: 'cash and marketable securities less debt' described as ~$15.8B."
+        - source_date: "2026-03-31"
+          source_type: "10_q_filing"
+          source_title: "Regeneron Q1 2026 Form 10-Q"
+          source_url: "https://www.sec.gov/Archives/edgar/data/872589/000087258926000016/regn-20260331.htm"
+          note: "Balance sheet: cash/securities $18.54B; long-term debt $1.986B as of March 31, 2026."
+        - source_date: "2026-01-30"
+          source_type: "earnings_release"
+          source_title: "Regeneron Reports Fourth Quarter and Full Year 2025 Financial and Operating Results"
+          source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-reports-fourth-quarter-and-full-year-2025-financial"
+          note: "FY2025 reference: cash $18.866B; debt $1.986B. Updated to Q1 2026 in current profile."
+
+    existing_partnerships:
+      - target: "ALNY"
+        partnership_type: "co_development"
+        therapeutic_area: "multiple"
+        description: "Decade-long deep siRNA co-development partnership initiated 2014. Alnylam licenses siRNA targets to Regeneron; assets are jointly developed and commercialized. Cemdisiran (C5-targeting siRNA) is in Phase 3 for myasthenia gravis, PNH, and Geographic Atrophy — the most advanced output. The partnership has produced multiple clinical programs and is operationally treated as a core modality pillar. A full Alnylam acquisition has been speculated but is complex given Alnylam's $30B+ market cap."
+        year_initiated: 2014
+        acquisition_option: false
+
+      - target: "Sanofi"
+        partnership_type: "co_development"
+        therapeutic_area: "immunology_inflammation"
+        description: "Sanofi co-develops and co-commercializes Dupixent (dupilumab) globally under a profit-share arrangement; Regeneron discovered and retains primary manufacturing. Regeneron bought back global Libtayo (cemiplimab) rights from Sanofi in June 2022 for $900M, fully consolidating oncology economics. Dupixent partnership continues and is the primary revenue driver at $17.8B global FY2025 sales. M&A implication: any immunology acquisition must integrate with the existing Sanofi co-commercialization structure for Dupixent."
+        year_initiated: 2003
+        acquisition_option: false
+
+      - target: "Bayer"
+        partnership_type: "co_promotion"
+        therapeutic_area: "ophthalmology"
+        description: "Bayer holds ex-US commercialization rights to aflibercept (EYLEA and EYLEA HD). Regeneron retains US rights and primary manufacturing. The partnership is mature and commercial. M&A implication: any ophthalmology acquisition by Regeneron must navigate the Bayer commercial structure for non-US markets; a GA asset acquired by Regeneron could be commercialized independently in the US but would require negotiation for ex-US rights."
+        year_initiated: 2006
+        acquisition_option: false
+
+      - target: "Intellia"
+        partnership_type: "research_collaboration"
+        therapeutic_area: "genetic_medicines_rare_disease"
+        description: "Collaboration for CRISPR/Cas9-based in vivo gene editing using Intellia's RNP delivery platform. Multiple targets under joint development including TTR amyloidosis and hemophilia. Exemplifies Regeneron's modality-access-via-collaboration approach for gene editing; a full Intellia acquisition is possible but has not been signaled."
+        year_initiated: 2016
+        acquisition_option: false
+
+      - target: "BioNTech"
+        partnership_type: "research_collaboration"
+        therapeutic_area: "oncology"
+        description: "Cancer vaccine collaboration combining BioNTech's mRNA personalized neoantigen vaccine platform with Regeneron's cemiplimab IO backbone. Focused on personalized cancer vaccine + Libtayo combination regimens. Nascent; does not constitute a near-term acquisition signal for BioNTech given its scale."
+        year_initiated: 2022
+        acquisition_option: false
+
+      - target: "Telix"
+        partnership_type: "co_development"
+        therapeutic_area: "oncology"
+        description: "April 2026 radiopharmaceutical collaboration. Regeneron provides the targeting antibody moiety via VelociSuite; Telix provides radioligand chemistry and isotope manufacturing expertise. Represents Regeneron's entry into the radiopharmaceutical modality. Early-stage collaboration with potential to deepen into licensing or acquisition if clinical results confirm the combination IO + radiopharma strategy."
+        year_initiated: 2026
+        acquisition_option: false
+
+  # ══════════════════════════════════════════════════════════════════════════
+  # MAJOR PHARMA / BIOTECH ACQUIRER PROFILES
+  # ══════════════════════════════════════════════════════════════════════════
+
+  - acquirer_id: "astrazeneca"
+    company_name: "AstraZeneca"
+    ticker: "AZN"
+    profile_as_of: "2026-05-08"
+    acquisition_capacity_millions: 10000.0
+    source_notes: "Curated from AZ investor day materials, Q4 2025 earnings, and public deal history. AZ has been one of the most active pharma acquirers 2020-2026 with Alexion ($39B), Rare Disease expansion, Fusion Pharmaceuticals ($2.4B), and ADC platform build-out. Deal-size bands: $1-5B for platform acquisitions; $5-15B for late-stage/commercial assets; >$15B for transformative (rare/selective)."
+
+    therapeutic_area_gaps:
+      - therapeutic_area: "oncology"
+        exposure_type: "franchise_extension"
+        exposure_level: "high"
+        sub_area: "adc_and_radiopharma_solid_tumor"
+        preferred_modality:
+          - "adc"
+          - "radiopharmaceutical"
+          - "bispecific_antibody"
+        budget_ceiling_millions: 8000.0
+        rationale: "AZ is the global ADC leader (Enhertu, DATO-DXd, AZD8205). The gap is additional ADC payloads or targets in solid tumors where their existing ADC infrastructure can be deployed. Radiopharma (Fusion Pharmaceuticals acquisition 2024) is a second string. Any novel ADC linker-payload platform or clinical-stage ADC in a high-volume solid tumor indication (NSCLC, TNBC, ovarian, GI) is a primary M&A target."
+        source_refs:
+          - source_date: "2025-01-14"
+            source_type: "investor_presentation"
+            source_title: "AstraZeneca JP Morgan Healthcare Conference 2025"
+            source_url: "https://www.astrazeneca.com/investor-relations/presentations.html"
+            note: "ADC platform leadership and pipeline expansion highlighted as core oncology strategy."
+
+      - therapeutic_area: "rare_disease"
+        exposure_type: "franchise_defense"
+        exposure_level: "high"
+        sub_area: "complement_and_rare_hematology"
+        preferred_modality:
+          - "monoclonal_antibody"
+          - "fusion_protein"
+          - "sirna_rnai"
+        budget_ceiling_millions: 10000.0
+        rationale: "Post-Alexion acquisition ($39B, 2021), rare disease is a $10B+ annual franchise anchored by Ultomiris (ravulizumab) and Soliris (eculizumab). The LOE gap is complement alternatives and next-generation FcRn inhibitors. ALXN2050 and Voydeya (danicopan) extend the franchise; M&A targets are next-gen complement inhibitors (C1q, C2, C3) or rare hematologic disease assets."
+
+      - therapeutic_area: "cardiovascular_renal"
+        exposure_type: "strategic_expansion"
+        exposure_level: "medium"
+        sub_area: "ckd_and_hfpef_cardiometabolic"
+        preferred_modality:
+          - "monoclonal_antibody"
+          - "sirna_rnai"
+          - "small_molecule"
+        budget_ceiling_millions: 5000.0
+        rationale: "Farxiga (dapagliflozin) anchors the CVMD franchise ($5.5B peak). CKD, HFpEF, and cardiometabolic assets that complement SGLT2i are priority gaps. siRNA for PCSK9/ANGPTL3 in cardiometabolic risk is a secondary target."
+
+    preferred_modalities:
+      - modality: "adc"
+        preference_strength: "high"
+        rationale: "ADC is AZ's dominant oncology modality. Internal platforms (DS-8201/Enhertu partnership with Daiichi Sankyo) give it manufacturing and linker-payload expertise."
+      - modality: "monoclonal_antibody"
+        preference_strength: "high"
+        rationale: "AZ biologics engine (MedImmune/AZ Cambridge) is large-molecule primary."
+      - modality: "sirna_rnai"
+        preference_strength: "medium"
+        rationale: "Emerging siRNA capability via Avacta collaboration and organic respiratory siRNA programs (AZD8701)."
+      - modality: "radiopharmaceutical"
+        preference_strength: "medium"
+        rationale: "Fusion Pharmaceuticals (actinium-225) acquisition 2024 established radiopharma as a new pillar."
+
+    strategic_priorities:
+      - priority: "Maintain ADC platform leadership through next-gen payloads, targets, and linker chemistries"
+        priority_strength: "high"
+      - priority: "Extend rare disease Alexion franchise with next-generation complement and rare hematology assets"
+        priority_strength: "high"
+      - priority: "Build CVMD leadership in CKD, HFpEF, and cardiometabolic beyond SGLT2 class"
+        priority_strength: "medium"
+
+    recent_deal_history:
+      - deal_name: "Fusion Pharmaceuticals acquisition"
+        status: "completed"
+        announcement_date: "2024-06-03"
+        deal_type: "acquisition"
+        therapeutic_area: "oncology"
+        modality: "radiopharmaceutical"
+        stage_context: "phase_2"
+        upfront_millions: 2000.0
+        milestone_potential_millions: 400.0
+        implied_value_band_millions_low: 2000.0
+        implied_value_band_millions_high: 2400.0
+        source_url: "https://www.astrazeneca.com/media-centre/press-releases/2024/astrazeneca-to-acquire-fusion-pharmaceuticals.html"
+
+      - deal_name: "Alexion Pharmaceuticals acquisition"
+        status: "completed"
+        announcement_date: "2020-12-12"
+        deal_type: "acquisition"
+        therapeutic_area: "rare_disease"
+        modality: "monoclonal_antibody"
+        stage_context: "commercial"
+        upfront_millions: 39000.0
+        implied_value_band_millions_low: 39000.0
+        implied_value_band_millions_high: 39000.0
+        source_url: "https://www.astrazeneca.com/media-centre/press-releases/2020/astrazeneca-to-acquire-alexion.html"
+
+    budget:
+      as_of_date: "2025-12-31"
+      cash_and_marketable_securities_millions: 7800.0
+      long_term_debt_millions: 24000.0
+      net_cash_millions: -16200.0
+      capacity_notes: "AZ carries ~$24B debt from Alexion but generates $10B+ FCF/year. Practical deal ceiling for bolt-on: $3-8B. Transformative M&A possible but digestibility limits at $10-15B. acquisition_capacity_millions reflects practical FCF-backed deal capacity."
+      source_refs:
+        - source_date: "2026-02-13"
+          source_type: "earnings_release"
+          source_title: "AstraZeneca Full Year 2025 Results"
+          source_url: "https://www.astrazeneca.com/investor-relations/results-and-reports.html"
+          note: "Cash and debt approximated from FY2025 balance sheet. Net cash is negative due to Alexion acquisition debt."
+
+  - acquirer_id: "eli_lilly"
+    company_name: "Eli Lilly and Company"
+    ticker: "LLY"
+    profile_as_of: "2026-05-08"
+    acquisition_capacity_millions: 20000.0
+    source_notes: "Curated from Lilly investor day materials, Q4 2025 earnings, and deal history. Lilly's $100B+ market cap and Mounjaro/Zepbound obesity franchise generate extraordinary FCF enabling mega-deals. Active acquirer: Versanis ($1.9B 2023), POINT Biopharma ($1.4B 2023), morphic Therapeutic ($3.2B 2024), Sigilon (2022). Deal-size bands: $1-5B preferred bolt-on; $5-20B for platform/franchise defense."
+
+    therapeutic_area_gaps:
+      - therapeutic_area: "obesity_metabolic"
+        exposure_type: "franchise_extension"
+        exposure_level: "high"
+        sub_area: "oral_glp1_and_next_gen_combination"
+        preferred_modality:
+          - "small_molecule"
+          - "monoclonal_antibody"
+          - "bispecific_antibody"
+        budget_ceiling_millions: 15000.0
+        rationale: "Mounjaro/Zepbound (tirzepatide, GLP-1/GIP) is Lilly's dominant growth driver. The gap is: (1) an oral GLP-1 to compete with Novo's oral semaglutide; (2) additional combination mechanisms (orexin, amylin, GLP-1R agonist + GLP-2R) to maintain differentiation; (3) obesity comorbidity assets (HFpEF, MASH, T2D supplements). Lilly already acquired Versanis (muscle preservation) — next muscle-sparing slot is not needed."
+
+      - therapeutic_area: "oncology"
+        exposure_type: "strategic_expansion"
+        exposure_level: "high"
+        sub_area: "radiopharma_and_adc"
+        preferred_modality:
+          - "radiopharmaceutical"
+          - "adc"
+          - "bispecific_antibody"
+        budget_ceiling_millions: 8000.0
+        rationale: "Lilly lacks an ADC or radiopharma platform compared to AZ/Pfizer/BMS peers. The oncology gap requires a platform acquisition. POINT Biopharma (RYZ101 PSMA) was Lilly's entry into radiopharma ($1.4B). Next step is a broader solid tumor ADC or radiopharma platform."
+
+      - therapeutic_area: "immunology"
+        exposure_type: "franchise_defense"
+        exposure_level: "medium"
+        sub_area: "il17_il23_tkyk2_next_gen"
+        preferred_modality:
+          - "monoclonal_antibody"
+          - "bispecific_antibody"
+          - "small_molecule"
+        budget_ceiling_millions: 5000.0
+        rationale: "Taltz (ixekizumab, IL-17A) faces biosimilar pressure. The gap is a next-generation IL-17/IL-23 bispecific or oral TYK2/JAK1 inhibitor to defend the immunology franchise."
+
+    preferred_modalities:
+      - modality: "small_molecule"
+        preference_strength: "high"
+        rationale: "Lilly has strong oral small molecule capabilities (LY-3502970, oral GLP-1; LY-3819219 oral GIPR)."
+      - modality: "monoclonal_antibody"
+        preference_strength: "high"
+        rationale: "Core biologics manufacturing at Indianapolis."
+      - modality: "radiopharmaceutical"
+        preference_strength: "medium"
+        rationale: "POINT Biopharma acquisition established the RLT capability."
+
+    strategic_priorities:
+      - priority: "Extend Mounjaro/Zepbound obesity franchise via oral GLP-1 and combination mechanisms"
+        priority_strength: "high"
+      - priority: "Build oncology platform through ADC or radiopharma acquisition"
+        priority_strength: "high"
+      - priority: "Defend immunology franchise against biosimilar erosion of Taltz"
+        priority_strength: "medium"
+
+    recent_deal_history:
+      - deal_name: "morphic Therapeutic acquisition"
+        status: "completed"
+        announcement_date: "2024-07-23"
+        deal_type: "acquisition"
+        therapeutic_area: "immunology_cardiovascular"
+        modality: "small_molecule"
+        stage_context: "phase_2"
+        upfront_millions: 3200.0
+        implied_value_band_millions_low: 3200.0
+        implied_value_band_millions_high: 3200.0
+        source_url: "https://investor.lilly.com/"
+
+      - deal_name: "Versanis Bio acquisition"
+        status: "completed"
+        announcement_date: "2023-07-25"
+        deal_type: "acquisition"
+        therapeutic_area: "obesity_metabolic"
+        modality: "monoclonal_antibody"
+        stage_context: "phase_2"
+        upfront_millions: 1900.0
+        implied_value_band_millions_low: 1900.0
+        implied_value_band_millions_high: 1900.0
+        source_url: "https://investor.lilly.com/"
+
+      - deal_name: "POINT Biopharma acquisition"
+        status: "completed"
+        announcement_date: "2023-10-02"
+        deal_type: "acquisition"
+        therapeutic_area: "oncology"
+        modality: "radiopharmaceutical"
+        stage_context: "phase_3"
+        upfront_millions: 1400.0
+        implied_value_band_millions_low: 1400.0
+        implied_value_band_millions_high: 1400.0
+        source_url: "https://investor.lilly.com/"
+
+    budget:
+      as_of_date: "2025-12-31"
+      cash_and_marketable_securities_millions: 9500.0
+      long_term_debt_millions: 22000.0
+      net_cash_millions: -12500.0
+      capacity_notes: "Lilly generates $15B+ FCF annually from Mounjaro/Zepbound. Debt capacity allows deals well above net cash. Practical deal ceiling $15-25B with strong balance sheet. Bolt-on sweet spot $1-5B. acquisition_capacity_millions reflects FCF-backed practical ceiling."
+      source_refs:
+        - source_date: "2026-02-05"
+          source_type: "earnings_release"
+          source_title: "Eli Lilly Q4 and Full Year 2025 Financial Results"
+          source_url: "https://investor.lilly.com/"
+          note: "Cash and debt approximated from FY2025 balance sheet. Net cash negative post-acquisition financing; FCF capacity enables large deals."
+
+  - acquirer_id: "bristol_myers_squibb"
+    company_name: "Bristol-Myers Squibb"
+    ticker: "BMY"
+    profile_as_of: "2026-05-08"
+    acquisition_capacity_millions: 8000.0
+    source_notes: "Curated from BMS investor day, Q4 2025 earnings, and deal history. BMS actively acquired to counter Revlimid/Opdivo LOE: Turning Point ($4.1B 2022), RayzeBio ($4.1B 2024), Karuna ($14B 2023), Mirati ($4.8B 2023). Post-acquisition digestion phase 2025-2026; near-term focus is smaller bolt-ons."
+
+    therapeutic_area_gaps:
+      - therapeutic_area: "oncology"
+        exposure_type: "franchise_extension"
+        exposure_level: "high"
+        sub_area: "cd3_bispecific_and_warhead_combinations"
+        preferred_modality:
+          - "bispecific_antibody"
+          - "radiopharmaceutical"
+          - "adc"
+        budget_ceiling_millions: 6000.0
+        rationale: "BMS's IO franchise (Opdivo/Yervoy) needs next-generation mechanisms. RayzeBio (radiopharma) and Turning Point (precision oncology) recent acquisitions demonstrate platform-building. The gap is bispecific T-cell engagers or additional ADC payloads to combine with PD-1 backbone. Hematology bispecifics (CD3xBCMA or CD3xCD20) for post-Revlimid heme-onc are also priority."
+
+      - therapeutic_area: "immunology"
+        exposure_type: "strategic_expansion"
+        exposure_level: "medium"
+        sub_area: "tl1a_and_il17_bispecific"
+        preferred_modality:
+          - "monoclonal_antibody"
+          - "bispecific_antibody"
+        budget_ceiling_millions: 5000.0
+        rationale: "BMS has limited immunology presence outside Zeposia (ozanimod). The TL1A space (post-Prometheus/Merck) and IL-17/IL-23 bispecifics are a priority expansion area to diversify away from LOE-heavy oncology and CV (Eliquis)."
+
+      - therapeutic_area: "cardiovascular"
+        exposure_type: "franchise_defense"
+        exposure_level: "medium"
+        sub_area: "fxa_fxi_oral_anticoagulation"
+        preferred_modality:
+          - "small_molecule"
+          - "monoclonal_antibody"
+        budget_ceiling_millions: 4000.0
+        rationale: "Eliquis (apixaban) LOE expected 2026-2028. BMS needs a next-generation anticoagulant (FXI inhibitor showing zero major bleeds) or a cardiovascular asset to replace Eliquis revenue."
+
+    preferred_modalities:
+      - modality: "bispecific_antibody"
+        preference_strength: "high"
+        rationale: "BMS hematology bispecifics (mosunetuzumab via Genentech license) and CD20 programs."
+      - modality: "radiopharmaceutical"
+        preference_strength: "high"
+        rationale: "RayzeBio acquisition established actinium-225 as a core modality."
+      - modality: "small_molecule"
+        preference_strength: "medium"
+        rationale: "Karuna (KarXT muscarinic) showed willingness for CNS/large small molecule platforms."
+
+    strategic_priorities:
+      - priority: "Counter Revlimid/Opdivo LOE with precision oncology and warhead modalities"
+        priority_strength: "high"
+      - priority: "Defend Eliquis franchise with next-generation cardiovascular anticoagulation"
+        priority_strength: "high"
+      - priority: "Expand into immunology beyond deucravacitinib"
+        priority_strength: "medium"
+
+    recent_deal_history:
+      - deal_name: "Karuna Therapeutics acquisition"
+        status: "completed"
+        announcement_date: "2023-12-22"
+        deal_type: "acquisition"
+        therapeutic_area: "neuroscience"
+        modality: "small_molecule"
+        stage_context: "nda_bla"
+        upfront_millions: 14000.0
+        implied_value_band_millions_low: 14000.0
+        implied_value_band_millions_high: 14000.0
+        source_url: "https://news.bms.com/news/details/2023/Bristol-Myers-Squibb-to-Acquire-Karuna-Therapeutics/"
+
+      - deal_name: "RayzeBio acquisition"
+        status: "completed"
+        announcement_date: "2024-01-12"
+        deal_type: "acquisition"
+        therapeutic_area: "oncology"
+        modality: "radiopharmaceutical"
+        stage_context: "phase_3"
+        upfront_millions: 4100.0
+        implied_value_band_millions_low: 4100.0
+        implied_value_band_millions_high: 4100.0
+        source_url: "https://news.bms.com/news/details/2024/Bristol-Myers-Squibb-to-Acquire-RayzeBio-Inc./"
+
+      - deal_name: "Turning Point Therapeutics acquisition"
+        status: "completed"
+        announcement_date: "2022-06-03"
+        deal_type: "acquisition"
+        therapeutic_area: "oncology"
+        modality: "small_molecule"
+        stage_context: "phase_2_phase_3"
+        upfront_millions: 4100.0
+        implied_value_band_millions_low: 4100.0
+        implied_value_band_millions_high: 4100.0
+        source_url: "https://news.bms.com/news/details/2022/Bristol-Myers-Squibb-to-Acquire-Turning-Point-Therapeutics-Inc./"
+
+    budget:
+      as_of_date: "2025-12-31"
+      cash_and_marketable_securities_millions: 12000.0
+      long_term_debt_millions: 37000.0
+      net_cash_millions: -25000.0
+      capacity_notes: "BMS carries ~$37B debt but strong Eliquis/Opdivo FCF ($12B+/year). In digestion phase 2025-2026. Bolt-on $1-5B practical range; larger deals possible but leverage concerns limit >$8B. acquisition_capacity_millions reflects practical FCF-backed bolt-on capacity."
+      source_refs:
+        - source_date: "2026-01-30"
+          source_type: "earnings_release"
+          source_title: "Bristol-Myers Squibb Q4 and Full Year 2025 Results"
+          source_url: "https://news.bms.com/"
+          note: "Cash and debt approximated from FY2025 balance sheet. High debt load from Karuna/RayzeBio/Mirati acquisitions constrains near-term capacity."
+
+  - acquirer_id: "merck"
+    company_name: "Merck & Co."
+    ticker: "MRK"
+    profile_as_of: "2026-05-08"
+    acquisition_capacity_millions: 15000.0
+    source_notes: "Curated from Merck investor day 2025, Q4 2025 earnings, and deal history. Merck's M&A urgency is driven by Keytruda (pembrolizumab) LOE expected 2028-2032. Acquisitions: Prometheus ($10.8B 2023), Imago BioSciences ($1.35B 2022), Harpoon Therapeutics ($680M 2023), Daiichi Sankyo ADC co-development ($22B committed 2023), Elanco animal health. The Keytruda cliff demands transformative M&A before 2028."
+
+    therapeutic_area_gaps:
+      - therapeutic_area: "oncology"
+        exposure_type: "franchise_defense"
+        exposure_level: "high"
+        sub_area: "keytruda_combination_platform_replacement"
+        preferred_modality:
+          - "bispecific_antibody"
+          - "adc"
+          - "small_molecule"
+          - "sirna_rnai"
+        budget_ceiling_millions: 15000.0
+        rationale: "Keytruda ($25B+ peak sales, 40%+ Merck revenue) faces patent cliff 2028-2032. Merck must replace $20B+ in annual revenue. The gap is: (1) late-stage assets that can anchor next decade revenue; (2) Keytruda combination partners that extend commercial longevity via combination indications; (3) entirely new franchise areas (PCSK9 siRNA via Alnylam collab, oral oncology, cardiometabolic). Deal-size imperative: $5-20B is justified by replacement revenue math."
+
+      - therapeutic_area: "immunology"
+        exposure_type: "strategic_expansion"
+        exposure_level: "high"
+        sub_area: "tl1a_ibd_and_il17_psoriasis"
+        preferred_modality:
+          - "monoclonal_antibody"
+          - "bispecific_antibody"
+        budget_ceiling_millions: 10000.0
+        rationale: "Prometheus acquisition ($10.8B 2023) for TL1A (PRA023/tulisokibart) in IBD. The gap is extending this to other IL-12/IL-23 or Type 17 inflammation assets. Skyrizi (risankizumab) via AbbVie collaboration establishes a second immunology pillar; M&A would complement with Crohn's/IBD and psoriasis assets."
+
+      - therapeutic_area: "cardiometabolic"
+        exposure_type: "strategic_expansion"
+        exposure_level: "medium"
+        sub_area: "pcsk9_siRNA_and_hfpef"
+        preferred_modality:
+          - "sirna_rnai"
+          - "small_molecule"
+        budget_ceiling_millions: 5000.0
+        rationale: "Alnylam collaboration (inclisiran-like PCSK9 siRNA) is one cardiometabolic program. The gap is broader cardiometabolic beyond Januvia (sitagliptin) LOE — SGLT2 space is occupied by others, so HFpEF, PCSK9 siRNA, or NASH/MASH becomes the focus."
+
+    preferred_modalities:
+      - modality: "bispecific_antibody"
+        preference_strength: "high"
+        rationale: "Harpoon Therapeutics T-cell engager acquisition and Keytruda bispecific combo strategy."
+      - modality: "adc"
+        preference_strength: "high"
+        rationale: "Daiichi Sankyo ADC co-development ($22B) makes ADC a primary modality."
+      - modality: "sirna_rnai"
+        preference_strength: "medium"
+        rationale: "Alnylam cardiometabolic collaboration validates siRNA interest."
+
+    strategic_priorities:
+      - priority: "Replace Keytruda revenue cliff with late-stage assets capable of $5B+ peak sales"
+        priority_strength: "high"
+      - priority: "Build next-generation IO combinations anchored to PD-1 backbone"
+        priority_strength: "high"
+      - priority: "Establish cardiometabolic franchise post-Januvia LOE"
+        priority_strength: "medium"
+
+    recent_deal_history:
+      - deal_name: "Prometheus Biosciences acquisition"
+        status: "completed"
+        announcement_date: "2023-05-16"
+        deal_type: "acquisition"
+        therapeutic_area: "immunology"
+        modality: "monoclonal_antibody"
+        stage_context: "phase_2"
+        upfront_millions: 10800.0
+        implied_value_band_millions_low: 10800.0
+        implied_value_band_millions_high: 10800.0
+        source_url: "https://www.merck.com/news/merck-to-acquire-prometheus-biosciences/"
+
+      - deal_name: "Imago BioSciences acquisition"
+        status: "completed"
+        announcement_date: "2022-11-01"
+        deal_type: "acquisition"
+        therapeutic_area: "hematology"
+        modality: "small_molecule"
+        stage_context: "phase_2"
+        upfront_millions: 1350.0
+        implied_value_band_millions_low: 1350.0
+        implied_value_band_millions_high: 1350.0
+        source_url: "https://www.merck.com/news/merck-to-acquire-imago-biosciences/"
+
+    budget:
+      as_of_date: "2025-12-31"
+      cash_and_marketable_securities_millions: 17000.0
+      long_term_debt_millions: 38000.0
+      net_cash_millions: -21000.0
+      capacity_notes: "Merck has strong cash position but also large debt from Prometheus and Daiichi DSC collaboration. FCF $10B+ annually. Keytruda LOE urgency means Merck MUST deploy capital. Deals up to $15B within capacity; $20B+ possible with debt. acquisition_capacity_millions reflects practical FCF-backed deployment."
+      source_refs:
+        - source_date: "2026-02-04"
+          source_type: "earnings_release"
+          source_title: "Merck Q4 and Full Year 2025 Financial Results"
+          source_url: "https://www.merck.com/investor-relations/"
+          note: "Cash and debt approximated from FY2025 balance sheet. Keytruda LOE 2028-2032 creates urgency to deploy capital now."
+
+  - acquirer_id: "abbvie"
+    company_name: "AbbVie Inc."
+    ticker: "ABBV"
+    profile_as_of: "2026-05-08"
+    acquisition_capacity_millions: 10000.0
+    source_notes: "Curated from AbbVie investor day 2025, Q4 2025 earnings, and deal history. AbbVie successfully navigated Humira LOE ($21B peak → biosimilar erosion 2023+) via Skyrizi+Rinvoq ramp and neuroscience acquisitions (Allergan $63B 2020, Cerevel $8.7B 2024, ImmunoGen $10.1B 2023). Now focused on immunology platform defense and oncology expansion."
+
+    therapeutic_area_gaps:
+      - therapeutic_area: "immunology"
+        exposure_type: "franchise_defense"
+        exposure_level: "high"
+        sub_area: "il17_il23_next_generation_psoriasis_crohn"
+        preferred_modality:
+          - "monoclonal_antibody"
+          - "bispecific_antibody"
+          - "small_molecule"
+        budget_ceiling_millions: 8000.0
+        rationale: "Skyrizi (risankizumab, IL-23) and Rinvoq (upadacitinib, JAK1) are the Humira replacement drivers growing to $20B+ combined. The next gap is maintaining immunology leadership: a next-generation IL-17/IL-23 bispecific or an oral TYK2/JAK1 for patients not on injectable biologics. Also looking for assets with IL-12/IL-23 combination mechanisms to future-proof Skyrizi's position."
+
+      - therapeutic_area: "oncology"
+        exposure_type: "strategic_expansion"
+        exposure_level: "high"
+        sub_area: "adc_and_targeted_heme_onc"
+        preferred_modality:
+          - "adc"
+          - "bispecific_antibody"
+        budget_ceiling_millions: 10000.0
+        rationale: "ImmunoGen acquisition ($10.1B 2023) brought Elahere (mirvetuximab soravtansine, ADC) for ovarian cancer. The gap is expanding the ADC franchise into additional solid tumors and hematologic malignancies. Next-generation ADC payloads or novel antigen targets (CEACAM5, HER3, Trop-2) are priority."
+
+      - therapeutic_area: "neuroscience"
+        exposure_type: "strategic_expansion"
+        exposure_level: "medium"
+        sub_area: "alzheimers_and_movement_disorders"
+        preferred_modality:
+          - "monoclonal_antibody"
+          - "small_molecule"
+        budget_ceiling_millions: 5000.0
+        rationale: "Cerevel acquisition (emraclidine/tavapadon) and Allergan neurological assets establish a neuroscience platform. The gap is extending beyond Parkinson's/schizophrenia into Alzheimer's (amyloid/tau combination) and movement disorders."
+
+    preferred_modalities:
+      - modality: "monoclonal_antibody"
+        preference_strength: "high"
+        rationale: "Core biologics manufacturing at North Chicago. Humira/Skyrizi/Rinvoq established large-molecule dominance."
+      - modality: "adc"
+        preference_strength: "high"
+        rationale: "ImmunoGen acquisition validated ADC as a primary oncology modality."
+      - modality: "small_molecule"
+        preference_strength: "medium"
+        rationale: "Rinvoq (JAK1) and Cerevel (emraclidine/tavapadon) demonstrate oral small molecule capability."
+
+    strategic_priorities:
+      - priority: "Defend immunology leadership post-Humira with next-gen IL-17/IL-23 bispecific or oral alternatives"
+        priority_strength: "high"
+      - priority: "Build ADC oncology franchise following ImmunoGen acquisition"
+        priority_strength: "high"
+      - priority: "Expand neuroscience beyond Allergan into Alzheimer's and movement disorders"
+        priority_strength: "medium"
+
+    recent_deal_history:
+      - deal_name: "Cerevel Therapeutics acquisition"
+        status: "completed"
+        announcement_date: "2024-02-23"
+        deal_type: "acquisition"
+        therapeutic_area: "neuroscience"
+        modality: "small_molecule"
+        stage_context: "phase_2_phase_3"
+        upfront_millions: 8700.0
+        implied_value_band_millions_low: 8700.0
+        implied_value_band_millions_high: 8700.0
+        source_url: "https://www.abbvie.com/news/press-releases/2024/02/abbvie-to-acquire-cerevel-therapeutics.html"
+
+      - deal_name: "ImmunoGen acquisition"
+        status: "completed"
+        announcement_date: "2023-11-30"
+        deal_type: "acquisition"
+        therapeutic_area: "oncology"
+        modality: "adc"
+        stage_context: "commercial"
+        upfront_millions: 10100.0
+        implied_value_band_millions_low: 10100.0
+        implied_value_band_millions_high: 10100.0
+        source_url: "https://www.abbvie.com/news/press-releases/2023/11/abbvie-to-acquire-immunogen.html"
+
+    budget:
+      as_of_date: "2025-12-31"
+      cash_and_marketable_securities_millions: 10000.0
+      long_term_debt_millions: 62000.0
+      net_cash_millions: -52000.0
+      capacity_notes: "AbbVie has $62B+ debt post-Allergan/ImmunoGen/Cerevel but generates $20B+ FCF/year. Bolt-on $1-5B is accessible; $5-10B with high conviction; >$10B requires strong strategic justification and rating agency approval. acquisition_capacity_millions reflects practical FCF-backed annual deployment."
+      source_refs:
+        - source_date: "2026-02-01"
+          source_type: "earnings_release"
+          source_title: "AbbVie Q4 and Full Year 2025 Financial Results"
+          source_url: "https://www.abbvie.com/investors.html"
+          note: "High debt load from Allergan acquisition; strong FCF enables servicing and bolt-on M&A. Net cash deeply negative but FCF capacity is the practical deal constraint."
+
+  - acquirer_id: "novartis"
+    company_name: "Novartis AG"
+    ticker: "NVS"
+    profile_as_of: "2026-05-08"
+    acquisition_capacity_millions: 12000.0
+    source_notes: "Curated from Novartis investor day 2024, Q4 2025 earnings, and deal history. Post-Sandoz generic spin-off (2023), Novartis is pure-play innovative pharma. Active acquirer: Avidity ($3.7B 2026), Chinook ($3.5B 2023), MorphoSys ($2.9B 2024), Mariana Oncology ($1B 2023), DTx Pharma (siRNA 2022). Three strategic pillars: cardiovascular, immunology, oncology."
+
+    therapeutic_area_gaps:
+      - therapeutic_area: "cardiovascular"
+        exposure_type: "franchise_extension"
+        exposure_level: "high"
+        sub_area: "lclf_and_inflammation_hf"
+        preferred_modality:
+          - "sirna_rnai"
+          - "monoclonal_antibody"
+          - "small_molecule"
+        budget_ceiling_millions: 8000.0
+        rationale: "Entresto (sacubitril/valsartan) and Leqvio (inclisiran, siRNA LDL-lowering) anchor cardiovascular. The gap is: (1) next-generation HFpEF or cardiomyopathy assets; (2) additional siRNA cardiometabolic targets (PCSK9, ANGPTL3, Lp(a)) to build an siRNA cardiovascular franchise; (3) inflammatory cardiomyopathy assets."
+
+      - therapeutic_area: "oncology"
+        exposure_type: "strategic_expansion"
+        exposure_level: "high"
+        sub_area: "radiopharma_and_heme_onc_bispecific"
+        preferred_modality:
+          - "radiopharmaceutical"
+          - "bispecific_antibody"
+          - "sirna_rnai"
+        budget_ceiling_millions: 10000.0
+        rationale: "Lutathera (DOTATATE radioligand) and Pluvicto (lutetium PSMA-617) make Novartis the established radiopharma leader. The gap is next-generation actinium-225 platforms or novel antigen targets beyond PSMA. Kymriah (CAR-T) and hematology bispecifics (CD3xCD20, CD3xBCMA) fill out heme-onc; M&A targets are novel heme-onc mechanisms (LSD1, menin, CAR-NK)."
+
+      - therapeutic_area: "immunology"
+        exposure_type: "franchise_extension"
+        exposure_level: "medium"
+        sub_area: "neuromuscular_sirna_and_rare"
+        preferred_modality:
+          - "sirna_rnai"
+          - "monoclonal_antibody"
+        budget_ceiling_millions: 5000.0
+        rationale: "Avidity acquisition (AOC siRNA for muscle diseases) validates siRNA muscle delivery. The gap is additional siRNA programs addressing genetically validated rare neuromuscular or rare immunologic targets. Cosentyx (secukinumab, IL-17A) faces generic competition; novel immunology mechanisms are secondary priority."
+
+    preferred_modalities:
+      - modality: "radiopharmaceutical"
+        preference_strength: "high"
+        rationale: "Lutathera and Pluvicto make Novartis the #1 commercial radiopharma company globally."
+      - modality: "sirna_rnai"
+        preference_strength: "high"
+        rationale: "Leqvio (inclisiran) and DTx Pharma acquisition validate siRNA as a core Novartis modality."
+      - modality: "monoclonal_antibody"
+        preference_strength: "high"
+        rationale: "Core biologics manufacturing at Basel and Schweizerhalle."
+
+    strategic_priorities:
+      - priority: "Extend cardiovascular leadership with next-generation siRNA and HFpEF assets"
+        priority_strength: "high"
+      - priority: "Build next-gen radiopharma beyond PSMA with actinium-225 or novel antigen targets"
+        priority_strength: "high"
+      - priority: "Expand rare/neuromuscular disease platform via siRNA and gene therapy"
+        priority_strength: "medium"
+
+    recent_deal_history:
+      - deal_name: "Avidity Biosciences acquisition"
+        status: "completed"
+        announcement_date: "2026-01-06"
+        deal_type: "acquisition"
+        therapeutic_area: "neuroscience"
+        modality: "sirna_rnai"
+        stage_context: "phase_3"
+        upfront_millions: 3700.0
+        implied_value_band_millions_low: 3700.0
+        implied_value_band_millions_high: 3700.0
+        source_url: "https://www.novartis.com/news/media-releases/novartis-successfully-completes-acquisition-avidity-biosciences"
+
+      - deal_name: "Chinook Therapeutics acquisition"
+        status: "completed"
+        announcement_date: "2023-08-08"
+        deal_type: "acquisition"
+        therapeutic_area: "kidney_disease"
+        modality: "monoclonal_antibody"
+        stage_context: "phase_3"
+        upfront_millions: 3500.0
+        implied_value_band_millions_low: 3500.0
+        implied_value_band_millions_high: 3500.0
+        source_url: "https://www.novartis.com/news/media-releases/novartis-complete-acquisition-chinook-therapeutics"
+
+    budget:
+      as_of_date: "2025-12-31"
+      cash_and_marketable_securities_millions: 18000.0
+      long_term_debt_millions: 19000.0
+      net_cash_millions: -1000.0
+      capacity_notes: "Novartis has strong balance sheet post-Sandoz spin. Cash ~$18B vs debt ~$19B; deal ceiling $10-15B backed by $12B+ FCF. Preferred bolt-on $2-5B. Pure-play innovative pharma focus means M&A quality bar is high. acquisition_capacity_millions is conservative given debt load."
+      source_refs:
+        - source_date: "2026-01-29"
+          source_type: "earnings_release"
+          source_title: "Novartis Q4 and Full Year 2025 Results"
+          source_url: "https://www.novartis.com/investors/results-and-reports"
+          note: "Balance sheet reflects Sandoz separation (2023). Net cash approximately -$1B but strong FCF enables significant M&A."
+
+  - acquirer_id: "pfizer"
+    company_name: "Pfizer Inc."
+    ticker: "PFE"
+    profile_as_of: "2026-05-08"
+    acquisition_capacity_millions: 8000.0
+    source_notes: "Curated from Pfizer investor day 2024, Q4 2025 earnings, and deal history. Pfizer used COVID vaccine windfall for Seagen ($43B 2023), Arena ($6.7B 2021), Biohaven ($11.6B 2022), Global Blood Therapeutics ($5.4B 2022). Post-COVID revenue normalization has compressed capacity; Pfizer is digesting acquisitions and being selective. LOE pressure: Eliquis (2026), Ibrance (2027), Xeljanz (2025) drive need for new revenue."
+
+    therapeutic_area_gaps:
+      - therapeutic_area: "oncology"
+        exposure_type: "franchise_extension"
+        exposure_level: "high"
+        sub_area: "adc_seagen_platform_extension"
+        preferred_modality:
+          - "adc"
+          - "bispecific_antibody"
+        budget_ceiling_millions: 8000.0
+        rationale: "Seagen acquisition made Pfizer an ADC leader (Padcev/enfortumab, Tivdak/tisotumab). The gap is extending ADC portfolio into additional solid tumor indications — lung, GI, GYN — where Seagen's existing linker-payload technology can be applied to new antibody-antigen pairs. Also looking for bispecific T-cell engager assets to combine with ADC payloads."
+
+      - therapeutic_area: "immunology"
+        exposure_type: "franchise_defense"
+        exposure_level: "high"
+        sub_area: "il17_il23_bispecific_and_oral"
+        preferred_modality:
+          - "monoclonal_antibody"
+          - "bispecific_antibody"
+          - "small_molecule"
+        budget_ceiling_millions: 5000.0
+        rationale: "Xeljanz (tofacitinib, JAK) is past peak with black box safety concern. The gap is an IL-17/IL-23 bispecific or oral TYK2 inhibitor to replace Xeljanz revenue in psoriasis/IBD. Also interested in next-gen oral GLP-1 for obesity after danuglipron program setback."
+
+      - therapeutic_area: "rare_disease"
+        exposure_type: "strategic_expansion"
+        exposure_level: "medium"
+        sub_area: "hemophilia_gene_therapy_and_ttramyloidosis"
+        preferred_modality:
+          - "genetic_medicine"
+          - "sirna_rnai"
+        budget_ceiling_millions: 5000.0
+        rationale: "Vyndamax/Vyndaqel (tafamidis) for ATTR-CM generates $3B/year. Hemophilia gene therapy (Beqvez/fidanacogene) established capability. The gap is additional rare/genetic disease assets that leverage gene therapy or siRNA manufacturing built via hemophilia."
+
+    preferred_modalities:
+      - modality: "adc"
+        preference_strength: "high"
+        rationale: "Seagen acquisition established ADC as Pfizer's primary oncology modality."
+      - modality: "monoclonal_antibody"
+        preference_strength: "high"
+        rationale: "World's largest biologics manufacturing footprint."
+      - modality: "genetic_medicine"
+        preference_strength: "medium"
+        rationale: "Hemophilia gene therapy (Beqvez) and mRNA vaccine capability."
+
+    strategic_priorities:
+      - priority: "Extend Seagen ADC franchise into new solid tumor indications and payloads"
+        priority_strength: "high"
+      - priority: "Replace Xeljanz/Ibrance LOE with immunology and oncology assets"
+        priority_strength: "high"
+      - priority: "Leverage rare disease gene therapy capability for adjacent genetic indications"
+        priority_strength: "medium"
+
+    recent_deal_history:
+      - deal_name: "Seagen acquisition"
+        status: "completed"
+        announcement_date: "2023-03-13"
+        deal_type: "acquisition"
+        therapeutic_area: "oncology"
+        modality: "adc"
+        stage_context: "commercial"
+        upfront_millions: 43000.0
+        implied_value_band_millions_low: 43000.0
+        implied_value_band_millions_high: 43000.0
+        source_url: "https://www.pfizer.com/news/press-release/press-release-detail/pfizer-completes-acquisition-seagen"
+
+      - deal_name: "Biohaven Pharmaceutical acquisition"
+        status: "completed"
+        announcement_date: "2022-05-10"
+        deal_type: "acquisition"
+        therapeutic_area: "neuroscience"
+        modality: "small_molecule"
+        stage_context: "commercial"
+        upfront_millions: 11600.0
+        implied_value_band_millions_low: 11600.0
+        implied_value_band_millions_high: 11600.0
+        source_url: "https://www.pfizer.com/news/press-release/press-release-detail/pfizer-completes-acquisition-biohaven-pharmaceutical-holding"
+
+    budget:
+      as_of_date: "2025-12-31"
+      cash_and_marketable_securities_millions: 12000.0
+      long_term_debt_millions: 58000.0
+      net_cash_millions: -46000.0
+      capacity_notes: "Pfizer in post-COVID normalization and digesting Seagen/Biohaven. High debt load (~$58B) limits appetite; FCF $8B+/year. Near-term deal appetite limited to $2-6B bolt-ons. Larger deals possible but credit rating sensitivity limits >$8B. acquisition_capacity_millions reflects conservative FCF-backed bolt-on capacity."
+      source_refs:
+        - source_date: "2026-01-28"
+          source_type: "earnings_release"
+          source_title: "Pfizer Q4 and Full Year 2025 Financial Results"
+          source_url: "https://www.pfizer.com/investors"
+          note: "High debt from Seagen ($43B) and Biohaven ($11.6B). Revenue normalization from COVID drugs constrains leverage capacity."
+
+  - acquirer_id: "gilead_sciences"
+    company_name: "Gilead Sciences"
+    ticker: "GILD"
+    profile_as_of: "2026-05-08"
+    acquisition_capacity_millions: 8000.0
+    source_notes: "Curated from Gilead investor day 2025, Q4 2025 earnings, and deal history. Gilead transformed from HIV/virology to oncology via Kite Pharma ($11.9B 2017, CAR-T), Immunomedics ($21B 2020, ADC/Trodelvy), Arcus Biosciences collaboration (IO). HIV franchise (Biktarvy) provides stable FCF; oncology growth driver via Trodelvy (TNBC) and Yescarta/Tecartus (CAR-T)."
+
+    therapeutic_area_gaps:
+      - therapeutic_area: "oncology"
+        exposure_type: "franchise_extension"
+        exposure_level: "high"
+        sub_area: "adc_and_io_combination_non_cart"
+        preferred_modality:
+          - "adc"
+          - "bispecific_antibody"
+          - "monoclonal_antibody"
+        budget_ceiling_millions: 8000.0
+        rationale: "Trodelvy (sacituzumab govitecan, TROP-2 ADC) is the foundation. The gap is additional ADC targets/payloads to extend into lung, GI, and urothelial beyond TNBC/UC. Also seeking IO combination checkpoints (TIGIT, LAG-3, VISTA) to pair with magrolimab (CD47) and anti-PD-L1 (seladelpar being reclassified to MASH). Bispecific T-cell engager is a gap vs BMS/Merck."
+
+      - therapeutic_area: "liver_disease"
+        exposure_type: "franchise_extension"
+        exposure_level: "high"
+        sub_area: "mash_and_viral_hepatitis_next_gen"
+        preferred_modality:
+          - "small_molecule"
+          - "sirna_rnai"
+        budget_ceiling_millions: 5000.0
+        rationale: "Seladelpar (acquired via CymaBay 2024) for MASH is approved/near-approved. The gap is a combination partner — PPARα agonist + GLP-1/FGF21/THR-β — to create a MASH combination therapy franchise. Also, hepatic siRNA assets (ANGPTL3, FXR agonist) for cardiometabolic-liver overlap."
+
+      - therapeutic_area: "virology"
+        exposure_type: "franchise_defense"
+        exposure_level: "medium"
+        sub_area: "long_acting_hiv_and_hbv_cure"
+        preferred_modality:
+          - "monoclonal_antibody"
+          - "sirna_rnai"
+          - "small_molecule"
+        budget_ceiling_millions: 4000.0
+        rationale: "HIV franchise (Biktarvy ~$12B/year) faces long-acting competition from Cabenuva (Gilead/J&J CAB/RPV). The gap is a long-acting injectable HIV regimen or HBV cure approach — capsid assembly modulators, RNA interference for HBV cccDNA, or TLR7/8 agonist for functional HBV cure."
+
+    preferred_modalities:
+      - modality: "adc"
+        preference_strength: "high"
+        rationale: "Trodelvy/TROP-2 ADC is the core oncology modality."
+      - modality: "cell_therapy"
+        preference_strength: "high"
+        rationale: "Kite/Yescarta/Tecartus CAR-T is a commercial platform."
+      - modality: "sirna_rnai"
+        preference_strength: "medium"
+        rationale: "HBV cure programs use siRNA-based approaches."
+
+    strategic_priorities:
+      - priority: "Extend Trodelvy ADC franchise into additional solid tumor indications"
+        priority_strength: "high"
+      - priority: "Build MASH combination therapy franchise via seladelpar + partner"
+        priority_strength: "high"
+      - priority: "Maintain HIV franchise leadership with long-acting regimens"
+        priority_strength: "medium"
+
+    recent_deal_history:
+      - deal_name: "CymaBay Therapeutics acquisition"
+        status: "completed"
+        announcement_date: "2024-02-05"
+        deal_type: "acquisition"
+        therapeutic_area: "liver_disease"
+        modality: "small_molecule"
+        stage_context: "phase_3"
+        upfront_millions: 4300.0
+        implied_value_band_millions_low: 4300.0
+        implied_value_band_millions_high: 4300.0
+        source_url: "https://www.gilead.com/news-and-press/press-room/press-releases/2024/2/gilead-sciences-completes-acquisition-of-cymabay-therapeutics"
+
+      - deal_name: "Immunomedics acquisition"
+        status: "completed"
+        announcement_date: "2020-09-13"
+        deal_type: "acquisition"
+        therapeutic_area: "oncology"
+        modality: "adc"
+        stage_context: "commercial"
+        upfront_millions: 21000.0
+        implied_value_band_millions_low: 21000.0
+        implied_value_band_millions_high: 21000.0
+        source_url: "https://www.gilead.com/news-and-press/press-room/press-releases/2020/9/gilead-sciences-to-acquire-immunomedics"
+
+    budget:
+      as_of_date: "2025-12-31"
+      cash_and_marketable_securities_millions: 10000.0
+      long_term_debt_millions: 22000.0
+      net_cash_millions: -12000.0
+      capacity_notes: "Gilead has ~$10B cash vs ~$22B long-term debt. FCF $8-10B/year; Immunomedics debt being paid down. Practical deal ceiling $5-8B. Larger deals require additional debt financing; >$10B requires strong FCF justification. acquisition_capacity_millions is conservative given ongoing debt service."
+      source_refs:
+        - source_date: "2026-02-05"
+          source_type: "earnings_release"
+          source_title: "Gilead Sciences Q4 and Full Year 2025 Financial Results"
+          source_url: "https://www.gilead.com/investors"
+          note: "Balance sheet reflecting Immunomedics acquisition debt service. FCF profile improving as CymaBay is integrated."
+
+  - acquirer_id: "novo_nordisk"
+    company_name: "Novo Nordisk A/S"
+    ticker: "NVO"
+    profile_as_of: "2026-05-08"
+    acquisition_capacity_millions: 15000.0
+    source_notes: "Curated from Novo Nordisk investor day 2025, Q4 2025 earnings, and deal history. Novo's obesity/GLP-1 franchise (Wegovy/Ozempic) generates extraordinary FCF enabling large deals. Acquisitions: Dicerna ($1.1B 2021, siRNA), Cardior (RNA cardio 2023), Inversago (CB1 2023). Strategy: defend obesity leadership + rare blood disorders (Hemgenix hemophilia, Alhemo)."
+
+    therapeutic_area_gaps:
+      - therapeutic_area: "obesity_metabolic"
+        exposure_type: "franchise_extension"
+        exposure_level: "high"
+        sub_area: "non_glp1_obesity_mechanisms_and_nash"
+        preferred_modality:
+          - "monoclonal_antibody"
+          - "bispecific_antibody"
+          - "small_molecule"
+          - "sirna_rnai"
+        budget_ceiling_millions: 15000.0
+        rationale: "Semaglutide (Wegovy/Ozempic) dominates GLP-1. The gap is next-generation combination mechanisms: (1) amylin analogues (cagrilintide); (2) Y2 receptor agonists; (3) muscle-preserving combination (activin receptor antagonists); (4) MASH/NASH adjuncts; (5) metabolic kidney protection. Novo acquired Dicerna (siRNA) for cardiometabolic siRNA programs. Additional siRNA or novel mechanism acquisitions are probable."
+
+      - therapeutic_area: "rare_disease"
+        exposure_type: "franchise_extension"
+        exposure_level: "high"
+        sub_area: "hemophilia_gene_therapy_and_rare_blood"
+        preferred_modality:
+          - "genetic_medicine"
+          - "sirna_rnai"
+          - "monoclonal_antibody"
+        budget_ceiling_millions: 8000.0
+        rationale: "Hemgenix (hemophilia B gene therapy via CSL partnership), Alhemo (siRNA fitusiran via Alnylam license), Concizumab (anticoagulant for hemophilia). The gap is hemophilia A gene therapy, additional rare blood disorders (SCD, thalassemia), or rare cardiometabolic (Fabry, Gaucher) extension."
+
+      - therapeutic_area: "cardiovascular"
+        exposure_type: "strategic_expansion"
+        exposure_level: "medium"
+        sub_area: "heart_failure_and_kidney_protection"
+        preferred_modality:
+          - "sirna_rnai"
+          - "small_molecule"
+        budget_ceiling_millions: 5000.0
+        rationale: "FLOW trial (semaglutide kidney protection, CKD) validated cardiorenal benefit. The gap is dedicated CKD/HFpEF assets that complement GLP-1 class effects. Dicerna RNA heart failure program (CDR132L) is one; additional cardiometabolic siRNA (ANGPTL3, Lp(a)) or HFpEF therapy is the next gap."
+
+    preferred_modalities:
+      - modality: "sirna_rnai"
+        preference_strength: "high"
+        rationale: "Dicerna acquisition and cardiometabolic siRNA programs validate siRNA as a core third modality alongside peptides and antibodies."
+      - modality: "monoclonal_antibody"
+        preference_strength: "high"
+        rationale: "Core biologics manufacturing in Denmark and USA."
+      - modality: "genetic_medicine"
+        preference_strength: "medium"
+        rationale: "Hemgenix gene therapy collaboration establishes gene therapy capability."
+
+    strategic_priorities:
+      - priority: "Defend obesity leadership with next-gen combination mechanisms beyond GLP-1"
+        priority_strength: "high"
+      - priority: "Build rare blood disorders franchise around hemophilia and rare cardiometabolic disease"
+        priority_strength: "high"
+      - priority: "Extend cardiovascular/renal protection beyond FLOW study GLP-1 benefits"
+        priority_strength: "medium"
+
+    recent_deal_history:
+      - deal_name: "Dicerna Pharmaceuticals acquisition"
+        status: "completed"
+        announcement_date: "2021-11-22"
+        deal_type: "acquisition"
+        therapeutic_area: "rare_disease"
+        modality: "sirna_rnai"
+        stage_context: "phase_2"
+        upfront_millions: 1100.0
+        implied_value_band_millions_low: 1100.0
+        implied_value_band_millions_high: 1100.0
+        source_url: "https://www.novonordisk.com/media/news-releases/news-details/2021/Novo-Nordisk-enters-agreement-to-acquire-Dicerna-Pharmaceuticals/default.aspx"
+
+    budget:
+      as_of_date: "2025-12-31"
+      cash_and_marketable_securities_millions: 10000.0
+      long_term_debt_millions: 12000.0
+      net_cash_millions: -2000.0
+      capacity_notes: "Novo Nordisk generates $15B+ FCF annually from Wegovy/Ozempic. Net cash slightly negative but FCF dominates. Practical deal ceiling $15-20B. Bolt-on $1-5B sweet spot. Scale of GLP-1 franchise allows very large deals if strategically warranted. acquisition_capacity_millions is conservative; actual capacity significantly higher."
+      source_refs:
+        - source_date: "2026-02-05"
+          source_type: "earnings_release"
+          source_title: "Novo Nordisk Full Year 2025 Financial Results"
+          source_url: "https://www.novonordisk.com/investors/reports-presentations.html"
+          note: "Balance sheet approximated from FY2025 annual report. Extraordinary FCF from GLP-1 franchise enables deals well above stated net cash."
+
+  - acquirer_id: "roche_genentech"
+    company_name: "Roche / Genentech"
+    ticker: "RHHBY"
+    profile_as_of: "2026-05-08"
+    acquisition_capacity_millions: 10000.0
+    source_notes: "Curated from Roche investor day 2025, Q4 2025 earnings. Roche operates two divisions: Pharmaceuticals (Genentech) and Diagnostics. Key LOE: Herceptin/Perjeta/Avastin biosimilar erosion 2020-2024 cost ~$8B/year in sales. Rebuilding with Vabysmo (ophthalmology), Polivy (ADC heme-onc), Columvi (bispecific), teclistamab via J&J collab. Acquisitions: Spark Therapeutics ($4.3B 2019, gene therapy), Foundation Medicine (2015, diagnostics)."
+
+    therapeutic_area_gaps:
+      - therapeutic_area: "ophthalmology"
+        exposure_type: "franchise_extension"
+        exposure_level: "high"
+        sub_area: "geographic_atrophy_and_diabetic_retinopathy"
+        preferred_modality:
+          - "monoclonal_antibody"
+          - "fusion_protein"
+          - "sirna_rnai"
+        budget_ceiling_millions: 6000.0
+        rationale: "Vabysmo (faricimab, Ang2/VEGF bispecific) is rebuilding the retinal franchise after Avastin/Lucentis biosimilar erosion. The gap is Geographic Atrophy — where VEGF inhibition doesn't work — and sustained-delivery platforms. Complement inhibitors (C1q, C3) and HtrA1 for GA are primary acquisition targets, directly competing with Regeneron's same gap."
+
+      - therapeutic_area: "oncology"
+        exposure_type: "franchise_extension"
+        exposure_level: "high"
+        sub_area: "bispecific_t_cell_engager_and_adc_solid_tumor"
+        preferred_modality:
+          - "bispecific_antibody"
+          - "adc"
+          - "monoclonal_antibody"
+        budget_ceiling_millions: 8000.0
+        rationale: "Tecentriq (atezolizumab, PD-L1) LOE eroding share to Keytruda/Opdivo. Rebuilding via Columvi (glofitamab, CD20xCD3 bispecific), DCDS (ADC via ImmunoGen collab). The gap is additional CD3 bispecific engagers for solid tumors and ADC payloads extending beyond DLBCL into solid tumor. Foundation Medicine precision diagnostics creates companion diagnostic advantage."
+
+      - therapeutic_area: "neuroscience"
+        exposure_type: "strategic_expansion"
+        exposure_level: "medium"
+        sub_area: "alzheimers_and_rare_cns"
+        preferred_modality:
+          - "monoclonal_antibody"
+          - "sirna_rnai"
+          - "genetic_medicine"
+        budget_ceiling_millions: 5000.0
+        rationale: "Roche has multiple Alzheimer's programs (gantenerumab failed; crenezumab tested). The gap is a validated tau or synaptic antibody for Alzheimer's, or a rare CNS genetic medicine where Spark's AAV capability can be deployed outside ophthalmology."
+
+    preferred_modalities:
+      - modality: "bispecific_antibody"
+        preference_strength: "high"
+        rationale: "CrossMAb bispecific platform generates bispecifics like Vabysmo and Columvi."
+      - modality: "monoclonal_antibody"
+        preference_strength: "high"
+        rationale: "Genentech is the world's originator of therapeutic mAbs (Herceptin, Avastin, Rituxan)."
+      - modality: "genetic_medicine"
+        preference_strength: "medium"
+        rationale: "Spark Therapeutics acquisition brought AAV gene therapy for retinal and hemophilia."
+
+    strategic_priorities:
+      - priority: "Rebuild ophthalmology after Avastin erosion with next-gen retinal therapies including GA"
+        priority_strength: "high"
+      - priority: "Extend oncology from PD-L1 to bispecific T-cell engagers and ADCs"
+        priority_strength: "high"
+      - priority: "Leverage Spark gene therapy for rare CNS and metabolic genetic diseases"
+        priority_strength: "medium"
+
+    recent_deal_history:
+      - deal_name: "Spark Therapeutics acquisition"
+        status: "completed"
+        announcement_date: "2019-02-25"
+        deal_type: "acquisition"
+        therapeutic_area: "rare_disease"
+        modality: "genetic_medicine"
+        stage_context: "commercial"
+        upfront_millions: 4300.0
+        implied_value_band_millions_low: 4300.0
+        implied_value_band_millions_high: 4300.0
+        source_url: "https://www.roche.com/media/releases/med-cor-2019-02-25.htm"
+
+    budget:
+      as_of_date: "2025-12-31"
+      cash_and_marketable_securities_millions: 14000.0
+      long_term_debt_millions: 18000.0
+      net_cash_millions: -4000.0
+      capacity_notes: "Roche generates $15B+ FCF but Swiss-franc appreciation and diagnostics drag cap deployment. Net cash approximately -$4B; FCF enables $8-12B deal capacity. Bolt-on $1-5B preferred; larger deals possible for transformative platforms. acquisition_capacity_millions reflects FCF-backed practical capacity."
+      source_refs:
+        - source_date: "2026-01-30"
+          source_type: "earnings_release"
+          source_title: "Roche Full Year 2025 Results"
+          source_url: "https://www.roche.com/investors/reports.htm"
+          note: "Balance sheet approximated from FY2025 annual report. Swiss franc denomination; converted to USD at approximate prevailing rates."
+
+  - acquirer_id: "amgen"
+    company_name: "Amgen Inc."
+    ticker: "AMGN"
+    profile_as_of: "2026-05-08"
+    acquisition_capacity_millions: 6000.0
+    source_notes: "Curated from Amgen investor day 2025, Q4 2025 earnings. Amgen carrying ~$60B debt post-Horizon Therapeutics ($28B 2023). Horizon brought Tepezza (TED) and Krystexxa (gout). Near-term capital deployment limited by leverage; bolt-on focus $1-5B range. LOE pressure: Prolia/Xgeva (denosumab) biosimilar 2025, Enbrel (etanercept) erosion. Sotorasib (KRAS G12C) in oncology."
+
+    therapeutic_area_gaps:
+      - therapeutic_area: "oncology"
+        exposure_type: "strategic_expansion"
+        exposure_level: "high"
+        sub_area: "kras_ras_precision_oncology_combinations"
+        preferred_modality:
+          - "bispecific_antibody"
+          - "small_molecule"
+          - "adc"
+        budget_ceiling_millions: 5000.0
+        rationale: "Sotorasib (KRAS G12C) is approved but limited to ~3% NSCLC patients. The gap is combination strategies — KRAS + bispecific engager, KRAS + SHP2 inhibitor, or KRAS + ADC — to expand the responder population. BiTE bispecifics (Blincyto) established the platform; next BiTE targets for solid tumors are priority."
+
+      - therapeutic_area: "cardiometabolic"
+        exposure_type: "franchise_defense"
+        exposure_level: "medium"
+        sub_area: "hypercholesterolemia_and_obesity_combo"
+        preferred_modality:
+          - "monoclonal_antibody"
+          - "sirna_rnai"
+        budget_ceiling_millions: 4000.0
+        rationale: "Repatha (evolocumab, PCSK9 antibody) competes with Leqvio (siRNA). The gap is a complementary PCSK9 siRNA to offer quarterly dosing (vs monthly Repatha), or an obesity combination asset (myostatin, GLP-1 adjunct) to enter the obesity market."
+
+    preferred_modalities:
+      - modality: "bispecific_antibody"
+        preference_strength: "high"
+        rationale: "Blincyto BiTE platform pioneered T-cell engager bispecifics."
+      - modality: "monoclonal_antibody"
+        preference_strength: "high"
+        rationale: "Core protein engineering and manufacturing at Thousand Oaks."
+      - modality: "small_molecule"
+        preference_strength: "medium"
+        rationale: "Sotorasib and Otezla (apremilast) demonstrate small molecule capability."
+
+    strategic_priorities:
+      - priority: "Extend KRAS oncology franchise via combination strategies and BiTE platform"
+        priority_strength: "high"
+      - priority: "Defend cardiometabolic position post-Repatha with siRNA or obesity entry"
+        priority_strength: "medium"
+
+    recent_deal_history:
+      - deal_name: "Horizon Therapeutics acquisition"
+        status: "completed"
+        announcement_date: "2023-05-09"
+        deal_type: "acquisition"
+        therapeutic_area: "rare_disease_immunology"
+        modality: "monoclonal_antibody"
+        stage_context: "commercial"
+        upfront_millions: 28000.0
+        implied_value_band_millions_low: 28000.0
+        implied_value_band_millions_high: 28000.0
+        source_url: "https://www.amgen.com/media/news/press-releases/2023/05/amgen-completes-acquisition-of-horizon-therapeutics"
+
+    budget:
+      as_of_date: "2025-12-31"
+      cash_and_marketable_securities_millions: 8000.0
+      long_term_debt_millions: 64000.0
+      net_cash_millions: -56000.0
+      capacity_notes: "Amgen has ~$64B debt post-Horizon. In deleveraging phase 2024-2026. FCF $8B+/year applied to debt reduction. Practical deal ceiling $4-6B for bolt-ons; larger deals require leverage improvement. Sweet spot $1-3B until debt normalized. acquisition_capacity_millions is very conservative."
+      source_refs:
+        - source_date: "2026-02-05"
+          source_type: "earnings_release"
+          source_title: "Amgen Q4 and Full Year 2025 Financial Results"
+          source_url: "https://www.amgen.com/investors"
+          note: "High debt load from $28B Horizon acquisition. Deleveraging is the primary capital allocation priority; M&A appetite limited to small bolt-ons."
+
+  - acquirer_id: "vertex_pharmaceuticals"
+    company_name: "Vertex Pharmaceuticals"
+    ticker: "VRTX"
+    profile_as_of: "2026-06-02"
+    acquisition_capacity_millions: 8000.0
+    acquirer_type: "large_cap_specialty_biopharma_diversifying_from_CF"
+    urgency_qualitative: "medium_high"
+    urgency_numeric_0_to_1: 0.70
+    urgency_rationale: "Very strong cash generation and active diversification, but CF still dominates the current P&L. Renal, pain, and T1D remain strategic build-outs. $500M+ non-CF 2026 guidance confirms real but early diversification."
+    source_notes: "Curated from Vertex Q1 2026 earnings, Q4 2025 earnings, Q1 2026 10-Q SEC filing, and full deal history. Vertex's CF franchise (Trikafta/Kaftrio, ~$9B+ revenue, ~98% of Q1 2026 product revenue) generates exceptional FCF with limited patent pressure until ~2037. Q1 2026: $13.0B cash, no balance-sheet interest-bearing debt, guides to $500M+ non-CF 2026 revenue. Strategy: dominate CF, expand into genetic medicine, renal disease, T1D cell therapy, pain, and B-cell immunology in specialty markets only."
+
+    preferred_target_profile:
+      market_cap_sweet_spot_usd: [500000000, 7000000000]
+      market_cap_stretch_usd: [7000000000, 10000000000]
+      preferred_valuation_sweet_spot_usd: [250000000, 5000000000]
+      preferred_valuation_stretch_usd: [5000000000, 7000000000]
+      market_cap_rationale: "Inferred from Semma ($950M preclinical), ViaCyte ($320M), Alpine ($4.9B Phase 2/3), Entrada ($250M platform). Vertex can pay $5B+ for a franchise-defining asset."
+      source_refs:
+        - source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-enters-agreement-acquire-alpine-immune-sciences"
+        - source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-acquire-semma-therapeutics-goal-developing-curative-cell"
+      preferred_deal_types:
+        - full_acquisition
+        - global_or_major_market_license
+        - platform_plus_lead_asset
+        - structured_collaboration_with_option
+
+    scoring_weights:
+      structural_weight: 0.45
+      evidence_weight: 0.35
+      encumbrance_weight: 0.20
+      formula: "final_score = 0.45*structural_score + 0.35*evidence_score - 0.20*encumbrance_penalty"
+      rationale: "Vertex's strategic aperture is coherent (specialty markets, causal biology, five specific franchises), so structural fit is highly informative. Evidence modulates timing and urgency."
+
+    positive_fit_areas:
+      - area: "renal_autoimmune_and_genetic_kidney"
+        recommended_score_boost: 0.15
+        rationale: "Povetacicept (ex-ALPN-303, APRIL/BAFF inhibitor) in Phase 3 for IgAN/pMN/gMG; inaxaplin in Phase 3 for AMKD; VX-407 in Phase 2 for ADPKD. Kidney is a three-program franchise. Alpine at $4.9B demonstrates willingness to pay franchise-defining prices for renal/immunology assets."
+        source_refs:
+          - source_date: "2026-04-30"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-reports-first-quarter-2026-financial-results"
+      - area: "type_1_diabetes_cell_replacement_and_immune_evasion"
+        recommended_score_boost: 0.15
+        rationale: "Semma ($950M, 2019) + ViaCyte ($320M, 2022) + zimislecel (dosing resumed 2026) show durable multi-year T1D commitment. Key unmet gap: immune evasion for device-free, immunosuppression-free islet cell therapy."
+        source_refs:
+          - source_date: "2026-03-31"
+            source_url: "https://www.sec.gov/Archives/edgar/data/875320/000087532026000173/vrtx-20260331.htm"
+      - area: "pain_ion_channel_and_peripheral_neuropathy"
+        recommended_score_boost: 0.12
+        rationale: "JOURNAVX (suzetrigine/VX-548, NaV1.8 inhibitor) launched commercially. VX-993 and NaV1.7 pipeline extending franchise. Peripheral neuropathy assets can leverage existing JOURNAVX sales infrastructure."
+        source_refs:
+          - source_date: "2026-04-30"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-reports-first-quarter-2026-financial-results"
+      - area: "B_cell_mediated_autoimmune_disease_specialty_only"
+        recommended_score_boost: 0.10
+        rationale: "Alpine acquisition and WuXi trispecific license (Q4 2025) both point to B-cell immunology interest. Specialty indications (kidney, neurological) only — not broad primary care."
+        source_refs:
+          - source_date: "2024-04-10"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-enters-agreement-acquire-alpine-immune-sciences"
+          - source_date: "2026-02-12"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-reports-fourth-quarter-and-full-year-2025-financial"
+      - area: "severe_specialty_genetic_medicine_or_delivery_platform"
+        recommended_score_boost: 0.09
+        rationale: "CASGEVY (SCD/TDT, with CRSP), Entrada DM1 collaboration ($250M), and RNA/oligonucleotide adjacency. In vivo editing or RNA-targeted approaches in severe genetic diseases with validated targets are high priority."
+        source_refs:
+          - source_date: "2022-12-08"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-and-entrada-therapeutics-establish-collaboration-discover"
+      - area: "rare_disease_specialty_franchise_builders"
+        recommended_score_boost: 0.08
+        rationale: "Vertex 10-Q explicitly: 'supplement our internal research by acquiring technologies and programs and collaborating as needed in our therapeutic areas of interest, while continuing to focus on specialty markets.'"
+        source_refs:
+          - source_date: "2026-03-31"
+            source_url: "https://www.sec.gov/Archives/edgar/data/875320/000087532026000173/vrtx-20260331.htm"
+
+    negative_fit_areas:
+      - area: "broad_primary_care_obesity_or_metabolic_assets"
+        recommended_penalty: 0.15
+        rationale: "Weak match for Vertex's specialty-market operating model and commercial footprint."
+      - area: "commodity_oncology_without_causal_biology_or_platform_edge"
+        recommended_penalty: 0.15
+        rationale: "Recent deal history does not support generic oncology roll-up behavior."
+      - area: "heavily_encumbered_or_fragmented_rights_assets"
+        recommended_penalty: 0.20
+        rationale: "Vertex's pattern strongly favors control of core programs and major markets."
+      - area: "large_salesforce_general_medicine_commercial_models"
+        recommended_penalty: 0.15
+        rationale: "Misaligned with Vertex's specialty-only commercial infrastructure."
+      - area: "very_early_single_asset_without_platform_optionality"
+        recommended_penalty: 0.10
+        rationale: "Vertex will do early deals, but only where modality/platform adjacency is demonstrably high."
+
+    encumbrance_constraints:
+      - condition: "US_or_EU_rights_unavailable_on_lead_asset"
+        recommended_penalty_pct: -25
+        rationale: "Vertex deal pattern favors control of core major markets."
+      - condition: "core_manufacturing_or_process_know_how_not_transferable_for_cell_gene_therapy"
+        recommended_penalty_pct: -15
+        rationale: "Vertex is building biologics, cell and gene therapy capabilities; manufacturability matters."
+      - condition: "lead_asset_already_partnered_to_direct_competitor_in_core_market"
+        recommended_penalty_pct: -20
+        rationale: "Reduces strategic control and synergy capture."
+      - condition: "target_requires_broad_primary_care_commercial_footprint"
+        recommended_penalty_pct: -15
+        rationale: "Weak fit with specialty-market orientation."
+      - condition: "only_regional_rights_outside_core_markets_available"
+        recommended_penalty_pct: -10
+        rationale: "Vertex can tolerate Asia carve-outs, but not if the thesis requires US/EU control."
+
+    BD_appetite_signals:
+      - date: "2026-05-04"
+        quote_excerpt: "strategic growth opportunities"
+        interpretation: "Share repurchases are not meant to crowd out M&A or licensing flexibility; cash is explicitly earmarked for strategic deployment."
+        source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-reports-first-quarter-2026-financial-results"
+        source_note: "Q1 2026 earnings release."
+      - date: "2026-02-12"
+        quote_excerpt: "internal and external innovation"
+        interpretation: "Cash deployment framework explicitly leaves room for external innovation alongside internal programs."
+        source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-reports-fourth-quarter-and-full-year-2025-financial"
+        source_note: "Q4 2025 earnings release."
+
+    strategic_context:
+      - statement: "CF remains the dominant revenue base; Q1 2026 CF product revenue was $2.915B out of $2.987B total product revenue (~98%)."
+        source_url: "https://www.sec.gov/Archives/edgar/data/875320/000087532026000173/vrtx-20260331.htm"
+      - statement: "Vertex guides to $500M+ of 2026 non-CF revenue; diversification is real but still early relative to the CF base."
+        source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-reports-first-quarter-2026-financial-results"
+      - statement: "Renal disease is a major expansion axis: povetacicept in IgAN/pMN/gMG, inaxaplin in AMKD, VX-407 in ADPKD — three programs, one franchise."
+        source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-reports-fourth-quarter-and-full-year-2025-financial"
+      - statement: "T1D remains strategic despite VX-264 manufacturing setback; zimislecel dosing resumed; company had earlier acquired Semma ($950M) and ViaCyte ($320M)."
+        source_url: "https://www.sec.gov/Archives/edgar/data/875320/000087532026000173/vrtx-20260331.htm"
+      - statement: "Pain is now a commercial and pipeline platform: JOURNAVX (suzetrigine, NaV1.8) launched; VX-993 and NaV1.7-related work extending the thesis."
+        source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-reports-first-quarter-2026-financial-results"
+      - statement: "Vertex explicitly pursues specialty markets and supplements internal R&D by acquiring technologies/programs and collaborating as needed in its therapeutic areas of interest."
+        source_url: "https://www.sec.gov/Archives/edgar/data/875320/000087532026000173/vrtx-20260331.htm"
+
+    therapeutic_area_gaps:
+      - therapeutic_area: "rare_disease"
+        exposure_type: "strategic_expansion"
+        exposure_level: "high"
+        sub_area: "genetic_medicine_and_severe_specialty_diseases"
+        preferred_modality:
+          - "genetic_medicine"
+          - "sirna_rnai"
+          - "small_molecule"
+          - "gene_editing"
+        budget_ceiling_millions: 8000.0
+        rationale: "Vertex has expanded beyond CF into acute pain (VX-548, NaV1.8), sickle cell/thalassemia (Casgevy via CRISPR), kidney disease (IgAN/FSGS/AMKD/ADPKD), and AATD. The gap is additional severe genetic diseases where: (a) a validated human genetic target exists; (b) small molecule, RNA, or gene-editing approach is feasible; (c) market is significant and unmet need is high. APOL1-mediated kidney disease (gap bridging rare and kidney TA), ATTR amyloidosis, myotonic dystrophy type 1/2, and selected neuromuscular/neurological genetic diseases are candidate archetypes. Vertex will tolerate early-stage (Phase 1 or even preclinical) assets here if the platform/modality adjacency is strong and the target biology is human-genetics-validated."
+        source_refs:
+          - source_date: "2026-04-30"
+            source_type: "earnings_release"
+            source_title: "Vertex Reports First Quarter 2026 Financial Results"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-reports-first-quarter-2026-financial-results"
+            note: "Management reiterated expansion into serious genetic diseases with high unmet need. Non-CF pipeline update covers renal, T1D, pain, and genetic medicine."
+          - source_date: "2026-03-31"
+            source_type: "10_q_filing"
+            source_title: "Vertex Q1 2026 Form 10-Q"
+            source_url: "https://www.sec.gov/Archives/edgar/data/875320/000087532026000173/vrtx-20260331.htm"
+            note: "10-Q explicitly states Vertex focuses on specialty markets and acquires technologies and programs in its therapeutic areas of interest."
+
+      - therapeutic_area: "kidney_disease"
+        exposure_type: "strategic_expansion"
+        exposure_level: "high"
+        sub_area: "igan_fsgs_amkd_adpkd_and_complement_mediated_kidney"
+        preferred_modality:
+          - "monoclonal_antibody"
+          - "fusion_protein"
+          - "small_molecule"
+          - "sirna_rnai"
+        budget_ceiling_millions: 6000.0
+        rationale: "Alpine Immune Sciences ($4.9B, 2024) brought povetacicept (APRIL/BAFF inhibitor, ex-ALPN-303) for IgAN, pMN, and gMG. Inaxaplin is in Phase 3 for APOL1-mediated kidney disease (AMKD). VX-407 is in Phase 2 for ADPKD. The next gap is expanding the kidney franchise: FSGS (focal segmental glomerulosclerosis), APOL1-mediated disease in additional patient populations, complement inhibition for progressive kidney disease, or alternative mechanisms in IgAN not covered by the APRIL/BAFF axis. The Alpine deal establishes willingness to pay $3-5B for a genuinely franchise-defining renal/immunology asset with Phase 2/3 data."
+        source_refs:
+          - source_date: "2024-04-10"
+            source_type: "press_release"
+            source_title: "Vertex Enters into Agreement to Acquire Alpine Immune Sciences"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-enters-agreement-acquire-alpine-immune-sciences"
+            note: "Alpine acquisition at $4.9B for APRIL/BAFF inhibitor confirms willingness for large franchise-defining kidney/immunology deals."
+          - source_date: "2026-04-30"
+            source_type: "earnings_release"
+            source_title: "Vertex Reports First Quarter 2026 Financial Results"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-reports-first-quarter-2026-financial-results"
+            note: "Povetacicept Phase 3 updates across IgAN/pMN/gMG; inaxaplin Phase 3 AMKD; VX-407 Phase 2 ADPKD — kidney is now a three-program, multiple-indication franchise."
+
+      - therapeutic_area: "pain"
+        exposure_type: "strategic_expansion"
+        exposure_level: "high"
+        sub_area: "ion_channel_pain_and_peripheral_neuropathy"
+        preferred_modality:
+          - "small_molecule"
+        budget_ceiling_millions: 5000.0
+        rationale: "JOURNAVX (suzetrigine/VX-548, NaV1.8 inhibitor) is commercially launched in acute pain and generating early prescription ramp data. VX-993 and NaV1.7-related programs are in Phase 1/2. The pain franchise gap is extending ion-channel leadership into: (a) NaV1.7 inhibition for a broader chronic pain population (inherited erythromelalgia, CRPS, broader peripheral neuropathy); (b) TRPV1, TRPM8, or other peripheral pain channel inhibitors with a clean safety profile; (c) peripheral neuropathy assets (diabetic, chemotherapy-induced) that can leverage the existing JOURNAVX sales infrastructure. The ideal acquisition is a Phase 2-ready small molecule ion-channel asset with Phase 1 safety data and a defined indication path in peripheral or neuropathic pain."
+        source_refs:
+          - source_date: "2026-04-30"
+            source_type: "earnings_release"
+            source_title: "Vertex Reports First Quarter 2026 Financial Results"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-reports-first-quarter-2026-financial-results"
+            note: "JOURNAVX commercial launch updates; VX-993 Phase 1 advancing; NaV1.7 programs described as extending the pain franchise."
+          - source_date: "2026-02-12"
+            source_type: "earnings_release"
+            source_title: "Vertex Reports Fourth Quarter and Full Year 2025 Financial Results"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-reports-fourth-quarter-and-full-year-2025-financial"
+            note: "Pain franchise described as a commercial and pipeline platform with NaV1.8, NaV1.7, and broader peripheral pain programs as the three-phase build."
+
+      - therapeutic_area: "rare_disease"
+        exposure_type: "strategic_expansion"
+        exposure_level: "high"
+        sub_area: "type_1_diabetes_cell_replacement_and_immune_evasion"
+        preferred_modality:
+          - "cell_therapy"
+          - "gene_editing"
+        budget_ceiling_millions: 5000.0
+        rationale: "Semma ($950M, 2019) and ViaCyte ($320M, 2022) established Vertex's T1D cell therapy commitment with multiple years of investment. VX-880 (adult stem-cell-derived islets, device-based) and VX-264 are advancing; zimislecel dosing resumed after a manufacturing hold in 2026. VX-264 setback highlights the primary remaining challenge: immune evasion enabling device-free, immunosuppression-free islet cell transplant that can scale broadly. Assets that solve immune evasion — HLA-engineered universal donor cells, CD47 overexpression, regulatory T-cell co-therapy, or tolerance induction strategies — or that improve islet survival/function in diabetic hosts are highest-priority external targets. A non-cell approach achieving similar insulin restoration without immunosuppression would also be evaluated if the evidence is compelling."
+        source_refs:
+          - source_date: "2026-03-31"
+            source_type: "10_q_filing"
+            source_title: "Vertex Q1 2026 Form 10-Q"
+            source_url: "https://www.sec.gov/Archives/edgar/data/875320/000087532026000173/vrtx-20260331.htm"
+            note: "Zimislecel (VX-264 next-gen) dosing resumed; VX-880 Phase 1/2 ongoing; T1D cell replacement reaffirmed as strategic despite manufacturing setback."
+          - source_date: "2022-07-11"
+            source_type: "press_release"
+            source_title: "Vertex to Acquire ViaCyte"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-acquire-viacyte-goal-accelerating-its-potentially"
+            note: "Second T1D cell therapy acquisition in 3 years confirms durable strategic commitment at meaningful deal sizes."
+
+      - therapeutic_area: "immunology"
+        exposure_type: "strategic_expansion"
+        exposure_level: "medium"
+        sub_area: "B_cell_mediated_autoimmune_disease_specialty_only"
+        preferred_modality:
+          - "bispecific_antibody"
+          - "monoclonal_antibody"
+          - "fusion_protein"
+          - "small_molecule"
+        budget_ceiling_millions: 4000.0
+        rationale: "The $4.9B Alpine acquisition added a BAFF/APRIL inhibitor platform (povetacicept) for kidney and systemic autoimmune diseases. The WuXi Biologics trispecific autoimmune license (disclosed Q4 2025) reinforces B-cell biology interest. The specific gap is deepening the B-cell immunology franchise in specialty indications: CD20 bispecifics, BCMA/APRIL dual-targeting, plasma cell depletion strategies, or selected innate immune mechanisms in autoimmune kidney/neurology (gMG, MN, lupus nephritis). Important constraint: Vertex will NOT pursue broad primary-care autoimmune indications (RA, psoriasis, IBD) without a renal or rare-disease extension that aligns with the specialty-market operating model."
+        notes: "The WuXi trispecific license was publicly disclosed with no deal economics. It confirms preclinical platform appetite in B-cell autoimmune disease, but the structure suggests Vertex is not yet ready to acquire at scale in this area without more clinical validation."
+        source_refs:
+          - source_date: "2024-04-10"
+            source_type: "press_release"
+            source_title: "Vertex Enters into Agreement to Acquire Alpine Immune Sciences"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-enters-agreement-acquire-alpine-immune-sciences"
+            note: "APRIL/BAFF inhibitor establishes B-cell autoimmune franchise with multi-indication scope including IgAN, lupus nephritis, pMN, gMG."
+          - source_date: "2026-02-12"
+            source_type: "earnings_release"
+            source_title: "Vertex Reports Fourth Quarter and Full Year 2025 Financial Results"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-reports-fourth-quarter-and-full-year-2025-financial"
+            note: "WuXi Biologics trispecific autoimmune license disclosed. Confirms appetite for novel B-cell targeting platforms in autoimmune disease."
+
+    preferred_modalities:
+      - modality: "small_molecule"
+        preference_strength: "high"
+        rationale: "CF correctors (Trikafta/Kaftrio) and pain (VX-548/suzetrigine, NaV1.8 inhibitor) demonstrate Vertex's deepest small molecule discovery and manufacturing capability. Any highly selective, mechanism-based small molecule in a priority TA with Phase 1 safety and Phase 2 activity data will be evaluated at scale."
+        source_refs:
+          - source_date: "2026-04-30"
+            source_type: "earnings_release"
+            source_title: "Vertex Reports First Quarter 2026 Financial Results"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-reports-first-quarter-2026-financial-results"
+
+      - modality: "cell_therapy"
+        preference_strength: "high"
+        rationale: "T1D cell replacement is a multi-year, multi-acquisition strategic commitment (Semma 2019, ViaCyte 2022, internal VX-880/VX-264 programs). Cell therapy is Vertex's highest-investment clinical-stage non-CF program."
+        source_refs:
+          - source_date: "2019-09-03"
+            source_type: "press_release"
+            source_title: "Vertex to Acquire Semma Therapeutics"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-acquire-semma-therapeutics-goal-developing-curative-cell"
+          - source_date: "2022-07-11"
+            source_type: "press_release"
+            source_title: "Vertex to Acquire ViaCyte"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-acquire-viacyte-goal-accelerating-its-potentially"
+
+      - modality: "gene_editing"
+        preference_strength: "high"
+        rationale: "Casgevy (CRISPR, with CRSP) for SCD/TDT is the world's first approved CRISPR therapy and establishes gene editing as a core commercial pillar. In vivo gene editing in severe genetic diseases where Vertex has causal-biology expertise is a priority."
+        source_refs:
+          - source_date: "2026-04-30"
+            source_type: "earnings_release"
+            source_title: "Vertex Reports First Quarter 2026 Financial Results"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-reports-first-quarter-2026-financial-results"
+
+      - modality: "genetic_medicine"
+        preference_strength: "high"
+        rationale: "Entrada collaboration (DM1, $250M total: $224M upfront + $26M equity) shows willingness to partner early for genetic medicine delivery platforms. siRNA, oligonucleotides, and RNA-targeted approaches in severe specialty diseases are directly acquirable, especially if the genetic target is validated."
+        source_refs:
+          - source_date: "2022-12-08"
+            source_type: "press_release"
+            source_title: "Vertex and Entrada Therapeutics Establish Collaboration to Discover and Develop New DM1 Medicines"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-and-entrada-therapeutics-establish-collaboration-discover"
+
+      - modality: "monoclonal_antibody_or_fusion_protein"
+        preference_strength: "medium"
+        rationale: "Povetacicept (ex-ALPN-303) is Vertex's first large-molecule program at scale and established large-molecule manufacturing capability. B-cell-targeting biologics in kidney or selected autoimmune specialty indications are in scope, but this is not a core capability — Vertex would need to build or partner CMC for novel antibody programs."
+        source_refs:
+          - source_date: "2024-04-10"
+            source_type: "press_release"
+            source_title: "Vertex Enters into Agreement to Acquire Alpine Immune Sciences"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-enters-agreement-acquire-alpine-immune-sciences"
+
+      - modality: "broad_primary_care_biologic"
+        preference_strength: "low"
+        rationale: "Vertex has explicitly stated it focuses on specialty markets. Large-scale primary care biologics requiring broad SG&A infrastructure are outside the operating model. Strong structural TA match alone does not overcome the commercial infrastructure mismatch."
+        source_refs:
+          - source_date: "2026-03-31"
+            source_type: "10_q_filing"
+            source_title: "Vertex Q1 2026 Form 10-Q"
+            source_url: "https://www.sec.gov/Archives/edgar/data/875320/000087532026000173/vrtx-20260331.htm"
+
+    strategic_priorities:
+      - priority: "Expand CF franchise leadership while deploying cash into specialty disease adjacencies with high unmet need and causal biology"
+        priority_strength: "high"
+        source_refs:
+          - source_date: "2026-04-30"
+            source_type: "earnings_release"
+            source_title: "Vertex Reports First Quarter 2026 Financial Results"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-reports-first-quarter-2026-financial-results"
+            note: "Guides $500M+ non-CF 2026 revenue. CF franchise still dominant but non-CF pipeline is advancing across renal, T1D, pain, and genetic medicine."
+
+      - priority: "Build a kidney disease franchise spanning IgAN, FSGS, AMKD, and ADPKD — Vertex's clearest current adjacency after the Alpine acquisition"
+        priority_strength: "high"
+        source_refs:
+          - source_date: "2026-04-30"
+            source_type: "earnings_release"
+            source_title: "Vertex Reports First Quarter 2026 Financial Results"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-reports-first-quarter-2026-financial-results"
+            note: "Three renal programs in Phase 2/3: povetacicept (IgAN/pMN/gMG), inaxaplin (AMKD), VX-407 (ADPKD)."
+
+      - priority: "Achieve curative-intent T1D cell therapy with immune evasion enabling device-free, immunosuppression-free islet transplant"
+        priority_strength: "high"
+        source_refs:
+          - source_date: "2026-03-31"
+            source_type: "10_q_filing"
+            source_title: "Vertex Q1 2026 Form 10-Q"
+            source_url: "https://www.sec.gov/Archives/edgar/data/875320/000087532026000173/vrtx-20260331.htm"
+            note: "Zimislecel dosing resumed; Vertex continues T1D investment. Immune evasion for device-free transplant is the stated long-term goal."
+
+      - priority: "Establish pain as the second commercial franchise via NaV1.8 (JOURNAVX) and extend to NaV1.7 and peripheral neuropathy"
+        priority_strength: "high"
+        source_refs:
+          - source_date: "2026-04-30"
+            source_type: "earnings_release"
+            source_title: "Vertex Reports First Quarter 2026 Financial Results"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-reports-first-quarter-2026-financial-results"
+            note: "JOURNAVX commercial launch ongoing; VX-993 Phase 1 advancing; NaV1.7 programs extending the ion-channel pain franchise."
+
+      - priority: "Acquire technologies and programs in therapeutic areas of interest while maintaining specialty-market focus — explicitly stated in 10-Q"
+        priority_strength: "high"
+        source_refs:
+          - source_date: "2026-03-31"
+            source_type: "10_q_filing"
+            source_title: "Vertex Q1 2026 Form 10-Q"
+            source_url: "https://www.sec.gov/Archives/edgar/data/875320/000087532026000173/vrtx-20260331.htm"
+            note: "Direct 10-Q language: 'supplement our internal research by acquiring technologies and programs and collaborating as needed in our therapeutic areas of interest, while continuing to focus on specialty markets.'"
+
+      - priority: "Extend genetic medicine capabilities into severe specialty diseases beyond CF and hemoglobinopathies"
+        priority_strength: "medium"
+        source_refs:
+          - source_date: "2022-12-08"
+            source_type: "press_release"
+            source_title: "Vertex and Entrada Therapeutics Establish Collaboration to Discover and Develop New DM1 Medicines"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-and-entrada-therapeutics-establish-collaboration-discover"
+            note: "Entrada collaboration ($250M) for DM1 using oligonucleotide delivery platform. Shows willingness to partner early for genetic medicine platforms outside CF."
+
+      - priority: "Deepen B-cell immunology franchise in specialty indications using biologics, bispecifics, and targeted delivery — early-stage, option-value driven"
+        priority_strength: "medium"
+        source_refs:
+          - source_date: "2026-02-12"
+            source_type: "earnings_release"
+            source_title: "Vertex Reports Fourth Quarter and Full Year 2025 Financial Results"
+            source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-reports-fourth-quarter-and-full-year-2025-financial"
+            note: "WuXi trispecific autoimmune license disclosed Q4 2025. Preclinical stage. Confirms appetite for B-cell targeting platforms in specialty autoimmune disease."
+
+    recent_deal_history:
+      - deal_name: "Alpine Immune Sciences acquisition"
+        status: "completed"
+        announcement_date: "2024-04-02"
+        deal_type: "acquisition"
+        therapeutic_area: "immunology_kidney"
+        modality: "fusion_protein"
+        stage_context: "phase_2_phase_3"
+        upfront_millions: 4900.0
+        implied_value_band_millions_low: 4900.0
+        implied_value_band_millions_high: 4900.0
+        source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-enters-agreement-acquire-alpine-immune-sciences"
+        notes: "Franchise-defining renal/immunology acquisition. Lead asset povetacicept (APRIL/BAFF inhibitor) in IgAN/pMN/gMG. Multiple autoimmune indications. Establishes willingness to pay $3-5B for a franchise-defining specialty asset. Single largest acquisition in Vertex history."
+
+      - deal_name: "Entrada Therapeutics DM1 collaboration"
+        status: "active"
+        announcement_date: "2022-12-08"
+        deal_type: "global_collaboration"
+        therapeutic_area: "genetic_medicine_neuromuscular"
+        modality: "oligonucleotide_endosomal_escape_delivery"
+        stage_context: "platform_preclinical"
+        upfront_millions: 224.0
+        equity_millions: 26.0
+        implied_value_band_millions_low: 250.0
+        implied_value_band_millions_high: 250.0
+        source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-and-entrada-therapeutics-establish-collaboration-discover"
+        notes: "$224M upfront plus $26M equity ($250M total). Oligonucleotide/VBCE endosomal escape delivery platform for DM1 (myotonic dystrophy type 1). Shows willingness to do platform collaborations in genetic medicine at $250M scale with milestone optionality."
+
+      - deal_name: "ViaCyte acquisition"
+        status: "completed"
+        announcement_date: "2022-07-11"
+        deal_type: "acquisition"
+        therapeutic_area: "diabetes_t1d"
+        modality: "cell_therapy"
+        stage_context: "phase_1_2"
+        upfront_millions: 320.0
+        implied_value_band_millions_low: 320.0
+        implied_value_band_millions_high: 320.0
+        source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-acquire-viacyte-goal-accelerating-its-potentially"
+        notes: "Second T1D cell therapy acquisition in 3 years ($950M Semma + $320M ViaCyte). Confirmed T1D cell replacement as a sustained, funded strategic investment. ViaCyte had device-encapsulated approach; combination with Semma's open islet strategy gave Vertex optionality."
+
+      - deal_name: "Semma Therapeutics acquisition"
+        status: "completed"
+        announcement_date: "2019-09-03"
+        deal_type: "acquisition"
+        therapeutic_area: "diabetes_t1d"
+        modality: "cell_therapy"
+        stage_context: "preclinical"
+        upfront_millions: 950.0
+        implied_value_band_millions_low: 950.0
+        implied_value_band_millions_high: 950.0
+        source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-acquire-semma-therapeutics-goal-developing-curative-cell"
+        notes: "Doug Melton's islet cell replacement platform. $950M for a preclinical-stage asset. Establishes the pattern of paying up for curative-intent, causal-biology platforms in priority TAs even before Phase 1 human data."
+
+      - deal_name: "WuXi Biologics trispecific autoimmune license"
+        status: "active"
+        announcement_date: "2025-12-31"
+        deal_type: "global_license"
+        therapeutic_area: "immunology_autoimmune"
+        modality: "trispecific_antibody"
+        stage_context: "preclinical"
+        upfront_millions: null
+        implied_value_band_millions_low: null
+        implied_value_band_millions_high: null
+        source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-reports-fourth-quarter-and-full-year-2025-financial"
+        notes: "Economics not publicly disclosed. Confirms willingness to add preclinical B-cell autoimmune platforms. Shows interest in trispecific antibody engineering capabilities in the specialty autoimmune disease space."
+
+    existing_partnerships:
+      - target: "CRSP"
+        partnership_type: "co_development_co_commercialization"
+        therapeutic_area: "hematology"
+        description: "Joint development and commercialization of Casgevy (exagamglogene autotemcel, exa-cel), the world's first approved CRISPR/Cas9-based gene-editing therapy, for sickle cell disease and transfusion-dependent beta-thalassemia. Vertex leads global commercialization; CRSP contributes gene-editing science and shares manufacturing. Revenue: ~60% Vertex / ~40% CRSP on applicable markets."
+        year_initiated: 2015
+        acquisition_option: false
+
+      - target: "Entrada Therapeutics"
+        partnership_type: "research_collaboration"
+        therapeutic_area: "genetic_medicine_neuromuscular"
+        description: "Global DM1 (myotonic dystrophy type 1) collaboration using Entrada's endosomal escape VBCE delivery platform. Vertex paid $224M upfront + $26M equity. Multiple delivery applications in scope beyond the initial DM1 program."
+        year_initiated: 2022
+        acquisition_option: false
+
+    budget:
+      as_of_date: "2026-03-31"
+      cash_and_marketable_securities_millions: 13000.0
+      long_term_debt_millions: 0.0
+      net_cash_millions: 13000.0
+      capacity_notes: "Vertex has $13.0B in cash, cash equivalents, and marketable securities as of Q1 2026 (March 31, 2026). No balance-sheet interest-bearing debt (only an undrawn $500M revolving credit facility — not drawn). $4B+ annual FCF from CF franchise. acquisition_capacity_millions of 8000 is conservative; $13B cash + growing FCF from CF makes deals of $10-15B structurally possible for the right franchise-defining target. Preferred bolt-on sweet spot: $500M-$5B. Alpine ($4.9B) is the current reference ceiling for a single deal."
+      source_refs:
+        - source_date: "2026-04-30"
+          source_type: "earnings_release"
+          source_title: "Vertex Reports First Quarter 2026 Financial Results"
+          source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-reports-first-quarter-2026-financial-results"
+          note: "Vertex reported $13.0B cash, cash equivalents, and marketable securities as of March 31, 2026. Annual FCF $4B+. No long-term interest-bearing debt; undrawn $500M revolver only."
+        - source_date: "2026-03-31"
+          source_type: "10_q_filing"
+          source_title: "Vertex Q1 2026 Form 10-Q"
+          source_url: "https://www.sec.gov/Archives/edgar/data/875320/000087532026000173/vrtx-20260331.htm"
+          note: "Balance sheet confirms $13.0B cash/securities; no long-term interest-bearing debt line item. Revolving credit facility ($500M, undrawn) is the only debt instrument."

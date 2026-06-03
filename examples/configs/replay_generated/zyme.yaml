@@ -1,0 +1,83 @@
+asset:
+  id: a-zyme
+  name: zanidatamab
+  indication: "oncology \u2014 HER2 bispecific / ADC"
+  therapeutic_area: oncology
+  stage: nda_bla
+  modality: biologic
+  discount_rate: 0.105
+company:
+  id: zyme-replay
+  name: ZYME
+  ticker: ZYME
+  cash_millions: 300.0
+  debt_millions: 0.0
+  shares_outstanding_millions: 367.07
+  burn_rate_millions_per_quarter: 30.0
+  current_price: 24.25
+  notes: "Post-Jazz partnership; cash updated to reflect ~$300M net of deal costs and burn since Nov 2021 AZ rights return"
+trials:
+- phase: nda_bla
+  success_probability: 0.83
+  duration_years: 1.5
+  cost_millions: 35.0
+  endpoint_type: surrogate_validated
+  notes: screening-grade default trial chain
+market_model:
+  total_addressable_market_millions: 2200.0
+  peak_penetration: 0.09
+  years_to_peak: 5
+  patent_life_years: 10
+  cogs_rate: 0.15
+  sgna_rate_launch: 0.4
+  sgna_rate_mature: 0.2
+  commercial_inputs:
+    patient_pool:
+      indication: HER2 oncology royalty economics
+      prevalence_thousands: 55.6
+      diagnosed_fraction: 1.0
+      eligible_rate: 1.0
+      treated_fraction: 1.0
+      addressable_k: 55.6
+      uncertainty_cv: 0.20
+    pricing:
+      wac_per_year_usd: 312500
+      gross_to_net_rate: 0.20
+      launch_discount: 0.0
+      annual_erosion_rate: 0.02
+      uncertainty_cv: 0.12
+    share:
+      peak_share: 0.09
+      years_to_peak: 5
+      share_cv: 0.20
+    ex_us_revenue_multiple: 1.2
+_meta:
+  config_version: replay-screening-v2
+  source: replay_watchlist_builder
+  screening_grade: true
+  source_ticker: ZYME
+  source_universe_stage: ''
+  source_tags:
+  - baseline_replay_universe
+  single_asset: true
+  heuristic_market_cap_millions: 8901.36
+  heuristic_peak_sales_millions: 1500.0
+  last_reviewed_date: '2024-04-09'
+  config_valid_from: "2022-11-01"
+  config_valid_from_rationale: >
+    Jazz Pharmaceuticals deal (Nov 2022, $325M upfront) transferred global commercialization
+    rights to Jazz. ZYME became a royalty/milestone recipient only, not the primary
+    commercializer. The corrected config (TAM=$2.2B BTC, peak_penetration=9%, Jazz economics)
+    only applies from this deal date. Earlier snapshots used the AstraZeneca-era assumptions
+    that inflated SOTP to ~$3.3B; applying those assumptions post-crash produced false 6-7x
+    extreme-discount signals. Snapshots before this date used a different economic structure
+    (direct commercialization) and should not be compared to the royalty-era model.
+  review_rationale: >
+    AstraZeneca returned zanidatamab rights November 2021 (market cap crashed $8.6B→$487M).
+    ZYME then partnered with Jazz Pharmaceuticals ($325M upfront, Nov 2022) for global rights
+    except Greater China. As royalty/milestone recipient, not primary commercializer, effective
+    economics are substantially lower than the original broad HER2+ oncology TAM implied.
+    BTC (biliary tract cancer) is the near-term approved indication with TAM ~$2.2B; HER2+ breast
+    and gastric are longer-dated. Updated to TAM=2200, peak_penetration=0.09 (Jazz economics),
+    patent_life=10. Produces SOTP ~$640M vs market cap ~$500M (ratio 1.3x); prior model
+    produced 5–8x extreme_discount flag.

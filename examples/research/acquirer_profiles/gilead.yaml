@@ -1,0 +1,61 @@
+company: Gilead Sciences
+ticker: GILD
+profile_as_of: 2026-04-07
+market_cap_billions: 88
+cash_billions: 7.5
+pipeline_gaps:
+  - therapeutic_area: liver_disease
+    sub_area: nash_fibrosis_next_gen
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [small_molecule, FXR_agonist, thyroid_hormone]
+    budget_ceiling_millions: 12000
+    notes: "CymaBay seladelpar seeds PBC franchise; NASH fibrosis with differentiated mechanism (ACC inhibitor, FXR/PPAR combo) remains open."
+  - therapeutic_area: oncology
+    sub_area: adc_bispecific_solid_tumor
+    gap_type: franchise_extension
+    urgency: high
+    preferred_modality: [ADC, bispecific]
+    budget_ceiling_millions: 15000
+    notes: "Trodelvy (TROP2 ADC) and Yescarta/Tecartus CAR-T are established; next TROP2 indication and novel ADC targets in solid tumors remain open."
+  - therapeutic_area: inflammation
+    sub_area: il17_tnf_jak_next_gen
+    gap_type: selective_gap
+    urgency: medium
+    preferred_modality: [small_molecule, biologic]
+    budget_ceiling_millions: 8000
+    notes: "Filgotinib JAK1 franchise expansion in rheumatology and beyond remains strategic outside EU constraints."
+  - therapeutic_area: virology
+    sub_area: hbv_functional_cure
+    gap_type: franchise_extension
+    urgency: medium
+    preferred_modality: [small_molecule, ASO, RNAi]
+    budget_ceiling_millions: 6000
+    notes: "HBV functional cure remains the most important long-term antiviral adjacency to existing HBV portfolio."
+  - therapeutic_area: oncology
+    sub_area: cart_next_gen_solid_tumor
+    gap_type: selective_gap
+    urgency: medium
+    preferred_modality: [CAR_T, TIL_therapy]
+    budget_ceiling_millions: 8000
+    notes: "Kite/Yescarta CAR-T in heme; solid tumor CAR-T or TIL therapy remains the largest unmet need in oncology."
+recent_deals:
+  - target: CymaBay Therapeutics
+    date: 2024-02-09
+    value_billions: 4.3
+    therapeutic_area: liver_disease
+    modality: small_molecule
+  - target: Immunomedics
+    date: 2020-09-13
+    value_billions: 21.0
+    therapeutic_area: oncology
+    modality: ADC
+  - target: MiroBio
+    date: 2022-10-13
+    value_billions: 0.4
+    therapeutic_area: immunology
+    modality: antibody
+stated_priorities:
+  - "Oncology franchise deepening via ADC/bispecific and cell therapy remains the primary growth driver."
+  - "Liver disease (NASH/PBC) is the second platform priority after CymaBay deal."
+  - "HIV franchise extension and HBV functional cure are long-term antiviral priorities."

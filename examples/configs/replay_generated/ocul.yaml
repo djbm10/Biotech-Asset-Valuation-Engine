@@ -1,0 +1,76 @@
+asset:
+  id: a-ocul
+  name: OCU400
+  indication: "rare retinal disease \u2014 LCA10 / RP"
+  therapeutic_area: ophthalmology
+  stage: phase_2
+  modality: gene_therapy
+  discount_rate: 0.12
+company:
+  id: ocul-replay
+  name: OCUL
+  ticker: OCUL
+  cash_millions: 308.09
+  debt_millions: 0.0
+  shares_outstanding_millions: 154.97
+  burn_rate_millions_per_quarter: 35.0
+  current_price: 9.94
+  notes: screening-grade replay config
+trials:
+- phase: phase_2
+  success_probability: 0.47
+  duration_years: 2.5
+  cost_millions: 75.0
+  endpoint_type: surrogate_validated
+  notes: screening-grade default trial chain
+- phase: phase_3
+  success_probability: 0.65
+  duration_years: 3.5
+  cost_millions: 225.0
+  endpoint_type: surrogate_validated
+  notes: screening-grade default trial chain
+- phase: nda_bla
+  success_probability: 0.89
+  duration_years: 1.5
+  cost_millions: 35.0
+  endpoint_type: surrogate_validated
+  notes: screening-grade default trial chain
+market_model:
+  total_addressable_market_millions: 3333.33
+  peak_penetration: 0.18
+  years_to_peak: 5
+  patent_life_years: 14
+  cogs_rate: 0.15
+  sgna_rate_launch: 0.4
+  sgna_rate_mature: 0.2
+  commercial_inputs:
+    patient_pool:
+      indication: Rare retinal disease
+      prevalence_thousands: 158.7
+      diagnosed_fraction: 1.0
+      eligible_rate: 1.0
+      treated_fraction: 1.0
+      addressable_k: 158.7
+      uncertainty_cv: 0.20
+    pricing:
+      wac_per_year_usd: 25000
+      gross_to_net_rate: 0.20
+      launch_discount: 0.0
+      annual_erosion_rate: 0.02
+      uncertainty_cv: 0.12
+    share:
+      peak_share: 0.18
+      years_to_peak: 5
+      share_cv: 0.20
+    ex_us_revenue_multiple: 1.05
+_meta:
+  config_version: replay-screening-v1
+  source: replay_watchlist_builder
+  screening_grade: true
+  source_ticker: OCUL
+  source_universe_stage: ''
+  source_tags:
+  - baseline_replay_universe
+  single_asset: true
+  heuristic_market_cap_millions: 1540.44
+  heuristic_peak_sales_millions: 600.0
