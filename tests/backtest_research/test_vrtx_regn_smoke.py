@@ -324,6 +324,130 @@ class TestBacktestRunnerSmoke:
         assert int(actual["rank"]) >= 1
 
 
+class TestBucketMinimumGate:
+    """Tests for the bucket minimum gate in BacktestRunner / _check_bucket_minimums."""
+
+    def _write_bucket_csv(self, path: Path, rows: list[dict]) -> None:
+        fieldnames = ["deal_id", "acquirer", "bucket_name", "bucket_type",
+                      "candidate_target", "candidate_ticker", "manual_review_status"]
+        path.parent.mkdir(parents=True, exist_ok=True)
+        with path.open("w", newline="", encoding="utf-8") as fh:
+            writer = csv.DictWriter(fh, fieldnames=fieldnames)
+            writer.writeheader()
+            writer.writerows(rows)
+
+    def _make_approved_rows(self, bucket: str, n: int, status: str = "approved_core") -> list[dict]:
+        return [
+            {"deal_id": f"{bucket}_X", "acquirer": "VRTX", "bucket_name": bucket,
+             "bucket_type": "core", "candidate_target": f"Co{i}",
+             "candidate_ticker": f"TICK{i}", "manual_review_status": status}
+            for i in range(n)
+        ]
+
+    def test_passes_when_all_buckets_meet_minimums(self, tmp_path):
+        from bve.backtest_research.vrtx_regn_backtest_runner import _check_bucket_minimums
+
+        rows = []
+        rows += self._make_approved_rows("VRTX_SEMMA_2019", 25)
+        rows += self._make_approved_rows("VRTX_VIACYTE_2022", 15)
+        rows += self._make_approved_rows("VRTX_EXONICS_2019", 12)
+        rows += self._make_approved_rows("VRTX_ALPINE_2024", 20)
+        rows += self._make_approved_rows("REGN_DECIBEL_2023", 15)
+
+        csv_path = tmp_path / "candidate_universe_by_deal_bucket.csv"
+        self._write_bucket_csv(csv_path, rows)
+
+        counts = _check_bucket_minimums(csv_path)
+        assert counts["VRTX_SEMMA_2019"] == 25
+        assert counts["REGN_DECIBEL_2023"] == 15
+
+    def test_raises_when_bucket_below_minimum(self, tmp_path):
+        from bve.backtest_research.vrtx_regn_backtest_runner import (
+            BucketMinimumNotMetError,
+            _check_bucket_minimums,
+        )
+
+        rows = []
+        rows += self._make_approved_rows("VRTX_SEMMA_2019", 10)  # below 25
+        rows += self._make_approved_rows("VRTX_VIACYTE_2022", 15)
+        rows += self._make_approved_rows("VRTX_EXONICS_2019", 12)
+        rows += self._make_approved_rows("VRTX_ALPINE_2024", 20)
+        rows += self._make_approved_rows("REGN_DECIBEL_2023", 15)
+
+        csv_path = tmp_path / "candidate_universe_by_deal_bucket.csv"
+        self._write_bucket_csv(csv_path, rows)
+
+        with pytest.raises(BucketMinimumNotMetError, match="VRTX_SEMMA_2019"):
+            _check_bucket_minimums(csv_path)
+
+    def test_error_message_lists_all_failing_buckets(self, tmp_path):
+        from bve.backtest_research.vrtx_regn_backtest_runner import (
+            BucketMinimumNotMetError,
+            _check_bucket_minimums,
+        )
+
+        rows = []
+        rows += self._make_approved_rows("VRTX_SEMMA_2019", 5)   # below 25
+        rows += self._make_approved_rows("VRTX_VIACYTE_2022", 15)
+        rows += self._make_approved_rows("VRTX_EXONICS_2019", 0)  # below 12
+        rows += self._make_approved_rows("VRTX_ALPINE_2024", 20)
+        rows += self._make_approved_rows("REGN_DECIBEL_2023", 15)
+
+        csv_path = tmp_path / "candidate_universe_by_deal_bucket.csv"
+        self._write_bucket_csv(csv_path, rows)
+
+        with pytest.raises(BucketMinimumNotMetError) as exc_info:
+            _check_bucket_minimums(csv_path)
+        msg = str(exc_info.value)
+        assert "VRTX_SEMMA_2019" in msg
+        assert "VRTX_EXONICS_2019" in msg
+        assert "VRTX_VIACYTE_2022" not in msg
+
+    def test_pending_rows_do_not_count_toward_minimum(self, tmp_path):
+        from bve.backtest_research.vrtx_regn_backtest_runner import (
+            BucketMinimumNotMetError,
+            _check_bucket_minimums,
+        )
+
+        rows = []
+        # 10 approved + 20 pending = only 10 approved (below 25)
+        rows += self._make_approved_rows("VRTX_SEMMA_2019", 10)
+        rows += self._make_approved_rows("VRTX_SEMMA_2019", 20, status="pending")
+        rows += self._make_approved_rows("VRTX_VIACYTE_2022", 15)
+        rows += self._make_approved_rows("VRTX_EXONICS_2019", 12)
+        rows += self._make_approved_rows("VRTX_ALPINE_2024", 20)
+        rows += self._make_approved_rows("REGN_DECIBEL_2023", 15)
+
+        csv_path = tmp_path / "candidate_universe_by_deal_bucket.csv"
+        self._write_bucket_csv(csv_path, rows)
+
+        with pytest.raises(BucketMinimumNotMetError):
+            _check_bucket_minimums(csv_path)
+
+    def test_missing_csv_returns_empty_dict_with_warning(self, tmp_path):
+        import warnings
+        from bve.backtest_research.vrtx_regn_backtest_runner import _check_bucket_minimums
+
+        csv_path = tmp_path / "nonexistent.csv"
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            result = _check_bucket_minimums(csv_path)
+        assert result == {}
+        assert len(w) == 1
+        assert "bucket minimum check skipped" in str(w[0].message).lower()
+
+    def test_custom_minimums_override(self, tmp_path):
+        from bve.backtest_research.vrtx_regn_backtest_runner import _check_bucket_minimums
+
+        rows = self._make_approved_rows("VRTX_SEMMA_2019", 3)
+        csv_path = tmp_path / "candidate_universe_by_deal_bucket.csv"
+        self._write_bucket_csv(csv_path, rows)
+
+        # Custom minimum of 3 — should pass
+        counts = _check_bucket_minimums(csv_path, minimums={"VRTX_SEMMA_2019": 3})
+        assert counts["VRTX_SEMMA_2019"] == 3
+
+
 class TestReportWriterSmoke:
     def test_report_written_and_nonempty(self, tmp_output):
         from bve.backtest_research.report_writer import ReportWriter

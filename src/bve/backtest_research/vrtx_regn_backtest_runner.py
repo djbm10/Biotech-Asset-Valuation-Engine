@@ -6,6 +6,19 @@ violations found), scores each candidate pair with AcquirerPairScorer,
 ranks within each (acquirer, snapshot_date) group, and computes all
 evaluation metrics.
 
+Bucket minimum gate:
+    Before any scoring, the runner checks that each primary deal bucket
+    in ``candidate_universe_by_deal_bucket.csv`` has at least the required
+    number of approved hard-negative candidates.  If any bucket is below its
+    threshold, a ``BucketMinimumNotMetError`` is raised and the run is
+    refused.  Thresholds (approved_core + approved_adjacent + approved_stretch):
+
+        VRTX_SEMMA_2019   >= 25
+        VRTX_VIACYTE_2022 >= 15
+        VRTX_EXONICS_2019 >= 12
+        VRTX_ALPINE_2024  >= 20
+        REGN_DECIBEL_2023 >= 15
+
 Usage::
 
     python -m bve.backtest_research.vrtx_regn_backtest_runner \\
@@ -21,6 +34,24 @@ import sys
 from dataclasses import dataclass, asdict
 from pathlib import Path
 from typing import Any
+
+
+# ---------------------------------------------------------------------------
+# Bucket minimum thresholds
+# ---------------------------------------------------------------------------
+
+#: Required approved-negative count per bucket before metrics can run.
+BUCKET_MINIMUMS: dict[str, int] = {
+    "VRTX_SEMMA_2019":   25,
+    "VRTX_VIACYTE_2022": 15,
+    "VRTX_EXONICS_2019": 12,
+    "VRTX_ALPINE_2024":  20,
+    "REGN_DECIBEL_2023": 15,
+}
+
+
+class BucketMinimumNotMetError(RuntimeError):
+    """Raised when a deal bucket has fewer approved negatives than required."""
 
 
 # ---------------------------------------------------------------------------
@@ -103,15 +134,24 @@ class BacktestRunner:
         feature_store_path: Path,
         output_dir: Path,
         dry_run: bool = False,
+        bucket_csv_path: Path | None = None,
+        skip_bucket_check: bool = False,
     ) -> dict[str, Any]:
         from bve.backtest_research.leakage_guard import LeakageGuard, LeakageViolationError
         from bve.intelligence.acquirer_pair_scorer import AcquirerPairScorer, PairFeatures
 
-        # 1. Load feature store
+        # 1. Bucket minimum gate (hard block before any scoring)
+        if not skip_bucket_check:
+            default_bucket_csv = feature_store_path.parent / "candidate_universe_by_deal_bucket.csv"
+            resolved_bucket_csv = bucket_csv_path or default_bucket_csv
+            _check_bucket_minimums(resolved_bucket_csv)
+            print("Bucket minimum gate: PASSED")
+
+        # 2. Load feature store
         rows = _load_feature_store(feature_store_path)
         print(f"Loaded {len(rows)} rows from feature store")
 
-        # 2. Leakage audit (hard block)
+        # 4. Leakage audit (hard block)
         guard = LeakageGuard()
         audit = guard.audit_dataframe(rows, snapshot_date_col="snapshot_date")
         if audit.has_violations:
@@ -121,7 +161,7 @@ class BacktestRunner:
             )
         print("Leakage audit: PASSED")
 
-        # 3. Score each pair
+        # 5. Score each pair
         scorer = AcquirerPairScorer()
         scored: list[ScoredRow] = []
         for row in rows:
@@ -159,13 +199,13 @@ class BacktestRunner:
                 label_is_positive=str(row.get("is_actual_target", "")).lower() in ("true", "1"),
             ))
 
-        # 4. Rank within groups
+        # 6. Rank within groups
         scored = _rank_within_groups(scored)
 
-        # 5. Compute metrics
+        # 7. Compute metrics
         all_metrics = _compute_metrics(scored)
 
-        # 6. Write outputs
+        # 8. Write outputs
         if not dry_run:
             output_dir.mkdir(parents=True, exist_ok=True)
             _write_csv([s.to_dict() for s in scored],
@@ -206,6 +246,83 @@ class BacktestRunner:
             "n_metrics": len(all_metrics),
             "leakage_violations": 0,
         }
+
+
+# ---------------------------------------------------------------------------
+# Bucket minimum gate
+# ---------------------------------------------------------------------------
+
+def _check_bucket_minimums(
+    bucket_csv_path: Path,
+    minimums: dict[str, int] | None = None,
+) -> dict[str, int]:
+    """
+    Check that each primary bucket has enough approved hard-negative candidates.
+
+    Parameters
+    ----------
+    bucket_csv_path:
+        Path to ``candidate_universe_by_deal_bucket.csv``.
+    minimums:
+        Override BUCKET_MINIMUMS (used in tests).
+
+    Returns
+    -------
+    dict[bucket_name, approved_count]
+        The per-bucket approved counts (for reporting).
+
+    Raises
+    ------
+    BucketMinimumNotMetError
+        If any required bucket is below its threshold or missing from the CSV.
+    FileNotFoundError
+        If ``bucket_csv_path`` does not exist.
+    """
+    if minimums is None:
+        minimums = BUCKET_MINIMUMS
+
+    if not bucket_csv_path.exists():
+        import warnings
+        warnings.warn(
+            f"Bucket CSV not found at {bucket_csv_path} — bucket minimum check skipped. "
+            "Run vrtx_regn_dataset_builder to populate the candidate universe.",
+            stacklevel=4,
+        )
+        return {}
+
+    _APPROVED = frozenset({"approved_core", "approved_adjacent", "approved_stretch"})
+
+    # Count approved rows per bucket
+    counts: dict[str, int] = {}
+    with bucket_csv_path.open(newline="", encoding="utf-8") as fh:
+        reader = csv.DictReader(fh)
+        for row in reader:
+            bucket = (row.get("bucket_name") or "").strip()
+            status = (row.get("manual_review_status") or "").strip()
+            if not bucket:
+                continue
+            counts.setdefault(bucket, 0)
+            if status in _APPROVED:
+                counts[bucket] += 1
+
+    # Validate against thresholds
+    failures: list[str] = []
+    for bucket, required in sorted(minimums.items()):
+        actual = counts.get(bucket, 0)
+        if actual < required:
+            failures.append(
+                f"  {bucket}: {actual} approved negatives < {required} required"
+            )
+
+    if failures:
+        msg = (
+            "Backtest refused: bucket minimum not met — add more approved "
+            "negatives before running final metrics.\n"
+            + "\n".join(failures)
+        )
+        raise BucketMinimumNotMetError(msg)
+
+    return counts
 
 
 # ---------------------------------------------------------------------------
@@ -420,6 +537,8 @@ def main(argv: list[str] | None = None) -> int:
                         choices=["approved_only", "provisional", "structural", "evidence_backed"])
     parser.add_argument("--output", default="research/backtests/vrtx_regn_2010/outputs")
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--skip-bucket-check", action="store_true",
+                        help="Skip the bucket-minimum gate (testing / debugging only)")
     args = parser.parse_args(argv)
 
     dataset_dir = Path(args.dataset)
@@ -452,7 +571,11 @@ def main(argv: list[str] | None = None) -> int:
             feature_store_path=feature_store_path,
             output_dir=output_dir,
             dry_run=args.dry_run,
+            skip_bucket_check=args.skip_bucket_check,
         )
+    except BucketMinimumNotMetError as e:
+        print(f"ERROR: {e}", file=sys.stderr)
+        return 3
     except LeakageViolationError as e:
         print(f"ERROR: {e}", file=sys.stderr)
         return 2
