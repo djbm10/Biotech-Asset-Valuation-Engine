@@ -124,6 +124,74 @@ data by however long it takes someone to manually update the YAML.
 
 ---
 
+### AUTO-1B — Phase-conditional weighting: endpoint type vs. actual trial data
+
+**The problem in plain terms**
+
+The POS model gives endpoint type (+0.40 for hard clinical outcomes) the same weight whether
+you have zero human data or two clean replicated Phase 2 readouts. That is wrong. Endpoint
+type is a *design prior* — a prediction about how trustworthy the upcoming trial will be.
+Once you have actual trial data, that data already contains the endpoint type's information.
+A clean Phase 2 on a hard clinical endpoint tells you both "the endpoint was credible" AND
+"the molecule worked on that endpoint." Counting endpoint type again on top of the Phase 2
+result is partial double-counting.
+
+**Concrete example**
+
+Pre-Phase 1 (no human data): endpoint type is a major signal.
+- Base rate 60%, endpoint = hard clinical → +0.40 logit → POS rises to ~73%
+- This makes sense: you're projecting forward with nothing else to go on.
+
+Pre-Phase 3 (have clean Phase 2): endpoint type should barely matter.
+- You have `prior_phase_data = STRONG_SINGLE` (+0.20) and
+  `clinical_effect_magnitude = EXCEEDS_MCID` (+0.25).
+- The Phase 2 already ran on that hard clinical endpoint and worked.
+- Adding another +0.40 for "hard clinical endpoint in Phase 3" is mostly counting the same
+  evidence twice: the molecule already showed up on that endpoint in Phase 2.
+
+**The fix**
+
+Layer 1 mixes two types of signals that need to be separated:
+
+| Signal type | Examples | Weight rule |
+|---|---|---|
+| **Prospective design priors** (before data) | endpoint_type, sample_size, moa_precedent, dose_selection | Full weight when `prior_phase_data = UNKNOWN/MIXED`; attenuated when strong data exists |
+| **Retrospective data evidence** (after data) | prior_phase_data, clinical_effect_magnitude, data_maturity | Should dominate when data exists; ceiling too low at current values |
+
+Specific calibration changes needed:
+
+1. **`prior_phase_data = STRONG_REPLICATED`**: raise from +0.30 → +0.45 to +0.50.
+   Two clean replicated human studies is the strongest non-approval signal. Its ceiling
+   being lower than `endpoint_type = HARD_CLINICAL` (+0.40) is backwards.
+
+2. **`endpoint_type` weight should be phase-conditional**:
+   - No prior data (`prior_phase_data = UNKNOWN/MIXED`): full weight (+0.40 for hard clinical)
+   - Strong prior data (`prior_phase_data = STRONG_SINGLE/STRONG_REPLICATED`): attenuate to
+     +0.10 to +0.15 — the endpoint quality is already proven by the data
+   - At NDA/BLA stage: endpoint type is irrelevant — the trial is done
+
+3. **Layer 1 `endpoint_type` and Layer 2 `endpoint_basis` overlap** — both capture
+   "how trustworthy/validated is the endpoint." The `check_pos_layer_overlap()` guard warns
+   about this. The long-term fix is merging them into a single endpoint quality signal or
+   making Layer 2 only activate when it adds something Layer 1 doesn't already encode.
+
+**Implementation path**
+
+- Add `data_exists: bool` computed flag to `POSAdjusters` (True when
+  `prior_phase_data` is not UNKNOWN/MIXED)
+- In `apply_pos_adjusters()`, scale `_ENDPOINT_LOGODDS_*` by an attenuation factor:
+  `1.0` when no data, `0.25` when strong data exists
+- Raise `_PRIOR_PHASE_LOGODDS[STRONG_REPLICATED]` from +0.30 to +0.48
+- Raise `_PRIOR_PHASE_LOGODDS[STRONG_SINGLE]` from +0.20 to +0.32
+- Add regression tests to confirm Phase 3 POS with strong Phase 2 data is not dominated
+  by endpoint type
+
+**Priority**: Medium. This is a calibration correctness issue, not a feature gap. It matters
+most for assets with confirmed Phase 2 readouts where the model may be underweighting the
+actual result and overweighting the design prior.
+
+---
+
 ### AUTO-2 — LLM news parsing layer for unstructured biotech headlines
 
 Parse RSS feeds from BioPharmaDive, FierceBiotech, STAT News, and company IR pages.
