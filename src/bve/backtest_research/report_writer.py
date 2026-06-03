@@ -14,7 +14,7 @@ import csv
 import subprocess
 from datetime import date
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 
 def _git_info() -> tuple[str, bool]:
@@ -55,17 +55,19 @@ class ReportWriter:
         metrics_path: Path,
         gaps_path: Optional[Path] = None,
         error_path: Optional[Path] = None,
+        bucket_csv_path: Optional[Path] = None,
     ) -> list[Path]:
         results = _load_csv(results_path)
         metrics = _load_csv(metrics_path)
         gaps = _load_csv(gaps_path) if gaps_path and gaps_path.exists() else []
         errors = _load_csv(error_path) if error_path and error_path.exists() else []
+        bucket_counts = _load_bucket_counts(bucket_csv_path) if bucket_csv_path else {}
 
         report_path = self._output_dir / "vrtx_regn_backtest_report.md"
         source_audit_path = self._output_dir / "vrtx_regn_source_audit.md"
 
         report_path.write_text(
-            self._build_report(results, metrics, gaps, errors),
+            self._build_report(results, metrics, gaps, errors, bucket_counts),
             encoding="utf-8",
         )
         source_audit_path.write_text(
@@ -84,6 +86,7 @@ class ReportWriter:
         metrics: list[dict[str, Any]],
         gaps: list[dict[str, Any]],
         errors: list[dict[str, Any]],
+        bucket_counts: dict[str, int] | None = None,
     ) -> str:
         today = date.today().isoformat()
         git_sha, git_dirty = _git_info()
@@ -147,6 +150,24 @@ class ReportWriter:
             "| VRTX verified deals | 4 (Semma 2019, Exonics 2019, ViaCyte 2022, Alpine 2024) |",
             "| REGN verified deals | 1 (Decibel 2023) |",
             f"| Research gaps (unknown fields) | {n_gaps} |",
+            "| No-deal audit period (false-positive control) | VRTX 2010–2018 (9 yrs), REGN 2010–2022 (13 yrs) |",
+            "",
+            "### 2.1 Backtest Timeline",
+            "",
+            "| Period | Acquirer | Type | Notes |",
+            "|---|---|---|---|",
+            "| 2010–2018 | VRTX | **No-deal audit (false-positive control)** | 0 verified acquisitions; used to check false-positive rate |",
+            "| 2019 | VRTX | **Positive-deal backtest** | Semma ($950M) + Exonics ($245M) — 2 verified deals |",
+            "| 2020–2021 | VRTX | No-deal audit | 0 verified acquisitions |",
+            "| 2022 | VRTX | **Positive-deal backtest** | ViaCyte (~$320M) — 1 verified deal |",
+            "| 2023 | VRTX | No-deal audit | 0 verified acquisitions |",
+            "| 2024 | VRTX | **Positive-deal backtest** | Alpine (~$4.9B) — 1 verified deal |",
+            "| 2010–2022 | REGN | **No-deal audit (false-positive control)** | 0 verified full-company acquisitions |",
+            "| 2023 | REGN | **Positive-deal backtest** | Decibel (~$250M) — 1 verified deal |",
+            "",
+            "> **Interpretation**: The positive-deal backtest covers only 5 events (2019–2024). Years",
+            "> outside this window are false-positive control years, not positive-deal test years.",
+            "> Do not interpret no-deal audit coverage as positive-deal test coverage.",
             "",
             "---",
             "",
@@ -190,6 +211,10 @@ class ReportWriter:
             "- No label field names in model input columns  ✓",
             "- No feature column names matching label patterns  ✓",
             "",
+            "### 5.5 Bucket Minimum Gate",
+            "",
+            _format_bucket_table(bucket_counts or {}),
+            "",
             "---",
             "",
             "## 6. Vertex (VRTX) Results",
@@ -199,6 +224,12 @@ class ReportWriter:
             "---",
             "",
             "## 7. Regeneron (REGN) Results",
+            "",
+            "> **WARNING: REGN has N=1 verified acquisition (Decibel 2023).**",
+            "> REGN-specific ranking metrics (Top-1, MRR, AUC) are computed from a single",
+            "> observation and have **no statistical validity**. The framework was applied to",
+            "> Regeneron, but REGN-level inference is not supported. Do not cite REGN-specific",
+            "> hit rates without this caveat.",
             "",
             self._format_metrics_table(regn_metrics),
             "",
@@ -225,27 +256,47 @@ class ReportWriter:
             "Standalone rNPV estimates were computed from curated YAML configs using only",
             "pre-announcement public sources. See `rnpv_configs/rnpv_outputs.csv` for full data.",
             "",
-            "| Deal | rNPV Tier | rNPV Low | rNPV Base | rNPV High | Actual | Error (base) | Note |",
-            "|---|---|---|---|---|---|---|---|",
-            "| VRTX/Alpine (2024) | benchmarked | -$158M | $2,313M | $7,886M | $4,900M | -52.8% | Model undervalues — deal premium includes competitive dynamics |",
-            "| VRTX/Semma (2019) | benchmarked | -$895M | -$584M | $524M | $950M | -161% | **Negative DCF** — acquired for strategic option value |",
-            "| VRTX/ViaCyte (2022) | benchmarked | -$778M | -$233M | $2,660M | $320M | -173% | **Negative DCF** — platform/manufacturing acquisition |",
-            "| VRTX/Exonics (2019) | structural | $245M (floor) | $245M (floor) | $1,000M (ceiling) | $245M | N/A | Floor = confirmed upfront |",
-            "| REGN/Decibel (2023) | benchmarked | -$336M | -$188M | -$80M | $250M | -175% | **Negative DCF** — strategic gene therapy positioning |",
+            "### 10.1 Standalone rNPV vs Actual",
+            "",
+            "| Deal | rNPV Base | Actual | Error (base) | DCF sign |",
+            "|---|---|---|---|---|",
+            "| VRTX/Alpine (2024) | $2,313M | $4,900M | -52.8% | Positive |",
+            "| VRTX/Semma (2019) | -$584M | $950M | -161% | **Negative** |",
+            "| VRTX/ViaCyte (2022) | -$233M | $320M | -173% | **Negative** |",
+            "| VRTX/Exonics (2019) | $245M (floor) | $245M | N/A | Positive (floor=actual) |",
+            "| REGN/Decibel (2023) | -$188M | $250M | -175% | **Negative** |",
+            "",
+            "### 10.2 Strategic Premium Required",
+            "",
+            "For each deal: `strategic_premium = actual_deal_value − standalone_rNPV_base`",
+            "",
+            "| Deal | Standalone rNPV | Actual | Strategic Premium | % of Deal Price |",
+            "|---|---|---|---|---|",
+            "| VRTX/Alpine (2024) | $2,313M | $4,900M | **$2,587M** | 52.8% |",
+            "| VRTX/Semma (2019) | -$584M | $950M | **$1,534M** | 161.5% — ⚠ exceeds deal price |",
+            "| VRTX/ViaCyte (2022) | -$233M | $320M | **$553M** | 172.9% — ⚠ exceeds deal price |",
+            "| VRTX/Exonics (2019) | $245M (floor) | $245M | $0 | 0.0% — floor = actual |",
+            "| REGN/Decibel (2023) | -$188M | $250M | **$438M** | 175.3% — ⚠ exceeds deal price |",
+            "",
+            "> ⚠ When strategic_premium > 100% of deal price, the standalone DCF is negative and",
+            "> **the entire deal value is strategic/option premium**. This is not a model failure —",
+            "> it correctly signals that the acquisition price cannot be justified by standalone cash",
+            "> flows alone, and the acquirer is paying for platform IP, manufacturing capabilities,",
+            "> competitive control, or pipeline optionality not captured in a DCF.",
             "",
             "**Key takeaways:**",
-            "- 3 of 5 deals (Semma, ViaCyte, Decibel) have negative standalone DCF in base case.",
-            "  This is expected: these are early-stage or option-value acquisitions where strategic",
-            "  premium far exceeds standalone DCF. The model correctly assigns negative rNPV to",
-            "  early-stage gene/cell therapy acquisitions.",
-            "- Alpine (2024) is in range: model base of $2.3B vs $4.9B actual (-52.8% error).",
-            "  The gap reflects: (1) deal premium in competitive process, (2) pipeline optionality",
-            "  not captured in standalone DCF.",
-            "- Exonics (structural): floor matches actual deal value exactly — correct methodology.",
+            "- 3 of 5 deals (Semma, ViaCyte, Decibel) have negative standalone DCF — all strategic",
+            "  option-value acquisitions. The model correctly identifies these as non-DCF deals.",
+            "- Alpine: $2.6B strategic premium (53% of deal) — reflects competitive bidding and",
+            "  IgAN platform scarcity. The standalone model captures the asset value; the gap is",
+            "  the competitive/scarcity premium.",
+            "- Exonics: zero premium at structural floor — floor = confirmed upfront payment.",
+            "  The milestone ceiling ($1B) would represent full option-value realisation.",
             "",
-            "> **Valuation backtest conclusion**: The model correctly identifies which acquisitions",
-            "> are strategic-option-value deals (negative DCF) vs. return-on-investment deals",
-            "> (positive DCF). This is directionally useful for BD framing even at N=5.",
+            "> **Valuation backtest conclusion**: The model correctly classifies which acquisitions",
+            "> are DCF-justified (Alpine, Exonics floor) vs. strategic-option-value deals (Semma,",
+            "> ViaCyte, Decibel). The strategic premium metric is the most interpretable output:",
+            "> it tells BD teams how much of each deal price exceeded standalone model value.",
             "",
             "---",
             "",
@@ -408,6 +459,17 @@ class ReportWriter:
             "mandates (diversified pharma, PE-backed platforms).  A calibration study",
             "across 5+ acquirers and 20+ deals is needed before generalisation claims.",
             "",
+            "### 17.7  REGN-specific metrics are meaningless at N=1",
+            "",
+            "Regeneron contributed exactly **one** verified primary acquisition (Decibel 2023)",
+            "to this backtest. REGN-specific hit rates, MRR, and AUC values must not be cited",
+            "independently. The one REGN positive does not constitute a Regeneron test — it is",
+            "a single case study. Any REGN-specific ranking metric shown in this report is",
+            "included for completeness, not as evidence of predictive power.",
+            "",
+            "**Do not present REGN-specific metrics to external stakeholders without explicitly",
+            "noting N=1 and that the result is statistically indistinguishable from chance.**",
+            "",
             "### Summary judgment",
             "",
             "| Claim | Supported? |",
@@ -472,7 +534,16 @@ class ReportWriter:
     def _format_metrics_table(metrics: list[dict[str, Any]]) -> str:
         if not metrics:
             return "*No metrics available.*"
-        lines = [
+        n_deals = int(metrics[0].get("n_verified_deals", 0) or 0)
+        lines = []
+        if n_deals == 1:
+            lines.append(
+                "> **STATISTICALLY MEANINGLESS — N=1 verified deal.** "
+                "All metrics below are computed from a single observation. "
+                "Do not cite these figures without noting N=1."
+            )
+            lines.append("")
+        lines += [
             "| Days Before | N Groups | Top-1 | Top-3 | Top-5 | Top-10 | MRR | AUC | Brier |",
             "|---|---|---|---|---|---|---|---|---|",
         ]
@@ -544,7 +615,51 @@ class ReportWriter:
 # Helper
 # ---------------------------------------------------------------------------
 
-from typing import Optional  # noqa: E402 — moved here to avoid top-level import issue
+_BUCKET_MINIMUMS: dict[str, int] = {  # mirrors BUCKET_MINIMUMS in backtest_runner
+    "VRTX_SEMMA_2019":   25,
+    "VRTX_VIACYTE_2022": 15,
+    "VRTX_EXONICS_2019": 12,
+    "VRTX_ALPINE_2024":  20,
+    "REGN_DECIBEL_2023": 15,
+}
+
+_APPROVED_STATUSES: frozenset[str] = frozenset({
+    "approved_core", "approved_adjacent", "approved_stretch",
+})
+
+
+def _load_bucket_counts(bucket_csv_path: Path) -> dict[str, int]:
+    """Read approved-negative counts per bucket from the candidate universe CSV."""
+    if not bucket_csv_path or not bucket_csv_path.exists():
+        return {}
+    counts: dict[str, int] = {}
+    with bucket_csv_path.open(newline="", encoding="utf-8") as fh:
+        reader = csv.DictReader(fh)
+        for row in reader:
+            bucket = (row.get("bucket_name") or "").strip()
+            status = (row.get("manual_review_status") or "").strip()
+            if not bucket:
+                continue
+            counts.setdefault(bucket, 0)
+            if status in _APPROVED_STATUSES:
+                counts[bucket] += 1
+    return counts
+
+
+def _format_bucket_table(bucket_counts: dict[str, int]) -> str:
+    """Return a markdown table showing bucket gate status."""
+    lines = [
+        "| Deal Bucket | Required Min | Approved Count | Status |",
+        "|---|---|---|---|",
+    ]
+    if not bucket_counts:
+        lines.append("| *(bucket CSV not provided — gate not verified)* | — | — | UNKNOWN |")
+    else:
+        for bucket, required in sorted(_BUCKET_MINIMUMS.items()):
+            actual = bucket_counts.get(bucket, 0)
+            status = "PASS" if actual >= required else "**FAIL**"
+            lines.append(f"| {bucket} | {required} | {actual} | {status} |")
+    return "\n".join(lines)
 
 
 def _load_csv(path: Path) -> list[dict[str, Any]]:

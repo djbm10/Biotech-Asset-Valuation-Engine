@@ -95,6 +95,16 @@ class TrialPhaseResult:
             TrialPhaseSourceType.UNKNOWN,
         )
 
+    @property
+    def model_input_allowed(self) -> bool:
+        """True when this result may safely be used as a model feature input.
+
+        A result is allowed only when is_trustworthy is True.  Post-snapshot
+        ClinicalTrials.gov records and unknown sources must not enter the
+        feature store's phase scoring.
+        """
+        return self.is_trustworthy
+
 
 # ---------------------------------------------------------------------------
 # Resolver
@@ -232,6 +242,7 @@ def write_clinicaltrials_pit_audit(
         "asset_id", "snapshot_date", "resolved_phase", "source_type",
         "source_url", "published_date", "is_pre_snapshot",
         "near_snapshot_update_risk", "point_in_time_status", "is_trustworthy",
+        "model_input_allowed",
     ]
 
     with output_path.open("w", newline="", encoding="utf-8") as fh:
@@ -249,5 +260,6 @@ def write_clinicaltrials_pit_audit(
                 "near_snapshot_update_risk": r.near_snapshot_update_risk,
                 "point_in_time_status": r.point_in_time_status,
                 "is_trustworthy": r.is_trustworthy,
+                "model_input_allowed": r.model_input_allowed,
             })
     return output_path
