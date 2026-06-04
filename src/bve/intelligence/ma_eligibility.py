@@ -41,13 +41,16 @@ from pydantic import BaseModel, ConfigDict, Field
 ExclusionAssessmentRef = Any
 ExclusionStatusRef = Any
 
-# DealType and DealTypeClassification live in deal_type_classification; imported
-# here so existing callers (e.g. test_sprint36_ma_layer0) can continue to import
-# DealType directly from this module.
+# DealType, DealTypeClassification, and the new 0B route types live in
+# deal_type_classification; imported here so existing callers (e.g.
+# test_sprint36_ma_layer0) can continue to import DealType directly from
+# this module.
 from bve.intelligence.deal_type_classification import (  # noqa: E402
     DealType,
     DealTypeClassification,
+    DealStructureRouteResult,
     classify_deal_type,
+    classify_deal_structure_route,
 )
 
 # 0D-T — Target-Level Asset-Control / Encumbrance Profile (Phase 3)
@@ -99,6 +102,32 @@ _ELIGIBLE_TAXONOMIES: frozenset[CompanyTaxonomy] = frozenset({
 })
 
 
+class EligibilityStatus(str, Enum):
+    """0A stoplight gate output status.
+
+    Severity order (most → least restrictive):
+      HARD_FAIL > HISTORICAL_ONLY > SEVERE_CAP > LEGAL_REVIEW_QUEUE
+      > DILIGENCE_QUEUE > REFRESH_REQUIRED > PASS
+
+    Notes
+    -----
+    ROUTE_TO_OTHER_MODEL (ExclusionStatus) is intentionally absent.  In the
+    refactored architecture, deal-type routing belongs to Layer 0B, not 0A.
+    Companies that previously received ROUTE_TO_OTHER_MODEL from Gate 10 now
+    PASS 0A and receive a DealStructureRoute from 0B.
+    Companies that receive ROUTE_TO_OTHER_MODEL from Gates 0/5/6 (wrong entity
+    type or rights fully licensed away) are mapped to HARD_FAIL or SEVERE_CAP
+    in EligibilityAssessment.
+    """
+    PASS = "PASS"
+    DILIGENCE_QUEUE = "DILIGENCE_QUEUE"
+    REFRESH_REQUIRED = "REFRESH_REQUIRED"
+    LEGAL_REVIEW_QUEUE = "LEGAL_REVIEW_QUEUE"   # Gate 8 legal / integrity issues
+    SEVERE_CAP = "SEVERE_CAP"
+    HISTORICAL_ONLY = "HISTORICAL_ONLY"
+    HARD_FAIL = "HARD_FAIL"
+
+
 class ExclusionCode(str, Enum):
     """Reason a target was hard-excluded by Layer 0 (0A).
 
@@ -130,6 +159,144 @@ class ExclusionCode(str, Enum):
 from bve.intelligence.ma_pair_affordability import (  # noqa: E402
     AffordabilityResult,              # needed by Layer0Result.affordability field type
 )
+
+
+class EligibilityAssessment(BaseModel):
+    """Structured 0A eligibility assessment output.
+
+    Introduced 2026-06-04 as part of the 0A/0B separation refactor.
+    Attached to Layer0Result.eligibility_assessment.
+
+    The legacy fields (passes_hard_exclusion, exclusion_code, exclusion_reason,
+    live_ranking_eligible) remain on Layer0Result for backward compatibility.
+    """
+    model_config = ConfigDict(frozen=True)
+
+    # --- Primary verdict ---
+    eligibility_status: EligibilityStatus
+    status_reason: str = ""
+
+    # --- Structured blocker/cap lists ---
+    hard_blockers: list[str] = Field(
+        default_factory=list,
+        description="Rule IDs or reason strings for HARD_FAIL outcomes.",
+    )
+    caps: list[float] = Field(
+        default_factory=list,
+        description="Score caps applied (SEVERE_CAP values, ascending).",
+    )
+    required_diligence_items: list[str] = Field(
+        default_factory=list,
+        description="Data / process items required before scoring can proceed.",
+    )
+
+    # --- Data quality context from 0G ---
+    data_gaps_from_0G: list[str] = Field(
+        default_factory=list,
+        description="Fields missing or unreliable per the 0G data-confidence assessment.",
+    )
+
+    # --- Eligibility flags ---
+    can_enter_live_ranking: bool
+    can_enter_historical_dataset: bool
+
+
+def _build_eligibility_assessment(
+    passes: bool,
+    excl_code: Optional[ExclusionCode],
+    excl_reason: Optional[str],
+    hard_excl_assessment: Any,
+    score_cap: Optional[float],
+    data_confidence: Any,
+) -> EligibilityAssessment:
+    """Build 0A EligibilityAssessment from the ExclusionEngine outputs.
+
+    Maps ExclusionStatus → EligibilityStatus:
+      PASS                  → PASS
+      HARD_FAIL             → HARD_FAIL
+      HISTORICAL_ONLY       → HISTORICAL_ONLY
+      SEVERE_CAP            → SEVERE_CAP (LEGAL_REVIEW_QUEUE if Gate 8 fired)
+      DILIGENCE_QUEUE       → DILIGENCE_QUEUE (LEGAL_REVIEW_QUEUE if Gate 8 fired)
+      REFRESH_REQUIRED      → REFRESH_REQUIRED
+      ROUTE_TO_OTHER_MODEL  → HARD_FAIL (entity/rights exclusion, not deal routing)
+    """
+    from bve.intelligence.exclusions import ExclusionStatus as ES
+    from bve.intelligence.exclusions.enums import GateName
+
+    hard_blockers: list[str] = []
+    caps: list[float] = []
+    diligence_items: list[str] = []
+    data_gaps: list[str] = []
+
+    # Collect data gaps from 0G
+    if data_confidence is not None:
+        data_gaps = list(getattr(data_confidence, "low_reliability_fields", []))
+
+    # Determine EligibilityStatus from ExclusionEngine result
+    if hard_excl_assessment is None:
+        # Self-acquisition fast path or no assessment available
+        if not passes:
+            raw_status = ES.HARD_FAIL if excl_code != ExclusionCode.ALREADY_ACQUIRED else ES.HISTORICAL_ONLY
+        else:
+            raw_status = ES.PASS
+    else:
+        raw_status = getattr(hard_excl_assessment, "overall_status", ES.PASS)
+
+    # Check whether Gate 8 (legal/integrity) contributed a non-PASS result
+    gate8_nonfatal = False
+    if hard_excl_assessment is not None:
+        gate_results = getattr(hard_excl_assessment, "all_gate_results", [])
+        for gr in gate_results:
+            gn = getattr(gr, "gate_name", None)
+            gs = getattr(gr, "status", None)
+            if (
+                gn == GateName.GATE_8_LEGAL_INTEGRITY
+                and gs not in (ES.PASS, ES.HARD_FAIL, None)
+            ):
+                gate8_nonfatal = True
+                break
+
+    # Map ExclusionStatus → EligibilityStatus
+    if raw_status == ES.PASS:
+        elig_status = EligibilityStatus.PASS
+    elif raw_status == ES.HARD_FAIL:
+        elig_status = EligibilityStatus.HARD_FAIL
+        hard_blockers = list(getattr(hard_excl_assessment, "triggered_exclusion_rules", []))
+    elif raw_status == ES.HISTORICAL_ONLY:
+        elig_status = EligibilityStatus.HISTORICAL_ONLY
+    elif raw_status == ES.SEVERE_CAP:
+        elig_status = EligibilityStatus.LEGAL_REVIEW_QUEUE if gate8_nonfatal else EligibilityStatus.SEVERE_CAP
+        if score_cap is not None:
+            caps.append(score_cap)
+    elif raw_status == ES.DILIGENCE_QUEUE:
+        elig_status = EligibilityStatus.LEGAL_REVIEW_QUEUE if gate8_nonfatal else EligibilityStatus.DILIGENCE_QUEUE
+        if hard_excl_assessment is not None:
+            diligence_items = list(getattr(hard_excl_assessment, "diligence_flags", []))
+    elif raw_status == ES.REFRESH_REQUIRED:
+        elig_status = EligibilityStatus.REFRESH_REQUIRED
+    elif raw_status == ES.ROUTE_TO_OTHER_MODEL:
+        # Remaining ROUTE_TO_OTHER_MODEL (Gates 0/5/6) = entity/rights exclusion
+        elig_status = EligibilityStatus.HARD_FAIL
+        hard_blockers = list(getattr(hard_excl_assessment, "triggered_exclusion_rules", []))
+    else:
+        elig_status = EligibilityStatus.HARD_FAIL if not passes else EligibilityStatus.PASS
+
+    can_live = passes and elig_status not in (
+        EligibilityStatus.HARD_FAIL,
+        EligibilityStatus.HISTORICAL_ONLY,
+    )
+    can_hist = True  # all names, including excluded, can serve as training data
+
+    return EligibilityAssessment(
+        eligibility_status=elig_status,
+        status_reason=excl_reason or elig_status.value,
+        hard_blockers=hard_blockers,
+        caps=caps,
+        required_diligence_items=diligence_items,
+        data_gaps_from_0G=data_gaps,
+        can_enter_live_ranking=can_live,
+        can_enter_historical_dataset=can_hist,
+    )
 
 
 class ScopeTag(str, Enum):
@@ -409,6 +576,16 @@ class Layer0Result(BaseModel):
     hard_exclusion_assessment: Optional["ExclusionAssessmentRef"] = Field(
         default=None, exclude=True
     )
+
+    # 0A — structured eligibility assessment (new; 2026-06-04 refactor)
+    # Provides EligibilityStatus + hard_blockers + caps + diligence_items.
+    # The legacy passes_hard_exclusion / exclusion_code fields remain for compat.
+    eligibility_assessment: Optional[EligibilityAssessment] = None
+
+    # 0B — deal-structure route (new; 2026-06-04 refactor)
+    # Replaces/extends deal_type for callers that need the 11-route taxonomy.
+    # The legacy deal_type / deal_type_classification fields remain for compat.
+    deal_structure_route: Optional[DealStructureRouteResult] = None
 
 
 # ---------------------------------------------------------------------------
@@ -1001,15 +1178,36 @@ def evaluate_layer0(
     commercial_complexity = _compute_commercial_complexity(target)
     distress_guard = _evaluate_distress_guard(target)
 
-    # 0B — only meaningful when target passes hard exclusion
+    # 0A — build structured EligibilityAssessment from the gate outputs
+    # (score_cap not yet known here; updated below after distress guard)
+    # Build preliminary assessment with score_cap=None; final cap applied later.
+    _pre_eligibility = _build_eligibility_assessment(
+        passes=passes,
+        excl_code=excl_code,
+        excl_reason=excl_reason,
+        hard_excl_assessment=hard_excl_assessment,
+        score_cap=None,
+        data_confidence=data_confidence,
+    )
+
+    # 0B — only meaningful when target is not HARD_FAIL or HISTORICAL_ONLY
     deal_type: Optional[DealType] = None
     deal_type_note = ""
     deal_type_cls: Optional[DealTypeClassification] = None
+    deal_struct_route: Optional[DealStructureRouteResult] = None
 
-    if passes:
+    run_0b = passes or _pre_eligibility.eligibility_status in (
+        EligibilityStatus.DILIGENCE_QUEUE,
+        EligibilityStatus.REFRESH_REQUIRED,
+        EligibilityStatus.SEVERE_CAP,
+        EligibilityStatus.LEGAL_REVIEW_QUEUE,
+    )
+
+    if run_0b:
         deal_type_cls = classify_deal_type(target)
         deal_type = deal_type_cls.primary_deal_type
         deal_type_note = deal_type_cls.model_routing_reason
+        deal_struct_route = classify_deal_structure_route(target, deal_type_cls)
 
     # Combined score modifiers
     # NOTE: 0E no longer contributes to the score multiplier — integration penalty
@@ -1049,6 +1247,16 @@ def evaluate_layer0(
     live_ranking_eligible = passes and excl_code not in (
         ExclusionCode.ALREADY_ACQUIRED,
         ExclusionCode.ROUTED_TO_OTHER_MODEL,
+    )
+
+    # 0A — final EligibilityAssessment with resolved score_cap
+    eligibility_assessment = _build_eligibility_assessment(
+        passes=passes,
+        excl_code=excl_code,
+        excl_reason=excl_reason,
+        hard_excl_assessment=hard_excl_assessment,
+        score_cap=score_cap,
+        data_confidence=data_confidence,
     )
 
     # Phase 1 + Phase 2 — required downstream pair-level checks
@@ -1110,4 +1318,7 @@ def evaluate_layer0(
         required_downstream_checks=required_checks,
         double_count_guards=_DOUBLE_COUNT_GUARD_MAP,
         decision_summary=summary,
+        # 0A structured assessment + 0B route (new 2026-06-04 refactor)
+        eligibility_assessment=eligibility_assessment,
+        deal_structure_route=deal_struct_route,
     )

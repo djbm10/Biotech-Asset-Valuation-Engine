@@ -735,15 +735,25 @@ def gate_9_commercial_relevance(company: CompanyProfile) -> GateResult:
 
 
 # ---------------------------------------------------------------------------
-# Gate 10 — Model Routing
+# Gate 10 — Eligibility Confirmation (model routing moved to Layer 0B)
+# ---------------------------------------------------------------------------
+#
+# ARCHITECTURE NOTE (refactor 2026-06-04):
+#   Gate 10 previously routed companies to specialist models based on
+#   deal_type_classification (licensing_only, platform_only, etc.).
+#   This responsibility now belongs to Layer 0B (classify_deal_structure_route
+#   in deal_type_classification.py).
+#
+#   Gate 10 now only handles:
+#     1. "historical_training" sentinel → HISTORICAL_ONLY (not a live candidate)
+#     2. All deal types (including licensing/platform/commercial/distress) → PASS
+#        (0B will assign the appropriate deal-structure route)
+#
 # ---------------------------------------------------------------------------
 
 # Map legacy Gate 10 string literals to canonical DealType values.
-# Callers that stored old literals continue to work unchanged through this map.
-#
-# "historical_training" is NOT included — it is a special sentinel handled
-# separately in gate_10_model_routing() below.
-# "standard_pipeline" maps to None (→ PASS; no routing to specialist model).
+# Retained for backward compatibility: callers that normalise or read this
+# map still work.  Routing decisions are no longer made from this map.
 _LEGACY_GATE10_MAP: dict[str, "str | None"] = {
     "standard_pipeline":  None,                        # → PASS
     "licensing_only":     "asset_license_partnership",
@@ -752,42 +762,29 @@ _LEGACY_GATE10_MAP: dict[str, "str | None"] = {
     "platform_only":      "platform_acquisition",
 }
 
-# Canonical DealType values that require routing to a specialist model when
-# explicitly set via deal_type_classification.
-# Single-asset and pipeline-portfolio takeouts run through the standard M&A model.
-_CANONICAL_ROUTING_MAP: dict[str, tuple[str, RoutingModel]] = {
-    "asset_license_partnership": (
-        "company_is_a_licensing_only_candidate",
-        RoutingModel.LICENSING_MODEL,
-    ),
-    "distressed_optionality": (
-        "company_is_a_distress_only_candidate",
-        RoutingModel.DISTRESSED_OPTIONALITY_MODEL,
-    ),
-    "commercial_franchise_acquisition": (
-        "commercial_only_company_no_pipeline",
-        RoutingModel.COMMERCIAL_FRANCHISE_MODEL,
-    ),
-    "platform_acquisition": (
-        "platform_only_company_requires_specialist_model",
-        RoutingModel.PLATFORM_ACQUISITION_MODEL,
-    ),
-}
+# _CANONICAL_ROUTING_MAP is kept as an empty dict for backward compatibility
+# with callers that import it (e.g. test_deal_type_enum_drift.py).
+# Model routing based on deal type now lives in Layer 0B
+# (classify_deal_structure_route in deal_type_classification.py).
+_CANONICAL_ROUTING_MAP: dict[str, tuple[str, RoutingModel]] = {}
 
 
 def gate_10_model_routing(company: CompanyProfile) -> GateResult:
-    """Route the company to the correct specialist model if applicable.
+    """Confirm eligibility based on deal-type classification signal.
 
     Accepts both legacy Gate 10 string literals (backward-compatible via
     _LEGACY_GATE10_MAP) and canonical DealType enum values.
 
     Decision sequence:
       1. None → PASS (gate not invoked)
-      2. "historical_training" → HISTORICAL_ONLY (special sentinel)
-      3. Legacy literal  → normalise via _LEGACY_GATE10_MAP → canonical value
-         "standard_pipeline" (legacy) or None mapping → PASS
-      4. Canonical DealType value in _CANONICAL_ROUTING_MAP → ROUTE_TO_OTHER_MODEL
-      5. Any other canonical value (e.g. "single_asset_takeout") → PASS
+      2. "historical_training" → HISTORICAL_ONLY (special sentinel — already acquired)
+      3. All other values (legacy or canonical) → PASS
+         (model routing for licensing/platform/commercial/distress is owned by
+         Layer 0B via classify_deal_structure_route(), not by this gate)
+
+    The old behaviour of routing licensing_only/platform_only/commercial_only/
+    distress_only to specialist models has been moved to Layer 0B so that 0A
+    answers "is this target eligible?" and 0B answers "what deal structure fits?".
     """
     gate = GateName.GATE_10_MODEL_ROUTING
     dtc = company.deal_type_classification
@@ -795,27 +792,13 @@ def gate_10_model_routing(company: CompanyProfile) -> GateResult:
     if dtc is None:
         return _pass(gate)
 
-    # Special sentinel: already-acquired historical training data
+    # Special sentinel: already-acquired historical training data.
+    # This is an eligibility decision (the company is gone), not a routing decision.
     if dtc == "historical_training":
         return _historical_only(gate, "G10.HISTORICAL_TRAINING",
                                 "explicitly_marked_as_historical_training_case",
                                 ["deal_type_classification"])
 
-    # Normalise legacy literals to canonical DealType strings
-    if dtc in _LEGACY_GATE10_MAP:
-        canonical = _LEGACY_GATE10_MAP[dtc]
-        if canonical is None:
-            # "standard_pipeline" → PASS
-            return _pass(gate)
-        dtc = canonical
-    # else: dtc is already a canonical DealType value
-
-    # Route to specialist model when the canonical value requires it
-    if dtc in _CANONICAL_ROUTING_MAP:
-        reason, model = _CANONICAL_ROUTING_MAP[dtc]
-        return _route(gate, f"G10.{dtc.upper()}", reason,
-                      ["deal_type_classification"], model)
-
-    # "single_asset_takeout", "pipeline_portfolio_takeout", or any other
-    # canonical value → standard M&A pipeline, no routing
+    # All deal types — including licensing, platform, commercial, distress —
+    # pass Gate 10.  Layer 0B (classify_deal_structure_route) owns the model route.
     return _pass(gate)

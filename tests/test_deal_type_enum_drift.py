@@ -4,11 +4,14 @@ DealType / CompanyProfile Literal drift validator.
 Prevents future drift between:
   1. The canonical DealType enum (deal_type_classification.py)
   2. The CompanyProfile.deal_type_classification Literal (exclusions/models.py)
-  3. Gate 10 routing (_LEGACY_GATE10_MAP / _CANONICAL_ROUTING_MAP in rules.py)
+  3. Gate 10 normalization (_LEGACY_GATE10_MAP in rules.py)
 
-If a new DealType enum member is added without updating the Literal and the
-routing maps, these tests will fail immediately — the developer will know
-exactly where to add the new value.
+Architecture note (2026-06-04 refactor):
+  Gate 10 no longer routes companies to specialist models based on deal type.
+  Model routing for licensing / platform / commercial / distress types is now
+  owned by Layer 0B (classify_deal_structure_route in deal_type_classification.py).
+  Gate 10 only handles the "historical_training" sentinel → HISTORICAL_ONLY.
+  _CANONICAL_ROUTING_MAP is intentionally empty after the refactor.
 """
 from __future__ import annotations
 
@@ -112,25 +115,44 @@ class TestLegacyGate10NormalizationStable:
             f"standard_pipeline should PASS Gate 10, got {result.status}"
         )
 
-    def test_licensing_only_routes_to_licensing_model(self):
+    def test_licensing_only_passes_gate10(self):
+        """licensing_only → Gate 10 PASS (routing now owned by Layer 0B)."""
+        from bve.intelligence.exclusions.enums import ExclusionStatus
         p = _profile(deal_type_classification="licensing_only")
         result = gate_10_model_routing(p)
-        assert result.route_to_model == RoutingModel.LICENSING_MODEL
+        assert result.status == ExclusionStatus.PASS, (
+            f"licensing_only should PASS Gate 10 after 0A/0B refactor, got {result.status}. "
+            "Model routing for deal types is now owned by Layer 0B."
+        )
+        assert result.route_to_model is None
 
-    def test_distress_only_routes_to_distressed_model(self):
+    def test_distress_only_passes_gate10(self):
+        """distress_only → Gate 10 PASS (routing now owned by Layer 0B)."""
+        from bve.intelligence.exclusions.enums import ExclusionStatus
         p = _profile(deal_type_classification="distress_only")
         result = gate_10_model_routing(p)
-        assert result.route_to_model == RoutingModel.DISTRESSED_OPTIONALITY_MODEL
+        assert result.status == ExclusionStatus.PASS, (
+            f"distress_only should PASS Gate 10 after refactor, got {result.status}."
+        )
+        assert result.route_to_model is None
 
-    def test_commercial_only_routes_to_commercial_model(self):
+    def test_commercial_only_passes_gate10(self):
+        """commercial_only → Gate 10 PASS (routing now owned by Layer 0B)."""
+        from bve.intelligence.exclusions.enums import ExclusionStatus
         p = _profile(deal_type_classification="commercial_only")
         result = gate_10_model_routing(p)
-        assert result.route_to_model == RoutingModel.COMMERCIAL_FRANCHISE_MODEL
+        assert result.status == ExclusionStatus.PASS, (
+            f"commercial_only should PASS Gate 10 after refactor, got {result.status}."
+        )
 
-    def test_platform_only_routes_to_platform_model(self):
+    def test_platform_only_passes_gate10(self):
+        """platform_only → Gate 10 PASS (routing now owned by Layer 0B)."""
+        from bve.intelligence.exclusions.enums import ExclusionStatus
         p = _profile(deal_type_classification="platform_only")
         result = gate_10_model_routing(p)
-        assert result.route_to_model == RoutingModel.PLATFORM_ACQUISITION_MODEL
+        assert result.status == ExclusionStatus.PASS, (
+            f"platform_only should PASS Gate 10 after refactor, got {result.status}."
+        )
 
 
 # ---------------------------------------------------------------------------
@@ -169,45 +191,45 @@ class TestHistoricalTrainingSentinel:
 
 
 # ---------------------------------------------------------------------------
-# 4. Canonical routing map covers non-passthrough DealType values
+# 4. Canonical routing map — empty after 0A/0B refactor
 # ---------------------------------------------------------------------------
 
-class TestCanonicalRoutingMapCompleteness:
-    """_CANONICAL_ROUTING_MAP must contain exactly the DealType values that
-    require specialist routing (not single_asset_takeout / pipeline_portfolio_takeout
-    which pass through Gate 10)."""
+class TestCanonicalRoutingMapRefactored:
+    """After the 0A/0B refactor, _CANONICAL_ROUTING_MAP is intentionally empty.
 
-    # DealType values that are expected to PASS through Gate 10 (no specialist routing)
-    PASS_THROUGH = {"single_asset_takeout", "pipeline_portfolio_takeout"}
+    Model routing for deal types (licensing/platform/commercial/distress) is
+    now owned by Layer 0B via classify_deal_structure_route().
+    Gate 10 is a pass-through for all canonical DealType values.
+    """
 
-    def test_routed_types_have_route_to_model(self):
-        """Every canonical value in _CANONICAL_ROUTING_MAP maps to a RoutingModel."""
-        for k, (reason, model) in _CANONICAL_ROUTING_MAP.items():
-            assert isinstance(model, RoutingModel), (
-                f"{k!r} does not map to a RoutingModel in _CANONICAL_ROUTING_MAP"
-            )
-            assert isinstance(reason, str) and reason, (
-                f"{k!r} has empty reason in _CANONICAL_ROUTING_MAP"
-            )
+    ALL_DEAL_TYPES = {dt.value for dt in DealType}
+    # These two pass-through types existed before the refactor
+    LEGACY_PASS_THROUGH = {"single_asset_takeout", "pipeline_portfolio_takeout"}
 
-    def test_passthrough_types_not_in_routing_map(self):
-        """Pass-through types must NOT be in _CANONICAL_ROUTING_MAP."""
-        for pt in self.PASS_THROUGH:
-            assert pt not in _CANONICAL_ROUTING_MAP, (
-                f"{pt!r} must not be in _CANONICAL_ROUTING_MAP — it should PASS Gate 10"
-            )
+    def test_canonical_routing_map_is_empty(self):
+        """_CANONICAL_ROUTING_MAP must be empty after the 0A/0B refactor."""
+        assert _CANONICAL_ROUTING_MAP == {}, (
+            "_CANONICAL_ROUTING_MAP should be empty. "
+            "Model routing for deal types now lives in Layer 0B "
+            "(classify_deal_structure_route in deal_type_classification.py)."
+        )
 
-    def test_passthrough_types_pass_gate10(self):
-        """single_asset_takeout and pipeline_portfolio_takeout PASS Gate 10."""
-        for pt in self.PASS_THROUGH:
-            p = _profile(deal_type_classification=pt)
+    def test_all_canonical_deal_types_pass_gate10(self):
+        """All six canonical DealType values now PASS Gate 10."""
+        from bve.intelligence.exclusions.enums import ExclusionStatus
+        for dt_value in self.ALL_DEAL_TYPES:
+            p = _profile(deal_type_classification=dt_value)
             result = gate_10_model_routing(p)
-            assert result.status.name in ("PASS", "ELIGIBLE"), (
-                f"{pt!r} should PASS Gate 10, got status={result.status}"
+            assert result.status == ExclusionStatus.PASS, (
+                f"{dt_value!r} should PASS Gate 10 after refactor, got {result.status}."
+            )
+            assert result.route_to_model is None, (
+                f"{dt_value!r} should not produce a route_to_model in Gate 10."
             )
 
-    def test_legacy_and_canonical_produce_same_routing(self):
-        """Legacy literal and its canonical equivalent yield identical Gate 10 results."""
+    def test_legacy_and_canonical_both_pass_gate10(self):
+        """Legacy literal and its canonical equivalent both PASS Gate 10."""
+        from bve.intelligence.exclusions.enums import ExclusionStatus
         pairs = [
             ("licensing_only",  "asset_license_partnership"),
             ("distress_only",   "distressed_optionality"),
@@ -217,7 +239,52 @@ class TestCanonicalRoutingMapCompleteness:
         for legacy, canonical in pairs:
             r_legacy = gate_10_model_routing(_profile(deal_type_classification=legacy))
             r_canonical = gate_10_model_routing(_profile(deal_type_classification=canonical))
-            assert r_legacy.route_to_model == r_canonical.route_to_model, (
-                f"Legacy {legacy!r} and canonical {canonical!r} produce different "
-                f"routing models: {r_legacy.route_to_model} vs {r_canonical.route_to_model}"
+            assert r_legacy.status == ExclusionStatus.PASS, (
+                f"Legacy {legacy!r} should PASS Gate 10 after refactor."
             )
+            assert r_canonical.status == ExclusionStatus.PASS, (
+                f"Canonical {canonical!r} should PASS Gate 10 after refactor."
+            )
+
+    def test_layer0b_owns_licensing_model_routing(self):
+        """Layer 0B (classify_deal_structure_route) produces the licensing route."""
+        from bve.intelligence.deal_type_classification import (
+            classify_deal_structure_route,
+            DealStructureRoute,
+        )
+        from bve.intelligence.ma_eligibility import TargetEligibilityInput
+        target = TargetEligibilityInput(
+            ticker="LIC001",
+            has_existing_partnership=True,
+            asset_rights_scope="licensed_in",
+            royalty_stack_rate=0.18,
+        )
+        result = classify_deal_structure_route(target)
+        # Should be a licensing sub-route — not full_company_takeout
+        licensing_routes = {
+            DealStructureRoute.GLOBAL_LICENSE,
+            DealStructureRoute.REGIONAL_LICENSE,
+            DealStructureRoute.OPTION_TO_LICENSE_OR_ACQUIRE,
+            DealStructureRoute.CO_DEVELOPMENT_OR_CO_COMMERCIALIZATION,
+            DealStructureRoute.MINORITY_EQUITY_PLUS_COLLABORATION,
+        }
+        assert result.primary_route in licensing_routes, (
+            f"Expected licensing route from 0B, got {result.primary_route}."
+        )
+
+    def test_layer0b_owns_distress_model_routing(self):
+        """Layer 0B assigns DISTRESSED_OPTIONALITY route for distressed targets."""
+        from bve.intelligence.deal_type_classification import (
+            classify_deal_structure_route,
+            DealStructureRoute,
+        )
+        from bve.intelligence.ma_eligibility import TargetEligibilityInput
+        target = TargetEligibilityInput(
+            ticker="DIST001",
+            financing_pressure_high=True,
+            lead_asset_quality_low=True,
+        )
+        result = classify_deal_structure_route(target)
+        assert result.primary_route == DealStructureRoute.DISTRESSED_OPTIONALITY, (
+            f"Expected DISTRESSED_OPTIONALITY from 0B, got {result.primary_route}."
+        )

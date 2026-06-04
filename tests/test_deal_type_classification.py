@@ -295,7 +295,7 @@ class TestBackwardCompatibility:
         assert deal_type == DealType.COMMERCIAL_FRANCHISE_ACQUISITION
 
     def test_layer0_result_has_deal_type_classification(self):
-        from bve.intelligence.ma_eligibility import evaluate_layer0
+        from bve.intelligence.ma_eligibility import evaluate_layer0, EligibilityStatus
         t = _target(ticker="COMPAT", lead_asset_present=True)
         result = evaluate_layer0(t)
         if result.passes_hard_exclusion:
@@ -303,7 +303,17 @@ class TestBackwardCompatibility:
             assert isinstance(result.deal_type_classification, DealTypeClassification)
             assert result.deal_type == result.deal_type_classification.primary_deal_type
         else:
-            assert result.deal_type_classification is None
+            # After the 0A/0B refactor, DILIGENCE_QUEUE and REFRESH_REQUIRED targets
+            # receive a tentative 0B deal-type classification.
+            # Only HARD_FAIL and HISTORICAL_ONLY produce deal_type_classification=None.
+            if result.eligibility_assessment is not None:
+                hard_blocked = result.eligibility_assessment.eligibility_status in (
+                    EligibilityStatus.HARD_FAIL, EligibilityStatus.HISTORICAL_ONLY
+                )
+            else:
+                hard_blocked = True
+            if hard_blocked:
+                assert result.deal_type_classification is None
 
     def test_layer0_excluded_target_has_no_classification(self):
         from bve.intelligence.ma_eligibility import evaluate_layer0, CompanyTaxonomy
