@@ -40,7 +40,260 @@ from typing import Optional
 
 from pydantic import BaseModel, ConfigDict, Field
 
+from bve.intelligence.deal_type_classification import DealStructureRoute
 from bve.intelligence.ma_asset_control_target import AssetControlTargetResult
+
+
+# ---------------------------------------------------------------------------
+# Route-specific bucket weight tables
+# ---------------------------------------------------------------------------
+#
+# Each route re-weights the six 0D-T bucket scores to reflect what matters
+# for that deal structure.  Weights sum to 1.0 for every route.
+#
+# Design rationale:
+#   rights_control  shrinks as deal moves toward minority equity / licensing
+#                   (full global rights less critical for non-acquisition routes)
+#   ip_control      grows for licensing/option routes (betting on the IP, not the company)
+#   economic_control stays roughly flat (royalty/milestone burden matters everywhere)
+#   manufacturing   peaks for co-dev (licensor retains mfg → transferability critical)
+#                   lower for minority equity (investor not operating the asset)
+#   diligence       grows for minority equity (governance/data gaps harder to fix post-close)
+# ---------------------------------------------------------------------------
+
+_ROUTE_BUCKET_WEIGHTS: dict[DealStructureRoute, dict[str, float]] = {
+    # Full acquisition routes: identical to 0D-T default weights
+    DealStructureRoute.FULL_COMPANY_TAKEOUT: {
+        "rights": 0.25, "economic": 0.20, "partner": 0.20,
+        "ip": 0.15, "mfg": 0.10, "diligence": 0.10,
+    },
+    DealStructureRoute.LEAD_ASSET_TAKEOUT: {
+        "rights": 0.25, "economic": 0.20, "partner": 0.20,
+        "ip": 0.15, "mfg": 0.10, "diligence": 0.10,
+    },
+    DealStructureRoute.PIPELINE_PORTFOLIO_TAKEOUT: {
+        "rights": 0.25, "economic": 0.20, "partner": 0.20,
+        "ip": 0.15, "mfg": 0.10, "diligence": 0.10,
+    },
+    DealStructureRoute.PLATFORM_ACQUISITION: {
+        "rights": 0.25, "economic": 0.20, "partner": 0.20,
+        "ip": 0.15, "mfg": 0.10, "diligence": 0.10,
+    },
+    DealStructureRoute.COMMERCIAL_FRANCHISE_ACQUISITION: {
+        "rights": 0.25, "economic": 0.20, "partner": 0.20,
+        "ip": 0.15, "mfg": 0.10, "diligence": 0.10,
+    },
+    # Licensing routes: rights matter less, IP matters more
+    DealStructureRoute.GLOBAL_LICENSE: {
+        "rights": 0.20, "economic": 0.22, "partner": 0.18,
+        "ip": 0.18, "mfg": 0.12, "diligence": 0.10,
+    },
+    DealStructureRoute.REGIONAL_LICENSE: {
+        "rights": 0.15, "economic": 0.22, "partner": 0.18,
+        "ip": 0.20, "mfg": 0.12, "diligence": 0.13,
+    },
+    DealStructureRoute.OPTION_TO_LICENSE_OR_ACQUIRE: {
+        "rights": 0.12, "economic": 0.20, "partner": 0.16,
+        "ip": 0.22, "mfg": 0.18, "diligence": 0.12,
+    },
+    DealStructureRoute.CO_DEVELOPMENT_OR_CO_COMMERCIALIZATION: {
+        "rights": 0.12, "economic": 0.18, "partner": 0.14,
+        "ip": 0.22, "mfg": 0.18, "diligence": 0.16,
+    },
+    # Minority equity: IP and diligence are primary; manufacturing moderate
+    DealStructureRoute.MINORITY_EQUITY_PLUS_COLLABORATION: {
+        "rights": 0.08, "economic": 0.22, "partner": 0.12,
+        "ip": 0.24, "mfg": 0.14, "diligence": 0.20,
+    },
+    # Distressed: same as full takeout (distress is real regardless of structure)
+    DealStructureRoute.DISTRESSED_OPTIONALITY: {
+        "rights": 0.25, "economic": 0.20, "partner": 0.20,
+        "ip": 0.15, "mfg": 0.10, "diligence": 0.10,
+    },
+}
+
+# Sanity check at import time
+for _route, _w in _ROUTE_BUCKET_WEIGHTS.items():
+    assert abs(sum(_w.values()) - 1.0) < 1e-9, (
+        f"_ROUTE_BUCKET_WEIGHTS[{_route.value}] sums to {sum(_w.values()):.6f}, expected 1.0"
+    )
+
+
+# ---------------------------------------------------------------------------
+# Licensing routes: where fully_licensed_away can be demoted to a warning
+# ---------------------------------------------------------------------------
+
+_LICENSING_ROUTES: frozenset[DealStructureRoute] = frozenset({
+    DealStructureRoute.GLOBAL_LICENSE,
+    DealStructureRoute.REGIONAL_LICENSE,
+    DealStructureRoute.OPTION_TO_LICENSE_OR_ACQUIRE,
+    DealStructureRoute.CO_DEVELOPMENT_OR_CO_COMMERCIALIZATION,
+    DealStructureRoute.MINORITY_EQUITY_PLUS_COLLABORATION,
+})
+
+
+# ---------------------------------------------------------------------------
+# Geography region normalisation
+# ---------------------------------------------------------------------------
+
+_GEO_REGION_MAP: dict[str, frozenset] = {
+    "global":   frozenset({"US", "EU", "APAC", "LATAM", "MEA"}),
+    "us":       frozenset({"US"}),
+    "eu":       frozenset({"EU"}),
+    "ex-us":    frozenset({"EU", "APAC", "LATAM", "MEA"}),
+    "ex_us":    frozenset({"EU", "APAC", "LATAM", "MEA"}),
+    "us+eu":    frozenset({"US", "EU"}),
+    "eu+us":    frozenset({"US", "EU"}),
+    "apac":     frozenset({"APAC"}),
+    "latam":    frozenset({"LATAM"}),
+    "mea":      frozenset({"MEA"}),
+}
+
+
+def _geo_regions(geo: str) -> frozenset:
+    """Normalise a geography string to a frozenset of canonical region codes."""
+    key = geo.lower().replace(" ", "")
+    if key in _GEO_REGION_MAP:
+        return _GEO_REGION_MAP[key]
+    # Handle compound geographies (e.g. "US+APAC") not explicitly listed
+    parts = key.replace("+", " ").split()
+    result: set = set()
+    for p in parts:
+        result.update(_GEO_REGION_MAP.get(p, {p.upper()}))
+    return frozenset(result)
+
+
+def _classify_geo_fit(buyer_desired: str, target_controlled: str) -> str:
+    """Return 'full_match', 'superset', 'partial_match', or 'mismatch'.
+
+    Semantics: does target_controlled give buyer everything buyer_desired needs?
+      full_match    — target has exactly the regions buyer wants
+      superset      — target has buyer's regions plus more (buyer over-served, still fine)
+      partial_match — target covers ≥ 50% of buyer's desired regions
+      mismatch      — target covers < 50% of buyer's desired regions (includes zero overlap)
+
+    The 50% coverage threshold matters for wide buyer requests:
+      "global" buyer (5 regions) + "EU" target (1 region) → coverage=20% → mismatch
+      "US+EU" buyer + "EU" target → coverage=50% → partial_match
+      "APAC" buyer + "EU" target → coverage=0% → mismatch
+    """
+    buyer_set = _geo_regions(buyer_desired)
+    target_set = _geo_regions(target_controlled)
+    intersection = buyer_set & target_set
+    if buyer_set <= target_set:
+        return "full_match" if buyer_set == target_set else "superset"
+    if not intersection:
+        return "mismatch"
+    coverage = len(intersection) / len(buyer_set) if buyer_set else 0.0
+    return "partial_match" if coverage >= 0.50 else "mismatch"
+
+
+# ---------------------------------------------------------------------------
+# Route-adjusted composite helper
+# ---------------------------------------------------------------------------
+
+def _route_adjusted_composite(
+    target: AssetControlTargetResult,
+    route: Optional[DealStructureRoute],
+) -> tuple[float, str]:
+    """Recompute the 0D-T composite using route-specific bucket weights.
+
+    Returns (route_adjusted_base_score, route_adjustment_applied_label).
+    When route is None the raw asset_control_score is returned unchanged.
+    """
+    if route is None or route not in _ROUTE_BUCKET_WEIGHTS:
+        return target.asset_control_score, "none"
+
+    w = _ROUTE_BUCKET_WEIGHTS[route]
+    composite = (
+        w["rights"]   * target.rights_control_score
+        + w["economic"] * target.economic_control_score
+        + w["partner"]  * target.partner_encumbrance_facts_score
+        + w["ip"]       * target.ip_control_score
+        + w["mfg"]      * target.manufacturing_readiness_score
+        + w["diligence"]* target.diligence_readiness_score
+    )
+    return round(max(0.0, min(1.0, composite)), 4), f"route_{route.value}"
+
+
+# ---------------------------------------------------------------------------
+# Geography fit helper
+# ---------------------------------------------------------------------------
+
+def _geography_fit_from_float(
+    overlap: float,
+) -> tuple[str, list[str], float, Optional[float]]:
+    """Backward-compatible float-path geography check."""
+    if overlap < 0.50:
+        return "not_provided", [
+            f"regional_rights: severe mismatch (overlap={overlap:.2f}) — "
+            "pair_multiplier ≤ 0.75, pair_cap ≤ 0.65"
+        ], 0.75, 0.65
+    if overlap < 0.80:
+        return "not_provided", [
+            f"regional_rights: partial mismatch (overlap={overlap:.2f}) — "
+            "pair_multiplier ≤ 0.90"
+        ], 0.90, None
+    return "not_provided", [], 1.0, None
+
+
+def _geography_fit(
+    buyer_desired: Optional[str],
+    target_controlled: Optional[str],
+    route: Optional[DealStructureRoute],
+    overlap_float: float,
+) -> tuple[str, list[str], float, Optional[float]]:
+    """Route-aware geography fit check.
+
+    Returns: (fit_detail, rationale_items, pair_mult_upper_bound, pair_cap_or_None)
+
+    String-based path (preferred when both buyer_desired and target_controlled provided):
+      - fit = _classify_geo_fit(buyer_desired, target_controlled)
+      - CO_DEV / MINORITY_EQUITY: partial_match → no penalty; mismatch → mild 0.85
+      - All other routes (including REGIONAL_LICENSE): mismatch → 0.75/cap 0.65
+      - full_match / superset: always no penalty regardless of route
+
+    Float fallback: existing overlap-based logic (unchanged behavior).
+
+    Key principle: a wrong region is a wrong region regardless of route type.
+    REGIONAL_LICENSE only avoids penalty when the buyer's desired region actually
+    matches the target's controlled region — not just because it's a licensing deal.
+    """
+    if buyer_desired is not None and target_controlled is not None:
+        fit = _classify_geo_fit(buyer_desired, target_controlled)
+        desc = f"{buyer_desired}→{target_controlled}"
+
+        if fit in ("full_match", "superset"):
+            return fit, [f"geography: {fit} ({desc}) — no penalty"], 1.0, None
+
+        # CO_DEV / MINORITY_EQUITY: reduced penalties (shared structure accommodates partial overlap)
+        if route in (
+            DealStructureRoute.CO_DEVELOPMENT_OR_CO_COMMERCIALIZATION,
+            DealStructureRoute.MINORITY_EQUITY_PLUS_COLLABORATION,
+        ):
+            if fit == "partial_match":
+                return fit, [
+                    f"geography: partial_match ({desc}) — no penalty for {route.value}"
+                ], 1.0, None
+            # mismatch → mild penalty, no hard cap
+            return fit, [
+                f"geography: mismatch ({desc}) — mild penalty for {route.value}: "
+                "pair_multiplier ≤ 0.85"
+            ], 0.85, None
+
+        # All other routes (FULL_COMPANY_TAKEOUT, REGIONAL_LICENSE, GLOBAL_LICENSE, etc.):
+        # same penalty matrix — wrong region is penalized the same way
+        if fit == "partial_match":
+            return fit, [
+                f"geography: partial_match ({desc}) — pair_multiplier ≤ 0.90"
+            ], 0.90, None
+        # mismatch
+        return fit, [
+            f"geography: mismatch ({desc}) — pair_multiplier ≤ 0.75, pair_cap ≤ 0.65"
+        ], 0.75, 0.65
+
+    # Float fallback (both string fields absent)
+    return _geography_fit_from_float(overlap_float)
 
 
 # ---------------------------------------------------------------------------
@@ -120,6 +373,23 @@ class PairAssetControlInput(BaseModel):
     exclusivity_conflict_for_this_acquirer: bool = Field(default=False,
         description="Acquirer has competing exclusivity clause triggered by this deal.")
 
+    # ── 0B deal-structure route ───────────────────────────────────────────────
+    deal_structure_route: Optional[DealStructureRoute] = Field(default=None,
+        description="Layer 0B deal-structure route for this pair. When provided, Layer 3B "
+                    "recomputes the base score from raw 0D-T bucket scores using route-specific "
+                    "weights, and applies route-aware geography fit logic.")
+
+    # ── Explicit geography fields (string-based; preferred over overlap float) ─
+    buyer_desired_geography: Optional[str] = Field(default=None,
+        description="Regions the acquirer is seeking rights to: "
+                    "'global', 'US', 'EU', 'ex-US', 'US+EU', 'APAC', etc. "
+                    "When provided together with target_controlled_geography, "
+                    "enables explicit region-match scoring instead of the overlap float.")
+    target_controlled_geography: Optional[str] = Field(default=None,
+        description="Regions the target actually controls (not out-licensed). "
+                    "Paired with buyer_desired_geography for route-aware geo scoring. "
+                    "Falls back to acquirer_target_geography_overlap when absent.")
+
 
 # ---------------------------------------------------------------------------
 # Output model
@@ -164,6 +434,18 @@ class PairAssetControlResult(BaseModel):
     partner_bonus_applied: bool = Field(
         description="True when existing_partner_match suppresses ROFR/consent penalties.")
 
+    # ── Route-aware scoring audit fields ─────────────────────────────────────
+    route_adjusted_base_score: float = Field(..., ge=0.0, le=1.0,
+        description="Composite recomputed from raw 0D-T bucket scores using route-specific "
+                    "weights. Equals target.asset_control_score when deal_structure_route is None "
+                    "or a full-acquisition route (which uses the same 0D-T weights).")
+    route_adjustment_applied: str = Field(...,
+        description="'none' / 'route_<route_value>' — label of the route weight table applied.")
+    geography_fit_detail: str = Field(default="not_provided",
+        description="'full_match' / 'superset' / 'partial_match' / 'mismatch' / 'not_provided'. "
+                    "'not_provided' when string geography fields were absent and the float "
+                    "overlap fallback was used instead.")
+
     # ── Metadata ──────────────────────────────────────────────────────────────
     rationale: list[str] = Field(default_factory=list)
     data_gaps: list[str] = Field(default_factory=list)
@@ -179,10 +461,28 @@ def compute_pair_asset_control(inp: PairAssetControlInput) -> PairAssetControlRe
     pair_multiplier starts at 1.0 (no additional adjustment).
     Each pair-specific risk factor can only reduce it further — they are
     applied multiplicatively via min() to enforce the tightest constraint wins.
+
+    Route-aware additions (new):
+      1. route_adjusted_base_score — 0D-T bucket scores re-weighted by deal_structure_route.
+         When route is None, falls back to target.asset_control_score unchanged.
+      2. Geography fit — explicit buyer_desired_geography vs target_controlled_geography
+         when both are provided; falls back to acquirer_target_geography_overlap float.
+         Key principle: a wrong region is penalized regardless of route.
+         REGIONAL_LICENSE only avoids a geo penalty when the buyer's desired region
+         actually matches what the target controls.
+      3. Hard blocker pass-through — target.is_hard_fail (no_ownable_rights /
+         fatal_ip_dispute) forces pair_multiplier=0.0 regardless of route.
+      4. fully_licensed_away (target.route_to_licensing):
+         - licensing route + economics retained (economic_control_score ≥ 0.50)
+           → route-consistent: no additional pair penalty; mark as data_gap warning
+         - any other case (non-licensing route OR no economics)
+           → severe pair penalty (pair_multiplier ≤ 0.55)
     """
     _assert_no_pair_contamination(inp.target_asset_control)
 
     target = inp.target_asset_control
+    route = inp.deal_structure_route
+
     pair_multiplier = 1.0
     pair_cap: Optional[float] = None
     rationale: list[str] = []
@@ -195,7 +495,58 @@ def compute_pair_asset_control(inp: PairAssetControlInput) -> PairAssetControlRe
     manufacturing_mismatch_flag = False
     partner_bonus_applied = False
 
-    # ── Existing partner: waive ROFR and consent penalties ────────────────────
+    # ── 1. Route-adjusted base score ─────────────────────────────────────────
+    route_adjusted_base_score, route_adjustment_applied = _route_adjusted_composite(target, route)
+    if route_adjustment_applied != "none":
+        rationale.append(
+            f"route_adjusted_composite: {route_adjustment_applied} "
+            f"(raw={target.asset_control_score:.4f} → route_adjusted={route_adjusted_base_score:.4f})"
+        )
+
+    # ── 2. Hard blocker pass-through from 0D-T ───────────────────────────────
+    # is_hard_fail (no_ownable_rights / fatal_ip_dispute): fatal for ALL routes.
+    # The route does not change whether you can own something or whether IP is contested.
+    if target.is_hard_fail:
+        pair_multiplier = 0.0
+        rationale.append(
+            "0D-T hard fail propagated: no ownable rights or fatal IP dispute — "
+            "pair_level_fail forced regardless of route"
+        )
+
+    # ── 3. fully_licensed_away routing ───────────────────────────────────────
+    # 0D-T sets route_to_licensing=True when fully_licensed_away=True.
+    # For licensing routes: demote to warning IF target retains meaningful economics.
+    # Otherwise (non-licensing route OR economics gone): additional pair penalty.
+    # Note: 0D-T already applies penalty_multiplier=0.40 via the orchestrator;
+    # Layer 3B adds a further pair penalty only when economics cannot support even
+    # a licensing deal.
+    if target.route_to_licensing and not target.is_hard_fail:
+        economics_retained = target.economic_control_score >= 0.50
+        if route in _LICENSING_ROUTES and economics_retained:
+            # Route-consistent: 0D-T penalty stands; no additional Layer 3B reduction
+            data_gaps.append(
+                "fully_licensed_away:route_consistent_economics_retained"
+            )
+            rationale.append(
+                f"fully_licensed_away: route-consistent for {route.value} "
+                f"(economic_control_score={target.economic_control_score:.2f} ≥ 0.50) — "
+                "0D-T penalty accepted; no additional pair reduction"
+            )
+        else:
+            # No controllable economics, or buyer wants full acquisition of a licensed-away asset
+            pair_multiplier = min(pair_multiplier, 0.55)
+            label = (
+                "no controllable economics "
+                f"(economic_control_score={target.economic_control_score:.2f} < 0.50)"
+                if not economics_retained
+                else f"non-licensing route ({route.value if route else 'none'}) on licensed-away asset"
+            )
+            rationale.append(
+                f"fully_licensed_away: {label} — "
+                "pair_multiplier ≤ 0.55"
+            )
+
+    # ── 4. Existing partner: waive ROFR and consent penalties ─────────────────
     if inp.acquirer_is_existing_partner:
         partner_bonus_applied = True
         if target.has_rofr_fact:
@@ -205,7 +556,7 @@ def compute_pair_asset_control(inp: PairAssetControlInput) -> PairAssetControlRe
             consent_right_impact = "waived_partner"
             rationale.append("consent: waived — acquirer is existing partner")
 
-    # ── ROFR / opt-in impact (only for non-partner acquirers) ─────────────────
+    # ── 5. ROFR / opt-in impact (only for non-partner acquirers) ──────────────
     if not inp.acquirer_is_existing_partner:
         if inp.rofr_blocks_this_acquirer:
             pair_multiplier = min(pair_multiplier, 0.65)
@@ -221,13 +572,12 @@ def compute_pair_asset_control(inp: PairAssetControlInput) -> PairAssetControlRe
                 "opt_in: active right may delay close — pair_multiplier ≤ 0.80"
             )
         elif target.has_rofr_fact:
-            # ROFR exists but buyer-specific blocking not confirmed
             rofr_impact = "soft"
             data_gaps.append(
                 "rofr_impact_unconfirmed: ROFR exists; buyer-specific blocking unknown"
             )
 
-    # ── Consent right impact (only for non-partner acquirers) ─────────────────
+    # ── 6. Consent right impact (only for non-partner acquirers) ──────────────
     if not inp.acquirer_is_existing_partner:
         if inp.consent_required_for_this_coc:
             pair_multiplier = min(pair_multiplier, 0.70)
@@ -236,35 +586,31 @@ def compute_pair_asset_control(inp: PairAssetControlInput) -> PairAssetControlRe
                 "consent: required for this CoC — pair_multiplier ≤ 0.70"
             )
 
-    # ── Exclusivity conflict ───────────────────────────────────────────────────
+    # ── 7. Exclusivity conflict ───────────────────────────────────────────────
     if inp.exclusivity_conflict_for_this_acquirer:
         pair_multiplier = min(pair_multiplier, 0.80)
         rationale.append(
             "exclusivity: conflict for this acquirer — pair_multiplier ≤ 0.80"
         )
 
-    # ── Regional rights fit ────────────────────────────────────────────────────
-    geo = inp.acquirer_target_geography_overlap
-    if geo < 0.50:
-        pair_multiplier = min(pair_multiplier, 0.75)
-        pair_cap = min(pair_cap if pair_cap is not None else 0.65, 0.65)
-        rationale.append(
-            f"regional_rights: severe mismatch (overlap={geo:.2f}) — "
-            "pair_multiplier ≤ 0.75, pair_cap ≤ 0.65"
-        )
-    elif geo < 0.80:
-        pair_multiplier = min(pair_multiplier, 0.90)
-        rationale.append(
-            f"regional_rights: partial mismatch (overlap={geo:.2f}) — "
-            "pair_multiplier ≤ 0.90"
-        )
+    # ── 8. Geography fit (route-aware) ───────────────────────────────────────
+    geo_fit_detail, geo_rationale, geo_mult, geo_cap = _geography_fit(
+        inp.buyer_desired_geography,
+        inp.target_controlled_geography,
+        route,
+        inp.acquirer_target_geography_overlap,
+    )
+    if geo_mult < 1.0:
+        pair_multiplier = min(pair_multiplier, geo_mult)
+    if geo_cap is not None:
+        pair_cap = min(pair_cap if pair_cap is not None else geo_cap, geo_cap)
+    rationale.extend(geo_rationale)
 
-    # ── Manufacturing fit vs target complexity ────────────────────────────────
+    # ── 9. Manufacturing fit vs target complexity ─────────────────────────────
     mfg_fit = inp.acquirer_manufacturing_fit
     mfg_complexity = target.manufacturing_complexity_flag
 
     if mfg_fit >= 0.80:
-        # Strong acquirer capability — no manufacturing penalty applied
         manufacturing_adjustment = "none"
         if mfg_complexity == "high":
             rationale.append(
@@ -272,7 +618,6 @@ def compute_pair_asset_control(inp: PairAssetControlInput) -> PairAssetControlRe
                 "high modality complexity — no penalty"
             )
     elif mfg_complexity == "high" and mfg_fit < 0.40:
-        # Severe mismatch: high-complexity target + weak acquirer capability
         pair_multiplier = min(pair_multiplier, 0.75)
         pair_cap = min(pair_cap if pair_cap is not None else 0.65, 0.65)
         manufacturing_adjustment = "severe"
@@ -282,7 +627,6 @@ def compute_pair_asset_control(inp: PairAssetControlInput) -> PairAssetControlRe
             f"low acquirer fit ({mfg_fit:.2f}) — pair_multiplier ≤ 0.75, pair_cap ≤ 0.65"
         )
     elif mfg_complexity == "medium" and mfg_fit < 0.40:
-        # Moderate mismatch: medium-complexity + weak acquirer capability
         pair_multiplier = min(pair_multiplier, 0.85)
         manufacturing_adjustment = "moderate"
         manufacturing_mismatch_flag = True
@@ -291,7 +635,6 @@ def compute_pair_asset_control(inp: PairAssetControlInput) -> PairAssetControlRe
             "pair_multiplier ≤ 0.85"
         )
     elif mfg_complexity == "high" and 0.40 <= mfg_fit < 0.80:
-        # Mild mismatch: high-complexity target but acquirer has partial capability
         pair_multiplier = min(pair_multiplier, 0.90)
         manufacturing_adjustment = "mild"
         rationale.append(
@@ -300,17 +643,18 @@ def compute_pair_asset_control(inp: PairAssetControlInput) -> PairAssetControlRe
         )
     # else: low/medium complexity + moderate fit, or any complexity + strong fit → no penalty
 
-    # ── Pair-level fail threshold ─────────────────────────────────────────────
-    # A pair is not viable when the combined multiplier would be so low that
-    # even a clean target would score below any actionable threshold.
+    # ── 10. Pair-level fail threshold ─────────────────────────────────────────
     pair_level_fail = pair_multiplier <= 0.30
 
-    # ── Pair-adjusted composite score ────────────────────────────────────────
-    adjusted = target.asset_control_score * pair_multiplier
+    # ── 11. Pair-adjusted composite score ────────────────────────────────────
+    # Use route_adjusted_base_score (not raw target.asset_control_score).
+    # For hard fails pair_multiplier=0.0, so score=0.0 regardless of base.
+    adjusted = route_adjusted_base_score * pair_multiplier
     if pair_cap is not None:
         adjusted = min(adjusted, pair_cap)
     pair_asset_control_score = round(max(0.0, min(1.0, adjusted)), 4)
 
+    geo = inp.acquirer_target_geography_overlap
     return PairAssetControlResult(
         acquirer_id=inp.acquirer_id,
         target_id=inp.target_id,
@@ -326,6 +670,9 @@ def compute_pair_asset_control(inp: PairAssetControlInput) -> PairAssetControlRe
         manufacturing_adjustment_applied=manufacturing_adjustment,
         manufacturing_mismatch_flag=manufacturing_mismatch_flag,
         partner_bonus_applied=partner_bonus_applied,
+        route_adjusted_base_score=route_adjusted_base_score,
+        route_adjustment_applied=route_adjustment_applied,
+        geography_fit_detail=geo_fit_detail,
         rationale=rationale,
         data_gaps=data_gaps,
     )
