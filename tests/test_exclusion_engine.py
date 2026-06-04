@@ -737,25 +737,43 @@ class TestGate9CommercialRelevance:
 # ===========================================================================
 
 class TestGate10ModelRouting:
-    # ── Legacy literals (backward compatibility) ─────────────────────────────
-    @pytest.mark.parametrize("dtc,expected_model", [
-        # Legacy Gate 10 literals — must still route correctly via _LEGACY_GATE10_MAP
-        ("licensing_only", RoutingModel.LICENSING_MODEL),
-        ("distress_only", RoutingModel.DISTRESSED_OPTIONALITY_MODEL),
-        ("commercial_only", RoutingModel.COMMERCIAL_FRANCHISE_MODEL),
-        ("platform_only", RoutingModel.PLATFORM_ACQUISITION_MODEL),
-        # Canonical DealType values — preferred path for new callers
-        ("asset_license_partnership", RoutingModel.LICENSING_MODEL),
-        ("distressed_optionality", RoutingModel.DISTRESSED_OPTIONALITY_MODEL),
-        ("commercial_franchise_acquisition", RoutingModel.COMMERCIAL_FRANCHISE_MODEL),
-        ("platform_acquisition", RoutingModel.PLATFORM_ACQUISITION_MODEL),
+    """Gate 10 behaviour after the 0A/0B refactor (2026-06-04).
+
+    Gate 10 is now a pure pass-through for all deal-type classifications.
+    Model routing is owned by Layer 0B (classify_deal_structure_route).
+    Only the 'historical_training' sentinel triggers a non-PASS outcome.
+    """
+
+    # ── All deal-type values now PASS Gate 10 ────────────────────────────────
+    @pytest.mark.parametrize("dtc", [
+        # Legacy Gate 10 literals — normalise via _LEGACY_GATE10_MAP then PASS
+        "licensing_only",
+        "distress_only",
+        "commercial_only",
+        "platform_only",
+        # Canonical DealType values
+        "asset_license_partnership",
+        "distressed_optionality",
+        "commercial_franchise_acquisition",
+        "platform_acquisition",
+        "single_asset_takeout",
+        "pipeline_portfolio_takeout",
     ])
-    def test_explicit_routing(self, dtc, expected_model):
+    def test_all_deal_type_values_pass_gate10(self, dtc):
+        """After 0A/0B refactor: all deal-type values PASS Gate 10.
+        Model routing is now owned by Layer 0B (DealStructureRoute).
+        """
         p = CompanyProfile(company_id="X", entity_type="biotech",
                            deal_type_classification=dtc)
         r = evaluate_company_exclusions(p)
-        assert r.overall_status == ExclusionStatus.ROUTE_TO_OTHER_MODEL
-        assert r.routed_model == expected_model
+        assert r.overall_status == ExclusionStatus.PASS, (
+            f"{dtc!r} should PASS Gate 10 after 0A/0B refactor; got {r.overall_status}. "
+            "Model routing for deal types is now owned by Layer 0B."
+        )
+        assert r.routed_model is None, (
+            f"{dtc!r} should not produce a routed_model in Gate 10; got {r.routed_model}. "
+            "DealStructureRoute in Layer 0B owns routing."
+        )
 
     def test_historical_training_classification(self):
         p = CompanyProfile(company_id="X", entity_type="biotech",
@@ -788,8 +806,8 @@ class TestGate10ModelRouting:
         # Must not route away from the standard M&A model
         assert r.routed_model is None
 
-    def test_legacy_and_canonical_routing_produce_same_result(self):
-        """Legacy 'licensing_only' and canonical 'asset_license_partnership' are equivalent."""
+    def test_legacy_and_canonical_both_pass_gate10(self):
+        """Legacy 'licensing_only' and canonical 'asset_license_partnership' both PASS Gate 10."""
         from bve.intelligence.exclusions import evaluate_company_exclusions as ece
         p_legacy = CompanyProfile(company_id="X", entity_type="biotech",
                                   deal_type_classification="licensing_only")
@@ -797,8 +815,10 @@ class TestGate10ModelRouting:
                                      deal_type_classification="asset_license_partnership")
         r_legacy = ece(p_legacy)
         r_canonical = ece(p_canonical)
-        assert r_legacy.overall_status == r_canonical.overall_status
-        assert r_legacy.routed_model == r_canonical.routed_model
+        assert r_legacy.overall_status == ExclusionStatus.PASS
+        assert r_canonical.overall_status == ExclusionStatus.PASS
+        assert r_legacy.routed_model is None
+        assert r_canonical.routed_model is None
 
     def test_none_classification_passes(self):
         p = _clean_company()
