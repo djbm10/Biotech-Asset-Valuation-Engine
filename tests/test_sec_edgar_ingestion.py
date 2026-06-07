@@ -73,3 +73,44 @@ def test_get_cik_prefers_company_name_match_when_ticker_search_is_ambiguous(monk
         sec_edgar.get_cik("RNA", company_name="Avidity Biosciences")
         == "0001599901"
     )
+
+
+def test_extract_sgna_expense_from_company_facts() -> None:
+    facts = {
+        "us-gaap": {
+            "SellingGeneralAndAdministrativeExpense": {
+                "units": {
+                    "USD": [
+                        {"form": "10-K", "end": "2023-12-31", "val": 90_000_000},
+                        {"form": "10-K", "end": "2024-12-31", "val": 120_000_000},
+                    ]
+                }
+            }
+        }
+    }
+
+    assert sec_edgar.extract_sgna_expense(facts) == 120.0
+
+
+def test_get_financials_includes_sgna(monkeypatch) -> None:
+    monkeypatch.setattr(sec_edgar, "get_cik", lambda ticker: "0000123456")
+    monkeypatch.setattr(
+        sec_edgar,
+        "get_company_facts",
+        lambda cik: {
+            "us-gaap": {
+                "CashAndCashEquivalentsAtCarryingValue": {
+                    "units": {"USD": [{"form": "10-Q", "end": "2025-03-31", "val": 250_000_000}]}
+                },
+                "ResearchAndDevelopmentExpense": {
+                    "units": {"USD": [{"form": "10-K", "end": "2024-12-31", "val": 120_000_000}]}
+                },
+                "SellingGeneralAndAdministrativeExpense": {
+                    "units": {"USD": [{"form": "10-K", "end": "2024-12-31", "val": 60_000_000}]}
+                },
+            }
+        },
+    )
+
+    financials = sec_edgar.get_financials_by_ticker("TEST")
+    assert financials["sgna_expense_millions"] == 60.0

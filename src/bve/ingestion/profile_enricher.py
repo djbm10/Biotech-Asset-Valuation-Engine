@@ -56,6 +56,8 @@ class TargetProfileEnriched:
     # Financial signals (from SEC EDGAR)
     cash_millions: Optional[float]
     rd_expense_ttm_millions: Optional[float]
+    sgna_expense_ttm_millions: Optional[float]
+    operating_burn_ttm_millions: Optional[float]
     shares_outstanding_millions: Optional[float]
     cash_runway_months: Optional[float]
 
@@ -154,7 +156,8 @@ class ProfileEnricher:
         Loaded overrides dict from universe_loader.load_manual_overrides().
     sec_fetcher:
         Callable(ticker) → dict with keys: cash_millions, rd_expense_millions,
-        shares_outstanding_millions. Defaults to sec_edgar.get_financials_by_ticker.
+        sgna_expense_millions, shares_outstanding_millions.
+        Defaults to sec_edgar.get_financials_by_ticker.
         Pass a mock for tests.
     ledger_score_fetcher:
         Callable(ticker) → dict[str, float] of evidence-driven scores.
@@ -226,6 +229,7 @@ class ProfileEnricher:
 
         cash_raw = sec.get("cash_millions")
         rd_raw = sec.get("rd_expense_millions")
+        sgna_raw = sec.get("sgna_expense_millions")
         shares_raw = sec.get("shares_outstanding_millions")
 
         # Resolve core fields through priority chain
@@ -249,14 +253,26 @@ class ProfileEnricher:
         # Financial fields (SEC only — no override path needed)
         source_map["cash_millions"] = "sec" if cash_raw is not None else "null"
         source_map["rd_expense_ttm_millions"] = "sec" if rd_raw is not None else "null"
+        source_map["sgna_expense_ttm_millions"] = "sec" if sgna_raw is not None else "null"
         source_map["shares_outstanding_millions"] = "sec" if shares_raw is not None else "null"
 
         # Compute runway
         cash_runway: Optional[float] = None
-        if cash_raw is not None and rd_raw is not None and rd_raw > 0:
-            monthly_burn = rd_raw / 12.0
+        operating_burn: Optional[float] = None
+        if rd_raw is not None and sgna_raw is not None:
+            operating_burn = rd_raw + sgna_raw
+            source_map["operating_burn_ttm_millions"] = "sec"
+        elif rd_raw is not None:
+            operating_burn = rd_raw
+            source_map["operating_burn_ttm_millions"] = "sec_rd_only"
+        else:
+            source_map["operating_burn_ttm_millions"] = "null"
+
+        if cash_raw is not None and operating_burn is not None and operating_burn > 0:
+            monthly_burn = operating_burn / 12.0
             cash_runway = round(cash_raw / monthly_burn, 1)
-            flags.append("runway_estimated_from_rd_only")
+            if sgna_raw is None:
+                flags.append("runway_estimated_from_rd_only")
             source_map["cash_runway_months"] = "sec"
         else:
             source_map["cash_runway_months"] = "null"
@@ -266,6 +282,8 @@ class ProfileEnricher:
             flags.append("cash_missing")
         if rd_raw is None:
             flags.append("rd_expense_missing")
+        if rd_raw is not None and sgna_raw is None:
+            flags.append("sgna_expense_missing")
         if not lead_asset:
             flags.append("lead_asset_missing")
         if not lead_phase or lead_phase == "unknown":
@@ -290,6 +308,8 @@ class ProfileEnricher:
             has_partner_encumbrance=has_encumbrance,
             cash_millions=cash_raw,
             rd_expense_ttm_millions=rd_raw,
+            sgna_expense_ttm_millions=sgna_raw,
+            operating_burn_ttm_millions=operating_burn,
             shares_outstanding_millions=shares_raw,
             cash_runway_months=cash_runway,
             quality_score=0.0,   # computed below

@@ -76,6 +76,7 @@ def _make_target_result(
         confidence_label=confidence_label,
         asset_quality=0.60,
         seller_willingness=0.45,
+        financing_risk=0.10,
         catalyst_timing=0.35,
         ma_attractiveness=0.55,
         evidence_coverage_overall=evidence_coverage_overall,
@@ -200,8 +201,8 @@ class TestRankedTargetsCSV:
         gen = WeeklyReportGenerator()
         gen.write_outputs(_make_result(), tmp_path)
         fields, _ = _read_csv(tmp_path / "ranked_targets.csv")
-        for col in ["rank", "ticker", "name", "ma_probability", "probability_low",
-                    "probability_high", "confidence_label", "asset_quality",
+        for col in ["rank", "ticker", "name", "ma_score", "score_low",
+                    "score_high", "confidence_label", "asset_quality",
                     "seller_willingness", "ma_attractiveness", "catalyst_timing",
                     "evidence_coverage_overall", "profile_quality_score",
                     "top_acquirer", "top_acquirer_pair_score",
@@ -350,7 +351,7 @@ class TestScoreChangesCSV:
         curr = _make_result(ranked=[curr_t])
         changes = compute_score_changes(curr, prev)
         row = next(c for c in changes if c["ticker"] == "TSTR")
-        assert abs(row["probability_change"] - 0.12) < 0.001
+        assert abs(row["ma_score_change"] - 0.12) < 0.001
 
     def test_score_changes_written_to_csv_when_prev_exists(self, tmp_path):
         prev_t = _make_target_result("TSTR", rank=10)
@@ -484,9 +485,14 @@ class TestValidationSnapshot:
         snap = self._load_snapshot(tmp_path)
         assert snap["top_target"] == "TSTR"
 
-    def test_top_probability_is_float(self, tmp_path):
+    def test_top_ma_score_is_float(self, tmp_path):
         snap = self._load_snapshot(tmp_path)
-        assert isinstance(snap["top_probability"], float)
+        assert isinstance(snap["top_ma_score"], float)
+
+    def test_calibration_status_is_uncalibrated(self, tmp_path):
+        snap = self._load_snapshot(tmp_path)
+        assert snap["calibration_status"] == "uncalibrated"
+        assert "output_interpretation" in snap
 
     def test_schema_version_is_report_version(self, tmp_path):
         snap = self._load_snapshot(tmp_path)

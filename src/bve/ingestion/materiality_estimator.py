@@ -47,7 +47,7 @@ BASE_MATERIALITY: dict[str, float] = {
     "clinical_positive_ph1":  0.30,
     "clinical_negative":      0.55,
     "clinical_positive":      0.50,
-    "trial_discontinuation":  0.80,
+    "trial_discontinuation":  0.35,   # context-dependent; filter applies materiality tier
     "trial_delay":            0.40,
     "trial_start":            0.18,
     # Regulatory

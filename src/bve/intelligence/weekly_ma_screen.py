@@ -61,6 +61,7 @@ class TargetScreenResult:
 
     asset_quality: float
     seller_willingness: float
+    financing_risk: float
     catalyst_timing: float
     ma_attractiveness: float
     evidence_coverage_overall: float
@@ -88,6 +89,23 @@ class AcquirerPairResult:
     deal_size_fit: float
     pipeline_gap_fill: float
     integration_complexity: float
+    ta_fit_cap_applied: Optional[float] = None
+    ta_fit_override_type: Optional[str] = None
+    ta_fit_override_source: Optional[str] = None
+
+
+@dataclass(frozen=True)
+class AcquirerTAOverride:
+    """Auditable reason to relax weak-TA pair-score caps for an acquirer."""
+
+    acquirer_ticker: str
+    therapeutic_area: str
+    override_type: str
+    source: str
+    source_date: date
+    recorded_at: date
+    confidence: float = 0.70
+    notes: str = ""
 
 
 @dataclass(frozen=True)
@@ -120,6 +138,22 @@ _PHASE_MAP: dict[str, str] = {"commercial": "approved"}
 _TA_MAP: dict[str, str] = {
     "neuroscience": "cns",
     "infectious_disease": "infectious",
+}
+
+_TA_FIT_CAP_SEVERE_THRESHOLD = 0.20
+_TA_FIT_CAP_WEAK_THRESHOLD = 0.30
+_TA_FIT_CAP_SEVERE = 0.60
+_TA_FIT_CAP_WEAK = 0.75
+
+_VALID_TA_OVERRIDE_TYPES = {
+    "public_ta_expansion_statement",
+    "adjacent_ta_deal_history",
+    "active_clinical_program",
+}
+_TA_OVERRIDE_LOOKBACK_MONTHS = {
+    "public_ta_expansion_statement": 24,
+    "adjacent_ta_deal_history": 36,
+    "active_clinical_program": 36,
 }
 
 
@@ -177,6 +211,51 @@ def _confidence_label(half_width: float) -> str:
 def _coverage_from_n_records(n: int) -> float:
     """Simple coverage estimate: 5 records = full coverage."""
     return min(1.0, n / 5.0)
+
+
+def _months_between(later: date, earlier: date) -> int:
+    """Whole-month difference used for override expiry checks."""
+    return (later.year - earlier.year) * 12 + later.month - earlier.month
+
+
+def _valid_ta_override(
+    *,
+    acquirer_ticker: str,
+    target_tas: list[str],
+    as_of_date: date,
+    overrides: list[AcquirerTAOverride],
+) -> Optional[AcquirerTAOverride]:
+    """Return a non-expired, auditable TA override for this pair, if one exists."""
+    normalized_tas = {ta.lower() for ta in target_tas}
+    for override in overrides:
+        if override.acquirer_ticker.upper() != acquirer_ticker.upper():
+            continue
+        if override.therapeutic_area.lower() not in normalized_tas:
+            continue
+        if override.override_type not in _VALID_TA_OVERRIDE_TYPES:
+            continue
+        lookback = _TA_OVERRIDE_LOOKBACK_MONTHS[override.override_type]
+        if _months_between(as_of_date, override.source_date) > lookback:
+            continue
+        if override.confidence < 0.50:
+            continue
+        return override
+    return None
+
+
+def _apply_ta_fit_cap(
+    pair_score: float,
+    ta_overlap: float,
+    override: Optional[AcquirerTAOverride],
+) -> tuple[float, Optional[float]]:
+    """Cap implausibly high pair scores when TA fit is weak and not overridden."""
+    if override is not None:
+        return pair_score, None
+    if ta_overlap < _TA_FIT_CAP_SEVERE_THRESHOLD:
+        return min(pair_score, _TA_FIT_CAP_SEVERE), _TA_FIT_CAP_SEVERE
+    if ta_overlap < _TA_FIT_CAP_WEAK_THRESHOLD:
+        return min(pair_score, _TA_FIT_CAP_WEAK), _TA_FIT_CAP_WEAK
+    return pair_score, None
 
 
 def _build_baseline_features(target: TargetProfileEnriched) -> dict:
@@ -277,6 +356,7 @@ def _score_pair(
     asset_quality: float,
     pair_scorer: AcquirerPairScorer,
     as_of_date: date,
+    ta_overrides: list[AcquirerTAOverride],
 ) -> AcquirerPairResult:
     """Compute one (target, acquirer) pair result."""
     ta_overlap = _jaccard(target.therapeutic_areas, acquirer.therapeutic_areas)
@@ -298,17 +378,31 @@ def _score_pair(
         as_of_date=as_of_date.isoformat(),
     )
     ps = pair_scorer.score(features)
+    override = _valid_ta_override(
+        acquirer_ticker=acquirer.ticker,
+        target_tas=target.therapeutic_areas,
+        as_of_date=as_of_date,
+        overrides=ta_overrides,
+    )
+    capped_pair_score, cap_applied = _apply_ta_fit_cap(
+        pair_score=round(ps.probability, 4),
+        ta_overlap=ta_overlap,
+        override=override,
+    )
 
     return AcquirerPairResult(
         target_ticker=target.ticker,
         acquirer_ticker=acquirer.ticker,
-        pair_score=round(ps.probability, 4),
+        pair_score=round(capped_pair_score, 4),
         ta_overlap=round(ta_overlap, 4),
         modality_fit=modality_fit,
         stage_fit=stage_fit,
         deal_size_fit=round(dsf, 4),
         pipeline_gap_fill=round(pipeline_gap_fill, 4),
         integration_complexity=round(complexity, 4),
+        ta_fit_cap_applied=cap_applied,
+        ta_fit_override_type=override.override_type if override else None,
+        ta_fit_override_source=override.source if override else None,
     )
 
 
@@ -339,10 +433,12 @@ class WeeklyMAScreen:
         baseline_scorer: Optional[BaselineScorer] = None,
         pair_scorer: Optional[AcquirerPairScorer] = None,
         confidence_band_estimator: Optional[ConfidenceBandEstimator] = None,
+        ta_overrides: Optional[list[AcquirerTAOverride]] = None,
     ) -> None:
         self._baseline = baseline_scorer or BaselineScorer()
         self._pair_scorer = pair_scorer or AcquirerPairScorer()
         self._band_estimator = confidence_band_estimator or ConfidenceBandEstimator()
+        self._ta_overrides = ta_overrides or []
 
     def run(
         self,
@@ -444,6 +540,7 @@ class WeeklyMAScreen:
 
         asset_quality = float(current_scores.get("asset_quality", baseline.scores["asset_quality"]))
         seller_willingness = float(current_scores.get("seller_willingness", baseline.scores["seller_willingness"]))
+        financing_risk = float(current_scores.get("financing_risk", baseline.scores.get("financing_risk", DEFAULT_SEED_SCORES["financing_risk"])))
         ma_attractiveness = float(current_scores.get("ma_attractiveness", baseline.scores["ma_attractiveness"]))
         catalyst_timing = float(current_scores.get("catalyst_timing", DEFAULT_SEED_SCORES["catalyst_timing"]))
 
@@ -469,6 +566,7 @@ class WeeklyMAScreen:
                         asset_quality=asset_quality,
                         pair_scorer=self._pair_scorer,
                         as_of_date=as_of_date,
+                        ta_overrides=self._ta_overrides,
                     )
                 )
 
@@ -504,6 +602,7 @@ class WeeklyMAScreen:
             confidence_label=_confidence_label(band.half_width),
             asset_quality=round(asset_quality, 4),
             seller_willingness=round(seller_willingness, 4),
+            financing_risk=round(financing_risk, 4),
             catalyst_timing=round(catalyst_timing, 4),
             ma_attractiveness=round(ma_attractiveness, 4),
             evidence_coverage_overall=round(coverage, 4),
@@ -530,6 +629,7 @@ def _replace_rank(result: TargetScreenResult, rank: int) -> TargetScreenResult:
         confidence_label=result.confidence_label,
         asset_quality=result.asset_quality,
         seller_willingness=result.seller_willingness,
+        financing_risk=result.financing_risk,
         catalyst_timing=result.catalyst_timing,
         ma_attractiveness=result.ma_attractiveness,
         evidence_coverage_overall=result.evidence_coverage_overall,
@@ -562,6 +662,7 @@ def ranked_targets_to_rows(result: WeeklyMAScreenResult) -> list[dict[str, Any]]
             "confidence_label": t.confidence_label,
             "asset_quality": t.asset_quality,
             "seller_willingness": t.seller_willingness,
+            "financing_risk": t.financing_risk,
             "catalyst_timing": t.catalyst_timing,
             "ma_attractiveness": t.ma_attractiveness,
             "evidence_coverage_overall": t.evidence_coverage_overall,
@@ -590,6 +691,9 @@ def pair_results_to_rows(result: WeeklyMAScreenResult) -> list[dict[str, Any]]:
             "deal_size_fit": p.deal_size_fit,
             "pipeline_gap_fill": p.pipeline_gap_fill,
             "integration_complexity": p.integration_complexity,
+            "ta_fit_cap_applied": p.ta_fit_cap_applied or "",
+            "ta_fit_override_type": p.ta_fit_override_type or "",
+            "ta_fit_override_source": p.ta_fit_override_source or "",
             "as_of_date": result.as_of_date.isoformat(),
         })
     return rows

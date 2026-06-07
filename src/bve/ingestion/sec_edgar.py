@@ -236,6 +236,23 @@ def extract_rd_expense(facts: dict) -> Optional[float]:
     return None
 
 
+def extract_sgna_expense(facts: dict) -> Optional[float]:
+    """Extract most recent annual SG&A expense in USD millions."""
+    gaap = facts.get("us-gaap", {})
+    for concept in [
+        "SellingGeneralAndAdministrativeExpense",
+        "SellingGeneralAndAdministrativeExpenseResearchAndDevelopment",
+        "GeneralAndAdministrativeExpense",
+    ]:
+        units = gaap.get(concept, {}).get("units", {}).get("USD", [])
+        if units:
+            annual = [u for u in units if u.get("form") == "10-K" and u.get("val")]
+            if annual:
+                latest = max(annual, key=lambda u: u.get("end", ""))
+                return round(latest["val"] / 1e6, 2)
+    return None
+
+
 def extract_shares_outstanding(facts: dict) -> Optional[float]:
     """Extract most recent diluted share count in millions."""
     gaap = facts.get("us-gaap", {})
@@ -253,7 +270,8 @@ def get_financials_by_ticker(ticker: str) -> dict[str, Any]:
     """
     High-level helper: resolve ticker → financials dict.
 
-    Returns dict with keys: cash_millions, rd_expense_millions, shares_outstanding_millions
+    Returns dict with keys: cash_millions, rd_expense_millions,
+    sgna_expense_millions, shares_outstanding_millions
     """
     cik = get_cik(ticker)
     if not cik:
@@ -264,5 +282,6 @@ def get_financials_by_ticker(ticker: str) -> dict[str, Any]:
         "cik": cik,
         "cash_millions": extract_cash(facts),
         "rd_expense_millions": extract_rd_expense(facts),
+        "sgna_expense_millions": extract_sgna_expense(facts),
         "shares_outstanding_millions": extract_shares_outstanding(facts),
     }

@@ -13,7 +13,7 @@ from __future__ import annotations
 
 import hashlib
 import json
-from datetime import datetime, timezone
+from datetime import datetime
 from typing import Any
 from unittest.mock import MagicMock, patch
 
@@ -489,6 +489,21 @@ class TestFdaClient:
 
         events = fetch_approvals("UnknownDrug")
         assert events == []
+
+    def test_openfda_404_returns_no_record_payload(self, monkeypatch):
+        from bve.ingestion import fda_client
+
+        class _Response:
+            status_code = 404
+
+            def raise_for_status(self):
+                raise AssertionError("404 should be handled before raise_for_status")
+
+        monkeypatch.setattr(fda_client.requests, "get", lambda *args, **kwargs: _Response())
+
+        data = fda_client._get("https://api.fda.gov/drug/nda.json")
+        assert data["status"] == "no_fda_record"
+        assert data["results"] == []
 
     @patch("bve.ingestion.fda_client._get")
     def test_fetch_adverse_events(self, mock_get):

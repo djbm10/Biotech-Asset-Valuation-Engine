@@ -8,13 +8,9 @@ from __future__ import annotations
 import csv
 from datetime import date
 from pathlib import Path
-from typing import Any
-
-import pytest
 
 from bve.ingestion.live_ingestion_runner import (
     CTGovSource,
-    FDASource,
     IngestionRunResult,
     LiveIngestionRunner,
     RawIngestionItem,
@@ -173,6 +169,49 @@ def _minimal_profiles():
 
 
 # ---------------------------------------------------------------------------
+# Source adapter behavior
+# ---------------------------------------------------------------------------
+
+class TestCTGovSource:
+    def test_fetch_falls_back_to_sponsor_when_lead_asset_has_no_trials(self, monkeypatch):
+        from bve.ingestion.raw_event import RawEvent
+
+        calls: list[str] = []
+
+        def fake_search_trials(drug_name: str, limit: int = 20):  # noqa: ARG001
+            calls.append(drug_name)
+            if drug_name == "RMC-6236":
+                return []
+            return [
+                RawEvent(
+                    source="clinicaltrials_gov",
+                    record_type="clinical_trial",
+                    source_url="https://clinicaltrials.gov/study/NCT1",
+                    payload={
+                        "nct_id": "NCT1",
+                        "brief_title": "Company sponsored oncology trial",
+                        "status": "RECRUITING",
+                        "phases": ["PHASE2"],
+                        "last_update_submitted": "2026-06-01",
+                    },
+                )
+            ]
+
+        monkeypatch.setattr("bve.ingestion.ctgov_client.search_trials", fake_search_trials)
+
+        source = CTGovSource()
+        items = source.fetch(
+            "RVMD",
+            {"name": "Revolution Medicines", "lead_asset": "RMC-6236"},
+            lookback_days=14,
+        )
+
+        assert calls == ["RMC-6236", "Revolution Medicines"]
+        assert len(items) == 1
+        assert items[0].raw_payload["nct_id"] == "NCT1"
+
+
+# ---------------------------------------------------------------------------
 # 1. Runner processes a raw SEC item into an EvidenceRecord
 # ---------------------------------------------------------------------------
 
@@ -219,7 +258,6 @@ class TestProcessSECItem:
 class TestUnclassifiedSkipped:
     def test_unclassified_not_in_ledger(self, tmp_path):
         def _unclassified_classifier(text, ticker, source_type):
-            mlc = _make_mlc(ticker=ticker)
             # Return UNCLASSIFIED
             return _make_mlc(ticker=ticker, primary_event="unclassified", direction="unknown", confidence=0.0)
 
@@ -461,7 +499,7 @@ class TestContextModifier:
 
         item = _make_item(ticker="RVMD")
         runner = LiveIngestionRunner(
-            sec_source=lambda t, p, l: [item] if t == "RVMD" else [],
+            sec_source=lambda t, p, lookback: [item] if t == "RVMD" else [],
             ctgov_source=_null_source,
             fda_source=_null_source,
             classifier=lambda text, ticker, src: _make_mlc(ticker=ticker),
@@ -490,7 +528,7 @@ class TestContextModifier:
 
         item = _make_item(ticker="RVMD")
         runner = LiveIngestionRunner(
-            sec_source=lambda t, p, l: [item] if t == "RVMD" else [],
+            sec_source=lambda t, p, lookback: [item] if t == "RVMD" else [],
             ctgov_source=_null_source,
             fda_source=_null_source,
             classifier=lambda text, ticker, src: _make_mlc(ticker=ticker),
@@ -604,7 +642,7 @@ class TestSourceFailure:
 
         runner = LiveIngestionRunner(
             sec_source=_exploding_sec,
-            ctgov_source=lambda t, p, l: [item_ctgov] if t == "RVMD" else [],
+            ctgov_source=lambda t, p, lookback: [item_ctgov] if t == "RVMD" else [],
             fda_source=_null_source,
             classifier=lambda text, ticker, src: _make_mlc(ticker=ticker, source_type=src),
             materiality_est=lambda et, st, h=None: _make_mat_est(),
