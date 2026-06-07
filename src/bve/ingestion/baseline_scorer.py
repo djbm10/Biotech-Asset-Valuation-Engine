@@ -80,9 +80,32 @@ _FAST_TRACK_ADJUSTMENT     = +0.03
 _PLATFORM_ADJUSTMENT       = -0.04  # platform reduces urgency for acquirer
 _SINGLE_ASSET_ADJUSTMENT   = +0.06  # single asset = cleaner acquisition target
 
-# Cash runway distress signals
-_CASH_DISTRESS_MONTHS      = 12
-_CASH_DISTRESS_ADJUSTMENT  = +0.08  # distress accelerates deal willingness
+# Cash runway — tiered thresholds and adjustments.
+# Burn is estimated from R&D-only, so actual runway is shorter (SG&A excluded).
+# Use conservative tiers to account for that systematic overestimate.
+#
+# seller_willingness deltas: distress forces deal-seeking → more willing to sell
+# financing_risk deltas: near-zero cash → acquirer bears dilution / bridge risk
+#
+# Tiers (months of runway based on R&D-only burn estimate):
+#   CRITICAL  ≤  6 months  — existential; forced sale or shutdown imminent
+#   HIGH      ≤ 12 months  — significant pressure; management actively exploring options
+#   MODERATE  ≤ 18 months  — moderate concern; deal may be attractive vs. equity raise
+#   LOW       >  18 months — well-funded; no distress signal
+
+_RUNWAY_CRITICAL_MONTHS   = 6
+_RUNWAY_HIGH_MONTHS       = 12
+_RUNWAY_MODERATE_MONTHS   = 18
+
+# seller_willingness adjustments per tier (positive = more willing)
+_SELLER_WILLINGNESS_CRITICAL  = +0.20
+_SELLER_WILLINGNESS_HIGH      = +0.12
+_SELLER_WILLINGNESS_MODERATE  = +0.05
+
+# financing_risk adjustments per tier (positive = more risk to acquirer)
+_FINANCING_RISK_CRITICAL  = +0.25
+_FINANCING_RISK_HIGH      = +0.15
+_FINANCING_RISK_MODERATE  = +0.06
 
 
 # ---------------------------------------------------------------------------
@@ -193,16 +216,25 @@ class BaselineScorer:
             breakdown["single_asset"] = _SINGLE_ASSET_ADJUSTMENT
             adjustment += _SINGLE_ASSET_ADJUSTMENT
 
-        # Cash distress
+        # Cash runway — tiered distress signal for ma_attractiveness
         runway = features.get("cash_runway_months")
-        if runway is not None and runway < _CASH_DISTRESS_MONTHS:
-            breakdown["cash_distress"] = _CASH_DISTRESS_ADJUSTMENT
-            adjustment += _CASH_DISTRESS_ADJUSTMENT
+        if runway is not None:
+            if runway <= _RUNWAY_CRITICAL_MONTHS:
+                cash_adj = _SELLER_WILLINGNESS_CRITICAL * 0.5
+            elif runway <= _RUNWAY_HIGH_MONTHS:
+                cash_adj = _SELLER_WILLINGNESS_HIGH * 0.5
+            elif runway <= _RUNWAY_MODERATE_MONTHS:
+                cash_adj = _SELLER_WILLINGNESS_MODERATE * 0.5
+            else:
+                cash_adj = 0.0
+            if cash_adj > 0:
+                breakdown["cash_runway_distress"] = cash_adj
+                adjustment += cash_adj
 
         raw_ma = _BASE_PRIOR + adjustment
         ma_score = round(max(0.05, min(0.95, raw_ma)), 4)
 
-        # Derive asset_quality and seller_willingness from structural features
+        # Derive asset_quality, seller_willingness, and financing_risk
         # (simplified heuristics; event evidence will override later)
         asset_adj = self._asset_quality_adjustment(features)
         asset_score = round(max(0.05, min(0.95, _BASE_PRIOR + asset_adj)), 4)
@@ -210,10 +242,14 @@ class BaselineScorer:
         seller_adj = self._seller_willingness_adjustment(features)
         seller_score = round(max(0.05, min(0.95, _BASE_PRIOR + seller_adj)), 4)
 
+        financing_adj = self._financing_risk_adjustment(features)
+        financing_risk_score = round(max(0.0, min(1.0, financing_adj)), 4)
+
         scores = {
             "ma_attractiveness": ma_score,
             "asset_quality": asset_score,
             "seller_willingness": seller_score,
+            "financing_risk": financing_risk_score,
         }
 
         return BaselineScore(
@@ -243,10 +279,28 @@ class BaselineScorer:
     def _seller_willingness_adjustment(self, features: dict) -> float:
         adj = 0.0
         runway = features.get("cash_runway_months")
-        if runway is not None and runway < _CASH_DISTRESS_MONTHS:
-            adj += _CASH_DISTRESS_ADJUSTMENT * 1.5  # distress strongly drives willingness
+        if runway is not None:
+            if runway <= _RUNWAY_CRITICAL_MONTHS:
+                adj += _SELLER_WILLINGNESS_CRITICAL
+            elif runway <= _RUNWAY_HIGH_MONTHS:
+                adj += _SELLER_WILLINGNESS_HIGH
+            elif runway <= _RUNWAY_MODERATE_MONTHS:
+                adj += _SELLER_WILLINGNESS_MODERATE
         if features.get("single_asset"):
             adj += _SINGLE_ASSET_ADJUSTMENT * 0.5
         if features.get("platform_company"):
             adj += _PLATFORM_ADJUSTMENT  # platform co less willing to sell
         return adj
+
+    def _financing_risk_adjustment(self, features: dict) -> float:
+        """Acquirer-side risk from target's cash position: dilution / bridge financing."""
+        runway = features.get("cash_runway_months")
+        if runway is None:
+            return 0.0
+        if runway <= _RUNWAY_CRITICAL_MONTHS:
+            return _FINANCING_RISK_CRITICAL
+        if runway <= _RUNWAY_HIGH_MONTHS:
+            return _FINANCING_RISK_HIGH
+        if runway <= _RUNWAY_MODERATE_MONTHS:
+            return _FINANCING_RISK_MODERATE
+        return 0.0

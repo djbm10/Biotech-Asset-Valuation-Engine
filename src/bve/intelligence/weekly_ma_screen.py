@@ -61,6 +61,7 @@ class TargetScreenResult:
 
     asset_quality: float
     seller_willingness: float
+    financing_risk: float
     catalyst_timing: float
     ma_attractiveness: float
     evidence_coverage_overall: float
@@ -444,6 +445,7 @@ class WeeklyMAScreen:
 
         asset_quality = float(current_scores.get("asset_quality", baseline.scores["asset_quality"]))
         seller_willingness = float(current_scores.get("seller_willingness", baseline.scores["seller_willingness"]))
+        financing_risk = float(current_scores.get("financing_risk", baseline.scores.get("financing_risk", DEFAULT_SEED_SCORES["financing_risk"])))
         ma_attractiveness = float(current_scores.get("ma_attractiveness", baseline.scores["ma_attractiveness"]))
         catalyst_timing = float(current_scores.get("catalyst_timing", DEFAULT_SEED_SCORES["catalyst_timing"]))
 
@@ -504,6 +506,7 @@ class WeeklyMAScreen:
             confidence_label=_confidence_label(band.half_width),
             asset_quality=round(asset_quality, 4),
             seller_willingness=round(seller_willingness, 4),
+            financing_risk=round(financing_risk, 4),
             catalyst_timing=round(catalyst_timing, 4),
             ma_attractiveness=round(ma_attractiveness, 4),
             evidence_coverage_overall=round(coverage, 4),
@@ -530,6 +533,7 @@ def _replace_rank(result: TargetScreenResult, rank: int) -> TargetScreenResult:
         confidence_label=result.confidence_label,
         asset_quality=result.asset_quality,
         seller_willingness=result.seller_willingness,
+        financing_risk=result.financing_risk,
         catalyst_timing=result.catalyst_timing,
         ma_attractiveness=result.ma_attractiveness,
         evidence_coverage_overall=result.evidence_coverage_overall,
@@ -562,6 +566,7 @@ def ranked_targets_to_rows(result: WeeklyMAScreenResult) -> list[dict[str, Any]]
             "confidence_label": t.confidence_label,
             "asset_quality": t.asset_quality,
             "seller_willingness": t.seller_willingness,
+            "financing_risk": t.financing_risk,
             "catalyst_timing": t.catalyst_timing,
             "ma_attractiveness": t.ma_attractiveness,
             "evidence_coverage_overall": t.evidence_coverage_overall,
