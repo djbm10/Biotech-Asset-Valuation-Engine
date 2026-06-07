@@ -108,7 +108,7 @@ class PortfolioSynergyResult:
         print(f"  Total synergy score: {self.total_synergy_score:.2f}")
         print(f"  Synergy pairs found: {self.n_synergy_pairs}")
         if self.edges:
-            print(f"\n  Top synergy pairs:")
+            print("\n  Top synergy pairs:")
             for edge in self.top_pairs[:top_n]:
                 print(f"    [{edge.score:.2f}] {edge.asset_id_a} × {edge.asset_id_b}: "
                       f"{edge.synergy_type.value} — {edge.description}")

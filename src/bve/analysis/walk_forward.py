@@ -23,8 +23,11 @@ Design
 Policy parameters varied
 ------------------------
   min_model_score   : [0.40, 0.50, 0.60]   — minimum composite score to enter
-  max_hold_days     : [14, 21, 28]          — forced exit days
-  require_catalyst  : [True, False]          — require catalyst ≤30d
+  require_catalyst  : [0, 90] days          — require catalyst within N days
+
+``max_hold_days`` is intentionally not varied here. A replay run stores one
+realized exit per decision, so hold-period sensitivity requires separate
+replay seeds with different forced-exit rules.
 
 Stability gate
 --------------
@@ -57,6 +60,8 @@ from typing import Optional
 class PolicyConfig:
     """One candidate policy configuration."""
     min_model_score: float = 0.50
+    # Documentation only: not varied in DEFAULT_POLICY_GRID because changing it
+    # requires separate replay runs with different exits.
     max_hold_days: int = 28
     require_catalyst_days: int = 30   # 0 = disabled
 
@@ -70,10 +75,9 @@ class PolicyConfig:
 
 
 DEFAULT_POLICY_GRID: list[PolicyConfig] = [
-    PolicyConfig(min_model_score=s, max_hold_days=h, require_catalyst_days=c)
+    PolicyConfig(min_model_score=s, require_catalyst_days=c)
     for s in [0.40, 0.50, 0.60]
-    for h in [14, 21, 28]
-    for c in [0, 30]
+    for c in [0, 90]
 ]
 
 # ---------------------------------------------------------------------------
@@ -185,8 +189,7 @@ class WalkForwardReport:
 
     @property
     def optimal_hold_days_stable(self) -> bool:
-        holds = [f.locked.policy.max_hold_days for f in self.folds]
-        return len(set(holds)) == 1
+        return True
 
     @property
     def optimal_catalyst_gate_stable(self) -> bool:
@@ -251,10 +254,14 @@ class WalkForwardReport:
             )
         lines.append("")
         lines.append(f"  Score threshold stable:      {'✓' if self.optimal_score_stable else '✗'}")
-        lines.append(f"  Hold days stable:            {'✓' if self.optimal_hold_days_stable else '✗'}")
+        lines.append("  Hold days stable:            not tested (separate replay seeds required)")
         lines.append(f"  Catalyst gate stable:        {'✓' if self.optimal_catalyst_gate_stable else '✗'}")
         lines.append(f"  OOS positive folds:          {self.n_folds_with_positive_oos}/{len(self.folds)}")
         lines.append(f"  Overall stability grade:     {self.overall_stability_grade}")
+        lines.append("")
+        lines.append("  NOTE: max_hold_days was not varied in this walk-forward analysis.")
+        lines.append("        Test hold-period sensitivity with separate replay seeds and")
+        lines.append("        compare them using walk_forward.compare_hold_days().")
         lines.append("=" * 70)
         return "\n".join(lines)
 
@@ -328,7 +335,7 @@ class WalkForwardReport:
             "## Stability assessment",
             "",
             f"- Score threshold consistent: {'Yes' if self.optimal_score_stable else 'No'}",
-            f"- Hold days consistent: {'Yes' if self.optimal_hold_days_stable else 'No'}",
+            "- Hold days consistent: not tested in grid (separate replay seeds required)",
             f"- Catalyst gate consistent: {'Yes' if self.optimal_catalyst_gate_stable else 'No'}",
             f"- OOS positive folds: {self.n_folds_with_positive_oos}/{len(self.folds)}",
             "",
@@ -337,11 +344,18 @@ class WalkForwardReport:
         ]
         grade = self.overall_stability_grade
         if grade == "STABLE":
-            lines.append(
-                "Parameters are stable across all folds. The same policy "
-                "configuration wins in- and out-of-sample consistently. "
-                "This reduces overfitting risk and supports promotion to RESEARCH_GRADE."
-            )
+            if self.n_folds_with_positive_oos >= 2:
+                lines.append(
+                    "Parameters are stable across folds and at least two OOS folds are positive. "
+                    "This reduces overfitting risk, but promotion still depends on the replay "
+                    "significance and independent-N gates."
+                )
+            else:
+                lines.append(
+                    "Parameters are stable across folds, but OOS returns are not consistently "
+                    "positive. Treat this as parameter consistency only, not evidence for "
+                    "validation-grade promotion."
+                )
         elif grade == "MODERATE":
             lines.append(
                 "Parameters are moderately stable (2/3 dimensions agree). "
@@ -380,7 +394,9 @@ def _apply_policy(decisions: list[dict], policy: PolicyConfig) -> list[dict]:
             continue
         if policy.require_catalyst_days:
             cat_days = d.get("days_to_catalyst")
-            if cat_days is not None and int(cat_days) > policy.require_catalyst_days:
+            if cat_days is None:
+                continue
+            if int(cat_days) > policy.require_catalyst_days:
                 continue
         filtered.append(d)
     return filtered
@@ -521,6 +537,19 @@ def run_walk_forward(
         ))
 
     return report
+
+
+def compare_hold_days(
+    decisions_by_hold: dict[int, list[dict]],
+    *,
+    model_name: str = "historical_replay",
+) -> dict[int, PolicyMetrics]:
+    """Compare separate replay runs with different max_hold_days values."""
+    out: dict[int, PolicyMetrics] = {}
+    for hold_days, decisions in sorted(decisions_by_hold.items()):
+        policy = PolicyConfig(max_hold_days=hold_days, require_catalyst_days=0)
+        out[hold_days] = _compute_policy_metrics(decisions, policy)
+    return out
 
 
 # ---------------------------------------------------------------------------

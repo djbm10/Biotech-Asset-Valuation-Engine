@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="hero">
+    <h1>Alerts</h1>
+    <p>Material evidence feed for recent documents and event-grade updates.</p>
+  </section>
+
+  <section class="panel">
+    <form class="filter-grid" method="get" action="{{ alerts_href }}">
+      <label>
+        <span class="eyebrow">Source Type</span>
+        <input type="text" name="source_type" value="{{ filters.source_type }}" placeholder="press_release">
+      </label>
+      <label>
+        <span class="eyebrow">Min Materiality</span>
+        <input type="number" step="0.05" min="0" max="1" name="min_materiality" value="{{ filters.min_materiality }}">
+      </label>
+      <button type="submit">Apply Filters</button>
+    </form>
+
+    <div class="section-rule"></div>
+
+    <div class="kpi-strip">
+      <div class="kpi">
+        <div class="eyebrow">Source Type</div>
+        <strong>{{ filters.source_type or "All" }}</strong>
+      </div>
+      <div class="kpi">
+        <div class="eyebrow">Min Materiality</div>
+        <strong>{{ "%.2f"|format(filters.min_materiality or 0.0) }}</strong>
+      </div>
+      <div class="kpi">
+        <div class="eyebrow">Visible Alerts</div>
+        <strong>{{ alerts|length }}</strong>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" style="margin-top: 1rem;">
+    <div class="list">
+      {% for alert in alerts %}
+        <div class="row">
+          <strong>{{ alert.title or "Untitled evidence item" }}</strong>
+          <span class="muted">{{ alert.source_type or "unknown" }}{% if alert.source_url %} · {{ alert.source_url }}{% endif %}</span>
+          <span class="pill warning">Materiality {{ "%.2f"|format(alert.materiality_score or 0.0) }}</span>
+          {% if alert.source_url %}
+            <a class="text-link" href="{{ alert.source_url }}">Open source</a>
+          {% endif %}
+        </div>
+      {% else %}
+        <div class="empty">No alerts matched the current filters.</div>
+      {% endfor %}
+    </div>
+  </section>
+{% endblock %}

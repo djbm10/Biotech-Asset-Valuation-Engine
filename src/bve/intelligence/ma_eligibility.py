@@ -13,7 +13,7 @@ Sub-gates (all target-level; no pair-specific scoring here):
                              deal attractiveness (score_multiplier ≤ 1.0)
     0E. Integration        — target's structural complexity flag (raw score only;
                              buyer-specific adjustment is Layer 3 G8)
-    0F. Distress guard     — cap score when distressed target lacks strategic value
+    0F. Distress guard     — flag financial distress pressure (informational only; no cap)
     0G. Data confidence    — grade how much to trust model output
 
 What Layer 0 does NOT do:
@@ -24,7 +24,8 @@ What Layer 0 does NOT do:
 
 Outputs (Layer0Result):
     score_multiplier    — encumbrance penalty (0D only; 0E no longer contributes)
-    score_cap           — distress guard cap (0F) or exclusion engine cap
+    score_cap           — exclusion engine cap (0A SEVERE_CAP gates only;
+                          0F no longer caps — value-trap caps owned by Layer 1)
     required_downstream_checks — which Layer 3 pair checks must run (affordability,
                              integration, asset control)
 """
@@ -339,7 +340,7 @@ _DOUBLE_COUNT_GUARD_MAP: list[str] = [
     "encumbrance_universal | hard_caps_routes@0D-T      | pair_adjustment@3B      | rnpv_mult@layer4_only",
     "partner_rights_rofr   | fact_recorded@0D-T         | buyer_impact@3B_only    | no_layer0_multiplier",
     "mfg_complexity_target | flag_recorded@0D-T         | mfg_mismatch_penalty@3B | no_layer0_multiplier",
-    "distress              | cap_or_route@0F            | transaction_narrative@3 | no_double_cap",
+    "distress              | pressure_flag@0F           | trap_cap@Layer1+narrative@3 | no_double_cap",
     "missing_data          | confidence_cap@0G          | exclusion@0A_only       | no_scoring_in_layer3",
     "self_acquisition      | pair_level_check@3_only    | removed_from_0A         | not_in_layer0",
     "antitrust             | buyer_specific@3D_only     | not_in_layer0           | not_in_layer0",
@@ -558,7 +559,8 @@ class Layer0Result(BaseModel):
     data_confidence: DataConfidenceResult
 
     # Combined score modifiers (applied regardless of exclusion status)
-    score_cap: Optional[float] = None    # None = no cap; else clamp mna_probability
+    score_cap: Optional[float] = None    # from 0A exclusion engine (SEVERE_CAP gates) only;
+                                         # 0F no longer caps — value-trap caps owned by Layer 1
     score_multiplier: float = 1.0        # encumbrance penalty (0E no longer contributes)
     layer0_notes: list[str] = Field(default_factory=list)
 
@@ -902,18 +904,19 @@ def _compute_commercial_complexity(t: TargetEligibilityInput) -> CommercialCompl
 
 
 # ---------------------------------------------------------------------------
-# Section 0F — Distress Quality Guard
+# Section 0F — Distress Pressure Guard
 # ---------------------------------------------------------------------------
 
 def _evaluate_distress_guard(t: TargetEligibilityInput) -> DistressGuard:
-    """Compute 0F Distress Quality Guard.
+    """Compute 0F Distress Pressure Guard.
 
     Delegates to compute_distress_guard() via distress_guard_from_target().
     Returns DistressGuardResult (aliased as DistressGuard for backward compat).
 
     Core principle:
-        Distress ≠ deal thesis.  High distress + viable asset = possible
-        opportunity (routed).  High distress + weak asset = value trap (capped).
+        0F is pressure-only.  It answers "how badly does this company need a
+        deal?" — nothing more.  No caps, no routing.  Asset-quality trap/
+        opportunity classification is owned by Layer 1.
     """
     inp = distress_guard_from_target(t)
     return compute_distress_guard(inp)
@@ -1002,10 +1005,6 @@ def _compute_required_downstream_checks(
     ):
         checks.append("licensing_model")        # MODEL_ROUTING
 
-    # Distressed optionality model — when 0F routes
-    if distress_guard.route_to is not None:
-        checks.append("distressed_optionality_model")  # MODEL_ROUTING
-
     return checks
 
 
@@ -1076,9 +1075,12 @@ def _plain_english_verdict(
             )
 
     if score_cap is not None:
-        parts.append(f"M&A probability capped at {score_cap:.0%} due to distress or structural limit.")
-    elif distress_guard.guard_active:
-        parts.append(f"Distress guard active ({distress_guard.treatment.value}); no hard cap applied.")
+        parts.append(f"M&A probability capped at {score_cap:.0%} due to structural limit.")
+    if distress_guard.guard_active:
+        parts.append(
+            f"High distress pressure detected ({distress_guard.distress_classification.value}); "
+            "asset-quality assessment delegated to Layer 1."
+        )
 
     meaningful_checks = [c for c in required_checks if not c.endswith("_data_required")]
     if meaningful_checks:
@@ -1216,11 +1218,13 @@ def evaluate_layer0(
     combined_multiplier = round(encumbrance.penalty_multiplier, 6)
 
     score_cap: Optional[float] = None
-    if distress_guard.guard_active and distress_guard.mna_probability_cap is not None:
-        score_cap = distress_guard.mna_probability_cap
-        notes.append(f"distress_guard_cap:{score_cap}")
-    if distress_guard.route_to is not None:
-        notes.append(f"distress_route:{distress_guard.route_to}")
+    # 0F is now pressure-only — no cap or route emitted here.
+    # Informational distress pressure notes for downstream layers.
+    from bve.intelligence.ma_distress_guard import DistressClassification as _DC
+    if distress_guard.distress_classification == _DC.SEVERE_DISTRESS:
+        notes.append("distress_pressure_severe")
+    elif distress_guard.distress_classification == _DC.HIGH_DISTRESS:
+        notes.append("distress_pressure_high")
 
     # Propagate encumbrance penalty codes (skip positive / informational entries)
     penalty_codes = [

@@ -43,14 +43,46 @@ def _competes_edge(src: str, tgt: str, **kwargs) -> KGEdge:
 
 
 def test_node_type_values():
-    expected = {"asset", "company", "indication", "target", "mechanism", "trial", "competitor_program"}
+    expected = {
+        "asset",
+        "company",
+        "indication",
+        "target",
+        "mechanism",
+        "trial",
+        "competitor_program",
+        "modality",
+        "financing_state",
+        "management_team",
+        "thesis_snapshot",
+        "catalyst",
+    }
     assert {t.value for t in NodeType} == expected
 
 
 def test_edge_type_values():
     expected = {
-        "treats", "targets", "competes_with", "same_indication", "same_target",
-        "same_mechanism", "same_trial_phase", "same_endpoint", "same_population", "partnered_with",
+        "treats",
+        "targets",
+        "competes_with",
+        "company_owns_asset",
+        "asset_treats_indication",
+        "asset_targets_target",
+        "has_mechanism",
+        "has_modality",
+        "financing_applies_to_company",
+        "management_runs_company",
+        "thesis_snapshot_for_asset",
+        "trial_belongs_to_asset",
+        "competitor_overlaps_asset",
+        "catalyst_for_asset",
+        "same_indication",
+        "same_target",
+        "same_mechanism",
+        "same_trial_phase",
+        "same_endpoint",
+        "same_population",
+        "partnered_with",
     }
     assert {t.value for t in EdgeType} == expected
 

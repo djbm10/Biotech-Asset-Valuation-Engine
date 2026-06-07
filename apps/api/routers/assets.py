@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 from typing import Annotated, Optional
 
 from fastapi import APIRouter, Depends, HTTPException, Query
@@ -44,6 +45,97 @@ def _asset_to_card(asset: Asset, db: Session) -> AssetCard:
     )
 
 
+def _list_assets_from_knowledge_store(
+    *,
+    ta: Optional[str],
+    phase: Optional[str],
+    ticker: Optional[str],
+    limit: int,
+    offset: int,
+) -> list[AssetCard]:
+    db_path = os.environ.get("BVE_KNOWLEDGE_DB_PATH")
+    if not db_path:
+        return []
+    from bve.intelligence.knowledge_layer import KnowledgeStore
+
+    store = KnowledgeStore(db_path)
+    try:
+        entries = store.list_asset_registry(ta=ta, stage=phase)
+        alerts = store.get_opportunity_alerts(limit=limit)
+        raw_documents = store.get_raw_documents(limit=limit)
+    finally:
+        store.close()
+    if ticker:
+        entries = [entry for entry in entries if (entry.ticker or "").upper() == ticker.upper()]
+    entries = entries[offset : offset + limit]
+    cards = [
+        AssetCard(
+            id=entry.asset_id,
+            company_id=entry.company_id,
+            company_name=None,
+            ticker=entry.ticker,
+            name=entry.drug_name or entry.asset_id,
+            modality=entry.modality,
+            therapeutic_area=entry.therapeutic_area,
+            indication=entry.indication,
+            current_phase=entry.stage,
+            status="tracked",
+            partnered=False,
+        )
+        for entry in entries
+    ]
+    if cards:
+        return cards
+    if ta or phase or ticker:
+        return []
+    seen: set[str] = set()
+    fallback_cards: list[AssetCard] = []
+    for alert in alerts:
+        if alert.asset_id in seen:
+            continue
+        seen.add(alert.asset_id)
+        fallback_cards.append(
+            AssetCard(
+                id=alert.asset_id,
+                company_id=None,
+                company_name=None,
+                ticker=None,
+                name=alert.asset_id,
+                modality=None,
+                therapeutic_area=None,
+                indication=None,
+                current_phase=None,
+                status="tracked",
+                partnered=False,
+            )
+        )
+    if fallback_cards:
+        return fallback_cards[offset : offset + limit]
+    for document in raw_documents:
+        payload = document.payload_json
+        hints = payload.get("entity_hints") or {}
+        asset_id = hints.get("asset_id") or payload.get("asset_id") or payload.get("id")
+        if not asset_id or asset_id in seen:
+            continue
+        seen.add(str(asset_id))
+        fallback_cards.append(
+            AssetCard(
+                id=str(asset_id),
+                company_id=hints.get("company_id"),
+                company_name=None,
+                ticker=None,
+                name=str(asset_id),
+                modality=None,
+                therapeutic_area=None,
+                indication=None,
+                current_phase=None,
+                status="tracked",
+                partnered=False,
+            )
+        )
+    return fallback_cards[offset : offset + limit]
+
+
 @router.get("/", response_model=list[AssetCard])
 def list_assets(
     db: DB,
@@ -76,7 +168,16 @@ def list_assets(
         )
 
     assets = q.offset(offset).limit(limit).all()
-    return [_asset_to_card(a, db) for a in assets]
+    cards = [_asset_to_card(a, db) for a in assets]
+    if not cards:
+        return _list_assets_from_knowledge_store(
+            ta=ta,
+            phase=phase,
+            ticker=ticker,
+            limit=limit,
+            offset=offset,
+        )
+    return cards
 
 
 @router.get("/{ticker}", response_model=AssetPage)

@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="hero">
+    <h1>Daily biotech decision surface.</h1>
+    <p>
+      The dashboard collects tracked assets, top-scored acquisition pairings, recent material alerts,
+      and calibration-state counts into one operator-facing view.
+    </p>
+  </section>
+
+  <section class="grid cards">
+    {% for card in summary_cards %}
+      <article class="metric {{ card.tone }}">
+        <div class="eyebrow">{{ card.label }}</div>
+        <div class="value">{{ card.value }}</div>
+      </article>
+    {% endfor %}
+  </section>
+
+  <section class="grid two-col" style="margin-top: 1rem;">
+    <article class="panel">
+      <h2>Tracked Assets</h2>
+      <div class="list">
+        {% for asset in assets %}
+          <a class="row" href="{{ asset.detail_href or '#' }}">
+            <strong>{{ asset.ticker or "N/A" }} · {{ asset.name }}</strong>
+            <span class="muted">{{ asset.company_name }} · {{ asset.indication or "No indication" }}</span>
+            <span class="pill">{{ asset.current_phase or "Unknown phase" }}</span>
+          </a>
+        {% else %}
+          <div class="empty">No assets loaded.</div>
+        {% endfor %}
+      </div>
+    </article>
+
+    <article class="panel">
+      <h2>Top Acquisition Pairs</h2>
+      <div class="list">
+        {% for deal in deals %}
+          <div class="row">
+            <strong>
+              {% if deal.target_href %}
+                <a href="{{ deal.target_href }}">{{ deal.target_name }}</a>
+              {% else %}
+                {{ deal.target_name }}
+              {% endif %}
+              →
+              {% if deal.acquirer_href %}
+                <a href="{{ deal.acquirer_href }}">{{ deal.acquirer_name }}</a>
+              {% else %}
+                {{ deal.acquirer_name }}
+              {% endif %}
+            </strong>
+            <span class="muted">Timing {{ deal.timing_bucket or "unknown" }}</span>
+            <span class="pill">Fit {{ "%.2f"|format(deal.fit_score or 0.0) }}</span>
+          </div>
+        {% else %}
+          <div class="empty">No acquisition scores stored.</div>
+        {% endfor %}
+      </div>
+    </article>
+
+    <article class="panel">
+      <h2>Material Alerts</h2>
+      <div class="list">
+        {% for alert in alerts %}
+          <div class="row">
+            <strong>{{ alert.title }}</strong>
+            <span class="muted">{{ alert.source_type }}</span>
+            <span class="pill warning">Materiality {{ "%.2f"|format(alert.materiality_score or 0.0) }}</span>
+            {% if alert.source_url %}
+              <a class="text-link" href="{{ alert.source_url }}">Source</a>
+            {% endif %}
+          </div>
+        {% else %}
+          <div class="empty">No alert-grade evidence found.</div>
+        {% endfor %}
+      </div>
+    </article>
+  </section>
+
+  <section class="panel" style="margin-top: 1rem;">
+    <h2>Operator Paths</h2>
+    <div class="action-strip">
+      <a class="action-card" href="{{ deals_href }}">
+        <span class="eyebrow">Market Structure</span>
+        <strong>Review ranked M&amp;A pairs</strong>
+        <span class="muted">Move from target discovery to fit-ranked deal review.</span>
+      </a>
+      <a class="action-card" href="{{ alerts_href }}">
+        <span class="eyebrow">Evidence</span>
+        <strong>Scan material evidence</strong>
+        <span class="muted">Filter recent event-grade documents and materiality shifts.</span>
+      </a>
+      <a class="action-card" href="{{ calibration_href }}">
+        <span class="eyebrow">Learning Loop</span>
+        <strong>Inspect calibration state</strong>
+        <span class="muted">Check promoted versions, pending updates, and recent decisions.</span>
+      </a>
+    </div>
+  </section>
+{% endblock %}

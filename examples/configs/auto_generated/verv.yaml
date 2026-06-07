@@ -1,0 +1,58 @@
+# Auto-generated config for VERV (Verve Therapeutics)
+# Gene editing platform targeting PCSK9 for cardiovascular disease
+# Acquired by Eli Lilly in June 2025 for ~$1.3B
+
+asset:
+  id: a-verv
+  name: VERVE-102
+  ticker: VERV
+  therapeutic_area: cardiovascular
+  modality: gene_editing
+  stage: phase_2
+  royalty_rate: 0.0
+  net_ownership: 1.0
+
+company:
+  id: verv-replay
+  name: Verve Therapeutics
+  ticker: VERV
+
+trials:
+  - asset_id: a-verv
+    phase: phase_2
+    start_year: 2024
+    duration_years: 2
+    success_probability: 0.40
+    cost_millions: 80
+
+market_model:
+  asset_id: a-verv
+  addressable_patients_annual: 200000
+  net_price_per_patient_usd: 80000
+  peak_penetration: 0.08
+  years_to_peak: 6
+  patent_life_years: 12
+  commercial_inputs:
+    patient_pool:
+      indication: Heterozygous familial hypercholesterolemia / ASCVD risk
+      prevalence_thousands: 25000.0
+      diagnosed_fraction: 0.80
+      eligible_rate: 0.02
+      treated_fraction: 0.50
+      uncertainty_cv: 0.25
+    pricing:
+      wac_per_year_usd: 100000
+      gross_to_net_rate: 0.20
+      launch_discount: 0.0
+      annual_erosion_rate: 0.02
+      uncertainty_cv: 0.15
+    share:
+      peak_share: 0.08
+      years_to_peak: 6
+      share_cv: 0.25
+    ex_us_revenue_multiple: 1.0
+
+_meta:
+  config_quality: screening_grade
+  auto_generated: true
+  notes: "PCSK9 gene editing - single shot functional cure approach; Phase 1 HEART-1 showed 49% LDL-C reduction. Acquired by Lilly June 2025."

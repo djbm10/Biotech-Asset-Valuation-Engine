@@ -161,6 +161,83 @@ def compute_calibration_buckets(
     return buckets
 
 
+# ---------------------------------------------------------------------------
+# Platt scaling calibrator (used by strict_backtest._choose_calibrator)
+# ---------------------------------------------------------------------------
+
+class ProbabilityCalibrator:
+    """Transforms raw model scores to calibrated probabilities.
+
+    Supported methods:
+      - ``"identity"`` — no transformation; raw scores pass through unchanged.
+      - ``"platt"``    — logistic (Platt) scaling: sigmoid(A*score + B).
+    """
+
+    def __init__(
+        self,
+        method: str = "identity",
+        _a: float = 1.0,
+        _b: float = 0.0,
+    ) -> None:
+        if method not in ("identity", "platt"):
+            raise ValueError(f"Unknown calibration method: {method!r}")
+        self.method = method
+        self._a = _a   # slope
+        self._b = _b   # intercept
+
+    def transform(self, score: float) -> float:
+        """Transform a single raw score to a calibrated probability."""
+        if self.method == "identity":
+            return max(0.0, min(1.0, score))
+        # Platt: sigmoid(A * score + B)
+        import math
+        z = self._a * score + self._b
+        return 1.0 / (1.0 + math.exp(-z))
+
+    def transform_pairs(
+        self, pairs: list[tuple[float, float]]
+    ) -> list[tuple[float, float]]:
+        """Apply transform to a list of (predicted_score, actual_label) pairs."""
+        return [(self.transform(p), y) for p, y in pairs]
+
+
+def fit_platt_calibrator(
+    train_pairs: list[tuple[float, float]],
+) -> ProbabilityCalibrator:
+    """Fit a Platt scaling (logistic regression) calibrator.
+
+    Minimises log-loss on ``train_pairs`` via gradient descent to find
+    optimal slope A and intercept B such that calibrated probability =
+    sigmoid(A * raw_score + B).
+
+    Falls back to identity calibrator when fewer than 5 training pairs
+    are available or when the solver fails to converge.
+    """
+    import math
+
+    if len(train_pairs) < 5:
+        return ProbabilityCalibrator(method="identity")
+
+    # Gradient descent to minimise binary cross-entropy
+    a, b = 1.0, 0.0
+    lr = 0.1
+    for _ in range(500):
+        grad_a, grad_b = 0.0, 0.0
+        for x, y in train_pairs:
+            z = a * x + b
+            # Clamp to prevent overflow
+            z = max(-500.0, min(500.0, z))
+            p = 1.0 / (1.0 + math.exp(-z))
+            err = p - y
+            grad_a += err * x
+            grad_b += err
+        n = len(train_pairs)
+        a -= lr * grad_a / n
+        b -= lr * grad_b / n
+
+    return ProbabilityCalibrator(method="platt", _a=a, _b=b)
+
+
 def build_calibration_report(log: PredictionLog) -> CalibrationReport:
     """
     Pull matched_pairs() from log, compute all metrics.

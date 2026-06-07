@@ -17,8 +17,8 @@ Alpha defaults to 1.0 (Laplace). Use alpha < 1 for stronger data dominance.
 from __future__ import annotations
 
 import logging
-from dataclasses import dataclass, field
-from typing import Optional, Union
+from dataclasses import dataclass
+from typing import Optional
 
 from bve.empirical.pos_outcome import POSOutcomeRecord
 # Provenance import is lazy (inside get_with_provenance) to avoid any cycles.

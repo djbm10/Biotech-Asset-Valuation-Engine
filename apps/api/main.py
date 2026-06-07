@@ -13,7 +13,7 @@ from __future__ import annotations
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from apps.api.routers import acquirers, alerts, assets, calibration, deals, theses
+from apps.api.routers import acquirers, alerts, assets, calibration, deals, theses, ui
 from bve.persistence.db import create_all_tables
 
 app = FastAPI(
@@ -39,6 +39,7 @@ app.include_router(deals.router)
 app.include_router(alerts.router)
 app.include_router(calibration.router)
 app.include_router(theses.router)
+app.include_router(ui.router)
 
 
 @app.on_event("startup")

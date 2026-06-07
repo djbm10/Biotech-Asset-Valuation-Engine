@@ -92,6 +92,13 @@ def _pass_fail(condition: bool) -> str:
     return "PASS" if condition else "FAIL"
 
 
+MISS_TARGET_NOT_IN_UNIVERSE = "target_not_in_universe"
+MISS_NO_PRIOR_SNAPSHOT = "no_prior_snapshot"
+MISS_NO_PROFILE = "no_profile"
+MISS_CANDIDATE_PRUNING = "candidate_pruning"
+MISS_ALIAS_ISSUE = "alias_issue"
+
+
 # ---------------------------------------------------------------------------
 # Task D: Acquirer name normalization
 # ---------------------------------------------------------------------------
@@ -1086,6 +1093,111 @@ def run_pool_coverage(
         "random_top1_pct": round(random_top1 * 100, 2),
         "random_top5_pct": round(random_top5 * 100, 2),
     }
+
+
+def generate_missed_buyer_report(
+    deals: list[dict],
+    knowledge_conn: sqlite3.Connection,
+    output_dir: Path,
+) -> list[dict]:
+    """Classify deals where the actual acquirer was absent from the candidate pool."""
+    output_dir.mkdir(parents=True, exist_ok=True)
+    rows = [dict(r) for r in knowledge_conn.execute(
+        """
+        SELECT ticker, snapshot_date, acquirer_candidates_json
+        FROM ma_probability_snapshots
+        ORDER BY snapshot_date
+        """
+    ).fetchall()]
+    by_ticker: dict[str, list[dict]] = defaultdict(list)
+    for row in rows:
+        ticker = str(row.get("ticker") or "").upper()
+        if ticker:
+            by_ticker[ticker].append(row)
+
+    misses: list[dict] = []
+    known_profiles = set(_ACQUIRER_ALIASES.values()) | {
+        "pfizer", "roche", "amgen", "merck", "novartis", "eli lilly",
+        "johnson and johnson", "bristol myers squibb", "astrazeneca",
+        "abbvie", "sanofi", "gilead", "biogen", "vertex",
+    }
+    for deal in deals:
+        ticker = str(deal.get("target_ticker") or "").upper()
+        actual = str(deal.get("acquirer") or "").strip()
+        ann_date = str(deal.get("announcement_date") or "")[:10]
+        if not ticker or not actual or not ann_date:
+            continue
+        snaps = by_ticker.get(ticker, [])
+        base = {
+            "ticker": ticker,
+            "actual_acquirer": actual,
+            "announcement_date": ann_date,
+        }
+        if not snaps:
+            misses.append({**base, "miss_type": MISS_TARGET_NOT_IN_UNIVERSE})
+            continue
+        prior = [s for s in snaps if str(s.get("snapshot_date") or "")[:10] < ann_date]
+        if not prior:
+            misses.append({**base, "miss_type": MISS_NO_PRIOR_SNAPSHOT})
+            continue
+        last = sorted(prior, key=lambda item: str(item.get("snapshot_date") or ""))[-1]
+        try:
+            candidates = json.loads(last.get("acquirer_candidates_json") or "[]")
+        except Exception:
+            candidates = []
+        actual_norm = _normalize_acquirer_name(actual)
+        in_pool = False
+        alias_like_raw_match = False
+        for candidate in candidates:
+            cname = str(candidate.get("acquirer_name") or candidate.get("acquirer_id") or "")
+            cname_norm = _normalize_acquirer_name(cname)
+            if actual_norm and cname_norm and (
+                actual_norm == cname_norm
+                or actual_norm in cname_norm
+                or cname_norm in actual_norm
+            ):
+                in_pool = True
+                break
+            if actual.lower() and cname.lower() and (
+                actual.lower() in cname.lower() or cname.lower() in actual.lower()
+            ):
+                alias_like_raw_match = True
+        if in_pool:
+            continue
+        if actual_norm not in known_profiles:
+            miss_type = MISS_NO_PROFILE
+        elif alias_like_raw_match:
+            miss_type = MISS_ALIAS_ISSUE
+        else:
+            miss_type = MISS_CANDIDATE_PRUNING
+        misses.append(
+            {
+                **base,
+                "miss_type": miss_type,
+                "last_snapshot_date": last.get("snapshot_date"),
+                "pool_size": len(candidates),
+            }
+        )
+
+    _write_csv(
+        misses,
+        output_dir / "missed_buyer_report.csv",
+        ["ticker", "actual_acquirer", "announcement_date", "miss_type", "last_snapshot_date", "pool_size"],
+    )
+    breakdown: dict[str, int] = defaultdict(int)
+    for row in misses:
+        breakdown[str(row["miss_type"])] += 1
+    (output_dir / "missed_buyer_summary.json").write_text(
+        json.dumps(
+            {
+                "n_missed_deals": len(misses),
+                "miss_breakdown": dict(sorted(breakdown.items())),
+            },
+            indent=2,
+            sort_keys=True,
+        )
+    )
+    return misses
 
 
 # ---------------------------------------------------------------------------

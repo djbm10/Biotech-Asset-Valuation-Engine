@@ -51,6 +51,7 @@ from bve.ops.strict_backtest import (
 
 # A window must have at least this many distinct acquired targets to be trusted.
 MIN_TARGETS_FOR_TRUST = 3
+_ECE_GATE_THRESHOLD = 0.10
 
 DEFAULT_KNOWLEDGE_DB = "outputs/intelligence/replay_knowledge.db"
 DEFAULT_REPLAY_STORE = "outputs/intelligence/replay_store.sqlite"
@@ -134,8 +135,14 @@ class WindowResult:
     # Acquirer accuracy (from stored candidate list)
     acquirer_top1_accuracy: Optional[float] = None
     acquirer_top3_accuracy: Optional[float] = None
+    acquirer_top5_accuracy: Optional[float] = None
     acquirer_mrr: Optional[float] = None
     median_lead_days: Optional[float] = None
+    ece_raw: Optional[float] = None
+    brier_raw: Optional[float] = None
+    ece_passes: bool = False
+    buyer_in_pool_pct: Optional[float] = None
+    false_positive_mix: dict[str, float] = field(default_factory=dict)
 
     # Public-markets
     sharpe_ratio: Optional[float] = None
@@ -165,8 +172,14 @@ class WindowResult:
             "stored_prob_avg_control": self.stored_prob_avg_control,
             "acquirer_top1_accuracy": self.acquirer_top1_accuracy,
             "acquirer_top3_accuracy": self.acquirer_top3_accuracy,
+            "acquirer_top5_accuracy": self.acquirer_top5_accuracy,
             "acquirer_mrr": self.acquirer_mrr,
             "median_lead_days": self.median_lead_days,
+            "ece_raw": self.ece_raw,
+            "brier_raw": self.brier_raw,
+            "ece_passes": self.ece_passes,
+            "buyer_in_pool_pct": self.buyer_in_pool_pct,
+            "false_positive_mix": self.false_positive_mix,
             "sharpe_ratio": self.sharpe_ratio,
             "max_drawdown": self.max_drawdown,
             "cagr": self.cagr,
@@ -203,8 +216,50 @@ class RollingHoldoutReport:
             "step_months": self.step_months,
             "top_k": self.top_k,
             "lookahead_days": self.lookahead_days,
+            "calibration_gate_passes": self.calibration_gate_passes(),
             "windows": [w.as_dict() for w in self.windows],
         }
+
+    def calibration_gate_passes(self) -> bool:
+        populated = [
+            w for w in self.windows
+            if w.n_rows > 0 and w.ece_raw is not None
+        ]
+        if not populated:
+            return False
+        return all(float(w.ece_raw) <= _ECE_GATE_THRESHOLD for w in populated)
+
+
+def _brier_score(probs: list[float], outcomes: list[int]) -> float:
+    if not probs or not outcomes:
+        return float("nan")
+    n = min(len(probs), len(outcomes))
+    return sum((float(probs[i]) - float(outcomes[i])) ** 2 for i in range(n)) / n
+
+
+def _ece(probs: list[float], outcomes: list[int], n_bins: int = 5) -> float:
+    if not probs or not outcomes:
+        return float("nan")
+    n = min(len(probs), len(outcomes))
+    total = 0.0
+    for b in range(n_bins):
+        lo = b / n_bins
+        hi = (b + 1) / n_bins
+        idx = []
+        for i in range(n):
+            p = float(probs[i])
+            if b == n_bins - 1:
+                in_bin = lo <= p <= hi
+            else:
+                in_bin = lo <= p < hi
+            if in_bin:
+                idx.append(i)
+        if not idx:
+            continue
+        conf = sum(float(probs[i]) for i in idx) / len(idx)
+        acc = sum(float(outcomes[i]) for i in idx) / len(idx)
+        total += (len(idx) / n) * abs(conf - acc)
+    return total
 
 
 # ---------------------------------------------------------------------------

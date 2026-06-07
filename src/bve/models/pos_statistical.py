@@ -267,12 +267,23 @@ def _generate_calibration_dataset(n: int = 750, seed: int = 42) -> tuple[np.ndar
     _competitions = list(_H_COMPETITION.keys())
 
     # Use integer indices to avoid numpy string coercion of enum objects
+    # Probability arrays must have one value per key in the corresponding _H_* dict.
+    # _H_ENDPOINT: 4 keys (HARD_CLINICAL, SURROGATE_VALIDATED, SURROGATE_NOVEL, BIOMARKER_ONLY)
+    # _H_MOA: 9 keys (VALIDATED, VALIDATED_CLASS, CLINICALLY_VALIDATED_TARGET, PATHWAY_VALIDATED,
+    #                  PARTIAL, PRECLINICAL_ONLY, NOVEL, PRIOR_FAILURES, KNOWN_LIABILITY)
+    # _H_SAFETY: 8 keys (CLEAN, MANAGEABLE, MONITORABLE_CONCERN, DOSE_LIMITING, SERIOUS,
+    #                    MECHANISM_LINKED_SEVERE, MINOR[legacy], CONCERNING[legacy])
+    # _H_COMPETITION: 7 keys (LOW_BAR, NORMAL_BAR, ELEVATED_BAR, HIGH_BAR,
+    #                          LOW[legacy], MODERATE[legacy], HIGH[legacy])
     phases = [_phases[i] for i in rng.choice(len(_phases), size=n, p=[0.45, 0.40, 0.15])]
     endpoint_types = [_endpoints[i] for i in rng.choice(len(_endpoints), size=n, p=[0.15, 0.60, 0.15, 0.10])]
-    moa_types = [_moas[i] for i in rng.choice(len(_moas), size=n, p=[0.30, 0.45, 0.25])]
+    moa_types = [_moas[i] for i in rng.choice(len(_moas), size=n,
+                 p=[0.08, 0.12, 0.12, 0.10, 0.28, 0.10, 0.10, 0.05, 0.05])]
     biomarker_flags = rng.binomial(1, 0.35, size=n)
-    safety_types = [_safeties[i] for i in rng.choice(len(_safeties), size=n, p=[0.25, 0.55, 0.15, 0.05])]
-    competition_types = [_competitions[i] for i in rng.choice(len(_competitions), size=n, p=[0.25, 0.50, 0.25])]
+    safety_types = [_safeties[i] for i in rng.choice(len(_safeties), size=n,
+                    p=[0.10, 0.25, 0.20, 0.15, 0.08, 0.02, 0.12, 0.08])]
+    competition_types = [_competitions[i] for i in rng.choice(len(_competitions), size=n,
+                         p=[0.08, 0.20, 0.15, 0.07, 0.10, 0.28, 0.12])]
 
     X_rows = []
     y_vals = []

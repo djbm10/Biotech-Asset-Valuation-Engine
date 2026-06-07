@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="hero">
+    <h1>Acquirers</h1>
+    <p>Tracked large-cap buyers with stored target rankings, BD style, and acquisition pressure context.</p>
+  </section>
+
+  <section class="panel">
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Acquirer</th>
+            <th>BD Style</th>
+            <th>Preferred Phase</th>
+            <th>Cash Firepower</th>
+            <th>LOE Urgency</th>
+            <th>Stored Targets</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for acquirer in acquirers %}
+            <tr>
+              <td><a class="text-link" href="{{ acquirer.detail_href }}">{{ acquirer.name }}{% if acquirer.ticker %} ({{ acquirer.ticker }}){% endif %}</a></td>
+              <td>{{ acquirer.bd_style or "unknown" }}</td>
+              <td>{{ acquirer.preferred_phase or "Any" }}</td>
+              <td>{{ acquirer.cash_firepower_millions }}</td>
+              <td>{{ "%.2f"|format(acquirer.loe_urgency or 0.0) }}</td>
+              <td>{{ acquirer.top_target_count }}</td>
+            </tr>
+          {% else %}
+            <tr>
+              <td colspan="6" class="empty">No acquirer profiles found.</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+{% endblock %}

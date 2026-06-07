@@ -93,6 +93,294 @@ decision-support framework, not a validated predictive model.
 
 ## Planned Improvements
 
+### HARVEY-0 — Harvey's advice: science thesis, belief update, and BD fit layer
+
+**Source**: Notes from `docs/advice/Harvey Advice.md`.
+
+**Core message**: The tool should not try to answer every scientific question
+with a broad generic score. It should identify the one or two critical
+scientific or strategic questions that create a bifurcation in value: 10x
+better, 10x worse, program shutdown, or expansion into a much larger population.
+The best use of AI is a human-machine interface: combine the analyst's base
+belief with public information retrieval, structured evidence, and explicit
+belief updates.
+
+**What to add to the tool**
+
+1. **Macro/regulatory timing overlay**
+   - Track FDA staffing, political environment, review-capacity bottlenecks,
+     and whether IND/FDA timelines may move faster or slower.
+   - Treat these as timing and probability overlays on top of historical base
+     rates, not as a replacement for asset-level science.
+
+2. **Killer thesis question extraction**
+   - For each asset, extract the main biological hypothesis from company
+     presentations, quarterly calls, earnings transcripts, conference decks,
+     clinical readouts, and papers.
+   - Identify the one or two readouts that would actually answer that
+     hypothesis.
+   - Store the question explicitly, e.g. "Does target X modify disease Y enough
+     to matter?" or "Can this modality deliver enough drug to the brain?"
+
+3. **Target biology validation**
+   - Score whether the drug hits the right target or pathway for the disease.
+   - Look for genetic association between target and disease.
+   - Look for clinical validation from drugs hitting the same receptor, target,
+     protein, or adjacent pathway.
+   - Distinguish causal genetic support from weak or spurious association.
+   - Use competitor and analog-pathway data as evidence for or against target
+     validity.
+
+4. **Drug exposure, PK/PD, and tissue delivery**
+   - Score whether enough drug reaches the target tissue at the tested dose.
+   - Track on-target tissue biodistribution and off-target tissue distribution.
+   - Evaluate potency against the degree of pathway suppression required.
+   - Parse whether the dosing interval is biologically plausible.
+   - Distinguish biology that needs transient spikes from biology that needs
+     sustained suppression.
+   - Use dose-response and exposure-response trends to infer target engagement.
+
+5. **Biomarker quality and target engagement**
+   - Extract biomarkers that are expected to move if the pathway is being hit.
+   - Rank biomarkers by how directly they answer the biological hypothesis.
+   - Distinguish target-engagement biomarkers from weak correlative biomarkers.
+   - Check public clinical or preclinical data for expected biomarker movement.
+   - Preserve upside after a failed or marginal trial when biomarker data shows
+     underdosing or partial pathway engagement rather than wrong biology.
+
+6. **Readout interpretation beyond pass/fail**
+   - Do not treat clinical results as binary endpoint pass/fail.
+   - Capture whether the trial barely passed, strongly passed, failed but
+     trended, or showed no effect.
+   - Capture dose response, population differences, trial-design differences,
+     and comparator differences before concluding the asset is good or bad.
+   - Distinguish a true clinical failure from a miss against arbitrary market
+     expectations.
+   - Use the result to update the biological thesis, not only the phase status.
+
+7. **Effect size, clinical meaning, and market-share relevance**
+   - Model whether longer dosing interval alone is valuable or whether the drug
+     needs multi-pathway efficacy to take share.
+   - Capture whether the readout unlocks a much larger indication or patient
+     population.
+   - Separate minor incremental improvements from true value-inflection data.
+   - Include tolerability, convenience, and KOL sentiment in market-share
+     assumptions.
+
+8. **Safety and toxicity layer**
+   - Track off-target tissue toxicity and pathway inhibition in unwanted
+     tissues.
+   - Treat safety and tolerability as core POS and commercial adoption inputs.
+   - Ingest conference notes and KOL commentary about tolerability when public.
+
+9. **Competitive and KOL context**
+   - Compare clinical results against the next-best competitor and standard of
+     care, not only against the trial's stated endpoint threshold.
+   - Ingest KOL comments from conferences and transcripts because those views
+     can move expected market share.
+   - Detect cases where the market overreacted to a near miss that is clinically
+     close to the best competitor.
+
+10. **Investment decision loop**
+    - Use the tool for thesis-driven investing and medium-term arbitrage, not
+      daily trading.
+    - Define the expected signal, expected price movement, and expected time
+      window before entering a position.
+    - When the signal occurs, record the model's expected action and the
+      analyst's executed action.
+    - If the signal does not occur or the market does not react as expected,
+      record why and use it for model learning.
+
+11. **BD strategic fit and synergy**
+    - Score whether an asset complements and unlocks value in an acquirer's
+      existing portfolio, not only whether it has high standalone rNPV.
+    - Include modality fit: small molecule, antibody, protein, gene therapy,
+      RNA, cell therapy, etc.
+    - Include whether the acquirer has development, manufacturing, clinical,
+      and commercial resources for that modality.
+    - Distinguish "this fills a strategic gap we want to enter" from "this is a
+      capability stretch we should avoid."
+    - Keep the standardized scoring framework, but let the subject matter expert
+      apply room-level context and override reasoning.
+
+**How Harvey would approach fixing it**
+
+1. **Start with the key question, not the score**
+   - For each asset, force the analyst/tool to write the main biological
+     question and the one or two readouts that would answer it.
+   - Do not let generic science sub-scores change POS unless they map back to
+     that question.
+
+2. **Build an evidence packet around that question**
+   - Pull company decks, earnings-call transcripts, quarterly presentations,
+     conference notes, ClinicalTrials.gov records, PubMed papers, competitor
+     readouts, and preclinical data.
+   - Ask targeted retrieval questions:
+     - Is the target causally linked to the disease?
+     - Is there clinical or genetic validation?
+     - Does the drug reach the target tissue?
+     - Is target engagement shown by the right biomarker?
+     - Is the dose interval consistent with the biology?
+     - Did the trial result answer the thesis question?
+
+3. **Turn the answer into a belief update**
+   - Record prior belief before the readout.
+   - Record evidence observed.
+   - Record whether the evidence confirms, weakens, or leaves the thesis
+     unresolved.
+   - Update POS/rNPV only after explaining the mechanism of the update.
+
+4. **Separate thesis failure from execution failure**
+   - Wrong target/pathway: large POS reduction or program-kill flag.
+   - Right biology but underdosed: discount value, preserve optionality if dose
+     optimization is plausible.
+   - Biomarker moved but endpoint missed: lower confidence, but do not treat as
+     equivalent to no biological effect.
+   - Endpoint barely missed against an arbitrary threshold: compare to clinical
+     meaning, competitor profile, and market expectations before marking down.
+
+5. **Keep human review in the loop**
+   - Let AI retrieve, summarize, and propose the belief update.
+   - Route judgment-heavy calls to expert review: target validity, biomarker
+     relevance, dosing adequacy, KOL sentiment, strategic fit, and modality
+     capability.
+   - Store the expert's rationale so future backtests can learn which judgments
+     were useful.
+
+**Priority**: High. This is the most direct path from a generic valuation/POS
+tool to a useful biotech diligence assistant: it makes the model reason about
+the specific scientific question that could actually change the asset's value.
+
+---
+
+### ARCH-0 — Target architecture: RAG plus structured valuation and scoring
+
+**Wanted architecture**: The biotech M&A product should not be framed as
+"training a model" first. The better architecture is a historical-deal
+intelligence engine that combines retrieval, comparable-deal search, structured
+rNPV valuation, buyer-target fit scoring, and eventually supervised predictive
+models once enough labeled outcomes exist.
+
+The target architecture should be built in this order:
+
+1. Historical deal database
+2. Drug asset database
+3. Clinical trial result extraction
+4. Comparable deal search
+5. Buyer pipeline-gap analysis
+6. rNPV valuation model
+7. Strategic fit scoring
+8. Predictive acquisition-likelihood model
+9. LLM explanation layer
+
+**Data layer**: collect structured historical acquisition and partnership data:
+
+| Field | Meaning |
+|---|---|
+| buyer | Acquirer or strategic partner. |
+| target | Acquired company, licensed asset owner, or partner. |
+| date | Announcement and close dates where available. |
+| deal value | Total headline value and disclosed transaction value. |
+| upfront | Cash/equity paid at signing or close. |
+| milestones | Development, regulatory, commercial, and sales milestones. |
+| royalty terms | Royalty rate, tiering, term, and geography when disclosed. |
+| asset name | Drug, platform, or portfolio acquired/licensed. |
+| indication | Lead and optional indications. |
+| modality | Small molecule, antibody, cell therapy, gene therapy, RNA, etc. |
+| phase | Development stage at deal announcement. |
+| trial results | Endpoint, effect size, p-value, safety, durability, and limitations. |
+| mechanism of action | Target biology and pathway rationale. |
+| market size | Addressable patients, price, penetration, and competition. |
+| patent life | Remaining exclusivity and IP runway. |
+| competitive landscape | Current/future standard of care and direct competitors. |
+| probability of approval | Pre-deal POS estimate and later observed outcome. |
+| revenue estimates | Peak sales, ramp, erosion, and scenario assumptions. |
+| strategic rationale | Publicly stated deal thesis and inferred buyer need. |
+| buyer pipeline gap | TA, modality, LOE, revenue-cliff, or franchise gap filled. |
+| stock/cash position | Buyer financing capacity and currency quality at announcement. |
+| outcome after deal | Approval, failure, delay, write-down, discontinuation, or commercial result. |
+
+**Retrieval and comparable-deal layer**: use RAG over deal documents, press
+releases, investor decks, 10-Ks/10-Qs, trial readouts, abstracts, and conference
+materials. The system should answer questions like:
+
+```text
+Which historical acquisitions or partnerships look most similar to this asset?
+```
+
+Similarity should support multiple dimensions:
+
+- modality,
+- indication,
+- phase,
+- endpoint/result quality,
+- buyer pipeline gap,
+- valuation multiple,
+- rights structure,
+- deal structure,
+- strategic rationale,
+- post-deal outcome.
+
+Example:
+
+```text
+A Phase 2 rare-disease gene therapy should be compared against:
+  similar modality deals,
+  same or adjacent indication deals,
+  similar stage-of-development acquisitions,
+  similar buyer pipeline-gap situations,
+  similar valuation multiples,
+  similar post-deal outcome patterns.
+```
+
+**What learning means**: the system should learn from historical examples, but
+the first step is not LLM fine-tuning. Start with structured data, retrieval,
+similarity search, and transparent scoring. Later, once labeled outcomes are
+large enough and point-in-time safe, train supervised models to learn:
+
+- what makes a drug asset attractive,
+- what deal values similar assets received,
+- which buyers tend to acquire which assets,
+- how approval probability changes with phase, modality, endpoint, and evidence
+  quality,
+- what strategic gaps drive M&A,
+- how much premium buyers pay for de-risked clinical data,
+- which assets are poor strategic fits,
+- which announced deals later succeeded, failed, or were written down.
+
+**Modeling stack**:
+
+| Layer | Role |
+|---|---|
+| RAG | Gives the system a searchable filing cabinet with citations. |
+| Structured scoring | Converts facts into POS, rNPV, Layer 0-5 M&A scores, and confidence. |
+| Comparable-deal engine | Finds historical acquisitions/partnerships with similar facts. |
+| Supervised ML | Learns outcome patterns once enough labeled, no-lookahead examples exist. |
+| Fine-tuning | Optional later step for house style and extraction/output consistency. |
+| LLM explanation | Explains the evidence, comparables, score drivers, and caveats. |
+
+The LLM should not be the valuation model. It should explain and retrieve:
+
+```text
+This asset is attractive to Buyer X because it fills a pipeline gap, has Phase 2
+efficacy, targets a high-value indication, and resembles three prior acquisitions
+with $1B-$3B deal values.
+```
+
+**Preferred wording**:
+
+```text
+Build a biotech M&A intelligence engine that combines historical deal retrieval,
+asset comparables, rNPV valuation, buyer-target fit scoring, and eventually
+predictive models trained on past acquisition outcomes.
+```
+
+**Priority**: High. This is the long-term product architecture that connects the
+current valuation engine, M&A layers, live scanner, calibration dataset, and
+future RAG/extraction work into one coherent system.
+
+---
+
 ### LIVE-1 — Make live scanner rescoring fully automatic and explainable
 
 **Current state**: The watchlist pipeline can fetch documents from configured
@@ -182,6 +470,207 @@ resolution, and explicit score-change attribution.
 
 ---
 
+### LIVE-2 — Convert written reports and news articles into structured scoring inputs
+
+**Current state**: Many M&A and POS layer inputs are structured fields that must
+already be present on the target, asset, or acquirer object. For example, Layer
+0E can score integration complexity when it receives fields such as
+`manufacturing_complexity`, `product_count`, `geographic_complexity`, and
+`payer_access_complexity`, but it does not itself read a free-text manufacturing
+report and infer those fields. Layer 3D can score buyer integration capability
+when it receives an `AcquirerIntegrationProfile`, but it does not infer that
+profile directly from news or analyst reports.
+
+**The gap**: the tool should be able to ingest written diligence reports, company
+manufacturing summaries, SEC filings, press releases, news articles, and analyst
+notes, then convert the text into auditable structured sub-score inputs across
+the relevant layers.
+
+Examples:
+
+```text
+Report says:
+  "The company relies on a single viral-vector CDMO, has limited redundancy,
+   and tech transfer would be difficult."
+
+Draft structured fields:
+  manufacturing_complexity = "high"
+  has_manufacturing_dependency = true
+  supply_redundancy = low
+  systems_compliance_transfer_risk = elevated
+  affected layers = 0D, 0E, 3B, 3D
+```
+
+```text
+News article says:
+  "The asset is licensed ex-US to a partner with a right of first refusal."
+
+Draft structured fields:
+  asset_rights_scope = "regional_split"
+  has_existing_partnership = true
+  has_right_of_first_refusal = true
+  affected layers = 0B, 0D, 3B
+```
+
+**The fix**:
+
+1. **Create a report/news-to-score extraction layer**
+   - Accept uploaded reports, pasted text, URLs, SEC filings, press releases,
+     and stored news articles.
+   - Extract structured facts with source excerpts, confidence, and field-level
+     provenance.
+   - Support both target-level and buyer-specific inputs.
+
+2. **Add layer-specific extraction schemas**
+   - **POS**: endpoint, effect size, p-value, safety, prior-phase data,
+     data maturity, biomarker selection, regulatory pathway.
+   - **0B**: deal route signals, rights geography, licensing/option/co-dev
+     structure, platform versus product rationale.
+   - **0D**: rights control, royalty/milestone burden, partner encumbrances,
+     IP ownership/FTO, manufacturing readiness, diligence readiness.
+   - **0E**: product count, indication count, salesforce burden,
+     manufacturing transfer complexity, geography, payer/access/channel
+     complexity, systems/compliance transfer risk.
+   - **0F**: cash runway, financing pressure, valuation distress, salvageability
+     signals.
+   - **Layer 1 / 2 / 3**: strategic scarcity, BD urgency, buyer fit,
+     affordability inputs, integration capability, antitrust/process risk.
+
+3. **Generate `ScoreInputDraft` objects, not silent score changes**
+   - Proposed field name and value.
+   - Current field value.
+   - Source excerpt and URL/file reference.
+   - Confidence score.
+   - Affected layer(s).
+   - Estimated score impact.
+   - Human review status.
+
+4. **Human-review gate for judgment-sensitive fields**
+   - Auto-apply only low-risk factual fields, such as product count or disclosed
+     cash balance, when source confidence is high.
+   - Route subjective fields, such as endpoint meaningfulness, manufacturing
+     severity, asset salvageability, and strategic scarcity, to review before
+     changing live scores.
+
+5. **Write approved values back to the structured target/asset/acquirer record**
+   - Update YAML/config or the knowledge store.
+   - Preserve provenance so every raw score can be traced back to a report,
+     article, filing, or analyst note.
+   - Rerun affected POS, M&A, Layer 0, Layer 3, and ranking outputs.
+
+**Priority**: High. This is required if the tool is meant to move from manual
+score entry to an evidence-driven BD/M&A intelligence system. It also prevents
+analysts from needing to manually translate every written report into YAML
+fields.
+
+**Estimated scope**:
+- New module: `src/bve/intelligence/score_input_extractor.py`
+- New schema: `ScoreInputDraft`
+- New mapping registry: report/news fact type → layer field
+- Extend `KnowledgeStore` with score-input draft and provenance tables
+- Add review workflow for approving/rejecting extracted scoring inputs
+- Add fixtures for manufacturing report, rights/partnership article, financing
+  distress article, clinical readout press release, and acquirer capability
+  profile article
+
+---
+
+### MODEL-1 — Move from coarse buckets to evidence-derived continuous 0-1 inputs
+
+**Current state**: Some inputs are already continuous 0-1 sub-scores, especially
+in Layer 0D, Layer 0F, and buyer-specific Layer 3 capability models. Other
+inputs are still coarse discrete buckets such as `low` / `medium` / `high`,
+`local` / `regional` / `global`, or simple booleans.
+
+Examples:
+
+| Current coarse input | Limitation |
+|---|---|
+| `manufacturing_complexity = high` | Treats all high-complexity manufacturing the same, even though a single-CDMO viral-vector process is not the same as a moderately complex biologic. |
+| `payer_access_complexity = high` | Does not distinguish mild prior-auth burden from severe reimbursement uncertainty. |
+| `geographic_complexity = global` | Does not distinguish US+EU launch from US+EU+Japan+China+ROW launch. |
+| `salesforce_required = true` | Does not distinguish a small specialty KOL field team from a large primary-care salesforce. |
+
+**The gap**: the tool should eventually decipher available evidence and produce
+continuous 0-1 scores for as many scoring inputs as possible. Coarse buckets are
+useful for early manual entry, but they lose information and can make the model
+less accurate.
+
+**Target end state**:
+
+```text
+Written evidence / structured facts
+  -> interpreted severity and confidence
+  -> continuous 0-1 sub-score
+  -> layer score with provenance
+```
+
+Example:
+
+```text
+Report:
+  "The product uses a single specialized viral-vector CDMO, no backup supplier,
+   and commercial-scale comparability is not yet demonstrated."
+
+Current coarse mapping:
+  manufacturing_complexity = "high"
+
+Better continuous mapping:
+  process_transferability = 0.25
+  supply_redundancy = 0.15
+  gmp_quality_readiness = 0.60
+  scale_capacity = 0.35
+  manufacturing_complexity_continuous = 0.88
+  confidence = 0.75
+```
+
+**The fix**:
+
+1. **Keep coarse fields as fallback**
+   - Preserve `low` / `medium` / `high` fields for quick manual entry and
+     backward compatibility.
+   - When continuous fields are absent, map buckets to default scores as today.
+
+2. **Add continuous override fields**
+   - Add optional 0-1 versions for coarse dimensions where needed.
+   - Examples:
+     - `manufacturing_complexity_score`
+     - `payer_access_complexity_score`
+     - `geographic_complexity_score`
+     - `salesforce_burden_score`
+     - `channel_complexity_score`
+     - `regulatory_pathway_risk_score`
+
+3. **Use evidence-derived scoring where reports are available**
+   - Let the report/news extraction layer propose continuous scores, not only
+     bucket labels.
+   - Store the source excerpt and confidence behind each proposed score.
+   - Require review for judgment-heavy continuous scores.
+
+4. **Prefer continuous scores in model computation**
+   - Scoring functions should use continuous override fields when provided.
+   - Fall back to bucket-to-score maps only when the continuous score is missing.
+
+5. **Calibrate continuous score ranges**
+   - Use historical cases and expert-reviewed examples to anchor what 0.20,
+     0.50, 0.80, etc. mean for each dimension.
+   - Avoid false precision by attaching confidence and data-quality labels.
+
+**Priority**: Medium-high. This improves accuracy and nuance across POS, Layer
+0, M&A target scoring, and buyer-specific Layer 3 scoring. It should be built
+after or alongside `LIVE-2`, because the greatest value comes when written
+evidence can generate continuous scores automatically.
+
+**Estimated scope**:
+- Add continuous override fields to key Layer 0E and Layer 3D inputs
+- Audit all bucket-to-score maps and expose their fallback values
+- Update scoring functions to prefer continuous overrides
+- Extend `ScoreInputDraft` to support continuous score proposals
+- Add calibration fixtures for manufacturing, payer access, geography,
+  salesforce burden, regulatory complexity, and integration capability
+
+---
+
 ### MNA-1 — Build specialist scoring models for routed non-core company types
 
 **Current state**: Layer 0 and the exclusion/routing engine can identify company
@@ -261,6 +750,233 @@ rather than route non-therapeutics names out of scope.
   (`DealStructureRoute`). See `ARCH-1` below.
 - Add sample fixtures for one royalty company, one diagnostics company, one
   tools company, and one CDMO/CRO-style company
+
+---
+
+### MNA-2 — Improve company value estimate for Layer 0C and M&A sizing
+
+**Current state**: Layer 0C consumes `enterprise_value_millions` and
+`market_cap_millions` when those fields are already populated. It prefers EV
+when supplied, falls back to market cap, and otherwise marks the size bucket as
+unknown. Layer 0C itself does not deeply calculate enterprise value or
+multi-asset company value.
+
+**The gap**: market cap alone is not the best estimate of what a buyer is paying
+for the company. For M&A sizing, enterprise value is more accurate:
+
+```text
+enterprise_value =
+    market_cap
+  + debt
+  + preferred_stock
+  + minority_interest
+  - cash_and_equivalents
+```
+
+For multi-asset companies, the best internal valuation is a sum-of-the-parts
+view:
+
+```text
+model_sotp_value =
+    rNPV(lead_asset)
+  + rNPV(other_pipeline_assets)
+  + commercial_franchise_value
+  + platform_value
+  + net_cash
+  - debt
+```
+
+Layer 0C should distinguish:
+
+- **market-implied company value**: calculated from public market and balance
+  sheet data,
+- **model-implied company value**: internal SOTP/rNPV value from the tool,
+- **expected acquisition cost**: EV or SOTP reference value plus expected
+  takeover premium.
+
+**The fix**:
+
+1. **Create a company value resolver**
+   - Pull latest market cap from stored market-price snapshots or yfinance.
+   - Pull latest cash, debt, preferred stock, and minority interest from SEC
+     filings when available.
+   - Calculate public-market EV.
+   - Track source date and source quality for each component.
+
+2. **Add a value-source hierarchy for Layer 0C**
+   - calculated EV from market data + SEC balance sheet,
+   - manually supplied EV from config/database,
+   - market cap fallback,
+   - unknown/data gap.
+
+3. **Add multi-asset SOTP support**
+   - Combine modeled rNPVs for all configured assets under the same company.
+   - Add optional platform and commercial-franchise value fields.
+   - Add net cash and debt adjustments.
+   - Compare `market_ev` versus `model_sotp_value`.
+
+4. **Expose all values in Layer 0C output**
+   - `market_cap_millions`
+   - `cash_millions`
+   - `debt_millions`
+   - `calculated_enterprise_value_millions`
+   - `model_sotp_value_millions`
+   - `reference_value_used_millions`
+   - `reference_value_source`
+   - `expected_acquisition_cost_millions`
+   - `data_freshness`
+   - `data_gaps`
+
+5. **Use the improved value downstream**
+   - Layer 0C uses the best available reference value for size bucket.
+   - Layer 3A uses expected acquisition cost for buyer affordability.
+   - Layer 1 value-creation logic can compare market EV to model SOTP value.
+   - M&A memo output shows whether the target is cheap, expensive, or
+     strategically underpriced.
+
+**Priority**: High for M&A accuracy. Market cap fallback is acceptable for a
+rough screen, but EV and SOTP are needed for credible acquisition sizing and
+multi-asset target analysis.
+
+**Estimated scope**:
+- New module: `src/bve/intelligence/company_value_resolver.py`
+- Extend `TargetSizeInput` / `TargetSizeResult`
+- Integrate stored `market_prices` and SEC balance-sheet facts
+- Add SOTP adapter from configured company assets
+- Add tests for EV calculation, market-cap fallback, stale data, negative EV,
+  and multi-asset SOTP
+
+---
+
+### MNA-3 — Add route-adjusted transaction size to Layer 0C
+
+**Current state**: Layer 0C estimates the size of the whole target company using
+EV or market cap. That is useful for full-company takeout screening, but it can
+overstate the size of non-acquisition routes selected by Layer 0B.
+
+Example:
+
+```text
+Company EV = $30B
+Layer 0C whole-company bucket = MEGA_DEAL
+Layer 0B route = REGIONAL_LICENSE
+Actual likely regional-license transaction size = maybe $500M-$2B
+```
+
+The current Layer 0C answer is not wrong; it answers "how big is the whole
+company?" The missing piece is "how big is the likely transaction route?"
+
+**The fix**: Layer 0C should output two informational size views:
+
+1. **Whole-company size**
+   - Based on EV, market cap, or SOTP.
+   - Used to understand the target company's total scale.
+
+2. **Route-adjusted expected transaction size**
+   - Based on the Layer 0B deal route.
+   - Examples:
+     - `FULL_COMPANY_TAKEOUT` uses whole-company EV/SOTP plus premium.
+     - `REGIONAL_LICENSE` uses geography-adjusted rights value.
+     - `GLOBAL_LICENSE` uses asset/license economics rather than full-company EV.
+     - `OPTION_TO_LICENSE_OR_ACQUIRE` uses upfront/option fee plus expected
+       milestone exposure.
+     - `CO_DEVELOPMENT_OR_CO_COMMERCIALIZATION` uses development-cost share,
+       profit share, and milestone economics.
+     - `MINORITY_EQUITY_PLUS_COLLABORATION` uses expected equity check plus
+       collaboration funding.
+
+**Boundary with Layer 3A**: Layer 0C should still apply **no affordability
+penalty**. It only reports size context. Layer 3A remains responsible for
+answering whether a specific buyer can afford the route-adjusted transaction.
+
+```text
+Layer 0C:
+  whole_company_size = $30B
+  route_adjusted_transaction_size = $800M regional license
+  no penalty
+
+Layer 3A:
+  buyer-specific affordability check against $800M
+```
+
+**Priority**: High once Layer 0B has detailed deal-structure routes. Without
+this, a company can look like a mega-deal even when the realistic route is a
+much smaller license, option, co-dev, or minority-equity transaction.
+
+**Estimated scope**:
+- Extend `TargetSizeResult` with route-adjusted size fields.
+- Add a `DealStructureRoute` input to the target-size resolver.
+- Add default route-size heuristics for license, option, co-dev, regional, and
+  minority-equity routes.
+- Ensure Layer 3A consumes route-adjusted transaction size when available.
+- Add tests showing full-company EV and route-adjusted size can differ without
+  double-counting affordability.
+
+---
+
+### MNA-4 — Narrow Layer 3F to internal strategic fit / conflict
+
+**Current state**: Layer 3F is named strategic conflict and still risks being
+interpreted as a broad cannibalization penalty. That is too crude. A better or
+cheaper next-generation asset in the same market is often exactly the kind of
+asset an incumbent buyer may want to acquire defensively.
+
+**The gap**: several concerns that can be confused with strategic conflict are
+already owned elsewhere:
+
+| Concern | Owning layer |
+|---|---|
+| Drug may fail | POS / Layer 1A asset quality |
+| Regulators may block the deal | Layer 3E antitrust |
+| Buyer cannot afford the deal | Layer 3A affordability |
+| Buyer cannot integrate or operate it | Layer 3D integration capability |
+| Buyer has strategic pull / wants the asset | Layer 2A / 2C |
+
+Layer 3F should only cover internal buyer-business conflicts that remain after
+those layers have done their work.
+
+**The fix**:
+
+1. Rename Layer 3F from `Strategic Conflict` to
+   `Internal Strategic Fit / Conflict`.
+
+2. Remove standalone `product_cannibalization` and
+   `pipeline_cannibalization` as primary fields. They are too directionally
+   ambiguous.
+
+3. Replace them with fields that distinguish internal ownership fit:
+
+   ```text
+   internal_strategic_fit =
+       0.25 * franchise_transition_logic
+     + 0.20 * pricing_contracting_fit
+     + 0.20 * partner_alliance_fit
+     + 0.15 * internal_portfolio_priority_fit
+     + 0.10 * organizational_sponsorship
+     + 0.10 * cannibalization_risk_inverse
+   ```
+
+4. Treat same-market overlap as one of three cases:
+   - complementary overlap: positive,
+   - defensive / franchise-protective overlap: positive or neutral,
+   - value-destructive internal conflict: negative.
+
+5. Add tests showing:
+   - same-market next-generation target can improve strategic fit when it
+     protects or transitions a franchise,
+   - drug failure risk remains in POS / Layer 1A, not Layer 3F,
+   - antitrust overlap remains in Layer 3E, not Layer 3F,
+   - pricing, partner, and internal portfolio conflicts can still cap the pair.
+
+**Priority**: Medium-high. This prevents double-counting, avoids treating all
+overlap as bad, and gives Layer 3F a distinct job: whether the buyer's internal
+business system supports owning the asset.
+
+**Estimated scope**:
+- Update `src/bve/intelligence/ma_layer3_pair_realism.py`
+- Update or add `src/bve/intelligence/ma_internal_conflict.py`
+- Add fixtures for franchise transition, defensive acquisition, partner
+  conflict, pricing conflict, and true value-destructive cannibalization cases
 
 ---
 
@@ -367,6 +1083,101 @@ data by however long it takes someone to manually update the YAML.
 - Schema addition: `POSAdjusterDraft` dataclass with `proposed_value`, `source_excerpt`,
   `source_url`, `extracted_at`, `confidence`, `reviewer_id`, `approved_at`
 - Integration: `ValuationEngine` reads approved drafts before computing POS
+
+---
+
+### POS-1 — Stratified conditional base rates by prior phase data quality
+
+**The problem**
+
+The current `PHASE_SUCCESS_RATES` table has one base rate per TA/phase combination. For example,
+oncology Phase 3 = 0.495. This is the Biomedtracker/IQVIA-observed average across all drugs that
+reached Phase 3 — a heterogeneous population that includes drugs entering on strong replicated
+Phase 2 data AND drugs entering on weak or marginal Phase 2 signals. The model then applies a flat
+`prior_phase_data_strength` log-odds adjuster on top of this pooled average.
+
+**Why this is wrong**
+
+The adjuster is measured against the wrong baseline. A drug with `strong_replicated` Phase 2 data
+isn't an "average Phase 3 drug + bonus" — it's drawn from a fundamentally different sub-population
+that historically succeeds at a higher rate than the pooled average. Conversely, a drug with `weak`
+Phase 2 data is drawn from a sub-population that succeeds at a lower rate than the pooled average.
+Applying a symmetric log-odds nudge on top of a single pooled base rate does not correctly represent
+either group.
+
+This means:
+- Strong-Phase-2 drugs are undervalued (model starts at the average, adds a small bump)
+- Weak-Phase-2 drugs are overvalued (model starts at the average, subtracts a small penalty)
+- The flat +0.30 log-odds for `STRONG_REPLICATED` has different absolute probability impacts
+  depending on where other adjusters have already moved the base (the additive log-odds assumption
+  is geometrically inconsistent with a base rate that already encodes selection effects)
+
+**The fix**
+
+Replace the single Phase 3 (and Phase 2) base rate with a table stratified by prior phase data
+quality. The stratified rates are empirically derivable from the same Biomedtracker/IQVIA dataset,
+broken out by Phase 2 outcome quality:
+
+```yaml
+# Instead of:
+oncology:
+  phase_3: 0.495
+
+# Use:
+oncology:
+  phase_3:
+    strong_replicated: 0.65   # drugs with replicated Phase 2 signals
+    strong_single:     0.58   # drugs with one strong Phase 2 study
+    dose_response:     0.54   # clean dose-response but not full efficacy
+    mixed:             0.495  # current pooled average (reference / no prior data)
+    weak:              0.33   # marginal Phase 2 signal
+    failed:            0.15   # borderline failure or rescued for Phase 3
+```
+
+With stratified base rates, `prior_phase_data_strength` becomes the **selector** that picks the
+right row, rather than a log-odds bump stacked on the wrong baseline. The remaining adjusters
+(endpoint type, safety, biomarker selection, competitive pressure) still apply on top of the
+correctly-conditioned starting point.
+
+**What to do with `prior_phase_data_strength` log-odds adjuster**
+
+Remove it from the additive adjuster stack — its information is now encoded in the base rate
+selection. Keep the enum field on `POSAdjusters` as the base rate selector. The field becomes
+a first-class routing input rather than a log-odds weight.
+
+**Implementation path**
+
+1. **`industry_assumptions.yaml`**: nest Phase 2 and Phase 3 rates under
+   `prior_phase_data_strength` keys. Keep a `mixed` fallback equal to the current value for
+   backward compatibility when no prior data exists.
+2. **`AssumptionsLoader.get_phase_success_rate()`**: add optional `prior_phase_strength`
+   parameter. When provided, look up the stratified rate; when absent, use `mixed` fallback.
+3. **`pos_model.compute_pos()`**: pass `pos_adjusters.prior_phase_data` to the base rate lookup;
+   remove `_PRIOR_PHASE_LOGODDS` from the additive adjuster stack.
+4. **Backtest re-validation**: re-run Brier/AUC on `research/data/oncology_phase_transitions.csv`
+   after the change. Expect improved calibration at the extremes (strong and weak prior data groups).
+5. **Backward compatibility**: configs that do not set `prior_phase_data` continue to receive the
+   `mixed` base rate (identical to current behavior).
+
+**Why the data to calibrate this exists**
+
+The Biomedtracker/IQVIA phase transition reports include stratifications by Phase 2 design quality,
+randomization, and endpoint type. The conditional rates above are conservative estimates consistent
+with published literature (e.g., Thomas et al. 2016 showed ~2x differential between structured
+vs. unstructured Phase 2 design for Phase 3 outcomes in oncology).
+
+**Priority**: Medium-high. This is a calibration correctness fix that improves the model's
+behavior specifically for the most common use case: evaluating assets that already have Phase 2
+data in hand. Until fixed, the model systematically underestimates POS for well-validated Phase 2
+drugs and overestimates for marginal ones.
+
+**Estimated scope**:
+- `src/bve/config/industry_assumptions.yaml` — nested base rate tables
+- `src/bve/config/assumptions.py` — updated `get_phase_success_rate()` signature
+- `src/bve/models/pos_model.py` — remove `_PRIOR_PHASE_LOGODDS` from adjuster stack; add base
+  rate selector logic
+- `tests/test_assumptions_loader.py` — add stratified lookup tests
+- `tests/test_phase1.py` — update snapshot values that will shift for strong/weak prior data cases
 
 ---
 
@@ -565,6 +1376,57 @@ or a company files an 8-K, nothing in the system updates automatically. A human 
 This makes the tool a point-in-time snapshot rather than a live scoring system. The lag between
 a real-world event and a score update is as long as it takes someone to notice and act.
 
+For the M&A Layer 1 subweights specifically, the current framework is useful because it
+forces an analyst to score asset quality, scarcity, value creation, transaction setup, and
+structural cleanliness in a consistent way. The future product should preserve that framework
+but remove the requirement that every sub-score be hand-entered. A non-BD user will not have
+access to private buyer diligence, banker conversations, or internal pipeline-gap work, but
+the tool can still approximate a large part of the process from public evidence: SEC filings,
+press releases, ClinicalTrials.gov, FDA pages, PubMed, conference abstracts, company decks,
+earnings transcripts, financing history, price action, and reputable news.
+
+The intended future state is a public-source BD analyst layer:
+
+- Search public sources for each Layer 1 subweight before scoring it.
+- Produce citation-backed proposed scores for clinical evidence, differentiation,
+  regulatory path, IP/exclusivity, CMC feasibility, commercial meaningfulness,
+  management execution, strategic scarcity, financing pressure, seller openness,
+  rights clarity, and related fields.
+- Store each proposed sub-score with source URLs, extracted evidence, freshness date,
+  confidence, and a short rationale.
+- Update proposed scores when new material news arrives, while preserving the previous
+  score history so users can see what changed and why.
+- Route judgment-heavy or low-confidence updates to review instead of silently changing
+  the live score.
+- Clearly label fields that remain only rough public-market proxies for private BD
+  information, especially seller openness, buyer-specific pipeline-gap urgency, private
+  process activity, diligence readiness, and undisclosed contractual encumbrances.
+
+This should make the M&A scoring layer useful for regular investors and independent analysts:
+not as a replacement for company-side BD diligence, but as a disciplined public-information
+framework that continuously refreshes when the evidence changes.
+
+The POS layer should be one of the main upstream generators for Layer 1A Asset
+Quality. Today, POS adjusters and Layer 1A subweights can both be manually set,
+which creates duplicate analyst work and risks inconsistent scores. The target
+architecture should make POS/science/regulatory outputs propose Asset Quality
+subscores:
+
+- `clinical_evidence` from phase, prior-phase data, endpoint quality, effect
+  size, trial design, safety, consistency, and data maturity.
+- `regulatory_path` from approval pathway, endpoint acceptability, precedent,
+  designations, FDA/EMA meeting outcomes, hold/CRL status, and filing readiness.
+- `differentiation` from effect size, comparator quality, standard-of-care
+  mapping, biomarker selection, safety, convenience, and durability.
+- `commercial_meaningfulness` from POS-adjusted market model, label breadth,
+  endpoint quality, safety/access implications, competition, and expected
+  adoption.
+
+POS should not replace Layer 1A. POS estimates technical/regulatory probability;
+Layer 1A converts that evidence into buyer-neutral asset quality. The automated
+handoff should create reviewable `Layer1AssetQualityDraft` records with source
+facts, proposed 0-1 subscore, confidence, and score-impact attribution.
+
 **What should update automatically (full scope)**
 
 | Data source | What it should trigger |
@@ -591,6 +1453,8 @@ a real-world event and a score update is as long as it takes someone to notice a
    - Confidence level
    - Current value vs proposed value
    - Estimated score delta
+   - POS-to-Layer-1A handoff fields when the event changes clinical evidence,
+     regulatory path, differentiation, or commercial meaningfulness
 5. **Routing**: high-confidence changes (e.g., CT.gov status = COMPLETED) can auto-apply
    with provenance record; low-confidence changes route to human review queue
 6. **Application**: approved changes write back to YAML + evidence ledger; engine recomputes;
@@ -738,19 +1602,170 @@ performance vs SoC/competitors (SUPERIOR / COMPARABLE / INFERIOR), separate from
 
 ---
 
-### REVIEW-6 — Layer 2 single-arm penalty is context-blind
+### REVIEW-6 — POS Layer 2 trial-design buckets are context-blind
 
-**Current behavior**: Layer 2 penalizes `evidence_design = SINGLE_ARM` regardless of whether
-a comparator is scientifically possible. For ultra-rare diseases or first-in-class mechanisms
-with no active control, single-arm is the only ethical and practical design. The model doesn't
-know a comparator doesn't exist — it just scores the design type.
+**Current behavior**: POS Layer 2 uses generic log-odds buckets for
+`evidence_design_quality`, `comparator_fit`, `regulatory_pathway_risk`, and
+`clinical_effect_magnitude`, then applies phase scaling. The same raw bucket
+value is used across therapeutic areas, indications, lines of therapy, endpoint
+types, and regulatory contexts.
 
-**Why it may be wrong**: The penalty is calibrated for settings where a randomized comparator
-was possible but not used. Applying the same penalty to a setting where no comparator exists
-overstates the evidentiary weakness.
+**Why it may be wrong**: trial-design evidence quality is context dependent. A
+single-arm objective-response study can be acceptable in refractory oncology or
+ultra-rare disease, but weak in a common disease where randomized active-control
+data are expected. Placebo can be acceptable when no standard therapy exists,
+but unacceptable when active standard-of-care treatment is available. MCID and
+surrogate validity also vary by disease and endpoint.
 
-**Review question**: Add a `comparator_available: bool` flag to `TrialDesignFeatureSet`. When
-`False` and `evidence_design = SINGLE_ARM`, attenuate or eliminate the single-arm penalty.
+The current model is therefore context-interpreted by the analyst, but not fully
+context-calibrated in the coefficients.
+
+There is also a product-description gap. The intended two-layer POS rubric says
+Layer 1 should cover evidence quality / biological credibility and Layer 2 should
+cover trial design / execution tightness. The code only partially matches that
+full description today:
+
+- POS Layer 1 mostly covers endpoint type, MoA precedent, sample size adequacy,
+  safety, biomarker selection, and prior-phase data, but effect size and
+  statistical strength are still mostly tiered/manual rather than automatically
+  parsed from p-values, confidence intervals, and endpoint-specific effect sizes.
+- POS Layer 2 covers evidence design quality, comparator fit, regulatory pathway
+  risk, clinical effect magnitude, and phase scaling, but it does not yet expose
+  every expected design-tightness input as a first-class field.
+- Missing or only partially wired Layer 2 fields include endpoint hierarchy,
+  explicit powering/statistical power, patient selection, stratification,
+  follow-up duration, operational feasibility, and detailed FDA/EMA alignment.
+- Supporting modules contain some of this logic, but the integrated core POS
+  path should make the distinction visible and auditable in one output.
+
+**The fix**:
+
+1. Add context fields to `TrialDesignFeatureSet`:
+   - `therapeutic_area`
+   - `indication`
+   - `line_of_therapy`
+   - `endpoint_type`
+   - `comparator_available`
+   - `accepted_regulatory_precedent`
+   - `rare_disease_context`
+
+2. Add TA/indication/line-specific maps for:
+   - when single-arm evidence is acceptable,
+   - when placebo is acceptable,
+   - what comparator counts as standard of care,
+   - which surrogate endpoints are validated,
+   - MCID thresholds by endpoint and disease.
+
+3. Adjust Layer 2 bucket effects by context. Examples:
+   - attenuate `single_arm_objective` penalty when no ethical/practical
+     comparator exists,
+   - increase penalty for no active comparator when one is expected,
+   - distinguish validated oncology surrogate from novel biomarker-only endpoint,
+   - apply TA-specific MCID thresholds to `clinical_effect_magnitude`.
+
+4. Add tests covering:
+   - refractory oncology single-arm objective endpoint,
+   - first-line oncology active-comparator expectation,
+   - ultra-rare disease natural-history control,
+   - common chronic disease placebo in an active-treatment setting,
+   - disease-specific MCID mapping.
+
+5. Expand the integrated POS Layer 2 schema so the product-level rubric is true
+   in code, not only in documentation:
+   - `endpoint_hierarchy_quality`
+   - `statistical_power_adequacy`
+   - `patient_selection_fit`
+   - `stratification_quality`
+   - `follow_up_duration_adequacy`
+   - `operational_feasibility`
+   - `regulatory_alignment_quality`
+
+6. Add a POS output audit that explicitly reports:
+   - which Layer 1 evidence-quality fields were scored,
+   - which Layer 2 design-tightness fields were scored,
+   - which expected fields were missing,
+   - whether a score is analyst-entered, extracted from source text, or computed
+     from structured trial data.
+
+**Review question**: Should POS Layer 2 remain generic and analyst-interpreted,
+or should the model load TA/indication/line-specific evidence-design maps from
+configuration and use those to set the bucket effects directly?
+
+---
+
+### REVIEW-6B — Clinical readout magnitude and duration are under-specified
+
+**Current behavior**: Clinical readout interpretation still relies too much on
+coarse buckets such as `clinical_effect_magnitude = EXCEEDS_MCID` or
+`prior_phase_data = STRONG_SINGLE`. Those buckets can lose critical numerical
+context. For example, a readout showing `+6 months overall survival` and a
+readout showing `+6 years overall survival` may both be treated as "positive
+overall survival data" unless the analyst manually encodes the magnitude and
+follow-up context.
+
+**Why it may be wrong**: The economic and clinical meaning of an endpoint result
+depends on units, time horizon, baseline risk, comparator, confidence interval,
+follow-up duration, censoring, and disease context. A six-month OS benefit in
+refractory oncology can be highly meaningful; a six-year OS benefit would be an
+extraordinary, potentially category-changing result. The model needs to
+differentiate these cases instead of compressing them into the same qualitative
+positive-data bucket.
+
+This also exposes a broader scoring weakness: many values in the log-odds and
+composite scoring stack were selected as expert-judgment priors, not learned
+from observed outcomes. Log-odds additivity is useful for bounded probability
+math, but it has downsides: correlated evidence can be double-counted, absolute
+effect sizes can be flattened, and hand-picked coefficients can look more
+precise than the evidence supports.
+
+**The fix**:
+
+1. Add structured readout fields that preserve numerical context:
+   - `endpoint_name`
+   - `endpoint_unit` (months, years, percent, hazard_ratio, score_change, etc.)
+   - `absolute_effect_size`
+   - `relative_effect_size`
+   - `confidence_interval`
+   - `p_value`
+   - `median_follow_up`
+   - `baseline_or_control_value`
+   - `comparator_type`
+   - `disease_context`
+   - `line_of_therapy`
+
+2. Normalize time-based outcomes before scoring. For OS/PFS/duration endpoints,
+   convert reported effects into a consistent unit and explicitly distinguish
+   `+6 months` from `+6 years`.
+
+3. Replace single qualitative effect buckets with endpoint-specific effect-size
+   functions where data exists. Example: oncology OS should use a different
+   mapping than depression scale change, seizure-frequency reduction, or
+   hemoglobin improvement.
+
+4. Add extraction tests for readout units and duration:
+   - `+6 month overall survival`
+   - `+6 year overall survival`
+   - median OS improvement vs hazard ratio
+   - PFS benefit with immature OS
+   - percent response endpoint vs time-to-event endpoint
+
+5. Add backtesting hooks so effect-size mappings, log-odds adjuster weights,
+   and composite scoring thresholds can be fitted or recalibrated against
+   historical outcomes instead of staying fixed at AI-selected defaults. At
+   minimum, compare current heuristic weights against:
+   - logistic regression with base-rate offset,
+   - regularized interaction model for correlated signals,
+   - isotonic or Platt calibration on model outputs,
+   - simple ablation tests showing whether each adjuster improves Brier score,
+     AUC, and calibration error.
+
+**Review question**: Should clinical readout scoring move from qualitative
+buckets to endpoint-specific numerical effect-size functions before any further
+POS coefficient tuning?
+
+**Priority**: High. This can materially change POS, rNPV, and acquisition
+attractiveness, especially when the tool ingests clinical readout press
+releases automatically.
 
 ---
 
@@ -782,6 +1797,93 @@ for oncology because it reflects actual treatment decision points.
 **Review question**: Add a validation warning when `therapeutic_area = oncology` and
 `market_sizing_mode = TAM_BASED`. Suggest switching to `lines_of_therapy` with a pointer to
 the YAML schema.
+
+---
+
+### MODEL-2 — Adjuster independence assumption inflates POS when signals are correlated
+
+**The problem**
+
+Log-odds additivity assumes every adjuster is statistically independent — that knowing the
+biomarker is validated tells you nothing about whether prior phase data was strong. In practice
+these signals are correlated. Trials with validated predictive biomarkers tend to produce stronger
+Phase 2 signals. Strong Phase 2 signals tend to come from well-designed RCTs with hard endpoints.
+Clean safety tends to co-occur with mechanism-validated targets.
+
+When signals are correlated and you treat them as independent, the combined log-odds sum
+overcounts evidence. A drug scoring positive on `biomarker: validated` + `prior_phase_data:
+strong_replicated` + `rct_double_blind` + `clinical_effect_magnitude: exceeds_mcid` is
+not receiving four independent pieces of evidence — it is receiving four correlated descriptions
+of the same underlying reality: a well-designed trial on a real target that showed a clean result.
+The model inflates POS in the all-positive case and deflates it in the all-negative case, because
+there is no covariance structure in the adjuster stack.
+
+`check_pos_layer_overlap()` detects specific named pairs but does not address the general
+problem — the log-odds stack has no correlation model at all.
+
+**The real fix**
+
+A logistic regression fitted to historical trial outcomes with interaction terms, or a Bayesian
+network with an explicit dependency graph between signals. Either requires a training dataset of
+several hundred labeled trial outcomes with structured adjuster values. The dataset does not
+exist at that scale yet. Until it does, the model should be understood as a structured expert
+judgment system that ranks correctly directionally, not as a calibrated probability estimator.
+
+**Interim mitigation**
+
+Add an explicit correlation warning to `compute_pos()` output when two or more of the following
+high-correlation pairs are both set positively:
+- `biomarker: validated` + `prior_phase_data: strong_single/strong_replicated`
+- `prior_phase_data: strong_replicated` + `clinical_effect_magnitude: exceeds_mcid`
+- `moa_precedent: clinically_validated_target` + `moa_exception_flags: HUMAN_PROOF_OF_MECHANISM`
+- `evidence_design: rct_double_blind` + `comparator_fit: matches_soc`
+
+The warning should report the estimated overcounting magnitude and suggest the analyst consider
+whether the signals are truly independent or are describing the same underlying evidence.
+
+**Priority**: Medium. This is a fundamental statistical limitation of the log-odds architecture.
+It cannot be fully fixed without a labeled training dataset. The interim mitigation makes the
+limitation visible without requiring a model rewrite.
+
+---
+
+### MODEL-3 — Adjuster magnitudes are not empirically validated
+
+**The problem**
+
+The log-odds values throughout the POS model (+0.20 for strong prior data, +0.40 for hard
+clinical endpoint, +0.25 for validated biomarker, etc.) are evidence-informed priors calibrated
+from published literature and expert judgment. They are not regression coefficients fitted to
+observed trial outcomes.
+
+The current backtest (N=99 oncology programs, Brier=0.2127, AUC=0.74) validates that the model
+ranks correctly more often than not — the drugs it assigns higher POS to succeed at a higher
+rate. But AUC only measures ranking order. It does not validate whether the probability
+magnitudes are accurate.
+
+A drug the model assigns 80% POS does not mean 80% of drugs in that configuration get approved.
+It means those drugs rank near the top. The gap between a ranked-correctly model and a
+calibrated-probability model matters when rNPV is directly multiplied by
+`cumulative_approval_probability`. Systematically inflated POS magnitudes (e.g., from the
+independence issue in MODEL-2) translate directly into inflated rNPV, which a BD team could
+use to justify overpaying for an asset.
+
+**The fix**
+
+1. **Expand the backtest dataset** to N≥300 labeled trial outcomes across multiple TAs, with
+   structured adjuster values recorded at the time of assessment (not retrofitted).
+2. **Fit calibration correction curves** per TA/phase — Platt scaling or isotonic regression
+   on the backtest outputs to convert model scores to calibrated probabilities.
+3. **Report calibration diagnostics** alongside every POS output: expected calibration error
+   (ECE), reliability diagram bucket counts, and a flag when the input combination falls
+   outside the training distribution.
+4. **Separate ranking validity from calibration validity** in all external communications:
+   "AUC=0.74 means the model ranks drugs correctly" is a different claim from "the model's
+   probability estimates are accurate."
+
+**Priority**: High for any use case where the absolute POS value (not just ranking) drives a
+financial decision. The current model is defensible as a ranking tool; it is not yet defensible
+as a calibrated probability estimator.
 
 ---
 

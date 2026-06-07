@@ -290,10 +290,17 @@ def run_multi_indication_valuation(
         if has_sharing:
             # Build adjusted program reflecting franchise cost sharing
             mm = sec.drug_asset_program.market_model
+            base_cogs_rate = mm.cogs_rate
+            if mm.modality is None and "cogs_rate" not in mm.model_fields_set:
+                from bve.config.assumptions_loader import AssumptionsLoader
+
+                base_cogs_rate = AssumptionsLoader.get().cogs_rate(
+                    sec.drug_asset_program.asset.modality.value
+                )
             adjusted_market = mm.model_copy(update={
                 "sgna_rate_launch": mm.sgna_rate_launch * (1.0 - sharing.sga_share),
                 "sgna_rate_mature": mm.sgna_rate_mature * (1.0 - sharing.sga_share),
-                "cogs_rate": mm.cogs_rate * (1.0 - sharing.manufacturing_share),
+                "cogs_rate": base_cogs_rate * (1.0 - sharing.manufacturing_share),
             })
             de = sec.drug_asset_program.deal_economics
             adjusted_deal = de.model_copy(update={

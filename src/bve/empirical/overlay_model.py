@@ -45,7 +45,6 @@ from scipy.special import expit
 from bve.empirical.features import (
     EXPECTED_SIGNS,
     FEATURE_NAMES,
-    N_FEATURES,
     MIN_OVERLAY_RECORDS,
     build_feature_vector,
 )

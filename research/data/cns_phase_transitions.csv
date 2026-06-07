@@ -55,3 +55,7 @@ roluperidone,Minerva Neurosciences,Schizophrenia (negative symptoms),phase_3,fai
 GLYX-13 (rapastinel),Naurex/Allergan,Treatment-Resistant Depression,phase_3,failed,2019,novel,false,clean,moderate,hard_clinical,"Phase 3 missed; NMDA modulator (glycine site partial agonist); positive Phase 2 failed to replicate"
 REL-1017 (esmethadone),Relmada,Major Depressive Disorder,phase_3,failed,2023,novel,false,acceptable,moderate,hard_clinical,"REL-1017-301: MADRS change not significant; NMDA antagonist; two Phase 3 failures 2023"
 encenicline,Forum Pharma,Alzheimer's Disease (cognitive),phase_2,failed,2015,novel,false,poor,low,hard_clinical,"Phase 2b: GI SAEs halted; alpha-7 nAChR; dose-limiting nausea; discontinued"
+buprenorphine+samidorphan (Lybalvi),Alkermes,Schizophrenia,phase_3,approved,2021,partial,false,acceptable,high,hard_clinical,ENLIGHTEN-1/2: 18-week PANSS improvement; opioid modulator combo with olanzapine; weight neutral
+lorcaserin CNS,Eisai,Binge Eating Disorder,phase_3,failed,2020,partial,false,acceptable,moderate,hard_clinical,5-HT2C agonist for BED withdrawn after FDA cancer signal; efficacy endpoint met but safety concern
+daridorexant (Quviviq),Idorsia,Insomnia,phase_3,approved,2022,novel,false,clean,moderate,hard_clinical,ZEST 1/2: WASO -22.6 vs -10.7 min; dual orexin receptor antagonist; second DORA approved
+zavegepant (Zavzpret),Pfizer,Acute Migraine,phase_3,approved,2023,partial,false,clean,high,hard_clinical,Phase 3: 24% pain-free at 2h vs 15% placebo (nasal formulation); CGRP nasal; intranasal delivery
