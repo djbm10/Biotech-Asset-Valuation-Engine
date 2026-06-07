@@ -67,6 +67,13 @@ class TargetProfileEnriched:
     source_map: dict[str, str]              # field → "manual_override"|"yaml"|"sec"|"null"
     enriched_at: str                        # ISO timestamp
 
+    # Extended financial signals — default None for backward compat
+    long_term_debt_millions: Optional[float] = None
+
+    # Valuation signals (market cap from yfinance; EV derived) — default None
+    market_cap_millions: Optional[float] = None
+    enterprise_value_millions: Optional[float] = None
+
 
 @dataclass
 class AcquirerProfileEnriched:
@@ -172,6 +179,7 @@ class ProfileEnricher:
         *,
         sec_fetcher: Optional[Callable[[str], dict[str, Any]]] = None,
         ledger_score_fetcher: Optional[Callable[[str], dict[str, float]]] = None,
+        market_cap_fetcher: Optional[Callable[[str], Optional[float]]] = None,
     ) -> None:
         self._targets = targets
         self._acquirers = acquirers
@@ -191,6 +199,10 @@ class ProfileEnricher:
             )
         else:
             self._ledger_score_fetcher = ledger_score_fetcher
+
+        # Optional: fetches live market cap (USD millions) from yfinance or equivalent.
+        # When None, enterprise_value_millions will be None (falls back to bucket in deal_size_fit).
+        self._market_cap_fetcher = market_cap_fetcher
 
     # ── Priority-chain field resolver ──────────────────────────────────────
 
@@ -231,6 +243,7 @@ class ProfileEnricher:
         rd_raw = sec.get("rd_expense_millions")
         sgna_raw = sec.get("sgna_expense_millions")
         shares_raw = sec.get("shares_outstanding_millions")
+        debt_raw = sec.get("long_term_debt_millions")
 
         # Resolve core fields through priority chain
         source_map: dict[str, str] = {}
@@ -255,6 +268,26 @@ class ProfileEnricher:
         source_map["rd_expense_ttm_millions"] = "sec" if rd_raw is not None else "null"
         source_map["sgna_expense_ttm_millions"] = "sec" if sgna_raw is not None else "null"
         source_map["shares_outstanding_millions"] = "sec" if shares_raw is not None else "null"
+        source_map["long_term_debt_millions"] = "sec" if debt_raw is not None else "null"
+
+        # Market cap + EV (yfinance, optional)
+        market_cap_raw: Optional[float] = None
+        if self._market_cap_fetcher is not None:
+            try:
+                market_cap_raw = self._market_cap_fetcher(ticker)
+            except Exception:
+                market_cap_raw = None
+        source_map["market_cap_millions"] = "market_data" if market_cap_raw is not None else "null"
+
+        enterprise_value: Optional[float] = None
+        if market_cap_raw is not None:
+            enterprise_value = round(
+                market_cap_raw + (debt_raw or 0.0) - (cash_raw or 0.0),
+                1,
+            )
+            source_map["enterprise_value_millions"] = "computed"
+        else:
+            source_map["enterprise_value_millions"] = "null"
 
         # Compute runway
         cash_runway: Optional[float] = None
@@ -311,7 +344,10 @@ class ProfileEnricher:
             sgna_expense_ttm_millions=sgna_raw,
             operating_burn_ttm_millions=operating_burn,
             shares_outstanding_millions=shares_raw,
+            long_term_debt_millions=debt_raw,
             cash_runway_months=cash_runway,
+            market_cap_millions=market_cap_raw,
+            enterprise_value_millions=enterprise_value,
             quality_score=0.0,   # computed below
             data_quality_flags=flags,
             source_map=source_map,

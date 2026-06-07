@@ -20,7 +20,7 @@ DELTA_MAP_VERSION = "v2.1"
 MATERIALITY_VERSION = "v1.0"
 CONTEXT_VERSION = "v1.0"
 BASELINE_VERSION = "v1.0"
-PAIR_SCORER_VERSION = "v1.0"
+PAIR_SCORER_VERSION = "v2.0"
 SCHEMA_VERSION = "v1.2"
 
 # Composite identifier for the full scoring pipeline run

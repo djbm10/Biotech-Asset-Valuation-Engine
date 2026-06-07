@@ -39,7 +39,11 @@ from bve.ingestion.confidence_bands import ConfidenceBandEstimator
 from bve.ingestion.evidence_ledger import DEFAULT_SEED_SCORES, EvidenceLedger
 from bve.ingestion.profile_enricher import AcquirerProfileEnriched, TargetProfileEnriched
 from bve.ingestion.review_gate import ScoreMode
-from bve.intelligence.acquirer_pair_scorer import AcquirerPairScorer, PairFeatures
+from bve.intelligence.acquirer_pair_scorer import (
+    AcquirerPairScorer,
+    PairFeatures,
+    ta_strategic_fit_score,
+)
 
 
 # ---------------------------------------------------------------------------
@@ -168,12 +172,19 @@ def _jaccard(a: list[str], b: list[str]) -> float:
 def _deal_size_fit(
     market_cap_bucket: Optional[str],
     deal_range: tuple[float, float],
+    enterprise_value_millions: Optional[float] = None,
 ) -> float:
     """
-    Fit score ∈ [0,1]: 1.0 if estimated EV is inside the acquirer's preferred range,
+    Fit score ∈ [0,1]: 1.0 if EV is inside the acquirer's preferred range,
     declining as EV falls outside the range.
+
+    Prefers live enterprise_value_millions (market_cap + debt - cash from yfinance/SEC)
+    when available; falls back to _BUCKET_TO_EV approximation otherwise.
     """
-    ev = _BUCKET_TO_EV.get(market_cap_bucket) if market_cap_bucket else None
+    if enterprise_value_millions is not None:
+        ev = enterprise_value_millions
+    else:
+        ev = _BUCKET_TO_EV.get(market_cap_bucket) if market_cap_bucket else None
     if ev is None:
         return 0.5  # unknown → neutral
     lo, hi = deal_range
@@ -360,9 +371,14 @@ def _score_pair(
 ) -> AcquirerPairResult:
     """Compute one (target, acquirer) pair result."""
     ta_overlap = _jaccard(target.therapeutic_areas, acquirer.therapeutic_areas)
+    ta_fit = ta_strategic_fit_score(ta_overlap)
     modality_fit = 1.0 if target.lead_modality in acquirer.modalities else 0.0
     stage_fit = 1.0 if target.lead_asset_phase in acquirer.preferred_stages else 0.4
-    dsf = _deal_size_fit(target.market_cap_bucket, acquirer.deal_size_range_millions)
+    dsf = _deal_size_fit(
+        target.market_cap_bucket,
+        acquirer.deal_size_range_millions,
+        enterprise_value_millions=target.enterprise_value_millions,
+    )
     pipeline_gap_fill = ta_overlap * acquirer.urgency
     complexity = _integration_complexity(target)
 
@@ -370,6 +386,7 @@ def _score_pair(
         asset_quality=round(asset_quality, 4),
         acquirer_appetite=round(float(acquirer.bd_appetite), 4),
         ta_overlap=round(ta_overlap, 4),
+        ta_strategic_fit=round(ta_fit, 4),
         size_fit=round(dsf, 4),
         acquirer_urgency=round(float(acquirer.urgency), 4),
         integration_capacity=round(float(acquirer.integration_capacity), 4),
@@ -549,9 +566,23 @@ class WeeklyMAScreen:
         n_records = len(ev_records)
         coverage = _coverage_from_n_records(n_records)
 
-        # Suppression check
+        # Suppression check — build structured reason codes for Coverage Recovery Queue
         suppressed = coverage < min_coverage
-        suppression_reason = f"coverage {coverage:.2f} < {min_coverage}" if suppressed else None
+        if suppressed:
+            reason_codes: list[str] = []
+            if n_records == 0:
+                reason_codes.append("no_evidence_records")
+            else:
+                reason_codes.append("low_evidence_coverage")
+            for flag in ("cash_missing", "lead_asset_missing", "phase_missing_or_unknown",
+                         "rd_expense_missing"):
+                if flag in target.data_quality_flags:
+                    reason_codes.append(flag)
+            suppression_reason = (
+                f"coverage:{coverage:.2f}<{min_coverage} [{','.join(reason_codes)}]"
+            )
+        else:
+            suppression_reason = None
 
         # 4. Pair scoring (even for suppressed targets — omit from output)
         pairs: list[AcquirerPairResult] = []

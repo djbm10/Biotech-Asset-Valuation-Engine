@@ -266,12 +266,30 @@ def extract_shares_outstanding(facts: dict) -> Optional[float]:
     return None
 
 
+def extract_long_term_debt(facts: dict) -> Optional[float]:
+    """Extract most recent annual long-term debt in USD millions (non-current only)."""
+    gaap = facts.get("us-gaap", {})
+    for concept in [
+        "LongTermDebtNoncurrent",
+        "LongTermDebt",
+        "LongTermNotesPayable",
+        "ConvertibleNotesPayable",
+    ]:
+        units = gaap.get(concept, {}).get("units", {}).get("USD", [])
+        if units:
+            annual = [u for u in units if u.get("form") in ("10-K", "10-Q") and u.get("val") is not None]
+            if annual:
+                latest = max(annual, key=lambda u: u.get("end", ""))
+                return round(latest["val"] / 1e6, 2)
+    return None
+
+
 def get_financials_by_ticker(ticker: str) -> dict[str, Any]:
     """
     High-level helper: resolve ticker → financials dict.
 
     Returns dict with keys: cash_millions, rd_expense_millions,
-    sgna_expense_millions, shares_outstanding_millions
+    sgna_expense_millions, shares_outstanding_millions, long_term_debt_millions
     """
     cik = get_cik(ticker)
     if not cik:
@@ -284,4 +302,5 @@ def get_financials_by_ticker(ticker: str) -> dict[str, Any]:
         "rd_expense_millions": extract_rd_expense(facts),
         "sgna_expense_millions": extract_sgna_expense(facts),
         "shares_outstanding_millions": extract_shares_outstanding(facts),
+        "long_term_debt_millions": extract_long_term_debt(facts),
     }

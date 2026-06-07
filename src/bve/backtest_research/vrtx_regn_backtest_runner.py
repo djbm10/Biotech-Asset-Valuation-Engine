@@ -138,7 +138,11 @@ class BacktestRunner:
         skip_bucket_check: bool = False,
     ) -> dict[str, Any]:
         from bve.backtest_research.leakage_guard import LeakageGuard, LeakageViolationError
-        from bve.intelligence.acquirer_pair_scorer import AcquirerPairScorer, PairFeatures
+        from bve.intelligence.acquirer_pair_scorer import (
+            AcquirerPairScorer,
+            PairFeatures,
+            ta_strategic_fit_score,
+        )
 
         # 1. Bucket minimum gate (hard block before any scoring)
         if not skip_bucket_check:
@@ -166,10 +170,12 @@ class BacktestRunner:
         scored: list[ScoredRow] = []
         for row in rows:
             try:
+                _ta_ov = float(row.get("ta_overlap", 0.3))
                 features = PairFeatures(
                     asset_quality=float(row.get("asset_quality", 0.3)),
                     acquirer_appetite=float(row.get("acquirer_appetite", 0.3)),
-                    ta_overlap=float(row.get("ta_overlap", 0.3)),
+                    ta_overlap=_ta_ov,
+                    ta_strategic_fit=ta_strategic_fit_score(_ta_ov),
                     size_fit=float(row.get("size_fit", 0.3)),
                     acquirer_urgency=float(row.get("acquirer_urgency", 0.3)),
                     integration_capacity=float(row.get("integration_capacity", 0.3)),
