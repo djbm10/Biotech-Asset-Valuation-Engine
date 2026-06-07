@@ -120,9 +120,9 @@ def compute_score_changes(
             "old_rank": old_rank if old_rank != _SUPPRESSED_SENTINEL else "",
             "new_rank": new_rank if new_rank != _SUPPRESSED_SENTINEL else "",
             "rank_change": rank_change if rank_change is not None else "",
-            "old_probability": old_prob if old_prob is not None else "",
-            "new_probability": new_prob if new_prob is not None else "",
-            "probability_change": prob_change if prob_change is not None else "",
+            "old_ma_score": old_prob if old_prob is not None else "",
+            "new_ma_score": new_prob if new_prob is not None else "",
+            "ma_score_change": prob_change if prob_change is not None else "",
             "old_top_acquirer": prev.top_acquirer or "" if prev else "",
             "new_top_acquirer": curr.top_acquirer or "" if curr else "",
             "changed_drivers": _diff_list(
@@ -161,8 +161,8 @@ def _write_csv(path: Path, rows: list[dict[str, Any]], fieldnames: list[str]) ->
 
 _RANKED_TARGETS_FIELDS = [
     "rank", "ticker", "name",
-    "ma_probability", "probability_low", "probability_high", "confidence_label",
-    "asset_quality", "seller_willingness", "ma_attractiveness", "catalyst_timing",
+    "ma_score", "score_low", "score_high", "confidence_label",
+    "asset_quality", "seller_willingness", "financing_risk", "ma_attractiveness", "catalyst_timing",
     "evidence_coverage_overall", "profile_quality_score",
     "top_acquirer", "top_acquirer_pair_score",
     "main_drivers", "key_risks",
@@ -177,13 +177,13 @@ _PAIRS_FIELDS = [
 _SUPPRESSED_FIELDS = [
     "ticker", "name", "suppression_reason",
     "evidence_coverage_overall", "profile_quality_score",
-    "asset_quality", "seller_willingness", "ma_attractiveness", "catalyst_timing",
+    "asset_quality", "seller_willingness", "financing_risk", "ma_attractiveness", "catalyst_timing",
 ]
 
 _SCORE_CHANGES_FIELDS = [
     "ticker", "name",
     "old_rank", "new_rank", "rank_change",
-    "old_probability", "new_probability", "probability_change",
+    "old_ma_score", "new_ma_score", "ma_score_change",
     "old_top_acquirer", "new_top_acquirer",
     "changed_drivers", "changed_risks",
 ]
@@ -191,7 +191,12 @@ _SCORE_CHANGES_FIELDS = [
 
 def _ranked_targets_rows(result: WeeklyMAScreenResult) -> list[dict[str, Any]]:
     rows = ranked_targets_to_rows(result)
-    # ranked_targets_to_rows already includes all needed fields; just strip extras
+    # Rename internal ma_probability to ma_score for external output to signal
+    # that these are ranking scores, not calibrated acquisition probabilities.
+    for row in rows:
+        row["ma_score"] = row.pop("ma_probability", None)
+        row["score_low"] = row.pop("probability_low", None)
+        row["score_high"] = row.pop("probability_high", None)
     return rows
 
 
@@ -205,6 +210,7 @@ def _suppressed_rows(result: WeeklyMAScreenResult) -> list[dict[str, Any]]:
             "profile_quality_score": t.profile_quality_score,
             "asset_quality": t.asset_quality,
             "seller_willingness": t.seller_willingness,
+            "financing_risk": t.financing_risk,
             "ma_attractiveness": t.ma_attractiveness,
             "catalyst_timing": t.catalyst_timing,
         }
@@ -237,8 +243,8 @@ def _build_validation_snapshot(result: WeeklyMAScreenResult) -> dict[str, Any]:
         "n_suppressed_targets": len(result.suppressed_targets),
         "n_acquirer_pairs": result.diagnostics.get("n_pair_scores", 0),
         "top_target": top.ticker if top else None,
-        "top_probability": top.ma_probability if top else None,
-        "median_probability": median_prob,
+        "top_ma_score": top.ma_probability if top else None,
+        "median_ma_score": median_prob,
         "generated_at": datetime.now(timezone.utc).isoformat(),
         "diagnostics": result.diagnostics,
         "classifier_version": CLASSIFIER_VERSION,
@@ -246,6 +252,13 @@ def _build_validation_snapshot(result: WeeklyMAScreenResult) -> dict[str, Any]:
         "baseline_model_version": BASELINE_VERSION,
         "pair_scorer_version": PAIR_SCORER_VERSION,
         "schema_version": REPORT_VERSION,
+        # Calibration metadata — machine-readable flag for downstream consumers
+        "calibration_status": "uncalibrated",
+        "output_interpretation": (
+            "ma_score is a ranked diligence priority score (0-1), not a "
+            "validated acquisition probability. Do not interpret absolute values "
+            "as likelihood estimates. Use rank ordering only."
+        ),
     }
 
 
@@ -291,6 +304,13 @@ class WeeklyReportGenerator:
         # ── Header ─────────────────────────────────────────────────────────
         lines.append(f"# Weekly Biotech M&A Screen — {result.as_of_date.isoformat()}")
         lines.append("")
+        lines.append(
+            "> **UNCALIBRATED** — `ma_score` is a ranked diligence priority score, "
+            "not a validated acquisition probability. "
+            "Absolute values (e.g. 0.63) are not meaningful in isolation. "
+            "Use rank ordering only. Do not cite these scores as likelihood estimates."
+        )
+        lines.append("")
 
         # ── Run summary ────────────────────────────────────────────────────
         lines.append("## Run Summary")
@@ -300,8 +320,8 @@ class WeeklyReportGenerator:
         lines.append(f"- Targets suppressed: {len(suppressed)}")
         lines.append(f"- Acquirer pairs scored: {result.diagnostics.get('n_pair_scores', 0)}")
         lines.append(f"- Top target: **{top.ticker if top else 'none'}**"
-                     + (f" ({_format_probability(top.ma_probability)})" if top else ""))
-        lines.append(f"- Median probability: {_format_probability(median_prob)}")
+                     + (f" (ma_score={_format_probability(top.ma_probability)})" if top else ""))
+        lines.append(f"- Median ma_score: {_format_probability(median_prob)}")
         lines.append("")
 
         # ── Top 25 targets ─────────────────────────────────────────────────
@@ -323,7 +343,7 @@ class WeeklyReportGenerator:
                 for t in top25
             ]
             lines.append(_md_table(
-                ["Rank", "Ticker", "Probability", "Range", "Confidence", "Top Acquirer",
+                ["Rank", "Ticker", "ma_score", "Range", "Confidence", "Top Acquirer",
                  "Main Driver", "Key Risk"],
                 rows,
             ))
@@ -365,15 +385,15 @@ class WeeklyReportGenerator:
                     [
                         c["ticker"],
                         f"{c['rank_change']:+d}" if isinstance(c["rank_change"], int) else "—",
-                        (f"{c['probability_change']:+.1%}"
-                         if isinstance(c["probability_change"], float) else "—"),
+                        (f"{c['ma_score_change']:+.1%}"
+                         if isinstance(c["ma_score_change"], float) else "—"),
                         str(c["old_top_acquirer"] or "—"),
                         str(c["new_top_acquirer"] or "—"),
                     ]
                     for c in top_changes
                 ]
                 lines.append(_md_table(
-                    ["Ticker", "Rank Change", "Probability Change",
+                    ["Ticker", "Rank Change", "ma_score Change",
                      "Old Top Acquirer", "New Top Acquirer"],
                     change_rows,
                 ))
