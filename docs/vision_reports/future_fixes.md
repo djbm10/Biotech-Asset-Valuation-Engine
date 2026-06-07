@@ -253,6 +253,119 @@ the specific scientific question that could actually change the asset's value.
 
 ---
 
+### HARVEY-1 — Drug delivery / PK-PD confidence as a POS Layer 1 adjuster
+
+**Source**: Harvey Advice (05 June 2026), synthesised from HARVEY-0.
+
+**Core gap**: The existing POS model captures target biology (MoAPrecedent,
+MoAExceptionFlag) and endpoint/trial design (TrialDesignFeatureSet). What is
+not captured at all is whether there is evidence that *enough drug reached the
+target site at the tested dose*. Harvey identified this as the second critical
+bifurcation question after target validity: right biology + wrong dose/delivery
+= program failure that looks like biology failure.
+
+**What to add**
+
+1. **`DrugDeliveryConfidence` enum in `pos_model.py` (Layer 1)**
+
+   Five tiers, applied in log-odds space as a new field on `POSAdjusters`:
+
+   | Tier | Log-odds | When to use |
+   |---|---|---|
+   | `confirmed` | +0.20 | Dose-response trend shown AND direct target-engagement biomarker moved |
+   | `likely` | +0.07 | PK data consistent with target engagement; no direct biomarker yet |
+   | `uncertain` | 0.00 | No public PK/PD data — default; zero adjustment |
+   | `poor` | −0.20 | Known tissue-access barrier (e.g., CNS target with no CNS PK shown) |
+   | `conflicting` | −0.35 | Dose data exists but target engagement not demonstrated at tested dose |
+
+   Default is `uncertain` so existing configs require no changes.
+
+2. **`ScienceThesis` dataclass in a new `src/bve/intelligence/science_thesis.py`**
+
+   Stores the "killer thesis question" for each asset — the one or two
+   biological questions whose answer creates a value bifurcation. Not a POS
+   input itself; used to surface the question in the weekly report and to anchor
+   belief-update records.
+
+   Fields:
+   - `killer_question: str` — e.g. "Can we suppress RAS ≥90% at the tested
+     dose?"
+   - `key_readout_event: str` — which trial result or event answers it
+   - `delivery_confidence: DrugDeliveryConfidence`
+   - `thesis_last_updated: Optional[date]`
+   - `belief_history: list[str]` — ordered log of prior → evidence → update
+
+3. **Anti-double-count guard**
+
+   In `check_pos_layer_overlap()`, flag a warning if both
+   `drug_delivery_confidence=confirmed` and
+   `MoAExceptionFlag.HUMAN_PROOF_OF_MECHANISM` are set — they partially
+   overlap because human POM often implies target engagement at dose.
+
+**What this does NOT add**
+
+- Does not add a broad generic "science score" — Harvey explicitly warned
+  against this.
+- Does not model PK parameters numerically (half-life, Cmax, Ctrough). Those
+  require data not reliably available from public sources.
+- `ScienceThesis` does not feed POS directly at first — it is a structured
+  annotation layer for the analyst to reason against, not an automated scoring
+  input.
+
+**Backward compatibility**: `drug_delivery_confidence` defaults to `uncertain`
+(0.00 log-odds adjustment). All existing YAML configs and test fixtures
+continue to work unchanged.
+
+**Priority**: Medium. The POS model already covers target biology reasonably
+well through MoAPrecedent and MoAExceptionFlags. Drug delivery confidence is
+the single largest missing signal Harvey identified. Add after the calibration
+runner (Sprint E) has had a chance to show whether the existing Layer 1
+adjusters are well-weighted.
+
+---
+
+### PAIR-SCORER-1 — Pair score distribution compression: full recalibration needed
+
+**Problem**: The acquirer-pair logit scorer saturates near 1.0 for most decent-quality
+pairs. With v2.1 intercept (-3.0), the median pair scores ~0.90 instead of 0.99, but
+strong pairs still cluster at 0.97–0.99. The top-pair rankings lack meaningful
+separation.
+
+**Root cause**: The logit weights were set as evidence-informed priors, not fitted to
+historical data. The sum of positive weights (~8.90) is large relative to the intercept.
+Any pair with decent features across all dimensions pushes the log-odds well above zero
+and the sigmoid saturates.
+
+**What a proper fix requires**:
+
+1. **Labeled historical dataset**: A set of (acquirer, target) pairs with known outcomes
+   — closed acquisition, licensing deal, or no transaction. Minimum N~50 positive pairs
+   across ≥3 acquirers to fit a logistic regression with any confidence.
+
+2. **Logistic regression refit**: Re-estimate `INTERCEPT` and all `WEIGHTS` from the
+   labeled data. Expect the intercept to be far more negative (deals are rare — true base
+   rate for any given pair is well under 5%). Expect some weights to shrink or flip.
+
+3. **Calibration check**: After fitting, verify that the score distribution matches the
+   empirical positive rate at each decile. A well-calibrated pair scorer should show
+   ~5–10% of top-decile pairs converting to deals, not 99%.
+
+4. **Separate ranking from probability**: Consider maintaining two outputs —
+   `pair_rank_score` (for ordering) and `pair_acquisition_probability` (calibrated to
+   base rates). The current score conflates both.
+
+**Interim mitigations already in place**:
+- `_apply_ta_fit_cap`: caps scores at 0.60/0.75 when TA overlap is poor
+- `_apply_size_fit_cap`: caps at 0.85 when deal-size fit is poor (added v2.1)
+- `INTERCEPT = -3.0`: shifted median pair from ~0.99 to ~0.90 (v2.1)
+
+**Priority**: Medium. The caps prevent the worst outliers, and the scores still rank
+pairs correctly in relative terms. Full recalibration requires labeled historical deal
+data that does not yet exist at sufficient scale. Revisit after the historical deal
+database reaches ≥50 verified pairs.
+
+---
+
 ### ARCH-0 — Target architecture: RAG plus structured valuation and scoring
 
 **Wanted architecture**: The biotech M&A product should not be framed as
@@ -845,6 +958,464 @@ multi-asset target analysis.
 - Add SOTP adapter from configured company assets
 - Add tests for EV calculation, market-cap fallback, stale data, negative EV,
   and multi-asset SOTP
+
+---
+
+### MNA-2B — Make BD/M&A scoring multiplicative and gate weak deal dimensions
+
+**Current state**: The full BD/M&A framework is directionally correct. It does
+not treat "good science" alone as enough for acquisition. The architecture
+separates target quality, seller willingness, buyer fit, pair realism,
+affordability, and deal feasibility across the M&A layers.
+
+The live weekly M&A screen is only partially aligned with that framework. It is
+currently closer to:
+
+```text
+ma_score =
+    target strength
+  + best buyer-pair fit
+  + seller willingness
+  + catalyst timing
+  + financing/risk pressure
+```
+
+That is useful for ranking diligence priorities, but it is not yet the right
+shape for acquisition probability.
+
+The better conceptual model is:
+
+```text
+acquisition likelihood =
+  buyer need
+× buyer financial capacity
+× target attractiveness
+× valuation gap
+× regulatory/antitrust feasibility
+× execution risk
+× board/shareholder willingness
+```
+
+**Current factor coverage**:
+
+| Factor | Current tool status |
+|---|---|
+| Buyer need | Yes, via TA overlap, pipeline gap, acquirer urgency, and modality fit. |
+| Buyer financial capacity | Partial, via deal-size fit and affordability logic, but market cap, EV, and debt need better wiring. |
+| Target attractiveness | Yes, via asset quality, clinical stage, catalysts, evidence, and POS/science signals. |
+| Valuation gap | Partial. Valuation and implied-expectation modules exist, but valuation gap is not central enough in the live M&A score. |
+| Regulatory / antitrust feasibility | Partial. Layer 3/4 design has a place for this, but it needs stronger enforcement in scoring. |
+| Execution risk | Partial, via integration capacity, rights/control, and pair realism concepts. |
+| Board / shareholder willingness | Partial, proxied through cash runway, distress, strategic review, restructuring, and seller willingness. |
+
+**The gap**: The framework understands the right BD logic, but several weak
+dimensions are still additive, thinly modeled, or underwired. A target with
+excellent science should not score highly when buyer need is weak, affordability
+is poor, antitrust risk is high, valuation mismatch is large, execution risk is
+unacceptable, or the seller is not transaction-ready.
+
+This is what "directionally right, but not fully mature" means:
+
+- **Conceptually right**: the framework has places for buyer gaps,
+  affordability, seller willingness, antitrust, execution risk, deal structure,
+  and calibration.
+- **Implementation still immature**: some of those fields are rules-based,
+  missing data, not wired into the main score path, or treated as soft
+  adjustments instead of hard constraints.
+- **Needed behavior**: weak dimensions should act as real caps/gates, so a high
+  science score cannot overwhelm deal-breaking M&A problems.
+
+**The fix**:
+
+1. **Convert key M&A dimensions from additive boosts to gated components**
+   - Buyer need, affordability, antitrust feasibility, execution risk, valuation
+     gap, and seller willingness should each be able to cap the final score.
+   - Example: no buyer need or high antitrust risk should prevent a high final
+     score even if the asset quality score is strong.
+
+2. **Add explicit score caps for weak dimensions**
+   - Low buyer need: cap to strategic radar / monitoring range.
+   - Low affordability or impossible deal size: cap to low transaction
+     probability.
+   - High antitrust risk: cap or fail the pair.
+   - High execution/integration risk: reduce likely route from acquisition to
+     license/collaboration or cap the pair score.
+   - Low seller willingness: route to relationship-building/watchlist rather
+     than actionable M&A.
+
+3. **Make valuation gap first-class**
+   - Compare market EV, model SOTP/rNPV, and expected acquisition cost.
+   - Penalize cases where the buyer would need to pay far above risk-adjusted
+     value without a clear strategic premium rationale.
+   - Support deal-structure alternatives, such as CVR/license/option, when the
+     valuation gap is high but strategic interest is real.
+
+4. **Expose the gating explanation in reports**
+   - Show which dimension capped the score.
+   - Distinguish "great science, weak deal setup" from "credible acquisition
+     candidate."
+   - Keep `ma_score` labeled as an uncalibrated ranked diligence score until
+     Layer 5 historical calibration is complete.
+
+**Priority**: High. This is central to making the BD/M&A layer behave like a
+real acquisition screen rather than a science-quality screen with M&A overlays.
+
+**Estimated scope**:
+- Extend Layer 3 gate outputs with explicit cap reasons per dimension.
+- Add valuation-gap inputs from the company value resolver in `MNA-2`.
+- Strengthen pair-level affordability, antitrust, and execution-risk caps.
+- Add report fields for `score_cap_applied`, `cap_reason`, and
+  `blocked_by_dimension`.
+- Add tests proving strong science cannot overcome weak buyer need,
+  unaffordable price, high antitrust risk, or low seller willingness.
+
+---
+
+### MNA-2C — Add a simple Macro Deal Environment layer after POS
+
+**Core idea**: Macro should be a deal-weather layer, not a second science model.
+It should sit after POS/rNPV and before BD/M&A scoring.
+
+```text
+POS / science
+-> rNPV / valuation
+-> Macro Deal Environment
+-> BD/M&A Layer 0-5
+-> report
+```
+
+It should not be a huge macro prediction engine. It should be a small
+"deal weather" layer that tells the M&A system how strict or flexible to be.
+
+**1. Core Object**
+
+```python
+MacroDealEnvironment:
+    as_of_date
+    regime_version
+    capital_markets
+    biotech_financing_window
+    buyer_firepower_patent_cliff
+    regulatory_pricing_policy
+    antitrust_posture
+    geopolitical_supply_chain_risk
+    therapeutic_area_sentiment
+    confidence
+    sources
+```
+
+Each regime flag should be simple:
+
+```text
+tailwind / neutral / headwind
+```
+
+or:
+
+```text
+low / medium / high
+```
+
+No fake decimal precision at first.
+
+**2. Regime Flags**
+
+| Flag | Meaning | Main effect |
+|---|---|---|
+| `capital_markets` | Rates, discount rates, investor risk appetite | Changes valuation discipline and stage preference |
+| `biotech_financing_window` | Can small biotechs raise money? | Changes seller willingness and financing risk |
+| `buyer_firepower_patent_cliff` | Are big buyers pressured and able to buy? | Changes buyer urgency |
+| `regulatory_pricing_policy` | FDA/pricing/IRA/payer pressure | Changes commercial risk and deal structure |
+| `antitrust_posture` | FTC/regulator strictness | Tightens/loosens pair-level antitrust caps |
+| `geopolitical_supply_chain_risk` | China, tariffs, CDMO/CRO exposure | Changes execution-risk caps |
+| `therapeutic_area_sentiment` | Is the TA hot or cold? | Changes buyer appetite and premium tolerance |
+
+**3. Source Model**
+
+Every flag needs provenance:
+
+```python
+MacroRegimeFlag:
+    name
+    value
+    source_type: automated | manual | mixed
+    source
+    last_updated
+    confidence
+    rationale
+```
+
+Example:
+
+```text
+antitrust_posture:
+  value: aggressive
+  source_type: manual
+  source: analyst quarterly macro review
+  last_updated: 2026-06-01
+  confidence: medium
+  rationale: FTC scrutiny remains elevated for horizontal/pipeline overlap deals.
+```
+
+That prevents "vibes scoring."
+
+**4. What Gets Automated**
+
+Only automate the easy, objective pieces first.
+
+| Flag | Automation |
+|---|---|
+| Buyer firepower / patent cliff | Acquirer profiles, cash/debt, LOE dates, pipeline gaps |
+| Biotech financing window | XBI trend, biotech IPO count, follow-on count/volume |
+| Therapeutic area sentiment | Recent deal activity, TA-specific price performance, recent clinical wins/failures |
+| Capital markets | Fed funds / 10Y yield / biotech index trend, or manual initially |
+| Antitrust posture | Manual quarterly |
+| Geopolitical risk | Manual quarterly |
+| Pricing policy | Manual quarterly plus asset-specific IRA/payer exposure |
+
+**5. What It Affects**
+
+The macro layer should mostly affect **M&A and deal structure**, not POS.
+
+```text
+Should affect POS:
+- FDA endpoint acceptance
+- accelerated approval path
+- confirmatory trial burden
+- class-wide regulatory safety concerns
+
+Should not affect POS:
+- interest rates
+- IPO window
+- buyer stock price
+- China tariffs
+- antitrust
+- patent cliffs
+```
+
+Most macro factors do this instead:
+
+```text
+seller_willingness
+buyer_urgency
+valuation_gap
+deal_structure_bias
+pair_score_caps
+affordability strictness
+execution-risk strictness
+```
+
+**6. Modifier Logic**
+
+Do not make a separate macro score. Use macro to adjust existing gates.
+
+Example:
+
+```text
+antitrust_posture = aggressive
+-> tighten existing pair antitrust caps
+
+geopolitical_supply_chain_risk = high
+-> tighten execution-risk caps for China/CDMO-dependent assets
+
+biotech_financing_window = closed
+-> increase seller willingness for companies with <18 months runway
+
+capital_markets = headwind
+-> penalize expensive early-stage/platform acquisitions
+-> favor late-stage, de-risked, milestone-heavy structures
+
+buyer_firepower_patent_cliff = high
+-> increase buyer urgency for buyers with near-term LOE gaps
+```
+
+**7. Cap Example**
+
+For antitrust:
+
+```text
+normal posture:
+  same-indication high-overlap pair cap = 0.60
+
+aggressive posture:
+  same-indication high-overlap pair cap = 0.50
+
+permissive posture:
+  same-indication high-overlap pair cap = 0.70
+```
+
+One antitrust model. Macro just changes strictness.
+
+For financing:
+
+```text
+biotech_financing_window = closed
+and target cash runway < 12 months
+-> seller_willingness + boost
+-> financing_risk + boost
+-> full acquisition or strategic alternative more plausible
+```
+
+For rates:
+
+```text
+capital_markets = headwind
+and target is preclinical/platform-heavy
+-> acquisition score cap
+-> route bias toward license/option/collaboration
+```
+
+**8. Deal Structure Bias**
+
+This is where macro becomes very useful.
+
+Output should include:
+
+```text
+preferred_structure_bias:
+  full_acquisition: lower
+  license: higher
+  option_to_acquire: higher
+  CVR: higher
+  minority_equity: neutral
+```
+
+Example:
+
+```text
+High-rate / weak-financing / high-uncertainty environment:
+  - lower full-acquisition probability for speculative platforms
+  - higher licensing/option/CVR probability
+  - higher distressed takeout probability for de-risked assets with weak runway
+```
+
+**9. Report Output**
+
+The report should show a small section:
+
+```text
+Macro Deal Environment
+
+Overall read:
+Risk-off biotech M&A environment. Buyers have pipeline need, but capital markets
+favor disciplined, de-risked, milestone-heavy deals.
+
+Regime flags:
+- Capital markets: headwind
+- Biotech financing window: closed
+- Buyer firepower / patent cliff: tailwind
+- Regulatory/pricing policy: headwind
+- Antitrust posture: aggressive
+- Geopolitical/supply-chain risk: medium
+- TA sentiment: oncology hot, gene therapy cold
+
+Effect on this target:
+- Seller willingness increased due to weak financing window and 11-month runway.
+- Full takeout score capped because buyer-target overlap creates antitrust risk.
+- Deal structure biased toward license/CVR rather than clean acquisition.
+```
+
+**10. Data Stored Per Target**
+
+For each target-acquirer pair:
+
+```python
+MacroAdjustedPairResult:
+    base_pair_score
+    macro_adjusted_pair_score
+    macro_caps_applied
+    cap_reason
+    affected_dimensions
+    deal_structure_bias
+    macro_explanation
+```
+
+Example:
+
+```text
+base_pair_score: 0.78
+macro_adjusted_pair_score: 0.61
+macro_caps_applied:
+  - antitrust_aggressive_posture_same_indication_cap
+  - high_rate_platform_deal_cap
+deal_structure_bias:
+  full_acquisition: down
+  option_to_acquire: up
+  license: up
+```
+
+**11. Simple First Version**
+
+Make V1 intentionally modest:
+
+```text
+V1 Macro Layer:
+1. Capital markets regime
+2. Biotech financing window
+3. Buyer firepower / patent cliff pressure
+4. Antitrust posture
+5. Regulatory/pricing pressure
+6. Geopolitical/supply-chain risk
+7. TA sentiment
+```
+
+Each flag should only do one or two things.
+
+No giant formula. No 40 subfactors. No pretending it knows everything.
+
+**12. Final Shape**
+
+The final framework would look like:
+
+```text
+Asset Science:
+  Does the drug work?
+
+POS:
+  How likely is approval?
+
+rNPV:
+  What is it worth standalone?
+
+Macro Environment:
+  Is the market favorable for deals, financing, and risk-taking?
+
+BD/M&A:
+  Who needs it, who can buy it, who can close it, and what structure makes sense?
+
+Output:
+  ranked diligence queue
+  likely buyers
+  deal blockers
+  preferred deal route
+  confidence / data gaps
+```
+
+This gives the product a clean principle:
+
+```text
+POS = drug truth
+Macro = deal weather
+BD/M&A = buyer-seller fit
+```
+
+That keeps the tool powerful without turning it into a noisy black box.
+
+**Priority**: Medium-high. Add after the core M&A gates/caps in `MNA-2B` are
+stable. The layer should initially be mostly explanatory and cap-modifying, not
+a standalone acquisition-probability model.
+
+**Estimated scope**:
+- New module: `src/bve/intelligence/macro_deal_environment.py`
+- Add `MacroDealEnvironment` and `MacroRegimeFlag` models.
+- Add manual config support for quarterly macro flags.
+- Add optional automated inputs for buyer firepower, biotech financing window,
+  and therapeutic-area sentiment.
+- Wire macro modifiers into existing pair caps and deal-structure routing.
+- Add report section showing macro regime, provenance, target-specific effect,
+  and deal-structure bias.
+- Add tests proving macro flags modify existing gates rather than creating
+  duplicate parallel scores.
 
 ---
 
