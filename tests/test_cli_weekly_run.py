@@ -153,7 +153,8 @@ def _write_fixture_screen_result(tmp_path: Path) -> Path:
         rank=1, ticker="RVMD", name="Revolution Medicines",
         ma_probability=0.42, probability_low=0.28, probability_high=0.56,
         confidence_label="medium",
-        asset_quality=0.65, seller_willingness=0.48, catalyst_timing=0.35,
+        asset_quality=0.65, seller_willingness=0.48, financing_risk=0.10,
+        catalyst_timing=0.35,
         ma_attractiveness=0.60, evidence_coverage_overall=0.60,
         profile_quality_score=0.80,
         top_acquirer="PFE", top_acquirer_pair_score=0.68,
@@ -587,13 +588,14 @@ class TestSerdeRoundTrip:
     def test_screen_result_json_roundtrip(self, tmp_path):
         from bve.cli._serde import screen_result_from_json, screen_result_to_json
         from bve.intelligence.weekly_ma_screen import (
-            AcquirerPairResult, TargetScreenResult, WeeklyMAScreenResult
+            TargetScreenResult, WeeklyMAScreenResult
         )
         t = TargetScreenResult(
             rank=1, ticker="TST", name="Test",
-            ma_probability=0.40, probability_low=0.25, probability_high=0.55,
-            confidence_label="medium",
-            asset_quality=0.60, seller_willingness=0.45, catalyst_timing=0.30,
+        ma_probability=0.40, probability_low=0.25, probability_high=0.55,
+        confidence_label="medium",
+        asset_quality=0.60, seller_willingness=0.45, financing_risk=0.10,
+        catalyst_timing=0.30,
             ma_attractiveness=0.55, evidence_coverage_overall=0.50,
             profile_quality_score=0.75,
             top_acquirer="PFE", top_acquirer_pair_score=0.65,
@@ -613,7 +615,7 @@ class TestSerdeRoundTrip:
         assert restored.ranked_targets[0].main_drivers == ["driver1"]
 
     def test_acquirer_profile_deal_range_tuple_preserved(self, tmp_path):
-        from bve.cli._serde import acquirer_profile_from_dict, acquirer_profiles_from_json
+        from bve.cli._serde import acquirer_profile_from_dict
         from bve.ingestion.profile_enricher import AcquirerProfileEnriched
         import dataclasses
         prof = AcquirerProfileEnriched(

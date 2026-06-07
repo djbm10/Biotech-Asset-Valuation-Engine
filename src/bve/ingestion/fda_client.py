@@ -23,6 +23,12 @@ def _get(url: str, params: dict | None = None, retries: int = 3) -> dict:
     for attempt in range(retries):
         try:
             r = requests.get(url, params=params, timeout=30)
+            if r.status_code == 404:
+                return {
+                    "results": [],
+                    "status": "no_fda_record",
+                    "reason": "not_found",
+                }
             r.raise_for_status()
             return r.json()
         except requests.RequestException:

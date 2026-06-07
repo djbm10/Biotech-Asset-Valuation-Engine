@@ -18,7 +18,6 @@ Covers:
 from __future__ import annotations
 
 import json
-from pathlib import Path
 
 import pytest
 
@@ -78,6 +77,7 @@ def _sec_full(ticker: str) -> dict:
     return {
         "cash_millions": 250.0,
         "rd_expense_millions": 120.0,
+        "sgna_expense_millions": None,
         "shares_outstanding_millions": 80.0,
     }
 
@@ -168,11 +168,40 @@ class TestTargetProfileEnriched:
         p = e.enrich_target("TSTR")
         assert p.shares_outstanding_millions == 80.0
 
+    def test_sgna_from_sec_when_available(self):
+        def sec_with_sgna(ticker: str) -> dict:
+            return {
+                "cash_millions": 250.0,
+                "rd_expense_millions": 120.0,
+                "sgna_expense_millions": 60.0,
+                "shares_outstanding_millions": 80.0,
+            }
+
+        e = _make_enricher(sec_fetcher=sec_with_sgna)
+        p = e.enrich_target("TSTR")
+        assert p.sgna_expense_ttm_millions == 60.0
+        assert p.operating_burn_ttm_millions == 180.0
+
     def test_cash_runway_computed(self):
         e = _make_enricher()
         p = e.enrich_target("TSTR")
         # 250 / (120/12) = 250/10 = 25.0 months
         assert p.cash_runway_months == pytest.approx(25.0, abs=0.1)
+
+    def test_cash_runway_uses_rd_plus_sgna_when_available(self):
+        def sec_with_sgna(ticker: str) -> dict:
+            return {
+                "cash_millions": 180.0,
+                "rd_expense_millions": 120.0,
+                "sgna_expense_millions": 60.0,
+                "shares_outstanding_millions": None,
+            }
+
+        e = _make_enricher(sec_fetcher=sec_with_sgna)
+        p = e.enrich_target("TSTR")
+        # 180 / ((120 + 60) / 12) = 12 months
+        assert p.cash_runway_months == pytest.approx(12.0, abs=0.1)
+        assert "runway_estimated_from_rd_only" not in p.data_quality_flags
 
     def test_enriched_at_is_string(self):
         e = _make_enricher()
@@ -266,6 +295,11 @@ class TestFinancialEnrichment:
         e = _make_enricher(sec_fetcher=_sec_full)
         p = e.enrich_target("TSTR")
         assert "runway_estimated_from_rd_only" in p.data_quality_flags
+
+    def test_missing_sgna_sets_flag_when_rd_available(self):
+        e = _make_enricher(sec_fetcher=_sec_full)
+        p = e.enrich_target("TSTR")
+        assert "sgna_expense_missing" in p.data_quality_flags
 
     def test_sec_source_null_when_no_data(self):
         e = _make_enricher(sec_fetcher=_sec_empty)
