@@ -1,22 +1,36 @@
 """
-0F — Distress Quality Guard
+0F — Distress Pressure Guard
 
 Purpose:
-    Prevent distressed, cash-burning biotechs from ranking highly just because
-    they are cheap or need money.  Capital pressure only helps the M&A thesis
-    if the company still owns something strategically valuable.
+    Flag how financially distressed a target company is.  Distress pressure
+    is an informational signal for downstream layers — it does NOT directly
+    cap or route M&A probability.
 
 Core principle:
-    Distress ≠ deal thesis.
-    High distress + viable asset  = possible opportunity (route to specialist model).
-    High distress + weak asset    = value trap (cap).
-    Severe distress + no asset    = broken case (hard cap).
+    Distress pressure only.  0F answers: "How badly does this company need
+    a deal?"  It does NOT assess asset quality, strategic scarcity,
+    salvageability, or opportunity vs trap.
+
+Ownership:
+    0F        = financial distress pressure only
+    Layer 1   = asset quality + "distress without quality" value-trap caps
+    POS / 0D  = asset control / encumbrance
+    Layer 3   = buyer-specific fit
+    Layer 4/5 = routing / probability language after combined signals
 
 Architecture:
-    1. distress_pressure_score — how badly does the company need a deal?
-    2. distress_quality_score  — does it still own something worth buying?
-    3. clinical_salvageability — can a failed/struggling asset be rescued?
-    4. Guardrail table         — maps (pressure, quality) to treatment.
+    distress_pressure_score  — 5-component composite (financing pressure,
+                                runway, valuation distress, capital market
+                                access risk, near-term funding need)
+    distress_classification  — NOT_DISTRESSED | MILD_PRESSURE |
+                               HIGH_DISTRESS | SEVERE_DISTRESS
+    guardrail_applied        — NONE or FLAG_ONLY (informational only)
+    mna_probability_cap      — always None (caps owned by Layer 1)
+    route_to                 — always None (routing owned by 0B / Layer 4)
+
+Deprecated (backward compat only, not used in scoring):
+    distress_quality_score         — always None
+    clinical_salvageability_score  — always None
 """
 from __future__ import annotations
 
@@ -40,6 +54,8 @@ class DistressClassification(str, Enum):
 class DistressGuardTreatment(str, Enum):
     NONE                        = "none"
     FLAG_ONLY                   = "flag_only"
+    # Deprecated — no longer emitted by compute_distress_guard().
+    # Retained for backward compatibility with code that may reference these values.
     ROUTE_DISTRESSED_OPTIONALITY = "route_distressed_optionality"
     CAP_025                     = "cap_0.25"
     CAP_015                     = "cap_0.15"
@@ -50,10 +66,11 @@ class DistressGuardTreatment(str, Enum):
 # ---------------------------------------------------------------------------
 
 class ClinicalSalvageabilityInput(BaseModel):
-    """Sub-components for computing clinical_salvageability when a direct score
-    is not provided.
+    """Sub-components for clinical salvageability assessment.
 
-    Represents what is knowable about a failed or struggling asset.
+    No longer consumed by 0F scoring.  Retained for use by Layer 1 asset
+    quality analysis and for backward compatibility with callers that build
+    this model.
     """
     model_config = ConfigDict(frozen=True)
 
@@ -62,19 +79,24 @@ class ClinicalSalvageabilityInput(BaseModel):
     failed_trial_reason: Optional[str] = None
 
     # Supporting evidence of possible rescue
-    subgroup_signal: Optional[bool] = None          # meaningful sub-population response
-    dose_response_exists: Optional[bool] = None     # dose-response relationship observed
-    safety_reversibility: Optional[bool] = None     # AEs reversible / manageable
+    subgroup_signal: Optional[bool] = None
+    dose_response_exists: Optional[bool] = None
+    safety_reversibility: Optional[bool] = None
     alternative_indications_available: Optional[bool] = None
-    regulatory_path_remaining: Optional[bool] = None  # credible label still possible
-    mechanism_still_valid: Optional[bool] = None    # biology not disproved
+    regulatory_path_remaining: Optional[bool] = None
+    mechanism_still_valid: Optional[bool] = None
 
 
 class DistressGuardInput(BaseModel):
-    """All inputs needed for the 0F Distress Quality Guard."""
+    """Inputs for the 0F Distress Pressure Guard.
+
+    Only the five distress-pressure fields are used in scoring.
+    Asset-quality fields are retained for backward compatibility but
+    are not consumed by compute_distress_guard().
+    """
     model_config = ConfigDict(frozen=True)
 
-    # ── Distress pressure signals (0–1) ───────────────────────────────────
+    # ── Distress pressure signals (0–1) — active ─────────────────────────
     financing_pressure: float = Field(default=0.0, ge=0.0, le=1.0,
         description="Cash/runway pressure (0=well-funded, 1=critical)")
     runway_pressure: float = Field(default=0.0, ge=0.0, le=1.0,
@@ -86,20 +108,19 @@ class DistressGuardInput(BaseModel):
     near_term_funding_need: float = Field(default=0.0, ge=0.0, le=1.0,
         description="Must raise capital within 12 months to continue operations")
 
-    # ── Distress quality signals (0–1) ────────────────────────────────────
-    lead_asset_quality: float = Field(default=0.50, ge=0.0, le=1.0,
-        description="Clinical / regulatory quality of lead program")
-    platform_validation: float = Field(default=0.0, ge=0.0, le=1.0,
-        description="Evidence that the platform has validated value beyond the lead asset")
-    # clinical_salvageability is either provided directly or computed from sub-components
+    # ── Deprecated asset-quality fields — retained for compat, not scored ─
+    lead_asset_quality: Optional[float] = Field(default=None, ge=0.0, le=1.0,
+        description="Deprecated: not used by 0F scoring. Asset quality owned by Layer 1.")
+    platform_validation: Optional[float] = Field(default=None, ge=0.0, le=1.0,
+        description="Deprecated: not used by 0F scoring. Asset quality owned by Layer 1.")
     clinical_salvageability: Optional[float] = Field(default=None, ge=0.0, le=1.0,
-        description="If provided, used directly; else computed from salvageability_components")
-    strategic_scarcity: float = Field(default=0.50, ge=0.0, le=1.0,
-        description="How few comparable assets exist; higher = scarcer = more valuable")
-    asset_control_cleanliness: float = Field(default=0.70, ge=0.0, le=1.0,
-        description="Degree of clean title and absence of blocking rights")
+        description="Deprecated: not used by 0F scoring. Salvageability owned by Layer 1.")
+    strategic_scarcity: Optional[float] = Field(default=None, ge=0.0, le=1.0,
+        description="Deprecated: not used by 0F scoring. Strategic value owned by Layer 1.")
+    asset_control_cleanliness: Optional[float] = Field(default=None, ge=0.0, le=1.0,
+        description="Deprecated: not used by 0F scoring. Encumbrance owned by 0D/Layer 3B.")
 
-    # Optional sub-components for clinical_salvageability
+    # Retained for compat — not consumed by compute_distress_guard()
     salvageability_components: Optional[ClinicalSalvageabilityInput] = None
 
 
@@ -108,22 +129,25 @@ class DistressGuardInput(BaseModel):
 # ---------------------------------------------------------------------------
 
 class DistressGuardResult(BaseModel):
-    """Complete 0F Distress Quality Guard output."""
+    """Complete 0F Distress Pressure Guard output."""
     model_config = ConfigDict(frozen=True)
 
     distress_pressure_score: float = Field(..., ge=0.0, le=1.0)
-    distress_quality_score: float = Field(..., ge=0.0, le=1.0)
-    clinical_salvageability_score: float = Field(..., ge=0.0, le=1.0)
+
+    # Deprecated compat fields — always None in the new pressure-only contract.
+    # Asset quality is owned by Layer 1; salvageability by Layer 1/POS.
+    distress_quality_score: Optional[float] = None
+    clinical_salvageability_score: Optional[float] = None
 
     distress_classification: DistressClassification
     guardrail_applied: DistressGuardTreatment
 
-    # Backward-compatible fields (old DistressGuard interface)
+    # Backward-compatible fields
     guard_active: bool
-    mna_probability_cap: Optional[float] = None
+    mna_probability_cap: Optional[float] = None  # always None — caps owned by Layer 1
     reason_code: Optional[str] = None
 
-    # Routing (ROUTE_DISTRESSED_OPTIONALITY treatment)
+    # Routing — always None; routing owned by 0B / Layer 4
     route_to: Optional[str] = None
 
     rationale: list[str]
@@ -131,71 +155,7 @@ class DistressGuardResult(BaseModel):
 
 
 # ---------------------------------------------------------------------------
-# Clinical salvageability scoring
-# ---------------------------------------------------------------------------
-
-_BASE_SALVAGEABILITY: dict[str, float] = {
-    "underpowered":          0.62,
-    "endpoint_miss":         0.40,
-    "fatal_safety":          0.15,
-    "mechanism_invalidated": 0.10,
-    "unknown":               0.45,
-}
-
-_SALVAGEABILITY_ADJUSTMENTS: list[tuple[str, bool | None, float]] = [
-    # (label, value_that_triggers, delta)
-    ("subgroup_signal",                    True,  +0.12),
-    ("dose_response_exists",               True,  +0.12),
-    ("safety_reversibility",               True,  +0.10),
-    ("alternative_indications_available",  True,  +0.10),
-    ("regulatory_path_remaining",          True,  +0.08),
-    ("mechanism_still_valid",              True,  +0.12),
-]
-
-
-def _compute_clinical_salvageability(
-    components: Optional[ClinicalSalvageabilityInput],
-    direct: Optional[float],
-    data_gaps: list[str],
-) -> float:
-    """Return a 0–1 clinical salvageability score.
-
-    Priority:
-    1. direct score if provided
-    2. computed from ClinicalSalvageabilityInput
-    3. conservative default (0.45) with data_gap noted
-    """
-    if direct is not None:
-        return direct
-
-    if components is None:
-        data_gaps.append(
-            "clinical_salvageability: not provided; defaulting to 0.45 (neutral-conservative)"
-        )
-        return 0.45
-
-    reason = (components.failed_trial_reason or "unknown").lower()
-    base = _BASE_SALVAGEABILITY.get(reason, _BASE_SALVAGEABILITY["unknown"])
-
-    delta = 0.0
-    for attr, trigger, adj in _SALVAGEABILITY_ADJUSTMENTS:
-        val = getattr(components, attr, None)
-        if val is trigger:
-            delta += adj
-
-    # Additional penalty: irreversible safety event on a drug with fatal_safety
-    if (
-        reason == "fatal_safety"
-        and components.safety_reversibility is False
-    ):
-        delta -= 0.10
-
-    score = min(1.0, max(0.0, base + delta))
-    return round(score, 4)
-
-
-# ---------------------------------------------------------------------------
-# Composite score formulas
+# Composite score formula — pressure only
 # ---------------------------------------------------------------------------
 
 _PRESSURE_WEIGHTS = {
@@ -206,15 +166,6 @@ _PRESSURE_WEIGHTS = {
     "near_term_funding_need":    0.10,
 }
 assert abs(sum(_PRESSURE_WEIGHTS.values()) - 1.0) < 1e-9
-
-_QUALITY_WEIGHTS = {
-    "lead_asset_quality":       0.35,
-    "platform_validation":      0.20,
-    "clinical_salvageability":  0.15,
-    "strategic_scarcity":       0.15,
-    "asset_control_cleanliness": 0.15,
-}
-assert abs(sum(_QUALITY_WEIGHTS.values()) - 1.0) < 1e-9
 
 
 def _pressure_classification(score: float) -> DistressClassification:
@@ -228,60 +179,29 @@ def _pressure_classification(score: float) -> DistressClassification:
 
 
 # ---------------------------------------------------------------------------
-# Guardrail table
+# Guardrail — informational only
 # ---------------------------------------------------------------------------
 
 def _apply_guardrail(
-    pressure: float,
-    quality: float,
-) -> tuple[DistressGuardTreatment, bool, Optional[float], Optional[str], Optional[str]]:
-    """Return (treatment, guard_active, cap, route_to, reason_code)."""
+    classification: DistressClassification,
+) -> tuple[DistressGuardTreatment, bool, Optional[str]]:
+    """Return (treatment, guard_active, reason_code).
 
-    if pressure < 0.35:
-        return DistressGuardTreatment.NONE, False, None, None, None
+    0F is now pressure-only.  No cap or route is ever emitted here.
+    guard_active=True signals high/severe pressure that downstream layers
+    (Layer 1, Layer 4) should incorporate into their assessments.
+    """
+    if classification == DistressClassification.NOT_DISTRESSED:
+        return DistressGuardTreatment.NONE, False, None
 
-    # Severe + broken — evaluate before other high-distress rules
-    if pressure >= 0.80 and quality < 0.25:
-        return (
-            DistressGuardTreatment.CAP_015,
-            True,
-            0.15,
-            None,
-            "broken_distress_case",
-        )
+    if classification == DistressClassification.MILD_PRESSURE:
+        return DistressGuardTreatment.FLAG_ONLY, False, "mild_pressure_flag"
 
-    # High distress + viable asset — route to specialist model (no cap)
-    if pressure >= 0.60 and quality >= 0.60:
-        return (
-            DistressGuardTreatment.ROUTE_DISTRESSED_OPTIONALITY,
-            True,
-            None,
-            "distressed_optionality_model",
-            "distress_with_viable_asset",
-        )
+    if classification == DistressClassification.HIGH_DISTRESS:
+        return DistressGuardTreatment.FLAG_ONLY, True, "high_distress_pressure_flag"
 
-    # High distress + weak asset — hard cap
-    if pressure >= 0.60 and quality < 0.35:
-        return (
-            DistressGuardTreatment.CAP_025,
-            True,
-            0.25,
-            None,
-            "distress_without_strategic_asset",
-        )
-
-    # High distress + medium quality (0.35–0.60) — flag only, no cap
-    if pressure >= 0.60:
-        return (
-            DistressGuardTreatment.FLAG_ONLY,
-            False,
-            None,
-            None,
-            "high_distress_medium_quality_flag",
-        )
-
-    # Mild pressure (0.35–0.60) — informational flag only
-    return DistressGuardTreatment.FLAG_ONLY, False, None, None, "mild_pressure_flag"
+    # SEVERE_DISTRESS
+    return DistressGuardTreatment.FLAG_ONLY, True, "severe_distress_pressure_flag"
 
 
 # ---------------------------------------------------------------------------
@@ -289,25 +209,19 @@ def _apply_guardrail(
 # ---------------------------------------------------------------------------
 
 def compute_distress_guard(inp: DistressGuardInput) -> DistressGuardResult:
-    """Compute the 0F Distress Quality Guard for a target.
+    """Compute the 0F Distress Pressure Guard for a target.
 
     Returns a DistressGuardResult with:
-      - distress_pressure_score (5-component composite)
-      - distress_quality_score  (5-component composite)
-      - clinical_salvageability_score
-      - guardrail treatment (NONE / FLAG_ONLY / CAP_025 / CAP_015 /
-                             ROUTE_DISTRESSED_OPTIONALITY)
-      - guard_active, mna_probability_cap, reason_code (backward compat)
+      - distress_pressure_score (5-component weighted composite)
+      - distress_classification (NOT_DISTRESSED / MILD_PRESSURE /
+                                 HIGH_DISTRESS / SEVERE_DISTRESS)
+      - guardrail_applied (NONE or FLAG_ONLY — informational only)
+      - guard_active (True when pressure >= HIGH_DISTRESS)
+      - mna_probability_cap = None always (caps owned by Layer 1)
+      - route_to = None always (routing owned by 0B / Layer 4)
+      - distress_quality_score = None (deprecated; owned by Layer 1)
+      - clinical_salvageability_score = None (deprecated; owned by Layer 1)
     """
-    data_gaps: list[str] = []
-
-    # Clinical salvageability (needed inside quality composite)
-    cs_score = _compute_clinical_salvageability(
-        inp.salvageability_components,
-        inp.clinical_salvageability,
-        data_gaps,
-    )
-
     # Distress pressure composite
     pressure = round(
         inp.financing_pressure        * _PRESSURE_WEIGHTS["financing_pressure"]
@@ -318,50 +232,37 @@ def compute_distress_guard(inp: DistressGuardInput) -> DistressGuardResult:
         4,
     )
 
-    # Distress quality composite
-    quality = round(
-        inp.lead_asset_quality         * _QUALITY_WEIGHTS["lead_asset_quality"]
-        + inp.platform_validation      * _QUALITY_WEIGHTS["platform_validation"]
-        + cs_score                     * _QUALITY_WEIGHTS["clinical_salvageability"]
-        + inp.strategic_scarcity       * _QUALITY_WEIGHTS["strategic_scarcity"]
-        + inp.asset_control_cleanliness * _QUALITY_WEIGHTS["asset_control_cleanliness"],
-        4,
-    )
-
     classification = _pressure_classification(pressure)
-    treatment, guard_active, cap, route_to, reason_code = _apply_guardrail(pressure, quality)
+    treatment, guard_active, reason_code = _apply_guardrail(classification)
 
     # Build rationale
     rationale: list[str] = [
         f"distress_pressure={pressure:.3f}  ({classification.value})",
-        f"distress_quality={quality:.3f}  clinical_salvageability={cs_score:.3f}",
+        "0F is pressure-only; asset-quality trap/opportunity classification handled downstream (Layer 1).",
         f"guardrail={treatment.value}",
     ]
-    if guard_active and cap is not None:
+    if guard_active:
         rationale.append(
-            f"Capping M&A probability at {cap:.2f}: {reason_code}"
-        )
-    elif guard_active and route_to is not None:
-        rationale.append(
-            f"Routing to {route_to}: {reason_code}"
+            f"Distress pressure flagged ({reason_code}). "
+            "No cap applied here — Layer 1 applies value-trap caps using asset quality."
         )
     elif treatment == DistressGuardTreatment.FLAG_ONLY:
-        rationale.append(f"Flagging: {reason_code} — no cap applied")
-    elif treatment == DistressGuardTreatment.NONE:
-        rationale.append("No distress guard triggered")
+        rationale.append(f"Mild pressure noted ({reason_code}) — informational only.")
+    else:
+        rationale.append("No distress pressure detected.")
 
     return DistressGuardResult(
         distress_pressure_score=pressure,
-        distress_quality_score=quality,
-        clinical_salvageability_score=cs_score,
+        distress_quality_score=None,          # deprecated: owned by Layer 1
+        clinical_salvageability_score=None,   # deprecated: owned by Layer 1
         distress_classification=classification,
         guardrail_applied=treatment,
         guard_active=guard_active,
-        mna_probability_cap=cap,
-        route_to=route_to,
+        mna_probability_cap=None,             # always None: caps owned by Layer 1
+        route_to=None,                        # always None: routing owned by 0B/Layer 4
         reason_code=reason_code,
         rationale=rationale,
-        data_gaps=data_gaps,
+        data_gaps=[],
     )
 
 
@@ -372,14 +273,17 @@ def compute_distress_guard(inp: DistressGuardInput) -> DistressGuardResult:
 def distress_guard_from_target(t: object) -> DistressGuardInput:
     """Map a TargetEligibilityInput (or compatible object) to DistressGuardInput.
 
-    Float fields take precedence over legacy boolean signals.
-    Missing float fields are inferred conservatively from boolean flags.
+    Only pressure signals are mapped.  Asset-quality fields (lead_asset_quality,
+    platform_validation, etc.) are no longer populated here — they are handled
+    by Layer 1, which owns the "distress without quality" value-trap assessment.
+
+    Float pressure fields take precedence over legacy boolean signals.
+    Missing float fields are inferred conservatively from financing_pressure.
     """
     def _g(attr: str, default):
         return getattr(t, attr, default)
 
     # ── Pressure signals ──────────────────────────────────────────────────
-    # financing_pressure: float override or infer from bool flag
     fp_bool = _g("financing_pressure_high", False)
     fp = _g("financing_pressure", None)
     if fp is None:
@@ -387,7 +291,6 @@ def distress_guard_from_target(t: object) -> DistressGuardInput:
 
     rp = _g("runway_pressure", None)
     if rp is None:
-        # Infer from financing_pressure as conservative proxy
         rp = round(min(1.0, fp * 0.90), 4)
 
     vd = _g("valuation_distress", None)
@@ -402,63 +305,10 @@ def distress_guard_from_target(t: object) -> DistressGuardInput:
     if nf is None:
         nf = round(min(1.0, fp * 0.85), 4)
 
-    # ── Quality signals ───────────────────────────────────────────────────
-    lq_bool = _g("lead_asset_quality_low", False)
-    lq = _g("lead_asset_quality", None)
-    if lq is None:
-        lq = 0.20 if lq_bool else 0.65
-
-    # platform_validation: float override or infer from bool flags
-    pv = _g("platform_validation_score", None)
-    if pv is None:
-        if _g("platform_validated", False):
-            pv = 0.80
-        elif _g("is_platform_company", False):
-            pv = 0.40
-        else:
-            pv = 0.10
-
-    cs_direct = _g("clinical_salvageability_score", None)
-
-    ss = _g("strategic_scarcity", None)
-    if ss is None:
-        ss = 0.50  # neutral default — no strong prior
-
-    ac = _g("asset_control_cleanliness_score", None)
-    if ac is None:
-        ac = 0.70  # moderate cleanliness default
-
-    # Build clinical salvageability sub-components if any signal present
-    cs_components: Optional[ClinicalSalvageabilityInput] = None
-    if cs_direct is None:
-        ftr = _g("failed_trial_reason", None)
-        sub = _g("subgroup_signal", None)
-        dre = _g("dose_response_exists", None)
-        sfr = _g("safety_reversibility", None)
-        aia = _g("alternative_indications_available", None)
-        rpr = _g("regulatory_path_remaining", None)
-        msv = _g("mechanism_still_valid", None)
-        if any(v is not None for v in (ftr, sub, dre, sfr, aia, rpr, msv)):
-            cs_components = ClinicalSalvageabilityInput(
-                failed_trial_reason=ftr,
-                subgroup_signal=sub,
-                dose_response_exists=dre,
-                safety_reversibility=sfr,
-                alternative_indications_available=aia,
-                regulatory_path_remaining=rpr,
-                mechanism_still_valid=msv,
-            )
-
     return DistressGuardInput(
         financing_pressure=fp,
         runway_pressure=rp,
         valuation_distress=vd,
         capital_market_access_risk=cm,
         near_term_funding_need=nf,
-        lead_asset_quality=lq,
-        platform_validation=pv,
-        clinical_salvageability=cs_direct,
-        strategic_scarcity=ss,
-        asset_control_cleanliness=ac,
-        salvageability_components=cs_components,
     )

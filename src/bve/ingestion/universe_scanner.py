@@ -68,6 +68,11 @@ class UniverseEntry:
     exchange: str
     scanned_at: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
+    # Targetability fields — populated by apply_targetability_filter()
+    target_type: str = "unknown"
+    market_cap_bucket: str = "micro"
+    include_in_ma_screen: bool = False
+
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
 
@@ -310,6 +315,146 @@ def scan_biotech_universe(
             print(f"Written to {resolved_output}", flush=True)
 
     return entries
+
+
+# ---------------------------------------------------------------------------
+# Targetability filter — second-pass classification
+# ---------------------------------------------------------------------------
+
+# Target type labels
+TARGET_TYPE_DRUG_DEVELOPER = "drug_developer"    # pure-play drug developer
+TARGET_TYPE_PLATFORM = "platform"                 # technology platform with pipeline
+TARGET_TYPE_COMMERCIAL = "commercial"             # approved product + pipeline
+TARGET_TYPE_DIAGNOSTICS = "diagnostics"           # diagnostics / testing focus
+TARGET_TYPE_TOOLS_SERVICES = "tools_services"     # CRO / tools / research services
+TARGET_TYPE_UNKNOWN = "unknown"
+
+# Market cap buckets (USD millions)
+MARKET_CAP_MICRO = "micro"     # < 300
+MARKET_CAP_SMALL = "small"     # 300 – 2,000
+MARKET_CAP_MID = "mid"         # 2,000 – 10,000
+MARKET_CAP_LARGE = "large"     # > 10,000
+
+# Lead asset stage labels
+LEAD_STAGE_PRECLINICAL = "preclinical"
+LEAD_STAGE_PHASE1 = "phase1"
+LEAD_STAGE_PHASE2 = "phase2"
+LEAD_STAGE_PHASE3 = "phase3"
+LEAD_STAGE_COMMERCIAL = "commercial"
+LEAD_STAGE_UNKNOWN = "unknown"
+
+# SIC codes that are primarily diagnostics (not drug developers)
+_DIAGNOSTICS_SIC: frozenset[int] = frozenset({2835})
+
+# SIC codes that are unambiguously drug developers
+_PHARMA_SIC: frozenset[int] = frozenset({2836, 2833})
+
+# For SIC 8731 (commercial research), use name keywords to classify
+_DRUG_DEVELOPER_KEYWORDS: tuple[str, ...] = (
+    "therapeutics", "pharma", "biopharma", "biopharmaceuticals",
+    "oncology", "biosciences", "biotech", "medicines", "drugs",
+    "clinical", "gene therapy", "cell therapy",
+)
+
+_TOOLS_SERVICES_KEYWORDS: tuple[str, ...] = (
+    "diagnostics", "genomics", "sequencing", "analytics", "solutions",
+    "systems", "technologies", "instruments", "services", "laboratory",
+    # More specific CRO/CDMO terms — "research" alone is too broad
+    "cro", "cdmo", "contract research", "contract manufacturing",
+)
+
+
+def _infer_target_type(sic: int, company_name: str) -> str:
+    """
+    Infer target_type from SIC code and company name.
+
+    SIC 2836 / 2833 → drug_developer (pharmaceutical)
+    SIC 2835        → diagnostics
+    SIC 8731        → keyword match on name; else unknown
+    """
+    name_lower = company_name.lower()
+
+    if sic in _DIAGNOSTICS_SIC:
+        return TARGET_TYPE_DIAGNOSTICS
+
+    if sic in _PHARMA_SIC:
+        # Still check for tools/services companies miscoded under pharma SIC
+        if any(kw in name_lower for kw in _TOOLS_SERVICES_KEYWORDS):
+            return TARGET_TYPE_TOOLS_SERVICES
+        return TARGET_TYPE_DRUG_DEVELOPER
+
+    if sic == 8731:
+        if any(kw in name_lower for kw in _TOOLS_SERVICES_KEYWORDS):
+            return TARGET_TYPE_TOOLS_SERVICES
+        if any(kw in name_lower for kw in _DRUG_DEVELOPER_KEYWORDS):
+            return TARGET_TYPE_DRUG_DEVELOPER
+        return TARGET_TYPE_UNKNOWN
+
+    return TARGET_TYPE_UNKNOWN
+
+
+def _market_cap_bucket(market_cap_millions: float | None) -> str:
+    if market_cap_millions is None:
+        return MARKET_CAP_MICRO  # conservative default for unknown
+    if market_cap_millions < 300:
+        return MARKET_CAP_MICRO
+    if market_cap_millions < 2_000:
+        return MARKET_CAP_SMALL
+    if market_cap_millions < 10_000:
+        return MARKET_CAP_MID
+    return MARKET_CAP_LARGE
+
+
+def apply_targetability_filter(
+    entries: list["UniverseEntry"],
+    market_cap_lookup: dict[str, float] | None = None,
+) -> list["UniverseEntry"]:
+    """
+    Enrich UniverseEntry objects with targetability fields and return only
+    entries that belong in an M&A screen.
+
+    Parameters
+    ----------
+    entries:
+        Raw SIC-filtered universe from scan_biotech_universe().
+    market_cap_lookup:
+        Optional dict of ticker → market_cap_millions. If not provided,
+        market_cap_bucket is set to MARKET_CAP_MICRO (most conservative).
+
+    Returns
+    -------
+    list[UniverseEntry] where include_in_ma_screen is True.
+
+    Targetability rules
+    -------------------
+    include_in_ma_screen = True when:
+      - target_type in {drug_developer, platform, commercial}
+      - NOT diagnostics-only or tools/services
+      - market_cap_bucket != large (> $10B — too expensive for most acquirers
+        or would be a transformative merger, not bolt-on)
+    """
+    mcap = market_cap_lookup or {}
+    screened: list[UniverseEntry] = []
+
+    for entry in entries:
+        target_type = _infer_target_type(entry.sic, entry.company_name)
+        mcap_bucket = _market_cap_bucket(mcap.get(entry.ticker))
+
+        # Targetability gate
+        include = (
+            target_type in {TARGET_TYPE_DRUG_DEVELOPER, TARGET_TYPE_PLATFORM, TARGET_TYPE_COMMERCIAL}
+            and mcap_bucket != MARKET_CAP_LARGE
+        )
+
+        # Write enriched fields back to entry
+        entry.target_type = target_type
+        entry.market_cap_bucket = mcap_bucket
+        entry.include_in_ma_screen = include
+
+        if include:
+            screened.append(entry)
+
+    return screened
 
 
 def load_universe_yaml(path: Path | None = None) -> list[UniverseEntry]:

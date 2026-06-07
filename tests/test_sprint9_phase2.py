@@ -399,9 +399,10 @@ class TestSGnAAutoSelection:
 class TestAcceleratedApproval:
     """Accelerated pathway applies ~18% base-rate discount at NDA/BLA phase only."""
 
-    # Oncology NDA base rate = 0.83; discounted = 0.83 × (1 - 0.18) = 0.6806
-    _ONCOLOGY_NDA_STANDARD = 0.83
-    _ONCOLOGY_NDA_ACCELERATED = 0.6806
+    # Oncology NDA base rate from current industry assumptions; accelerated
+    # approval applies the 18% confirmatory-trial discount at NDA/BLA only.
+    _ONCOLOGY_NDA_STANDARD = 0.916
+    _ONCOLOGY_NDA_ACCELERATED = 0.75112
 
     def test_standard_pathway_nda_unchanged(self):
         pos = compute_pos(TrialPhase.NDA_BLA, TherapeuticArea.ONCOLOGY)

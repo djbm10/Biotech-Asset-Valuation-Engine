@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ page_title }} | BVE</title>
+    <link rel="stylesheet" href="/static/app.css">
+  </head>
+  <body>
+    <div class="shell">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark">Step 13 UI</span>
+          <a class="brand-title" href="{{ dashboard_href }}">Biotech Valuation Engine</a>
+        </div>
+        <nav class="nav">
+          <a href="{{ dashboard_href }}" class="{% if active_page == 'dashboard' %}is-active{% endif %}">Dashboard</a>
+          <a href="{{ acquirers_href }}" class="{% if active_page == 'acquirers' %}is-active{% endif %}">Acquirers</a>
+          <a href="{{ deals_href }}" class="{% if active_page == 'deals' %}is-active{% endif %}">Deals</a>
+          <a href="{{ alerts_href }}" class="{% if active_page == 'alerts' %}is-active{% endif %}">Alerts</a>
+          <a href="{{ calibration_href }}" class="{% if active_page == 'calibration' %}is-active{% endif %}">Calibration</a>
+        </nav>
+      </header>
+      {% block content %}{% endblock %}
+    </div>
+  </body>
+</html>

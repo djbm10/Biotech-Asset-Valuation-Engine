@@ -177,8 +177,6 @@ def _fit_log_linear(deals: list[ComparableDeal]) -> tuple[float, float, float, f
 
     # Build design matrix [1, phase_score, ta_specificity] and log(y)
     # Solving via normal equations X^T X b = X^T y
-    import operator
-    from functools import reduce
 
     def dot(a: list[float], b: list[float]) -> float:
         return sum(x * y for x, y in zip(a, b))

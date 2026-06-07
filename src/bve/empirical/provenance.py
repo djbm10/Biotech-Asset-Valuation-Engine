@@ -210,7 +210,7 @@ class POSProvenance:
             for name, contrib in oc.active_features():
                 lines.append(f"       {name}: {contrib:+.4f}")
             if not oc.active_features():
-                lines.append(f"       (all features at baseline)")
+                lines.append("       (all features at baseline)")
         elif self.heuristic_adjustments:
             lines.append(f"  3a. Heuristic adj.   : {self.net_heuristic_adjustment:+.3f} log-odds (capped: {self.capped_heuristic_adjustment:+.3f})")
             for adj in self.heuristic_adjustments:

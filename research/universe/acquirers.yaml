@@ -221,6 +221,7 @@ REGN:
   name: Regeneron Pharmaceuticals
   ticker: REGN
   cik: "0000872589"
+  acquirer_type: large_cap_platform_biopharma_internal_first_BD_selective
   therapeutic_areas:
     - oncology
     - ophthalmology
@@ -230,50 +231,261 @@ REGN:
   modalities:
     - biologic
     - antibody_drug_conjugate
-  deal_size_range_millions: [500, 20000]
+    - rna
+    - cell_gene
+    - cell_therapy
+  deal_size_range_millions: [5, 15000]
   preferred_stages:
     - phase1
     - phase2
     - phase3
     - commercial
   include_as_acquirer: true
+  # --- Financial snapshot (Q1 2026) ---
+  cash_and_marketable_securities_usd: 18539700000
+  cash_as_of: "2026-03-31"
+  debt_level: low
+  interest_bearing_debt_usd: 1986000000
+  net_cash_usd: 16553700000
+  net_cash_management_reported_usd: 15800000000
+  cash_source_url: "https://investor.regeneron.com/news-releases/news-release-details/regeneron-reports-first-quarter-2026-financial-and-operating/"
+  # --- Urgency ---
+  urgency_qualitative: medium
+  urgency_numeric_0_to_1: 0.57
+  urgency_rationale: "Large balance sheet and nearly 50 clinical candidates reduce urgency, but ophthalmology succession and franchise extension in immunology/oncology still create selective need."
+  # --- Preferred target profile ---
+  preferred_market_cap_sweet_spot_usd: [250000000, 5000000000]
+  preferred_market_cap_stretch_usd: [5000000000, 8000000000]
+  preferred_valuation_sweet_spot_usd: [5000000, 500000000]
+  preferred_deal_types:
+    - strategic_collaboration
+    - in_license
+    - rights_acquisition
+    - bolt_on_acquisition
+    - selective_full_company_acquisition
+  preferred_stage_weights:
+    - stage: phase_2_or_phase_3_platform_or_combo_asset
+      weight: 1.00
+    - stage: preclinical_or_phase_1_platform_core_modality
+      weight: 0.85
+    - stage: rights_acquisition
+      weight: 0.85
+    - stage: commercial_single_asset_no_platform_leverage
+      weight: 0.40
+  preferred_modality_weights:
+    - modality: monoclonal_antibody
+      weight: 1.00
+    - modality: bispecific_antibody
+      weight: 0.98
+    - modality: genetic_medicines_gene_editing_siRNA_AAV
+      weight: 0.92
+    - modality: cell_therapy
+      weight: 0.88
+    - modality: radiopharmaceuticals
+      weight: 0.85
+    - modality: selective_metabolic_combo_assets
+      weight: 0.70
+    - modality: undifferentiated_small_molecule_single_asset
+      weight: 0.25
+  # --- Fit areas ---
+  positive_fit_areas:
+    - area: ophthalmology_durability_retina_and_non_vegf_or_ga
+      score_boost: 0.15
+      rationale: "EYLEA HD +52% Q1 2026 but total franchise -10%. GA non-VEGF mechanisms (complement, HtrA1) are top gap; sustained-release delivery secondary."
+    - area: antibody_and_bispecific_platforms
+      score_boost: 0.12
+      rationale: "VelociSuite is Regeneron's deepest platform; targets with validated antibody/bispecific assets against novel antigens are easiest to integrate."
+    - area: immunology_and_inflammation_franchise_extensions
+      score_boost: 0.12
+      rationale: "Dupixent ~$18B global 2025 revenue; next-gen long-acting biologics and oral alternatives to protect/extend the franchise."
+    - area: genetic_medicines_gene_editing_and_delivery
+      score_boost: 0.10
+      rationale: "Mammoth/Intellia collaborations and RGC (2M+ genomes) validate pipeline; RGC-discovered targets highest priority."
+    - area: oncology_radiopharma_or_cell_therapy_combo_platforms
+      score_boost: 0.10
+      rationale: "Libtayo PD-1 backbone + bispecifics + Telix radiopharma; combination warhead platforms score highest."
+    - area: cardio_metabolic_muscle_sparing_anabolic_combo
+      score_boost: 0.06
+      rationale: "Hansoh fills GLP-1/GIP slot; next gap is muscle-sparing anabolic partner (myostatin/GDF8/activin)."
+  negative_fit_areas:
+    - area: mega_cap_MA_without_clear_platform_synergy
+      penalty: 0.20
+      rationale: "Management has explicitly warned large M&A often destroys value."
+    - area: heavily_encumbered_competitor_partnered_assets
+      penalty: 0.25
+      rationale: "Rights leakage is especially costly; Sanofi/Bayer already dilute economics on major franchises."
+    - area: undifferentiated_small_molecule_single_asset
+      penalty: 0.15
+      rationale: "Weak match to platform-first culture; only exception is oral I&I defense of Dupixent franchise."
+    - area: anti_vegf_me_too_without_durability_or_differentiation
+      penalty: 0.15
+      rationale: "Ophthalmology fit alone is not enough; GA or non-VEGF mechanistic differentiation required."
+  # --- Scoring weights ---
+  scoring_weights:
+    structural: 0.35
+    evidence: 0.45
+    encumbrance: 0.20
+    formula: "final_score = 0.35*structural + 0.45*evidence - 0.20*encumbrance"
+    rationale: "Broad modality aperture means evidence and timing signals do more work than structure; encumbrance must bite hard given Sanofi/Bayer collaboration economics."
+  # --- Pair penalties (pct) ---
+  pair_penalties_pct:
+    competitor_controls_key_rights: -25
+    large_MA_without_platform_synergy: -20
+    sanofi_or_bayer_economic_dilution_risk: -15
+    ophthalmology_asset_lacks_differentiation: -15
+    little_modality_synergy_with_platform_toolbox: -10
+    china_only_rights_when_global_needed: -10
   strategic_priorities:
-    - dupixent_lifecycle_expansion
-    - oncology_hematology_bispecific
-    - eylea_successor_ophthalmology
-    - rare_disease_platform
-  patent_cliff_exposure: "EYLEA (aflibercept) biosimilar competition from 2025–2026. Dupixent IP protection stronger (~2031+). Kevzara (sarilumab) modest revenue at risk."
-  last_verified_date: "2026-06-01"
-  notes: "VelociGene/VelocImmune antibody platform. Dupixent expanding across atopic conditions. EYLEA successor. Linvoseltamab and odronextamab in heme-onc. Selective but willing to acquire platform-enabling companies."
+    - dupixent_lifecycle_and_oral_alternative_defense
+    - eylea_hd_franchise_extension_ga_and_non_vegf_retinal
+    - oncology_io_combination_platform_libtayo_backbone
+    - obesity_combination_muscle_sparing_anabolic_partner
+    - genetic_medicines_rna_and_gene_editing_platform
+    - hematology_bispecific_and_anticoagulation_fxi
+  patent_cliff_exposure: "EYLEA 2mg legacy biosimilar erosion ongoing since 2025; EYLEA HD (8mg) +52% Q1 2026 but total franchise -10%. Dupixent IP stronger (~2031+). Thesis is franchise extension, not EYLEA collapse. Kevzara modest."
+  last_verified_date: "2026-06-02"
+  notes: "VelocImmune/VelociSuite antibody and bispecific platform. Dupixent ~$18B global sales with Sanofi. EYLEA HD growing; legacy 2mg under biosimilar pressure. Libtayo IO backbone + bispecifics. RGC (2M+ genomes) drives target selection. Selective BD: collaboration-first then acquire (Decibel model). 23andMe bid confirms genomics data assets in scope at sub-$300M."
+  source_urls:
+    - "https://investor.regeneron.com/news-releases/news-release-details/regeneron-reports-first-quarter-2026-financial-and-operating/"
+    - "https://www.sec.gov/Archives/edgar/data/872589/000087258926000016/regn-20260331.htm"
+    - "https://investor.regeneron.com/news-releases/news-release-details/regeneron-acquire-decibel-therapeutics-strengthening-gene/"
+    - "https://investor.regeneron.com/news-releases/news-release-details/regeneron-expands-clinical-stage-obesity-portfolio-strategic/"
+    - "https://investor.regeneron.com/news-releases/news-release-details/regeneron-and-telix-announce-strategic-radiopharma-collaboration/"
+    - "https://investor.regeneron.com/static-files/718ea4f2-7a0f-4623-bf91-a701ead1cc44"
 
 VRTX:
   name: Vertex Pharmaceuticals
   ticker: VRTX
   cik: "0000875320"
+  acquirer_type: large_cap_specialty_biopharma_diversifying_from_CF
   therapeutic_areas:
     - rare_disease
     - hematology
     - pain
     - kidney_disease
+    - immunology
   modalities:
     - small_molecule
     - gene_editing
     - cell_gene
-  deal_size_range_millions: [500, 20000]
+    - cell_therapy
+    - rna
+  deal_size_range_millions: [250, 20000]
   preferred_stages:
     - phase1
     - phase2
     - phase3
     - commercial
   include_as_acquirer: true
+  # --- Financial snapshot (Q1 2026) ---
+  cash_and_marketable_securities_usd: 13000000000
+  cash_as_of: "2026-03-31"
+  debt_level: none_to_very_low
+  interest_bearing_debt_usd: 0
+  net_cash_usd: 13000000000
+  cash_source_url: "https://news.vrtx.com/news-releases/news-release-details/vertex-reports-first-quarter-2026-financial-results"
+  # --- Urgency ---
+  urgency_qualitative: medium_high
+  urgency_numeric_0_to_1: 0.70
+  urgency_rationale: "Very strong cash generation and active diversification, but CF still dominates current P&L; renal, pain and T1D remain strategic build-outs. $500M+ non-CF 2026 guidance confirms real but early diversification."
+  # --- Preferred target profile ---
+  preferred_market_cap_sweet_spot_usd: [500000000, 7000000000]
+  preferred_market_cap_stretch_usd: [7000000000, 10000000000]
+  preferred_valuation_sweet_spot_usd: [250000000, 5000000000]
+  preferred_deal_types:
+    - full_acquisition
+    - global_or_major_market_license
+    - platform_plus_lead_asset
+    - structured_collaboration_with_option
+  preferred_stage_weights:
+    - stage: phase_2_or_phase_3_specialty_asset
+      weight: 1.00
+    - stage: registration_enabling_specialty_asset
+      weight: 0.95
+    - stage: selective_preclinical_or_phase_1_core_platform
+      weight: 0.75
+    - stage: marketed_broad_primary_care_asset
+      weight: 0.35
+  preferred_modality_weights:
+    - modality: small_molecule_precision_medicine
+      weight: 1.00
+    - modality: cell_therapy_or_cell_replacement
+      weight: 0.98
+    - modality: gene_editing_or_genetic_medicine
+      weight: 0.90
+    - modality: immunology_biologics_renal_or_B_cell
+      weight: 0.88
+    - modality: oligonucleotide_or_delivery_platform
+      weight: 0.80
+    - modality: broad_primary_care_biologics
+      weight: 0.30
+  # --- Fit areas ---
+  positive_fit_areas:
+    - area: renal_autoimmune_and_genetic_kidney
+      score_boost: 0.15
+      rationale: "Povetacicept (IgAN/pMN/gMG), inaxaplin (AMKD), VX-407 (ADPKD) make kidney a first-order expansion axis. Alpine at $4.9B shows franchise-defining deal willingness."
+    - area: type_1_diabetes_cell_replacement_and_immune_evasion
+      score_boost: 0.15
+      rationale: "Semma + ViaCyte + zimislecel (dosing resumed 2026) show durable T1D commitment. Immune-evasion for device-free islet therapy is highest-priority unmet gap."
+    - area: pain_ion_channel_and_peripheral_neuropathy
+      score_boost: 0.12
+      rationale: "JOURNAVX (suzetrigine/NaV1.8) commercial launch; VX-993/NaV1.7 pipeline extending franchise. Peripheral neuropathy co-promote potential with existing sales force."
+    - area: B_cell_mediated_autoimmune_disease
+      score_boost: 0.10
+      rationale: "Alpine/povetacicept and WuXi trispecific license both point to B-cell immunology interest; specialty indications (kidney, neurological) only — not broad primary care."
+    - area: severe_specialty_genetic_medicine_or_delivery_platform
+      score_boost: 0.09
+      rationale: "CASGEVY (SCD/TDT), Entrada DM1 collaboration ($250M), oligonucleotide/delivery adjacency establish strong platform fit."
+    - area: rare_disease_specialty_franchise_builders
+      score_boost: 0.08
+      rationale: "10-Q: 'acquires technologies and programs... in its therapeutic areas of interest, while continuing to focus on specialty markets.'"
+  negative_fit_areas:
+    - area: broad_primary_care_obesity_or_metabolic_assets
+      penalty: 0.15
+      rationale: "Weak match for Vertex's specialty-market operating model and commercial footprint."
+    - area: commodity_oncology_without_causal_biology_or_platform_edge
+      penalty: 0.15
+      rationale: "Recent deal history does not support generic oncology roll-up behavior."
+    - area: heavily_encumbered_or_fragmented_rights_assets
+      penalty: 0.20
+      rationale: "Vertex's pattern strongly favors control of core programs and major markets."
+    - area: large_salesforce_general_medicine_commercial_models
+      penalty: 0.15
+      rationale: "Misaligned with Vertex's specialty-only commercial infrastructure."
+    - area: very_early_single_asset_without_platform_optionality
+      penalty: 0.10
+      rationale: "Vertex will do early deals, but only where modality/platform adjacency is demonstrably high."
+  # --- Scoring weights ---
+  scoring_weights:
+    structural: 0.45
+    evidence: 0.35
+    encumbrance: 0.20
+    formula: "final_score = 0.45*structural + 0.35*evidence - 0.20*encumbrance"
+    rationale: "Vertex's strategic aperture is coherent (specialty markets, causal biology), so structural fit is highly informative. Evidence modulates timing and urgency."
+  # --- Pair penalties (pct) ---
+  pair_penalties_pct:
+    missing_us_or_eu_rights: -25
+    competitor_partner_controls_core_asset: -20
+    no_fit_to_kidney_t1d_pain_rare_disease: -15
+    primary_care_commercial_build_required: -15
+    preclinical_only_no_platform_optionality: -10
+    ev_exceeds_7b_without_franchise_fit: -10
   strategic_priorities:
     - rare_genetic_disease_pipeline
-    - pain_nav18_successor
-    - kidney_disease_pkd_igan
+    - pain_nav18_and_nav17_successor
+    - kidney_disease_igan_fsgs_amkd_adpkd
     - gene_editing_platform_expansion
-  patent_cliff_exposure: "CF franchise Trikafta/Kaftrio LOE ~2037+ provides long runway. No major near-term cliff, but seeking to deploy $13.0B in cash/securities (Q1 2026, March 31) in rare disease acquisitions before CF generic risk materializes."
-  last_verified_date: "2026-06-01"
-  notes: "Casgevy (with CRSP) for SCD/TDT. CF franchise (Trikafta) generating cash. Pain (suzetrigine/NaV1.8) commercial. Actively seeking rare disease / genetic medicine to deploy CF cash. Disciplined buyer."
+    - type_1_diabetes_cell_therapy_immune_evasion
+    - B_cell_autoimmune_franchise_specialty_only
+  patent_cliff_exposure: "CF franchise Trikafta/Kaftrio LOE ~2037+ provides long runway. No major near-term cliff. Actively deploying $13.0B cash (Q1 2026, March 31) in specialty disease acquisitions. CF still ~98% of Q1 2026 product revenue."
+  last_verified_date: "2026-06-02"
+  notes: "CF franchise ($9B+ revenue) funds aggressive diversification. Casgevy (CRSP, SCD/TDT) commercial. JOURNAVX (suzetrigine/NaV1.8) commercial launch. Povetacicept (ex-ALPN-303, Alpine) Phase 3 kidney/autoimmune. Zimislecel T1D cell therapy resumed 2026. Specialty-market operator only — no broad primary care. Disciplined buyer: pays up for franchise-defining assets (Alpine $4.9B), smaller for platforms (Semma $950M, Entrada $250M)."
+  source_urls:
+    - "https://news.vrtx.com/news-releases/news-release-details/vertex-reports-first-quarter-2026-financial-results"
+    - "https://www.sec.gov/Archives/edgar/data/875320/000087532026000173/vrtx-20260331.htm"
+    - "https://news.vrtx.com/news-releases/news-release-details/vertex-enters-agreement-acquire-alpine-immune-sciences"
+    - "https://news.vrtx.com/news-releases/news-release-details/vertex-and-entrada-therapeutics-establish-collaboration-discover"
+    - "https://news.vrtx.com/news-releases/news-release-details/vertex-acquire-semma-therapeutics-goal-developing-curative-cell"
 
 LLY:
   name: Eli Lilly

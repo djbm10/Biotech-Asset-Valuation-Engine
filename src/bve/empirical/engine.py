@@ -327,10 +327,9 @@ class EmpiricalPOSEngine:
     ):
         from bve.empirical.provenance import (
             FittedOverlayContribution,
-            HeuristicAdjustment, LookupProvenance, POSProvenance,
-            SponsorContribution, TIER_PUBLISHED,
+            HeuristicAdjustment, POSProvenance,
+            SponsorContribution,
         )
-        import math
 
         phase_str = phase.value if hasattr(phase, "value") else str(phase)
 

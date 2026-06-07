@@ -527,65 +527,72 @@ class TestCommercialComplexity:
 
 
 # ===========================================================================
-# 0F — Distress Quality Guard
+# 0F — Distress Pressure Guard (pressure-only after refactor)
 # ===========================================================================
 
 class TestDistressGuard:
-    """Legacy boolean-signal tests — verifies backward-compat with new composite model.
+    """0F is now pressure-only.
 
-    financing_pressure_high=True → financing_pressure inferred as 0.75 → pressure ≈ 0.63 (≥ 0.60)
-    lead_asset_quality_low=True  → lead_asset_quality inferred as 0.20 → quality ≈ 0.34 (< 0.35)
-    is_platform_company=True     → platform_validation=0.40 → quality lifts to ~0.40 (≥ 0.35)
+    financing_pressure_high=True → financing_pressure inferred as 0.75 → pressure ≈ 0.63 (HIGH)
+    guard_active=True when pressure >= HIGH_DISTRESS threshold (0.60).
+    mna_probability_cap is always None — caps owned by Layer 1.
+    route_to is always None — routing owned by 0B / Layer 4.
+    Asset-quality fields (lead_asset_quality_low, is_platform_company) do not affect output.
     """
 
-    def test_guard_fires_when_all_conditions_met(self):
-        t = _target(
-            financing_pressure_high=True,
-            lead_asset_quality_low=True,
-            is_platform_company=False,
-        )
+    def test_guard_active_when_high_pressure(self):
+        t = _target(financing_pressure_high=True)
         dg = _evaluate_distress_guard(t)
         assert dg.guard_active is True
-        assert dg.mna_probability_cap == pytest.approx(0.25)
-        assert dg.reason_code == "distress_without_strategic_asset"
 
-    def test_guard_not_active_when_platform(self):
-        # Platform companies have higher platform_validation → quality lifts above cap threshold
-        t = _target(
-            financing_pressure_high=True,
-            lead_asset_quality_low=True,
-            is_platform_company=True,
-        )
+    def test_mna_probability_cap_always_none(self):
+        """0F never caps M&A probability — that is Layer 1's job."""
+        t = _target(financing_pressure_high=True, lead_asset_quality_low=True)
         dg = _evaluate_distress_guard(t)
-        assert dg.guard_active is False
+        assert dg.mna_probability_cap is None
 
-    def test_guard_not_active_quality_ok(self):
-        # lead_asset_quality_low=False → quality high enough to avoid cap
-        t = _target(financing_pressure_high=True, lead_asset_quality_low=False)
+    def test_route_to_always_none(self):
+        """0F never routes to distressed_optionality_model."""
+        t = _target(financing_pressure_high=True)
         dg = _evaluate_distress_guard(t)
-        assert dg.guard_active is False
+        assert dg.route_to is None
 
     def test_guard_not_active_no_pressure(self):
-        # No financial pressure → pressure score below threshold
-        t = _target(financing_pressure_high=False, lead_asset_quality_low=True)
+        """No financial pressure → pressure score below HIGH threshold → guard_active=False."""
+        t = _target(financing_pressure_high=False)
         dg = _evaluate_distress_guard(t)
         assert dg.guard_active is False
 
-    def test_guard_cap_value(self):
-        t = _target(financing_pressure_high=True, lead_asset_quality_low=True)
-        dg = _evaluate_distress_guard(t)
-        assert dg.guard_active is True
-        assert dg.mna_probability_cap == pytest.approx(0.25)
+    def test_quality_fields_do_not_affect_guard_active(self):
+        """Asset quality does not change 0F output — pressure alone drives guard_active."""
+        t_low_q = _target(financing_pressure_high=True, lead_asset_quality_low=True)
+        t_high_q = _target(financing_pressure_high=True, lead_asset_quality_low=False)
+        dg_low = _evaluate_distress_guard(t_low_q)
+        dg_high = _evaluate_distress_guard(t_high_q)
+        assert dg_low.guard_active == dg_high.guard_active
+        assert dg_low.mna_probability_cap == dg_high.mna_probability_cap
 
-    def test_new_output_fields_present(self):
-        """New composite model exposes richer diagnostic fields."""
-        t = _target(financing_pressure_high=True, lead_asset_quality_low=True)
+    def test_platform_flag_does_not_affect_guard(self):
+        """platform_validated / is_platform_company no longer affects 0F output."""
+        t_platform = _target(financing_pressure_high=True, is_platform_company=True)
+        t_no_platform = _target(financing_pressure_high=True, is_platform_company=False)
+        dg_p = _evaluate_distress_guard(t_platform)
+        dg_np = _evaluate_distress_guard(t_no_platform)
+        assert dg_p.guard_active == dg_np.guard_active
+
+    def test_pressure_score_field_present(self):
+        t = _target(financing_pressure_high=True)
         dg = _evaluate_distress_guard(t)
         assert 0.0 <= dg.distress_pressure_score <= 1.0
-        assert 0.0 <= dg.distress_quality_score <= 1.0
-        assert 0.0 <= dg.clinical_salvageability_score <= 1.0
         assert dg.distress_classification is not None
         assert len(dg.rationale) >= 1
+
+    def test_deprecated_quality_fields_are_none(self):
+        """distress_quality_score and clinical_salvageability_score are deprecated → None."""
+        t = _target(financing_pressure_high=True)
+        dg = _evaluate_distress_guard(t)
+        assert dg.distress_quality_score is None
+        assert dg.clinical_salvageability_score is None
 
     def test_no_distress_gives_not_distressed_classification(self):
         t = _target(financing_pressure_high=False)
@@ -737,11 +744,16 @@ class TestEvaluateLayer0:
             r.encumbrance.penalty_multiplier * 0.5, rel=1e-2
         )
 
-    def test_distress_guard_cap_propagated(self):
+    def test_distress_pressure_high_note_propagated(self):
+        """High distress pressure produces an informational note; no score_cap from 0F."""
         t = _target(financing_pressure_high=True, lead_asset_quality_low=True)
         r = evaluate_layer0(t)
-        assert r.score_cap == pytest.approx(0.25)
-        assert any("distress_guard_cap" in n for n in r.layer0_notes)
+        # 0F is pressure-only — no cap
+        assert r.score_cap is None
+        # distress_guard_cap:* notes must not appear (0F no longer caps)
+        assert not any("distress_guard_cap" in n for n in r.layer0_notes)
+        # Informational pressure note must appear
+        assert any("distress_pressure" in n for n in r.layer0_notes)
 
     def test_no_distress_guard_score_cap_is_none(self):
         t = _target(financing_pressure_high=False)

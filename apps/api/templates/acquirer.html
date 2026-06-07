@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="hero">
+    <h1>{{ profile.name }}</h1>
+    <p>{{ profile.ticker }} · preferred phase {{ profile.preferred_phase or "Any" }} · BD style {{ profile.bd_style.value }}</p>
+  </section>
+
+  <section class="panel">
+    <div class="kpi-strip">
+      <div class="kpi">
+        <div class="eyebrow">Cash Firepower</div>
+        <strong>{{ profile.cash_firepower_millions }}</strong>
+      </div>
+      <div class="kpi">
+        <div class="eyebrow">LOE Urgency</div>
+        <strong>{{ "%.2f"|format(profile.loe_urgency) }}</strong>
+      </div>
+      <div class="kpi">
+        <div class="eyebrow">Strategic Areas</div>
+        <strong>{{ profile.strategic_areas|join(", ") }}</strong>
+      </div>
+    </div>
+  </section>
+
+  <section class="grid two-col" style="margin-top: 1rem;">
+    <article class="panel">
+      <h2>Pipeline Gaps</h2>
+      <div class="list">
+        {% for gap in profile.pipeline_gaps %}
+          <div class="row">
+            <strong>{{ gap.therapeutic_area }}{% if gap.modality %} · {{ gap.modality }}{% endif %}</strong>
+            <span class="muted">{{ gap.rationale }}</span>
+            <span class="pill">{{ gap.priority }}</span>
+          </div>
+        {% else %}
+          <div class="empty">No pipeline gaps listed.</div>
+        {% endfor %}
+      </div>
+    </article>
+
+    <article class="panel">
+      <h2>LOE Cliffs</h2>
+      <div class="list">
+        {% for cliff in profile.loe_cliffs %}
+          <div class="row">
+            <strong>{{ cliff.product_name }} · {{ cliff.loe_year }}</strong>
+            <span class="muted">{{ cliff.indication }}</span>
+            <span class="pill warning">{{ cliff.revenue_at_risk_millions }} at risk</span>
+          </div>
+        {% else %}
+          <div class="empty">No LOE cliffs listed.</div>
+        {% endfor %}
+      </div>
+    </article>
+  </section>
+
+  <section class="panel" style="margin-top: 1rem;">
+    <h2>Top Targets</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Target</th>
+            <th>Fit</th>
+            <th>Timing</th>
+            <th>Affordability</th>
+            <th>Strategic Fit</th>
+            <th>Confidence</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for target in top_targets %}
+            <tr>
+              <td>
+                {% if target.target_ticker %}
+                  <a class="text-link" href="/assets/{{ target.target_ticker }}">{{ target.target_name }} ({{ target.target_ticker }})</a>
+                {% else %}
+                  {{ target.target_name }}
+                {% endif %}
+              </td>
+              <td>{{ "%.2f"|format(target.fit_score or 0.0) }}</td>
+              <td>{{ target.timing_bucket or "unknown" }}</td>
+              <td>{{ "%.2f"|format(target.affordability_score or 0.0) }}</td>
+              <td>{{ "%.2f"|format(target.strategic_fit_score or 0.0) }}</td>
+              <td>{{ "%.2f"|format(target.confidence or 0.0) }}</td>
+            </tr>
+          {% else %}
+            <tr>
+              <td colspan="6" class="empty">No ranked targets stored.</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+{% endblock %}

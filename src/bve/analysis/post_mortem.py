@@ -45,7 +45,7 @@ print(analysis.primary_error_category)  # "pos_error"
 """
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Optional
 
 

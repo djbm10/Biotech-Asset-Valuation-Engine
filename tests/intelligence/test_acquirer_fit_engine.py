@@ -78,9 +78,11 @@ def test_acquirer_fit_engine_scores_and_ranks_watchlist(tmp_path: Path):
     assert result.n_assets == 3
     assert result.n_passing_hard_filters == 2
     assert [row.asset_id for row in result.rows] == ["asset-eye-1", "asset-gene-1", "asset-onc-1"]
-    assert result.rows[0].matched_therapeutic_gap == "ophthalmology"
+    assert result.rows[0].matched_therapeutic_gap == "ophthalmology:geographic_atrophy_non_vegf"
     assert result.rows[0].matched_modality == "fully_human_antibody"
-    assert result.rows[1].matched_therapeutic_gap == "genetic_medicines_rare_disease"
+    assert result.rows[1].matched_therapeutic_gap == (
+        "genetic_medicines_rare_disease:rgc_validated_targets"
+    )
     assert "not_acquisition_ready" in result.rows[2].hard_fail_reasons
     assert result.rows[2].acquisition_ready is False
 

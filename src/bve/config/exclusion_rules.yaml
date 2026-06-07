@@ -1,0 +1,855 @@
+# M&A Hard Exclusion / Routing Rules Configuration
+# ===================================================
+# Each rule defines metadata for one gate rule.
+# The engine rule logic is hard-coded in rules.py; this file provides:
+#   - Audit trail (which rules exist)
+#   - Operator documentation
+#   - Default caps / routing targets
+#
+# Status values:
+#   HARD_FAIL         | company excluded from live ranking
+#   HISTORICAL_ONLY   | excluded from live ranking, kept for training/backtest
+#   ROUTE_TO_OTHER_MODEL | wrong pipeline, route to specialist model
+#   SEVERE_CAP        | company scored but score capped
+#   DILIGENCE_QUEUE   | exclude from ranked output, include in diligence export
+#   REFRESH_REQUIRED  | data stale / unreliable, refresh before scoring
+#   PAIR_LEVEL_FAIL   | only this acquirer-target pair is invalid
+#   PAIR_LEVEL_CAP    | only this acquirer-target pair score is capped
+
+version: "1.0"
+
+gates:
+
+  - gate_id: gate_0_entity_validity
+    gate_order: 0
+    gate_name: "Entity Validity"
+    rules:
+      - rule_id: "G0.SPAC_SHELL"
+        gate_order: 0
+        gate_name: "Entity Validity"
+        description: "SPAC / blank-check / shell company with no operating biotech assets"
+        default_status: HARD_FAIL
+        is_company_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G0.HOLDING"
+        gate_order: 0
+        gate_name: "Entity Validity"
+        description: "Holding company or investment vehicle with no direct drug assets"
+        default_status: HARD_FAIL
+        is_company_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G0.SERVICE_NO_ASSET"
+        gate_order: 0
+        gate_name: "Entity Validity"
+        description: "Consulting / staffing company with no proprietary asset or platform"
+        default_status: ROUTE_TO_OTHER_MODEL
+        routing_model: services_ma_model
+        is_company_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G0.CRO_CDMO"
+        gate_order: 0
+        gate_name: "Entity Validity"
+        description: "Contract research/manufacturing organisation — no proprietary platform"
+        default_status: ROUTE_TO_OTHER_MODEL
+        routing_model: services_ma_model
+        is_company_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G0.NONPROFIT"
+        gate_order: 0
+        gate_name: "Entity Validity"
+        description: "Research nonprofit or academic entity — structurally not acquirable"
+        default_status: HARD_FAIL
+        is_company_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G0.ROYALTY_CO"
+        gate_order: 0
+        gate_name: "Entity Validity"
+        description: "Royalty company or passive IP vehicle — wrong M&A model"
+        default_status: ROUTE_TO_OTHER_MODEL
+        routing_model: royalty_model
+        is_company_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G0.GOV_RESTRICTED"
+        gate_order: 0
+        gate_name: "Entity Validity"
+        description: "Government-controlled entity with formal foreign-ownership restrictions"
+        default_status: HARD_FAIL
+        is_company_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G0.GOV_UNCERTAIN"
+        gate_order: 0
+        gate_name: "Entity Validity"
+        description: "Government-controlled entity with uncertain restriction status"
+        default_status: DILIGENCE_QUEUE
+        is_company_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G0.NON_BIOTECH"
+        gate_order: 0
+        gate_name: "Entity Validity"
+        description: "Diversified conglomerate or unrecognised non-biotech entity"
+        default_status: HARD_FAIL
+        is_company_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G0.KNOWN_ACQUIRER"
+        gate_order: 0
+        gate_name: "Entity Validity"
+        description: "Company is a known large-cap acquirer profile — wrong universe"
+        default_status: HARD_FAIL
+        is_company_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G0.UNKNOWN_TYPE"
+        gate_order: 0
+        gate_name: "Entity Validity"
+        description: "Unrecognised entity_type value"
+        default_status: HARD_FAIL
+        is_company_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+  - gate_id: gate_1_corporate_status
+    gate_order: 1
+    gate_name: "Standalone / Corporate Status"
+    rules:
+      - rule_id: "G1.ALREADY_ACQUIRED"
+        gate_order: 1
+        gate_name: "Corporate Status"
+        description: "Company already acquired, merged, or delisted after takeout"
+        default_status: HISTORICAL_ONLY
+        is_company_level: true
+        blocks_live_ranking: true
+        allows_historical_training: true
+        enabled: true
+
+      - rule_id: "G1.PENDING_DEAL"
+        gate_order: 1
+        gate_name: "Corporate Status"
+        description: "Definitive acquisition agreement already signed — not a live opportunity"
+        default_status: HARD_FAIL
+        is_company_level: true
+        blocks_live_ranking: true
+        allows_historical_training: true
+        enabled: true
+
+      - rule_id: "G1.BANKRUPT"
+        gate_order: 1
+        gate_name: "Corporate Status"
+        description: "Company in bankruptcy or liquidation proceedings"
+        default_status: HARD_FAIL
+        is_company_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G1.POST_SPIN"
+        gate_order: 1
+        gate_name: "Corporate Status"
+        description: "Post-spin entity — data may be stale or entity/asset mismatch"
+        default_status: DILIGENCE_QUEUE
+        is_company_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G1.TICKER_MISMATCH"
+        gate_order: 1
+        gate_name: "Corporate Status"
+        description: "Ticker no longer matches original entity — data refresh needed"
+        default_status: REFRESH_REQUIRED
+        is_company_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G1.DUPLICATE"
+        gate_order: 1
+        gate_name: "Corporate Status"
+        description: "Duplicate entity entry — deduplicate before scoring"
+        default_status: DILIGENCE_QUEUE
+        is_company_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+  - gate_id: gate_2_buyer_target_validity
+    gate_order: 2
+    gate_name: "Buyer-Target Validity"
+    rules:
+      - rule_id: "G2.SELF_ACQUISITION"
+        gate_order: 2
+        gate_name: "Buyer-Target Validity"
+        description: "Self-acquisition — buyer and target are the same entity (ticker)"
+        default_status: PAIR_LEVEL_FAIL
+        is_company_level: false
+        is_pair_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G2.SELF_ACQUISITION_ID"
+        gate_order: 2
+        gate_name: "Buyer-Target Validity"
+        description: "Self-acquisition — buyer and target share company_id"
+        default_status: PAIR_LEVEL_FAIL
+        is_company_level: false
+        is_pair_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G2.EXISTING_CONTROL"
+        gate_order: 2
+        gate_name: "Buyer-Target Validity"
+        description: "Acquirer already has majority control of target"
+        default_status: PAIR_LEVEL_FAIL
+        is_company_level: false
+        is_pair_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G2.AFFORDABILITY"
+        gate_order: 2
+        gate_name: "Buyer-Target Validity"
+        description: "Deal cost far exceeds acquirer capacity (capacity < 25% of expected cost)"
+        default_status: PAIR_LEVEL_FAIL
+        is_company_level: false
+        is_pair_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G2.STRATEGIC_CONFLICT"
+        gate_order: 2
+        gate_name: "Buyer-Target Validity"
+        description: "Direct product / TA conflict makes acquisition counterproductive"
+        default_status: PAIR_LEVEL_FAIL
+        is_company_level: false
+        is_pair_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G2.ANTITRUST"
+        gate_order: 2
+        gate_name: "Buyer-Target Validity"
+        description: "Antitrust block probability exceeds 85% — near-certain regulatory rejection"
+        default_status: PAIR_LEVEL_FAIL
+        is_company_level: false
+        is_pair_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G2.MERGER_OF_EQUALS"
+        gate_order: 2
+        gate_name: "Buyer-Target Validity"
+        description: "Merger-of-equals scenario — requires different deal model"
+        default_status: ROUTE_TO_OTHER_MODEL
+        routing_model: merger_of_equals_model
+        is_company_level: false
+        is_pair_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+  - gate_id: gate_3_asset_visibility
+    gate_order: 3
+    gate_name: "Asset Visibility"
+    rules:
+      - rule_id: "G3.NO_VALUE_DRIVER"
+        gate_order: 3
+        gate_name: "Asset Visibility"
+        description: "No identifiable asset, platform, pipeline, or product — cannot underwrite"
+        default_status: HARD_FAIL
+        is_company_level: true
+        is_asset_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G3.MISSING_PIPELINE"
+        gate_order: 3
+        gate_name: "Asset Visibility"
+        description: "Pipeline completely undescribed — cannot assign any value"
+        default_status: HARD_FAIL
+        is_company_level: true
+        is_asset_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G3.VAGUE_PIPELINE"
+        gate_order: 3
+        gate_name: "Asset Visibility"
+        description: "Vague pipeline, unclear TA or modality — requires diligence before scoring"
+        default_status: DILIGENCE_QUEUE
+        is_company_level: true
+        is_asset_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+  - gate_id: gate_4_asset_viability
+    gate_order: 4
+    gate_name: "Asset Viability"
+    rules:
+      - rule_id: "G4.DISCONTINUED"
+        gate_order: 4
+        gate_name: "Asset Viability"
+        description: "Lead asset discontinued — no path forward"
+        default_status: HARD_FAIL
+        is_asset_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G4.FAILED_PIVOTAL_NO_PATH"
+        gate_order: 4
+        gate_name: "Asset Viability"
+        description: "Pivotal trial failed with no credible salvage path"
+        default_status: HARD_FAIL
+        is_asset_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G4.REGULATORY_REJECTED_NO_PATH"
+        gate_order: 4
+        gate_name: "Asset Viability"
+        description: "Regulatory rejection with no path to resubmission"
+        default_status: HARD_FAIL
+        is_asset_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G4.SAFETY_BLOCKED"
+        gate_order: 4
+        gate_name: "Asset Viability"
+        description: "Fatal safety signal or irresolvable clinical hold"
+        default_status: HARD_FAIL
+        is_asset_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G4.FAILED_PIVOTAL_SALVAGE"
+        gate_order: 4
+        gate_name: "Asset Viability"
+        description: "Pivotal trial failed but credible salvage path exists — score capped"
+        default_status: SEVERE_CAP
+        default_cap: 0.40
+        is_asset_level: true
+        blocks_live_ranking: false
+        allows_historical_training: true
+        enabled: true
+
+      - rule_id: "G4.MECHANISM_INVALIDATED"
+        gate_order: 4
+        gate_name: "Asset Viability"
+        description: "Drug mechanism invalidated — severely limits remaining value"
+        default_status: SEVERE_CAP
+        default_cap: 0.40
+        is_asset_level: true
+        blocks_live_ranking: false
+        allows_historical_training: true
+        enabled: true
+
+      - rule_id: "G4.NO_DOSE_WINDOW"
+        gate_order: 4
+        gate_name: "Asset Viability"
+        description: "No viable dose window identified — development path blocked"
+        default_status: SEVERE_CAP
+        default_cap: 0.40
+        is_asset_level: true
+        blocks_live_ranking: false
+        allows_historical_training: true
+        enabled: true
+
+      - rule_id: "G4.WEAK_SIGNAL"
+        gate_order: 4
+        gate_name: "Asset Viability"
+        description: "Single non-replicated weak dataset — insufficient evidence to underwrite"
+        default_status: SEVERE_CAP
+        default_cap: 0.60
+        is_asset_level: true
+        blocks_live_ranking: false
+        allows_historical_training: true
+        enabled: true
+
+      - rule_id: "G4.ABANDONED"
+        gate_order: 4
+        gate_name: "Asset Viability"
+        description: "Development fully abandoned with no active program"
+        default_status: HARD_FAIL
+        is_asset_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G4.ABANDONED_SALVAGE"
+        gate_order: 4
+        gate_name: "Asset Viability"
+        description: "Development abandoned but possible new program — refresh data"
+        default_status: REFRESH_REQUIRED
+        is_asset_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G4.CLINICAL_HOLD"
+        gate_order: 4
+        gate_name: "Asset Viability"
+        description: "Unresolved clinical hold materially blocks development timeline"
+        default_status: SEVERE_CAP
+        default_cap: 0.40
+        is_asset_level: true
+        blocks_live_ranking: false
+        allows_historical_training: true
+        enabled: true
+
+  - gate_id: gate_5_rights_ip_ownership
+    gate_order: 5
+    gate_name: "Rights / IP / Ownership"
+    rules:
+      - rule_id: "G5.NO_OWNABLE_RIGHTS"
+        gate_order: 5
+        gate_name: "Rights / IP"
+        description: "Lead asset rights fully licensed away — acquirer cannot own"
+        default_status: ROUTE_TO_OTHER_MODEL
+        routing_model: licensing_model
+        is_company_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G5.TERRITORY_UNAVAILABLE"
+        gate_order: 5
+        gate_name: "Rights / IP"
+        description: "Key commercial territory rights unavailable to acquirer"
+        default_status: SEVERE_CAP
+        default_cap: 0.55
+        is_company_level: true
+        blocks_live_ranking: false
+        allows_historical_training: true
+        enabled: true
+
+      - rule_id: "G5.IP_CO_OWNED_DISPUTED"
+        gate_order: 5
+        gate_name: "Rights / IP"
+        description: "IP co-owned or ownership disputed — cannot score reliably"
+        default_status: DILIGENCE_QUEUE
+        is_company_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G5.IP_DISPUTE"
+        gate_order: 5
+        gate_name: "Rights / IP"
+        description: "Active IP ownership dispute — material deal risk"
+        default_status: SEVERE_CAP
+        default_cap: 0.55
+        is_company_level: true
+        blocks_live_ranking: false
+        allows_historical_training: true
+        enabled: true
+
+      - rule_id: "G5.BLOCKING_RIGHTS"
+        gate_order: 5
+        gate_name: "Rights / IP"
+        description: "Blocking third-party consent rights require diligence"
+        default_status: DILIGENCE_QUEUE
+        is_company_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G5.WEAK_IP"
+        gate_order: 5
+        gate_name: "Rights / IP"
+        description: "Weak IP or short remaining exclusivity limits deal value"
+        default_status: SEVERE_CAP
+        default_cap: 0.55
+        is_company_level: true
+        blocks_live_ranking: false
+        allows_historical_training: true
+        enabled: true
+
+      - rule_id: "G5.ROYALTY_BURDEN"
+        gate_order: 5
+        gate_name: "Rights / IP"
+        description: "Cumulative royalty stack exceeds 20% threshold — severe economics burden"
+        default_status: SEVERE_CAP
+        default_cap: 0.55
+        is_company_level: true
+        blocks_live_ranking: false
+        allows_historical_training: true
+        enabled: true
+
+  - gate_id: gate_6_financial_going_concern
+    gate_order: 6
+    gate_name: "Financial / Going-Concern"
+    rules:
+      - rule_id: "G6.BANKRUPT"
+        gate_order: 6
+        gate_name: "Financial"
+        description: "Company in bankruptcy proceedings"
+        default_status: HARD_FAIL
+        is_company_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G6.LIQUIDATING"
+        gate_order: 6
+        gate_name: "Financial"
+        description: "Company in liquidation"
+        default_status: HARD_FAIL
+        is_company_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G6.GOING_CONCERN"
+        gate_order: 6
+        gate_name: "Financial"
+        description: "Severe going-concern warning — route to distressed optionality model"
+        default_status: ROUTE_TO_OTHER_MODEL
+        routing_model: distressed_optionality_model
+        is_company_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G6.NEGATIVE_EV_DISTRESS"
+        gate_order: 6
+        gate_name: "Financial"
+        description: "Negative EV distressed asset shell — route to distress model"
+        default_status: ROUTE_TO_OTHER_MODEL
+        routing_model: distressed_optionality_model
+        is_company_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G6.UNRELIABLE_FINANCIALS"
+        gate_order: 6
+        gate_name: "Financial"
+        description: "Financial statements present but flagged as unreliable"
+        default_status: DILIGENCE_QUEUE
+        is_company_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G6.MISSING_FINANCIAL_DATA"
+        gate_order: 6
+        gate_name: "Financial"
+        description: "No market cap, cash, debt, or valuation data available"
+        default_status: DILIGENCE_QUEUE
+        is_company_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+  - gate_id: gate_7_market_data_quality
+    gate_order: 7
+    gate_name: "Market Data Quality"
+    rules:
+      - rule_id: "G7.CORPORATE_ACTION"
+        gate_order: 7
+        gate_name: "Market Data Quality"
+        description: "Unresolved corporate action makes price data unreliable"
+        default_status: REFRESH_REQUIRED
+        is_company_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G7.VERY_STALE_DATA"
+        gate_order: 7
+        gate_name: "Market Data Quality"
+        description: "Market data older than 90 days — significant reliability risk"
+        default_status: DILIGENCE_QUEUE
+        is_company_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G7.STALE_DATA"
+        gate_order: 7
+        gate_name: "Market Data Quality"
+        description: "Market data older than 30 days — refresh before scoring"
+        default_status: REFRESH_REQUIRED
+        is_company_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G7.OTC_PINK"
+        gate_order: 7
+        gate_name: "Market Data Quality"
+        description: "OTC / pink sheet listing — data quality and liquidity risk"
+        default_status: DILIGENCE_QUEUE
+        is_company_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G7.FOREIGN_LISTING"
+        gate_order: 7
+        gate_name: "Market Data Quality"
+        description: "Foreign ADR listing — data gaps may affect scoring accuracy"
+        default_status: DILIGENCE_QUEUE
+        is_company_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G7.ILLIQUID"
+        gate_order: 7
+        gate_name: "Market Data Quality"
+        description: "Average daily volume below $0.5M — microcap data-quality trap"
+        default_status: SEVERE_CAP
+        default_cap: 0.65
+        is_company_level: true
+        blocks_live_ranking: false
+        allows_historical_training: true
+        enabled: true
+
+  - gate_id: gate_8_legal_integrity
+    gate_order: 8
+    gate_name: "Legal / Integrity"
+    rules:
+      - rule_id: "G8.SANCTIONS"
+        gate_order: 8
+        gate_name: "Legal / Integrity"
+        description: "Sanctions or restricted ownership structure"
+        default_status: HARD_FAIL
+        is_company_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G8.FRAUD_CONFIRMED"
+        gate_order: 8
+        gate_name: "Legal / Integrity"
+        description: "Confirmed fraud — fundamental integrity failure"
+        default_status: HARD_FAIL
+        is_company_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G8.FRAUD_ALLEGATION"
+        gate_order: 8
+        gate_name: "Legal / Integrity"
+        description: "Unconfirmed fraud allegation — material deal risk"
+        default_status: SEVERE_CAP
+        default_cap: 0.35
+        is_company_level: true
+        blocks_live_ranking: false
+        allows_historical_training: true
+        enabled: true
+
+      - rule_id: "G8.DATA_INTEGRITY"
+        gate_order: 8
+        gate_name: "Legal / Integrity"
+        description: "Clinical data integrity issue undermines asset value"
+        default_status: SEVERE_CAP
+        default_cap: 0.50
+        is_company_level: true
+        blocks_live_ranking: false
+        allows_historical_training: true
+        enabled: true
+
+      - rule_id: "G8.SEC_ENFORCEMENT"
+        gate_order: 8
+        gate_name: "Legal / Integrity"
+        description: "SEC or regulatory enforcement cloud"
+        default_status: SEVERE_CAP
+        default_cap: 0.50
+        is_company_level: true
+        blocks_live_ranking: false
+        allows_historical_training: true
+        enabled: true
+
+      - rule_id: "G8.ASSET_LITIGATION"
+        gate_order: 8
+        gate_name: "Legal / Integrity"
+        description: "Major litigation over core asset — requires diligence"
+        default_status: DILIGENCE_QUEUE
+        is_company_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G8.GMP_FAILURE"
+        gate_order: 8
+        gate_name: "Legal / Integrity"
+        description: "Manufacturing compliance / GMP failure — operational risk"
+        default_status: DILIGENCE_QUEUE
+        is_company_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+  - gate_id: gate_9_commercial_relevance
+    gate_order: 9
+    gate_name: "Commercial Relevance"
+    rules:
+      - rule_id: "G9.MARKET_TOO_SMALL"
+        gate_order: 9
+        gate_name: "Commercial Relevance"
+        description: "Addressable market too small for standard M&A model"
+        default_status: SEVERE_CAP
+        default_cap: 0.60
+        is_company_level: true
+        blocks_live_ranking: false
+        allows_historical_training: true
+        enabled: true
+
+      - rule_id: "G9.NO_UNMET_NEED"
+        gate_order: 9
+        gate_name: "Commercial Relevance"
+        description: "No clinically meaningful unmet need limits deal rationale"
+        default_status: SEVERE_CAP
+        default_cap: 0.60
+        is_company_level: true
+        blocks_live_ranking: false
+        allows_historical_training: true
+        enabled: true
+
+      - rule_id: "G9.UNDIFFERENTIATED"
+        gate_order: 9
+        gate_name: "Commercial Relevance"
+        description: "Undifferentiated me-too asset with limited strategic value"
+        default_status: SEVERE_CAP
+        default_cap: 0.60
+        is_company_level: true
+        blocks_live_ranking: false
+        allows_historical_training: true
+        enabled: true
+
+      - rule_id: "G9.REIMBURSEMENT_IMPOSSIBLE"
+        gate_order: 9
+        gate_name: "Commercial Relevance"
+        description: "Reimbursement pathway assessed as impossible"
+        default_status: SEVERE_CAP
+        default_cap: 0.60
+        is_company_level: true
+        blocks_live_ranking: false
+        allows_historical_training: true
+        enabled: true
+
+      - rule_id: "G9.GENERIC_PRESSURE"
+        gate_order: 9
+        gate_name: "Commercial Relevance"
+        description: "Severe generic or biosimilar pressure on commercial franchise"
+        default_status: SEVERE_CAP
+        default_cap: 0.60
+        is_company_level: true
+        blocks_live_ranking: false
+        allows_historical_training: true
+        enabled: true
+
+      - rule_id: "G9.ADOPTION_BARRIERS"
+        gate_order: 9
+        gate_name: "Commercial Relevance"
+        description: "Adoption barriers too high to commercialise at scale"
+        default_status: SEVERE_CAP
+        default_cap: 0.60
+        is_company_level: true
+        blocks_live_ranking: false
+        allows_historical_training: true
+        enabled: true
+
+  - gate_id: gate_10_model_routing
+    gate_order: 10
+    gate_name: "Model Routing"
+    rules:
+      - rule_id: "G10.LICENSING_ONLY"
+        gate_order: 10
+        gate_name: "Model Routing"
+        description: "Licensing-only candidate — route to licensing model"
+        default_status: ROUTE_TO_OTHER_MODEL
+        routing_model: licensing_model
+        is_company_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G10.DISTRESS_ONLY"
+        gate_order: 10
+        gate_name: "Model Routing"
+        description: "Distress-only candidate — route to distressed optionality model"
+        default_status: ROUTE_TO_OTHER_MODEL
+        routing_model: distressed_optionality_model
+        is_company_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G10.COMMERCIAL_ONLY"
+        gate_order: 10
+        gate_name: "Model Routing"
+        description: "Commercial-only company with no pipeline — route to commercial franchise model"
+        default_status: ROUTE_TO_OTHER_MODEL
+        routing_model: commercial_franchise_model
+        is_company_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G10.PLATFORM_ONLY"
+        gate_order: 10
+        gate_name: "Model Routing"
+        description: "Platform-only company — route to platform acquisition model"
+        default_status: ROUTE_TO_OTHER_MODEL
+        routing_model: platform_acquisition_model
+        is_company_level: true
+        blocks_live_ranking: true
+        allows_historical_training: false
+        enabled: true
+
+      - rule_id: "G10.HISTORICAL_TRAINING"
+        gate_order: 10
+        gate_name: "Model Routing"
+        description: "Explicitly marked as a historical training case"
+        default_status: HISTORICAL_ONLY
+        is_company_level: true
+        blocks_live_ranking: true
+        allows_historical_training: true
+        enabled: true
