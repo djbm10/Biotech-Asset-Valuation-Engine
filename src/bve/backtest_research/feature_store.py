@@ -121,6 +121,8 @@ class FeatureRow:
     extraction_method: str
     confidence: float
     provenance_complete: bool
+    # CT.gov phase exclusion flag
+    ctgov_phase_excluded: bool = False  # True when CT.gov phase rejected (post-snapshot)
     # Gaps
     gaps: str = ""   # pipe-separated gap field names
 
@@ -204,8 +206,28 @@ class FeatureStore:
             modality=cand.modality,
         )
 
+        # -- CT.gov phase exclusion: reject phase data sourced from live CT.gov
+        #    when source_published_date is after snapshot_date (look-ahead bias).
+        ctgov_phase_excluded = False
+        tgt_extraction = tgt_snap.get("extraction_method", "")
+        if tgt_extraction == "ct_gov_api":
+            raw_source_date = (
+                tgt_snap.get("source_published_date")
+                or tgt_snap.get("data_as_of_date")
+                or ""
+            )
+            try:
+                source_dt = date.fromisoformat(raw_source_date) if raw_source_date else None
+            except (ValueError, TypeError):
+                source_dt = None
+            if source_dt is None or source_dt > snap_date:
+                ctgov_phase_excluded = True
+
         # -- Compute pair scorer inputs
-        asset_quality = tgt_snap.get("lead_asset_stage_score", 0.30)
+        raw_asset_quality = tgt_snap.get("lead_asset_stage_score", 0.30)
+        # If CT.gov phase was post-snapshot, fall back to neutral (0.30) rather than
+        # using a phase value that may reflect future clinical progress.
+        asset_quality = 0.30 if ctgov_phase_excluded else raw_asset_quality
         acquirer_appetite = min(1.0, float(acq_snap.get("urgency_score", 0.40)) * 0.8 + 0.20)
         ta_overlap = _ta_overlap_score(
             acq_snap.get("therapeutic_areas", ""),
@@ -276,6 +298,7 @@ class FeatureStore:
             extraction_method=extraction,
             confidence=confidence,
             provenance_complete=len(gaps_list) == 0,
+            ctgov_phase_excluded=ctgov_phase_excluded,
             gaps="|".join(gaps_list),
         )
 

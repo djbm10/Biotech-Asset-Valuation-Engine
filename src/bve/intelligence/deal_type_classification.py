@@ -602,3 +602,343 @@ def classify_deal_type(
         rationale=rationale,
         data_gaps=data_gaps,
     )
+
+
+# ---------------------------------------------------------------------------
+# Layer 0B — Deal-Structure Route (11 transaction archetypes)
+# ---------------------------------------------------------------------------
+#
+# Introduced 2026-06-04 as part of the 0A/0B separation refactor.
+# 0A answers "can this target be evaluated?"; 0B answers "what deal fits?"
+#
+# DealStructureRoute expands the 6 DealType values into 11 transaction
+# archetypes that are closer to how BD teams actually classify deals.
+# Backward compatibility: DealType is unchanged; DealStructureRoute is additive.
+# ---------------------------------------------------------------------------
+
+class DealStructureRoute(str, Enum):
+    """Eleven canonical deal-structure routes owned by Layer 0B.
+
+    Expands the 6 DealType values with finer transaction-structure distinctions,
+    particularly within the licensing/partnership space.
+
+    Mapping from DealType:
+      SINGLE_ASSET_TAKEOUT            → FULL_COMPANY_TAKEOUT or LEAD_ASSET_TAKEOUT
+      PIPELINE_PORTFOLIO_TAKEOUT      → PIPELINE_PORTFOLIO_TAKEOUT
+      PLATFORM_ACQUISITION            → PLATFORM_ACQUISITION
+      COMMERCIAL_FRANCHISE_ACQUISITION→ COMMERCIAL_FRANCHISE_ACQUISITION
+      ASSET_LICENSE_PARTNERSHIP       → GLOBAL_LICENSE / REGIONAL_LICENSE /
+                                        OPTION_TO_LICENSE_OR_ACQUIRE /
+                                        CO_DEVELOPMENT_OR_CO_COMMERCIALIZATION /
+                                        MINORITY_EQUITY_PLUS_COLLABORATION
+      DISTRESSED_OPTIONALITY          → DISTRESSED_OPTIONALITY
+    """
+    FULL_COMPANY_TAKEOUT = "full_company_takeout"
+    LEAD_ASSET_TAKEOUT = "lead_asset_takeout"
+    PIPELINE_PORTFOLIO_TAKEOUT = "pipeline_portfolio_takeout"
+    PLATFORM_ACQUISITION = "platform_acquisition"
+    COMMERCIAL_FRANCHISE_ACQUISITION = "commercial_franchise_acquisition"
+    GLOBAL_LICENSE = "global_license"
+    REGIONAL_LICENSE = "regional_license"
+    OPTION_TO_LICENSE_OR_ACQUIRE = "option_to_license_or_acquire"
+    CO_DEVELOPMENT_OR_CO_COMMERCIALIZATION = "co_development_or_co_commercialization"
+    MINORITY_EQUITY_PLUS_COLLABORATION = "minority_equity_plus_collaboration"
+    DISTRESSED_OPTIONALITY = "distressed_optionality"
+
+
+# DealStructureRoute → recommended transaction structure label (human-readable)
+_ROUTE_TO_STRUCTURE_LABEL: dict[DealStructureRoute, str] = {
+    DealStructureRoute.FULL_COMPANY_TAKEOUT:                   "full_acquisition",
+    DealStructureRoute.LEAD_ASSET_TAKEOUT:                     "asset_acquisition_or_full_takeout",
+    DealStructureRoute.PIPELINE_PORTFOLIO_TAKEOUT:             "full_acquisition",
+    DealStructureRoute.PLATFORM_ACQUISITION:                   "full_acquisition_or_platform_license",
+    DealStructureRoute.COMMERCIAL_FRANCHISE_ACQUISITION:       "full_acquisition",
+    DealStructureRoute.GLOBAL_LICENSE:                         "global_license_with_milestones",
+    DealStructureRoute.REGIONAL_LICENSE:                       "regional_license_or_co_promote",
+    DealStructureRoute.OPTION_TO_LICENSE_OR_ACQUIRE:           "option_to_acquire_or_license",
+    DealStructureRoute.CO_DEVELOPMENT_OR_CO_COMMERCIALIZATION: "co_development_agreement",
+    DealStructureRoute.MINORITY_EQUITY_PLUS_COLLABORATION:     "minority_equity_investment_plus_collaboration",
+    DealStructureRoute.DISTRESSED_OPTIONALITY:                 "distressed_asset_purchase_or_option",
+}
+
+# DealStructureRoute → recommended model label
+_ROUTE_TO_MODEL_LABEL: dict[DealStructureRoute, str] = {
+    DealStructureRoute.FULL_COMPANY_TAKEOUT:                   "lead_asset_rnpv_model",
+    DealStructureRoute.LEAD_ASSET_TAKEOUT:                     "lead_asset_rnpv_model",
+    DealStructureRoute.PIPELINE_PORTFOLIO_TAKEOUT:             "portfolio_mna_model",
+    DealStructureRoute.PLATFORM_ACQUISITION:                   "platform_fit_model",
+    DealStructureRoute.COMMERCIAL_FRANCHISE_ACQUISITION:       "commercial_synergy_model",
+    DealStructureRoute.GLOBAL_LICENSE:                         "licensing_model",
+    DealStructureRoute.REGIONAL_LICENSE:                       "licensing_model",
+    DealStructureRoute.OPTION_TO_LICENSE_OR_ACQUIRE:           "licensing_model",
+    DealStructureRoute.CO_DEVELOPMENT_OR_CO_COMMERCIALIZATION: "licensing_model",
+    DealStructureRoute.MINORITY_EQUITY_PLUS_COLLABORATION:     "licensing_model",
+    DealStructureRoute.DISTRESSED_OPTIONALITY:                 "distress_adjusted_model",
+}
+
+
+class DealStructureRouteResult(BaseModel):
+    """Output of Layer 0B deal-structure route classification.
+
+    Fields
+    ------
+    primary_route
+        The highest-confidence deal-structure route.
+    secondary_routes
+        Additional plausible routes (in confidence order).
+    route_weights
+        Fractional confidence weight per DealStructureRoute value.
+    recommended_model
+        Scoring model label appropriate for this route.
+    recommended_transaction_structure
+        Human-readable transaction structure label.
+    rationale
+        Ordered list of human-readable routing reasons.
+    data_gaps
+        Fields missing that reduce confidence or prevent finer sub-routing.
+    confidence
+        [0, 1] — overall confidence in the primary route.
+    """
+    model_config = ConfigDict(frozen=True)
+
+    primary_route: DealStructureRoute
+    secondary_routes: list[DealStructureRoute] = Field(default_factory=list)
+    route_weights: dict[str, float] = Field(
+        description="Per-route fractional weight; values sum to ≈ 1.0"
+    )
+    recommended_model: str
+    recommended_transaction_structure: str
+    rationale: list[str] = Field(default_factory=list)
+    data_gaps: list[str] = Field(default_factory=list)
+    confidence: float = Field(ge=0.0, le=1.0)
+
+    @property
+    def deal_type(self) -> str:
+        """Backward-compatibility alias — returns primary_route.value."""
+        return self.primary_route.value
+
+
+# ---------------------------------------------------------------------------
+# Route classification logic
+# ---------------------------------------------------------------------------
+
+def _classify_license_sub_route(sig: dict) -> tuple[DealStructureRoute, list[str]]:
+    """Determine the most appropriate licensing sub-route from signals.
+
+    Returns (primary_license_route, rationale_items).
+    """
+    rationale: list[str] = []
+
+    rights_scope = sig.get("asset_rights_scope", "global")
+    has_partnership = sig.get("has_existing_partnership", False)
+    has_rofr = sig.get("has_right_of_first_refusal", False)
+    royalty_rate = sig.get("royalty_stack_rate") or 0.0
+    ev = sig.get("enterprise_value_millions")
+    financing_pressure = sig.get("financing_pressure_high", False)
+    product_count = sig.get("product_count", 1)
+    geographic_complexity = sig.get("geographic_complexity", "local")
+
+    # CO_DEV: shared development/commercial responsibility signal
+    if has_partnership and product_count >= 2:
+        rationale.append("existing_partnership_plus_pipeline_breadth→co_development")
+        return DealStructureRoute.CO_DEVELOPMENT_OR_CO_COMMERCIALIZATION, rationale
+
+    # REGIONAL: territory split or non-global rights
+    if rights_scope == "regional_split" or geographic_complexity == "global":
+        rationale.append(f"rights_scope={rights_scope}_or_global_geography→regional_license")
+        return DealStructureRoute.REGIONAL_LICENSE, rationale
+
+    # OPTION: high uncertainty (financing pressure + small EV) with future inflection
+    if financing_pressure and ev is not None and ev < 300.0:
+        rationale.append("financing_pressure_plus_small_ev→option_to_license_or_acquire")
+        return DealStructureRoute.OPTION_TO_LICENSE_OR_ACQUIRE, rationale
+
+    # MINORITY_EQUITY: strategic relationship without control (ROFR present but low pressure)
+    if has_rofr and not financing_pressure:
+        rationale.append("rofr_present_no_distress→minority_equity_plus_collaboration")
+        return DealStructureRoute.MINORITY_EQUITY_PLUS_COLLABORATION, rationale
+
+    # Licensed-in with royalty burden → option structure
+    if rights_scope == "licensed_in" or royalty_rate > 0.15:
+        rationale.append(f"licensed_in_or_royalty_burden({royalty_rate:.0%})→option_route")
+        return DealStructureRoute.OPTION_TO_LICENSE_OR_ACQUIRE, rationale
+
+    # Default: global license
+    rationale.append("rights_scope=global_no_special_signals→global_license")
+    return DealStructureRoute.GLOBAL_LICENSE, rationale
+
+
+def _check_structure_overrides(sig: dict) -> Optional["DealStructureRoute"]:
+    """Check for strong structural signals that override DealType-based routing.
+
+    Returns the override route if present, or None to use DealType routing.
+
+    Override priority (highest to lowest):
+    1. Severe distress: both financing pressure and low asset quality.
+    2. Licensed-in rights: asset rights scope is "licensed_in".
+    3. Regional rights split: asset rights scope is "regional_split".
+    4. Existing partnership + pipeline breadth (≥3 products): co-development.
+    5. Significant royalty burden (>15%) with global rights: option/license structure.
+    """
+    # 1. Severe distress
+    if sig.get("financing_pressure_high") and sig.get("lead_asset_quality_low"):
+        return DealStructureRoute.DISTRESSED_OPTIONALITY
+
+    # 2. Licensed-in rights — partial ownership complicates pure acquisition
+    if sig.get("asset_rights_scope") == "licensed_in":
+        return DealStructureRoute.OPTION_TO_LICENSE_OR_ACQUIRE
+
+    # 3. Regional rights split — deal must be structured as territorial license
+    if sig.get("asset_rights_scope") == "regional_split":
+        return DealStructureRoute.REGIONAL_LICENSE
+
+    # 4. Existing partnership + pipeline breadth — prefer co-development
+    if sig.get("has_existing_partnership") and int(sig.get("product_count", 1)) >= 3:
+        return DealStructureRoute.CO_DEVELOPMENT_OR_CO_COMMERCIALIZATION
+
+    # 5. Significant royalty burden on global rights — license or option structure
+    royalty = sig.get("royalty_stack_rate") or 0.0
+    rights_scope = sig.get("asset_rights_scope", "global")
+    if royalty > 0.15 and rights_scope not in ("regional_split", "licensed_in"):
+        return DealStructureRoute.OPTION_TO_LICENSE_OR_ACQUIRE
+
+    return None
+
+
+def classify_deal_structure_route(
+    t: Any,
+    deal_type_cls: Optional[DealTypeClassification] = None,
+) -> DealStructureRouteResult:
+    """Classify a target into a Layer 0B deal-structure route.
+
+    Parameters
+    ----------
+    t : TargetEligibilityInput (or any object with compatible attributes)
+        Target eligibility signals.
+    deal_type_cls : DealTypeClassification, optional
+        Pre-computed deal-type classification. When None, classify_deal_type()
+        is called internally.
+
+    Returns
+    -------
+    DealStructureRouteResult
+        Primary route, secondary routes, weights, recommended model,
+        transaction structure, rationale, data gaps, and confidence.
+    """
+    if deal_type_cls is None:
+        deal_type_cls = classify_deal_type(t)
+
+    sig = _extract_signals(t)
+    primary_dt = deal_type_cls.primary_deal_type
+    rationale: list[str] = []
+    data_gaps: list[str] = list(deal_type_cls.data_gaps)
+
+    # ---- Layer 0B structural signal overrides ----
+    # Check for strong structural signals before falling through to DealType routing.
+    # These fire when the target's structural characteristics clearly indicate a specific
+    # deal form regardless of the value-share composition.
+    override_route = _check_structure_overrides(sig)
+    if override_route is not None:
+        primary_route = override_route
+        rationale.append(f"structural_override→{primary_route.value}")
+    # ---- Map primary DealType → primary DealStructureRoute ----
+    elif primary_dt == DealType.DISTRESSED_OPTIONALITY:
+        primary_route = DealStructureRoute.DISTRESSED_OPTIONALITY
+        rationale.append("distressed_optionality_primary→distressed_optionality_route")
+
+    elif primary_dt == DealType.COMMERCIAL_FRANCHISE_ACQUISITION:
+        primary_route = DealStructureRoute.COMMERCIAL_FRANCHISE_ACQUISITION
+        rationale.append("commercial_franchise_primary→commercial_franchise_route")
+
+    elif primary_dt == DealType.PLATFORM_ACQUISITION:
+        primary_route = DealStructureRoute.PLATFORM_ACQUISITION
+        rationale.append("platform_acquisition_primary→platform_acquisition_route")
+
+    elif primary_dt == DealType.PIPELINE_PORTFOLIO_TAKEOUT:
+        primary_route = DealStructureRoute.PIPELINE_PORTFOLIO_TAKEOUT
+        rationale.append("pipeline_portfolio_primary→pipeline_portfolio_route")
+
+    elif primary_dt == DealType.ASSET_LICENSE_PARTNERSHIP:
+        primary_route, lic_rationale = _classify_license_sub_route(sig)
+        rationale.extend(lic_rationale)
+
+    else:
+        # SINGLE_ASSET_TAKEOUT — distinguish full takeout vs lead-asset-only
+        rights_scope = sig.get("asset_rights_scope", "global")
+        product_count = sig.get("product_count", 1)
+        if rights_scope == "global" and product_count <= 2:
+            # Clean control, small pipeline → prefer full company takeout
+            primary_route = DealStructureRoute.FULL_COMPANY_TAKEOUT
+            rationale.append("single_asset_clean_global_rights→full_company_takeout")
+        else:
+            # Multiple products or partial rights → lead asset deal
+            primary_route = DealStructureRoute.LEAD_ASSET_TAKEOUT
+            rationale.append("single_asset_partial_rights_or_broad_pipeline→lead_asset_takeout")
+
+    # ---- Build route weights ----
+    # Start from DealType weights and map to DealStructureRoute weights
+    dt_weights = deal_type_cls.deal_type_weights
+
+    # Base weights from DealType mapping
+    route_w: dict[str, float] = {r.value: 0.0 for r in DealStructureRoute}
+    route_w[DealStructureRoute.FULL_COMPANY_TAKEOUT.value] = dt_weights.get(
+        DealType.SINGLE_ASSET_TAKEOUT.value, 0.0) * 0.6
+    route_w[DealStructureRoute.LEAD_ASSET_TAKEOUT.value] = dt_weights.get(
+        DealType.SINGLE_ASSET_TAKEOUT.value, 0.0) * 0.4
+    route_w[DealStructureRoute.PIPELINE_PORTFOLIO_TAKEOUT.value] = dt_weights.get(
+        DealType.PIPELINE_PORTFOLIO_TAKEOUT.value, 0.0)
+    route_w[DealStructureRoute.PLATFORM_ACQUISITION.value] = dt_weights.get(
+        DealType.PLATFORM_ACQUISITION.value, 0.0)
+    route_w[DealStructureRoute.COMMERCIAL_FRANCHISE_ACQUISITION.value] = dt_weights.get(
+        DealType.COMMERCIAL_FRANCHISE_ACQUISITION.value, 0.0)
+    route_w[DealStructureRoute.DISTRESSED_OPTIONALITY.value] = dt_weights.get(
+        DealType.DISTRESSED_OPTIONALITY.value, 0.0)
+
+    # Split licensing weight across the 5 licensing sub-routes
+    lic_w = dt_weights.get(DealType.ASSET_LICENSE_PARTNERSHIP.value, 0.0)
+    # Assign most to primary license route, distribute remainder
+    route_w[primary_route.value] = max(route_w[primary_route.value], lic_w * 0.7)
+    lic_sub_routes = [
+        DealStructureRoute.GLOBAL_LICENSE,
+        DealStructureRoute.REGIONAL_LICENSE,
+        DealStructureRoute.OPTION_TO_LICENSE_OR_ACQUIRE,
+        DealStructureRoute.CO_DEVELOPMENT_OR_CO_COMMERCIALIZATION,
+        DealStructureRoute.MINORITY_EQUITY_PLUS_COLLABORATION,
+    ]
+    remaining_lic = lic_w * 0.3 / max(1, len(lic_sub_routes) - 1)
+    for r in lic_sub_routes:
+        if r != primary_route:
+            route_w[r.value] = max(route_w[r.value], remaining_lic)
+
+    # Boost primary route to ensure it dominates.
+    # Use a stronger boost (0.55) when a structural override fired, because the
+    # underlying DealType weights may still favour a takeout route.
+    _boost_target = 0.55 if override_route is not None else 0.40
+    route_w[primary_route.value] = max(route_w[primary_route.value], _boost_target)
+
+    # Normalise to sum to 1.0
+    total_w = sum(route_w.values())
+    if total_w > 0:
+        route_w = {k: round(v / total_w, 4) for k, v in route_w.items()}
+    diff = round(1.0 - sum(route_w.values()), 6)
+    if diff != 0:
+        max_k = max(route_w, key=lambda k: route_w[k])
+        route_w[max_k] = round(route_w[max_k] + diff, 6)
+
+    # ---- Secondary routes (weight >= 0.15, excluding primary) ----
+    secondaries = [
+        DealStructureRoute(k)
+        for k, v in sorted(route_w.items(), key=lambda x: -x[1])
+        if k != primary_route.value and v >= 0.15
+    ]
+
+    return DealStructureRouteResult(
+        primary_route=primary_route,
+        secondary_routes=secondaries,
+        route_weights=route_w,
+        recommended_model=_ROUTE_TO_MODEL_LABEL[primary_route],
+        recommended_transaction_structure=_ROUTE_TO_STRUCTURE_LABEL[primary_route],
+        rationale=rationale + deal_type_cls.rationale,
+        data_gaps=data_gaps,
+        confidence=round(deal_type_cls.confidence, 4),
+    )

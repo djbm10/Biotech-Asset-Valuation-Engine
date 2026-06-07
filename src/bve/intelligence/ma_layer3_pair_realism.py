@@ -52,6 +52,7 @@ from typing import Optional
 
 from pydantic import BaseModel, ConfigDict, Field
 
+from bve.intelligence.deal_type_classification import DealStructureRoute
 from bve.intelligence.ma_pair_affordability import AffordabilityBand, AffordabilityResult
 from bve.intelligence.ma_pair_asset_control import PairAssetControlResult
 from bve.intelligence.ma_integration_complexity import PairIntegrationAdjustment
@@ -433,6 +434,11 @@ class PairRealismInputs(BaseModel):
         description="Target (board/shareholders) requires cash-certain consideration")
     buyer_cash_insufficient: bool = Field(default=False,
         description="Acquirer does not have sufficient cash for a cash deal")
+
+    # 0B deal-structure route — passed to Layer 3B pair-asset-control if invoked here
+    deal_structure_route: Optional[DealStructureRoute] = Field(default=None,
+        description="Layer 0B deal-structure route for this pair. Forwarded to "
+                    "compute_pair_asset_control() so Layer 3B scoring is route-aware.")
 
     # New component inputs
     consideration: ConsiderationRealismInputs = Field(

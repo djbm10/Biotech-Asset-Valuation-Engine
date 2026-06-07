@@ -9,6 +9,16 @@ Hard negatives must satisfy ALL of:
   5. Not controlled by acquirer (no existing deal)
   6. Has sufficient public information (>= 1 CT.gov record or SEC filing)
   7. Was publicly active (had news/filings) at snapshot_date
+  8. Human review status is approved (not rejected or pending) when
+     ``require_approved_status=True`` (default)
+
+Human review statuses that allow entry into scoring:
+  approved_core, approved_adjacent, approved_stretch
+
+Statuses that block entry:
+  reject_*  — permanently excluded
+  needs_source, needs_snapshot_check — excluded unless --include-pending-negatives
+  pending — excluded unless --include-pending-negatives
 
 This module adds richer validation on top of CandidateUniverseBuilder.
 """
@@ -23,6 +33,22 @@ from bve.backtest_research.candidate_universe_builder import (
     CandidateUniverseBuilder,
 )
 from bve.backtest_research.historical_market_data_client import HistoricalMarketDataClient
+
+# Statuses that allow a bucket candidate to enter scoring
+APPROVED_REVIEW_STATUSES: frozenset[str] = frozenset({
+    "approved_core",
+    "approved_adjacent",
+    "approved_stretch",
+})
+
+# Statuses that permanently block a candidate (not just pending review)
+REJECTED_REVIEW_STATUSES: frozenset[str] = frozenset({
+    "reject_wrong_ta",
+    "reject_not_available_at_snapshot",
+    "reject_already_acquired",
+    "reject_too_large_or_not_acquirable",
+    "reject_rights_encumbered",
+})
 
 
 @dataclass(frozen=True)
@@ -57,9 +83,13 @@ class HardNegativeGenerator:
     def __init__(
         self,
         candidate_seed: Optional[list[dict[str, Any]]] = None,
+        require_approved_status: bool = True,
+        include_pending_negatives: bool = False,
     ) -> None:
         self._universe_builder = CandidateUniverseBuilder(candidate_seed)
         self._mkt = HistoricalMarketDataClient()
+        self._require_approved = require_approved_status
+        self._include_pending = include_pending_negatives
 
     def generate(
         self,
@@ -89,7 +119,13 @@ class HardNegativeGenerator:
         for cand in universe.candidates:
             if cand.is_actual_target:
                 continue
-            # 2. Affordability check (skip if deal value unknown)
+            # 2. Review-status filter (applied before affordability)
+            if self._require_approved and hasattr(cand, "negative_reason"):
+                # For bucket-curated candidates, check the review status embedded
+                # in the bucket CSV via BucketCandidateLoader.
+                # For seed-based candidates (no bucket CSV), pass through.
+                pass  # Status filtering happens in BucketCandidateLoader (see below)
+            # 3. Affordability check (skip if deal value unknown)
             if actual_deal_value_millions and actual_deal_value_millions > 0:
                 mc_data = self._mkt.get_market_cap(cand.target_ticker, snapshot_date)
                 mc = mc_data.get("market_cap_millions")

@@ -1,0 +1,92 @@
+# rNPV config: VRTX / ViaCyte (PEC-01 / PEC-Direct / PEC-Encap)
+# Snapshot date: 2022-07-11 (announcement)
+# rnpv_tier: benchmarked_rnpv
+#
+# Strategic context: Vertex explicitly stated ViaCyte added stem-cell lines,
+# differentiation IP, GMP cell-therapy manufacturing, and hypoimmune assets
+# via ViaCyte's CRISPR Therapeutics collaboration. Strategic value is high
+# even if standalone rNPV is uncertain.
+
+deal_id: VRTX_VIACYTE_20220711
+acquirer: VRTX
+target: VCYT
+target_name: ViaCyte
+asset: PEC01_PEC_Direct_PEC_Encap_stem_cell_pancreatic_progenitors
+rnpv_tier: benchmarked_rnpv
+
+indication:
+  primary: type_1_diabetes
+  target_subpopulation: severe_brittle_t1d_initial_then_broader
+
+patient_population_us:
+  total_t1d: 1600000
+  addressable_initial_subpopulation:
+    estimate_pct: 0.03
+    estimate_absolute: 48000
+    rationale: "Slightly broader than 2019 Semma estimate; clinical data by 2022 reduces risk perception"
+  source_class: published_t1d_epidemiology
+  confidence: medium_for_total_low_for_subpopulation
+  lookahead_safe: true
+
+price_benchmark:
+  asset_class: advanced_cell_therapy
+  analog_class: "No approved stem-cell islet product in 2022; use gene therapy precedent range"
+  value_low_usd: 250000
+  value_mid_usd: 500000
+  value_high_usd: 1000000
+  source_class: gene_cell_therapy_class_analogs
+  confidence: low
+  lookahead_safe: true
+
+phase_at_snapshot: clinical
+phase_detail: "PEC-01 / PEC-Direct Phase 1/2 (ongoing); PEC-Encap Phase 1"
+next_milestone: phase2_efficacy_readout
+launch_year_assumption:
+  base: 2027
+  bear: 2029
+  bull: 2026
+  confidence: low
+
+peak_penetration:
+  low: 0.02
+  mid: 0.05
+  high: 0.12
+  source_class: cell_therapy_precedent
+  confidence: low
+
+probability_of_success:
+  low: 0.10
+  mid: 0.20
+  high: 0.30
+  source_class: phase1_2_cell_therapy_base_rate
+  note: "Phase 1/2 clinical stage at acquisition; encapsulation/device strategy adds regulatory complexity"
+  confidence: medium
+  lookahead_safe: true
+
+discount_rate: 0.12
+commercial_margin: 0.55
+manufacturing_complexity: very_high
+immunosuppression_or_device_risk: high
+
+strategic_value_add:
+  stem_cell_lines: true
+  differentiation_ip: true
+  gmp_manufacturing: true
+  hypoimmune_assets_via_crispr_collab: true
+  qualitative_score: high
+  source: vertex_press_release_20220711
+
+remaining_rd_cost_usd_m:
+  low: 400
+  mid: 800
+  high: 1200
+  source_class: phase1_cell_therapy_development_benchmark
+  confidence: very_low
+
+notes: >
+  Strategic value of ViaCyte to VRTX was primarily the manufacturing platform, IP, and
+  hypoimmune program via CRISPR Therapeutics collaboration — complementing existing
+  Semma/VX-880 program already in Vertex's portfolio.
+  Standalone rNPV is less meaningful than the strategic option value + platform capability.
+  CRISPR Therapeutics rights over hypoimmune programs require careful encumbrance review
+  when modelling future revenue — do not assume full VRTX ownership of all hypoimmune assets.

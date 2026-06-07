@@ -189,6 +189,10 @@ def build_dataset(
              for v in audit.violations],
             output_dir / "vrtx_regn_leakage_audit_build.csv",
         )
+        # CT.gov point-in-time audit
+        _write_clinicaltrials_pit_audit(
+            all_asset_snapshots, output_dir / "clinicaltrials_point_in_time_audit.csv"
+        )
         print(f"Outputs written to: {output_dir}")
     else:
         print("Dry run — no files written.")
@@ -201,6 +205,89 @@ def build_dataset(
         "n_gaps": len(store.collect_gaps(feature_rows)),
         "leakage_violations": len(audit.violations),
     }
+
+
+def _write_clinicaltrials_pit_audit(
+    asset_snapshots: list[dict[str, Any]],
+    output_path: Path,
+) -> None:
+    """
+    Apply TrialPhaseResolver to all asset snapshots and write an audit CSV.
+
+    For each snapshot that sourced phase data from CT.gov (extraction_method ==
+    ``ct_gov_api``), we create a TrialPhaseSource and call the resolver to
+    determine whether the source date was pre-snapshot.
+
+    Rows with ``near_snapshot_update_risk=True`` or ``is_trustworthy=False``
+    should be prioritised for manual re-sourcing from SEC filings or press releases.
+    """
+    from datetime import date as _date
+
+    from bve.backtest_research.trial_phase_resolver import (
+        TrialPhaseResolver,
+        TrialPhaseSource,
+        TrialPhaseSourceType,
+        write_clinicaltrials_pit_audit,
+    )
+
+    resolver = TrialPhaseResolver()
+    results = []
+
+    for snap in asset_snapshots:
+        asset_id = f"{snap.get('sponsor_ticker', 'UNK')}:{snap.get('asset_name', 'unknown')}"
+        raw_snapshot_date = snap.get("snapshot_date", "")
+        raw_source_date = snap.get("source_published_date", "") or snap.get("data_as_of_date", "")
+        extraction = snap.get("extraction_method", "")
+
+        try:
+            snap_dt = _date.fromisoformat(raw_snapshot_date)
+        except (ValueError, TypeError):
+            continue
+
+        # Determine source type
+        if extraction in ("sec_filing_text", "sec_filing"):
+            src_type = TrialPhaseSourceType.SEC_FILING
+        elif extraction in ("press_release", "company_website"):
+            src_type = TrialPhaseSourceType.PRESS_RELEASE
+        elif extraction == "ct_gov_api":
+            src_type = TrialPhaseSourceType.CLINICALTRIALS_CURRENT
+        else:
+            src_type = TrialPhaseSourceType.UNKNOWN
+
+        published_dt = None
+        try:
+            if raw_source_date:
+                published_dt = _date.fromisoformat(raw_source_date)
+        except (ValueError, TypeError):
+            pass
+
+        source = TrialPhaseSource(
+            source_type=src_type,
+            phase=snap.get("highest_phase"),
+            published_date=published_dt,
+            source_url=snap.get("source_url", ""),
+            notes=f"extraction_method={extraction}",
+        )
+
+        result = resolver.resolve(
+            asset_id=asset_id,
+            snapshot_date=snap_dt,
+            sources=[source],
+        )
+        results.append(result)
+
+    if results:
+        write_clinicaltrials_pit_audit(results, output_path)
+        n_risky = sum(1 for r in results if r.near_snapshot_update_risk or not r.is_trustworthy)
+        print(f"CT.gov PIT audit: {len(results)} assets checked, "
+              f"{n_risky} flagged for re-sourcing → {output_path.name}")
+    else:
+        output_path.write_text(
+            "asset_id,snapshot_date,resolved_phase,source_type,source_url,"
+            "published_date,is_pre_snapshot,near_snapshot_update_risk,"
+            "point_in_time_status,is_trustworthy\n",
+            encoding="utf-8",
+        )
 
 
 def _write_csv(rows: list[dict[str, Any]], path: Path) -> None:

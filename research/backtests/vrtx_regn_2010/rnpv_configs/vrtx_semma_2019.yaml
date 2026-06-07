@@ -1,0 +1,85 @@
+# rNPV config: VRTX / Semma Therapeutics (stem-cell-derived islets → VX-880)
+# Snapshot date: 2019-09-03 (announcement)
+# rnpv_tier: benchmarked_rnpv
+#
+# Key framing: Do NOT model Semma as treating all T1D patients.
+# Initial commercial subpopulation = severe/brittle T1D (hypoglycemia unaware).
+# Cell therapy uptake constrained by safety, manufacturing, procedure burden, payer risk.
+
+deal_id: VRTX_SEMMA_20190903
+acquirer: VRTX
+target: SEMMA
+target_name: Semma Therapeutics
+asset: stem_cell_derived_islet_therapy_precursor_to_VX880
+rnpv_tier: benchmarked_rnpv
+
+indication:
+  primary: type_1_diabetes
+  target_subpopulation: severe_brittle_t1d_hypoglycemia_unaware
+
+patient_population_us:
+  total_t1d: 1600000
+  addressable_initial_subpopulation:
+    estimate_pct: 0.02
+    estimate_absolute: 32000
+    rationale: "Brittle T1D / recurrent severe hypoglycemia subgroup; initial cell therapy launch likely restricted"
+  source_class: published_t1d_epidemiology
+  confidence: medium_for_total_low_for_subpopulation
+  lookahead_safe: true
+
+price_benchmark:
+  asset_class: advanced_cell_or_gene_therapy
+  analog_class: "islet transplant / cell therapy precedents (no direct approved analog in 2019)"
+  value_low_usd: 250000
+  value_mid_usd: 500000
+  value_high_usd: 1000000
+  source_class: gene_therapy_class_analogs
+  source_note: "No approved stem-cell islet therapy in 2019; price range derived from gene therapy precedents (Luxturna ~$850k, Zolgensma ~$2.1M) adjusted downward for repeat dosing/device risk"
+  confidence: low
+  lookahead_safe: true
+
+phase_at_snapshot: preclinical
+next_milestone: IND_filing_and_phase1_initiation
+launch_year_assumption:
+  base: 2026
+  bear: 2028
+  bull: 2025
+  confidence: very_low
+  note: "Preclinical at acquisition; typical 7-10yr path; VX-880 reached Phase 1/2 by 2022"
+
+peak_penetration:
+  low: 0.01
+  mid: 0.03
+  high: 0.08
+  source_class: cell_therapy_precedent
+  confidence: low
+  note: "Early cell therapy penetration very low due to manufacturing, safety, patient selection, payer barriers"
+
+probability_of_success:
+  low: 0.08
+  mid: 0.15
+  high: 0.25
+  source_class: preclinical_to_approval_cell_therapy_base_rate
+  note: "Preclinical stage; very high technical risk in manufacturing and immune tolerance"
+  confidence: low
+  lookahead_safe: true
+
+discount_rate: 0.12
+commercial_margin: 0.55
+manufacturing_complexity: very_high
+immunosuppression_or_device_risk: high
+
+remaining_rd_cost_usd_m:
+  low: 500
+  mid: 1000
+  high: 1500
+  source_class: cell_therapy_preclinical_development_benchmark
+  confidence: very_low
+
+notes: >
+  Benchmarked rNPV with wide uncertainty bands reflecting preclinical stage.
+  Key risks: immune rejection requiring immunosuppression or device; manufacturing scalability;
+  payer willingness for very high one-time cost. Donor-islet supply analogs (Lantidra/CellTrans)
+  are useful for regulatory path precedent but NOT for price benchmarking due to supply constraints.
+  Semma's value to VRTX was primarily strategic option value + IP + scientific talent, not
+  near-term DCF value.
