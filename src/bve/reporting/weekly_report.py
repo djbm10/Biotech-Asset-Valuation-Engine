@@ -324,6 +324,102 @@ class WeeklyReportGenerator:
         lines.append(f"- Median ma_score: {_format_probability(median_prob)}")
         lines.append("")
 
+        # ── Diligence Shortlists ───────────────────────────────────────────
+        lines.append("## Diligence Shortlists")
+        lines.append("")
+        lines.append(
+            "> Five curated views to support prioritised diligence. "
+            "These are **not** independent rankings — they are different lenses on the same scored universe."
+        )
+        lines.append("")
+
+        # 1. Highest ma_score
+        lines.append("### Highest ma_score")
+        lines.append("")
+        top5_score = ranked[:5]
+        if top5_score:
+            lines.append(_md_table(
+                ["Rank", "Ticker", "ma_score", "Confidence", "Top Acquirer"],
+                [[str(t.rank), t.ticker, _format_probability(t.ma_probability),
+                  t.confidence_label, t.top_acquirer or "—"] for t in top5_score],
+            ))
+        else:
+            lines.append("_No ranked targets._")
+        lines.append("")
+
+        # 2. Highest confidence
+        high_conf = sorted(
+            [t for t in ranked if t.confidence_label == "high"],
+            key=lambda t: t.ma_probability, reverse=True,
+        )[:5]
+        lines.append("### Highest Confidence")
+        lines.append("")
+        if high_conf:
+            lines.append(_md_table(
+                ["Rank", "Ticker", "ma_score", "Coverage", "Key Risk"],
+                [[str(t.rank), t.ticker, _format_probability(t.ma_probability),
+                  f"{t.evidence_coverage_overall:.0%}",
+                  (t.key_risks[0] if t.key_risks else "—")] for t in high_conf],
+            ))
+        else:
+            lines.append("_No high-confidence targets._")
+        lines.append("")
+
+        # 3. Best buyer fit
+        best_buyer = sorted(
+            [t for t in ranked if t.top_acquirer_pair_score is not None],
+            key=lambda t: t.top_acquirer_pair_score or 0.0, reverse=True,
+        )[:5]
+        lines.append("### Best Buyer Fit")
+        lines.append("")
+        if best_buyer:
+            lines.append(_md_table(
+                ["Rank", "Ticker", "ma_score", "Top Acquirer", "Pair Score"],
+                [[str(t.rank), t.ticker, _format_probability(t.ma_probability),
+                  t.top_acquirer or "—",
+                  f"{t.top_acquirer_pair_score:.2f}" if t.top_acquirer_pair_score else "—"]
+                 for t in best_buyer],
+            ))
+        else:
+            lines.append("_No pair scores available._")
+        lines.append("")
+
+        # 4. Biggest data gaps (lowest profile_quality_score among ranked)
+        data_gaps = sorted(ranked, key=lambda t: t.profile_quality_score)[:5]
+        lines.append("### Biggest Data Gaps")
+        lines.append("")
+        lines.append("_Ranked but data-sparse. Manual enrichment improves score accuracy._")
+        lines.append("")
+        if data_gaps:
+            lines.append(_md_table(
+                ["Rank", "Ticker", "Profile Quality", "ma_score", "Key Risks"],
+                [[str(t.rank), t.ticker, f"{t.profile_quality_score:.2f}",
+                  _format_probability(t.ma_probability),
+                  "; ".join(t.key_risks[:2]) or "—"] for t in data_gaps],
+            ))
+        else:
+            lines.append("_No ranked targets._")
+        lines.append("")
+
+        # 5. Suppressed but strategic (top suppressed by asset_quality)
+        strategic_suppressed = sorted(
+            result.suppressed_targets, key=lambda t: t.asset_quality, reverse=True
+        )[:5]
+        lines.append("### Suppressed But Strategic")
+        lines.append("")
+        lines.append("_Suppressed due to low evidence coverage, not low asset quality._")
+        lines.append("")
+        if strategic_suppressed:
+            lines.append(_md_table(
+                ["Ticker", "Asset Quality", "Suppression Reason", "Profile Quality"],
+                [[t.ticker, f"{t.asset_quality:.2f}",
+                  (t.suppression_reason or "—")[:60],
+                  f"{t.profile_quality_score:.2f}"] for t in strategic_suppressed],
+            ))
+        else:
+            lines.append("_No suppressed targets with strategic asset quality._")
+        lines.append("")
+
         # ── Top 25 targets ─────────────────────────────────────────────────
         lines.append("## Top 25 Targets")
         lines.append("")
@@ -422,6 +518,55 @@ class WeeklyReportGenerator:
             ))
         else:
             lines.append("_No targets suppressed._")
+        lines.append("")
+
+        # ── Coverage Recovery Queue ────────────────────────────────────────
+        lines.append("## Coverage Recovery Queue")
+        lines.append("")
+        lines.append(
+            "Suppressed targets that have the highest asset quality but insufficient "
+            "evidence records. Collecting data for these names would add them to the ranked list."
+        )
+        lines.append("")
+        if suppressed:
+            # Parse structured reason codes from suppression_reason
+            def _parse_reason_codes(reason: Optional[str]) -> list[str]:
+                if not reason:
+                    return []
+                if "[" in reason and "]" in reason:
+                    codes_str = reason.split("[")[1].rstrip("]")
+                    return [c.strip() for c in codes_str.split(",") if c.strip()]
+                return [reason]
+
+            _ACTION_MAP = {
+                "no_evidence_records":    "Seed with CT.gov/SEC/press_release search",
+                "low_evidence_coverage":  "Add 1+ evidence records from any source",
+                "cash_missing":           "Pull balance sheet from SEC EDGAR",
+                "rd_expense_missing":     "Pull R&D expense from SEC 10-K",
+                "lead_asset_missing":     "Manually populate lead_asset in targets.yaml",
+                "phase_missing_or_unknown": "Confirm current trial phase from CT.gov",
+            }
+
+            crq_rows = sorted(suppressed, key=lambda t: t.asset_quality, reverse=True)
+            crq_table_rows = []
+            for t in crq_rows:
+                codes = _parse_reason_codes(t.suppression_reason)
+                actions = "; ".join(
+                    _ACTION_MAP.get(c, c) for c in codes[:2]
+                ) or "Review manually"
+                crq_table_rows.append([
+                    t.ticker,
+                    f"{t.asset_quality:.2f}",
+                    f"{t.evidence_coverage_overall:.2f}",
+                    codes[0] if codes else "unknown",
+                    actions[:80],
+                ])
+            lines.append(_md_table(
+                ["Ticker", "Asset Quality", "Coverage", "Primary Gap", "Suggested Action"],
+                crq_table_rows,
+            ))
+        else:
+            lines.append("_No suppressed targets._")
         lines.append("")
 
         # ── Pending review / provisional ──────────────────────────────────
