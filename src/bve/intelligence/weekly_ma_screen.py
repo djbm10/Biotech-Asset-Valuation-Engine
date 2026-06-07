@@ -149,6 +149,11 @@ _TA_FIT_CAP_WEAK_THRESHOLD = 0.30
 _TA_FIT_CAP_SEVERE = 0.60
 _TA_FIT_CAP_WEAK = 0.75
 
+# Deal-size fit cap: a poor size fit (acquirer range doesn't match target EV/market-cap)
+# prevents the pair from ranking highly even when TA and quality are strong.
+_SIZE_FIT_CAP_WEAK_THRESHOLD = 0.30
+_SIZE_FIT_CAP_WEAK = 0.85
+
 _VALID_TA_OVERRIDE_TYPES = {
     "public_ta_expansion_statement",
     "adjacent_ta_deal_history",
@@ -267,6 +272,19 @@ def _apply_ta_fit_cap(
     if ta_overlap < _TA_FIT_CAP_WEAK_THRESHOLD:
         return min(pair_score, _TA_FIT_CAP_WEAK), _TA_FIT_CAP_WEAK
     return pair_score, None
+
+
+def _apply_size_fit_cap(pair_score: float, size_fit: float) -> float:
+    """Cap pair score when deal-size fit is poor.
+
+    Even a strong TA / quality pair is unlikely to close if the target's
+    enterprise value falls well outside the acquirer's stated deal-size range.
+    A cap at 0.85 prevents poor-size-fit pairs from ranking alongside
+    genuinely well-matched pairs in the top-acquirer output.
+    """
+    if size_fit < _SIZE_FIT_CAP_WEAK_THRESHOLD:
+        return min(pair_score, _SIZE_FIT_CAP_WEAK)
+    return pair_score
 
 
 def _build_baseline_features(target: TargetProfileEnriched) -> dict:
@@ -406,6 +424,7 @@ def _score_pair(
         ta_overlap=ta_overlap,
         override=override,
     )
+    capped_pair_score = _apply_size_fit_cap(capped_pair_score, dsf)
 
     return AcquirerPairResult(
         target_ticker=target.ticker,
