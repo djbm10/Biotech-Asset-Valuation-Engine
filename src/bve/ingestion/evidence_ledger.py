@@ -52,6 +52,7 @@ _DEFAULT_LEDGER_PATH = (
 DEFAULT_SEED_SCORES: dict[str, float] = {
     "asset_quality":       0.40,
     "seller_willingness":  0.30,
+    "financing_risk":      0.10,   # acquirer risk from target's cash position; default = low
     "acquirer_fit":        0.50,   # legacy composite key — kept for backward compat
     "acquirer_appetite":   0.50,   # willingness to do deals now
     "integration_capacity": 0.70,  # most large acquirers can integrate
@@ -185,6 +186,18 @@ class EvidenceRecord:
     #: For entity_type="pair": second ticker in the pair (e.g. "TVTX" if primary is "VRTX")
     pair_entity: Optional[str] = None
 
+    # ---------------------------------------------------------------------------
+    # evidence_state_v1 fields — optional; None for legacy records
+    # ---------------------------------------------------------------------------
+
+    #: Schema version stamp. None / "legacy" = pre-evidence_state records.
+    #: "evidence_state_v1" = record carries a full EvidenceState in evidence_state.
+    schema_version: Optional[str] = None
+
+    #: Serialised EvidenceState dict (see bve.ingestion.evidence_state.EvidenceState).
+    #: Present only when schema_version == "evidence_state_v1".
+    evidence_state: Optional[dict] = None
+
     @classmethod
     def from_classification(
         cls,
@@ -229,7 +242,9 @@ class EvidenceRecord:
 
     @classmethod
     def from_jsonl(cls, line: str) -> "EvidenceRecord":
-        return cls(**json.loads(line))
+        obj = json.loads(line)
+        known = cls.__dataclass_fields__.keys()
+        return cls(**{k: v for k, v in obj.items() if k in known})
 
 
 # ---------------------------------------------------------------------------
