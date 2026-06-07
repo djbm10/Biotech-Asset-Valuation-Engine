@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="hero">
+    <h1>Calibration</h1>
+    <p>Decision and outcome counts, parameter-version state, and recent recommendation records.</p>
+  </section>
+
+  <section class="grid cards">
+    <article class="metric primary">
+      <div class="eyebrow">Total Decisions</div>
+      <div class="value">{{ metrics.total_decisions }}</div>
+    </article>
+    <article class="metric primary">
+      <div class="eyebrow">Total Outcomes</div>
+      <div class="value">{{ metrics.total_outcomes }}</div>
+    </article>
+    <article class="metric warning">
+      <div class="eyebrow">Pending Versions</div>
+      <div class="value">{{ metrics.pending_parameter_versions }}</div>
+    </article>
+  </section>
+
+  <section class="grid two-col" style="margin-top: 1rem;">
+    <article class="panel">
+      <h2>Promoted Versions</h2>
+      <div class="list">
+        {% for version in promoted_versions %}
+          <div class="row">
+            <strong>{{ version.name }} · {{ version.version }}</strong>
+            <span class="muted">{{ version.weights or {} }}</span>
+            <span class="pill">Promoted</span>
+          </div>
+        {% else %}
+          <div class="empty">No promoted versions found.</div>
+        {% endfor %}
+      </div>
+    </article>
+
+    <article class="panel">
+      <h2>Pending Versions</h2>
+      <div class="list">
+        {% for version in pending_versions %}
+          <div class="row">
+            <strong>{{ version.name }} · {{ version.version }}</strong>
+            <span class="muted">{{ version.weights or {} }}</span>
+            <span class="pill warning">Pending</span>
+          </div>
+        {% else %}
+          <div class="empty">No pending versions.</div>
+        {% endfor %}
+      </div>
+    </article>
+  </section>
+
+  <section class="panel" style="margin-top: 1rem;">
+    <h2>Recent Decisions</h2>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Asset</th>
+            <th>Type</th>
+            <th>Recommendation</th>
+            <th>Parameter Version</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for decision in recent_decisions %}
+            <tr>
+              <td>{{ decision.id }}</td>
+              <td>{{ decision.asset_id }}</td>
+              <td>{{ decision.decision_type or "unknown" }}</td>
+              <td>{{ decision.recommendation or {} }}</td>
+              <td>{{ decision.parameter_version_id or "N/A" }}</td>
+            </tr>
+          {% else %}
+            <tr>
+              <td colspan="5" class="empty">No decisions stored.</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+{% endblock %}

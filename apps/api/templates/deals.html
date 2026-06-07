@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="hero">
+    <h1>Deals</h1>
+    <p>
+      Ranked target-acquirer pairs. Filters are applied server-side through query parameters:
+      acquirer, timing bucket, and minimum fit score.
+    </p>
+  </section>
+
+  <section class="panel">
+    <form class="filter-grid" method="get" action="{{ deals_href }}">
+      <label>
+        <span class="eyebrow">Acquirer</span>
+        <input type="text" name="acquirer" value="{{ filters.acquirer }}" placeholder="PFE or company id">
+      </label>
+      <label>
+        <span class="eyebrow">Timing Bucket</span>
+        <input type="text" name="timing_bucket" value="{{ filters.timing_bucket }}" placeholder="6-12m">
+      </label>
+      <label>
+        <span class="eyebrow">Min Fit Score</span>
+        <input type="number" step="0.01" min="0" max="1" name="min_fit_score" value="{{ filters.min_fit_score }}">
+      </label>
+      <button type="submit">Apply Filters</button>
+    </form>
+
+    <div class="section-rule"></div>
+
+    <div class="kpi-strip">
+      <div class="kpi">
+        <div class="eyebrow">Acquirer Filter</div>
+        <strong>{{ filters.acquirer or "All" }}</strong>
+      </div>
+      <div class="kpi">
+        <div class="eyebrow">Timing Bucket</div>
+        <strong>{{ filters.timing_bucket or "All" }}</strong>
+      </div>
+      <div class="kpi">
+        <div class="eyebrow">Min Fit Score</div>
+        <strong>{{ "%.2f"|format(filters.min_fit_score or 0.0) }}</strong>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel" style="margin-top: 1rem;">
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Target</th>
+            <th>Acquirer</th>
+            <th>Fit</th>
+            <th>Timing</th>
+            <th>Affordability</th>
+            <th>Strategic Fit</th>
+            <th>Confidence</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for deal in deals %}
+            <tr>
+              <td>
+                {% if deal.target_href %}
+                  <a class="text-link" href="{{ deal.target_href }}">{{ deal.target_name }}{% if deal.target_ticker %} ({{ deal.target_ticker }}){% endif %}</a>
+                {% else %}
+                  {{ deal.target_name }}
+                {% endif %}
+              </td>
+              <td>
+                {% if deal.acquirer_href %}
+                  <a class="text-link" href="{{ deal.acquirer_href }}">{{ deal.acquirer_name }}{% if deal.acquirer_ticker %} ({{ deal.acquirer_ticker }}){% endif %}</a>
+                {% else %}
+                  {{ deal.acquirer_name }}{% if deal.acquirer_ticker %} ({{ deal.acquirer_ticker }}){% endif %}
+                {% endif %}
+              </td>
+              <td>{{ "%.2f"|format(deal.fit_score or 0.0) }}</td>
+              <td>{{ deal.timing_bucket or "unknown" }}</td>
+              <td>{{ "%.2f"|format(deal.affordability_score or 0.0) }}</td>
+              <td>{{ "%.2f"|format(deal.strategic_fit_score or 0.0) }}</td>
+              <td>{{ "%.2f"|format(deal.confidence or 0.0) }}</td>
+            </tr>
+          {% else %}
+            <tr>
+              <td colspan="7" class="empty">No deals matched the current filters.</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </section>
+{% endblock %}

@@ -11,7 +11,8 @@ Covers the acceptance criteria specified in the implementation brief:
 6.  Severe going-concern warning → ROUTE_TO_OTHER_MODEL (distressed optionality).
 7.  Stale market data → REFRESH_REQUIRED.
 8.  Weak IP / short exclusivity → SEVERE_CAP with cap ≤ 0.55.
-9.  Commercial-only company → ROUTE_TO_OTHER_MODEL (commercial franchise).
+9.  Commercial-only company → PASS at Gate 10; routing to COMMERCIAL_FRANCHISE_MODEL
+    is owned by Layer 0B (classify_deal_structure_route) after the 0A/0B refactor.
 10. Valid company with clean data → PASS and eligible for live scoring.
 
 Additional tests cover:
@@ -215,7 +216,10 @@ class TestAcceptanceCriteria:
         # Score below cap is unchanged
         assert apply_exclusion_assessment_to_score(0.30, result) == pytest.approx(0.30)
 
-    # AC9 — commercial-only classification → ROUTE_TO_OTHER_MODEL (commercial franchise)
+    # AC9 — commercial-only classification → PASS at Gate 10 (routing owned by Layer 0B)
+    # After the 0A/0B refactor, Gate 10 is a pure pass-through for all deal-type
+    # classifications. Model routing (including COMMERCIAL_FRANCHISE_MODEL) is now
+    # owned by Layer 0B (classify_deal_structure_route), not this gate.
     def test_ac9_commercial_only_routing(self):
         profile = CompanyProfile(
             company_id="COMM",
@@ -224,8 +228,8 @@ class TestAcceptanceCriteria:
             deal_type_classification="commercial_only",
         )
         result = evaluate_company_exclusions(profile)
-        assert result.overall_status == ExclusionStatus.ROUTE_TO_OTHER_MODEL
-        assert result.routed_model == RoutingModel.COMMERCIAL_FRANCHISE_MODEL
+        assert result.overall_status == ExclusionStatus.PASS
+        assert result.routed_model is None
 
     # AC10 — clean company → PASS
     def test_ac10_valid_company_pass(self):

@@ -1,0 +1,41 @@
+scanned_at: '2026-06-04T20:02:15.217342+00:00'
+n_companies: 3
+sic_codes:
+- 2833
+- 2835
+- 2836
+- 8731
+exchanges:
+- NYSE
+- Nasdaq
+companies:
+- ticker: BIOX
+  cik: '0000012345'
+  company_name: Biotech Inc
+  sic: 2836
+  sic_description: Pharmaceutical Preparations
+  exchange: Nasdaq
+  scanned_at: '2026-06-04T20:02:15.217169+00:00'
+  target_type: unknown
+  market_cap_bucket: micro
+  include_in_ma_screen: false
+- ticker: PHRM
+  cik: '0000012346'
+  company_name: Pharma Research Corp
+  sic: 8731
+  sic_description: Commercial Physical & Biological Research
+  exchange: NYSE
+  scanned_at: '2026-06-04T20:02:15.217195+00:00'
+  target_type: unknown
+  market_cap_bucket: micro
+  include_in_ma_screen: false
+- ticker: ABIO
+  cik: 0000012349
+  company_name: Another Biotech
+  sic: 2836
+  sic_description: Pharmaceutical Preparations
+  exchange: Nasdaq
+  scanned_at: '2026-06-04T20:02:15.217218+00:00'
+  target_type: unknown
+  market_cap_bucket: micro
+  include_in_ma_screen: false

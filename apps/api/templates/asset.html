@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <section class="hero">
+    <h1>{{ company.ticker }} · {{ asset.name }}</h1>
+    <p>{{ company.name }} · {{ asset.indication or "No indication" }} · {{ asset.modality or "Unknown modality" }}</p>
+  </section>
+
+  <section class="panel">
+    <div class="kpi-strip">
+      <div class="kpi">
+        <div class="eyebrow">Phase</div>
+        <strong>{{ asset.current_phase or "Unknown" }}</strong>
+      </div>
+      <div class="kpi">
+        <div class="eyebrow">Therapeutic Area</div>
+        <strong>{{ asset.therapeutic_area or "Unknown" }}</strong>
+      </div>
+      <div class="kpi">
+        <div class="eyebrow">Partnered</div>
+        <strong>{{ "Yes" if asset.partnered else "No" }}</strong>
+      </div>
+      <div class="kpi">
+        <div class="eyebrow">Market Cap</div>
+        <strong>{{ company.market_cap if company.market_cap is not none else "N/A" }}</strong>
+      </div>
+    </div>
+  </section>
+
+  <section class="grid two-col" style="margin-top: 1rem;">
+    <article class="panel">
+      <h2>Variant Thesis</h2>
+      {% if thesis %}
+        <div class="detail-list">
+          <div class="row">
+            <span class="title">Market View</span>
+            <span class="muted">{{ thesis.market_view }}</span>
+          </div>
+          <div class="row">
+            <span class="title">Model View</span>
+            <span class="muted">{{ thesis.model_view }}</span>
+          </div>
+          <div class="row">
+            <span class="title">Delta View</span>
+            <span class="muted">{{ thesis.delta_view }}</span>
+          </div>
+          <div class="row">
+            <span class="title">Confidence</span>
+            <span class="pill">{{ "%.2f"|format(thesis.confidence or 0.0) }}</span>
+          </div>
+          <div class="row">
+            <span class="title">Kill Criteria</span>
+            <span class="muted">{{ thesis.kill_criteria or [] }}</span>
+          </div>
+        </div>
+      {% else %}
+        <div class="empty">No active thesis stored.</div>
+      {% endif %}
+    </article>
+
+    <article class="panel">
+      <h2>Market and Financing</h2>
+      <div class="detail-list">
+        <div class="row">
+          <span class="title">Implied Expectations</span>
+          <span class="muted">
+            {% if implied %}
+              PoS {{ implied.implied_pos if implied.implied_pos is not none else "N/A" }},
+              peak sales {{ implied.implied_peak_sales if implied.implied_peak_sales is not none else "N/A" }},
+              gap {{ implied.valuation_gap_pct if implied.valuation_gap_pct is not none else "N/A" }}
+            {% else %}
+              No implied expectations stored.
+            {% endif %}
+          </span>
+        </div>
+        <div class="row">
+          <span class="title">Financing Forecast</span>
+          <span class="muted">
+            {% if financing %}
+              Runway {{ financing.runway_months if financing.runway_months is not none else "N/A" }} months,
+              pre-catalyst raise probability {{ financing.pre_catalyst_raise_prob if financing.pre_catalyst_raise_prob is not none else "N/A" }}
+            {% else %}
+              No financing forecast stored.
+            {% endif %}
+          </span>
+        </div>
+        <div class="row">
+          <span class="title">Scenario Tree</span>
+          <span class="muted">{{ scenario_tree.tree_json if scenario_tree else "No scenario tree stored." }}</span>
+        </div>
+      </div>
+    </article>
+
+    <article class="panel">
+      <h2>Catalysts</h2>
+      <div class="list">
+        {% for catalyst in catalysts %}
+          <div class="row">
+            <strong>{{ catalyst.catalyst_type or "unknown" }}</strong>
+            <span class="muted">{{ catalyst.expected_date or "No date" }} · {{ catalyst.status }}</span>
+            <span class="pill">Confidence {{ "%.2f"|format(catalyst.confidence or 0.0) }}</span>
+          </div>
+        {% else %}
+          <div class="empty">No catalysts stored.</div>
+        {% endfor %}
+      </div>
+    </article>
+
+    <article class="panel">
+      <h2>Trials</h2>
+      <div class="list">
+        {% for trial in trials %}
+          <div class="row">
+            <strong>{{ trial.phase or "Unknown phase" }}{% if trial.nct_id %} · {{ trial.nct_id }}{% endif %}</strong>
+            <span class="muted">{{ trial.endpoint_primary or "No primary endpoint" }}</span>
+            <span class="pill">{{ trial.status or "Unknown status" }}</span>
+          </div>
+        {% else %}
+          <div class="empty">No trials stored.</div>
+        {% endfor %}
+      </div>
+    </article>
+  </section>
+
+  <section class="panel" style="margin-top: 1rem;">
+    <h2>Deal Readthrough</h2>
+    <div class="list">
+      {% for deal in related_deals %}
+        <div class="row">
+          <strong>
+            {% if deal.acquirer_href %}
+              <a href="{{ deal.acquirer_href }}">{{ deal.acquirer_name }}</a>
+            {% else %}
+              {{ deal.acquirer_name }}
+            {% endif %}
+            {% if deal.acquirer_ticker %} ({{ deal.acquirer_ticker }}){% endif %}
+          </strong>
+          <span class="muted">Timing {{ deal.timing_bucket or "unknown" }}</span>
+          <span class="pill">Fit {{ "%.2f"|format(deal.fit_score or 0.0) }}</span>
+        </div>
+      {% else %}
+        <div class="empty">No acquirer fit scores stored for this target.</div>
+      {% endfor %}
+    </div>
+  </section>
+{% endblock %}

@@ -1,14 +1,15 @@
-"""Tests for Layer 0F — Distress Quality Guard (composite model).
+"""Tests for Layer 0F — Distress Pressure Guard (pressure-only contract).
 
 Coverage:
-  - distress_pressure_score composite (5 signals)
-  - distress_quality_score composite (5 signals)
-  - clinical_salvageability from sub-components
-  - Guardrail rules: NONE / FLAG_ONLY / CAP_025 / CAP_015 / ROUTE
-  - Backward-compat mapping from TargetEligibilityInput boolean fields
-  - Float fields override boolean inference
-  - Hard red flags (fatal safety, mechanism invalidated)
-  - evaluate_layer0 integration
+  - distress_pressure_score composite (5 signals, correct weights)
+  - distress_classification thresholds
+  - Guardrail rules: NONE or FLAG_ONLY only — no caps, no routes
+  - mna_probability_cap always None
+  - route_to always None
+  - distress_quality_score and clinical_salvageability_score always None (deprecated)
+  - Changing asset-quality fields does NOT change 0F output
+  - Boolean → float pressure inference (backward compat adapter)
+  - evaluate_layer0 integration: distress pressure notes only, no score_cap from 0F
 """
 from __future__ import annotations
 
@@ -39,12 +40,6 @@ def _inp(
     valuation_distress: float = 0.0,
     capital_market_access_risk: float = 0.0,
     near_term_funding_need: float = 0.0,
-    lead_asset_quality: float = 0.65,
-    platform_validation: float = 0.10,
-    clinical_salvageability: float | None = None,
-    strategic_scarcity: float = 0.50,
-    asset_control_cleanliness: float = 0.70,
-    salvageability_components: ClinicalSalvageabilityInput | None = None,
 ) -> DistressGuardInput:
     return DistressGuardInput(
         financing_pressure=financing_pressure,
@@ -52,12 +47,6 @@ def _inp(
         valuation_distress=valuation_distress,
         capital_market_access_risk=capital_market_access_risk,
         near_term_funding_need=near_term_funding_need,
-        lead_asset_quality=lead_asset_quality,
-        platform_validation=platform_validation,
-        clinical_salvageability=clinical_salvageability,
-        strategic_scarcity=strategic_scarcity,
-        asset_control_cleanliness=asset_control_cleanliness,
-        salvageability_components=salvageability_components,
     )
 
 
@@ -71,20 +60,31 @@ def _target(**kwargs) -> TargetEligibilityInput:
 
 
 def _high_pressure_inp(**kwargs) -> DistressGuardInput:
-    """Helper for high-distress scenarios (pressure ≈ 0.70)."""
-    defaults = dict(
+    """Helper: pressure ≈ 0.71 (HIGH_DISTRESS)."""
+    return _inp(
         financing_pressure=0.80,
         runway_pressure=0.75,
         valuation_distress=0.65,
         capital_market_access_risk=0.60,
         near_term_funding_need=0.70,
+        **kwargs,
     )
-    defaults.update(kwargs)
-    return _inp(**defaults)
+
+
+def _severe_pressure_inp(**kwargs) -> DistressGuardInput:
+    """Helper: pressure = 1.0 (SEVERE_DISTRESS)."""
+    return _inp(
+        financing_pressure=1.0,
+        runway_pressure=1.0,
+        valuation_distress=1.0,
+        capital_market_access_risk=1.0,
+        near_term_funding_need=1.0,
+        **kwargs,
+    )
 
 
 # ---------------------------------------------------------------------------
-# Section 1 — Distress Pressure Score
+# Section 1 — Distress Pressure Score Composite
 # ---------------------------------------------------------------------------
 
 class TestDistressPressureScore:
@@ -93,17 +93,10 @@ class TestDistressPressureScore:
         assert r.distress_pressure_score < 0.35
 
     def test_all_pressure_signals_at_one_gives_score_one(self):
-        r = compute_distress_guard(_inp(
-            financing_pressure=1.0,
-            runway_pressure=1.0,
-            valuation_distress=1.0,
-            capital_market_access_risk=1.0,
-            near_term_funding_need=1.0,
-        ))
+        r = compute_distress_guard(_severe_pressure_inp())
         assert r.distress_pressure_score == pytest.approx(1.0)
 
     def test_financing_pressure_weight_35pct(self):
-        # Only financing_pressure=1.0, rest=0 → pressure = 0.35
         r = compute_distress_guard(_inp(financing_pressure=1.0))
         assert r.distress_pressure_score == pytest.approx(0.35, abs=0.001)
 
@@ -111,12 +104,35 @@ class TestDistressPressureScore:
         r = compute_distress_guard(_inp(runway_pressure=1.0))
         assert r.distress_pressure_score == pytest.approx(0.25, abs=0.001)
 
-    def test_pressure_classification_not_distressed(self):
+    def test_valuation_distress_weight_20pct(self):
+        r = compute_distress_guard(_inp(valuation_distress=1.0))
+        assert r.distress_pressure_score == pytest.approx(0.20, abs=0.001)
+
+    def test_capital_market_access_risk_weight_10pct(self):
+        r = compute_distress_guard(_inp(capital_market_access_risk=1.0))
+        assert r.distress_pressure_score == pytest.approx(0.10, abs=0.001)
+
+    def test_near_term_funding_need_weight_10pct(self):
+        r = compute_distress_guard(_inp(near_term_funding_need=1.0))
+        assert r.distress_pressure_score == pytest.approx(0.10, abs=0.001)
+
+
+# ---------------------------------------------------------------------------
+# Section 2 — Pressure Classification Thresholds
+# ---------------------------------------------------------------------------
+
+class TestPressureClassification:
+    def test_below_035_not_distressed(self):
         r = compute_distress_guard(_inp(financing_pressure=0.30))
         assert r.distress_classification == DistressClassification.NOT_DISTRESSED
 
-    def test_pressure_classification_mild(self):
-        # pressure = 0.35*0.80 + 0.25*0.55 + 0.20*0.40 = 0.28+0.1375+0.08 = 0.4975 → MILD
+    def test_at_035_mild_pressure(self):
+        # financing_pressure=1.0 → score = 0.35 exactly → MILD_PRESSURE
+        r = compute_distress_guard(_inp(financing_pressure=1.0))
+        assert r.distress_classification == DistressClassification.MILD_PRESSURE
+
+    def test_mild_pressure_range(self):
+        # pressure ≈ 0.4975 → MILD
         r = compute_distress_guard(_inp(
             financing_pressure=0.80,
             runway_pressure=0.55,
@@ -124,250 +140,186 @@ class TestDistressPressureScore:
         ))
         assert r.distress_classification == DistressClassification.MILD_PRESSURE
 
-    def test_pressure_classification_high(self):
+    def test_high_distress_range(self):
         r = compute_distress_guard(_high_pressure_inp())
         assert r.distress_classification in (
-            DistressClassification.HIGH_DISTRESS, DistressClassification.SEVERE_DISTRESS
+            DistressClassification.HIGH_DISTRESS,
+            DistressClassification.SEVERE_DISTRESS,
         )
 
-    def test_pressure_classification_severe(self):
+    def test_severe_distress_at_one(self):
+        r = compute_distress_guard(_severe_pressure_inp())
+        assert r.distress_classification == DistressClassification.SEVERE_DISTRESS
+
+    def test_at_060_is_high_distress(self):
+        # financing_pressure=0.60/0.35 + a bit of runway to push above 0.60
         r = compute_distress_guard(_inp(
-            financing_pressure=1.0, runway_pressure=1.0,
-            valuation_distress=1.0, capital_market_access_risk=0.80,
+            financing_pressure=1.0,   # 0.35
+            runway_pressure=1.0,      # 0.25
+            valuation_distress=1.0,   # 0.20
+        ))
+        # pressure = 0.80 → HIGH_DISTRESS (≤ 0.80)
+        assert r.distress_classification == DistressClassification.HIGH_DISTRESS
+
+    def test_above_080_severe_distress(self):
+        r = compute_distress_guard(_inp(
+            financing_pressure=1.0,
+            runway_pressure=1.0,
+            valuation_distress=1.0,
+            capital_market_access_risk=0.80,
             near_term_funding_need=0.90,
         ))
         assert r.distress_classification == DistressClassification.SEVERE_DISTRESS
 
 
 # ---------------------------------------------------------------------------
-# Section 2 — Distress Quality Score
-# ---------------------------------------------------------------------------
-
-class TestDistressQualityScore:
-    def test_high_lead_asset_quality_gives_high_score(self):
-        r = compute_distress_guard(_inp(
-            lead_asset_quality=0.90,
-            platform_validation=0.80,
-            clinical_salvageability=0.80,
-            strategic_scarcity=0.80,
-            asset_control_cleanliness=0.90,
-        ))
-        assert r.distress_quality_score >= 0.70
-
-    def test_low_quality_all_signals_gives_low_score(self):
-        r = compute_distress_guard(_inp(
-            lead_asset_quality=0.10,
-            platform_validation=0.05,
-            clinical_salvageability=0.10,
-            strategic_scarcity=0.10,
-            asset_control_cleanliness=0.10,
-        ))
-        assert r.distress_quality_score < 0.20
-
-    def test_lead_asset_weight_35pct(self):
-        # Only lead_asset_quality=1.0, others=0
-        r = compute_distress_guard(_inp(
-            lead_asset_quality=1.0,
-            platform_validation=0.0,
-            clinical_salvageability=0.0,
-            strategic_scarcity=0.0,
-            asset_control_cleanliness=0.0,
-        ))
-        assert r.distress_quality_score == pytest.approx(0.35, abs=0.001)
-
-    def test_platform_validation_weight_20pct(self):
-        r = compute_distress_guard(_inp(
-            lead_asset_quality=0.0,
-            platform_validation=1.0,
-            clinical_salvageability=0.0,
-            strategic_scarcity=0.0,
-            asset_control_cleanliness=0.0,
-        ))
-        assert r.distress_quality_score == pytest.approx(0.20, abs=0.001)
-
-
-# ---------------------------------------------------------------------------
-# Section 3 — Clinical Salvageability
-# ---------------------------------------------------------------------------
-
-class TestClinicalSalvageability:
-    def test_underpowered_failure_is_salvageable(self):
-        comp = ClinicalSalvageabilityInput(failed_trial_reason="underpowered")
-        r = compute_distress_guard(_inp(salvageability_components=comp))
-        assert r.clinical_salvageability_score >= 0.55
-
-    def test_fatal_safety_is_low_salvageability(self):
-        comp = ClinicalSalvageabilityInput(
-            failed_trial_reason="fatal_safety",
-            safety_reversibility=False,
-        )
-        r = compute_distress_guard(_inp(salvageability_components=comp))
-        assert r.clinical_salvageability_score < 0.20
-
-    def test_mechanism_invalidated_is_very_low(self):
-        comp = ClinicalSalvageabilityInput(failed_trial_reason="mechanism_invalidated")
-        r = compute_distress_guard(_inp(salvageability_components=comp))
-        assert r.clinical_salvageability_score < 0.25
-
-    def test_subgroup_signal_raises_score(self):
-        comp_without = ClinicalSalvageabilityInput(failed_trial_reason="endpoint_miss")
-        comp_with = ClinicalSalvageabilityInput(
-            failed_trial_reason="endpoint_miss",
-            subgroup_signal=True,
-        )
-        r1 = compute_distress_guard(_inp(salvageability_components=comp_without))
-        r2 = compute_distress_guard(_inp(salvageability_components=comp_with))
-        assert r2.clinical_salvageability_score > r1.clinical_salvageability_score
-
-    def test_multiple_positive_signals_raise_score(self):
-        comp = ClinicalSalvageabilityInput(
-            failed_trial_reason="endpoint_miss",
-            subgroup_signal=True,
-            dose_response_exists=True,
-            alternative_indications_available=True,
-            regulatory_path_remaining=True,
-            mechanism_still_valid=True,
-        )
-        r = compute_distress_guard(_inp(salvageability_components=comp))
-        assert r.clinical_salvageability_score >= 0.75
-
-    def test_no_components_gives_conservative_default(self):
-        r = compute_distress_guard(_inp(salvageability_components=None))
-        assert r.clinical_salvageability_score == pytest.approx(0.45)
-        assert any("clinical_salvageability" in g for g in r.data_gaps)
-
-    def test_direct_score_overrides_components(self):
-        comp = ClinicalSalvageabilityInput(failed_trial_reason="mechanism_invalidated")
-        r = compute_distress_guard(_inp(
-            clinical_salvageability=0.80,  # direct override
-            salvageability_components=comp,  # would produce ~0.10
-        ))
-        assert r.clinical_salvageability_score == pytest.approx(0.80)
-
-    def test_score_clamped_at_1(self):
-        comp = ClinicalSalvageabilityInput(
-            failed_trial_reason="underpowered",
-            subgroup_signal=True,
-            dose_response_exists=True,
-            safety_reversibility=True,
-            alternative_indications_available=True,
-            regulatory_path_remaining=True,
-            mechanism_still_valid=True,
-        )
-        r = compute_distress_guard(_inp(salvageability_components=comp))
-        assert r.clinical_salvageability_score <= 1.0
-
-
-# ---------------------------------------------------------------------------
-# Section 4 — Guardrail Rules
+# Section 3 — Guardrail Rules: Pressure-Only Contract
 # ---------------------------------------------------------------------------
 
 class TestGuardrailRules:
-    def test_no_distress_applies_none_treatment(self):
+    def test_not_distressed_applies_none_treatment(self):
         r = compute_distress_guard(_inp(financing_pressure=0.10))
         assert r.guardrail_applied == DistressGuardTreatment.NONE
         assert r.guard_active is False
-        assert r.mna_probability_cap is None
 
-    def test_mild_pressure_applies_flag_only(self):
+    def test_mild_pressure_flag_only_not_active(self):
+        # pressure ≈ 0.455 → MILD_PRESSURE → FLAG_ONLY, guard_active=False
         r = compute_distress_guard(_inp(
-            financing_pressure=0.60,  # pressure ≈ 0.21 + some runway = ~0.35-0.40
-            runway_pressure=0.40,
-        ))
-        # pressure ≈ 0.35*0.60 + 0.25*0.40 = 0.21+0.10 = 0.31 — borderline; add more
-        r2 = compute_distress_guard(_inp(
             financing_pressure=0.70,
             runway_pressure=0.60,
             valuation_distress=0.30,
         ))
-        # pressure = 0.35*0.70 + 0.25*0.60 + 0.20*0.30 = 0.245+0.15+0.06=0.455
-        assert r2.guardrail_applied == DistressGuardTreatment.FLAG_ONLY
-        assert r2.guard_active is False
+        assert r.guardrail_applied == DistressGuardTreatment.FLAG_ONLY
+        assert r.guard_active is False
 
-    def test_high_distress_low_quality_caps_025(self):
-        r = compute_distress_guard(_high_pressure_inp(
-            lead_asset_quality=0.15,
-            platform_validation=0.05,
-            clinical_salvageability=0.10,
-            strategic_scarcity=0.10,
-            asset_control_cleanliness=0.10,
-        ))
-        assert r.guardrail_applied == DistressGuardTreatment.CAP_025
+    def test_high_distress_flag_only_active(self):
+        r = compute_distress_guard(_high_pressure_inp())
+        assert r.guardrail_applied == DistressGuardTreatment.FLAG_ONLY
         assert r.guard_active is True
-        assert r.mna_probability_cap == pytest.approx(0.25)
-        assert r.reason_code == "distress_without_strategic_asset"
 
-    def test_severe_distress_no_quality_caps_015(self):
-        r = compute_distress_guard(_inp(
-            financing_pressure=1.0,
-            runway_pressure=1.0,
-            valuation_distress=1.0,
-            capital_market_access_risk=1.0,
-            near_term_funding_need=1.0,
-            lead_asset_quality=0.10,
+    def test_severe_distress_flag_only_active(self):
+        r = compute_distress_guard(_severe_pressure_inp())
+        assert r.guardrail_applied == DistressGuardTreatment.FLAG_ONLY
+        assert r.guard_active is True
+
+    def test_mna_probability_cap_always_none(self):
+        """0F never sets mna_probability_cap under any pressure level."""
+        for inp in [
+            _inp(),
+            _inp(financing_pressure=0.50, runway_pressure=0.50),
+            _high_pressure_inp(),
+            _severe_pressure_inp(),
+        ]:
+            r = compute_distress_guard(inp)
+            assert r.mna_probability_cap is None, (
+                f"Expected mna_probability_cap=None for pressure={r.distress_pressure_score:.3f}, "
+                f"got {r.mna_probability_cap}"
+            )
+
+    def test_route_to_always_none(self):
+        """0F never routes to distressed_optionality_model or any other model."""
+        for inp in [_inp(), _high_pressure_inp(), _severe_pressure_inp()]:
+            r = compute_distress_guard(inp)
+            assert r.route_to is None
+
+    def test_rationale_populated(self):
+        r = compute_distress_guard(_high_pressure_inp())
+        assert len(r.rationale) >= 3
+
+    def test_reason_code_set_for_high_distress(self):
+        r = compute_distress_guard(_high_pressure_inp())
+        assert r.reason_code == "high_distress_pressure_flag"
+
+    def test_reason_code_set_for_severe_distress(self):
+        r = compute_distress_guard(_severe_pressure_inp())
+        assert r.reason_code == "severe_distress_pressure_flag"
+
+    def test_reason_code_none_for_not_distressed(self):
+        r = compute_distress_guard(_inp())
+        assert r.reason_code is None
+
+
+# ---------------------------------------------------------------------------
+# Section 4 — Asset Quality Fields Do NOT Affect 0F Output
+# ---------------------------------------------------------------------------
+
+class TestQualityFieldsDoNotAffectOutput:
+    """0F is pressure-only.  Passing different asset-quality values must produce
+    identical distress_pressure_score, distress_classification, and guardrail."""
+
+    def _high_quality_inp(self) -> DistressGuardInput:
+        return DistressGuardInput(
+            financing_pressure=0.80,
+            runway_pressure=0.75,
+            valuation_distress=0.65,
+            capital_market_access_risk=0.60,
+            near_term_funding_need=0.70,
+            lead_asset_quality=0.90,
+            platform_validation=0.80,
+            clinical_salvageability=0.85,
+            strategic_scarcity=0.80,
+            asset_control_cleanliness=0.90,
+        )
+
+    def _low_quality_inp(self) -> DistressGuardInput:
+        return DistressGuardInput(
+            financing_pressure=0.80,
+            runway_pressure=0.75,
+            valuation_distress=0.65,
+            capital_market_access_risk=0.60,
+            near_term_funding_need=0.70,
+            lead_asset_quality=0.05,
             platform_validation=0.05,
             clinical_salvageability=0.05,
             strategic_scarcity=0.05,
             asset_control_cleanliness=0.05,
-        ))
-        assert r.guardrail_applied == DistressGuardTreatment.CAP_015
-        assert r.guard_active is True
-        assert r.mna_probability_cap == pytest.approx(0.15)
-        assert r.reason_code == "broken_distress_case"
+        )
 
-    def test_high_distress_high_quality_routes(self):
-        r = compute_distress_guard(_high_pressure_inp(
-            lead_asset_quality=0.80,
-            platform_validation=0.75,
-            clinical_salvageability=0.70,
-            strategic_scarcity=0.75,
-            asset_control_cleanliness=0.80,
-        ))
-        assert r.guardrail_applied == DistressGuardTreatment.ROUTE_DISTRESSED_OPTIONALITY
-        assert r.guard_active is True
-        assert r.mna_probability_cap is None
-        assert r.route_to == "distressed_optionality_model"
-        assert r.reason_code == "distress_with_viable_asset"
+    def test_pressure_score_same_regardless_of_quality(self):
+        r_high = compute_distress_guard(self._high_quality_inp())
+        r_low = compute_distress_guard(self._low_quality_inp())
+        assert r_high.distress_pressure_score == pytest.approx(r_low.distress_pressure_score)
 
-    def test_high_distress_medium_quality_flags_only(self):
-        r = compute_distress_guard(_high_pressure_inp(
-            lead_asset_quality=0.45,
-            platform_validation=0.30,
-            clinical_salvageability=0.45,
-            strategic_scarcity=0.45,
-            asset_control_cleanliness=0.50,
-        ))
-        assert r.guardrail_applied == DistressGuardTreatment.FLAG_ONLY
-        assert r.guard_active is False
+    def test_classification_same_regardless_of_quality(self):
+        r_high = compute_distress_guard(self._high_quality_inp())
+        r_low = compute_distress_guard(self._low_quality_inp())
+        assert r_high.distress_classification == r_low.distress_classification
+
+    def test_guardrail_same_regardless_of_quality(self):
+        r_high = compute_distress_guard(self._high_quality_inp())
+        r_low = compute_distress_guard(self._low_quality_inp())
+        assert r_high.guardrail_applied == r_low.guardrail_applied
+        assert r_high.guard_active == r_low.guard_active
+
+    def test_no_cap_from_weak_quality(self):
+        """Even with all-zero asset quality, 0F must not cap."""
+        r = compute_distress_guard(self._low_quality_inp())
         assert r.mna_probability_cap is None
 
-    def test_severe_rule_takes_precedence_over_cap_025(self):
-        """pressure > 0.80 AND quality < 0.25 → CAP_015, not CAP_025."""
-        r = compute_distress_guard(_inp(
-            financing_pressure=1.0,
-            runway_pressure=0.90,
-            valuation_distress=0.90,
-            capital_market_access_risk=0.80,
-            near_term_funding_need=0.90,
-            lead_asset_quality=0.10,
-            platform_validation=0.05,
-            clinical_salvageability=0.10,
-            strategic_scarcity=0.10,
-            asset_control_cleanliness=0.10,
-        ))
-        # quality ≈ 0.35*0.10+0.20*0.05+0.15*0.10+0.15*0.10+0.15*0.10
-        # = 0.035+0.01+0.015+0.015+0.015 = 0.09 < 0.25 → broken
-        assert r.guardrail_applied == DistressGuardTreatment.CAP_015
-
-    def test_rationale_populated(self):
-        r = compute_distress_guard(_high_pressure_inp(
-            lead_asset_quality=0.10, clinical_salvageability=0.10,
-        ))
-        assert len(r.rationale) >= 3
+    def test_no_route_from_high_quality(self):
+        """Even with all-high asset quality + high distress, 0F must not route."""
+        r = compute_distress_guard(self._high_quality_inp())
+        assert r.route_to is None
 
 
 # ---------------------------------------------------------------------------
-# Section 5 — Boolean → Float inference (backward compat mapping)
+# Section 5 — Deprecated Result Fields
+# ---------------------------------------------------------------------------
+
+class TestDeprecatedResultFields:
+    def test_distress_quality_score_always_none(self):
+        for inp in [_inp(), _high_pressure_inp(), _severe_pressure_inp()]:
+            r = compute_distress_guard(inp)
+            assert r.distress_quality_score is None
+
+    def test_clinical_salvageability_score_always_none(self):
+        for inp in [_inp(), _high_pressure_inp(), _severe_pressure_inp()]:
+            r = compute_distress_guard(inp)
+            assert r.clinical_salvageability_score is None
+
+
+# ---------------------------------------------------------------------------
+# Section 6 — Target Adapter: Pressure Signals Only
 # ---------------------------------------------------------------------------
 
 class TestTargetAdapter:
@@ -381,160 +333,129 @@ class TestTargetAdapter:
         inp = distress_guard_from_target(t)
         assert inp.financing_pressure == pytest.approx(0.10)
 
-    def test_lead_asset_quality_low_maps_to_020(self):
-        t = _target(lead_asset_quality_low=True)
-        inp = distress_guard_from_target(t)
-        assert inp.lead_asset_quality == pytest.approx(0.20)
-
-    def test_lead_asset_quality_ok_maps_to_065(self):
-        t = _target(lead_asset_quality_low=False)
-        inp = distress_guard_from_target(t)
-        assert inp.lead_asset_quality == pytest.approx(0.65)
-
-    def test_platform_validated_maps_to_080(self):
-        t = _target(platform_validated=True)
-        inp = distress_guard_from_target(t)
-        assert inp.platform_validation == pytest.approx(0.80)
-
-    def test_platform_company_not_validated_maps_to_040(self):
-        t = _target(is_platform_company=True, platform_validated=False)
-        inp = distress_guard_from_target(t)
-        assert inp.platform_validation == pytest.approx(0.40)
-
-    def test_no_platform_maps_to_010(self):
-        t = _target(is_platform_company=False, platform_validated=False)
-        inp = distress_guard_from_target(t)
-        assert inp.platform_validation == pytest.approx(0.10)
-
     def test_float_financing_pressure_overrides_bool(self):
         t = _target(financing_pressure_high=False, financing_pressure=0.90)
         inp = distress_guard_from_target(t)
         assert inp.financing_pressure == pytest.approx(0.90)
 
-    def test_float_lead_asset_quality_overrides_bool(self):
-        t = _target(lead_asset_quality_low=True, lead_asset_quality=0.85)
+    def test_runway_inferred_from_financing_pressure(self):
+        t = _target(financing_pressure=0.80)
         inp = distress_guard_from_target(t)
-        assert inp.lead_asset_quality == pytest.approx(0.85)
+        assert inp.runway_pressure == pytest.approx(0.72, abs=0.01)  # 0.80 * 0.90
 
-    def test_salvageability_components_passed_when_present(self):
+    def test_quality_fields_not_populated_by_adapter(self):
+        """Adapter no longer maps quality signals — they are None in the input."""
         t = _target(
-            failed_trial_reason="underpowered",
-            subgroup_signal=True,
+            lead_asset_quality_low=True,
+            platform_validated=True,
+            is_platform_company=True,
         )
         inp = distress_guard_from_target(t)
-        assert inp.salvageability_components is not None
-        assert inp.salvageability_components.failed_trial_reason == "underpowered"
-        assert inp.salvageability_components.subgroup_signal is True
+        assert inp.lead_asset_quality is None
+        assert inp.platform_validation is None
 
-    def test_no_salvageability_signals_gives_no_components(self):
-        t = _target()
+    def test_salvageability_components_not_populated_by_adapter(self):
+        """Adapter no longer maps salvageability components."""
+        t = _target(failed_trial_reason="underpowered", subgroup_signal=True)
         inp = distress_guard_from_target(t)
         assert inp.salvageability_components is None
 
-
-# ---------------------------------------------------------------------------
-# Section 6 — Float field override paths through evaluate_layer0
-# ---------------------------------------------------------------------------
-
-class TestFloatFieldOverride:
-    def test_high_float_pressure_overrides_boolean_false(self):
-        """float financing_pressure=0.90 triggers guard even with bool flag False."""
-        t = _target(
-            financing_pressure_high=False,  # old bool says not distressed
-            financing_pressure=0.90,        # new float says severe distress
-            runway_pressure=0.85,
-            valuation_distress=0.80,
-            capital_market_access_risk=0.75,
-            near_term_funding_need=0.85,
-            lead_asset_quality=0.10,
-            lead_asset_quality_low=False,   # old bool says ok
-            platform_validation_score=0.05,
-            clinical_salvageability_score=0.05,
-            strategic_scarcity=0.05,
-            asset_control_cleanliness_score=0.05,
+    def test_high_pressure_bool_triggers_high_distress(self):
+        t = _target(financing_pressure_high=True)
+        r = compute_distress_guard(distress_guard_from_target(t))
+        assert r.distress_classification in (
+            DistressClassification.HIGH_DISTRESS,
+            DistressClassification.SEVERE_DISTRESS,
+            DistressClassification.MILD_PRESSURE,  # fp=0.75 → pressure=0.63 → HIGH
         )
-        r = evaluate_layer0(t)
-        assert r.distress_guard.guard_active is True
-        assert r.distress_guard.mna_probability_cap is not None
+        assert r.distress_pressure_score > 0.35
 
-    def test_route_to_appears_in_layer0_notes(self):
-        """When guard routes to distressed_optionality_model, note is added."""
+
+# ---------------------------------------------------------------------------
+# Section 7 — Layer 0 Integration
+# ---------------------------------------------------------------------------
+
+class TestLayer0Integration:
+    def test_high_pressure_guard_active_in_layer0(self):
+        """High financial pressure → guard_active=True in distress_guard."""
         t = _target(
             financing_pressure=0.90,
             runway_pressure=0.85,
             valuation_distress=0.80,
             capital_market_access_risk=0.75,
             near_term_funding_need=0.85,
-            lead_asset_quality=0.85,
-            platform_validation_score=0.80,
-            clinical_salvageability_score=0.75,
-            strategic_scarcity=0.80,
-            asset_control_cleanliness_score=0.80,
         )
         r = evaluate_layer0(t)
-        if r.distress_guard.route_to is not None:
-            assert any("distress_route" in n for n in r.layer0_notes)
+        assert r.distress_guard.guard_active is True
 
+    def test_no_distress_gives_not_distressed_in_layer0(self):
+        t = _target(financing_pressure_high=False)
+        r = evaluate_layer0(t)
+        assert r.distress_guard.distress_classification == DistressClassification.NOT_DISTRESSED
+        assert r.distress_guard.guard_active is False
 
-# ---------------------------------------------------------------------------
-# Section 7 — Hard red flag scenarios
-# ---------------------------------------------------------------------------
+    def test_0f_does_not_set_score_cap_in_layer0(self):
+        """High distress must NOT set Layer0Result.score_cap — 0F is pressure-only."""
+        t = _target(financing_pressure_high=True)
+        r = evaluate_layer0(t)
+        # score_cap may only come from 0A exclusion engine (SEVERE_CAP gates)
+        # A plain therapeutics target with no exclusion triggers → score_cap=None
+        assert r.score_cap is None
 
-class TestHardRedFlags:
-    def test_fatal_safety_under_severe_distress_broken(self):
-        """Fatal irreversible safety + severe distress = broken_distress_case."""
-        comp = ClinicalSalvageabilityInput(
-            failed_trial_reason="fatal_safety",
-            safety_reversibility=False,
-        )
-        r = compute_distress_guard(_inp(
+    def test_0f_does_not_set_score_cap_even_with_severe_distress(self):
+        """Even severe distress must not create a score_cap at Layer 0."""
+        t = _target(
             financing_pressure=1.0,
             runway_pressure=1.0,
             valuation_distress=1.0,
-            capital_market_access_risk=0.90,
+            capital_market_access_risk=1.0,
             near_term_funding_need=1.0,
-            lead_asset_quality=0.10,
-            platform_validation=0.05,
-            strategic_scarcity=0.05,
-            asset_control_cleanliness=0.05,
-            salvageability_components=comp,
-        ))
-        assert r.guardrail_applied == DistressGuardTreatment.CAP_015
-        assert r.clinical_salvageability_score < 0.10
-
-    def test_mechanism_invalidated_under_high_distress(self):
-        """Mechanism invalidated + high distress + no platform = value trap."""
-        comp = ClinicalSalvageabilityInput(failed_trial_reason="mechanism_invalidated")
-        r = compute_distress_guard(_high_pressure_inp(
-            lead_asset_quality=0.10,
-            platform_validation=0.05,
-            strategic_scarcity=0.10,
-            asset_control_cleanliness=0.20,
-            salvageability_components=comp,
-        ))
-        assert r.guard_active is True
-        assert r.mna_probability_cap is not None
-        assert r.mna_probability_cap <= 0.25
-
-    def test_underpowered_trial_with_viable_asset_may_route(self):
-        """Underpowered failure but strong asset quality → may route, not hard cap."""
-        comp = ClinicalSalvageabilityInput(
-            failed_trial_reason="underpowered",
-            subgroup_signal=True,
-            dose_response_exists=True,
-            regulatory_path_remaining=True,
-            mechanism_still_valid=True,
         )
-        r = compute_distress_guard(_high_pressure_inp(
-            lead_asset_quality=0.75,
-            platform_validation=0.60,
-            strategic_scarcity=0.70,
-            asset_control_cleanliness=0.75,
-            salvageability_components=comp,
-        ))
-        # With salvageable asset and high quality, should route or flag — not hard cap
-        assert r.guardrail_applied in (
-            DistressGuardTreatment.ROUTE_DISTRESSED_OPTIONALITY,
-            DistressGuardTreatment.FLAG_ONLY,
+        r = evaluate_layer0(t)
+        assert r.score_cap is None
+
+    def test_no_distress_guard_cap_in_layer0_notes(self):
+        """distress_guard_cap:* notes must no longer appear — 0F doesn't cap."""
+        t = _target(financing_pressure_high=True)
+        r = evaluate_layer0(t)
+        assert not any("distress_guard_cap" in n for n in r.layer0_notes)
+
+    def test_no_distress_route_in_layer0_notes(self):
+        """distress_route:* notes must no longer appear — routing owned by 0B/Layer 4."""
+        t = _target(
+            financing_pressure=0.90,
+            runway_pressure=0.85,
+            valuation_distress=0.80,
+            capital_market_access_risk=0.75,
+            near_term_funding_need=0.85,
         )
-        assert r.mna_probability_cap is None
+        r = evaluate_layer0(t)
+        assert not any("distress_route" in n for n in r.layer0_notes)
+
+    def test_high_distress_produces_pressure_note(self):
+        """High distress pressure produces an informational note in layer0_notes."""
+        t = _target(
+            financing_pressure=0.90,
+            runway_pressure=0.85,
+            valuation_distress=0.80,
+            capital_market_access_risk=0.75,
+            near_term_funding_need=0.85,
+        )
+        r = evaluate_layer0(t)
+        assert any("distress_pressure" in n for n in r.layer0_notes)
+
+    def test_mna_probability_cap_always_none_in_distress_guard(self):
+        """distress_guard.mna_probability_cap is always None regardless of pressure."""
+        t = _target(financing_pressure_high=True)
+        r = evaluate_layer0(t)
+        assert r.distress_guard.mna_probability_cap is None
+
+    def test_route_to_always_none_in_distress_guard(self):
+        """distress_guard.route_to is always None."""
+        t = _target(
+            financing_pressure=0.90,
+            runway_pressure=0.85,
+            valuation_distress=0.80,
+        )
+        r = evaluate_layer0(t)
+        assert r.distress_guard.route_to is None

@@ -455,7 +455,14 @@ class TestConfidenceAndCaps:
 
 class TestScoreDeltaMap:
     def test_all_features_are_valid(self):
-        valid = {"asset_quality", "seller_willingness", "acquirer_fit", "catalyst_timing"}
+        # acquirer_fit kept for legacy; new acquirer keys added in Phase 1 v2
+        valid = {
+            "asset_quality", "seller_willingness", "catalyst_timing",
+            "acquirer_fit",           # legacy composite
+            "acquirer_appetite",      # v2: willingness to do deals
+            "integration_capacity",   # v2: capacity to absorb a deal
+            "acquirer_urgency",       # v2: pipeline gap / patent cliff pressure
+        }
         for event_type, deltas in SCORE_DELTA_MAP.items():
             for feature in deltas:
                 assert feature in valid, (

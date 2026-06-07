@@ -11,9 +11,9 @@ import pytest
 
 os.environ.setdefault("DATABASE_URL", "sqlite:///:memory:")
 
-from fastapi.testclient import TestClient  # noqa: E402
 import sqlalchemy as sa  # noqa: E402
 
+from tests.asgi_client import SyncASGIClient  # noqa: E402
 from bve.persistence.db import Base  # noqa: E402
 from bve.persistence.models import (  # noqa: E402
     Asset,
@@ -72,8 +72,7 @@ def client():
     db.commit()
     db.close()
 
-    with TestClient(app) as c:
-        yield c
+    yield SyncASGIClient(app)
 
     app.dependency_overrides.clear()
     Base.metadata.drop_all(bind=test_engine)

@@ -61,8 +61,6 @@ from bve.config.constants import (
 
 if TYPE_CHECKING:
     from bve.models.pos_model import (
-        BiomarkerSelectionStrength,
-        MoAExceptionFlag,
         POSAdjusters,
     )
 

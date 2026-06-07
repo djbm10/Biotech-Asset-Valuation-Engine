@@ -109,7 +109,7 @@ def _compute_strategic_fit_with_urgency(
 
 def _gate(score, *, fp=0.10, eda=0.10, activist=0.10,
           catalyst_days=None, vd=0.20, dr=0.40):
-    result_score, reason_codes = _apply_transaction_likelihood_gate(
+    result_score, reason_codes, _ = _apply_transaction_likelihood_gate(
         score,
         financing_pressure=fp,
         external_deal_activity=eda,

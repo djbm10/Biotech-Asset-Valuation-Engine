@@ -187,6 +187,7 @@ class CompetitiveLandscapeAgent:
         risk = self._risk_score(
             phase=phase,
             status=status,
+            relationship=relationship,
             mechanism_similarity_score=mechanism_similarity_score,
             distance_to_market=distance_to_market,
         )
@@ -211,6 +212,7 @@ class CompetitiveLandscapeAgent:
         *,
         phase: Optional[str],
         status: Optional[str],
+        relationship: str,
         mechanism_similarity_score: float,
         distance_to_market: float,
     ) -> float:

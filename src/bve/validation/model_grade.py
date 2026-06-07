@@ -1,4 +1,18 @@
-"""Model validation grades and grade promotion logic."""
+"""Model validation grades, grade promotion logic, and hard output disclaimers.
+
+Every report that contains model outputs MUST display the disclaimer returned
+by ``validation_disclaimer()``.  The disclaimer is specific to the validation
+status and cannot be suppressed without explicitly passing
+``suppress_disclaimer=True`` (reserved for machine-readable JSON payloads only).
+
+Canonical validation status hierarchy (weakest → strongest):
+
+    UNVALIDATED → DIRECTIONAL_ONLY → RESEARCH_GRADE →
+    SCREENING_GRADE → INSTITUTIONAL_GRADE
+
+These map onto the internal ``ModelGrade`` enum which has one additional tier
+(IC_REVIEW_GRADE / DECISION_GRADE) used by the M&A and portfolio layers.
+"""
 
 from __future__ import annotations
 
@@ -6,6 +20,103 @@ from datetime import date
 from enum import Enum
 
 from pydantic import BaseModel, Field
+
+
+# ---------------------------------------------------------------------------
+# Plan-aligned validation status (used on every public-facing output)
+# ---------------------------------------------------------------------------
+
+class BacktestValidationStatus(str, Enum):
+    """Hard validation labels displayed on every backtest report.
+
+    Acceptance criteria before promotion:
+      DIRECTIONAL_ONLY  — positive signal observed; N too small for significance
+      RESEARCH_GRADE    — POS: N≥99, AUC≥0.65, oncology-only; Replay: N≥50, p<0.20
+      SCREENING_GRADE   — POS: N≥300, multi-TA, AUC≥0.70, ECE≤0.08; Replay: N≥150, p<0.10
+      INSTITUTIONAL_GRADE — all above + walk-forward + cost-adjusted + live shadow book
+    """
+    UNVALIDATED = "unvalidated"
+    DIRECTIONAL_ONLY = "directional_only"
+    RESEARCH_GRADE = "research_grade"
+    SCREENING_GRADE = "screening_grade"
+    INSTITUTIONAL_GRADE = "institutional_grade"
+
+
+# Current validated status for each model component
+CURRENT_STATUS: dict[str, BacktestValidationStatus] = {
+    "pos_model_oncology":     BacktestValidationStatus.RESEARCH_GRADE,
+    "pos_model_non_oncology": BacktestValidationStatus.UNVALIDATED,
+    "historical_replay":      BacktestValidationStatus.DIRECTIONAL_ONLY,
+    "trading_signal":         BacktestValidationStatus.UNVALIDATED,
+    "mna_probability":        BacktestValidationStatus.UNVALIDATED,
+    "acquisition_probability":BacktestValidationStatus.UNVALIDATED,
+}
+
+_STATUS_DISCLAIMER: dict[BacktestValidationStatus, str] = {
+    BacktestValidationStatus.UNVALIDATED: (
+        "⛔  UNVALIDATED — This output has not been backtested. "
+        "Do not use for trade sizing, acquisition probability, or portfolio decisions."
+    ),
+    BacktestValidationStatus.DIRECTIONAL_ONLY: (
+        "⚠   DIRECTIONAL ONLY — This backtest has not demonstrated statistically significant alpha. "
+        "N is too small to distinguish signal from noise. "
+        "Use for research and screening only. Not suitable for capital deployment."
+    ),
+    BacktestValidationStatus.RESEARCH_GRADE: (
+        "ℹ   RESEARCH GRADE — This output has directional validation (oncology only, N=99). "
+        "Brier=0.2127, AUC=0.74. "
+        "Not calibrated across therapeutic areas. Not suitable for trade sizing or acquisition probability."
+    ),
+    BacktestValidationStatus.SCREENING_GRADE: (
+        "✓   SCREENING GRADE — Multi-TA validated, N≥300, AUC≥0.70, ECE≤0.08. "
+        "Suitable for screening and IC discussion. Not decision-grade."
+    ),
+    BacktestValidationStatus.INSTITUTIONAL_GRADE: (
+        "✓✓  INSTITUTIONAL GRADE — Walk-forward validated, cost-adjusted, live shadow book confirmed. "
+        "Suitable for IC review with live paper track record."
+    ),
+}
+
+_FORBIDDEN_CLAIMS: dict[BacktestValidationStatus, list[str]] = {
+    BacktestValidationStatus.UNVALIDATED: [
+        "validated alpha", "institutional-grade", "tradeable edge",
+        "acquisition probability", "decision-grade",
+    ],
+    BacktestValidationStatus.DIRECTIONAL_ONLY: [
+        "validated alpha", "institutional-grade", "tradeable edge",
+        "acquisition probability", "decision-grade",
+    ],
+    BacktestValidationStatus.RESEARCH_GRADE: [
+        "institutional-grade", "tradeable edge", "acquisition probability",
+    ],
+    BacktestValidationStatus.SCREENING_GRADE: [
+        "institutional-grade", "tradeable edge",
+    ],
+    BacktestValidationStatus.INSTITUTIONAL_GRADE: [],
+}
+
+
+def validation_disclaimer(
+    status: BacktestValidationStatus,
+    *,
+    width: int = 72,
+    suppress_disclaimer: bool = False,
+) -> str:
+    """Return the hard disclaimer string for a given validation status.
+
+    This must be prepended to every human-readable backtest report.
+    Machine-readable JSON payloads may pass suppress_disclaimer=True
+    and embed the status field directly.
+    """
+    if suppress_disclaimer:
+        return ""
+    border = "─" * width
+    return f"\n{border}\n{_STATUS_DISCLAIMER[status]}\n{border}\n"
+
+
+def forbidden_claims(status: BacktestValidationStatus) -> list[str]:
+    """Return the list of claims forbidden at this validation level."""
+    return _FORBIDDEN_CLAIMS.get(status, [])
 
 
 class ModelGrade(str, Enum):

@@ -27,6 +27,8 @@ from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from typing import Optional
 
+from bve.ingestion.model_versions import CLASSIFIER_VERSION, DELTA_MAP_VERSION
+
 # ---------------------------------------------------------------------------
 # Event type constants
 # ---------------------------------------------------------------------------
@@ -86,7 +88,9 @@ SCORE_DELTA_MAP: dict[str, dict[str, float]] = {
     TRIAL_START:                 {"asset_quality": +0.01},
     TRIAL_DELAY:                 {"asset_quality": -0.03, "seller_willingness": +0.02},
     TRIAL_DISCONTINUATION:      {"asset_quality": -0.20, "seller_willingness": +0.10},
-    FDA_APPROVAL:                {"asset_quality": +0.15},
+    # Approval: positive for quality, but catalyst has passed (timing down)
+    # and seller may feel less pressure to sell now (willingness slightly down).
+    FDA_APPROVAL:                {"asset_quality": +0.12, "seller_willingness": -0.05, "catalyst_timing": -0.05},
     CRL:                         {"asset_quality": -0.25, "seller_willingness": +0.10},
     BTD:                         {"asset_quality": +0.08},
     FAST_TRACK:                  {"asset_quality": +0.03},
@@ -102,18 +106,22 @@ SCORE_DELTA_MAP: dict[str, dict[str, float]] = {
     LICENSING_DEAL:              {"asset_quality": +0.04, "seller_willingness": -0.05},
     PARTNERSHIP:                 {"asset_quality": +0.02},
     ASSET_SALE:                  {"seller_willingness": +0.08},
-    ACQUIRER_BD_APPETITE:        {"acquirer_fit": +0.03},
-    ACQUIRER_LARGE_DEAL:         {"acquirer_fit": -0.05},          # digesting, less capacity
-    PATENT_CLIFF:                {"acquirer_fit": +0.06},          # creates pipeline gap
+    # Acquirer signals — split into appetite, capacity, urgency (not overloaded acquirer_fit)
+    ACQUIRER_BD_APPETITE:        {"acquirer_appetite": +0.05},
+    ACQUIRER_LARGE_DEAL:         {"acquirer_appetite": -0.05, "integration_capacity": -0.08},
+    PATENT_CLIFF:                {"acquirer_urgency": +0.06, "acquirer_appetite": +0.03},
     UNCLASSIFIED:                {},
 }
 
 # Maximum absolute delta a single event may apply to any one feature.
 MAX_SINGLE_EVENT_DELTA: dict[str, float] = {
-    "asset_quality":      0.25,
-    "seller_willingness": 0.30,
-    "acquirer_fit":       0.10,
-    "catalyst_timing":    0.10,
+    "asset_quality":       0.25,
+    "seller_willingness":  0.30,
+    "acquirer_fit":        0.10,   # legacy key — kept for backward compat
+    "acquirer_appetite":   0.10,
+    "integration_capacity": 0.12,
+    "acquirer_urgency":    0.10,
+    "catalyst_timing":     0.10,
 }
 
 # Source-type multipliers applied to base confidence.
@@ -132,6 +140,49 @@ SOURCE_CONFIDENCE_WEIGHTS: dict[str, float] = {
 # ---------------------------------------------------------------------------
 
 
+# Severity ranking — higher number = this event should be the primary label.
+# Clinical failures and CRLs always dominate; routine signals rank lowest.
+SEVERITY_ORDER: dict[str, int] = {
+    # Clinical / regulatory failures
+    CLINICAL_NEGATIVE_PH3:    100,
+    CRL:                       99,
+    TRIAL_DISCONTINUATION:     95,
+    CLINICAL_NEGATIVE_PH2:     85,
+    ADCOM_NEGATIVE:            82,
+    CLINICAL_NEGATIVE_PH1:     75,
+    CLINICAL_NEGATIVE:         70,
+    # Positive regulatory / clinical milestones
+    FDA_APPROVAL:              92,
+    ADCOM_POSITIVE:            83,
+    CLINICAL_POSITIVE_PH3:     80,
+    BTD:                       65,
+    NDA_ACCEPTED:              62,
+    CLINICAL_POSITIVE_PH2:     60,
+    CLINICAL_POSITIVE:         55,
+    CLINICAL_POSITIVE_PH1:     50,
+    # Mixed
+    CLINICAL_MIXED:            45,
+    # Strategic / financial
+    STRATEGIC_REVIEW:          55,
+    CASH_LOW:                  50,
+    TRIAL_DELAY:               48,
+    RESTRUCTURING:             45,
+    ASSET_SALE:                40,
+    PATENT_CLIFF:              42,
+    PDUFA:                     35,
+    ACQUIRER_LARGE_DEAL:       35,
+    LICENSING_DEAL:            38,
+    FAST_TRACK:                32,
+    PARTNERSHIP:               32,
+    EQUITY_RAISE:              30,
+    ORPHAN:                    30,
+    ACQUIRER_BD_APPETITE:      28,
+    TRIAL_START:               25,
+    # Fallback
+    UNCLASSIFIED:               0,
+}
+
+
 @dataclass
 class EventClassification:
     ticker: str
@@ -146,6 +197,33 @@ class EventClassification:
         default_factory=lambda: datetime.now(timezone.utc).isoformat()
     )
     match_reasons: list[str] = field(default_factory=list)
+    secondary_events: list[str] = field(default_factory=list)  # non-primary event types
+
+
+@dataclass
+class MultiLabelClassification:
+    """
+    Multi-label classification result.
+
+    primary_event is the highest-severity match.
+    secondary_events are all other matched event types.
+    combined_score_deltas merges deltas from all events using
+    correlation-aware aggregation (not flat 0.5x secondary discount).
+    """
+    ticker: str
+    primary_event: str
+    secondary_events: list[str]
+    direction: str
+    phase_detected: Optional[str]
+    confidence: float
+    combined_score_deltas: dict[str, float]
+    source_type: str
+    raw_text: str
+    classified_at: str
+    match_reasons: list[str]
+    severity_score: int
+    classifier_version: str = CLASSIFIER_VERSION
+    delta_map_version: str = DELTA_MAP_VERSION
 
 
 # ---------------------------------------------------------------------------
@@ -164,12 +242,22 @@ _HEDGE_PATTERNS: list[re.Pattern] = [
     re.compile(p, re.I)
     for p in [
         r"\bnot statistically significant\b",
-        r"\bdid not\b",
-        r"\bfailed\b",
+        # NOTE: "did not" removed — too broad; catches "did not observe toxicities" (positive safety).
+        # Specific negative outcomes captured by _CLINICAL_NEG patterns instead.
         r"\btend.{0,15}not significant\b",
         r"\bnumerically (better|improved|lower|higher).{0,30}not significant\b",
         r"\bmay not\b",
         r"\bcould not\b",
+    ]
+]
+
+# Positive safety language that should NOT be treated as hedging.
+_POSITIVE_SAFETY_PATTERNS: list[re.Pattern] = [
+    re.compile(p, re.I)
+    for p in [
+        r"\bdid not observe\b.{0,60}\b(dose.limiting toxicities|DLTs|serious adverse|SAEs|toxicity signals)\b",
+        r"\bdid not identify\b.{0,40}\b(safety concerns|toxicity signals|safety signals)\b",
+        r"\bno (dose.limiting toxicities|DLTs|serious adverse events|SAEs|unexpected safety)\b",
     ]
 ]
 
@@ -309,7 +397,94 @@ def _detect_phase(text: str) -> Optional[str]:
 
 
 def _has_hedging(text: str) -> bool:
+    """
+    Return True if the text contains hedged/ambiguous language.
+
+    Only applies to contexts where we might otherwise classify positive.
+    Positive safety language (e.g. 'did not observe toxicities') is
+    explicitly excluded to avoid false negatives.
+    """
+    if any(p.search(text) for p in _POSITIVE_SAFETY_PATTERNS):
+        return False
     return any(p.search(text) for p in _HEDGE_PATTERNS)
+
+
+_POSITIVE_CLINICAL_TYPES: frozenset[str] = frozenset({
+    CLINICAL_POSITIVE_PH3, CLINICAL_POSITIVE_PH2, CLINICAL_POSITIVE_PH1, CLINICAL_POSITIVE,
+})
+
+_NEGATIVE_CLINICAL_TYPES: frozenset[str] = frozenset({
+    CLINICAL_NEGATIVE_PH3, CLINICAL_NEGATIVE_PH2, CLINICAL_NEGATIVE_PH1, CLINICAL_NEGATIVE,
+})
+
+
+def _collect_all_events(
+    text: str, phase: Optional[str]
+) -> list[tuple[str, str, list[str]]]:
+    """
+    Collect ALL matching (event_type, direction, match_reasons) without priority filtering.
+
+    Clinical events are mutually exclusive (the highest-severity clinical result wins).
+    Regulatory, Financial, and Acquirer events can co-occur.
+    Results are deduplicated by event_type.
+    """
+    matched: dict[str, tuple[str, list[str]]] = {}  # event_type → (direction, reasons)
+
+    # Clinical: pick the single highest-priority clinical match
+    clin_type, clin_dir, clin_reasons = _classify_clinical(text, phase)
+    if clin_type != UNCLASSIFIED:
+        matched[clin_type] = (clin_dir, clin_reasons)
+
+    # Regulatory: all matching types
+    for pattern, event_type in _REGULATORY:
+        if pattern.search(text) and event_type not in matched:
+            matched[event_type] = (_DIRECTION_MAP.get(event_type, "neutral"), [event_type])
+
+    # Financial / BD: all matching types
+    for pattern, event_type in _FINANCIAL:
+        if pattern.search(text) and event_type not in matched:
+            matched[event_type] = (_DIRECTION_MAP.get(event_type, "neutral"), [event_type])
+
+    # Acquirer: all matching types
+    for pattern, event_type in _ACQUIRER:
+        if pattern.search(text) and event_type not in matched:
+            matched[event_type] = (_DIRECTION_MAP.get(event_type, "neutral"), [event_type])
+
+    return [(et, dir_, reasons) for et, (dir_, reasons) in matched.items()]
+
+
+# ---------------------------------------------------------------------------
+# Correlation-aware delta merging
+# ---------------------------------------------------------------------------
+
+# Per-pair correlation discount for same-sign deltas on the same feature.
+# Key: (event_type_a, event_type_b, feature) — order-insensitive lookup.
+# Value: discount applied to the SMALLER delta before adding to the larger.
+#   combined = max(|d1|, |d2|) + DISCOUNT * min(|d1|, |d2|)
+# Lower discount → signals treated as more independent.
+# Higher discount → signals treated as highly correlated (less additive).
+CORRELATION_DISCOUNT_BY_PAIR: dict[tuple[str, str, str], float] = {
+    # Phase 3 failure and strategic review are highly correlated seller signals
+    (CLINICAL_NEGATIVE_PH3,  STRATEGIC_REVIEW,    "seller_willingness"): 0.25,
+    (CLINICAL_NEGATIVE_PH2,  STRATEGIC_REVIEW,    "seller_willingness"): 0.25,
+    (TRIAL_DISCONTINUATION,  STRATEGIC_REVIEW,    "seller_willingness"): 0.25,
+    # Cash low + strategic review: moderate correlation
+    (CASH_LOW,               STRATEGIC_REVIEW,    "seller_willingness"): 0.50,
+    (CASH_LOW,               RESTRUCTURING,       "seller_willingness"): 0.50,
+    # Equity raise partially offsets cash low — but they're genuinely different signals
+    (EQUITY_RAISE,           CASH_LOW,            "seller_willingness"): 0.75,
+    # Two clinical signals for the same company — distinct events, less correlated
+    (CLINICAL_NEGATIVE_PH3,  TRIAL_DISCONTINUATION, "asset_quality"):   0.30,
+}
+
+DEFAULT_CORRELATION_DISCOUNT = 0.25  # applied to unlisted pairs
+
+
+def _get_correlation_discount(evt_a: str, evt_b: str, feature: str) -> float:
+    """Look up correlation discount for an event pair + feature (order-insensitive)."""
+    key1 = (evt_a, evt_b, feature)
+    key2 = (evt_b, evt_a, feature)
+    return CORRELATION_DISCOUNT_BY_PAIR.get(key1, CORRELATION_DISCOUNT_BY_PAIR.get(key2, DEFAULT_CORRELATION_DISCOUNT))
 
 
 def _apply_caps(raw_deltas: dict[str, float]) -> dict[str, float]:
@@ -319,6 +494,66 @@ def _apply_caps(raw_deltas: dict[str, float]) -> dict[str, float]:
         cap = MAX_SINGLE_EVENT_DELTA.get(feature, 0.20)
         result[feature] = max(-cap, min(cap, delta))
     return result
+
+
+def _merge_feature_deltas(
+    events: list[tuple[str, dict[str, float]]],  # (event_type, raw_deltas_for_this_event)
+) -> dict[str, float]:
+    """
+    Merge feature deltas from multiple events using correlation-aware aggregation.
+
+    For each feature, collect all (event_type, delta) contributions.
+    Same-sign contributions use the formula:
+        combined = max(|d|) + CORRELATION_DISCOUNT * min(|d|)
+
+    The discount reflects that same-directional signals are often correlated.
+    Opposite-sign contributions are summed directly (genuine counterforces).
+
+    Result is passed through _apply_caps.
+
+    Example:
+        clinical_negative_ph3 + strategic_review → seller_willingness:
+            d1 = +0.08 (clinical_negative_ph3)
+            d2 = +0.20 (strategic_review)
+            discount = 0.25 (from CORRELATION_DISCOUNT_BY_PAIR)
+            combined = 0.20 + 0.25 * 0.08 = 0.22
+    """
+    # Gather per-feature: list of (event_type, signed_delta)
+    by_feature: dict[str, list[tuple[str, float]]] = {}
+    for evt_type, deltas in events:
+        for feature, delta in deltas.items():
+            by_feature.setdefault(feature, []).append((evt_type, delta))
+
+    merged: dict[str, float] = {}
+    for feature, contributions in by_feature.items():
+        if len(contributions) == 1:
+            merged[feature] = contributions[0][1]
+            continue
+
+        # Split by sign
+        positives = [(et, d) for et, d in contributions if d > 0]
+        negatives = [(et, d) for et, d in contributions if d < 0]
+
+        def _combine_same_sign(contribs: list[tuple[str, float]]) -> float:
+            """Combine same-sign contributions with pair-aware discount."""
+            if not contribs:
+                return 0.0
+            if len(contribs) == 1:
+                return contribs[0][1]
+            # Sort by abs value descending
+            sorted_c = sorted(contribs, key=lambda x: abs(x[1]), reverse=True)
+            result = sorted_c[0][1]
+            for i in range(1, len(sorted_c)):
+                prev_et = sorted_c[i - 1][0]
+                cur_et = sorted_c[i][0]
+                discount = _get_correlation_discount(prev_et, cur_et, feature)
+                result += sorted_c[i][1] * discount
+            return result
+
+        combined = _combine_same_sign(positives) + _combine_same_sign(negatives)
+        merged[feature] = combined
+
+    return _apply_caps(merged)
 
 
 def _classify_clinical(
@@ -358,120 +593,136 @@ def _classify_clinical(
 # ---------------------------------------------------------------------------
 
 
+def classify_headline_multi(
+    text: str,
+    ticker: str,
+    source_type: str = "news_article",
+) -> MultiLabelClassification:
+    """
+    Classify a headline into a multi-label result.
+
+    All matching event types are collected; the highest-severity event becomes
+    primary_event. Secondary events contribute at 0.5× weight to the combined
+    score deltas.
+
+    Severity hierarchy (partial, from SEVERITY_ORDER):
+      Clinical failure / CRL  >  FDA approval / Ph3 positive  >
+      Strategic review / financing  >  Routine signals
+
+    Hedging language reduces confidence ONLY for positive clinical primaries —
+    not for negative events (which are clear bad outcomes) and not for phrases
+    like 'did not observe toxicities' (positive safety signal).
+
+    Parameters
+    ----------
+    text:       Headline or short summary.
+    ticker:     Company ticker for attribution.
+    source_type: One of the SOURCE_CONFIDENCE_WEIGHTS keys.
+    """
+    text_norm = text.strip()
+    phase = _detect_phase(text_norm)
+    base_conf = SOURCE_CONFIDENCE_WEIGHTS.get(source_type, 0.70)
+    hedge = _has_hedging(text_norm)
+    classified_at = datetime.now(timezone.utc).isoformat()
+
+    all_events = _collect_all_events(text_norm, phase)
+
+    if not all_events:
+        return MultiLabelClassification(
+            ticker=ticker,
+            primary_event=UNCLASSIFIED,
+            secondary_events=[],
+            direction="unknown",
+            phase_detected=phase,
+            confidence=0.0,
+            combined_score_deltas={},
+            source_type=source_type,
+            raw_text=text_norm,
+            classified_at=classified_at,
+            match_reasons=[],
+            severity_score=0,
+        )
+
+    # Sort by severity descending — clinical failures dominate
+    all_events.sort(key=lambda x: SEVERITY_ORDER.get(x[0], 0), reverse=True)
+
+    primary_type, primary_dir, primary_reasons = all_events[0]
+    secondary_types = [e[0] for e in all_events[1:]]
+
+    # Confidence: hedge applies to positive clinical primaries AND mixed results.
+    # (Negative clinical events are clear bad outcomes; hedging doesn't soften them.)
+    _HEDGE_ELIGIBLE = _POSITIVE_CLINICAL_TYPES | {CLINICAL_MIXED}
+    conf = base_conf
+    if hedge and primary_type in _HEDGE_ELIGIBLE:
+        conf *= 0.75
+    # Multi-signal agreement: modest boost
+    if len(all_events) >= 2:
+        conf = min(1.0, conf * 1.02)
+    # Multi-reason boost for clinical events
+    if primary_type in _POSITIVE_CLINICAL_TYPES and len(primary_reasons) >= 2:
+        conf = min(1.0, conf * 1.05)
+    conf = round(conf, 3)
+
+    # Build per-event delta contributions, scaling clinical events by confidence
+    _ALL_CLINICAL = _POSITIVE_CLINICAL_TYPES | _NEGATIVE_CLINICAL_TYPES | {CLINICAL_MIXED}
+    event_deltas: list[tuple[str, dict[str, float]]] = []
+    for evt_type, _, _ in all_events:
+        raw = SCORE_DELTA_MAP.get(evt_type, {})
+        if evt_type in _ALL_CLINICAL:
+            scaled = {k: v * conf for k, v in raw.items()}
+        else:
+            scaled = dict(raw)
+        event_deltas.append((evt_type, scaled))
+
+    # Correlation-aware merge — replaces flat 0.5x secondary discount
+    combined = _merge_feature_deltas(event_deltas)
+
+    return MultiLabelClassification(
+        ticker=ticker,
+        primary_event=primary_type,
+        secondary_events=secondary_types,
+        direction=primary_dir,
+        phase_detected=phase,
+        confidence=conf,
+        combined_score_deltas=combined,
+        source_type=source_type,
+        raw_text=text_norm,
+        classified_at=classified_at,
+        match_reasons=primary_reasons,
+        severity_score=SEVERITY_ORDER.get(primary_type, 0),
+    )
+
+
 def classify_headline(
     text: str,
     ticker: str,
     source_type: str = "news_article",
 ) -> EventClassification:
     """
-    Classify a biotech headline or summary into a structured event.
+    Classify a biotech headline into a structured event.
 
-    Priority order:
-      1. Regulatory (most specific)
-      2. Financial / BD
-      3. Acquirer signals
-      4. Clinical (most general — matched last to avoid false positives)
+    Internally uses multi-label classification; returns the primary (highest-severity)
+    event as an EventClassification for backward compatibility. Combined score deltas
+    from all matched events are included in score_deltas. Secondary event types are
+    available in secondary_events.
 
     Parameters
     ----------
-    text:
-        Headline or short summary.
-    ticker:
-        Company ticker for attribution.
-    source_type:
-        One of the SOURCE_CONFIDENCE_WEIGHTS keys.
-
-    Returns
-    -------
-    EventClassification with event_type, direction, score_deltas, confidence.
+    text:       Headline or short summary.
+    ticker:     Company ticker for attribution.
+    source_type: One of the SOURCE_CONFIDENCE_WEIGHTS keys.
     """
-    text_norm = text.strip()
-    phase = _detect_phase(text_norm)
-    base_conf = SOURCE_CONFIDENCE_WEIGHTS.get(source_type, 0.70)
-    hedge = _has_hedging(text_norm)
-
-    # ── 1. Regulatory ──────────────────────────────────────────────────────
-    for pattern, event_type in _REGULATORY:
-        if pattern.search(text_norm):
-            conf = round(base_conf * (0.85 if hedge else 1.0), 3)
-            raw = dict(SCORE_DELTA_MAP.get(event_type, {}))
-            return EventClassification(
-                ticker=ticker,
-                event_type=event_type,
-                direction=_DIRECTION_MAP.get(event_type, "neutral"),
-                phase_detected=phase,
-                confidence=conf,
-                score_deltas=_apply_caps(raw),
-                source_type=source_type,
-                raw_text=text_norm,
-                match_reasons=[event_type],
-            )
-
-    # ── 2. Financial / BD ──────────────────────────────────────────────────
-    for pattern, event_type in _FINANCIAL:
-        if pattern.search(text_norm):
-            conf = round(base_conf * (0.80 if hedge else 1.0), 3)
-            raw = dict(SCORE_DELTA_MAP.get(event_type, {}))
-            return EventClassification(
-                ticker=ticker,
-                event_type=event_type,
-                direction=_DIRECTION_MAP.get(event_type, "neutral"),
-                phase_detected=phase,
-                confidence=conf,
-                score_deltas=_apply_caps(raw),
-                source_type=source_type,
-                raw_text=text_norm,
-                match_reasons=[event_type],
-            )
-
-    # ── 3. Acquirer signals ────────────────────────────────────────────────
-    for pattern, event_type in _ACQUIRER:
-        if pattern.search(text_norm):
-            conf = round(base_conf * 0.80, 3)  # acquirer signals are indirect
-            raw = dict(SCORE_DELTA_MAP.get(event_type, {}))
-            return EventClassification(
-                ticker=ticker,
-                event_type=event_type,
-                direction=_DIRECTION_MAP.get(event_type, "neutral"),
-                phase_detected=phase,
-                confidence=conf,
-                score_deltas=_apply_caps(raw),
-                source_type=source_type,
-                raw_text=text_norm,
-                match_reasons=[event_type],
-            )
-
-    # ── 4. Clinical (general) ──────────────────────────────────────────────
-    event_type, direction, match_reasons = _classify_clinical(text_norm, phase)
-    if event_type != UNCLASSIFIED:
-        conf = base_conf
-        if hedge:
-            conf *= 0.75
-        if len(match_reasons) >= 2:
-            conf = min(1.0, conf * 1.05)
-        conf = round(conf, 3)
-        raw = {k: v * conf for k, v in SCORE_DELTA_MAP.get(event_type, {}).items()}
-        return EventClassification(
-            ticker=ticker,
-            event_type=event_type,
-            direction=direction,
-            phase_detected=phase,
-            confidence=conf,
-            score_deltas=_apply_caps(raw),
-            source_type=source_type,
-            raw_text=text_norm,
-            match_reasons=match_reasons,
-        )
-
-    # ── Unclassified ───────────────────────────────────────────────────────
+    multi = classify_headline_multi(text, ticker, source_type)
     return EventClassification(
         ticker=ticker,
-        event_type=UNCLASSIFIED,
-        direction="unknown",
-        phase_detected=phase,
-        confidence=0.0,
-        score_deltas={},
+        event_type=multi.primary_event,
+        direction=multi.direction,
+        phase_detected=multi.phase_detected,
+        confidence=multi.confidence,
+        score_deltas=multi.combined_score_deltas,
         source_type=source_type,
-        raw_text=text_norm,
-        match_reasons=[],
+        raw_text=multi.raw_text,
+        classified_at=multi.classified_at,
+        match_reasons=multi.match_reasons,
+        secondary_events=multi.secondary_events,
     )

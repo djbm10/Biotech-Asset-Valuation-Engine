@@ -222,8 +222,7 @@ class TestTransactionLikelihoodGate:
 
     def _gate(self, score, *, fp=0.10, eda=0.10, activist=0.10,
               catalyst_days=None, vd=0.20, dr=0.40):
-        # Sprint 22: _apply_transaction_likelihood_gate returns (score, reason_codes)
-        result_score, _ = _apply_transaction_likelihood_gate(
+        result_score, _, _ = _apply_transaction_likelihood_gate(
             score,
             financing_pressure=fp,
             external_deal_activity=eda,
@@ -269,7 +268,7 @@ class TestTransactionLikelihoodGate:
 
         Sprint 22: TWO triggers required to exceed 0.75.  One trigger is insufficient.
         """
-        result_score, reason_codes = _apply_transaction_likelihood_gate(
+        result_score, reason_codes, _ = _apply_transaction_likelihood_gate(
             0.80,
             financing_pressure=_TRIGGER_FINANCING_MIN,  # exactly at threshold (1 trigger)
             external_deal_activity=0.10,  # low — no second trigger
@@ -287,7 +286,7 @@ class TestTransactionLikelihoodGate:
 
         Sprint 22: TWO triggers required.  eda=0.25 does not fire (min 0.30).
         """
-        result_score, reason_codes = _apply_transaction_likelihood_gate(
+        result_score, reason_codes, _ = _apply_transaction_likelihood_gate(
             0.80,
             financing_pressure=0.10,  # not pressured
             external_deal_activity=0.25,  # above 0.20 (no dual gate) but < 0.30 (no trigger)
@@ -305,7 +304,7 @@ class TestTransactionLikelihoodGate:
 
         Sprint 22: TWO triggers required to exceed 0.75.
         """
-        result_score, reason_codes = _apply_transaction_likelihood_gate(
+        result_score, reason_codes, _ = _apply_transaction_likelihood_gate(
             0.80,
             financing_pressure=0.10,
             external_deal_activity=0.25,  # above 0.20 (no dual gate) but < 0.30 (no trigger)
@@ -320,7 +319,7 @@ class TestTransactionLikelihoodGate:
 
     def test_two_triggers_allow_high_score(self):
         """Two triggers allow score > 0.75 (Sprint 22 requirement)."""
-        result_score, reason_codes = _apply_transaction_likelihood_gate(
+        result_score, reason_codes, _ = _apply_transaction_likelihood_gate(
             0.80,
             financing_pressure=_TRIGGER_FINANCING_MIN,   # trigger 1
             external_deal_activity=_TRIGGER_EXTERNAL_MIN,  # trigger 2

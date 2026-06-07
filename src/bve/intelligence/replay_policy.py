@@ -25,6 +25,10 @@ class ReplayDecision:
     decided_at: date
     reasoning: str = ""
     is_simulated: bool = True
+    days_to_catalyst_at_entry: Optional[int] = None
+    catalyst_event_id: Optional[str] = None
+    decision_cluster_id: Optional[str] = None
+    phase: Optional[str] = None
 
 
 # ---------------------------------------------------------------------------

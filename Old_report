@@ -1,0 +1,1459 @@
+Scoring System — Current Technical Explanation
+
+Report date: 2026-05-17
+Source of truth: current repository code and configs
+Scope: valuation engine and M&A / acquirer scoring layers only
+
+Status labels:
+
+| Label | Meaning |
+|---|---|
+| Implemented | Working code exists in the current repo and is part of a callable engine/module. |
+| Implemented, validation limited | Working code exists, but institutional empirical validation is still thin. |
+| Partially wired | Working module exists, but it is not the default live ranking path everywhere. |
+| Config-driven | The tool can score it if supplied, but data quality/freshness depends on config. |
+| Missing / needed | Important institutional input is not deeply modeled yet. |
+
+Core modules covered:
+
+| Area | Current files |
+|---|---|
+| Valuation orchestration | `src/bve/valuation/valuation_engine.py`, `src/bve/valuation/outputs.py` |
+| POS / trial design | `src/bve/models/pos_model.py`, `src/bve/models/trial_design_features.py` |
+| Probability | `src/bve/models/probability_model.py` |
+| Revenue / market | `src/bve/models/market_model.py`, `src/bve/models/revenue_model.py` |
+| Costs / CMC / deal terms | `src/bve/models/cost_model.py`, `src/bve/models/cmc_costs.py`, `src/bve/models/deal_economics.py` |
+| rNPV / tax | `src/bve/models/rnpv_model.py`, `src/bve/models/tax_profile.py` |
+| Scenarios / Monte Carlo | `src/bve/valuation/scenario.py`, `src/bve/valuation/scenario_tree.py`, `src/bve/models/monte_carlo.py` |
+| M&A screen | `src/bve/intelligence/acquisition_screen.py`, `src/bve/intelligence/acquisition_readiness.py` |
+| Acquirer fit | `src/bve/intelligence/acquirer_fit.py`, `src/bve/intelligence/acquirer_profiles.py` |
+| M&A probability | `src/bve/intelligence/ma_probability.py`, `src/bve/intelligence/ma_scoring.py` |
+| Institutional BD layers | `src/bve/intelligence/ma_bd_decomposition.py`, `ma_layer3_gate.py`, `ma_layer4_routing.py`, `ma_layer5_calibration.py` |
+| Comps / calibration / replay | `src/bve/intelligence/comparable_deals.py`, `ma_calibration.py`, `src/bve/ops/historical_replay.py` |
+
+---
+Part 1: Single-Asset Valuation
+
+The valuation engine is a sequential pipeline. Each model produces a structured output that feeds the next model.
+
+Full current flow:
+
+```text
+DrugAssetProgram / YAML config
+  -> ValuationEngine.from_program()
+  -> POS Layer 1
+  -> POS Layer 2 trial-design adjustment
+  -> ProbabilityModel
+  -> RevenueModel
+  -> CostModel
+  -> RNPVModel
+  -> NAV/share
+  -> scenarios, Monte Carlo, sensitivity, market expectation, M&A artifacts
+```
+
+The valuation engine does not produce a single opaque score. It produces a value bridge:
+
+| Layer | Question answered | Main output |
+|---|---|---|
+| POS Layer 1 | How strong is the asset evidence relative to base rates? | Adjusted phase POS |
+| POS Layer 2 | Is the trial/regulatory design credible? | Design-adjusted phase POS |
+| Probability | What is cumulative probability of approval? | `cumulative_approval_probability` |
+| Revenue | What sales/EBIT could the drug generate if approved? | Annual revenue and EBIT streams |
+| Cost | What development/deal obligations must be funded? | `total_pv_weighted_millions` |
+| rNPV | What is the risk-adjusted asset value? | `rnpv_millions` |
+| NAV/share | What is equity value per diluted share? | `nav_per_share` |
+| Variant perception | What is the market implying? | Implied POS / implied sales / POS gap |
+| Scenario / Monte Carlo | How wide is the range of outcomes? | Bull/base/bear and percentile distribution |
+
+---
+Step 1 — POS Layer 1: Qualitative Log-Odds Adjusters
+
+Status: Implemented.
+
+What it does:
+
+Takes an industry phase/therapeutic-area base rate and shifts it up or down using asset-specific evidence. The model works
+in log-odds space rather than adding directly to probability.
+
+Core formula:
+
+```text
+base_log_odds = log(base_probability / (1 - base_probability))
+
+adjusted_log_odds =
+    base_log_odds
+  + endpoint_adjustment
+  + moa_precedent_adjustment
+  + sample_size_adjustment
+  + safety_adjustment
+  + competitive_pressure_adjustment
+  + biomarker_selection_adjustment
+  + prior_phase_data_adjustment
+  + regulatory_designation_adjustment
+  + modality_overlay_adjustment
+
+adjusted_POS = 1 / (1 + exp(-adjusted_log_odds))
+```
+
+Why log-odds:
+
+If probabilities are adjusted directly, they can exceed 100% or behave inconsistently near extremes. Log-odds keeps all
+final probabilities bounded between 0 and 1 and makes evidence increments additive.
+
+Main POS inputs:
+
+| Input | What it measures | Current scoring approach | Key weakness |
+|---|---|---|---|
+| Therapeutic area / phase base rate | Industry starting point | Config-driven base rates | TA averages may not match exact indication/modality |
+| Endpoint type | Clinical/regulatory endpoint strength | TA-specific log-odds maps | Endpoint nuance still needs analyst review |
+| MoA precedent | Whether mechanism has human/approval precedent | Log-odds adjustment plus rescue signals | Novel biology can be mis-scored without expert review |
+| Sample size adequacy | Whether trial can support inference | Scored adjustment | Does not replace statistical review |
+| Safety | Cleanliness of adverse-event profile | Penalizes safety concerns; cap logic exists | Safety severity often requires manual judgment |
+| Competitive pressure | Regulatory/commercial bar | Adjustment for crowding/bar | May duplicate competition in revenue if not reviewed |
+| Biomarker selection | Enrichment and biological validation | Biomarker strength adjustment | Biomarkers can be over-weighted if not clinically validated |
+| Prior phase data | Human evidence quality | Prior data strength adjustment | Cross-trial comparability is hard |
+| Breakthrough / designation | FDA process signal | Small adjustment, not large approval boost | Designation is not efficacy proof |
+| Gene/cell therapy overlay | Durability, redosing, manufacturing, safety | Additive overlay | CMC and durability risk can be asset-specific |
+
+Guardrails:
+
+| Guardrail | Purpose |
+|---|---|
+| Positive/negative caps | Prevent stacking many signals into unrealistic POS |
+| BTD small boost | Avoid treating regulatory designation as approval probability |
+| Accelerated approval NDA discount | Accounts for confirmatory/conversion risk |
+| Modality overlays | Penalize gene/cell-specific safety, durability, CMC issues |
+
+What the POS layer should not be used for:
+
+| Misuse | Why it is wrong |
+|---|---|
+| Treating POS as a true calibrated probability for every indication | Calibration is still limited |
+| Treating biomarker correction as clinical benefit | Biomarker evidence can be weak without outcome validation |
+| Treating a single strong signal as approval probability | Approval requires remaining phases and regulatory success |
+
+---
+Step 2 — POS Layer 2: Trial Design / Regulatory Evidence Quality
+
+Status: Implemented.
+
+Layer 1 scores what the evidence says.
+Layer 2 scores whether the evidence package is trustworthy and regulator-acceptable.
+
+Current module:
+
+`src/bve/models/trial_design_features.py`
+
+Current concepts:
+
+| Component | What it measures |
+|---|---|
+| Evidence design quality | Trial robustness and evidence grade |
+| Comparator fit | Whether control arm / standard of care choice is credible |
+| Regulatory pathway risk | Whether FDA/EMA path is realistic |
+| Phase scaling | Makes design adjustment smaller in early phases and larger in pivotal settings |
+
+General formula:
+
+```text
+design_adjustment =
+    evidence_quality_adjustment
+  + comparator_fit_adjustment
+  + regulatory_pathway_adjustment
+  + other_design_penalties_or_bonuses
+
+phase_scaled_adjustment = design_adjustment * phase_weight
+
+final_design_adjustment = clip(phase_scaled_adjustment, lower_cap, upper_cap)
+```
+
+Current phase scaling:
+
+| Phase | Relative design impact |
+|---|---:|
+| Phase 1 | 0.20 |
+| Phase 2 | 0.50 |
+| Phase 3 | 1.00 |
+| NDA/BLA | 0.90 |
+
+Important limitation:
+
+Layer 2 currently separates design quality from endpoint/biology conceptually, but anti-double-counting is not a full
+institutional audit system. Analysts still need to check that endpoint strength, comparator quality, and regulatory path
+are not rewarded twice.
+
+---
+Step 3 — Cumulative Approval Probability
+
+Status: Implemented.
+
+After each remaining phase has a success probability, the probability model computes:
+
+```text
+P(reaching phase_i) = product(success_probability_j for all prior phases j)
+
+P(approval) = product(success_probability_i for all remaining phases i)
+```
+
+Example:
+
+```text
+P(approval) for Phase 2 asset =
+    P(pass Phase 2)
+  × P(pass Phase 3 | Phase 2 success)
+  × P(pass NDA/BLA | Phase 3 success)
+```
+
+Why this matters:
+
+A Phase 2 asset can have a reasonable chance of a positive Phase 2 readout but still have a much lower cumulative
+probability of approval because Phase 3 and filing risk remain.
+
+Current outputs include:
+
+| Output | Meaning |
+|---|---|
+| `prob_reaching` by phase | Probability the asset survives to that phase |
+| `years_to_approval` | Sum of remaining phase durations |
+| `cumulative_approval_probability` | Probability used by rNPV commercial cash flows |
+
+---
+Step 4 — Revenue Model
+
+Status: Implemented.
+
+The revenue model projects annual sales from launch through patent expiry and post-LOE erosion. It is deliberately
+separate from probability; revenue is the "if approved" commercial stream.
+
+Supported market-sizing modes:
+
+| Mode | Best use | Current status |
+|---|---|---|
+| Patient-based sizing | Most diligence-grade single-asset models | Implemented |
+| Line-of-therapy segmentation | Oncology and staged treatment settings | Implemented |
+| TAM-based sizing | Early rough screens | Implemented |
+| Hybrid commercial inputs | Patient funnel + price + geography + access + competition | Implemented |
+
+Patient-based formula:
+
+```text
+eligible_patients =
+    population
+  × prevalence_or_incidence
+  × diagnosed_rate
+  × eligible_rate
+  × treatment_rate
+  × line_of_therapy_share
+
+treated_patients_t =
+    eligible_patients
+  × penetration_t
+  × payer_access_multiplier_t
+  × geography_launch_multiplier_t
+  × competition_multiplier_t
+
+net_price_t =
+    list_or_WAC_price_t
+  × (1 - gross_to_net_discount_t)
+  × pre_LOE_price_erosion_t
+
+revenue_t =
+    treated_patients_t
+  × net_price_t
+  × treatment_duration_factor
+```
+
+EBIT formula:
+
+```text
+gross_profit_t = revenue_t * gross_margin_t
+SG&A_t = revenue_t * SG&A_rate_t
+EBIT_t = revenue_t - COGS_t - SG&A_t
+```
+
+Current revenue features:
+
+| Feature | Current status | Why it matters |
+|---|---|---|
+| Gross-to-net pricing | Implemented | Avoids using unrealistic list-price revenue |
+| Pre-LOE price erosion | Implemented | Captures net price decline before patent expiry |
+| Launch archetypes | Implemented | Models different launch shapes |
+| Fractional ex-US launch delays | Implemented | Avoids crude whole-year snapping |
+| Geography split | Implemented | Supports US, EU5, Japan, China, ROW-style rollout |
+| Payer access | Implemented | Access probability, delay, PA burden, step edit |
+| Competition | Implemented | Share and price erosion effects |
+| COGS by modality | Implemented | Different economics for small molecule, biologic, gene/cell, ADC, RNA |
+| SG&A by commercial model | Implemented | Self-commercialized vs partnered vs royalty-only economics |
+| LOE erosion | Implemented | Post-patent tail by modality/config |
+
+Revenue model limitation:
+
+The code can express detailed assumptions, but it does not prove the assumptions are correct. Patient counts, penetration,
+net price, payer access, and competitor erosion remain analyst-owned inputs.
+
+---
+Step 5 — Cost Model
+
+Status: Implemented.
+
+The cost model is a stateless engine that converts outgoing development/deal obligations into probability-weighted present
+value. It returns `CostStream`, which is then subtracted by `RNPVModel`.
+
+Five categories:
+
+1. Trial R&D
+2. CMC/manufacturing
+3. Payable milestones
+4. Upfront costs
+5. Post-approval commitments
+
+Category 1 — Trial R&D:
+
+```text
+cost_after_share_i = phase_cost_i × cdev_cost_share
+
+PV_gross_i =
+    cost_after_share_i
+  × (1 + cost_inflation_rate)^t
+  / (1 + discount_rate)^t
+
+PV_weighted_i =
+    PV_gross_i × P(reaching phase_i)
+```
+
+Default timing:
+
+```text
+t = (phase_start + phase_end) / 2
+```
+
+If `ANNUAL_UNIFORM` spend profile is used, the tool splits spending into year segments and discounts each segment at its
+own midpoint.
+
+Category 2 — CMC/manufacturing:
+
+```text
+CMC_total =
+    api_development
+  + formulation
+  + manufacturing_scale_up
+  + regulatory_cmc
+
+PV_CMC =
+    CMC_total / (1 + discount_rate)^anchor_year
+  × probability_weight
+```
+
+CMC timing modes:
+
+| Mode | Discount anchor |
+|---|---|
+| `parallel_to_phase_3` | Phase 3 midpoint |
+| `post_phase_2` | Phase 2 end |
+| `pre_phase_3_start` | Phase 3 start |
+| `custom_year` | Analyst-specified year |
+
+Probability weight is normally `P(reaching Phase 3)`. If no Phase 3 is present, it falls back to the last phase's
+`prob_reaching`.
+
+Category 3 — Payable milestones:
+
+```text
+PV_milestone_i =
+    amount_i / (1 + discount_rate)^trigger_year_i
+  × trigger_probability_i
+```
+
+Trigger logic:
+
+| Trigger | Timing | Probability weight |
+|---|---|---|
+| `PHASE_START` | Phase start | `P(reaching phase)` |
+| `PHASE_SUCCESS` | Phase end | `P(reaching phase) × phase_success_probability` |
+| `APPROVAL` | Years to approval | Cumulative approval probability |
+| `FIRST_SALE` | Approval year + launch offset | Cumulative approval probability |
+| `SALES_THRESHOLD` | First year revenue exceeds threshold | Cumulative approval probability; requires revenue stream |
+
+Important boundary:
+
+`CostModel` does not own revenue. Sales-threshold payable milestones that need a revenue stream are resolved in the rNPV
+path when revenue is available.
+
+Category 4 — Upfront costs:
+
+```text
+PV_upfront_cost = upfront_cost_millions
+```
+
+No discounting and no probability weighting because it is a time-zero cash outflow.
+
+Category 5 — Post-approval commitments:
+
+```text
+PV_post_approval =
+    post_approval_rd_millions
+  / (1 + discount_rate)^years_to_approval
+  × P(approval)
+```
+
+Aggregation:
+
+```text
+total_pv_weighted_development_costs =
+    Σ PV_weighted(trial_R&D)
+  + PV_CMC
+  + Σ PV_weighted(payable_milestones)
+  + upfront_cost
+  + PV_post_approval
+```
+
+Boundary:
+
+Royalties and profit shares are not treated as development costs. Revenue is gross commercial revenue; deal royalties and
+profit shares are deducted in `RNPVModel`.
+
+---
+Step 6 — rNPV / NAV
+
+Status: Implemented.
+
+Core rNPV equation:
+
+```text
+rNPV =
+    P(approval)
+  × Σ [ after_tax_FCF_t × net_ownership / (1 + WACC)^t ]
+  - total_pv_weighted_development_costs
+  + PV(receivable_milestones)
+  + upfront_receipts
+```
+
+Per-year bridge:
+
+```text
+royalty_t = revenue_t × deal.royalty_rate
+profit_share_t = EBIT_t × deal.profit_share_rate
+
+adjusted_EBIT_t =
+    EBIT_t
+  - royalty_t
+  - profit_share_t
+
+cash_tax_t =
+    tax_model(adjusted_EBIT_t, NOLs, jurisdiction mix)
+
+after_tax_FCF_t =
+    adjusted_EBIT_t
+  - cash_tax_t
+  - maintenance_capex_t
+  - working_capital_t
+  - launch_capex_t
+```
+
+Tax paths:
+
+| Path | When used | Behavior |
+|---|---|---|
+| Simple tax path | No `TaxProfile` | Applies simple NOL benefit years and effective tax rate |
+| `TaxProfile` path | `TaxProfile` supplied | Tracks NOL usage, blended or US/ex-US tax rate, capex, working capital |
+
+NAV:
+
+```text
+NAV =
+    asset_rNPV
+  + net_cash
+  - debt
+  - corporate_overhead_PV
+  + other_adjustments
+
+NAV/share =
+    NAV / diluted_shares_outstanding
+```
+
+Interpretation:
+
+| Output | How to read it |
+|---|---|
+| rNPV | Risk-adjusted value of the asset economics |
+| NAV/share | Equity value estimate after company balance sheet and share count |
+| Probability-adjusted revenue PV | Commercial value after approval probability |
+| PV development costs | Obligations deducted from value |
+| Royalty/profit-share PV | Deal economics reducing captured value |
+
+Known limits:
+
+| Limit | Why it matters |
+|---|---|
+| Purchase accounting not modeled | M&A tax amortization/step-up can matter |
+| Section 382 not deeply modeled | NOL usability after ownership change can change |
+| Royalty stacks depend on config | Exact contract terms are not automatically parsed |
+| Diluted share count must be current | NAV/share can be wrong after financings |
+
+---
+Step 7 — Scenario Analysis
+
+Status: Implemented.
+
+Base scenario engine:
+
+| Scenario | Peak sales | POS | Timing | Cost | WACC |
+|---|---:|---:|---:|---:|---:|
+| Bull | 1.50× | 1.30× | Faster | 0.90× | Lower |
+| Base | 1.00× | 1.00× | Base | 1.00× | Base |
+| Bear | 0.55× | 0.70× | Slower | 1.20× | Higher |
+
+Shock categories:
+
+| Category | Examples |
+|---|---|
+| Clinical | POS changes, endpoint miss, safety issues |
+| Regulatory | CRL/delay, pathway changes |
+| Commercial | Price, access, penetration, geography |
+| Competition | Competitor approval/success, price erosion |
+| Cost | Trial, CMC, inflation |
+| Deal economics | Royalties, milestones, profit share |
+
+Scenario output is useful for:
+
+1. Understanding downside if the base case is wrong.
+2. Showing which variable drives value.
+3. Framing catalyst payoff.
+4. Testing kill criteria.
+
+---
+Step 8 — Monte Carlo
+
+Status: Implemented.
+
+Monte Carlo modes:
+
+| Mode | What it samples |
+|---|---|
+| Simple | POS, peak sales, discount rate |
+| Driver-based | Eligible patients, price, penetration, payer/geography factors, costs, timing, competitors |
+
+Variables sampled include:
+
+| Variable | Typical distribution approach |
+|---|---|
+| Phase success probabilities | Beta-style uncertainty around POS |
+| Peak sales | Lognormal |
+| Discount rate | Normal clipped to bounds |
+| Years to peak | Normal/rounded/clipped |
+| Phase duration | Gamma-style timing uncertainty |
+| Trial costs | Lognormal |
+| Financing dilution | Scenario distribution |
+| Competitor outcomes | Sampled competitor state |
+
+Important guardrail:
+
+The engine validates against direct peak-sales sampling plus driver-level sales sampling when that would double-count
+commercial uncertainty.
+
+Interpretation:
+
+| Output | Meaning |
+|---|---|
+| Mean | Average simulated rNPV |
+| Median | Central case less sensitive to outliers |
+| P10/P90 | Downside/upside range |
+| Probability positive | Fraction of simulations with positive rNPV |
+| VaR/downside | Tail-risk framing |
+| Variance drivers | Which assumptions explain distribution width |
+
+---
+Step 9 — Variant Perception / Market-Implied Expectations
+
+Status: Implemented.
+
+Purpose:
+
+Compare model assumptions with what the public market appears to imply.
+
+General formulas:
+
+```text
+enterprise_value =
+    market_cap
+  + debt
+  - cash
+
+isolated_asset_EV =
+    enterprise_value
+  - value_of_non_target_assets
+  - residual_platform_value
+
+market_implied_POS =
+    isolated_asset_EV / probability_unadjusted_asset_value
+
+POS_gap =
+    model_POS - market_implied_POS
+```
+
+Interpretation:
+
+| Result | Meaning |
+|---|---|
+| Model POS > implied POS | Model is more optimistic than market |
+| Model POS < implied POS | Market is more optimistic than model |
+| Implied POS > 100% | Asset isolation or non-target value likely wrong |
+| Implied POS < 0% | EV/cash/non-target adjustments likely wrong |
+
+This is a diagnostic, not a true market survey. It can be distorted by short interest, financing risk, index flows,
+non-target assets, platform value, and stale market data.
+
+---
+Part 2: M&A / Acquirer Scoring
+
+The current repo has two related M&A systems:
+
+1. Live M&A probability scanner:
+   `acquisition_screen.py`, `acquirer_fit.py`, `ma_probability.py`, `ma_scoring.py`.
+
+2. Institutional BD layer modules:
+   `ma_bd_decomposition.py`, `ma_layer3_gate.py`, `ma_layer4_routing.py`, `ma_layer5_calibration.py`.
+
+Important current-state distinction:
+
+| Layer | Current status |
+|---|---|
+| Acquisition screen | Implemented |
+| Acquirer fit | Implemented |
+| M&A probability scanner | Implemented, validation limited |
+| Three-model diagnostic decomposition | Implemented inside live scanner as diagnostics |
+| Layer 1 BD decomposition | Implemented as standalone module; not the sole default live ranking driver |
+| Layer 3 gate engine | Implemented as standalone module |
+| Layer 4 routing engine | Implemented as standalone module |
+| Layer 5 calibration overlay | Implemented as standalone module |
+| Large pair-level calibration dataset | Partially implemented; still sparse |
+
+---
+M&A Step 0 — Acquisition Screen
+
+Status: Implemented.
+
+Purpose:
+
+Identify whether a target is cheap or attractive enough to merit acquisition analysis.
+
+Key formula:
+
+```text
+enterprise_value = market_cap - net_cash
+
+acquisition_discount =
+    model_asset_rNPV / enterprise_value
+```
+
+Critical guardrail:
+
+The acquisition screen does not multiply by probability of approval again. rNPV is already probability-adjusted. Multiplying
+again would double-count clinical risk.
+
+Main outputs:
+
+| Output | Meaning |
+|---|---|
+| Enterprise value | Market value of operating assets net of cash |
+| Model rNPV | Model's risk-adjusted value estimate |
+| Acquisition discount | How much model value exceeds EV |
+| Model POS | Probability already embedded in rNPV |
+| Readiness flags | Whether asset is plausibly acquisition-ready |
+
+Limit:
+
+Acquisition discount is a screen, not a deal thesis. A high discount can mean undervaluation, but it can also mean the model
+is missing rights issues, bad data, weak demand, financing stress, or clinical risk.
+
+---
+M&A Step 1 — Acquisition Readiness
+
+Status: Implemented.
+
+Purpose:
+
+Prevent immature or weakly de-risked assets from ranking as acquisition-ready simply because they are cheap.
+
+Current logic:
+
+| Stage / evidence | Treatment |
+|---|---|
+| Phase 3 or later | Generally acquisition-ready |
+| Preclinical / Phase 1 | Generally not ready |
+| Phase 2 | Requires evidence: readout, endpoint success, adequate design, posterior POS improvement |
+
+Why it matters:
+
+Biotech acquirers usually do not buy every cheap Phase 1 asset. They buy assets when evidence, timing, strategic need, and
+deal setup align.
+
+---
+M&A Step 2 — Comparable Deals
+
+Status: Implemented.
+
+Purpose:
+
+Benchmark target value against precedent deals.
+
+Matching hierarchy:
+
+| Match level | Meaning |
+|---|---|
+| Exact canonical indication + phase | Highest-quality comp |
+| Therapeutic area + phase | Broader but still relevant |
+| Phase-only | Weak fallback |
+
+Outputs:
+
+| Output | Meaning |
+|---|---|
+| EV / peak sales band | Precedent valuation range |
+| Peer min / median / max | Comparable-deal distribution |
+| Fair value band | Implied acquisition value range |
+| Premium / discount | Whether target appears cheap/rich vs comps |
+| High-quality band | Uses better-matched comps when available |
+
+Limit:
+
+Comparable deals can be misleading when headline biobucks are confused with upfront value, when rights differ, or when
+platform value is mixed with asset value.
+
+---
+M&A Step 3 — Acquirer Fit
+
+Status: Implemented.
+
+Purpose:
+
+Score whether a specific buyer is a logical owner for a target.
+
+Core inputs:
+
+| Input | Meaning |
+|---|---|
+| Therapeutic area fit | Does buyer operate in this disease area? |
+| Modality fit | Does buyer understand/develop/manufacture this modality? |
+| Stage fit | Does buyer buy assets at this stage? |
+| Strategic priority | Does target match stated priorities / gaps? |
+| Valuation / budget | Is deal size plausible? |
+| Existing partnership | Does buyer already have relationship/control? |
+
+General acquirer-fit formula family:
+
+```text
+fit_score =
+    w_TA × therapeutic_area_score
+  + w_modality × modality_score
+  + w_stage × stage_score
+  + w_priority × strategic_priority_score
+  + w_valuation × valuation_score
+  + w_budget × budget_score
+  + partnership_bonus
+  - hard_fail_penalties
+```
+
+Current hard fails:
+
+| Hard fail | Meaning |
+|---|---|
+| Pre-Phase 2 stage | Too early for many acquirers |
+| Not acquisition-ready | Evidence quality insufficient |
+| Outside budget | Deal size implausible for buyer |
+
+Important current limitation:
+
+Acquirer profiles are curated YAML/profile data. They can encode pipeline gaps, modality preferences, priorities, budget,
+recent deals, and partnerships, but they are only as fresh and complete as the research inputs.
+
+---
+M&A Step 4 — Live M&A Probability Scanner
+
+Status: Implemented, validation limited.
+
+Current module:
+
+`src/bve/intelligence/ma_probability.py`
+
+Current score versions:
+
+| Version | Main behavior |
+|---|---|
+| v1.0 | Acquisition discount + strategic fit + de-risking + capital vulnerability |
+| v1.1 | Similar, with valuation component mode changes |
+| v1.2 | Strategic-fit-only style stress version |
+| v1.3 | Strategic fit + scarcity |
+| v1.4 | Strategic fit + de-risking + capital vulnerability + scarcity |
+
+Default config currently defines `score_version="v1.2"` unless overridden.
+
+Current v1.4 formula:
+
+```text
+raw_mna_score =
+    0.00 × acquisition_discount_component
+  + 0.65 × strategic_fit_score
+  + 0.20 × de_risking_stage_score
+  + 0.05 × capital_vulnerability_score
+  + 0.10 × scarcity_score
+```
+
+Earlier versions can include acquisition discount directly. The config controls which score version is used.
+
+Component details:
+
+| Component | Current logic |
+|---|---|
+| Valuation discount score | Buckets acquisition discount into 0.1-1.0 score |
+| Strategic fit score | Urgency-adjusted TA + modality + strategic priority + budget, with penalties and cap |
+| De-risking score | Stage/readiness bucket plus design/POS quality modifiers |
+| Capital vulnerability | Cash runway, target vulnerability signals, external deal pressure |
+| Scarcity | Peer count, stage eligibility, TA competition modifiers |
+
+Valuation discount bucket:
+
+| Acquisition discount | Score |
+|---|---:|
+| >= 3.0x | 1.00 |
+| >= 2.5x | 0.90 |
+| >= 2.0x | 0.80 |
+| >= 1.5x | 0.70 |
+| >= 1.2x | 0.55 |
+| >= 1.0x | 0.40 |
+| >= 0.75x | 0.25 |
+| < 0.75x | 0.10 |
+
+Strategic fit current mechanics:
+
+```text
+strategic_base =
+    urgency_multiplier × TA_component
+  + modality_component
+  + strategic_priority_component
+  + budget_component
+
+strategic_fit =
+    min(
+      strategic_base / strategic_weight
+      + BD_pattern_adjustment
+      - quality_penalties,
+      strategic_fit_hard_cap
+    )
+```
+
+Current hard cap:
+
+```text
+strategic_fit_hard_cap = 0.70
+```
+
+Strategic penalties:
+
+| Penalty | Trigger |
+|---|---|
+| Weak commercial overlap | TA score < 0.50 |
+| Poor modality fit | Modality score < 0.50 |
+| No pipeline gap | Strategic priority < 0.50 |
+| Poor deal-size fit | Budget score < 0.40 |
+
+Gap urgency multipliers:
+
+| Urgency | Multiplier |
+|---|---:|
+| High | 1.00 |
+| Medium | 0.55 |
+| Low | 0.28 |
+| No matched gap | 0.15 |
+
+BD pattern adjustment:
+
+| Pattern | Adjustment |
+|---|---:|
+| 3+ recent deals | +0.03 |
+| 0 recent deals | -0.12 |
+
+De-risking score:
+
+| Bucket / stage | Base score |
+|---|---:|
+| Phase 3 or later | 0.62 |
+| Phase 2 proof-of-concept | 0.50 |
+| Phase 2 pre-proof-of-concept | 0.30 |
+| Pre-Phase 2 | 0.08 |
+| Unknown | 0.20 |
+
+Additional modifiers:
+
+| Modifier | Effect |
+|---|---:|
+| OS RCT design tier | +0.08 |
+| PFS design tier | +0.04 |
+| Surrogate endpoint | -0.12 |
+| Single-arm | -0.20 |
+| Posterior POS > prior POS | Up to +0.10 |
+| Low power | -0.15 |
+| Safety overhang | -0.12 |
+| Prior Phase 3 failure | -0.18 |
+| Label uncertainty | -0.08 |
+| Prior Phase 2 failure | -0.10 |
+| Regulatory risk | -0.08 |
+| Endpoint in dispute | -0.07 |
+| Breakthrough designation | +0.06 |
+
+Current cap:
+
+```text
+de_risking_stage_score <= 0.80
+```
+
+Transaction-likelihood gates in live scanner:
+
+| Gate | Trigger | Cap |
+|---|---|---:|
+| No transaction trigger | No financing, deal activity, catalyst, activist, or valuation-distress trigger | 0.55 |
+| Dual low-pressure gate | Financing pressure < 0.25 and external deal activity < 0.20 | 0.55 |
+| High-score two-driver requirement | Score > 0.75 with fewer than two drivers | 0.75 |
+
+Transaction drivers:
+
+| Driver | Threshold |
+|---|---:|
+| Financing pressure | >= 0.35 |
+| External deal activity | >= 0.30 |
+| Catalyst proximity | Catalyst within 90 days |
+| Activist / target signal | >= 0.30 |
+| Valuation distress | Valuation discount >= 0.45 and de-risking >= 0.50 |
+
+Final live scanner flow:
+
+```text
+raw_mna_score
+  -> saturation_penalty
+  -> transaction_likelihood_gate
+  -> targetability_multiplier
+  -> hard_fail_zeroing if targetability hard fail
+  -> best acquirer selected
+  -> target rows sorted by score
+  -> optional calibration overlay fields
+```
+
+Interpretation:
+
+The live M&A score is a ranking score. It should not be read as a fully calibrated takeout probability unless a calibrated
+model and adequate label base are explicitly present.
+
+---
+M&A Step 5 — Three-Model Diagnostic Decomposition
+
+Status: Implemented as diagnostics in live scanner.
+
+Current module:
+
+`src/bve/intelligence/ma_scoring.py`
+
+The live scanner computes three diagnostic scores for explanation:
+
+1. Target attractiveness
+2. Deal likelihood
+3. Acquirer fit decomposed
+
+These diagnostics help explain the score but are not the sole live ranking formula.
+
+Target attractiveness:
+
+```text
+target_attractiveness =
+    function(
+      de_risking_stage_score,
+      valuation_discount_score,
+      scarcity_score,
+      peak_sales_millions
+    )
+```
+
+Deal likelihood:
+
+```text
+deal_likelihood =
+    function(
+      cash_runway_pressure_score,
+      external_deal_pressure_score,
+      target_signal_score,
+      days_to_catalyst
+    )
+```
+
+Acquirer fit decomposed:
+
+```text
+acquirer_fit =
+    function(
+      therapeutic_area_score,
+      modality_score,
+      strategic_priority_score,
+      budget_score,
+      matched_partnership
+    )
+```
+
+Why diagnostics matter:
+
+| Diagnostic | Question answered |
+|---|---|
+| Target attractiveness | Is this an asset worth wanting? |
+| Deal likelihood | Is there a reason a transaction could happen? |
+| Acquirer fit | Is this the right buyer? |
+
+---
+M&A Step 6 — Institutional BD Layer 1
+
+Status: Implemented as standalone module; partially wired relative to live scanner.
+
+Current module:
+
+`src/bve/intelligence/ma_bd_decomposition.py`
+
+Purpose:
+
+Convert BD logic into five institutional components:
+
+```text
+BD_M&A_score =
+    0.30 × asset_quality
+  + 0.20 × value_creation
+  + 0.20 × transaction_timing
+  + 0.25 × strategic_fit
+  + 0.05 × deal_feasibility
+```
+
+1A — Asset quality:
+
+```text
+asset_quality =
+    0.25 × clinical_evidence
+  + 0.20 × differentiation
+  + 0.15 × regulatory_path
+  + 0.15 × ip_durability
+  + 0.10 × cmc_feasibility
+  + 0.15 × commercial_meaningfulness
+```
+
+Cap:
+
+```text
+if clinical_evidence < 0.35:
+    asset_quality = min(asset_quality, 0.55)
+```
+
+1B — Value creation:
+
+```text
+value_creation =
+    0.35 × premium_adjusted_rnpv_gap
+  + 0.20 × synergy_upside
+  + 0.15 × downside_protection
+  + 0.15 × cost_to_complete
+  + 0.15 × capital_solution_value
+```
+
+Guard:
+
+```text
+if asset_quality < 0.50:
+    premium_adjusted_rnpv_gap_score is neutralized
+```
+
+1C — Transaction timing:
+
+```text
+transaction_timing =
+    0.25 × financing_pressure
+  + 0.25 × seller_willingness
+  + 0.20 × transaction_window_quality
+  + 0.15 × external_deal_activity
+  + 0.15 × catalyst_setup
+```
+
+1D — Strategic fit:
+
+```text
+strategic_fit =
+    0.20 × TA_fit
+  + 0.15 × modality_fit
+  + 0.20 × pipeline_gap_urgency
+  + 0.15 × development_capability
+  + 0.10 × commercial_capability
+  + 0.10 × CMC_capability
+  + 0.10 × relationship_control
+```
+
+1E — Deal feasibility:
+
+```text
+deal_feasibility =
+    0.35 × affordability
+  + 0.20 × antitrust_feasibility
+  + 0.20 × asset_control
+  + 0.15 × integration_feasibility
+  + 0.10 × bidder_competition_risk_adjusted
+```
+
+Layer 1 gates:
+
+| Gate | Trigger | Cap |
+|---|---|---:|
+| Broken asset | Asset quality < 0.35 | 0.40 |
+| No right-to-win | Strategic fit < 0.45 | 0.55 |
+| Poor value creation | Raw premium-adjusted rNPV gap < 0 | 0.60 |
+| Low seller willingness | Seller willingness < 0.30 and financing pressure < 0.30 | 0.55 |
+| Encumbrance | Asset control < 0.40 | 0.50 |
+
+Current caveat:
+
+This is a strong institutional decomposition, but it requires inputs that are not always available from public/config data.
+For example, seller willingness, antitrust feasibility, exact asset control, and CMC buyer capability need expert diligence.
+
+---
+M&A Step 7 — Institutional Layer 3 Gate Engine
+
+Status: Implemented as standalone module.
+
+Current module:
+
+`src/bve/intelligence/ma_layer3_gate.py`
+
+Purpose:
+
+Apply deal-realism gates after a pre-gate BD score.
+
+Driver buckets:
+
+| Bucket | Formula / logic | Active threshold |
+|---|---|---:|
+| Capital pressure | Financing pressure | 0.35 |
+| Buyer urgency | 0.60 × external deal activity + 0.40 × pipeline gap urgency | 0.30 |
+| Seller willingness | 0.60 × activist signal + 0.40 × strategic review signal | 0.30 |
+| Catalyst timing | Catalyst proximity | 0.35 |
+| Asset scarcity | 0.60 × scarcity score + 0.40 × acquirer fit | 0.60 |
+| Valuation dislocation | Requires valuation discount >= 0.45 and de-risking >= 0.50 | Dual condition |
+
+Aggregate:
+
+```text
+driver_strength_score = mean(all six bucket strengths)
+
+near_term_transaction_possible =
+    active_bucket_count >= 2
+    and driver_strength_score >= 0.60
+```
+
+Layer 3 gates:
+
+| Gate | Meaning | Cap |
+|---|---|---:|
+| G1 | Broken asset | 0.35 |
+| G2 | No right-to-win | 0.50 |
+| G3 | No transaction rationale | 0.45 |
+| G4 | Weak transaction setup | 0.65 |
+| G5 | Seller not ready | 0.55 |
+| G6 | Capital pressure without quality | 0.45 |
+| G7 | Encumbrance / control | 0.50 |
+| G8 | Deal feasibility | 0.60 |
+
+Formula:
+
+```text
+final_score =
+    min(pre_gate_score, most_restrictive_triggered_cap)
+```
+
+Important design property:
+
+Gates can only reduce a score. They never boost a target.
+
+---
+M&A Step 8 — Institutional Layer 4 Routing
+
+Status: Implemented as standalone module.
+
+Current module:
+
+`src/bve/intelligence/ma_layer4_routing.py`
+
+Purpose:
+
+Translate a score into BD workflow language.
+
+Watchlist classes:
+
+| Class | Meaning |
+|---|---|
+| `pass` | Archive unless facts change |
+| `data_insufficient` | Fill data gaps before acting |
+| `strategic_radar` | Strategically relevant, no urgency |
+| `relationship_build` | Strong fit, not actionable yet |
+| `catalyst_watch` | Important event approaching |
+| `active_pursuit` | High fit plus real transaction setup |
+| `process_ready` | Strong target likely to transact soon |
+
+Deal structures:
+
+| Structure | Typical use |
+|---|---|
+| `full_acquisition` | Clean, high-quality, strategically urgent full-company target |
+| `asset_license` | Asset attractive but full takeout not required |
+| `option_to_acquire` | Buyer wants data before control premium |
+| `co_development` | Risk/cost sharing more logical than acquisition |
+| `regional_rights` | Territory split or ex-US opportunity |
+| `research_collaboration` | Platform/early-stage relationship |
+| `minority_equity` | Strategic relationship without control |
+| `monitor_only` | Not actionable |
+
+Routing is useful because many real BD opportunities are not binary acquisitions. The correct output may be “build a
+relationship,” “wait for data,” “option the asset,” or “monitor after catalyst.”
+
+---
+M&A Step 9 — Institutional Layer 5 Calibration Overlay
+
+Status: Implemented as standalone module; empirical validation still limited.
+
+Current module:
+
+`src/bve/intelligence/ma_layer5_calibration.py`
+
+Purpose:
+
+Convert a post-gate rank score into a time-bounded probability estimate with confidence, uncertainty, and explanations.
+
+Logistic transform:
+
+```text
+logistic_probability =
+    sigmoid(8.0 × (rank_score - 0.68))
+```
+
+Approximate mapping:
+
+| Rank score | Logistic probability |
+|---:|---:|
+| 0.35 | ~7% |
+| 0.55 | ~26% |
+| 0.70 | ~54% |
+| 0.80 | ~72% |
+
+Shrinkage:
+
+```text
+p_takeout_12m =
+    w_base × base_rate
+  + w_logistic × logistic_probability
+  + w_bucket × comparable_bucket_rate
+```
+
+Shrinkage weights:
+
+| Comparable N | Base rate | Logistic | Bucket |
+|---:|---:|---:|---:|
+| < 10 | 60% | 20% | 20% |
+| 10-19 | 50% | 30% | 20% |
+| 20-29 | 40% | 40% | 20% |
+| >= 30 | 30% | 50% | 20% |
+
+Time windows:
+
+```text
+p_takeout_6m  ≈ p_takeout_12m × 0.55
+p_takeout_18m ≈ 1 - (1 - p_takeout_12m)^1.35
+```
+
+Probability bands:
+
+| Band | Range |
+|---|---:|
+| Very low | < 5% |
+| Low | 5-15% |
+| Moderate | 15-30% |
+| High | 30-50% |
+| Exceptional / manual review | > 50% |
+
+Correct interpretation:
+
+Layer 5 helps communicate probability responsibly, but the probability is only as credible as the historical takeout/control
+dataset. With sparse labels, bands and confidence language are more trustworthy than exact decimals.
+
+---
+Part 3: How Valuation Feeds M&A
+
+Valuation outputs become M&A inputs as follows:
+
+| Valuation output | M&A use |
+|---|---|
+| rNPV | Core estimate of asset value |
+| Enterprise value | Price buyer must pay before premium |
+| Acquisition discount | Model value vs public market value |
+| Peak sales | Commercial attractiveness and comparable-deal multiple |
+| POS / de-risking | Acquisition-readiness and stage score |
+| Cost-to-complete | Buyer funding burden and seller financing pressure |
+| Scenario downside | Deal risk / walk-away price |
+| Monte Carlo distribution | Uncertainty and tail risk |
+| Market-implied POS | Investor disagreement / valuation dislocation |
+
+Example bridge:
+
+```text
+expected_acquisition_price =
+    enterprise_value × (1 + takeout_premium)
+
+premium_adjusted_rnpv_gap =
+    model_rnpv
+  - expected_acquisition_price
+  - remaining_cost_to_complete
+  + buyer_specific_synergy_value
+
+acquisition_discount =
+    model_rnpv / enterprise_value
+```
+
+Interpretation:
+
+| Situation | M&A implication |
+|---|---|
+| High rNPV, low EV, good evidence | Potential undervalued acquisition target |
+| High rNPV, high EV | Strategic fit matters more than cheapness |
+| Low rNPV, high financing pressure | Distress alone; should not rank highly |
+| High peak sales, weak rights | May be license/option, not full acquisition |
+| Strong fit, no seller willingness | Strategic radar / relationship build |
+| Strong seller pressure, weak asset | Pass or distressed optionality cap |
+
+---
+Part 4: Worked Example
+
+Assume:
+
+- Phase 2 asset.
+- Model rNPV = $1.2B.
+- Target enterprise value = $500M.
+- Expected takeout premium = 60%.
+- Remaining cost-to-complete = $250M.
+- Buyer has high TA fit but no existing relationship.
+- Seller has 4 quarters of runway and a catalyst in 9 months.
+
+Valuation bridge:
+
+```text
+expected_acquisition_price =
+    $500M × 1.60 = $800M
+
+premium_adjusted_gap =
+    $1.2B - $800M - $250M = $150M
+
+acquisition_discount =
+    $1.2B / $500M = 2.4x
+```
+
+M&A interpretation:
+
+| Signal | Read |
+|---|---|
+| Positive premium-adjusted gap | Deal can create value after premium and development cost |
+| 2.4x acquisition discount | Public EV is below model value |
+| Phase 2 stage | Needs proof-of-concept quality review |
+| 4 quarters runway | Financing pressure may create transaction window |
+| Catalyst in 9 months | Could be pre-data option or post-data acquisition setup |
+| No relationship | Right-to-win may be lower than a partner acquirer |
+
+Possible routing:
+
+| Additional fact | Likely route |
+|---|---|
+| Clean rights, high buyer urgency | Active pursuit / catalyst watch |
+| Encumbered rights | Option/license/relationship build |
+| Weak clinical evidence | Gate-capped or pass |
+| Seller raises capital | Strategic radar |
+| Buyer has internal failure in same TA | Higher pipeline-gap urgency |
+
+---
+Part 5: Current Institutional Gaps
+
+The current tool is much more advanced than a simple rNPV spreadsheet or basic M&A heat map, but several institutional gaps
+remain.
+
+| Area | Current status | Why it matters |
+|---|---|---|
+| POS calibration | Implemented, validation limited | POS drives valuation error |
+| Commercial assumptions | Implemented/config-driven | Peak sales can dominate value |
+| Rights/control | Partial | Can block full acquisition |
+| Exact royalty stacks | Partial/config-driven | Can destroy economics |
+| Regional rights | Missing / needed | Determines structure and value |
+| Change-of-control clauses | Missing / needed | Can trigger payments or consent rights |
+| Antitrust | Placeholder/partial | Strategic overlap can reduce feasibility |
+| Seller willingness | Partial | Fit does not imply transaction |
+| Acquirer profile freshness | Config-driven | Buyer strategy changes quickly |
+| Pair-level calibration | Partial | Needed for credible probability outputs |
+| Deal structure probability | Implemented routing, validation limited | BD cares about structure, not just takeout |
+
+---
+Part 6: Analyst / BD Review Checklist
+
+Valuation checklist:
+
+1. Is POS based on human clinical evidence or hopeful biology?
+2. Is the endpoint accepted, clinically meaningful, and regulator-relevant?
+3. Is the comparator/standard-of-care assumption credible?
+4. Is the patient funnel realistic?
+5. Is net price/gross-to-net achievable?
+6. Are payer access and competition modeled conservatively?
+7. Are COGS, SG&A, tax, capex, and working capital reasonable?
+8. Are trial, CMC, milestone, upfront, and post-approval costs probability-weighted correctly?
+9. Is NAV/share using current cash, debt, burn, and diluted shares?
+10. Does market-implied POS make sense, or is asset EV isolation broken?
+11. Does Monte Carlo downside reveal risk hidden by base-case rNPV?
+
+M&A checklist:
+
+1. Is this the right deal type: full acquisition, asset deal, option, license, or partnership?
+2. Does the buyer have a real pipeline gap or only superficial TA overlap?
+3. Can the buyer develop, manufacture, and commercialize this modality?
+4. Would the buyer pay the implied acquisition price?
+5. Does the premium-adjusted rNPV gap remain positive?
+6. Is seller willingness real or inferred from weak public signals?
+7. Are rights, royalties, regional splits, ROFR/ROFN, and CoC clauses known?
+8. Are antitrust and commercial-overlap issues considered?
+9. Are there alternative bidders?
+10. Is the output a calibrated probability, or only a directional ranking?
+
+---
+Final Assessment
+
+What is genuinely useful today:
+
+| Capability | Assessment |
+|---|---|
+| Single-asset rNPV | Useful and auditable |
+| Development obligation PV | Strong and explicit |
+| Revenue model | Feature-rich; input quality is key |
+| Scenario / Monte Carlo | Useful for range and sensitivity |
+| Market-implied POS | Useful diagnostic, not literal consensus |
+| Acquisition discount | Useful first-pass M&A screen |
+| Acquirer fit | Useful for BD discussion and prioritization |
+| M&A probability ranking | Directionally useful; validation still limited |
+| Layer 1-5 institutional BD modules | Strong architecture; not all default live-path outputs |
+
+What should not be over-trusted yet:
+
+| Output | Reason |
+|---|---|
+| Exact M&A probability decimals | Pair-level calibration labels are sparse |
+| Seller willingness | Public signals are incomplete |
+| Deal structure likelihood | Routing exists, but empirical validation is limited |
+| Rights/control conclusions | Exact contracts are not deeply parsed |
+| Antitrust conclusions | Requires buyer/product-market-specific analysis |
+| Cross-TA POS precision | Calibration is still limited |
+
+Institutional framing:
+
+The tool is credible as a structured valuation, research, and M&A prioritization engine. It should be described as a
+decision-support system that makes assumptions explicit, decomposes value drivers, and ranks opportunities for review. It
+should not be described as an autonomous acquisition-probability predictor until rights/control data, seller-willingness
+evidence, acquirer profile freshness, and pair-level historical calibration are materially stronger.

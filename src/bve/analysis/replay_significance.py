@@ -44,6 +44,7 @@ class SignificanceResult:
     alpha_survives_clustering: bool # cluster_t > 1.645 (one-sided p<0.10)
     bootstrap_ci_excludes_zero_90: bool    # lower bound of 90% CI > 0
     graduated: bool                 # both criteria pass
+    cluster_by: str = "asset_id"    # asset_id | asset_catalyst
 
 
 def analyze(
@@ -51,6 +52,8 @@ def analyze(
     run_id: str = "",
     bootstrap_samples: int = 2000,
     seed: int = 42,
+    cluster_by: str = "asset_id",
+    return_field: str = "return_pct",
 ) -> SignificanceResult:
     """
     Run all graduation significance tests on a list of closed decisions.
@@ -58,8 +61,8 @@ def analyze(
     Parameters
     ----------
     decisions:
-        List of dicts with at least ``asset_id`` (str) and ``return_pct``
-        (float) keys.  Only rows with a non-None ``return_pct`` are used.
+        List of dicts with at least ``asset_id`` and a return field. Only rows
+        with a non-None return are used.
     run_id:
         Optional identifier included in the result for traceability.
     bootstrap_samples:
@@ -72,27 +75,27 @@ def analyze(
     SignificanceResult
     """
     # Filter to rows with a return
-    valid = [d for d in decisions if d.get("return_pct") is not None]
+    valid = [d for d in decisions if d.get(return_field) is not None]
     if not valid:
-        raise ValueError("No decisions with return_pct to analyze")
+        raise ValueError(f"No decisions with {return_field} to analyze")
 
     n = len(valid)
-    returns = [float(d["return_pct"]) for d in valid]
-    asset_ids = [d["asset_id"] for d in valid]
+    returns = [float(d[return_field]) for d in valid]
+    cluster_ids = [_cluster_id(d, cluster_by) for d in valid]
 
     # ── Descriptive stats ──────────────────────────────────────────────
     mean_r = sum(returns) / n
-    variance = sum((r - mean_r) ** 2 for r in returns) / (n - 1)
+    variance = sum((r - mean_r) ** 2 for r in returns) / (n - 1) if n > 1 else 0.0
     std_r = math.sqrt(variance) if variance > 0 else 0.0
     naive_se = std_r / math.sqrt(n)
     naive_t = mean_r / naive_se if naive_se > 0 else 0.0
     naive_p = _two_sided_normal_p(naive_t)
 
     # ── Cluster-robust SE (Cameron-Miller sandwich) ─────────────────────
-    # Group residuals by asset_id
+    # Group residuals by requested cluster id
     clusters: dict[str, list[float]] = {}
-    for aid, r in zip(asset_ids, returns):
-        clusters.setdefault(aid, []).append(r - mean_r)
+    for cid, r in zip(cluster_ids, returns):
+        clusters.setdefault(cid, []).append(r - mean_r)
 
     G = len(clusters)
     # B_hat = Σ_g (sum of residuals in cluster g)²
@@ -100,24 +103,24 @@ def analyze(
         (sum(resids)) ** 2 for resids in clusters.values()
     )
     # V_CR = (G/(G-1)) * (1/n²) * B_hat
-    v_cr = (G / (G - 1)) * (1 / (n ** 2)) * b_hat
+    v_cr = (G / (G - 1)) * (1 / (n ** 2)) * b_hat if G > 1 else 0.0
     cluster_se = math.sqrt(v_cr) if v_cr > 0 else 0.0
     cluster_t = mean_r / cluster_se if cluster_se > 0 else 0.0
-    cluster_df = G - 1
-    cluster_p = _two_sided_t_p(cluster_t, df=cluster_df)
+    cluster_df = max(G - 1, 0)
+    cluster_p = _two_sided_t_p(cluster_t, df=cluster_df) if cluster_df > 0 else 1.0
 
     # ── Bootstrap (cluster-level resampling) ───────────────────────────
     rng = random.Random(seed)
-    cluster_list = list(clusters.keys())  # unique asset_ids
+    cluster_list = list(clusters.keys())
     # Map cluster → original returns (not residuals, raw returns)
     cluster_returns: dict[str, list[float]] = {}
-    for aid, r in zip(asset_ids, returns):
-        cluster_returns.setdefault(aid, []).append(r)
+    for cid, r in zip(cluster_ids, returns):
+        cluster_returns.setdefault(cid, []).append(r)
 
     bootstrap_means: list[float] = []
     for _ in range(bootstrap_samples):
         # Draw G clusters with replacement
-        drawn = [rng.choice(cluster_list) for _ in range(G)]
+        drawn = [rng.choice(cluster_list) for _ in range(max(G, 1))]
         sample = []
         for cid in drawn:
             sample.extend(cluster_returns[cid])
@@ -138,6 +141,7 @@ def analyze(
         run_id=run_id,
         n=n,
         n_clusters=G,
+        cluster_by=cluster_by,
         mean_return=round(mean_r, 4),
         std_return=round(std_r, 4),
         naive_se=round(naive_se, 4),
@@ -163,7 +167,7 @@ def print_report(result: SignificanceResult) -> None:
     print(f"SIGNIFICANCE REPORT — run {result.run_id[:8]}...")
     print("=" * 60)
     print(f"  N decisions  : {result.n}")
-    print(f"  N clusters   : {result.n_clusters} (asset_ids)")
+    print(f"  N clusters   : {result.n_clusters} ({result.cluster_by})")
     print(f"  Mean return  : {result.mean_return:+.2f}%")
     print(f"  Std return   : {result.std_return:.2f}%")
     print()
@@ -194,6 +198,62 @@ def print_report(result: SignificanceResult) -> None:
     print("=" * 60)
 
 
+@dataclass
+class PermutationResult:
+    n: int
+    observed_score_return_corr: float
+    permutation_p: float
+    n_permutations: int
+    percentile_vs_random: float
+    skill_in_ranking: bool
+
+
+def permutation_test(
+    decisions: list[dict],
+    n_permutations: int = 5000,
+    seed: int = 42,
+) -> PermutationResult:
+    """Test whether composite_score rank-orders returns better than random."""
+    valid = [
+        d for d in decisions
+        if d.get("composite_score") is not None and d.get("return_pct") is not None
+    ]
+    if len(valid) < 15:
+        raise ValueError("permutation_test requires at least 15 scored decisions")
+    scores = [float(d["composite_score"]) for d in valid]
+    returns = [float(d["return_pct"]) for d in valid]
+    observed = _pearson(scores, returns)
+    rng = random.Random(seed)
+    permuted: list[float] = []
+    shuffled = list(scores)
+    for _ in range(n_permutations):
+        rng.shuffle(shuffled)
+        permuted.append(_pearson(shuffled, returns))
+    extreme = sum(1 for value in permuted if abs(value) >= abs(observed))
+    p_value = extreme / n_permutations
+    percentile = sum(1 for value in permuted if value <= observed) / n_permutations
+    return PermutationResult(
+        n=len(valid),
+        observed_score_return_corr=round(observed, 4),
+        permutation_p=round(p_value, 4),
+        n_permutations=n_permutations,
+        percentile_vs_random=round(percentile, 4),
+        skill_in_ranking=p_value < 0.10,
+    )
+
+
+def print_permutation_report(result: PermutationResult) -> None:
+    print("=" * 60)
+    print("PERMUTATION TEST — score/return ranking")
+    print("=" * 60)
+    print(f"  N decisions        : {result.n}")
+    print(f"  Observed Pearson r : {result.observed_score_return_corr:+.3f}")
+    print(f"  Permutation p      : {result.permutation_p:.4f}")
+    print(f"  Percentile         : {result.percentile_vs_random:.1%}")
+    print(f"  Ranking skill      : {'YES' if result.skill_in_ranking else 'NO'}")
+    print("=" * 60)
+
+
 # ---------------------------------------------------------------------------
 # Statistical helpers (no external dependencies)
 # ---------------------------------------------------------------------------
@@ -218,6 +278,25 @@ def _two_sided_t_p(t: float, df: int) -> float:
     except ImportError:
         # Fallback: for df ≥ 5, t approaches normal; use normal approx
         return _two_sided_normal_p(t)
+
+
+def _cluster_id(decision: dict, cluster_by: str) -> str:
+    asset_id = str(decision.get("asset_id") or decision.get("ticker") or "unknown")
+    if cluster_by == "asset_catalyst":
+        catalyst = decision.get("catalyst_event_id") or decision.get("decision_cluster_id")
+        if catalyst:
+            return f"{asset_id}:{catalyst}"
+    return asset_id
+
+
+def _pearson(xs: list[float], ys: list[float]) -> float:
+    x_mean = sum(xs) / len(xs)
+    y_mean = sum(ys) / len(ys)
+    cov = sum((x - x_mean) * (y - y_mean) for x, y in zip(xs, ys))
+    var_x = sum((x - x_mean) ** 2 for x in xs)
+    var_y = sum((y - y_mean) ** 2 for y in ys)
+    denom = math.sqrt(var_x * var_y)
+    return cov / denom if denom > 0 else 0.0
 
 
 def _erfc_approx(x: float) -> float:

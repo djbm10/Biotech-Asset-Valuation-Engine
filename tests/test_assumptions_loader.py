@@ -243,14 +243,13 @@ class TestLOEErosionProfiles:
 class TestTrialDesign:
     def test_logodds_dimensions_present(self):
         a = AssumptionsLoader.get()
-        for dim in ("endpoint_basis", "evidence_design", "approval_pathway"):
+        for dim in ("evidence_design_quality", "comparator_fit", "regulatory_pathway_risk"):
             assert dim in a.trial_design_logodds
 
     def test_surrogate_validated_is_reference_zero(self):
         a = AssumptionsLoader.get()
-        assert a.trial_design_logodds["endpoint_basis"]["surrogate_validated"] == 0.0
-        assert a.trial_design_logodds["evidence_design"]["rct_comparative"] == 0.0
-        assert a.trial_design_logodds["approval_pathway"]["standard"] == 0.0
+        assert a.trial_design_logodds["comparator_fit"]["acceptable_not_ideal"] == 0.0
+        assert a.trial_design_logodds["regulatory_pathway_risk"]["standard"] == 0.0
 
     def test_caps_have_correct_signs(self):
         a = AssumptionsLoader.get()
@@ -259,16 +258,11 @@ class TestTrialDesign:
 
     def test_phase3_scaling_is_one(self):
         a = AssumptionsLoader.get()
-        s = a.trial_design_phase_scaling["phase_3"]
-        for dim in ("endpoint_basis", "evidence_design"):
-            assert s[dim] == pytest.approx(1.0)
+        assert a.trial_design_phase_scaling["phase_3"] == pytest.approx(1.0)
 
     def test_phase1_scaling_lower_than_phase3(self):
         a = AssumptionsLoader.get()
-        p1 = a.trial_design_phase_scaling["phase_1"]
-        p3 = a.trial_design_phase_scaling["phase_3"]
-        for dim in ("endpoint_basis", "evidence_design"):
-            assert p1[dim] < p3[dim]
+        assert a.trial_design_phase_scaling["phase_1"] < a.trial_design_phase_scaling["phase_3"]
 
 
 # ---------------------------------------------------------------------------

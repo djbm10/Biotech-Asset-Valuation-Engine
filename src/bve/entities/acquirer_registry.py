@@ -62,7 +62,7 @@ MEGA_CAP_ACQUIRERS_V2: list[AcquirerProfile] = [
     AcquirerProfile(
         company_id="regeneron", name="Regeneron Pharmaceuticals", ticker="REGN",
         country="United States",
-        cash_millions=14_000, annual_fcf_millions=3_000, market_cap_millions=45_000,
+        cash_millions=18_540, debt_millions=1_986, annual_fcf_millions=4_500, market_cap_millions=45_000,
         strategic_areas=["immunology", "ophthalmology", "oncology", "genetic_medicines",
                          "obesity_cardiometabolic"],
         preferred_modalities=["biologic", "monoclonal_antibody", "bispecific"],
@@ -78,7 +78,8 @@ MEGA_CAP_ACQUIRERS_V2: list[AcquirerProfile] = [
                      peak_sales_millions=3_000, loe_year=2032, revenue_at_risk_millions=500),
         ],
         deal_capacity=DealCapacity(
-            cash_available_for_deals_millions=14_000, max_comfortable_deal_size_millions=15_000,
+            cash_available_for_deals_millions=18_540, max_comfortable_deal_size_millions=2_000,
+            debt_capacity_millions=2_000,
         ),
         ta_priorities={"immunology": 1.0, "ophthalmology": 0.80, "oncology": 0.70,
                        "genetic_medicines": 0.65, "cardiovascular": 0.55,
@@ -114,16 +115,17 @@ MEGA_CAP_ACQUIRERS_V2: list[AcquirerProfile] = [
             market_share_risk_areas=["ophthalmology"],
         ),
         notes=(
-            "Q1 2026 EYLEA update: EYLEA HD (8mg) grew +52% YoY; total U.S. EYLEA "
-            "franchise (HD+2mg) down ~10% as legacy 2mg faces biosimilar erosion. "
-            "Thesis is FRANCHISE EXTENSION — not EYLEA collapse. Seeking GA (geographic "
-            "atrophy), sustained-release delivery, and non-VEGF retinal mechanisms. "
-            "Dupixent (with Sanofi) ~$18B global 2025 revenue; LOE ~2031+. "
-            "Obesity: olatorepatide (GLP-1/GIP, Phase 3) licensed from Hansoh 2024; "
-            "trevogrumab (myostatin inhibitor) Phase 2 for muscle preservation. "
-            "Oncology: Libtayo + bispecifics (linvoseltamab, odronextamab); Telix radiopharma collab. "
-            "Genetics Center (2M+ genomes) drives evidence-backed target selection. "
-            "Data confidence: high (0.82). EYLEA source: REGN Q1 2026 earnings (2026-05-01)."
+            "Q1 2026: $18.54B cash/securities, $1.99B debt, net cash ~$16.55B. "
+            "EYLEA HD (8mg) +52% YoY Q1 2026; total EYLEA franchise (HD+2mg) -10% "
+            "as legacy 2mg faces biosimilar erosion. Thesis: FRANCHISE EXTENSION. "
+            "Seeking GA (geographic atrophy), non-VEGF retinal mechanisms, sustained-release delivery. "
+            "Dupixent (with Sanofi) ~$18B global FY2025 revenue; LOE ~2031+. "
+            "Obesity: olatorepatide (GLP-1/GIP Phase 3, Hansoh 2024); trevogrumab (myostatin) Phase 2. "
+            "Oncology: Libtayo + bispecifics (linvoseltamab, odronextamab) + Telix radiopharma collab. "
+            "Genetics Center (RGC, 2M+ genomes) drives evidence-backed target selection. "
+            "BD philosophy: internal-first (~95% R&D internal); collaborative bolt-ons preferred; "
+            "management explicitly opposes large M&A as value-destructive. Behavioral ceiling: ~$2B. "
+            "Data confidence: high (0.88). Cash source: REGN Q1 2026 earnings (2026-04-29) + 10-Q."
         ),
     ),
 
