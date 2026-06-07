@@ -76,6 +76,7 @@ def _target_screen_from_dict(d: dict) -> TargetScreenResult:
         confidence_label=d["confidence_label"],
         asset_quality=float(d["asset_quality"]),
         seller_willingness=float(d["seller_willingness"]),
+        financing_risk=float(d.get("financing_risk", 0.0)),
         catalyst_timing=float(d["catalyst_timing"]),
         ma_attractiveness=float(d["ma_attractiveness"]),
         evidence_coverage_overall=float(d["evidence_coverage_overall"]),
@@ -104,6 +105,13 @@ def _pair_from_dict(d: dict) -> AcquirerPairResult:
         deal_size_fit=float(d["deal_size_fit"]),
         pipeline_gap_fill=float(d["pipeline_gap_fill"]),
         integration_complexity=float(d["integration_complexity"]),
+        ta_fit_cap_applied=(
+            float(d["ta_fit_cap_applied"])
+            if d.get("ta_fit_cap_applied") not in (None, "")
+            else None
+        ),
+        ta_fit_override_type=d.get("ta_fit_override_type"),
+        ta_fit_override_source=d.get("ta_fit_override_source"),
     )
 
 
@@ -139,6 +147,8 @@ def target_profile_from_dict(d: dict) -> TargetProfileEnriched:
         has_partner_encumbrance=d.get("has_partner_encumbrance"),
         cash_millions=_opt_float(d.get("cash_millions")),
         rd_expense_ttm_millions=_opt_float(d.get("rd_expense_ttm_millions")),
+        sgna_expense_ttm_millions=_opt_float(d.get("sgna_expense_ttm_millions")),
+        operating_burn_ttm_millions=_opt_float(d.get("operating_burn_ttm_millions")),
         shares_outstanding_millions=_opt_float(d.get("shares_outstanding_millions")),
         cash_runway_months=_opt_float(d.get("cash_runway_months")),
         quality_score=float(d["quality_score"]),

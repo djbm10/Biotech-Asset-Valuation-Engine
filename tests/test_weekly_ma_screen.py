@@ -23,7 +23,6 @@ from __future__ import annotations
 
 from datetime import date
 from pathlib import Path
-from unittest.mock import MagicMock
 
 import pytest
 
@@ -32,7 +31,7 @@ from bve.ingestion.profile_enricher import AcquirerProfileEnriched, TargetProfil
 from bve.ingestion.review_gate import ScoreMode
 from bve.intelligence.weekly_ma_screen import (
     AcquirerPairResult,
-    TargetScreenResult,
+    AcquirerTAOverride,
     WeeklyMAScreen,
     WeeklyMAScreenResult,
     _coverage_from_n_records,
@@ -80,6 +79,8 @@ def _make_target(
         has_partner_encumbrance=has_partner_encumbrance,
         cash_millions=200.0,
         rd_expense_ttm_millions=80.0,
+        sgna_expense_ttm_millions=None,
+        operating_burn_ttm_millions=80.0,
         shares_outstanding_millions=60.0,
         cash_runway_months=cash_runway_months,
         quality_score=quality_score,
@@ -348,6 +349,71 @@ class TestPairScoring:
                             min_coverage=0.0, top_n_for_pairs=100)
         acquirer_ids = {p.acquirer_ticker for p in result.top_acquirer_pairs}
         assert "EXC" not in acquirer_ids
+
+    def test_weak_ta_fit_caps_pair_score(self, tmp_path):
+        screen = _default_screen()
+        ledger = _empty_ledger(tmp_path)
+        target = _make_target(therapeutic_areas=["neurology"])
+        acquirer = _make_acquirer(
+            therapeutic_areas=["oncology"],
+            bd_appetite=1.0,
+            urgency=1.0,
+            integration_capacity=1.0,
+        )
+        result = screen.run(AS_OF, [target], [acquirer], ledger, min_coverage=0.0)
+        pair = result.top_acquirer_pairs[0]
+        assert pair.ta_overlap == 0.0
+        assert pair.pair_score == 0.60
+        assert pair.ta_fit_cap_applied == 0.60
+
+    def test_recent_ta_override_relaxes_weak_ta_cap(self, tmp_path):
+        override = AcquirerTAOverride(
+            acquirer_ticker="TACQ",
+            therapeutic_area="neurology",
+            override_type="public_ta_expansion_statement",
+            source="2026 investor day",
+            source_date=date(2026, 1, 1),
+            recorded_at=AS_OF,
+            confidence=0.80,
+        )
+        screen = WeeklyMAScreen(ta_overrides=[override])
+        ledger = _empty_ledger(tmp_path)
+        target = _make_target(therapeutic_areas=["neurology"])
+        acquirer = _make_acquirer(
+            therapeutic_areas=["oncology"],
+            bd_appetite=1.0,
+            urgency=1.0,
+            integration_capacity=1.0,
+        )
+        result = screen.run(AS_OF, [target], [acquirer], ledger, min_coverage=0.0)
+        pair = result.top_acquirer_pairs[0]
+        assert pair.pair_score > 0.60
+        assert pair.ta_fit_cap_applied is None
+        assert pair.ta_fit_override_type == "public_ta_expansion_statement"
+
+    def test_stale_adjacent_ta_override_does_not_relax_cap(self, tmp_path):
+        override = AcquirerTAOverride(
+            acquirer_ticker="TACQ",
+            therapeutic_area="neurology",
+            override_type="adjacent_ta_deal_history",
+            source="old acquisition",
+            source_date=date(2020, 1, 1),
+            recorded_at=AS_OF,
+            confidence=0.90,
+        )
+        screen = WeeklyMAScreen(ta_overrides=[override])
+        ledger = _empty_ledger(tmp_path)
+        target = _make_target(therapeutic_areas=["neurology"])
+        acquirer = _make_acquirer(
+            therapeutic_areas=["oncology"],
+            bd_appetite=1.0,
+            urgency=1.0,
+            integration_capacity=1.0,
+        )
+        result = screen.run(AS_OF, [target], [acquirer], ledger, min_coverage=0.0)
+        pair = result.top_acquirer_pairs[0]
+        assert pair.pair_score == 0.60
+        assert pair.ta_fit_cap_applied == 0.60
 
 
 # ===========================================================================

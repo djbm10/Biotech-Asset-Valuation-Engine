@@ -242,10 +242,21 @@ class CTGovSource:
         results: list[RawIngestionItem] = []
 
         try:
-            raw_events = search_trials(
-                drug_name=drug_name,
-                limit=20,
-            )
+            raw_events = search_trials(drug_name=drug_name, limit=20)
+            if lead_asset and sponsor and sponsor != lead_asset:
+                sponsor_events = search_trials(drug_name=sponsor, limit=20)
+                seen_nct = {
+                    str(ev.payload.get("nct_id") or "")
+                    for ev in raw_events
+                    if getattr(ev, "payload", None)
+                }
+                for ev in sponsor_events:
+                    nct_id = str(ev.payload.get("nct_id") or "")
+                    if nct_id and nct_id in seen_nct:
+                        continue
+                    raw_events.append(ev)
+                    if nct_id:
+                        seen_nct.add(nct_id)
         except Exception as exc:
             logger.warning("CTGov: fetch failed for %s: %s", ticker, exc)
             return []
