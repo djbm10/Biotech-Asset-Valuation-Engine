@@ -66,7 +66,8 @@ from bve.ingestion.model_versions import PAIR_SCORER_VERSION
 # Logit weights (evidence-informed priors)
 # ---------------------------------------------------------------------------
 
-INTERCEPT: float = -0.40   # prior log-odds slightly below 0.5 (deals are rare)
+INTERCEPT: float = -3.00   # prior log-odds well below 0.5; calibrated so median-quality
+                           # pairs score ~0.90 rather than saturating near 1.0
 
 WEIGHTS: dict[str, float] = {
     "asset_quality":          +1.80,  # strongest predictor of deal completion

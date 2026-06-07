@@ -296,7 +296,9 @@ class BaselineScorer:
         """Acquirer-side risk from target's cash position: dilution / bridge financing."""
         runway = features.get("cash_runway_months")
         if runway is None:
-            return 0.0
+            # Unknown cash ≠ safe cash.  Apply a moderate penalty so that targets
+            # with missing financial data do not appear risk-free to acquirers.
+            return _FINANCING_RISK_MODERATE
         if runway <= _RUNWAY_CRITICAL_MONTHS:
             return _FINANCING_RISK_CRITICAL
         if runway <= _RUNWAY_HIGH_MONTHS:
