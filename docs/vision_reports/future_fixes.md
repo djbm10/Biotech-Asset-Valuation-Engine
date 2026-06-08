@@ -324,6 +324,249 @@ adjusters are well-weighted.
 
 ---
 
+### HARVEY-2 — Two-question science framework: right target + enough drug
+
+**Source**: Harvey Advice (05 June 2026). Direct quote context.
+
+**The explicit simplification Harvey gave**: Everything in a science layer
+should reduce to one of two questions. Everything else — biomarkers, dose
+response, trial design, endpoint choice — is evidence you use to answer one
+of them.
+
+**Question 1: Did you hit the right target?**
+
+> "What's the known data that says that this target is likely to modify the
+> disease? Is there any genetic data that associates the target with the
+> disease? Is there clinical validation from drugs hitting the same receptor,
+> target, protein, or adjacent pathway?"
+
+Signals that answer Q1:
+- Genetic association (GWAS, Mendelian): causal vs. spurious
+- Clinical analog: approved drug in the same mechanism class
+- Pathway validation: different target but same signaling chain has worked
+- Competitor failure analysis: was the failure drug-quality or target-biology?
+
+**Question 2: Did enough drug reach the target at the tested dose?**
+
+> "If your disease is in the brain, it's much harder to actually get to the
+> brain. This is probably why neuroscience tends to have a lot of failures —
+> you might have hit the right target, but you didn't get enough of the drug."
+
+Signals that answer Q2:
+- On-target tissue biodistribution data
+- Off-target tissue distribution (safety corollary)
+- Dose-response trend: higher doses → stronger effect = target being engaged
+- Pathway suppression level vs. required level (e.g., need 90–99%, got 20–50%)
+- Dose interval plausibility: transient spike vs. sustained suppression biology
+
+**Why only two questions**
+
+> "In the end, it's really one or two of those questions that we're really
+> worried about as a team. It sounds like you really want to hone in to that —
+> what is that killer thesis question that's going to give you a bifurcation."
+
+Biomarker quality, endpoint design, trial design, KOL sentiment — all of these
+matter, but they matter as *evidence for Q1 or Q2*, not as independent science
+dimensions. Adding more top-level dimensions creates a broader score that looks
+more complete but answers a less precise question.
+
+**Implementation rule**
+
+When building the science layer, the first field to populate for each asset is:
+
+```text
+primary_science_question: "Q1: right target" | "Q2: enough drug" | "both"
+```
+
+Then evidence is attached to that question, not to a generic science bucket.
+
+**Priority**: High. This is the distilled version of everything Harvey said
+about science. HARVEY-1 (`DrugDeliveryConfidence`) implements the Q2 signal.
+Q1 is partially covered by `MoAPrecedent` and `MoAExceptionFlag`. The gap is
+that nothing forces the analyst to *explicitly declare which question is the
+primary risk* for each asset before scoring begins.
+
+---
+
+### HARVEY-3 — Structured diligence question format
+
+**Source**: Harvey Advice (05 June 2026).
+
+Harvey described a specific 4-step diligence question format that the tool
+should be able to run for each asset. His exact framing:
+
+> "If the question is 'nobody believed we can target RAS' — did the data
+> readout suggest they're inhibiting that pathway? The tool should be able
+> to say: if they were hitting the pathway, we should expect to see signaling
+> protein X, Y, Z go down, and this clinical marker go up. Is there any
+> public info that shows that they were able to hit these in trial or
+> preclinical study?"
+
+**The four steps**
+
+1. **State the biological thesis question**
+   - One sentence: what the company believes must be true for the drug to work
+   - Example: "Inhibiting KRAS G12C will reduce tumor proliferation in NSCLC
+     patients with this mutation"
+
+2. **Define what observable evidence would confirm or refute it**
+   - If the thesis is true, what should we see in the data?
+   - Example: "KRAS downstream signaling proteins (pERK, pAKT) should decrease;
+     tumor response rate should exceed 30%"
+   - This step forces precision — it makes the thesis falsifiable before the
+     readout happens
+
+3. **Search public sources for that evidence**
+   - Company presentations, earnings-call transcripts, CT.gov, PubMed,
+     competitor readouts, preclinical publications, conference abstracts
+
+4. **Return a verdict**
+   - Confirmed: evidence aligns with thesis
+   - Weakened: evidence is inconsistent or ambiguous
+   - Unresolved: not enough public data to assess
+
+**Why this matters for the tool**
+
+Currently the tool ingests events and updates scores, but it does not reason
+about whether a specific readout answered the thesis question. A Phase 2 pass
+is treated as a Phase 2 pass. Harvey's framework says: a Phase 2 pass that did
+not answer the primary thesis question is less informative than a Phase 2 that
+directly addressed it.
+
+**What to build**
+
+A `ScienceThesisRecord` per asset:
+- `thesis_question: str` — the one-sentence falsifiable biological question
+- `expected_confirmatory_signals: list[str]` — observable signals that would
+  confirm it
+- `expected_refutation_signals: list[str]` — signals that would weaken it
+- `evidence_for: list[str]` — public references supporting confirmation
+- `evidence_against: list[str]` — public references supporting refutation
+- `verdict: "confirmed" | "weakened" | "unresolved"` — current state
+- `last_updated: date`
+
+The verdict feeds into the `ScienceThesis.delivery_confidence` field from
+HARVEY-1 and into the weekly report's "Killer Thesis Question" section.
+
+**Priority**: Medium. This is primarily a data-entry and reasoning layer.
+The schema is simple; the hard part is populating it from public sources.
+Start by requiring the analyst to fill `thesis_question` manually for each
+asset in `targets.yaml`. Automate retrieval later.
+
+---
+
+### HARVEY-4 — Human-machine belief update interface
+
+**Source**: Harvey Advice (05 June 2026).
+
+> "I can ask Claude to make a guess, or I can interface with it as I have a
+> base belief around it, and it has certain access to a bunch of information,
+> and we can now interface my base belief with its info and update my belief,
+> and hopefully get to something that is more significant than either of us
+> could have alone."
+
+Harvey described this as the right model for how the tool should work — not
+AI replacing judgment, but AI providing structured evidence that the analyst
+uses to update a prior belief.
+
+**The explicit Bayesian structure**
+
+```text
+prior_belief  →  evidence  →  posterior_belief
+     (analyst)    (tool)           (analyst + tool)
+```
+
+Each science thesis record should have:
+- `analyst_prior_confidence: float` — analyst's belief before seeing the
+  evidence (0–1, subjective)
+- `evidence_summary: str` — what the tool found in public sources
+- `evidence_direction: "confirms" | "weakens" | "unresolved"` — tool's
+  assessment
+- `analyst_posterior_confidence: float` — analyst's updated belief after
+  reviewing the tool's evidence
+- `update_rationale: str` — why the belief changed (or didn't)
+
+**What this prevents**
+
+Without this structure, the analyst either ignores the tool output or defers
+to it entirely. The belief-update format forces a documented decision: "I saw
+this evidence, I had this prior, here is what I now believe and why."
+
+This also creates a learning dataset: over time, which analyst updates were
+validated by actual outcomes? Which tool-proposed updates were wrong?
+
+**What Harvey said about AI limitations**
+
+> "Tools are essentially the current best use case of AI — the machine-human
+> interface. It is not able to do it on its own without a lot of corrections
+> along the way."
+
+The tool should never claim to have updated the thesis. It should surface
+evidence and propose an update. The analyst confirms, overrides, or defers.
+
+**Priority**: Medium. The data schema is straightforward. The harder part is
+building the habit of recording prior and posterior beliefs. Start with a
+simple field in `targets.yaml`: `thesis_prior_confidence: 0.6`. Then the tool
+populates evidence and the analyst updates the posterior after each readout.
+
+---
+
+### HARVEY-5 — Investment and arbitrage decision discipline
+
+**Source**: Harvey Advice (05 June 2026).
+
+Harvey explained the correct investment use case for the tool and why options
+calls on biotech are not viable:
+
+> "If you do calls in them years out, it's extremely expensive, and that's
+> just not a viable approach to invest."
+
+The right use case is **medium-term thesis-driven arbitrage**:
+
+> "Do I think this opportunity is likely to have a 10% swing in the next year
+> or two? You have a thesis built off of your model, and once a data readout
+> or piece of news comes out that moves the price in the direction that
+> suggests you should execute your trade — buy or sell — you can execute that
+> trade. You've applied a hypothesis using your model, and once you've seen
+> the signal, you've executed on it. If you don't see the signal, your model
+> can learn why something didn't happen."
+
+He gave the Amgen GLP-1 example explicitly:
+
+> "When Amgen dropped their data — 19.9% body weight loss vs the industry
+> pricing them for 20–21% — their stock fell 30%. To me, knowing the
+> properties of the drug and the rest of the Amgen portfolio, it felt like
+> an overreaction. It would likely come back at a reasonable time point. That
+> was a potential to put in an investment and see upside, because as soon as
+> they get a more mature data set, they're probably going to correct to closer
+> to the median model."
+
+**What the tool should encode per tracked asset**
+
+- `investment_thesis: str` — what signal would confirm the investment case
+- `expected_catalyst: str` — the specific readout or event being waited for
+- `expected_price_direction: "up" | "down"` — what the thesis predicts
+- `expected_time_window_months: int` — how long to wait for the signal
+- `position_entered: bool`
+- `signal_observed: bool`
+- `outcome: "confirmed" | "refuted" | "no_signal" | "pending"`
+
+**What to NOT do**
+
+- Do not use the tool for daily trading
+- Do not hold positions waiting for biology to play out over years
+- Do not buy options far out on pre-Phase-2 programs — too expensive relative
+  to the uncertainty
+- Do not treat a price drop as a buy signal unless you understand *why* the
+  market dropped and whether it represents a thesis error or market overreaction
+
+**Priority**: Low for the current engineering phase. The tool is not yet at
+the point where investment tracking is the primary workflow. Revisit after the
+weekly M&A screen has been validated against historical outcomes and the
+science thesis layer (HARVEY-2, HARVEY-3) is in place.
+
+---
+
 ### PAIR-SCORER-1 — Pair score distribution compression: full recalibration needed
 
 **Problem**: The acquirer-pair logit scorer saturates near 1.0 for most decent-quality
@@ -1095,7 +1338,7 @@ MacroDealEnvironment:
     regime_version
     capital_markets
     biotech_financing_window
-    buyer_firepower_patent_cliff
+    patent_cliff_pipeline_pressure
     regulatory_pricing_policy
     antitrust_posture
     geopolitical_supply_chain_risk
@@ -1124,11 +1367,61 @@ No fake decimal precision at first.
 |---|---|---|
 | `capital_markets` | Rates, discount rates, investor risk appetite | Changes valuation discipline and stage preference |
 | `biotech_financing_window` | Can small biotechs raise money? | Changes seller willingness and financing risk |
-| `buyer_firepower_patent_cliff` | Are big buyers pressured and able to buy? | Changes buyer urgency |
+| `patent_cliff_pipeline_pressure` | Are big buyers under pressure to replace revenue or fill pipeline gaps? | Changes buyer urgency |
 | `regulatory_pricing_policy` | FDA/pricing/IRA/payer pressure | Changes commercial risk and deal structure |
 | `antitrust_posture` | FTC/regulator strictness | Tightens/loosens pair-level antitrust caps |
 | `geopolitical_supply_chain_risk` | China, tariffs, CDMO/CRO exposure | Changes execution-risk caps |
 | `therapeutic_area_sentiment` | Is the TA hot or cold? | Changes buyer appetite and premium tolerance |
+
+**Open design note — keep this layer clean**
+
+The exact final shape of this layer is still unsettled. The safest design is to
+start simple and avoid creating overlapping macro inputs that pretend to be more
+precise than they are. The current best simplification is:
+
+```text
+V1 Macro Layer Inputs:
+
+- Capital markets regime
+- Biotech financing window
+- Patent-cliff / pipeline pressure
+- Regulatory / pricing climate
+- Antitrust posture
+- Geopolitical / supply-chain risk
+- Therapeutic-area sentiment
+```
+
+Possible cleanup rules:
+
+- **Merge interest-rate / discount-rate environment into
+  `capital_markets_regime`**. Rates are one reason capital markets are easy or
+  hard; they do not need to be a separate flag at first.
+- **Merge accelerated approval climate into FDA / regulatory policy climate**,
+  unless the asset specifically depends on accelerated approval.
+- **Merge IPO / follow-on financing activity into
+  `biotech_financing_window`**. IPOs and follow-ons are evidence for whether
+  the financing window is open or closed.
+- **Merge sector risk appetite into `capital_markets_regime` or
+  `biotech_financing_window`**. As a standalone input it is probably too vague.
+- **Treat deal-structure market preference as an output, not an input**. Macro
+  conditions should produce deal-structure bias; the model should not require a
+  separate manually-entered "deal preference" flag unless needed later.
+- **Keep supply-chain/manufacturing as mostly asset-specific execution risk**.
+  The macro layer should only say whether the external environment makes those
+  risks more or less painful.
+- **Keep buyer stock price, buyer cash, buyer debt, and balance-sheet capacity
+  outside the macro layer**. Those belong in the buyer-specific BD/M&A layer.
+  Macro can change how strict that buyer-capacity layer is, but should not own
+  buyer-specific financial facts.
+
+The practical principle:
+
+```text
+Macro = broad environment.
+Buyer layer = this specific acquirer's capacity and urgency.
+Target layer = this specific company's asset quality, financing pressure, and dealability.
+Pair layer = whether this buyer can realistically buy this target.
+```
 
 **3. Source Model**
 
@@ -1165,7 +1458,7 @@ Only automate the easy, objective pieces first.
 
 | Flag | Automation |
 |---|---|
-| Buyer firepower / patent cliff | Acquirer profiles, cash/debt, LOE dates, pipeline gaps |
+| Patent cliff / pipeline pressure | Acquirer profiles, LOE dates, revenue cliffs, pipeline gaps |
 | Biotech financing window | XBI trend, biotech IPO count, follow-on count/volume |
 | Therapeutic area sentiment | Recent deal activity, TA-specific price performance, recent clinical wins/failures |
 | Capital markets | Fed funds / 10Y yield / biotech index trend, or manual initially |
@@ -1187,7 +1480,7 @@ Should affect POS:
 Should not affect POS:
 - interest rates
 - IPO window
-- buyer stock price
+- buyer cash/debt
 - China tariffs
 - antitrust
 - patent cliffs
@@ -1201,7 +1494,7 @@ buyer_urgency
 valuation_gap
 deal_structure_bias
 pair_score_caps
-affordability strictness
+affordability strictness, by modifying how the buyer-specific BD layer interprets cash/debt
 execution-risk strictness
 ```
 
@@ -1225,7 +1518,7 @@ capital_markets = headwind
 -> penalize expensive early-stage/platform acquisitions
 -> favor late-stage, de-risked, milestone-heavy structures
 
-buyer_firepower_patent_cliff = high
+patent_cliff_pipeline_pressure = high
 -> increase buyer urgency for buyers with near-term LOE gaps
 ```
 
@@ -1303,7 +1596,7 @@ favor disciplined, de-risked, milestone-heavy deals.
 Regime flags:
 - Capital markets: headwind
 - Biotech financing window: closed
-- Buyer firepower / patent cliff: tailwind
+- Patent cliff / pipeline pressure: tailwind
 - Regulatory/pricing policy: headwind
 - Antitrust posture: aggressive
 - Geopolitical/supply-chain risk: medium
@@ -1352,7 +1645,7 @@ Make V1 intentionally modest:
 V1 Macro Layer:
 1. Capital markets regime
 2. Biotech financing window
-3. Buyer firepower / patent cliff pressure
+3. Patent cliff / pipeline pressure
 4. Antitrust posture
 5. Regulatory/pricing pressure
 6. Geopolitical/supply-chain risk
