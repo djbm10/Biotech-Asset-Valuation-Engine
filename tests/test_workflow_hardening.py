@@ -99,7 +99,7 @@ class TestTestsWorkflow:
         assert "ruff" in tests_wf
 
     def test_installs_dev_deps(self, tests_wf):
-        assert "[dev]" in tests_wf
+        assert "[dev" in tests_wf  # matches [dev] or [dev,extras,...]
 
     def test_timeout_set(self, tests_wf):
         assert "timeout-minutes:" in tests_wf
