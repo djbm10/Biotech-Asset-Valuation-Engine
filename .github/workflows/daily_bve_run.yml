@@ -22,6 +22,10 @@ on:
         description: "Lookback days for live ingestion"
         required: true
         default: "3"
+      ingest_sources:
+        description: "Comma-separated ingestion sources"
+        required: true
+        default: "sec,clinicaltrials,fda"
 
 permissions:
   contents: write
@@ -62,6 +66,7 @@ jobs:
           AS_OF="${{ inputs.as_of_date }}"
           SCORE_MODE="${{ inputs.score_mode }}"
           LOOKBACK_DAYS="${{ inputs.lookback_days }}"
+          INGEST_SOURCES="${{ inputs.ingest_sources }}"
 
           if [ -z "$AS_OF" ]; then
             AS_OF="$(date -u +%F)"
@@ -75,9 +80,14 @@ jobs:
             LOOKBACK_DAYS="3"
           fi
 
+          if [ -z "$INGEST_SOURCES" ]; then
+            INGEST_SOURCES="sec,clinicaltrials,fda"
+          fi
+
           echo "as_of=$AS_OF"             >> "$GITHUB_OUTPUT"
           echo "score_mode=$SCORE_MODE"   >> "$GITHUB_OUTPUT"
           echo "lookback_days=$LOOKBACK_DAYS" >> "$GITHUB_OUTPUT"
+          echo "ingest_sources=$INGEST_SOURCES" >> "$GITHUB_OUTPUT"
 
       - name: Restore ledger from data branch
         shell: bash
@@ -130,6 +140,7 @@ jobs:
             --as-of "${{ steps.vars.outputs.as_of }}" \
             --lookback-days "${{ steps.vars.outputs.lookback_days }}" \
             --score-mode "${{ steps.vars.outputs.score_mode }}" \
+            --ingest-sources "${{ steps.vars.outputs.ingest_sources }}" \
             --output "outputs/daily/${{ steps.vars.outputs.as_of }}" \
             --ingest-live
 
