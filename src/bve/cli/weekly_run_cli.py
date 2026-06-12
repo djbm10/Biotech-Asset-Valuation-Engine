@@ -76,7 +76,7 @@ def main(
         default=None,
         help=(
             "Comma-separated live ingestion sources. Defaults to sec,clinicaltrials,fda. "
-            "Accepted: sec,clinicaltrials,fda,press_releases,earnings_calls."
+            "Accepted: sec,clinicaltrials,fda,press_releases,earnings_calls,news_articles."
         ),
     )
     parser.add_argument("--lookback-days", type=int, default=14,
