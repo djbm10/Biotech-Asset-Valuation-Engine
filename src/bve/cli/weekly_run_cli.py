@@ -71,6 +71,14 @@ def main(
     parser.add_argument("--min-coverage", type=float, default=0.20)
     parser.add_argument("--ingest-live",  action="store_true",
                         help="Run live ingestion (SEC 8-K + CT.gov + FDA) before screening")
+    parser.add_argument(
+        "--ingest-sources",
+        default=None,
+        help=(
+            "Comma-separated live ingestion sources. Defaults to sec,clinicaltrials,fda. "
+            "Accepted: sec,clinicaltrials,fda,press_releases,earnings_calls."
+        ),
+    )
     parser.add_argument("--lookback-days", type=int, default=14,
                         help="Lookback window in days for live ingestion")
     parser.add_argument("--dry-run",      action="store_true")
@@ -151,6 +159,11 @@ def main(
     if args.ingest_live:
         from bve.ingestion.live_ingestion_runner import LiveIngestionRunner
 
+        ingest_sources = (
+            [s.strip() for s in args.ingest_sources.split(",") if s.strip()]
+            if args.ingest_sources
+            else None
+        )
         ingest_runner = LiveIngestionRunner(
             sec_source=_ingest_sec_source,
             ctgov_source=_ingest_ctgov_source,
@@ -164,11 +177,20 @@ def main(
             lookback_days=args.lookback_days,
             output_dir=output_dir if not args.dry_run else None,
             dry_run=args.dry_run,
+            sources=ingest_sources,
+        )
+        print(
+            "Ingestion — requested sources: "
+            f"{', '.join(ingest_sources or ['sec', 'clinicaltrials', 'fda'])}"
         )
         print(f"Ingestion — items seen:      {ingest_result.items_seen}")
         print(f"Ingestion — classified:      {ingest_result.items_classified}")
         print(f"Ingestion — appended:        {ingest_result.records_appended}")
         print(f"Ingestion — duplicates:      {ingest_result.duplicates_skipped}")
+        print(f"Ingestion — unclassified:    {ingest_result.unclassified_count}")
+        print("Ingestion — source breakdown:")
+        for source_name, count in sorted(ingest_result.source_breakdown.items()):
+            print(f"  {source_name:<24} {count}")
 
         # ── Step 4: Re-enrich using updated ledger ─────────────────────────
         # EvidenceLedger is file-backed; compute_score_state re-reads the file,
