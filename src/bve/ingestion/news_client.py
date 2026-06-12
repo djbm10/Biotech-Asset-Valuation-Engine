@@ -23,6 +23,7 @@ from bve.ingestion.raw_event import RawEvent
 
 BIOSPACE_RSS = "https://www.biospace.com/rss/news"
 SEC_EFTS = "https://efts.sec.gov/LATEST/search-index"
+NEWSAPI_EVERYTHING = "https://newsapi.org/v2/everything"
 
 _HEADERS = {
     "User-Agent": "BVE Analytics research@bve.local",
@@ -195,6 +196,58 @@ def fetch_sec_press_releases(
             RawEvent(
                 source="news",
                 record_type="press_release",
+                source_url=url,
+                fetched_at=datetime.now(timezone.utc),
+                payload=payload,
+                entity_ids=entity_ids or [],
+            )
+        )
+    return events
+
+
+def fetch_newsapi_articles(
+    query: str,
+    api_key: str,
+    ticker: str | None = None,
+    limit: int = 20,
+    entity_ids: list[str] | None = None,
+) -> list[RawEvent]:
+    """
+    Fetch company news from NewsAPI's /everything endpoint.
+
+    Returns RawEvent with record_type="news_article". This is intentionally
+    opt-in because broad news feeds are noisier than official sources.
+    """
+    if not api_key:
+        return []
+
+    params = {
+        "q": query,
+        "language": "en",
+        "sortBy": "publishedAt",
+        "pageSize": min(max(limit, 1), 100),
+        "apiKey": api_key,
+    }
+    data = _get_json(NEWSAPI_EVERYTHING, params=params)
+    articles = data.get("articles", [])
+    events: list[RawEvent] = []
+    for article in articles[:limit]:
+        title = article.get("title") or ""
+        description = article.get("description") or ""
+        url = article.get("url") or NEWSAPI_EVERYTHING
+        source = article.get("source") or {}
+        payload: dict[str, Any] = {
+            "ticker": ticker or "",
+            "title": title,
+            "summary": description,
+            "url": url,
+            "published": article.get("publishedAt") or "",
+            "source_name": source.get("name") or "newsapi",
+        }
+        events.append(
+            RawEvent(
+                source="newsapi",
+                record_type="news_article",
                 source_url=url,
                 fetched_at=datetime.now(timezone.utc),
                 payload=payload,
