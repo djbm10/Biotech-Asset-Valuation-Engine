@@ -617,6 +617,14 @@ class ValuationOutput(BaseModel):
         if self.comps_fair_value_band is not None:
             d["outputs"]["deal_comps"] = self.comps_fair_value_band.model_dump()
 
+        # Dual-track verdict (investment side; BD not assessed without an M&A scan).
+        # build_dual_track imports nothing from bve — no circular import risk.
+        try:
+            from bve.analysis.dual_track import build_dual_track
+            d["dual_track"] = build_dual_track(self).model_dump()
+        except Exception:
+            pass
+
         # Add assumption log if present
         if self.assumption_log is not None:
             try:

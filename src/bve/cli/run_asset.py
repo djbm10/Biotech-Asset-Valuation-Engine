@@ -588,6 +588,18 @@ def main():
     print(f"  {'MC P10 – P90':<34}   ${d['mc_p10']:>7,.0f}M – ${d['mc_p90']:,.0f}M")
     print(f"  {'Scenarios Bull / Base / Bear':<34}   "
           f"${d['bull_rnpv']:,.0f} / ${d['base_rnpv']:,.0f} / ${d['bear_rnpv']:,.0f}M")
+    # Investment verdict (BD side requires the M&A scan — see bve-report).
+    from bve.analysis.dual_track import build_dual_track
+    _iv = build_dual_track(output).investment
+    if _iv.assessed:
+        print(f"{'─'*58}")
+        print(f"  {'Investment view':<34} {_iv.stance.upper()} ({_iv.valuation_label})")
+        _read = {
+            "market_expectation_too_low": "market expectation too low",
+            "market_expectation_too_high": "market expectation too high",
+        }.get(_iv.market_expectation_read)
+        if _read:
+            print(f"  {'Market read':<34} {_read:>11}")
     print(f"{'═'*58}")
 
     # --- Save outputs ---

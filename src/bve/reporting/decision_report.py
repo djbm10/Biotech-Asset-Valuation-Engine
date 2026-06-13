@@ -110,6 +110,156 @@ def _header(report_input: DecisionReportInput) -> str:
     return "\n".join(lines)
 
 
+def _coerce_valuation_for_dual_track(vo: Any) -> Any:
+    """Return an object ``build_dual_track`` can read.
+
+    Live ``ValuationOutput`` objects are passed through unchanged (they expose
+    ``.rnpv``, ``.market_expectation``, etc.). When the report is built from a
+    saved ``valuation.json`` the loader supplies a shim whose only structured
+    view is ``summary_dict`` — we rebuild the minimal attribute surface from it
+    so the investment verdict still renders.
+    """
+    if vo is None:
+        return None
+    rnpv_obj = getattr(vo, "rnpv", None)
+    if rnpv_obj is not None and getattr(rnpv_obj, "rnpv_millions", None) is not None:
+        return vo  # live object
+
+    from types import SimpleNamespace
+
+    try:
+        sd = vo.summary_dict
+        if not isinstance(sd, dict):
+            return vo
+    except Exception:
+        return vo
+
+    direction = sd.get("market_mispricing_direction")
+    has_price = sd.get("current_price") is not None
+    market_expectation = (
+        SimpleNamespace(
+            mispricing_direction=direction,
+            mispricing_magnitude=sd.get("market_mispricing_magnitude"),
+            confidence=None,
+            current_ev_millions=None,
+            implied_peak_sales_millions=sd.get("market_implied_peak_sales_millions"),
+        )
+        if (direction is not None or has_price)
+        else None
+    )
+    variant_perception = (
+        SimpleNamespace(
+            company_ev_millions=None,
+            base=SimpleNamespace(asset_implied_ev_millions=None),
+            variant_perception_category=sd.get("vp_category"),
+            memo_interpretation=sd.get("vp_memo"),
+        )
+        if sd.get("vp_category")
+        else None
+    )
+    return SimpleNamespace(
+        implied_upside_pct=sd.get("implied_upside_pct"),
+        rnpv=SimpleNamespace(rnpv_millions=sd.get("rnpv_millions")),
+        nav_per_share=sd.get("nav_per_share"),
+        company=SimpleNamespace(
+            current_price=sd.get("current_price"),
+            shares_outstanding_millions=sd.get("shares_outstanding_millions"),
+            net_cash_millions=sd.get("net_cash_millions"),
+        ),
+        market_expectation=market_expectation,
+        variant_perception=variant_perception,
+        monte_carlo=SimpleNamespace(probability_positive=sd.get("mc_prob_positive")),
+    )
+
+
+def _dual_track_section(report_input: DecisionReportInput) -> str:
+    """Section 1.5: Dual-track verdict — separate Investment and BD conclusions.
+
+    Composes the existing valuation and M&A artifacts into two independent
+    verdicts plus an interpretive cross-read. Never blends the two into one
+    score. Degrades to "Not assessed" when either side's inputs are absent.
+    """
+    from bve.analysis.dual_track import build_dual_track
+
+    vo = _coerce_valuation_for_dual_track(report_input.valuation_output)
+    try:
+        dt = build_dual_track(vo, ma_row=report_input.ma_row)
+    except Exception:
+        return ""
+
+    iv, bd = dt.investment, dt.bd
+    lines = ["## Dual-Track Verdict", ""]
+    lines += [f"> **{dt.headline}**", ""]
+
+    def _inv_cell() -> str:
+        if not iv.assessed:
+            return "⚠ Not assessed (no price anchor)"
+        return f"{iv.stance.upper()} ({iv.valuation_label})"
+
+    def _inv_reads() -> str:
+        if not iv.assessed:
+            return "No market price anchor"
+        bits = []
+        if iv.implied_upside_pct is not None:
+            bits.append(f"NAV {iv.implied_upside_pct:+.0f}%")
+        if iv.rnpv_vs_ev_pct is not None:
+            bits.append(f"rNPV vs EV {iv.rnpv_vs_ev_pct:+.0f}%")
+        read_map = {
+            "market_expectation_too_low": "mkt expectation too low",
+            "market_expectation_too_high": "mkt expectation too high",
+            "market_roughly_fair": "mkt roughly fair",
+        }
+        if iv.market_expectation_read in read_map:
+            bits.append(read_map[iv.market_expectation_read])
+        return "; ".join(bits) or _NA
+
+    def _bd_cell() -> str:
+        if not bd.assessed:
+            return "⚠ Not run (no M&A scan)"
+        return f"{bd.strategic_relevance} relevance → {bd.recommended_route}"
+
+    def _bd_reads() -> str:
+        if not bd.assessed:
+            return "Run `bve-ma-probability` to populate"
+        bits = []
+        if bd.best_acquirer:
+            bits.append(f"buyer: {bd.best_acquirer}")
+        if bd.timing != "not_assessed":
+            bits.append(f"timing: {bd.timing}")
+        if bd.p_strategic_transaction_12m is not None:
+            bits.append(f"p(deal,12m): {bd.p_strategic_transaction_12m:.0%}")
+        return "; ".join(bits) or _NA
+
+    lines += [
+        "| Lens | Verdict | Key reads |",
+        "|---|---|---|",
+        f"| **Investment** | {_inv_cell()} | {_inv_reads()} |",
+        f"| **BD / M&A** | {_bd_cell()} | {_bd_reads()} |",
+        "",
+        f"**Quadrant:** `{dt.quadrant}`"
+        + ("  ⚠ _the two lenses diverge_" if dt.divergence else ""),
+        "",
+    ]
+
+    # Make a one-sided assessment unmistakable: a missing lens is "not run",
+    # never a negative verdict.
+    if iv.assessed and not bd.assessed:
+        lines += [
+            "> ⚠ _Investment lens only. The BD/M&A verdict was **not run** in this "
+            "report — this is not a negative BD conclusion. Run `bve-ma-probability` "
+            "for the BD lens._",
+            "",
+        ]
+    elif bd.assessed and not iv.assessed:
+        lines += [
+            "> ⚠ _BD lens only. The investment verdict was **not assessed** (no market "
+            "price anchor) — this is not a negative investment conclusion._",
+            "",
+        ]
+
+    return "\n".join(lines)
+
+
 def _pos_section(report_input: DecisionReportInput) -> str:
     """Section 2: POS comparison."""
     vo = report_input.valuation_output
@@ -536,6 +686,7 @@ def render_decision_report(report_input: DecisionReportInput) -> str:
 
     parts: list[str] = [
         _header(report_input),
+        _dual_track_section(report_input),
         _pos_section(report_input),
         _rnpv_section(report_input),
         _ma_section(report_input),
