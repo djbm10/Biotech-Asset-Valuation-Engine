@@ -123,6 +123,46 @@ def _compute_event_hash(ticker: str, text: str, event_date: str, event_type: str
     return hashlib.sha256(raw.encode()).hexdigest()[:16]
 
 
+# Max characters of raw event text kept on a score-change audit entry.
+_AUDIT_SNIPPET_CHARS = 160
+
+
+# ---------------------------------------------------------------------------
+# ScoreChangeEntry — one feature movement in a score-state replay
+# ---------------------------------------------------------------------------
+
+
+@dataclass(frozen=True)
+class ScoreChangeEntry:
+    """
+    One auditable feature-score movement: which sourced event applied which
+    delta, the before/after, and how decay and clamping affected it.
+
+    delta_requested  the raw delta stored on the record
+    delta_applied    score_after - score_before (reflects decay AND clamping)
+    decay_weight     exponential staleness weight (1.0 when decay disabled)
+    clamped          True when the [0, 1] bound altered the result
+    """
+    event_date: str
+    feature: str
+    score_before: float
+    score_after: float
+    delta_requested: float
+    delta_applied: float
+    decay_weight: float
+    clamped: bool
+    event_type: str
+    direction: str
+    source_type: str
+    source_url: str
+    snippet: str
+    confidence: float
+    reasons: list[str] = field(default_factory=list)
+
+    def to_dict(self) -> dict:
+        return asdict(self)
+
+
 # ---------------------------------------------------------------------------
 # EvidenceRecord
 # ---------------------------------------------------------------------------
@@ -376,6 +416,39 @@ class EvidenceLedger:
         -------
         dict of feature → score (0.0–1.0)
         """
+        scores, _trail = self.compute_score_state_with_trail(
+            ticker=ticker,
+            as_of_date=as_of_date,
+            seed_scores=seed_scores,
+            use_published_date=use_published_date,
+            apply_decay=apply_decay,
+        )
+        return scores
+
+    def compute_score_state_with_trail(
+        self,
+        ticker: str,
+        as_of_date: Optional[date] = None,
+        seed_scores: Optional[dict[str, float]] = None,
+        use_published_date: bool = False,
+        apply_decay: bool = False,
+    ) -> tuple[dict[str, float], list[ScoreChangeEntry]]:
+        """
+        Same replay as :meth:`compute_score_state`, but also returns a
+        chronological audit trail of every feature movement.
+
+        The returned scores are identical to ``compute_score_state`` (which is
+        a thin wrapper over this method). The trail explains *why* each score
+        is where it is: one :class:`ScoreChangeEntry` per (event, feature),
+        carrying source URL / type, a text snippet, the classified event,
+        the requested vs applied delta, decay weight, clamp flag, confidence,
+        and match reasons.
+
+        Returns
+        -------
+        (scores, trail) where scores is feature → score (0.0–1.0) and trail is
+        a list of ScoreChangeEntry ordered by event date.
+        """
         import math
 
         scores = dict(seed_scores if seed_scores is not None else DEFAULT_SEED_SCORES)
@@ -387,6 +460,7 @@ class EvidenceLedger:
         records.sort(key=lambda r: r.event_date)
 
         reference_date = as_of_date or date.today()
+        trail: list[ScoreChangeEntry] = []
 
         for record in records:
             decay_weight = 1.0
@@ -400,11 +474,37 @@ class EvidenceLedger:
                     except (ValueError, OverflowError):
                         decay_weight = 1.0
 
-            for feature, delta in record.score_deltas.items():
-                if feature in scores:
-                    scores[feature] = max(0.0, min(1.0, scores[feature] + delta * decay_weight))
+            snippet = (record.raw_text or "")[:_AUDIT_SNIPPET_CHARS]
 
-        return scores
+            for feature, delta in record.score_deltas.items():
+                if feature not in scores:
+                    continue
+                before = scores[feature]
+                requested_after_decay = delta * decay_weight
+                after = max(0.0, min(1.0, before + requested_after_decay))
+                applied = after - before
+                # Clamped when the [0, 1] bound changed what would have applied.
+                clamped = abs(applied - requested_after_decay) > 1e-12
+                scores[feature] = after
+                trail.append(ScoreChangeEntry(
+                    event_date=record.event_date,
+                    feature=feature,
+                    score_before=before,
+                    score_after=after,
+                    delta_requested=delta,
+                    delta_applied=applied,
+                    decay_weight=decay_weight,
+                    clamped=clamped,
+                    event_type=record.event_type,
+                    direction=record.direction,
+                    source_type=record.source_type,
+                    source_url=record.source_url,
+                    snippet=snippet,
+                    confidence=record.confidence,
+                    reasons=list(record.match_reasons or []),
+                ))
+
+        return scores, trail
 
     def get_score_history(
         self,
