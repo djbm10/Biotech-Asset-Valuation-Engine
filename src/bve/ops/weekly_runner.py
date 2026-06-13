@@ -49,6 +49,12 @@ _REPO_ROOT = Path(__file__).parent.parent.parent.parent
 _MNA_PROFILES_PATH = str(_REPO_ROOT / "examples" / "research" / "acquirer_profiles")
 _MNA_COMPS_PATH    = str(_REPO_ROOT / "research" / "mna" / "comparable_deals.yaml")
 _MNA_VULN_PATH     = str(_REPO_ROOT / "research" / "mna" / "vulnerability_signals.yaml")
+# Watchlist YAML that maps tracked tickers -> existing valuation configs. Used to
+# attach configs to the M&A scan so the acquisition screener can run rNPV/EV
+# inline (populating the coarse investment lens of the dual-track screen).
+_MNA_VALUATION_WATCHLIST = str(
+    _REPO_ROOT / "examples" / "configs" / "watchlists" / "watchlist_replay_expanded_phase2.yaml"
+)
 _MNA_CALIBRATION_CANDIDATES = [
     _REPO_ROOT / "outputs" / "analysis" / "ma_calibration_fit_post_step2.json",
     _REPO_ROOT / "outputs" / "analysis" / "ma_calibration_fit.json",
@@ -62,6 +68,74 @@ def _resolve_mna_calibration_model_path() -> str | None:
     return None
 
 
+def _load_valuation_config_map(watchlist_path: str = _MNA_VALUATION_WATCHLIST) -> dict[str, str]:
+    """Map ``TICKER -> absolute valuation_config path`` from a watchlist YAML.
+
+    The M&A scan attaches these configs to its watchlist assets so the
+    acquisition screener can run rNPV/EV inline. Tickers with no mapped config —
+    or whose config file is absent on disk — are simply omitted, so those names
+    degrade to an honest ``missing_valuation_config`` / ``not_assessed`` rather
+    than a fabricated verdict. Returns an empty map on any load/parse failure so
+    the scan still runs.
+    """
+    import yaml
+
+    path = Path(watchlist_path)
+    if not path.exists():
+        return {}
+    try:
+        raw = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    except Exception:
+        return {}
+
+    entries = raw.get("watchlist", []) if isinstance(raw, dict) else []
+    config_map: dict[str, str] = {}
+    for entry in entries:
+        if not isinstance(entry, dict):
+            continue
+        ticker = entry.get("ticker")
+        cfg = entry.get("valuation_config")
+        if not ticker or not cfg:
+            continue
+        ticker_key = str(ticker).upper()
+        if ticker_key in config_map:
+            continue  # keep first occurrence — stable, deterministic
+        cfg_path = Path(cfg)
+        if not cfg_path.is_absolute():
+            cfg_path = _REPO_ROOT / cfg_path
+        if not cfg_path.exists():
+            continue
+        config_map[ticker_key] = str(cfg_path.resolve())
+    return config_map
+
+
+def _build_mna_watchlist(config_map: Optional[dict[str, str]] = None) -> list:
+    """Build the M&A scan ``WatchlistAsset`` list from UNIVERSE.
+
+    Existing valuation configs are attached by ticker (via
+    :func:`_load_valuation_config_map`) so the acquisition screener can compute
+    rNPV/EV inline. Names with no mapped config keep ``valuation_config=None``
+    and stay honestly ``not_assessed`` on the investment lens.
+    """
+    from bve.pipeline.watchlist_runner import WatchlistAsset
+
+    if config_map is None:
+        config_map = _load_valuation_config_map()
+
+    return [
+        WatchlistAsset(
+            company_id=u["company_id"],
+            asset_id=u["asset_id"],
+            ticker=u.get("ticker"),
+            indication=u.get("indication"),
+            valuation_config=(
+                config_map.get(str(u.get("ticker")).upper()) if u.get("ticker") else None
+            ),
+        )
+        for u in UNIVERSE
+    ]
+
+
 def _run_mna_scan(store: KnowledgeStore, top_n: int = 15) -> Optional[object]:
     """
     Run the M&A probability scan over the weekly UNIVERSE and return
@@ -70,23 +144,18 @@ def _run_mna_scan(store: KnowledgeStore, top_n: int = 15) -> Optional[object]:
     # Lazy import to avoid top-level import cost on every runner invocation
     try:
         from bve.intelligence.ma_probability import MAProbabilityConfig, MAProbabilityScanner
-        from bve.pipeline.watchlist_runner import WatchlistAsset
     except ImportError:
         return None
 
     if not all(Path(p).exists() for p in [_MNA_PROFILES_PATH, _MNA_COMPS_PATH, _MNA_VULN_PATH]):
         return None
 
-    # Build WatchlistAsset list from UNIVERSE definition
-    watchlist_assets = [
-        WatchlistAsset(
-            company_id=u["company_id"],
-            asset_id=u["asset_id"],
-            ticker=u.get("ticker"),
-            indication=u.get("indication"),
-        )
-        for u in UNIVERSE
-    ]
+    # Build WatchlistAsset list from UNIVERSE, attaching existing valuation
+    # configs by ticker so the screener can populate the coarse investment lens.
+    try:
+        watchlist_assets = _build_mna_watchlist()
+    except ImportError:
+        return None
 
     config = MAProbabilityConfig(
         top_n=top_n,
