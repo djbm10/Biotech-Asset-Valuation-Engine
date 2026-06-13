@@ -1,0 +1,26 @@
+# Confidential analyst override template.
+# Copy to <TICKER>.yaml (e.g. BEAM.yaml) — the real file is git-ignored.
+#
+# `confidential_overrides` mirrors the valuation config tree and is deep-merged
+# onto the auto-generated config. `private` is NEVER merged into the engine
+# config (kept out of all outputs); it is available only to memos/screens.
+
+meta:
+  analyst: your_id
+  reviewed: 2026-06-13
+  rationale: >
+    Why these overrides differ from the public auto-generated priors.
+
+confidential_overrides:
+  asset:
+    discount_rate: 0.11
+  trials:
+    - success_probability: 0.42      # merged onto trials[0] by index
+  market_model:
+    peak_penetration: 0.30
+    net_price_per_patient_usd: 250000.0
+
+private:
+  expected_partner_interest: high
+  diligence_notes: >
+    Confidential notes — never written to outputs/.

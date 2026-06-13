@@ -12,8 +12,6 @@ import argparse
 import sys
 from pathlib import Path
 
-import yaml
-
 from bve.config.assumptions_loader import AssumptionsLoader as _AssumptionsLoader
 from bve.entities.asset import DevelopmentStage as _DevelopmentStage
 from bve.entities.asset import Modality as _Modality
@@ -206,8 +204,13 @@ def _validate_config(cfg: dict, path: Path) -> None:
 
 
 def _load_config(path: Path) -> dict:
-    with open(path) as f:
-        return yaml.safe_load(f)
+    # Merge analyst confidential overrides (examples/configs/overrides/<TICKER>.yaml)
+    # when present. The `private:` section is intentionally dropped here so it never
+    # reaches the engine objects or outputs; only `confidential_overrides` are merged.
+    from bve.pipeline.config_resolver import load_resolved_config
+
+    cfg, _provenance = load_resolved_config(path)
+    return cfg
 
 
 def _build_objects(cfg: dict):
