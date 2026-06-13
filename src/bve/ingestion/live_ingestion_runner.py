@@ -69,6 +69,65 @@ class RawIngestionItem:
     raw_payload: dict[str, Any] = field(default_factory=dict)
 
 
+# Verdict thresholds for SourceHealth. A handful of unclassified records is
+# normal noise (especially for news); only an abnormally high rate over a
+# meaningful sample is treated as a classifier problem.
+_HIGH_UNCLASSIFIED_RATE = 0.9
+_MIN_SAMPLE_FOR_UNCLASSIFIED_FLAG = 5
+
+
+@dataclass(frozen=True)
+class SourceHealth:
+    """
+    Per-source health for a single ingestion run.
+
+    Answers "did this source actually work, or silently return nothing?" via
+    a four-state ``verdict`` derived from the counts.
+    """
+    source_key: str
+    tickers_attempted: int = 0
+    fetch_failures: int = 0
+    failure_samples: tuple[str, ...] = ()
+    records_fetched: int = 0
+    records_classified: int = 0
+    records_appended: int = 0
+    duplicates_skipped: int = 0
+    unclassified: int = 0
+
+    @property
+    def verdict(self) -> str:
+        # Every attempt raised → the source is down.
+        if self.tickers_attempted > 0 and self.fetch_failures >= self.tickers_attempted:
+            return "FAILED"
+        # Some attempts raised → partial outage.
+        if self.fetch_failures > 0:
+            return "DEGRADED"
+        # Nothing fetched and nothing failed → legitimately quiet window.
+        if self.records_fetched == 0:
+            return "NO_DATA"
+        # Fetched plenty but the classifier resolved almost none → classifier problem.
+        if (
+            self.records_fetched >= _MIN_SAMPLE_FOR_UNCLASSIFIED_FLAG
+            and self.unclassified / self.records_fetched >= _HIGH_UNCLASSIFIED_RATE
+        ):
+            return "DEGRADED"
+        return "OK"
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "source_key": self.source_key,
+            "verdict": self.verdict,
+            "tickers_attempted": self.tickers_attempted,
+            "fetch_failures": self.fetch_failures,
+            "failure_samples": list(self.failure_samples),
+            "records_fetched": self.records_fetched,
+            "records_classified": self.records_classified,
+            "records_appended": self.records_appended,
+            "duplicates_skipped": self.duplicates_skipped,
+            "unclassified": self.unclassified,
+        }
+
+
 @dataclass(frozen=True)
 class IngestionRunResult:
     as_of_date: date
@@ -80,6 +139,8 @@ class IngestionRunResult:
     unclassified_count: int
     source_breakdown: dict[str, int]
     output_paths: list[str]
+    # Per-source health (optional for backward compat with older callers/tests).
+    source_health: dict[str, SourceHealth] = field(default_factory=dict)
 
 
 # ---------------------------------------------------------------------------
@@ -623,17 +684,32 @@ class LiveIngestionRunner:
             active_sources.append((fn, src_key))
 
         # Collect all raw items
-        items: list[tuple[RawIngestionItem, str]] = []  # (item, role)
+        items: list[tuple[RawIngestionItem, str, str]] = []  # (item, role, src_key)
         source_breakdown: dict[str, int] = {src_key: 0 for _, src_key in active_sources}
+
+        # Per-source health accumulators (mutable; frozen into SourceHealth later).
+        health: dict[str, dict[str, Any]] = {
+            src_key: {
+                "attempted": 0, "failures": 0, "samples": [], "fetched": 0,
+                "classified": 0, "appended": 0, "duplicates": 0, "unclassified": 0,
+            }
+            for _, src_key in active_sources
+        }
 
         for ticker, (role, pdata) in all_profiles.items():
             for fetch_fn, src_key in active_sources:
+                h = health[src_key]
+                h["attempted"] += 1
                 try:
                     raw_items = fetch_fn(ticker, pdata, lookback_days)
                     for item in raw_items:
-                        items.append((item, role))
+                        items.append((item, role, src_key))
                         source_breakdown[src_key] = source_breakdown.get(src_key, 0) + 1
+                        h["fetched"] += 1
                 except Exception as exc:
+                    h["failures"] += 1
+                    if len(h["samples"]) < 5:
+                        h["samples"].append(f"{ticker}: {exc}")
                     logger.warning("Source %s failed for %s: %s", src_key, ticker, exc)
 
         # Process pipeline
@@ -643,7 +719,8 @@ class LiveIngestionRunner:
         duplicates_skipped = 0
         unclassified_count = 0
 
-        for item, role in items:
+        for item, role, src_key in items:
+            h = health[src_key]
             row, appended = self._process_item(
                 item=item,
                 role=role,
@@ -653,14 +730,18 @@ class LiveIngestionRunner:
             )
             if row is None:
                 unclassified_count += 1
+                h["unclassified"] += 1
                 continue
             items_classified += 1
+            h["classified"] += 1
             events_rows.append(row)
             if not dry_run:
                 if appended:
                     records_appended += 1
+                    h["appended"] += 1
                 else:
                     duplicates_skipped += 1
+                    h["duplicates"] += 1
 
         # Write outputs
         output_paths: list[str] = []
@@ -669,6 +750,21 @@ class LiveIngestionRunner:
             csv_path = output_dir / "new_events.csv"
             self._write_events_csv(events_rows, csv_path)
             output_paths.append(str(csv_path))
+
+        source_health = {
+            src_key: SourceHealth(
+                source_key=src_key,
+                tickers_attempted=h["attempted"],
+                fetch_failures=h["failures"],
+                failure_samples=tuple(h["samples"]),
+                records_fetched=h["fetched"],
+                records_classified=h["classified"],
+                records_appended=h["appended"],
+                duplicates_skipped=h["duplicates"],
+                unclassified=h["unclassified"],
+            )
+            for src_key, h in health.items()
+        }
 
         return IngestionRunResult(
             as_of_date=as_of_date,
@@ -680,6 +776,7 @@ class LiveIngestionRunner:
             unclassified_count=unclassified_count,
             source_breakdown=source_breakdown,
             output_paths=output_paths,
+            source_health=source_health,
         )
 
     # ------------------------------------------------------------------

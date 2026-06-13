@@ -43,6 +43,11 @@ def main(
     parser.add_argument("--output",        default=None)
     parser.add_argument("--dry-run",       action="store_true")
     parser.add_argument(
+        "--fail-on-degraded",
+        action="store_true",
+        help="Exit non-zero if any source verdict is DEGRADED or FAILED (for CI/cron alerting).",
+    )
+    parser.add_argument(
         "--sources",
         default=None,
         help=(
@@ -147,11 +152,29 @@ def main(
     for src, count in sorted(result.source_breakdown.items()):
         print(f"  {src}: {count}")
 
+    # ── Source health ─────────────────────────────────────────────────────
+    from bve.reporting.ingestion_health import (
+        has_degraded_or_failed,
+        render_health_report,
+        write_health_report,
+    )
+
+    print()
+    print(render_health_report(result))
+
+    degraded = has_degraded_or_failed(result)
+
     if args.dry_run:
         print("Dry run — no files written.")
-        return 0
+    else:
+        health_paths = write_health_report(result, output_dir)
+        print(f"Output dir:              {output_dir}")
+        for p in result.output_paths:
+            print(f"  {Path(p).name}")
+        for p in health_paths:
+            print(f"  {Path(p).name}")
 
-    print(f"Output dir:              {output_dir}")
-    for p in result.output_paths:
-        print(f"  {Path(p).name}")
+    if args.fail_on_degraded and degraded:
+        print("ERROR: one or more sources DEGRADED/FAILED.", file=sys.stderr)
+        return 2
     return 0
