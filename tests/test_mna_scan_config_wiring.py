@@ -110,6 +110,41 @@ def test_covered_asset_passes_missing_valuation_config_gate():
     assert row.model_rnpv_millions is not None
 
 
+def test_provisional_names_are_covered_with_coarse_evidence():
+    # BEAM and DNLI are high-conviction names with no PIT replay config; they are
+    # covered via the provisional watchlist, screen cleanly, and stay coarse.
+    from bve.intelligence.acquisition_screen import AcquisitionScreener
+    from bve.analysis.dual_track import build_dual_track
+
+    assets = {a.ticker: a for a in _build_mna_watchlist() if a.ticker}
+    screener = AcquisitionScreener(knowledge_store=None)
+    for ticker in ("BEAM", "DNLI"):
+        asset = assets[ticker]
+        assert asset.valuation_config is not None
+        assert "provisional" in asset.valuation_config
+        row = screener._screen_asset(asset, snapshot_date=date(2026, 6, 13))
+        assert row.exclusion_reason != "missing_valuation_config"
+        assert row.model_rnpv_millions is not None
+        assert row.enterprise_value_millions is not None
+        # No valuation.json is generated for provisional configs, so the dual-track
+        # investment lens stays at the coarse evidence level (never "full").
+        dt = build_dual_track(
+            None,
+            coarse_rnpv_millions=row.model_rnpv_millions,
+            coarse_ev_millions=row.enterprise_value_millions,
+        )
+        assert dt.investment.evidence == "coarse"
+
+
+def test_provisional_never_overrides_a_pit_config():
+    # The provisional watchlist is merged with setdefault, so a ticker already
+    # mapped to a point-in-time replay config keeps that config.
+    assets = {a.ticker: a for a in _build_mna_watchlist() if a.ticker}
+    alpn = assets[_COVERED_TICKER]  # ALPN → replay_generated PIT config
+    assert "replay_generated" in alpn.valuation_config
+    assert "provisional" not in alpn.valuation_config
+
+
 def test_unmapped_asset_still_exits_as_missing_valuation_config():
     from bve.intelligence.acquisition_screen import AcquisitionScreener
 

@@ -55,6 +55,12 @@ _MNA_VULN_PATH     = str(_REPO_ROOT / "research" / "mna" / "vulnerability_signal
 _MNA_VALUATION_WATCHLIST = str(
     _REPO_ROOT / "examples" / "configs" / "watchlists" / "watchlist_replay_expanded_phase2.yaml"
 )
+# Hand-authored provisional CURRENT configs for high-conviction names with no PIT
+# replay config. Merged AFTER the replay watchlist so it only fills coverage gaps
+# and never overrides a point-in-time config.
+_MNA_PROVISIONAL_WATCHLIST = str(
+    _REPO_ROOT / "examples" / "configs" / "watchlists" / "watchlist_provisional.yaml"
+)
 _MNA_CALIBRATION_CANDIDATES = [
     _REPO_ROOT / "outputs" / "analysis" / "ma_calibration_fit_post_step2.json",
     _REPO_ROOT / "outputs" / "analysis" / "ma_calibration_fit.json",
@@ -121,6 +127,10 @@ def _build_mna_watchlist(config_map: Optional[dict[str, str]] = None) -> list:
 
     if config_map is None:
         config_map = _load_valuation_config_map()
+        # Provisional current configs fill coverage gaps only (setdefault →
+        # never overrides a point-in-time config already mapped above).
+        for ticker_key, cfg_path in _load_valuation_config_map(_MNA_PROVISIONAL_WATCHLIST).items():
+            config_map.setdefault(ticker_key, cfg_path)
 
     return [
         WatchlistAsset(

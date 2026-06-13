@@ -1,0 +1,63 @@
+# PROVISIONAL current config — Denali Therapeutics (DNLI) / DNL310 (tividenofusp alfa)
+#
+# Status: PROVISIONAL. Authored as a current (NOT point-in-time) config to give
+# the M&A dual-track screen a coarse investment lens for a high-conviction name.
+# rNPV inputs below are EVIDENCE-INFORMED PROVISIONAL ESTIMATES, not a reviewed
+# underwriting. The dual-track investment evidence level must remain "coarse"
+# until a full reviewed valuation is run (do not generate outputs/DNLI/valuation.json
+# from this file without review). See _meta.provisional below.
+asset:
+  id: asset-dnli-dnl310-mps2
+  name: DNL310 (tividenofusp alfa)
+  indication: Hunter syndrome (MPS II)
+  therapeutic_area: rare_disease
+  stage: nda_bla                  # BLA submitted under accelerated approval (provisional)
+  modality: biologic              # ETV:IDS enzyme transport-vehicle fusion (BBB-crossing)
+  mechanism_of_action: Iduronate-2-sulfatase enzyme replacement via TransportVehicle (BBB)
+  discount_rate: 0.11             # de-risked near approval (provisional)
+company:
+  id: dnli-provisional
+  name: Denali Therapeutics
+  ticker: DNLI
+  market_cap_millions: 3437.7
+  debt_millions: 40.0
+  # market economics from yfinance 2026-06-13 (current, not PIT)
+  cash_millions: 987.7
+  shares_outstanding_millions: 158.71
+  burn_rate_millions_per_quarter: 100.0
+  current_price: 21.66
+trials:
+# PROVISIONAL — DNL310 BLA filed under accelerated approval (CSF heparan sulfate
+# surrogate). High de-risking stage; success_probability reflects post-filing PoS.
+- phase: nda_bla
+  nct_id: NCT04251026
+  success_probability: 0.85       # provisional post-BLA PoS (accelerated approval)
+  duration_years: 1.0
+  cost_millions: 60.0
+  enrollment: 50
+  primary_endpoint: CSF heparan sulfate reduction (AA surrogate)
+  endpoint_type: surrogate_validated
+  estimated_completion_date: 2026-12
+market_model:
+  # PROVISIONAL market — ultra-orphan MPS II. Best-in-class CNS-penetrant ERT,
+  # displaces idursulfase (Elaprase) in neuronopathic segment. Peak ≈ $0.5B.
+  total_addressable_market_millions: 1300.0
+  addressable_patients_annual: 1800        # global treated MPS II (chronic, prevalent)
+  net_price_per_patient_usd: 650000.0      # orphan ERT annual price (~Elaprase band)
+  peak_penetration: 0.45                   # best-in-class CNS benefit vs incumbent
+  years_to_peak: 5
+  patent_life_years: 12
+  cogs_rate: 0.12                          # biologic, high orphan price -> low COGS%
+  sgna_rate_launch: 0.30                   # small orphan salesforce
+  sgna_rate_mature: 0.18
+_meta:
+  config_version: provisional-v1
+  evidence_level: coarse_provisional       # keep dual-track investment evidence = coarse
+  authored: '2026-06-13'
+  economics_source: yfinance 2026-06-13 (current market data, not point-in-time)
+  assumptions_basis: >
+    Lead asset DNL310 (tividenofusp alfa), ETV:IDS for Hunter syndrome (MPS II),
+    BLA submitted under accelerated approval. Market/PoS are provisional priors
+    informed by the ultra-orphan MPS II setting and the idursulfase (Elaprase)
+    incumbent; not a reviewed underwriting.
+  provisional: true
