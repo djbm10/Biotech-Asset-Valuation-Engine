@@ -152,6 +152,7 @@ SOURCE_CONFIDENCE_WEIGHTS: dict[str, float] = {
     "sec_filing":         0.90,
     "pubmed":             0.88,
     "press_release":      0.80,
+    "earnings_release":   0.78,
     "news_article":       0.70,
     "manual":             0.75,
 }

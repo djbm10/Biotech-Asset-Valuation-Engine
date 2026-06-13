@@ -47,8 +47,9 @@ from __future__ import annotations
 import csv
 import hashlib
 import logging
+import os
 from dataclasses import dataclass, field
-from datetime import date, timedelta
+from datetime import datetime, date, timedelta
 from pathlib import Path
 from typing import Any, Callable, Optional
 
@@ -150,6 +151,7 @@ class IngestionRunResult:
 _8K_ITEM_PHRASES: dict[str, str] = {
     "1.01": "enters material definitive agreement partnership licensing deal",
     "1.02": "material agreement terminated",
+    "2.02": "announces quarterly financial results earnings revenue guidance",
     "2.05": "announces restructuring cost exit disposal plan",
     "2.06": "reports material impairment charge write-down",
     "7.01": "regulation FD disclosure financial results guidance",
@@ -420,6 +422,224 @@ class FDASource:
         return best
 
 
+def _parse_event_date(raw: Any) -> date | None:
+    if not raw:
+        return None
+    if isinstance(raw, date) and not isinstance(raw, datetime):
+        return raw
+    if isinstance(raw, datetime):
+        return raw.date()
+    text = str(raw).strip()
+    if not text:
+        return None
+    try:
+        return date.fromisoformat(text[:10])
+    except ValueError:
+        return None
+
+
+def _raw_event_to_item(
+    *,
+    event: Any,
+    ticker: str,
+    source_type: str,
+    default_date: date,
+) -> RawIngestionItem:
+    payload = dict(getattr(event, "payload", {}) or {})
+    title = payload.get("title") or payload.get("entity_name") or ""
+    summary = payload.get("summary") or ""
+    form_type = payload.get("form_type") or ""
+    text = f"{ticker} {title} {summary} {form_type}".strip()
+    published = (
+        _parse_event_date(payload.get("published"))
+        or _parse_event_date(payload.get("filing_date"))
+        or _parse_event_date(payload.get("period_of_report"))
+        or default_date
+    )
+    return RawIngestionItem(
+        ticker=ticker.upper(),
+        text=text,
+        source_type=source_type,
+        source_url=getattr(event, "source_url", None),
+        published_date=published,
+        raw_payload=payload,
+    )
+
+
+class PressReleaseSource:
+    """
+    Fetches official/company press-release-like records.
+
+    This uses the existing SEC full-text press release client and converts its
+    RawEvent objects into the runner's RawIngestionItem shape.
+    """
+
+    def fetch(
+        self,
+        ticker: str,
+        profile_data: dict[str, Any],
+        lookback_days: int,
+    ) -> list[RawIngestionItem]:
+        from bve.ingestion.news_client import fetch_sec_press_releases
+
+        cutoff = date.today() - timedelta(days=lookback_days)
+        try:
+            raw_events = fetch_sec_press_releases(ticker=ticker, limit=10)
+        except Exception as exc:
+            logger.warning("Press releases: fetch failed for %s: %s", ticker, exc)
+            return []
+
+        items: list[RawIngestionItem] = []
+        for event in raw_events:
+            item = _raw_event_to_item(
+                event=event,
+                ticker=ticker,
+                source_type="press_release",
+                default_date=date.today(),
+            )
+            if item.published_date >= cutoff:
+                items.append(item)
+        return items
+
+
+class NewsArticleSource:
+    """
+    Fetches broader company news.
+
+    Uses NEWS_API_KEY when available; otherwise falls back to BioSpace RSS.
+    Kept as a separate opt-in source because broad news is noisier than
+    official press releases, SEC filings, CT.gov, or FDA.
+    """
+
+    def fetch(
+        self,
+        ticker: str,
+        profile_data: dict[str, Any],
+        lookback_days: int,
+    ) -> list[RawIngestionItem]:
+        from bve.ingestion.news_client import fetch_biospace_news, fetch_newsapi_articles
+
+        company = profile_data.get("name") or ticker
+        api_key = os.getenv("NEWS_API_KEY", "")
+        cutoff = date.today() - timedelta(days=lookback_days)
+        raw_events = []
+        try:
+            if api_key:
+                raw_events = fetch_newsapi_articles(
+                    query=f'"{company}" OR {ticker}',
+                    api_key=api_key,
+                    ticker=ticker,
+                    limit=10,
+                )
+            else:
+                raw_events = fetch_biospace_news(ticker=ticker, limit=10)
+        except Exception as exc:
+            logger.warning("News: fetch failed for %s: %s", ticker, exc)
+            return []
+
+        items: list[RawIngestionItem] = []
+        for event in raw_events:
+            item = _raw_event_to_item(
+                event=event,
+                ticker=ticker,
+                source_type="news_article",
+                default_date=date.today(),
+            )
+            if item.published_date >= cutoff:
+                items.append(item)
+        return items
+
+
+# Synthetic fallback text used when the real filing document cannot be fetched.
+# Carries the generic earnings keywords so downstream classification still has
+# a signal, but it can never produce a directional guidance verdict.
+_EARNINGS_FALLBACK_TEXT = (
+    "reports quarterly earnings financial results revenue cash runway guidance"
+)
+
+# Cap on how much filing body text we keep for classification. Guidance /
+# results language appears in the first page or two; this bounds memory and
+# keeps the regex pass fast.
+_FILING_TEXT_MAX_CHARS = 4000
+
+
+def fetch_filing_text(url: str) -> str:
+    """
+    Best-effort fetch of an SEC filing's primary document as plain text.
+
+    Strips HTML tags, collapses whitespace, and truncates. Returns "" on any
+    failure so callers can fall back to a synthetic stub. Never raises.
+    """
+    if not url:
+        return ""
+    try:
+        import re as _re
+
+        import requests
+
+        r = requests.get(
+            url,
+            headers={"User-Agent": "BVE Analytics research@bve.local"},
+            timeout=30,
+        )
+        r.raise_for_status()
+        body = _re.sub(r"<[^>]+>", " ", r.text)
+        body = _re.sub(r"\s+", " ", body).strip()
+        return body[:_FILING_TEXT_MAX_CHARS]
+    except Exception as exc:  # noqa: BLE001 — best-effort, fall back to stub
+        logger.debug("Earnings: document fetch failed for %s: %s", url, exc)
+        return ""
+
+
+class EarningsReleaseSource:
+    """
+    Fetches earnings-related 8-Ks as an explicit source.
+
+    This reuses SEC 8-K metadata and keeps only Item 2.02 filings, which are
+    commonly used for results of operations / financial condition.
+
+    The synthetic 8-K item-number text is too generic to classify guidance
+    direction, so this source fetches the actual filing document body (via the
+    injectable ``doc_fetcher``) and classifies that. If the document cannot be
+    retrieved, it falls back to a generic earnings stub.
+    """
+
+    def __init__(
+        self,
+        sec_source: Optional[SecEightKSource] = None,
+        doc_fetcher: Optional[Callable[[str], str]] = None,
+    ) -> None:
+        self._sec_source = sec_source or SecEightKSource()
+        self._doc_fetcher = doc_fetcher or fetch_filing_text
+
+    def fetch(
+        self,
+        ticker: str,
+        profile_data: dict[str, Any],
+        lookback_days: int,
+    ) -> list[RawIngestionItem]:
+        items = self._sec_source.fetch(ticker, profile_data, lookback_days)
+        results: list[RawIngestionItem] = []
+        for item in items:
+            item_numbers = str(item.raw_payload.get("items", ""))
+            if "2.02" not in item_numbers:
+                continue
+            body = self._doc_fetcher(item.source_url or "")
+            if body:
+                text = f"{item.ticker} earnings: {body}"
+            else:
+                text = f"{item.ticker} {_EARNINGS_FALLBACK_TEXT}"
+            results.append(RawIngestionItem(
+                ticker=item.ticker,
+                text=text,
+                source_type="earnings_release",
+                source_url=item.source_url,
+                published_date=item.published_date,
+                raw_payload=item.raw_payload,
+            ))
+        return results
+
+
 # ---------------------------------------------------------------------------
 # Context profile builder
 # ---------------------------------------------------------------------------
@@ -556,6 +776,9 @@ class LiveIngestionRunner:
     sec_source        : callable(ticker, profile_data, lookback_days) → list[RawIngestionItem]
     ctgov_source      : callable(ticker, profile_data, lookback_days) → list[RawIngestionItem]
     fda_source        : callable(ticker, profile_data, lookback_days) → list[RawIngestionItem]
+    press_source      : callable(ticker, profile_data, lookback_days) → list[RawIngestionItem]
+    earnings_source   : callable(ticker, profile_data, lookback_days) → list[RawIngestionItem]
+    news_source       : callable(ticker, profile_data, lookback_days) → list[RawIngestionItem]
     classifier        : callable(text, ticker, source_type) → MultiLabelClassification
     materiality_est   : callable(event_type, source_type, context_hints) → MaterialityEstimate
     context_engine    : callable(deltas, event_type, profile) → dict[str,float]
@@ -568,6 +791,9 @@ class LiveIngestionRunner:
         sec_source: Optional[Callable] = None,
         ctgov_source: Optional[Callable] = None,
         fda_source: Optional[Callable] = None,
+        press_source: Optional[Callable] = None,
+        earnings_source: Optional[Callable] = None,
+        news_source: Optional[Callable] = None,
         classifier: Optional[Callable] = None,
         materiality_est: Optional[Callable] = None,
         context_engine: Optional[Callable] = None,
@@ -577,6 +803,9 @@ class LiveIngestionRunner:
         self._sec = sec_source or SecEightKSource().fetch
         self._ctgov = ctgov_source or CTGovSource().fetch
         self._fda = fda_source or FDASource().fetch
+        self._press = press_source or PressReleaseSource().fetch
+        self._earnings = earnings_source or EarningsReleaseSource().fetch
+        self._news = news_source or NewsArticleSource().fetch
 
         if classifier is None:
             from bve.ingestion.event_classifier import classify_headline_multi
@@ -608,25 +837,14 @@ class LiveIngestionRunner:
     # ------------------------------------------------------------------
 
     # ------------------------------------------------------------------
-    # Source stubs (press_releases / earnings_calls) — Phase 6A
-    # These return empty lists until real adapters are wired in.
-    # ------------------------------------------------------------------
-
-    @staticmethod
-    def _press_releases_stub(ticker: str, profile_data: dict, lookback_days: int) -> list:
-        return []
-
-    @staticmethod
-    def _earnings_calls_stub(ticker: str, profile_data: dict, lookback_days: int) -> list:
-        return []
-
     # Canonical mapping: CLI flag name → (fetch_fn, source_type_key)
     _SOURCE_REGISTRY: dict[str, tuple[str, str]] = {
         "sec":            ("_sec",                 "sec_filing"),
         "clinicaltrials": ("_ctgov",               "clinicaltrials_gov"),
         "fda":            ("_fda",                 "fda_website"),
-        "press_releases": ("_press_releases_stub", "press_release"),
-        "earnings_calls": ("_earnings_calls_stub", "earnings_release"),
+        "press_releases": ("_press",               "press_release"),
+        "earnings_calls": ("_earnings",            "earnings_release"),
+        "news_articles":  ("_news",                "news_article"),
     }
 
     # ------------------------------------------------------------------
@@ -652,7 +870,7 @@ class LiveIngestionRunner:
         sources:
             List of source names to run. Accepted values: ``sec``,
             ``clinicaltrials``, ``fda``, ``press_releases``,
-            ``earnings_calls``. Pass ``None`` (default) to run all three
+            ``earnings_calls``, ``news_articles``. Pass ``None`` (default) to run all three
             live sources (sec, clinicaltrials, fda). Unknown names are
             silently skipped with a warning.
 

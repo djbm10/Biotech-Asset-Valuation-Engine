@@ -52,7 +52,7 @@ def main(
         default=None,
         help=(
             "Comma-separated list of data sources to run. "
-            "Choices: sec, clinicaltrials, fda, press_releases, earnings_calls. "
+            "Choices: sec, clinicaltrials, fda, press_releases, earnings_calls, news_articles. "
             "Default: all sources."
         ),
     )
