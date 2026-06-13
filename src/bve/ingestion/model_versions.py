@@ -15,8 +15,8 @@ were scored under different rules — a silent data contamination risk.
 """
 from __future__ import annotations
 
-CLASSIFIER_VERSION = "v2.1"
-DELTA_MAP_VERSION = "v2.1"
+CLASSIFIER_VERSION = "v2.2"
+DELTA_MAP_VERSION = "v2.2"
 MATERIALITY_VERSION = "v1.0"
 CONTEXT_VERSION = "v1.0"
 BASELINE_VERSION = "v1.0"
