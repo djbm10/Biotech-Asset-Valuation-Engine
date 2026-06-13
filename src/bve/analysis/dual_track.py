@@ -43,6 +43,7 @@ MarketRead = Literal[
     "market_roughly_fair",
     "not_assessed",
 ]
+InvestmentEvidence = Literal["full", "coarse", "not_assessed"]
 StrategicRelevance = Literal["high", "moderate", "low", "not_assessed"]
 BDRoute = Literal["acquire", "license", "option", "watchlist", "no_action", "not_assessed"]
 BDTiming = Literal["act_now", "30_days", "90_days", "watch", "not_assessed"]
@@ -94,6 +95,11 @@ class InvestmentVerdict(BaseModel):
     stance: InvestmentStance
     valuation_label: ValuationLabel
     market_expectation_read: MarketRead
+    # How the stance was derived:
+    #   full        — a price-anchored ValuationOutput (NAV upside + mispricing read)
+    #   coarse      — only rNPV-vs-EV was available (directional; no mispricing nuance)
+    #   not_assessed — neither was available
+    evidence: InvestmentEvidence = "not_assessed"
 
     rnpv_millions: Optional[float] = None
     comparison_ev_millions: Optional[float] = None
@@ -303,6 +309,7 @@ def _build_investment_verdict(
         stance=stance,
         valuation_label=valuation_label,
         market_expectation_read=market_read,
+        evidence="full",
         rnpv_millions=rnpv,
         comparison_ev_millions=comparison_ev,
         comparison_ev_basis=comparison_basis,
@@ -313,6 +320,45 @@ def _build_investment_verdict(
         confidence=confidence,
         confidence_label=_confidence_label(confidence, t),
         rationale=rationale,
+    )
+
+
+def _build_investment_verdict_coarse(
+    rnpv: float,
+    ev: float,
+    t: DualTrackThresholds,
+) -> InvestmentVerdict:
+    """Directional investment read from rNPV vs enterprise value alone.
+
+    Used when no price-anchored ValuationOutput is on file. The rNPV-vs-EV gap is
+    a model-value-vs-market gap on the same scale as NAV upside, so the same cut
+    points apply — but there is no mispricing direction or NAV nuance, so this is
+    labelled ``evidence="coarse"`` and carries a lower confidence.
+    """
+    gap_pct = round((rnpv - ev) / ev * 100, 1)
+    if gap_pct >= t.undervalued_upside_pct:
+        valuation_label, stance = "undervalued", "long"
+    elif gap_pct <= t.overvalued_upside_pct:
+        valuation_label, stance = "overvalued", "avoid"
+    else:
+        valuation_label, stance = "fair", "neutral"
+
+    return InvestmentVerdict(
+        assessed=True,
+        stance=stance,
+        valuation_label=valuation_label,
+        market_expectation_read="not_assessed",
+        evidence="coarse",
+        rnpv_millions=rnpv,
+        comparison_ev_millions=ev,
+        comparison_ev_basis="company_ev",
+        rnpv_vs_ev_pct=gap_pct,
+        confidence=0.35,
+        confidence_label=_confidence_label(0.35, t),
+        rationale=[
+            f"Coarse read: rNPV is {gap_pct:+.0f}% vs enterprise value "
+            "(no full price-anchored valuation on file)."
+        ],
     )
 
 
@@ -532,6 +578,8 @@ def build_dual_track(
     *,
     ma_row: Any | None = None,
     bdma_output: Any | None = None,
+    coarse_rnpv_millions: float | None = None,
+    coarse_ev_millions: float | None = None,
     thresholds: DualTrackThresholds | None = None,
 ) -> DualTrackAssessment:
     """Compose existing artifacts into two independent verdicts + a cross-read.
@@ -540,22 +588,66 @@ def build_dual_track(
     ----------
     valuation_output:
         A ``bve.valuation.outputs.ValuationOutput`` (or duck-typed equivalent).
-        Drives the investment verdict. ``None`` → investment not assessed.
+        Drives the full investment verdict. ``None`` → investment not assessed
+        unless a coarse fallback is supplied.
     ma_row:
         A ``bve.intelligence.ma_probability.MAProbabilityRow`` (or equivalent).
     bdma_output:
         A ``bve.intelligence.ma_bd_decomposition.BDMAOutput`` (or equivalent).
         Preferred over ``ma_row`` for route/action/feasibility when both present.
         With neither ``ma_row`` nor ``bdma_output`` → BD not assessed.
+    coarse_rnpv_millions, coarse_ev_millions:
+        Hybrid fallback for the investment lens: when no full price-anchored
+        valuation is available, a coarse rNPV-vs-EV stance is derived from these
+        (e.g. an ``MAProbabilityRow``'s ``model_rnpv_millions`` /
+        ``enterprise_value_millions``). Labelled ``evidence="coarse"``.
     thresholds:
         Optional ``DualTrackThresholds`` override.
     """
     t = thresholds or DualTrackThresholds()
 
     investment = _build_investment_verdict(valuation_output, t)
+    if (
+        not investment.assessed
+        and coarse_rnpv_millions is not None
+        and coarse_ev_millions not in (None, 0)
+    ):
+        investment = _build_investment_verdict_coarse(
+            coarse_rnpv_millions, coarse_ev_millions, t
+        )
     bd = _build_bd_verdict(ma_row, bdma_output, t)
     quadrant, headline, divergence = _cross_read(investment, bd)
 
+    return DualTrackAssessment(
+        investment=investment,
+        bd=bd,
+        quadrant=quadrant,
+        headline=headline,
+        divergence=divergence,
+    )
+
+
+def build_bd_verdict(
+    *,
+    ma_row: Any | None = None,
+    bdma_output: Any | None = None,
+    thresholds: DualTrackThresholds | None = None,
+) -> BDVerdict:
+    """Public wrapper to build only the BD verdict (e.g. for screen surfaces)."""
+    return _build_bd_verdict(ma_row, bdma_output, thresholds or DualTrackThresholds())
+
+
+def compose_assessment(
+    investment: InvestmentVerdict,
+    bd: BDVerdict,
+) -> DualTrackAssessment:
+    """Assemble a pre-built investment + BD verdict into the cross-read.
+
+    Lets callers supply an investment verdict loaded from a saved valuation
+    (the ``dual_track.investment`` block in ``valuation.json``) alongside a BD
+    verdict computed from a screen row, without re-deriving either.
+    """
+    quadrant, headline, divergence = _cross_read(investment, bd)
     return DualTrackAssessment(
         investment=investment,
         bd=bd,
@@ -570,21 +662,28 @@ def dual_track_columns(
     *,
     ma_row: Any | None = None,
     bdma_output: Any | None = None,
+    coarse_rnpv_millions: float | None = None,
+    coarse_ev_millions: float | None = None,
     thresholds: DualTrackThresholds | None = None,
 ) -> dict[str, str]:
-    """Two flat columns for ranking/screen tables: ``investment_stance`` + ``bd_route``.
+    """Flat columns for ranking/screen tables — never the blended composite score.
 
-    A thin, side-effect-free adapter over :func:`build_dual_track` so multi-name
-    surfaces can show the two verdicts side by side **without** collapsing them
-    into (or replacing) the existing blended composite score.
+    Returns ``investment_stance``, ``investment_evidence`` (full/coarse/
+    not_assessed), and ``bd_route``. A thin, side-effect-free adapter over
+    :func:`build_dual_track` so multi-name surfaces can show the two verdicts
+    side by side **without** collapsing them into (or replacing) the existing
+    composite score.
     """
     a = build_dual_track(
         valuation_output,
         ma_row=ma_row,
         bdma_output=bdma_output,
+        coarse_rnpv_millions=coarse_rnpv_millions,
+        coarse_ev_millions=coarse_ev_millions,
         thresholds=thresholds,
     )
     return {
         "investment_stance": a.investment.stance,
+        "investment_evidence": a.investment.evidence,
         "bd_route": a.bd.recommended_route,
     }

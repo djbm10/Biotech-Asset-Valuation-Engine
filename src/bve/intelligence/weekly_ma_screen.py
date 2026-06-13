@@ -698,11 +698,24 @@ def _replace_rank(result: TargetScreenResult, rank: int) -> TargetScreenResult:
 # ---------------------------------------------------------------------------
 
 
-def ranked_targets_to_rows(result: WeeklyMAScreenResult) -> list[dict[str, Any]]:
-    """Convert ranked targets to flat dicts suitable for CSV writing."""
+def ranked_targets_to_rows(
+    result: WeeklyMAScreenResult,
+    *,
+    outputs_dir: str = "outputs",
+) -> list[dict[str, Any]]:
+    """Convert ranked targets to flat dicts suitable for CSV writing.
+
+    Adds lightweight, additive dual-track columns (``investment_stance``,
+    ``investment_evidence``, ``bd_route``) alongside the existing fields. The
+    investment lens is loaded from ``<outputs_dir>/<TICKER>/valuation.json`` when
+    present, else ``not_assessed`` (this screen row carries no rNPV/EV for a
+    coarse read). ``bd_route`` is a best-effort read from the screen's strategic
+    relevance (the screen produces no explicit deal structure). Sort order and
+    all existing columns are unchanged; the composite/ranking is untouched.
+    """
     rows = []
     for t in result.ranked_targets:
-        rows.append({
+        row = {
             "rank": t.rank,
             "ticker": t.ticker,
             "name": t.name,
@@ -723,8 +736,49 @@ def ranked_targets_to_rows(result: WeeklyMAScreenResult) -> list[dict[str, Any]]
             "key_risks": "; ".join(t.key_risks),
             "score_mode": result.score_mode,
             "as_of_date": result.as_of_date.isoformat(),
-        })
+        }
+        row.update(_dual_track_columns_for_target(t, outputs_dir))
+        rows.append(row)
     return rows
+
+
+def _dual_track_columns_for_target(t: Any, outputs_dir: str) -> dict[str, str]:
+    """Lightweight dual-track columns for one ranked TargetScreenResult.
+
+    Best-effort and never raises: any failure degrades to not_assessed so the
+    screen always renders.
+    """
+    try:
+        from types import SimpleNamespace
+
+        from bve.analysis.dual_track_screen import assess_target
+
+        # Adapt the screen row's field names to the MAProbabilityRow shape the
+        # BD verdict reads. No rNPV/EV here → coarse investment is unavailable.
+        ma_like = SimpleNamespace(
+            ticker=t.ticker,
+            strategic_fit_score=t.ma_attractiveness,
+            mna_probability_score=t.ma_probability,
+            best_acquirer_name=t.top_acquirer,
+            recommended_deal_structure=None,
+            watchlist_type=None,
+            days_to_catalyst=None,
+            gap_urgency=None,
+            model_rnpv_millions=None,
+            enterprise_value_millions=None,
+        )
+        a = assess_target(ma_like, outputs_dir=outputs_dir)
+        return {
+            "investment_stance": a.investment.stance,
+            "investment_evidence": a.investment.evidence,
+            "bd_route": a.bd.recommended_route,
+        }
+    except Exception:
+        return {
+            "investment_stance": "not_assessed",
+            "investment_evidence": "not_assessed",
+            "bd_route": "not_assessed",
+        }
 
 
 def pair_results_to_rows(result: WeeklyMAScreenResult) -> list[dict[str, Any]]:

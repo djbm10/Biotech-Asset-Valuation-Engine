@@ -316,19 +316,57 @@ def test_decision_report_renders_dual_track_from_json_shim():
     assert "bd_only" in report or "diverge" in report
 
 
-def test_dual_track_columns_returns_two_flat_fields():
+def test_dual_track_columns_returns_flat_fields():
     cols = dual_track_columns(
         _valuation(implied_upside_pct=-30.0, mispricing_direction="overpriced"),
         ma_row=_ma_row(strategic_fit_score=0.78, recommended_deal_structure="full_acquisition"),
     )
-    assert set(cols) == {"investment_stance", "bd_route"}
+    assert set(cols) == {"investment_stance", "investment_evidence", "bd_route"}
     assert cols["investment_stance"] == "avoid"
+    assert cols["investment_evidence"] == "full"
     assert cols["bd_route"] == "acquire"
 
 
 def test_dual_track_columns_degrade_to_not_assessed():
     cols = dual_track_columns(None)
-    assert cols == {"investment_stance": "not_assessed", "bd_route": "not_assessed"}
+    assert cols == {
+        "investment_stance": "not_assessed",
+        "investment_evidence": "not_assessed",
+        "bd_route": "not_assessed",
+    }
+
+
+def test_full_valuation_is_labelled_full_evidence():
+    res = build_dual_track(_valuation(implied_upside_pct=40.0))
+    assert res.investment.evidence == "full"
+
+
+def test_coarse_fallback_when_no_full_valuation():
+    # No valuation_output, but rNPV 500 vs EV 350 → +42.9% → undervalued (coarse).
+    res = build_dual_track(coarse_rnpv_millions=500.0, coarse_ev_millions=350.0)
+    assert res.investment.assessed is True
+    assert res.investment.evidence == "coarse"
+    assert res.investment.stance == "long"
+    assert res.investment.valuation_label == "undervalued"
+    assert res.investment.rnpv_vs_ev_pct == pytest.approx(42.9, abs=0.2)
+    # Coarse has no mispricing nuance.
+    assert res.investment.market_expectation_read == "not_assessed"
+
+
+def test_full_valuation_takes_priority_over_coarse():
+    res = build_dual_track(
+        _valuation(implied_upside_pct=40.0),
+        coarse_rnpv_millions=10.0,
+        coarse_ev_millions=1000.0,  # coarse would say avoid; full says long
+    )
+    assert res.investment.evidence == "full"
+    assert res.investment.stance == "long"
+
+
+def test_coarse_avoid_when_rnpv_far_below_ev():
+    res = build_dual_track(coarse_rnpv_millions=100.0, coarse_ev_millions=1000.0)
+    assert res.investment.stance == "avoid"
+    assert res.investment.evidence == "coarse"
 
 
 def test_actionable_opportunity_accepts_dual_track_columns():
