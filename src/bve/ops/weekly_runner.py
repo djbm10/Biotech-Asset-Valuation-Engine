@@ -115,6 +115,20 @@ def _load_valuation_config_map(watchlist_path: str = _MNA_VALUATION_WATCHLIST) -
     return config_map
 
 
+def _mna_config_map() -> dict[str, str]:
+    """Merged ``TICKER -> config path`` map used by the M&A scan.
+
+    The replay watchlist provides the point-in-time configs; the provisional
+    watchlist fills coverage gaps only (``setdefault`` → never overrides a PIT
+    config). Exposed so the dual-track screen can classify name liveness from the
+    config source.
+    """
+    config_map = _load_valuation_config_map()
+    for ticker_key, cfg_path in _load_valuation_config_map(_MNA_PROVISIONAL_WATCHLIST).items():
+        config_map.setdefault(ticker_key, cfg_path)
+    return config_map
+
+
 def _build_mna_watchlist(config_map: Optional[dict[str, str]] = None) -> list:
     """Build the M&A scan ``WatchlistAsset`` list from UNIVERSE.
 
@@ -126,24 +140,31 @@ def _build_mna_watchlist(config_map: Optional[dict[str, str]] = None) -> list:
     from bve.pipeline.watchlist_runner import WatchlistAsset
 
     if config_map is None:
-        config_map = _load_valuation_config_map()
-        # Provisional current configs fill coverage gaps only (setdefault →
-        # never overrides a point-in-time config already mapped above).
-        for ticker_key, cfg_path in _load_valuation_config_map(_MNA_PROVISIONAL_WATCHLIST).items():
-            config_map.setdefault(ticker_key, cfg_path)
+        config_map = _mna_config_map()
 
-    return [
-        WatchlistAsset(
-            company_id=u["company_id"],
-            asset_id=u["asset_id"],
-            ticker=u.get("ticker"),
-            indication=u.get("indication"),
-            valuation_config=(
-                config_map.get(str(u.get("ticker")).upper()) if u.get("ticker") else None
-            ),
+    # Deduplicate by asset_id — UNIVERSE lists some assets twice (across conviction
+    # tiers), which otherwise produces duplicate scan rows for one ticker (and,
+    # via independent acquirer tie-breaks, even two different "natural acquirers").
+    assets: list = []
+    seen_asset_ids: set[str] = set()
+    for u in UNIVERSE:
+        asset_id = u["asset_id"]
+        if asset_id in seen_asset_ids:
+            continue
+        seen_asset_ids.add(asset_id)
+        ticker = u.get("ticker")
+        assets.append(
+            WatchlistAsset(
+                company_id=u["company_id"],
+                asset_id=asset_id,
+                ticker=ticker,
+                indication=u.get("indication"),
+                valuation_config=(
+                    config_map.get(str(ticker).upper()) if ticker else None
+                ),
+            )
         )
-        for u in UNIVERSE
-    ]
+    return assets
 
 
 def _run_mna_scan(store: KnowledgeStore, top_n: int = 15) -> Optional[object]:

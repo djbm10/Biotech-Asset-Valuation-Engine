@@ -22,8 +22,9 @@ is never changed by this module.
 from __future__ import annotations
 
 import json
+from collections import Counter
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any, Literal, Optional
 
 from bve.analysis.dual_track import (
     BDVerdict,
@@ -125,6 +126,107 @@ def assess_targets(
 
 
 # ---------------------------------------------------------------------------
+# Liveness — separate the LIVE screen from the backtest universe
+# ---------------------------------------------------------------------------
+
+Liveness = Literal["live", "pit_stale", "inactive", "no_config"]
+
+_LIVENESS_REASON = {
+    "pit_stale": "stale point-in-time economics (refresh to include)",
+    "inactive": "inactive / delisted / acquired (no current market data)",
+    "no_config": "no valuation config yet (not assessed)",
+}
+
+
+def classify_liveness(ticker: str | None, config_map: dict[str, str]) -> Liveness:
+    """Classify a name for the LIVE screen from its valuation-config source.
+
+    - ``live``      — a current-economics config (provisional, named, or a
+                      refreshed auto_generated config that carries a real
+                      market cap).
+    - ``pit_stale`` — only a point-in-time replay config exists; the company may
+                      well be live, but its investment economics are frozen at the
+                      backtest date and should not be trusted as a current read.
+    - ``inactive``  — an auto_generated config whose economics could not be
+                      refreshed (no current market data → delisted / acquired).
+    - ``no_config`` — no config; cannot be assessed.
+
+    Pure config-source classification — deterministic and offline.
+    """
+    if not ticker:
+        return "no_config"
+    path = config_map.get(ticker.upper())
+    if not path:
+        return "no_config"
+    if "replay_generated" in path:
+        return "pit_stale"
+    if "auto_generated" in path:
+        # Refreshed configs carry an explicit market_cap_millions; the unrefreshed
+        # placeholders (delisted/acquired names) do not.
+        try:
+            import yaml
+
+            cfg = yaml.safe_load(Path(path).read_text(encoding="utf-8")) or {}
+            company = cfg.get("company", {}) if isinstance(cfg, dict) else {}
+            if company.get("market_cap_millions") is None:
+                return "inactive"
+        except Exception:
+            return "inactive"
+    return "live"  # provisional / named / refreshed auto_generated
+
+
+def partition_by_liveness(
+    assessed: list[tuple[Any, DualTrackAssessment]],
+    config_map: dict[str, str],
+) -> tuple[list[tuple[Any, DualTrackAssessment]], dict[str, list[str]]]:
+    """Split assessed rows into the live screen vs everything excluded from it.
+
+    Returns ``(live_assessed, excluded)`` where ``excluded`` maps a liveness
+    reason (``pit_stale`` / ``inactive`` / ``no_config``) to the tickers dropped
+    for that reason. The live set preserves input order.
+    """
+    live: list[tuple[Any, DualTrackAssessment]] = []
+    excluded: dict[str, list[str]] = {}
+    for row, a in assessed:
+        tkr = getattr(row, "ticker", None)
+        kind = classify_liveness(tkr, config_map)
+        if kind == "live":
+            live.append((row, a))
+        else:
+            excluded.setdefault(kind, []).append((tkr or "?").upper())
+    return live, excluded
+
+
+# ---------------------------------------------------------------------------
+# Acquirer concentration diagnostic
+# ---------------------------------------------------------------------------
+
+def acquirer_concentration(
+    assessed: list[tuple[Any, DualTrackAssessment]],
+    *,
+    threshold: float = 0.30,
+) -> tuple[Counter, list[str]]:
+    """Count best-acquirer frequency and flag over-concentration.
+
+    If any single acquirer is the named "natural acquirer" for ``threshold`` or
+    more of the names with a BD verdict, it is flagged — that usually means the
+    acquirer-fit scoring is too generic to be trusted as a specific call.
+    """
+    counts: Counter = Counter()
+    for _row, a in assessed:
+        acquirer = (a.bd.best_acquirer or "").split(" (")[0].strip()
+        if acquirer:
+            counts[acquirer] += 1
+    total = sum(counts.values())
+    flagged: list[str] = []
+    if total > 0:
+        for acquirer, n in counts.items():
+            if n / total >= threshold:
+                flagged.append(f"{acquirer} ({n}/{total} = {100 * n / total:.0f}%)")
+    return counts, flagged
+
+
+# ---------------------------------------------------------------------------
 # Flat rows + renderers (the dedicated artifact)
 # ---------------------------------------------------------------------------
 
@@ -194,11 +296,16 @@ def render_dual_track_report(
     assessed: list[tuple[Any, DualTrackAssessment]],
     *,
     as_of: str | None = None,
+    excluded: dict[str, list[str]] | None = None,
+    acquirer_flags: list[str] | None = None,
 ) -> str:
     """Markdown dual-track report — the polished primary artifact.
 
     Leads with the divergence cases (where the two lenses disagree), then the
-    full table. Never blends the two axes into a single score.
+    full table. Never blends the two axes into a single score. When ``excluded``
+    is supplied (live-screen mode), the names dropped from the live view are
+    listed with their reason so nothing is silently lost. ``acquirer_flags``
+    surfaces any over-concentrated "natural acquirer".
     """
     lines: list[str] = ["# Dual-Track Screen", ""]
     if as_of:
@@ -210,6 +317,16 @@ def render_dual_track_report(
         "labelled full / coarse / not_assessed.",
         "",
     ]
+
+    if acquirer_flags:
+        lines += [
+            "> ⚠ **Acquirer concentration:** "
+            + "; ".join(acquirer_flags)
+            + ". One buyer dominating the 'natural acquirer' column usually means "
+            "acquirer-fit scoring is too generic — treat the named acquirer as "
+            "low-confidence.",
+            "",
+        ]
 
     diverging = [(r, a) for (r, a) in assessed if a.divergence]
     if diverging:
@@ -236,4 +353,14 @@ def render_dual_track_report(
             f"| {rank} | {tkr} | {inv} | {iv.evidence} | {bd_cell} | {acq} | `{a.quadrant}` |"
         )
     lines.append("")
+
+    if excluded:
+        lines += ["## Excluded from the live screen", ""]
+        for kind in ("pit_stale", "inactive", "no_config"):
+            tickers = excluded.get(kind)
+            if not tickers:
+                continue
+            reason = _LIVENESS_REASON.get(kind, kind)
+            lines.append(f"- **{reason}** ({len(tickers)}): {', '.join(sorted(set(tickers)))}")
+        lines.append("")
     return "\n".join(lines)

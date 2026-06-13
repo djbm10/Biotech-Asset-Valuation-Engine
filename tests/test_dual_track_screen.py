@@ -184,3 +184,94 @@ def test_ranked_targets_augmentation_uses_valuation_json_when_present(tmp_path):
     cols = _dual_track_columns_for_target(target, str(tmp_path))
     assert cols["investment_evidence"] == "full"
     assert cols["investment_stance"] == "avoid"
+
+
+# ---------------------------------------------------------------------------
+# Liveness classification + live-screen partition (live vs backtest separation)
+# ---------------------------------------------------------------------------
+
+def test_classify_liveness_by_config_source(tmp_path):
+    from bve.analysis.dual_track_screen import classify_liveness
+
+    # refreshed auto_generated config carries a market cap -> live
+    live_auto = tmp_path / "auto_generated" / "acad.yaml"
+    live_auto.parent.mkdir(parents=True, exist_ok=True)
+    live_auto.write_text("company:\n  market_cap_millions: 3611.4\n", encoding="utf-8")
+    # unrefreshed placeholder (delisted) -> inactive
+    dead_auto = tmp_path / "auto_generated" / "blue.yaml"
+    dead_auto.write_text("company:\n  current_price: 25.0\n", encoding="utf-8")
+
+    config_map = {
+        "ACAD": str(live_auto),                         # refreshed auto -> live
+        "BLUE": str(dead_auto),                         # placeholder -> inactive
+        "ARVN": "examples/configs/replay_generated/arvn.yaml",  # PIT -> pit_stale
+        "BEAM": "examples/configs/provisional/beam.yaml",       # provisional -> live
+    }
+    assert classify_liveness("ACAD", config_map) == "live"
+    assert classify_liveness("BLUE", config_map) == "inactive"
+    assert classify_liveness("ARVN", config_map) == "pit_stale"
+    assert classify_liveness("BEAM", config_map) == "live"
+    assert classify_liveness("ZZZZ", config_map) == "no_config"
+    assert classify_liveness(None, config_map) == "no_config"
+
+
+def test_partition_by_liveness_excludes_pit_and_inactive(tmp_path):
+    from bve.analysis.dual_track_screen import assess_targets, partition_by_liveness
+
+    rows = [_row(ticker="BEAM", rank=1), _row(ticker="ARVN", rank=2), _row(ticker="ZZZZ", rank=3)]
+    assessed = assess_targets(rows, outputs_dir=tmp_path)
+    config_map = {
+        "BEAM": "examples/configs/provisional/beam.yaml",      # live
+        "ARVN": "examples/configs/replay_generated/arvn.yaml",  # pit_stale
+        # ZZZZ unmapped -> no_config
+    }
+    live, excluded = partition_by_liveness(assessed, config_map)
+    assert [getattr(r, "ticker") for r, _ in live] == ["BEAM"]
+    assert excluded["pit_stale"] == ["ARVN"]
+    assert excluded["no_config"] == ["ZZZZ"]
+
+
+def test_acquirer_concentration_flags_dominant_buyer(tmp_path):
+    from bve.analysis.dual_track_screen import acquirer_concentration, assess_targets
+
+    rows = (
+        [_row(ticker=f"A{i}", best_acquirer_name="AbbVie") for i in range(7)]
+        + [_row(ticker="B1", best_acquirer_name="Merck")]
+        + [_row(ticker="B2", best_acquirer_name="GSK")]
+    )
+    assessed = assess_targets(rows, outputs_dir=tmp_path)
+    counts, flagged = acquirer_concentration(assessed, threshold=0.30)
+    assert counts["AbbVie"] == 7
+    assert any("AbbVie" in f for f in flagged)   # 7/9 = 78% >= 30%
+    assert not any("Merck" in f for f in flagged)
+
+
+def test_render_report_lists_excluded_and_acquirer_flag(tmp_path):
+    from bve.analysis.dual_track_screen import assess_targets, render_dual_track_report
+
+    assessed = assess_targets([_row(ticker="BEAM")], outputs_dir=tmp_path)
+    report = render_dual_track_report(
+        assessed,
+        as_of="2026-06-13",
+        excluded={"pit_stale": ["ARVN", "RVMD"], "inactive": ["BLUE"]},
+        acquirer_flags=["AbbVie (10/31 = 32%)"],
+    )
+    assert "Excluded from the live screen" in report
+    assert "ARVN" in report and "BLUE" in report
+    assert "Acquirer concentration" in report and "AbbVie" in report
+
+
+# ---------------------------------------------------------------------------
+# Watchlist dedup (one ticker / asset -> one row)
+# ---------------------------------------------------------------------------
+
+def test_build_mna_watchlist_dedups_by_asset_id():
+    from bve.ops.weekly_runner import _build_mna_watchlist
+
+    assets = _build_mna_watchlist()
+    asset_ids = [a.asset_id for a in assets]
+    assert len(asset_ids) == len(set(asset_ids))   # no duplicate assets
+    tickers = [a.ticker for a in assets if a.ticker]
+    # ARVN / RVMD appeared twice in UNIVERSE; now exactly once each.
+    assert tickers.count("ARVN") == 1
+    assert tickers.count("RVMD") == 1
