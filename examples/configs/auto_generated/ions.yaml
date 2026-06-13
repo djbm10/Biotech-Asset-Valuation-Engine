@@ -10,10 +10,13 @@ company:
   id: ions-auto
   name: Ionis Pharmaceuticals
   ticker: IONS
-  cash_millions: 500.0
-  shares_outstanding_millions: 120.0
+  market_cap_millions: 12109.6
+  debt_millions: 2609.6
+  # market economics refreshed from yfinance 2026-06-13
+  cash_millions: 1977.1
+  shares_outstanding_millions: 165.26
   burn_rate_millions_per_quarter: 35.0
-  current_price: 25.0
+  current_price: 73.275
 trials:
 - phase: nda_bla
   nct_id: NCT04568434

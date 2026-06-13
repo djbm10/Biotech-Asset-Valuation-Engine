@@ -10,10 +10,13 @@ company:
   id: prax-auto
   name: Praxis Precision Medicines
   ticker: PRAX
-  cash_millions: 500.0
-  shares_outstanding_millions: 120.0
+  market_cap_millions: 7431.9
+  debt_millions: 1.4
+  # market economics refreshed from yfinance 2026-06-13
+  cash_millions: 786.9
+  shares_outstanding_millions: 27.88
   burn_rate_millions_per_quarter: 35.0
-  current_price: 25.0
+  current_price: 266.58
 trials:
 - phase: phase_3
   nct_id: NCT05685524
