@@ -20,6 +20,7 @@ from bve.pipeline.auto_watchlist import write_auto_watchlist
 from bve.pipeline.profile_builder import ProfileBuilder
 from bve.pipeline.profile_store import ProfileStore
 from bve.pipeline.profile_to_config import write_config
+from bve.pipeline.review_queue import build_review_queue, render_text
 from bve.pipeline.universe_registry import UniverseRegistryEntry, load_universe_registry
 
 _DEFAULT_REGISTRY = "examples/configs/universe_registry.yaml"
@@ -27,6 +28,7 @@ _DEFAULT_DB = "outputs/intelligence/ops.db"
 _DEFAULT_AUTO_DIR = "examples/configs/auto_generated"
 _DEFAULT_PROFILES_DIR = "profiles"
 _DEFAULT_AUTO_WATCHLIST = "examples/configs/watchlists/watchlist_auto_generated.yaml"
+_DEFAULT_SCORE_SNAPSHOT = "outputs/intelligence/review_score_snapshot.json"
 
 
 def _all_seeds(registry_path: Path) -> list[UniverseRegistryEntry]:
@@ -127,6 +129,55 @@ def _cmd_show(args: argparse.Namespace) -> None:
         print(f"    - {name}: {field.value}  [{field.source}]")
 
 
+def _cmd_review(args: argparse.Namespace) -> None:
+    import json
+    from pathlib import Path as _Path
+
+    store = ProfileStore(db_path=args.db)
+    try:
+        profiles = [p for t in store.list_tickers() if (p := store.get(t)) is not None]
+    finally:
+        store.close()
+
+    current_scores: dict[str, float] = {}
+    if args.scores:
+        current_scores = {k.upper(): float(v) for k, v in json.loads(_Path(args.scores).read_text()).items()}
+
+    snap = _Path(args.snapshot)
+    prior_scores: dict[str, float] = {}
+    if snap.exists():
+        try:
+            prior_scores = {k.upper(): float(v) for k, v in json.loads(snap.read_text()).items()}
+        except (ValueError, OSError):
+            prior_scores = {}
+
+    items = build_review_queue(
+        profiles,
+        prior_scores=prior_scores,
+        current_scores=current_scores,
+        stale_days=args.stale_days,
+    )
+
+    if args.format == "json":
+        from dataclasses import asdict
+
+        out = json.dumps([asdict(i) for i in items], indent=2)
+    else:
+        out = render_text(items)
+
+    if args.output:
+        _Path(args.output).parent.mkdir(parents=True, exist_ok=True)
+        _Path(args.output).write_text(out + "\n", encoding="utf-8")
+        print(f"Wrote review queue ({len(items)} items): {args.output}")
+    else:
+        print(out)
+
+    # Persist current scores so the next run can detect movement.
+    if current_scores:
+        snap.parent.mkdir(parents=True, exist_ok=True)
+        snap.write_text(json.dumps(current_scores, indent=2), encoding="utf-8")
+
+
 def _require_target(args: argparse.Namespace) -> None:
     if not args.all and not args.ticker and not getattr(args, "missing", False):
         raise SystemExit("Provide --ticker <T>, --all, or --missing")
@@ -160,10 +211,23 @@ def main(argv: list[str] | None = None) -> None:
     p_show.add_argument("--ticker", required=True)
     p_show.add_argument("--db", default=_DEFAULT_DB)
 
+    p_review = sub.add_parser("review", help="Build the analyst review queue over stored profiles")
+    p_review.add_argument("--db", default=_DEFAULT_DB)
+    p_review.add_argument("--stale-days", type=int, default=90)
+    p_review.add_argument("--scores", help="JSON {ticker: score} of current scores (enables move detection)")
+    p_review.add_argument("--snapshot", default=_DEFAULT_SCORE_SNAPSHOT, help="Prior-score snapshot path")
+    p_review.add_argument("--format", choices=["text", "json"], default="text")
+    p_review.add_argument("--output", help="Write to this path instead of stdout")
+
     args = parser.parse_args(argv)
     if args.command in ("build", "gen-config"):
         _require_target(args)
-    {"build": _cmd_build, "gen-config": _cmd_gen_config, "show": _cmd_show}[args.command](args)
+    {
+        "build": _cmd_build,
+        "gen-config": _cmd_gen_config,
+        "show": _cmd_show,
+        "review": _cmd_review,
+    }[args.command](args)
 
 
 if __name__ == "__main__":
