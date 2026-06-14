@@ -14,6 +14,8 @@ import re
 from functools import lru_cache
 from typing import Optional
 
+from bve.discovery.drug_identity import share_identity
+
 # ── Drug matching ───────────────────────────────────────────────────────────────
 
 _DRUG_NOISE_RE = re.compile(
@@ -32,12 +34,15 @@ def _drug_tokens(name: str) -> set[str]:
 def match_drug(predicted: str, truth: str) -> tuple[bool, bool]:
     """Return (is_match, is_near).
 
-    ``is_match`` — confident same-molecule match (exact, substring, or any shared
-    distinctive token, which handles combos like "VX-121/tezacaftor/deutivacaftor").
+    ``is_match`` — confident same-asset match: shared code name (BEAM-201 ==
+    "anti-CD7 CAR-T (BEAM-201)"), exact/substring, or shared distinctive token
+    (handles combos like "VX-121/tezacaftor/deutivacaftor").
     ``is_near`` — token Jaccard in a gray zone (reported, not counted as correct).
     """
     if not predicted or not truth:
         return False, False
+    if share_identity([predicted], [truth]):
+        return True, False
     p, t = predicted.lower().strip(), truth.lower().strip()
     if p == t or p in t or t in p:
         return True, False

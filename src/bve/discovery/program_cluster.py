@@ -12,23 +12,25 @@ from typing import Optional
 
 from pydantic import BaseModel
 
+from bve.discovery.drug_identity import canonical_drug_key
 from bve.discovery.sponsor_trials import TrialRecord
 
 _PHASE_RANK: dict[str, int] = {"phase_1": 1, "phase_2": 2, "phase_3": 3}
+_CODE_TOKEN_RE = re.compile(r"\b[A-Za-z]{2,6}[\s\-'’.]?\d{2,6}\b")
 
 
-def _drug_key(name: str) -> str:
-    """Normalize a drug name to a clustering key (lower, strip dose/salt noise)."""
-    text = name.lower().strip()
-    # Drop common formulation/salt suffixes that fragment the same molecule.
-    text = re.sub(
-        r"\b(hydrochloride|hcl|sodium|sulfate|mesylate|tablet|tablets|capsule|"
-        r"capsules|injection|oral|iv|for injection)\b",
-        " ",
-        text,
-    )
-    text = re.sub(r"[^a-z0-9]+", " ", text)
-    return re.sub(r"\s+", " ", text).strip()
+def _trial_variants(trial: TrialRecord) -> list[str]:
+    """All name variants for a trial's primary drug (name + CT.gov synonyms)."""
+    primary = trial.drug_names[0] if trial.drug_names else ""
+    return [primary, *trial.primary_drug_aliases] if primary else []
+
+
+def _pretty_label(name: str, key: str) -> str:
+    """Surface the code name (original case) from a descriptive name when possible."""
+    m = _CODE_TOKEN_RE.search(name)
+    if m and canonical_drug_key(m.group()) == key:
+        return m.group()
+    return name.strip()
 
 
 def _max_phase(trials: list[TrialRecord]) -> Optional[str]:
@@ -49,6 +51,7 @@ class CandidateProgram(BaseModel, frozen=True):
     drug: str
     drug_key: str
     trials: tuple[TrialRecord, ...]
+    aliases: tuple[str, ...] = ()  # all distinct name variants (incl. synonyms)
     max_phase: Optional[str] = None
     n_trials: int = 0
     latest_completion: Optional[str] = None
@@ -68,18 +71,26 @@ def cluster_programs(trials: list[TrialRecord]) -> list[CandidateProgram]:
     Programs are returned sorted by max phase desc, then trial count desc.
     """
     groups: dict[str, list[TrialRecord]] = {}
-    display: dict[str, str] = {}
+    labels: dict[str, list[str]] = {}
+    raw_variants: dict[str, list[str]] = {}
     for t in trials:
-        if not t.drug_names:
+        variants = _trial_variants(t)
+        if not variants:
             continue
-        primary = t.drug_names[0]
-        key = _drug_key(primary)
+        key = canonical_drug_key(*variants)
         if not key:
             continue
         groups.setdefault(key, []).append(t)
-        # Prefer the shortest display name (usually the bare molecule, not a combo).
-        if key not in display or len(primary) < len(display[key]):
-            display[key] = primary
+        labels.setdefault(key, []).extend(
+            _pretty_label(v, key) for v in variants if v
+        )
+        raw_variants.setdefault(key, []).extend(v for v in variants if v)
+
+    # Display name = shortest code-surfaced label across the group's variants.
+    display = {
+        key: min(set(lbls), key=len) if lbls else key
+        for key, lbls in labels.items()
+    }
 
     programs: list[CandidateProgram] = []
     for key, group in groups.items():
@@ -96,6 +107,7 @@ def cluster_programs(trials: list[TrialRecord]) -> list[CandidateProgram]:
             drug=display[key],
             drug_key=key,
             trials=tuple(group),
+            aliases=tuple(dict.fromkeys(raw_variants[key])),
             max_phase=_max_phase(group),
             n_trials=len(group),
             latest_completion=_latest([t.primary_completion_date for t in group]),

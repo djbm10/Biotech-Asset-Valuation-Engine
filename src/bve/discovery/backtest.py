@@ -15,6 +15,7 @@ from typing import Callable, Optional
 
 from pydantic import BaseModel
 
+from bve.discovery.drug_identity import share_identity
 from bve.discovery.lead_ranker import MED_MARGIN, rank_leads
 from bve.discovery.matching import (
     infer_modality,
@@ -92,7 +93,13 @@ def evaluate_seed(
 
     prog = lead.program
     predicted_modality = infer_modality(prog.drug, list(prog.conditions))
-    drug_match, drug_near = match_drug(prog.drug, seed.drug_name)
+    # Match truth against the program's full variant set (display + CT.gov synonyms),
+    # so code-vs-generic naming differences don't read as wrong leads.
+    prog_names = [prog.drug, *prog.aliases]
+    drug_match = share_identity(prog_names, [seed.drug_name])
+    drug_near = False
+    if not drug_match:
+        drug_match, drug_near = match_drug(prog.drug, seed.drug_name)
     stage_match, stage_understated = match_stage(prog.max_phase, seed.stage)
 
     if drug_match:

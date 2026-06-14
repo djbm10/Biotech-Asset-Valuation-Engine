@@ -91,3 +91,50 @@ class TestClusterPrograms:
 
     def test_empty_input(self):
         assert cluster_programs([]) == []
+
+    def test_code_name_variants_merge(self):
+        # The user's examples: all four must collapse to one program.
+        recs = _recs(
+            make_protocol(nct_id="N1", drug="BEAM-201", phases=["PHASE1"]),
+            make_protocol(nct_id="N2", drug="Allogeneic anti-CD7 CAR-T cells (BEAM-201)", phases=["PHASE1"]),
+            make_protocol(nct_id="N3", drug="BEAM 201", phases=["PHASE2"]),
+            make_protocol(nct_id="N4", drug="BEAM-201 CAR-T", phases=["PHASE1"]),
+        )
+        progs = cluster_programs(recs)
+        assert len(progs) == 1
+        assert progs[0].n_trials == 4
+        assert progs[0].max_phase == "phase_2"
+
+    def test_merged_program_displays_code_name(self):
+        recs = _recs(
+            make_protocol(nct_id="N1", drug="Allogeneic anti-CD7 CAR-T cells (BEAM-201)", phases=["PHASE1"]),
+            make_protocol(nct_id="N2", drug="BEAM-201", phases=["PHASE2"]),
+        )
+        progs = cluster_programs(recs)
+        assert progs[0].drug == "BEAM-201"
+
+    def test_synonym_merges_descriptive_and_code(self):
+        # Descriptive primary names, code supplied only as a CT.gov synonym.
+        recs = _recs(
+            make_protocol(nct_id="N1", drug="Allogeneic anti-CD7 CAR-T cells",
+                          drug_other_names=["BEAM-201"], phases=["PHASE1"]),
+            make_protocol(nct_id="N2", drug="BEAM-201", phases=["PHASE2"]),
+        )
+        progs = cluster_programs(recs)
+        assert len(progs) == 1
+        assert progs[0].max_phase == "phase_2"
+
+    def test_distinct_codes_stay_separate(self):
+        recs = _recs(
+            make_protocol(nct_id="N1", drug="BEAM-201", phases=["PHASE1"]),
+            make_protocol(nct_id="N2", drug="BEAM-302", phases=["PHASE2"]),
+        )
+        assert len(cluster_programs(recs)) == 2
+
+    def test_aliases_captured(self):
+        recs = _recs(
+            make_protocol(nct_id="N1", drug="BEAM-201",
+                          drug_other_names=["allo CAR-T"], phases=["PHASE1"]),
+        )
+        progs = cluster_programs(recs)
+        assert "allo CAR-T" in progs[0].aliases

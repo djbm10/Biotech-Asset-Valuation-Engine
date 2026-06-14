@@ -48,6 +48,7 @@ class TrialRecord(BaseModel, frozen=True):
     nct_id: str
     title: str = ""
     drug_names: tuple[str, ...] = ()
+    primary_drug_aliases: tuple[str, ...] = ()  # CT.gov otherNames of the primary drug
     phase: Optional[str] = None  # phase_1 | phase_2 | phase_3 | None
     status: str = ""
     start_date: Optional[str] = None
@@ -67,9 +68,13 @@ def _phase_from_tokens(phases: list[str]) -> Optional[str]:
     return max(mapped, key=lambda s: _PHASE_RANK[s])
 
 
-def _extract_drug_names(arms_mod: dict) -> tuple[str, ...]:
-    """Investigational drug/biologic names, placebo/comparators dropped, order-stable."""
-    names: list[str] = []
+def _extract_interventions(arms_mod: dict) -> list[tuple[str, tuple[str, ...]]]:
+    """Investigational interventions as (name, otherNames), placebo/comparators dropped.
+
+    ``otherNames`` are CT.gov-supplied synonyms/code-names — a strong clustering
+    signal (e.g. a descriptive primary name with the code name listed as a synonym).
+    """
+    out: list[tuple[str, tuple[str, ...]]] = []
     seen: set[str] = set()
     for iv in arms_mod.get("interventions", []):
         if iv.get("type", "").upper() not in _ASSET_INTERVENTION_TYPES:
@@ -78,10 +83,14 @@ def _extract_drug_names(arms_mod: dict) -> tuple[str, ...]:
         if not name or _PLACEBO_RE.search(name):
             continue
         key = name.lower()
-        if key not in seen:
-            seen.add(key)
-            names.append(name)
-    return tuple(names)
+        if key in seen:
+            continue
+        seen.add(key)
+        aliases = tuple(
+            a.strip() for a in iv.get("otherNames", []) if a and a.strip()
+        )
+        out.append((name, aliases))
+    return out
 
 
 def _normalize_sponsor(name: str) -> str:
@@ -137,10 +146,15 @@ def parse_protocol(
     except (TypeError, ValueError):
         enrollment = None
 
+    interventions = _extract_interventions(arms_mod)
+    drug_names = tuple(name for name, _ in interventions)
+    primary_aliases = interventions[0][1] if interventions else ()
+
     return TrialRecord(
         nct_id=nct_id,
         title=(id_mod.get("briefTitle") or "").strip(),
-        drug_names=_extract_drug_names(arms_mod),
+        drug_names=drug_names,
+        primary_drug_aliases=primary_aliases,
         phase=_phase_from_tokens(design_mod.get("phases", [])),
         status=(status_mod.get("overallStatus") or "").strip(),
         start_date=status_mod.get("startDateStruct", {}).get("date"),

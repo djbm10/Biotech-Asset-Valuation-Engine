@@ -11,6 +11,7 @@ def make_protocol(
     nct_id: str,
     drug: Optional[str] = None,
     drug_type: str = "DRUG",
+    drug_other_names: Optional[list[str]] = None,
     extra_interventions: Optional[list[tuple[str, str]]] = None,
     phases: Optional[list[str]] = None,
     status: str = "RECRUITING",
@@ -25,7 +26,10 @@ def make_protocol(
     """Build a minimal CT.gov v2 ``protocolSection`` dict."""
     interventions = []
     if drug is not None:
-        interventions.append({"type": drug_type, "name": drug})
+        iv: dict = {"type": drug_type, "name": drug}
+        if drug_other_names:
+            iv["otherNames"] = drug_other_names
+        interventions.append(iv)
     for itype, iname in extra_interventions or []:
         interventions.append({"type": itype, "name": iname})
 
