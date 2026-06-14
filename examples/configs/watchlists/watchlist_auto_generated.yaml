@@ -1,0 +1,23 @@
+# Auto-generated coarse provisional configs from the auto-profile pipeline.
+# Produced by `bve-profile gen-config --all`. Merged into the M&A coverage map
+# AFTER the replay + provisional watchlists (gap-fill only); never overrides a
+# point-in-time or hand-authored config. Investment evidence stays "coarse".
+watchlist:
+- company_id: edit-auto
+  asset_id: asset-edit-reni-cel
+  drug_name: Reni-cel
+  indication: Sickle cell disease
+  ticker: EDIT
+  valuation_config: examples/configs/auto_generated/edit.yaml
+- company_id: fate-auto
+  asset_id: asset-fate-ft576
+  drug_name: FT576
+  indication: Multiple myeloma
+  ticker: FATE
+  valuation_config: examples/configs/auto_generated/fate.yaml
+- company_id: ntla-auto
+  asset_id: asset-ntla-2001
+  drug_name: NTLA-2001
+  indication: Transthyretin amyloidosis
+  ticker: NTLA
+  valuation_config: examples/configs/auto_generated/ntla.yaml

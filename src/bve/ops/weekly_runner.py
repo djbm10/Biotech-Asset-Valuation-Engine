@@ -61,6 +61,11 @@ _MNA_VALUATION_WATCHLIST = str(
 _MNA_PROVISIONAL_WATCHLIST = str(
     _REPO_ROOT / "examples" / "configs" / "watchlists" / "watchlist_provisional.yaml"
 )
+# Pipeline-generated coarse configs (bve-profile gen-config --all). Merged LAST so
+# it only fills names still uncovered after the replay + provisional watchlists.
+_MNA_AUTO_GENERATED_WATCHLIST = str(
+    _REPO_ROOT / "examples" / "configs" / "watchlists" / "watchlist_auto_generated.yaml"
+)
 _MNA_CALIBRATION_CANDIDATES = [
     _REPO_ROOT / "outputs" / "analysis" / "ma_calibration_fit_post_step2.json",
     _REPO_ROOT / "outputs" / "analysis" / "ma_calibration_fit.json",
@@ -118,14 +123,15 @@ def _load_valuation_config_map(watchlist_path: str = _MNA_VALUATION_WATCHLIST) -
 def _mna_config_map() -> dict[str, str]:
     """Merged ``TICKER -> config path`` map used by the M&A scan.
 
-    The replay watchlist provides the point-in-time configs; the provisional
-    watchlist fills coverage gaps only (``setdefault`` → never overrides a PIT
-    config). Exposed so the dual-track screen can classify name liveness from the
-    config source.
+    The replay watchlist provides the point-in-time configs; the provisional and
+    pipeline auto-generated watchlists fill coverage gaps only (``setdefault`` →
+    never override a PIT or provisional config). Exposed so the dual-track screen
+    can classify name liveness from the config source.
     """
     config_map = _load_valuation_config_map()
-    for ticker_key, cfg_path in _load_valuation_config_map(_MNA_PROVISIONAL_WATCHLIST).items():
-        config_map.setdefault(ticker_key, cfg_path)
+    for gap_watchlist in (_MNA_PROVISIONAL_WATCHLIST, _MNA_AUTO_GENERATED_WATCHLIST):
+        for ticker_key, cfg_path in _load_valuation_config_map(gap_watchlist).items():
+            config_map.setdefault(ticker_key, cfg_path)
     return config_map
 
 

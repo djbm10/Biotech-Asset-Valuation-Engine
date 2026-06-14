@@ -10,20 +10,23 @@ company:
   id: edit-auto
   name: Editas Medicine
   ticker: EDIT
-  cash_millions: 500.0
-  shares_outstanding_millions: 120.0
-  burn_rate_millions_per_quarter: 35.0
-  current_price: 25.0
+  cash_millions: 123.6
+  shares_outstanding_millions: 97.867
+  debt_millions: 17.3
+  burn_rate_millions_per_quarter: 22.49
+  current_price: 2.5
+  market_cap_millions: 383.7
 trials:
 - phase: phase_1
   nct_id: NCT04853576
-  success_probability: 0.67
+  success_probability: 0.16994466777600004
   duration_years: 2.5
   cost_millions: 120.0
-  enrollment: 200
-  primary_endpoint: Primary endpoint
+  enrollment: 45
+  primary_endpoint: Proportion of subjects achieving complete resolution of severe
+    vaso-occlusive events (VOEs)
   endpoint_type: surrogate_validated
-  estimated_completion_date: 2026-12
+  estimated_completion_date: 2025-08
 market_model:
   total_addressable_market_millions: 3900.0
   addressable_patients_annual: 1000
@@ -34,29 +37,18 @@ market_model:
   cogs_rate: 0.15
   sgna_rate_launch: 0.4
   sgna_rate_mature: 0.2
-  commercial_inputs:
-    patient_pool:
-      indication: Sickle cell disease
-      prevalence_thousands: 1
-      diagnosed_fraction: 0.95
-      eligible_rate: 0.35
-      treated_fraction: 0.65
-      uncertainty_cv: 0.20
-    pricing:
-      wac_per_year_usd: 1800000
-      gross_to_net_rate: 0.08
-      launch_discount: 0.0
-      annual_erosion_rate: 0.02
-      uncertainty_cv: 0.12
-    share:
-      peak_share: 0.2
-      years_to_peak: 5
-      share_cv: 0.20
-    ex_us_revenue_multiple: 1.1
 _meta:
-  config_version: auto-v1
-  generator_version: '0.3'
-  generated_at: '2026-03-09'
+  config_version: auto-profile-v1
+  generator_version: profile-0.1
+  generated_at: '2026-06-14'
   source_nct_id: NCT04853576
-  source_sec_filing: auto:2026Q1
-  defaulted_fields: []
+  evidence_level: coarse
+  defaulted_fields:
+  - cogs_rate
+  - cost_millions
+  - duration_years
+  - endpoint_type
+  - sgna_rate_launch
+  - sgna_rate_mature
+  - years_to_peak
+  provisional: true
