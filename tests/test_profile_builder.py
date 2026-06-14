@@ -1,6 +1,9 @@
 """Tests for ProfileBuilder (mocked fetchers, offline)."""
 from __future__ import annotations
 
+import pytest
+
+from bve.config.assumptions_loader import AssumptionsLoader
 from bve.pipeline.profile_builder import ProfileBuilder, economics_prior
 from bve.pipeline.universe_registry import UniverseRegistryEntry
 
@@ -102,6 +105,39 @@ def test_missing_public_sources_yield_low_confidence_unset_fields():
     assert profile.cash_millions.value is None
     assert profile.cash_millions.confidence == "low"
     assert profile.current_price.value is None
+
+
+def test_pos_uses_cumulative_approval_not_transition_rate():
+    # A Phase 1 asset's success_probability must be the CUMULATIVE probability of
+    # approval from Phase 1 — not the Phase 1->2 transition rate, which would make
+    # the single-trial engine model treat it as ~67% approval odds.
+    loader = AssumptionsLoader.get()
+    cumulative = loader.prob_approval_from_phase.get("rare_disease", {}).get("phase_1")
+    transition = loader.phase_success_rates_for("rare_disease").get("phase_1")
+    assert cumulative is not None and transition is not None
+    assert cumulative < transition  # sanity: cumulative-to-approval < single transition
+
+    profile = _builder(ctgov={"phase": "PHASE1"}).build(
+        _seed(therapeutic_area="rare_disease", stage="phase_1")
+    )
+    sp = profile.lead_asset.success_probability
+    assert sp.value == pytest.approx(cumulative, rel=1e-6)
+    assert sp.value != pytest.approx(transition, rel=1e-6)
+    # Realistic Phase 1 rare-disease cumulative PoS is ~17%, not ~67%.
+    assert 0.10 < sp.value < 0.25
+
+
+def test_pos_phase1_2_uses_cumulative_for_normalized_phase():
+    # A Phase 1/2 trial normalizes to phase_2; PoS must be the cumulative
+    # approval probability from phase_2 (not the phase_2->3 transition).
+    loader = AssumptionsLoader.get()
+    cumulative_p2 = loader.prob_approval_from_phase.get("oncology", {}).get("phase_2")
+    profile = _builder(ctgov={"phase": "PHASE1/PHASE2"}).build(
+        _seed(therapeutic_area="oncology", stage="phase_1")
+    )
+    asset = profile.lead_asset
+    assert asset.stage.value == "phase_2"  # CT.gov phase 1/2 -> phase_2
+    assert asset.success_probability.value == pytest.approx(cumulative_p2, rel=1e-6)
 
 
 def test_failing_fetcher_does_not_abort_build():

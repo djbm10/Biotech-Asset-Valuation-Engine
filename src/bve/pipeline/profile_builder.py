@@ -222,11 +222,23 @@ class ProfileBuilder:
             return {}
 
     def _pos_for(self, therapeutic_area: str, phase: str) -> Optional[float]:
+        """Cumulative probability of approval from the current phase.
+
+        A generated config carries only the single lead trial, so the engine
+        treats its ``success_probability`` as the whole P(approval). It must
+        therefore be the *cumulative* probability of approval from the current
+        phase to launch — NOT the next-phase transition rate. Using the
+        per-phase transition rate (``phase_success_rates_for``) would make a
+        Phase 1 asset look like it has ~67% approval odds; the cumulative table
+        (``prob_approval_from_phase``) already compounds the remaining ladder.
+        """
         try:
             from bve.config.assumptions_loader import AssumptionsLoader
 
-            rates = AssumptionsLoader.get().phase_success_rates_for(therapeutic_area)
-            value = rates.get(phase, rates.get("phase_2"))
+            table = AssumptionsLoader.get().prob_approval_from_phase
+            ta = (therapeutic_area or "").strip().lower()
+            by_phase = table.get(ta) or table.get("all") or {}
+            value = by_phase.get(phase, by_phase.get("phase_2"))
             return float(value) if value is not None else None
         except Exception:
             return None
