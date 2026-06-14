@@ -172,6 +172,37 @@ def _cache_key(company_name: str) -> str:
     return slug or "unknown"
 
 
+def sponsor_query_candidates(company_name: str) -> list[str]:
+    """Ordered CT.gov sponsor-query strings to try for one company, broadest last.
+
+    ``query.spons`` matches the sponsor string literally-ish, so legal and
+    descriptor suffixes ("Merus N.V.", "Argenx SE", "Terns Pharmaceuticals",
+    "Annexon Biosciences") frequently miss because CT.gov indexes the bare core
+    name. We therefore try the full name first, then a suffix-stripped form, then
+    the distinctive leading token(s). Order matters: the most specific query wins
+    so we don't over-broaden into another sponsor's trials when the full name works.
+    """
+    candidates: list[str] = []
+    seen: set[str] = set()
+
+    def _add(value: str) -> None:
+        value = re.sub(r"\s+", " ", value).strip()
+        if value and value.lower() not in seen:
+            seen.add(value.lower())
+            candidates.append(value)
+
+    _add(company_name)
+    base = re.sub(r"\([^)]*\)", " ", company_name)
+    stripped = _SPONSOR_NOISE_RE.sub(" ", re.sub(r"[,.]", " ", base))
+    _add(stripped)
+    tokens = stripped.split()
+    if tokens:
+        _add(" ".join(tokens[:2]))
+        if len(tokens[0]) >= 3:
+            _add(tokens[0])
+    return candidates
+
+
 def fetch_sponsor_trials(
     company_name: str,
     *,
@@ -198,7 +229,14 @@ def fetch_sponsor_trials(
     if protocols is None:
         if cache_only:
             return []
-        protocols = fetcher(sponsor=company_name, page_size=page_size)
+        # Try progressively broader sponsor-name forms until one resolves trials;
+        # legal/descriptor suffixes ("N.V.", "SE", "Pharmaceuticals") otherwise
+        # miss CT.gov's bare-core sponsor index.
+        protocols = []
+        for candidate in sponsor_query_candidates(company_name):
+            protocols = fetcher(sponsor=candidate, page_size=page_size)
+            if protocols:
+                break
         if cache is not None:
             cache.put("ctgov", key, {"protocols": protocols})
 

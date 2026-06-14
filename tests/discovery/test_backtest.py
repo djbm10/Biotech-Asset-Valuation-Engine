@@ -100,13 +100,13 @@ class TestBuildReport:
     def _mixed_results(self):
         seeds = [
             _seed("A", "Alpha Co", "DrugA", "Cancer", "phase_3", "small_molecule"),
-            _seed("B", "Beta Co", "DrugB", "Cancer", "phase_2", "small_molecule"),
+            _seed("B", "Beta Co", "DrugB", "Cancer", "phase_3", "small_molecule"),
             _seed("C", "Gamma Co", "DrugC", "Cancer", "phase_2", "small_molecule"),
         ]
         fetch = _fetch_from({
             "Alpha Co": [make_protocol(nct_id="N1", drug="DrugA", phases=["PHASE3"],
                                        enrollment=400, lead_sponsor="Alpha Co")],
-            "Beta Co": [make_protocol(nct_id="N2", drug="DrugB", phases=["PHASE2"],
+            "Beta Co": [make_protocol(nct_id="N2", drug="DrugB", phases=["PHASE3"],
                                       lead_sponsor="Beta Co")],
             # Gamma: no trials → no program.
         })

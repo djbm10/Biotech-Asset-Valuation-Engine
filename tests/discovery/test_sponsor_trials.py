@@ -7,7 +7,50 @@ from bve.discovery.sponsor_trials import (
     TrialRecord,
     fetch_sponsor_trials,
     parse_protocol,
+    sponsor_query_candidates,
 )
+
+
+class TestSponsorQueryCandidates:
+    def test_full_name_is_tried_first(self):
+        cands = sponsor_query_candidates("Merus N.V.")
+        assert cands[0] == "Merus N.V."
+
+    def test_strips_legal_and_descriptor_suffixes(self):
+        assert "Merus" in sponsor_query_candidates("Merus N.V.")
+        assert "Argenx" in sponsor_query_candidates("Argenx SE")
+        assert "Terns" in sponsor_query_candidates("Terns Pharmaceuticals")
+        assert "Annexon" in sponsor_query_candidates("Annexon Biosciences")
+
+    def test_no_duplicate_candidates(self):
+        cands = sponsor_query_candidates("Acme")
+        assert len(cands) == len(set(c.lower() for c in cands))
+
+    def test_broadens_progressively(self):
+        cands = sponsor_query_candidates("Terns Pharmaceuticals Inc")
+        assert cands.index("Terns Pharmaceuticals Inc") < cands.index("Terns")
+
+
+class TestFetchFallback:
+    def test_falls_back_to_stripped_name(self):
+        # Full name returns nothing; bare core name resolves trials.
+        protos = [make_protocol(nct_id="NCT9", drug="DrugZ", phases=["PHASE3"])]
+
+        def fetcher(*, sponsor, page_size):
+            return protos if sponsor == "Merus" else []
+
+        recs = fetch_sponsor_trials("Merus N.V.", fetcher=fetcher)
+        assert len(recs) == 1
+
+    def test_prefers_full_name_when_it_resolves(self):
+        seen = []
+
+        def fetcher(*, sponsor, page_size):
+            seen.append(sponsor)
+            return [make_protocol(nct_id="NCT1", drug="D", phases=["PHASE2"])]
+
+        fetch_sponsor_trials("Argenx SE", fetcher=fetcher)
+        assert seen == ["Argenx SE"]  # stopped at the first, most specific query
 
 
 class TestParseProtocol:

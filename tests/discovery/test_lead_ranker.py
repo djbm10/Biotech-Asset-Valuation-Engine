@@ -39,25 +39,65 @@ class TestScoreProgram:
         one, _ = score_program(_prog("A", "phase_2", n=1))
         assert many > one
 
-    def test_recency_bonus(self):
+    def test_activity_bonus_early_stage(self):
+        # Early stage: an actively recruiting trial beats a completed one.
         active, _ = score_program(_prog("A", "phase_2", status="RECRUITING"))
         done, _ = score_program(_prog("A", "phase_2", status="COMPLETED"))
         assert active > done
 
+    def test_completed_pivotal_counts_as_active_late_stage(self):
+        # Late stage: a completed Phase 3 (read-out pivotal) is alive, not stalled,
+        # so it must not score below a still-recruiting Phase 3.
+        done, dcomp = score_program(_prog("A", "phase_3", status="COMPLETED"))
+        active, acomp = score_program(_prog("A", "phase_3", status="RECRUITING"))
+        assert dcomp["activity"] == acomp["activity"] > 0.0
+        assert done == active
+
+    def test_dead_program_penalized(self):
+        live, _ = score_program(_prog("A", "phase_3", status="RECRUITING"))
+        dead, comp = score_program(_prog("A", "phase_3", status="TERMINATED"))
+        assert comp["dead_penalty"] < 0.0
+        assert dead < live
+
+    def test_dead_phase3_loses_to_live_phase2(self):
+        dead3, _ = score_program(_prog("A", "phase_3", status="TERMINATED"))
+        live2, _ = score_program(_prog("B", "phase_2", status="RECRUITING"))
+        assert live2 > dead3
+
+    def test_nda_keyword_registrational_bonus(self):
+        nda, _ = score_program(_prog("A", "phase_2", title="An NDA-supporting study"))
+        plain, _ = score_program(_prog("A", "phase_2", title="A study"))
+        assert nda > plain
+
     def test_components_present(self):
         _, comp = score_program(_prog("A", "phase_3"))
-        assert set(comp) == {"phase", "registrational", "sponsor_is_lead", "recency", "corroboration"}
+        assert set(comp) == {
+            "phase", "registrational", "sponsor_is_lead",
+            "activity", "corroboration", "dead_penalty",
+        }
 
 
 class TestRankLeads:
     def test_none_when_empty(self):
         assert rank_leads([]) is None
 
-    def test_single_program_is_high_tier(self):
-        lead = rank_leads([_prog("Solo", "phase_2")])
+    def test_single_phase3_lead_sponsor_is_high_tier(self):
+        # One program is high only when the company leads a late-stage asset.
+        lead = rank_leads([_prog("Solo", "phase_3", lead=True)])
         assert lead is not None
         assert lead.tier == "high"
-        assert lead.confidence == 1.0
+
+    def test_single_program_not_lead_sponsor_is_low(self):
+        # A lone program where the company is not lead sponsor is weak evidence
+        # (usually a coverage fragment or collaboration trial) → not high.
+        lead = rank_leads([_prog("Solo", "phase_2", lead=False)])
+        assert lead is not None
+        assert lead.tier == "low"
+
+    def test_single_dead_program_is_low(self):
+        lead = rank_leads([_prog("Solo", "phase_3", lead=True, status="TERMINATED")])
+        assert lead is not None
+        assert lead.tier == "low"
 
     def test_picks_highest_phase(self):
         lead = rank_leads([_prog("Early", "phase_1"), _prog("Late", "phase_3")])
