@@ -301,6 +301,65 @@ def cmd_seed() -> None:
     print(f"\nSeeded. DB: {DB_PATH}")
 
 
+def _emit_profile_review_section(
+    *,
+    out_dir: Path,
+    db_path: Path,
+    run_date: "date",
+) -> Optional[Path]:
+    """Build the analyst review queue, print it, and write a dated text artifact.
+
+    Silently skips if the profile store is empty or unavailable — the weekly
+    report must not fail because of a missing profile DB.
+
+    Returns the path written, or None if skipped.
+    """
+    try:
+        from bve.pipeline.profile_store import ProfileStore
+        from bve.pipeline.review_queue import build_review_queue, render_text
+        from bve.pipeline.review_writeback import ProfileReviewStore
+    except ImportError:
+        return None
+
+    try:
+        pstore = ProfileStore(db_path=str(db_path))
+        try:
+            tickers = pstore.list_tickers()
+            profiles = [p for t in tickers if (p := pstore.get(t)) is not None]
+        finally:
+            pstore.close()
+    except Exception:
+        return None
+
+    if not profiles:
+        return None
+
+    try:
+        rstore = ProfileReviewStore(db_path=str(db_path))
+        try:
+            resolutions = rstore.resolutions()
+        finally:
+            rstore.close()
+    except Exception:
+        resolutions = {}
+
+    items = build_review_queue(profiles, resolutions=resolutions)
+    text = render_text(items)
+
+    header = f"\n{'='*60}\nPROFILE REVIEW QUEUE — {run_date}\n{'='*60}\n"
+    print(header + text + "\n")
+
+    out_path = out_dir / f"review_report_{run_date.isoformat()}.txt"
+    try:
+        out_dir.mkdir(parents=True, exist_ok=True)
+        out_path.write_text(header.lstrip() + text + "\n", encoding="utf-8")
+        print(f"Saved: {out_path}")
+    except OSError:
+        pass
+
+    return out_path
+
+
 def cmd_report(top_n: int = 5) -> None:
     """Generate weekly actionable report."""
     store = _get_store()
@@ -398,6 +457,14 @@ def cmd_report(top_n: int = 5) -> None:
     _persist_screen_snapshot(store)
 
     store.close()
+
+    # Profile review report — surface analyst queue items alongside the actionable output.
+    _emit_profile_review_section(
+        out_dir=DB_PATH.parent,
+        db_path=DB_PATH,
+        run_date=date.today(),
+    )
+
     return report
 
 
