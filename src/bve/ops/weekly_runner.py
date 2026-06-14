@@ -306,14 +306,24 @@ def _emit_profile_review_section(
     out_dir: Path,
     db_path: Path,
     run_date: "date",
+    current_scores: Optional[dict[str, float]] = None,
+    score_snapshot: Optional[Path] = None,
 ) -> Optional[Path]:
     """Build the analyst review queue, print it, and write a dated text artifact.
+
+    ``current_scores`` — ``{TICKER: composite_score}`` for all candidates this
+    run (upper-cased). When supplied, prior scores are loaded from
+    ``score_snapshot`` and ``large_score_move`` items are emitted for tickers
+    whose composite moved > 25 % week-over-week. Current scores are then
+    persisted to ``score_snapshot`` so the next run can compare against them.
 
     Silently skips if the profile store is empty or unavailable — the weekly
     report must not fail because of a missing profile DB.
 
     Returns the path written, or None if skipped.
     """
+    import json
+
     try:
         from bve.pipeline.profile_store import ProfileStore
         from bve.pipeline.review_queue import build_review_queue, render_text
@@ -343,7 +353,24 @@ def _emit_profile_review_section(
     except Exception:
         resolutions = {}
 
-    items = build_review_queue(profiles, resolutions=resolutions)
+    # Load prior scores for large_score_move detection.
+    snap_path = score_snapshot or (out_dir / "review_score_snapshot.json")
+    prior_scores: dict[str, float] = {}
+    if current_scores and snap_path.exists():
+        try:
+            prior_scores = {
+                k.upper(): float(v)
+                for k, v in json.loads(snap_path.read_text(encoding="utf-8")).items()
+            }
+        except (OSError, ValueError):
+            prior_scores = {}
+
+    items = build_review_queue(
+        profiles,
+        resolutions=resolutions,
+        prior_scores=prior_scores,
+        current_scores={k.upper(): v for k, v in (current_scores or {}).items()},
+    )
     text = render_text(items)
 
     header = f"\n{'='*60}\nPROFILE REVIEW QUEUE — {run_date}\n{'='*60}\n"
@@ -356,6 +383,16 @@ def _emit_profile_review_section(
         print(f"Saved: {out_path}")
     except OSError:
         pass
+
+    # Persist current scores so the next run can detect movement.
+    if current_scores:
+        try:
+            snap_path.parent.mkdir(parents=True, exist_ok=True)
+            snap_path.write_text(
+                json.dumps(current_scores, indent=2), encoding="utf-8"
+            )
+        except OSError:
+            pass
 
     return out_path
 
@@ -402,6 +439,22 @@ def cmd_report(top_n: int = 5) -> None:
         ))
 
     report = gen.generate(candidates, top_n=top_n, week_ending=date.today())
+
+    # Composite scores for ALL candidates (same base formula as generate(), no contexts).
+    # Used by _emit_profile_review_section to detect large_score_move week-over-week.
+    _w_r = gen.weights["ranking"]
+    _w_t = gen.weights["thesis"]
+    _w_o = gen.weights["opportunity"]
+    _all_scores: dict[str, float] = {
+        c.ticker.upper(): round(
+            max(0.0, min(1.0,
+                _w_r * c.ranking_score
+                + _w_t * (c.thesis_strength if c.thesis_strength is not None else 0.0)
+                + _w_o * c.opportunity_score
+            )), 4
+        )
+        for c in candidates
+    }
 
     print(f"\n{'='*60}")
     print(f"WEEKLY ACTIONABLE REPORT — {report.week_ending}")
@@ -463,6 +516,7 @@ def cmd_report(top_n: int = 5) -> None:
         out_dir=DB_PATH.parent,
         db_path=DB_PATH,
         run_date=date.today(),
+        current_scores=_all_scores,
     )
 
     return report

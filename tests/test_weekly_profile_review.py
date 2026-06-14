@@ -152,3 +152,107 @@ class TestEmitProfileReviewSection:
         )
         assert p1 == p2
         assert p1 is not None and p1.exists()
+
+
+class TestScoreMovementDetection:
+    """large_score_move is emitted when composite moves > threshold week-over-week."""
+
+    def test_large_move_flagged(self, tmp_path):
+        db = tmp_path / "ops.db"
+        _seed_db(db, [_make_profile("BEAM")])
+        snap = tmp_path / "snap.json"
+        # Prior score 0.80 → current 0.40 = 50% drop → exceeds 25% threshold.
+        snap.write_text('{"BEAM": 0.80}', encoding="utf-8")
+        path = _emit_profile_review_section(
+            out_dir=tmp_path, db_path=db, run_date=_RUN_DATE,
+            current_scores={"BEAM": 0.40},
+            score_snapshot=snap,
+        )
+        assert path is not None
+        text = path.read_text()
+        assert "large_score_move" in text
+        assert "BEAM" in text
+
+    def test_small_move_not_flagged(self, tmp_path):
+        db = tmp_path / "ops.db"
+        _seed_db(db, [_make_profile("BEAM")])
+        snap = tmp_path / "snap.json"
+        # Prior 0.60 → current 0.58 = 3% move → below threshold.
+        snap.write_text('{"BEAM": 0.60}', encoding="utf-8")
+        path = _emit_profile_review_section(
+            out_dir=tmp_path, db_path=db, run_date=_RUN_DATE,
+            current_scores={"BEAM": 0.58},
+            score_snapshot=snap,
+        )
+        assert path is not None
+        assert "large_score_move" not in path.read_text()
+
+    def test_no_prior_snapshot_no_move_flag(self, tmp_path):
+        db = tmp_path / "ops.db"
+        _seed_db(db, [_make_profile("BEAM")])
+        # No snapshot file exists yet — first run ever.
+        path = _emit_profile_review_section(
+            out_dir=tmp_path, db_path=db, run_date=_RUN_DATE,
+            current_scores={"BEAM": 0.70},
+            score_snapshot=tmp_path / "snap.json",
+        )
+        assert path is not None
+        assert "large_score_move" not in path.read_text()
+
+    def test_snapshot_written_after_run(self, tmp_path):
+        import json as _json
+        db = tmp_path / "ops.db"
+        _seed_db(db, [_make_profile("BEAM"), _make_profile("DNLI")])
+        snap = tmp_path / "snap.json"
+        _emit_profile_review_section(
+            out_dir=tmp_path, db_path=db, run_date=_RUN_DATE,
+            current_scores={"BEAM": 0.72, "DNLI": 0.55},
+            score_snapshot=snap,
+        )
+        assert snap.exists()
+        data = _json.loads(snap.read_text())
+        assert abs(data["BEAM"] - 0.72) < 1e-6
+        assert abs(data["DNLI"] - 0.55) < 1e-6
+
+    def test_snapshot_updates_on_subsequent_run(self, tmp_path):
+        import json as _json
+        db = tmp_path / "ops.db"
+        _seed_db(db, [_make_profile("BEAM")])
+        snap = tmp_path / "snap.json"
+        _emit_profile_review_section(
+            out_dir=tmp_path, db_path=db, run_date=_RUN_DATE,
+            current_scores={"BEAM": 0.60},
+            score_snapshot=snap,
+        )
+        _emit_profile_review_section(
+            out_dir=tmp_path, db_path=db, run_date=_RUN_DATE,
+            current_scores={"BEAM": 0.35},
+            score_snapshot=snap,
+        )
+        data = _json.loads(snap.read_text())
+        assert abs(data["BEAM"] - 0.35) < 1e-6
+
+    def test_ticker_case_insensitive(self, tmp_path):
+        """Score snapshot uses upper-case keys; current_scores may be mixed case."""
+        db = tmp_path / "ops.db"
+        _seed_db(db, [_make_profile("BEAM")])
+        snap = tmp_path / "snap.json"
+        snap.write_text('{"BEAM": 0.80}', encoding="utf-8")
+        path = _emit_profile_review_section(
+            out_dir=tmp_path, db_path=db, run_date=_RUN_DATE,
+            current_scores={"beam": 0.40},  # lower-case input
+            score_snapshot=snap,
+        )
+        assert path is not None
+        assert "large_score_move" in path.read_text()
+
+    def test_no_scores_passed_no_snapshot_written(self, tmp_path):
+        db = tmp_path / "ops.db"
+        _seed_db(db, [_make_profile("BEAM")])
+        snap = tmp_path / "snap.json"
+        _emit_profile_review_section(
+            out_dir=tmp_path, db_path=db, run_date=_RUN_DATE,
+            current_scores=None,
+            score_snapshot=snap,
+        )
+        assert not snap.exists()  # nothing to persist
