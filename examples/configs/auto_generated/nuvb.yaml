@@ -1,0 +1,62 @@
+asset:
+  id: asset-nuvb-taletrectinib
+  name: Taletrectinib
+  indication: ROS1-positive non-small cell lung cancer
+  therapeutic_area: oncology
+  stage: phase_3
+  modality: small_molecule
+  discount_rate: 0.1
+company:
+  id: nuvb-auto
+  name: Nuvation Bio
+  ticker: NUVB
+  cash_millions: 533.7
+  shares_outstanding_millions: 346.504
+  debt_millions: 217.0
+  burn_rate_millions_per_quarter: 28.78
+  current_price: 4.92
+  market_cap_millions: 1713.2
+trials:
+- phase: phase_3
+  nct_id: null
+  success_probability: 0.45342
+  duration_years: 2.5
+  cost_millions: 120.0
+  enrollment: null
+  primary_endpoint: null
+  endpoint_type: surrogate_validated
+  estimated_completion_date: null
+market_model:
+  total_addressable_market_millions: 6000.0
+  addressable_patients_annual: 20000
+  net_price_per_patient_usd: 180000.0
+  peak_penetration: 0.15
+  years_to_peak: 5
+  patent_life_years: 11
+  cogs_rate: 0.15
+  sgna_rate_launch: 0.4
+  sgna_rate_mature: 0.2
+_meta:
+  config_version: auto-profile-v1
+  generator_version: profile-0.1
+  generated_at: '2026-06-14'
+  source_nct_id: null
+  evidence_level: coarse
+  defaulted_fields:
+  - addressable_patients_annual
+  - cogs_rate
+  - cost_millions
+  - discount_rate
+  - duration_years
+  - endpoint_type
+  - enrollment
+  - estimated_completion_date
+  - net_price_per_patient_usd
+  - patent_life_years
+  - peak_penetration
+  - primary_endpoint
+  - sgna_rate_launch
+  - sgna_rate_mature
+  - total_addressable_market_millions
+  - years_to_peak
+  provisional: true

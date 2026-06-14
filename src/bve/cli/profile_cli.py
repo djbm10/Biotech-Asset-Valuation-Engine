@@ -54,7 +54,17 @@ def _build_one(store: ProfileStore, seed: UniverseRegistryEntry, profiles_dir: s
 
 def _cmd_build(args: argparse.Namespace) -> None:
     registry = Path(args.registry)
-    seeds = _all_seeds(registry) if args.all else [_find_seed(registry, args.ticker)]
+    if args.all or args.missing:
+        seeds = _all_seeds(registry)
+        if args.missing:
+            # Only names not already covered by the M&A map — never rebuild/clobber
+            # curated or point-in-time configs the working screen depends on.
+            from bve.ops.weekly_runner import _mna_config_map
+
+            covered = set(_mna_config_map().keys())
+            seeds = [s for s in seeds if s.ticker.upper() not in covered]
+    else:
+        seeds = [_find_seed(registry, args.ticker)]
     store = ProfileStore(db_path=args.db)
     ok = failed = 0
     try:
@@ -118,8 +128,8 @@ def _cmd_show(args: argparse.Namespace) -> None:
 
 
 def _require_target(args: argparse.Namespace) -> None:
-    if not args.all and not args.ticker:
-        raise SystemExit("Provide --ticker <T> or --all")
+    if not args.all and not args.ticker and not getattr(args, "missing", False):
+        raise SystemExit("Provide --ticker <T>, --all, or --missing")
 
 
 def main(argv: list[str] | None = None) -> None:
@@ -131,6 +141,10 @@ def main(argv: list[str] | None = None) -> None:
     p_build = sub.add_parser("build", help="Build + persist canonical profile(s)")
     p_build.add_argument("--ticker", help="Single ticker to build")
     p_build.add_argument("--all", action="store_true", help="Build every registry seed")
+    p_build.add_argument(
+        "--missing", action="store_true",
+        help="Build only registry seeds not already covered by the M&A map",
+    )
     p_build.add_argument("--registry", default=_DEFAULT_REGISTRY)
     p_build.add_argument("--db", default=_DEFAULT_DB)
     p_build.add_argument("--profiles-dir", default=_DEFAULT_PROFILES_DIR)

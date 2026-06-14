@@ -18,6 +18,8 @@ biotech-env/
 outputs/
 outputs/cache/
 memos/
+# Public profile YAML exports (local review artifact; SQLite store is the truth)
+profiles/
 # case_studies/ is intentionally tracked (committed analysis outputs)
 
 # Jupyter

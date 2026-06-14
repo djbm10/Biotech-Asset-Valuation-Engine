@@ -1,0 +1,68 @@
+asset:
+  id: asset-pmv-rezatapopt
+  name: Rezatapopt (PC14586)
+  indication: TP53 Y220C-mutant solid tumors
+  therapeutic_area: oncology
+  stage: phase_2
+  modality: small_molecule
+  discount_rate: 0.1
+company:
+  id: pmv-auto
+  name: PMV Pharmaceuticals
+  ticker: PMV
+  cash_millions: 250.0
+  shares_outstanding_millions: 100.0
+  debt_millions: 0.0
+  burn_rate_millions_per_quarter: 35.0
+  current_price: null
+  market_cap_millions: null
+trials:
+- phase: phase_2
+  nct_id: null
+  success_probability: 0.11244816
+  duration_years: 2.5
+  cost_millions: 120.0
+  enrollment: null
+  primary_endpoint: null
+  endpoint_type: surrogate_validated
+  estimated_completion_date: null
+market_model:
+  total_addressable_market_millions: 6000.0
+  addressable_patients_annual: 20000
+  net_price_per_patient_usd: 180000.0
+  peak_penetration: 0.15
+  years_to_peak: 5
+  patent_life_years: 11
+  cogs_rate: 0.15
+  sgna_rate_launch: 0.4
+  sgna_rate_mature: 0.2
+_meta:
+  config_version: auto-profile-v1
+  generator_version: profile-0.1
+  generated_at: '2026-06-14'
+  source_nct_id: null
+  evidence_level: coarse
+  defaulted_fields:
+  - addressable_patients_annual
+  - burn_rate_millions_per_quarter
+  - cash_millions
+  - cogs_rate
+  - cost_millions
+  - current_price
+  - debt_millions
+  - discount_rate
+  - duration_years
+  - endpoint_type
+  - enrollment
+  - estimated_completion_date
+  - market_cap_millions
+  - net_price_per_patient_usd
+  - patent_life_years
+  - peak_penetration
+  - primary_endpoint
+  - sgna_rate_launch
+  - sgna_rate_mature
+  - shares_outstanding_millions
+  - total_addressable_market_millions
+  - years_to_peak
+  provisional: true

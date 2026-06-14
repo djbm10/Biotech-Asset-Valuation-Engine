@@ -1,0 +1,62 @@
+asset:
+  id: asset-rckt-rpa501
+  name: RP-A501
+  indication: Danon disease
+  therapeutic_area: rare_disease
+  stage: phase_2
+  modality: gene_therapy
+  discount_rate: 0.1
+company:
+  id: rckt-auto
+  name: Rocket Pharmaceuticals
+  ticker: RCKT
+  cash_millions: 144.4
+  shares_outstanding_millions: 109.124
+  debt_millions: 24.8
+  burn_rate_millions_per_quarter: 35.5
+  current_price: 2.75
+  market_cap_millions: 300.3
+trials:
+- phase: phase_2
+  nct_id: null
+  success_probability: 0.252143424
+  duration_years: 2.5
+  cost_millions: 120.0
+  enrollment: null
+  primary_endpoint: null
+  endpoint_type: surrogate_validated
+  estimated_completion_date: null
+market_model:
+  total_addressable_market_millions: 3000.0
+  addressable_patients_annual: 6000
+  net_price_per_patient_usd: 350000.0
+  peak_penetration: 0.3
+  years_to_peak: 5
+  patent_life_years: 12
+  cogs_rate: 0.15
+  sgna_rate_launch: 0.4
+  sgna_rate_mature: 0.2
+_meta:
+  config_version: auto-profile-v1
+  generator_version: profile-0.1
+  generated_at: '2026-06-14'
+  source_nct_id: null
+  evidence_level: coarse
+  defaulted_fields:
+  - addressable_patients_annual
+  - cogs_rate
+  - cost_millions
+  - discount_rate
+  - duration_years
+  - endpoint_type
+  - enrollment
+  - estimated_completion_date
+  - net_price_per_patient_usd
+  - patent_life_years
+  - peak_penetration
+  - primary_endpoint
+  - sgna_rate_launch
+  - sgna_rate_mature
+  - total_addressable_market_millions
+  - years_to_peak
+  provisional: true
