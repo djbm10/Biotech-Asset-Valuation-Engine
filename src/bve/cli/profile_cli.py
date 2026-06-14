@@ -44,10 +44,27 @@ def _find_seed(registry_path: Path, ticker: str) -> UniverseRegistryEntry:
     raise SystemExit(f"Ticker {wanted} not found in {registry_path}")
 
 
-def _build_one(store: ProfileStore, seed: UniverseRegistryEntry, profiles_dir: str) -> None:
+def _build_one(
+    store: ProfileStore,
+    seed: UniverseRegistryEntry,
+    profiles_dir: str,
+    override_dir: str = "examples/configs/overrides",
+) -> None:
+    from bve.pipeline.override_staleness import update_after_rebuild
+
+    old_profile = store.get(seed.ticker)
     profile = ProfileBuilder().build(seed)
     store.upsert(profile)
     store.export_yaml(seed.ticker, out_dir=profiles_dir)
+
+    changed = update_after_rebuild(
+        seed.ticker, old_profile, profile,
+        override_dir=override_dir,
+        profiles_dir=profiles_dir,
+    )
+    if changed:
+        print(f"  {seed.ticker:6s} override stale — changed: {', '.join(changed)}")
+
     asset = profile.lead_asset
     print(
         f"  {seed.ticker:6s} {asset.drug_name.value} ({asset.indication.value}) "
@@ -73,7 +90,7 @@ def _cmd_build(args: argparse.Namespace) -> None:
     try:
         for seed in seeds:
             try:
-                _build_one(store, seed, args.profiles_dir)
+                _build_one(store, seed, args.profiles_dir, args.override_dir)
                 ok += 1
             except Exception as exc:  # one bad name must not abort a batch
                 print(f"  {seed.ticker:6s} FAILED ({type(exc).__name__}: {str(exc)[:60]})")
@@ -158,6 +175,10 @@ def _cmd_review(args: argparse.Namespace) -> None:
     finally:
         rstore.close()
 
+    from bve.pipeline.override_staleness import load_all_stale
+
+    stale_overrides = load_all_stale(Path(args.profiles_dir))
+
     items = build_review_queue(
         profiles,
         prior_scores=prior_scores,
@@ -165,6 +186,7 @@ def _cmd_review(args: argparse.Namespace) -> None:
         stale_days=args.stale_days,
         resolutions=resolutions,
         include_resolved=args.show_resolved,
+        stale_overrides=stale_overrides,
     )
 
     if args.format == "json":
@@ -229,6 +251,7 @@ def main(argv: list[str] | None = None) -> None:
     p_build.add_argument("--registry", default=_DEFAULT_REGISTRY)
     p_build.add_argument("--db", default=_DEFAULT_DB)
     p_build.add_argument("--profiles-dir", default=_DEFAULT_PROFILES_DIR)
+    p_build.add_argument("--override-dir", default="examples/configs/overrides")
 
     p_gen = sub.add_parser("gen-config", help="Generate valuation config(s) from profile(s)")
     p_gen.add_argument("--ticker", help="Single ticker to generate")
@@ -243,6 +266,7 @@ def main(argv: list[str] | None = None) -> None:
 
     p_review = sub.add_parser("review", help="Build the analyst review queue over stored profiles")
     p_review.add_argument("--db", default=_DEFAULT_DB)
+    p_review.add_argument("--profiles-dir", default=_DEFAULT_PROFILES_DIR)
     p_review.add_argument("--stale-days", type=int, default=90)
     p_review.add_argument("--scores", help="JSON {ticker: score} of current scores (enables move detection)")
     p_review.add_argument("--snapshot", default=_DEFAULT_SCORE_SNAPSHOT, help="Prior-score snapshot path")

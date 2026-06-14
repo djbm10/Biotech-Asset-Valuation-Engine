@@ -308,6 +308,7 @@ def _emit_profile_review_section(
     run_date: "date",
     current_scores: Optional[dict[str, float]] = None,
     score_snapshot: Optional[Path] = None,
+    profiles_dir: Optional[Path] = None,
 ) -> Optional[Path]:
     """Build the analyst review queue, print it, and write a dated text artifact.
 
@@ -325,6 +326,7 @@ def _emit_profile_review_section(
     import json
 
     try:
+        from bve.pipeline.override_staleness import load_all_stale
         from bve.pipeline.profile_store import ProfileStore
         from bve.pipeline.review_queue import build_review_queue, render_text
         from bve.pipeline.review_writeback import ProfileReviewStore
@@ -365,11 +367,15 @@ def _emit_profile_review_section(
         except (OSError, ValueError):
             prior_scores = {}
 
+    _profiles_dir = profiles_dir or (_REPO_ROOT / "profiles")
+    stale_overrides = load_all_stale(_profiles_dir)
+
     items = build_review_queue(
         profiles,
         resolutions=resolutions,
         prior_scores=prior_scores,
         current_scores={k.upper(): v for k, v in (current_scores or {}).items()},
+        stale_overrides=stale_overrides,
     )
     text = render_text(items)
 

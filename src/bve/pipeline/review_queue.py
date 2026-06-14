@@ -28,6 +28,7 @@ STALE_DATA = "stale_data"
 AMBIGUOUS_LEAD_ASSET = "ambiguous_lead_asset"
 CONFLICTING_SOURCES = "conflicting_sources"
 LARGE_SCORE_MOVE = "large_score_move"
+OVERRIDE_REVALIDATION = "override_revalidation_needed"
 
 _SEVERITY_RANK = {"high": 0, "medium": 1, "low": 2}
 
@@ -149,6 +150,7 @@ def build_review_queue(
     move_threshold: float = 0.25,
     resolutions: Optional[dict[tuple[str, str], datetime]] = None,
     include_resolved: bool = False,
+    stale_overrides: Optional[dict[str, list[str]]] = None,
 ) -> list[ReviewItem]:
     """Build a severity-sorted review queue across all profiles.
 
@@ -156,28 +158,50 @@ def build_review_queue(
     (suppressed by default) when a disposition was recorded on data no older than
     the profile. Rebuilding a profile (newer ``generated_at``) re-surfaces the
     item so a stale resolution can't mask fresh data.
+
+    ``stale_overrides`` maps ``TICKER -> [changed_field, ...]`` (upper-cased).
+    When present, tickers with stale override sidecars get a HIGH-severity
+    ``override_revalidation_needed`` item injected into the queue.
     """
     prior_scores = prior_scores or {}
     current_scores = current_scores or {}
     resolutions = resolutions or {}
+    stale_overrides = {k.upper(): v for k, v in (stale_overrides or {}).items()}
     now = now or datetime.now(timezone.utc)
     items: list[ReviewItem] = []
     for profile in profiles:
         tkr = profile.ticker.upper()
         gen = _parse_iso(profile.generated_at)
-        for item in review_company(
+        asset_id = profile.lead_asset.asset_id if profile.assets else ""
+
+        per_profile_items = list(review_company(
             profile,
             now=now,
             stale_days=stale_days,
             prior_score=prior_scores.get(tkr),
             current_score=current_scores.get(tkr),
             move_threshold=move_threshold,
-        ):
+        ))
+
+        # Inject override_revalidation_needed from staleness sidecars.
+        if tkr in stale_overrides:
+            fields = stale_overrides[tkr]
+            per_profile_items.append(ReviewItem(
+                tkr, asset_id, OVERRIDE_REVALIDATION, "high",
+                field=",".join(fields),
+                detail=(
+                    f"public source changed ({', '.join(fields)}) — "
+                    "verify existing analyst override is still valid"
+                ),
+            ))
+
+        for item in per_profile_items:
             decided = resolutions.get((tkr, item.reason))
             is_resolved = decided is not None and (gen is None or decided >= gen)
             if is_resolved and not include_resolved:
                 continue
             items.append(replace(item, resolved=True) if is_resolved else item)
+
     items.sort(key=lambda i: (_SEVERITY_RANK.get(i.severity, 9), i.ticker, i.reason))
     return items
 
