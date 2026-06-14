@@ -15,7 +15,7 @@ Reason codes (the six review triggers):
 """
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from datetime import datetime, timezone
 from typing import Optional
 
@@ -50,9 +50,10 @@ class ReviewItem:
     severity: str  # high | medium | low
     field: Optional[str]
     detail: str
+    resolved: bool = False
 
 
-def _age_days(iso: Optional[str], now: datetime) -> Optional[float]:
+def _parse_iso(iso: Optional[str]) -> Optional[datetime]:
     if not iso:
         return None
     try:
@@ -60,11 +61,14 @@ def _age_days(iso: Optional[str], now: datetime) -> Optional[float]:
         if text.endswith("Z"):
             text = text[:-1] + "+00:00"
         dt = datetime.fromisoformat(text)
-        if dt.tzinfo is None:
-            dt = dt.replace(tzinfo=timezone.utc)
-        return (now - dt).total_seconds() / 86400.0
+        return dt.replace(tzinfo=timezone.utc) if dt.tzinfo is None else dt
     except ValueError:
         return None
+
+
+def _age_days(iso: Optional[str], now: datetime) -> Optional[float]:
+    dt = _parse_iso(iso)
+    return None if dt is None else (now - dt).total_seconds() / 86400.0
 
 
 def review_company(
@@ -143,24 +147,37 @@ def build_review_queue(
     now: Optional[datetime] = None,
     stale_days: int = 90,
     move_threshold: float = 0.25,
+    resolutions: Optional[dict[tuple[str, str], datetime]] = None,
+    include_resolved: bool = False,
 ) -> list[ReviewItem]:
-    """Build a severity-sorted review queue across all profiles."""
+    """Build a severity-sorted review queue across all profiles.
+
+    ``resolutions`` maps ``(TICKER, reason) -> decided_at``; an item is resolved
+    (suppressed by default) when a disposition was recorded on data no older than
+    the profile. Rebuilding a profile (newer ``generated_at``) re-surfaces the
+    item so a stale resolution can't mask fresh data.
+    """
     prior_scores = prior_scores or {}
     current_scores = current_scores or {}
+    resolutions = resolutions or {}
     now = now or datetime.now(timezone.utc)
     items: list[ReviewItem] = []
     for profile in profiles:
         tkr = profile.ticker.upper()
-        items.extend(
-            review_company(
-                profile,
-                now=now,
-                stale_days=stale_days,
-                prior_score=prior_scores.get(tkr),
-                current_score=current_scores.get(tkr),
-                move_threshold=move_threshold,
-            )
-        )
+        gen = _parse_iso(profile.generated_at)
+        for item in review_company(
+            profile,
+            now=now,
+            stale_days=stale_days,
+            prior_score=prior_scores.get(tkr),
+            current_score=current_scores.get(tkr),
+            move_threshold=move_threshold,
+        ):
+            decided = resolutions.get((tkr, item.reason))
+            is_resolved = decided is not None and (gen is None or decided >= gen)
+            if is_resolved and not include_resolved:
+                continue
+            items.append(replace(item, resolved=True) if is_resolved else item)
     items.sort(key=lambda i: (_SEVERITY_RANK.get(i.severity, 9), i.ticker, i.reason))
     return items
 
@@ -183,5 +200,6 @@ def render_text(items: list[ReviewItem]) -> str:
             current = it.severity
             lines.append(f"[{it.severity.upper()}]")
         field = f" ({it.field})" if it.field else ""
-        lines.append(f"  {it.ticker:6s} {it.reason}{field}: {it.detail}")
+        mark = " [resolved]" if it.resolved else ""
+        lines.append(f"  {it.ticker:6s} {it.reason}{field}: {it.detail}{mark}")
     return "\n".join(lines)

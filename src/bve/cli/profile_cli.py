@@ -21,6 +21,7 @@ from bve.pipeline.profile_builder import ProfileBuilder
 from bve.pipeline.profile_store import ProfileStore
 from bve.pipeline.profile_to_config import write_config
 from bve.pipeline.review_queue import build_review_queue, render_text
+from bve.pipeline.review_writeback import ProfileReviewStore, apply_decision, parse_value
 from bve.pipeline.universe_registry import UniverseRegistryEntry, load_universe_registry
 
 _DEFAULT_REGISTRY = "examples/configs/universe_registry.yaml"
@@ -151,11 +152,19 @@ def _cmd_review(args: argparse.Namespace) -> None:
         except (ValueError, OSError):
             prior_scores = {}
 
+    rstore = ProfileReviewStore(db_path=args.db)
+    try:
+        resolutions = rstore.resolutions()
+    finally:
+        rstore.close()
+
     items = build_review_queue(
         profiles,
         prior_scores=prior_scores,
         current_scores=current_scores,
         stale_days=args.stale_days,
+        resolutions=resolutions,
+        include_resolved=args.show_resolved,
     )
 
     if args.format == "json":
@@ -176,6 +185,27 @@ def _cmd_review(args: argparse.Namespace) -> None:
     if current_scores:
         snap.parent.mkdir(parents=True, exist_ok=True)
         snap.write_text(json.dumps(current_scores, indent=2), encoding="utf-8")
+
+
+def _cmd_resolve(args: argparse.Namespace) -> None:
+    # Look up the lead asset_id so the decision is linked to the asset.
+    store = ProfileStore(db_path=args.db)
+    try:
+        profile = store.get(args.ticker)
+    finally:
+        store.close()
+    asset_id = profile.lead_asset.asset_id if profile and profile.assets else None
+
+    value = parse_value(args.value) if args.value is not None else None
+    result = apply_decision(
+        args.ticker, args.reason, args.action,
+        field=args.field, value=value, rationale=args.rationale,
+        reviewer=args.reviewer, asset_id=asset_id, db_path=args.db,
+    )
+    print(f"{result['action'].upper()} recorded for {result['ticker']} / {result['reason']}")
+    if result["override_file"]:
+        print(f"  override written: {result['override_file']}  ({args.field} = {value})")
+        print("  -> evidence_level will elevate coarse->full on next run")
 
 
 def _require_target(args: argparse.Namespace) -> None:
@@ -218,6 +248,17 @@ def main(argv: list[str] | None = None) -> None:
     p_review.add_argument("--snapshot", default=_DEFAULT_SCORE_SNAPSHOT, help="Prior-score snapshot path")
     p_review.add_argument("--format", choices=["text", "json"], default="text")
     p_review.add_argument("--output", help="Write to this path instead of stdout")
+    p_review.add_argument("--show-resolved", action="store_true", help="Include resolved items")
+
+    p_res = sub.add_parser("resolve", help="Resolve a review item (approve/reject/defer)")
+    p_res.add_argument("--ticker", required=True)
+    p_res.add_argument("--reason", required=True, help="Review reason code being resolved")
+    p_res.add_argument("--action", required=True, choices=["approve", "reject", "defer"])
+    p_res.add_argument("--field", help="Dotted config path to override (approve only), e.g. company.shares_outstanding_millions")
+    p_res.add_argument("--value", help="Corrected value to write (approve only)")
+    p_res.add_argument("--rationale")
+    p_res.add_argument("--reviewer")
+    p_res.add_argument("--db", default=_DEFAULT_DB)
 
     args = parser.parse_args(argv)
     if args.command in ("build", "gen-config"):
@@ -227,6 +268,7 @@ def main(argv: list[str] | None = None) -> None:
         "gen-config": _cmd_gen_config,
         "show": _cmd_show,
         "review": _cmd_review,
+        "resolve": _cmd_resolve,
     }[args.command](args)
 
 
