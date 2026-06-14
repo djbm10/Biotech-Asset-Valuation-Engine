@@ -18,14 +18,17 @@ company:
   market_cap_millions: 13083.5
 trials:
 - phase: nda_bla
-  nct_id: null
+  nct_id: NCT03860935
   success_probability: 0.825
   duration_years: 2.5
   cost_millions: 120.0
-  enrollment: null
-  primary_endpoint: null
+  enrollment: 632
+  primary_endpoint: A Hierarchical Combination of All-Cause Mortality, Cumulative
+    Frequency of CV-related Hospitalization, Change From Baseline in NT-proBNP and
+    Change From Baseline in 6MWT at the Last Available Visit Where Both Subjects Had
+    Non-missing Assessments.
   endpoint_type: surrogate_validated
-  estimated_completion_date: null
+  estimated_completion_date: '2023-05-11'
 market_model:
   total_addressable_market_millions: 8000.0
   addressable_patients_annual: 40000
@@ -40,7 +43,7 @@ _meta:
   config_version: auto-profile-v1
   generator_version: profile-0.1
   generated_at: '2026-06-14'
-  source_nct_id: null
+  source_nct_id: NCT03860935
   evidence_level: coarse
   defaulted_fields:
   - addressable_patients_annual
@@ -49,12 +52,9 @@ _meta:
   - discount_rate
   - duration_years
   - endpoint_type
-  - enrollment
-  - estimated_completion_date
   - net_price_per_patient_usd
   - patent_life_years
   - peak_penetration
-  - primary_endpoint
   - sgna_rate_launch
   - sgna_rate_mature
   - total_addressable_market_millions

@@ -18,14 +18,17 @@ company:
   market_cap_millions: 282.7
 trials:
 - phase: phase_2
-  nct_id: null
+  nct_id: NCT06225596
   success_probability: 0.11244816
   duration_years: 2.5
   cost_millions: 120.0
-  enrollment: null
-  primary_endpoint: null
+  enrollment: 375
+  primary_endpoint: 'Cohort 1: Progression-free survival (PFS) per Response Evaluation
+    Criteria in Solid Tumors, version 1.1(RECIST v1.1) by blinded central independent
+    review (BICR) of optimal dose zelenectide pevedotin with pembrolizumab versus
+    chemotherapy'
   endpoint_type: surrogate_validated
-  estimated_completion_date: null
+  estimated_completion_date: 2028-03
 market_model:
   total_addressable_market_millions: 6000.0
   addressable_patients_annual: 20000
@@ -40,7 +43,7 @@ _meta:
   config_version: auto-profile-v1
   generator_version: profile-0.1
   generated_at: '2026-06-14'
-  source_nct_id: null
+  source_nct_id: NCT06225596
   evidence_level: coarse
   defaulted_fields:
   - addressable_patients_annual
@@ -49,12 +52,9 @@ _meta:
   - discount_rate
   - duration_years
   - endpoint_type
-  - enrollment
-  - estimated_completion_date
   - net_price_per_patient_usd
   - patent_life_years
   - peak_penetration
-  - primary_endpoint
   - sgna_rate_launch
   - sgna_rate_mature
   - total_addressable_market_millions

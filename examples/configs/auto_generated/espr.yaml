@@ -18,14 +18,15 @@ company:
   market_cap_millions: 811.7
 trials:
 - phase: nda_bla
-  nct_id: null
+  nct_id: NCT02993406
   success_probability: 0.825
   duration_years: 2.5
   cost_millions: 120.0
-  enrollment: null
-  primary_endpoint: null
+  enrollment: 13970
+  primary_endpoint: Number of Participants With First Occurrence of Four Component
+    Major Adverse Cardiovascular Events (MACE)
   endpoint_type: surrogate_validated
-  estimated_completion_date: null
+  estimated_completion_date: '2022-11-07'
 market_model:
   total_addressable_market_millions: 8000.0
   addressable_patients_annual: 40000
@@ -40,7 +41,7 @@ _meta:
   config_version: auto-profile-v1
   generator_version: profile-0.1
   generated_at: '2026-06-14'
-  source_nct_id: null
+  source_nct_id: NCT02993406
   evidence_level: coarse
   defaulted_fields:
   - addressable_patients_annual
@@ -49,12 +50,9 @@ _meta:
   - discount_rate
   - duration_years
   - endpoint_type
-  - enrollment
-  - estimated_completion_date
   - net_price_per_patient_usd
   - patent_life_years
   - peak_penetration
-  - primary_endpoint
   - sgna_rate_launch
   - sgna_rate_mature
   - total_addressable_market_millions

@@ -18,14 +18,15 @@ company:
   market_cap_millions: 7060.1
 trials:
 - phase: phase_3
-  nct_id: null
+  nct_id: NCT05210790
   success_probability: 0.54
   duration_years: 2.5
   cost_millions: 120.0
-  enrollment: null
-  primary_endpoint: null
+  enrollment: 293
+  primary_endpoint: Proportion of subjects achieving a response who receive rusfertide
+    compared to placebo.
   endpoint_type: surrogate_validated
-  estimated_completion_date: null
+  estimated_completion_date: '2025-02-21'
 market_model:
   total_addressable_market_millions: 4000.0
   addressable_patients_annual: 8000
@@ -40,7 +41,7 @@ _meta:
   config_version: auto-profile-v1
   generator_version: profile-0.1
   generated_at: '2026-06-14'
-  source_nct_id: null
+  source_nct_id: NCT05210790
   evidence_level: coarse
   defaulted_fields:
   - addressable_patients_annual
@@ -49,12 +50,9 @@ _meta:
   - discount_rate
   - duration_years
   - endpoint_type
-  - enrollment
-  - estimated_completion_date
   - net_price_per_patient_usd
   - patent_life_years
   - peak_penetration
-  - primary_endpoint
   - sgna_rate_launch
   - sgna_rate_mature
   - total_addressable_market_millions

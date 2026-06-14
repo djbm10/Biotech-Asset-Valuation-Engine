@@ -140,6 +140,18 @@ def test_pos_phase1_2_uses_cumulative_for_normalized_phase():
     assert asset.success_probability.value == pytest.approx(cumulative_p2, rel=1e-6)
 
 
+def test_ctgov_phase_does_not_downgrade_a_late_stage_seed():
+    # A curated nda_bla seed linked to a registrational trial that CT.gov lists as
+    # Phase 1/2 must STAY nda_bla — but still pick up the trial facts.
+    ctgov = {"phase": "PHASE1", "enrollment": 447, "primary_endpoint": "ORR"}
+    profile = _builder(ctgov=ctgov).build(_seed(stage="nda_bla"))
+    asset = profile.lead_asset
+    assert asset.stage.value == "nda_bla"  # not downgraded to phase_1
+    assert asset.stage.source == "seed"
+    assert asset.enrollment.value == 447  # trial facts still sourced
+    assert asset.enrollment.confidence == "high"
+
+
 def test_failing_fetcher_does_not_abort_build():
     def boom(_):
         raise RuntimeError("network down")

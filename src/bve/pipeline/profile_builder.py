@@ -110,6 +110,15 @@ _DEFAULTS = {
     "discount_rate": 0.10,
 }
 
+_STAGE_RANK = {
+    "preclinical": 0,
+    "phase_1": 1,
+    "phase_2": 2,
+    "phase_3": 3,
+    "nda_bla": 4,
+    "approved": 5,
+}
+
 _PHASE_MAP = {
     "EARLY_PHASE1": "phase_1",
     "PHASE1": "phase_1",
@@ -255,9 +264,15 @@ class ProfileBuilder:
         if burn is None and sec.get("rd_expense_millions") is not None:
             burn = round(float(sec["rd_expense_millions"]) / 4.0, 2)
 
-        # ── stage (refine from CT.gov phase when available) ──────────────
-        stage_value = _normalize_phase(ctgov.get("phase"), seed.stage)
-        stage_source = "clinicaltrials_gov" if ctgov.get("phase") else "seed"
+        # ── stage: take the MORE ADVANCED of (curated seed, CT.gov phase) ──
+        # CT.gov refines the stage only when it is more advanced. A curated seed
+        # that is already late-stage (e.g. nda_bla) is never downgraded just
+        # because its linked pivotal trial is registered as an earlier phase.
+        ctgov_stage = _normalize_phase(ctgov.get("phase"), seed.stage) if ctgov.get("phase") else seed.stage
+        if _STAGE_RANK.get(ctgov_stage, 0) > _STAGE_RANK.get(seed.stage, 0):
+            stage_value, stage_source = ctgov_stage, "clinicaltrials_gov"
+        else:
+            stage_value, stage_source = seed.stage, "seed"
 
         pos = self._pos_for(seed.therapeutic_area, stage_value)
 
