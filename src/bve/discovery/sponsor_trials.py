@@ -49,6 +49,7 @@ class TrialRecord(BaseModel, frozen=True):
     title: str = ""
     drug_names: tuple[str, ...] = ()
     primary_drug_aliases: tuple[str, ...] = ()  # CT.gov otherNames of the primary drug
+    primary_intervention_type: str = ""  # CT.gov type of the primary drug (DRUG/BIOLOGICAL/…)
     phase: Optional[str] = None  # phase_1 | phase_2 | phase_3 | None
     status: str = ""
     start_date: Optional[str] = None
@@ -68,16 +69,18 @@ def _phase_from_tokens(phases: list[str]) -> Optional[str]:
     return max(mapped, key=lambda s: _PHASE_RANK[s])
 
 
-def _extract_interventions(arms_mod: dict) -> list[tuple[str, tuple[str, ...]]]:
-    """Investigational interventions as (name, otherNames), placebo/comparators dropped.
+def _extract_interventions(arms_mod: dict) -> list[tuple[str, tuple[str, ...], str]]:
+    """Investigational interventions as (name, otherNames, type), placebo dropped.
 
     ``otherNames`` are CT.gov-supplied synonyms/code-names — a strong clustering
-    signal (e.g. a descriptive primary name with the code name listed as a synonym).
+    signal. ``type`` is CT.gov's intervention classification (DRUG / BIOLOGICAL /
+    GENETIC / …) — the best available signal for modality inference.
     """
-    out: list[tuple[str, tuple[str, ...]]] = []
+    out: list[tuple[str, tuple[str, ...], str]] = []
     seen: set[str] = set()
     for iv in arms_mod.get("interventions", []):
-        if iv.get("type", "").upper() not in _ASSET_INTERVENTION_TYPES:
+        itype = iv.get("type", "").upper()
+        if itype not in _ASSET_INTERVENTION_TYPES:
             continue
         name = (iv.get("name") or "").strip()
         if not name or _PLACEBO_RE.search(name):
@@ -89,7 +92,7 @@ def _extract_interventions(arms_mod: dict) -> list[tuple[str, tuple[str, ...]]]:
         aliases = tuple(
             a.strip() for a in iv.get("otherNames", []) if a and a.strip()
         )
-        out.append((name, aliases))
+        out.append((name, aliases, itype))
     return out
 
 
@@ -147,14 +150,16 @@ def parse_protocol(
         enrollment = None
 
     interventions = _extract_interventions(arms_mod)
-    drug_names = tuple(name for name, _ in interventions)
+    drug_names = tuple(name for name, _, _ in interventions)
     primary_aliases = interventions[0][1] if interventions else ()
+    primary_type = interventions[0][2] if interventions else ""
 
     return TrialRecord(
         nct_id=nct_id,
         title=(id_mod.get("briefTitle") or "").strip(),
         drug_names=drug_names,
         primary_drug_aliases=primary_aliases,
+        primary_intervention_type=primary_type,
         phase=_phase_from_tokens(design_mod.get("phases", [])),
         status=(status_mod.get("overallStatus") or "").strip(),
         start_date=status_mod.get("startDateStruct", {}).get("date"),

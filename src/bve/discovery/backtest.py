@@ -92,7 +92,10 @@ def evaluate_seed(
         return SeedBacktestResult(**base, failure_mode=fm)
 
     prog = lead.program
-    predicted_modality = infer_modality(prog.drug, list(prog.conditions))
+    predicted_modality = infer_modality(
+        prog.drug, list(prog.conditions),
+        intervention_type=prog.intervention_type, aliases=list(prog.aliases),
+    )
     # Match truth against the program's full variant set (display + CT.gov synonyms),
     # so code-vs-generic naming differences don't read as wrong leads.
     prog_names = [prog.drug, *prog.aliases]

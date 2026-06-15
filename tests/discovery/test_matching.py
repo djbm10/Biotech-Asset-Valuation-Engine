@@ -75,8 +75,29 @@ class TestModality:
     def test_car_t(self):
         assert infer_modality("CAR-T cell therapy") == "cell_gene"
 
-    def test_default_small_molecule(self):
-        assert infer_modality("RLY-2608") == "small_molecule"
+    def test_no_signal_is_unknown(self):
+        # No name cue and no CT.gov type → honest unknown, not a confident guess.
+        assert infer_modality("RLY-2608") == "unknown"
+
+    def test_drug_type_implies_small_molecule(self):
+        assert infer_modality("RLY-2608", intervention_type="DRUG") == "small_molecule"
+
+    def test_biological_type_implies_biologic(self):
+        # No -mab cue, but CT.gov classifies it BIOLOGICAL.
+        assert infer_modality("ABC-123", intervention_type="BIOLOGICAL") == "biologic"
+
+    def test_genetic_type_implies_cell_gene(self):
+        assert infer_modality("XYZ-9", intervention_type="GENETIC") == "cell_gene"
+
+    def test_peptide_pattern(self):
+        assert infer_modality("Semaglutide") == "peptide"
+
+    def test_name_pattern_beats_type(self):
+        # A decisive name cue wins over a generic DRUG type.
+        assert infer_modality("Tisagenlecleucel", intervention_type="DRUG") == "cell_gene"
+
+    def test_aliases_provide_modality_cue(self):
+        assert infer_modality("LN-145", aliases=["autologous TIL therapy"]) == "cell_gene"
 
     def test_match_exact(self):
         assert match_modality("small_molecule", "small_molecule") is True

@@ -113,28 +113,55 @@ def match_stage(predicted_phase: Optional[str], truth_stage: str) -> tuple[bool,
 # ── Modality inference + matching ────────────────────────────────────────────────
 
 # Ordered: first matching pattern wins. Values are registry modality vocab.
+# Matched against the drug name AND its synonyms/title (more text = better recall).
 _MODALITY_PATTERNS: list[tuple[re.Pattern, str]] = [
-    (re.compile(r"(vedotin|deruxtecan|govitecan|emtansine|\badc\b|drug conjugate)", re.I), "adc"),
-    (re.compile(r"(\bcar[- ]?t\b|\bcar\b|tcr|\btil\b|nk cell|cell therapy|autologous|allogeneic)", re.I), "cell_gene"),
-    (re.compile(r"(\baav\b|gene therapy|\blenti|gene transfer|-gene\b)", re.I), "gene_therapy"),
-    (re.compile(r"(sirna|\bsi[- ]?rna\b|antisense|\baso\b|oligonucleotide|\bmrna\b|\b-sen\b|\b-rsen\b|\b-siran\b)", re.I), "rna_therapy"),
-    (re.compile(r"(\b-mab\b|mab$|monoclonal|antibody|\b-cept\b|fusion protein|\b-zumab|\b-ximab|\b-umab|bispecific)", re.I), "biologic"),
+    (re.compile(r"(vedotin|deruxtecan|govitecan|emtansine|tirumotecan|\badc\b|drug conjugate|antibody[- ]drug)", re.I), "adc"),
+    (re.compile(r"(\bcar[- ]?t\b|\bcar\b|\btcr\b|\btil\b|\bnk\b|nk[- ]cell|cell therapy|autologous|allogeneic|leucel|cabtagene|\bbagene)", re.I), "cell_gene"),
+    (re.compile(r"(\baav\b|gene therapy|\blenti|gene transfer|gene editing|crispr|zinc finger|-gene\b|\b-vec\b|valoctocogene|etranacogene)", re.I), "gene_therapy"),
+    (re.compile(r"(sirna|\bsi[- ]?rna\b|antisense|\baso\b|oligonucleotide|\bmrna\b|\b-sen\b|\b-rsen\b|\b-siran\b|\b-nersen\b|-mersen|-rsiran)", re.I), "rna_therapy"),
+    (re.compile(r"(\b-mab\b|mab$|monoclonal|antibody|\b-cept\b|fusion protein|\b-zumab|\b-ximab|\b-umab|bispecific|\b-bart\b|\b-tug\b)", re.I), "biologic"),
+    (re.compile(r"(\b-tide\b|tide$|peptide|glp-?1|gip\b|incretin|insulin|\b-glutide\b|\b-tatide\b)", re.I), "peptide"),
 ]
 
+# CT.gov intervention type → modality, used when the name has no decisive cue.
+_TYPE_TO_MODALITY: dict[str, str] = {
+    "BIOLOGICAL": "biologic",
+    "GENETIC": "cell_gene",
+    "DRUG": "small_molecule",
+}
 
-def infer_modality(drug_name: str, conditions: Optional[list[str]] = None) -> str:
-    """Best-effort modality class from the drug name. Defaults to small_molecule."""
-    if not drug_name:
-        return "other"
+
+def infer_modality(
+    drug_name: str,
+    conditions: Optional[list[str]] = None,
+    *,
+    intervention_type: Optional[str] = None,
+    aliases: Optional[list[str]] = None,
+) -> str:
+    """Best-effort modality class.
+
+    Order: a decisive name/synonym pattern wins first (CAR-T, -mab, AAV, siRNA,
+    peptide); otherwise CT.gov's intervention type decides (BIOLOGICAL→biologic,
+    GENETIC→cell_gene, DRUG→small_molecule). When neither gives a signal the
+    answer is ``unknown`` — better an honest gap (flagged for review) than a
+    confident wrong ``small_molecule``.
+    """
+    text = " ".join([drug_name or "", *(aliases or [])])
+    if not text.strip():
+        return "unknown"
     for pattern, modality in _MODALITY_PATTERNS:
-        if pattern.search(drug_name):
+        if pattern.search(text):
             return modality
-    return "small_molecule"
+    itype = (intervention_type or "").upper()
+    if itype in _TYPE_TO_MODALITY:
+        return _TYPE_TO_MODALITY[itype]
+    return "unknown"
 
 
 # Truth modalities that the coarse inference legitimately collapses together.
 _MODALITY_EQUIV: dict[str, set[str]] = {
-    "biologic": {"biologic", "adc"},
+    "small_molecule": {"small_molecule", "peptide"},
+    "biologic": {"biologic", "adc", "peptide"},
     "cell_gene": {"cell_gene", "gene_therapy"},
     "gene_therapy": {"gene_therapy", "cell_gene"},
     "rna_therapy": {"rna_therapy", "biologic"},

@@ -45,6 +45,14 @@ def _latest(values: list[Optional[str]]) -> Optional[str]:
     return max(present) if present else None
 
 
+def _dominant_intervention_type(trials: list[TrialRecord]) -> str:
+    """Most common non-empty CT.gov intervention type across the program's trials."""
+    from collections import Counter
+
+    types = [t.primary_intervention_type for t in trials if t.primary_intervention_type]
+    return Counter(types).most_common(1)[0][0] if types else ""
+
+
 class CandidateProgram(BaseModel, frozen=True):
     """A drug program inferred from one or more trials of the same molecule."""
 
@@ -52,6 +60,7 @@ class CandidateProgram(BaseModel, frozen=True):
     drug_key: str
     trials: tuple[TrialRecord, ...]
     aliases: tuple[str, ...] = ()  # all distinct name variants (incl. synonyms)
+    intervention_type: str = ""    # CT.gov type (DRUG/BIOLOGICAL/GENETIC) for modality
     max_phase: Optional[str] = None
     n_trials: int = 0
     latest_completion: Optional[str] = None
@@ -108,6 +117,7 @@ def cluster_programs(trials: list[TrialRecord]) -> list[CandidateProgram]:
             drug_key=key,
             trials=tuple(group),
             aliases=tuple(dict.fromkeys(raw_variants[key])),
+            intervention_type=_dominant_intervention_type(group),
             max_phase=_max_phase(group),
             n_trials=len(group),
             latest_completion=_latest([t.primary_completion_date for t in group]),
