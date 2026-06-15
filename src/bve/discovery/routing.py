@@ -260,24 +260,38 @@ class RoutingResult(BaseModel):
     def auto_added(self) -> list[RouteDecision]:
         return [d for d in self.decisions if d.action == ACTION_AUTO_ADD]
 
-    def proposals_doc(self) -> dict:
-        """Serializable proposed-seeds document (registry-shaped + provenance)."""
-        def _entry(d: RouteDecision) -> dict:
-            entry = d.as_seed_entry()
-            entry["_meta"] = {
-                "source": "bve-discover",
-                "disposition": d.disposition,
-                "tier": d.tier,
-                "score": round(d.score, 4),
-                "margin": round(d.margin, 4),
-                "generated_at": self.generated_at,
-            }
-            return entry
+    @property
+    def reviews(self) -> list[RouteDecision]:
+        return [d for d in self.decisions if d.action == ACTION_REVIEW]
 
+    def _entry(self, d: RouteDecision) -> dict:
+        entry = d.as_seed_entry()
+        meta = {
+            "source": "bve-discover",
+            "disposition": d.disposition,
+            "tier": d.tier,
+            "score": round(d.score, 4),
+            "margin": round(d.margin, 4),
+            "generated_at": self.generated_at,
+        }
+        if d.approved_alternative:
+            meta["approved_alternative"] = d.approved_alternative
+        entry["_meta"] = meta
+        return entry
+
+    def proposals_doc(self) -> dict:
+        """Serializable document of everything needing human attention.
+
+        Three sections — ``proposals`` (high-confidence), ``review`` (medium /
+        approved-vs-active-pivotal), and ``auto_added`` (only when the flag is on)
+        — so a single file is the source the profile review queue reads from.
+        Exceptions and already-seeded skips are intentionally omitted (no action).
+        """
         return {
             "generated_at": self.generated_at,
-            "proposals": [_entry(d) for d in self.proposals],
-            "auto_added": [{**_entry(d), "_meta": {**_entry(d)["_meta"], "auto_added": True}}
+            "proposals": [self._entry(d) for d in self.proposals],
+            "review": [self._entry(d) for d in self.reviews],
+            "auto_added": [{**self._entry(d), "_meta": {**self._entry(d)["_meta"], "auto_added": True}}
                            for d in self.auto_added],
         }
 

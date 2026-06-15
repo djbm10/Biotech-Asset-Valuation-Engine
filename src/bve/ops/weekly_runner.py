@@ -309,6 +309,7 @@ def _emit_profile_review_section(
     current_scores: Optional[dict[str, float]] = None,
     score_snapshot: Optional[Path] = None,
     profiles_dir: Optional[Path] = None,
+    proposed_seeds_path: Optional[Path] = None,
 ) -> Optional[Path]:
     """Build the analyst review queue, print it, and write a dated text artifact.
 
@@ -324,6 +325,8 @@ def _emit_profile_review_section(
     Returns the path written, or None if skipped.
     """
     import json
+
+    import yaml
 
     try:
         from bve.pipeline.override_staleness import load_all_stale
@@ -341,10 +344,7 @@ def _emit_profile_review_section(
         finally:
             pstore.close()
     except Exception:
-        return None
-
-    if not profiles:
-        return None
+        profiles = []
 
     try:
         rstore = ProfileReviewStore(db_path=str(db_path))
@@ -370,12 +370,32 @@ def _emit_profile_review_section(
     _profiles_dir = profiles_dir or (_REPO_ROOT / "profiles")
     stale_overrides = load_all_stale(_profiles_dir)
 
+    # bve-discover proposed seeds (profile-independent). Read the persisted
+    # routing artifact, never re-run enumeration here — that keeps the weekly
+    # report cheap and offline.
+    extra_items: list = []
+    extra_gen = None
+    seeds_path = proposed_seeds_path or (_REPO_ROOT / "outputs" / "discovery" / "proposed_seeds.yaml")
+    if seeds_path.exists():
+        try:
+            from bve.pipeline.review_queue import proposed_seed_items_from_doc
+
+            doc = yaml.safe_load(seeds_path.read_text(encoding="utf-8")) or {}
+            extra_items, extra_gen = proposed_seed_items_from_doc(doc)
+        except Exception:
+            extra_items, extra_gen = [], None
+
+    if not profiles and not extra_items:
+        return None
+
     items = build_review_queue(
         profiles,
         resolutions=resolutions,
         prior_scores=prior_scores,
         current_scores={k.upper(): v for k, v in (current_scores or {}).items()},
         stale_overrides=stale_overrides,
+        extra_items=extra_items,
+        extra_items_generated_at=extra_gen,
     )
     text = render_text(items)
 

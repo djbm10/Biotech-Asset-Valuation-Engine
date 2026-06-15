@@ -154,6 +154,8 @@ def build_review_queue(
     resolutions: Optional[dict[tuple[str, str], datetime]] = None,
     include_resolved: bool = False,
     stale_overrides: Optional[dict[str, list[str]]] = None,
+    extra_items: Optional[list[ReviewItem]] = None,
+    extra_items_generated_at: Optional[datetime] = None,
 ) -> list[ReviewItem]:
     """Build a severity-sorted review queue across all profiles.
 
@@ -205,8 +207,57 @@ def build_review_queue(
                 continue
             items.append(replace(item, resolved=True) if is_resolved else item)
 
+    # Extra items (e.g. bve-discover proposed_seed) are profile-independent. They
+    # honour the same resolution suppression, keyed off when they were generated:
+    # a fresh enumeration (newer timestamp) re-surfaces a previously dismissed
+    # proposal so a stale resolution can't hide a new public fact.
+    for item in extra_items or []:
+        decided = resolutions.get((item.ticker.upper(), item.reason))
+        is_resolved = decided is not None and (
+            extra_items_generated_at is None or decided >= extra_items_generated_at
+        )
+        if is_resolved and not include_resolved:
+            continue
+        items.append(replace(item, resolved=True) if is_resolved else item)
+
     items.sort(key=lambda i: (_SEVERITY_RANK.get(i.severity, 9), i.ticker, i.reason))
     return items
+
+
+def proposed_seed_items_from_doc(
+    doc: dict,
+) -> tuple[list[ReviewItem], Optional[datetime]]:
+    """Convert a bve-discover ``proposed_seeds.yaml`` doc → review items.
+
+    Surfaces all three sections (proposals, review, auto_added) as
+    ``proposed_seed`` items so every discovered new name gets human eyes before
+    seeding. Returns the items plus the doc's ``generated_at`` (for resolution
+    suppression). Approved-vs-active-pivotal cases are HIGH severity (genuine
+    judgment call); everything else is MEDIUM.
+    """
+    items: list[ReviewItem] = []
+    for section in ("proposals", "review", "auto_added"):
+        for entry in doc.get(section) or []:
+            meta = entry.get("_meta", {})
+            disposition = meta.get("disposition", section)
+            severity = "high" if disposition == "approved_vs_active_pivotal" else "medium"
+            drug = entry.get("drug_name") or "?"
+            stage = entry.get("stage") or "?"
+            bits = [f"discovered lead {drug} [{stage}]", f"disposition={disposition}"]
+            if meta.get("approved_alternative"):
+                bits.append(f"approved alternative={meta['approved_alternative']}")
+            if meta.get("auto_added"):
+                bits.append("AUTO-ADDED — verify")
+            bits.append("confirm before seeding")
+            items.append(ReviewItem(
+                entry.get("ticker", "").upper(),
+                entry.get("asset_id", ""),
+                PROPOSED_SEED,
+                severity,
+                field=stage,
+                detail="; ".join(bits),
+            ))
+    return items, _parse_iso(doc.get("generated_at"))
 
 
 def render_text(items: list[ReviewItem]) -> str:

@@ -4,8 +4,6 @@ from __future__ import annotations
 from datetime import date, datetime, timezone
 from pathlib import Path
 
-import pytest
-
 from bve.pipeline.asset_profile import AssetProfile, CompanyProfile, pf
 from bve.pipeline.profile_store import ProfileStore
 from bve.ops.weekly_runner import _emit_profile_review_section
@@ -44,6 +42,72 @@ def _seed_db(db_path: Path, profiles: list[CompanyProfile]) -> None:
             store.upsert(p)
     finally:
         store.close()
+
+
+def _write_proposed_seeds(path: Path) -> None:
+    import yaml
+
+    doc = {
+        "generated_at": _NOW.isoformat(),
+        "proposals": [
+            {"ticker": "VKTX", "asset_id": "asset-vktx-vk2735", "drug_name": "VK2735",
+             "stage": "phase_3", "_meta": {"disposition": "high_confidence"}},
+        ],
+        "review": [
+            {"ticker": "MRUS", "asset_id": "asset-mrus-peto", "drug_name": "Petosemtamab",
+             "stage": "phase_3", "_meta": {"disposition": "approved_vs_active_pivotal",
+                                           "approved_alternative": "Zenocutuzumab"}},
+        ],
+        "auto_added": [],
+    }
+    path.write_text(yaml.safe_dump(doc, sort_keys=False), encoding="utf-8")
+
+
+class TestProposedSeedWiring:
+    def test_proposed_seeds_surface_in_report(self, tmp_path):
+        db = tmp_path / "ops.db"
+        _seed_db(db, [_make_profile("BEAM")])
+        seeds = tmp_path / "proposed_seeds.yaml"
+        _write_proposed_seeds(seeds)
+        path = _emit_profile_review_section(
+            out_dir=tmp_path, db_path=db, run_date=_RUN_DATE, proposed_seeds_path=seeds,
+        )
+        text = path.read_text(encoding="utf-8")
+        assert "proposed_seed" in text
+        assert "VK2735" in text and "Petosemtamab" in text
+
+    def test_surfaces_even_with_no_profiles(self, tmp_path):
+        db = tmp_path / "ops.db"
+        ProfileStore(db_path=str(db)).close()  # empty store
+        seeds = tmp_path / "proposed_seeds.yaml"
+        _write_proposed_seeds(seeds)
+        path = _emit_profile_review_section(
+            out_dir=tmp_path, db_path=db, run_date=_RUN_DATE, proposed_seeds_path=seeds,
+        )
+        assert path is not None
+        assert "VK2735" in path.read_text(encoding="utf-8")
+
+    def test_approved_ambiguous_is_high_severity(self, tmp_path):
+        db = tmp_path / "ops.db"
+        ProfileStore(db_path=str(db)).close()
+        seeds = tmp_path / "proposed_seeds.yaml"
+        _write_proposed_seeds(seeds)
+        text = _emit_profile_review_section(
+            out_dir=tmp_path, db_path=db, run_date=_RUN_DATE, proposed_seeds_path=seeds,
+        ).read_text(encoding="utf-8")
+        # The approved-vs-active-pivotal entry must appear under HIGH.
+        high_block = text.split("[HIGH]")[1].split("[")[0]
+        assert "MRUS" in high_block
+
+    def test_missing_proposals_file_is_noop(self, tmp_path):
+        db = tmp_path / "ops.db"
+        _seed_db(db, [_make_profile("BEAM")])
+        path = _emit_profile_review_section(
+            out_dir=tmp_path, db_path=db, run_date=_RUN_DATE,
+            proposed_seeds_path=tmp_path / "absent.yaml",
+        )
+        assert path is not None
+        assert "proposed_seed" not in path.read_text(encoding="utf-8")
 
 
 class TestEmitProfileReviewSection:
@@ -104,7 +168,8 @@ class TestEmitProfileReviewSection:
         store = ProfileStore(db_path=str(db))
         store.close()
         result = _emit_profile_review_section(
-            out_dir=tmp_path, db_path=db, run_date=_RUN_DATE
+            out_dir=tmp_path, db_path=db, run_date=_RUN_DATE,
+            proposed_seeds_path=tmp_path / "no_seeds.yaml",
         )
         assert result is None
 
@@ -114,6 +179,7 @@ class TestEmitProfileReviewSection:
             out_dir=tmp_path,
             db_path=tmp_path / "nonexistent.db",
             run_date=_RUN_DATE,
+            proposed_seeds_path=tmp_path / "no_seeds.yaml",
         )
         # Empty store (newly created) → None
         assert result is None

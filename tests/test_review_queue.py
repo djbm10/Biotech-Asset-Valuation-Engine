@@ -10,12 +10,79 @@ from bve.pipeline.review_queue import (
     CONFLICTING_SOURCES,
     LARGE_SCORE_MOVE,
     MISSING_NCT,
+    PROPOSED_SEED,
     STALE_DATA,
+    ReviewItem,
     build_review_queue,
+    proposed_seed_items_from_doc,
     review_company,
 )
 
 NOW = datetime(2026, 6, 14, tzinfo=timezone.utc)
+
+
+def _proposals_doc():
+    return {
+        "generated_at": "2026-06-15T00:00:00+00:00",
+        "proposals": [
+            {"ticker": "VKTX", "asset_id": "asset-vktx-vk2735", "drug_name": "VK2735",
+             "stage": "phase_3", "_meta": {"disposition": "high_confidence"}},
+        ],
+        "review": [
+            {"ticker": "MRUS", "asset_id": "asset-mrus-peto", "drug_name": "Petosemtamab",
+             "stage": "phase_3", "_meta": {"disposition": "approved_vs_active_pivotal",
+                                           "approved_alternative": "Zenocutuzumab"}},
+        ],
+        "auto_added": [],
+    }
+
+
+def test_proposed_seed_converter_surfaces_all_sections():
+    items, gen = proposed_seed_items_from_doc(_proposals_doc())
+    assert {i.ticker for i in items} == {"VKTX", "MRUS"}
+    assert all(i.reason == PROPOSED_SEED for i in items)
+    assert gen is not None
+
+
+def test_proposed_seed_converter_severity_by_disposition():
+    items, _ = proposed_seed_items_from_doc(_proposals_doc())
+    sev = {i.ticker: i.severity for i in items}
+    assert sev["MRUS"] == "high"   # approved-vs-active-pivotal
+    assert sev["VKTX"] == "medium"
+
+
+def test_proposed_seed_converter_includes_approved_alternative_detail():
+    items, _ = proposed_seed_items_from_doc(_proposals_doc())
+    mrus = next(i for i in items if i.ticker == "MRUS")
+    assert "Zenocutuzumab" in mrus.detail
+
+
+def test_extra_items_appended_to_queue():
+    extra = [ReviewItem("VKTX", "asset-vktx-vk2735", PROPOSED_SEED, "medium", "phase_3", "x")]
+    queue = build_review_queue([], now=NOW, extra_items=extra)
+    assert any(i.reason == PROPOSED_SEED for i in queue)
+
+
+def test_extra_item_resolution_suppressed_when_decided_after_generated():
+    extra = [ReviewItem("VKTX", "asset-vktx-vk2735", PROPOSED_SEED, "medium", "phase_3", "x")]
+    gen = datetime(2026, 6, 1, tzinfo=timezone.utc)
+    resolved_after = {("VKTX", PROPOSED_SEED): datetime(2026, 6, 10, tzinfo=timezone.utc)}
+    queue = build_review_queue(
+        [], now=NOW, extra_items=extra, extra_items_generated_at=gen,
+        resolutions=resolved_after,
+    )
+    assert not any(i.reason == PROPOSED_SEED for i in queue)
+
+
+def test_extra_item_resurfaces_when_regenerated_after_resolution():
+    extra = [ReviewItem("VKTX", "asset-vktx-vk2735", PROPOSED_SEED, "medium", "phase_3", "x")]
+    gen = datetime(2026, 6, 15, tzinfo=timezone.utc)  # newer than the resolution
+    stale_resolution = {("VKTX", PROPOSED_SEED): datetime(2026, 6, 10, tzinfo=timezone.utc)}
+    queue = build_review_queue(
+        [], now=NOW, extra_items=extra, extra_items_generated_at=gen,
+        resolutions=stale_resolution,
+    )
+    assert any(i.reason == PROPOSED_SEED for i in queue)
 
 
 def _clean_asset(**over) -> AssetProfile:
