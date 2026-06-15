@@ -31,6 +31,9 @@ _DEFAULT_OUT_DIR = "outputs/discovery"
 _DEFAULT_CACHE_DIR = "outputs/discovery/ctgov_cache"
 _DEFAULT_AUDIT_OUT = "outputs/discovery/routing_audit.txt"
 _DEFAULT_PROPOSALS_OUT = "outputs/discovery/proposed_seeds.yaml"
+_DEFAULT_SEEDS_AUTO = "examples/configs/seeds_auto.yaml"
+_DEFAULT_EXCLUSIONS = "examples/configs/discovery_exclusions.yaml"
+_DEFAULT_DB = "outputs/intelligence/ops.db"
 
 
 def _make_fetch(cache_dir: str, *, cache_only: bool, refresh: bool):
@@ -107,9 +110,18 @@ def _load_candidates(args: argparse.Namespace) -> tuple[list[CandidateCompany], 
     - neither: self-audit the registry's own companies (writes nothing, since all
       are seeded) so the decision logic — including the MRUS rule — can be
       inspected against known companies.
+
+    "Already seeded" spans both the curated registry and any staged seeds_auto.yaml,
+    so a name already promoted is not proposed again.
     """
     seeds = load_universe_registry(args.registry)
     existing = {s.ticker.upper() for s in seeds}
+    seeds_auto_path = Path(getattr(args, "seeds_auto", _DEFAULT_SEEDS_AUTO))
+    if seeds_auto_path.exists():
+        try:
+            existing |= {s.ticker.upper() for s in load_universe_registry(seeds_auto_path)}
+        except Exception:
+            pass
     if getattr(args, "enumerate_universe", False):
         from bve.discovery.candidate_source import enumerate_candidates
         from bve.ops.universe_builder import UniverseFilter
@@ -139,9 +151,13 @@ def _cmd_route(args: argparse.Namespace) -> None:
         candidates = candidates[: args.limit]
     fetch = _make_fetch(args.cache_dir, cache_only=args.cache_only, refresh=args.refresh)
 
+    from bve.discovery.exclusion_ledger import ExclusionLedger
+
+    excluded = ExclusionLedger(args.exclusions).excluded_tickers()
+
     result = run_routing(
         candidates, fetch_fn=fetch, existing_tickers=existing,
-        auto_add_high=args.auto_add_high_confidence,
+        excluded_tickers=excluded, auto_add_high=args.auto_add_high_confidence,
     )
 
     audit = json.dumps(result.to_dict(), indent=2) if args.format == "json" else result.to_audit_text()
@@ -165,6 +181,65 @@ def _cmd_route(args: argparse.Namespace) -> None:
         n_would = len(result.proposals) + len(result.auto_added)
         print(f"\nDRY RUN — only the audit was written. {n_would} seed(s) would be "
               f"proposed/added; pass --write-proposals to persist.")
+
+
+def _log_decision(ticker: str, action: str, *, reviewer, rationale, db_path: str) -> None:
+    """Record a proposed_seed disposition so the review queue suppresses it."""
+    from datetime import datetime, timezone
+
+    from bve.pipeline.review_queue import PROPOSED_SEED
+    from bve.pipeline.review_writeback import ProfileReviewStore, ReviewDispositionRecord
+
+    store = ProfileReviewStore(db_path)
+    try:
+        store.record(ReviewDispositionRecord(
+            ticker=ticker, asset_id=None, reason=PROPOSED_SEED, field=None,
+            action=action, value=None, rationale=rationale, reviewer=reviewer,
+            decided_at=datetime.now(timezone.utc).isoformat(),
+        ))
+    finally:
+        store.close()
+
+
+def _cmd_approve(args: argparse.Namespace) -> None:
+    from bve.discovery.seed_promotion import STATUS_PROMOTED, promote_seed
+
+    result = promote_seed(
+        args.ticker,
+        proposals_path=args.proposals_out,
+        seeds_auto_path=args.seeds_auto,
+        registry_path=args.registry,
+        exclusion_path=args.exclusions,
+        reviewer=args.reviewer,
+        rationale=args.rationale,
+    )
+    print(f"{result.status.upper()}: {result.detail}")
+    if result.status != STATUS_PROMOTED:
+        raise SystemExit(1)
+    _log_decision(args.ticker, "approve", reviewer=args.reviewer,
+                  rationale=args.rationale, db_path=args.db)
+    print(f"Logged approval; run `bve-profile build --missing --seeds-auto {args.seeds_auto}` "
+          f"to build {args.ticker.upper()}.")
+
+
+def _cmd_reject(args: argparse.Namespace) -> None:
+    from bve.discovery.exclusion_ledger import REASON_REJECTED, ExclusionLedger
+
+    ledger = ExclusionLedger(args.exclusions)
+    ledger.add(args.ticker, args.reason or REASON_REJECTED,
+               note=args.rationale, reviewer=args.reviewer)
+    path = ledger.save()
+    _log_decision(args.ticker, "reject", reviewer=args.reviewer,
+                  rationale=args.rationale, db_path=args.db)
+    print(f"REJECTED: {args.ticker.upper()} ({args.reason or REASON_REJECTED}) "
+          f"added to exclusion ledger {path}")
+
+
+def _cmd_defer(args: argparse.Namespace) -> None:
+    _log_decision(args.ticker, "defer", reviewer=args.reviewer,
+                  rationale=args.rationale, db_path=args.db)
+    print(f"DEFERRED: {args.ticker.upper()} — suppressed until the next enumeration "
+          f"re-proposes it (not excluded).")
 
 
 def main(argv: list[str] | None = None) -> None:
@@ -210,12 +285,39 @@ def main(argv: list[str] | None = None) -> None:
     p_rt.add_argument("--auto-add-high-confidence", action="store_true",
                       help="Reclassify high-confidence leads to auto_add (default off; still "
                            "requires --write-proposals to persist)")
+    p_rt.add_argument("--seeds-auto", default=_DEFAULT_SEEDS_AUTO,
+                      help="Staged seeds file; its tickers are excluded from re-proposal")
+    p_rt.add_argument("--exclusions", default=_DEFAULT_EXCLUSIONS,
+                      help="Exclusion ledger; rejected/acquired names are not re-proposed")
     p_rt.add_argument("--audit-out", default=_DEFAULT_AUDIT_OUT)
     p_rt.add_argument("--proposals-out", default=_DEFAULT_PROPOSALS_OUT)
     p_rt.add_argument("--format", choices=["text", "json"], default="text")
 
+    for name, helptext in (
+        ("approve", "Approve a proposed_seed → stage it into seeds_auto.yaml"),
+        ("reject", "Reject a proposed_seed → add to the exclusion ledger"),
+        ("defer", "Defer a proposed_seed → suppress until next enumeration"),
+    ):
+        p = sub.add_parser(name, help=helptext)
+        p.add_argument("--ticker", required=True)
+        p.add_argument("--reviewer", default=None)
+        p.add_argument("--rationale", default=None)
+        p.add_argument("--db", default=_DEFAULT_DB)
+        if name in ("approve", "reject"):
+            p.add_argument("--exclusions", default=_DEFAULT_EXCLUSIONS)
+        if name == "approve":
+            p.add_argument("--registry", default=_DEFAULT_REGISTRY)
+            p.add_argument("--seeds-auto", default=_DEFAULT_SEEDS_AUTO)
+            p.add_argument("--proposals-out", default=_DEFAULT_PROPOSALS_OUT)
+        if name == "reject":
+            p.add_argument("--reason", default=None,
+                           help="rejected | acquired | delisted | not_drug_developer | bad_data")
+
     args = parser.parse_args(argv)
-    {"backtest": _cmd_backtest, "detect": _cmd_detect, "route": _cmd_route}[args.command](args)
+    {
+        "backtest": _cmd_backtest, "detect": _cmd_detect, "route": _cmd_route,
+        "approve": _cmd_approve, "reject": _cmd_reject, "defer": _cmd_defer,
+    }[args.command](args)
 
 
 if __name__ == "__main__":

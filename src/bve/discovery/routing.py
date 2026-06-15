@@ -40,6 +40,7 @@ DISPOSITION_MEDIUM = "medium_confidence"
 DISPOSITION_LOW = "low_confidence"
 DISPOSITION_APPROVED_AMBIGUOUS = "approved_vs_active_pivotal"
 DISPOSITION_NO_LEAD = "no_lead"
+DISPOSITION_EXCLUDED = "excluded"
 
 # ── Actions (what we do about it) ────────────────────────────────────────────────
 ACTION_AUTO_ADD = "auto_add"
@@ -47,6 +48,7 @@ ACTION_PROPOSE = "propose"
 ACTION_REVIEW = "review"
 ACTION_EXCEPTION = "exception"
 ACTION_SKIP_EXISTS = "skip_exists"
+ACTION_EXCLUDED = "excluded"
 
 _APPROVED_STATUSES = {"APPROVED_FOR_MARKETING"}
 _ACTIVE_STATUSES = {"RECRUITING", "ACTIVE_NOT_RECRUITING", "ENROLLING_BY_INVITATION"}
@@ -100,13 +102,31 @@ class RouteDecision(BaseModel, frozen=True):
 
 # ── Pick-detail extraction ───────────────────────────────────────────────────────
 
+# Ordered: first category whose keywords hit wins. Oncology first (it dominates and
+# its terms are unambiguous); rarer/again-specific buckets before broad ones.
 _TA_KEYWORDS: list[tuple[tuple[str, ...], str]] = [
     (("cancer", "carcinoma", "tumor", "tumour", "lymphoma", "leukemia", "leukaemia",
-      "myeloma", "melanoma", "sarcoma", "oncolog", "solid", "neoplas"), "oncology"),
+      "myeloma", "melanoma", "sarcoma", "oncolog", "solid", "neoplas", "glioma",
+      "glioblastoma", "metasta", "malignan"), "oncology"),
     (("lupus", "arthritis", "psoriasis", "colitis", "crohn", "dermatitis", "asthma",
-      "vasculitis", "myositis", "sclerosis", "immune", "autoimmune"), "immunology"),
+      "vasculitis", "myositis", "scleroderma", "immune", "autoimmune", "atopic",
+      "urticaria", "graft", "lupus nephritis", "sjogren", "myasthenia"), "immunology"),
+    (("obesity", "weight", "diabet", "nash", "mash", "metabolic", "hyperlipid",
+      "cholesterol", "dyslipid", "fatty liver", "hypertriglycerid"), "metabolic"),
+    (("amyloidosis", "anemia", "anaemia", "thrombo", "hemophilia", "haemophilia",
+      "sickle", "thalassemia", "thalassaemia", "polycythemia", "myelofibrosis",
+      "bleeding", "hematolog"), "hematology"),
     (("epilepsy", "alzheimer", "parkinson", "migraine", "depression", "seizure",
-      "neuro", "tremor"), "neurology"),
+      "neuro", "tremor", "huntington", "als ", "amyotrophic", "multiple sclerosis",
+      "dystrophy", "myopathy", "ataxia", "schizophrenia", "spinal muscular"), "neurology"),
+    (("retina", "macular", "ophthalmo", "uveitis", "glaucoma", "geographic atrophy",
+      "vision", "ocular", "eye"), "ophthalmology"),
+    (("heart", "cardiac", "cardiovascular", "cardiomyopathy", "hypertension",
+      "atrial", "coronary", "thrombosis"), "cardiology"),
+    (("hepatitis", "hiv", "influenza", "covid", "sars", "rsv", "bacterial",
+      "infection", "antiviral", "antibiotic", "vaccine"), "infectious_disease"),
+    (("pulmonary", "fibrosis", "copd", "respiratory", "cystic fibrosis"), "respiratory"),
+    (("kidney", "renal", "nephro", "nephropathy"), "nephrology"),
 ]
 
 
@@ -199,7 +219,9 @@ def route_company(
         stage=prog.max_phase,
         indication=indication,
         therapeutic_area=_infer_ta(indication),
-        modality=infer_modality(prog.drug, list(prog.conditions)),
+        modality=infer_modality(prog.drug, list(prog.conditions),
+                                intervention_type=prog.intervention_type,
+                                aliases=list(prog.aliases)),
         nct_id=_representative_nct(prog),
         tier=lead.tier,
         score=lead.score,
@@ -310,11 +332,11 @@ class RoutingResult(BaseModel):
             "Action counts",
         ]
         for action in (ACTION_AUTO_ADD, ACTION_PROPOSE, ACTION_REVIEW,
-                       ACTION_EXCEPTION, ACTION_SKIP_EXISTS):
+                       ACTION_EXCEPTION, ACTION_SKIP_EXISTS, ACTION_EXCLUDED):
             lines.append(f"  {action:12s}: {self.action_counts.get(action, 0)}")
         lines += ["", "Decisions (every candidate, with the reason)"]
         order = {ACTION_AUTO_ADD: 0, ACTION_PROPOSE: 1, ACTION_REVIEW: 2,
-                 ACTION_EXCEPTION: 3, ACTION_SKIP_EXISTS: 4}
+                 ACTION_EXCEPTION: 3, ACTION_SKIP_EXISTS: 4, ACTION_EXCLUDED: 5}
         for d in sorted(self.decisions, key=lambda x: (order.get(x.action, 9), x.ticker)):
             pick = f"{d.drug} [{d.stage}]" if d.drug else "(no lead)"
             seeded = " seeded" if d.already_seeded else ""
@@ -328,13 +350,27 @@ def run_routing(
     *,
     fetch_fn: Callable[[str], list[TrialRecord]],
     existing_tickers: Optional[set[str]] = None,
+    excluded_tickers: Optional[set[str]] = None,
     auto_add_high: bool = False,
     now: Optional[datetime] = None,
 ) -> RoutingResult:
-    """Detect, rank, and route every candidate company (pure over ``fetch_fn``)."""
+    """Detect, rank, and route every candidate company (pure over ``fetch_fn``).
+
+    Excluded tickers (rejected / acquired / bad-data, from the exclusion ledger)
+    are short-circuited with no CT.gov fetch — a rejected name must not keep
+    coming back, and must not cost a network call to re-reject.
+    """
     generated = (now or datetime.now(timezone.utc)).isoformat()
+    excluded = {t.upper() for t in (excluded_tickers or set())}
     decisions: list[RouteDecision] = []
     for cand in candidates:
+        if cand.ticker.upper() in excluded:
+            decisions.append(RouteDecision(
+                ticker=cand.ticker, company_name=cand.company_name,
+                disposition=DISPOSITION_EXCLUDED, action=ACTION_EXCLUDED,
+                reason="on exclusion ledger — not re-proposed",
+            ))
+            continue
         programs = cluster_programs(fetch_fn(cand.company_name))
         lead = rank_leads(programs)
         decisions.append(route_company(

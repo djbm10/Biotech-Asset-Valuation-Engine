@@ -164,6 +164,21 @@ def test_run_routing_aggregates_and_excludes_ambiguous_from_proposals():
     assert result.auto_added == []
 
 
+def test_excluded_ticker_short_circuits_without_fetch():
+    from bve.discovery.routing import ACTION_EXCLUDED
+
+    calls = {"n": 0}
+
+    def fetch(company):
+        calls["n"] += 1
+        return _trials(company, _high_single(company))
+
+    candidates = [CandidateCompany(ticker="ZYME", company_name="Zymeworks")]
+    result = run_routing(candidates, fetch_fn=fetch, excluded_tickers={"ZYME"})
+    assert result.decisions[0].action == ACTION_EXCLUDED
+    assert calls["n"] == 0  # no CT.gov fetch for an excluded name
+
+
 def test_proposals_doc_shape_and_provenance():
     candidates = [CandidateCompany(ticker="AAA", company_name="Acme Bio")]
     fetch = _fetch_from({"Acme Bio": _high_single("Acme Bio")})

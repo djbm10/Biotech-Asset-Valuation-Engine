@@ -25,6 +25,7 @@ from bve.pipeline.review_writeback import ProfileReviewStore, apply_decision, pa
 from bve.pipeline.universe_registry import UniverseRegistryEntry, load_universe_registry
 
 _DEFAULT_REGISTRY = "examples/configs/universe_registry.yaml"
+_DEFAULT_SEEDS_AUTO = "examples/configs/seeds_auto.yaml"
 _DEFAULT_DB = "outputs/intelligence/ops.db"
 _DEFAULT_AUTO_DIR = "examples/configs/auto_generated"
 _DEFAULT_PROFILES_DIR = "profiles"
@@ -72,10 +73,35 @@ def _build_one(
     )
 
 
+def _merge_seeds_auto(
+    seeds: list[UniverseRegistryEntry], seeds_auto_path: Path,
+) -> list[UniverseRegistryEntry]:
+    """Append analyst-approved seeds_auto.yaml entries, deduped by ticker.
+
+    The curated registry always wins — a name present there is never overridden by
+    a staged auto seed. Keeps discovered seeds in a separate file until an analyst
+    chooses to fold them into the curated registry.
+    """
+    if not seeds_auto_path.exists():
+        return seeds
+    have = {s.ticker.upper() for s in seeds}
+    try:
+        staged = load_universe_registry(seeds_auto_path)
+    except Exception:
+        return seeds
+    merged = list(seeds)
+    for entry in staged:
+        if entry.ticker.upper() not in have:
+            merged.append(entry)
+            have.add(entry.ticker.upper())
+    return merged
+
+
 def _cmd_build(args: argparse.Namespace) -> None:
     registry = Path(args.registry)
     if args.all or args.missing:
         seeds = _all_seeds(registry)
+        seeds = _merge_seeds_auto(seeds, Path(args.seeds_auto))
         if args.missing:
             # Only names not already covered by the M&A map — never rebuild/clobber
             # curated or point-in-time configs the working screen depends on.
@@ -249,6 +275,8 @@ def main(argv: list[str] | None = None) -> None:
         help="Build only registry seeds not already covered by the M&A map",
     )
     p_build.add_argument("--registry", default=_DEFAULT_REGISTRY)
+    p_build.add_argument("--seeds-auto", default=_DEFAULT_SEEDS_AUTO,
+                         help="Analyst-approved staged seeds merged with --all/--missing")
     p_build.add_argument("--db", default=_DEFAULT_DB)
     p_build.add_argument("--profiles-dir", default=_DEFAULT_PROFILES_DIR)
     p_build.add_argument("--override-dir", default="examples/configs/overrides")
