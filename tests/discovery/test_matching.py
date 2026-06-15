@@ -99,6 +99,33 @@ class TestModality:
     def test_aliases_provide_modality_cue(self):
         assert infer_modality("LN-145", aliases=["autologous TIL therapy"]) == "cell_gene"
 
+    def test_description_provides_modality_cue(self):
+        # Code name has no cue and type is DRUG, but the description states it.
+        assert infer_modality(
+            "ABC-1", intervention_type="DRUG",
+            descriptions=["A monoclonal antibody targeting IL-13"],
+        ) == "biologic"
+
+    def test_suffix_anchor_survives_appended_description(self):
+        # Regression: appending a description must not move the -tide suffix off
+        # the end and defeat the peptide stem.
+        assert infer_modality(
+            "Rusfertide", intervention_type="DRUG",
+            descriptions=["Experimental drug"],
+        ) == "peptide"
+
+    def test_antisense_inn_stem_without_hyphen(self):
+        assert infer_modality("Olezarsen") == "rna_therapy"
+
+    def test_curated_override_wins(self):
+        # VK2735 is a peptide but its code name + DRUG type give no cue.
+        assert infer_modality("VK2735", intervention_type="DRUG", drug_key="vk2735") == "peptide"
+
+    def test_override_keyed_by_canonical_drug_key(self):
+        from bve.discovery.drug_identity import canonical_drug_key
+
+        assert infer_modality("VK-2735", drug_key=canonical_drug_key("VK-2735")) == "peptide"
+
     def test_match_exact(self):
         assert match_modality("small_molecule", "small_molecule") is True
 

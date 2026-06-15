@@ -61,6 +61,7 @@ class CandidateProgram(BaseModel, frozen=True):
     trials: tuple[TrialRecord, ...]
     aliases: tuple[str, ...] = ()  # all distinct name variants (incl. synonyms)
     intervention_type: str = ""    # CT.gov type (DRUG/BIOLOGICAL/GENETIC) for modality
+    descriptions: tuple[str, ...] = ()  # CT.gov intervention free-text (modality cues)
     max_phase: Optional[str] = None
     n_trials: int = 0
     latest_completion: Optional[str] = None
@@ -118,6 +119,9 @@ def cluster_programs(trials: list[TrialRecord]) -> list[CandidateProgram]:
             trials=tuple(group),
             aliases=tuple(dict.fromkeys(raw_variants[key])),
             intervention_type=_dominant_intervention_type(group),
+            descriptions=tuple(dict.fromkeys(
+                t.primary_drug_description for t in group if t.primary_drug_description
+            )),
             max_phase=_max_phase(group),
             n_trials=len(group),
             latest_completion=_latest([t.primary_completion_date for t in group]),

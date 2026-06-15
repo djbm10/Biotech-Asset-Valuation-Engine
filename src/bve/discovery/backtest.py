@@ -95,6 +95,7 @@ def evaluate_seed(
     predicted_modality = infer_modality(
         prog.drug, list(prog.conditions),
         intervention_type=prog.intervention_type, aliases=list(prog.aliases),
+        descriptions=list(prog.descriptions), drug_key=prog.drug_key,
     )
     # Match truth against the program's full variant set (display + CT.gov synonyms),
     # so code-vs-generic naming differences don't read as wrong leads.

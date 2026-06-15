@@ -50,6 +50,7 @@ class TrialRecord(BaseModel, frozen=True):
     drug_names: tuple[str, ...] = ()
     primary_drug_aliases: tuple[str, ...] = ()  # CT.gov otherNames of the primary drug
     primary_intervention_type: str = ""  # CT.gov type of the primary drug (DRUG/BIOLOGICAL/…)
+    primary_drug_description: str = ""  # CT.gov free-text description of the primary drug
     phase: Optional[str] = None  # phase_1 | phase_2 | phase_3 | None
     status: str = ""
     start_date: Optional[str] = None
@@ -69,14 +70,16 @@ def _phase_from_tokens(phases: list[str]) -> Optional[str]:
     return max(mapped, key=lambda s: _PHASE_RANK[s])
 
 
-def _extract_interventions(arms_mod: dict) -> list[tuple[str, tuple[str, ...], str]]:
-    """Investigational interventions as (name, otherNames, type), placebo dropped.
+def _extract_interventions(arms_mod: dict) -> list[tuple[str, tuple[str, ...], str, str]]:
+    """Investigational interventions as (name, otherNames, type, description).
 
     ``otherNames`` are CT.gov-supplied synonyms/code-names — a strong clustering
-    signal. ``type`` is CT.gov's intervention classification (DRUG / BIOLOGICAL /
-    GENETIC / …) — the best available signal for modality inference.
+    signal. ``type`` is CT.gov's classification (DRUG / BIOLOGICAL / GENETIC / …).
+    ``description`` is the free-text intervention description, which often states
+    the modality in words ("GLP-1/GIP receptor agonist peptide", "monoclonal
+    antibody", "siRNA") even when the code name and type do not. Placebo dropped.
     """
-    out: list[tuple[str, tuple[str, ...], str]] = []
+    out: list[tuple[str, tuple[str, ...], str, str]] = []
     seen: set[str] = set()
     for iv in arms_mod.get("interventions", []):
         itype = iv.get("type", "").upper()
@@ -92,7 +95,8 @@ def _extract_interventions(arms_mod: dict) -> list[tuple[str, tuple[str, ...], s
         aliases = tuple(
             a.strip() for a in iv.get("otherNames", []) if a and a.strip()
         )
-        out.append((name, aliases, itype))
+        description = (iv.get("description") or "").strip()
+        out.append((name, aliases, itype, description))
     return out
 
 
@@ -150,9 +154,10 @@ def parse_protocol(
         enrollment = None
 
     interventions = _extract_interventions(arms_mod)
-    drug_names = tuple(name for name, _, _ in interventions)
+    drug_names = tuple(name for name, _, _, _ in interventions)
     primary_aliases = interventions[0][1] if interventions else ()
     primary_type = interventions[0][2] if interventions else ""
+    primary_description = interventions[0][3] if interventions else ""
 
     return TrialRecord(
         nct_id=nct_id,
@@ -160,6 +165,7 @@ def parse_protocol(
         drug_names=drug_names,
         primary_drug_aliases=primary_aliases,
         primary_intervention_type=primary_type,
+        primary_drug_description=primary_description,
         phase=_phase_from_tokens(design_mod.get("phases", [])),
         status=(status_mod.get("overallStatus") or "").strip(),
         start_date=status_mod.get("startDateStruct", {}).get("date"),

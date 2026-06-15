@@ -118,7 +118,7 @@ _MODALITY_PATTERNS: list[tuple[re.Pattern, str]] = [
     (re.compile(r"(vedotin|deruxtecan|govitecan|emtansine|tirumotecan|\badc\b|drug conjugate|antibody[- ]drug)", re.I), "adc"),
     (re.compile(r"(\bcar[- ]?t\b|\bcar\b|\btcr\b|\btil\b|\bnk\b|nk[- ]cell|cell therapy|autologous|allogeneic|leucel|cabtagene|\bbagene)", re.I), "cell_gene"),
     (re.compile(r"(\baav\b|gene therapy|\blenti|gene transfer|gene editing|crispr|zinc finger|-gene\b|\b-vec\b|valoctocogene|etranacogene)", re.I), "gene_therapy"),
-    (re.compile(r"(sirna|\bsi[- ]?rna\b|antisense|\baso\b|oligonucleotide|\bmrna\b|\b-sen\b|\b-rsen\b|\b-siran\b|\b-nersen\b|-mersen|-rsiran)", re.I), "rna_therapy"),
+    (re.compile(r"(sirna|\bsi[- ]?rna\b|antisense|\baso\b|oligonucleotide|\bmrna\b|rsen\b|siran\b|mersen\b|nersen\b)", re.I), "rna_therapy"),
     (re.compile(r"(\b-mab\b|mab$|monoclonal|antibody|\b-cept\b|fusion protein|\b-zumab|\b-ximab|\b-umab|bispecific|\b-bart\b|\b-tug\b)", re.I), "biologic"),
     (re.compile(r"(\b-tide\b|tide$|peptide|glp-?1|gip\b|incretin|insulin|\b-glutide\b|\b-tatide\b)", re.I), "peptide"),
 ]
@@ -130,6 +130,16 @@ _TYPE_TO_MODALITY: dict[str, str] = {
     "DRUG": "small_molecule",
 }
 
+# Curated modality overrides for coded assets whose public CT.gov text is
+# insufficient (code name carries no morphological cue, typed DRUG, thin/absent
+# description). Keyed by canonical drug key (lowercased code; see
+# drug_identity.canonical_drug_key). DETERMINISTIC + AUDITABLE — add an entry only
+# when the modality is clearly, publicly known. Not a dumping ground; prefer
+# fixing patterns/text extraction over growing this map.
+_MODALITY_OVERRIDES: dict[str, str] = {
+    "vk2735": "peptide",   # Viking VK2735 — dual GLP-1/GIP receptor agonist peptide
+}
+
 
 def infer_modality(
     drug_name: str,
@@ -137,20 +147,31 @@ def infer_modality(
     *,
     intervention_type: Optional[str] = None,
     aliases: Optional[list[str]] = None,
+    descriptions: Optional[list[str]] = None,
+    drug_key: Optional[str] = None,
 ) -> str:
     """Best-effort modality class.
 
-    Order: a decisive name/synonym pattern wins first (CAR-T, -mab, AAV, siRNA,
-    peptide); otherwise CT.gov's intervention type decides (BIOLOGICAL→biologic,
-    GENETIC→cell_gene, DRUG→small_molecule). When neither gives a signal the
-    answer is ``unknown`` — better an honest gap (flagged for review) than a
-    confident wrong ``small_molecule``.
+    Order:
+    1. curated override keyed by ``drug_key`` (highest precedence — known truth);
+    2. a decisive name/synonym/description pattern (CAR-T, -mab, AAV, siRNA,
+       peptide), matched across the name, aliases, AND the CT.gov intervention
+       description (which often states the modality in words);
+    3. CT.gov intervention type (BIOLOGICAL→biologic, GENETIC→cell_gene,
+       DRUG→small_molecule);
+    4. ``unknown`` — better an honest gap (flagged for review) than a confident
+       wrong ``small_molecule``.
     """
-    text = " ".join([drug_name or "", *(aliases or [])])
-    if not text.strip():
+    if drug_key and drug_key.lower() in _MODALITY_OVERRIDES:
+        return _MODALITY_OVERRIDES[drug_key.lower()]
+    # Test each string separately so INN suffix anchors (mab$, tide$) still fire —
+    # concatenating name + description would move the suffix off the end. Outer loop
+    # over patterns preserves modality priority (ADC > cell > gene > RNA > biologic).
+    strings = [s for s in [drug_name or "", *(aliases or []), *(descriptions or [])] if s]
+    if not strings:
         return "unknown"
     for pattern, modality in _MODALITY_PATTERNS:
-        if pattern.search(text):
+        if any(pattern.search(s) for s in strings):
             return modality
     itype = (intervention_type or "").upper()
     if itype in _TYPE_TO_MODALITY:

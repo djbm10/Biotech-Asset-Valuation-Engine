@@ -12,6 +12,7 @@ def make_protocol(
     drug: Optional[str] = None,
     drug_type: str = "DRUG",
     drug_other_names: Optional[list[str]] = None,
+    drug_description: Optional[str] = None,
     extra_interventions: Optional[list[tuple[str, str]]] = None,
     phases: Optional[list[str]] = None,
     status: str = "RECRUITING",
@@ -29,6 +30,8 @@ def make_protocol(
         iv: dict = {"type": drug_type, "name": drug}
         if drug_other_names:
             iv["otherNames"] = drug_other_names
+        if drug_description:
+            iv["description"] = drug_description
         interventions.append(iv)
     for itype, iname in extra_interventions or []:
         interventions.append({"type": itype, "name": iname})
