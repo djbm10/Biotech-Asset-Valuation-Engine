@@ -29,6 +29,9 @@ AMBIGUOUS_LEAD_ASSET = "ambiguous_lead_asset"
 CONFLICTING_SOURCES = "conflicting_sources"
 LARGE_SCORE_MOVE = "large_score_move"
 OVERRIDE_REVALIDATION = "override_revalidation_needed"
+# Emitted by bve-discover routing (slice 2): a medium-confidence or
+# approved-vs-active-pivotal lead a human must confirm before it becomes a seed.
+PROPOSED_SEED = "proposed_seed"
 
 _SEVERITY_RANK = {"high": 0, "medium": 1, "low": 2}
 
