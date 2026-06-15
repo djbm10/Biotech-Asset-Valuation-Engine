@@ -97,18 +97,34 @@ def _cmd_detect(args: argparse.Namespace) -> None:
         print("\nNo lead — no clusterable programs found.")
 
 
-def _load_candidates(path: str | None, registry: str) -> tuple[list[CandidateCompany], set[str]]:
+def _load_candidates(args: argparse.Namespace) -> tuple[list[CandidateCompany], set[str]]:
     """Candidates to route + the set of already-seeded tickers (for exclusion).
 
-    With ``--candidates`` we route a supplied list of new names; without it we
-    self-audit the registry's own companies (writes nothing, since all are
-    seeded) so the decision logic — including the MRUS approved-vs-pivotal rule —
-    can be inspected against known companies.
+    Three sources, in priority order:
+    - ``--enumerate``: the rules-based universe screen (ops/universe_builder) — the
+      automatic discovery path.
+    - ``--candidates PATH``: a supplied YAML list of new names.
+    - neither: self-audit the registry's own companies (writes nothing, since all
+      are seeded) so the decision logic — including the MRUS rule — can be
+      inspected against known companies.
     """
-    seeds = load_universe_registry(registry)
+    seeds = load_universe_registry(args.registry)
     existing = {s.ticker.upper() for s in seeds}
-    if path:
-        raw = yaml.safe_load(Path(path).read_text(encoding="utf-8")) or []
+    if getattr(args, "enumerate_universe", False):
+        from bve.discovery.candidate_source import enumerate_candidates
+        from bve.ops.universe_builder import UniverseFilter
+
+        filt = UniverseFilter()
+        if args.min_mktcap is not None:
+            filt.min_mktcap_m = args.min_mktcap
+        if args.max_mktcap is not None:
+            filt.max_mktcap_m = args.max_mktcap
+        candidates = enumerate_candidates(
+            filt=filt, max_tickers=args.max_tickers,
+            skip_clinical_check=args.skip_clinical_check,
+        )
+    elif args.candidates:
+        raw = yaml.safe_load(Path(args.candidates).read_text(encoding="utf-8")) or []
         rows = raw.get("candidates", []) if isinstance(raw, dict) else raw
         candidates = [CandidateCompany.model_validate(r) for r in rows]
     else:
@@ -118,7 +134,7 @@ def _load_candidates(path: str | None, registry: str) -> tuple[list[CandidateCom
 
 
 def _cmd_route(args: argparse.Namespace) -> None:
-    candidates, existing = _load_candidates(args.candidates, args.registry)
+    candidates, existing = _load_candidates(args)
     if args.limit:
         candidates = candidates[: args.limit]
     fetch = _make_fetch(args.cache_dir, cache_only=args.cache_only, refresh=args.refresh)
@@ -177,6 +193,14 @@ def main(argv: list[str] | None = None) -> None:
     p_rt.add_argument("--registry", default=_DEFAULT_REGISTRY)
     p_rt.add_argument("--candidates", help="YAML list of {ticker, company_name} to route "
                                            "(default: self-audit the registry companies)")
+    p_rt.add_argument("--enumerate", dest="enumerate_universe", action="store_true",
+                      help="Enumerate candidates via ops/universe_builder liquidity screen")
+    p_rt.add_argument("--max-tickers", type=int, default=None,
+                      help="Limit universe seed tickers screened (with --enumerate)")
+    p_rt.add_argument("--skip-clinical-check", action="store_true",
+                      help="Skip the universe builder's Phase 2+ gate (routing does its own)")
+    p_rt.add_argument("--min-mktcap", type=float, default=None, help="Min market cap $M")
+    p_rt.add_argument("--max-mktcap", type=float, default=None, help="Max market cap $M")
     p_rt.add_argument("--limit", type=int, default=0, help="Only route the first N candidates")
     p_rt.add_argument("--cache-dir", default=_DEFAULT_CACHE_DIR)
     p_rt.add_argument("--refresh", action="store_true")
