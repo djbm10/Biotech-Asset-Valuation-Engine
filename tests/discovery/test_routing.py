@@ -164,6 +164,27 @@ def test_run_routing_aggregates_and_excludes_ambiguous_from_proposals():
     assert result.auto_added == []
 
 
+def test_ta_inference_uses_loader_vocabulary():
+    from bve.discovery.routing import _infer_ta
+
+    # Each maps to an assumptions-loader TA key (not a non-canonical synonym).
+    cases = {
+        "Stargardt Disease 1": "ophthalmology",
+        "IgA Nephropathy": "renal",
+        "Focal Segmental Glomerulosclerosis": "renal",
+        "Prader-Willi Syndrome": "rare_disease",
+        "Major Depressive Disorder": "psychiatry",
+        "Facioscapulohumeral Muscular Dystrophy": "cns",
+        "Hypertension": "cardiovascular",
+        "Glioma": "oncology",
+    }
+    for indication, expected in cases.items():
+        assert _infer_ta(indication) == expected, indication
+
+    # Unmapped indications stay honest.
+    assert _infer_ta("Some Bespoke Condition") == "unknown"
+
+
 def test_device_company_routed_to_exception():
     from bve.discovery.routing import ACTION_EXCEPTION, DISPOSITION_NOT_DEVELOPER
 

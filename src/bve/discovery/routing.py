@@ -106,30 +106,39 @@ class RouteDecision(BaseModel, frozen=True):
 # ── Pick-detail extraction ───────────────────────────────────────────────────────
 
 # Ordered: first category whose keywords hit wins. Oncology first (it dominates and
-# its terms are unambiguous); rarer/again-specific buckets before broad ones.
+# its terms are unambiguous); specific organ/area buckets before broad ones. TA
+# labels match the assumptions-loader vocabulary (cns, cardiovascular, renal,
+# gastroenterology, psychiatry, pulmonary, infectious_disease, rare_disease, …) so
+# downstream economics resolve instead of falling back to "other".
 _TA_KEYWORDS: list[tuple[tuple[str, ...], str]] = [
     (("cancer", "carcinoma", "tumor", "tumour", "lymphoma", "leukemia", "leukaemia",
       "myeloma", "melanoma", "sarcoma", "oncolog", "solid", "neoplas", "glioma",
       "glioblastoma", "metasta", "malignan"), "oncology"),
-    (("lupus", "arthritis", "psoriasis", "colitis", "crohn", "dermatitis", "asthma",
-      "vasculitis", "myositis", "scleroderma", "immune", "autoimmune", "atopic",
-      "urticaria", "graft", "lupus nephritis", "sjogren", "myasthenia"), "immunology"),
+    (("retina", "macular", "ophthalmo", "uveitis", "glaucoma", "geographic atrophy",
+      "vision", "ocular", "eye", "stargardt"), "ophthalmology"),
+    (("kidney", "renal", "nephro", "nephropathy", "glomerulo", "glomerulosclerosis",
+      "iga nephropathy", "fsgs", "focal segmental", "nephrotic"), "renal"),
+    (("gerd", "reflux", "esophagitis", "h. pylori", "helicobacter", "gastric",
+      "peptic ulcer", "gastrointestinal", "eosinophilic esophagitis"), "gastroenterology"),
     (("obesity", "weight", "diabet", "nash", "mash", "metabolic", "hyperlipid",
       "cholesterol", "dyslipid", "fatty liver", "hypertriglycerid"), "metabolic"),
     (("amyloidosis", "anemia", "anaemia", "thrombo", "hemophilia", "haemophilia",
       "sickle", "thalassemia", "thalassaemia", "polycythemia", "myelofibrosis",
       "bleeding", "hematolog"), "hematology"),
-    (("epilepsy", "alzheimer", "parkinson", "migraine", "depression", "seizure",
-      "neuro", "tremor", "huntington", "als ", "amyotrophic", "multiple sclerosis",
-      "dystrophy", "myopathy", "ataxia", "schizophrenia", "spinal muscular"), "neurology"),
-    (("retina", "macular", "ophthalmo", "uveitis", "glaucoma", "geographic atrophy",
-      "vision", "ocular", "eye"), "ophthalmology"),
+    (("lupus", "arthritis", "psoriasis", "colitis", "crohn", "dermatitis", "asthma",
+      "vasculitis", "myositis", "scleroderma", "immune", "autoimmune", "atopic",
+      "urticaria", "graft", "lupus nephritis", "sjogren", "myasthenia"), "immunology"),
+    (("depression", "major depressive", "schizophrenia", "bipolar", "anxiety",
+      "ptsd", "psychiatr"), "psychiatry"),
+    (("epilepsy", "alzheimer", "parkinson", "migraine", "seizure", "neuro", "tremor",
+      "huntington", "amyotrophic", "multiple sclerosis", "dystrophy", "myopathy",
+      "ataxia", "spinal muscular", "facioscapulohumeral", "fshd"), "cns"),
     (("heart", "cardiac", "cardiovascular", "cardiomyopathy", "hypertension",
-      "atrial", "coronary", "thrombosis"), "cardiology"),
+      "atrial", "coronary", "thrombosis"), "cardiovascular"),
     (("hepatitis", "hiv", "influenza", "covid", "sars", "rsv", "bacterial",
       "infection", "antiviral", "antibiotic", "vaccine"), "infectious_disease"),
-    (("pulmonary", "fibrosis", "copd", "respiratory", "cystic fibrosis"), "respiratory"),
-    (("kidney", "renal", "nephro", "nephropathy"), "nephrology"),
+    (("pulmonary", "fibrosis", "copd", "respiratory", "cystic fibrosis"), "pulmonary"),
+    (("prader-willi", "prader willi"), "rare_disease"),
 ]
 
 
