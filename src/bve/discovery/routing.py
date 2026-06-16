@@ -32,6 +32,7 @@ from pydantic import BaseModel
 from bve.discovery.lead_ranker import RankedLead, rank_leads
 from bve.discovery.matching import infer_modality
 from bve.discovery.program_cluster import CandidateProgram, cluster_programs
+from bve.discovery.program_filters import is_device_or_dx_company
 from bve.discovery.sponsor_trials import TrialRecord
 
 # ── Dispositions (what the evidence says) ────────────────────────────────────────
@@ -41,6 +42,8 @@ DISPOSITION_LOW = "low_confidence"
 DISPOSITION_APPROVED_AMBIGUOUS = "approved_vs_active_pivotal"
 DISPOSITION_NO_LEAD = "no_lead"
 DISPOSITION_EXCLUDED = "excluded"
+DISPOSITION_NOT_DEVELOPER = "device_or_diagnostic"
+DISPOSITION_UNCONFIRMED_ORIGINATOR = "unconfirmed_originator"
 
 # ── Actions (what we do about it) ────────────────────────────────────────────────
 ACTION_AUTO_ADD = "auto_add"
@@ -205,6 +208,14 @@ def route_company(
         n_programs=len(programs),
     )
 
+    # Device / diagnostics / imaging firms are not therapeutic developers, even if
+    # they pass the liquidity screen and run a drug-arm trial.
+    if is_device_or_dx_company(candidate.company_name):
+        return RouteDecision(
+            **base, disposition=DISPOSITION_NOT_DEVELOPER, action=ACTION_EXCEPTION,
+            reason="company appears to be a device/diagnostics firm, not a drug developer",
+        )
+
     if lead is None:
         return RouteDecision(
             **base, disposition=DISPOSITION_NO_LEAD, action=ACTION_EXCEPTION,
@@ -239,6 +250,20 @@ def route_company(
             reason=(
                 f"approved alternative ({conflict}) competes with active pick "
                 f"({prog.drug}) — lead is a judgment call, never auto-added"
+            ),
+        )
+
+    # Rule 2 (originator): a collaborator-only lead (company is not the trial's
+    # lead sponsor) is likely a partner / someone-else's molecule. Never propose
+    # it unconfirmed — route to review for originator confirmation. Calibrated:
+    # genuine leads sponsor their own pivotal trials (sponsor_is_lead=True).
+    if not prog.sponsor_is_lead:
+        return RouteDecision(
+            **base, **pick,
+            disposition=DISPOSITION_UNCONFIRMED_ORIGINATOR, action=ACTION_REVIEW,
+            reason=(
+                f"company is not the lead sponsor of {prog.drug} — possible partner/"
+                "comparator asset; confirm the company originates it before seeding"
             ),
         )
 

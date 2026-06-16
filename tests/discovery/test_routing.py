@@ -164,6 +164,36 @@ def test_run_routing_aggregates_and_excludes_ambiguous_from_proposals():
     assert result.auto_added == []
 
 
+def test_device_company_routed_to_exception():
+    from bve.discovery.routing import ACTION_EXCEPTION, DISPOSITION_NOT_DEVELOPER
+
+    # Even with a clean-looking lead, a device/dx company is not a developer.
+    protos = _high_single("Intuitive Surgical")
+    progs = cluster_programs(_trials("Intuitive Surgical", protos))
+    lead = rank_leads(progs)
+    d = route_company(
+        CandidateCompany(ticker="ISRG", company_name="Intuitive Surgical"),
+        progs, lead,
+    )
+    assert d.action == ACTION_EXCEPTION
+    assert d.disposition == DISPOSITION_NOT_DEVELOPER
+
+
+def test_collaborator_only_lead_routes_to_review():
+    from bve.discovery.routing import ACTION_REVIEW, DISPOSITION_UNCONFIRMED_ORIGINATOR
+
+    # Company is NOT the lead sponsor → possible partner/comparator asset.
+    protos = [make_protocol(nct_id="N1", drug="ABC-100", phases=["PHASE3"],
+                            enrollment=400, status="RECRUITING",
+                            lead_sponsor="Some Other Pharma")]
+    progs = cluster_programs(_trials("Acme Bio", protos))
+    lead = rank_leads(progs)
+    d = route_company(CandidateCompany(ticker="ACME", company_name="Acme Bio"),
+                      progs, lead)
+    assert d.action == ACTION_REVIEW
+    assert d.disposition == DISPOSITION_UNCONFIRMED_ORIGINATOR
+
+
 def test_excluded_ticker_short_circuits_without_fetch():
     from bve.discovery.routing import ACTION_EXCLUDED
 

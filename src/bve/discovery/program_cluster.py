@@ -13,6 +13,7 @@ from typing import Optional
 from pydantic import BaseModel
 
 from bve.discovery.drug_identity import canonical_drug_key
+from bve.discovery.program_filters import is_generic_comparator
 from bve.discovery.sponsor_trials import TrialRecord
 
 _PHASE_RANK: dict[str, int] = {"phase_1": 1, "phase_2": 2, "phase_3": 3}
@@ -129,6 +130,14 @@ def cluster_programs(trials: list[TrialRecord]) -> list[CandidateProgram]:
             sponsor_is_lead=any(t.sponsor_is_lead for t in group),
             conditions=tuple(conditions),
         ))
+
+    # Drop generic/comparator arms (warfarin, gemcitabine, …) — never a lead asset.
+    # Judge only the PRIMARY drug name + canonical key: combo aliases ("X with
+    # nivolumab") carry backbone partners that must not drag the real lead out.
+    programs = [
+        p for p in programs
+        if not is_generic_comparator(p.drug, drug_key=p.drug_key)
+    ]
 
     programs.sort(
         key=lambda p: (_PHASE_RANK.get(p.max_phase or "", 0), p.n_trials),
