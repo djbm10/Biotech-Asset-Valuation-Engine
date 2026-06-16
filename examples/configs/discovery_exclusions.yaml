@@ -1,0 +1,16 @@
+exclusions:
+- ticker: ATRC
+  reason: not_drug_developer
+  note: AtriCure is a cardiac ablation device co; warfarin is a comparator arm
+  reviewer: doug
+  excluded_at: '2026-06-16T00:03:57.754179+00:00'
+- ticker: VSTM
+  reason: rejected
+  note: Gemzar/gemcitabine is a comparator; VSTM lead is avutometinib
+  reviewer: doug
+  excluded_at: '2026-06-16T00:04:00.582485+00:00'
+- ticker: ZYME
+  reason: rejected
+  note: futibatinib is Taiho partner artifact; ZYME lead is zanidatamab
+  reviewer: doug
+  excluded_at: '2026-06-16T00:03:55.256810+00:00'

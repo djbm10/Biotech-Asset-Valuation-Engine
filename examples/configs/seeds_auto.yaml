@@ -1,0 +1,56 @@
+assets:
+- ticker: VKTX
+  company_name: Viking Therapeutics, Inc.
+  asset_id: asset-vktx-vk2735
+  drug_name: VK2735
+  indication: Weight Loss
+  therapeutic_area: metabolic
+  stage: phase_3
+  modality: peptide
+  nct_id: NCT07104383
+  provenance:
+    source: bve-discover
+    disposition: high_confidence
+    tier: high
+    score: 1.7
+    proposed_at: '2026-06-16T00:00:46.041736+00:00'
+    approved_by: doug
+    approved_at: '2026-06-16T00:03:49.355567+00:00'
+    rationale: Viking flagship GLP-1/GIP obesity peptide, Ph3
+- ticker: ARVN
+  company_name: Arvinas, Inc.
+  asset_id: asset-arvn-arv471
+  drug_name: ARV-471
+  indication: Breast Cancer
+  therapeutic_area: oncology
+  stage: phase_3
+  modality: small_molecule
+  nct_id: NCT05909397
+  provenance:
+    source: bve-discover
+    disposition: high_confidence
+    tier: high
+    score: 1.7
+    proposed_at: '2026-06-16T00:00:46.041736+00:00'
+    approved_by: doug
+    approved_at: '2026-06-16T00:03:51.722191+00:00'
+    rationale: Arvinas lead PROTAC vepdegestrant, Ph3 breast
+- ticker: OLMA
+  company_name: Olema Pharmaceuticals, Inc.
+  asset_id: asset-olma-op1250
+  drug_name: OP-1250
+  indication: Breast Cancer
+  therapeutic_area: oncology
+  stage: phase_3
+  modality: small_molecule
+  nct_id: NCT06016738
+  provenance:
+    source: bve-discover
+    disposition: high_confidence
+    tier: high
+    score: 1.7
+    proposed_at: '2026-06-16T00:00:46.041736+00:00'
+    approved_by: doug
+    approved_at: '2026-06-16T00:03:54.152624+00:00'
+    rationale: Olema lead SERD palazestrant, Ph3 breast
+generated_at: '2026-06-16T00:03:54.152624+00:00'
