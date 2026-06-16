@@ -10,6 +10,12 @@ exclusions:
     arm
   reviewer: doug
   excluded_at: '2026-06-16T11:15:04.502614+00:00'
+- ticker: LGND
+  reason: not_drug_developer
+  note: Ligand is a royalty/licensing aggregator; lasofoxifene developed by Sermonix
+    - recurring ambiguous, reject permanently
+  reviewer: doug
+  excluded_at: '2026-06-16T11:29:56.357104+00:00'
 - ticker: VSTM
   reason: rejected
   note: Gemzar/gemcitabine is a comparator; VSTM lead is avutometinib
