@@ -53,4 +53,76 @@ assets:
     approved_by: doug
     approved_at: '2026-06-16T00:03:54.152624+00:00'
     rationale: Olema lead SERD palazestrant, Ph3 breast
-generated_at: '2026-06-16T00:03:54.152624+00:00'
+- ticker: DAWN
+  company_name: Day One Biopharmaceuticals, Inc
+  asset_id: asset-dawn-day101
+  drug_name: DAY101
+  indication: Low-grade Glioma
+  therapeutic_area: oncology
+  stage: phase_3
+  modality: small_molecule
+  nct_id: NCT05566795
+  provenance:
+    source: bve-discover
+    disposition: high_confidence
+    tier: high
+    score: 1.7
+    proposed_at: '2026-06-16T11:07:59.273959+00:00'
+    approved_by: doug
+    approved_at: '2026-06-16T11:14:54.386226+00:00'
+    rationale: Day One lead tovorafenib/DAY101, Ph3 pediatric glioma
+- ticker: NRIX
+  company_name: Nurix Therapeutics, Inc.
+  asset_id: asset-nrix-nx5948
+  drug_name: NX-5948
+  indication: B-cell Lymphoma
+  therapeutic_area: oncology
+  stage: phase_3
+  modality: small_molecule
+  nct_id: NCT07516093
+  provenance:
+    source: bve-discover
+    disposition: high_confidence
+    tier: high
+    score: 1.7
+    proposed_at: '2026-06-16T11:07:59.273959+00:00'
+    approved_by: doug
+    approved_at: '2026-06-16T11:14:56.651483+00:00'
+    rationale: Nurix lead BTK degrader NX-5948
+- ticker: TYRA
+  company_name: Tyra Biosciences, Inc.
+  asset_id: asset-tyra-tyra300
+  drug_name: TYRA-300
+  indication: Low Grade Upper Tract Urothelial Carcinoma
+  therapeutic_area: oncology
+  stage: phase_2
+  modality: small_molecule
+  nct_id: NCT07265947
+  provenance:
+    source: bve-discover
+    disposition: high_confidence
+    tier: high
+    score: 1.3
+    proposed_at: '2026-06-16T11:07:59.273959+00:00'
+    approved_by: doug
+    approved_at: '2026-06-16T11:14:59.184430+00:00'
+    rationale: Tyra lead FGFR inhibitor TYRA-300
+- ticker: STRO
+  company_name: Sutro Biopharma, Inc.
+  asset_id: asset-stro-stro002
+  drug_name: luvelta
+  indication: Ovarian Cancer
+  therapeutic_area: oncology
+  stage: phase_3
+  modality: adc
+  nct_id: NCT05870748
+  provenance:
+    source: bve-discover
+    disposition: high_confidence
+    tier: high
+    score: 1.7
+    proposed_at: '2026-06-16T11:07:59.273959+00:00'
+    approved_by: doug
+    approved_at: '2026-06-16T11:15:01.736092+00:00'
+    rationale: Sutro lead ADC luveltamab (luvelta)
+generated_at: '2026-06-16T11:15:01.736092+00:00'
