@@ -109,6 +109,28 @@ class StoredValuationDiff(BaseModel):
     market_cap_snapshot_millions: Optional[float] = None
 
 
+class ScoreUpdateRecord(BaseModel):
+    """Auditable record of a scanner composite-score movement driven by signals.
+
+    Commit 1 of the live scanner score-update contract: ``prior_score`` is the base
+    composite (no signal context) and ``new_score`` is the composite after applying
+    the stored-signal context, so ``delta`` and the contributing IDs isolate the
+    signal-driven movement (source → fact → score impact lineage).
+    """
+
+    id: str
+    asset_id: str
+    as_of: date
+    prior_score: Optional[float]
+    new_score: float
+    delta: float
+    run_id: Optional[str] = None
+    components: dict[str, float] = Field(default_factory=dict)
+    contributing_signal_ids: list[str] = Field(default_factory=list)
+    contributing_event_ids: list[str] = Field(default_factory=list)
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+
 class RunStateRecord(BaseModel):
     """Persistent per-stage runtime status for one asset run."""
 
@@ -594,6 +616,21 @@ class KnowledgeStore:
                 assumptions_snapshot_json TEXT,
                 valuation_snapshot_json TEXT,
                 source_trace_json TEXT NOT NULL
+            );
+
+            CREATE TABLE IF NOT EXISTS score_updates (
+                id TEXT PRIMARY KEY,
+                run_id TEXT,
+                asset_id TEXT NOT NULL,
+                as_of TEXT NOT NULL,
+                prior_score REAL,
+                new_score REAL NOT NULL,
+                delta REAL NOT NULL,
+                components_json TEXT,
+                contributing_signal_ids_json TEXT,
+                contributing_event_ids_json TEXT,
+                source_trace_json TEXT NOT NULL,
+                created_at TEXT NOT NULL
             );
 
             CREATE TABLE IF NOT EXISTS run_state (
@@ -2095,6 +2132,84 @@ class KnowledgeStore:
         )
         self._conn.commit()
         return stored
+
+    # ------------------------------------------------------------------
+    # Score updates (live scanner score-update contract — commit 1)
+    # ------------------------------------------------------------------
+    def add_score_update(
+        self,
+        record: ScoreUpdateRecord,
+        *,
+        source_trace: SourceTrace,
+    ) -> ScoreUpdateRecord:
+        """Persist one auditable scanner score-movement record."""
+        self._conn.execute(
+            """
+            INSERT OR REPLACE INTO score_updates(
+                id, run_id, asset_id, as_of, prior_score, new_score, delta,
+                components_json, contributing_signal_ids_json,
+                contributing_event_ids_json, source_trace_json, created_at
+            ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                record.id,
+                record.run_id,
+                record.asset_id,
+                record.as_of.isoformat(),
+                record.prior_score,
+                float(record.new_score),
+                float(record.delta),
+                self._json_dump(record.components),
+                self._json_dump(record.contributing_signal_ids),
+                self._json_dump(record.contributing_event_ids),
+                source_trace.model_dump_json(),
+                record.created_at.isoformat(),
+            ),
+        )
+        self._conn.commit()
+        return record
+
+    def get_score_updates(
+        self,
+        *,
+        asset_id: Optional[str] = None,
+        run_id: Optional[str] = None,
+        limit: int = 100,
+    ) -> list[ScoreUpdateRecord]:
+        """Query persisted score-update records, newest first."""
+        import json as _json
+
+        clauses: list[str] = []
+        params: list[object] = []
+        if asset_id is not None:
+            clauses.append("asset_id = ?")
+            params.append(asset_id)
+        if run_id is not None:
+            clauses.append("run_id = ?")
+            params.append(run_id)
+        where = f"WHERE {' AND '.join(clauses)}" if clauses else ""
+        params.append(limit)
+        rows = self._conn.execute(
+            f"SELECT * FROM score_updates {where} ORDER BY created_at DESC LIMIT ?",
+            params,
+        ).fetchall()
+
+        out: list[ScoreUpdateRecord] = []
+        for row in rows:
+            out.append(ScoreUpdateRecord(
+                id=row["id"],
+                run_id=row["run_id"],
+                asset_id=row["asset_id"],
+                as_of=date.fromisoformat(row["as_of"]),
+                prior_score=row["prior_score"],
+                new_score=row["new_score"],
+                delta=row["delta"],
+                components=_json.loads(row["components_json"] or "{}"),
+                contributing_signal_ids=_json.loads(row["contributing_signal_ids_json"] or "[]"),
+                contributing_event_ids=_json.loads(row["contributing_event_ids_json"] or "[]"),
+                created_at=datetime.fromisoformat(row["created_at"]),
+            ))
+        return out
 
     # ------------------------------------------------------------------
     # Runtime state + opportunity alerts (Wave 7)

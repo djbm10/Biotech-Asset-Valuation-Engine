@@ -423,6 +423,53 @@ def _emit_profile_review_section(
     return out_path
 
 
+def _scores_with_signal_contexts(store, candidates, score_contexts, gen, *, run_id, as_of):
+    """Composite scores per candidate WITH stored-signal adjustments, and persist an
+    auditable ``score_update`` row for each signal-driven movement.
+
+    ``prior_score`` is the base composite (no signal context); ``new_score`` is after
+    the context, so ``delta`` + contributing IDs isolate the signal-driven movement
+    (commit 1 of the live scanner score-update contract). Returns (all_scores,
+    n_updates). Persistence-only — no review hold/gate yet.
+    """
+    import uuid
+
+    from bve.intelligence.composite_scorer import CompositeScorer
+    from bve.intelligence.knowledge_layer import ScoreUpdateRecord, SourceTrace
+
+    w_r, w_t, w_o = gen.weights["ranking"], gen.weights["thesis"], gen.weights["opportunity"]
+    scorer = CompositeScorer() if score_contexts else None
+    all_scores: dict[str, float] = {}
+    n_updates = 0
+    for c in candidates:
+        thesis = c.thesis_strength if c.thesis_strength is not None else 0.0
+        base = round(max(0.0, min(1.0, w_r * c.ranking_score + w_t * thesis + w_o * c.opportunity_score)), 4)
+        sig_total = 0.0
+        components: dict[str, float] = {}
+        sc = score_contexts.get(c.asset_id)
+        if scorer is not None and sc is not None:
+            components = scorer.compute_adjustments(sc.context)
+            sig_total = CompositeScorer.total(components)
+        new = round(max(0.0, min(1.0, base + sig_total)), 4)
+        all_scores[c.ticker.upper()] = new
+        if sc is not None and abs(new - base) > 1e-9:
+            try:
+                store.add_score_update(
+                    ScoreUpdateRecord(
+                        id=str(uuid.uuid4()), run_id=run_id, asset_id=c.asset_id, as_of=as_of,
+                        prior_score=base, new_score=new, delta=round(new - base, 4),
+                        components=components,
+                        contributing_signal_ids=list(sc.contributing_signal_ids),
+                        contributing_event_ids=list(sc.contributing_event_ids),
+                    ),
+                    source_trace=SourceTrace(source_type="weekly_scanner", source_ref=f"run:{run_id}"),
+                )
+                n_updates += 1
+            except Exception:
+                pass  # audit persistence must never break the report
+    return all_scores, n_updates
+
+
 def cmd_report(top_n: int = 5) -> None:
     """Generate weekly actionable report."""
     store = _get_store()
@@ -464,23 +511,28 @@ def cmd_report(top_n: int = 5) -> None:
             ),
         ))
 
-    report = gen.generate(candidates, top_n=top_n, week_ending=date.today())
+    # Build per-asset signal contexts from stored signals so the scanner score moves
+    # with live events (commit 1 of the live scanner score-update contract).
+    from bve.intelligence.score_context_builder import build_score_contexts
 
-    # Composite scores for ALL candidates (same base formula as generate(), no contexts).
-    # Used by _emit_profile_review_section to detect large_score_move week-over-week.
-    _w_r = gen.weights["ranking"]
-    _w_t = gen.weights["thesis"]
-    _w_o = gen.weights["opportunity"]
-    _all_scores: dict[str, float] = {
-        c.ticker.upper(): round(
-            max(0.0, min(1.0,
-                _w_r * c.ranking_score
-                + _w_t * (c.thesis_strength if c.thesis_strength is not None else 0.0)
-                + _w_o * c.opportunity_score
-            )), 4
-        )
-        for c in candidates
-    }
+    _run_id = f"weekly-{date.today().isoformat()}"
+    _score_contexts = build_score_contexts(
+        store, [c.asset_id for c in candidates], as_of=date.today()
+    )
+    _contexts = {aid: sc.context for aid, sc in _score_contexts.items()}
+
+    report = gen.generate(
+        candidates, top_n=top_n, week_ending=date.today(), contexts=_contexts or None
+    )
+
+    # Composite scores for ALL candidates, now signal-adjusted; persist an auditable
+    # score_update row per signal-driven movement (feeds large_score_move detection).
+    _all_scores, _n_score_updates = _scores_with_signal_contexts(
+        store, candidates, _score_contexts, gen, run_id=_run_id, as_of=date.today()
+    )
+    if _n_score_updates:
+        print(f"  Score updates: {_n_score_updates} signal-driven movement(s) "
+              f"recorded to ops.db (run={_run_id})")
 
     print(f"\n{'='*60}")
     print(f"WEEKLY ACTIONABLE REPORT — {report.week_ending}")
