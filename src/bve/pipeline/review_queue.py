@@ -32,6 +32,9 @@ OVERRIDE_REVALIDATION = "override_revalidation_needed"
 # Emitted by bve-discover routing (slice 2): a medium-confidence or
 # approved-vs-active-pivotal lead a human must confirm before it becomes a seed.
 PROPOSED_SEED = "proposed_seed"
+# Emitted by the live scanner score-update gate (commit 2): a material or
+# major-event-driven score move held at the prior score pending analyst review.
+SCORE_UPDATE_PENDING = "score_update_pending"
 
 _SEVERITY_RANK = {"high": 0, "medium": 1, "low": 2}
 

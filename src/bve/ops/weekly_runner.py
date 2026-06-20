@@ -310,6 +310,7 @@ def _emit_profile_review_section(
     score_snapshot: Optional[Path] = None,
     profiles_dir: Optional[Path] = None,
     proposed_seeds_path: Optional[Path] = None,
+    extra_review_items: Optional[list] = None,
 ) -> Optional[Path]:
     """Build the analyst review queue, print it, and write a dated text artifact.
 
@@ -385,6 +386,11 @@ def _emit_profile_review_section(
         except Exception:
             extra_items, extra_gen = [], None
 
+    # Live score-update-pending items (commit 2 gate) are profile-independent and
+    # carry no resolution timestamp; append them directly to the review queue.
+    if extra_review_items:
+        extra_items = list(extra_items) + list(extra_review_items)
+
     if not profiles and not extra_items:
         return None
 
@@ -423,51 +429,82 @@ def _emit_profile_review_section(
     return out_path
 
 
-def _scores_with_signal_contexts(store, candidates, score_contexts, gen, *, run_id, as_of):
-    """Composite scores per candidate WITH stored-signal adjustments, and persist an
-    auditable ``score_update`` row for each signal-driven movement.
+def _apply_score_gate(store, candidates, score_contexts, gen, *, run_id, as_of):
+    """Apply the review-first gate to signal-driven score movements (commit 2).
 
-    ``prior_score`` is the base composite (no signal context); ``new_score`` is after
-    the context, so ``delta`` + contributing IDs isolate the signal-driven movement
-    (commit 1 of the live scanner score-update contract). Returns (all_scores,
-    n_updates). Persistence-only — no review hold/gate yet.
+    For each candidate with a stored-signal context: compute base (no-signal) vs new
+    (with-signal) composite, then route via ``score_update_policy.decide``:
+      - auto_apply (small, no major event) → the new score publishes;
+      - review (material |delta| ≥ threshold, or any major clinical/regulatory event)
+        → the score is HELD at the prior (base) value and a ``score_update_pending``
+        review item is emitted.
+    Every movement is persisted as an auditable ``score_update`` carrying its decision.
+
+    Returns ``(published_scores, applied_contexts, pending_items, n_applied, n_held)``
+    where ``applied_contexts`` are the contexts to actually feed the report (held
+    assets are withheld so the report shows the prior score).
     """
     import uuid
 
     from bve.intelligence.composite_scorer import CompositeScorer
     from bve.intelligence.knowledge_layer import ScoreUpdateRecord, SourceTrace
+    from bve.intelligence import score_update_policy as policy
+    from bve.pipeline.review_queue import SCORE_UPDATE_PENDING, ReviewItem
 
     w_r, w_t, w_o = gen.weights["ranking"], gen.weights["thesis"], gen.weights["opportunity"]
     scorer = CompositeScorer() if score_contexts else None
-    all_scores: dict[str, float] = {}
-    n_updates = 0
+
+    published: dict[str, float] = {}
+    applied_contexts: dict[str, object] = {}
+    pending_items: list = []
+    n_applied = n_held = 0
+
     for c in candidates:
         thesis = c.thesis_strength if c.thesis_strength is not None else 0.0
         base = round(max(0.0, min(1.0, w_r * c.ranking_score + w_t * thesis + w_o * c.opportunity_score)), 4)
-        sig_total = 0.0
-        components: dict[str, float] = {}
         sc = score_contexts.get(c.asset_id)
-        if scorer is not None and sc is not None:
-            components = scorer.compute_adjustments(sc.context)
-            sig_total = CompositeScorer.total(components)
-        new = round(max(0.0, min(1.0, base + sig_total)), 4)
-        all_scores[c.ticker.upper()] = new
-        if sc is not None and abs(new - base) > 1e-9:
-            try:
-                store.add_score_update(
-                    ScoreUpdateRecord(
-                        id=str(uuid.uuid4()), run_id=run_id, asset_id=c.asset_id, as_of=as_of,
-                        prior_score=base, new_score=new, delta=round(new - base, 4),
-                        components=components,
-                        contributing_signal_ids=list(sc.contributing_signal_ids),
-                        contributing_event_ids=list(sc.contributing_event_ids),
-                    ),
-                    source_trace=SourceTrace(source_type="weekly_scanner", source_ref=f"run:{run_id}"),
-                )
-                n_updates += 1
-            except Exception:
-                pass  # audit persistence must never break the report
-    return all_scores, n_updates
+        if scorer is None or sc is None:
+            published[c.ticker.upper()] = base
+            continue
+
+        components = scorer.compute_adjustments(sc.context)
+        new = round(max(0.0, min(1.0, base + CompositeScorer.total(components))), 4)
+        delta = round(new - base, 4)
+        if abs(delta) <= 1e-9:
+            published[c.ticker.upper()] = base
+            continue
+
+        decision, reason = policy.decide(delta, sc.contributing_event_types)
+        if decision == policy.DECISION_AUTO_APPLY:
+            published[c.ticker.upper()] = new
+            applied_contexts[c.asset_id] = sc.context
+            n_applied += 1
+        else:  # review → hold at prior (base)
+            published[c.ticker.upper()] = base
+            n_held += 1
+            major = any(policy._is_major(et) for et in sc.contributing_event_types)
+            pending_items.append(ReviewItem(
+                c.ticker.upper(), c.asset_id, SCORE_UPDATE_PENDING,
+                "high" if major else "medium", "composite_score",
+                f"score would move {base:.3f}→{new:.3f} ({delta:+.3f}) from "
+                f"{','.join(sc.contributing_event_ids) or 'signals'}; held for review ({reason})",
+            ))
+
+        try:
+            store.add_score_update(
+                ScoreUpdateRecord(
+                    id=str(uuid.uuid4()), run_id=run_id, asset_id=c.asset_id, as_of=as_of,
+                    prior_score=base, new_score=new, delta=delta, decision=decision,
+                    components=components,
+                    contributing_signal_ids=list(sc.contributing_signal_ids),
+                    contributing_event_ids=list(sc.contributing_event_ids),
+                ),
+                source_trace=SourceTrace(source_type="weekly_scanner", source_ref=f"run:{run_id}"),
+            )
+        except Exception:
+            pass  # audit persistence must never break the report
+
+    return published, applied_contexts, pending_items, n_applied, n_held
 
 
 def cmd_report(top_n: int = 5) -> None:
@@ -511,28 +548,27 @@ def cmd_report(top_n: int = 5) -> None:
             ),
         ))
 
-    # Build per-asset signal contexts from stored signals so the scanner score moves
-    # with live events (commit 1 of the live scanner score-update contract).
+    # Build per-asset signal contexts from stored signals, then apply the review-first
+    # gate (live scanner score-update contract). Material/major-event moves hold at the
+    # prior score + emit score_update_pending; immaterial moves auto-apply. Held assets
+    # have their context withheld so the report shows the prior (un-moved) score.
     from bve.intelligence.score_context_builder import build_score_contexts
 
     _run_id = f"weekly-{date.today().isoformat()}"
     _score_contexts = build_score_contexts(
         store, [c.asset_id for c in candidates], as_of=date.today()
     )
-    _contexts = {aid: sc.context for aid, sc in _score_contexts.items()}
-
-    report = gen.generate(
-        candidates, top_n=top_n, week_ending=date.today(), contexts=_contexts or None
-    )
-
-    # Composite scores for ALL candidates, now signal-adjusted; persist an auditable
-    # score_update row per signal-driven movement (feeds large_score_move detection).
-    _all_scores, _n_score_updates = _scores_with_signal_contexts(
+    _all_scores, _applied_contexts, _pending_items, _n_applied, _n_held = _apply_score_gate(
         store, candidates, _score_contexts, gen, run_id=_run_id, as_of=date.today()
     )
-    if _n_score_updates:
-        print(f"  Score updates: {_n_score_updates} signal-driven movement(s) "
-              f"recorded to ops.db (run={_run_id})")
+
+    report = gen.generate(
+        candidates, top_n=top_n, week_ending=date.today(), contexts=_applied_contexts or None
+    )
+
+    if _n_applied or _n_held:
+        print(f"  Score updates: {_n_applied} auto-applied, {_n_held} held for review "
+              f"(run={_run_id})")
 
     print(f"\n{'='*60}")
     print(f"WEEKLY ACTIONABLE REPORT — {report.week_ending}")
@@ -595,6 +631,7 @@ def cmd_report(top_n: int = 5) -> None:
         db_path=DB_PATH,
         run_date=date.today(),
         current_scores=_all_scores,
+        extra_review_items=_pending_items,
     )
 
     return report

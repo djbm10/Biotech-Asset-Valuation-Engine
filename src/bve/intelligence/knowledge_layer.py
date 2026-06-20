@@ -125,6 +125,7 @@ class ScoreUpdateRecord(BaseModel):
     new_score: float
     delta: float
     run_id: Optional[str] = None
+    decision: str = "auto_apply"  # auto_apply | review (commit 2 gate)
     components: dict[str, float] = Field(default_factory=dict)
     contributing_signal_ids: list[str] = Field(default_factory=list)
     contributing_event_ids: list[str] = Field(default_factory=list)
@@ -626,6 +627,7 @@ class KnowledgeStore:
                 prior_score REAL,
                 new_score REAL NOT NULL,
                 delta REAL NOT NULL,
+                decision TEXT NOT NULL DEFAULT 'auto_apply',
                 components_json TEXT,
                 contributing_signal_ids_json TEXT,
                 contributing_event_ids_json TEXT,
@@ -2146,10 +2148,10 @@ class KnowledgeStore:
         self._conn.execute(
             """
             INSERT OR REPLACE INTO score_updates(
-                id, run_id, asset_id, as_of, prior_score, new_score, delta,
+                id, run_id, asset_id, as_of, prior_score, new_score, delta, decision,
                 components_json, contributing_signal_ids_json,
                 contributing_event_ids_json, source_trace_json, created_at
-            ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
             """,
             (
                 record.id,
@@ -2159,6 +2161,7 @@ class KnowledgeStore:
                 record.prior_score,
                 float(record.new_score),
                 float(record.delta),
+                record.decision,
                 self._json_dump(record.components),
                 self._json_dump(record.contributing_signal_ids),
                 self._json_dump(record.contributing_event_ids),
@@ -2204,6 +2207,7 @@ class KnowledgeStore:
                 prior_score=row["prior_score"],
                 new_score=row["new_score"],
                 delta=row["delta"],
+                decision=row["decision"] if "decision" in row.keys() else "auto_apply",
                 components=_json.loads(row["components_json"] or "{}"),
                 contributing_signal_ids=_json.loads(row["contributing_signal_ids_json"] or "[]"),
                 contributing_event_ids=_json.loads(row["contributing_event_ids_json"] or "[]"),

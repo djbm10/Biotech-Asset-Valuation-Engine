@@ -50,11 +50,13 @@ class _SignalSource(Protocol):
 
 @dataclass(frozen=True)
 class AssetScoreContext:
-    """A built context plus the signal/event IDs that explain it (for audit)."""
+    """A built context plus the signal/event IDs + types that explain it (for audit
+    and for the review-first gate's force-review-on-major-event rule)."""
 
     context: CompositeScoreContext
     contributing_signal_ids: tuple[str, ...]
     contributing_event_ids: tuple[str, ...]
+    contributing_event_types: tuple[str, ...] = ()
 
 
 def _catalyst_strength(sig: StructuredSignal) -> Optional[float]:
@@ -113,6 +115,12 @@ def build_asset_context(signals: list[StructuredSignal]) -> Optional[AssetScoreC
     """
     sig_ids: list[str] = []
     evt_ids: list[str] = []
+    evt_types: list[str] = []
+
+    def _record(s: StructuredSignal) -> None:
+        sig_ids.append(s.id)
+        evt_ids.append(s.event_id)
+        evt_types.append(str(getattr(s.event_type, "value", s.event_type)))
 
     best_catalyst: Optional[tuple[float, StructuredSignal]] = None
     for s in signals:
@@ -123,24 +131,21 @@ def build_asset_context(signals: list[StructuredSignal]) -> Optional[AssetScoreC
     catalyst_strength: Optional[float] = None
     if best_catalyst is not None:
         catalyst_strength = best_catalyst[0]
-        sig_ids.append(best_catalyst[1].id)
-        evt_ids.append(best_catalyst[1].event_id)
+        _record(best_catalyst[1])
 
     endpoint_z: Optional[float] = None
     for s in signals:  # newest first
         z = _endpoint_z(s)
         if z is not None:
             endpoint_z = z
-            sig_ids.append(s.id)
-            evt_ids.append(s.event_id)
+            _record(s)
             break
 
     slippage = False
     for s in signals:
         if _is_stopped_enrollment(s):
             slippage = True
-            sig_ids.append(s.id)
-            evt_ids.append(s.event_id)
+            _record(s)
             break
 
     if catalyst_strength is None and endpoint_z is None and not slippage:
@@ -155,6 +160,7 @@ def build_asset_context(signals: list[StructuredSignal]) -> Optional[AssetScoreC
         context=context,
         contributing_signal_ids=tuple(dict.fromkeys(sig_ids)),
         contributing_event_ids=tuple(dict.fromkeys(evt_ids)),
+        contributing_event_types=tuple(dict.fromkeys(evt_types)),
     )
 
 
