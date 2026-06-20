@@ -444,7 +444,7 @@ def _apply_score_gate(store, candidates, score_contexts, gen, *, run_id, as_of):
     where ``applied_contexts`` are the contexts to actually feed the report (held
     assets are withheld so the report shows the prior score).
     """
-    import uuid
+    import hashlib
 
     from bve.intelligence.composite_scorer import CompositeScorer
     from bve.intelligence.knowledge_layer import ScoreUpdateRecord, SourceTrace
@@ -458,6 +458,13 @@ def _apply_score_gate(store, candidates, score_contexts, gen, *, run_id, as_of):
     applied_contexts: dict[str, object] = {}
     pending_items: list = []
     n_applied = n_held = 0
+
+    def _persist(rec: ScoreUpdateRecord) -> None:
+        try:
+            store.add_score_update(
+                rec, source_trace=SourceTrace(source_type="weekly_scanner", source_ref=f"run:{run_id}"))
+        except Exception:
+            pass  # audit persistence must never break the report
 
     for c in candidates:
         thesis = c.thesis_strength if c.thesis_strength is not None else 0.0
@@ -474,12 +481,35 @@ def _apply_score_gate(store, candidates, score_contexts, gen, *, run_id, as_of):
             published[c.ticker.upper()] = base
             continue
 
+        # Movement signature: asset + its contributing event set. Deterministic id
+        # makes repeated runs idempotent; a NEW event set yields a new key (and so a
+        # fresh pending item even after a prior resolution — stale re-trigger).
+        rkey = f"{c.asset_id}|{','.join(sorted(sc.contributing_event_ids))}"
+        su_id = "su-" + hashlib.sha1(rkey.encode()).hexdigest()[:16]
         decision, reason = policy.decide(delta, sc.contributing_event_types)
+
+        # Honour any prior analyst resolution for this exact movement.
+        existing = store.get_latest_score_update_by_key(rkey) if hasattr(store, "get_latest_score_update_by_key") else None
+        if existing is not None and existing.status == "approved":
+            published[c.ticker.upper()] = existing.new_score
+            applied_contexts[c.asset_id] = sc.context  # publish the approved move
+            continue
+        if existing is not None and existing.status == "rejected":
+            published[c.ticker.upper()] = base  # rejected → keep prior, no pending
+            continue
+
         if decision == policy.DECISION_AUTO_APPLY:
             published[c.ticker.upper()] = new
             applied_contexts[c.asset_id] = sc.context
             n_applied += 1
-        else:  # review → hold at prior (base)
+            _persist(ScoreUpdateRecord(
+                id=su_id, run_id=run_id, asset_id=c.asset_id, as_of=as_of,
+                prior_score=base, new_score=new, delta=delta,
+                decision=decision, status="auto_applied", resolution_key=rkey,
+                components=components,
+                contributing_signal_ids=list(sc.contributing_signal_ids),
+                contributing_event_ids=list(sc.contributing_event_ids)))
+        else:  # review → hold at prior (base), emit/refresh pending item
             published[c.ticker.upper()] = base
             n_held += 1
             major = any(policy._is_major(et) for et in sc.contributing_event_types)
@@ -487,22 +517,16 @@ def _apply_score_gate(store, candidates, score_contexts, gen, *, run_id, as_of):
                 c.ticker.upper(), c.asset_id, SCORE_UPDATE_PENDING,
                 "high" if major else "medium", "composite_score",
                 f"score would move {base:.3f}→{new:.3f} ({delta:+.3f}) from "
-                f"{','.join(sc.contributing_event_ids) or 'signals'}; held for review ({reason})",
+                f"{','.join(sc.contributing_event_ids) or 'signals'}; held for review "
+                f"({reason}) [id={su_id}]",
             ))
-
-        try:
-            store.add_score_update(
-                ScoreUpdateRecord(
-                    id=str(uuid.uuid4()), run_id=run_id, asset_id=c.asset_id, as_of=as_of,
-                    prior_score=base, new_score=new, delta=delta, decision=decision,
-                    components=components,
-                    contributing_signal_ids=list(sc.contributing_signal_ids),
-                    contributing_event_ids=list(sc.contributing_event_ids),
-                ),
-                source_trace=SourceTrace(source_type="weekly_scanner", source_ref=f"run:{run_id}"),
-            )
-        except Exception:
-            pass  # audit persistence must never break the report
+            _persist(ScoreUpdateRecord(
+                id=su_id, run_id=run_id, asset_id=c.asset_id, as_of=as_of,
+                prior_score=base, new_score=new, delta=delta,
+                decision=decision, status="pending", resolution_key=rkey,
+                components=components,
+                contributing_signal_ids=list(sc.contributing_signal_ids),
+                contributing_event_ids=list(sc.contributing_event_ids)))
 
     return published, applied_contexts, pending_items, n_applied, n_held
 
