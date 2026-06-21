@@ -8,7 +8,7 @@ from datetime import date, datetime
 from pathlib import Path
 from typing import Optional
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, computed_field
 
 from bve.entities.asset import Asset
 from bve.entities.company import Company
@@ -35,6 +35,11 @@ from bve.models.dilution_model import DilutionAnalysis
 from bve.models.analog_matcher import AnalogMatchResult
 # Catalyst payoff (models module is standalone — no circular import)
 from bve.models.catalyst_payoff import CatalystPayoffResult
+# Strategic takeout — control-premium layer over rNPV (models module is standalone)
+from bve.models.strategic_takeout import (
+    StrategicTakeoutValue,
+    compute_strategic_takeout,
+)
 # Variant perception back-solve (analysis module; only imports outputs under TYPE_CHECKING — no cycle)
 from bve.analysis.variant_perception import VariantPerceptionResult
 # NOTE: bve.reporting.evidence and bve.intelligence.schemas cannot be imported here:
@@ -292,6 +297,24 @@ class ValuationOutput(BaseModel):
         price = self.company.current_price
         if price and price > 0:
             return round((self.nav_per_share / price - 1) * 100, 1)
+        return None
+
+    @computed_field  # type: ignore[prop-decorator]
+    @property
+    def strategic_takeout(self) -> Optional[StrategicTakeoutValue]:
+        """Estimated acquisition (takeout) price band: rNPV intrinsic floor plus a
+        configurable control premium (default 30/50/80%). Purely additive over rNPV —
+        rNPV, revenue, cost, scenarios, and Monte Carlo are untouched. Returns None
+        when rNPV <= 0 (see ``strategic_takeout_note``)."""
+        return compute_strategic_takeout(self.rnpv.rnpv_millions)
+
+    @property
+    def strategic_takeout_note(self) -> Optional[str]:
+        """Explanatory note when ``strategic_takeout`` is suppressed (rNPV <= 0)."""
+        if self.strategic_takeout is None:
+            from bve.models.strategic_takeout import NON_POSITIVE_RNPV_NOTE
+
+            return NON_POSITIVE_RNPV_NOTE
         return None
 
     @property
