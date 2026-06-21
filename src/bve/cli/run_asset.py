@@ -475,6 +475,42 @@ def _build_design_adjusters(cfg: dict):
     return adjusters, True
 
 
+def _build_strategic_takeout(cfg: dict):
+    """Parse the optional ``strategic_takeout`` section from config.
+
+    Opt-in: returns a ``StrategicTakeoutPremium`` only when the block is present and
+    ``enabled: true``. Returns ``None`` otherwise — the layer stays disabled (no-op),
+    leaving rNPV/revenue/cost/scenarios/Monte Carlo untouched.
+
+    YAML schema (all premium keys optional; default 30/50/80 band)::
+
+        strategic_takeout:
+          enabled: true
+          low_premium_pct: 0.30
+          base_premium_pct: 0.50
+          high_premium_pct: 0.80
+    """
+    st_cfg = cfg.get("strategic_takeout")
+    if not st_cfg or not st_cfg.get("enabled", False):
+        return None
+
+    from bve.models.strategic_takeout import (
+        DEFAULT_BASE_PREMIUM_PCT,
+        DEFAULT_HIGH_PREMIUM_PCT,
+        DEFAULT_LOW_PREMIUM_PCT,
+        StrategicTakeoutPremium,
+    )
+
+    kwargs: dict = dict(
+        low_premium_pct=st_cfg.get("low_premium_pct", DEFAULT_LOW_PREMIUM_PCT),
+        base_premium_pct=st_cfg.get("base_premium_pct", DEFAULT_BASE_PREMIUM_PCT),
+        high_premium_pct=st_cfg.get("high_premium_pct", DEFAULT_HIGH_PREMIUM_PCT),
+    )
+    if st_cfg.get("rationale"):
+        kwargs["rationale"] = tuple(st_cfg["rationale"])
+    return StrategicTakeoutPremium(**kwargs)
+
+
 def _output_dir(cfg: dict, base: str) -> Path:
     """Derive output directory: outputs/<ticker_or_asset_name>/"""
     ticker = cfg.get("company", {}).get("ticker") or cfg.get("asset", {}).get("id", "asset")
@@ -568,6 +604,11 @@ def main():
     if market_model.competition_model and market_model.competition_model.competitors:
         print(f"  Competition:  {market_model.competition_model.summary()}")
     output = engine.run()
+
+    # Apply optional strategic takeout premium (control-premium-over-rNPV layer; opt-in).
+    _st_premium = _build_strategic_takeout(cfg)
+    if _st_premium is not None:
+        output = output.model_copy(update={"strategic_takeout_premium": _st_premium})
 
     # --- Console summary ---
     d = output.summary_dict

@@ -37,6 +37,7 @@ from bve.models.analog_matcher import AnalogMatchResult
 from bve.models.catalyst_payoff import CatalystPayoffResult
 # Strategic takeout — control-premium layer over rNPV (models module is standalone)
 from bve.models.strategic_takeout import (
+    StrategicTakeoutPremium,
     StrategicTakeoutValue,
     compute_strategic_takeout,
 )
@@ -185,6 +186,18 @@ class ValuationOutput(BaseModel):
         ),
     )
 
+    # Strategic takeout premium (opt-in; set by run_asset from the strategic_takeout: YAML block).
+    # When None the strategic_takeout computed field stays disabled (no-op). Drives the
+    # control-premium band applied over rNPV — never alters rNPV/revenue/cost/scenarios/MC.
+    strategic_takeout_premium: Optional[StrategicTakeoutPremium] = Field(
+        default=None,
+        description=(
+            "Configurable control-premium band over intrinsic rNPV. None = layer disabled "
+            "(strategic_takeout is None). Populated only when a strategic_takeout block with "
+            "enabled: true is present in the asset YAML."
+        ),
+    )
+
     # Top acquirers (auto-populated by ValuationEngine — top-2 by composite score)
     top_acquirers: list[AcquirerMatch] = Field(
         default_factory=list,
@@ -303,17 +316,28 @@ class ValuationOutput(BaseModel):
     @property
     def strategic_takeout(self) -> Optional[StrategicTakeoutValue]:
         """Estimated acquisition (takeout) price band: rNPV intrinsic floor plus a
-        configurable control premium (default 30/50/80%). Purely additive over rNPV —
-        rNPV, revenue, cost, scenarios, and Monte Carlo are untouched. Returns None
-        when rNPV <= 0 (see ``strategic_takeout_note``)."""
-        return compute_strategic_takeout(self.rnpv.rnpv_millions)
+        configurable control premium. Purely additive over rNPV — rNPV, revenue, cost,
+        scenarios, and Monte Carlo are untouched.
+
+        Opt-in: returns None when ``strategic_takeout_premium`` is unset (the layer is
+        disabled by default) or when rNPV <= 0 (see ``strategic_takeout_note``)."""
+        if self.strategic_takeout_premium is None:
+            return None
+        return compute_strategic_takeout(
+            self.rnpv.rnpv_millions, self.strategic_takeout_premium
+        )
 
     @property
     def strategic_takeout_note(self) -> Optional[str]:
-        """Explanatory note when ``strategic_takeout`` is suppressed (rNPV <= 0)."""
-        if self.strategic_takeout is None:
-            from bve.models.strategic_takeout import NON_POSITIVE_RNPV_NOTE
+        """Explanatory note when ``strategic_takeout`` is absent (layer disabled or rNPV <= 0)."""
+        from bve.models.strategic_takeout import (
+            NON_POSITIVE_RNPV_NOTE,
+            NOT_ENABLED_NOTE,
+        )
 
+        if self.strategic_takeout_premium is None:
+            return NOT_ENABLED_NOTE
+        if self.strategic_takeout is None:
             return NON_POSITIVE_RNPV_NOTE
         return None
 
@@ -639,6 +663,11 @@ class ValuationOutput(BaseModel):
         # Add deal comps analysis if present
         if self.comps_fair_value_band is not None:
             d["outputs"]["deal_comps"] = self.comps_fair_value_band.model_dump()
+
+        # Strategic takeout (control-premium-over-rNPV layer; opt-in via YAML).
+        _st = self.strategic_takeout
+        d["outputs"]["strategic_takeout"] = _st.model_dump() if _st is not None else None
+        d["outputs"]["strategic_takeout_note"] = self.strategic_takeout_note
 
         # Dual-track verdict (investment side; BD not assessed without an M&A scan).
         # build_dual_track imports nothing from bve — no circular import risk.

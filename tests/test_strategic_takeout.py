@@ -13,9 +13,11 @@ from bve.entities.company import Company
 from bve.entities.trial import ClinicalTrial, TrialPhase
 from bve.models.market_model import MarketModel
 from bve.models.monte_carlo import MonteCarloParams
+from bve.cli.run_asset import _build_strategic_takeout
 from bve.models.strategic_takeout import (
     DEFAULT_STRATEGIC_TAKEOUT_PREMIUM,
     NON_POSITIVE_RNPV_NOTE,
+    NOT_ENABLED_NOTE,
     StrategicTakeoutPremium,
     StrategicTakeoutValue,
     compute_strategic_takeout,
@@ -77,8 +79,12 @@ class TestComputeStrategicTakeout:
 _MC_FAST = MonteCarloParams(n_simulations=200, random_seed=42)
 
 
-def _run_engine() -> "object":
-    """Run a small positive-rNPV asset through the engine and return ValuationOutput."""
+def _run_engine(premium=DEFAULT_STRATEGIC_TAKEOUT_PREMIUM) -> "object":
+    """Run a small positive-rNPV asset through the engine and return ValuationOutput.
+
+    By default applies the standard premium (enabled state, mirroring an enabled YAML
+    block). Pass ``premium=None`` to get the disabled-by-default state.
+    """
     asset = Asset(
         id="a-test", name="TEST-101", indication="ulcerative colitis",
         therapeutic_area=TherapeuticArea.IMMUNOLOGY, stage=DevelopmentStage.PHASE_2,
@@ -102,7 +108,10 @@ def _run_engine() -> "object":
         years_to_peak=5, patent_life_years=10, cogs_rate=0.20,
         sgna_rate_launch=0.40, sgna_rate_mature=0.20,
     )
-    return ValuationEngine(asset, company, trials, market, mc_params=_MC_FAST).run()
+    out = ValuationEngine(asset, company, trials, market, mc_params=_MC_FAST).run()
+    if premium is not None:
+        out = out.model_copy(update={"strategic_takeout_premium": premium})
+    return out
 
 
 class TestValuationOutputIntegration:
@@ -133,3 +142,79 @@ class TestValuationOutputIntegration:
         neg = out.model_copy(update={"rnpv": neg_rnpv})
         assert neg.strategic_takeout is None
         assert neg.strategic_takeout_note == NON_POSITIVE_RNPV_NOTE
+
+    def test_disabled_by_default_when_no_premium(self):
+        # No strategic_takeout_premium set → layer is a no-op (opt-in).
+        out = _run_engine(premium=None)
+        assert out.strategic_takeout is None
+        assert out.strategic_takeout_note == NOT_ENABLED_NOTE
+        dumped = out.model_dump()
+        assert dumped["strategic_takeout"] is None
+
+    def test_custom_premium_flows_into_output(self):
+        prem = StrategicTakeoutPremium(
+            low_premium_pct=0.10, base_premium_pct=0.25, high_premium_pct=0.40
+        )
+        out = _run_engine(premium=prem)
+        st = out.strategic_takeout
+        assert st is not None
+        assert st.base_millions == round(out.rnpv.rnpv_millions * 1.25, 2)
+
+    def test_json_export_includes_strategic_takeout(self):
+        out = _run_engine()
+        d = out.to_json_dict()
+        assert "strategic_takeout" in d["outputs"]
+        assert "strategic_takeout_note" in d["outputs"]
+        assert d["outputs"]["strategic_takeout"]["floor_millions"] == round(
+            out.rnpv.rnpv_millions, 2
+        )
+
+    def test_json_export_disabled_is_null_with_note(self):
+        out = _run_engine(premium=None)
+        d = out.to_json_dict()
+        assert d["outputs"]["strategic_takeout"] is None
+        assert d["outputs"]["strategic_takeout_note"] == NOT_ENABLED_NOTE
+
+
+# ── Config parsing (_build_strategic_takeout) ───────────────────────────────────────
+
+class TestBuildStrategicTakeout:
+    def test_no_block_returns_none(self):
+        assert _build_strategic_takeout({}) is None
+
+    def test_enabled_false_returns_none(self):
+        assert _build_strategic_takeout({"strategic_takeout": {"enabled": False}}) is None
+
+    def test_block_without_enabled_returns_none(self):
+        # Absent `enabled` defaults to disabled.
+        assert _build_strategic_takeout(
+            {"strategic_takeout": {"low_premium_pct": 0.2}}
+        ) is None
+
+    def test_enabled_defaults_to_30_50_80(self):
+        prem = _build_strategic_takeout({"strategic_takeout": {"enabled": True}})
+        assert prem is not None
+        assert (prem.low_premium_pct, prem.base_premium_pct, prem.high_premium_pct) == (
+            0.30, 0.50, 0.80,
+        )
+
+    def test_enabled_custom_band(self):
+        prem = _build_strategic_takeout({
+            "strategic_takeout": {
+                "enabled": True,
+                "low_premium_pct": 0.20,
+                "base_premium_pct": 0.40,
+                "high_premium_pct": 0.60,
+            }
+        })
+        assert (prem.low_premium_pct, prem.base_premium_pct, prem.high_premium_pct) == (
+            0.20, 0.40, 0.60,
+        )
+
+    def test_enabled_partial_band_fills_defaults(self):
+        prem = _build_strategic_takeout(
+            {"strategic_takeout": {"enabled": True, "base_premium_pct": 0.55}}
+        )
+        assert prem.low_premium_pct == 0.30
+        assert prem.base_premium_pct == 0.55
+        assert prem.high_premium_pct == 0.80

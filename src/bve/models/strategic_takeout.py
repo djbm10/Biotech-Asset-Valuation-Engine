@@ -44,6 +44,12 @@ NON_POSITIVE_RNPV_NOTE: str = (
     "strategic option value not modeled."
 )
 
+# Note surfaced when the takeout layer is not enabled (no YAML block / enabled: false).
+NOT_ENABLED_NOTE: str = (
+    "Not shown because the strategic takeout layer is not enabled; "
+    "add a strategic_takeout block (enabled: true) to estimate a takeout value."
+)
+
 
 class StrategicTakeoutPremium(BaseModel):
     """Configurable control-premium band applied over intrinsic rNPV.
