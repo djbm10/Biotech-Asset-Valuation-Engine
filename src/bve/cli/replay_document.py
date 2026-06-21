@@ -58,12 +58,58 @@ def _build_parser() -> argparse.ArgumentParser:
         default=None,
         help="Write extraction result JSON to this file path (default: stdout)",
     )
+    parser.add_argument(
+        "--extract-science-evidence",
+        action="store_true",
+        help="Extract validated ScienceEvidenceBundle from this document",
+    )
+    parser.add_argument(
+        "--science-thesis",
+        action="store_true",
+        help="Build ScienceThesis summary from extracted science evidence; requires --extract-science-evidence",
+    )
     parser.add_argument("--verbose", action="store_true")
     return parser
 
 
+
+def _extract_science_evidence_output(doc, llm_client, *, include_science_thesis: bool = False) -> dict:
+    """Return JSON-safe Phase 7 science evidence extraction output for one document."""
+    from bve.intelligence.science_evidence_llm_extractor import ScienceEvidenceLLMExtractor
+
+    hints = doc.entity_hints
+    bundle = ScienceEvidenceLLMExtractor(llm_client).extract_bundle(
+        asset_id=hints.asset_id,
+        asset_name=hints.drug_name or "",
+        indication=hints.indication or "",
+        source_id=doc.id,
+        source_uri=doc.source_url,
+        source_type=doc.source,
+        document_title=doc.title,
+        published_at=doc.published_at.isoformat() if doc.published_at else None,
+        document_text=doc.raw_text,
+    )
+    output = {
+        "science_evidence_bundle": bundle.model_dump(mode="json"),
+        "science_evidence_warnings": list(bundle.bundle_warnings),
+    }
+    if include_science_thesis:
+        from bve.intelligence.science_thesis_builder import ScienceThesisBuilder
+        from bve.intelligence.science_thesis_summary import build_science_summary
+
+        thesis = ScienceThesisBuilder().from_existing_evidence(science_evidence_bundle=bundle)
+        output["science_thesis_summary"] = build_science_summary(
+            thesis,
+            modifier_applied=False,
+        )
+    return output
+
+
 def main() -> None:
     args = _build_parser().parse_args()
+    if args.science_thesis and not args.extract_science_evidence:
+        print("ERROR: --science-thesis requires --extract-science-evidence", file=sys.stderr)
+        sys.exit(2)
 
     import logging
     logging.basicConfig(
@@ -120,6 +166,14 @@ def main() -> None:
     result = extractor.extract(doc)
 
     output_data = result.model_dump(mode="json")
+    if args.extract_science_evidence:
+        output_data.update(
+            _extract_science_evidence_output(
+                doc,
+                llm,
+                include_science_thesis=args.science_thesis,
+            )
+        )
 
     if args.save:
         from bve.intelligence.knowledge_layer import SourceTrace

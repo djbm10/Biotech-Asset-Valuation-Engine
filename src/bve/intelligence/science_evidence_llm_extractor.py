@@ -194,12 +194,25 @@ class ScienceEvidenceLLMExtractor:
 
     def _call_client(self, prompt: str) -> str:
         if hasattr(self.llm_client, "generate"):
-            return str(self.llm_client.generate(prompt))
+            return self._response_content(self.llm_client.generate(prompt))
         if hasattr(self.llm_client, "complete"):
-            return str(self.llm_client.complete(prompt))
+            try:
+                response = self.llm_client.complete(
+                    "Extract source-backed science evidence into the requested JSON schema.",
+                    prompt,
+                    temperature=0.0,
+                    max_tokens=2048,
+                )
+            except TypeError:
+                response = self.llm_client.complete(prompt)
+            return self._response_content(response)
         if callable(self.llm_client):
-            return str(self.llm_client(prompt))
+            return self._response_content(self.llm_client(prompt))
         raise TypeError("llm_client must expose generate(), complete(), or be callable")
+
+    @staticmethod
+    def _response_content(response: object) -> str:
+        return str(getattr(response, "content", response))
 
     def _parse_json(self, raw_response: str, warnings: list[str]) -> dict[str, Any] | None:
         try:
