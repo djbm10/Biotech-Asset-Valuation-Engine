@@ -195,7 +195,7 @@ class TestCTGovSource:
                         "brief_title": "Company sponsored oncology trial",
                         "status": "RECRUITING",
                         "phases": ["PHASE2"],
-                        "last_update_submitted": "2026-06-01",
+                        "last_update_submitted": date.today().isoformat(),
                     },
                 )
             ]
@@ -228,7 +228,7 @@ class TestPressAndNewsSources:
                         "ticker": ticker,
                         "entity_name": "Revolution Medicines",
                         "form_type": "8-K",
-                        "filing_date": "2026-06-01",
+                        "filing_date": date.today().isoformat(),
                     },
                 )
             ]
@@ -242,7 +242,7 @@ class TestPressAndNewsSources:
 
         assert len(items) == 1
         assert items[0].source_type == "press_release"
-        assert items[0].published_date == date(2026, 6, 1)
+        assert items[0].published_date == date.today()
         assert "Revolution Medicines" in items[0].text
 
     def test_news_article_source_uses_newsapi_when_key_is_present(self, monkeypatch):
@@ -261,7 +261,7 @@ class TestPressAndNewsSources:
                         "ticker": ticker,
                         "title": "RVMD announces Phase 3 results",
                         "summary": "Phase 3 trial met primary endpoint.",
-                        "published": "2026-06-01T12:00:00Z",
+                        "published": f"{date.today().isoformat()}T12:00:00Z",
                     },
                 )
             ]

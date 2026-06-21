@@ -36,6 +36,22 @@ market_model:
   cogs_rate: 0.15
   sgna_rate_launch: 0.4
   sgna_rate_mature: 0.2
+  commercial_inputs:
+    patient_pool:
+      indication: ROS1-positive non-small cell lung cancer
+      addressable_k: 20.0
+      uncertainty_cv: 0.25
+    pricing:
+      wac_per_year_usd: 257142.86
+      gross_to_net_rate: 0.3
+      launch_discount: 0.0
+      annual_erosion_rate: 0.02
+      uncertainty_cv: 0.15
+    share:
+      peak_share: 0.15
+      years_to_peak: 5
+      share_cv: 0.2
+    ex_us_revenue_multiple: 1.0
 _meta:
   config_version: auto-profile-v1
   generator_version: profile-0.1
