@@ -132,6 +132,10 @@ Key valuation anchors:
 | Net Cash | ${{ "%.0f"|format(d.net_cash_millions) }}M |
 | **Total NAV** | **${{ "%.0f"|format(d.nav_millions) }}M (${{ "%.2f"|format(d.nav_per_share) }}/share)** |
 
+{% if strategic_takeout %}
+**rNPV floor:** ${{ "%.0f"|format(strategic_takeout.floor_millions) }}M; **strategic takeout range:** ${{ "%.0f"|format(strategic_takeout.low_millions) }}M–${{ "%.0f"|format(strategic_takeout.high_millions) }}M (base ${{ "%.0f"|format(strategic_takeout.base_millions) }}M). Control premium over intrinsic rNPV; rNPV remains the standalone floor.
+{% endif %}
+
 ### Scenario Analysis
 
 | Scenario | rNPV | NAV | NAV/Share | P(Approval) |

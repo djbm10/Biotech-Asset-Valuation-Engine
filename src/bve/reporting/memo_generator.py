@@ -78,6 +78,8 @@ def _build_context(output: ValuationOutput, memo_type: MemoType) -> dict:
         "implied_pos": output.implied_pos,
         "lifecycle_events": output.lifecycle_events_applied,
         "comps": output.comps_fair_value_band,
+        "strategic_takeout": output.strategic_takeout,
+        "strategic_takeout_note": output.strategic_takeout_note,
         "author": MEMO_AUTHOR,
         "disclaimer": MEMO_DISCLAIMER,
         "memo_type": memo_type,
