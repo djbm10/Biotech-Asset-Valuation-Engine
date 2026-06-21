@@ -32,9 +32,58 @@ _REQUIRED_DEFAULTS = {
     "success_probability": 0.30,
 }
 
+# Standard specialty-pharma gross-to-net discount, used to document list (WAC) vs.
+# net pricing when only a net price is known. Conservative midpoint of the 25-35%
+# typical range — keeps the price build-up auditable instead of opaque.
+_DEFAULT_GROSS_TO_NET = 0.30
+
 
 def _val(field: ProvenancedField, default: Any = None) -> Any:
     return default if field.value is None else field.value
+
+
+def _commercial_inputs_block(asset_block: dict, market_block: dict) -> dict | None:
+    """Derive a coarse but explicit ``commercial_inputs`` block from market inputs.
+
+    Uses the ``addressable_k`` override form — honest for auto-covered names where
+    the full diagnosed → eligible → treated funnel is unknown, so no funnel is
+    fabricated. Net price is documented as WAC + gross-to-net so the price build-up
+    stays auditable. Returns ``None`` when there is no price to anchor the build-up.
+    """
+    net_price = market_block.get("net_price_per_patient_usd")
+    if not net_price:
+        return None
+
+    addressable = market_block.get("addressable_patients_annual")
+    if not addressable:
+        tam = market_block.get("total_addressable_market_millions")
+        if not tam:
+            return None
+        # Implied addressable population at 100% penetration from TAM ÷ net price.
+        addressable = (tam * 1_000_000) / net_price
+
+    g2n = _DEFAULT_GROSS_TO_NET
+    wac = round(net_price / (1.0 - g2n), 2)
+    return {
+        "patient_pool": {
+            "indication": asset_block["indication"],
+            "addressable_k": round(addressable / 1_000.0, 4),
+            "uncertainty_cv": 0.25,
+        },
+        "pricing": {
+            "wac_per_year_usd": wac,
+            "gross_to_net_rate": g2n,
+            "launch_discount": 0.0,
+            "annual_erosion_rate": 0.02,
+            "uncertainty_cv": 0.15,
+        },
+        "share": {
+            "peak_share": market_block.get("peak_penetration", 0.10),
+            "years_to_peak": market_block.get("years_to_peak", 5),
+            "share_cv": 0.20,
+        },
+        "ex_us_revenue_multiple": 1.0,
+    }
 
 
 def config_from_profile(profile: CompanyProfile) -> dict:
@@ -108,6 +157,13 @@ def config_from_profile(profile: CompanyProfile) -> dict:
         "sgna_rate_mature": _val(asset.sgna_rate_mature, 0.20),
     }
 
+    # Explicit patient × price × share build-up so every auto-covered name carries an
+    # auditable commercial layer (not just an opaque TAM). Omitted only when there is
+    # no price to anchor it.
+    ci_block = _commercial_inputs_block(asset_block, market_block)
+    if ci_block is not None:
+        market_block["commercial_inputs"] = ci_block
+
     # Review targets = coerced-required fields + every low-confidence field.
     review_fields = set(defaulted)
     review_fields.update(asset.low_confidence_fields())
@@ -141,6 +197,16 @@ def write_config(profile: CompanyProfile, out_dir: str | Path = _AUTO_DIR) -> Pa
     cfg = config_from_profile(profile)
     out_path = Path(out_dir) / f"{profile.ticker.lower()}.yaml"
     out_path.parent.mkdir(parents=True, exist_ok=True)
+
+    # Never clobber a hand-curated commercial_inputs block on regeneration. An analyst
+    # curated funnel always beats the coarse derived one (see edit/fate/ntla, which lost
+    # their curation when the generator rewrote them without preserving it).
+    if out_path.exists():
+        existing = yaml.safe_load(out_path.read_text()) or {}
+        existing_ci = existing.get("market_model", {}).get("commercial_inputs")
+        if existing_ci is not None:
+            cfg.setdefault("market_model", {})["commercial_inputs"] = existing_ci
+
     out_path.write_text(
         yaml.safe_dump(cfg, sort_keys=False, allow_unicode=True), encoding="utf-8"
     )

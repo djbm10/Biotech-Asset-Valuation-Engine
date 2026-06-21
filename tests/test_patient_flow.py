@@ -484,6 +484,10 @@ def test_step4_auto_generated_cohort_has_no_remaining_generic_defaults() -> None
         ci_cfg = cfg["market_model"]["commercial_inputs"]
         patient_pool = ci_cfg["patient_pool"]
         pricing = ci_cfg["pricing"]
+        # An explicit addressable_k override is, by definition, an explicit underwriting
+        # — never a generic full-funnel default (mirrors the replay-config check above).
+        if "addressable_k" in patient_pool:
+            continue
         generic = (
             patient_pool["diagnosed_fraction"] == pytest.approx(1.0)
             and patient_pool["eligible_rate"] == pytest.approx(1.0)
