@@ -233,6 +233,7 @@ def _build_objects(cfg: dict):
         stage=DevelopmentStage(a["stage"]),
         modality=Modality(a.get("modality", "small_molecule")),
         mechanism_of_action=a.get("mechanism_of_action"),
+        biological_target=a.get("biological_target"),
         discount_rate=a.get("discount_rate", float(_COMMERCIAL_DEFAULTS["discount_rate"])),
         royalty_rate=a.get("royalty_rate", 0.0),
         upcoming_catalysts=[Catalyst(**c) for c in a.get("upcoming_catalysts", [])],
@@ -517,6 +518,32 @@ def _output_dir(cfg: dict, base: str) -> Path:
     return Path(base) / ticker.upper()
 
 
+def _load_selected_buyer_problem(path: str | None, problem_id: str | None):
+    if not path:
+        return None
+    from bve.intelligence.buyer_problem_library import BuyerProblemLibrary
+
+    try:
+        library = BuyerProblemLibrary.from_yaml(path)
+    except Exception as exc:
+        print(f"ERROR: Failed to load buyer problem config: {exc}", file=sys.stderr)
+        sys.exit(2)
+    problems = library.problems
+    if not problems:
+        print("ERROR: Buyer problem config contains no problems", file=sys.stderr)
+        sys.exit(2)
+    if problem_id is None:
+        if len(problems) > 1:
+            print("ERROR: --buyer-problem-id required when config has multiple problems", file=sys.stderr)
+            sys.exit(2)
+        return problems[0]
+    for problem in problems:
+        if getattr(problem, "problem_id", None) == problem_id:
+            return problem
+    print(f"ERROR: buyer problem id not found: {problem_id}", file=sys.stderr)
+    sys.exit(2)
+
+
 def main():
     parser = argparse.ArgumentParser(description="BVE: Run single-asset valuation")
     parser.add_argument("--config", required=True, help="Path to asset YAML config")
@@ -526,7 +553,21 @@ def main():
     parser.add_argument("--out", default="outputs", help="Base output directory (default: outputs/)")
     parser.add_argument("--n-sims", type=int, default=10_000)
     parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--science-thesis", action="store_true", help="Build and render Layer 0 Science Thesis without changing POS by default")
+    parser.add_argument("--apply-science-pos-modifier", action="store_true", help="Apply Science Thesis heuristic modifier to technical POS; requires --science-thesis")
+    parser.add_argument("--buyer-problem", help="Path to buyer problem YAML config; requires --science-thesis")
+    parser.add_argument("--buyer-problem-id", help="Problem ID to select from buyer problem config")
     args = parser.parse_args()
+
+    if args.apply_science_pos_modifier and not args.science_thesis:
+        print("ERROR: --apply-science-pos-modifier requires --science-thesis", file=sys.stderr)
+        sys.exit(2)
+    if args.buyer_problem and not args.science_thesis:
+        print("ERROR: --buyer-problem requires --science-thesis", file=sys.stderr)
+        sys.exit(2)
+    if args.buyer_problem_id and not args.buyer_problem:
+        print("ERROR: --buyer-problem-id requires --buyer-problem", file=sys.stderr)
+        sys.exit(2)
 
     cfg_path = Path(args.config)
     if not cfg_path.exists():
@@ -565,6 +606,8 @@ def main():
         use_default_correlations=mc_cfg.get("use_default_correlations", True),
     )
 
+    buyer_problem = _load_selected_buyer_problem(args.buyer_problem, args.buyer_problem_id)
+
     engine = ValuationEngine(
         asset, company, trials, market_model,
         pos_adjusters=pos_adjusters,
@@ -576,6 +619,10 @@ def main():
         config_path=str(cfg_path.resolve()),
         limitations=cfg.get("limitations"),
         thesis_changers=cfg.get("thesis_changers"),
+        enable_science_thesis=args.science_thesis,
+        apply_science_pos_modifier=args.apply_science_pos_modifier,
+        buyer_problem=buyer_problem,
+        buyer_problem_id=args.buyer_problem_id,
     )
 
     # Optional: assumption source overrides and decision framing

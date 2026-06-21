@@ -1258,3 +1258,134 @@ def test_runner_emits_stage_latency_and_connector_health_metrics(tmp_path: Path)
     assert connector.success_rate == 1.0
     assert connector.healthy is True
     runner.close()
+
+
+
+def test_watchlist_science_thesis_disabled_summary_unchanged(tmp_path: Path) -> None:
+    asset = WatchlistAsset(
+        company_id="co-1",
+        asset_id="asset-1",
+        drug_name="Asset 1",
+        indication="solid tumor",
+        ticker=None,
+    )
+    cfg = _config(tmp_path, [asset])
+    runner = WatchlistPipelineRunner(
+        cfg,
+        connectors={},
+        extractor=FakeExtractor(),
+        mapping_engine=FakeMappingEngine(),
+        context_provider=FakeContextProvider(),
+        valuation_executor=FakeValuationExecutor(delta_npv=12.0),
+    )
+    try:
+        summary = runner.run_once(refresh_market_prices=False)
+    finally:
+        runner.close()
+
+    row = summary.assets[0].model_dump()
+    assert "science_binding_question" not in row
+    assert "science_modifier" not in row
+    assert "science_missing_evidence_count" not in row
+    assert "science_next_readout" not in row
+    assert "bd_route" not in row
+
+
+def test_watchlist_science_thesis_enabled_adds_read_only_fields(tmp_path: Path) -> None:
+    asset = WatchlistAsset(
+        company_id="co-1",
+        asset_id="asset-1",
+        drug_name="Asset 1",
+        indication="solid tumor",
+        ticker=None,
+    )
+    cfg = _config(tmp_path, [asset])
+    runner = WatchlistPipelineRunner(
+        cfg,
+        connectors={},
+        extractor=FakeExtractor(),
+        mapping_engine=FakeMappingEngine(),
+        context_provider=FakeContextProvider(),
+        valuation_executor=FakeValuationExecutor(delta_npv=12.0),
+        enable_science_thesis=True,
+    )
+    try:
+        summary = runner.run_once(refresh_market_prices=False)
+    finally:
+        runner.close()
+
+    row = summary.assets[0].model_dump()
+    assert row["science_binding_question"]
+    assert 0.0 <= row["science_modifier"] <= 1.1
+    assert row["science_missing_evidence_count"] >= 1
+    assert row["science_next_readout"]
+    assert "science_score" in row
+    assert row["science_modifier_applied"] is False
+    assert isinstance(row["science_warnings"], list)
+    assert row["asset_id"] == "asset-1"
+    assert row["status"] == "success"
+
+
+def test_watchlist_buyer_mode_adds_bd_route(tmp_path: Path) -> None:
+    from bve.intelligence.science_thesis import BuyerProblem
+
+    asset = WatchlistAsset(
+        company_id="co-1",
+        asset_id="asset-1",
+        drug_name="Asset 1",
+        indication="solid tumor",
+        ticker=None,
+    )
+    buyer_problem = BuyerProblem(
+        buyer_id="buyer-1",
+        buyer_name="Buyer 1",
+        strategic_gap="oncology small molecule gap",
+        required_ta=["oncology"],
+        required_modalities=["small_molecule"],
+    )
+    cfg = _config(tmp_path, [asset])
+    runner = WatchlistPipelineRunner(
+        cfg,
+        connectors={},
+        extractor=FakeExtractor(),
+        mapping_engine=FakeMappingEngine(),
+        context_provider=FakeContextProvider(),
+        valuation_executor=FakeValuationExecutor(delta_npv=12.0),
+        enable_science_thesis=True,
+        buyer_problem=buyer_problem,
+        buyer_problem_id="oncology_gap",
+    )
+    try:
+        summary = runner.run_once(refresh_market_prices=False)
+    finally:
+        runner.close()
+
+    row = summary.assets[0].model_dump()
+    assert row["bd_route"]
+    assert row["bd_hard_gate_passed"] is True
+    assert 0.0 <= row["bd_actionability_score"] <= 1.0
+    assert row["bd_failed_gates"] == []
+    assert isinstance(row["bd_warnings"], list)
+
+
+def test_watchlist_science_thesis_does_not_change_asset_order(tmp_path: Path) -> None:
+    assets = [
+        WatchlistAsset(company_id="co-1", asset_id="asset-1", indication="solid tumor"),
+        WatchlistAsset(company_id="co-2", asset_id="asset-2", indication="solid tumor"),
+    ]
+    cfg = _config(tmp_path, assets)
+    runner = WatchlistPipelineRunner(
+        cfg,
+        connectors={},
+        extractor=FakeExtractor(),
+        mapping_engine=FakeMappingEngine(),
+        context_provider=FakeContextProvider(),
+        valuation_executor=FakeValuationExecutor(delta_npv=12.0),
+        enable_science_thesis=True,
+    )
+    try:
+        summary = runner.run_once(refresh_market_prices=False)
+    finally:
+        runner.close()
+
+    assert [asset.asset_id for asset in summary.assets] == ["asset-1", "asset-2"]

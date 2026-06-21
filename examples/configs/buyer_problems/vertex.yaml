@@ -1,0 +1,24 @@
+buyer_id: vertex
+buyer_name: Vertex Pharmaceuticals
+problems:
+  - problem_id: autoimmune_b_cell_depth
+    strategic_gap: Deepen autoimmune and renal franchise with differentiated B-cell biology after Alpine.
+    required_ta: [autoimmune]
+    required_targets: [BAFF, APRIL, CD19, BCMA]
+    required_modalities: [antibody, bispecific, t_cell_engager]
+    excluded_tas: [oncology]
+    excluded_modalities: [undifferentiated_gene_therapy]
+    must_have_evidence:
+      - human proof-of-concept or proximal biomarker movement
+      - acceptable safety margin for chronic autoimmune use
+    capability_constraints:
+      - scalable biologics manufacturing preferred
+    known_internal_overlap:
+      - povetacicept/APRIL-BAFF axis
+    combination_or_lifecycle_fit: Could extend autoimmune B-cell franchise or fill depletion/suppression gap.
+    alternative_assets_available: [povetacicept]
+    competitive_intensity: 0.55
+    scarcity_value: 0.70
+    time_sensitivity: 0.65
+    urgency: 0.70
+    confidence: 0.60

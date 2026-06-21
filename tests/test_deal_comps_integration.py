@@ -15,9 +15,10 @@ import pytest
 from bve.entities.asset import Asset, DevelopmentStage, Modality, TherapeuticArea
 from bve.entities.company import Company
 from bve.entities.trial import ClinicalTrial, TrialPhase
-from bve.intelligence.comparable_deals import ComparableDeal, ComparableDealAnalysis, FairValueBand
+from bve.intelligence.buyer_problem_library import BuyerProblemLibrary
+from bve.intelligence.comparable_deals import ComparableDeal, FairValueBand
 from bve.models.market_model import MarketModel
-from bve.models.monte_carlo import MonteCarloParams
+from bve.models.monte_carlo import MonteCarloParams, PhaseSuccessDistribution
 from bve.reporting.memo_generator import MemoGenerator
 from bve.valuation.valuation_engine import ValuationEngine
 
@@ -513,3 +514,228 @@ class TestMemoSprintTwo:
         memo = MemoGenerator().generate(output, memo_type="bd")
         # No comps → the falsification section is inside the comps block, absent
         assert "What Would Make This Wrong" not in memo
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Phase 2 ScienceThesis / BD Fit memo rendering
+# ──────────────────────────────────────────────────────────────────────────────
+
+
+def test_bd_memo_contains_science_thesis_section(asset, company, trials, market):
+    from bve.intelligence.science_thesis_builder import ScienceThesisBuilder, ScienceThesisBuilderInput
+
+    engine = ValuationEngine(asset, company, trials, market, mc_params=_MC_FAST)
+    output = engine.run()
+    output.science_thesis = ScienceThesisBuilder().build(
+        ScienceThesisBuilderInput(
+            asset_id=asset.id,
+            asset_name=asset.name,
+            indication=asset.indication,
+            phase="phase2",
+            modality=asset.modality.value,
+            target="IL-23",
+            mechanism="pathway inhibition",
+            has_target_rationale=True,
+            has_pkpd_evidence=False,
+        )
+    )
+
+    memo = MemoGenerator().generate(output, memo_type="bd")
+
+    assert "Science Thesis" in memo
+    assert "Missing critical evidence" in memo
+    assert "PK/PD or exposure evidence" in memo
+    assert "Heuristic POS modifier" in memo
+
+
+def test_bd_memo_contains_bd_fit_section(asset, company, trials, market):
+    from bve.intelligence.buyer_problem_library import BuyerProblemLibrary
+    from bve.intelligence.layer15_buyer_match import Layer15BuyerMatchInput, Layer15BuyerMatcher
+    from bve.intelligence.science_thesis_builder import ScienceThesisBuilder, ScienceThesisBuilderInput
+
+    engine = ValuationEngine(asset, company, trials, market, mc_params=_MC_FAST)
+    output = engine.run()
+    thesis = ScienceThesisBuilder().build(
+        ScienceThesisBuilderInput(
+            asset_id=asset.id,
+            asset_name=asset.name,
+            indication="autoimmune",
+            phase="phase2",
+            modality="antibody",
+            target="BAFF",
+            mechanism="BAFF inhibition",
+            has_target_rationale=True,
+            has_pkpd_evidence=True,
+            has_human_pkpd_evidence=True,
+            has_biomarker_validation=True,
+            has_human_poc=True,
+        )
+    )
+    buyer_problem = BuyerProblemLibrary.from_yaml("examples/configs/buyer_problems/vertex.yaml").problems[0]
+    output.science_thesis = thesis
+    output.bd_actionability = Layer15BuyerMatcher().match(
+        Layer15BuyerMatchInput(
+            science_thesis=thesis,
+            buyer_problem=buyer_problem,
+            therapeutic_area="autoimmune",
+            target="BAFF",
+            modality="antibody",
+            solves_buyer_problem=True,
+            problem_solution_fit=0.8,
+        )
+    )
+
+    memo = MemoGenerator().generate(output, memo_type="bd")
+
+    assert "BD Fit" in memo
+    assert "Hard-gate result" in memo
+    assert "Recommended route" in memo
+    assert "Route rationale" in memo
+
+# ──────────────────────────────────────────────────────────────────────────────
+# Phase 3a single-asset science thesis pipeline wiring
+# ──────────────────────────────────────────────────────────────────────────────
+
+
+def test_valuation_engine_science_thesis_disabled_does_not_attach(asset, company, trials, market):
+    engine = ValuationEngine(asset, company, trials, market, mc_params=_MC_FAST)
+    output = engine.run()
+
+    assert output.science_thesis is None
+
+
+def test_valuation_engine_science_thesis_enabled_attaches_without_changing_pos(asset, company, trials, market):
+    baseline = ValuationEngine(asset, company, trials, market, mc_params=_MC_FAST).run()
+    with_thesis = ValuationEngine(
+        asset,
+        company,
+        trials,
+        market,
+        mc_params=_MC_FAST,
+        enable_science_thesis=True,
+    ).run()
+
+    assert with_thesis.science_thesis is not None
+    assert with_thesis.rnpv.cumulative_success_probability == baseline.rnpv.cumulative_success_probability
+    assert with_thesis.nav_millions == baseline.nav_millions
+
+
+def test_valuation_engine_science_pos_modifier_requires_explicit_flag(asset, company, trials, market):
+    baseline = ValuationEngine(asset, company, trials, market, mc_params=_MC_FAST).run()
+    adjusted = ValuationEngine(
+        asset,
+        company,
+        trials,
+        market,
+        mc_params=_MC_FAST,
+        enable_science_thesis=True,
+        apply_science_pos_modifier=True,
+    ).run()
+
+    assert adjusted.science_thesis is not None
+    assert adjusted.rnpv.cumulative_success_probability != baseline.rnpv.cumulative_success_probability
+    assert adjusted.monte_carlo.mean_millions != baseline.monte_carlo.mean_millions
+
+
+def test_science_pos_modifier_updates_configured_mc_phase_distribution(asset, company, trials, market):
+    mc_with_phase_dist = MonteCarloParams(
+        n_simulations=200,
+        random_seed=42,
+        phase_distributions=[
+            PhaseSuccessDistribution(
+                phase=TrialPhase.PHASE_2,
+                mean=trials[0].success_probability,
+                equivalent_sample_size=20,
+            )
+        ],
+    )
+    baseline = ValuationEngine(asset, company, trials, market, mc_params=mc_with_phase_dist).run()
+    adjusted = ValuationEngine(
+        asset,
+        company,
+        trials,
+        market,
+        mc_params=mc_with_phase_dist,
+        enable_science_thesis=True,
+        apply_science_pos_modifier=True,
+    ).run()
+
+    assert adjusted.rnpv.cumulative_success_probability != baseline.rnpv.cumulative_success_probability
+    assert adjusted.monte_carlo.mean_millions != baseline.monte_carlo.mean_millions
+
+
+def test_valuation_engine_buyer_problem_attaches_bd_actionability(asset, company, trials, market):
+    from bve.intelligence.buyer_problem_library import BuyerProblemLibrary
+
+    buyer_problem = BuyerProblemLibrary.from_yaml("examples/configs/buyer_problems/vertex.yaml").problems[0]
+    output = ValuationEngine(
+        asset,
+        company,
+        trials,
+        market,
+        mc_params=_MC_FAST,
+        enable_science_thesis=True,
+        buyer_problem=buyer_problem,
+    ).run()
+
+    assert output.science_thesis is not None
+    assert output.bd_actionability is not None
+
+
+
+def test_valuation_json_contains_compact_science_summary(asset, company, trials, market):
+    output = ValuationEngine(
+        asset,
+        company,
+        trials,
+        market,
+        mc_params=_MC_FAST,
+        enable_science_thesis=True,
+    ).run()
+
+    data = output.to_json_dict()
+    summary = data["outputs"]["science_summary"]
+    assert summary["science_modifier_applied"] is False
+    assert summary["science_binding_question"]
+    assert "science_modifier" in summary
+    assert "missing_critical_evidence_count" in summary
+    assert "science_thesis" not in data["outputs"]
+    assert "bd_actionability" not in data["outputs"]
+
+
+def test_valuation_json_marks_science_modifier_applied(asset, company, trials, market):
+    output = ValuationEngine(
+        asset,
+        company,
+        trials,
+        market,
+        mc_params=_MC_FAST,
+        enable_science_thesis=True,
+        apply_science_pos_modifier=True,
+    ).run()
+
+    assert output.to_json_dict()["outputs"]["science_summary"]["science_modifier_applied"] is True
+
+
+def test_valuation_json_contains_compact_bd_summary(asset, company, trials, market):
+    buyer_problem = BuyerProblemLibrary.from_yaml(
+        "examples/configs/buyer_problems/vertex.yaml"
+    ).problems[0]
+    output = ValuationEngine(
+        asset,
+        company,
+        trials,
+        market,
+        mc_params=_MC_FAST,
+        enable_science_thesis=True,
+        buyer_problem=buyer_problem,
+        buyer_problem_id=buyer_problem.problem_id,
+    ).run()
+
+    data = output.to_json_dict()
+    summary = data["outputs"]["bd_summary"]
+    assert summary["bd_route"]
+    assert "bd_hard_gate_passed" in summary
+    assert "bd_actionability_score" in summary
+    assert "failed_gates" in summary
+    assert summary["buyer_problem_id"] == buyer_problem.problem_id
+    assert "bd_actionability" not in data["outputs"]

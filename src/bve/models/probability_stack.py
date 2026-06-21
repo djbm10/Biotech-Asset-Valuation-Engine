@@ -10,6 +10,7 @@ from pydantic import BaseModel, Field
 if TYPE_CHECKING:
     from bve.models.financing_risk import FinancingRiskV2
     from bve.models.science_score import ScienceDiligenceResult
+    from bve.intelligence.science_thesis import ScienceThesis
 
 from bve.intelligence.science_engine import ScienceAssessment
 from bve.models.approval_scenarios import (
@@ -287,6 +288,7 @@ def compute_probability_stack(
     asset_id: str,
     phase: str,
     science_result: ScienceDiligenceResult | None = None,
+    science_thesis: ScienceThesis | None = None,
     financing_risk: FinancingRiskV2 | None = None,
     has_breakthrough_designation: bool = False,
     has_fast_track: bool = False,
@@ -309,7 +311,9 @@ def compute_probability_stack(
 
     # --- Science modifier ---
     science_modifier: float
-    if science_result is not None:
+    if science_thesis is not None and science_thesis.modifier_result is not None:
+        science_modifier = science_thesis.modifier_result.heuristic_science_modifier
+    elif science_result is not None:
         science_modifier = 0.70 + science_result.overall_score * 0.40
     else:
         science_modifier = 1.00
@@ -361,7 +365,7 @@ def compute_probability_stack(
 
     # --- Apply science modifier to technical ---
     technical = technical * science_modifier
-    if science_result is not None:
+    if science_result is not None or science_thesis is not None:
         tech_modifiers.append(f"science_modifier {science_modifier:.3f}")
 
     # --- Apply financing modifier to commercial ---
@@ -408,6 +412,8 @@ def compute_probability_stack(
         drivers.append("orphan designation")
     if science_result is not None:
         drivers.append(f"science_score={science_result.overall_score:.2f}")
+    if science_thesis is not None and science_thesis.modifier_result is not None:
+        drivers.append(f"science_thesis_score={science_thesis.modifier_result.science_score:.2f}")
     if financing_risk is not None:
         drivers.append(f"financing_tier={financing_risk.distress_tier.value}")
     rationale = (
