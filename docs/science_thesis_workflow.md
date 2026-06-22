@@ -128,3 +128,31 @@ not be treated as fully reconstructable from `valuation.json` or watchlist
   strategy databases.
 - JSON summaries are audit snapshots, not complete replacements for the
   underlying evidence/thesis objects.
+
+## Science Evidence Artifacts
+
+Replay science evidence extraction can persist compact, JSON-safe evidence artifacts:
+
+```bash
+bve-replay-document \
+  --db outputs/intelligence_phase2/knowledge.db \
+  --document-id <id> \
+  --extract-science-evidence \
+  --science-evidence-output-dir outputs/science_evidence_artifacts
+```
+
+Artifacts preserve the validated `ScienceEvidenceBundle` plus identity/version metadata: `schema_version`, `extractor_version`, `prompt_version`, `model_id`, `document_hash`, `created_at`, `source_document_id`, and `asset_id`.
+
+Previously created artifacts can be replayed without another science-evidence LLM call:
+
+```bash
+bve-replay-document \
+  --db outputs/intelligence_phase2/knowledge.db \
+  --document-id <id> \
+  --extract-science-evidence \
+  --science-evidence-artifact outputs/science_evidence_artifacts/<asset>/<document>.science_evidence.json
+```
+
+If the artifact `document_hash` differs from the current document text, replay warns by default. Use `--science-evidence-artifact-hash-policy fail` to make mismatches hard failures or `ignore` for explicit bypass.
+
+Artifacts and compact evidence surfaces are audit/replay aids. They do not change POS, BD actionability, science scoring, or valuation math by themselves.
