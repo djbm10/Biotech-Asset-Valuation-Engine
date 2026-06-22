@@ -1,0 +1,156 @@
+"""Brier decomposition math + calibration regression anchors.
+
+Two layers:
+1. Pure-math properties of ``brier_decomposition`` (dataset-independent).
+2. Regression anchors pinning the in-sample calibration of the oncology POS
+   backtest. These use the *authoritative* model path — ``run_backtest_from_csv``
+   → ``BacktestReport.to_calibration_records()`` (real model scores), NOT the
+   deprecated ``pos_calibration.load_from_backtest_csv`` proxy whose own warning
+   states its metrics "do not reflect true model performance".
+
+   The anchors are deliberately coupled to
+   ``research/data/oncology_phase_transitions.csv``: if that dataset or the POS
+   model changes, these assertions SHOULD fail — re-baseline the constants below
+   only after confirming the new numbers are intended. Tolerances are wide
+   enough to ignore formatting / bucket-boundary noise but narrow enough to
+   catch genuine calibration drift.
+"""
+from __future__ import annotations
+
+import math
+from pathlib import Path
+
+import pytest
+
+from bve.analysis import pos_calibration as pc
+from bve.analysis.backtest import run_backtest_from_csv
+from bve.analysis.calibration_metrics import brier_decomposition
+
+_ONCOLOGY_CSV = Path("research/data/oncology_phase_transitions.csv")
+
+# --- regression anchors (re-baseline only on intended dataset/model change) ---
+# Authoritative model path; values captured 2026-06-22.
+_ANCHOR_N = 145
+_ANCHOR_BRIER = 0.2339
+_ANCHOR_AUC = 0.6941
+_ANCHOR_ECE = 0.1404
+_ANCHOR_RELIABILITY = 0.024
+_ANCHOR_RESOLUTION = 0.030
+_ANCHOR_UNCERTAINTY = 0.250
+_METRIC_TOL = 0.01
+
+
+# ---------------------------------------------------------------------------
+# Pure-math properties
+# ---------------------------------------------------------------------------
+
+
+def test_identity_holds_exactly_random():
+    import random
+
+    random.seed(0)
+    probs = [random.random() for _ in range(300)]
+    labels = [1 if random.random() < p else 0 for p in probs]
+    d = brier_decomposition(probs, labels)
+    # binned Brier == reliability − resolution + uncertainty, to fp precision
+    assert abs(d.identity_residual) < 1e-9
+
+
+def test_perfect_calibration_zero_reliability():
+    probs = [0.0] * 50 + [1.0] * 50
+    labels = [0] * 50 + [1] * 50
+    d = brier_decomposition(probs, labels)
+    assert d.reliability < 1e-9
+    assert d.uncertainty == pytest.approx(0.25)
+    assert abs(d.identity_residual) < 1e-9
+
+
+def test_top_bin_includes_forecast_of_one():
+    # A forecast of exactly 1.0 must not be dropped from the top bin.
+    d = brier_decomposition([1.0] * 10, [1] * 10)
+    assert d.n == 10
+    assert abs(d.identity_residual) < 1e-9
+
+
+def test_uncertainty_is_base_rate_variance():
+    labels = [1] * 30 + [0] * 70
+    probs = [0.5] * 100
+    d = brier_decomposition(probs, labels)
+    assert d.uncertainty == pytest.approx(0.3 * 0.7)
+
+
+def test_empty_input_is_safe():
+    d = brier_decomposition([], [])
+    assert d.n == 0
+    assert d.reconstructed == 0.0
+
+
+def test_resolution_higher_when_model_separates_classes():
+    # Model that separates outcomes well has higher resolution than a flat one.
+    sep = brier_decomposition([0.1] * 50 + [0.9] * 50, [0] * 50 + [1] * 50)
+    flat = brier_decomposition([0.5] * 100, [0] * 50 + [1] * 50)
+    assert sep.resolution > flat.resolution
+
+
+# ---------------------------------------------------------------------------
+# Regression anchors — oncology backtest calibration
+# ---------------------------------------------------------------------------
+
+
+@pytest.fixture(scope="module")
+def oncology_overall():
+    if not _ONCOLOGY_CSV.exists():
+        pytest.skip(f"dataset not present: {_ONCOLOGY_CSV}")
+    # Authoritative model scores (see module docstring) rather than the
+    # deprecated proxy loader.
+    report = run_backtest_from_csv(str(_ONCOLOGY_CSV))
+    records = report.to_calibration_records()
+    suite = pc.run_pos_calibration_from_records(records)
+    assert suite.overall is not None
+    return suite.overall, len(records)
+
+
+def _rebaseline_msg(name, actual, anchor):
+    return (
+        f"{name}={actual:.4f} drifted from anchor {anchor:.4f}. "
+        "If the dataset/model change is intended, update the anchor constant."
+    )
+
+
+def test_record_count_anchor(oncology_overall):
+    _, n = oncology_overall
+    assert n == _ANCHOR_N, _rebaseline_msg("n_records", n, _ANCHOR_N)
+
+
+def test_brier_anchor(oncology_overall):
+    overall, _ = oncology_overall
+    assert overall.brier_score == pytest.approx(_ANCHOR_BRIER, abs=_METRIC_TOL), (
+        _rebaseline_msg("brier", overall.brier_score, _ANCHOR_BRIER)
+    )
+
+
+def test_auc_anchor(oncology_overall):
+    overall, _ = oncology_overall
+    assert overall.auc == pytest.approx(_ANCHOR_AUC, abs=_METRIC_TOL), (
+        _rebaseline_msg("auc", overall.auc, _ANCHOR_AUC)
+    )
+
+
+def test_ece_anchor(oncology_overall):
+    overall, _ = oncology_overall
+    assert overall.ece == pytest.approx(_ANCHOR_ECE, abs=_METRIC_TOL), (
+        _rebaseline_msg("ece", overall.ece, _ANCHOR_ECE)
+    )
+
+
+def test_decomposition_anchor_and_identity(oncology_overall):
+    overall, _ = oncology_overall
+    d = overall.decomposition
+    assert d is not None
+    assert d.reliability == pytest.approx(_ANCHOR_RELIABILITY, abs=_METRIC_TOL)
+    assert d.resolution == pytest.approx(_ANCHOR_RESOLUTION, abs=_METRIC_TOL)
+    assert d.uncertainty == pytest.approx(_ANCHOR_UNCERTAINTY, abs=_METRIC_TOL)
+    # identity exact on the real dataset
+    assert abs(d.identity_residual) < 1e-9
+    # binned Brier tracks the raw headline Brier within bucketing noise
+    assert math.isclose(d.binned_brier, overall.brier_score, abs_tol=0.02)

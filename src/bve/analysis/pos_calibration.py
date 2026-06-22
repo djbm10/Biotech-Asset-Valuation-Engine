@@ -40,8 +40,11 @@ from __future__ import annotations
 import json
 import math
 import statistics
+from datetime import date
 from dataclasses import dataclass, field
 from typing import Optional
+
+from bve.analysis.calibration_metrics import BrierDecomposition, brier_decomposition
 
 
 # ---------------------------------------------------------------------------
@@ -252,6 +255,8 @@ class TACalibrationResult:
     """Human-readable explanation when insufficient_data_warning is True."""
     reliability_diagram: list[ReliabilityBin] = field(default_factory=list)
     """Equal-width reliability bins (5 by default) for visual calibration check."""
+    decomposition: Optional["BrierDecomposition"] = None
+    """Murphy reliability/resolution/uncertainty split of the Brier score."""
 
     @property
     def brier_skill(self) -> Optional[float]:
@@ -288,6 +293,7 @@ class TACalibrationResult:
             "is_low_n": self.is_low_n,
             "calibration_direction": self.calibration_direction,
             "calibration_buckets": [b.to_dict() for b in self.calibration_buckets],
+            "decomposition": self.decomposition.to_dict() if self.decomposition else None,
             "note": self.note,
         }
 
@@ -413,14 +419,25 @@ class POSCalibrationSuite:
         with open(path, "w") as f:
             json.dump(self.to_dict(), f, indent=2)
 
-    def save_validation_report_md(self, path: str) -> None:
-        """Write Markdown validation report."""
+    def save_validation_report_md(self, path: str, as_of: str | None = None) -> None:
+        """Write Markdown validation report.
+
+        ``as_of`` dates the report (defaults to today). The report measures the
+        *calibration and discrimination quality* of POS probability estimates —
+        it is NOT a measure of trading return or backtest P&L, which live in the
+        historical-replay summary. Keep the two separate when interpreting.
+        """
+        as_of = as_of or date.today().isoformat()
         lines = [
             "# POS Model Validation Report",
             "",
+            f"**Generated:** {as_of}  ",
             f"**Model:** {self.model_name}  ",
             f"**Total records:** {self.n_total_records}  ",
             f"**TAs with data:** {self.n_tas_with_data} of {len(SUPPORTED_TAS)}  ",
+            "",
+            "_Scope: probability calibration & discrimination quality only — "
+            "not trading return / backtest performance._",
             "",
             "## Summary metrics",
             "",
@@ -433,6 +450,21 @@ class POSCalibrationSuite:
                 f"| Brier Skill | {_fmt_signed(self.overall.brier_skill)} | 0.0000 |",
                 f"| AUC-ROC | {_fmt(self.overall.auc)} | 0.5000 (random) |",
                 f"| ECE | {_fmt(self.overall.ece)} | — |",
+            ]
+        if self.overall and self.overall.decomposition:
+            d = self.overall.decomposition
+            lines += [
+                "",
+                "## Brier decomposition (Murphy)",
+                "",
+                "Binned identity: Brier = Reliability − Resolution + Uncertainty.",
+                "",
+                "| Component | Value | Direction |",
+                "|-----------|-------|-----------|",
+                f"| Reliability | {_fmt(d.reliability)} | lower is better |",
+                f"| Resolution | {_fmt(d.resolution)} | higher is better |",
+                f"| Uncertainty | {_fmt(d.uncertainty)} | irreducible |",
+                f"| Binned Brier | {_fmt(d.binned_brier)} | = REL − RES + UNC |",
             ]
         lines += [
             "",
@@ -538,6 +570,10 @@ def _compute_ta_metrics(records: list[POSCalibrationRecord]) -> TACalibrationRes
         )
 
     reliability_diagram = build_reliability_diagram(records)
+    decomposition = brier_decomposition(
+        [r.predicted_pos for r in records],
+        [int(r.actual_success) for r in records],
+    )
 
     return TACalibrationResult(
         therapeutic_area=ta,
@@ -556,6 +592,7 @@ def _compute_ta_metrics(records: list[POSCalibrationRecord]) -> TACalibrationRes
         insufficient_data_warning=insufficient_data_warning,
         insufficient_data_message=insufficient_data_message,
         reliability_diagram=reliability_diagram,
+        decomposition=decomposition,
     )
 
 

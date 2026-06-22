@@ -243,3 +243,119 @@ def _expected_calibration_error(buckets: list[CalibrationBucket]) -> float:
         b.n * abs(b.mean_predicted - b.actual_success_rate)
         for b in buckets
     ) / total_n
+
+
+# ---------------------------------------------------------------------------
+# Murphy (1973) Brier-score decomposition
+# ---------------------------------------------------------------------------
+
+
+@dataclass
+class BrierDecomposition:
+    """Murphy (1973) decomposition of the Brier score into interpretable parts.
+
+    The exact identity ``binned_brier == reliability − resolution + uncertainty``
+    holds for the *binned* Brier (each forecast replaced by its bin's mean):
+
+    - ``reliability``  (lower is better) — calibration error: how far each bin's
+      mean forecast sits from that bin's observed rate.
+    - ``resolution``   (higher is better) — discrimination: how far bin observed
+      rates spread from the overall base rate.
+    - ``uncertainty``  — irreducible base-rate variance ``ō(1−ō)``; depends only
+      on outcomes, not the model.
+
+    ``brier`` is the raw mean squared error over the actual (unbinned) forecasts.
+    ``binning_residual = brier − binned_brier`` is the (typically small) cost of
+    coarse bins — it is *not* part of the identity, only reported for honesty so
+    the binned components can be reconciled against the headline raw Brier.
+    """
+
+    n: int
+    brier: float          # raw MSE over actual forecasts
+    binned_brier: float   # MSE with forecasts replaced by bin means
+    reliability: float
+    resolution: float
+    uncertainty: float
+
+    @property
+    def reconstructed(self) -> float:
+        """Reliability − resolution + uncertainty; equals ``binned_brier``."""
+        return self.reliability - self.resolution + self.uncertainty
+
+    @property
+    def identity_residual(self) -> float:
+        """``binned_brier − reconstructed``; ~0 confirms the identity is exact."""
+        return self.binned_brier - self.reconstructed
+
+    @property
+    def binning_residual(self) -> float:
+        """``brier − binned_brier``; the cost of coarse bins (not an error)."""
+        return self.brier - self.binned_brier
+
+    def to_dict(self) -> dict:
+        return {
+            "n": self.n,
+            "brier": round(self.brier, 6),
+            "binned_brier": round(self.binned_brier, 6),
+            "reliability": round(self.reliability, 6),
+            "resolution": round(self.resolution, 6),
+            "uncertainty": round(self.uncertainty, 6),
+            "reconstructed": round(self.reconstructed, 6),
+            "identity_residual": round(self.identity_residual, 9),
+            "binning_residual": round(self.binning_residual, 6),
+        }
+
+
+def brier_decomposition(
+    probs: list[float],
+    labels: list[int],
+    edges: Optional[list[float]] = None,
+) -> BrierDecomposition:
+    """Decompose the Brier score over probability bins (Murphy 1973).
+
+    Every point is binned exactly once (the top bin is closed on the right so a
+    forecast of 1.0 is never dropped), so the binned components reconcile to
+    ``binned_brier`` to floating-point precision.
+    """
+    edges = edges or _BUCKET_EDGES
+    n = len(probs)
+    if n == 0:
+        return BrierDecomposition(0, 0.0, 0.0, 0.0, 0.0, 0.0)
+
+    base_rate = sum(labels) / n
+    uncertainty = base_rate * (1.0 - base_rate)
+
+    reliability = 0.0
+    resolution = 0.0
+    binned_sq_error = 0.0
+    top = edges[-1]
+    for lo, hi in zip(edges[:-1], edges[1:]):
+        is_top = hi == top
+        pts = [
+            (p, y)
+            for p, y in zip(probs, labels)
+            if (lo <= p < hi) or (is_top and p == hi)
+        ]
+        if not pts:
+            continue
+        _ps, ys = zip(*pts)
+        n_k = len(pts)
+        mean_pred = sum(_ps) / n_k
+        obs_rate = sum(ys) / n_k
+        reliability += n_k * (mean_pred - obs_rate) ** 2
+        resolution += n_k * (obs_rate - base_rate) ** 2
+        binned_sq_error += sum((mean_pred - y) ** 2 for y in ys)
+
+    reliability /= n
+    resolution /= n
+    binned_brier = binned_sq_error / n
+    brier = _brier_score(probs, labels)
+
+    return BrierDecomposition(
+        n=n,
+        brier=brier,
+        binned_brier=binned_brier,
+        reliability=reliability,
+        resolution=resolution,
+        uncertainty=uncertainty,
+    )
