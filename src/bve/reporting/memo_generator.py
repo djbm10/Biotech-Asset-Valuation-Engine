@@ -85,6 +85,40 @@ def _build_context(output: ValuationOutput, memo_type: MemoType) -> dict:
         "memo_type": memo_type,
         # Structured evidence bundle — always present (empty sections if no data)
         "evidence": MemoEvidenceBuilder.build(output),
+        "science_thesis": _science_thesis_context(getattr(output, "science_thesis", None)),
+        "bd_actionability": _bd_actionability_context(getattr(output, "bd_actionability", None)),
+    }
+
+
+def _science_thesis_context(science_thesis: object | None) -> dict | None:
+    if science_thesis is None:
+        return None
+    modifier = getattr(science_thesis, "modifier_result", None)
+    binding_question = getattr(science_thesis, "binding_science_question", "")
+    return {
+        "core_biological_hypothesis": getattr(science_thesis, "core_biological_hypothesis", ""),
+        "binding_science_question": getattr(binding_question, "value", str(binding_question)),
+        "what_must_be_true": getattr(science_thesis, "what_must_be_true", []),
+        "missing_critical_evidence": getattr(science_thesis, "missing_critical_evidence", []),
+        "next_readout_requirement": getattr(science_thesis, "next_readout_requirement", ""),
+        "heuristic_science_modifier": getattr(modifier, "heuristic_science_modifier", None),
+        "warnings": getattr(modifier, "warnings", []) if modifier is not None else [],
+    }
+
+
+def _bd_actionability_context(bd_actionability: object | None) -> dict | None:
+    if bd_actionability is None:
+        return None
+    route = getattr(bd_actionability, "recommended_bd_route", "")
+    return {
+        "passed_hard_gates": getattr(bd_actionability, "passed_hard_gates", None),
+        "failed_gates": getattr(bd_actionability, "failed_gates", []),
+        "buyer_problem_fit": getattr(bd_actionability, "buyer_problem_fit", None),
+        "science_thesis_fit": getattr(bd_actionability, "science_thesis_fit", None),
+        "buyer_owner_advantage": getattr(bd_actionability, "buyer_owner_advantage", None),
+        "diligence_questions": getattr(bd_actionability, "diligence_questions", []),
+        "recommended_bd_route": getattr(route, "value", str(route)),
+        "route_rationale": getattr(bd_actionability, "route_rationale", ""),
     }
 
 

@@ -18,7 +18,7 @@ from pathlib import Path
 from typing import Any, Literal, Optional, Protocol
 
 import yaml
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 from bve.alerts.alert_model import AlertSeverity, AlertTrigger
 from bve.connectors import (
@@ -214,6 +214,8 @@ class PipelineStageLog(BaseModel):
 
 class AssetRunSummary(BaseModel):
     """Summary for a single asset in one run cycle."""
+
+    model_config = ConfigDict(extra="allow")
 
     run_id: Optional[str] = None
     company_id: str
@@ -414,9 +416,15 @@ class WatchlistPipelineRunner:
         rate_limiter: Optional[ServiceRateLimiter] = None,
         cost_guard: Optional[CostGuard] = None,
         logger: Optional[logging.Logger] = None,
+        enable_science_thesis: bool = False,
+        buyer_problem=None,
+        buyer_problem_id: str | None = None,
     ) -> None:
         self.config = config
         self.logger = logger or logging.getLogger("bve.watchlist")
+        self.enable_science_thesis = enable_science_thesis
+        self.buyer_problem = buyer_problem
+        self.buyer_problem_id = buyer_problem_id
         self.connectors = connectors or _build_connectors(config.connectors)
         self.extractor = extractor or _build_extractor(config.extraction)
         self.mapping_engine = mapping_engine or MappingEngine()
@@ -611,6 +619,11 @@ class WatchlistPipelineRunner:
                     checkpoint_json={"valuation_config": asset_cfg.valuation_config},
                     fn=lambda: self.context_provider.get_context(asset_cfg),
                 )
+
+            if self.enable_science_thesis:
+                if context is None:
+                    raise ValueError("--science-thesis watchlist enrichment requires valuation context")
+                self._enrich_summary_with_science(summary, asset_cfg, context)
 
             hints = EntityHints(
                 asset_id=asset_cfg.asset_id,
@@ -1301,6 +1314,79 @@ class WatchlistPipelineRunner:
             )
             self._log_asset_summary(summary=summary, run_started=run_started)
             return summary
+
+
+    def _enrich_summary_with_science(
+        self,
+        summary: AssetRunSummary,
+        asset_cfg: WatchlistAsset,
+        context: AssetValuationContext,
+    ) -> None:
+        """Attach read-only Layer 0/BD screening fields to a watchlist asset summary."""
+        from bve.intelligence.layer15_buyer_match import (
+            Layer15BuyerMatchInput,
+            Layer15BuyerMatcher,
+        )
+        from bve.intelligence.science_thesis_builder import (
+            ScienceThesisBuilder,
+            ScienceThesisBuilderInput,
+        )
+        from bve.intelligence.science_thesis_summary import (
+            build_bd_summary,
+            build_science_summary,
+        )
+
+        asset = context.asset
+        target = (asset.biological_target or asset.canonical_target or "").strip()
+        mechanism = (asset.mechanism_of_action or asset.canonical_moa or "").strip()
+        thesis = ScienceThesisBuilder().build(
+            ScienceThesisBuilderInput(
+                asset_id=asset.id,
+                asset_name=asset.name,
+                indication=asset.indication,
+                phase=asset.stage.value,
+                modality=asset.modality.value,
+                target=target,
+                mechanism=mechanism,
+                has_target_rationale=bool(target or mechanism),
+            )
+        )
+
+        science_summary = build_science_summary(thesis, modifier_applied=False) or {}
+        summary.science_binding_question = science_summary.get("science_binding_question")
+        summary.science_modifier = science_summary.get("science_modifier")
+        summary.science_score = science_summary.get("science_score")
+        summary.science_modifier_applied = science_summary.get("science_modifier_applied")
+        summary.science_missing_evidence_count = science_summary.get(
+            "missing_critical_evidence_count"
+        )
+        summary.science_next_readout = science_summary.get("next_readout_requirement")
+        summary.science_warnings = science_summary.get("warnings")
+
+        if self.buyer_problem is None:
+            return
+
+        bd_result = Layer15BuyerMatcher().match(
+            Layer15BuyerMatchInput(
+                science_thesis=thesis,
+                buyer_problem=self.buyer_problem,
+                therapeutic_area=asset.therapeutic_area.value,
+                target=target,
+                modality=asset.modality.value,
+                solves_buyer_problem=bool(asset.therapeutic_area and asset.modality),
+                problem_solution_fit=0.65,
+            )
+        )
+        bd_summary = build_bd_summary(
+            bd_result,
+            buyer_problem=self.buyer_problem,
+            buyer_problem_id=self.buyer_problem_id,
+        ) or {}
+        summary.bd_route = bd_summary.get("bd_route")
+        summary.bd_hard_gate_passed = bd_summary.get("bd_hard_gate_passed")
+        summary.bd_actionability_score = bd_summary.get("bd_actionability_score")
+        summary.bd_failed_gates = bd_summary.get("failed_gates")
+        summary.bd_warnings = bd_summary.get("warnings")
 
     def _should_run_competitor_discovery(self, asset_id: str) -> bool:
         if self.knowledge.count_competitor_programs(asset_id) == 0:

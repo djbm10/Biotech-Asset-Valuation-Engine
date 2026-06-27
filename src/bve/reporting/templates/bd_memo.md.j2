@@ -91,6 +91,53 @@ Key valuation anchors:
 
 ### Biology & Mechanism Evidence
 {{ evidence_block(evidence.biology) }}
+{% if science_thesis %}
+
+### Science Thesis
+
+- **Core hypothesis:** {{ science_thesis.core_biological_hypothesis or "—" }}
+- **Binding science question:** {{ science_thesis.binding_science_question or "—" }}
+- **Next readout requirement:** {{ science_thesis.next_readout_requirement or "—" }}
+{% if science_thesis.heuristic_science_modifier is not none %}
+- **Heuristic POS modifier:** {{ "%.3f"|format(science_thesis.heuristic_science_modifier) }}
+{% endif %}
+{% if science_thesis.what_must_be_true %}
+- **What must be true:** {{ science_thesis.what_must_be_true | join("; ") }}
+{% endif %}
+{% if science_thesis.missing_critical_evidence %}
+- **Missing critical evidence:** {{ science_thesis.missing_critical_evidence | join("; ") }}
+{% endif %}
+{% if science_thesis.warnings %}
+- **Warnings:** {{ science_thesis.warnings | join("; ") }}
+{% endif %}
+
+{% endif %}
+
+{% if bd_actionability %}
+
+### BD Fit
+
+- **Hard-gate result:** {{ "Pass" if bd_actionability.passed_hard_gates else "Fail" }}
+{% if bd_actionability.failed_gates %}
+- **Failed gates:** {{ bd_actionability.failed_gates | join("; ") }}
+{% endif %}
+{% if bd_actionability.buyer_problem_fit is not none %}
+- **Buyer problem fit:** {{ "%.2f"|format(bd_actionability.buyer_problem_fit) }}
+{% endif %}
+{% if bd_actionability.science_thesis_fit is not none %}
+- **Science thesis fit:** {{ "%.2f"|format(bd_actionability.science_thesis_fit) }}
+{% endif %}
+{% if bd_actionability.buyer_owner_advantage is not none %}
+- **Buyer-owner advantage:** {{ "%.2f"|format(bd_actionability.buyer_owner_advantage) }}
+{% endif %}
+- **Recommended route:** {{ bd_actionability.recommended_bd_route or "—" }}
+- **Route rationale:** {{ bd_actionability.route_rationale or "—" }}
+{% if bd_actionability.diligence_questions %}
+- **Diligence questions:** {{ bd_actionability.diligence_questions | join("; ") }}
+{% endif %}
+
+{% endif %}
+
 ### Trial Evidence & Sources
 {{ evidence_block(evidence.trial) }}
 

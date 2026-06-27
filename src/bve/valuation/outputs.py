@@ -269,6 +269,13 @@ class ValuationOutput(BaseModel):
     # Memo text (populated by reporting layer)
     memo_markdown: Optional[str] = None
 
+    # Optional Phase 2 science thesis / BD fit objects for memo surfacing.
+    # Kept as object to avoid coupling valuation outputs to intelligence modules.
+    science_thesis: Optional[object] = Field(default=None, exclude=True)
+    bd_actionability: Optional[object] = Field(default=None, exclude=True)
+    science_summary: Optional[dict] = Field(default=None)
+    bd_summary: Optional[dict] = Field(default=None)
+
     # Structured evidence bundle (populated by MemoEvidenceBuilder during generate_memo)
     # Type is MemoEvidence; kept as object to avoid bve.reporting.__init__ circular import.
     memo_evidence: Optional[object] = Field(
@@ -659,6 +666,11 @@ class ValuationOutput(BaseModel):
                 ],
             },
         }
+
+        if self.science_summary is not None:
+            d["outputs"]["science_summary"] = self.science_summary
+        if self.bd_summary is not None:
+            d["outputs"]["bd_summary"] = self.bd_summary
 
         # Add deal comps analysis if present
         if self.comps_fair_value_band is not None:

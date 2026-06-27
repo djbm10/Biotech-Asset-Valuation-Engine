@@ -56,6 +56,19 @@ def _build_parser() -> argparse.ArgumentParser:
         help="Optional path to write one-cycle summary JSON",
     )
     parser.add_argument(
+        "--science-thesis",
+        action="store_true",
+        help="Add read-only Science Thesis fields to watchlist summaries",
+    )
+    parser.add_argument(
+        "--buyer-problem",
+        help="Path to buyer problem YAML config; requires --science-thesis",
+    )
+    parser.add_argument(
+        "--buyer-problem-id",
+        help="Problem ID to select from buyer problem config",
+    )
+    parser.add_argument(
         "--reprocess-documents",
         action="store_true",
         help="Replay stored raw_documents through extraction, mapping, and valuation",
@@ -81,6 +94,28 @@ def _configure_logging(verbose: bool) -> None:
     )
 
 
+
+def _load_selected_buyer_problem(path: str | None, problem_id: str | None):
+    if not path:
+        return None
+    from bve.intelligence.buyer_problem_library import BuyerProblemLibrary
+
+    try:
+        library = BuyerProblemLibrary.from_yaml(path)
+    except Exception as exc:
+        raise SystemExit(f"ERROR: Failed to load buyer problem config: {exc}") from exc
+    problems = library.problems
+    if not problems:
+        raise SystemExit("ERROR: Buyer problem config contains no problems")
+    if problem_id is None:
+        if len(problems) > 1:
+            raise SystemExit("ERROR: --buyer-problem-id required when config has multiple problems")
+        return problems[0]
+    for problem in problems:
+        if getattr(problem, "problem_id", None) == problem_id:
+            return problem
+    raise SystemExit(f"ERROR: buyer problem id not found: {problem_id}")
+
 def main() -> None:
     args = _build_parser().parse_args()
     _configure_logging(args.verbose)
@@ -94,6 +129,11 @@ def main() -> None:
         raise SystemExit(
             "Provide exactly one watchlist input: positional path, --watchlist, or --watchlist-dir"
         )
+
+    if args.buyer_problem and not args.science_thesis:
+        raise SystemExit("ERROR: --buyer-problem requires --science-thesis")
+    if args.buyer_problem_id and not args.buyer_problem:
+        raise SystemExit("ERROR: --buyer-problem-id requires --buyer-problem")
 
     watchlist_input = args.watchlist_dir or args.watchlist or args.watchlist_path
     config = load_watchlist_config(watchlist_input)
@@ -110,10 +150,20 @@ def main() -> None:
         from bve.alerts.alert_router import AlertRouter
         alert_router = AlertRouter.from_config(config.alerts)
 
+    buyer_problem = _load_selected_buyer_problem(args.buyer_problem, args.buyer_problem_id)
+
     if args.reprocess_documents:
+        if args.science_thesis:
+            raise SystemExit("ERROR: --science-thesis is not supported with --reprocess-documents")
         runner = HistoryReplayRunner(config)
     else:
-        runner = WatchlistPipelineRunner(config, alert_router=alert_router)
+        runner = WatchlistPipelineRunner(
+            config,
+            alert_router=alert_router,
+            enable_science_thesis=args.science_thesis,
+            buyer_problem=buyer_problem,
+            buyer_problem_id=args.buyer_problem_id,
+        )
     try:
         if args.reprocess_documents:
             summary = runner.replay(since=args.since)
