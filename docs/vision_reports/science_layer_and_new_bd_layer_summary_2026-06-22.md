@@ -356,14 +356,21 @@ Known non-doc caveats from that pass:
 
 This document is descriptive. It does not change runtime behavior.
 
-**Landing status (not yet on `core-engine-v1`):** the Chris-aligned BD
-actionability work (sections 9–11) was committed on an isolated branch
-**`bd-chris-aligned-part1`** (commit `5e663ac`, worktree
-`/home/djmann/projects/bve-bd-part1`), cut from clean HEAD `3e7610b`. It was kept
-off the main tree because concurrent agents were live-editing `science_thesis.py`
-and the science-ownership refactor at the same time. Merging into `core-engine-v1`
-will likely conflict in `science_thesis.py` against the guardrail work and must be
-reconciled before this is live.
+**Landing status:**
+
+- **Part 1 (Chris-aligned actionability, sections 9–11)** is implemented in the
+  `core-engine-v1` working tree (`science_thesis.py`: `EvidenceGrade`,
+  `ShortlistEntry`, `build_buyer_problem_shortlist`). A standalone earlier copy
+  also exists on branch **`bd-chris-aligned-part1`** (commit `5e663ac`, worktree
+  `/home/djmann/projects/bve-bd-part1`) — now redundant with the main-tree
+  version; do not merge it (it would conflict against the science-ownership
+  guardrail work). Treat the main-tree implementation as authoritative.
+- **Part 2 (dual-source buyer-problem intake + parallel compare)** is committed
+  **directly on `core-engine-v1`** (commit `466b441`) as standalone new modules
+  `intelligence/buyer_problem_inferencer.py` and
+  `analysis/buyer_problem_reconciliation.py` (+ tests). No edits to
+  `science_thesis.py`: provenance lives in a `BuyerProblemDraft` sidecar so the
+  core model stays clean and there was no collision with in-flight work.
 
 ## 14. Known Limits
 
