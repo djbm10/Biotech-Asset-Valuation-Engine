@@ -356,21 +356,29 @@ Known non-doc caveats from that pass:
 
 This document is descriptive. It does not change runtime behavior.
 
-**Landing status:**
+**Landing status (on `core-engine-v1`):**
 
-- **Part 1 (Chris-aligned actionability, sections 9–11)** is implemented in the
-  `core-engine-v1` working tree (`science_thesis.py`: `EvidenceGrade`,
-  `ShortlistEntry`, `build_buyer_problem_shortlist`). A standalone earlier copy
-  also exists on branch **`bd-chris-aligned-part1`** (commit `5e663ac`, worktree
-  `/home/djmann/projects/bve-bd-part1`) — now redundant with the main-tree
-  version; do not merge it (it would conflict against the science-ownership
-  guardrail work). Treat the main-tree implementation as authoritative.
-- **Part 2 (dual-source buyer-problem intake + parallel compare)** is committed
-  **directly on `core-engine-v1`** (commit `466b441`) as standalone new modules
-  `intelligence/buyer_problem_inferencer.py` and
-  `analysis/buyer_problem_reconciliation.py` (+ tests). No edits to
-  `science_thesis.py`: provenance lives in a `BuyerProblemDraft` sidecar so the
-  core model stays clean and there was no collision with in-flight work.
+- **Part 1 — Chris-aligned actionability (sections 9–11):** implemented in
+  `science_thesis.py` (`EvidenceGrade`, `ShortlistEntry`,
+  `build_buyer_problem_shortlist`).
+- **Part 2 — dual-source buyer-problem intake + parallel compare:** two standalone
+  modules.
+  - `intelligence/buyer_problem_inferencer.py` — `BuyerProblemProvenance`
+    (`analyst` / `inferred` / `analyst_corrected`); `BuyerProblemDraft` sidecar
+    carrying provenance, `inference_confidence`, `evidence_citations`,
+    `inferred_by_model`, `corrected_fields` (the core `BuyerProblem` stays clean);
+    `BuyerProblemExtractor` protocol as the LLM-over-ingestion seam (no network
+    dependency); `BuyerProblemInferencer.infer()` drafts from public data;
+    `apply_analyst_correction()` is immutable and logs the inferred-vs-corrected
+    diff per changed field through an injected sink.
+  - `analysis/buyer_problem_reconciliation.py` — `reconcile_buyer_problem()` is a
+    pure join of the problem-in `BuyerProblemShortlist` against universe-out scan
+    scores, labelling each asset `agreed` / `problem_only` / `scan_only` /
+    `neither`. It describes, never blends. `scan_only` surfaces strong broad-scan
+    hits that failed the buyer's hard gates — the key feedback loop.
+
+Not yet built: the weekly-runner hook to run both lenses on schedule, and the
+later-phase news-driven discovery of new buyers/targets.
 
 ## 14. Known Limits
 
@@ -386,8 +394,11 @@ This document is descriptive. It does not change runtime behavior.
 
 ## 15. Open Follow-Ups
 
-- Finish any remaining buyer-problem intake inference work if it is still not
-  implemented.
+- Wire the weekly runner to run both BD lenses (problem-in shortlist +
+  universe-out scan) on schedule and emit the reconciliation report.
+- Provide a production `BuyerProblemExtractor` (LLM over ingested filings / press
+  / CT.gov) and persist analyst corrections to KnowledgeStore.
+- Later phase: news-driven discovery of new buyers/targets feeding the same pipeline.
 - Re-baseline valuation snapshots affected by removing H/M/S from positive
   science scoring.
 - Keep `science_guardrails` and `science_phase_weights_tdb` synchronized across
