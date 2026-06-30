@@ -1,0 +1,68 @@
+# Clinical-meaningfulness bars (Idea 8 / Batch A — Killer-Question Spine)
+#
+# The effect size that actually confers patient benefit per indication — the bar
+# the killer-question engine's DIFFERENTIATION archetype compares a claimed effect
+# against, so it judges "clears / marginal / below bar" rather than statistical
+# significance alone.
+#
+# These are SCREENING-GRADE public bars (advisor- and literature-anchored), not
+# diligence-confirmed thresholds. Refine with KOL input and label data during
+# technical diligence. Expand over time.
+
+meta:
+  version: "2026-06-29"
+  grade: "screening_public"
+  note: >
+    Public, directional bars for ranking only. A claimed effect that clears the
+    bar is necessary-not-sufficient; effect quality is confirmed in diligence.
+
+bars:
+  sickle_cell_disease:
+    metric: "fetal hemoglobin (HbF)"
+    unit: "percent"
+    clinically_meaningful_delta: 15.0
+    source: "Vertex BD advisor (Chris Folts), 17 Jun 2026 — ~15% HbF for survival/progression impact"
+
+  obesity:
+    metric: "total body weight loss"
+    unit: "percent"
+    clinically_meaningful_delta: 20.0
+    source: "Advisor (Harvey Chin) GLP-1 example — ~20% TBWL competitive bar"
+
+  heart_failure:
+    metric: "KCCQ / NT-proBNP composite"
+    unit: "points"
+    clinically_meaningful_delta: 5.0
+    source: "KCCQ ~5-point clinically important difference (literature, screening-grade)"
+
+  alzheimers:
+    metric: "CDR-SB"
+    unit: "points"
+    clinically_meaningful_delta: 0.5
+    source: "CDR-SB ~0.5-point slowing debated as minimally meaningful (screening-grade)"
+
+  rheumatoid_arthritis:
+    metric: "ACR response"
+    unit: "ACR20_delta_vs_pbo_percent"
+    clinically_meaningful_delta: 20.0
+    source: "ACR20 placebo-adjusted delta convention (screening-grade)"
+
+  atopic_dermatitis:
+    metric: "EASI-75"
+    unit: "percent_responders_delta_vs_pbo"
+    clinically_meaningful_delta: 25.0
+    source: "EASI-75 placebo-adjusted responder delta convention (screening-grade)"
+
+  mash:
+    metric: "fibrosis improvement >=1 stage, no NASH worsening"
+    unit: "percent_responders_delta_vs_pbo"
+    clinically_meaningful_delta: 10.0
+    source: "MASH/NASH fibrosis responder delta convention (screening-grade)"
+
+  # Fallback — no indication-specific bar known. delta=null means "unknown bar",
+  # which the engine treats as a LIVE (unresolved) differentiation question.
+  other:
+    metric: "unspecified"
+    unit: "relative"
+    clinically_meaningful_delta: null
+    source: "fallback — no indication-specific bar; treat as unknown / live question"
