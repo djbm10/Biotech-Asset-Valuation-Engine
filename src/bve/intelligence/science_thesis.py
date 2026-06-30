@@ -1097,12 +1097,16 @@ def compute_bd_actionability(
         )
 
     buyer_problem_fit_adjusted = min(1.0, buyer_problem_fit)
+    # Idea 15: scarcity has ONE home — buyer_owner_advantage, set by the matcher's
+    # _owner_advantage (and constrained there to sandbox scarcity). It is NOT
+    # re-added here: the old "+ 0.05 * scarcity_value" term double-counted it and
+    # let general "hotness" leak into value. time_sensitivity is routing-only and
+    # never enters this score at all.
     buyer_owner_advantage_adjusted = min(
         1.0,
         buyer_owner_advantage
         + (0.05 * internal_portfolio_fit)
-        + (0.05 * combination_or_lifecycle_fit)
-        + (0.05 * scarcity_value),
+        + (0.05 * combination_or_lifecycle_fit),
     )
     deal_feasibility_adjusted = max(
         0.0,
@@ -1126,6 +1130,12 @@ def compute_bd_actionability(
     if evidence_grade == EvidenceGrade.SCREENING_PUBLIC and score > SCREENING_PUBLIC_ACTIONABILITY_CAP:
         score = SCREENING_PUBLIC_ACTIONABILITY_CAP
         final_warnings.append("capped_screening_public_pre_diligence")
+
+    # Idea 15 consistency guard: high scarcity is not credible when the buyer
+    # already has alternatives that solve the same problem. Flag the contradiction
+    # (the matcher separately caps the owner-advantage bump in this case).
+    if scarcity_value >= 0.70 and (alternative_assets_available or []):
+        final_warnings.append("scarcity_inconsistent_with_alternatives")
 
     confidence_values = confidence_inputs or [evidence_quality, diligence_readiness]
     confidence = round(sum(confidence_values) / len(confidence_values), 4) if confidence_values else 0.5

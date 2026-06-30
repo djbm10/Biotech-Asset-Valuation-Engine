@@ -7,6 +7,7 @@ from pydantic import BaseModel, Field
 from bve.intelligence.science_thesis import (
     BDActionabilityResult,
     BuyerProblem,
+    EvidenceGrade,
     ScienceThesis,
     compute_bd_actionability,
     evaluate_bd_hard_gates,
@@ -24,6 +25,8 @@ class Layer15BuyerMatchInput(BaseModel):
     problem_solution_fit: float = Field(default=0.5, ge=0.0, le=1.0)
     platform_upside: float = Field(default=0.0, ge=0.0, le=1.0)
     internal_overlap_risk: float = Field(default=0.0, ge=0.0, le=1.0)
+    # The tool ingests public data only, so screening-grade is the honest default.
+    evidence_grade: EvidenceGrade = EvidenceGrade.SCREENING_PUBLIC
 
 
 class Layer15BuyerMatcher:
@@ -39,10 +42,14 @@ class Layer15BuyerMatcher:
         )
         passed = not failed_gates
         if not passed:
-            return compute_bd_actionability(
-                passed_hard_gates=False,
-                failed_gates=failed_gates,
-                diligence_questions=inputs.science_thesis.bd_diligence_questions,
+            return self._attach_killer_questions(
+                compute_bd_actionability(
+                    passed_hard_gates=False,
+                    failed_gates=failed_gates,
+                    evidence_grade=inputs.evidence_grade,
+                    diligence_questions=self._diligence_questions(inputs.science_thesis),
+                ),
+                inputs.science_thesis,
             )
 
         science_fit = self._science_thesis_fit(inputs.science_thesis)
@@ -52,6 +59,11 @@ class Layer15BuyerMatcher:
         owner_advantage = self._owner_advantage(inputs.buyer_problem)
         deal_feasibility = max(0.0, 0.75 - (0.25 * inputs.internal_overlap_risk))
         human_poc_strength = self._component_score(inputs.science_thesis, "H")
+        clinical_meaningfulness = self._component_score(inputs.science_thesis, "M")
+        # A refuted thesis must not earn fit credit from its H/M components.
+        if self._thesis_refuted(inputs.science_thesis):
+            human_poc_strength = 0.0
+            clinical_meaningfulness = 0.0
         route, route_confidence, route_rationale = recommend_bd_route(
             passed_hard_gates=True,
             science_thesis_fit=science_fit,
@@ -62,27 +74,41 @@ class Layer15BuyerMatcher:
             uncertainty=max(0.0, 1.0 - diligence_readiness),
             thesis_refuted=self._thesis_refuted(inputs.science_thesis),
         )
-        return compute_bd_actionability(
-            passed_hard_gates=True,
-            buyer_problem_fit=inputs.problem_solution_fit,
-            science_thesis_fit=science_fit,
-            evidence_quality=evidence_quality,
-            diligence_readiness=diligence_readiness,
-            modality_capability_fit=modality_fit,
-            buyer_owner_advantage=owner_advantage,
-            internal_portfolio_fit=0.65 if inputs.buyer_problem.existing_portfolio_context else 0.5,
-            assessed_internal_overlap_risk=inputs.internal_overlap_risk,
-            combination_or_lifecycle_fit=0.70 if inputs.buyer_problem.combination_or_lifecycle_fit else 0.5,
-            alternative_assets_available=inputs.buyer_problem.alternative_assets_available,
-            competitive_intensity=inputs.buyer_problem.competitive_intensity,
-            scarcity_value=inputs.buyer_problem.scarcity_value,
-            time_sensitivity=inputs.buyer_problem.time_sensitivity,
-            deal_feasibility=deal_feasibility,
-            confidence_inputs=[inputs.buyer_problem.confidence, evidence_quality, diligence_readiness],
-            route=route,
-            route_confidence=route_confidence,
-            route_rationale=route_rationale,
-            diligence_questions=inputs.science_thesis.bd_diligence_questions,
+        return self._attach_killer_questions(
+            compute_bd_actionability(
+                passed_hard_gates=True,
+                buyer_problem_fit=inputs.problem_solution_fit,
+                science_thesis_fit=science_fit,
+                human_poc_strength=human_poc_strength,
+                clinical_meaningfulness=clinical_meaningfulness,
+                evidence_quality=evidence_quality,
+                evidence_grade=inputs.evidence_grade,
+                diligence_readiness=diligence_readiness,
+                modality_capability_fit=modality_fit,
+                buyer_owner_advantage=owner_advantage,
+                internal_portfolio_fit=(
+                    0.65 if inputs.buyer_problem.existing_portfolio_context else 0.5
+                ),
+                assessed_internal_overlap_risk=inputs.internal_overlap_risk,
+                combination_or_lifecycle_fit=(
+                    0.70 if inputs.buyer_problem.combination_or_lifecycle_fit else 0.5
+                ),
+                alternative_assets_available=inputs.buyer_problem.alternative_assets_available,
+                competitive_intensity=inputs.buyer_problem.competitive_intensity,
+                scarcity_value=inputs.buyer_problem.scarcity_value,
+                time_sensitivity=inputs.buyer_problem.time_sensitivity,
+                deal_feasibility=deal_feasibility,
+                confidence_inputs=[
+                    inputs.buyer_problem.confidence,
+                    evidence_quality,
+                    diligence_readiness,
+                ],
+                route=route,
+                route_confidence=route_confidence,
+                route_rationale=route_rationale,
+                diligence_questions=self._diligence_questions(inputs.science_thesis),
+            ),
+            inputs.science_thesis,
         )
 
     def _science_thesis_fit(self, thesis: ScienceThesis) -> float:
@@ -91,6 +117,23 @@ class Layer15BuyerMatcher:
         if self._thesis_refuted(thesis):
             return 0.0
         return thesis.modifier_result.science_score
+
+    def _diligence_questions(self, thesis: ScienceThesis) -> list[str]:
+        questions = list(thesis.bd_diligence_questions)
+        killer_set = getattr(thesis, "killer_question_set", None)
+        decisive = list(getattr(killer_set, "decisive", []) or [])
+        for question in decisive:
+            diligence_question = getattr(question, "diligence_question", "")
+            if diligence_question and diligence_question not in questions:
+                questions.append(diligence_question)
+        return questions
+
+    def _attach_killer_questions(
+        self, result: BDActionabilityResult, thesis: ScienceThesis
+    ) -> BDActionabilityResult:
+        return result.model_copy(
+            update={"killer_question_set": getattr(thesis, "killer_question_set", None)}
+        )
 
     def _component_score(self, thesis: ScienceThesis, component: str) -> float:
         if component not in thesis.components:
@@ -115,7 +158,11 @@ class Layer15BuyerMatcher:
             score += 0.10
         if buyer_problem.combination_or_lifecycle_fit:
             score += 0.10
-        if buyer_problem.scarcity_value >= 0.70:
+        # Idea 15: scarcity = few viable alternatives *inside this buyer-problem
+        # sandbox*, not market urgency or general hotness. It may support owner
+        # advantage only when no credible alternative solves the same problem;
+        # if alternatives exist, the bump is capped away (no FOMO premium).
+        if buyer_problem.scarcity_value >= 0.70 and not buyer_problem.alternative_assets_available:
             score += 0.05
         return min(1.0, score)
 
