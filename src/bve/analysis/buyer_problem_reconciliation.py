@@ -75,7 +75,7 @@ def reconcile_buyer_problem(
       - ``neither``       — present somewhere but neither strong-scan nor shortlisted
     """
     ranked_ids = {entry.asset_id for entry in shortlist.ranked}
-    excluded_ids = set(shortlist.excluded)
+    excluded_ids = {entry.asset_id for entry in shortlist.excluded}
     ranks = {entry.asset_id: i + 1 for i, entry in enumerate(shortlist.ranked)}
     scores = {entry.asset_id: entry.bd_actionability for entry in shortlist.ranked}
 

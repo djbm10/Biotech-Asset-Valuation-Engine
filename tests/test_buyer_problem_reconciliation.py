@@ -9,6 +9,7 @@ from bve.analysis.buyer_problem_reconciliation import (
 from bve.intelligence.science_thesis import (
     BuyerProblemShortlist,
     EvidenceGrade,
+    ExcludedEntry,
     ShortlistEntry,
 )
 
@@ -28,7 +29,7 @@ def _shortlist() -> BuyerProblemShortlist:
                 evidence_grade=EvidenceGrade.SCREENING_PUBLIC,
             ),
         ],
-        excluded=["gate-failed-asset"],
+        excluded=[ExcludedEntry(asset_id="gate-failed-asset", failed_gates=["ta_excluded"])],
     )
 
 

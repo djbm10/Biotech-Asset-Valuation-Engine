@@ -8,9 +8,12 @@ missing, and how the current evidence heuristically changes technical POS.
 from __future__ import annotations
 
 from enum import Enum
-from typing import Iterable
+from math import prod
+from typing import Iterable, Mapping
 
 from pydantic import BaseModel, Field
+
+from bve.config.assumptions_loader import AssumptionsLoader
 
 
 class ScienceMode(str, Enum):
@@ -59,6 +62,13 @@ class BindingConstraintSource(str, Enum):
     HARD_CAP = "hard_cap"
 
 
+class GuardrailSeverity(str, Enum):
+    INFO = "info"
+    WARN = "warn"
+    CAP = "cap"
+    KILL = "kill"
+
+
 class CalibrationStatus(str, Enum):
     HEURISTIC = "heuristic"
     CALIBRATED = "calibrated"
@@ -77,6 +87,26 @@ class EvidenceResolutionBasis(str, Enum):
     HUMAN_DOSE_RESPONSE = "human_dose_response"
     HUMAN_EXPOSURE_RESPONSE = "human_exposure_response"
     HUMAN_CLINICAL_POC = "human_clinical_poc"
+
+
+class EvidenceGrade(str, Enum):
+    """How confident we can be in the evidence behind a BD actionability score.
+
+    The tool ingests public information only, so it can rank but never confer
+    in-lab conviction. ``screening_public`` is the default the tool emits; the
+    stronger grades are only reachable after the buyer's own technical diligence.
+    """
+
+    SCREENING_PUBLIC = "screening_public"
+    PARTIAL_DISCLOSED = "partial_disclosed"
+    DILIGENCE_CONFIRMED = "diligence_confirmed"
+
+
+# Stage 3 cap: a public-data-only asset is never "ready to transact". Its
+# actionability is capped and carries a mandatory ``pre_diligence`` flag.
+SCREENING_PUBLIC_ACTIONABILITY_CAP = 0.75
+# Stage 2: screening-grade evidence_quality cannot dominate the fit score.
+EVIDENCE_QUALITY_TERM_CAP = 0.75
 
 
 class BDRoute(str, Enum):
@@ -138,6 +168,74 @@ class ScienceComponentScore(BaseModel):
     rationale: str = ""
 
 
+def _neutral_component(name: str) -> ScienceComponentScore:
+    return ScienceComponentScore(
+        name=name,
+        score=0.5,
+        confidence=0.5,
+        resolution=EvidenceResolution.UNRESOLVED,
+        rationale="Neutral placeholder until source-backed evidence is mapped.",
+    )
+
+
+class ScienceScoredQuestions(BaseModel):
+    """Scored biological thesis risk only: T/D/B.
+
+    ``ScienceQuestion`` is already the public enum for binding-question names, so
+    this model uses a distinct name while representing the plan's question split.
+    """
+
+    right_target: ScienceComponentScore = Field(
+        default_factory=lambda: _neutral_component("T")
+    )
+    enough_drug: ScienceComponentScore = Field(
+        default_factory=lambda: _neutral_component("D")
+    )
+    translation_bridge: ScienceComponentScore = Field(
+        default_factory=lambda: _neutral_component("B")
+    )
+
+
+class ScienceContext(BaseModel):
+    """Non-scored science context for audit, memo, and BD routing."""
+
+    human_poc: ScienceComponentScore | None = None
+    clinical_meaningfulness: ClinicalMeaningfulnessContext = Field(
+        default_factory=ClinicalMeaningfulnessContext
+    )
+    evidence_quality: EvidenceQualityFactors = Field(default_factory=EvidenceQualityFactors)
+
+
+class ScienceGuardrail(BaseModel):
+    """Downside-only science guardrails; never positive score drivers."""
+
+    target_refuted: bool = False
+    infeasible_exposure: bool = False
+    biomarker_bridge_refuted: bool = False
+    negative_human_poc: bool = False
+    negative_human_poc_interpretability: NegativeHumanPOCInterpretability | None = None
+    unacceptable_safety: bool = False
+    mechanism_linked_severe_safety: bool = False
+    manageable_safety_concern: bool = False
+
+
+class ScienceGuardrailEffect(BaseModel):
+    key: str
+    triggered: bool = False
+    hard_cap: float | None = Field(default=None, ge=0.0, le=1.0)
+    soft_derate: float = Field(default=1.0, ge=0.0, le=1.0)
+    severity: GuardrailSeverity = GuardrailSeverity.INFO
+    rationale: str = ""
+
+
+class SciencePOSOverlapWarning(BaseModel):
+    key: str
+    severity: GuardrailSeverity = GuardrailSeverity.WARN
+    shared_source_id: str = ""
+    component: str = ""
+    rationale: str = ""
+
+
 class BeliefState(BaseModel):
     prior_belief: float = Field(default=0.5, ge=0.0, le=1.0)
     current_belief: float = Field(default=0.5, ge=0.0, le=1.0)
@@ -145,8 +243,8 @@ class BeliefState(BaseModel):
 
 
 class ScienceModifierResult(BaseModel):
-    scoring_version: str = "science_thesis_phase1"
-    weight_set_version: str = "phase1_v1"
+    scoring_version: str = "science_thesis_phase2"
+    weight_set_version: str = "phase2_tdb_v1"
     calibration_status: CalibrationStatus = CalibrationStatus.HEURISTIC
     science_score: float = Field(ge=0.0, le=1.0)
     science_score_confidence: float = Field(default=0.5, ge=0.0, le=1.0)
@@ -156,6 +254,8 @@ class ScienceModifierResult(BaseModel):
     modifier_cap: float = Field(default=1.1, ge=0.0, le=1.1)
     kill_flags: list[ScienceKillFlag] = Field(default_factory=list)
     negative_human_poc_interpretability: NegativeHumanPOCInterpretability | None = None
+    guardrail_effects: list[ScienceGuardrailEffect] = Field(default_factory=list)
+    combined_soft_derate: float = Field(default=1.0, ge=0.0, le=1.0)
     warnings: list[str] = Field(default_factory=list)
     rationale: str = ""
 
@@ -163,8 +263,8 @@ class ScienceModifierResult(BaseModel):
 class ScienceThesis(BaseModel):
     asset_id: str
     asset_name: str = ""
-    scoring_version: str = "science_thesis_phase1"
-    weight_set_version: str = "phase1_v1"
+    scoring_version: str = "science_thesis_phase2"
+    weight_set_version: str = "phase2_tdb_v1"
     calibration_status: CalibrationStatus = CalibrationStatus.HEURISTIC
     indication: str = ""
     phase: str = ""
@@ -185,9 +285,13 @@ class ScienceThesis(BaseModel):
         default_factory=ClinicalMeaningfulnessContext
     )
     safety_context: SafetyRiskContext = Field(default_factory=SafetyRiskContext)
+    scored_questions: ScienceScoredQuestions = Field(default_factory=ScienceScoredQuestions)
+    science_context: ScienceContext = Field(default_factory=ScienceContext)
+    science_guardrail: ScienceGuardrail = Field(default_factory=ScienceGuardrail)
     components: dict[str, ScienceComponentScore] = Field(default_factory=dict)
     belief_state: BeliefState = Field(default_factory=BeliefState)
     modifier_result: ScienceModifierResult | None = None
+    killer_question_set: object | None = Field(default=None, exclude=True)
     next_readout_requirement: str = ""
     bd_diligence_questions: list[str] = Field(default_factory=list)
 
@@ -218,8 +322,14 @@ class BDActionabilityResult(BaseModel):
     passed_hard_gates: bool
     failed_gates: list[str] = Field(default_factory=list)
     buyer_problem_fit: float = Field(default=0.0, ge=0.0, le=1.0)
+    # science_thesis_fit retained for backward compatibility (memo + older callers);
+    # Stage 2 now splits it into human_poc_strength + clinical_meaningfulness.
     science_thesis_fit: float = Field(default=0.0, ge=0.0, le=1.0)
+    human_poc_strength: float = Field(default=0.0, ge=0.0, le=1.0)
+    clinical_meaningfulness: float = Field(default=0.0, ge=0.0, le=1.0)
     evidence_quality: float = Field(default=0.0, ge=0.0, le=1.0)
+    evidence_grade: EvidenceGrade = EvidenceGrade.SCREENING_PUBLIC
+    pre_diligence: bool = True
     diligence_readiness: float = Field(default=0.0, ge=0.0, le=1.0)
     modality_capability_fit: float = Field(default=0.0, ge=0.0, le=1.0)
     buyer_owner_advantage: float = Field(default=0.0, ge=0.0, le=1.0)
@@ -238,6 +348,7 @@ class BDActionabilityResult(BaseModel):
     route_rationale: str = ""
     warnings: list[str] = Field(default_factory=list)
     diligence_questions: list[str] = Field(default_factory=list)
+    killer_question_set: object | None = Field(default=None, exclude=True)
 
 
 _COMPONENT_TO_QUESTION = {
@@ -256,6 +367,30 @@ _COMPONENT_TO_QUESTION = {
 }
 
 _QUESTION_TO_COMPONENT = {value: key for key, value in _COMPONENT_TO_QUESTION.items() if len(key) == 1}
+
+_SCIENCE_KEY_MAP: dict[str, str] = {
+    "T": "scored_questions.right_target",
+    "target_pathway": "scored_questions.right_target",
+    "D": "scored_questions.enough_drug",
+    "dose_exposure_pkpd": "scored_questions.enough_drug",
+    "B": "scored_questions.translation_bridge",
+    "biomarker_translation": "scored_questions.translation_bridge",
+    "translation_bridge": "scored_questions.translation_bridge",
+    # Legacy keys route to non-scored homes after the ownership split.
+    "H": "science_context.human_poc",
+    "human_poc": "science_context.human_poc",
+    "M": "science_context.clinical_meaningfulness",
+    "clinical_meaningfulness": "science_context.clinical_meaningfulness",
+    "S": "science_guardrail",
+    "safety_tolerability": "science_guardrail",
+    "Q": "science_context.evidence_quality",
+    "evidence_quality": "science_context.evidence_quality",
+}
+
+
+def route_science_key(key: str) -> str:
+    """Return the Phase 2 ownership home for a legacy science component key."""
+    return _SCIENCE_KEY_MAP.get(key, "unmapped")
 
 _PHASE_WEIGHTS: dict[str, dict[str, float]] = {
     "preclinical": {"T": 0.30, "D": 0.25, "B": 0.20, "H": 0.05, "M": 0.05, "S": 0.05, "Q": 0.10},
@@ -319,6 +454,52 @@ def find_biomarker_overlap_warnings(evidence_items: Iterable[ScienceEvidenceItem
     return warnings
 
 
+def check_science_pos_overlap(
+    components: dict[str, ScienceComponentScore],
+    pos_fired_adjusters: set[str] | None = None,
+) -> list[SciencePOSOverlapWarning]:
+    """Audit source-backed science evidence for science-to-POS double counting."""
+    fired = {item.lower() for item in (pos_fired_adjusters or set())}
+    overlap_warnings: list[SciencePOSOverlapWarning] = []
+    related_pos_tags = {
+        "human_proof_of_mechanism",
+        "biomarker_clinical_bridge",
+        "biomarker_selection",
+        "endpoint_type",
+        "clinical_effect_magnitude",
+        "safety_profile",
+        "dose_selection_confidence",
+    }
+
+    for component in components.values():
+        for item in [*component.evidence_for, *component.evidence_against]:
+            tags = {tag.lower() for tag in item.evidence_tags}
+            layer_uses = set(item.layer_uses)
+            if {EvidenceLayerUse.LAYER0, EvidenceLayerUse.POS}.issubset(layer_uses):
+                overlap_warnings.append(
+                    SciencePOSOverlapWarning(
+                        key="shared_science_pos_evidence",
+                        severity=GuardrailSeverity.KILL,
+                        shared_source_id=item.source_id,
+                        component=component.name,
+                        rationale="Same source-backed evidence item is used by science and POS.",
+                    )
+                )
+                continue
+
+            if tags & related_pos_tags or fired & tags:
+                overlap_warnings.append(
+                    SciencePOSOverlapWarning(
+                        key="related_science_pos_signal",
+                        severity=GuardrailSeverity.WARN,
+                        shared_source_id=item.source_id,
+                        component=component.name,
+                        rationale="Science evidence is related to a POS factor; review for overlap.",
+                    )
+                )
+    return overlap_warnings
+
+
 def post_phase2_enough_drug_resolved(phase: str, components: dict[str, ScienceComponentScore]) -> bool:
     """Return whether post-Phase-2 enough-drug risk is resolved by human evidence."""
     if _norm_phase(phase) not in _POST_PHASE2_PHASES:
@@ -355,7 +536,243 @@ def _binding_component_key(question: ScienceQuestion) -> str:
     return _QUESTION_TO_COMPONENT.get(question, "T")
 
 
-def compute_science_modifier(
+def _tdb_components(
+    components: dict[str, ScienceComponentScore],
+) -> dict[str, ScienceComponentScore]:
+    return {
+        "T": components.get("T", _neutral_component("T")),
+        "D": components.get("D", _neutral_component("D")),
+        "B": components.get("B", _neutral_component("B")),
+    }
+
+
+def _binding_tdb_key(components: dict[str, ScienceComponentScore]) -> str:
+    tdb = _tdb_components(components)
+    return min(tdb, key=lambda key: tdb[key].score)
+
+
+def _science_phase_weights(phase: str) -> Mapping[str, float]:
+    weights = AssumptionsLoader.get().science_phase_weights_tdb
+    phase_key = _norm_phase(phase)
+    compact_key = phase_key.replace("_", "")
+    return weights.get(phase_key, weights.get(compact_key, weights["phase2"]))
+
+
+def _pos_factor_keys_for_component(component_key: str) -> set[str]:
+    return {
+        "T": {
+            "T",
+            "right_target",
+            "target_pathway",
+            "moa_precedent",
+            "human_proof_of_mechanism",
+        },
+        "D": {
+            "D",
+            "enough_drug",
+            "dose_exposure_pkpd",
+            "dose_selection_confidence",
+            "human_proof_of_mechanism",
+        },
+        "B": {
+            "B",
+            "translation_bridge",
+            "biomarker_translation",
+            "biomarker_selection",
+            "human_proof_of_mechanism",
+            "endpoint_type",
+        },
+    }.get(component_key, {component_key})
+
+
+def _has_unresolved(
+    *,
+    phase: str,
+    components: dict[str, ScienceComponentScore],
+    pos_fired_adjusters: set[str] | None = None,
+) -> bool:
+    """Strict late-stage unresolved-biology gate for T/D/B only."""
+    if _norm_phase(phase) not in _POST_PHASE2_PHASES:
+        return True
+
+    tdb = _tdb_components(components)
+    binding_key = _binding_tdb_key(components)
+    binding = tdb[binding_key]
+    threshold = float(AssumptionsLoader.get().science_guardrails["unresolved_threshold"])
+    value_relevant = (
+        binding.score < threshold
+        or bool(binding.evidence_against)
+        or binding.resolution in {EvidenceResolution.REFUTED, EvidenceResolution.UNRESOLVED}
+    )
+    if not value_relevant:
+        return False
+
+    fired = {item.lower() for item in (pos_fired_adjusters or set())}
+    already_scored = bool(
+        {item.lower() for item in _pos_factor_keys_for_component(binding_key)} & fired
+    )
+    return not already_scored
+
+
+def _guardrail_effect(
+    *,
+    key: str,
+    triggered: bool,
+    config_key: str,
+    caps: Mapping[str, object],
+    severity: GuardrailSeverity,
+    rationale: str,
+) -> ScienceGuardrailEffect:
+    cfg = caps.get(config_key, {})
+    hard_cap = cfg.get("hard_cap") if isinstance(cfg, Mapping) else None
+    soft_derate = cfg.get("soft_derate", 1.0) if isinstance(cfg, Mapping) else 1.0
+    return ScienceGuardrailEffect(
+        key=key,
+        triggered=triggered,
+        hard_cap=float(hard_cap) if hard_cap is not None else None,
+        soft_derate=float(soft_derate),
+        severity=severity,
+        rationale=rationale,
+    )
+
+
+def _science_guardrail_from_legacy_flags(
+    *,
+    direct_negative_human_poc: bool,
+    negative_human_poc_interpretability: NegativeHumanPOCInterpretability | None,
+    no_feasible_exposure_at_active_dose: bool,
+    target_pathway_refuted: bool,
+) -> ScienceGuardrail:
+    return ScienceGuardrail(
+        target_refuted=target_pathway_refuted,
+        infeasible_exposure=no_feasible_exposure_at_active_dose,
+        negative_human_poc=direct_negative_human_poc,
+        negative_human_poc_interpretability=negative_human_poc_interpretability,
+    )
+
+
+def apply_science_guardrail(
+    modifier: float,
+    guardrail: ScienceGuardrail,
+    caps: Mapping[str, object] | None = None,
+) -> tuple[float, list[ScienceGuardrailEffect], float, float, list[ScienceKillFlag], list[str]]:
+    """Apply downside-only science guardrails using YAML caps/derates."""
+    caps = caps or AssumptionsLoader.get().science_guardrails
+    effects: list[ScienceGuardrailEffect] = []
+    warnings: list[str] = []
+    kill_flags: list[ScienceKillFlag] = []
+
+    effect_specs = [
+        (
+            "target_refuted",
+            guardrail.target_refuted,
+            "target_refuted",
+            GuardrailSeverity.CAP,
+            "Target/pathway thesis is refuted.",
+            ScienceKillFlag.TARGET_REFUTED,
+        ),
+        (
+            "infeasible_exposure",
+            guardrail.infeasible_exposure,
+            "infeasible_exposure",
+            GuardrailSeverity.CAP,
+            "No feasible exposure at active dose.",
+            ScienceKillFlag.INFEASIBLE_EXPOSURE,
+        ),
+        (
+            "biomarker_bridge_refuted",
+            guardrail.biomarker_bridge_refuted,
+            "biomarker_bridge_refuted",
+            GuardrailSeverity.CAP,
+            "Translational bridge is refuted.",
+            None,
+        ),
+        (
+            "manageable_safety_concern",
+            guardrail.manageable_safety_concern,
+            "manageable_safety_concern",
+            GuardrailSeverity.WARN,
+            "Manageable safety concern is a mild downside derate.",
+            None,
+        ),
+        (
+            "unacceptable_safety",
+            guardrail.unacceptable_safety,
+            "unacceptable_safety",
+            GuardrailSeverity.CAP,
+            "Unacceptable safety profile caps the thesis.",
+            ScienceKillFlag.UNACCEPTABLE_SAFETY,
+        ),
+        (
+            "mechanism_linked_severe_safety",
+            guardrail.mechanism_linked_severe_safety,
+            "mechanism_linked_severe_safety",
+            GuardrailSeverity.CAP,
+            "Mechanism-linked severe safety risk sharply caps the thesis.",
+            ScienceKillFlag.UNACCEPTABLE_SAFETY,
+        ),
+    ]
+    for key, triggered, config_key, severity, rationale, kill_flag in effect_specs:
+        effects.append(
+            _guardrail_effect(
+                key=key,
+                triggered=triggered,
+                config_key=config_key,
+                caps=caps,
+                severity=severity,
+                rationale=rationale,
+            )
+        )
+        if triggered and kill_flag is not None:
+            kill_flags.append(kill_flag)
+        if triggered and key == "target_refuted":
+            warnings.append("target_pathway_refuted_program_kill")
+
+    if guardrail.negative_human_poc:
+        clear = (
+            guardrail.negative_human_poc_interpretability
+            == NegativeHumanPOCInterpretability.CLEAR
+        )
+        config_key = "negative_human_poc_clear" if clear else "negative_human_poc_ambiguous"
+        effects.append(
+            _guardrail_effect(
+                key=config_key,
+                triggered=True,
+                config_key=config_key,
+                caps=caps,
+                severity=GuardrailSeverity.CAP if clear else GuardrailSeverity.WARN,
+                rationale="Negative human PoC readout affects science confidence.",
+            )
+        )
+        if clear:
+            kill_flags.append(ScienceKillFlag.NEGATIVE_HUMAN_POC)
+        else:
+            warnings.append("ambiguous_negative_human_poc")
+
+    triggered_effects = [effect for effect in effects if effect.triggered]
+    hard_caps = [
+        effect.hard_cap for effect in triggered_effects if effect.hard_cap is not None
+    ]
+    raw_soft_derate = (
+        prod(effect.soft_derate for effect in triggered_effects)
+        if triggered_effects
+        else 1.0
+    )
+    soft_floor = float(caps.get("soft_derate_floor", 0.70))
+    combined_soft_derate = max(soft_floor, raw_soft_derate) if triggered_effects else 1.0
+    modifier_cap = min([1.1, *hard_caps]) if hard_caps else 1.1
+    effective_modifier = min(modifier, modifier_cap) * combined_soft_derate
+    return (
+        round(effective_modifier, 4),
+        triggered_effects,
+        round(combined_soft_derate, 4),
+        round(modifier_cap, 4),
+        kill_flags,
+        warnings,
+    )
+
+
+def _legacy_compute_science_modifier_phase1(
     *,
     phase: str,
     binding_science_question: ScienceQuestion,
@@ -429,6 +846,88 @@ def compute_science_modifier(
     )
 
 
+def compute_science_modifier(
+    *,
+    phase: str,
+    binding_science_question: ScienceQuestion,
+    components: dict[str, ScienceComponentScore],
+    direct_negative_human_poc: bool = False,
+    negative_human_poc_interpretability: NegativeHumanPOCInterpretability | None = None,
+    no_feasible_exposure_at_active_dose: bool = False,
+    target_pathway_refuted: bool = False,
+    binding_constraint_override: float | None = None,
+    additional_warnings: list[str] | None = None,
+    pos_fired_adjusters: set[str] | None = None,
+    science_guardrail: ScienceGuardrail | None = None,
+) -> ScienceModifierResult:
+    """Compute deterministic Phase 2 heuristic science modifier from T/D/B only."""
+    tdb = _tdb_components(components)
+    weights = _science_phase_weights(phase)
+    weighted = sum(tdb[key].score * float(weights[key]) for key in ("T", "D", "B"))
+
+    binding_source = BindingConstraintSource.COMPONENT_SCORE
+    if binding_constraint_override is None:
+        binding_key = _binding_component_key(binding_science_question)
+        if binding_key not in {"T", "D", "B"}:
+            binding_key = _binding_tdb_key(components)
+        binding_constraint = tdb[binding_key].score
+    else:
+        binding_constraint = max(0.0, min(1.0, binding_constraint_override))
+        binding_source = BindingConstraintSource.MANUAL_OVERRIDE
+
+    science_score = min(weighted, binding_constraint + 0.15)
+    heuristic_modifier = 0.70 + (0.40 * science_score)
+    confidence_component = components.get("Q")
+    science_score_confidence = (
+        confidence_component.score
+        if confidence_component is not None
+        else _component_confidence(tdb.values())
+    )
+
+    if _norm_phase(phase) in _POST_PHASE2_PHASES and not _has_unresolved(
+        phase=phase,
+        components=components,
+        pos_fired_adjusters=pos_fired_adjusters,
+    ):
+        heuristic_modifier = 1.0
+
+    guardrail = science_guardrail or _science_guardrail_from_legacy_flags(
+        direct_negative_human_poc=direct_negative_human_poc,
+        negative_human_poc_interpretability=negative_human_poc_interpretability,
+        no_feasible_exposure_at_active_dose=no_feasible_exposure_at_active_dose,
+        target_pathway_refuted=target_pathway_refuted,
+    )
+    (
+        heuristic_modifier,
+        guardrail_effects,
+        combined_soft_derate,
+        modifier_cap,
+        kill_flags,
+        guardrail_warnings,
+    ) = apply_science_guardrail(heuristic_modifier, guardrail)
+
+    warnings = [*(additional_warnings or []), *guardrail_warnings]
+    if binding_source == BindingConstraintSource.MANUAL_OVERRIDE:
+        warnings.append("manual_binding_constraint_override")
+    return ScienceModifierResult(
+        science_score=round(science_score, 4),
+        science_score_confidence=round(science_score_confidence, 4),
+        heuristic_science_modifier=round(heuristic_modifier, 4),
+        binding_constraint=round(binding_constraint, 4),
+        binding_constraint_source=binding_source,
+        modifier_cap=round(modifier_cap, 4),
+        kill_flags=kill_flags,
+        negative_human_poc_interpretability=negative_human_poc_interpretability,
+        guardrail_effects=guardrail_effects,
+        combined_soft_derate=combined_soft_derate,
+        warnings=warnings,
+        rationale=(
+            f"tdb_weighted={weighted:.3f}; binding={binding_constraint:.3f}; "
+            f"modifier_cap={modifier_cap:.3f}"
+        ),
+    )
+
+
 class ScienceThesisScoringInput(BaseModel):
     thesis: ScienceThesis
     direct_negative_human_poc: bool = False
@@ -445,6 +944,14 @@ def score_science_thesis(scoring_input: ScienceThesisScoringInput) -> ScienceThe
     for component in thesis.components.values():
         evidence_items.extend(component.evidence_for)
         evidence_items.extend(component.evidence_against)
+    overlap_warnings = check_science_pos_overlap(thesis.components)
+    additional_warnings = [
+        *find_biomarker_overlap_warnings(evidence_items),
+        *[
+            f"science_pos_overlap_{warning.severity.value}:{warning.key}"
+            for warning in overlap_warnings
+        ],
+    ]
     modifier = compute_science_modifier(
         phase=thesis.phase,
         binding_science_question=thesis.binding_science_question,
@@ -454,7 +961,7 @@ def score_science_thesis(scoring_input: ScienceThesisScoringInput) -> ScienceThe
         no_feasible_exposure_at_active_dose=scoring_input.no_feasible_exposure_at_active_dose,
         target_pathway_refuted=scoring_input.target_pathway_refuted,
         binding_constraint_override=scoring_input.binding_constraint_override,
-        additional_warnings=find_biomarker_overlap_warnings(evidence_items),
+        additional_warnings=additional_warnings,
     )
     return thesis.model_copy(update={"modifier_result": modifier})
 
@@ -527,7 +1034,10 @@ def compute_bd_actionability(
     failed_gates: list[str] | None = None,
     buyer_problem_fit: float = 0.0,
     science_thesis_fit: float = 0.0,
+    human_poc_strength: float | None = None,
+    clinical_meaningfulness: float | None = None,
     evidence_quality: float = 0.0,
+    evidence_grade: EvidenceGrade = EvidenceGrade.SCREENING_PUBLIC,
     diligence_readiness: float = 0.0,
     modality_capability_fit: float = 0.0,
     buyer_owner_advantage: float = 0.0,
@@ -546,8 +1056,29 @@ def compute_bd_actionability(
     warnings: list[str] | None = None,
     diligence_questions: list[str] | None = None,
 ) -> BDActionabilityResult:
-    """Compute BD actionability after hard gates."""
+    """Compute BD actionability after hard gates.
+
+    Stage 2 ranks assets that already passed the Stage 1 hard gates. The fit
+    score is split into human-POC strength and clinical meaningfulness (Chris
+    anchored repeatedly on human proof-of-concept and *clinical* — not merely
+    statistical — effect size), and ``evidence_quality`` is capped because the
+    underlying claims are screening-grade public data. Stage 3 then caps the
+    whole score for any asset whose evidence is still ``screening_public``.
+    """
     failed = failed_gates or []
+    # Backward-compat: callers that only pass science_thesis_fit get it mapped
+    # onto both human-POC and clinical-meaningfulness terms.
+    if human_poc_strength is None:
+        human_poc_strength = science_thesis_fit
+    if clinical_meaningfulness is None:
+        clinical_meaningfulness = science_thesis_fit
+    # Keep a representative science_thesis_fit for the memo / older readers.
+    science_thesis_fit_out = (
+        science_thesis_fit
+        if science_thesis_fit > 0.0
+        else round((human_poc_strength + clinical_meaningfulness) / 2, 4)
+    )
+
     if not passed_hard_gates:
         return BDActionabilityResult(
             passed_hard_gates=False,
@@ -559,11 +1090,13 @@ def compute_bd_actionability(
             competitive_intensity=competitive_intensity,
             scarcity_value=scarcity_value,
             time_sensitivity=time_sensitivity,
+            evidence_grade=evidence_grade,
+            pre_diligence=evidence_grade != EvidenceGrade.DILIGENCE_CONFIRMED,
             warnings=warnings or [],
             diligence_questions=diligence_questions or [],
         )
 
-    buyer_problem_fit_adjusted = min(1.0, buyer_problem_fit + (0.05 * time_sensitivity))
+    buyer_problem_fit_adjusted = min(1.0, buyer_problem_fit)
     buyer_owner_advantage_adjusted = min(
         1.0,
         buyer_owner_advantage
@@ -575,19 +1108,28 @@ def compute_bd_actionability(
         0.0,
         min(1.0, deal_feasibility - (0.05 * assessed_internal_overlap_risk)),
     )
+    # Screening-grade evidence cannot dominate the fit score (Stage 2 cap).
+    evidence_quality_capped = min(evidence_quality, EVIDENCE_QUALITY_TERM_CAP)
     score = (
-        0.30 * buyer_problem_fit_adjusted
-        + 0.15 * science_thesis_fit
-        + 0.15 * evidence_quality
-        + 0.10 * diligence_readiness
+        0.25 * buyer_problem_fit_adjusted
+        + 0.20 * human_poc_strength
+        + 0.15 * clinical_meaningfulness
+        + 0.10 * evidence_quality_capped
         + 0.10 * modality_capability_fit
         + 0.10 * buyer_owner_advantage_adjusted
         + 0.10 * deal_feasibility_adjusted
     )
+
+    # Stage 3 — public data is never conviction. Cap the score and flag it.
+    pre_diligence = evidence_grade != EvidenceGrade.DILIGENCE_CONFIRMED
+    final_warnings = list(warnings or [])
+    if evidence_grade == EvidenceGrade.SCREENING_PUBLIC and score > SCREENING_PUBLIC_ACTIONABILITY_CAP:
+        score = SCREENING_PUBLIC_ACTIONABILITY_CAP
+        final_warnings.append("capped_screening_public_pre_diligence")
+
     confidence_values = confidence_inputs or [evidence_quality, diligence_readiness]
     confidence = round(sum(confidence_values) / len(confidence_values), 4) if confidence_values else 0.5
 
-    final_warnings = list(warnings or [])
     if score >= 0.70 and confidence < 0.50:
         final_warnings.append("low_confidence_high_score")
 
@@ -595,8 +1137,12 @@ def compute_bd_actionability(
         passed_hard_gates=True,
         failed_gates=[],
         buyer_problem_fit=round(buyer_problem_fit_adjusted, 4),
-        science_thesis_fit=science_thesis_fit,
+        science_thesis_fit=science_thesis_fit_out,
+        human_poc_strength=round(human_poc_strength, 4),
+        clinical_meaningfulness=round(clinical_meaningfulness, 4),
         evidence_quality=evidence_quality,
+        evidence_grade=evidence_grade,
+        pre_diligence=pre_diligence,
         diligence_readiness=diligence_readiness,
         modality_capability_fit=modality_capability_fit,
         buyer_owner_advantage=round(buyer_owner_advantage_adjusted, 4),
@@ -615,4 +1161,90 @@ def compute_bd_actionability(
         route_rationale=route_rationale,
         warnings=final_warnings,
         diligence_questions=diligence_questions or [],
+    )
+
+
+class ShortlistEntry(BaseModel):
+    """One eligible asset on a buyer-problem shortlist (Stage 4 output)."""
+
+    asset_id: str
+    asset_name: str = ""
+    bd_actionability: float = Field(ge=0.0, le=1.0)
+    evidence_grade: EvidenceGrade = EvidenceGrade.SCREENING_PUBLIC
+    pre_diligence: bool = True
+    recommended_bd_route: BDRoute = BDRoute.MONITOR
+    why_this_asset: str = ""
+
+
+class ExcludedEntry(BaseModel):
+    """An asset that failed a Stage 1 hard gate, with the gate(s) it tripped.
+
+    Idea 14 (gate audit trail): an excluded asset never receives a score, but the
+    analyst should still see *which door it hit* (TA / target / modality /
+    doesn't-solve-problem) so the "we wouldn't even look at it" logic is legible.
+    The gate tokens are exactly those returned by ``evaluate_bd_hard_gates``.
+    """
+
+    asset_id: str
+    asset_name: str = ""
+    failed_gates: list[str] = Field(default_factory=list)
+
+
+class BuyerProblemShortlist(BaseModel):
+    """Stage 4 deliverable: a ranked shortlist of eligible assets for one buyer problem.
+
+    Chris's actual deliverable is a ranked list (e.g. "every company with a T-cell
+    engager targeting CD19 and BCMA"), not a per-asset verdict in isolation. Only
+    assets that pass the Stage 1 hard gates appear in ``ranked``; assets that fail
+    are listed in ``excluded`` as ``ExcludedEntry`` records (with their failed
+    gates) and never receive a number.
+    """
+
+    buyer_problem_id: str
+    ranked: list[ShortlistEntry] = Field(default_factory=list)
+    excluded: list[ExcludedEntry] = Field(default_factory=list)
+
+
+def build_buyer_problem_shortlist(
+    buyer_problem_id: str,
+    scored: Iterable[tuple[str, str, BDActionabilityResult]],
+    *,
+    limit: int | None = None,
+) -> BuyerProblemShortlist:
+    """Build a ranked shortlist from per-asset BD actionability results.
+
+    ``scored`` is an iterable of ``(asset_id, asset_name, result)`` triples. The
+    per-asset results are kept by the caller; this is a pure, side-effect-free
+    join that ranks the eligible set and records the excluded asset ids.
+    """
+    eligible: list[ShortlistEntry] = []
+    excluded: list[ExcludedEntry] = []
+    for asset_id, asset_name, result in scored:
+        if not result.passed_hard_gates:
+            excluded.append(
+                ExcludedEntry(
+                    asset_id=asset_id,
+                    asset_name=asset_name,
+                    failed_gates=list(result.failed_gates),
+                )
+            )
+            continue
+        eligible.append(
+            ShortlistEntry(
+                asset_id=asset_id,
+                asset_name=asset_name,
+                bd_actionability=result.bd_actionability,
+                evidence_grade=result.evidence_grade,
+                pre_diligence=result.pre_diligence,
+                recommended_bd_route=result.recommended_bd_route,
+                why_this_asset=result.route_rationale,
+            )
+        )
+    eligible.sort(key=lambda entry: entry.bd_actionability, reverse=True)
+    if limit is not None:
+        eligible = eligible[:limit]
+    return BuyerProblemShortlist(
+        buyer_problem_id=buyer_problem_id,
+        ranked=eligible,
+        excluded=excluded,
     )
