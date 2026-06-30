@@ -452,12 +452,45 @@ target, CNS delivery, dose-response posterior lift, below-bar vs noise
 differentiation, flat-field abstention, novel escape hatch, company-focus
 mismatch, VOI ordering (stub valuator), and the ownership-boundary guard.
 
-**Not yet wired (deliberate, additive-only for now):** the `KillerQuestionSet`
-is not yet attached to the BD route bias or the memo headline. Step 6 of the
-build plan (`docs/killer_question_build_plan.md`) is held back so it cannot
-destabilize the calibrated BD routing or the rendered-memo regression tests; it
-ships as a thin follow-up. The blended science modifier is unchanged and remains
-the live score until later batches consume the spine.
+**Batch B wiring (implemented 2026-06-30):** `KillerQuestionSet` is now attached
+to runtime `ScienceThesis`, copied onto `BDActionabilityResult`, summarized into
+`science_summary.killer_question_set` and `bd_summary.killer_question_set`, and
+rendered in the BD memo as a compact "Killer Question Diligence Agenda." BD
+actionability diligence questions now include decisive killer questions when one
+exists. Flat-field abstention remains visible in memo/JSON instead of forcing a
+fake winner.
+
+**Still deliberately deferred:** BD route bias and memo-headline rewriting. The
+current wiring surfaces the diligence agenda but does not change POS, the science
+modifier, BD actionability scoring, or `recommend_bd_route`.
+
+## 14b. S&E Shortlist Cluster (Ideas 14 / 13 / 15, implemented 2026-06-30)
+
+Chris's "the shortlist is the product" cluster. Built on the existing
+`BuyerProblem` → `evaluate_bd_hard_gates` → `compute_bd_actionability` →
+`build_buyer_problem_shortlist` chain; no new scoring, same ownership boundary
+(POS / science modifier / `recommend_bd_route` untouched).
+
+- **Idea 14 — gate audit trail.** `BuyerProblemShortlist.excluded` is now
+  `list[ExcludedEntry]` (`asset_id`, `asset_name`, `failed_gates`) instead of bare
+  ids. The build step threads the already-computed `result.failed_gates` through
+  instead of discarding it, so every rejected asset shows *which* gate it tripped.
+- **Idea 13 — S&E surface.** New pure driver `intelligence/se_shortlist.py`
+  (`build_se_shortlist`) runs one buyer problem over a universe via
+  `ScienceThesisBuilder` + `Layer15BuyerMatcher`. New `bve-shortlist` CLI
+  (table / json / memo) + `reporting/templates/se_shortlist.md.j2`. Each ranked
+  row carries the spine's decisive killer question
+  (`ShortlistEntry.decisive_killer_question`) as the one thing to diligence.
+- **Idea 15 — scorer boundary.** Scarcity now has **one home**:
+  `buyer_owner_advantage`, set by the matcher and constrained to *sandbox
+  scarcity* — the matcher's bump fires only when no credible alternative solves the
+  same problem, and the scorer flags `scarcity_inconsistent_with_alternatives`
+  when high scarcity coexists with named alternatives. The duplicate
+  `+ 0.05 * scarcity_value` term was removed from `compute_bd_actionability`.
+  `time_sensitivity` is routing-only and never enters the score. Locked by
+  `tests/test_bd_scorer_boundary.py`.
+
+Commits: gate trail `31f2d15`, S&E surface `fac8b05`, scorer boundary `a12b5c9`.
 
 ## 15. Known Limits
 
@@ -473,16 +506,10 @@ the live score until later batches consume the spine.
 
 ## 16. Open Follow-Ups
 
-- Wire the weekly runner to run both BD lenses (problem-in shortlist +
-  universe-out scan) on schedule and emit the reconciliation report.
-- Provide a production `BuyerProblemExtractor` (LLM over ingested filings / press
-  / CT.gov) and persist analyst corrections to KnowledgeStore.
-- Later phase: news-driven discovery of new buyers/targets feeding the same pipeline.
-- Wire the Killer-Question Spine (Batch A) into the BD route bias and memo
-  headline (build-plan step 6), then later batches: Bayesian posterior updater,
-  catalyst-inflection view, and the killer-question backtest (picker hit rate).
-- Re-baseline valuation snapshots affected by removing H/M/S from positive
-  science scoring.
-- Keep `science_guardrails` and `science_phase_weights_tdb` synchronized across
-  both assumptions YAML files.
+- Wire weekly runner run both BD lenses (problem-in shortlist + universe-out scan) on schedule emit reconciliation report.
+- Provide production `BuyerProblemExtractor` (LLM over ingested filings / press / CT.gov) persist analyst corrections KnowledgeStore.
+- Later phase: news-driven discovery new buyers/targets feeding same pipeline.
+- Consider BD route bias and memo-headline rewriting only after surfaced Killer-Question output stabilizes. Later batches: Bayesian posterior updater, catalyst-inflection view, killer-question backtest (picker hit rate).
+- Re-baseline valuation snapshots affected by removing H/M/S from positive science scoring.
+- Keep `science_guardrails` `science_phase_weights_tdb` synchronized across both assumptions YAML files.
 - Add future changes to this file instead of the old session-summary document.
