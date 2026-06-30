@@ -1174,6 +1174,8 @@ class ShortlistEntry(BaseModel):
     pre_diligence: bool = True
     recommended_bd_route: BDRoute = BDRoute.MONITOR
     why_this_asset: str = ""
+    # The one thing to diligence first, surfaced from the killer-question spine.
+    decisive_killer_question: str = ""
 
 
 class ExcludedEntry(BaseModel):
@@ -1229,6 +1231,14 @@ def build_buyer_problem_shortlist(
                 )
             )
             continue
+        killer_set = getattr(result, "killer_question_set", None)
+        decisive = list(getattr(killer_set, "decisive", []) or [])
+        decisive_q = ""
+        if decisive:
+            decisive_q = (
+                getattr(decisive[0], "diligence_question", "")
+                or getattr(decisive[0], "question_text", "")
+            )
         eligible.append(
             ShortlistEntry(
                 asset_id=asset_id,
@@ -1238,6 +1248,7 @@ def build_buyer_problem_shortlist(
                 pre_diligence=result.pre_diligence,
                 recommended_bd_route=result.recommended_bd_route,
                 why_this_asset=result.route_rationale,
+                decisive_killer_question=decisive_q,
             )
         )
     eligible.sort(key=lambda entry: entry.bd_actionability, reverse=True)

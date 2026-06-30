@@ -1,0 +1,31 @@
+# Search & Evaluation Shortlist — {{ problem.buyer_name or problem.buyer_id }}
+
+**Buyer problem:** {{ problem.strategic_gap or problem.buyer_id }}
+{% if problem.required_ta %}**Required TA:** {{ problem.required_ta | join(", ") }}
+{% endif %}{% if problem.required_modalities %}**Required modality:** {{ problem.required_modalities | join(", ") }}
+{% endif %}{% if problem.excluded_modalities %}**Excluded modality:** {{ problem.excluded_modalities | join(", ") }}
+{% endif %}
+
+_Screening-grade public data — a proposed diligence agenda, not a verdict._
+
+## Ranked ({{ shortlist.ranked | length }} passed hard gates)
+
+{% if shortlist.ranked %}
+| # | Asset | Score | Route | Evidence | Decisive killer question |
+|---|-------|-------|-------|----------|--------------------------|
+{% for e in shortlist.ranked %}| {{ loop.index }} | {{ e.asset_name or e.asset_id }} | {{ "%.2f"|format(e.bd_actionability) }} | {{ e.recommended_bd_route.value }} | {{ e.evidence_grade.value }}{% if e.pre_diligence %} (pre-diligence){% endif %} | {{ e.decisive_killer_question or "—" }} |
+{% endfor %}
+{% else %}
+_No assets passed the hard gates._
+{% endif %}
+
+## Excluded ({{ shortlist.excluded | length }} failed a hard gate — never scored)
+
+{% if shortlist.excluded %}
+| Asset | Gate(s) failed |
+|-------|----------------|
+{% for x in shortlist.excluded %}| {{ x.asset_name or x.asset_id }} | {{ x.failed_gates | join(", ") }} |
+{% endfor %}
+{% else %}
+_No assets were excluded._
+{% endif %}
