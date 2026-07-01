@@ -16,6 +16,9 @@ guardrail caps, assumptions YAML, or memo/output behavior.
 - `src/bve/intelligence/science_thesis.py`
 - `src/bve/intelligence/killer_question.py`
 - `src/bve/intelligence/layer15_buyer_match.py`
+- `src/bve/intelligence/se_shortlist.py`
+- `src/bve/cli/se_shortlist.py`
+- `src/bve/reporting/templates/se_shortlist.md.j2`
 - `src/bve/models/probability_stack.py`
 - `src/bve/config/assumptions_loader.py`
 - `src/bve/config/industry_assumptions.yaml`
@@ -288,6 +291,17 @@ bd_actionability =
 `time_sensitivity` is not part of the fit score. It is a routing/urgency signal,
 not evidence that the asset is a better strategic fit.
 
+**`buyer_owner_advantage` composition (Idea 15, 2026-06-30).** The owner-advantage
+term is set by the matcher's `_owner_advantage` and adjusted in the scorer only by
+`+0.05 * internal_portfolio_fit + 0.05 * combination_or_lifecycle_fit`. Scarcity is
+**not** a separate scorer term — the old `+ 0.05 * scarcity_value` addend was removed
+because it double-counted scarcity and let general "hotness" leak into value.
+Scarcity now has one home inside `_owner_advantage` and is constrained to *sandbox
+scarcity*: the `+0.05` bump fires only when `alternative_assets_available` is empty
+(no credible alternative solves the same buyer problem). When high scarcity coexists
+with named alternatives the scorer emits `scarcity_inconsistent_with_alternatives`.
+See §14b and `tests/test_bd_scorer_boundary.py`.
+
 ## 10. Screening Cap
 
 Public data can support screening, ranking, and memo discipline. It should not
@@ -305,14 +319,13 @@ highly interesting, but not "transaction-ready" without diligence.
 
 ## 11. Buyer Problem And Shortlist Flow
 
-Primary class: `Layer15BuyerMatcher`.
-
-Current flow:
+Primary class: `Layer15BuyerMatcher`. Single-asset flow:
 
 ```text
 asset + buyer context
+  -> hard gates (evaluate_bd_hard_gates)
   -> buyer problem fit
-  -> BDActionabilityResult
+  -> BDActionabilityResult (carries killer_question_set)
   -> buyer route / shortlist / memo output
 ```
 
@@ -326,6 +339,25 @@ The buyer layer should surface:
 
 The intended output is not a generic "good asset" score. It is a buyer-specific
 actionability read.
+
+**Search & Evaluation shortlist (Idea 13, 2026-06-30).** The single-asset read
+above is driven over a whole universe for one buyer problem by
+`intelligence/se_shortlist.py:build_se_shortlist` (pure join of
+`ScienceThesisBuilder` -> `Layer15BuyerMatcher` -> `build_buyer_problem_shortlist`),
+surfaced by the `bve-shortlist` CLI (table / json / memo) and the
+`reporting/templates/se_shortlist.md.j2` template. Output shape:
+
+```text
+BuyerProblemShortlist
+  .ranked:   list[ShortlistEntry]   # passed hard gates, sorted desc by bd_actionability
+                                    #   each row carries decisive_killer_question (the spine)
+  .excluded: list[ExcludedEntry]    # failed a hard gate; carries (asset_id, asset_name,
+                                    #   failed_gates) so the analyst sees which door it hit (Idea 14)
+```
+
+Gate-failers are never scored; they appear in `excluded` with the exact gate token
+they tripped (`ta_outside_buyer_strategy`, `target_outside_buyer_sandbox`,
+`modality_excluded`, `does_not_solve_buyer_problem`, …). See §14b.
 
 ## 12. Layer Boundaries
 
@@ -506,7 +538,11 @@ Commits: gate trail `31f2d15`, S&E surface `fac8b05`, scorer boundary `a12b5c9`.
 
 ## 16. Open Follow-Ups
 
-- Wire weekly runner run both BD lenses (problem-in shortlist + universe-out scan) on schedule emit reconciliation report.
+- **Done 2026-06-30 (§14b):** S&E shortlist cluster — gate audit trail (Idea 14),
+  `bve-shortlist` S&E surface (Idea 13), scarcity one-home scorer boundary (Idea 15).
+- The problem-in shortlist lens now exists as `build_se_shortlist` / `bve-shortlist`;
+  remaining work is to wire the weekly runner to run *both* BD lenses (problem-in
+  shortlist + universe-out scan) on schedule and emit the reconciliation report.
 - Provide production `BuyerProblemExtractor` (LLM over ingested filings / press / CT.gov) persist analyst corrections KnowledgeStore.
 - Later phase: news-driven discovery new buyers/targets feeding same pipeline.
 - Consider BD route bias and memo-headline rewriting only after surfaced Killer-Question output stabilizes. Later batches: Bayesian posterior updater, catalyst-inflection view, killer-question backtest (picker hit rate).
