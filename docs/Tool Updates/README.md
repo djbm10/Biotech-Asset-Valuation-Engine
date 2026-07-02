@@ -11,5 +11,8 @@ share, and explain to someone who isn't in the code.
   · Proof it works.** Jargon is defined the first time it appears.
 
 **Index**
+- [How the Tool Scores](how-the-tool-scores.md) — the full plain-language picture: what
+  the tool produces, and every scoring layer (POS, rNPV, competition, the weekly
+  buy/watch/avoid list) and what each is based on.
 - [Conviction Update Layer](conviction-update-layer.md) — how evidence raises or lowers
   our confidence in a drug's key make-or-break question, with a visible audit trail.
