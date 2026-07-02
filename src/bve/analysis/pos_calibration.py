@@ -326,6 +326,7 @@ class POSCalibrationSuite:
     in_sample: list[TACalibrationResult] = field(default_factory=list)
     oos: list[TACalibrationResult] = field(default_factory=list)
     overall: Optional[TACalibrationResult] = None
+    oos_overall: Optional[TACalibrationResult] = None
 
     @property
     def n_total(self) -> int:
@@ -413,6 +414,7 @@ class POSCalibrationSuite:
             "in_sample": [r.to_dict() for r in self.in_sample],
             "oos": [r.to_dict() for r in self.oos],
             "overall": self.overall.to_dict() if self.overall else None,
+            "oos_overall": self.oos_overall.to_dict() if self.oos_overall else None,
         }
 
     def save_json(self, path: str) -> None:
@@ -669,6 +671,19 @@ def run_pos_calibration_from_records(
         ]
         overall_result = _compute_ta_metrics(overall_recs_flat)
 
+    oos_overall_result = None
+    if oos_recs:
+        oos_recs_flat = [
+            POSCalibrationRecord(
+                therapeutic_area="all",
+                phase=r.phase,
+                predicted_pos=r.predicted_pos,
+                actual_success=r.actual_success,
+                year=r.year,
+            )
+            for r in oos_recs
+        ]
+        oos_overall_result = _compute_ta_metrics(oos_recs_flat)
     return POSCalibrationSuite(
         model_name=model_name,
         n_total_records=len(records),
@@ -676,6 +691,7 @@ def run_pos_calibration_from_records(
         in_sample=in_sample,
         oos=oos,
         overall=overall_result,
+        oos_overall=oos_overall_result,
     )
 
 

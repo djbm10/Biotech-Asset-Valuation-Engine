@@ -154,3 +154,29 @@ def test_decomposition_anchor_and_identity(oncology_overall):
     assert abs(d.identity_residual) < 1e-9
     # binned Brier tracks the raw headline Brier within bucketing noise
     assert math.isclose(d.binned_brier, overall.brier_score, abs_tol=0.02)
+
+
+def test_headline_backtest_report_prints_in_sample_and_oos_metrics():
+    from bve.analysis.backtest import print_report
+
+    if not _ONCOLOGY_CSV.exists():
+        pytest.skip(f"dataset not present: {_ONCOLOGY_CSV}")
+
+    report = run_backtest_from_csv(str(_ONCOLOGY_CSV))
+    suite = report.calibration_suite
+
+    assert suite is not None
+    assert suite.time_split_year == 2022
+    assert suite.overall is not None
+    assert suite.oos_overall is not None
+    assert suite.overall.brier_score is not None
+    assert suite.overall.auc is not None
+    assert suite.overall.ece is not None
+    assert suite.oos_overall.brier_score is not None
+    assert suite.oos_overall.auc is not None
+    assert suite.oos_overall.ece is not None
+
+    rendered = print_report(report)
+    assert "Calibration Metrics: in-sample vs OOS (split year 2022)" in rendered
+    assert "In-sample" in rendered
+    assert "OOS" in rendered

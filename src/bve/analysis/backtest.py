@@ -406,7 +406,7 @@ def run_backtest_from_csv(csv_path: str | Path, therapeutic_area: str = "oncolog
     report.calibration_suite = run_pos_calibration_from_records(
         report.to_calibration_records(),
         model_name=f"heuristic_{therapeutic_area}",
-        time_split_year=2020,
+        time_split_year=2022,
     )
     return report
 
@@ -513,6 +513,28 @@ def print_report(report: BacktestReport) -> str:
         f"  {'Statistical':<22} {report.statistical_lift_over_noskill:>+8.1%}",
         "",
     ]
+
+    # OOS calibration summary (time-split holdout; reporting only)
+    suite = getattr(report, "calibration_suite", None)
+    if suite is not None and suite.overall is not None:
+        split_year = suite.time_split_year or "all"
+        lines.append(
+            f"  Calibration Metrics: in-sample vs OOS (split year {split_year})"
+        )
+        lines.append(f"  {'Sample':<12} {'N':>5}  {'Brier':>7}  {'AUC':>7}  {'ECE':>6}")
+        lines.append("  " + "-" * 43)
+        for label, metrics in (
+            ("In-sample", suite.overall),
+            ("OOS", getattr(suite, "oos_overall", None)),
+        ):
+            if metrics is None:
+                lines.append(f"  {label:<12} {'0':>5}  {'n/a':>7}  {'n/a':>7}  {'n/a':>6}")
+                continue
+            brier = "n/a" if metrics.brier_score is None else f"{metrics.brier_score:.4f}"
+            auc = "n/a" if metrics.auc is None else f"{metrics.auc:.4f}"
+            ece = "n/a" if metrics.ece is None else f"{metrics.ece:.4f}"
+            lines.append(f"  {label:<12} {metrics.n:>5}  {brier:>7}  {auc:>7}  {ece:>6}")
+        lines.append("")
 
     # Calibration table
     lines.append("  Calibration (heuristic) — predicted vs. actual success rate")
