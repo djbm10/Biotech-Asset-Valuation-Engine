@@ -3,39 +3,39 @@ schema_version: expected_signatures_v1
 meta:
   description: >
     Curated library of expected biomarker signatures per mechanism. For a given
-    mechanism, this records the biomarker changes we would expect to see IF the
-    drug is engaging its target as claimed. It is the reference against which the
-    (future) expected-signature conviction producer will compare observed evidence.
+    mechanism, records biomarker changes we would expect to see if the drug is
+    engaging its claimed target. A future expected-signature conviction producer
+    will compare observed evidence against these entries.
   hard_rule: >
-    Only entries with review_status: approved may EVER produce a conviction
-    EvidenceUpdate / move a posterior. draft and retired entries surface only as
-    "signature candidate — not scored" and never affect any score. A wrong curated
-    signature manufactures false falsification, so entries stay draft until a
-    domain reviewer (Harvey / domain input) approves them.
+    Only entries with review_status: approved may ever produce conviction
+    EvidenceUpdates or move a posterior. Draft and retired entries surface only
+    as "signature candidate - not scored" and never affect any score. A wrong
+    curated signature manufactures false falsification, so entries stay draft
+    until a domain reviewer approves them.
   review_states: [draft, approved, retired]
   status: >
-    All entries below are DRAFT / EXAMPLE-ONLY placeholders illustrating the schema.
-    None are approved. Do not treat any entry as production-ready.
+    One narrow JAK-STAT proximal target-engagement signature is approved.
+    Remaining entries are draft/example-only placeholders.
 
 entries:
   jak_stat_pathway:
     mechanism_tags: ["jak", "stat", "jak-stat", "jak1", "jak2"]
-    review_status: draft          # draft | approved | retired
+    review_status: approved
     evidence_context: "pharmacodynamic readout in whole blood or PBMCs"
-    notes: "Example only; requires domain review before production use."
+    notes: >
+      Approved only for proximal ex-vivo cytokine-stimulated pSTAT suppression
+      as target-engagement evidence; distal inflammatory markers remain excluded
+      from the approved signature.
     expected_changes:
       - biomarker: "pSTAT"
-        direction: "down"          # up | down | unchanged
+        direction: "down"
         informativeness: "proximal_target_engagement"
         required: true
-        evidence_context: "ex-vivo cytokine-stimulated phospho-STAT in whole blood"
-        notes: "Canonical proximal PD marker for JAK inhibition."
-      - biomarker: "CRP"
-        direction: "down"
-        informativeness: "distal_inflammatory_response"
-        required: false
-        evidence_context: "serum C-reactive protein"
-        notes: "Downstream inflammatory readout; supportive, not proximal."
+        evidence_context: "ex-vivo cytokine-stimulated phospho-STAT in whole blood/PBMCs"
+        notes: >
+          Canonical proximal PD marker of JAK pathway inhibition in
+          cytokine-stimulated whole blood/PBMC assays; informative for target
+          engagement, not sufficient alone for clinical efficacy.
 
   complement_c5_inhibition:
     mechanism_tags: ["complement", "c5", "anti-c5", "terminal complement"]
@@ -47,11 +47,11 @@ entries:
         direction: "down"
         informativeness: "proximal_target_engagement"
         required: true
-        evidence_context: "total hemolytic complement activity"
-        notes: "Near-complete suppression expected with effective C5 blockade."
+        evidence_context: "serum total complement activity"
+        notes: "Classical pathway hemolytic activity should be suppressed by terminal complement blockade."
       - biomarker: "LDH"
         direction: "down"
         informativeness: "distal_hemolysis_marker"
         required: false
-        evidence_context: "lactate dehydrogenase in PNH/hemolytic settings"
-        notes: "Downstream hemolysis marker; indication-dependent."
+        evidence_context: "hemolysis marker in PNH/hemolytic settings"
+        notes: "Downstream disease-context marker; supportive only and indication-dependent."

@@ -591,6 +591,30 @@ def test_bd_memo_contains_bd_fit_section(asset, company, trials, market):
     assert "Recommended route" in memo
     assert "Route rationale" in memo
 
+
+def test_bd_memo_contains_killer_question_agenda(asset, company, trials, market):
+    buyer_problem = BuyerProblemLibrary.from_yaml(
+        "examples/configs/buyer_problems/vertex.yaml"
+    ).problems[0]
+    output = ValuationEngine(
+        asset,
+        company,
+        trials,
+        market,
+        mc_params=_MC_FAST,
+        enable_science_thesis=True,
+        buyer_problem=buyer_problem,
+        buyer_problem_id=buyer_problem.problem_id,
+    ).run()
+
+    memo = MemoGenerator().generate(output, memo_type="bd")
+
+    assert "Killer Question Diligence Agenda" in memo
+    assert "No dominant killer question" in memo
+    assert "Diligence question" in memo
+    assert output.science_thesis.killer_question_set is not None
+    assert output.bd_actionability.killer_question_set is output.science_thesis.killer_question_set
+
 # ──────────────────────────────────────────────────────────────────────────────
 # Phase 3a single-asset science thesis pipeline wiring
 # ──────────────────────────────────────────────────────────────────────────────
@@ -700,6 +724,34 @@ def test_valuation_json_contains_compact_science_summary(asset, company, trials,
     assert "missing_critical_evidence_count" in summary
     assert "science_thesis" not in data["outputs"]
     assert "bd_actionability" not in data["outputs"]
+
+
+def test_valuation_json_contains_compact_killer_question_summary(asset, company, trials, market):
+    buyer_problem = BuyerProblemLibrary.from_yaml(
+        "examples/configs/buyer_problems/vertex.yaml"
+    ).problems[0]
+    output = ValuationEngine(
+        asset,
+        company,
+        trials,
+        market,
+        mc_params=_MC_FAST,
+        enable_science_thesis=True,
+        buyer_problem=buyer_problem,
+        buyer_problem_id=buyer_problem.problem_id,
+    ).run()
+
+    data = output.to_json_dict()
+    science_kq = data["outputs"]["science_summary"]["killer_question_set"]
+    bd_kq = data["outputs"]["bd_summary"]["killer_question_set"]
+
+    assert science_kq["abstained"] is True
+    assert science_kq["abstain_reason"]
+    assert science_kq["candidates"][0]["diligence_question"]
+    assert bd_kq["candidates"][0]["diligence_question"] == science_kq["candidates"][0][
+        "diligence_question"
+    ]
+    assert data["outputs"]["bd_summary"]["diligence_questions"]
 
 
 def test_valuation_json_marks_science_modifier_applied(asset, company, trials, market):

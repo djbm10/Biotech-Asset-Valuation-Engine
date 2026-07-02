@@ -48,13 +48,13 @@ def _write(tmp_path, text: str):
 # Loading / schema
 # --------------------------------------------------------------------------- #
 
-def test_default_library_loads_and_is_all_draft():
+def test_default_library_loads_with_one_approved_entry():
     lib = ExpectedSignatures.get()
     assert lib.schema_version == "expected_signatures_v1"
     assert len(lib.entries) >= 1
-    # Seed library is example-only: nothing is production-approved.
-    assert all(e["review_status"] == "draft" for e in lib.entries.values())
-    assert lib.approved_entries() == {}
+    approved = lib.approved_entries()
+    assert set(approved) == {"jak_stat_pathway"}
+    assert approved["jak_stat_pathway"]["expected_changes"][0]["biomarker"] == "pSTAT"
 
 
 def test_entries_are_read_only():
@@ -119,9 +119,12 @@ def test_malformed_library_raises(tmp_path, bad):
 
 def test_surfacing_matches_by_mechanism_tag_and_is_never_scored():
     rows = describe_signature_availability(context_text="oral JAK1 inhibitor")
-    assert rows, "expected the jak_stat_pathway draft entry to surface"
+    assert rows, "expected jak_stat_pathway approved entry to surface"
     assert all(r["scored"] is False for r in rows)
-    assert all(r["status_label"] == "signature candidate — not scored" for r in rows)
+    assert all(
+        r["status_label"] == "approved signature — not yet wired to conviction updates"
+        for r in rows
+    )
 
 
 def test_surfacing_matches_by_biomarker_hint():

@@ -363,7 +363,9 @@ def compute_probability_stack(
         technical -= 0.10
         tech_modifiers.append("prior_phase_success -0.10")
 
-    # --- Apply science modifier to technical ---
+    # --- Apply effective science modifier to technical ---
+    # For ScienceThesis inputs this is already post-guardrail:
+    # min(raw_modifier, *hard_caps) * combined_soft_derate.
     technical = technical * science_modifier
     if science_result is not None or science_thesis is not None:
         tech_modifiers.append(f"science_modifier {science_modifier:.3f}")

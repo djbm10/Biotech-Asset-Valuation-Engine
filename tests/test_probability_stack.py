@@ -1,9 +1,31 @@
 from __future__ import annotations
 
+import pytest
+
+from bve.intelligence.science_thesis import (
+    ScienceComponentScore,
+    ScienceMode,
+    ScienceQuestion,
+    ScienceThesis,
+    ScienceThesisScoringInput,
+    score_science_thesis,
+)
 from bve.intelligence.science_engine import ScienceAssessment, ScienceSubscore
+from bve.models.financing_risk import DistressTier, FinancingRiskV2
 from bve.models.approval_scenarios import ApprovalScenario
-from bve.models.label_breadth_model import LabelBreadthInputs, infer_label_breadth
-from bve.models.probability_stack import ProbabilityStackInputs, build_probability_stack
+from bve.models.label_breadth_model import (
+    LabelBreadthInputs,
+    LabelScope,
+    estimate_label_breadth,
+    infer_label_breadth,
+)
+from bve.models.probability_stack import (
+    ApprovalScenarioV2,
+    ProbabilityStack,
+    ProbabilityStackInputs,
+    build_probability_stack,
+    compute_probability_stack,
+)
 from bve.models.regulatory_inference import (
     ApprovalPathway,
     RegulatoryInferenceResult,
@@ -11,7 +33,14 @@ from bve.models.regulatory_inference import (
     RegulatoryScenario,
     RegulatoryScenarioProbability,
 )
-from bve.models.timeline_distribution_model import TimelineDistributionInputs, infer_timeline_distribution
+from bve.models.science_score import ScienceDiligenceResult, ScienceSubScore
+from bve.models.timeline_distribution_model import (
+    TimelineDistributionInputs,
+    TimelineDistributionV2,
+    TimelineRisk,
+    compute_timeline_distribution,
+    infer_timeline_distribution,
+)
 
 
 def _science_assessment() -> ScienceAssessment:
@@ -145,22 +174,6 @@ def test_phase_e_probability_stack_builds_four_layers_and_scenarios() -> None:
 # ---------------------------------------------------------------------------
 # Step 7 tests: ProbabilityStack, LabelBreadthEstimate, TimelineDistributionV2
 # ---------------------------------------------------------------------------
-
-import pytest
-
-from bve.models.financing_risk import DistressTier, FinancingRiskV2
-from bve.models.label_breadth_model import LabelScope, LabelBreadthEstimate, estimate_label_breadth
-from bve.models.probability_stack import (
-    ApprovalScenarioV2,
-    ProbabilityStack,
-    compute_probability_stack,
-)
-from bve.models.science_score import ScienceDiligenceResult, ScienceSubScore
-from bve.models.timeline_distribution_model import (
-    TimelineDistributionV2,
-    TimelineRisk,
-    compute_timeline_distribution,
-)
 
 
 # ---------------------------------------------------------------------------
@@ -341,6 +354,45 @@ class TestProbabilityStack:
         result = compute_probability_stack("asset-1", "phase2", science_result=science)
         expected_modifier = 0.70 + 0.80 * 0.40
         assert result.science_modifier == pytest.approx(expected_modifier, rel=1e-6)
+
+    def test_science_thesis_modifier_ignores_hms_context_in_stack(self) -> None:
+        def thesis_with_hms(hms_score: float) -> ScienceThesis:
+            components = {
+                key: ScienceComponentScore(name=key, score=score, confidence=0.8)
+                for key, score in {
+                    "T": 0.40,
+                    "D": 0.40,
+                    "B": 0.40,
+                    "H": hms_score,
+                    "M": hms_score,
+                    "S": hms_score,
+                    "Q": 0.80,
+                }.items()
+            }
+            thesis = ScienceThesis(
+                asset_id="asset-1",
+                phase="phase2",
+                mode=ScienceMode.DISCOVERY_INVESTMENT,
+                binding_science_question=ScienceQuestion.RIGHT_TARGET,
+                components=components,
+            )
+            return score_science_thesis(ScienceThesisScoringInput(thesis=thesis))
+
+        high_hms = compute_probability_stack(
+            "asset-1",
+            "phase2",
+            science_thesis=thesis_with_hms(1.0),
+        )
+        low_hms = compute_probability_stack(
+            "asset-1",
+            "phase2",
+            science_thesis=thesis_with_hms(0.0),
+        )
+
+        assert high_hms.science_modifier == pytest.approx(low_hms.science_modifier)
+        assert high_hms.technical_success_prob.probability == pytest.approx(
+            low_hms.technical_success_prob.probability
+        )
 
     def test_scenario_probs_all_non_negative(self) -> None:
         result = compute_probability_stack("asset-1", "phase2")

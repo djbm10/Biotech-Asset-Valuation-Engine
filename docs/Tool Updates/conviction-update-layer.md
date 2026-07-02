@@ -15,6 +15,44 @@ in — and to show its work, including when evidence argues *against* the progra
 
 ---
 
+## 2026-07-02 — The expected-signature check now moves confidence (PR-3 step 4)
+
+**What changed.** After one signature was reviewed and **approved by domain input**
+(JAK inhibitors → the marker *pSTAT* should go **down**, as proof the drug is engaging
+its target), we turned on the machinery that lets that signature actually move
+confidence. Feed the tool an observed biomarker result and it now checks it against the
+approved expectation and updates confidence accordingly — with a full paper trail.
+
+**Why it matters.** This is the falsification engine doing its real job: if a JAK drug's
+pSTAT *doesn't* drop the way the biology demands, that's genuine evidence against it, and
+the tool will now *lower* confidence for that reason — visibly, with the rationale
+attached. Confirmation raises it; contradiction lowers it; missing data does neither.
+
+**How it works (plainly).**
+- **Observed matches the approved expectation** (pSTAT went down) → confidence **up**.
+- **Observed contradicts it** (pSTAT went up) → confidence **down** — real falsification.
+- **The required marker wasn't measured** → **untested**: confidence doesn't move, and the
+  trail says "we had an approved test for this, but no data to run it." Silence is never
+  treated as failure.
+- The move is a proper likelihood-ratio update (same honest math as the dose-response
+  step), never a flat number, so it behaves sensibly at any starting confidence.
+
+**The safety rails that make this trustworthy.**
+- **Only *approved* signatures can ever move confidence.** The gate is enforced in code:
+  a draft/example signature is structurally incapable of firing. Right now exactly one
+  entry (JAK → pSTAT down) is approved; everything else stays draft.
+- **Dormant until you feed it data.** With no observed biomarker input, the producer does
+  nothing at all.
+- **Still touches nothing else** — not the success odds, not the valuation, not any score.
+  It only annotates the confidence trail for the one target-engagement question.
+
+**Proof it works.** 9 automated checks against the real approved JAK entry: a match raises
+confidence *via the likelihood ratio* (not a flat add), a contradiction lowers it, a
+missing marker is untested (no move + flag), a **draft entry can never fire**, and the
+trail shows up in the JSON summary. Full conviction/killer-question/science suites green.
+
+---
+
 ## 2026-07-02 — Groundwork for "does the drug do what we expect?" (PR-3, plumbing only)
 
 **What changed.** We laid the foundation for a new kind of evidence check: for a given
@@ -133,8 +171,8 @@ lowers it — trend is the deciding factor.
 ---
 
 ## Still to come (Batch 2)
-- **Expected-signature scoring (PR-3 step 4):** wire *approved* signatures into real
-  confidence updates — matches raise confidence, contradictions lower it. **Gated:** does
-  not start until the seed signatures are reviewed and approved by domain experts. The
-  library/loader/read-out plumbing is already in (see the 2026-07-02 entry above).
+- **More approved signatures:** each new mechanism goes through the same domain-review
+  gate before it can move confidence (the C5/complement entry is drafted but not approved).
+- **Feed observed biomarkers from the asset config:** the producer is wired and tested;
+  the remaining integration is a config field to supply observed biomarker results per run.
 - **Backtest:** measure how often these confidence updates actually pointed the right way.

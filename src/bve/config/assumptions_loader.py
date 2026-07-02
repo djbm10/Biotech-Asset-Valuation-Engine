@@ -64,6 +64,8 @@ _REQUIRED_SECTIONS = {
     "loe_erosion_profiles",
     "competition",
     "trial_design",
+    "science_guardrails",
+    "science_phase_weights_tdb",
 }
 
 _REQUIRED_PHASES = ("phase_1", "phase_2", "phase_3", "nda_bla")
@@ -224,6 +226,64 @@ class AssumptionsLoader:
                 errors.append(
                     f"trial_design.phase_scaling.{phase} = {v} must be in (0, 1]"
                 )
+
+        # science layer guardrails: caps/derates are multipliers in [0, 1].
+        sg = self._data["science_guardrails"]
+        soft_floor = sg.get("soft_derate_floor")
+        if soft_floor is None or not (0.0 <= float(soft_floor) <= 1.0):
+            errors.append(
+                f"science_guardrails.soft_derate_floor = {soft_floor} must be in [0, 1]"
+            )
+        unresolved_threshold = sg.get("unresolved_threshold")
+        if unresolved_threshold is None or not (0.0 <= float(unresolved_threshold) <= 1.0):
+            errors.append(
+                "science_guardrails.unresolved_threshold = "
+                f"{unresolved_threshold} must be in [0, 1]"
+            )
+        for key, cfg in sg.items():
+            if key in {"soft_derate_floor", "unresolved_threshold"}:
+                continue
+            if not isinstance(cfg, MappingProxyType):
+                errors.append(f"science_guardrails.{key} must be a mapping")
+                continue
+            hard_cap = cfg.get("hard_cap")
+            soft_derate = cfg.get("soft_derate")
+            if hard_cap is None and soft_derate is None:
+                errors.append(
+                    f"science_guardrails.{key} must define hard_cap or soft_derate"
+                )
+            if hard_cap is not None and not (0.0 <= float(hard_cap) <= 1.0):
+                errors.append(
+                    f"science_guardrails.{key}.hard_cap = {hard_cap} must be in [0, 1]"
+                )
+            if soft_derate is not None and not (0.0 <= float(soft_derate) <= 1.0):
+                errors.append(
+                    f"science_guardrails.{key}.soft_derate = "
+                    f"{soft_derate} must be in [0, 1]"
+                )
+
+        # T/D/B phase weights must be complete and normalized.
+        science_weights = self._data["science_phase_weights_tdb"]
+        for phase, weights in science_weights.items():
+            missing_keys = {"T", "D", "B"} - set(weights.keys())
+            if missing_keys:
+                errors.append(
+                    "science_phase_weights_tdb."
+                    f"{phase} missing keys: {sorted(missing_keys)}"
+                )
+                continue
+            total = sum(float(weights[key]) for key in ("T", "D", "B"))
+            if abs(total - 1.0) > 1e-6:
+                errors.append(
+                    f"science_phase_weights_tdb.{phase} sums to {total:.6f}, must be 1.0"
+                )
+            for key in ("T", "D", "B"):
+                value = float(weights[key])
+                if not (0.0 <= value <= 1.0):
+                    errors.append(
+                        f"science_phase_weights_tdb.{phase}.{key} = {value} "
+                        "must be in [0, 1]"
+                    )
 
         if errors:
             self._raise(errors)
@@ -553,6 +613,16 @@ class AssumptionsLoader:
     @property
     def trial_design_phase_scaling(self) -> MappingProxyType:
         return self._data["trial_design"]["phase_scaling"]
+
+    @property
+    def science_guardrails(self) -> MappingProxyType:
+        """Science-layer downside guardrail cap/derate priors."""
+        return self._data["science_guardrails"]
+
+    @property
+    def science_phase_weights_tdb(self) -> MappingProxyType:
+        """Science-layer positive scoring weights for T/D/B only."""
+        return self._data["science_phase_weights_tdb"]
 
     # ------------------------------------------------------------------
     # Metadata
