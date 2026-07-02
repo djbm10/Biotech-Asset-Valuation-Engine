@@ -30,11 +30,11 @@ _ONCOLOGY_CSV = Path("research/data/oncology_phase_transitions.csv")
 
 # --- regression anchors (re-baseline only on intended dataset/model change) ---
 # Authoritative model path; values captured 2026-06-22.
-_ANCHOR_N = 145
-_ANCHOR_BRIER = 0.2339
-_ANCHOR_AUC = 0.6941
-_ANCHOR_ECE = 0.1404
-_ANCHOR_RELIABILITY = 0.024
+_ANCHOR_N = 155
+_ANCHOR_BRIER = 0.2318
+_ANCHOR_AUC = 0.6980
+_ANCHOR_ECE = 0.1330
+_ANCHOR_RELIABILITY = 0.021
 _ANCHOR_RESOLUTION = 0.030
 _ANCHOR_UNCERTAINTY = 0.250
 _METRIC_TOL = 0.01
@@ -215,3 +215,14 @@ def test_headline_backtest_reports_oos_recalibration_metrics():
     assert "OOS Recalibration (isotonic, fit <2022)" in rendered
     assert "Raw OOS" in rendered
     assert "Calibrated OOS" in rendered
+
+
+def test_expanded_backtest_dataset_includes_non_oncology_tas():
+    if not _ONCOLOGY_CSV.exists():
+        pytest.skip(f"dataset not present: {_ONCOLOGY_CSV}")
+
+    report = run_backtest_from_csv(str(_ONCOLOGY_CSV))
+    tas = {r.case.therapeutic_area for r in report.results}
+
+    assert "oncology" in tas
+    assert {"immunology", "cns", "metabolic"}.issubset(tas)

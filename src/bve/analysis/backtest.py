@@ -288,6 +288,8 @@ def load_cases_from_csv(csv_path: str | Path, therapeutic_area: str = "oncology"
     """
     import csv
 
+    from bve.analysis.pos_calibration import infer_ta_from_indication
+
     cases = []
     with open(csv_path, newline="") as f:
         reader = csv.DictReader(f)
@@ -295,6 +297,9 @@ def load_cases_from_csv(csv_path: str | Path, therapeutic_area: str = "oncology"
             phase = row.get("phase_start", "").strip()
             if phase not in ("phase_2", "phase_3"):
                 continue  # skip NDA-stage entries and blank rows
+            row_ta = row.get("therapeutic_area", "").strip().lower()
+            inferred_ta = row_ta or infer_ta_from_indication(row.get("indication", ""))
+            case_ta = therapeutic_area if inferred_ta == "other" else inferred_ta
             cases.append(BacktestCase(
                 drug=row["drug"].strip(),
                 company=row.get("company", "").strip(),
@@ -307,7 +312,7 @@ def load_cases_from_csv(csv_path: str | Path, therapeutic_area: str = "oncology"
                 biomarker_enriched=row.get("biomarker_enriched", "false").strip().lower() == "true",
                 safety_profile=row.get("safety_profile", "minor").strip(),
                 competitive_pressure=row.get("competitive_pressure", "moderate").strip(),
-                therapeutic_area=therapeutic_area,
+                therapeutic_area=case_ta,
                 notes=row.get("notes", "").strip(),
             ))
     return cases
