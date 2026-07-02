@@ -15,6 +15,39 @@ in — and to show its work, including when evidence argues *against* the progra
 
 ---
 
+## 2026-07-02 — Groundwork for "does the drug do what we expect?" (PR-3, plumbing only)
+
+**What changed.** We laid the foundation for a new kind of evidence check: for a given
+drug mechanism, define *ahead of time* the lab-marker changes we'd expect to see if the
+drug is really working (its "expected signature"), so real results can later be checked
+against it. This step built the library, the loader, and a safe read-out — **but did not
+turn on any scoring yet.**
+
+**Why it matters.** This is the sharpest falsification tool in the set: if a drug
+*doesn't* show the changes its mechanism demands, that's real evidence against it. But
+it's only as trustworthy as the expected signatures we write down — **a wrong "expected"
+entry would confidently argue against a good drug.** So we deliberately built the machinery
+first and left the actual scoring switched off until a domain expert signs off on each entry.
+
+**How it works (plainly).** Each signature entry carries a **review status**:
+*draft*, *approved*, or *retired*. The hard rule baked in: **only "approved" entries will
+ever be allowed to move confidence.** Everything currently in the library is *draft /
+example-only*, so right now the tool will, at most, show "a relevant signature exists for
+this program — not scored." Nothing changes any number.
+
+**What it deliberately does *not* do (yet).** No automatic data gathering, no AI-generated
+signatures, no change to success odds, valuation, or any score. It only *displays* that a
+candidate signature is available and untested.
+
+**Proof it works.** 13 automated checks: the library loads and validates (malformed entries
+are rejected outright), and the headline invariant — *every* surfaced signature reads as
+"not scored," **even an approved one** — holds, because no scoring is wired yet.
+
+**Still gated.** Turning approved signatures into real confidence updates is a separate,
+later step that won't start until the seed signatures are reviewed by domain experts.
+
+---
+
 ## 2026-07-01 — Dose-response evidence now moves confidence honestly (PR-2)
 
 **What changed.** When a drug shows a *dose-response trend* (higher dose → bigger
@@ -100,7 +133,8 @@ lowers it — trend is the deciding factor.
 ---
 
 ## Still to come (Batch 2)
-- **Expected-signature check:** for a given mechanism, define ahead of time what
-  biomarker changes we'd expect to see, then check real data against it (matches raise
-  confidence, contradictions lower it). Uses a hand-curated library, no auto-generation.
+- **Expected-signature scoring (PR-3 step 4):** wire *approved* signatures into real
+  confidence updates — matches raise confidence, contradictions lower it. **Gated:** does
+  not start until the seed signatures are reviewed and approved by domain experts. The
+  library/loader/read-out plumbing is already in (see the 2026-07-02 entry above).
 - **Backtest:** measure how often these confidence updates actually pointed the right way.
