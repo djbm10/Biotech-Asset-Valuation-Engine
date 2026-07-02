@@ -97,8 +97,14 @@ def test_cns_delivery_surfaces():
     assert out.decisive_question().archetype == KillerArchetype.DELIVERY_EXPOSURE
 
 
-def test_dose_response_trend_raises_posterior():
-    """A human dose-response trend lifts the ENOUGH_DRUG posterior vs a flat readout."""
+def test_dose_response_trend_flag_set_but_spine_posterior_is_raw():
+    """The raw spine no longer bakes in the dose-response bump.
+
+    Both flat and trend fire DOSE_ADEQUACY at the same (raw component) posterior;
+    the trend case is only distinguished by the ``dose_response_trend`` flag. The
+    posterior *raise* is applied downstream by the Conviction Update Layer — see
+    ``test_dose_response_conviction`` for that behavior.
+    """
     flat = derive_killer_questions(
         scored=_scored(
             target=_RESOLVED,
@@ -115,7 +121,10 @@ def test_dose_response_trend_raises_posterior():
     )
     assert flat.decisive_question().archetype == KillerArchetype.DOSE_ADEQUACY
     assert trend.decisive_question().archetype == KillerArchetype.DOSE_ADEQUACY
-    assert trend.decisive_question().posterior > flat.decisive_question().posterior
+    # Raw spine: no inline bump — posteriors equal; trend carries the flag only.
+    assert trend.decisive_question().posterior == flat.decisive_question().posterior
+    assert "dose_response_trend" in trend.decisive_question().flags
+    assert "dose_response_trend" not in flat.decisive_question().flags
 
 
 # --------------------------------------------------------------------------

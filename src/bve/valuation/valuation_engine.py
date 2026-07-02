@@ -325,6 +325,8 @@ class ValuationEngine:
             modality=self.asset.modality.value,
             deal_size_millions=max(rnpv.rnpv_millions, 100.0),
         )
+        if science_thesis is not None:
+            science_thesis = self._attach_killer_questions(science_thesis, trials, market_model, deal)
         bd_actionability = self._build_bd_actionability(science_thesis) if science_thesis else None
         science_summary = None
         bd_summary = None
@@ -406,6 +408,36 @@ class ValuationEngine:
                 mechanism=mechanism,
                 has_target_rationale=bool(target or mechanism),
             )
+        )
+
+    def _attach_killer_questions(self, science_thesis, trials, market_model, deal):
+        """Attach read-only KillerQuestionSet for memo/BD output surfacing."""
+        from bve.intelligence.killer_question import derive_killer_questions
+
+        from bve.intelligence.conviction_update import apply_dose_response_conviction
+
+        target_has_precedent = bool(getattr(self.asset, "target_precedent", False))
+        killer_question_set = derive_killer_questions(
+            asset=self.asset,
+            trials=trials,
+            market_model=market_model,
+            scored=getattr(science_thesis, "scored_questions", None),
+            context=getattr(science_thesis, "science_context", None),
+            guardrail=getattr(science_thesis, "science_guardrail", None),
+            deal=deal,
+            indication=getattr(science_thesis, "indication", None) or self.asset.indication,
+            target_has_precedent=target_has_precedent,
+        )
+        # Downstream conviction: promote a flagged dose-response trend into an
+        # auditable log-odds posterior update + ConvictionRecord (no POS/scoring change).
+        killer_question_set, conviction_records = apply_dose_response_conviction(
+            killer_question_set
+        )
+        return science_thesis.model_copy(
+            update={
+                "killer_question_set": killer_question_set,
+                "conviction_records": conviction_records,
+            }
         )
 
     def _apply_science_thesis_modifier(self, trials: list[ClinicalTrial], science_thesis) -> list[ClinicalTrial]:

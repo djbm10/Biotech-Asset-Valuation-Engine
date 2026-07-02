@@ -180,7 +180,8 @@ _DOSE_RESPONSE_BASES = {
     EvidenceResolutionBasis.HUMAN_DOSE_RESPONSE,
     EvidenceResolutionBasis.HUMAN_EXPOSURE_RESPONSE,
 }
-_DOSE_RESPONSE_POSTERIOR_BONUS = 0.10
+# The dose-response raise is no longer a hardcoded posterior bump; it is a log-odds
+# EvidenceUpdate applied downstream (see conviction_update.apply_dose_response_conviction).
 _BAR_NOISE_TOLERANCE = 0.05  # within 5% of the bar is "noise / clears"
 
 # Default selection thresholds.
@@ -287,7 +288,10 @@ def _dose_adequacy(scored: ScienceScoredQuestions) -> Optional[KillerQuestion]:
     if comp.resolution_basis not in _DOSE_BASES:
         return None
     trend = comp.resolution_basis in _DOSE_RESPONSE_BASES
-    posterior = comp.score + (_DOSE_RESPONSE_POSTERIOR_BONUS if trend else 0.0)
+    # Base posterior is the raw component score. The dose-response *raise* is applied
+    # downstream by the Conviction Update Layer (apply_dose_response_conviction), so it
+    # is a principled, auditable log-odds update rather than a hardcoded +0.10 bump.
+    posterior = comp.score
     flags = ["dose_response_trend"] if trend else []
     why = (
         "Dose-response trend seen — engagement plausible but not confirmed."

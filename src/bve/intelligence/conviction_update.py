@@ -255,6 +255,77 @@ def interpret_readout(
 
 
 # ---------------------------------------------------------------------------
+# Idea 6 — dose-response producer (first in-pipeline producer)
+# ---------------------------------------------------------------------------
+
+# A human dose-/exposure-response trend is a confirming signal on dose adequacy.
+# Applied as a log-odds update (not a flat +0.10): at a 0.5 prior this lands near
+# the old +0.10, but it is bounded and principled at every prior. Seed/calibration
+# constant for the Idea 20 backtest.
+_LR_DOSE_RESPONSE_TREND = 1.5
+_DOSE_RESPONSE_FLAG = "dose_response_trend"
+
+
+def _dose_response_update() -> EvidenceUpdate:
+    return _make_update(
+        EvidenceSource.DOSE_RESPONSE,
+        likelihood_ratio=_LR_DOSE_RESPONSE_TREND,
+        informativeness=1.0,
+        rationale="human dose-/exposure-response trend supports adequate target engagement",
+        provenance="killer_question:dose_adequacy",
+        label=_DOSE_RESPONSE_FLAG,
+    )
+
+
+def apply_dose_response_conviction(
+    killer_question_set: object | None,
+) -> tuple[object | None, list[ConvictionRecord]]:
+    """Raise dose-adequacy conviction where a dose-response trend is flagged.
+
+    Reads the spine's ``KillerQuestionSet``, finds DOSE_ADEQUACY questions carrying
+    the ``dose_response_trend`` flag, and applies a DOSE_RESPONSE ``EvidenceUpdate``
+    via the kernel — producing a raised posterior AND a ``ConvictionRecord``. Flat /
+    no-trend questions are left untouched (no update, no record): silence is not a
+    downgrade. Returns ``(updated_set, records)``; the set is unchanged when nothing
+    fires. Strictly downstream — never touches POS, the science modifier, VOI
+    selection (VOI = swing x openness; posterior is not an input), or BD scoring.
+    """
+    if killer_question_set is None:
+        return killer_question_set, []
+
+    candidates = list(getattr(killer_question_set, "candidates", []) or [])
+    decisive = list(getattr(killer_question_set, "decisive", []) or [])
+    records: list[ConvictionRecord] = []
+    updated: dict[tuple, object] = {}
+
+    def _maybe_update(question: object) -> object:
+        key = (getattr(question, "archetype", None), getattr(question, "question_text", ""))
+        if key in updated:
+            return updated[key]
+        flags = list(getattr(question, "flags", []) or [])
+        is_dose = getattr(question, "archetype", None) == KillerArchetype.DOSE_ADEQUACY
+        if is_dose and _DOSE_RESPONSE_FLAG in flags:
+            new_question, record = update_killer_question_posterior(
+                question, [_dose_response_update()]
+            )
+            updated[key] = new_question
+            records.append(record)
+            return new_question
+        return question
+
+    new_candidates = [_maybe_update(q) for q in candidates]
+    new_decisive = [_maybe_update(q) for q in decisive]
+
+    if not records:
+        return killer_question_set, []
+
+    new_set = killer_question_set.model_copy(
+        update={"candidates": new_candidates, "decisive": new_decisive}
+    )
+    return new_set, records
+
+
+# ---------------------------------------------------------------------------
 # Surfacing — compact, JSON-safe rendering of the conviction trail
 # ---------------------------------------------------------------------------
 
