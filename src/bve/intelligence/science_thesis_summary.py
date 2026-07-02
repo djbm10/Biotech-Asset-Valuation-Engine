@@ -4,12 +4,33 @@ from __future__ import annotations
 
 from typing import Any
 
+from bve.config.expected_signatures import describe_signature_availability
 from bve.intelligence.conviction_update import build_conviction_summary
 
 
 def _value(value: Any) -> Any:
     """Return enum values as strings while preserving JSON primitives."""
     return getattr(value, "value", value)
+
+
+def _expected_signature_status(science_thesis: object) -> list[dict] | None:
+    """No-op surfacing of relevant curated signatures for this program.
+
+    Presentation only — every row is ``scored=False``. Deriving the match hints
+    from existing thesis text never moves a posterior (see
+    ``expected_signatures.describe_signature_availability``).
+    """
+    context_parts = [
+        str(getattr(science_thesis, "modality", "") or ""),
+        str(getattr(science_thesis, "core_biological_hypothesis", "") or ""),
+    ]
+    biomarker_hints = list(getattr(science_thesis, "expected_biomarker_changes", []) or [])
+    context_parts.extend(biomarker_hints)
+    rows = describe_signature_availability(
+        context_text=" ".join(context_parts),
+        biomarker_hints=biomarker_hints,
+    )
+    return rows or None
 
 
 def _killer_question_summary(question: object) -> dict:
@@ -94,6 +115,9 @@ def build_science_summary(science_thesis: object | None, *, modifier_applied: bo
     )
     if conviction_summary is not None:
         summary["conviction_trail"] = conviction_summary
+    signature_status = _expected_signature_status(science_thesis)
+    if signature_status is not None:
+        summary["expected_signature_status"] = signature_status
     return summary
 
 
