@@ -326,6 +326,217 @@ def apply_dose_response_conviction(
 
 
 # ---------------------------------------------------------------------------
+# Idea 4 — expected-signature producer (gated on review_status == approved)
+# ---------------------------------------------------------------------------
+
+# Observed biomarker evidence, matched against the curated APPROVED expected-signature
+# library, moves target-engagement conviction. Match => confirming, contradiction =>
+# refuting, insufficient/absent required data => untested (no move, flag only). Seeds
+# for the Idea 20 backtest — not final magic numbers.
+_LR_SIGNATURE_MATCH = 3.0
+_LR_SIGNATURE_CONTRADICTION = 0.33
+_SIGNATURE_UNTESTED_FLAG = "signature_untested"
+
+# Informativeness (Idea 5) by the library's per-change label: a proximal
+# target-engagement marker moves the posterior more than a distal/supportive one.
+_SIGNATURE_INFORMATIVENESS = {
+    "proximal_target_engagement": 1.0,
+}
+_DEFAULT_SIGNATURE_INFORMATIVENESS = 0.6
+
+# Expected-signature is target-engagement evidence, so it attaches to the
+# ENOUGH_DRUG family. Prefer DELIVERY_EXPOSURE (distinct from the dose-response
+# producer, which owns DOSE_ADEQUACY); fall back to DOSE_ADEQUACY only if the set
+# has no delivery/exposure question.
+_SIGNATURE_ARCHETYPE_PREFERENCE = (
+    KillerArchetype.DELIVERY_EXPOSURE,
+    KillerArchetype.DOSE_ADEQUACY,
+)
+
+
+def _norm_biomarker(name: object) -> str:
+    return str(name or "").strip().lower()
+
+
+def _norm_direction(direction: object) -> str:
+    d = str(direction or "").strip().lower()
+    if d in {"down", "decrease", "decreased", "reduction", "reduced", "lower", "suppressed", "suppression"}:
+        return "down"
+    if d in {"up", "increase", "increased", "higher", "elevated", "induction", "induced"}:
+        return "up"
+    if d in {"unchanged", "flat", "no_change", "no change", "stable", "none"}:
+        return "unchanged"
+    return d  # unknown token -> left as-is, so it simply won't match an expected move
+
+
+def _observed_map(observed_changes: object | None) -> dict[str, str]:
+    """Normalize config-fed observed changes to {biomarker: direction}."""
+    result: dict[str, str] = {}
+    for obs in observed_changes or []:
+        if isinstance(obs, dict):
+            biomarker, direction = obs.get("biomarker"), obs.get("direction")
+        else:
+            biomarker, direction = getattr(obs, "biomarker", None), getattr(obs, "direction", None)
+        key = _norm_biomarker(biomarker)
+        if key:
+            result[key] = _norm_direction(direction)
+    return result
+
+
+def _evaluate_signature(entry: object, observed: dict[str, str]) -> Optional[dict]:
+    """Compare an approved entry's REQUIRED changes against observed evidence.
+
+    Returns a dict describing the outcome (``confirming`` / ``refuting`` /
+    ``untested``) plus the informativeness and a human rationale, or ``None`` when
+    the entry has no required changes to test.
+    """
+    required = [c for c in entry.get("expected_changes", []) if c.get("required")]
+    if not required:
+        return None
+
+    informativeness = _DEFAULT_SIGNATURE_INFORMATIVENESS
+    contradictions: list[str] = []
+    confirmations: list[str] = []
+    untested: list[str] = []
+    for change in required:
+        bm = _norm_biomarker(change.get("biomarker"))
+        expected_dir = _norm_direction(change.get("direction"))
+        informativeness = max(
+            informativeness,
+            _SIGNATURE_INFORMATIVENESS.get(change.get("informativeness"), _DEFAULT_SIGNATURE_INFORMATIVENESS),
+        )
+        observed_dir = observed.get(bm)
+        if observed_dir is None:
+            untested.append(bm)
+        elif observed_dir == expected_dir:
+            confirmations.append(f"{bm} {observed_dir}")
+        else:
+            contradictions.append(f"{bm} {observed_dir} (expected {expected_dir})")
+
+    if contradictions:
+        return {
+            "outcome": "refuting",
+            "informativeness": informativeness,
+            "rationale": "observed biomarker signature contradicts approved expectation: "
+            + "; ".join(contradictions),
+        }
+    if untested:
+        # Silence on a required marker is untested, never refutation.
+        return {"outcome": "untested", "informativeness": informativeness, "rationale": ""}
+    return {
+        "outcome": "confirming",
+        "informativeness": informativeness,
+        "rationale": "observed biomarker signature matches approved expectation: "
+        + "; ".join(confirmations),
+    }
+
+
+def apply_expected_signature_conviction(
+    killer_question_set: object | None,
+    *,
+    mechanism_context: str = "",
+    observed_changes: object | None = None,
+    library: object | None = None,
+) -> tuple[object | None, list[ConvictionRecord]]:
+    """Move target-engagement conviction from observed vs. approved-signature evidence.
+
+    Compares config-fed ``observed_changes`` against the curated **approved**
+    expected-signature library (``matching_approved_signatures`` — draft/retired can
+    never reach here) and, for the program's target-engagement question, applies:
+      * a CONFIRMING update when observed matches the required signature,
+      * a REFUTING update when observed contradicts it (first-class falsification),
+      * no posterior move + a ``signature_untested`` flag when required data is absent.
+
+    Inert (returns the set unchanged, no records) when there is no observed evidence,
+    no approved signature matches the mechanism, or the set has no ENOUGH_DRUG-family
+    question to attach to. Strictly downstream — never touches POS, the science
+    modifier, VOI selection, or BD scoring.
+    """
+    if killer_question_set is None:
+        return killer_question_set, []
+
+    observed = _observed_map(observed_changes)
+    if not observed:
+        return killer_question_set, []  # no evidence fed -> producer dormant
+
+    from bve.config.expected_signatures import matching_approved_signatures
+
+    matches = matching_approved_signatures(
+        context_text=mechanism_context,
+        biomarker_hints=list(observed.keys()),
+        library=library,
+    )
+    if not matches:
+        return killer_question_set, []
+
+    # Aggregate confirm/refute updates and untested flags across matched approved entries.
+    updates: list[EvidenceUpdate] = []
+    untested_flags: list[str] = []
+    for key, entry in matches:
+        verdict = _evaluate_signature(entry, observed)
+        if verdict is None:
+            continue
+        if verdict["outcome"] == "untested":
+            flag = f"{_SIGNATURE_UNTESTED_FLAG}:{key}"
+            if flag not in untested_flags:
+                untested_flags.append(flag)
+            continue
+        lr = _LR_SIGNATURE_MATCH if verdict["outcome"] == "confirming" else _LR_SIGNATURE_CONTRADICTION
+        updates.append(
+            _make_update(
+                EvidenceSource.EXPECTED_SIGNATURE,
+                likelihood_ratio=lr,
+                informativeness=verdict["informativeness"],
+                rationale=verdict["rationale"],
+                provenance=f"expected_signature:{key}",
+                label=f"signature_{verdict['outcome']}",
+            )
+        )
+
+    if not updates and not untested_flags:
+        return killer_question_set, []
+
+    candidates = list(getattr(killer_question_set, "candidates", []) or [])
+    decisive = list(getattr(killer_question_set, "decisive", []) or [])
+
+    # Choose the single archetype to attach to, honoring the ENOUGH_DRUG-family
+    # preference, but only among archetypes actually present in this set.
+    present = {getattr(q, "archetype", None) for q in (*candidates, *decisive)}
+    target_archetype = next(
+        (a for a in _SIGNATURE_ARCHETYPE_PREFERENCE if a in present), None
+    )
+    if target_archetype is None:
+        return killer_question_set, []  # nowhere to attach target-engagement evidence
+
+    records: list[ConvictionRecord] = []
+    updated: dict[tuple, object] = {}
+
+    def _maybe_update(question: object) -> object:
+        if getattr(question, "archetype", None) != target_archetype:
+            return question
+        key = (target_archetype, getattr(question, "question_text", ""))
+        if key in updated:
+            return updated[key]
+        new_question, record = update_killer_question_posterior(
+            question, updates, untested_flags=untested_flags
+        )
+        updated[key] = new_question
+        records.append(record)
+        return new_question
+
+    new_candidates = [_maybe_update(q) for q in candidates]
+    new_decisive = [_maybe_update(q) for q in decisive]
+
+    if not records:
+        return killer_question_set, []
+
+    new_set = killer_question_set.model_copy(
+        update={"candidates": new_candidates, "decisive": new_decisive}
+    )
+    return new_set, records
+
+
+# ---------------------------------------------------------------------------
 # Surfacing — compact, JSON-safe rendering of the conviction trail
 # ---------------------------------------------------------------------------
 

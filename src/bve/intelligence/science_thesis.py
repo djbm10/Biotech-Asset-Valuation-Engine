@@ -11,7 +11,7 @@ from enum import Enum
 from math import prod
 from typing import Iterable, Mapping
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 from bve.config.assumptions_loader import AssumptionsLoader
 
@@ -260,6 +260,22 @@ class ScienceModifierResult(BaseModel):
     rationale: str = ""
 
 
+class ObservedBiomarkerChange(BaseModel):
+    """A manually/config-fed observed biomarker move, compared against the curated
+    expected-signature library by the expected-signature conviction producer.
+
+    Deliberately simple and config-fed — no ingestion, no runtime generation.
+    ``direction`` synonyms (e.g. "decrease", "reduction") are normalized downstream.
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    biomarker: str
+    direction: str  # up | down | unchanged (synonyms normalized by the producer)
+    as_of: str = ""
+    provenance: str = ""
+
+
 class ScienceThesis(BaseModel):
     asset_id: str
     asset_name: str = ""
@@ -276,6 +292,10 @@ class ScienceThesis(BaseModel):
     what_must_be_true: list[str] = Field(default_factory=list)
     expected_biomarker_changes: list[str] = Field(default_factory=list)
     expected_clinical_changes: list[str] = Field(default_factory=list)
+    # Config-fed observed biomarker moves, compared against the curated approved
+    # expected-signature library by apply_expected_signature_conviction. Empty by
+    # default, so the producer is inert until observed evidence is supplied.
+    observed_biomarker_changes: list[ObservedBiomarkerChange] = Field(default_factory=list)
     key_readouts: list[str] = Field(default_factory=list)
     key_failure_modes: list[str] = Field(default_factory=list)
     missing_critical_evidence: list[str] = Field(default_factory=list)

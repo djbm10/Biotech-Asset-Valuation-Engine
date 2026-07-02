@@ -414,7 +414,10 @@ class ValuationEngine:
         """Attach read-only KillerQuestionSet for memo/BD output surfacing."""
         from bve.intelligence.killer_question import derive_killer_questions
 
-        from bve.intelligence.conviction_update import apply_dose_response_conviction
+        from bve.intelligence.conviction_update import (
+            apply_dose_response_conviction,
+            apply_expected_signature_conviction,
+        )
 
         target_has_precedent = bool(getattr(self.asset, "target_precedent", False))
         killer_question_set = derive_killer_questions(
@@ -428,15 +431,27 @@ class ValuationEngine:
             indication=getattr(science_thesis, "indication", None) or self.asset.indication,
             target_has_precedent=target_has_precedent,
         )
-        # Downstream conviction: promote a flagged dose-response trend into an
-        # auditable log-odds posterior update + ConvictionRecord (no POS/scoring change).
-        killer_question_set, conviction_records = apply_dose_response_conviction(
-            killer_question_set
+        # Downstream conviction (auditable log-odds posterior updates + ConvictionRecords;
+        # no POS/scoring change): (1) promote a flagged dose-response trend; (2) compare
+        # config-fed observed biomarkers against the APPROVED expected-signature library.
+        killer_question_set, dose_records = apply_dose_response_conviction(killer_question_set)
+        mechanism_context = " ".join(
+            part
+            for part in (
+                str(getattr(science_thesis, "modality", "") or ""),
+                str(getattr(science_thesis, "core_biological_hypothesis", "") or ""),
+            )
+            if part
+        )
+        killer_question_set, signature_records = apply_expected_signature_conviction(
+            killer_question_set,
+            mechanism_context=mechanism_context,
+            observed_changes=getattr(science_thesis, "observed_biomarker_changes", None),
         )
         return science_thesis.model_copy(
             update={
                 "killer_question_set": killer_question_set,
-                "conviction_records": conviction_records,
+                "conviction_records": [*dose_records, *signature_records],
             }
         )
 

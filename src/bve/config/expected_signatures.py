@@ -183,6 +183,29 @@ def _entry_matches(
     return False
 
 
+def matching_approved_signatures(
+    *,
+    context_text: str = "",
+    biomarker_hints: Optional[list[str]] = None,
+    library: Optional[ExpectedSignatures] = None,
+) -> list[tuple[str, MappingProxyType]]:
+    """Approved entries relevant to a program — the ONLY entries a producer may score.
+
+    Centralizes the hard gate: draft / retired entries can never be returned here,
+    so no downstream conviction producer can act on an unapproved signature.
+    """
+    lib = library or ExpectedSignatures.get()
+    ctx = _normalize(context_text)
+    hints = list(biomarker_hints or [])
+    out: list[tuple[str, MappingProxyType]] = []
+    for key, entry in lib.entries.items():
+        if entry.get("review_status") != "approved":
+            continue
+        if _entry_matches(entry, context_text=ctx, biomarker_hints=hints):
+            out.append((key, entry))
+    return out
+
+
 def describe_signature_availability(
     *,
     context_text: str = "",
