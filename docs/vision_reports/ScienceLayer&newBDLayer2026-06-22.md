@@ -590,16 +590,37 @@ POS / science-modifier / route / scoring change.** `tests/test_conviction_surfac
   header states explicitly it is a diligence artifact that does not feed POS or
   valuation. Context assembled by `_conviction_context` in `memo_generator`.
 
-**Honest limit:** there is **no in-pipeline producer yet** — `conviction_records`
-defaults empty, so the trail is invisible on normal runs until something populates it.
-The first producer is planned as PR-2 below.
+At the surfacing stage the trail was still invisible on normal runs
+(`conviction_records` defaulted empty) — PR-2 supplied the first producer.
+
+### PR-2 — dose-response producer (`ed1a225`, 2026-07-01)
+
+The first in-pipeline producer. Replaces the hardcoded `+0.10` dose-adequacy
+posterior bump with a log-odds `EvidenceUpdate` through the kernel, so the trail now
+appears in memo/JSON on normal `bve-asset` runs when human dose-/exposure-response
+evidence exists. `tests/test_dose_response_conviction.py` (5 anchors); engine/memo/e2e
+regression 293 passed.
+
+- **`killer_question._dose_adequacy`** now emits the **raw component score** as the
+  posterior and only sets the `dose_response_trend` flag (trigger:
+  `EvidenceResolutionBasis.HUMAN_DOSE_RESPONSE` / `HUMAN_EXPOSURE_RESPONSE`); the
+  `_DOSE_RESPONSE_POSTERIOR_BONUS` constant is gone.
+- **`conviction_update.apply_dose_response_conviction(kqs)`** finds flagged
+  DOSE_ADEQUACY questions, applies a `DOSE_RESPONSE` `EvidenceUpdate` (LR 1.5) via
+  `update_killer_question_posterior` → raised posterior + `ConvictionRecord`. Flat /
+  no-trend questions are untouched (no update, no record); the set is returned
+  unchanged when nothing fires.
+- **`valuation_engine._attach_killer_questions`** runs the producer after deriving the
+  set and attaches both `killer_question_set` and `conviction_records` to the thesis.
+- **Directional preservation, now auditable:** trend > flat exactly as in Batch A, but
+  the raise is a bounded log-odds update with a rationale trail rather than a flat add.
+  Removing the inline bump does **not** change which question is decisive — VOI =
+  `swing × openness`, and the posterior is not a selection input. (Footnote: at a 0.5
+  prior, LR 1.5 coincidentally lands on +0.10; the tests use a 0.6 prior to prove the
+  update is log-odds, not a flat add.)
 
 ### Pending (Batch 2)
 
-- **PR-2 — Idea 6 dose-response.** Replace the hardcoded `+0.10` posterior bonus at
-  `killer_question.py:290` with a proper `EvidenceUpdate` (source `DOSE_RESPONSE`)
-  whose LR is driven by monotonicity across dose levels — the first producer to light
-  up the trail, through the same kernel.
 - **PR-3 — Idea 4 expected signature (gated).** `hypothesis → expected-signature →
   evidence-check` against a **human-curated** mechanism/target signature library
   (`config/expected_signatures.yaml`, `meaningfulness_bars.py` pattern). Decision
@@ -628,11 +649,11 @@ Design doc (untracked, private): `docs/conviction_update_build_plan.md`.
 - **Done 2026-06-30 (§14b):** S&E shortlist cluster — gate audit trail (Idea 14),
   `bve-shortlist` S&E surface (Idea 13), scarcity one-home scorer boundary (Idea 15).
 - **Done 2026-07-01 (§14c):** Conviction Update Layer — PR-1 kernel + readout
-  interpreter (`6582ec4`) and conviction-trail surfacing into BD memo + JSON
-  (`1b1cf38`). Pending in Batch 2: PR-2 dose-response producer (Idea 6, first to fill
-  the trail), PR-3 curated expected-signature library (Idea 4, gated), Idea 20 backtest
-  consuming `ConvictionRecord`. This supersedes the "Bayesian posterior updater" line
-  below.
+  interpreter (`6582ec4`), conviction-trail surfacing into BD memo + JSON (`1b1cf38`),
+  and PR-2 dose-response producer (`ed1a225`, first producer to fill the trail on
+  normal runs). Pending in Batch 2: PR-3 curated expected-signature library (Idea 4,
+  gated on the manual/config-fed data-source decision), Idea 20 backtest consuming
+  `ConvictionRecord`. This supersedes the "Bayesian posterior updater" line below.
 - The problem-in shortlist lens now exists as `build_se_shortlist` / `bve-shortlist`;
   remaining work is to wire the weekly runner to run *both* BD lenses (problem-in
   shortlist + universe-out scan) on schedule and emit the reconciliation report.
