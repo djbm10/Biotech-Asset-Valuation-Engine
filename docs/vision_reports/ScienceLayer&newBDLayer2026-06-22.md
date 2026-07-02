@@ -524,6 +524,93 @@ Chris's "the shortlist is the product" cluster. Built on the existing
 
 Commits: gate trail `31f2d15`, S&E surface `fac8b05`, scorer boundary `a12b5c9`.
 
+## 14c. Conviction Update Layer (Batch 2 — Harvey's falsification/posterior cluster)
+
+Harvey's cluster (future_help Ideas 4/5/6/7). A **separate, auditable trail** that
+raises *or lowers* conviction on a killer question as evidence arrives — and can
+**refute**, which is where a falsification engine earns credibility. It updates
+`KillerQuestion.posterior` only; it is **not POS and not scoring**. The posterior
+never re-enters POS or `compute_science_modifier` — same hard ownership boundary as
+the spine (§14) and the S&E cluster (§14b), pinned by a byte-identical test.
+
+Built kernel-first (like Batch A's VOI kernel), then plug evidence sources in.
+
+### PR-1 — kernel + readout interpreter (`6582ec4`, 2026-07-01)
+
+New module `intelligence/conviction_update.py`; `tests/test_conviction_update.py`
+(12 anchors).
+
+- **`update_killer_question_posterior(question, updates, *, human_override=…)`** →
+  `(new immutable KillerQuestion, ConvictionRecord)`. Composition is in
+  **log-odds**: `L = logit(prior)`, each update adds
+  `informativeness × ln(likelihood_ratio)`, `posterior = sigmoid(L)`, clamped to
+  `(1e-6, 1-1e-6)`. This guarantees a single strong refutation is **never drowned by
+  weak confirms**, and extremes never produce exactly 0/1.
+- **`EvidenceUpdate` (frozen):** `source` (READOUT / DOSE_RESPONSE /
+  EXPECTED_SIGNATURE / MANUAL), `likelihood_ratio` (>0), `informativeness` (0–1,
+  Idea 5 weight), `rationale`, `provenance`, `as_of`, `direction`
+  (CONFIRMING / REFUTING / NEUTRAL, derived from the LR).
+- **`ConvictionRecord` (frozen):** the audit trail kept *off* `KillerQuestion` —
+  `archetype`, `prior`, `posterior`, `updates`, `human_override`, `untested_flags`.
+- **`interpret_readout` (Idea 7):** maps a clinical readout against the Batch-A
+  clinical-meaningfulness bar (`MeaningfulnessBars.delta(indication)`) into four
+  buckets → LRs: `clean_hit` 3.0, `near_miss_with_trend` 1.5, `clean_miss` 0.33,
+  **`silence` → no update** (returns `None`). Noise band 5%, near-miss band 15%; LRs
+  are named seed constants (`_LR_*`), calibration targets for the Idea 20 backtest,
+  not final magic numbers.
+
+**Hard boundaries (user-locked, test-pinned):** posterior never feeds POS or
+`compute_science_modifier`; every update carries provenance + rationale; **refuting
+updates are first-class**; **silence ≠ refutation** (absence of evidence is not
+evidence of absence, and yields an explicit `untested` flag rather than a downgrade);
+a **human override exists from day one** and is logged as an explicit MANUAL update,
+never a hidden mutation. The behavior Harvey most wanted proven — his Amgen
+"barely-missed-but-dose-response-trended" case — is a testable rule:
+**near-miss + trend → posterior UP; near-miss + no trend → posterior DOWN.** Trend is
+the discriminator (`test_trend_is_the_discriminator`).
+
+### Surfacing — conviction trail into memo + JSON (`1b1cf38`, 2026-07-01)
+
+The kernel is only useful if an analyst can see `prior → evidence update →
+posterior`, so the follow-up wired the trail into output. **Presentation only — no
+POS / science-modifier / route / scoring change.** `tests/test_conviction_surfacing.py`
+(6 anchors); broad memo/report/engine/summary/layer15 regression 866 passed.
+
+- **`EvidenceUpdate.label`** carries the human-facing bucket (e.g. `clean_hit`) as a
+  first-class field; `conviction_record_to_dict` / `build_conviction_summary` are
+  shared JSON-safe serializers in `conviction_update.py` (no duplicated walkers).
+- **Carriers:** `ScienceThesis` and `BDActionabilityResult` each hold a read-only
+  `conviction_records: list` (`exclude=True`, loosely typed — the same decoupling
+  pattern as `killer_question_set`). Layer15 `_attach_killer_questions` copies the
+  trail thesis → BD result alongside the killer set.
+- **JSON:** `build_science_summary` / `build_bd_summary` emit a `conviction_trail`
+  key (only when non-empty).
+- **Memo:** a compact **Conviction Trail** block in `bd_memo.md.j2` — prior → posterior
+  per archetype, and per update: source / bucket / LR / informativeness / rationale;
+  header states explicitly it is a diligence artifact that does not feed POS or
+  valuation. Context assembled by `_conviction_context` in `memo_generator`.
+
+**Honest limit:** there is **no in-pipeline producer yet** — `conviction_records`
+defaults empty, so the trail is invisible on normal runs until something populates it.
+The first producer is planned as PR-2 below.
+
+### Pending (Batch 2)
+
+- **PR-2 — Idea 6 dose-response.** Replace the hardcoded `+0.10` posterior bonus at
+  `killer_question.py:290` with a proper `EvidenceUpdate` (source `DOSE_RESPONSE`)
+  whose LR is driven by monotonicity across dose levels — the first producer to light
+  up the trail, through the same kernel.
+- **PR-3 — Idea 4 expected signature (gated).** `hypothesis → expected-signature →
+  evidence-check` against a **human-curated** mechanism/target signature library
+  (`config/expected_signatures.yaml`, `meaningfulness_bars.py` pattern). Decision
+  locked: **manual/config-fed v1 only — no data ingestion, no runtime free-form
+  signature generation** (the hallucination trap). Match → CONFIRMING; contradiction
+  → REFUTING; silence → no update + `signature_untested` flag.
+- **Idea 20 backtest** is a *consumer* of the `ConvictionRecord` trail (picker/updater
+  hit rate), not part of this batch; the record schema is shaped to plug in later.
+
+Design doc (untracked, private): `docs/conviction_update_build_plan.md`.
+
 ## 15. Known Limits
 
 - The science modifier is still heuristic, not calibrated.
@@ -540,6 +627,12 @@ Commits: gate trail `31f2d15`, S&E surface `fac8b05`, scorer boundary `a12b5c9`.
 
 - **Done 2026-06-30 (§14b):** S&E shortlist cluster — gate audit trail (Idea 14),
   `bve-shortlist` S&E surface (Idea 13), scarcity one-home scorer boundary (Idea 15).
+- **Done 2026-07-01 (§14c):** Conviction Update Layer — PR-1 kernel + readout
+  interpreter (`6582ec4`) and conviction-trail surfacing into BD memo + JSON
+  (`1b1cf38`). Pending in Batch 2: PR-2 dose-response producer (Idea 6, first to fill
+  the trail), PR-3 curated expected-signature library (Idea 4, gated), Idea 20 backtest
+  consuming `ConvictionRecord`. This supersedes the "Bayesian posterior updater" line
+  below.
 - The problem-in shortlist lens now exists as `build_se_shortlist` / `bve-shortlist`;
   remaining work is to wire the weekly runner to run *both* BD lenses (problem-in
   shortlist + universe-out scan) on schedule and emit the reconciliation report.
