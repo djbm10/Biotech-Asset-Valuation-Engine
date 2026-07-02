@@ -298,6 +298,30 @@ class TACalibrationResult:
         }
 
 
+@dataclass
+class POSRecalibrationResult:
+    """Out-of-sample recalibration measurement, fit on train and evaluated on OOS only."""
+
+    method: str
+    time_split_year: int
+    n_train: int
+    n_oos: int
+    raw_oos: Optional[TACalibrationResult] = None
+    calibrated_oos: Optional[TACalibrationResult] = None
+    note: str = ""
+
+    def to_dict(self) -> dict:
+        return {
+            "method": self.method,
+            "time_split_year": self.time_split_year,
+            "n_train": self.n_train,
+            "n_oos": self.n_oos,
+            "raw_oos": self.raw_oos.to_dict() if self.raw_oos else None,
+            "calibrated_oos": self.calibrated_oos.to_dict() if self.calibrated_oos else None,
+            "note": self.note,
+        }
+
+
 # ---------------------------------------------------------------------------
 # Aggregate suite
 # ---------------------------------------------------------------------------
@@ -327,6 +351,7 @@ class POSCalibrationSuite:
     oos: list[TACalibrationResult] = field(default_factory=list)
     overall: Optional[TACalibrationResult] = None
     oos_overall: Optional[TACalibrationResult] = None
+    recalibration: Optional[POSRecalibrationResult] = None
 
     @property
     def n_total(self) -> int:
@@ -415,6 +440,7 @@ class POSCalibrationSuite:
             "oos": [r.to_dict() for r in self.oos],
             "overall": self.overall.to_dict() if self.overall else None,
             "oos_overall": self.oos_overall.to_dict() if self.oos_overall else None,
+            "recalibration": self.recalibration.to_dict() if self.recalibration else None,
         }
 
     def save_json(self, path: str) -> None:
@@ -618,6 +644,141 @@ def _compute_auc(y_true: list[bool], y_score: list[float]) -> float:
     return auc / (n_pos * n_neg)
 
 
+@dataclass
+class _IsotonicBin:
+    lower: float
+    upper: float
+    n: int
+    n_success: int
+
+    @property
+    def calibrated_pos(self) -> float:
+        # Keep the surfaced calibrated probability honest: never exact 0/1 on tiny data.
+        return min(0.99, max(0.01, self.n_success / self.n))
+
+
+def _fit_isotonic_bins(records: list[POSCalibrationRecord]) -> list[_IsotonicBin]:
+    """Fit a monotone raw_pos -> calibrated_pos step map with PAVA."""
+    if not records:
+        return []
+
+    bins = [
+        _IsotonicBin(
+            lower=r.predicted_pos,
+            upper=r.predicted_pos,
+            n=1,
+            n_success=1 if r.actual_success else 0,
+        )
+        for r in sorted(records, key=lambda item: item.predicted_pos)
+    ]
+
+    i = 0
+    while i < len(bins) - 1:
+        if bins[i].calibrated_pos <= bins[i + 1].calibrated_pos:
+            i += 1
+            continue
+
+        merged = _IsotonicBin(
+            lower=bins[i].lower,
+            upper=bins[i + 1].upper,
+            n=bins[i].n + bins[i + 1].n,
+            n_success=bins[i].n_success + bins[i + 1].n_success,
+        )
+        bins[i : i + 2] = [merged]
+        i = max(0, i - 1)
+
+    return bins
+
+
+def _apply_isotonic_bins(raw_pos: float, bins: list[_IsotonicBin]) -> float:
+    if not bins:
+        return raw_pos
+    for bin_ in bins:
+        if raw_pos <= bin_.upper:
+            return bin_.calibrated_pos
+    return bins[-1].calibrated_pos
+
+
+def _recalibrated_records(
+    records: list[POSCalibrationRecord],
+    bins: list[_IsotonicBin],
+) -> list[POSCalibrationRecord]:
+    return [
+        POSCalibrationRecord(
+            therapeutic_area=r.therapeutic_area,
+            phase=r.phase,
+            predicted_pos=_apply_isotonic_bins(r.predicted_pos, bins),
+            actual_success=r.actual_success,
+            drug=r.drug,
+            company=r.company,
+            indication=r.indication,
+            year=r.year,
+            notes=r.notes,
+        )
+        for r in records
+    ]
+
+
+def run_oos_pos_recalibration_from_records(
+    records: list[POSCalibrationRecord],
+    *,
+    time_split_year: int = 2022,
+    method: str = "isotonic",
+) -> POSRecalibrationResult:
+    """Fit recalibration on train records and report OOS metrics only.
+
+    This is deliberately a measurement surface. It does not change stored/raw POS outputs.
+    """
+    train = [r for r in records if r.year is not None and r.year < time_split_year]
+    oos = [r for r in records if r.year is not None and r.year >= time_split_year]
+
+    if method != "isotonic":
+        raise ValueError(f"Unsupported recalibration method: {method}")
+    if not train or not oos:
+        return POSRecalibrationResult(
+            method=method,
+            time_split_year=time_split_year,
+            n_train=len(train),
+            n_oos=len(oos),
+            note="Recalibration requires dated train and OOS records.",
+        )
+
+    bins = _fit_isotonic_bins(train)
+    calibrated_oos_records = _recalibrated_records(oos, bins)
+    raw_oos = _compute_ta_metrics(
+        [
+            POSCalibrationRecord(
+                therapeutic_area="all",
+                phase=r.phase,
+                predicted_pos=r.predicted_pos,
+                actual_success=r.actual_success,
+                year=r.year,
+            )
+            for r in oos
+        ]
+    )
+    calibrated_oos = _compute_ta_metrics(
+        [
+            POSCalibrationRecord(
+                therapeutic_area="all",
+                phase=r.phase,
+                predicted_pos=r.predicted_pos,
+                actual_success=r.actual_success,
+                year=r.year,
+            )
+            for r in calibrated_oos_records
+        ]
+    )
+    return POSRecalibrationResult(
+        method=method,
+        time_split_year=time_split_year,
+        n_train=len(train),
+        n_oos=len(oos),
+        raw_oos=raw_oos,
+        calibrated_oos=calibrated_oos,
+    )
+
+
 def run_pos_calibration_from_records(
     records: list[POSCalibrationRecord],
     *,
@@ -684,6 +845,13 @@ def run_pos_calibration_from_records(
             for r in oos_recs
         ]
         oos_overall_result = _compute_ta_metrics(oos_recs_flat)
+
+    recalibration_result = None
+    if time_split_year is not None:
+        recalibration_result = run_oos_pos_recalibration_from_records(
+            records,
+            time_split_year=time_split_year,
+        )
     return POSCalibrationSuite(
         model_name=model_name,
         n_total_records=len(records),
@@ -692,6 +860,7 @@ def run_pos_calibration_from_records(
         oos=oos,
         overall=overall_result,
         oos_overall=oos_overall_result,
+        recalibration=recalibration_result,
     )
 
 

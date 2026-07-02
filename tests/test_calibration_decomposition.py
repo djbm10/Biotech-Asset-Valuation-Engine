@@ -180,3 +180,38 @@ def test_headline_backtest_report_prints_in_sample_and_oos_metrics():
     assert "Calibration Metrics: in-sample vs OOS (split year 2022)" in rendered
     assert "In-sample" in rendered
     assert "OOS" in rendered
+
+
+def test_headline_backtest_reports_oos_recalibration_metrics():
+    from bve.analysis.backtest import print_report
+
+    if not _ONCOLOGY_CSV.exists():
+        pytest.skip(f"dataset not present: {_ONCOLOGY_CSV}")
+
+    report = run_backtest_from_csv(str(_ONCOLOGY_CSV))
+    suite = report.calibration_suite
+
+    assert suite is not None
+    recalibration = suite.recalibration
+    assert recalibration is not None
+    assert recalibration.method == "isotonic"
+    assert recalibration.time_split_year == 2022
+    assert recalibration.n_train > 0
+    assert recalibration.n_oos > 0
+    assert recalibration.raw_oos is not None
+    assert recalibration.calibrated_oos is not None
+    assert recalibration.raw_oos.n == suite.oos_overall.n
+    assert recalibration.calibrated_oos.n == suite.oos_overall.n
+    assert recalibration.raw_oos.brier_score is not None
+    assert recalibration.calibrated_oos.brier_score is not None
+    assert recalibration.raw_oos.ece is not None
+    assert recalibration.calibrated_oos.ece is not None
+
+    payload = suite.to_dict()
+    assert payload["recalibration"]["raw_oos"]["n"] == suite.oos_overall.n
+    assert payload["recalibration"]["calibrated_oos"]["n"] == suite.oos_overall.n
+
+    rendered = print_report(report)
+    assert "OOS Recalibration (isotonic, fit <2022)" in rendered
+    assert "Raw OOS" in rendered
+    assert "Calibrated OOS" in rendered

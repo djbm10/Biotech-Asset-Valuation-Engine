@@ -536,6 +536,32 @@ def print_report(report: BacktestReport) -> str:
             lines.append(f"  {label:<12} {metrics.n:>5}  {brier:>7}  {auc:>7}  {ece:>6}")
         lines.append("")
 
+        recalibration = getattr(suite, "recalibration", None)
+        if recalibration is not None:
+            lines.append(
+                f"  OOS Recalibration ({recalibration.method}, fit <{recalibration.time_split_year})"
+            )
+            lines.append(f"  {'Model':<15} {'N':>5}  {'Brier':>7}  {'AUC':>7}  {'ECE':>6}")
+            lines.append("  " + "-" * 46)
+            for label, metrics in (
+                ("Raw OOS", recalibration.raw_oos),
+                ("Calibrated OOS", recalibration.calibrated_oos),
+            ):
+                if metrics is None:
+                    lines.append(
+                        f"  {label:<15} {'0':>5}  {'n/a':>7}  {'n/a':>7}  {'n/a':>6}"
+                    )
+                    continue
+                brier = "n/a" if metrics.brier_score is None else f"{metrics.brier_score:.4f}"
+                auc = "n/a" if metrics.auc is None else f"{metrics.auc:.4f}"
+                ece = "n/a" if metrics.ece is None else f"{metrics.ece:.4f}"
+                lines.append(
+                    f"  {label:<15} {metrics.n:>5}  {brier:>7}  {auc:>7}  {ece:>6}"
+                )
+            if recalibration.note:
+                lines.append(f"  Note: {recalibration.note}")
+            lines.append("")
+
     # Calibration table
     lines.append("  Calibration (heuristic) — predicted vs. actual success rate")
     lines.append(f"  {'Bucket':<12} {'N':>4}  {'Pred':>6}  {'Actual':>6}")
