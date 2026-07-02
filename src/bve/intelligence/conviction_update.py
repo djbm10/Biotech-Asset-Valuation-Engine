@@ -85,6 +85,7 @@ class EvidenceUpdate(BaseModel):
     provenance: str
     as_of: str = ""
     direction: UpdateDirection = UpdateDirection.NEUTRAL
+    label: str = ""  # human-facing bucket (e.g. readout outcome), for surfacing
 
     def log_odds_delta(self) -> float:
         return self.informativeness * math.log(self.likelihood_ratio)
@@ -111,6 +112,7 @@ def _make_update(
     rationale: str,
     provenance: str,
     as_of: str = "",
+    label: str = "",
 ) -> EvidenceUpdate:
     return EvidenceUpdate(
         source=source,
@@ -120,6 +122,7 @@ def _make_update(
         provenance=provenance,
         as_of=as_of,
         direction=_direction_of(likelihood_ratio),
+        label=label,
     )
 
 
@@ -247,4 +250,54 @@ def interpret_readout(
         rationale=f"readout classified as {outcome.value} (bar={bar})",
         provenance=provenance,
         as_of=as_of,
+        label=outcome.value,
     )
+
+
+# ---------------------------------------------------------------------------
+# Surfacing — compact, JSON-safe rendering of the conviction trail
+# ---------------------------------------------------------------------------
+
+
+def _update_to_dict(update: object) -> dict:
+    """One evidence update as a compact, JSON-safe row.
+
+    Uses ``getattr`` so it renders anything update-shaped (mirrors the loose
+    surfacing convention used for killer questions).
+    """
+    source = getattr(update, "source", None)
+    direction = getattr(update, "direction", None)
+    return {
+        "source": getattr(source, "value", source),
+        "direction": getattr(direction, "value", direction),
+        "label": getattr(update, "label", ""),
+        "likelihood_ratio": getattr(update, "likelihood_ratio", None),
+        "informativeness": getattr(update, "informativeness", None),
+        "rationale": getattr(update, "rationale", ""),
+        "provenance": getattr(update, "provenance", ""),
+        "as_of": getattr(update, "as_of", ""),
+    }
+
+
+def conviction_record_to_dict(record: object) -> dict:
+    """One ``ConvictionRecord`` as a compact, JSON-safe dict for memo/JSON output.
+
+    Surfaces the analyst-facing trail: prior posterior -> per-update
+    (bucket / LR / informativeness / rationale) -> updated posterior. Pure
+    presentation — carries no scoring authority.
+    """
+    archetype = getattr(record, "archetype", None)
+    return {
+        "archetype": getattr(archetype, "value", archetype),
+        "prior": getattr(record, "prior", None),
+        "posterior": getattr(record, "posterior", None),
+        "human_override": getattr(record, "human_override", None),
+        "untested_flags": list(getattr(record, "untested_flags", []) or []),
+        "updates": [_update_to_dict(u) for u in (getattr(record, "updates", []) or [])],
+    }
+
+
+def build_conviction_summary(records: object | None) -> list[dict] | None:
+    """Render a list of conviction records to JSON-safe dicts, or ``None`` if empty."""
+    rows = [conviction_record_to_dict(r) for r in (records or [])]
+    return rows or None

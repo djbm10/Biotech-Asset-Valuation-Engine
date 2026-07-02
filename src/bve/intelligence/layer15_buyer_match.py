@@ -132,7 +132,10 @@ class Layer15BuyerMatcher:
         self, result: BDActionabilityResult, thesis: ScienceThesis
     ) -> BDActionabilityResult:
         return result.model_copy(
-            update={"killer_question_set": getattr(thesis, "killer_question_set", None)}
+            update={
+                "killer_question_set": getattr(thesis, "killer_question_set", None),
+                "conviction_records": list(getattr(thesis, "conviction_records", []) or []),
+            }
         )
 
     def _component_score(self, thesis: ScienceThesis, component: str) -> float:

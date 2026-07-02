@@ -292,6 +292,9 @@ class ScienceThesis(BaseModel):
     belief_state: BeliefState = Field(default_factory=BeliefState)
     modifier_result: ScienceModifierResult | None = None
     killer_question_set: object | None = Field(default=None, exclude=True)
+    # Downstream conviction-update audit trail (Batch 2). Read-only for surfacing;
+    # never feeds POS or compute_science_modifier. Loosely typed to avoid coupling.
+    conviction_records: list = Field(default_factory=list, exclude=True)
     next_readout_requirement: str = ""
     bd_diligence_questions: list[str] = Field(default_factory=list)
 
@@ -349,6 +352,8 @@ class BDActionabilityResult(BaseModel):
     warnings: list[str] = Field(default_factory=list)
     diligence_questions: list[str] = Field(default_factory=list)
     killer_question_set: object | None = Field(default=None, exclude=True)
+    # Conviction-update audit trail, copied from the thesis for BD surfacing.
+    conviction_records: list = Field(default_factory=list, exclude=True)
 
 
 _COMPONENT_TO_QUESTION = {

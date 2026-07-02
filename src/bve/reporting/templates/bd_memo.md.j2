@@ -110,7 +110,47 @@ Key valuation anchors:
 {% if science_thesis.warnings %}
 - **Warnings:** {{ science_thesis.warnings | join("; ") }}
 {% endif %}
+{% if science_thesis.killer_question_set %}
+{% set kq = science_thesis.killer_question_set %}
 
+### Killer Question Diligence Agenda
+
+{% if kq.abstained %}
+> **No dominant killer question identified:** {{ kq.abstain_reason or "Human review required." }}
+{% endif %}
+{% if kq.company_focus_mismatch %}
+> **Company focus mismatch:** {{ kq.company_focus_mismatch }}
+{% endif %}
+{% if kq.decisive %}
+| Question | VOI | Posterior | Swing | Evidence | Resolving readout |
+|---|---:|---:|---:|---|---|
+{% for q in kq.decisive -%}
+| {{ q.question_text or q.archetype }} | {{ "%.2f"|format(q.voi_score or 0) }} | {{ "%.0f"|format((q.posterior or 0) * 100) }}% | {% if q.swing_m %}${{ "%.0f"|format(q.swing_m) }}M{% else %}—{% endif %} | {{ q.evidence_touched | replace("_", " ") }} | {{ q.resolving_readout or "—" }} |
+{% endfor %}
+
+{% for q in kq.decisive -%}
+- **Diligence question:** {{ q.diligence_question or q.question_text }}
+{% if q.why_fired %}  - Why it fired: {{ q.why_fired }}{% endif %}
+{% endfor %}
+{% endif %}
+{% endif %}
+{% if science_thesis.conviction_trail %}
+
+### Conviction Trail
+
+_Evidence updates to killer-question conviction. Diligence artifact only — does not feed POS or valuation._
+
+{% for rec in science_thesis.conviction_trail %}
+**{{ rec.archetype | replace("_", " ") }}** — prior {{ "%.0f"|format((rec.prior or 0) * 100) }}% → posterior {{ "%.0f"|format((rec.posterior or 0) * 100) }}%{% if rec.human_override is not none %} (human override){% endif %}
+
+| Source | Update | LR | Informativeness | Rationale |
+|---|---|---:|---:|---|
+{% for u in rec.updates -%}
+| {{ u.source | replace("_", " ") }} | {{ (u.label or u.direction) | replace("_", " ") }} | {{ "%.2f"|format(u.likelihood_ratio or 0) }} | {{ "%.2f"|format(u.informativeness or 0) }} | {{ u.rationale or "—" }} |
+{% endfor %}
+{% if rec.untested_flags %}- Untested: {{ rec.untested_flags | join(", ") }}{% endif %}
+{% endfor %}
+{% endif %}
 {% endif %}
 
 {% if bd_actionability %}
