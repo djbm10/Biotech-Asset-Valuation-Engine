@@ -11,6 +11,9 @@ share, and explain to someone who isn't in the code.
   · Proof it works.** Jargon is defined the first time it appears.
 
 **Index**
+- [Accuracy And Calibration](accuracy-and-calibration.md) — POS out-of-sample
+reporting, recalibration, dataset expansion, science double-count cleanup, and
+peak-sales backtest.
 - [How the Tool Scores](how-the-tool-scores.md) — the full plain-language picture: what
   the tool produces, and every scoring layer (POS, rNPV, competition, the weekly
   buy/watch/avoid list) and what each is based on.
