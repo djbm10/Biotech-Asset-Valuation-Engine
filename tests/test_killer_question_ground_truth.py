@@ -20,6 +20,7 @@ REQUIRED_COLUMNS = {
     "label_source",
     "label_date",
     "pivotal_evidence_event",
+    "pivotal_evidence_date",
     "single_question_dominant",
 }
 
@@ -78,6 +79,16 @@ def test_label_date_is_not_before_decision_date() -> None:
         assert label_date >= decision_date
 
 
+def test_decision_date_precedes_pivotal_evidence_date() -> None:
+    rows = _read_csv(LABELS_CSV)
+
+    for row in rows:
+        decision_date = date.fromisoformat(row["decision_date"])
+        pivotal_date = date.fromisoformat(row["pivotal_evidence_date"])
+
+        assert decision_date < pivotal_date
+
+
 def test_program_ids_exist_in_phase_transition_dataset() -> None:
     labels = _read_csv(LABELS_CSV)
     phase_rows = _read_csv(PHASE_TRANSITIONS_CSV)
@@ -99,3 +110,11 @@ def test_headline_eligibility_is_per_row_not_per_archetype() -> None:
     assert any(row["label_status"] == "clean" for row in rows)
     assert any(row["label_status"] == "subjective" for row in rows)
     assert any(row["label_status"] == "excluded" for row in rows)
+
+
+def test_seed_has_minimum_clean_headline_rows() -> None:
+    rows = _read_csv(LABELS_CSV)
+    clean_rows = [row for row in rows if row["label_status"] == "clean"]
+
+    assert len(clean_rows) >= 15
+    assert all(row["single_question_dominant"] == "true" for row in clean_rows)

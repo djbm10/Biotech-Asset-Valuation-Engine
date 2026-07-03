@@ -31,6 +31,7 @@ Each row is one resolved program. Required fields:
 - `label_source`: auditable citation string for the label.
 - `label_date`: date the label was assigned.
 - `pivotal_evidence_event`: event or readout that resolved the program.
+- `pivotal_evidence_date`: date of the resolving event or readout.
 - `single_question_dominant`: `true` if one question clearly dominated.
 
 Allowed `decisive_archetype` values:
@@ -58,6 +59,8 @@ archetype can be clean in one program and subjective in another.
 - No explanation, no label: `why_this_archetype_decided`, `label_source`, and
   `label_date` must be populated.
 - `label_date` must be on or after `decision_date`.
+- `decision_date` must be before `pivotal_evidence_date`; the engine replay
+  cannot see the resolving event.
 - Missing evidence is not refutation.
 - `subjective` and `excluded` rows must remain outside the headline metric.
 - `single_question_dominant=false` rows are valid for abstention analysis, not
@@ -65,6 +68,6 @@ archetype can be clean in one program and subjective in another.
 
 ## P0 Seed Labels
 
-P0 is a protocol and seed-label pass only. It validates the schema and forces
-ambiguous cases into `subjective` or `excluded`; it does not build the scoring
-harness.
+P0/P1 is a protocol and seed-label pass only. It validates the schema, seeds at
+least 15 clean headline-eligible rows, and forces ambiguous cases into
+`subjective` or `excluded`; it does not build the scoring harness.
