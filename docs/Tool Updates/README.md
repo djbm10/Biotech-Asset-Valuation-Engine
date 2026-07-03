@@ -11,6 +11,7 @@ share, and explain to someone who isn't in the code.
   · Proof it works.** Jargon is defined the first time it appears.
 
 **Index**
+- [Harvey Falsification Tool](harvey-falsification-tool.md) — the full killer-question and conviction-update run: how the tool names decisive questions, updates confidence, and records falsifying evidence.
 - [Accuracy And Calibration](accuracy-and-calibration.md) — POS out-of-sample
 reporting, recalibration, dataset expansion, science double-count cleanup, and
 peak-sales backtest.
