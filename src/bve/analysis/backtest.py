@@ -1,7 +1,7 @@
 """
 Backtesting: validate POS model predictions against historical drug trial outcomes.
 
-Loads the oncology dataset from research/data/oncology_phase_transitions.csv (and optional
+Loads the mixed-TA dataset from research/data/phase_transitions.csv (and optional
 multi-TA datasets), runs the heuristic and statistical POS models on each program's feature
 set, and computes calibration metrics.
 
@@ -23,7 +23,7 @@ The dataset targets ~40% Phase 2 and ~60% Phase 3 success rates (Biomedtracker p
 Usage
 -----
     from bve.analysis.backtest import run_backtest_from_csv, print_report
-    report = run_backtest_from_csv("research/data/oncology_phase_transitions.csv")
+    report = run_backtest_from_csv("research/data/phase_transitions.csv")
     print(print_report(report))
 
     # Multi-TA combined backtest
@@ -408,9 +408,11 @@ def run_backtest_from_csv(csv_path: str | Path, therapeutic_area: str = "oncolog
     report = run_backtest(cases)
     from bve.analysis.pos_calibration import run_pos_calibration_from_records
 
+    tas = {case.therapeutic_area for case in cases}
+    model_name = "heuristic_mixed_ta" if len(tas) > 1 else f"heuristic_{next(iter(tas))}"
     report.calibration_suite = run_pos_calibration_from_records(
         report.to_calibration_records(),
-        model_name=f"heuristic_{therapeutic_area}",
+        model_name=model_name,
         time_split_year=2022,
     )
     return report
@@ -627,7 +629,7 @@ if __name__ == "__main__":
             print(f"ERROR: {exc}", file=sys.stderr)
             sys.exit(1)
     else:
-        csv_path = sys.argv[1] if len(sys.argv) > 1 else "research/data/oncology_phase_transitions.csv"
+        csv_path = sys.argv[1] if len(sys.argv) > 1 else "research/data/phase_transitions.csv"
         # Infer TA from filename
         _fname = Path(csv_path).stem
         _ta = "oncology"
@@ -640,6 +642,6 @@ if __name__ == "__main__":
             print(print_report(report))
         except FileNotFoundError:
             print(f"ERROR: CSV file not found: {csv_path}", file=sys.stderr)
-            print("Run from the project root: python -m bve.analysis.backtest research/data/oncology_phase_transitions.csv")
+            print("Run from the project root: python -m bve.analysis.backtest research/data/phase_transitions.csv")
             print("Or run: python -m bve.analysis.backtest --multi-ta")
             sys.exit(1)

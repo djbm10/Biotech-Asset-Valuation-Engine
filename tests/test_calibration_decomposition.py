@@ -26,6 +26,7 @@ from bve.analysis import pos_calibration as pc
 from bve.analysis.backtest import run_backtest_from_csv
 from bve.analysis.calibration_metrics import brier_decomposition
 
+_PHASE_TRANSITIONS_CSV = Path("research/data/phase_transitions.csv")
 _ONCOLOGY_CSV = Path("research/data/oncology_phase_transitions.csv")
 
 # --- regression anchors (re-baseline only on intended dataset/model change) ---
@@ -98,12 +99,12 @@ def test_resolution_higher_when_model_separates_classes():
 
 
 @pytest.fixture(scope="module")
-def oncology_overall():
-    if not _ONCOLOGY_CSV.exists():
-        pytest.skip(f"dataset not present: {_ONCOLOGY_CSV}")
+def phase_transitions_overall():
+    if not _PHASE_TRANSITIONS_CSV.exists():
+        pytest.skip(f"dataset not present: {_PHASE_TRANSITIONS_CSV}")
     # Authoritative model scores (see module docstring) rather than the
     # deprecated proxy loader.
-    report = run_backtest_from_csv(str(_ONCOLOGY_CSV))
+    report = run_backtest_from_csv(str(_PHASE_TRANSITIONS_CSV))
     records = report.to_calibration_records()
     suite = pc.run_pos_calibration_from_records(records)
     assert suite.overall is not None
@@ -117,34 +118,34 @@ def _rebaseline_msg(name, actual, anchor):
     )
 
 
-def test_record_count_anchor(oncology_overall):
-    _, n = oncology_overall
+def test_record_count_anchor(phase_transitions_overall):
+    _, n = phase_transitions_overall
     assert n == _ANCHOR_N, _rebaseline_msg("n_records", n, _ANCHOR_N)
 
 
-def test_brier_anchor(oncology_overall):
-    overall, _ = oncology_overall
+def test_brier_anchor(phase_transitions_overall):
+    overall, _ = phase_transitions_overall
     assert overall.brier_score == pytest.approx(_ANCHOR_BRIER, abs=_METRIC_TOL), (
         _rebaseline_msg("brier", overall.brier_score, _ANCHOR_BRIER)
     )
 
 
-def test_auc_anchor(oncology_overall):
-    overall, _ = oncology_overall
+def test_auc_anchor(phase_transitions_overall):
+    overall, _ = phase_transitions_overall
     assert overall.auc == pytest.approx(_ANCHOR_AUC, abs=_METRIC_TOL), (
         _rebaseline_msg("auc", overall.auc, _ANCHOR_AUC)
     )
 
 
-def test_ece_anchor(oncology_overall):
-    overall, _ = oncology_overall
+def test_ece_anchor(phase_transitions_overall):
+    overall, _ = phase_transitions_overall
     assert overall.ece == pytest.approx(_ANCHOR_ECE, abs=_METRIC_TOL), (
         _rebaseline_msg("ece", overall.ece, _ANCHOR_ECE)
     )
 
 
-def test_decomposition_anchor_and_identity(oncology_overall):
-    overall, _ = oncology_overall
+def test_decomposition_anchor_and_identity(phase_transitions_overall):
+    overall, _ = phase_transitions_overall
     d = overall.decomposition
     assert d is not None
     assert d.reliability == pytest.approx(_ANCHOR_RELIABILITY, abs=_METRIC_TOL)
@@ -159,10 +160,10 @@ def test_decomposition_anchor_and_identity(oncology_overall):
 def test_headline_backtest_report_prints_in_sample_and_oos_metrics():
     from bve.analysis.backtest import print_report
 
-    if not _ONCOLOGY_CSV.exists():
-        pytest.skip(f"dataset not present: {_ONCOLOGY_CSV}")
+    if not _PHASE_TRANSITIONS_CSV.exists():
+        pytest.skip(f"dataset not present: {_PHASE_TRANSITIONS_CSV}")
 
-    report = run_backtest_from_csv(str(_ONCOLOGY_CSV))
+    report = run_backtest_from_csv(str(_PHASE_TRANSITIONS_CSV))
     suite = report.calibration_suite
 
     assert suite is not None
@@ -185,10 +186,10 @@ def test_headline_backtest_report_prints_in_sample_and_oos_metrics():
 def test_headline_backtest_reports_oos_recalibration_metrics():
     from bve.analysis.backtest import print_report
 
-    if not _ONCOLOGY_CSV.exists():
-        pytest.skip(f"dataset not present: {_ONCOLOGY_CSV}")
+    if not _PHASE_TRANSITIONS_CSV.exists():
+        pytest.skip(f"dataset not present: {_PHASE_TRANSITIONS_CSV}")
 
-    report = run_backtest_from_csv(str(_ONCOLOGY_CSV))
+    report = run_backtest_from_csv(str(_PHASE_TRANSITIONS_CSV))
     suite = report.calibration_suite
 
     assert suite is not None
@@ -218,11 +219,21 @@ def test_headline_backtest_reports_oos_recalibration_metrics():
 
 
 def test_expanded_backtest_dataset_includes_non_oncology_tas():
+    if not _PHASE_TRANSITIONS_CSV.exists():
+        pytest.skip(f"dataset not present: {_PHASE_TRANSITIONS_CSV}")
+
+    report = run_backtest_from_csv(str(_PHASE_TRANSITIONS_CSV))
+    tas = {r.case.therapeutic_area for r in report.results}
+
+    assert "oncology" in tas
+    assert {"immunology", "cns", "metabolic"}.issubset(tas)
+
+
+def test_legacy_oncology_dataset_remains_oncology_only():
     if not _ONCOLOGY_CSV.exists():
         pytest.skip(f"dataset not present: {_ONCOLOGY_CSV}")
 
     report = run_backtest_from_csv(str(_ONCOLOGY_CSV))
     tas = {r.case.therapeutic_area for r in report.results}
 
-    assert "oncology" in tas
-    assert {"immunology", "cns", "metabolic"}.issubset(tas)
+    assert tas == {"oncology"}
