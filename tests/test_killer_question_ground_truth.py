@@ -22,6 +22,7 @@ REQUIRED_COLUMNS = {
     "pivotal_evidence_event",
     "pivotal_evidence_date",
     "single_question_dominant",
+    "competing_archetypes",
 }
 
 ALLOWED_ARCHETYPES = {
@@ -118,3 +119,37 @@ def test_seed_has_minimum_clean_headline_rows() -> None:
 
     assert len(clean_rows) >= 15
     assert all(row["single_question_dominant"] == "true" for row in clean_rows)
+
+
+def test_competing_archetypes_are_valid_and_exclude_decisive() -> None:
+    """Each competing archetype must be a known archetype and must not repeat
+    the decisive one (the decisive archetype is opened separately)."""
+    rows = _read_csv(LABELS_CSV)
+
+    for row in rows:
+        competing = [
+            token.strip()
+            for token in row["competing_archetypes"].split(",")
+            if token.strip()
+        ]
+        for archetype in competing:
+            assert archetype in ALLOWED_ARCHETYPES, (
+                f"{row['program_id']}: unknown competing archetype {archetype!r}"
+            )
+        assert row["decisive_archetype"] not in competing, (
+            f"{row['program_id']}: decisive archetype listed in competing_archetypes"
+        )
+        assert len(competing) == len(set(competing)), (
+            f"{row['program_id']}: duplicate competing archetypes"
+        )
+
+
+def test_clean_headline_rows_have_competing_archetypes() -> None:
+    """Every clean headline row must present a real ranking field (>=1 competing
+    archetype), otherwise M1 degenerates to a single-candidate walkover."""
+    rows = _read_csv(LABELS_CSV)
+    clean_rows = [row for row in rows if row["label_status"] == "clean"]
+
+    for row in clean_rows:
+        competing = [t.strip() for t in row["competing_archetypes"].split(",") if t.strip()]
+        assert competing, f"{row['program_id']}: clean row has no competing archetypes"

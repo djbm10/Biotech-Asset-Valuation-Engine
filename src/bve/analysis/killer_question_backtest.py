@@ -41,6 +41,7 @@ DEFAULT_KILLER_QUESTION_GROUND_TRUTH_CSV = Path(
     "research/data/killer_question_ground_truth.csv"
 )
 SCREENING_BACKTEST_MODE: Literal["screening_backtest"] = "screening_backtest"
+SCREENING_BACKTEST_VOI_MODE: Literal["screening_backtest_voi"] = "screening_backtest_voi"
 MIN_N_FOR_CALIBRATION = 10
 
 
@@ -60,6 +61,10 @@ class KillerQuestionGroundTruthLabel:
     pivotal_evidence_event: str
     pivotal_evidence_date: date
     single_question_dominant: bool
+    # Archetypes that were *also open* at the decision date but were not the
+    # decisive one. Leaving these open in the reconstructed snapshot turns M1
+    # into a real ranking challenge instead of a single-candidate walkover.
+    competing_archetypes: tuple[KillerArchetype, ...] = ()
 
     @property
     def headline_eligible(self) -> bool:
@@ -98,7 +103,7 @@ class KillerQuestionReplayPrediction:
 
     program_id: str
     as_of_date: date
-    reconstruction_mode: Literal["screening_backtest"]
+    reconstruction_mode: Literal["screening_backtest", "screening_backtest_voi"]
     ranked_archetypes: tuple[KillerArchetype, ...]
     decisive_archetypes: tuple[KillerArchetype, ...]
     abstained: bool
@@ -128,6 +133,7 @@ def load_ground_truth_labels(
                     pivotal_evidence_event=row["pivotal_evidence_event"].strip(),
                     pivotal_evidence_date=date.fromisoformat(row["pivotal_evidence_date"]),
                     single_question_dominant=_parse_bool(row["single_question_dominant"]),
+                    competing_archetypes=_parse_competing(row.get("competing_archetypes", "")),
                 )
             )
     return labels
@@ -159,6 +165,110 @@ def replay_killer_questions_openness_only(
         program_id=snapshot.program_id,
         as_of_date=snapshot.as_of_date,
         reconstruction_mode=SCREENING_BACKTEST_MODE,
+        ranked_archetypes=tuple(question.archetype for question in question_set.candidates),
+        decisive_archetypes=tuple(question.archetype for question in question_set.decisive),
+        abstained=question_set.abstained,
+        abstain_reason=question_set.abstain_reason,
+    )
+
+
+# ---------------------------------------------------------------------------
+# Step 1.5: VOI (rNPV-swing) replay
+# ---------------------------------------------------------------------------
+
+_VOI_STUB_ASSET_ID = "KQ-VOI-STUB"
+
+
+def voi_stub_program() -> tuple[object, list, object]:
+    """A canonical minimal (asset, trials, market) for rNPV-swing valuation.
+
+    The killer-question ground-truth corpus carries no per-program economics,
+    so every program is valued against this **one shared** oncology stub. That
+    means the VOI valuator does not (yet) add per-program value reasoning; it
+    only re-weights archetypes by *which phase gate* each one governs, via
+    ``RnpvBranchValuator._governing_index``:
+
+    - DIFFERENTIATION governs the pivotal (latest) phase.
+    - Every other archetype governs the earliest phase still carrying risk.
+
+    So threading this valuator replaces the openness-only tie-break (draft
+    order) with a value-at-stake ordering *between* the pivotal-phase question
+    and the next-gate questions. Genuine per-program VOI needs real economics
+    per labeled program (Step 2 corpus work). Import is local so the analysis
+    module stays cheap to import when only openness-only replay is used.
+    """
+    from bve.entities.asset import (
+        Asset,
+        DevelopmentStage,
+        Modality,
+        TherapeuticArea,
+    )
+    from bve.entities.trial import ClinicalTrial, TrialPhase
+    from bve.models.market_model import MarketModel
+
+    asset = Asset(
+        id=_VOI_STUB_ASSET_ID,
+        name="KQ VOI stub",
+        indication="oncology",
+        therapeutic_area=TherapeuticArea.ONCOLOGY,
+        stage=DevelopmentStage.PHASE_2,
+        modality=Modality.SMALL_MOLECULE,
+        discount_rate=0.10,
+        royalty_rate=0.0,
+    )
+    trials = [
+        ClinicalTrial(
+            asset_id=_VOI_STUB_ASSET_ID, phase=TrialPhase.PHASE_2,
+            success_probability=0.37, duration_years=2.5, cost_millions=80.0,
+        ),
+        ClinicalTrial(
+            asset_id=_VOI_STUB_ASSET_ID, phase=TrialPhase.PHASE_3,
+            success_probability=0.55, duration_years=3.5, cost_millions=250.0,
+        ),
+        ClinicalTrial(
+            asset_id=_VOI_STUB_ASSET_ID, phase=TrialPhase.NDA_BLA,
+            success_probability=0.87, duration_years=1.5, cost_millions=35.0,
+        ),
+    ]
+    market = MarketModel(
+        asset_id=_VOI_STUB_ASSET_ID, total_addressable_market_millions=8_000.0,
+        peak_penetration=0.12, years_to_peak=5, patent_life_years=12,
+        cogs_rate=0.18, sgna_rate_launch=0.40, sgna_rate_mature=0.20,
+        adoption_curve_mode="s_curve",
+    )
+    return asset, trials, market
+
+
+def replay_killer_questions_with_voi(
+    snapshot: ReconstructedScienceSnapshot,
+) -> KillerQuestionReplayPrediction:
+    """Replay the picker with an rNPV-swing branch valuator wired in.
+
+    Identical to :func:`replay_killer_questions_openness_only` except an
+    ``RnpvBranchValuator`` (built from :func:`voi_stub_program`) is threaded in,
+    so equal-openness questions are ordered by value-at-stake instead of by
+    draft order. Same no-lookahead guard applies.
+    """
+
+    assert_no_lookahead(snapshot)
+    asset, trials, market = voi_stub_program()
+    question_set = derive_killer_questions(
+        asset=asset,
+        trials=trials,
+        market_model=market,
+        scored=snapshot.scored,
+        context=snapshot.context,
+        guardrail=snapshot.guardrail,
+        indication=snapshot.indication,
+        claimed_effect=snapshot.claimed_effect,
+        target_has_precedent=snapshot.target_has_precedent,
+        novel_question=snapshot.novel_question,
+        company_focus=snapshot.company_focus,
+    )
+    return KillerQuestionReplayPrediction(
+        program_id=snapshot.program_id,
+        as_of_date=snapshot.as_of_date,
+        reconstruction_mode=SCREENING_BACKTEST_VOI_MODE,
         ranked_archetypes=tuple(question.archetype for question in question_set.candidates),
         decisive_archetypes=tuple(question.archetype for question in question_set.decisive),
         abstained=question_set.abstained,
@@ -207,6 +317,16 @@ def _parse_bool(value: str) -> bool:
     if normalized == "false":
         return False
     raise ValueError(f"Expected true/false, got {value!r}")
+
+
+def _parse_competing(value: str) -> tuple[KillerArchetype, ...]:
+    """Parse a comma-separated ``competing_archetypes`` cell into archetypes.
+
+    An empty (or missing) cell means no additional questions were open at the
+    decision date beyond the decisive one.
+    """
+    tokens = [tok.strip() for tok in (value or "").split(",") if tok.strip()]
+    return tuple(_parse_archetype(tok) for tok in tokens)
 
 
 def _parse_archetype(value: str) -> KillerArchetype:
@@ -267,14 +387,25 @@ def make_scored_questions_for_archetypes(
 # ---------------------------------------------------------------------------
 
 def _snapshot_from_label(label: KillerQuestionGroundTruthLabel) -> ReconstructedScienceSnapshot:
-    """Build the cheapest valid snapshot from a ground-truth label.
+    """Build the reconstructed snapshot from a ground-truth label.
 
-    Openness-only: leave the decisive archetype's component UNRESOLVED,
-    resolve everything else. This gives the picker its signal without any
-    rNPV branch valuation.
+    Openness-only: leave the decisive archetype AND every ``competing_archetype``
+    UNRESOLVED (open), resolve everything else. When ``competing_archetypes`` is
+    empty this degrades to the v1 single-candidate snapshot; when it is
+    populated the picker must rank the decisive question above a real field of
+    simultaneously-open questions, which is what makes M1 a non-trivial metric.
+
+    Note: DELIVERY_EXPOSURE and DOSE_ADEQUACY both read the ENOUGH_DRUG
+    component and cannot be opened independently in the same snapshot;
+    ``make_scored_questions_for_archetypes`` resolves the basis to DELIVERY when
+    both are requested. The current corpus contains neither as decisive, so this
+    edge does not affect headline M1 today.
     """
     decisive = label.decisive_archetype
-    scored, context, guardrail, claimed_effect = make_scored_questions_for_archetypes(decisive)
+    open_archetypes = (decisive, *label.competing_archetypes)
+    scored, context, guardrail, claimed_effect = make_scored_questions_for_archetypes(
+        *open_archetypes
+    )
     return ReconstructedScienceSnapshot(
         program_id=label.program_id,
         as_of_date=label.decision_date,
@@ -378,8 +509,13 @@ class KillerQuestionBacktestReport:
         return sum(1 for s in self.program_scores if s.label_status == "excluded")
 
     def summary_lines(self) -> list[str]:
+        mode_note = (
+            "rNPV-swing VOI reconstruction; shared stub economics — do not overclaim"
+            if self.mode == SCREENING_BACKTEST_VOI_MODE
+            else "openness-only reconstruction; do not overclaim"
+        )
         lines = [
-            f"Mode: {self.mode}  (openness-only reconstruction; do not overclaim)",
+            f"Mode: {self.mode}  ({mode_note})",
             f"Total programs: {len(self.program_scores)}",
             f"  clean (headline): {self.n_clean}",
             f"  subjective (appendix): {self.n_subjective}",
@@ -442,13 +578,26 @@ def score_program(
 
 def run_killer_question_backtest(
     labels_path: Path = DEFAULT_KILLER_QUESTION_GROUND_TRUTH_CSV,
+    *,
+    use_voi: bool = False,
 ) -> KillerQuestionBacktestReport:
-    """Load labels, replay picker in openness-only mode, score, return report."""
+    """Load labels, replay the picker, score, and return the report.
+
+    ``use_voi=False`` (default) preserves the openness-only v1 reconstruction.
+    ``use_voi=True`` threads an rNPV-swing branch valuator so equal-openness
+    questions break by value-at-stake instead of draft order (Step 1.5).
+    """
     labels = load_ground_truth_labels(labels_path)
-    report = KillerQuestionBacktestReport()
+    mode = SCREENING_BACKTEST_VOI_MODE if use_voi else SCREENING_BACKTEST_MODE
+    replay = (
+        replay_killer_questions_with_voi
+        if use_voi
+        else replay_killer_questions_openness_only
+    )
+    report = KillerQuestionBacktestReport(mode=mode)
     for label in labels:
         snapshot = _snapshot_from_label(label)
-        prediction = replay_killer_questions_openness_only(snapshot)
+        prediction = replay(snapshot)
         report.program_scores.append(score_program(label, prediction))
     return report
 
@@ -472,9 +621,37 @@ def main() -> None:
         default=str(DEFAULT_KILLER_QUESTION_GROUND_TRUTH_CSV),
         help="Path to killer_question_ground_truth.csv",
     )
+    parser.add_argument(
+        "--mode",
+        choices=("openness", "voi", "both"),
+        default="both",
+        help=(
+            "openness = v1 openness-only; voi = rNPV-swing VOI (Step 1.5); "
+            "both = print each report plus a side-by-side delta (default)."
+        ),
+    )
     args = parser.parse_args()
-    report = run_killer_question_backtest(Path(args.labels_csv))
-    print("\n".join(report.summary_lines()))
+    path = Path(args.labels_csv)
+
+    if args.mode in ("openness", "both"):
+        openness = run_killer_question_backtest(path, use_voi=False)
+        print("\n".join(openness.summary_lines()))
+    if args.mode in ("voi", "both"):
+        if args.mode == "both":
+            print("\n" + "=" * 60 + "\n")
+        voi = run_killer_question_backtest(path, use_voi=True)
+        print("\n".join(voi.summary_lines()))
+    if args.mode == "both":
+        print("\n" + "-" * 60)
+        print("VOI vs openness-only (clean rows)")
+        for label, o_val, v_val in (
+            ("M1 top-1", openness.m1_top1_rate, voi.m1_top1_rate),
+            ("M1 top-2", openness.m1_top2_recall, voi.m1_top2_recall),
+            ("M3", openness.m3_rate, voi.m3_rate),
+        ):
+            if o_val is None or v_val is None:
+                continue
+            print(f"  {label:9s}: {o_val:6.1%} -> {v_val:6.1%}  ({v_val - o_val:+.1%})")
 
 
 if __name__ == "__main__":

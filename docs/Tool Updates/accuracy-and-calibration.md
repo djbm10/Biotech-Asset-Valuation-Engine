@@ -2,6 +2,67 @@
 
 Plain-language record of the valuation-accuracy work. Goal is honest calibration and uncertainty, not false precision.
 
+## 2026-07-03 - Killer-Question Backtest: Ranking by Value, Not Draft Order (Step 1.5)
+
+### What Changed
+
+The M1 backtest (Step 1, below) still ranked questions only by how "open" they
+were, so when two questions were equally open the winner was decided by which one
+the code happened to build first — an artifact, not judgment. We now thread the
+engine's rNPV "branch valuator" into the backtest: each open question is scored by
+how much the drug's value would swing if that question resolved yes vs no, so
+equally-open questions break by **value at stake** instead of build order.
+
+### Why It Matters
+
+- **M1 held at 53.3% but is now earned.** The programs the tool gets right it now
+  gets right because the decisive question genuinely carries the most value, not
+  because of build order. That is exactly what Step 1.5 was supposed to prove.
+- **M3 (does the tool correctly say "no single dominant question"?) rose from
+  53.3% to 66.7%.** Six programs that used to trigger a false "can't decide"
+  abstention now resolve cleanly on value.
+- **Two honest limits found**, both stated plainly so nobody over-reads the number:
+  (1) every historical program is currently valued against one shared placeholder
+  economics stub, so the valuator re-weights question *types* globally rather than
+  reasoning per drug; (2) the valuator maps most question types onto the same trial
+  gate, so it can only separate the late-stage "is it differentiated?" question
+  from the rest. The real unlock is capturing rough per-program economics, which
+  belongs with the corpus-growth work (Step 2).
+
+Full writeup: `docs/vision_reports/idea20_m1_voi_step1p5_2026-07-03.md`.
+
+## 2026-07-03 - Killer-Question Backtest: M1 Made Real
+
+### What Changed
+
+The backtest that checks whether the tool picks the *decisive* make-or-break
+question for each drug (metric "M1") used to score a meaningless 100%. The reason
+was mechanical: each historical program's reconstructed snapshot left only **one**
+question open, so the picker had a single choice and could not be wrong.
+
+We added a `competing_archetypes` column to the ground-truth file recording the
+*other* questions that were genuinely open at the decision date, and the harness
+now leaves all of them open. The picker now has to rank the decisive question
+above a real field of competitors.
+
+With that, M1 dropped from 100% to **53.3%** (top-2 recall 93.3%). That is the
+first honest baseline for this metric.
+
+### Why It Matters
+
+- This is Step 1 of the path to letting the conviction layer eventually influence
+  POS. That gate stays closed until we can *measure* the layer points the right
+  way, and M1 is the foundational measurement.
+- Important caveat, stated plainly: the replay currently ranks questions only by
+  how "open" they are, so the 53.3% is still driven partly by tie-breaking
+  artifacts rather than genuine value-of-information reasoning. The next step
+  (1.5) is to rank questions by how much value is actually at stake (rNPV swing),
+  which makes the number reflect real skill. The competing-question labels are
+  also seed inferences that still need domain review before the number is quoted
+  anywhere load-bearing.
+
+Full writeup: `docs/vision_reports/idea20_m1_nontrivial_2026-07-03.md`.
+
 ## 2026-07-02 - POS Accuracy Program + Commercial Backtest
 
 ### What Changed
