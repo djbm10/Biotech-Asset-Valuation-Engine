@@ -4,6 +4,43 @@
 in a drug program's single most important make-or-break question as new evidence comes
 in — and to show its work, including when evidence argues *against* the program.
 
+---
+
+## 2026-07-03 — First backtest of the killer-question picker itself (Idea 20, v1)
+
+**What changed.** Built the measurement infrastructure to evaluate whether the tool
+identifies the question that actually decided resolved drug programs — the eval that
+must exist before conviction is allowed to influence any score.
+
+**What was built:**
+- A curated ground-truth label file: 18 resolved programs, each with the decisive
+  archetype, why it was decisive, the source, and a citation date. Labels use hindsight;
+  engine inputs are frozen to the pre-readout decision date (no lookahead).
+- A no-lookahead replay harness that reconstructs the engine's science state as of the
+  decision date and re-runs the killer-question picker — without any post-decision facts.
+- A scorer that computes M1 (did the engine rank the decisive question #1 or #2?) and M3
+  (did it abstain when and only when no question was dominant?), with a hard N-gate that
+  prevents the output from being cited as calibration below the minimum sample size.
+
+**First result (v1, `screening_backtest` mode):** M1 top-1 = 100%, N = 15 clean
+programs. The honest interpretation: the harness is correctly wired. In v1 the snapshot
+is constructed to leave *only* the decisive archetype open, so 100% is the expected floor
+— it means no infrastructure bugs, not that the model is accurate.
+
+**The `screening_backtest` stamp** is baked into every report line to prevent this
+number from being overclaimed. Real M1 signal comes when the corpus includes cases
+where multiple archetypes are simultaneously open and the picker has to rank them.
+
+**Why this matters.** The conviction layer can annotate confidence and show its work in
+memos and JSON. Whether it's *right* was previously unverified. This is the first step
+toward verifying it — and the gate the plan requires before any conviction signal is
+allowed to influence POS, valuation, BD score, or route.
+
+**Still gated.** Conviction influence on any score remains off. The eval says the
+plumbing works; it does not yet say the picker is accurate enough to earn that unlock.
+
+---
+
 > **Background terms (defined once):**
 > - **Killer question** — the one question that most decides whether a drug program
 >   succeeds (e.g. "Does the drug actually hit the target hard enough in humans?").
