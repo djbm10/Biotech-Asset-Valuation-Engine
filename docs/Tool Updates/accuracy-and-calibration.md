@@ -2,6 +2,34 @@
 
 Plain-language record of the valuation-accuracy work. Goal is honest calibration and uncertainty, not false precision.
 
+## 2026-07-04 - Claim Ledger: First 37-Program Review Draft Ingested (still uncalibrated)
+
+### What Changed
+
+A first pass of human research came back — 37 oncology programs of the dose-limiting-
+toxicity class (navitoclax, the PI3K-inhibitor cluster, several antibody-drug conjugates,
+the approved BTK/ALK/KRAS drugs), each with a target, modality, a candidate answer to "did
+the therapeutic window hold," and a source. We ingested it into the corpus (normalizing the
+human "yes/no" answers to the schema's true/false) and added a **base-rate preview**.
+
+Of the 37, 19 are candidate "window held," 11 "window failed," and 7 "unknown" — a
+provisional held-rate around 63%.
+
+### Why It Matters
+
+- **This is the first real signal of what the exposure/window prior looks like** — roughly
+  two-thirds of these programs cleared the window. That number is a useful anchor for the
+  model's starting assumption (its prior), which is exactly what this data is for.
+- **But every guardrail is deliberately still up.** The preview is labeled non-load-bearing
+  in code and in its output: the labels are candidates, the sources are Wikipedia summaries
+  rather than FDA reviews or trial papers, and not one row is approved. The calibration
+  number the model actually trusts still reads "uncalibrated, zero approved rows," and the
+  NO LIVE POS GATE stays closed.
+- **What is NOT done, on purpose:** promoting these to primary sources and `approved`
+  status, and generating the model's own prediction for each so we can score it. Both are
+  required before any of this touches a real POS number. The 63% is an orientation aid, not
+  a result.
+
 ## 2026-07-04 - Claim Ledger: Calibration Corpus Infrastructure (the data on-ramp)
 
 ### What Changed

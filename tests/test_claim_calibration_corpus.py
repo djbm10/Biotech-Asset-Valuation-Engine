@@ -15,9 +15,12 @@ from bve.analysis.claim_calibration_corpus import (
     REVIEW_DRAFT,
     ClaimCalibrationRecord,
     approved_records,
+    base_rate_preview,
     build_seed_rows,
     calibration_report,
+    ingest_rows,
     load_corpus,
+    normalize_claim_held,
     propose_claim_type,
     validate_corpus,
     write_corpus,
@@ -174,13 +177,66 @@ def test_module_has_no_live_pos_path():
     assert "compute_science_modifier" not in text
 
 
-# --- live seeded corpus is a valid draft worksheet -----------------------------
+# --- ingestion of a reviewed worksheet -----------------------------------------
 
 
-def test_live_corpus_is_valid_and_all_draft_or_reviewed():
+def test_normalize_claim_held_aliases():
+    assert normalize_claim_held("yes") == "true"
+    assert normalize_claim_held("No") == "false"
+    assert normalize_claim_held("unknown") == "unknown"
+    assert normalize_claim_held("true") == "true"
+    assert normalize_claim_held("") == ""
+
+
+def test_ingest_normalizes_and_preserves_review_status():
+    raw = [
+        {c: "" for c in CORPUS_COLUMNS}
+        | {
+            "program_id": "d1",
+            "claim_type": ClaimType.THERAPEUTIC_WINDOW.value,
+            "claim_held": "yes",
+            "review_status": REVIEW_DRAFT,  # ingestion must NOT promote to approved
+        }
+    ]
+    rows = ingest_rows(raw)
+    assert rows[0]["claim_held"] == "true"
+    assert rows[0]["review_status"] == REVIEW_DRAFT
+    assert list(rows[0].keys()) == list(CORPUS_COLUMNS)
+
+
+# --- base-rate preview: diagnostic, never load-bearing -------------------------
+
+
+def test_base_rate_preview_counts_and_is_not_load_bearing():
+    records = [
+        _record(claim_held="true", source_links="s"),
+        _record(claim_held="true", source_links="s"),
+        _record(claim_held="false", source_links="s"),
+        _record(claim_held="unknown", source_links="s"),
+    ]
+    preview = base_rate_preview(records)
+    assert preview.n_resolved == 3
+    assert preview.n_held == 2
+    assert preview.n_failed == 1
+    assert preview.n_unknown == 1
+    assert preview.base_rate_held == round(2 / 3, 4)
+    assert preview.is_load_bearing is False
+    assert any("NOT" in c for c in preview.caveats)
+
+
+# --- live corpus (now the ingested 37-row reviewed draft) ----------------------
+
+
+def test_live_corpus_is_valid_and_all_draft():
     records = load_corpus(LIVE_CORPUS)
-    assert records, "seeded corpus should exist"
+    assert records, "corpus should exist"
     assert validate_corpus(records) == []
     # Nothing is approved yet => calibration stays inert (gate closed).
     assert approved_records(records) == []
     assert calibration_report(records).status == "uncalibrated"
+    # claim_held must already be canonical (yes/no normalized on ingest).
+    assert all(r.claim_held in {"true", "false", "unknown"} for r in records)
+    # The base-rate preview is available but explicitly non-load-bearing.
+    preview = base_rate_preview(records)
+    assert preview.n_resolved > 0
+    assert preview.is_load_bearing is False

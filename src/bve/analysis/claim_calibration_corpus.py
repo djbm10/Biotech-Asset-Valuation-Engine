@@ -67,6 +67,15 @@ REVIEW_APPROVED = "approved"
 ALLOWED_REVIEW_STATUSES = frozenset({REVIEW_DRAFT, REVIEW_REVIEWED, REVIEW_APPROVED})
 ALLOWED_CLAIM_HELD = frozenset({"true", "false", "unknown"})
 
+# Human worksheets commonly use yes/no; canonicalize to the schema's true/false.
+_CLAIM_HELD_ALIASES = {"yes": "true", "no": "false", "y": "true", "n": "false"}
+
+
+def normalize_claim_held(raw: str) -> str:
+    """Canonicalize a claim_held value (yes/no -> true/false); pass through otherwise."""
+    v = (raw or "").strip().lower()
+    return _CLAIM_HELD_ALIASES.get(v, v)
+
 # The Phase 1 wedge: this corpus slice only labels exposure/therapeutic-window claims.
 _WEDGE_CLAIM_TYPES = frozenset({ClaimType.EXPOSURE_DELIVERY, ClaimType.THERAPEUTIC_WINDOW})
 
@@ -122,36 +131,36 @@ def _parse_float(raw: str) -> Optional[float]:
         return None
 
 
+def record_from_row(row: dict[str, str]) -> ClaimCalibrationRecord:
+    """Build a typed record from one schema-shaped dict row."""
+    return ClaimCalibrationRecord(
+        program_id=row.get("program_id", "").strip(),
+        target=row.get("target", "").strip(),
+        indication=row.get("indication", "").strip(),
+        modality=row.get("modality", "").strip(),
+        phase=row.get("phase", "").strip(),
+        decision_date=row.get("decision_date", "").strip(),
+        claim_type=row.get("claim_type", "").strip(),
+        claim_question=row.get("claim_question", "").strip(),
+        evidence_available=row.get("evidence_available", "").strip(),
+        predicted_posterior=_parse_float(row.get("predicted_posterior", "")),
+        claim_held=normalize_claim_held(row.get("claim_held", "")),
+        program_outcome=row.get("program_outcome", "").strip(),
+        failure_success_reason=row.get("failure_success_reason", "").strip(),
+        source_links=row.get("source_links", "").strip(),
+        review_status=row.get("review_status", "").strip(),
+        label_source=row.get("label_source", "").strip(),
+        label_date=row.get("label_date", "").strip(),
+    )
+
+
 def load_corpus(path: Path = DEFAULT_CORPUS_CSV) -> list[ClaimCalibrationRecord]:
     """Load all corpus rows (any review status). Missing file => empty corpus."""
     p = Path(path)
     if not p.exists():
         return []
-    records: list[ClaimCalibrationRecord] = []
     with p.open(newline="", encoding="utf-8") as handle:
-        for row in csv.DictReader(handle):
-            records.append(
-                ClaimCalibrationRecord(
-                    program_id=row.get("program_id", "").strip(),
-                    target=row.get("target", "").strip(),
-                    indication=row.get("indication", "").strip(),
-                    modality=row.get("modality", "").strip(),
-                    phase=row.get("phase", "").strip(),
-                    decision_date=row.get("decision_date", "").strip(),
-                    claim_type=row.get("claim_type", "").strip(),
-                    claim_question=row.get("claim_question", "").strip(),
-                    evidence_available=row.get("evidence_available", "").strip(),
-                    predicted_posterior=_parse_float(row.get("predicted_posterior", "")),
-                    claim_held=row.get("claim_held", "").strip(),
-                    program_outcome=row.get("program_outcome", "").strip(),
-                    failure_success_reason=row.get("failure_success_reason", "").strip(),
-                    source_links=row.get("source_links", "").strip(),
-                    review_status=row.get("review_status", "").strip(),
-                    label_source=row.get("label_source", "").strip(),
-                    label_date=row.get("label_date", "").strip(),
-                )
-            )
-    return records
+        return [record_from_row(row) for row in csv.DictReader(handle)]
 
 
 def approved_records(records: list[ClaimCalibrationRecord]) -> list[ClaimCalibrationRecord]:
@@ -369,6 +378,89 @@ def calibration_report(
 
 
 # ---------------------------------------------------------------------------
+# Ingestion of a human-reviewed worksheet (tab- or comma-separated)
+# ---------------------------------------------------------------------------
+
+
+def ingest_rows(raw_rows: list[dict[str, str]]) -> list[dict[str, str]]:
+    """Coerce reviewed worksheet rows into canonical schema rows.
+
+    Normalizes ``claim_held`` (yes/no -> true/false) and keeps only the schema
+    columns in order. Review status is preserved exactly — ingestion never promotes a
+    row to ``approved``; that remains a deliberate human edit.
+    """
+    out: list[dict[str, str]] = []
+    for r in raw_rows:
+        row = {col: (r.get(col, "") or "").strip() for col in CORPUS_COLUMNS}
+        row["claim_held"] = normalize_claim_held(row["claim_held"])
+        out.append(row)
+    return out
+
+
+def ingest_tsv(path: Path, *, delimiter: str = "\t") -> list[dict[str, str]]:
+    """Read a reviewed worksheet (TSV by default) into canonical schema rows."""
+    with Path(path).open(newline="", encoding="utf-8") as handle:
+        reader = csv.DictReader(handle, delimiter=delimiter)
+        return ingest_rows(list(reader))
+
+
+# ---------------------------------------------------------------------------
+# Base-rate preview (Phase 7 prior input) — diagnostic, NOT a calibration metric
+# ---------------------------------------------------------------------------
+
+
+@dataclass(frozen=True)
+class ClaimBaseRatePreview:
+    """Provisional claim base rate over resolved rows of ANY review status.
+
+    This is a prior-estimation aid (Phase 7), not a calibration of the model and not a
+    live-POS input: it reads unreviewed/secondary-sourced candidate labels, so it is
+    explicitly non-authorizing. The ``calibration_report`` gate (approved-only) is
+    unchanged and remains the only path toward a load-bearing number.
+    """
+
+    n_rows: int
+    n_resolved: int  # claim_held in {true, false}
+    n_held: int
+    n_failed: int
+    n_unknown: int
+    base_rate_held: Optional[float]
+    n_approved: int
+    is_load_bearing: bool = False
+    caveats: list[str] = field(default_factory=list)
+
+
+def base_rate_preview(records: list[ClaimCalibrationRecord]) -> ClaimBaseRatePreview:
+    """Provisional claim base rate over resolved rows (diagnostic only)."""
+    resolved = [r for r in records if r.claim_held.lower() in {"true", "false"}]
+    held = sum(1 for r in resolved if r.claim_held.lower() == "true")
+    unknown = sum(1 for r in records if r.claim_held.lower() == "unknown")
+    n_approved = len(approved_records(records))
+    caveats = [
+        "provisional prior estimate over candidate labels — NOT model calibration, NOT a live-POS input",
+    ]
+    if n_approved == 0:
+        caveats.append("zero approved rows: no load-bearing calibration is possible yet")
+    unreviewed_sources = sum(
+        1 for r in resolved if "wikipedia" in r.source_links.lower() or "REVIEW REQUIRED" in r.source_links
+    )
+    if unreviewed_sources:
+        caveats.append(
+            f"{unreviewed_sources}/{len(resolved)} resolved rows rest on secondary/unverified sources"
+        )
+    return ClaimBaseRatePreview(
+        n_rows=len(records),
+        n_resolved=len(resolved),
+        n_held=held,
+        n_failed=len(resolved) - held,
+        n_unknown=unknown,
+        base_rate_held=round(held / len(resolved), 4) if resolved else None,
+        n_approved=n_approved,
+        caveats=caveats,
+    )
+
+
+# ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
 
@@ -388,12 +480,34 @@ def main() -> None:
     seed.add_argument("--out", default=str(DEFAULT_CORPUS_CSV))
     seed.add_argument("--outcomes", default="failed")
 
+    ing = sub.add_parser("ingest", help="ingest a reviewed worksheet (TSV) into the corpus")
+    ing.add_argument("--in", dest="in_path", required=True)
+    ing.add_argument("--out", default=str(DEFAULT_CORPUS_CSV))
+    ing.add_argument("--delimiter", default="\t")
+
     rep = sub.add_parser("report", help="diagnostic calibration report over the corpus")
     rep.add_argument("--corpus", default=str(DEFAULT_CORPUS_CSV))
 
     args = parser.parse_args()
 
-    if args.cmd == "seed":
+    if args.cmd == "ingest":
+        rows = ingest_tsv(Path(args.in_path), delimiter=args.delimiter)
+        problems = validate_corpus([record_from_row(r) for r in rows])
+        out = write_corpus(rows, Path(args.out))
+        from collections import Counter
+
+        held = Counter(r["claim_held"] for r in rows)
+        status = Counter(r["review_status"] for r in rows)
+        print(f"Ingested {len(rows)} rows -> {out}")
+        print(f"  claim_held: {dict(held)}")
+        print(f"  review_status: {dict(status)}")
+        if problems:
+            print(f"  VALIDATION: {len(problems)} problem(s):")
+            for p in problems[:20]:
+                print(f"    - {p}")
+        else:
+            print("  validation: clean")
+    elif args.cmd == "seed":
         outcomes = tuple(o.strip().lower() for o in args.outcomes.split(",") if o.strip())
         rows = build_seed_rows(Path(args.pool), outcomes=outcomes)
         out = write_corpus(rows, Path(args.out))
@@ -418,6 +532,14 @@ def main() -> None:
         )
         for note in report.notes:
             print(f"  note: {note}")
+        preview = base_rate_preview(records)
+        print(
+            f"[preview/non-load-bearing] rows={preview.n_rows} resolved={preview.n_resolved} "
+            f"held={preview.n_held} failed={preview.n_failed} unknown={preview.n_unknown} "
+            f"base_rate_held={preview.base_rate_held} approved={preview.n_approved}"
+        )
+        for c in preview.caveats:
+            print(f"  caveat: {c}")
 
 
 if __name__ == "__main__":
