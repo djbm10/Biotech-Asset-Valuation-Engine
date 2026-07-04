@@ -33,7 +33,7 @@ from bve.config.assumptions_loader import _freeze
 _DEFAULT_PATH = Path(__file__).parent / "expected_signatures.yaml"
 
 _SCHEMA_VERSION = "expected_signatures_v1"
-_VALID_REVIEW_STATES = {"draft", "approved", "retired"}
+_VALID_REVIEW_STATES = {"draft", "approved", "retired", "rejected"}
 _VALID_DIRECTIONS = {"up", "down", "unchanged"}
 
 
@@ -150,6 +150,8 @@ def _label_for(review_status: str) -> str:
     if review_status == "approved":
         # No producer is wired in this PR, so even approved entries are not scored yet.
         return "approved signature — not yet wired to conviction updates"
+    if review_status == "rejected":
+        return "rejected signature — documented negative finding, never scored"
     return "signature candidate — not scored"
 
 

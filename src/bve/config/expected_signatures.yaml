@@ -12,10 +12,12 @@ meta:
     as "signature candidate - not scored" and never affect any score. A wrong
     curated signature manufactures false falsification, so entries stay draft
     until a domain reviewer approves them.
-  review_states: [draft, approved, retired]
+  review_states: [draft, approved, retired, rejected]
   status: >
-    One narrow JAK-STAT proximal target-engagement signature is approved.
-    Remaining entries are draft/example-only placeholders.
+    Five approved proximal target-engagement signatures: JAK-STAT (pSTAT),
+    CDK4/6 (pRb), BCR-ABL (pCRKL), EGFR (pEGFR), HER2 (pHER2, TKI-scoped).
+    VEGFR is rejected (documented negative finding — no clean proximal marker).
+    complement_c5_inhibition remains draft/example-only.
 
 entries:
   jak_stat_pathway:
@@ -55,3 +57,149 @@ entries:
         required: false
         evidence_context: "hemolysis marker in PNH/hemolytic settings"
         notes: "Downstream disease-context marker; supportive only and indication-dependent."
+
+  # --- Draft candidates proposed 2026-07-03 for the Idea 20 M2 replay (Step 3).
+  # Each is scientifically grounded but UN-reviewed: review_status: draft means it
+  # can never fire (only jak_stat_pathway is approved). Domain review + explicit
+  # approval in docs/expected_signature_review.md is required before any of these
+  # may move a posterior. See that sheet for the proposed rationale per entry.
+
+  cdk4_6_inhibition:
+    mechanism_tags: ["cdk4/6", "cdk4", "cdk6", "cdk 4/6", "palbociclib", "ribociclib", "abemaciclib"]
+    review_status: approved
+    evidence_context: "tumor biopsy IHC (phospho-Rb, Ki67)"
+    notes: >
+      APPROVED 2026-07-03 (domain review). phospho-Rb is the canonical proximal PD
+      marker of CDK4/6 inhibition; suppression is dose-dependent and tissue-accessible,
+      with published PK/PD for all three approved CDK4/6i. The cleanest signature.
+    expected_changes:
+      - biomarker: "pRb"
+        direction: "down"
+        informativeness: "proximal_target_engagement"
+        required: true
+        evidence_context: "phospho-Rb (Ser807/811) by IHC in tumor tissue"
+        notes: >
+          CDK4/6 phosphorylates Rb at Ser807/811; effective inhibition suppresses
+          pRb. Canonical proximal target-engagement readout — direct analogue of
+          pSTAT for JAK.
+      - biomarker: "Ki67"
+        direction: "down"
+        informativeness: "distal_proliferation_marker"
+        required: false
+        evidence_context: "proliferation index by IHC"
+        notes: "Downstream proliferation arrest; supportive, not target engagement."
+
+  bcr_abl_inhibition:
+    mechanism_tags: ["bcr-abl", "bcr abl", "abl", "imatinib", "dasatinib", "nilotinib", "cml"]
+    review_status: approved
+    evidence_context: "peripheral-blood phospho-CRKL; RQ-PCR transcript"
+    notes: >
+      APPROVED 2026-07-03 (domain review). phospho-CRKL was the canonical PD endpoint
+      in imatinib/dasatinib trials and is how BCR-ABL kinase activity / resistance is
+      monitored clinically. As robust as CDK4/6.
+    expected_changes:
+      - biomarker: "pCRKL"
+        direction: "down"
+        informativeness: "proximal_target_engagement"
+        required: true
+        evidence_context: "phospho-CRKL in peripheral-blood leukocytes"
+        notes: >
+          CRKL is a direct BCR-ABL substrate; pCRKL suppression is the canonical
+          proximal target-engagement marker of BCR-ABL kinase inhibition.
+      - biomarker: "BCR_ABL_transcript"
+        direction: "down"
+        informativeness: "distal_molecular_response"
+        required: false
+        evidence_context: "RQ-PCR BCR-ABL/ABL transcript ratio (IS)"
+        notes: "Molecular response is a clinical/distal efficacy readout, not target engagement."
+
+  her2_inhibition:
+    mechanism_tags: ["her2", "erbb2", "lapatinib", "tucatinib", "neratinib", "afatinib"]
+    review_status: approved
+    evidence_context: "tumor biopsy phospho-protein (pHER2, pERK, pAKT) — TKI programs"
+    notes: >
+      APPROVED 2026-07-03 (domain review) — VALID ONLY FOR HER2 TKIs. pHER2 suppression
+      is proximal target engagement for TKIs (lapatinib/tucatinib/neratinib/afatinib).
+      HARD CAVEAT: for mAbs/ADCs (trastuzumab, pertuzumab, T-DM1, T-DXd) the engagement
+      signal is HER2 EXPRESSION LEVEL, not phospho-suppression — this signature must NOT
+      score those programs. mAb/ADC drug names are left out of mechanism_tags, but the
+      target tags "her2"/"erbb2" still match a mAb program, and the producer matches on
+      tags NOT modality — so exclusion alone does NOT prevent mis-scoring. Until
+      modality-gating is implemented in apply_expected_signature_conviction, the only
+      real control is operator discipline: feed observed pHER2 changes for TKI programs
+      only. Modality-gating is a required prerequisite before HER2 scoring goes live.
+    expected_changes:
+      - biomarker: "pHER2"
+        direction: "down"
+        informativeness: "proximal_target_engagement"
+        required: true
+        evidence_context: "phospho-HER2 (Y1221/1222) by IHC/RPPA in tumor tissue"
+        notes: >
+          Direct suppression of HER2 autophosphorylation is proximal target
+          engagement; interpret per modality (TKI cleanest).
+      - biomarker: "pERK"
+        direction: "down"
+        informativeness: "distal_downstream_signaling"
+        required: false
+        evidence_context: "phospho-ERK (MAPK arm) in tumor tissue"
+        notes: "Downstream MAPK signaling; supportive only."
+      - biomarker: "pAKT"
+        direction: "down"
+        informativeness: "distal_downstream_signaling"
+        required: false
+        evidence_context: "phospho-AKT (PI3K arm) in tumor tissue"
+        notes: "Downstream PI3K/AKT signaling; supportive only."
+
+  egfr_inhibition:
+    mechanism_tags: ["egfr", "erbb1", "erlotinib", "gefitinib", "osimertinib", "afatinib", "cetuximab"]
+    review_status: approved
+    evidence_context: "tumor biopsy phospho-protein; skin PD (clinical)"
+    notes: >
+      APPROVED 2026-07-03 (domain review). phospho-EGFR suppression is proximal target
+      engagement. Mutation context (exon 19 del / L858R / T790M) affects which drug
+      engages, but as a FALSIFICATION marker the logic holds regardless of subtype:
+      "gave an EGFR inhibitor, saw no pEGFR suppression" argues against engagement in
+      any subtype. Skin rash is a clinical/toxicity PD marker, deliberately left out.
+    expected_changes:
+      - biomarker: "pEGFR"
+        direction: "down"
+        informativeness: "proximal_target_engagement"
+        required: true
+        evidence_context: "phospho-EGFR (Y1068) by IHC/RPPA in tumor tissue"
+        notes: >
+          Suppression of EGFR autophosphorylation is proximal target engagement;
+          cleanest for TKIs against sensitizing-mutant EGFR.
+      - biomarker: "pERK"
+        direction: "down"
+        informativeness: "distal_downstream_signaling"
+        required: false
+        evidence_context: "phospho-ERK downstream of EGFR"
+        notes: "Downstream MAPK signaling; supportive only."
+
+  vegfr_inhibition:
+    mechanism_tags: ["vegf", "vegfr", "vegfr2", "bevacizumab", "sunitinib", "sorafenib", "axitinib"]
+    review_status: rejected
+    evidence_context: "plasma VEGF / sVEGFR2; blood pressure (clinical)"
+    notes: >
+      REJECTED 2026-07-03 (domain review) — documented negative finding. VEGF-pathway
+      inhibition has NO clean proximal target-engagement blood marker: plasma VEGF rises
+      paradoxically via feedback and sVEGFR2 falls, but these are indirect pharmacodynamic
+      effects, not target engagement, and hypertension is toxicity-as-proxy — exactly the
+      wrong kind of falsification evidence. Rejecting prevents a bad approval that would
+      score VEGFR inhibitors incorrectly. Retained (not deleted) as a negative-finding
+      record for future sessions; never scored.
+    expected_changes:
+      - biomarker: "plasma_VEGF"
+        direction: "up"
+        informativeness: "indirect_pharmacodynamic"
+        required: true
+        evidence_context: "plasma VEGF (feedback increase on VEGF-pathway blockade)"
+        notes: >
+          Paradoxical feedback rise, NOT target engagement. Flagged required only for
+          structural completeness; do not approve without a better proximal marker.
+      - biomarker: "sVEGFR2"
+        direction: "down"
+        informativeness: "indirect_pharmacodynamic"
+        required: false
+        evidence_context: "soluble VEGFR2 in plasma"
+        notes: "Indirect pharmacodynamic effect; supportive only, indication-dependent."

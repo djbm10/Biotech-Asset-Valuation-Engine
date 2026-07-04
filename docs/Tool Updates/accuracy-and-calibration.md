@@ -2,6 +2,81 @@
 
 Plain-language record of the valuation-accuracy work. Goal is honest calibration and uncertainty, not false precision.
 
+## 2026-07-04 - Conviction Layer: M2 Harness Built (does confidence move the right way?)
+
+### What Changed
+
+M2 is the measurement that actually gates letting this layer touch POS: when the
+tool sees pre-readout biomarker evidence and updates its confidence, does it move
+in the direction the eventual outcome justifies? We built the harness that scores
+it. For each drug with sourced biomarker data, it feeds the evidence to the real
+(approved-only) signature engine, reads whether confidence went up (target looks
+engaged) or down (looks refuted), and checks that against what actually happened.
+
+We seeded it with seven cases: four clean successes where target engagement was
+real and the drug worked (imatinib/dasatinib phospho-CRKL, palbociclib phospho-Rb,
+erlotinib phospho-EGFR), plus three deliberately hard "engaged-but-failed" cases
+where the biomarker moved correctly yet the drug failed anyway (erlotinib in
+EGFR-wild-type lung, a CDK4/6 drug in an Rb-null tumor, imatinib in T315I-resistant
+CML). On this curated set the tool scores 4-of-7 — and that is the *point*: it
+correctly flags the three "engaged yet failed" cases as wrong calls, proving the
+measurement discriminates rather than just rewarding agreement.
+
+### Why It Matters
+
+- The plumbing for the POS-gating metric exists and is verified against the real
+  approved signatures, not stubs — the "works from day one" bar.
+- **The 4-of-7 is a discrimination demo, not a score.** The report says so every
+  run: the set is curated (canonical wins + hand-picked hard failures), primary-
+  source unverified, and still missing "refuting" cases (biomarker moved the wrong
+  way). Two seed rows carry explicit science flags to resolve before use (the T315I
+  direction, and whether "absent Rb" reads as suppression).
+- **It surfaces the real lesson for POS:** a confirming biomarker does NOT guarantee
+  success — 3 of these engaged-target drugs failed. That is the evidence-based case
+  for keeping any future POS influence *refutation-only* (can lower, never raise).
+- Also logged: the engine currently matches a signature on biomarker OR mechanism,
+  so an off-target marker move can fire the wrong signature — a fix needed before any
+  M2 number is load-bearing. Nothing here touches POS; measurement only.
+
+Tool: `bve.analysis.killer_question_m2_replay`; seed data in
+`research/data/killer_question_m2_inputs.csv`.
+
+## 2026-07-03 - Conviction Layer: Biomarker Signature Library Grows 1 -> 5 Approved
+
+### What Changed
+
+The next real milestone ("M2") is measuring whether the tool's confidence updates
+point the *right direction* — and that needs a library of "if the drug is really
+hitting its target, we should see biomarker X move this way" signatures to score
+against. It had exactly one (JAK/pSTAT). We drafted five candidates with the
+scientific case for each, and a domain review then **approved four and rejected
+one**:
+
+- **Approved:** CDK4/6 (phospho-Rb), BCR-ABL (phospho-CRKL), EGFR (phospho-EGFR),
+  and HER2 (phospho-HER2, *scoped to the small-molecule TKI drugs only*).
+- **Rejected:** VEGFR — VEGF paradoxically *rises* when you block the pathway and
+  hypertension is a toxicity signal, so there's no clean "target engaged" marker.
+  We kept the entry in the file marked `rejected` as a documented negative finding
+  rather than deleting it, so a future session doesn't re-litigate it.
+
+The library now has 5 approved, 1 rejected, 1 example-draft. A hard rule still
+holds: only `approved` entries can ever move a number, and a wrong one would argue
+*against* a good drug — so every approval is a recorded domain-expert decision.
+
+### Why It Matters
+
+- Four clean target-engagement signatures is enough to get the M2 measurement off
+  the ground (it needs approved signatures to score against).
+- **One honest caveat carried in the file:** the HER2 signature is valid only for
+  the small-molecule (TKI) HER2 drugs; antibody drugs like trastuzumab engage the
+  target differently, and the engine can't yet tell the two apart automatically —
+  so that gating is a flagged prerequisite before HER2 is used on a real program.
+- Still nothing fires automatically: M2 also needs each historical drug's biomarker
+  readouts sourced one by one, so the scoring harness comes after that data exists.
+
+Files: `src/bve/config/expected_signatures.yaml`, review record in
+`docs/expected_signature_review.md`.
+
 ## 2026-07-03 - Killer-Question Backtest: Corpus Doubled to N=30, and a Blind Spot
 
 ### What Changed

@@ -48,13 +48,33 @@ def _write(tmp_path, text: str):
 # Loading / schema
 # --------------------------------------------------------------------------- #
 
-def test_default_library_loads_with_one_approved_entry():
+def test_default_library_approved_set_is_the_reviewed_five():
+    """The approved set is exactly the five domain-reviewed proximal-engagement
+    signatures (JAK + the four cleared 2026-07-03). Pinned so an accidental
+    approval/de-approval is caught."""
     lib = ExpectedSignatures.get()
     assert lib.schema_version == "expected_signatures_v1"
-    assert len(lib.entries) >= 1
     approved = lib.approved_entries()
-    assert set(approved) == {"jak_stat_pathway"}
+    assert set(approved) == {
+        "jak_stat_pathway",
+        "cdk4_6_inhibition",
+        "bcr_abl_inhibition",
+        "egfr_inhibition",
+        "her2_inhibition",
+    }
     assert approved["jak_stat_pathway"]["expected_changes"][0]["biomarker"] == "pSTAT"
+    assert approved["cdk4_6_inhibition"]["expected_changes"][0]["biomarker"] == "pRb"
+
+
+def test_step3_signature_review_outcomes_are_pinned():
+    """Records the 2026-07-03 domain-review decisions: four approved, VEGFR
+    rejected. VEGFR must never be approved (no clean proximal marker -> false
+    falsification risk); the four must not silently revert to draft."""
+    lib = ExpectedSignatures.get()
+    for key in ("cdk4_6_inhibition", "bcr_abl_inhibition", "egfr_inhibition", "her2_inhibition"):
+        assert lib.entries[key]["review_status"] == "approved", f"{key} must stay approved"
+    assert lib.entries["vegfr_inhibition"]["review_status"] == "rejected"
+    assert "vegfr_inhibition" not in lib.approved_entries()
 
 
 def test_entries_are_read_only():
