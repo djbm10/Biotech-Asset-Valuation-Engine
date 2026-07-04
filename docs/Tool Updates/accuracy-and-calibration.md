@@ -13,27 +13,28 @@ it. For each drug with sourced biomarker data, it feeds the evidence to the real
 (approved-only) signature engine, reads whether confidence went up (target looks
 engaged) or down (looks refuted), and checks that against what actually happened.
 
-We seeded it with seven cases: four clean successes where target engagement was
-real and the drug worked (imatinib/dasatinib phospho-CRKL, palbociclib phospho-Rb,
-erlotinib phospho-EGFR), plus three deliberately hard "engaged-but-failed" cases
-where the biomarker moved correctly yet the drug failed anyway (erlotinib in
-EGFR-wild-type lung, a CDK4/6 drug in an Rb-null tumor, imatinib in T315I-resistant
-CML). On this curated set the tool scores 4-of-7 — and that is the *point*: it
-correctly flags the three "engaged yet failed" cases as wrong calls, proving the
-measurement discriminates rather than just rewarding agreement.
+We seeded it with seven cases and then corrected two after domain review. Final
+set: four clean successes where engagement was real and the drug worked
+(imatinib/dasatinib phospho-CRKL, palbociclib phospho-Rb, erlotinib phospho-EGFR);
+one "engaged-but-failed" case (erlotinib in EGFR-wild-type lung — pEGFR genuinely
+suppressed, but the tumor isn't EGFR-dependent, so no benefit); one "couldn't
+engage" case (imatinib in T315I-resistant CML — the drug can't bind, the marker
+stays up, and the tool correctly reads that as refuting/failure); and one that is
+simply not measurable (a CDK4/6 drug in an Rb-null tumor — no substrate to suppress,
+correctly excluded). The tool scores 5-of-6 on the measurable cases, and the point
+is that it handles all three call types — right, wrong, and refuting — correctly.
 
 ### Why It Matters
 
 - The plumbing for the POS-gating metric exists and is verified against the real
   approved signatures, not stubs — the "works from day one" bar.
-- **The 4-of-7 is a discrimination demo, not a score.** The report says so every
-  run: the set is curated (canonical wins + hand-picked hard failures), primary-
-  source unverified, and still missing "refuting" cases (biomarker moved the wrong
-  way). Two seed rows carry explicit science flags to resolve before use (the T315I
-  direction, and whether "absent Rb" reads as suppression).
-- **It surfaces the real lesson for POS:** a confirming biomarker does NOT guarantee
-  success — 3 of these engaged-target drugs failed. That is the evidence-based case
-  for keeping any future POS influence *refutation-only* (can lower, never raise).
+- **The rate is a discrimination demo, not a score** (the report says so every run):
+  curated cases, primary-source unverified.
+- **The headline lesson for POS is one clean case: erlotinib in EGFR-wild-type lung.**
+  Target engagement was confirmed and the drug still failed. A single verifiable case
+  (BR.21 subgroup) is enough to make the argument for keeping any future POS influence
+  *refutation-only* — it can lower confidence on a refuted target but must never raise
+  it just because a biomarker moved.
 - Also logged: the engine currently matches a signature on biomarker OR mechanism,
   so an off-target marker move can fire the wrong signature — a fix needed before any
   M2 number is load-bearing. Nothing here touches POS; measurement only.

@@ -193,8 +193,8 @@ class M2Report:
         lines = [
             "M2 — Conviction direction accuracy (expected-signature producer)",
             "  SEED DATA — primary-source UNVERIFIED and CURATED (canonical successes +",
-            "  hand-picked confirming-but-wrong failures). This is a discrimination demo,",
-            "  NOT an unbiased M2 estimate — do not quote the rate as calibration.",
+            "  hand-picked hard cases). This is a discrimination demo, NOT an unbiased",
+            "  M2 estimate — do not quote the rate as calibration.",
             f"  Programs: {self.n_total}  (scored: {self.n_scored}, silent/excluded: {self.n_silent})",
         ]
         acc = self.direction_accuracy

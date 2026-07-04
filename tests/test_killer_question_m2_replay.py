@@ -40,20 +40,24 @@ def _input(
 # --------------------------------------------------------------------------
 
 def test_seed_inputs_load_and_discriminate() -> None:
-    """Seed set = 4 canonical confirming-successes + 3 hand-picked
-    confirming-but-wrong failures (target engaged yet drug failed). The harness
-    must fire on all of them and score the failures WRONG, so the curated rate is
-    below 1.0 — proving the metric discriminates, not just rewards agreement."""
+    """Corrected seed set (domain review 2026-07-04): 4 confirming-successes,
+    1 confirming-but-wrong (erlotinib EGFR-WT — engaged yet failed), 1 refuting-
+    correct (imatinib T315I — can't bind, marker stays up, failure), and 1 silent
+    (CDK4/6i Rb-null — no interpretable pRb readout). Pins the mixed-direction
+    composition so the harness is shown to score all three call types correctly."""
     report = run_m2_replay()
     assert report.n_total >= 7
-    assert report.n_silent == 0
-    # All seeds are confirming-direction; the 3 failure cases are the wrong calls.
-    assert all(p.direction == "confirming" for p in report.predictions)
+    assert report.n_silent == 1  # Rb-null excluded as silent
+    by_id = {p.program_id: p for p in report.predictions}
+    assert by_id["erlotinib_nsclc_egfrwt"].direction == "confirming"
+    assert by_id["erlotinib_nsclc_egfrwt"].correct is False  # the one wrong call
+    assert by_id["imatinib_cml_t315i"].direction == "refuting"
+    assert by_id["imatinib_cml_t315i"].correct is True
+    assert by_id["cdk46i_rb_null"].direction == "silent"
     scored = [p for p in report.predictions if p.scored]
     correct = sum(1 for p in scored if p.correct)
-    assert correct == 4  # the four successes
-    assert len(scored) - correct == 3  # the three confirming-but-wrong failures
-    assert report.direction_accuracy == pytest.approx(4 / 7, abs=0.02)
+    assert len(scored) == 6 and correct == 5  # 5/6; the sole miss is erlotinib EGFR-WT
+    assert report.direction_accuracy == pytest.approx(5 / 6, abs=0.02)
 
 
 def test_seed_inputs_respect_no_lookahead() -> None:
