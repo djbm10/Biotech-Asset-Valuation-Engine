@@ -174,18 +174,64 @@ def test_voi_replay_enforces_no_lookahead() -> None:
         replay_killer_questions_with_voi(snapshot)
 
 
-def test_voi_backtest_improves_m3_and_holds_m1_on_seed_corpus() -> None:
-    """Regression anchor for the Step 1.5 headline: on the seed corpus VOI
-    holds M1 (53.3%) and lifts M3 from 53.3% to 66.7% by de-tying the
-    TARGET-vs-DIFFERENTIATION programs that openness-only spuriously abstained.
+_FIXTURE_HEADER = (
+    "program_id,decision_date,outcome,decisive_archetype,label_status,"
+    "decisive_confidence,why_this_archetype_decided,label_source,label_date,"
+    "pivotal_evidence_event,pivotal_evidence_date,single_question_dominant,"
+    "competing_archetypes\n"
+)
+
+
+def _fixture_row(pid: str, decisive: str, competing: str, dominant: str) -> str:
+    return (
+        f"{pid},2020-01-01,failed,{decisive},clean,high,why,src,2020-06-01,"
+        f"evt,2020-12-31,{dominant},{competing}\n"
+    )
+
+
+def test_voi_breaks_target_vs_differentiation_ties_that_openness_abstains(
+    tmp_path,
+) -> None:
+    """Corpus-independent regression anchor for the VOI mechanism.
+
+    Two TARGET-vs-DIFFERENTIATION programs (both dominant=true). Under openness
+    the two questions tie (1.0 == 1.0): the ranking still puts TARGET first by
+    draft order (so M1 top-1 is an *artifact* hit), but the tie falls inside the
+    dominance margin and the picker abstains — wrong on M3. VOI ranks TARGET
+    (1.00) above DIFFERENTIATION (0.63), so the same M1 hit is now *earned* and
+    the picker no longer abstains (M3 correct). The meaningful delta is M3.
     """
-    openness = run_killer_question_backtest(use_voi=False)
-    voi = run_killer_question_backtest(use_voi=True)
+    csv_path = tmp_path / "fixture.csv"
+    csv_path.write_text(
+        _FIXTURE_HEADER
+        + _fixture_row("p_target_1", "TARGET_VALIDITY", "DIFFERENTIATION", "true")
+        + _fixture_row("p_target_2", "TARGET_VALIDITY", "DIFFERENTIATION", "true"),
+        encoding="utf-8",
+    )
+
+    openness = run_killer_question_backtest(csv_path, use_voi=False)
+    voi = run_killer_question_backtest(csv_path, use_voi=True)
 
     assert openness.mode == SCREENING_BACKTEST_MODE
     assert voi.mode == SCREENING_BACKTEST_VOI_MODE
 
-    assert openness.m1_top1_rate == pytest.approx(8 / 15)
-    assert voi.m1_top1_rate == pytest.approx(8 / 15)      # M1 held
-    assert openness.m3_rate == pytest.approx(8 / 15)
-    assert voi.m3_rate == pytest.approx(10 / 15)          # M3 lifted
+    # M1 identical (TARGET ranked first either way); M3 is where VOI wins.
+    assert openness.m1_top1_rate == pytest.approx(1.0)
+    assert voi.m1_top1_rate == pytest.approx(1.0)
+    assert openness.m3_rate == pytest.approx(0.0)   # abstains on the tie -> wrong
+    assert voi.m3_rate == pytest.approx(1.0)         # resolves the tie -> correct
+
+
+def test_voi_never_ranks_tolerability_top1_openness_ceiling(tmp_path) -> None:
+    """Documents the standing blind spot: a non-severe tolerability question
+    enters at openness 0.5 and shares the earliest-gate swing, so it can never
+    win top-1 against a fully-open competitor. Pinned so a future fix is visible.
+    """
+    csv_path = tmp_path / "tol.csv"
+    csv_path.write_text(
+        _FIXTURE_HEADER
+        + _fixture_row("p_tol", "TOLERABILITY_CEILING", "TARGET_VALIDITY", "true"),
+        encoding="utf-8",
+    )
+    voi = run_killer_question_backtest(csv_path, use_voi=True)
+    assert voi.m1_top1_rate == pytest.approx(0.0)

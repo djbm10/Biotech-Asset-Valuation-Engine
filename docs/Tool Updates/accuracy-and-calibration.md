@@ -2,6 +2,36 @@
 
 Plain-language record of the valuation-accuracy work. Goal is honest calibration and uncertainty, not false precision.
 
+## 2026-07-03 - Killer-Question Backtest: Corpus Doubled to N=30, and a Blind Spot
+
+### What Changed
+
+We reviewed 15 of the draft rows against the actual trial histories and promoted
+them into the real scorecard, taking it from 15 to **30 labeled programs**. We
+rejected 10 drafts along the way — some were the same drug under another name
+(would have double-counted), and one was a plain misjudgment by the draft tool
+(an anti-PD-L1 drug the tool blamed on "wrong target" when it actually just lost
+to a better competitor). Every promoted row is stamped as "seed + review, not
+primary-source verified" so nobody over-trusts it.
+
+### Why It Matters
+
+- **The headline hit-rate went up (53% -> 67%), but not because the tool got
+  smarter.** We happened to add many programs of the one type the tool already
+  nails (is-the-target-real questions), so the number rose by composition. Broken
+  out by type, the tool gets target questions 18/18 right and differentiation
+  2/4 — and **tolerability questions 0 out of 8.**
+- **Tolerability is a real, now-measured blind spot.** When a drug's make-or-break
+  question is "is the safety/tolerability manageable?", the tool never ranks it
+  first. That is baked into how the tool scores openness, not bad luck, and no
+  amount of extra data fixes it. It matches what we always suspected: tolerability
+  may have to stay a display-only flag rather than a score-moving question.
+- **The value of the rNPV-swing ranking (Step 1.5) got much clearer.** On the
+  bigger set, the "correctly says no-single-answer" metric is 30% without it and
+  83% with it — a far bigger gap than the small set could show.
+
+Full writeup: `docs/vision_reports/idea20_corpus_n30_2026-07-03.md`.
+
 ## 2026-07-03 - Killer-Question Backtest: Seed-Labeling Accelerator (Step 2 start)
 
 ### What Changed
@@ -57,8 +87,15 @@ equally-open questions break by **value at stake** instead of build order.
   economics stub, so the valuator re-weights question *types* globally rather than
   reasoning per drug; (2) the valuator maps most question types onto the same trial
   gate, so it can only separate the late-stage "is it differentiated?" question
-  from the rest. The real unlock is capturing rough per-program economics, which
-  belongs with the corpus-growth work (Step 2).
+  from the rest.
+
+**Correction (measured later same day):** an earlier draft of this note called
+per-program economics "the real unlock." That was wrong — we tested it and it is
+**inert** on this data. The ranking cancels out the size of a drug's market, and
+the programs are too similar in trial stage for per-program economics to change
+any decision. The levers that actually matter are growing the labeled set and,
+eventually, a deeper change to how question types map to trial stages. See the
+writeup for the measurement.
 
 Full writeup: `docs/vision_reports/idea20_m1_voi_step1p5_2026-07-03.md`.
 

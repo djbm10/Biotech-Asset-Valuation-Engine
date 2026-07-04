@@ -118,7 +118,9 @@ def test_seed_has_minimum_clean_headline_rows() -> None:
     clean_rows = [row for row in rows if row["label_status"] == "clean"]
 
     assert len(clean_rows) >= 15
-    assert all(row["single_question_dominant"] == "true" for row in clean_rows)
+    # single_question_dominant must be a valid bool; non-dominant clean rows are
+    # allowed and wanted (they give M3 real signal), so we no longer require all-true.
+    assert all(row["single_question_dominant"] in ("true", "false") for row in clean_rows)
 
 
 def test_competing_archetypes_are_valid_and_exclude_decisive() -> None:
