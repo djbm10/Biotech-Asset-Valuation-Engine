@@ -2,6 +2,37 @@
 
 Plain-language record of the valuation-accuracy work. Goal is honest calibration and uncertainty, not false precision.
 
+## 2026-07-03 - Killer-Question Backtest: Seed-Labeling Accelerator (Step 2 start)
+
+### What Changed
+
+The backtest can only get sharper if the labeled set of historical programs
+grows, and that labeling is expert judgment we can't automate. So we built a tool
+that does the *tedious* half: it reads the 155-program history file, pulls the 74
+failed programs we haven't labeled yet, fills in the mechanical fields, and
+proposes a most-likely "decisive question" for each one from the data already on
+the row (safety, competition, target novelty, and keywords in the notes). It
+wrote **56 draft rows** for review.
+
+Every draft is marked `seed_review` so it is impossible for an un-reviewed guess
+to sneak into the real scorecard — the backtest only counts human-confirmed
+"clean" rows, and the loader refuses the draft status outright.
+
+### Why It Matters
+
+- It turns weeks of blank-page labeling into review-and-correct, which is much
+  faster and more consistent. Each draft shows exactly which signals drove the
+  guess, so a reviewer can accept or fix it in seconds.
+- **30 of the 56 drafts are "no single dominant question" cases** — exactly the
+  kind the abstention metric (M3) has been starved of.
+- **Honest gap found:** this history file has essentially no programs whose
+  failure was about *dose/exposure* or *drug delivery* — the two question types
+  we most need more of. Those have to be sourced from outside this file; the tool
+  can't invent them. Recorded so the research plan reflects reality.
+
+Tool: `bve.analysis.killer_question_label_worksheet`; drafts in
+`research/data/killer_question_label_worksheet.csv`.
+
 ## 2026-07-03 - Killer-Question Backtest: Ranking by Value, Not Draft Order (Step 1.5)
 
 ### What Changed
