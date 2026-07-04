@@ -2,6 +2,49 @@
 
 Plain-language record of the valuation-accuracy work. Goal is honest calibration and uncertainty, not false precision.
 
+## 2026-07-04 - Claim Ledger: Phase 1 Vertical Slice (shadow-only, no live POS)
+
+### What Changed
+
+We started building the long-term "thesis engine" — the plan to replace the single
+science score (a scalar T/D/B number) with a claim-by-claim, evidence-backed ledger
+that can explain exactly why a program's odds moved. Rather than build all ten claim
+families shallowly, we built one all the way through: **exposure / therapeutic window**
+(the "can enough drug reach the target without the toxicity capping the dose" question
+— the class of failure behind drugs like navitoclax).
+
+Concretely, three pieces now exist and are tested:
+
+1. **A claim ledger.** Each biological claim (e.g. "enough drug reaches the target")
+   carries its own prior, its own evidence, and its own posterior confidence. Evidence
+   is logged as atoms that reuse the existing conviction-layer math, so we did not
+   stand up a second parallel system.
+2. **An evidence-quality gate.** Every piece of evidence carries provenance and a
+   strength tier. The rule the plan insisted on is enforced in code: weak, unreviewed,
+   inferred, or wrong-population evidence *raises a question* but cannot move the
+   confidence number. Only strong, human-reviewed, directly-observed evidence moves it —
+   and missing evidence leaves the claim open (high uncertainty), never marks it false.
+3. **A shadow science modifier + a System-1-vs-System-2 audit.** The ledger produces a
+   shadow version of the science modifier that is compared against the live scalar one
+   and flags where they disagree (including the case where the live path raises an
+   exposure kill-flag but the ledger looks favorable).
+
+### Why It Matters
+
+- **Nothing here touches live POS, by construction.** Every shadow output carries an
+  `affects_live_pos = False` flag, and a test asserts the modules contain no path into
+  `compute_science_modifier`. The plan's hard rule — no ledger output moves live POS
+  until it passes calibration, reason-fidelity review, *and* governance approval — holds
+  because the wiring to do so does not exist yet.
+- **Refutation is first-class.** A single strong refuting result is not drowned out by a
+  pile of weak company-slide confirmations; the confidence still falls.
+- **Openness is wired through.** A killer question the tool hasn't answered yet seeds a
+  claim that stays fully "open" until real evidence arrives, so the ledger honestly shows
+  what it does *not* yet know instead of defaulting to a confident number.
+- **What is NOT done, on purpose:** no corpus of 30-50 reviewed historical programs yet,
+  so nothing is calibrated. This is the machinery, verified end-to-end on the exposure/
+  window family; the hard data work (Phase 8) comes next and paces everything after it.
+
 ## 2026-07-04 - Conviction Layer: M2 Harness Built (does confidence move the right way?)
 
 ### What Changed
