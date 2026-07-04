@@ -2,6 +2,37 @@
 
 Plain-language record of the valuation-accuracy work. Goal is honest calibration and uncertainty, not false precision.
 
+## 2026-07-04 - Claim Ledger: Calibration Corpus Infrastructure (the data on-ramp)
+
+### What Changed
+
+The claim ledger is only as good as the historical data we check it against, and that
+data doesn't exist yet. This step builds the **on-ramp** for that data — not the data
+itself, which is human research work.
+
+Concretely: a corpus schema and tooling for the exposure/therapeutic-window wedge. A
+generator reads our existing failed-oncology-program list, finds the toxicity- and
+exposure-driven failures, and writes a structured worksheet — one row per program, with
+the mechanically-known fields pre-filled and the judgment fields (the target, the
+sources, and whether the claim actually held) left blank and marked "REVIEW REQUIRED".
+It seeded **31 draft programs** (e.g. navitoclax, umbralisib, parsaclisib — the
+dose-limiting-toxicity class).
+
+Alongside it: a loader that will only ever let a **human-approved** row into a
+calibration number, a validator that rejects half-filled or unsourced rows, and a
+calibration report that currently prints "uncalibrated, n=0" because nothing is approved.
+
+### Why It Matters
+
+- **It makes the human work concrete and bounded.** Instead of "go build a dataset," the
+  next step is now "open this CSV of 31 programs, fill in the target/sources/outcome for
+  each, and mark it approved." That's the reviewable, paceable unit the plan asks for.
+- **A draft can never sneak into a metric.** By construction, only `review_status=approved`
+  rows with real source links count. Until a human does that review, every calibration
+  number is honestly zero, and the NO LIVE POS GATE stays closed.
+- **What is NOT done, on purpose:** the actual labeling. The 31 rows are starting points
+  with placeholders, not facts. Nothing is calibrated until they're reviewed and approved.
+
 ## 2026-07-04 - Claim Ledger: Phase 1 Vertical Slice (shadow-only, no live POS)
 
 ### What Changed
