@@ -26,11 +26,11 @@
 ## navitoclax_mpn:ther:1
 - **Evidence span:** BCL-xL inhibition is linked to platelet lifespan reduction and clinically dose-limiting thrombocytopenia.
 - **Search targets:** FDA label (Adverse Reactions, Dosage/Administration, Warnings); FDA medical review; ODAC briefing; EPAR; pivotal paper (DLTs, dose reductions, discontinuations); ClinicalTrials.gov results (SAEs)  [query: BCL-2/BCL-xL/BCL-w myeloproliferative neoplasms / hematologic malignancies small_molecule]
-- **Primary source (AI draft):** _(to fill)_
-- **Supporting quote (AI draft, verify):** _(to fill)_
-- **Page ref:** _(to fill)_
-- **Drafted source_type / tier / direction / LR:** ? / ? / ? / ?
-- **AI confidence (advisory):** ?
+- **Primary source (AI draft):** https://pubmed.ncbi.nlm.nih.gov/21094089/
+- **Supporting quote (AI draft, verify):** On the 21/21 continuous dosing schedule, the dose-limiting toxic effects were grade 4 thrombocytopenia; thrombocytopenia was the principal dose-limiting toxicity of navitoclax.
+- **Page ref:** Wilson WH et al., Lancet Oncol 2010;11(12):1149-59 — Results, dose-limiting toxicity
+- **Drafted source_type / tier / direction / LR:** pivotal_publication_phase1 / medium / refuting / 0.55
+- **AI confidence (advisory):** medium
 
 **Reviewer decision:**
 - [ ] quote confirmed against source → `source_verified=true`
