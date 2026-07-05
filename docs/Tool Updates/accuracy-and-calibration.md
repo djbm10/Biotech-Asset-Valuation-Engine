@@ -2,6 +2,37 @@
 
 Plain-language record of the valuation-accuracy work. Goal is honest calibration and uncertainty, not false precision.
 
+## 2026-07-05 - Claim Ledger: Evidence-Atom Extraction Scaffold (still uncalibrated)
+
+### What Changed
+
+To score the corpus, the model needs the *other half* of each calibration pair: its own
+read of what was known before each decision. That read has to start from the raw evidence
+notes, broken into individual, checkable pieces. This scaffold does that first pass — it
+turns each program's evidence prose into structured "atoms" (one claim + one snippet each)
+and lays them out as a review worksheet. Running it over the 37-program corpus produced
+**97 candidate atoms** across all 37 programs (`research/data/claim_evidence_atoms.csv`).
+
+### Why It Matters
+
+- **It is deliberately timid.** Every freshly extracted atom comes out at the weakest
+  possible setting — low-strength, "inferred" not observed, unreviewed, and with a neutral
+  placeholder weight — so a raw extraction physically *cannot* move any probability. Each of
+  those four alone would zero it out; all four together make it inert by construction. A
+  human reviewer has to promote the strength, set the real weight, confirm it was actually
+  observed, and approve it before a single atom counts.
+- **It cannot peek at the answer.** The extractor reads the evidence text only. It never
+  looks at the outcome columns (did the window hold, did the program succeed, why it failed).
+  That is enforced in code and pinned by a test — so the model's "prediction" can't be
+  secretly contaminated by the result it will later be graded against.
+- **Two locked doors, not one.** An atom needs *both* the extraction reviewed AND the
+  evidence itself approved to become material. A test proves that a row lying about its own
+  status (claiming strong/observed/approved while the extraction is unreviewed) is still
+  forced inert.
+- **Still uncalibrated.** Coverage summary reads `material_capable=0, affects_live_pos=False`.
+  Nothing here is graded yet; the NO LIVE POS GATE stays closed. The next human step is the
+  per-atom review pass (promote strength, set weights, approve) against primary sources.
+
 ## 2026-07-04 - Claim Ledger: First 37-Program Review Draft Ingested (still uncalibrated)
 
 ### What Changed
