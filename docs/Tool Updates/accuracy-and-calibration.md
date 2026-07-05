@@ -2,6 +2,38 @@
 
 Plain-language record of the valuation-accuracy work. Goal is honest calibration and uncertainty, not false precision.
 
+## 2026-07-05 - Claim Ledger: Reviewer Packet + Promotion Gates (bottleneck is now review, not code)
+
+### What Changed
+
+The 97 candidate atoms are inert until a human reviews them against primary sources. This
+builds the worksheet that review runs on, and the gates that decide which reviewed atoms
+are allowed to count. Running it produced a **97-row review packet**
+(`research/review/claim_atom_review_packet.csv`) plus **37 per-program Markdown sheets**
+(`research/review/programs/`). Each packet row pairs a candidate atom with its program's
+question and full evidence text, lists the specific primary sources to go find (FDA
+label/review, ODAC/EPAR, ClinicalTrials.gov, pivotal papers), and leaves blank columns for
+the reviewer's verdict.
+
+### Why It Matters
+
+- **Review is blind to the answer.** Each Markdown sheet shows the evidence and asks for a
+  verdict, but the outcome (did it succeed/fail, why) is deliberately omitted — verified by
+  a test. The reviewer judges the evidence on its merits, not backwards from the result.
+- **The calibration gate is strict and separable.** For an atom to feed a score it must
+  clear five independent bars: the extraction is reviewed, the evidence is approved (not
+  rejected, not draft), a real primary source is named, a genuine weight is set (a missing
+  weight blocks it), and the strength is high/medium (weak evidence only raises a question).
+  Each bar is pinned by its own test. Fail any one and the atom is ignored; a program with
+  no clearing atoms yields no prediction at all.
+- **Source promotion is built into the workflow.** Every sheet names the current
+  (secondary) link and the primary sources that should replace it, so the Wikipedia→FDA
+  upgrade is part of the review pass, not a separate chore.
+- **Still nothing scored.** Status reads `eligible=0, predictable_programs=0,
+  affects_live_pos=False`. The gate is closed until the review pass promotes atoms. The
+  code is done; the value now comes from turning ~97 inert candidates into 20–40
+  primary-source-backed, approved atoms.
+
 ## 2026-07-05 - Claim Ledger: Evidence-Atom Extraction Scaffold (still uncalibrated)
 
 ### What Changed
