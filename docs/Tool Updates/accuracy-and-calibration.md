@@ -2,6 +2,37 @@
 
 Plain-language record of the valuation-accuracy work. Goal is honest calibration and uncertainty, not false precision.
 
+## 2026-07-05 - Claim Ledger: AI Source-Drafting Workflow With a Hard Human Approval Line
+
+### What Changed
+
+AI can do most of the grunt work — find the primary source, pull the exact supporting
+quote, propose the strength and weight — as long as its drafts can never grade themselves.
+This adds that workflow. AI drafts land in a distinct **`reviewer_candidate`** state that is
+inert by construction; the only path from a draft into the scoring pipeline runs through a
+promotion step that lifts a draft *only* after a human has both confirmed the quote against
+the source and approved it. Running it produced a **97-row draft worksheet**
+(`research/review/claim_source_drafts.csv`) and **37 reviewer packets for Chris/Harvey**
+(`research/review/reviewer_packets/`).
+
+### Why It Matters
+
+- **The approval line is a wall, not a norm.** "AI drafts → human approves → model scores →
+  calibration runs" is enforced in code: a `reviewer_candidate` draft is never promotable,
+  and even an `approved` draft is dropped if its source isn't marked verified. Both are
+  pinned by tests. An AI draft physically cannot move a probability.
+- **No fabricated citations.** The draft skeleton fills context and search targets but
+  leaves the source link and quote blank — those get filled by a real fetch pass with
+  verifiable links, never from model memory. The reviewer packets are stamped "AI DRAFT —
+  UNVERIFIED" and every quote carries a "confirm against source" checkbox.
+- **Review stays blind.** The packets omit the outcome, so Chris/Harvey approve on the
+  evidence, not backwards from the result (verified by test).
+- **Promotion re-enters the same gate.** A promoted atom must still clear the five
+  calibration bars from the review layer, so approval and scoring use one contract, not two.
+- **Still nothing scored.** Status: `candidate=97, approved=0, promotable=0,
+  affects_live_pos=False`. The next step is the real fetch-and-quote pass (fill links +
+  quotes) followed by human verification + approval.
+
 ## 2026-07-05 - Claim Ledger: Reviewer Packet + Promotion Gates (bottleneck is now review, not code)
 
 ### What Changed
