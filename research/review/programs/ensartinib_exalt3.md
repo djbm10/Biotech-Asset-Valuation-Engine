@@ -11,7 +11,7 @@
 
 ## Evidence available at decision
 
-PRE-DECISION CANDIDATE: eXALT3 randomized trial vs crizotinib; known ALK TKI safety but active dose feasible for approval. Need label safety/dose modification extraction.
+PRE-DECISION CANDIDATE: eXALT3 randomized trial vs crizotinib; known ALK TKI safety but active dose feasible at the selected dose. Need label safety/dose modification extraction.
 
 ## Candidate atoms to review
 
@@ -27,7 +27,7 @@ PRE-DECISION CANDIDATE: eXALT3 randomized trial vs crizotinib; known ALK TKI saf
 - [ ] review_status = approved | rejected
 
 ### ensartinib_exalt3:ther:1
-- **Span:** known ALK TKI safety but active dose feasible for approval.
+- **Span:** known ALK TKI safety but active dose feasible at the selected dose.
 - **Proposed direction (hint):** neutral
 - [ ] source_type + primary_source_link
 - [ ] observed_vs_inferred

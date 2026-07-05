@@ -14,6 +14,7 @@
 - **Search targets:** FDA label (Adverse Reactions, Dosage/Administration, Warnings); FDA medical review; ODAC briefing; EPAR; pivotal paper (DLTs, dose reductions, discontinuations); ClinicalTrials.gov results (SAEs)  [query: BCL-2 selective CLL with 17p deletion; CLL/SLL small_molecule]
 - **Primary source (AI draft):** _(to fill)_
 - **Supporting quote (AI draft, verify):** _(to fill)_
+- **Quote status:** _(to fill)_
 - **Page ref:** _(to fill)_
 - **Drafted source_type / tier / direction / LR:** ? / ? / ? / ?
 - **AI confidence (advisory):** ?
@@ -27,10 +28,11 @@
 - **Evidence span:** dose ramp-up/TLS management enabled active exposure.
 - **Search targets:** FDA label (Adverse Reactions, Dosage/Administration, Warnings); FDA medical review; ODAC briefing; EPAR; pivotal paper (DLTs, dose reductions, discontinuations); ClinicalTrials.gov results (SAEs)  [query: BCL-2 selective CLL with 17p deletion; CLL/SLL small_molecule]
 - **Primary source (AI draft):** https://www.accessdata.fda.gov/drugsatfda_docs/label/2016/208573s000lbl.pdf
-- **Supporting quote (AI draft, verify):** The risk of TLS was reduced after revision of the dosing regimen: with the 5-week ramp-up (20 mg escalating to 400 mg) the rate of TLS fell to 6% with no TLS with clinical consequences, versus 12% under the earlier shorter ramp-up.
-- **Page ref:** VENCLEXTA (venetoclax) FDA label, Apr 2016 — Boxed Warning and Section 5.1 (Tumor Lysis Syndrome)
+- **Supporting quote (AI draft, verify):** The 5-week ramp-up dosing schedule is designed to gradually reduce tumor burden and decrease the risk of TLS.
+- **Quote status:** needs_primary_pdf_confirmation
+- **Page ref:** VENCLEXTA (venetoclax) FDA label — Section 2.2 (Dosage and Administration) / 5.1 (Tumor Lysis Syndrome). Wording cross-checked against current DailyMed label.
 - **Drafted source_type / tier / direction / LR:** fda_label / high / confirming / 2.2
-- **AI confidence (advisory):** high
+- **AI confidence (advisory):** medium
 
 **Reviewer decision:**
 - [ ] quote confirmed against source → `source_verified=true`
@@ -38,10 +40,11 @@
 - [ ] `review_status = approved`  — or  `review_status = rejected`
 
 ## venetoclax_cll_17p:ther:2
-- **Evidence span:** Single-arm trial showed high ORR in 17p-deleted CLL before approval.
+- **Evidence span:** Single-arm trial showed high ORR in 17p-deleted CLL.
 - **Search targets:** FDA label (Adverse Reactions, Dosage/Administration, Warnings); FDA medical review; ODAC briefing; EPAR; pivotal paper (DLTs, dose reductions, discontinuations); ClinicalTrials.gov results (SAEs)  [query: BCL-2 selective CLL with 17p deletion; CLL/SLL small_molecule]
 - **Primary source (AI draft):** _(to fill)_
 - **Supporting quote (AI draft, verify):** _(to fill)_
+- **Quote status:** _(to fill)_
 - **Page ref:** _(to fill)_
 - **Drafted source_type / tier / direction / LR:** ? / ? / ? / ?
 - **AI confidence (advisory):** ?

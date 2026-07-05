@@ -11,7 +11,7 @@
 
 ## Evidence available at decision
 
-PRE-DECISION CANDIDATE: EV-201 ORR about 44% with neuropathy/rash/hyperglycemia risks; active exposure judged feasible for accelerated approval. Need FDA label/review extraction.
+PRE-DECISION CANDIDATE: EV-201 ORR about 44% with neuropathy/rash/hyperglycemia risks; active exposure judged feasible at the selected dose. Need FDA label/review extraction.
 
 ## Candidate atoms to review
 
@@ -27,7 +27,7 @@ PRE-DECISION CANDIDATE: EV-201 ORR about 44% with neuropathy/rash/hyperglycemia 
 - [ ] review_status = approved | rejected
 
 ### enfortumab_vedotin_ev201:ther:1
-- **Span:** active exposure judged feasible for accelerated approval.
+- **Span:** active exposure judged feasible at the selected dose.
 - **Proposed direction (hint):** neutral
 - [ ] source_type + primary_source_link
 - [ ] observed_vs_inferred

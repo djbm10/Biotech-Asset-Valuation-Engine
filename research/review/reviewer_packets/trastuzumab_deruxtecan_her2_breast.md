@@ -14,6 +14,7 @@
 - **Search targets:** FDA label (Adverse Reactions, Dosage/Administration, Warnings); FDA medical review; ODAC briefing; EPAR; pivotal paper (DLTs, dose reductions, discontinuations); ClinicalTrials.gov results (SAEs)  [query: HER2 ADC / topoisomerase I payload HER2-positive and HER2-low metastatic breast cancer antibody_drug_conjugate]
 - **Primary source (AI draft):** _(to fill)_
 - **Supporting quote (AI draft, verify):** _(to fill)_
+- **Quote status:** _(to fill)_
 - **Page ref:** _(to fill)_
 - **Drafted source_type / tier / direction / LR:** ? / ? / ? / ?
 - **AI confidence (advisory):** ?
@@ -24,10 +25,11 @@
 - [ ] `review_status = approved`  — or  `review_status = rejected`
 
 ## trastuzumab_deruxtecan_her2_breast:ther:1
-- **Evidence span:** ILD/pneumonitis boxed warning is serious but dose/monitoring strategy allowed approvals/expansions.
+- **Evidence span:** ILD/pneumonitis boxed warning is serious but dose/monitoring strategy allowed continued active dosing.
 - **Search targets:** FDA label (Adverse Reactions, Dosage/Administration, Warnings); FDA medical review; ODAC briefing; EPAR; pivotal paper (DLTs, dose reductions, discontinuations); ClinicalTrials.gov results (SAEs)  [query: HER2 ADC / topoisomerase I payload HER2-positive and HER2-low metastatic breast cancer antibody_drug_conjugate]
 - **Primary source (AI draft):** _(to fill)_
 - **Supporting quote (AI draft, verify):** _(to fill)_
+- **Quote status:** _(to fill)_
 - **Page ref:** _(to fill)_
 - **Drafted source_type / tier / direction / LR:** ? / ? / ? / ?
 - **AI confidence (advisory):** ?
@@ -42,6 +44,7 @@
 - **Search targets:** FDA label (Adverse Reactions, Dosage/Administration, Warnings); FDA medical review; ODAC briefing; EPAR; pivotal paper (DLTs, dose reductions, discontinuations); ClinicalTrials.gov results (SAEs)  [query: HER2 ADC / topoisomerase I payload HER2-positive and HER2-low metastatic breast cancer antibody_drug_conjugate]
 - **Primary source (AI draft):** _(to fill)_
 - **Supporting quote (AI draft, verify):** _(to fill)_
+- **Quote status:** _(to fill)_
 - **Page ref:** _(to fill)_
 - **Drafted source_type / tier / direction / LR:** ? / ? / ? / ?
 - **AI confidence (advisory):** ?

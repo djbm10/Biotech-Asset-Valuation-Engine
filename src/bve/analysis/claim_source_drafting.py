@@ -55,6 +55,13 @@ VERIFY_TRUE = "true"
 VERIFY_FALSE = "false"
 ALLOWED_VERIFY = frozenset({VERIFY_UNVERIFIED, VERIFY_TRUE, VERIFY_FALSE})
 
+# Quote fidelity. AI quotes reconstructed from a source we could not open verbatim (e.g. an
+# FDA PDF blocked to the fetcher) are marked needs_primary_pdf_confirmation — acceptable for
+# a reviewer_candidate, but the reviewer must confirm the exact wording before approval.
+QUOTE_VERBATIM = "verbatim_confirmed"
+QUOTE_NEEDS_PDF = "needs_primary_pdf_confirmation"
+ALLOWED_QUOTE_STATUS = frozenset({"", QUOTE_VERBATIM, QUOTE_NEEDS_PDF})
+
 _MATERIAL_TIERS = frozenset({"high", "medium"})
 
 # Draft worksheet schema. Context first, then AI-drafted evidence fields, then the human
@@ -79,6 +86,7 @@ SOURCE_DRAFT_COLUMNS = (
     "drafted_observed_vs_inferred",
     "drafted_limitations",
     "provenance_confidence",    # AI self-rating (advisory only)
+    "quote_status",             # verbatim_confirmed | needs_primary_pdf_confirmation
     "drafter",                  # e.g. ai:opus-4.8
     "draft_date",
     # --- human approval line (AI never sets these to approved/true) ---
@@ -131,6 +139,7 @@ class SourceDraft:
     review_status: str
     reviewer: str
     review_date: str
+    quote_status: str = ""
 
     def as_row(self) -> dict[str, str]:
         return {col: getattr(self, col) for col in SOURCE_DRAFT_COLUMNS}
@@ -189,6 +198,7 @@ def build_source_drafts(
                 drafted_observed_vs_inferred="",
                 drafted_limitations="",
                 provenance_confidence="",
+                quote_status="",
                 drafter=drafter,
                 draft_date=draft_date,
                 source_verified=VERIFY_UNVERIFIED,
@@ -238,6 +248,8 @@ def validate_source_drafts(drafts: list[SourceDraft]) -> list[str]:
             problems.append(f"{where}: invalid review_status '{d.review_status}'")
         if d.source_verified.strip().lower() not in ALLOWED_VERIFY:
             problems.append(f"{where}: invalid source_verified '{d.source_verified}'")
+        if d.quote_status.strip().lower() not in ALLOWED_QUOTE_STATUS:
+            problems.append(f"{where}: invalid quote_status '{d.quote_status}'")
         # An approved draft must carry a verified primary source + quote — no exceptions.
         if d.is_human_approved:
             if not d.is_source_verified:
@@ -344,6 +356,7 @@ def render_reviewer_packet_markdown(
             f"- **Search targets:** {d.search_targets}",
             f"- **Primary source (AI draft):** {d.primary_source_link or '_(to fill)_'}",
             f"- **Supporting quote (AI draft, verify):** {d.supporting_quote or '_(to fill)_'}",
+            f"- **Quote status:** {d.quote_status or '_(to fill)_'}",
             f"- **Page ref:** {d.page_ref or '_(to fill)_'}",
             f"- **Drafted source_type / tier / direction / LR:** "
             f"{d.source_type or '?'} / {d.drafted_tier or '?'} / "

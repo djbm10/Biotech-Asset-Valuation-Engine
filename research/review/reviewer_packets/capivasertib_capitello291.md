@@ -10,10 +10,11 @@
 > Outcome is intentionally omitted — approve on the evidence, blind to the label.
 
 ## capivasertib_capitello291:ther:0
-- **Evidence span:** PRE-DECISION CANDIDATE: CAPItello-291/NEJM and public label summaries show diarrhea/rash/hyperglycemia but approval indicates manageable product-level therapeutic window with intermittent dosing.
+- **Evidence span:** PRE-DECISION CANDIDATE: CAPItello-291/NEJM and public label summaries show diarrhea/rash/hyperglycemia but data indicate a manageable product-level therapeutic window with intermittent dosing.
 - **Search targets:** FDA label (Adverse Reactions, Dosage/Administration, Warnings); FDA medical review; ODAC briefing; EPAR; pivotal paper (DLTs, dose reductions, discontinuations); ClinicalTrials.gov results (SAEs)  [query: AKT1/2/3 PIK3CA/AKT1/PTEN-altered HR+/HER2- advanced breast cancer small_molecule]
 - **Primary source (AI draft):** _(to fill)_
 - **Supporting quote (AI draft, verify):** _(to fill)_
+- **Quote status:** _(to fill)_
 - **Page ref:** _(to fill)_
 - **Drafted source_type / tier / direction / LR:** ? / ? / ? / ?
 - **AI confidence (advisory):** ?
@@ -28,6 +29,7 @@
 - **Search targets:** FDA label (Adverse Reactions, Dosage/Administration, Warnings); FDA medical review; ODAC briefing; EPAR; pivotal paper (DLTs, dose reductions, discontinuations); ClinicalTrials.gov results (SAEs)  [query: AKT1/2/3 PIK3CA/AKT1/PTEN-altered HR+/HER2- advanced breast cancer small_molecule]
 - **Primary source (AI draft):** _(to fill)_
 - **Supporting quote (AI draft, verify):** _(to fill)_
+- **Quote status:** _(to fill)_
 - **Page ref:** _(to fill)_
 - **Drafted source_type / tier / direction / LR:** ? / ? / ? / ?
 - **AI confidence (advisory):** ?

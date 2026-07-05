@@ -11,7 +11,7 @@
 
 ## Evidence available at decision
 
-PRE-DECISION CANDIDATE: More selective BTK inhibitor with headache/diarrhea and bleeding/infection risks but generally manageable at active dose; approvals support held therapeutic window.
+PRE-DECISION CANDIDATE: More selective BTK inhibitor with headache/diarrhea and bleeding/infection risks but generally manageable at active dose; data support a held therapeutic window.
 
 ## Candidate atoms to review
 
@@ -27,7 +27,7 @@ PRE-DECISION CANDIDATE: More selective BTK inhibitor with headache/diarrhea and 
 - [ ] review_status = approved | rejected
 
 ### acalabrutinib_mcl_cll:ther:1
-- **Span:** approvals support held therapeutic window.
+- **Span:** data support a held therapeutic window.
 - **Proposed direction (hint):** neutral
 - [ ] source_type + primary_source_link
 - [ ] observed_vs_inferred

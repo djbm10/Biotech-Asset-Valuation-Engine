@@ -11,7 +11,7 @@
 
 ## Evidence available at decision
 
-PRE-DECISION CANDIDATE: Selective BCL-2 inhibition designed to avoid BCL-xL platelet liability seen with navitoclax; dose ramp-up/TLS management enabled active exposure. Single-arm trial showed high ORR in 17p-deleted CLL before approval.
+PRE-DECISION CANDIDATE: Selective BCL-2 inhibition designed to avoid BCL-xL platelet liability seen with navitoclax; dose ramp-up/TLS management enabled active exposure. Single-arm trial showed high ORR in 17p-deleted CLL.
 
 ## Candidate atoms to review
 
@@ -38,7 +38,7 @@ PRE-DECISION CANDIDATE: Selective BCL-2 inhibition designed to avoid BCL-xL plat
 - [ ] review_status = approved | rejected
 
 ### venetoclax_cll_17p:ther:2
-- **Span:** Single-arm trial showed high ORR in 17p-deleted CLL before approval.
+- **Span:** Single-arm trial showed high ORR in 17p-deleted CLL.
 - **Proposed direction (hint):** neutral
 - [ ] source_type + primary_source_link
 - [ ] observed_vs_inferred

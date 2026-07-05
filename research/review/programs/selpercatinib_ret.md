@@ -11,7 +11,7 @@
 
 ## Evidence available at decision
 
-PRE-DECISION CANDIDATE: Selective RET inhibitor showed high response rates with manageable hypertension/LFT/QT risks; active dose feasible for tissue-specific approvals. Need label extraction.
+PRE-DECISION CANDIDATE: Selective RET inhibitor showed high response rates with manageable hypertension/LFT/QT risks; active dose feasible at the selected dose. Need label extraction.
 
 ## Candidate atoms to review
 
@@ -27,7 +27,7 @@ PRE-DECISION CANDIDATE: Selective RET inhibitor showed high response rates with 
 - [ ] review_status = approved | rejected
 
 ### selpercatinib_ret:ther:1
-- **Span:** active dose feasible for tissue-specific approvals.
+- **Span:** active dose feasible at the selected dose.
 - **Proposed direction (hint):** neutral
 - [ ] source_type + primary_source_link
 - [ ] observed_vs_inferred

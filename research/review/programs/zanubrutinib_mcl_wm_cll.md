@@ -11,7 +11,7 @@
 
 ## Evidence available at decision
 
-PRE-DECISION CANDIDATE: BTK inhibitor designed/selectivity profile with manageable hematologic/infection/bleeding risks across trials; active dose feasible for multiple approvals. Need indication-specific label extraction.
+PRE-DECISION CANDIDATE: BTK inhibitor designed/selectivity profile with manageable hematologic/infection/bleeding risks across trials; active dose feasible at the selected dose. Need indication-specific label extraction.
 
 ## Candidate atoms to review
 
@@ -27,7 +27,7 @@ PRE-DECISION CANDIDATE: BTK inhibitor designed/selectivity profile with manageab
 - [ ] review_status = approved | rejected
 
 ### zanubrutinib_mcl_wm_cll:ther:1
-- **Span:** active dose feasible for multiple approvals.
+- **Span:** active dose feasible at the selected dose.
 - **Proposed direction (hint):** neutral
 - [ ] source_type + primary_source_link
 - [ ] observed_vs_inferred

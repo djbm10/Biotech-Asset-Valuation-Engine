@@ -2,6 +2,36 @@
 
 Plain-language record of the valuation-accuracy work. Goal is honest calibration and uncertainty, not false precision.
 
+## 2026-07-05 - Claim Ledger: Corpus Leakage Scrub (blind review made real) + Fetch-Pass Corrections
+
+### What Changed
+
+Before scaling the source-drafting pass to all 37 programs, we scrubbed the corpus of
+lookahead leakage. An audit found **18 of 37** evidence notes reasoned *from* the outcome —
+"feasible for accelerated approval", "approvals support a held therapeutic window", "before
+market withdrawal decision". In a blind reviewer packet that hands the reviewer the answer.
+A reusable scrubber removed the outcome language while preserving the pre-decision evidence
+(trial names, response rates, toxicity), and a residual detector confirms the corpus now has
+**zero** leakage. A regression test keeps it that way.
+
+### Why It Matters
+
+- **Leakage is more dangerous than slow progress.** If the packet hints at the outcome, the
+  reviewer's label is contaminated and the whole calibration is compromised. This was worth
+  stopping to fix before adding 32 more programs.
+- **The scrub only removes, never invents.** It strips the leaked outcome; it does not add a
+  new claim. The original text is preserved in version history, and the transform is
+  mechanical and testable, not a hand-wave.
+- **The FDA-quote pass got more honest.** Fetching FDA labels through DailyMed surfaced a
+  real error in the first batch — the current Venclexta label has no boxed warning (tumor
+  lysis syndrome sits in Warnings, not a boxed warning), so that citation was corrected.
+  Every quote now carries a `quote_status`: `verbatim_confirmed` where we pulled the exact
+  wording (inavolisib), or `needs_primary_pdf_confirmation` where the FDA PDF was blocked to
+  the fetcher and the wording was reconstructed (navitoclax, umbralisib, poziotinib,
+  venetoclax). The reviewer sees which quotes still need eyes on the source PDF.
+- **Still nothing scored.** All five remain candidate/unverified; gate closed. With the
+  corpus clean, the remaining 32 programs can now be drafted the same way.
+
 ## 2026-07-05 - Claim Ledger: AI Source-Drafting Workflow With a Hard Human Approval Line
 
 ### What Changed

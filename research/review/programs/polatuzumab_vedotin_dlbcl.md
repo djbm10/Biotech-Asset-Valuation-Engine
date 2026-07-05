@@ -11,7 +11,7 @@
 
 ## Evidence available at decision
 
-PRE-DECISION CANDIDATE: ADC plus bendamustine/rituximab showed clinical benefit with manageable cytopenia/neuropathy/infection risk; exposure accepted for accelerated approval.
+PRE-DECISION CANDIDATE: ADC plus bendamustine/rituximab showed clinical benefit with manageable cytopenia/neuropathy/infection risk; exposure accepted at the selected dose.
 
 ## Candidate atoms to review
 
@@ -27,7 +27,7 @@ PRE-DECISION CANDIDATE: ADC plus bendamustine/rituximab showed clinical benefit 
 - [ ] review_status = approved | rejected
 
 ### polatuzumab_vedotin_dlbcl:ther:1
-- **Span:** exposure accepted for accelerated approval.
+- **Span:** exposure accepted at the selected dose.
 - **Proposed direction (hint):** neutral
 - [ ] source_type + primary_source_link
 - [ ] observed_vs_inferred

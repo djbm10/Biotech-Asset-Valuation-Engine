@@ -11,12 +11,12 @@
 
 ## Evidence available at decision
 
-PRE-DECISION CANDIDATE: Public label/review summaries described serious safety liabilities including infections, neutropenia, diarrhea/noninfectious colitis, hepatotoxicity, and severe cutaneous reactions before market withdrawal decision. Need FDA label/ODAC packet extraction.
+PRE-DECISION CANDIDATE: Public label/review summaries described serious safety liabilities including infections, neutropenia, diarrhea/noninfectious colitis, hepatotoxicity, and severe cutaneous reactions. Need FDA label/review extraction.
 
 ## Candidate atoms to review
 
 ### umbralisib_mzl_fl_cll:ther:0
-- **Span:** PRE-DECISION CANDIDATE: Public label/review summaries described serious safety liabilities including infections, neutropenia, diarrhea/noninfectious colitis, hepatotoxicity, and severe cutaneous reactions before market withdrawal decision.
+- **Span:** PRE-DECISION CANDIDATE: Public label/review summaries described serious safety liabilities including infections, neutropenia, diarrhea/noninfectious colitis, hepatotoxicity, and severe cutaneous reactions.
 - **Proposed direction (hint):** refuting
 - [ ] source_type + primary_source_link
 - [ ] observed_vs_inferred
@@ -27,7 +27,7 @@ PRE-DECISION CANDIDATE: Public label/review summaries described serious safety l
 - [ ] review_status = approved | rejected
 
 ### umbralisib_mzl_fl_cll:ther:1
-- **Span:** Need FDA label/ODAC packet extraction.
+- **Span:** Need FDA label/review extraction.
 - **Proposed direction (hint):** neutral
 - [ ] source_type + primary_source_link
 - [ ] observed_vs_inferred

@@ -11,12 +11,12 @@
 
 ## Evidence available at decision
 
-PRE-DECISION CANDIDATE: CAPItello-291/NEJM and public label summaries show diarrhea/rash/hyperglycemia but approval indicates manageable product-level therapeutic window with intermittent dosing. Need discontinuation/dose intensity extraction.
+PRE-DECISION CANDIDATE: CAPItello-291/NEJM and public label summaries show diarrhea/rash/hyperglycemia but data indicate a manageable product-level therapeutic window with intermittent dosing. Need discontinuation/dose intensity extraction.
 
 ## Candidate atoms to review
 
 ### capivasertib_capitello291:ther:0
-- **Span:** PRE-DECISION CANDIDATE: CAPItello-291/NEJM and public label summaries show diarrhea/rash/hyperglycemia but approval indicates manageable product-level therapeutic window with intermittent dosing.
+- **Span:** PRE-DECISION CANDIDATE: CAPItello-291/NEJM and public label summaries show diarrhea/rash/hyperglycemia but data indicate a manageable product-level therapeutic window with intermittent dosing.
 - **Proposed direction (hint):** neutral
 - [ ] source_type + primary_source_link
 - [ ] observed_vs_inferred

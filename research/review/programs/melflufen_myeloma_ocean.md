@@ -11,12 +11,12 @@
 
 ## Evidence available at decision
 
-PRE-DECISION CANDIDATE: Accelerated approval based on single-arm HORIZON response in heavily pretreated MM; known adverse reactions included fatigue, nausea, diarrhea, fever/infections; need FDA label/ODAC to quantify myelosuppression and subgroup safety before OCEAN.
+PRE-DECISION CANDIDATE: Pivotal data from single-arm HORIZON response in heavily pretreated MM; known adverse reactions included fatigue, nausea, diarrhea, fever/infections; need FDA label/review to quantify myelosuppression and subgroup safety before OCEAN.
 
 ## Candidate atoms to review
 
 ### melflufen_myeloma_ocean:ther:0
-- **Span:** PRE-DECISION CANDIDATE: Accelerated approval based on single-arm HORIZON response in heavily pretreated MM;
+- **Span:** PRE-DECISION CANDIDATE: Pivotal data from single-arm HORIZON response in heavily pretreated MM;
 - **Proposed direction (hint):** neutral
 - [ ] source_type + primary_source_link
 - [ ] observed_vs_inferred
@@ -38,7 +38,7 @@ PRE-DECISION CANDIDATE: Accelerated approval based on single-arm HORIZON respons
 - [ ] review_status = approved | rejected
 
 ### melflufen_myeloma_ocean:ther:2
-- **Span:** need FDA label/ODAC to quantify myelosuppression and subgroup safety before OCEAN.
+- **Span:** need FDA label/review to quantify myelosuppression and subgroup safety before OCEAN.
 - **Proposed direction (hint):** neutral
 - [ ] source_type + primary_source_link
 - [ ] observed_vs_inferred

@@ -11,7 +11,7 @@
 
 ## Evidence available at decision
 
-PRE-DECISION CANDIDATE: KRYSTAL-1 showed efficacy with manageable GI/hepatic/QTc safety monitoring; active exposure feasible for accelerated approval. Need label dose-reduction/discontinuation extraction.
+PRE-DECISION CANDIDATE: KRYSTAL-1 showed efficacy with manageable GI/hepatic/QTc safety monitoring; active exposure feasible at the selected dose. Need label dose-reduction/discontinuation extraction.
 
 ## Candidate atoms to review
 
@@ -27,7 +27,7 @@ PRE-DECISION CANDIDATE: KRYSTAL-1 showed efficacy with manageable GI/hepatic/QTc
 - [ ] review_status = approved | rejected
 
 ### adagrasib_kras_g12c_nsclc:ther:1
-- **Span:** active exposure feasible for accelerated approval.
+- **Span:** active exposure feasible at the selected dose.
 - **Proposed direction (hint):** neutral
 - [ ] source_type + primary_source_link
 - [ ] observed_vs_inferred

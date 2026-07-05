@@ -11,7 +11,7 @@
 
 ## Evidence available at decision
 
-PRE-DECISION CANDIDATE: Third-generation EGFR inhibitor designed to target T790M while sparing wild-type EGFR more than earlier TKIs; early clinical response and tolerability supported active exposure. Need approval review extraction.
+PRE-DECISION CANDIDATE: Third-generation EGFR inhibitor designed to target T790M while sparing wild-type EGFR more than earlier TKIs; early clinical response and tolerability supported active exposure. Need FDA review extraction.
 
 ## Candidate atoms to review
 
@@ -38,7 +38,7 @@ PRE-DECISION CANDIDATE: Third-generation EGFR inhibitor designed to target T790M
 - [ ] review_status = approved | rejected
 
 ### osimertinib_t790m_nsclc:ther:2
-- **Span:** Need approval review extraction.
+- **Span:** Need FDA review extraction.
 - **Proposed direction (hint):** neutral
 - [ ] source_type + primary_source_link
 - [ ] observed_vs_inferred

@@ -11,7 +11,7 @@
 
 ## Evidence available at decision
 
-PRE-DECISION CANDIDATE: CNS-penetrant ALK inhibitor with neurocognitive/lipid adverse effects but active dose feasible with monitoring; approved in ALK-positive NSCLC. Need FDA label extraction.
+PRE-DECISION CANDIDATE: CNS-penetrant ALK inhibitor with neurocognitive/lipid adverse effects but active dose feasible with monitoring; active in ALK-positive NSCLC. Need FDA label extraction.
 
 ## Candidate atoms to review
 
@@ -27,7 +27,7 @@ PRE-DECISION CANDIDATE: CNS-penetrant ALK inhibitor with neurocognitive/lipid ad
 - [ ] review_status = approved | rejected
 
 ### lorlatinib_alk_nsclc:ther:1
-- **Span:** approved in ALK-positive NSCLC.
+- **Span:** active in ALK-positive NSCLC.
 - **Proposed direction (hint):** neutral
 - [ ] source_type + primary_source_link
 - [ ] observed_vs_inferred

@@ -11,13 +11,13 @@
 
 ## Evidence available at decision
 
-PRE-DECISION CANDIDATE: Prior public data showed antitumor activity, but ODAC judged risk-benefit unfavorable; need FDA briefing to quantify rash/diarrhea/mucositis/dose reductions and whether dose intensity limited efficacy.
+PRE-DECISION CANDIDATE: Prior public data showed antitumor activity; need FDA briefing to quantify rash/diarrhea/mucositis/dose reductions and whether dose intensity limited efficacy.
 
 ## Candidate atoms to review
 
 ### poziotinib_exon20_nsclc:ther:0
-- **Span:** PRE-DECISION CANDIDATE: Prior public data showed antitumor activity, but ODAC judged risk-benefit unfavorable;
-- **Proposed direction (hint):** confirming
+- **Span:** PRE-DECISION CANDIDATE: Prior public data showed antitumor activity;
+- **Proposed direction (hint):** neutral
 - [ ] source_type + primary_source_link
 - [ ] observed_vs_inferred
 - [ ] evidence_tier

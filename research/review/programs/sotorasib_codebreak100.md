@@ -11,7 +11,7 @@
 
 ## Evidence available at decision
 
-PRE-DECISION CANDIDATE: Covalent KRAS G12C inhibitor with GI/hepatic toxicities but clinical activity at selected dose; product-level exposure feasible enough for accelerated approval. Need label/dose modification extraction.
+PRE-DECISION CANDIDATE: Covalent KRAS G12C inhibitor with GI/hepatic toxicities but clinical activity at selected dose; product-level exposure feasible at the selected dose. Need label/dose modification extraction.
 
 ## Candidate atoms to review
 
@@ -27,7 +27,7 @@ PRE-DECISION CANDIDATE: Covalent KRAS G12C inhibitor with GI/hepatic toxicities 
 - [ ] review_status = approved | rejected
 
 ### sotorasib_codebreak100:ther:1
-- **Span:** product-level exposure feasible enough for accelerated approval.
+- **Span:** product-level exposure feasible at the selected dose.
 - **Proposed direction (hint):** neutral
 - [ ] source_type + primary_source_link
 - [ ] observed_vs_inferred

@@ -11,7 +11,7 @@
 
 ## Evidence available at decision
 
-PRE-DECISION CANDIDATE: CHRYSALIS showed ORR around 40% with median DOR 11.1 months; infusion/rash/paronychia risks but exposure judged feasible for approval. Need label discontinuation extraction.
+PRE-DECISION CANDIDATE: CHRYSALIS showed ORR around 40% with median DOR 11.1 months; infusion/rash/paronychia risks but exposure judged feasible at the selected dose. Need label discontinuation extraction.
 
 ## Candidate atoms to review
 
@@ -27,7 +27,7 @@ PRE-DECISION CANDIDATE: CHRYSALIS showed ORR around 40% with median DOR 11.1 mon
 - [ ] review_status = approved | rejected
 
 ### amivantamab_chrysalis:ther:1
-- **Span:** infusion/rash/paronychia risks but exposure judged feasible for approval.
+- **Span:** infusion/rash/paronychia risks but exposure judged feasible at the selected dose.
 - **Proposed direction (hint):** neutral
 - [ ] source_type + primary_source_link
 - [ ] observed_vs_inferred

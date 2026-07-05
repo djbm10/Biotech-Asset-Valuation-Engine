@@ -14,6 +14,7 @@
 - **Search targets:** FDA label (Adverse Reactions, Dosage/Administration, Warnings); FDA medical review; ODAC briefing; EPAR; pivotal paper (DLTs, dose reductions, discontinuations); ClinicalTrials.gov results (SAEs)  [query: BTK MCL / WM / CLL/SLL / MZL / FL small_molecule]
 - **Primary source (AI draft):** _(to fill)_
 - **Supporting quote (AI draft, verify):** _(to fill)_
+- **Quote status:** _(to fill)_
 - **Page ref:** _(to fill)_
 - **Drafted source_type / tier / direction / LR:** ? / ? / ? / ?
 - **AI confidence (advisory):** ?
@@ -24,10 +25,11 @@
 - [ ] `review_status = approved`  — or  `review_status = rejected`
 
 ## zanubrutinib_mcl_wm_cll:ther:1
-- **Evidence span:** active dose feasible for multiple approvals.
+- **Evidence span:** active dose feasible at the selected dose.
 - **Search targets:** FDA label (Adverse Reactions, Dosage/Administration, Warnings); FDA medical review; ODAC briefing; EPAR; pivotal paper (DLTs, dose reductions, discontinuations); ClinicalTrials.gov results (SAEs)  [query: BTK MCL / WM / CLL/SLL / MZL / FL small_molecule]
 - **Primary source (AI draft):** _(to fill)_
 - **Supporting quote (AI draft, verify):** _(to fill)_
+- **Quote status:** _(to fill)_
 - **Page ref:** _(to fill)_
 - **Drafted source_type / tier / direction / LR:** ? / ? / ? / ?
 - **AI confidence (advisory):** ?
@@ -42,6 +44,7 @@
 - **Search targets:** FDA label (Adverse Reactions, Dosage/Administration, Warnings); FDA medical review; ODAC briefing; EPAR; pivotal paper (DLTs, dose reductions, discontinuations); ClinicalTrials.gov results (SAEs)  [query: BTK MCL / WM / CLL/SLL / MZL / FL small_molecule]
 - **Primary source (AI draft):** _(to fill)_
 - **Supporting quote (AI draft, verify):** _(to fill)_
+- **Quote status:** _(to fill)_
 - **Page ref:** _(to fill)_
 - **Drafted source_type / tier / direction / LR:** ? / ? / ? / ?
 - **AI confidence (advisory):** ?

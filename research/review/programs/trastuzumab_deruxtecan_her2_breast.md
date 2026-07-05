@@ -11,7 +11,7 @@
 
 ## Evidence available at decision
 
-PRE-DECISION CANDIDATE: ADC showed strong clinical activity; ILD/pneumonitis boxed warning is serious but dose/monitoring strategy allowed approvals/expansions. Need pivotal trial safety table extraction.
+PRE-DECISION CANDIDATE: ADC showed strong clinical activity; ILD/pneumonitis boxed warning is serious but dose/monitoring strategy allowed continued active dosing. Need pivotal trial safety table extraction.
 
 ## Candidate atoms to review
 
@@ -27,7 +27,7 @@ PRE-DECISION CANDIDATE: ADC showed strong clinical activity; ILD/pneumonitis box
 - [ ] review_status = approved | rejected
 
 ### trastuzumab_deruxtecan_her2_breast:ther:1
-- **Span:** ILD/pneumonitis boxed warning is serious but dose/monitoring strategy allowed approvals/expansions.
+- **Span:** ILD/pneumonitis boxed warning is serious but dose/monitoring strategy allowed continued active dosing.
 - **Proposed direction (hint):** refuting
 - [ ] source_type + primary_source_link
 - [ ] observed_vs_inferred

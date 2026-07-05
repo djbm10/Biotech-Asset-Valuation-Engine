@@ -11,7 +11,7 @@
 
 ## Evidence available at decision
 
-PRE-DECISION CANDIDATE: Non-covalent BTK inhibitor with fatigue, musculoskeletal pain, diarrhea, edema, dyspnea, pneumonia, and bruising; active dose feasible for accelerated approval. Need BRUIN tables.
+PRE-DECISION CANDIDATE: Non-covalent BTK inhibitor with fatigue, musculoskeletal pain, diarrhea, edema, dyspnea, pneumonia, and bruising; active dose feasible at the selected dose. Need BRUIN tables.
 
 ## Candidate atoms to review
 
@@ -27,7 +27,7 @@ PRE-DECISION CANDIDATE: Non-covalent BTK inhibitor with fatigue, musculoskeletal
 - [ ] review_status = approved | rejected
 
 ### pirtobrutinib_mcl:ther:1
-- **Span:** active dose feasible for accelerated approval.
+- **Span:** active dose feasible at the selected dose.
 - **Proposed direction (hint):** neutral
 - [ ] source_type + primary_source_link
 - [ ] observed_vs_inferred

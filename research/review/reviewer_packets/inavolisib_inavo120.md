@@ -14,6 +14,7 @@
 - **Search targets:** FDA label (Adverse Reactions, Dosage/Administration, Warnings); FDA medical review; ODAC briefing; EPAR; pivotal paper (DLTs, dose reductions, discontinuations); ClinicalTrials.gov results (SAEs)  [query: PI3K-alpha mutant selective/degrader PIK3CA-mutated HR+/HER2- advanced breast cancer small_molecule]
 - **Primary source (AI draft):** _(to fill)_
 - **Supporting quote (AI draft, verify):** _(to fill)_
+- **Quote status:** _(to fill)_
 - **Page ref:** _(to fill)_
 - **Drafted source_type / tier / direction / LR:** ? / ? / ? / ?
 - **AI confidence (advisory):** ?
@@ -26,9 +27,10 @@
 ## inavolisib_inavo120:ther:1
 - **Evidence span:** adverse-event discontinuation summarized publicly as about 6%, suggesting active exposure was product-feasible.
 - **Search targets:** FDA label (Adverse Reactions, Dosage/Administration, Warnings); FDA medical review; ODAC briefing; EPAR; pivotal paper (DLTs, dose reductions, discontinuations); ClinicalTrials.gov results (SAEs)  [query: PI3K-alpha mutant selective/degrader PIK3CA-mutated HR+/HER2- advanced breast cancer small_molecule]
-- **Primary source (AI draft):** https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=5de59f5b-e5db-410f-b692-658686ef4107
-- **Supporting quote (AI draft, verify):** Permanent discontinuation of ITOVEBI due to an adverse reaction occurred in 6% of patients; the on-target hyperglycemia was largely managed with oral anti-hyperglycemics and dose modification rather than discontinuation.
-- **Page ref:** ITOVEBI (inavolisib) FDA label, Oct 2024 — Section 6.1 (Adverse Reactions)
+- **Primary source (AI draft):** https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=5de59f5b-e5db-410f-b692-658686ef4107&type=display
+- **Supporting quote (AI draft, verify):** Permanent discontinuation of ITOVEBI due to an adverse reaction occurred in 6% of patients.
+- **Quote status:** verbatim_confirmed
+- **Page ref:** ITOVEBI (inavolisib) FDA label, Oct 2024 — Section 6.1 (Adverse Reactions). Verbatim from DailyMed.
 - **Drafted source_type / tier / direction / LR:** fda_label / high / confirming / 1.9
 - **AI confidence (advisory):** high
 
@@ -42,6 +44,7 @@
 - **Search targets:** FDA label (Adverse Reactions, Dosage/Administration, Warnings); FDA medical review; ODAC briefing; EPAR; pivotal paper (DLTs, dose reductions, discontinuations); ClinicalTrials.gov results (SAEs)  [query: PI3K-alpha mutant selective/degrader PIK3CA-mutated HR+/HER2- advanced breast cancer small_molecule]
 - **Primary source (AI draft):** _(to fill)_
 - **Supporting quote (AI draft, verify):** _(to fill)_
+- **Quote status:** _(to fill)_
 - **Page ref:** _(to fill)_
 - **Drafted source_type / tier / direction / LR:** ? / ? / ? / ?
 - **AI confidence (advisory):** ?
