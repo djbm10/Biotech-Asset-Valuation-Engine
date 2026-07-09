@@ -22,6 +22,30 @@ reviewer packet for Chris/Harvey. The ``primary_source_link`` and ``supporting_q
 columns are filled by a real fetch pass with verifiable citations, never from model memory.
 
 Strictly shadow: no import of, or write into, the live POS path.
+
+Fetch-path hierarchy (the AI drafter's real-fetch pass should try these, in order, before
+resorting to ``quote_status=needs_primary_pdf_confirmation``):
+
+1. **PMC free full text** (``pmc.ncbi.nlm.nih.gov/articles/PMC<id>/``) for pivotal trial
+   publications. Reliably fetchable, and often the primary clinical source underlying a
+   label anyway. Find the PMCID via a PubMed search when the DOI/journal link is paywalled
+   (``ascopubs.org`` and similar publisher sites frequently 403).
+2. **DailyMed with an explicit ``version=`` parameter** for FDA label content on currently
+   marketed drugs. The default DailyMed page serves the *current* (most-revised) label,
+   which is wrong for a historical approval-basis claim — use
+   ``GET /dailymed/services/v2/spls/<setid>/history.json`` to list every SPL version with
+   its publish date, then fetch
+   ``/dailymed/fda/fdaDrugXsl.cfm?setid=<setid>&type=display&version=<N>`` for the version
+   published at/near the decision date. This gives a verbatim, dated, point-in-time label
+   snapshot — not a lookahead-contaminated current one.
+3. ``*.fda.gov`` (including ``accessdata.fda.gov`` PDFs) is domain-wide blocked to the
+   fetcher (404s on every path tried, including non-PDF HTML pages) — do not keep retrying
+   it. For a drug withdrawn from the market, DailyMed drops the label entirely; fall back to
+   its PMC pivotal-trial publication instead (which usually has the same underlying safety
+   data as the label anyway).
+4. Only when none of the above resolves: reconstruct the quote from secondary reporting and
+   mark ``quote_status=needs_primary_pdf_confirmation``, ``provenance_confidence=medium`` at
+   best — never ``high``.
 """
 from __future__ import annotations
 

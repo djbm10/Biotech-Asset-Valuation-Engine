@@ -27,12 +27,12 @@
 ## poziotinib_exon20_nsclc:ther:1
 - **Evidence span:** need FDA briefing to quantify rash/diarrhea/mucositis/dose reductions and whether dose intensity limited efficacy.
 - **Search targets:** FDA label (Adverse Reactions, Dosage/Administration, Warnings); FDA medical review; ODAC briefing; EPAR; pivotal paper (DLTs, dose reductions, discontinuations); ClinicalTrials.gov results (SAEs)  [query: EGFR/HER2 exon20; pan-ErbB HER2 exon20 insertion NSCLC small_molecule]
-- **Primary source (AI draft):** https://ascopubs.org/doi/10.1200/JCO.21.01323
-- **Supporting quote (AI draft, verify):** Poziotinib was poorly tolerated at the proposed 16 mg once-daily dose: the majority of patients required dose reduction and dose interruption, and optimization of the dosing regimen was needed to evaluate whether toxicity could be mitigated without compromising efficacy.
-- **Quote status:** needs_primary_pdf_confirmation
-- **Page ref:** ZENITH20-2 (Le et al.), J Clin Oncol 2022;40(7):710 — Safety/Discussion. FDA ODAC briefing (Sep 22 2022) reports ~77% dose reductions, ~87% interruptions, 85% grade 3/4 AEs.
+- **Primary source (AI draft):** https://pmc.ncbi.nlm.nih.gov/articles/PMC8887939/
+- **Supporting quote (AI draft, verify):** Most patients had poziotinib dose reductions (76.7%), with median relative dose intensity 71.5%. Twelve (13.3%) patients permanently discontinued treatment for treatment-related adverse events.
+- **Quote status:** verbatim_confirmed
+- **Page ref:** Le X et al., ZENITH20-2, J Clin Oncol 2022;40(7):710-718 (PMC8887939) — Results/Safety.
 - **Drafted source_type / tier / direction / LR:** pivotal_publication_phase2 / high / refuting / 0.4
-- **AI confidence (advisory):** medium
+- **AI confidence (advisory):** high
 
 **Reviewer decision:**
 - [ ] quote confirmed against source → `source_verified=true`

@@ -12,12 +12,12 @@
 ## umbralisib_mzl_fl_cll:ther:0
 - **Evidence span:** PRE-DECISION CANDIDATE: Public label/review summaries described serious safety liabilities including infections, neutropenia, diarrhea/noninfectious colitis, hepatotoxicity, and severe cutaneous reactions.
 - **Search targets:** FDA label (Adverse Reactions, Dosage/Administration, Warnings); FDA medical review; ODAC briefing; EPAR; pivotal paper (DLTs, dose reductions, discontinuations); ClinicalTrials.gov results (SAEs)  [query: PI3K-delta / CK1-epsilon MZL/FL; CLL/SLL regimen context small_molecule]
-- **Primary source (AI draft):** https://www.accessdata.fda.gov/drugsatfda_docs/label/2021/213176s000lbl.pdf
-- **Supporting quote (AI draft, verify):** Dosage interruptions of UKONIQ due to an adverse reaction occurred in 43% of patients; Warnings and Precautions covered infections, neutropenia, diarrhea or non-infectious colitis, hepatotoxicity, and severe cutaneous reactions.
-- **Quote status:** needs_primary_pdf_confirmation
-- **Page ref:** UKONIQ (umbralisib) FDA label, Feb 2021 — Sections 5 (Warnings and Precautions) and 6.1 (Adverse Reactions)
-- **Drafted source_type / tier / direction / LR:** fda_label / medium / refuting / 0.6
-- **AI confidence (advisory):** medium
+- **Primary source (AI draft):** https://pmc.ncbi.nlm.nih.gov/articles/PMC8148421/
+- **Supporting quote (AI draft, verify):** TEAEs leading to dose reductions occurred in 24 (11.5%) patients; TEAEs led to umbralisib discontinuation in 32 patients (15.4%). Diarrhea (10.1%; all grade <=3) and noninfectious colitis (1.9%) were the notable GI events; no deaths occurred because of TEAEs.
+- **Quote status:** verbatim_confirmed
+- **Page ref:** Davids MS et al. (UNITY-NHL, MZL/FL/SLL cohorts), J Clin Oncol 2021;39(15):1608-1618 (PMC8148421), PMID 33683917 — Results/Safety.
+- **Drafted source_type / tier / direction / LR:** pivotal_publication_phase2 / medium / confirming / 1.4
+- **AI confidence (advisory):** high
 
 **Reviewer decision:**
 - [ ] quote confirmed against source → `source_verified=true`

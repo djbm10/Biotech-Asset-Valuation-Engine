@@ -27,12 +27,12 @@
 ## venetoclax_cll_17p:ther:1
 - **Evidence span:** dose ramp-up/TLS management enabled active exposure.
 - **Search targets:** FDA label (Adverse Reactions, Dosage/Administration, Warnings); FDA medical review; ODAC briefing; EPAR; pivotal paper (DLTs, dose reductions, discontinuations); ClinicalTrials.gov results (SAEs)  [query: BCL-2 selective CLL with 17p deletion; CLL/SLL small_molecule]
-- **Primary source (AI draft):** https://www.accessdata.fda.gov/drugsatfda_docs/label/2016/208573s000lbl.pdf
-- **Supporting quote (AI draft, verify):** The 5-week ramp-up dosing schedule is designed to gradually reduce tumor burden and decrease the risk of TLS.
-- **Quote status:** needs_primary_pdf_confirmation
-- **Page ref:** VENCLEXTA (venetoclax) FDA label — Section 2.2 (Dosage and Administration) / 5.1 (Tumor Lysis Syndrome). Wording cross-checked against current DailyMed label.
+- **Primary source (AI draft):** https://dailymed.nlm.nih.gov/dailymed/fda/fdaDrugXsl.cfm?setid=b118a40d-6b56-cee3-10f6-ded821a97018&type=display&version=85
+- **Supporting quote (AI draft, verify):** Tumor lysis syndrome, including fatal events and renal failure requiring dialysis, has occurred. Changes in blood chemistries consistent with TLS...can occur as early as 6 to 8 hours following the first dose.
+- **Quote status:** verbatim_confirmed
+- **Page ref:** VENCLEXTA (venetoclax) DailyMed SPL version 85, published 2016-04-13 (matches label 'Revised: 4/2016', the original approval label) — Section 5.1 (Tumor Lysis Syndrome). No boxed warning present in this version.
 - **Drafted source_type / tier / direction / LR:** fda_label / high / confirming / 2.2
-- **AI confidence (advisory):** medium
+- **AI confidence (advisory):** high
 
 **Reviewer decision:**
 - [ ] quote confirmed against source → `source_verified=true`
