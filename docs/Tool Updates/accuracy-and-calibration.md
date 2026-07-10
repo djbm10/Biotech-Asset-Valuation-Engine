@@ -2,6 +2,40 @@
 
 Plain-language record of the valuation-accuracy work. Goal is honest calibration and uncertainty, not false precision.
 
+## 2026-07-09 - Claim Ledger: All 37 Programs Source-Drafted (still zero promoted)
+
+### What Changed
+
+Scaled the source-drafting fetch pass from the initial 5-program sanity batch to all 37
+programs (97 draft rows total). Standardized the fetch path first: `*.fda.gov` is
+domain-wide blocked to the fetch tool (confirmed by testing every path tried, not assumed),
+so the real path is PMC free full text for pivotal trial papers (works even when the
+publisher page 403s) and DailyMed's SPL version-history API for point-in-time FDA label
+snapshots (the default DailyMed page serves today's label, which is the wrong,
+lookahead-contaminated snapshot for an old approval). Four parallel research passes covered
+the remaining 32 programs; results were merged, re-audited for outcome leakage, and
+regenerated into all 37 reviewer packets.
+
+### Why It Matters
+
+- **67 of 89 drafted quotes are now verbatim-confirmed** against a real fetched source (PMC
+  or a dated DailyMed label version), not reconstructed from search-summary paraphrase. The
+  remaining 22 are honestly flagged `needs_primary_pdf_confirmation` where the primary paper
+  is paywalled with no PMC copy (e.g., BELLE-3, CHRONOS-1's original trial report).
+- **The leakage audit caught one real miss.** One drafted note (mobocertinib) named the
+  program's actual 2023 market withdrawal — even though the intent was to explain *why* an
+  earlier data cutoff was used, naming the outcome at all is the leak. Scrubbed before
+  merge. Everything else the leakage detector flagged (e.g., "the approved dose," "before
+  final approval") turned out to be benign — describing the labeled dose or the human
+  reviewer's own sign-off, not a program outcome.
+- **Still nothing scored.** `n_drafts=97, n_candidate=97, n_approved=0, n_promotable=0,
+  affects_live_pos=False`. Every draft stays AI-authored/human-unapproved by construction;
+  no likelihood ratio drafted here was allowed outside a conservative band (confirming
+  1.0–3.0, refuting 0.3–1.0) and no drafter touched `review_status`/`source_verified`
+  directly — both stayed exactly as the skeleton left them. 14,297 tests green.
+- **What's next:** human review pass (Chris/Harvey) against the 37 reviewer packets in
+  `research/review/reviewer_packets/`. Nothing here is load-bearing until that happens.
+
 ## 2026-07-05 - Claim Ledger: Corpus Leakage Scrub (blind review made real) + Fetch-Pass Corrections
 
 ### What Changed
