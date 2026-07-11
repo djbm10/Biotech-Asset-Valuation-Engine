@@ -135,6 +135,9 @@ bve-validate-universe    = "bve.cli.validate_universe_cli:main"
 [tool.setuptools.packages.find]
 where = ["src"]
 
+[tool.setuptools.package-data]
+bve = ["**/*.yaml", "**/*.j2"]
+
 [tool.ruff]
 line-length = 100
 target-version = "py311"
