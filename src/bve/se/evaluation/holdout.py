@@ -11,9 +11,43 @@ from collections.abc import Iterable, Mapping
 from pathlib import Path
 from typing import Literal
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 Disposition = Literal["INCLUDE", "EXCLUDE", "UNKNOWN"]
+
+
+class HoldoutProblem(BaseModel):
+    """Strict problem contract for case-level acquisition-triage holdouts.
+
+    This is intentionally separate from ``BuyerProblemV2``. A holdout problem describes the
+    classification rubric applied to standalone evidence excerpts; it is not a buyer strategy or
+    discovery query.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+
+    schema_version: Literal["se_holdout_problem_v1"] = "se_holdout_problem_v1"
+    problem_id: str = Field(min_length=1)
+    title: str = Field(min_length=1)
+    version: str | int
+    task: str = Field(min_length=1)
+    allowed_dispositions: list[Disposition]
+    labeling_rubric: dict[Disposition, str]
+    decision_rules: list[str] = Field(min_length=1)
+    source_text_policy: str = Field(min_length=1)
+
+    @model_validator(mode="after")
+    def validate_dispositions(self) -> "HoldoutProblem":
+        expected = {"INCLUDE", "EXCLUDE", "UNKNOWN"}
+        if len(self.allowed_dispositions) != len(set(self.allowed_dispositions)):
+            raise ValueError("allowed_dispositions contains duplicates")
+        if set(self.allowed_dispositions) != expected:
+            raise ValueError(
+                "allowed_dispositions must contain exactly INCLUDE, EXCLUDE, and UNKNOWN"
+            )
+        if set(self.labeling_rubric) != expected:
+            raise ValueError("labeling_rubric must define INCLUDE, EXCLUDE, and UNKNOWN")
+        return self
 
 
 class HoldoutCase(BaseModel):

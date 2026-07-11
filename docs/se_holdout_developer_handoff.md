@@ -13,6 +13,26 @@ thresholds.
 - Runtime dependencies: those declared in `pyproject.toml`; package-data files (`*.yaml`, `*.j2`)
   are included in built wheels.
 
+## Problem input schema
+
+The holdout runner accepts a strict `se_holdout_problem_v1` classification specification. It is
+deliberately separate from `BuyerProblemV2`, which describes buyer strategy and discovery queries.
+The required fields are `problem_id`, `title`, `version`, `task`, all three allowed dispositions,
+an all-three-class labeling rubric, at least one decision rule, and `source_text_policy`.
+
+Before any single-shot inference, validate the exact problem and unlabeled cases without producing
+predictions:
+
+```bash
+PYTHONPATH=src python -m bve.cli.se_holdout_evaluate \
+  --problem <PROBLEM_YAML> \
+  --holdout-data <UNLABELED_HOLDOUT_JSONL> \
+  --validate-only
+```
+
+The command prints a validation report containing the problem ID and case count. It does not call
+the prediction function and does not create a prediction artifact.
+
 ## Case input schema
 
 The evaluator accepts JSON Lines. Each nonblank line must contain exactly:
