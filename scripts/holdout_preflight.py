@@ -63,8 +63,18 @@ def main() -> int:
     if sidecar.read_text().split()[0] != label_match.group(1):
         raise SystemExit("sealed label digest mismatch")
 
+    bundle_match = re.search(
+        r"Final sealed bundle: `([^`]+)`.*?SHA-256: `([0-9a-f]{64})`", manifest, re.S
+    )
+    if not bundle_match:
+        raise SystemExit("manifest missing final bundle path or hash")
+    bundle_path = Path(bundle_match.group(1))
+    if not bundle_path.is_file() or sha256(bundle_path) != bundle_match.group(2):
+        raise SystemExit("final bundle hash mismatch")
+
     command = "bve.cli.se_holdout_evaluate"
-    if command not in manifest or "--holdout-data" not in manifest:
+    required_command_parts = (command, "--problem", "--holdout-data", "--output")
+    if any(part not in manifest for part in required_command_parts):
         raise SystemExit("manifest does not specify the case-level evaluator command")
     print("HOLDOUT_PREFLIGHT_PASS: sealed hashes, mode 000 labels, command, and worktree verified")
     return 0
