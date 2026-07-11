@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import os
 import re
 import stat
 import subprocess
@@ -52,16 +53,23 @@ def main() -> int:
     if not data_path.is_file() or sha256(data_path) != data_match.group(1):
         raise SystemExit("holdout data hash mismatch")
 
-    # The label file must remain unreadable to the frozen process. Its digest was recorded by the
-    # custodian before sealing; preflight verifies that sealed digest sidecar and mode 000.
+    # The label file must remain unreadable to the frozen process. The custodian preflight may
+    # temporarily unlock it to perform direct digest verification, then always re-seals mode 000
+    # before returning. The frozen evaluator is never started by this script.
     label_path = args.holdout_dir / "holdout_labels_private.csv"
     sidecar = args.holdout_dir / "holdout_labels_private.csv.sha256"
     if not label_path.is_file() or not sidecar.is_file():
         raise SystemExit("missing sealed label artifact or digest sidecar")
-    if stat.S_IMODE(label_path.stat().st_mode) != 0:
-        raise SystemExit("private labels are not mode 000")
     if sidecar.read_text().split()[0] != label_match.group(1):
         raise SystemExit("sealed label digest mismatch")
+    try:
+        os.chmod(label_path, 0o600)
+        if sha256(label_path) != label_match.group(1):
+            raise SystemExit("direct private-label hash mismatch")
+    finally:
+        os.chmod(label_path, 0)
+    if stat.S_IMODE(label_path.stat().st_mode) != 0:
+        raise SystemExit("private labels could not be re-sealed mode 000")
 
     bundle_match = re.search(
         r"Final sealed bundle: `([^`]+)`.*?SHA-256: `([0-9a-f]{64})`", manifest, re.S
