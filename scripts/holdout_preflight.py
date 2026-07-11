@@ -9,6 +9,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import re
+import stat
 import subprocess
 from pathlib import Path
 
@@ -43,23 +44,29 @@ def main() -> int:
     if status:
         raise SystemExit(f"worktree is dirty:\n{status}")
 
-    expected_hashes = {
-        "holdout_data.jsonl": re.search(r"Holdout data.*?([0-9a-f]{64})", manifest, re.S),
-        "holdout_labels_private.csv": re.search(r"Private labels.*?([0-9a-f]{64})", manifest, re.S),
-    }
-    for name, match in expected_hashes.items():
-        if not match:
-            raise SystemExit(f"manifest missing hash for {name}")
-        path = args.holdout_dir / name
-        if not path.is_file():
-            raise SystemExit(f"missing artifact: {path}")
-        if sha256(path) != match.group(1):
-            raise SystemExit(f"hash mismatch: {path}")
+    data_match = re.search(r"Holdout data.*?([0-9a-f]{64})", manifest, re.S)
+    label_match = re.search(r"Private labels.*?([0-9a-f]{64})", manifest, re.S)
+    if not data_match or not label_match:
+        raise SystemExit("manifest is missing a holdout hash")
+    data_path = args.holdout_dir / "holdout_data.jsonl"
+    if not data_path.is_file() or sha256(data_path) != data_match.group(1):
+        raise SystemExit("holdout data hash mismatch")
+
+    # The label file must remain unreadable to the frozen process. Its digest was recorded by the
+    # custodian before sealing; preflight verifies that sealed digest sidecar and mode 000.
+    label_path = args.holdout_dir / "holdout_labels_private.csv"
+    sidecar = args.holdout_dir / "holdout_labels_private.csv.sha256"
+    if not label_path.is_file() or not sidecar.is_file():
+        raise SystemExit("missing sealed label artifact or digest sidecar")
+    if stat.S_IMODE(label_path.stat().st_mode) != 0:
+        raise SystemExit("private labels are not mode 000")
+    if sidecar.read_text().split()[0] != label_match.group(1):
+        raise SystemExit("sealed label digest mismatch")
 
     command = "bve.cli.se_holdout_evaluate"
     if command not in manifest or "--holdout-data" not in manifest:
         raise SystemExit("manifest does not specify the case-level evaluator command")
-    print("HOLDOUT_PREFLIGHT_PASS: hashes and worktree verified; lock labels before execution")
+    print("HOLDOUT_PREFLIGHT_PASS: sealed hashes, mode 000 labels, command, and worktree verified")
     return 0
 
 
