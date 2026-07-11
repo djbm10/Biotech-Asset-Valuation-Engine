@@ -48,6 +48,8 @@ source_text_policy: Each record is a standalone synthetic excerpt.
     report = json.loads(output.read_text())
     assert report["prediction_count"] == 8
     assert len(report["predictions"]) == 8
+    assert all(prediction["gates"] for prediction in report["predictions"])
+    assert all(prediction["reason"] for prediction in report["predictions"])
 
 
 def test_validate_only_parses_problem_and_cases_without_inference(tmp_path, monkeypatch, capsys) -> None:

@@ -6,6 +6,7 @@ import pytest
 
 from bve.se.evaluation.holdout import (
     HoldoutPrediction,
+    HoldoutGateDecision,
     load_holdout_cases,
     predict_holdout,
     validate_predictions,
@@ -63,7 +64,19 @@ def test_holdout_loader_rejects_labels(tmp_path) -> None:
 
 
 def test_prediction_validation_detects_duplicate_and_missing_cases() -> None:
-    prediction = HoldoutPrediction(case_id="A", disposition="INCLUDE")
+    prediction = HoldoutPrediction(
+        case_id="A",
+        disposition="INCLUDE",
+        gates=[
+            HoldoutGateDecision(
+                gate="test",
+                status="PASS",
+                evidence=["fixture"],
+                reason="Fixture gate passed.",
+            )
+        ],
+        reason="Fixture prediction.",
+    )
     with pytest.raises(ValueError, match="duplicate"):
         validate_predictions(["A", "B"], [prediction, prediction])
     with pytest.raises(ValueError, match="missing"):

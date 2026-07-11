@@ -35,19 +35,24 @@ the prediction function and does not create a prediction artifact.
 
 ## Case input schema
 
-The evaluator accepts JSON Lines. Each nonblank line must contain exactly:
+The evaluator accepts JSON Lines. Each nonblank line must contain the four core fields below.
+Buyer-capability requirements are optional and activate an additional hard gate.
 
 ```json
 {
   "case_id": "string",
   "target": "string",
   "modality": "string",
-  "source_text": "string"
+  "source_text": "string",
+  "required_buyer_capability": "optional string",
+  "buyer_capabilities": ["optional", "capability", "inventory"]
 }
 ```
 
-Additional fields—including any label or expected disposition field—are rejected. Case IDs must be
-unique. The evaluator emits one prediction for every input case, sorted canonically by `case_id`.
+Additional fields—including any label or expected disposition field—are rejected. If a required
+buyer capability is present but the inventory is absent, the capability gate is UNKNOWN; an
+affirmative inventory mismatch is FAIL. Case IDs must be unique. The evaluator emits one prediction
+for every input case, sorted canonically by `case_id`.
 
 ## Prediction output schema
 
@@ -56,10 +61,27 @@ unique. The evaluator emits one prediction for every input case, sorted canonica
   "problem_id": "string",
   "prediction_count": 0,
   "predictions": [
-    {"case_id": "string", "disposition": "INCLUDE|EXCLUDE|UNKNOWN"}
+    {
+      "case_id": "string",
+      "disposition": "INCLUDE|EXCLUDE|UNKNOWN",
+      "gates": [
+        {
+          "gate": "target_match",
+          "status": "PASS|FAIL|UNKNOWN",
+          "evidence": ["exact matched evidence"],
+          "reason": "gate-level rationale"
+        }
+      ],
+      "reason": "overall decision rationale"
+    }
   ]
 }
 ```
+
+Every prediction also contains `reason` and a `gates` list. Each gate record has the exact `gate`,
+three-state `status`, matched `evidence`, and `reason`. Confirmed mismatch on any required gate
+produces EXCLUDE; otherwise any unresolved gate produces UNKNOWN; INCLUDE requires every applicable
+gate to PASS.
 
 The output is deterministic JSON. Duplicate, missing, extra, or invalid predictions are rejected by
 the validation boundary. Exit code 0 indicates successful serialization; malformed input or
