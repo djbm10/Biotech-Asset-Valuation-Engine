@@ -1,0 +1,14 @@
+manifest_version: "1.0.0"
+purpose: source_location_configuration_only
+notes:
+  - URLs identify publisher locations and are not benchmark asset-name acquisition seeds.
+  - Generic discovery queries remain derived only from the buyer target and modality.
+sources:
+  - source_family: company_press_release
+    urls:
+      - https://www.merck.com/news/merck-data-to-be-presented-at-ash-2025-annual-meeting-showcase-continued-advancements-in-hematology-pipeline-and-novel-therapeutic-approaches/
+      - https://www.merck.com/news/merck-to-acquire-investigational-b-cell-depletion-therapy-cn201-from-curon-biopharmaceutical/
+      - https://www.merck.com/news/merck-completes-acquisition-of-harpoon-therapeutics-inc/
+  - source_family: company_pipeline_or_presentation
+    urls:
+      - https://www.cancer.gov/publications/dictionaries/cancer-drug/def/podentamig

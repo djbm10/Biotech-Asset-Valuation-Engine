@@ -41,6 +41,10 @@ def build_parser() -> argparse.ArgumentParser:
         "--source-index-out",
         help="Optional path to export a discovery --source-index YAML from the corpus",
     )
+    parser.add_argument(
+        "--declared-source-manifest",
+        help="Versioned source-location URL manifest for company/conference disclosures",
+    )
     parser.add_argument("--output", help="Write the JSON report to this path")
     return parser
 
@@ -53,7 +57,13 @@ def main(argv: list[str] | None = None) -> int:
     report: dict[str, object] = {"corpus_dir": str(corpus_dir)}
     health = None
     if args.acquire:
-        health = run_acquisition(problem, corpus_dir)
+        health = run_acquisition(
+            problem,
+            corpus_dir,
+            declared_source_manifest=(
+                Path(args.declared_source_manifest) if args.declared_source_manifest else None
+            ),
+        )
 
     if args.reference_universe:
         coverage = evaluate_corpus_coverage(corpus_dir, Path(args.reference_universe))

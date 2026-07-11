@@ -11,12 +11,15 @@ from collections.abc import Sequence
 from pathlib import Path
 from typing import Protocol
 
+import yaml  # type: ignore[import-untyped]
+
 from bve.se.acquisition.connectors import (
     ClinicalTrialsGovConnector,
     FdaLabelConnector,
     PubMedConnector,
     SecEdgarConnector,
     TargetQuery,
+    DeclaredUrlConnector,
 )
 from bve.se.acquisition.corpus_store import CorpusStore
 from bve.se.acquisition.source_health import SourceHealth, SourceHealthReport
@@ -69,11 +72,29 @@ def default_connectors() -> list[Connector]:
     ]
 
 
+def declared_connectors(manifest_path: Path) -> list[Connector]:
+    """Build declared source-location connectors from a versioned URL manifest.
+
+    The manifest contains only publisher/source locations. It is deliberately independent of
+    benchmark identities and therefore cannot add asset names to generic acquisition queries.
+    """
+
+    payload = yaml.safe_load(manifest_path.read_text()) or {}
+    return [
+        DeclaredUrlConnector(
+            str(entry["source_family"]),
+            [str(url) for url in entry.get("urls", [])],
+        )
+        for entry in payload.get("sources", [])
+    ]
+
+
 def run_acquisition(
     problem: BuyerProblemV2,
     corpus_dir: Path,
     *,
     connectors: Sequence[Connector] | None = None,
+    declared_source_manifest: Path | None = None,
 ) -> SourceHealthReport:
     """Run every connector into the corpus at ``corpus_dir`` and return the health report."""
 
@@ -81,6 +102,8 @@ def run_acquisition(
     targets = target_queries_for(problem)
     modality_terms = modality_terms_for(problem)
     active = list(connectors) if connectors is not None else default_connectors()
+    if declared_source_manifest is not None:
+        active.extend(declared_connectors(declared_source_manifest))
     report = SourceHealthReport()
     for connector in active:
         health = connector.acquire(

@@ -1,0 +1,22 @@
+benchmark_id,canonical_asset,expected_source,source_adapter,required_query,evidence_present_or_indexed,initial_failure_class
+DEV-CD19-001,blinatumomab,DailyMed,declared_url_or_document,CD19 CD3 T-cell engager,true,none
+DEV-CD19-002,AZD0486,AstraZeneca pipeline/press,company_pipeline_or_presentation,CD19 CD3 TCE TNB-486 AZD0486,false,retrieval
+DEV-CD19-003,MK-1045,Merck declared source,company_press_release,CD19 CD3 TCE CN201 MK-1045,true,retrieval_gap
+DEV-CD19-004,CLN-978,Cullinan pipeline/press,company_pipeline_or_presentation,CD19 CD3 TCE CLN-978,true,none
+DEV-CD19-005,AMG 562,ClinicalTrials.gov,clinicaltrials_gov,CD19 CD3 TCE AMG562 NCT03571828,false,retrieval
+DEV-CD19-006,AFM11,ClinicalTrials.gov/PubMed,clinicaltrials_gov,CD19 CD3 TCE AFM11 NCT02106091,false,retrieval
+DEV-CD19-007,duvortuxizumab,ClinicalTrials.gov/PubMed,clinicaltrials_gov,CD19 CD3 TCE MGD011 NCT02454270,false,retrieval
+DEV-BCMA-001,teclistamab,DailyMed,declared_url_or_document,BCMA CD3 T-cell engager,true,none
+DEV-BCMA-002,elranatamab,DailyMed,declared_url_or_document,BCMA CD3 T-cell engager PF-06863135,false,retrieval
+DEV-BCMA-003,linvoseltamab,DailyMed,declared_url_or_document,BCMA CD3 T-cell engager REGN5458,false,retrieval
+DEV-BCMA-004,ABBV-383,ClinicalTrials.gov/company pipeline,clinicaltrials_gov,BCMA CD3 TCE TNB-383B ABBV-383 NCT03933735,false,retrieval
+DEV-BCMA-005,alnuctamab,ClinicalTrials.gov/company pipeline,clinicaltrials_gov,BCMA CD3 TCE CC-93269 BMS-986349 NCT03486067,false,retrieval
+DEV-BCMA-006,HPN217,Merck/NCI declared sources,company_press_release,BCMA CD3 TCE HPN217,true,retrieval_gap_and_benchmark_identity_defect
+DEV-BCMA-007,REGN5459,ClinicalTrials.gov/company pipeline,clinicaltrials_gov,BCMA CD3 TCE REGN5459 NCT04083534,false,retrieval
+DEV-BCMA-008,AMG 420,ClinicalTrials.gov/PubMed,clinicaltrials_gov,BCMA CD3 TCE AMG420 BI836909 NCT02514239,false,retrieval
+DEV-BCMA-009,pavurutamab,ClinicalTrials.gov/company pipeline,clinicaltrials_gov,BCMA CD3 TCE AMG701 pavurutamab NCT03287908,false,retrieval
+DEV-BCMA-010,WVT078,ClinicalTrials.gov/company pipeline,clinicaltrials_gov,BCMA CD3 TCE WVT078 NCT04123418,false,retrieval
+DEV-BCMA-011,EMB-06,ClinicalTrials.gov/company pipeline,clinicaltrials_gov,BCMA CD3 TCE EMB06 NCT04735575,false,retrieval
+DEV-BCMA-012,ISB 2001,ClinicalTrials.gov/company pipeline,clinicaltrials_gov,BCMA CD3 trispecific ISB2001 NCT05862012,false,retrieval
+DEV-BCMA-013,JNJ-79635322,ClinicalTrials.gov/company pipeline,clinicaltrials_gov,BCMA CD3 trispecific JNJ79635322 NCT05652335,false,retrieval
+DEV-BCMA-014,SIM0500,ASH/company pipeline,conference_ash,BCMA CD3 trispecific SIM0500,false,retrieval
