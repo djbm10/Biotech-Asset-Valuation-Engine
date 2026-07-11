@@ -13,7 +13,12 @@ from pathlib import Path
 
 import yaml  # type: ignore[import-untyped]
 
-from bve.se.evaluation.holdout import predict_holdout, predictions_json
+from bve.se.evaluation.holdout import (
+    load_holdout_cases,
+    predict_holdout,
+    predictions_json,
+    validate_predictions,
+)
 from bve.se.schemas.contracts import BuyerProblemV2
 
 
@@ -31,7 +36,11 @@ def build_parser() -> argparse.ArgumentParser:
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     problem = BuyerProblemV2.model_validate(yaml.safe_load(Path(args.problem).read_text()))
-    predictions = predict_holdout(Path(args.holdout_data))
+    holdout_path = Path(args.holdout_data)
+    cases = load_holdout_cases(holdout_path)
+    predictions = validate_predictions(
+        [case.case_id for case in cases], predict_holdout(holdout_path)
+    )
     report = {
         "problem_id": problem.problem_id,
         "prediction_count": len(predictions),

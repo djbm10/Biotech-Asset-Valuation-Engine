@@ -7,6 +7,7 @@ sealed.
 
 from __future__ import annotations
 
+from collections.abc import Iterable, Mapping
 from pathlib import Path
 from typing import Literal
 
@@ -69,9 +70,30 @@ def predict_case(case: HoldoutCase) -> HoldoutPrediction:
 
 
 def predict_holdout(path: Path) -> list[HoldoutPrediction]:
-    """Produce exactly one prediction for every input case, preserving input order."""
+    """Produce exactly one prediction for every input case in canonical case-id order."""
 
-    return [predict_case(case) for case in load_holdout_cases(path)]
+    cases = load_holdout_cases(path)
+    return [predict_case(case) for case in sorted(cases, key=lambda case: case.case_id)]
+
+
+def validate_predictions(
+    expected_case_ids: Iterable[str],
+    predictions: Iterable[HoldoutPrediction | Mapping[str, object]],
+) -> list[HoldoutPrediction]:
+    """Validate cardinality, identity, and disposition before serialization."""
+
+    expected = list(expected_case_ids)
+    if len(expected) != len(set(expected)):
+        raise ValueError("expected case IDs contain duplicates")
+    normalized = [HoldoutPrediction.model_validate(prediction) for prediction in predictions]
+    observed = [prediction.case_id for prediction in normalized]
+    if len(observed) != len(set(observed)):
+        raise ValueError("predictions contain duplicate case IDs")
+    missing = set(expected) - set(observed)
+    extra = set(observed) - set(expected)
+    if missing or extra:
+        raise ValueError(f"prediction case mismatch: missing={sorted(missing)}, extra={sorted(extra)}")
+    return sorted(normalized, key=lambda prediction: prediction.case_id)
 
 
 def predictions_json(predictions: list[HoldoutPrediction]) -> list[dict[str, str]]:

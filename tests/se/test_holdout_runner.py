@@ -4,7 +4,12 @@ import json
 
 import pytest
 
-from bve.se.evaluation.holdout import load_holdout_cases, predict_holdout
+from bve.se.evaluation.holdout import (
+    HoldoutPrediction,
+    load_holdout_cases,
+    predict_holdout,
+    validate_predictions,
+)
 
 
 def test_eight_holdout_cases_produce_eight_scoreable_predictions(tmp_path) -> None:
@@ -55,3 +60,31 @@ def test_holdout_loader_rejects_labels(tmp_path) -> None:
 
     with pytest.raises(ValueError, match="extra_forbidden"):
         load_holdout_cases(path)
+
+
+def test_prediction_validation_detects_duplicate_and_missing_cases() -> None:
+    prediction = HoldoutPrediction(case_id="A", disposition="INCLUDE")
+    with pytest.raises(ValueError, match="duplicate"):
+        validate_predictions(["A", "B"], [prediction, prediction])
+    with pytest.raises(ValueError, match="missing"):
+        validate_predictions(["A", "B"], [prediction])
+
+
+def test_prediction_validation_rejects_invalid_disposition() -> None:
+    with pytest.raises(ValueError):
+        validate_predictions(["A"], [{"case_id": "A", "disposition": "MAYBE"}])
+
+
+def test_prediction_output_is_deterministic_and_canonical(tmp_path) -> None:
+    records = [
+        {"case_id": "B", "target": "BCMA", "modality": "TCE", "source_text": "public evidence"},
+        {"case_id": "A", "target": "CD19", "modality": "TCE", "source_text": "incomplete"},
+    ]
+    first = tmp_path / "first.jsonl"
+    second = tmp_path / "second.jsonl"
+    first.write_text("\n".join(json.dumps(record) for record in records) + "\n")
+    second.write_text("\n".join(json.dumps(record) for record in reversed(records)) + "\n")
+
+    assert [item.model_dump() for item in predict_holdout(first)] == [
+        item.model_dump() for item in predict_holdout(second)
+    ]
