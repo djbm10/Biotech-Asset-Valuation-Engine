@@ -5,17 +5,18 @@ exposed the inadequacy of a single scalar `share_conversion_ratio` column and
 motivated the `CorporateActionLedger` / `ReconciliationResult` rewrite, plus
 Batch 2 — 9 bankruptcy-wipeout names (MLNT, AKRX, ACET, NOVN, BIND, ARLZ,
 OREX, SRNE, PZRX) — plus Batch 3 — 9 `acquired` cash-merger names (LOXO,
-ONCE, PTLA, THOR, IMMU, TSRO, ARIA, ACHN, MDCO) — extended per the approved
-outcome-based-batch sequence (wipeouts, then cash mergers). MLNT is already
-covered inside the CEMP chain above and is also independently resolvable as
-its own entry. **24 of 30** pilot names now resolve through the ledger; 6
-remain (the remaining `delisted_failed` reverse-merger batch: ZFGN, SNTA,
-REXN, ARAV, CERU, plus OHRP which stays quarantined pending security-lineage
-confirmation).
+ONCE, PTLA, THOR, IMMU, TSRO, ARIA, ACHN, MDCO) — plus Batch 4 — the final 5
+`delisted_failed` names (ZFGN, SNTA, REXN, ARAV, CERU) — extended per the
+approved outcome-based-batch sequence (wipeouts, cash mergers, reverse
+mergers/dissolutions). MLNT is already covered inside the CEMP chain above
+and is also independently resolvable as its own entry. **29 of 30** pilot
+names now resolve through the ledger; **1 remains quarantined** (OHRP,
+pending security-lineage confirmation — deliberately not resolved, not an
+oversight).
 
 **Source code:** `src/bve/analysis/corporate_action_ledger.py`, `src/bve/models/corporate_action.py`
 **Source data:** `research/universe/corporate_action_ledger.csv`
-**Tests:** `tests/test_corporate_action_ledger.py` (37/37 passing; `ruff check src/` clean — this is a narrower claim than "full repository suite," see wording-precision note in memory)
+**Tests:** `tests/test_corporate_action_ledger.py` (43/43 passing; `ruff check src/` clean — this is a narrower claim than "full repository suite," see wording-precision note in memory)
 
 **Numbers below are the live `resolve()` output** (regenerated against current
 code/CSV at report time), not hand-transcribed. AKAO/GNCA entry prices are
@@ -312,6 +313,70 @@ guessed — the same terminal-completeness discipline applied throughout.
 
 ---
 
+---
+
+## Batch 4 — remaining delisted/failed names (5 names, final batch)
+
+Four of five are reverse mergers where the clinically-failed company is the
+**surviving public shell** — its existing shareholders' shares are not
+converted at any ratio, just renamed/diluted, and continue trading under a
+new ticker today. This is the same "surviving public shell" pattern already
+proven with CNAT/HSTO. The fifth (ARAV) is a genuine dissolution, not a
+merger — no successor security exists at all.
+
+```
+ZFGN (Zafgen -> Larimar Therapeutics, LRMR): entry_cost = $500.00
+  → ticker_change @ 2020-05-29 (reverse merger with private Chondrial
+      Therapeutics; existing Zafgen shares continue as LRMR shares, diluted
+      by new issuance + PIPE but not converted)
+Terminal security: SEC-LRMR | Still trading: Yes (2026-07, Nasdaq)
+Terminal proceeds: $0.00 | Realized return: NULL (still trading, no exit)
+
+SNTA (Synta Pharmaceuticals -> Madrigal Pharmaceuticals, MDGL): entry_cost = $500.00
+  → reverse_split @ 2016-07-22 (1-for-35, ratio=0.028571)
+  → ticker_change @ 2016-07-22 (renamed Madrigal; began post-split trading
+      MDGL 2016-07-25)
+Terminal security: SEC-MDGL | Still trading: Yes (2026-07, Nasdaq)
+Terminal proceeds: $0.00 | Realized return: NULL (still trading, no exit)
+
+REXN (Rexahn Pharmaceuticals -> Ocuphire Pharma, OCUP): entry_cost = $500.00
+  → reverse_split @ 2020-11-05 (1-for-4, ratio=0.25, immediately pre-close)
+  → ticker_change @ 2020-11-05 (renamed Ocuphire Pharma; began trading OCUP
+      2020-11-06)
+Terminal security: SEC-OCUP | Still trading: Yes (2026-07, Nasdaq; later
+  acquired Opus Genetics and adopted that name/ticker IRD in 2024 -- an
+  acquisition-and-rename, out of scope for this chain)
+Terminal proceeds: $0.00 | Realized return: NULL (still trading, no exit)
+
+CERU (Cerulean Pharma -> Dare Bioscience, DARE): entry_cost = $500.00
+  → ticker_change @ 2017-07-19 (reverse merger; clinical assets stripped out
+      via same-day sales to BlueLink/Novartis before close; existing
+      Cerulean shares continue as Dare shares, not converted)
+  → reverse_split @ 2017-07-20 (1-for-10, ratio=0.10, cash-in-lieu $6.56/sh
+      for the fractional remainder the day after close)
+Terminal security: SEC-DARE | Still trading: Yes (2026-07, Nasdaq)
+Terminal proceeds: $0.00 | Realized return: NULL (still trading, no exit)
+
+ARAV (Aravive) -- NOT a reverse merger, no successor security: entry_cost = $500.00
+  → liquidation_distribution @ 2024-02-08 (assignment for benefit of
+      creditors + voluntary dissolution, board approved 2024-01-12; Nasdaq
+      delisting effective ~2024-02-08), distribution_per_share=UNRESOLVED
+      (no primary source confirms any per-share amount to common holders;
+      an ABC structure typically wipes out common when assets don't cover
+      creditor claims, but that is NOT the same as a confirmed $0.00 figure)
+Terminal proceeds: $0.00 (unresolved, not assumed zero) | Realized return: NULL
+```
+
+Four of five correctly resolve to `NULL` because the successor is still
+trading with no terminal $ figure (same as CNAT) — the ledger doesn't force
+an exit that hasn't happened. ARAV correctly resolves to `NULL` because the
+wind-down distribution amount was never confirmed to a primary source — same
+unresolved-not-zero discipline as the batch-2 ARLZ/OREX/SRNE/PZRX
+bankruptcies. This closes the outcome-based-batch sequence: 29 of 30 pilot
+names now resolve; only OHRP remains, deliberately quarantined.
+
+---
+
 ## Summary table
 
 | Security | Entry cost | Terminal security | Still trading | Unresolved | Total proceeds | Realized return |
@@ -340,6 +405,11 @@ guessed — the same terminal-completeness discipline applied throughout.
 | ARIA | $500.00 | cash-out | No | none | $2,400.00 | **+380.00%** |
 | ACHN | $500.00 | cash + unresolved CVR | No | **CVR** | $630.00 (cash only) | **NULL** (CVR unresolved) |
 | MDCO | $500.00 | cash-out | No | none | $8,500.00 | **+1,600.00%** |
+| ZFGN | $500.00 | SEC-LRMR (100 sh) | **Yes** | none | $0.00 | **NULL** (still trading) |
+| SNTA | $500.00 | SEC-MDGL (2.857 sh, post 1-for-35 split) | **Yes** | none | $0.00 | **NULL** (still trading) |
+| REXN | $500.00 | SEC-OCUP (25 sh, post 1-for-4 split) | **Yes** | none | $0.00 | **NULL** (still trading) |
+| ARAV | $500.00 | SEC-ARAV (extinguished) | No | **distribution** | $0.00 | **NULL** (wind-down unresolved) |
+| CERU | $500.00 | SEC-DARE (10 sh, post 1-for-10 split) | **Yes** | none | $0.00 | **NULL** (still trading) |
 
 Three of the original six names resolve to a real terminal number (AKAO,
 GNCA, CEMP all -100%; ARRY +62.71%). Two of six correctly resolve to `NULL`
@@ -368,13 +438,22 @@ CERU; OHRP stays quarantined pending security-lineage confirmation).
 
 ## Verification status
 
-- Ledger test suite: green (37/37 in `test_corporate_action_ledger.py`,
+- Ledger test suite: green (43/43 in `test_corporate_action_ledger.py`,
   up from 18/18 in the original 6-name pilot); `ruff check` clean. This is a
   narrower claim than "full repository suite" — see wording-precision note
   in memory ([[corporate-action-ledger]]).
 - `ruff check src/`: clean
-- All 24 chains hand-reconciled against `resolve()` output above; numbers
+- All 29 chains hand-reconciled against `resolve()` output above; numbers
   match the assertions in `tests/test_corporate_action_ledger.py`
+- Batch 4 caught one resolver-data bug during reconciliation: CERU's
+  post-merger reverse split was initially filed under the wrong
+  `security_id` (`SEC-CERU` instead of `SEC-DARE`) — `full_chain_for()`
+  looks up actions by the *current* security_id after a chain transition,
+  not the original entry security_id, so an action filed under the old id
+  after a rename is silently invisible to the walk. Caught by hand-checking
+  `terminal_shares` against the expected post-split count (10, not 100)
+  rather than only checking `realized_return_pct`. Fixed by re-filing the
+  action under `SEC-DARE`.
 
 ## Next: extending to the remaining 24
 

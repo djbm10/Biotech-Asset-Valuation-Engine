@@ -186,6 +186,52 @@ def test_cnat_reverse_split_then_still_trading_as_hsto(ledger: CorporateActionLe
     assert result.realized_return_pct is None  # must not guess a return while still trading
 
 
+def test_ledger_csv_loads_batch4_delisted_failed_names(ledger: CorporateActionLedger):
+    for sid in ("SEC-ZFGN", "SEC-SNTA", "SEC-REXN", "SEC-ARAV", "SEC-CERU"):
+        assert ledger.chain_for(sid), f"no actions found for {sid}"
+
+
+@pytest.mark.parametrize(
+    "sid,terminal_security_id",
+    [
+        ("SEC-ZFGN", "SEC-LRMR"),  # Zafgen -> Larimar Therapeutics, still trading
+        ("SEC-SNTA", "SEC-MDGL"),  # Synta -> Madrigal Pharmaceuticals, still trading
+        ("SEC-REXN", "SEC-OCUP"),  # Rexahn -> Ocuphire Pharma, still trading
+        ("SEC-CERU", "SEC-DARE"),  # Cerulean -> Dare Bioscience, still trading
+    ],
+)
+def test_batch4_reverse_mergers_into_still_trading_successors_resolve_to_null(
+    ledger: CorporateActionLedger, sid: str, terminal_security_id: str
+):
+    """Batch 4 (remaining delisted_failed names): 4 of 5 are reverse mergers
+    where the failed company is the surviving public shell, renamed/continued
+    under a new ticker that is STILL trading today -- same shape as CNAT/HSTO.
+    No terminal $ figure exists yet, so realized_return_pct must stay NULL."""
+    result = ledger.resolve(sid, 100.0, 5.00)
+
+    assert result.terminal_security_id == terminal_security_id
+    assert result.still_trading is True
+    assert result.total_proceeds == pytest.approx(0.0)
+    assert result.realized_return_pct is None
+
+
+def test_arav_dissolution_with_unconfirmed_distribution_is_unresolved_not_zero(
+    ledger: CorporateActionLedger,
+):
+    """ARAV (Aravive): wound down via an assignment for the benefit of
+    creditors + voluntary dissolution, NOT a reverse merger -- no successor
+    security exists. No primary source confirms a per-share distribution
+    amount to common holders, so it must resolve as unresolved (like the
+    batch-2 ARLZ/OREX/SRNE/PZRX bankruptcies), never silently defaulted to
+    a confirmed $0.00 wipeout."""
+    result = ledger.resolve("SEC-ARAV", 100.0, 5.00)
+
+    assert result.distribution_proceeds == 0.0
+    assert result.still_trading is False
+    assert result.unresolved_components != []
+    assert result.realized_return_pct is None
+
+
 def test_cemp_chains_through_split_rename_and_mlnt_bankruptcy(ledger: CorporateActionLedger):
     """CEMP: 1-for-5 reverse split (ratio 0.20, confirmed) -> renamed/continued as
     MLNT -> MLNT's own Chapter 11 -> $0 recovery. The 2017 merger close price is
