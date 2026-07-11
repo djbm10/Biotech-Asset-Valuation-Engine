@@ -1,0 +1,10 @@
+{
+  "benchmark_version": "acquisition-ranking-v1-unseen-holdout",
+  "status": "frozen",
+  "cases": [
+    {"asset_id": "holdout-a", "disposition": "INCLUDE", "scores": [0.70, 0.85, 0.90, 0.75, 0.70, 0.80], "expected_rank": 2},
+    {"asset_id": "holdout-b", "disposition": "INCLUDE", "scores": [0.90, 0.90, 0.85, 0.85, 0.90, 0.90], "expected_rank": 1},
+    {"asset_id": "holdout-c", "disposition": "UNKNOWN", "scores": [1, 1, 1, 1, 1, 1], "route": "DILIGENCE"},
+    {"asset_id": "holdout-d", "disposition": "EXCLUDE", "scores": [1, 1, 1, 1, 1, 1], "route": "EXCLUDED"}
+  ]
+}
