@@ -43,6 +43,7 @@ class HoldoutPrediction(BaseModel):
 
     query_id: str = Field(min_length=1)
     ranked_asset_ids: list[str] = Field(default_factory=list)
+    diligence_asset_ids: list[str] = Field(default_factory=list)
     citations_by_asset: dict[str, list[str]] = Field(default_factory=dict)
     rationale_quality: float | None = Field(default=None, ge=0.0, le=1.0)
     diligence_question_usefulness: float | None = Field(default=None, ge=0.0, le=1.0)
@@ -195,8 +196,13 @@ def evaluate_ranking_holdout(
             citation_numerator += bool(prediction.citations_by_asset.get(asset))
         if prediction.rationale_quality is not None:
             rationale_scores.append(prediction.rationale_quality)
-        if prediction.diligence_question_usefulness is not None:
-            diligence_scores.append(prediction.diligence_question_usefulness)
+        if query.diligence_assets:
+            if not set(query.diligence_assets).issubset(set(prediction.diligence_asset_ids)):
+                failures.append(f"UNKNOWN asset not routed to diligence in {query_id}")
+            if prediction.diligence_question_usefulness is None:
+                failures.append(f"missing diligence-question rating in {query_id}")
+            else:
+                diligence_scores.append(prediction.diligence_question_usefulness)
         ranked_set = set(prediction.ranked_asset_ids)
         if any(query.dispositions_by_asset.get(asset) != "INCLUDE" for asset in ranked_set):
             failures.append(f"non-INCLUDE asset ranked in {query_id}")

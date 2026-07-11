@@ -19,6 +19,7 @@ def _holdout() -> tuple[list[HoldoutQuery], list[HoldoutPrediction]]:
         query_id = f"query-{index}"
         best = f"asset-{index}-best"
         other = f"asset-{index}-other"
+        unknown = f"asset-{index}-unknown"
         queries.append(
             HoldoutQuery(
                 query_id=query_id,
@@ -26,16 +27,17 @@ def _holdout() -> tuple[list[HoldoutQuery], list[HoldoutPrediction]]:
                 target=target,
                 modality=modality,
                 evidence_profile=profile,
-                relevance_by_asset={best: 3, other: 1},
-                dispositions_by_asset={best: "INCLUDE", other: "INCLUDE"},
+                relevance_by_asset={best: 3, other: 1, unknown: 0},
+                dispositions_by_asset={best: "INCLUDE", other: "INCLUDE", unknown: "UNKNOWN"},
                 required_citation_assets=[best],
-                diligence_assets=[],
+                diligence_assets=[unknown],
             )
         )
         predictions.append(
             HoldoutPrediction(
                 query_id=query_id,
                 ranked_asset_ids=[best, other],
+                diligence_asset_ids=[unknown],
                 citations_by_asset={best: [f"claim-{index}"]},
                 rationale_quality=0.9,
                 diligence_question_usefulness=0.9,
