@@ -20,6 +20,7 @@ import argparse
 import csv
 from dataclasses import asdict, dataclass
 from datetime import date, timedelta
+from enum import Enum
 from pathlib import Path
 import random
 from typing import Optional, Protocol
@@ -38,9 +39,11 @@ from bve.analysis.alpha_validation import (
     _compute_excess_return_stats,
     _compute_overlap_diagnostics,
 )
+from bve.analysis.corporate_action_ledger import CorporateActionLedger, PriceBasis
 from bve.analysis.implied_pos import ImpliedPoSResult, ImpliedPoSSolver, _SolverContext
 from bve.analysis.implied_pos_batch import ScreenRow
 from bve.intelligence.knowledge_layer import KnowledgeStore
+from bve.models.corporate_action import CorporateActionType
 from bve.ops.historical_replay import REPLAY_KNOWLEDGE_PATH, REPLAY_STORE_PATH, ReplayStore
 
 
@@ -55,6 +58,31 @@ _STAGE_RANK = {
     "approved": 5,
 }
 _VALID_CADENCES = {"weekly", "monthly", "quarterly"}
+
+
+class ExitAttribution(str, Enum):
+    """How an observation's realized return was determined.
+
+    FIXED_HORIZON covers both "no corporate-action coverage for this ticker"
+    and "ledger coverage exists but nothing material happened by the planned
+    exit date" -- both behave identically to the pre-ledger fixed-horizon
+    price lookup, which is the point (regression safety for unaffected names).
+    """
+
+    FIXED_HORIZON = "fixed_horizon"
+    CASH_ACQUISITION = "cash_acquisition"
+    STOCK_MERGER_SUCCESSOR = "stock_merger_successor"
+    BANKRUPTCY_RECOVERY = "bankruptcy_recovery"
+    LIQUIDATION = "liquidation"
+    UNRESOLVED = "unresolved"
+
+
+_EXIT_REASON_BY_TERMINAL_ACTION_TYPE = {
+    CorporateActionType.CASH_MERGER: ExitAttribution.CASH_ACQUISITION,
+    CorporateActionType.CASH_PLUS_CVR_MERGER: ExitAttribution.CASH_ACQUISITION,
+    CorporateActionType.BANKRUPTCY_RECOVERY: ExitAttribution.BANKRUPTCY_RECOVERY,
+    CorporateActionType.LIQUIDATION_DISTRIBUTION: ExitAttribution.LIQUIDATION,
+}
 
 
 class _SolverProtocol(Protocol):
@@ -102,6 +130,10 @@ class HistoricalScreenObservation:
     excess_return_pct: float
     single_asset: bool
     approximation_warning: Optional[str]
+    actual_exit_date: date
+    exit_reason: str
+    terminal_proceeds_per_share: Optional[float]
+    unresolved_reason: Optional[str]
     selected: bool = False
 
 
@@ -197,6 +229,8 @@ class HistoricalImpliedPoSValidator:
         bootstrap_iterations: int = 10_000,
         bootstrap_block_days: int = 28,
         bootstrap_seed: int = 42,
+        corporate_action_ledger: Optional[CorporateActionLedger] = None,
+        security_id_by_ticker: Optional[dict[str, str]] = None,
     ) -> None:
         if cadence not in _VALID_CADENCES:
             raise ValueError(f"cadence must be one of {sorted(_VALID_CADENCES)}")
@@ -224,6 +258,14 @@ class HistoricalImpliedPoSValidator:
         self.bootstrap_iterations = int(bootstrap_iterations)
         self.bootstrap_block_days = int(bootstrap_block_days)
         self.bootstrap_seed = int(bootstrap_seed)
+        self.corporate_action_ledger = corporate_action_ledger
+        security_id_by_ticker = security_id_by_ticker or {}
+        self._security_id_by_ticker = {
+            ticker.upper(): security_id for ticker, security_id in security_id_by_ticker.items()
+        }
+        self._ticker_by_security_id = {
+            security_id: ticker.upper() for ticker, security_id in security_id_by_ticker.items()
+        }
         self._context_cache: dict[str, Optional[_SolverContext]] = {}
 
     def validate(
@@ -413,8 +455,7 @@ class HistoricalImpliedPoSValidator:
             return None
 
         entry_price = _bounded_price(store, asset.ticker, snapshot_date)
-        exit_price = _bounded_price(store, asset.ticker, exit_date)
-        if entry_price is None or exit_price is None:
+        if entry_price is None:
             return None
 
         market_cap = float(entry_price) * asset.shares_outstanding_millions
@@ -447,13 +488,30 @@ class HistoricalImpliedPoSValidator:
         if solved is None:
             return None
 
-        asset_return = ReplayStore.compute_return_pct(entry_price, exit_price)
-        if asset_return is None:
+        exit_resolution = self._resolve_exit(
+            store=store,
+            ticker=asset.ticker,
+            entry_price=float(entry_price),
+            snapshot_date=snapshot_date,
+            planned_exit_date=exit_date,
+        )
+        if exit_resolution is None:
             return None
+        (
+            asset_return,
+            actual_exit_date,
+            exit_reason,
+            terminal_proceeds_per_share,
+            unresolved_reason,
+        ) = exit_resolution
 
         return HistoricalScreenObservation(
             snapshot_date=snapshot_date,
             exit_date=exit_date,
+            actual_exit_date=actual_exit_date,
+            exit_reason=exit_reason,
+            terminal_proceeds_per_share=terminal_proceeds_per_share,
+            unresolved_reason=unresolved_reason,
             ticker=asset.ticker,
             asset_id=solved.asset_id,
             config_path=str(asset.config_path),
@@ -478,6 +536,94 @@ class HistoricalImpliedPoSValidator:
             single_asset=asset.single_asset,
             approximation_warning=asset.approximation_warning,
         )
+
+    def _resolve_exit(
+        self,
+        *,
+        store: ReplayStore,
+        ticker: str,
+        entry_price: float,
+        snapshot_date: date,
+        planned_exit_date: date,
+    ) -> Optional[tuple[float, date, str, Optional[float], Optional[str]]]:
+        """Resolves (asset_return_pct, actual_exit_date, exit_reason,
+        terminal_proceeds_per_share, unresolved_reason) for one holding period.
+
+        This is purely a downstream exit/return computation -- it never touches
+        the model_pos/implied_pos/pos_spread signal computed above in
+        _evaluate_asset, which is derived only from entry_price and the asset
+        config as of snapshot_date. Names with no CorporateActionLedger coverage
+        (security_id_by_ticker has no entry for this ticker) fall through to the
+        exact pre-ledger fixed-horizon price lookup, unchanged.
+
+        Returns None whenever a material component of the outcome is unresolved
+        -- the caller drops the observation entirely rather than fabricate a
+        return, mirroring the ledger's own realized_return_pct=None contract.
+        """
+        security_id = self._security_id_by_ticker.get(ticker.upper()) if self.corporate_action_ledger else None
+        if security_id is None:
+            exit_price = _bounded_price(store, ticker, planned_exit_date)
+            if exit_price is None:
+                return None
+            asset_return = ReplayStore.compute_return_pct(entry_price, exit_price)
+            if asset_return is None:
+                return None
+            return asset_return, planned_exit_date, ExitAttribution.FIXED_HORIZON.value, None, None
+
+        ledger = self.corporate_action_ledger
+        result = ledger.resolve(
+            security_id,
+            1.0,
+            entry_price,
+            entry_date=snapshot_date,
+            as_of_date=planned_exit_date,
+            price_basis=PriceBasis.RAW,
+        )
+
+        if not result.still_trading and not result.point_in_time_truncated and not result.unresolved_components:
+            realized = result.realized_return_pct
+            if realized is None:
+                return None
+            terminal_action = next(
+                (action for action in ledger.full_chain_for(security_id) if action.is_terminal),
+                None,
+            )
+            if terminal_action is not None and terminal_action.effective_date is not None:
+                actual_exit_date = terminal_action.effective_date
+                exit_reason = _EXIT_REASON_BY_TERMINAL_ACTION_TYPE.get(
+                    terminal_action.action_type, ExitAttribution.UNRESOLVED
+                ).value
+            else:
+                actual_exit_date = planned_exit_date
+                exit_reason = ExitAttribution.UNRESOLVED.value
+            return realized, actual_exit_date, exit_reason, round(result.total_proceeds, 6), None
+
+        if result.still_trading:
+            terminal_ticker = self._ticker_by_security_id.get(result.terminal_security_id)
+            if terminal_ticker is None:
+                return None
+            successor_price = _bounded_price(store, terminal_ticker, planned_exit_date)
+            if successor_price is None or result.entry_cost == 0:
+                return None
+            total_value = (
+                result.terminal_shares * float(successor_price)
+                + result.cash_proceeds
+                + result.cash_in_lieu_proceeds
+                + result.distribution_proceeds
+                + result.cvr_proceeds
+            )
+            asset_return = (total_value - result.entry_cost) / result.entry_cost * 100.0
+            exit_reason = (
+                ExitAttribution.FIXED_HORIZON.value
+                if terminal_ticker.upper() == ticker.upper()
+                else ExitAttribution.STOCK_MERGER_SUCCESSOR.value
+            )
+            return asset_return, planned_exit_date, exit_reason, round(total_value, 6), None
+
+        # point_in_time_truncated, or a terminal action applied but with an
+        # unresolved economic component (e.g. CVR/recovery amount not yet
+        # confirmed) -- excluded, never guessed.
+        return None
 
     def _solve(self, config_path: Path, enterprise_value_millions: float) -> Optional[ImpliedPoSResult]:
         if not isinstance(self.solver, ImpliedPoSSolver):
@@ -746,6 +892,10 @@ class HistoricalImpliedPoSValidator:
                 fieldnames=[
                     "snapshot_date",
                     "exit_date",
+                    "actual_exit_date",
+                    "exit_reason",
+                    "terminal_proceeds_per_share",
+                    "unresolved_reason",
                     "ticker",
                     "asset_id",
                     "config_path",
@@ -777,6 +927,7 @@ class HistoricalImpliedPoSValidator:
                         **asdict(obs),
                         "snapshot_date": obs.snapshot_date.isoformat(),
                         "exit_date": obs.exit_date.isoformat(),
+                        "actual_exit_date": obs.actual_exit_date.isoformat(),
                     }
                 )
         return path
