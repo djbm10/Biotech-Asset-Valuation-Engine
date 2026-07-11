@@ -118,6 +118,59 @@ def test_batch2_unresolved_recovery_bankruptcies_are_not_defaulted_to_zero(ledge
     assert result.realized_return_pct is None
 
 
+def test_ledger_csv_loads_batch3_cash_merger_names(ledger: CorporateActionLedger):
+    for sid in (
+        "SEC-LOXO", "SEC-ONCE", "SEC-PTLA", "SEC-THOR", "SEC-IMMU",
+        "SEC-TSRO", "SEC-ARIA", "SEC-ACHN", "SEC-MDCO",
+    ):
+        assert ledger.chain_for(sid), f"no actions found for {sid}"
+
+
+@pytest.mark.parametrize(
+    "sid,cash_per_share",
+    [
+        ("SEC-LOXO", 235.00),
+        ("SEC-ONCE", 114.50),  # Spark Therapeutics/Roche -- ticker ONCE is Spark's real ticker, not a typo for AVXS
+        ("SEC-PTLA", 18.00),
+        ("SEC-THOR", 68.00),  # Synthorx/Sanofi
+        ("SEC-IMMU", 88.00),
+        ("SEC-TSRO", 75.00),
+        ("SEC-ARIA", 24.00),
+        ("SEC-MDCO", 85.00),
+    ],
+)
+def test_batch3_confirmed_cash_mergers_reconcile_to_deal_price(
+    ledger: CorporateActionLedger, sid: str, cash_per_share: float
+):
+    """Batch 3 (acquired cohort): 8 of the 9 names are clean single-action
+    cash mergers with a primary-sourced deal price -- same shape as ARRY."""
+    entry_shares, entry_price = 100.0, 5.00
+    result = ledger.resolve(sid, entry_shares, entry_price)
+
+    entry_cost = entry_shares * entry_price
+    expected_cash = entry_shares * cash_per_share
+    expected_return_pct = (expected_cash - entry_cost) / entry_cost * 100.0
+
+    assert result.cash_proceeds == pytest.approx(expected_cash)
+    assert result.still_trading is False
+    assert result.unresolved_components == []
+    assert result.realized_return_pct == pytest.approx(expected_return_pct)
+
+
+def test_achn_cash_plus_unresolved_cvr_must_not_be_treated_as_zero(ledger: CorporateActionLedger):
+    """ACHN (Achillion/Alexion): $6.30/share cash is confirmed, but the CVR
+    (up to $2.00/share across two milestones) has an unresolved realized
+    value -- same unresolved-CVR shape as TBRA, must not default to $0 or max."""
+    entry_shares, entry_price = 100.0, 5.00
+    result = ledger.resolve("SEC-ACHN", entry_shares, entry_price)
+
+    expected_cash = entry_shares * 6.30
+    assert result.cash_proceeds == pytest.approx(expected_cash)
+    assert result.cvr_proceeds == 0.0
+    assert result.unresolved_components != []
+    assert result.realized_return_pct is None
+
+
 def test_cnat_reverse_split_then_still_trading_as_hsto(ledger: CorporateActionLedger):
     """CNAT: 1-for-10 reverse split (ratio 0.10, confirmed via primary 8-K), then
     continues as HSTO with no further action recorded in this pilot -> still

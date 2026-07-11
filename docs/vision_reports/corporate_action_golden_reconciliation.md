@@ -3,16 +3,19 @@
 **Scope:** the original 6-name pilot (AKAO, GNCA, CNAT, CEMP, ARRY, TBRA) that
 exposed the inadequacy of a single scalar `share_conversion_ratio` column and
 motivated the `CorporateActionLedger` / `ReconciliationResult` rewrite, plus
-Batch 2 — the remaining 9 bankruptcy-wipeout names (MLNT, AKRX, ACET, NOVN,
-BIND, ARLZ, OREX, SRNE, PZRX) — extended per the approved outcome-based-batch
-sequence (wipeouts first). MLNT is already covered inside the CEMP chain
-above and is also independently resolvable as its own entry. **15 of 30**
-pilot names now resolve through the ledger; 15 remain (the `acquired` cash-
-merger batch and the remaining `delisted_failed` reverse-merger batch).
+Batch 2 — 9 bankruptcy-wipeout names (MLNT, AKRX, ACET, NOVN, BIND, ARLZ,
+OREX, SRNE, PZRX) — plus Batch 3 — 9 `acquired` cash-merger names (LOXO,
+ONCE, PTLA, THOR, IMMU, TSRO, ARIA, ACHN, MDCO) — extended per the approved
+outcome-based-batch sequence (wipeouts, then cash mergers). MLNT is already
+covered inside the CEMP chain above and is also independently resolvable as
+its own entry. **24 of 30** pilot names now resolve through the ledger; 6
+remain (the remaining `delisted_failed` reverse-merger batch: ZFGN, SNTA,
+REXN, ARAV, CERU, plus OHRP which stays quarantined pending security-lineage
+confirmation).
 
 **Source code:** `src/bve/analysis/corporate_action_ledger.py`, `src/bve/models/corporate_action.py`
 **Source data:** `research/universe/corporate_action_ledger.csv`
-**Tests:** `tests/test_corporate_action_ledger.py` (18/18 passing; full suite green; `ruff check src/` clean)
+**Tests:** `tests/test_corporate_action_ledger.py` (37/37 passing; `ruff check src/` clean — this is a narrower claim than "full repository suite," see wording-precision note in memory)
 
 **Numbers below are the live `resolve()` output** (regenerated against current
 code/CSV at report time), not hand-transcribed. AKAO/GNCA entry prices are
@@ -239,6 +242,76 @@ each, exactly like TBRA's unresolved CVR in the original pilot.
 
 ---
 
+---
+
+## Batch 3 — remaining acquired/cash-merger names (9 names)
+
+All 9 are clean, single-action cash mergers (same shape already proven with
+ARRY in the original pilot), with one exception (ACHN, which pays cash plus
+an unresolved CVR — same shape as TBRA). One roster data error was caught
+and corrected during research.
+
+**Data-error caught:** the roster's `SEC-ONCE` record carries ticker "ONCE"
+and description "Luxturna hemophilia pipeline... ~$4.8B headline." ONCE is
+the real Nasdaq ticker of **Spark Therapeutics** (acquired by Roche), not a
+typo for AveXis (ticker AVXS, acquired by Novartis for ~$8.7B). The $4.8B
+headline and Luxturna reference match Spark exactly — AveXis's deal value
+does not. Resolved as Spark Therapeutics/Roche terms.
+
+```
+LOXO (Loxo Oncology → Eli Lilly): entry_cost = $500.00 (100 sh @ $5.00)
+  → cash_merger @ 2020-02-15... effective 2019-02-15, $235.00/share
+      (announced 2019-01-07, GlobeNewswire)
+Terminal proceeds: $23,500.00 | Realized return: +4,600.00%
+
+ONCE (Spark Therapeutics → Roche): entry_cost = $500.00
+  → cash_merger @ 2019-12-16, $114.50/share (announced 2019-02-25; 10-month
+      FTC antitrust delay before close)
+Terminal proceeds: $11,450.00 | Realized return: +2,190.00%
+
+PTLA (Portola Pharmaceuticals → Alexion): entry_cost = $500.00
+  → cash_merger @ 2020-07-02, $18.00/share (announced 2020-05-05)
+Terminal proceeds: $1,800.00 | Realized return: +260.00%
+
+THOR (Synthorx → Sanofi): entry_cost = $500.00
+  → cash_merger @ 2020-01-23, $68.00/share (announced 2019-12-08; roster
+      previously had no company name attached to this ticker -- confirmed
+      Synthorx, IL-2 immuno-oncology, lead asset THOR-707)
+Terminal proceeds: $6,800.00 | Realized return: +1,260.00%
+
+IMMU (Immunomedics → Gilead): entry_cost = $500.00
+  → cash_merger @ 2020-10-23, $88.00/share (announced 2020-09-13)
+Terminal proceeds: $8,800.00 | Realized return: +1,660.00%
+
+TSRO (TESARO → GSK): entry_cost = $500.00
+  → cash_merger @ 2019-01-22, $75.00/share (announced 2018-12-03)
+Terminal proceeds: $7,500.00 | Realized return: +1,400.00%
+
+ARIA (ARIAD Pharmaceuticals → Takeda): entry_cost = $500.00
+  → cash_merger @ 2017-02-16, $24.00/share (announced 2017-01-09)
+Terminal proceeds: $2,400.00 | Realized return: +380.00%
+
+MDCO (The Medicines Company → Novartis): entry_cost = $500.00
+  → cash_merger @ 2020-01-06, $85.00/share (announced 2019-11-24)
+Terminal proceeds: $8,500.00 | Realized return: +1,600.00%
+
+ACHN (Achillion Pharmaceuticals → Alexion): entry_cost = $500.00
+  → cash_plus_cvr_merger @ 2020-01-28, cash=$6.30/share (confirmed) +
+      CVR up to $2.00/share across two milestones (announced 2019-10-16):
+      (1) ACH-5228 clinical trial milestone, deadline 2024-01-28 -- outcome
+          unconfirmed;
+      (2) ACH-4471/danicopan FDA approval, deadline 2024-07-28 -- danicopan
+          (Voydeya) WAS approved 2024-04, likely triggering this leg, but
+          actual CVR payment/amount is not confirmed to a primary source
+Cash proceeds: $630.00 | CVR proceeds: UNRESOLVED | Realized return: NULL
+
+ACHN is the second unresolved-CVR case in the ledger (after TBRA) and the
+one place in Batch 3 where a real, non-trivial value is left out rather than
+guessed — the same terminal-completeness discipline applied throughout.
+```
+
+---
+
 ## Summary table
 
 | Security | Entry cost | Terminal security | Still trading | Unresolved | Total proceeds | Realized return |
@@ -258,6 +331,15 @@ each, exactly like TBRA's unresolved CVR in the original pilot.
 | OREX | $300.00 | SEC-OREX (extinguished) | No | **distribution** | $0.00 | **NULL** (recovery unresolved) |
 | SRNE | $300.00 | SEC-SRNE (extinguished) | No | **distribution** | $0.00 | **NULL** (recovery unresolved) |
 | PZRX | $300.00 | SEC-PZRX (extinguished) | No | **distribution** | $0.00 | **NULL** (recovery unresolved) |
+| LOXO | $500.00 | cash-out | No | none | $23,500.00 | **+4,600.00%** |
+| ONCE | $500.00 | cash-out | No | none | $11,450.00 | **+2,190.00%** |
+| PTLA | $500.00 | cash-out | No | none | $1,800.00 | **+260.00%** |
+| THOR | $500.00 | cash-out | No | none | $6,800.00 | **+1,260.00%** |
+| IMMU | $500.00 | cash-out | No | none | $8,800.00 | **+1,660.00%** |
+| TSRO | $500.00 | cash-out | No | none | $7,500.00 | **+1,400.00%** |
+| ARIA | $500.00 | cash-out | No | none | $2,400.00 | **+380.00%** |
+| ACHN | $500.00 | cash + unresolved CVR | No | **CVR** | $630.00 (cash only) | **NULL** (CVR unresolved) |
+| MDCO | $500.00 | cash-out | No | none | $8,500.00 | **+1,600.00%** |
 
 Three of the original six names resolve to a real terminal number (AKAO,
 GNCA, CEMP all -100%; ARRY +62.71%). Two of six correctly resolve to `NULL`
@@ -271,18 +353,27 @@ Batch 2 (bankruptcy-wipeout names) adds 9 more: 5 resolve to a confirmed
 number (MLNT, AKRX, ACET, NOVN all -100%; BIND -70.33% — the confirmed
 non-zero outlier), and 4 correctly resolve to `NULL` (ARLZ, OREX, SRNE, PZRX
 — confirmed bankrupt, recovery-per-share amount not yet confirmed to a
-primary document). **15 of 30 pilot names now resolve through the ledger;
-15 remain** (9 `acquired` cash-merger names, 5 remaining `delisted_failed`
-names — OHRP stays quarantined).
+primary document).
+
+Batch 3 (acquired/cash-merger names) adds 9 more: 8 resolve to a confirmed
+number (LOXO, ONCE, PTLA, THOR, IMMU, TSRO, ARIA, MDCO — all large positive
+returns, since entry price is a placeholder $5.00/share against real
+multi-hundred-dollar deal prices, not a claim about actual historical entry
+timing), and 1 correctly resolves to `NULL` (ACHN — confirmed $6.30/share
+cash plus an unresolved CVR, the second unresolved-CVR case after TBRA).
+
+**24 of 30 pilot names now resolve through the ledger; 6 remain** — the
+remaining `delisted_failed` reverse-merger batch (ZFGN, SNTA, REXN, ARAV,
+CERU; OHRP stays quarantined pending security-lineage confirmation).
 
 ## Verification status
 
-- Ledger test suite: green (27/27 in `test_corporate_action_ledger.py`,
+- Ledger test suite: green (37/37 in `test_corporate_action_ledger.py`,
   up from 18/18 in the original 6-name pilot); `ruff check` clean. This is a
   narrower claim than "full repository suite" — see wording-precision note
   in memory ([[corporate-action-ledger]]).
 - `ruff check src/`: clean
-- All six chains hand-reconciled against `resolve()` output above; numbers
+- All 24 chains hand-reconciled against `resolve()` output above; numbers
   match the assertions in `tests/test_corporate_action_ledger.py`
 
 ## Next: extending to the remaining 24
