@@ -46,14 +46,15 @@ def _holdout() -> tuple[list[HoldoutQuery], list[HoldoutPrediction]]:
     return queries, predictions
 
 
-def test_production_holdout_requires_blinded_scoring_and_coverage() -> None:
+def test_only_sealed_holdout_can_grant_production_eligibility() -> None:
     queries, predictions = _holdout()
-    blinded = evaluate_ranking_holdout(queries, predictions, holdout_status="BLINDED")
-    assert blinded.status == "FAIL"
-    assert blinded.release_eligible is False
-    assert any("holdout labels remain blinded" in failure for failure in blinded.failures)
+    for status in ("DEVELOPMENT", "EXPOSED"):
+        rejected = evaluate_ranking_holdout(queries, predictions, holdout_status=status)
+        assert rejected.status == "FAIL"
+        assert rejected.release_eligible is False
+        assert any("not sealed" in failure for failure in rejected.failures)
 
-    scored = evaluate_ranking_holdout(queries, predictions, holdout_status="OPEN")
+    scored = evaluate_ranking_holdout(queries, predictions, holdout_status="SEALED")
     assert scored.status == "PASS"
     assert scored.release_eligible is True
     assert scored.coverage.adequate is True

@@ -153,7 +153,7 @@ def evaluate_ranking_holdout(
     predictions: Sequence[HoldoutPrediction],
     *,
     thresholds: ProductionValidationThresholds | None = None,
-    holdout_status: Literal["BLINDED", "OPEN"] = "BLINDED",
+    holdout_status: Literal["SEALED", "DEVELOPMENT", "EXPOSED"] = "SEALED",
 ) -> ProductionValidationReport:
     """Score a frozen ranking holdout; production eligibility requires every gate."""
 
@@ -166,8 +166,8 @@ def evaluate_ranking_holdout(
         failures.append("prediction cardinality or query identity mismatch")
     if set(observed) != set(by_id):
         failures.append("missing or extra query IDs")
-    if holdout_status != "OPEN":
-        failures.append("holdout labels remain blinded; scoring is not release eligible")
+    if holdout_status != "SEALED":
+        failures.append("holdout is not sealed and independently scored; production eligibility denied")
     if not coverage.adequate:
         failures.append("holdout coverage is below the multi-buyer production minimum")
 
