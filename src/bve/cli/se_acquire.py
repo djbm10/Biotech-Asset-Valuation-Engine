@@ -18,6 +18,7 @@ from bve.se.evaluation.corpus_coverage import (
     attribute_required_evidence,
     evaluate_corpus_coverage,
 )
+from bve.se.evaluation.holdout import predict_holdout, predictions_json
 from bve.se.schemas.contracts import BuyerProblemV2
 
 
@@ -46,6 +47,10 @@ def build_parser() -> argparse.ArgumentParser:
         help="Versioned source-location URL manifest for company/conference disclosures",
     )
     parser.add_argument("--output", help="Write the JSON report to this path")
+    parser.add_argument(
+        "--holdout-data",
+        help="Unlabeled case-level holdout JSONL; emits one disposition prediction per case",
+    )
     return parser
 
 
@@ -88,6 +93,11 @@ def main(argv: list[str] | None = None) -> int:
 
         CorpusStore(corpus_dir).export_source_index(Path(args.source_index_out))
         report["source_index_out"] = args.source_index_out
+
+    if args.holdout_data:
+        predictions = predict_holdout(Path(args.holdout_data))
+        report["predictions"] = predictions_json(predictions)
+        report["prediction_count"] = len(predictions)
 
     rendered = json.dumps(report, indent=2)
     if args.output:
