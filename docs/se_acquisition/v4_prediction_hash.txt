@@ -1,0 +1,4 @@
+V4 sealed prediction artifact
+Source: /tmp/se_holdout_custodian_20260711_v4/predictions.sealed.json
+SHA-256: de094db4058e4e82c4d610971bce5942a0bdd84b9dbc3c5da88ea62577ce8cb3
+Sealed report: docs/se_acquisition/v4_evaluation_report.md
