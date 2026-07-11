@@ -302,10 +302,16 @@ class CorporateActionLedger:
                 shares = 0.0
                 still_trading = False
             elif t in (CorporateActionType.BANKRUPTCY_RECOVERY, CorporateActionType.LIQUIDATION_DISTRIBUTION):
-                distribution += shares * action.distribution_per_share  # type: ignore[operator]
-                applied.append(
-                    f"{t.value}@{action.effective_date} distribution_per_share={action.distribution_per_share} on {shares:.4f} shares"
-                )
+                if action.distribution_per_share is not None:
+                    distribution += shares * action.distribution_per_share
+                    applied.append(
+                        f"{t.value}@{action.effective_date} distribution_per_share={action.distribution_per_share} on {shares:.4f} shares"
+                    )
+                else:
+                    unresolved.append(
+                        f"distribution_per_share unresolved for {action.security_id} ({t.value}@{action.effective_date})"
+                    )
+                    applied.append(f"{t.value}@{action.effective_date} distribution_per_share=UNRESOLVED on {shares:.4f} shares")
                 shares = 0.0
                 still_trading = False
 

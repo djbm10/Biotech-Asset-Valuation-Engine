@@ -43,6 +43,11 @@ def test_ledger_csv_loads_all_six_pilot_chains(ledger: CorporateActionLedger):
         assert ledger.chain_for(sid), f"no actions found for {sid}"
 
 
+def test_ledger_csv_loads_batch2_bankruptcy_wipeout_names(ledger: CorporateActionLedger):
+    for sid in ("SEC-AKRX", "SEC-ACET", "SEC-NOVN", "SEC-BIND", "SEC-ARLZ", "SEC-OREX", "SEC-SRNE", "SEC-PZRX"):
+        assert ledger.chain_for(sid), f"no actions found for {sid}"
+
+
 def test_akao_bankruptcy_wipeout_is_plumbing_only(ledger: CorporateActionLedger):
     """AKAO: single bankruptcy_recovery action, distribution_per_share=0 (confirmed).
     Entry price ($5.00) is synthetic -- this asserts the wipeout mechanism, not a
@@ -66,6 +71,51 @@ def test_gnca_bankruptcy_wipeout(ledger: CorporateActionLedger):
     assert result.total_proceeds == pytest.approx(0.0)
     assert result.still_trading is False
     assert result.realized_return_pct == pytest.approx(-100.0)
+
+
+@pytest.mark.parametrize("sid", ["SEC-AKRX", "SEC-ACET", "SEC-NOVN"])
+def test_batch2_confirmed_zero_recovery_bankruptcies(ledger: CorporateActionLedger, sid: str):
+    """AKRX (Akorn), ACET (Aceto), NOVN (Novan): each has a confirmed plan-
+    confirmation record stating common equity was cancelled with no
+    distribution -- same confirmed-wipeout shape as AKAO/GNCA."""
+    entry_shares, entry_price = 100.0, 3.00
+    result = ledger.resolve(sid, entry_shares, entry_price)
+
+    assert result.total_proceeds == pytest.approx(0.0)
+    assert result.still_trading is False
+    assert result.unresolved_components == []
+    assert result.realized_return_pct == pytest.approx(-100.0)
+
+
+def test_bind_bankruptcy_pays_confirmed_nonzero_liquidation_trust_distribution(ledger: CorporateActionLedger):
+    """BIND Therapeutics is the one bankruptcy in the pilot where common
+    holders received a confirmed non-zero recovery (~$0.89/share aggregate
+    liquidation-trust distribution) -- must NOT be defaulted to -100% just
+    because the outcome_type bucket is 'bankrupt'."""
+    entry_shares, entry_price = 100.0, 3.00
+    result = ledger.resolve("SEC-BIND", entry_shares, entry_price)
+
+    expected_distribution = entry_shares * 0.89
+    expected_return = (expected_distribution - entry_shares * entry_price) / (entry_shares * entry_price) * 100.0
+
+    assert result.distribution_proceeds == pytest.approx(expected_distribution)
+    assert result.still_trading is False
+    assert result.unresolved_components == []
+    assert result.realized_return_pct == pytest.approx(expected_return)
+
+
+@pytest.mark.parametrize("sid", ["SEC-ARLZ", "SEC-OREX", "SEC-SRNE", "SEC-PZRX"])
+def test_batch2_unresolved_recovery_bankruptcies_are_not_defaulted_to_zero(ledger: CorporateActionLedger, sid: str):
+    """ARLZ, OREX, SRNE, PZRX: bankruptcy is confirmed but the amount (if
+    any) recovered by common equity is not confirmed in primary sources.
+    The resolver must refuse to guess -- neither -100% nor any other
+    number -- distinct from AKRX/ACET/NOVN where $0 IS the confirmed fact."""
+    entry_shares, entry_price = 100.0, 3.00
+    result = ledger.resolve(sid, entry_shares, entry_price)
+
+    assert result.still_trading is False
+    assert result.unresolved_components != []
+    assert result.realized_return_pct is None
 
 
 def test_cnat_reverse_split_then_still_trading_as_hsto(ledger: CorporateActionLedger):
@@ -147,18 +197,27 @@ def test_stock_merger_action_requires_merger_exchange_ratio():
         )
 
 
-def test_bankruptcy_recovery_requires_explicit_distribution_value_not_default():
-    """distribution_per_share must be stated explicitly (0.0 for a confirmed
-    wipeout) -- it must never default silently, since an unconfirmed recovery
-    is a different fact than a confirmed $0 recovery."""
-    with pytest.raises(ValueError):
-        CorporateAction(
-            security_id="SEC-TEST",
-            action_sequence=1,
-            action_type=CorporateActionType.BANKRUPTCY_RECOVERY,
-            from_security_id="SEC-TEST",
-            to_security_id="SEC-TEST",
-        )
+def test_bankruptcy_recovery_with_unconfirmed_distribution_is_unresolved_not_zero():
+    """distribution_per_share=None on a bankruptcy_recovery action is a distinct,
+    explicit fact ("recovery amount not yet confirmed") from distribution_per_share=0.0
+    ("confirmed wipeout") -- it must never be silently coerced to either. The resolver
+    must flag it in unresolved_components and refuse to compute realized_return_pct,
+    the same terminal-completeness treatment as an unresolved CVR."""
+    action = CorporateAction(
+        security_id="SEC-UNRESOLVED-BK",
+        action_sequence=1,
+        action_type=CorporateActionType.BANKRUPTCY_RECOVERY,
+        effective_date=date(2023, 4, 10),
+        from_security_id="SEC-UNRESOLVED-BK",
+        to_security_id="SEC-UNRESOLVED-BK",
+    )
+    ledger = CorporateActionLedger([action])
+    result = ledger.resolve("SEC-UNRESOLVED-BK", 100.0, 5.0)
+
+    assert result.distribution_proceeds == 0.0
+    assert result.still_trading is False
+    assert result.unresolved_components != []
+    assert result.realized_return_pct is None  # must not guess $0 or any other value
 
 
 # --- Edge-case tests added for the resolver rewrite: point-in-time filtering,

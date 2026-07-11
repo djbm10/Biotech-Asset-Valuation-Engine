@@ -99,7 +99,7 @@ class CorporateAction(BaseModel):
     cash_per_share: Optional[float] = None
     cvr_terms: Optional[str] = None  # free-text description of contingent terms
     cvr_value_realized: Optional[float] = None  # $/share actually realized; None = unresolved
-    distribution_per_share: Optional[float] = None  # bankruptcy/liquidation payout per share
+    distribution_per_share: Optional[float] = None  # bankruptcy/liquidation payout per share; None = amount not yet confirmed (distinct from a confirmed 0.0 wipeout)
 
     source: str = ""
     verification_status: str = "unverified"  # "verified" | "unverified" | "quarantined"
@@ -120,9 +120,6 @@ class CorporateAction(BaseModel):
         ):
             if self.cash_per_share is None:
                 raise ValueError(f"{t.value} action requires cash_per_share")
-        if t in (CorporateActionType.BANKRUPTCY_RECOVERY, CorporateActionType.LIQUIDATION_DISTRIBUTION):
-            if self.distribution_per_share is None:
-                raise ValueError(f"{t.value} action requires distribution_per_share (use 0.0 for confirmed wipeout)")
         return self
 
     @property
