@@ -1,0 +1,19 @@
+schema_version: acquisition_ranking_production_validation_v1
+status: NOT_RUN
+label: "Validated development screen; public-data pre-diligence—not production-proven."
+holdout:
+  blinded_until_scoring: true
+  minimum_queries: 24
+  minimum_buyers: 3
+  minimum_targets: 3
+  minimum_modalities: 3
+  minimum_evidence_profiles: 4
+metrics:
+  top_k: 5
+  top_k_shortlist_recall_min: 0.80
+  ndcg_at_k_min: 0.75
+  citation_completeness_min: 0.95
+  rationale_quality_min: 0.80
+  diligence_question_usefulness_min: 0.80
+  zero_gate_leakage: required
+  zero_valuation_leakage: required

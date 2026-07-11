@@ -33,6 +33,10 @@ from bve.se.schemas.contracts import (
     ClinicalMeaningfulness,
 )
 
+DEVELOPMENT_SCREEN_LABEL = (
+    "Validated development screen; public-data pre-diligence—not production-proven."
+)
+
 
 class SESearchResult(BaseModel):
     problem_id: str
@@ -52,7 +56,7 @@ class SESearchResult(BaseModel):
     clinical_results: list[ClinicalResult] = Field(default_factory=list)
     cohort_assignments: list[CohortAssignment] = Field(default_factory=list)
     clinical_meaningfulness: list[ClinicalMeaningfulness] = Field(default_factory=list)
-    label: str = "DRAFT - PUBLIC PRE-DILIGENCE"
+    label: str = DEVELOPMENT_SCREEN_LABEL
 
 
 def run_landscape_search(
