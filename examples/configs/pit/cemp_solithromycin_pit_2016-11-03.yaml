@@ -1,0 +1,215 @@
+# =============================================================================
+# Cempra, Inc. (CEMP) — solithromycin (fluoroketolide antibiotic)
+# Community-Acquired Bacterial Pneumonia (CABP) | NDA under FDA review
+# POINT-IN-TIME: 2016-11-03 (entry price date; ONE DAY before the FDA
+# Antimicrobial Drugs Advisory Committee met on 2016-11-04; company later
+# received a Complete Response Letter in Dec 2016, and merged into Melinta
+# Therapeutics in 2017 which itself later filed bankruptcy in 2020)
+# =============================================================================
+#
+# NO-LOOKAHEAD DISCIPLINE:
+# All data sourced from public information published on or before 2016-11-03
+# (i.e. through market close the day BEFORE the AdCom vote).
+# Sources:
+#   - Cempra Q3 2016 10-Q, filed 2016-10-27 (cash, shares outstanding, burn)
+#   - Cempra Q3 2016 earnings call, Oct 27 2016 (disclosed risk of CRL /
+#     PDUFA delay tied to an India manufacturing-plant inspection issue --
+#     this was public BEFORE the AdCom, and is included)
+#   - FDA Antimicrobial Drugs Advisory Committee briefing documents, published
+#     2016-11-02 per Cempra's own SEC 8-K Exhibit 99.1 investor timeline
+#     (accession 0001193125-16-768404) -- TIMESTAMP-VERIFIED one full trading
+#     day before the 2016-11-03 16:00 ET information_cutoff_timestamp used by
+#     this config (see docs/valuation_date_contract_v1.md and the assumption
+#     ledger's timestamp-verification note). This disclosed a liver-enzyme-
+#     elevation signal for solithromycin and is pre-cutoff public information
+#     with a full day of clearance, not a same-day near-miss. The CEMP entry
+#     price on 2016-11-03 reflects the post-disclosure, partially-recovered
+#     level (contemporaneous press: ~63% single-day collapse "in Wednesday
+#     [Nov 2] trading," partial recovery "in Thursday [Nov 3] morning
+#     trading") -- confirmed by the ~$19-20 pre-Nov-2 price level implied by
+#     that magnitude vs. the $7.55 entry price.
+#   - Industry base rate: bve industry_assumptions.yaml infectious_disease
+#     nda_bla prior (standardized reference point, adjusted down for the
+#     directly-reported manufacturing/liver-signal risk factors above)
+#
+# EXCLUDED (lookahead):
+#   - The Nov 4 2016 AdCom vote itself (7-6 efficacy-outweighs-risk vote,
+#     13-0 substantial-evidence-of-efficacy vote) -- occurred the day AFTER
+#     this snapshot and is NOT used to set any assumption below
+#   - The Dec 29 2016 FDA Complete Response Letter (CRL)
+#   - The 2017 merger with Melinta Therapeutics and Melinta's 2020 bankruptcy
+# =============================================================================
+
+analyst_notes: >
+  Solithromycin's NDA was under FDA review for CABP as of the snapshot date,
+  with an Antimicrobial Drugs Advisory Committee meeting scheduled for the
+  NEXT trading day (2016-11-04). Two pieces of directly-reported, genuinely
+  pre-cutoff information materially affect this valuation and are both
+  incorporated: (1) on the Oct 27 2016 earnings call, management disclosed a
+  risk that an FDA finding at an India manufacturing facility (where the
+  solithromycin API was made) could delay the PDUFA decision by several
+  months, independent of the efficacy/safety review; (2) FDA briefing
+  documents released publicly ~Nov 2 2016 (i.e. before this snapshot)
+  disclosed a liver-enzyme-elevation signal, which the market reacted to with
+  a same-week, pre-AdCom price decline. The entry price used here ($7.55,
+  2016-11-03) already reflects both pieces of information -- this config does
+  NOT assume the entry price predates the liver-signal disclosure. What it
+  deliberately does NOT reflect is the AdCom's actual vote (next day) or the
+  eventual CRL (~8 weeks later).
+
+asset:
+  id: "cemp-solithromycin-pit-2016q4"
+  name: "solithromycin"
+  indication: "Community-acquired bacterial pneumonia (CABP), oral + IV formulations"
+  therapeutic_area: "infectious_disease"
+  stage: "nda_bla"
+  modality: "small_molecule"
+  mechanism_of_action: >
+    Fluoroketolide antibiotic (next-generation macrolide/ketolide class)
+    active against macrolide-resistant CABP pathogens.
+  discount_rate: 0.11    # NDA-stage single-asset biotech; lower than clinical-stage but not de-risked to commercial-stage levels given open regulatory risk
+  royalty_rate: 0.0      # no disclosed partner royalty as of snapshot
+
+  differentiation_notes: >
+    1. Activity against macrolide-resistant S. pneumoniae strains, a
+       recognized unmet need in CABP.
+    2. Oral and IV formulations allow step-down dosing in a single class.
+    3. Regulatory risk is elevated and directly reported pre-cutoff: a
+       manufacturing-site inspection issue (India API plant) with potential
+       to independently delay/complicate the PDUFA decision, plus a
+       liver-enzyme-elevation safety signal disclosed in FDA briefing
+       documents ahead of the scheduled AdCom.
+
+  competitor_assets:
+    - "Azithromycin (generic) — standard-of-care macrolide, but resistance is the unmet need solithromycin targets"
+    - "Levofloxacin / other fluoroquinolones — alternative CABP options with their own safety-label warnions"
+
+  upcoming_catalysts:
+    - description: "FDA Antimicrobial Drugs Advisory Committee meeting"
+      timing_months: 0   # scheduled for the next trading day (2016-11-04); listed for completeness, outcome NOT assumed
+      catalyst_type: "regulatory_meeting"
+    - description: "PDUFA decision date"
+      timing_months: 2
+      catalyst_type: "regulatory_decision"
+
+company:
+  id: "cempra-inc"
+  name: "Cempra, Inc."
+  ticker: "CEMP"
+  cash_millions: 248.9          # cash and equivalents, as of 2016-09-30 (Q3 2016 10-Q)
+  debt_millions: 0.0            # no long-term debt line item identified in pre-cutoff balance sheet review
+  shares_outstanding_millions: 52.38   # 52,381,530 shares, as of 2016-10-24 (Q3 10-Q cover page)
+  burn_rate_millions_per_quarter: 23.75  # 9-month 2016 operating cash used $71.252M / 3 quarters
+  current_price: 7.55           # provisional_quantconnect_primary entry price, 2016-11-03 (see adverse_cohort_price_sourcing.csv)
+  notes: >
+    Cash runway at Q3 2016 burn rate: ~248.9/23.75 ~= 10.5 quarters (~2.6
+    years) from 2016-09-30 -- a well-capitalized NDA-stage company, not a
+    going-concern situation as of the snapshot. Well above the burn-derived
+    runway seen in the BIND and GNCA pilots, consistent with CEMP having
+    raised substantial capital in 2016 (ATM + Jan 2016 public offering) ahead
+    of the anticipated launch.
+
+trials:
+  - phase: "nda_bla"
+    nct_id: null   # NDA is not a registered clinical trial; underlying pivotal trials (SOLITAIRE-ORAL/-IV) completed pre-snapshot
+    success_probability: 0.55   # derived: infectious_disease nda_bla base rate (0.929) adjusted down for
+                                  # the two directly-reported pre-cutoff risk factors (manufacturing-site
+                                  # finding risk; liver-enzyme signal ahead of AdCom). See notes.
+    duration_years: 0.7
+    cost_millions: 15.0
+    primary_endpoint: null
+    endpoint_type: "surrogate_validated"
+    notes: >
+      assumption_type: derived. Starting point is the infectious_disease
+      nda_bla industry base rate (0.929, bve industry_assumptions.yaml),
+      which reflects a typical NDA at the review stage with no known
+      negative signal. Two directly-reported, pre-cutoff facts justify a
+      material downward adjustment from that base rate: the India
+      manufacturing-plant inspection risk (Oct 27 2016 earnings call) and the
+      liver-enzyme-elevation signal in the FDA briefing documents (~Nov 2
+      2016). Both are known, real risk factors as of the snapshot date --
+      NOT derived from the actual Nov 4 AdCom vote or the Dec 2016 CRL,
+      which postdate this config and are excluded. 0.55 is a judgment call
+      (documented, not tuned to the known outcome) reflecting "real,
+      disclosed cause for concern" without asserting the review will fail.
+
+market_model:
+  # CABP hospitalized-treatment population; long-standing CDC/epidemiology
+  # estimate, non-time-sensitive, used as a standardized prior.
+  addressable_patients_annual: 250000
+  net_price_per_patient_usd: 800
+  peak_penetration: 0.05
+  years_to_peak: 4
+  patent_life_years: 8
+  cogs_rate: 0.15
+  sgna_rate_launch: 0.35
+  sgna_rate_mature: 0.18
+
+pos_adjusters:
+  apply_pos_model: false   # deliberately off: the single nda_bla-stage success_probability
+                            # above already carries the material pre-cutoff judgment call;
+                            # layering the categorical POSAdjusters model on top would double
+                            # count the same two risk factors already reflected in that number.
+
+monte_carlo:
+  random_seed: 42
+  peak_sales_cv: 0.50       # wide: open regulatory outcome (manufacturing + safety signal) at review stage
+  discount_rate_std: 0.02
+  years_to_peak_std: 1.0
+  use_default_correlations: true
+
+limitations:
+  - "success_probability (0.55) for the nda_bla stage is a documented judgment call (derived, adjusted down from a 0.929 base rate) rather than a directly reported figure or an unadjusted prior -- this is the single largest subjective-reconstruction element in this pilot's three configs."
+  - "market_model figures are order-of-magnitude CABP epidemiology/pricing standardized priors, not solithromycin-specific commercial modeling."
+  - "Does not model solithromycin's other studied indication (uncomplicated gonorrhea) or Cempra's broader antibiotic pipeline; single-asset, single-indication NAV only."
+  - "The AdCom outcome and CRL are excluded by design (no-lookahead); a reader using this config to predict the eventual outcome should not expect it to -- that is not its purpose."
+
+sources:
+  cash_shares_burn:
+    url: "https://www.sec.gov/Archives/edgar/data/1461993/000156459016026381/cemp-10q_20160930.htm"
+    confidence: "High"
+    notes: "Cempra Q3 2016 10-Q (period ended 2016-09-30, filed 2016-10-27). Directly reported balance-sheet and cash-flow figures."
+
+  manufacturing_and_safety_risk:
+    url: "https://www.fda.gov/AdvisoryCommittees/Calendar/ucm518797.htm"
+    confidence: "Medium"
+    notes: >
+      FDA Antimicrobial Drugs Advisory Committee meeting notice/briefing
+      materials (public ahead of 2016-11-04 meeting); Oct 27 2016 earnings
+      call disclosure of India manufacturing-site inspection risk. Both
+      pre-cutoff. The specific AdCom vote outcome (2016-11-04) is explicitly
+      NOT drawn from this source.
+
+  entry_price:
+    url: "research/mna/pit/adverse_cohort_price_sourcing.csv"
+    confidence: "Medium"
+    notes: >
+      provisional_quantconnect_primary: no same-date independent second
+      source found (nearest archive.org snapshot was 13 days late at a
+      materially different price, per independent_verification.md) -- flagged
+      caution carried forward from the price-sourcing tier, not resolved here.
+
+decision_framing:
+  variant_perception:
+    market_pos_pct: null
+    market_peak_sales_m: null
+    our_edge: >
+      This pilot config deliberately does NOT assert a variant perception --
+      the entry price already reflects a large, information-driven repricing
+      (the Nov 2 liver-signal disclosure) one trading day before an AdCom
+      vote whose outcome was genuinely unknown as of the snapshot. The
+      disclosure itself is timestamp-verified as having a full trading day
+      of clearance before this cutoff, but the cutoff still sits only one
+      day before the binary regulatory catalyst (the AdCom vote) that is
+      correctly excluded -- the pilot's tightest margin to a genuinely
+      excluded lookahead event.
+
+  kill_criteria:
+    - "AdCom votes that risks outweigh efficacy benefits (this is precisely the information excluded from this config by design)."
+    - "FDA issues a Complete Response Letter."
+    - "Manufacturing-site finding is confirmed to require a facility remediation before approval."
+
+thesis_changers:
+  - "AdCom votes favorably and FDA approves on the original PDUFA timeline -> removes both disclosed risk factors."
+  - "Manufacturing-site finding resolved without a CRL -> removes the timing-delay risk factor."
+  - "CRL issued requiring a new clinical trial -> multi-year delay, materially higher risk to program economics (this is what occurred, but postdates this snapshot)."

@@ -1,0 +1,136 @@
+schema_version: 1
+ticker: "CEMP"
+asset_id: "cemp-solithromycin-pit-2016q4"
+historical_snapshot_date: "2016-11-03"
+no_lookahead_attestation: >
+  Cempra's solithromycin NDA received a Complete Response Letter on
+  2016-12-29, and Cempra later merged into Melinta Therapeutics (2017),
+  which itself filed for bankruptcy in 2020 (corporate_action_ledger.csv
+  SEC-CEMP/1, SEC-CEMP/2, SEC-MLNT/1 — the reverse-split/ticker-change/
+  bankruptcy chain that makes CEMP a structurally distinct pathway from the
+  BIND and GNCA flat-bankruptcy pilots). This config's success_probability
+  (0.55) was set using two genuinely pre-cutoff risk disclosures (a
+  manufacturing-site inspection risk disclosed Oct 27 2016, and a
+  liver-enzyme-elevation signal in FDA briefing documents public ~Nov 2
+  2016) — NOT using the actual Nov 4 2016 AdCom vote or the Dec 2016 CRL,
+  both of which postdate the snapshot and are excluded by design.
+
+assumptions:
+  - slug: "cash_millions"
+    value: 248.9
+    unit: "millions_usd"
+    source: "Cempra Q3 2016 10-Q (SEC EDGAR, accession 0001564590-16-026381), balance sheet as of 2016-09-30"
+    source_publication_date: "2016-10-27"
+    knowable_date: "2016-10-27"
+    confidence: "High"
+    assumption_type: "directly_reported"
+    notes: "Cash and equivalents $248.917M as of 2016-09-30."
+
+  - slug: "shares_outstanding_millions"
+    value: 52.38
+    unit: "millions_of_shares"
+    source: "Cempra Q3 2016 10-Q cover page"
+    source_publication_date: "2016-10-27"
+    knowable_date: "2016-10-27"
+    confidence: "High"
+    assumption_type: "directly_reported"
+    notes: "52,381,530 shares outstanding as of 2016-10-24."
+
+  - slug: "burn_rate_millions_per_quarter"
+    value: 23.75
+    unit: "millions_usd_per_quarter"
+    source: "Cempra Q3 2016 10-Q cash flow statement"
+    source_publication_date: "2016-10-27"
+    knowable_date: "2016-10-27"
+    confidence: "High"
+    assumption_type: "derived"
+    notes: "9-month 2016 net cash used in operating activities = $71.252M; divided by 3 quarters = $23.75M/quarter average."
+
+  - slug: "current_price"
+    value: 7.55
+    unit: "usd_per_share"
+    source: "QuantConnect raw close, provisional_quantconnect_primary tier (no same-date independent second source found)"
+    source_publication_date: "2016-11-03"
+    knowable_date: "2016-11-03"
+    confidence: "Medium"
+    assumption_type: "directly_reported"
+    notes: >
+      See research/mna/pit/adverse_cohort_price_sourcing.csv and
+      docs/QuantConnect/independent_verification.md (nearest archive.org
+      corroboration was 13 days late at a materially different price,
+      $6.40 — informational caution, not a same-date check, carried forward
+      from the price-sourcing classification rather than re-litigated here).
+
+  - slug: "manufacturing_site_inspection_risk"
+    value: "disclosed risk of PDUFA delay / potential CRL tied to India API manufacturing plant finding"
+    unit: "qualitative_risk_disclosure"
+    source: "Cempra Q3 2016 earnings call"
+    source_publication_date: "2016-10-27"
+    knowable_date: "2016-10-27"
+    confidence: "Medium"
+    assumption_type: "directly_reported"
+    notes: "Directly disclosed by management; used qualitatively to justify the downward adjustment on nda_bla_success_probability below."
+
+  - slug: "liver_enzyme_safety_signal"
+    value: "liver-enzyme elevation signal disclosed in FDA AdCom briefing documents"
+    unit: "qualitative_risk_disclosure"
+    source: "FDA Antimicrobial Drugs Advisory Committee briefing materials, publicly released 2016-11-02, per Cempra's own SEC 8-K Exhibit 99.1 investor-timeline disclosure (accession 0001193125-16-768404: 'November 2: FDA publishes briefing materials for AMDAC meeting')"
+    source_publication_date: "2016-11-02"
+    knowable_date: "2016-11-02"
+    confidence: "High"
+    assumption_type: "directly_reported"
+    notes: >
+      TIMESTAMP-LEVEL VERIFICATION (2026-07-12, per valuation_date_contract_v1.md):
+      confirmed via Cempra's own SEC 8-K Exhibit 99.1
+      (https://www.sec.gov/Archives/edgar/data/0001461993/000119312516768404/d282977dex991.htm)
+      that the FDA briefing document was published 2016-11-02, a full trading
+      day before the 2016-11-03 information_cutoff_timestamp (16:00 ET
+      2016-11-03) used by this config. Contemporaneous press (BioPharma Dive,
+      published 2016-11-03, reporting the prior day's ~63% single-day
+      collapse "in Wednesday trading" with partial recovery "in Thursday
+      morning trading") independently corroborates the Nov 2 date and shows
+      the market had already priced this information in before the Nov 3
+      close used as this config's entry price. This is NOT a lookahead
+      near-miss: it is one full trading day of clearance, not same-day
+      ambiguity. The $7.55 entry price already reflects the post-disclosure,
+      partially-recovered level, not a pre-disclosure level.
+
+  - slug: "nda_bla_success_probability"
+    value: 0.55
+    unit: "probability"
+    source: "Derived from bve industry_assumptions.yaml infectious_disease.nda_bla base rate (0.929), adjusted down for the two directly-reported risk disclosures above"
+    source_publication_date: "N/A — analyst derivation as of snapshot date"
+    knowable_date: "2016-11-03"
+    confidence: "Low"
+    assumption_type: "derived"
+    notes: >
+      The single largest subjective-reconstruction judgment call in this
+      pilot's three configs. 0.929 is the unadjusted base rate for an
+      infectious-disease NDA with no known negative signal; that clearly
+      does not apply here given two disclosed, real, pre-cutoff risk
+      factors. 0.55 reflects "material disclosed cause for concern, review
+      outcome still genuinely open" -- it is not calibrated to, and was
+      chosen without reference to, the actual Nov 4 AdCom vote or Dec 2016
+      CRL. A different analyst could reasonably choose a different number
+      in this range; this is exactly the kind of reconstruction step that
+      needs independent review before this pilot's numbers are trusted.
+
+  - slug: "addressable_patients_annual"
+    value: 250000
+    unit: "patients_per_year"
+    source: "CDC/long-standing CABP hospitalized-treatment epidemiology, order-of-magnitude analyst estimate"
+    source_publication_date: "N/A — long-standing epidemiological estimate"
+    knowable_date: "2016-11-03"
+    confidence: "Low"
+    assumption_type: "standardized_prior"
+    notes: "Order-of-magnitude only; not solithromycin-specific commercial modeling."
+
+  - slug: "net_price_per_patient_usd"
+    value: 800
+    unit: "usd_per_treatment_course"
+    source: "Branded antibiotic-class pricing comp, analyst estimate"
+    source_publication_date: "N/A"
+    knowable_date: "2016-11-03"
+    confidence: "Low"
+    assumption_type: "standardized_prior"
+    notes: "No solithromycin-specific pricing guidance was public pre-approval."
