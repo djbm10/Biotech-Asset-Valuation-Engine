@@ -27,7 +27,7 @@ def test_memo_has_three_groups_coverage_and_pre_diligence_label() -> None:
         unresolved_asset_ids=[asset.asset_id],
     )
     memo = render_search_memo(result)
-    assert "Validated development screen; public-data pre-diligence—not production-proven." in memo
+    assert "Production-validated public-data S&E screen; pre-diligence—not verified truth." in memo
     assert "Eligible and ranked" in memo
     assert "Confirmed exclusions" in memo
     assert "Unresolved — analyst research required" in memo

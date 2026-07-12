@@ -40,6 +40,11 @@ def test_only_include_assets_are_ranked_and_unknown_is_routed() -> None:
 
     assert [item.asset_id for item in result.ranked] == ["include-a", "include-b"]
     assert [item.asset_id for item in result.diligence] == ["unknown-a"]
+    assert [item.asset_id for item in result.diligence_queue] == ["unknown-a"]
+    queued = result.diligence_queue[0]
+    assert queued.missing_or_conflicting_gate
+    assert queued.supporting_evidence == ["claim:unknown-a"]
+    assert queued.specific_diligence_question.endswith("support INCLUDE or EXCLUDE?")
     assert result.excluded_asset_ids == ["exclude-a"]
     assert all(item.public_pre_diligence for item in result.ranked)
 
@@ -64,6 +69,11 @@ def test_exclude_can_never_enter_ranked_output() -> None:
 def test_duplicate_assets_fail_closed() -> None:
     with pytest.raises(ValueError, match="unique"):
         rank_acquisition_candidates([_candidate("same"), _candidate("same")])
+
+
+def test_unknown_without_supporting_evidence_fails_closed() -> None:
+    with pytest.raises(ValueError, match="requires supporting evidence"):
+        rank_acquisition_candidates([_candidate("unknown", "UNKNOWN", supporting_claim_ids=[])])
 
 
 def _fixture_candidates(filename: str) -> tuple[list[AcquisitionCandidate], dict]:

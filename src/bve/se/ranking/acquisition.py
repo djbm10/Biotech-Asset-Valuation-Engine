@@ -39,6 +39,9 @@ class DiligenceItem(BaseModel):
 
     asset_id: str
     route: Literal["DILIGENCE"] = "DILIGENCE"
+    missing_or_conflicting_gate: str = Field(min_length=1)
+    supporting_evidence: list[str] = Field(min_length=1)
+    specific_diligence_question: str = Field(min_length=1)
     rationale: str
     required_checks: list[str] = Field(min_length=1)
     public_pre_diligence: bool = True
@@ -72,20 +75,29 @@ class AcquisitionRankingResult(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
     ranked: list[RankedAcquisition] = Field(default_factory=list)
-    diligence: list[DiligenceItem] = Field(default_factory=list)
+    diligence_queue: list[DiligenceItem] = Field(default_factory=list)
     excluded_asset_ids: list[str] = Field(default_factory=list)
     public_pre_diligence: bool = True
 
     @model_validator(mode="after")
     def enforce_disposition_partition(self) -> "AcquisitionRankingResult":
         ranked_ids = {item.asset_id for item in self.ranked}
-        diligence_ids = {item.asset_id for item in self.diligence}
+        diligence_id_list = [item.asset_id for item in self.diligence_queue]
+        diligence_ids = set(diligence_id_list)
         excluded_ids = set(self.excluded_asset_ids)
+        if len(diligence_id_list) != len(diligence_ids):
+            raise ValueError("an UNKNOWN asset must appear exactly once in diligence_queue")
         if ranked_ids & (diligence_ids | excluded_ids):
             raise ValueError("an asset cannot be both ranked and routed elsewhere")
         if diligence_ids & excluded_ids:
             raise ValueError("an asset cannot be both diligence-routed and excluded")
         return self
+
+    @property
+    def diligence(self) -> list[DiligenceItem]:
+        """Backward-compatible access; serialized output uses ``diligence_queue``."""
+
+        return self.diligence_queue
 
 
 _DIMENSIONS = (
@@ -105,8 +117,19 @@ def _score(candidate: AcquisitionCandidate) -> float:
 
 
 def _diligence_item(candidate: AcquisitionCandidate) -> DiligenceItem:
+    dimensions = {dimension: getattr(candidate, dimension) for dimension in _DIMENSIONS}
+    missing_gate = min(dimensions, key=dimensions.__getitem__)
+    evidence = list(dict.fromkeys(candidate.supporting_claim_ids))
+    if not evidence:
+        raise ValueError(f"UNKNOWN asset {candidate.asset_id} requires supporting evidence")
     return DiligenceItem(
         asset_id=candidate.asset_id,
+        missing_or_conflicting_gate=missing_gate,
+        supporting_evidence=evidence,
+        specific_diligence_question=(
+            f"What evidence would resolve the {missing_gate.replace('_', ' ')} gate for "
+            f"{candidate.asset_id}, and does it support INCLUDE or EXCLUDE?"
+        ),
         rationale=(
             "UNKNOWN disposition is not rankable; resolve the missing or conflicting evidence "
             "before acquisition comparison."
@@ -149,8 +172,15 @@ def rank_acquisition_candidates(
         )
         for rank, candidate in enumerate(ordered, start=1)
     ]
-    return AcquisitionRankingResult(
+    result = AcquisitionRankingResult(
         ranked=ranked,
-        diligence=[_diligence_item(candidate) for candidate in unknowns],
+        diligence_queue=[_diligence_item(candidate) for candidate in unknowns],
         excluded_asset_ids=excludes,
     )
+    unknown_ids = [candidate.asset_id for candidate in unknowns]
+    queued_ids = [item.asset_id for item in result.diligence_queue]
+    if sorted(unknown_ids) != sorted(queued_ids):
+        raise ValueError("every UNKNOWN asset must appear exactly once in diligence_queue")
+    if set(unknown_ids) & {item.asset_id for item in result.ranked}:
+        raise ValueError("UNKNOWN assets must never be ranked")
+    return result

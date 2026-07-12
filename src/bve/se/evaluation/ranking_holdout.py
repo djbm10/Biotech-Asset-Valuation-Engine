@@ -14,6 +14,8 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
+from bve.se.ranking.acquisition import DiligenceItem
+
 
 class HoldoutQuery(BaseModel):
     model_config = ConfigDict(extra="forbid")
@@ -44,10 +46,26 @@ class HoldoutPrediction(BaseModel):
     query_id: str = Field(min_length=1)
     ranked_asset_ids: list[str] = Field(default_factory=list)
     diligence_asset_ids: list[str] = Field(default_factory=list)
+    diligence_queue: list[DiligenceItem] = Field(default_factory=list)
+    excluded_asset_ids: list[str] = Field(default_factory=list)
     citations_by_asset: dict[str, list[str]] = Field(default_factory=dict)
     rationale_quality: float | None = Field(default=None, ge=0.0, le=1.0)
     diligence_question_usefulness: float | None = Field(default=None, ge=0.0, le=1.0)
     serialized_output: Mapping[str, object] = Field(default_factory=dict)
+
+    @model_validator(mode="after")
+    def validate_diligence_queue(self) -> "HoldoutPrediction":
+        queue_ids = [item.asset_id for item in self.diligence_queue]
+        if len(queue_ids) != len(set(queue_ids)):
+            raise ValueError("diligence_queue contains duplicate assets")
+        if queue_ids and queue_ids != self.diligence_asset_ids:
+            raise ValueError("diligence_asset_ids must exactly match diligence_queue")
+        if set(queue_ids) & set(self.ranked_asset_ids):
+            raise ValueError("UNKNOWN assets must never be ranked")
+        routes = self.ranked_asset_ids + queue_ids + self.excluded_asset_ids
+        if len(routes) != len(set(routes)):
+            raise ValueError("an asset may appear in exactly one output route")
+        return self
 
 
 class HoldoutCoverage(BaseModel):
@@ -101,7 +119,7 @@ class ProductionValidationReport(BaseModel):
     failures: list[str] = Field(default_factory=list)
 
 
-_LEAKAGE_TERMS = re.compile(r"(?:^|[_\-.])(gate|gates|valuation|rnpv|npv)(?:$|[_\-.])", re.I)
+_VALUATION_LEAKAGE_TERMS = re.compile(r"(?:^|[_\-.])(valuation|rnpv|npv)(?:$|[_\-.])", re.I)
 
 
 def _ndcg(relevances: Sequence[int], ideal: Sequence[int], k: int) -> float:
@@ -139,7 +157,7 @@ def _leakage_fields(value: object, prefix: str = "") -> list[str]:
     if isinstance(value, Mapping):
         for key, child in value.items():
             path = f"{prefix}.{key}" if prefix else str(key)
-            if _LEAKAGE_TERMS.search(str(key)):
+            if _VALUATION_LEAKAGE_TERMS.search(str(key)):
                 found.append(path)
             found.extend(_leakage_fields(child, path))
     elif isinstance(value, Sequence) and not isinstance(value, (str, bytes)):
@@ -196,9 +214,31 @@ def evaluate_ranking_holdout(
             citation_numerator += bool(prediction.citations_by_asset.get(asset))
         if prediction.rationale_quality is not None:
             rationale_scores.append(prediction.rationale_quality)
+        expected_include = {
+            asset for asset, disposition in query.dispositions_by_asset.items()
+            if disposition == "INCLUDE"
+        }
+        expected_unknown = {
+            asset for asset, disposition in query.dispositions_by_asset.items()
+            if disposition == "UNKNOWN"
+        }
+        expected_exclude = {
+            asset for asset, disposition in query.dispositions_by_asset.items()
+            if disposition == "EXCLUDE"
+        }
+        queue_ids = [item.asset_id for item in prediction.diligence_queue]
+        route_ids = prediction.ranked_asset_ids + queue_ids + prediction.excluded_asset_ids
+        route_partition_valid = (
+            len(route_ids) == len(set(route_ids))
+            and set(prediction.ranked_asset_ids) == expected_include
+            and set(queue_ids) == expected_unknown
+            and set(prediction.excluded_asset_ids) == expected_exclude
+            and prediction.diligence_asset_ids == queue_ids
+        )
+        if not route_partition_valid:
+            zero_gate_leakage = False
+            failures.append(f"semantic route leakage detected in {query_id}")
         if query.diligence_assets:
-            if not set(query.diligence_assets).issubset(set(prediction.diligence_asset_ids)):
-                failures.append(f"UNKNOWN asset not routed to diligence in {query_id}")
             if prediction.diligence_question_usefulness is None:
                 failures.append(f"missing diligence-question rating in {query_id}")
             else:
@@ -207,7 +247,6 @@ def evaluate_ranking_holdout(
         if any(query.dispositions_by_asset.get(asset) != "INCLUDE" for asset in ranked_set):
             failures.append(f"non-INCLUDE asset ranked in {query_id}")
         leakage = _leakage_fields(prediction.serialized_output)
-        zero_gate_leakage &= not any("gate" in field.casefold() for field in leakage)
         zero_valuation_leakage &= not any(
             term in field.casefold() for field in leakage for term in ("valuation", "rnpv", "npv")
         )
@@ -224,7 +263,7 @@ def evaluate_ranking_holdout(
         zero_valuation_leakage=zero_valuation_leakage,
     )
     if not metrics.zero_gate_leakage:
-        failures.append("gate leakage detected")
+        failures.append("semantic gate-route leakage detected")
     if not metrics.zero_valuation_leakage:
         failures.append("valuation/rNPV leakage detected")
     failures.extend(

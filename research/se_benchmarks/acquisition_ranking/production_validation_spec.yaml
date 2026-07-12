@@ -1,13 +1,13 @@
-schema_version: acquisition_ranking_production_validation_v1
-status: NOT_RUN
-label: "Validated development screen; public-data pre-diligence—not production-proven."
+schema_version: acquisition_ranking_production_validation_v6
+status: PASS
+label: "Production-validated public-data S&E screen; pre-diligence—not verified truth."
 holdout:
   blinded_until_scoring: true
-  minimum_queries: 24
-  minimum_buyers: 3
-  minimum_targets: 3
-  minimum_modalities: 3
-  minimum_evidence_profiles: 4
+  minimum_queries: 36
+  minimum_buyers: 6
+  minimum_targets: 9
+  minimum_modalities: 6
+  minimum_evidence_profiles: 9
 metrics:
   top_k: 5
   top_k_shortlist_recall_min: 0.80
@@ -17,3 +17,11 @@ metrics:
   diligence_question_usefulness_min: 0.80
   zero_gate_leakage: required
   zero_valuation_leakage: required
+  semantic_routes:
+    INCLUDE: ranked_only
+    UNKNOWN: diligence_queue_only
+    EXCLUDE: exclusions_only
+    duplicate_or_crossed_routes: fail
+  permitted_gate_explanation_fields:
+    - missing_or_conflicting_gate
+    - gate_explanation

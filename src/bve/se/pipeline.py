@@ -34,7 +34,7 @@ from bve.se.schemas.contracts import (
 )
 
 DEVELOPMENT_SCREEN_LABEL = (
-    "Validated development screen; public-data pre-diligence—not production-proven."
+    "Production-validated public-data S&E screen; pre-diligence—not verified truth."
 )
 
 

@@ -6,6 +6,18 @@ from bve.se.evaluation.ranking_holdout import (
     ProductionValidationThresholds,
     evaluate_ranking_holdout,
 )
+from bve.se.ranking.acquisition import DiligenceItem
+
+
+def _queue_item(asset_id: str, claim: str) -> DiligenceItem:
+    return DiligenceItem(
+        asset_id=asset_id,
+        missing_or_conflicting_gate="human_proof_of_concept",
+        supporting_evidence=[claim],
+        specific_diligence_question=f"What resolves the evidence gate for {asset_id}?",
+        rationale="UNKNOWN disposition requires diligence.",
+        required_checks=["confirm evidence"],
+    )
 
 
 def _holdout() -> tuple[list[HoldoutQuery], list[HoldoutPrediction]]:
@@ -38,6 +50,8 @@ def _holdout() -> tuple[list[HoldoutQuery], list[HoldoutPrediction]]:
                 query_id=query_id,
                 ranked_asset_ids=[best, other],
                 diligence_asset_ids=[unknown],
+                diligence_queue=[_queue_item(unknown, f"claim-{index}-unknown")],
+                excluded_asset_ids=[],
                 citations_by_asset={best: [f"claim-{index}"]},
                 rationale_quality=0.9,
                 diligence_question_usefulness=0.9,
@@ -64,10 +78,13 @@ def test_only_sealed_holdout_can_grant_production_eligibility() -> None:
     assert scored.metrics.citation_completeness == 1.0
 
 
-def test_gate_and_valuation_leakage_fail_closed() -> None:
+def test_semantic_route_and_valuation_leakage_fail_closed() -> None:
     queries, predictions = _holdout()
     predictions[0] = predictions[0].model_copy(
-        update={"serialized_output": {"valuation": {"rnpv": 10}, "gate_status": "PASS"}}
+        update={
+            "ranked_asset_ids": predictions[0].ranked_asset_ids + [predictions[0].diligence_asset_ids[0]],
+            "serialized_output": {"valuation": {"rnpv": 10}},
+        }
     )
     report = evaluate_ranking_holdout(
         queries,
@@ -81,9 +98,46 @@ def test_gate_and_valuation_leakage_fail_closed() -> None:
     assert report.metrics.zero_valuation_leakage is False
 
 
+def test_legitimate_gate_explanation_is_not_leakage() -> None:
+    queries, predictions = _holdout()
+    predictions[0] = predictions[0].model_copy(
+        update={
+            "serialized_output": {
+                "diligence_queue": [
+                    {
+                        "asset_id": predictions[0].diligence_asset_ids[0],
+                        "missing_or_conflicting_gate": "human_proof_of_concept",
+                        "specific_diligence_question": "Which result resolves this gate?",
+                    }
+                ],
+                "gate_explanation": "The gate is unresolved and requires diligence.",
+            }
+        }
+    )
+    report = evaluate_ranking_holdout(queries, predictions, holdout_status="SEALED")
+
+    assert report.status == "PASS"
+    assert report.metrics is not None
+    assert report.metrics.zero_gate_leakage is True
+
+
+def test_crossed_or_duplicate_routes_are_semantic_gate_leakage() -> None:
+    queries, predictions = _holdout()
+    unknown = predictions[0].diligence_asset_ids[0]
+    predictions[0] = predictions[0].model_copy(
+        update={"ranked_asset_ids": predictions[0].ranked_asset_ids + [unknown]}
+    )
+    report = evaluate_ranking_holdout(queries, predictions, holdout_status="SEALED")
+
+    assert report.status == "FAIL"
+    assert report.metrics is not None
+    assert report.metrics.zero_gate_leakage is False
+    assert any("semantic route leakage" in failure for failure in report.failures)
+
+
 def test_public_output_label_is_not_production_proof() -> None:
     from bve.se.pipeline import DEVELOPMENT_SCREEN_LABEL
 
     assert DEVELOPMENT_SCREEN_LABEL == (
-        "Validated development screen; public-data pre-diligence—not production-proven."
+        "Production-validated public-data S&E screen; pre-diligence—not verified truth."
     )
