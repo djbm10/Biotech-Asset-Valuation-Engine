@@ -1,0 +1,179 @@
+# =============================================================================
+# TESARO, Inc. (TSRO) — ZEJULA (niraparib)
+# PARP inhibitor | Ovarian-cancer maintenance | Approved/early-launch
+# POINT-IN-TIME: 2017-12-01 (diagnostic control: "late-stage positive /
+# eventually-acquired company"; TSRO was acquired by GSK, announced
+# 2018-12-03, ~$5.1B / $75.00 per share cash)
+# =============================================================================
+#
+# DIAGNOSTIC-CONTROL NOTE (read before using this config):
+# Mechanically selected from the frozen corporate-action roster
+# (corporate_action_roster:acquired category, tie-broken to the earliest
+# historical_snapshot_date among {ARRY, LOXO, THOR, TSRO} with full data
+# availability). ZEJULA (niraparib) had been FDA-approved for ~8 months as
+# of this snapshot -- an early-launch commercial-stage asset, not a
+# clinical-stage program, distinguishing this control from the three
+# clinical/regulatory-stage pilots (BIND, GNCA, CEMP).
+#
+# IMPORTANT, NON-OBVIOUS FINDING (documented plainly, not smoothed over):
+# TSRO's eventual GSK acquisition price ($75.00/share, announced
+# 2018-12-03) was BELOW this config's 2017-12-01 entry price ($85.16/share)
+# -- the $75.00 deal price was a ~110% premium to a 30-day VWAP of $35.67
+# that reflected a substantial intervening stock decline through most of
+# 2018 (well after this snapshot), not a premium to the Dec 2017 level used
+# here. This control therefore should NOT be read as "the market
+# undervalued this asset and a takeout later confirmed a higher value" --
+# the opposite relationship holds at this specific entry date. This is an
+# important, counterintuitive result for the six-name report to state
+# explicitly.
+#
+# TSRO also had a second marketed product (VARUBI/VARUBY, rolapitant, an
+# NK-1 antagonist for CINV) as of the snapshot -- like OCUL, TSRO is not
+# strictly single-asset, though ZEJULA was clearly the flagship the GSK
+# deal centered on.
+#
+# NO-LOOKAHEAD DISCIPLINE / RUMOR-FREE CAVEAT (hedged, parallel to CEMP's
+# price-sourcing caveat -- NOT asserted as a clean guarantee):
+# TESARO was subject to recurring takeover speculation across multiple
+# years bracketing this snapshot (2016 Gilead rumors; Feb 2017 Sanofi
+# rumors plus a board-level "strategic alternatives" review via Citigroup),
+# with a much sharper, better-documented speculation spike starting
+# 2018-11-16 (over 11 months AFTER this snapshot) that led directly to the
+# Dec 2018 GSK deal. No specific, dated news item placing ACTIVE M&A
+# speculation on TSRO within Oct-Dec 2017 itself was found. 2017-12-01 is
+# therefore the best-available, not a provably rumor-free, date -- stated
+# here as a documented limitation rather than an assumed guarantee.
+#
+# Sources:
+#   - TESARO Q3 2017 10-Q, SEC accession 0001558370-17-008418, filed
+#     2017-11-07, period-end 2017-09-30 (cash, debt, shares as of
+#     2017-11-03 cover-page date).
+#   - Entry price: Yahoo Finance close, 2017-12-01 ($85.16) -- no
+#     independent second source located.
+# EXCLUDED (lookahead): the Nov 2018 takeover-speculation spike; the
+# 2018-12-03 GSK acquisition announcement and $75.00/share deal price;
+# all TSRO events after 2017-12-01.
+# =============================================================================
+
+analyst_notes: >
+  ZEJULA (niraparib), a PARP inhibitor, was FDA-approved 2017-03-27 for
+  maintenance treatment of platinum-responsive recurrent ovarian/
+  fallopian-tube/primary-peritoneal cancer, with US commercial launch in
+  April 2017 -- by this Dec 2017 snapshot, roughly 7-8 months into US
+  commercialization. EU regulatory status as of the snapshot: CHMP positive
+  opinion Sept 2017, with EC approval reported (in TESARO's own later
+  FY2017 10-K) as having occurred in November 2017 -- this specific date
+  could not be independently confirmed from a pre-cutoff source within the
+  research budget and is flagged, not asserted, as pre-cutoff. This config
+  models ZEJULA alone; TESARO's second marketed product (VARUBI/VARUBY) is
+  deliberately unmodeled, consistent with the OCUL control's treatment (see
+  diagnostic-control note above).
+
+asset:
+  id: "tsro-zejula-pit-2017q4"
+  name: "ZEJULA (niraparib)"
+  indication: "Maintenance treatment, platinum-responsive recurrent ovarian/fallopian-tube/primary-peritoneal cancer"
+  therapeutic_area: "oncology"
+  stage: "approved"
+  modality: "small_molecule"
+  mechanism_of_action: >
+    Poly (ADP-ribose) polymerase (PARP) inhibitor; approved for maintenance
+    use regardless of BRCA/biomarker status, broadening the addressable
+    population relative to biomarker-restricted PARP-inhibitor competitors.
+  discount_rate: 0.10   # early-launch commercial-stage; some execution risk remains but regulatory risk is resolved
+  royalty_rate: 0.0
+
+  differentiation_notes: >
+    1. Approved for maintenance use in the broad recurrent-ovarian-cancer
+       population, not restricted to a BRCA-mutant/biomarker-selected
+       subgroup at approval.
+    2. Early-launch commercial asset (~7-8 months post-approval) as of the
+       snapshot -- distinguishes this control from the three
+       clinical/regulatory-stage pilots.
+    3. Second marketed product (VARUBI/VARUBY, CINV) exists in parallel and
+       is deliberately unmodeled here (see notes above).
+
+  competitor_assets:
+    - "Olaparib (Lynparza, AstraZeneca) -- approved PARP inhibitor, initially more biomarker-restricted positioning"
+    - "Rucaparib (Rubraca, Clovis Oncology) -- approved PARP inhibitor, competing maintenance indication"
+
+  upcoming_catalysts:
+    - description: "Continued ZEJULA US commercial ramp / EU launch execution"
+      timing_months: 6
+      catalyst_type: "milestone"
+
+company:
+  id: "tesaro-inc"
+  name: "TESARO, Inc."
+  ticker: "TSRO"
+  cash_millions: 521.265        # cash and equivalents, as of 2017-09-30 (Q3 2017 10-Q)
+  debt_millions: 140.4          # 3.00% Convertible Senior Notes due 2021-10-01, carrying value as of 2017-09-30
+  shares_outstanding_millions: 54.382   # 54,381,928 shares, as of 2017-11-03 (10-Q cover page)
+  current_price: 85.16          # Yahoo Finance close, 2017-12-01
+  notes: >
+    Convertible notes were deeply in-the-money by this date (disclosed fair
+    value of principal ~$751.4M vs. carrying value $140.4M, per the Q3 2017
+    10-Q) given the ~$85 share price -- a valuation-of-the-notes disclosure,
+    not a second debt figure; debt_millions above uses carrying value only,
+    consistent with how BIND/GNCA/CEMP debt figures are sourced.
+
+trials:
+  - phase: "nda_bla"
+    nct_id: null
+    success_probability: 0.99   # Already approved (2017-03-27)
+    duration_years: 0.1
+    cost_millions: 1.0
+    primary_endpoint: null
+    endpoint_type: "surrogate_validated"
+    notes: "Already approved. Modeled as complete (nominal duration/cost) so the rNPV engine recognizes approval and projects revenue from launch."
+
+market_model:
+  # Recurrent-ovarian-cancer maintenance-eligible population; order-of-
+  # magnitude, non-program-specific standardized prior.
+  addressable_patients_annual: 20000
+  net_price_per_patient_usd: 100000
+  peak_penetration: 0.25
+  years_to_peak: 4
+  patent_life_years: 10
+  cogs_rate: 0.10
+  sgna_rate_launch: 0.50
+  sgna_rate_mature: 0.28
+
+pos_adjusters:
+  apply_pos_model: false   # Already approved; POS model not applicable
+
+monte_carlo:
+  random_seed: 42
+  peak_sales_cv: 0.40
+  discount_rate_std: 0.02
+  years_to_peak_std: 1.0
+  use_default_correlations: true
+
+limitations:
+  - "TSRO is not strictly single-asset: VARUBI/VARUBY (rolapitant, CINV) was a second marketed product as of the snapshot and is deliberately unmodeled, consistent with the OCUL control."
+  - "The 2017-12-01 signal date is best-available, not provably rumor-free, given TSRO's multi-year (2016-2017) history of recurring takeover speculation -- see the rumor-free caveat above."
+  - "market_model figures are order-of-magnitude, non-program-specific standardized priors, not ZEJULA-specific commercial modeling."
+  - "The eventual GSK acquisition price ($75.00/share, Dec 2018) was BELOW this config's entry price ($85.16/share) -- do not read this control as demonstrating 'the market undervalued this asset and a later takeout confirmed a higher value.'"
+
+sources:
+  cash_shares_debt:
+    url: "https://www.sec.gov/Archives/edgar/data/1301997/000155837017008418/"
+    confidence: "High"
+    notes: "TESARO Q3 2017 10-Q (accession 0001558370-17-008418, filed 2017-11-07, period-end 2017-09-30)."
+
+  entry_price:
+    url: "https://query1.finance.yahoo.com/v8/finance/chart/TSRO"
+    confidence: "Medium"
+    notes: "Yahoo Finance adjusted close, 2017-12-01. No independent second source located within the research budget."
+
+decision_framing:
+  variant_perception:
+    market_pos_pct: null
+    market_peak_sales_m: null
+    our_edge: >
+      This control does not assert a variant perception. It exists to test
+      the bridge/solver's behavior on an early-launch, eventually-acquired
+      commercial-stage asset -- with the explicit, documented caveat that
+      the eventual deal price was below this snapshot's entry price, so
+      this control cannot be read as a straightforward "market
+      undervaluation, later confirmed" case.

@@ -1,0 +1,102 @@
+schema_version: 1
+ticker: "ACAD"
+asset_id: "acad-nuplazid-pit-2021q2"
+historical_snapshot_date: "2021-04-01"
+no_lookahead_attestation: >
+  Mechanically selected diagnostic control ("multi-asset company").
+  NUPLAZID's DRP sNDA had an original PDUFA date of 2021-04-03 (2 days after
+  this snapshot) and received a Complete Response Letter on 2021-04-05 --
+  both postdate the snapshot and are excluded by design: DRP is not modeled
+  as a trial in this config at all (only the already-approved NUPLAZID PDP
+  indication is modeled), so the near-miss is structurally excluded rather
+  than merely asserted excluded. The genuinely pre-cutoff 2021-03-08
+  deficiency-notice disclosure (FDA notified Acadia 2021-03-03; disclosed
+  2021-03-08, 24 days before the snapshot) is documented for completeness
+  but does not enter any success_probability in this config.
+
+assumptions:
+  - slug: "cash_millions"
+    value: 631.958
+    unit: "millions_usd"
+    source: "Acadia FY2020 10-K (SEC EDGAR, accession 0001564590-21-008372), balance sheet as of 2020-12-31"
+    source_publication_date: "2021-02-25"
+    knowable_date: "2021-02-25"
+    confidence: "High"
+    assumption_type: "directly_reported"
+    notes: "$326.028M cash and cash equivalents + $305.930M investment securities (available-for-sale) = $631.958M total liquidity as of 2020-12-31."
+
+  - slug: "debt_millions"
+    value: 0.0
+    unit: "millions_usd"
+    source: "Acadia FY2020 10-K balance sheet"
+    source_publication_date: "2021-02-25"
+    knowable_date: "2021-02-25"
+    confidence: "High"
+    assumption_type: "directly_reported"
+    notes: "No notes payable/long-term-debt line items identified; total liabilities ($155.607M) are accounts payable, accrued liabilities, and operating lease obligations."
+
+  - slug: "shares_outstanding_millions"
+    value: 160.047
+    unit: "millions_of_shares"
+    source: "Acadia FY2020 10-K cover page"
+    source_publication_date: "2021-02-25"
+    knowable_date: "2021-02-10"
+    confidence: "High"
+    assumption_type: "directly_reported"
+    notes: "160,047,470 shares outstanding as of 2021-02-10."
+
+  - slug: "current_price"
+    value: 25.59
+    unit: "usd_per_share"
+    source: "Yahoo Finance chart API close, 2021-04-01"
+    source_publication_date: "2021-04-01"
+    knowable_date: "2021-04-01"
+    confidence: "Medium"
+    assumption_type: "directly_reported"
+    notes: "No independent second source located within the research budget."
+
+  - slug: "drp_deficiency_notice_disclosure"
+    value: "FDA notified Acadia (2021-03-03) of DRP-review deficiencies precluding labeling discussion; disclosed 2021-03-08"
+    unit: "qualitative_risk_disclosure"
+    source: "Acadia 8-K, SEC accession 0001564590-21-008087"
+    source_publication_date: "2021-03-08"
+    knowable_date: "2021-03-08"
+    confidence: "Medium"
+    assumption_type: "directly_reported"
+    notes: >
+      Genuinely pre-cutoff (24 days before the 2021-04-01 signal date),
+      directly analogous to CEMP's Oct/Nov 2016 disclosures. Not used in
+      this config's success_probability inputs because DRP is not modeled
+      as a trial (see no_lookahead_attestation above) -- included here for
+      completeness and to demonstrate the near-miss was handled by
+      structural exclusion, not by omission.
+
+  - slug: "multi_asset_pipeline_finding"
+    value: "DRP sNDA (pending); pimavanserin Phase 3 schizophrenia negative symptoms; trofinetide Phase 3 (Rett syndrome); ACP-044 Phase 2 (non-opioid analgesic); ACP-319 Phase 1 (M1 PAM)"
+    unit: "qualitative_finding"
+    source: "Acadia FY2020 10-K, pipeline/business description sections"
+    source_publication_date: "2021-02-25"
+    knowable_date: "2021-02-25"
+    confidence: "High"
+    assumption_type: "directly_reported"
+    notes: "4-6 distinct, real, disclosed pipeline programs beyond the modeled NUPLAZID PDP asset -- the defining feature of this control (see valuation config's diagnostic-control note)."
+
+  - slug: "addressable_patients_annual"
+    value: 60000
+    unit: "patients_per_year"
+    source: "Analyst order-of-magnitude estimate, PDP-treated population"
+    source_publication_date: "N/A"
+    knowable_date: "2021-04-01"
+    confidence: "Low"
+    assumption_type: "standardized_prior"
+    notes: "Cross-checkable against the real, disclosed FY2020 NUPLAZID product revenue ($441.755M, per the FY2020 10-K income statement)."
+
+  - slug: "net_price_per_patient_usd"
+    value: 35000
+    unit: "usd_per_patient_per_year"
+    source: "Analyst estimate, CNS specialty-pharma pricing comp"
+    source_publication_date: "N/A"
+    knowable_date: "2021-04-01"
+    confidence: "Low"
+    assumption_type: "standardized_prior"
+    notes: "Order-of-magnitude only, not a verified NUPLAZID-specific net-price figure."

@@ -1,0 +1,156 @@
+# =============================================================================
+# Ocular Therapeutix (OCUL) — DEXTENZA (dexamethasone ophthalmic insert)
+# Post-surgical ocular inflammation/pain + allergic conjunctivitis | Approved/marketed
+# POINT-IN-TIME: 2022-04-01 (diagnostic control: "cash-rich flagship-asset survivor")
+# =============================================================================
+#
+# DIAGNOSTIC-CONTROL NOTE (read before using this config):
+# This name was mechanically selected from the frozen representative cohort
+# (research/mna/pit/representative_cohort_coverage_audit.csv,
+# market_prices_universe:deterministic_every_4th_alpha_sample category) under
+# the label "cash-rich single-asset ordinary survivor." Point-in-time research
+# found OCUL is NOT strictly single-asset as of 2022-04-01: alongside the
+# flagship DEXTENZA, the company had a second marketed product (ReSure
+# Sealant) and an active clinical pipeline (OTX-TKI, OTX-TIC, dry-eye
+# candidates) on its bioresorbable hydrogel platform. This is documented
+# plainly rather than smoothed over -- OCUL is better described as a
+# "concentrated flagship-asset-plus-tail" company. It is retained as a
+# control (rather than replaced) because it still serves the intended
+# purpose: an ordinary, non-distressed, commercial-stage survivor with a
+# single dominant revenue driver, and its imperfect fit to "single-asset" is
+# itself a useful diagnostic data point (see limitations below and the
+# six-name report).
+#
+# NO-LOOKAHEAD DISCIPLINE:
+# Sources:
+#   - Ocular Therapeutix FY2021 10-K, SEC accession 0001558370-22-002363,
+#     filed 2022-02-28, period-end 2021-12-31 (cash, debt, shares as of
+#     2022-02-24 cover-page date) -- filed well before the 2022-04-01 signal
+#     date.
+#   - Entry price: Yahoo Finance close, 2022-04-01 ($4.85) -- no independent
+#     second source located (same class of caveat as the CEMP/BIND/GNCA
+#     pilots' price-sourcing gap).
+# EXCLUDED (lookahead): all OCUL corporate events after 2022-04-01.
+# =============================================================================
+
+analyst_notes: >
+  DEXTENZA is an FDA-approved (2019), commercial-stage intracanalicular
+  dexamethasone insert for post-surgical ocular inflammation/pain
+  (cataract, other ophthalmic surgery) with a 2021 label expansion into
+  allergic-conjunctivitis-associated ocular itching. As of the 2022-04-01
+  snapshot it is the company's clearly dominant revenue driver, modeled
+  here as the sole asset (consistent with the BIND/GNCA/CEMP pilots'
+  single-asset treatment) -- but unlike those three names, OCUL genuinely
+  has other marketed/pipeline value (ReSure Sealant; OTX-TKI, OTX-TIC, and
+  dry-eye pipeline candidates) that this config does not net into the
+  valuation bridge. This is a deliberate, documented simplification (see
+  valuation_bridge.py's `other_asset_value_millions=0.0` default and its
+  notes field) -- expect it to bias this control's "required peak sales"
+  diagnostic upward relative to a true single-asset name, since real
+  unmodeled value is embedded in the market price this config compares
+  against.
+
+asset:
+  id: "ocul-dextenza-pit-2022q2"
+  name: "DEXTENZA"
+  indication: "Post-surgical ocular inflammation/pain (cataract surgery); allergic conjunctivitis-associated ocular itching"
+  therapeutic_area: "other"   # ophthalmology; no dedicated TA bucket
+  stage: "approved"
+  modality: "small_molecule"
+  mechanism_of_action: >
+    Intracanalicular insert delivering dexamethasone via a bioresorbable
+    hydrogel over ~30 days, avoiding the compliance burden of topical
+    steroid eye-drop regimens.
+  discount_rate: 0.11    # commercial-stage, but small/thinly-capitalized relative to a large-cap comp
+  royalty_rate: 0.0
+
+  differentiation_notes: >
+    1. Physician-administered, compliance-independent alternative to
+       steroid eye drops in the post-surgical setting.
+    2. Bioresorbable hydrogel platform underlies the broader OTX pipeline
+       (OTX-TKI wet AMD, OTX-TIC glaucoma), not modeled here (see notes).
+    3. 2021 label expansion into allergic conjunctivitis broadened the
+       addressable population beyond post-surgical use alone.
+
+  competitor_assets:
+    - "Topical corticosteroid eye drops (generic) -- standard of care, compliance-dependent"
+    - "Topical NSAID eye drops -- alternative post-surgical anti-inflammatory option"
+
+  upcoming_catalysts:
+    - description: "Continued DEXTENZA commercial ramp / payer-coverage expansion"
+      timing_months: 6
+      catalyst_type: "milestone"
+
+company:
+  id: "ocular-therapeutix"
+  name: "Ocular Therapeutix, Inc."
+  ticker: "OCUL"
+  cash_millions: 164.164        # cash and equivalents, as of 2021-12-31 (FY2021 10-K)
+  debt_millions: 51.435         # $25.000M MidCap Financial notes payable + $26.435M 2026 convertible notes, net
+  shares_outstanding_millions: 76.754   # 76,754,160 shares, as of 2022-02-24 (10-K cover page)
+  current_price: 4.85           # Yahoo Finance close, 2022-04-01
+  notes: >
+    Two marketed products (DEXTENZA + ReSure Sealant) plus an active
+    clinical pipeline (OTX-TKI, OTX-TIC, dry-eye candidates) -- see the
+    diagnostic-control note above. Debt is convertible/term-loan financing
+    against the DEXTENZA commercial ramp, not distress-driven.
+
+trials:
+  - phase: "nda_bla"
+    nct_id: null
+    success_probability: 0.99   # Already approved (2019; label expansion 2021)
+    duration_years: 0.1
+    cost_millions: 1.0
+    primary_endpoint: null
+    endpoint_type: "surrogate_validated"
+    notes: "Already approved. Modeled as complete (nominal duration/cost) so the rNPV engine recognizes approval and projects revenue from launch."
+
+market_model:
+  # Post-surgical + allergic-conjunctivitis addressable population; order-of-
+  # magnitude, non-program-specific standardized prior (consistent with the
+  # BIND/GNCA/CEMP pilots' market_model treatment) -- NOT a DEXTENZA-specific
+  # commercial model.
+  addressable_patients_annual: 400000
+  net_price_per_patient_usd: 500
+  peak_penetration: 0.08
+  years_to_peak: 4
+  patent_life_years: 10
+  cogs_rate: 0.20
+  sgna_rate_launch: 0.45
+  sgna_rate_mature: 0.25
+
+pos_adjusters:
+  apply_pos_model: false   # Already approved; POS model not applicable
+
+monte_carlo:
+  random_seed: 42
+  peak_sales_cv: 0.40
+  discount_rate_std: 0.02
+  years_to_peak_std: 1.0
+  use_default_correlations: true
+
+limitations:
+  - "OCUL is NOT strictly single-asset as of 2022-04-01: ReSure Sealant (second marketed product) and an active pipeline (OTX-TKI, OTX-TIC, dry-eye candidates) exist and are deliberately unmodeled -- this is the single largest caveat on this control's results (see analyst_notes and the diagnostic-control note above)."
+  - "market_model figures are order-of-magnitude, non-program-specific standardized priors, not DEXTENZA-specific commercial modeling."
+  - "No DEXTENZA-specific pre-cutoff risk disclosure (e.g. manufacturing/safety signal) was verified within the research budget for this control -- absence of a finding is not the same as confirmation none exists."
+
+sources:
+  cash_shares_debt:
+    url: "https://www.sec.gov/Archives/edgar/data/1341235/000155837022002363/"
+    confidence: "High"
+    notes: "Ocular Therapeutix FY2021 10-K (accession 0001558370-22-002363, filed 2022-02-28, period-end 2021-12-31)."
+
+  entry_price:
+    url: "https://query1.finance.yahoo.com/v8/finance/chart/OCUL"
+    confidence: "Medium"
+    notes: "Yahoo Finance adjusted close, 2022-04-01. No independent second source located within the research budget."
+
+decision_framing:
+  variant_perception:
+    market_pos_pct: null
+    market_peak_sales_m: null
+    our_edge: >
+      This control does not assert a variant perception -- it exists to
+      test the bridge/solver's behavior on an ordinary, non-distressed,
+      cash-rich commercial-stage name whose true asset mix (flagship +
+      unmodeled tail) is documented rather than assumed away.
