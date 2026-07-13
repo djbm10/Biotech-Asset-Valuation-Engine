@@ -1,0 +1,113 @@
+schema_version: 1
+ticker: "TSRO"
+asset_id: "tsro-zejula-pit-2017q4"
+historical_snapshot_date: "2017-12-01"
+no_lookahead_attestation: >
+  Mechanically selected diagnostic control ("late-stage positive /
+  eventually-acquired company"), tie-broken to the earliest
+  historical_snapshot_date among {ARRY, LOXO, THOR, TSRO} in the frozen
+  corporate_action_roster:acquired category. TESARO was subject to
+  recurring, multi-year takeover speculation (2016 Gilead rumors; Feb 2017
+  Sanofi rumors and a board "strategic alternatives" review) bracketing
+  this snapshot, with a much sharper, better-documented speculation spike
+  starting 2018-11-16 -- over 11 months AFTER this snapshot -- leading to
+  the 2018-12-03 GSK acquisition announcement. No dated news item placing
+  ACTIVE M&A speculation specifically within Oct-Dec 2017 was found. This
+  snapshot date is therefore stated as the BEST-AVAILABLE, not a provably
+  rumor-free, date -- a hedged limitation, parallel to (not resolved the
+  way) the CEMP ledger's own hedged price-sourcing caveat.
+
+assumptions:
+  - slug: "cash_millions"
+    value: 521.265
+    unit: "millions_usd"
+    source: "TESARO Q3 2017 10-Q (SEC EDGAR, accession 0001558370-17-008418), balance sheet as of 2017-09-30"
+    source_publication_date: "2017-11-07"
+    knowable_date: "2017-11-07"
+    confidence: "High"
+    assumption_type: "directly_reported"
+    notes: "Cash and cash equivalents $521.265M as of 2017-09-30."
+
+  - slug: "debt_millions"
+    value: 140.4
+    unit: "millions_usd"
+    source: "TESARO Q3 2017 10-Q, convertible notes disclosure"
+    source_publication_date: "2017-11-07"
+    knowable_date: "2017-11-07"
+    confidence: "High"
+    assumption_type: "directly_reported"
+    notes: >
+      3.00% Convertible Senior Notes due 2021-10-01 (issued Sept 2014,
+      $?principal), carrying value $140.4M as of 2017-09-30. The filing
+      separately discloses a fair value of the principal amount of $751.4M
+      as of the same date (deeply in-the-money given the ~$85 share price)
+      -- this is a valuation-of-the-notes disclosure, not a second debt
+      figure, and is not double-counted here.
+
+  - slug: "shares_outstanding_millions"
+    value: 54.382
+    unit: "millions_of_shares"
+    source: "TESARO Q3 2017 10-Q cover page"
+    source_publication_date: "2017-11-07"
+    knowable_date: "2017-11-03"
+    confidence: "High"
+    assumption_type: "directly_reported"
+    notes: "54,381,928 shares outstanding as of 2017-11-03."
+
+  - slug: "current_price"
+    value: 85.16
+    unit: "usd_per_share"
+    source: "Yahoo Finance chart API close, 2017-12-01"
+    source_publication_date: "2017-12-01"
+    knowable_date: "2017-12-01"
+    confidence: "Medium"
+    assumption_type: "directly_reported"
+    notes: "No independent second source located within the research budget."
+
+  - slug: "eventual_acquisition_below_entry_price_finding"
+    value: "GSK acquisition (announced 2018-12-03) = $75.00/share cash, below this config's $85.16/share entry price"
+    unit: "qualitative_finding"
+    source: "GSK/TESARO merger announcement, 2018-12-03 (public, postdates this snapshot)"
+    source_publication_date: "2018-12-03"
+    knowable_date: "2018-12-03"
+    confidence: "High"
+    assumption_type: "directly_reported"
+    notes: >
+      Documented plainly per instruction, NOT used as an input to this
+      config (it postdates the 2017-12-01 snapshot and would be a lookahead
+      violation if used as such) -- recorded here only as context for the
+      six-name report, to prevent this control from being misread as "the
+      market undervalued this asset and a later takeout confirmed a higher
+      value." The $75.00 deal price was a premium to a depressed 30-day
+      VWAP of $35.67 reached after a substantial 2018 stock decline, not a
+      premium to the Dec 2017 level used as this config's entry price.
+
+  - slug: "second_marketed_product_finding"
+    value: "VARUBI/VARUBY (rolapitant, NK-1 antagonist, CINV) -- second marketed product as of the snapshot"
+    unit: "qualitative_finding"
+    source: "TESARO Q3 2017 10-Q, business description"
+    source_publication_date: "2017-11-07"
+    knowable_date: "2017-11-07"
+    confidence: "High"
+    assumption_type: "directly_reported"
+    notes: "TSRO is not strictly single-asset either, though ZEJULA was clearly the flagship the GSK deal centered on -- deliberately unmodeled here, consistent with the OCUL control's treatment."
+
+  - slug: "addressable_patients_annual"
+    value: 20000
+    unit: "patients_per_year"
+    source: "Analyst order-of-magnitude estimate, recurrent-ovarian-cancer maintenance-eligible population"
+    source_publication_date: "N/A"
+    knowable_date: "2017-12-01"
+    confidence: "Low"
+    assumption_type: "standardized_prior"
+    notes: "Not ZEJULA-specific commercial modeling; order-of-magnitude only."
+
+  - slug: "net_price_per_patient_usd"
+    value: 100000
+    unit: "usd_per_patient_per_year"
+    source: "Analyst estimate, oral PARP-inhibitor pricing comp"
+    source_publication_date: "N/A"
+    knowable_date: "2017-12-01"
+    confidence: "Low"
+    assumption_type: "standardized_prior"
+    notes: "No ZEJULA-specific net-price figure was verified within the research budget."

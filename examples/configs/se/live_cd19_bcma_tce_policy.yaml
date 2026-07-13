@@ -1,0 +1,27 @@
+schema_version: se_live_source_policy_v1
+policy_version: cd19_bcma_tce_public_v1
+live_enabled: true
+
+# This is the validated operational scope. A problem outside these targets/modalities fails
+# before any network request; the current extractors must not be generalized by implication.
+supported_targets: [CD19, BCMA]
+supported_modalities: [T_CELL_ENGAGER]
+
+required_source_families:
+  - clinicaltrials_gov
+  - fda_label
+  - pubmed
+  - sec_edgar
+  - company_press_release
+  - company_pipeline_or_presentation
+optional_source_families: []
+
+# These are generic public publisher indexes, never benchmark/reference asset pages. Generic API
+# queries remain target/modality-only; declared pages are filtered by observed public evidence.
+declared_sources:
+  - source_family: company_press_release
+    urls:
+      - https://www.merck.com/media/news/
+  - source_family: company_pipeline_or_presentation
+    urls:
+      - https://www.cancer.gov/publications/dictionaries/cancer-drug/

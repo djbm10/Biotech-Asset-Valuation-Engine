@@ -159,6 +159,11 @@ class ActionableOpportunity(BaseModel):
     # v2.0 signal attribution — empty for v1.0 runs
     signal_adjustments: dict[str, float] = Field(default_factory=dict)
     signal_adjustment_total: float = 0.0
+    # Dual-track columns (Phase 3 — additive; independent of composite_score).
+    # Populated by callers that have a per-asset valuation + M&A row via
+    # ``bve.analysis.dual_track.dual_track_columns``. None = not assessed.
+    investment_stance: Optional[str] = None
+    bd_route: Optional[str] = None
 
 
 # ---------------------------------------------------------------------------

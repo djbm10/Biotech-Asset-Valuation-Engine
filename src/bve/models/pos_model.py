@@ -1466,6 +1466,29 @@ def _endpoint_logodds(endpoint_type: EndpointType, ta_value: str) -> float:
     return _ENDPOINT_LOGODDS_GENERIC.get(endpoint_type, 0.0)
 
 
+def _prior_phase_data_is_fallback_only(
+    adjusters: POSAdjusters,
+    phase: Optional[TrialPhase],
+    ta_value: str,
+) -> bool:
+    """Return True when no granular evidence field supersedes prior-phase data."""
+
+    granular_evidence_present = (
+        adjusters.biomarker_selection != BiomarkerSelectionStrength.NO_SELECTION
+        or adjusters.dose_selection_confidence != DoseSelectionConfidence.UNKNOWN
+        or (
+            phase in _REALISM_APPLICABLE_PHASES
+            and adjusters.clinical_effect_magnitude != ClinicalEffectMagnitude.UNKNOWN
+        )
+        or (
+            phase in _REALISM_APPLICABLE_PHASES
+            and ta_value in _PLACEBO_CONCERN_TAS
+            and adjusters.placebo_response_concern != PlaceboResponseConcern.UNKNOWN
+        )
+    )
+    return not granular_evidence_present
+
+
 def _compute_layer1_adjustment(
     adjusters: POSAdjusters,
     ta_value: str = "other",
@@ -1502,7 +1525,10 @@ def _compute_layer1_adjustment(
     delta += _REGULATORY_APPROVAL_BAR_LOGODDS[adjusters.regulatory_approval_bar]
 
     delta += _BIOMARKER_LOGODDS[adjusters.biomarker_selection]
-    delta += _PRIOR_PHASE_LOGODDS[adjusters.prior_phase_data]
+    if _prior_phase_data_is_fallback_only(adjusters, phase, ta_value):
+        delta += _PRIOR_PHASE_LOGODDS[adjusters.prior_phase_data]
+    elif adjusters.prior_phase_data != PriorPhaseDataStrength.MIXED:
+        confidence_flags.append("prior_phase_data_ignored_detailed_evidence")
     # Block 28: BTD type-conditional log-odds
     # breakthrough_designation takes precedence over has_breakthrough_designation bool.
     _btd_type: Optional[BreakthroughDesignationType] = adjusters.breakthrough_designation

@@ -1,0 +1,143 @@
+# Auto-generated coarse provisional configs from the auto-profile pipeline.
+# Produced by `bve-profile gen-config --all`. Merged into the M&A coverage map
+# AFTER the replay + provisional watchlists (gap-fill only); never overrides a
+# point-in-time or hand-authored config. Investment evidence stays "coarse".
+watchlist:
+- company_id: agio-auto
+  asset_id: asset-agio-mitapivat
+  drug_name: Mitapivat
+  indication: Pyruvate kinase deficiency
+  ticker: AGIO
+  valuation_config: examples/configs/auto_generated/agio.yaml
+- company_id: annx-auto
+  asset_id: asset-annx-anx007
+  drug_name: ANX007
+  indication: Geographic atrophy
+  ticker: ANNX
+  valuation_config: examples/configs/auto_generated/annx.yaml
+- company_id: argx-auto
+  asset_id: asset-argx-efgartigimod
+  drug_name: Efgartigimod
+  indication: Generalized myasthenia gravis
+  ticker: ARGX
+  valuation_config: examples/configs/auto_generated/argx.yaml
+- company_id: arwr-auto
+  asset_id: asset-arwr-plozasiran
+  drug_name: Plozasiran
+  indication: Hypertriglyceridemia
+  ticker: ARWR
+  valuation_config: examples/configs/auto_generated/arwr.yaml
+- company_id: bbio-auto
+  asset_id: asset-bbio-acoramidis
+  drug_name: Acoramidis
+  indication: ATTR cardiomyopathy
+  ticker: BBIO
+  valuation_config: examples/configs/auto_generated/bbio.yaml
+- company_id: bcyc-auto
+  asset_id: asset-bcyc-zelenectide
+  drug_name: Zelenectide pevedotin (BT8009)
+  indication: Urothelial cancer
+  ticker: BCYC
+  valuation_config: examples/configs/auto_generated/bcyc.yaml
+- company_id: edit-auto
+  asset_id: asset-edit-reni-cel
+  drug_name: Reni-cel
+  indication: Sickle cell disease
+  ticker: EDIT
+  valuation_config: examples/configs/auto_generated/edit.yaml
+- company_id: espr-auto
+  asset_id: asset-espr-bempedoic
+  drug_name: Bempedoic acid
+  indication: Hypercholesterolemia
+  ticker: ESPR
+  valuation_config: examples/configs/auto_generated/espr.yaml
+- company_id: fate-auto
+  asset_id: asset-fate-ft576
+  drug_name: FT576
+  indication: Multiple myeloma
+  ticker: FATE
+  valuation_config: examples/configs/auto_generated/fate.yaml
+- company_id: gpcr-auto
+  asset_id: asset-gpcr-gsbr1290
+  drug_name: Aleniglipron (GSBR-1290)
+  indication: Obesity
+  ticker: GPCR
+  valuation_config: examples/configs/auto_generated/gpcr.yaml
+- company_id: idya-auto
+  asset_id: asset-idya-darovasertib
+  drug_name: Darovasertib
+  indication: Uveal melanoma
+  ticker: IDYA
+  valuation_config: examples/configs/auto_generated/idya.yaml
+- company_id: imcr-auto
+  asset_id: asset-imcr-tebentafusp
+  drug_name: Tebentafusp
+  indication: Metastatic uveal melanoma
+  ticker: IMCR
+  valuation_config: examples/configs/auto_generated/imcr.yaml
+- company_id: kpti-auto
+  asset_id: asset-kpti-selinexor
+  drug_name: Selinexor
+  indication: Myelofibrosis
+  ticker: KPTI
+  valuation_config: examples/configs/auto_generated/kpti.yaml
+- company_id: mrus-auto
+  asset_id: asset-mrus-zenocutuzumab
+  drug_name: Zenocutuzumab
+  indication: NRG1 fusion-positive cancer
+  ticker: MRUS
+  valuation_config: examples/configs/auto_generated/mrus.yaml
+- company_id: ntla-auto
+  asset_id: asset-ntla-2001
+  drug_name: NTLA-2001
+  indication: Transthyretin amyloidosis
+  ticker: NTLA
+  valuation_config: examples/configs/auto_generated/ntla.yaml
+- company_id: nuvb-auto
+  asset_id: asset-nuvb-taletrectinib
+  drug_name: Taletrectinib
+  indication: ROS1-positive non-small cell lung cancer
+  ticker: NUVB
+  valuation_config: examples/configs/auto_generated/nuvb.yaml
+- company_id: pmv-auto
+  asset_id: asset-pmv-rezatapopt
+  drug_name: Rezatapopt (PC14586)
+  indication: TP53 Y220C-mutant solid tumors
+  ticker: PMV
+  valuation_config: examples/configs/auto_generated/pmv.yaml
+- company_id: ptgx-auto
+  asset_id: asset-ptgx-rusfertide
+  drug_name: Rusfertide
+  indication: Polycythemia vera
+  ticker: PTGX
+  valuation_config: examples/configs/auto_generated/ptgx.yaml
+- company_id: rare-auto
+  asset_id: asset-rare-setrusumab
+  drug_name: Setrusumab
+  indication: Osteogenesis imperfecta
+  ticker: RARE
+  valuation_config: examples/configs/auto_generated/rare.yaml
+- company_id: rckt-auto
+  asset_id: asset-rckt-rpa501
+  drug_name: RP-A501
+  indication: Danon disease
+  ticker: RCKT
+  valuation_config: examples/configs/auto_generated/rckt.yaml
+- company_id: rcus-auto
+  asset_id: asset-rcus-domvanalimab
+  drug_name: Domvanalimab
+  indication: Non-small cell lung cancer
+  ticker: RCUS
+  valuation_config: examples/configs/auto_generated/rcus.yaml
+- company_id: sndx-auto
+  asset_id: asset-sndx-revumenib
+  drug_name: Revumenib
+  indication: KMT2A-rearranged acute leukemia
+  ticker: SNDX
+  valuation_config: examples/configs/auto_generated/sndx.yaml
+- company_id: tern-auto
+  asset_id: asset-tern-tern601
+  drug_name: TERN-601
+  indication: Obesity
+  ticker: TERN
+  valuation_config: examples/configs/auto_generated/tern.yaml

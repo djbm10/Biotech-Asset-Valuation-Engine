@@ -1,0 +1,45 @@
+manifest_version: "1.0.0"
+as_of_date: 2026-07-10
+problem_files:
+  - examples/configs/se/benchmarks/cd19_bcma_dual_target.yaml
+  - examples/configs/se/benchmarks/cd19_or_bcma_tce.yaml
+mandatory_source_families:
+  - clinicaltrials_gov
+  - company_pipeline_or_presentation
+  - company_press_release
+  - sec_edgar
+  - conference_ash
+  - conference_asco
+  - conference_aacr
+  - conference_eha
+evaluation_sets:
+  development:
+    visible: true
+    purpose: continuous implementation and CI
+    reference_universe: development/reference_universe.csv
+    expected_asset_count: 21
+    reference_tiers:
+      gold: 5
+      silver: 16
+    silver_rows_require_independent_refresh: true
+  validation:
+    visible: true
+    frozen: true
+    purpose: milestone retrieval evaluation only until expert-universe completeness is established
+    precision_evaluable: false
+  holdout:
+    visible: false
+    frozen: true
+    purpose: one-time independent evaluation after pipeline freeze
+    custodian: unassigned
+    encrypted_artifact_hash: null
+release_targets:
+  candidate_recall_minimum: 0.95
+  known_asset_accounting: 1.0
+  hard_gate_citation_coverage: 1.0
+  unknown_routing: 1.0
+  irreversible_merge_count: 0
+notes:
+  - Literal universal completeness is not claimed.
+  - Holdout contents must remain outside the working repository.
+  - HPN217 is the BCMA-targeting T-cell engager benchmark asset; MK-6070 is formerly HPN328, a separate DLL3 program and a BCMA-gate failure.

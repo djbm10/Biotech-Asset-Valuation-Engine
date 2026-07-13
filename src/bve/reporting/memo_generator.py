@@ -14,6 +14,7 @@ from typing import Literal
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
 from bve.config.constants import MEMO_AUTHOR, MEMO_DISCLAIMER
+from bve.intelligence.conviction_update import build_conviction_summary
 from bve.reporting.evidence_builder import MemoEvidenceBuilder
 from bve.valuation.outputs import ValuationOutput
 
@@ -78,11 +79,106 @@ def _build_context(output: ValuationOutput, memo_type: MemoType) -> dict:
         "implied_pos": output.implied_pos,
         "lifecycle_events": output.lifecycle_events_applied,
         "comps": output.comps_fair_value_band,
+        "strategic_takeout": output.strategic_takeout,
+        "strategic_takeout_note": output.strategic_takeout_note,
         "author": MEMO_AUTHOR,
         "disclaimer": MEMO_DISCLAIMER,
         "memo_type": memo_type,
         # Structured evidence bundle — always present (empty sections if no data)
         "evidence": MemoEvidenceBuilder.build(output),
+        "science_thesis": _science_thesis_context(getattr(output, "science_thesis", None)),
+        "bd_actionability": _bd_actionability_context(getattr(output, "bd_actionability", None)),
+    }
+
+
+def _science_thesis_context(science_thesis: object | None) -> dict | None:
+    if science_thesis is None:
+        return None
+    modifier = getattr(science_thesis, "modifier_result", None)
+    binding_question = getattr(science_thesis, "binding_science_question", "")
+    return {
+        "core_biological_hypothesis": getattr(science_thesis, "core_biological_hypothesis", ""),
+        "binding_science_question": getattr(binding_question, "value", str(binding_question)),
+        "what_must_be_true": getattr(science_thesis, "what_must_be_true", []),
+        "missing_critical_evidence": getattr(science_thesis, "missing_critical_evidence", []),
+        "next_readout_requirement": getattr(science_thesis, "next_readout_requirement", ""),
+        "killer_question_set": _killer_question_context(
+            getattr(science_thesis, "killer_question_set", None)
+        ),
+        "conviction_trail": _conviction_context(
+            getattr(science_thesis, "conviction_records", None)
+        ),
+        "heuristic_science_modifier": getattr(modifier, "heuristic_science_modifier", None),
+        "warnings": getattr(modifier, "warnings", []) if modifier is not None else [],
+    }
+
+
+def _killer_question_context(killer_question_set: object | None) -> dict | None:
+    if killer_question_set is None:
+        return None
+
+    def _question_context(question: object) -> dict:
+        archetype = getattr(question, "archetype", "")
+        evidence_touched = getattr(question, "evidence_touched", "")
+        return {
+            "archetype": getattr(archetype, "value", str(archetype)),
+            "question_text": getattr(question, "question_text", ""),
+            "voi_score": getattr(question, "voi_score", None),
+            "posterior": getattr(question, "posterior", None),
+            "confidence": getattr(question, "confidence", None),
+            "openness": getattr(question, "openness", None),
+            "value_if_confirmed_m": getattr(question, "value_if_confirmed_m", None),
+            "value_if_refuted_m": getattr(question, "value_if_refuted_m", None),
+            "swing_m": getattr(question, "swing_m", None),
+            "resolving_readout": getattr(question, "resolving_readout", ""),
+            "evidence_touched": getattr(evidence_touched, "value", str(evidence_touched)),
+            "diligence_question": getattr(question, "diligence_question", ""),
+            "why_fired": getattr(question, "why_fired", ""),
+            "flags": getattr(question, "flags", []),
+        }
+
+    return {
+        "abstained": getattr(killer_question_set, "abstained", False),
+        "abstain_reason": getattr(killer_question_set, "abstain_reason", ""),
+        "company_focus_mismatch": getattr(killer_question_set, "company_focus_mismatch", None),
+        "decisive": [
+            _question_context(question)
+            for question in (getattr(killer_question_set, "decisive", []) or [])
+        ],
+        "candidates": [
+            _question_context(question)
+            for question in (getattr(killer_question_set, "candidates", []) or [])
+        ],
+    }
+
+
+def _conviction_context(records: object | None) -> list[dict] | None:
+    """Compact conviction trail for the memo (prior -> updates -> posterior).
+
+    Presentation only — the posterior never re-enters POS or the science modifier.
+    """
+    return build_conviction_summary(records)
+
+
+def _bd_actionability_context(bd_actionability: object | None) -> dict | None:
+    if bd_actionability is None:
+        return None
+    route = getattr(bd_actionability, "recommended_bd_route", "")
+    return {
+        "passed_hard_gates": getattr(bd_actionability, "passed_hard_gates", None),
+        "failed_gates": getattr(bd_actionability, "failed_gates", []),
+        "buyer_problem_fit": getattr(bd_actionability, "buyer_problem_fit", None),
+        "science_thesis_fit": getattr(bd_actionability, "science_thesis_fit", None),
+        "buyer_owner_advantage": getattr(bd_actionability, "buyer_owner_advantage", None),
+        "diligence_questions": getattr(bd_actionability, "diligence_questions", []),
+        "killer_question_set": _killer_question_context(
+            getattr(bd_actionability, "killer_question_set", None)
+        ),
+        "conviction_trail": _conviction_context(
+            getattr(bd_actionability, "conviction_records", None)
+        ),
+        "recommended_bd_route": getattr(route, "value", str(route)),
+        "route_rationale": getattr(bd_actionability, "route_rationale", ""),
     }
 
 

@@ -22,6 +22,10 @@ on:
         description: "Lookback days for ingestion"
         required: true
         default: "14"
+      ingest_sources:
+        description: "Comma-separated ingestion sources"
+        required: true
+        default: "sec,clinicaltrials,fda"
 
 jobs:
   weekly-run:
@@ -60,8 +64,10 @@ jobs:
         run: |
           SCORE_MODE="${{ github.event.inputs.score_mode }}"
           LOOKBACK="${{ github.event.inputs.lookback_days }}"
+          INGEST_SOURCES="${{ github.event.inputs.ingest_sources }}"
           echo "score_mode=${SCORE_MODE:-provisional}" >> "$GITHUB_OUTPUT"
           echo "lookback_days=${LOOKBACK:-14}"         >> "$GITHUB_OUTPUT"
+          echo "ingest_sources=${INGEST_SOURCES:-sec,clinicaltrials,fda}" >> "$GITHUB_OUTPUT"
 
       - name: Run weekly BVE pipeline
         run: |
@@ -73,6 +79,7 @@ jobs:
             --as-of "${{ steps.dates.outputs.as_of_date }}" \
             --lookback-days "${{ steps.params.outputs.lookback_days }}" \
             --score-mode "${{ steps.params.outputs.score_mode }}" \
+            --ingest-sources "${{ steps.params.outputs.ingest_sources }}" \
             --ingest-live \
             --output "outputs/weekly/${{ steps.dates.outputs.as_of_date }}"
 

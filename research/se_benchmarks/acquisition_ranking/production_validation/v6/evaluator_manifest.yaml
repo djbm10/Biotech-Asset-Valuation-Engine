@@ -1,0 +1,48 @@
+schema_version: v6_evaluator_manifest_1
+package_state: SEALED
+frozen_base_commit: 7695cd21e6876070f678c3f166573ce9b2ca2427
+source_archive: /tmp/se_production_holdout_20260711_v6/final/source_archive.tar
+source_archive_sha256: fa1a9dcad64a46f76a9faa0fd89bbe5eab12f5ec32b019528d7970c228e98ba3
+source_extract: /tmp/se_production_holdout_20260711_v6/source_extract
+production_specification: /tmp/se_production_holdout_20260711_v6/production_validation_spec.yaml
+production_specification_sha256: de1867d345f8dca209c60cbaa59b9c9ba229c2f6b5e7248ef84fa94c142f8fcb
+holdout_directory: /tmp/se_production_holdout_20260711_v6/final/production_holdout
+bundle_path: /tmp/se_production_holdout_20260711_v6/final/production_holdout_bundle.tar
+artifact_hashes_path: /tmp/se_production_holdout_20260711_v6/final/artifact_hashes.sha256
+report_path: /tmp/se_production_holdout_20260711_v6/final/production_evaluation_report.md
+preflight:
+  command: python /tmp/se_production_holdout_20260711_v6/integrity_preflight.py --root
+    /tmp/se_production_holdout_20260711_v6
+  working_directory: /tmp/se_production_holdout_20260711_v6/source_extract
+  expected_exit_status: 0
+  stdout_contract: V6_INTEGRITY_PREFLIGHT_PASS
+  stderr_contract: empty
+inference:
+  command: /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 PYTHONPATH=/tmp/se_production_holdout_20260711_v6/source_extract
+    MPLCONFIGDIR=/tmp/se_production_holdout_20260711_v6/runtime/matplotlib /usr/bin/python3
+    -m bve.se.evaluation.production_inference --queries /tmp/se_production_holdout_20260711_v6/final/production_holdout/holdout_queries.jsonl
+    --evidence /tmp/se_production_holdout_20260711_v6/final/production_holdout/candidate_evidence.jsonl
+    --output /tmp/se_production_holdout_20260711_v6/predictions.jsonl
+  working_directory: /tmp/se_production_holdout_20260711_v6/source_extract
+  expected_exit_status: 0
+  stdout_contract: PRODUCTION_INFERENCE_COMPLETE queries=36 output=/tmp/se_production_holdout_20260711_v6/predictions.jsonl
+  stderr_contract: empty
+  execution_limit: 1
+scoring:
+  command: /usr/bin/env -i PATH=/usr/bin:/bin LANG=C.UTF-8 PYTHONPATH=/tmp/se_production_holdout_20260711_v6/source_extract
+    MPLCONFIGDIR=/tmp/se_production_holdout_20260711_v6/runtime/matplotlib /usr/bin/python3
+    /tmp/se_production_holdout_20260711_v6/score_holdout.py --bundle /tmp/se_production_holdout_20260711_v6/final/production_holdout
+    --predictions /tmp/se_production_holdout_20260711_v6/predictions.jsonl
+  working_directory: /tmp/se_production_holdout_20260711_v6/source_extract
+  expected_exit_status: 0
+  stderr_contract: empty
+hidden_unlock_absolute_paths:
+- /tmp/se_production_holdout_20260711_v6/final/production_holdout/adjudication_notes.jsonl
+- /tmp/se_production_holdout_20260711_v6/final/production_holdout/citation_gold.jsonl
+- /tmp/se_production_holdout_20260711_v6/final/production_holdout/diligence_rubric.yaml
+- /tmp/se_production_holdout_20260711_v6/final/production_holdout/gold_rankings.jsonl
+- /tmp/se_production_holdout_20260711_v6/final/production_holdout/leakage_annotations.jsonl
+- /tmp/se_production_holdout_20260711_v6/final/production_holdout/rationale_rubric.yaml
+- /tmp/se_production_holdout_20260711_v6/final/production_holdout/shortlist_gold.jsonl
+ranking_status: BLOCKED
+fresh_evaluator_required: true

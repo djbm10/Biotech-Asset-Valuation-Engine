@@ -1,0 +1,88 @@
+schema_version: 1
+ticker: "OCUL"
+asset_id: "ocul-dextenza-pit-2022q2"
+historical_snapshot_date: "2022-04-01"
+no_lookahead_attestation: >
+  Mechanically selected diagnostic control ("cash-rich single-asset ordinary
+  survivor"), not a distressed/bankrupt pilot. Point-in-time research found
+  OCUL is NOT strictly single-asset as of 2022-04-01 (second marketed
+  product ReSure Sealant; active OTX-TKI/OTX-TIC/dry-eye pipeline) -- stated
+  plainly rather than smoothed over. All balance-sheet figures are sourced
+  from the FY2021 10-K (filed 2022-02-28), which predates the 2022-04-01
+  signal date.
+
+assumptions:
+  - slug: "cash_millions"
+    value: 164.164
+    unit: "millions_usd"
+    source: "Ocular Therapeutix FY2021 10-K (SEC EDGAR, accession 0001558370-22-002363), balance sheet as of 2021-12-31"
+    source_publication_date: "2022-02-28"
+    knowable_date: "2022-02-28"
+    confidence: "High"
+    assumption_type: "directly_reported"
+    notes: "Cash and cash equivalents $164.164M as of 2021-12-31."
+
+  - slug: "debt_millions"
+    value: 51.435
+    unit: "millions_usd"
+    source: "Ocular Therapeutix FY2021 10-K balance sheet"
+    source_publication_date: "2022-02-28"
+    knowable_date: "2022-02-28"
+    confidence: "High"
+    assumption_type: "directly_reported"
+    notes: "$25.000M MidCap Financial Trust notes payable (non-current) + $26.435M 2026 Convertible Notes, net, as of 2021-12-31."
+
+  - slug: "shares_outstanding_millions"
+    value: 76.754
+    unit: "millions_of_shares"
+    source: "Ocular Therapeutix FY2021 10-K cover page"
+    source_publication_date: "2022-02-28"
+    knowable_date: "2022-02-24"
+    confidence: "High"
+    assumption_type: "directly_reported"
+    notes: "76,754,160 shares outstanding as of 2022-02-24."
+
+  - slug: "current_price"
+    value: 4.85
+    unit: "usd_per_share"
+    source: "Yahoo Finance chart API close, 2022-04-01"
+    source_publication_date: "2022-04-01"
+    knowable_date: "2022-04-01"
+    confidence: "Medium"
+    assumption_type: "directly_reported"
+    notes: "No independent second source located within the research budget -- same class of caveat as the CEMP/BIND/GNCA pilots' price-sourcing gap."
+
+  - slug: "not_single_asset_finding"
+    value: "ReSure Sealant (second marketed product) + OTX-TKI/OTX-TIC/dry-eye pipeline"
+    unit: "qualitative_finding"
+    source: "Ocular Therapeutix FY2021 10-K, business description and pipeline sections"
+    source_publication_date: "2022-02-28"
+    knowable_date: "2022-02-28"
+    confidence: "High"
+    assumption_type: "directly_reported"
+    notes: >
+      Documented plainly per instruction: this control does not cleanly fit
+      the "single-asset" label it was mechanically assigned. Retained as a
+      control anyway because it still serves the intended purpose (ordinary,
+      non-distressed, cash-rich commercial-stage survivor); the mismatch is
+      itself a useful diagnostic data point for the six-name report.
+
+  - slug: "addressable_patients_annual"
+    value: 400000
+    unit: "patients_per_year"
+    source: "Analyst order-of-magnitude estimate (post-surgical + allergic-conjunctivitis addressable population)"
+    source_publication_date: "N/A"
+    knowable_date: "2022-04-01"
+    confidence: "Low"
+    assumption_type: "standardized_prior"
+    notes: "Not DEXTENZA-specific commercial modeling; order-of-magnitude only."
+
+  - slug: "net_price_per_patient_usd"
+    value: 500
+    unit: "usd_per_treatment"
+    source: "Analyst estimate, ophthalmic-insert pricing comp"
+    source_publication_date: "N/A"
+    knowable_date: "2022-04-01"
+    confidence: "Low"
+    assumption_type: "standardized_prior"
+    notes: "No DEXTENZA-specific net-price figure was verified within the research budget."

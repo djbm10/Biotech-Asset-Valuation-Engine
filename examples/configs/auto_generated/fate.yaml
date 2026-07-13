@@ -10,20 +10,23 @@ company:
   id: fate-auto
   name: Fate Therapeutics
   ticker: FATE
-  cash_millions: 500.0
-  shares_outstanding_millions: 120.0
-  burn_rate_millions_per_quarter: 35.0
-  current_price: 25.0
+  cash_millions: 174.8
+  shares_outstanding_millions: 116.273
+  debt_millions: 76.8
+  burn_rate_millions_per_quarter: 26.96
+  current_price: 2.06
+  market_cap_millions: 240.1
 trials:
 - phase: phase_1
   nct_id: NCT05182073
-  success_probability: 0.54
+  success_probability: 0.05498715024
   duration_years: 2.5
   cost_millions: 120.0
-  enrollment: 200
-  primary_endpoint: Primary endpoint
+  enrollment: 31
+  primary_endpoint: Incidence and nature of DLTs within each dose-escalation cohort
+    to determine the MTD or MAD
   endpoint_type: surrogate_validated
-  estimated_completion_date: 2026-12
+  estimated_completion_date: '2024-09-20'
 market_model:
   total_addressable_market_millions: 2800.0
   addressable_patients_annual: 18000
@@ -38,25 +41,33 @@ market_model:
     patient_pool:
       indication: Multiple myeloma
       prevalence_thousands: 18
-      diagnosed_fraction: 0.80
+      diagnosed_fraction: 0.8
       eligible_rate: 0.18
-      treated_fraction: 0.50
-      uncertainty_cv: 0.20
+      treated_fraction: 0.5
+      uncertainty_cv: 0.2
     pricing:
       wac_per_year_usd: 225000
-      gross_to_net_rate: 0.10
+      gross_to_net_rate: 0.1
       launch_discount: 0.0
       annual_erosion_rate: 0.02
       uncertainty_cv: 0.12
     share:
       peak_share: 0.12
       years_to_peak: 5
-      share_cv: 0.20
+      share_cv: 0.2
     ex_us_revenue_multiple: 1.25
 _meta:
-  config_version: auto-v1
-  generator_version: '0.3'
-  generated_at: '2026-03-09'
+  config_version: auto-profile-v1
+  generator_version: profile-0.1
+  generated_at: '2026-06-14'
   source_nct_id: NCT05182073
-  source_sec_filing: auto:2026Q1
-  defaulted_fields: []
+  evidence_level: coarse
+  defaulted_fields:
+  - cogs_rate
+  - cost_millions
+  - duration_years
+  - endpoint_type
+  - sgna_rate_launch
+  - sgna_rate_mature
+  - years_to_peak
+  provisional: true

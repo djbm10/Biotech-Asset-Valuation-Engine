@@ -71,6 +71,14 @@ def main(
     parser.add_argument("--min-coverage", type=float, default=0.20)
     parser.add_argument("--ingest-live",  action="store_true",
                         help="Run live ingestion (SEC 8-K + CT.gov + FDA) before screening")
+    parser.add_argument(
+        "--ingest-sources",
+        default=None,
+        help=(
+            "Comma-separated live ingestion sources. Defaults to sec,clinicaltrials,fda. "
+            "Accepted: sec,clinicaltrials,fda,press_releases,earnings_calls,news_articles."
+        ),
+    )
     parser.add_argument("--lookback-days", type=int, default=14,
                         help="Lookback window in days for live ingestion")
     parser.add_argument("--dry-run",      action="store_true")
@@ -78,6 +86,11 @@ def main(
         "--decisions",
         default=None,
         help="Path to review_decisions.yaml; activates approved-only vs provisional delta reporting.",
+    )
+    parser.add_argument(
+        "--score-audit",
+        action="store_true",
+        help="Write a per-target score-change audit trail to score_audit/<TICKER>.md.",
     )
     args = parser.parse_args(argv)
 
@@ -151,6 +164,11 @@ def main(
     if args.ingest_live:
         from bve.ingestion.live_ingestion_runner import LiveIngestionRunner
 
+        ingest_sources = (
+            [s.strip() for s in args.ingest_sources.split(",") if s.strip()]
+            if args.ingest_sources
+            else None
+        )
         ingest_runner = LiveIngestionRunner(
             sec_source=_ingest_sec_source,
             ctgov_source=_ingest_ctgov_source,
@@ -164,11 +182,32 @@ def main(
             lookback_days=args.lookback_days,
             output_dir=output_dir if not args.dry_run else None,
             dry_run=args.dry_run,
+            sources=ingest_sources,
+        )
+        print(
+            "Ingestion — requested sources: "
+            f"{', '.join(ingest_sources or ['sec', 'clinicaltrials', 'fda'])}"
         )
         print(f"Ingestion — items seen:      {ingest_result.items_seen}")
         print(f"Ingestion — classified:      {ingest_result.items_classified}")
         print(f"Ingestion — appended:        {ingest_result.records_appended}")
         print(f"Ingestion — duplicates:      {ingest_result.duplicates_skipped}")
+        print(f"Ingestion — unclassified:    {ingest_result.unclassified_count}")
+        print("Ingestion — source breakdown:")
+        for source_name, count in sorted(ingest_result.source_breakdown.items()):
+            print(f"  {source_name:<24} {count}")
+
+        # Source-health table + persisted report (so a silently-dead source
+        # is visible in the weekly output, not just the live console).
+        from bve.reporting.ingestion_health import (
+            render_health_report,
+            write_health_report,
+        )
+
+        print()
+        print(render_health_report(ingest_result))
+        if not args.dry_run:
+            write_health_report(ingest_result, output_dir)
 
         # ── Step 4: Re-enrich using updated ledger ─────────────────────────
         # EvidenceLedger is file-backed; compute_score_state re-reads the file,
@@ -272,6 +311,25 @@ def main(
         new_events_path = output_dir / "new_events.csv"
         if new_events_path.exists():
             all_paths.append(new_events_path)
+
+    # Optional per-target score-change audit trails (opt-in; one file per target).
+    if args.score_audit:
+        from bve.reporting.score_audit import render_score_audit
+
+        audit_dir = output_dir / "score_audit"
+        audit_dir.mkdir(parents=True, exist_ok=True)
+        n_audits = 0
+        for rt in result.ranked_targets:
+            scores, trail = ledger.compute_score_state_with_trail(
+                ticker=rt.ticker, as_of_date=as_of
+            )
+            audit_path = audit_dir / f"{rt.ticker}.md"
+            audit_path.write_text(
+                render_score_audit(rt.ticker, scores, trail, as_of=as_of.isoformat()),
+                encoding="utf-8",
+            )
+            n_audits += 1
+        print(f"  score_audit/ ({n_audits} files)")
 
     for p in all_paths:
         print(f"  {p.name}")

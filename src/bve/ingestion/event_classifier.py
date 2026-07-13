@@ -61,6 +61,16 @@ STRATEGIC_REVIEW = "strategic_review"
 LICENSING_DEAL = "licensing_deal"
 PARTNERSHIP = "partnership"
 ASSET_SALE = "asset_sale"
+DEAL_TERMINATED = "deal_terminated"
+GOING_CONCERN = "going_concern"
+DELISTING_NOTICE = "delisting_notice"
+GUIDANCE_RAISED = "guidance_raised"
+GUIDANCE_LOWERED = "guidance_lowered"
+# Target-side M&A status. This is a ROUTING / EXCLUSION signal, not a ranking
+# signal: a company under a definitive agreement is already spoken for and must
+# not be surfaced as a fresh opportunity. The exclusions layer keys off the
+# matching listing_status "pending_acquisition" (see intelligence/exclusions).
+PENDING_ACQUISITION = "pending_acquisition"
 ACQUIRER_BD_APPETITE = "acquirer_bd_appetite"
 ACQUIRER_LARGE_DEAL = "acquirer_large_deal"
 PATENT_CLIFF = "patent_cliff"
@@ -106,6 +116,17 @@ SCORE_DELTA_MAP: dict[str, dict[str, float]] = {
     LICENSING_DEAL:              {"asset_quality": +0.04, "seller_willingness": -0.05},
     PARTNERSHIP:                 {"asset_quality": +0.02},
     ASSET_SALE:                  {"seller_willingness": +0.08},
+    DEAL_TERMINATED:             {"asset_quality": -0.10, "seller_willingness": +0.06},
+    # Distress signals — strong seller-willingness pressure.
+    GOING_CONCERN:               {"seller_willingness": +0.18, "asset_quality": -0.04},
+    DELISTING_NOTICE:            {"seller_willingness": +0.10},
+    # Guidance — modest asset-quality / sell-pressure nudges.
+    GUIDANCE_RAISED:             {"asset_quality": +0.03, "seller_willingness": -0.03},
+    GUIDANCE_LOWERED:            {"asset_quality": -0.03, "seller_willingness": +0.04},
+    # Pending acquisition is a routing/exclusion signal — no score deltas.
+    # The company is already under a definitive agreement; it must not be
+    # scored as a fresh opportunity. Handled by the exclusions layer instead.
+    PENDING_ACQUISITION:         {},
     # Acquirer signals — split into appetite, capacity, urgency (not overloaded acquirer_fit)
     ACQUIRER_BD_APPETITE:        {"acquirer_appetite": +0.05},
     ACQUIRER_LARGE_DEAL:         {"acquirer_appetite": -0.05, "integration_capacity": -0.08},
@@ -131,6 +152,7 @@ SOURCE_CONFIDENCE_WEIGHTS: dict[str, float] = {
     "sec_filing":         0.90,
     "pubmed":             0.88,
     "press_release":      0.80,
+    "earnings_release":   0.78,
     "news_article":       0.70,
     "manual":             0.75,
 }
@@ -163,15 +185,24 @@ SEVERITY_ORDER: dict[str, int] = {
     # Mixed
     CLINICAL_MIXED:            45,
     # Strategic / financial
+    # Pending acquisition dominates everything else for the target — it is the
+    # terminal deal state and must win primary-label selection so the
+    # exclusions layer routes the company correctly.
+    PENDING_ACQUISITION:       98,
+    GOING_CONCERN:             58,
     STRATEGIC_REVIEW:          55,
+    DELISTING_NOTICE:          52,
     CASH_LOW:                  50,
     TRIAL_DELAY:               48,
     RESTRUCTURING:             45,
+    DEAL_TERMINATED:           44,
     ASSET_SALE:                40,
     PATENT_CLIFF:              42,
+    GUIDANCE_LOWERED:          39,
+    LICENSING_DEAL:            38,
     PDUFA:                     35,
     ACQUIRER_LARGE_DEAL:       35,
-    LICENSING_DEAL:            38,
+    GUIDANCE_RAISED:           33,
     FAST_TRACK:                32,
     PARTNERSHIP:               32,
     EQUITY_RAISE:              30,
@@ -231,10 +262,11 @@ class MultiLabelClassification:
 # ---------------------------------------------------------------------------
 
 _PHASE_PATTERNS: list[tuple[re.Pattern, str]] = [
-    (re.compile(r"\bphase[\s\-]?3\b", re.I), "Phase 3"),
-    (re.compile(r"\bphase[\s\-]?2\b", re.I), "Phase 2"),
-    (re.compile(r"\bphase[\s\-]?1\b", re.I), "Phase 1"),
     (re.compile(r"\bphase[\s\-]?[23]/[34]\b", re.I), "Phase 3"),  # 2/3 or 3/4 → Ph3
+    (re.compile(r"\bphase[\s\-]?1/2\b", re.I), "Phase 2"),        # 1/2 → Ph2
+    (re.compile(r"\bphase[\s\-]?3\b", re.I), "Phase 3"),
+    (re.compile(r"\bphase[\s\-]?2[ab]?\b", re.I), "Phase 2"),     # 2, 2a, 2b
+    (re.compile(r"\bphase[\s\-]?1[ab]?\b", re.I), "Phase 1"),     # 1, 1a, 1b
     (re.compile(r"\bpivotal\b", re.I), "Phase 3"),                 # pivotal = Ph3
 ]
 
@@ -250,6 +282,43 @@ _HEDGE_PATTERNS: list[re.Pattern] = [
         r"\bcould not\b",
     ]
 ]
+
+# Negation cues — when one of these precedes a regulatory-positive trigger
+# within a short window, the positive event is suppressed (e.g. "FDA declined
+# to approve", "did not approve", "fails to win approval").
+_NEGATION_CUES: list[re.Pattern] = [
+    re.compile(p, re.I)
+    for p in [
+        r"\bdeclin(e|ed|es) to\b",
+        r"\bdid not\b",
+        r"\bdoes not\b",
+        r"\bwill not\b",
+        r"\brefus(e|ed|es) to\b",
+        r"\breject(s|ed)?\b",
+        r"\bfail(s|ed)? to (gain|win|secure|obtain|receive)\b",
+        r"\bnot (be )?approv(e|ed)\b",
+    ]
+]
+
+# Speculation / rumor cues — reduce confidence and block definitive-only events
+# (e.g. PENDING_ACQUISITION) from firing on unconfirmed reports.
+_SPECULATION_CUES: list[re.Pattern] = [
+    re.compile(p, re.I)
+    for p in [
+        r"\breportedly\b",
+        r"\brumou?red\b",
+        r"\bin talks\b",
+        r"\bsaid to be\b",
+        r"\bsources say\b",
+        r"\baccording to (sources|reports)\b",
+        r"\bcould (be|explore)\b",
+        r"\bmay (be|explore|consider)\b",
+        r"\bweighing\b",
+        r"\bmulling\b",
+    ]
+]
+
+SPECULATION_CONFIDENCE_FACTOR = 0.65
 
 # Positive safety language that should NOT be treated as hedging.
 _POSITIVE_SAFETY_PATTERNS: list[re.Pattern] = [
@@ -345,6 +414,40 @@ _FINANCIAL: list[tuple[re.Pattern, str]] = [
     (re.compile(r"\b(discontinu(ed|es|ing)|terminat(ed|es))\b.{0,20}\b(phase|trial|study)\b", re.I), TRIAL_DISCONTINUATION),
 ]
 
+# Target-side M&A status. Definitive/firm deal language only — speculative
+# "in talks" / "exploring a sale" stays in STRATEGIC_REVIEW and is additionally
+# discounted by the speculation guard.
+_MA_STATUS: list[tuple[re.Pattern, str]] = [
+    (re.compile(r"\bdefinitive\b.{0,30}\bagreement\b.{0,40}\b(acquire|be acquired|merger)\b", re.I), PENDING_ACQUISITION),
+    (re.compile(r"\bagree(d|s|ment)?\b.{0,20}\bto be acquired\b", re.I), PENDING_ACQUISITION),
+    (re.compile(r"\bto be acquired by\b", re.I), PENDING_ACQUISITION),
+    (re.compile(r"\benter(s|ed)? into\b.{0,40}\bagreement to acquire\b", re.I), PENDING_ACQUISITION),
+    (re.compile(r"\b(commenc(es|ed)|launch(es|ed))\b.{0,30}\btender offer\b", re.I), PENDING_ACQUISITION),
+    (re.compile(r"\bmerger agreement\b", re.I), PENDING_ACQUISITION),
+    # Collaboration / license termination — a negative for the target asset.
+    (re.compile(r"\bterminat(es|ed|ion of)\b.{0,40}\b(collaboration|license|licensing|partnership|agreement)\b", re.I), DEAL_TERMINATED),
+    (re.compile(r"\b(collaboration|license|licensing|partnership)\b.{0,30}\bterminat(ed|es|ion)\b", re.I), DEAL_TERMINATED),
+    (re.compile(r"\bopt(s|ed)? out of\b.{0,30}\b(collaboration|agreement|program)\b", re.I), DEAL_TERMINATED),
+    (re.compile(r"\breturn(s|ed)?\b.{0,20}\brights\b.{0,30}\b(to|back)\b", re.I), DEAL_TERMINATED),
+]
+
+# Financing / runway distress (more severe than routine CASH_LOW).
+_DISTRESS: list[tuple[re.Pattern, str]] = [
+    (re.compile(r"\bgoing concern\b", re.I), GOING_CONCERN),
+    (re.compile(r"\bsubstantial doubt\b.{0,40}\b(continue|operations|going concern)\b", re.I), GOING_CONCERN),
+    (re.compile(r"\b(Nasdaq|NYSE)\b.{0,40}\b(delisting|deficiency|non.?compliance|minimum bid)\b", re.I), DELISTING_NOTICE),
+    (re.compile(r"\bdelisting (notice|notification|determination)\b", re.I), DELISTING_NOTICE),
+    (re.compile(r"\bnotice of (non.?compliance|delisting)\b", re.I), DELISTING_NOTICE),
+]
+
+# Earnings / guidance signals.
+_EARNINGS: list[tuple[re.Pattern, str]] = [
+    (re.compile(r"\b(raise[sd]?|increase[sd]?|boost(s|ed)?)\b.{0,30}\b(full.?year |fy |annual |revenue |sales )?guidance\b", re.I), GUIDANCE_RAISED),
+    (re.compile(r"\b(rais(es|ed|ing)|increas(es|ed|ing))\b.{0,30}\boutlook\b", re.I), GUIDANCE_RAISED),
+    (re.compile(r"\b(lower[sed]?|cut[s]?|reduce[sd]?|slash(es|ed)?|trim[s]?|trimmed)\b.{0,30}\b(full.?year |fy |annual |revenue |sales )?guidance\b", re.I), GUIDANCE_LOWERED),
+    (re.compile(r"\b(lower(s|ed|ing)|cut(s|ting)?|reduc(es|ed|ing))\b.{0,30}\boutlook\b", re.I), GUIDANCE_LOWERED),
+]
+
 _ACQUIRER: list[tuple[re.Pattern, str]] = [
     (re.compile(r"\bbusiness development\b.{0,40}\b(priority|focus|appetite|active|remains)\b", re.I), ACQUIRER_BD_APPETITE),
     (re.compile(r"\bbolt.?on (acquisition|deal)\b", re.I), ACQUIRER_BD_APPETITE),
@@ -375,6 +478,12 @@ _DIRECTION_MAP: dict[str, str] = {
     LICENSING_DEAL:      "positive",
     PARTNERSHIP:         "positive",
     ASSET_SALE:          "mixed",
+    DEAL_TERMINATED:     "negative",
+    GOING_CONCERN:       "negative",
+    DELISTING_NOTICE:    "negative",
+    GUIDANCE_RAISED:     "positive",
+    GUIDANCE_LOWERED:    "negative",
+    PENDING_ACQUISITION: "positive",
     TRIAL_START:         "positive",
     TRIAL_DELAY:         "negative",
     TRIAL_DISCONTINUATION: "negative",
@@ -409,6 +518,36 @@ def _has_hedging(text: str) -> bool:
     return any(p.search(text) for p in _HEDGE_PATTERNS)
 
 
+# Window (characters) within which a negation cue preceding a trigger is
+# considered to negate it. Kept tight so a distant unrelated "did not" clause
+# does not suppress a genuine event.
+_NEGATION_WINDOW = 25
+
+
+def _has_speculation(text: str) -> bool:
+    """Return True if the text reads as an unconfirmed report / rumor."""
+    return any(p.search(text) for p in _SPECULATION_CUES)
+
+
+def _is_negated(text: str, trigger_start: int) -> bool:
+    """
+    Return True if a negation cue ends within _NEGATION_WINDOW chars before
+    the trigger match start (i.e. the negation modifies the trigger).
+    """
+    window_start = max(0, trigger_start - _NEGATION_WINDOW)
+    preceding = text[window_start:trigger_start]
+    return any(cue.search(preceding) for cue in _NEGATION_CUES)
+
+
+# Regulatory-positive events that a negation cue should suppress.
+_NEGATABLE_POSITIVE: frozenset[str] = frozenset({
+    FDA_APPROVAL, NDA_ACCEPTED, BTD, FAST_TRACK, ORPHAN, ADCOM_POSITIVE,
+})
+
+# Definitive-only events that must not fire on speculative/rumored text.
+_DEFINITIVE_ONLY: frozenset[str] = frozenset({PENDING_ACQUISITION})
+
+
 _POSITIVE_CLINICAL_TYPES: frozenset[str] = frozenset({
     CLINICAL_POSITIVE_PH3, CLINICAL_POSITIVE_PH2, CLINICAL_POSITIVE_PH1, CLINICAL_POSITIVE,
 })
@@ -429,26 +568,44 @@ def _collect_all_events(
     Results are deduplicated by event_type.
     """
     matched: dict[str, tuple[str, list[str]]] = {}  # event_type → (direction, reasons)
+    speculative = _has_speculation(text)
 
     # Clinical: pick the single highest-priority clinical match
     clin_type, clin_dir, clin_reasons = _classify_clinical(text, phase)
     if clin_type != UNCLASSIFIED:
         matched[clin_type] = (clin_dir, clin_reasons)
 
-    # Regulatory: all matching types
+    def _consider(pattern: re.Pattern, event_type: str) -> None:
+        if event_type in matched:
+            return
+        m = pattern.search(text)
+        if not m:
+            return
+        # Speculation guard: definitive-only events do not fire on rumor.
+        if speculative and event_type in _DEFINITIVE_ONLY:
+            return
+        # Negation guard: a negation cue just before a regulatory-positive
+        # trigger suppresses it. "FDA declined to approve" → not an approval.
+        if event_type in _NEGATABLE_POSITIVE and _is_negated(text, m.start()):
+            # An explicitly negated approval is effectively a rejection.
+            if event_type == FDA_APPROVAL and CRL not in matched:
+                matched[CRL] = (_DIRECTION_MAP.get(CRL, "negative"), ["negated_approval"])
+            return
+        matched[event_type] = (_DIRECTION_MAP.get(event_type, "neutral"), [event_type])
+
+    # Regulatory, M&A status, Financial/BD, distress, earnings, acquirer.
     for pattern, event_type in _REGULATORY:
-        if pattern.search(text) and event_type not in matched:
-            matched[event_type] = (_DIRECTION_MAP.get(event_type, "neutral"), [event_type])
-
-    # Financial / BD: all matching types
+        _consider(pattern, event_type)
+    for pattern, event_type in _MA_STATUS:
+        _consider(pattern, event_type)
     for pattern, event_type in _FINANCIAL:
-        if pattern.search(text) and event_type not in matched:
-            matched[event_type] = (_DIRECTION_MAP.get(event_type, "neutral"), [event_type])
-
-    # Acquirer: all matching types
+        _consider(pattern, event_type)
+    for pattern, event_type in _DISTRESS:
+        _consider(pattern, event_type)
+    for pattern, event_type in _EARNINGS:
+        _consider(pattern, event_type)
     for pattern, event_type in _ACQUIRER:
-        if pattern.search(text) and event_type not in matched:
-            matched[event_type] = (_DIRECTION_MAP.get(event_type, "neutral"), [event_type])
+        _consider(pattern, event_type)
 
     return [(et, dir_, reasons) for et, (dir_, reasons) in matched.items()]
 
@@ -623,6 +780,7 @@ def classify_headline_multi(
     phase = _detect_phase(text_norm)
     base_conf = SOURCE_CONFIDENCE_WEIGHTS.get(source_type, 0.70)
     hedge = _has_hedging(text_norm)
+    speculative = _has_speculation(text_norm)
     classified_at = datetime.now(timezone.utc).isoformat()
 
     all_events = _collect_all_events(text_norm, phase)
@@ -655,6 +813,11 @@ def classify_headline_multi(
     conf = base_conf
     if hedge and primary_type in _HEDGE_ELIGIBLE:
         conf *= 0.75
+    # Speculation / rumor: unconfirmed reports are lower confidence regardless
+    # of event type (an "in talks to be acquired" report is genuine news but
+    # not a confirmed fact).
+    if speculative:
+        conf *= SPECULATION_CONFIDENCE_FACTOR
     # Multi-signal agreement: modest boost
     if len(all_events) >= 2:
         conf = min(1.0, conf * 1.02)

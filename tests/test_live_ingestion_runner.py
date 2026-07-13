@@ -11,8 +11,11 @@ from pathlib import Path
 
 from bve.ingestion.live_ingestion_runner import (
     CTGovSource,
+    EarningsReleaseSource,
     IngestionRunResult,
     LiveIngestionRunner,
+    NewsArticleSource,
+    PressReleaseSource,
     RawIngestionItem,
     SecEightKSource,
     _build_context_profile,
@@ -192,7 +195,7 @@ class TestCTGovSource:
                         "brief_title": "Company sponsored oncology trial",
                         "status": "RECRUITING",
                         "phases": ["PHASE2"],
-                        "last_update_submitted": "2026-06-01",
+                        "last_update_submitted": date.today().isoformat(),
                     },
                 )
             ]
@@ -209,6 +212,130 @@ class TestCTGovSource:
         assert calls == ["RMC-6236", "Revolution Medicines"]
         assert len(items) == 1
         assert items[0].raw_payload["nct_id"] == "NCT1"
+
+
+class TestPressAndNewsSources:
+    def test_press_release_source_converts_sec_press_events(self, monkeypatch):
+        from bve.ingestion.raw_event import RawEvent
+
+        def fake_fetch_sec_press_releases(ticker: str, limit: int = 10):  # noqa: ARG001
+            return [
+                RawEvent(
+                    source="news",
+                    record_type="press_release",
+                    source_url="https://sec.gov/pr",
+                    payload={
+                        "ticker": ticker,
+                        "entity_name": "Revolution Medicines",
+                        "form_type": "8-K",
+                        "filing_date": date.today().isoformat(),
+                    },
+                )
+            ]
+
+        monkeypatch.setattr(
+            "bve.ingestion.news_client.fetch_sec_press_releases",
+            fake_fetch_sec_press_releases,
+        )
+
+        items = PressReleaseSource().fetch("RVMD", {"name": "Revolution Medicines"}, 14)
+
+        assert len(items) == 1
+        assert items[0].source_type == "press_release"
+        assert items[0].published_date == date.today()
+        assert "Revolution Medicines" in items[0].text
+
+    def test_news_article_source_uses_newsapi_when_key_is_present(self, monkeypatch):
+        from bve.ingestion.raw_event import RawEvent
+
+        calls: list[str] = []
+
+        def fake_fetch_newsapi_articles(query, api_key, ticker=None, limit=20):  # noqa: ARG001
+            calls.append(query)
+            return [
+                RawEvent(
+                    source="newsapi",
+                    record_type="news_article",
+                    source_url="https://news.example/1",
+                    payload={
+                        "ticker": ticker,
+                        "title": "RVMD announces Phase 3 results",
+                        "summary": "Phase 3 trial met primary endpoint.",
+                        "published": f"{date.today().isoformat()}T12:00:00Z",
+                    },
+                )
+            ]
+
+        monkeypatch.setenv("NEWS_API_KEY", "test-key")
+        monkeypatch.setattr(
+            "bve.ingestion.news_client.fetch_newsapi_articles",
+            fake_fetch_newsapi_articles,
+        )
+
+        items = NewsArticleSource().fetch("RVMD", {"name": "Revolution Medicines"}, 14)
+
+        assert calls == ['"Revolution Medicines" OR RVMD']
+        assert len(items) == 1
+        assert items[0].source_type == "news_article"
+        assert "Phase 3" in items[0].text
+
+    def test_earnings_release_source_filters_sec_item_202(self):
+        class FakeSecSource:
+            def fetch(self, ticker, profile_data, lookback_days):  # noqa: ARG002
+                return [
+                    RawIngestionItem(
+                        ticker=ticker,
+                        text="generic 8-K",
+                        source_type="sec_filing",
+                        source_url="https://sec.gov/earnings",
+                        published_date=date(2026, 6, 1),
+                        raw_payload={"items": "2.02 9.01"},
+                    ),
+                    RawIngestionItem(
+                        ticker=ticker,
+                        text="generic 8-K",
+                        source_type="sec_filing",
+                        source_url="https://sec.gov/other",
+                        published_date=date(2026, 6, 1),
+                        raw_payload={"items": "8.01"},
+                    ),
+                ]
+
+        # Inject a doc_fetcher that returns "" so the test exercises the
+        # deterministic synthetic-fallback path (no network).
+        items = EarningsReleaseSource(
+            sec_source=FakeSecSource(), doc_fetcher=lambda _url: ""
+        ).fetch("RVMD", {"name": "Revolution Medicines"}, 14)
+
+        assert len(items) == 1
+        assert items[0].source_type == "earnings_release"
+        assert "earnings" in items[0].text
+
+    def test_earnings_release_uses_real_document_text(self):
+        from bve.ingestion.event_classifier import GUIDANCE_RAISED, classify_headline
+
+        class FakeSecSource:
+            def fetch(self, ticker, profile_data, lookback_days):  # noqa: ARG002
+                return [
+                    RawIngestionItem(
+                        ticker=ticker,
+                        text="generic 8-K",
+                        source_type="sec_filing",
+                        source_url="https://sec.gov/filing.htm",
+                        published_date=date(2026, 6, 1),
+                        raw_payload={"items": "2.02"},
+                    ),
+                ]
+
+        doc = "<p>Company raises full-year revenue guidance after a strong quarter.</p>"
+        items = EarningsReleaseSource(
+            sec_source=FakeSecSource(), doc_fetcher=lambda _url: doc.replace("<p>", "").replace("</p>", "")
+        ).fetch("RVMD", {"name": "Revolution Medicines"}, 14)
+
+        assert len(items) == 1
+        # The real document body flows into classification → guidance verdict.
+        ev = classify_headline(items[0].text, ticker="RVMD", source_type="earnings_release")
+        assert ev.event_type == GUIDANCE_RAISED or GUIDANCE_RAISED in ev.secondary_events
 
 
 # ---------------------------------------------------------------------------

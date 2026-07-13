@@ -10,10 +10,13 @@ company:
   id: crsp-auto
   name: CRISPR Therapeutics
   ticker: CRSP
-  cash_millions: 500.0
-  shares_outstanding_millions: 120.0
+  market_cap_millions: 4904.5
+  debt_millions: 787.6
+  # market economics refreshed from yfinance 2026-06-13
+  cash_millions: 2441.8
+  shares_outstanding_millions: 98.48
   burn_rate_millions_per_quarter: 35.0
-  current_price: 25.0
+  current_price: 49.8
 trials:
 - phase: nda_bla
   nct_id: NCT03745287

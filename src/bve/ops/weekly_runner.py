@@ -49,6 +49,23 @@ _REPO_ROOT = Path(__file__).parent.parent.parent.parent
 _MNA_PROFILES_PATH = str(_REPO_ROOT / "examples" / "research" / "acquirer_profiles")
 _MNA_COMPS_PATH    = str(_REPO_ROOT / "research" / "mna" / "comparable_deals.yaml")
 _MNA_VULN_PATH     = str(_REPO_ROOT / "research" / "mna" / "vulnerability_signals.yaml")
+# Watchlist YAML that maps tracked tickers -> existing valuation configs. Used to
+# attach configs to the M&A scan so the acquisition screener can run rNPV/EV
+# inline (populating the coarse investment lens of the dual-track screen).
+_MNA_VALUATION_WATCHLIST = str(
+    _REPO_ROOT / "examples" / "configs" / "watchlists" / "watchlist_replay_expanded_phase2.yaml"
+)
+# Hand-authored provisional CURRENT configs for high-conviction names with no PIT
+# replay config. Merged AFTER the replay watchlist so it only fills coverage gaps
+# and never overrides a point-in-time config.
+_MNA_PROVISIONAL_WATCHLIST = str(
+    _REPO_ROOT / "examples" / "configs" / "watchlists" / "watchlist_provisional.yaml"
+)
+# Pipeline-generated coarse configs (bve-profile gen-config --all). Merged LAST so
+# it only fills names still uncovered after the replay + provisional watchlists.
+_MNA_AUTO_GENERATED_WATCHLIST = str(
+    _REPO_ROOT / "examples" / "configs" / "watchlists" / "watchlist_auto_generated.yaml"
+)
 _MNA_CALIBRATION_CANDIDATES = [
     _REPO_ROOT / "outputs" / "analysis" / "ma_calibration_fit_post_step2.json",
     _REPO_ROOT / "outputs" / "analysis" / "ma_calibration_fit.json",
@@ -62,6 +79,100 @@ def _resolve_mna_calibration_model_path() -> str | None:
     return None
 
 
+def _load_valuation_config_map(watchlist_path: str = _MNA_VALUATION_WATCHLIST) -> dict[str, str]:
+    """Map ``TICKER -> absolute valuation_config path`` from a watchlist YAML.
+
+    The M&A scan attaches these configs to its watchlist assets so the
+    acquisition screener can run rNPV/EV inline. Tickers with no mapped config —
+    or whose config file is absent on disk — are simply omitted, so those names
+    degrade to an honest ``missing_valuation_config`` / ``not_assessed`` rather
+    than a fabricated verdict. Returns an empty map on any load/parse failure so
+    the scan still runs.
+    """
+    import yaml
+
+    path = Path(watchlist_path)
+    if not path.exists():
+        return {}
+    try:
+        raw = yaml.safe_load(path.read_text(encoding="utf-8")) or {}
+    except Exception:
+        return {}
+
+    entries = raw.get("watchlist", []) if isinstance(raw, dict) else []
+    config_map: dict[str, str] = {}
+    for entry in entries:
+        if not isinstance(entry, dict):
+            continue
+        ticker = entry.get("ticker")
+        cfg = entry.get("valuation_config")
+        if not ticker or not cfg:
+            continue
+        ticker_key = str(ticker).upper()
+        if ticker_key in config_map:
+            continue  # keep first occurrence — stable, deterministic
+        cfg_path = Path(cfg)
+        if not cfg_path.is_absolute():
+            cfg_path = _REPO_ROOT / cfg_path
+        if not cfg_path.exists():
+            continue
+        config_map[ticker_key] = str(cfg_path.resolve())
+    return config_map
+
+
+def _mna_config_map() -> dict[str, str]:
+    """Merged ``TICKER -> config path`` map used by the M&A scan.
+
+    The replay watchlist provides the point-in-time configs; the provisional and
+    pipeline auto-generated watchlists fill coverage gaps only (``setdefault`` →
+    never override a PIT or provisional config). Exposed so the dual-track screen
+    can classify name liveness from the config source.
+    """
+    config_map = _load_valuation_config_map()
+    for gap_watchlist in (_MNA_PROVISIONAL_WATCHLIST, _MNA_AUTO_GENERATED_WATCHLIST):
+        for ticker_key, cfg_path in _load_valuation_config_map(gap_watchlist).items():
+            config_map.setdefault(ticker_key, cfg_path)
+    return config_map
+
+
+def _build_mna_watchlist(config_map: Optional[dict[str, str]] = None) -> list:
+    """Build the M&A scan ``WatchlistAsset`` list from UNIVERSE.
+
+    Existing valuation configs are attached by ticker (via
+    :func:`_load_valuation_config_map`) so the acquisition screener can compute
+    rNPV/EV inline. Names with no mapped config keep ``valuation_config=None``
+    and stay honestly ``not_assessed`` on the investment lens.
+    """
+    from bve.pipeline.watchlist_runner import WatchlistAsset
+
+    if config_map is None:
+        config_map = _mna_config_map()
+
+    # Deduplicate by asset_id — UNIVERSE lists some assets twice (across conviction
+    # tiers), which otherwise produces duplicate scan rows for one ticker (and,
+    # via independent acquirer tie-breaks, even two different "natural acquirers").
+    assets: list = []
+    seen_asset_ids: set[str] = set()
+    for u in UNIVERSE:
+        asset_id = u["asset_id"]
+        if asset_id in seen_asset_ids:
+            continue
+        seen_asset_ids.add(asset_id)
+        ticker = u.get("ticker")
+        assets.append(
+            WatchlistAsset(
+                company_id=u["company_id"],
+                asset_id=asset_id,
+                ticker=ticker,
+                indication=u.get("indication"),
+                valuation_config=(
+                    config_map.get(str(ticker).upper()) if ticker else None
+                ),
+            )
+        )
+    return assets
+
+
 def _run_mna_scan(store: KnowledgeStore, top_n: int = 15) -> Optional[object]:
     """
     Run the M&A probability scan over the weekly UNIVERSE and return
@@ -70,23 +181,18 @@ def _run_mna_scan(store: KnowledgeStore, top_n: int = 15) -> Optional[object]:
     # Lazy import to avoid top-level import cost on every runner invocation
     try:
         from bve.intelligence.ma_probability import MAProbabilityConfig, MAProbabilityScanner
-        from bve.pipeline.watchlist_runner import WatchlistAsset
     except ImportError:
         return None
 
     if not all(Path(p).exists() for p in [_MNA_PROFILES_PATH, _MNA_COMPS_PATH, _MNA_VULN_PATH]):
         return None
 
-    # Build WatchlistAsset list from UNIVERSE definition
-    watchlist_assets = [
-        WatchlistAsset(
-            company_id=u["company_id"],
-            asset_id=u["asset_id"],
-            ticker=u.get("ticker"),
-            indication=u.get("indication"),
-        )
-        for u in UNIVERSE
-    ]
+    # Build WatchlistAsset list from UNIVERSE, attaching existing valuation
+    # configs by ticker so the screener can populate the coarse investment lens.
+    try:
+        watchlist_assets = _build_mna_watchlist()
+    except ImportError:
+        return None
 
     config = MAProbabilityConfig(
         top_n=top_n,
@@ -195,6 +301,236 @@ def cmd_seed() -> None:
     print(f"\nSeeded. DB: {DB_PATH}")
 
 
+def _emit_profile_review_section(
+    *,
+    out_dir: Path,
+    db_path: Path,
+    run_date: "date",
+    current_scores: Optional[dict[str, float]] = None,
+    score_snapshot: Optional[Path] = None,
+    profiles_dir: Optional[Path] = None,
+    proposed_seeds_path: Optional[Path] = None,
+    extra_review_items: Optional[list] = None,
+) -> Optional[Path]:
+    """Build the analyst review queue, print it, and write a dated text artifact.
+
+    ``current_scores`` — ``{TICKER: composite_score}`` for all candidates this
+    run (upper-cased). When supplied, prior scores are loaded from
+    ``score_snapshot`` and ``large_score_move`` items are emitted for tickers
+    whose composite moved > 25 % week-over-week. Current scores are then
+    persisted to ``score_snapshot`` so the next run can compare against them.
+
+    Silently skips if the profile store is empty or unavailable — the weekly
+    report must not fail because of a missing profile DB.
+
+    Returns the path written, or None if skipped.
+    """
+    import json
+
+    import yaml
+
+    try:
+        from bve.pipeline.override_staleness import load_all_stale
+        from bve.pipeline.profile_store import ProfileStore
+        from bve.pipeline.review_queue import build_review_queue, render_text
+        from bve.pipeline.review_writeback import ProfileReviewStore
+    except ImportError:
+        return None
+
+    try:
+        pstore = ProfileStore(db_path=str(db_path))
+        try:
+            tickers = pstore.list_tickers()
+            profiles = [p for t in tickers if (p := pstore.get(t)) is not None]
+        finally:
+            pstore.close()
+    except Exception:
+        profiles = []
+
+    try:
+        rstore = ProfileReviewStore(db_path=str(db_path))
+        try:
+            resolutions = rstore.resolutions()
+        finally:
+            rstore.close()
+    except Exception:
+        resolutions = {}
+
+    # Load prior scores for large_score_move detection.
+    snap_path = score_snapshot or (out_dir / "review_score_snapshot.json")
+    prior_scores: dict[str, float] = {}
+    if current_scores and snap_path.exists():
+        try:
+            prior_scores = {
+                k.upper(): float(v)
+                for k, v in json.loads(snap_path.read_text(encoding="utf-8")).items()
+            }
+        except (OSError, ValueError):
+            prior_scores = {}
+
+    _profiles_dir = profiles_dir or (_REPO_ROOT / "profiles")
+    stale_overrides = load_all_stale(_profiles_dir)
+
+    # bve-discover proposed seeds (profile-independent). Read the persisted
+    # routing artifact, never re-run enumeration here — that keeps the weekly
+    # report cheap and offline.
+    extra_items: list = []
+    extra_gen = None
+    seeds_path = proposed_seeds_path or (_REPO_ROOT / "outputs" / "discovery" / "proposed_seeds.yaml")
+    if seeds_path.exists():
+        try:
+            from bve.pipeline.review_queue import proposed_seed_items_from_doc
+
+            doc = yaml.safe_load(seeds_path.read_text(encoding="utf-8")) or {}
+            extra_items, extra_gen = proposed_seed_items_from_doc(doc)
+        except Exception:
+            extra_items, extra_gen = [], None
+
+    # Live score-update-pending items (commit 2 gate) are profile-independent and
+    # carry no resolution timestamp; append them directly to the review queue.
+    if extra_review_items:
+        extra_items = list(extra_items) + list(extra_review_items)
+
+    if not profiles and not extra_items:
+        return None
+
+    items = build_review_queue(
+        profiles,
+        resolutions=resolutions,
+        prior_scores=prior_scores,
+        current_scores={k.upper(): v for k, v in (current_scores or {}).items()},
+        stale_overrides=stale_overrides,
+        extra_items=extra_items,
+        extra_items_generated_at=extra_gen,
+    )
+    text = render_text(items)
+
+    header = f"\n{'='*60}\nPROFILE REVIEW QUEUE — {run_date}\n{'='*60}\n"
+    print(header + text + "\n")
+
+    out_path = out_dir / f"review_report_{run_date.isoformat()}.txt"
+    try:
+        out_dir.mkdir(parents=True, exist_ok=True)
+        out_path.write_text(header.lstrip() + text + "\n", encoding="utf-8")
+        print(f"Saved: {out_path}")
+    except OSError:
+        pass
+
+    # Persist current scores so the next run can detect movement.
+    if current_scores:
+        try:
+            snap_path.parent.mkdir(parents=True, exist_ok=True)
+            snap_path.write_text(
+                json.dumps(current_scores, indent=2), encoding="utf-8"
+            )
+        except OSError:
+            pass
+
+    return out_path
+
+
+def _apply_score_gate(store, candidates, score_contexts, gen, *, run_id, as_of):
+    """Apply the review-first gate to signal-driven score movements (commit 2).
+
+    For each candidate with a stored-signal context: compute base (no-signal) vs new
+    (with-signal) composite, then route via ``score_update_policy.decide``:
+      - auto_apply (small, no major event) → the new score publishes;
+      - review (material |delta| ≥ threshold, or any major clinical/regulatory event)
+        → the score is HELD at the prior (base) value and a ``score_update_pending``
+        review item is emitted.
+    Every movement is persisted as an auditable ``score_update`` carrying its decision.
+
+    Returns ``(published_scores, applied_contexts, pending_items, n_applied, n_held)``
+    where ``applied_contexts`` are the contexts to actually feed the report (held
+    assets are withheld so the report shows the prior score).
+    """
+    import hashlib
+
+    from bve.intelligence.composite_scorer import CompositeScorer
+    from bve.intelligence.knowledge_layer import ScoreUpdateRecord, SourceTrace
+    from bve.intelligence import score_update_policy as policy
+    from bve.pipeline.review_queue import SCORE_UPDATE_PENDING, ReviewItem
+
+    w_r, w_t, w_o = gen.weights["ranking"], gen.weights["thesis"], gen.weights["opportunity"]
+    scorer = CompositeScorer() if score_contexts else None
+
+    published: dict[str, float] = {}
+    applied_contexts: dict[str, object] = {}
+    pending_items: list = []
+    n_applied = n_held = 0
+
+    def _persist(rec: ScoreUpdateRecord) -> None:
+        try:
+            store.add_score_update(
+                rec, source_trace=SourceTrace(source_type="weekly_scanner", source_ref=f"run:{run_id}"))
+        except Exception:
+            pass  # audit persistence must never break the report
+
+    for c in candidates:
+        thesis = c.thesis_strength if c.thesis_strength is not None else 0.0
+        base = round(max(0.0, min(1.0, w_r * c.ranking_score + w_t * thesis + w_o * c.opportunity_score)), 4)
+        sc = score_contexts.get(c.asset_id)
+        if scorer is None or sc is None:
+            published[c.ticker.upper()] = base
+            continue
+
+        components = scorer.compute_adjustments(sc.context)
+        new = round(max(0.0, min(1.0, base + CompositeScorer.total(components))), 4)
+        delta = round(new - base, 4)
+        if abs(delta) <= 1e-9:
+            published[c.ticker.upper()] = base
+            continue
+
+        # Movement signature: asset + its contributing event set. Deterministic id
+        # makes repeated runs idempotent; a NEW event set yields a new key (and so a
+        # fresh pending item even after a prior resolution — stale re-trigger).
+        rkey = f"{c.asset_id}|{','.join(sorted(sc.contributing_event_ids))}"
+        su_id = "su-" + hashlib.sha1(rkey.encode()).hexdigest()[:16]
+        decision, reason = policy.decide(delta, sc.contributing_event_types)
+
+        # Honour any prior analyst resolution for this exact movement.
+        existing = store.get_latest_score_update_by_key(rkey) if hasattr(store, "get_latest_score_update_by_key") else None
+        if existing is not None and existing.status == "approved":
+            published[c.ticker.upper()] = existing.new_score
+            applied_contexts[c.asset_id] = sc.context  # publish the approved move
+            continue
+        if existing is not None and existing.status == "rejected":
+            published[c.ticker.upper()] = base  # rejected → keep prior, no pending
+            continue
+
+        if decision == policy.DECISION_AUTO_APPLY:
+            published[c.ticker.upper()] = new
+            applied_contexts[c.asset_id] = sc.context
+            n_applied += 1
+            _persist(ScoreUpdateRecord(
+                id=su_id, run_id=run_id, asset_id=c.asset_id, as_of=as_of,
+                prior_score=base, new_score=new, delta=delta,
+                decision=decision, status="auto_applied", resolution_key=rkey,
+                components=components,
+                contributing_signal_ids=list(sc.contributing_signal_ids),
+                contributing_event_ids=list(sc.contributing_event_ids)))
+        else:  # review → hold at prior (base), emit/refresh pending item
+            published[c.ticker.upper()] = base
+            n_held += 1
+            major = any(policy._is_major(et) for et in sc.contributing_event_types)
+            pending_items.append(ReviewItem(
+                c.ticker.upper(), c.asset_id, SCORE_UPDATE_PENDING,
+                "high" if major else "medium", "composite_score",
+                f"score would move {base:.3f}→{new:.3f} ({delta:+.3f}) from "
+                f"{','.join(sc.contributing_event_ids) or 'signals'}; held for review "
+                f"({reason}) [id={su_id}]",
+            ))
+            _persist(ScoreUpdateRecord(
+                id=su_id, run_id=run_id, asset_id=c.asset_id, as_of=as_of,
+                prior_score=base, new_score=new, delta=delta,
+                decision=decision, status="pending", resolution_key=rkey,
+                components=components,
+                contributing_signal_ids=list(sc.contributing_signal_ids),
+                contributing_event_ids=list(sc.contributing_event_ids)))
+
+    return published, applied_contexts, pending_items, n_applied, n_held
+
+
 def cmd_report(top_n: int = 5) -> None:
     """Generate weekly actionable report."""
     store = _get_store()
@@ -207,8 +543,8 @@ def cmd_report(top_n: int = 5) -> None:
         n_resolved = snap.n_confirmed + snap.n_refuted + snap.n_expired
         thesis_strength = snap.thesis_strength if n_resolved > 0 else None
         company_snapshot = store.get_company_sotp_snapshot_for_ticker_on_or_before(
-            str(u["ticker"]),
-            date.today(),
+            ticker=str(u["ticker"]),
+            as_of=date.today(),
         )
         candidates.append(ScoredCandidate(
             asset_id=u["asset_id"],
@@ -236,7 +572,27 @@ def cmd_report(top_n: int = 5) -> None:
             ),
         ))
 
-    report = gen.generate(candidates, top_n=top_n, week_ending=date.today())
+    # Build per-asset signal contexts from stored signals, then apply the review-first
+    # gate (live scanner score-update contract). Material/major-event moves hold at the
+    # prior score + emit score_update_pending; immaterial moves auto-apply. Held assets
+    # have their context withheld so the report shows the prior (un-moved) score.
+    from bve.intelligence.score_context_builder import build_score_contexts
+
+    _run_id = f"weekly-{date.today().isoformat()}"
+    _score_contexts = build_score_contexts(
+        store, [c.asset_id for c in candidates], as_of=date.today()
+    )
+    _all_scores, _applied_contexts, _pending_items, _n_applied, _n_held = _apply_score_gate(
+        store, candidates, _score_contexts, gen, run_id=_run_id, as_of=date.today()
+    )
+
+    report = gen.generate(
+        candidates, top_n=top_n, week_ending=date.today(), contexts=_applied_contexts or None
+    )
+
+    if _n_applied or _n_held:
+        print(f"  Score updates: {_n_applied} auto-applied, {_n_held} held for review "
+              f"(run={_run_id})")
 
     print(f"\n{'='*60}")
     print(f"WEEKLY ACTIONABLE REPORT — {report.week_ending}")
@@ -292,6 +648,16 @@ def cmd_report(top_n: int = 5) -> None:
     _persist_screen_snapshot(store)
 
     store.close()
+
+    # Profile review report — surface analyst queue items alongside the actionable output.
+    _emit_profile_review_section(
+        out_dir=DB_PATH.parent,
+        db_path=DB_PATH,
+        run_date=date.today(),
+        current_scores=_all_scores,
+        extra_review_items=_pending_items,
+    )
+
     return report
 
 

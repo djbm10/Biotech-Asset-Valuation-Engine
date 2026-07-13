@@ -25,19 +25,20 @@ from pathlib import Path
 def _load_ma_row(ticker: str) -> object | None:
     """Try to load the most recent MAProbabilityRow snapshot for the ticker."""
     try:
-        from bve.intelligence.ma_probability import MAProbabilityScanner
         from bve.intelligence.knowledge_layer import KnowledgeStore
+        from bve.ops.weekly_runner import _run_mna_scan
 
         default_db = Path("outputs") / "intelligence" / "ops.db"
         if not default_db.exists():
             return None
 
-        kb = KnowledgeStore(str(default_db))
-        scanner = MAProbabilityScanner(knowledge_store=kb)
-        rows = scanner.scan_watchlist(limit=200)
+        store = KnowledgeStore(str(default_db))
+        result = _run_mna_scan(store, top_n=200)
+        if result is None:
+            return None
         ticker_upper = ticker.upper()
-        for row in rows:
-            if (row.ticker or "").upper() == ticker_upper:
+        for row in getattr(result, "rows", []):
+            if (getattr(row, "ticker", "") or "").upper() == ticker_upper:
                 return row
         return None
     except Exception:

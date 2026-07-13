@@ -224,13 +224,16 @@
 
 - ticker: KYMR
   company_name: Kymera Therapeutics
-  asset_id: asset-kymr-kt474
-  drug_name: KT-474
+  asset_id: asset-kymr-kt621
+  drug_name: KT-621
   indication: Atopic dermatitis
   therapeutic_area: immunology
   stage: phase_2
   modality: small_molecule
-  nct_id: NCT05651769
+  nct_id: NCT07217015
+  # 2026-06-14: lead updated KT-474 -> KT-621 (backtest adjudication). KT-474's
+  # partnered Ph2 (Sanofi SAR444656) terminated; KT-621 oral STAT6 degrader is the
+  # live recruiting Ph2 lead. See outputs/discovery/adjudication_high_tier.md.
   tam_millions: 3300.0
   net_price_per_patient_usd: 22000.0
   addressable_patients_annual: 300000
@@ -272,13 +275,16 @@
 
 - ticker: FATE
   company_name: Fate Therapeutics
-  asset_id: asset-fate-ft576
-  drug_name: FT576
-  indication: Multiple myeloma
-  therapeutic_area: oncology
-  stage: phase_1
+  asset_id: asset-fate-ft819
+  drug_name: FT819
+  indication: Systemic lupus erythematosus
+  therapeutic_area: immunology
+  stage: phase_2
   modality: cell_gene
-  nct_id: NCT05182073
+  nct_id: NCT07570862
+  # 2026-06-14: lead updated FT576 -> FT819 (backtest adjudication). FT576 iPSC-NK
+  # (MM) is a completed/shelved Ph1; FT819 iPSC CAR-T is the active lead, now in a
+  # Ph2 lupus nephritis/SLE trial. See outputs/discovery/adjudication_high_tier.md.
   tam_millions: 2800.0
   net_price_per_patient_usd: 225000.0
   addressable_patients_annual: 18000
@@ -477,3 +483,204 @@
   peak_penetration: 0.22
   patent_life_years: 9
   discount_rate: 0.115
+
+# ---------------------------------------------------------------------------
+# Phase 1.5 seed expansion — top-priority missing universe names (identity only;
+# economics auto-filled from heuristic priors and flagged low-confidence).
+# NCTs intentionally omitted where not confidently known (optional; CT.gov
+# enrichment kicks in once an NCT is added).
+# ---------------------------------------------------------------------------
+- ticker: GPCR
+  company_name: Structure Therapeutics
+  asset_id: asset-gpcr-gsbr1290
+  drug_name: Aleniglipron (GSBR-1290)
+  indication: Obesity
+  therapeutic_area: metabolic
+  stage: phase_2
+  modality: small_molecule
+  nct_id: NCT06693843
+
+- ticker: MRUS
+  company_name: Merus N.V.
+  asset_id: asset-mrus-zenocutuzumab
+  drug_name: Zenocutuzumab
+  indication: NRG1 fusion-positive cancer
+  therapeutic_area: oncology
+  stage: nda_bla
+  modality: biologic
+
+- ticker: PTGX
+  company_name: Protagonist Therapeutics
+  asset_id: asset-ptgx-rusfertide
+  drug_name: Rusfertide
+  indication: Polycythemia vera
+  therapeutic_area: hematology
+  stage: phase_3
+  modality: biologic
+  nct_id: NCT05210790
+
+- ticker: AGIO
+  company_name: Agios Pharmaceuticals
+  asset_id: asset-agio-mitapivat
+  drug_name: Mitapivat
+  indication: Pyruvate kinase deficiency
+  therapeutic_area: hematology
+  stage: nda_bla
+  modality: small_molecule
+
+- ticker: BBIO
+  company_name: BridgeBio Pharma
+  asset_id: asset-bbio-acoramidis
+  drug_name: Acoramidis
+  indication: ATTR cardiomyopathy
+  therapeutic_area: cardiovascular
+  stage: nda_bla
+  modality: small_molecule
+  nct_id: NCT03860935
+
+- ticker: SNDX
+  company_name: Syndax Pharmaceuticals
+  asset_id: asset-sndx-revumenib
+  drug_name: Revumenib
+  indication: KMT2A-rearranged acute leukemia
+  therapeutic_area: hematology
+  stage: nda_bla
+  modality: small_molecule
+  nct_id: NCT04065399
+
+- ticker: RCUS
+  company_name: Arcus Biosciences
+  asset_id: asset-rcus-domvanalimab
+  drug_name: Domvanalimab
+  indication: Non-small cell lung cancer
+  therapeutic_area: oncology
+  stage: phase_3
+  modality: biologic
+  nct_id: NCT05502237
+
+- ticker: PMV
+  company_name: PMV Pharmaceuticals
+  asset_id: asset-pmv-rezatapopt
+  drug_name: Rezatapopt (PC14586)
+  indication: TP53 Y220C-mutant solid tumors
+  therapeutic_area: oncology
+  stage: phase_2
+  modality: small_molecule
+  nct_id: NCT04585750
+
+- ticker: ARWR
+  company_name: Arrowhead Pharmaceuticals
+  asset_id: asset-arwr-plozasiran
+  drug_name: Plozasiran
+  indication: Hypertriglyceridemia
+  therapeutic_area: cardiovascular
+  stage: phase_3
+  modality: rna_therapy
+  nct_id: NCT06347133
+
+- ticker: RARE
+  company_name: Ultragenyx Pharmaceutical
+  asset_id: asset-rare-setrusumab
+  drug_name: Setrusumab
+  indication: Osteogenesis imperfecta
+  therapeutic_area: rare_disease
+  stage: phase_3
+  modality: biologic
+  nct_id: NCT05768854
+
+- ticker: IMCR
+  company_name: Immunocore Holdings
+  asset_id: asset-imcr-tebentafusp
+  drug_name: Tebentafusp
+  indication: Metastatic uveal melanoma
+  therapeutic_area: oncology
+  stage: nda_bla
+  modality: biologic
+
+- ticker: IDYA
+  company_name: Ideaya Biosciences
+  asset_id: asset-idya-darovasertib
+  drug_name: Darovasertib
+  indication: Uveal melanoma
+  therapeutic_area: oncology
+  stage: phase_3
+  modality: small_molecule
+  nct_id: NCT07015190
+
+- ticker: NUVB
+  company_name: Nuvation Bio
+  asset_id: asset-nuvb-taletrectinib
+  drug_name: Taletrectinib
+  indication: ROS1-positive non-small cell lung cancer
+  therapeutic_area: oncology
+  stage: phase_3
+  modality: small_molecule
+  nct_id: NCT06564324
+
+- ticker: RCKT
+  company_name: Rocket Pharmaceuticals
+  asset_id: asset-rckt-rpa501
+  drug_name: RP-A501
+  indication: Danon disease
+  therapeutic_area: rare_disease
+  stage: phase_2
+  modality: gene_therapy
+  nct_id: NCT06092034
+
+- ticker: KPTI
+  company_name: Karyopharm Therapeutics
+  asset_id: asset-kpti-selinexor
+  drug_name: Selinexor
+  indication: Myelofibrosis
+  therapeutic_area: hematology
+  stage: phase_3
+  modality: small_molecule
+
+- ticker: ARGX
+  company_name: Argenx SE
+  asset_id: asset-argx-efgartigimod
+  drug_name: Efgartigimod
+  indication: Generalized myasthenia gravis
+  therapeutic_area: immunology
+  stage: nda_bla
+  modality: biologic
+
+- ticker: ANNX
+  company_name: Annexon Biosciences
+  asset_id: asset-annx-anx007
+  drug_name: ANX007
+  indication: Geographic atrophy
+  therapeutic_area: ophthalmology
+  stage: phase_3
+  modality: biologic
+  nct_id: NCT06510816
+
+- ticker: ESPR
+  company_name: Esperion Therapeutics
+  asset_id: asset-espr-bempedoic
+  drug_name: Bempedoic acid
+  indication: Hypercholesterolemia
+  therapeutic_area: cardiovascular
+  stage: nda_bla
+  modality: small_molecule
+  nct_id: NCT02993406
+
+- ticker: BCYC
+  company_name: Bicycle Therapeutics
+  asset_id: asset-bcyc-zelenectide
+  drug_name: Zelenectide pevedotin (BT8009)
+  indication: Urothelial cancer
+  therapeutic_area: oncology
+  stage: phase_2
+  modality: adc
+  nct_id: NCT06225596
+
+- ticker: TERN
+  company_name: Terns Pharmaceuticals
+  asset_id: asset-tern-tern601
+  drug_name: TERN-601
+  indication: Obesity
+  therapeutic_area: metabolic
+  stage: phase_1
+  modality: small_molecule
+  nct_id: NCT06854952

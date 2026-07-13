@@ -81,6 +81,11 @@ top_level_module_map:
     primary_question: 1
     role: source fetchers for public data systems
     state: current
+  - module: discovery
+    kind: package
+    primary_question: 1
+    role: autonomous ticker + lead-asset discovery, routing, and seed proposal
+    state: current
   - module: dossier
     kind: package
     primary_question: 1

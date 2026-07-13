@@ -1,0 +1,18 @@
+# Provisional current configs for high-conviction names that have no PIT replay
+# config. Hand-authored, current economics, rNPV inputs marked PROVISIONAL.
+# Merged into the M&A scan coverage map AFTER the replay watchlist, so it only
+# fills gaps (never overrides a point-in-time config). Investment evidence for
+# these names stays "coarse" until a full reviewed valuation is run.
+watchlist:
+- company_id: beam-provisional
+  asset_id: a-beam
+  drug_name: BEAM-101
+  indication: Severe sickle cell disease
+  ticker: BEAM
+  valuation_config: examples/configs/provisional/beam.yaml
+- company_id: dnli-provisional
+  asset_id: a-dnli
+  drug_name: DNL310 (tividenofusp alfa)
+  indication: Hunter syndrome (MPS II)
+  ticker: DNLI
+  valuation_config: examples/configs/provisional/dnli.yaml

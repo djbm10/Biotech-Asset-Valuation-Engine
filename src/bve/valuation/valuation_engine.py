@@ -99,6 +99,10 @@ class ValuationEngine:
         comparable_deals: Optional[list[ComparableDeal]] = None,
         empirical_pos_engine=None,  # Optional[EmpiricalPOSEngine] — lazy import avoids cycle
         pos_mode: str = "heuristic",  # POSMode value: "heuristic" | "empirical_raw" | "empirical_calibrated"
+        enable_science_thesis: bool = False,
+        apply_science_pos_modifier: bool = False,
+        buyer_problem=None,
+        buyer_problem_id: str | None = None,
     ):
         self.asset = asset
         self.company = company
@@ -125,6 +129,10 @@ class ValuationEngine:
         # EmpiricalPOSEngine (bve.empirical) — None means heuristic / raw trial POS
         self.empirical_pos_engine = empirical_pos_engine
         self.pos_mode = pos_mode  # str matching POSMode values
+        self.enable_science_thesis = enable_science_thesis
+        self.apply_science_pos_modifier = apply_science_pos_modifier
+        self.buyer_problem = buyer_problem
+        self.buyer_problem_id = buyer_problem_id
 
     # ------------------------------------------------------------------
     # Alternate constructor from DrugAssetProgram
@@ -176,7 +184,12 @@ class ValuationEngine:
 
     def run(self) -> ValuationOutput:
         """Execute the full valuation pipeline."""
+        science_thesis = self._build_science_thesis() if self.enable_science_thesis else None
         trials = self._prepare_trials()
+        mc_params = self.mc_params
+        if self.apply_science_pos_modifier and science_thesis is not None:
+            trials = self._apply_science_thesis_modifier(trials, science_thesis)
+            mc_params = self._apply_science_thesis_modifier_to_mc_params(science_thesis)
 
         # --- Auto-select SG&A profile and resolve effective market model ---
         market_model = self._resolve_market_model_with_sgna()
@@ -249,7 +262,7 @@ class ValuationEngine:
 
         # --- Monte Carlo ---
         mc = run_monte_carlo(
-            self.asset, trials, market_model, self.mc_params,
+        self.asset, trials, market_model, mc_params,
             loe_profile=loe_profile, deal=deal,
         )
         mc_nav_per_share = (mc.mean_millions + self.company.net_cash_millions) / self.company.shares_outstanding_millions
@@ -312,6 +325,26 @@ class ValuationEngine:
             modality=self.asset.modality.value,
             deal_size_millions=max(rnpv.rnpv_millions, 100.0),
         )
+        if science_thesis is not None:
+            science_thesis = self._attach_killer_questions(science_thesis, trials, market_model, deal)
+        bd_actionability = self._build_bd_actionability(science_thesis) if science_thesis else None
+        science_summary = None
+        bd_summary = None
+        if science_thesis is not None:
+            from bve.intelligence.science_thesis_summary import (
+                build_bd_summary,
+                build_science_summary,
+            )
+
+            science_summary = build_science_summary(
+                science_thesis,
+                modifier_applied=self.apply_science_pos_modifier,
+            )
+            bd_summary = build_bd_summary(
+                bd_actionability,
+                buyer_problem=self.buyer_problem,
+                buyer_problem_id=self.buyer_problem_id,
+            )
 
         return ValuationOutput(
             asset=self.asset,
@@ -345,11 +378,135 @@ class ValuationEngine:
             runway_forecast=runway_forecast,
             dilution_analysis=dilution_analysis,
             variant_perception=variant_perception,
+            science_thesis=science_thesis,
+            bd_actionability=bd_actionability,
+            science_summary=science_summary,
+            bd_summary=bd_summary,
         )
 
     # -----------------------------------------------------------------------
     # Trial preparation (POS + design model layers)
     # -----------------------------------------------------------------------
+
+    def _build_science_thesis(self):
+        """Build a sparse ScienceThesis from current asset context, without inference."""
+        from bve.intelligence.science_thesis_builder import (
+            ScienceThesisBuilder,
+            ScienceThesisBuilderInput,
+        )
+
+        target = self.asset.biological_target or self.asset.canonical_target or ""
+        mechanism = self.asset.mechanism_of_action or self.asset.canonical_moa or ""
+        return ScienceThesisBuilder().build(
+            ScienceThesisBuilderInput(
+                asset_id=self.asset.id,
+                asset_name=self.asset.name,
+                indication=self.asset.indication,
+                phase=self.asset.stage.value,
+                modality=self.asset.modality.value,
+                target=target,
+                mechanism=mechanism,
+                has_target_rationale=bool(target or mechanism),
+            )
+        )
+
+    def _attach_killer_questions(self, science_thesis, trials, market_model, deal):
+        """Attach read-only KillerQuestionSet for memo/BD output surfacing."""
+        from bve.intelligence.killer_question import derive_killer_questions
+
+        from bve.intelligence.conviction_update import (
+            apply_dose_response_conviction,
+            apply_expected_signature_conviction,
+        )
+
+        target_has_precedent = bool(getattr(self.asset, "target_precedent", False))
+        killer_question_set = derive_killer_questions(
+            asset=self.asset,
+            trials=trials,
+            market_model=market_model,
+            scored=getattr(science_thesis, "scored_questions", None),
+            context=getattr(science_thesis, "science_context", None),
+            guardrail=getattr(science_thesis, "science_guardrail", None),
+            deal=deal,
+            indication=getattr(science_thesis, "indication", None) or self.asset.indication,
+            target_has_precedent=target_has_precedent,
+        )
+        # Downstream conviction (auditable log-odds posterior updates + ConvictionRecords;
+        # no POS/scoring change): (1) promote a flagged dose-response trend; (2) compare
+        # config-fed observed biomarkers against the APPROVED expected-signature library.
+        killer_question_set, dose_records = apply_dose_response_conviction(killer_question_set)
+        mechanism_context = " ".join(
+            part
+            for part in (
+                str(getattr(science_thesis, "modality", "") or ""),
+                str(getattr(science_thesis, "core_biological_hypothesis", "") or ""),
+            )
+            if part
+        )
+        killer_question_set, signature_records = apply_expected_signature_conviction(
+            killer_question_set,
+            mechanism_context=mechanism_context,
+            observed_changes=getattr(science_thesis, "observed_biomarker_changes", None),
+        )
+        return science_thesis.model_copy(
+            update={
+                "killer_question_set": killer_question_set,
+                "conviction_records": [*dose_records, *signature_records],
+            }
+        )
+
+    def _apply_science_thesis_modifier(self, trials: list[ClinicalTrial], science_thesis) -> list[ClinicalTrial]:
+        """Apply heuristic modifier to the first remaining technical POS only."""
+        modifier_result = getattr(science_thesis, "modifier_result", None)
+        if modifier_result is None:
+            return trials
+        modifier = modifier_result.heuristic_science_modifier
+        if not trials:
+            return trials
+        adjusted = []
+        for idx, trial in enumerate(trials):
+            if idx == 0:
+                pos = max(0.01, min(0.99, trial.success_probability * modifier))
+                adjusted.append(trial.model_copy(update={"success_probability": pos}))
+            else:
+                adjusted.append(trial)
+        return adjusted
+
+    def _apply_science_thesis_modifier_to_mc_params(self, science_thesis) -> MonteCarloParams:
+        """Apply heuristic modifier to matching MC phase distributions when configured."""
+        modifier_result = getattr(science_thesis, "modifier_result", None)
+        if modifier_result is None or not self.mc_params.phase_distributions:
+            return self.mc_params
+        modifier = modifier_result.heuristic_science_modifier
+        first_phase = self.trials[0].phase if self.trials else None
+        adjusted_distributions = []
+        for dist in self.mc_params.phase_distributions:
+            if first_phase is not None and dist.phase == first_phase:
+                adjusted_mean = max(0.01, min(0.99, dist.mean * modifier))
+                adjusted_distributions.append(dist.model_copy(update={"mean": adjusted_mean}))
+            else:
+                adjusted_distributions.append(dist)
+        return self.mc_params.model_copy(update={"phase_distributions": adjusted_distributions})
+
+    def _build_bd_actionability(self, science_thesis):
+        if self.buyer_problem is None:
+            return None
+        from bve.intelligence.layer15_buyer_match import Layer15BuyerMatchInput, Layer15BuyerMatcher
+
+        target = self.asset.biological_target or self.asset.canonical_target or ""
+        modality = self.asset.modality.value
+        therapeutic_area = self.asset.therapeutic_area.value
+        return Layer15BuyerMatcher().match(
+            Layer15BuyerMatchInput(
+                science_thesis=science_thesis,
+                buyer_problem=self.buyer_problem,
+                therapeutic_area=therapeutic_area,
+                target=target,
+                modality=modality,
+                solves_buyer_problem=bool(target and modality and therapeutic_area),
+                problem_solution_fit=0.65,
+            )
+        )
 
     def _prepare_trials(self) -> list[ClinicalTrial]:
         trials = self.trials

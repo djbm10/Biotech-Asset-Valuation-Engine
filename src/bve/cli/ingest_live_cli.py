@@ -43,11 +43,27 @@ def main(
     parser.add_argument("--output",        default=None)
     parser.add_argument("--dry-run",       action="store_true")
     parser.add_argument(
+        "--store-db",
+        default="outputs/intelligence/ops.db",
+        help="KnowledgeStore path to mirror classified events/signals into "
+             "(feeds the weekly scanner score-update contract).",
+    )
+    parser.add_argument(
+        "--no-store",
+        action="store_true",
+        help="Skip mirroring classified events into the KnowledgeStore.",
+    )
+    parser.add_argument(
+        "--fail-on-degraded",
+        action="store_true",
+        help="Exit non-zero if any source verdict is DEGRADED or FAILED (for CI/cron alerting).",
+    )
+    parser.add_argument(
         "--sources",
         default=None,
         help=(
             "Comma-separated list of data sources to run. "
-            "Choices: sec, clinicaltrials, fda, press_releases, earnings_calls. "
+            "Choices: sec, clinicaltrials, fda, press_releases, earnings_calls, news_articles. "
             "Default: all sources."
         ),
     )
@@ -147,11 +163,59 @@ def main(
     for src, count in sorted(result.source_breakdown.items()):
         print(f"  {src}: {count}")
 
+    # ── Source health ─────────────────────────────────────────────────────
+    from bve.reporting.ingestion_health import (
+        has_degraded_or_failed,
+        render_health_report,
+        write_health_report,
+    )
+
+    print()
+    print(render_health_report(result))
+
+    degraded = has_degraded_or_failed(result)
+
     if args.dry_run:
         print("Dry run — no files written.")
-        return 0
+    else:
+        health_paths = write_health_report(result, output_dir)
+        print(f"Output dir:              {output_dir}")
+        for p in result.output_paths:
+            print(f"  {Path(p).name}")
+        for p in health_paths:
+            print(f"  {Path(p).name}")
 
-    print(f"Output dir:              {output_dir}")
-    for p in result.output_paths:
-        print(f"  {Path(p).name}")
+    # ── Step 5: Mirror classified records into the KnowledgeStore ──────────
+    # Feeds the weekly scanner score-update contract (Event + StructuredSignal
+    # rows the score-context builder reads). The evidence ledger remains the
+    # source of truth and is untouched. Best-effort: a mirror failure must not
+    # fail the ingestion run.
+    if not args.dry_run and not args.no_store:
+        from datetime import timedelta
+
+        from bve.ingestion.store_sync import persist_records, universe_ticker_map
+        from bve.intelligence.knowledge_layer import KnowledgeStore
+
+        try:
+            store = KnowledgeStore(Path(args.store_db))
+            try:
+                records = ledger.get_records(
+                    since_date=as_of - timedelta(days=args.lookback_days),
+                    until_date=as_of,
+                )
+                n_ev, n_sig, n_skip = persist_records(
+                    records, store, universe_ticker_map()
+                )
+                print(
+                    f"KnowledgeStore mirror: events={n_ev}, signals={n_sig}, "
+                    f"skipped={n_skip} ({args.store_db})"
+                )
+            finally:
+                store.close()
+        except Exception as exc:  # noqa: BLE001 — best-effort mirror
+            print(f"WARNING: KnowledgeStore mirror failed: {exc}", file=sys.stderr)
+
+    if args.fail_on_degraded and degraded:
+        print("ERROR: one or more sources DEGRADED/FAILED.", file=sys.stderr)
+        return 2
     return 0

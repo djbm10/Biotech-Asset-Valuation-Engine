@@ -1,0 +1,78 @@
+asset:
+  id: asset-bcyc-zelenectide
+  name: Zelenectide pevedotin (BT8009)
+  indication: Urothelial cancer
+  therapeutic_area: oncology
+  stage: phase_2
+  modality: adc
+  discount_rate: 0.1
+company:
+  id: bcyc-auto
+  name: Bicycle Therapeutics
+  ticker: BCYC
+  cash_millions: 559.5
+  shares_outstanding_millions: 69.707
+  debt_millions: 15.3
+  burn_rate_millions_per_quarter: 60.07
+  current_price: 4.05
+  market_cap_millions: 282.7
+trials:
+- phase: phase_2
+  nct_id: NCT06225596
+  success_probability: 0.11244816
+  duration_years: 2.5
+  cost_millions: 120.0
+  enrollment: 375
+  primary_endpoint: 'Cohort 1: Progression-free survival (PFS) per Response Evaluation
+    Criteria in Solid Tumors, version 1.1(RECIST v1.1) by blinded central independent
+    review (BICR) of optimal dose zelenectide pevedotin with pembrolizumab versus
+    chemotherapy'
+  endpoint_type: surrogate_validated
+  estimated_completion_date: 2028-03
+market_model:
+  total_addressable_market_millions: 6000.0
+  addressable_patients_annual: 20000
+  net_price_per_patient_usd: 180000.0
+  peak_penetration: 0.15
+  years_to_peak: 5
+  patent_life_years: 11
+  cogs_rate: 0.15
+  sgna_rate_launch: 0.4
+  sgna_rate_mature: 0.2
+  commercial_inputs:
+    patient_pool:
+      indication: Urothelial cancer
+      addressable_k: 20.0
+      uncertainty_cv: 0.25
+    pricing:
+      wac_per_year_usd: 257142.86
+      gross_to_net_rate: 0.3
+      launch_discount: 0.0
+      annual_erosion_rate: 0.02
+      uncertainty_cv: 0.15
+    share:
+      peak_share: 0.15
+      years_to_peak: 5
+      share_cv: 0.2
+    ex_us_revenue_multiple: 1.0
+_meta:
+  config_version: auto-profile-v1
+  generator_version: profile-0.1
+  generated_at: '2026-06-14'
+  source_nct_id: NCT06225596
+  evidence_level: coarse
+  defaulted_fields:
+  - addressable_patients_annual
+  - cogs_rate
+  - cost_millions
+  - discount_rate
+  - duration_years
+  - endpoint_type
+  - net_price_per_patient_usd
+  - patent_life_years
+  - peak_penetration
+  - sgna_rate_launch
+  - sgna_rate_mature
+  - total_addressable_market_millions
+  - years_to_peak
+  provisional: true

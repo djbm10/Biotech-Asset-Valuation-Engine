@@ -18,6 +18,8 @@ biotech-env/
 outputs/
 outputs/cache/
 memos/
+# Public profile YAML exports (local review artifact; SQLite store is the truth)
+profiles/
 # case_studies/ is intentionally tracked (committed analysis outputs)
 
 # Jupyter
@@ -42,3 +44,8 @@ Thumbs.db
 .pytest_cache/
 .coverage
 htmlcov/
+
+# Private BD prep / advisor notes — never push to GitHub
+Meeting Prep/
+docs/advice/Chris Folts advice.md
+docs/advice/Harvey Advice.md

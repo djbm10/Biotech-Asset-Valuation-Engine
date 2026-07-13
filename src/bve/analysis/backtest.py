@@ -1,7 +1,7 @@
 """
 Backtesting: validate POS model predictions against historical drug trial outcomes.
 
-Loads the oncology dataset from research/data/oncology_phase_transitions.csv (and optional
+Loads the mixed-TA dataset from research/data/phase_transitions.csv (and optional
 multi-TA datasets), runs the heuristic and statistical POS models on each program's feature
 set, and computes calibration metrics.
 
@@ -23,7 +23,7 @@ The dataset targets ~40% Phase 2 and ~60% Phase 3 success rates (Biomedtracker p
 Usage
 -----
     from bve.analysis.backtest import run_backtest_from_csv, print_report
-    report = run_backtest_from_csv("research/data/oncology_phase_transitions.csv")
+    report = run_backtest_from_csv("research/data/phase_transitions.csv")
     print(print_report(report))
 
     # Multi-TA combined backtest
@@ -288,6 +288,8 @@ def load_cases_from_csv(csv_path: str | Path, therapeutic_area: str = "oncology"
     """
     import csv
 
+    from bve.analysis.pos_calibration import infer_ta_from_indication
+
     cases = []
     with open(csv_path, newline="") as f:
         reader = csv.DictReader(f)
@@ -295,6 +297,9 @@ def load_cases_from_csv(csv_path: str | Path, therapeutic_area: str = "oncology"
             phase = row.get("phase_start", "").strip()
             if phase not in ("phase_2", "phase_3"):
                 continue  # skip NDA-stage entries and blank rows
+            row_ta = row.get("therapeutic_area", "").strip().lower()
+            inferred_ta = row_ta or infer_ta_from_indication(row.get("indication", ""))
+            case_ta = therapeutic_area if inferred_ta == "other" else inferred_ta
             cases.append(BacktestCase(
                 drug=row["drug"].strip(),
                 company=row.get("company", "").strip(),
@@ -307,7 +312,7 @@ def load_cases_from_csv(csv_path: str | Path, therapeutic_area: str = "oncology"
                 biomarker_enriched=row.get("biomarker_enriched", "false").strip().lower() == "true",
                 safety_profile=row.get("safety_profile", "minor").strip(),
                 competitive_pressure=row.get("competitive_pressure", "moderate").strip(),
-                therapeutic_area=therapeutic_area,
+                therapeutic_area=case_ta,
                 notes=row.get("notes", "").strip(),
             ))
     return cases
@@ -403,10 +408,12 @@ def run_backtest_from_csv(csv_path: str | Path, therapeutic_area: str = "oncolog
     report = run_backtest(cases)
     from bve.analysis.pos_calibration import run_pos_calibration_from_records
 
+    tas = {case.therapeutic_area for case in cases}
+    model_name = "heuristic_mixed_ta" if len(tas) > 1 else f"heuristic_{next(iter(tas))}"
     report.calibration_suite = run_pos_calibration_from_records(
         report.to_calibration_records(),
-        model_name=f"heuristic_{therapeutic_area}",
-        time_split_year=2020,
+        model_name=model_name,
+        time_split_year=2022,
     )
     return report
 
@@ -514,6 +521,54 @@ def print_report(report: BacktestReport) -> str:
         "",
     ]
 
+    # OOS calibration summary (time-split holdout; reporting only)
+    suite = getattr(report, "calibration_suite", None)
+    if suite is not None and suite.overall is not None:
+        split_year = suite.time_split_year or "all"
+        lines.append(
+            f"  Calibration Metrics: in-sample vs OOS (split year {split_year})"
+        )
+        lines.append(f"  {'Sample':<12} {'N':>5}  {'Brier':>7}  {'AUC':>7}  {'ECE':>6}")
+        lines.append("  " + "-" * 43)
+        for label, metrics in (
+            ("In-sample", suite.overall),
+            ("OOS", getattr(suite, "oos_overall", None)),
+        ):
+            if metrics is None:
+                lines.append(f"  {label:<12} {'0':>5}  {'n/a':>7}  {'n/a':>7}  {'n/a':>6}")
+                continue
+            brier = "n/a" if metrics.brier_score is None else f"{metrics.brier_score:.4f}"
+            auc = "n/a" if metrics.auc is None else f"{metrics.auc:.4f}"
+            ece = "n/a" if metrics.ece is None else f"{metrics.ece:.4f}"
+            lines.append(f"  {label:<12} {metrics.n:>5}  {brier:>7}  {auc:>7}  {ece:>6}")
+        lines.append("")
+
+        recalibration = getattr(suite, "recalibration", None)
+        if recalibration is not None:
+            lines.append(
+                f"  OOS Recalibration ({recalibration.method}, fit <{recalibration.time_split_year})"
+            )
+            lines.append(f"  {'Model':<15} {'N':>5}  {'Brier':>7}  {'AUC':>7}  {'ECE':>6}")
+            lines.append("  " + "-" * 46)
+            for label, metrics in (
+                ("Raw OOS", recalibration.raw_oos),
+                ("Calibrated OOS", recalibration.calibrated_oos),
+            ):
+                if metrics is None:
+                    lines.append(
+                        f"  {label:<15} {'0':>5}  {'n/a':>7}  {'n/a':>7}  {'n/a':>6}"
+                    )
+                    continue
+                brier = "n/a" if metrics.brier_score is None else f"{metrics.brier_score:.4f}"
+                auc = "n/a" if metrics.auc is None else f"{metrics.auc:.4f}"
+                ece = "n/a" if metrics.ece is None else f"{metrics.ece:.4f}"
+                lines.append(
+                    f"  {label:<15} {metrics.n:>5}  {brier:>7}  {auc:>7}  {ece:>6}"
+                )
+            if recalibration.note:
+                lines.append(f"  Note: {recalibration.note}")
+            lines.append("")
+
     # Calibration table
     lines.append("  Calibration (heuristic) — predicted vs. actual success rate")
     lines.append(f"  {'Bucket':<12} {'N':>4}  {'Pred':>6}  {'Actual':>6}")
@@ -574,7 +629,7 @@ if __name__ == "__main__":
             print(f"ERROR: {exc}", file=sys.stderr)
             sys.exit(1)
     else:
-        csv_path = sys.argv[1] if len(sys.argv) > 1 else "research/data/oncology_phase_transitions.csv"
+        csv_path = sys.argv[1] if len(sys.argv) > 1 else "research/data/phase_transitions.csv"
         # Infer TA from filename
         _fname = Path(csv_path).stem
         _ta = "oncology"
@@ -587,6 +642,6 @@ if __name__ == "__main__":
             print(print_report(report))
         except FileNotFoundError:
             print(f"ERROR: CSV file not found: {csv_path}", file=sys.stderr)
-            print("Run from the project root: python -m bve.analysis.backtest research/data/oncology_phase_transitions.csv")
+            print("Run from the project root: python -m bve.analysis.backtest research/data/phase_transitions.csv")
             print("Or run: python -m bve.analysis.backtest --multi-ta")
             sys.exit(1)

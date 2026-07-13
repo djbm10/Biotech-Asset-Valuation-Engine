@@ -1,0 +1,56 @@
+schema_version: se_live_pipeline_production_validation_v1
+release_scope: cd19_bcma_t_cell_engager_public_pre_diligence
+label: "Production-validated public-data S&E screen; pre-diligence—not verified truth."
+
+source_policy:
+  path: examples/configs/se/live_cd19_bcma_tce_policy.yaml
+  required_verdicts: [OK, NO_DATA]
+  fail_closed_verdicts: [DEGRADED, FAILED]
+
+operational_gates:
+  dry_run_release_and_connector_preflight: true
+  operator_user_agent_with_contact_required: true
+  release_manifest_verified_before_network: true
+  release_manifest_schema: se_live_release_manifest_v2
+  specification_hash_bound_to_validated_file: true
+  complete_runtime_closure_hashed: true
+  corpus_integrity_valid: true
+  portable_corpus_health_and_seal_verified: true
+  source_health_reconciled_to_corpus: true
+  discovery_status_required: CONVERGED
+  required_zero_growth_passes: 2
+  processing_failures_maximum: 0
+  route_leakage_maximum: 0
+  minimum_canonical_assets: 1
+  minimum_gate_evaluations: 1
+  immutable_run_artifacts_verified: true
+  exact_artifact_set_and_current_anchor_hashes_verified: true
+  current_pointer_updated_only_after_all_gates: true
+
+scheduled_operation:
+  action_revisions_pinned: true
+  python_runtime_lock_exact_and_hash_verified: true
+  prior_success_restored_and_verified: true
+  successful_artifact_retention_days: 90
+  failure_diagnostic_retention_days: 14
+  repository_writes: false
+
+development_replay_gate:
+  reference_universe: research/se_benchmarks/cd19_bcma/development/reference_universe.csv
+  gold_required: 5/5
+  silver_required_minimum: 15/16
+  latest_validated_result: 21/21
+  reference_data_must_not_enter_acquisition_or_discovery: true
+
+interpretation:
+  public_only: true
+  all_unknown_is_safe_abstention: true
+  all_unknown_requires_diligence_alert: true
+  valuation_separate: true
+  private_holdout_not_accessed: true
+
+revalidation:
+  interval_days: 180
+  material_code_change: required
+  source_policy_change: required
+  specification_change: required

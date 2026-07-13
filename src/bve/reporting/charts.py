@@ -151,6 +151,26 @@ def plot_scenario_bars(output: "ValuationOutput") -> plt.Figure:
     ax.set_ylabel("Total NAV ($M)", fontsize=11)
     ax.set_title(f"{output.asset.name} — NAV by Scenario", fontsize=12, fontweight="bold")
     ax.axhline(0, color="black", linewidth=0.8)
+
+    # Strategic takeout band (opt-in; only when enabled). Reference overlay showing the
+    # estimated acquisition (takeout) price range relative to the scenario NAV bars.
+    st = output.strategic_takeout
+    if st is not None:
+        ax.axhspan(
+            st.low_millions, st.high_millions,
+            color=C_NEUTRAL, alpha=0.12, zorder=0,
+            label="Strategic takeout range (low–high)",
+        )
+        ax.axhline(st.base_millions, color=C_NEUTRAL, linestyle="--", linewidth=1.2, zorder=1)
+        ax.axhline(st.floor_millions, color="black", linestyle=":", linewidth=1.0, zorder=1)
+        x_right = ax.get_xlim()[1]
+        ax.text(x_right, st.base_millions, f"takeout base ${st.base_millions:,.0f}M ",
+                ha="right", va="bottom", fontsize=8, color=C_NEUTRAL)
+        ax.text(x_right, st.floor_millions, f"rNPV floor ${st.floor_millions:,.0f}M ",
+                ha="right", va="bottom", fontsize=8, color="black")
+        ax.set_ylim(top=max(max(values, default=0.0), st.high_millions) * 1.15)
+        ax.legend(loc="upper left", fontsize=8, framealpha=0.6)
+
     fig.tight_layout()
     return fig
 

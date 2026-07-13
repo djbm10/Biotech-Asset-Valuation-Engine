@@ -1,0 +1,41 @@
+schema_version: se_buyer_problem_v2
+problem_id: benchmark_cd19_or_bcma_tce
+version: "1.0.0"
+buyer:
+  buyer_id: benchmark_buyer
+  name: Benchmark Buyer
+  as_of_date: 2026-07-10
+strategic_gap:
+  therapeutic_areas: [oncology]
+  indications: []
+  target_expression:
+    operator: ANY
+    targets:
+      - canonical_id: CD19
+        label: CD19
+        aliases: [CD-19, B-lymphocyte antigen CD19]
+      - canonical_id: BCMA
+        label: BCMA
+        aliases: [TNFRSF17, CD269]
+  modalities: [T_CELL_ENGAGER]
+  required_biology: []
+  capability_constraints:
+    manufacturing: []
+    delivery: []
+    clinical_operations: []
+    commercial: []
+    integration: []
+  evidence_floor:
+    minimum_stage: PHASE_1
+    human_poc_required: true
+    evaluable_patients_minimum: null
+    follow_up_minimum_days: null
+    required_evidence_types: [HUMAN_CLINICAL_RESULT]
+  clinical_effect_bar: {}
+  acceptable_deal_routes: [LICENSE, COLLABORATION, OPTION, ACQUISITION]
+  geographic_rights_requirements: []
+  missing_evidence_policy: REVIEW
+output:
+  landscape_mode: SEPARATE
+  group_by: COHORT
+ranking_cohort_required: true

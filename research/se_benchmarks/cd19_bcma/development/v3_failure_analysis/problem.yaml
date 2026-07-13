@@ -1,0 +1,27 @@
+schema_version: se_holdout_problem_v1
+problem_id: se_acquisition_triage_v3
+title: Scientific-and-evidence acquisition triage
+version: "3.0.0"
+task: >-
+  Classify each independent evidence item for whether it merits inclusion in a
+  biotech scientific-and-evidence acquisition/ranking set.
+allowed_dispositions: [INCLUDE, EXCLUDE, UNKNOWN]
+labeling_rubric:
+  INCLUDE: >-
+    The item contains credible, decision-relevant human or regulatory evidence
+    directly tied to the stated target and modality, with enough specificity to
+    support an acquisition or ranking decision.
+  EXCLUDE: >-
+    The item is clearly irrelevant to the stated target/modality, is only
+    generic background or marketing, or is preclinical/technical evidence with
+    no decision-relevant human or regulatory signal.
+  UNKNOWN: >-
+    The item appears potentially relevant but the source, population, endpoint,
+    target linkage, or result is too incomplete, internally conflicting, or
+    indirect for a reliable INCLUDE/EXCLUDE decision.
+decision_rules:
+  - Human clinical, human observational, or regulator-origin evidence can qualify when target linkage is explicit.
+  - A merely named target, an unverified claim, or an in-vitro/animal result alone does not qualify as INCLUDE.
+  - Missing critical context is UNKNOWN rather than an inferred negative.
+  - Modality and target must both be considered; evidence for a different modality is not directly transferable.
+source_text_policy: Each record is a standalone fictionalized excerpt available to the evaluator at decision time.

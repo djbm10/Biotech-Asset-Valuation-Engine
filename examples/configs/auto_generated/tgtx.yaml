@@ -10,10 +10,13 @@ company:
   id: tgtx-auto
   name: TG Therapeutics
   ticker: TGTX
-  cash_millions: 500.0
-  shares_outstanding_millions: 120.0
+  market_cap_millions: 7580.7
+  debt_millions: 753.6
+  # market economics refreshed from yfinance 2026-06-13
+  cash_millions: 514.4
+  shares_outstanding_millions: 153.08
   burn_rate_millions_per_quarter: 35.0
-  current_price: 25.0
+  current_price: 49.52
 trials:
 - phase: nda_bla
   nct_id: NCT03277261

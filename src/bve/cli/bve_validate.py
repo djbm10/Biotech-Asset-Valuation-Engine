@@ -71,11 +71,11 @@ def _load_ma_backtest_result(records_path: str | None) -> object | None:
 
 
 def _load_pos_backtest_result() -> object | None:
-    """Load POS calibration backtest result from the oncology dataset."""
+    """Load POS calibration backtest result from the mixed phase-transition dataset."""
     try:
         from bve.analysis.backtest import run_backtest_from_csv
 
-        default_csv = Path("research") / "data" / "oncology_phase_transitions.csv"
+        default_csv = Path("research") / "data" / "phase_transitions.csv"
         if not default_csv.exists():
             return None
         return run_backtest_from_csv(str(default_csv))

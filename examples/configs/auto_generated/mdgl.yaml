@@ -10,10 +10,13 @@ company:
   id: mdgl-auto
   name: Madrigal Pharmaceuticals
   ticker: MDGL
-  cash_millions: 500.0
-  shares_outstanding_millions: 120.0
+  market_cap_millions: 11084.5
+  debt_millions: 347.3
+  # market economics refreshed from yfinance 2026-06-13
+  cash_millions: 812.8
+  shares_outstanding_millions: 23.06
   burn_rate_millions_per_quarter: 35.0
-  current_price: 25.0
+  current_price: 480.77
 trials:
 - phase: nda_bla
   nct_id: NCT03900429

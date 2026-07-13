@@ -744,6 +744,44 @@ pos_model:
 
 
 # ==============================================================================
+# Science layer ownership refactor priors
+# ==============================================================================
+# EVIDENCE-INFORMED PRIORS — not calibrated coefficients.
+# Science positive scoring owns unresolved biological thesis risk only:
+# T = right target, D = enough drug / feasible exposure, B = translation bridge.
+# H/M/S are context or downside guardrails and must not positively multiply POS.
+science_guardrails:
+  soft_derate_floor: 0.70  # 0.50 acts like a hidden hard cap after mild warnings stack.
+  unresolved_threshold: 0.50
+  target_refuted:
+    hard_cap: 0.20
+  infeasible_exposure:
+    hard_cap: 0.30
+  biomarker_bridge_refuted:
+    hard_cap: 0.65
+  negative_human_poc_clear:
+    hard_cap: 0.60
+  negative_human_poc_ambiguous:
+    soft_derate: 0.85  # ambiguous negative PoC is warning + mild derate, never free.
+  manageable_safety_concern:
+    soft_derate: 0.85
+  unacceptable_safety:
+    hard_cap: 0.40
+  mechanism_linked_severe_safety:
+    hard_cap: 0.10
+
+science_phase_weights_tdb:
+  # Late-stage de-emphasis is owned by the unresolved-biology gate, not weights.
+  preclinical: {T: 0.40, D: 0.35, B: 0.25}
+  phase1: {T: 0.25, D: 0.45, B: 0.30}
+  phase_1: {T: 0.25, D: 0.45, B: 0.30}
+  phase2: {T: 0.25, D: 0.25, B: 0.50}
+  phase_2: {T: 0.25, D: 0.25, B: 0.50}
+  phase3: {T: 0.34, D: 0.33, B: 0.33}
+  phase_3: {T: 0.34, D: 0.33, B: 0.33}
+  nda_bla: {T: 0.34, D: 0.33, B: 0.33}
+
+# ==============================================================================
 # Trial design log-odds adjustments (Phase 1A)
 # ==============================================================================
 #

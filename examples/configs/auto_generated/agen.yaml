@@ -10,10 +10,13 @@ company:
   id: agen-auto
   name: Agenus
   ticker: AGEN
-  cash_millions: 500.0
-  shares_outstanding_millions: 120.0
+  market_cap_millions: 137.4
+  debt_millions: 41.1
+  # market economics refreshed from yfinance 2026-06-13
+  cash_millions: 35
+  shares_outstanding_millions: 41.64
   burn_rate_millions_per_quarter: 35.0
-  current_price: 25.0
+  current_price: 3.3
 trials:
 - phase: phase_2
   nct_id: NCT05608044

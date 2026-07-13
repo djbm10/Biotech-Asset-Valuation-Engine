@@ -1,0 +1,4 @@
+# Regenerable acquisition artifacts — rebuild with `bve-se-acquire --acquire`.
+snapshots/
+manifest.jsonl
+source_index.yaml

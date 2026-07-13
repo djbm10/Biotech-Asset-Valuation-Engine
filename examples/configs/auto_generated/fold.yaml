@@ -10,10 +10,13 @@ company:
   id: fold-auto
   name: Amicus Therapeutics
   ticker: FOLD
-  cash_millions: 500.0
-  shares_outstanding_millions: 120.0
+  market_cap_millions: 4549.9
+  debt_millions: 442.4
+  # market economics refreshed from yfinance 2026-06-13
+  cash_millions: 293.5
+  shares_outstanding_millions: 314
   burn_rate_millions_per_quarter: 35.0
-  current_price: 25.0
+  current_price: 14.49
 trials:
 - phase: nda_bla
   nct_id: NCT03517085

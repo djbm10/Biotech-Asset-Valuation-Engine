@@ -10,10 +10,13 @@ company:
   id: mrna-auto
   name: Moderna
   ticker: MRNA
-  cash_millions: 500.0
-  shares_outstanding_millions: 120.0
+  market_cap_millions: 19803.6
+  debt_millions: 1298
+  # market economics refreshed from yfinance 2026-06-13
+  cash_millions: 5205
+  shares_outstanding_millions: 396.79
   burn_rate_millions_per_quarter: 35.0
-  current_price: 25.0
+  current_price: 49.91
 trials:
 - phase: phase_3
   nct_id: NCT05933577

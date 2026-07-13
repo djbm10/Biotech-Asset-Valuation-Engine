@@ -1,0 +1,35 @@
+schema_version: acquisition_ranking_production_validation_v6
+holdout_status_required: SEALED
+top_k: 5
+top_k_shortlist_recall_min: 0.8
+ndcg_at_k_min: 0.75
+citation_completeness_min: 0.95
+rationale_quality_min: 0.8
+diligence_question_usefulness_min: 0.8
+zero_gate_leakage: required
+zero_valuation_leakage: required
+unknown_routing:
+  required: true
+  exactly_once: true
+  never_ranked: true
+  required_queue_fields:
+  - asset_id
+  - missing_or_conflicting_gate
+  - supporting_evidence
+  - specific_diligence_question
+gate_leakage_semantics:
+  ranked_route: INCLUDE only
+  diligence_queue_route: UNKNOWN only
+  exclusions_route: EXCLUDE only
+  cross_route_or_duplicate_assets: failure
+  permitted_fields:
+  - missing_or_conflicting_gate
+  - gate_explanation
+  generic_gate_text_matching: false
+coverage:
+  min_queries: 36
+  min_buyers: 6
+  min_targets: 9
+  min_modalities: 6
+  min_evidence_profiles: 9
+overall: PASS iff every threshold and mandatory gate passes

@@ -12,8 +12,6 @@ import argparse
 import sys
 from pathlib import Path
 
-import yaml
-
 from bve.config.assumptions_loader import AssumptionsLoader as _AssumptionsLoader
 from bve.entities.asset import DevelopmentStage as _DevelopmentStage
 from bve.entities.asset import Modality as _Modality
@@ -206,8 +204,13 @@ def _validate_config(cfg: dict, path: Path) -> None:
 
 
 def _load_config(path: Path) -> dict:
-    with open(path) as f:
-        return yaml.safe_load(f)
+    # Merge analyst confidential overrides (examples/configs/overrides/<TICKER>.yaml)
+    # when present. The `private:` section is intentionally dropped here so it never
+    # reaches the engine objects or outputs; only `confidential_overrides` are merged.
+    from bve.pipeline.config_resolver import load_resolved_config
+
+    cfg, _provenance = load_resolved_config(path)
+    return cfg
 
 
 def _build_objects(cfg: dict):
@@ -230,6 +233,7 @@ def _build_objects(cfg: dict):
         stage=DevelopmentStage(a["stage"]),
         modality=Modality(a.get("modality", "small_molecule")),
         mechanism_of_action=a.get("mechanism_of_action"),
+        biological_target=a.get("biological_target"),
         discount_rate=a.get("discount_rate", float(_COMMERCIAL_DEFAULTS["discount_rate"])),
         royalty_rate=a.get("royalty_rate", 0.0),
         upcoming_catalysts=[Catalyst(**c) for c in a.get("upcoming_catalysts", [])],
@@ -472,10 +476,72 @@ def _build_design_adjusters(cfg: dict):
     return adjusters, True
 
 
+def _build_strategic_takeout(cfg: dict):
+    """Parse the optional ``strategic_takeout`` section from config.
+
+    Opt-in: returns a ``StrategicTakeoutPremium`` only when the block is present and
+    ``enabled: true``. Returns ``None`` otherwise — the layer stays disabled (no-op),
+    leaving rNPV/revenue/cost/scenarios/Monte Carlo untouched.
+
+    YAML schema (all premium keys optional; default 30/50/80 band)::
+
+        strategic_takeout:
+          enabled: true
+          low_premium_pct: 0.30
+          base_premium_pct: 0.50
+          high_premium_pct: 0.80
+    """
+    st_cfg = cfg.get("strategic_takeout")
+    if not st_cfg or not st_cfg.get("enabled", False):
+        return None
+
+    from bve.models.strategic_takeout import (
+        DEFAULT_BASE_PREMIUM_PCT,
+        DEFAULT_HIGH_PREMIUM_PCT,
+        DEFAULT_LOW_PREMIUM_PCT,
+        StrategicTakeoutPremium,
+    )
+
+    kwargs: dict = dict(
+        low_premium_pct=st_cfg.get("low_premium_pct", DEFAULT_LOW_PREMIUM_PCT),
+        base_premium_pct=st_cfg.get("base_premium_pct", DEFAULT_BASE_PREMIUM_PCT),
+        high_premium_pct=st_cfg.get("high_premium_pct", DEFAULT_HIGH_PREMIUM_PCT),
+    )
+    if st_cfg.get("rationale"):
+        kwargs["rationale"] = tuple(st_cfg["rationale"])
+    return StrategicTakeoutPremium(**kwargs)
+
+
 def _output_dir(cfg: dict, base: str) -> Path:
     """Derive output directory: outputs/<ticker_or_asset_name>/"""
     ticker = cfg.get("company", {}).get("ticker") or cfg.get("asset", {}).get("id", "asset")
     return Path(base) / ticker.upper()
+
+
+def _load_selected_buyer_problem(path: str | None, problem_id: str | None):
+    if not path:
+        return None
+    from bve.intelligence.buyer_problem_library import BuyerProblemLibrary
+
+    try:
+        library = BuyerProblemLibrary.from_yaml(path)
+    except Exception as exc:
+        print(f"ERROR: Failed to load buyer problem config: {exc}", file=sys.stderr)
+        sys.exit(2)
+    problems = library.problems
+    if not problems:
+        print("ERROR: Buyer problem config contains no problems", file=sys.stderr)
+        sys.exit(2)
+    if problem_id is None:
+        if len(problems) > 1:
+            print("ERROR: --buyer-problem-id required when config has multiple problems", file=sys.stderr)
+            sys.exit(2)
+        return problems[0]
+    for problem in problems:
+        if getattr(problem, "problem_id", None) == problem_id:
+            return problem
+    print(f"ERROR: buyer problem id not found: {problem_id}", file=sys.stderr)
+    sys.exit(2)
 
 
 def main():
@@ -487,7 +553,21 @@ def main():
     parser.add_argument("--out", default="outputs", help="Base output directory (default: outputs/)")
     parser.add_argument("--n-sims", type=int, default=10_000)
     parser.add_argument("--seed", type=int, default=42)
+    parser.add_argument("--science-thesis", action="store_true", help="Build and render Layer 0 Science Thesis without changing POS by default")
+    parser.add_argument("--apply-science-pos-modifier", action="store_true", help="Apply Science Thesis heuristic modifier to technical POS; requires --science-thesis")
+    parser.add_argument("--buyer-problem", help="Path to buyer problem YAML config; requires --science-thesis")
+    parser.add_argument("--buyer-problem-id", help="Problem ID to select from buyer problem config")
     args = parser.parse_args()
+
+    if args.apply_science_pos_modifier and not args.science_thesis:
+        print("ERROR: --apply-science-pos-modifier requires --science-thesis", file=sys.stderr)
+        sys.exit(2)
+    if args.buyer_problem and not args.science_thesis:
+        print("ERROR: --buyer-problem requires --science-thesis", file=sys.stderr)
+        sys.exit(2)
+    if args.buyer_problem_id and not args.buyer_problem:
+        print("ERROR: --buyer-problem-id requires --buyer-problem", file=sys.stderr)
+        sys.exit(2)
 
     cfg_path = Path(args.config)
     if not cfg_path.exists():
@@ -526,6 +606,8 @@ def main():
         use_default_correlations=mc_cfg.get("use_default_correlations", True),
     )
 
+    buyer_problem = _load_selected_buyer_problem(args.buyer_problem, args.buyer_problem_id)
+
     engine = ValuationEngine(
         asset, company, trials, market_model,
         pos_adjusters=pos_adjusters,
@@ -537,6 +619,10 @@ def main():
         config_path=str(cfg_path.resolve()),
         limitations=cfg.get("limitations"),
         thesis_changers=cfg.get("thesis_changers"),
+        enable_science_thesis=args.science_thesis,
+        apply_science_pos_modifier=args.apply_science_pos_modifier,
+        buyer_problem=buyer_problem,
+        buyer_problem_id=args.buyer_problem_id,
     )
 
     # Optional: assumption source overrides and decision framing
@@ -566,6 +652,11 @@ def main():
         print(f"  Competition:  {market_model.competition_model.summary()}")
     output = engine.run()
 
+    # Apply optional strategic takeout premium (control-premium-over-rNPV layer; opt-in).
+    _st_premium = _build_strategic_takeout(cfg)
+    if _st_premium is not None:
+        output = output.model_copy(update={"strategic_takeout_premium": _st_premium})
+
     # --- Console summary ---
     d = output.summary_dict
     print(f"\n{'═'*58}")
@@ -588,6 +679,18 @@ def main():
     print(f"  {'MC P10 – P90':<34}   ${d['mc_p10']:>7,.0f}M – ${d['mc_p90']:,.0f}M")
     print(f"  {'Scenarios Bull / Base / Bear':<34}   "
           f"${d['bull_rnpv']:,.0f} / ${d['base_rnpv']:,.0f} / ${d['bear_rnpv']:,.0f}M")
+    # Investment verdict (BD side requires the M&A scan — see bve-report).
+    from bve.analysis.dual_track import build_dual_track
+    _iv = build_dual_track(output).investment
+    if _iv.assessed:
+        print(f"{'─'*58}")
+        print(f"  {'Investment view':<34} {_iv.stance.upper()} ({_iv.valuation_label})")
+        _read = {
+            "market_expectation_too_low": "market expectation too low",
+            "market_expectation_too_high": "market expectation too high",
+        }.get(_iv.market_expectation_read)
+        if _read:
+            print(f"  {'Market read':<34} {_read:>11}")
     print(f"{'═'*58}")
 
     # --- Save outputs ---

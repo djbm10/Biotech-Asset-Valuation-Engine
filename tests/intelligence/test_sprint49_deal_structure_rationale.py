@@ -33,7 +33,15 @@ def _make_thesis(pipeline_gap=0.80, recent_ma=0.75, overlap=0.05, sr_announced=T
         "partner_rofr_present": False,
         "pending_portfolio_acquisition": False,
     })
-    relationship = compute_relationship_history({})
+    relationship = compute_relationship_history(
+        {
+            "prior_partnership": True,
+            "partnership_type": "option_to_acquire",
+            "acquisition_option": True,
+            "relationship_recency_years": 1.0,
+            "prior_deal_attempts": 0,
+        }
+    )
     return build_buyer_target_thesis(mandate_score=mandate, conflict_score=conflict, relationship_score=relationship)
 
 

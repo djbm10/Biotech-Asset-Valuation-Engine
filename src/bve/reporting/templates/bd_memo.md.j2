@@ -91,6 +91,93 @@ Key valuation anchors:
 
 ### Biology & Mechanism Evidence
 {{ evidence_block(evidence.biology) }}
+{% if science_thesis %}
+
+### Science Thesis
+
+- **Core hypothesis:** {{ science_thesis.core_biological_hypothesis or "—" }}
+- **Binding science question:** {{ science_thesis.binding_science_question or "—" }}
+- **Next readout requirement:** {{ science_thesis.next_readout_requirement or "—" }}
+{% if science_thesis.heuristic_science_modifier is not none %}
+- **Heuristic POS modifier:** {{ "%.3f"|format(science_thesis.heuristic_science_modifier) }}
+{% endif %}
+{% if science_thesis.what_must_be_true %}
+- **What must be true:** {{ science_thesis.what_must_be_true | join("; ") }}
+{% endif %}
+{% if science_thesis.missing_critical_evidence %}
+- **Missing critical evidence:** {{ science_thesis.missing_critical_evidence | join("; ") }}
+{% endif %}
+{% if science_thesis.warnings %}
+- **Warnings:** {{ science_thesis.warnings | join("; ") }}
+{% endif %}
+{% if science_thesis.killer_question_set %}
+{% set kq = science_thesis.killer_question_set %}
+
+### Killer Question Diligence Agenda
+
+{% if kq.abstained %}
+> **No dominant killer question identified:** {{ kq.abstain_reason or "Human review required." }}
+{% endif %}
+{% if kq.company_focus_mismatch %}
+> **Company focus mismatch:** {{ kq.company_focus_mismatch }}
+{% endif %}
+{% if kq.decisive %}
+| Question | VOI | Posterior | Swing | Evidence | Resolving readout |
+|---|---:|---:|---:|---|---|
+{% for q in kq.decisive -%}
+| {{ q.question_text or q.archetype }} | {{ "%.2f"|format(q.voi_score or 0) }} | {{ "%.0f"|format((q.posterior or 0) * 100) }}% | {% if q.swing_m %}${{ "%.0f"|format(q.swing_m) }}M{% else %}—{% endif %} | {{ q.evidence_touched | replace("_", " ") }} | {{ q.resolving_readout or "—" }} |
+{% endfor %}
+
+{% for q in kq.decisive -%}
+- **Diligence question:** {{ q.diligence_question or q.question_text }}
+{% if q.why_fired %}  - Why it fired: {{ q.why_fired }}{% endif %}
+{% endfor %}
+{% endif %}
+{% endif %}
+{% if science_thesis.conviction_trail %}
+
+### Conviction Trail
+
+_Evidence updates to killer-question conviction. Diligence artifact only — does not feed POS or valuation._
+
+{% for rec in science_thesis.conviction_trail %}
+**{{ rec.archetype | replace("_", " ") }}** — prior {{ "%.0f"|format((rec.prior or 0) * 100) }}% → posterior {{ "%.0f"|format((rec.posterior or 0) * 100) }}%{% if rec.human_override is not none %} (human override){% endif %}
+
+| Source | Update | LR | Informativeness | Rationale |
+|---|---|---:|---:|---|
+{% for u in rec.updates -%}
+| {{ u.source | replace("_", " ") }} | {{ (u.label or u.direction) | replace("_", " ") }} | {{ "%.2f"|format(u.likelihood_ratio or 0) }} | {{ "%.2f"|format(u.informativeness or 0) }} | {{ u.rationale or "—" }} |
+{% endfor %}
+{% if rec.untested_flags %}- Untested: {{ rec.untested_flags | join(", ") }}{% endif %}
+{% endfor %}
+{% endif %}
+{% endif %}
+
+{% if bd_actionability %}
+
+### BD Fit
+
+- **Hard-gate result:** {{ "Pass" if bd_actionability.passed_hard_gates else "Fail" }}
+{% if bd_actionability.failed_gates %}
+- **Failed gates:** {{ bd_actionability.failed_gates | join("; ") }}
+{% endif %}
+{% if bd_actionability.buyer_problem_fit is not none %}
+- **Buyer problem fit:** {{ "%.2f"|format(bd_actionability.buyer_problem_fit) }}
+{% endif %}
+{% if bd_actionability.science_thesis_fit is not none %}
+- **Science thesis fit:** {{ "%.2f"|format(bd_actionability.science_thesis_fit) }}
+{% endif %}
+{% if bd_actionability.buyer_owner_advantage is not none %}
+- **Buyer-owner advantage:** {{ "%.2f"|format(bd_actionability.buyer_owner_advantage) }}
+{% endif %}
+- **Recommended route:** {{ bd_actionability.recommended_bd_route or "—" }}
+- **Route rationale:** {{ bd_actionability.route_rationale or "—" }}
+{% if bd_actionability.diligence_questions %}
+- **Diligence questions:** {{ bd_actionability.diligence_questions | join("; ") }}
+{% endif %}
+
+{% endif %}
+
 ### Trial Evidence & Sources
 {{ evidence_block(evidence.trial) }}
 
@@ -131,6 +218,10 @@ Key valuation anchors:
 | **rNPV** | **${{ "%.0f"|format(d.rnpv_millions) }}M** |
 | Net Cash | ${{ "%.0f"|format(d.net_cash_millions) }}M |
 | **Total NAV** | **${{ "%.0f"|format(d.nav_millions) }}M (${{ "%.2f"|format(d.nav_per_share) }}/share)** |
+
+{% if strategic_takeout %}
+**rNPV floor:** ${{ "%.0f"|format(strategic_takeout.floor_millions) }}M; **strategic takeout range:** ${{ "%.0f"|format(strategic_takeout.low_millions) }}M–${{ "%.0f"|format(strategic_takeout.high_millions) }}M (base ${{ "%.0f"|format(strategic_takeout.base_millions) }}M). Control premium over intrinsic rNPV; rNPV remains the standalone floor.
+{% endif %}
 
 ### Scenario Analysis
 

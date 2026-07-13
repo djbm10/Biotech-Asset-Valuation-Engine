@@ -1,0 +1,6 @@
+# Analyst confidential overrides are NOT tracked in git.
+# Only the README and the *.example template are committed.
+*
+!.gitignore
+!README.md
+!*.example

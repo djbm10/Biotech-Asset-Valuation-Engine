@@ -10,10 +10,13 @@ company:
   id: bmrn-auto
   name: BioMarin Pharmaceutical
   ticker: BMRN
-  cash_millions: 500.0
-  shares_outstanding_millions: 120.0
+  market_cap_millions: 10814.3
+  debt_millions: 1439.6
+  # market economics refreshed from yfinance 2026-06-13
+  cash_millions: 2222.4
+  shares_outstanding_millions: 193.28
   burn_rate_millions_per_quarter: 35.0
-  current_price: 25.0
+  current_price: 55.95
 trials:
 - phase: nda_bla
   nct_id: NCT03370913

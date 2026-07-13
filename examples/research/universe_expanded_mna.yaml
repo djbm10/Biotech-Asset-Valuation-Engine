@@ -7,7 +7,7 @@ source_counts:
   baseline_replay_universe: 27
   mna_public_deal_universe: 89
   mna_target_monitor: 62
-  universe_registry: 30
+  universe_registry: 50
 universe:
 - ticker: ACAD
   company_id: co-acad
@@ -91,6 +91,23 @@ universe:
   - mna_target_monitor
   - universe_registry
   status: independent_public_target
+- ticker: AGIO
+  company_id: co-agio
+  asset_id: asset-agio-mitapivat
+  company_name: Agios Pharmaceuticals
+  drug_name: Mitapivat
+  indication: Pyruvate kinase deficiency
+  therapeutic_area: hematology
+  stage: nda_bla
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Mitapivat retains strategic optionality in Pyruvate kinase deficiency.
+  catalyst: Mitapivat development progress in Pyruvate kinase deficiency
+  source: universe_registry
+  source_tags:
+  - universe_registry
 - ticker: AKUS
   company_id: co-akus
   asset_id: a-akus
@@ -296,24 +313,23 @@ universe:
   - mna_public_deal_universe
 - ticker: ANNX
   company_id: co-annx
-  asset_id: a-annx
+  asset_id: asset-annx-anx007
   company_name: Annexon Biosciences
-  drug_name: ANX007 (C1q inhibitor intravitreal) / ANX005 (C1q inhibitor IV)
-  indication: ophthalmology
+  drug_name: ANX007
+  indication: Geographic atrophy
   therapeutic_area: ophthalmology
-  stage: phase_2_phase_3
+  stage: phase_3
   ranking_score: 0.58
   opportunity_score: 0.56
   conviction: medium
   claim_type: custom
-  claim_assertion: Annexon Biosciences remains a live strategic optionality name in
-    ophthalmology.
-  catalyst: 'M&A monitor: ANX007 (C1q inhibitor intravitreal) / ANX005 (C1q inhibitor
-    IV)'
-  status: independent_public_target
-  source: mna_target_monitor
+  claim_assertion: ANX007 retains strategic optionality in Geographic atrophy.
+  catalyst: ANX007 development progress in Geographic atrophy
+  source: universe_registry
   source_tags:
   - mna_target_monitor
+  - universe_registry
+  status: independent_public_target
 - ticker: APRE
   company_id: co-apre
   asset_id: a-apre
@@ -335,22 +351,24 @@ universe:
   - mna_target_monitor
 - ticker: ARGX
   company_id: co-argx
-  asset_id: a-argx
+  asset_id: asset-argx-efgartigimod
   company_name: Argenx SE
-  drug_name: efgartigimod (FcRn) / ARGX-117 (C2 complement)
-  indication: immunology
+  drug_name: Efgartigimod
+  indication: Generalized myasthenia gravis
   therapeutic_area: immunology
-  stage: commercial_phase_3
+  stage: nda_bla
   ranking_score: 0.58
   opportunity_score: 0.56
   conviction: medium
   claim_type: custom
-  claim_assertion: Argenx SE remains a live strategic optionality name in immunology.
-  catalyst: 'M&A monitor: efgartigimod (FcRn) / ARGX-117 (C2 complement)'
-  status: independent_public_target
-  source: mna_target_monitor
+  claim_assertion: Efgartigimod retains strategic optionality in Generalized myasthenia
+    gravis.
+  catalyst: Efgartigimod development progress in Generalized myasthenia gravis
+  source: universe_registry
   source_tags:
   - mna_target_monitor
+  - universe_registry
+  status: independent_public_target
 - ticker: ARIA
   company_id: co-aria
   asset_id: a-aria
@@ -473,23 +491,23 @@ universe:
   company_name: ARVN
 - ticker: ARWR
   company_id: co-arwr
-  asset_id: a-arwr
+  asset_id: asset-arwr-plozasiran
   company_name: Arrowhead Pharmaceuticals
-  drug_name: ARO-APOC3 / ARO-ANG3 / ARO-HSD / ARO-MMP7
-  indication: rare_disease_metabolic
-  therapeutic_area: rare_disease_metabolic
-  stage: phase_2_phase_3
+  drug_name: Plozasiran
+  indication: Hypertriglyceridemia
+  therapeutic_area: cardiovascular
+  stage: phase_3
   ranking_score: 0.58
   opportunity_score: 0.56
   conviction: medium
   claim_type: custom
-  claim_assertion: Arrowhead Pharmaceuticals remains a live strategic optionality
-    name in rare_disease_metabolic.
-  catalyst: 'M&A monitor: ARO-APOC3 / ARO-ANG3 / ARO-HSD / ARO-MMP7'
-  status: independent_public_target
-  source: mna_target_monitor
+  claim_assertion: Plozasiran retains strategic optionality in Hypertriglyceridemia.
+  catalyst: Plozasiran development progress in Hypertriglyceridemia
+  source: universe_registry
   source_tags:
   - mna_target_monitor
+  - universe_registry
+  status: independent_public_target
 - ticker: ATRA
   company_id: co-atra
   asset_id: a-atra
@@ -533,41 +551,43 @@ universe:
   - mna_target_monitor
 - ticker: BBIO
   company_id: co-bbio
-  asset_id: a-bbio
+  asset_id: asset-bbio-acoramidis
   company_name: BridgeBio Pharma
-  drug_name: acoramidis (ATTR-CM) / BBP-418 (limb girdle MD)
-  indication: rare_disease_cardiovascular
-  therapeutic_area: rare_disease_cardiovascular
-  stage: approved_phase_3
+  drug_name: Acoramidis
+  indication: ATTR cardiomyopathy
+  therapeutic_area: cardiovascular
+  stage: nda_bla
   ranking_score: 0.58
   opportunity_score: 0.56
   conviction: medium
   claim_type: custom
-  claim_assertion: BridgeBio Pharma remains a live strategic optionality name in rare_disease_cardiovascular.
-  catalyst: 'M&A monitor: acoramidis (ATTR-CM) / BBP-418 (limb girdle MD)'
-  status: independent_public_target
-  source: mna_target_monitor
+  claim_assertion: Acoramidis retains strategic optionality in ATTR cardiomyopathy.
+  catalyst: Acoramidis development progress in ATTR cardiomyopathy
+  source: universe_registry
   source_tags:
   - mna_target_monitor
+  - universe_registry
+  status: independent_public_target
 - ticker: BCYC
   company_id: co-bcyc
-  asset_id: a-bcyc
+  asset_id: asset-bcyc-zelenectide
   company_name: Bicycle Therapeutics
-  drug_name: BT8009 (Nectin-4 ADC) / BT5528 (EphA2) / BT7480 (CD137 agonist)
-  indication: oncology
+  drug_name: Zelenectide pevedotin (BT8009)
+  indication: Urothelial cancer
   therapeutic_area: oncology
-  stage: phase_1_phase_2
+  stage: phase_2
   ranking_score: 0.54
   opportunity_score: 0.52
   conviction: medium
   claim_type: custom
-  claim_assertion: Bicycle Therapeutics remains a live strategic optionality name
-    in oncology.
-  catalyst: 'M&A monitor: BT8009 (Nectin-4 ADC) / BT5528 (EphA2) / BT7480 (CD137 agonist)'
-  status: independent_public_target
-  source: mna_target_monitor
+  claim_assertion: Zelenectide pevedotin (BT8009) retains strategic optionality in
+    Urothelial cancer.
+  catalyst: Zelenectide pevedotin (BT8009) development progress in Urothelial cancer
+  source: universe_registry
   source_tags:
   - mna_target_monitor
+  - universe_registry
+  status: independent_public_target
 - ticker: BDTX
   company_id: co-bdtx
   asset_id: a-bdtx
@@ -1111,23 +1131,23 @@ universe:
   stage: phase_1
 - ticker: ESPR
   company_id: co-espr
-  asset_id: a-espr
+  asset_id: asset-espr-bempedoic
   company_name: Esperion Therapeutics
-  drug_name: bempedoic acid (NEXLETOL / NEXLIZET)
-  indication: cardiovascular
+  drug_name: Bempedoic acid
+  indication: Hypercholesterolemia
   therapeutic_area: cardiovascular
-  stage: commercial
+  stage: nda_bla
   ranking_score: 0.58
   opportunity_score: 0.56
   conviction: medium
   claim_type: custom
-  claim_assertion: Esperion Therapeutics remains a live strategic optionality name
-    in cardiovascular.
-  catalyst: 'M&A monitor: bempedoic acid (NEXLETOL / NEXLIZET)'
-  status: independent_public_target
-  source: mna_target_monitor
+  claim_assertion: Bempedoic acid retains strategic optionality in Hypercholesterolemia.
+  catalyst: Bempedoic acid development progress in Hypercholesterolemia
+  source: universe_registry
   source_tags:
   - mna_target_monitor
+  - universe_registry
+  status: independent_public_target
 - ticker: FATE
   company_id: co-fate
   asset_id: a-fate
@@ -1144,9 +1164,9 @@ universe:
   - mna_public_deal_universe
   - universe_registry
   company_name: Fate Therapeutics
-  drug_name: FT576
-  therapeutic_area: oncology
-  stage: phase_1
+  drug_name: FT819
+  therapeutic_area: immunology
+  stage: phase_2
   announcement_date: '2024-04-01'
   acquirer: ''
   headline_value_millions: 0
@@ -1311,23 +1331,23 @@ universe:
   - mna_public_deal_universe
 - ticker: GPCR
   company_id: co-gpcr
-  asset_id: a-gpcr
+  asset_id: asset-gpcr-gsbr1290
   company_name: Structure Therapeutics
-  drug_name: GSBR-1290 (oral GLP-1R agonist)
-  indication: obesity_metabolic
-  therapeutic_area: obesity_metabolic
+  drug_name: Aleniglipron (GSBR-1290)
+  indication: Obesity
+  therapeutic_area: metabolic
   stage: phase_2
   ranking_score: 0.54
   opportunity_score: 0.52
   conviction: medium
   claim_type: custom
-  claim_assertion: Structure Therapeutics remains a live strategic optionality name
-    in obesity_metabolic.
-  catalyst: 'M&A monitor: GSBR-1290 (oral GLP-1R agonist)'
-  status: independent_public_target
-  source: mna_target_monitor
+  claim_assertion: Aleniglipron (GSBR-1290) retains strategic optionality in Obesity.
+  catalyst: Aleniglipron (GSBR-1290) development progress in Obesity
+  source: universe_registry
   source_tags:
   - mna_target_monitor
+  - universe_registry
+  status: independent_public_target
 - ticker: GTHX
   company_id: co-gthx
   asset_id: a-gthx
@@ -1394,25 +1414,42 @@ universe:
   source: mna_public_deal_universe
   source_tags:
   - mna_public_deal_universe
-- ticker: IMCR
-  company_id: co-imcr
-  asset_id: a-imcr
-  company_name: Immunocore Holdings
-  drug_name: tebentafusp / ImmTAC/ImmTAX platform
-  indication: oncology
+- ticker: IDYA
+  company_id: co-idya
+  asset_id: asset-idya-darovasertib
+  company_name: Ideaya Biosciences
+  drug_name: Darovasertib
+  indication: Uveal melanoma
   therapeutic_area: oncology
-  stage: commercial_phase_3
+  stage: phase_3
   ranking_score: 0.58
   opportunity_score: 0.56
   conviction: medium
   claim_type: custom
-  claim_assertion: Immunocore Holdings remains a live strategic optionality name in
-    oncology.
-  catalyst: 'M&A monitor: tebentafusp / ImmTAC/ImmTAX platform'
-  status: independent_public_target
-  source: mna_target_monitor
+  claim_assertion: Darovasertib retains strategic optionality in Uveal melanoma.
+  catalyst: Darovasertib development progress in Uveal melanoma
+  source: universe_registry
+  source_tags:
+  - universe_registry
+- ticker: IMCR
+  company_id: co-imcr
+  asset_id: asset-imcr-tebentafusp
+  company_name: Immunocore Holdings
+  drug_name: Tebentafusp
+  indication: Metastatic uveal melanoma
+  therapeutic_area: oncology
+  stage: nda_bla
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Tebentafusp retains strategic optionality in Metastatic uveal melanoma.
+  catalyst: Tebentafusp development progress in Metastatic uveal melanoma
+  source: universe_registry
   source_tags:
   - mna_target_monitor
+  - universe_registry
+  status: independent_public_target
 - ticker: IMGO
   company_id: co-imgo
   asset_id: a-imgo
@@ -1689,6 +1726,23 @@ universe:
   source: mna_public_deal_universe
   source_tags:
   - mna_public_deal_universe
+- ticker: KPTI
+  company_id: co-kpti
+  asset_id: asset-kpti-selinexor
+  company_name: Karyopharm Therapeutics
+  drug_name: Selinexor
+  indication: Myelofibrosis
+  therapeutic_area: hematology
+  stage: phase_3
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Selinexor retains strategic optionality in Myelofibrosis.
+  catalyst: Selinexor development progress in Myelofibrosis
+  source: universe_registry
+  source_tags:
+  - universe_registry
 - ticker: KRTX
   company_id: co-krtx
   asset_id: a-krtx
@@ -1729,7 +1783,7 @@ universe:
   - mna_target_monitor
   - universe_registry
   company_name: Kymera Therapeutics
-  drug_name: KT-474
+  drug_name: KT-621
   therapeutic_area: immunology
   stage: phase_2
   status: independent_public_target
@@ -1940,24 +1994,24 @@ universe:
   stage: phase_3
 - ticker: MRUS
   company_id: co-mrus
-  asset_id: a-mrus
+  asset_id: asset-mrus-zenocutuzumab
   company_name: Merus N.V.
-  drug_name: "zenocutuzumab (NRG1) / petosemtamab (EGFR\xD7LGR5) / MCLA-145 (PD-L1\xD7\
-    CD137)"
-  indication: oncology
+  drug_name: Zenocutuzumab
+  indication: NRG1 fusion-positive cancer
   therapeutic_area: oncology
-  stage: phase_2_phase_3
+  stage: nda_bla
   ranking_score: 0.58
   opportunity_score: 0.56
   conviction: medium
   claim_type: custom
-  claim_assertion: Merus N.V. remains a live strategic optionality name in oncology.
-  catalyst: "M&A monitor: zenocutuzumab (NRG1) / petosemtamab (EGFR\xD7LGR5) / MCLA-145\
-    \ (PD-L1\xD7CD137)"
-  status: independent_public_target
-  source: mna_target_monitor
+  claim_assertion: Zenocutuzumab retains strategic optionality in NRG1 fusion-positive
+    cancer.
+  catalyst: Zenocutuzumab development progress in NRG1 fusion-positive cancer
+  source: universe_registry
   source_tags:
   - mna_target_monitor
+  - universe_registry
+  status: independent_public_target
 - ticker: MYOK
   company_id: co-myok
   asset_id: a-myok
@@ -2064,22 +2118,25 @@ universe:
   status: independent_public_target
 - ticker: NUVB
   company_id: co-nuvb
-  asset_id: a-nuvb
+  asset_id: asset-nuvb-taletrectinib
   company_name: Nuvation Bio
-  drug_name: taletrectinib (ROS1/NTRK) / navtemadlin (MDM2)
-  indication: oncology
+  drug_name: Taletrectinib
+  indication: ROS1-positive non-small cell lung cancer
   therapeutic_area: oncology
-  stage: phase_2_phase_3
+  stage: phase_3
   ranking_score: 0.58
   opportunity_score: 0.56
   conviction: medium
   claim_type: custom
-  claim_assertion: Nuvation Bio remains a live strategic optionality name in oncology.
-  catalyst: 'M&A monitor: taletrectinib (ROS1/NTRK) / navtemadlin (MDM2)'
-  status: independent_public_target
-  source: mna_target_monitor
+  claim_assertion: Taletrectinib retains strategic optionality in ROS1-positive non-small
+    cell lung cancer.
+  catalyst: Taletrectinib development progress in ROS1-positive non-small cell lung
+    cancer
+  source: universe_registry
   source_tags:
   - mna_target_monitor
+  - universe_registry
+  status: independent_public_target
 - ticker: NVAX
   company_id: co-nvax
   asset_id: a-nvax
@@ -2212,6 +2269,24 @@ universe:
   source: mna_target_monitor
   source_tags:
   - mna_target_monitor
+- ticker: PMV
+  company_id: co-pmv
+  asset_id: asset-pmv-rezatapopt
+  company_name: PMV Pharmaceuticals
+  drug_name: Rezatapopt (PC14586)
+  indication: TP53 Y220C-mutant solid tumors
+  therapeutic_area: oncology
+  stage: phase_2
+  ranking_score: 0.54
+  opportunity_score: 0.52
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Rezatapopt (PC14586) retains strategic optionality in TP53 Y220C-mutant
+    solid tumors.
+  catalyst: Rezatapopt (PC14586) development progress in TP53 Y220C-mutant solid tumors
+  source: universe_registry
+  source_tags:
+  - universe_registry
 - ticker: PRAX
   company_id: co-prax
   asset_id: asset-prax-prax944
@@ -2371,23 +2446,23 @@ universe:
   - universe_registry
 - ticker: PTGX
   company_id: co-ptgx
-  asset_id: a-ptgx
+  asset_id: asset-ptgx-rusfertide
   company_name: Protagonist Therapeutics
-  drug_name: rusfertide (hepcidin mimetic) / PN-235 (oral IL-13)
-  indication: immunology_hematology
-  therapeutic_area: immunology_hematology
-  stage: phase_3_nda
+  drug_name: Rusfertide
+  indication: Polycythemia vera
+  therapeutic_area: hematology
+  stage: phase_3
   ranking_score: 0.58
   opportunity_score: 0.56
   conviction: medium
   claim_type: custom
-  claim_assertion: Protagonist Therapeutics remains a live strategic optionality name
-    in immunology_hematology.
-  catalyst: 'M&A monitor: rusfertide (hepcidin mimetic) / PN-235 (oral IL-13)'
-  status: independent_public_target
-  source: mna_target_monitor
+  claim_assertion: Rusfertide retains strategic optionality in Polycythemia vera.
+  catalyst: Rusfertide development progress in Polycythemia vera
+  source: universe_registry
   source_tags:
   - mna_target_monitor
+  - universe_registry
+  status: independent_public_target
 - ticker: RAPT
   company_id: co-rapt
   asset_id: a-rapt
@@ -2411,24 +2486,23 @@ universe:
   - mna_public_deal_universe
 - ticker: RARE
   company_id: co-rare
-  asset_id: a-rare
+  asset_id: asset-rare-setrusumab
   company_name: Ultragenyx Pharmaceutical
-  drug_name: setrusumab (OI) / UX701 (Wilson disease AAV) / DTX301 (OTC deficiency)
-  indication: rare_disease
+  drug_name: Setrusumab
+  indication: Osteogenesis imperfecta
   therapeutic_area: rare_disease
-  stage: phase_2_phase_3
+  stage: phase_3
   ranking_score: 0.58
   opportunity_score: 0.56
   conviction: medium
   claim_type: custom
-  claim_assertion: Ultragenyx Pharmaceutical remains a live strategic optionality
-    name in rare_disease.
-  catalyst: 'M&A monitor: setrusumab (OI) / UX701 (Wilson disease AAV) / DTX301 (OTC
-    deficiency)'
-  status: independent_public_target
-  source: mna_target_monitor
+  claim_assertion: Setrusumab retains strategic optionality in Osteogenesis imperfecta.
+  catalyst: Setrusumab development progress in Osteogenesis imperfecta
+  source: universe_registry
   source_tags:
   - mna_target_monitor
+  - universe_registry
+  status: independent_public_target
 - ticker: RARX
   company_id: co-rarx
   asset_id: a-rarx
@@ -2453,23 +2527,23 @@ universe:
   - mna_public_deal_universe
 - ticker: RCKT
   company_id: co-rckt
-  asset_id: a-rckt
+  asset_id: asset-rckt-rpa501
   company_name: Rocket Pharmaceuticals
-  drug_name: RP-L201 (LAD-I) / RP-L301 (PKD) / RP-A501 (Danon disease)
-  indication: rare_disease
+  drug_name: RP-A501
+  indication: Danon disease
   therapeutic_area: rare_disease
-  stage: phase_2_phase_3
-  ranking_score: 0.58
-  opportunity_score: 0.56
+  stage: phase_2
+  ranking_score: 0.54
+  opportunity_score: 0.52
   conviction: medium
   claim_type: custom
-  claim_assertion: Rocket Pharmaceuticals remains a live strategic optionality name
-    in rare_disease.
-  catalyst: 'M&A monitor: RP-L201 (LAD-I) / RP-L301 (PKD) / RP-A501 (Danon disease)'
-  status: independent_public_target
-  source: mna_target_monitor
+  claim_assertion: RP-A501 retains strategic optionality in Danon disease.
+  catalyst: RP-A501 development progress in Danon disease
+  source: universe_registry
   source_tags:
   - mna_target_monitor
+  - universe_registry
+  status: independent_public_target
 - ticker: RCPT
   company_id: co-rcpt
   asset_id: a-rcpt
@@ -2492,6 +2566,24 @@ universe:
   source: mna_public_deal_universe
   source_tags:
   - mna_public_deal_universe
+- ticker: RCUS
+  company_id: co-rcus
+  asset_id: asset-rcus-domvanalimab
+  company_name: Arcus Biosciences
+  drug_name: Domvanalimab
+  indication: Non-small cell lung cancer
+  therapeutic_area: oncology
+  stage: phase_3
+  ranking_score: 0.58
+  opportunity_score: 0.56
+  conviction: medium
+  claim_type: custom
+  claim_assertion: Domvanalimab retains strategic optionality in Non-small cell lung
+    cancer.
+  catalyst: Domvanalimab development progress in Non-small cell lung cancer
+  source: universe_registry
+  source_tags:
+  - universe_registry
 - ticker: REGN
   company_id: co-regn
   asset_id: a-regn
@@ -2803,23 +2895,24 @@ universe:
   - mna_target_monitor
 - ticker: SNDX
   company_id: co-sndx
-  asset_id: a-sndx
-  company_name: AbbVie / Syndax Pharmaceuticals
-  drug_name: revumenib (KMT2A/NPM1 AML) / axatilimab
-  indication: hematology_oncology
-  therapeutic_area: hematology_oncology
-  stage: approved_phase_3
+  asset_id: asset-sndx-revumenib
+  company_name: Syndax Pharmaceuticals
+  drug_name: Revumenib
+  indication: KMT2A-rearranged acute leukemia
+  therapeutic_area: hematology
+  stage: nda_bla
   ranking_score: 0.58
   opportunity_score: 0.56
   conviction: medium
   claim_type: custom
-  claim_assertion: AbbVie / Syndax Pharmaceuticals remains a live strategic optionality
-    name in hematology_oncology.
-  catalyst: 'M&A monitor: revumenib (KMT2A/NPM1 AML) / axatilimab'
-  status: independent_public_target
-  source: mna_target_monitor
+  claim_assertion: Revumenib retains strategic optionality in KMT2A-rearranged acute
+    leukemia.
+  catalyst: Revumenib development progress in KMT2A-rearranged acute leukemia
+  source: universe_registry
   source_tags:
   - mna_target_monitor
+  - universe_registry
+  status: independent_public_target
 - ticker: SPNV
   company_id: co-spnv
   asset_id: asset-spnv-deepview
@@ -2945,23 +3038,23 @@ universe:
   - mna_public_deal_universe
 - ticker: TERN
   company_id: co-tern
-  asset_id: a-tern
+  asset_id: asset-tern-tern601
   company_name: Terns Pharmaceuticals
-  drug_name: "TERN-601 (oral GLP-1) / TERN-701 (THR-\u03B2 agonist)"
-  indication: obesity_metabolic
-  therapeutic_area: obesity_metabolic
-  stage: phase_1_phase_2
-  ranking_score: 0.54
-  opportunity_score: 0.52
-  conviction: medium
+  drug_name: TERN-601
+  indication: Obesity
+  therapeutic_area: metabolic
+  stage: phase_1
+  ranking_score: 0.5
+  opportunity_score: 0.48
+  conviction: low-medium
   claim_type: custom
-  claim_assertion: Terns Pharmaceuticals remains a live strategic optionality name
-    in obesity_metabolic.
-  catalyst: "M&A monitor: TERN-601 (oral GLP-1) / TERN-701 (THR-\u03B2 agonist)"
-  status: independent_public_target
-  source: mna_target_monitor
+  claim_assertion: TERN-601 retains strategic optionality in Obesity.
+  catalyst: TERN-601 development progress in Obesity
+  source: universe_registry
   source_tags:
   - mna_target_monitor
+  - universe_registry
+  status: independent_public_target
 - ticker: TGTX
   company_id: co-tgtx
   asset_id: asset-tgtx-ublituximab-ms

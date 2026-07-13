@@ -1,0 +1,25 @@
+release: se-production-v6
+validated_scope:
+  - acquisition
+  - hard_gating
+  - ranking
+  - diligence_routing
+  - citations
+  - valuation_separation
+frozen_base_commit: 7695cd21e6876070f678c3f166573ce9b2ca2427
+frozen_source_archive_sha256: fa1a9dcad64a46f76a9faa0fd89bbe5eab12f5ec32b019528d7970c228e98ba3
+validated_files:
+  src/bve/se/ranking/acquisition.py: 8a6c2b66478875398d2ab285ee9e62dd687013bea8efe26483b631e08bfedcc7
+  src/bve/se/evaluation/ranking_holdout.py: 546b5f619d55ed00cddd64ce82e598748cb2302678789e9b16835c7e4c1c9660
+  src/bve/se/evaluation/production_inference.py: 4a2f9985bc6c59a96d905f8df04b376f804ece25a8f27b8394b18279fb319ba4
+monitoring:
+  required:
+    - source_health
+    - unknown_rate
+    - citation_failure_rate
+    - semantic_route_leakage
+    - performance_drift
+revalidation:
+  material_code_or_rubric_change: required
+  source_configuration_change: required
+  periodic_interval_days: 180

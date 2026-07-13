@@ -1,0 +1,174 @@
+# =============================================================================
+# Acadia Pharmaceuticals (ACAD) — NUPLAZID (pimavanserin)
+# Parkinson's-disease psychosis | Approved/marketed
+# POINT-IN-TIME: 2021-04-01 (diagnostic control: "multi-asset company")
+# =============================================================================
+#
+# DIAGNOSTIC-CONTROL NOTE (read before using this config):
+# Mechanically selected from the frozen representative cohort
+# (research/mna/pit/representative_cohort_coverage_audit.csv,
+# market_prices_universe:deterministic_every_4th_alpha_sample category) under
+# the label "multi-asset company" -- ACAD is unambiguously multi-asset as of
+# 2021-04-01: NUPLAZID (marketed, modeled here), a pending NUPLAZID DRP
+# (dementia-related psychosis) sNDA, Phase 3 pimavanserin for schizophrenia
+# negative symptoms, trofinetide (Rett syndrome, Phase 3), ACP-044
+# (non-opioid analgesic, Phase 2), and ACP-319 (M1 PAM, Phase 1) -- see
+# limitations below. This config deliberately models ONLY the marketed
+# NUPLAZID PDP indication and treats every other program as an unmodeled
+# "other asset," mirroring the OCUL control's treatment. The intended
+# diagnostic value is exactly this: a multi-asset company's residual
+# (market cap minus net cash minus a single flagship asset's rNPV) should be
+# expected to look large/unexplained if a large real pipeline exists and is
+# not netted out -- that is a property of the bridge's documented
+# simplification, not a flaw in the underlying asset's valuation.
+#
+# NEAR-MISS LOOKAHEAD RISK, ANALOGOUS TO THE CEMP PILOT:
+# NUPLAZID's DRP sNDA had an ORIGINAL PDUFA target action date of
+# 2021-04-03 -- 2 calendar days after this config's 2021-04-01 signal date
+# -- and the FDA issued a Complete Response Letter on 2021-04-05. NEITHER
+# the PDUFA date's outcome NOR the CRL is used anywhere in this config: DRP
+# is not modeled as a trial at all (see above), so this near-miss is
+# structurally excluded rather than merely asserted excluded. What IS used,
+# because it was genuinely public 24 days before the signal date, is the
+# 2021-03-08 disclosure (via press release/8-K) that FDA notified Acadia on
+# 2021-03-03 of unspecified DRP-review deficiencies precluding labeling
+# discussion at that time -- a real, dated, pre-cutoff negative signal,
+# directly analogous to CEMP's Oct/Nov 2016 disclosures. Because DRP itself
+# is not modeled here, this disclosure is noted for completeness but does
+# not enter any success_probability in this config.
+#
+# NO-LOOKAHEAD DISCIPLINE:
+# Sources:
+#   - Acadia FY2020 10-K, SEC accession 0001564590-21-008372, filed
+#     2021-02-25, period-end 2020-12-31 (cash, investments, debt, shares as
+#     of 2021-02-10 cover-page date).
+#   - March 8 2021 FDA deficiency-notice disclosure, SEC accession
+#     0001564590-21-008087.
+#   - Entry price: Yahoo Finance close, 2021-04-01 ($25.59) -- no
+#     independent second source located.
+# EXCLUDED (lookahead): 2021-04-03 PDUFA date/outcome; 2021-04-05 CRL
+# (accession 0001193125-21-105632); all other post-2021-04-01 events.
+# =============================================================================
+
+analyst_notes: >
+  NUPLAZID (pimavanserin) has been FDA-approved since April 2016 for
+  Parkinson's-disease psychosis and was a $441.755M product (FY2020 10-K
+  income statement) as of the signal date -- a real, disclosed revenue
+  anchor usable as a sanity check against this config's modeled output.
+  This config models NUPLAZID PDP alone as the flagship marketed asset;
+  the DRP sNDA (pending FDA review, deficiency-notice disclosed 2021-03-08,
+  outcome excluded as lookahead per above), the schizophrenia Phase 3
+  program, trofinetide, ACP-044, and ACP-319 are all real, disclosed,
+  pre-cutoff pipeline assets that are deliberately NOT modeled -- this is
+  the multi-asset control's defining feature, not an oversight.
+
+asset:
+  id: "acad-nuplazid-pit-2021q2"
+  name: "NUPLAZID (pimavanserin)"
+  indication: "Parkinson's-disease psychosis (PDP)"
+  therapeutic_area: "cns"
+  stage: "approved"
+  modality: "small_molecule"
+  mechanism_of_action: >
+    Selective serotonin 5-HT2A inverse agonist/antagonist; first and only
+    FDA-approved treatment for PDP as of the snapshot date, without direct
+    dopaminergic activity (avoiding worsening of motor symptoms).
+  discount_rate: 0.095   # commercial-stage, but company-level pipeline risk keeps this above a pure large-cap comp
+  royalty_rate: 0.0
+
+  differentiation_notes: >
+    1. First and only approved PDP treatment as of the snapshot date.
+    2. Non-dopaminergic mechanism avoids exacerbating Parkinson's motor
+       symptoms, unlike off-label atypical antipsychotic use.
+    3. Company is actively pursuing label expansion (DRP) and unrelated
+       pipeline diversification (schizophrenia, Rett syndrome, pain,
+       cognition) -- all excluded from this config's modeled value by
+       design (see diagnostic-control note above).
+
+  competitor_assets:
+    - "Off-label atypical antipsychotics (quetiapine, clozapine) -- no PDP-specific approval, dopaminergic side-effect risk in Parkinson's patients"
+
+  upcoming_catalysts:
+    - description: "Continued NUPLAZID PDP commercial trajectory"
+      timing_months: 6
+      catalyst_type: "milestone"
+
+company:
+  id: "acadia-pharmaceuticals"
+  name: "Acadia Pharmaceuticals, Inc."
+  ticker: "ACAD"
+  cash_millions: 631.958        # $326.028M cash & equivalents + $305.930M investment securities, as of 2020-12-31 (FY2020 10-K)
+  debt_millions: 0.0            # no notes payable/long-term-debt line items in the FY2020 10-K
+  shares_outstanding_millions: 160.047   # 160,047,470 shares, as of 2021-02-10 (10-K cover page)
+  current_price: 25.59          # Yahoo Finance close, 2021-04-01
+  notes: >
+    No debt as of the snapshot; total liabilities are entirely accounts
+    payable, accrued liabilities, and operating lease obligations. Large
+    cash position reflects a multi-program pipeline company, not a
+    single-asset name -- consistent with this control's intended category.
+
+trials:
+  - phase: "nda_bla"
+    nct_id: null
+    success_probability: 0.99   # Already approved (April 2016)
+    duration_years: 0.1
+    cost_millions: 1.0
+    primary_endpoint: null
+    endpoint_type: "surrogate_validated"
+    notes: "Already approved. Modeled as complete (nominal duration/cost) so the rNPV engine recognizes approval and projects revenue from launch. DRP label expansion is deliberately NOT modeled as a second trial -- see diagnostic-control note above."
+
+market_model:
+  # PDP-treated population; order-of-magnitude, non-program-specific
+  # standardized prior, cross-checkable against the real $441.755M FY2020
+  # product-revenue figure disclosed in analyst_notes above.
+  addressable_patients_annual: 60000
+  net_price_per_patient_usd: 35000
+  peak_penetration: 0.20
+  years_to_peak: 3
+  patent_life_years: 6
+  cogs_rate: 0.08
+  sgna_rate_launch: 0.45
+  sgna_rate_mature: 0.30
+
+pos_adjusters:
+  apply_pos_model: false   # Already approved; POS model not applicable
+
+monte_carlo:
+  random_seed: 42
+  peak_sales_cv: 0.35
+  discount_rate_std: 0.02
+  years_to_peak_std: 1.0
+  use_default_correlations: true
+
+limitations:
+  - "ACAD is deliberately modeled as if NUPLAZID PDP were its only asset. It is not: the DRP sNDA, a Phase 3 schizophrenia program, trofinetide (Rett syndrome, Phase 3), ACP-044 (non-opioid analgesic, Phase 2), and ACP-319 (M1 PAM, Phase 1) are all real, disclosed, pre-cutoff pipeline assets excluded by design -- this is the single largest and most intentional caveat on this control's results."
+  - "market_model figures are order-of-magnitude, non-program-specific standardized priors; the real FY2020 NUPLAZID product revenue ($441.755M, disclosed) is provided in analyst_notes as an external sanity check, not fitted to."
+  - "The 2021-03-08 DRP deficiency-notice disclosure is documented for completeness but does not enter this config's success_probability inputs, since DRP itself is not modeled as a trial."
+
+sources:
+  cash_shares_debt:
+    url: "https://www.sec.gov/Archives/edgar/data/1070494/000156459021008372/"
+    confidence: "High"
+    notes: "Acadia FY2020 10-K (accession 0001564590-21-008372, filed 2021-02-25, period-end 2020-12-31)."
+
+  drp_deficiency_disclosure:
+    url: "https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001070494&type=8-K"
+    confidence: "Medium"
+    notes: "8-K disclosing the 2021-03-03 FDA deficiency notification, filed/announced 2021-03-08 (accession 0001564590-21-008087) -- 24 days pre-cutoff, genuinely public information. Not used in any modeled success_probability since DRP is unmodeled."
+
+  entry_price:
+    url: "https://query1.finance.yahoo.com/v8/finance/chart/ACAD"
+    confidence: "Medium"
+    notes: "Yahoo Finance adjusted close, 2021-04-01. No independent second source located within the research budget."
+
+decision_framing:
+  variant_perception:
+    market_pos_pct: null
+    market_peak_sales_m: null
+    our_edge: >
+      This control does not assert a variant perception -- it exists to
+      test whether the bridge/solver produces a large, unexplained
+      "required PoS above one" gap for a genuinely multi-asset company when
+      only its flagship marketed product is modeled, isolating pipeline
+      under-attribution as a distinct failure mode from the distressed
+      pilots' PoS-ceiling problem.

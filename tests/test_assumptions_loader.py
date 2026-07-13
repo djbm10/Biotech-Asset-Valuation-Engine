@@ -12,8 +12,6 @@ Covers:
 """
 from __future__ import annotations
 
-import math
-import textwrap
 from pathlib import Path
 
 import pytest
@@ -101,6 +99,22 @@ class TestValidation:
     def test_cap_negative_positive_raises(self, tmp_path):
         p = _write_minimal_yaml(tmp_path, {"trial_design": {"cap_logodds_negative": 0.1}})
         with pytest.raises(AssumptionsValidationError, match="must be < 0"):
+            AssumptionsLoader(p)
+
+    def test_science_guardrail_multiplier_out_of_range_raises(self, tmp_path):
+        p = _write_minimal_yaml(
+            tmp_path,
+            {"science_guardrails": {"negative_human_poc_ambiguous": {"soft_derate": 1.2}}},
+        )
+        with pytest.raises(AssumptionsValidationError, match="soft_derate"):
+            AssumptionsLoader(p)
+
+    def test_science_phase_weights_must_sum_to_one(self, tmp_path):
+        p = _write_minimal_yaml(
+            tmp_path,
+            {"science_phase_weights_tdb": {"phase3": {"T": 0.20, "D": 0.20, "B": 0.20}}},
+        )
+        with pytest.raises(AssumptionsValidationError, match="sums to"):
             AssumptionsLoader(p)
 
     def test_loe_loss_out_of_range_raises(self, tmp_path):
@@ -266,6 +280,40 @@ class TestTrialDesign:
 
 
 # ---------------------------------------------------------------------------
+# Science layer ownership priors
+# ---------------------------------------------------------------------------
+
+class TestScienceLayerOwnershipPriors:
+    def test_guardrail_resolved_values_present(self):
+        a = AssumptionsLoader.get()
+        guardrails = a.science_guardrails
+        assert guardrails["soft_derate_floor"] == pytest.approx(0.70)
+        assert guardrails["unresolved_threshold"] == pytest.approx(0.50)
+        assert guardrails["target_refuted"]["hard_cap"] == pytest.approx(0.20)
+        assert guardrails["negative_human_poc_ambiguous"]["soft_derate"] == pytest.approx(
+            0.85
+        )
+
+    def test_tdb_phase_weights_are_normalized(self):
+        a = AssumptionsLoader.get()
+        for phase, weights in a.science_phase_weights_tdb.items():
+            assert set(weights) == {"T", "D", "B"}, phase
+            assert sum(weights.values()) == pytest.approx(1.0), phase
+
+    def test_late_stage_weights_are_normalized_not_deemphasized(self):
+        a = AssumptionsLoader.get()
+        assert a.science_phase_weights_tdb["phase3"] == {
+            "T": 0.34,
+            "D": 0.33,
+            "B": 0.33,
+        }
+        assert a.science_phase_weights_tdb["nda_bla"] == {
+            "T": 0.34,
+            "D": 0.33,
+            "B": 0.33,
+        }
+
+# ---------------------------------------------------------------------------
 # Backward compatibility: constants.py names unchanged
 # ---------------------------------------------------------------------------
 
@@ -344,6 +392,21 @@ class TestImmutability:
         a = AssumptionsLoader.get()
         with pytest.raises(TypeError):
             a.sgna["rate_launch"] = 0.99  # type: ignore[index]
+
+
+    def test_science_guardrails_immutable(self):
+        a = AssumptionsLoader.get()
+        with pytest.raises(TypeError):
+            a.science_guardrails["soft_derate_floor"] = 0.50  # type: ignore[index]
+        with pytest.raises(TypeError):
+            a.science_guardrails["target_refuted"]["hard_cap"] = 0.10  # type: ignore[index]
+
+    def test_science_phase_weights_immutable(self):
+        a = AssumptionsLoader.get()
+        with pytest.raises(TypeError):
+            a.science_phase_weights_tdb["phase3"] = {"T": 1.0, "D": 0.0, "B": 0.0}
+        with pytest.raises(TypeError):
+            a.science_phase_weights_tdb["phase3"]["T"] = 1.0  # type: ignore[index]
 
 
 # ---------------------------------------------------------------------------

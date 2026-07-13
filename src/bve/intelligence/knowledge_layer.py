@@ -109,6 +109,38 @@ class StoredValuationDiff(BaseModel):
     market_cap_snapshot_millions: Optional[float] = None
 
 
+class ScoreUpdateRecord(BaseModel):
+    """Auditable record of a scanner composite-score movement driven by signals.
+
+    Commit 1 of the live scanner score-update contract: ``prior_score`` is the base
+    composite (no signal context) and ``new_score`` is the composite after applying
+    the stored-signal context, so ``delta`` and the contributing IDs isolate the
+    signal-driven movement (source → fact → score impact lineage).
+    """
+
+    id: str
+    asset_id: str
+    as_of: date
+    prior_score: Optional[float]
+    new_score: float
+    delta: float
+    run_id: Optional[str] = None
+    decision: str = "auto_apply"  # auto_apply | review (commit 2 gate)
+    # Resolution lifecycle (commit 3): auto_applied | pending | approved | rejected.
+    status: str = "auto_applied"
+    # Stable identity of a movement = asset + its contributing event set. Lets the
+    # gate dedupe repeated runs (idempotency) and re-trigger when NEW events arrive.
+    resolution_key: str = ""
+    reviewer: Optional[str] = None
+    rationale: Optional[str] = None
+    resolved_at: Optional[datetime] = None
+    review_decision_id: Optional[str] = None
+    components: dict[str, float] = Field(default_factory=dict)
+    contributing_signal_ids: list[str] = Field(default_factory=list)
+    contributing_event_ids: list[str] = Field(default_factory=list)
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+
 class RunStateRecord(BaseModel):
     """Persistent per-stage runtime status for one asset run."""
 
@@ -594,6 +626,28 @@ class KnowledgeStore:
                 assumptions_snapshot_json TEXT,
                 valuation_snapshot_json TEXT,
                 source_trace_json TEXT NOT NULL
+            );
+
+            CREATE TABLE IF NOT EXISTS score_updates (
+                id TEXT PRIMARY KEY,
+                run_id TEXT,
+                asset_id TEXT NOT NULL,
+                as_of TEXT NOT NULL,
+                prior_score REAL,
+                new_score REAL NOT NULL,
+                delta REAL NOT NULL,
+                decision TEXT NOT NULL DEFAULT 'auto_apply',
+                status TEXT NOT NULL DEFAULT 'auto_applied',
+                resolution_key TEXT,
+                reviewer TEXT,
+                rationale TEXT,
+                resolved_at TEXT,
+                review_decision_id TEXT,
+                components_json TEXT,
+                contributing_signal_ids_json TEXT,
+                contributing_event_ids_json TEXT,
+                source_trace_json TEXT NOT NULL,
+                created_at TEXT NOT NULL
             );
 
             CREATE TABLE IF NOT EXISTS run_state (
@@ -2095,6 +2149,178 @@ class KnowledgeStore:
         )
         self._conn.commit()
         return stored
+
+    # ------------------------------------------------------------------
+    # Score updates (live scanner score-update contract — commits 1–3)
+    # ------------------------------------------------------------------
+    def add_score_update(
+        self,
+        record: ScoreUpdateRecord,
+        *,
+        source_trace: SourceTrace,
+    ) -> ScoreUpdateRecord:
+        """Persist one auditable scanner score-movement record (upsert by id)."""
+        self._conn.execute(
+            """
+            INSERT OR REPLACE INTO score_updates(
+                id, run_id, asset_id, as_of, prior_score, new_score, delta, decision,
+                status, resolution_key, reviewer, rationale, resolved_at,
+                review_decision_id, components_json, contributing_signal_ids_json,
+                contributing_event_ids_json, source_trace_json, created_at
+            ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                record.id,
+                record.run_id,
+                record.asset_id,
+                record.as_of.isoformat(),
+                record.prior_score,
+                float(record.new_score),
+                float(record.delta),
+                record.decision,
+                record.status,
+                record.resolution_key,
+                record.reviewer,
+                record.rationale,
+                record.resolved_at.isoformat() if record.resolved_at else None,
+                record.review_decision_id,
+                self._json_dump(record.components),
+                self._json_dump(record.contributing_signal_ids),
+                self._json_dump(record.contributing_event_ids),
+                source_trace.model_dump_json(),
+                record.created_at.isoformat(),
+            ),
+        )
+        self._conn.commit()
+        return record
+
+    @staticmethod
+    def _row_to_score_update(row) -> ScoreUpdateRecord:
+        import json as _json
+
+        keys = row.keys()
+        return ScoreUpdateRecord(
+            id=row["id"],
+            run_id=row["run_id"],
+            asset_id=row["asset_id"],
+            as_of=date.fromisoformat(row["as_of"]),
+            prior_score=row["prior_score"],
+            new_score=row["new_score"],
+            delta=row["delta"],
+            decision=row["decision"] if "decision" in keys else "auto_apply",
+            status=row["status"] if "status" in keys and row["status"] else "auto_applied",
+            resolution_key=(row["resolution_key"] if "resolution_key" in keys else "") or "",
+            reviewer=row["reviewer"] if "reviewer" in keys else None,
+            rationale=row["rationale"] if "rationale" in keys else None,
+            resolved_at=(datetime.fromisoformat(row["resolved_at"])
+                         if "resolved_at" in keys and row["resolved_at"] else None),
+            review_decision_id=row["review_decision_id"] if "review_decision_id" in keys else None,
+            components=_json.loads(row["components_json"] or "{}"),
+            contributing_signal_ids=_json.loads(row["contributing_signal_ids_json"] or "[]"),
+            contributing_event_ids=_json.loads(row["contributing_event_ids_json"] or "[]"),
+            created_at=datetime.fromisoformat(row["created_at"]),
+        )
+
+    def get_score_updates(
+        self,
+        *,
+        asset_id: Optional[str] = None,
+        run_id: Optional[str] = None,
+        status: Optional[str] = None,
+        resolution_key: Optional[str] = None,
+        limit: int = 100,
+    ) -> list[ScoreUpdateRecord]:
+        """Query persisted score-update records, newest first."""
+        clauses: list[str] = []
+        params: list[object] = []
+        for col, val in (("asset_id", asset_id), ("run_id", run_id),
+                         ("status", status), ("resolution_key", resolution_key)):
+            if val is not None:
+                clauses.append(f"{col} = ?")
+                params.append(val)
+        where = f"WHERE {' AND '.join(clauses)}" if clauses else ""
+        params.append(limit)
+        rows = self._conn.execute(
+            f"SELECT * FROM score_updates {where} ORDER BY created_at DESC LIMIT ?",
+            params,
+        ).fetchall()
+        return [self._row_to_score_update(r) for r in rows]
+
+    def get_latest_score_update_by_key(self, resolution_key: str) -> Optional[ScoreUpdateRecord]:
+        """Latest score-update for a movement signature (asset + event set)."""
+        rows = self.get_score_updates(resolution_key=resolution_key, limit=1)
+        return rows[0] if rows else None
+
+    def resolve_score_update(
+        self,
+        score_update_id: str,
+        *,
+        action: str,
+        reviewer: Optional[str] = None,
+        rationale: Optional[str] = None,
+        now: Optional[datetime] = None,
+    ) -> Optional[ScoreUpdateRecord]:
+        """Resolve a pending score update (approve/reject) with audit lineage.
+
+        ``approve`` accepts the held new_score (the gate publishes it on the next
+        run); ``reject`` keeps the prior score. Idempotent: re-resolving an already
+        resolved row to the same action is a no-op returning the row; conflicting
+        re-resolution is refused. Writes an append-only audit_log row linking the
+        score update to a generated review_decision_id.
+        """
+        import uuid as _uuid
+
+        if action not in ("approve", "reject"):
+            raise ValueError(f"action must be 'approve' or 'reject', got {action!r}")
+        rows = self._conn.execute(
+            "SELECT * FROM score_updates WHERE id = ?", (score_update_id,)
+        ).fetchall()
+        if not rows:
+            return None
+        rec = self._row_to_score_update(rows[0])
+
+        target_status = "approved" if action == "approve" else "rejected"
+        if rec.status in ("approved", "rejected"):
+            if rec.status == target_status:
+                return rec  # idempotent no-op
+            raise ValueError(
+                f"score update {score_update_id} already resolved as {rec.status}; "
+                f"cannot re-resolve as {target_status}"
+            )
+
+        resolved_at = now or datetime.now(timezone.utc)
+        review_decision_id = str(_uuid.uuid4())
+        self._conn.execute(
+            """
+            UPDATE score_updates
+               SET status = ?, reviewer = ?, rationale = ?, resolved_at = ?,
+                   review_decision_id = ?
+             WHERE id = ?
+            """,
+            (target_status, reviewer, rationale, resolved_at.isoformat(),
+             review_decision_id, score_update_id),
+        )
+        self._append_audit_log(
+            event_type="score_update_resolution",
+            entity_type="score_update",
+            entity_id=score_update_id,
+            actor_id=reviewer,
+            action=target_status,
+            payload_json=self._json_dump({
+                "asset_id": rec.asset_id,
+                "prior_score": rec.prior_score,
+                "new_score": rec.new_score,
+                "delta": rec.delta,
+                "resolution_key": rec.resolution_key,
+                "rationale": rationale,
+            }),
+            review_decision_id=review_decision_id,
+        )
+        self._conn.commit()
+        return rec.model_copy(update={
+            "status": target_status, "reviewer": reviewer, "rationale": rationale,
+            "resolved_at": resolved_at, "review_decision_id": review_decision_id,
+        })
 
     # ------------------------------------------------------------------
     # Runtime state + opportunity alerts (Wave 7)

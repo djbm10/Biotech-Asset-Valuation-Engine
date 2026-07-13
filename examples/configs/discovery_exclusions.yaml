@@ -1,0 +1,28 @@
+exclusions:
+- ticker: ATRC
+  reason: not_drug_developer
+  note: AtriCure is a cardiac ablation device co; warfarin is a comparator arm
+  reviewer: doug
+  excluded_at: '2026-06-16T00:03:57.754179+00:00'
+- ticker: CNMD
+  reason: not_drug_developer
+  note: CONMED is a surgical-device co; AST-120 is Kureha's drug, a comparator/partner
+    arm
+  reviewer: doug
+  excluded_at: '2026-06-16T11:15:04.502614+00:00'
+- ticker: LGND
+  reason: not_drug_developer
+  note: Ligand is a royalty/licensing aggregator; lasofoxifene developed by Sermonix
+    - recurring ambiguous, reject permanently
+  reviewer: doug
+  excluded_at: '2026-06-16T11:29:56.357104+00:00'
+- ticker: VSTM
+  reason: rejected
+  note: Gemzar/gemcitabine is a comparator; VSTM lead is avutometinib
+  reviewer: doug
+  excluded_at: '2026-06-16T00:04:00.582485+00:00'
+- ticker: ZYME
+  reason: rejected
+  note: futibatinib is Taiho partner artifact; ZYME lead is zanidatamab
+  reviewer: doug
+  excluded_at: '2026-06-16T00:03:55.256810+00:00'

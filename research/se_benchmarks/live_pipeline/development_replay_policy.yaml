@@ -1,0 +1,20 @@
+schema_version: se_live_source_policy_v1
+policy_version: cd19_bcma_tce_historical_replay_2026_07_12
+live_enabled: false
+supported_targets: [CD19, BCMA]
+supported_modalities: [T_CELL_ENGAGER]
+required_source_families:
+  - clinicaltrials_gov
+  - fda_label
+  - pubmed
+  - sec_edgar
+optional_source_families:
+  - company_press_release
+  - company_pipeline_or_presentation
+declared_sources:
+  - source_family: company_press_release
+    urls:
+      - https://www.merck.com/news/
+  - source_family: company_pipeline_or_presentation
+    urls:
+      - https://www.cancer.gov/publications/dictionaries/cancer-drug/

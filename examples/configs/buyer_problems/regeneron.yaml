@@ -1,0 +1,24 @@
+buyer_id: regeneron
+buyer_name: Regeneron Pharmaceuticals
+problems:
+  - problem_id: durable_ophthalmology_defense
+    strategic_gap: Defend and extend retina franchise with durable ophthalmology technology.
+    required_ta: [ophthalmology]
+    required_targets: [VEGF, ANG2, complement]
+    required_modalities: [antibody, bispecific, gene_therapy, sustained_delivery]
+    excluded_tas: []
+    excluded_modalities: [low_durability_me_too]
+    must_have_evidence:
+      - durability or dosing-interval advantage
+      - retinal safety evidence
+    capability_constraints:
+      - must fit retina development and commercial infrastructure
+    known_internal_overlap:
+      - EYLEA franchise
+    combination_or_lifecycle_fit: Could defend EYLEA share or expand durable retinal treatment options.
+    alternative_assets_available: []
+    competitive_intensity: 0.80
+    scarcity_value: 0.65
+    time_sensitivity: 0.75
+    urgency: 0.80
+    confidence: 0.60

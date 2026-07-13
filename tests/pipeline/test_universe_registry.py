@@ -7,10 +7,14 @@ import pytest
 from bve.pipeline.universe_registry import UniverseRegistryEntry, load_universe_registry
 
 
-def test_load_universe_registry_returns_30_entries() -> None:
+def test_load_universe_registry_returns_all_entries() -> None:
     entries = load_universe_registry(Path("examples/configs/universe_registry.yaml"))
-    assert len(entries) == 30
+    # The registry grows as seeds are added; assert a floor + structural validity
+    # rather than an exact count so seed expansion does not break this test.
+    assert len(entries) >= 50
     assert all(isinstance(entry, UniverseRegistryEntry) for entry in entries)
+    tickers = [e.ticker.upper() for e in entries]
+    assert len(tickers) == len(set(tickers)), "registry tickers must be unique"
 
 
 def test_universe_registry_entry_validation_rejects_invalid_peak_penetration() -> None:

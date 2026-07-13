@@ -1,0 +1,78 @@
+asset:
+  id: asset-kpti-selinexor
+  name: Selinexor
+  indication: Myelofibrosis
+  therapeutic_area: hematology
+  stage: phase_3
+  modality: small_molecule
+  discount_rate: 0.1
+company:
+  id: kpti-auto
+  name: Karyopharm Therapeutics
+  ticker: KPTI
+  cash_millions: 90.8
+  shares_outstanding_millions: 22.544
+  debt_millions: 296.7
+  burn_rate_millions_per_quarter: 31.41
+  current_price: 9.5
+  market_cap_millions: 215.3
+trials:
+- phase: phase_3
+  nct_id: null
+  success_probability: 0.54
+  duration_years: 2.5
+  cost_millions: 120.0
+  enrollment: null
+  primary_endpoint: null
+  endpoint_type: surrogate_validated
+  estimated_completion_date: null
+market_model:
+  total_addressable_market_millions: 4000.0
+  addressable_patients_annual: 8000
+  net_price_per_patient_usd: 400000.0
+  peak_penetration: 0.2
+  years_to_peak: 5
+  patent_life_years: 12
+  cogs_rate: 0.15
+  sgna_rate_launch: 0.4
+  sgna_rate_mature: 0.2
+  commercial_inputs:
+    patient_pool:
+      indication: Myelofibrosis
+      addressable_k: 8.0
+      uncertainty_cv: 0.25
+    pricing:
+      wac_per_year_usd: 571428.57
+      gross_to_net_rate: 0.3
+      launch_discount: 0.0
+      annual_erosion_rate: 0.02
+      uncertainty_cv: 0.15
+    share:
+      peak_share: 0.2
+      years_to_peak: 5
+      share_cv: 0.2
+    ex_us_revenue_multiple: 1.0
+_meta:
+  config_version: auto-profile-v1
+  generator_version: profile-0.1
+  generated_at: '2026-06-14'
+  source_nct_id: null
+  evidence_level: coarse
+  defaulted_fields:
+  - addressable_patients_annual
+  - cogs_rate
+  - cost_millions
+  - discount_rate
+  - duration_years
+  - endpoint_type
+  - enrollment
+  - estimated_completion_date
+  - net_price_per_patient_usd
+  - patent_life_years
+  - peak_penetration
+  - primary_endpoint
+  - sgna_rate_launch
+  - sgna_rate_mature
+  - total_addressable_market_millions
+  - years_to_peak
+  provisional: true
