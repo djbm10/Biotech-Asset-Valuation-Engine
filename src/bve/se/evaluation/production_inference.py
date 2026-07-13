@@ -6,10 +6,16 @@ import argparse
 import json
 from collections import defaultdict
 from pathlib import Path
+from typing import cast
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-from bve.se.ranking.acquisition import AcquisitionCandidate, DiligenceItem, rank_acquisition_candidates
+from bve.se.ranking.acquisition import (
+    AcquisitionCandidate,
+    DiligenceItem,
+    Disposition,
+    rank_acquisition_candidates,
+)
 
 
 SCORE_BY_FIT = {
@@ -66,20 +72,21 @@ def build_predictions(
     for query in queries:
         query_id = str(query["query_id"])
         rows = by_query[query_id]
-        if len(rows) != len(query["candidate_ids"]):
+        candidate_ids = cast(list[object], query["candidate_ids"])
+        if len(rows) != len(candidate_ids):
             raise ValueError(f"evidence cardinality mismatch for {query_id}")
         candidates: list[AcquisitionCandidate] = []
         evidence_by_asset: dict[str, str] = {}
         for row in rows:
             asset_id = str(row["candidate_id"])
-            attrs = dict(row["observed_attributes"])
+            attrs = dict(cast(dict[str, object], row["observed_attributes"]))
             fit = str(attrs["fit_signal"])
             quality = QUALITY_BY_COMPLETENESS[str(attrs["evidence_completeness"])]
             stage = STAGE_SCORE[str(attrs["development_stage"])]
             evidence_id = str(row["evidence_id"])
             evidence_by_asset[asset_id] = evidence_id
             fit_score = SCORE_BY_FIT[fit]
-            disposition = (
+            disposition: Disposition = (
                 "EXCLUDE" if fit == "disqualifying"
                 else "UNKNOWN" if fit in {"uncertain", "poor-fit"}
                 else "INCLUDE"

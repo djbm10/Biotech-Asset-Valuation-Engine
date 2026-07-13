@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from datetime import date
 
+import pytest
+
 from bve.se.acquisition.connectors import (
     ClinicalTrialsGovConnector,
     FdaLabelConnector,
@@ -11,10 +13,12 @@ from bve.se.acquisition.connectors import (
 )
 from bve.se.acquisition.corpus_store import CorpusStore
 from bve.se.acquisition.runner import (
+    connectors_for_policy,
     modality_terms_for,
     run_acquisition,
     target_queries_for,
 )
+from bve.se.acquisition.policy import LiveSourcePolicy
 from bve.se.schemas.contracts import BuyerProblemV2
 
 AS_OF = date(2026, 7, 10)
@@ -186,3 +190,28 @@ def test_run_acquisition_aggregates_health(tmp_path) -> None:
     # while retrieval-volume counts reflect both processed records.
     assert report.total_documents_indexed() == 2
     assert len(CorpusStore(tmp_path).documents()) == 1
+
+
+def test_policy_constructs_exact_required_connector_set_and_rejects_missing() -> None:
+    policy = LiveSourcePolicy.model_validate(
+        {
+            "policy_version": "test",
+            "required_source_families": ["clinicaltrials_gov", "company_press_release"],
+            "supported_targets": ["CD19", "BCMA"],
+            "supported_modalities": ["T_CELL_ENGAGER"],
+            "declared_sources": [
+                {
+                    "source_family": "company_press_release",
+                    "urls": ["https://example.com/news"],
+                }
+            ],
+        }
+    )
+    assert [connector.source_family for connector in connectors_for_policy(policy)] == [
+        "clinicaltrials_gov",
+        "company_press_release",
+    ]
+
+    missing = policy.model_copy(update={"declared_sources": ()})
+    with pytest.raises(ValueError, match="no connector configuration"):
+        connectors_for_policy(missing)

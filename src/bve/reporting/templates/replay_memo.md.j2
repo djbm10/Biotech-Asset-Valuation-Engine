@@ -1,0 +1,76 @@
+# Point-in-Time Public Replay: {{ company.name }} / {{ asset.name }} As Of {{ d.analysis_date }}
+
+## Replay Scope
+
+This memo is a public-data historical replay. It is written as if the analyst only had information available through {{ d.analysis_date }}. It is not a live BD recommendation and does not use post-snapshot deal outcomes, current reports, or post-snapshot development updates.
+
+## Information Available As Of Date
+
+- Company: {{ company.name }}{{ " (" ~ company.ticker ~ ")" if company.ticker else "" }}
+- Asset: {{ asset.name }}
+- Indication: {{ asset.indication }}
+- Stage: {{ asset.stage.value if asset.stage else "n/a" }}
+- Therapeutic area: {{ asset.therapeutic_area.value if asset.therapeutic_area else "n/a" }}
+- Current price used: {{ "$%.2f"|format(company.current_price) if company.current_price else "n/a" }}
+- Net cash: ${{ "%.1f"|format(d.net_cash_millions) }}M
+
+## What The Model Knew
+
+- Mechanism and target: {{ asset.mechanism_of_action or "n/a" }}
+- Addressable patients: {{ market.addressable_patients_annual | format_int }}
+- Net price per patient: ${{ market.net_price_per_patient_usd | format_int }}
+- Peak penetration: {{ "%.1f%%"|format(market.peak_penetration * 100) }}
+- Years to peak: {{ market.years_to_peak }}
+- Remaining modeled phases: {{ phases | map(attribute="phase") | join(", ") }}
+
+## What The Model Did Not Know
+
+- Whether a strategic buyer would later acquire the company.
+- Any post-{{ d.analysis_date }} regulatory, clinical, financing, or transaction information.
+- Any confidential diligence, internal BD priorities, management process, or non-public competitive intelligence.
+
+## Standalone Valuation
+
+- rNPV: ${{ "%.1f"|format(d.rnpv_millions) }}M
+- Probability of approval: {{ d.prob_approval_pct }}
+- Base peak sales: ${{ "%.0f"|format(d.peak_sales_millions) }}M
+- NAV/share: ${{ "%.2f"|format(d.nav_per_share) }}
+- Monte Carlo mean: ${{ "%.0f"|format(d.mc_mean) }}M
+- Monte Carlo P10-P90: ${{ "%.0f"|format(d.mc_p10) }}M to ${{ "%.0f"|format(d.mc_p90) }}M
+
+## Market-Implied Gap
+
+{% if d.current_price %}
+At the snapshot price of ${{ "%.2f"|format(d.current_price) }}, the public market valuation was compared against the model's standalone NAV/share of ${{ "%.2f"|format(d.nav_per_share) }}. This gap should be interpreted as a prompt for assumption review, not as proof of mispricing.
+{% else %}
+No current price was supplied for this replay, so the memo does not calculate a market-implied gap.
+{% endif %}
+
+## Strategic Relevance Hypothesis
+
+The replay can flag whether the asset looks strategically relevant, but it should not claim to know any buyer's confidential intent. The useful question is whether the public facts support a plausible problem-solution fit: differentiated science, credible development path, controllable registrational execution, commercial relevance, and optionality beyond the first indication.
+
+## Kill Criteria
+
+{% if decision_framing and decision_framing.kill_criteria %}
+{% for item in decision_framing.kill_criteria %}
+- {{ item }}
+{% endfor %}
+{% else %}
+- Phase 3 effect size weakens materially versus early evidence.
+- eGFR durability does not support the proteinuria thesis.
+- Safety or tolerability creates chronic-use concerns.
+- A direct competitor shows a clearly superior profile.
+- CMC or scale-up risk undermines development or launch assumptions.
+{% endif %}
+
+## No-Lookahead Limitations
+
+- This memo is only as defensible as the dated public inputs and analyst judgments behind it.
+- Public data can miss internal diligence issues, buyer constraints, governance dynamics, and private competitive intelligence.
+- Qualitative strategic-fit judgments can still be biased unless separately audited against source facts.
+- A standalone rNPV may understate strategic value when a buyer values control, franchise-building, platform optionality, or timing.
+
+## Postscript / After-The-Fact Validation
+
+Reserved for outcome comparison after the replay memo is finalized. Do not use this section to support the original point-in-time recommendation.

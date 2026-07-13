@@ -20,7 +20,7 @@ from bve.se.discovery.adapters import (
 )
 from bve.se.pipeline import run_landscape_search
 from bve.se.reporting.memo import render_search_memo
-from bve.se.schemas.contracts import BuyerProblemV2
+from bve.se.schemas.contracts import BuyerProblemV2, RunStatus
 
 _MANDATORY_SOURCES = (
     "clinicaltrials_gov",
@@ -83,6 +83,11 @@ def build_parser() -> argparse.ArgumentParser:
         action="store_true",
         help="Replay local CT.gov snapshots instead of making CT.gov/PubMed network requests",
     )
+    parser.add_argument(
+        "--allow-incomplete",
+        action="store_true",
+        help="Research-only: return zero even when mandatory-source/convergence checks fail.",
+    )
     return parser
 
 
@@ -144,6 +149,7 @@ def main(argv: list[str] | None = None) -> int:
         and source_name != "clinicaltrials_gov"
     ]
     configured_indexed_names = {
+        "clinicaltrials_gov",
         *{source_name for source_name in source_index if source_name in _MANDATORY_SOURCES},
         *{source_name for source_name in url_index if source_name in _MANDATORY_SOURCES},
     }
@@ -175,6 +181,12 @@ def main(argv: list[str] | None = None) -> int:
         Path(args.output).write_text(rendered + "\n")
     else:
         sys.stdout.write(rendered + "\n")
+    if result.run_manifest.status != RunStatus.CONVERGED and not args.allow_incomplete:
+        print(
+            "ERROR: S&E discovery is INCOMPLETE; output is diagnostic and was not promoted.",
+            file=sys.stderr,
+        )
+        return 2
     return 0
 
 

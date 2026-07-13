@@ -1,0 +1,261 @@
+name: S&E Public-Data Production Pipeline
+
+on:
+  schedule:
+    - cron: "15 7 * * 0"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: bve-se-public-pipeline
+  cancel-in-progress: false
+
+jobs:
+  public-data-pipeline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    env:
+      BVE_SE_USER_AGENT: ${{ vars.BVE_SE_USER_AGENT }}
+      MPLCONFIGDIR: /tmp/mpl
+      PROBLEM_PATH: examples/configs/se/benchmarks/cd19_or_bcma_tce.yaml
+      POLICY_PATH: examples/configs/se/live_cd19_bcma_tce_policy.yaml
+      RELEASE_PATH: research/se_benchmarks/live_pipeline/live_release_manifest.yaml
+      OUTPUT_ROOT: outputs/se/production
+      PYTHONPATH: src
+
+    steps:
+      - name: Check out verified release source
+        # v4.2.2
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python 3.12
+        # v5.6.0
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements/se-public-pipeline.txt
+
+      - name: Preflight operator identity
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ -z "${BVE_SE_USER_AGENT//[[:space:]]/}" ]]; then
+            echo "::error::Repository variable BVE_SE_USER_AGENT is required."
+            exit 2
+          fi
+          if [[ "$BVE_SE_USER_AGENT" == *$'\r'* || "$BVE_SE_USER_AGENT" == *$'\n'* ]]; then
+            echo "::error::BVE_SE_USER_AGENT must be a single line."
+            exit 2
+          fi
+          if [[ ! "$BVE_SE_USER_AGENT" =~ [^[:space:]@]+@[^[:space:]@]+\.[^[:space:]@]+ ]]; then
+            echo "::error::BVE_SE_USER_AGENT must include an operator contact email."
+            exit 2
+          fi
+
+      - name: Install exact S&E runtime dependencies
+        run: |
+          set -euo pipefail
+          python -m pip install \
+            --disable-pip-version-check \
+            --no-deps \
+            --only-binary=:all: \
+            --require-hashes \
+            --requirement requirements/se-public-pipeline.txt
+          python -c "from bve.cli.se_run import main; assert callable(main)"
+
+      - name: Locate most recent successful production run
+        id: prior_run
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          candidate_run_ids_raw="$(
+            gh api \
+              --method GET \
+              "repos/${GITHUB_REPOSITORY}/actions/workflows/se_public_pipeline.yml/runs" \
+              -f status=success \
+              -f per_page=20 \
+              --jq ".workflow_runs[] | select(.id != ${GITHUB_RUN_ID}) | .id"
+          )"
+          mapfile -t candidate_run_ids <<< "$candidate_run_ids_raw"
+          prior_run_id=""
+          artifact_name=""
+          for candidate_run_id in "${candidate_run_ids[@]}"; do
+            [[ -z "$candidate_run_id" ]] && continue
+            candidate_artifact="$(
+              gh api \
+                --method GET \
+                "repos/${GITHUB_REPOSITORY}/actions/runs/${candidate_run_id}/artifacts" \
+                -f per_page=100 \
+                --jq '[.artifacts[] | select(
+                  .expired == false and (.name | startswith("se-public-production-"))
+                )] | sort_by(.created_at) | reverse | .[0].name // empty'
+            )"
+            if [[ -n "$candidate_artifact" ]]; then
+              prior_run_id="$candidate_run_id"
+              artifact_name="$candidate_artifact"
+              break
+            fi
+          done
+          if [[ -n "$prior_run_id" && ! "$prior_run_id" =~ ^[0-9]+$ ]]; then
+            echo "::error::GitHub returned an invalid prior workflow run ID."
+            exit 5
+          fi
+          artifact_pattern='^se-public-production-[0-9]{4}-[0-9]{2}-[0-9]{2}(-[0-9]+-[0-9]+)?$'
+          if [[ -n "$artifact_name" && ! "$artifact_name" =~ $artifact_pattern ]]; then
+            echo "::error::GitHub returned an invalid prior artifact name."
+            exit 5
+          fi
+          echo "run_id=$prior_run_id" >> "$GITHUB_OUTPUT"
+          echo "artifact_name=$artifact_name" >> "$GITHUB_OUTPUT"
+
+      - name: Download prior successful production artifact
+        if: steps.prior_run.outputs.run_id != ''
+        # v4.3.0
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+        with:
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ steps.prior_run.outputs.run_id }}
+          name: ${{ steps.prior_run.outputs.artifact_name }}
+          path: ${{ runner.temp }}/se-prior-production
+
+      - name: Verify and restore prior promoted state
+        if: steps.prior_run.outputs.run_id != ''
+        shell: bash
+        env:
+          RESTORED_STATE: ${{ runner.temp }}/se-prior-production
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          import os
+          import shutil
+          import tempfile
+          from pathlib import Path
+
+          from bve.se.live_run import verify_current_run
+
+          source = Path(os.environ["RESTORED_STATE"])
+          destination = Path(os.environ["OUTPUT_ROOT"])
+          current_path = source / "CURRENT.json"
+          if not current_path.is_file() or current_path.is_symlink():
+              raise SystemExit("prior production artifact has no regular CURRENT.json")
+          outcome = verify_current_run(source)
+
+          destination.mkdir(parents=True, exist_ok=True)
+          (destination / "runs").mkdir(exist_ok=True)
+          target_run = destination / "runs" / outcome.receipt.run_id
+          if target_run.exists():
+              raise SystemExit(f"refusing to overwrite restored run: {target_run}")
+
+          staging = Path(tempfile.mkdtemp(prefix=".restore-", dir=destination))
+          try:
+              staging_run = staging / "runs" / outcome.receipt.run_id
+              staging_run.parent.mkdir(parents=True)
+              shutil.copytree(outcome.run_dir, staging_run)
+              shutil.copy2(current_path, staging / "CURRENT.json")
+              verify_current_run(staging)
+              os.replace(staging_run, target_run)
+              temporary_current = destination / ".CURRENT.restore.json"
+              shutil.copy2(staging / "CURRENT.json", temporary_current)
+              os.replace(temporary_current, destination / "CURRENT.json")
+              verify_current_run(destination)
+          finally:
+              shutil.rmtree(staging, ignore_errors=True)
+          PY
+
+      - name: Resolve UTC run date
+        id: run_date
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "as_of=$(date -u +%F)" >> "$GITHUB_OUTPUT"
+
+      - name: Verify release and configuration (dry-run)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m bve.cli.se_run \
+            --dry-run \
+            --as-of "${{ steps.run_date.outputs.as_of }}" \
+            --problem "$PROBLEM_PATH" \
+            --source-policy "$POLICY_PATH" \
+            --release-manifest "$RELEASE_PATH" \
+            --output-root "$OUTPUT_ROOT"
+
+      - name: Run live public-data acquisition-to-asset pipeline
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m bve.cli.se_run \
+            --live \
+            --as-of "${{ steps.run_date.outputs.as_of }}" \
+            --problem "$PROBLEM_PATH" \
+            --source-policy "$POLICY_PATH" \
+            --release-manifest "$RELEASE_PATH" \
+            --output-root "$OUTPUT_ROOT"
+
+      - name: Upload successful production artifacts
+        if: success()
+        # v4.6.2
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: >-
+            se-public-production-${{ steps.run_date.outputs.as_of }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: outputs/se/production
+          if-no-files-found: error
+          retention-days: 90
+
+      - name: Upload failure diagnostics
+        if: always()
+        # v4.6.2
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: >-
+            se-public-diagnostics-${{ steps.run_date.outputs.as_of }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: outputs/se/production
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Write S&E job summary
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          CURRENT="$OUTPUT_ROOT/CURRENT.json"
+          {
+            echo "## S&E public-data pipeline"
+            echo "- Job: ${{ job.status }}"
+            echo "- As-of (UTC): ${{ steps.run_date.outputs.as_of }}"
+            if [ -s "$CURRENT" ]; then
+              RUN_ID="$(jq -r '.run_id' "$CURRENT")"
+              RESULT="$OUTPUT_ROOT/runs/$RUN_ID/result.json"
+              MONITORING="$OUTPUT_ROOT/runs/$RUN_ID/monitoring.json"
+              echo "- CURRENT: \`$CURRENT\` (run \`$RUN_ID\`)"
+              if [ -s "$RESULT" ]; then
+                RESULT_STATUS="$(jq -r '.run_manifest.status // "unknown"' "$RESULT")"
+                CANDIDATES="$(jq -r '.candidates | length' "$RESULT")"
+                echo "- result: \`$RESULT\` ($RESULT_STATUS; candidates=$CANDIDATES)"
+              else
+                echo "- result: unavailable"
+              fi
+              if [ -s "$MONITORING" ]; then
+                STOPS="$(jq -r '.stop_reasons | length' "$MONITORING")"
+                UNKNOWN_RATE="$(jq -r '.unknown_rate' "$MONITORING")"
+                echo "- monitoring: \`$MONITORING\` (stops=$STOPS; unknown_rate=$UNKNOWN_RATE)"
+              else
+                echo "- monitoring: unavailable"
+              fi
+            else
+              echo "- CURRENT: unavailable"
+              echo "- result: unavailable"
+              echo "- monitoring: unavailable"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"

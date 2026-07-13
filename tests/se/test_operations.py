@@ -54,6 +54,8 @@ def test_production_label_and_monitoring_snapshot() -> None:
                 source_family="registry",
                 connector_succeeded=True,
                 query_returned_results=True,
+                raw_record_count=3,
+                documents_parsed=3,
                 documents_indexed=3,
             )
         ]

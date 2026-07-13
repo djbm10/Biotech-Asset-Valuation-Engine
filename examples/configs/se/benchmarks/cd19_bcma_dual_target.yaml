@@ -1,0 +1,50 @@
+schema_version: se_buyer_problem_v2
+problem_id: benchmark_cd19_bcma_dual_target
+version: "1.0.0"
+buyer:
+  buyer_id: benchmark_buyer
+  name: Benchmark Buyer
+  as_of_date: 2026-07-10
+strategic_gap:
+  therapeutic_areas: [oncology]
+  indications: []
+  target_expression:
+    operator: EXACT_COMBINATION
+    targets:
+      - canonical_id: CD19
+        label: CD19
+        aliases: [CD-19, B-lymphocyte antigen CD19]
+      - canonical_id: BCMA
+        label: BCMA
+        aliases: [TNFRSF17, CD269]
+  modalities: [T_CELL_ENGAGER]
+  required_biology:
+    - requirement_id: biology.same_therapeutic_construct
+      domain: ELIGIBILITY
+      fact_type: construct_target_set
+      operator: CONTAINS_ALL
+      expected_value: [CD19, BCMA]
+      pass_condition: One therapeutic construct has both canonical targets.
+      fail_condition: Affirmative evidence shows the construct lacks either target.
+      unknown_condition: The construct-level target set is missing, stale, ambiguous, or conflicting.
+      analyst_confirmation_required: true
+  capability_constraints:
+    manufacturing: []
+    delivery: []
+    clinical_operations: []
+    commercial: []
+    integration: []
+  evidence_floor:
+    minimum_stage: PRECLINICAL
+    human_poc_required: false
+    evaluable_patients_minimum: null
+    follow_up_minimum_days: null
+    required_evidence_types: [PROGRAM_EXISTENCE]
+  clinical_effect_bar: {}
+  acceptable_deal_routes: [LICENSE, COLLABORATION, OPTION, ACQUISITION]
+  geographic_rights_requirements: []
+  missing_evidence_policy: REVIEW
+output:
+  landscape_mode: COMBINED
+  group_by: TARGET
+ranking_cohort_required: false

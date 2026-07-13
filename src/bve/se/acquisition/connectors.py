@@ -18,6 +18,7 @@ from datetime import date
 from typing import Any
 
 from bve.se.acquisition.corpus_store import CorpusStore, ParserStatus
+from bve.se.acquisition.http import get_json, get_text, safe_get_public_page
 from bve.se.acquisition.source_health import SourceHealth
 from bve.se.schemas.contracts import SourceTier
 
@@ -69,16 +70,13 @@ class ClinicalTrialsGovConnector:
         self.page_size = page_size
 
     def _live_search(self, term: str) -> list[dict[str, Any]]:
-        import requests  # type: ignore[import-untyped]
-
-        response = requests.get(
+        payload = get_json(
             "https://clinicaltrials.gov/api/v2/studies",
             params={"query.term": term, "pageSize": min(self.page_size, 1000)},
-            headers={"User-Agent": "bve-se-acquire/1.0 research@bve.local"},
-            timeout=30,
         )
-        response.raise_for_status()
-        return [study.get("protocolSection", {}) for study in response.json().get("studies", [])]
+        if not isinstance(payload, dict):
+            raise ValueError("ClinicalTrials.gov returned a non-object JSON response")
+        return [study.get("protocolSection", {}) for study in payload.get("studies", [])]
 
     def acquire(
         self,
@@ -160,18 +158,16 @@ class FdaLabelConnector:
         self.limit = limit
 
     def _live_search(self, query: str) -> list[dict[str, Any]]:
-        import requests  # type: ignore[import-untyped]
-
-        response = requests.get(
+        payload = get_json(
             "https://api.fda.gov/drug/label.json",
             params={"search": query, "limit": self.limit},
-            headers={"User-Agent": "bve-se-acquire/1.0 research@bve.local"},
-            timeout=30,
+            allow_not_found=True,
         )
-        if response.status_code == 404:  # openFDA returns 404 for zero matches
+        if payload is None:  # openFDA returns 404 for zero matches
             return []
-        response.raise_for_status()
-        return response.json().get("results", [])
+        if not isinstance(payload, dict):
+            raise ValueError("openFDA returned a non-object JSON response")
+        return payload.get("results", [])
 
     def acquire(
         self,
@@ -259,24 +255,21 @@ class PubMedConnector:
     def _live_search(self, term: str) -> list[dict[str, Any]]:
         from xml.etree import ElementTree
 
-        import requests  # type: ignore[import-untyped]
-
-        search = requests.get(
+        search = get_json(
             "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esearch.fcgi",
             params={"db": "pubmed", "term": term, "retmode": "json", "retmax": self.limit},
-            timeout=30,
         )
-        search.raise_for_status()
-        ids = search.json().get("esearchresult", {}).get("idlist", [])
+        if not isinstance(search, dict):
+            raise ValueError("PubMed search returned a non-object JSON response")
+        ids = search.get("esearchresult", {}).get("idlist", [])
         if not ids:
             return []
-        fetch = requests.get(
+        fetch = get_text(
             "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/efetch.fcgi",
             params={"db": "pubmed", "id": ",".join(ids), "retmode": "xml"},
-            timeout=45,
+            timeout=(5.0, 45.0),
         )
-        fetch.raise_for_status()
-        root = ElementTree.fromstring(fetch.text)
+        root = ElementTree.fromstring(fetch)
         records: list[dict[str, Any]] = []
         for article in root.findall(".//PubmedArticle"):
             pmid = article.findtext(".//PMID") or ""
@@ -379,28 +372,17 @@ class SecEdgarConnector:
         self.max_documents = max_documents
 
     def _live_search(self, query: str) -> list[dict[str, Any]]:
-        import requests  # type: ignore[import-untyped]
-
-        response = requests.get(
+        payload = get_json(
             "https://efts.sec.gov/LATEST/search-index",
             params={"q": query},
-            headers={"User-Agent": "bve-se-acquire/1.0 research@bve.local"},
-            timeout=30,
         )
-        response.raise_for_status()
-        return response.json().get("hits", {}).get("hits", [])
+        if not isinstance(payload, dict):
+            raise ValueError("SEC EDGAR returned a non-object JSON response")
+        return payload.get("hits", {}).get("hits", [])
 
     @staticmethod
     def _live_fetch(url: str) -> str:
-        import requests  # type: ignore[import-untyped]
-
-        response = requests.get(
-            url,
-            headers={"User-Agent": "bve-se-acquire/1.0 research@bve.local"},
-            timeout=30,
-        )
-        response.raise_for_status()
-        return response.text
+        return get_text(url)
 
     @staticmethod
     def _filing_url(hit: dict[str, Any]) -> tuple[str, str]:
@@ -502,15 +484,7 @@ class DeclaredUrlConnector:
 
     @staticmethod
     def _live_fetch(url: str) -> str:
-        import requests  # type: ignore[import-untyped]
-
-        response = requests.get(
-            url,
-            headers={"User-Agent": "bve-se-acquire/1.0 research@bve.local"},
-            timeout=30,
-        )
-        response.raise_for_status()
-        return response.text
+        return safe_get_public_page(url)
 
     def acquire(
         self,

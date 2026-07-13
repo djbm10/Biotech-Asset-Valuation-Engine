@@ -75,8 +75,22 @@ def test_attribute_required_evidence(tmp_path) -> None:
     coverage = evaluate_corpus_coverage(corpus, _write_reference(tmp_path))
     health = SourceHealthReport(
         sources=[
-            SourceHealth(source_family="fda_label", connector_succeeded=True, query_returned_results=True, documents_indexed=1),
-            SourceHealth(source_family="pubmed", connector_succeeded=True, query_returned_results=True, documents_indexed=1),
+            SourceHealth(
+                source_family="fda_label",
+                connector_succeeded=True,
+                query_returned_results=True,
+                raw_record_count=1,
+                documents_parsed=1,
+                documents_indexed=1,
+            ),
+            SourceHealth(
+                source_family="pubmed",
+                connector_succeeded=True,
+                query_returned_results=True,
+                raw_record_count=1,
+                documents_parsed=1,
+                documents_indexed=1,
+            ),
         ]
     )
     updated = attribute_required_evidence(coverage, health)

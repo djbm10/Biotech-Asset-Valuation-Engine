@@ -62,14 +62,28 @@ class DiscoveryOrchestrator:
         *,
         max_passes: int = 8,
         max_queries: int = 5000,
+        max_expansion_depth: int = 1,
         required_zero_growth_passes: int = 2,
         declared_mandatory_sources: Sequence[str] | None = None,
     ) -> None:
         if max_passes < required_zero_growth_passes:
             raise ValueError("max_passes must allow the configured zero-growth convergence window")
+        if max_expansion_depth < 0:
+            raise ValueError("max_expansion_depth must be non-negative")
         self.adapters = list(adapters)
+        if not self.adapters:
+            raise ValueError("at least one discovery source adapter is required")
+        source_names = [adapter.source_name for adapter in self.adapters]
+        if len(source_names) != len(set(source_names)):
+            duplicates = sorted(
+                name for name in set(source_names) if source_names.count(name) > 1
+            )
+            raise ValueError(
+                "discovery source names must be unique: " + ", ".join(duplicates)
+            )
         self.max_passes = max_passes
         self.max_queries = max_queries
+        self.max_expansion_depth = max_expansion_depth
         self.required_zero_growth_passes = required_zero_growth_passes
         self.declared_mandatory_sources = list(declared_mandatory_sources or [])
 
@@ -99,6 +113,9 @@ class DiscoveryOrchestrator:
             pass_queries = list({query.query: query for query in queue}.values())
             queue = []
             new_hit_count = 0
+            identities_before = {
+                hit.provisional_identity_key for hit in seen_hits.values()
+            }
             new_aliases: set[str] = set()
             source_contributions: dict[str, int] = {}
 
@@ -156,6 +173,8 @@ class DiscoveryOrchestrator:
                         )
                     )
                     for follow_up in result.follow_up_queries:
+                        if query.expansion_depth >= self.max_expansion_depth:
+                            continue
                         if follow_up in known_query_strings:
                             continue
                         known_query_strings.add(follow_up)
@@ -163,7 +182,9 @@ class DiscoveryOrchestrator:
                             CompiledQuery(
                                 query_id=_stable_id("query", follow_up),
                                 query=follow_up,
-                                aliases=result.discovered_aliases,
+                                target_ids=query.target_ids,
+                                modality_ids=query.modality_ids,
+                                aliases=[follow_up],
                                 expansion_depth=query.expansion_depth + 1,
                             )
                         )
@@ -174,9 +195,17 @@ class DiscoveryOrchestrator:
                 CoveragePass(
                     pass_number=pass_number,
                     new_mentions=new_hit_count,
-                    new_provisional_identities=new_hit_count,
+                    new_provisional_identities=len(
+                        {
+                            hit.provisional_identity_key
+                            for hit in seen_hits.values()
+                        }
+                        - identities_before
+                    ),
                     new_aliases=len(new_aliases),
-                    unresolved_mentions=0,
+                    unresolved_mentions=sum(
+                        1 for hit in seen_hits.values() if not hit.asset_name
+                    ),
                     remaining_frontier=[query.query for query in queue],
                     source_unique_contributions=source_contributions,
                 )

@@ -6,11 +6,14 @@ import json
 import os
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 from pydantic import BaseModel, ConfigDict, Field
 
 from bve.se.acquisition.source_health import SourceHealthReport
-from bve.se.evaluation.production_inference import QueryPrediction
+
+if TYPE_CHECKING:
+    from bve.se.evaluation.production_inference import QueryPrediction
 
 
 PRODUCTION_SCREEN_LABEL = (
@@ -160,8 +163,20 @@ class RevalidationPolicy(BaseModel):
             reasons.append("periodic public-source revalidation is due")
         return reasons
 
-    def require_current(self, **current: str | date) -> None:
-        reasons = self.reasons_required(**current)
+    def require_current(
+        self,
+        *,
+        current_code_hash: str,
+        current_rubric_hash: str,
+        current_source_configuration_hash: str,
+        as_of: date | None = None,
+    ) -> None:
+        reasons = self.reasons_required(
+            current_code_hash=current_code_hash,
+            current_rubric_hash=current_rubric_hash,
+            current_source_configuration_hash=current_source_configuration_hash,
+            as_of=as_of,
+        )
         if reasons:
             raise RuntimeError("S&E production revalidation required: " + "; ".join(reasons))
 

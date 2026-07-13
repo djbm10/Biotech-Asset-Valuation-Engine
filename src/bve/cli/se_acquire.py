@@ -51,6 +51,11 @@ def build_parser() -> argparse.ArgumentParser:
         "--holdout-data",
         help="Unlabeled case-level holdout JSONL; emits one disposition prediction per case",
     )
+    parser.add_argument(
+        "--allow-degraded",
+        action="store_true",
+        help="Research-only: return zero despite connector or document-processing failures.",
+    )
     return parser
 
 
@@ -104,6 +109,19 @@ def main(argv: list[str] | None = None) -> int:
         Path(args.output).write_text(rendered + "\n")
     else:
         sys.stdout.write(rendered + "\n")
+    degraded = bool(
+        health
+        and any(
+            not source.connector_succeeded or source.parse_failures > 0
+            for source in health.sources
+        )
+    )
+    if degraded and not args.allow_degraded:
+        print(
+            "ERROR: acquisition is degraded; corpus output was not production-promoted.",
+            file=sys.stderr,
+        )
+        return 2
     return 0
 
 

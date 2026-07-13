@@ -24,7 +24,11 @@ def normalize_identity_name(value: str | None) -> str | None:
     if not value:
         return None
     normalized = _PUNCTUATION.sub(" ", value.casefold()).strip()
-    return " ".join(normalized.split()) or None
+    normalized = " ".join(normalized.split())
+    # Development codes are commonly rendered as CLN-978, CLN 978, or CLN978.
+    # Separator-only differences are deterministic aliases, not distinct assets.
+    normalized = re.sub(r"(?<=[a-z]) (?=\d)|(?<=\d) (?=[a-z])", "", normalized)
+    return normalized or None
 
 
 def _id(prefix: str, value: str) -> str:
@@ -74,16 +78,40 @@ class AssetRegistry:
                 ),
             )
 
-        # A named asset remains the same asset across multiple trials. Trial IDs are retained on
-        # the canonical record for provenance, but must not manufacture duplicate assets. When the
-        # asset name is unavailable, fall back to the trial identity because no safe cross-trial
-        # merge key exists.
+        # A source-observed named asset remains the same asset across trials, sponsors, licensors,
+        # and owners. Company identity is provenance/rights context, not part of a drug's identity.
+        # Exact normalized aliases are deterministic; ambiguous fuzzy merges remain review-only.
         deterministic_key = (
-            f"asset:{normalized_company or ''}:{normalized_asset}"
+            f"asset:{normalized_asset}"
             if normalized_asset
             else f"trial:{(hit.trial_id or '').upper()}:{hit.provisional_identity_key}"
         )
-        asset_id = _id("asset", deterministic_key)
+        alias_keys = {
+            normalized
+            for normalized in (
+                normalize_identity_name(value)
+                for value in [hit.asset_name, *hit.aliases]
+            )
+            if normalized
+        }
+        matching_ids = {
+            asset_id
+            for asset_id, record in self.assets.items()
+            if alias_keys
+            & {
+                normalized
+                for normalized in (
+                    normalize_identity_name(value)
+                    for value in [record.canonical_name, *record.aliases]
+                )
+                if normalized
+            }
+        }
+        asset_id = (
+            next(iter(matching_ids))
+            if len(matching_ids) == 1
+            else _id("asset", deterministic_key)
+        )
         existing = self.assets.get(asset_id)
         aliases = [value for value in [hit.asset_name, *hit.aliases] if value]
         if existing is None:
@@ -109,7 +137,15 @@ class AssetRegistry:
                         dict.fromkeys([*existing.trial_ids, *([hit.trial_id] if hit.trial_id else [])])
                     ),
                     "target_ids": list(dict.fromkeys([*existing.target_ids, *hit.target_terms])),
+                    "modality_id": (
+                        existing.modality_id
+                        if not hit.modality_terms
+                        else hit.modality_terms[0]
+                        if existing.modality_id in {None, hit.modality_terms[0]}
+                        else None
+                    ),
                     "mention_ids": list(dict.fromkeys([*existing.mention_ids, mention_id])),
+                    "provisional": existing.provisional and not bool(hit.trial_id),
                 }
             )
         self.assets[asset_id] = existing

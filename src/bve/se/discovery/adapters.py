@@ -26,23 +26,132 @@ UrlFetch = Callable[[str], dict[str, Any]]
 _TCE_TERMS = (
     "t cell engager",
     "t-cell engager",
+    "t cell engaging",
+    "t-cell engaging",
+    "t cell redirecting",
+    "t-cell redirecting",
     "bispecific t-cell",
     "bispecific t cell",
     "bite",
     "cd3 bispecific",
     "cd3x",
     "xcd3",
+    "dual-affinity re-targeting",
+    "dual affinity re-targeting",
+    "dart protein",
+    "tri-specific antibody",
+    "trispecific antibody",
 )
 _TARGET_TERMS = {
     "CD19": ("cd19", "cd-19", "b-lymphocyte antigen cd19"),
     "BCMA": ("bcma", "tnfrsf17", "cd269"),
 }
 
-_ASSET_CODE_RE = re.compile(r"\b[A-Z]{2,8}[- ]?\d{2,5}[A-Z]?\b")
+_ASSET_CODE_RE = re.compile(r"\b[A-Z]{2,8}(?:[- ]?\d{2,8}[A-Z]?)\b")
+_BIOLOGIC_NAME_RE = re.compile(
+    r"\b[a-z][a-z-]{4,40}(?:mab|cept|parib|tinib|lisib|nib)(?:-[a-z]{3,5})?\b",
+    re.IGNORECASE,
+)
+_NON_ASSET_CODES = {
+    "BCMA",
+    "CD3",
+    "CD3E",
+    "CD19",
+    "CD20",
+    "CD269",
+    "TNFRSF17",
+}
+_NON_ASSET_CODE_PREFIXES = {
+    "ASH",
+    "CD",
+    "CFR",
+    "CI",
+    "COVID",
+    "CRD",
+    "CYP",
+    "EFS",
+    "EULAR",
+    "EUR",
+    "FORM",
+    "GSE",
+    "HLA",
+    "HPV",
+    "IL",
+    "ORR",
+    "OS",
+    "PFS",
+    "PROSPERO",
+    "Q",
+    "SECTION",
+    "TP",
+    "USD",
+}
+_GENERIC_ASSET_PHRASES = (
+    "biospecimen",
+    "bone marrow",
+    "computed tomography",
+    "magnetic resonance",
+    "placebo",
+    "sample collection",
+    "standard of care",
+)
 
 
 def _digest(prefix: str, value: str) -> str:
     return f"{prefix}:{hashlib.sha256(value.encode()).hexdigest()[:20]}"
+
+
+def _normalized_lookup(value: str) -> str:
+    return re.sub(r"[^a-z0-9]+", "", value.casefold())
+
+
+def _plausible_asset_name(value: str) -> bool:
+    stripped = " ".join(value.split()).strip(" ,.;:()[]{}")
+    if len(stripped) < 3 or len(stripped) > 120:
+        return False
+    lowered = stripped.casefold()
+    if any(phrase in lowered for phrase in _GENERIC_ASSET_PHRASES):
+        return False
+    normalized = _normalized_lookup(stripped).upper()
+    if normalized in _NON_ASSET_CODES or normalized.startswith(("NCT", "PMID")):
+        return False
+    prefix_match = re.match(r"[A-Z]+", normalized)
+    if prefix_match and prefix_match.group(0) in _NON_ASSET_CODE_PREFIXES:
+        return False
+    return True
+
+
+def extract_observed_asset_names(*texts: str) -> list[str]:
+    """Extract source-observed program names without falling back to a document title.
+
+    The deliberately conservative extractor recognizes development codes and common drug-name
+    suffixes. Documents without an observed program name remain evidence documents; they do not
+    manufacture a ``CanonicalAsset`` from a publication or URL title.
+    """
+
+    combined = "\n".join(text for text in texts if text)[:100_000]
+    candidates = [
+        *[match.group(0) for match in _ASSET_CODE_RE.finditer(combined)],
+        *[match.group(0) for match in _BIOLOGIC_NAME_RE.finditer(combined)],
+    ]
+    return list(
+        dict.fromkeys(
+            " ".join(candidate.split())
+            for candidate in candidates
+            if _plausible_asset_name(candidate)
+        )
+    )
+
+
+def _matches_follow_up(query: CompiledQuery, text: str) -> bool:
+    if query.expansion_depth == 0:
+        return True
+    haystack = _normalized_lookup(text)
+    terms = [query.query, *query.aliases]
+    return any(
+        normalized and normalized in haystack
+        for normalized in (_normalized_lookup(term) for term in terms)
+    )
 
 
 def _protocol_text(protocol: dict[str, Any]) -> str:
@@ -69,7 +178,10 @@ def _targets_in_text(text: str) -> set[str]:
 
 def _modality_in_text(text: str) -> str | None:
     lowered = text.casefold()
-    if any(term in lowered for term in _TCE_TERMS):
+    if any(term in lowered for term in _TCE_TERMS) or (
+        "cd3" in lowered
+        and any(term in lowered for term in ("bispecific", "tri-specific", "trispecific"))
+    ):
         return "T_CELL_ENGAGER"
     if "car-t" in lowered or "car t" in lowered or "cellular immunotherapy" in lowered:
         return "CAR_T"
@@ -107,7 +219,17 @@ def _candidate_interventions(protocol: dict[str, Any]) -> list[tuple[str, set[st
         intervention_context = " ".join(
             [name, intervention.get("description", ""), other_names_text]
         ).casefold()
-        if name.casefold() in title_context or any(term in intervention_context for term in _TCE_TERMS):
+        primary_names = extract_observed_asset_names(name)
+        observed_names = extract_observed_asset_names(name, other_names_text)
+        observed_in_title = any(
+            _normalized_lookup(observed) in _normalized_lookup(title_context)
+            for observed in observed_names
+        )
+        if (
+            name.casefold() in title_context
+            or observed_in_title
+            or _modality_in_text(intervention_context) == "T_CELL_ENGAGER"
+        ):
             intervention_targets = _targets_in_text(intervention_context)
             intervention_modality = _modality_in_text(intervention_context)
             # Protocol-level target/modality text is safe only when there is one named
@@ -116,9 +238,10 @@ def _candidate_interventions(protocol: dict[str, Any]) -> list[tuple[str, set[st
             if len(all_interventions) == 1:
                 intervention_targets = intervention_targets or protocol_targets
                 intervention_modality = intervention_modality or _modality_in_text(_protocol_text(protocol))
+            canonical_name = primary_names[0] if len(primary_names) == 1 else name
             selected.append(
                 (
-                    name,
+                    canonical_name,
                     intervention_targets,
                     intervention_modality,
                 )
@@ -126,6 +249,17 @@ def _candidate_interventions(protocol: dict[str, Any]) -> list[tuple[str, set[st
     if len(selected) == 1 and selected[0][2] is None and _modality_in_text(_protocol_text(protocol)):
         name, targets, _ = selected[0]
         selected[0] = (name, targets, _modality_in_text(_protocol_text(protocol)))
+    elif len(selected) > 1 and _modality_in_text(_protocol_text(protocol)):
+        normalized_names = [_normalized_lookup(name) for name, _, _ in selected]
+        if len(set(normalized_names)) == 1:
+            selected = [
+                (
+                    name,
+                    targets or protocol_targets,
+                    modality or _modality_in_text(_protocol_text(protocol)),
+                )
+                for name, targets, modality in selected
+            ]
     return selected
 
 
@@ -181,6 +315,8 @@ class ClinicalTrialsGovAdapter:
                     snapshot_path.write_text(snapshot_content)
                 snapshot_path_value = str(snapshot_path)
             lower = serialized.casefold().replace("_", " ")
+            if not _matches_follow_up(query, serialized):
+                continue
             protocol_targets = _targets_in_text(lower)
             if query.target_ids and not set(query.target_ids).issubset(protocol_targets):
                 continue
@@ -361,8 +497,6 @@ class PubMedDiscoveryAdapter:
                 continue
             if query.modality_ids and not any(term in text for term in _TCE_TERMS):
                 continue
-            code_match = _ASSET_CODE_RE.search(title)
-            asset = (code_match.group(0) if code_match else None) or title[:120] or f"PubMed:{pmid}"
             document_id = _digest("document", digest)
             documents.append(
                 SourceDocument(
@@ -376,22 +510,27 @@ class PubMedDiscoveryAdapter:
                     source_tier=SourceTier.PRIMARY,
                 )
             )
-            hits.append(
-                CandidateHit(
-                    hit_id=_digest("hit", serialized),
-                    source=self.source_name,
-                    source_document_id=document_id,
-                    query=query.query,
-                    asset_name=asset,
-                    target_terms=query.target_ids,
-                    modality_terms=query.modality_ids,
-                    aliases=[title],
-                    snippet=abstract[:500],
-                    provisional_identity_key=f"pubmed:{pmid}",
-                    retrieved_at=datetime.now(timezone.utc),
-                    applicable_as_of_date=as_of_date,
+            if not _matches_follow_up(query, f"{title} {abstract}"):
+                continue
+            observed_targets = sorted(_targets_in_text(text))
+            observed_modality = _modality_in_text(text)
+            for asset in extract_observed_asset_names(title, abstract):
+                hits.append(
+                    CandidateHit(
+                        hit_id=_digest("hit", f"{serialized}|{asset}"),
+                        source=self.source_name,
+                        source_document_id=document_id,
+                        query=query.query,
+                        asset_name=asset,
+                        target_terms=observed_targets,
+                        modality_terms=[observed_modality] if observed_modality else [],
+                        aliases=[title],
+                        snippet=abstract[:500],
+                        provisional_identity_key=f"pubmed:{asset.casefold()}",
+                        retrieved_at=datetime.now(timezone.utc),
+                        applicable_as_of_date=as_of_date,
+                    )
                 )
-            )
         return AdapterResult(
             hits=hits,
             outcome=SearchOutcome.SUCCESS if records else SearchOutcome.NO_EVIDENCE_FOUND,
@@ -440,10 +579,14 @@ class IndexedDocumentAdapter:
         snapshots: list[str] = []
         for record in self.documents:
             text = str(record.get("text", ""))
-            lowered = text.casefold()
-            if not all(target.casefold() in lowered for target in query.target_ids):
+            title = str(record.get("title", ""))
+            observed_targets = _targets_in_text(text)
+            if query.target_ids and not set(query.target_ids).issubset(observed_targets):
                 continue
-            if query.modality_ids and not any(term in lowered for term in _TCE_TERMS):
+            observed_modality = _modality_in_text(text)
+            if query.modality_ids and observed_modality not in set(query.modality_ids):
+                continue
+            if not _matches_follow_up(query, f"{title} {text}"):
                 continue
             published = record.get("publication_date")
             if published and str(published)[:10] > as_of_date.isoformat():
@@ -476,10 +619,17 @@ class IndexedDocumentAdapter:
                     ),
                 )
             )
-            mentions = record.get("candidates") or [{"asset_name": record.get("title", "")[:120]}]
+            mentions = record.get("candidates") or [
+                {"asset_name": asset_name}
+                for asset_name in extract_observed_asset_names(title, text)
+            ]
             for mention in mentions:
                 asset_name = str(mention.get("asset_name", "")).strip()
-                if not asset_name:
+                if (
+                    not _plausible_asset_name(asset_name)
+                    or _normalized_lookup(asset_name)
+                    not in _normalized_lookup(f"{title} {text}")
+                ):
                     continue
                 hits.append(
                     CandidateHit(
@@ -490,8 +640,8 @@ class IndexedDocumentAdapter:
                         asset_name=asset_name,
                         company_name=mention.get("company_name") or record.get("publisher"),
                         trial_id=mention.get("trial_id"),
-                        target_terms=list(mention.get("target_ids") or query.target_ids),
-                        modality_terms=list(mention.get("modality_ids") or query.modality_ids),
+                        target_terms=sorted(observed_targets),
+                        modality_terms=[observed_modality] if observed_modality else [],
                         aliases=list(mention.get("aliases") or []),
                         snippet=text[:500],
                         provisional_identity_key=f"{self.source_name}:{asset_name.casefold()}",

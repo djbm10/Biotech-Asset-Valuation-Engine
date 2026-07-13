@@ -22,6 +22,7 @@ from bve.se.acquisition.connectors import (
     DeclaredUrlConnector,
 )
 from bve.se.acquisition.corpus_store import CorpusStore
+from bve.se.acquisition.policy import DeclaredSourceEntry, LiveSourcePolicy
 from bve.se.acquisition.source_health import SourceHealth, SourceHealthReport
 from bve.se.ontology.targets import _MODALITY_ALIASES, _TARGET_ALIASES
 from bve.se.schemas.contracts import BuyerProblemV2
@@ -80,13 +81,35 @@ def declared_connectors(manifest_path: Path) -> list[Connector]:
     """
 
     payload = yaml.safe_load(manifest_path.read_text()) or {}
+    entries = [DeclaredSourceEntry.model_validate(entry) for entry in payload.get("sources", [])]
+    families = [entry.source_family for entry in entries]
+    if len(families) != len(set(families)):
+        raise ValueError("declared source manifest contains duplicate source families")
     return [
-        DeclaredUrlConnector(
-            str(entry["source_family"]),
-            [str(url) for url in entry.get("urls", [])],
-        )
-        for entry in payload.get("sources", [])
+        DeclaredUrlConnector(entry.source_family, list(entry.urls))
+        for entry in entries
     ]
+
+
+def connectors_for_policy(policy: LiveSourcePolicy) -> list[Connector]:
+    """Construct exactly the built-in and declared connectors allowed by ``policy``."""
+
+    requested = [
+        *policy.required_source_families,
+        *policy.optional_source_families,
+    ]
+    built_ins = {connector.source_family: connector for connector in default_connectors()}
+    declared = {
+        entry.source_family: DeclaredUrlConnector(entry.source_family, list(entry.urls))
+        for entry in policy.declared_sources
+    }
+    available = {**built_ins, **declared}
+    missing = sorted(set(policy.required_source_families) - set(available))
+    if missing:
+        raise ValueError(
+            "required source families have no connector configuration: " + ", ".join(missing)
+        )
+    return [available[family] for family in requested if family in available]
 
 
 def run_acquisition(
@@ -95,15 +118,33 @@ def run_acquisition(
     *,
     connectors: Sequence[Connector] | None = None,
     declared_source_manifest: Path | None = None,
+    policy: LiveSourcePolicy | None = None,
 ) -> SourceHealthReport:
     """Run every connector into the corpus at ``corpus_dir`` and return the health report."""
 
     store = CorpusStore(Path(corpus_dir))
+    if policy is not None:
+        policy.validate_problem(problem)
+    if policy is not None and declared_source_manifest is not None:
+        raise ValueError("use either policy-declared sources or a legacy declared manifest")
+    if policy is not None and connectors is not None:
+        raise ValueError("policy-controlled acquisition cannot accept ad hoc connectors")
     targets = target_queries_for(problem)
     modality_terms = modality_terms_for(problem)
-    active = list(connectors) if connectors is not None else default_connectors()
+    active = (
+        list(connectors)
+        if connectors is not None
+        else connectors_for_policy(policy)
+        if policy is not None
+        else default_connectors()
+    )
     if declared_source_manifest is not None:
         active.extend(declared_connectors(declared_source_manifest))
+    if not active:
+        raise ValueError("at least one acquisition connector is required")
+    families = [connector.source_family for connector in active]
+    if len(families) != len(set(families)):
+        raise ValueError("acquisition connector source families must be unique")
     report = SourceHealthReport()
     for connector in active:
         health = connector.acquire(

@@ -17,7 +17,16 @@ does so without leaking benchmark asset names back into acquisition queries.
 
 from __future__ import annotations
 
-from pydantic import BaseModel, ConfigDict, Field
+from enum import Enum
+
+from pydantic import BaseModel, ConfigDict, Field, model_validator
+
+
+class SourceVerdict(str, Enum):
+    OK = "OK"
+    NO_DATA = "NO_DATA"
+    DEGRADED = "DEGRADED"
+    FAILED = "FAILED"
 
 
 class SourceHealth(BaseModel):
@@ -28,13 +37,39 @@ class SourceHealth(BaseModel):
     source_family: str
     connector_succeeded: bool
     query_returned_results: bool
-    raw_record_count: int = 0
-    documents_parsed: int = 0
-    documents_indexed: int = 0
-    parse_failures: int = 0
+    raw_record_count: int = Field(default=0, ge=0)
+    documents_parsed: int = Field(default=0, ge=0)
+    documents_indexed: int = Field(default=0, ge=0)
+    parse_failures: int = Field(default=0, ge=0)
     # Stage 3 is corpus-level; None until the coverage evaluation attributes it.
     required_evidence_present: bool | None = None
     error: str | None = None
+
+    @model_validator(mode="after")
+    def validate_stage_counts(self) -> "SourceHealth":
+        if self.query_returned_results and self.raw_record_count == 0:
+            raise ValueError(
+                "query_returned_results requires at least one raw record"
+            )
+        if self.documents_parsed + self.parse_failures > self.raw_record_count:
+            raise ValueError(
+                "documents_parsed plus parse_failures cannot exceed raw_record_count"
+            )
+        if self.documents_indexed > self.documents_parsed:
+            raise ValueError("documents_indexed cannot exceed documents_parsed")
+        return self
+
+    @property
+    def verdict(self) -> SourceVerdict:
+        if not self.connector_succeeded:
+            return SourceVerdict.FAILED
+        if self.raw_record_count == 0 and not self.query_returned_results:
+            return SourceVerdict.NO_DATA
+        if self.documents_indexed == 0 or self.parse_failures >= self.raw_record_count:
+            return SourceVerdict.FAILED
+        if self.parse_failures > 0 or self.documents_parsed != self.documents_indexed:
+            return SourceVerdict.DEGRADED
+        return SourceVerdict.OK
 
 
 class SourceHealthReport(BaseModel):
@@ -60,3 +95,23 @@ class SourceHealthReport(BaseModel):
             "documents_indexed": sum(1 for s in self.sources if s.documents_indexed > 0),
             "source_family_count": len(self.sources),
         }
+
+    def by_family(self) -> dict[str, SourceHealth]:
+        families = [source.source_family for source in self.sources]
+        if len(families) != len(set(families)):
+            raise ValueError("source health report contains duplicate source families")
+        return {source.source_family: source for source in self.sources}
+
+    def production_failures(self, required_families: set[str]) -> list[str]:
+        """Return fail-closed reasons; a successful zero-result query is not an outage."""
+
+        by_family = self.by_family()
+        reasons = [
+            f"required source not configured: {family}"
+            for family in sorted(required_families - set(by_family))
+        ]
+        for family in sorted(required_families & set(by_family)):
+            verdict = by_family[family].verdict
+            if verdict in {SourceVerdict.DEGRADED, SourceVerdict.FAILED}:
+                reasons.append(f"required source {family} is {verdict.value}")
+        return reasons
