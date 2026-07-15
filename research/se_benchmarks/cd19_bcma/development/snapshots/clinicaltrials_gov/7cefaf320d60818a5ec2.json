@@ -1,0 +1,242 @@
+{
+  "armsInterventionsModule": {
+    "armGroups": [
+      {
+        "description": "Subcutaneous CM336 administration, step-up dosing, Dose and frequency of CM336 according to the protocol.",
+        "interventionNames": [
+          "Drug: CM336 (BCMA/CD3 bispecific antibody)"
+        ],
+        "label": "Phase 2: CM336",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "Dose-escalation and de-escalation to determine the maximum tolerated dose (MTD) of sonrotoclax plus dexamethasone.",
+        "interventionNames": [
+          "Drug: Sonrotoclax"
+        ],
+        "label": "Phase 1b Dose Escalation: Sonrotoclax",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "Patients assigned to the sonrotoclax cohort will receive sonrotoclax in combination with dexamethasone. Sonrotoclax will be administered orally once daily (QD) at the recommended phase II dose (RP2D) determined during the phase Ib dose-finding stage.",
+        "interventionNames": [
+          "Drug: Sonrotoclax"
+        ],
+        "label": "Phase 2: Sonrotoclax",
+        "type": "EXPERIMENTAL"
+      }
+    ],
+    "interventions": [
+      {
+        "armGroupLabels": [
+          "Phase 1b Dose Escalation: Sonrotoclax",
+          "Phase 2: Sonrotoclax"
+        ],
+        "description": "Administered orally daily",
+        "name": "Sonrotoclax",
+        "otherNames": [
+          "BGB-11417"
+        ],
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "Phase 2: CM336"
+        ],
+        "description": "CM336 is a bispecific T-cell engager targeting B-cell maturation antigen (BCMA) and CD3. In this study, CM336 is administered subcutaneously with a step-up dosing strategy in Cycle 1 (3 mg Day 1, 20 mg Day 4, 40 mg Day 8 and onwards weekly).",
+        "name": "CM336 (BCMA/CD3 bispecific antibody)",
+        "type": "DRUG"
+      }
+    ]
+  },
+  "conditionsModule": {
+    "conditions": [
+      "Multiple Myeloma (MM)"
+    ],
+    "keywords": [
+      "BCMA/CD3 bispecific antibody",
+      "Sonrotoclax",
+      "t(11;14)"
+    ]
+  },
+  "contactsLocationsModule": {
+    "centralContacts": [
+      {
+        "email": "angang@ihcams.ac.cn",
+        "name": "Gang An, MD, PhD",
+        "phone": "13502181109",
+        "role": "CONTACT"
+      }
+    ],
+    "locations": [
+      {
+        "city": "Tianjin",
+        "contacts": [
+          {
+            "email": "angang@ihcams.ac.cn",
+            "name": "Gang An, MD, PhD",
+            "phone": "008613502181109",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "China",
+        "facility": "Institute of Hematology and Blood Diseases Hospital Chinese Academy of Medical Sciences",
+        "geoPoint": {
+          "lat": 39.14222,
+          "lon": 117.17667
+        },
+        "zip": "300020"
+      }
+    ]
+  },
+  "descriptionModule": {
+    "briefSummary": "This study is a prospective, single-center, phase Ib/II clinical trial designed to evaluate the tolerability of sonrotoclax plus dexamethasone in this phase Ib/II umbrella study and to determine the recommended phase II dose (RP2D). It also aims to assess the safety and hematologic response rate of sonrotoclax plus dexamethasone in patients with newly diagnosed systemic light-chain amyloidosis (NDAL) harboring t(11;14), and of a BCMA/CD3 bispecific antibody in patients with NDAL without t(11;14). In addition, this study seeks to explore a chemotherapy-free treatment strategy based on t(11;14)-guided genetic stratification."
+  },
+  "designModule": {
+    "designInfo": {
+      "allocation": "NON_RANDOMIZED",
+      "interventionModel": "PARALLEL",
+      "maskingInfo": {
+        "masking": "NONE"
+      },
+      "primaryPurpose": "TREATMENT"
+    },
+    "enrollmentInfo": {
+      "count": 50,
+      "type": "ESTIMATED"
+    },
+    "phases": [
+      "PHASE1",
+      "PHASE2"
+    ],
+    "studyType": "INTERVENTIONAL"
+  },
+  "eligibilityModule": {
+    "eligibilityCriteria": "Inclusion Criteria:\n\n* Able to understand and voluntarily sign the informed consent form (ICF).\n* Age \u226518 years and \u226470 years.\n* Confirmed diagnosis of primary light-chain amyloidosis, according to the diagnostic and treatment guidelines for primary light-chain amyloidosis, 2021 revised edition.\n\n  1. Subjects entering the phase Ib dose-escalation stage must also have confirmed t(11;14) translocation by FISH or other genetic testing.\n\nNewly diagnosed systemic AL amyloidosis, with no prior systemic anti-tumor therapy for AL amyloidosis.\n\n* Measurable disease at screening, defined as:\n\n  a) Difference between involved and uninvolved serum free light chains (dFLC) \\>20 mg/L.\n* Eastern Cooperative Oncology Group (ECOG) performance status \u22643.\n* Adequate hepatic function, defined as total bilirubin \\<1.5 \u00d7 upper limit of normal (ULN) (total bilirubin \\<3 \u00d7 ULN for patients with Gilbert syndrome), and aspartate aminotransferase (AST) and alanine aminotransferase (ALT) \\<3 \u00d7 ULN.\n* Adequate renal function, defined as creatinine clearance \u226530 mL/min, calculated using the Cockcroft-Gault formula.\n* Baseline oxygen saturation \\>92% on room air.\n* Hematologic parameters within 7 days before the start of screening meeting the following criteria: absolute neutrophil count \u22651.0 \u00d7 10\u2079/L, hemoglobin \u226570 g/L without whole blood or red blood cell transfusion within 7 days, and platelet count \u226570 \u00d7 10\u2079/L without whole blood transfusion, platelet transfusion, or thrombopoietin receptor agonist treatment within 7 days; or deemed suitable for enrollment by the investigator based on clinical judgment.\n* Women of non-childbearing potential are eligible. Female patients of childbearing potential must have a negative serum \u03b2-human chorionic gonadotropin or urine pregnancy test at screening.\n* Male patients, women of childbearing potential, and their partners must voluntarily use effective contraceptive measures, as judged by the investigator, during the treatment period.\n* Male patients must agree not to donate sperm from the initial screening period until 90 days after the last dose of study treatment.\n* Patients must be willing and able to complete study procedures and follow-up assessments.\n\nNote: Women of childbearing potential are defined as all women who have experienced menarche and are not postmenopausal and have not undergone surgical sterilization, such as hysterectomy, bilateral tubal ligation, or bilateral oophorectomy. Postmenopausal status is defined as amenorrhea for more than 12 consecutive months without another specified cause. Women using oral contraceptives or mechanical contraceptive methods, such as intrauterine devices, should be considered to be of childbearing potential.\n\nMale subjects, including those who have undergone vasectomy, must agree to use condoms during sexual intercourse with women of childbearing potential and must have no plan to father a child from the date of signing the ICF, throughout the period of study drug administration, and for 3 months after the last dose of study treatment.\n\nExclusion Criteria:\n\n* Non-AL amyloidosis, including hereditary amyloidosis and other non-AL types of amyloidosis.\n* Diagnosis of symptomatic multiple myeloma, according to the Chinese Guidelines for the Diagnosis and Treatment of Multiple Myeloma, 2022 revised edition. Patients whose diagnosis is based solely on a serum free light-chain ratio \u2265100 are not excluded.\n* Peripheral neuropathy \\> grade 2 or painful neuropathy \u2265 grade 2 at screening, regardless of whether the patient is currently receiving medication.\n* History of another malignancy, other than AL amyloidosis, within 5 years before randomization.\n* Known intolerance, allergy, or contraindication to the active ingredients of the BCMA/CD3 bispecific antibody or sonrotoclax.\n* Unstable or active cardiovascular or cerebrovascular disease, meeting any of the following criteria:\n\n  1. Unstable angina, symptomatic myocardial ischemia, myocardial infarction, or coronary revascularization within 180 days before the first dose;\n  2. NT-proBNP \\>8500 ng/L;\n  3. Congestive heart failure with hospitalization for cardiovascular disease within 4 weeks before randomization;\n  4. Heart failure judged by the investigator to be caused by ischemic heart disease, such as prior myocardial infarction with elevated cardiac enzymes and electrocardiographic changes, or uncorrected valvular disease, rather than AL amyloid cardiomyopathy;\n  5. History of sustained ventricular tachycardia or ventricular fibrillation, or history of atrioventricular (AV) node or sinoatrial (SA) node dysfunction requiring a pacemaker or implantable cardioverter-defibrillator (ICD) but without implantation. Patients with an implanted pacemaker or ICD may be enrolled;\n  6. Corrected QT interval using Fridericia's formula (QTcF) \\>500 msec. Patients with an implanted pacemaker may be enrolled regardless of the corrected QT interval result;\n  7. Supine systolic blood pressure \\<90 mmHg;\n  8. Any other cardiovascular or cerebrovascular disease that, in the investigator's judgment, makes the subject unsuitable for participation in this study.\n\nKnown active human immunodeficiency virus (HIV) infection or HIV seropositivity.\n\n* Active hepatitis B or hepatitis C infection. Hepatitis serology testing is required at screening. If hepatitis B surface antigen is positive, a negative DNA polymerase chain reaction (PCR) result must be confirmed before enrollment. -For patients receiving anti-HBV therapy, a negative HBV DNA PCR result must be confirmed before enrollment. If hepatitis C antibody is positive, RNA PCR testing must be performed, and a negative result must be confirmed before enrollment.\n* Pregnant or breastfeeding women.\n* Any active gastrointestinal dysfunction that affects the patient's ability to swallow tablets, or any active gastrointestinal dysfunction that may affect the absorption of study treatment.\n* Major surgery, such as surgery requiring general anesthesia, within 2 weeks before enrollment, incomplete recovery from prior surgery, or planned surgery during the study period. Kyphoplasty or vertebroplasty is not considered major surgery. Patients scheduled to undergo procedures under local anesthesia may participate in the study.\n* Receipt of a live attenuated vaccine within 4 weeks before the first dose of study treatment.\n* Any active severe psychiatric or psychological disorder, medical disease, or other symptom or condition that, in the investigator's judgment, may affect treatment, compliance, or the ability to provide informed consent.\n\nContraindication to any required concomitant medication or supportive care.\n\n* Any disease or complication that may interfere with study procedures.\n* Unwillingness or inability to comply with the protocol.",
+    "healthyVolunteers": false,
+    "maximumAge": "70 Years",
+    "minimumAge": "18 Years",
+    "sex": "ALL",
+    "stdAges": [
+      "ADULT",
+      "OLDER_ADULT"
+    ]
+  },
+  "identificationModule": {
+    "acronym": "AL-005",
+    "briefTitle": "Sonrotoclax and BCMA Bispecific Antibody in Newly Diagnosed Systemic AL Amyloidosis Based on t(11;14) Genetic Stratification",
+    "nctId": "NCT07687004",
+    "officialTitle": "A Phase Ib/II, Non-Randomized, Biomarker-Stratified Umbrella Study of Chemotherapy-Free Strategies in Newly Diagnosed Systemic AL Amyloidosis Based on t(11;14) Status: Sonrotoclax and a BCMA/CD3 Bispecific Antibody (AL-005)",
+    "orgStudyIdInfo": {
+      "id": "IIT2026059"
+    },
+    "organization": {
+      "class": "OTHER",
+      "fullName": "Institute of Hematology & Blood Diseases Hospital, China"
+    }
+  },
+  "ipdSharingStatementModule": {
+    "ipdSharing": "UNDECIDED"
+  },
+  "outcomesModule": {
+    "primaryOutcomes": [
+      {
+        "description": "DLTs will be based on National Cancer Institute Common Terminology Criteria for Adverse Events (NCI CTCAE) version 5.0 and will include most grade 3 or higher events, as defined in the protocol.",
+        "measure": "Phase 1b: Number Of Participants Experiencing Dose-limiting Toxicities (DLTs)",
+        "timeFrame": "Up to 28 days"
+      },
+      {
+        "measure": "Phase 1b and 2: Number of Participants Reporting One or More Treatment-emergent Adverse Events (TEAEs), Serious Adverse Events (SAEs), Adverse Events Leading to Discontinuation, and Adverse Events of Special Interest (AESIs).",
+        "timeFrame": "Up to 30 days after the last dose of the study drug"
+      },
+      {
+        "description": "Proportion of participants achieving a hematologic response of VGPR or better (\u2265VGPR) of anti-BCMA/CD3 bispecific antibody (CM336), assessed using consensus criteria for AL amyloidosis hematologic response.",
+        "measure": "Phase 2: Rate of Hematologic Very Good Partial Response (VGPR) or Better",
+        "timeFrame": "6 months"
+      }
+    ],
+    "secondaryOutcomes": [
+      {
+        "measure": "Time to First Hematologic Response (TTR)",
+        "timeFrame": "From the first dose until the best hematologic response (\u2265PR) is achieved, assessed up to approximately 24 months."
+      },
+      {
+        "description": "The deepest hematologic response (e.g., PR, VGPR, CR, or sCR) observed at any time during the treatment period.",
+        "measure": "Best Hematologic Response Achieved",
+        "timeFrame": "From the first dose until the best hematologic response (\u2265PR) is achieved, assessed up to approximately 24 months."
+      },
+      {
+        "description": "Time from the first documented hematologic response to disease progression or death, whichever occurs first.",
+        "measure": "Duration of Hematologic Response (DOR)",
+        "timeFrame": "From the date of first documented hematologic response to the date of disease progression or death, whichever occurs first, up to approximately 24 months."
+      },
+      {
+        "measure": "Overall Response Rate (ORR)",
+        "timeFrame": "The overall response rate (ORR) was evaluated at the end of cycle 4, 6, and 12 (28 days per cycle)."
+      },
+      {
+        "description": "Defined as the time from the date of treatment to the date of first documentation of hematologic disease progression, or organ progression, or death due to any cause.",
+        "measure": "Progression-Free Survival (PFS)",
+        "timeFrame": "From the first dose to progression from any cause, up to approximately 36 months."
+      },
+      {
+        "measure": "Overall Survival (OS)",
+        "timeFrame": "From the first dose to death from any cause, up to approximately 36 months."
+      },
+      {
+        "description": "Minimal residual disease (MRD) negativity rate:MRD negativity assessed in bone marrow.",
+        "measure": "Minimal Residual Disease (MRD) Negativity Rate",
+        "timeFrame": "From baseline to 24 months, assessed at predefined response evaluation time points."
+      },
+      {
+        "description": "Assess Organ Responses Based on Standard Criteria Included in Protocol among patients with organ involvement",
+        "measure": "Organ Response",
+        "timeFrame": "12 months"
+      }
+    ]
+  },
+  "oversightModule": {
+    "isFdaRegulatedDevice": false,
+    "isFdaRegulatedDrug": false,
+    "oversightHasDmc": false
+  },
+  "sponsorCollaboratorsModule": {
+    "leadSponsor": {
+      "class": "OTHER",
+      "name": "Institute of Hematology & Blood Diseases Hospital, China"
+    },
+    "responsibleParty": {
+      "type": "SPONSOR"
+    }
+  },
+  "statusModule": {
+    "completionDateStruct": {
+      "date": "2029-08-01",
+      "type": "ESTIMATED"
+    },
+    "expandedAccessInfo": {
+      "hasExpandedAccess": false
+    },
+    "lastUpdatePostDateStruct": {
+      "date": "2026-07-07",
+      "type": "ACTUAL"
+    },
+    "lastUpdateSubmitDate": "2026-06-30",
+    "overallStatus": "NOT_YET_RECRUITING",
+    "primaryCompletionDateStruct": {
+      "date": "2027-08-01",
+      "type": "ESTIMATED"
+    },
+    "startDateStruct": {
+      "date": "2026-08-01",
+      "type": "ESTIMATED"
+    },
+    "statusVerifiedDate": "2026-05",
+    "studyFirstPostDateStruct": {
+      "date": "2026-07-07",
+      "type": "ACTUAL"
+    },
+    "studyFirstSubmitDate": "2026-06-30",
+    "studyFirstSubmitQcDate": "2026-06-30"
+  }
+}

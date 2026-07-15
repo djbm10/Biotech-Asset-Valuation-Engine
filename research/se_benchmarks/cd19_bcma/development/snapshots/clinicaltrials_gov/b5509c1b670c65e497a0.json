@@ -1,0 +1,283 @@
+{
+  "armsInterventionsModule": {
+    "armGroups": [
+      {
+        "description": "BiTE (CD19 x CD3 Bispecific Antibody)",
+        "interventionNames": [
+          "Drug: BiTE (CD19 x CD3 Bispecific Antibody)"
+        ],
+        "label": "Bispecific T cell engager treatment group1\uff1aBlinatumomab group",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "BiTE (BCMA x CD3 Bispecific Antibody)",
+        "interventionNames": [
+          "Drug: BiTE (BCMA x CD3 Bispecific Antibody)"
+        ],
+        "label": "Bispecific T cell engager treatment group2\uff1aTeclistamab group",
+        "type": "EXPERIMENTAL"
+      }
+    ],
+    "interventions": [
+      {
+        "armGroupLabels": [
+          "Bispecific T cell engager treatment group1\uff1aBlinatumomab group"
+        ],
+        "description": "Blinatumomab is a CD19\u00d7CD3 bispecific T-cell engager (BiTE) administered via intravenous infusion. This intervention utilizes a specific low-dose, short-course exploratory regimen tailored for non-oncology kidney transplant candidates to safely deplete B cells and reduce HLA antibodies. The treatment consists of two cycles separated by a 7-day interval. In Cycle 1 (Days 1-4), patients receive a continuous infusion of 9 \u00b5g/day for 4 consecutive days, with a total target dose of 35 \u00b5g for the cycle. Following the 7-day interval, Cycle 2 (Days 12-15) is administered with the identical regimen of 9 \u00b5g/day for 4 consecutive days.",
+        "name": "BiTE (CD19 x CD3 Bispecific Antibody)",
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "Bispecific T cell engager treatment group2\uff1aTeclistamab group"
+        ],
+        "description": "Teclistamab is a BCMA\u00d7CD3 bispecific T-cell engager (BiTE) administered via subcutaneous injection. To mitigate the early risk of cytokine release syndrome (CRS), this intervention employs a strictly defined step-up dosing schedule. The treatment involves two cycles separated by a 7-day interval. Cycle 1 (Days 1-2) begins with a step-up dose of 0.06 mg/kg on Day 1, followed by 0.3 mg/kg on Day 2. After the 7-day interval, Cycle 2 (Days 10-11) is initiated, during which a target dose of 1.5 mg/kg is administered on Day 10.",
+        "name": "BiTE (BCMA x CD3 Bispecific Antibody)",
+        "type": "DRUG"
+      }
+    ]
+  },
+  "conditionsModule": {
+    "conditions": [
+      "Kidney Transplantation Recipients",
+      "HLA Sensitization"
+    ],
+    "keywords": [
+      "Bispecific T-cell Engager",
+      "Desensitization",
+      "Kidney Transplantation",
+      "HLA Antibodies"
+    ]
+  },
+  "contactsLocationsModule": {
+    "centralContacts": [
+      {
+        "email": "fancyplain@163.com",
+        "name": "Chenliang Xu, Master of Clinical Medicine",
+        "phone": "+86 17208274528",
+        "role": "CONTACT"
+      }
+    ]
+  },
+  "descriptionModule": {
+    "briefSummary": "This study is a prospective, open-label, two-arm exploratory clinical trial aimed at evaluating the safety and efficacy of Bispecific T-cell Engager (BiTE) therapies in refractory, highly sensitized kidney transplant candidates. Patients with end-stage renal disease (ESRD) who have a calculated panel reactive antibody (cPRA) \u2265 90% and have waited for a transplant for over 5 years, despite receiving standard desensitization therapies (e.g., IVIG, plasmapheresis, rituximab), will be enrolled.\n\nA total of 20 participants will be randomized in a 1:1 ratio to receive either Blinatumomab (a CD19\u00d7CD3 BiTE) or Teclistamab (a BCMA\u00d7CD3 BiTE). The primary objective is to evaluate the desensitization response rate, defined as the reduction of cPRA to \\< 20% or by \u2265 50% from baseline, assessed at multiple time points up to 1 year post-treatment. Secondary objectives include assessing the safety profile (such as the incidence of Cytokine Release Syndrome \\[CRS\\] and neurotoxicity), the extent of CD19+ B cell depletion, and the proportion of participants who successfully undergo kidney transplantation within 1 year.",
+    "detailedDescription": "Background:\n\nKidney transplantation is the optimal treatment for end-stage renal disease (ESRD). However, highly sensitized patients with a calculated panel reactive antibody (cPRA) \u2265 90% face significant barriers to finding a compatible donor and have a higher risk of antibody-mediated rejection (AMR). Standard desensitization protocols, primarily utilizing intravenous immunoglobulin (IVIG) and plasmapheresis (PLEX), often fail to achieve long-term reductions in human leukocyte antigen (HLA) antibodies because they do not adequately deplete memory B cells and long-lived plasma cells. Bispecific T-cell Engagers (BiTEs) such as Blinatumomab (CD19\u00d7CD3) and Teclistamab (BCMA\u00d7CD3) directly recruit endogenous T cells to eliminate B cells and plasma cells, respectively. This study investigates whether these targeted therapies can provide a deeper and more sustained desensitization for refractory transplant candidates, bridging them to a successful transplant.\n\nStudy Design:\n\nThis is a single-center, prospective, non-blinded, two-arm exploratory trial conducted at West China Hospital, Sichuan University. Twenty eligible patients will be enrolled and randomly assigned (1:1) via block randomization (block size of 4) to either the Blinatumomab arm or the Teclistamab arm.\n\nInterventions:\n\nArm 1 (Blinatumomab): Administered intravenously. Cycle 1 consists of 9 \u00b5g/day for 4 consecutive days (Days 1-4). Following a 7-day interval, Cycle 2 consists of 9 \u00b5g/day for another 4 consecutive days (Days 12-15).\n\nArm 2 (Teclistamab): Administered subcutaneously using a step-up dosing schedule to mitigate Cytokine Release Syndrome (CRS) risk. Cycle 1 involves 0.06 mg/kg on Day 1 and 0.3 mg/kg on Day 2. Following a 7-day interval, Cycle 2 involves a target dose of 1.5 mg/kg on Day 10.\n\nStudy Objectives \\& Endpoints:\n\nPrimary Endpoint: Desensitization response rate evaluated at 1, 2, 3, 6, and 12 months post-treatment. A positive response is defined as a reduction of cPRA from \\>90% to \\<20% (or a \u226550% decrease from baseline), or the conversion of positive HLA antibodies to negative, or a \u226550% reduction in Mean Fluorescence Intensity (MFI) to a predefined threshold.\n\nSecondary Endpoints:\n\nSafety and tolerability, including the incidence and severity of CRS, Immune Effector Cell-Associated Neurotoxicity Syndrome (ICANS), infections, and neutropenia.\n\nChanges in peripheral blood lymphocyte subsets, with a specific focus on CD19+ B cell depletion and recovery trends.\n\nDuration of sustained low cPRA levels. Proportion of patients receiving a kidney transplant within 1 year.\n\nSafety Monitoring:\n\nGiven the mechanism of action of BiTEs, strict monitoring for adverse events like CRS and ICANS is integrated into the protocol, utilizing ASTCT consensus grading standards. Treatment algorithms for managing severe events (e.g., using tocilizumab or corticosteroids) are predefined. An independent Data and Safety Monitoring Board (DSMB) consisting of multidisciplinary experts will oversee the study. The protocol includes strict stopping rules for severe toxicities, such as \u2265 Grade 3 CRS/ICANS refractory to standard treatment, severe infections, or treatment-related mortality, to ensure patient safety throughout the trial."
+  },
+  "designModule": {
+    "designInfo": {
+      "allocation": "RANDOMIZED",
+      "interventionModel": "PARALLEL",
+      "maskingInfo": {
+        "masking": "NONE"
+      },
+      "primaryPurpose": "TREATMENT"
+    },
+    "enrollmentInfo": {
+      "count": 20,
+      "type": "ESTIMATED"
+    },
+    "phases": [
+      "PHASE4"
+    ],
+    "studyType": "INTERVENTIONAL"
+  },
+  "eligibilityModule": {
+    "eligibilityCriteria": "Inclusion Criteria:\n\n* Male or female participants aged 18 to 65 years.\n* Diagnosis of end-stage kidney disease and being evaluated for or awaiting kidney transplantation.\n* Calculated panel-reactive antibody level (cPRA) \u226590% and a kidney transplant waiting time of \u22655 years.\n* Previous treatment with a conventional desensitization regimen based on intravenous immunoglobulin and/or plasma exchange, with or without rituximab, with traceable medical records.\n* Persistent cPRA \u226590% or unacceptable HLA antibodies after conventional desensitization, resulting in failure to meet the immunological criteria for kidney transplantation.\n* Adequate nonrenal organ function to tolerate the study treatment, including left ventricular ejection fraction \\>50%, resting oxygen saturation \\>94%, AST and ALT \\<3 times the upper limit of normal, total bilirubin \\<34.2 \u03bcmol/L, and no active infection.\n* Ability to understand the study procedures, provide written informed consent, and comply with study treatment and follow-up requirements.\n\nExclusion Criteria:\n\n* Inability to understand or comply with the study protocol or follow-up schedule.\n* Known or suspected hereditary complement deficiency.\n* Clinically significant central nervous system disease, including epilepsy, psychotic disorder, organic brain syndrome, cerebrovascular accident, encephalitis, central nervous system vasculitis, or cranial neuropathy requiring intervention.\n* AST, ALT, or GGT \\>3 times the upper limit of normal, or alkaline phosphatase or total bilirubin \\>1.5 times the upper limit of normal.\n* Acute myocardial infarction or unstable angina within 6 months before screening, severe cardiac arrhythmia, or New York Heart Association class III or IV heart failure.\n* Uncontrolled acute or chronic disease unrelated to end-stage kidney disease that may impair tolerance to study treatment.\n* Active or uncontrolled infection requiring systemic treatment.\n* Human immunodeficiency virus infection or uncontrolled active hepatitis B or hepatitis C infection.\n* Participation in another interventional clinical study within 3 months before screening or planned concurrent participation in another interventional study.\n* Previous treatment with another T-cell engager or bispecific T-cell-redirecting therapy.\n* Known severe hypersensitivity to blinatumomab, teclistamab, or any of their excipients.\n* Active malignancy.\n* Pregnancy, breastfeeding, or planned pregnancy during the study period.\n* Previous bone marrow transplantation, hematopoietic stem cell transplantation, or solid-organ transplantation other than kidney transplantation.\n* Receipt of a live vaccine within 30 days before screening or planned receipt of a live vaccine during study treatment.\n* Any other clinically significant condition that, in the investigator's judgment, may increase participant risk, interfere with study procedures, or affect safety or efficacy assessments.",
+    "healthyVolunteers": false,
+    "maximumAge": "65 Years",
+    "minimumAge": "18 Years",
+    "sex": "ALL",
+    "stdAges": [
+      "ADULT",
+      "OLDER_ADULT"
+    ]
+  },
+  "identificationModule": {
+    "briefTitle": "Safety and Efficacy of BiTE in Desensitization Therapy for Highly Sensitized Kidney Transplant Candidates With cPRA \u2265 90%",
+    "nctId": "NCT07689149",
+    "officialTitle": "Safety and Efficacy of BiTE in Desensitization Therapy for Highly Sensitized Kidney Transplant Candidates With cPRA \u2265 90%",
+    "orgStudyIdInfo": {
+      "id": "WestChina-BITE-KT"
+    },
+    "organization": {
+      "class": "OTHER",
+      "fullName": "West China Hospital"
+    }
+  },
+  "ipdSharingStatementModule": {
+    "ipdSharing": "NO"
+  },
+  "outcomesModule": {
+    "primaryOutcomes": [
+      {
+        "description": "A composite desensitization response is defined as meeting at least one of the following criteria:\n\n1. cPRA decreases to \\<20%;\n2. cPRA decreases by \u226550% from baseline;\n3. a previously positive HLA antibody becomes negative, defined as an MFI \\<1,000; or\n4. the MFI of a persistent HLA antibody decreases by \u226550% from baseline or reaches the prespecified threshold.\n\nThe number and percentage of participants achieving the composite response will be reported at Months 1, 2, 3, 6, and 12 after treatment.\n\n(HLA class I and II antibodies and their mean fluorescence intensity will be assessed using a single-antigen bead assay. Calculated panel-reactive antibody levels will be determined based on the unacceptable HLA antigen profile. At each prespecified assessment timepoint, participants will be classified as responders or nonresponders, and the percentage of responders will be reported.)",
+        "measure": "Percentage of participants achieving the predefined composite desensitization response",
+        "timeFrame": "At baseline and at 1, 2, 3, 6, and 12 months after treatment"
+      }
+    ],
+    "secondaryOutcomes": [
+      {
+        "description": "Percentage reduction will be calculated as:\n\n(Baseline cPRA - cPRA at the assessment timepoint) / baseline cPRA \u00d7 100%. A positive value indicates a reduction, whereas a negative value indicates an increase.HLA antibodies will be assessed using a single-antigen bead assay, and cPRA will be calculated based on unacceptable HLA antigens. The percentage reduction from baseline will be calculated at each assessment timepoint.",
+        "measure": "Percentage reduction from baseline in calculated panel-reactive antibody level",
+        "timeFrame": "At baseline and at 1, 2, 3, 6, and 12 months after treatment"
+      },
+      {
+        "description": "Absolute change will be calculated as cPRA at the assessment timepoint minus baseline cPRA. A negative value indicates a reduction from baseline. Results will be reported separately at Months 1, 2, 3, 6, and 12.\n\nHLA antibody specificities will be determined using a single-antigen bead assay. cPRA will be calculated based on prespecified unacceptable HLA antigens and the HLA antigen frequencies of the reference donor population. The absolute difference between cPRA at each assessment and baseline cPRA will be calculated.",
+        "measure": "Absolute change from baseline in calculated panel-reactive antibody level",
+        "timeFrame": "At baseline and at 1, 2, 3, 6, and 12 months after treatment"
+      },
+      {
+        "description": "The change will be calculated as the maximum MFI at each assessment minus the baseline maximum MFI. A negative value indicates a reduction in HLA class I antibody strength. Maximum MFI will be used as the prespecified participant-level summary when multiple antibody specificities are present.\n\nHLA-A, HLA-B, and HLA-C antibodies will be measured using a single-antigen bead assay. For each participant, the highest MFI among all baseline unacceptable HLA class I antibody specificities will be identified, and the MFI of the same antibody specificity will be followed at each assessment.",
+        "measure": "Change from baseline in the maximum mean fluorescence intensity of unacceptable HLA class I antibodies",
+        "timeFrame": "At baseline and at 1, 2, 3, 6, and 12 months after treatment"
+      },
+      {
+        "description": "Change will be calculated as the maximum MFI at each assessment minus the baseline maximum MFI. A negative value indicates a reduction in antibody strength.\n\nHLA-DR, HLA-DQ, and HLA-DP antibodies will be measured using a single-antigen bead assay. The highest MFI among all baseline unacceptable HLA class II antibody specificities will be identified for each participant, and the same antibody specificity will be followed over time.",
+        "measure": "Change from baseline in the maximum mean fluorescence intensity of unacceptable HLA class II antibodies",
+        "timeFrame": "At baseline and at 1, 2, 3, 6, and 12 months after treatment"
+      },
+      {
+        "description": "The number of participants who undergo kidney transplantation within 12 months after the first administration of study treatment will be reported. Participants who receive a donor offer or matching assessment without undergoing transplantation will not be counted.\n\nKidney transplantation will be confirmed using transplant waiting-list records, donor-matching information, crossmatch results, hospitalization records, and operative records.",
+        "measure": "Number of participants receiving kidney transplantation within 12 months after treatment",
+        "timeFrame": "Within 12 months after the first administration of study treatment"
+      },
+      {
+        "description": "Change will be calculated as the CD19-positive B-cell absolute count at each assessment minus the baseline count. The magnitude of B-cell reduction, nadir, and recovery pattern will be evaluated.\n\nPeripheral blood CD19-positive B-cell absolute counts will be measured using multiparameter flow cytometry.",
+        "measure": "Change from baseline in peripheral blood CD19-positive B-cell absolute count",
+        "timeFrame": "At baseline, at protocol-specified assessments during treatment, and at 1, 2, 3, 6, and 12 months after treatment"
+      },
+      {
+        "description": "CD19-positive B-cell depletion is defined as an absolute peripheral blood CD19-positive B-cell count \\<10 cells/\u03bcL. The number of participants meeting the depletion criterion at each assessment will be reported.\n\nPeripheral blood CD19-positive B-cell absolute counts will be measured using multiparameter flow cytometry.",
+        "measure": "Number of participants achieving peripheral blood CD19-positive B-cell depletion",
+        "timeFrame": "During treatment and at 1, 2, 3, 6, and 12 months after treatment"
+      },
+      {
+        "description": "Change will be calculated as the CD3-positive T-cell absolute count at each assessment minus the baseline count.\n\nPeripheral blood CD3-positive T-cell absolute counts will be measured using multiparameter flow cytometry.",
+        "measure": "Change from baseline in peripheral blood CD3-positive T-cell absolute count",
+        "timeFrame": "At baseline, during treatment, and at 1, 2, 3, 6, and 12 months after treatment"
+      },
+      {
+        "description": "Change from baseline in the CD4-positive T-cell absolute count will be calculated at each assessment.\n\nPeripheral blood CD4-positive T-cell absolute counts will be measured using multiparameter flow cytometry.",
+        "measure": "Change from baseline in peripheral blood CD4-positive T-cell absolute count",
+        "timeFrame": "At baseline, during treatment, and at 1, 2, 3, 6, and 12 months after treatment"
+      },
+      {
+        "description": "Change from baseline in the CD8-positive T-cell absolute count will be calculated at each assessment.\n\nPeripheral blood CD8-positive T-cell absolute counts will be measured using multiparameter flow cytometry.",
+        "measure": "Change from baseline in peripheral blood CD8-positive T-cell absolute count",
+        "timeFrame": "At baseline, during treatment, and at 1, 2, 3, 6, and 12 months after treatment"
+      },
+      {
+        "description": "Change from baseline in natural killer cell absolute count will be calculated at each assessment.\n\nPeripheral blood CD3-negative CD16-positive and/or CD56-positive natural killer cell absolute counts will be measured using multiparameter flow cytometry.",
+        "measure": "Change from baseline in peripheral blood CD3-negative CD16-positive and/or CD56-positive natural killer cell absolute count",
+        "timeFrame": "At baseline, during treatment, and at 1, 2, 3, 6, and 12 months after treatment"
+      },
+      {
+        "description": "The number of participants experiencing at least one CRS event will be reported. Each participant will be summarized according to the maximum CRS grade experienced during the study. Time to onset, duration, management, and outcome will also be recorded.\n\nCRS will be diagnosed and graded according to the ASTCT consensus grading criteria based on fever, hypotension, vasopressor requirement, and oxygen requirement.",
+        "measure": "Number of participants with cytokine release syndrome as assessed by the ASTCT consensus grading criteria",
+        "timeFrame": "From the first dose through 30 days after the last dose"
+      },
+      {
+        "description": "The number of participants experiencing at least one ICANS event will be reported. Each participant will be summarized according to the maximum ICANS grade, with clinical manifestations, onset, duration, management, and outcome recorded.\n\nICANS will be assessed using neurological examination, the Immune Effector Cell-Associated Encephalopathy score, and electroencephalography or neuroimaging when clinically indicated. Events will be graded according to the ASTCT criteria.",
+        "measure": "Number of participants with immune effector cell-associated neurotoxicity syndrome as assessed by the ASTCT consensus grading criteria",
+        "timeFrame": "From the first dose through 30 days after the last dose"
+      },
+      {
+        "description": "The number of participants experiencing at least one infection will be reported. Infection site, pathogen, maximum CTCAE grade, opportunistic infection status, requirement for intravenous anti-infective treatment or hospitalization, and outcome will be recorded.\n\nInfections will be identified based on clinical manifestations, physical examination, microbiological testing, culture, imaging, and laboratory findings, and will be graded according to CTCAE version 5.0.",
+        "measure": "Number of participants with treatment-emergent infections",
+        "timeFrame": "From the first dose through 12 months after treatment"
+      },
+      {
+        "description": "Serious adverse events include events resulting in death, life-threatening events, hospitalization or prolonged hospitalization, persistent or significant disability, and other medically important serious events. The number of participants with at least one serious adverse event will be reported.\n\nSerious adverse events will be collected through participant reports, clinical observation, hospitalization records, physical examinations, and laboratory assessments and will be classified according to standard serious adverse event criteria.",
+        "measure": "Number of participants with serious adverse events",
+        "timeFrame": "From the first dose through 12 months after treatment"
+      },
+      {
+        "description": "The number of participants with at least one post-treatment absolute neutrophil count below the laboratory lower limit of normal will be reported. Each participant will be summarized according to the maximum CTCAE grade.\n\nAbsolute neutrophil count will be measured using complete blood counts, and neutropenia will be graded according to CTCAE version 5.0.",
+        "measure": "Number of participants with neutropenia as assessed by CTCAE version 5.0",
+        "timeFrame": "From the first dose through 12 months after treatment"
+      }
+    ]
+  },
+  "oversightModule": {
+    "isFdaRegulatedDevice": false,
+    "isFdaRegulatedDrug": true,
+    "isUsExport": true,
+    "oversightHasDmc": true
+  },
+  "referencesModule": {
+    "references": [
+      {
+        "citation": "Chandramohan D, Adisa O, Patel D, Ware E, Eleti N, Agarwal G. Outcomes of Kidney Transplantation in Highly HLA-Sensitized Patients Treated with Intravenous Immuno-Globulin, Plasmapheresis and Rituximab: A Meta-Analysis. Life (Basel). 2024 Aug 10;14(8):998. doi: 10.3390/life14080998.",
+        "pmid": "39202740",
+        "type": "RESULT"
+      },
+      {
+        "citation": "Anwar IJ, DeLaura IF, Gao Q, Ladowski J, Jackson AM, Kwun J, Knechtle SJ. Harnessing the B Cell Response in Kidney Transplantation - Current State and Future Directions. Front Immunol. 2022 Jun 9;13:903068. doi: 10.3389/fimmu.2022.903068. eCollection 2022.",
+        "pmid": "35757745",
+        "type": "RESULT"
+      },
+      {
+        "citation": "Subklewe M, Magno G, Gebhardt C, Bucklein V, Szelinski F, Arevalo HJR, Hanel G, Dorner T, Zugmaier G, von Bergwelt-Baildon M, Skapenko A, Schulze-Koops H. Application of blinatumomab, a bispecific anti-CD3/CD19 T-cell engager, in treating severe systemic sclerosis: A case study. Eur J Cancer. 2024 Jun;204:114071. doi: 10.1016/j.ejca.2024.114071. Epub 2024 Apr 22.",
+        "pmid": "38691878",
+        "type": "RESULT"
+      },
+      {
+        "citation": "Bucci L, Hagen M, Rothe T, Raimondo MG, Fagni F, Tur C, Wirsching A, Wacker J, Wilhelm A, Auger JP, Pachowsky M, Eckstein M, Alivernini S, Zoli A, Kronke G, Uderhardt S, Bozec A, D'Agostino MA, Schett G, Grieshaber-Bouyer R. Bispecific T cell engager therapy for refractory rheumatoid arthritis. Nat Med. 2024 Jun;30(6):1593-1601. doi: 10.1038/s41591-024-02964-1. Epub 2024 Apr 26.",
+        "pmid": "38671240",
+        "type": "RESULT"
+      },
+      {
+        "citation": "Leon J, Aubert O, Devriese M, Alameda F, Charbonnier S, Fourgeaud J, Blein T, Nguyen TN, Troger A, Chhun S, Roelens M, Usureau C, Gons C, Roger C, Burger C, Le Stang MB, Cotteret C, Timsit MO, Fillatreau S, Rabant M, Taupin JL, Talbot A, Suarez F, Anglicheau D, Zuber J. B-cell maturation antigen-Targeted T-cell Engager Therapy Combined with B-cell Depletion for Treatment of Refractory HLA Sensitization. Kidney Int. 2026 Jun;109(6):1148-1154. doi: 10.1016/j.kint.2026.01.020. Epub 2026 Feb 13.",
+        "pmid": "41692345",
+        "type": "RESULT"
+      },
+      {
+        "citation": "Bhoj VG, Kaminski M, Zhao H, Jackson K, Wang W, Liu C, Montgomery RA, Ali N, Mangiola M, Spitzer TR, Safa K, Pattanayak V, Taj R, Chiu J, Bui TM, Sonnenberg EM, Markmann JF, Milone MC, June CH, Siegel DL, Fraietta JA, Gonzalez V, Locci M, Palmer M, Monos D, Hwang WT, Sledge T, Bridges ND, Goldstein JS, Odim J, Sweet SC, Besharatian BD, Hussain SM, Brown NK, Kamoun M, Garfall AL, Naji A. Kidney Transplantation in Two Highly Sensitized Candidates after CAR T-Cell Therapy. N Engl J Med. 2026 Jun 4;394(21):2117-2125. doi: 10.1056/NEJMoa2513428.",
+        "pmid": "42235014",
+        "type": "RESULT"
+      }
+    ]
+  },
+  "sponsorCollaboratorsModule": {
+    "leadSponsor": {
+      "class": "OTHER",
+      "name": "West China Hospital"
+    },
+    "responsibleParty": {
+      "investigatorAffiliation": "West China Hospital",
+      "investigatorFullName": "Turun Song",
+      "investigatorTitle": "Associate Chief Physician",
+      "type": "PRINCIPAL_INVESTIGATOR"
+    }
+  },
+  "statusModule": {
+    "completionDateStruct": {
+      "date": "2029-12-31",
+      "type": "ESTIMATED"
+    },
+    "expandedAccessInfo": {
+      "hasExpandedAccess": false
+    },
+    "lastUpdatePostDateStruct": {
+      "date": "2026-07-08",
+      "type": "ACTUAL"
+    },
+    "lastUpdateSubmitDate": "2026-07-04",
+    "overallStatus": "NOT_YET_RECRUITING",
+    "primaryCompletionDateStruct": {
+      "date": "2029-12-31",
+      "type": "ESTIMATED"
+    },
+    "startDateStruct": {
+      "date": "2026-06-30",
+      "type": "ESTIMATED"
+    },
+    "statusVerifiedDate": "2026-06",
+    "studyFirstPostDateStruct": {
+      "date": "2026-07-08",
+      "type": "ACTUAL"
+    },
+    "studyFirstSubmitDate": "2026-06-24",
+    "studyFirstSubmitQcDate": "2026-07-04"
+  }
+}

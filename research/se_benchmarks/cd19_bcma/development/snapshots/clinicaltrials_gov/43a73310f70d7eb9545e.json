@@ -1,0 +1,215 @@
+{
+  "armsInterventionsModule": {
+    "armGroups": [
+      {
+        "interventionNames": [
+          "Drug: ABO2203 Injection"
+        ],
+        "label": "ABO2203",
+        "type": "EXPERIMENTAL"
+      }
+    ],
+    "interventions": [
+      {
+        "armGroupLabels": [
+          "ABO2203"
+        ],
+        "description": "Name of Active Ingredient: mRNA encoding CD19/CD3 T cell engager",
+        "name": "ABO2203 Injection",
+        "type": "DRUG"
+      }
+    ]
+  },
+  "conditionsModule": {
+    "conditions": [
+      "Autoimmune Diseases"
+    ]
+  },
+  "contactsLocationsModule": {
+    "centralContacts": [
+      {
+        "email": "huqiongyi131@163.com",
+        "name": "Qiongyi Hu",
+        "phone": "18317071395",
+        "role": "CONTACT"
+      }
+    ],
+    "locations": [
+      {
+        "city": "Wuhan",
+        "contacts": [
+          {
+            "name": "Chunli Mei, MD",
+            "role": "CONTACT"
+          },
+          {
+            "name": "Anbin Huang",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "China",
+        "facility": "Union Hospital, Tongji Medical College, Huazhong University of Science and Technology",
+        "geoPoint": {
+          "lat": 30.58333,
+          "lon": 114.26667
+        },
+        "state": "Hubei",
+        "status": "NOT_YET_RECRUITING",
+        "zip": "430022"
+      },
+      {
+        "city": "Nanjing",
+        "contacts": [
+          {
+            "name": "Yulin Geng, MD",
+            "role": "CONTACT"
+          },
+          {
+            "name": "Lingyun Sun, MD",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "China",
+        "facility": "Nanjing Drum Tower Hospital",
+        "geoPoint": {
+          "lat": 32.06167,
+          "lon": 118.77778
+        },
+        "state": "Jiangsu",
+        "status": "RECRUITING",
+        "zip": "210000"
+      },
+      {
+        "city": "Shanghai",
+        "contacts": [
+          {
+            "name": "Chengde Yang",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "China",
+        "facility": "Ruijin Hospital",
+        "geoPoint": {
+          "lat": 31.22222,
+          "lon": 121.45806
+        },
+        "status": "RECRUITING"
+      }
+    ],
+    "overallOfficials": [
+      {
+        "affiliation": "Ruijin Hospital",
+        "name": "Chengde Yang",
+        "role": "PRINCIPAL_INVESTIGATOR"
+      }
+    ]
+  },
+  "descriptionModule": {
+    "briefSummary": "The purpose of this study is to evaluate the safety, tolerability, pharmacokinetics, pharmacodynamics, as well as preliminary efficacy of mRNA encoding CD19/CD3 T cell engager (ABO2203) in patients with refractory autoimmune diseases who received inadequate response or relapsed from standard of care (SoC). The trial included dose escalation and dose expansion parts."
+  },
+  "designModule": {
+    "designInfo": {
+      "allocation": "NON_RANDOMIZED",
+      "interventionModel": "SINGLE_GROUP",
+      "maskingInfo": {
+        "masking": "NONE"
+      },
+      "primaryPurpose": "TREATMENT"
+    },
+    "enrollmentInfo": {
+      "count": 66,
+      "type": "ESTIMATED"
+    },
+    "phases": [
+      "EARLY_PHASE1"
+    ],
+    "studyType": "INTERVENTIONAL"
+  },
+  "eligibilityModule": {
+    "eligibilityCriteria": "Inclusion Criteria:\n\n1. \u226518 years of age at time of informed consent.\n2. Diagnosis of autoimmune diseases according to the corresponding disease classification criteria.\n3. Inadequate response to SoCs or relapsed after the treatment.\n4. Patients were on a stable dose of SoCs for at least 4 weeks prior to enrollment.\n5. Sufficient organ function.\n\nExclusion Criteria:\n\n1. Active infection, including tuberculosis, active or relapsed peptic ulcer, etc.\n2. Severe hypogammaglobulinemia or IgA deficiency.\n3. Active hepatitis or with a history of severe liver disease.\n4. History of rapid allergic reactions, eczema or asthma that cannot be controlled by topical corticosteroids.\n5. Severe cardiovascular diseases.\n6. History of cancer within past 5 years.\n7. Have other serious medical conditions.\n8. Received any of B cell targeted therapies and biologic therapies within the defined time window.\n9. History of severe allergies or known allergies to any active or inactive component of the study drug(s).\n10. A history of organ transplantation, bone marrow transplantation or hematopoietic stem cell transplantation.",
+    "healthyVolunteers": false,
+    "minimumAge": "18 Years",
+    "sex": "ALL",
+    "stdAges": [
+      "ADULT",
+      "OLDER_ADULT"
+    ]
+  },
+  "identificationModule": {
+    "briefTitle": "A Study of mRNA Encoding CD19/CD3 T Cell Engager (ABO2203) in Patients With Refractory Autoimmune Diseases",
+    "nctId": "NCT06747156",
+    "officialTitle": "A Clinical Study to Investigate Safety, Tolerability, and Preliminary Efficacy of mRNA Encoding CD19/CD3 T Cell Engager (ABO2203) in Patients With Refractory Autoimmune Diseases",
+    "orgStudyIdInfo": {
+      "id": "ABO2203-001"
+    },
+    "organization": {
+      "class": "OTHER",
+      "fullName": "Ruijin Hospital"
+    }
+  },
+  "outcomesModule": {
+    "primaryOutcomes": [
+      {
+        "measure": "The incidence, severity, and nature of treatment-emergent adverse events (TEAE)s.",
+        "timeFrame": "from the first dose of study treatment to 30 days after the last dose of study treatment."
+      },
+      {
+        "measure": "The incidence, severity, and nature of serious TEAEs (TESAE)s .",
+        "timeFrame": "from the first dose of study treatment to 30 days after the last dose of study treatment."
+      },
+      {
+        "measure": "The incidence, severity, and nature of TEAEs leading to interruption or early termination of study treatment.",
+        "timeFrame": "from the first dose of study treatment to 30 days after the last dose of study treatment."
+      }
+    ]
+  },
+  "oversightModule": {
+    "isFdaRegulatedDevice": false,
+    "isFdaRegulatedDrug": false
+  },
+  "sponsorCollaboratorsModule": {
+    "collaborators": [
+      {
+        "class": "UNKNOWN",
+        "name": "Abogen Life Sciences (Shanghai) Co., Ltd."
+      }
+    ],
+    "leadSponsor": {
+      "class": "OTHER",
+      "name": "Ruijin Hospital"
+    },
+    "responsibleParty": {
+      "type": "SPONSOR"
+    }
+  },
+  "statusModule": {
+    "completionDateStruct": {
+      "date": "2028-12",
+      "type": "ESTIMATED"
+    },
+    "expandedAccessInfo": {
+      "hasExpandedAccess": false
+    },
+    "lastUpdatePostDateStruct": {
+      "date": "2026-03-24",
+      "type": "ACTUAL"
+    },
+    "lastUpdateSubmitDate": "2026-03-22",
+    "overallStatus": "RECRUITING",
+    "primaryCompletionDateStruct": {
+      "date": "2027-11",
+      "type": "ESTIMATED"
+    },
+    "startDateStruct": {
+      "date": "2024-12-23",
+      "type": "ACTUAL"
+    },
+    "statusVerifiedDate": "2026-02",
+    "studyFirstPostDateStruct": {
+      "date": "2024-12-24",
+      "type": "ACTUAL"
+    },
+    "studyFirstSubmitDate": "2024-12-13",
+    "studyFirstSubmitQcDate": "2024-12-18"
+  }
+}
