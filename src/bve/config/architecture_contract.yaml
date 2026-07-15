@@ -156,6 +156,11 @@ top_level_module_map:
     primary_question: 6
     role: memo, export, and tabular reporting outputs
     state: current
+  - module: se
+    kind: package
+    primary_question: 2
+    role: evidence-first science and eligibility screening
+    state: current
   - module: services
     kind: package
     primary_question: 6
