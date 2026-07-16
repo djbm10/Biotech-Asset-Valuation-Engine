@@ -1,0 +1,221 @@
+{
+  "armsInterventionsModule": {
+    "armGroups": [
+      {
+        "description": "Patients with RA treated with CLN-978 in dose escalation cohorts",
+        "interventionNames": [
+          "Drug: CLN-978"
+        ],
+        "label": "Part A: Dose Escalation",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "Further evaluation of CLN-978 treatment of patients with RA",
+        "interventionNames": [
+          "Drug: CLN-978"
+        ],
+        "label": "Part B Further Dose Evaluation",
+        "type": "EXPERIMENTAL"
+      }
+    ],
+    "interventions": [
+      {
+        "armGroupLabels": [
+          "Part A: Dose Escalation",
+          "Part B Further Dose Evaluation"
+        ],
+        "description": "Specified dose on specified days",
+        "name": "CLN-978",
+        "type": "DRUG"
+      }
+    ]
+  },
+  "conditionsModule": {
+    "conditions": [
+      "Rheumatoid Arthritis (RA"
+    ],
+    "keywords": [
+      "RA",
+      "Treatment-refractory RA"
+    ]
+  },
+  "contactsLocationsModule": {
+    "centralContacts": [
+      {
+        "email": "ClinOps@cullinantx.com",
+        "name": "Amy Gubits, MPH",
+        "phone": "+1 617 410 4650",
+        "role": "CONTACT"
+      }
+    ],
+    "locations": [
+      {
+        "city": "Erlangen",
+        "contacts": [
+          {
+            "name": "Nina Pfannschmidt",
+            "phone": "+49(0)91318536925",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Germany",
+        "facility": "University Hospital Erlangen",
+        "geoPoint": {
+          "lat": 49.59099,
+          "lon": 11.00783
+        },
+        "status": "RECRUITING",
+        "zip": "91054"
+      },
+      {
+        "city": "Heidelberg",
+        "contacts": [
+          {
+            "email": "rheuma-studien.MED5@med.uni-heidelberg.de",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Germany",
+        "facility": "University Hospital Heidelberg",
+        "geoPoint": {
+          "lat": 49.40768,
+          "lon": 8.69079
+        },
+        "status": "RECRUITING",
+        "zip": "69120"
+      },
+      {
+        "city": "Rome",
+        "contacts": [
+          {
+            "name": "Clinical Trial Office (Study Coordinator office)",
+            "phone": "+39 06 3015 9650",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "Italy",
+        "facility": "Fondazione Policlinico Universitario A Gemelli",
+        "geoPoint": {
+          "lat": 41.89193,
+          "lon": 12.51133
+        },
+        "status": "RECRUITING",
+        "zip": "00168"
+      }
+    ]
+  },
+  "descriptionModule": {
+    "briefSummary": "A Phase I, open-label study of CLN-978 in patients with treatment-refractory rheumatoid arthritis."
+  },
+  "designModule": {
+    "designInfo": {
+      "allocation": "NON_RANDOMIZED",
+      "interventionModel": "SEQUENTIAL",
+      "maskingInfo": {
+        "masking": "NONE"
+      },
+      "primaryPurpose": "TREATMENT"
+    },
+    "enrollmentInfo": {
+      "count": 37,
+      "type": "ESTIMATED"
+    },
+    "phases": [
+      "PHASE1"
+    ],
+    "studyType": "INTERVENTIONAL"
+  },
+  "eligibilityModule": {
+    "eligibilityCriteria": "Inclusion Criteria:\n\n* Documented diagnosis of RA which fulfills the 2010 American College of Rheumatology (ACR)/European League Against Rheumatism (EULAR) Classification Criteria \u226512 weeks prior to screening.\n* Evidence of B-cell-driven disease at Screening or previous medical documentation, defined as either (i) seropositivity for RF and/or any AMPA and/or (ii) a synovial biopsy showing B-cell infiltration\n* Active RA disease, as demonstrated by a DAS28 - ESR \u22653.2 and at least one swollen joint at screening.\n* Inadequate response to at least 2 targeted treatments with different mechanisms. These can include tsDMARD and/or bDMARD, after failing conventional synthetic DMARD (unless contraindicated).\n* Local laboratory assessments must meet the following criteria:\n\n  * Absolute lymphocyte count (ALC) \u22650.5 x 10\\^9/L\n  * Peripheral CD19+ B cell count \u226525 cells/\u03bcL\n  * Absolute neutrophil count (ANC) \u22651.0 x 10\\^9/L\n  * Hemoglobin (Hgb) \u22658 g/dL\n  * Platelet count \u226575 x 10\\^9/L\n  * Estimated glomerular filtration rate (eGFR) (based on the Chronic Kidney Disease Epidemiology Collaboration \\[CKD-EPI\\] formula) \u226530 mL/min/1.73m\\^2\n  * Total bilirubin \u22641.5 \u00d7 ULN, except patients with confirmed Gilbert's Syndrome\n  * Aspartate aminotransferase (AST) and alanine aminotransferase (ALT) \u22642.5 \u00d7 ULN\n* Concurrent corticosteroids is permitted if the dose is \u226410 mg/day prednisone equivalent in the 2 weeks prior to initiation of study treatment. Hydroxychloroquine \u2264400 mg/d or chloroquine \u2264 250 mg/d is allowed.\n\nExclusion Criteria:\n\n* Active inflammatory disease other than RA within 12 months prior to screening or during screening that may interfere with the study assessments. Thyroiditis or secondary Sjogren's syndrome is allowed.\n* Clinical evidence of any other significant unstable or uncontrolled acute or chronic disease not due to RA which, in the opinion of the Investigator could put the patient at undue risk or confound study results.\n* Prior treatment with the following:\n\n  * Cellular therapy (e.g., chimeric antigen receptor T-cell (CAR-T) or gene therapy product directed at any target.\n  * Receipt of an investigational therapy within 30 days or 5 drug-elimination half-lives (whichever is longer) prior to Day 1 and during the study.\n  * Received any anti-CD19 or anti-CD20 therapy such as blinatumomab, obinutuzumab, rituximab, ocrelizumab, or ofatumumab within 3 months prior to Day 1.\n  * Non-biologic DMARD within 14 days prior to Day 1.\n  * Cyclophosphamide or a biologic immunomodulating therapy within 2 months of Day 1.\n* Live or live-attenuated vaccines within the 4 weeks prior to the Screening visit or during the Screening Period\n* Active or latent tuberculosis (TB) evidenced by a positive or indeterminant Interferon Gamma Release Assay (IGRA), unless the patient has documented previous completion of TB treatment and no current clinical indication of TB.",
+    "healthyVolunteers": false,
+    "minimumAge": "18 Years",
+    "sex": "ALL",
+    "stdAges": [
+      "ADULT",
+      "OLDER_ADULT"
+    ]
+  },
+  "identificationModule": {
+    "briefTitle": "A Study of CLN-978, a Subcutaneously Administered CD19-directed T Cell Engager, in Subjects With Rheumatoid Arthritis",
+    "nctId": "NCT06994143",
+    "officialTitle": "A Phase I, Open-Label Study of CLN-978 in Patients With Treatment-Refractory Rheumatoid Arthritis (RA)",
+    "orgStudyIdInfo": {
+      "id": "CLN-978-RA-101"
+    },
+    "organization": {
+      "class": "INDUSTRY",
+      "fullName": "Cullinan Therapeutics Inc."
+    }
+  },
+  "outcomesModule": {
+    "primaryOutcomes": [
+      {
+        "description": "Incidence and severity of adverse events (AEs)/adverse events of special interest (AESIs)/serious adverse events (SAEs)",
+        "measure": "Incidence and severity of adverse events",
+        "timeFrame": "48 wks"
+      }
+    ],
+    "secondaryOutcomes": [
+      {
+        "description": "Serum concentrations of CLN-978",
+        "measure": "Serum concentrations of CLN-978",
+        "timeFrame": "12 wks"
+      },
+      {
+        "description": "Level of anti-drug antibodies",
+        "measure": "Level of anti-drug antibodies",
+        "timeFrame": "12 wks"
+      },
+      {
+        "description": "Levels of total B lymphocytes in the peripheral blood",
+        "measure": "Pharmacodynamics-related biomarker",
+        "timeFrame": "48 wks"
+      }
+    ]
+  },
+  "oversightModule": {
+    "isFdaRegulatedDevice": false,
+    "isFdaRegulatedDrug": false,
+    "isUsExport": false,
+    "oversightHasDmc": false
+  },
+  "sponsorCollaboratorsModule": {
+    "leadSponsor": {
+      "class": "INDUSTRY",
+      "name": "Cullinan Therapeutics Inc."
+    },
+    "responsibleParty": {
+      "type": "SPONSOR"
+    }
+  },
+  "statusModule": {
+    "completionDateStruct": {
+      "date": "2028-12-30",
+      "type": "ESTIMATED"
+    },
+    "expandedAccessInfo": {
+      "hasExpandedAccess": false
+    },
+    "lastUpdatePostDateStruct": {
+      "date": "2026-05-15",
+      "type": "ACTUAL"
+    },
+    "lastUpdateSubmitDate": "2026-05-13",
+    "overallStatus": "RECRUITING",
+    "primaryCompletionDateStruct": {
+      "date": "2027-12-30",
+      "type": "ESTIMATED"
+    },
+    "startDateStruct": {
+      "date": "2025-05-19",
+      "type": "ACTUAL"
+    },
+    "statusVerifiedDate": "2026-05",
+    "studyFirstPostDateStruct": {
+      "date": "2025-05-29",
+      "type": "ACTUAL"
+    },
+    "studyFirstSubmitDate": "2025-05-20",
+    "studyFirstSubmitQcDate": "2025-05-20"
+  }
+}

@@ -1,0 +1,228 @@
+{
+  "armsInterventionsModule": {
+    "armGroups": [
+      {
+        "description": "Give teclistamab step-up dosing at Princess Margaret Cancer Centre as per product monograph.",
+        "interventionNames": [
+          "Drug: Teclistamab"
+        ],
+        "label": "Cohort 1",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "Give teclistamab step-up dosing at Princess Margaret Cancer Centre with the addition of one dose of prophylactic tocilizumab prior to step-up dose 1.",
+        "interventionNames": [
+          "Drug: Teclistamab",
+          "Drug: Tocilizumab"
+        ],
+        "label": "Cohort 2",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "Give teclistamab step-up dosing at Southlake Regional Cancer Centre in the outpatient setting using the best method(s) as determined from Cohorts 1 and 2.",
+        "interventionNames": [
+          "Drug: Teclistamab",
+          "Drug: Tocilizumab"
+        ],
+        "label": "Cohort 3",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "Caregivers of participants in Cohorts 1, 2, and 3 will complete various questionnaires to assess impact.",
+        "label": "Caregiver Cohort",
+        "type": "NO_INTERVENTION"
+      }
+    ],
+    "interventions": [
+      {
+        "armGroupLabels": [
+          "Cohort 1",
+          "Cohort 2",
+          "Cohort 3"
+        ],
+        "description": "Teclistamab is an antibody therapy (bispecific T-cell engager \\[BiTE\\]) that binds to two target proteins on different cells; CD3 on healthy T cells and B cell maturation antigen (BCMA) on myeloma cells. This brings healthy T cells and the myeloma cells close together so the T cells can more effectively kill them. Teclistamab is approved for the treatment of adult patients with relapsed or refractory multiple myeloma who have received at least three prior lines of therapy, including a proteasome inhibitor, an immunomodulatory agent and an anti-CD38 monoclonal antibody, and who have demonstrated disease progression on the last therapy.",
+        "name": "Teclistamab",
+        "otherNames": [
+          "TECVAYLI"
+        ],
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "Cohort 2",
+          "Cohort 3"
+        ],
+        "description": "Toclilzumab is an interleukin inhibitor approved for the treatment of patients with chimeric antigen receptor (CAR) T cell-induced severe or life-threatening cytokine release syndrome (CRS) and other indications.",
+        "name": "Tocilizumab",
+        "otherNames": [
+          "ACTEMRA"
+        ],
+        "type": "DRUG"
+      }
+    ]
+  },
+  "conditionsModule": {
+    "conditions": [
+      "Multiple Myeloma",
+      "Relapsed Cancer",
+      "Refractory Cancer"
+    ]
+  },
+  "contactsLocationsModule": {
+    "centralContacts": [
+      {
+        "email": "Christine.Chen@uhn.ca",
+        "name": "Christine Chen, Dr.",
+        "phone": "416-946-2827",
+        "role": "CONTACT"
+      }
+    ],
+    "locations": [
+      {
+        "city": "Toronto",
+        "country": "Canada",
+        "facility": "Princess Margaret Cancer Centre",
+        "geoPoint": {
+          "lat": 43.70643,
+          "lon": -79.39864
+        },
+        "state": "Ontario",
+        "status": "RECRUITING",
+        "zip": "M5G 2M9"
+      }
+    ],
+    "overallOfficials": [
+      {
+        "affiliation": "University Health Network, Toronto",
+        "name": "Christine Chen, Dr.",
+        "role": "PRINCIPAL_INVESTIGATOR"
+      }
+    ]
+  },
+  "descriptionModule": {
+    "briefSummary": "This is a pilot study to develop an outpatient-based process for the administration of teclistamab for for relapsed/refractory multiple myeloma patients and to evaluate the burden on caregivers of patients receiving outpatient administration of teclistamab."
+  },
+  "designModule": {
+    "designInfo": {
+      "allocation": "NON_RANDOMIZED",
+      "interventionModel": "PARALLEL",
+      "maskingInfo": {
+        "masking": "NONE"
+      },
+      "primaryPurpose": "TREATMENT"
+    },
+    "enrollmentInfo": {
+      "count": 15,
+      "type": "ESTIMATED"
+    },
+    "phases": [
+      "PHASE4"
+    ],
+    "studyType": "INTERVENTIONAL"
+  },
+  "eligibilityModule": {
+    "eligibilityCriteria": "Multiple Myeloma Patients to Receive Outpatient Teclistamab (Part 1):\n\nInclusion Criteria:\n\n1. Eligible for teclistamab treatment as per Health Canada approved indication:\n\n   1. Age 18 and greater\n   2. Relapsed or refractory multiple myeloma\n   3. Received at least 3 prior lines of therapy, including a proteasome inhibitor, an immunomodulatory agent and an anti-CD38 monoclonal antibody\n   4. Demonstrated disease progression on the last therapy\n2. For Cohorts 1 and 2, participants must agree to receive treatment at Princess Margaret Cancer Centre. For Cohort 3, participants must agree to receive treatment at Stronach Regional Cancer Centre.\n3. Must sign the informed consent form (or their legally acceptable representative must sign) indicating that the participant understands the purpose of, and procedures required for the study and is willing to participate in the study. Consent is to be obtained prior to the initiation of any study-related tests or procedures that are not part of standard of care for the patient's disease.\n4. Have one or more caregivers meeting study criteria.\n5. Have clinical laboratory values meeting study criteria.\n6. Rockwood Clinical Frailty Scale - threshold score \u2264 5\n7. A woman of childbearing potential must have a negative highly-sensitive serum pregnancy test at screening and must agree to:\n\n   1. Practicing true abstinence; or\n   2. Have a sole partner who is vasectomized; or\n   3. Practicing \u22651 highly-effective, user-independent method of contraception.\n8. A woman must agree not to donate eggs (ova, oocytes) or freeze for future use, for the purposes of assisted reproduction during the study. Upon study end, female participants must agree to continue with product monograph guidelines with ongoing teclistamab off-study.\n9. A man must wear a condom (with or without spermicidal foam/gel/film/cream/suppository) when engaging in any activity that allows for passage of ejaculate to another person during the study, and thereafter to continue with product monograph guidelines. If a female partner is of childbearing potential, she must also be practicing a highly effective method of contraception.\n10. A male participant must agree not to donate sperm for the purpose of reproduction during the study, and thereafter to follow product monograph guidelines with ongoing teclistamab off-study.\n\nExclusion Criteria:\n\n1. Contraindications or life-threatening allergies, hypersensitivity, or intolerance to any study drug or its excipients.\n2. Prior or concurrent exposure to any of the following:\n\n   1. Teclistamab or any anti-BCMA therapy\n   2. Other myeloma therapy (standard of care or investigational) including corticosteroids, within 3 days of first step-up dose of teclistamab\n3. Toxicities from previous anticancer therapies that have not resolved to baseline levels or to Grade 1 or less except for alopecia or peripheral neuropathy\n4. High risk disease features including:\n\n   1. Central nervous system (CNS) involvement with myeloma\n   2. Extramedullary disease (\u22651 soft tissue plasmacytoma not associated with bone)\n   3. Circulating plasma cells (plasma cell leukemia)\n   4. Rapidly progressive disease, as per investigator assessment\n5. Concurrent disorders, including:\n\n   e. Light chain amyloidosis f. Second malignancy requiring active therapy, exceptions including prostate cancer receiving androgen deprivation therapy or adequately treated breast cancer carcinoma on anti-hormonal agents and considered to have a very low risk of recurrence g. Underlying neurologic dysfunction (history of seizure, Cerebrovascular Accident (CVA) or Transient ischemic attack (TIA), intracranial hemorrhage, dementia or other cognitive impairment) h. Hepatitis B infection (HBV-DNA positive). Patients with HepBsAg (Surface antigen of Hepatitis B virus) or HepBcAb (Hepatitis B viral protein) positive are allowed on study, only if on antiviral prophylaxis and HBV-DNA viral load is undetectable.\n\n   i. Active infection requiring anti-infective therapy (prophylactic antibiotics are allowed). Cytomegalovirus (CMV) IgG (Immunoglobulin G) positivity allowed, but must be CMV PCR (Polymerase Chain Reaction) negative.\n\n   j. Underlying coagulopathy that may increase the risk of bleeding in the setting of cytopenia.\n6. Presence of the following cardiac conditions:\n\n   1. New York Heart Association stage III or IV congestive heart failure\n   2. Myocardial infarction or coronary artery bypass graft \u22646 months prior to randomization\n   3. History of clinically significant ventricular arrhythmia or unexplained syncope, not believed to be vasovagal in nature or due to dehydration\n   4. History of severe non-ischemic cardiomyopathy\n7. Major surgery within 2 weeks prior to the start of administration of study treatment (kyphoplasty or vertebroplasty are not considered major surgery).\n8. Concurrent medical or psychiatric condition or disease that is likely to interfere with study procedures or results, or that in the opinion of the investigator would constitute a hazard for participating in this study, such as:\n\n   1. Uncontrolled diabetes\n   2. Acute diffuse infiltrative pulmonary disease\n   3. Evidence of active systemic viral, fungal, or bacterial infection, requiring systemic antimicrobial therapy\n   4. History of autoimmune disease with the exception of vitiligo, type I diabetes, and prior autoimmune thyroiditis that is currently euthyroid based on clinical symptoms and laboratory testing\n   5. Disabling psychiatric conditions (e.g., alcohol or drug abuse), severe dementia, or altered mental status\n   6. Other comorbidities felt by treating physician to require hospitalization for teclistamab step-up dosing, such as poorly controlled pain despite use of narcotics, multiple concurrent comorbidities (diabetes, advanced age, cardiac disease)\n   7. Any other issue that would impair the ability of the participant to receive or tolerate the planned treatment at the investigational site, to understand informed consent or any condition for which, in the opinion of the investigator, participation would not be in the best interest of the participant (e.g., compromise the well-being) or that could prevent, limit, or confound the protocol-specified assessments\n   8. History of non-compliance with recommended medical treatments\n\nCaregivers of multiple myeloma subjects treated with outpatient-based teclistamab (Part 2):\n\nInclusion Criteria:\n\n1. Agree to be a caregiver for a participant with multiple myeloma enrolled in this study protocol to receive outpatient teclistamab (any of Cohorts 1, 2, 3)\n2. Age 18 and greater\n3. English-speaking\n4. Must sign an Informed consent form\n5. Attend mandatory orientation, equipment training, and provide transportation by car to and from Princess Margaret Cancer Centre until two days after completion of first three doses (at minimum 8 days to encompass step up dosing), and twice weekly to Day 27\n6. Accompany the participant through the night and during the day, with no more than 2-hour gaps during the day during which the patient is alone, to end of study (Day 27 or completion of 6 total doses \\[2 step up doses + 4 full doses\\], whichever is later). More than one caregiver may participate to fill the required hours of accompaniment.\n7. Agree to help administer home medications, buy groceries, prepare food and otherwise support the participant\n8. Agree and capable of monitoring the participants vital signs, apply the Immune Effector Cell Encephalopathy (ICE) score, record findings, and report to the study team (by phone or in person)\n\nExclusion Criteria:\n\n1. Not sufficiently comfortable or understanding of the use of vital sign equipment, applying the ICE score, or other caregiver requirements, as per Investigator discretion\n2. Unable to complete caregiver follow-up assessments at 30 and 90 days after last treatment subject dose.",
+    "healthyVolunteers": false,
+    "minimumAge": "18 Years",
+    "sex": "ALL",
+    "stdAges": [
+      "ADULT",
+      "OLDER_ADULT"
+    ]
+  },
+  "identificationModule": {
+    "briefTitle": "Plan Development for Giving Teclistamab in the Outpatient Setting",
+    "nctId": "NCT06251076",
+    "officialTitle": "Outpatient-based Teclistamab Step-up Dosing in Patients With Relapsed/Refractory Multiple Myeloma: Process Development in Academic and Community Centres, and Evaluating Impact on Caregiver Burden",
+    "orgStudyIdInfo": {
+      "id": "Outpatient TEC"
+    },
+    "organization": {
+      "class": "OTHER",
+      "fullName": "University Health Network, Toronto"
+    },
+    "secondaryIdInfos": [
+      {
+        "domain": "University Health Network",
+        "id": "CAPCR 23-5935",
+        "type": "OTHER"
+      },
+      {
+        "domain": "Janssen Inc.",
+        "id": "64007957MMY4009",
+        "type": "OTHER"
+      }
+    ]
+  },
+  "outcomesModule": {
+    "primaryOutcomes": [
+      {
+        "description": "Used to guide development of written processes and protocols for teclistamab outpatient management.",
+        "measure": "Median of day hospital encounters or hospitalizations as assessed by using descriptive statistics.",
+        "timeFrame": "1 year"
+      },
+      {
+        "description": "Used to guide development of written processes and protocols for teclistamab outpatient management.",
+        "measure": "Median incidence of toxicities that are related to underlying disease, disease-related or background regimen as assessed by CTCAE v5.0.",
+        "timeFrame": "1 year"
+      }
+    ],
+    "secondaryOutcomes": [
+      {
+        "description": "Used to assess caregiver burden.",
+        "measure": "Median for Caregiver Quality of Life Index-Care (CQOLC) scale. Minimum value is 0, maximum value is 140. Lower score means worse outcome.",
+        "timeFrame": "1 year"
+      }
+    ]
+  },
+  "oversightModule": {
+    "isFdaRegulatedDevice": false,
+    "isFdaRegulatedDrug": false,
+    "oversightHasDmc": true
+  },
+  "sponsorCollaboratorsModule": {
+    "collaborators": [
+      {
+        "class": "INDUSTRY",
+        "name": "Janssen Inc."
+      }
+    ],
+    "leadSponsor": {
+      "class": "OTHER",
+      "name": "University Health Network, Toronto"
+    },
+    "responsibleParty": {
+      "type": "SPONSOR"
+    }
+  },
+  "statusModule": {
+    "completionDateStruct": {
+      "date": "2026-10",
+      "type": "ESTIMATED"
+    },
+    "expandedAccessInfo": {
+      "hasExpandedAccess": false
+    },
+    "lastUpdatePostDateStruct": {
+      "date": "2025-12-10",
+      "type": "ACTUAL"
+    },
+    "lastUpdateSubmitDate": "2025-12-02",
+    "overallStatus": "RECRUITING",
+    "primaryCompletionDateStruct": {
+      "date": "2026-06-15",
+      "type": "ESTIMATED"
+    },
+    "startDateStruct": {
+      "date": "2024-11-19",
+      "type": "ACTUAL"
+    },
+    "statusVerifiedDate": "2025-12",
+    "studyFirstPostDateStruct": {
+      "date": "2024-02-09",
+      "type": "ACTUAL"
+    },
+    "studyFirstSubmitDate": "2024-02-01",
+    "studyFirstSubmitQcDate": "2024-02-01"
+  }
+}

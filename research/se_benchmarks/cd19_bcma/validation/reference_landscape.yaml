@@ -1,0 +1,58 @@
+reference_version: "validation-v1"
+status: frozen_fixture_incomplete_expert_universe
+precision_evaluable: false
+as_of_date: 2026-07-10
+source_family: clinicaltrials_gov
+# This set is frozen for milestone retrieval checks, but is not yet complete enough to support
+# precision or release decisions. A complete expert universe must enumerate all known matches and
+# explicit near-misses before Sprint 9 release evaluation.
+records:
+  - fixture_id: val_abo2203
+    canonical_asset: ABO2203
+    trial_id: NCT06747156
+    expected_target_ids: [CD19]
+    expected_modality_id: T_CELL_ENGAGER
+    expected_candidate: true
+    expected_eligibility: UNKNOWN
+    snapshot: ../development/snapshots/clinicaltrials_gov/43a73310f70d7eb9545e.json
+    snapshot_sha256: eaae4d07936bc931d527da2919a06b0d616a4dc5df89836ad3966efc6e607288
+
+  - fixture_id: val_1a46
+    canonical_asset: 1A46
+    trial_id: NCT05348889
+    expected_target_ids: [CD19]
+    expected_modality_id: T_CELL_ENGAGER
+    expected_candidate: true
+    expected_eligibility: UNKNOWN
+    snapshot: ../development/snapshots/clinicaltrials_gov/5ceb7e4b8982d201f774.json
+    snapshot_sha256: 979228558ee55db29e5a321ec6b7dfb49bd8bbfb91ba8d359b3a47f968616956
+
+  - fixture_id: val_gsk5926371
+    canonical_asset: GSK5926371
+    trial_id: NCT07371468
+    expected_target_ids: [CD19]
+    expected_modality_id: T_CELL_ENGAGER
+    expected_candidate: true
+    expected_eligibility: UNKNOWN
+    snapshot: ../development/snapshots/clinicaltrials_gov/7cfdc9044b4e535ddf67.json
+    snapshot_sha256: 176c9877efd97b1e7ed84a5a3fbab137c78b0d42014a443fdb29bb188f188d08
+
+  - fixture_id: val_vnx101
+    canonical_asset: VNX-101
+    trial_id: NCT06533579
+    expected_target_ids: [CD19]
+    expected_modality_id: T_CELL_ENGAGER
+    expected_candidate: true
+    expected_eligibility: UNKNOWN
+    snapshot: ../development/snapshots/clinicaltrials_gov/78f95eaecd2f5dcaa696.json
+    snapshot_sha256: 8fa62c9b1da2c8f9db0d81b58d216acde1ff210fbf4f030453521501e1738417
+
+  - fixture_id: val_teclistamab
+    canonical_asset: Teclistamab
+    trial_id: NCT06251076
+    expected_target_ids: [BCMA]
+    expected_modality_id: T_CELL_ENGAGER
+    expected_candidate: true
+    expected_eligibility: UNKNOWN
+    snapshot: ../development/snapshots/clinicaltrials_gov/5d9444d92341a37152e5.json
+    snapshot_sha256: bcb12383086fddc210dab361da38d449436de70d2622bd4d2a59f17583ec1427

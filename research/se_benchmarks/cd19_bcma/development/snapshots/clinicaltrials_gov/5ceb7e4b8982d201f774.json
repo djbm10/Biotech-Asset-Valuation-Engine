@@ -1,0 +1,264 @@
+{
+  "armsInterventionsModule": {
+    "armGroups": [
+      {
+        "description": "Open label, single arm trial where 1A46 will be administered",
+        "interventionNames": [
+          "Drug: 1A46 Injection"
+        ],
+        "label": "Dose Escalation",
+        "type": "EXPERIMENTAL"
+      }
+    ],
+    "interventions": [
+      {
+        "armGroupLabels": [
+          "Dose Escalation"
+        ],
+        "description": "Participants will receive IV 1A46 weekly for Cycles 1-8, then every 3 weeks (Q3W) for Cycles 9-16 (21 days/cycle).",
+        "name": "1A46 Injection",
+        "otherNames": [
+          "CMG1A46"
+        ],
+        "type": "DRUG"
+      }
+    ]
+  },
+  "conditionsModule": {
+    "conditions": [
+      "Non-Hodgkin's Lymphoma (disorder)",
+      "Acute Lymphoid Leukemia, Disease (disorder)"
+    ]
+  },
+  "contactsLocationsModule": {
+    "locations": [
+      {
+        "city": "New Haven",
+        "country": "United States",
+        "facility": "Yale New Haven Hospital",
+        "geoPoint": {
+          "lat": 41.30815,
+          "lon": -72.92816
+        },
+        "state": "Connecticut",
+        "zip": "06510-3220"
+      },
+      {
+        "city": "Louisville",
+        "country": "United States",
+        "facility": "Norton Cancer Institute",
+        "geoPoint": {
+          "lat": 38.25424,
+          "lon": -85.75941
+        },
+        "state": "Kentucky",
+        "zip": "40202-1840"
+      },
+      {
+        "city": "Pittsburgh",
+        "country": "United States",
+        "facility": "UPMC CancerCenter",
+        "geoPoint": {
+          "lat": 40.44062,
+          "lon": -79.99589
+        },
+        "state": "Pennsylvania",
+        "zip": "15232-1309"
+      },
+      {
+        "city": "Houston",
+        "country": "United States",
+        "facility": "The University of Texas MD Anderson Cancer Center",
+        "geoPoint": {
+          "lat": 29.76328,
+          "lon": -95.36327
+        },
+        "state": "Texas",
+        "zip": "77030-4000"
+      },
+      {
+        "city": "Milwaukee",
+        "country": "United States",
+        "facility": "Froedtert & the Medical College of Wisconsin Froedtert Hospital",
+        "geoPoint": {
+          "lat": 43.0389,
+          "lon": -87.90647
+        },
+        "state": "Wisconsin",
+        "zip": "53226-3522"
+      }
+    ],
+    "overallOfficials": [
+      {
+        "affiliation": "Chimagen Biosciences, Ltd",
+        "name": "Clinical Trial Management",
+        "role": "STUDY_DIRECTOR"
+      }
+    ]
+  },
+  "descriptionModule": {
+    "briefSummary": "This study will evaluate the safety and efficacy of 1A46 in adult patients with advanced CD20 and/or CD19 positive B-cell non-Hodgkin's lymphoma (NHL) or acute lymphoblastic leukemia (ALL).",
+    "detailedDescription": "This study is an open-label, multicenter, 2-part study of 1A46 in adult patients with advanced relapsed/refractory (r/r) CD20 and/or CD19 positive B-cell non-Hodgkin lymphoma (NHL) and B-cell acute lymphoblastic leukemia (ALL) who do not have effective standard treatment available. This FIH study will include a dose escalation part and a dose expansion part in 4 cohorts."
+  },
+  "designModule": {
+    "designInfo": {
+      "allocation": "NA",
+      "interventionModel": "SINGLE_GROUP",
+      "maskingInfo": {
+        "masking": "NONE"
+      },
+      "primaryPurpose": "TREATMENT"
+    },
+    "enrollmentInfo": {
+      "count": 7,
+      "type": "ACTUAL"
+    },
+    "phases": [
+      "PHASE1",
+      "PHASE2"
+    ],
+    "studyType": "INTERVENTIONAL"
+  },
+  "eligibilityModule": {
+    "eligibilityCriteria": "Inclusion Criteria:\n\nDose Escalation Part:\n\nAggressive NHL Patients\uff1a\n\n* Aggressive NHL including mantle cell lymphoma and DLBCL histologies, NOS and/or BCL2, BCL6, and or MY B-cell lymphoma with intermediate features between DLBCL, FL grade 3B, and aggressive B-cell lymphoma unclassifiable\n* have previously R-CHOP, R-EPOCH or equivalent anti-CD20 containing therapy\n* with \u2265 2 prior lines of systemic therapy\n* received or ineligible for autologous stem cell transplant (ASCT)\n* have received or been intolerant of all other standard therapies thought to confer clinical benefit.\n\nIndolent NHL Patients:\n\n* including FL of Grades 1-3A and marginal zone lymphoma (MZL)\n* refractory or relapsed after \u2265 2 prior lines of systemic therapy who have received or been intolerant of all other standard therapies thought to confer clinical benefit.\n* Patients must require systemic therapy based on disease-specific criteria.\n\nNHL patients should meet the following requirements:\n\n* The following considerations pertain to prior treatment regimens for NHL:\n\n  1. Preinduction salvage chemotherapy and ASCT should be considered 1 therapy.\n  2. Patients with gastric extranodal MZL, should have failed H. pylori eradication therapy (when H. pylori positive).\n* NHL patients must have expression of CD20 and/or CD19-expression\n* NHL patients in the dose escalation part of the study must have \u2265 1 measurable target lesion as defined by Lugano 2014 criteria ALL Patients\uff1a\n\nPh-positive or Ph-negative B-cell ALL refractory to or relapsed after frontline treatment and 1 salvage regimen, have received or been intolerant of all other standard therapies thought to confer clinical benefit. ALL patients should meet the following requirements:\n\n* Relapsed after or not a candidate for allogeneic SCT.\n* No active acute or chronic graft-versus-host disease for 2 months prior to enrollment and currently receiving no immunosuppressive therapy.\n* persistent CD19 staining of \u2265 50% of blasts.\n\nExclusion Criteria:\n\n* Patient has brain metastasis or other significant neurological conditions.\n* Female patients who are lactating and breastfeeding or have a positive serum pregnancy test during the screening period.\n* Active serious infection requiring antibiotics within 14 days before study entry.\n* Treatment with corticosteroids (\\> 10 mg daily prednisone or equivalent) or immunosuppressive medication \u2264 7 days before the first dose of 1A46, with the following exceptions:\n\n  1. Topical, ocular, intra-articular, intranasal, or inhalational corticosteroids.\n  2. Dexamethasone used to reduce peripheral blast counts in ALL patients.\n* Active hepatitis B or C.\n* Known human immunodeficiency virus (HIV) infection.\n* Admission or evidence of illicit drug use, drug abuse, or alcohol abuse.\n* Cerebrovascular accident, transient ischemic attack, myocardial infarction, unstable angina, or New York Heart Association class III or IV heart failure \\< 6 months of study entry; uncontrolled arrhythmia \\< 3 months of study entry.\n* Major surgery \\< 4 weeks or minor surgery \\< 2 weeks prior to screening.\n* Live virus vaccines \\< 30 days prior to screening.\n* Inflammatory chronic diseases, or any other diseases the investigator considers can be exacerbated in the setting of immune activation.\n* History of Grade 3-4 allergic reaction to treatment with another mAb, or known to be allergic to protein drugs or recombinant proteins or excipients in 1A46 drug formulation.\n* Concurrent malignancy \\< 5 years prior to entry other than adequately treated cervical carcinoma in situ, localized squamous cell cancer of the skin, basal cell carcinoma, localized prostate cancer, ductal carcinoma in situ of the breast, or \\< T1 urothelial carcinoma.\n* History of Grade 3-4 immune-related adverse events (irAEs) or irAEs requiring discontinuation of prior therapies.\n* Pleural effusion, pericardial effusion or ascites requiring frequent drainage or medical intervention.\n* QTc \\> 480 msec using Fredericia's QT correction formula\n* Patients in the dose escalation part who weigh \\< 40 kg.",
+    "healthyVolunteers": false,
+    "minimumAge": "18 Years",
+    "sex": "ALL",
+    "stdAges": [
+      "ADULT",
+      "OLDER_ADULT"
+    ]
+  },
+  "identificationModule": {
+    "briefTitle": "First-in-Human (FIH) Trial of 1A46 in Subjects with Advanced CD20 And/or CD19 Positive B-cell Hematologic Malignancies",
+    "nctId": "NCT05348889",
+    "officialTitle": "A Phase 1/2, First in Human, Single-arm, Open-label Study to Evaluate the Safety and Efficacy of Triple-specific T-cell Engager 1A46 in Adult Patients with Advanced CD20 And/or CD19 Positive B-cell Hematologic Malignancies",
+    "orgStudyIdInfo": {
+      "id": "CMG1A46-US01"
+    },
+    "organization": {
+      "class": "INDUSTRY",
+      "fullName": "Chimagen Biosciences, Ltd"
+    }
+  },
+  "ipdSharingStatementModule": {
+    "ipdSharing": "NO"
+  },
+  "outcomesModule": {
+    "primaryOutcomes": [
+      {
+        "description": "To assess the safety and tolerability of 1A46",
+        "measure": "Escalation: Incidence of Adverse Events",
+        "timeFrame": "Adverse Events are assessed during the first cycle (28 days) in each cohort"
+      },
+      {
+        "description": "To identify the RP2D and the MTD, if reached",
+        "measure": "Escalation: Dose liming toxicity (DLT)",
+        "timeFrame": "DLTs are assessed during the first cycle (28 days) in each cohort"
+      }
+    ],
+    "secondaryOutcomes": [
+      {
+        "description": "To characterize the PK properties of 1A46",
+        "measure": "Escalation: Maximum observed concentration (Cmax)",
+        "timeFrame": "At enrollment and at multiple timepoints until treatment discontinuation, assessed up to 1 year"
+      },
+      {
+        "description": "To characterize the PK properties of 1A46",
+        "measure": "Escalation: Time to reach Cmax (Tmax)",
+        "timeFrame": "At enrollment and at multiple timepoints until treatment discontinuation, assessed up to 1 year"
+      },
+      {
+        "description": "To characterize the PK properties of 1A46",
+        "measure": "Escalation: Area Under the Concentration-Time Curve (AUC) from Time 0 to t",
+        "timeFrame": "At enrollment and at multiple timepoints until treatment discontinuation, assessed up to 1 year"
+      },
+      {
+        "description": "To characterize the PK properties of 1A46",
+        "measure": "Escalation: Area under the serum concentration-time curve from time 0 to infinity (AUCinf)",
+        "timeFrame": "At enrollment and at multiple timepoints until treatment discontinuation, assessed up to 1 year"
+      },
+      {
+        "description": "To characterize the PK properties of 1A46",
+        "measure": "Escalation: Terminal disposition phase half-life(t1/2)",
+        "timeFrame": "At enrollment and at multiple timepoints until treatment discontinuation, assessed up to 1 year"
+      },
+      {
+        "description": "To characterize the PK properties of 1A46",
+        "measure": "Escalation: Total clearance after IV administration (CL)",
+        "timeFrame": "At enrollment and at multiple timepoints until treatment discontinuation, assessed up to 1 year"
+      },
+      {
+        "description": "To characterize the PK properties of 1A46",
+        "measure": "Escalation: Anti-drug antibody (ADA)",
+        "timeFrame": "From Baseline up to end of study or discontinuation due to disease progression, up to 5 years"
+      },
+      {
+        "description": "To evaluate preliminary anti-tumor efficacy of 1A46",
+        "measure": "Escalation: Objective Response Rate (ORR)",
+        "timeFrame": "From Baseline up to end of study or discontinuation due to disease progression, up to 5 years"
+      },
+      {
+        "description": "To evaluate preliminary anti-tumor efficacy of 1A46",
+        "measure": "Escalation: Disease control rate (DCR)",
+        "timeFrame": "From Baseline up to end of study or discontinuation due to disease progression, up to 5 years"
+      },
+      {
+        "description": "To evaluate preliminary anti-tumor efficacy of 1A46",
+        "measure": "Escalation: Progression free survival (PFS)",
+        "timeFrame": "From Baseline up to end of study or discontinuation due to disease progression, up to 5 years"
+      },
+      {
+        "description": "To evaluate preliminary anti-tumor efficacy of 1A46",
+        "measure": "Escalation: Overall survival (OS)",
+        "timeFrame": "From Baseline up to end of study or discontinuation due to disease progression, up to 5 years"
+      }
+    ]
+  },
+  "oversightModule": {
+    "isFdaRegulatedDevice": false,
+    "isFdaRegulatedDrug": true,
+    "isUsExport": false,
+    "oversightHasDmc": false
+  },
+  "sponsorCollaboratorsModule": {
+    "leadSponsor": {
+      "class": "INDUSTRY",
+      "name": "Chimagen Biosciences, Ltd"
+    },
+    "responsibleParty": {
+      "type": "SPONSOR"
+    }
+  },
+  "statusModule": {
+    "completionDateStruct": {
+      "date": "2024-10-31",
+      "type": "ACTUAL"
+    },
+    "expandedAccessInfo": {
+      "hasExpandedAccess": false
+    },
+    "lastUpdatePostDateStruct": {
+      "date": "2025-02-13",
+      "type": "ACTUAL"
+    },
+    "lastUpdateSubmitDate": "2025-02-11",
+    "overallStatus": "TERMINATED",
+    "primaryCompletionDateStruct": {
+      "date": "2024-10-31",
+      "type": "ACTUAL"
+    },
+    "startDateStruct": {
+      "date": "2022-08-30",
+      "type": "ACTUAL"
+    },
+    "statusVerifiedDate": "2025-02",
+    "studyFirstPostDateStruct": {
+      "date": "2022-04-27",
+      "type": "ACTUAL"
+    },
+    "studyFirstSubmitDate": "2022-03-29",
+    "studyFirstSubmitQcDate": "2022-04-21",
+    "whyStopped": "Sponsor's Research and Development strategy adjustment"
+  }
+}

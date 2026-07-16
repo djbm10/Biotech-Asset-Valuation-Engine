@@ -1,0 +1,427 @@
+{
+  "armsInterventionsModule": {
+    "armGroups": [
+      {
+        "interventionNames": [
+          "Genetic: Dose Level 1, VNX-101",
+          "Genetic: Dose Level 2, VNX-101",
+          "Genetic: Dose Level 3, VNX-101",
+          "Genetic: Dose Level 4, VNX-101"
+        ],
+        "label": "Group 1/Group 2/Group 3/Group 4",
+        "type": "EXPERIMENTAL"
+      }
+    ],
+    "interventions": [
+      {
+        "armGroupLabels": [
+          "Group 1/Group 2/Group 3/Group 4"
+        ],
+        "description": "Adeno-associated viral vector encoding the CD3/CD19 Bi-Specific T-Cell Engager (AAV.CD3/CD19), Single IV infusion",
+        "name": "Dose Level 1, VNX-101",
+        "type": "GENETIC"
+      },
+      {
+        "armGroupLabels": [
+          "Group 1/Group 2/Group 3/Group 4"
+        ],
+        "description": "Adeno-associated viral vector encoding the CD3/CD19 Bi-Specific T-Cell Engager (AAV.CD3/CD19), Single IV infusion",
+        "name": "Dose Level 2, VNX-101",
+        "type": "GENETIC"
+      },
+      {
+        "armGroupLabels": [
+          "Group 1/Group 2/Group 3/Group 4"
+        ],
+        "description": "Adeno-associated viral vector encoding the CD3/CD19 Bi-Specific T-Cell Engager (AAV.CD3/CD19), Single IV infusion",
+        "name": "Dose Level 3, VNX-101",
+        "type": "GENETIC"
+      },
+      {
+        "armGroupLabels": [
+          "Group 1/Group 2/Group 3/Group 4"
+        ],
+        "description": "Adeno-associated viral vector encoding the CD3/CD19 Bi-Specific T-Cell Engager (AAV.CD3/CD19), Single IV infusion",
+        "name": "Dose Level 4, VNX-101",
+        "type": "GENETIC"
+      }
+    ]
+  },
+  "conditionsModule": {
+    "conditions": [
+      "B-cell Acute Lymphoblastic Leukemia",
+      "Large B-cell Lymphoma",
+      "Chronic Lymphocytic Leukemia",
+      "Small Lymphocytic Lymphoma",
+      "Marginal Zone Lymphoma",
+      "Follicular Lymphoma",
+      "Mantle Cell Lymphoma",
+      "Diffuse Large B Cell Lymphoma",
+      "High-grade B-cell Lymphoma",
+      "Burkitt Lymphoma",
+      "Primary Mediastinal Large B-cell Lymphoma (PMBCL)",
+      "Non Hodgkin Lymphoma",
+      "Mixed Phenotype Acute Leukemia"
+    ],
+    "keywords": [
+      "CD19-positive",
+      "Leukemia",
+      "Lymphoma"
+    ]
+  },
+  "contactsLocationsModule": {
+    "centralContacts": [
+      {
+        "email": "allen.reha@vironexis.com",
+        "name": "Allen Reha",
+        "phone": "908-938-6019",
+        "role": "CONTACT"
+      },
+      {
+        "email": "studies@patientwing.com",
+        "name": "Recruitment Partner: PatientWing",
+        "phone": "213-459-2979",
+        "role": "CONTACT"
+      }
+    ],
+    "locations": [
+      {
+        "city": "Duarte",
+        "contacts": [
+          {
+            "email": "AStein@coh.org",
+            "name": "Anthony Stein, MD",
+            "phone": "877-467-3411",
+            "role": "CONTACT"
+          },
+          {
+            "name": "Anthony Stein, MD",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "United States",
+        "facility": "City of Hope",
+        "geoPoint": {
+          "lat": 34.13945,
+          "lon": -117.97729
+        },
+        "state": "California",
+        "status": "RECRUITING",
+        "zip": "91010"
+      },
+      {
+        "city": "Los Angeles",
+        "contacts": [
+          {
+            "email": "clinicaltrials@vctcare.com",
+            "name": "Myo Zaw",
+            "phone": "424-535-1874",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "United States",
+        "facility": "Valkyrie Clinical Trials",
+        "geoPoint": {
+          "lat": 34.05223,
+          "lon": -118.24368
+        },
+        "state": "California",
+        "status": "RECRUITING",
+        "zip": "90067"
+      },
+      {
+        "city": "Denver",
+        "contacts": [
+          {
+            "name": "Clinical Trial Information Line",
+            "phone": "720-754-4835",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "United States",
+        "facility": "Colorado Blood Cancer Institute",
+        "geoPoint": {
+          "lat": 39.73915,
+          "lon": -104.9847
+        },
+        "state": "Colorado",
+        "status": "RECRUITING",
+        "zip": "80218"
+      },
+      {
+        "city": "Valhalla",
+        "contacts": [
+          {
+            "email": "mitchell_cairo@nymc.edu",
+            "name": "Mitchell Cairo, MD",
+            "phone": "914-594-2150",
+            "role": "CONTACT"
+          },
+          {
+            "email": "lauren_harrison@nymc.edu",
+            "name": "Lauren Harrison",
+            "role": "CONTACT"
+          },
+          {
+            "name": "Mitchell Cairo, MD",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "United States",
+        "facility": "New York Medical College",
+        "geoPoint": {
+          "lat": 41.07482,
+          "lon": -73.77513
+        },
+        "state": "New York",
+        "status": "RECRUITING",
+        "zip": "10595"
+      },
+      {
+        "city": "Chapel Hill",
+        "contacts": [
+          {
+            "email": "Lacey_Williams@med.unc.edu",
+            "name": "Lacey Williams, MD",
+            "phone": "919-445-9676",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "United States",
+        "facility": "University of North Carolina at Chapel Hill/ University of North Carolina Medical Center",
+        "geoPoint": {
+          "lat": 35.9132,
+          "lon": -79.05584
+        },
+        "state": "North Carolina",
+        "status": "RECRUITING",
+        "zip": "27599"
+      },
+      {
+        "city": "Columbus",
+        "contacts": [
+          {
+            "email": "gregory.behbehani@osumc.edu",
+            "name": "Gregory Behbehani, MD, PhD",
+            "phone": "614-293-3316",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "United States",
+        "facility": "The Ohio State University Wexner Medical Center",
+        "geoPoint": {
+          "lat": 39.96118,
+          "lon": -82.99879
+        },
+        "state": "Ohio",
+        "status": "RECRUITING",
+        "zip": "43210"
+      },
+      {
+        "city": "Portland",
+        "contacts": [
+          {
+            "email": "trials@ohsu.edu",
+            "name": "Knight Cancer Institute Clinical Trials",
+            "phone": "503-949-1080",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "United States",
+        "facility": "Oregon Health & Science University",
+        "geoPoint": {
+          "lat": 45.52345,
+          "lon": -122.67621
+        },
+        "state": "Oregon",
+        "status": "RECRUITING",
+        "zip": "97239"
+      },
+      {
+        "city": "Nashville",
+        "contacts": [
+          {
+            "email": "stephen.strickland@hcahealthcare.com",
+            "name": "Stephen Strickland, MD",
+            "phone": "615-329-7274",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "United States",
+        "facility": "TriStar BMT",
+        "geoPoint": {
+          "lat": 36.16589,
+          "lon": -86.78444
+        },
+        "state": "Tennessee",
+        "status": "RECRUITING",
+        "zip": "37203"
+      },
+      {
+        "city": "Houston",
+        "contacts": [
+          {
+            "email": "NShort@Mdanderson.org",
+            "name": "Nicholas J Short, MD",
+            "phone": "713-563-4485",
+            "role": "CONTACT"
+          }
+        ],
+        "country": "United States",
+        "facility": "University of Texas MD Anderson Cancer Center",
+        "geoPoint": {
+          "lat": 29.76328,
+          "lon": -95.36327
+        },
+        "state": "Texas",
+        "status": "RECRUITING",
+        "zip": "77030"
+      }
+    ],
+    "overallOfficials": [
+      {
+        "affiliation": "Vironexis Biotherapeutics Inc.",
+        "name": "Vironexis Clinical Trials",
+        "role": "STUDY_DIRECTOR"
+      }
+    ]
+  },
+  "descriptionModule": {
+    "briefSummary": "This is a Phase 1/2, first-in-human, open-label, dose-escalating trial designed to assess the safety and efficacy of VNX-101 in patients with relapsed or refractory CD19-positive hematologic malignancies.",
+    "detailedDescription": "VNX-101 is an investigational adeno-associated virus (AAV) gene therapy developed to express a secreted anti-CD19/anti-CD3 scFv diabody (termed GP101). GP101 binds both cluster of differentiation (CD)19 and CD3, inducing T-cells to kill both benign and malignant B-cells. Following a single intravenous (IV) infusion, the vector induces the liver and key tissues to continuously secrete GP101 into the bloodstream, resulting in long-term, consistent serum levels of GP101. Potential advantages of VNX-101 over autologous CAR-T therapy include it is off-the-shelf, provides a gentle onset of action, does not require lymphodepletion chemotherapy, engages all T-cells continuously (including those freshly produced from the bone marrow), and utilizes highly efficient signaling through the native T-cell receptor.\n\nIn this 2-part study, dose-finding data from Part 1 of the study (n=\\~12 patients) will be used determine the dose for Part 2 in patients. Part 1 is a dose-finding PK study in adults \u226518 years old designed to determine the minimal dose that achieves target PK serum levels of GP101 at steady state (8-week timepoint) without dose-limited toxicities, defined as the recommended Part 2 dose (RP2D). Prior to VNX-101 dosing, subjects may undergo standard of care chemotherapy to meet dosing criteria. Part 2 (n=\\~20) will be opened following data safety monitoring board review of Part 1 data and is designed to determine the safety and pharmacokinetics (PK) of VNX-101 at the RP2D in a broader array of subjects. The age range for Part 2 will be expanded to include subjects \u226513 years old. Patients will be followed for safety and efficacy up to 5 years post VNX-101 dosing. Long-term follow-up assessments for safety will be conducted for 6 to 15 years post VNX-101 dosing."
+  },
+  "designModule": {
+    "designInfo": {
+      "allocation": "NA",
+      "interventionModel": "SINGLE_GROUP",
+      "maskingInfo": {
+        "masking": "NONE"
+      },
+      "primaryPurpose": "TREATMENT"
+    },
+    "enrollmentInfo": {
+      "count": 32,
+      "type": "ESTIMATED"
+    },
+    "phases": [
+      "PHASE1",
+      "PHASE2"
+    ],
+    "studyType": "INTERVENTIONAL"
+  },
+  "eligibilityModule": {
+    "eligibilityCriteria": "Inclusion Criteria:\n\n* Age: Part 1: 18-90 years of age, Part 2: 13-90 years of age\n* Relapsed or refractory CD-19 positive leukemia or lymphoma as defined in the protocol\n* CD19-positive expression\n* AAV specified capsid total antibody \\<1:400\n* Protocol-specified ranges for renal, liver, cardiac and pulmonary function\n* Protocol-specified ranges for hematology parameters\n\nExclusion Criteria:\n\n* Hepatoxicity (AST or ALT \\> 2x upper limit of normal)\n* History of thrombotic microangiopathy or cardiomyopathy, or evidence of sensory neuropathy\n* Pregnant or nursing (lactating) women\n* Acute Graft versus Host Disease (GvHD): Grade 2-4 or chronic GvHD of any grade\n* History of hypersensitivity to corticosteroids or history of corticosteroid-related toxicity\n* Chemotherapy given within the protocol-specified discontinuation timelines\n\nOther Inclusion/Exclusion criteria to be applied per protocol.",
+    "healthyVolunteers": false,
+    "maximumAge": "90 Years",
+    "minimumAge": "13 Years",
+    "sex": "ALL",
+    "stdAges": [
+      "CHILD",
+      "ADULT",
+      "OLDER_ADULT"
+    ]
+  },
+  "identificationModule": {
+    "briefTitle": "Gene Therapy for CD19-Positive Hematologic Malignancies (SENTRY-CD19)",
+    "nctId": "NCT06533579",
+    "officialTitle": "A Phase 1/2 Safety, Dose-finding, and Pharmacokinetics Study of VNX-101 Gene Therapy in Patients With Relapsed or Refractory CD19-Positive Hematologic Malignancies (SENTRY-CD19)",
+    "orgStudyIdInfo": {
+      "id": "VNX-101-01"
+    },
+    "organization": {
+      "class": "INDUSTRY",
+      "fullName": "Vironexis Biotherapeutics Inc."
+    }
+  },
+  "ipdSharingStatementModule": {
+    "ipdSharing": "NO"
+  },
+  "outcomesModule": {
+    "otherOutcomes": [
+      {
+        "measure": "Exploratory Measure: Change in VNX-101 gene product levels",
+        "timeFrame": "Change from baseline to year 5 post dosing"
+      },
+      {
+        "measure": "Exploratory Measure: Change in VNX-101 vector shedding",
+        "timeFrame": "Change from baseline to year 5 post dosing"
+      }
+    ],
+    "primaryOutcomes": [
+      {
+        "measure": "Treatment emergent adverse events (TEAEs) and treatment-emergent serious events (TESAEs)",
+        "timeFrame": "Change from Baseline to Year 5 post dosing"
+      }
+    ],
+    "secondaryOutcomes": [
+      {
+        "measure": "Change from baseline in B-cell counts",
+        "timeFrame": "Change from baseline to year 5 post dosing"
+      },
+      {
+        "measure": "Change baseline in immunoglobulin levels",
+        "timeFrame": "Change from baseline to year 5 post dosing"
+      },
+      {
+        "measure": "Change baseline in antitumor activity",
+        "timeFrame": "Change from baseline to year 5 post dosing"
+      },
+      {
+        "measure": "Proportion/duration of subjects achieving response, progression free survival, and disease free survival.",
+        "timeFrame": "Change from baseline to year 5 post dosing"
+      }
+    ]
+  },
+  "oversightModule": {
+    "isFdaRegulatedDevice": false,
+    "isFdaRegulatedDrug": true,
+    "oversightHasDmc": true
+  },
+  "referencesModule": {
+    "seeAlsoLinks": [
+      {
+        "label": "Study Website",
+        "url": "https://app.patientwing.com/campaign/ct.gov"
+      }
+    ]
+  },
+  "sponsorCollaboratorsModule": {
+    "leadSponsor": {
+      "class": "INDUSTRY",
+      "name": "Vironexis Biotherapeutics Inc."
+    },
+    "responsibleParty": {
+      "type": "SPONSOR"
+    }
+  },
+  "statusModule": {
+    "completionDateStruct": {
+      "date": "2031-09",
+      "type": "ESTIMATED"
+    },
+    "expandedAccessInfo": {
+      "hasExpandedAccess": false
+    },
+    "lastUpdatePostDateStruct": {
+      "date": "2026-03-30",
+      "type": "ACTUAL"
+    },
+    "lastUpdateSubmitDate": "2026-03-24",
+    "overallStatus": "RECRUITING",
+    "primaryCompletionDateStruct": {
+      "date": "2027-06",
+      "type": "ESTIMATED"
+    },
+    "startDateStruct": {
+      "date": "2025-05-30",
+      "type": "ACTUAL"
+    },
+    "statusVerifiedDate": "2026-03",
+    "studyFirstPostDateStruct": {
+      "date": "2024-08-01",
+      "type": "ACTUAL"
+    },
+    "studyFirstSubmitDate": "2024-07-24",
+    "studyFirstSubmitQcDate": "2024-07-29"
+  }
+}

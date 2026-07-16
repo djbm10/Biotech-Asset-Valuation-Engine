@@ -1,0 +1,83 @@
+reference_version: "development-v1"
+as_of_date: 2026-07-10
+scope: visible development fixtures; not the frozen validation or sealed holdout set
+source_family: clinicaltrials_gov
+records:
+  - fixture_id: dev_cln_978
+    canonical_asset: CLN-978
+    trial_id: NCT06994143
+    expected_target_ids: [CD19]
+    expected_modality_id: T_CELL_ENGAGER
+    expected_candidate: true
+    expected_eligibility: UNKNOWN
+    rationale: Candidate identity and modality are discoverable, but complete gates require evidence extraction.
+    snapshot: snapshots/clinicaltrials_gov/f9f39d5f5e6ad87d5ad3.json
+    snapshot_sha256: bf3638efad129cf76d0c0020088dc5b65504c9b074cb9ad0f90109e6c9ab103a
+
+  - fixture_id: dev_blinatumomab
+    canonical_asset: Blinatumomab
+    aliases: [BLINCYTO, MT103]
+    trial_id: NCT03628053
+    expected_target_ids: [CD19]
+    expected_modality_id: T_CELL_ENGAGER
+    expected_candidate: true
+    expected_eligibility: UNKNOWN
+    rationale: True CD19 T-cell-engager mention; trial also contains a cell-therapy near-match.
+    snapshot: snapshots/clinicaltrials_gov/0beb4c821d5ace325292.json
+    snapshot_sha256: 28777e2e3369e1a9df7eb761a32c2221d5d2d83258e5384ac2a8bb23b9479a0f
+
+  - fixture_id: dev_tisagenlecleucel_near_match
+    canonical_asset: Tisagenlecleucel
+    trial_id: NCT03628053
+    expected_target_ids: [CD19]
+    expected_modality_id: CAR_T
+    expected_candidate: true
+    expected_eligibility: FAIL
+    expected_failed_gate: modality_technology
+    rationale: Named combination partner and useful near-match; it must not pass the T-cell-engager gate.
+    snapshot: snapshots/clinicaltrials_gov/0beb4c821d5ace325292.json
+    snapshot_sha256: 28777e2e3369e1a9df7eb761a32c2221d5d2d83258e5384ac2a8bb23b9479a0f
+
+  - fixture_id: dev_cd19_bcma_parallel_bites
+    canonical_asset: CD19 x CD3 BiTE
+    trial_id: NCT07689149
+    expected_target_ids: [CD19]
+    expected_modality_id: T_CELL_ENGAGER
+    expected_candidate: true
+    expected_dual_target_same_asset: false
+    rationale: The trial includes separate CD19 and BCMA BiTE interventions, not one CD19/BCMA construct.
+    snapshot: snapshots/clinicaltrials_gov/b5509c1b670c65e497a0.json
+    snapshot_sha256: 8a69637220dfccde7e465890fff1525293eef3de01941535ecc592e3e488dd90
+
+  - fixture_id: dev_bcma_cd19_parallel_bites
+    canonical_asset: BCMA x CD3 BiTE
+    trial_id: NCT07689149
+    expected_target_ids: [BCMA]
+    expected_modality_id: T_CELL_ENGAGER
+    expected_candidate: true
+    expected_dual_target_same_asset: false
+    rationale: Separate intervention in the same trial; identity resolution must not merge it with the CD19 BiTE.
+    snapshot: snapshots/clinicaltrials_gov/b5509c1b670c65e497a0.json
+    snapshot_sha256: 8a69637220dfccde7e465890fff1525293eef3de01941535ecc592e3e488dd90
+
+  - fixture_id: dev_cm336
+    canonical_asset: CM336
+    trial_id: NCT07687004
+    expected_target_ids: [BCMA]
+    expected_modality_id: T_CELL_ENGAGER
+    expected_candidate: true
+    expected_eligibility: UNKNOWN
+    rationale: BCMA/CD3 bispecific candidate; the trial also contains a non-TCE combination partner.
+    snapshot: snapshots/clinicaltrials_gov/7cefaf320d60818a5ec2.json
+    snapshot_sha256: c78833d0842f2d25b94785ca34595a714d50ac5430b89a0ce6f3281a03d30291
+
+  - fixture_id: dev_sonrotoclax_near_match
+    canonical_asset: Sonrotoclax
+    trial_id: NCT07687004
+    expected_modality_id: SMALL_MOLECULE
+    expected_candidate: true
+    expected_eligibility: FAIL
+    expected_failed_gate: modality_technology
+    rationale: Named combination partner; it must remain distinct and fail modality eligibility.
+    snapshot: snapshots/clinicaltrials_gov/7cefaf320d60818a5ec2.json
+    snapshot_sha256: c78833d0842f2d25b94785ca34595a714d50ac5430b89a0ce6f3281a03d30291

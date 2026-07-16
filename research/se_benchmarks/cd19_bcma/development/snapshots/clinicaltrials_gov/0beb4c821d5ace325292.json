@@ -1,0 +1,259 @@
+{
+  "armsInterventionsModule": {
+    "armGroups": [
+      {
+        "description": "Patient to receive tisagenlecleucel after optional bridging therapy and lymphodepleting chemotherapy.",
+        "interventionNames": [
+          "Biological: Tisagenlecleucel"
+        ],
+        "label": "Tisagenlecleucel arm",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "description": "blinatumomab or inotuzumab per investigator's discretion after optional bridging chemotherapy",
+        "interventionNames": [
+          "Drug: Blinatumomab",
+          "Drug: Inotuzumab"
+        ],
+        "label": "Control arm",
+        "type": "ACTIVE_COMPARATOR"
+      }
+    ],
+    "interventions": [
+      {
+        "armGroupLabels": [
+          "Tisagenlecleucel arm"
+        ],
+        "description": "autologous cellular immunotherapy product",
+        "name": "Tisagenlecleucel",
+        "otherNames": [
+          "CTL019",
+          "KYMRIAH"
+        ],
+        "type": "BIOLOGICAL"
+      },
+      {
+        "armGroupLabels": [
+          "Control arm"
+        ],
+        "description": "bispecific CD19-directed CD3 T-cell engager",
+        "name": "Blinatumomab",
+        "otherNames": [
+          "BLINCYTO"
+        ],
+        "type": "DRUG"
+      },
+      {
+        "armGroupLabels": [
+          "Control arm"
+        ],
+        "description": "CD22-directed antibody-drug conjugate",
+        "name": "Inotuzumab",
+        "otherNames": [
+          "BESPONSA",
+          "Inotuzumab ozogamicin"
+        ],
+        "type": "DRUG"
+      }
+    ]
+  },
+  "conditionsModule": {
+    "conditions": [
+      "Acute Lymphoblastic Leukemia"
+    ],
+    "keywords": [
+      "Acute lymphoblastic leukemia",
+      "tisagenlecleucel",
+      "intouzumab",
+      "blinatumomab",
+      "CAR-T",
+      "CTL019"
+    ]
+  },
+  "contactsLocationsModule": {
+    "overallOfficials": [
+      {
+        "affiliation": "Novartis Pharmaceuticals",
+        "name": "Novartis Pharmaceuticals",
+        "role": "STUDY_DIRECTOR"
+      }
+    ]
+  },
+  "descriptionModule": {
+    "briefSummary": "This trial aims to compare the benefits and risks of tisagenlecleucel to blinatumomab or inotuzumab in adult patients with relapsed or refractory ALL. This trial investigates tisagenlecleucel as an additional treatment option for this patient population with high unmet medical need."
+  },
+  "designModule": {
+    "designInfo": {
+      "allocation": "RANDOMIZED",
+      "interventionModel": "PARALLEL",
+      "interventionModelDescription": "This is a phase III, open label, multinational, randomized trial. Eligible patients will be randomized 1:1 to Tisagenlecleucel treatment strategy (tisagenlecleucel after optional bridging chemotherapy and lymphodepleting chemotherapy) or control arm treatment strategy (blinatumomab or inotuzumab per investigator's discretion after optional bridging chemotherapy).\n\nThe randomization will be performed stratifying for the number of prior salvage therapies (0 vs. 1) and prior allogenic stem cell transplant (yes vs. no).",
+      "maskingInfo": {
+        "masking": "NONE"
+      },
+      "primaryPurpose": "TREATMENT"
+    },
+    "enrollmentInfo": {
+      "count": 0,
+      "type": "ACTUAL"
+    },
+    "phases": [
+      "PHASE3"
+    ],
+    "studyType": "INTERVENTIONAL"
+  },
+  "eligibilityModule": {
+    "eligibilityCriteria": "Inclusion Criteria:\n\n1. Signed informed consent.\n2. Age \u2265 18 years.\n3. Subject with CD19-expressing B-ALL.\n4. Adequate organ function.\n5. Patients considered in any of the following settings are eligible:\n\n   1. Untreated first or second relapse\n   2. Refractory to primary induction therapy\n   3. Refractory to first salvage therapy or\n   4. Relapse after allogenic stem cell transplant.\n\nExclusion Criteria:\n\n1. Patients presenting with untreated first relapse of ALL more than 24 months after initial diagnosis\n2. Presence of extra-medullary disease.\n3. History or presence of clinically relevant CNS pathology, or uncontrolled CNS leukemia.\n4. History of Veno-occlusive Disease (VOD).\n5. Active neurological autoimmune or inflammatory disorders.\n6. Active acute Graft-versus-Host Disease (GvHD), grade 2-4.\n\nOther protocol-defined Inclusion/Exclusion may apply.",
+    "healthyVolunteers": false,
+    "minimumAge": "18 Years",
+    "sex": "ALL",
+    "stdAges": [
+      "ADULT",
+      "OLDER_ADULT"
+    ]
+  },
+  "identificationModule": {
+    "acronym": "OBERON",
+    "briefTitle": "Tisagenlecleucel vs Blinatumomab or Inotuzumab for Patients With Relapsed/Refractory B-cell Precursor Acute Lymphoblastic Leukemia",
+    "nctId": "NCT03628053",
+    "officialTitle": "Tisagenlecleucel Versus Blinatumomab or Inotuzumab for Adult Patients With Relapsed/Refractory B-cell Precursor Acute Lymphoblastic Leukemia: A Randomized Open Label, Multicenter, Phase III Trial",
+    "orgStudyIdInfo": {
+      "id": "CCTL019I2301"
+    },
+    "organization": {
+      "class": "INDUSTRY",
+      "fullName": "Novartis"
+    }
+  },
+  "ipdSharingStatementModule": {
+    "description": "Novartis is committed to sharing with qualified external researchers, access to patient-level data and supporting clinical documents from eligible studies. These requests are reviewed and approved by an independent expert panel on the basis of scientific merit. All data provided is anonymized to respect the privacy of patients who have participated in the trial in line with applicable laws and regulations.\n\nThis trial data is currently available according to the process described on www.clinicalstudydatarequest.com",
+    "ipdSharing": "UNDECIDED"
+  },
+  "outcomesModule": {
+    "primaryOutcomes": [
+      {
+        "description": "Time from randomization to death for any reason",
+        "measure": "Overall Survival (OS)",
+        "timeFrame": "4 years"
+      }
+    ],
+    "secondaryOutcomes": [
+      {
+        "description": "EFS, assessed up to 48 months, is defined as the date from randomization to the earliest of (a) date of death due to any cause, (b) relapse after CR/CRi, or (c) treatment failure, which is defined as failure to achieve remission within 12 weeks of randomization.",
+        "measure": "Event Free Survival (EFS)",
+        "timeFrame": "4 years"
+      },
+      {
+        "description": "Percentage of patients who achieved MRD negative CR/CRi at month 3 post randomization",
+        "measure": "Percentage of patients who achieved MRD negative CR/CRi",
+        "timeFrame": "4 years"
+      },
+      {
+        "description": "ORR is defined as the proportion of subjects with best overall response (BOR) of CR or CRi, where the BOR is defined as the best response recorded from randomization until the start of new anticancer therapy or the data cut-off date, whichever is earlier",
+        "measure": "Overall response rate",
+        "timeFrame": "4 years"
+      },
+      {
+        "description": "DOR is defined as the duration from the date when the response criteria of CR/CRi is first met to the date of relapse or death due to underlying cancer.",
+        "measure": "Duration of response (DOR)",
+        "timeFrame": "4 years"
+      },
+      {
+        "description": "Probability of achieving CR/CRi based on all response assessments between randomization and month 12. This outcome measure will be based on all randomized patients and the assessment will be up to 48 months (from randomization of the first patient until 12 months after the randomization of the last patient).",
+        "measure": "Probability of patients who achieved CR/CRi at month 12",
+        "timeFrame": "4 years"
+      },
+      {
+        "description": "Percentage of patients who have anti-tisagenlecleucel antibodies in the serum before randomization",
+        "measure": "Prevalence of immunogenecity",
+        "timeFrame": "4 years"
+      },
+      {
+        "description": "Percentage of patients who develop anti-tisagenlecleucel antibodies in the serum after infusion of tisagenlecleucel",
+        "measure": "Incidence of immunogenecity",
+        "timeFrame": "4 years"
+      },
+      {
+        "description": "difference in response between patients with immunogenicity and patients without immunogenicity",
+        "measure": "Impact of immunogenicity on clinical response",
+        "timeFrame": "4 years"
+      },
+      {
+        "description": "Summary of qPCR detected tisagenlecleucel transgene concentrations",
+        "measure": "Cellular kinetic profile by qPCR",
+        "timeFrame": "4 years"
+      },
+      {
+        "description": "Summary of flow cytometry-detected tisagenlecleucel transgene concentrations",
+        "measure": "Cellular kinetics profile by flow cytometry",
+        "timeFrame": "4 years"
+      },
+      {
+        "description": "Relationship between the administered dose of tisagenlecleucel and response to treatment (complete response with or without hematological recovery). This assessment will be done for all patients for up to 48 months.",
+        "measure": "Relationship between dose and response",
+        "timeFrame": "4 years"
+      },
+      {
+        "description": "Describe the relationship between the cellular kinetics of tisagenlecleucel overtime and response.",
+        "measure": "Relationship between exposure and response",
+        "timeFrame": "4 years"
+      },
+      {
+        "description": "Describe the relationship between the dose of tisagenlecleucel actually administered and cellular kinetics",
+        "measure": "Relationship between dose and cellular kinetic",
+        "timeFrame": "4 years"
+      },
+      {
+        "description": "Patient reported outcome measure",
+        "measure": "EQ-5D-3L",
+        "timeFrame": "4 years"
+      },
+      {
+        "description": "Patient reported outcome measure",
+        "measure": "EORTC QLQ-30",
+        "timeFrame": "4 years"
+      }
+    ]
+  },
+  "oversightModule": {
+    "isFdaRegulatedDevice": false,
+    "isFdaRegulatedDrug": true,
+    "oversightHasDmc": true
+  },
+  "sponsorCollaboratorsModule": {
+    "leadSponsor": {
+      "class": "INDUSTRY",
+      "name": "Novartis Pharmaceuticals"
+    },
+    "responsibleParty": {
+      "type": "SPONSOR"
+    }
+  },
+  "statusModule": {
+    "completionDateStruct": {
+      "date": "2026-01-07",
+      "type": "ESTIMATED"
+    },
+    "lastUpdatePostDateStruct": {
+      "date": "2020-07-09",
+      "type": "ACTUAL"
+    },
+    "lastUpdateSubmitDate": "2020-07-07",
+    "overallStatus": "WITHDRAWN",
+    "primaryCompletionDateStruct": {
+      "date": "2025-10-08",
+      "type": "ESTIMATED"
+    },
+    "startDateStruct": {
+      "date": "2020-06-05",
+      "type": "ESTIMATED"
+    },
+    "statusVerifiedDate": "2020-07",
+    "studyFirstPostDateStruct": {
+      "date": "2018-08-14",
+      "type": "ACTUAL"
+    },
+    "studyFirstSubmitDate": "2018-06-28",
+    "studyFirstSubmitQcDate": "2018-08-08",
+    "whyStopped": "Novartis is no longer pursuing this study because of planned investigation of novel CAR-T therapies in this patient population."
+  }
+}

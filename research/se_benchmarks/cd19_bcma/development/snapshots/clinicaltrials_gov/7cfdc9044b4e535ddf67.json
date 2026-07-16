@@ -1,0 +1,781 @@
+{
+  "armsInterventionsModule": {
+    "armGroups": [
+      {
+        "interventionNames": [
+          "Biological: GSK5926371"
+        ],
+        "label": "Part 1: Dose Escalation of GSK5926371",
+        "type": "EXPERIMENTAL"
+      },
+      {
+        "interventionNames": [
+          "Biological: GSK5926371"
+        ],
+        "label": "Part 2: Dose Division of GSK5926371",
+        "type": "EXPERIMENTAL"
+      }
+    ],
+    "interventions": [
+      {
+        "armGroupLabels": [
+          "Part 1: Dose Escalation of GSK5926371",
+          "Part 2: Dose Division of GSK5926371"
+        ],
+        "description": "GSK5926371 will be administered.",
+        "name": "GSK5926371",
+        "type": "BIOLOGICAL"
+      }
+    ]
+  },
+  "conditionsModule": {
+    "conditions": [
+      "Systemic Lupus Erythematosus"
+    ],
+    "keywords": [
+      "GSK5926371",
+      "Autoimmune rheumatic disease",
+      "Dose escalation",
+      "Systemic lupus erythematosus",
+      "Rheumatoid arthritis",
+      "Idiopathic inflammatory myopathies",
+      "Sjogren's disease"
+    ]
+  },
+  "contactsLocationsModule": {
+    "centralContacts": [
+      {
+        "email": "GSKClinicalSupportHD@gsk.com",
+        "name": "US GSK Clinical Trials Call Center",
+        "phone": "877-379-3718",
+        "role": "CONTACT"
+      },
+      {
+        "email": "GSKClinicalSupportHD@gsk.com",
+        "name": "EU GSK Clinical Trials Call Center",
+        "phone": "+44 (0) 20 89904466",
+        "role": "CONTACT"
+      }
+    ],
+    "locations": [
+      {
+        "city": "Buenos Aires",
+        "contacts": [
+          {
+            "email": "GSKClinicalSupportHD@gsk.com",
+            "name": "US GSK Clinical Trials Call Center",
+            "phone": "877-379-3718",
+            "role": "CONTACT"
+          },
+          {
+            "email": "GSKClinicalSupportHD@gsk.com",
+            "name": "EU GSK Clinical Trials Call Centre",
+            "phone": "+44 (0) 20 8990 4466",
+            "role": "CONTACT"
+          },
+          {
+            "name": "Ventura Simonovich",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "Argentina",
+        "facility": "GSK Investigational Site",
+        "geoPoint": {
+          "lat": -34.61315,
+          "lon": -58.37723
+        },
+        "status": "RECRUITING",
+        "zip": "1181"
+      },
+      {
+        "city": "San Miguel de Tucum\u00e1n",
+        "contacts": [
+          {
+            "email": "GSKClinicalSupportHD@gsk.com",
+            "name": "US GSK Clinical Trials Call Center",
+            "phone": "877-379-3718",
+            "role": "CONTACT"
+          },
+          {
+            "email": "GSKClinicalSupportHD@gsk.com",
+            "name": "EU GSK Clinical Trials Call Centre",
+            "phone": "+44 (0) 20 8990 4466",
+            "role": "CONTACT"
+          },
+          {
+            "name": "Francisco Colombres",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "Argentina",
+        "facility": "GSK Investigational Site",
+        "geoPoint": {
+          "lat": -26.81601,
+          "lon": -65.21051
+        },
+        "status": "RECRUITING",
+        "zip": "T4000IHE"
+      },
+      {
+        "city": "Campinas",
+        "contacts": [
+          {
+            "email": "GSKClinicalSupportHD@gsk.com",
+            "name": "US GSK Clinical Trials Call Center",
+            "phone": "877-379-3718",
+            "role": "CONTACT"
+          },
+          {
+            "email": "GSKClinicalSupportHD@gsk.com",
+            "name": "EU GSK Clinical Trials Call Centre",
+            "phone": "+44 (0) 20 8990 4466",
+            "role": "CONTACT"
+          },
+          {
+            "name": "Fernando Pacheco",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "Brazil",
+        "facility": "GSK Investigational Site",
+        "geoPoint": {
+          "lat": -22.90556,
+          "lon": -47.06083
+        },
+        "state": "S\u00e3o Paulo",
+        "status": "RECRUITING"
+      },
+      {
+        "city": "S\u00e3o Paulo",
+        "contacts": [
+          {
+            "email": "GSKClinicalSupportHD@gsk.com",
+            "name": "US GSK Clinical Trials Call Center",
+            "phone": "877-379-3718",
+            "role": "CONTACT"
+          },
+          {
+            "email": "GSKClinicalSupportHD@gsk.com",
+            "name": "EU GSK Clinical Trials Call Centre",
+            "phone": "+44 (0) 20 8990 4466",
+            "role": "CONTACT"
+          },
+          {
+            "name": "Henrique Helson Herter Dalmolin",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "Brazil",
+        "facility": "GSK Investigational Site",
+        "geoPoint": {
+          "lat": -23.5475,
+          "lon": -46.63611
+        },
+        "state": "S\u00e3o Paulo",
+        "status": "RECRUITING",
+        "zip": "01232-010"
+      },
+      {
+        "city": "Bordeaux",
+        "contacts": [
+          {
+            "email": "GSKClinicalSupportHD@gsk.com",
+            "name": "US GSK Clinical Trials Call Center",
+            "phone": "877-379-3718",
+            "role": "CONTACT"
+          },
+          {
+            "email": "GSKClinicalSupportHD@gsk.com",
+            "name": "EU GSK Clinical Trials Call Centre",
+            "phone": "+44 (0) 20 8990 4466",
+            "role": "CONTACT"
+          },
+          {
+            "name": "No\u00e9mie Gensous",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "France",
+        "facility": "GSK Investigational Site",
+        "geoPoint": {
+          "lat": 44.84124,
+          "lon": -0.58046
+        },
+        "status": "RECRUITING",
+        "zip": "33000"
+      },
+      {
+        "city": "Toulouse",
+        "contacts": [
+          {
+            "email": "GSKClinicalSupportHD@gsk.com",
+            "name": "US GSK Clinical Trials Call Center",
+            "phone": "877-379-3718",
+            "role": "CONTACT"
+          },
+          {
+            "email": "GSKClinicalSupportHD@gsk.com",
+            "name": "EU GSK Clinical Trials Call Centre",
+            "phone": "+44 (0) 20 8990 4466",
+            "role": "CONTACT"
+          },
+          {
+            "name": "Gregory Pugnet",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "France",
+        "facility": "GSK Investigational Site",
+        "geoPoint": {
+          "lat": 43.60426,
+          "lon": 1.44367
+        },
+        "status": "RECRUITING",
+        "zip": "31059"
+      },
+      {
+        "city": "Cona",
+        "contacts": [
+          {
+            "email": "GSKClinicalSupportHD@gsk.com",
+            "name": "US GSK Clinical Trials Call Center",
+            "phone": "877-379-3718",
+            "role": "CONTACT"
+          },
+          {
+            "email": "GSKClinicalSupportHD@gsk.com",
+            "name": "EU GSK Clinical Trials Call Centre",
+            "phone": "+44 (0) 20 8990 4466",
+            "role": "CONTACT"
+          },
+          {
+            "name": "Alessandra Bortoluzzi",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "Italy",
+        "facility": "GSK Investigational Site",
+        "geoPoint": {
+          "lat": 44.80583,
+          "lon": 11.7069
+        },
+        "state": "Ferrara",
+        "status": "RECRUITING"
+      },
+      {
+        "city": "Fukuoka",
+        "contacts": [
+          {
+            "email": "GSKClinicalSupportHD@gsk.com",
+            "name": "US GSK Clinical Trials Call Center",
+            "phone": "877-379-3718",
+            "role": "CONTACT"
+          },
+          {
+            "email": "GSKClinicalSupportHD@gsk.com",
+            "name": "EU GSK Clinical Trials Call Centre",
+            "phone": "+44 (0) 20 8990 4466",
+            "role": "CONTACT"
+          },
+          {
+            "name": "Hiroaki Niiro",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "Japan",
+        "facility": "GSK Investigational Site",
+        "geoPoint": {
+          "lat": 33.6,
+          "lon": 130.41667
+        },
+        "status": "RECRUITING",
+        "zip": "812-8582"
+      },
+      {
+        "city": "Hiroshima",
+        "contacts": [
+          {
+            "email": "GSKClinicalSupportHD@gsk.com",
+            "name": "US GSK Clinical Trials Call Center",
+            "phone": "877-379-3718",
+            "role": "CONTACT"
+          },
+          {
+            "email": "GSKClinicalSupportHD@gsk.com",
+            "name": "EU GSK Clinical Trials Call Centre",
+            "phone": "+44 (0) 20 8990 4466",
+            "role": "CONTACT"
+          },
+          {
+            "name": "Shintaro Hirata",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "Japan",
+        "facility": "GSK Investigational Site",
+        "geoPoint": {
+          "lat": 34.4,
+          "lon": 132.45
+        },
+        "status": "RECRUITING",
+        "zip": "734-8551"
+      },
+      {
+        "city": "Hokkaido",
+        "contacts": [
+          {
+            "email": "GSKClinicalSupportHD@gsk.com",
+            "name": "US GSK Clinical Trials Call Center",
+            "phone": "877-379-3718",
+            "role": "CONTACT"
+          },
+          {
+            "email": "GSKClinicalSupportHD@gsk.com",
+            "name": "EU GSK Clinical Trials Call Centre",
+            "phone": "+44 (0) 20 8990 4466",
+            "role": "CONTACT"
+          },
+          {
+            "name": "Michihito Kono",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "Japan",
+        "facility": "GSK Investigational Site",
+        "status": "RECRUITING",
+        "zip": "060-8648"
+      },
+      {
+        "city": "Panama City",
+        "contacts": [
+          {
+            "email": "GSKClinicalSupportHD@gsk.com",
+            "name": "US GSK Clinical Trials Call Center",
+            "phone": "877-379-3718",
+            "role": "CONTACT"
+          },
+          {
+            "email": "GSKClinicalSupportHD@gsk.com",
+            "name": "EU GSK Clinical Trials Call Centre",
+            "phone": "+44 (0) 20 8990 4466",
+            "role": "CONTACT"
+          },
+          {
+            "name": "olmedo almengor",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "Panama",
+        "facility": "GSK Investigational Site",
+        "geoPoint": {
+          "lat": 8.9936,
+          "lon": -79.51973
+        },
+        "status": "RECRUITING"
+      },
+      {
+        "city": "Panama City",
+        "contacts": [
+          {
+            "email": "GSKClinicalSupportHD@gsk.com",
+            "name": "US GSK Clinical Trials Call Center",
+            "phone": "877-379-3718",
+            "role": "CONTACT"
+          },
+          {
+            "email": "GSKClinicalSupportHD@gsk.com",
+            "name": "EU GSK Clinical Trials Call Centre",
+            "phone": "+44 (0) 20 8990 4466",
+            "role": "CONTACT"
+          },
+          {
+            "name": "Antonio Cachafeiro",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "Panama",
+        "facility": "GSK Investigational Site",
+        "geoPoint": {
+          "lat": 8.9936,
+          "lon": -79.51973
+        },
+        "status": "RECRUITING"
+      },
+      {
+        "city": "Panama City",
+        "contacts": [
+          {
+            "email": "GSKClinicalSupportHD@gsk.com",
+            "name": "US GSK Clinical Trials Call Center",
+            "phone": "877-379-3718",
+            "role": "CONTACT"
+          },
+          {
+            "email": "GSKClinicalSupportHD@gsk.com",
+            "name": "EU GSK Clinical Trials Call Centre",
+            "phone": "+44 (0) 20 8990 4466",
+            "role": "CONTACT"
+          },
+          {
+            "name": "Edgardo Gonzalez Sevillano",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "Panama",
+        "facility": "GSK Investigational Site",
+        "geoPoint": {
+          "lat": 8.9936,
+          "lon": -79.51973
+        },
+        "status": "RECRUITING"
+      },
+      {
+        "city": "Poznan",
+        "contacts": [
+          {
+            "email": "GSKClinicalSupportHD@gsk.com",
+            "name": "US GSK Clinical Trials Call Center",
+            "phone": "877-379-3718",
+            "role": "CONTACT"
+          },
+          {
+            "email": "GSKClinicalSupportHD@gsk.com",
+            "name": "EU GSK Clinical Trials Call Centre",
+            "phone": "+44 (0) 20 8990 4466",
+            "role": "CONTACT"
+          },
+          {
+            "name": "Wlodzimierz Samborski",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "Poland",
+        "facility": "GSK Investigational Site",
+        "geoPoint": {
+          "lat": 52.40692,
+          "lon": 16.92993
+        },
+        "status": "RECRUITING",
+        "zip": "61-848"
+      },
+      {
+        "city": "Warsaw",
+        "contacts": [
+          {
+            "email": "GSKClinicalSupportHD@gsk.com",
+            "name": "US GSK Clinical Trials Call Center",
+            "phone": "877-379-3718",
+            "role": "CONTACT"
+          },
+          {
+            "email": "GSKClinicalSupportHD@gsk.com",
+            "name": "EU GSK Clinical Trials Call Centre",
+            "phone": "+44 (0) 20 8990 4466",
+            "role": "CONTACT"
+          },
+          {
+            "name": "Brygida Kwiatkowska",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "Poland",
+        "facility": "GSK Investigational Site",
+        "geoPoint": {
+          "lat": 52.22977,
+          "lon": 21.01178
+        },
+        "status": "RECRUITING",
+        "zip": "02-637"
+      },
+      {
+        "city": "Barcelona",
+        "contacts": [
+          {
+            "email": "GSKClinicalSupportHD@gsk.com",
+            "name": "US GSK Clinical Trials Call Center",
+            "phone": "877-379-3718",
+            "role": "CONTACT"
+          },
+          {
+            "email": "GSKClinicalSupportHD@gsk.com",
+            "name": "EU GSK Clinical Trials Call Centre",
+            "phone": "+44 (0) 20 8990 4466",
+            "role": "CONTACT"
+          },
+          {
+            "name": "Julia Bernardez Moreno",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "Spain",
+        "facility": "GSK Investigational Site",
+        "geoPoint": {
+          "lat": 41.38879,
+          "lon": 2.15899
+        },
+        "status": "RECRUITING",
+        "zip": "08025"
+      },
+      {
+        "city": "Madrid",
+        "contacts": [
+          {
+            "email": "GSKClinicalSupportHD@gsk.com",
+            "name": "US GSK Clinical Trials Call Center",
+            "phone": "877-379-3718",
+            "role": "CONTACT"
+          },
+          {
+            "email": "GSKClinicalSupportHD@gsk.com",
+            "name": "EU GSK Clinical Trials Call Centre",
+            "phone": "+44 (0) 20 8990 4466",
+            "role": "CONTACT"
+          },
+          {
+            "name": "Antonio Portoles Perez",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "Spain",
+        "facility": "GSK Investigational Site",
+        "geoPoint": {
+          "lat": 40.4165,
+          "lon": -3.70256
+        },
+        "status": "RECRUITING",
+        "zip": "28040"
+      },
+      {
+        "city": "Madrid",
+        "contacts": [
+          {
+            "email": "GSKClinicalSupportHD@gsk.com",
+            "name": "US GSK Clinical Trials Call Center",
+            "phone": "877-379-3718",
+            "role": "CONTACT"
+          },
+          {
+            "email": "GSKClinicalSupportHD@gsk.com",
+            "name": "EU GSK Clinical Trials Call Centre",
+            "phone": "+44 (0) 20 8990 4466",
+            "role": "CONTACT"
+          },
+          {
+            "name": "Juan Jos\u00e9 R\u00edos Blanco",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "Spain",
+        "facility": "GSK Investigational Site",
+        "geoPoint": {
+          "lat": 40.4165,
+          "lon": -3.70256
+        },
+        "status": "RECRUITING",
+        "zip": "28046"
+      },
+      {
+        "city": "Taipei",
+        "contacts": [
+          {
+            "email": "GSKClinicalSupportHD@gsk.com",
+            "name": "US GSK Clinical Trials Call Center",
+            "phone": "877-379-3718",
+            "role": "CONTACT"
+          },
+          {
+            "email": "GSKClinicalSupportHD@gsk.com",
+            "name": "EU GSK Clinical Trials Call Centre",
+            "phone": "+44 (0) 20 8990 4466",
+            "role": "CONTACT"
+          },
+          {
+            "name": "Chi Ching Chang",
+            "role": "PRINCIPAL_INVESTIGATOR"
+          }
+        ],
+        "country": "Taiwan",
+        "facility": "GSK Investigational Site",
+        "geoPoint": {
+          "lat": 25.05306,
+          "lon": 121.52639
+        },
+        "status": "RECRUITING"
+      }
+    ],
+    "overallOfficials": [
+      {
+        "affiliation": "GlaxoSmithKline",
+        "name": "GSK Clinical Trials",
+        "role": "STUDY_DIRECTOR"
+      }
+    ]
+  },
+  "descriptionModule": {
+    "briefSummary": "This is a 2-part study of GSK5926371 in participants with autoimmune rheumatic diseases (ARD). In part 1, participants will receive different doses of GSK5926371 to find a suitable priming dose. In part 2, participants will receive GSK5926371 at doses based on data from part 1. The study is aimed at testing if GSK5926371 is safe, well-tolerated, how the body processes the study drug, how it works in the body, and whether it triggers any immune responses."
+  },
+  "designModule": {
+    "designInfo": {
+      "allocation": "NON_RANDOMIZED",
+      "interventionModel": "SEQUENTIAL",
+      "maskingInfo": {
+        "masking": "NONE"
+      },
+      "primaryPurpose": "TREATMENT"
+    },
+    "enrollmentInfo": {
+      "count": 44,
+      "type": "ESTIMATED"
+    },
+    "phases": [
+      "PHASE1"
+    ],
+    "studyType": "INTERVENTIONAL"
+  },
+  "eligibilityModule": {
+    "eligibilityCriteria": "Inclusion Criteria:\n\n* Part 1 will enroll adult participants with systemic lupus erythematosus (SLE) or rheumatoid arthritis (RA).\n* Part 2 will enroll adult participants with SLE, RA, idiopathic inflammatory myopathies (IIM) or Sjogren's disease (SjD).\n* Participants must be 18 to 70 years of age inclusive at the time of signing the informed consent form.\n* Body mass index (BMI) between 18-35 kilograms per square meter (kg/m\\^2) inclusive with a body weight of greater than or equal to (\\>=) 45 kilograms (kg).\n* A female participant is eligible to participate if she is not pregnant or breastfeeding, and one of the following conditions applies:\n* Is a participant of non-childbearing potential (PONCBP), OR\n* Is a participant of childbearing potential (POCBP) and using a contraceptive method that is highly effective, with a failure rate of less than (\\<) 1 percent (%), 28 days prior to and during the study intervention period and for at least 28 weeks after the first dose of GSK5926371. The investigator should evaluate potential for contraceptive method failure (e.g. noncompliance, recently initiated) in relationship to the first dose of study intervention.\n\nA POCBP must have a negative highly sensitive pregnancy test (urine or serum, as required by local regulations) within 24 hours before the first dose of study intervention.\n\nIf a urine test cannot be confirmed as negative (e.g. an ambiguous result), a serum pregnancy test is required. In such cases, the participant must be excluded from participation if the serum pregnancy result is positive.\n\n\\- Signed and dated informed consent form indicating that the participant is willing and able to comply with hospitalization, clinic visits and scheduled study assessments as detailed in the protocol.\n\nExclusion Criteria:\n\n* Any acute, severe autoimmune disease-related flare before, or during the Screening Period (up to and including Day 1) that needs immediate treatment or is expected to require escalation of treatment to prohibited medications for the duration of the study.\n* Significant allergies to humanized monoclonal antibodies or significant sensitivity to any constituents of the study drug (including excipients).\n* Clinically significant multiple or severe drug allergies, intolerance to topical corticosteroids, or severe post-treatment hypersensitivity reactions (including, but not limited to, erythema multiforme major, linear immunoglobulin A (IgA) dermatosis, toxic epidermal necrolysis, and exfoliative dermatitis).\n* Have clinical evidence of significant unstable or uncontrolled acute or chronic diseases not due to the autoimmune condition under study (i.e., cardiovascular, pulmonary, hematologic, gastrointestinal, hepatic, renal, or infectious diseases) and/or a planned surgical procedure, which, in the opinion of the investigator, could confound the results of the clinical study or put the participant at undue risk.\n* Have any other clinically significant abnormal laboratory value, that in the opinion of the investigator, is capable of significantly altering the absorption, metabolism, or elimination of the clinical study intervention; or constitutes a risk when taking the clinical study intervention or interferes with the interpretation of the clinical study data.\n* Participant has a diagnosis of primary or acquired immunodeficiency, except for selective IgA deficiency.\n* Have an acute or chronic infection including requiring management as follows:\n* An acute infection within 2 weeks of dosing on Day 1.\n* An active infection requiring current systemic antibiotic, antiviral or anti-fungal treatment with the exception of topical treatments for fungal nail infections. Prophylactic medications are permitted.\n* History of, or currently being treated for, a clinically significant recurrent or chronic infection (except for minor localized infections, for example tinea pedis).\n* Any opportunistic infections within past 3 years. Uncomplicated herpes zoster, localized herpes simplex virus, and oral candidiasis are not considered as opportunistic infections for this purpose.\n* Herpes zoster within 3 months before screening.\n* A serious infection requiring treatment with intravenous (IV)/intramuscular (IM) antibiotics and/or hospitalization if the last dose of antibiotics or the hospital discharge date was within 30 days of the first day of dosing (Day 1).\n* History of a serious infection associated with low serum immunoglobulin levels.\n* Evidence of active or latent tuberculosis (TB) as documented by medical history and examination (including chest X-rays \\[CXR\\], if available), and a positive (not indeterminate) TB test such as QuantiFERON-TB Gold Plus test. In cases where the QuantiFERON test is indeterminate, the participant may have the test repeated once, but if the test remains indeterminate further investigation may be required including CXR (posteroanterior \\[PA\\] and lateral) in order to exclude TB. Note: The QuantiFERON-TB Gold Plus test can only be used in countries where it is licensed, and the use of this test is dependent on previous treatment(s). This test may not be suitable if previous treatment(s) produced significant immunosuppression.\n* Confirmed progressive multifocal leukoencephalopathy (PML) within 12 months or has unexplained or deteriorating neurologic signs and symptoms.\n* History or positive test at Screening for human immunodeficiency virus (HIV).\n* History of clinically significant neurological or psychiatric disorder including history of epilepsy, dementia, increased risk of suicide as judged by the investigator or major depression deemed to interfere with study assessments, or a history of intracranial hemorrhage.\n* Solid or hematological malignancy or a history of malignancy (in the past 5 years) of except for basal cell or squamous cell in situ skin carcinomas, cervical intraepithelial neoplasia (CIN) or carcinoma in situ of the cervix that have been resected with no evidence of metastatic disease for 3 years. The investigator should also ensure that occult malignancy associated with the autoimmune condition under study has been adequately ruled out prior to screening (for example, malignancy-associated dermatomyositis).\n* History of hematological or solid organ transplant.\n* Live or live-attenuated vaccine(s) within 30 days before Screening or plans to receive such vaccines during the screening period or during the clinical study.\n* Current or prior treatment with any of the medications specified below during the relevant exclusion periods prior to Day 1. The following medications are prohibited from the periods before the study, until the last study visit:\n* IV or IM dose of corticosteroids within 5 weeks of Day 1.\n* Any T-cell engager (TCE) including blinatumomab, mosunetuzumab or other approved or investigational T cell engagers within 12 months of Day 1.\n* Chimeric antigen receptor (CAR)-T-cell treatment, at any time.\n* B-cell depleting agents, including but not limited to anti-CD20 (e.g. Rituximab, Obinutuzumab, Ocrelizumab), anti-CD38 (e.g. Daratumumab, TAK079, MOR202, isatuximab) within 4 months of Day 1.\n* Belimumab within 8 weeks of Day 1.\n* Anifrolumab within 8 weeks of Day 1.\n* Oral or IV cyclophosphamide within 12 weeks of Day 1.\n* Immune-Modulating Biologic agents, including anti-tumor necrosis factor (TNF) therapy (e.g., adalimumab and etanercept), abatacept, and interleukin (IL)-1 receptor antagonist \\[anakinra\\] or IL-6 receptor antagonist (tocilizumab) within 4 weeks of Day 1. Except infliximab, golimumab, and certolizumab within 8 weeks of Day 1. (NOTE: tocilizumab is permitted for cytokine release syndrome (CRS) Grade 3/4 management after dosing)\n* Small molecule inhibitors, including tyrosine kinase 2 inhibitor (TYK2i, Deucravacitinib); inhibitors of Janus kinases (JAKis, baricitinib, tofacitinib, upadacitinib, filgotinib); or Bruton tyrosine kinase inhibitors (ibrutinib, fenebrutinib) within 4 weeks of Day 1.\n* IV immunoglobulin within 8 weeks of Day 1.\n* Plasmapheresis within 8 weeks of Day 1.\n* Current enrolment or past participation in any other clinical study involving an investigational study treatment (including investigational vaccines) within 3 months or 5 half-lives of the investigational drug or twice the duration of pharmacological activity (whichever is longer) before Day 1.\n* Contra-indications to prophylactic medications for CRS (corticosteroid, ant histamines and antipyretics), or CRS rescue medication (tocilizumab or IV corticosteroids).\n* Current drug or alcohol dependence, or a history of drug or alcohol abuse or dependence within 12 months before Day 1.\n* Alanine transaminase (ALT) greater than (\\>) 1.5 x upper limit of normal (ULN).\n* Total bilirubin \\> 1.5 x ULN; Participants with Gilbert's syndrome can be included with total bilirubin \\> 1.5 x ULN if direct bilirubin is \\> 1.5 x ULN.\n* Current or chronic history of liver disease or known hepatic or biliary abnormalities (except for Gilbert's syndrome or asymptomatic gallstones).\n* Presence of hepatitis B surface antigen (HBsAg), hepatitis B core antibody (HBcAb) or hepatitis B virus (HBV) deoxyribonucleic acid (DNA) at screening or within 3 months prior to first dose of study intervention.\n* Positive hepatitis C antibody test result at screening or within 3 months prior to first dose of study intervention. Note: Participants with positive hepatitis C antibody due to prior resolved disease can be enrolled, only if a confirmatory negative hepatitis C ribonucleic acid (RNA) test is obtained.\n* Positive hepatitis C RNA test result at screening or within 3 months prior to first dose of study intervention. Note: Test is optional and participants with negative hepatitis C antibody test are not required to also undergo hepatitis C RNA testing.\n* Corrected QT (QTc) interval \\> 450 milliseconds (msec) or QTc interval \\> 480 msec for participants with bundle branch block. Frederica's formula (QT interval corrected using Fridericia's formula \\[QTcF\\]) should be used to calculate the corrected QT interval. If a single electrocardiogram (ECG) at screening shows QTcF \\> 450 msec (or \\> 480 msec for participants with bundle branch block), a mean of triplicate measurements should be used to confirm that participant meets exclusion criterion.",
+    "healthyVolunteers": false,
+    "maximumAge": "70 Years",
+    "minimumAge": "18 Years",
+    "sex": "ALL",
+    "stdAges": [
+      "ADULT",
+      "OLDER_ADULT"
+    ]
+  },
+  "identificationModule": {
+    "acronym": "ELEVATE-1",
+    "briefTitle": "A Study of GSK5926371 in Participants With B-cell Driven Autoimmune Rheumatic Diseases (ARD)",
+    "nctId": "NCT07371468",
+    "officialTitle": "A Phase 1, Open-label, Dose-escalation Study (ELEVATE-1) to Evaluate the Safety, Tolerability, Pharmacokinetics, Pharmacodynamics, and Immunogenicity of a CD19/CD20 T-cell Engager in Participants With B-cell Driven Autoimmune Rheumatic Diseases (ARD)",
+    "orgStudyIdInfo": {
+      "id": "300134"
+    },
+    "organization": {
+      "class": "INDUSTRY",
+      "fullName": "GlaxoSmithKline"
+    },
+    "secondaryIdInfos": [
+      {
+        "id": "2025-522932-15-00",
+        "type": "CTIS"
+      }
+    ]
+  },
+  "ipdSharingStatementModule": {
+    "accessCriteria": "Anonymized IPD is shared with researchers whose proposals are approved by an Independent Review Panel and after a Data Sharing Agreement is in place. Access is provided for an initial period of 12 months, but an extension may be granted, when justified, for up to 6 months.",
+    "description": "Study Sponsor will assess requests from qualified researchers for anonymized individual patient-level data and related study documents. Data sharing is subject to certain criteria, conditions, and exceptions. For further information, refer to https://d3l8i7lo48obsd.cloudfront.net/gsk-patient-level-data-sharing-july2025-1-Bgwa1UthxvluYbWYTThw.pdf",
+    "infoTypes": [
+      "STUDY_PROTOCOL",
+      "SAP",
+      "ICF",
+      "CSR"
+    ],
+    "ipdSharing": "YES",
+    "timeFrame": "Anonymized IPD will be made available within 6 months of publication of primary, key secondary and safety results for studies in product with approved indication(s) or asset(s) with development terminated across all indications.",
+    "url": "https://www.gsk-studyregister.com/gsk-patient-level-data-sharing-july2025.pdf"
+  },
+  "outcomesModule": {
+    "primaryOutcomes": [
+      {
+        "measure": "Part 1 and Part 2: Number of Participants with Adverse Events (AEs) and Serious AEs (SAEs)",
+        "timeFrame": "Up to 196 days"
+      }
+    ],
+    "secondaryOutcomes": [
+      {
+        "measure": "Part 1: Maximum Observed Plasma Concentration (Cmax) After GSK5926371 Dosing",
+        "timeFrame": "Up to 43 days"
+      },
+      {
+        "measure": "Part 2: Cmax After GSK5926371 Dosing",
+        "timeFrame": "Up to 113 days"
+      },
+      {
+        "measure": "Part 1 and Part 2: Number of Participants with Anti-drug Antibodies (ADAs) Against GSK5926371",
+        "timeFrame": "Up to 196 days"
+      },
+      {
+        "measure": "Part 1 and Part 2: Titers of ADAs Against GSK5926371",
+        "timeFrame": "Up to 196 days"
+      },
+      {
+        "measure": "Part 1: Absolute B-cell and T-cell Counts in Blood",
+        "timeFrame": "Up to 57 days"
+      },
+      {
+        "measure": "Part 2: Absolute B-cell and T-cell Counts in Blood",
+        "timeFrame": "Up to 196 days"
+      },
+      {
+        "measure": "Part 1: Change from Baseline in B-cell and T-cell Counts in Blood",
+        "timeFrame": "From Baseline up to 57 days"
+      },
+      {
+        "measure": "Part 2: Change from Baseline in B-cell and T-cell Counts in Blood",
+        "timeFrame": "From Baseline up to 196 days"
+      },
+      {
+        "measure": "Part 1 and Part 2: Change from Baseline in Immunoglobulin G (IgG), Immunoglobulin M (IgM), and Immunoglobulin A (IgA) in Blood",
+        "timeFrame": "From Baseline up to 196 days"
+      },
+      {
+        "measure": "Part 1 and Part 2: Number of Participants with Clinically Significant Changes in Laboratory Parameters",
+        "timeFrame": "Up to 196 days"
+      },
+      {
+        "measure": "Part 1 and Part 2: Number of Participants with Clinically Significant Changes in Vital Signs",
+        "timeFrame": "Up to 196 days"
+      },
+      {
+        "measure": "Part 1 and Part 2: Number of Participants with Clinically Significant Changes in 12-lead Electrocardiogram (ECG) Readings",
+        "timeFrame": "Up to 196 days"
+      }
+    ]
+  },
+  "oversightModule": {
+    "isFdaRegulatedDevice": false,
+    "isFdaRegulatedDrug": true,
+    "isUsExport": true,
+    "oversightHasDmc": false
+  },
+  "sponsorCollaboratorsModule": {
+    "leadSponsor": {
+      "class": "INDUSTRY",
+      "name": "GlaxoSmithKline"
+    },
+    "responsibleParty": {
+      "type": "SPONSOR"
+    }
+  },
+  "statusModule": {
+    "completionDateStruct": {
+      "date": "2028-03-15",
+      "type": "ESTIMATED"
+    },
+    "expandedAccessInfo": {
+      "hasExpandedAccess": false
+    },
+    "lastUpdatePostDateStruct": {
+      "date": "2026-06-23",
+      "type": "ACTUAL"
+    },
+    "lastUpdateSubmitDate": "2026-06-18",
+    "overallStatus": "RECRUITING",
+    "primaryCompletionDateStruct": {
+      "date": "2028-03-15",
+      "type": "ESTIMATED"
+    },
+    "startDateStruct": {
+      "date": "2026-02-10",
+      "type": "ACTUAL"
+    },
+    "statusVerifiedDate": "2026-06",
+    "studyFirstPostDateStruct": {
+      "date": "2026-01-28",
+      "type": "ACTUAL"
+    },
+    "studyFirstSubmitDate": "2026-01-19",
+    "studyFirstSubmitQcDate": "2026-01-19"
+  }
+}
