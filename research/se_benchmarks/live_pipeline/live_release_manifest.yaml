@@ -1,6 +1,6 @@
 schema_version: se_live_release_manifest_v2
-release_id: se-live-cd19-bcma-tce-2026-07-12-v2
-validated_on: '2026-07-12'
+release_id: se-live-cd19-bcma-tce-2026-07-13-v1
+validated_on: '2026-07-13'
 interval_days: 180
 policy_hash: edab7c22755c1c5fe8e766048bfdfd1bdfc40a1e4b410b1f9271f6c9d804d6e4
 specification_path: research/se_benchmarks/live_pipeline/production_validation_spec.yaml
@@ -94,7 +94,6 @@ validated_files:
   src/bve/analysis/regime_analysis.py: bc79dc877f5eb07987db2c68049f3ee7a531f154ee1f0354f6e32f9249f9f822
   src/bve/analysis/replay_evaluator.py: 0bcbf1bf0f6186439610c322f9bcffdd516118634fc212ff986ed429df19d091
   src/bve/analysis/replay_significance.py: 9d6f7d01a664d7707efe02f6b69567988318e7d43e313838fffc7cf46d5d9480
-  src/bve/analysis/representative_cohort_coverage.py: 240c0585757b237128b133ad50dfe06855cb88877b29c969ca337ac75318721a
   src/bve/analysis/risk_budget.py: 406c4454863c0c52d909c33a65f82faf38b4635e70eea7d6c4044c39724a632b
   src/bve/analysis/rolling_holdout.py: 45927e2bbc621f98a136ce5335e9878e38fd7d0a8014b38301a897c674874445
   src/bve/analysis/sensitivity.py: 4265db058a5e674bf8e713ac16f34f3b28e71a7f0662736c8d3b8687133e2452
@@ -175,7 +174,7 @@ validated_files:
   src/bve/cli/extend_snapshot_dates.py: 734e1c44a66d4741d414d1af30e1764a5ab9d028516b86342dce62a626ba02d9
   src/bve/cli/extract.py: 6041bb5b0b1a1d9af861fc56e359b14c2a7a6eb8d556fb7c1f6b9d20ba9c2d8e
   src/bve/cli/generate_config.py: 6d4d0724d63b0d359194b1499a04d0eb222bb99227db2b526e92afa181a0c19f
-  src/bve/cli/ingest_live_cli.py: 12ec00c6cf6f73c5c1d16c34f0dc2a5a4e56898fec6b693dd5c32ea81ac4dad2
+  src/bve/cli/ingest_live_cli.py: 7fb9ed697ec77777ec7da3d105dc8b6d03f74518909eece831f8afb2a93cc9c9
   src/bve/cli/investment_memo.py: 04f2e3b8d7d2e85a29cc06d85e064c5ea9f6fb8f643569ed46bf69cd9fb3b50b
   src/bve/cli/ledger_manifest_cli.py: ba40fe47989de71cd66f1563d75941fe6d3e0f5d54ead5fb21f73bd10759fa70
   src/bve/cli/ledger_stats_cli.py: c5db5ffde5ff740a74baf780e0b945d6ea8126ca3d2d3f5ec6a972d4cc0f7098
@@ -222,9 +221,9 @@ validated_files:
   src/bve/cli/universe_scanner_cli.py: 8b4fb9b01b43375eb07a966c916ced3b356af0656085741649df4a1f45afc243
   src/bve/cli/universe_screen.py: 460358f6c72fa7434d2f860fe395ec8fe21163f8d5f5b7e19b3a828b4994c161
   src/bve/cli/validate_universe_cli.py: db65bd8b6d360fb14c8728c58905eef502350953ddfe92020c2a333c6e64db73
-  src/bve/cli/watchlist_run.py: c15d867f80ee1b53e0c0b3728d7b7a9cd13c1669331792cc217469f957905835
+  src/bve/cli/watchlist_run.py: caaa0b91a3d6e81c7faedb80ca0fa7b6ccab308b0ab29f59e073af49f783e451
   src/bve/cli/weekly_brief.py: c54ac6d4e579951a2790c4a3b7f764f93f70aef343cc3193c55963f7764ff335
-  src/bve/cli/weekly_run_cli.py: 4881fd11074630aaf044489cd84acd80a1022537d90b51f2b443a348852244d7
+  src/bve/cli/weekly_run_cli.py: ae68827e68133fb717e42de54b4841ae8f14ff06181e4977ab88351ee1be3708
   src/bve/cli/write_report_cli.py: a51345a51ab05e1bdec843204c849b934ae4ddb40203bd896634da6806014bfe
   src/bve/config/__init__.py: 3e51cff99742e368256f24bef6307e71ca999ea057ef3cdf2daabfd4a1c8777c
   src/bve/config/assumptions_loader.py: 2cfeac02ab62cc783e2d0f23e7a6590982e89098ce8341fca3b3eec8331f0dfb
@@ -320,13 +319,13 @@ validated_files:
   src/bve/ingestion/ctgov_client.py: 6142424dad67697c8856ad04cae2db3631fbc414d309a19b39a0b6757a4967ed
   src/bve/ingestion/event_classifier.py: 57ee1f0bdb52facc1625cec0711328339d6d15b0f88b1180eddf08918fef24d2
   src/bve/ingestion/event_cluster.py: 9f0ec1d7d512544aa29ea78952ef87ff76524926af205c70bd7537878ef836bc
-  src/bve/ingestion/evidence_ledger.py: e6fc1fa22933695c768b02cf76ad6e0721b338b1001454151aec5268c5bffb54
+  src/bve/ingestion/evidence_ledger.py: 7e035811ada6e43238c1ae2098ef59d1d2cbcb7bf874f2e1059770c255406052
   src/bve/ingestion/evidence_state.py: c4d41419a8eae17adc1f0efb8fba9d251ab15b3049f0ab98a6116d2451068005
   src/bve/ingestion/fda.py: d5ee4b9f2e10cf10764e3b6c70fb20f4cc4e12ff6d4fa376b95b2d660334d853
   src/bve/ingestion/fda_client.py: 1cab5335da9e94d178bfd5fd8b23107ad3597ca1c73b2545dae743e736a6a8b0
   src/bve/ingestion/ledger_manifest.py: 5b27e2e14776cdeb78f8a5c7bfe14d439633500fa89808095ef0913fe0d3b911
   src/bve/ingestion/ledger_validator.py: 8d9a9056d1a1ad954b57bf593cc3a020e7485b789c61ba8f0de946f9d21356ce
-  src/bve/ingestion/live_ingestion_runner.py: 1807c8b5815f8990ddb1fb10a1dd6441f0e578d4c825eff479594f3d4c489933
+  src/bve/ingestion/live_ingestion_runner.py: 251a91ed8bd9020f411f63dbff2cf643778b085f7816878f8811efc7e2d7ae71
   src/bve/ingestion/market_data.py: 6d0d34c6edf5ad4d9c718eda1bc75bd72a404bc231f9cb9f50daa58f918020eb
   src/bve/ingestion/market_data_client.py: e0ca0c6bf51d1d78507dedd3e5a144e5f70d91249572a7fbd4b1b2ee8c6a8148
   src/bve/ingestion/materiality_estimator.py: a293bbce442a521a1b251a2508ec8bed23e2f9ec812607e20a5cfe2fbab8c90e
@@ -341,7 +340,7 @@ validated_files:
   src/bve/ingestion/review_gate.py: 1edf65807d9ccf625f9724d2b26a6806706f29481ea28f837d738ed07b83c684
   src/bve/ingestion/sec_client.py: ed7f9930c693b89007855aa3f7f4388a40a40e85bcc4ff696d4f280c7e44c96e
   src/bve/ingestion/sec_edgar.py: 2811a72afc774a95c5b5b9a57c02f541381bad102e049a9f797b0eaad15f256a
-  src/bve/ingestion/store_sync.py: b5918e22dae88cbf606201a53fc8a49e18f7d4de8b86a62190e5d70116193d64
+  src/bve/ingestion/store_sync.py: 4739d5d757c34faffc855a91ef74acd25e67fc1fcb6e070b0a393e9788c050ec
   src/bve/ingestion/trial_materiality_filter.py: 385b45c55856e73cb815debf90fb7ccfd2e65fab414ded06b1cce8d5bbcb8e18
   src/bve/ingestion/universe_loader.py: 36360fc02e970e877fe078b26e123f8881b0c303e29a7c3dd4645644713fe8d4
   src/bve/ingestion/universe_scanner.py: abe0f9e383309012cb98ee0bf12edf76e01550c1c9e0d2e6006beaad0a75064d
@@ -667,7 +666,7 @@ validated_files:
   src/bve/pipeline/review_queue.py: a9f9cadf7e426f4af8b98865a728fb2d71a231494f27e72e0a55c56ed535e5ec
   src/bve/pipeline/review_writeback.py: 81ab5ab7f59a1db7d9c7e25707e67cd1df5bef047e2a06564a6bdb5abda3b20f
   src/bve/pipeline/universe_registry.py: b384adcd3afcecd0773477908696116a66b443a20d610f4f647f829ae30eddb0
-  src/bve/pipeline/watchlist_runner.py: a7ce6c4cf17222fb8fe86ae7aa21134df5e09ccdffe92a94354f29e130ab5782
+  src/bve/pipeline/watchlist_runner.py: a83e8028f3f610978f99f841e4e85c0211671d29823789a2394c714c928ec9f7
   src/bve/pipelines/__init__.py: 9a7cd3a2058632bed1ab1823b6c097bc18ccbe31c5c365647143593f4ec3c15f
   src/bve/pipelines/alert_dispatcher.py: ef47064cff33180b03cf0217cf1dbd97d922bb23363d862680331a7c559fedde
   src/bve/pipelines/event_router.py: ca26bcc26a71ceba75f54ebeb44a09ed4766e929be24d22c7c7c493bcebe87a8
