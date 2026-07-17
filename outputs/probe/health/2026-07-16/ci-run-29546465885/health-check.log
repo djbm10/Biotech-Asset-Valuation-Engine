@@ -1,0 +1,599 @@
+ï»¿2026-07-17T01:04:03.7856570Z Current runner version: '2.335.1'
+2026-07-17T01:04:03.7881146Z ##[group]Runner Image Provisioner
+2026-07-17T01:04:03.7882078Z Hosted Compute Agent
+2026-07-17T01:04:03.7883142Z Version: 20260707.563
+2026-07-17T01:04:03.7883804Z Commit: 02667638d2b423fbc733a8e32a88b44996a3ba6e
+2026-07-17T01:04:03.7884573Z Build Date: 2026-07-07T19:33:50Z
+2026-07-17T01:04:03.7885357Z Worker ID: {0b64cfbd-9efc-424b-8445-e8db792b39ac}
+2026-07-17T01:04:03.7886093Z Azure Region: eastus
+2026-07-17T01:04:03.7886714Z ##[endgroup]
+2026-07-17T01:04:03.7888201Z ##[group]Operating System
+2026-07-17T01:04:03.7888902Z Ubuntu
+2026-07-17T01:04:03.7889451Z 24.04.4
+2026-07-17T01:04:03.7890001Z LTS
+2026-07-17T01:04:03.7890632Z ##[endgroup]
+2026-07-17T01:04:03.7891200Z ##[group]Runner Image
+2026-07-17T01:04:03.7891856Z Image: ubuntu-24.04
+2026-07-17T01:04:03.7892870Z Version: 20260714.240.1
+2026-07-17T01:04:03.7894196Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260714.240/images/ubuntu/Ubuntu2404-Readme.md
+2026-07-17T01:04:03.7895970Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260714.240
+2026-07-17T01:04:03.7897370Z ##[endgroup]
+2026-07-17T01:04:03.7898713Z ##[group]GITHUB_TOKEN Permissions
+2026-07-17T01:04:03.7900970Z Contents: read
+2026-07-17T01:04:03.7901628Z Metadata: read
+2026-07-17T01:04:03.7902442Z Packages: read
+2026-07-17T01:04:03.7903091Z ##[endgroup]
+2026-07-17T01:04:03.7905250Z Secret source: Actions
+2026-07-17T01:04:03.7906391Z Prepare workflow directory
+2026-07-17T01:04:03.8425586Z Prepare all required actions
+2026-07-17T01:04:03.8464224Z Getting action download info
+2026-07-17T01:04:04.0304209Z Download action repository 'actions/checkout@v4' (SHA:34e114876b0b11c390a56381ad16ebd13914f8d5)
+2026-07-17T01:04:04.1496253Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+2026-07-17T01:04:04.2251060Z Download action repository 'actions/upload-artifact@v4' (SHA:ea165f8d65b6e75b540449e92b4886f43607fa02)
+2026-07-17T01:04:04.4403580Z Complete job name: health-check
+2026-07-17T01:04:04.5103927Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-07-17T01:04:04.5112901Z ##[group]Run actions/checkout@v4
+2026-07-17T01:04:04.5113665Z with:
+2026-07-17T01:04:04.5114195Z   repository: djbm10/Biotech-Asset-Valuation-Engine
+2026-07-17T01:04:04.5118030Z   token: ***
+2026-07-17T01:04:04.5118483Z   ssh-strict: true
+2026-07-17T01:04:04.5118932Z   ssh-user: git
+2026-07-17T01:04:04.5119395Z   persist-credentials: true
+2026-07-17T01:04:04.5119886Z   clean: true
+2026-07-17T01:04:04.5120340Z   sparse-checkout-cone-mode: true
+2026-07-17T01:04:04.5120875Z   fetch-depth: 1
+2026-07-17T01:04:04.5121317Z   fetch-tags: false
+2026-07-17T01:04:04.5121797Z   show-progress: true
+2026-07-17T01:04:04.5122517Z   lfs: false
+2026-07-17T01:04:04.5122977Z   submodules: false
+2026-07-17T01:04:04.5123471Z   set-safe-directory: true
+2026-07-17T01:04:04.5124218Z env:
+2026-07-17T01:04:04.5124732Z   NEWS_API_KEY: ***
+2026-07-17T01:04:04.5125226Z   ALPHAVANTAGE_API_KEY: ***
+2026-07-17T01:04:04.5125730Z ##[endgroup]
+2026-07-17T01:04:04.6133560Z Syncing repository: djbm10/Biotech-Asset-Valuation-Engine
+2026-07-17T01:04:04.6136322Z ##[group]Getting Git version info
+2026-07-17T01:04:04.6138025Z Working directory is '/home/runner/work/Biotech-Asset-Valuation-Engine/Biotech-Asset-Valuation-Engine'
+2026-07-17T01:04:04.6140355Z [command]/usr/bin/git version
+2026-07-17T01:04:04.6240913Z git version 2.54.0
+2026-07-17T01:04:04.6266511Z ##[endgroup]
+2026-07-17T01:04:04.6285636Z Temporarily overriding HOME='/home/runner/work/_temp/4bcb23fc-8f71-4917-9f5b-0d6091ca8ea9' before making global git config changes
+2026-07-17T01:04:04.6288109Z Adding repository directory to the temporary git global config as a safe directory
+2026-07-17T01:04:04.6291986Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Biotech-Asset-Valuation-Engine/Biotech-Asset-Valuation-Engine
+2026-07-17T01:04:04.6352564Z Deleting the contents of '/home/runner/work/Biotech-Asset-Valuation-Engine/Biotech-Asset-Valuation-Engine'
+2026-07-17T01:04:04.6358237Z ##[group]Initializing the repository
+2026-07-17T01:04:04.6364882Z [command]/usr/bin/git init /home/runner/work/Biotech-Asset-Valuation-Engine/Biotech-Asset-Valuation-Engine
+2026-07-17T01:04:04.6492272Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-07-17T01:04:04.6495111Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-07-17T01:04:04.6496700Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-07-17T01:04:04.6497920Z hint: call:
+2026-07-17T01:04:04.6498552Z hint:
+2026-07-17T01:04:04.6499357Z hint: 	git config --global init.defaultBranch <name>
+2026-07-17T01:04:04.6500431Z hint:
+2026-07-17T01:04:04.6501558Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-07-17T01:04:04.6503331Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-07-17T01:04:04.6504566Z hint:
+2026-07-17T01:04:04.6505245Z hint: 	git branch -m <name>
+2026-07-17T01:04:04.6505990Z hint:
+2026-07-17T01:04:04.6506984Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-07-17T01:04:04.6509121Z Initialized empty Git repository in /home/runner/work/Biotech-Asset-Valuation-Engine/Biotech-Asset-Valuation-Engine/.git/
+2026-07-17T01:04:04.6512786Z [command]/usr/bin/git remote add origin https://github.com/djbm10/Biotech-Asset-Valuation-Engine
+2026-07-17T01:04:04.6559770Z ##[endgroup]
+2026-07-17T01:04:04.6560985Z ##[group]Disabling automatic garbage collection
+2026-07-17T01:04:04.6563871Z [command]/usr/bin/git config --local gc.auto 0
+2026-07-17T01:04:04.6605817Z ##[endgroup]
+2026-07-17T01:04:04.6607009Z ##[group]Setting up auth
+2026-07-17T01:04:04.6608494Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-07-17T01:04:04.6643839Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-07-17T01:04:04.7057984Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-07-17T01:04:04.7093030Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-07-17T01:04:04.7316293Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-07-17T01:04:04.7352366Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-07-17T01:04:04.7590082Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-07-17T01:04:04.7628722Z ##[endgroup]
+2026-07-17T01:04:04.7629586Z ##[group]Fetching the repository
+2026-07-17T01:04:04.7639545Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +b25b46667438b70d4433af3572569ab2bc81e921:refs/remotes/origin/fix-se-ci-failures
+2026-07-17T01:04:05.3934311Z From https://github.com/djbm10/Biotech-Asset-Valuation-Engine
+2026-07-17T01:04:05.3936745Z  * [new ref]         b25b46667438b70d4433af3572569ab2bc81e921 -> origin/fix-se-ci-failures
+2026-07-17T01:04:05.3973219Z ##[endgroup]
+2026-07-17T01:04:05.3975066Z ##[group]Determining the checkout info
+2026-07-17T01:04:05.3977049Z ##[endgroup]
+2026-07-17T01:04:05.3982901Z [command]/usr/bin/git sparse-checkout disable
+2026-07-17T01:04:05.4036502Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-07-17T01:04:05.4114002Z ##[group]Checking out the ref
+2026-07-17T01:04:05.4115924Z [command]/usr/bin/git checkout --progress --force -B fix-se-ci-failures refs/remotes/origin/fix-se-ci-failures
+2026-07-17T01:04:05.5754875Z Switched to a new branch 'fix-se-ci-failures'
+2026-07-17T01:04:05.5757278Z branch 'fix-se-ci-failures' set up to track 'origin/fix-se-ci-failures'.
+2026-07-17T01:04:05.5766763Z ##[endgroup]
+2026-07-17T01:04:05.5818946Z [command]/usr/bin/git log -1 --format=%H
+2026-07-17T01:04:05.5846720Z b25b46667438b70d4433af3572569ab2bc81e921
+2026-07-17T01:04:05.6258968Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-07-17T01:04:05.6264822Z ##[group]Run actions/setup-python@v5
+2026-07-17T01:04:05.6266063Z with:
+2026-07-17T01:04:05.6267026Z   python-version: 3.11
+2026-07-17T01:04:05.6268104Z   check-latest: false
+2026-07-17T01:04:05.6276886Z   token: ***
+2026-07-17T01:04:05.6277899Z   update-environment: true
+2026-07-17T01:04:05.6279042Z   allow-prereleases: false
+2026-07-17T01:04:05.6280146Z   freethreaded: false
+2026-07-17T01:04:05.6281155Z env:
+2026-07-17T01:04:05.6282454Z   NEWS_API_KEY: ***
+2026-07-17T01:04:05.6283577Z   ALPHAVANTAGE_API_KEY: ***
+2026-07-17T01:04:05.6284630Z ##[endgroup]
+2026-07-17T01:04:05.7633655Z ##[group]Installed versions
+2026-07-17T01:04:05.7727693Z (node:2264) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-07-17T01:04:05.7731058Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-07-17T01:04:05.7734311Z Successfully set up CPython (3.11.15)
+2026-07-17T01:04:05.7737577Z ##[endgroup]
+2026-07-17T01:04:05.7949651Z ##[group]Run python -m pip install --upgrade pip
+2026-07-17T01:04:05.7951204Z [36;1mpython -m pip install --upgrade pip[0m
+2026-07-17T01:04:05.7952811Z [36;1mpip install -e ".[dev,platform,extract]"[0m
+2026-07-17T01:04:05.8070710Z shell: /usr/bin/bash -e {0}
+2026-07-17T01:04:05.8072860Z env:
+2026-07-17T01:04:05.8074143Z   NEWS_API_KEY: ***
+2026-07-17T01:04:05.8075168Z   ALPHAVANTAGE_API_KEY: ***
+2026-07-17T01:04:05.8076457Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-07-17T01:04:05.8078221Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-07-17T01:04:05.8079943Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-07-17T01:04:05.8081492Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-07-17T01:04:05.8083324Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-07-17T01:04:05.8084922Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-07-17T01:04:05.8086263Z ##[endgroup]
+2026-07-17T01:04:06.5138986Z Requirement already satisfied: pip in /opt/hostedtoolcache/Python/3.11.15/x64/lib/python3.11/site-packages (26.1.2)
+2026-07-17T01:04:07.0367557Z Obtaining file:///home/runner/work/Biotech-Asset-Valuation-Engine/Biotech-Asset-Valuation-Engine
+2026-07-17T01:04:07.0389155Z   Installing build dependencies: started
+2026-07-17T01:04:07.7839510Z   Installing build dependencies: finished with status 'done'
+2026-07-17T01:04:07.7849282Z   Checking if build backend supports build_editable: started
+2026-07-17T01:04:08.3091265Z   Checking if build backend supports build_editable: finished with status 'done'
+2026-07-17T01:04:08.3099771Z   Getting requirements to build editable: started
+2026-07-17T01:04:08.6561327Z   Getting requirements to build editable: finished with status 'done'
+2026-07-17T01:04:08.6568956Z   Preparing editable metadata (pyproject.toml): started
+2026-07-17T01:04:08.8747984Z   Preparing editable metadata (pyproject.toml): finished with status 'done'
+2026-07-17T01:04:09.0541544Z Collecting pydantic>=2.0 (from bve==0.2.0)
+2026-07-17T01:04:09.1079469Z   Downloading pydantic-2.13.4-py3-none-any.whl.metadata (109 kB)
+2026-07-17T01:04:09.3067053Z Collecting numpy>=1.26 (from bve==0.2.0)
+2026-07-17T01:04:09.3120345Z   Downloading numpy-2.4.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (6.6 kB)
+2026-07-17T01:04:09.4223631Z Collecting scipy>=1.11 (from bve==0.2.0)
+2026-07-17T01:04:09.4267791Z   Downloading scipy-1.17.1-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (62 kB)
+2026-07-17T01:04:09.5515381Z Collecting pandas>=2.0 (from bve==0.2.0)
+2026-07-17T01:04:09.5719818Z   Downloading pandas-3.0.3-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (79 kB)
+2026-07-17T01:04:09.7119840Z Collecting matplotlib>=3.7 (from bve==0.2.0)
+2026-07-17T01:04:09.7160273Z   Downloading matplotlib-3.11.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (80 kB)
+2026-07-17T01:04:09.7700193Z Collecting statsmodels>=0.14 (from bve==0.2.0)
+2026-07-17T01:04:09.7759511Z   Downloading statsmodels-0.14.6-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (9.5 kB)
+2026-07-17T01:04:09.7974107Z Collecting requests>=2.31 (from bve==0.2.0)
+2026-07-17T01:04:09.8013302Z   Downloading requests-2.34.2-py3-none-any.whl.metadata (4.8 kB)
+2026-07-17T01:04:09.8248404Z Collecting yfinance>=0.2 (from bve==0.2.0)
+2026-07-17T01:04:09.8293459Z   Downloading yfinance-1.5.1-py2.py3-none-any.whl.metadata (6.2 kB)
+2026-07-17T01:04:09.8448995Z Collecting jinja2>=3.1 (from bve==0.2.0)
+2026-07-17T01:04:09.8496071Z   Downloading jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+2026-07-17T01:04:09.8615606Z Collecting python-docx>=1.1 (from bve==0.2.0)
+2026-07-17T01:04:09.8650861Z   Downloading python_docx-1.2.0-py3-none-any.whl.metadata (2.0 kB)
+2026-07-17T01:04:09.8999965Z Collecting pyyaml>=6.0 (from bve==0.2.0)
+2026-07-17T01:04:09.9047537Z   Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+2026-07-17T01:04:10.3233118Z Collecting rapidfuzz>=3.0 (from bve==0.2.0)
+2026-07-17T01:04:10.3276603Z   Downloading rapidfuzz-3.14.5-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (12 kB)
+2026-07-17T01:04:10.5825130Z Collecting sqlalchemy>=2.0 (from bve==0.2.0)
+2026-07-17T01:04:10.5873448Z   Downloading sqlalchemy-2.0.51-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (9.5 kB)
+2026-07-17T01:04:10.6106126Z Collecting alembic>=1.13 (from bve==0.2.0)
+2026-07-17T01:04:10.6173434Z   Downloading alembic-1.18.5-py3-none-any.whl.metadata (7.2 kB)
+2026-07-17T01:04:10.6339455Z Collecting anyio>=4.0 (from bve==0.2.0)
+2026-07-17T01:04:10.6387766Z   Downloading anyio-4.14.2-py3-none-any.whl.metadata (4.6 kB)
+2026-07-17T01:04:10.6759662Z Collecting fastapi>=0.115 (from bve==0.2.0)
+2026-07-17T01:04:10.6832891Z   Downloading fastapi-0.139.2-py3-none-any.whl.metadata (26 kB)
+2026-07-17T01:04:10.7088248Z Collecting uvicorn>=0.30 (from uvicorn[standard]>=0.30; extra == "platform"->bve==0.2.0)
+2026-07-17T01:04:10.7232423Z   Downloading uvicorn-0.51.0-py3-none-any.whl.metadata (6.6 kB)
+2026-07-17T01:04:10.7864868Z Collecting psycopg2-binary>=2.9 (from bve==0.2.0)
+2026-07-17T01:04:10.7904549Z   Downloading psycopg2_binary-2.9.12-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (4.9 kB)
+2026-07-17T01:04:10.8086638Z Collecting dramatiq>=1.17 (from dramatiq[redis]>=1.17; extra == "platform"->bve==0.2.0)
+2026-07-17T01:04:10.8147746Z   Downloading dramatiq-2.2.0-py3-none-any.whl.metadata (4.2 kB)
+2026-07-17T01:04:10.8379386Z Collecting redis>=5.0 (from bve==0.2.0)
+2026-07-17T01:04:10.8434945Z   Downloading redis-8.0.1-py3-none-any.whl.metadata (13 kB)
+2026-07-17T01:04:10.8606275Z Collecting httpx>=0.27 (from bve==0.2.0)
+2026-07-17T01:04:10.8642277Z   Downloading httpx-0.28.1-py3-none-any.whl.metadata (7.1 kB)
+2026-07-17T01:04:10.8804375Z Collecting beautifulsoup4>=4.12 (from bve==0.2.0)
+2026-07-17T01:04:10.8841513Z   Downloading beautifulsoup4-4.15.0-py3-none-any.whl.metadata (3.8 kB)
+2026-07-17T01:04:11.0981043Z Collecting lxml>=5.0 (from bve==0.2.0)
+2026-07-17T01:04:11.1021936Z   Downloading lxml-6.1.1-cp311-cp311-manylinux_2_26_x86_64.manylinux_2_28_x86_64.whl.metadata (3.5 kB)
+2026-07-17T01:04:11.1276848Z Collecting pytest>=7 (from bve==0.2.0)
+2026-07-17T01:04:11.1312046Z   Downloading pytest-9.1.1-py3-none-any.whl.metadata (7.6 kB)
+2026-07-17T01:04:11.1460186Z Collecting pytest-cov (from bve==0.2.0)
+2026-07-17T01:04:11.1496463Z   Downloading pytest_cov-7.1.0-py3-none-any.whl.metadata (32 kB)
+2026-07-17T01:04:11.4912972Z Collecting ruff (from bve==0.2.0)
+2026-07-17T01:04:11.4956293Z   Downloading ruff-0.15.22-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (26 kB)
+2026-07-17T01:04:11.5989752Z Collecting mypy (from bve==0.2.0)
+2026-07-17T01:04:11.6028004Z   Downloading mypy-2.3.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.4 kB)
+2026-07-17T01:04:11.6331646Z Collecting anthropic>=0.25 (from bve==0.2.0)
+2026-07-17T01:04:11.6384707Z   Downloading anthropic-0.117.0-py3-none-any.whl.metadata (3.3 kB)
+2026-07-17T01:04:11.6867043Z Collecting openai>=1.30 (from bve==0.2.0)
+2026-07-17T01:04:11.6911628Z   Downloading openai-2.45.0-py3-none-any.whl.metadata (34 kB)
+2026-07-17T01:04:11.7144744Z Collecting Mako (from alembic>=1.13->bve==0.2.0)
+2026-07-17T01:04:11.7182544Z   Downloading mako-1.3.12-py3-none-any.whl.metadata (2.9 kB)
+2026-07-17T01:04:11.7421348Z Collecting typing-extensions>=4.12 (from alembic>=1.13->bve==0.2.0)
+2026-07-17T01:04:11.7456896Z   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+2026-07-17T01:04:11.7593985Z Collecting distro<2,>=1.7.0 (from anthropic>=0.25->bve==0.2.0)
+2026-07-17T01:04:11.7630165Z   Downloading distro-1.9.0-py3-none-any.whl.metadata (6.8 kB)
+2026-07-17T01:04:11.7764307Z Collecting docstring-parser<1,>=0.15 (from anthropic>=0.25->bve==0.2.0)
+2026-07-17T01:04:11.7800410Z   Downloading docstring_parser-0.18.0-py3-none-any.whl.metadata (3.5 kB)
+2026-07-17T01:04:11.8592394Z Collecting jiter<1,>=0.4.0 (from anthropic>=0.25->bve==0.2.0)
+2026-07-17T01:04:11.8646424Z   Downloading jiter-0.16.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (5.2 kB)
+2026-07-17T01:04:11.8795103Z Collecting sniffio (from anthropic>=0.25->bve==0.2.0)
+2026-07-17T01:04:11.8849183Z   Downloading sniffio-1.3.1-py3-none-any.whl.metadata (3.9 kB)
+2026-07-17T01:04:11.9005325Z Collecting idna>=2.8 (from anyio>=4.0->bve==0.2.0)
+2026-07-17T01:04:11.9044978Z   Downloading idna-3.18-py3-none-any.whl.metadata (6.1 kB)
+2026-07-17T01:04:11.9247440Z Collecting certifi (from httpx>=0.27->bve==0.2.0)
+2026-07-17T01:04:11.9286538Z   Downloading certifi-2026.6.17-py3-none-any.whl.metadata (2.5 kB)
+2026-07-17T01:04:11.9487068Z Collecting httpcore==1.* (from httpx>=0.27->bve==0.2.0)
+2026-07-17T01:04:11.9539757Z   Downloading httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+2026-07-17T01:04:11.9668866Z Collecting h11>=0.16 (from httpcore==1.*->httpx>=0.27->bve==0.2.0)
+2026-07-17T01:04:11.9712045Z   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+2026-07-17T01:04:11.9828458Z Collecting annotated-types>=0.6.0 (from pydantic>=2.0->bve==0.2.0)
+2026-07-17T01:04:11.9894590Z   Downloading annotated_types-0.7.0-py3-none-any.whl.metadata (15 kB)
+2026-07-17T01:04:12.6523910Z Collecting pydantic-core==2.46.4 (from pydantic>=2.0->bve==0.2.0)
+2026-07-17T01:04:12.6564916Z   Downloading pydantic_core-2.46.4-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (6.6 kB)
+2026-07-17T01:04:12.6677988Z Collecting typing-inspection>=0.4.2 (from pydantic>=2.0->bve==0.2.0)
+2026-07-17T01:04:12.6721933Z   Downloading typing_inspection-0.4.2-py3-none-any.whl.metadata (2.6 kB)
+2026-07-17T01:04:12.6890490Z Collecting soupsieve>=1.6.1 (from beautifulsoup4>=4.12->bve==0.2.0)
+2026-07-17T01:04:12.6928613Z   Downloading soupsieve-2.8.4-py3-none-any.whl.metadata (4.6 kB)
+2026-07-17T01:04:12.7194592Z Collecting starlette>=0.46.0 (from fastapi>=0.115->bve==0.2.0)
+2026-07-17T01:04:12.7235232Z   Downloading starlette-1.3.1-py3-none-any.whl.metadata (6.4 kB)
+2026-07-17T01:04:12.7393407Z Collecting annotated-doc>=0.0.2 (from fastapi>=0.115->bve==0.2.0)
+2026-07-17T01:04:12.7432548Z   Downloading annotated_doc-0.0.4-py3-none-any.whl.metadata (6.6 kB)
+2026-07-17T01:04:12.7898244Z Collecting MarkupSafe>=2.0 (from jinja2>=3.1->bve==0.2.0)
+2026-07-17T01:04:12.7955381Z   Downloading markupsafe-3.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (2.7 kB)
+2026-07-17T01:04:12.8514349Z Collecting contourpy>=1.0.1 (from matplotlib>=3.7->bve==0.2.0)
+2026-07-17T01:04:12.8648551Z   Downloading contourpy-1.3.3-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (5.5 kB)
+2026-07-17T01:04:12.8779409Z Collecting cycler>=0.10 (from matplotlib>=3.7->bve==0.2.0)
+2026-07-17T01:04:12.8824217Z   Downloading cycler-0.12.1-py3-none-any.whl.metadata (3.8 kB)
+2026-07-17T01:04:13.0570574Z Collecting fonttools>=4.22.0 (from matplotlib>=3.7->bve==0.2.0)
+2026-07-17T01:04:13.0661796Z   Downloading fonttools-4.63.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (118 kB)
+2026-07-17T01:04:13.1286930Z Collecting kiwisolver>=1.3.1 (from matplotlib>=3.7->bve==0.2.0)
+2026-07-17T01:04:13.1330873Z   Downloading kiwisolver-1.5.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (5.1 kB)
+2026-07-17T01:04:13.1511354Z Collecting packaging>=20.0 (from matplotlib>=3.7->bve==0.2.0)
+2026-07-17T01:04:13.1572159Z   Downloading packaging-26.2-py3-none-any.whl.metadata (3.5 kB)
+2026-07-17T01:04:13.3028806Z Collecting pillow>=9 (from matplotlib>=3.7->bve==0.2.0)
+2026-07-17T01:04:13.3072404Z   Downloading pillow-12.3.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (9.1 kB)
+2026-07-17T01:04:13.3298817Z Collecting pyparsing>=3 (from matplotlib>=3.7->bve==0.2.0)
+2026-07-17T01:04:13.3343703Z   Downloading pyparsing-3.3.2-py3-none-any.whl.metadata (5.8 kB)
+2026-07-17T01:04:13.3506945Z Collecting python-dateutil>=2.7 (from matplotlib>=3.7->bve==0.2.0)
+2026-07-17T01:04:13.3546033Z   Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+2026-07-17T01:04:13.3874389Z Collecting tqdm>4 (from openai>=1.30->bve==0.2.0)
+2026-07-17T01:04:13.3916732Z   Downloading tqdm-4.68.4-py3-none-any.whl.metadata (57 kB)
+2026-07-17T01:04:13.4140730Z Collecting iniconfig>=1.0.1 (from pytest>=7->bve==0.2.0)
+2026-07-17T01:04:13.4178585Z   Downloading iniconfig-2.3.0-py3-none-any.whl.metadata (2.5 kB)
+2026-07-17T01:04:13.4300359Z Collecting pluggy<2,>=1.5 (from pytest>=7->bve==0.2.0)
+2026-07-17T01:04:13.4341980Z   Downloading pluggy-1.6.0-py3-none-any.whl.metadata (4.8 kB)
+2026-07-17T01:04:13.4508337Z Collecting pygments>=2.7.2 (from pytest>=7->bve==0.2.0)
+2026-07-17T01:04:13.4564154Z   Downloading pygments-2.20.0-py3-none-any.whl.metadata (2.5 kB)
+2026-07-17T01:04:13.4720003Z Collecting six>=1.5 (from python-dateutil>=2.7->matplotlib>=3.7->bve==0.2.0)
+2026-07-17T01:04:13.4775619Z   Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+2026-07-17T01:04:13.5706775Z Collecting charset_normalizer<4,>=2 (from requests>=2.31->bve==0.2.0)
+2026-07-17T01:04:13.5750560Z   Downloading charset_normalizer-3.4.9-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (41 kB)
+2026-07-17T01:04:13.5980279Z Collecting urllib3<3,>=1.26 (from requests>=2.31->bve==0.2.0)
+2026-07-17T01:04:13.6024284Z   Downloading urllib3-2.7.0-py3-none-any.whl.metadata (6.9 kB)
+2026-07-17T01:04:13.7958287Z Collecting greenlet>=1 (from sqlalchemy>=2.0->bve==0.2.0)
+2026-07-17T01:04:13.8004390Z   Downloading greenlet-3.5.3-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (3.8 kB)
+2026-07-17T01:04:13.8236247Z Collecting patsy>=0.5.6 (from statsmodels>=0.14->bve==0.2.0)
+2026-07-17T01:04:13.8273120Z   Downloading patsy-1.0.2-py2.py3-none-any.whl.metadata (3.6 kB)
+2026-07-17T01:04:13.8511444Z Collecting click>=7.0 (from uvicorn>=0.30->uvicorn[standard]>=0.30; extra == "platform"->bve==0.2.0)
+2026-07-17T01:04:13.8547381Z   Downloading click-8.4.2-py3-none-any.whl.metadata (2.6 kB)
+2026-07-17T01:04:13.8850364Z Collecting httptools>=0.8.0 (from uvicorn[standard]>=0.30; extra == "platform"->bve==0.2.0)
+2026-07-17T01:04:13.8892931Z   Downloading httptools-0.8.0-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (3.5 kB)
+2026-07-17T01:04:13.9040711Z Collecting python-dotenv>=0.13 (from uvicorn[standard]>=0.30; extra == "platform"->bve==0.2.0)
+2026-07-17T01:04:13.9079242Z   Downloading python_dotenv-1.2.2-py3-none-any.whl.metadata (27 kB)
+2026-07-17T01:04:13.9443569Z Collecting uvloop>=0.15.1 (from uvicorn[standard]>=0.30; extra == "platform"->bve==0.2.0)
+2026-07-17T01:04:13.9480634Z   Downloading uvloop-0.22.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (4.9 kB)
+2026-07-17T01:04:14.0143522Z Collecting watchfiles>=0.20 (from uvicorn[standard]>=0.30; extra == "platform"->bve==0.2.0)
+2026-07-17T01:04:14.0185254Z   Downloading watchfiles-1.2.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (4.9 kB)
+2026-07-17T01:04:14.1014312Z Collecting websockets>=13.0 (from uvicorn[standard]>=0.30; extra == "platform"->bve==0.2.0)
+2026-07-17T01:04:14.1056023Z   Downloading websockets-16.1-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (6.8 kB)
+2026-07-17T01:04:14.1259491Z Collecting multitasking>=0.0.7 (from yfinance>=0.2->bve==0.2.0)
+2026-07-17T01:04:14.1297219Z   Downloading multitasking-0.0.13-py3-none-any.whl.metadata (16 kB)
+2026-07-17T01:04:14.1484646Z Collecting platformdirs>=2.0.0 (from yfinance>=0.2->bve==0.2.0)
+2026-07-17T01:04:14.1525510Z   Downloading platformdirs-4.10.0-py3-none-any.whl.metadata (5.5 kB)
+2026-07-17T01:04:14.1867685Z Collecting pytz>=2022.5 (from yfinance>=0.2->bve==0.2.0)
+2026-07-17T01:04:14.1909676Z   Downloading pytz-2026.2-py2.py3-none-any.whl.metadata (22 kB)
+2026-07-17T01:04:14.2098295Z Collecting peewee>=3.16.2 (from yfinance>=0.2->bve==0.2.0)
+2026-07-17T01:04:14.2199363Z   Downloading peewee-4.2.4-py3-none-any.whl.metadata (10 kB)
+2026-07-17T01:04:14.2718933Z Collecting curl_cffi>=0.15 (from yfinance>=0.2->bve==0.2.0)
+2026-07-17T01:04:14.2757879Z   Downloading curl_cffi-0.15.0-cp310-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (18 kB)
+2026-07-17T01:04:14.4124750Z Collecting protobuf>=3.19.0 (from yfinance>=0.2->bve==0.2.0)
+2026-07-17T01:04:14.4206607Z   Downloading protobuf-7.35.1-cp310-abi3-manylinux2014_x86_64.whl.metadata (595 bytes)
+2026-07-17T01:04:14.5836441Z Collecting cffi>=2.0.0 (from curl_cffi>=0.15->yfinance>=0.2->bve==0.2.0)
+2026-07-17T01:04:14.5876800Z   Downloading cffi-2.1.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (2.5 kB)
+2026-07-17T01:04:14.6214451Z Collecting rich (from curl_cffi>=0.15->yfinance>=0.2->bve==0.2.0)
+2026-07-17T01:04:14.6256710Z   Downloading rich-15.0.0-py3-none-any.whl.metadata (18 kB)
+2026-07-17T01:04:14.6391639Z Collecting pycparser (from cffi>=2.0.0->curl_cffi>=0.15->yfinance>=0.2->bve==0.2.0)
+2026-07-17T01:04:14.6425397Z   Downloading pycparser-3.0-py3-none-any.whl.metadata (8.2 kB)
+2026-07-17T01:04:14.6589043Z Collecting mypy_extensions>=1.0.0 (from mypy->bve==0.2.0)
+2026-07-17T01:04:14.6625594Z   Downloading mypy_extensions-1.1.0-py3-none-any.whl.metadata (1.1 kB)
+2026-07-17T01:04:14.7071533Z Collecting pathspec>=1.0.0 (from mypy->bve==0.2.0)
+2026-07-17T01:04:14.7107421Z   Downloading pathspec-1.1.1-py3-none-any.whl.metadata (14 kB)
+2026-07-17T01:04:14.8311819Z Collecting librt>=0.13.0 (from mypy->bve==0.2.0)
+2026-07-17T01:04:14.8363577Z   Downloading librt-0.13.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (1.3 kB)
+2026-07-17T01:04:14.8622216Z Collecting ast-serialize<1.0.0,>=0.6.0 (from mypy->bve==0.2.0)
+2026-07-17T01:04:14.8662996Z   Downloading ast_serialize-0.6.0-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl.metadata (1.3 kB)
+2026-07-17T01:04:15.3050129Z Collecting coverage>=7.10.6 (from coverage[toml]>=7.10.6->pytest-cov->bve==0.2.0)
+2026-07-17T01:04:15.3110659Z   Downloading coverage-7.15.2-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl.metadata (8.6 kB)
+2026-07-17T01:04:15.3284226Z Collecting markdown-it-py>=2.2.0 (from rich->curl_cffi>=0.15->yfinance>=0.2->bve==0.2.0)
+2026-07-17T01:04:15.3322917Z   Downloading markdown_it_py-4.2.0-py3-none-any.whl.metadata (7.4 kB)
+2026-07-17T01:04:15.3475144Z Collecting mdurl~=0.1 (from markdown-it-py>=2.2.0->rich->curl_cffi>=0.15->yfinance>=0.2->bve==0.2.0)
+2026-07-17T01:04:15.3628712Z   Downloading mdurl-0.1.2-py3-none-any.whl.metadata (1.6 kB)
+2026-07-17T01:04:15.3745364Z Downloading alembic-1.18.5-py3-none-any.whl (264 kB)
+2026-07-17T01:04:15.3826087Z Downloading anthropic-0.117.0-py3-none-any.whl (998 kB)
+2026-07-17T01:04:15.3937282Z    ââââââââââââââââââââââââââââââââââââââââ 998.3/998.3 kB 102.3 MB/s  0:00:00
+2026-07-17T01:04:15.3990926Z Downloading anyio-4.14.2-py3-none-any.whl (125 kB)
+2026-07-17T01:04:15.4053192Z Downloading distro-1.9.0-py3-none-any.whl (20 kB)
+2026-07-17T01:04:15.4139072Z Downloading docstring_parser-0.18.0-py3-none-any.whl (22 kB)
+2026-07-17T01:04:15.4196018Z Downloading httpx-0.28.1-py3-none-any.whl (73 kB)
+2026-07-17T01:04:15.4264004Z Downloading httpcore-1.0.9-py3-none-any.whl (78 kB)
+2026-07-17T01:04:15.4427515Z Downloading jiter-0.16.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (347 kB)
+2026-07-17T01:04:15.4502414Z Downloading pydantic-2.13.4-py3-none-any.whl (472 kB)
+2026-07-17T01:04:15.4625396Z Downloading pydantic_core-2.46.4-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.1 MB)
+2026-07-17T01:04:15.4817652Z    ââââââââââââââââââââââââââââââââââââââââ 2.1/2.1 MB 112.0 MB/s  0:00:00
+2026-07-17T01:04:15.4862498Z Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+2026-07-17T01:04:15.4917341Z Downloading annotated_types-0.7.0-py3-none-any.whl (13 kB)
+2026-07-17T01:04:15.4988183Z Downloading beautifulsoup4-4.15.0-py3-none-any.whl (109 kB)
+2026-07-17T01:04:15.5063169Z Downloading dramatiq-2.2.0-py3-none-any.whl (127 kB)
+2026-07-17T01:04:15.5180112Z Downloading redis-8.0.1-py3-none-any.whl (502 kB)
+2026-07-17T01:04:15.5257239Z Downloading fastapi-0.139.2-py3-none-any.whl (130 kB)
+2026-07-17T01:04:15.5337394Z Downloading annotated_doc-0.0.4-py3-none-any.whl (5.3 kB)
+2026-07-17T01:04:15.5404898Z Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+2026-07-17T01:04:15.5471515Z Downloading idna-3.18-py3-none-any.whl (65 kB)
+2026-07-17T01:04:15.5529331Z Downloading jinja2-3.1.6-py3-none-any.whl (134 kB)
+2026-07-17T01:04:15.5604976Z Downloading lxml-6.1.1-cp311-cp311-manylinux_2_26_x86_64.manylinux_2_28_x86_64.whl (5.2 MB)
+2026-07-17T01:04:15.6527840Z    ââââââââââââââââââââââââââââââââââââââââ 5.2/5.2 MB 58.6 MB/s  0:00:00
+2026-07-17T01:04:15.6597794Z Downloading markupsafe-3.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (22 kB)
+2026-07-17T01:04:15.6681560Z Downloading matplotlib-3.11.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (10.0 MB)
+2026-07-17T01:04:15.8010361Z    ââââââââââââââââââââââââââââââââââââââââ 10.0/10.0 MB 77.5 MB/s  0:00:00
+2026-07-17T01:04:15.8048404Z Downloading contourpy-1.3.3-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (355 kB)
+2026-07-17T01:04:15.8149192Z Downloading cycler-0.12.1-py3-none-any.whl (8.3 kB)
+2026-07-17T01:04:15.8205860Z Downloading fonttools-4.63.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (5.1 MB)
+2026-07-17T01:04:15.8575620Z    ââââââââââââââââââââââââââââââââââââââââ 5.1/5.1 MB 139.1 MB/s  0:00:00
+2026-07-17T01:04:15.8621322Z Downloading kiwisolver-1.5.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (1.4 MB)
+2026-07-17T01:04:15.8740053Z    ââââââââââââââââââââââââââââââââââââââââ 1.4/1.4 MB 129.7 MB/s  0:00:00
+2026-07-17T01:04:15.8799854Z Downloading numpy-2.4.6-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.9 MB)
+2026-07-17T01:04:15.9849529Z    ââââââââââââââââââââââââââââââââââââââââ 16.9/16.9 MB 162.5 MB/s  0:00:00
+2026-07-17T01:04:15.9889474Z Downloading openai-2.45.0-py3-none-any.whl (1.6 MB)
+2026-07-17T01:04:16.0011037Z    ââââââââââââââââââââââââââââââââââââââââ 1.6/1.6 MB 136.4 MB/s  0:00:00
+2026-07-17T01:04:16.0056251Z Downloading packaging-26.2-py3-none-any.whl (100 kB)
+2026-07-17T01:04:16.0126627Z Downloading pandas-3.0.3-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (11.3 MB)
+2026-07-17T01:04:16.0596442Z    ââââââââââââââââââââââââââââââââââââââââ 11.3/11.3 MB 251.6 MB/s  0:00:00
+2026-07-17T01:04:16.0636229Z Downloading pillow-12.3.0-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (6.9 MB)
+2026-07-17T01:04:16.1020113Z    ââââââââââââââââââââââââââââââââââââââââ 6.9/6.9 MB 184.6 MB/s  0:00:00
+2026-07-17T01:04:16.1123672Z Downloading psycopg2_binary-2.9.12-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (4.3 MB)
+2026-07-17T01:04:16.1485428Z    ââââââââââââââââââââââââââââââââââââââââ 4.3/4.3 MB 118.6 MB/s  0:00:00
+2026-07-17T01:04:16.1528007Z Downloading pyparsing-3.3.2-py3-none-any.whl (122 kB)
+2026-07-17T01:04:16.1600728Z Downloading pytest-9.1.1-py3-none-any.whl (386 kB)
+2026-07-17T01:04:16.1690084Z Downloading pluggy-1.6.0-py3-none-any.whl (20 kB)
+2026-07-17T01:04:16.1751538Z Downloading iniconfig-2.3.0-py3-none-any.whl (7.5 kB)
+2026-07-17T01:04:16.1884520Z Downloading pygments-2.20.0-py3-none-any.whl (1.2 MB)
+2026-07-17T01:04:16.1956103Z    ââââââââââââââââââââââââââââââââââââââââ 1.2/1.2 MB 197.3 MB/s  0:00:00
+2026-07-17T01:04:16.2348383Z Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+2026-07-17T01:04:16.2463710Z Downloading python_docx-1.2.0-py3-none-any.whl (252 kB)
+2026-07-17T01:04:16.2794646Z Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (806 kB)
+2026-07-17T01:04:16.2995387Z    ââââââââââââââââââââââââââââââââââââââââ 806.6/806.6 kB 34.7 MB/s  0:00:00
+2026-07-17T01:04:16.3097414Z Downloading rapidfuzz-3.14.5-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (3.2 MB)
+2026-07-17T01:04:16.3315107Z    ââââââââââââââââââââââââââââââââââââââââ 3.2/3.2 MB 148.7 MB/s  0:00:00
+2026-07-17T01:04:16.3355850Z Downloading requests-2.34.2-py3-none-any.whl (73 kB)
+2026-07-17T01:04:16.3430807Z Downloading charset_normalizer-3.4.9-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (221 kB)
+2026-07-17T01:04:16.3494740Z Downloading urllib3-2.7.0-py3-none-any.whl (131 kB)
+2026-07-17T01:04:16.3559419Z Downloading certifi-2026.6.17-py3-none-any.whl (133 kB)
+2026-07-17T01:04:16.3633909Z Downloading scipy-1.17.1-cp311-cp311-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (35.3 MB)
+2026-07-17T01:04:16.8014989Z    ââââââââââââââââââââââââââââââââââââââââ 35.3/35.3 MB 80.6 MB/s  0:00:00
+2026-07-17T01:04:16.8054695Z Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+2026-07-17T01:04:16.8112235Z Downloading soupsieve-2.8.4-py3-none-any.whl (37 kB)
+2026-07-17T01:04:16.8168019Z Downloading sqlalchemy-2.0.51-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (3.3 MB)
+2026-07-17T01:04:16.8478701Z    ââââââââââââââââââââââââââââââââââââââââ 3.3/3.3 MB 118.3 MB/s  0:00:00
+2026-07-17T01:04:16.8516742Z Downloading greenlet-3.5.3-cp311-cp311-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (617 kB)
+2026-07-17T01:04:16.8585378Z    ââââââââââââââââââââââââââââââââââââââââ 617.4/617.4 kB 113.2 MB/s  0:00:00
+2026-07-17T01:04:16.8626018Z Downloading starlette-1.3.1-py3-none-any.whl (73 kB)
+2026-07-17T01:04:16.8780062Z Downloading statsmodels-0.14.6-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (10.4 MB)
+2026-07-17T01:04:17.0188154Z    ââââââââââââââââââââââââââââââââââââââââ 10.4/10.4 MB 73.1 MB/s  0:00:00
+2026-07-17T01:04:17.0273874Z Downloading patsy-1.0.2-py2.py3-none-any.whl (233 kB)
+2026-07-17T01:04:17.0412856Z Downloading tqdm-4.68.4-py3-none-any.whl (676 kB)
+2026-07-17T01:04:17.0480404Z    ââââââââââââââââââââââââââââââââââââââââ 676.6/676.6 kB 95.8 MB/s  0:00:00
+2026-07-17T01:04:17.0520917Z Downloading typing_inspection-0.4.2-py3-none-any.whl (14 kB)
+2026-07-17T01:04:17.0581475Z Downloading uvicorn-0.51.0-py3-none-any.whl (73 kB)
+2026-07-17T01:04:17.0648626Z Downloading click-8.4.2-py3-none-any.whl (119 kB)
+2026-07-17T01:04:17.0718625Z Downloading httptools-0.8.0-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (464 kB)
+2026-07-17T01:04:17.0831065Z Downloading python_dotenv-1.2.2-py3-none-any.whl (22 kB)
+2026-07-17T01:04:17.0893339Z Downloading uvloop-0.22.1-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (3.8 MB)
+2026-07-17T01:04:17.1113426Z    ââââââââââââââââââââââââââââââââââââââââ 3.8/3.8 MB 192.6 MB/s  0:00:00
+2026-07-17T01:04:17.1155903Z Downloading watchfiles-1.2.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (456 kB)
+2026-07-17T01:04:17.1226255Z Downloading websockets-16.1-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (187 kB)
+2026-07-17T01:04:17.1294352Z Downloading yfinance-1.5.1-py2.py3-none-any.whl (144 kB)
+2026-07-17T01:04:17.1382324Z Downloading curl_cffi-0.15.0-cp310-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (11.1 MB)
+2026-07-17T01:04:17.2483246Z    ââââââââââââââââââââââââââââââââââââââââ 11.1/11.1 MB 102.0 MB/s  0:00:00
+2026-07-17T01:04:17.2543333Z Downloading cffi-2.1.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (217 kB)
+2026-07-17T01:04:17.2605684Z Downloading multitasking-0.0.13-py3-none-any.whl (16 kB)
+2026-07-17T01:04:17.2662825Z Downloading peewee-4.2.4-py3-none-any.whl (173 kB)
+2026-07-17T01:04:17.2730447Z Downloading platformdirs-4.10.0-py3-none-any.whl (22 kB)
+2026-07-17T01:04:17.2786256Z Downloading protobuf-7.35.1-cp310-abi3-manylinux2014_x86_64.whl (327 kB)
+2026-07-17T01:04:17.2856702Z Downloading pytz-2026.2-py2.py3-none-any.whl (510 kB)
+2026-07-17T01:04:17.2934523Z Downloading mako-1.3.12-py3-none-any.whl (78 kB)
+2026-07-17T01:04:17.3045937Z Downloading mypy-2.3.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (15.1 MB)
+2026-07-17T01:04:17.4788527Z    ââââââââââââââââââââââââââââââââââââââââ 15.1/15.1 MB 86.3 MB/s  0:00:00
+2026-07-17T01:04:17.4840289Z Downloading ast_serialize-0.6.0-cp39-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (1.3 MB)
+2026-07-17T01:04:17.4925795Z    ââââââââââââââââââââââââââââââââââââââââ 1.3/1.3 MB 159.7 MB/s  0:00:00
+2026-07-17T01:04:17.4972586Z Downloading librt-0.13.0-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (515 kB)
+2026-07-17T01:04:17.5058740Z Downloading mypy_extensions-1.1.0-py3-none-any.whl (5.0 kB)
+2026-07-17T01:04:17.5114448Z Downloading pathspec-1.1.1-py3-none-any.whl (57 kB)
+2026-07-17T01:04:17.5179879Z Downloading pycparser-3.0-py3-none-any.whl (48 kB)
+2026-07-17T01:04:17.5240419Z Downloading pytest_cov-7.1.0-py3-none-any.whl (22 kB)
+2026-07-17T01:04:17.5303239Z Downloading coverage-7.15.2-cp311-cp311-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (254 kB)
+2026-07-17T01:04:17.5379412Z Downloading rich-15.0.0-py3-none-any.whl (310 kB)
+2026-07-17T01:04:17.5444244Z Downloading markdown_it_py-4.2.0-py3-none-any.whl (91 kB)
+2026-07-17T01:04:17.5503440Z Downloading mdurl-0.1.2-py3-none-any.whl (10.0 kB)
+2026-07-17T01:04:17.5565139Z Downloading ruff-0.15.22-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (11.4 MB)
+2026-07-17T01:04:17.6003448Z    ââââââââââââââââââââââââââââââââââââââââ 11.4/11.4 MB 277.3 MB/s  0:00:00
+2026-07-17T01:04:17.6043593Z Downloading sniffio-1.3.1-py3-none-any.whl (10 kB)
+2026-07-17T01:04:17.8305707Z Building wheels for collected packages: bve
+2026-07-17T01:04:17.8314248Z   Building editable for bve (pyproject.toml): started
+2026-07-17T01:04:18.1523754Z   Building editable for bve (pyproject.toml): finished with status 'done'
+2026-07-17T01:04:18.1529041Z   Created wheel for bve: filename=bve-0.2.0-0.editable-py3-none-any.whl size=2783 sha256=c82abe90ce0775ec7a26a3aed8a6031e07740641f01b5d26475fc0d458b78716
+2026-07-17T01:04:18.1530407Z   Stored in directory: /tmp/pip-ephem-wheel-cache-dfw4h58o/wheels/1d/ae/a6/1591fecc7bb20c171157ef829a22d6729dafe9fbaa879e9270
+2026-07-17T01:04:18.1546096Z Successfully built bve
+2026-07-17T01:04:18.3548794Z Installing collected packages: pytz, peewee, multitasking, websockets, uvloop, urllib3, typing-extensions, tqdm, soupsieve, sniffio, six, ruff, redis, rapidfuzz, pyyaml, python-dotenv, pyparsing, pygments, pycparser, psycopg2-binary, protobuf, pluggy, platformdirs, pillow, pathspec, packaging, numpy, mypy_extensions, mdurl, MarkupSafe, lxml, librt, kiwisolver, jiter, iniconfig, idna, httptools, h11, greenlet, fonttools, dramatiq, docstring-parser, distro, cycler, coverage, click, charset_normalizer, certifi, ast-serialize, annotated-types, annotated-doc, uvicorn, typing-inspection, sqlalchemy, scipy, requests, python-docx, python-dateutil, pytest, pydantic-core, patsy, mypy, markdown-it-py, Mako, jinja2, httpcore, contourpy, cffi, beautifulsoup4, anyio, watchfiles, starlette, rich, pytest-cov, pydantic, pandas, matplotlib, httpx, alembic, statsmodels, openai, fastapi, curl_cffi, anthropic, yfinance, bve
+2026-07-17T01:04:41.3898875Z 
+2026-07-17T01:04:41.3939191Z Successfully installed Mako-1.3.12 MarkupSafe-3.0.3 alembic-1.18.5 annotated-doc-0.0.4 annotated-types-0.7.0 anthropic-0.117.0 anyio-4.14.2 ast-serialize-0.6.0 beautifulsoup4-4.15.0 bve-0.2.0 certifi-2026.6.17 cffi-2.1.0 charset_normalizer-3.4.9 click-8.4.2 contourpy-1.3.3 coverage-7.15.2 curl_cffi-0.15.0 cycler-0.12.1 distro-1.9.0 docstring-parser-0.18.0 dramatiq-2.2.0 fastapi-0.139.2 fonttools-4.63.0 greenlet-3.5.3 h11-0.16.0 httpcore-1.0.9 httptools-0.8.0 httpx-0.28.1 idna-3.18 iniconfig-2.3.0 jinja2-3.1.6 jiter-0.16.0 kiwisolver-1.5.0 librt-0.13.0 lxml-6.1.1 markdown-it-py-4.2.0 matplotlib-3.11.0 mdurl-0.1.2 multitasking-0.0.13 mypy-2.3.0 mypy_extensions-1.1.0 numpy-2.4.6 openai-2.45.0 packaging-26.2 pandas-3.0.3 pathspec-1.1.1 patsy-1.0.2 peewee-4.2.4 pillow-12.3.0 platformdirs-4.10.0 pluggy-1.6.0 protobuf-7.35.1 psycopg2-binary-2.9.12 pycparser-3.0 pydantic-2.13.4 pydantic-core-2.46.4 pygments-2.20.0 pyparsing-3.3.2 pytest-9.1.1 pytest-cov-7.1.0 python-dateutil-2.9.0.post0 python-docx-1.2.0 python-dotenv-1.2.2 pytz-2026.2 pyyaml-6.0.3 rapidfuzz-3.14.5 redis-8.0.1 requests-2.34.2 rich-15.0.0 ruff-0.15.22 scipy-1.17.1 six-1.17.0 sniffio-1.3.1 soupsieve-2.8.4 sqlalchemy-2.0.51 starlette-1.3.1 statsmodels-0.14.6 tqdm-4.68.4 typing-extensions-4.16.0 typing-inspection-0.4.2 urllib3-2.7.0 uvicorn-0.51.0 uvloop-0.22.1 watchfiles-1.2.0 websockets-16.1 yfinance-1.5.1
+2026-07-17T01:04:41.7894513Z ##[group]Run AS_OF="2026-07-16"
+2026-07-17T01:04:41.7894857Z [36;1mAS_OF="2026-07-16"[0m
+2026-07-17T01:04:41.7895115Z [36;1mif [ -z "$AS_OF" ]; then[0m
+2026-07-17T01:04:41.7895379Z [36;1m  AS_OF="$(date -u +%F)"[0m
+2026-07-17T01:04:41.7895622Z [36;1mfi[0m
+2026-07-17T01:04:41.7895850Z [36;1mecho "as_of=$AS_OF" >> "$GITHUB_OUTPUT"[0m
+2026-07-17T01:04:41.7958370Z shell: /usr/bin/bash -e {0}
+2026-07-17T01:04:41.7958631Z env:
+2026-07-17T01:04:41.7959022Z   NEWS_API_KEY: ***
+2026-07-17T01:04:41.7959275Z   ALPHAVANTAGE_API_KEY: ***
+2026-07-17T01:04:41.7959592Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-07-17T01:04:41.7960039Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-07-17T01:04:41.7960477Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-07-17T01:04:41.7961052Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-07-17T01:04:41.7961475Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-07-17T01:04:41.7961865Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-07-17T01:04:41.7962451Z ##[endgroup]
+2026-07-17T01:04:41.8094195Z ##[group]Run mkdir -p outputs/probe/intelligence
+2026-07-17T01:04:41.8094586Z [36;1mmkdir -p outputs/probe/intelligence[0m
+2026-07-17T01:04:41.8094972Z [36;1mtouch outputs/probe/intelligence/probe_ledger.jsonl[0m
+2026-07-17T01:04:41.8153326Z shell: /usr/bin/bash -e {0}
+2026-07-17T01:04:41.8153583Z env:
+2026-07-17T01:04:41.8153895Z   NEWS_API_KEY: ***
+2026-07-17T01:04:41.8154142Z   ALPHAVANTAGE_API_KEY: ***
+2026-07-17T01:04:41.8154453Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-07-17T01:04:41.8154891Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-07-17T01:04:41.8155323Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-07-17T01:04:41.8155731Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-07-17T01:04:41.8156109Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-07-17T01:04:41.8156498Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-07-17T01:04:41.8156851Z ##[endgroup]
+2026-07-17T01:04:41.8309144Z ##[group]Run SOURCES_ARG=""
+2026-07-17T01:04:41.8309442Z [36;1mSOURCES_ARG=""[0m
+2026-07-17T01:04:41.8309677Z [36;1mif [ -n "" ]; then[0m
+2026-07-17T01:04:41.8309932Z [36;1m  SOURCES_ARG="--sources "[0m
+2026-07-17T01:04:41.8310183Z [36;1mfi[0m
+2026-07-17T01:04:41.8310367Z [36;1m[0m
+2026-07-17T01:04:41.8310556Z [36;1mLOOKBACK="3"[0m
+2026-07-17T01:04:41.8310787Z [36;1mif [ -z "$LOOKBACK" ]; then[0m
+2026-07-17T01:04:41.8311042Z [36;1m  LOOKBACK="3"[0m
+2026-07-17T01:04:41.8311253Z [36;1mfi[0m
+2026-07-17T01:04:41.8311436Z [36;1m[0m
+2026-07-17T01:04:41.8311630Z [36;1mbve-ingest-live \[0m
+2026-07-17T01:04:41.8311923Z [36;1m  --targets research/universe/targets.yaml \[0m
+2026-07-17T01:04:41.8312568Z [36;1m  --acquirers research/universe/acquirers.yaml \[0m
+2026-07-17T01:04:41.8312957Z [36;1m  --overrides research/universe/manual_overrides.yaml \[0m
+2026-07-17T01:04:41.8313374Z [36;1m  --ledger outputs/probe/intelligence/probe_ledger.jsonl \[0m
+2026-07-17T01:04:41.8313750Z [36;1m  --as-of "2026-07-16" \[0m
+2026-07-17T01:04:41.8314030Z [36;1m  --lookback-days "$LOOKBACK" \[0m
+2026-07-17T01:04:41.8314341Z [36;1m  --output "outputs/probe/health/2026-07-16" \[0m
+2026-07-17T01:04:41.8314664Z [36;1m  --fail-on-degraded \[0m
+2026-07-17T01:04:41.8314919Z [36;1m  $SOURCES_ARG[0m
+2026-07-17T01:04:41.8374494Z shell: /usr/bin/bash -e {0}
+2026-07-17T01:04:41.8374743Z env:
+2026-07-17T01:04:41.8375042Z   NEWS_API_KEY: ***
+2026-07-17T01:04:41.8375285Z   ALPHAVANTAGE_API_KEY: ***
+2026-07-17T01:04:41.8375590Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-07-17T01:04:41.8376024Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-07-17T01:04:41.8376468Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-07-17T01:04:41.8376842Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-07-17T01:04:41.8377217Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-07-17T01:04:41.8377596Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-07-17T01:04:41.8377917Z ##[endgroup]
+2026-07-17T01:06:20.7967156Z As-of date:              2026-07-16
+2026-07-17T01:06:20.7967604Z Lookback days:           3
+2026-07-17T01:06:20.7967876Z Targets:                 125
+2026-07-17T01:06:20.7968245Z Acquirers:               33
+2026-07-17T01:06:20.7968612Z Items seen:              1987
+2026-07-17T01:06:20.7968998Z Items classified:        206
+2026-07-17T01:06:20.7969433Z Unclassified:            1781
+2026-07-17T01:06:20.7969870Z Records appended:        206
+2026-07-17T01:06:20.7970309Z Duplicates skipped:      0
+2026-07-17T01:06:20.7970985Z   clinicaltrials_gov: 1968
+2026-07-17T01:06:20.7971396Z   fda_website: 0
+2026-07-17T01:06:20.7972053Z   sec_filing: 19
+2026-07-17T01:06:20.7972520Z 
+2026-07-17T01:06:20.7972982Z # Ingestion Health â 2026-07-16
+2026-07-17T01:06:20.7973262Z 
+2026-07-17T01:06:20.7973991Z Lookback: 3d Â· items seen: 1987 Â· classified: 206 Â· appended: 206 Â· duplicates: 0 Â· unclassified: 1781
+2026-07-17T01:06:20.7974730Z 
+2026-07-17T01:06:20.7975239Z | Source | Attempted | Fetched | Classified | Appended | Dupes | Unclass. | Failures | Verdict |
+2026-07-17T01:06:20.7976163Z | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+2026-07-17T01:06:20.7977004Z | clinicaltrials_gov | 158 | 1968 | 203 | 203 | 0 | 1765 | 0 | â OK |
+2026-07-17T01:06:20.7977809Z | fda_website | 158 | 0 | 0 | 0 | 0 | 0 | 0 | â NO_DATA |
+2026-07-17T01:06:20.7978510Z | sec_filing | 158 | 19 | 3 | 3 | 0 | 16 | 0 | â OK |
+2026-07-17T01:06:20.7978885Z 
+2026-07-17T01:06:20.7979078Z ### clinicaltrials_gov diagnostic reason
+2026-07-17T01:06:20.7979545Z - Verdict reason: records fetched and classifier processed them normally
+2026-07-17T01:06:20.7980092Z - Rejection reasons: {'classifier:unclassified': 1765}
+2026-07-17T01:06:20.7980375Z 
+2026-07-17T01:06:20.7980489Z ### fda_website diagnostic reason
+2026-07-17T01:06:20.7980928Z - Verdict reason: requests completed successfully but returned no records
+2026-07-17T01:06:20.7983922Z - Request statuses: 404, 200, 200, 404, 200, 404, 404, 404, 404, 404, 404, 404, 200, 200, 200, 404, 404, 404, 404, 200, 404, 404, 404, 404, 200, 200, 404, 404, 404, 404, 404, 200, 404, 200, 200, 200, 200, 404, 404, 200, 200, 404, 404, 404, 404, 404, 404, 404, 404, 404, 200, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 200, 404, 200, 404, 200, 404, 200, 200, 404, 200, 200, 200, 200, 404, 404, 404, 404, 404, 404, 404, 404, 200, 404, 404, 404, 200, 404, 404, 404, 404, 404, 404, 404, 404, 200, 404, 404, 404, 200, 404, 404, 200, 404, 200, 404, 200, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404, 404
+2026-07-17T01:06:20.7986136Z 
+2026-07-17T01:06:20.7986247Z ### sec_filing diagnostic reason
+2026-07-17T01:06:20.7986619Z - Verdict reason: records fetched and classifier processed them normally
+2026-07-17T01:06:20.7988482Z - Rejection reasons: {'classifier:unclassified:item=2.01,3.01,3.03,5.01,5.02,5.03,9.01': 1, 'classifier:unclassified:item=2.01,7.01,9.01': 1, 'classifier:unclassified:item=2.02,5.02,7.01,9.01': 1, 'classifier:unclassified:item=5.02': 3, 'classifier:unclassified:item=5.02,7.01,9.01': 1, 'classifier:unclassified:item=5.02,9.01': 1, 'classifier:unclassified:item=5.07': 1, 'classifier:unclassified:item=7.01,9.01': 1, 'classifier:unclassified:item=8.01': 2, 'classifier:unclassified:item=8.01,9.01': 3, 'expected_non_event:item=2.02,9.01': 1}
+2026-07-17T01:06:20.7990212Z - Expected non-event records: 1
+2026-07-17T01:06:20.7992364Z - Request statuses: 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200, 200
+2026-07-17T01:06:20.7994191Z 
+2026-07-17T01:06:20.7994331Z Output dir:              outputs/probe/health/2026-07-16
+2026-07-17T01:06:20.7994643Z   new_events.csv
+2026-07-17T01:06:20.7994862Z   ingestion_health.md
+2026-07-17T01:06:20.7995086Z   ingestion_health.json
+2026-07-17T01:06:20.7995472Z KnowledgeStore mirror: events=102, signals=102, skipped=104 (outputs/intelligence/ops.db)
+2026-07-17T01:06:21.1198177Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-07-17T01:06:21.1199454Z ##[group]Run actions/upload-artifact@v4
+2026-07-17T01:06:21.1199724Z with:
+2026-07-17T01:06:21.1199934Z   name: ingestion-health-2026-07-16
+2026-07-17T01:06:21.1200211Z   path: outputs/probe/health/2026-07-16
+2026-07-17T01:06:21.1200484Z   if-no-files-found: warn
+2026-07-17T01:06:21.1200718Z   retention-days: 14
+2026-07-17T01:06:21.1200941Z   compression-level: 6
+2026-07-17T01:06:21.1201157Z   overwrite: false
+2026-07-17T01:06:21.1201370Z   include-hidden-files: false
+2026-07-17T01:06:21.1201602Z env:
+2026-07-17T01:06:21.1201923Z   NEWS_API_KEY: ***
+2026-07-17T01:06:21.1202467Z   ALPHAVANTAGE_API_KEY: ***
+2026-07-17T01:06:21.1202837Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-07-17T01:06:21.1203269Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib/pkgconfig
+2026-07-17T01:06:21.1203697Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-07-17T01:06:21.1204075Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-07-17T01:06:21.1204454Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.15/x64
+2026-07-17T01:06:21.1204832Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.15/x64/lib
+2026-07-17T01:06:21.1205151Z ##[endgroup]
+2026-07-17T01:06:21.2894093Z (node:2473) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-07-17T01:06:21.2895292Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-07-17T01:06:21.2967306Z With the provided path, there will be 3 files uploaded
+2026-07-17T01:06:21.2993101Z Artifact name is valid!
+2026-07-17T01:06:21.2993650Z Root directory input is valid!
+2026-07-17T01:06:21.4429707Z Beginning upload of artifact content to blob storage
+2026-07-17T01:06:21.4688052Z (node:2473) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+2026-07-17T01:06:21.5255625Z Uploaded bytes 18858
+2026-07-17T01:06:21.5445631Z Finished uploading artifact content to blob storage!
+2026-07-17T01:06:21.5447477Z SHA256 digest of uploaded artifact zip is 00d722e45f13d6ff07c10306d309ee55ccc6e55ac9bd94c0e6c11ddc1ed2bd94
+2026-07-17T01:06:21.5449045Z Finalizing artifact upload
+2026-07-17T01:06:21.7223329Z Artifact ingestion-health-2026-07-16.zip successfully finalized. Artifact ID 8394196862
+2026-07-17T01:06:21.7224549Z Artifact ingestion-health-2026-07-16 has been successfully uploaded! Final size is 18858 bytes. Artifact ID is 8394196862
+2026-07-17T01:06:21.7225484Z Artifact download URL: https://github.com/djbm10/Biotech-Asset-Valuation-Engine/actions/runs/29546465885/artifacts/8394196862
+2026-07-17T01:06:21.7392798Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-07-17T01:06:21.7394075Z Post job cleanup.
+2026-07-17T01:06:21.8618168Z (node:2485) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+2026-07-17T01:06:21.8619104Z (Use `node --trace-deprecation ...` to show where the warning was created)
+2026-07-17T01:06:21.8844220Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+2026-07-17T01:06:21.8846642Z Post job cleanup.
+2026-07-17T01:06:21.9903177Z [command]/usr/bin/git version
+2026-07-17T01:06:21.9982871Z git version 2.54.0
+2026-07-17T01:06:22.0036817Z Temporarily overriding HOME='/home/runner/work/_temp/3da7c146-2ada-4941-b5bb-60df800656b2' before making global git config changes
+2026-07-17T01:06:22.0061224Z Adding repository directory to the temporary git global config as a safe directory
+2026-07-17T01:06:22.0079274Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Biotech-Asset-Valuation-Engine/Biotech-Asset-Valuation-Engine
+2026-07-17T01:06:22.0111772Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-07-17T01:06:22.0194463Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-07-17T01:06:22.0557651Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-07-17T01:06:22.0642037Z http.https://github.com/.extraheader
+2026-07-17T01:06:22.0671647Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+2026-07-17T01:06:22.0744470Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-07-17T01:06:22.1080474Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-07-17T01:06:22.1120181Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-07-17T01:06:22.1529444Z Cleaning up orphan processes
+2026-07-17T01:06:22.1961806Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-python@v5, actions/upload-artifact@v4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
