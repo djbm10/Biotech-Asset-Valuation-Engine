@@ -1070,3 +1070,23 @@ class TestSecItemsToText:
             [{"submission_type": "ORIG", "submission_status_date": "2026-07-15"}],
             as_of_date=date(2026, 7, 16),
         ) == date(2026, 7, 15)
+
+    def test_fda_diagnostics_record_outside_window_reason(self, monkeypatch):
+        from bve.ingestion.raw_event import RawEvent
+
+        def fake_fetch(*, drug_name, limit, diagnostics):  # noqa: ARG001
+            diagnostics.append({"status": 200, "records_returned": 1})
+            return [RawEvent(
+                source="openfda", record_type="drug_approval",
+                source_url="https://api.fda.gov/drug/drugsfda.json",
+                payload={"submissions": [{
+                    "submission_type": "ORIG", "submission_status_date": "2020-01-01",
+                }], "products": []},
+            )]
+
+        monkeypatch.setattr("bve.ingestion.fda_client.fetch_approvals", fake_fetch)
+        source = FDASource()
+        assert source.fetch(
+            "RVMD", {"lead_asset": "example"}, 3, as_of_date=date(2026, 7, 16)
+        ) == []
+        assert source.diagnostics[-1]["zero_match_reason"] == "outside_date_window"

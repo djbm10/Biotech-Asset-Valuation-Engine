@@ -514,6 +514,12 @@ class FDASource:
             ))
         if self.diagnostics:
             self.diagnostics[-1]["records_parsed"] = len(raw_events)
+            self.diagnostics[-1]["records_selected"] = len(results)
+            if not results:
+                if raw_events:
+                    self.diagnostics[-1]["zero_match_reason"] = "outside_date_window"
+                elif "zero_match_reason" not in self.diagnostics[-1]:
+                    self.diagnostics[-1]["zero_match_reason"] = "no_match"
         return results
 
     @staticmethod

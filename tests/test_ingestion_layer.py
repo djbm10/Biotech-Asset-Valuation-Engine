@@ -501,9 +501,11 @@ class TestFdaClient:
 
         monkeypatch.setattr(fda_client.requests, "get", lambda *args, **kwargs: _Response())
 
-        data = fda_client._get("https://api.fda.gov/drug/nda.json")
+        diagnostics = []
+        data = fda_client._get("https://api.fda.gov/drug/drugsfda.json", diagnostics=diagnostics)
         assert data["status"] == "no_fda_record"
         assert data["results"] == []
+        assert diagnostics[0]["zero_match_reason"] == "no_match"
 
     @patch("bve.ingestion.fda_client._get")
     def test_fetch_approvals_uses_drugsfda_and_records_diagnostics(self, mock_get):
@@ -514,6 +516,7 @@ class TestFdaClient:
         fda_client.fetch_approvals("UnknownDrug", diagnostics=diagnostics)
         assert mock_get.call_args.args[0].endswith("/drug/drugsfda.json")
         assert "diagnostics" in mock_get.call_args.kwargs
+
 
     @patch("bve.ingestion.fda_client._get")
     def test_fetch_adverse_events(self, mock_get):

@@ -30,11 +30,13 @@ def _get(
             r = requests.get(url, params=params, timeout=30)
             if diagnostics is not None:
                 diagnostics.append({
-                    "url": r.url,
+                    "url": getattr(r, "url", url),
                     "status": r.status_code,
                     "records_returned": 0,
                 })
             if r.status_code == 404:
+                if diagnostics is not None:
+                    diagnostics[-1]["zero_match_reason"] = "no_match"
                 return {
                     "results": [],
                     "status": "no_fda_record",
