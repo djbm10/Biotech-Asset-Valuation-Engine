@@ -46,8 +46,10 @@ from __future__ import annotations
 
 import csv
 import hashlib
+import inspect
 import logging
 import os
+import re
 from dataclasses import dataclass, field
 from datetime import datetime, date, timedelta
 from pathlib import Path
@@ -70,6 +72,45 @@ class RawIngestionItem:
     raw_payload: dict[str, Any] = field(default_factory=dict)
 
 
+def _invoke_source_fetch(
+    fetch_fn: Callable[..., Any],
+    ticker: str,
+    profile_data: dict[str, Any],
+    lookback_days: int,
+    as_of_date: date,
+) -> Any:
+    """Call a source with the run date while supporting legacy three-argument callables."""
+    try:
+        signature = inspect.signature(fetch_fn)
+    except (TypeError, ValueError):
+        # Some extension/builtin callables do not expose a signature. Preserve
+        # the historical injection contract rather than guessing and possibly
+        # issuing a duplicate request after a TypeError.
+        return fetch_fn(ticker, profile_data, lookback_days)
+
+    parameters = signature.parameters
+    as_of_parameter = parameters.get("as_of_date")
+    if as_of_parameter is not None:
+        if as_of_parameter.kind is inspect.Parameter.POSITIONAL_ONLY:
+            return fetch_fn(ticker, profile_data, lookback_days, as_of_date)
+        return fetch_fn(
+            ticker,
+            profile_data,
+            lookback_days,
+            as_of_date=as_of_date,
+        )
+    if any(p.kind is inspect.Parameter.VAR_KEYWORD for p in parameters.values()):
+        return fetch_fn(
+            ticker,
+            profile_data,
+            lookback_days,
+            as_of_date=as_of_date,
+        )
+    if any(p.kind is inspect.Parameter.VAR_POSITIONAL for p in parameters.values()):
+        return fetch_fn(ticker, profile_data, lookback_days, as_of_date)
+    return fetch_fn(ticker, profile_data, lookback_days)
+
+
 # Verdict thresholds for SourceHealth. A handful of unclassified records is
 # normal noise (especially for news); only an abnormally high rate over a
 # meaningful sample is treated as a classifier problem.
@@ -89,30 +130,58 @@ class SourceHealth:
     tickers_attempted: int = 0
     fetch_failures: int = 0
     failure_samples: tuple[str, ...] = ()
+    processing_failures: int = 0
+    processing_failure_samples: tuple[str, ...] = ()
     records_fetched: int = 0
     records_classified: int = 0
     records_appended: int = 0
     duplicates_skipped: int = 0
     unclassified: int = 0
+    expected_unclassified: int = 0
+    request_diagnostics: tuple[dict[str, Any], ...] = ()
+    rejection_reasons: tuple[tuple[str, int], ...] = ()
 
     @property
     def verdict(self) -> str:
         # Every attempt raised → the source is down.
         if self.tickers_attempted > 0 and self.fetch_failures >= self.tickers_attempted:
             return "FAILED"
-        # Some attempts raised → partial outage.
-        if self.fetch_failures > 0:
+        # Data arrived but every item failed downstream processing → this
+        # source's end-to-end path was unusable for the run.
+        if (
+            self.records_fetched > 0
+            and self.processing_failures >= self.records_fetched
+        ):
+            return "FAILED"
+        # Some fetches or item-processing attempts failed → partial outage.
+        if self.fetch_failures > 0 or self.processing_failures > 0:
             return "DEGRADED"
         # Nothing fetched and nothing failed → legitimately quiet window.
         if self.records_fetched == 0:
             return "NO_DATA"
         # Fetched plenty but the classifier resolved almost none → classifier problem.
+        actionable_unclassified = self.unclassified - self.expected_unclassified
         if (
             self.records_fetched >= _MIN_SAMPLE_FOR_UNCLASSIFIED_FLAG
-            and self.unclassified / self.records_fetched >= _HIGH_UNCLASSIFIED_RATE
+            and actionable_unclassified / self.records_fetched >= _HIGH_UNCLASSIFIED_RATE
         ):
             return "DEGRADED"
         return "OK"
+
+    @property
+    def verdict_reason(self) -> str:
+        if self.tickers_attempted > 0 and self.fetch_failures >= self.tickers_attempted:
+            return "all source requests failed"
+        if self.records_fetched and self.processing_failures >= self.records_fetched:
+            return "all fetched records failed during processing"
+        if self.fetch_failures or self.processing_failures:
+            return "one or more source or processing attempts failed"
+        if self.records_fetched == 0:
+            return "requests completed successfully but returned no records"
+        actionable_unclassified = self.unclassified - self.expected_unclassified
+        if self.records_fetched >= _MIN_SAMPLE_FOR_UNCLASSIFIED_FLAG and actionable_unclassified / self.records_fetched >= _HIGH_UNCLASSIFIED_RATE:
+            return "records were fetched but the classifier rejected an abnormally high share"
+        return "records fetched and classifier processed them normally"
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -121,11 +190,18 @@ class SourceHealth:
             "tickers_attempted": self.tickers_attempted,
             "fetch_failures": self.fetch_failures,
             "failure_samples": list(self.failure_samples),
+            "processing_failures": self.processing_failures,
+            "processing_failure_samples": list(self.processing_failure_samples),
             "records_fetched": self.records_fetched,
             "records_classified": self.records_classified,
             "records_appended": self.records_appended,
             "duplicates_skipped": self.duplicates_skipped,
             "unclassified": self.unclassified,
+            "expected_unclassified": self.expected_unclassified,
+            "rejected": self.unclassified - self.expected_unclassified,
+            "request_diagnostics": list(self.request_diagnostics),
+            "rejection_reasons": dict(self.rejection_reasons),
+            "verdict_reason": self.verdict_reason,
         }
 
 
@@ -142,6 +218,8 @@ class IngestionRunResult:
     output_paths: list[str]
     # Per-source health (optional for backward compat with older callers/tests).
     source_health: dict[str, SourceHealth] = field(default_factory=dict)
+    processing_failures: int = 0
+    processing_failure_samples: tuple[str, ...] = ()
 
 
 # ---------------------------------------------------------------------------
@@ -149,8 +227,9 @@ class IngestionRunResult:
 # ---------------------------------------------------------------------------
 
 _8K_ITEM_PHRASES: dict[str, str] = {
-    "1.01": "enters material definitive agreement partnership licensing deal",
-    "1.02": "material agreement terminated",
+    # Use classifier vocabulary, not merely a human-readable item label.
+    "1.01": "enters into license agreement collaboration agreement partnership agreement",
+    "1.02": "termination of collaboration agreement",
     "2.02": "announces quarterly financial results earnings revenue guidance",
     "2.05": "announces restructuring cost exit disposal plan",
     "2.06": "reports material impairment charge write-down",
@@ -158,6 +237,24 @@ _8K_ITEM_PHRASES: dict[str, str] = {
     "8.01": "other events material announcement",
     "9.01": "financial statements exhibits",
 }
+
+_SEC_ACQUISITION_SIGNAL_RE = re.compile(
+    r"\b(?:acqui(?:re|red|sition)|merger|definitive agreement|license agreement|"
+    r"collaboration|partnership|strategic review|strategic alternatives|"
+    r"asset sale|divestiture|offering|private placement|registered direct|"
+    r"tender offer|business development)\b",
+    re.IGNORECASE,
+)
+
+
+def _is_expected_sec_non_event(item: RawIngestionItem) -> bool:
+    """Return true only for routine 2.02/9.01 filings without BD signals."""
+    item_codes = set(re.findall(r"\d+\.\d+", str(item.raw_payload.get("items", ""))))
+    return (
+        bool(item_codes)
+        and item_codes <= {"2.02", "9.01"}
+        and not _SEC_ACQUISITION_SIGNAL_RE.search(item.text)
+    )
 
 # Trial status → signal text (for CT.gov adapter)
 _CTGOV_STATUS_TEXT: dict[str, str] = {
@@ -188,28 +285,30 @@ class SecEightKSource:
     _HEADERS = {"User-Agent": "BVE Analytics research@bve.local"}
     _TICKER_CACHE: dict[str, str] = {}
 
+    def __init__(self) -> None:
+        self.diagnostics: list[dict[str, Any]] = []
+
     def fetch(
         self,
         ticker: str,
         profile_data: dict[str, Any],
         lookback_days: int,
+        as_of_date: date | None = None,
     ) -> list[RawIngestionItem]:
         import requests
 
         ticker = ticker.upper()
+        anchor_date = as_of_date or date.today()
         cik = self._resolve_cik(ticker)
         if not cik:
             logger.debug("SEC: no CIK found for %s", ticker)
             return []
 
         url = f"{self._EDGAR_BASE}/submissions/CIK{cik}.json"
-        try:
-            r = requests.get(url, headers=self._HEADERS, timeout=30)
-            r.raise_for_status()
-            data = r.json()
-        except Exception as exc:
-            logger.warning("SEC: fetch failed for %s: %s", ticker, exc)
-            return []
+        r = requests.get(url, headers=self._HEADERS, timeout=30)
+        self.diagnostics.append({"url": r.url, "status": r.status_code, "records_returned": 0})
+        r.raise_for_status()
+        data = r.json()
 
         recent = data.get("filings", {}).get("recent", {})
         forms    = recent.get("form", [])
@@ -218,7 +317,7 @@ class SecEightKSource:
         pri_docs = recent.get("primaryDocument", [])
         items_list = recent.get("items", [""] * len(forms))
 
-        cutoff = date.today() - timedelta(days=lookback_days)
+        cutoff = anchor_date - timedelta(days=lookback_days)
         results: list[RawIngestionItem] = []
 
         for form, filing_date_str, accno, pri_doc, items_str in zip(
@@ -229,6 +328,8 @@ class SecEightKSource:
             try:
                 filing_date = date.fromisoformat(filing_date_str)
             except ValueError:
+                continue
+            if filing_date > anchor_date:
                 continue
             if filing_date < cutoff:
                 break  # EDGAR returns newest-first
@@ -252,28 +353,31 @@ class SecEightKSource:
                     "items": items_str,
                 },
             ))
+        self.diagnostics[-1]["records_returned"] = len(results)
+        self.diagnostics[-1]["records_parsed"] = len(results)
         return results
 
     def _resolve_cik(self, ticker: str) -> str | None:
         import requests
         if ticker in self._TICKER_CACHE:
             return self._TICKER_CACHE[ticker]
-        try:
-            r = requests.get(self._TICKERS_URL, headers=self._HEADERS, timeout=30)
-            r.raise_for_status()
-            for entry in r.json().values():
-                sym = str(entry.get("ticker", "")).upper()
-                if sym:
-                    self._TICKER_CACHE[sym] = str(entry["cik_str"]).zfill(10)
-        except Exception:
-            pass
+        r = requests.get(self._TICKERS_URL, headers=self._HEADERS, timeout=30)
+        r.raise_for_status()
+        for entry in r.json().values():
+            sym = str(entry.get("ticker", "")).upper()
+            if sym:
+                self._TICKER_CACHE[sym] = str(entry["cik_str"]).zfill(10)
         return self._TICKER_CACHE.get(ticker)
 
     @staticmethod
     def _items_to_text(items_str: str, ticker: str) -> str:
+        # SEC submissions uses comma-separated item numbers (for example
+        # ``2.02,9.01``); older fixtures used whitespace.  Accept both.
+        import re
+        item_numbers = re.findall(r"\d+\.\d+", items_str)
         phrases = [
             _8K_ITEM_PHRASES[item]
-            for item in items_str.strip().split()
+            for item in item_numbers
             if item in _8K_ITEM_PHRASES
         ]
         if phrases:
@@ -294,6 +398,7 @@ class CTGovSource:
         ticker: str,
         profile_data: dict[str, Any],
         lookback_days: int,
+        as_of_date: date | None = None,
     ) -> list[RawIngestionItem]:
         from bve.ingestion.ctgov_client import search_trials
 
@@ -301,28 +406,25 @@ class CTGovSource:
         lead_asset = profile_data.get("lead_asset", "")
         drug_name = lead_asset or sponsor
 
-        cutoff = date.today() - timedelta(days=lookback_days)
+        anchor_date = as_of_date or date.today()
+        cutoff = anchor_date - timedelta(days=lookback_days)
         results: list[RawIngestionItem] = []
 
-        try:
-            raw_events = search_trials(drug_name=drug_name, limit=20)
-            if lead_asset and sponsor and sponsor != lead_asset:
-                sponsor_events = search_trials(drug_name=sponsor, limit=20)
-                seen_nct = {
-                    str(ev.payload.get("nct_id") or "")
-                    for ev in raw_events
-                    if getattr(ev, "payload", None)
-                }
-                for ev in sponsor_events:
-                    nct_id = str(ev.payload.get("nct_id") or "")
-                    if nct_id and nct_id in seen_nct:
-                        continue
-                    raw_events.append(ev)
-                    if nct_id:
-                        seen_nct.add(nct_id)
-        except Exception as exc:
-            logger.warning("CTGov: fetch failed for %s: %s", ticker, exc)
-            return []
+        raw_events = search_trials(drug_name=drug_name, limit=20)
+        if lead_asset and sponsor and sponsor != lead_asset:
+            sponsor_events = search_trials(drug_name=sponsor, limit=20)
+            seen_nct = {
+                str(ev.payload.get("nct_id") or "")
+                for ev in raw_events
+                if getattr(ev, "payload", None)
+            }
+            for ev in sponsor_events:
+                nct_id = str(ev.payload.get("nct_id") or "")
+                if nct_id and nct_id in seen_nct:
+                    continue
+                raw_events.append(ev)
+                if nct_id:
+                    seen_nct.add(nct_id)
 
         for ev in raw_events:
             payload = ev.payload
@@ -330,9 +432,9 @@ class CTGovSource:
             try:
                 last_update = date.fromisoformat(last_update_str[:10])
             except (ValueError, TypeError):
-                last_update = date.today()
+                last_update = anchor_date
 
-            if last_update < cutoff:
+            if last_update < cutoff or last_update > anchor_date:
                 continue
 
             status = payload.get("status", "")
@@ -361,11 +463,15 @@ class FDASource:
     Matches on drug name; filters by approval date within lookback window.
     """
 
+    def __init__(self) -> None:
+        self.diagnostics: list[dict[str, Any]] = []
+
     def fetch(
         self,
         ticker: str,
         profile_data: dict[str, Any],
         lookback_days: int,
+        as_of_date: date | None = None,
     ) -> list[RawIngestionItem]:
         from bve.ingestion.fda_client import fetch_approvals
 
@@ -373,20 +479,22 @@ class FDASource:
         if not lead_asset:
             return []
 
-        cutoff = date.today() - timedelta(days=lookback_days)
+        anchor_date = as_of_date or date.today()
+        cutoff = anchor_date - timedelta(days=lookback_days)
         results: list[RawIngestionItem] = []
 
-        try:
-            raw_events = fetch_approvals(drug_name=lead_asset, limit=10)
-        except Exception as exc:
-            logger.warning("FDA: fetch failed for %s: %s", ticker, exc)
-            return []
+        raw_events = fetch_approvals(
+            drug_name=lead_asset, limit=10, diagnostics=self.diagnostics
+        )
 
         for ev in raw_events:
             payload = ev.payload
             submissions = payload.get("submissions", [])
             # Find the most recent approval-action submission
-            approval_date = self._latest_approval_date(submissions)
+            approval_date = self._latest_approval_date(
+                submissions,
+                as_of_date=anchor_date,
+            )
             if approval_date is None or approval_date < cutoff:
                 continue
 
@@ -404,17 +512,24 @@ class FDASource:
                 published_date=approval_date,
                 raw_payload=payload,
             ))
+        if self.diagnostics:
+            self.diagnostics[-1]["records_parsed"] = len(raw_events)
         return results
 
     @staticmethod
-    def _latest_approval_date(submissions: list[dict]) -> date | None:
+    def _latest_approval_date(
+        submissions: list[dict],
+        as_of_date: date | None = None,
+    ) -> date | None:
         best: date | None = None
         for sub in submissions:
             action = sub.get("submission_type", "")
             action_date_str = sub.get("submission_status_date", "")
-            if action in ("ORIG-1", "SUPPL") and action_date_str:
+            if action in ("ORIG", "ORIG-1", "SUPPL") and action_date_str:
                 try:
                     d = date.fromisoformat(action_date_str[:10])
+                    if as_of_date is not None and d > as_of_date:
+                        continue
                     if best is None or d > best:
                         best = d
                 except ValueError:
@@ -479,15 +594,13 @@ class PressReleaseSource:
         ticker: str,
         profile_data: dict[str, Any],
         lookback_days: int,
+        as_of_date: date | None = None,
     ) -> list[RawIngestionItem]:
         from bve.ingestion.news_client import fetch_sec_press_releases
 
-        cutoff = date.today() - timedelta(days=lookback_days)
-        try:
-            raw_events = fetch_sec_press_releases(ticker=ticker, limit=10)
-        except Exception as exc:
-            logger.warning("Press releases: fetch failed for %s: %s", ticker, exc)
-            return []
+        anchor_date = as_of_date or date.today()
+        cutoff = anchor_date - timedelta(days=lookback_days)
+        raw_events = fetch_sec_press_releases(ticker=ticker, limit=10)
 
         items: list[RawIngestionItem] = []
         for event in raw_events:
@@ -495,9 +608,9 @@ class PressReleaseSource:
                 event=event,
                 ticker=ticker,
                 source_type="press_release",
-                default_date=date.today(),
+                default_date=anchor_date,
             )
-            if item.published_date >= cutoff:
+            if cutoff <= item.published_date <= anchor_date:
                 items.append(item)
         return items
 
@@ -516,26 +629,23 @@ class NewsArticleSource:
         ticker: str,
         profile_data: dict[str, Any],
         lookback_days: int,
+        as_of_date: date | None = None,
     ) -> list[RawIngestionItem]:
         from bve.ingestion.news_client import fetch_biospace_news, fetch_newsapi_articles
 
         company = profile_data.get("name") or ticker
         api_key = os.getenv("NEWS_API_KEY", "")
-        cutoff = date.today() - timedelta(days=lookback_days)
-        raw_events = []
-        try:
-            if api_key:
-                raw_events = fetch_newsapi_articles(
-                    query=f'"{company}" OR {ticker}',
-                    api_key=api_key,
-                    ticker=ticker,
-                    limit=10,
-                )
-            else:
-                raw_events = fetch_biospace_news(ticker=ticker, limit=10)
-        except Exception as exc:
-            logger.warning("News: fetch failed for %s: %s", ticker, exc)
-            return []
+        anchor_date = as_of_date or date.today()
+        cutoff = anchor_date - timedelta(days=lookback_days)
+        if api_key:
+            raw_events = fetch_newsapi_articles(
+                query=f'"{company}" OR {ticker}',
+                api_key=api_key,
+                ticker=ticker,
+                limit=10,
+            )
+        else:
+            raw_events = fetch_biospace_news(ticker=ticker, limit=10)
 
         items: list[RawIngestionItem] = []
         for event in raw_events:
@@ -543,9 +653,9 @@ class NewsArticleSource:
                 event=event,
                 ticker=ticker,
                 source_type="news_article",
-                default_date=date.today(),
+                default_date=anchor_date,
             )
-            if item.published_date >= cutoff:
+            if cutoff <= item.published_date <= anchor_date:
                 items.append(item)
         return items
 
@@ -617,8 +727,16 @@ class EarningsReleaseSource:
         ticker: str,
         profile_data: dict[str, Any],
         lookback_days: int,
+        as_of_date: date | None = None,
     ) -> list[RawIngestionItem]:
-        items = self._sec_source.fetch(ticker, profile_data, lookback_days)
+        anchor_date = as_of_date or date.today()
+        items = _invoke_source_fetch(
+            self._sec_source.fetch,
+            ticker,
+            profile_data,
+            lookback_days,
+            anchor_date,
+        )
         results: list[RawIngestionItem] = []
         for item in items:
             item_numbers = str(item.raw_payload.get("items", ""))
@@ -870,9 +988,9 @@ class LiveIngestionRunner:
         sources:
             List of source names to run. Accepted values: ``sec``,
             ``clinicaltrials``, ``fda``, ``press_releases``,
-            ``earnings_calls``, ``news_articles``. Pass ``None`` (default) to run all three
-            live sources (sec, clinicaltrials, fda). Unknown names are
-            silently skipped with a warning.
+            ``earnings_calls``, ``news_articles``. Pass ``None`` (default) to
+            run the three core live sources (sec, clinicaltrials, fda).
+            Unknown names and an empty list are configuration errors.
 
         Returns an IngestionRunResult with counts and output paths.
         """
@@ -892,14 +1010,23 @@ class LiveIngestionRunner:
         # Build the ordered list of (fetch_fn, src_key) pairs based on the sources filter
         _default_sources = ["sec", "clinicaltrials", "fda"]
         requested = sources if sources is not None else _default_sources
+        if not requested:
+            raise ValueError("At least one live ingestion source must be requested")
+        unknown_sources = [name for name in requested if name not in self._SOURCE_REGISTRY]
+        if unknown_sources:
+            accepted = ", ".join(self._SOURCE_REGISTRY)
+            unknown = ", ".join(str(name) for name in unknown_sources)
+            raise ValueError(
+                f"Unknown live ingestion source(s): {unknown}. Accepted sources: {accepted}"
+            )
+
         active_sources: list[tuple[Any, str]] = []
         for name in requested:
-            if name not in self._SOURCE_REGISTRY:
-                logger.warning("Unknown source '%s' — skipping.", name)
-                continue
             attr_name, src_key = self._SOURCE_REGISTRY[name]
             fn = getattr(self, attr_name)
             active_sources.append((fn, src_key))
+        if not active_sources:
+            raise ValueError("No active live ingestion sources were configured")
 
         # Collect all raw items
         items: list[tuple[RawIngestionItem, str, str]] = []  # (item, role, src_key)
@@ -910,6 +1037,9 @@ class LiveIngestionRunner:
             src_key: {
                 "attempted": 0, "failures": 0, "samples": [], "fetched": 0,
                 "classified": 0, "appended": 0, "duplicates": 0, "unclassified": 0,
+                "processing_failures": 0, "processing_samples": [],
+                "request_diagnostics": [], "rejection_reasons": {},
+                "expected_unclassified": 0,
             }
             for _, src_key in active_sources
         }
@@ -919,7 +1049,17 @@ class LiveIngestionRunner:
                 h = health[src_key]
                 h["attempted"] += 1
                 try:
-                    raw_items = fetch_fn(ticker, pdata, lookback_days)
+                    raw_items = _invoke_source_fetch(
+                        fetch_fn,
+                        ticker,
+                        pdata,
+                        lookback_days,
+                        as_of_date,
+                    )
+                    diagnostics_owner = getattr(fetch_fn, "__self__", None)
+                    source_diagnostics = getattr(diagnostics_owner, "diagnostics", None)
+                    if source_diagnostics:
+                        h["request_diagnostics"].extend(source_diagnostics[-1:])
                     for item in raw_items:
                         items.append((item, role, src_key))
                         source_breakdown[src_key] = source_breakdown.get(src_key, 0) + 1
@@ -936,19 +1076,54 @@ class LiveIngestionRunner:
         records_appended = 0
         duplicates_skipped = 0
         unclassified_count = 0
+        processing_failures = 0
+        processing_failure_samples: list[str] = []
 
         for item, role, src_key in items:
             h = health[src_key]
-            row, appended = self._process_item(
-                item=item,
-                role=role,
-                ledger=ledger,
-                dry_run=dry_run,
-                profile_data=all_profiles[item.ticker][1],
-            )
+            try:
+                profile_data = all_profiles[item.ticker][1]
+                row, appended = self._process_item(
+                    item=item,
+                    role=role,
+                    ledger=ledger,
+                    dry_run=dry_run,
+                    profile_data=profile_data,
+                )
+            except Exception as exc:
+                processing_failures += 1
+                h["processing_failures"] += 1
+                item_ticker = str(getattr(item, "ticker", "<unknown>"))
+                item_url = str(getattr(item, "source_url", "") or "")
+                item_identity = f"{item_ticker} {item_url}".strip()
+                sample = f"{item_identity}: {type(exc).__name__}: {exc}"
+                if len(h["processing_samples"]) < 5:
+                    h["processing_samples"].append(sample)
+                if len(processing_failure_samples) < 10:
+                    processing_failure_samples.append(f"{src_key}: {sample}")
+                logger.warning(
+                    "Item processing failed for %s from %s: %s",
+                    item_identity,
+                    src_key,
+                    exc,
+                )
+                continue
             if row is None:
                 unclassified_count += 1
                 h["unclassified"] += 1
+                item_code = str(item.raw_payload.get("items", "")).strip()
+                expected_non_event = (
+                    src_key == "sec_filing" and _is_expected_sec_non_event(item)
+                )
+                if expected_non_event:
+                    h["expected_unclassified"] += 1
+                reason = (
+                    f"expected_non_event:item={item_code}"
+                    if expected_non_event else
+                    f"classifier:unclassified:item={item_code}"
+                    if item_code else "classifier:unclassified"
+                )
+                h["rejection_reasons"][reason] = h["rejection_reasons"].get(reason, 0) + 1
                 continue
             items_classified += 1
             h["classified"] += 1
@@ -975,6 +1150,11 @@ class LiveIngestionRunner:
                 tickers_attempted=h["attempted"],
                 fetch_failures=h["failures"],
                 failure_samples=tuple(h["samples"]),
+                processing_failures=h["processing_failures"],
+                processing_failure_samples=tuple(h["processing_samples"]),
+                request_diagnostics=tuple(h["request_diagnostics"]),
+                rejection_reasons=tuple(sorted(h["rejection_reasons"].items())),
+                expected_unclassified=h["expected_unclassified"],
                 records_fetched=h["fetched"],
                 records_classified=h["classified"],
                 records_appended=h["appended"],
@@ -995,6 +1175,8 @@ class LiveIngestionRunner:
             source_breakdown=source_breakdown,
             output_paths=output_paths,
             source_health=source_health,
+            processing_failures=processing_failures,
+            processing_failure_samples=tuple(processing_failure_samples),
         )
 
     # ------------------------------------------------------------------

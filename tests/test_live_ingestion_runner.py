@@ -9,9 +9,12 @@ import csv
 from datetime import date
 from pathlib import Path
 
+import pytest
+
 from bve.ingestion.live_ingestion_runner import (
     CTGovSource,
     EarningsReleaseSource,
+    FDASource,
     IngestionRunResult,
     LiveIngestionRunner,
     NewsArticleSource,
@@ -212,6 +215,118 @@ class TestCTGovSource:
         assert calls == ["RMC-6236", "Revolution Medicines"]
         assert len(items) == 1
         assert items[0].raw_payload["nct_id"] == "NCT1"
+
+    def test_runner_uses_as_of_date_for_historical_window(self, monkeypatch, tmp_path):
+        from bve.ingestion.raw_event import RawEvent
+
+        def fake_search_trials(drug_name: str, limit: int = 20):  # noqa: ARG001
+            return [
+                RawEvent(
+                    source="clinicaltrials_gov",
+                    record_type="clinical_trial",
+                    source_url="https://clinicaltrials.gov/study/NCT-HISTORICAL",
+                    payload={
+                        "nct_id": "NCT-HISTORICAL",
+                        "brief_title": "Historical oncology trial",
+                        "status": "RECRUITING",
+                        "phases": ["PHASE2"],
+                        "last_update_submitted": "2020-01-10",
+                    },
+                ),
+                RawEvent(
+                    source="clinicaltrials_gov",
+                    record_type="clinical_trial",
+                    source_url="https://clinicaltrials.gov/study/NCT-FUTURE",
+                    payload={
+                        "nct_id": "NCT-FUTURE",
+                        "brief_title": "Future oncology trial",
+                        "status": "RECRUITING",
+                        "phases": ["PHASE2"],
+                        "last_update_submitted": "2020-01-20",
+                    },
+                ),
+            ]
+
+        monkeypatch.setattr("bve.ingestion.ctgov_client.search_trials", fake_search_trials)
+
+        runner = _runner_with_ctgov_source(CTGovSource().fetch)
+        targets = {"RVMD": {"ticker": "RVMD", "name": "Revolution Medicines"}}
+        result = runner.run(
+            targets=targets,
+            acquirers={},
+            ledger=_make_ledger(tmp_path),
+            as_of_date=date(2020, 1, 15),
+            lookback_days=10,
+            dry_run=True,
+            sources=["clinicaltrials"],
+        )
+
+        assert result.items_seen == 1
+        assert result.source_health["clinicaltrials_gov"].records_fetched == 1
+
+
+def _runner_with_ctgov_source(source) -> LiveIngestionRunner:
+    return LiveIngestionRunner(
+        sec_source=_null_source,
+        ctgov_source=source,
+        fda_source=_null_source,
+        classifier=lambda text, ticker, source_type: _make_mlc(ticker=ticker),
+        materiality_est=lambda et, st, h=None: _make_mat_est(),
+        context_engine=lambda d, et, p: d,
+        clusterer=lambda record: "cluster-historical",
+        review_gate=lambda materiality: False,
+    )
+
+
+class TestSourceAdapterFailures:
+    def test_sec_transport_exception_propagates(self, monkeypatch):
+        source = SecEightKSource()
+        monkeypatch.setattr(source, "_resolve_cik", lambda ticker: "0000000001")
+
+        def boom(*args, **kwargs):  # noqa: ARG001
+            raise RuntimeError("SEC unavailable")
+
+        monkeypatch.setattr("requests.get", boom)
+
+        with pytest.raises(RuntimeError, match="SEC unavailable"):
+            source.fetch("RVMD", {}, 14)
+
+    def test_ctgov_transport_exception_propagates(self, monkeypatch):
+        def boom(*args, **kwargs):  # noqa: ARG001
+            raise RuntimeError("CTGov unavailable")
+
+        monkeypatch.setattr("bve.ingestion.ctgov_client.search_trials", boom)
+
+        with pytest.raises(RuntimeError, match="CTGov unavailable"):
+            CTGovSource().fetch("RVMD", {"name": "Revolution Medicines"}, 14)
+
+    def test_fda_transport_exception_propagates(self, monkeypatch):
+        def boom(*args, **kwargs):  # noqa: ARG001
+            raise RuntimeError("FDA unavailable")
+
+        monkeypatch.setattr("bve.ingestion.fda_client.fetch_approvals", boom)
+
+        with pytest.raises(RuntimeError, match="FDA unavailable"):
+            FDASource().fetch("RVMD", {"lead_asset": "RMC-6236"}, 14)
+
+    def test_press_transport_exception_propagates(self, monkeypatch):
+        def boom(*args, **kwargs):  # noqa: ARG001
+            raise RuntimeError("SEC press unavailable")
+
+        monkeypatch.setattr("bve.ingestion.news_client.fetch_sec_press_releases", boom)
+
+        with pytest.raises(RuntimeError, match="SEC press unavailable"):
+            PressReleaseSource().fetch("RVMD", {}, 14)
+
+    def test_news_transport_exception_propagates(self, monkeypatch):
+        def boom(*args, **kwargs):  # noqa: ARG001
+            raise RuntimeError("BioSpace unavailable")
+
+        monkeypatch.delenv("NEWS_API_KEY", raising=False)
+        monkeypatch.setattr("bve.ingestion.news_client.fetch_biospace_news", boom)
+
+        with pytest.raises(RuntimeError, match="BioSpace unavailable"):
+            NewsArticleSource().fetch("RVMD", {}, 14)
 
 
 class TestPressAndNewsSources:
@@ -929,3 +1044,29 @@ class TestSecItemsToText:
     def test_multiple_items_combined(self):
         text = SecEightKSource._items_to_text("1.01 9.01", "RVMD")
         assert "RVMD" in text
+
+    def test_sec_submission_comma_delimited_items_are_parsed(self):
+        text = SecEightKSource._items_to_text("2.02,9.01", "RVMD")
+        assert "earnings" in text.lower()
+
+    def test_sec_material_agreement_item_is_classifiable(self):
+        from bve.ingestion.event_classifier import classify_headline_multi
+
+        text = SecEightKSource._items_to_text("1.01,9.01", "RVMD")
+        assert classify_headline_multi(text, "RVMD", "sec_filing").primary_event != "unclassified"
+
+    def test_sec_2_02_with_acquisition_signal_is_not_expected_non_event(self):
+        from bve.ingestion.live_ingestion_runner import _is_expected_sec_non_event
+
+        item = _make_item(
+            text="quarterly results announce strategic review",
+            source_type="sec_filing",
+        )
+        item.raw_payload["items"] = "2.02,9.01"
+        assert _is_expected_sec_non_event(item) is False
+
+    def test_fda_original_submission_is_an_approval_action(self):
+        assert FDASource._latest_approval_date(
+            [{"submission_type": "ORIG", "submission_status_date": "2026-07-15"}],
+            as_of_date=date(2026, 7, 16),
+        ) == date(2026, 7, 15)

@@ -39,7 +39,7 @@ def search_approvals(drug_name: str, limit: int = 20) -> list[dict[str, Any]]:
         "search": f'openfda.brand_name:"{drug_name}" OR openfda.generic_name:"{drug_name}"',
         "limit": limit,
     }
-    data = _get(f"{OPENFDA_BASE}/nda.json", params=params)
+    data = _get(f"{OPENFDA_BASE}/drugsfda.json", params=params)
     return data.get("results", [])
 
 
@@ -49,9 +49,7 @@ def get_approval_status(application_number: str) -> Optional[dict[str, Any]]:
 
     application_number: e.g. "NDA212608" or "BLA125514"
     """
-    app_type = application_number[:3].upper()
-    application_number[3:]
-    endpoint = f"{OPENFDA_BASE}/{'nda' if app_type == 'NDA' else 'bla'}.json"
+    endpoint = f"{OPENFDA_BASE}/drugsfda.json"
     params = {"search": f"application_number:{application_number}", "limit": 1}
     data = _get(endpoint, params=params)
     results = data.get("results", [])

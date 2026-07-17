@@ -13,7 +13,6 @@ Verdict semantics:
 from __future__ import annotations
 
 from datetime import date
-from pathlib import Path
 
 import pytest
 
@@ -104,7 +103,7 @@ def _profiles():
     return ({"RVMD": {"ticker": "RVMD", "name": "Revolution Medicines"}}, {})
 
 
-def _run(runner, tmp_path, dry_run=True):
+def _run(runner, tmp_path, dry_run=True, sources=None):
     from bve.ingestion.evidence_ledger import EvidenceLedger
 
     targets, acquirers = _profiles()
@@ -115,6 +114,7 @@ def _run(runner, tmp_path, dry_run=True):
         as_of_date=date(2026, 6, 1),
         lookback_days=14,
         dry_run=dry_run,
+        sources=sources,
     )
 
 
@@ -154,6 +154,33 @@ class TestVerdict:
         h = SourceHealth(source_key="news_article", tickers_attempted=1,
                          records_fetched=2, records_classified=0, unclassified=2)
         assert h.verdict == "OK"
+
+    def test_expected_sec_non_events_do_not_trigger_classifier_degradation(self):
+        h = SourceHealth(
+            source_key="sec_filing", tickers_attempted=2,
+            records_fetched=10, records_classified=0, unclassified=10,
+            expected_unclassified=10,
+        )
+        assert h.verdict == "OK"
+
+    def test_degraded_on_partial_processing_failure(self):
+        h = SourceHealth(
+            source_key="sec_filing",
+            tickers_attempted=1,
+            records_fetched=2,
+            records_classified=1,
+            processing_failures=1,
+        )
+        assert h.verdict == "DEGRADED"
+
+    def test_failed_when_every_fetched_item_fails_processing(self):
+        h = SourceHealth(
+            source_key="sec_filing",
+            tickers_attempted=1,
+            records_fetched=2,
+            processing_failures=2,
+        )
+        assert h.verdict == "FAILED"
 
 
 # ---------------------------------------------------------------------------
@@ -204,6 +231,45 @@ class TestRunHealth:
         assert sec.unclassified == 6
         assert sec.records_classified == 0
         assert sec.verdict == "DEGRADED"
+
+    def test_item_failure_is_isolated_and_reported(self, tmp_path):
+        def _sec(ticker, profile_data, lookback_days):  # noqa: ARG001
+            return [
+                _item(ticker=ticker, text="bad item"),
+                _item(ticker=ticker, text="good item"),
+            ]
+
+        def _classify(text, ticker, source_type):  # noqa: ARG001
+            if text == "bad item":
+                raise RuntimeError("classifier exploded")
+            return _mlc(ticker=ticker)
+
+        result = _run(
+            _runner(sec=_sec, mlc_factory=_classify),
+            tmp_path,
+            dry_run=False,
+            sources=["sec"],
+        )
+
+        sec = result.source_health["sec_filing"]
+        assert result.items_seen == 2
+        assert result.items_classified == 1
+        assert result.records_appended == 1
+        assert result.processing_failures == 1
+        assert "classifier exploded" in result.processing_failure_samples[0]
+        assert sec.processing_failures == 1
+        assert "classifier exploded" in sec.processing_failure_samples[0]
+        assert sec.verdict == "DEGRADED"
+
+
+class TestSourceConfiguration:
+    def test_unknown_source_fails_fast(self, tmp_path):
+        with pytest.raises(ValueError, match="Unknown live ingestion source"):
+            _run(_runner(), tmp_path, sources=["sec", "not-a-source"])
+
+    def test_empty_source_list_fails_fast(self, tmp_path):
+        with pytest.raises(ValueError, match="At least one live ingestion source"):
+            _run(_runner(), tmp_path, sources=[])
 
 
 # ---------------------------------------------------------------------------

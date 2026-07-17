@@ -506,6 +506,16 @@ class TestFdaClient:
         assert data["results"] == []
 
     @patch("bve.ingestion.fda_client._get")
+    def test_fetch_approvals_uses_drugsfda_and_records_diagnostics(self, mock_get):
+        mock_get.return_value = {"results": []}
+        from bve.ingestion import fda_client
+
+        diagnostics = []
+        fda_client.fetch_approvals("UnknownDrug", diagnostics=diagnostics)
+        assert mock_get.call_args.args[0].endswith("/drug/drugsfda.json")
+        assert "diagnostics" in mock_get.call_args.kwargs
+
+    @patch("bve.ingestion.fda_client._get")
     def test_fetch_adverse_events(self, mock_get):
         mock_get.return_value = {
             "results": [

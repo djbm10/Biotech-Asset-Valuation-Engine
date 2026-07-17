@@ -19,10 +19,21 @@ from bve.ingestion.raw_event import RawEvent
 OPENFDA_BASE = "https://api.fda.gov/drug"
 
 
-def _get(url: str, params: dict | None = None, retries: int = 3) -> dict:
+def _get(
+    url: str,
+    params: dict | None = None,
+    retries: int = 3,
+    diagnostics: list[dict[str, Any]] | None = None,
+) -> dict:
     for attempt in range(retries):
         try:
             r = requests.get(url, params=params, timeout=30)
+            if diagnostics is not None:
+                diagnostics.append({
+                    "url": r.url,
+                    "status": r.status_code,
+                    "records_returned": 0,
+                })
             if r.status_code == 404:
                 return {
                     "results": [],
@@ -39,78 +50,82 @@ def _get(url: str, params: dict | None = None, retries: int = 3) -> dict:
 
 
 def _approval_url(app_type: str = "nda") -> str:
-    return f"{OPENFDA_BASE}/{app_type}.json"
+    """Return the FDA Drugs@FDA endpoint.
+
+    ``nda.json`` and ``bla.json`` are not openFDA endpoints.  They used to be
+    accepted by some proxies, but currently return an HTML 404, which the
+    caller historically misreported as a quiet window.
+    """
+    return f"{OPENFDA_BASE}/drugsfda.json"
 
 
 def fetch_approvals(
     drug_name: str,
     limit: int = 20,
     entity_ids: list[str] | None = None,
+    diagnostics: list[dict[str, Any]] | None = None,
 ) -> list[RawEvent]:
     """
     Search openFDA for NDA/BLA approvals matching a drug name.
 
     Returns one RawEvent per application record, record_type="drug_approval".
     """
-    for app_type in ("nda", "bla"):
-        url = _approval_url(app_type)
-        params = {
-            "search": (
-                f'openfda.brand_name:"{drug_name}"'
-                f' OR openfda.generic_name:"{drug_name}"'
-            ),
-            "limit": limit,
-        }
-        data = _get(url, params=params)
-        results = data.get("results", [])
-        if results:
-            events: list[RawEvent] = []
-            for rec in results:
-                payload: dict[str, Any] = {
-                    "application_number": rec.get("application_number", ""),
-                    "sponsor_name": rec.get("sponsor_name", ""),
-                    "products": [
-                        {
-                            "brand_name": p.get("brand_name", ""),
-                            "generic_name": p.get("active_ingredients", [{}])[0].get(
-                                "name", ""
-                            )
-                            if p.get("active_ingredients")
-                            else "",
-                            "dosage_form": p.get("dosage_form", ""),
-                            "route": p.get("route", ""),
-                            "marketing_status": p.get("marketing_status", ""),
-                        }
-                        for p in rec.get("products", [])
-                    ],
-                    "submissions": [
-                        {
-                            "submission_type": s.get("submission_type", ""),
-                            "submission_number": s.get("submission_number", ""),
-                            "submission_status": s.get("submission_status", ""),
-                            "submission_status_date": s.get(
-                                "submission_status_date", ""
-                            ),
-                            "submission_class_code_description": s.get(
-                                "submission_class_code_description", ""
-                            ),
-                            "action_type": s.get("submission_type", ""),
-                        }
-                        for s in rec.get("submissions", [])
-                    ],
-                    "openfda": rec.get("openfda", {}),
-                }
-                events.append(
-                    RawEvent(
-                        source="openfda",
-                        record_type="drug_approval",
-                        source_url=url,
-                        fetched_at=datetime.now(timezone.utc),
-                        payload=payload,
-                        entity_ids=entity_ids or [],
-                    )
+    url = _approval_url()
+    params = {
+        "search": (
+            f'openfda.brand_name:"{drug_name}"'
+            f' OR openfda.generic_name:"{drug_name}"'
+        ),
+        "limit": limit,
+    }
+    data = _get(url, params=params, diagnostics=diagnostics)
+    results = data.get("results", [])
+    if diagnostics is not None and diagnostics:
+        diagnostics[-1]["records_returned"] = len(results)
+    if results:
+        events: list[RawEvent] = []
+        for rec in results:
+            payload: dict[str, Any] = {
+                "application_number": rec.get("application_number", ""),
+                "sponsor_name": rec.get("sponsor_name", ""),
+                "products": [
+                    {
+                        "brand_name": p.get("brand_name", ""),
+                        "generic_name": p.get("active_ingredients", [{}])[0].get(
+                            "name", ""
+                        ) if p.get("active_ingredients") else "",
+                        "dosage_form": p.get("dosage_form", ""),
+                        "route": p.get("route", ""),
+                        "marketing_status": p.get("marketing_status", ""),
+                    }
+                    for p in rec.get("products", [])
+                ],
+                "submissions": [
+                    {
+                        "submission_type": s.get("submission_type", ""),
+                        "submission_number": s.get("submission_number", ""),
+                        "submission_status": s.get("submission_status", ""),
+                        "submission_status_date": s.get("submission_status_date", ""),
+                        "submission_class_code_description": s.get(
+                            "submission_class_code_description", ""
+                        ),
+                        "action_type": s.get("submission_type", ""),
+                    }
+                    for s in rec.get("submissions", [])
+                ],
+                "openfda": rec.get("openfda", {}),
+            }
+            events.append(
+                RawEvent(
+                    source="openfda",
+                    record_type="drug_approval",
+                    source_url=url,
+                    fetched_at=datetime.now(timezone.utc),
+                    payload=payload,
+                    entity_ids=entity_ids or [],
                 )
-            return events
+            )
+        return events
     return []
 
 

@@ -79,7 +79,8 @@ def render_health_report(result: "IngestionRunResult") -> str:
         ]
         lines.append("| " + " | ".join(row) + " |")
 
-    # Failure detail — only sources that actually failed.
+    # Failure and diagnostic detail — include quiet-window evidence and
+    # classifier rejection counts so NO_DATA is distinguishable from silence.
     failed = [
         (k, result.source_health[k])
         for k in sorted(result.source_health)
@@ -93,6 +94,19 @@ def render_health_report(result: "IngestionRunResult") -> str:
             lines.append(f"**{src_key}** ({h.fetch_failures} failure(s)):")
             for sample in h.failure_samples:
                 lines.append(f"- {sample}")
+
+    for src_key in sorted(result.source_health):
+        h = result.source_health[src_key]
+        lines.append("")
+        lines.append(f"### {src_key} diagnostic reason")
+        lines.append(f"- Verdict reason: {h.verdict_reason}")
+        if h.rejection_reasons:
+            lines.append(f"- Rejection reasons: {dict(h.rejection_reasons)}")
+        if h.expected_unclassified:
+            lines.append(f"- Expected non-event records: {h.expected_unclassified}")
+        if h.request_diagnostics:
+            statuses = [str(d.get("status", "unknown")) for d in h.request_diagnostics]
+            lines.append(f"- Request statuses: {', '.join(statuses)}")
 
     lines.append("")
     return "\n".join(lines)
