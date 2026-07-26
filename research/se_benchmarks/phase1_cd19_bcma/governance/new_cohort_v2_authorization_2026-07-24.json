@@ -1,0 +1,439 @@
+{
+  "schema_version": "phase1_cd19_bcma_new_cohort_v2_governance_authorization_report_v1",
+  "authorization_date": "2026-07-24",
+  "governance_authority_identifier": "codex-phase1-cd19-bcma-new-cohort-v2-governance-authority-2026-07-24",
+  "governance_action": "GOVERNANCE_DEFINE_NEW_COHORT_AND_BENCHMARK_VERSION",
+  "overall_conclusion": "PHASE1_CD19_BCMA_NEW_COHORT_V2_AUTHORIZED",
+  "governance_choice": "CHOICE_A_AUTHORIZE_A_NEW_BENCHMARK_COHORT",
+  "authorization_scope": {
+    "permits": [
+      "CREATE_NEW_COHORT_V2_SELECTION_PROTOCOL"
+    ],
+    "does_not_permit": [
+      "BUILD_NEW_COHORT_V2_CANDIDATE_UNIVERSE",
+      "SELECT_NEW_COHORT_V2",
+      "CREATE_NEW_COHORT_V2_EVIDENCE_PROTOCOL",
+      "FREEZE_NEW_COHORT_V2_CORPUS",
+      "CREATE_NEW_COHORT_V2_NEUTRAL_MAPPING",
+      "CREATE_NEW_COHORT_V2_BLIND_PACKET",
+      "RUN_NEW_COHORT_V2_PRIMARY_REVIEW",
+      "RUN_NEW_COHORT_V2_INDEPENDENT_BLIND_REVIEW",
+      "RUN_NEW_COHORT_V2_CONTROLLED_RECONCILIATION",
+      "RUN_NEW_COHORT_V2_THIRD_ADJUDICATION",
+      "CREATE_NEW_COHORT_V2_CORRECTED_DERIVATIVE",
+      "INDEPENDENTLY_VALIDATE_NEW_COHORT_V2_OUTPUTS",
+      "GOVERN_RELEASE_OR_PROMOTION_SEPARATELY"
+    ],
+    "first_execution_milestone": "CREATE_NEW_COHORT_V2_SELECTION_PROTOCOL",
+    "candidate_universe_construction_may_begin": false,
+    "cohort_selection_may_begin": false,
+    "corpus_acquisition_may_begin": false
+  },
+  "benchmark_identity": {
+    "benchmark_family": "PHASE1_CD19_BCMA",
+    "benchmark_version": "2.0.0",
+    "benchmark_lineage": "NEW_COHORT_V2",
+    "cohort_version": "1.0.0",
+    "namespace": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/",
+    "historical_equivalence": false,
+    "replaces_historical_batch_05": false,
+    "replaces_clean_baseline_v1": false,
+    "historical_comparability": "LIMITED",
+    "historical_75_asset_profile_confirmation": false,
+    "prohibited_lineages": [
+      "HISTORICAL_BATCH_05",
+      "CLEAN_BASELINE_V1",
+      "RECOVERY",
+      "HISTORICAL_ADJUDICATION",
+      "HISTORICAL_CORRECTED_DERIVATIVE"
+    ]
+  },
+  "purpose": {
+    "scientific_and_operational_purpose": [
+      "Test the benchmark workflow on a fully reproducible cohort",
+      "Establish a current independently verifiable CD19/BCMA benchmark",
+      "Replace an unusable experimental scope with a separately versioned cohort",
+      "Measure workflow and evidence-governance performance under improved controls",
+      "Expand the benchmark family without rewriting historical results"
+    ],
+    "prohibited_purposes": [
+      "Producing desired semantic counts",
+      "Filling the missing 15 assets to claim a historical 75-asset result",
+      "Recreating guessed versions of opaque historical assets",
+      "Improving historical defect rates",
+      "Selecting assets based on known pipeline successes or failures"
+    ]
+  },
+  "cohort_size_policy": {
+    "authorized_asset_count": 15,
+    "minimum_asset_count": 15,
+    "maximum_asset_count": 15,
+    "reason": "Fifteen is retained for operational comparability with the prior Batch 5 work unit only; it is not a historical substitute size rule.",
+    "operational_comparability_only": true,
+    "historical_substitutes": false,
+    "opaque_id_correspondence_exists": false,
+    "may_enter_historical_75_asset_denominator": false,
+    "permitted_strata": [
+      "primary_target_class: CD19 or BCMA",
+      "modality_family",
+      "development_stage_at_selection_cutoff"
+    ],
+    "allocation_rule": "Primary stratification is target class, with at least 3 selected assets per nonempty target class and remaining positions allocated by proportional largest remainder across nonempty target-class x modality-family x development-stage strata. Empty or insufficient strata fail closed rather than triggering outcome-directed substitution.",
+    "replacement_rule_before_freeze": "A selected asset may be replaced only for a documented identity, duplicate, eligibility, or source-preservation failure discovered before corpus freeze, using the next candidate from the same predeclared stratum and original deterministic selection order. The replacement requires an immutable replacement record and independent validation. No replacement is permitted because of semantic difficulty, missing/conflicting outcomes, or pipeline performance.",
+    "resizing_requires_governance_amendment": true,
+    "multiple_cohorts": false
+  },
+  "selection_frame": {
+    "therapeutic_area": "Human therapeutic assets for hematologic malignancies, including B-cell malignancies and plasma-cell disorders.",
+    "target_class": "CD19 or BCMA as a declared therapeutic target; dual-target assets are included only when both targets are explicitly anchored by an official source.",
+    "modality_boundaries": [
+      "CAR-T and other genetically modified cellular therapies",
+      "T-cell engagers and bispecific or multispecific biologics",
+      "monoclonal antibodies and antibody fragments",
+      "antibody-drug conjugates",
+      "other therapeutic biologics with a public target and modality identity"
+    ],
+    "development_stage_boundaries": "Clinical-stage assets from Phase 1 through Phase 3 and approved or marketed assets with qualifying public development history as of the cohort-selection cutoff; preclinical-only and discovery-only assets are excluded.",
+    "geographic_or_regulatory_boundaries": "Worldwide sponsors and development programs are eligible when at least one qualifying US, EU, UK, or other governance-approved official or administrative anchor is publicly retrievable.",
+    "sponsor_or_developer_eligibility": "Commercial, academic, nonprofit, and public-sector sponsors or developers are eligible when the responsible organization is publicly attributable; licensing, partnering, acquisition, or transfer relationships must be documented as identity lineage, not used as an outcome criterion.",
+    "required_public_identity": true,
+    "required_stable_identifiers": true,
+    "required_evidence_availability": true,
+    "time_window_requirements": "The asset must meet all inclusion criteria and have existed as an identifiable clinical-stage or approved/marketed program on or before the cohort-selection cutoff.",
+    "inclusion_criteria": [
+      "Target is CD19 or BCMA under the target-class rule",
+      "Modality is within the permitted modality boundaries",
+      "Development stage is within the permitted stage boundaries",
+      "Sponsor or developer is publicly attributable",
+      "Canonical identity and stable identifier requirements are satisfied",
+      "At least one qualifying official or administrative source is retrievable and preservable",
+      "Identity is unique after alias and lineage deduplication",
+      "No unresolved merger, transfer, split, or product-lineage ambiguity remains"
+    ],
+    "exclusion_criteria": [
+      "Preclinical-only or discovery-only asset",
+      "No stable public identity",
+      "Identity supported only by an ambiguous or unverified alias",
+      "Duplicate product or unresolved product lineage",
+      "Evidence cannot be retrieved and preserved reproducibly",
+      "Asset outside the cutoff or permitted universe",
+      "Selection would require semantic, pipeline-performance, or historical-outcome information"
+    ],
+    "duplicate_product_and_lineage_handling": "Normalize aliases and corporate lineage before deduplication. One canonical asset record is permitted per distinct therapeutic product/program. Merged, transferred, acquired, renamed, or split programs require explicit stable-lineage documentation; unresolved cases are excluded until independently resolved.",
+    "combination_therapy_handling": "Include a combination only when the CD19/BCMA component is a distinct identifiable therapeutic asset with its own stable identity; otherwise record the combination as a relationship and do not count it as a second product.",
+    "terminated_withdrawn_inactive_handling": "Include if the asset met the frame and was identifiable by the cutoff, regardless of later termination, withdrawal, or inactivity. Record status neutrally; do not exclude for outcome or difficulty.",
+    "renamed_transferred_acquired_handling": "Retain one canonical identity with aliases and dated sponsor/developer lineage when resolvable; exclude unresolved identity splits or mergers.",
+    "biosimilar_or_follow_on_handling": "Exclude biosimilars, follow-on products, and generic products unless a future amended frame explicitly includes them; they are not silently treated as distinct novel benchmark assets.",
+    "multi_target_asset_handling": "Include dual-target assets only with explicit official identity support for each declared target; assign a deterministic multi-target stratum and do not duplicate the asset across target strata."
+  },
+  "stable_identity_requirements": {
+    "required_before_selection": [
+      "Public canonical name",
+      "Stable asset identifier",
+      "Authorized aliases",
+      "Sponsor or developer identity",
+      "At least one stable official or administrative anchor",
+      "Identity provenance",
+      "Identity-resolution confidence",
+      "Unique distinction from other candidates",
+      "No unresolved merger or split ambiguity"
+    ],
+    "permitted_stable_anchors": [
+      "Regulatory identifiers",
+      "Clinical-trial identifiers",
+      "Official sponsor pipeline identifiers",
+      "Registry identifiers",
+      "Publication identifiers",
+      "Corporate-development identifiers",
+      "Other governance-approved official identifiers"
+    ],
+    "prohibited_identity_basis": [
+      "Historical Batch 5 records",
+      "Semantic similarity",
+      "Filename matching",
+      "AI inference",
+      "Unverified aliases",
+      "One ambiguous source",
+      "Field-value guesses"
+    ],
+    "minimum_identity_confidence": "HIGH",
+    "identity_binding": "No opaque identifier may be issued without an independently preserved one-to-one binding to the public identity."
+  },
+  "evidence_availability_policy": {
+    "procedural_minimums": [
+      "At least one stable official identity source",
+      "Exact retrievable source bytes",
+      "Verifiable publication or effective date",
+      "Stable provenance",
+      "Source-level SHA-256 capability",
+      "Cutoff eligibility",
+      "No authentication barrier preventing preservation",
+      "No unresolved version ambiguity"
+    ],
+    "meaning": "Evidence availability concerns reproducible acquisition and preservation only; it does not require a favorable, complete, or semantically supportive field value.",
+    "semantic_evidence_not_used_for_selection": true
+  },
+  "cutoffs": {
+    "cohort_selection_cutoff": "2026-07-24T23:59:59Z",
+    "evidence_cutoff": "2026-07-24T23:59:59Z",
+    "retrieval_date": "Recorded per source at acquisition and may be later than the cutoffs; retrieval date does not change eligibility and cannot expand the evidence boundary.",
+    "semantic_review_start_date": "Must be recorded in the future review protocol and must occur after corpus freeze and independent corpus validation.",
+    "relationship": "The selection cutoff controls whether an asset existed and met selection criteria. The evidence cutoff controls which public source versions may be considered later. Any change after candidate selection requires a new cohort version or formal governance amendment.",
+    "post_selection_change_control": "Fail closed; no silent cutoff change."
+  },
+  "selection_methodology": {
+    "method": "Deterministic enumeration followed by stratified seeded random sampling.",
+    "candidate_universe_construction": "Build one neutral record per eligible candidate from qualifying public identity sources, apply the predeclared frame, normalize aliases and lineage, deduplicate, and sort by deterministic_order_key.",
+    "stratification_variables": [
+      "primary_target_class",
+      "modality_family",
+      "development_stage_at_selection_cutoff"
+    ],
+    "seed_generation_method": "seed_hex = SHA256('PHASE1_CD19_BCMA|2.0.0|NEW_COHORT_V2|2026-07-24T23:59:59Z|cohort-selection-seed-v1')",
+    "stable_candidate_ordering": "deterministic_order_key = SHA256(normalized canonical identity tuple including canonical name, stable identifiers, sponsor/developer, and target class), with the full normalized tuple as a deterministic tie-breaker.",
+    "selection_seed": "Derived exactly from the declared seed-generation method and recorded in the selected-cohort artifact; it may not be changed after universe validation.",
+    "replacement_rules": "Only pre-freeze identity, duplicate, eligibility, or source-preservation failures may invoke the next predeclared candidate in the same stratum; every replacement is recorded and independently validated.",
+    "exclusion_processing": "Apply declared inclusion/exclusion rules before sampling. Late exclusions fail closed unless the replacement rule applies and is independently validated.",
+    "tie_breaking": "Sort by deterministic_order_key, then normalized identity tuple; no manual tie-breaks.",
+    "sampling_script_requirements": [
+      "Version-controlled deterministic builder",
+      "Pinned runtime and dependencies",
+      "Explicit seed and ordering implementation",
+      "Input and output SHA-256 manifests",
+      "Rebuild command and expected deterministic hash",
+      "Negative tests for identity, cutoff, duplicate, seed, namespace, and overwrite failures"
+    ],
+    "deterministic_rebuild_required": true,
+    "prohibited_selection_behaviors": [
+      "Hand-picking based on expected outcomes",
+      "Selecting after semantic evidence review",
+      "Replacing difficult assets with easier assets",
+      "Removing assets because they generate missing or conflicting outcomes",
+      "Matching historical defect distributions",
+      "Using pipeline outputs to define the sample"
+    ]
+  },
+  "independence_controls": {
+    "separate_roles_required": [
+      "Governance authority",
+      "Cohort-selection protocol engineer",
+      "Candidate-universe builder",
+      "Independent candidate-universe validator",
+      "Cohort-selection builder",
+      "Independent cohort-selection validator",
+      "Evidence-corpus builder",
+      "Evidence-corpus validator",
+      "Mapping engineer",
+      "Blindness validator",
+      "Primary reviewer",
+      "Blind reviewer",
+      "Reconciliation engineer",
+      "Third adjudicator",
+      "Remediation engineer",
+      "Independent semantic-output validator",
+      "Release authority"
+    ],
+    "mandatory_separations": [
+      "Candidate-universe builder may not validate the universe",
+      "Cohort-selection builder may not validate selection",
+      "Semantic reviewers may not choose the cohort",
+      "Reviewers may not replace assets after observing outcomes",
+      "Corpus builder receives only independently validated cohort identities",
+      "Release authority remains separate from artifact creators"
+    ],
+    "validation_before_corpus_work": true
+  },
+  "candidate_universe_artifact": {
+    "required_fields": [
+      "candidate_id",
+      "canonical_name",
+      "aliases",
+      "sponsor_or_developer",
+      "stable_identifiers",
+      "identity_provenance",
+      "eligibility_date",
+      "inclusion_criteria_results",
+      "exclusion_criteria_results",
+      "identity_confidence",
+      "ambiguity_status",
+      "duplicate_group",
+      "strata",
+      "eligible",
+      "exclusion_reason",
+      "deterministic_order_key"
+    ],
+    "prohibited_fields": [
+      "Canonical benchmark field values",
+      "Review statuses",
+      "Expected semantic outcomes",
+      "Historical outcomes",
+      "Evidence-quality conclusions",
+      "Pipeline predictions",
+      "Scoring eligibility",
+      "Defect classifications"
+    ],
+    "neutrality_required": true
+  },
+  "cohort_artifact": {
+    "required_fields": [
+      "New benchmark lineage",
+      "Cohort version",
+      "Selection protocol hash",
+      "Candidate-universe hash",
+      "Selection method",
+      "Selection seed",
+      "Selected candidate IDs",
+      "Canonical names",
+      "Stable identifiers",
+      "Strata",
+      "Selection order",
+      "Replacement history",
+      "Identity provenance",
+      "Historical-equivalence flags",
+      "Exact asset count",
+      "Deterministic cohort hash",
+      "Pending-independent-validation status"
+    ],
+    "opaque_id_rule": "Opaque reviewer-facing IDs must not be issued without an independently preserved public-identity binding."
+  },
+  "reviewer_neutral_identifiers": {
+    "generation": "Deterministic cryptographically stable assignment after cohort validation.",
+    "binding": "One-to-one binding to selected public identities in a separately sealed identity-binding table.",
+    "blindness_requirements": [
+      "No semantic encoding",
+      "No sponsor, target, modality, or stage clues",
+      "No reuse of historical Batch 5 opaque IDs",
+      "Independent validation of every binding",
+      "Mechanical blindness controls"
+    ],
+    "public_and_sealed_artifacts_separate": true
+  },
+  "historical_separation": {
+    "required_statements": [
+      "This benchmark uses a newly selected cohort.",
+      "It is not historical Batch 5.",
+      "It is not Batch 5 Clean Baseline V1.",
+      "It does not recover or replace the opaque historical cohort.",
+      "It cannot be used to confirm the historical 75-asset profile.",
+      "Historical and new-cohort results must be reported separately.",
+      "Historical custody remains failed.",
+      "The global historical phase manifest remains invalid."
+    ],
+    "prohibitions": [
+      "No new-cohort assets or outcomes in historical denominators",
+      "No historical status-field alteration",
+      "No artifact under historical, recovery, Clean Baseline V1, adjudication, or corrected-derivative paths",
+      "No label implying Batch 5 recovery or completion"
+    ]
+  },
+  "comparability_policy": {
+    "permitted_comparisons": [
+      "Workflow structural performance",
+      "Evidence-governance performance",
+      "Reviewer agreement metrics",
+      "Coverage or correctness under clearly separated versions",
+      "Reproducibility and builder-enforcement metrics"
+    ],
+    "semantic_rate_comparison_disclosures_required": [
+      "Different cohort",
+      "Different evidence boundary",
+      "Different benchmark version",
+      "Potential selection-frame differences",
+      "Lack of direct historical equivalence"
+    ],
+    "combined_historical_75_asset_result_prohibited": true
+  },
+  "required_milestone_sequence": [
+    "CREATE_NEW_COHORT_V2_SELECTION_PROTOCOL",
+    "BUILD_NEW_COHORT_V2_CANDIDATE_UNIVERSE",
+    "INDEPENDENTLY_VALIDATE_NEW_COHORT_V2_CANDIDATE_UNIVERSE",
+    "SELECT_NEW_COHORT_V2",
+    "INDEPENDENTLY_VALIDATE_NEW_COHORT_V2_SELECTION",
+    "CREATE_NEW_COHORT_V2_IDENTITY_BINDINGS_AND_REVIEWER_IDS",
+    "INDEPENDENTLY_VALIDATE_NEW_COHORT_V2_IDENTITY_BINDINGS",
+    "CREATE_NEW_COHORT_V2_EVIDENCE_PROTOCOL",
+    "FREEZE_NEW_COHORT_V2_CORPUS",
+    "INDEPENDENTLY_VALIDATE_NEW_COHORT_V2_CORPUS",
+    "CREATE_NEW_COHORT_V2_NEUTRAL_MAPPING",
+    "CREATE_NEW_COHORT_V2_BLIND_PACKET",
+    "RUN_NEW_COHORT_V2_PRIMARY_REVIEW",
+    "RUN_NEW_COHORT_V2_INDEPENDENT_BLIND_REVIEW",
+    "RUN_NEW_COHORT_V2_CONTROLLED_RECONCILIATION",
+    "RUN_NEW_COHORT_V2_THIRD_ADJUDICATION",
+    "CREATE_NEW_COHORT_V2_CORRECTED_DERIVATIVE",
+    "INDEPENDENTLY_VALIDATE_NEW_COHORT_V2_OUTPUTS",
+    "GOVERN_RELEASE_OR_PROMOTION_SEPARATELY"
+  ],
+  "negative_controls": {
+    "fail_closed_rejections": [
+      "Reuse of historical Batch 5 opaque IDs",
+      "Identity inferred from historical semantic artifacts",
+      "Candidate without stable identity",
+      "Ambiguous identity",
+      "Duplicate candidate or alias counted twice",
+      "Candidate outside selection cutoff or permitted universe",
+      "Selection after semantic review",
+      "Outcome-driven replacement",
+      "Pipeline-performance-driven selection",
+      "Missing or changed seed",
+      "Nondeterministic candidate ordering",
+      "Inaccurate strata",
+      "Unauthorized manual override",
+      "Missing replacement record",
+      "New cohort written under historical paths",
+      "Historical label or combined denominator",
+      "Historical-status alteration",
+      "Partial output after failure",
+      "Output overwrite",
+      "Manifest count or hash mismatch",
+      "Unauthorized next-milestone execution"
+    ],
+    "fail_closed": true,
+    "negative_tests_required": true,
+    "no_overwrite": true
+  },
+  "historical_state": {
+    "historical_batch_05_status": "IRRECOVERABLY_UNVERIFIABLE",
+    "clean_baseline_v1_scope_status": "UNIDENTIFIABLE",
+    "historical_completed_assets": 60,
+    "historical_unresolved_assets": 15,
+    "historical_75_asset_profile_status": "NOT_CONFIRMED",
+    "historical_custody_status": "FAIL_HISTORICAL_DIRTY_DIFF_UNRECOVERABLE",
+    "global_phase_manifest_status": "INVALID",
+    "state_must_remain_unchanged": true
+  },
+  "governing_input_verification": {
+    "required_hashes_verified": true,
+    "lineage_bindings_verified": true,
+    "neutral_identity_authorization_sha256": "1aa9582ae65b15054650a34ea63fc92d08d60f749db65da3c2fcff57ae1b56be",
+    "neutral_identity_authorization_manifest_sha256": "ab952d6e6c5465fb2034cfb1ffe5f2d6878afe4ed20229d5490a5c2df7337ad5",
+    "original_clean_baseline_authorization_sha256": "dff906b6c56322233ca54894d4c44d7c90eafdae213e970180840353f169de7d",
+    "original_clean_baseline_authorization_manifest_sha256": "a35e92580faeb61a1a8000846609239a797ab8f35d27f3cb6361ea8d5522867d",
+    "clean_baseline_protocol_sha256": "30f7a87d775e66ae06e5e5eb1603ce1ecfa424d68d44e63d55557e07f9e22e6d",
+    "clean_baseline_protocol_schema_sha256": "792f70dfb291e59e68f0eb8d60be708e46559fe75cb31cbd31f8ac30abb44ee8",
+    "clean_baseline_protocol_manifest_sha256": "e9e552e68f50bb90722dadd1f70162d1eda2b66f53d375224fae27fb51580ba8",
+    "historical_readiness_report_sha256": "182558d0dd1d94cf8871f5aed8a77df23a9c31593a3e6d8cc4ae03a3c67209d8",
+    "historical_readiness_manifest_sha256": "868f3d100cab60f1e5f4bcf9f7a12bfbb0d2e4ed12a4e4bde0636f7fec801008",
+    "historical_recovery_report_sha256": "f688904bcc00df595af1719a630d810018c382747d89e5ab19c0234294597892",
+    "historical_recovery_manifest_sha256": "1391140b181926b6d021cc4672a98270eed8ef892c790ac722bded04bad12379",
+    "historical_lineage_resolution_report_sha256": "bd8d32e816771a4c6e8fa0ec7c70e381c3ff4e958f1206c86de900dd6dd65c41",
+    "historical_lineage_resolution_manifest_sha256": "40a3ebfa7ce2ab8048c6d91086ef3bb6451040551953ec0ac900cb75aaf85e72",
+    "phase_state_inventory_sha256": "04e83347967da3ef9a33cba000e105522923357d2b6b9d0d1a90efdbdd31c1dc",
+    "benchmark_governance_schema_sha256": "27b106d1f5a47609dac12f62eba4b2bb755569f49a5918089e9c7de31a484bfe"
+  },
+  "session_boundary_confirmations": {
+    "assets_selected": false,
+    "candidate_assets_searched": false,
+    "evidence_collected": false,
+    "corpus_created": false,
+    "semantic_review_occurred": false,
+    "mappings_created": false,
+    "blind_packets_created": false,
+    "reconciliation_or_adjudication_occurred": false,
+    "corrected_derivatives_created": false,
+    "semantic_outputs_validated": false,
+    "benchmark_released_or_promoted": false,
+    "historical_or_clean_baseline_artifacts_modified": false
+  },
+  "exact_next_milestone": "CREATE_NEW_COHORT_V2_SELECTION_PROTOCOL"
+}
