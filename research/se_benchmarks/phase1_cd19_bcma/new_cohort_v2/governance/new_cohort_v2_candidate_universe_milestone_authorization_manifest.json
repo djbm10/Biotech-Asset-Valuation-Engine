@@ -1,0 +1,93 @@
+{
+  "schema_version": "phase1_cd19_bcma_new_cohort_v2_candidate_universe_milestone_authorization_manifest_v1",
+  "manifest_id": "PHASE1_CD19_BCMA_NEW_COHORT_V2_CANDIDATE_UNIVERSE_MILESTONE_AUTHORIZATION_MANIFEST_2026-07-25",
+  "manifest_date": "2026-07-25",
+  "transition_authority": "codex-phase1-cd19-bcma-new-cohort-v2-milestone-transition-authority-2026-07-25",
+  "overall_conclusion": "NEW_COHORT_V2_CANDIDATE_UNIVERSE_MILESTONE_AUTHORIZED",
+  "completed_milestone": "CREATE_NEW_COHORT_V2_SELECTION_PROTOCOL",
+  "activated_milestone": "BUILD_NEW_COHORT_V2_CANDIDATE_UNIVERSE",
+  "authorization_state": {
+    "candidate_universe_construction_authorized": true,
+    "cohort_selection_authorized": false,
+    "selection_seed_execution_authorized": false,
+    "reviewer_identity_generation_authorized": false,
+    "evidence_acquisition_authorized": false,
+    "semantic_review_authorized": false,
+    "release_authorized": false
+  },
+  "next_required_gate": "INDEPENDENTLY_VALIDATE_NEW_COHORT_V2_CANDIDATE_UNIVERSE",
+  "benchmark_identity": {
+    "benchmark_family": "PHASE1_CD19_BCMA",
+    "benchmark_version": "2.0.0",
+    "benchmark_lineage": "NEW_COHORT_V2",
+    "cohort_version": "1.0.0",
+    "namespace": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/"
+  },
+  "bound_artifacts": {
+    "transition_report": {
+      "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_candidate_universe_milestone_authorization.json",
+      "sha256": "a2acf6c26895055f048f7a207f3da528f62da5a83f6f1ab8d0ea2d66553350ec"
+    },
+    "original_governance_report": {
+      "path": "research/se_benchmarks/phase1_cd19_bcma/governance/new_cohort_v2_authorization_2026-07-24.json",
+      "sha256": "2c45ad07e394cec6f9a11793102caebc7bdc20e04ec6423e819c023b9fd3c1e5"
+    },
+    "original_governance_manifest": {
+      "path": "research/se_benchmarks/phase1_cd19_bcma/governance/new_cohort_v2_authorization_manifest_2026-07-24.json",
+      "sha256": "316cf10922eca92045abd4eb587df720435ea41ae59cde44d0b922bdaac9a6d1"
+    },
+    "selection_protocol": {
+      "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol.json",
+      "sha256": "fda4f7a686b96bec0eed406a914cdf66638334b516d813ccf63e97ced60fb042"
+    },
+    "protocol_schema": {
+      "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol.schema.json",
+      "sha256": "af11fc000dfae821b6b9128fee70cac831c3461cea5a4ebd0cabb97254ff43a9"
+    },
+    "protocol_manifest": {
+      "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_manifest.json",
+      "sha256": "5eb3da48fec9747607dff064472e18464afb00903196167221b04b6c9e0288fd"
+    },
+    "protocol_builder": {
+      "path": "scripts/build_phase1_cd19_bcma_new_cohort_v2_selection_protocol.py",
+      "sha256": "3c8e95a9257d6c0097b9a30f17808e72badc7f0335c11cc25b9a0e4677e72d5c"
+    },
+    "protocol_consumer": {
+      "path": "scripts/consume_phase1_cd19_bcma_new_cohort_v2_selection_protocol.py",
+      "sha256": "4480108c1c0a2885b2af2d6d913280754e0210aee1ad895f00fd457df5dd7b63"
+    },
+    "protocol_tests": {
+      "path": "tests/test_phase1_cd19_bcma_new_cohort_v2_selection_protocol.py",
+      "sha256": "42dab0b9346d2efc80f0118ad283e8f82ec158d7459cf1e9c7deb9786b87e2e7"
+    },
+    "protocol_completion_report": null
+  },
+  "authorization_bindings": {
+    "original_candidate_universe_construction_value": false,
+    "original_restriction_interpretation": "TEMPORARY_MILESTONE_GATE",
+    "protocol_completion_conclusion": "NEW_COHORT_V2_SELECTION_PROTOCOL_CREATED",
+    "candidate_universe_construction_authorized": true,
+    "independent_validation_gate_preserved": true
+  },
+  "historical_state": {
+    "historical_equivalence": false,
+    "replaces_historical_batch_05": false,
+    "replaces_clean_baseline_v1": false,
+    "historical_batch_05_status": "IRRECOVERABLY_UNVERIFIABLE",
+    "clean_baseline_v1_scope_status": "UNIDENTIFIABLE",
+    "historical_75_asset_profile_status": "NOT_CONFIRMED",
+    "historical_custody_status": "FAIL_HISTORICAL_DIRTY_DIFF_UNRECOVERABLE",
+    "global_phase_manifest_status": "INVALID"
+  },
+  "exact_files_created": [
+    "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_candidate_universe_milestone_authorization.json",
+    "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_candidate_universe_milestone_authorization_manifest.json"
+  ],
+  "exact_files_modified": [],
+  "no_existing_artifact_modified": true,
+  "candidate_enumeration_occurred": false,
+  "assets_selected": false,
+  "evidence_collected": false,
+  "semantic_review_occurred": false,
+  "release_or_promotion_authorized": false
+}

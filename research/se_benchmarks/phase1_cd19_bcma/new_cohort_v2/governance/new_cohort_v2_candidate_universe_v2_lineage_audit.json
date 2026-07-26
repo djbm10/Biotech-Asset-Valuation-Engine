@@ -1,0 +1,1328 @@
+{
+  "audit_date": "2026-07-25",
+  "auditor_identity": "independent-auditor-phase1-cd19-bcma-new-cohort-v2-candidate-universe-v2-lineage-2026-07-25",
+  "benchmark_state": {
+    "active_selection_protocol": "1.1.0",
+    "benchmark_family": "PHASE1_CD19_BCMA",
+    "benchmark_lineage": "NEW_COHORT_V2",
+    "benchmark_version": "2.0.0",
+    "cohort_selection_cutoff": "2026-07-24T23:59:59Z",
+    "cohort_version": "1.0.0"
+  },
+  "confirmation_no_candidate_reconstruction": true,
+  "confirmation_no_existing_artifact_modified": true,
+  "confirmation_no_validation_or_selection": true,
+  "creation_authority": {
+    "amendment_hash_bound_by_candidate_outputs": false,
+    "classification_counts": {
+      "AUTHORIZED_UNDER_PROTOCOL_V1_0": 11,
+      "AUTHORIZED_UNDER_PROTOCOL_V1_1": 0,
+      "CREATED_BEFORE_REQUIRED_TRANSITION": 0,
+      "CREATED_WITHOUT_MILESTONE_AUTHORIZATION": 13,
+      "CREATION_AUTHORITY_UNVERIFIABLE": 0,
+      "PARTIAL_OR_STAGING_OUTPUT": 2
+    },
+    "complete_registry_accounting_present": false,
+    "conclusion": "Candidate and snapshot outputs bind protocol_version 1.0.0. V1.1.0 was not bound at creation, and the user-supplied failed-transition finding controls over self-attested milestone claims.",
+    "failed_v1_validation_bound": false,
+    "model_c_conditional_expansion_present": false,
+    "protocol_v1_1_existed_at_candidate_creation": false,
+    "protocol_v1_1_hash_bound_by_candidate_outputs": false,
+    "singleton_vs_actual_duplicate_terminology_correct": false,
+    "v1_1_date_hierarchy_present": false,
+    "v1_to_v2_reconstruction_performed": false
+  },
+  "exact_files_created": [
+    "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_candidate_universe_v2_lineage_audit.json",
+    "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_candidate_universe_v2_lineage_audit_manifest.json",
+    "scripts/audit_phase1_cd19_bcma_new_cohort_v2_candidate_universe_v2_lineage.py"
+  ],
+  "exact_files_modified": [],
+  "exact_next_milestone": "AUTHORIZE_BUILD_NEW_COHORT_V2_CANDIDATE_UNIVERSE_V3",
+  "governing_hashes": {
+    "amendment_authorization": {
+      "exists": true,
+      "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_selection_protocol_amendment_authorization_v1.json",
+      "sha256": "80b577bf653206f667883ac316b82daedfdee8843639727b9a153c67a6f0e93a"
+    },
+    "amendment_manifest": {
+      "exists": true,
+      "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_selection_protocol_amendment_authorization_v1_manifest.json",
+      "sha256": "e2ea969eae3d94b81db32a3a319d92a748853db495dd85db5d01a5c7e3a8516b"
+    },
+    "failed_transition_manifest": {
+      "exists": false,
+      "path": "research/se_benchmarks/phase1_cd19_bcma/governance/new_cohort_v2_candidate_universe_transition_failure_manifest.json",
+      "sha256": null
+    },
+    "failed_transition_record": {
+      "exists": false,
+      "path": "research/se_benchmarks/phase1_cd19_bcma/governance/new_cohort_v2_candidate_universe_transition_failure.json",
+      "sha256": null
+    },
+    "original_benchmark_authorization": {
+      "exists": true,
+      "path": "research/se_benchmarks/phase1_cd19_bcma/governance/new_cohort_v2_authorization_2026-07-24.json",
+      "sha256": "2c45ad07e394cec6f9a11793102caebc7bdc20e04ec6423e819c023b9fd3c1e5"
+    },
+    "original_benchmark_authorization_manifest": {
+      "exists": true,
+      "path": "research/se_benchmarks/phase1_cd19_bcma/governance/new_cohort_v2_authorization_manifest_2026-07-24.json",
+      "sha256": "316cf10922eca92045abd4eb587df720435ea41ae59cde44d0b922bdaac9a6d1"
+    },
+    "protocol_v1_0": {
+      "exists": true,
+      "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol.json",
+      "sha256": "fda4f7a686b96bec0eed406a914cdf66638334b516d813ccf63e97ced60fb042"
+    },
+    "protocol_v1_0_manifest": {
+      "exists": true,
+      "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_manifest.json",
+      "sha256": "5eb3da48fec9747607dff064472e18464afb00903196167221b04b6c9e0288fd"
+    },
+    "protocol_v1_1": {
+      "exists": true,
+      "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_v1_1.json",
+      "sha256": "1571c8eb9b7b298dc03ba92b18dda9f96f0c2d8bbeca69b93339f19b378102ad"
+    },
+    "protocol_v1_1_manifest": {
+      "exists": true,
+      "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_v1_1_manifest.json",
+      "sha256": "a71ca4e1b0c976b356f41fa2b756d0cbeb186082ae4b6841c49567522d502b91"
+    },
+    "protocol_v1_1_schema": {
+      "exists": true,
+      "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_v1_1.schema.json",
+      "sha256": "4f27f9db8d2d537ac41ce9edb095b6391f8958ce827af74a1b1d76c69814a2e9"
+    }
+  },
+  "historical_state": {
+    "clean_baseline_v1": "UNIDENTIFIABLE",
+    "global_phase_manifest": "INVALID",
+    "historical_75_asset_profile": "NOT_CONFIRMED",
+    "historical_batch_05": "IRRECOVERABLY_UNVERIFIABLE",
+    "historical_custody": "FAIL_HISTORICAL_DIRTY_DIFF_UNRECOVERABLE"
+  },
+  "lineage_status": "UNAUTHORIZED_PRETRANSITION_V2_FAILED_LINEAGE",
+  "namespace_and_overwrite_audit": {
+    "circular_binding_count": 0,
+    "conclusion": "No byte overwrite is evidenced by the current worktree, but all V2 namespace paths are occupied by an incompatible pre-existing artifact set; reuse would create ambiguity.",
+    "conflicting_path_count": 0,
+    "duplicate_version_label_count": 1,
+    "occupied_authorized_path_count": 26,
+    "orphan_artifact_count": 0,
+    "overwritten_file_count": 0,
+    "staging_residue_count": 0,
+    "v2_label_permanently_occupied": true
+  },
+  "overall_conclusion": "CANDIDATE_UNIVERSE_V2_UNAUTHORIZED_FAILED_LINEAGE_CONFIRMED",
+  "program_level_statuses": {
+    "candidate_reconstruction_occurred_in_this_audit": false,
+    "construction_never_activated_under_protocol_v1_1": true,
+    "no_milestone_activated_by_failed_transition": true,
+    "semantic_work_occurred_in_this_audit": false,
+    "source_retrieval_occurred_in_this_audit": false,
+    "v2_validation_never_authorized": true,
+    "validation_or_selection_occurred_in_this_audit": false
+  },
+  "protocol_v1_1_structural_boundary": {
+    "amendment_authorization_binding": "ABSENT",
+    "approved_asset_non_registry_procedure": "ABSENT",
+    "clinicaltrials_gov_base_enumeration": "PRESENT_BUT_UNAUTHORIZED",
+    "correct_identity_group_terminology": "PRESENT_BUT_INCOMPLETE",
+    "earliest_verified_public_eligibility_date": "ABSENT",
+    "independent_reconstruction_declaration": "ABSENT",
+    "mechanical_cutoff_recomputation": "PRESENT_BUT_UNAUTHORIZED",
+    "model_c_conditional_expansion": "ABSENT",
+    "new_builder_version": "PRESENT_BUT_UNAUTHORIZED",
+    "new_schema_version": "PRESENT_BUT_UNAUTHORIZED",
+    "pending_independent_validation_status": "PRESENT_BUT_UNAUTHORIZED",
+    "protocol_v1_1_binding": "ABSENT",
+    "registry_record_accounting": "PRESENT_BUT_INCOMPLETE",
+    "required_candidate_date_fields": "PRESENT_BUT_INCOMPLETE",
+    "required_conditional_source_execution": "ABSENT",
+    "source_class_matrix": "PRESENT_BUT_UNAUTHORIZED",
+    "twelve_conditional_triggers": "PRESENT_BUT_UNAUTHORIZED",
+    "v1_failed_validation_binding": "ABSENT",
+    "v1_to_v2_changes_artifact": "ABSENT"
+  },
+  "recommended_new_version": "CANDIDATE_UNIVERSE_V3",
+  "schema_version": "phase1_cd19_bcma_new_cohort_v2_candidate_universe_v2_lineage_audit_v1",
+  "scope": "lineage, custody, namespace, and version isolation only",
+  "selected_downstream_consequence": "AUTHORIZE_CANDIDATE_UNIVERSE_V3_TRANSITION_REVIEW",
+  "source_snapshot_custody": {
+    "non_reusable_count": 0,
+    "records": [
+      {
+        "identical_to_v1_snapshot": "UNVERIFIABLE",
+        "new_external_retrieval_evidenced": true,
+        "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/source_snapshots/page_0.json",
+        "query_identity": "clinicaltrials_gov_cd19_bcma_page_000",
+        "retrieval_authorized": false,
+        "retrieval_timestamp": "2026-07-25T16:01:25Z",
+        "reuse_classification": "UNAUTHORIZED_BUT_BYTE_VERIFIABLE_INPUT",
+        "reuse_condition": "Preserved bytes may be considered only as non-authoritative input after independent hash verification; candidate decisions and derived classifications are not reusable.",
+        "sha256": "54535a27afc5f07056cea05d8ae39dec1b0bc08bec6675071417580bed747e4b",
+        "source_role": "PRIMARY_ADMINISTRATIVE / neutral candidate enumeration"
+      },
+      {
+        "identical_to_v1_snapshot": "UNVERIFIABLE",
+        "new_external_retrieval_evidenced": true,
+        "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/source_snapshots/page_1.json",
+        "query_identity": "clinicaltrials_gov_cd19_bcma_page_001",
+        "retrieval_authorized": false,
+        "retrieval_timestamp": "2026-07-25T16:01:25Z",
+        "reuse_classification": "UNAUTHORIZED_BUT_BYTE_VERIFIABLE_INPUT",
+        "reuse_condition": "Preserved bytes may be considered only as non-authoritative input after independent hash verification; candidate decisions and derived classifications are not reusable.",
+        "sha256": "f20e54253180661beea65d8c36ba699258ec2ac048e427af85ec749fe5c67677",
+        "source_role": "PRIMARY_ADMINISTRATIVE / neutral candidate enumeration"
+      },
+      {
+        "identical_to_v1_snapshot": "UNVERIFIABLE",
+        "new_external_retrieval_evidenced": true,
+        "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/source_snapshots/page_2.json",
+        "query_identity": "clinicaltrials_gov_cd19_bcma_page_002",
+        "retrieval_authorized": false,
+        "retrieval_timestamp": "2026-07-25T16:01:25Z",
+        "reuse_classification": "UNAUTHORIZED_BUT_BYTE_VERIFIABLE_INPUT",
+        "reuse_condition": "Preserved bytes may be considered only as non-authoritative input after independent hash verification; candidate decisions and derived classifications are not reusable.",
+        "sha256": "f44358a8297b064812c9bde7a999dc5d6965d569975c7db5be448a3c5d2954b4",
+        "source_role": "PRIMARY_ADMINISTRATIVE / neutral candidate enumeration"
+      }
+    ],
+    "reusable_count": 3,
+    "snapshot_count": 3
+  },
+  "v1_to_v2_comparison": {
+    "byte_identical_files_count": 0,
+    "canonical_v1_candidate_universe_found": false,
+    "comparison_basis": "No canonical V1 candidate-universe file set was discoverable under the benchmark tree; the existing V2 set therefore cannot be proven independent or derivative from local artifacts.",
+    "independently_reconstructed_records_count": 0,
+    "partially_modified_files_count": 0,
+    "records_copied_unchanged_count": null,
+    "records_patched_without_reconstruction_count": null,
+    "relationship_classification": "RELATIONSHIP_UNVERIFIABLE",
+    "v1_aggregates_reused": "UNVERIFIABLE",
+    "v1_candidate_universe_paths": [],
+    "v1_cutoff_values_reused": "UNVERIFIABLE",
+    "v1_duplicate_classifications_reused": "UNVERIFIABLE",
+    "v1_validation_defects_still_present": [
+      "missing first_eligible_date",
+      "incomplete source pagination accounting"
+    ]
+  },
+  "v2_artifact_inventory": {
+    "additional_related_tooling": [
+      "scripts/build_phase1_cd19_bcma_new_cohort_v2_candidate_universe.py",
+      "scripts/consume_phase1_cd19_bcma_new_cohort_v2_candidate_universe.py",
+      "scripts/validate_phase1_cd19_bcma_new_cohort_v2_candidate_universe.py",
+      "scripts/build_phase1_cd19_bcma_new_cohort_v2_selection_protocol.py",
+      "scripts/build_phase1_cd19_bcma_new_cohort_v2_selection_protocol_v1_1.py",
+      "scripts/consume_phase1_cd19_bcma_new_cohort_v2_selection_protocol.py",
+      "scripts/consume_phase1_cd19_bcma_new_cohort_v2_selection_protocol_v1_1.py",
+      "tests/test_phase1_cd19_bcma_new_cohort_v2_candidate_universe.py",
+      "tests/test_phase1_cd19_bcma_new_cohort_v2_selection_protocol.py",
+      "tests/test_phase1_cd19_bcma_new_cohort_v2_selection_protocol_v1_1.py"
+    ],
+    "artifact_count": 26,
+    "complete_directory_inventory": true,
+    "external_governance_bindings": [
+      "research/se_benchmarks/phase1_cd19_bcma/governance/new_cohort_v2_authorization_2026-07-24.json",
+      "research/se_benchmarks/phase1_cd19_bcma/governance/new_cohort_v2_authorization_manifest_2026-07-24.json"
+    ],
+    "records": [
+      {
+        "builder_identity": "codex-phase1-cd19-bcma-new-cohort-v2-candidate-universe-builder-authorized-v1-2026-07-25",
+        "byte_size": 6877002,
+        "category": "identity or duplicate accounting",
+        "commit_or_branch_binding": {
+          "branch": null,
+          "commit": null,
+          "tracked": false
+        },
+        "created_timestamp": "2026-07-25T16:15:28.124969+00:00",
+        "creation_authority_classification": "CREATED_WITHOUT_MILESTONE_AUTHORIZATION",
+        "creation_conclusion": "Pre-existing V2-labeled output; the self-attested authorization is not accepted as proof against the failed transition boundary.",
+        "current_claimed_status": null,
+        "exact_path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_identity_records.json",
+        "file_type": "json",
+        "git_status": "?? research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_identity_records.json",
+        "input_bindings": [],
+        "internal_candidate_universe_version": null,
+        "internal_protocol_version": "1.0.0",
+        "modified_timestamp": "2026-07-25T16:15:27.869480+00:00",
+        "output_bindings": [],
+        "referenced_by_other_identified_artifacts": [
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_manifest.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation_manifest.json"
+        ],
+        "sha256": "3a5d72b70f932a892423182ae2a2af8cf1d0cc2198d0e04d5f4f29be43dfa7af"
+      },
+      {
+        "builder_identity": "codex-phase1-cd19-bcma-new-cohort-v2-candidate-universe-builder-authorized-v1-2026-07-25",
+        "byte_size": 4953,
+        "category": "manifest",
+        "commit_or_branch_binding": {
+          "branch": null,
+          "commit": null,
+          "tracked": false
+        },
+        "created_timestamp": "2026-07-25T16:15:28.124969+00:00",
+        "creation_authority_classification": "CREATED_WITHOUT_MILESTONE_AUTHORIZATION",
+        "creation_conclusion": "Pre-existing V2-labeled output; the self-attested authorization is not accepted as proof against the failed transition boundary.",
+        "current_claimed_status": "NEW_COHORT_V2_CANDIDATE_UNIVERSE_CREATED_PENDING_INDEPENDENT_VALIDATION",
+        "exact_path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_manifest.json",
+        "file_type": "json",
+        "git_status": "?? research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_manifest.json",
+        "input_bindings": [],
+        "internal_candidate_universe_version": null,
+        "internal_protocol_version": null,
+        "modified_timestamp": "2026-07-25T16:15:28.124804+00:00",
+        "output_bindings": [
+          {
+            "discovery_ledger": {
+              "bytes": 1562024,
+              "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_discovery_ledger.jsonl",
+              "sha256": "a4c12f843500e2ec7eb77377ac6ece35e54d3af13da8d67c21fb47d3588bac4a"
+            },
+            "duplicate_groups": {
+              "bytes": 610828,
+              "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_duplicate_groups.json",
+              "sha256": "e136454a5f8461d4e7dca65050c1c950d4be563bd00968a143fccf0ff78519ac"
+            },
+            "eligible": {
+              "bytes": 4923726,
+              "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_eligible_candidates.json",
+              "sha256": "1b501321cd02248d23f65ee034055eb4d5c981d88e776e031f7cd3e23ef9fc64"
+            },
+            "enumeration_plan": {
+              "bytes": 1411,
+              "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_enumeration_plan.json",
+              "sha256": "41872135bf5bca501c479c8dc5371b78cbad6a69bb8fed1ebadb1b89483e1279"
+            },
+            "excluded": {
+              "bytes": 1968229,
+              "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_excluded_candidates.json",
+              "sha256": "e83059d7063e71a6820cdea1f7a767a89b845efb1faee1ef9577d9c621592a5f"
+            },
+            "identity_records": {
+              "bytes": 6877002,
+              "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_identity_records.json",
+              "sha256": "3a5d72b70f932a892423182ae2a2af8cf1d0cc2198d0e04d5f4f29be43dfa7af"
+            },
+            "query_ledger": {
+              "bytes": 1233,
+              "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_query_ledger.jsonl",
+              "sha256": "a41ab063344e70b3465e481865fdc0f692b40aeb832f568788f0df3ae0459f12"
+            },
+            "report": {
+              "bytes": 3452,
+              "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_report.json",
+              "sha256": "c8edb9114faa316f1b76be73612c9d17b5d4c00ceca9fe9ea1cba8b0075f9930"
+            },
+            "snapshot_inventory": {
+              "bytes": 3865,
+              "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_source_snapshot_inventory.json",
+              "sha256": "431871a43a4de3e3a98de2dc45d2c2f318a99fd7f06419eac3e4c532387e805e"
+            }
+          }
+        ],
+        "referenced_by_other_identified_artifacts": [
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation_manifest.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_selection_protocol_amendment_authorization_v1.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_v1_1.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_v1_1_manifest.json"
+        ],
+        "sha256": "e9d90f740dc1b4ddab8c768e8fd5bcc72d56f1730c9275aa60b4b1c7bc4d72e5"
+      },
+      {
+        "builder_identity": "codex-phase1-cd19-bcma-new-cohort-v2-candidate-universe-builder-authorized-v1-2026-07-25",
+        "byte_size": 3452,
+        "category": "report",
+        "commit_or_branch_binding": {
+          "branch": null,
+          "commit": null,
+          "tracked": false
+        },
+        "created_timestamp": "2026-07-25T16:15:28.124969+00:00",
+        "creation_authority_classification": "CREATED_WITHOUT_MILESTONE_AUTHORIZATION",
+        "creation_conclusion": "Pre-existing V2-labeled output; the self-attested authorization is not accepted as proof against the failed transition boundary.",
+        "current_claimed_status": "NEW_COHORT_V2_CANDIDATE_UNIVERSE_CREATED_PENDING_INDEPENDENT_VALIDATION",
+        "exact_path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_report.json",
+        "file_type": "json",
+        "git_status": "?? research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_report.json",
+        "input_bindings": [],
+        "internal_candidate_universe_version": null,
+        "internal_protocol_version": null,
+        "modified_timestamp": "2026-07-25T16:15:28.077952+00:00",
+        "output_bindings": [],
+        "referenced_by_other_identified_artifacts": [
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_manifest.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation_manifest.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_selection_protocol_amendment_authorization_v1.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_v1_1.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_v1_1_manifest.json"
+        ],
+        "sha256": "c8edb9114faa316f1b76be73612c9d17b5d4c00ceca9fe9ea1cba8b0075f9930"
+      },
+      {
+        "builder_identity": "codex-phase1-cd19-bcma-new-cohort-v2-candidate-universe-builder-authorized-v1-2026-07-25",
+        "byte_size": 45412,
+        "category": "validation-like output",
+        "commit_or_branch_binding": {
+          "branch": null,
+          "commit": null,
+          "tracked": false
+        },
+        "created_timestamp": "2026-07-25T16:34:39.074765+00:00",
+        "creation_authority_classification": "PARTIAL_OR_STAGING_OUTPUT",
+        "creation_conclusion": "Pre-existing V2-labeled output; the self-attested authorization is not accepted as proof against the failed transition boundary.",
+        "current_claimed_status": "NEW_COHORT_V2_CANDIDATE_UNIVERSE_CREATED_PENDING_INDEPENDENT_VALIDATION",
+        "exact_path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation.json",
+        "file_type": "json",
+        "git_status": "?? research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation.json",
+        "input_bindings": [
+          {
+            "builder": "scripts/build_phase1_cd19_bcma_new_cohort_v2_candidate_universe.py",
+            "candidate_universe_manifest": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_manifest.json",
+            "candidate_universe_report": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_report.json",
+            "consumer": "scripts/consume_phase1_cd19_bcma_new_cohort_v2_candidate_universe.py",
+            "discovery_ledger": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_discovery_ledger.jsonl",
+            "duplicate_groups": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_duplicate_groups.json",
+            "eligible_universe": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_eligible_candidates.json",
+            "enumeration_plan": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_enumeration_plan.json",
+            "excluded_universe": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_excluded_candidates.json",
+            "governance_manifest": "research/se_benchmarks/phase1_cd19_bcma/governance/new_cohort_v2_authorization_manifest_2026-07-24.json",
+            "governance_report": "research/se_benchmarks/phase1_cd19_bcma/governance/new_cohort_v2_authorization_2026-07-24.json",
+            "identity_records": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_identity_records.json",
+            "independent_validator": "scripts/validate_phase1_cd19_bcma_new_cohort_v2_candidate_universe.py",
+            "query_ledger": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_query_ledger.jsonl",
+            "selection_manifest": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_manifest.json",
+            "selection_protocol": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol.json",
+            "selection_schema": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol.schema.json",
+            "snapshot_inventory": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_source_snapshot_inventory.json",
+            "source_snapshot_page_0": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/source_snapshots/page_0.json",
+            "source_snapshot_page_1": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/source_snapshots/page_1.json",
+            "source_snapshot_page_2": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/source_snapshots/page_2.json",
+            "tests": "tests/test_phase1_cd19_bcma_new_cohort_v2_candidate_universe.py",
+            "transition_manifest": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_candidate_universe_milestone_authorization_manifest.json",
+            "transition_report": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_candidate_universe_milestone_authorization.json"
+          }
+        ],
+        "internal_candidate_universe_version": null,
+        "internal_protocol_version": null,
+        "modified_timestamp": "2026-07-25T16:34:39.074765+00:00",
+        "output_bindings": [
+          [
+            "scripts/validate_phase1_cd19_bcma_new_cohort_v2_candidate_universe.py",
+            "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation.json",
+            "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation_manifest.json"
+          ]
+        ],
+        "referenced_by_other_identified_artifacts": [
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation_manifest.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_selection_protocol_amendment_authorization_v1.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_v1_1.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_v1_1_manifest.json"
+        ],
+        "sha256": "1857287464205b3bc44ab250a620adb4cbce053ee2e6154f37286c3a79ab7858"
+      },
+      {
+        "builder_identity": null,
+        "byte_size": 8268,
+        "category": "validation-like output",
+        "commit_or_branch_binding": {
+          "branch": null,
+          "commit": null,
+          "tracked": false
+        },
+        "created_timestamp": "2026-07-25T16:34:39.075600+00:00",
+        "creation_authority_classification": "PARTIAL_OR_STAGING_OUTPUT",
+        "creation_conclusion": "Pre-existing V2-labeled output; the self-attested authorization is not accepted as proof against the failed transition boundary.",
+        "current_claimed_status": "FAIL_MULTIPLE_BLOCKING_DEFECTS",
+        "exact_path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation_manifest.json",
+        "file_type": "json",
+        "git_status": "?? research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation_manifest.json",
+        "input_bindings": [
+          {
+            "builder": {
+              "path": "scripts/build_phase1_cd19_bcma_new_cohort_v2_candidate_universe.py",
+              "sha256": "647a3b84d97b03cb3cc116eb0d44b74ed9794c6c33b991bac1f941e06b1b148e"
+            },
+            "candidate_universe_manifest": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_manifest.json",
+              "sha256": "e9d90f740dc1b4ddab8c768e8fd5bcc72d56f1730c9275aa60b4b1c7bc4d72e5"
+            },
+            "candidate_universe_report": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_report.json",
+              "sha256": "c8edb9114faa316f1b76be73612c9d17b5d4c00ceca9fe9ea1cba8b0075f9930"
+            },
+            "consumer": {
+              "path": "scripts/consume_phase1_cd19_bcma_new_cohort_v2_candidate_universe.py",
+              "sha256": "7a53c6ba4a8e0fa05c016907cc3f39c042f68f333a78a887b2662c2da6234ea6"
+            },
+            "discovery_ledger": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_discovery_ledger.jsonl",
+              "sha256": "a4c12f843500e2ec7eb77377ac6ece35e54d3af13da8d67c21fb47d3588bac4a"
+            },
+            "duplicate_groups": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_duplicate_groups.json",
+              "sha256": "e136454a5f8461d4e7dca65050c1c950d4be563bd00968a143fccf0ff78519ac"
+            },
+            "eligible_universe": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_eligible_candidates.json",
+              "sha256": "1b501321cd02248d23f65ee034055eb4d5c981d88e776e031f7cd3e23ef9fc64"
+            },
+            "enumeration_plan": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_enumeration_plan.json",
+              "sha256": "41872135bf5bca501c479c8dc5371b78cbad6a69bb8fed1ebadb1b89483e1279"
+            },
+            "excluded_universe": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_excluded_candidates.json",
+              "sha256": "e83059d7063e71a6820cdea1f7a767a89b845efb1faee1ef9577d9c621592a5f"
+            },
+            "governance_manifest": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/governance/new_cohort_v2_authorization_manifest_2026-07-24.json",
+              "sha256": "316cf10922eca92045abd4eb587df720435ea41ae59cde44d0b922bdaac9a6d1"
+            },
+            "governance_report": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/governance/new_cohort_v2_authorization_2026-07-24.json",
+              "sha256": "2c45ad07e394cec6f9a11793102caebc7bdc20e04ec6423e819c023b9fd3c1e5"
+            },
+            "identity_records": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_identity_records.json",
+              "sha256": "3a5d72b70f932a892423182ae2a2af8cf1d0cc2198d0e04d5f4f29be43dfa7af"
+            },
+            "independent_validator": {
+              "path": "scripts/validate_phase1_cd19_bcma_new_cohort_v2_candidate_universe.py",
+              "sha256": "0ef20ab77768b949df7da0d34e87fd2979f0192f4bf365e151acc7efe9eaa062"
+            },
+            "query_ledger": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_query_ledger.jsonl",
+              "sha256": "a41ab063344e70b3465e481865fdc0f692b40aeb832f568788f0df3ae0459f12"
+            },
+            "selection_manifest": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_manifest.json",
+              "sha256": "5eb3da48fec9747607dff064472e18464afb00903196167221b04b6c9e0288fd"
+            },
+            "selection_protocol": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol.json",
+              "sha256": "fda4f7a686b96bec0eed406a914cdf66638334b516d813ccf63e97ced60fb042"
+            },
+            "selection_schema": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol.schema.json",
+              "sha256": "af11fc000dfae821b6b9128fee70cac831c3461cea5a4ebd0cabb97254ff43a9"
+            },
+            "snapshot_inventory": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_source_snapshot_inventory.json",
+              "sha256": "431871a43a4de3e3a98de2dc45d2c2f318a99fd7f06419eac3e4c532387e805e"
+            },
+            "source_snapshot_page_0": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/source_snapshots/page_0.json",
+              "sha256": "54535a27afc5f07056cea05d8ae39dec1b0bc08bec6675071417580bed747e4b"
+            },
+            "source_snapshot_page_1": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/source_snapshots/page_1.json",
+              "sha256": "f20e54253180661beea65d8c36ba699258ec2ac048e427af85ec749fe5c67677"
+            },
+            "source_snapshot_page_2": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/source_snapshots/page_2.json",
+              "sha256": "f44358a8297b064812c9bde7a999dc5d6965d569975c7db5be448a3c5d2954b4"
+            },
+            "tests": {
+              "path": "tests/test_phase1_cd19_bcma_new_cohort_v2_candidate_universe.py",
+              "sha256": "0f43a9321baa266ecaaf93e70dda080f333cb33c313d01642b4b6c490711a19d"
+            },
+            "transition_manifest": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_candidate_universe_milestone_authorization_manifest.json",
+              "sha256": "bde86db3e889a2110d3616b81093817b57197588391e8a0b34634baf8cb7da16"
+            },
+            "transition_report": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_candidate_universe_milestone_authorization.json",
+              "sha256": "a2acf6c26895055f048f7a207f3da528f62da5a83f6f1ab8d0ea2d66553350ec"
+            }
+          }
+        ],
+        "internal_candidate_universe_version": null,
+        "internal_protocol_version": null,
+        "modified_timestamp": "2026-07-25T16:34:39.075600+00:00",
+        "output_bindings": [
+          [
+            "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation.json",
+            "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation_manifest.json",
+            "scripts/validate_phase1_cd19_bcma_new_cohort_v2_candidate_universe.py"
+          ]
+        ],
+        "referenced_by_other_identified_artifacts": [
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_selection_protocol_amendment_authorization_v1.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_v1_1.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_v1_1_manifest.json"
+        ],
+        "sha256": "9dc7cda9c8c50ff3588f83744a996db4bc58f919777227f4c0338de45c70bd0f"
+      },
+      {
+        "builder_identity": null,
+        "byte_size": 1562024,
+        "category": "discovery/query/trigger ledger",
+        "commit_or_branch_binding": {
+          "branch": null,
+          "commit": null,
+          "tracked": false
+        },
+        "created_timestamp": "2026-07-25T16:15:28.124969+00:00",
+        "creation_authority_classification": "CREATED_WITHOUT_MILESTONE_AUTHORIZATION",
+        "creation_conclusion": "Pre-existing V2-labeled output; the self-attested authorization is not accepted as proof against the failed transition boundary.",
+        "current_claimed_status": null,
+        "exact_path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_discovery_ledger.jsonl",
+        "file_type": "jsonl",
+        "git_status": "?? research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_discovery_ledger.jsonl",
+        "input_bindings": [],
+        "internal_candidate_universe_version": null,
+        "internal_protocol_version": null,
+        "modified_timestamp": "2026-07-25T16:15:27.702650+00:00",
+        "output_bindings": [],
+        "referenced_by_other_identified_artifacts": [
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_manifest.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation_manifest.json"
+        ],
+        "sha256": "a4c12f843500e2ec7eb77377ac6ece35e54d3af13da8d67c21fb47d3588bac4a"
+      },
+      {
+        "builder_identity": null,
+        "byte_size": 610828,
+        "category": "identity or duplicate accounting",
+        "commit_or_branch_binding": {
+          "branch": null,
+          "commit": null,
+          "tracked": false
+        },
+        "created_timestamp": "2026-07-25T16:15:28.124969+00:00",
+        "creation_authority_classification": "CREATED_WITHOUT_MILESTONE_AUTHORIZATION",
+        "creation_conclusion": "Pre-existing V2-labeled output; the self-attested authorization is not accepted as proof against the failed transition boundary.",
+        "current_claimed_status": null,
+        "exact_path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_duplicate_groups.json",
+        "file_type": "json",
+        "git_status": "?? research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_duplicate_groups.json",
+        "input_bindings": [],
+        "internal_candidate_universe_version": null,
+        "internal_protocol_version": null,
+        "modified_timestamp": "2026-07-25T16:15:27.891124+00:00",
+        "output_bindings": [],
+        "referenced_by_other_identified_artifacts": [
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_manifest.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation_manifest.json"
+        ],
+        "sha256": "e136454a5f8461d4e7dca65050c1c950d4be563bd00968a143fccf0ff78519ac"
+      },
+      {
+        "builder_identity": "codex-phase1-cd19-bcma-new-cohort-v2-candidate-universe-builder-authorized-v1-2026-07-25",
+        "byte_size": 4923726,
+        "category": "candidate eligibility output",
+        "commit_or_branch_binding": {
+          "branch": null,
+          "commit": null,
+          "tracked": false
+        },
+        "created_timestamp": "2026-07-25T16:15:28.124969+00:00",
+        "creation_authority_classification": "CREATED_WITHOUT_MILESTONE_AUTHORIZATION",
+        "creation_conclusion": "Pre-existing V2-labeled output; the self-attested authorization is not accepted as proof against the failed transition boundary.",
+        "current_claimed_status": null,
+        "exact_path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_eligible_candidates.json",
+        "file_type": "json",
+        "git_status": "?? research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_eligible_candidates.json",
+        "input_bindings": [],
+        "internal_candidate_universe_version": null,
+        "internal_protocol_version": "1.0.0",
+        "modified_timestamp": "2026-07-25T16:15:28.018630+00:00",
+        "output_bindings": [],
+        "referenced_by_other_identified_artifacts": [
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_manifest.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation_manifest.json"
+        ],
+        "sha256": "1b501321cd02248d23f65ee034055eb4d5c981d88e776e031f7cd3e23ef9fc64"
+      },
+      {
+        "builder_identity": "codex-phase1-cd19-bcma-new-cohort-v2-candidate-universe-builder-authorized-v1-2026-07-25",
+        "byte_size": 1411,
+        "category": "enumeration plan",
+        "commit_or_branch_binding": {
+          "branch": null,
+          "commit": null,
+          "tracked": false
+        },
+        "created_timestamp": "2026-07-25T16:10:08.460696+00:00",
+        "creation_authority_classification": "CREATED_WITHOUT_MILESTONE_AUTHORIZATION",
+        "creation_conclusion": "Pre-existing V2-labeled output; the self-attested authorization is not accepted as proof against the failed transition boundary.",
+        "current_claimed_status": null,
+        "exact_path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_enumeration_plan.json",
+        "file_type": "json",
+        "git_status": "?? research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_enumeration_plan.json",
+        "input_bindings": [],
+        "internal_candidate_universe_version": null,
+        "internal_protocol_version": "1.0.0",
+        "modified_timestamp": "2026-07-25T16:10:08.460696+00:00",
+        "output_bindings": [],
+        "referenced_by_other_identified_artifacts": [
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_manifest.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation_manifest.json"
+        ],
+        "sha256": "41872135bf5bca501c479c8dc5371b78cbad6a69bb8fed1ebadb1b89483e1279"
+      },
+      {
+        "builder_identity": "codex-phase1-cd19-bcma-new-cohort-v2-candidate-universe-builder-authorized-v1-2026-07-25",
+        "byte_size": 1968229,
+        "category": "candidate eligibility output",
+        "commit_or_branch_binding": {
+          "branch": null,
+          "commit": null,
+          "tracked": false
+        },
+        "created_timestamp": "2026-07-25T16:15:28.124969+00:00",
+        "creation_authority_classification": "CREATED_WITHOUT_MILESTONE_AUTHORIZATION",
+        "creation_conclusion": "Pre-existing V2-labeled output; the self-attested authorization is not accepted as proof against the failed transition boundary.",
+        "current_claimed_status": null,
+        "exact_path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_excluded_candidates.json",
+        "file_type": "json",
+        "git_status": "?? research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_excluded_candidates.json",
+        "input_bindings": [],
+        "internal_candidate_universe_version": null,
+        "internal_protocol_version": "1.0.0",
+        "modified_timestamp": "2026-07-25T16:15:28.076294+00:00",
+        "output_bindings": [],
+        "referenced_by_other_identified_artifacts": [
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_manifest.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation_manifest.json"
+        ],
+        "sha256": "e83059d7063e71a6820cdea1f7a767a89b845efb1faee1ef9577d9c621592a5f"
+      },
+      {
+        "builder_identity": null,
+        "byte_size": 1233,
+        "category": "discovery/query/trigger ledger",
+        "commit_or_branch_binding": {
+          "branch": null,
+          "commit": null,
+          "tracked": false
+        },
+        "created_timestamp": "2026-07-25T16:15:58.193767+00:00",
+        "creation_authority_classification": "CREATED_WITHOUT_MILESTONE_AUTHORIZATION",
+        "creation_conclusion": "Pre-existing V2-labeled output; the self-attested authorization is not accepted as proof against the failed transition boundary.",
+        "current_claimed_status": null,
+        "exact_path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_query_ledger.jsonl",
+        "file_type": "jsonl",
+        "git_status": "?? research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_query_ledger.jsonl",
+        "input_bindings": [],
+        "internal_candidate_universe_version": null,
+        "internal_protocol_version": null,
+        "modified_timestamp": "2026-07-25T16:15:58.193767+00:00",
+        "output_bindings": [],
+        "referenced_by_other_identified_artifacts": [
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_manifest.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation_manifest.json"
+        ],
+        "sha256": "a41ab063344e70b3465e481865fdc0f692b40aeb832f568788f0df3ae0459f12"
+      },
+      {
+        "builder_identity": "codex-phase1-cd19-bcma-new-cohort-v2-candidate-universe-builder-authorized-v1-2026-07-25",
+        "byte_size": 3865,
+        "category": "source snapshot or snapshot inventory",
+        "commit_or_branch_binding": {
+          "branch": null,
+          "commit": null,
+          "tracked": false
+        },
+        "created_timestamp": "2026-07-25T16:10:08.461031+00:00",
+        "creation_authority_classification": "CREATED_WITHOUT_MILESTONE_AUTHORIZATION",
+        "creation_conclusion": "Pre-existing V2-labeled output; the self-attested authorization is not accepted as proof against the failed transition boundary.",
+        "current_claimed_status": null,
+        "exact_path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_source_snapshot_inventory.json",
+        "file_type": "json",
+        "git_status": "?? research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_source_snapshot_inventory.json",
+        "input_bindings": [],
+        "internal_candidate_universe_version": null,
+        "internal_protocol_version": null,
+        "modified_timestamp": "2026-07-25T16:10:08.461031+00:00",
+        "output_bindings": [],
+        "referenced_by_other_identified_artifacts": [
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_manifest.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation_manifest.json"
+        ],
+        "sha256": "431871a43a4de3e3a98de2dc45d2c2f318a99fd7f06419eac3e4c532387e805e"
+      },
+      {
+        "builder_identity": null,
+        "byte_size": 30942640,
+        "category": "source snapshot or snapshot inventory",
+        "commit_or_branch_binding": {
+          "branch": null,
+          "commit": null,
+          "tracked": false
+        },
+        "created_timestamp": "2026-07-25T16:05:24.903561+00:00",
+        "creation_authority_classification": "CREATED_WITHOUT_MILESTONE_AUTHORIZATION",
+        "creation_conclusion": "Pre-existing V2-labeled output; the self-attested authorization is not accepted as proof against the failed transition boundary.",
+        "current_claimed_status": null,
+        "exact_path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/source_snapshots/page_0.json",
+        "file_type": "json",
+        "git_status": "?? research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/source_snapshots/page_0.json",
+        "input_bindings": [],
+        "internal_candidate_universe_version": null,
+        "internal_protocol_version": null,
+        "modified_timestamp": "2026-07-25T16:05:24.903561+00:00",
+        "output_bindings": [],
+        "referenced_by_other_identified_artifacts": [
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation_manifest.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_discovery_ledger.jsonl",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_source_snapshot_inventory.json"
+        ],
+        "sha256": "54535a27afc5f07056cea05d8ae39dec1b0bc08bec6675071417580bed747e4b"
+      },
+      {
+        "builder_identity": null,
+        "byte_size": 29972292,
+        "category": "source snapshot or snapshot inventory",
+        "commit_or_branch_binding": {
+          "branch": null,
+          "commit": null,
+          "tracked": false
+        },
+        "created_timestamp": "2026-07-25T16:05:24.979835+00:00",
+        "creation_authority_classification": "CREATED_WITHOUT_MILESTONE_AUTHORIZATION",
+        "creation_conclusion": "Pre-existing V2-labeled output; the self-attested authorization is not accepted as proof against the failed transition boundary.",
+        "current_claimed_status": null,
+        "exact_path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/source_snapshots/page_1.json",
+        "file_type": "json",
+        "git_status": "?? research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/source_snapshots/page_1.json",
+        "input_bindings": [],
+        "internal_candidate_universe_version": null,
+        "internal_protocol_version": null,
+        "modified_timestamp": "2026-07-25T16:05:24.979835+00:00",
+        "output_bindings": [],
+        "referenced_by_other_identified_artifacts": [
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation_manifest.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_discovery_ledger.jsonl",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_source_snapshot_inventory.json"
+        ],
+        "sha256": "f20e54253180661beea65d8c36ba699258ec2ac048e427af85ec749fe5c67677"
+      },
+      {
+        "builder_identity": null,
+        "byte_size": 13939257,
+        "category": "source snapshot or snapshot inventory",
+        "commit_or_branch_binding": {
+          "branch": null,
+          "commit": null,
+          "tracked": false
+        },
+        "created_timestamp": "2026-07-25T16:05:25.010344+00:00",
+        "creation_authority_classification": "CREATED_WITHOUT_MILESTONE_AUTHORIZATION",
+        "creation_conclusion": "Pre-existing V2-labeled output; the self-attested authorization is not accepted as proof against the failed transition boundary.",
+        "current_claimed_status": null,
+        "exact_path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/source_snapshots/page_2.json",
+        "file_type": "json",
+        "git_status": "?? research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/source_snapshots/page_2.json",
+        "input_bindings": [],
+        "internal_candidate_universe_version": null,
+        "internal_protocol_version": null,
+        "modified_timestamp": "2026-07-25T16:05:25.010344+00:00",
+        "output_bindings": [],
+        "referenced_by_other_identified_artifacts": [
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation_manifest.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_discovery_ledger.jsonl",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_source_snapshot_inventory.json"
+        ],
+        "sha256": "f44358a8297b064812c9bde7a999dc5d6965d569975c7db5be448a3c5d2954b4"
+      },
+      {
+        "builder_identity": null,
+        "byte_size": 9178,
+        "category": "governance authorization",
+        "commit_or_branch_binding": {
+          "branch": null,
+          "commit": null,
+          "tracked": false
+        },
+        "created_timestamp": "2026-07-25T15:52:47.282840+00:00",
+        "creation_authority_classification": "AUTHORIZED_UNDER_PROTOCOL_V1_0",
+        "creation_conclusion": "Pre-existing V2-labeled output; the self-attested authorization is not accepted as proof against the failed transition boundary.",
+        "current_claimed_status": {
+          "candidate_universe_construction_authorized": true,
+          "cohort_selection_authorized": false,
+          "evidence_acquisition_authorized": false,
+          "next_required_gate": "INDEPENDENTLY_VALIDATE_NEW_COHORT_V2_CANDIDATE_UNIVERSE",
+          "release_authorized": false,
+          "reviewer_identity_generation_authorized": false,
+          "selection_seed_execution_authorized": false,
+          "semantic_review_authorized": false
+        },
+        "exact_path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_candidate_universe_milestone_authorization.json",
+        "file_type": "json",
+        "git_status": "?? research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_candidate_universe_milestone_authorization.json",
+        "input_bindings": [],
+        "internal_candidate_universe_version": null,
+        "internal_protocol_version": null,
+        "modified_timestamp": "2026-07-25T15:52:47.282840+00:00",
+        "output_bindings": [
+          [
+            "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_candidate_universe_milestone_authorization.json",
+            "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_candidate_universe_milestone_authorization_manifest.json"
+          ]
+        ],
+        "referenced_by_other_identified_artifacts": [
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation_manifest.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_candidate_universe_milestone_authorization_manifest.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_selection_protocol_amendment_authorization_v1.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_v1_1.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_v1_1_manifest.json"
+        ],
+        "sha256": "a2acf6c26895055f048f7a207f3da528f62da5a83f6f1ab8d0ea2d66553350ec"
+      },
+      {
+        "builder_identity": null,
+        "byte_size": 4777,
+        "category": "manifest",
+        "commit_or_branch_binding": {
+          "branch": null,
+          "commit": null,
+          "tracked": false
+        },
+        "created_timestamp": "2026-07-25T15:52:56.837945+00:00",
+        "creation_authority_classification": "AUTHORIZED_UNDER_PROTOCOL_V1_0",
+        "creation_conclusion": "Pre-existing V2-labeled output; the self-attested authorization is not accepted as proof against the failed transition boundary.",
+        "current_claimed_status": {
+          "candidate_universe_construction_authorized": true,
+          "cohort_selection_authorized": false,
+          "evidence_acquisition_authorized": false,
+          "release_authorized": false,
+          "reviewer_identity_generation_authorized": false,
+          "selection_seed_execution_authorized": false,
+          "semantic_review_authorized": false
+        },
+        "exact_path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_candidate_universe_milestone_authorization_manifest.json",
+        "file_type": "json",
+        "git_status": "?? research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_candidate_universe_milestone_authorization_manifest.json",
+        "input_bindings": [],
+        "internal_candidate_universe_version": null,
+        "internal_protocol_version": null,
+        "modified_timestamp": "2026-07-25T15:52:56.837945+00:00",
+        "output_bindings": [
+          [
+            "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_candidate_universe_milestone_authorization.json",
+            "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_candidate_universe_milestone_authorization_manifest.json"
+          ]
+        ],
+        "referenced_by_other_identified_artifacts": [
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation_manifest.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_candidate_universe_milestone_authorization.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_selection_protocol_amendment_authorization_v1.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_v1_1.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_v1_1_manifest.json"
+        ],
+        "sha256": "bde86db3e889a2110d3616b81093817b57197588391e8a0b34634baf8cb7da16"
+      },
+      {
+        "builder_identity": null,
+        "byte_size": 22715,
+        "category": "protocol",
+        "commit_or_branch_binding": {
+          "branch": null,
+          "commit": null,
+          "tracked": false
+        },
+        "created_timestamp": "2026-07-25T17:27:07.945451+00:00",
+        "creation_authority_classification": "AUTHORIZED_UNDER_PROTOCOL_V1_0",
+        "creation_conclusion": "Pre-existing V2-labeled output; the self-attested authorization is not accepted as proof against the failed transition boundary.",
+        "current_claimed_status": null,
+        "exact_path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_selection_protocol_amendment_authorization_v1.json",
+        "file_type": "json",
+        "git_status": "?? research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_selection_protocol_amendment_authorization_v1.json",
+        "input_bindings": [],
+        "internal_candidate_universe_version": null,
+        "internal_protocol_version": null,
+        "modified_timestamp": "2026-07-25T17:27:07.945451+00:00",
+        "output_bindings": [],
+        "referenced_by_other_identified_artifacts": [
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_selection_protocol_amendment_authorization_v1_manifest.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_v1_1.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_v1_1_manifest.json"
+        ],
+        "sha256": "80b577bf653206f667883ac316b82daedfdee8843639727b9a153c67a6f0e93a"
+      },
+      {
+        "builder_identity": null,
+        "byte_size": 2157,
+        "category": "manifest",
+        "commit_or_branch_binding": {
+          "branch": null,
+          "commit": null,
+          "tracked": false
+        },
+        "created_timestamp": "2026-07-25T17:27:33.085915+00:00",
+        "creation_authority_classification": "AUTHORIZED_UNDER_PROTOCOL_V1_0",
+        "creation_conclusion": "Pre-existing V2-labeled output; the self-attested authorization is not accepted as proof against the failed transition boundary.",
+        "current_claimed_status": null,
+        "exact_path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_selection_protocol_amendment_authorization_v1_manifest.json",
+        "file_type": "json",
+        "git_status": "?? research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_selection_protocol_amendment_authorization_v1_manifest.json",
+        "input_bindings": [],
+        "internal_candidate_universe_version": null,
+        "internal_protocol_version": "1.0.0",
+        "modified_timestamp": "2026-07-25T17:27:33.085915+00:00",
+        "output_bindings": [
+          [
+            "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_selection_protocol_amendment_authorization_v1.json",
+            "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_selection_protocol_amendment_authorization_v1_manifest.json"
+          ]
+        ],
+        "referenced_by_other_identified_artifacts": [
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_v1_1.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_v1_1_manifest.json"
+        ],
+        "sha256": "e2ea969eae3d94b81db32a3a319d92a748853db495dd85db5d01a5c7e3a8516b"
+      },
+      {
+        "builder_identity": null,
+        "byte_size": 3218,
+        "category": "schema",
+        "commit_or_branch_binding": {
+          "branch": null,
+          "commit": null,
+          "tracked": false
+        },
+        "created_timestamp": "2026-07-25T17:41:43.180935+00:00",
+        "creation_authority_classification": "AUTHORIZED_UNDER_PROTOCOL_V1_0",
+        "creation_conclusion": "Pre-existing V2-labeled output; the self-attested authorization is not accepted as proof against the failed transition boundary.",
+        "current_claimed_status": null,
+        "exact_path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_candidate_universe_v2.schema.json",
+        "file_type": "json",
+        "git_status": "?? research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_candidate_universe_v2.schema.json",
+        "input_bindings": [],
+        "internal_candidate_universe_version": null,
+        "internal_protocol_version": null,
+        "modified_timestamp": "2026-07-25T17:41:43.180935+00:00",
+        "output_bindings": [],
+        "referenced_by_other_identified_artifacts": [
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_v1_1_manifest.json"
+        ],
+        "sha256": "79768b1c5bd48366d4c238162f388d155676679722add3ab9195ff511937051c"
+      },
+      {
+        "builder_identity": null,
+        "byte_size": 34772,
+        "category": "protocol",
+        "commit_or_branch_binding": {
+          "branch": null,
+          "commit": null,
+          "tracked": false
+        },
+        "created_timestamp": "2026-07-25T14:15:38.478229+00:00",
+        "creation_authority_classification": "AUTHORIZED_UNDER_PROTOCOL_V1_0",
+        "creation_conclusion": "Pre-existing V2-labeled output; the self-attested authorization is not accepted as proof against the failed transition boundary.",
+        "current_claimed_status": null,
+        "exact_path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol.json",
+        "file_type": "json",
+        "git_status": "?? research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol.json",
+        "input_bindings": [
+          {
+            "clean_authorization": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/governance/batch_05_clean_baseline_authorization_2026-07-24.json",
+              "sha256": "dff906b6c56322233ca54894d4c44d7c90eafdae213e970180840353f169de7d"
+            },
+            "clean_manifest": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/governance/batch_05_clean_baseline_authorization_manifest_2026-07-24.json",
+              "sha256": "a35e92580faeb61a1a8000846609239a797ab8f35d27f3cb6361ea8d5522867d"
+            },
+            "clean_protocol": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/clean_baseline_v1/batch_05/protocol/batch_05_clean_baseline_protocol_v1.json",
+              "sha256": "30f7a87d775e66ae06e5e5eb1603ce1ecfa424d68d44e63d55557e07f9e22e6d"
+            },
+            "clean_protocol_manifest": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/clean_baseline_v1/batch_05/protocol/batch_05_clean_baseline_protocol_v1_manifest.json",
+              "sha256": "e9e552e68f50bb90722dadd1f70162d1eda2b66f53d375224fae27fb51580ba8"
+            },
+            "clean_schema": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/clean_baseline_v1/batch_05/protocol/batch_05_clean_baseline_protocol_v1.schema.json",
+              "sha256": "792f70dfb291e59e68f0eb8d60be708e46559fe75cb31cbd31f8ac30abb44ee8"
+            },
+            "governance_manifest": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/governance/new_cohort_v2_authorization_manifest_2026-07-24.json",
+              "sha256": "316cf10922eca92045abd4eb587df720435ea41ae59cde44d0b922bdaac9a6d1"
+            },
+            "governance_report": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/governance/new_cohort_v2_authorization_2026-07-24.json",
+              "sha256": "2c45ad07e394cec6f9a11793102caebc7bdc20e04ec6423e819c023b9fd3c1e5"
+            },
+            "lineage_manifest": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/recovery/batch_05_corpus_lineage_resolution_manifest_2026-07-24.json",
+              "sha256": "40a3ebfa7ce2ab8048c6d91086ef3bb6451040551953ec0ac900cb75aaf85e72"
+            },
+            "lineage_report": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/recovery/batch_05_corpus_lineage_resolution_2026-07-24.json",
+              "sha256": "bd8d32e816771a4c6e8fa0ec7c70e381c3ff4e958f1206c86de900dd6dd65c41"
+            },
+            "neutral_authorization": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/clean_baseline_v1/batch_05/governance/batch_05_clean_neutral_identity_inventory_authorization_v1.json",
+              "sha256": "1aa9582ae65b15054650a34ea63fc92d08d60f749db65da3c2fcff57ae1b56be"
+            },
+            "neutral_manifest": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/clean_baseline_v1/batch_05/governance/batch_05_clean_neutral_identity_inventory_authorization_v1_manifest.json",
+              "sha256": "ab952d6e6c5465fb2034cfb1ffe5f2d6878afe4ed20229d5490a5c2df7337ad5"
+            },
+            "phase_inventory": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/audit/state_inventory_2026-07-22.json",
+              "sha256": "04e83347967da3ef9a33cba000e105522923357d2b6b9d0d1a90efdbdd31c1dc"
+            },
+            "readiness_manifest": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/audit/batch_05_readiness_manifest_2026-07-24.json",
+              "sha256": "868f3d100cab60f1e5f4bcf9f7a12bfbb0d2e4ed12a4e4bde0636f7fec801008"
+            },
+            "readiness_report": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/audit/batch_05_readiness_report_2026-07-24.json",
+              "sha256": "182558d0dd1d94cf8871f5aed8a77df23a9c31593a3e6d8cc4ae03a3c67209d8"
+            }
+          }
+        ],
+        "internal_candidate_universe_version": null,
+        "internal_protocol_version": "1.0.0",
+        "modified_timestamp": "2026-07-25T14:15:38.478229+00:00",
+        "output_bindings": [],
+        "referenced_by_other_identified_artifacts": [
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation_manifest.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_candidate_universe_milestone_authorization.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_candidate_universe_milestone_authorization_manifest.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_selection_protocol_amendment_authorization_v1.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_selection_protocol_amendment_authorization_v1_manifest.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_manifest.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_v1_1.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_v1_1_manifest.json"
+        ],
+        "sha256": "fda4f7a686b96bec0eed406a914cdf66638334b516d813ccf63e97ced60fb042"
+      },
+      {
+        "builder_identity": null,
+        "byte_size": 4757,
+        "category": "schema",
+        "commit_or_branch_binding": {
+          "branch": null,
+          "commit": null,
+          "tracked": false
+        },
+        "created_timestamp": "2026-07-25T14:15:38.478313+00:00",
+        "creation_authority_classification": "AUTHORIZED_UNDER_PROTOCOL_V1_0",
+        "creation_conclusion": "Pre-existing V2-labeled output; the self-attested authorization is not accepted as proof against the failed transition boundary.",
+        "current_claimed_status": null,
+        "exact_path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol.schema.json",
+        "file_type": "json",
+        "git_status": "?? research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol.schema.json",
+        "input_bindings": [
+          {}
+        ],
+        "internal_candidate_universe_version": null,
+        "internal_protocol_version": {
+          "const": "1.0.0"
+        },
+        "modified_timestamp": "2026-07-25T14:15:38.478313+00:00",
+        "output_bindings": [],
+        "referenced_by_other_identified_artifacts": [
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation_manifest.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_candidate_universe_milestone_authorization.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_candidate_universe_milestone_authorization_manifest.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_selection_protocol_amendment_authorization_v1.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_manifest.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_v1_1.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_v1_1_manifest.json"
+        ],
+        "sha256": "af11fc000dfae821b6b9128fee70cac831c3461cea5a4ebd0cabb97254ff43a9"
+      },
+      {
+        "builder_identity": null,
+        "byte_size": 6164,
+        "category": "manifest",
+        "commit_or_branch_binding": {
+          "branch": null,
+          "commit": null,
+          "tracked": false
+        },
+        "created_timestamp": "2026-07-25T14:15:38.478358+00:00",
+        "creation_authority_classification": "AUTHORIZED_UNDER_PROTOCOL_V1_0",
+        "creation_conclusion": "Pre-existing V2-labeled output; the self-attested authorization is not accepted as proof against the failed transition boundary.",
+        "current_claimed_status": null,
+        "exact_path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_manifest.json",
+        "file_type": "json",
+        "git_status": "?? research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_manifest.json",
+        "input_bindings": [
+          {
+            "clean_authorization": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/governance/batch_05_clean_baseline_authorization_2026-07-24.json",
+              "sha256": "dff906b6c56322233ca54894d4c44d7c90eafdae213e970180840353f169de7d"
+            },
+            "clean_manifest": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/governance/batch_05_clean_baseline_authorization_manifest_2026-07-24.json",
+              "sha256": "a35e92580faeb61a1a8000846609239a797ab8f35d27f3cb6361ea8d5522867d"
+            },
+            "clean_protocol": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/clean_baseline_v1/batch_05/protocol/batch_05_clean_baseline_protocol_v1.json",
+              "sha256": "30f7a87d775e66ae06e5e5eb1603ce1ecfa424d68d44e63d55557e07f9e22e6d"
+            },
+            "clean_protocol_manifest": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/clean_baseline_v1/batch_05/protocol/batch_05_clean_baseline_protocol_v1_manifest.json",
+              "sha256": "e9e552e68f50bb90722dadd1f70162d1eda2b66f53d375224fae27fb51580ba8"
+            },
+            "clean_schema": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/clean_baseline_v1/batch_05/protocol/batch_05_clean_baseline_protocol_v1.schema.json",
+              "sha256": "792f70dfb291e59e68f0eb8d60be708e46559fe75cb31cbd31f8ac30abb44ee8"
+            },
+            "governance_manifest": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/governance/new_cohort_v2_authorization_manifest_2026-07-24.json",
+              "sha256": "316cf10922eca92045abd4eb587df720435ea41ae59cde44d0b922bdaac9a6d1"
+            },
+            "governance_report": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/governance/new_cohort_v2_authorization_2026-07-24.json",
+              "sha256": "2c45ad07e394cec6f9a11793102caebc7bdc20e04ec6423e819c023b9fd3c1e5"
+            },
+            "lineage_manifest": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/recovery/batch_05_corpus_lineage_resolution_manifest_2026-07-24.json",
+              "sha256": "40a3ebfa7ce2ab8048c6d91086ef3bb6451040551953ec0ac900cb75aaf85e72"
+            },
+            "lineage_report": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/recovery/batch_05_corpus_lineage_resolution_2026-07-24.json",
+              "sha256": "bd8d32e816771a4c6e8fa0ec7c70e381c3ff4e958f1206c86de900dd6dd65c41"
+            },
+            "neutral_authorization": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/clean_baseline_v1/batch_05/governance/batch_05_clean_neutral_identity_inventory_authorization_v1.json",
+              "sha256": "1aa9582ae65b15054650a34ea63fc92d08d60f749db65da3c2fcff57ae1b56be"
+            },
+            "neutral_manifest": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/clean_baseline_v1/batch_05/governance/batch_05_clean_neutral_identity_inventory_authorization_v1_manifest.json",
+              "sha256": "ab952d6e6c5465fb2034cfb1ffe5f2d6878afe4ed20229d5490a5c2df7337ad5"
+            },
+            "phase_inventory": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/audit/state_inventory_2026-07-22.json",
+              "sha256": "04e83347967da3ef9a33cba000e105522923357d2b6b9d0d1a90efdbdd31c1dc"
+            },
+            "readiness_manifest": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/audit/batch_05_readiness_manifest_2026-07-24.json",
+              "sha256": "868f3d100cab60f1e5f4bcf9f7a12bfbb0d2e4ed12a4e4bde0636f7fec801008"
+            },
+            "readiness_report": {
+              "path": "research/se_benchmarks/phase1_cd19_bcma/audit/batch_05_readiness_report_2026-07-24.json",
+              "sha256": "182558d0dd1d94cf8871f5aed8a77df23a9c31593a3e6d8cc4ae03a3c67209d8"
+            }
+          }
+        ],
+        "internal_candidate_universe_version": null,
+        "internal_protocol_version": "1.0.0",
+        "modified_timestamp": "2026-07-25T14:15:38.478358+00:00",
+        "output_bindings": [],
+        "referenced_by_other_identified_artifacts": [
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation_manifest.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_candidate_universe_milestone_authorization.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_candidate_universe_milestone_authorization_manifest.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_selection_protocol_amendment_authorization_v1.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_v1_1.json",
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_v1_1_manifest.json"
+        ],
+        "sha256": "5eb3da48fec9747607dff064472e18464afb00903196167221b04b6c9e0288fd"
+      },
+      {
+        "builder_identity": null,
+        "byte_size": 25953,
+        "category": "protocol",
+        "commit_or_branch_binding": {
+          "branch": null,
+          "commit": null,
+          "tracked": false
+        },
+        "created_timestamp": "2026-07-25T17:41:43.180120+00:00",
+        "creation_authority_classification": "AUTHORIZED_UNDER_PROTOCOL_V1_0",
+        "creation_conclusion": "Pre-existing V2-labeled output; the self-attested authorization is not accepted as proof against the failed transition boundary.",
+        "current_claimed_status": null,
+        "exact_path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_v1_1.json",
+        "file_type": "json",
+        "git_status": "?? research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_v1_1.json",
+        "input_bindings": [],
+        "internal_candidate_universe_version": null,
+        "internal_protocol_version": "1.1.0",
+        "modified_timestamp": "2026-07-25T17:41:43.180120+00:00",
+        "output_bindings": [],
+        "referenced_by_other_identified_artifacts": [
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_v1_1_manifest.json"
+        ],
+        "sha256": "1571c8eb9b7b298dc03ba92b18dda9f96f0c2d8bbeca69b93339f19b378102ad"
+      },
+      {
+        "builder_identity": null,
+        "byte_size": 2685,
+        "category": "schema",
+        "commit_or_branch_binding": {
+          "branch": null,
+          "commit": null,
+          "tracked": false
+        },
+        "created_timestamp": "2026-07-25T17:41:43.180873+00:00",
+        "creation_authority_classification": "AUTHORIZED_UNDER_PROTOCOL_V1_0",
+        "creation_conclusion": "Pre-existing V2-labeled output; the self-attested authorization is not accepted as proof against the failed transition boundary.",
+        "current_claimed_status": null,
+        "exact_path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_v1_1.schema.json",
+        "file_type": "json",
+        "git_status": "?? research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_v1_1.schema.json",
+        "input_bindings": [],
+        "internal_candidate_universe_version": null,
+        "internal_protocol_version": {
+          "const": "1.1.0"
+        },
+        "modified_timestamp": "2026-07-25T17:41:43.180873+00:00",
+        "output_bindings": [],
+        "referenced_by_other_identified_artifacts": [
+          "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_v1_1_manifest.json"
+        ],
+        "sha256": "4f27f9db8d2d537ac41ce9edb095b6391f8958ce827af74a1b1d76c69814a2e9"
+      },
+      {
+        "builder_identity": null,
+        "byte_size": 5912,
+        "category": "manifest",
+        "commit_or_branch_binding": {
+          "branch": null,
+          "commit": null,
+          "tracked": false
+        },
+        "created_timestamp": "2026-07-25T17:41:43.180987+00:00",
+        "creation_authority_classification": "AUTHORIZED_UNDER_PROTOCOL_V1_0",
+        "creation_conclusion": "Pre-existing V2-labeled output; the self-attested authorization is not accepted as proof against the failed transition boundary.",
+        "current_claimed_status": null,
+        "exact_path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_v1_1_manifest.json",
+        "file_type": "json",
+        "git_status": "?? research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_v1_1_manifest.json",
+        "input_bindings": [],
+        "internal_candidate_universe_version": null,
+        "internal_protocol_version": "1.1.0",
+        "modified_timestamp": "2026-07-25T17:41:43.180987+00:00",
+        "output_bindings": [],
+        "referenced_by_other_identified_artifacts": [],
+        "sha256": "a71ca4e1b0c976b356f41fa2b756d0cbeb186082ae4b6841c49567522d502b91"
+      }
+    ]
+  },
+  "v2_may_be_independently_validated": false,
+  "v2_may_be_selected_from": false
+}

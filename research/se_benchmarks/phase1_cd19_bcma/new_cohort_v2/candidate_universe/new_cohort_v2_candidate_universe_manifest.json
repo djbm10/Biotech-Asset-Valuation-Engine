@@ -1,0 +1,105 @@
+{
+  "builder_identity": "codex-phase1-cd19-bcma-new-cohort-v2-candidate-universe-builder-authorized-v1-2026-07-25",
+  "candidate_counts_by_stratum": {
+    "BCMA|CAR-T|PHASE1": 124,
+    "BCMA|CAR-T|PHASE2": 95,
+    "BCMA|CAR-T|PHASE3": 12,
+    "BCMA|T-cell engager|PHASE1": 13,
+    "BCMA|T-cell engager|PHASE2": 10,
+    "BCMA|T-cell engager|PHASE3": 4,
+    "BCMA|other therapeutic biologic|PHASE1": 5,
+    "BCMA|other therapeutic biologic|PHASE2": 7,
+    "CD19|CAR-T|PHASE1": 235,
+    "CD19|CAR-T|PHASE2": 228,
+    "CD19|CAR-T|PHASE3": 16,
+    "CD19|T-cell engager|PHASE1": 13,
+    "CD19|T-cell engager|PHASE2": 31,
+    "CD19|T-cell engager|PHASE3": 9,
+    "CD19|other therapeutic biologic|PHASE1": 5,
+    "CD19|other therapeutic biologic|PHASE2": 17,
+    "CD19|other therapeutic biologic|PHASE3": 15
+  },
+  "conclusion": "NEW_COHORT_V2_CANDIDATE_UNIVERSE_CREATED_PENDING_INDEPENDENT_VALIDATION",
+  "counts": {
+    "ambiguous_identity": 46,
+    "cutoff_exclusions": 32,
+    "discovery_records": 2100,
+    "duplicate_groups": 1155,
+    "eligible_candidates": 839,
+    "eligible_excluded_overlap": 0,
+    "excluded_candidates": 316,
+    "historical_contamination": 0,
+    "resolved_candidates": 1155,
+    "semantic_content_defects": 0,
+    "source_snapshots": 3,
+    "stable_identifier_defects": 0,
+    "unresolved_identity": 46
+  },
+  "files": {
+    "discovery_ledger": {
+      "bytes": 1562024,
+      "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_discovery_ledger.jsonl",
+      "sha256": "a4c12f843500e2ec7eb77377ac6ece35e54d3af13da8d67c21fb47d3588bac4a"
+    },
+    "duplicate_groups": {
+      "bytes": 610828,
+      "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_duplicate_groups.json",
+      "sha256": "e136454a5f8461d4e7dca65050c1c950d4be563bd00968a143fccf0ff78519ac"
+    },
+    "eligible": {
+      "bytes": 4923726,
+      "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_eligible_candidates.json",
+      "sha256": "1b501321cd02248d23f65ee034055eb4d5c981d88e776e031f7cd3e23ef9fc64"
+    },
+    "enumeration_plan": {
+      "bytes": 1411,
+      "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_enumeration_plan.json",
+      "sha256": "41872135bf5bca501c479c8dc5371b78cbad6a69bb8fed1ebadb1b89483e1279"
+    },
+    "excluded": {
+      "bytes": 1968229,
+      "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_excluded_candidates.json",
+      "sha256": "e83059d7063e71a6820cdea1f7a767a89b845efb1faee1ef9577d9c621592a5f"
+    },
+    "identity_records": {
+      "bytes": 6877002,
+      "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_identity_records.json",
+      "sha256": "3a5d72b70f932a892423182ae2a2af8cf1d0cc2198d0e04d5f4f29be43dfa7af"
+    },
+    "query_ledger": {
+      "bytes": 1233,
+      "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_query_ledger.jsonl",
+      "sha256": "a41ab063344e70b3465e481865fdc0f692b40aeb832f568788f0df3ae0459f12"
+    },
+    "report": {
+      "bytes": 3452,
+      "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_report.json",
+      "sha256": "c8edb9114faa316f1b76be73612c9d17b5d4c00ceca9fe9ea1cba8b0075f9930"
+    },
+    "snapshot_inventory": {
+      "bytes": 3865,
+      "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_source_snapshot_inventory.json",
+      "sha256": "431871a43a4de3e3a98de2dc45d2c2f318a99fd7f06419eac3e4c532387e805e"
+    }
+  },
+  "governing_hashes": {
+    "governance_manifest": "316cf10922eca92045abd4eb587df720435ea41ae59cde44d0b922bdaac9a6d1",
+    "governance_report": "2c45ad07e394cec6f9a11793102caebc7bdc20e04ec6423e819c023b9fd3c1e5",
+    "protocol": "fda4f7a686b96bec0eed406a914cdf66638334b516d813ccf63e97ced60fb042",
+    "protocol_manifest": "5eb3da48fec9747607dff064472e18464afb00903196167221b04b6c9e0288fd",
+    "schema": "af11fc000dfae821b6b9128fee70cac831c3461cea5a4ebd0cabb97254ff43a9",
+    "transition": "a2acf6c26895055f048f7a207f3da528f62da5a83f6f1ab8d0ea2d66553350ec",
+    "transition_manifest": "bde86db3e889a2110d3616b81093817b57197588391e8a0b34634baf8cb7da16"
+  },
+  "schema_version": "new_cohort_v2_candidate_universe_manifest_v1",
+  "transition_authorization": {
+    "activated_milestone": "BUILD_NEW_COHORT_V2_CANDIDATE_UNIVERSE",
+    "candidate_universe_construction_authorized": true,
+    "cohort_selection_authorized": false,
+    "conclusion": "NEW_COHORT_V2_CANDIDATE_UNIVERSE_MILESTONE_AUTHORIZED",
+    "evidence_acquisition_authorized": false,
+    "required_gate": "INDEPENDENTLY_VALIDATE_NEW_COHORT_V2_CANDIDATE_UNIVERSE",
+    "selection_seed_execution_authorized": false,
+    "semantic_review_authorized": false
+  }
+}

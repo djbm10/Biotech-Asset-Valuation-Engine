@@ -1,0 +1,144 @@
+{
+  "schema_version": "phase1_cd19_bcma_new_cohort_v2_selection_protocol_amendment_authorization_v1",
+  "authorization_date": "2026-07-25",
+  "governance_amendment_authority": "codex-phase1-cd19-bcma-new-cohort-v2-governance-authority-2026-07-24",
+  "governance_action": "RESOLVE_NEW_COHORT_V2_SELECTION_PROTOCOL_CUTOFF_AND_SOURCE_AMBIGUITIES",
+  "overall_conclusion": "NEW_COHORT_V2_SELECTION_PROTOCOL_AMENDMENT_AUTHORIZED",
+  "benchmark_identity": {
+    "benchmark_family": "PHASE1_CD19_BCMA",
+    "benchmark_version": "2.0.0",
+    "benchmark_lineage": "NEW_COHORT_V2",
+    "cohort_version": "1.0.0",
+    "namespace": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/",
+    "selection_cutoff": "2026-07-24T23:59:59Z",
+    "historical_and_clean_baseline_state_unchanged": true
+  },
+  "governing_input_verification": {
+    "required_hashes_verified": true,
+    "lineage_bindings_verified": true,
+    "hash_algorithm": "SHA-256",
+    "blocked_remediation_record": {
+      "machine_readable_record_found": false,
+      "status": "NOT_FOUND",
+      "blocking_conclusion_verified_from_independent_validation_report": true
+    },
+    "verified_inputs": [
+      {"role": "new_cohort_v2_governance_authorization", "path": "research/se_benchmarks/phase1_cd19_bcma/governance/new_cohort_v2_authorization_2026-07-24.json", "sha256": "2c45ad07e394cec6f9a11793102caebc7bdc20e04ec6423e819c023b9fd3c1e5"},
+      {"role": "new_cohort_v2_governance_manifest", "path": "research/se_benchmarks/phase1_cd19_bcma/governance/new_cohort_v2_authorization_manifest_2026-07-24.json", "sha256": "316cf10922eca92045abd4eb587df720435ea41ae59cde44d0b922bdaac9a6d1"},
+      {"role": "candidate_universe_milestone_authorization", "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_candidate_universe_milestone_authorization.json", "sha256": "a2acf6c26895055f048f7a207f3da528f62da5a83f6f1ab8d0ea2d66553350ec"},
+      {"role": "candidate_universe_milestone_manifest", "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_candidate_universe_milestone_authorization_manifest.json", "sha256": "bde86db3e889a2110d3616b81093817b57197588391e8a0b34634baf8cb7da16"},
+      {"role": "selection_protocol_v1", "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol.json", "sha256": "fda4f7a686b96bec0eed406a914cdf66638334b516d813ccf63e97ced60fb042"},
+      {"role": "selection_protocol_v1_schema", "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol.schema.json", "sha256": "af11fc000dfae821b6b9128fee70cac831c3461cea5a4ebd0cabb97254ff43a9"},
+      {"role": "selection_protocol_v1_manifest", "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_manifest.json", "sha256": "5eb3da48fec9747607dff064472e18464afb00903196167221b04b6c9e0288fd"},
+      {"role": "candidate_universe_v1_report", "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_report.json", "sha256": "c8edb9114faa316f1b76be73612c9d17b5d4c00ceca9fe9ea1cba8b0075f9930"},
+      {"role": "candidate_universe_v1_manifest", "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_manifest.json", "sha256": "e9d90f740dc1b4ddab8c768e8fd5bcc72d56f1730c9275aa60b4b1c7bc4d72e5"},
+      {"role": "candidate_universe_v1_independent_validation_report", "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation.json", "sha256": "1857287464205b3bc44ab250a620adb4cbce053ee2e6154f37286c3a79ab7858"},
+      {"role": "candidate_universe_v1_independent_validation_manifest", "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation_manifest.json", "sha256": "9dc7cda9c8c50ff3588f83744a996db4bc58f919777227f4c0338de45c70bd0f"}
+    ],
+    "verified_conclusions": {
+      "candidate_universe_v1_independent_verdict": "FAIL_MULTIPLE_BLOCKING_DEFECTS",
+      "cutoff_mismatch_count": 287,
+      "candidate_universe_v2_status": "NEW_COHORT_V2_CANDIDATE_UNIVERSE_V2_BLOCKED_BY_CUTOFF_SCHEMA_AMBIGUITY",
+      "validation_of_compliant_v2_executable": false
+    }
+  },
+  "eligibility_date_policy": {
+    "first_eligible_date_concept": "EARLIEST_VERIFIED_PUBLIC_ELIGIBILITY_DATE",
+    "definition": "The earliest reproducibly preserved public date on which the asset was uniquely identifiable, satisfied the New Cohort V2 universe requirements, and had its qualifying identity and eligibility facts present in an authorized neutral source.",
+    "properties": ["outcome_neutral", "mechanically_reproducible", "semantic-outcome-independent", "cutoff-compatible", "independently-validatable"],
+    "controlling_date_hierarchy": [
+      {"tier": 1, "name": "AUTHORITATIVE_PUBLIC_IDENTITY_DATE", "rule": "Use the earliest verified date from an authorized official public source that uniquely identifies the asset and demonstrates the qualifying universe scope. Eligible source events include an official registry first-public posting, regulatory publication or effective date, official sponsor publication, or official government/institutional registry publication."},
+      {"tier": 2, "name": "EARLIER_AUTHORIZED_PUBLIC_CORROBORATION", "rule": "Use an earlier date from a mandatory or authorized corroborative source only when unique identity, identity continuity, public existence on that date, source permission to establish eligibility, preserved source bytes, and independent reproducibility are all proven."},
+      {"tier": 3, "name": "UNRESOLVED_OR_INADMISSIBLE_DATE", "rule": "If no qualifying date is reproducible, or material conflict remains unresolved, the candidate is unresolved or excluded and can never be cutoff eligible."}
+    ],
+    "date_authority_precedence": ["official_registry_or_regulatory_public_record", "official_government_or_institutional_record", "official_sponsor_publication_or_pipeline", "official_corporate_filing", "structured_scientific_registry", "patent_record"],
+    "event_specific_rules": {
+      "study_start_date": "Never controls first_eligible_date. It may corroborate clinical timing only.",
+      "estimated_study_start_date": "Never controls first_eligible_date.",
+      "registry_submission_date": "Does not control unless the submitted record was publicly visible on that date and independently preserved; a non-public submission or processing date is non-controlling.",
+      "first_public_post_date": "Controls when it is the earliest verified public identity date for the qualifying record and the record uniquely identifies the asset and scope.",
+      "intervention_introduction_date": "For an intervention added to an older registry record, use the first public date of the record version that actually contains that uniquely identifiable intervention, never the record's original first-post date by default.",
+      "registry_update_date": "Non-controlling for original eligibility, except when the update is the first public appearance of the qualifying intervention under the intervention-introduction rule.",
+      "official_publication_date": "Controls when the publication is authorized, public, uniquely identity-resolving, scope-qualifying, and reproducibly preserved.",
+      "regulatory_effective_date": "Controls when it is the earliest qualifying public regulatory identity event; regulatory filing or internal effective dates not publicly available are non-controlling.",
+      "sponsor_transfer_date": "Does not reset or establish asset origin. It may support lineage only; continuity preserves the earlier date.",
+      "asset_rename_date": "Does not reset or establish asset origin. It may support alias continuity only; continuity preserves the earlier date."
+    },
+    "partial_date_rule": {
+      "full_date": "Use directly after source and identity validation.",
+      "year_month": "Cutoff eligible only if the latest possible date in that month is on or before the cutoff.",
+      "year_only": "Cutoff eligible only if December 31 of that year is on or before the cutoff.",
+      "missing_or_invalid": "Cutoff eligibility cannot be true; status is excluded or unresolved.",
+      "comparison": "The normalized latest-possible date for partial precision is compared mechanically to the UTC cutoff timestamp."
+    },
+    "conflicting_date_rule": "Preserve every conflicting raw value and source. Normalize each candidate date, apply the stated authority precedence and identity-continuity test, and choose the earliest qualifying public date. A later authoritative record does not erase a reproducible earlier qualifying date. If authority, public availability, intervention identity, or continuity cannot be resolved without material ambiguity, do not mark cutoff eligible; return unresolved or excluded.",
+    "required_candidate_date_fields": ["first_eligible_date", "first_eligible_date_concept", "first_eligible_date_type", "controlling_event", "controlling_source_class", "controlling_source_snapshot_id", "controlling_source_record_id", "controlling_date_field", "controlling_date_raw_value", "controlling_date_normalized_value", "date_precision", "date_authority_level", "date_confidence", "identity_continuity_verified", "conflicting_dates", "conflict_resolution_rule", "cutoff_timestamp", "cutoff_comparison", "cohort_cutoff_eligible"],
+    "fail_closed_invariants": ["No eligible candidate lacks first_eligible_date", "No eligible candidate has an ambiguous controlling date", "Stored cohort_cutoff_eligible exactly equals mechanical recomputation", "Missing or unresolved dates produce exclusion or unresolved status, never eligibility"]
+  },
+  "source_class_requirement_matrix": [
+    {"source_class":"clinical_trial_registries", "status":"MANDATORY_ENUMERATION_SOURCE", "enumeration_purpose":"Base candidate frame through complete pagination of the predeclared neutral query.", "identity_authority":"Primary administrative identity when unique; otherwise trigger conditional corroboration.", "date_authority":"First public record/version date, subject to intervention rule.", "eligibility_authority":"May establish eligibility when identity, scope, and public date are complete.", "corroboration_requirements":"Preserve query, pagination, record/version identifiers, bytes, retrieval time, and SHA-256.", "conditions_triggering_use":"Always.", "omission_blocks_completeness":true, "records_only_discovered_may_enter_universe":true, "cutoff_and_snapshot_requirements":"Snapshot source versions available by the evidence cutoff; retrieval date recorded separately.", "deduplication_role":"Primary stable trial and intervention anchors; aliases feed canonical identity deduplication."},
+    {"source_class":"regulatory_databases", "status":"CONDITIONAL_MANDATORY_SOURCE", "enumeration_purpose":"Conditional expansion or resolution for approved/marketed assets, missing registry identity, regulatory identity ambiguity, or regulatory date conflict.", "identity_authority":"Authoritative when a public regulatory identifier uniquely binds the asset.", "date_authority":"Public regulatory publication/effective date.", "eligibility_authority":"May establish eligibility only under a declared trigger and preserved record.", "corroboration_requirements":"Use the exact public record, identifier, version/effective date, bytes, and continuity binding.", "conditions_triggering_use":"Approved/marketed status; missing stable registry identity; missing first-public date; material registry-version conflict.", "omission_blocks_completeness":"Yes when a trigger is present.", "records_only_discovered_may_enter_universe":"Yes only when the trigger is present and the record independently proves all inclusion requirements.", "cutoff_and_snapshot_requirements":"Public snapshot and effective/publication date must be on or before the evidence cutoff.", "deduplication_role":"Regulatory identifier and product-lineage anchor."},
+    {"source_class":"official_sponsor_pipelines", "status":"CONDITIONAL_MANDATORY_SOURCE", "enumeration_purpose":"Resolve identity continuity, sponsor transfer, rename, split, or missing stable asset identity; may expand only when a trigger proves a qualifying non-registry asset.", "identity_authority":"Official sponsor identity and lineage authority, not outcome authority.", "date_authority":"Sponsor publication date may corroborate or establish an earlier date only under Tier 2.", "eligibility_authority":"Conditional identity/date support; never outcome support.", "corroboration_requirements":"Official sponsor URL/document, dated version, preserved bytes, and independent continuity binding.", "conditions_triggering_use":"Identity ambiguity; sponsor transfer; rename; missing stable identifier; registry intervention ambiguity.", "omission_blocks_completeness":"Yes when a trigger is present.", "records_only_discovered_may_enter_universe":"Only if the trigger is present and a separate authorized source or the sponsor record itself satisfies all neutral eligibility requirements.", "cutoff_and_snapshot_requirements":"Public version and date must be preserved by the evidence cutoff.", "deduplication_role":"Alias, sponsor-lineage, transfer, and rename continuity."},
+    {"source_class":"government_or_institutional_registries", "status":"CONDITIONAL_MANDATORY_SOURCE", "enumeration_purpose":"Resolve missing registry coverage, identity ambiguity, or earlier public date where an official government/institutional record is authorized.", "identity_authority":"Official administrative corroboration; identity alone is insufficient unless uniquely bound and the trigger permits it.", "date_authority":"Public posting/publication date as Tier 1 or Tier 2 evidence.", "eligibility_authority":"Conditional only.", "corroboration_requirements":"Stable record identifier, public version, institution authority, preserved bytes, and continuity proof.", "conditions_triggering_use":"No qualifying ClinicalTrials.gov record; missing first-public date; cross-registry identity or date conflict.", "omission_blocks_completeness":"Yes when a trigger is present.", "records_only_discovered_may_enter_universe":"Yes only under the trigger and complete neutral proof.", "cutoff_and_snapshot_requirements":"Public record version must be captured by the evidence cutoff.", "deduplication_role":"Independent identity and date corroboration; duplicate resolution."},
+    {"source_class":"structured_scientific_registries", "status":"OPTIONAL_SUPPLEMENTAL_ENUMERATION_SOURCE", "enumeration_purpose":"Supplemental discovery or corroboration for neutral coverage gaps not triggered as conditional mandatory work.", "identity_authority":"Corroborative only unless a future amendment expressly elevates it.", "date_authority":"Date corroboration only under the stated source hierarchy.", "eligibility_authority":"Cannot alone establish eligibility.", "corroboration_requirements":"Structured record identifier, public date, source bytes, provenance, and identity continuity.", "conditions_triggering_use":"Optional neutral completeness check; never a result-count or outcome-driven search.", "omission_blocks_completeness":false, "records_only_discovered_may_enter_universe":"No under this amendment; discoveries require confirmation by a mandatory or conditional source.", "cutoff_and_snapshot_requirements":"Any used record must have a reproducible pre-cutoff public snapshot.", "deduplication_role":"Alias and duplicate discovery; cannot override authoritative identity."},
+    {"source_class":"patent_databases", "status":"IDENTITY_CORROBORATION_ONLY", "enumeration_purpose":"No candidate enumeration; corroborate technical identity or lineage only.", "identity_authority":"Corroborative and non-sufficient.", "date_authority":"Non-controlling corroboration only.", "eligibility_authority":"None.", "corroboration_requirements":"Patent/publication number, public date, assignee continuity, preserved record, and no inference from claims alone.", "conditions_triggering_use":"Identity or lineage ambiguity where a patent record is relevant.", "omission_blocks_completeness":false, "records_only_discovered_may_enter_universe":false, "cutoff_and_snapshot_requirements":"Preserve public record and date if referenced.", "deduplication_role":"Technical alias and assignee-lineage corroboration only."},
+    {"source_class":"official_corporate_filings", "status":"DATE_CORROBORATION_ONLY", "enumeration_purpose":"No candidate enumeration; corroborate sponsor, transfer, rename, or public disclosure date.", "identity_authority":"Corroborative corporate-lineage authority only.", "date_authority":"Public filing date may corroborate a date but does not outrank a qualifying official registry/regulatory event.", "eligibility_authority":"None alone.", "corroboration_requirements":"Filing accession/identifier, filing date, exact preserved document, and continuity proof.", "conditions_triggering_use":"Sponsor transfer, acquisition, rename, or unresolved corporate lineage.", "omission_blocks_completeness":false, "records_only_discovered_may_enter_universe":false, "cutoff_and_snapshot_requirements":"Public filing must be preserved and cutoff-bounded.", "deduplication_role":"Sponsor and transaction lineage; alias continuity."}
+  ],
+  "enumeration_completeness_model": {
+    "selected_model": "MODEL_C_CONDITIONAL_SOURCE_EXPANSION",
+    "base_source": "clinical_trial_registries",
+    "base_completeness_statement": "COMPLETE_UNDER_CLINICALTRIALS_GOV_BASE_ENUMERATION_FRAME",
+    "clinicaltrials_gov_alone_sufficient": false,
+    "rule": "ClinicalTrials.gov establishes the base universe. Every mechanically triggered conditional source must then be queried or retrieved; optional and corroborative sources do not silently become mandatory.",
+    "conditional_triggers": ["identity ambiguity", "missing stable identifier", "missing first-public date", "sponsor transfer", "registry version ambiguity", "combination or lineage ambiguity", "approved/marketed asset without qualifying registry coverage"],
+    "new_candidate_rule": "Conditional sources may discover new candidates only when the trigger is mechanically present and the source record itself, or an authorized paired source, proves qualifying identity, scope, date, and cutoff eligibility. Otherwise they resolve or corroborate existing records only.",
+    "union_and_deduplication": "Union the complete ClinicalTrials.gov base frame with qualifying conditional discoveries, bind aliases and stable identifiers, preserve provenance for every source, and deduplicate by canonical therapeutic asset/program identity with explicit continuity records.",
+    "completion_rule": "Universe completeness fails closed if any mandatory or triggered conditional source retrieval is omitted, partial, unhashable, non-reproducible, or unresolved. Completeness is never inferred from candidate counts."
+  },
+  "source_role_separation": {
+    "authorized_roles": ["candidate discovery", "identity resolution", "eligibility-date resolution", "sponsor-lineage resolution", "duplicate resolution", "stratum assignment"],
+    "rule": "Every source reference must name its authorized role; authorization for one role does not authorize every other role.",
+    "outcome_neutrality": "Outcome-directed searches, semantic review, pipeline performance, and desired candidate counts are prohibited from enumeration or eligibility decisions."
+  },
+  "protocol_amendment_requirements": {
+    "required_new_protocol_version": "1.1.0",
+    "protocol_1_0_0_status": "SEALED_HISTORICAL_FAILED_LINEAGE; MUST NOT BE MODIFIED",
+    "amended_protocol_must": ["bind original protocol and this governance decision", "preserve benchmark identity and namespace", "define this complete date hierarchy", "define every source status and role", "define Model C completeness and all triggers", "add all required date fields and source-role fields", "add fail-closed cutoff and source-completeness tests", "supersede 1.0.0 for future candidate-universe work", "invalidate Candidate Universe V1 as a downstream input", "rebuild Candidate Universe V2 from source records", "prohibit patching V1 aggregate values"],
+    "implementation_authority": "Not granted in this governance session; exact next milestone is CREATE_NEW_COHORT_V2_SELECTION_PROTOCOL_V1_1"
+  },
+  "downstream_invalidation_and_status": {
+    "candidate_universe_v1": "REMAINS_INDEPENDENTLY_FAILED_IMMUTABLE_HISTORICAL_LINEAGE",
+    "candidate_universe_v2": "DOES_NOT_EXIST_AS_A_COMPLIANT_ARTIFACT",
+    "candidate_universe_v2_remediation_may_begin": false,
+    "candidate_universe_v2_validation_may_begin": false,
+    "cohort_selection_may_begin": false,
+    "selection_seed_execution_may_begin": false,
+    "reviewer_id_generation_may_begin": false,
+    "evidence_corpus_work_may_begin": false,
+    "semantic_review_may_begin": false,
+    "later_milestones_prohibited": true,
+    "historical_artifacts_modified": false,
+    "program_level_status": "NEW_COHORT_V2_PROTOCOL_AMENDMENT_AUTHORIZED_ONLY; DOWNSTREAM_EXECUTION_BLOCKED"
+  },
+  "role_separation": {
+    "required_distinct_roles": ["governance amendment authority", "protocol amendment engineer", "Candidate Universe V2 remediation engineer", "Candidate Universe V2 independent validator", "cohort-selection builder", "cohort-selection validator"],
+    "governance_authority_may_create_candidate_universe_v2": false,
+    "governance_authority_created_candidate_universe_v2": false
+  },
+  "negative_governance_checks": {
+    "all_required_rejections_verified": true,
+    "rejected": ["validate nonexistent V2", "retain ambiguous hierarchy", "builder case-by-case date choice", "unauthorized registry update as origin", "transfer/rename as origin", "partial date treated definitively without rule", "missing date marked eligible", "merely permitted source classes", "observed-result source escalation", "desired-count source expansion", "outcome-directed enumeration", "patch V1", "cohort selection", "modify protocol 1.0.0", "modify Candidate Universe V1", "partial output after failure", "output overwrite"]
+  },
+  "exact_next_milestone": "CREATE_NEW_COHORT_V2_SELECTION_PROTOCOL_V1_1",
+  "session_execution_attestation": {
+    "candidate_universe_built": false,
+    "candidate_universe_validated": false,
+    "cohort_selected": false,
+    "selection_seed_executed": false,
+    "reviewer_ids_generated": false,
+    "evidence_corpus_created": false,
+    "semantic_review_performed": false,
+    "amended_protocol_implemented": false,
+    "historical_or_clean_baseline_artifacts_modified": false
+  }
+}

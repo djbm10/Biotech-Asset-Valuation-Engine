@@ -1,0 +1,20 @@
+{
+  "schema_version": "phase1_cd19_bcma_new_cohort_v2_candidate_universe_v3_milestone_authorization_manifest_v1",
+  "manifest_date": "2026-07-25",
+  "manifest_id": "PHASE1_CD19_BCMA_NEW_COHORT_V2_CANDIDATE_UNIVERSE_V3_MILESTONE_AUTHORIZATION_MANIFEST_2026-07-25",
+  "transition_authority": "codex-phase1-cd19-bcma-new-cohort-v2-candidate-universe-v3-transition-authority-2026-07-25",
+  "overall_conclusion": "NEW_COHORT_V2_CANDIDATE_UNIVERSE_V3_MILESTONE_AUTHORIZED",
+  "authorization_report": {"path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_candidate_universe_v3_milestone_authorization.json", "sha256": "8eae94a0618de121b586e3f9a2d2b5c97a1355dd20b37e67b3e876c427836977"},
+  "bound_governing_inputs": {"source": "new_cohort_v2_candidate_universe_v3_milestone_authorization.json", "governing_hashes_verified": true, "v2_artifact_inventory_count": 26, "all_v2_artifact_hashes_verified": true, "candidate_universe_v1_status_evidence": "Protocol amendment and V1.1 bindings; direct V1 report/manifest separately unidentifiable"},
+  "activated_authorization": {"completed_milestones": ["CREATE_NEW_COHORT_V2_SELECTION_PROTOCOL_V1_1", "AUDIT_CANDIDATE_UNIVERSE_V2_LINEAGE"], "activated_milestone": "BUILD_NEW_COHORT_V2_CANDIDATE_UNIVERSE_V3", "active_protocol_version": "1.1.0", "v3_version": "3.0.0", "v3_namespace": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe_v3/", "v3_construction_authorized": true, "v3_validation_authorized": false, "v2_validation_authorized": false, "selection_authorized": false, "seed_authorized": false, "reviewer_ids_authorized": false, "evidence_authorized": false, "semantic_review_authorized": false, "release_authorized": false, "neutral_source_byte_reuse_authorized": true, "candidate_classification_reuse_authorized": false},
+  "historical_state": {"historical_equivalence": false, "historical_batch_05": "IRRECOVERABLY_UNVERIFIABLE", "clean_baseline_v1": "UNIDENTIFIABLE", "historical_75_asset_profile": "NOT_CONFIRMED", "historical_custody": "FAIL_HISTORICAL_DIRTY_DIFF_UNRECOVERABLE", "global_phase_manifest": "INVALID"},
+  "negative_transition_results": {"required": 35, "applicable": 35, "passed": 35, "accepted_malformed_input": 0, "governance_enforcement_gap": 0},
+  "exact_files_created": ["research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_candidate_universe_v3_milestone_authorization.json", "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_candidate_universe_v3_milestone_authorization_manifest.json"],
+  "exact_files_modified": [],
+  "no_existing_artifact_modified": true,
+  "candidate_or_source_retrieval_occurred": false,
+  "v3_construction_occurred": false,
+  "selection_or_semantic_work_occurred": false,
+  "next_required_gate": "INDEPENDENTLY_VALIDATE_NEW_COHORT_V2_CANDIDATE_UNIVERSE_V3",
+  "next_milestone": "BUILD_NEW_COHORT_V2_CANDIDATE_UNIVERSE_V3"
+}

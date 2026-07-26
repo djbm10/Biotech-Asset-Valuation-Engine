@@ -1,0 +1,30 @@
+{
+  "builder_identity": "codex-phase1-cd19-bcma-new-cohort-v2-candidate-universe-builder-authorized-v1-2026-07-25",
+  "cutoff": "2026-07-24T23:59:59Z",
+  "prohibited_query_inputs": [
+    "historical identities",
+    "semantic outcomes",
+    "pipeline predictions",
+    "defect classifications"
+  ],
+  "protocol_version": "1.0.0",
+  "schema_version": "new_cohort_v2_enumeration_plan_v1",
+  "selection_metadata_label": "SELECTION_METADATA_NOT_BENCHMARK_TRUTH",
+  "sources": [
+    {
+      "authority_level": "PRIMARY_ADMINISTRATIVE",
+      "cutoff_treatment": "apply controlling study start date against 2026-07-24T23:59:59Z",
+      "endpoint": "https://clinicaltrials.gov/api/v2/studies",
+      "enumeration_purpose": "neutral CD19/BCMA therapeutic-program discovery",
+      "expected_output_type": "trial registry JSON",
+      "failure_handling": "fail closed on missing, altered, or incomplete page",
+      "identity_corroboration_rules": "corroborate ambiguous intervention identities; NCT alone is an administrative anchor, not a semantic outcome",
+      "pagination_rules": "process every page until nextPageToken is absent",
+      "query_syntax": "query.term=CD19 OR BCMA",
+      "retrieval_method": "ClinicalTrials.gov API v2",
+      "source_name": "ClinicalTrials.gov",
+      "stable_source_identifier": "NCT identifier",
+      "version_or_snapshot": "2026-07-25 preserved paginated response"
+    }
+  ]
+}

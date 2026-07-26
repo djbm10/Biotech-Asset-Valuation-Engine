@@ -1,0 +1,184 @@
+{
+  "$id": "phase1_cd19_bcma_new_cohort_v2_selection_protocol_v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "authorization": {
+      "required": [
+        "candidate_universe_construction_authorized",
+        "cohort_selection_authorized",
+        "evidence_acquisition_authorized",
+        "semantic_review_authorized",
+        "release_authorized"
+      ],
+      "type": "object"
+    },
+    "benchmark_family": {
+      "const": "PHASE1_CD19_BCMA"
+    },
+    "benchmark_lineage": {
+      "const": "NEW_COHORT_V2"
+    },
+    "benchmark_version": {
+      "const": "2.0.0"
+    },
+    "builder_contract": {},
+    "candidate_universe_schema": {
+      "required": [
+        "one_record_per_candidate",
+        "required_fields",
+        "prohibited_fields",
+        "historical_semantic_inputs_used_must_be"
+      ],
+      "type": "object"
+    },
+    "cohort_size_policy": {},
+    "cohort_version": {
+      "const": "1.0.0"
+    },
+    "construction_procedure": {},
+    "contamination_controls": {
+      "required": [
+        "mechanical_checks",
+        "required_count_zero"
+      ],
+      "type": "object"
+    },
+    "creation_identity": {},
+    "current_milestone": {
+      "const": "CREATE_NEW_COHORT_V2_SELECTION_PROTOCOL"
+    },
+    "cutoffs": {
+      "required": [
+        "cohort_selection_cutoff",
+        "evidence_cutoff"
+      ],
+      "type": "object"
+    },
+    "deduplication": {},
+    "eligible_universe": {},
+    "enumeration_sources": {},
+    "future_evidence_cutoff_policy": {},
+    "governance_authority": {},
+    "governance_authorization_hash": {},
+    "governance_authorization_path": {},
+    "governance_manifest_hash": {},
+    "governance_manifest_path": {},
+    "governing_inputs": {},
+    "historical_separation": {
+      "required": [
+        "historical_equivalence",
+        "replaces_historical_batch_05",
+        "replaces_clean_baseline_v1",
+        "historical_batch_05_status",
+        "clean_baseline_v1_scope_status",
+        "historical_75_asset_profile_status",
+        "historical_custody_status",
+        "global_phase_manifest_status"
+      ],
+      "type": "object"
+    },
+    "milestone_sequence": {},
+    "namespace": {
+      "const": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/"
+    },
+    "next_milestone": {
+      "const": "BUILD_NEW_COHORT_V2_CANDIDATE_UNIVERSE"
+    },
+    "next_permitted_milestone": {
+      "const": "BUILD_NEW_COHORT_V2_CANDIDATE_UNIVERSE"
+    },
+    "protocol_id": {
+      "const": "PHASE1_CD19_BCMA_NEW_COHORT_V2_SELECTION_PROTOCOL"
+    },
+    "protocol_status": {
+      "const": "ACTIVE_FOR_CANDIDATE_UNIVERSE_CONSTRUCTION_ONLY"
+    },
+    "protocol_version": {
+      "const": "1.0.0"
+    },
+    "purpose": {},
+    "query_neutrality": {},
+    "replacement_rules": {},
+    "reporting_restrictions": {},
+    "reviewer_id_rules": {},
+    "roles": {
+      "required": [
+        "required_roles",
+        "forbidden_combinations"
+      ],
+      "type": "object"
+    },
+    "schema_version": {},
+    "selection_methodology": {
+      "required": [
+        "method",
+        "seed_generation_method",
+        "selection_seed",
+        "random_algorithm",
+        "sampling",
+        "tie_breaking"
+      ],
+      "type": "object"
+    },
+    "serialization": {},
+    "stable_identity": {},
+    "stratification": {},
+    "unit_of_selection": {},
+    "validation_gates": {
+      "required": [
+        "candidate_universe",
+        "cohort_selection"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "schema_version",
+    "benchmark_family",
+    "benchmark_version",
+    "benchmark_lineage",
+    "cohort_version",
+    "namespace",
+    "protocol_id",
+    "protocol_version",
+    "governance_authority",
+    "governance_authorization_path",
+    "governance_authorization_hash",
+    "governance_manifest_path",
+    "governance_manifest_hash",
+    "creation_identity",
+    "protocol_status",
+    "current_milestone",
+    "next_permitted_milestone",
+    "authorization",
+    "historical_separation",
+    "purpose",
+    "cohort_size_policy",
+    "cutoffs",
+    "eligible_universe",
+    "unit_of_selection",
+    "stable_identity",
+    "enumeration_sources",
+    "query_neutrality",
+    "deduplication",
+    "candidate_universe_schema",
+    "construction_procedure",
+    "stratification",
+    "selection_methodology",
+    "replacement_rules",
+    "validation_gates",
+    "roles",
+    "reviewer_id_rules",
+    "contamination_controls",
+    "reporting_restrictions",
+    "milestone_sequence",
+    "serialization",
+    "builder_contract",
+    "future_evidence_cutoff_policy",
+    "governing_inputs",
+    "next_milestone"
+  ],
+  "title": "Phase 1 CD19/BCMA New Cohort V2 Selection Protocol",
+  "type": "object"
+}

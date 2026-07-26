@@ -1,0 +1,1321 @@
+{
+  "audit_results": {
+    "candidate_id_collisions": 0,
+    "cutoff_mismatches": 287,
+    "date_missing": 2,
+    "duplicate_classification_mismatch": 1,
+    "eligibility_mismatches": 0,
+    "eligible_excluded_overlap": 0,
+    "hash_mismatches": 0,
+    "historical_contamination": 0,
+    "missing_required_candidate_fields": 1155,
+    "ordering_key_duplicates": 0,
+    "parse_errors": 0,
+    "registry_duplicate_records": 0,
+    "registry_to_discovery_unexplained": 1075,
+    "semantic_content_defects": 0,
+    "stable_identifier_defects": 0
+  },
+  "blocking_defects": [
+    "registry-to-discovery accounting is not the claimed 335-record difference",
+    "candidate records omit protocol-required first_eligible_date",
+    "manifest calls 1,155 singleton identity groups duplicate groups",
+    "cohort_cutoff_eligible disagrees with controlling-date recomputation"
+  ],
+  "claimed_builder_identity": "codex-phase1-cd19-bcma-new-cohort-v2-candidate-universe-builder-authorized-v1-2026-07-25",
+  "claimed_status": "NEW_COHORT_V2_CANDIDATE_UNIVERSE_CREATED_PENDING_INDEPENDENT_VALIDATION",
+  "commands_and_exit_codes": [
+    {
+      "command": "python scripts/consume_phase1_cd19_bcma_new_cohort_v2_candidate_universe.py --root research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe",
+      "exit_code": 0
+    },
+    {
+      "command": "python scripts/validate_phase1_cd19_bcma_new_cohort_v2_candidate_universe.py --write",
+      "exit_code": 1
+    }
+  ],
+  "counts": {
+    "actual_multi_member_duplicate_groups": 244,
+    "ambiguous_identities": 46,
+    "cutoff_exclusions": 32,
+    "discovery_records": 2100,
+    "duplicate_members_excluded": 0,
+    "eligible_candidates": 839,
+    "eligible_excluded_overlap": 0,
+    "excluded_candidates": 316,
+    "identity_groups": 1155,
+    "registry_records": 2435,
+    "resolved_candidates": 1155,
+    "singleton_groups": 911,
+    "source_snapshots": 3,
+    "unresolved_identities": 46
+  },
+  "cutoff_audit": {
+    "controlling_event": "study start date",
+    "cutoff": "2026-07-24T23:59:59Z",
+    "cutoff_exclusions": 32,
+    "cutoff_mismatch_count": 287,
+    "included_post_cutoff": 0,
+    "undated_records": 2
+  },
+  "deterministic_rebuild": {
+    "network": "not used",
+    "reason": "blocking source-class completeness defect",
+    "result": "NOT_RUN"
+  },
+  "direct_input_hashes": {
+    "builder": "647a3b84d97b03cb3cc116eb0d44b74ed9794c6c33b991bac1f941e06b1b148e",
+    "candidate_universe_manifest": "e9d90f740dc1b4ddab8c768e8fd5bcc72d56f1730c9275aa60b4b1c7bc4d72e5",
+    "candidate_universe_report": "c8edb9114faa316f1b76be73612c9d17b5d4c00ceca9fe9ea1cba8b0075f9930",
+    "consumer": "7a53c6ba4a8e0fa05c016907cc3f39c042f68f333a78a887b2662c2da6234ea6",
+    "discovery_ledger": "a4c12f843500e2ec7eb77377ac6ece35e54d3af13da8d67c21fb47d3588bac4a",
+    "duplicate_groups": "e136454a5f8461d4e7dca65050c1c950d4be563bd00968a143fccf0ff78519ac",
+    "eligible_universe": "1b501321cd02248d23f65ee034055eb4d5c981d88e776e031f7cd3e23ef9fc64",
+    "enumeration_plan": "41872135bf5bca501c479c8dc5371b78cbad6a69bb8fed1ebadb1b89483e1279",
+    "excluded_universe": "e83059d7063e71a6820cdea1f7a767a89b845efb1faee1ef9577d9c621592a5f",
+    "governance_manifest": "316cf10922eca92045abd4eb587df720435ea41ae59cde44d0b922bdaac9a6d1",
+    "governance_report": "2c45ad07e394cec6f9a11793102caebc7bdc20e04ec6423e819c023b9fd3c1e5",
+    "identity_records": "3a5d72b70f932a892423182ae2a2af8cf1d0cc2198d0e04d5f4f29be43dfa7af",
+    "independent_validator": "0ef20ab77768b949df7da0d34e87fd2979f0192f4bf365e151acc7efe9eaa062",
+    "query_ledger": "a41ab063344e70b3465e481865fdc0f692b40aeb832f568788f0df3ae0459f12",
+    "selection_manifest": "5eb3da48fec9747607dff064472e18464afb00903196167221b04b6c9e0288fd",
+    "selection_protocol": "fda4f7a686b96bec0eed406a914cdf66638334b516d813ccf63e97ced60fb042",
+    "selection_schema": "af11fc000dfae821b6b9128fee70cac831c3461cea5a4ebd0cabb97254ff43a9",
+    "snapshot_inventory": "431871a43a4de3e3a98de2dc45d2c2f318a99fd7f06419eac3e4c532387e805e",
+    "source_snapshot_page_0": "54535a27afc5f07056cea05d8ae39dec1b0bc08bec6675071417580bed747e4b",
+    "source_snapshot_page_1": "f20e54253180661beea65d8c36ba699258ec2ac048e427af85ec749fe5c67677",
+    "source_snapshot_page_2": "f44358a8297b064812c9bde7a999dc5d6965d569975c7db5be448a3c5d2954b4",
+    "tests": "0f43a9321baa266ecaaf93e70dda080f333cb33c313d01642b4b6c490711a19d",
+    "transition_manifest": "bde86db3e889a2110d3616b81093817b57197588391e8a0b34634baf8cb7da16",
+    "transition_report": "a2acf6c26895055f048f7a207f3da528f62da5a83f6f1ab8d0ea2d66553350ec"
+  },
+  "duplicate_group_audit": {
+    "actual_duplicate_groups": 244,
+    "combination_groups": 0,
+    "cross_sponsor_groups": 0,
+    "duplicate_classification_mismatch_count": 1,
+    "identity_groups_total": 1155,
+    "max_group_size": 77,
+    "rename_groups": 0,
+    "singleton_groups": 911,
+    "trial_level_consolidation_groups": 0,
+    "unresolved_groups": 0
+  },
+  "eligibility_audit": {
+    "actual": {
+      "eligible": 839,
+      "excluded": 316,
+      "resolved": 1155
+    },
+    "claimed": {
+      "eligible": 839,
+      "excluded": 316,
+      "resolved": 1155
+    },
+    "exclusions_by_reason": {
+      "identity_ambiguous": 31,
+      "identity_ambiguous;outside_hematologic_area": 5,
+      "identity_ambiguous;outside_hematologic_area;stage_outside_boundary": 1,
+      "identity_ambiguous;stage_outside_boundary": 7,
+      "identity_ambiguous;supportive_or_combination_component": 2,
+      "outside_hematologic_area": 73,
+      "outside_hematologic_area;post_cutoff_or_missing_date": 4,
+      "outside_hematologic_area;post_cutoff_or_missing_date;stage_outside_boundary": 1,
+      "outside_hematologic_area;post_cutoff_or_missing_date;stage_outside_boundary;supportive_or_combination_component": 1,
+      "outside_hematologic_area;stage_outside_boundary": 14,
+      "outside_hematologic_area;supportive_or_combination_component": 8,
+      "post_cutoff_or_missing_date": 20,
+      "post_cutoff_or_missing_date;stage_outside_boundary": 2,
+      "post_cutoff_or_missing_date;supportive_or_combination_component": 4,
+      "stage_outside_boundary": 72,
+      "stage_outside_boundary;supportive_or_combination_component": 4,
+      "supportive_or_combination_component": 66,
+      "target_not_anchored": 1
+    },
+    "mismatch_count": 0
+  },
+  "enumeration_source_audit": {
+    "actual_source_classes": [
+      "clinical_trial_registries"
+    ],
+    "corroboration_defects": 0,
+    "missing_required_source_classes": [],
+    "permitted_source_classes": [
+      "clinical_trial_registries",
+      "government_or_institutional_registries",
+      "official_corporate_filings",
+      "official_sponsor_pipelines",
+      "patent_databases",
+      "regulatory_databases",
+      "structured_scientific_registries"
+    ],
+    "permitted_source_classes_not_used": [
+      "government_or_institutional_registries",
+      "official_corporate_filings",
+      "official_sponsor_pipelines",
+      "patent_databases",
+      "regulatory_databases",
+      "structured_scientific_registries"
+    ],
+    "required_source_classes": [
+      "clinical_trial_registries"
+    ],
+    "result": "AUTHORIZED_SOURCE_ONLY; COMPLETENESS_NOT_ESTABLISHED",
+    "unauthorized_source_classes": []
+  },
+  "exact_files_created": [
+    "scripts/validate_phase1_cd19_bcma_new_cohort_v2_candidate_universe.py",
+    "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation.json",
+    "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation_manifest.json"
+  ],
+  "exact_files_modified": [],
+  "governance_authorization": {
+    "construction_authorized": true,
+    "evidence_corpus_prohibited": true,
+    "governance_hashes_match": true,
+    "milestone_authorization_valid": true,
+    "reviewer_ids_prohibited": true,
+    "seed_prohibited": true,
+    "selection_prohibited": true
+  },
+  "hash_and_lineage": {
+    "lineage_result": "FAIL_BLOCKED_BY_SOURCE_COMPLETENESS",
+    "manifest_bound_files_verified": true,
+    "missing_bindings": [],
+    "required_hashes_match": true
+  },
+  "historical_contamination_audit": {
+    "alias": 0,
+    "exact": 0,
+    "nested": 0,
+    "normalized": 0,
+    "semantic": 0,
+    "serialized": 0,
+    "total": 0
+  },
+  "historical_program_status": {
+    "clean_baseline_v1": "UNIDENTIFIABLE",
+    "global_phase_manifest": "INVALID",
+    "historical_75_asset_profile": "NOT_CONFIRMED",
+    "historical_batch_5": "IRRECOVERABLY_UNVERIFIABLE",
+    "historical_custody": "FAIL_HISTORICAL_DIRTY_DIFF_UNRECOVERABLE"
+  },
+  "identity_audit": {
+    "candidate_id_collisions": 0,
+    "candidate_merge_defects": 0,
+    "candidate_split_defects": 0,
+    "identity_authority_defects": 0,
+    "identity_confidence_mismatches": 0,
+    "rename_duplication": 0,
+    "sponsor_transfer_duplication": 0,
+    "stable_identifier_defects": 0,
+    "unit_of_selection_result": "NOT_VALIDATED_DUE_TO_SOURCE_GAP"
+  },
+  "independent_consumer": {
+    "builder_consumer_used": false,
+    "reconstructed_eligible": 839,
+    "reconstructed_excluded": 316,
+    "rejected_historical_fallback": true,
+    "rejected_semantic_content": true,
+    "result": "PASS_STRUCTURAL_RECHECK_WITH_BLOCKING_SOURCE_GAP",
+    "seed_executed": false,
+    "selection_occurred": false
+  },
+  "input_paths": {
+    "builder": "scripts/build_phase1_cd19_bcma_new_cohort_v2_candidate_universe.py",
+    "candidate_universe_manifest": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_manifest.json",
+    "candidate_universe_report": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_report.json",
+    "consumer": "scripts/consume_phase1_cd19_bcma_new_cohort_v2_candidate_universe.py",
+    "discovery_ledger": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_discovery_ledger.jsonl",
+    "duplicate_groups": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_duplicate_groups.json",
+    "eligible_universe": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_eligible_candidates.json",
+    "enumeration_plan": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_enumeration_plan.json",
+    "excluded_universe": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_excluded_candidates.json",
+    "governance_manifest": "research/se_benchmarks/phase1_cd19_bcma/governance/new_cohort_v2_authorization_manifest_2026-07-24.json",
+    "governance_report": "research/se_benchmarks/phase1_cd19_bcma/governance/new_cohort_v2_authorization_2026-07-24.json",
+    "identity_records": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_identity_records.json",
+    "independent_validator": "scripts/validate_phase1_cd19_bcma_new_cohort_v2_candidate_universe.py",
+    "query_ledger": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_query_ledger.jsonl",
+    "selection_manifest": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_manifest.json",
+    "selection_protocol": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol.json",
+    "selection_schema": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol.schema.json",
+    "snapshot_inventory": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_source_snapshot_inventory.json",
+    "source_snapshot_page_0": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/source_snapshots/page_0.json",
+    "source_snapshot_page_1": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/source_snapshots/page_1.json",
+    "source_snapshot_page_2": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/source_snapshots/page_2.json",
+    "tests": "tests/test_phase1_cd19_bcma_new_cohort_v2_candidate_universe.py",
+    "transition_manifest": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_candidate_universe_milestone_authorization_manifest.json",
+    "transition_report": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_candidate_universe_milestone_authorization.json"
+  },
+  "negative_tests": {
+    "accepted_malformed_input": 0,
+    "applicable": 53,
+    "builder_enforcement_gap": 0,
+    "executed_independently": 0,
+    "passed": 0,
+    "result": "NOT_EXECUTED_AFTER_BLOCKING_RECONSTRUCTION"
+  },
+  "next_milestone": "INDEPENDENTLY_VALIDATE_NEW_COHORT_V2_CANDIDATE_UNIVERSE",
+  "no_cohort_selected": true,
+  "no_evidence_or_semantic_review": true,
+  "no_existing_artifact_modified": true,
+  "no_reviewer_ids_generated": true,
+  "no_seed_executed": true,
+  "overall_verdict": "FAIL_MULTIPLE_BLOCKING_DEFECTS",
+  "pagination": {
+    "api": "ClinicalTrials.gov API v2",
+    "page_size": 1000,
+    "pages": [
+      {
+        "hash": "54535a27afc5f07056cea05d8ae39dec1b0bc08bec6675071417580bed747e4b",
+        "next_page_token": "ZVdj7o2Elu8o3lp3Rcmm4KrumpOQJJxuY_Kh3fAakA",
+        "page": 0,
+        "records": 1000
+      },
+      {
+        "hash": "f20e54253180661beea65d8c36ba699258ec2ac048e427af85ec749fe5c67677",
+        "next_page_token": "ZVdj7o2Elu8o3lp3Rcmm4KrumpOQJJxsZvek3v0TkA",
+        "page": 1,
+        "records": 1000
+      },
+      {
+        "hash": "f44358a8297b064812c9bde7a999dc5d6965d569975c7db5be448a3c5d2954b4",
+        "next_page_token": null,
+        "page": 2,
+        "records": 435
+      }
+    ],
+    "pagination_complete": true,
+    "query": "CD19 OR BCMA",
+    "query_ledger_claimed_discovered_sum": 2100,
+    "query_ledger_internal_consistency": false,
+    "total_registry_records": 2435,
+    "unique_registry_records": 2435
+  },
+  "registry_to_discovery_accounting": {
+    "discovery_records": 2100,
+    "missing_registry_sample": [
+      "NCT00003659",
+      "NCT00068003",
+      "NCT00075907",
+      "NCT00076752",
+      "NCT00106639",
+      "NCT00108108",
+      "NCT00112112",
+      "NCT00143065",
+      "NCT00261846",
+      "NCT00263328",
+      "NCT00299130",
+      "NCT00306332",
+      "NCT00329030",
+      "NCT00349349",
+      "NCT00394836",
+      "NCT00410163",
+      "NCT00410657",
+      "NCT00422383",
+      "NCT00422942",
+      "NCT00436826",
+      "NCT00444912",
+      "NCT00450944",
+      "NCT00451321",
+      "NCT00452127",
+      "NCT00466531",
+      "NCT00469378",
+      "NCT00470015",
+      "NCT00475423",
+      "NCT00481858",
+      "NCT00483756",
+      "NCT00494780",
+      "NCT00496132",
+      "NCT00500058",
+      "NCT00550446",
+      "NCT00560794",
+      "NCT00566332",
+      "NCT00576758",
+      "NCT00593944",
+      "NCT00603525",
+      "NCT00607048",
+      "NCT00611455",
+      "NCT00622388",
+      "NCT00626197",
+      "NCT00682799",
+      "NCT00686868",
+      "NCT00709033",
+      "NCT00718549",
+      "NCT00719472",
+      "NCT00719849",
+      "NCT00724867"
+    ],
+    "multiple_discovery": 272,
+    "no_discovery": 1075,
+    "one_discovery": 1088,
+    "registry_records": 2435,
+    "unexplained_difference_against_claimed_335": 740
+  },
+  "required_conclusions": {
+    "builder_enforcement": "NOT_RUN",
+    "candidate_identity_validity": "FAIL_SCHEMA_BINDING",
+    "cutoff_validity": "FAIL",
+    "discovery_ledger_completeness": "FAIL",
+    "duplicate_group_validity": "FAIL",
+    "eligibility_validity": "NOT_ESTABLISHED",
+    "enumeration_completeness": "FAIL",
+    "enumeration_source_validity": "PASS_AUTHORIZED_SOURCE_ONLY",
+    "exclusion_validity": "NOT_ESTABLISHED",
+    "governance_authorization": "PASS",
+    "hash_validity": "PASS",
+    "historical_contamination_safety": "PASS",
+    "immutability": "PASS",
+    "independent_consumer_safety": "CONDITIONAL_FAIL",
+    "lineage_validity": "FAIL_SCHEMA_BINDING",
+    "manifest_accuracy": "FAIL",
+    "milestone_authorization": "PASS",
+    "pagination_completeness": "PASS_RAW_PAGES",
+    "query_neutrality": "PASS",
+    "reproducibility": "NOT_RUN",
+    "semantic_neutrality": "PASS",
+    "source_snapshot_validity": "PASS",
+    "stable_identifier_validity": "PASS",
+    "stratum_validity": "PASS_RECOMPUTED",
+    "structural_validity": "FAIL",
+    "unit_of_selection_validity": "NOT_ESTABLISHED",
+    "universe_sufficiency": "PASS_COUNT_ONLY",
+    "unresolved_identity_safety": "NOT_ESTABLISHED"
+  },
+  "schema_version": "new_cohort_v2_candidate_universe_validation_v1",
+  "semantic_neutrality_audit": {
+    "defect_count": 0,
+    "explicit_semantic_fields": 0,
+    "hidden_semantic_payload": 0,
+    "outcome_dependent_classification": 0,
+    "unlabeled_selection_metadata": 0
+  },
+  "stratum_audit": {
+    "candidate_counts": {
+      "BCMA|CAR-T|PHASE1": 124,
+      "BCMA|CAR-T|PHASE2": 95,
+      "BCMA|CAR-T|PHASE3": 12,
+      "BCMA|T-cell engager|PHASE1": 13,
+      "BCMA|T-cell engager|PHASE2": 10,
+      "BCMA|T-cell engager|PHASE3": 4,
+      "BCMA|other therapeutic biologic|PHASE1": 5,
+      "BCMA|other therapeutic biologic|PHASE2": 7,
+      "CD19|CAR-T|PHASE1": 235,
+      "CD19|CAR-T|PHASE2": 228,
+      "CD19|CAR-T|PHASE3": 16,
+      "CD19|T-cell engager|PHASE1": 13,
+      "CD19|T-cell engager|PHASE2": 31,
+      "CD19|T-cell engager|PHASE3": 9,
+      "CD19|other therapeutic biologic|PHASE1": 5,
+      "CD19|other therapeutic biologic|PHASE2": 17,
+      "CD19|other therapeutic biologic|PHASE3": 15
+    },
+    "invalid_stratum_count": 0,
+    "missing_stratum_count": 0,
+    "outcome_derived_stratum_count": 0,
+    "required_future_count": 15,
+    "shortfall_count": 0
+  },
+  "structural_reconstruction": {
+    "absolute_paths_found": 0,
+    "discovery_dispositions_present": true,
+    "duplicate_json_keys_found": 0,
+    "missing_protocol_required_fields": [
+      "first_eligible_date"
+    ],
+    "page_accounting": [
+      {
+        "hash": "54535a27afc5f07056cea05d8ae39dec1b0bc08bec6675071417580bed747e4b",
+        "next_page_token": "ZVdj7o2Elu8o3lp3Rcmm4KrumpOQJJxuY_Kh3fAakA",
+        "page": 0,
+        "records": 1000
+      },
+      {
+        "hash": "f20e54253180661beea65d8c36ba699258ec2ac048e427af85ec749fe5c67677",
+        "next_page_token": "ZVdj7o2Elu8o3lp3Rcmm4KrumpOQJJxsZvek3v0TkA",
+        "page": 1,
+        "records": 1000
+      },
+      {
+        "hash": "f44358a8297b064812c9bde7a999dc5d6965d569975c7db5be448a3c5d2954b4",
+        "next_page_token": null,
+        "page": 2,
+        "records": 435
+      }
+    ],
+    "parse_errors": [],
+    "registry_unique_records": 2435,
+    "reviewer_identity_artifact_found": false,
+    "selected_cohort_artifact_found": false,
+    "semantic_evidence_corpus_found": false,
+    "stable_ordering": true
+  },
+  "unresolved_identity_audit": [
+    {
+      "ambiguity_reason": "identity_ambiguous",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:7e74e50150a936d08e4e995d",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT07113496:3b5aac9a6167",
+        "discovery:NCT07129642:3b5aac9a6167"
+      ],
+      "names_and_aliases": [
+        "Allogeneic CAR-T"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT07113496",
+          "NCT07129642"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:74323230d2ee46cc8d643208",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT02799550:4ddadb2de5e7"
+      ],
+      "names_and_aliases": [
+        "allogeneic CART-19"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT02799550"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:2237afdbf900430b163d98d5",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT06709469:0d60d17b7bec"
+      ],
+      "names_and_aliases": [
+        "Allogeneic CART-NKG2D cells"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT06709469"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:f183c392b2ff013ec9eb4deb",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT05164042:a75b5ade8b85"
+      ],
+      "names_and_aliases": [
+        "Allogeneic CD19 CAR-T cells"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT05164042"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:451b001b28017a6f26f6cbe1",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT07139509:4ba6f15788ef"
+      ],
+      "names_and_aliases": [
+        "allogeneic cord blood-derived, dual-targeting CD19/BCMA CAR-T cells"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT07139509"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:5a36bd9232efb8ac35b9a325",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT01475058:47aeb9f137fc"
+      ],
+      "names_and_aliases": [
+        "allogeneic cytomegalovirus-specific cytotoxic T lymphocytes"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT01475058"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:81cb7e1ab9f8365345c6706c",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT02007811:05d86b0c987c"
+      ],
+      "names_and_aliases": [
+        "allogeneic donor derived B-lymphocytes"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT02007811"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous;stage_outside_boundary",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:8acb50e83cf287d09a50b1a5",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT07285668:f5f0ea3d929a"
+      ],
+      "names_and_aliases": [
+        "Allogeneic donor TCR\u03b1\u03b2+/CD19+ cell-depleted peripheral blood mononuclear cells"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT07285668"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:e3fe1a6095d65c82a41d2439",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT05507827:bc1b15176bc9"
+      ],
+      "names_and_aliases": [
+        "Allogeneic donor-derived T-cells transduced with bivalent lentiviral vector (CD19/CD22-BBz) chimeric antigen receptor (CAR)"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT05507827"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous;supportive_or_combination_component",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:9dcd018482cdc4ace13ef780",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT03366350:0701e40e5a22"
+      ],
+      "names_and_aliases": [
+        "Allogeneic hematological stem cell transplantation"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT03366350"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous;supportive_or_combination_component",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:addbfc9a2401b4d1a059da84",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT00303667:61efbe16010a",
+        "discovery:NCT06447987:482b518963b9",
+        "discovery:NCT06735690:482b518963b9",
+        "discovery:NCT07564453:c508cc13ed58"
+      ],
+      "names_and_aliases": [
+        "Allogeneic Hematopoietic Stem Cell Transplantation",
+        "Allogeneic hematopoietic stem cell transplantation",
+        "allogeneic hematopoietic stem cell transplantation"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT00303667",
+          "NCT06447987",
+          "NCT06735690",
+          "NCT07564453"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous;outside_hematologic_area",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:f09dc8f8e8cb3630f649bb0e",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT07274059:92bc75540f60"
+      ],
+      "names_and_aliases": [
+        "allogeneic umbilical cord blood-derived CAR-T targeting CD19 and BCMA"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT07274059"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:02a1b3a8d462c1d732972525",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT07622862:e9196bafcebe"
+      ],
+      "names_and_aliases": [
+        "Allogeneic, off-the-shelf CAR-T cell injection targeting BCMA and GPRC5D"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT07622862"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:b08bf8b05800821a0960acfb",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT07477912:7c9e28ae4d64"
+      ],
+      "names_and_aliases": [
+        "anti BCMA CAR-T cells"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT07477912"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous;stage_outside_boundary",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:a1b7df3d8951bfd85d87b0f5",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT06961669:3fcf88983725",
+        "discovery:NCT07052565:3fcf88983725"
+      ],
+      "names_and_aliases": [
+        "Anti-BCMA and CD19 CART cells will be injected intravenously on a one-time basis"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT06961669",
+          "NCT07052565"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous;outside_hematologic_area;stage_outside_boundary",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:0c8aeb7e2c1f12ce252dea0e",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT06503224:66855e579be1"
+      ],
+      "names_and_aliases": [
+        "Anti-BCMA and CD19 CART cells will be injected intravenously on a one-time basis."
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT06503224"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:a8059f730a8417f7d1dc2944",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT03559764:206a2c1da338"
+      ],
+      "names_and_aliases": [
+        "Anti-BCMA CAR T cells"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT03559764"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:c77a8b500588bf4d2a059eb1",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT04637269:ced3ab25e340",
+        "discovery:NCT04706936:ced3ab25e340",
+        "discovery:NCT05846737:ced3ab25e340",
+        "discovery:NCT05850286:ced3ab25e340",
+        "discovery:NCT05860036:ced3ab25e340",
+        "discovery:NCT05870917:ced3ab25e340",
+        "discovery:NCT05979363:ced3ab25e340",
+        "discovery:NCT06793449:ced3ab25e340"
+      ],
+      "names_and_aliases": [
+        "anti-BCMA CAR-T"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT04637269",
+          "NCT04706936",
+          "NCT05846737",
+          "NCT05850286",
+          "NCT05860036",
+          "NCT05870917",
+          "NCT05979363",
+          "NCT06793449"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:ef79a0b85055f31f4d9a7bb5",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT03093168:d959da3d2615",
+        "discovery:NCT03943472:d959da3d2615"
+      ],
+      "names_and_aliases": [
+        "Anti-BCMA CAR-T cells"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT03093168",
+          "NCT03943472"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:8f5d87908d2a1cb98416e41e",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT06880393:2dee22ccb92c"
+      ],
+      "names_and_aliases": [
+        "anti-BCMA-CAR-T"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT06880393"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:25956309bc679b5bc3af4179",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT02954445:19ed0dd13c93"
+      ],
+      "names_and_aliases": [
+        "Anti-BCMA-CAR-transduced T cells"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT02954445"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:043d8f8d16ad26689750889e",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT07148791:99597bdbc417"
+      ],
+      "names_and_aliases": [
+        "Anti-BCMA-CD19 CAR-T cells"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT07148791"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous;stage_outside_boundary",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:e02b39e90dfcc3367d978e62",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT06515262:fe545f207086"
+      ],
+      "names_and_aliases": [
+        "Anti-BCMA-GPRC5D CAR-T cells infusion"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT06515262"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:c5dbbcfc2099fa5b575427a6",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT07151690:69c907b53af1",
+        "discovery:NCT07409454:69c907b53af1",
+        "discovery:NCT07648459:69c907b53af1"
+      ],
+      "names_and_aliases": [
+        "anti-BCMA/CD3 bispecific antibody"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT07151690",
+          "NCT07409454",
+          "NCT07648459"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:9a6dd998e927f3b687b939b1",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT06553898:88736120eed7"
+      ],
+      "names_and_aliases": [
+        "anti-BCMA/CD70 CAR-T cells"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT06553898"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:cb47bab9f6ae5b77f5404d24",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT06934447:b594eb792234"
+      ],
+      "names_and_aliases": [
+        "anti-BCMA/CD70-CAR-T cells"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT06934447"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:4d1edcea1fe6f71a2d64c590",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT06759181:888232eee120"
+      ],
+      "names_and_aliases": [
+        "anti-BCMA/FcRL5 CAR T"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT06759181"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous;stage_outside_boundary",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:945a87ad98211927074a26cf",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT06793475:b04bbe87162b"
+      ],
+      "names_and_aliases": [
+        "anti-BCMA/GPRC5D bispecific CAR-T"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT06793475"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:e8e3080d8976a253ab4f6879",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT05509530:b07e26a98c90"
+      ],
+      "names_and_aliases": [
+        "anti-BCMA/GPRC5D CAR-T CELL"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT05509530"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous;stage_outside_boundary",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:cf21f1657d32217a872d7e43",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT07689149:a669fff74d4c",
+        "discovery:NCT07689578:a669fff74d4c"
+      ],
+      "names_and_aliases": [
+        "BiTE (BCMA x CD3 Bispecific Antibody)"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT07689149",
+          "NCT07689578"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous;stage_outside_boundary",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:f73f2a37f88231d518358e97",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT07689149:fdfd9d069a33"
+      ],
+      "names_and_aliases": [
+        "BiTE (CD19 x CD3 Bispecific Antibody)"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT07689149"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous;stage_outside_boundary",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:521c01eb9767b43f0a2d6de0",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT05206071:0c68587e355c"
+      ],
+      "names_and_aliases": [
+        "CD19+22 CAR-T cells"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT05206071"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:fec111c2b41fb2f1fe03b348",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT02443831:a7363c2bd794"
+      ],
+      "names_and_aliases": [
+        "CD19+CD22 CAR T-cells"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT02443831"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:fbb1daba82319ff1672f92b4",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT04626726:b0bcad2a66e0",
+        "discovery:NCT04626739:b0bcad2a66e0"
+      ],
+      "names_and_aliases": [
+        "CD19+CD22 CAR-T"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT04626726",
+          "NCT04626739"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:bf70916f22a5264a75760e66",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT02134262:04b25e41e0d5"
+      ],
+      "names_and_aliases": [
+        "Dose Level -1"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT02134262"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:11faa58c919015b6d9af34fb",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT02134262:76fdab6da04e"
+      ],
+      "names_and_aliases": [
+        "Dose Level 1"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT02134262"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous;outside_hematologic_area",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:18a17707ddbc091aa199096b",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT06958939:b2b14595be94"
+      ],
+      "names_and_aliases": [
+        "Dose level 1 group"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT06958939"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:9d33397475a998214bff1730",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT06533579:2e9c4f22b605"
+      ],
+      "names_and_aliases": [
+        "Dose Level 1, VNX-101"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT06533579"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:7809eb7b33c2cd7afa238422",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT02134262:61dcd22b42a7"
+      ],
+      "names_and_aliases": [
+        "Dose Level 2"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT02134262"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous;outside_hematologic_area",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:57fdde2fabdd133ab5c661de",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT06958939:b92d7372790a"
+      ],
+      "names_and_aliases": [
+        "Dose level 2 group"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT06958939"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:0189566364b4cce39f2ce2b6",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT06533579:7e936cd0aa3b"
+      ],
+      "names_and_aliases": [
+        "Dose Level 2, VNX-101"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT06533579"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:edf074f7337f29f782f4e843",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT02134262:366f3edaefbb"
+      ],
+      "names_and_aliases": [
+        "Dose Level 3"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT02134262"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous;outside_hematologic_area",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:b2ea107ff80bcb8d01642f5a",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT06958939:8ea983b02006"
+      ],
+      "names_and_aliases": [
+        "Dose level 3 group"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT06958939"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:9461bd2a293963dc39e016b9",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT06533579:888031d95f63"
+      ],
+      "names_and_aliases": [
+        "Dose Level 3, VNX-101"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT06533579"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous;outside_hematologic_area",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:3bde7594f8a5ecf0ee5ac46f",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT06958939:c5656d5dc047"
+      ],
+      "names_and_aliases": [
+        "Dose level 4 group"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT06958939"
+        ]
+      }
+    },
+    {
+      "ambiguity_reason": "identity_ambiguous",
+      "appears_excluded": false,
+      "builder_classification": "IDENTITY_AMBIGUOUS",
+      "candidate_id": "candidate:2d1160443bd7da0889982068",
+      "could_conceal_eligible_candidate": false,
+      "discovery_identity": [
+        "discovery:NCT06533579:f33c9e6dfb37"
+      ],
+      "names_and_aliases": [
+        "Dose Level 4, VNX-101"
+      ],
+      "stable_identifiers": {
+        "clinical_trial_identifiers": [
+          "NCT06533579"
+        ]
+      }
+    }
+  ],
+  "validation_date": "2026-07-25",
+  "validator_identity": "independent-validator-phase1-cd19-bcma-new-cohort-v2-candidate-universe-2026-07-25"
+}
