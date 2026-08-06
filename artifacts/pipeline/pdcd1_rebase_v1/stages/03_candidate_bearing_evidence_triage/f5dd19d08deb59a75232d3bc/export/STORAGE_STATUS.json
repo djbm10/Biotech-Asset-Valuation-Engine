@@ -1,0 +1,59 @@
+{
+  "archive": "pdcd1-rebase-v1-evidence-triage-f5dd19d08deb59a75232d3bc.tar.gz",
+  "sha256": "889f18f8cda547ed12e484535116ed2cac710a08d617e958272b61bea58a89e8",
+  "byte_length": 12155423,
+  "raw_source_directory": null,
+  "storage_status": "REMOTE_DURABLE_VERIFIED",
+  "remote_storage": {
+    "provider": "GitHub Releases",
+    "github_repository": "djbm10/Biotech-Asset-Valuation-Engine",
+    "release_tag": "pdcd1-rebase-v1-evidence-triage-f5dd19d08deb59a75232d3bc",
+    "release_url": "https://github.com/djbm10/Biotech-Asset-Valuation-Engine/releases/tag/pdcd1-rebase-v1-evidence-triage-f5dd19d08deb59a75232d3bc",
+    "release_target_commitish": "8c588354c291dc5984ff8988ab5990ae578ca9ce",
+    "checkpoint_commit": "8c588354c291dc5984ff8988ab5990ae578ca9ce",
+    "dedicated_branch": "artifact/pdcd1-rebase-v1-evidence-triage-final",
+    "annotated_tag": "pdcd1-rebase-v1-evidence-triage-f5dd19d08deb59a75232d3bc",
+    "release_assets": [
+      {
+        "name": "pdcd1-rebase-v1-evidence-triage-f5dd19d08deb59a75232d3bc.tar.gz",
+        "asset_id": "RA_kwDORermKc4eDrXn",
+        "download_url": "https://github.com/djbm10/Biotech-Asset-Valuation-Engine/releases/download/pdcd1-rebase-v1-evidence-triage-f5dd19d08deb59a75232d3bc/pdcd1-rebase-v1-evidence-triage-f5dd19d08deb59a75232d3bc.tar.gz",
+        "byte_length": 12155423,
+        "sha256": "889f18f8cda547ed12e484535116ed2cac710a08d617e958272b61bea58a89e8"
+      },
+      {
+        "name": "pdcd1-rebase-v1-evidence-triage-f5dd19d08deb59a75232d3bc.tar.gz.sha256",
+        "asset_id": "RA_kwDORermKc4eDrXq",
+        "download_url": "https://github.com/djbm10/Biotech-Asset-Valuation-Engine/releases/download/pdcd1-rebase-v1-evidence-triage-f5dd19d08deb59a75232d3bc/pdcd1-rebase-v1-evidence-triage-f5dd19d08deb59a75232d3bc.tar.gz.sha256",
+        "byte_length": 222
+      }
+    ]
+  },
+  "remote_download_verification": {
+    "timestamp": "2026-08-06T22:33:00Z",
+    "downloaded_via": "gh release download",
+    "checksum_file_verification": "PASSED (recomputed sha256sum of downloaded archive matches published .sha256 exactly)",
+    "downloaded_archive_sha256": "889f18f8cda547ed12e484535116ed2cac710a08d617e958272b61bea58a89e8",
+    "downloaded_archive_byte_length": 12155423,
+    "extraction_result": "SUCCESS",
+    "receipt_bound_artifacts_recomputed": 16,
+    "receipt_bound_hash_mismatches": [],
+    "receipt_validation_result": "PASSED",
+    "semantic_validator_independently_fetched": true,
+    "semantic_validator_fetch_method": "git fetch --depth 1 of annotated tag from origin into a fresh, separate directory (not the local working tree)",
+    "semantic_validator_version_hash": "1b63853b39e527432df00b467fbd03df22ceace16500a22e9d5e9a0395850e25",
+    "semantic_validator_version_hash_matches_manifest": true,
+    "semantic_validation_result": "PASSED",
+    "semantic_validation_checks_total": 19,
+    "semantic_validation_failed_checks": [],
+    "manifest_schema_validation_result": "PASSED",
+    "manifest_stage_status": "FINALIZED",
+    "manifest_scope_flags_all_false": true,
+    "downloaded_snapshot_byte_identical_to_local_finalized_snapshot": true,
+    "byte_identity_check_method": "diff -rq against local snapshot directory, all 16 files identical",
+    "mismatch_list": []
+  },
+  "note_on_finalized_files": "manifest.json and receipt.json were left untouched to avoid invalidating their existing hash bindings; this file is a separate, non-canonical companion record and is not part of receipt.json's artifact bindings.",
+  "note_on_large_derived_ledgers": "normalized/candidate_bearing_occurrence_ledger.jsonl (~36MB) and normalized/official_other_name_edge_ledger.jsonl (~19MB) are export-archive-only and were never committed as ordinary git blobs; they are included in this release's tar.gz and are covered by receipt.json's artifact hash bindings.",
+  "note_on_prior_snapshot": "The prior partial Milestone 3 snapshot (e684f6ba12f40a8572396337) and its release/tag/branch were not modified, moved, or deleted by this publication."
+}
