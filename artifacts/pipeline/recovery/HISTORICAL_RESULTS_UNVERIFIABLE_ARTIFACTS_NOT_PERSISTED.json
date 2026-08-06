@@ -1,0 +1,40 @@
+{
+  "classification": "HISTORICAL_RESULTS_UNVERIFIABLE_ARTIFACTS_NOT_PERSISTED",
+  "generated_at": "2026-08-05T00:00:00Z",
+  "recovery_source": {
+    "type": "codex_cli_session_transcript",
+    "path": "/home/djmann/.codex/sessions/2026/07/30/rollout-2026-07-30T06-48-19-019fb2a3-ae2e-7441-87a2-1c37a9ff1eb8.jsonl",
+    "line_count": 13318,
+    "span_start": "2026-07-30T10:48:19Z",
+    "span_end": "2026-08-05T01:02:30Z",
+    "final_self_reported_status": "TARGET_AGNOSTIC_BIOTECH_CANDIDATE_PIPELINE_V4_OR_FOURTH_TARGET_EVALUATION_PARTIALLY_COMPLETE",
+    "termination_cause": "codex_error_info=usage_limit_exceeded; reported retry time Aug 8th, 2026 7:07 AM"
+  },
+  "artifact_locations_searched": [
+    "/tmp/**",
+    "filesystem-wide find for known /tmp artifact directory names referenced by the scripts (v4_fourth_target_source_snapshot, v4_fourth_target_prediction_package, fourth_target_gold_standard_benchmark_v1_rebuild_a/_b, cd19_bcma_gold_standard_benchmark_v1_rebuild_a, cldn18_2_gold_standard_benchmark_v2_rebuild_a, her2_gold_standard_benchmark_v1_complete_rebuild_a, her2_benchmark_history_capture_a, target_agnostic_candidate_pipeline_v4_rebuild_a)",
+    "git history, branches, and stashes in /home/djmann/projects/biotech-asset-valuation-engine",
+    "the project's artifacts/ directory tree"
+  ],
+  "artifact_locations_result": "NONE_FOUND — no matching directory or file exists anywhere on this machine outside the transcript's own stdout captures",
+  "historical_hashes_and_stats_located_in_transcript": {
+    "score_sha256": "18f97ed766e10d9369bdeedfb3aefcfdf069da7205f59e43b910dd8361a533bb",
+    "hypothesis_discovery": {"precision": 0.0916, "recall": 1.0, "f1": 0.1678},
+    "automatic_verification": {"precision": 0.0, "recall": 0.0, "f1": 0.0},
+    "row_classification_macro_f1": 0.5369,
+    "source_universe_total_studies": 4352
+  },
+  "recoverability_findings": {
+    "summary_level_receipts_and_hashes_present_in_transcript": true,
+    "row_level_artifact_bytes_present_in_transcript": false,
+    "search_terms_with_zero_matches": ["source_row_id", "candidate_id", "source_record_id"],
+    "export_or_archival_commands_found": false,
+    "conclusion": "The transcript contains only whatever the underlying scripts printed to stdout (summary JSON, hashes, counts). It does not contain the row-level JSON/JSONL artifact bytes those scripts wrote to /tmp. Because the runner environment for that session no longer exists and no export (tar/zip/rsync) was ever performed, the underlying artifacts cannot be reconstructed byte-for-byte from this transcript or from any other location on this machine."
+  },
+  "prior_session_completion_status": {
+    "self_reported_as_finalized": false,
+    "self_reported_status_string": "PARTIALLY_COMPLETE",
+    "note": "The original session never reached its own terminal FINALIZED state before hitting a Codex usage limit; the cited hashes/metrics were sealed intermediate results, not a published release."
+  },
+  "decision": "Prior V4/PDCD1 results are classified HISTORICAL_RESULTS_UNVERIFIABLE_ARTIFACTS_NOT_PERSISTED. They must not be presented as validated releases, reused as prerequisite inputs, or cited as current state. A new artifact lineage (REPRODUCIBLE_BIOTECH_PIPELINE_REBASE_V1) is being started with no claimed continuity to these historical hashes or scores."
+}
