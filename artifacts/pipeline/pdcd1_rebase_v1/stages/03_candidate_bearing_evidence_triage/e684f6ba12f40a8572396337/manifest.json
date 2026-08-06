@@ -1,0 +1,36 @@
+{
+  "aliases_adjudicated": false,
+  "benchmark_labels_created": false,
+  "candidate_chronology_created": false,
+  "canonical_candidates_created": false,
+  "canonical_target": "PDCD1",
+  "checks": {
+    "forensic_review_queue_count": 76,
+    "frozen_row_binding_count": 300,
+    "occurrence_count": 78055,
+    "official_other_name_edge_count": 61505,
+    "presentation_group_count": 541,
+    "targeted_review_queue_count": 536,
+    "unique_string_count": 565
+  },
+  "derived_evidence_manifest_hash": "b6a01a19b24325ee4d78b30e153e26b29392ce111de9dfeb81c39ec68ecddca3",
+  "evaluation_performed": false,
+  "extraction_rules_hash": "004ffc6e71267c1202272f43467bdbafd1e2427ed2be7a5e6cc31053e75d4ad8",
+  "extractor_schema_version": "1.0.0",
+  "lineage": "REPRODUCIBLE_BIOTECH_PIPELINE_REBASE_V1",
+  "milestone": "PDCD1_BENCHMARK_REBASE_V1_MILESTONE_3_CANDIDATE_BEARING_EVIDENCE_EXTRACTION_AND_TRIAGE",
+  "milestone1_prerequisite": {
+    "archive_sha256": "7a6b509d42de915a0e0e8e5dfc054c23ffab4e6a3cfa5409acda1a45fae00923",
+    "nct_ids_count": 81,
+    "snapshot_id": "47e9e791f48bb7aacc467e28"
+  },
+  "milestone2_prerequisite": {
+    "archive_sha256": "e48ea84d623788957b2cd37a9737b2b3a0c201bce9fd3902faf7a34223c639ae",
+    "snapshot_id": "62914ac00fa635d38755e25b"
+  },
+  "ownership_claims_created": false,
+  "predictions_generated": false,
+  "stage_status": "FINALIZED",
+  "staging_key": "53ad59896064770bfb90e2ea02cd7dc1b92807f65f45cd9888df5a81be1fb631",
+  "triage_snapshot_id": "e684f6ba12f40a8572396337"
+}

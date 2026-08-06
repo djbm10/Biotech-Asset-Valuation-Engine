@@ -1,0 +1,20 @@
+{
+  "milestone1": {
+    "archive_sha256": "7a6b509d42de915a0e0e8e5dfc054c23ffab4e6a3cfa5409acda1a45fae00923",
+    "frozen_rows_count": 300,
+    "manifest_sha256": "10d4e0f7920e2f1d9ae50c34040cca83f09110409823aa967ceee59029926794",
+    "nct_ids_count": 81,
+    "receipt_sha256": "47d0a18334b930f34aa86a5f9d801e1fe8f073649f0d1394bc63cdd408f425d3",
+    "release_tag": "pdcd1-rebase-v1-population-47e9e791f48bb7aacc467e28",
+    "repository": "djbm10/Biotech-Asset-Valuation-Engine",
+    "snapshot_id": "47e9e791f48bb7aacc467e28"
+  },
+  "milestone2": {
+    "archive_sha256": "e48ea84d623788957b2cd37a9737b2b3a0c201bce9fd3902faf7a34223c639ae",
+    "manifest_sha256": "bc1adda5cdede1a55cdebf5f6306cacc39efa618da0f8384a6e3255b83750233",
+    "receipt_sha256": "1eed6bb632af51b9c668043d39fafb78b1ee9455339525e7b37ee7a0070fad72",
+    "release_tag": "pdcd1-rebase-v1-history-62914ac00fa635d38755e25b",
+    "repository": "djbm10/Biotech-Asset-Valuation-Engine",
+    "snapshot_id": "62914ac00fa635d38755e25b"
+  }
+}
