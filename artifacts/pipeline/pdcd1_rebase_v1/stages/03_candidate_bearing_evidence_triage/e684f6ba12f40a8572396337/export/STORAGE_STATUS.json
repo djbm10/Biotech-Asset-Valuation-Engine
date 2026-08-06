@@ -1,0 +1,48 @@
+{
+  "archive": "pdcd1-rebase-v1-evidence-triage-e684f6ba12f40a8572396337.tar.gz",
+  "sha256": "e27b346798000193b07b3d829c7530d6523726bde65be237f4e79115723b1e8c",
+  "byte_length": 12145934,
+  "raw_source_directory": null,
+  "storage_status": "REMOTE_DURABLE_VERIFIED",
+  "remote_storage": {
+    "provider": "GitHub Releases",
+    "github_repository": "djbm10/Biotech-Asset-Valuation-Engine",
+    "release_tag": "pdcd1-rebase-v1-evidence-triage-e684f6ba12f40a8572396337",
+    "release_url": "https://github.com/djbm10/Biotech-Asset-Valuation-Engine/releases/tag/pdcd1-rebase-v1-evidence-triage-e684f6ba12f40a8572396337",
+    "release_target_commitish": "c70d537bba728f0f4df9b5c7fed167b2fcb43c2c",
+    "checkpoint_commit": "c70d537bba728f0f4df9b5c7fed167b2fcb43c2c",
+    "dedicated_branch": "artifact/pdcd1-rebase-v1-evidence-triage",
+    "release_assets": [
+      {
+        "name": "pdcd1-rebase-v1-evidence-triage-e684f6ba12f40a8572396337.tar.gz",
+        "asset_id": "RA_kwDORermKc4eCUBE",
+        "download_url": "https://github.com/djbm10/Biotech-Asset-Valuation-Engine/releases/download/pdcd1-rebase-v1-evidence-triage-e684f6ba12f40a8572396337/pdcd1-rebase-v1-evidence-triage-e684f6ba12f40a8572396337.tar.gz",
+        "byte_length": 12145934,
+        "sha256": "e27b346798000193b07b3d829c7530d6523726bde65be237f4e79115723b1e8c"
+      },
+      {
+        "name": "pdcd1-rebase-v1-evidence-triage-e684f6ba12f40a8572396337.tar.gz.sha256",
+        "asset_id": "RA_kwDORermKc4eCUBD",
+        "download_url": "https://github.com/djbm10/Biotech-Asset-Valuation-Engine/releases/download/pdcd1-rebase-v1-evidence-triage-e684f6ba12f40a8572396337/pdcd1-rebase-v1-evidence-triage-e684f6ba12f40a8572396337.tar.gz.sha256",
+        "byte_length": 130
+      }
+    ]
+  },
+  "remote_download_verification": {
+    "timestamp": "2026-08-06T08:40:00Z",
+    "downloaded_via": "gh release download",
+    "checksum_file_verification": "PASSED (sha256sum -c against downloaded .sha256)",
+    "downloaded_archive_sha256": "e27b346798000193b07b3d829c7530d6523726bde65be237f4e79115723b1e8c",
+    "downloaded_archive_byte_length": 12145934,
+    "extraction_result": "SUCCESS",
+    "receipt_bound_artifacts_recomputed": 11,
+    "receipt_bound_hash_mismatches": [],
+    "receipt_validation_result": "PASSED",
+    "manifest_schema_validation_result": "PASSED",
+    "manifest_stage_status": "FINALIZED",
+    "manifest_scope_flags_all_false": true,
+    "mismatch_list": []
+  },
+  "note_on_finalized_files": "manifest.json and receipt.json were left untouched to avoid invalidating their existing hash bindings; this file is a separate, non-canonical companion record and is not part of receipt.json's artifact bindings.",
+  "note_on_large_derived_ledgers": "normalized/candidate_bearing_occurrence_ledger.jsonl (~36MB) and normalized/official_other_name_edge_ledger.jsonl (~19MB) are export-archive-only and were never committed as ordinary git blobs; they are included in this release's tar.gz and are covered by receipt.json's artifact hash bindings."
+}
