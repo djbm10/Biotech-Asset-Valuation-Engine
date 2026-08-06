@@ -1,0 +1,90 @@
+{
+  "checks": {
+    "accepted_isolated_strings_contain_no_unsupported_source_rewrite": {
+      "detail": [],
+      "pass": true
+    },
+    "all_4029_historical_versions_represented_in_source": {
+      "detail": 4029,
+      "pass": true
+    },
+    "dose_route_arm_cohort_text_not_treated_as_products": {
+      "detail": [],
+      "pass": true
+    },
+    "every_field_pointer_resolves": {
+      "detail": [],
+      "pass": true
+    },
+    "every_raw_string_exactly_matches_cited_source_field": {
+      "detail": [],
+      "pass": true
+    },
+    "exactly_300_frozen_row_bindings": {
+      "detail": 300,
+      "pass": true
+    },
+    "exactly_81_studies": {
+      "detail": 81,
+      "pass": true
+    },
+    "manifest_declares_lineage_and_milestone": {
+      "detail": null,
+      "pass": true
+    },
+    "manifest_scope_flags_all_false": {
+      "detail": null,
+      "pass": true
+    },
+    "multi_product_strings_not_silently_isolated_as_one_product": {
+      "detail": [],
+      "pass": true
+    },
+    "nct_ids_not_treated_as_product_codes": {
+      "detail": [],
+      "pass": true
+    },
+    "no_duplicate_occurrence_ids": {
+      "detail": [],
+      "pass": true
+    },
+    "no_out_of_scope_fields_present_anywhere_in_snapshot": {
+      "detail": [],
+      "pass": true
+    },
+    "not_every_frozen_occurrence_resolves_to_intervention_index_zero": {
+      "detail": {
+        "frozen_occurrence_count": 915,
+        "nonzero_index_count": 737
+      },
+      "pass": true
+    },
+    "official_other_name_edges_are_a_subset_of_registry_structure_derived_pairs": {
+      "detail": {
+        "independent_frozen_current_pair_lower_bound": 615,
+        "ledger_edge_count": 61505
+      },
+      "pass": true
+    },
+    "placebo_or_controls_not_product_like": {
+      "detail": [],
+      "pass": true
+    },
+    "presentation_grouping_is_deterministic_and_reproducible": {
+      "detail": null,
+      "pass": true
+    },
+    "receipt_bound_artifacts_match": {
+      "detail": [],
+      "pass": true
+    },
+    "target_only_strings_not_product_like": {
+      "detail": [],
+      "pass": true
+    }
+  },
+  "failed_checks": [],
+  "overall_pass": true,
+  "snapshot_dir": "artifacts/pipeline/pdcd1_rebase_v1/stages/03_candidate_bearing_evidence_triage/f5dd19d08deb59a75232d3bc",
+  "validator_schema_version": "1.0.0"
+}

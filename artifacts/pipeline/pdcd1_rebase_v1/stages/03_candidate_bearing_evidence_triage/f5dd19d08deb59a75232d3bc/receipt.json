@@ -1,0 +1,64 @@
+{
+  "aliases_adjudicated": false,
+  "artifacts": {
+    "extracted/frozen_row_evidence_bindings.jsonl": {
+      "byte_length": 59505,
+      "sha256": "f8310789323c87dcebcf65605aa25b966854b850e9cf535f38b220d91b9cf011"
+    },
+    "input/prerequisite_bindings.json": {
+      "byte_length": 1001,
+      "sha256": "4876b85c50b938df1ef0e735a55195d4c091c729ed681611a80f6fd364eba2bc"
+    },
+    "manifest.json": {
+      "byte_length": 12449,
+      "sha256": "580f1081b6ea31f1765ee7f59477d4cca65c86ca07eadc2b31d01c02e1ea81bb"
+    },
+    "normalized/candidate_bearing_occurrence_ledger.jsonl": {
+      "byte_length": 36982287,
+      "sha256": "3002b5797acdaf6deb42a3d35aae3fc913f78726c9c2426d027780ea96ad3a21"
+    },
+    "normalized/historical_appearance_ledger.jsonl": {
+      "byte_length": 147657,
+      "sha256": "164c7aa6e45aa70b6aa8cd19d3f642724bba57b995e01cabaae171d20a8d3c79"
+    },
+    "normalized/official_other_name_edge_ledger.jsonl": {
+      "byte_length": 18896246,
+      "sha256": "84150d0d9fbcd7e55cdf3f2e7304a8919f4587747eec1536642e65b0178746e1"
+    },
+    "normalized/parsed_component_ledger.jsonl": {
+      "byte_length": 22639,
+      "sha256": "21f16c373e97a03e19e8e63723de570d56a9a8179472f791c867fd150f6f53b2"
+    },
+    "normalized/presentation_variant_ledger.jsonl": {
+      "byte_length": 49013,
+      "sha256": "1dd75a431cbf82721de14d619409982851f7bb271da139602828c3232c9f55c9"
+    },
+    "normalized/unique_exact_string_ledger.jsonl": {
+      "byte_length": 2345126,
+      "sha256": "a5d7da9438eff1fc5c0b0a0fd05d67417d14bf6da787e0bbb827ee7706b035d6"
+    },
+    "triage/forensic_review_queue.jsonl": {
+      "byte_length": 90856,
+      "sha256": "374444b219b1c185ab3f846eed2540503c29389159b012c26cc8d56ef06f77ed"
+    },
+    "triage/targeted_review_queue.jsonl": {
+      "byte_length": 2239429,
+      "sha256": "f85f9216b1e78c2b5a5c5041616cf6e9111d6adb2527c7e01ebb3dead7f7da57"
+    },
+    "validation/triage_category_summary.json": {
+      "byte_length": 344,
+      "sha256": "e2fbdfe46599f8188da62f0161f815f754c395ef6c041ef4bf13239c5c056ac2"
+    }
+  },
+  "benchmark_labels_created": false,
+  "candidate_chronology_created": false,
+  "canonical_candidates_created": false,
+  "evaluation_performed": false,
+  "generated_at": "2026-08-06T21:58:58.442535+00:00",
+  "lineage": "REPRODUCIBLE_BIOTECH_PIPELINE_REBASE_V1",
+  "milestone": "PDCD1_BENCHMARK_REBASE_V1_MILESTONE_3_CANDIDATE_BEARING_EVIDENCE_EXTRACTION_AND_TRIAGE",
+  "ownership_claims_created": false,
+  "predictions_generated": false,
+  "snapshot_id": "f5dd19d08deb59a75232d3bc",
+  "status": "FINALIZED"
+}

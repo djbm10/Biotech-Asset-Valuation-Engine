@@ -130,9 +130,16 @@ def test_ambiguous_boundary_not_guessed_at():
 
 
 def test_official_other_name_only_string_gets_weaker_category():
+    # Milestone 3B (Section 5): a bare, non-chemical-like comma with no explicit
+    # connector is no longer guessed as multi-product or single-name -- it must
+    # route to review rather than be silently resolved either way.
     lib = load("pdcd1_evidence_triage_lib.py")
     category, _ = lib.classify("Buzhong Yiqi Decoction, Hochu-ekki-to", "official_other_name", True)
-    assert category in ("OFFICIAL_OTHER_NAME_STRING", "MULTI_PRODUCT_OR_COMBINATION_STRING")
+    assert category in (
+        "OFFICIAL_OTHER_NAME_STRING",
+        "MULTI_PRODUCT_OR_COMBINATION_STRING",
+        "AMBIGUOUS_REQUIRES_REVIEW",
+    )
 
 
 def test_review_queues_do_not_resolve_cases():
@@ -188,9 +195,9 @@ def test_receipt_rejects_mutated_artifact(tmp_path):
 
 def test_already_finalized_short_circuits_without_reextraction():
     module = run_module()
-    snapshot = latest_finalized_snapshot(module)
-    manifest = json.loads((snapshot / "manifest.json").read_text())
-    found = module.find_finalized_snapshot_by_staging_key(manifest["staging_key"])
+    first = module.run_extraction(PREREQ / "m1" / "extracted", PREREQ / "m2" / "extracted")
+    assert first["status"] in ("FINALIZED", "ALREADY_FINALIZED")
+    found = module.find_finalized_snapshot_by_staging_key(first["staging_key"])
     assert found is not None
     result = module.run_extraction(PREREQ / "m1" / "extracted", PREREQ / "m2" / "extracted")
     assert result["status"] == "ALREADY_FINALIZED"

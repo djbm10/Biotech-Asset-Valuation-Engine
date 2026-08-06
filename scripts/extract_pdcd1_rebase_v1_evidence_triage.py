@@ -1,4 +1,4 @@
-"""Milestone 3: PDCD1_BENCHMARK_REBASE_V1_MILESTONE_3_CANDIDATE_BEARING_EVIDENCE_EXTRACTION_AND_TRIAGE.
+"""Milestone 3 / 3B: PDCD1_BENCHMARK_REBASE_V1_MILESTONE_3_CANDIDATE_BEARING_EVIDENCE_EXTRACTION_AND_TRIAGE.
 
 Extracts and triages candidate-bearing registry evidence (intervention
 names, official other-names) from the frozen Milestone 1 population (81
@@ -6,6 +6,11 @@ studies / 300 intervention rows) and the complete Milestone 2 registry
 history capture. This stage performs evidence triage only: it does not
 create canonical candidates, aliases, ownership claims, candidate
 chronology, benchmark labels, predictions, or evaluation metrics.
+
+Milestone 3B hardening: extraction is unitized per study (NCT ID) with a
+resumable, hash-verified checkpoint per unit. A build root's checkpoints
+and outputs are fully independent of any other build root -- nothing here
+reads from or writes to another build's directories.
 """
 from __future__ import annotations
 
@@ -35,6 +40,9 @@ MILESTONE2_REPO = "djbm10/Biotech-Asset-Valuation-Engine"
 REPO_ROOT = Path(__file__).resolve().parents[1]
 STAGE_ROOT = REPO_ROOT / "artifacts" / "pipeline" / "pdcd1_rebase_v1" / "stages" / STAGE
 STAGING_ROOT = STAGE_ROOT / "_staging"
+
+SEMANTIC_VALIDATOR_PATH = Path(__file__).resolve().parent / "validate_pdcd1_rebase_v1_evidence_triage.py"
+SEMANTIC_VALIDATOR_VERSION_HASH = lib.sha_bytes(SEMANTIC_VALIDATOR_PATH.read_bytes())
 
 SCOPE_FLAGS = {
     "canonical_candidates_created": False,
@@ -161,42 +169,8 @@ def load_prerequisite_m2(m2_dir: Path, expected_nct_ids: set[str]) -> dict:
 
 
 # ---------------------------------------------------------------------------
-# Occurrence extraction
+# Occurrence extraction (per-unit == per-study/NCT ID)
 # ---------------------------------------------------------------------------
-
-def _intervention_occurrences(
-    interventions: list[dict],
-    base_pointer: str,
-    nct_id: str,
-    version_flag: str,
-    version: int | None,
-    version_date: str | None,
-    frozen_row_id: str | None,
-) -> list[dict]:
-    occ = []
-    for i, iv in enumerate(interventions):
-        name = iv.get("name")
-        if isinstance(name, str):
-            pointer = f"{base_pointer}/{i}/name"
-            occ.append(
-                _make_occurrence(
-                    nct_id, version_flag, version, version_date, i, "name", None,
-                    pointer, name, frozen_row_id,
-                )
-            )
-        other_names = iv.get("otherNames")
-        if isinstance(other_names, list):
-            for j, on in enumerate(other_names):
-                if isinstance(on, str):
-                    pointer = f"{base_pointer}/{i}/otherNames/{j}"
-                    occ.append(
-                        _make_occurrence(
-                            nct_id, version_flag, version, version_date, i,
-                            "official_other_name", j, pointer, on, frozen_row_id,
-                        )
-                    )
-    return occ
-
 
 def _make_occurrence(
     nct_id, version_flag, version, version_date, intervention_index, field_class,
@@ -231,10 +205,47 @@ def _make_occurrence(
     }
 
 
-def extract_occurrences(m1: dict, m2: dict) -> list[dict]:
+def _intervention_occurrences(
+    interventions: list[dict],
+    base_pointer: str,
+    nct_id: str,
+    version_flag: str,
+    version: int | None,
+    version_date: str | None,
+) -> list[dict]:
+    occ = []
+    for i, iv in enumerate(interventions):
+        name = iv.get("name")
+        if isinstance(name, str):
+            pointer = f"{base_pointer}/{i}/name"
+            occ.append(
+                _make_occurrence(
+                    nct_id, version_flag, version, version_date, i, "name", None,
+                    pointer, name, None,
+                )
+            )
+        other_names = iv.get("otherNames")
+        if isinstance(other_names, list):
+            for j, on in enumerate(other_names):
+                if isinstance(on, str):
+                    pointer = f"{base_pointer}/{i}/otherNames/{j}"
+                    occ.append(
+                        _make_occurrence(
+                            nct_id, version_flag, version, version_date, i,
+                            "official_other_name", j, pointer, on, None,
+                        )
+                    )
+    return occ
+
+
+def extract_unit_occurrences(nct_id: str, frozen_rows_for_nct: list[dict], m2: dict) -> list[dict]:
+    """Extract every occurrence belonging to a single study (NCT ID): its
+    frozen-row (current) intervention evidence plus its complete historical
+    version evidence. This is the resumable checkpoint unit.
+    """
     occurrences: list[dict] = []
 
-    for row in m1["frozen_rows"]:
+    for row in frozen_rows_for_nct:
         base_pointer = (
             f"/studies/{row['study_index']}/protocolSection/armsInterventionsModule/interventions"
         )
@@ -262,31 +273,121 @@ def extract_occurrences(m1: dict, m2: dict) -> list[dict]:
                     )
 
     m2_root = m2["root"]
-    for nct_id in sorted(m2["versions_by_nct"]):
-        for vrow in m2["versions_by_nct"][nct_id]:
-            version = vrow["version"]
-            path = m2_root / vrow["path"]
-            raw_bytes = path.read_bytes()
-            if lib.sha_bytes(raw_bytes) != vrow["sha256"]:
-                raise ValueError(f"VERSION_ARTIFACT_HASH_MISMATCH: {vrow['path']}")
-            body = json.loads(raw_bytes)
-            interventions = (
-                body.get("study", {})
-                .get("protocolSection", {})
-                .get("armsInterventionsModule", {})
-                .get("interventions", [])
+    for vrow in m2["versions_by_nct"].get(nct_id, []):
+        version = vrow["version"]
+        path = m2_root / vrow["path"]
+        raw_bytes = path.read_bytes()
+        if lib.sha_bytes(raw_bytes) != vrow["sha256"]:
+            raise ValueError(f"VERSION_ARTIFACT_HASH_MISMATCH: {vrow['path']}")
+        body = json.loads(raw_bytes)
+        interventions = (
+            body.get("study", {})
+            .get("protocolSection", {})
+            .get("armsInterventionsModule", {})
+            .get("interventions", [])
+        )
+        version_flag = "ORIGINAL_VERSION" if version == 0 else "HISTORICAL_VERSION"
+        base_pointer = "/study/protocolSection/armsInterventionsModule/interventions"
+        occurrences.extend(
+            _intervention_occurrences(
+                interventions, base_pointer, nct_id, version_flag, version, vrow.get("version_date"),
             )
-            version_flag = "ORIGINAL_VERSION" if version == 0 else "HISTORICAL_VERSION"
-            base_pointer = "/study/protocolSection/armsInterventionsModule/interventions"
-            occurrences.extend(
-                _intervention_occurrences(
-                    interventions, base_pointer, nct_id, version_flag, version,
-                    vrow.get("version_date"), None,
-                )
-            )
+        )
 
     occurrences.sort(key=lambda o: o["occurrence_id"])
     return occurrences
+
+
+def unit_prerequisite_bindings(nct_id: str, m2: dict) -> dict:
+    versions = m2["versions_by_nct"].get(nct_id, [])
+    return {
+        "nct_id": nct_id,
+        "milestone1_snapshot_id": MILESTONE1_SNAPSHOT_ID,
+        "milestone2_snapshot_id": MILESTONE2_SNAPSHOT_ID,
+        "version_shas": sorted(v["sha256"] for v in versions),
+    }
+
+
+def process_units_with_checkpoints(
+    m1: dict,
+    m2: dict,
+    checkpoint_dir: Path,
+    extraction_rules_hash: str,
+    stop_after_units: int | None = None,
+) -> tuple[list[dict], dict]:
+    """Resumable per-study extraction. A completed unit's checkpoint is
+    reused with zero recomputation only if its prerequisite bindings and
+    rules hash match the current run AND its stored occurrences still hash
+    to the checkpoint's own recorded output_hash (guards against a
+    corrupted completed unit being silently reused instead of recomputed).
+    """
+    checkpoint_dir.mkdir(parents=True, exist_ok=True)
+    frozen_by_nct: dict[str, list[dict]] = {}
+    for row in m1["frozen_rows"]:
+        frozen_by_nct.setdefault(row["nct_id"], []).append(row)
+
+    telemetry = {
+        "units_total": len(m1["nct_ids"]),
+        "units_processed": 0,
+        "units_reused_from_checkpoint": 0,
+        "units_recomputed": 0,
+        "units_rejected_corrupted_checkpoint": 0,
+        "units_skipped_due_to_interruption": 0,
+    }
+
+    all_occurrences: list[dict] = []
+    unit_output_hashes: dict[str, str] = {}
+    for idx, nct_id in enumerate(sorted(m1["nct_ids"])):
+        if stop_after_units is not None and idx >= stop_after_units:
+            telemetry["units_skipped_due_to_interruption"] += 1
+            continue
+
+        bindings = unit_prerequisite_bindings(nct_id, m2)
+        ckpt_path = checkpoint_dir / f"{nct_id}.json"
+        reused = False
+        if ckpt_path.is_file():
+            try:
+                ckpt = json.loads(ckpt_path.read_text())
+            except (json.JSONDecodeError, OSError):
+                ckpt = None
+            if ckpt is not None:
+                valid = (
+                    ckpt.get("prerequisite_source_bindings") == bindings
+                    and ckpt.get("extraction_rules_hash") == extraction_rules_hash
+                    and ckpt.get("completion_status") == "COMPLETE"
+                    and lib.stable_hash(ckpt.get("occurrences", [])) == ckpt.get("output_hash")
+                )
+                if valid:
+                    all_occurrences.extend(ckpt["occurrences"])
+                    unit_output_hashes[nct_id] = ckpt["output_hash"]
+                    telemetry["units_reused_from_checkpoint"] += 1
+                    reused = True
+                else:
+                    telemetry["units_rejected_corrupted_checkpoint"] += 1
+
+        if not reused:
+            occs = extract_unit_occurrences(nct_id, frozen_by_nct.get(nct_id, []), m2)
+            output_hash = lib.stable_hash(occs)
+            checkpoint_record = {
+                "unit_id": nct_id,
+                "prerequisite_source_bindings": bindings,
+                "extraction_rules_hash": extraction_rules_hash,
+                "occurrences": occs,
+                "output_hash": output_hash,
+                "completion_status": "COMPLETE",
+            }
+            atomic_write_json(ckpt_path, {**checkpoint_record, "generated_at": utcnow()})
+            all_occurrences.extend(occs)
+            unit_output_hashes[nct_id] = output_hash
+            telemetry["units_recomputed"] += 1
+
+        telemetry["units_processed"] += 1
+
+    all_occurrences.sort(key=lambda o: o["occurrence_id"])
+    telemetry["unit_output_manifest"] = [
+        {"unit_id": k, "output_hash": unit_output_hashes[k]} for k in sorted(unit_output_hashes)
+    ]
+    return all_occurrences, telemetry
 
 
 # ---------------------------------------------------------------------------
@@ -375,7 +476,7 @@ def classify_unique_strings(unique_strings: dict[str, dict]) -> dict[str, dict]:
         field_classes = set(entry["field_classes"])
         is_otherName_only = field_classes == {"official_other_name"}
         category, flags = lib.classify(key, sorted(field_classes)[0] if len(field_classes) == 1 else "mixed", is_otherName_only)
-        components = lib.parse_components(key) if category == "MULTI_PRODUCT_OR_COMBINATION_STRING" else []
+        components = lib.parse_components(key)
         classified[key] = {
             "unique_string_key": key,
             "triage_category": category,
@@ -385,6 +486,29 @@ def classify_unique_strings(unique_strings: dict[str, dict]) -> dict[str, dict]:
             "distinct_raw_spellings": entry["distinct_raw_spellings"],
         }
     return classified
+
+
+def build_parsed_component_ledger(classified: dict[str, dict]) -> list[dict]:
+    """Standalone artifact (Milestone 3B Section 3): one row per component
+    of every unique string that actually parsed into 2+ explicit-connector
+    components. Never resolves components to products; records offsets
+    into the exact source string.
+    """
+    rows = []
+    for key in sorted(classified):
+        entry = classified[key]
+        for component_index, component in enumerate(entry["components"]):
+            rows.append(
+                {
+                    "unique_string_key": key,
+                    "component_index": component_index,
+                    "text": component["text"],
+                    "start_offset": component["start_offset"],
+                    "end_offset": component["end_offset"],
+                    "component_class": component["component_class"],
+                }
+            )
+    return rows
 
 
 def build_historical_appearance_ledger(occurrences: list[dict]) -> dict[str, dict]:
@@ -459,8 +583,8 @@ def build_review_queues(classified: dict[str, dict], presentation_groups: dict[s
                 targeted.append(entry)
             else:
                 forensic.append(entry)
-    targeted.sort(key=lambda e: e["unique_string_key"])
-    forensic.sort(key=lambda e: e["unique_string_key"])
+    targeted.sort(key=lambda e: (e["unique_string_key"], e["reason"]))
+    forensic.sort(key=lambda e: (e["unique_string_key"], e["reason"]))
     return targeted, forensic
 
 
@@ -481,11 +605,12 @@ def compute_staging_key(m1: dict, m2: dict) -> str:
     )
 
 
-def find_finalized_snapshot_by_staging_key(staging_key: str) -> Path | None:
-    if not STAGE_ROOT.is_dir():
+def find_finalized_snapshot_by_staging_key(staging_key: str, output_root: Path | None = None) -> Path | None:
+    root = output_root if output_root is not None else STAGE_ROOT
+    if not root.is_dir():
         return None
-    for p in STAGE_ROOT.iterdir():
-        if not p.is_dir() or p.name == "_staging":
+    for p in root.iterdir():
+        if not p.is_dir() or p.name in ("_staging", "_checkpoints"):
             continue
         manifest_path = p / "manifest.json"
         if not manifest_path.is_file():
@@ -499,12 +624,21 @@ def find_finalized_snapshot_by_staging_key(staging_key: str) -> Path | None:
     return None
 
 
-def run_extraction(m1_dir: Path, m2_dir: Path) -> dict:
+def run_extraction(
+    m1_dir: Path,
+    m2_dir: Path,
+    output_root: Path | None = None,
+    checkpoint_dir: Path | None = None,
+    stop_after_units: int | None = None,
+) -> dict:
+    output_root = output_root if output_root is not None else STAGE_ROOT
+    staging_root = output_root / "_staging"
+
     m1 = load_prerequisite_m1(m1_dir)
     m2 = load_prerequisite_m2(m2_dir, set(m1["nct_ids"]))
     staging_key = compute_staging_key(m1, m2)
 
-    existing = find_finalized_snapshot_by_staging_key(staging_key)
+    existing = find_finalized_snapshot_by_staging_key(staging_key, output_root)
     if existing is not None:
         return {
             "status": "ALREADY_FINALIZED",
@@ -513,14 +647,28 @@ def run_extraction(m1_dir: Path, m2_dir: Path) -> dict:
             "counters": {
                 "api_calls": 0, "downloads": 0, "source_extraction_operations": 0,
                 "adjudications": 0, "predictions": 0, "scoring_operations": 0, "writes": 0,
+                "checkpoint_creation": False,
             },
         }
 
-    occurrences = extract_occurrences(m1, m2)
+    ckpt_dir = checkpoint_dir if checkpoint_dir is not None else output_root / "_checkpoints" / staging_key / "units"
+    occurrences, unit_telemetry = process_units_with_checkpoints(
+        m1, m2, ckpt_dir, lib.EXTRACTION_RULES_HASH, stop_after_units=stop_after_units,
+    )
+
+    if stop_after_units is not None:
+        return {
+            "status": "INTERRUPTED",
+            "staging_key": staging_key,
+            "unit_telemetry": unit_telemetry,
+            "checkpoint_dir": ckpt_dir,
+        }
+
     unique_strings = build_unique_exact_string_ledger(occurrences)
     presentation_groups = build_presentation_variant_ledger(unique_strings)
     edges = build_official_other_name_edges(occurrences)
     classified = classify_unique_strings(unique_strings)
+    parsed_components = build_parsed_component_ledger(classified)
     historical_appearance = build_historical_appearance_ledger(occurrences)
     frozen_bindings = build_frozen_row_bindings(m1, occurrences)
     targeted_queue, forensic_queue = build_review_queues(classified, presentation_groups)
@@ -532,19 +680,26 @@ def run_extraction(m1_dir: Path, m2_dir: Path) -> dict:
             "unique_string_keys": sorted(unique_strings.keys()),
             "edge_ids": sorted(e["edge_id"] for e in edges),
             "triage_categories": {k: v["triage_category"] for k, v in sorted(classified.items())},
+            "parsed_component_count": len(parsed_components),
         }
     )
     triage_snapshot_id = lib.stable_hash(
-        {"staging_key": staging_key, "derived_evidence_manifest_hash": derived_evidence_manifest_hash}
+        {
+            "staging_key": staging_key,
+            "derived_evidence_manifest_hash": derived_evidence_manifest_hash,
+            "semantic_validator_version_hash": SEMANTIC_VALIDATOR_VERSION_HASH,
+            "unit_output_manifest": unit_telemetry["unit_output_manifest"],
+        }
     )[:24]
 
-    final_dir = STAGE_ROOT / triage_snapshot_id
-    staging_dir = STAGING_ROOT / triage_snapshot_id
+    final_dir = output_root / triage_snapshot_id
+    staging_dir = staging_root / triage_snapshot_id
 
     write_snapshot(
         staging_dir, m1, m2, occurrences, unique_strings, presentation_groups, edges,
-        classified, historical_appearance, frozen_bindings, targeted_queue, forensic_queue,
-        staging_key, triage_snapshot_id, derived_evidence_manifest_hash,
+        classified, parsed_components, historical_appearance, frozen_bindings,
+        targeted_queue, forensic_queue, staging_key, triage_snapshot_id,
+        derived_evidence_manifest_hash, unit_telemetry["unit_output_manifest"],
     )
 
     final_dir.parent.mkdir(parents=True, exist_ok=True)
@@ -555,11 +710,13 @@ def run_extraction(m1_dir: Path, m2_dir: Path) -> dict:
         "snapshot_dir": final_dir,
         "staging_key": staging_key,
         "triage_snapshot_id": triage_snapshot_id,
+        "unit_telemetry": unit_telemetry,
         "counters": {
             "occurrences": len(occurrences),
             "unique_strings": len(unique_strings),
             "presentation_groups": len(presentation_groups),
             "edges": len(edges),
+            "parsed_components": len(parsed_components),
             "frozen_rows": len(frozen_bindings),
             "targeted_queue": len(targeted_queue),
             "forensic_queue": len(forensic_queue),
@@ -569,8 +726,9 @@ def run_extraction(m1_dir: Path, m2_dir: Path) -> dict:
 
 def write_snapshot(
     staging_dir, m1, m2, occurrences, unique_strings, presentation_groups, edges,
-    classified, historical_appearance, frozen_bindings, targeted_queue, forensic_queue,
-    staging_key, triage_snapshot_id, derived_evidence_manifest_hash,
+    classified, parsed_components, historical_appearance, frozen_bindings,
+    targeted_queue, forensic_queue, staging_key, triage_snapshot_id,
+    derived_evidence_manifest_hash, unit_output_manifest=None,
 ) -> None:
     if staging_dir.exists():
         import shutil
@@ -624,6 +782,7 @@ def write_snapshot(
         [presentation_groups[k] for k in sorted(presentation_groups)],
     )
     atomic_write_jsonl(normalized_dir / "official_other_name_edge_ledger.jsonl", edges)
+    atomic_write_jsonl(normalized_dir / "parsed_component_ledger.jsonl", parsed_components)
     atomic_write_jsonl(
         normalized_dir / "historical_appearance_ledger.jsonl",
         [historical_appearance[k] for k in sorted(historical_appearance)],
@@ -648,6 +807,8 @@ def write_snapshot(
         "staging_key": staging_key,
         "triage_snapshot_id": triage_snapshot_id,
         "derived_evidence_manifest_hash": derived_evidence_manifest_hash,
+        "semantic_validator_version_hash": SEMANTIC_VALIDATOR_VERSION_HASH,
+        "unit_output_manifest": unit_output_manifest or [],
         "extractor_schema_version": lib.EXTRACTOR_SCHEMA_VERSION,
         "extraction_rules_hash": lib.EXTRACTION_RULES_HASH,
         "milestone1_prerequisite": {
@@ -664,6 +825,7 @@ def write_snapshot(
             "unique_string_count": len(unique_strings),
             "presentation_group_count": len(presentation_groups),
             "official_other_name_edge_count": len(edges),
+            "parsed_component_count": len(parsed_components),
             "frozen_row_binding_count": len(frozen_bindings),
             "targeted_review_queue_count": len(targeted_queue),
             "forensic_review_queue_count": len(forensic_queue),
@@ -731,9 +893,17 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--m1-dir", required=True, type=Path)
     parser.add_argument("--m2-dir", required=True, type=Path)
+    parser.add_argument("--output-root", type=Path, default=None)
+    parser.add_argument("--checkpoint-dir", type=Path, default=None)
+    parser.add_argument("--stop-after-units", type=int, default=None)
     args = parser.parse_args()
 
-    result = run_extraction(args.m1_dir, args.m2_dir)
+    result = run_extraction(
+        args.m1_dir, args.m2_dir,
+        output_root=args.output_root,
+        checkpoint_dir=args.checkpoint_dir,
+        stop_after_units=args.stop_after_units,
+    )
     print(json.dumps({k: (str(v) if isinstance(v, Path) else v) for k, v in result.items()}, indent=2, default=str))
     return 0
 

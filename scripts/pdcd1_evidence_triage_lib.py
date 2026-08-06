@@ -81,9 +81,25 @@ ARM_COHORT_RE = re.compile(
 )
 
 CONNECTOR_SPLIT_RE = re.compile(
-    r"\s*(?:\+|,|;|/|\band\b|\bplus\b|\bwith\b|\bcombined with\b|\bin combination with\b)\s*",
+    r"\s*(?:\+|;|/|\band\b|\bplus\b|\bwith\b|\bcombined with\b|\bin combination with\b"
+    r"|\bfollowed by\b|\bversus\b|\bvs\.?\b)\s*",
     re.IGNORECASE,
 )
+
+# Milestone 3B Section 5: a bare comma is deliberately NOT a connector. Only
+# these explicit tokens/symbols are evidence of multiple registry-string
+# components; a comma inside an otherwise-single string (very common in
+# IUPAC/chemical nomenclature, e.g. "1-Nitrosourea, 1-(2-chloroethyl)-3-
+# cyclohexyl-") must not be silently promoted to
+# MULTI_PRODUCT_OR_COMBINATION_STRING.
+CHEMICAL_LOCANT_RE = re.compile(r"\d+[a-zA-Z]?-")
+STEREOCHEM_RE = re.compile(r"\((?:\d*[RSEZrsez](?:,\d*[RSEZrsez])*)\)")
+BRACKET_RE = re.compile(r"[\[\]{}]")
+# Deliberately no suffix-based heuristic (e.g. "-ide", "-ol", "-ane"): ordinary
+# drug names in a comma/"or"-separated list (e.g. "dacarbazine, temozolomide,
+# paclitaxel or platinum") commonly end in such suffixes, so a suffix rule
+# would misclassify a genuine multi-drug list as one chemical name. Only
+# structural IUPAC evidence (locants, stereodescriptors, brackets) counts.
 
 TRADEMARK_CHARS = "™®©"  # ™ ® ©
 HYPHEN_VARIANTS = "‐‑‒–—―-"
@@ -111,6 +127,9 @@ RULES_DEFINITION = {
     "dose_pattern": DOSE_RE.pattern,
     "arm_cohort_pattern": ARM_COHORT_RE.pattern,
     "connector_split_pattern": CONNECTOR_SPLIT_RE.pattern,
+    "chemical_locant_pattern": CHEMICAL_LOCANT_RE.pattern,
+    "stereochem_pattern": STEREOCHEM_RE.pattern,
+    "bracket_pattern": BRACKET_RE.pattern,
 }
 
 EXTRACTION_RULES_HASH = stable_hash(RULES_DEFINITION)
@@ -141,21 +160,46 @@ def normalize_for_lexicon(s: str) -> str:
     return t
 
 
+def looks_chemical_like(stripped: str) -> bool:
+    """Conservative signal that a string is a single IUPAC/chemical-style
+    name whose internal commas are punctuation, not product separators.
+    Any one structural signal (locants, stereodescriptors, or brackets) is
+    enough to treat the string as one ambiguous unit.
+    """
+    return bool(
+        CHEMICAL_LOCANT_RE.search(stripped)
+        or STEREOCHEM_RE.search(stripped)
+        or BRACKET_RE.search(stripped)
+    )
+
+
 def classify_content(raw: str) -> tuple[str, dict]:
     """Return (category, flags) based on string content alone, ignoring
     which field it was observed in. This is the content-based category;
     the OFFICIAL_OTHER_NAME_STRING override is applied by the caller,
     which has field-provenance context this function does not.
+
+    Milestone 3B Section 5: a bare comma no longer implies multiple
+    products. Comma-containing strings are routed through a conservative
+    chemical-name check; the resulting POSSIBLE_SINGLE_CHEMICAL_NAME_WITH_
+    INTERNAL_COMMAS flag never decides identity by itself, and strings
+    that are neither chemical-like nor otherwise unambiguous are sent to
+    AMBIGUOUS_REQUIRES_REVIEW rather than guessed at.
     """
+    stripped = raw.strip()
     flags = {
         "contains_target_token": bool(
             re.search(r"pd-?1|pdcd1|pd-?l1", raw, re.IGNORECASE)
         ),
-        "contains_connector": bool(CONNECTOR_SPLIT_RE.search(raw.strip())),
-        "is_nct_id_like": bool(NCT_ID_RE.match(raw.strip())),
+        "contains_connector": bool(CONNECTOR_SPLIT_RE.search(stripped)),
+        "is_nct_id_like": bool(NCT_ID_RE.match(stripped)),
+        "has_comma": "," in stripped,
+        "looks_chemical_like": looks_chemical_like(stripped),
     }
+    flags["possible_single_chemical_name_with_internal_commas"] = (
+        flags["has_comma"] and not flags["contains_connector"] and flags["looks_chemical_like"]
+    )
 
-    stripped = raw.strip()
     if not stripped:
         return "MALFORMED_OR_EMPTY", flags
 
@@ -181,6 +225,15 @@ def classify_content(raw: str) -> tuple[str, dict]:
 
     if flags["contains_connector"]:
         return "MULTI_PRODUCT_OR_COMBINATION_STRING", flags
+
+    if flags["has_comma"]:
+        # No explicit connector token fired. Never guess: chemical-like
+        # commas stay one ambiguous product-like unit; anything else with
+        # an unexplained comma is uncertain and must be reviewed, not
+        # silently classified either way.
+        if flags["looks_chemical_like"] and 1 <= len(stripped) <= 200:
+            return "ISOLATED_PRODUCT_LIKE_STRING", flags
+        return "AMBIGUOUS_REQUIRES_REVIEW", flags
 
     if 1 <= len(stripped) <= 120:
         return "ISOLATED_PRODUCT_LIKE_STRING", flags
@@ -276,5 +329,10 @@ def review_routing(unique_string_row: dict) -> list[dict]:
         if flags.get("contains_target_token"):
             routes.append({"queue": "FORENSIC", "reason": "generic_anti_pd1_language_mixed_with_possible_product_code"})
     if category == "AMBIGUOUS_REQUIRES_REVIEW":
-        routes.append({"queue": "FORENSIC", "reason": "unparseable_or_ambiguous_string"})
+        if flags.get("has_comma") and not flags.get("contains_connector"):
+            routes.append({"queue": "FORENSIC", "reason": "unexplained_internal_comma_not_chemical_like"})
+        else:
+            routes.append({"queue": "FORENSIC", "reason": "unparseable_or_ambiguous_string"})
+    if flags.get("possible_single_chemical_name_with_internal_commas"):
+        routes.append({"queue": "TARGETED", "reason": "possible_single_chemical_name_with_internal_commas"})
     return routes
