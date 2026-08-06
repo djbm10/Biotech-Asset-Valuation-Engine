@@ -1,0 +1,68 @@
+{
+  "archive": "pdcd1-rebase-v1-history-62914ac00fa635d38755e25b.tar.gz",
+  "sha256": "e48ea84d623788957b2cd37a9737b2b3a0c201bce9fd3902faf7a34223c639ae",
+  "byte_length": 46428691,
+  "raw_source_directory": "source/",
+  "raw_source_total_byte_length": 359628977,
+  "storage_status": "REMOTE_DURABLE_VERIFIED",
+  "remote_storage": {
+    "provider": "GitHub Releases",
+    "github_repository": "djbm10/Biotech-Asset-Valuation-Engine",
+    "release_tag": "pdcd1-rebase-v1-history-62914ac00fa635d38755e25b",
+    "release_url": "https://github.com/djbm10/Biotech-Asset-Valuation-Engine/releases/tag/pdcd1-rebase-v1-history-62914ac00fa635d38755e25b",
+    "release_target_commitish": "f9297a8d7dbd8d6781324588b8202f2a327d0e3c",
+    "checkpoint_commit": "f9297a8d7dbd8d6781324588b8202f2a327d0e3c",
+    "dedicated_branch": "artifact/pdcd1-rebase-v1-history",
+    "release_assets": [
+      {
+        "name": "pdcd1-rebase-v1-history-62914ac00fa635d38755e25b.tar.gz",
+        "asset_id": "RA_kwDORermKc4eCJbI",
+        "download_url": "https://github.com/djbm10/Biotech-Asset-Valuation-Engine/releases/download/pdcd1-rebase-v1-history-62914ac00fa635d38755e25b/pdcd1-rebase-v1-history-62914ac00fa635d38755e25b.tar.gz",
+        "byte_length": 46428691,
+        "sha256": "e48ea84d623788957b2cd37a9737b2b3a0c201bce9fd3902faf7a34223c639ae"
+      },
+      {
+        "name": "pdcd1-rebase-v1-history-62914ac00fa635d38755e25b.tar.gz.sha256",
+        "asset_id": "RA_kwDORermKc4eCJbJ",
+        "download_url": "https://github.com/djbm10/Biotech-Asset-Valuation-Engine/releases/download/pdcd1-rebase-v1-history-62914ac00fa635d38755e25b/pdcd1-rebase-v1-history-62914ac00fa635d38755e25b.tar.gz.sha256",
+        "byte_length": 122
+      }
+    ]
+  },
+  "remote_download_verification": {
+    "timestamp": "2026-08-06T11:52:00Z",
+    "downloaded_via": "gh release download",
+    "checksum_file_verification": "PASSED (sha256sum -c against downloaded .sha256)",
+    "downloaded_archive_sha256": "e48ea84d623788957b2cd37a9737b2b3a0c201bce9fd3902faf7a34223c639ae",
+    "downloaded_archive_byte_length": 46428691,
+    "extraction_result": "SUCCESS",
+    "receipt_bound_artifacts_recomputed": 8390,
+    "receipt_bound_hash_mismatches": [],
+    "receipt_validation_result": "PASSED",
+    "manifest_schema_validation_result": "PASSED",
+    "receipt_schema_validation_result": "PASSED",
+    "content_categories_confirmed_present": {
+      "history_index_raw": true,
+      "version_bodies_raw": true,
+      "current_raw": true,
+      "normalized_ledgers": true,
+      "manifest": true,
+      "receipt": true,
+      "commands_log": true
+    },
+    "byte_identical_comparison_against_local_committed_files": {
+      "manifest.json": "MATCH",
+      "receipt.json": "MATCH",
+      "commands.jsonl": "MATCH",
+      "logs/capture.jsonl": "MATCH",
+      "input/staging_manifest.json": "MATCH",
+      "normalized/history_index_ledger.jsonl": "MATCH",
+      "normalized/version_ledger.jsonl": "MATCH",
+      "normalized/current_ledger.jsonl": "MATCH",
+      "validation/completeness_report.json": "MATCH"
+    },
+    "mismatch_list": [],
+    "raw_response_and_normalized_ledgers_confirmed_inside_archive": true
+  },
+  "note_on_finalized_files": "manifest.json and receipt.json were left untouched to avoid invalidating their existing hash bindings; this file is a separate, non-canonical companion record and is not part of receipt.json's artifact bindings."
+}
