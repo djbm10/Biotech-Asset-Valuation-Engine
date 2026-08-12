@@ -1,0 +1,879 @@
+{"query": "Venetoclax", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "0276bf53bd5f2c1ae85a2aeb"}
+{"query": "Questionnaire Administration", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "02d8041a6217715192761e0d"}
+{"query": "Biopsy Procedure", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "08a090ccd4626d642efd8c33"}
+{"query": "LEAP regimen", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "0967050c73b57f795e9e5764"}
+{"query": "Azacytidine, 5-", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "09e4ce7497b8c1a85184a2e8"}
+{"query": "Relatlimab", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "0a65bd5eec4c19bdd73d1657"}
+{"query": "Short-Course Radiotherapy", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "0bd5d0b0f6435066a7f19ea6"}
+{"query": "Cetuximab", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "0cd62e871e9a7bc37f965ca9"}
+{"query": "Tarlatamab", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "0e3ad2cc9382f262b904d667"}
+{"query": "Pumitamig", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "134ff8ba1f34e2f537bc5c0e"}
+{"query": "MK-2870", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "1366bedd7ade04578acb0a7b"}
+{"query": "Cisplatin", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "153356a5b1275962b649c22b"}
+{"query": "Nab-paclitaxel", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "159346330955d30e885368ff"}
+{"query": "MK-4830", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "1708b4c40a83897936186a8d"}
+{"query": "HS-20093", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "17d24704d021aa48af1317ce"}
+{"query": "MK-1308", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "17d921f0e4218022ec6f1c7c"}
+{"query": "IBI363", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "17f1cb4dd30b7875db7c6c0d"}
+{"query": "I-DXd", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "18123d2ce4147bef390a0fb7"}
+{"query": "Radiotherapy 70 Gray", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "181a20b1ca484fe52e28128c"}
+{"query": "Intestinal Low Dose Radiotherapy-2-3Gy", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "1917b21e7e93fe0494364a16"}
+{"query": "Blood Sample Collection", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "1918e653cb4021a70e950c32"}
+{"query": "Camrelizumab", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "1921005ada208ac3945cf876"}
+{"query": "TME surgery", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "1a6027fa29076527cd0fb79e"}
+{"query": "Rescue medication", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "1c8d6714fc0ac90b81e432e1"}
+{"query": "BI 1831169", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "1e79538b1d4fcff06e74e399"}
+{"query": "V940", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "1e86f6bc8aff9290ca393aba"}
+{"query": "Cabozantinib", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "21e09a19ca39f9440e37fa09"}
+{"query": "Sacituzumab tirumotecan", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "228148bade60168a1bbb8a7f"}
+{"query": "ZL-1310", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "2288630dbf3fb7486e455875"}
+{"query": "Paclitaxel Oral Solution", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "254207e4c470a4f4d479ba96"}
+{"query": "Enfortumab Vedotin-Ejfv", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "25f77d661e44f8fc619c82ac"}
+{"query": "AU-007", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "268bea2d107ade682d91dbe2"}
+{"query": "Domvanalimab", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "28b32ce0278ddd148f15d0f7"}
+{"query": "Control Arm", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "29af670f2f1adb67a8244c32"}
+{"query": "GB268", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "2a60d005ed24ec773d89d444"}
+{"query": "Positron Emission Tomography", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "2d65dd0936b91483fd21b7ee"}
+{"query": "Vibostolimab", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "2f21e7c61aa2555c9e842073"}
+{"query": "Sitagliptin", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "3028359a5d473cd9305dc482"}
+{"query": "Sacituzumab tirumotecan (sac-TMT)", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "310c9161cb8f2577da0f7935"}
+{"query": "HER3-DXd", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "32ac8a06d253f246b9d215c6"}
+{"query": "Gemcitabine Hydrochloride", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "3711748559031666cad4bb3a"}
+{"query": "BL-B01D1", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "38b924acc99bbcb3968d2232"}
+{"query": "Dostarlimab", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "394087099de7df379a18ee0e"}
+{"query": "GC101 TIL", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "3b0d349bff4c743662de98a5"}
+{"query": "Avelumab", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "3e812c7487e64bd0e62d83e1"}
+{"query": "serplulimab", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "3f11727425c577958e03f73a"}
+{"query": "Melphalan", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "3fad3e87b6d0969ebd72ddc1"}
+{"query": "Radiotherapy 66 Gray", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "401e9cec28c2bb3665a9642e"}
+{"query": "Doxorubicin", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "41a08881ce2b2c7aed74a174"}
+{"query": "BNT327", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "44cd977a3ea3d71a75dd9867"}
+{"query": "Tumor Imaging", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "4533a28338e86b29eb3759b6"}
+{"query": "Acasunlimab", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "457c040bb0be3d2f96f631ec"}
+{"query": "MK-6482", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "4787d55397cd774aab7b18a0"}
+{"query": "PD-1 Inhibitors", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "493e5342a1b0a85188a99309"}
+{"query": "Laboratory Biomarker Analysis", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "4a4bbafc8e18ae3463b91735"}
+{"query": "Budigalimab", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "4e42708ba7407f6cd4c8add5"}
+{"query": "nivolumab", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "50190af0b77705ade4974ece"}
+{"query": "Sitravatinib", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "51794fd204187ecc8e555bf0"}
+{"query": "Nimotuzumab", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "56212b61d8e35d31de6fddb7"}
+{"query": "Hafnium Oxide-containing Nanoparticles NBTXR3", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "572702b3a19fefad9449d962"}
+{"query": "Surgical Procedure", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "57796ce68330bdf072c7b69e"}
+{"query": "Intestinal Low Dose Radiotherapy-1Gy", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "5b2a2b6a80720bdc3aedda7a"}
+{"query": "Ifinatamab Deruxtecan (I-DXd)", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "5bdf4e913c2f043209fadf85"}
+{"query": "Aldesleukin", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "5d122129177a803d0274c06f"}
+{"query": "Sacituzumab Govitecan", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "5d65d851486418ddd18922d3"}
+{"query": "Gocatamig", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "5d77139045d3d554c0fa81f9"}
+{"query": "Quavonlimab", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "5dfe776d4851a3d1853b819b"}
+{"query": "Supportive care measures", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "5ed8fc65932176f75a2efeb9"}
+{"query": "Boserolimab", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "664526e231e9ed73ea1354a9"}
+{"query": "Radiotherapy 60 Gray", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "6713031c433c8c526d028a03"}
+{"query": "Lenvatinib", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "680aa4bb8a4fcf41e91de316"}
+{"query": "Nab-Paclitaxel", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "6ebfcb13af217164b276c229"}
+{"query": "Etrumadenant (AB928)", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "7004d8c130ec625580e72eb9"}
+{"query": "Azacitidine", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "7133ead493636609293d9c47"}
+{"query": "EVM14", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "71e44ff446d24b842cc72e6a"}
+{"query": "HRS-2329 Tablet", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "72dbc6be84127629e7201d1e"}
+{"query": "Rescue Medications", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "788d061adbb956694ff633b4"}
+{"query": "Ipilimumab", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "793ad478b33bb58b25dbce9e"}
+{"query": "Datopotamab Deruxtecan (Dato-DXd)", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "79de2765a1b82eb4e4415699"}
+{"query": "MRG007", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "79e3a19aec3d50fc8d32c42a"}
+{"query": "FOLFOX regimen", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "7a43a167987d7572c61f0945"}
+{"query": "Neoantigen Dendritic Cell Vaccine", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "7b8add3be7e14994e21dcab9"}
+{"query": "Gemcitabine", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "7be6a2733e88b8441f58a0c0"}
+{"query": "Tislelizumab", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "816bf862fb5c103b954725fe"}
+{"query": "Cyclophosphamide", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "81c1c92738fa51da4700c38c"}
+{"query": "SoC", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "83897635c554c92fb1163009"}
+{"query": "Elective nodal irradiation", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "887e5e48787441f333ecbb41"}
+{"query": "MK-7684", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "89e25cf8619a18f88523b640"}
+{"query": "Keytruda", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "8c8ed6c4bd371e3488e1650c"}
+{"query": "Durvalumab", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "8caebbfc66e098ebb435804f"}
+{"query": "LN-145", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "8dc50d50daed12b97837473b"}
+{"query": "Intismeran autogene", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "8e9bb5f5f4ba4a0cbde4ecb4"}
+{"query": "Standard of Care (SOC)", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "90cceb049d40c477fb6de43f"}
+{"query": "Botensilimab", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "910ec8e5b9bcc94b39c52d83"}
+{"query": "AK112", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "9124572355292dd4b8934deb"}
+{"query": "CR-001", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "9549eb0bc408c635d43b02d9"}
+{"query": "Docetaxel", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "9628d743824ce523ce723fd0"}
+{"query": "Bone Marrow Aspiration", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "980d6ffc26df583b701d0fe8"}
+{"query": "JNJ-63723283", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "982071bbe1f26b467c024efe"}
+{"query": "Echocardiography", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "9aa5ec666de7221adf66f6fe"}
+{"query": "Adebrelimab", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "9ed6afb2fde83ad1abe882d4"}
+{"query": "Ivonescimab", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "9f341094178a2859a5170ba6"}
+{"query": "Intestinal Low Dose Radiotherapy-3Gy", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "9f6859faf9929cb8eea8eece"}
+{"query": "MK-4280", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "9f81b87b12cdc17af1bb165e"}
+{"query": "Zanzalintinib", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "a29a2931aeb4721477ef959f"}
+{"query": "AB154", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "a37538aa7147a391ec1fa21e"}
+{"query": "Oxaliplatin", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "a6f11dfafa7268ebf213d0a0"}
+{"query": "Nephrectomy", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "aee315f31eccb26ca0acab84"}
+{"query": "Radical Esophagectomy", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "af3655d1cafc4ab3969bef9d"}
+{"query": "mFOLFOX6 regimen", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "b002c6a473c40549eed08483"}
+{"query": "GSK3745417", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "b1b8091795fc6ba5346813de"}
+{"query": "Tumor Tissue Collection", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "b758aeb1c6a3eb03dad5f00a"}
+{"query": "Lomustine", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "bab35ddf82afe3fd33dd4374"}
+{"query": "BNT326", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "babb6192535463ef38c29a73"}
+{"query": "Surgical resection", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "bc2c8116d91715ddd08f3fb4"}
+{"query": "Pemetrexed", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "bc3b828e2cfa23f9741c7fa0"}
+{"query": "Toripalimab", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "bcb0d0c641db1fd37be01911"}
+{"query": "Ramucirumab", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "bdf70fe06cc1dd5d227d605b"}
+{"query": "Olaparib", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "c1920e4ed89754bb111e7a37"}
+{"query": "TAK-928", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "c316b888608df5bc0a89230e"}
+{"query": "Magnetic Resonance Imaging", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "c31a7a30dfa523846c4c260c"}
+{"query": "PD-1 monoclonal antibody", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "c3c8f2abf61113acfe7abd36"}
+{"query": "Nivolumab-IRDye800", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "c9b6807974d6760b9989e847"}
+{"query": "Bojungikki-tang(BJIKT)", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "c9cd0ffb385a7f0f7385ad29"}
+{"query": "1-Nitrosourea, 1-(2-chloroethyl)-3-cyclohexyl-", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "cb317756e1e7cc23cb770afb"}
+{"query": "Bone Marrow Biopsy", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "ccb348a2fb56309df70f9415"}
+{"query": "JS207", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "cd12ca8306ac3ecde521b105"}
+{"query": "Bevacizumab", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "ce3db09a77e30f0d16a6f142"}
+{"query": "[11C]MODAG-005", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "d15638955b93b333aed2823a"}
+{"query": "Nivolumab", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "d237dbb70084ee42972a5ec0"}
+{"query": "Pembrolizumab", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "d2dc473b708038f28da5a110"}
+{"query": "MK-4280A", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "d78024f4373476c36756da34"}
+{"query": "MK-0482", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "d8c3c0f5ef3e61b69f60935c"}
+{"query": "Autologous Tumor Infiltrating Lymphocytes", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "d9d20b051e733106998fb1c7"}
+{"query": "Intestinal Low Dose Radiotherapy-2Gy", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "db3a2eed3d16b68ccf9283b9"}
+{"query": "Multigated Acquisition Scan", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "dc77fc58d7fd7d31eeebf11a"}
+{"query": "ezabenlimab", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "df7e0c67d619f5db6b8989b8"}
+{"query": "Rescue Medication", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "df80b817157fc11a5635b597"}
+{"query": "Epirubicin", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "e1af2e2aeda9a1148a8fc9e2"}
+{"query": "Eribulin Mesylate", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "e1dda7132555ed50f58b1b21"}
+{"query": "CAPOX", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "e2cf737112cc6832160c8f75"}
+{"query": "Platinum", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "e3816395134dd048441d1f76"}
+{"query": "Carboplatin", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "e58fe539f83bfeaefa2743fa"}
+{"query": "Atezolizumab", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "e5becb26e8df769a09309f8c"}
+{"query": "ABO2109 Injection", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "e9434a443f8f3fd6456289e9"}
+{"query": "Computed Tomography", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "e9867488c4ae822925a2f25d"}
+{"query": "Sacituzumab Tirumotecan", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "e98aecb5da03f1fa057fb9b5"}
+{"query": "Balstilimab", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "e98e9dfe3cf7f3d232a541c5"}
+{"query": "MK-1084", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "eb58a1685f9277b37b0a0f71"}
+{"query": "Involve-field irradiation", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "ec7385f30d04df870717570e"}
+{"query": "Monotonic right atrial overdrive pacing", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "ed9ba4cb8acf1e25654f6731"}
+{"query": "Zimberelimab", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "ee082127306d529208016c7c"}
+{"query": "BET Bromodomain Inhibitor ZEN-3694", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "ef201388c0d8757cbfb6bba9"}
+{"query": "Biospecimen Collection", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "efdc9c18b07a1d785286263a"}
+{"query": "Echocardiography Test", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "f038a7ea7207ffd624b2e56e"}
+{"query": "Telisotuzumab Adizutecan", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "f0f22cbda721a65e0f6df8b7"}
+{"query": "laboratory biomarker analysis", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "f274635c19b3c42b1f8e608d"}
+{"query": "X-Ray Imaging", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "f311f7110c3c826947e34dd4"}
+{"query": "Pucotenlimab", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "f53d4386fb0bfdf082d5a49d"}
+{"query": "Pemetrexed injection", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "f5b62075cd1d7c8c44cfb273"}
+{"query": "Bone Scan", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "f6ef8eb973114912187f7ef5"}
+{"query": "Zimberelimab (AB122)", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "f76ce1518835e67e1e6b9ed9"}
+{"query": "Capecitabine", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "f8464ab056c83e4d97cc80fd"}
+{"query": "Belzutifan", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "f9c2260ad3d7994bee580d43"}
+{"query": "Pembrolizumab 200 mg", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "f9ecbb57a36550bd7c3ba413"}
+{"query": "MK-5890", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "fbb9b7a88fd422c189de97fc"}
+{"query": "Paclitaxel", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "fc35dde325469bdfd36bf3fe"}
+{"query": "PRTX007", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "fcf073b653b407ac34b6d668"}
+{"query": "Etoposide", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "fd1e52a488034f792168be63"}
+{"query": "Anlotinib", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "0409098b8b8d25030e8ee89c"}
+{"query": "MK-3475", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "04186b47c4a7dca2913b06bc"}
+{"query": "LY3009806", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "04c9dd952e86b01a10be89f1"}
+{"query": "PT", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "04d4c14d82835ce65ceff811"}
+{"query": "GDC 0199", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "0616f40840e25c31d89a18ce"}
+{"query": "5-Azacytidine", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "06f9b84d0f5033609651fa63"}
+{"query": "Magnetic Resonance", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "076343d88f9718907fe64403"}
+{"query": "MRIs", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "0ce8a90095f0588a4c451a5e"}
+{"query": "BIOPSY_TYPE", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "0d4101167b4c62a47bddbf80"}
+{"query": "FF10832", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "0ed6d42132292db42e042488"}
+{"query": "SCRT", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "0f9698de648a5545d1077bfd"}
+{"query": "ABI007", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "10620e74cd0144d24343df07"}
+{"query": "AK-112", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "119fbb53ed4a355169a2cd21"}
+{"query": "Azacytidine", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "122466a18beb3ed00566aeae"}
+{"query": "XL092", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "1300a3e67853b184d2b0854f"}
+{"query": "Radiography", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "140d1ac4595fb86803b8dc80"}
+{"query": "Anti-Cytotoxic T-Lymphocyte-Associated Antigen-4 Monoclonal Antibody", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "14296d4f442b43a48f72e381"}
+{"query": "Equilibrium Radionuclide Angiography", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "148c726a6c522918bef3cb87"}
+{"query": "Plain film radiographs", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "14ebae581aea97523be44146"}
+{"query": "Surgical Interventions", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "15724e67cb1247e614356648"}
+{"query": "Paraplatin", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "164ea4005182e7ccb43f940f"}
+{"query": "B1939 Mesylate", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "166f6f08c8ef10e70ffdbbe8"}
+{"query": "ABT-199", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "16b1fb7c6cf9b7a6b994a24c"}
+{"query": "Taxol Konzentrat", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "1754c7cca2c2ed4eeee07d8b"}
+{"query": "Specimen Collection", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "19141457b25cfb76a3af1ea0"}
+{"query": "CMAB819", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "1a4e165b6854fcfc53d607a6"}
+{"query": "PT2977", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "1b04f4613b57c870ee5e367a"}
+{"query": "Taxotere Injection Concentrate", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "1b1e2ca1222b3f00865e9f47"}
+{"query": "dFdCyd", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "1bd2a36f4ce52c8d38b61ec9"}
+{"query": "Pembrolizumab Biosimilar RPH-075", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "1cd82cc217d23100a8cc0708"}
+{"query": "X-Ray", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "1d43f638ad0e9ce9e6352a19"}
+{"query": "Ellence\u00ae", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "1daffa7fc9fcd591b78212c0"}
+{"query": "HPN328", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "1e0dc414ec25372535e47de5"}
+{"query": "GC101 TIL injection", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "1ee48e4666b6f48073036cbf"}
+{"query": "BMS-734016", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "20b6e57d0db0ad1a0faf0cd2"}
+{"query": "MR", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "20e1167cb8a7156ccc2c8e54"}
+{"query": "Pembrolizumab Biosimilar QL2107", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "211534871ff96292871bd521"}
+{"query": "Radiation", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "21f66f86bdf893988e8eca4d"}
+{"query": "MK-7902", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "22879ee5db5fac73daec0f6b"}
+{"query": "Synchronized Multigated Acquisition Scanning", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "23b82d59f4867c0219219724"}
+{"query": "RPH-075", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "24e764e67e16552ba782a66d"}
+{"query": "mFOLFOX6", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "26702632716bdcd874f9f395"}
+{"query": "Oral paclitaxel", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "2781c2c0233361526730b798"}
+{"query": "LENVIMA\u00ae", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "2988fc53701b0162cb9fb069"}
+{"query": "N-(2-Chloroethyl)-N'-cyclohexyl-N-nitrosourea", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "2b231a0aa835c74b21576028"}
+{"query": "SB-27", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "2cd57413e80df3daa7854785"}
+{"query": "FF-10832", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "2d48d7eb09dcc548a3239b9c"}
+{"query": "PM8002", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "2d5ae86fc4b2fa21cf265f3d"}
+{"query": "FF 10832", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "2dcbb0735c3c6c7cc1fc6335"}
+{"query": "MK-1308A", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "2efd4ca2418e28a24076f242"}
+{"query": "1-(2-Chloroethyl)-3-cyclohexyl-1-nitrosourea", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "2f1005a8d59583e4a9fb6374"}
+{"query": "ABT199", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "30d3f93d05b626de45f5169b"}
+{"query": "Operation", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "31972ab4316ae194dba37947"}
+{"query": "MK3475", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "31cea9156dc511d1f6f66266"}
+{"query": "DS-7300a", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "32d3166466d6de0e652c478f"}
+{"query": "MDX 010", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "33e4223a31477028c0eaa389"}
+{"query": "WELIREG\u2122", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "33f91ec50b1ebc1eb04ff211"}
+{"query": "BCD-263", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "356aa19f445fe44ba3f0f119"}
+{"query": "Blood Pool Scan", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "35ac4b1418e6bbec38ee0ec6"}
+{"query": "MR Imaging", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "3624ad64b810724b7bb84399"}
+{"query": "Lomustinum", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "36a2bf027f115e09462beaa4"}
+{"query": "RP56976", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "38277c52c6bdb1db2bd88328"}
+{"query": "MK 3475", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "385e845eb8eb1144cd3222f7"}
+{"query": "Surgical Intervention", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "3878c46925ac16bfbe2a3960"}
+{"query": "Type of Surgery", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "39bfa1c5157246d41e47dd20"}
+{"query": "IMMU132", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "39cde2b534e6066fd90b1df4"}
+{"query": "BMS 734016", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "3a4702c8efffc8dd5e314576"}
+{"query": "Adriamycin", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "3a54482398336a85b96421e1"}
+{"query": "Lucostine", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "3a60cfa97feb3781fec056da"}
+{"query": "Sintilimab", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "3ab78259f07b3b65c4f73a5b"}
+{"query": "RB-1509", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "3b6c473cdfd5bc053bfbe08d"}
+{"query": "ALIMTA\u00ae", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "3cd63e36a38d4b8076ff510c"}
+{"query": "Monoclonal Antibody HGS-ETR2", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "3d51871dafbf42fdb143277f"}
+{"query": "QL2107", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "3dd9cf7223274591aa5fad28"}
+{"query": "Praxel", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "3e39a5203df6f21dc6dfa590"}
+{"query": "Positron-Emission Tomography", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "3f933dc1b4180298057a3575"}
+{"query": "Yervoy", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "401c5bba0dea49f718cabeac"}
+{"query": "BMS-936558", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "4099787f688d7956cdce1a3a"}
+{"query": "izalontamab brengitecan", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "40a1c5be00c4b447b5a6fc64"}
+{"query": "paclitaxel albumin-stabilized nanoparticle formulation", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "40fe183747c48b4742424f07"}
+{"query": "sMRI", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "42c92df4d40f218d9d78e353"}
+{"query": "Penpulimab", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "4373c4fd4a0a4cccf0e69ca8"}
+{"query": "MDX010", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "44d910a22e49579307b50938"}
+{"query": "Cetuximab Antibody", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "4506cbe06089a3ac357c6289"}
+{"query": "Sacituzumab Govitecan-hziy", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "45437098554d9d20896ee4b1"}
+{"query": "Irradiate", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "45cf27056f1350869cafc8c3"}
+{"query": "Bristaxol", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "45fde9196402fa32effa07e8"}
+{"query": "Halichondrin B Analog", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "4669bfa81e13a3e57efe3532"}
+{"query": "Cancer Radiotherapy", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "4763758c3d17ea33ef4d1aa3"}
+{"query": "ABI-007", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "47ce3ee2595dff4e43ac1f3c"}
+{"query": "Magnetic Resonance Imaging (MRI)", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "488aa29cd3ad11f7fe22a16e"}
+{"query": "ABBV-400", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "4a294e7d93e1368bd38a0d93"}
+{"query": "Bevacizumab Antibody", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "4bf90c12231c17be04b2ba50"}
+{"query": "Keytruda\u00ae", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "4d352c04a1017af347665f89"}
+{"query": "Liporaxel", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "4edf02031844ddc1fdb4f8fb"}
+{"query": "Belustin", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "4f1e346f882521f328f82aba"}
+{"query": "SCH 900475", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "4f6c0927ee1cf11b154351fd"}
+{"query": "Surgery Type", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "51eb088715ca55d45af7d568"}
+{"query": "Difluorodeoxycytidine Hydrochloride", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "52976fe51bfd6c2b5e6f3eeb"}
+{"query": "MDX-010", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "544ab4077417f100a25ee209"}
+{"query": "MK-6070", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "546b1321241324056a54640e"}
+{"query": "Structural MRI", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "54aa9c4d9bffbfbff7b6c841"}
+{"query": "IMMU-132", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "55517d488fbdd1abd6932f6c"}
+{"query": "Computerized axial tomography (procedure)", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "56da1d221a4d072f8a2ecf14"}
+{"query": "5-Azacitidine", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "57618620b68480f4dd3904a0"}
+{"query": "EC", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "57a6002347dc1f064a440bba"}
+{"query": "Magnetic resonance imaging (procedure)", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "57cfc64ffb69371be466d7d2"}
+{"query": "MGCD516", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "580d4ad091318f7d3b237bf8"}
+{"query": "AB122", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "584b05e9ac9b1e855ec78803"}
+{"query": "RG7601", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "58f9a7c8c9f8c8a96e310b3b"}
+{"query": "Gated Heart Pool Scan", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "5b1155d526336d4bdc661943"}
+{"query": "Pembrolizumab Biosimilar GME751", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "5bdeab05a828251027396955"}
+{"query": "5-AZC", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "5be44f93c44b7644815ab42a"}
+{"query": "Bone Scintigraphy", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "5c78aaf5d6aa14fe2d125dc4"}
+{"query": "MK-2400", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "5cdd8663144791e0a7229631"}
+{"query": "GDC0199", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "5cfb6bcb3114e820d9bba5da"}
+{"query": "RS7-SN38", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "5e73d0f09ebe348548e72b7f"}
+{"query": "TAB-001", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "5f20a3b87e19f43249dbbc88"}
+{"query": "LYNPARZA\u00ae", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "608adf7f638835f270473a7c"}
+{"query": "Sample Collection", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "61f1864dacd4318561a36306"}
+{"query": "BMS-986016", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "638450f49415d5f22104e221"}
+{"query": "Lucostin", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "63dee038d9199eb2e3c773ed"}
+{"query": "Sac-TMT", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "64643c02f73cfaf0230854a9"}
+{"query": "BMS986016", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "6591a544e32b3e2664fedbe8"}
+{"query": "U-18496", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "665aa3628abc0e8eca9cd7bc"}
+{"query": "SB27", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "66b557221f7efd0e0100451e"}
+{"query": "Nivolumab Biosimilar ABP 206", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "67953a28001ed1975d8eb506"}
+{"query": "MVASI\u00ae", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "67ad7d78e31324b8ff5f872d"}
+{"query": "Ladakamycin", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "68b25d0cdb088c5b71501391"}
+{"query": "MUGA", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "69b928eff8cc50ade3e3706a"}
+{"query": "Gleostine", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "6af6bea7fec381b7645e72c8"}
+{"query": "Anzatax", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "6b5f48f4f259acf64d4970e4"}
+{"query": "Radiotherapeutics", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "6b7096ad6bef077bb12164cc"}
+{"query": "Computerized Tomography (CT) scan", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "6b8a91e37084eb26b2e46f9f"}
+{"query": "hRS7-SN38 Antibody Drug Conjugate", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "6b8e759b23ba72c0dce5ff95"}
+{"query": "Biospecimen Collected", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "6c74c0cb4dc752b6872d5d75"}
+{"query": "RS7SN38", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "6d1f01f184798049f6215ce9"}
+{"query": "Magnetic Resonance Imaging Scan", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "6dd0468648170eeb9c50a123"}
+{"query": "MRI Scan", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "71054d2ad4f7bb9458261b39"}
+{"query": "PARAPLATIN\u00ae", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "72e7bd70ee0bf4b131d8b21d"}
+{"query": "Radiographic Imaging", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "76a77a20d54c68d1871c8ae8"}
+{"query": "BMS936558", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "76fa4099d2a43a00022daa83"}
+{"query": "ABP 206", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "78737479a9b2335fe0de6c7b"}
+{"query": "NMRI", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "792ddb50446025dc0bf75b8e"}
+{"query": "Docecad", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "7aa79d294dd44d8c369557f7"}
+{"query": "BMS734016", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "7add363659fcf763d39a03a6"}
+{"query": "RS7 SN38", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "7b4ccc1c6b7f30cf1cac3e6d"}
+{"query": "ONO4538", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "7b8804d87844ab3ab2f0ec91"}
+{"query": "Computed Axial Tomography", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "7c6647447bbf05bd3af87770"}
+{"query": "IMC-1121B", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "7c91ccf8c247578d5c24a4b3"}
+{"query": "MK-1022", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "7cfb4c4312449e1f5271e031"}
+{"query": "Cyramza", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "7d23736e7d7e829d01cf3d02"}
+{"query": "AGEN1181", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "7e2dedb301b87c98105591c5"}
+{"query": "Abraxane", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "7edc709da37d8fa93dbe5c92"}
+{"query": "Paclitaxel Nanoparticle Albumin-bound", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "7f5b0131f54beabf106e0b69"}
+{"query": "ZEN-3694", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "806b192e9d0905505b1582cd"}
+{"query": "ADRIAMYCIN\u00ae", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "814e1f1bb6e9a7abcd989044"}
+{"query": "Pembrolizumab Biosimilar SB27", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "816216be90534ce859b8d319"}
+{"query": "Positron Emission Tomography Scan", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "8241ef1783f7047d7797df3b"}
+{"query": "iza-bren", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "83cadf10665a473327baabe1"}
+{"query": "OPDIVO", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "84b89ec1b265a76107ecf377"}
+{"query": "HEPZATO KIT", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "85e70614f69fb1f907b1faa8"}
+{"query": "CAT", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "85fd5aa4e605c3679e23832f"}
+{"query": "tomography", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "86300fb9300ca64a149495f1"}
+{"query": "ONO 4538", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "86b5177a976727928395c160"}
+{"query": "Radionuclide Ventriculogram Scan", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "88feeb6cdcef7fea86ce7113"}
+{"query": "Anti-VEGFR-2 Fully Human Monoclonal Antibody IMC-1121B", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "89d8e355766e0d04942ad36a"}
+{"query": "Taxol\u00ae", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "8a0a499b4f134d9245c5a88c"}
+{"query": "Albumin-bound Paclitaxel", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "8a0d7259353b92749ee786fa"}
+{"query": "GDC-0199", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "8ba84b011a031556b2af626a"}
+{"query": "CHS-007", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "8c3b4cc2f327f2b46c269f55"}
+{"query": "CeeNU", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "8c60c3c43ff245796978ef6f"}
+{"query": "NBTXR3", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "8c734032f38360afdef74341"}
+{"query": "Avastin\u00ae", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "8cef253adb0a0f07593c379d"}
+{"query": "Gemcitabine HCI", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "8f29fb5c9518271d08131b97"}
+{"query": "ER-086526", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "8f47c461914dc2ea302f2deb"}
+{"query": "GME 751", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "90076df64d47df10bf3ab735"}
+{"query": "Nivolumab Biosimilar CMAB819", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "905034f88ff18d9f34c11ffe"}
+{"query": "Diagnostic CAT Scan Service Type", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "918fa8bfea7e0d5a52a49cbe"}
+{"query": "Irradiated", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "92155cef0eb563c282df1964"}
+{"query": "Albumin-Stabilized Nanoparticle Paclitaxel", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "92598de0792264b9fb4312f6"}
+{"query": "DHP107", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "92658a277f4ce86c971bef52"}
+{"query": "SMT112", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "93c977f4a003f7aab1d8ff8e"}
+{"query": "Platinol-AQ\u00ae", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "94ae799dc601cf5ba4493595"}
+{"query": "SMT 112", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "94b47d9c0aceee173c36d845"}
+{"query": "ABT 199", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "9570610ad58dcaf283f08e16"}
+{"query": "JS001", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "957da459fa8a6cf9b70ad9b7"}
+{"query": "SCH-900475", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "95c756252b13b3edc470e5a0"}
+{"query": "ABBV-181", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "960715842d06c1039ff5e6e8"}
+{"query": "Irradiation", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "9715246dd3c01a9cbee8784f"}
+{"query": "ZEN 3694", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "9873fc402c2e1225479435d6"}
+{"query": "MDX-1106", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "98f3b88a4f9a4366a45aa1d6"}
+{"query": "Positron emission tomography (procedure)", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "9b0d5dc88fe66cdf0b97eeaa"}
+{"query": "Venclexta", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "9d1a2944853d4dfc7cd55630"}
+{"query": "DuoBody\u00ae-PD-L1\u00d74-1BB", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "9e47518a3c29d7e7fd20509a"}
+{"query": "proton magnetic resonance spectroscopic imaging", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "9ede50fb459568efc74d6219"}
+{"query": "5-AC", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "9f1d34aa3158ffc821d084d9"}
+{"query": "RPH 075", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "9fc3c042365f92d1ad385ffb"}
+{"query": "LY 188011", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "a147d928961f9724c9916c38"}
+{"query": "Surgical Procedures", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "a1982ff44f56f7b6a0ec077b"}
+{"query": "WR-139017", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "a223bbcfab9b602830cfe293"}
+{"query": "Nanoparticle Albumin-bound Paclitaxel", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "a2253a85f553bbb1634ca8de"}
+{"query": "CAT Scan", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "a4932893b06ddd795252bd1d"}
+{"query": "Computerized Tomography", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "a4d4aee4367122b60176efac"}
+{"query": "Xeloda\u00ae", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "a4ee39e215cbfb28d255ee99"}
+{"query": "Pembrolizumab Biosimilar BCD-201", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "a4fc6ff62b27551fcd579b69"}
+{"query": "Biological Sample Collection", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "a516ac0735f2cb65fa89de23"}
+{"query": "Diagnostic Radiology", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "a61d19501f0150435e8b71df"}
+{"query": "ABRAXANE\u00ae", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "a6760605c1e482e6b1336d81"}
+{"query": "sac-TMT", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "a78744db44ad963b27ca609d"}
+{"query": "RPH075", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "a8282cbc7a573def31dd3ae8"}
+{"query": "ZEN003694", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "a8873e2e4c922144839ea117"}
+{"query": "CCNU", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "a9ac6d5cd36f41e452090614"}
+{"query": "ONO-4538", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "aa996cd0b47841c72422241e"}
+{"query": "MDX1106", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "ab01934984ca9193e17decc5"}
+{"query": "anti-PD-1 human monoclonal antibody MDX-1106", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "abafc5333c5872979fd83024"}
+{"query": "Nuclear Magnetic Resonance Imaging", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "acbc186d61c72d3c3705145c"}
+{"query": "Onxol\u00ae", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "acdd02bcfc8ed025a9423361"}
+{"query": "MDX-CTLA4", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "acefbae4cd299e1e8f82401d"}
+{"query": "Gemzar", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "ad8a3788328ba84c51d9be46"}
+{"query": "YERVOY", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "ae307ded7e55b5be1f1f86ed"}
+{"query": "Taxol", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "ae81492381aea42b061d6796"}
+{"query": "BMS 936558", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "aec4483be8dd5d0e8efe0d31"}
+{"query": "SMT-112", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "aec6318c47f3c69b1c1a2d5d"}
+{"query": "RP 56976", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "b173441d6ef052969e90c7ab"}
+{"query": "AGEN2034", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "b31e4cfa12ab630458ab96a1"}
+{"query": "LY188011", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "b34ae1df4ca9c4172be8390c"}
+{"query": "Opdualag", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "b3ec041ee367a678e926b415"}
+{"query": "Surgical", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "b475a5ddce0281cea3a9755a"}
+{"query": "Pegaspargase", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "b4d4f1904722be0de2bd6c96"}
+{"query": "NIVO", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "b5bc530b72bda36470b1c08b"}
+{"query": "Multi-Gated Acquisition Scan", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "b7bb066c22b58ab36e648f11"}
+{"query": "ENERGY_TYPE", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "b7fd84960b514b45affec687"}
+{"query": "E7080", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "b814f7e009eb5fe447d949d9"}
+{"query": "SCH900475", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "b84422747e4c7d4c641cf64f"}
+{"query": "oxaliplatin", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "ba3161bc7d8cda9820a25fcf"}
+{"query": "Mylosar", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "bbd6f516a80fe290dac89252"}
+{"query": "Halaven", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "bc5e1eeb2806247fb051a973"}
+{"query": "Hiltonol\u00ae (Poly-ICLC)", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "bc8553f62de7bc1650f255a0"}
+{"query": "Ipilimumab Biosimilar CS1002", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "be1b3ad2add7ffe0cd2dd630"}
+{"query": "Cytophosphane", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "be265efc421f05b53a452cf2"}
+{"query": "Platinol\u00ae", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "be5cfcf9ffff56497d2de758"}
+{"query": "Onxol", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "be62386fc6e49e629a41367f"}
+{"query": "E7389", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "c2c7caa9db7fbfc53a4fb38c"}
+{"query": "Lynparza", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "c2f5b686202fd17c69f02735"}
+{"query": "Gated Blood Pool Imaging", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "c41d3b8d4dedaa4003e692df"}
+{"query": "Cetrelimab", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "c7a3ed99e4a18c120164f98a"}
+{"query": "ABT-0199", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "c7f288deabbfb1c3771832a0"}
+{"query": "RT", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "c90821490a527379a5a96b68"}
+{"query": "Favezelimab", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "cc2ff176ebf298132173a170"}
+{"query": "KEYTRUDA\u00ae", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "cc30b92e89059703b7d82079"}
+{"query": "AK 112", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "cc40db6bba53f9596b655cf1"}
+{"query": "Opdivo", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "ccaec4ed18edcfc234b53d68"}
+{"query": "LY-188011", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "d018ba70f8d77a1f0013c835"}
+{"query": "MK-7684A", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "d27114d74df8587cdf12422f"}
+{"query": "Vidaza", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "d3fe2498b7f8ab8fa710ac20"}
+{"query": "Prava", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "d42ab53a6850d88d3bb7671e"}
+{"query": "GME751", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "d4a9eb2658b0c97d8c5ccfc8"}
+{"query": "Static X-Ray", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "d55682201a13ef9ef8ff7ed6"}
+{"query": "IMMU 132", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "d558a48a0086e008b9e5a5e3"}
+{"query": "anti-CTLA-4 monoclonal antibody", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "d5c3c5d1254be552c683d1ed"}
+{"query": "RP-56976", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "d75842231ac9985053a7917f"}
+{"query": "Platinol\u00ae-AQ", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "d7d43312b498d2824fce7363"}
+{"query": "Paclitaxel Protein-Bound", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "d8438a483f1d95c5d4d9ac69"}
+{"query": "Altuzan\u00ae", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "d9067e1cf5fb2fc1b6f73aeb"}
+{"query": "ER-086526 Mesylate", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "d9f60366408fdcbd5a7f7eb6"}
+{"query": "CT", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "dc10ba6d71121d94a62881ab"}
+{"query": "Belustine", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "dc25d05e75bc63b91f15464f"}
+{"query": "anti-PD-1 monoclonal antibody", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "dc68afdcac94e5a909a0bd83"}
+{"query": "5 AZC", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "dcbd4796f7eb72aae3cfd63a"}
+{"query": "Computerized Axial Tomography", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "dda4afb05cdfc23c2ec6fcd8"}
+{"query": "Nivolumab Biosimilar BCD-263", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "df965fb93764cc5ebaec660b"}
+{"query": "Onureg", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "e19ee98689fc74cf3735db39"}
+{"query": "DS-3280", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "e1e3ab4b0ab23a24aed724cd"}
+{"query": "NMR Imaging", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "e2e387fcb16f05c0e4e72bcb"}
+{"query": "BMS 986016", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "e2fc87bc579e8580a2033b16"}
+{"query": "Radiographic imaging procedure (procedure)", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "e3ce725d6e14777ec3502229"}
+{"query": "Citostal", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "e44fa3d7df20b2eea715441f"}
+{"query": "Venclyxto", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "e46d424ec5a606ec8805b277"}
+{"query": "MK-3475A", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "e4f1c23ff30ecab87be96533"}
+{"query": "Lambrolizumab", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "e50f3fcfa0c88ad3b61eb38f"}
+{"query": "Paraplatin\u00ae", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "e5ac59cfdfdb4d36a6b8fb03"}
+{"query": "MDX 1106", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "e64d3efe9810846e364edaa4"}
+{"query": "U3-1402", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "e6fd4f97b59b0238d3c5be81"}
+{"query": "RG", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "e79a3eb3273d7ac0e1d0fd1a"}
+{"query": "Trodelvy", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "e7f59951de3c92f5c95fcbee"}
+{"query": "ABI 007", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "e9488572869ec36fa7065ff2"}
+{"query": "Asotax", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "ea1c27da13cac237469e6ebd"}
+{"query": "Cecenu", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "ea3bed43504bbaccfaeac044"}
+{"query": "PET", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "ea6d2a4435025b340f09e1ef"}
+{"query": "GEN1046", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "eb99598dfedf332ac6c41a33"}
+{"query": "Biopsy of Bone Marrow", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "ebcf5717c9fb2a8e07ee68cb"}
+{"query": "Cytoxan", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "ed37f3bb965382c1d77c80b9"}
+{"query": "SB 27", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "ee09a19329cdf6cdfdb45df6"}
+{"query": "Lomeblastin", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "ef0e0e44f04a60b47909b8d4"}
+{"query": "BCD-201", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "ef13622201ce605abbc8ad2d"}
+{"query": "Bx", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "ef8083e51b39404b3b4a08f6"}
+{"query": "Taxotere", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "f057ab694b8dc998a84eb540"}
+{"query": "Conventional X-Ray", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "f05a4960ec835143558b90b7"}
+{"query": "Radionuclide Ventriculography", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "f2cae176d67d65ad94848346"}
+{"query": "BETi ZEN-3694", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "f3327fb5ace5fef6a1382c9f"}
+{"query": "RNV Scan", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "f65a68454cea8fd71ba10d09"}
+{"query": "mRNA-4157", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "f66bec899be844c4b6495bbc"}
+{"query": "PADCEV", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "f6e08d6377369524ec6ca12e"}
+{"query": "SKB264", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "f868856939567c3ab5f16c55"}
+{"query": "Paclitaxel Albumin", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "f899cc0a06a81f19207de03e"}
+{"query": "Nanoparticle Paclitaxel", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "f8e917dcc93984e564ceaa49"}
+{"query": "BMS-986507", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "f96e30c1e8a2154d311fff88"}
+{"query": "PACE204 pacemaker (Osypka Medical AG) delivering standard monotonic right atrial pacing", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "f9c9a63547d7833e0461f74b"}
+{"query": "SYMA Scanning", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "f9f9bb37e16ce64eab6cf44c"}
+{"query": "Alimta\u00ae", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "fa4950d5941582247794b31a"}
+{"query": "Chloroethylcyclohexylnitrosourea", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "faea51036c9347c255d1c5d6"}
+{"query": "RNVG", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "fb23d31142ba227150d85277"}
+{"query": "Diagnostic CAT Scan", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "fcf938781762d35bd4a63938"}
+{"query": "KEYTRUDA", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda", "subject_id": "fdc503e02c49e031c0b4ab95"}
+{"query": "Naveruclif", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "fe0de4162f3fb0190721ccf8"}
+{"query": "Protein-bound Paclitaxel", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "fe31bdb461c17e79e197eace"}
+{"query": "MUGA Scan", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "fec3c33f2abe99232ff50406"}
+{"query": "IMDELLTRA", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "fede6713bcf793f5bbe499bc"}
+{"query": "Iparomlimab and Tuvonralimab", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "060341bdb4c6abf75fe90fb8"}
+{"query": "PD-1/VEGF bispecific antibody", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "0d5381d7c4860b288826c01c"}
+{"query": "PD-1/PD-L1 inhibitor (eg. Tislelizumab)", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "0fd3d3ed74ae03b7ce92d79e"}
+{"query": "Vibostolimab/Pembrolizumab", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "1144c8ed2c06ef36f02fe3f0"}
+{"query": "Radiotherapy 66 Gray&#x2F;day", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "1263844f6de8f1730f4bc9a4"}
+{"query": "First line chemotherapy plus PD-1&#x2F;PD-L1 antibody", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "1b91c91165e1e875546eaac4"}
+{"query": "Anti-PD-1/VEGF Bispecific Antibody AK112", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "1c37d62be8fb92506782afb3"}
+{"query": "Radiation with Concurrent Chemotherapy", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "1e23b4214491b3bad34f6d2d"}
+{"query": "Medical Imaging, Magnetic Resonance &#x2F; Nuclear Magnetic Resonance", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "1fe941ef68e6e39e15a00341"}
+{"query": "Iparomlimab and Tuvonralimab (QL1706)", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "2ff5784665c6255737a6ebbd"}
+{"query": "Vibostolimab&#x2F;Pembrolizumab", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "30b08a4fc3b6c829fe44a982"}
+{"query": "Pembrolizumab/Quavonlimab", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "3667e7651853c8cbe444bff4"}
+{"query": "Pembrolizumab (+) Berahyaluronidase alfa", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "367bbe9133f8e9cc2b4145d1"}
+{"query": "TACE+QL1706", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "4012d31f408bf45c0226a2e4"}
+{"query": "S-1 (tegafur&#x2F;gimeracil&#x2F;oteracil)", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "49d2cc6e1cd2eea89d47c52e"}
+{"query": "Toripalimab + Nab-paclitaxel + Platinum-based Chemotherapy", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "4bcfba1ecbc16a6227bba8e6"}
+{"query": "Nivolumab and Relatlimab", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "5e8fbd28e200d59f439f9d8b"}
+{"query": "KRAS Vaccine with Poly-ICLC adjuvant", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "5ea8c8a474d891b91584bc38"}
+{"query": "Medical Imaging, Magnetic Resonance / Nuclear Magnetic Resonance", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "678cf164cd09e58188633a0c"}
+{"query": "Gemcitabine and Cisplatin Chemotherapy", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "6e00abc92cb9d39306fcf0c4"}
+{"query": "Atrial pacing with respiratory sinus arrhythmia (RSA) variability", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "6e1f684919e2d54584d406d2"}
+{"query": "PD-1&#x2F;VEGF antibody", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "755a8f93d08320e5e527e0ba"}
+{"query": "Anti-PD-1&#x2F;VEGF Bispecific Antibody AK112", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "75b9a135026840df229573a2"}
+{"query": "PD-1/VEGF antibody", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "77afcee391f71fb27be6f24c"}
+{"query": "PD-1&#x2F;VEGF Bispecific Antibody", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "7f062ec97503b51d75cf91f3"}
+{"query": "Ipilimumab plus nivolumab", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "84e0359cd9f7216a95d422ba"}
+{"query": "Immunoglobulin G4, Anti-(human Lymphocyte Activation Gene-3 Protein) (Human Heavy Chain), Disulfide with Human Light Chain, Dimer", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "918f56c8871d464e068cb667"}
+{"query": "PD-1/VEGF Bispecific Antibody AK112", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "977006e4ce270de756ee2860"}
+{"query": "Cisplatin 100 mg/m^2", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "9795fc145326c36706da8b21"}
+{"query": "PD-1&#x2F;PD-L1 inhibitor (eg. Tislelizumab)", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "9a241b83268fb1cb8450b34f"}
+{"query": "Favezelimab&#x2F;Pembrolizumab", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "9f3a13cf0c0f8df16efd17d5"}
+{"query": "Modified temporary external pacemaker (Osypka) with additional pacing RSA module (Ceryx box)", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "a19105bd85e4028af9c2f661"}
+{"query": "PD-1&#x2F;VEGF bispecific antibody", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "a89adc7170d70f2ba7967f1c"}
+{"query": "Anti-PD-1/Anti-VEGF Bispecific Antibody AK112", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "aa4c996c97868032e8650ccd"}
+{"query": "LN-145 + pembrolizumab", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "ab195ab9eee4b2d13b25dd1f"}
+{"query": "Radiotherapy 70 Gray&#x2F;day", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "acacf3d806fa83cbc8b9d8fb"}
+{"query": "PD-1&#x2F;PD-L1 Inhibitors", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "bb5e1a053b4dc77df475e9e0"}
+{"query": "Iparomlimab and Tuvonralimab in combination with Lenvatinib", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "bd137fe973152a72d58ec3ae"}
+{"query": "Radiotherapy 60 Gray&#x2F;day", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "c45bf8f461ac93d39b958b5d"}
+{"query": "5-Fluorouracil&#x2F;Leucovorin Calcium", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "c56b7835451dba1bd66e16bd"}
+{"query": "5-Fluorouracil / Leucovorin Calcium", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "c92fac670931aa656a27e03c"}
+{"query": "TIL, autologous tumor infiltrating lymphocytes; pembrolizumab (anti-PD-1 immunotherapy)", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "ceff031c9c9a798581fa9bfe"}
+{"query": "Investigator&#x27;s choice of chemotherapy", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "d2669c1e6f0c803e157f2fb6"}
+{"query": "First line chemotherapy plus PD-1/PD-L1 antibody", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "d270094b742ba97b13814240"}
+{"query": "N-(2-Chloroethyl)-N&#x27;-cyclohexyl-N-nitrosourea", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "da6c6f4cf3e77957222447b5"}
+{"query": "5-Fluorouracil &#x2F; Leucovorin Calcium", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "db8a771d98ce262ea9ec83c4"}
+{"query": "Favezelimab/Pembrolizumab", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "de2e97ee3ddb3a09baba31e7"}
+{"query": "PD-1/VEGF Bispecific Antibody", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "deef9102ee13b5de3c2f3743"}
+{"query": "PD-1&#x2F;VEGF Bispecific Antibody AK112", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "def171e028ef60704033c1df"}
+{"query": "Pembrolizumab&#x2F;Quavonlimab", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "ea829dbcd7a402cc9abb40a7"}
+{"query": "S-1 (tegafur/gimeracil/oteracil)", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "eaa93fbcb1fcaaa278ff1e2b"}
+{"query": "Anti-PD-1&#x2F;Anti-VEGF Bispecific Antibody AK112", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "ef55bb47769a288956f88ccf"}
+{"query": "PD-1/PD-L1 Inhibitors", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "fbff730284f550b67c7c5cda"}
+{"query": "Cisplatin 100 mg&#x2F;m^2", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "ffaf5ef74fbb136e6ad115d8"}
+{"query": "dacarbazine, temozolomide, paclitaxel ,platinum or cisplatin", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "0fa5edea6d144c168959ae37"}
+{"query": "Therapy, Radiation", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "177a399b5f13f38355a5115a"}
+{"query": "Medical Imaging, X-Ray", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "186ad95f7a00b913af5ac052"}
+{"query": "TIL, autologous tumor infiltrating lymphocytes", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "3191724592ed8ced3e340d55"}
+{"query": "Medical Imaging, Positron Emission Tomography", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "431c408ad72efac6536064bb"}
+{"query": "Buzhong Yiqi Decoction, Hochu-ekki-to", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "4f189f16e3cce0d53c2519f7"}
+{"query": "dacarbazine, temozolomide, paclitaxel or platinum", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "85070bdd9d98332aa07d9ab8"}
+{"query": "Surgery, NOS", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "a3bd7a80dfe9c02a8b035aeb"}
+{"query": "Radiation Therapy, NOS", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "a9631787624af761c488bec6"}
+{"query": "GSK4057190, dostarlimab-gxly, TSR-042", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "d98ef41503eccd99942da082"}
+{"query": "SMT112, AK112", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "e81c0598300a82af332c10f6"}
+{"query": "Biopsy, Bone Marrow", "result_state": "ACCESS_BLOCKED", "source_target": "drugs_at_fda", "subject_id": "ed112710ac6c2686af24759b"}
+{"query": "AB154 anti-TIGIT Arcus Biosciences", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_press_release", "subject_id": "a37538aa7147a391ec1fa21e"}
+{"query": "AK112 Ivonescimab Akeso", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_product_page", "subject_id": "9124572355292dd4b8934deb"}
+{"query": "AU-007 Aulos Bioscience IND", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_press_release", "subject_id": "268bea2d107ade682d91dbe2"}
+{"query": "Acasunlimab GEN1046 Genmab BioNTech", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_press_release", "subject_id": "457c040bb0be3d2f96f631ec"}
+{"query": "Adebrelimab SHR-1316 Hengrui", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "peer_reviewed_primary_publication", "subject_id": "9ed6afb2fde83ad1abe882d4"}
+{"query": "BI 1831169 Boehringer Ingelheim VSV-GP", "result_state": "ACCESS_BLOCKED", "source_target": "conference_abstract_explicit_linkage", "subject_id": "1e79538b1d4fcff06e74e399"}
+{"query": "BL-B01D1 SystImmune EGFR HER3 ADC", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_press_release", "subject_id": "38b924acc99bbcb3968d2232"}
+{"query": "BNT327 PM8002 BioNTech Biotheus PD-L1 VEGF", "result_state": "ACCESS_BLOCKED", "source_target": "conference_abstract_explicit_linkage", "subject_id": "44cd977a3ea3d71a75dd9867"}
+{"query": "Balstilimab Agenus PD-1", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_pipeline_page", "subject_id": "e98e9dfe3cf7f3d232a541c5"}
+{"query": "Bojungikki-tang BJIKT immunotherapy trial", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "peer_reviewed_primary_publication", "subject_id": "c9cd0ffb385a7f0f7385ad29"}
+{"query": "BI 1831169 VSV-GP ezabenlimab clinicaltrials.gov", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_governmental_or_institutional_registry", "subject_id": "1e79538b1d4fcff06e74e399"}
+{"query": "BNT327 BioNTech Bristol Myers Squibb partnership investor release", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_investor_presentation", "subject_id": "44cd977a3ea3d71a75dd9867"}
+{"query": "BNT326 YL202 BioNTech clinical hold lift", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_press_release", "subject_id": "babb6192535463ef38c29a73"}
+{"query": "Boserolimab MK-5890 clinicaltrials.gov", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_governmental_or_institutional_registry", "subject_id": "664526e231e9ed73ea1354a9"}
+{"query": "Botensilimab Agenus CTLA-4 antibody pipeline", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_pipeline_page", "subject_id": "910ec8e5b9bcc94b39c52d83"}
+{"query": "Budigalimab ABBV-181 AbbVie anti-PD-1", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "peer_reviewed_primary_publication", "subject_id": "4e42708ba7407f6cd4c8add5"}
+{"query": "CAPOX regimen NCI thesaurus definition", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_governmental_institutional_reference", "subject_id": "e2cf737112cc6832160c8f75"}
+{"query": "CR-001 Crescent Biopharma SKB118 Kelun-Biotech PD-1 VEGF bispecific", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_press_release", "subject_id": "9549eb0bc408c635d43b02d9"}
+{"query": "Camrelizumab Hengrui AiRuiKa anti-PD-1", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_press_release", "subject_id": "1921005ada208ac3945cf876"}
+{"query": "control arm clinical trial definition NIH NCATS glossary", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_governmental_institutional_reference", "subject_id": "29af670f2f1adb67a8244c32"}
+{"query": "Datopotamab deruxtecan Datroway AstraZeneca Daiichi Sankyo", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_press_release", "subject_id": "79de2765a1b82eb4e4415699"}
+{"query": "Domvanalimab Arcus Biosciences anti-TIGIT zimberelimab", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_investor_presentation", "subject_id": "28b32ce0278ddd148f15d0f7"}
+{"query": "EVM14 Everest Medicines tumor-associated antigen cancer vaccine IND", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_press_release", "subject_id": "71e44ff446d24b842cc72e6a"}
+{"query": "Enfortumab vedotin-ejfv Padcev Astellas Seagen Merck FDA", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_press_release", "subject_id": "25f77d661e44f8fc619c82ac"}
+{"query": "Epirubicin hydrochloride DailyMed FDA label", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_governmental_or_institutional_registry", "subject_id": "e1af2e2aeda9a1148a8fc9e2"}
+{"query": "Etrumadenant AB928 Arcus Biosciences adenosine axis", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_product_page", "subject_id": "7004d8c130ec625580e72eb9"}
+{"query": "FOLFOX regimen NCI dictionary of cancer terms", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_governmental_institutional_reference", "subject_id": "7a43a167987d7572c61f0945"}
+{"query": "mFOLFOX6 regimen NCI dictionary of cancer terms", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_governmental_institutional_reference", "subject_id": "b002c6a473c40549eed08483"}
+{"query": "GB268 Genor Biopharma trispecific PD-1 CTLA-4 VEGF", "result_state": "ACCESS_BLOCKED", "source_target": "official_company_pipeline_page", "subject_id": "2a60d005ed24ec773d89d444"}
+{"query": "GC101 TIL Juncell Therapeutics NSCLC", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_press_release", "subject_id": "3b0d349bff4c743662de98a5"}
+{"query": "GSK3745417 STING agonist AML first-in-clinic phase 1", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "peer_reviewed_primary_publication", "subject_id": "b1b8091795fc6ba5346813de"}
+{"query": "Gocatamig MK-6070 DLL3 T-cell engager JCO abstract", "result_state": "ACCESS_BLOCKED", "source_target": "conference_abstract_explicit_linkage", "subject_id": "5d77139045d3d554c0fa81f9"}
+{"query": "HER3-DXd patritumab deruxtecan Daiichi Sankyo Merck", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_press_release", "subject_id": "32ac8a06d253f246b9d215c6"}
+{"query": "HRS-2329 tablet Hengrui NMPA clinical trial approval", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_press_release", "subject_id": "72dbc6be84127629e7201d1e"}
+{"query": "HS-20093 Hansoh GSK B7-H3 ADC license agreement", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_press_release", "subject_id": "17d24704d021aa48af1317ce"}
+{"query": "Ifinatamab deruxtecan I-DXd Daiichi Sankyo Merck B7-H3 ADC", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_press_release", "subject_id": "18123d2ce4147bef390a0fb7"}
+{"query": "Ifinatamab deruxtecan I-DXd Daiichi Sankyo Merck B7-H3 ADC", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_press_release", "subject_id": "5bdf4e913c2f043209fadf85"}
+{"query": "IBI363 Innovent PD-1 IL-2 bispecific fusion protein TAK-928", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_press_release", "subject_id": "17f1cb4dd30b7875db7c6c0d"}
+{"query": "Intismeran autogene mRNA-4157 V940 Moderna Merck", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_press_release", "subject_id": "8e9bb5f5f4ba4a0cbde4ecb4"}
+{"query": "GB268 Genor Biopharma clinicaltrials.gov replacement", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_governmental_or_institutional_registry", "subject_id": "2a60d005ed24ec773d89d444"}
+{"query": "Gocatamig MK-6070 Daiichi Sankyo Merck agreement replacement", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_press_release", "subject_id": "5d77139045d3d554c0fa81f9"}
+{"query": "Intestinal Low Dose Radiotherapy-2-3Gy", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "clinicaltrials_gov", "subject_id": "1917b21e7e93fe0494364a16"}
+{"query": "Intestinal Low Dose Radiotherapy-2Gy", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "clinicaltrials_gov", "subject_id": "db3a2eed3d16b68ccf9283b9"}
+{"query": "Intestinal Low Dose Radiotherapy-3Gy", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "clinicaltrials_gov", "subject_id": "9f6859faf9929cb8eea8eece"}
+{"query": "Ivonescimab Akeso Summit Therapeutics", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_source", "subject_id": "9f341094178a2859a5170ba6"}
+{"query": "JNJ-63723283 cetrelimab Janssen", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "primary_publication", "subject_id": "982071bbe1f26b467c024efe"}
+{"query": "JS207 Junshi Biosciences PD-1 VEGF bispecific", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_source", "subject_id": "cd12ca8306ac3ecde521b105"}
+{"query": "LEAP regimen lenvatinib pembrolizumab Eisai Merck", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_source", "subject_id": "0967050c73b57f795e9e5764"}
+{"query": "LN-145 Iovance TIL therapy", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "clinicaltrials_gov", "subject_id": "8dc50d50daed12b97837473b"}
+{"query": "MK-0482 ILT3 pembrolizumab Merck", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "clinicaltrials_gov", "subject_id": "d8c3c0f5ef3e61b69f60935c"}
+{"query": "1-Nitrosourea, 1-(2-chloroethyl)-3-cyclohexyl- lomustine CCNU", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "primary_publication", "subject_id": "cb317756e1e7cc23cb770afb"}
+{"query": "ABO2109 Injection Abogen Biosciences personalized cancer vaccine", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "clinicaltrials_gov", "subject_id": "e9434a443f8f3fd6456289e9"}
+{"query": "Autologous Tumor Infiltrating Lymphocytes NCI Dictionary of Cancer Terms", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_registry_dictionary", "subject_id": "d9d20b051e733106998fb1c7"}
+{"query": "5-Azacytidine azacitidine Vidaza FDA approval", "result_state": "ACCESS_BLOCKED", "source_target": "official_regulatory_source", "subject_id": "09e4ce7497b8c1a85184a2e8"}
+{"query": "ZEN-3694 BET bromodomain inhibitor Zenith Epigenetics", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_source", "subject_id": "ef201388c0d8757cbfb6bba9"}
+{"query": "MK-1084 Merck KRAS G12C inhibitor calderasib", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_source", "subject_id": "eb58a1685f9277b37b0a0f71"}
+{"query": "MK-1308 Merck quavonlimab anti-CTLA-4", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_source", "subject_id": "17d921f0e4218022ec6f1c7c"}
+{"query": "MK-2870 sacituzumab tirumotecan Merck TROP2 ADC", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "clinicaltrials_gov", "subject_id": "1366bedd7ade04578acb0a7b"}
+{"query": "MK-4280 favezelimab Merck anti-LAG-3", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_source", "subject_id": "9f81b87b12cdc17af1bb165e"}
+{"query": "MK-4280A favezelimab pembrolizumab coformulation", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "clinicaltrials_gov", "subject_id": "d78024f4373476c36756da34"}
+{"query": "MK-4830 ILT4 Merck antibody", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_registry_dictionary", "subject_id": "1708b4c40a83897936186a8d"}
+{"query": "MK-5890 boserolimab Merck", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "clinicaltrials_gov", "subject_id": "fbb9b7a88fd422c189de97fc"}
+{"query": "MK-6482 belzutifan Merck Welireg", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_source", "subject_id": "4787d55397cd774aab7b18a0"}
+{"query": "MK-7684 vibostolimab Merck anti-TIGIT", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_source", "subject_id": "89e25cf8619a18f88523b640"}
+{"query": "MRG007 ARR-217 Lepu Biopharma ArriVent CDH17 ADC", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "clinicaltrials_gov", "subject_id": "79e3a19aec3d50fc8d32c42a"}
+{"query": "5-Azacytidine azacitidine Vidaza DailyMed FDA label", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source_replacement", "subject_id": "09e4ce7497b8c1a85184a2e8"}
+{"query": "Nab-paclitaxel Abraxane DailyMed", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "6ebfcb13af217164b276c229"}
+{"query": "Neoantigen Dendritic Cell Vaccine NCI Dictionary", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_registry_dictionary", "subject_id": "7b8add3be7e14994e21dcab9"}
+{"query": "Nimotuzumab Biotech Pharmaceutical CIMAher official manufacturer", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_source", "subject_id": "56212b61d8e35d31de6fddb7"}
+{"query": "Nivolumab-IRDye800 fluorescence imaging trial", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "clinicaltrials_gov", "subject_id": "c9b6807974d6760b9989e847"}
+{"query": "PD-1 Inhibitors generic drug class NCI", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_registry_dictionary", "subject_id": "493e5342a1b0a85188a99309"}
+{"query": "PD-1 monoclonal antibody generic descriptor NCI", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_registry_dictionary", "subject_id": "c3c8f2abf61113acfe7abd36"}
+{"query": "PRTX007 Primmune Therapeutics TLR7 agonist", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_press_release", "subject_id": "fcf073b653b407ac34b6d668"}
+{"query": "Paclitaxel Oral Solution encequidar Athenex", "result_state": "ACCESS_BLOCKED", "source_target": "official_company_press_release", "subject_id": "254207e4c470a4f4d479ba96"}
+{"query": "Pembrolizumab 200 mg KEYTRUDA DailyMed FDA label dosing", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "f9ecbb57a36550bd7c3ba413"}
+{"query": "Pemetrexed injection Alimta DailyMed FDA", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "f5b62075cd1d7c8c44cfb273"}
+{"query": "Platinum chemotherapy NCI Dictionary generic class term", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_registry_dictionary", "subject_id": "e3816395134dd048441d1f76"}
+{"query": "Pucotenlimab HX008 Lepu Biopharma NMPA approval", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_press_release", "subject_id": "f53d4386fb0bfdf082d5a49d"}
+{"query": "Pumitamig BNT327 BMS986545 BioNTech Bristol Myers Squibb", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_investor_presentation", "subject_id": "134ff8ba1f34e2f537bc5c0e"}
+{"query": "Quavonlimab MK-1308 Merck anti-CTLA-4 second string variant", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_source", "subject_id": "5dfe776d4851a3d1853b819b"}
+{"query": "Rescue Medication clinical trial terminology NCI generic term", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_registry_dictionary", "subject_id": "df80b817157fc11a5635b597"}
+{"query": "Rescue Medications plural variant generic clinical trial term", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_registry_dictionary", "subject_id": "788d061adbb956694ff633b4"}
+{"query": "Rescue medication lowercase variant generic clinical trial term", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_registry_dictionary", "subject_id": "1c8d6714fc0ac90b81e432e1"}
+{"query": "Sacituzumab Tirumotecan MK-2870 variant capitalized", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "clinicaltrials_gov", "subject_id": "e98aecb5da03f1fa057fb9b5"}
+{"query": "Sacituzumab tirumotecan MK-2870 variant lowercase t", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "clinicaltrials_gov", "subject_id": "228148bade60168a1bbb8a7f"}
+{"query": "Sacituzumab tirumotecan sac-TMT parenthetical variant", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "clinicaltrials_gov", "subject_id": "310c9161cb8f2577da0f7935"}
+{"query": "Sitravatinib Mirati Therapeutics official", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_press_release", "subject_id": "51794fd204187ecc8e555bf0"}
+{"query": "SoC Standard of Care abbreviation generic clinical trial term", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_registry_dictionary", "subject_id": "83897635c554c92fb1163009"}
+{"query": "Athenex oral paclitaxel encequidar SEC 8-K exhibit replacement for blocked ir.athenex.com", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "sec_edgar_filing", "subject_id": "254207e4c470a4f4d479ba96"}
+{"query": "TAK-928 IBI363 Innovent Takeda", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_press_release", "subject_id": "c316b888608df5bc0a89230e"}
+{"query": "Tarlatamab Amgen Imdelltra FDA approval", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_press_release", "subject_id": "0e3ad2cc9382f262b904d667"}
+{"query": "Telisotuzumab Adizutecan ABBV-400 AbbVie c-Met ADC", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "primary_publication", "subject_id": "f0f22cbda721a65e0f6df8b7"}
+{"query": "V940 mRNA-4157 Moderna Merck", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_press_release", "subject_id": "1e86f6bc8aff9290ca393aba"}
+{"query": "Vibostolimab MK-7684 Merck anti-TIGIT", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_press_release", "subject_id": "2f21e7c61aa2555c9e842073"}
+{"query": "ZL-1310 Zai Lab DLL3 ADC zocilurtatug pelitecan", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_investor_presentation", "subject_id": "2288630dbf3fb7486e455875"}
+{"query": "Zanzalintinib Exelixis official", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_investor_presentation", "subject_id": "a29a2931aeb4721477ef959f"}
+{"query": "Zimberelimab Arcus Biosciences official press release PD-1 variant 1", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_investor_presentation", "subject_id": "ee082127306d529208016c7c"}
+{"query": "Zimberelimab AB122 variant 2 explicit code linkage Taiho license", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_investor_presentation", "subject_id": "f76ce1518835e67e1e6b9ed9"}
+{"query": "[11C]MODAG-005 PET tracer alpha-synuclein", "result_state": "ACCESS_BLOCKED", "source_target": "primary_publication", "subject_id": "d15638955b93b333aed2823a"}
+{"query": "Ezabenlimab BI 754091 Boehringer Ingelheim anti-PD-1", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "primary_publication", "subject_id": "df7e0c67d619f5db6b8989b8"}
+{"query": "serplulimab HLX10 Henlius Hansizhuang approval", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_press_release", "subject_id": "3f11727425c577958e03f73a"}
+{"query": "laboratory biomarker analysis generic clinical trial procedural term", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_registry_dictionary", "subject_id": "f274635c19b3c42b1f8e608d"}
+{"query": "Standard of Care SOC generic clinical trial term NCI", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_registry_dictionary", "subject_id": "90cceb049d40c477fb6de43f"}
+{"query": "Supportive care measures generic clinical trial term NCI", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_registry_dictionary", "subject_id": "5ed8fc65932176f75a2efeb9"}
+{"query": "[11C]MODAG-005 PET tracer alpha-synuclein replacement for blocked science.org", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "preprint_repository", "subject_id": "d15638955b93b333aed2823a"}
+{"query": "1-(2-Chloroethyl)-3-cyclohexyl-1-nitrosourea lomustine variant tier2", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "primary_publication", "subject_id": "2f1005a8d59583e4a9fb6374"}
+{"query": "5 AZC azacitidine abbreviation variant", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "dcbd4796f7eb72aae3cfd63a"}
+{"query": "5-AC azacitidine abbreviation variant", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "9f1d34aa3158ffc821d084d9"}
+{"query": "5-AZC azacitidine abbreviation variant", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "5be44f93c44b7644815ab42a"}
+{"query": "5-Azacitidine azacitidine variant spelling", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "57618620b68480f4dd3904a0"}
+{"query": "5-Azacytidine azacitidine variant tier2 duplicate", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "06f9b84d0f5033609651fa63"}
+{"query": "AB122 zimberelimab code variant Arcus", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_investor_presentation", "subject_id": "584b05e9ac9b1e855ec78803"}
+{"query": "ABBV-181 budigalimab AbbVie anti-PD-1", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "primary_publication", "subject_id": "960715842d06c1039ff5e6e8"}
+{"query": "ABBV-400 telisotuzumab adizutecan tier2 variant", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "primary_publication", "subject_id": "4a294e7d93e1368bd38a0d93"}
+{"query": "ABI007 nab-paclitaxel Abraxane code variant", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "10620e74cd0144d24343df07"}
+{"query": "ABP 206 Amgen nivolumab biosimilar official pipeline", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_pipeline_page", "subject_id": "78737479a9b2335fe0de6c7b"}
+{"query": "ABRAXANE registered-trademark variant nab-paclitaxel", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "a6760605c1e482e6b1336d81"}
+{"query": "ADRIAMYCIN registered-trademark variant doxorubicin", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "814e1f1bb6e9a7abcd989044"}
+{"query": "AGEN1181 botensilimab Agenus anti-CTLA-4", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_investor_presentation", "subject_id": "7e2dedb301b87c98105591c5"}
+{"query": "AGEN2034 balstilimab Agenus anti-PD-1", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_investor_presentation", "subject_id": "b31e4cfa12ab630458ab96a1"}
+{"query": "AK 112 ivonescimab code variant spaced", "result_state": "ACCESS_BLOCKED", "source_target": "official_company_source", "subject_id": "cc40db6bba53f9596b655cf1"}
+{"query": "AK-112 ivonescimab code variant hyphenated", "result_state": "ACCESS_BLOCKED", "source_target": "official_company_source", "subject_id": "119fbb53ed4a355169a2cd21"}
+{"query": "ALIMTA registered-trademark variant pemetrexed", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "3cd63e36a38d4b8076ff510c"}
+{"query": "Adriamycin generic-case variant doxorubicin", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "3a54482398336a85b96421e1"}
+{"query": "Alimta registered-trademark mixed-case variant pemetrexed", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "fa4950d5941582247794b31a"}
+{"query": "AK 112 ivonescimab code variant spaced replacement", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_product_page", "subject_id": "cc40db6bba53f9596b655cf1"}
+{"query": "AK-112 ivonescimab code variant hyphenated replacement", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_product_page", "subject_id": "119fbb53ed4a355169a2cd21"}
+{"query": "Altuzan bevacizumab brand variant Turkey", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "d9067e1cf5fb2fc1b6f73aeb"}
+{"query": "Anlotinib CTTQ Chia Tai Tianqing official approval", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_press_release", "subject_id": "0409098b8b8d25030e8ee89c"}
+{"query": "Anti-VEGFR-2 Fully Human Monoclonal Antibody IMC-1121B ramucirumab", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "89d8e355766e0d04942ad36a"}
+{"query": "Avastin registered-trademark variant bevacizumab", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "8cef253adb0a0f07593c379d"}
+{"query": "Azacytidine spelling variant azacitidine tier2", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "122466a18beb3ed00566aeae"}
+{"query": "BCD-263 Biocad nivolumab biosimilar", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "clinicaltrials_gov", "subject_id": "356aa19f445fe44ba3f0f119"}
+{"query": "BETi ZEN-3694 Zenith Epigenetics variant with prefix", "result_state": "ACCESS_BLOCKED", "source_target": "official_company_press_release", "subject_id": "f3327fb5ace5fef6a1382c9f"}
+{"query": "BMS 734016 ipilimumab code Bristol Myers Squibb", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "clinicaltrials_gov", "subject_id": "3a4702c8efffc8dd5e314576"}
+{"query": "BMS 936558 nivolumab code Bristol Myers Squibb", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "clinicaltrials_gov", "subject_id": "aec4483be8dd5d0e8efe0d31"}
+{"query": "BMS 986016 relatlimab code Bristol Myers Squibb Opdualag", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_press_release", "subject_id": "e2fc87bc579e8580a2033b16"}
+{"query": "BMS-986016 hyphenated variant relatlimab", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_press_release", "subject_id": "638450f49415d5f22104e221"}
+{"query": "BMS-986507 izalontamab brengitecan BL-B01D1 SystImmune", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "clinicaltrials_gov", "subject_id": "f96e30c1e8a2154d311fff88"}
+{"query": "BMS734016 no-hyphen variant ipilimumab", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "clinicaltrials_gov", "subject_id": "7add363659fcf763d39a03a6"}
+{"query": "BMS936558 no-hyphen variant nivolumab", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "clinicaltrials_gov", "subject_id": "76fa4099d2a43a00022daa83"}
+{"query": "BMS986016 no-hyphen variant relatlimab", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "clinicaltrials_gov", "subject_id": "6591a544e32b3e2664fedbe8"}
+{"query": "Belustin lomustine brand variant", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "primary_publication", "subject_id": "4f1e346f882521f328f82aba"}
+{"query": "Belustine lomustine brand variant spelling e", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "primary_publication", "subject_id": "dc25d05e75bc63b91f15464f"}
+{"query": "Bevacizumab Antibody generic descriptor variant", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "4bf90c12231c17be04b2ba50"}
+{"query": "BETi ZEN-3694 Zenith Epigenetics clinicaltrials.gov", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "clinicaltrials_gov", "subject_id": "f3327fb5ace5fef6a1382c9f"}
+{"query": "CCNU lomustine abbreviation", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "a9ac6d5cd36f41e452090614"}
+{"query": "CHS-007 oncology compound code unconfirmed", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "primary_publication", "subject_id": "8c3b4cc2f327f2b46c269f55"}
+{"query": "Cecenu lomustine German brand", "result_state": "ACCESS_BLOCKED", "source_target": "official_registry_dictionary", "subject_id": "ea3bed43504bbaccfaeac044"}
+{"query": "CeeNU lomustine US brand FDA label", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "8c60c3c43ff245796978ef6f"}
+{"query": "Cetrelimab JNJ-63723283 Janssen anti-PD-1", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "primary_publication", "subject_id": "c7a3ed99e4a18c120164f98a"}
+{"query": "Cetuximab Antibody generic descriptor ERBITUX", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "4506cbe06089a3ac357c6289"}
+{"query": "Chloroethylcyclohexylnitrosourea lomustine chemical name variant", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "faea51036c9347c255d1c5d6"}
+{"query": "Cytophosphane cyclophosphamide international name", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_registry_dictionary", "subject_id": "be265efc421f05b53a452cf2"}
+{"query": "Cytoxan cyclophosphamide US brand DailyMed", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "ed37f3bb965382c1d77c80b9"}
+{"query": "DHP107 oral paclitaxel Daehwa Liporaxel", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "primary_publication", "subject_id": "92658a277f4ce86c971bef52"}
+{"query": "DS-3280 gocatamig MK-6070 Merck Daiichi Sankyo", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_press_release", "subject_id": "e1e3ab4b0ab23a24aed724cd"}
+{"query": "DuoBody-PD-L1x4-1BB GEN1046 acasunlimab Genmab BioNTech", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_press_release", "subject_id": "9e47518a3c29d7e7fd20509a"}
+{"query": "E7080 lenvatinib Eisai code", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_press_release", "subject_id": "b814f7e009eb5fe447d949d9"}
+{"query": "Ellence epirubicin DailyMed", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "1daffa7fc9fcd591b78212c0"}
+{"query": "Favezelimab MK-4280 Merck anti-LAG-3", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_press_release", "subject_id": "cc2ff176ebf298132173a170"}
+{"query": "Cecenu lomustine German brand manufacturer SPC", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "manufacturer_spc", "subject_id": "ea3bed43504bbaccfaeac044"}
+{"query": "DS-7300a ifinatamab deruxtecan tier2 variant", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "clinicaltrials_gov", "subject_id": "32d3166466d6de0e652c478f"}
+{"query": "GC101 TIL injection Shanghai Juncell melanoma", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "clinicaltrials_gov", "subject_id": "1ee48e4666b6f48073036cbf"}
+{"query": "GEN1046 acasunlimab tier2 duplicate", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_press_release", "subject_id": "eb99598dfedf332ac6c41a33"}
+{"query": "HPN328 Harpoon DLL3 TriTAC MK-6070 gocatamig", "result_state": "ACCESS_BLOCKED", "source_target": "official_company_press_release", "subject_id": "1e0dc414ec25372535e47de5"}
+{"query": "IMC-1121B bare code ramucirumab", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "primary_publication", "subject_id": "7c91ccf8c247578d5c24a4b3"}
+{"query": "IMDELLTRA tarlatamab DailyMed", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "fede6713bcf793f5bbe499bc"}
+{"query": "IMMU 132 spaced variant sacituzumab govitecan", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "primary_publication", "subject_id": "d558a48a0086e008b9e5a5e3"}
+{"query": "IMMU-132 hyphenated variant sacituzumab govitecan", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "primary_publication", "subject_id": "55517d488fbdd1abd6932f6c"}
+{"query": "IMMU132 no-hyphen variant sacituzumab govitecan", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "primary_publication", "subject_id": "39cde2b534e6066fd90b1df4"}
+{"query": "JS001 toripalimab Junshi LOQTORZI", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_press_release", "subject_id": "957da459fa8a6cf9b70ad9b7"}
+{"query": "KEYTRUDA trademark variant pembrolizumab", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "cc30b92e89059703b7d82079"}
+{"query": "Keytruda mixed-case trademark variant pembrolizumab", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "4d352c04a1017af347665f89"}
+{"query": "LENVIMA trademark variant lenvatinib", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "2988fc53701b0162cb9fb069"}
+{"query": "LY 188011 Eli Lilly gemcitabine code", "result_state": "ACCESS_BLOCKED", "source_target": "primary_publication", "subject_id": "a147d928961f9724c9916c38"}
+{"query": "LY3009806 ramucirumab RELAY trial", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "clinicaltrials_gov", "subject_id": "04c9dd952e86b01a10be89f1"}
+{"query": "LYNPARZA trademark variant olaparib", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "608adf7f638835f270473a7c"}
+{"query": "Ladakamycin 5-azacytidine chemical synonym", "result_state": "ACCESS_BLOCKED", "source_target": "official_registry_dictionary", "subject_id": "68b25d0cdb088c5b71501391"}
+{"query": "Liporaxel DHP107 tier2 duplicate", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "primary_publication", "subject_id": "4edf02031844ddc1fdb4f8fb"}
+{"query": "Lomeblastin lomustine brand synonym PubChem", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_registry_dictionary", "subject_id": "ef0e0e44f04a60b47909b8d4"}
+{"query": "HPN328 Harpoon DLL3 TriTAC MK-6070 gocatamig ctgov", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "clinicaltrials_gov", "subject_id": "1e0dc414ec25372535e47de5"}
+{"query": "LY 188011 Eli Lilly gemcitabine code pubmed", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "pubmed_abstract", "subject_id": "a147d928961f9724c9916c38"}
+{"query": "Ladakamycin 5-azacytidine chemical synonym targetmol", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "chemical_vendor_database", "subject_id": "68b25d0cdb088c5b71501391"}
+{"query": "Lomustinum Latin chemical name variant lomustine", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "36a2bf027f115e09462beaa4"}
+{"query": "Lucostin unconfirmed possible lomustine variant", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "63dee038d9199eb2e3c773ed"}
+{"query": "Lucostine unconfirmed possible lomustine variant", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "3a60cfa97feb3781fec056da"}
+{"query": "MDX 010 spaced variant ipilimumab Medarex", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "primary_publication", "subject_id": "33e4223a31477028c0eaa389"}
+{"query": "MDX 1106 spaced variant nivolumab Medarex", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "clinicaltrials_gov", "subject_id": "e64d3efe9810846e364edaa4"}
+{"query": "MDX010 no-hyphen variant ipilimumab", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "primary_publication", "subject_id": "44d910a22e49579307b50938"}
+{"query": "MDX1106 no-hyphen variant nivolumab", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "clinicaltrials_gov", "subject_id": "ab01934984ca9193e17decc5"}
+{"query": "MK-1022 Merck code patritumab deruxtecan", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "clinicaltrials_gov", "subject_id": "7cfb4c4312449e1f5271e031"}
+{"query": "MK-1308A quavonlimab pembrolizumab coformulation", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "clinicaltrials_gov", "subject_id": "2efd4ca2418e28a24076f242"}
+{"query": "MK-2400 ifinatamab deruxtecan Merck B7-H3", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_press_release", "subject_id": "5cdd8663144791e0a7229631"}
+{"query": "MK-3475A subcutaneous pembrolizumab berahyaluronidase", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "clinicaltrials_gov", "subject_id": "e4f1c23ff30ecab87be96533"}
+{"query": "MK-6070 gocatamig tier2 duplicate", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "clinicaltrials_gov", "subject_id": "546b1321241324056a54640e"}
+{"query": "MK-7684A vibostolimab pembrolizumab coformulation KeyVibe", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_press_release", "subject_id": "d27114d74df8587cdf12422f"}
+{"query": "MK-7902 lenvatinib Merck Eisai LEAP", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "clinicaltrials_gov", "subject_id": "22879ee5db5fac73daec0f6b"}
+{"query": "MVASI trademark variant bevacizumab biosimilar", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "67ad7d78e31324b8ff5f872d"}
+{"query": "N-(2-Chloroethyl)-N'-cyclohexyl-N-nitrosourea lomustine chemical name variant", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "2b231a0aa835c74b21576028"}
+{"query": "Naveruclif EMA nab-paclitaxel generic", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "fe0de4162f3fb0190721ccf8"}
+{"query": "Nivolumab Biosimilar ABP 206 Amgen pipeline", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_company_pipeline_page", "subject_id": "67953a28001ed1975d8eb506"}
+{"query": "Nivolumab Biosimilar BCD-263 clinicaltrials.gov", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "clinicaltrials_gov", "subject_id": "df965fb93764cc5ebaec660b"}
+{"query": "ONO 4538 nivolumab NLM MeSH supplementary concept synonym", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "pubmed_mesh_synonym", "subject_id": "86b5177a976727928395c160"}
+{"query": "ONO4538 nivolumab NLM MeSH supplementary concept synonym", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "pubmed_mesh_synonym", "subject_id": "7b8804d87844ab3ab2f0ec91"}
+{"query": "Onxol paclitaxel injection generic brand identity", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "inconclusive_search_record", "subject_id": "be62386fc6e49e629a41367f"}
+{"query": "Onxol registered trademark variant paclitaxel injection generic brand identity", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "inconclusive_search_record", "subject_id": "acdd02bcfc8ed025a9423361"}
+{"query": "Oral paclitaxel Athenex encequidar generic descriptor", "result_state": "ACCESS_BLOCKED", "source_target": "official_company_press_release_v2", "subject_id": "2781c2c0233361526730b798"}
+{"query": "PADCEV enfortumab vedotin DailyMed", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "f6e08d6377369524ec6ca12e"}
+{"query": "PARAPLATIN registered trademark carboplatin Drugs@FDA", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda_products_brand", "subject_id": "72e7bd70ee0bf4b131d8b21d"}
+{"query": "Paraplatin carboplatin Drugs@FDA", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda_products_brand", "subject_id": "164ea4005182e7ccb43f940f"}
+{"query": "Paraplatin registered trademark carboplatin Drugs@FDA", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda_products_brand_v2", "subject_id": "e5ac59cfdfdb4d36a6b8fb03"}
+{"query": "PM8002 pumitamig BNT327 clinicaltrials.gov", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "clinicaltrials_gov", "subject_id": "2d5ae86fc4b2fa21cf265f3d"}
+{"query": "PT2977 belzutifan NLM MeSH supplementary concept synonym", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "pubmed_mesh_synonym", "subject_id": "1b04f4613b57c870ee5e367a"}
+{"query": "Paclitaxel Nanoparticle Albumin-bound ABRAXANE DailyMed", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "7f5b0131f54beabf106e0b69"}
+{"query": "Paclitaxel Protein-Bound ABRAXANE DailyMed", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "d8438a483f1d95c5d4d9ac69"}
+{"query": "Pembrolizumab Biosimilar RPH-075 identity", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "inconclusive_search_record", "subject_id": "1cd82cc217d23100a8cc0708"}
+{"query": "Pembrolizumab Biosimilar SB27 identity", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "inconclusive_search_record", "subject_id": "816216be90534ce859b8d319"}
+{"query": "Platinol-AQ registered trademark cisplatin Drugs@FDA", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda_products_brand", "subject_id": "94ae799dc601cf5ba4493595"}
+{"query": "Platinol registered trademark cisplatin Drugs@FDA", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda_products_brand", "subject_id": "be5cfcf9ffff56497d2de758"}
+{"query": "Platinol-AQ trademark variant cisplatin Drugs@FDA", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda_products_brand_v2", "subject_id": "d7d43312b498d2824fce7363"}
+{"query": "Oral paclitaxel Athenex encequidar generic descriptor SEC EDGAR", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "sec_edgar_filing_v2", "subject_id": "2781c2c0233361526730b798"}
+{"query": "Prava lomustine PubChem synonym", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "chemical_vendor_database", "subject_id": "d42ab53a6850d88d3bb7671e"}
+{"query": "Praxel paclitaxel NLM MeSH supplementary concept synonym", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "pubmed_mesh_synonym", "subject_id": "3e39a5203df6f21dc6dfa590"}
+{"query": "RB-1509 identity search", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "chemical_vendor_database", "subject_id": "3b6c473cdfd5bc053bfbe08d"}
+{"query": "RP-56976 docetaxel NLM MeSH supplementary concept synonym", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "pubmed_mesh_synonym", "subject_id": "d75842231ac9985053a7917f"}
+{"query": "RPH 075 pembrolizumab biosimilar identity", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "inconclusive_search_record", "subject_id": "9fc3c042365f92d1ad385ffb"}
+{"query": "RPH-075 identity", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "inconclusive_search_record", "subject_id": "24e764e67e16552ba782a66d"}
+{"query": "RPH075 identity", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "inconclusive_search_record", "subject_id": "a8282cbc7a573def31dd3ae8"}
+{"query": "RS7 SN38 sacituzumab govitecan PubChem synonym", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "chemical_vendor_database", "subject_id": "7b4ccc1c6b7f30cf1cac3e6d"}
+{"query": "RS7-SN38 sacituzumab govitecan PubChem synonym", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "chemical_vendor_database", "subject_id": "5e73d0f09ebe348548e72b7f"}
+{"query": "RS7SN38 sacituzumab govitecan PubChem synonym", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "chemical_vendor_database", "subject_id": "6d1f01f184798049f6215ce9"}
+{"query": "SB 27 pembrolizumab biosimilar identity", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "inconclusive_search_record", "subject_id": "ee09a19329cdf6cdfdb45df6"}
+{"query": "SB-27 pembrolizumab biosimilar identity", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "inconclusive_search_record", "subject_id": "2cd57413e80df3daa7854785"}
+{"query": "SB27 identity", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "inconclusive_search_record", "subject_id": "66b557221f7efd0e0100451e"}
+{"query": "SKB264 sacituzumab tirumotecan sac-TMT MK-2870 pubmed", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "primary_publication", "subject_id": "f868856939567c3ab5f16c55"}
+{"query": "SMT 112 identity", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "inconclusive_search_record", "subject_id": "94b47d9c0aceee173c36d845"}
+{"query": "SMT-112 identity", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "inconclusive_search_record", "subject_id": "aec6318c47f3c69b1c1a2d5d"}
+{"query": "SMT112 identity", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "inconclusive_search_record", "subject_id": "93c977f4a003f7aab1d8ff8e"}
+{"query": "Sac-TMT sacituzumab tirumotecan SKB264 pubmed", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "primary_publication", "subject_id": "64643c02f73cfaf0230854a9"}
+{"query": "Sacituzumab Govitecan-hziy TRODELVY DailyMed", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "45437098554d9d20896ee4b1"}
+{"query": "Sintilimab clinicaltrials.gov intervention", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "clinicaltrials_gov", "subject_id": "3ab78259f07b3b65c4f73a5b"}
+{"query": "TAB-001 toripalimab NCBI Bookshelf LactMed", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "chemical_vendor_database", "subject_id": "5f20a3b87e19f43249dbbc88"}
+{"query": "Taxol paclitaxel Drugs@FDA", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda_products_brand", "subject_id": "ae81492381aea42b061d6796"}
+{"query": "Taxol Konzentrat paclitaxel German formulation Drugs@FDA", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda_products_brand_v2", "subject_id": "1754c7cca2c2ed4eeee07d8b"}
+{"query": "Taxol registered trademark paclitaxel Drugs@FDA", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda_products_brand_v3", "subject_id": "8a0a499b4f134d9245c5a88c"}
+{"query": "U-18496 azacitidine PubChem synonym", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "chemical_vendor_database", "subject_id": "665aa3628abc0e8eca9cd7bc"}
+{"query": "U3-1402 patritumab deruxtecan PubChem", "result_state": "ACCESS_BLOCKED", "source_target": "chemical_vendor_database", "subject_id": "e6fd4f97b59b0238d3c5be81"}
+{"query": "WELIREG belzutifan DailyMed", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "33f91ec50b1ebc1eb04ff211"}
+{"query": "WR-139017 lomustine PubChem synonym", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "chemical_vendor_database", "subject_id": "a223bbcfab9b602830cfe293"}
+{"query": "XL092 zanzalintinib PubChem synonym", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "chemical_vendor_database", "subject_id": "1300a3e67853b184d2b0854f"}
+{"query": "Xeloda capecitabine Drugs@FDA", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "drugs_at_fda_products_brand", "subject_id": "a4ee39e215cbfb28d255ee99"}
+{"query": "anti-CTLA-4 monoclonal antibody generic descriptor ipilimumab DailyMed", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "d5c3c5d1254be552c683d1ed"}
+{"query": "anti-PD-1 monoclonal antibody generic descriptor pembrolizumab DailyMed", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "dc68afdcac94e5a909a0bd83"}
+{"query": "hRS7-SN38 Antibody Drug Conjugate sacituzumab govitecan PubChem synonym", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "chemical_vendor_database", "subject_id": "6b8e759b23ba72c0dce5ff95"}
+{"query": "iza-bren izalontamab brengitecan pubmed", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "primary_publication", "subject_id": "83cadf10665a473327baabe1"}
+{"query": "izalontamab brengitecan pubmed EGFR HER3 ADC", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "primary_publication", "subject_id": "40a1c5be00c4b447b5a6fc64"}
+{"query": "mFOLFOX6 combination regimen generic descriptor", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "26702632716bdcd874f9f395"}
+{"query": "mRNA-4157 V940 intismeran autogene pubmed", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "primary_publication", "subject_id": "f66bec899be844c4b6495bbc"}
+{"query": "sac-TMT sacituzumab tirumotecan SKB264 lowercase variant pubmed", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "primary_publication_v2", "subject_id": "a78744db44ad963b27ca609d"}
+{"query": "U3-1402 patritumab deruxtecan PubMed MeSH synonym", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "primary_publication_v2", "subject_id": "e6fd4f97b59b0238d3c5be81"}
+{"query": "ZEN 3694 clinicaltrials.gov", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "trial_registry_intervention_record", "subject_id": "9873fc402c2e1225479435d6"}
+{"query": "ZEN-3694 clinicaltrials.gov", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "trial_registry_intervention_record", "subject_id": "806b192e9d0905505b1582cd"}
+{"query": "ZEN003694 clinicaltrials.gov", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "trial_registry_intervention_record", "subject_id": "a8873e2e4c922144839ea117"}
+{"query": "5-Fluorouracil Leucovorin Calcium combination DailyMed", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "db8a771d98ce262ea9ec83c4"}
+{"query": "5-Fluorouracil Leucovorin Calcium combination DailyMed", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "c92fac670931aa656a27e03c"}
+{"query": "5-Fluorouracil Leucovorin Calcium combination DailyMed", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "c56b7835451dba1bd66e16bd"}
+{"query": "Anti-PD-1/Anti-VEGF Bispecific Antibody AK112 ivonescimab", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "trial_registry_intervention_record", "subject_id": "ef55bb47769a288956f88ccf"}
+{"query": "Anti-PD-1/VEGF Bispecific Antibody AK112 ivonescimab", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "trial_registry_intervention_record", "subject_id": "75b9a135026840df229573a2"}
+{"query": "Anti-PD-1/Anti-VEGF Bispecific Antibody AK112 ivonescimab", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "trial_registry_intervention_record", "subject_id": "aa4c996c97868032e8650ccd"}
+{"query": "Anti-PD-1/VEGF Bispecific Antibody AK112 ivonescimab", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "trial_registry_intervention_record", "subject_id": "1c37d62be8fb92506782afb3"}
+{"query": "Cisplatin 100 mg/m^2 dosing descriptor DailyMed", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "ffaf5ef74fbb136e6ad115d8"}
+{"query": "Cisplatin 100 mg/m^2 dosing descriptor DailyMed", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "9795fc145326c36706da8b21"}
+{"query": "Favezelimab Pembrolizumab coformulation clinicaltrials.gov", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "trial_registry_intervention_record", "subject_id": "9f3a13cf0c0f8df16efd17d5"}
+{"query": "Favezelimab Pembrolizumab coformulation clinicaltrials.gov", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "trial_registry_intervention_record", "subject_id": "de2e97ee3ddb3a09baba31e7"}
+{"query": "First line chemotherapy plus PD-1/PD-L1 antibody generic descriptor", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "1b91c91165e1e875546eaac4"}
+{"query": "First line chemotherapy plus PD-1/PD-L1 antibody generic descriptor", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "d270094b742ba97b13814240"}
+{"query": "Gemcitabine and Cisplatin Chemotherapy combination DailyMed", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "6e00abc92cb9d39306fcf0c4"}
+{"query": "Immunoglobulin G4 anti-LAG-3 systematic descriptor generic", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "primary_publication", "subject_id": "918f56c8871d464e068cb667"}
+{"query": "Investigator's choice of chemotherapy generic descriptor", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "d2669c1e6f0c803e157f2fb6"}
+{"query": "Ipilimumab plus nivolumab combination DailyMed", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "84e0359cd9f7216a95d422ba"}
+{"query": "KRAS Vaccine with Poly-ICLC adjuvant clinicaltrials.gov", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "trial_registry_intervention_record", "subject_id": "5ea8c8a474d891b91584bc38"}
+{"query": "LN-145 lifileucel pembrolizumab combination pubmed", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "primary_publication", "subject_id": "ab195ab9eee4b2d13b25dd1f"}
+{"query": "N-(2-Chloroethyl)-N'-cyclohexyl-N-nitrosourea lomustine PubChem", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "chemical_vendor_database_v2", "subject_id": "da6c6f4cf3e77957222447b5"}
+{"query": "Nivolumab and Relatlimab OPDUALAG DailyMed", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "5e8fbd28e200d59f439f9d8b"}
+{"query": "Iparomlimab and Tuvonralimab QL1706 pubmed", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "primary_publication", "subject_id": "060341bdb4c6abf75fe90fb8"}
+{"query": "Iparomlimab and Tuvonralimab (QL1706) pubmed", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "primary_publication", "subject_id": "2ff5784665c6255737a6ebbd"}
+{"query": "Iparomlimab and Tuvonralimab in combination with Lenvatinib QL1706", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "trial_registry_intervention_record", "subject_id": "bd137fe973152a72d58ec3ae"}
+{"query": "TACE+QL1706 clinicaltrials.gov", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "trial_registry_intervention_record", "subject_id": "4012d31f408bf45c0226a2e4"}
+{"query": "PD-1/PD-L1 Inhibitors generic class descriptor DailyMed", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "bb5e1a053b4dc77df475e9e0"}
+{"query": "PD-1/PD-L1 Inhibitors generic class descriptor DailyMed", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "fbff730284f550b67c7c5cda"}
+{"query": "PD-1/PD-L1 inhibitor eg Tislelizumab generic descriptor pubmed", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "primary_publication_v2", "subject_id": "9a241b83268fb1cb8450b34f"}
+{"query": "PD-1/PD-L1 inhibitor eg Tislelizumab generic descriptor pubmed", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "primary_publication_v2", "subject_id": "0fd3d3ed74ae03b7ce92d79e"}
+{"query": "PD-1/VEGF Bispecific Antibody generic class descriptor AK112", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "trial_registry_intervention_record", "subject_id": "7f062ec97503b51d75cf91f3"}
+{"query": "PD-1/VEGF Bispecific Antibody AK112 ivonescimab", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "trial_registry_intervention_record", "subject_id": "def171e028ef60704033c1df"}
+{"query": "PD-1/VEGF antibody generic class descriptor AK112", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "trial_registry_intervention_record", "subject_id": "755a8f93d08320e5e527e0ba"}
+{"query": "PD-1/VEGF bispecific antibody generic class descriptor AK112", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "trial_registry_intervention_record", "subject_id": "a89adc7170d70f2ba7967f1c"}
+{"query": "PD-1/VEGF Bispecific Antibody generic class descriptor AK112", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "trial_registry_intervention_record", "subject_id": "deef9102ee13b5de3c2f3743"}
+{"query": "PD-1/VEGF Bispecific Antibody AK112 ivonescimab", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "trial_registry_intervention_record", "subject_id": "977006e4ce270de756ee2860"}
+{"query": "PD-1/VEGF antibody generic class descriptor AK112", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "trial_registry_intervention_record", "subject_id": "77afcee391f71fb27be6f24c"}
+{"query": "PD-1/VEGF bispecific antibody generic class descriptor AK112", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "trial_registry_intervention_record", "subject_id": "0d5381d7c4860b288826c01c"}
+{"query": "Pembrolizumab Berahyaluronidase alfa subcutaneous pubmed", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "primary_publication", "subject_id": "367bbe9133f8e9cc2b4145d1"}
+{"query": "Pembrolizumab Quavonlimab coformulation clinicaltrials.gov", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "trial_registry_intervention_record", "subject_id": "ea829dbcd7a402cc9abb40a7"}
+{"query": "Pembrolizumab Quavonlimab coformulation clinicaltrials.gov", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "trial_registry_intervention_record", "subject_id": "3667e7651853c8cbe444bff4"}
+{"query": "Radiation with Concurrent Chemotherapy generic descriptor", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "1e23b4214491b3bad34f6d2d"}
+{"query": "S-1 tegafur gimeracil oteracil clinicaltrials.gov", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "trial_registry_intervention_record", "subject_id": "49d2cc6e1cd2eea89d47c52e"}
+{"query": "S-1 tegafur gimeracil oteracil clinicaltrials.gov", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "trial_registry_intervention_record", "subject_id": "eaa93fbcb1fcaaa278ff1e2b"}
+{"query": "TIL autologous tumor infiltrating lymphocytes pembrolizumab generic descriptor", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "ceff031c9c9a798581fa9bfe"}
+{"query": "Toripalimab Nab-paclitaxel Platinum-based Chemotherapy combination", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "4bcfba1ecbc16a6227bba8e6"}
+{"query": "Vibostolimab Pembrolizumab coformulation MK-7684A", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "trial_registry_intervention_record", "subject_id": "30b08a4fc3b6c829fe44a982"}
+{"query": "Vibostolimab Pembrolizumab coformulation MK-7684A", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "trial_registry_intervention_record", "subject_id": "1144c8ed2c06ef36f02fe3f0"}
+{"query": "Buzhong Yiqi Decoction Hochu-ekki-to PubMed MeSH synonym", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "primary_publication_v2", "subject_id": "4f189f16e3cce0d53c2519f7"}
+{"query": "GSK4057190 dostarlimab TSR-042 PubMed MeSH synonym", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "primary_publication_v2", "subject_id": "d98ef41503eccd99942da082"}
+{"query": "SMT112 AK112 combined descriptor clinicaltrials.gov", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "trial_registry_intervention_record", "subject_id": "e81c0598300a82af332c10f6"}
+{"query": "TIL autologous tumor infiltrating lymphocytes generic descriptor", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "3191724592ed8ced3e340d55"}
+{"query": "dacarbazine temozolomide paclitaxel platinum or cisplatin generic combination descriptor", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "0fa5edea6d144c168959ae37"}
+{"query": "dacarbazine temozolomide paclitaxel or platinum generic combination descriptor", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "official_regulatory_source", "subject_id": "85070bdd9d98332aa07d9ab8"}
+{"query": "Anzatax paclitaxel brand name Mayne Pharma", "result_state": "NO_EXTERNAL_AUTHORITY_FOUND", "source_target": "official_registry_dictionary", "subject_id": "6b5f48f4f259acf64d4970e4"}
+{"query": "Asotax paclitaxel brand name PLM Mexico registry", "result_state": "NO_EXTERNAL_AUTHORITY_FOUND", "source_target": "regional_drug_registry", "subject_id": "ea1c27da13cac237469e6ebd"}
+{"query": "Bristaxol paclitaxel Bristol-Myers Squibb Mexico", "result_state": "NO_EXTERNAL_AUTHORITY_FOUND", "source_target": "regional_drug_registry", "subject_id": "45fde9196402fa32effa07e8"}
+{"query": "Citostal Brazil brand lomustine", "result_state": "NO_EXTERNAL_AUTHORITY_FOUND", "source_target": "official_registry_dictionary", "subject_id": "e44fa3d7df20b2eea715441f"}
+{"query": "Hiltonol Poly-ICLC Oncovir TLR3 agonist", "result_state": "NO_EXTERNAL_AUTHORITY_FOUND", "source_target": "primary_publication", "subject_id": "bc8553f62de7bc1650f255a0"}
+{"query": "MGCD516 sitravatinib Mirati", "result_state": "NO_EXTERNAL_AUTHORITY_FOUND", "source_target": "official_registry_dictionary", "subject_id": "580d4ad091318f7d3b237bf8"}
+{"query": "Monoclonal Antibody HGS-ETR2 lexatumumab pubmed", "result_state": "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED", "source_target": "peer_reviewed_primary_publication", "subject_id": "3d51871dafbf42fdb143277f"}
+{"query": "Mylosar azacitidine brand synonym", "result_state": "ACCESS_BLOCKED", "source_target": "chemical_vendor_database", "subject_id": "bbd6f516a80fe290dac89252"}

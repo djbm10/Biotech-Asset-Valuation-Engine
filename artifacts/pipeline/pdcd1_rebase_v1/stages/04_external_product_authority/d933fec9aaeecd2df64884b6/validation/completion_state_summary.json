@@ -1,0 +1,8 @@
+{
+  "counts": {
+    "CONFLICTING_AUTHORITY_CAPTURED": 76,
+    "NO_EXTERNAL_AUTHORITY_FOUND": 7,
+    "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED": 471
+  },
+  "total_subjects": 554
+}

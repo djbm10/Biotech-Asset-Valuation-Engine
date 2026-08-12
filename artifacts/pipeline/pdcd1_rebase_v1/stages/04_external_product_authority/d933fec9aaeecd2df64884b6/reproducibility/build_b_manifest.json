@@ -1,0 +1,38 @@
+{
+  "aliases_adjudicated": false,
+  "assertion_schema_hash": "5245d229bf7bcb821e433cfae288d6a50864113555479b86742ab03916d908b0",
+  "assertion_schema_version": "1.0.0",
+  "benchmark_labels_created": false,
+  "candidate_chronology_created": false,
+  "canonical_candidates_created": false,
+  "canonical_evidence_manifest_hash": "a6349db021eadfbe2f61f9b47a38048f39aacece620efdedb7f4ab2b44c89610",
+  "canonical_target": "PDCD1",
+  "checks": {
+    "assertion_count": 1462,
+    "completion_state_counts": {
+      "CONFLICTING_AUTHORITY_CAPTURED": 76,
+      "NO_EXTERNAL_AUTHORITY_FOUND": 15,
+      "PARTIAL_AUTHORITY_CAPTURED": 10,
+      "SUFFICIENT_EXTERNAL_AUTHORITY_CAPTURED": 453
+    },
+    "conflict_count": 76,
+    "research_question_count": 1273,
+    "source_attempt_count": 853,
+    "source_evidence_count": 853,
+    "subject_count": 554
+  },
+  "evaluation_performed": false,
+  "external_authority_capture_performed": true,
+  "lineage": "REPRODUCIBLE_BIOTECH_PIPELINE_REBASE_V1",
+  "milestone": "PDCD1_BENCHMARK_REBASE_V1_MILESTONE_4_EXTERNAL_PRODUCT_AUTHORITY_CAPTURE",
+  "milestone3_prerequisite": {
+    "archive_sha256": "889f18f8cda547ed12e484535116ed2cac710a08d617e958272b61bea58a89e8",
+    "snapshot_id": "f5dd19d08deb59a75232d3bc"
+  },
+  "ownership_claims_created": false,
+  "predictions_generated": false,
+  "research_schema_version": "1.0.0",
+  "snapshot_id": "14155fd94c1f2d8b621071d2",
+  "source_authority_policy_hash": "c44f124451d7f969e884ef455e23be293c55412b859b6b97449d2d4a655edfbe",
+  "stage_status": "FINALIZED"
+}

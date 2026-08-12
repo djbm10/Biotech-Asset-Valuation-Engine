@@ -1,0 +1,64 @@
+{
+  "aliases_adjudicated": false,
+  "artifacts": {
+    "assertions/normalized_assertion_ledger.jsonl": {
+      "byte_length": 638004,
+      "sha256": "1000ac82d61b616b3b34ecd412d1cd6171cc589ede56d270646ea70ee8b3cf1c"
+    },
+    "commands.jsonl": {
+      "byte_length": 100,
+      "sha256": "77978db74486a3db9900d9760e48ea554acb2196ba6cf890952b197a2634dbaf"
+    },
+    "conflicts/authority_conflict_ledger.jsonl": {
+      "byte_length": 84798,
+      "sha256": "1342d62ac4b57137a2b2f878140b8fff41fe402a40d3df6068974f36a8b1c9ab"
+    },
+    "input/prerequisite_bindings.json": {
+      "byte_length": 204,
+      "sha256": "abe76f102f278cf57f66ed71f5483db557ffd51c981860529e23034cc6171942"
+    },
+    "logs/build.jsonl": {
+      "byte_length": 120,
+      "sha256": "e423881799786da3e44ca63b8513e9a04f3aa5d4cf24cff4fa8c0bef2970951c"
+    },
+    "manifest.json": {
+      "byte_length": 1531,
+      "sha256": "a57d4ec3aa938af0361711751a2b2a5475aa093af37e1ec5d542562832483fc4"
+    },
+    "source/source_attempt_ledger.jsonl": {
+      "byte_length": 145301,
+      "sha256": "cea1a8aef9f4d97722e111b7f63f63d40e8d4628e0f5bc8d6fbdbd975a3f5859"
+    },
+    "source/source_evidence_ledger.jsonl": {
+      "byte_length": 918507,
+      "sha256": "c7c28b756e7051687c21d128377373f7e62273fd105ca3a1e2992f56c9fedec7"
+    },
+    "subjects/authority_research_subject_ledger.jsonl": {
+      "byte_length": 2469543,
+      "sha256": "7a8af923c39ce248e9e3032d152779cc6544c8a6ea7f540d3e419ff3a03e4a1c"
+    },
+    "subjects/research_question_ledger.jsonl": {
+      "byte_length": 187016,
+      "sha256": "6dade30622cb6c26d74ea61431a014978534a11183dde0225e8cadb59d42a5a8"
+    },
+    "validation/completion_state_summary.json": {
+      "byte_length": 215,
+      "sha256": "41a31a66e1ad4a2246e650ede7a8ce986b11f593c74eb141035fe104e7d57b79"
+    },
+    "validation/research_completion_state_ledger.jsonl": {
+      "byte_length": 139044,
+      "sha256": "daf28dccaf51ee303c788c72501bac6e1b581e9f3663532025cbfccbe3baf4f2"
+    }
+  },
+  "benchmark_labels_created": false,
+  "candidate_chronology_created": false,
+  "canonical_candidates_created": false,
+  "evaluation_performed": false,
+  "external_authority_capture_performed": true,
+  "generated_at": "2026-08-12T22:27:33.064530+00:00",
+  "lineage": "REPRODUCIBLE_BIOTECH_PIPELINE_REBASE_V1",
+  "milestone": "PDCD1_BENCHMARK_REBASE_V1_MILESTONE_4_EXTERNAL_PRODUCT_AUTHORITY_CAPTURE",
+  "ownership_claims_created": false,
+  "predictions_generated": false,
+  "snapshot_id": "14155fd94c1f2d8b621071d2"
+}

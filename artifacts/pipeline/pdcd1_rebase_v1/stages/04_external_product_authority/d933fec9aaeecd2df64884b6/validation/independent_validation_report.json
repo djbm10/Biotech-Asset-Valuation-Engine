@@ -1,0 +1,88 @@
+{
+  "checks": {
+    "all_completion_states_are_recognized_values": {
+      "detail": 0,
+      "pass": true
+    },
+    "company_sources_have_recorded_domain": {
+      "detail": 0,
+      "pass": true
+    },
+    "conflicts_not_resolved_with_a_winner": {
+      "detail": 0,
+      "pass": true
+    },
+    "every_assertion_has_evidence_hash": {
+      "detail": 0,
+      "pass": true
+    },
+    "every_evidence_hash_resolves_to_a_captured_source": {
+      "detail": 0,
+      "pass": true
+    },
+    "every_source_locator_has_response_hash_and_length": {
+      "detail": 0,
+      "pass": true
+    },
+    "every_subject_has_a_completion_state_entry": {
+      "detail": [],
+      "pass": true
+    },
+    "every_subject_has_exactly_one_completion_state": {
+      "detail": 0,
+      "pass": true
+    },
+    "every_subject_originates_from_milestone3_queues": {
+      "detail": [],
+      "pass": true
+    },
+    "manifest_readable": {
+      "detail": null,
+      "pass": true
+    },
+    "manifest_scope_flags_correct": {
+      "detail": {},
+      "pass": true
+    },
+    "no_adc_or_biosimilar_merged_with_reference": {
+      "detail": 0,
+      "pass": true
+    },
+    "no_approved_subject_silently_dropped": {
+      "detail": [],
+      "pass": true
+    },
+    "no_fuzzy_match_treated_as_explicit_linkage": {
+      "detail": 0,
+      "pass": true
+    },
+    "no_out_of_scope_fields_present_anywhere_in_snapshot": {
+      "detail": [],
+      "pass": true
+    },
+    "no_search_snippet_treated_as_authority": {
+      "detail": 0,
+      "pass": true
+    },
+    "no_tier_d_secondary_database_alone_proves_linkage": {
+      "detail": 0,
+      "pass": true
+    },
+    "no_unjustified_authority_tier_escalation": {
+      "detail": 0,
+      "pass": true
+    },
+    "tier_a_positive_matches_are_exact_field_matches": {
+      "detail": 0,
+      "pass": true
+    },
+    "tier_c_linkage_uses_primary_publication_source_class": {
+      "detail": 0,
+      "pass": true
+    }
+  },
+  "failed_checks": [],
+  "overall_pass": true,
+  "snapshot_dir": "artifacts/pipeline/pdcd1_rebase_v1/stages/04_external_product_authority/d933fec9aaeecd2df64884b6",
+  "validator_schema_version": "1.0.0"
+}
