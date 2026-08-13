@@ -1,0 +1,19 @@
+{
+  "build_a_vs_build_b_agreement": {
+    "agreement_rate": 1.0,
+    "agreements": 300,
+    "disagreements": 0,
+    "total_rows": 300
+  },
+  "combination_row_count": 108,
+  "escape_hatch_count": 0,
+  "outcome_counts": {
+    "CANDIDATE_LINKED": 103,
+    "CONFLICTING_MULTI_PRODUCT": 84,
+    "EXPLICIT_NONCANDIDATE": 49,
+    "IDENTITY_CONFLICT_UNRESOLVED": 30,
+    "INSUFFICIENT_EVIDENCE": 34
+  },
+  "schema_version": "1.0.0",
+  "total_rows": 300
+}

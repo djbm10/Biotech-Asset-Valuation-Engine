@@ -1,0 +1,24 @@
+{
+  "frozen_input_only": true,
+  "milestone1": {
+    "manifest_sha256": "b1bbc494f861f56c6aa6cf27dbe061f50bed8196f1ae017264312148c2f059a2",
+    "snapshot_id": "47e9e791f48bb7aacc467e28"
+  },
+  "milestone2": {
+    "manifest_sha256": "c806400896a3372d9e55ee73728d84b5c83a4fc8960032619d829508827ca3c2",
+    "snapshot_id": "62914ac00fa635d38755e25b"
+  },
+  "milestone3": {
+    "manifest_sha256": "580f1081b6ea31f1765ee7f59477d4cca65c86ca07eadc2b31d01c02e1ea81bb",
+    "snapshot_id": "f5dd19d08deb59a75232d3bc"
+  },
+  "milestone4": {
+    "manifest_sha256": "3daefdd4f2ed774853b48168240dd66eac1be9593da5da6d4466e24c4fac8763",
+    "snapshot_id": "d933fec9aaeecd2df64884b6"
+  },
+  "milestone5": {
+    "manifest_sha256": "6e91c94fe64df605fdbc56eb42b35ca177e2c693006fcfe355e2b1ab205c07cc",
+    "snapshot_id": "f26fd47e34ab97badde4e2ae"
+  },
+  "new_external_research_performed": false
+}

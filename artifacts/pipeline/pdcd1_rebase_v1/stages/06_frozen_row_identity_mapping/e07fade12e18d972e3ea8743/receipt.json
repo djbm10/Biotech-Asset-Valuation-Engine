@@ -1,0 +1,92 @@
+{
+  "artifacts": {
+    "boundaries/row_identity_boundary_ledger.jsonl": {
+      "byte_length": 10456,
+      "sha256": "a3be74bd5b810db35fdd9cc0db911f24473e06b55249cbbcd3bbb432211b7183"
+    },
+    "commands.jsonl": {
+      "byte_length": 258,
+      "sha256": "ba9140cd7c68f72e053b6168de251b15efbf4451c2f5170181140103f8b12503"
+    },
+    "input/prerequisite_bindings.json": {
+      "byte_length": 876,
+      "sha256": "9be197a7673fad59c4e81def45de3545e9c3d4993913f179b576303c924638fe"
+    },
+    "logs/build.jsonl": {
+      "byte_length": 168,
+      "sha256": "354df05f9836f8f0129e0749acfcc719fa1e63e9d57a6a0f75c9e9914708fe80"
+    },
+    "manifest.json": {
+      "byte_length": 1435,
+      "sha256": "1b196139708d150c10776ff81c449fb24be21dda5b9672a92ad4cadd72698fca"
+    },
+    "reproducibility/BUILD_A_VS_BUILD_B_COMPARISON.md": {
+      "byte_length": 386,
+      "sha256": "fe42f46e92daea2e3d647c6dc879a7cf649a28418f0b105becebd8cc737c3ef8"
+    },
+    "reproducibility/build_b/boundaries/row_identity_boundary_ledger.jsonl": {
+      "byte_length": 10456,
+      "sha256": "a3be74bd5b810db35fdd9cc0db911f24473e06b55249cbbcd3bbb432211b7183"
+    },
+    "reproducibility/build_b/rows/combination_component_ledger.jsonl": {
+      "byte_length": 59735,
+      "sha256": "d4675c013323c37fedb6f970601bd2d17e5add446497d0d198a9c3126a0dc285"
+    },
+    "reproducibility/build_b/rows/row_candidate_mapping_ledger.jsonl": {
+      "byte_length": 175912,
+      "sha256": "22ec4f07da58ccc76b1bee0f421a4c17251e5f32e0acf5dcfaf1f959425ac1af"
+    },
+    "reproducibility/build_b/rows/row_evidence_binding_ledger.jsonl": {
+      "byte_length": 118982,
+      "sha256": "bc6a932249cc24f31a88a7ccadf75200c33cced75a2946789117993023a1cdab"
+    },
+    "reproducibility/build_b/rows/row_outcome_ledger.jsonl": {
+      "byte_length": 75724,
+      "sha256": "f8ea3aa66f5fa4dcfc763e50d5ded094b797cce848b1509a422cd010ea06a691"
+    },
+    "reproducibility/build_b/rows/unresolved_row_ledger.jsonl": {
+      "byte_length": 145955,
+      "sha256": "04f2e09789bb12dc58a3c54415c30e789468ef524fc8aaadf21ad0708cfa6124"
+    },
+    "reproducibility/reconciliation_ledger.jsonl": {
+      "byte_length": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "rows/combination_component_ledger.jsonl": {
+      "byte_length": 59735,
+      "sha256": "d4675c013323c37fedb6f970601bd2d17e5add446497d0d198a9c3126a0dc285"
+    },
+    "rows/row_candidate_mapping_ledger.jsonl": {
+      "byte_length": 175912,
+      "sha256": "22ec4f07da58ccc76b1bee0f421a4c17251e5f32e0acf5dcfaf1f959425ac1af"
+    },
+    "rows/row_evidence_binding_ledger.jsonl": {
+      "byte_length": 118982,
+      "sha256": "bc6a932249cc24f31a88a7ccadf75200c33cced75a2946789117993023a1cdab"
+    },
+    "rows/row_outcome_ledger.jsonl": {
+      "byte_length": 75724,
+      "sha256": "f8ea3aa66f5fa4dcfc763e50d5ded094b797cce848b1509a422cd010ea06a691"
+    },
+    "rows/unresolved_row_ledger.jsonl": {
+      "byte_length": 145955,
+      "sha256": "04f2e09789bb12dc58a3c54415c30e789468ef524fc8aaadf21ad0708cfa6124"
+    },
+    "validation/row_identity_mapping_summary.json": {
+      "byte_length": 447,
+      "sha256": "8122c1d59b299712e3f503fd804cea627fdd2a6329d51ce7e16a29d816751b15"
+    }
+  },
+  "benchmark_labels_created": false,
+  "candidate_chronology_created": false,
+  "canonical_candidates_created": false,
+  "evaluation_performed": false,
+  "external_authority_capture_performed": false,
+  "generated_at": "2026-08-13T02:18:40.737324+00:00",
+  "lineage": "REPRODUCIBLE_BIOTECH_PIPELINE_REBASE_V1",
+  "milestone": "PDCD1_BENCHMARK_REBASE_V1_MILESTONE_6_FROZEN_ROW_IDENTITY_MAPPING",
+  "ownership_claims_created": false,
+  "predictions_generated": false,
+  "row_identity_mapping_performed": true,
+  "snapshot_id": "e07fade12e18d972e3ea8743"
+}
