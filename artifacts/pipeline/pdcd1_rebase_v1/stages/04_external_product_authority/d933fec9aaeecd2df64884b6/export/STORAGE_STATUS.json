@@ -1,0 +1,42 @@
+{
+  "archive": "pdcd1-rebase-v1-external-authority-d933fec9aaeecd2df64884b6.tar.gz",
+  "build_b_reproducibility_bundle": {
+    "build_b_independent_validator_overall_pass": true,
+    "build_b_snapshot_id": "14155fd94c1f2d8b621071d2",
+    "completion_state_agreement": "522/554 (94.2%) identical; 32 disagreements fully enumerated and disclosed",
+    "contents": [
+      "BUILD_A_VS_BUILD_B_COMPARISON.md",
+      "completion_state_disagreements.jsonl",
+      "assertion_type_disagreements.jsonl",
+      "build_b_research_completion_state_ledger.jsonl",
+      "build_b_manifest.json",
+      "build_b_receipt.json",
+      "build_b_validator_report.json"
+    ],
+    "included_in_archive": true,
+    "location": "reproducibility/",
+    "note": "Large raw Build B research captures (per-batch manifests/logs, live fetch cache) remain archive-only local working material, not included in this published package; the canonical comparison artifacts, ledgers, hashes, and receipts needed to substantiate the reproducibility claim are included.",
+    "research_universe_agreement": "554/554 subjects identical"
+  },
+  "byte_length": 1497671,
+  "note_on_prior_snapshot": "No prior Milestone 4 snapshot existed; this is the first and only Milestone 4 external-authority-capture publication.",
+  "raw_source_directory": null,
+  "remote_download_verification": {
+    "downloaded_archive_byte_length": 1497671,
+    "downloaded_via": "gh release download",
+    "extraction_result": "SUCCESS",
+    "manifest_schema_validation_result": "PASSED",
+    "manifest_scope_flags_all_false": true,
+    "manifest_stage_status": "FINALIZED",
+    "mismatch_list": [],
+    "receipt_bound_artifacts_recomputed": 12,
+    "receipt_bound_hash_mismatches": [],
+    "receipt_validation_result": "PASSED",
+    "semantic_validation_checks_total": 22,
+    "semantic_validation_failed_checks": [],
+    "semantic_validation_result": "PASSED",
+    "timestamp": "2026-08-12T19:59:00Z"
+  },
+  "sha256": "13435bd23c7132a970516b7d2701d2682d12b02cf1f7c856e1edc7f80c4bf38f",
+  "storage_status": "REMOTE_DURABLE_VERIFIED"
+}
