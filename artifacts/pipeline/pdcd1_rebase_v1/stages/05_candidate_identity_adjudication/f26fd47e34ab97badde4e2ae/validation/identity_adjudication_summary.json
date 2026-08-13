@@ -1,0 +1,23 @@
+{
+  "alias_count": 158,
+  "build_a_vs_build_b_agreement": {
+    "agreement_rate": 1.0,
+    "agreements": 554,
+    "disagreements": 0,
+    "total_subjects": 554
+  },
+  "canonical_candidate_count": 224,
+  "conflicts_resolved": 16,
+  "conflicts_unresolved": 60,
+  "m4_conflict_count": 76,
+  "outcome_counts": {
+    "CONFLICT_UNRESOLVED": 60,
+    "DISTINCT_PRODUCT": 29,
+    "EXPLICIT_NONCANDIDATE": 205,
+    "GENERIC_OR_NONIDENTIFYING": 0,
+    "INSUFFICIENT_EVIDENCE": 11,
+    "VERIFIED_ALIAS_OF_CANDIDATE": 158,
+    "VERIFIED_CANONICAL_CANDIDATE": 91
+  },
+  "total_subjects": 554
+}

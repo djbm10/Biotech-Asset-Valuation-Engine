@@ -1,0 +1,84 @@
+{
+  "aliases_adjudicated": true,
+  "artifacts": {
+    "aliases/alias_development_code_ledger.jsonl": {
+      "byte_length": 134709,
+      "sha256": "aa20e5f466cdc2e743ac12f2005e7dda726c8be712684899765450fe668b0dd4"
+    },
+    "aliases/rejected_alias_ledger.jsonl": {
+      "byte_length": 131228,
+      "sha256": "28b392679022b4ba136b94939be9de218be2fe00fab020afacb16978d3b2a3b3"
+    },
+    "boundaries/identity_boundary_ledger.jsonl": {
+      "byte_length": 37182,
+      "sha256": "2075232ba7750f9c43915f2fe8725b918394577b56e1c90555c87e3539e58008"
+    },
+    "candidates/canonical_candidate_ledger.jsonl": {
+      "byte_length": 203387,
+      "sha256": "e1dd32a9e2db188a4d0f160b78b9398be1444ccdf5cd31691a2d1a550ac12e6b"
+    },
+    "commands.jsonl": {
+      "byte_length": 152,
+      "sha256": "018acec30decfb047e1409ec00531001c834cdefd1e8b81b79ce32b0eb1cb122"
+    },
+    "conflicts/conflict_resolution_ledger.jsonl": {
+      "byte_length": 80050,
+      "sha256": "4bdeeeee295784649eb88701fd4b8861cdb969348b53b74e2db743aca75312c1"
+    },
+    "input/prerequisite_bindings.json": {
+      "byte_length": 344,
+      "sha256": "f012f92e18cd88cf3629a8a9a7e232f52092564a2392fa7cfa7c3001f62651ba"
+    },
+    "logs/build.jsonl": {
+      "byte_length": 163,
+      "sha256": "4f5ed3e4421643addabc1bb626f15402e6b23c00b5b96ba3f776529b554feaed"
+    },
+    "manifest.json": {
+      "byte_length": 1323,
+      "sha256": "6e91c94fe64df605fdbc56eb42b35ca177e2c693006fcfe355e2b1ab205c07cc"
+    },
+    "reproducibility/BUILD_A_VS_BUILD_B_COMPARISON.md": {
+      "byte_length": 647,
+      "sha256": "cd1de64ccb91b23aac12c47368c0f7f4ee4e04402c5d5e87b759f0e74ab0ec85"
+    },
+    "reproducibility/build_a_canonical_candidate_ledger.jsonl": {
+      "byte_length": 203387,
+      "sha256": "e1dd32a9e2db188a4d0f160b78b9398be1444ccdf5cd31691a2d1a550ac12e6b"
+    },
+    "reproducibility/build_a_subject_candidate_mapping_ledger.jsonl": {
+      "byte_length": 499786,
+      "sha256": "5af221dee45d8167560f0d2b5a74ffa5bd36b21f1f24b3f8040273ee73910f2e"
+    },
+    "reproducibility/build_b_canonical_candidate_ledger.jsonl": {
+      "byte_length": 203387,
+      "sha256": "e00d3b7f6a3f206d4d93bb57b9d44e56dbf51b005949989da663676beba218f7"
+    },
+    "reproducibility/build_b_subject_candidate_mapping_ledger.jsonl": {
+      "byte_length": 498406,
+      "sha256": "82af4190f4ef8c57e463a80a92dee3da19781cb7cf37bb5b49fa42fd657c2b21"
+    },
+    "reproducibility/reconciliation_ledger.jsonl": {
+      "byte_length": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "subjects/subject_candidate_mapping_ledger.jsonl": {
+      "byte_length": 499786,
+      "sha256": "5af221dee45d8167560f0d2b5a74ffa5bd36b21f1f24b3f8040273ee73910f2e"
+    },
+    "validation/identity_adjudication_summary.json": {
+      "byte_length": 580,
+      "sha256": "b494a48350d1af3a1740a6402092ef38ad29285106eb828da9ce13886d2b89c5"
+    }
+  },
+  "benchmark_labels_created": false,
+  "candidate_chronology_created": false,
+  "canonical_candidates_created": true,
+  "evaluation_performed": false,
+  "external_authority_capture_performed": false,
+  "generated_at": "2026-08-13T01:38:30.953784+00:00",
+  "lineage": "REPRODUCIBLE_BIOTECH_PIPELINE_REBASE_V1",
+  "milestone": "PDCD1_BENCHMARK_REBASE_V1_MILESTONE_5_CANDIDATE_IDENTITY_ADJUDICATION",
+  "ownership_claims_created": false,
+  "predictions_generated": false,
+  "snapshot_id": "f26fd47e34ab97badde4e2ae"
+}

@@ -1,0 +1,42 @@
+{
+  "aliases_adjudicated": true,
+  "benchmark_labels_created": false,
+  "candidate_chronology_created": false,
+  "candidate_identity_schema_version": "1.0.0",
+  "canonical_candidates_created": true,
+  "canonical_target": "PDCD1",
+  "checks": {
+    "alias_count": 158,
+    "build_a_vs_build_b_agreement": {
+      "agreement_rate": 1.0,
+      "agreements": 554,
+      "disagreements": 0,
+      "total_subjects": 554
+    },
+    "canonical_candidate_count": 224,
+    "conflicts_resolved": 16,
+    "conflicts_unresolved": 60,
+    "m4_conflict_count": 76,
+    "outcome_counts": {
+      "CONFLICT_UNRESOLVED": 60,
+      "DISTINCT_PRODUCT": 29,
+      "EXPLICIT_NONCANDIDATE": 205,
+      "GENERIC_OR_NONIDENTIFYING": 0,
+      "INSUFFICIENT_EVIDENCE": 11,
+      "VERIFIED_ALIAS_OF_CANDIDATE": 158,
+      "VERIFIED_CANONICAL_CANDIDATE": 91
+    },
+    "total_subjects": 554
+  },
+  "evaluation_performed": false,
+  "external_authority_capture_performed": false,
+  "lineage": "REPRODUCIBLE_BIOTECH_PIPELINE_REBASE_V1",
+  "milestone": "PDCD1_BENCHMARK_REBASE_V1_MILESTONE_5_CANDIDATE_IDENTITY_ADJUDICATION",
+  "milestone4_prerequisite": {
+    "snapshot_id": "d933fec9aaeecd2df64884b6"
+  },
+  "ownership_claims_created": false,
+  "predictions_generated": false,
+  "snapshot_id": "f26fd47e34ab97badde4e2ae",
+  "stage_status": "FINALIZED"
+}
