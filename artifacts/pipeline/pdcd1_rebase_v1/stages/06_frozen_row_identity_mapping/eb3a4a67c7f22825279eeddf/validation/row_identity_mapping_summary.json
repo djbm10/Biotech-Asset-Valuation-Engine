@@ -1,0 +1,41 @@
+{
+  "build_b_is_genuinely_independent": true,
+  "checks": {
+    "build_a_vs_build_b_candidate_set_agreement": {
+      "agreement_rate": 0.99,
+      "agreements": 297,
+      "disagreement_rows": [
+        "row_151_NCT07629817_0",
+        "row_212_NCT03108495_1",
+        "row_219_NCT03486873_6"
+      ],
+      "disagreements": 3,
+      "total_candidate_bearing_rows": 300
+    },
+    "build_a_vs_build_b_row_outcome_agreement": {
+      "agreement_rate": 1.0,
+      "agreements": 300,
+      "disagreements": 0,
+      "total_rows": 300
+    },
+    "closed_world_row_coverage": {
+      "rows_with_exactly_one_outcome": 300,
+      "total_rows": 300
+    },
+    "mapper_independence_static_check": "PASS",
+    "silent_closure_violations": 0
+  },
+  "combination_row_count": 108,
+  "escape_hatch_count": 0,
+  "notes": "Supersedes v1's fabricated 0-disagreement Build A/B comparison (v1 Build B was Build A's map_rows() re-invoked with reversed input order, not a separate implementation).",
+  "outcome_counts": {
+    "CANDIDATE_LINKED": 103,
+    "CONFLICTING_MULTI_PRODUCT": 84,
+    "EXPLICIT_NONCANDIDATE": 49,
+    "GENERIC_OR_NONIDENTIFYING": 0,
+    "IDENTITY_CONFLICT_UNRESOLVED": 30,
+    "INSUFFICIENT_EVIDENCE": 34
+  },
+  "schema_version": "1.0.0",
+  "total_rows": 300
+}

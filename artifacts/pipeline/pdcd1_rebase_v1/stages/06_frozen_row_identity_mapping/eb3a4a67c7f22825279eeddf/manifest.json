@@ -1,0 +1,61 @@
+{
+  "authoritative_for_downstream": true,
+  "authoritative_note": "This v2 snapshot supersedes v1 (e07fade12e18d972e3ea8743) as authoritative for Milestone 7+ downstream builds. v1 is retained for history only; see provenance_correction field for why v1's Build B was invalid.",
+  "canonical_target": "PDCD1",
+  "checks": {
+    "build_a_vs_build_b_candidate_set_agreement": {
+      "agreement_rate": 0.99,
+      "agreements": 297,
+      "disagreement_rows": [
+        "row_151_NCT07629817_0",
+        "row_212_NCT03108495_1",
+        "row_219_NCT03486873_6"
+      ],
+      "disagreements": 3,
+      "total_candidate_bearing_rows": 300
+    },
+    "build_a_vs_build_b_row_outcome_agreement": {
+      "agreement_rate": 1.0,
+      "agreements": 300,
+      "disagreements": 0,
+      "total_rows": 300
+    },
+    "closed_world_row_coverage": {
+      "rows_with_exactly_one_outcome": 300,
+      "total_rows": 300
+    },
+    "mapper_independence_static_check": "PASS",
+    "silent_closure_violations": 0
+  },
+  "combination_row_count": 108,
+  "escape_hatch_count": 0,
+  "generated_at": "2026-08-13T13:27:04.861144+00:00",
+  "lineage": "REPRODUCIBLE_BIOTECH_PIPELINE_REBASE_V1",
+  "mapper_b_script": "scripts/pdcd1_rebase_v1_row_identity_mapping_mapper_b.py",
+  "mapper_independence_test": "tests/test_pdcd1_rebase_v1_row_identity_mapping_mapper_independence.py",
+  "mapper_independence_verified": true,
+  "milestone": "PDCD1_BENCHMARK_REBASE_V1_MILESTONE_6_FROZEN_ROW_IDENTITY_MAPPING",
+  "milestone6_v1_reference": "pdcd1-rebase-v1-m6-row-identity-mapping-e07fade12e18d972e3ea8743",
+  "milestone_prerequisites": {
+    "milestone1_snapshot_id": "47e9e791f48bb7aacc467e28",
+    "milestone2_snapshot_id": "62914ac00fa635d38755e25b",
+    "milestone3_snapshot_id": "f5dd19d08deb59a75232d3bc",
+    "milestone4_snapshot_id": "d933fec9aaeecd2df64884b6",
+    "milestone5_snapshot_id": "f26fd47e34ab97badde4e2ae"
+  },
+  "outcome_counts": {
+    "CANDIDATE_LINKED": 103,
+    "CONFLICTING_MULTI_PRODUCT": 84,
+    "EXPLICIT_NONCANDIDATE": 49,
+    "GENERIC_OR_NONIDENTIFYING": 0,
+    "IDENTITY_CONFLICT_UNRESOLVED": 30,
+    "INSUFFICIENT_EVIDENCE": 34
+  },
+  "provenance_correction": "v1 claimed two independent mapping builds with 0 disagreements; v1's Build B was in fact Build A's map_rows() re-invoked with reversed row order, not an independent implementation. This v2 release replaces it with a genuinely independent second implementation and a real reconciliation ledger.",
+  "row_identity_mapping_performed": true,
+  "row_identity_mapping_schema_version": "1.0.0",
+  "snapshot_id": "eb3a4a67c7f22825279eeddf",
+  "stage_status": "FINALIZED",
+  "supersedes": "e07fade12e18d972e3ea8743",
+  "total_rows": 300
+}

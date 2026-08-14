@@ -1,0 +1,3 @@
+{"step": "build_b_independent_run", "command": "python3 scripts/pdcd1_rebase_v1_row_identity_mapping_mapper_b.py --m3-dir <m3_snapshot> --m4-dir <m4_snapshot> --m5-dir <m5_snapshot_f26fd47e34ab97badde4e2ae> --out-dir build_b_out"}
+{"step": "reconciliation", "command": "compare rows/row_outcome_ledger.jsonl (Build A / v1, unchanged) against build_b_out/build_b_row_outcome_ledger.jsonl; write reproducibility/reconciliation_ledger.jsonl"}
+{"step": "independence_test", "command": "pytest tests/test_pdcd1_rebase_v1_row_identity_mapping_mapper_independence.py -v"}
