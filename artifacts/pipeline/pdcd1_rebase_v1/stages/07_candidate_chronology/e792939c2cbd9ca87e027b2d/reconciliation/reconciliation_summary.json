@@ -1,0 +1,47 @@
+{
+  "common_pairs": 316,
+  "field_level_agreement": {
+    "approval_date": {
+      "agree": 316,
+      "disagree": 0
+    },
+    "candidate_specific_registered_start": {
+      "agree": 315,
+      "disagree": 1
+    },
+    "canonical_name": {
+      "agree": 316,
+      "disagree": 0
+    },
+    "first_candidate_bearing_intervention_appearance": {
+      "agree": 315,
+      "disagree": 1
+    },
+    "first_known_phase": {
+      "agree": 315,
+      "disagree": 1
+    },
+    "first_registry_string_appearance": {
+      "agree": 316,
+      "disagree": 0
+    },
+    "later_added_product_status": {
+      "agree": 315,
+      "disagree": 1
+    },
+    "present_in_original_version": {
+      "agree": 315,
+      "disagree": 1
+    },
+    "start_date_type": {
+      "agree": 315,
+      "disagree": 1
+    }
+  },
+  "only_in_build_a": [],
+  "only_in_build_b": [],
+  "rows_full_agreement": 315,
+  "rows_with_at_least_one_field_disagreement": 1,
+  "total_pairs_build_a": 316,
+  "total_pairs_build_b": 316
+}

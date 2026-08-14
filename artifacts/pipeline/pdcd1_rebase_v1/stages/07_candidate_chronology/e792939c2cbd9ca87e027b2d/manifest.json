@@ -1,0 +1,74 @@
+{
+  "candidate_chronology_created": true,
+  "canonical_target": "PDCD1",
+  "checks": {
+    "build_a_vs_build_b_field_level_agreement": {
+      "approval_date": {
+        "agree": 316,
+        "disagree": 0
+      },
+      "candidate_specific_registered_start": {
+        "agree": 315,
+        "disagree": 1
+      },
+      "canonical_name": {
+        "agree": 316,
+        "disagree": 0
+      },
+      "first_candidate_bearing_intervention_appearance": {
+        "agree": 315,
+        "disagree": 1
+      },
+      "first_known_phase": {
+        "agree": 315,
+        "disagree": 1
+      },
+      "first_registry_string_appearance": {
+        "agree": 316,
+        "disagree": 0
+      },
+      "later_added_product_status": {
+        "agree": 315,
+        "disagree": 1
+      },
+      "present_in_original_version": {
+        "agree": 315,
+        "disagree": 1
+      },
+      "start_date_type": {
+        "agree": 315,
+        "disagree": 1
+      }
+    },
+    "build_a_vs_build_b_pair_coverage_agreement": {
+      "only_in_build_a": [],
+      "only_in_build_b": [],
+      "total_pairs_build_a": 316,
+      "total_pairs_build_b": 316
+    },
+    "mapper_independence_static_check": "PASS (6/6)",
+    "rows_full_agreement": 315,
+    "rows_with_at_least_one_field_disagreement": 1
+  },
+  "generated_at": "2026-08-14T16:25:29.387928+00:00",
+  "known_caveats": [
+    "1 of 316 candidate-NCT pairs (cand_9bac9d1f2e24fcf61a8e / NCT07741617, 'Iparomlimab and tuvonralimab (QL1706) + lenvatinib') shows a field-level divergence: Build A's intervention-field substring test did not match the registry's paraphrased wording ('...in combination with...' vs the candidate name's '+'), leaving those fields UNKNOWN, while Build B's token-overlap test matched. Resolved in favor of Build B's evidence-grounded, frozen-M2-supported values per the reconciliation policy (prefer non-UNKNOWN when the other build is UNKNOWN); this is a genuine algorithmic difference between the two independent matchers, not a defect in either.",
+    "M2/M5/M6v2 inputs for this milestone were not present in the git-tracked artifact branches (only checksum/manifest files are committed); the underlying per-version JSON and ledgers were fetched from the corresponding GitHub Releases (djbm10/Biotech-Asset-Valuation-Engine) and verified by re-deriving 316/316 identical candidate-NCT pair coverage between two independently written mappers."
+  ],
+  "lineage": "REPRODUCIBLE_BIOTECH_PIPELINE_REBASE_V1",
+  "mapper_a_script": "scripts/pdcd1_rebase_v1_candidate_chronology_mapper_a.py",
+  "mapper_b_script": "scripts/pdcd1_rebase_v1_candidate_chronology_mapper_b.py",
+  "mapper_independence_test": "tests/test_pdcd1_rebase_v1_candidate_chronology_mapper_independence.py",
+  "mapper_independence_verified": true,
+  "milestone": "PDCD1_BENCHMARK_REBASE_V1_MILESTONE_7_CANDIDATE_CHRONOLOGY",
+  "milestone_prerequisites": {
+    "milestone2_snapshot_id": "62914ac00fa635d38755e25b",
+    "milestone5_snapshot_id": "f26fd47e34ab97badde4e2ae",
+    "milestone6_v2_release_tag": "pdcd1-rebase-v1-m6-row-identity-mapping-v2-eb3a4a67c7f22825279eeddf",
+    "milestone6_v2_snapshot_id": "eb3a4a67c7f22825279eeddf"
+  },
+  "snapshot_id": "e792939c2cbd9ca87e027b2d",
+  "stage_status": "FINALIZED",
+  "total_candidate_nct_pairs": 316,
+  "total_candidates": 181
+}

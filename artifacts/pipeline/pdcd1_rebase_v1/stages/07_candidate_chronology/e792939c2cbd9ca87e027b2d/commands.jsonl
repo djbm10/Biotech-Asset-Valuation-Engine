@@ -1,0 +1,4 @@
+{"step": "run_mapper_a", "command": "python3 scripts/pdcd1_rebase_v1_candidate_chronology_mapper_a.py --m2-dir <M2 release extract> --m5-dir <M5 release extract> --m6v2-dir <M6v2 release extract> --out-dir build_a/"}
+{"step": "run_mapper_b", "command": "python3 scripts/pdcd1_rebase_v1_candidate_chronology_mapper_b.py --m2-dir <M2 release extract> --m5-dir <M5 release extract> --m6v2-dir <M6v2 release extract> --out-dir build_b/"}
+{"step": "run_independence_test", "command": "python3 -m pytest tests/test_pdcd1_rebase_v1_candidate_chronology_mapper_independence.py -v"}
+{"step": "reconcile", "command": "python3 reconcile.py build_a/build_a_candidate_chronology_ledger.jsonl build_b/build_b_candidate_chronology_ledger.jsonl reconciliation/"}

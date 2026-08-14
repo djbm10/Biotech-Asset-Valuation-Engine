@@ -1,0 +1,45 @@
+{
+  "artifacts": {
+    "build_a/build_a_candidate_chronology_ledger.jsonl": {
+      "byte_length": 176606,
+      "sha256": "1d4c245a0487676b41669954264648e77861ac199956812e5dba7af6b5d8671f"
+    },
+    "build_b/build_b_candidate_chronology_ledger.jsonl": {
+      "byte_length": 176506,
+      "sha256": "30920fbe1fa6a48481fd455b79842bb60d474c0cc098167a3a1c90a74b8ddf16"
+    },
+    "commands.jsonl": {
+      "byte_length": 747,
+      "sha256": "67453152e4261120b616269ebbd91a20274f1fef5c94afa3939276cd13219a17"
+    },
+    "logs/build.jsonl": {
+      "byte_length": 1563,
+      "sha256": "8e00d003b604381b53ed19300e439a7756b251ab6e9baf4faa44063fc5fd2d6b"
+    },
+    "manifest.json": {
+      "byte_length": 3304,
+      "sha256": "34faf7cd7bf2107e08ad3c26e440159f244c80da8485387124b38456938dbee3"
+    },
+    "reconciliation/finalized_candidate_chronology_ledger.jsonl": {
+      "byte_length": 176643,
+      "sha256": "b68be123a5ab1ee1c938e3cf7541f5fe6f4c0e82a6a8d9a3417ae29b70e1dbf0"
+    },
+    "reconciliation/reconciliation_ledger.jsonl": {
+      "byte_length": 343686,
+      "sha256": "5c1aea4903c4c17a82a021decaabd14f3381149557f6a78274ca60a9afa7d40f"
+    },
+    "reconciliation/reconciliation_summary.json": {
+      "byte_length": 987,
+      "sha256": "4d802bfb066dfc4488aba683ea3e94a652426e5f2c4b5fd25be3a9d7f6eeac23"
+    },
+    "validation/validation_summary.json": {
+      "byte_length": 1062,
+      "sha256": "d9ac65cec80e9e919ab086f85177042d12a93a8fd62fb26c3747001fcf824319"
+    }
+  },
+  "candidate_chronology_created": true,
+  "generated_at": "2026-08-14T16:25:29.393450+00:00",
+  "lineage": "REPRODUCIBLE_BIOTECH_PIPELINE_REBASE_V1",
+  "milestone": "PDCD1_BENCHMARK_REBASE_V1_MILESTONE_7_CANDIDATE_CHRONOLOGY",
+  "snapshot_id": "e792939c2cbd9ca87e027b2d"
+}
