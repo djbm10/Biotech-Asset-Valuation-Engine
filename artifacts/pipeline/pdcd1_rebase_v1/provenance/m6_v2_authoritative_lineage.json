@@ -1,0 +1,85 @@
+{
+  "record_type": "append-only governance/provenance record",
+  "record_type_note": "This record is itself auditable. It must never be silently edited. Any future correction must be published as a NEW record (e.g. m6_v2_authoritative_lineage_correction_<date>.json), never as an edit to this file.",
+  "timestamp_utc": "2026-08-14T21:09:35Z",
+  "subject": "PDCD1 rebase v1 — Milestone 6 (row identity mapping) v1-to-v2 supersession and v2 authoritative-lineage declaration",
+
+  "m6_v1_status": "superseded",
+  "m6_v1_supersession_reason": "Independent-build requirement failed. v1's 'Build B' was not an independently constructed build — it was Build A rerun with reversed input order, so v1 does not satisfy the two-independent-builds reproducibility requirement for this milestone.",
+  "m6_v1_release_tag": "pdcd1-rebase-v1-m6-row-identity-mapping-e07fade12e18d972e3ea8743",
+  "m6_v1_release_tag_confirmed_via": "gh release list (2026-08-14): tag present, title 'PDCD1 Rebase V1 M6 Frozen Row Identity Mapping', published 2026-08-13T02:20:54Z",
+  "m6_v1_branch_path": "artifacts/pipeline/pdcd1_rebase_v1/stages/06_frozen_row_identity_mapping/e07fade12e18d972e3ea8743/ on branch artifact/pdcd1-rebase-v1-row-mapping",
+
+  "m6_v2_release_tag": "pdcd1-rebase-v1-m6-row-identity-mapping-v2-eb3a4a67c7f22825279eeddf",
+  "m6_v2_release_tag_confirmed_via": "gh release list (2026-08-14): tag present and marked 'Latest' at time of the M7 release; genuine independent Build A/B, 297/300 candidate-set agreement",
+  "m6_v2_release_asset_verification": {
+    "method": "Fresh redownload via `gh release download pdcd1-rebase-v1-m6-row-identity-mapping-v2-eb3a4a67c7f22825279eeddf` performed 2026-08-14, into an isolated temp directory, independent of any locally cached copy.",
+    "archive_filename": "pdcd1-rebase-v1-row-mapping-v2-eb3a4a67c7f22825279eeddf.tar.gz",
+    "archive_sha256_published": "b0df7b3e718b65cd247fd556d3bcf74ba5bf8ec5b31823e771c1ad5fecc2d7e6",
+    "archive_sha256_recomputed": "b0df7b3e718b65cd247fd556d3bcf74ba5bf8ec5b31823e771c1ad5fecc2d7e6",
+    "archive_checksum_match": true,
+    "receipt_bound_files_checked": 18,
+    "receipt_bound_files_mismatches": 0,
+    "result": "PASS — release asset is internally self-consistent: archive checksum matches its published .sha256 sidecar, and every one of the 18 receipt.json-bound payload files matches its declared sha256 exactly."
+  },
+
+  "m6_v2_release_manifest_hash": {
+    "note": "Computed on manifest.json AS PUBLISHED IN THE RELEASE ASSET (freshly redownloaded), not the branch-committed copy, which carries later governance annotations (see branch_annotation_statement below).",
+    "sha256": "bb47c58ab60f63c2689c35b1bc8d6566dc6895a42581d2e83e413abff569ccd7",
+    "source": "manifest.json inside pdcd1-rebase-v1-row-mapping-v2-eb3a4a67c7f22825279eeddf.tar.gz, extracted 2026-08-14"
+  },
+
+  "m6_v2_payload_receipt_hashes": {
+    "note": "Full receipt.json content as published in the release asset (18 files, all verified byte-for-byte against the extracted payload — see m6_v2_release_asset_verification above). Reproduced here as the append-only citation.",
+    "receipt_generated_at": "2026-08-13T13:28:30.153013+00:00",
+    "receipt_snapshot_id_basis": "content_derived",
+    "file_count": 18,
+    "files": [
+      {"path": "boundaries/row_identity_boundary_ledger.jsonl", "byte_length": 10456, "sha256": "a3be74bd5b810db35fdd9cc0db911f24473e06b55249cbbcd3bbb432211b7183"},
+      {"path": "commands.jsonl", "byte_length": 565, "sha256": "75146c1e78845634b8986d080f709e3a9c56f0f438100e8b2a93f221ba128d86"},
+      {"path": "input/prerequisite_bindings.json", "byte_length": 876, "sha256": "9be197a7673fad59c4e81def45de3545e9c3d4993913f179b576303c924638fe"},
+      {"path": "logs/build.jsonl", "byte_length": 168, "sha256": "354df05f9836f8f0129e0749acfcc719fa1e63e9d57a6a0f75c9e9914708fe80"},
+      {"path": "reproducibility/BUILD_A_VS_BUILD_B_COMPARISON.md", "byte_length": 3798, "sha256": "5d72f37b8c39b05b5258edb7ed4ed0e7a32f496d29e5e41c0942fba5b11cbc4b"},
+      {"path": "reproducibility/build_b/boundaries/row_identity_boundary_ledger.jsonl", "byte_length": 6340, "sha256": "c8614235602f8a3d9905c00698fc01f4958d6a8d01328d7c07b24a8e0f93f791"},
+      {"path": "reproducibility/build_b/rows/combination_component_ledger.jsonl", "byte_length": 62043, "sha256": "f5b39158c07b9da38eaf876eb9687c67899db89b2d9c5da27db00b0724c02c1e"},
+      {"path": "reproducibility/build_b/rows/row_candidate_mapping_ledger.jsonl", "byte_length": 118731, "sha256": "e25e28ea6870aa6fdeac64c2be2a7774393c161c1e85c7989186f411f5a46971"},
+      {"path": "reproducibility/build_b/rows/row_evidence_binding_ledger.jsonl", "byte_length": 97743, "sha256": "897c09309cf131f38b86758a20c2f5a5d5667d0b2bbf5bf7179050cc9328629e"},
+      {"path": "reproducibility/build_b/rows/row_outcome_ledger.jsonl", "byte_length": 90599, "sha256": "e720fccf5f04dae85f0fa010c05aad649ebbb13666c04e4c4530bb916a018568"},
+      {"path": "reproducibility/build_b/rows/unresolved_row_ledger.jsonl", "byte_length": 36996, "sha256": "bd3041f2253c28e20d12a2111f11df8db170166859b5e47ae907c82735cab9ff"},
+      {"path": "reproducibility/reconciliation_ledger.jsonl", "byte_length": 119360, "sha256": "8d53a10af36145df4d8e4ac18245a1cb353240c6dc13822c23dd0b7736b1da51"},
+      {"path": "rows/combination_component_ledger.jsonl", "byte_length": 59735, "sha256": "d4675c013323c37fedb6f970601bd2d17e5add446497d0d198a9c3126a0dc285"},
+      {"path": "rows/row_candidate_mapping_ledger.jsonl", "byte_length": 175912, "sha256": "22ec4f07da58ccc76b1bee0f421a4c17251e5f32e0acf5dcfaf1f959425ac1af"},
+      {"path": "rows/row_evidence_binding_ledger.jsonl", "byte_length": 118982, "sha256": "bc6a932249cc24f31a88a7ccadf75200c33cced75a2946789117993023a1cdab"},
+      {"path": "rows/row_outcome_ledger.jsonl", "byte_length": 75724, "sha256": "f8ea3aa66f5fa4dcfc763e50d5ded094b797cce848b1509a422cd010ea06a691"},
+      {"path": "rows/unresolved_row_ledger.jsonl", "byte_length": 145955, "sha256": "04f2e09789bb12dc58a3c54415c30e789468ef524fc8aaadf21ad0708cfa6124"},
+      {"path": "validation/row_identity_mapping_summary.json", "byte_length": 1264, "sha256": "a624d83bf6ec305b70c308787ab19e32fb65d5ba98d8efd47e5cca5fe894170f"}
+    ]
+  },
+
+  "m6_v2_branch_commit": "494d5da",
+  "m6_v2_branch": "artifact/pdcd1-rebase-v1-row-mapping",
+  "m6_v2_branch_confirmed_pushed": true,
+  "m6_v2_branch_path": "artifacts/pipeline/pdcd1_rebase_v1/stages/06_frozen_row_identity_mapping/eb3a4a67c7f22825279eeddf/",
+
+  "branch_annotation_statement": "The branch-committed manifest.json at commit 494d5da on artifact/pdcd1-rebase-v1-row-mapping contains extra fields not present in the original release asset's manifest.json: authoritative_for_downstream, authoritative_note, supersedes, snapshot_id, and stage_status. These fields were added AFTER the M6 v2 GitHub release was cut, as governance/metadata annotations layered onto the committed copy. They are NOT part of the immutable release asset and do not alter, modify, or reinterpret the release payload in any way. The release asset (tag pdcd1-rebase-v1-m6-row-identity-mapping-v2-eb3a4a67c7f22825279eeddf) remains the single immutable source of record; the branch annotations are a convenience layer for downstream tooling/readers.",
+
+  "payload_comparison_result": {
+    "method": "Every one of the 18 receipt.json-bound files was extracted from the freshly-redownloaded release archive and diffed by sha256 against `git show 494d5da:<path>` for the corresponding path on artifact/pdcd1-rebase-v1-row-mapping.",
+    "files_compared": 18,
+    "mismatches": 0,
+    "result": "0 receipt-bound mismatches found between the branch-committed payload at commit 494d5da and the immutable release asset. Byte-for-byte verified."
+  },
+
+  "active_lineage_declaration": {
+    "statement": "M6 v2 (release tag pdcd1-rebase-v1-m6-row-identity-mapping-v2-eb3a4a67c7f22825279eeddf, commit 494d5da) is the sole authoritative source of Milestone 6 row-identity-mapping data for all downstream milestones in the PDCD1 rebase v1 pipeline.",
+    "prohibition": "M6 v1 (release tag pdcd1-rebase-v1-m6-row-identity-mapping-e07fade12e18d972e3ea8743) is prohibited as an active prerequisite for any downstream milestone. It is retained only as a superseded historical record, per its failed independent-build requirement noted above."
+  },
+
+  "downstream_consumer_reference": {
+    "milestone": "M7 — candidate chronology",
+    "branch": "artifact/pdcd1-rebase-v1-candidate-chronology",
+    "commit": "ea7c13d",
+    "release_tag": "pdcd1-rebase-v1-m7-candidate-chronology-e792939c2cbd9ca87e027b2d",
+    "note": "M7 was built consuming M6 v2 (not v1) as its row-identity-mapping input, consistent with the active_lineage_declaration above."
+  }
+}
