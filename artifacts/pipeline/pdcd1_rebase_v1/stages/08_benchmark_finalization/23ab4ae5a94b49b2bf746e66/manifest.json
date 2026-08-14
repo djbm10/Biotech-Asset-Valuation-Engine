@@ -1,0 +1,91 @@
+{
+  "assembly_type": "assembly/validation only \u2014 no new identity research, row adjudication, chronology changes, predictions, or model tuning",
+  "generated_at": "2026-08-14T21:23:06.377417+00:00",
+  "included_ledgers": [
+    "candidates/canonical_candidate_ledger.jsonl",
+    "candidates/alias_development_code_ledger.jsonl",
+    "candidates/rejected_alias_ledger.jsonl",
+    "candidates/m5_conflict_resolution_ledger.jsonl",
+    "rows/row_outcome_ledger.jsonl",
+    "rows/row_candidate_mapping_ledger.jsonl",
+    "rows/combination_component_ledger.jsonl",
+    "rows/unresolved_row_ledger.jsonl",
+    "modality/candidate_modality_intent_ledger.jsonl",
+    "chronology/finalized_candidate_chronology_ledger.jsonl",
+    "chronology/m7_validation_summary.json",
+    "evidence/row_evidence_binding_ledger.jsonl"
+  ],
+  "lineage": {
+    "m1_population_capture": {
+      "branch": "artifact/pdcd1-rebase-v1-population",
+      "run_id": "47e9e791f48bb7aacc467e28"
+    },
+    "m2_registry_history": {
+      "branch": "artifact/pdcd1-rebase-v1-history",
+      "run_id": "62914ac00fa635d38755e25b"
+    },
+    "m3_evidence_triage_final": {
+      "branch": "artifact/pdcd1-rebase-v1-evidence-triage-final",
+      "run_id": "f5dd19d08deb59a75232d3bc"
+    },
+    "m4_external_authority": {
+      "branch": "artifact/pdcd1-rebase-v1-external-authority",
+      "run_id": "d933fec9aaeecd2df64884b6"
+    },
+    "m5_candidate_identity": {
+      "branch": "artifact/pdcd1-rebase-v1-candidate-identity",
+      "run_id": "f26fd47e34ab97badde4e2ae"
+    },
+    "m6_row_identity_mapping_v2": {
+      "branch": "artifact/pdcd1-rebase-v1-row-mapping",
+      "branch_commit": "494d5da",
+      "note": "M6 v2 is the sole authoritative row-identity-mapping source. M6 v1 (run_id e07fade12e18d972e3ea8743) is prohibited as an active prerequisite; see provenance/m6_v2_authoritative_lineage.json.",
+      "release_tag": "pdcd1-rebase-v1-m6-row-identity-mapping-v2-eb3a4a67c7f22825279eeddf",
+      "run_id": "eb3a4a67c7f22825279eeddf"
+    },
+    "m7_candidate_chronology": {
+      "branch": "artifact/pdcd1-rebase-v1-candidate-chronology",
+      "branch_commit": "ea7c13d",
+      "release_tag": "pdcd1-rebase-v1-m7-candidate-chronology-e792939c2cbd9ca87e027b2d",
+      "run_id": "e792939c2cbd9ca87e027b2d"
+    }
+  },
+  "milestone": "PDCD1_GOLD_STANDARD_BENCHMARK_REBASE_V1_FINALIZATION",
+  "run_id": "23ab4ae5a94b49b2bf746e66",
+  "stage": "08_benchmark_finalization",
+  "validator_summary": {
+    "checks_passed": [
+      "m5_canonical_candidate_count_224",
+      "exactly_300_rows_accounted_once",
+      "all_referenced_candidate_ids_exist_in_m5",
+      "chronology_candidate_ids_all_in_m6v2",
+      "chronology_nct_ids_all_in_m6v2",
+      "m5_unresolved_conflicts_present_and_nonzero",
+      "m6_unresolved_rows_present_and_nonzero",
+      "row_outcome_distribution_sums_to_300"
+    ],
+    "failures": [],
+    "metrics": {
+      "chronology_candidate_count": 181,
+      "chronology_nct_count": 71,
+      "chronology_pairs_matching_m6v2_exact_pair": 102,
+      "chronology_pairs_scope_beyond_m6v2_snapshot": 214,
+      "chronology_pairs_scope_note": "M7 chronology is built over the full M2 registry-version history (superset scope); M6 v2 covers only the 300 current frozen rows. Pair-level divergence here reflects that scope difference, not a data disagreement \u2014 see entity-level checks above, which pass.",
+      "chronology_pairs_total": 316,
+      "distinct_candidate_ids_referenced": 182,
+      "m5_canonical_candidate_count": 224,
+      "m5_unresolved_conflict_count": 76,
+      "m6_unresolved_row_count": 148,
+      "modality_intent_ledger_rows": 214,
+      "row_outcome_distribution": {
+        "CANDIDATE_LINKED": 103,
+        "CONFLICTING_MULTI_PRODUCT": 84,
+        "EXPLICIT_NONCANDIDATE": 49,
+        "IDENTITY_CONFLICT_UNRESOLVED": 30,
+        "INSUFFICIENT_EVIDENCE": 34
+      },
+      "row_outcome_row_count": 300,
+      "row_outcome_unique_row_count": 300
+    }
+  }
+}

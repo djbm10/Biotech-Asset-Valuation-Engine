@@ -1,0 +1,81 @@
+{
+  "file_count": 15,
+  "files": [
+    {
+      "byte_length": 134709,
+      "path": "candidates/alias_development_code_ledger.jsonl",
+      "sha256": "aa20e5f466cdc2e743ac12f2005e7dda726c8be712684899765450fe668b0dd4"
+    },
+    {
+      "byte_length": 203387,
+      "path": "candidates/canonical_candidate_ledger.jsonl",
+      "sha256": "e1dd32a9e2db188a4d0f160b78b9398be1444ccdf5cd31691a2d1a550ac12e6b"
+    },
+    {
+      "byte_length": 80050,
+      "path": "candidates/m5_conflict_resolution_ledger.jsonl",
+      "sha256": "4bdeeeee295784649eb88701fd4b8861cdb969348b53b74e2db743aca75312c1"
+    },
+    {
+      "byte_length": 131228,
+      "path": "candidates/rejected_alias_ledger.jsonl",
+      "sha256": "28b392679022b4ba136b94939be9de218be2fe00fab020afacb16978d3b2a3b3"
+    },
+    {
+      "byte_length": 176643,
+      "path": "chronology/finalized_candidate_chronology_ledger.jsonl",
+      "sha256": "b68be123a5ab1ee1c938e3cf7541f5fe6f4c0e82a6a8d9a3417ae29b70e1dbf0"
+    },
+    {
+      "byte_length": 1062,
+      "path": "chronology/m7_validation_summary.json",
+      "sha256": "d9ac65cec80e9e919ab086f85177042d12a93a8fd62fb26c3747001fcf824319"
+    },
+    {
+      "byte_length": 147,
+      "path": "commands.jsonl",
+      "sha256": "89ecb8ad12938cc4ba2dc8e6957fd4820e64228c2a402f628c1e90cf53915c67"
+    },
+    {
+      "byte_length": 118982,
+      "path": "evidence/row_evidence_binding_ledger.jsonl",
+      "sha256": "bc6a932249cc24f31a88a7ccadf75200c33cced75a2946789117993023a1cdab"
+    },
+    {
+      "byte_length": 83,
+      "path": "logs/build.jsonl",
+      "sha256": "5a3eaa66c58ba95864fde900c9aa62403bca1222c6664896abf88cead71d3ceb"
+    },
+    {
+      "byte_length": 69978,
+      "path": "modality/candidate_modality_intent_ledger.jsonl",
+      "sha256": "8b507a67de0b684ce4baf0b7486c0b3a56f3f015be8b25f22c17f60829923b9c"
+    },
+    {
+      "byte_length": 59735,
+      "path": "rows/combination_component_ledger.jsonl",
+      "sha256": "d4675c013323c37fedb6f970601bd2d17e5add446497d0d198a9c3126a0dc285"
+    },
+    {
+      "byte_length": 175912,
+      "path": "rows/row_candidate_mapping_ledger.jsonl",
+      "sha256": "22ec4f07da58ccc76b1bee0f421a4c17251e5f32e0acf5dcfaf1f959425ac1af"
+    },
+    {
+      "byte_length": 75724,
+      "path": "rows/row_outcome_ledger.jsonl",
+      "sha256": "f8ea3aa66f5fa4dcfc763e50d5ded094b797cce848b1509a422cd010ea06a691"
+    },
+    {
+      "byte_length": 145955,
+      "path": "rows/unresolved_row_ledger.jsonl",
+      "sha256": "04f2e09789bb12dc58a3c54415c30e789468ef524fc8aaadf21ad0708cfa6124"
+    },
+    {
+      "byte_length": 1451,
+      "path": "validation/validator_report.json",
+      "sha256": "c10333e5c724c564517d5624f2c48560d867821d7da0737a1521b9b4eb51d2a9"
+    }
+  ],
+  "generated_at": "2026-08-14T21:23:06.377417+00:00"
+}

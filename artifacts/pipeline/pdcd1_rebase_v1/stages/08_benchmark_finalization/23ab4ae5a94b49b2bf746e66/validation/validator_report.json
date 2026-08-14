@@ -1,0 +1,36 @@
+{
+  "checks_passed": [
+    "m5_canonical_candidate_count_224",
+    "exactly_300_rows_accounted_once",
+    "all_referenced_candidate_ids_exist_in_m5",
+    "chronology_candidate_ids_all_in_m6v2",
+    "chronology_nct_ids_all_in_m6v2",
+    "m5_unresolved_conflicts_present_and_nonzero",
+    "m6_unresolved_rows_present_and_nonzero",
+    "row_outcome_distribution_sums_to_300"
+  ],
+  "failures": [],
+  "metrics": {
+    "chronology_candidate_count": 181,
+    "chronology_nct_count": 71,
+    "chronology_pairs_matching_m6v2_exact_pair": 102,
+    "chronology_pairs_scope_beyond_m6v2_snapshot": 214,
+    "chronology_pairs_scope_note": "M7 chronology is built over the full M2 registry-version history (superset scope); M6 v2 covers only the 300 current frozen rows. Pair-level divergence here reflects that scope difference, not a data disagreement \u2014 see entity-level checks above, which pass.",
+    "chronology_pairs_total": 316,
+    "distinct_candidate_ids_referenced": 182,
+    "m5_canonical_candidate_count": 224,
+    "m5_unresolved_conflict_count": 76,
+    "m6_unresolved_row_count": 148,
+    "modality_intent_ledger_rows": 214,
+    "row_outcome_distribution": {
+      "CANDIDATE_LINKED": 103,
+      "CONFLICTING_MULTI_PRODUCT": 84,
+      "EXPLICIT_NONCANDIDATE": 49,
+      "IDENTITY_CONFLICT_UNRESOLVED": 30,
+      "INSUFFICIENT_EVIDENCE": 34
+    },
+    "row_outcome_row_count": 300,
+    "row_outcome_unique_row_count": 300
+  },
+  "status": "PASS"
+}
