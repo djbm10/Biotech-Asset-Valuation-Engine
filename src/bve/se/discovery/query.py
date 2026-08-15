@@ -6,7 +6,8 @@ import hashlib
 from itertools import product
 
 from bve.se.schemas.contracts import BuyerProblemV2, CompiledQuery, TargetOperator
-from bve.se.ontology.targets import _MODALITY_ALIASES, _TARGET_ALIASES
+from bve.se.ontology.modality import modality_query_terms
+from bve.se.ontology.targets import target_aliases
 
 
 def _query_id(query: str) -> str:
@@ -25,7 +26,7 @@ def compile_problem_queries(problem: BuyerProblemV2) -> list[CompiledQuery]:
                     target.canonical_id,
                     target.label,
                     *target.aliases,
-                    *_TARGET_ALIASES.get(target.canonical_id, set()),
+                    *target_aliases(target.canonical_id),
                 ]
             )
         )
@@ -48,11 +49,9 @@ def compile_problem_queries(problem: BuyerProblemV2) -> list[CompiledQuery]:
     queries: list[CompiledQuery] = []
     for target_phrase, target_ids in target_phrases:
         for modality in modalities:
-            modality_terms = list(
-                dict.fromkeys(
-                    [modality, *_MODALITY_ALIASES.get(modality, set()), "CD3", "CD3E", "bispecific", "trispecific"]
-                )
-            )
+            # Expansion terms are modality-specific: adding "CD3" to a small-molecule
+            # query would drag in unrelated T-cell engagers.
+            modality_terms = list(dict.fromkeys([modality, *modality_query_terms(modality)]))
             query = f'({target_phrase}) AND ("' + '" OR "'.join(modality_terms) + '")'
             queries.append(
                 CompiledQuery(

@@ -10,6 +10,7 @@ from typing import Protocol
 from pydantic import BaseModel, Field
 
 from bve.se.discovery.query import compile_problem_queries
+from bve.se.ontology.targets import NO_SNAPSHOT_VERSION, ontology_version
 from bve.se.schemas.contracts import (
     BuyerProblemV2,
     CandidateHit,
@@ -249,6 +250,18 @@ class DiscoveryOrchestrator:
         if zero_growth_passes < self.required_zero_growth_passes:
             incomplete_reasons.append("discovery did not complete two zero-growth passes")
         status = RunStatus.INCOMPLETE if incomplete_reasons else RunStatus.CONVERGED
+
+        # Pin the entity snapshot so this run can be reproduced after upstream moves.
+        # Running without one is legitimate but narrows alias expansion, so it is
+        # declared as a blind spot rather than passing silently.
+        resolved_ontology_version = ontology_version()
+        known_blind_spots: list[str] = []
+        if resolved_ontology_version.startswith(NO_SNAPSHOT_VERSION):
+            known_blind_spots.append(
+                "no biomedical ontology snapshot installed; target alias expansion was "
+                "limited to aliases declared on the buyer problem"
+            )
+
         manifest = RunManifest(
             run_id=run_id,
             problem_id=problem.problem_id,
@@ -259,11 +272,12 @@ class DiscoveryOrchestrator:
             code_version=code_version,
             extractor_versions=extractor_versions or {},
             normalization_version=normalization_version,
+            ontology_version=resolved_ontology_version,
             source_status=source_status,
             query_log_ids=[attempt.attempt_id for attempt in attempts],
             evidence_snapshot_ids=list(dict.fromkeys(snapshot_ids)),
             coverage_passes=coverage,
-            known_blind_spots=[],
+            known_blind_spots=known_blind_spots,
             status=status,
             incomplete_reasons=incomplete_reasons,
         )

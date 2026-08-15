@@ -7,7 +7,19 @@ import pytest
 import yaml
 from pydantic import ValidationError
 
-from bve.se.ontology.targets import normalize_modality, normalize_target
+from bve.se.ontology.records import (
+    AliasType,
+    EntityType,
+    SourceAlias,
+    SourceEntityRecord,
+    SourceProvenance,
+)
+from bve.se.ontology.snapshot import OntologySnapshot
+from bve.se.ontology.targets import (
+    normalize_modality,
+    normalize_target,
+    reset_resolver_cache,
+)
 from bve.se.schemas.contracts import (
     BuyerProblemV2,
     GateDecision,
@@ -59,9 +71,46 @@ def test_exact_combination_requires_multiple_targets() -> None:
         )
 
 
-def test_unknown_ontology_terms_abstain() -> None:
-    assert normalize_target("TNFRSF17") == "BCMA"
-    assert normalize_target("not-a-target") is None
+def test_unknown_ontology_terms_abstain(tmp_path, monkeypatch) -> None:
+    """Target normalization abstains without a snapshot and uses HGNC symbols with one.
+
+    The former stub mapped ``TNFRSF17`` to ``BCMA``; that inverted HGNC convention,
+    where ``TNFRSF17`` is the approved symbol and ``BCMA`` the synonym.
+    """
+
+    monkeypatch.setenv("BVE_SE_ONTOLOGY_SNAPSHOT", str(tmp_path / "absent"))
+    reset_resolver_cache()
+    assert normalize_target("TNFRSF17") is None
+
+    OntologySnapshot(
+        sources=[
+            SourceProvenance(
+                source="open_targets",
+                release="26.06",
+                retrieved_at=date(2026, 8, 15),
+                locator="ftp://example.invalid/target",
+            )
+        ],
+        records=[
+            SourceEntityRecord(
+                source="open_targets",
+                source_id="ENSG00000048462",
+                entity_type=EntityType.TARGET,
+                canonical_symbol="TNFRSF17",
+                aliases=[SourceAlias(value="BCMA", alias_type=AliasType.SYNONYM)],
+                xrefs={"uniprot": ["Q02223"]},
+            )
+        ],
+    ).write(tmp_path / "snap")
+    monkeypatch.setenv("BVE_SE_ONTOLOGY_SNAPSHOT", str(tmp_path / "snap"))
+    reset_resolver_cache()
+    try:
+        assert normalize_target("BCMA") == "TNFRSF17"
+        assert normalize_target("not-a-target") is None
+    finally:
+        reset_resolver_cache()
+
+    # Modality is an in-repo controlled vocabulary, so it resolves without a snapshot.
     assert normalize_modality("BiTE") == "T_CELL_ENGAGER"
     assert normalize_modality("unknown format") is None
 

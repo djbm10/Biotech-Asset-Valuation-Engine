@@ -502,6 +502,11 @@ class RunManifest(StrictModel):
     code_version: str
     extractor_versions: dict[str, str] = Field(default_factory=dict)
     normalization_version: str
+    #: Pinned biomedical entity snapshot, e.g.
+    #: ``chembl_36__open_targets_26.06__resolver_v1__modality_v2``. Recorded so a run
+    #: stays reproducible after the upstream databases move; ``no_snapshot__…`` means
+    #: the run relied solely on problem-declared aliases.
+    ontology_version: str | None = None
     source_status: dict[str, SearchOutcome] = Field(default_factory=dict)
     query_log_ids: list[str] = Field(default_factory=list)
     evidence_snapshot_ids: list[str] = Field(default_factory=list)
