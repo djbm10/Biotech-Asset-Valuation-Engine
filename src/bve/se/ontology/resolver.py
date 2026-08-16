@@ -383,6 +383,17 @@ class BiomedicalEntityResolver:
     def snapshot(self) -> OntologySnapshot:
         return self._snapshot
 
+    def entities_of_type(self, entity_type: EntityType) -> tuple[CanonicalEntity, ...]:
+        """Every canonical entity of one type, for callers that must label without a query.
+
+        Corpus indexing happens before any query exists, so it needs the whole vocabulary
+        rather than one query's slice. Ordered by canonical id so indexing is deterministic.
+        """
+
+        return tuple(
+            sorted(self._by_type.get(entity_type, ()), key=lambda entity: entity.canonical_id)
+        )
+
     def resolve(self, query: str, entity_type: EntityType = EntityType.TARGET) -> ResolutionResult:
         """Resolve one lookup string, refusing to guess between real homonyms."""
 

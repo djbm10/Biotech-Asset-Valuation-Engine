@@ -9,7 +9,7 @@ from pathlib import Path
 
 from pydantic import BaseModel, Field
 
-from bve.se.discovery.adapters import _candidate_interventions, _targets_in_text
+from bve.se.discovery.adapters import QueryVocabulary, _candidate_interventions
 from bve.se.schemas.contracts import (
     CandidateHit,
     ClinicalResult,
@@ -100,7 +100,13 @@ class ClinicalTrialsEvidenceExtractor:
         design = protocol.get("designModule", {})
         conditions_module = protocol.get("conditionsModule", {})
         status_module = protocol.get("statusModule", {})
-        interventions = {name: (targets, modality) for name, targets, modality in _candidate_interventions(protocol)}
+        # Extraction labels a protocol after discovery chose it, so it uses the whole
+        # ontology vocabulary rather than one query's slice.
+        vocabulary = QueryVocabulary.for_ontology()
+        interventions = {
+            name: (targets, modality)
+            for name, targets, modality in _candidate_interventions(protocol, vocabulary)
+        }
         candidate = interventions.get(hit.asset_name or "")
         raw_intervention: dict = next(
             (
@@ -128,7 +134,7 @@ class ClinicalTrialsEvidenceExtractor:
         claims.append(identity_claim)
         facts.append(_fact(hit, identity_claim, "identity_valid", True))
 
-        targets = sorted(candidate[0]) if candidate else sorted(_targets_in_text(json.dumps(protocol)))
+        targets = sorted(candidate[0]) if candidate else sorted(vocabulary.targets_in(json.dumps(protocol)))
         if targets:
             target_claim = _claim(
                 hit,

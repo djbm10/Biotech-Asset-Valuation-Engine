@@ -24,6 +24,9 @@ _MODALITY_ALIASES: dict[str, set[str]] = {
         "bite",
         "t cell redirecting bispecific",
         "t cell redirecting antibody",
+        "t cell engaging",
+        "t cell redirecting",
+        "bispecific t cell",
         "cd3 bispecific",
         "cd3 engager",
     },
@@ -40,10 +43,14 @@ _MODALITY_ALIASES: dict[str, set[str]] = {
         "bispecific",
         "bsab",
         "dual specific antibody",
+        "dual affinity re targeting",
+        "dart protein",
     },
     "MULTISPECIFIC_ANTIBODY": {
         "trispecific",
         "trispecific antibody",
+        "tri specific",
+        "tri specific antibody",
         "multispecific antibody",
         "multispecific",
     },
@@ -150,6 +157,19 @@ _MODALITY_EXPANSION_TERMS: dict[str, tuple[str, ...]] = {
     "CAR_T": ("chimeric antigen receptor",),
 }
 
+#: Terms that count as evidence *for* a modality when gating eligibility, without being
+#: labelling aliases for it.
+#:
+#: A trispecific antibody carrying a CD3 arm is a T-cell engager, but it should still be
+#: *labelled* a multispecific antibody — that is what it is. Keeping the gating vocabulary
+#: separate from the labelling vocabulary lets an eligibility check accept the broader
+#: evidence without corrupting what the record is called. Entries stay format-level, never
+#: naming a specific programme.
+_MODALITY_GATE_TERMS: dict[str, tuple[str, ...]] = {
+    # A CD3 arm is what makes any construct redirect T cells, whatever its valency.
+    "T_CELL_ENGAGER": ("cd3", "cd3e", "cd3 arm", "anti cd3"),
+}
+
 _LOOKUP: dict[str, str] = {
     normalize_lookup_key(alias): canonical
     for canonical, aliases in _MODALITY_ALIASES.items()
@@ -179,6 +199,18 @@ def modality_query_terms(canonical_id: str) -> tuple[str, ...]:
     if not aliases:
         return ()
     return tuple(dict.fromkeys([*aliases, *_MODALITY_EXPANSION_TERMS.get(canonical_id, ())]))
+
+
+def modality_gate_terms(canonical_id: str) -> tuple[str, ...]:
+    """Every term that counts as evidence for a modality when gating eligibility.
+
+    Wider than :func:`modality_aliases`, which answers "what should this be called".
+    """
+
+    aliases = modality_aliases(canonical_id)
+    if not aliases:
+        return ()
+    return tuple(dict.fromkeys([*aliases, *_MODALITY_GATE_TERMS.get(canonical_id, ())]))
 
 
 def known_modalities() -> tuple[str, ...]:

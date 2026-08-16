@@ -6,11 +6,21 @@ import hashlib
 import json
 import re
 from collections.abc import Callable, Iterable
+from dataclasses import dataclass
 from datetime import date, datetime, timezone
 from pathlib import Path
 from typing import Any
 
 from bve.se.discovery.orchestrator import AdapterResult
+from bve.se.ontology.modality import (
+    known_modalities,
+    modality_aliases,
+    modality_gate_terms,
+    modality_query_terms,
+    normalize_modality,
+)
+from bve.se.ontology.records import normalize_lookup_key
+from bve.se.ontology.targets import known_targets, target_aliases
 from bve.se.schemas.contracts import (
     CandidateHit,
     CompiledQuery,
@@ -22,30 +32,6 @@ from bve.se.schemas.contracts import (
 TrialSearch = Callable[..., list[dict[str, Any]]]
 PubMedSearch = Callable[[str, int], list[dict[str, Any]]]
 UrlFetch = Callable[[str], dict[str, Any]]
-
-_TCE_TERMS = (
-    "t cell engager",
-    "t-cell engager",
-    "t cell engaging",
-    "t-cell engaging",
-    "t cell redirecting",
-    "t-cell redirecting",
-    "bispecific t-cell",
-    "bispecific t cell",
-    "bite",
-    "cd3 bispecific",
-    "cd3x",
-    "xcd3",
-    "dual-affinity re-targeting",
-    "dual affinity re-targeting",
-    "dart protein",
-    "tri-specific antibody",
-    "trispecific antibody",
-)
-_TARGET_TERMS = {
-    "CD19": ("cd19", "cd-19", "b-lymphocyte antigen cd19"),
-    "BCMA": ("bcma", "tnfrsf17", "cd269"),
-}
 
 _ASSET_CODE_RE = re.compile(r"\b[A-Z]{2,8}(?:[- ]?\d{2,8}[A-Z]?)\b")
 _BIOLOGIC_NAME_RE = re.compile(
@@ -167,32 +153,172 @@ def _extract_interventions(protocol: dict[str, Any]) -> list[dict[str, Any]]:
     ]
 
 
-def _targets_in_text(text: str) -> set[str]:
-    lowered = text.casefold()
-    return {
-        canonical
-        for canonical, terms in _TARGET_TERMS.items()
-        if any(term in lowered for term in terms)
-    }
+#: A query that names nothing, used to build the modality half of the indexing vocabulary.
+_EMPTY_QUERY = CompiledQuery(query_id="vocabulary", query="")
 
 
-def _modality_in_text(text: str) -> str | None:
-    lowered = text.casefold()
-    if any(term in lowered for term in _TCE_TERMS) or (
-        "cd3" in lowered
-        and any(term in lowered for term in ("bispecific", "tri-specific", "trispecific"))
-    ):
-        return "T_CELL_ENGAGER"
-    if "car-t" in lowered or "car t" in lowered or "cellular immunotherapy" in lowered:
-        return "CAR_T"
-    if "antibody-drug conjugate" in lowered or "antibody drug conjugate" in lowered:
-        return "ADC"
-    if "small molecule" in lowered or "inhibitor" in lowered:
-        return "SMALL_MOLECULE"
-    return None
+def _fold(text: str) -> str:
+    """Fold text into the ontology's lookup spelling before substring matching.
+
+    Sources write ``T-cell engager``, ``T cell engager`` and ``t_cell_engager`` for one
+    thing. The deleted hardcoded term lists absorbed that by enumerating spellings, which
+    does not survive contact with a term nobody enumerated. Folding both sides handles it
+    once, for every term the ontology supplies.
+    """
+
+    return normalize_lookup_key(text)
 
 
-def _candidate_interventions(protocol: dict[str, Any]) -> list[tuple[str, set[str], str | None]]:
+@dataclass(frozen=True)
+class QueryVocabulary:
+    """The search vocabulary for one compiled query, derived from the ontology.
+
+    Discovery must not carry its own target or modality word lists. A hardcoded list is
+    the previous benchmark leaking into retrieval: it makes the pipeline look accurate on
+    the targets it was written for and silently un-discoverable for every other one.
+    Terms come from :mod:`bve.se.ontology` so a new target is discoverable as soon as the
+    ontology snapshot knows it, with no change here.
+    """
+
+    #: ``(canonical_id, casefolded terms)`` for each target the query asked for.
+    targets: tuple[tuple[str, tuple[str, ...]], ...] = ()
+    #: Same for modalities, query-requested ones first so they win a label tie.
+    modalities: tuple[tuple[str, tuple[str, ...]], ...] = ()
+    #: The subset of ``modalities`` the query actually asked for. Labelling scans every
+    #: known modality, but eligibility may only be gated on what was requested.
+    requested_modalities: frozenset[str] = frozenset()
+
+    @classmethod
+    def for_query(cls, query: CompiledQuery) -> "QueryVocabulary":
+        targets: list[tuple[str, tuple[str, ...]]] = []
+        for canonical in query.target_ids:
+            terms = {_fold(canonical)}
+            terms.update(_fold(alias) for alias in target_aliases(canonical))
+            # Query-supplied aliases are query-wide, not per-target, so they can only be
+            # attributed to a specific target when the query names exactly one. With more
+            # than one, attributing them to each would let an alias of A match B.
+            if len(query.target_ids) == 1:
+                terms.update(_fold(alias) for alias in query.aliases)
+            targets.append((canonical, tuple(sorted(terms))))
+
+        requested = [normalize_modality(value) or value for value in query.modality_ids]
+        ordered = [*dict.fromkeys(requested)]
+        ordered += [name for name in known_modalities() if name not in ordered]
+        modalities = [
+            (
+                canonical,
+                tuple(sorted(
+                    {_fold(alias) for alias in modality_aliases(canonical)},
+                    # Longest first: "bispecific t cell engager" must beat "antibody".
+                    key=lambda term: (-len(term), term),
+                )),
+            )
+            for canonical in ordered
+            if modality_aliases(canonical)
+        ]
+        return cls(
+            targets=tuple(targets),
+            modalities=tuple(modalities),
+            requested_modalities=frozenset(
+                canonical for canonical in requested if modality_aliases(canonical)
+            ),
+        )
+
+    @classmethod
+    def for_ontology(cls) -> "QueryVocabulary":
+        """Whole-snapshot vocabulary, for labelling that happens before a query exists.
+
+        Corpus indexing runs ahead of any query. Without a snapshot this yields no targets
+        and the indexer labels none, which is the intended abstention: search may abstain
+        without a snapshot, it may not fall back to a benchmark-shaped word list.
+        """
+
+        targets = tuple(
+            (canonical, tuple(sorted({_fold(canonical), *(_fold(a) for a in aliases)})))
+            for canonical, aliases in known_targets()
+        )
+        return cls(targets=targets, modalities=cls.for_query(_EMPTY_QUERY).modalities)
+
+    def targets_in(self, text: str) -> set[str]:
+        lowered = _fold(text)
+        return {
+            canonical
+            for canonical, terms in self.targets
+            if any(term in lowered for term in terms)
+        }
+
+    def modality_in(self, text: str) -> str | None:
+        """Label text with its most specific supported modality.
+
+        Scored by longest matching alias rather than iteration order, so "BiTE bispecific"
+        resolves to T_CELL_ENGAGER instead of the broader BISPECIFIC_ANTIBODY that a
+        shorter alias would otherwise claim. A modality the query asked for outranks one
+        it did not, since that is the distinction the caller cares about.
+        """
+
+        lowered = _fold(text)
+        best: tuple[int, int, str] | None = None
+        for canonical, terms in self.modalities:
+            matched = max((len(term) for term in terms if term in lowered), default=0)
+            if not matched:
+                continue
+            score = (1 if canonical in self.requested_modalities else 0, matched, canonical)
+            if best is None or score > best:
+                best = score
+        return best[2] if best else None
+
+    def requested_modality_terms(self) -> tuple[str, ...]:
+        """Folded terms for the query's modalities only, for eligibility gating.
+
+        Gating on every known modality would admit any trial at all, so this is
+        deliberately narrower than the vocabulary used for labelling — and, in the other
+        direction, wider than that vocabulary's aliases, because evidence that a construct
+        *is* the requested modality is not limited to the names it is called by.
+        """
+
+        return tuple(
+            dict.fromkeys(
+                _fold(term)
+                for canonical in sorted(self.requested_modalities)
+                for term in modality_gate_terms(canonical)
+            )
+        )
+
+    def matches_requested_modality(self, text: str) -> bool:
+        """True when no modality was requested, or the text supports one that was.
+
+        Matched on word boundaries rather than as a substring: a gate term as short as
+        ``cd3`` would otherwise admit every CD30 and CD33 programme ever written down.
+        """
+
+        if not self.requested_modalities:
+            return True
+        lowered = _fold(text)
+        return any(
+            re.search(rf"\b{re.escape(term)}\b", lowered)
+            for term in self.requested_modality_terms()
+        )
+
+    def query_terms(self) -> tuple[str, ...]:
+        """Retrieval terms for the upstream registry: target aliases plus modality expansion.
+
+        Replaces a hardcoded ``CD3 CD3E T-cell engager BiTE bispecific trispecific`` suffix
+        that was appended to every query regardless of what was asked.
+        """
+
+        terms: list[str] = []
+        for canonical, _ in self.targets:
+            terms.extend(target_aliases(canonical) or (canonical,))
+        for canonical in sorted(self.requested_modalities):
+            terms.extend(modality_query_terms(canonical))
+        # Canonical IDs are internal identifiers (``T_CELL_ENGAGER``); sending them to a
+        # registry matches nothing and only dilutes the query.
+        return tuple(dict.fromkeys(term for term in terms if term and "_" not in term))
+
+
+def _candidate_interventions(
+    protocol: dict[str, Any], vocabulary: QueryVocabulary
+) -> list[tuple[str, set[str], str | None]]:
     """Exclude obvious concomitant/supportive interventions while retaining near-match candidates.
 
     Modality eligibility remains an evidence-backed gate; discovery may intentionally retain a
@@ -209,7 +335,7 @@ def _candidate_interventions(protocol: dict[str, Any]) -> list[tuple[str, set[st
             description.get("briefSummary", ""),
         ]
     ).casefold()
-    protocol_targets = _targets_in_text(_protocol_text(protocol))
+    protocol_targets = vocabulary.targets_in(_protocol_text(protocol))
     selected: list[tuple[str, set[str], str | None]] = []
     all_interventions = _extract_interventions(protocol)
     for intervention in all_interventions:
@@ -228,16 +354,18 @@ def _candidate_interventions(protocol: dict[str, Any]) -> list[tuple[str, set[st
         if (
             name.casefold() in title_context
             or observed_in_title
-            or _modality_in_text(intervention_context) == "T_CELL_ENGAGER"
+            or vocabulary.matches_requested_modality(intervention_context)
         ):
-            intervention_targets = _targets_in_text(intervention_context)
-            intervention_modality = _modality_in_text(intervention_context)
+            intervention_targets = vocabulary.targets_in(intervention_context)
+            intervention_modality = vocabulary.modality_in(intervention_context)
             # Protocol-level target/modality text is safe only when there is one named
             # intervention. In combination studies, assigning it to every background drug creates
             # false candidate programs (e.g. supportive agents and combination partners).
             if len(all_interventions) == 1:
                 intervention_targets = intervention_targets or protocol_targets
-                intervention_modality = intervention_modality or _modality_in_text(_protocol_text(protocol))
+                intervention_modality = intervention_modality or vocabulary.modality_in(
+                    _protocol_text(protocol)
+                )
             canonical_name = primary_names[0] if len(primary_names) == 1 else name
             selected.append(
                 (
@@ -246,17 +374,19 @@ def _candidate_interventions(protocol: dict[str, Any]) -> list[tuple[str, set[st
                     intervention_modality,
                 )
             )
-    if len(selected) == 1 and selected[0][2] is None and _modality_in_text(_protocol_text(protocol)):
+    if len(selected) == 1 and selected[0][2] is None and vocabulary.modality_in(
+        _protocol_text(protocol)
+    ):
         name, targets, _ = selected[0]
-        selected[0] = (name, targets, _modality_in_text(_protocol_text(protocol)))
-    elif len(selected) > 1 and _modality_in_text(_protocol_text(protocol)):
+        selected[0] = (name, targets, vocabulary.modality_in(_protocol_text(protocol)))
+    elif len(selected) > 1 and vocabulary.modality_in(_protocol_text(protocol)):
         normalized_names = [_normalized_lookup(name) for name, _, _ in selected]
         if len(set(normalized_names)) == 1:
             selected = [
                 (
                     name,
                     targets or protocol_targets,
-                    modality or _modality_in_text(_protocol_text(protocol)),
+                    modality or vocabulary.modality_in(_protocol_text(protocol)),
                 )
                 for name, targets, modality in selected
             ]
@@ -285,12 +415,13 @@ class ClinicalTrialsGovAdapter:
         self.snapshot_root = snapshot_root
 
     def search(self, query: CompiledQuery, *, as_of_date: date) -> AdapterResult:
+        vocabulary = QueryVocabulary.for_query(query)
         try:
             # CT.gov intervention search is the broad retrieval layer; explicit canonical checks
             # below prevent the query string from becoming an eligibility assertion.
-            target_terms = query.aliases or query.target_ids
+            terms = vocabulary.query_terms() or tuple(query.aliases or query.target_ids)
             protocols = self.search_fn(
-                intervention=" ".join([*target_terms, "CD3", "CD3E", "T-cell engager", "BiTE", "bispecific", "trispecific"]),
+                intervention=" ".join(terms),
                 page_size=self.page_size,
             )
         except Exception as exc:
@@ -317,10 +448,10 @@ class ClinicalTrialsGovAdapter:
             lower = serialized.casefold().replace("_", " ")
             if not _matches_follow_up(query, serialized):
                 continue
-            protocol_targets = _targets_in_text(lower)
+            protocol_targets = vocabulary.targets_in(lower)
             if query.target_ids and not set(query.target_ids).issubset(protocol_targets):
                 continue
-            if query.modality_ids and not any(term in lower for term in _TCE_TERMS):
+            if not vocabulary.matches_requested_modality(lower):
                 continue
             identification = protocol.get("identificationModule", {})
             sponsor_module = protocol.get("sponsorCollaboratorsModule", {})
@@ -345,10 +476,10 @@ class ClinicalTrialsGovAdapter:
                 )
             )
             sponsor = sponsor_module.get("leadSponsor", {}).get("name")
-            interventions = _candidate_interventions(protocol)
+            interventions = _candidate_interventions(protocol, vocabulary)
             if not interventions:
                 fallback_name = identification.get("briefTitle") or nct_id or "unnamed program"
-                interventions = [(fallback_name, protocol_targets, _modality_in_text(lower))]
+                interventions = [(fallback_name, protocol_targets, vocabulary.modality_in(lower))]
             last_update = status_module.get("lastUpdatePostDateStruct", {}).get("date")
             if last_update:
                 try:
@@ -469,6 +600,7 @@ class PubMedDiscoveryAdapter:
         return records
 
     def search(self, query: CompiledQuery, *, as_of_date: date) -> AdapterResult:
+        vocabulary = QueryVocabulary.for_query(query)
         try:
             records = self.search_fn(query.query, 50)
         except Exception as exc:
@@ -495,7 +627,7 @@ class PubMedDiscoveryAdapter:
             text = f"{title} {abstract}".casefold()
             if not all(target.casefold() in text for target in query.target_ids):
                 continue
-            if query.modality_ids and not any(term in text for term in _TCE_TERMS):
+            if not vocabulary.matches_requested_modality(text):
                 continue
             document_id = _digest("document", digest)
             documents.append(
@@ -512,8 +644,8 @@ class PubMedDiscoveryAdapter:
             )
             if not _matches_follow_up(query, f"{title} {abstract}"):
                 continue
-            observed_targets = sorted(_targets_in_text(text))
-            observed_modality = _modality_in_text(text)
+            observed_targets = sorted(vocabulary.targets_in(text))
+            observed_modality = vocabulary.modality_in(text)
             for asset in extract_observed_asset_names(title, abstract):
                 hits.append(
                     CandidateHit(
@@ -574,16 +706,17 @@ class IndexedDocumentAdapter:
         self.snapshot_root = snapshot_root
 
     def search(self, query: CompiledQuery, *, as_of_date: date) -> AdapterResult:
+        vocabulary = QueryVocabulary.for_query(query)
         hits: list[CandidateHit] = []
         source_documents: list[SourceDocument] = []
         snapshots: list[str] = []
         for record in self.documents:
             text = str(record.get("text", ""))
             title = str(record.get("title", ""))
-            observed_targets = _targets_in_text(text)
+            observed_targets = vocabulary.targets_in(text)
             if query.target_ids and not set(query.target_ids).issubset(observed_targets):
                 continue
-            observed_modality = _modality_in_text(text)
+            observed_modality = vocabulary.modality_in(text)
             if query.modality_ids and observed_modality not in set(query.modality_ids):
                 continue
             if not _matches_follow_up(query, f"{title} {text}"):

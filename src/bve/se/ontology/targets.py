@@ -102,11 +102,34 @@ def target_aliases(canonical_id: str) -> tuple[str, ...]:
     return resolver.aliases_for(canonical_id, EntityType.TARGET)
 
 
+def known_targets() -> tuple[tuple[str, tuple[str, ...]], ...]:
+    """Every target in the snapshot with its queryable aliases; ``()`` without one.
+
+    Corpus indexing labels documents before a query exists, so it needs the whole target
+    vocabulary. Returning ``()`` when no snapshot is loaded is deliberate: labelling
+    against a hardcoded fallback list is what made discovery look accurate only on the
+    targets it was written for.
+
+    Keyed by approved symbol rather than internal canonical id, because that is what a
+    compiled query names and what a label is compared against downstream. Entities with
+    no elected symbol fall back to their id so they remain addressable.
+    """
+
+    resolver = get_resolver()
+    if resolver is None:
+        return ()
+    return tuple(
+        (entity.canonical_symbol or entity.canonical_id, entity.queryable_aliases())
+        for entity in resolver.entities_of_type(EntityType.TARGET)
+    )
+
+
 __all__ = [
     "MODALITY_ONTOLOGY_VERSION",
     "NO_SNAPSHOT_VERSION",
     "default_snapshot_path",
     "get_resolver",
+    "known_targets",
     "normalize_modality",
     "normalize_target",
     "ontology_version",

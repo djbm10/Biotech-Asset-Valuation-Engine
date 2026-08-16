@@ -4,6 +4,7 @@ from bve.se.ontology.modality import (
     MODALITY_ONTOLOGY_VERSION,
     known_modalities,
     modality_aliases,
+    modality_gate_terms,
     modality_query_terms,
     normalize_modality,
 )
@@ -52,6 +53,7 @@ __all__ = [
     "get_resolver",
     "known_modalities",
     "modality_aliases",
+    "modality_gate_terms",
     "modality_query_terms",
     "normalize_modality",
     "normalize_target",
