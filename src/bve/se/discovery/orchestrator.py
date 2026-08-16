@@ -262,6 +262,17 @@ class DiscoveryOrchestrator:
                 "limited to aliases declared on the buyer problem"
             )
 
+        # Whichever adapter acquired through a provider can state the universe it saw.
+        # Asked for generically so a second provider-backed source needs no change here.
+        trial_universe = next(
+            (
+                provenance
+                for adapter in self.adapters
+                if (provenance := getattr(adapter, "trial_universe", None)) is not None
+            ),
+            None,
+        )
+
         manifest = RunManifest(
             run_id=run_id,
             problem_id=problem.problem_id,
@@ -273,6 +284,7 @@ class DiscoveryOrchestrator:
             extractor_versions=extractor_versions or {},
             normalization_version=normalization_version,
             ontology_version=resolved_ontology_version,
+            trial_universe=trial_universe,
             source_status=source_status,
             query_log_ids=[attempt.attempt_id for attempt in attempts],
             evidence_snapshot_ids=list(dict.fromkeys(snapshot_ids)),

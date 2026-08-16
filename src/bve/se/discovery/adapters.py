@@ -21,12 +21,19 @@ from bve.se.ontology.modality import (
 )
 from bve.se.ontology.records import normalize_lookup_key
 from bve.se.ontology.targets import known_targets, target_aliases
+from bve.se.universe.provenance import describe_universe
+from bve.se.universe.provider import (
+    PayloadKind,
+    TrialQuery,
+    TrialUniverseProvider,
+)
 from bve.se.schemas.contracts import (
     CandidateHit,
     CompiledQuery,
     SearchOutcome,
     SourceDocument,
     SourceTier,
+    TrialUniverseProvenance,
 )
 
 TrialSearch = Callable[..., list[dict[str, Any]]]
@@ -393,8 +400,18 @@ def _candidate_interventions(
     return selected
 
 
+#: The parser applied to acquired payloads, recorded separately from the backend that
+#: supplied them: the same records reached through AACT would need a different one.
+CTGOV_EXTRACTOR = "clinicaltrials_v2"
+CTGOV_EXTRACTOR_VERSION = "1"
+
+
 class ClinicalTrialsGovAdapter:
-    """Discover trial programs and sponsors with an injectable frozen/live search function."""
+    """Discover trial programs and sponsors from a trial universe provider.
+
+    Acquisition belongs to the provider; this adapter opens the CT.gov-shaped envelopes it
+    is entitled to and extracts from them exactly as before.
+    """
 
     source_name = "clinicaltrials_gov"
     mandatory = True
@@ -403,27 +420,77 @@ class ClinicalTrialsGovAdapter:
         self,
         search_fn: TrialSearch | None = None,
         *,
+        provider: "TrialUniverseProvider | None" = None,
         page_size: int = 250,
         snapshot_root: Path | None = None,
     ) -> None:
-        if search_fn is None:
+        if provider is not None and search_fn is not None:
+            raise ValueError("pass either a trial universe provider or a search_fn, not both")
+        self.provider = provider
+        if provider is None and search_fn is None:
             from bve.ingestion.clinicaltrials_gov import search_studies
 
             search_fn = search_studies
         self.search_fn = search_fn
         self.page_size = page_size
         self.snapshot_root = snapshot_root
+        #: Provenance of the last provider fetch, for the run manifest. Stays ``None`` on
+        #: the legacy ``search_fn`` path, which acquires its own records and so cannot
+        #: state which universe it saw — an absence the manifest records rather than hides.
+        self.trial_universe: TrialUniverseProvenance | None = None
+
+    def _acquire(
+        self, vocabulary: QueryVocabulary, query: CompiledQuery, as_of_date: date
+    ) -> list[dict[str, Any]]:
+        """Obtain CT.gov protocol payloads, via the provider when one is configured.
+
+        The adapter no longer performs acquisition when a provider is present: it asks for
+        a universe and opens the envelopes it is entitled to. Extraction below is
+        deliberately unchanged — moving CT.gov parsing behind a backend-neutral extractor
+        is a separate concern, and doing it here would turn an integration seam into a
+        rewrite of code that already works.
+        """
+
+        terms = vocabulary.query_terms() or tuple(query.aliases or query.target_ids)
+        if self.provider is None:
+            # CT.gov intervention search is the broad retrieval layer; explicit canonical
+            # checks below prevent the query string from becoming an eligibility assertion.
+            return self.search_fn(intervention=" ".join(terms), page_size=self.page_size)
+
+        trial_query = TrialQuery(
+            terms=list(terms),
+            as_of_date=as_of_date,
+            max_records=self.page_size,
+        )
+        started_at = datetime.now(timezone.utc)
+        result = self.provider.fetch(trial_query)
+        self.trial_universe = describe_universe(
+            result,
+            trial_query,
+            retrieval_started_at=started_at,
+            retrieval_completed_at=datetime.now(timezone.utc),
+            extractor=CTGOV_EXTRACTOR,
+            extractor_version=CTGOV_EXTRACTOR_VERSION,
+        )
+        if result.outcome is SearchOutcome.FAILED:
+            raise RuntimeError(result.error or f"{result.backend} fetch failed")
+        payloads: list[dict[str, Any]] = []
+        for record in result.records:
+            kind = record.snapshot.payload_kind if record.snapshot else None
+            if kind is not PayloadKind.CTGOV_PROTOCOL_JSON:
+                # Refuse rather than guess: this extractor reads CT.gov protocol JSON, and
+                # an AACT relational row silently mis-parsed would look like an empty trial.
+                raise ValueError(
+                    f"{record.trial_id}: cannot parse payload kind {kind} as CT.gov protocol JSON"
+                )
+            if isinstance(record.raw_payload, dict):
+                payloads.append(record.raw_payload)
+        return payloads
 
     def search(self, query: CompiledQuery, *, as_of_date: date) -> AdapterResult:
         vocabulary = QueryVocabulary.for_query(query)
         try:
-            # CT.gov intervention search is the broad retrieval layer; explicit canonical checks
-            # below prevent the query string from becoming an eligibility assertion.
-            terms = vocabulary.query_terms() or tuple(query.aliases or query.target_ids)
-            protocols = self.search_fn(
-                intervention=" ".join(terms),
-                page_size=self.page_size,
-            )
+            protocols = self._acquire(vocabulary, query, as_of_date)
         except Exception as exc:
             return AdapterResult(outcome=SearchOutcome.FAILED, error=str(exc))
 

@@ -7,6 +7,7 @@ downstream imports a backend module directly.
 
 from __future__ import annotations
 
+import os
 from pathlib import Path
 
 from bve.se.universe.aact import AACTProvider
@@ -15,8 +16,21 @@ from bve.se.universe.frozen import FrozenTrialProvider
 from bve.se.universe.hybrid import HybridTrialProvider
 from bve.se.universe.provider import TrialUniverseProvider
 
-DEFAULT_BACKEND = "ctgov"
-KNOWN_BACKENDS = ("ctgov", "aact", "hybrid", "frozen")
+DEFAULT_BACKEND = "rest"
+#: ``rest`` is the CLI-facing name for ``ctgov``; both select the REST v2 backend.
+KNOWN_BACKENDS = ("rest", "ctgov", "aact", "hybrid", "frozen")
+
+#: Environment variable holding the AACT connection string.
+AACT_DSN_ENV = "BVE_AACT_DSN"
+
+
+class TrialBackendNotConfigured(RuntimeError):
+    """A known backend was requested but this machine cannot serve it.
+
+    Raised instead of quietly substituting REST. A run that believed it queried a bulk
+    mirror and actually hit a paged API has a different universe than its manifest claims,
+    and nothing downstream would reveal the difference.
+    """
 
 
 def build_trial_provider(
@@ -27,29 +41,31 @@ def build_trial_provider(
     aact_release: str | None = None,
     fixture_path: Path | None = None,
 ) -> TrialUniverseProvider:
-    """Construct the named backend.
+    """Construct the named backend, or refuse.
 
-    ``ctgov`` is the default because it requires no local infrastructure. ``hybrid``
-    prefers AACT and falls back to the API, which is the production configuration once a
-    mirror exists.
+    ``rest`` is the default because it requires no local infrastructure. ``aact`` and
+    ``hybrid`` raise :class:`TrialBackendNotConfigured` unless a mirror is actually
+    reachable; ``hybrid``'s AACT-then-REST preference applies only once it is. An
+    unrecognized name is a configuration error, never a default.
     """
 
     normalized = backend.strip().casefold()
-    if normalized == "ctgov":
+    if normalized in {"rest", "ctgov"}:
         return ClinicalTrialsGovProvider(snapshot_root=snapshot_root)
-    if normalized == "aact":
-        return AACTProvider(
-            dsn=aact_dsn, snapshot_root=snapshot_root, snapshot_release=aact_release
+    if normalized in {"aact", "hybrid"}:
+        dsn = aact_dsn or os.environ.get(AACT_DSN_ENV)
+        if not dsn:
+            raise TrialBackendNotConfigured(
+                f"trial backend {normalized!r} needs an AACT mirror: set {AACT_DSN_ENV} or "
+                "pass aact_dsn. Not falling back to the REST API, which would query a "
+                "different universe than the manifest would record."
+            )
+        aact = AACTProvider(
+            dsn=dsn, snapshot_root=snapshot_root, snapshot_release=aact_release
         )
-    if normalized == "hybrid":
-        return HybridTrialProvider(
-            [
-                AACTProvider(
-                    dsn=aact_dsn, snapshot_root=snapshot_root, snapshot_release=aact_release
-                ),
-                ClinicalTrialsGovProvider(snapshot_root=snapshot_root),
-            ]
-        )
+        if normalized == "aact":
+            return aact
+        return HybridTrialProvider([aact, ClinicalTrialsGovProvider(snapshot_root=snapshot_root)])
     if normalized == "frozen":
         if fixture_path is None:
             raise ValueError("the frozen backend requires fixture_path")

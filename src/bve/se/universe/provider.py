@@ -5,11 +5,19 @@ ClinicalTrials.gov REST API, an AACT mirror, or a frozen CI fixture. Everything 
 :class:`TrialUniverseProvider` boundary speaks a backend-specific dialect; everything above
 it speaks :class:`TrialRecord`.
 
-Two rules keep that boundary honest:
+Providers own *acquisition* — build the query, page, snapshot, record provenance — and
+nothing else. Interpreting a record is a separate concern with its own abstraction to
+come; keeping the two apart is what lets a new backend be added without a second S&E
+pipeline growing beside the first.
 
-* No provider hands a raw upstream payload upward. Providers snapshot their own raw
-  response and pass a :class:`TrialSnapshot` reference, so evidence fidelity survives
-  without leaking the backend's field names into downstream code.
+Three rules keep that boundary honest:
+
+* A raw upstream payload travels upward only inside a content-addressed, kind-tagged
+  envelope. It is opaque: the only code entitled to read it is an extractor that matches
+  its :class:`PayloadKind`. Anything else reaching into ``raw_payload`` for a backend's
+  field names has reintroduced the coupling this boundary exists to prevent.
+* Every record carries enough normalized metadata to be discovered, deduplicated and
+  cited without opening the envelope at all.
 * ``TrialUniverseResult.backend`` exists for provenance only — it belongs in the run
   manifest, never in an ``if``.
 """
@@ -20,6 +28,7 @@ import hashlib
 import json
 import re
 from datetime import date, datetime, timezone
+from enum import Enum
 from pathlib import Path
 from typing import Any, Protocol, runtime_checkable
 
@@ -30,6 +39,19 @@ from bve.se.schemas.contracts import SearchOutcome, StrictModel
 #: Registry the record originated from. Distinct from the *backend* that served it: AACT
 #: and the CT.gov REST API are two backends over the one ``clinicaltrials_gov`` registry.
 CLINICALTRIALS_GOV = "clinicaltrials_gov"
+
+
+class PayloadKind(str, Enum):
+    """The shape of a preserved raw payload, so an extractor can refuse what it cannot read.
+
+    AACT serves relational rows, not CT.gov's nested ``protocolSection`` JSON, so the two
+    backends cannot share one parser even though they serve one registry. Tagging the
+    shape lets downstream dispatch explicitly instead of guessing from ``backend`` — and
+    lets a parser fail loudly when handed a payload it was not written for.
+    """
+
+    CTGOV_PROTOCOL_JSON = "CTGOV_PROTOCOL_JSON"
+    AACT_RELATIONAL_RECORD = "AACT_RELATIONAL_RECORD"
 
 
 def parse_registry_date(value: Any) -> date | None:
@@ -111,6 +133,9 @@ class TrialSnapshot(StrictModel):
     #: Backend that produced the payload. Recorded so a stored snapshot can be re-parsed
     #: years later by the same reader that wrote it.
     backend: str
+    #: Shape of the payload, which is what decides who may parse it. ``backend`` does not:
+    #: two backends can serve one shape, and one backend could later serve two.
+    payload_kind: PayloadKind = PayloadKind.CTGOV_PROTOCOL_JSON
 
     @property
     def snapshot_id(self) -> str:
@@ -160,6 +185,12 @@ class TrialRecord(StrictModel):
 
     retrieved_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     snapshot: TrialSnapshot | None = None
+
+    #: The preserved upstream payload, opaque above this boundary. Only an extractor that
+    #: matches ``snapshot.payload_kind`` may read it; discovery works off the normalized
+    #: fields above. Kept in-process so existing source-specific extraction can run
+    #: without a second fetch, while acquisition has already moved behind the provider.
+    raw_payload: Any | None = None
 
     @field_validator("trial_id")
     @classmethod
@@ -256,7 +287,11 @@ class TrialUniverseProvider(Protocol):
 
 
 def write_snapshot(
-    payload: Any, *, backend: str, snapshot_root: Path | None
+    payload: Any,
+    *,
+    backend: str,
+    snapshot_root: Path | None,
+    payload_kind: PayloadKind = PayloadKind.CTGOV_PROTOCOL_JSON,
 ) -> TrialSnapshot:
     """Persist a raw upstream payload and return its reference.
 
@@ -273,4 +308,9 @@ def write_snapshot(
         if not path.exists():
             path.write_text(content)
         path_value = str(path)
-    return TrialSnapshot(content_hash=digest, snapshot_path=path_value, backend=backend)
+    return TrialSnapshot(
+        content_hash=digest,
+        snapshot_path=path_value,
+        backend=backend,
+        payload_kind=payload_kind,
+    )

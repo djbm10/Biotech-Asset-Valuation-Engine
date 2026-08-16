@@ -21,6 +21,7 @@ from bve.se.discovery.adapters import (
 from bve.se.pipeline import run_landscape_search
 from bve.se.reporting.memo import render_search_memo
 from bve.se.schemas.contracts import BuyerProblemV2, RunStatus
+from bve.se.universe.factory import TrialBackendNotConfigured, build_trial_provider
 
 _MANDATORY_SOURCES = (
     "clinicaltrials_gov",
@@ -79,6 +80,16 @@ def build_parser() -> argparse.ArgumentParser:
         ),
     )
     parser.add_argument(
+        "--trial-backend",
+        choices=("rest", "aact", "hybrid"),
+        default="rest",
+        help=(
+            "Trial universe backend. 'rest' is the CT.gov REST v2 API and needs no local "
+            "infrastructure; 'aact' and 'hybrid' require a configured AACT mirror and fail "
+            "rather than falling back to the API"
+        ),
+    )
+    parser.add_argument(
         "--offline",
         action="store_true",
         help="Replay local CT.gov snapshots instead of making CT.gov/PubMed network requests",
@@ -104,7 +115,8 @@ def _load_json_snapshots(directory: Path) -> list[dict]:
 
 
 def main(argv: list[str] | None = None) -> int:
-    args = build_parser().parse_args(argv)
+    parser = build_parser()
+    args = parser.parse_args(argv)
     problem = BuyerProblemV2.model_validate(yaml.safe_load(Path(args.problem).read_text()))
     source_index = (yaml.safe_load(Path(args.source_index).read_text()) or {}) if args.source_index else {}
     url_index = (yaml.safe_load(Path(args.url_index).read_text()) or {}) if args.url_index else {}
@@ -126,7 +138,17 @@ def main(argv: list[str] | None = None) -> int:
             search_fn=pubmed_search, snapshot_root=Path(args.pubmed_snapshot_dir)
         )
     else:
-        ct_adapter = ClinicalTrialsGovAdapter(snapshot_root=Path(args.snapshot_dir))
+        try:
+            provider = build_trial_provider(
+                args.trial_backend, snapshot_root=Path(args.snapshot_dir)
+            )
+        except TrialBackendNotConfigured as exc:
+            # An unavailable backend is a configuration error, not a reason to quietly
+            # query a different universe than the one asked for.
+            parser.error(str(exc))
+        ct_adapter = ClinicalTrialsGovAdapter(
+            provider=provider, snapshot_root=Path(args.snapshot_dir)
+        )
         pubmed_adapter = PubMedDiscoveryAdapter(snapshot_root=Path(args.pubmed_snapshot_dir))
     indexed_adapters = [
         IndexedDocumentAdapter(

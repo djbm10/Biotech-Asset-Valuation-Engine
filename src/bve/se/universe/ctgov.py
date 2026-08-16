@@ -14,6 +14,7 @@ from typing import Any
 from bve.se.schemas.contracts import SearchOutcome
 from bve.se.universe.provider import (
     CLINICALTRIALS_GOV,
+    PayloadKind,
     TrialIntervention,
     TrialQuery,
     TrialRecord,
@@ -166,8 +167,15 @@ class ClinicalTrialsGovProvider:
             record = record.model_copy(
                 update={
                     "snapshot": write_snapshot(
-                        protocol, backend=self.backend_name, snapshot_root=self.snapshot_root
-                    )
+                        protocol,
+                        backend=self.backend_name,
+                        snapshot_root=self.snapshot_root,
+                        payload_kind=PayloadKind.CTGOV_PROTOCOL_JSON,
+                    ),
+                    # Preserved verbatim so the existing CT.gov extractor can read it
+                    # without a second fetch. Acquisition has moved here; interpretation
+                    # has not, and the payload kind says which parser is entitled to it.
+                    "raw_payload": protocol,
                 }
             )
             if not query.applies(record):

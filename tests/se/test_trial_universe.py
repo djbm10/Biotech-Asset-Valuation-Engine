@@ -266,9 +266,11 @@ class TestBackendInterchangeability:
         ctgov = ctgov_provider.fetch(TrialQuery(terms=["PDCD1"])).records[0]
         aact = _aact_provider().fetch(TrialQuery(terms=["PDCD1"])).records[0]
 
-        # Snapshot and retrieval metadata are provenance and legitimately differ; every
-        # field a downstream consumer reasons about must not.
-        ignored = {"snapshot", "retrieved_at"}
+        # Snapshot, retrieval metadata and the preserved payload are provenance and
+        # legitimately differ — the payload is backend-shaped by definition, which is why
+        # it travels tagged and opaque. Every field a downstream consumer reasons about
+        # must not differ.
+        ignored = {"snapshot", "retrieved_at", "raw_payload"}
         left = ctgov.model_dump(exclude=ignored)
         right = aact.model_dump(exclude=ignored | {"collaborators"})
         left.pop("collaborators")

@@ -492,6 +492,40 @@ class CoveragePass(StrictModel):
     source_unique_contributions: dict[str, int] = Field(default_factory=dict)
 
 
+class TrialUniverseProvenance(StrictModel):
+    """Which trial universe a run actually saw, and how it was obtained.
+
+    Recorded so an answer can later be reproduced against the same universe rather than
+    against whatever the backend serves today. ``backend`` and ``extractor`` are kept
+    separate because they are separate concerns: two backends can feed equivalent
+    scientific records through different parsers, and only the pair explains an output.
+
+    Retrieval timestamps are provenance, not identity — two runs over the same universe
+    are the same run even though they happened at different times, so nothing that
+    compares runs for determinism may read them.
+    """
+
+    backend: str
+    provider_version: str | None = None
+    #: Upstream data release the backend served, e.g. an AACT mirror date.
+    source_release: str | None = None
+    #: Content-addressed ids of the preserved payloads.
+    snapshot_ids: list[str] = Field(default_factory=list)
+    query: dict[str, Any] = Field(default_factory=dict)
+    retrieval_started_at: datetime | None = None
+    retrieval_completed_at: datetime | None = None
+    records_considered: int = 0
+    records_returned: int = 0
+    #: True when a record cap cut the universe short. A truncated universe cannot support
+    #: a coverage claim, so this must survive into the manifest rather than being inferred.
+    truncated: bool = False
+    #: Parser that interpreted the payloads, distinct from the backend that supplied them.
+    extractor: str | None = None
+    extractor_version: str | None = None
+    #: Digest over the identity-bearing fields above, for cheap run-to-run comparison.
+    provenance_hash: str | None = None
+
+
 class RunManifest(StrictModel):
     run_id: str
     problem_id: str
@@ -507,6 +541,9 @@ class RunManifest(StrictModel):
     #: stays reproducible after the upstream databases move; ``no_snapshot__…`` means
     #: the run relied solely on problem-declared aliases.
     ontology_version: str | None = None
+    #: The trial universe this run queried. ``None`` when trials were not acquired through
+    #: a provider, which is itself worth recording: such a run cannot state its universe.
+    trial_universe: TrialUniverseProvenance | None = None
     source_status: dict[str, SearchOutcome] = Field(default_factory=dict)
     query_log_ids: list[str] = Field(default_factory=list)
     evidence_snapshot_ids: list[str] = Field(default_factory=list)
