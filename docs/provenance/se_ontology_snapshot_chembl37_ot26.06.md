@@ -29,11 +29,11 @@ manifest SHA (as bound by receipt.json):
 ```text
 builder commit(s):
 35e6721cdd2f70a90c899082f8abbf72907298bb  fix(se): flag widely shared aliases in linear time
-a1c6ec8                                    feat(se): track the ontology builder and artifact publisher
+a1c6ec84e6ed13d554aac4516ff97d5b0d6b5bb6  feat(se): track the ontology builder and artifact publisher
 ```
 
 `35e6721` is the commit recorded in the artifact manifest's `built_by.git_commit`;
-it is the tree the snapshot was actually built from. `a1c6ec8` adds no behaviour —
+it is the tree the snapshot was actually built from. `a1c6ec84e6ed13d554aac4516ff97d5b0d6b5bb6` adds no behaviour —
 it persists the builder modules that `35e6721` referenced but did not track.
 
 ## Module hashes
