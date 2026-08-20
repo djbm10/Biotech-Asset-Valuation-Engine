@@ -64,9 +64,11 @@ def _paging_opener(pages: list[dict]):
 class TestOpenTargetsBulk:
     def test_parses_every_shard(self, tmp_path) -> None:
         _write_shard(tmp_path / "ot", OPEN_TARGETS_ROWS)
-        records, digest = build_open_targets_records(tmp_path / "ot")
+        records, digest, files = build_open_targets_records(tmp_path / "ot")
         assert {record.canonical_symbol for record in records} == {"PDCD1", "KRAS"}
         assert digest
+        # Every shard read is hashed, so the snapshot can name the bytes it came from.
+        assert [file.rows for file in files] == [2]
 
     def test_digest_is_stable_across_rebuilds(self, tmp_path) -> None:
         _write_shard(tmp_path / "a", OPEN_TARGETS_ROWS)
@@ -75,7 +77,7 @@ class TestOpenTargetsBulk:
 
     def test_missing_export_is_an_explicit_error(self, tmp_path) -> None:
         (tmp_path / "empty").mkdir()
-        with pytest.raises(FileNotFoundError, match="no Open Targets target shards"):
+        with pytest.raises(FileNotFoundError, match="no bulk shards found"):
             build_open_targets_records(tmp_path / "empty")
 
 
@@ -137,7 +139,7 @@ class TestSnapshotAssembly:
 
     def test_built_snapshot_resolves_and_records_counts(self, tmp_path) -> None:
         _write_shard(tmp_path / "ot", OPEN_TARGETS_ROWS)
-        snapshot = build_snapshot(
+        snapshot, _ = build_snapshot(
             open_targets_dir=tmp_path / "ot",
             open_targets_release="26.06",
             retrieved_at=date(2026, 8, 15),
@@ -173,12 +175,13 @@ class TestSnapshotAssembly:
                 }
             ]
         )
-        snapshot = build_snapshot(
+        snapshot, _ = build_snapshot(
             open_targets_dir=tmp_path / "ot",
             open_targets_release="26.06",
             chembl_release="36",
             opener=opener,
             retrieved_at=date(2026, 8, 15),
+            verify_release=False,
         )
         assert snapshot.ontology_version == "chembl_36__open_targets_26.06__resolver_v1"
         # The ChEMBL row joins the Open Targets row on Q15116 rather than adding an entity.
