@@ -415,3 +415,58 @@ class TestResolutionBasis:
         )
         assert resolver.resolve("SHARED").basis is None
         assert resolver.resolve("nothing").basis is None
+
+
+class TestWidelySharedAlias:
+    """A junk alias shared by thousands of entities is normal in real bulk data.
+
+    Open Targets 26.06 gives ``novel transcript`` to tens of thousands of genes.
+    Flagging that must cost work proportional to the sharing group, not to its
+    square, and the flags themselves must not change.
+    """
+
+    @staticmethod
+    def _shared(count: int) -> BiomedicalEntityResolver:
+        return BiomedicalEntityResolver(
+            _snapshot(
+                *(
+                    _target(
+                        "open_targets",
+                        f"ENSG{index:011d}",
+                        symbol=f"SYM{index}",
+                        synonyms=("novel transcript",),
+                        uniprot=(f"U{index:06d}",),
+                    )
+                    for index in range(count)
+                )
+            )
+        )
+
+    def test_every_sharer_is_flagged_once_with_the_full_id_set(self) -> None:
+        resolver = self._shared(40)
+        entities = resolver.entities_of_type(EntityType.TARGET)
+        assert len(entities) == 40
+        expected = sorted(entity.canonical_id for entity in entities)
+        for entity in entities:
+            shared = [
+                flag
+                for flag in entity.conflicts
+                if flag.conflict_type is ConflictType.ALIAS_SHARED_ACROSS_ENTITIES
+            ]
+            assert len(shared) == 1
+            assert list(shared[0].values) == expected
+            assert "novel transcript" in shared[0].detail
+
+    def test_flagging_does_not_scale_quadratically(self) -> None:
+        # The quadratic form did one full sort and one whole-list copy per member,
+        # so an 8x bigger group cost ~64x. Linear work leaves a wide margin here.
+        import time
+
+        def elapsed(count: int) -> float:
+            start = time.perf_counter()
+            self._shared(count)
+            return time.perf_counter() - start
+
+        small = elapsed(250)
+        large = elapsed(2000)
+        assert large < max(small * 24.0, 0.5), f"{small=:.3f}s {large=:.3f}s"

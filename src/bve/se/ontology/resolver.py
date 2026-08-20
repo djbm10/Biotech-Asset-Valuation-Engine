@@ -348,30 +348,37 @@ class BiomedicalEntityResolver:
     def _flag_shared_aliases(self) -> None:
         """Record, on each affected entity, aliases that are not entity-unique."""
 
+        # Bulk data shares some aliases very widely -- Open Targets gives "novel
+        # transcript" to tens of thousands of genes. Sorting the id set once per
+        # alias rather than once per sharer, and appending to a per-entity list
+        # rather than rebuilding each entity's list, keeps this linear in the size
+        # of the sharing group instead of quadratic.
+        pending: dict[str, list[ConflictFlag]] = defaultdict(list)
         for (entity_type, key), hits in self._lookup.items():
             # Classification identifiers are shared by design -- every enzyme in a
             # class carries the same EC number -- so sharing one is not a conflict.
-            informative = [
-                (alias_type, canonical_id)
+            entity_ids = {
+                canonical_id
                 for alias_type, canonical_id in hits
                 if alias_type not in {AliasType.XREF, AliasType.DESCRIPTION}
-            ]
-            entity_ids = {canonical_id for _, canonical_id in informative}
+            }
             if len(entity_ids) < 2:
                 continue
-            for canonical_id in entity_ids:
-                entity = self._entities[canonical_id]
-                entity.conflicts = [
-                    *entity.conflicts,
-                    ConflictFlag(
-                        conflict_type=ConflictType.ALIAS_SHARED_ACROSS_ENTITIES,
-                        detail=(
-                            f"the {entity_type.value.lower()} alias {key!r} is also used by "
-                            "another entity in this snapshot"
-                        ),
-                        values=sorted(entity_ids),
-                    ),
-                ]
+            values = sorted(entity_ids)
+            flag = ConflictFlag(
+                conflict_type=ConflictType.ALIAS_SHARED_ACROSS_ENTITIES,
+                detail=(
+                    f"the {entity_type.value.lower()} alias {key!r} is also used by "
+                    "another entity in this snapshot"
+                ),
+                values=values,
+            )
+            for canonical_id in values:
+                pending[canonical_id].append(flag)
+
+        for canonical_id, flags in pending.items():
+            entity = self._entities[canonical_id]
+            entity.conflicts = [*entity.conflicts, *flags]
 
     # -- public API -----------------------------------------------------------
 
