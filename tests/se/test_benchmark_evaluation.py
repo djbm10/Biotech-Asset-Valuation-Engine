@@ -21,6 +21,7 @@ def test_benchmark_evaluator_reports_recall_and_missing_reference_assets(tmp_pat
             started_at=datetime.now(timezone.utc),
             code_version="test",
             normalization_version="test",
+            ontology_version="chembl_36__open_targets_26.06__resolver_v1__modality_v2",
             status=RunStatus.CONVERGED,
         ),
         candidates=[CanonicalAsset(asset_id="asset:a", canonical_name="Asset A")],

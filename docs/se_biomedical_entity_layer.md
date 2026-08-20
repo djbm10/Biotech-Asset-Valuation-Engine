@@ -141,6 +141,20 @@ Both were found by running against the live ChEMBL API, not by reading docs:
 - **M9C** — natural language → `SearchIntent` → deterministic compile to `BuyerProblemV2`
 - **M9D** — wire broad discovery into the existing orchestrator/ledger/registry/gates
 - **Before M11** — build and durably publish the full production snapshot as a
-  separately versioned artifact. At that point `no_snapshot__modality_v2` must become an
-  **evaluation blocker**, not merely a blind-spot warning: production search may abstain
-  without a snapshot, but a benchmark claim may not be scored that way.
+  separately versioned artifact. The evaluation side of this is already in place: see
+  *Scoring requires a snapshot* below. What remains is the artifact itself.
+
+## Scoring requires a snapshot
+
+`bve.se.evaluation.ontology_gate.require_scoreable_ontology` refuses to score a run whose
+`RunManifest.ontology_version` is missing or starts with `no_snapshot`. It guards both
+scoring entrypoints (`evaluate_reference_landscape`, `evaluate_discovery_coverage`), and
+`bve-se-evaluate` exits **3** — distinct from the threshold miss (2) — writing no report,
+so an unscoreable run leaves nothing behind that could be mistaken for a result.
+
+A missing version is refused as well as an explicit `no_snapshot__…`: a run that cannot
+state its entity layer is not more trustworthy than one that states it had none.
+
+The asymmetry is deliberate. Production search may run without a snapshot, abstain more
+often, and record the blind spot. A benchmark number may not be produced that way at all,
+because its recall would measure the aliases the problem author happened to type.
