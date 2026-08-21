@@ -232,6 +232,21 @@ class RunStatus(str, Enum):
     RUNNING = "RUNNING"
 
 
+class RunMode(str, Enum):
+    """What a run's output will be used for, which decides how strict it must be.
+
+    The distinction is not about confidence, it is about consequence. An interactive
+    search that degrades when a capability is missing gives a user a narrower answer and
+    a warning saying so, which is useful. An evaluation that degrades the same way
+    produces a *number* — a recall figure, a benchmark score — and that number then gets
+    compared against runs that did not degrade. Nothing downstream can tell the two
+    apart, so the strictness has to be enforced before the run, not inferred after it.
+    """
+
+    INTERACTIVE = "INTERACTIVE"
+    EVALUATION = "EVALUATION"
+
+
 class TargetTerm(StrictModel):
     canonical_id: str = Field(min_length=1)
     label: str = Field(min_length=1)
