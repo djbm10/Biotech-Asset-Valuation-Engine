@@ -18,6 +18,7 @@ from bve.se.discovery.adapters import (
     UnavailableSourceAdapter,
     UrlDocumentAdapter,
 )
+from bve.se.discovery.query import AmbiguousTargetError
 from bve.se.pipeline import run_landscape_search
 from bve.se.reporting.memo import render_search_memo
 from bve.se.schemas.contracts import BuyerProblemV2, RunStatus
@@ -191,20 +192,33 @@ def main(argv: list[str] | None = None) -> int:
         for source_name in _MANDATORY_SOURCES
         if source_name not in configured_indexed_names
     ]
-    result = run_landscape_search(
-        problem,
-        [
-            ct_adapter,
-            pubmed_adapter,
-            *indexed_adapters,
-            *url_adapters,
-            *unavailable_adapters,
-        ],
-        run_id=f"se:{uuid.uuid4()}",
-        code_version=_code_version(),
-        normalization_version="cd19_bcma_v1+t_cell_engager_v1",
-        declared_mandatory_sources=_MANDATORY_SOURCES,
-    )
+    try:
+        result = run_landscape_search(
+            problem,
+            [
+                ct_adapter,
+                pubmed_adapter,
+                *indexed_adapters,
+                *url_adapters,
+                *unavailable_adapters,
+            ],
+            run_id=f"se:{uuid.uuid4()}",
+            code_version=_code_version(),
+            normalization_version="cd19_bcma_v1+t_cell_engager_v1",
+            declared_mandatory_sources=_MANDATORY_SOURCES,
+        )
+    except AmbiguousTargetError as exc:
+        # A clarification request, not a crash. The ontology knows this string and knows
+        # it is not enough; the useful answer is the list of things it could mean.
+        print(f"NEEDS_CLARIFICATION: target {exc.query!r} is ambiguous.", file=sys.stderr)
+        for candidate in exc.candidates:
+            print(f"  - {candidate}", file=sys.stderr)
+        print(
+            "Re-run with one of these canonical ids as the declared target. An ambiguous "
+            "target is never searched literally.",
+            file=sys.stderr,
+        )
+        return 4
     rendered = (
         json.dumps(result.model_dump(mode="json"), indent=2)
         if args.format == "json"
