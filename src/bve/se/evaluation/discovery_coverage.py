@@ -12,7 +12,10 @@ from pathlib import Path
 
 from pydantic import BaseModel, ConfigDict, Field
 
-from bve.se.evaluation.ontology_gate import require_scoreable_ontology
+from bve.se.evaluation.ontology_gate import (
+    require_scoreable_ontology,
+    require_untruncated_universe,
+)
 from bve.se.pipeline import SESearchResult
 
 
@@ -61,6 +64,7 @@ def evaluate_discovery_coverage(
     """Measure whether each reference identity appears in canonical asset names/aliases."""
 
     require_scoreable_ontology(result.run_manifest, reference_set="discovery_coverage")
+    require_untruncated_universe(result.run_manifest, reference_set="discovery_coverage")
 
     with Path(reference_path).open(newline="", encoding="utf-8") as handle:
         rows = list(csv.DictReader(handle))

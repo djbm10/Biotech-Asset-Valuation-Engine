@@ -175,7 +175,14 @@ class ClinicalTrialsGovProvider:
         # list stays one round trip. A wide one has to be split: past
         # CTGOV_MAX_QUERY_WORDS the parser rejects the whole request, which would drop
         # the registry out of the run entirely rather than return fewer trials.
-        base: dict[str, Any] = {"page_size": min(self.page_size, query.max_records)}
+        base: dict[str, Any] = {
+            # Transport paging and the caller's record bound are separate settings: a
+            # page size must never become a silent ceiling on the universe.
+            "page_size": self.page_size,
+            # One past the bound: the extra record is what makes truncation detectable
+            # rather than inferred from an exact-size coincidence.
+            "max_records": None if query.max_records is None else query.max_records + 1,
+        }
         if query.conditions:
             base["condition"] = " ".join(query.conditions)
         if query.sponsors:
@@ -197,7 +204,7 @@ class ClinicalTrialsGovProvider:
         seen: set[str] = set()
         truncated = False
         for protocol in protocols:
-            if len(records) >= query.max_records:
+            if query.max_records is not None and len(records) >= query.max_records:
                 truncated = True
                 break
             record = normalize_study(protocol)

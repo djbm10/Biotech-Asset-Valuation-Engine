@@ -66,8 +66,10 @@ class FrozenTrialProvider:
             for record in self.records
             if _matches(record, query) and query.applies(record)
         ]
-        truncated = len(matched) > query.max_records
-        matched = matched[: query.max_records]
+        truncated = False
+        if query.max_records is not None:
+            truncated = len(matched) > query.max_records
+            matched = matched[: query.max_records]
         return TrialUniverseResult(
             records=matched,
             outcome=SearchOutcome.SUCCESS if matched else SearchOutcome.NO_EVIDENCE_FOUND,

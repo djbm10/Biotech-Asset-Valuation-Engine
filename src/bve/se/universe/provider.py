@@ -234,7 +234,10 @@ class TrialQuery(StrictModel):
     statuses: list[str] = Field(default_factory=list)
     #: Records last updated after this date are dropped, so a replay cannot see the future.
     as_of_date: date | None = None
-    max_records: int = Field(default=1000, gt=0)
+    #: Policy bound on how much of the universe to return. ``None`` -- the default --
+    #: sweeps it all; a benchmark that accepts a bound has to declare one. Transport
+    #: paging is a separate, per-backend concern and never caps this.
+    max_records: int | None = Field(default=None, gt=0)
 
     def applies(self, record: TrialRecord) -> bool:
         """Cutoff check shared by every backend so no-lookahead does not depend on SQL."""

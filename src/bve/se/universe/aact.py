@@ -236,8 +236,10 @@ class AACTProvider:
         )
         records = [record for record in records if query.applies(record)]
         records.sort(key=lambda record: record.trial_id)
-        truncated = len(records) > query.max_records
-        records = records[: query.max_records]
+        truncated = False
+        if query.max_records is not None:
+            truncated = len(records) > query.max_records
+            records = records[: query.max_records]
 
         return TrialUniverseResult(
             records=records,

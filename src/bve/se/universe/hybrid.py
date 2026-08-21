@@ -64,8 +64,9 @@ class HybridTrialProvider:
             )
 
         records = sorted(merged.values(), key=lambda record: record.trial_id)
-        truncated = truncated or len(records) > query.max_records
-        records = records[: query.max_records]
+        if query.max_records is not None:
+            truncated = truncated or len(records) > query.max_records
+            records = records[: query.max_records]
 
         if errors:
             # A partially available universe is reported as PARTIAL, never as a clean

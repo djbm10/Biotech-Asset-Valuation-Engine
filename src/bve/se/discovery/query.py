@@ -3,11 +3,61 @@
 from __future__ import annotations
 
 import hashlib
+import warnings
 from itertools import product
 
 from bve.se.schemas.contracts import BuyerProblemV2, CompiledQuery, TargetOperator
 from bve.se.ontology.modality import modality_query_terms
-from bve.se.ontology.targets import target_aliases
+from bve.se.ontology.targets import resolve_target, target_aliases
+
+
+class AmbiguousTargetError(ValueError):
+    """A declared target names more than one entity, so the query needs clarification.
+
+    Raised rather than warned. When the ontology abstains, searching the string anyway
+    is the worst available option: it looks like a normal result while actually being an
+    unexpanded literal match on a nickname. The first PDCD1 baseline did exactly that
+    for "PD-1" -- one seed term instead of the 216 the canonical id expands to -- and
+    reported 233 candidates without a word about the ambiguity.
+    """
+
+    def __init__(self, query: str, candidates: tuple[str, ...]) -> None:
+        self.query = query
+        self.candidates = candidates
+        listed = ", ".join(candidates) if candidates else "several entities"
+        super().__init__(
+            f"target {query!r} is ambiguous in this ontology; it could mean {listed}. "
+            "Declare the canonical id you mean -- an ambiguous target may not be "
+            "searched literally."
+        )
+
+
+def _ontology_terms(canonical_id: str) -> tuple[str, ...]:
+    """Alias spellings for a declared target, refusing when the ontology abstains.
+
+    ``UNRESOLVED`` is allowed through as a literal search with a warning: a genuinely
+    novel target has no entry yet, and blocking it would make the ontology a whitelist.
+    ``AMBIGUOUS`` is different -- the ontology knows the string and knows it is not
+    enough -- so it stops here.
+    """
+
+    from bve.se.ontology.resolver import ResolutionStatus
+
+    resolution = resolve_target(canonical_id)
+    if resolution is not None:
+        if resolution.status is ResolutionStatus.AMBIGUOUS:
+            raise AmbiguousTargetError(
+                canonical_id,
+                tuple(entity.canonical_id for entity in resolution.candidates),
+            )
+        if resolution.status is ResolutionStatus.UNRESOLVED:
+            warnings.warn(
+                f"target {canonical_id!r} is not present in the ontology; searching it "
+                "literally, with no alias expansion",
+                UserWarning,
+                stacklevel=3,
+            )
+    return target_aliases(canonical_id)
 
 
 def _query_id(query: str) -> str:
@@ -26,7 +76,7 @@ def compile_problem_queries(problem: BuyerProblemV2) -> list[CompiledQuery]:
                     target.canonical_id,
                     target.label,
                     *target.aliases,
-                    *target_aliases(target.canonical_id),
+                    *_ontology_terms(target.canonical_id),
                 ]
             )
         )

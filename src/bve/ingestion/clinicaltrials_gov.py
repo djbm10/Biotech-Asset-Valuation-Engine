@@ -62,6 +62,7 @@ def search_studies(
     sponsor: Optional[str] = None,
     status_filter: Optional[list[str]] = None,
     page_size: int = 100,
+    max_records: Optional[int] = None,
 ) -> list[dict[str, Any]]:
     """
     Search ClinicalTrials.gov and return a list of raw protocol sections.
@@ -72,7 +73,10 @@ def search_studies(
     intervention: drug/treatment name       (query.intr)
     sponsor:     sponsor name               (query.spons)
     status_filter: list of statuses to include, e.g. ["RECRUITING", "ACTIVE_NOT_RECRUITING"]
-    page_size:   results per page (max 1000)
+    page_size:   results per page (max 1000) -- a transport setting
+    max_records: stop after this many studies; ``None`` sweeps every page. This is a
+                 policy bound, deliberately separate from ``page_size``: paging is how
+                 the API is read, not how much of the universe the caller wants.
     """
     params: dict[str, Any] = {"pageSize": min(page_size, 1000)}
     if condition:
@@ -96,10 +100,10 @@ def search_studies(
             if proto:
                 studies.append(proto)
         page_token = data.get("nextPageToken")
-        if not page_token or len(studies) >= page_size:
+        if not page_token or (max_records is not None and len(studies) >= max_records):
             break
 
-    return studies[:page_size]
+    return studies if max_records is None else studies[:max_records]
 
 
 # ---------------------------------------------------------------------------

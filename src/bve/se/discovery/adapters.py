@@ -422,6 +422,7 @@ class ClinicalTrialsGovAdapter:
         *,
         provider: "TrialUniverseProvider | None" = None,
         page_size: int = 250,
+        max_records: int | None = None,
         snapshot_root: Path | None = None,
     ) -> None:
         if provider is not None and search_fn is not None:
@@ -433,6 +434,10 @@ class ClinicalTrialsGovAdapter:
             search_fn = search_studies
         self.search_fn = search_fn
         self.page_size = page_size
+        #: How much of the universe to keep, as a policy choice. ``None`` sweeps it all.
+        #: This used to be ``page_size``, which quietly made an HTTP paging default into
+        #: a recall ceiling -- the first PDCD1 baseline scored against 250 of 403 trials.
+        self.max_records = max_records
         self.snapshot_root = snapshot_root
         #: Provenance of the last provider fetch, for the run manifest. Stays ``None`` on
         #: the legacy ``search_fn`` path, which acquires its own records and so cannot
@@ -455,12 +460,16 @@ class ClinicalTrialsGovAdapter:
         if self.provider is None:
             # CT.gov intervention search is the broad retrieval layer; explicit canonical
             # checks below prevent the query string from becoming an eligibility assertion.
-            return self.search_fn(intervention=" ".join(terms), page_size=self.page_size)
+            return self.search_fn(
+                intervention=" ".join(terms),
+                page_size=self.page_size,
+                max_records=self.max_records,
+            )
 
         trial_query = TrialQuery(
             terms=list(terms),
             as_of_date=as_of_date,
-            max_records=self.page_size,
+            max_records=self.max_records,
         )
         started_at = datetime.now(timezone.utc)
         result = self.provider.fetch(trial_query)

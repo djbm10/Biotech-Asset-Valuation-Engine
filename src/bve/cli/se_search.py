@@ -90,6 +90,15 @@ def build_parser() -> argparse.ArgumentParser:
         ),
     )
     parser.add_argument(
+        "--max-trial-records",
+        type=int,
+        default=None,
+        help=(
+            "Stop after this many trials. Omitted, the sweep is exhaustive. A bounded "
+            "run is stamped truncated and evaluation refuses to score its recall."
+        ),
+    )
+    parser.add_argument(
         "--offline",
         action="store_true",
         help="Replay local CT.gov snapshots instead of making CT.gov/PubMed network requests",
@@ -147,7 +156,9 @@ def main(argv: list[str] | None = None) -> int:
             # query a different universe than the one asked for.
             parser.error(str(exc))
         ct_adapter = ClinicalTrialsGovAdapter(
-            provider=provider, snapshot_root=Path(args.snapshot_dir)
+            provider=provider,
+            max_records=args.max_trial_records,
+            snapshot_root=Path(args.snapshot_dir),
         )
         pubmed_adapter = PubMedDiscoveryAdapter(snapshot_root=Path(args.pubmed_snapshot_dir))
     indexed_adapters = [
