@@ -10,6 +10,7 @@ import pytest
 from bve.se.schemas.contracts import SearchOutcome
 from bve.se.universe import (
     AACTProvider,
+    CTGOV_MAX_QUERY_WORDS,
     ClinicalTrialsGovProvider,
     FrozenTrialProvider,
     HybridTrialProvider,
@@ -184,7 +185,47 @@ class TestClinicalTrialsGovBackend:
     def test_expanded_terms_become_one_intervention_query(self):
         provider, search_fn = _ctgov_provider()
         provider.fetch(TrialQuery(terms=["PDCD1", "PD-1", "CD279"]))
+        assert len(search_fn.calls) == 1
         assert search_fn.calls[0]["intervention"] == "PDCD1 PD-1 CD279"
+
+    def test_a_wide_alias_set_is_split_below_the_ctgov_complexity_limit(self):
+        # The real PDCD1 alias expansion 400s with "Too complicated query": CT.gov's
+        # Essie parser counts words, not terms, and refuses past roughly ten of them.
+        provider, search_fn = _ctgov_provider()
+        provider.fetch(
+            TrialQuery(
+                terms=[
+                    "PDCD1", "PD-1", "PD1", "CD279", "SLEB2", "hSLE1", "hPD-1",
+                    "programmed cell death 1", "Programmed cell death protein 1",
+                    "systemic lupus erythematosus susceptibility 2",
+                ]
+            )
+        )
+        assert len(search_fn.calls) > 1
+        for call in search_fn.calls:
+            assert len(call["intervention"].split()) <= CTGOV_MAX_QUERY_WORDS
+        searched = [term for call in search_fn.calls for term in call["intervention"].split()]
+        assert "PDCD1" in searched
+        assert "susceptibility" in searched
+
+    def test_split_batches_are_deduped_into_one_universe(self):
+        provider, search_fn = _ctgov_provider()
+        result = provider.fetch(TrialQuery(terms="a b c d e f g h i j k l".split()))
+        assert len(search_fn.calls) > 1
+        # Every batch returns the same stub study; the union must not repeat it.
+        assert [record.trial_id for record in result.records] == ["NCT05000000"]
+
+    def test_one_failed_batch_does_not_look_like_a_complete_universe(self):
+        def flaky(**kwargs):
+            if "l" in kwargs["intervention"].split():
+                raise RuntimeError("400 Too complicated query")
+            return [CTGOV_STUDY["protocolSection"]]
+
+        result = ClinicalTrialsGovProvider(flaky).fetch(
+            TrialQuery(terms="a b c d e f g h i j k l".split())
+        )
+        assert result.outcome is SearchOutcome.FAILED
+        assert "400" in (result.error or "")
 
     def test_upstream_failure_is_reported_not_swallowed(self):
         def boom(**_kwargs):

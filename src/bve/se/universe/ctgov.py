@@ -28,6 +28,13 @@ from bve.se.universe.provider import (
 BACKEND_NAME = "ctgov_rest"
 BACKEND_VERSION = "v2"
 
+# CT.gov's Essie query parser answers "Too complicated query" with HTTP 400 once a field
+# carries more than about a dozen words. It counts words, not terms, so a handful of
+# multi-word aliases is enough -- the real PDCD1 expansion ("programmed cell death 1
+# protein", "systemic lupus erythematosus susceptibility 2", ...) trips it immediately.
+# Ten leaves headroom under the observed cliff.
+CTGOV_MAX_QUERY_WORDS = 10
+
 TrialSearch = Callable[..., list[dict[str, Any]]]
 
 
@@ -112,6 +119,32 @@ def normalize_study(protocol: dict[str, Any]) -> TrialRecord | None:
     )
 
 
+def _batch_terms(terms: list[str]) -> list[list[str]]:
+    """Group terms into query batches that stay under CT.gov's word budget.
+
+    An empty term list yields one empty batch, so a query that filters only on
+    condition or sponsor still issues exactly one request. A single term longer than
+    the budget is sent on its own -- CT.gov may still reject it, and that failure is
+    reported rather than hidden by dropping the term.
+    """
+
+    if not terms:
+        return [[]]
+    batches: list[list[str]] = []
+    current: list[str] = []
+    used = 0
+    for term in terms:
+        words = len(term.split())
+        if current and used + words > CTGOV_MAX_QUERY_WORDS:
+            batches.append(current)
+            current, used = [], 0
+        current.append(term)
+        used += words
+    if current:
+        batches.append(current)
+    return batches
+
+
 class ClinicalTrialsGovProvider:
     """Fetch trials from the CT.gov REST v2 API.
 
@@ -138,24 +171,30 @@ class ClinicalTrialsGovProvider:
         self.snapshot_root = snapshot_root
 
     def fetch(self, query: TrialQuery) -> TrialUniverseResult:
-        # CT.gov ORs whitespace-separated terms within a query field, so the expanded
-        # alias list becomes one intervention query rather than N round trips.
-        kwargs: dict[str, Any] = {"page_size": min(self.page_size, query.max_records)}
-        if query.terms:
-            kwargs["intervention"] = " ".join(query.terms)
+        # CT.gov ORs whitespace-separated terms within a query field, so a narrow alias
+        # list stays one round trip. A wide one has to be split: past
+        # CTGOV_MAX_QUERY_WORDS the parser rejects the whole request, which would drop
+        # the registry out of the run entirely rather than return fewer trials.
+        base: dict[str, Any] = {"page_size": min(self.page_size, query.max_records)}
         if query.conditions:
-            kwargs["condition"] = " ".join(query.conditions)
+            base["condition"] = " ".join(query.conditions)
         if query.sponsors:
-            kwargs["sponsor"] = " ".join(query.sponsors)
+            base["sponsor"] = " ".join(query.sponsors)
         if query.statuses:
-            kwargs["status_filter"] = list(query.statuses)
+            base["status_filter"] = list(query.statuses)
 
-        try:
-            protocols = self.search_fn(**kwargs)
-        except Exception as exc:  # upstream failure must not look like an empty universe
-            return self._failure(str(exc))
+        protocols: list[dict[str, Any]] = []
+        for batch in _batch_terms(query.terms):
+            kwargs = dict(base)
+            if batch:
+                kwargs["intervention"] = " ".join(batch)
+            try:
+                protocols.extend(self.search_fn(**kwargs))
+            except Exception as exc:  # a partial universe must not look like a complete one
+                return self._failure(str(exc))
 
         records: list[TrialRecord] = []
+        seen: set[str] = set()
         truncated = False
         for protocol in protocols:
             if len(records) >= query.max_records:
@@ -164,6 +203,10 @@ class ClinicalTrialsGovProvider:
             record = normalize_study(protocol)
             if record is None:
                 continue
+            # Batches overlap freely -- one trial can match aliases in several of them.
+            if record.trial_id in seen:
+                continue
+            seen.add(record.trial_id)
             record = record.model_copy(
                 update={
                     "snapshot": write_snapshot(
