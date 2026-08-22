@@ -226,9 +226,18 @@ class TrialQuery(StrictModel):
 
     ``terms`` is expected to be already alias-expanded by the ontology layer; providers
     do not perform biomedical reasoning, they translate.
+
+    A query has structure: alias spellings of one thing are alternatives (OR), while
+    distinct facets -- a target and a modality -- must both hold (AND). ``term_groups``
+    carries that structure; ``terms`` is the one-group shorthand. Flattening the two into
+    a single bag of words loses the distinction, and the direction it is lost in decides
+    whether the result is empty or enormous: ANDing every alias returns nothing, while
+    ORing every facet returned 11,144 generic vaccine trials for a PDCD1 query.
     """
 
     terms: list[str] = Field(default_factory=list)
+    #: AND of ORs. Each inner list is one facet whose members are interchangeable.
+    term_groups: list[list[str]] = Field(default_factory=list)
     conditions: list[str] = Field(default_factory=list)
     sponsors: list[str] = Field(default_factory=list)
     statuses: list[str] = Field(default_factory=list)
@@ -238,6 +247,17 @@ class TrialQuery(StrictModel):
     #: sweeps it all; a benchmark that accepts a bound has to declare one. Transport
     #: paging is a separate, per-backend concern and never caps this.
     max_records: int | None = Field(default=None, gt=0)
+
+    def facets(self) -> list[list[str]]:
+        """The query's AND-ed facets, with empty ones dropped.
+
+        ``term_groups`` wins when both are given; ``terms`` is read as a single facet
+        rather than being appended, so a caller cannot accidentally AND the shorthand
+        against the structured form.
+        """
+
+        groups = self.term_groups or ([self.terms] if self.terms else [])
+        return [[t for t in g if t and t.strip()] for g in groups if any(g)]
 
     def applies(self, record: TrialRecord) -> bool:
         """Cutoff check shared by every backend so no-lookahead does not depend on SQL."""

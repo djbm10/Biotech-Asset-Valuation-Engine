@@ -10,7 +10,6 @@ import pytest
 from bve.se.schemas.contracts import SearchOutcome
 from bve.se.universe import (
     AACTProvider,
-    CTGOV_MAX_QUERY_WORDS,
     ClinicalTrialsGovProvider,
     FrozenTrialProvider,
     HybridTrialProvider,
@@ -186,11 +185,14 @@ class TestClinicalTrialsGovBackend:
         provider, search_fn = _ctgov_provider()
         provider.fetch(TrialQuery(terms=["PDCD1", "PD-1", "CD279"]))
         assert len(search_fn.calls) == 1
-        assert search_fn.calls[0]["intervention"] == "PDCD1 PD-1 CD279"
+        # Aliases are alternatives, so they are OR-ed. Joining them with spaces asks
+        # Essie for trials matching all three at once, which matches nothing.
+        assert search_fn.calls[0]["intervention"] == '("PDCD1" OR "PD-1" OR "CD279")'
 
-    def test_a_wide_alias_set_is_split_below_the_ctgov_complexity_limit(self):
-        # The real PDCD1 alias expansion 400s with "Too complicated query": CT.gov's
-        # Essie parser counts words, not terms, and refuses past roughly ten of them.
+    def test_a_wide_alias_set_stays_one_request(self):
+        # The "Too complicated query" 400 came from a long run of bare words, not from
+        # length as such: quoted literals joined by explicit OR are accepted well past
+        # the old ten-word ceiling, so the alias set never has to be split.
         provider, search_fn = _ctgov_provider()
         provider.fetch(
             TrialQuery(
@@ -201,25 +203,27 @@ class TestClinicalTrialsGovBackend:
                 ]
             )
         )
-        assert len(search_fn.calls) > 1
-        for call in search_fn.calls:
-            assert len(call["intervention"].split()) <= CTGOV_MAX_QUERY_WORDS
-        searched = [term for call in search_fn.calls for term in call["intervention"].split()]
-        assert "PDCD1" in searched
-        assert "susceptibility" in searched
+        assert len(search_fn.calls) == 1
+        expr = search_fn.calls[0]["intervention"]
+        assert expr.startswith("(") and expr.endswith(")")
+        assert '"PDCD1"' in expr
+        assert '"systemic lupus erythematosus susceptibility 2"' in expr
 
-    def test_split_batches_are_deduped_into_one_universe(self):
+    def test_facets_are_and_ed_so_a_broad_modality_cannot_widen_the_target(self):
+        # The regression this replaces: flattening (target) AND (modality) into one bag
+        # let the generic word "vaccine" pull in 11,144 trials with no PDCD1 link.
         provider, search_fn = _ctgov_provider()
-        result = provider.fetch(TrialQuery(terms="a b c d e f g h i j k l".split()))
-        assert len(search_fn.calls) > 1
-        # Every batch returns the same stub study; the union must not repeat it.
-        assert [record.trial_id for record in result.records] == ["NCT05000000"]
+        provider.fetch(
+            TrialQuery(term_groups=[["PDCD1", "CD279"], ["vaccine", "cancer vaccine"]])
+        )
+        assert len(search_fn.calls) == 1
+        assert search_fn.calls[0]["intervention"] == (
+            '("PDCD1" OR "CD279") AND ("vaccine" OR "cancer vaccine")'
+        )
 
-    def test_one_failed_batch_does_not_look_like_a_complete_universe(self):
-        def flaky(**kwargs):
-            if "l" in kwargs["intervention"].split():
-                raise RuntimeError("400 Too complicated query")
-            return [CTGOV_STUDY["protocolSection"]]
+    def test_upstream_failure_on_the_single_query_is_reported(self):
+        def flaky(**_kwargs):
+            raise RuntimeError("400 Too complicated query")
 
         result = ClinicalTrialsGovProvider(flaky).fetch(
             TrialQuery(terms="a b c d e f g h i j k l".split())

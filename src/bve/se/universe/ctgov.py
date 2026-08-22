@@ -28,12 +28,6 @@ from bve.se.universe.provider import (
 BACKEND_NAME = "ctgov_rest"
 BACKEND_VERSION = "v2"
 
-# CT.gov's Essie query parser answers "Too complicated query" with HTTP 400 once a field
-# carries more than about a dozen words. It counts words, not terms, so a handful of
-# multi-word aliases is enough -- the real PDCD1 expansion ("programmed cell death 1
-# protein", "systemic lupus erythematosus susceptibility 2", ...) trips it immediately.
-# Ten leaves headroom under the observed cliff.
-CTGOV_MAX_QUERY_WORDS = 10
 
 TrialSearch = Callable[..., list[dict[str, Any]]]
 
@@ -119,30 +113,33 @@ def normalize_study(protocol: dict[str, Any]) -> TrialRecord | None:
     )
 
 
-def _batch_terms(terms: list[str]) -> list[list[str]]:
-    """Group terms into query batches that stay under CT.gov's word budget.
+def _quote(term: str) -> str:
+    """Render one term as a single Essie literal.
 
-    An empty term list yields one empty batch, so a query that filters only on
-    condition or sponsor still issues exactly one request. A single term longer than
-    the budget is sent on its own -- CT.gov may still reject it, and that failure is
-    reported rather than hidden by dropping the term.
+    Embedded quotes are stripped rather than escaped: Essie has no escape sequence, so a
+    term containing one would otherwise close the literal early and let the remainder --
+    including a bare OR -- be read as query syntax.
     """
 
-    if not terms:
-        return [[]]
-    batches: list[list[str]] = []
-    current: list[str] = []
-    used = 0
-    for term in terms:
-        words = len(term.split())
-        if current and used + words > CTGOV_MAX_QUERY_WORDS:
-            batches.append(current)
-            current, used = [], 0
-        current.append(term)
-        used += words
-    if current:
-        batches.append(current)
-    return batches
+    return '"' + term.replace('"', " ").strip() + '"'
+
+
+def build_intervention_expression(facets: list[list[str]]) -> str:
+    """Render AND-ed facets of OR-ed aliases as an Essie expression.
+
+    Explicit operators, not whitespace. Whitespace between bare terms means AND to Essie,
+    so an alias list joined by spaces asks for trials matching every spelling at once --
+    which is why the pure-target batch of the PDCD1 sweep returned zero studies. Explicit
+    quoting also lifts the word ceiling that prompted the old batching: the parser rejects
+    long runs of bare words, but accepts the same aliases as quoted literals.
+    """
+
+    groups = [
+        "(" + " OR ".join(_quote(t) for t in facet) + ")"
+        for facet in facets
+        if facet
+    ]
+    return " AND ".join(groups)
 
 
 class ClinicalTrialsGovProvider:
@@ -171,10 +168,9 @@ class ClinicalTrialsGovProvider:
         self.snapshot_root = snapshot_root
 
     def fetch(self, query: TrialQuery) -> TrialUniverseResult:
-        # CT.gov ORs whitespace-separated terms within a query field, so a narrow alias
-        # list stays one round trip. A wide one has to be split: past
-        # CTGOV_MAX_QUERY_WORDS the parser rejects the whole request, which would drop
-        # the registry out of the run entirely rather than return fewer trials.
+        # One request carrying the query's own boolean structure. The earlier version
+        # split terms by word count and unioned the responses, which is how a PDCD1
+        # sweep came back with 11,144 trials whose only match was the word "vaccine".
         base: dict[str, Any] = {
             # Transport paging and the caller's record bound are separate settings: a
             # page size must never become a silent ceiling on the universe.
@@ -190,15 +186,13 @@ class ClinicalTrialsGovProvider:
         if query.statuses:
             base["status_filter"] = list(query.statuses)
 
-        protocols: list[dict[str, Any]] = []
-        for batch in _batch_terms(query.terms):
-            kwargs = dict(base)
-            if batch:
-                kwargs["intervention"] = " ".join(batch)
-            try:
-                protocols.extend(self.search_fn(**kwargs))
-            except Exception as exc:  # a partial universe must not look like a complete one
-                return self._failure(str(exc))
+        expression = build_intervention_expression(query.facets())
+        if expression:
+            base["intervention"] = expression
+        try:
+            protocols = list(self.search_fn(**base))
+        except Exception as exc:  # a partial universe must not look like a complete one
+            return self._failure(str(exc))
 
         records: list[TrialRecord] = []
         seen: set[str] = set()
@@ -210,7 +204,7 @@ class ClinicalTrialsGovProvider:
             record = normalize_study(protocol)
             if record is None:
                 continue
-            # Batches overlap freely -- one trial can match aliases in several of them.
+            # CT.gov can still repeat a study across pages.
             if record.trial_id in seen:
                 continue
             seen.add(record.trial_id)

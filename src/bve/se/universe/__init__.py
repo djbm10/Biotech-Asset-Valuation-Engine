@@ -2,7 +2,6 @@
 
 from bve.se.universe.aact import AACTProvider
 from bve.se.universe.ctgov import (
-    CTGOV_MAX_QUERY_WORDS,
     ClinicalTrialsGovProvider,
     normalize_study,
 )
@@ -23,7 +22,6 @@ from bve.se.universe.provider import (
 __all__ = [
     "AACTProvider",
     "CLINICALTRIALS_GOV",
-    "CTGOV_MAX_QUERY_WORDS",
     "ClinicalTrialsGovProvider",
     "DEFAULT_BACKEND",
     "FrozenTrialProvider",

@@ -4,7 +4,6 @@ from __future__ import annotations
 
 import hashlib
 import warnings
-from itertools import product
 
 from bve.se.schemas.contracts import BuyerProblemV2, CompiledQuery, TargetOperator
 from bve.se.ontology.modality import modality_query_terms
@@ -83,33 +82,47 @@ def compile_problem_queries(problem: BuyerProblemV2) -> list[CompiledQuery]:
         for target in expression.targets
     ]
 
-    target_phrases: list[tuple[str, list[str]]]
+    # Aliases are alternative spellings of one thing, so they belong in an OR group
+    # inside a single query -- not in a query each. Emitting one query per alias
+    # multiplied the PDCD1 plan to 255 searches that resolved to 17 distinct ones
+    # repeated 15 times, because retrieval re-expands the canonical id to the same
+    # alias set regardless of which spelling the query was named after. 240 of the
+    # 255 contributed no trial the plan had not already seen.
+    def _or(aliases: list[str]) -> str:
+        return "(" + " OR ".join(f'"{alias}"' for alias in aliases) + ")"
+
+    target_phrases: list[tuple[str, list[str], list[str]]]
     if expression.operator == TargetOperator.ANY:
         target_phrases = [
-            (alias, [target.canonical_id])
+            (_or(aliases), [target.canonical_id], aliases)
             for target, aliases in zip(expression.targets, target_alias_groups, strict=True)
-            for alias in aliases
         ]
     else:
+        # ALL means every target must appear, so the groups are AND-ed. The old
+        # cartesian product over alias groups was the same redundancy raised to the
+        # number of targets.
         target_phrases = [
-            (" AND ".join(combination), [target.canonical_id for target in expression.targets])
-            for combination in product(*target_alias_groups)
+            (
+                " AND ".join(_or(aliases) for aliases in target_alias_groups),
+                [target.canonical_id for target in expression.targets],
+                [alias for aliases in target_alias_groups for alias in aliases],
+            )
         ]
 
     queries: list[CompiledQuery] = []
-    for target_phrase, target_ids in target_phrases:
+    for target_phrase, target_ids, phrase_aliases in target_phrases:
         for modality in modalities:
             # Expansion terms are modality-specific: adding "CD3" to a small-molecule
             # query would drag in unrelated T-cell engagers.
             modality_terms = list(dict.fromkeys([modality, *modality_query_terms(modality)]))
-            query = f'({target_phrase}) AND ("' + '" OR "'.join(modality_terms) + '")'
+            query = f'{target_phrase} AND ("' + '" OR "'.join(modality_terms) + '")'
             queries.append(
                 CompiledQuery(
                     query_id=_query_id(query),
                     query=query,
                     target_ids=target_ids,
                     modality_ids=[modality],
-                    aliases=[target_phrase],
+                    aliases=list(phrase_aliases),
                 )
             )
     return list({query.query: query for query in queries}.values())

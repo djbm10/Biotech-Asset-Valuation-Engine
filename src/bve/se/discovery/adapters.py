@@ -322,6 +322,26 @@ class QueryVocabulary:
         # registry matches nothing and only dilutes the query.
         return tuple(dict.fromkeys(term for term in terms if term and "_" not in term))
 
+    def query_facets(self) -> tuple[tuple[str, ...], ...]:
+        """The same vocabulary, kept as separate AND-ed facets.
+
+        ``query_terms`` flattens targets and modalities into one bag, which discards the
+        fact that they are different questions: any spelling of the target, AND any
+        spelling of the modality. Retrieval needs the structure -- flattened, a PDCD1
+        vaccine query matched every trial containing the word "vaccine".
+        """
+
+        def _clean(terms: list[str]) -> tuple[str, ...]:
+            return tuple(dict.fromkeys(t for t in terms if t and "_" not in t))
+
+        target_terms: list[str] = []
+        for canonical, _ in self.targets:
+            target_terms.extend(target_aliases(canonical) or (canonical,))
+        modality_terms: list[str] = []
+        for canonical in sorted(self.requested_modalities):
+            modality_terms.extend(modality_query_terms(canonical))
+        return tuple(f for f in (_clean(target_terms), _clean(modality_terms)) if f)
+
 
 def _candidate_interventions(
     protocol: dict[str, Any], vocabulary: QueryVocabulary
@@ -456,7 +476,10 @@ class ClinicalTrialsGovAdapter:
         rewrite of code that already works.
         """
 
-        terms = vocabulary.query_terms() or tuple(query.aliases or query.target_ids)
+        facets = vocabulary.query_facets() or (
+            tuple(query.aliases or query.target_ids),
+        )
+        terms = tuple(t for facet in facets for t in facet)
         if self.provider is None:
             # CT.gov intervention search is the broad retrieval layer; explicit canonical
             # checks below prevent the query string from becoming an eligibility assertion.
@@ -467,7 +490,11 @@ class ClinicalTrialsGovAdapter:
             )
 
         trial_query = TrialQuery(
+            # Both: ``term_groups`` carries the semantics, ``terms`` keeps the flat list
+            # legible in run provenance. ``facets()`` reads the groups, so they cannot
+            # disagree about what was actually searched.
             terms=list(terms),
+            term_groups=[list(facet) for facet in facets],
             as_of_date=as_of_date,
             max_records=self.max_records,
         )

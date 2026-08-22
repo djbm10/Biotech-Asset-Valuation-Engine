@@ -152,6 +152,11 @@ def run_landscape_search(
     public_document_extractor = PublicDocumentEvidenceExtractor()
     facts_by_asset: dict[str, list[NormalizedFact]] = {}
     entailment_results: list[EntailmentResult] = []
+    #: claim_id -> entailed, maintained as results are appended. This used to be rebuilt
+    #: from the whole of ``entailment_results`` once per fact, which is quadratic in
+    #: corpus size: harmless at a few hundred trials, ~3e9 dict insertions at the ~14k
+    #: trials an exhaustive PDCD1 sweep returns.
+    claim_entailment: dict[str, bool] = {}
     unsupported_by_asset: dict[str, list[ExtractedClaim]] = {}
     clinical_results: list[ClinicalResult] = []
     processing_errors: list[str] = []
@@ -184,13 +189,11 @@ def run_landscape_search(
             ledger.add_claim(canonical_claim)
             entailment = check_structured_entailment(canonical_claim)
             entailment_results.append(entailment)
+            claim_entailment[entailment.claim_id] = entailment.entailed
             if not entailment.entailed:
                 unsupported_by_asset.setdefault(asset_id, []).append(canonical_claim)
         for fact in bundle.facts:
             canonical_fact = fact.model_copy(update={"subject_id": asset_id})
-            claim_entailment = {
-                result.claim_id: result.entailed for result in entailment_results
-            }
             if not all(claim_entailment.get(claim_id, False) for claim_id in fact.supporting_claim_ids):
                 continue
             ledger.add_fact(canonical_fact)
