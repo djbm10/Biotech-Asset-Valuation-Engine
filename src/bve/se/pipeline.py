@@ -17,6 +17,7 @@ from bve.se.gates.engine import GateEngine, GateEvaluation
 from bve.se.clinical.cohorts import assign_cohort
 from bve.se.clinical.meaningfulness import assess_meaningfulness
 from bve.se.resolution.registry import AssetRegistry
+from bve.se.telemetry import StageTelemetry, summarize_attempts
 from bve.se.ranking.engine import rank_profiles
 from bve.se.schemas.contracts import (
     AnalystReviewItem,
@@ -127,21 +128,44 @@ def run_landscape_search(
     normalization_version: str,
     declared_mandatory_sources: Sequence[str] | None = None,
     comparative_profiles: Sequence[PairwiseProfile] | None = None,
+    telemetry: StageTelemetry | None = None,
 ) -> SESearchResult:
-    discovery = DiscoveryOrchestrator(
-        adapters,
-        declared_mandatory_sources=declared_mandatory_sources,
-    ).run(
-        problem,
-        run_id=run_id,
-        code_version=code_version,
-        normalization_version=normalization_version,
-    )
-    registry = AssetRegistry()
-    hit_to_asset: dict[str, str] = {}
-    for hit in discovery.hits:
-        asset = registry.ingest_hit(hit)
-        hit_to_asset[hit.hit_id] = asset.asset_id
+    # A run with no telemetry records nothing and prints nothing, so the default
+    # behaviour of every existing caller is unchanged.
+    telemetry = telemetry or StageTelemetry()
+    with telemetry.stage("DISCOVERY") as stage:
+        discovery = DiscoveryOrchestrator(
+            adapters,
+            declared_mandatory_sources=declared_mandatory_sources,
+        ).run(
+            problem,
+            run_id=run_id,
+            code_version=code_version,
+            normalization_version=normalization_version,
+        )
+        per_source = summarize_attempts(discovery.attempts)
+        stage.count(
+            queries=sum(counts["queries"] for counts in per_source.values()),
+            records=sum(counts["records"] for counts in per_source.values()),
+            hits=len(discovery.hits),
+        )
+    if telemetry.emit is not None:
+        # Which source carried the run is the first question after "how long"; a single
+        # aggregate hides a source that returned nothing.
+        for source in sorted(per_source):
+            counts = per_source[source]
+            telemetry.emit(
+                f"  {source}: {counts['queries']} queries | {counts['records']} records "
+                f"| {counts['candidates']} candidates | {counts['failed']} failed"
+            )
+
+    with telemetry.stage("IDENTITY") as stage:
+        registry = AssetRegistry()
+        hit_to_asset: dict[str, str] = {}
+        for hit in discovery.hits:
+            asset = registry.ingest_hit(hit)
+            hit_to_asset[hit.hit_id] = asset.asset_id
+        stage.count(hits=len(discovery.hits), assets=len(registry.assets))
     candidates = list(registry.assets.values())
     documents = {document.document_id: document for document in discovery.source_documents}
     ledger = EvidenceLedger()
@@ -160,46 +184,53 @@ def run_landscape_search(
     unsupported_by_asset: dict[str, list[ExtractedClaim]] = {}
     clinical_results: list[ClinicalResult] = []
     processing_errors: list[str] = []
-    for hit in discovery.hits:
-        document: SourceDocument | None = documents.get(hit.source_document_id)
-        if document is None or not document.snapshot_path:
-            continue
-        selected_extractor: (
-            ClinicalTrialsEvidenceExtractor
-            | PubMedEvidenceExtractor
-            | PublicDocumentEvidenceExtractor
-        )
-        if document.publisher == "ClinicalTrials.gov":
-            selected_extractor = extractor
-        elif document.publisher == "PubMed":
-            selected_extractor = pubmed_extractor
-        else:
-            selected_extractor = public_document_extractor
-        try:
-            bundle = selected_extractor.extract(hit, document)
-        except Exception as exc:  # source parsing is an operational boundary
-            processing_errors.append(
-                f"{hit.source}:{document.document_id}:{hit.hit_id}: "
-                f"{type(exc).__name__}: {exc}"
-            )
-            continue
-        asset_id = hit_to_asset[hit.hit_id]
-        for claim in bundle.claims:
-            canonical_claim = claim.model_copy(update={"subject_id": asset_id})
-            ledger.add_claim(canonical_claim)
-            entailment = check_structured_entailment(canonical_claim)
-            entailment_results.append(entailment)
-            claim_entailment[entailment.claim_id] = entailment.entailed
-            if not entailment.entailed:
-                unsupported_by_asset.setdefault(asset_id, []).append(canonical_claim)
-        for fact in bundle.facts:
-            canonical_fact = fact.model_copy(update={"subject_id": asset_id})
-            if not all(claim_entailment.get(claim_id, False) for claim_id in fact.supporting_claim_ids):
+    with telemetry.stage("EXTRACTION") as extraction_stage:
+        for hit in discovery.hits:
+            document: SourceDocument | None = documents.get(hit.source_document_id)
+            if document is None or not document.snapshot_path:
                 continue
-            ledger.add_fact(canonical_fact)
-            facts_by_asset.setdefault(asset_id, []).append(canonical_fact)
-        for result in bundle.clinical_results:
-            clinical_results.append(result.model_copy(update={"subject_id": asset_id}))
+            selected_extractor: (
+                ClinicalTrialsEvidenceExtractor
+                | PubMedEvidenceExtractor
+                | PublicDocumentEvidenceExtractor
+            )
+            if document.publisher == "ClinicalTrials.gov":
+                selected_extractor = extractor
+            elif document.publisher == "PubMed":
+                selected_extractor = pubmed_extractor
+            else:
+                selected_extractor = public_document_extractor
+            try:
+                bundle = selected_extractor.extract(hit, document)
+            except Exception as exc:  # source parsing is an operational boundary
+                processing_errors.append(
+                    f"{hit.source}:{document.document_id}:{hit.hit_id}: "
+                    f"{type(exc).__name__}: {exc}"
+                )
+                continue
+            asset_id = hit_to_asset[hit.hit_id]
+            for claim in bundle.claims:
+                canonical_claim = claim.model_copy(update={"subject_id": asset_id})
+                ledger.add_claim(canonical_claim)
+                entailment = check_structured_entailment(canonical_claim)
+                entailment_results.append(entailment)
+                claim_entailment[entailment.claim_id] = entailment.entailed
+                if not entailment.entailed:
+                    unsupported_by_asset.setdefault(asset_id, []).append(canonical_claim)
+            for fact in bundle.facts:
+                canonical_fact = fact.model_copy(update={"subject_id": asset_id})
+                if not all(claim_entailment.get(claim_id, False) for claim_id in fact.supporting_claim_ids):
+                    continue
+                ledger.add_fact(canonical_fact)
+                facts_by_asset.setdefault(asset_id, []).append(canonical_fact)
+            for result in bundle.clinical_results:
+                clinical_results.append(result.model_copy(update={"subject_id": asset_id}))
+            extraction_stage.count(
+                documents=1,
+                claims=len(bundle.claims),
+                facts=len(bundle.facts),
+            )
+        extraction_stage.count(errors=len(processing_errors))
 
     for asset_id, facts in facts_by_asset.items():
         asset = registry.assets[asset_id]
@@ -232,15 +263,17 @@ def run_landscape_search(
         )
     candidates = list(registry.assets.values())
     gate_engine = GateEngine()
-    evaluations = [
-        gate_engine.evaluate(
-            problem,
-            subject_id=asset.asset_id,
-            facts=_dedupe_gate_facts(facts_by_asset.get(asset.asset_id, [])),
-        )
-        for asset in candidates
-        if facts_by_asset.get(asset.asset_id)
-    ]
+    with telemetry.stage("GATING") as stage:
+        evaluations = [
+            gate_engine.evaluate(
+                problem,
+                subject_id=asset.asset_id,
+                facts=_dedupe_gate_facts(facts_by_asset.get(asset.asset_id, [])),
+            )
+            for asset in candidates
+            if facts_by_asset.get(asset.asset_id)
+        ]
+        stage.count(candidates=len(candidates), evaluated=len(evaluations))
     evaluated_ids = {evaluation.subject_id for evaluation in evaluations}
     review_queue = [item for evaluation in evaluations for item in evaluation.review_items]
     review_queue.extend(
@@ -280,7 +313,14 @@ def run_landscape_search(
         if evaluation.disposition == OverallDisposition.UNRESOLVED
     ]
     unresolved.extend(asset.asset_id for asset in candidates if asset.asset_id not in evaluated_ids)
-    ranking = rank_profiles(comparative_profiles or [])
+    with telemetry.stage("SCORING") as stage:
+        ranking = rank_profiles(comparative_profiles or [])
+        stage.count(
+            profiles=len(comparative_profiles or []),
+            eligible=len(eligible),
+            excluded=len(excluded),
+            unresolved=len(unresolved),
+        )
     # A pairwise profile cannot bypass an eligibility decision.
     ranking.ranked = [
         entry

@@ -22,6 +22,7 @@ from bve.se.discovery.query import AmbiguousTargetError
 from bve.se.pipeline import run_landscape_search
 from bve.se.reporting.memo import render_search_memo
 from bve.se.schemas.contracts import BuyerProblemV2, RunStatus
+from bve.se.telemetry import StageTelemetry, stderr_emitter
 from bve.se.universe.factory import TrialBackendNotConfigured, build_trial_provider
 
 _MANDATORY_SOURCES = (
@@ -108,6 +109,14 @@ def build_parser() -> argparse.ArgumentParser:
         "--allow-incomplete",
         action="store_true",
         help="Research-only: return zero even when mandatory-source/convergence checks fail.",
+    )
+    parser.add_argument(
+        "--progress",
+        action="store_true",
+        help=(
+            "Emit per-stage record counts and elapsed time to stderr, so a long run can "
+            "be told apart from a hung one without attaching a profiler."
+        ),
     )
     return parser
 
@@ -206,6 +215,7 @@ def main(argv: list[str] | None = None) -> int:
             code_version=_code_version(),
             normalization_version="cd19_bcma_v1+t_cell_engager_v1",
             declared_mandatory_sources=_MANDATORY_SOURCES,
+            telemetry=StageTelemetry(emit=stderr_emitter if args.progress else None),
         )
     except AmbiguousTargetError as exc:
         # A clarification request, not a crash. The ontology knows this string and knows
