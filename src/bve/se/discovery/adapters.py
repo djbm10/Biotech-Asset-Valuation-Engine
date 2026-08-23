@@ -7,6 +7,7 @@ import json
 import re
 from collections.abc import Callable, Iterable
 from dataclasses import dataclass
+from functools import lru_cache
 from datetime import date, datetime, timezone
 from pathlib import Path
 from typing import Any
@@ -176,6 +177,23 @@ def _fold(text: str) -> str:
     return normalize_lookup_key(text)
 
 
+@lru_cache(maxsize=512)
+def _word_boundary_pattern(terms: tuple[str, ...]) -> re.Pattern[str]:
+    """One compiled alternation for a term set, instead of a regex per term per record.
+
+    ``re.search(rf"\\b{re.escape(term)}\\b", ...)`` re-escapes and re-formats the pattern
+    on every call and relies on re's internal cache to undo the damage; at corpus scale
+    that was 14% of total CPU. Matching stays word-bounded, so a gate term as short as
+    ``cd3`` still cannot admit CD30 or CD33.
+    """
+
+    if not terms:
+        # Matches nothing, so an empty vocabulary keeps its "no modality requested"
+        # behaviour at the call site rather than accidentally matching everything.
+        return re.compile(r"(?!x)x")
+    return re.compile(r"\b(?:" + "|".join(re.escape(term) for term in terms) + r")\b")
+
+
 @dataclass(frozen=True)
 class QueryVocabulary:
     """The search vocabulary for one compiled query, derived from the ontology.
@@ -300,11 +318,8 @@ class QueryVocabulary:
 
         if not self.requested_modalities:
             return True
-        lowered = _fold(text)
-        return any(
-            re.search(rf"\b{re.escape(term)}\b", lowered)
-            for term in self.requested_modality_terms()
-        )
+        pattern = _word_boundary_pattern(tuple(self.requested_modality_terms()))
+        return pattern.search(_fold(text)) is not None
 
     def query_terms(self) -> tuple[str, ...]:
         """Retrieval terms for the upstream registry: target aliases plus modality expansion.
@@ -344,7 +359,9 @@ class QueryVocabulary:
 
 
 def _candidate_interventions(
-    protocol: dict[str, Any], vocabulary: QueryVocabulary
+    protocol: dict[str, Any],
+    vocabulary: QueryVocabulary,
+    serialized: str | None = None,
 ) -> list[tuple[str, set[str], str | None]]:
     """Exclude obvious concomitant/supportive interventions while retaining near-match candidates.
 
@@ -362,7 +379,12 @@ def _candidate_interventions(
             description.get("briefSummary", ""),
         ]
     ).casefold()
-    protocol_targets = vocabulary.targets_in(_protocol_text(protocol))
+    # Callers that have already serialized the protocol pass it in. Re-deriving it here
+    # cost six ``json.dumps`` passes per protocol per query, which is the same corpus x
+    # query quadratic the search loop's memoization removes.
+    serialized = _protocol_text(protocol) if serialized is None else serialized
+    protocol_targets = vocabulary.targets_in(serialized)
+    protocol_modality = vocabulary.modality_in(serialized)
     selected: list[tuple[str, set[str], str | None]] = []
     all_interventions = _extract_interventions(protocol)
     for intervention in all_interventions:
@@ -390,9 +412,7 @@ def _candidate_interventions(
             # false candidate programs (e.g. supportive agents and combination partners).
             if len(all_interventions) == 1:
                 intervention_targets = intervention_targets or protocol_targets
-                intervention_modality = intervention_modality or vocabulary.modality_in(
-                    _protocol_text(protocol)
-                )
+                intervention_modality = intervention_modality or protocol_modality
             canonical_name = primary_names[0] if len(primary_names) == 1 else name
             selected.append(
                 (
@@ -401,19 +421,17 @@ def _candidate_interventions(
                     intervention_modality,
                 )
             )
-    if len(selected) == 1 and selected[0][2] is None and vocabulary.modality_in(
-        _protocol_text(protocol)
-    ):
+    if len(selected) == 1 and selected[0][2] is None and protocol_modality:
         name, targets, _ = selected[0]
-        selected[0] = (name, targets, vocabulary.modality_in(_protocol_text(protocol)))
-    elif len(selected) > 1 and vocabulary.modality_in(_protocol_text(protocol)):
+        selected[0] = (name, targets, protocol_modality)
+    elif len(selected) > 1 and protocol_modality:
         normalized_names = [_normalized_lookup(name) for name, _, _ in selected]
         if len(set(normalized_names)) == 1:
             selected = [
                 (
                     name,
                     targets or protocol_targets,
-                    modality or vocabulary.modality_in(_protocol_text(protocol)),
+                    modality or protocol_modality,
                 )
                 for name, targets, modality in selected
             ]
@@ -459,6 +477,11 @@ class ClinicalTrialsGovAdapter:
         #: a recall ceiling -- the first PDCD1 baseline scored against 250 of 403 trials.
         self.max_records = max_records
         self.snapshot_root = snapshot_root
+        #: nctId -> (serialized, digest, snapshot path, folded text). The corpus is
+        #: retrieved by many queries but is the same corpus each time; this keeps the
+        #: per-protocol serialize/hash/snapshot cost proportional to the corpus rather
+        #: than to corpus x queries.
+        self._materialized: dict[str, tuple[str, str, str | None, str]] = {}
         #: Provenance of the last provider fetch, for the run manifest. Stays ``None`` on
         #: the legacy ``search_fn`` path, which acquires its own records and so cannot
         #: state which universe it saw — an absence the manifest records rather than hides.
@@ -523,6 +546,49 @@ class ClinicalTrialsGovAdapter:
                 payloads.append(record.raw_payload)
         return payloads
 
+    def _materialize(
+        self, protocol: dict[str, Any]
+    ) -> tuple[str, str, str | None, str]:
+        """Serialize, hash, snapshot and case-fold one protocol -- at most once per run.
+
+        Every query that retrieves a trial used to redo all of this for it: two full
+        ``json.dumps`` passes, a SHA-256, a ``stat``, and a case-fold, before anything
+        had decided the trial was even relevant. With the record cap removed the corpus
+        also feeds the query frontier, so the work multiplied against itself: 5h26m of
+        CPU and 2GB resident without producing a scoreable run.
+
+        Memoizing preserves the evidence record exactly -- every protocol examined still
+        yields its snapshot id -- rather than the cheaper and wrong fix of snapshotting
+        only what survives the filters. Keyed by NCT id, which is the trial's identity;
+        a protocol without one is not cached, since it has no stable key.
+        """
+
+        nct_id = (protocol.get("identificationModule") or {}).get("nctId")
+        if nct_id is not None:
+            cached = self._materialized.get(nct_id)
+            if cached is not None:
+                return cached
+
+        serialized = _protocol_text(protocol)
+        snapshot_content = json.dumps(protocol, indent=2, sort_keys=True) + "\n"
+        snapshot_digest = hashlib.sha256(snapshot_content.encode()).hexdigest()
+        snapshot_path_value: str | None = None
+        if self.snapshot_root is not None:
+            self.snapshot_root.mkdir(parents=True, exist_ok=True)
+            snapshot_path = self.snapshot_root / f"{snapshot_digest}.json"
+            if not snapshot_path.exists():
+                snapshot_path.write_text(snapshot_content)
+            snapshot_path_value = str(snapshot_path)
+        entry = (
+            serialized,
+            snapshot_digest,
+            snapshot_path_value,
+            serialized.casefold().replace("_", " "),
+        )
+        if nct_id is not None:
+            self._materialized[nct_id] = entry
+        return entry
+
     def search(self, query: CompiledQuery, *, as_of_date: date) -> AdapterResult:
         vocabulary = QueryVocabulary.for_query(query)
         try:
@@ -536,19 +602,11 @@ class ClinicalTrialsGovAdapter:
         aliases: set[str] = set()
         follow_ups: set[str] = set()
         for protocol in protocols:
-            serialized = _protocol_text(protocol)
-            snapshot_content = json.dumps(protocol, indent=2, sort_keys=True) + "\n"
-            snapshot_digest = hashlib.sha256(snapshot_content.encode()).hexdigest()
+            serialized, snapshot_digest, snapshot_path_value, lower = self._materialize(
+                protocol
+            )
             snapshot_id = f"snapshot:{snapshot_digest}"
             snapshots.append(snapshot_id)
-            snapshot_path_value: str | None = None
-            if self.snapshot_root is not None:
-                self.snapshot_root.mkdir(parents=True, exist_ok=True)
-                snapshot_path = self.snapshot_root / f"{snapshot_digest}.json"
-                if not snapshot_path.exists():
-                    snapshot_path.write_text(snapshot_content)
-                snapshot_path_value = str(snapshot_path)
-            lower = serialized.casefold().replace("_", " ")
             if not _matches_follow_up(query, serialized):
                 continue
             protocol_targets = vocabulary.targets_in(lower)
@@ -579,7 +637,7 @@ class ClinicalTrialsGovAdapter:
                 )
             )
             sponsor = sponsor_module.get("leadSponsor", {}).get("name")
-            interventions = _candidate_interventions(protocol, vocabulary)
+            interventions = _candidate_interventions(protocol, vocabulary, serialized)
             if not interventions:
                 fallback_name = identification.get("briefTitle") or nct_id or "unnamed program"
                 interventions = [(fallback_name, protocol_targets, vocabulary.modality_in(lower))]
@@ -615,9 +673,12 @@ class ClinicalTrialsGovAdapter:
                 )
                 aliases.add(intervention)
                 if query.expansion_depth < 1:
+                    # Intervention names are leads: a drug seen here may appear in trials
+                    # the target/modality query never reached. The trial's own NCT id is
+                    # not -- searching it returns the trial already in hand. On a 2,908
+                    # trial corpus that queued 2,908 guaranteed-zero-yield queries, over
+                    # half the orchestrator's 5,000-query budget.
                     follow_ups.add(intervention)
-                    if nct_id:
-                        follow_ups.add(nct_id)
             if sponsor:
                 aliases.add(sponsor)
         outcome = SearchOutcome.SUCCESS if protocols else SearchOutcome.NO_EVIDENCE_FOUND
