@@ -44,11 +44,52 @@ class AssetRegistry:
 
     def __init__(self) -> None:
         self.assets: dict[str, CanonicalAsset] = {}
+        #: normalized alias key -> asset ids holding it. Finding the assets that share a
+        #: spelling with an incoming hit used to mean scanning every registered asset and
+        #: re-normalizing all of its aliases, once per hit. That is quadratic with string
+        #: work in the inner loop: invisible on a few hundred records, ~95 minutes of CPU
+        #: on a 2,908-trial corpus. The index answers the same question by lookup.
+        self._assets_by_alias_key: dict[str, set[str]] = {}
+        #: the keys each asset contributed, so it can be withdrawn exactly on merge/unmerge.
+        self._alias_keys_by_asset: dict[str, frozenset[str]] = {}
         self.mentions: dict[str, IdentityMention] = {}
         self.merges: dict[str, IdentityMerge] = {}
         self.companies: dict[str, CompanyRecord] = {}
         self.rights: dict[str, OwnershipRight] = {}
         self._merge_snapshots: dict[str, dict[str, CanonicalAsset]] = {}
+
+    @staticmethod
+    def _alias_keys(record: CanonicalAsset) -> frozenset[str]:
+        return frozenset(
+            normalized
+            for normalized in (
+                normalize_identity_name(value)
+                for value in [record.canonical_name, *record.aliases]
+            )
+            if normalized
+        )
+
+    def _index_asset(self, record: CanonicalAsset) -> None:
+        """Write an asset and keep the alias index in step with it."""
+
+        self._deindex_asset(record.asset_id)
+        self.assets[record.asset_id] = record
+        keys = self._alias_keys(record)
+        self._alias_keys_by_asset[record.asset_id] = keys
+        for key in keys:
+            self._assets_by_alias_key.setdefault(key, set()).add(record.asset_id)
+
+    def _deindex_asset(self, asset_id: str) -> None:
+        """Forget an asset entirely, leaving no key pointing at a gone id."""
+
+        self.assets.pop(asset_id, None)
+        for key in self._alias_keys_by_asset.pop(asset_id, frozenset()):
+            holders = self._assets_by_alias_key.get(key)
+            if holders is None:
+                continue
+            holders.discard(asset_id)
+            if not holders:
+                del self._assets_by_alias_key[key]
 
     def ingest_hit(self, hit: CandidateHit) -> CanonicalAsset:
         normalized_asset = normalize_identity_name(hit.asset_name)
@@ -94,18 +135,12 @@ class AssetRegistry:
             )
             if normalized
         }
+        # Same set as scanning every asset for a shared normalized spelling: an asset
+        # matches exactly when it holds at least one of these keys.
         matching_ids = {
             asset_id
-            for asset_id, record in self.assets.items()
-            if alias_keys
-            & {
-                normalized
-                for normalized in (
-                    normalize_identity_name(value)
-                    for value in [record.canonical_name, *record.aliases]
-                )
-                if normalized
-            }
+            for key in alias_keys
+            for asset_id in self._assets_by_alias_key.get(key, ())
         }
         asset_id = (
             next(iter(matching_ids))
@@ -148,7 +183,7 @@ class AssetRegistry:
                     "provisional": existing.provisional and not bool(hit.trial_id),
                 }
             )
-        self.assets[asset_id] = existing
+        self._index_asset(existing)
         return existing
 
     def add_right(self, right: OwnershipRight) -> OwnershipRight:
@@ -249,8 +284,8 @@ class AssetRegistry:
             provisional=all(record.provisional for record in records),
         )
         for asset_id in merge.source_asset_ids:
-            self.assets.pop(asset_id, None)
-        self.assets[merge.target_asset_id] = merged
+            self._deindex_asset(asset_id)
+        self._index_asset(merged)
         self.merges[merge_id] = merge.model_copy(
             update={"status": MergeStatus.APPLIED, "applied_at": datetime.now(timezone.utc)}
         )
@@ -260,8 +295,9 @@ class AssetRegistry:
         merge = self.merges[merge_id]
         if merge.status != MergeStatus.APPLIED:
             raise ValueError(f"merge {merge_id} is not applied")
-        self.assets.pop(merge.target_asset_id, None)
-        self.assets.update(deepcopy(self._merge_snapshots[merge_id]))
+        self._deindex_asset(merge.target_asset_id)
+        for record in deepcopy(self._merge_snapshots[merge_id]).values():
+            self._index_asset(record)
         self.merges[merge_id] = merge.model_copy(
             update={"status": MergeStatus.REVERSED, "reversed_at": datetime.now(timezone.utc)}
         )
