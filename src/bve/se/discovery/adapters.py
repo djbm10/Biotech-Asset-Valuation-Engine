@@ -249,9 +249,15 @@ class QueryVocabulary:
             ),
         )
 
-    @classmethod
-    def for_ontology(cls) -> "QueryVocabulary":
+    @staticmethod
+    @lru_cache(maxsize=1)
+    def for_ontology() -> "QueryVocabulary":
         """Whole-snapshot vocabulary, for labelling that happens before a query exists.
+
+        Memoized. This is per-run state -- a pure function of the pinned snapshot -- but
+        extraction called it once per hit, rebuilding and case-folding every target alias
+        in the ontology for each record. That was ~6 hours of a single run's extraction
+        stage. :func:`bve.se.ontology.targets.reset_resolver_cache` invalidates it.
 
         Corpus indexing runs ahead of any query. Without a snapshot this yields no targets
         and the indexer labels none, which is the intended abstention: search may abstain
@@ -262,7 +268,9 @@ class QueryVocabulary:
             (canonical, tuple(sorted({_fold(canonical), *(_fold(a) for a in aliases)})))
             for canonical, aliases in known_targets()
         )
-        return cls(targets=targets, modalities=cls.for_query(_EMPTY_QUERY).modalities)
+        return QueryVocabulary(
+            targets=targets, modalities=QueryVocabulary.for_query(_EMPTY_QUERY).modalities
+        )
 
     def targets_in(self, text: str) -> set[str]:
         lowered = _fold(text)

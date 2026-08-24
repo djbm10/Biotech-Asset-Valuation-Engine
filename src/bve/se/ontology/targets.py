@@ -55,6 +55,12 @@ def reset_resolver_cache() -> None:
     """Drop the cached resolver; call after installing or replacing a snapshot."""
 
     _load_resolver.cache_clear()
+    known_targets.cache_clear()
+    # Imported here rather than at module scope: the discovery layer depends on this
+    # module, so a top-level import would close a cycle.
+    from bve.se.discovery.adapters import QueryVocabulary
+
+    QueryVocabulary.for_ontology.cache_clear()
 
 
 def ontology_version() -> str:
@@ -102,8 +108,14 @@ def target_aliases(canonical_id: str) -> tuple[str, ...]:
     return resolver.aliases_for(canonical_id, EntityType.TARGET)
 
 
+@lru_cache(maxsize=1)
 def known_targets() -> tuple[tuple[str, tuple[str, ...]], ...]:
     """Every target in the snapshot with its queryable aliases; ``()`` without one.
+
+    Cached because it is a pure function of the pinned snapshot, and walking every
+    target entity to collect its aliases is not something a caller should pay for per
+    record. :func:`reset_resolver_cache` drops it along with the resolver, so installing
+    a new snapshot never leaves a vocabulary describing the old one.
 
     Corpus indexing labels documents before a query exists, so it needs the whole target
     vocabulary. Returning ``()`` when no snapshot is loaded is deliberate: labelling

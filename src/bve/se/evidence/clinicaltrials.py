@@ -103,9 +103,14 @@ class ClinicalTrialsEvidenceExtractor:
         # Extraction labels a protocol after discovery chose it, so it uses the whole
         # ontology vocabulary rather than one query's slice.
         vocabulary = QueryVocabulary.for_ontology()
+        # One serialization for the whole extraction. It was previously re-derived by
+        # _candidate_interventions and again for the target scan below.
+        serialized = json.dumps(protocol, sort_keys=True, separators=(",", ":"))
         interventions = {
             name: (targets, modality)
-            for name, targets, modality in _candidate_interventions(protocol, vocabulary)
+            for name, targets, modality in _candidate_interventions(
+                protocol, vocabulary, serialized
+            )
         }
         candidate = interventions.get(hit.asset_name or "")
         raw_intervention: dict = next(
@@ -134,7 +139,7 @@ class ClinicalTrialsEvidenceExtractor:
         claims.append(identity_claim)
         facts.append(_fact(hit, identity_claim, "identity_valid", True))
 
-        targets = sorted(candidate[0]) if candidate else sorted(vocabulary.targets_in(json.dumps(protocol)))
+        targets = sorted(candidate[0]) if candidate else sorted(vocabulary.targets_in(serialized))
         if targets:
             target_claim = _claim(
                 hit,
