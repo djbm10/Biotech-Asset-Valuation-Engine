@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import time
 from collections.abc import Iterable, Sequence
 from datetime import datetime, timezone
 from typing import Protocol
@@ -66,6 +67,9 @@ class DiscoveryOrchestrator:
         max_expansion_depth: int = 1,
         required_zero_growth_passes: int = 2,
         declared_mandatory_sources: Sequence[str] | None = None,
+        query_attempts: int = 3,
+        source_failure_threshold: int = 3,
+        retry_backoff_seconds: float = 2.0,
     ) -> None:
         if max_passes < required_zero_growth_passes:
             raise ValueError("max_passes must allow the configured zero-growth convergence window")
@@ -85,8 +89,39 @@ class DiscoveryOrchestrator:
         self.max_passes = max_passes
         self.max_queries = max_queries
         self.max_expansion_depth = max_expansion_depth
+        if query_attempts < 1:
+            raise ValueError("query_attempts must be at least 1")
+        if source_failure_threshold < 1:
+            raise ValueError("source_failure_threshold must be at least 1")
         self.required_zero_growth_passes = required_zero_growth_passes
         self.declared_mandatory_sources = list(declared_mandatory_sources or [])
+        self.query_attempts = query_attempts
+        self.source_failure_threshold = source_failure_threshold
+        self.retry_backoff_seconds = retry_backoff_seconds
+
+    def _search_with_retry(
+        self, adapter: SourceAdapter, query: CompiledQuery, as_of_date
+    ) -> tuple["AdapterResult", int]:
+        """Issue one query, retrying that query rather than surrendering its source.
+
+        A timeout on a single broad facet is a transport event, not evidence that CT.gov
+        is down. The previous behaviour conflated the two: one failure blacklisted the
+        source for the rest of the run, so a slow ``MONOCLONAL_ANTIBODY`` page discarded
+        the eight modality queries queued behind it and left 527 of ~2,900 trials looking
+        like a complete corpus.
+        """
+
+        result = AdapterResult(outcome=SearchOutcome.FAILED, error="no attempt made")
+        for attempt in range(1, self.query_attempts + 1):
+            try:
+                result = adapter.search(query, as_of_date=as_of_date)
+            except Exception as exc:  # adapters are an external boundary
+                result = AdapterResult(outcome=SearchOutcome.FAILED, error=str(exc))
+            if result.outcome is not SearchOutcome.FAILED:
+                return result, attempt
+            if attempt < self.query_attempts:
+                time.sleep(self.retry_backoff_seconds * (2 ** (attempt - 1)))
+        return result, self.query_attempts
 
     def run(
         self,
@@ -105,6 +140,7 @@ class DiscoveryOrchestrator:
         coverage: list[CoveragePass] = []
         source_status: dict[str, SearchOutcome] = {}
         failed_sources: set[str] = set()
+        failed_queries: dict[str, list[str]] = {}
         snapshot_ids: list[str] = []
         source_documents: dict[str, SourceDocument] = {}
         zero_growth_passes = 0
@@ -132,16 +168,24 @@ class DiscoveryOrchestrator:
                         break
                     seen_queries.add(key)
                     started = datetime.now(timezone.utc)
-                    try:
-                        result = adapter.search(query, as_of_date=problem.buyer.as_of_date)
-                    except Exception as exc:  # adapters are an external boundary
-                        result = AdapterResult(outcome=SearchOutcome.FAILED, error=str(exc))
+                    result, attempts_made = self._search_with_retry(
+                        adapter, query, problem.buyer.as_of_date
+                    )
                     previous_outcome = source_status.get(adapter.source_name)
                     source_status[adapter.source_name] = _aggregate_source_outcome(
                         previous_outcome, result.outcome
                     )
                     if result.outcome == SearchOutcome.FAILED:
-                        failed_sources.add(adapter.source_name)
+                        failed_queries.setdefault(adapter.source_name, []).append(query.query)
+                        # Give up on a source only once it looks systematically dead. A
+                        # source that is simply not configured fails its first few queries
+                        # and costs little; a live source that dropped one query keeps the
+                        # rest of the plan, which is the whole point of retrying per query.
+                        if (
+                            len(failed_queries[adapter.source_name])
+                            >= self.source_failure_threshold
+                        ):
+                            failed_sources.add(adapter.source_name)
                     snapshot_ids.extend(result.snapshot_ids)
                     for document in result.source_documents:
                         source_documents.setdefault(document.document_id, document)
@@ -171,6 +215,8 @@ class DiscoveryOrchestrator:
                             retrieval_date=started,
                             applicable_as_of_date=problem.buyer.as_of_date,
                             snapshot_ids=result.snapshot_ids,
+                            attempts_made=attempts_made,
+                            pages_fetched=getattr(adapter, "last_page_count", 0),
                         )
                     )
                     for follow_up in result.follow_up_queries:
@@ -237,12 +283,18 @@ class DiscoveryOrchestrator:
         configured_sources = {adapter.source_name for adapter in self.adapters}
         missing_mandatory = sorted(set(self.declared_mandatory_sources) - configured_sources)
         incomplete_reasons: list[str] = []
+        fatal_reasons: list[str] = []
         if limit_reason:
             incomplete_reasons.append(limit_reason)
         if mandatory_failures:
-            incomplete_reasons.append(
-                "mandatory source failures: " + ", ".join(sorted(mandatory_failures))
+            detail = ", ".join(
+                f"{name} ({len(failed_queries.get(name, []))} queries failed)"
+                for name in sorted(mandatory_failures)
             )
+            reason = f"mandatory source failures: {detail}"
+            incomplete_reasons.append(reason)
+            # Fatal, not merely incomplete: an unknown share of the universe is missing.
+            fatal_reasons.append(reason)
         if missing_mandatory:
             incomplete_reasons.append(
                 "mandatory sources not configured: " + ", ".join(missing_mandatory)
@@ -292,6 +344,7 @@ class DiscoveryOrchestrator:
             known_blind_spots=known_blind_spots,
             status=status,
             incomplete_reasons=incomplete_reasons,
+            fatal_reasons=fatal_reasons,
         )
         return DiscoveryResult(
             hits=list(seen_hits.values()),

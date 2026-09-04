@@ -494,6 +494,8 @@ class ClinicalTrialsGovAdapter:
         #: the legacy ``search_fn`` path, which acquires its own records and so cannot
         #: state which universe it saw — an absence the manifest records rather than hides.
         self.trial_universe: TrialUniverseProvenance | None = None
+        #: Pages consumed by the most recent acquisition, for the per-query ledger.
+        self.last_page_count: int = 0
 
     def _acquire(
         self, vocabulary: QueryVocabulary, query: CompiledQuery, as_of_date: date
@@ -531,6 +533,9 @@ class ClinicalTrialsGovAdapter:
         )
         started_at = datetime.now(timezone.utc)
         result = self.provider.fetch(trial_query)
+        # Surfaced for the acquisition ledger; a provider that does not count pages
+        # simply reports zero rather than forcing every backend to implement paging.
+        self.last_page_count = getattr(self.provider, "last_page_count", 0)
         self.trial_universe = describe_universe(
             result,
             trial_query,

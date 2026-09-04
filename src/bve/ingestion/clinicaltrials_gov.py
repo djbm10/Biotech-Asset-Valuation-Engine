@@ -5,6 +5,7 @@ Docs: https://clinicaltrials.gov/data-api/api
 """
 from __future__ import annotations
 
+import os
 import time
 import warnings
 from dataclasses import dataclass, field
@@ -43,7 +44,23 @@ _PHASE_MAP: dict[str, TrialPhase] = {
 _SESSION = requests.Session()
 
 
-def _get(path: str, params: dict | None = None, timeout: int = 30, retries: int = 3) -> dict:
+#: Per-request budget. 30s is comfortable for a handful of studies and brittle for a
+#: single broad facet: the PDCD1 ``MONOCLONAL_ANTIBODY`` query is ~2,500 records over 11
+#: pages, and under full-pipeline load one of those pages crossing 30s was enough to fail
+#: the query, blacklist CT.gov, and silently drop the eight modality queries behind it.
+#: Exhaustive benchmark runs raise this; interactive callers keep the shorter budget.
+DEFAULT_TIMEOUT = int(os.environ.get("BVE_CTGOV_TIMEOUT", "30"))
+DEFAULT_RETRIES = int(os.environ.get("BVE_CTGOV_RETRIES", "3"))
+
+
+def _get(
+    path: str,
+    params: dict | None = None,
+    timeout: int | None = None,
+    retries: int | None = None,
+) -> dict:
+    timeout = DEFAULT_TIMEOUT if timeout is None else timeout
+    retries = DEFAULT_RETRIES if retries is None else retries
     url = f"{BASE_URL}{path}"
     for attempt in range(retries):
         try:
@@ -70,6 +87,9 @@ def search_studies(
     status_filter: Optional[list[str]] = None,
     page_size: int = 100,
     max_records: Optional[int] = None,
+    timeout: Optional[int] = None,
+    retries: Optional[int] = None,
+    page_counter: Optional[list[int]] = None,
 ) -> list[dict[str, Any]]:
     """
     Search ClinicalTrials.gov and return a list of raw protocol sections.
@@ -101,7 +121,9 @@ def search_studies(
     while True:
         if page_token:
             params["pageToken"] = page_token
-        data = _get("/studies", params=params)
+        data = _get("/studies", params=params, timeout=timeout, retries=retries)
+        if page_counter is not None:
+            page_counter.append(1)
         for s in data.get("studies", []):
             proto = s.get("protocolSection", {})
             if proto:

@@ -493,6 +493,14 @@ class SearchAttempt(StrictModel):
     retrieval_date: datetime
     applicable_as_of_date: date
     snapshot_ids: list[str] = Field(default_factory=list)
+    #: How many times this one query was issued before it settled. A transient CT.gov
+    #: timeout is invisible in the outcome alone -- a query that succeeded on its third
+    #: attempt and one that succeeded immediately both read SUCCESS -- so the count is
+    #: recorded to keep a retried acquisition distinguishable from a clean one.
+    attempts_made: int = Field(default=1, ge=1)
+    #: Transport pages consumed. Distinguishes a query that returned little because the
+    #: universe is small from one that stopped early.
+    pages_fetched: int = Field(default=0, ge=0)
 
 
 class CoveragePass(StrictModel):
@@ -566,6 +574,19 @@ class RunManifest(StrictModel):
     known_blind_spots: list[str] = Field(default_factory=list)
     status: RunStatus = RunStatus.RUNNING
     incomplete_reasons: list[str] = Field(default_factory=list)
+    #: The subset of ``incomplete_reasons`` that no caller may waive. A mandatory source
+    #: that was never configured is a declared, constant blind spot, and a run may be
+    #: scored against it knowingly. A mandatory source that *failed mid-acquisition* is
+    #: different in kind: the corpus is missing an unknown amount of evidence, so recall
+    #: measured on it is not a measurement. ``--allow-incomplete`` covers the first and
+    #: must never cover the second.
+    fatal_reasons: list[str] = Field(default_factory=list)
+
+    @property
+    def scoreable(self) -> bool:
+        """Whether this run's corpus may be used for a benchmark or a decision."""
+
+        return not self.fatal_reasons
 
     @model_validator(mode="after")
     def validate_completion(self) -> "RunManifest":

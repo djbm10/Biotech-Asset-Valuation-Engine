@@ -32,6 +32,14 @@ BACKEND_VERSION = "v2"
 TrialSearch = Callable[..., list[dict[str, Any]]]
 
 
+def _default_search_fn() -> TrialSearch:
+    """The real client, resolved lazily so importing this module needs no network stack."""
+
+    from bve.ingestion.clinicaltrials_gov import search_studies
+
+    return search_studies
+
+
 def _text(module: dict[str, Any], key: str) -> str | None:
     value = module.get(key)
     if value is None:
@@ -158,6 +166,8 @@ class ClinicalTrialsGovProvider:
         *,
         page_size: int = 250,
         snapshot_root: Path | None = None,
+        request_timeout: int | None = None,
+        request_retries: int | None = None,
     ) -> None:
         if search_fn is None:
             from bve.ingestion.clinicaltrials_gov import search_studies
@@ -166,6 +176,12 @@ class ClinicalTrialsGovProvider:
         self.search_fn = search_fn
         self.page_size = page_size
         self.snapshot_root = snapshot_root
+        self.request_timeout = request_timeout
+        self.request_retries = request_retries
+        #: Pages consumed by the most recent :meth:`fetch`, for the acquisition ledger.
+        #: An attribute rather than a field on ``TrialUniverseResult`` because paging is
+        #: a transport detail, and the universe contract describes what was retrieved.
+        self.last_page_count: int = 0
 
     def fetch(self, query: TrialQuery) -> TrialUniverseResult:
         # One request carrying the query's own boolean structure. The earlier version
@@ -189,10 +205,23 @@ class ClinicalTrialsGovProvider:
         expression = build_intervention_expression(query.facets())
         if expression:
             base["intervention"] = expression
+        # Passed only when configured: ``search_fn`` is injectable, and test doubles
+        # declare the parameters they need. An unconditional kwarg would make every
+        # existing fake a TypeError.
+        pages: list[int] = []
+        if self.request_timeout is not None:
+            base["timeout"] = self.request_timeout
+        if self.request_retries is not None:
+            base["retries"] = self.request_retries
+        if self.search_fn is _default_search_fn():
+            base["page_counter"] = pages
+        self.last_page_count = 0
         try:
             protocols = list(self.search_fn(**base))
         except Exception as exc:  # a partial universe must not look like a complete one
+            self.last_page_count = len(pages)
             return self._failure(str(exc))
+        self.last_page_count = len(pages)
 
         records: list[TrialRecord] = []
         seen: set[str] = set()

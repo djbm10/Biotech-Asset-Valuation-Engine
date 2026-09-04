@@ -108,7 +108,18 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--allow-incomplete",
         action="store_true",
-        help="Research-only: return zero even when mandatory-source/convergence checks fail.",
+        help=(
+            "Research-only: return zero when convergence or an unconfigured mandatory "
+            "source is the only complaint. Cannot waive a source that failed acquisition."
+        ),
+    )
+    parser.add_argument(
+        "--acquisition-ledger",
+        help=(
+            "Write one JSON line per issued query (source, query, attempts, pages, "
+            "records, outcome, error) so a short corpus can be traced to the query that "
+            "produced it without re-reading the whole result."
+        ),
     )
     parser.add_argument(
         "--progress",
@@ -238,6 +249,46 @@ def main(argv: list[str] | None = None) -> int:
         Path(args.output).write_text(rendered + "\n")
     else:
         sys.stdout.write(rendered + "\n")
+    if args.acquisition_ledger:
+        # Written before the gates below so a failed run still leaves the evidence that
+        # explains why it failed.
+        with Path(args.acquisition_ledger).open("w") as handle:
+            for attempt in result.search_attempts:
+                handle.write(
+                    json.dumps(
+                        {
+                            "source": attempt.source,
+                            "query": attempt.query,
+                            "pass_number": attempt.pass_number,
+                            "attempts_made": attempt.attempts_made,
+                            "pages_fetched": attempt.pages_fetched,
+                            "candidates_found": attempt.candidates_found,
+                            "unique_candidates_added": attempt.unique_candidates_added,
+                            "outcome": attempt.outcome.value,
+                            "error": attempt.error,
+                            "retrieval_date": attempt.retrieval_date.isoformat(),
+                        }
+                    )
+                    + "\n"
+                )
+
+    # Checked before --allow-incomplete, which may waive a declared blind spot but not a
+    # source that failed mid-acquisition: the corpus is then short an unknown number of
+    # trials, and a recall figure measured on it is not a measurement. Run B5 scored
+    # nothing for this reason -- it lost 86% of the CT.gov universe to one timed-out
+    # query and still produced a plausible-looking partial run.
+    if result.run_manifest.fatal_reasons:
+        print(
+            "ERROR: S&E acquisition FAILED; this run is UNSCOREABLE and was not promoted.",
+            file=sys.stderr,
+        )
+        for reason in result.run_manifest.fatal_reasons:
+            print(f"  - {reason}", file=sys.stderr)
+        print(
+            "  --allow-incomplete cannot waive a failed mandatory source.",
+            file=sys.stderr,
+        )
+        return 3
     if result.run_manifest.status != RunStatus.CONVERGED and not args.allow_incomplete:
         print(
             "ERROR: S&E discovery is INCOMPLETE; output is diagnostic and was not promoted.",
