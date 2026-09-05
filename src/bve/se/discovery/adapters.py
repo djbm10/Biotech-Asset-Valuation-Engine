@@ -858,7 +858,9 @@ class UnavailableSourceAdapter:
         self.reason = reason
 
     def search(self, query: CompiledQuery, *, as_of_date: date) -> AdapterResult:
-        return AdapterResult(outcome=SearchOutcome.FAILED, error=self.reason)
+        # NOT_CONFIGURED, never FAILED: nothing was attempted, so nothing broke. The run
+        # is incomplete by declaration, which --allow-incomplete exists to waive.
+        return AdapterResult(outcome=SearchOutcome.NOT_CONFIGURED, error=self.reason)
 
 
 class IndexedDocumentAdapter:

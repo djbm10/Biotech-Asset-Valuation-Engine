@@ -94,6 +94,12 @@ class _ScriptedAdapter:
         return AdapterResult(hits=[_hit(query.query[:24])], outcome=SearchOutcome.SUCCESS)
 
 
+def _problem_query():
+    from bve.se.discovery.query import compile_problem_queries
+
+    return compile_problem_queries(_problem())[0]
+
+
 def _orchestrator(adapter, **kwargs) -> DiscoveryOrchestrator:
     defaults = {
         "max_passes": 2,
@@ -236,3 +242,98 @@ class TestTheCLIRefusesToPromoteAFailedAcquisition:
             )
 
         assert code == 0
+
+
+class TestUnconfiguredIsNotFailed:
+    """Run B6's exact bug: seven unbuilt connectors made a clean CT.gov run unscoreable.
+
+    These drive the real ``UnavailableSourceAdapter`` through the real orchestrator. The
+    earlier CLI tests mocked ``run_landscape_search`` away, so they asserted the intended
+    policy against a hand-built manifest and never touched the adapter that was actually
+    reporting the wrong outcome. They passed while B6 failed.
+    """
+
+    @staticmethod
+    def _adapters():
+        from bve.se.discovery.adapters import UnavailableSourceAdapter
+
+        return [
+            _ScriptedAdapter(fail_on="__never__", failures=0),
+            UnavailableSourceAdapter("sec_edgar"),
+            UnavailableSourceAdapter("conference_ash"),
+        ]
+
+    def test_an_unbuilt_connector_is_not_configured_not_failed(self) -> None:
+        from bve.se.discovery.adapters import UnavailableSourceAdapter
+
+        result = UnavailableSourceAdapter("sec_edgar").search(
+            _problem_query(), as_of_date=date(2026, 8, 20)
+        )
+        assert result.outcome is SearchOutcome.NOT_CONFIGURED
+
+    def test_unbuilt_connectors_leave_the_run_incomplete_but_scoreable(self) -> None:
+        """The B6 regression: CT.gov succeeded, so the run must not be fatal."""
+
+        adapters = self._adapters()
+        orchestrator = DiscoveryOrchestrator(
+            adapters,
+            max_passes=2,
+            required_zero_growth_passes=2,
+            retry_backoff_seconds=0.0,
+            declared_mandatory_sources=["clinicaltrials_gov", "sec_edgar", "conference_ash"],
+        )
+        manifest = _run(orchestrator).manifest
+
+        assert manifest.source_status["clinicaltrials_gov"] is SearchOutcome.SUCCESS
+        assert manifest.source_status["sec_edgar"] is SearchOutcome.NOT_CONFIGURED
+        assert manifest.source_status["conference_ash"] is SearchOutcome.NOT_CONFIGURED
+        assert not manifest.fatal_reasons, "an unbuilt connector must never be fatal"
+        assert manifest.scoreable
+        assert manifest.status is RunStatus.INCOMPLETE
+        assert any("not configured" in reason for reason in manifest.incomplete_reasons)
+
+    def test_an_unbuilt_connector_is_asked_once_not_once_per_query(self) -> None:
+        """B6 asked seven unbuilt connectors 975 questions each."""
+
+        from bve.se.discovery.adapters import UnavailableSourceAdapter
+
+        class _Counting(UnavailableSourceAdapter):
+            calls = 0
+
+            def search(self, query, *, as_of_date):
+                type(self).calls += 1
+                return super().search(query, as_of_date=as_of_date)
+
+        counting = _Counting("sec_edgar")
+        orchestrator = DiscoveryOrchestrator(
+            [_ScriptedAdapter(fail_on="__never__", failures=0), counting],
+            max_passes=2,
+            required_zero_growth_passes=2,
+            retry_backoff_seconds=0.0,
+            declared_mandatory_sources=["clinicaltrials_gov", "sec_edgar"],
+        )
+        _run(orchestrator)
+        assert _Counting.calls == 1, f"asked an unbuilt connector {_Counting.calls} times"
+
+    def test_a_real_failure_alongside_unbuilt_connectors_is_still_fatal(self) -> None:
+        """The waiver must not widen: NOT_CONFIGURED next to FAILED stays fatal."""
+
+        from bve.se.discovery.adapters import UnavailableSourceAdapter
+
+        orchestrator = DiscoveryOrchestrator(
+            [
+                _ScriptedAdapter(fail_on="MONOCLONAL_ANTIBODY", failures=99),
+                UnavailableSourceAdapter("sec_edgar"),
+            ],
+            max_passes=2,
+            required_zero_growth_passes=2,
+            retry_backoff_seconds=0.0,
+            query_attempts=1,
+            source_failure_threshold=1,
+            declared_mandatory_sources=["clinicaltrials_gov", "sec_edgar"],
+        )
+        manifest = _run(orchestrator).manifest
+
+        assert manifest.fatal_reasons
+        assert not manifest.scoreable
+        assert all("sec_edgar" not in reason for reason in manifest.fatal_reasons)

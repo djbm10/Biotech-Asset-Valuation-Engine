@@ -140,6 +140,7 @@ class DiscoveryOrchestrator:
         coverage: list[CoveragePass] = []
         source_status: dict[str, SearchOutcome] = {}
         failed_sources: set[str] = set()
+        unconfigured_sources: set[str] = set()
         failed_queries: dict[str, list[str]] = {}
         snapshot_ids: list[str] = []
         source_documents: dict[str, SourceDocument] = {}
@@ -160,6 +161,8 @@ class DiscoveryOrchestrator:
                 for adapter in self.adapters:
                     if adapter.source_name in failed_sources:
                         continue
+                    if adapter.source_name in unconfigured_sources:
+                        continue
                     key = (pass_number, adapter.source_name, query.query)
                     if key in seen_queries:
                         continue
@@ -175,6 +178,10 @@ class DiscoveryOrchestrator:
                     source_status[adapter.source_name] = _aggregate_source_outcome(
                         previous_outcome, result.outcome
                     )
+                    if result.outcome == SearchOutcome.NOT_CONFIGURED:
+                        # Asking an unbuilt connector a second question cannot change the
+                        # answer, and B6 asked seven of them 975 times each.
+                        unconfigured_sources.add(adapter.source_name)
                     if result.outcome == SearchOutcome.FAILED:
                         failed_queries.setdefault(adapter.source_name, []).append(query.query)
                         # Give up on a source only once it looks systematically dead. A
@@ -271,6 +278,10 @@ class DiscoveryOrchestrator:
         else:
             limit_reason = f"maximum discovery passes reached ({self.max_passes})"
 
+        # Two different shortfalls, kept apart by outcome rather than inferred from
+        # counts. A declared source with no connector is a blind spot the operator may
+        # accept; a source that broke mid-acquisition left the corpus short an unknown
+        # number of records, so no recall measured on it is a measurement.
         mandatory_failures = [
             adapter.source_name
             for adapter in self.adapters
@@ -278,7 +289,14 @@ class DiscoveryOrchestrator:
             and source_status.get(adapter.source_name) not in {
                 SearchOutcome.SUCCESS,
                 SearchOutcome.NO_EVIDENCE_FOUND,
+                SearchOutcome.NOT_CONFIGURED,
             }
+        ]
+        mandatory_unconfigured = [
+            adapter.source_name
+            for adapter in self.adapters
+            if adapter.mandatory
+            and source_status.get(adapter.source_name) is SearchOutcome.NOT_CONFIGURED
         ]
         configured_sources = {adapter.source_name for adapter in self.adapters}
         missing_mandatory = sorted(set(self.declared_mandatory_sources) - configured_sources)
@@ -295,9 +313,10 @@ class DiscoveryOrchestrator:
             incomplete_reasons.append(reason)
             # Fatal, not merely incomplete: an unknown share of the universe is missing.
             fatal_reasons.append(reason)
-        if missing_mandatory:
+        if missing_mandatory or mandatory_unconfigured:
             incomplete_reasons.append(
-                "mandatory sources not configured: " + ", ".join(missing_mandatory)
+                "mandatory sources not configured: "
+                + ", ".join(sorted(set(missing_mandatory) | set(mandatory_unconfigured)))
             )
         if zero_growth_passes < self.required_zero_growth_passes:
             incomplete_reasons.append("discovery did not complete two zero-growth passes")
@@ -361,6 +380,12 @@ def _aggregate_source_outcome(
 
     if previous is None:
         return current
+    # A source with no connector reports the same thing to every query. It never mixes
+    # with a real outcome, so it neither degrades to PARTIAL nor decays to NO_EVIDENCE.
+    if previous == SearchOutcome.NOT_CONFIGURED and current == SearchOutcome.NOT_CONFIGURED:
+        return SearchOutcome.NOT_CONFIGURED
+    if SearchOutcome.NOT_CONFIGURED in {previous, current}:
+        return current if previous == SearchOutcome.NOT_CONFIGURED else previous
     if previous == SearchOutcome.FAILED and current == SearchOutcome.SUCCESS:
         return SearchOutcome.PARTIAL
     if previous == SearchOutcome.SUCCESS and current == SearchOutcome.FAILED:

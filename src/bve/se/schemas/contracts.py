@@ -121,10 +121,21 @@ class VerificationStatus(str, Enum):
 
 
 class SearchOutcome(str, Enum):
+    """How a source's acquisition ended.
+
+    ``NOT_CONFIGURED`` is structurally distinct from ``FAILED`` because the two carry
+    opposite consequences: a declared source with no connector is a known blind spot the
+    operator may waive, while a source that broke mid-acquisition leaves the corpus short
+    an unknown number of records and can never be scored. Run B6 conflated them -- seven
+    unbuilt connectors reported ``FAILED`` and made an otherwise clean CT.gov run
+    unscoreable -- which is why this is an outcome and not an inference from counts.
+    """
+
     SUCCESS = "SUCCESS"
     PARTIAL = "PARTIAL"
     FAILED = "FAILED"
     NO_EVIDENCE_FOUND = "NO_EVIDENCE_FOUND"
+    NOT_CONFIGURED = "NOT_CONFIGURED"
 
 
 class CandidateHit(StrictModel):

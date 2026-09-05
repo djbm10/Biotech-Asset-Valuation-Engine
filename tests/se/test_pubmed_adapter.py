@@ -46,9 +46,15 @@ def test_pubmed_adapter_does_not_turn_nonmatching_abstract_into_candidate() -> N
     assert result.hits == []
 
 
-def test_unavailable_source_is_explicit_failure() -> None:
+def test_unavailable_source_is_explicitly_not_configured() -> None:
+    """Not FAILED: nothing was attempted, so nothing broke.
+
+    The distinction is load-bearing. While these were the same outcome, seven unbuilt
+    connectors made run B6 unscoreable even though its CT.gov acquisition was clean.
+    """
+
     result = UnavailableSourceAdapter("conference_ash").search(
         CompiledQuery(query_id="q", query="CD19"), as_of_date=date(2026, 7, 10)
     )
-    assert result.outcome == SearchOutcome.FAILED
+    assert result.outcome == SearchOutcome.NOT_CONFIGURED
     assert result.error == "connector not configured"
