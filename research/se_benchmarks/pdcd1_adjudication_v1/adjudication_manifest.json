@@ -1,0 +1,56 @@
+{
+  "artifact": "pdcd1_adjudication_v1",
+  "created_utc": "2026-09-05T18:20:22Z",
+  "m8_v2_sha256": "8f8cfb0a3a233f01c72dafe717f0c1c1d8de22646ac00824be3fd96c0201fd2f",
+  "m8_v2_entries": 224,
+  "m8_v2_modified": false,
+  "rules_chain_sha256": [
+    "dcc4df12f3f52994fad57e28e47bb42e7a000054f834a27fec5071e8a3f962b8",
+    "1cbff8b9c9bd8b19fd0aa571d1e95b7fee5e705d343beb44f34c96224977025e",
+    "79fbaeccf31ce0d5052fccb121ca54b1043d1884ea9dedd7bac88e42ddf2b970",
+    "55f606fe69e68887c17af1091258a047a1eafa95f4fc2e42bd9f9a9afa1a930f",
+    "fe5d03d28365c9608de1fc50d2d4e3810eb3a7daac0adcdc4aaff5a85b6b2dd6"
+  ],
+  "rules_amendments": [
+    "A1",
+    "A2",
+    "A3",
+    "A4"
+  ],
+  "authority_artifact": {
+    "name": "pdcd1_gold_role_authority_v1",
+    "release_tag": "pdcd1-gold-role-authority-v1-267f4be5a5ea61a438fdcb",
+    "archive_sha256": "267f4be5a5ea61a438fdcb26b6508ed94712cd325424897a9f35ab502be57a7f",
+    "commit": "8f6d1f2",
+    "redownloaded_and_revalidated": true
+  },
+  "open_targets_26.06_files": {
+    "sources/open_targets_26.06/drug_mechanism_of_action/part-00000-10b94b1b-f29a-440c-98e0-c91862b6d2a8-c000.snappy.parquet": "949aedc4717356279877da143a13cf11f267f96d062fe0e12c1c44816959cb4a",
+    "sources/open_targets_26.06/drug_mechanism_of_action/part-00001-10b94b1b-f29a-440c-98e0-c91862b6d2a8-c000.snappy.parquet": "4a02cef4c182bb0ed20d341c6c4553f6c839b02f3217777fb65993a38e456a29",
+    "sources/open_targets_26.06/drug_molecule/part-00000-5581d2c3-048b-4097-934f-51cec06d7ff0-c000.snappy.parquet": "d98d7e4e6e3c7a91fdd915c7dd2f5f8e07504da73fec22880bf4aca10fc524da"
+  },
+  "chembl_37": {
+    "file": "chembl_37_sqlite.tar.gz",
+    "sha256": "33c203740555f96067710cdfc1c3c55d890660e5908ec5cbf5817492c290d281",
+    "matches_published_checksums_txt": true
+  },
+  "blinded_evidence_sha256": "e8cdad65fa8d907b802aaa12d8d318fe8eb1637eac77f030595427597d78527e",
+  "blinding": {
+    "adjudicators_see": [
+      "gold entry + aliases",
+      "frozen CT.gov field exhibits (nct, field, evidence)",
+      "frozen authority bundle verdicts and bindings",
+      "frozen rules"
+    ],
+    "adjudicators_do_not_see": [
+      "pipeline outcome",
+      "M10A bucket",
+      "found/missed status",
+      "the other adjudicator's output",
+      "b6_identity_cliff.json",
+      "b6_attrition_ledger.json",
+      "b6_denominator.json"
+    ]
+  },
+  "authority_independence": "NOT independent: Open Targets drug mechanism data is substantially derived from ChEMBL. AGREE is corroboration across two representations of a largely shared curation, not independent confirmation. See A4."
+}
