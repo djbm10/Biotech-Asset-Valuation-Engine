@@ -1,0 +1,60 @@
+benchmark_id: cand_15895cca45b8542958c4
+  entry:   PD-1/CTLA-4/VEGF trispecific antibody
+  aliases: ['GB268']
+  track:   A  (NAME_UNRESOLVED_IN_AUTHORITY)
+
+benchmark_id: cand_df21c67dba943de93254
+  entry:   STING agonist
+  aliases: ['GSK3745417']
+  track:   A  (NAME_UNRESOLVED_IN_AUTHORITY)
+
+benchmark_id: cand_83c9781bd706690c7cf0
+  entry:   ABP 206 (Amgen nivolumab biosimilar candidate)
+  aliases: ['ABP 206', 'Amgen nivolumab biosimilar candidate']
+  track:   B  (BIOSIMILAR_CANDIDATE)
+
+benchmark_id: cand_8264e68045cb74eea34c
+  entry:   BCD-263 (Biocad nivolumab biosimilar candidate)
+  aliases: ['BCD-263', 'Biocad nivolumab biosimilar candidate']
+  track:   B  (BIOSIMILAR_CANDIDATE)
+
+benchmark_id: cand_a46080073c2c96561288
+  entry:   BCD-263 (Biocad nivolumab/OPDIVO biosimilar candidate)
+  aliases: ['BCD-263', 'Biocad nivolumab', 'OPDIVO biosimilar candidate']
+  track:   B  (BIOSIMILAR_CANDIDATE)
+
+benchmark_id: cand_9254fb2b9190dacf8a93
+  entry:   ABO2109 (personalized mRNA cancer vaccine)
+  aliases: ['ABO2109', 'ABO2109 Injection', 'personalized mRNA cancer vaccine']
+  track:   B  (CELL_THERAPY_VACCINE_OR_CONSTRUCT)
+
+benchmark_id: cand_95125fb42826e2f75d3b
+  entry:   Autologous tumor-infiltrating lymphocyte (TIL) therapy
+  aliases: ['GC101 TIL']
+  track:   B  (CELL_THERAPY_VACCINE_OR_CONSTRUCT)
+
+benchmark_id: cand_d4adfc6863191c5155d4
+  entry:   TIL, autologous tumor infiltrating lymphocytes; pembrolizumab (anti-PD-1 immunotherapy)
+  aliases: ['TIL, autologous tumor infiltrating lymphocytes; pembrolizumab', 'anti-PD-1 immunotherapy']
+  track:   B  (CELL_THERAPY_VACCINE_OR_CONSTRUCT)
+
+benchmark_id: cand_88827c97564a124ce479
+  entry:   Tumor-associated antigen cancer vaccine
+  aliases: ['EVM14']
+  track:   B  (CELL_THERAPY_VACCINE_OR_CONSTRUCT)
+
+benchmark_id: cand_1e99712a5f4a34210fc8
+  entry:   VSV-GP oncolytic virus
+  aliases: ['BI 1831169']
+  track:   B  (CELL_THERAPY_VACCINE_OR_CONSTRUCT)
+
+benchmark_id: cand_558302b4e64f779e0ab6
+  entry:   Bojungikki-tang(BJIKT)
+  aliases: ['BJIKT', 'Bojungikki-tang']
+  track:   B  (NON_SMALL_MOLECULE_TRADITIONAL_MEDICINE)
+
+benchmark_id: cand_4d00594fe0187a19a103
+  entry:   Bu-zhong-yi-qi-tang (Hochu-ekki-to / Buzhong Yiqi Decoction)
+  aliases: ['Bu-zhong-yi-qi-tang', 'Buzhong Yiqi Decoction', 'Buzhong Yiqi Decoction, Hochu-ekki-to', 'Hochu-ekki-to']
+  track:   B  (NON_SMALL_MOLECULE_TRADITIONAL_MEDICINE)
+

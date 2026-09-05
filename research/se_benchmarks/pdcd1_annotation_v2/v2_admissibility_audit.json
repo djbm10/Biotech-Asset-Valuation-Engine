@@ -1,0 +1,37 @@
+[
+ {
+  "benchmark_id": "cand_cd6ce95eaee03b4d0669",
+  "entry": "DHP107 (oral paclitaxel, Liporaxel)",
+  "downgraded_from": "NON_PDCD1",
+  "clause": "V2.3: cited excerpt establishes the active moiety but does not state the product's molecular target or mechanism",
+  "source_reference": "PMC8679020, 'Phase II study of DHP107 (oral paclitaxel) in the first-line treatment of HER2-negative recurrent or metastatic breast cancer (OPTIMAL study)', https://pmc.ncbi.nlm.nih.gov/articles/PMC8679020/"
+ },
+ {
+  "benchmark_id": "cand_83c9781bd706690c7cf0",
+  "entry": "ABP 206 (Amgen nivolumab biosimilar candidate)",
+  "downgraded_from": "PDCD1_MATCH",
+  "clause": "V2.5 + V2.2: reference-product relationship rests on a CT.gov record that does not state a target or mechanism, so inheritance is not established",
+  "source_reference": "DailyMed OPDIVO (nivolumab) label, https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=f570b9c4-6846-4de2-abfa-4d0a4ae4e394 ; identity/reference relationship established via ClinicalTrials.gov NCT05907122 and NCT06054555 (\"ABP 206 Compared With OPDIVO (Nivolumab)\")"
+ },
+ {
+  "benchmark_id": "cand_8264e68045cb74eea34c",
+  "entry": "BCD-263 (Biocad nivolumab biosimilar candidate)",
+  "downgraded_from": "PDCD1_MATCH",
+  "clause": "V2.5 + V2.2: reference-product relationship rests on a CT.gov record that does not state a target or mechanism, so inheritance is not established",
+  "source_reference": "DailyMed OPDIVO (nivolumab) label, https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=f570b9c4-6846-4de2-abfa-4d0a4ae4e394 ; identity/reference relationship established via ClinicalTrials.gov NCT06112808 and NCT06640530 (BCD-263 vs Opdivo)"
+ },
+ {
+  "benchmark_id": "cand_a46080073c2c96561288",
+  "entry": "BCD-263 (Biocad nivolumab/OPDIVO biosimilar candidate)",
+  "downgraded_from": "PDCD1_MATCH",
+  "clause": "V2.5 + V2.2: reference-product relationship rests on a CT.gov record that does not state a target or mechanism, so inheritance is not established",
+  "source_reference": "DailyMed OPDIVO (nivolumab) label, https://dailymed.nlm.nih.gov/dailymed/drugInfo.cfm?setid=f570b9c4-6846-4de2-abfa-4d0a4ae4e394 ; identity/reference relationship established via ClinicalTrials.gov NCT06112808 and NCT06640530 (BCD-263 vs Opdivo)"
+ },
+ {
+  "benchmark_id": "cand_88827c97564a124ce479",
+  "entry": "Tumor-associated antigen cancer vaccine",
+  "downgraded_from": "NON_PDCD1",
+  "clause": "V2.2: cited source is a news/press-wire domain, not a company-controlled domain; inadmissible at any rank",
+  "source_reference": "https://www.prnewswire.com/news-releases/everest-medicines-announces-fda-clearance-of-ind-application-for-tumor-associated-antigen-vaccine-evm14-302408595.html"
+ }
+]
