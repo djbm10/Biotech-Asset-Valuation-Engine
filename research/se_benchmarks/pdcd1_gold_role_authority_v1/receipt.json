@@ -1,0 +1,52 @@
+{
+  "artifact": "pdcd1_gold_role_authority_v1",
+  "built_at_utc": "2026-09-05T17:42:00Z",
+  "rules_sha256": "fe5d03d28365c9608de1fc50d2d4e3810eb3a7daac0adcdc4aaff5a85b6b2dd6",
+  "gold_entries": 224,
+  "gold_csv_sha256": "8f8cfb0a3a233f01c72dafe717f0c1c1d8de22646ac00824be3fd96c0201fd2f",
+  "agreement": {
+    "AGREE": 108,
+    "UNRESOLVED": 79,
+    "UNCERTAIN_A33": 10,
+    "SINGLE_SOURCE": 27
+  },
+  "pdcd1_match": 28,
+  "non_pdcd1": 107,
+  "true_conflicts": 0,
+  "a33_withheld": 10,
+  "scripts": {
+    "build_authority.py": "363c5106363aa03cc27f2f88cccd169c1a03061fa6467d1992abde43be8314c0",
+    "enforce_a33.py": "c9287f3d66fc7e6024589331b5601326fc61d06dc9083374aa3bac9d63b245a4",
+    "extract_chembl.py": "741da3796aa6f073a72bde9ae40c8741a3bff66fb92f38b7f22fbc3c8d720c5d",
+    "merge_authority.py": "e588be6c0e980ffb12ef1de9654f88fad95e354cd3b9684422d66be394de23ff"
+  },
+  "outputs": {
+    "chembl37_mechanisms.jsonl": {
+      "bytes": 8218024,
+      "sha256": "90a9243a5c5a79a5153f1b94d515c1fddb7621b4e71f858bedae310eea4581b8"
+    },
+    "chembl37_molecule_names.jsonl": {
+      "bytes": 264725724,
+      "sha256": "9f3781d6cb55ad642aa0e8a536618fad8fa727288312dd80b75a5c3437a3a4a1"
+    },
+    "drug_target_bindings.jsonl": {
+      "bytes": 453655,
+      "sha256": "2bbc6caf0a5f0176b9d9fbf02e34565f9e80e5a2c40fe88f4c7c6f94843a98db"
+    }
+  },
+  "independence": "no pipeline QueryVocabulary, ontology snapshot, target resolver or B-lineage run output was read",
+  "rules_chain_sha256": [
+    "dcc4df12f3f52994fad57e28e47bb42e7a000054f834a27fec5071e8a3f962b8",
+    "1cbff8b9c9bd8b19fd0aa571d1e95b7fee5e705d343beb44f34c96224977025e",
+    "79fbaeccf31ce0d5052fccb121ca54b1043d1884ea9dedd7bac88e42ddf2b970",
+    "55f606fe69e68887c17af1091258a047a1eafa95f4fc2e42bd9f9a9afa1a930f",
+    "fe5d03d28365c9608de1fc50d2d4e3810eb3a7daac0adcdc4aaff5a85b6b2dd6"
+  ],
+  "rules_amendments": [
+    "A1",
+    "A2",
+    "A3",
+    "A4"
+  ],
+  "authority_independence": "NOT independent: Open Targets drug mechanism data is substantially derived from ChEMBL. AGREE is corroboration across two representations of a largely shared curation, not independent confirmation. See A4."
+}
