@@ -1,0 +1,41 @@
+{
+ "protocol": "pdcd1_annotation_v2",
+ "frozen_before_entry_level_research": true,
+ "benchmark": {
+  "file": "pdcd1_reference_universe_m8v2.csv",
+  "sha256": "8f8cfb0a3a233f01c72dafe717f0c1c1d8de22646ac00824be3fd96c0201fd2f",
+  "n": 224,
+  "mutable": false
+ },
+ "v1_rules": {
+  "file": "GOLD_ENTRY_ROLE_RULES.md",
+  "chain_tip": "fe5d03d28365c9608de1fc50d2d4e3810eb3a7daac0adcdc4aaff5a85b6b2dd6",
+  "amended_by_v2": false
+ },
+ "v1_outputs": {
+  "gold_entry_roles.jsonl": "7755f3025eb15ff09aedd21c8062fe6812ce1e990b90583abeca8f2dca1a7cb4",
+  "reconciliation_ledger.jsonl": "d909885fc5965a735ab05e7a7c4c29e19e769596dc0e11c5ac3fcaa09c8ccdc5",
+  "asset_uncertain_subtypes.jsonl": "7f7ea1355a4f21c213338aa5e70ca9726ee68e4fd0fc753ecea56607710bc58c",
+  "adjudication_manifest.json": "93d4c61f3c569be4518d28456992695367df84104d7cf37c1f597560f3f4ab56"
+ },
+ "v2_protocol": {
+  "file": "ANNOTATION_PROTOCOL_V2.md",
+  "sha256": "a1743acef8ba2f559a2208fdc593338caa318e023721589eb8c6a4aece085008"
+ },
+ "v2_subject_set": {
+  "file": "v2_subject_set.jsonl",
+  "sha256": "6af3866ac4b62ae059ad3aa0de440321387fad80d1df00ad212641ab01190d16",
+  "builder_sha256": "8c37e0a0cf6d8f13fcbdeaa4ba18f69d66f1eb7bf23a57a02060398a620c3697",
+  "n": 48,
+  "track_A": 38,
+  "track_B": 10
+ },
+ "authority_release": {
+  "tag": "pdcd1-gold-role-authority-v1-267f4be5a5ea61a438fdcb",
+  "archive_sha256": "267f4be5a5ea61a438fdcb26b6508ed94712cd325424897a9f35ab502be57a7f"
+ },
+ "prior_authorities_exhausted": [
+  "open_targets_26.06",
+  "chembl_37"
+ ]
+}
