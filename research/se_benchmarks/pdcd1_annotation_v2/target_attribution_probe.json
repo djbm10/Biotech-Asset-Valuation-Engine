@@ -1,0 +1,10 @@
+{
+ "n_candidates": 1136,
+ "with_target_ids": 1136,
+ "distinct_target_id_sets": [
+  [
+   "PDCD1"
+  ]
+ ],
+ "finding": "every candidate is stamped with the query target unconditionally; there is no per-asset target attribution"
+}
