@@ -366,6 +366,34 @@ class QueryVocabulary:
         return tuple(f for f in (_clean(target_terms), _clean(modality_terms)) if f)
 
 
+def _intervention_aliases(protocol: dict[str, Any]) -> dict[str, tuple[str, ...]]:
+    """Map each intervention name to the other names CT.gov records for that intervention.
+
+    Keyed by the same normalization the asset registry uses, so a hit's asset name looks
+    its aliases up directly.
+    """
+
+    aliases: dict[str, tuple[str, ...]] = {}
+    for intervention in _extract_interventions(protocol):
+        name = str(intervention.get("name") or "").strip()
+        if not name:
+            continue
+        raw = intervention.get("otherNames") or []
+        values = raw if isinstance(raw, list) else [raw]
+        # Only the program identities the conservative extractor recognizes. Sponsors also
+        # put structural descriptions in this field ("Immunoglobulin G4", "Dimer"); binding
+        # those as aliases would merge every asset that happens to share one. This both
+        # filters them out and splits an entry like "SMT112, AK112" that names two codes.
+        parts = [
+            observed
+            for value in values
+            for observed in extract_observed_asset_names(str(value))
+        ]
+        if parts:
+            aliases[_normalized_lookup(name)] = tuple(dict.fromkeys(parts))
+    return aliases
+
+
 def _candidate_interventions(
     protocol: dict[str, Any],
     vocabulary: QueryVocabulary,
@@ -403,6 +431,7 @@ def _candidate_interventions(
             [name, intervention.get("description", ""), other_names_text]
         ).casefold()
         primary_names = extract_observed_asset_names(name)
+        other_name_candidates = extract_observed_asset_names(other_names_text)
         observed_names = extract_observed_asset_names(name, other_names_text)
         observed_in_title = any(
             _normalized_lookup(observed) in _normalized_lookup(title_context)
@@ -421,7 +450,24 @@ def _candidate_interventions(
             if len(all_interventions) == 1:
                 intervention_targets = intervention_targets or protocol_targets
                 intervention_modality = intervention_modality or protocol_modality
-            canonical_name = primary_names[0] if len(primary_names) == 1 else name
+            if len(primary_names) == 1:
+                canonical_name = primary_names[0]
+            elif (
+                not primary_names
+                and len(name.split()) > 1
+                and len(other_name_candidates) == 1
+            ):
+                # CT.gov carries the product identity in ``otherNames`` when the
+                # intervention ``name`` is a descriptive label ("Fixed-dose subcutaneous
+                # coformulation") rather than a program name, so the field may supply the
+                # asset name. Restricted to multi-word labels: the extractor does not
+                # recognize all-caps trade names, so a single-token ``name`` like "Opdivo"
+                # is an identity it merely failed to match, and substituting the
+                # ``otherNames`` INN would silently discard the trade name. otherNames
+                # binds as an alias in that case instead of replacing the name.
+                canonical_name = other_name_candidates[0]
+            else:
+                canonical_name = name
             selected.append(
                 (
                     canonical_name,
@@ -650,6 +696,12 @@ class ClinicalTrialsGovAdapter:
                 )
             )
             sponsor = sponsor_module.get("leadSponsor", {}).get("name")
+            # ``otherNames`` is CT.gov asserting that these strings denote the same
+            # intervention. Carrying it onto the hit is what lets the asset registry merge
+            # "TSR-042" and "JEMPERLI" onto dostarlimab by an authoritative relationship.
+            # Without it every hit carried ``aliases=[]`` and each spelling became its own
+            # asset. Strings are still merged only by exact normalized equality downstream.
+            aliases_by_intervention = _intervention_aliases(protocol)
             interventions = _candidate_interventions(protocol, vocabulary, serialized)
             if not interventions:
                 fallback_name = identification.get("briefTitle") or nct_id or "unnamed program"
@@ -677,7 +729,9 @@ class ClinicalTrialsGovAdapter:
                         trial_id=nct_id,
                         target_terms=sorted(intervention_targets),
                         modality_terms=[intervention_modality] if intervention_modality else [],
-                        aliases=[],
+                        aliases=list(
+                            aliases_by_intervention.get(_normalized_lookup(intervention), ())
+                        ),
                         snippet=identification.get("briefTitle", ""),
                         provisional_identity_key=identity_key,
                         retrieved_at=datetime.now(timezone.utc),
