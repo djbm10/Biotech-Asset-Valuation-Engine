@@ -313,10 +313,10 @@ class DiscoveryOrchestrator:
             incomplete_reasons.append(reason)
             # Fatal, not merely incomplete: an unknown share of the universe is missing.
             fatal_reasons.append(reason)
-        if missing_mandatory or mandatory_unconfigured:
+        unconfigured_mandatory = sorted(set(missing_mandatory) | set(mandatory_unconfigured))
+        if unconfigured_mandatory:
             incomplete_reasons.append(
-                "mandatory sources not configured: "
-                + ", ".join(sorted(set(missing_mandatory) | set(mandatory_unconfigured)))
+                "mandatory sources not configured: " + ", ".join(unconfigured_mandatory)
             )
         if zero_growth_passes < self.required_zero_growth_passes:
             incomplete_reasons.append("discovery did not complete two zero-growth passes")
@@ -327,6 +327,15 @@ class DiscoveryOrchestrator:
         # declared as a blind spot rather than passing silently.
         resolved_ontology_version = ontology_version()
         known_blind_spots: list[str] = []
+        # --allow-incomplete waives an unconfigured source, so the blind spot it waives has
+        # to survive into the manifest rather than living only in incomplete_reasons, which
+        # a converged-or-waived run is not obliged to read. A waived run must still be able
+        # to say which part of the universe it never looked at.
+        for name in unconfigured_mandatory:
+            known_blind_spots.append(
+                f"mandatory source '{name}' has no configured connector; no evidence from "
+                "it was acquired and this run cannot speak to what it would have shown"
+            )
         if resolved_ontology_version.startswith(NO_SNAPSHOT_VERSION):
             known_blind_spots.append(
                 "no biomedical ontology snapshot installed; target alias expansion was "

@@ -337,3 +337,87 @@ class TestUnconfiguredIsNotFailed:
         assert manifest.fatal_reasons
         assert not manifest.scoreable
         assert all("sec_edgar" not in reason for reason in manifest.fatal_reasons)
+
+
+class _EmptyAdapter:
+    """A configured source that ran cleanly and found nothing."""
+
+    mandatory = True
+
+    def __init__(self, source_name: str) -> None:
+        self.source_name = source_name
+
+    def search(self, query, *, as_of_date) -> AdapterResult:
+        return AdapterResult(hits=[], outcome=SearchOutcome.NO_EVIDENCE_FOUND)
+
+
+class TestNoEvidenceFoundIsACompletedResult:
+    """The fourth state. An empty answer from a working source is an answer.
+
+    Only ``FAILED`` leaves the corpus short an unknown number of records. A source that
+    was asked and truthfully returned nothing has not damaged the run's scoreability, and
+    must not be conflated with one that broke or one that was never built.
+    """
+
+    def test_an_empty_mandatory_source_converges_and_stays_scoreable(self) -> None:
+        orchestrator = DiscoveryOrchestrator(
+            [_ScriptedAdapter(fail_on="__never__", failures=0), _EmptyAdapter("sec_edgar")],
+            max_passes=2,
+            required_zero_growth_passes=2,
+            retry_backoff_seconds=0.0,
+            declared_mandatory_sources=["clinicaltrials_gov", "sec_edgar"],
+        )
+        manifest = _run(orchestrator).manifest
+
+        assert manifest.source_status["sec_edgar"] is SearchOutcome.NO_EVIDENCE_FOUND
+        assert not manifest.fatal_reasons
+        assert manifest.scoreable
+        # The empty source contributes nothing to either list. (The run is INCOMPLETE for an
+        # unrelated reason -- the scripted adapter never stops growing, so it hits the pass
+        # limit -- which is exactly why this asserts on the reasons and not on the status.)
+        assert all("sec_edgar" not in reason for reason in manifest.incomplete_reasons)
+        assert all("sec_edgar" not in spot for spot in manifest.known_blind_spots)
+
+
+class TestAWaivedSourceStillDeclaresItsBlindSpot:
+    """``--allow-incomplete`` may continue past an unconfigured source, but the run has to
+    keep saying which part of the universe it never looked at."""
+
+    def test_an_unconfigured_source_is_recorded_as_a_known_blind_spot(self) -> None:
+        from bve.se.discovery.adapters import UnavailableSourceAdapter
+
+        orchestrator = DiscoveryOrchestrator(
+            [
+                _ScriptedAdapter(fail_on="__never__", failures=0),
+                UnavailableSourceAdapter("sec_edgar"),
+            ],
+            max_passes=2,
+            required_zero_growth_passes=2,
+            retry_backoff_seconds=0.0,
+            declared_mandatory_sources=["clinicaltrials_gov", "sec_edgar"],
+        )
+        manifest = _run(orchestrator).manifest
+
+        assert not manifest.fatal_reasons
+        assert any("sec_edgar" in spot for spot in manifest.known_blind_spots), (
+            "a waived source must remain visible in the manifest, not only in "
+            "incomplete_reasons"
+        )
+
+    def test_a_failed_source_is_not_downgraded_to_a_blind_spot(self) -> None:
+        """The waiver must not become an escape hatch for FAILED."""
+
+        orchestrator = DiscoveryOrchestrator(
+            [_ScriptedAdapter(fail_on="MONOCLONAL_ANTIBODY", failures=99)],
+            max_passes=2,
+            required_zero_growth_passes=2,
+            retry_backoff_seconds=0.0,
+            query_attempts=1,
+            source_failure_threshold=1,
+            declared_mandatory_sources=["clinicaltrials_gov"],
+        )
+        manifest = _run(orchestrator).manifest
+
+        assert manifest.fatal_reasons
+        assert not manifest.scoreable
+        assert all("clinicaltrials_gov" not in spot for spot in manifest.known_blind_spots)
