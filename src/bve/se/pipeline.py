@@ -17,6 +17,7 @@ from bve.se.gates.engine import GateEngine, GateEvaluation
 from bve.se.clinical.cohorts import assign_cohort
 from bve.se.clinical.meaningfulness import assess_meaningfulness
 from bve.se.resolution.registry import AssetRegistry
+from bve.se.resolution.target_attribution import attribution_for
 from bve.se.telemetry import StageTelemetry, summarize_attempts
 from bve.se.ranking.engine import rank_profiles
 from bve.se.schemas.contracts import (
@@ -160,7 +161,16 @@ def run_landscape_search(
             )
 
     with telemetry.stage("IDENTITY") as stage:
-        registry = AssetRegistry()
+        # Target attribution is per-asset and evidence-backed. It is deliberately built
+        # from the declared targets only, never from the queries that were run or the
+        # trials that came back: a candidate is attributed a target because an authority
+        # documents it, not because it turned up in a search for that target.
+        registry = AssetRegistry(
+            attribution_for(
+                target.canonical_id
+                for target in problem.strategic_gap.target_expression.targets
+            )
+        )
         hit_to_asset: dict[str, str] = {}
         for hit in discovery.hits:
             asset = registry.ingest_hit(hit)

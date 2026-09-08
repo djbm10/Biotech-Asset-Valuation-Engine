@@ -30,15 +30,29 @@ from datetime import date, datetime, timezone
 from pathlib import Path
 from typing import Any, Callable, TypeVar
 
-from bve.se.ontology.mechanisms import MechanismRow, parse_chembl_mechanism
+from bve.se.ontology.mechanisms import (
+    DrugTargetEdge,
+    EdgeStatus,
+    MechanismRow,
+    TargetRelationship,
+    build_edges,
+    canonical_ids_by_source_id,
+    parse_chembl_mechanism,
+)
 from bve.se.ontology.bulk import RawFileDigest, combined_digest, read_dataset
-from bve.se.ontology.records import SourceEntityRecord, SourceProvenance
+from bve.se.ontology.records import EntityType, SourceEntityRecord, SourceProvenance
+from bve.se.ontology.resolver import BiomedicalEntityResolver
 from bve.se.ontology.snapshot import OntologySnapshot
 from bve.se.ontology.sources.chembl import SOURCE_NAME as CHEMBL_SOURCE
 from bve.se.ontology.sources.chembl import parse_chembl_target
 from bve.se.ontology.sources.chembl_drug import parse_chembl_molecule
 from bve.se.ontology.sources.open_targets import SOURCE_NAME as OPEN_TARGETS_SOURCE
 from bve.se.ontology.sources.open_targets import parse_open_targets_target
+from bve.se.ontology.sources.open_targets_drug import (
+    expand_open_targets_moa,
+    parse_open_targets_drug,
+    parse_open_targets_moa,
+)
 
 CHEMBL_BASE_URL = "https://www.ebi.ac.uk/chembl/api/data/target.json"
 CHEMBL_MOLECULE_URL = "https://www.ebi.ac.uk/chembl/api/data/molecule.json"
@@ -65,6 +79,29 @@ def build_open_targets_records(
 
     records, digests = read_dataset(directory, parse_open_targets_target)
     return records, combined_digest(digests), digests
+
+
+def build_open_targets_drug_records(
+    directory: Path,
+) -> tuple[list[SourceEntityRecord], str, list[RawFileDigest]]:
+    """Parse an Open Targets ``drug_molecule`` export into DRUG records."""
+
+    records, digests = read_dataset(directory, parse_open_targets_drug)
+    return records, combined_digest(digests), digests
+
+
+def build_open_targets_mechanisms(
+    directory: Path,
+) -> tuple[list[MechanismRow], str, list[RawFileDigest]]:
+    """Parse an Open Targets ``drug_mechanism_of_action`` export into mechanism rows.
+
+    One upstream row states a mechanism for a set of drugs against a set of targets, so
+    it expands into one row per pair, all sharing the evidence hash of the row they came
+    from.
+    """
+
+    rows, digests = read_dataset(directory, parse_open_targets_moa)
+    return expand_open_targets_moa(rows), combined_digest(digests), digests
 
 
 def verify_chembl_release(
@@ -218,12 +255,42 @@ def _page_chembl(
     return records, _digest([key(record) for record in records])
 
 
+def canonicalize_edges(
+    snapshot: OntologySnapshot, rows: list[MechanismRow]
+) -> list[DrugTargetEdge]:
+    """Resolve mechanism rows against the snapshot's own entities.
+
+    Resolution runs here, at build time, so the published artifact fixes what it asserts
+    about an asset. The maps are built from source records rather than by resolving
+    names, because a mechanism row speaks only in identifiers and looking one up by name
+    would reintroduce the string matching this layer exists to avoid.
+    """
+
+    resolver = BiomedicalEntityResolver(snapshot)
+    releases = {source.source: source.release for source in snapshot.sources}
+    drug_ids: dict[str, str] = {}
+    target_ids: dict[str, str] = {}
+    for source in sorted(releases):
+        drug_ids.update(
+            canonical_ids_by_source_id(resolver.entities(EntityType.DRUG), source=source)
+        )
+        target_ids.update(
+            canonical_ids_by_source_id(resolver.entities(EntityType.TARGET), source=source)
+        )
+    return build_edges(
+        rows, source_releases=releases, drug_ids=drug_ids, target_ids=target_ids
+    )
+
+
 def build_snapshot(
     *,
     open_targets_dir: Path | None = None,
+    open_targets_drug_dir: Path | None = None,
+    open_targets_moa_dir: Path | None = None,
     open_targets_release: str | None = None,
     chembl_release: str | None = None,
     chembl_drugs: bool = False,
+    chembl_mechanisms: bool = False,
     chembl_limit: int = 1000,
     chembl_max_records: int | None = None,
     opener: Callable[[str], Any] = urllib.request.urlopen,
@@ -241,11 +308,35 @@ def build_snapshot(
     sources: list[SourceProvenance] = []
     records: list[SourceEntityRecord] = []
     raw_files: dict[str, list[RawFileDigest]] = {}
+    mechanism_rows: list[MechanismRow] = []
 
-    if open_targets_dir is not None:
+    if open_targets_dir is not None or open_targets_drug_dir is not None:
         if not open_targets_release:
             raise ValueError("open_targets_release is required to pin the snapshot version")
-        parsed, digest, file_digests = build_open_targets_records(open_targets_dir)
+        parsed: list[SourceEntityRecord] = []
+        digests: list[str] = []
+        file_digests: list[RawFileDigest] = []
+        locators: list[str] = []
+        # Targets, drugs and mechanisms all come from one Open Targets release, so they
+        # share one provenance entry, as the ChEMBL slices do.
+        for directory, parse_dataset in (
+            (open_targets_dir, build_open_targets_records),
+            (open_targets_drug_dir, build_open_targets_drug_records),
+        ):
+            if directory is None:
+                continue
+            part, part_digest, part_files = parse_dataset(directory)
+            parsed.extend(part)
+            digests.append(part_digest)
+            file_digests.extend(part_files)
+            locators.append(str(directory))
+        if open_targets_moa_dir is not None:
+            rows, moa_digest, moa_files = build_open_targets_mechanisms(open_targets_moa_dir)
+            mechanism_rows.extend(rows)
+            digests.append(moa_digest)
+            file_digests.extend(moa_files)
+            locators.append(str(open_targets_moa_dir))
+        digest = digests[0] if len(digests) == 1 else _digest(digests)
         records.extend(parsed)
         raw_files[OPEN_TARGETS_SOURCE] = file_digests
         sources.append(
@@ -253,7 +344,7 @@ def build_snapshot(
                 source=OPEN_TARGETS_SOURCE,
                 release=open_targets_release,
                 retrieved_at=retrieved,
-                locator=str(open_targets_dir),
+                locator=",".join(locators),
                 digest=digest,
                 record_count=len(parsed),
             )
@@ -280,6 +371,13 @@ def build_snapshot(
             parsed = parsed + molecules
             digest = _digest([digest, molecule_digest])
             locator = f"{CHEMBL_BASE_URL},{CHEMBL_MOLECULE_URL}"
+        if chembl_mechanisms:
+            rows, mechanism_digest = fetch_chembl_mechanisms(
+                limit=chembl_limit, max_records=chembl_max_records, opener=opener
+            )
+            mechanism_rows.extend(rows)
+            digest = _digest([digest, mechanism_digest])
+            locator = f"{locator},{CHEMBL_MECHANISM_URL}"
         records.extend(parsed)
         sources.append(
             SourceProvenance(
@@ -294,7 +392,12 @@ def build_snapshot(
 
     if not sources:
         raise ValueError("enable at least one source: --open-targets-dir and/or --chembl-release")
-    return OntologySnapshot(sources=sources, records=records), raw_files
+    snapshot = OntologySnapshot(sources=sources, records=records)
+    if mechanism_rows:
+        snapshot = snapshot.model_copy(
+            update={"edges": canonicalize_edges(snapshot, mechanism_rows)}
+        )
+    return snapshot, raw_files
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -306,12 +409,25 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument("--output", required=True, type=Path, help="Snapshot output directory")
     parser.add_argument("--open-targets-dir", type=Path, help="Downloaded Open Targets target export")
+    parser.add_argument(
+        "--open-targets-drug-dir", type=Path, help="Downloaded Open Targets drug_molecule export"
+    )
+    parser.add_argument(
+        "--open-targets-moa-dir",
+        type=Path,
+        help="Downloaded Open Targets drug_mechanism_of_action export",
+    )
     parser.add_argument("--open-targets-release", help="Open Targets release, e.g. 26.06")
     parser.add_argument("--chembl-release", help="ChEMBL release to record, e.g. 37; enables the API pull")
     parser.add_argument(
         "--chembl-drugs",
         action="store_true",
         help="Also pull named ChEMBL molecules as DRUG entities",
+    )
+    parser.add_argument(
+        "--chembl-mechanisms",
+        action="store_true",
+        help="Also pull the ChEMBL mechanism table as drug -> target edges",
     )
     parser.add_argument("--chembl-limit", type=int, default=1000, help="ChEMBL page size")
     parser.add_argument("--chembl-max-records", type=int, help="Stop after this many ChEMBL records")
@@ -336,9 +452,12 @@ def main(argv: list[str] | None = None) -> int:
 
     snapshot, raw_files = build_snapshot(
         open_targets_dir=args.open_targets_dir,
+        open_targets_drug_dir=args.open_targets_drug_dir,
+        open_targets_moa_dir=args.open_targets_moa_dir,
         open_targets_release=args.open_targets_release,
         chembl_release=args.chembl_release,
         chembl_drugs=args.chembl_drugs,
+        chembl_mechanisms=args.chembl_mechanisms,
         chembl_limit=args.chembl_limit,
         chembl_max_records=args.chembl_max_records,
         verify_release=not args.skip_release_check,
@@ -347,6 +466,15 @@ def main(argv: list[str] | None = None) -> int:
     print(f"ontology_version={snapshot.ontology_version}")
     for source in snapshot.sources:
         print(f"  {source.source} {source.release}: {source.record_count} records")
+    if snapshot.edges:
+        usable = sum(1 for edge in snapshot.edges if edge.status is EdgeStatus.USABLE)
+        direct = sum(
+            1
+            for edge in snapshot.edges
+            if edge.status is EdgeStatus.USABLE
+            and edge.relationship_type is TargetRelationship.DIRECT_TARGET
+        )
+        print(f"  edges {len(snapshot.edges)}: {usable} usable, {direct} direct/decisional")
 
     if not args.publish:
         snapshot.write(args.output)

@@ -35,6 +35,7 @@ from typing import Any
 
 from bve.se.ontology.bulk import RawFileDigest, file_sha256
 from bve.se.ontology.modality import MODALITY_ONTOLOGY_VERSION
+from bve.se.ontology.mechanisms import EdgeStatus, TargetRelationship
 from bve.se.ontology.records import EntityType
 from bve.se.ontology.resolver import BiomedicalEntityResolver
 from bve.se.ontology.snapshot import RESOLVER_VERSION, OntologySnapshot
@@ -54,8 +55,11 @@ _CODE_MODULES = (
     "bve/se/ontology/modality.py",
     "bve/se/ontology/targets.py",
     "bve/se/ontology/bulk.py",
+    "bve/se/ontology/mechanisms.py",
     "bve/se/ontology/sources/open_targets.py",
+    "bve/se/ontology/sources/open_targets_drug.py",
     "bve/se/ontology/sources/chembl.py",
+    "bve/se/ontology/sources/chembl_drug.py",
 )
 
 
@@ -127,6 +131,38 @@ def summarize_entities(resolver: BiomedicalEntityResolver) -> dict[str, Any]:
     }
 
 
+def summarize_edges(snapshot: OntologySnapshot) -> dict[str, Any]:
+    """Count what the mechanism layer can and cannot decide with.
+
+    ``decisional_edges`` is the number that can confirm or exclude a target at all. The
+    rest are counted, not hidden: a family or complex association is real evidence for an
+    analyst reviewing an unresolved candidate, and is simply never allowed to settle a
+    per-asset target claim on its own.
+    """
+
+    by_status: Counter[str] = Counter()
+    by_relationship: Counter[str] = Counter()
+    by_source: Counter[str] = Counter()
+    decisional = 0
+    for edge in snapshot.edges:
+        by_status[edge.status.value] += 1
+        by_relationship[edge.relationship_type.value] += 1
+        by_source[edge.source] += 1
+        if (
+            edge.status is EdgeStatus.USABLE
+            and edge.relationship_type is TargetRelationship.DIRECT_TARGET
+        ):
+            decisional += 1
+    return {
+        "total_edges": len(snapshot.edges),
+        "decisional_edges": decisional,
+        "edges_by_status": dict(sorted(by_status.items())),
+        "edges_by_relationship": dict(sorted(by_relationship.items())),
+        "edges_by_source": dict(sorted(by_source.items())),
+        "decisional_relationship_types": [TargetRelationship.DIRECT_TARGET.value],
+    }
+
+
 def build_manifest(
     snapshot: OntologySnapshot,
     resolver: BiomedicalEntityResolver,
@@ -159,6 +195,7 @@ def build_manifest(
         "source_record_count": len(snapshot.records),
         "code_hashes": code_hashes(),
         "normalized": summarize_entities(resolver),
+        "mechanisms": summarize_edges(snapshot),
     }
 
 

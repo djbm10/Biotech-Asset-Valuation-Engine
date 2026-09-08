@@ -190,7 +190,7 @@ class TestSnapshotAssembly:
             open_targets_release="26.06",
             retrieved_at=date(2026, 8, 15),
         )
-        assert snapshot.ontology_version == "open_targets_26.06__resolver_v1"
+        assert snapshot.ontology_version == "open_targets_26.06__resolver_v2"
         assert snapshot.sources[0].record_count == 2
 
         resolver = BiomedicalEntityResolver(snapshot)
@@ -229,7 +229,7 @@ class TestSnapshotAssembly:
             retrieved_at=date(2026, 8, 15),
             verify_release=False,
         )
-        assert snapshot.ontology_version == "chembl_36__open_targets_26.06__resolver_v1"
+        assert snapshot.ontology_version == "chembl_36__open_targets_26.06__resolver_v2"
         # The ChEMBL row joins the Open Targets row on Q15116 rather than adding an entity.
         assert len(BiomedicalEntityResolver(snapshot).entities()) == 2
 
@@ -265,7 +265,7 @@ class TestSnapshotAssembly:
             retrieved_at=date(2026, 8, 15),
             verify_release=False,
         )
-        assert snapshot.ontology_version == "chembl_37__resolver_v1"
+        assert snapshot.ontology_version == "chembl_37__resolver_v2"
         assert [source.source for source in snapshot.sources] == ["chembl"]
         assert snapshot.sources[0].record_count == 2
         assert {record.entity_type for record in snapshot.records} == {

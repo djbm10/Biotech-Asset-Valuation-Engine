@@ -70,11 +70,11 @@ class TestMechanismParsing:
         row = parse_chembl_mechanism({**PEMBROLIZUMAB_MECHANISM, "direct_interaction": 0})
         edges = build_edges(
             [row],
-            source_release="ChEMBL_37",
+            source_releases={"chembl": "ChEMBL_37"},
             drug_ids={"CHEMBL3137343": "DRUG:PEMBROLIZUMAB"},
             target_ids={"CHEMBL3307223": "TARGET:PDCD1"},
         )
-        assert edges[0].relationship_type is TargetRelationship.UNKNOWN
+        assert edges[0].relationship_type is TargetRelationship.FAMILY_OR_COMPLEX_ASSOCIATION
 
 
 class TestSourceIdMapping:
@@ -101,7 +101,7 @@ class TestEdgeConstruction:
         row = parse_chembl_mechanism({**PEMBROLIZUMAB_MECHANISM, "target_chembl_id": "CHEMBL_COMPLEX"})
         edges = build_edges(
             [row],
-            source_release="ChEMBL_37",
+            source_releases={"chembl": "ChEMBL_37"},
             drug_ids={"CHEMBL3137343": "DRUG:PEMBROLIZUMAB"},
             target_ids={},
         )
@@ -112,13 +112,42 @@ class TestEdgeConstruction:
     def test_a_usable_edge_records_the_release_it_came_from(self) -> None:
         edges = build_edges(
             [parse_chembl_mechanism(PEMBROLIZUMAB_MECHANISM)],
-            source_release="ChEMBL_37",
+            source_releases={"chembl": "ChEMBL_37"},
             drug_ids={"CHEMBL3137343": "DRUG:PEMBROLIZUMAB"},
             target_ids={"CHEMBL3307223": "TARGET:PDCD1"},
         )
         assert edges[0].status is EdgeStatus.USABLE
         assert edges[0].source_release == "ChEMBL_37"
         assert edges[0].source_record_id == "2300"
+
+    def test_each_source_carries_its_own_release(self) -> None:
+        # A mixed build must not stamp one release across two authorities.
+        from bve.se.ontology.sources.open_targets_drug import (
+            expand_open_targets_moa,
+            parse_open_targets_moa,
+        )
+
+        ot_row = expand_open_targets_moa(
+            [
+                parse_open_targets_moa(
+                    {
+                        "chemblIds": ["CHEMBL3137343"],
+                        "targets": ["ENSG00000188389"],
+                        "targetType": "single protein",
+                    }
+                )
+            ]
+        )
+        edges = build_edges(
+            [parse_chembl_mechanism(PEMBROLIZUMAB_MECHANISM), *ot_row],
+            source_releases={"chembl": "ChEMBL_37", "open_targets": "26.06"},
+            drug_ids={"CHEMBL3137343": "DRUG:PEMBROLIZUMAB"},
+            target_ids={"CHEMBL3307223": "TARGET:PDCD1", "ENSG00000188389": "TARGET:PDCD1"},
+        )
+        assert {(edge.source, edge.source_release) for edge in edges} == {
+            ("chembl", "ChEMBL_37"),
+            ("open_targets", "26.06"),
+        }
 
 
 class TestAuthorityClassification:
@@ -131,7 +160,7 @@ class TestAuthorityClassification:
     def test_a_different_documented_target_is_a_mismatch_not_a_confirmation(self) -> None:
         # Durvalumab is the sharpest case: same pathway, different gene.
         authority = DrugTargetAuthority([_edge("DRUG:DURVALUMAB", "TARGET:CD274")])
-        assert authority.classify("DRUG:DURVALUMAB", "TARGET:PDCD1") is AssertionStatus.OTHER_TARGET
+        assert authority.classify("DRUG:DURVALUMAB", "TARGET:PDCD1") is AssertionStatus.CONFIRMED_OTHER_TARGET
 
     def test_silence_is_unresolved_never_a_negative(self) -> None:
         authority = DrugTargetAuthority([])
@@ -176,7 +205,7 @@ class TestAuthorityClassification:
 
 
 class TestDirectEvidenceOnly:
-    """A mechanism that does not establish direct binding is silence, not a target."""
+    """A family or complex row is silence, not a target."""
 
     def test_non_direct_edge_does_not_assert_a_target(self):
         authority = DrugTargetAuthority(
@@ -184,7 +213,7 @@ class TestDirectEvidenceOnly:
                 DrugTargetEdge(
                     canonical_drug_id="DRUG:x",
                     canonical_target_id="TARGET:PDCD1",
-                    relationship_type=TargetRelationship.UNKNOWN,
+                    relationship_type=TargetRelationship.FAMILY_OR_COMPLEX_ASSOCIATION,
                     source="open_targets",
                     source_release="26.06",
                     source_record_id="1",
@@ -205,7 +234,7 @@ class TestDirectEvidenceOnly:
                 DrugTargetEdge(
                     canonical_drug_id="DRUG:x",
                     canonical_target_id="TARGET:CD274",
-                    relationship_type=TargetRelationship.UNKNOWN,
+                    relationship_type=TargetRelationship.FAMILY_OR_COMPLEX_ASSOCIATION,
                     source="open_targets",
                     source_release="26.06",
                     source_record_id="2",

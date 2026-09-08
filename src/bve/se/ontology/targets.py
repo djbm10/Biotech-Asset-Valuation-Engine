@@ -17,6 +17,7 @@ import os
 from functools import lru_cache
 from pathlib import Path
 
+from bve.se.ontology.mechanisms import DrugTargetAuthority
 from bve.se.ontology.modality import MODALITY_ONTOLOGY_VERSION, normalize_modality
 from bve.se.ontology.records import EntityType
 from bve.se.ontology.resolver import BiomedicalEntityResolver, ResolutionStatus
@@ -37,12 +38,17 @@ def default_snapshot_path() -> Path:
 
 
 @lru_cache(maxsize=4)
-def _load_resolver(path: str) -> BiomedicalEntityResolver | None:
+def _load_snapshot(path: str) -> OntologySnapshot | None:
     try:
-        snapshot = OntologySnapshot.read(Path(path))
+        return OntologySnapshot.read(Path(path))
     except FileNotFoundError:
         return None
-    return BiomedicalEntityResolver(snapshot)
+
+
+@lru_cache(maxsize=4)
+def _load_resolver(path: str) -> BiomedicalEntityResolver | None:
+    snapshot = _load_snapshot(path)
+    return None if snapshot is None else BiomedicalEntityResolver(snapshot)
 
 
 def get_resolver(path: Path | None = None) -> BiomedicalEntityResolver | None:
@@ -51,10 +57,23 @@ def get_resolver(path: Path | None = None) -> BiomedicalEntityResolver | None:
     return _load_resolver(str(path or default_snapshot_path()))
 
 
+def get_authority(path: Path | None = None) -> DrugTargetAuthority | None:
+    """The installed snapshot's drug -> target authority, or ``None``.
+
+    A snapshot with no edges still yields an authority: it answers ``UNRESOLVED`` for
+    everything, which is the correct reading of a source that says nothing, and is very
+    different from having no authority and falling back to query context.
+    """
+
+    snapshot = _load_snapshot(str(path or default_snapshot_path()))
+    return None if snapshot is None else snapshot.drug_target_authority
+
+
 def reset_resolver_cache() -> None:
     """Drop the cached resolver; call after installing or replacing a snapshot."""
 
     _load_resolver.cache_clear()
+    _load_snapshot.cache_clear()
     known_targets.cache_clear()
     # Imported here rather than at module scope: the discovery layer depends on this
     # module, so a top-level import would close a cycle.
@@ -140,6 +159,7 @@ __all__ = [
     "MODALITY_ONTOLOGY_VERSION",
     "NO_SNAPSHOT_VERSION",
     "default_snapshot_path",
+    "get_authority",
     "get_resolver",
     "known_targets",
     "normalize_modality",

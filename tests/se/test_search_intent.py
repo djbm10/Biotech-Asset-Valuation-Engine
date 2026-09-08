@@ -201,7 +201,7 @@ class TestCompilation:
     def test_version_pins_both_compiler_and_snapshot(self, snapshot):
         problem = compile_intent(parse_query("CD19 CAR-T"), buyer=BUYER)
         assert problem.version.startswith("intent_v1__")
-        assert "resolver_v1" in problem.version
+        assert "resolver_v2" in problem.version
 
     def test_problem_id_matches_the_intent(self, snapshot):
         intent = parse_query("CD19 CAR-T")

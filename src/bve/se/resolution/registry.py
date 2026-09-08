@@ -6,15 +6,18 @@ import hashlib
 import re
 from copy import deepcopy
 from datetime import datetime, timezone
+from typing import Protocol
 
 from bve.se.schemas.contracts import (
     CandidateHit,
+    CandidateTargetAssertion,
     CanonicalAsset,
     CompanyRecord,
     IdentityMention,
     IdentityMerge,
     MergeStatus,
     OwnershipRight,
+    TargetAssertionStatus,
 )
 
 _PUNCTUATION = re.compile(r"[^a-z0-9]+")
@@ -35,14 +38,31 @@ def _id(prefix: str, value: str) -> str:
     return f"{prefix}:{hashlib.sha256(value.encode()).hexdigest()[:20]}"
 
 
+class TargetAttribution(Protocol):
+    """The narrow slice of the ontology the registry is allowed to ask about.
+
+    A protocol rather than an import so the registry cannot reach past this question
+    into resolution, queries or trial context.
+    """
+
+    def assert_targets(self, asset_name: str, aliases: list[str]) -> list[CandidateTargetAssertion]:
+        ...
+
+
 class AssetRegistry:
     """Resolve deterministic identities first and preserve every source mention.
 
     Probabilistic merges are proposals only. Applying any merge records a complete snapshot of the
     source records so reversal restores the exact prior state.
+
+    ``target_attribution`` is optional and, when absent, the registry records no target
+    assertions at all rather than falling back to the targets a hit was found under.
+    Falling back is precisely the bug this separation exists to prevent: it would make an
+    asset's documented target depend on which query returned it.
     """
 
-    def __init__(self) -> None:
+    def __init__(self, target_attribution: "TargetAttribution | None" = None) -> None:
+        self._target_attribution = target_attribution
         self.assets: dict[str, CanonicalAsset] = {}
         #: normalized alias key -> asset ids holding it. Finding the assets that share a
         #: spelling with an incoming hit used to mean scanning every registered asset and
@@ -156,7 +176,10 @@ class AssetRegistry:
                 aliases=list(dict.fromkeys(aliases)),
                 company_ids=[company_id] if company_id else [],
                 trial_ids=[hit.trial_id] if hit.trial_id else [],
-                target_ids=list(dict.fromkeys(hit.target_terms)),
+                # ``hit.target_terms`` are the targets the *context* named, so they are
+                # discovery evidence only. ``target_ids`` is filled from mechanism
+                # assertions below, or left empty.
+                discovery_target_context=list(dict.fromkeys(hit.target_terms)),
                 modality_id=hit.modality_terms[0] if len(hit.modality_terms) == 1 else None,
                 mention_ids=[mention_id],
                 provisional=not bool(hit.trial_id),
@@ -171,7 +194,9 @@ class AssetRegistry:
                     "trial_ids": list(
                         dict.fromkeys([*existing.trial_ids, *([hit.trial_id] if hit.trial_id else [])])
                     ),
-                    "target_ids": list(dict.fromkeys([*existing.target_ids, *hit.target_terms])),
+                    "discovery_target_context": list(
+                        dict.fromkeys([*existing.discovery_target_context, *hit.target_terms])
+                    ),
                     "modality_id": (
                         existing.modality_id
                         if not hit.modality_terms
@@ -183,8 +208,31 @@ class AssetRegistry:
                     "provisional": existing.provisional and not bool(hit.trial_id),
                 }
             )
+        existing = self._attribute_targets(existing)
         self._index_asset(existing)
         return existing
+
+    def _attribute_targets(self, asset: CanonicalAsset) -> CanonicalAsset:
+        """Attach mechanism assertions, and derive ``target_ids`` from them alone."""
+
+        if self._target_attribution is None:
+            return asset
+        assertions = self._target_attribution.assert_targets(
+            asset.canonical_name, list(asset.aliases)
+        )
+        if not assertions:
+            return asset
+        confirmed = [
+            assertion.canonical_target_id
+            for assertion in assertions
+            if assertion.status is TargetAssertionStatus.CONFIRMED_TARGET
+        ]
+        return asset.model_copy(
+            update={
+                "target_assertions": assertions,
+                "target_ids": list(dict.fromkeys([*asset.target_ids, *confirmed])),
+            }
+        )
 
     def add_right(self, right: OwnershipRight) -> OwnershipRight:
         if right.asset_id not in self.assets:
@@ -263,6 +311,18 @@ class AssetRegistry:
             ),
             trial_ids=list(dict.fromkeys(value for record in records for value in record.trial_ids)),
             target_ids=list(dict.fromkeys(value for record in records for value in record.target_ids)),
+            discovery_target_context=list(
+                dict.fromkeys(
+                    value for record in records for value in record.discovery_target_context
+                )
+            ),
+            target_assertions=list(
+                {
+                    (assertion.canonical_target_id, assertion.status): assertion
+                    for record in records
+                    for assertion in record.target_assertions
+                }.values()
+            ),
             modality_id=next((record.modality_id for record in records if record.modality_id), None),
             indication_ids=list(
                 dict.fromkeys(value for record in records for value in record.indication_ids)

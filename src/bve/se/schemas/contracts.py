@@ -138,6 +138,56 @@ class SearchOutcome(str, Enum):
     NOT_CONFIGURED = "NOT_CONFIGURED"
 
 
+class TargetAssertionStatus(str, Enum):
+    """What authoritative evidence concludes about one asset and one target.
+
+    Deliberately not a boolean. An asset no authority has heard of and an asset
+    documented to act on something else are different answers, and a pipeline that
+    collapses them will exclude the first for the reasons that apply to the second.
+    """
+
+    #: Direct mechanism evidence for the requested target.
+    CONFIRMED_TARGET = "CONFIRMED_TARGET"
+    #: Direct mechanism evidence, all of it for other targets.
+    CONFIRMED_OTHER_TARGET = "CONFIRMED_OTHER_TARGET"
+    #: Direct evidence from more than one source, and the sources disagree.
+    CONFLICTING = "CONFLICTING"
+    #: No direct evidence either way. Silence, not a negative.
+    UNRESOLVED = "UNRESOLVED"
+
+
+class TargetEvidenceRef(StrictModel):
+    """A pointer back to the upstream row an assertion rests on."""
+
+    source: str = Field(min_length=1)
+    source_release: str = Field(min_length=1)
+    source_record_id: str = Field(min_length=1)
+    evidence_hash: str = Field(min_length=1)
+    canonical_target_id: str | None = None
+    relationship_type: str = Field(min_length=1)
+
+
+class CandidateTargetAssertion(StrictModel):
+    """What an asset is documented to act on, on its own evidence.
+
+    Distinct from :attr:`CompiledQuery.target_ids`, which says only what was searched
+    for. A candidate returned by a PDCD1 query has PDCD1 in its search context; whether
+    it has a PDCD1 *assertion* is a separate question this answers, and the separation is
+    the point: a chemotherapy co-administered in a PDCD1 trial is a legitimate discovery
+    result and an illegitimate PDCD1 attribution.
+    """
+
+    canonical_target_id: str = Field(min_length=1)
+    status: TargetAssertionStatus
+    #: Every target direct evidence supports, which for a bispecific is more than one.
+    documented_targets: list[str] = Field(default_factory=list)
+    #: The rows that decided the status.
+    evidence: list[TargetEvidenceRef] = Field(default_factory=list)
+    #: Family or complex rows mentioning the requested target. Never decisional -- they
+    #: are carried so an analyst reviewing an UNRESOLVED candidate can see why it came up.
+    supporting_associations: list[TargetEvidenceRef] = Field(default_factory=list)
+
+
 class CandidateHit(StrictModel):
     """One source-specific mention; not yet a canonical asset assertion."""
 
@@ -196,7 +246,15 @@ class CanonicalAsset(StrictModel):
     aliases: list[str] = Field(default_factory=list)
     company_ids: list[str] = Field(default_factory=list)
     trial_ids: list[str] = Field(default_factory=list)
+    #: Targets this asset is documented to act on. Populated only from confirmed
+    #: mechanism assertions -- never from the target a query was scoped to, and never
+    #: from targets merely named by a document the asset appeared in.
     target_ids: list[str] = Field(default_factory=list)
+    #: Targets named by the contexts this asset was discovered in. Discovery evidence,
+    #: not attribution: kept so a candidate can be traced back to why it surfaced,
+    #: and deliberately never merged into ``target_ids``.
+    discovery_target_context: list[str] = Field(default_factory=list)
+    target_assertions: list[CandidateTargetAssertion] = Field(default_factory=list)
     modality_id: str | None = None
     indication_ids: list[str] = Field(default_factory=list)
     development_stage: str | None = None

@@ -26,7 +26,17 @@ from typing import Any, Iterable, Mapping
 
 from pydantic import Field
 
-from bve.se.schemas.contracts import StrictModel
+from bve.se.schemas.contracts import (
+    CandidateTargetAssertion,
+    StrictModel,
+    TargetAssertionStatus,
+    TargetEvidenceRef,
+)
+
+#: The statuses this layer concludes with. Defined in the schema contracts because they
+#: cross the boundary into the asset registry; re-exported here so the authority layer
+#: reads as one module.
+AssertionStatus = TargetAssertionStatus
 
 SOURCE_NAME = "chembl"
 
@@ -42,8 +52,11 @@ class TargetRelationship(str, Enum):
     FORMULATION_COMPONENT = "FORMULATION_COMPONENT"
     #: Co-administered, but not documented to act on the target.
     NON_TARGETING_COMBINATION_PARTNER = "NON_TARGETING_COMBINATION_PARTNER"
-    #: An edge exists but the authority does not establish direct interaction.
-    UNKNOWN = "UNKNOWN"
+    #: The mechanism names a protein family, complex or group rather than one protein.
+    #: The row lists every member gene, so it supports no per-member claim: it neither
+    #: confirms nor excludes any specific target. Preserved for analyst review of an
+    #: otherwise unresolved candidate; never decisional.
+    FAMILY_OR_COMPLEX_ASSOCIATION = "FAMILY_OR_COMPLEX_ASSOCIATION"
 
 
 class EdgeStatus(str, Enum):
@@ -57,18 +70,6 @@ class EdgeStatus(str, Enum):
     TARGET_NOT_IN_SNAPSHOT = "TARGET_NOT_IN_SNAPSHOT"
     #: The mechanism names a molecule the drug layer does not contain.
     DRUG_NOT_IN_SNAPSHOT = "DRUG_NOT_IN_SNAPSHOT"
-
-
-class AssertionStatus(str, Enum):
-    """What the authority layer concludes about one drug and one target of interest."""
-
-    CONFIRMED_TARGET = "CONFIRMED_TARGET"
-    #: The drug has usable edges, none of them to the target asked about.
-    OTHER_TARGET = "OTHER_TARGET"
-    #: Sources disagree. Preserved rather than elected.
-    CONFLICTING = "CONFLICTING"
-    #: No authority speaks to this drug. Not a negative.
-    UNRESOLVED = "UNRESOLVED"
 
 
 class MechanismRow(StrictModel):
@@ -172,7 +173,7 @@ def canonical_ids_by_source_id(
 def build_edges(
     rows: Iterable[MechanismRow],
     *,
-    source_release: str,
+    source_releases: Mapping[str, str],
     drug_ids: Mapping[str, str],
     target_ids: Mapping[str, str],
 ) -> list[DrugTargetEdge]:
@@ -181,6 +182,15 @@ def build_edges(
     An unmappable row is kept with an explanatory status instead of being dropped: a
     dropped row is indistinguishable from a drug the authority never mentioned, and that
     is exactly the distinction this layer exists to preserve.
+
+    ``source_releases`` gives each source its own release, so an edge records the release
+    it actually came from rather than a single string covering a mixed-source build.
+
+    The two id maps are flat rather than per-source because both authorities speak ChEMBL
+    molecule ids: an Open Targets mechanism row names ``CHEMBL...``, not an Open Targets
+    identifier. Targets do not collide either -- ``CHEMBL...`` and ``ENSG...`` are
+    disjoint -- so a merged map lets a row resolve through whichever source carries the
+    entity, which is the point of holding two authorities at once.
     """
 
     edges: list[DrugTargetEdge] = []
@@ -200,11 +210,11 @@ def build_edges(
                 relationship_type=(
                     TargetRelationship.DIRECT_TARGET
                     if row.direct_interaction
-                    else TargetRelationship.UNKNOWN
+                    else TargetRelationship.FAMILY_OR_COMPLEX_ASSOCIATION
                 ),
                 action_type=row.action_type,
                 source=row.source,
-                source_release=source_release,
+                source_release=source_releases[row.source],
                 source_record_id=row.source_record_id,
                 evidence_hash=row.evidence_hash,
                 status=status,
@@ -212,6 +222,17 @@ def build_edges(
             )
         )
     return edges
+
+
+def _evidence_ref(edge: DrugTargetEdge) -> TargetEvidenceRef:
+    return TargetEvidenceRef(
+        source=edge.source,
+        source_release=edge.source_release,
+        source_record_id=edge.source_record_id,
+        evidence_hash=edge.evidence_hash,
+        canonical_target_id=edge.canonical_target_id,
+        relationship_type=edge.relationship_type.value,
+    )
 
 
 class DrugTargetAuthority:
@@ -232,12 +253,12 @@ class DrugTargetAuthority:
     def _evidence(self, canonical_drug_id: str) -> list[DrugTargetEdge]:
         """Edges that actually establish what the asset binds.
 
-        An edge whose relationship is ``UNKNOWN`` is excluded. Upstream, those are the
-        rows naming a protein family, complex or group: the row lists every member gene,
-        so reading each one as a bound target asserts something the source never said.
-        Two thirds of the Open Targets mechanism pairs are of that kind, so this is the
-        difference between a second authority and a second source of inherited targets.
-        Such an edge is not evidence *against* a target either -- it simply does not speak.
+        Only ``DIRECT_TARGET`` counts. A ``FAMILY_OR_COMPLEX_ASSOCIATION`` edge names a
+        family, complex or group, so reading any member as a bound target asserts
+        something the source never said. Two thirds of the Open Targets mechanism pairs
+        are of that kind, so this is the difference between a second authority and a
+        second source of inherited targets. Such an edge is not evidence *against* a
+        target either -- it neither confirms nor excludes, so it simply does not speak.
         """
 
         return [
@@ -263,6 +284,38 @@ class DrugTargetAuthority:
             )
         )
 
+    def _associations(self, canonical_drug_id: str, canonical_target_id: str) -> list[DrugTargetEdge]:
+        """Family or complex rows that mention the target, kept for analyst review only."""
+
+        return [
+            edge
+            for edge in self.edges_for(canonical_drug_id)
+            if edge.relationship_type is TargetRelationship.FAMILY_OR_COMPLEX_ASSOCIATION
+            and edge.canonical_target_id == canonical_target_id
+        ]
+
+    def assert_target(
+        self, canonical_drug_id: str, canonical_target_id: str
+    ) -> CandidateTargetAssertion:
+        """The full assertion for one asset and one target, evidence included.
+
+        Carries the upstream rows rather than just a verdict, so a reviewer can check the
+        answer instead of trusting it, and so an ``UNRESOLVED`` candidate can be triaged
+        with whatever non-decisional association evidence exists.
+        """
+
+        status = self.classify(canonical_drug_id, canonical_target_id)
+        return CandidateTargetAssertion(
+            canonical_target_id=canonical_target_id,
+            status=status,
+            documented_targets=list(self.targets_of(canonical_drug_id)),
+            evidence=[_evidence_ref(edge) for edge in self._evidence(canonical_drug_id)],
+            supporting_associations=[
+                _evidence_ref(edge)
+                for edge in self._associations(canonical_drug_id, canonical_target_id)
+            ],
+        )
+
     def classify(self, canonical_drug_id: str, canonical_target_id: str) -> AssertionStatus:
         """Classify one drug against one target of interest.
 
@@ -281,7 +334,7 @@ class DrugTargetAuthority:
             edge.source for edge in usable if edge.canonical_target_id == canonical_target_id
         }
         if not supporting:
-            return AssertionStatus.OTHER_TARGET
+            return AssertionStatus.CONFIRMED_OTHER_TARGET
 
         # A source that carries edges for this drug but none to this target contradicts a
         # source that does. With one source that cannot happen; with two it must be shown.
