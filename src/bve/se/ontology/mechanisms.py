@@ -229,6 +229,24 @@ class DrugTargetAuthority:
     def edges_for(self, canonical_drug_id: str) -> tuple[DrugTargetEdge, ...]:
         return tuple(self._by_drug.get(canonical_drug_id, ()))
 
+    def _evidence(self, canonical_drug_id: str) -> list[DrugTargetEdge]:
+        """Edges that actually establish what the asset binds.
+
+        An edge whose relationship is ``UNKNOWN`` is excluded. Upstream, those are the
+        rows naming a protein family, complex or group: the row lists every member gene,
+        so reading each one as a bound target asserts something the source never said.
+        Two thirds of the Open Targets mechanism pairs are of that kind, so this is the
+        difference between a second authority and a second source of inherited targets.
+        Such an edge is not evidence *against* a target either -- it simply does not speak.
+        """
+
+        return [
+            edge
+            for edge in self.edges_for(canonical_drug_id)
+            if edge.status is EdgeStatus.USABLE
+            and edge.relationship_type is TargetRelationship.DIRECT_TARGET
+        ]
+
     def targets_of(self, canonical_drug_id: str) -> tuple[str, ...]:
         """Every target the authority supports, in canonical id order.
 
@@ -239,8 +257,8 @@ class DrugTargetAuthority:
             sorted(
                 {
                     edge.canonical_target_id
-                    for edge in self.edges_for(canonical_drug_id)
-                    if edge.status is EdgeStatus.USABLE and edge.canonical_target_id
+                    for edge in self._evidence(canonical_drug_id)
+                    if edge.canonical_target_id
                 }
             )
         )
@@ -252,11 +270,11 @@ class DrugTargetAuthority:
         drug the authority has never heard of can never come back as a negative.
         """
 
-        edges = self.edges_for(canonical_drug_id)
-        usable = [edge for edge in edges if edge.status is EdgeStatus.USABLE]
+        usable = self._evidence(canonical_drug_id)
         if not usable:
-            # Either no mechanism at all, or one naming a target the snapshot cannot map.
-            # Both are absence of comparable evidence, not evidence of absence.
+            # No mechanism at all, one naming a target the snapshot cannot map, or one
+            # that does not establish direct binding. All three are absence of comparable
+            # evidence, not evidence of absence.
             return AssertionStatus.UNRESOLVED
 
         supporting = {

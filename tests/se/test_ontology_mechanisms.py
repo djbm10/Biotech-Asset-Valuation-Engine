@@ -173,3 +173,45 @@ class TestAuthorityClassification:
             ]
         )
         assert authority.classify("DRUG:X", "TARGET:PDCD1") is AssertionStatus.CONFIRMED_TARGET
+
+
+class TestDirectEvidenceOnly:
+    """A mechanism that does not establish direct binding is silence, not a target."""
+
+    def test_non_direct_edge_does_not_assert_a_target(self):
+        authority = DrugTargetAuthority(
+            [
+                DrugTargetEdge(
+                    canonical_drug_id="DRUG:x",
+                    canonical_target_id="TARGET:PDCD1",
+                    relationship_type=TargetRelationship.UNKNOWN,
+                    source="open_targets",
+                    source_release="26.06",
+                    source_record_id="1",
+                    evidence_hash="hash",
+                    status=EdgeStatus.USABLE,
+                )
+            ]
+        )
+        assert authority.targets_of("DRUG:x") == ()
+        # Not OTHER_TARGET either: a family row speaks neither for nor against.
+        assert authority.classify("DRUG:x", "TARGET:PDCD1") is AssertionStatus.UNRESOLVED
+        assert authority.classify("DRUG:x", "TARGET:CD274") is AssertionStatus.UNRESOLVED
+
+    def test_non_direct_edge_never_contradicts_a_direct_one(self):
+        authority = DrugTargetAuthority(
+            [
+                _edge("DRUG:x", "TARGET:PDCD1"),
+                DrugTargetEdge(
+                    canonical_drug_id="DRUG:x",
+                    canonical_target_id="TARGET:CD274",
+                    relationship_type=TargetRelationship.UNKNOWN,
+                    source="open_targets",
+                    source_release="26.06",
+                    source_record_id="2",
+                    evidence_hash="hash2",
+                    status=EdgeStatus.USABLE,
+                ),
+            ]
+        )
+        assert authority.classify("DRUG:x", "TARGET:PDCD1") is AssertionStatus.CONFIRMED_TARGET
