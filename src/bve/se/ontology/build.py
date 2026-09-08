@@ -28,8 +28,9 @@ import urllib.parse
 import urllib.request
 from datetime import date, datetime, timezone
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any, Callable, TypeVar
 
+from bve.se.ontology.mechanisms import MechanismRow, parse_chembl_mechanism
 from bve.se.ontology.bulk import RawFileDigest, combined_digest, read_dataset
 from bve.se.ontology.records import SourceEntityRecord, SourceProvenance
 from bve.se.ontology.snapshot import OntologySnapshot
@@ -41,6 +42,7 @@ from bve.se.ontology.sources.open_targets import parse_open_targets_target
 
 CHEMBL_BASE_URL = "https://www.ebi.ac.uk/chembl/api/data/target.json"
 CHEMBL_MOLECULE_URL = "https://www.ebi.ac.uk/chembl/api/data/molecule.json"
+CHEMBL_MECHANISM_URL = "https://www.ebi.ac.uk/chembl/api/data/mechanism.json"
 CHEMBL_STATUS_URL = "https://www.ebi.ac.uk/chembl/api/data/status.json"
 _USER_AGENT = "bve-se-ontology-builder"
 
@@ -153,17 +155,45 @@ def fetch_chembl_molecules(
     )
 
 
+_Row = TypeVar("_Row")
+
+
+def fetch_chembl_mechanisms(
+    *,
+    limit: int = 1000,
+    max_records: int | None = None,
+    opener: Callable[[str], Any] = urllib.request.urlopen,
+) -> tuple[list[MechanismRow], str]:
+    """Page ChEMBL for every documented drug mechanism.
+
+    Unfiltered on purpose: the whole table is ~7.5k rows, and filtering it by target or
+    by drug would make what the layer can assert depend on what was asked for.
+    """
+
+    return _page_chembl(
+        CHEMBL_MECHANISM_URL,
+        collection="mechanisms",
+        filters={},
+        parse=parse_chembl_mechanism,
+        limit=limit,
+        max_records=max_records,
+        opener=opener,
+        key=lambda row: f"{row.source_record_id}:{row.evidence_hash}",
+    )
+
+
 def _page_chembl(
     url: str,
     *,
     collection: str,
     filters: dict[str, str],
-    parse: Callable[[dict[str, Any]], SourceEntityRecord | None],
+    parse: Callable[[dict[str, Any]], _Row | None],
     limit: int,
     max_records: int | None,
     opener: Callable[[str], Any],
-) -> tuple[list[SourceEntityRecord], str]:
-    records: list[SourceEntityRecord] = []
+    key: Callable[[_Row], str] = lambda row: row.source_id,  # type: ignore[attr-defined]
+) -> tuple[list[_Row], str]:
+    records: list[_Row] = []
     offset = 0
     while True:
         query = urllib.parse.urlencode({"limit": limit, "offset": offset, **filters})
@@ -185,7 +215,7 @@ def _page_chembl(
             break
         offset += limit
 
-    return records, _digest([record.source_id for record in records])
+    return records, _digest([key(record) for record in records])
 
 
 def build_snapshot(
