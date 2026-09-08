@@ -7,7 +7,9 @@ Two ingest paths, both producing the same source-fidelity records:
   :mod:`bve.se.ontology.bulk` reads either, so the parser sees only rows.
 * ``--chembl-release`` pages the ChEMBL REST service for human single-protein targets.
   ChEMBL has no comparably small bulk export for this slice, and the paged pull is
-  bounded and deterministic given a fixed release.
+  bounded and deterministic given a fixed release. ``--chembl-drugs`` adds a second
+  paged pull over named molecules, which is what gives the layer any DRUG entities
+  at all.
 
 Neither path takes a list of targets of interest: the snapshot is built over the
 whole upstream slice so that resolution does not depend on what was asked for.
@@ -33,10 +35,12 @@ from bve.se.ontology.records import SourceEntityRecord, SourceProvenance
 from bve.se.ontology.snapshot import OntologySnapshot
 from bve.se.ontology.sources.chembl import SOURCE_NAME as CHEMBL_SOURCE
 from bve.se.ontology.sources.chembl import parse_chembl_target
+from bve.se.ontology.sources.chembl_drug import parse_chembl_molecule
 from bve.se.ontology.sources.open_targets import SOURCE_NAME as OPEN_TARGETS_SOURCE
 from bve.se.ontology.sources.open_targets import parse_open_targets_target
 
 CHEMBL_BASE_URL = "https://www.ebi.ac.uk/chembl/api/data/target.json"
+CHEMBL_MOLECULE_URL = "https://www.ebi.ac.uk/chembl/api/data/molecule.json"
 CHEMBL_STATUS_URL = "https://www.ebi.ac.uk/chembl/api/data/status.json"
 _USER_AGENT = "bve-se-ontology-builder"
 
@@ -103,26 +107,73 @@ def fetch_chembl_records(
     ``opener`` is injected so tests exercise paging without network access.
     """
 
+    return _page_chembl(
+        CHEMBL_BASE_URL,
+        collection="targets",
+        filters={"target_type": "SINGLE PROTEIN", "organism": "Homo sapiens"},
+        parse=parse_chembl_target,
+        limit=limit,
+        max_records=max_records,
+        opener=opener,
+    )
+
+
+def fetch_chembl_molecules(
+    *,
+    limit: int = 1000,
+    max_records: int | None = None,
+    opener: Callable[[str], Any] = urllib.request.urlopen,
+) -> tuple[list[SourceEntityRecord], str]:
+    """Page ChEMBL for named molecules.
+
+    ``pref_name__isnull=false`` is the whole filter, and it is a large cut: ChEMBL holds
+    ~2.9M structures but only ~49k named compounds. The unnamed remainder has no string
+    a trial registry or company filing could ever match, so excluding it costs no
+    reachable identity while keeping the pull bounded. Like the target pull, this asks
+    for the whole slice rather than a list of drugs of interest, so what resolves does
+    not depend on what was searched for.
+    """
+
+    return _page_chembl(
+        CHEMBL_MOLECULE_URL,
+        collection="molecules",
+        filters={
+            "pref_name__isnull": "false",
+            # Molecule rows carry structure, bioactivity and property blocks the parser
+            # never reads. Asking only for the identity fields keeps a page small enough
+            # to read reliably; a full page of 1000 whole records times out.
+            "only": ",".join(
+                ("molecule_chembl_id", "pref_name", "molecule_synonyms", "molecule_structures")
+            ),
+        },
+        parse=parse_chembl_molecule,
+        limit=limit,
+        max_records=max_records,
+        opener=opener,
+    )
+
+
+def _page_chembl(
+    url: str,
+    *,
+    collection: str,
+    filters: dict[str, str],
+    parse: Callable[[dict[str, Any]], SourceEntityRecord | None],
+    limit: int,
+    max_records: int | None,
+    opener: Callable[[str], Any],
+) -> tuple[list[SourceEntityRecord], str]:
     records: list[SourceEntityRecord] = []
     offset = 0
     while True:
-        query = urllib.parse.urlencode(
-            {
-                "limit": limit,
-                "offset": offset,
-                "target_type": "SINGLE PROTEIN",
-                "organism": "Homo sapiens",
-            }
-        )
-        request = urllib.request.Request(
-            f"{CHEMBL_BASE_URL}?{query}", headers={"User-Agent": _USER_AGENT}
-        )
+        query = urllib.parse.urlencode({"limit": limit, "offset": offset, **filters})
+        request = urllib.request.Request(f"{url}?{query}", headers={"User-Agent": _USER_AGENT})
         with opener(request) as response:  # type: ignore[arg-type]
             payload = json.loads(response.read().decode("utf-8"))
 
-        page = payload.get("targets") or []
+        page = payload.get(collection) or []
         for row in page:
-            record = parse_chembl_target(row)
+            record = parse(row)
             if record is not None:
                 records.append(record)
 
@@ -142,6 +193,7 @@ def build_snapshot(
     open_targets_dir: Path | None = None,
     open_targets_release: str | None = None,
     chembl_release: str | None = None,
+    chembl_drugs: bool = False,
     chembl_limit: int = 1000,
     chembl_max_records: int | None = None,
     opener: Callable[[str], Any] = urllib.request.urlopen,
@@ -186,13 +238,25 @@ def build_snapshot(
         parsed, digest = fetch_chembl_records(
             limit=chembl_limit, max_records=chembl_max_records, opener=opener
         )
+        locator = CHEMBL_BASE_URL
+        if chembl_drugs:
+            # Targets and molecules come from one release of one service, so they share a
+            # single provenance entry. Recording them as two ``chembl`` sources would put
+            # the release token in the ontology version twice and imply they could drift
+            # apart, which they cannot.
+            molecules, molecule_digest = fetch_chembl_molecules(
+                limit=chembl_limit, max_records=chembl_max_records, opener=opener
+            )
+            parsed = parsed + molecules
+            digest = _digest([digest, molecule_digest])
+            locator = f"{CHEMBL_BASE_URL},{CHEMBL_MOLECULE_URL}"
         records.extend(parsed)
         sources.append(
             SourceProvenance(
                 source=CHEMBL_SOURCE,
                 release=release,
                 retrieved_at=retrieved,
-                locator=CHEMBL_BASE_URL,
+                locator=locator,
                 digest=digest,
                 record_count=len(parsed),
             )
@@ -214,6 +278,11 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--open-targets-dir", type=Path, help="Downloaded Open Targets target export")
     parser.add_argument("--open-targets-release", help="Open Targets release, e.g. 26.06")
     parser.add_argument("--chembl-release", help="ChEMBL release to record, e.g. 37; enables the API pull")
+    parser.add_argument(
+        "--chembl-drugs",
+        action="store_true",
+        help="Also pull named ChEMBL molecules as DRUG entities",
+    )
     parser.add_argument("--chembl-limit", type=int, default=1000, help="ChEMBL page size")
     parser.add_argument("--chembl-max-records", type=int, help="Stop after this many ChEMBL records")
     parser.add_argument(
@@ -239,6 +308,7 @@ def main(argv: list[str] | None = None) -> int:
         open_targets_dir=args.open_targets_dir,
         open_targets_release=args.open_targets_release,
         chembl_release=args.chembl_release,
+        chembl_drugs=args.chembl_drugs,
         chembl_limit=args.chembl_limit,
         chembl_max_records=args.chembl_max_records,
         verify_release=not args.skip_release_check,

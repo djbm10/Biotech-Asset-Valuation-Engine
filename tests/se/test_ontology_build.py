@@ -8,7 +8,13 @@ from io import BytesIO
 
 import pytest
 
-from bve.se.ontology.build import build_open_targets_records, build_snapshot, fetch_chembl_records
+from bve.se.ontology.build import (
+    build_open_targets_records,
+    build_snapshot,
+    fetch_chembl_molecules,
+    fetch_chembl_records,
+)
+from bve.se.ontology.records import EntityType
 from bve.se.ontology.resolver import BiomedicalEntityResolver
 
 OPEN_TARGETS_ROWS = [
@@ -127,6 +133,46 @@ class TestChemblPaging:
         assert len(records) == 2
 
 
+class TestChemblMoleculePaging:
+    def test_named_molecules_are_pulled_as_drug_entities(self) -> None:
+        opener = _paging_opener(
+            [
+                {
+                    "molecules": [
+                        {"molecule_chembl_id": "CHEMBL4297858", "pref_name": "BUDIGALIMAB"}
+                    ],
+                    "page_meta": {"next": "/next"},
+                },
+                {
+                    "molecules": [
+                        {"molecule_chembl_id": "CHEMBL3137343", "pref_name": "PEMBROLIZUMAB"}
+                    ],
+                    "page_meta": {"next": None},
+                },
+            ]
+        )
+        records, _ = fetch_chembl_molecules(limit=1, opener=opener)
+        assert [record.source_id for record in records] == ["CHEMBL4297858", "CHEMBL3137343"]
+        assert {record.entity_type for record in records} == {EntityType.DRUG}
+
+    def test_unnamed_structures_do_not_enter_the_snapshot(self) -> None:
+        # The filter is server-side, but a null ``pref_name`` still reaches the parser on
+        # occasion; it must not become a nameless DRUG entity nothing can ever match.
+        opener = _paging_opener(
+            [
+                {
+                    "molecules": [
+                        {"molecule_chembl_id": "CHEMBL1", "pref_name": None},
+                        {"molecule_chembl_id": "CHEMBL2", "pref_name": "ASPIRIN"},
+                    ],
+                    "page_meta": {"next": None},
+                }
+            ]
+        )
+        records, _ = fetch_chembl_molecules(limit=10, opener=opener)
+        assert [record.source_id for record in records] == ["CHEMBL2"]
+
+
 class TestSnapshotAssembly:
     def test_release_is_required_to_pin_the_version(self, tmp_path) -> None:
         _write_shard(tmp_path / "ot", OPEN_TARGETS_ROWS)
@@ -186,3 +232,57 @@ class TestSnapshotAssembly:
         assert snapshot.ontology_version == "chembl_36__open_targets_26.06__resolver_v1"
         # The ChEMBL row joins the Open Targets row on Q15116 rather than adding an entity.
         assert len(BiomedicalEntityResolver(snapshot).entities()) == 2
+
+    def test_drugs_and_targets_share_one_chembl_provenance_entry(self) -> None:
+        # One release of one service, so one provenance row: two would put the release
+        # token in the ontology version twice and imply the halves could drift apart.
+        opener = _paging_opener(
+            [
+                {
+                    "targets": [
+                        {
+                            "target_chembl_id": "CHEMBL3307223",
+                            "target_type": "SINGLE PROTEIN",
+                            "target_components": [
+                                {"accession": "Q15116", "target_component_synonyms": []}
+                            ],
+                        }
+                    ],
+                    "page_meta": {"next": None},
+                },
+                {
+                    "molecules": [
+                        {"molecule_chembl_id": "CHEMBL4297858", "pref_name": "BUDIGALIMAB"}
+                    ],
+                    "page_meta": {"next": None},
+                },
+            ]
+        )
+        snapshot, _ = build_snapshot(
+            chembl_release="37",
+            chembl_drugs=True,
+            opener=opener,
+            retrieved_at=date(2026, 8, 15),
+            verify_release=False,
+        )
+        assert snapshot.ontology_version == "chembl_37__resolver_v1"
+        assert [source.source for source in snapshot.sources] == ["chembl"]
+        assert snapshot.sources[0].record_count == 2
+        assert {record.entity_type for record in snapshot.records} == {
+            EntityType.TARGET,
+            EntityType.DRUG,
+        }
+
+    def test_drugs_are_opt_in(self) -> None:
+        # A target-only build must not start issuing a second network pull implicitly.
+        opener = _paging_opener(
+            [{"targets": [], "page_meta": {"next": None}}]
+        )
+        snapshot, _ = build_snapshot(
+            chembl_release="37",
+            opener=opener,
+            retrieved_at=date(2026, 8, 15),
+            verify_release=False,
+        )
+        assert len(opener.calls) == 1  # type: ignore[attr-defined]
+        assert snapshot.records == []
