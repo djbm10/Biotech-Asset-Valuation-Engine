@@ -7,10 +7,18 @@ import json
 import subprocess
 import sys
 import uuid
+from contextlib import nullcontext
 from pathlib import Path
 
 import yaml  # type: ignore[import-untyped]
 
+from bve.se.discovery.custody import CustodyError
+from bve.se.discovery.replay import (
+    ReplayTrialsGovAdapter,
+    SealedCorpusReplay,
+    block_network,
+    replay_pubmed_adapter,
+)
 from bve.se.discovery.adapters import (
     ClinicalTrialsGovAdapter,
     IndexedDocumentAdapter,
@@ -122,6 +130,36 @@ def build_parser() -> argparse.ArgumentParser:
         ),
     )
     parser.add_argument(
+        "--run-id",
+        help=(
+            "Immutable identity for this run. Defaults to a fresh uuid; pass one to tie a "
+            "sealed acquisition and its replay to the same declared run."
+        ),
+    )
+    parser.add_argument(
+        "--custody-root",
+        help=(
+            "Seal the acquisition into this directory between discovery and identity: "
+            "query attempts, query->record mapping, ledger, source health, corpus "
+            "manifest and a validated seal. Downstream stages do not run unless it "
+            "validates. The directory must not already exist or must be empty; a sealed "
+            "acquisition is immutable."
+        ),
+    )
+    parser.add_argument(
+        "--custody-pins",
+        help="JSON file of frozen-input pins to record in the sealed corpus manifest",
+    )
+    parser.add_argument(
+        "--replay-corpus",
+        help=(
+            "Replay a sealed acquisition offline. Each semantic query is served the "
+            "records that query actually received, from the sealed mapping -- not the "
+            "union of the snapshot tree, which is what made the previous --offline path "
+            "unable to reproduce a run. Network access is blocked for the whole run."
+        ),
+    )
+    parser.add_argument(
         "--progress",
         action="store_true",
         help=(
@@ -150,7 +188,18 @@ def main(argv: list[str] | None = None) -> int:
     problem = BuyerProblemV2.model_validate(yaml.safe_load(Path(args.problem).read_text()))
     source_index = (yaml.safe_load(Path(args.source_index).read_text()) or {}) if args.source_index else {}
     url_index = (yaml.safe_load(Path(args.url_index).read_text()) or {}) if args.url_index else {}
-    if args.offline:
+    if args.replay_corpus and args.offline:
+        parser.error(
+            "--replay-corpus supersedes --offline; pass only the sealed corpus. The "
+            "snapshot-union --offline path cannot reproduce a run's query membership."
+        )
+    if args.replay_corpus:
+        replay = SealedCorpusReplay(Path(args.replay_corpus))
+        ct_adapter = ReplayTrialsGovAdapter(replay, snapshot_root=Path(args.snapshot_dir))
+        pubmed_adapter = replay_pubmed_adapter(
+            replay, snapshot_root=Path(args.pubmed_snapshot_dir)
+        )
+    elif args.offline:
         ct_records = _load_json_snapshots(Path(args.snapshot_dir))
 
         def ct_search(**_kwargs):
@@ -212,22 +261,35 @@ def main(argv: list[str] | None = None) -> int:
         for source_name in _MANDATORY_SOURCES
         if source_name not in configured_indexed_names
     ]
+    pins = json.loads(Path(args.custody_pins).read_text()) if args.custody_pins else None
+    # A replayed run is offline by construction; the guard makes a regression in that
+    # construction fatal rather than silently live.
+    network_guard = block_network() if args.replay_corpus else nullcontext()
     try:
-        result = run_landscape_search(
-            problem,
-            [
-                ct_adapter,
-                pubmed_adapter,
-                *indexed_adapters,
-                *url_adapters,
-                *unavailable_adapters,
-            ],
-            run_id=f"se:{uuid.uuid4()}",
-            code_version=_code_version(),
-            normalization_version="cd19_bcma_v1+t_cell_engager_v1",
-            declared_mandatory_sources=_MANDATORY_SOURCES,
-            telemetry=StageTelemetry(emit=stderr_emitter if args.progress else None),
-        )
+        with network_guard:
+            result = run_landscape_search(
+                problem,
+                [
+                    ct_adapter,
+                    pubmed_adapter,
+                    *indexed_adapters,
+                    *url_adapters,
+                    *unavailable_adapters,
+                ],
+                run_id=args.run_id or f"se:{uuid.uuid4()}",
+                code_version=_code_version(),
+                normalization_version="cd19_bcma_v1+t_cell_engager_v1",
+                declared_mandatory_sources=_MANDATORY_SOURCES,
+                telemetry=StageTelemetry(emit=stderr_emitter if args.progress else None),
+                custody_root=Path(args.custody_root) if args.custody_root else None,
+                custody_pins=pins,
+            )
+    except CustodyError as exc:
+        # The custody boundary did not validate, so nothing downstream ran. This is the
+        # structural prohibition, reported as its own exit code so a harness cannot
+        # mistake it for an ordinary incomplete run.
+        print(f"ERROR: acquisition custody boundary failed: {exc}", file=sys.stderr)
+        return 5
     except AmbiguousTargetError as exc:
         # A clarification request, not a crash. The ontology knows this string and knows
         # it is not enough; the useful answer is the list of things it could mean.

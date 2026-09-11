@@ -8,8 +8,15 @@ from collections.abc import Iterable, Sequence
 from datetime import datetime, timezone
 from typing import Protocol
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
+from bve.se.discovery.custody import (
+    AcquisitionCustody,
+    QueryAttemptRecord,
+    RecordMaterialization,
+    query_hash,
+    semantic_query_id,
+)
 from bve.se.discovery.query import compile_problem_queries
 from bve.se.ontology.targets import NO_SNAPSHOT_VERSION, ontology_version
 from bve.se.schemas.contracts import (
@@ -33,6 +40,13 @@ class AdapterResult(BaseModel):
     discovered_aliases: list[str] = Field(default_factory=list)
     follow_up_queries: list[str] = Field(default_factory=list)
     source_documents: list[SourceDocument] = Field(default_factory=list)
+    #: Every record this attempt pulled down and wrote to the snapshot store, reported
+    #: even when the attempt failed. A failure that materialized bytes before dying still
+    #: owns those bytes; omitting them is what turned 94 of B7's CT.gov snapshots into
+    #: orphans that no attempt could explain.
+    materializations: list[RecordMaterialization] = Field(default_factory=list)
+    #: Transport pages consumed by this attempt, for the custody record.
+    pages_fetched: int = 0
 
 
 class SourceAdapter(Protocol):
@@ -44,10 +58,28 @@ class SourceAdapter(Protocol):
 
 
 class DiscoveryResult(BaseModel):
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+
     hits: list[CandidateHit]
     attempts: list[SearchAttempt]
     manifest: RunManifest
     source_documents: list[SourceDocument] = Field(default_factory=list)
+    #: Every attempt this run made, retries and superseded attempts included, ready to be
+    #: committed at the custody boundary before any downstream stage begins.
+    custody: AcquisitionCustody | None = None
+
+
+def _mark_superseded(records: list[QueryAttemptRecord]) -> None:
+    """Point every superseded attempt at the attempt that replaced it."""
+
+    accepted = next((r.attempt_number for r in records if r.accepted), None)
+    if accepted is None:
+        return
+    for index, record in enumerate(records):
+        if not record.accepted:
+            records[index] = record.model_copy(
+                update={"superseded_by_attempt": accepted}
+            )
 
 
 def _stable_id(prefix: str, *parts: str) -> str:
@@ -100,8 +132,13 @@ class DiscoveryOrchestrator:
         self.retry_backoff_seconds = retry_backoff_seconds
 
     def _search_with_retry(
-        self, adapter: SourceAdapter, query: CompiledQuery, as_of_date
-    ) -> tuple["AdapterResult", int]:
+        self,
+        adapter: SourceAdapter,
+        query: CompiledQuery,
+        as_of_date,
+        *,
+        pass_number: int,
+    ) -> tuple["AdapterResult", int, list[QueryAttemptRecord]]:
         """Issue one query, retrying that query rather than surrendering its source.
 
         A timeout on a single broad facet is a transport event, not evidence that CT.gov
@@ -112,16 +149,49 @@ class DiscoveryOrchestrator:
         """
 
         result = AdapterResult(outcome=SearchOutcome.FAILED, error="no attempt made")
+        records: list[QueryAttemptRecord] = []
+        sqid = semantic_query_id(adapter.source_name, query.query)
         for attempt in range(1, self.query_attempts + 1):
+            error_class: str | None = None
+            started = datetime.now(timezone.utc)
             try:
                 result = adapter.search(query, as_of_date=as_of_date)
+                if result.outcome is SearchOutcome.FAILED:
+                    error_class = "AdapterReportedFailure"
             except Exception as exc:  # adapters are an external boundary
                 result = AdapterResult(outcome=SearchOutcome.FAILED, error=str(exc))
+                error_class = type(exc).__name__
+            # Recorded before the retry decision, so a superseded attempt's bytes stay
+            # attributable to the attempt that fetched them.
+            records.append(
+                QueryAttemptRecord(
+                    source=adapter.source_name,
+                    semantic_query_id=sqid,
+                    query_text=query.query,
+                    query_hash=query_hash(query.query),
+                    pass_number=pass_number,
+                    attempt_number=attempt,
+                    started_at=started,
+                    completed_at=datetime.now(timezone.utc),
+                    outcome=result.outcome,
+                    accepted=False,
+                    error=result.error,
+                    error_class=error_class,
+                    pages_fetched=result.pages_fetched,
+                    materializations=list(result.materializations),
+                )
+            )
             if result.outcome is not SearchOutcome.FAILED:
-                return result, attempt
+                records[-1] = records[-1].model_copy(update={"accepted": True})
+                _mark_superseded(records)
+                return result, attempt, records
             if attempt < self.query_attempts:
                 time.sleep(self.retry_backoff_seconds * (2 ** (attempt - 1)))
-        return result, self.query_attempts
+        # Every attempt failed: the last one is what the run consumed, so it is the
+        # accepted record even though it failed.
+        records[-1] = records[-1].model_copy(update={"accepted": True})
+        _mark_superseded(records)
+        return result, self.query_attempts, records
 
     def run(
         self,
@@ -146,6 +216,7 @@ class DiscoveryOrchestrator:
         source_documents: dict[str, SourceDocument] = {}
         zero_growth_passes = 0
         limit_reason: str | None = None
+        custody = AcquisitionCustody(run_id)
 
         for pass_number in range(1, self.max_passes + 1):
             pass_queries = list({query.query: query for query in queue}.values())
@@ -171,9 +242,10 @@ class DiscoveryOrchestrator:
                         break
                     seen_queries.add(key)
                     started = datetime.now(timezone.utc)
-                    result, attempts_made = self._search_with_retry(
-                        adapter, query, problem.buyer.as_of_date
+                    result, attempts_made, attempt_records = self._search_with_retry(
+                        adapter, query, problem.buyer.as_of_date, pass_number=pass_number
                     )
+                    custody.extend(attempt_records)
                     previous_outcome = source_status.get(adapter.source_name)
                     source_status[adapter.source_name] = _aggregate_source_outcome(
                         previous_outcome, result.outcome
@@ -379,6 +451,7 @@ class DiscoveryOrchestrator:
             attempts=attempts,
             manifest=manifest,
             source_documents=list(source_documents.values()),
+            custody=custody,
         )
 
 

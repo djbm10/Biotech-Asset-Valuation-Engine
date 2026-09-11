@@ -3,10 +3,12 @@
 from __future__ import annotations
 
 import json
-from typing import Sequence
+from pathlib import Path
+from typing import Mapping, Sequence
 
 from pydantic import BaseModel, Field
 
+from bve.se.discovery.custody_boundary import seal_acquisition
 from bve.se.discovery.orchestrator import DiscoveryOrchestrator, SourceAdapter
 from bve.se.evidence.clinicaltrials import ClinicalTrialsEvidenceExtractor
 from bve.se.evidence.entailment import EntailmentResult, check_structured_entailment
@@ -130,6 +132,8 @@ def run_landscape_search(
     declared_mandatory_sources: Sequence[str] | None = None,
     comparative_profiles: Sequence[PairwiseProfile] | None = None,
     telemetry: StageTelemetry | None = None,
+    custody_root: Path | None = None,
+    custody_pins: Mapping[str, object] | None = None,
 ) -> SESearchResult:
     # A run with no telemetry records nothing and prints nothing, so the default
     # behaviour of every existing caller is unchanged.
@@ -158,6 +162,25 @@ def run_landscape_search(
             telemetry.emit(
                 f"  {source}: {counts['queries']} queries | {counts['records']} records "
                 f"| {counts['candidates']} candidates | {counts['failed']} failed"
+            )
+
+    if custody_root is not None:
+        # The custody boundary, not a checkpoint: seal_acquisition raises on any failure,
+        # so IDENTITY is structurally unreachable from an unsealed or unvalidated corpus.
+        with telemetry.stage("ACQUISITION") as stage:
+            seal = seal_acquisition(
+                discovery.custody,
+                discovery.manifest,
+                custody_root,
+                mandatory_sources=declared_mandatory_sources or (),
+                pins=custody_pins,
+            )
+            stage.count(
+                records=seal.record_count,
+                snapshots=seal.snapshot_count,
+                attempts=seal.attempt_count,
+                semantic_queries=seal.semantic_query_count,
+                orphans=seal.orphan_record_count,
             )
 
     with telemetry.stage("IDENTITY") as stage:

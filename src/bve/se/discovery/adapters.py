@@ -12,6 +12,7 @@ from datetime import date, datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from bve.se.discovery.custody import RecordMaterialization
 from bve.se.discovery.orchestrator import AdapterResult
 from bve.se.ontology.modality import (
     known_modalities,
@@ -498,6 +499,19 @@ CTGOV_EXTRACTOR = "clinicaltrials_v2"
 CTGOV_EXTRACTOR_VERSION = "1"
 
 
+class TrialAcquisitionFailure(RuntimeError):
+    """A provider fetch that failed *after* it had already pulled payloads down.
+
+    The payloads travel with the exception so the failing attempt can still declare what
+    it materialized. A bare ``RuntimeError`` here is what let B7 write 94 CT.gov snapshots
+    that no attempt record could account for.
+    """
+
+    def __init__(self, message: str, *, partial_payloads: list[dict[str, Any]]) -> None:
+        super().__init__(message)
+        self.partial_payloads = partial_payloads
+
+
 class ClinicalTrialsGovAdapter:
     """Discover trial programs and sponsors from a trial universe provider.
 
@@ -591,7 +605,17 @@ class ClinicalTrialsGovAdapter:
             extractor_version=CTGOV_EXTRACTOR_VERSION,
         )
         if result.outcome is SearchOutcome.FAILED:
-            raise RuntimeError(result.error or f"{result.backend} fetch failed")
+            # Carry whatever the provider had already pulled down. Those payloads are
+            # on disk whether or not this attempt survives, so the custody record has to
+            # be able to name them; dropping them here is what created B7's 94 orphans.
+            raise TrialAcquisitionFailure(
+                result.error or f"{result.backend} fetch failed",
+                partial_payloads=[
+                    record.raw_payload
+                    for record in result.records
+                    if isinstance(record.raw_payload, dict)
+                ],
+            )
         payloads: list[dict[str, Any]] = []
         for record in result.records:
             kind = record.snapshot.payload_kind if record.snapshot else None
@@ -648,13 +672,39 @@ class ClinicalTrialsGovAdapter:
             self._materialized[nct_id] = entry
         return entry
 
+    def _materialization_of(self, protocol: dict[str, Any]) -> RecordMaterialization:
+        """Custody record for one protocol: which record became which bytes on disk."""
+
+        nct_id = (protocol.get("identificationModule") or {}).get("nctId")
+        _, digest, path_value, _ = self._materialize(protocol)
+        return RecordMaterialization(
+            record_id=nct_id or f"sha256:{digest}",
+            snapshot_id=f"snapshot:{digest}",
+            content_hash=digest,
+            snapshot_path=path_value,
+        )
+
     def search(self, query: CompiledQuery, *, as_of_date: date) -> AdapterResult:
         vocabulary = QueryVocabulary.for_query(query)
         try:
             protocols = self._acquire(vocabulary, query, as_of_date)
+        except TrialAcquisitionFailure as exc:
+            # The attempt died, but it owns the bytes it wrote. Report them so the retry
+            # that supersedes it cannot turn them into unexplained orphans.
+            return AdapterResult(
+                outcome=SearchOutcome.FAILED,
+                error=str(exc),
+                materializations=[
+                    self._materialization_of(protocol) for protocol in exc.partial_payloads
+                ],
+                pages_fetched=self.last_page_count,
+            )
         except Exception as exc:
-            return AdapterResult(outcome=SearchOutcome.FAILED, error=str(exc))
+            return AdapterResult(
+                outcome=SearchOutcome.FAILED, error=str(exc), pages_fetched=self.last_page_count
+            )
 
+        materializations: list[RecordMaterialization] = []
         hits: list[CandidateHit] = []
         snapshots: list[str] = []
         source_documents: list[SourceDocument] = []
@@ -666,6 +716,15 @@ class ClinicalTrialsGovAdapter:
             )
             snapshot_id = f"snapshot:{snapshot_digest}"
             snapshots.append(snapshot_id)
+            materializations.append(
+                RecordMaterialization(
+                    record_id=(protocol.get("identificationModule") or {}).get("nctId")
+                    or f"sha256:{snapshot_digest}",
+                    snapshot_id=snapshot_id,
+                    content_hash=snapshot_digest,
+                    snapshot_path=snapshot_path_value,
+                )
+            )
             if not _matches_follow_up(query, serialized):
                 continue
             protocol_targets = vocabulary.targets_in(lower)
@@ -756,6 +815,8 @@ class ClinicalTrialsGovAdapter:
             discovered_aliases=sorted(aliases),
             follow_up_queries=sorted(follow_ups),
             source_documents=list({doc.document_id: doc for doc in source_documents}.values()),
+            materializations=list({m.record_id: m for m in materializations}.values()),
+            pages_fetched=self.last_page_count,
         )
 
 
@@ -839,6 +900,7 @@ class PubMedDiscoveryAdapter:
         hits: list[CandidateHit] = []
         documents: list[SourceDocument] = []
         snapshots: list[str] = []
+        materializations: list[RecordMaterialization] = []
         for record in records:
             serialized = json.dumps(record, sort_keys=True)
             snapshot_content = json.dumps(record, indent=2, sort_keys=True) + "\n"
@@ -853,6 +915,14 @@ class PubMedDiscoveryAdapter:
                     path.write_text(snapshot_content)
                 path_value = str(path)
             pmid = str(record.get("pmid", ""))
+            materializations.append(
+                RecordMaterialization(
+                    record_id=pmid or f"sha256:{digest}",
+                    snapshot_id=snapshot_id,
+                    content_hash=digest,
+                    snapshot_path=path_value,
+                )
+            )
             title = str(record.get("title", ""))
             abstract = str(record.get("abstract", ""))
             text = f"{title} {abstract}".casefold()
@@ -899,6 +969,7 @@ class PubMedDiscoveryAdapter:
             outcome=SearchOutcome.SUCCESS if records else SearchOutcome.NO_EVIDENCE_FOUND,
             snapshot_ids=list(dict.fromkeys(snapshots)),
             source_documents=list({doc.document_id: doc for doc in documents}.values()),
+            materializations=list({m.record_id: m for m in materializations}.values()),
         )
 
 
