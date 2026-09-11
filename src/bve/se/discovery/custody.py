@@ -177,6 +177,11 @@ class LedgerEntry(StrictModel):
     #: the run wrote but deliberately never interpreted, such as a trial excluded by the
     #: as-of cutoff. A declared exclusion, not a lost record.
     admitted: bool = True
+    #: Other byte-sets this same record was materialized as during the run, when the
+    #: upstream registry updated it between two requests. ``content_hash`` names the
+    #: representative version; these name the rest, so every file on disk is still
+    #: attributable to a record without consulting the attempt stream.
+    other_content_hashes: list[str] = Field(default_factory=list)
 
     @property
     def is_orphan(self) -> bool:
@@ -314,6 +319,7 @@ class AcquisitionCustody:
         seen: dict[str, RecordMaterialization] = {}
         sources: dict[str, str] = {}
         admitted: set[str] = set()
+        variants: dict[str, list[str]] = {}
 
         for attempt in self._attempts:
             for materialization in attempt.materializations:
@@ -321,6 +327,11 @@ class AcquisitionCustody:
                 seen.setdefault(key, materialization)
                 sources.setdefault(key, attempt.source)
                 counts[key] = counts.get(key, 0) + 1
+                # A long sweep can be served two different byte-sets for one record when
+                # the registry updates it mid-run. Both are on disk, so both are named.
+                hashes = variants.setdefault(key, [])
+                if materialization.content_hash not in hashes:
+                    hashes.append(materialization.content_hash)
                 if materialization.admitted:
                     admitted.add(key)
                     # Prefer an admitted materialization as the ledger's reference, so an
@@ -359,6 +370,9 @@ class AcquisitionCustody:
                     accepted_by_queries=sorted(accepted_queries.get(key, [])),
                     materialized_by_attempts=counts[key],
                     admitted=key in admitted,
+                    other_content_hashes=sorted(
+                        h for h in variants[key] if h != materialization.content_hash
+                    ),
                 )
             )
         return entries
@@ -571,9 +585,22 @@ def unexplained_snapshots(
     A retry is allowed to supersede an attempt. It is not allowed to leave bytes behind
     that no record explains -- that is precisely the B7 orphan condition, and the custody
     boundary exists to make it detectable instead of invisible.
+
+    Attribution is checked against every attempt's materializations, not against the
+    ledger. The ledger is deduplicated by ``(source, record_id)`` and so names one hash
+    per record, but a long sweep can legitimately fetch one record twice and receive two
+    different byte-sets, because the upstream registry updated it between the two
+    requests. Both versions were materialized, both were interpreted by the attempt that
+    saw them, and both are named in the attempt records -- so checking the ledger alone
+    reports honestly-held bytes as orphans and buries the real signal.
     """
 
     sealed_hashes = {entry.content_hash for entry in sealed.ledger}
+    sealed_hashes.update(
+        materialization.content_hash
+        for attempt in sealed.attempts
+        for materialization in attempt.materializations
+    )
     unexplained: list[str] = []
     for root in snapshot_roots:
         root = Path(root)

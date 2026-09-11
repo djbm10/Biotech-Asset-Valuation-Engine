@@ -13,6 +13,7 @@ unexplained snapshot, and that replay *reproduces* membership rather than re-der
 
 from __future__ import annotations
 
+import hashlib
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -20,7 +21,12 @@ import pytest
 import yaml
 
 from bve.se.discovery.custody import (
+    AcquisitionCustody,
     CustodyError,
+    QueryAttemptRecord,
+    RecordMaterialization,
+    query_hash,
+    semantic_query_id,
     unexplained_snapshots,
     validate_seal,
 )
@@ -525,3 +531,71 @@ def _read_health(custody_root: Path) -> dict:
     import json
 
     return json.loads((custody_root / "source_health.json").read_text())
+
+
+class TestOneRecordTwoByteVersions:
+    """An upstream record updated between two requests in the same sweep.
+
+    Both byte-sets were materialized and both are on disk. The ledger is deduplicated by
+    record, so it names one; the other has to stay attributable anyway, or a routine
+    registry edit during a two-hour sweep looks identical to a custody bug.
+    """
+
+    def _attempt(self, digest: str, path: Path, attempt_number: int) -> QueryAttemptRecord:
+        now = datetime.now(timezone.utc)
+        return QueryAttemptRecord(
+            source="clinicaltrials_gov",
+            semantic_query_id=semantic_query_id("clinicaltrials_gov", "q"),
+            query_text="q",
+            query_hash=query_hash("q"),
+            pass_number=1,
+            attempt_number=attempt_number,
+            started_at=now,
+            completed_at=now,
+            outcome=SearchOutcome.SUCCESS,
+            accepted=True,
+            materializations=[
+                RecordMaterialization(
+                    record_id="NCT00000001",
+                    snapshot_id=f"snapshot:{digest}",
+                    content_hash=digest,
+                    snapshot_path=str(path),
+                )
+            ],
+        )
+
+    def _write(self, root: Path, body: str) -> tuple[str, Path]:
+        root.mkdir(parents=True, exist_ok=True)
+        digest = hashlib.sha256(body.encode()).hexdigest()
+        path = root / f"{digest}.json"
+        path.write_text(body)
+        return digest, path
+
+    def test_both_versions_stay_attributable(self, tmp_path: Path) -> None:
+        snapshots = tmp_path / "snapshots"
+        first = self._write(snapshots, '{"v": 1}\n')
+        second = self._write(snapshots, '{"v": 2}\n')
+
+        custody = AcquisitionCustody(run_id="run:variants")
+        custody.record_attempt(self._attempt(*first, attempt_number=1))
+        custody.record_attempt(
+            self._attempt(*second, attempt_number=1).model_copy(
+                update={"pass_number": 2}
+            )
+        )
+
+        ledger = custody.build_ledger()
+        assert len(ledger) == 1, "one record, however many byte-versions of it arrived"
+        entry = ledger[0]
+        assert entry.materialized_by_attempts == 2
+        assert entry.other_content_hashes == [
+            h for h in (first[0], second[0]) if h != entry.content_hash
+        ]
+
+        # Attribution is checked against the attempts, which name every version.
+        custody.seal(
+            tmp_path / "custody", source_health={"run_id": "run:variants"},
+            corpus_manifest={"run_id": "run:variants"},
+        )
+        sealed = validate_seal(tmp_path / "custody")
+        assert unexplained_snapshots(sealed, [snapshots]) == []
