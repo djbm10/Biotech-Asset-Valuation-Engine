@@ -35,6 +35,7 @@ from bve.se.discovery.adapters import (
 from bve.se.discovery.custody import (
     CustodyError,
     QueryAttemptRecord,
+    RecordMaterialization,
     SealedAcquisition,
     semantic_query_id,
     validate_seal,
@@ -114,10 +115,28 @@ class SealedCorpusReplay:
         return pending.popleft()
 
     def payloads(self, attempt: QueryAttemptRecord) -> list[dict[str, Any]]:
-        """The attempt's materialized records, hash-verified, in materialization order."""
+        """What the attempt handed to interpretation, hash-verified, in order."""
 
+        return self._load(attempt, attempt.admitted)
+
+    def withheld_payloads(self, attempt: QueryAttemptRecord) -> list[dict[str, Any]]:
+        """Bytes the attempt wrote and then declined to interpret (as-of cutoff).
+
+        Replay has to re-declare them, or the replayed ledger would describe a snapshot
+        tree different from the one the seal describes.
+        """
+
+        return self._load(
+            attempt, [m for m in attempt.materializations if not m.admitted]
+        )
+
+    def _load(
+        self,
+        attempt: QueryAttemptRecord,
+        materializations: list[RecordMaterialization],
+    ) -> list[dict[str, Any]]:
         payloads: list[dict[str, Any]] = []
-        for materialization in attempt.materializations:
+        for materialization in materializations:
             if materialization.snapshot_path is None:
                 raise ReplayDivergence(
                     f"{attempt.source}: record {materialization.record_id} was sealed "
@@ -158,6 +177,7 @@ class ReplayTrialsGovAdapter(ClinicalTrialsGovAdapter):
         attempt = self._replay.next_attempt(self.source_name, query.query)
         self.last_page_count = attempt.pages_fetched
         payloads = self._replay.payloads(attempt)
+        self.withheld_payloads = self._replay.withheld_payloads(attempt)
         if attempt.outcome is SearchOutcome.FAILED:
             # A failed attempt that had already written bytes must fail the same way and
             # still declare the same bytes, or replay would quietly heal B7's bug.

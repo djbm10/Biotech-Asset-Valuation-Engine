@@ -8,8 +8,13 @@ from typing import Mapping, Sequence
 
 from pydantic import BaseModel, Field
 
+from bve.se.discovery.custody import CorpusSeal
 from bve.se.discovery.custody_boundary import seal_acquisition
-from bve.se.discovery.orchestrator import DiscoveryOrchestrator, SourceAdapter
+from bve.se.discovery.orchestrator import (
+    DiscoveryOrchestrator,
+    DiscoveryResult,
+    SourceAdapter,
+)
 from bve.se.evidence.clinicaltrials import ClinicalTrialsEvidenceExtractor
 from bve.se.evidence.entailment import EntailmentResult, check_structured_entailment
 from bve.se.evidence.ledger import EvidenceLedger
@@ -122,7 +127,7 @@ _STAGE_BY_ORDER = {
 }
 
 
-def run_landscape_search(
+def run_acquisition(
     problem: BuyerProblemV2,
     adapters: Sequence[SourceAdapter],
     *,
@@ -130,14 +135,18 @@ def run_landscape_search(
     code_version: str,
     normalization_version: str,
     declared_mandatory_sources: Sequence[str] | None = None,
-    comparative_profiles: Sequence[PairwiseProfile] | None = None,
-    telemetry: StageTelemetry | None = None,
+    telemetry: StageTelemetry,
     custody_root: Path | None = None,
     custody_pins: Mapping[str, object] | None = None,
-) -> SESearchResult:
-    # A run with no telemetry records nothing and prints nothing, so the default
-    # behaviour of every existing caller is unchanged.
-    telemetry = telemetry or StageTelemetry()
+) -> tuple[DiscoveryResult, CorpusSeal | None]:
+    """Discover, then seal. Nothing here interprets what was acquired.
+
+    Separated from the stages that follow so an expensive scientific run can be split at
+    the custody boundary: acquire once against live sources, then run everything
+    downstream from the sealed bytes as many times as it takes. A downstream crash must
+    never be a reason to touch a live source again.
+    """
+
     with telemetry.stage("DISCOVERY") as stage:
         discovery = DiscoveryOrchestrator(
             adapters,
@@ -164,6 +173,7 @@ def run_landscape_search(
                 f"| {counts['candidates']} candidates | {counts['failed']} failed"
             )
 
+    seal: CorpusSeal | None = None
     if custody_root is not None:
         # The custody boundary, not a checkpoint: seal_acquisition raises on any failure,
         # so IDENTITY is structurally unreachable from an unsealed or unvalidated corpus.
@@ -182,6 +192,36 @@ def run_landscape_search(
                 semantic_queries=seal.semantic_query_count,
                 orphans=seal.orphan_record_count,
             )
+    return discovery, seal
+
+
+def run_landscape_search(
+    problem: BuyerProblemV2,
+    adapters: Sequence[SourceAdapter],
+    *,
+    run_id: str,
+    code_version: str,
+    normalization_version: str,
+    declared_mandatory_sources: Sequence[str] | None = None,
+    comparative_profiles: Sequence[PairwiseProfile] | None = None,
+    telemetry: StageTelemetry | None = None,
+    custody_root: Path | None = None,
+    custody_pins: Mapping[str, object] | None = None,
+) -> SESearchResult:
+    # A run with no telemetry records nothing and prints nothing, so the default
+    # behaviour of every existing caller is unchanged.
+    telemetry = telemetry or StageTelemetry()
+    discovery, _ = run_acquisition(
+        problem,
+        adapters,
+        run_id=run_id,
+        code_version=code_version,
+        normalization_version=normalization_version,
+        declared_mandatory_sources=declared_mandatory_sources,
+        telemetry=telemetry,
+        custody_root=custody_root,
+        custody_pins=custody_pins,
+    )
 
     with telemetry.stage("IDENTITY") as stage:
         # Target attribution is per-asset and evidence-backed. It is deliberately built

@@ -279,6 +279,12 @@ class TrialUniverseResult(StrictModel):
     #: True when ``max_records`` cut the result short, so a caller can report an
     #: incomplete universe instead of silently claiming coverage.
     truncated: bool = False
+    #: Records the backend materialized -- snapshotted, on disk -- and then declined to
+    #: return, because the as-of cutoff excluded them. They are not part of the universe
+    #: and must not be interpreted, but their bytes exist, so acquisition custody has to
+    #: be able to name them. Omitting them is what leaves a snapshot tree with files no
+    #: query can explain.
+    withheld_records: list[TrialRecord] = Field(default_factory=list)
 
     @property
     def snapshot_ids(self) -> list[str]:

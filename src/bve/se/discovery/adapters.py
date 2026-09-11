@@ -556,6 +556,10 @@ class ClinicalTrialsGovAdapter:
         self.trial_universe: TrialUniverseProvenance | None = None
         #: Pages consumed by the most recent acquisition, for the per-query ledger.
         self.last_page_count: int = 0
+        #: Payloads the most recent acquisition wrote to disk but excluded from the
+        #: universe, carried out of ``_acquire`` for the custody record rather than
+        #: returned, so that no caller can mistake them for evidence.
+        self.withheld_payloads: list[dict[str, Any]] = []
 
     def _acquire(
         self, vocabulary: QueryVocabulary, query: CompiledQuery, as_of_date: date
@@ -569,6 +573,7 @@ class ClinicalTrialsGovAdapter:
         rewrite of code that already works.
         """
 
+        self.withheld_payloads = []
         facets = vocabulary.query_facets() or (
             tuple(query.aliases or query.target_ids),
         )
@@ -616,6 +621,13 @@ class ClinicalTrialsGovAdapter:
                     if isinstance(record.raw_payload, dict)
                 ],
             )
+        # Materialized by the provider and then excluded by the as-of cutoff. Never
+        # interpreted, always named: these are bytes on disk that no query admitted.
+        self.withheld_payloads = [
+            record.raw_payload
+            for record in result.withheld_records
+            if isinstance(record.raw_payload, dict)
+        ]
         payloads: list[dict[str, Any]] = []
         for record in result.records:
             kind = record.snapshot.payload_kind if record.snapshot else None
@@ -807,6 +819,15 @@ class ClinicalTrialsGovAdapter:
                     follow_ups.add(intervention)
             if sponsor:
                 aliases.add(sponsor)
+        admitted_ids = {m.record_id for m in materializations}
+        for protocol in self.withheld_payloads:
+            # Snapshotted by the provider, then excluded by the as-of cutoff. Named here
+            # so the bytes are accounted for; ``admitted=False`` keeps them out of the
+            # membership replay has to reproduce.
+            withheld = self._materialization_of(protocol)
+            if withheld.record_id in admitted_ids:
+                continue
+            materializations.append(withheld.model_copy(update={"admitted": False}))
         outcome = SearchOutcome.SUCCESS if protocols else SearchOutcome.NO_EVIDENCE_FOUND
         return AdapterResult(
             hits=hits,

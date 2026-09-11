@@ -94,6 +94,13 @@ class RecordMaterialization(StrictModel):
     snapshot_id: str
     content_hash: str
     snapshot_path: str | None = None
+    #: False when the record was materialized but deliberately not handed to
+    #: interpretation -- the CT.gov provider writes a snapshot for every study it
+    #: normalizes and only then applies the as-of cutoff, so a trial updated after the
+    #: as-of date leaves bytes on disk that the run correctly refused to look at. Keeping
+    #: them named and marked is the difference between a declared exclusion and an
+    #: unexplained file.
+    admitted: bool = True
 
 
 class QueryAttemptRecord(StrictModel):
@@ -120,12 +127,20 @@ class QueryAttemptRecord(StrictModel):
     materializations: list[RecordMaterialization] = Field(default_factory=list)
 
     @property
+    def admitted(self) -> list[RecordMaterialization]:
+        """What this attempt handed to interpretation, in order."""
+
+        return [m for m in self.materializations if m.admitted]
+
+    @property
     def record_ids(self) -> list[str]:
-        return [m.record_id for m in self.materializations]
+        """Admitted membership. This is what replay has to reproduce."""
+
+        return [m.record_id for m in self.admitted]
 
     @property
     def snapshot_ids(self) -> list[str]:
-        return list(dict.fromkeys(m.snapshot_id for m in self.materializations))
+        return list(dict.fromkeys(m.snapshot_id for m in self.admitted))
 
 
 class QueryRecordMapping(StrictModel):
@@ -158,10 +173,20 @@ class LedgerEntry(StrictModel):
     accepted_by_queries: list[str] = Field(default_factory=list)
     #: Every attempt that materialized it, accepted or not.
     materialized_by_attempts: int = Field(default=0, ge=0)
+    #: False when every attempt that materialized this record also withheld it -- bytes
+    #: the run wrote but deliberately never interpreted, such as a trial excluded by the
+    #: as-of cutoff. A declared exclusion, not a lost record.
+    admitted: bool = True
 
     @property
     def is_orphan(self) -> bool:
-        return not self.accepted_by_queries
+        """Materialized, admitted, and yet claimed by no accepted query.
+
+        Withheld records are excluded: they are accounted for by construction, and
+        counting them as orphans would bury the one case that signals a custody bug.
+        """
+
+        return self.admitted and not self.accepted_by_queries
 
 
 class CorpusSeal(StrictModel):
@@ -180,6 +205,9 @@ class CorpusSeal(StrictModel):
     attempt_count: int = Field(ge=0)
     semantic_query_count: int = Field(ge=0)
     orphan_record_count: int = Field(ge=0)
+    #: Records written to disk but never handed to interpretation. Expected and benign;
+    #: reported so the count is never confused with ``orphan_record_count``.
+    withheld_record_count: int = Field(default=0, ge=0)
     source_counts: dict[str, int] = Field(default_factory=dict)
 
     def digest(self) -> str:
@@ -285,6 +313,7 @@ class AcquisitionCustody:
         counts: dict[str, int] = {}
         seen: dict[str, RecordMaterialization] = {}
         sources: dict[str, str] = {}
+        admitted: set[str] = set()
 
         for attempt in self._attempts:
             for materialization in attempt.materializations:
@@ -292,7 +321,12 @@ class AcquisitionCustody:
                 seen.setdefault(key, materialization)
                 sources.setdefault(key, attempt.source)
                 counts[key] = counts.get(key, 0) + 1
-                if attempt.accepted:
+                if materialization.admitted:
+                    admitted.add(key)
+                    # Prefer an admitted materialization as the ledger's reference, so an
+                    # entry that was ever admitted is not described by a withheld copy.
+                    seen[key] = materialization
+                if attempt.accepted and materialization.admitted:
                     accepted_queries.setdefault(key, [])
                     if attempt.semantic_query_id not in accepted_queries[key]:
                         accepted_queries[key].append(attempt.semantic_query_id)
@@ -324,6 +358,7 @@ class AcquisitionCustody:
                     snapshot_path=str(path),
                     accepted_by_queries=sorted(accepted_queries.get(key, [])),
                     materialized_by_attempts=counts[key],
+                    admitted=key in admitted,
                 )
             )
         return entries
@@ -389,6 +424,7 @@ class AcquisitionCustody:
                 attempt_count=len(self._attempts),
                 semantic_query_count=len({m.semantic_query_id for m in mappings}),
                 orphan_record_count=sum(1 for entry in ledger if entry.is_orphan),
+                withheld_record_count=sum(1 for entry in ledger if not entry.admitted),
                 source_counts=source_counts,
             )
             (staging / SEAL_FILE).write_text(

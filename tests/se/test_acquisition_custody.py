@@ -87,6 +87,13 @@ LEAKED_PROTOCOL = _protocol(
     "NCT00000099", "FXB-999 a CD19 bispecific T-cell engager, partial fetch only"
 )
 
+#: Snapshotted by the backend and then excluded by the as-of cutoff. The bytes are on
+#: disk and no query admits the record, which is the second way B7 grew files nothing
+#: could explain.
+WITHHELD_PROTOCOL = _protocol(
+    "NCT00000077", "FXB-777 a CD19 bispecific T-cell engager updated after the cutoff"
+)
+
 
 def _record(protocol: dict) -> TrialRecord:
     return TrialRecord(
@@ -111,8 +118,13 @@ class FixtureProvider:
 
     backend_name = "fixture"
 
-    def __init__(self, *, flaky: bool = False, leak: bool = False) -> None:
+    def __init__(
+        self, *, flaky: bool = False, leak: bool = False, withhold: bool = False
+    ) -> None:
         self.flaky = flaky
+        #: When set, every successful fetch also reports a record it materialized and then
+        #: excluded, the way the CT.gov backend does for a post-cutoff update.
+        self.withhold = withhold
         #: When set, the failed attempt materializes a record no later attempt accepts —
         #: a record whose only explanation is an attempt that was superseded.
         self.leak = leak
@@ -137,6 +149,9 @@ class FixtureProvider:
         matched = self._matched(query)
         return TrialUniverseResult(
             records=matched,
+            withheld_records=(
+                [_record(WITHHELD_PROTOCOL)] if self.withhold and matched else []
+            ),
             outcome=SearchOutcome.SUCCESS if matched else SearchOutcome.NO_EVIDENCE_FOUND,
             backend=self.backend_name,
         )
@@ -155,10 +170,18 @@ class FixtureProvider:
         ]
 
 
-def _live_run(tmp_path: Path, *, flaky: bool, leak: bool = False, run_id: str = "run:live"):
+def _live_run(
+    tmp_path: Path,
+    *,
+    flaky: bool,
+    leak: bool = False,
+    withhold: bool = False,
+    run_id: str = "run:live",
+):
     snapshots = tmp_path / "snapshots"
     adapter = ClinicalTrialsGovAdapter(
-        provider=FixtureProvider(flaky=flaky, leak=leak), snapshot_root=snapshots
+        provider=FixtureProvider(flaky=flaky, leak=leak, withhold=withhold),
+        snapshot_root=snapshots,
     )
     result = run_landscape_search(
         _problem(),
@@ -259,6 +282,43 @@ class TestRetryLeavesNoOrphan:
         assert orphans[0].materialized_by_attempts >= 1
         # Still fully explained: the file traces to the attempt that fetched it.
         assert unexplained_snapshots(sealed, [tmp_path / "snapshots"]) == []
+
+
+class TestCutoffExcludedRecordsStayAccounted:
+    """The second orphan mechanism: bytes written before the as-of cutoff is applied.
+
+    The CT.gov backend snapshots every study it normalizes and only then asks whether the
+    query admits it, so a trial updated after the as-of date leaves a file that no accepted
+    query can claim. Declaring it withheld is the difference between a stated exclusion and
+    an unexplained file; admitting it would silently widen the universe the run scored.
+    """
+
+    def test_withheld_record_is_named_but_not_admitted(self, tmp_path: Path) -> None:
+        _live_run(tmp_path, flaky=False, withhold=True)
+        sealed = validate_seal(tmp_path / "custody")
+
+        withheld = [entry for entry in sealed.ledger if not entry.admitted]
+        assert [entry.record_id for entry in withheld] == ["NCT00000077"]
+        assert sealed.seal.withheld_record_count == 1
+        # Named, so not an orphan; not admitted, so not part of the universe.
+        assert sealed.seal.orphan_record_count == 0
+        assert "NCT00000077" not in {
+            record_id for attempt in sealed.attempts for record_id in attempt.record_ids
+        }
+        assert unexplained_snapshots(sealed, [tmp_path / "snapshots"]) == []
+
+    def test_replay_reproduces_the_withheld_disposition(self, tmp_path: Path) -> None:
+        live, snapshots = _live_run(tmp_path, flaky=False, withhold=True)
+        replayed, replay = _replay_run(
+            tmp_path, tmp_path / "custody", snapshots, run_id="run:live"
+        )
+
+        assert _signature(replayed) == _signature(live)
+        assert replay.unconsumed() == {}
+        live_seal = validate_seal(tmp_path / "custody").seal
+        replay_seal = validate_seal(tmp_path / "custody_replay").seal
+        assert replay_seal.withheld_record_count == live_seal.withheld_record_count
+        assert replay_seal.universe_hash == live_seal.universe_hash
 
 
 class TestSealIsFailClosed:

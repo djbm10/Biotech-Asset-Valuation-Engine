@@ -246,6 +246,26 @@ class TestClinicalTrialsGovBackend:
         assert result.records == []
         assert result.outcome is SearchOutcome.NO_EVIDENCE_FOUND
 
+    def test_a_cutoff_excluded_record_is_reported_as_withheld(self, tmp_path):
+        """Its bytes are already written when the cutoff is applied, so it must be named.
+
+        The snapshot happens during normalization, before ``query.applies``; dropping the
+        record silently leaves a file in the snapshot tree that no query explains.
+        """
+
+        def search_fn(**_kwargs):
+            return [CTGOV_STUDY["protocolSection"]]
+
+        provider = ClinicalTrialsGovProvider(search_fn, snapshot_root=tmp_path)
+        result = provider.fetch(TrialQuery(terms=["PDCD1"], as_of_date=date(2026, 1, 1)))
+        assert result.records == []
+        assert [record.trial_id for record in result.withheld_records] == [
+            CTGOV_STUDY["protocolSection"]["identificationModule"]["nctId"]
+        ]
+        written = list(tmp_path.glob("*.json"))
+        assert len(written) == 1
+        assert result.withheld_records[0].snapshot.snapshot_path == str(written[0])
+
     def test_records_carry_a_snapshot_reference(self, tmp_path):
         def search_fn(**_kwargs):
             return [CTGOV_STUDY["protocolSection"]]

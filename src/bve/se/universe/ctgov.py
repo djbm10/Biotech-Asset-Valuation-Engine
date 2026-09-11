@@ -224,6 +224,7 @@ class ClinicalTrialsGovProvider:
         self.last_page_count = len(pages)
 
         records: list[TrialRecord] = []
+        withheld: list[TrialRecord] = []
         seen: set[str] = set()
         truncated = False
         for protocol in protocols:
@@ -252,11 +253,14 @@ class ClinicalTrialsGovProvider:
                 }
             )
             if not query.applies(record):
+                # Snapshotted above, then excluded: the bytes exist and stay attributable.
+                withheld.append(record)
                 continue
             records.append(record)
 
         return TrialUniverseResult(
             records=records,
+            withheld_records=withheld,
             outcome=SearchOutcome.SUCCESS if records else SearchOutcome.NO_EVIDENCE_FOUND,
             backend=self.backend_name,
             backend_version=BACKEND_VERSION,

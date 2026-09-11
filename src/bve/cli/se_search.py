@@ -27,7 +27,7 @@ from bve.se.discovery.adapters import (
     UrlDocumentAdapter,
 )
 from bve.se.discovery.query import AmbiguousTargetError
-from bve.se.pipeline import run_landscape_search
+from bve.se.pipeline import run_acquisition, run_landscape_search
 from bve.se.reporting.memo import render_search_memo
 from bve.se.schemas.contracts import BuyerProblemV2, RunStatus
 from bve.se.telemetry import StageTelemetry, stderr_emitter
@@ -147,6 +147,16 @@ def build_parser() -> argparse.ArgumentParser:
         ),
     )
     parser.add_argument(
+        "--acquire-only",
+        action="store_true",
+        help=(
+            "Stop at the custody boundary: acquire, seal, validate, and exit. Requires "
+            "--custody-root. Everything downstream then runs from the sealed bytes with "
+            "--replay-corpus, so a crash in extraction or scoring is never a reason to "
+            "touch a live source again."
+        ),
+    )
+    parser.add_argument(
         "--custody-pins",
         help="JSON file of frozen-input pins to record in the sealed corpus manifest",
     )
@@ -261,26 +271,74 @@ def main(argv: list[str] | None = None) -> int:
         for source_name in _MANDATORY_SOURCES
         if source_name not in configured_indexed_names
     ]
+    if args.acquire_only and not args.custody_root:
+        parser.error("--acquire-only requires --custody-root; there is nothing to stop at")
     pins = json.loads(Path(args.custody_pins).read_text()) if args.custody_pins else None
     # A replayed run is offline by construction; the guard makes a regression in that
     # construction fatal rather than silently live.
     network_guard = block_network() if args.replay_corpus else nullcontext()
+    adapters = [
+        ct_adapter,
+        pubmed_adapter,
+        *indexed_adapters,
+        *url_adapters,
+        *unavailable_adapters,
+    ]
+    run_id = args.run_id or f"se:{uuid.uuid4()}"
+    telemetry = StageTelemetry(emit=stderr_emitter if args.progress else None)
+    if args.acquire_only:
+        try:
+            with network_guard:
+                discovery, seal = run_acquisition(
+                    problem,
+                    adapters,
+                    run_id=run_id,
+                    code_version=_code_version(),
+                    normalization_version="cd19_bcma_v1+t_cell_engager_v1",
+                    declared_mandatory_sources=_MANDATORY_SOURCES,
+                    telemetry=telemetry,
+                    custody_root=Path(args.custody_root),
+                    custody_pins=pins,
+                )
+        except CustodyError as exc:
+            print(f"ERROR: acquisition custody boundary failed: {exc}", file=sys.stderr)
+            return 5
+        summary = {
+            "run_id": run_id,
+            "custody_root": args.custody_root,
+            "seal": seal.model_dump(mode="json") if seal is not None else None,
+            "run_manifest": discovery.manifest.model_dump(mode="json"),
+        }
+        rendered = json.dumps(summary, indent=2)
+        if args.output:
+            Path(args.output).write_text(rendered + "\n")
+        else:
+            sys.stdout.write(rendered + "\n")
+        # The same fail-closed rule as a full run: a failed mandatory source means an
+        # unknown share of the universe is missing, and sealing it does not make it whole.
+        if discovery.manifest.fatal_reasons:
+            print(
+                "ERROR: S&E acquisition FAILED; this corpus is UNSCOREABLE.",
+                file=sys.stderr,
+            )
+            for reason in discovery.manifest.fatal_reasons:
+                print(f"  - {reason}", file=sys.stderr)
+            return 3
+        if discovery.manifest.status != RunStatus.CONVERGED and not args.allow_incomplete:
+            print("ERROR: S&E discovery is INCOMPLETE.", file=sys.stderr)
+            return 2
+        return 0
+
     try:
         with network_guard:
             result = run_landscape_search(
                 problem,
-                [
-                    ct_adapter,
-                    pubmed_adapter,
-                    *indexed_adapters,
-                    *url_adapters,
-                    *unavailable_adapters,
-                ],
-                run_id=args.run_id or f"se:{uuid.uuid4()}",
+                adapters,
+                run_id=run_id,
                 code_version=_code_version(),
                 normalization_version="cd19_bcma_v1+t_cell_engager_v1",
                 declared_mandatory_sources=_MANDATORY_SOURCES,
-                telemetry=StageTelemetry(emit=stderr_emitter if args.progress else None),
+                telemetry=telemetry,
                 custody_root=Path(args.custody_root) if args.custody_root else None,
                 custody_pins=pins,
             )
