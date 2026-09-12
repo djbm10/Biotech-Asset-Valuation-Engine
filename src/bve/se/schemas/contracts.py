@@ -188,6 +188,41 @@ class CandidateTargetAssertion(StrictModel):
     supporting_associations: list[TargetEvidenceRef] = Field(default_factory=list)
 
 
+class SourceEvidenceType(str, Enum):
+    """What a source document is being read as saying.
+
+    Company pipelines, filings, press releases and abstracts are written in prose, where
+    "in combination with", a trade name, a platform name and a partner's asset all appear
+    in the same sentence. A source that emits bare names forces the registry to guess
+    which kind of statement it just received; typing the claim at the boundary is what
+    stops "given with pembrolizumab" from arriving in the same shape as "also known as
+    pembrolizumab".
+    """
+
+    #: This document mentions a program worth looking at. Never identity.
+    DISCOVERY_EVIDENCE = "DISCOVERY_EVIDENCE"
+    #: This document states that two names denote the same entity. The only type that may
+    #: even be *considered* for an alias, and still subject to corroboration and veto.
+    IDENTITY_EVIDENCE = "IDENTITY_EVIDENCE"
+    #: What the program is said to act on.
+    TARGET_EVIDENCE = "TARGET_EVIDENCE"
+    #: Phase, IND status, first-in-human, and similar.
+    DEVELOPMENT_STAGE_EVIDENCE = "DEVELOPMENT_STAGE_EVIDENCE"
+    #: Who owns, licenses or sponsors the program.
+    COMPANY_OWNERSHIP_EVIDENCE = "COMPANY_OWNERSHIP_EVIDENCE"
+    #: Designations, approvals, clinical holds.
+    REGULATORY_EVIDENCE = "REGULATORY_EVIDENCE"
+    #: An asserted relationship between two programs that is explicitly not sameness.
+    RELATIONSHIP_EVIDENCE = "RELATIONSHIP_EVIDENCE"
+
+
+#: The evidence types that may take part in an identity decision at all. Everything else
+#: is discovery or context, however confidently a source words it. Enforced in
+#: ``bve.se.resolution.registry``, not merely documented here: a new source family must be
+#: unable to create an alias by wording a discovery claim persuasively.
+IDENTITY_BEARING_EVIDENCE = frozenset({SourceEvidenceType.IDENTITY_EVIDENCE})
+
+
 class CandidateHit(StrictModel):
     """One source-specific mention; not yet a canonical asset assertion."""
 
@@ -206,6 +241,11 @@ class CandidateHit(StrictModel):
     #: classification can consult declared product structure instead of guessing from
     #: punctuation in a name.
     intervention_type: str | None = None
+    #: What kind of statement ``aliases`` is. Defaults to discovery, so a source family
+    #: that does not declare an identity claim cannot produce one: new sources must opt
+    #: in to identity, never inherit it. PubMed, for instance, puts the article title
+    #: here, which is not a name at all.
+    alias_evidence_type: SourceEvidenceType = SourceEvidenceType.DISCOVERY_EVIDENCE
     snippet: str = ""
     provisional_identity_key: str = Field(min_length=1)
     retrieved_at: datetime
@@ -288,6 +328,16 @@ class IdentityRelationship(str, Enum):
     COMBINATION_PARTNER = "COMBINATION_PARTNER"
     #: Observed in the same trial or regimen, with no stronger relationship established.
     COADMINISTERED_WITH = "COADMINISTERED_WITH"
+    #: One name is the antibody or small molecule the other conjugates, e.g. Datopotamab
+    #: within Dato-DXd, or Trastuzumab within T-DM1. A real and useful relationship, and
+    #: emphatically not sameness: the conjugate and its parent are different molecules with
+    #: different targets of effect, so the canonical ids stay distinct.
+    #:
+    #: Added in M12 because M11 had to label these ``COMBINATION_PARTNER``, which got the
+    #: identity decision right and the relationship wrong. Emitted only where an authority
+    #: documents the conjugation; it is never inferred from one name containing the other,
+    #: which would be the same string-shape reasoning the evidence model exists to reject.
+    CONJUGATE_PARENT = "CONJUGATE_PARENT"
     #: Insufficient positive evidence to classify. Held for review, never merged.
     UNCERTAIN_RELATIONSHIP = "UNCERTAIN_RELATIONSHIP"
 
@@ -519,6 +569,48 @@ class SourceDocument(StrictModel):
     snapshot_path: str | None = None
     source_tier: SourceTier
     public_only: bool = True
+
+
+class SourceEvidenceClaim(StrictModel):
+    """One typed statement a source document makes, with the provenance to adjudicate it.
+
+    Provenance is first-class because two sources will disagree -- about targets, codes,
+    ownership and stage -- and resolving that needs to know who said it, in which release,
+    as written, and on what date. ``entity_string_as_written`` is kept unnormalized
+    deliberately: the string a filing used is the evidence, and normalizing it away loses
+    the ability to re-adjudicate later.
+    """
+
+    claim_id: str
+    source_family: str
+    #: The source's own release or version identifier, e.g. an EDGAR accession number or a
+    #: conference abstract-book edition. Distinct from ``retrieved_at``: the same release
+    #: fetched twice must be recognizable as the same evidence.
+    source_release: str | None = None
+    document_id: str
+    document_hash: str
+    retrieved_at: datetime
+    #: When the source says the statement was true, which is not when it was fetched.
+    effective_date: date | None = None
+    entity_string_as_written: str
+    claim_type: SourceEvidenceType
+    claim_value: Any
+    #: The quoted span or the structured field path the claim was read from. One of the two
+    #: must be present, so no claim exists without a way to check it.
+    evidence_span: str | None = None
+    structured_field: str | None = None
+    #: Relative standing of the source family when claims conflict. Higher wins; equal
+    #: ranks are a conflict to record rather than a tie to break silently.
+    authority_rank: int = 0
+
+    @model_validator(mode="after")
+    def _requires_something_to_check(self) -> "SourceEvidenceClaim":
+        if not (self.evidence_span or self.structured_field):
+            raise ValueError(
+                "a claim needs evidence_span or structured_field: an assertion with no"
+                " locatable basis cannot be re-adjudicated"
+            )
+        return self
 
 
 class ExtractedClaim(StrictModel):

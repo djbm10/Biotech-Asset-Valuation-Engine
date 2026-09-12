@@ -9,6 +9,7 @@ from datetime import datetime, timezone
 from typing import Protocol
 
 from bve.se.schemas.contracts import (
+    IDENTITY_BEARING_EVIDENCE,
     CandidateHit,
     CandidateTargetAssertion,
     CanonicalAsset,
@@ -272,6 +273,23 @@ class AssetRegistry:
 
         primary = hit.asset_name or hit.provisional_identity_key
         authority = self._identity_authority
+        # A new source family may expand discovery; it may not bypass the evidence
+        # contract. Claims that are not identity claims are refused before corroboration
+        # is even considered, so a pipeline page or press release cannot mint an alias by
+        # wording a discovery mention persuasively. Ordered first deliberately: this is a
+        # gate on eligibility, not a tie-breaker among rules.
+        if hit.alias_evidence_type not in IDENTITY_BEARING_EVIDENCE:
+            return [
+                (
+                    related,
+                    IdentityRelationship.UNCERTAIN_RELATIONSHIP,
+                    False,
+                    f"{hit.alias_evidence_type.value} is not identity evidence, so this"
+                    " name is not eligible to become an alias",
+                )
+                for related in hit.aliases
+                if related and related.strip()
+            ]
         primary_drug = authority.resolve_drug(primary) if authority else None
         coformulated = (hit.intervention_type or "").upper() in _COFORMULATED_TYPES
 

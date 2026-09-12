@@ -18,7 +18,11 @@ from datetime import date, datetime, timezone
 import pytest
 
 from bve.se.resolution.registry import AssetRegistry
-from bve.se.schemas.contracts import CandidateHit, IdentityRelationship
+from bve.se.schemas.contracts import (
+    CandidateHit,
+    IdentityRelationship,
+    SourceEvidenceType,
+)
 
 
 class FakeAuthority:
@@ -73,6 +77,10 @@ def _hit(
         trial_id=trial,
         aliases=aliases,
         intervention_type=intervention_type,
+        # These fixtures stand in for CT.gov's ``otherNames``, which is an identity claim.
+        # Declaring it is what keeps these tests exercising corroboration and veto rather
+        # than stopping at the M12 eligibility gate.
+        alias_evidence_type=SourceEvidenceType.IDENTITY_EVIDENCE,
         provisional_identity_key=f"|{name}|{trial}",
         retrieved_at=datetime.now(timezone.utc),
         applicable_as_of_date=date(2026, 8, 24),

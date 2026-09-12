@@ -16,7 +16,11 @@ from __future__ import annotations
 from datetime import date, datetime, timezone
 
 from bve.se.resolution.registry import AssetRegistry
-from bve.se.schemas.contracts import CandidateHit, IdentityRelationship
+from bve.se.schemas.contracts import (
+    CandidateHit,
+    IdentityRelationship,
+    SourceEvidenceType,
+)
 
 
 def _hit(
@@ -29,6 +33,9 @@ def _hit(
 ) -> CandidateHit:
     return CandidateHit(
         intervention_type=intervention_type,
+        # Stands in for CT.gov's ``otherNames``: an identity claim, so these tests reach
+        # the corroboration rules instead of stopping at the M12 eligibility gate.
+        alias_evidence_type=SourceEvidenceType.IDENTITY_EVIDENCE,
         hit_id=hit_id,
         source="clinicaltrials_gov",
         source_document_id="doc:1",

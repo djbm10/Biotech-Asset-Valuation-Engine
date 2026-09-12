@@ -34,6 +34,7 @@ from bve.se.schemas.contracts import (
     CompiledQuery,
     SearchOutcome,
     SourceDocument,
+    SourceEvidenceType,
     SourceTier,
     TrialUniverseProvenance,
 )
@@ -894,6 +895,11 @@ class ClinicalTrialsGovAdapter:
                         intervention_type=types_by_intervention.get(
                             _normalized_lookup(intervention)
                         ),
+                        # CT.gov's ``otherNames`` is an identity claim -- an unreliable
+                        # one, which is why it still has to clear corroboration and veto.
+                        # Typing it is what makes the distinction explicit rather than
+                        # implicit in which adapter happened to fill ``aliases``.
+                        alias_evidence_type=SourceEvidenceType.IDENTITY_EVIDENCE,
                         snippet=identification.get("briefTitle", ""),
                         provisional_identity_key=identity_key,
                         retrieved_at=datetime.now(timezone.utc),
