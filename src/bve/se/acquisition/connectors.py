@@ -11,10 +11,12 @@ writes every retrieved document into the :class:`CorpusStore`.
 
 from __future__ import annotations
 
+import json
 import re
 from collections.abc import Callable, Sequence
 from dataclasses import dataclass
 from datetime import date
+from pathlib import Path
 from typing import Any
 
 from bve.se.acquisition.corpus_store import CorpusStore, ParserStatus
@@ -419,10 +421,19 @@ class SecEdgarConnector:
         fetch_fn: Callable[[str], str] | None = None,
         max_documents: int = 25,
         max_searches: int = 60,
+        search_ledger: Path | None = None,
     ) -> None:
         self.search_fn = search_fn or self._live_search
         self.fetch_fn = fetch_fn or self._live_fetch
         self.max_documents = max_documents
+        #: Where the phrase -> hits -> selection trail is written, if anywhere.
+        #:
+        #: The corpus records which 25 filings became evidence. It cannot record why those
+        #: 25 and not others: that depends on how many hits each phrase returned, which the
+        #: as-of filter dropped, and where round-robin selection stopped. Without the trail
+        #: the selection is unreproducible, so a later question about whether a program was
+        #: missed for want of a phrase or for want of budget has no answer.
+        self.search_ledger = search_ledger
         #: A bound on requests made to the source, not on evidence admitted. The alias x
         #: modality product is order 10^3 phrases for one target, which is more traffic than
         #: a public filing search should be asked for when the document budget is 25. The
@@ -475,6 +486,65 @@ class SecEdgarConnector:
         url = f"https://www.sec.gov/Archives/edgar/data/{cik}/{accession}/{document}"
         return url, document
 
+    def _write_search_ledger(
+        self,
+        trail: list[dict[str, Any]],
+        selected: Sequence[dict[str, Any]],
+        by_phrase: Sequence[Sequence[dict[str, Any]]],
+        as_of_date: date,
+    ) -> None:
+        """Record why these documents and not others.
+
+        Two things are unreproducible from the corpus alone: which phrase surfaced a filing,
+        and where the document budget ran out. Both are needed to tell "no filing discusses
+        this program" apart from "a filing does, and the budget stopped one short" -- and
+        those call for opposite responses.
+        """
+
+        if self.search_ledger is None:
+            return
+        origin = {
+            str(hit.get("_id", "")): record["phrase"]
+            for record, phrase_hits in zip(trail, by_phrase, strict=False)
+            for hit in phrase_hits
+        }
+        self.search_ledger.parent.mkdir(parents=True, exist_ok=True)
+        with self.search_ledger.open("w") as handle:
+            handle.write(
+                json.dumps(
+                    {
+                        "record": "summary",
+                        "source_family": self.source_family,
+                        "as_of_date": as_of_date.isoformat(),
+                        "phrases_searched": len(trail),
+                        "max_searches": self.max_searches,
+                        "search_budget_exhausted": len(trail) >= self.max_searches,
+                        "hits_admitted": sum(len(group) for group in by_phrase),
+                        "documents_selected": len(selected),
+                        "selection": "round-robin across phrases in the order asked",
+                    }
+                )
+                + "\n"
+            )
+            for record in trail:
+                handle.write(json.dumps({"record": "phrase", **record}) + "\n")
+            for rank, hit in enumerate(selected):
+                hit_id = str(hit.get("_id", ""))
+                url, _ = self._filing_url(hit)
+                handle.write(
+                    json.dumps(
+                        {
+                            "record": "selected",
+                            "selection_rank": rank,
+                            "hit_id": hit_id,
+                            "source_url": url,
+                            "selected_by_phrase": origin.get(hit_id),
+                            "file_date": hit.get("_source", {}).get("file_date"),
+                        }
+                    )
+                    + "\n"
+                )
+
     def acquire(
         self,
         store: CorpusStore,
@@ -483,6 +553,7 @@ class SecEdgarConnector:
         modality_terms: Sequence[str],
         as_of_date: date,
     ) -> SourceHealth:
+        trail: list[dict[str, Any]] = []
         by_phrase: list[list[dict[str, Any]]] = []
         seen: set[str] = set()
         searched = 0
@@ -493,15 +564,35 @@ class SecEdgarConnector:
                         break
                     searched += 1
                     found: list[dict[str, Any]] = []
+                    returned = withheld_as_of = duplicate = 0
                     for hit in self.search_fn(phrase):
+                        returned += 1
                         hit_id = str(hit.get("_id", ""))
                         if hit_id and hit_id in seen:
+                            duplicate += 1
                             continue
                         if not _filed_by(hit, as_of_date):
+                            withheld_as_of += 1
                             continue
                         seen.add(hit_id)
                         found.append(hit)
                     by_phrase.append(found)
+                    trail.append(
+                        {
+                            "phrase": phrase,
+                            "target": target.canonical_id,
+                            "hits_returned": returned,
+                            "hits_admitted": len(found),
+                            # Counted apart from each other: "the source had nothing for
+                            # this phrase" and "the source had it but after the as-of date"
+                            # are different answers to why a program is absent.
+                            "withheld_after_as_of_date": withheld_as_of,
+                            "already_seen": duplicate,
+                            "admitted_hit_ids": [
+                                str(hit.get("_id", "")) for hit in found
+                            ],
+                        }
+                    )
         except Exception as exc:
             return SourceHealth(
                 source_family=self.source_family,
@@ -510,8 +601,10 @@ class SecEdgarConnector:
                 error=str(exc),
             )
         hits = [hit for phrase_hits in by_phrase for hit in phrase_hits]
+        selected = _round_robin(by_phrase, self.max_documents)
+        self._write_search_ledger(trail, selected, by_phrase, as_of_date)
         parsed = failures = indexed = 0
-        for hit in _round_robin(by_phrase, self.max_documents):
+        for hit in selected:
             url, document = self._filing_url(hit)
             source = hit.get("_source", {})
             display = " ".join(source.get("display_names", []) or [])

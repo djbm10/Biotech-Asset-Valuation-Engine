@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from datetime import date
 
 import pytest
@@ -278,6 +279,64 @@ def test_sec_document_budget_is_spread_across_phrases_not_spent_on_the_first(
         doc.source_url.rsplit("/", 1)[-1].split("_")[0] for doc in store.documents()
     }
     assert phrases == {"p1", "p2", "p3"}
+
+
+def test_sec_search_ledger_records_why_these_documents_and_not_others(tmp_path) -> None:
+    """The corpus records which filings became evidence; it cannot record why those.
+
+    Whether a program is absent because no filing discusses it, because the filing postdates
+    the as-of date, or because the document budget stopped one short are three different
+    findings calling for three different responses, and only the ledger distinguishes them.
+    """
+
+    ledger = tmp_path / "ledger" / "sec_edgar_search.jsonl"
+
+    def fake_search(query: str):
+        return [
+            _edgar_hit(f"{query.count(' ')}_admitted.htm", "2026-07-01"),
+            _edgar_hit(f"{query.count(' ')}_future.htm", "2026-09-01"),
+        ]
+
+    SecEdgarConnector(
+        fake_search,
+        fetch_fn=lambda url: "text",
+        max_documents=1,
+        max_searches=2,
+        search_ledger=ledger,
+    ).acquire(
+        CorpusStore(tmp_path / "corpus"),
+        targets=[TargetQuery("PDCD1", ["PD-1"])],
+        modality_terms=["monoclonal antibody"],
+        as_of_date=AS_OF,
+    )
+
+    records = [json.loads(line) for line in ledger.read_text().splitlines()]
+    summary = records[0]
+    assert summary["phrases_searched"] == 2
+    assert summary["search_budget_exhausted"] is True
+    assert summary["documents_selected"] == 1
+
+    phrases = [record for record in records if record["record"] == "phrase"]
+    assert [record["hits_returned"] for record in phrases] == [2, 2]
+    # The as-of refusal is counted, not silently folded into "the source had nothing".
+    assert [record["withheld_after_as_of_date"] for record in phrases] == [1, 1]
+
+    selected = [record for record in records if record["record"] == "selected"]
+    assert len(selected) == 1
+    assert selected[0]["selected_by_phrase"] == phrases[0]["phrase"]
+    assert selected[0]["file_date"] == "2026-07-01"
+
+
+def test_sec_writes_no_ledger_unless_asked(tmp_path) -> None:
+    SecEdgarConnector(
+        lambda query: [], fetch_fn=lambda url: "", max_searches=1
+    ).acquire(
+        CorpusStore(tmp_path),
+        targets=[TargetQuery("PDCD1", [])],
+        modality_terms=[],
+        as_of_date=AS_OF,
+    )
+    assert not list(tmp_path.glob("*.jsonl"))
 
 
 def test_runner_target_queries_have_no_asset_names() -> None:
