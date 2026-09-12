@@ -241,14 +241,20 @@ def main(argv: list[str] | None = None) -> int:
             snapshot_root=Path(args.snapshot_dir),
         )
         pubmed_adapter = PubMedDiscoveryAdapter(snapshot_root=Path(args.pubmed_snapshot_dir))
+    # Every family the index names, not only the mandatory ones. The mandatory tuple says
+    # which sources a run is *required* to have reached -- it is the completeness contract,
+    # not the admissions list. Filtering the index by it dropped any newly built family
+    # (conference_aacr_bulk, company_press_release_sec_filed) with no error at all: the run
+    # completed, the scores looked plausible, and the tranche under test had contributed
+    # nothing. A silently absent source is the one failure this pipeline must never have.
     indexed_adapters = [
         IndexedDocumentAdapter(
             source_name,
-            source_index[source_name],
+            records,
             snapshot_root=Path(args.snapshot_dir).parent / source_name,
         )
-        for source_name in _MANDATORY_SOURCES
-        if source_name in source_index and source_name != "clinicaltrials_gov"
+        for source_name, records in source_index.items()
+        if source_name != "clinicaltrials_gov"
     ]
     url_adapters = [
         UrlDocumentAdapter(
@@ -257,8 +263,7 @@ def main(argv: list[str] | None = None) -> int:
             snapshot_root=Path(args.snapshot_dir).parent / source_name,
         )
         for source_name, urls in url_index.items()
-        if source_name in _MANDATORY_SOURCES
-        and source_name not in {adapter.source_name for adapter in indexed_adapters}
+        if source_name not in {adapter.source_name for adapter in indexed_adapters}
         and source_name != "clinicaltrials_gov"
     ]
     configured_indexed_names = {

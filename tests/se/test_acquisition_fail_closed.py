@@ -174,6 +174,63 @@ def test_query_attempts_must_be_positive() -> None:
         DiscoveryOrchestrator([_ScriptedAdapter(fail_on="x", failures=0)], query_attempts=0)
 
 
+class TestEverySourceIndexFamilyIsAdmitted:
+    """A family named in the source index must reach the run, mandatory or not.
+
+    The CLI used to build indexed adapters by iterating the mandatory-source tuple, so an
+    index entry for any newly built family was dropped without a warning: the run completed
+    normally and the tranche under test silently contributed zero records. That is worse
+    than a crash, because the resulting score is comparable, plausible, and meaningless.
+    The mandatory tuple is the completeness contract -- which sources a run must have
+    reached -- not the list of sources it is permitted to read.
+    """
+
+    @staticmethod
+    def _adapter_names(tmp_path, index: dict) -> set[str]:
+        from unittest import mock
+
+        from bve.cli import se_search
+
+        problem = tmp_path / "p.yaml"
+        problem.write_text(yaml.safe_dump(_problem().model_dump(mode="json")))
+        index_path = tmp_path / "source_index.yaml"
+        index_path.write_text(yaml.safe_dump(index))
+        seen: dict[str, set[str]] = {}
+
+        def _capture(_problem, adapters, **_kwargs):
+            seen["names"] = {adapter.source_name for adapter in adapters}
+            raise SystemExit(0)
+
+        with mock.patch.object(se_search, "run_landscape_search", _capture):
+            with pytest.raises(SystemExit):
+                se_search.main(
+                    [
+                        "--problem", str(problem),
+                        "--source-index", str(index_path),
+                        "--allow-incomplete",
+                        "--offline",
+                        "--snapshot-dir", str(tmp_path / "snap" / "clinicaltrials_gov"),
+                        "--pubmed-snapshot-dir", str(tmp_path / "snap" / "pubmed"),
+                    ]
+                )
+        return seen["names"]
+
+    def test_a_non_mandatory_family_still_reaches_the_run(self, tmp_path) -> None:
+        record = {"source_url": "https://example.org/a#1", "text": "anti-BCMA abstract"}
+        names = self._adapter_names(tmp_path, {"conference_aacr_bulk": [record]})
+        assert "conference_aacr_bulk" in names, (
+            "a source-index family outside the mandatory tuple was dropped silently"
+        )
+
+    def test_mandatory_families_are_unaffected(self, tmp_path) -> None:
+        record = {"source_url": "https://example.org/b#1", "text": "anti-BCMA abstract"}
+        names = self._adapter_names(tmp_path, {"conference_aacr": [record]})
+        assert "conference_aacr" in names
+        # Still declared and still accounted for: the ones the index does not supply have
+        # to keep arriving as unavailable rather than vanishing from the manifest.
+        assert {"conference_ash", "conference_asco", "conference_eha"} <= names
+
+
 class TestTheCLIRefusesToPromoteAFailedAcquisition:
     """--allow-incomplete waives a declared blind spot; it may not waive a failure."""
 
