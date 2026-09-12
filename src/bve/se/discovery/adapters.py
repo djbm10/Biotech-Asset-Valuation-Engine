@@ -195,6 +195,52 @@ def _word_boundary_pattern(terms: tuple[str, ...]) -> re.Pattern[str]:
     return re.compile(r"\b(?:" + "|".join(re.escape(term) for term in terms) + r")\b")
 
 
+#: Prefix width for the target-term index. Long enough that a window selects few terms,
+#: short enough that the shortest useful gene symbols still bucket.
+_INDEX_PREFIX = 4
+#: Wider key for terms long enough to afford one, so that families of descriptive names
+#: sharing a first word do not collapse into a single bucket.
+_INDEX_LONG_PREFIX = 10
+
+
+@lru_cache(maxsize=8)
+def _target_prefix_index(
+    targets: tuple[tuple[str, tuple[str, ...]], ...],
+) -> tuple[
+    dict[str, tuple[tuple[str, str], ...]],
+    dict[str, tuple[tuple[str, str], ...]],
+    tuple[tuple[str, str], ...],
+]:
+    """``(short-prefix index, long-prefix index, terms too short to bucket)``.
+
+    Memoized on the vocabulary's own terms: the whole-ontology vocabulary is built once
+    per snapshot, so the index behind it is too.
+    """
+
+    buckets: dict[str, list[tuple[str, str]]] = {}
+    long_buckets: dict[str, list[tuple[str, str]]] = {}
+    short_terms: list[tuple[str, str]] = []
+    for canonical, terms in targets:
+        for term in terms:
+            if len(term) < _INDEX_PREFIX:
+                # Includes the empty term, which matches everything. The scan admitted it.
+                short_terms.append((canonical, term))
+            elif len(term) < _INDEX_LONG_PREFIX:
+                buckets.setdefault(term[:_INDEX_PREFIX], []).append((canonical, term))
+            else:
+                # Descriptive names share short prefixes -- thousands of targets begin
+                # "interleukin" -- so a 4-character bucket would hand back most of the
+                # ontology. The wider key keeps those buckets small.
+                long_buckets.setdefault(term[:_INDEX_LONG_PREFIX], []).append(
+                    (canonical, term)
+                )
+    return (
+        {prefix: tuple(entries) for prefix, entries in buckets.items()},
+        {prefix: tuple(entries) for prefix, entries in long_buckets.items()},
+        tuple(short_terms),
+    )
+
+
 @dataclass(frozen=True)
 class QueryVocabulary:
     """The search vocabulary for one compiled query, derived from the ontology.
@@ -274,12 +320,29 @@ class QueryVocabulary:
         )
 
     def targets_in(self, text: str) -> set[str]:
+        """Every target the ontology spells somewhere in ``text``.
+
+        Indexed rather than scanned. The published snapshot carries ~562k terms, and
+        testing each against one record was ~9 seconds a hit -- an extraction stage
+        measured in hours. A term of at least ``_INDEX_PREFIX`` characters can only be a
+        substring if its own first characters appear as a window of the text, so the
+        windows select the few terms worth testing. The surviving ``term in lowered`` is
+        the original check, so the answer is the scan's answer.
+        """
+
         lowered = _fold(text)
-        return {
-            canonical
-            for canonical, terms in self.targets
-            if any(term in lowered for term in terms)
-        }
+        buckets, long_buckets, short_terms = _target_prefix_index(self.targets)
+        found = {canonical for canonical, term in short_terms if term in lowered}
+        for width, index in ((_INDEX_PREFIX, buckets), (_INDEX_LONG_PREFIX, long_buckets)):
+            windows = {
+                lowered[offset : offset + width]
+                for offset in range(len(lowered) - width + 1)
+            }
+            for window in windows & index.keys():
+                for canonical, term in index[window]:
+                    if canonical not in found and term in lowered:
+                        found.add(canonical)
+        return found
 
     def modality_in(self, text: str) -> str | None:
         """Label text with its most specific supported modality.
