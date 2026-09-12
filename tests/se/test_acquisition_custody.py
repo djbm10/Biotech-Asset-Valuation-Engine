@@ -30,13 +30,16 @@ from bve.se.discovery.custody import (
     unexplained_snapshots,
     validate_seal,
 )
+from bve.se.discovery import replay as replay_module
 from bve.se.discovery.replay import (
     NetworkBlocked,
+    OntologyMismatch,
     ReplayDivergence,
     ReplayTrialsGovAdapter,
     SealedCorpusReplay,
     block_network,
 )
+from bve.se.ontology.targets import NO_SNAPSHOT_VERSION, ontology_version
 from bve.se.discovery.adapters import ClinicalTrialsGovAdapter, UnavailableSourceAdapter
 from bve.se.pipeline import run_landscape_search
 from bve.se.schemas.contracts import BuyerProblemV2, RunStatus, SearchOutcome
@@ -413,6 +416,47 @@ class TestOfflineReplayReproducesTheRun:
 
         with pytest.raises(ReplayDivergence):
             adapter._acquire(None, _Query(), datetime.now(timezone.utc).date())
+
+    def test_replay_under_a_different_ontology_is_refused(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """The defect this closes: the ontology resolver fails *open*.
+
+        An unset (or working-directory-relative, hence misdirected) snapshot path yields
+        an unexpanded vocabulary instead of an error. The failure is silent whenever the
+        narrower vocabulary still happens to hash to a recorded query, and a silent one
+        scores a different scientific question under the sealed run's name.
+        """
+
+        _live_run(tmp_path, flaky=False)
+        monkeypatch.setattr(replay_module, "ontology_version", lambda: "some_other_ontology_v9")
+        with pytest.raises(OntologyMismatch, match="ontology mismatch"):
+            SealedCorpusReplay(tmp_path / "custody")
+
+    def test_refusal_names_the_snapshot_variable_when_no_ontology_resolved(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        _live_run(tmp_path, flaky=False)
+        monkeypatch.setattr(
+            replay_module, "ontology_version", lambda: f"{NO_SNAPSHOT_VERSION}__modality_v2"
+        )
+        with pytest.raises(OntologyMismatch, match="BVE_SE_ONTOLOGY_SNAPSHOT"):
+            SealedCorpusReplay(tmp_path / "custody")
+
+    def test_an_ontology_mismatch_is_a_replay_divergence(
+        self, tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+    ) -> None:
+        """Callers already treat divergence as fatal; this must not need new handling."""
+
+        _live_run(tmp_path, flaky=False)
+        monkeypatch.setattr(replay_module, "ontology_version", lambda: "other")
+        with pytest.raises(ReplayDivergence):
+            SealedCorpusReplay(tmp_path / "custody")
+
+    def test_replay_under_the_sealed_ontology_is_admitted(self, tmp_path: Path) -> None:
+        _live_run(tmp_path, flaky=False)
+        replay = SealedCorpusReplay(tmp_path / "custody")
+        assert replay.sealed_ontology_version == ontology_version()
 
     def test_network_is_blocked_during_replay(self, tmp_path: Path) -> None:
         with block_network():

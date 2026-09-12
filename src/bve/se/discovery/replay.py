@@ -33,6 +33,7 @@ from bve.se.discovery.adapters import (
     TrialAcquisitionFailure,
 )
 from bve.se.discovery.custody import (
+    CORPUS_MANIFEST_FILE,
     CustodyError,
     QueryAttemptRecord,
     RecordMaterialization,
@@ -40,6 +41,7 @@ from bve.se.discovery.custody import (
     semantic_query_id,
     validate_seal,
 )
+from bve.se.ontology.targets import NO_SNAPSHOT_VERSION, ontology_version
 from bve.se.schemas.contracts import SearchOutcome
 
 
@@ -48,6 +50,21 @@ class ReplayDivergence(CustodyError):
 
     Always fatal. A replay that improvises an answer for an unrecorded query is a replay
     that cannot be used to prove anything about the run it claims to reproduce.
+    """
+
+
+class OntologyMismatch(ReplayDivergence):
+    """The ontology loaded in this process is not the one the corpus was sealed with.
+
+    This is a subclass of :class:`ReplayDivergence` because it is the same failure one
+    step earlier: the queries a different ontology expands are different queries, so the
+    replay would either abort on an unrecorded query or -- worse, when the difference
+    happens not to change any query text -- score a different scientific question under
+    the sealed run's name.
+
+    It has to be checked rather than inferred, because the resolver fails *open*: an
+    unset or misdirected ``BVE_SE_ONTOLOGY_SNAPSHOT`` path yields
+    :data:`NO_SNAPSHOT_VERSION` and an unexpanded vocabulary instead of an error.
     """
 
 
@@ -97,10 +114,53 @@ class SealedCorpusReplay:
         #: Validation happens here, not at first use: a mutated corpus must fail before
         #: any stage has had the chance to consume part of it.
         self.sealed: SealedAcquisition = validate_seal(self.custody_root)
+        #: Only after the seal verifies: the manifest is one of the sealed files, so the
+        #: version read here is the one the acquisition committed to, not a later edit.
+        self.sealed_ontology_version = self._require_matching_ontology()
         self._pending: dict[tuple[str, str], deque[QueryAttemptRecord]] = {}
         for attempt in self.sealed.attempts:
             key = (attempt.source, attempt.semantic_query_id)
             self._pending.setdefault(key, deque()).append(attempt)
+
+    def _require_matching_ontology(self) -> str:
+        """Return the sealed ontology version, or refuse to replay at all.
+
+        The invariant is equality, not "a snapshot is installed". A corpus sealed with no
+        snapshot at all is legitimate -- the orchestrator declares it as a blind spot --
+        and replaying it in an equally snapshot-free process still reproduces the queries
+        it actually issued. What is never admissible is the *mismatch*, in either
+        direction, because the alias expansion is part of the query.
+
+        A manifest naming no version at all is a different case, and refused: that is the
+        corpus for which the question has no answer rather than the answer "none".
+        """
+
+        manifest_path = self.custody_root / CORPUS_MANIFEST_FILE
+        try:
+            manifest = json.loads(manifest_path.read_text())
+        except (OSError, json.JSONDecodeError) as exc:  # pragma: no cover - seal checked it
+            raise OntologyMismatch(f"{manifest_path}: unreadable corpus manifest: {exc}") from exc
+
+        sealed = manifest.get("ontology_version")
+        if not isinstance(sealed, str) or not sealed:
+            raise OntologyMismatch(
+                f"{manifest_path}: corpus manifest states no ontology version ({sealed!r}); "
+                "whether this replay uses the sealed vocabulary cannot be established"
+            )
+
+        running = ontology_version()
+        if running != sealed:
+            hint = (
+                " -- the resolver found no snapshot, so BVE_SE_ONTOLOGY_SNAPSHOT is unset or "
+                "points somewhere else; note its default is relative to the working directory"
+                if running.startswith(NO_SNAPSHOT_VERSION)
+                else ""
+            )
+            raise OntologyMismatch(
+                f"ontology mismatch: corpus sealed under {sealed!r}, this process loaded "
+                f"{running!r}{hint}"
+            )
+        return sealed
 
     def next_attempt(self, source: str, query_text: str) -> QueryAttemptRecord:
         """The next recorded attempt for this source and query, or a fatal divergence."""
