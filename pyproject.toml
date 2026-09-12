@@ -38,6 +38,11 @@ platform = [
 
 dev = ["pytest>=7", "pytest-cov", "ruff", "mypy"]
 
+# Only the source families that publish bulk proceedings as PDF need this, so it stays an
+# extra and the connector imports it lazily: an engine that cannot read a PDF should fail
+# on that one family, not on import.
+pdf = ["pypdf>=5.0"]
+
 extract = [
     "anthropic>=0.25",
     "openai>=1.30",

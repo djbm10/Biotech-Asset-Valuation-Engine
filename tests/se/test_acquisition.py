@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import json
 from datetime import date
 
@@ -8,6 +9,8 @@ import yaml
 
 from bve.se.acquisition.connectors import (
     CONFERENCE_VENUES,
+    AacrBulkProceedingsConnector,
+    BulkArtifact,
     ClinicalTrialsGovConnector,
     CrossrefConferenceConnector,
     DeclaredUrlConnector,
@@ -252,6 +255,118 @@ def test_crossref_one_mechanism_covers_every_declared_venue(tmp_path) -> None:
         )
         families.append(store.documents()[0].source_family)
     assert families == ["conference_asco", "conference_aacr", "conference_ash"]
+
+
+#: Two abstracts in the shape the real proceedings PDF prints them: a session header with no
+#: delimiter of its own, a bare ``#NNNN`` line, a title that wraps, then authors and body.
+_PROCEEDINGS_TEXT = """Sunday, April 19, 2026
+: Immuno-oncology
+Poster Session
+#0001
+A BCMA-directed T cell engager in relapsed myeloma: a dose
+escalation study.
+Some Author
+, Another Author
+Some Cancer Center, Boston, MA
+Twelve patients received the agent. Responses were observed at all dose levels.
+#0002
+An unrelated abstract about mitochondrial metabolism.
+Third Author
+No target of interest is mentioned here.
+"""
+
+
+def _bulk_artifact(tmp_path, text: str = _PROCEEDINGS_TEXT, *, published=date(2026, 4, 13)):
+    path = tmp_path / "proceedings.pdf"
+    path.write_bytes(b"%PDF-1.7 fixture bytes")
+    return BulkArtifact(
+        source_url="https://www.aacr.org/proceedings/Part-1.pdf",
+        local_path=path,
+        sha256=hashlib.sha256(path.read_bytes()).hexdigest(),
+        published=published,
+        publisher="AACR",
+        source_family="conference_aacr",
+    ), (lambda _path: text)
+
+
+def test_bulk_proceedings_splits_on_printed_abstract_numbers(tmp_path) -> None:
+    artifact, extract = _bulk_artifact(tmp_path)
+    store = CorpusStore(tmp_path / "corpus")
+    health = AacrBulkProceedingsConnector(artifact, extract_fn=extract).acquire(
+        store, targets=TARGETS, modality_terms=MODALITY, as_of_date=AS_OF
+    )
+    # Both abstracts were found; only the one matching the declared target vocabulary is
+    # admitted, and the count of what was seen stays visible next to what was kept.
+    assert health.raw_record_count == 2
+    assert health.documents_indexed == 1
+    doc = store.documents()[0]
+    assert doc.source_family == "conference_aacr"
+    assert doc.source_url.endswith("Part-1.pdf#0001")
+    assert "Twelve patients received the agent." in doc.text
+    # A wrapped title is joined to its sentence end, and the author list is not part of it.
+    assert doc.title == (
+        "A BCMA-directed T cell engager in relapsed myeloma: a dose escalation study."
+    )
+    assert "Some Author" not in doc.title
+
+
+def test_bulk_proceedings_document_is_an_ordinary_conference_abstract(tmp_path) -> None:
+    """A bulk route is an acquisition route, not a new authority.
+
+    The abstract is printed by the society that ran the meeting, so it is tiered as a primary
+    conference abstract exactly as a PubMed abstract is, and it must travel through the
+    generated source index -- claiming a native snapshot would drop it out of replay silently.
+    """
+
+    artifact, extract = _bulk_artifact(tmp_path)
+    store = CorpusStore(tmp_path / "corpus")
+    AacrBulkProceedingsConnector(artifact, extract_fn=extract).acquire(
+        store, targets=TARGETS, modality_terms=MODALITY, as_of_date=AS_OF
+    )
+    doc = store.documents()[0]
+    assert doc.document_type == "conference_abstract"
+    assert doc.native_snapshot is False
+    snapshot = json.loads((tmp_path / "corpus" / doc.snapshot_path).read_text())
+    assert snapshot["delivery_channel"] == "PUBLISHER_BULK_DOWNLOAD"
+    assert snapshot["bulk_sha256"] == artifact.sha256
+    assert snapshot["matched_target_terms"] == ["bcma"]
+
+
+def test_bulk_proceedings_dates_documents_from_the_verifiable_artifact_timestamp(
+    tmp_path,
+) -> None:
+    # The session date printed inside the document is the document's own say-so; the artifact's
+    # Last-Modified is what a third party can check, so that is what carries the date.
+    artifact, extract = _bulk_artifact(tmp_path, published=date(2026, 4, 13))
+    store = CorpusStore(tmp_path / "corpus")
+    AacrBulkProceedingsConnector(artifact, extract_fn=extract).acquire(
+        store, targets=TARGETS, modality_terms=MODALITY, as_of_date=AS_OF
+    )
+    assert store.documents()[0].publication_date == date(2026, 4, 13)
+
+
+def test_bulk_proceedings_published_after_the_as_of_date_admits_nothing(tmp_path) -> None:
+    artifact, extract = _bulk_artifact(tmp_path, published=date(2026, 9, 1))
+    store = CorpusStore(tmp_path / "corpus")
+    health = AacrBulkProceedingsConnector(artifact, extract_fn=extract).acquire(
+        store, targets=TARGETS, modality_terms=MODALITY, as_of_date=AS_OF
+    )
+    assert store.documents() == []
+    # Refused, not merely absent: a zero document count alone cannot distinguish "withheld by
+    # the as-of policy" from "the filter never ran".
+    assert health.raw_record_count == 2
+
+
+def test_bulk_proceedings_refuses_bytes_the_receipt_does_not_describe(tmp_path) -> None:
+    artifact, extract = _bulk_artifact(tmp_path)
+    artifact.local_path.write_bytes(b"%PDF-1.7 different bytes")
+    store = CorpusStore(tmp_path / "corpus")
+    health = AacrBulkProceedingsConnector(artifact, extract_fn=extract).acquire(
+        store, targets=TARGETS, modality_terms=MODALITY, as_of_date=AS_OF
+    )
+    assert health.connector_succeeded is False
+    assert "does not match" in (health.error or "")
+    assert store.documents() == []
 
 
 def _ex99_hit(

@@ -11,6 +11,7 @@ writes every retrieved document into the :class:`CorpusStore`.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import re
 from collections.abc import Callable, Sequence
@@ -614,6 +615,228 @@ class CrossrefConferenceConnector:
             documents_indexed=indexed,
             parse_failures=failures,
         )
+
+
+@dataclass(frozen=True)
+class BulkArtifact:
+    """An already-acquired bulk publication, named by where it came from and what it was.
+
+    Bulk routes invert the usual acquisition shape: one large file is fetched once and then
+    parsed repeatedly, so the bytes and the parse are separate events with separate failure
+    modes. Separating them is what makes a re-parse cheap and a re-fetch unnecessary -- a
+    parser bug must never be a reason to go back to the publisher.
+
+    ``sha256`` is therefore not decoration. The connector refuses to parse a local file whose
+    digest differs from the one recorded at acquisition, because silently parsing different
+    bytes under the recorded URL's name is the one failure the receipt could not later reveal.
+
+    ``published`` is the earliest independently verifiable timestamp for the artifact -- in
+    practice the HTTP ``Last-Modified`` recorded when it was fetched. Session dates printed
+    inside the document are more precise and are kept in the payload, but they are the
+    document's own say-so, so they are not what the as-of policy is applied to.
+    """
+
+    source_url: str
+    local_path: Path
+    sha256: str
+    published: date
+    publisher: str
+    source_family: str
+
+
+_ABSTRACT_MARKER_RE = re.compile(r"^#\s*(\d{3,6})\s*$", re.MULTILINE)
+
+
+def _split_abstracts(text: str) -> list[tuple[str, str]]:
+    """Cut a proceedings text into (abstract number, body) at the printed number markers.
+
+    The marker is the only structure the document states about itself unambiguously: a line
+    containing nothing but ``#`` and the abstract number. Session headers, author blocks and
+    affiliation footnotes have no reliable delimiter, so nothing is inferred about them --
+    whatever precedes the first marker is preamble and is dropped rather than guessed at.
+    """
+
+    matches = list(_ABSTRACT_MARKER_RE.finditer(text))
+    segments: list[tuple[str, str]] = []
+    for index, match in enumerate(matches):
+        end = matches[index + 1].start() if index + 1 < len(matches) else len(text)
+        body = text[match.end() : end].strip()
+        segments.append((match.group(1), body))
+    return segments
+
+
+def _abstract_title(body: str) -> str:
+    """The title a proceedings abstract leads with, or nothing if it does not lead with one.
+
+    Titles here run to a sentence end and may wrap over lines; the author list that follows
+    has no delimiter of its own. So the rule is the sentence, bounded: lines are joined until
+    one ends a sentence, and if none does within the bound the title is left empty rather than
+    filled with the first few authors' names.
+    """
+
+    lines: list[str] = []
+    for line in body.splitlines():
+        stripped = line.strip()
+        if not stripped:
+            if lines:
+                break
+            continue
+        lines.append(stripped)
+        if stripped.endswith((".", "?", "!")):
+            return " ".join(lines)
+        if len(lines) >= 4 or sum(len(part) for part in lines) > 400:
+            break
+    return ""
+
+
+class AacrBulkProceedingsConnector:
+    """Read AACR's official public bulk proceedings PDF into per-abstract documents.
+
+    This is the officially published machine-retrievable route for this venue, and it is a
+    different kind of evidence from the Crossref metadata for the same meeting: Crossref
+    gives a title, this gives the abstract as printed. So the documents it writes are
+    ordinary conference abstracts, tiered and typed exactly as PubMed abstracts are, and they
+    reach the same extraction and the same M11 identity gates. Nothing here classifies
+    evidence itself; a bulk route is an acquisition route, not a new authority.
+
+    Admission is by the buyer's declared target vocabulary, matched against the abstract text.
+    That is the same axis every other connector queries on, and it is applied here rather than
+    at the source because a bulk file has no query interface. Modality terms are recorded per
+    abstract but deliberately not required: a bulk artifact is already bounded to one meeting,
+    so an extra conjunct would narrow the corpus without the source-side cost that motivates
+    narrowing elsewhere.
+    """
+
+    document_type = "conference_abstract"
+    delivery_channel = "PUBLISHER_BULK_DOWNLOAD"
+
+    def __init__(self, artifact: BulkArtifact, *, extract_fn: Callable[[Path], str] | None = None) -> None:
+        self.artifact = artifact
+        self.source_family = artifact.source_family
+        self.extract_fn = extract_fn or _extract_pdf_text
+        self.withheld_as_of: list[str] = []
+        self.withheld_undated: list[str] = []
+
+    def _verified_text(self) -> str:
+        digest = hashlib.sha256()
+        with self.artifact.local_path.open("rb") as handle:
+            for block in iter(lambda: handle.read(1 << 20), b""):
+                digest.update(block)
+        if digest.hexdigest() != self.artifact.sha256:
+            raise ValueError(
+                f"{self.artifact.local_path}: digest {digest.hexdigest()} does not match the "
+                f"{self.artifact.sha256} recorded for {self.artifact.source_url}; refusing to "
+                "parse bytes the acquisition receipt does not describe"
+            )
+        return self.extract_fn(self.artifact.local_path)
+
+    def acquire(
+        self,
+        store: CorpusStore,
+        *,
+        targets: Sequence[TargetQuery],
+        modality_terms: Sequence[str],
+        as_of_date: date,
+    ) -> SourceHealth:
+        try:
+            text = self._verified_text()
+        except Exception as exc:
+            return SourceHealth(
+                source_family=self.source_family,
+                connector_succeeded=False,
+                query_returned_results=False,
+                error=str(exc),
+            )
+
+        published = self.artifact.published
+        segments = _split_abstracts(text)
+        if published > as_of_date:
+            # The whole artifact post-dates the run, so the refusal is recorded once against
+            # every abstract in it rather than being invisible in a zero document count.
+            self.withheld_as_of = [number for number, _ in segments]
+            return SourceHealth(
+                source_family=self.source_family,
+                connector_succeeded=True,
+                query_returned_results=bool(segments),
+                raw_record_count=len(segments),
+            )
+
+        target_terms = {
+            term.casefold()
+            for target in targets
+            for term in (target.canonical_id, *target.aliases)
+            if term
+        }
+        modality_lookup = {term.casefold() for term in modality_terms if term}
+        parsed = failures = indexed = 0
+        for number, body in segments:
+            folded = body.casefold()
+            matched = sorted(term for term in target_terms if term in folded)
+            if not matched:
+                continue
+            parser_status = ParserStatus.OK if body else ParserStatus.EMPTY
+            if parser_status is ParserStatus.OK:
+                parsed += 1
+                indexed += 1
+            else:
+                failures += 1
+            store.add(
+                source_family=self.source_family,
+                # The bulk file's URL plus the abstract number: the abstract has no separate
+                # public address on this route, and claiming one it does not have would be a
+                # provenance fiction.
+                source_url=f"{self.artifact.source_url}#{number}",
+                publisher=self.artifact.publisher,
+                document_type=self.document_type,
+                source_tier=SourceTier.PRIMARY,
+                raw_payload={
+                    "abstract_number": number,
+                    "text": body,
+                    "bulk_source_url": self.artifact.source_url,
+                    "bulk_sha256": self.artifact.sha256,
+                    "delivery_channel": self.delivery_channel,
+                    "matched_target_terms": matched,
+                    "matched_modality_terms": sorted(
+                        term for term in modality_lookup if term in folded
+                    ),
+                },
+                text=body,
+                title=_abstract_title(body),
+                as_of_date=as_of_date,
+                publication_date=published,
+                parser_status=parser_status,
+                # No dedicated replay adapter exists for a bulk route, so these documents
+                # have to travel through the generated source index like every other
+                # non-native family; claiming otherwise drops them out of replay silently.
+                native_snapshot=False,
+            )
+        return SourceHealth(
+            source_family=self.source_family,
+            connector_succeeded=True,
+            query_returned_results=bool(segments),
+            raw_record_count=len(segments),
+            documents_parsed=parsed,
+            documents_indexed=indexed,
+            parse_failures=failures,
+        )
+
+
+def _extract_pdf_text(path: Path) -> str:
+    """Page text of a PDF, joined in page order.
+
+    ``pypdf`` is imported here rather than at module scope so that an engine without the
+    ``pdf`` extra installed fails on this one family instead of failing to import at all.
+    """
+
+    try:
+        from pypdf import PdfReader
+    except ModuleNotFoundError as exc:  # pragma: no cover - depends on install extras
+        raise ValueError(
+            "reading bulk PDF proceedings needs the 'pdf' extra (pip install -e '.[pdf]')"
+        ) from exc
+
+    reader = PdfReader(str(path))
+    return "\n".join((page.extract_text() or "") for page in reader.pages)
 
 
 def _filed_by(hit: dict[str, Any], as_of_date: date) -> bool:
