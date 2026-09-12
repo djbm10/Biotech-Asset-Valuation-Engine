@@ -532,18 +532,24 @@ class CrossrefConferenceConnector:
         modality_terms: Sequence[str],
         as_of_date: date,
     ) -> SourceHealth:
-        # The query is built from the target and modality vocabulary the problem declares, not
-        # from asset names: asking for a drug by name can only rediscover what is already
-        # known, and would tune the source to the benchmark answer.
-        modality = " ".join(dict.fromkeys(modality_terms))
+        # The query is built from the declared target vocabulary, not from asset names: asking
+        # for a drug by name can only rediscover what is already known, and would tune the
+        # source to the benchmark answer.
+        #
+        # Modality terms are deliberately not appended. `query.bibliographic` is a relevance
+        # bag of words with no boolean OR, so adding the ~120-term modality vocabulary dilutes
+        # the query instead of widening it -- measured: ASCO returned 63 items with the
+        # modality bag and 200 without it, against the same budget. Modality is a property of
+        # the asset a title mentions, and it is applied downstream during extraction and
+        # gating, where it can be evaluated rather than guessed at from word overlap.
+        del modality_terms
         raw: list[dict[str, Any]] = []
         seen_dois: set[str] = set()
         self.withheld_as_of: list[str] = []
         self.withheld_undated: list[str] = []
         try:
             for target in targets:
-                aliases = " ".join(dict.fromkeys([target.canonical_id, *target.aliases]))
-                query = f"{aliases} {modality}".strip()
+                query = " ".join(dict.fromkeys([target.canonical_id, *target.aliases]))
                 for container_title in self.venue.container_titles:
                     for item in self.search_fn(container_title, query, as_of_date):
                         doi = str(item.get("DOI", "")).lower()
@@ -593,7 +599,11 @@ class CrossrefConferenceConnector:
                 as_of_date=as_of_date,
                 publication_date=published,
                 parser_status=parser_status,
-                native_snapshot=True,
+                # Not a native snapshot: that flag means the document replays through a
+                # dedicated CT.gov/PubMed adapter, and documents carrying it are excluded from
+                # the generated source index. There is no Crossref adapter, so claiming it
+                # would drop every item out of the replay silently.
+                native_snapshot=False,
             )
         return SourceHealth(
             source_family=self.source_family,

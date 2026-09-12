@@ -4,6 +4,7 @@ import json
 from datetime import date
 
 import pytest
+import yaml
 
 from bve.se.acquisition.connectors import (
     CONFERENCE_VENUES,
@@ -188,7 +189,27 @@ def test_crossref_queries_target_vocabulary_not_asset_names(tmp_path) -> None:
     CrossrefConferenceConnector(_ASCO, fake_search).acquire(
         CorpusStore(tmp_path), targets=TARGETS, modality_terms=MODALITY, as_of_date=AS_OF
     )
-    assert seen == ["BCMA TNFRSF17 CD269 T_CELL_ENGAGER"]
+    # Target vocabulary only. Crossref relevance-ranks a bag of words, so appending the whole
+    # modality vocabulary shrinks the result set instead of widening it; modality is judged
+    # downstream where the asset is actually resolved.
+    assert seen == ["BCMA TNFRSF17 CD269"]
+
+
+def test_crossref_documents_reach_the_generated_source_index(tmp_path) -> None:
+    # The regression that matters most here is silent: a document flagged as a native snapshot
+    # is excluded from the exported index, so it would be acquired, hashed, receipted -- and
+    # then never seen by the replay. Assert it actually arrives.
+    def fake_search(container_title: str, query: str, as_of_date: date):
+        return [_crossref_item("10.1200/d", "PD-1 antibody abstract", published=[2026, 5, 1])]
+
+    store = CorpusStore(tmp_path)
+    CrossrefConferenceConnector(_ASCO, fake_search).acquire(
+        store, targets=TARGETS, modality_terms=MODALITY, as_of_date=AS_OF
+    )
+    index_path = tmp_path / "index.yaml"
+    store.export_source_index(index_path)
+    index = yaml.safe_load(index_path.read_text())
+    assert [record["url"] for record in index["conference_asco"]] == ["https://doi.org/10.1200/d"]
 
 
 def test_crossref_items_published_after_the_as_of_date_are_refused(tmp_path) -> None:
