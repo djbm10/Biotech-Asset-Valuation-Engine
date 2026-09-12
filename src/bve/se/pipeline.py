@@ -43,6 +43,7 @@ from bve.se.schemas.contracts import (
     CohortAssignment,
     ClinicalMeaningfulness,
     RunStatus,
+    IdentityEdge,
     IdentityMention,
     CompanyRecord,
     IdentityMerge,
@@ -63,6 +64,8 @@ class SESearchResult(BaseModel):
     identity_mentions: list[IdentityMention] = Field(default_factory=list)
     companies: list[CompanyRecord] = Field(default_factory=list)
     identity_merges: list[IdentityMerge] = Field(default_factory=list)
+    #: The name-to-name relationships the run observed, with the evidence for each.
+    identity_edges: list[IdentityEdge] = Field(default_factory=list)
     eligible_asset_ids: list[str] = Field(default_factory=list)
     excluded_asset_ids: list[str] = Field(default_factory=list)
     unresolved_asset_ids: list[str] = Field(default_factory=list)
@@ -418,6 +421,7 @@ def run_landscape_search(
         identity_mentions=list(registry.mentions.values()),
         companies=list(registry.companies.values()),
         identity_merges=list(registry.merges.values()),
+        identity_edges=list(registry.identity_edges),
         eligible_asset_ids=eligible,
         excluded_asset_ids=excluded,
         unresolved_asset_ids=list(dict.fromkeys(unresolved)),

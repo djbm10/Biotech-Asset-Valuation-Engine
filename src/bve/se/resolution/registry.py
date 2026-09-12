@@ -13,8 +13,10 @@ from bve.se.schemas.contracts import (
     CandidateTargetAssertion,
     CanonicalAsset,
     CompanyRecord,
+    IdentityEdge,
     IdentityMention,
     IdentityMerge,
+    IdentityRelationship,
     MergeStatus,
     OwnershipRight,
     TargetAssertionStatus,
@@ -74,6 +76,10 @@ class AssetRegistry:
         self._alias_keys_by_asset: dict[str, frozenset[str]] = {}
         self.mentions: dict[str, IdentityMention] = {}
         self.merges: dict[str, IdentityMerge] = {}
+        #: Every related name a source offered, classified and recorded whether or not it
+        #: was acted on. Ingest-time attachment -- not :meth:`apply_merge` -- is where this
+        #: registry actually forms identity, so it is the only place the graph is visible.
+        self.identity_edges: list[IdentityEdge] = []
         self.companies: dict[str, CompanyRecord] = {}
         self.rights: dict[str, OwnershipRight] = {}
         self._merge_snapshots: dict[str, dict[str, CanonicalAsset]] = {}
@@ -210,7 +216,36 @@ class AssetRegistry:
             )
         existing = self._attribute_targets(existing)
         self._index_asset(existing)
+        self._record_identity_edges(hit, existing)
         return existing
+
+    def _record_identity_edges(self, hit: CandidateHit, asset: CanonicalAsset) -> None:
+        """Describe, without changing, the relationship this run treated each alias as.
+
+        Shadow-only. Current behaviour merges every related name a source offers, so every
+        edge is recorded as ``IDENTITY_ALIAS`` with ``merged=True``: that is the claim the
+        run is making, and stating it is what lets a stricter rule be diffed against it.
+        """
+
+        primary = hit.asset_name or hit.provisional_identity_key
+        for related in hit.aliases:
+            if not related or not related.strip():
+                continue
+            self.identity_edges.append(
+                IdentityEdge(
+                    edge_id=_id("edge", f"{hit.hit_id}|{primary}|{related}"),
+                    asset_id=asset.asset_id,
+                    primary_name=primary,
+                    related_name=related,
+                    relationship=IdentityRelationship.IDENTITY_ALIAS,
+                    merged=True,
+                    evidence_field=f"{hit.source}.intervention.otherNames",
+                    basis="source-offered related name, merged unconditionally",
+                    hit_id=hit.hit_id,
+                    source_document_id=hit.source_document_id,
+                    trial_id=hit.trial_id,
+                )
+            )
 
     def _attribute_targets(self, asset: CanonicalAsset) -> CanonicalAsset:
         """Attach mechanism assertions, and derive ``target_ids`` from them alone."""

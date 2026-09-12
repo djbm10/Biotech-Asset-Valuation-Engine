@@ -265,6 +265,54 @@ class CanonicalAsset(StrictModel):
     provisional: bool = True
 
 
+class IdentityRelationship(str, Enum):
+    """How a name observed alongside an asset relates to that asset's identity.
+
+    Co-occurrence is not identity. A registry reads ``otherNames`` and finds a mixture of
+    true synonyms, co-formulated components, regimen partners and class descriptors; only
+    the first is safe to merge. Naming the rest is what keeps a combination partner from
+    silently becoming an alias.
+    """
+
+    #: The same molecular entity under another spelling. Safe to merge.
+    IDENTITY_ALIAS = "IDENTITY_ALIAS"
+    #: A component of one fixed-dose or co-formulated product. Identity-bearing at the
+    #: product level; explicitly NOT molecular synonymy, so the canonical ids stay distinct.
+    COFORMULATED_COMPONENT = "COFORMULATED_COMPONENT"
+    #: A distinct drug given as part of the same combination. Never identity.
+    COMBINATION_PARTNER = "COMBINATION_PARTNER"
+    #: Observed in the same trial or regimen, with no stronger relationship established.
+    COADMINISTERED_WITH = "COADMINISTERED_WITH"
+    #: Insufficient positive evidence to classify. Held for review, never merged.
+    UNCERTAIN_RELATIONSHIP = "UNCERTAIN_RELATIONSHIP"
+
+
+class IdentityEdge(StrictModel):
+    """One observed name-to-name relationship, with the evidence that produced it.
+
+    Emitted for every related name a source offers, whether or not it was acted on, so the
+    identity graph can be diffed across runs and every merge can be explained by the exact
+    edge that caused it.
+    """
+
+    edge_id: str
+    asset_id: str
+    #: The name the source gave as the intervention's own.
+    primary_name: str
+    #: The name the source offered alongside it.
+    related_name: str
+    relationship: IdentityRelationship
+    #: Whether this edge actually contributed an alias to the asset in this run.
+    merged: bool
+    #: Where the related name came from, e.g. ``clinicaltrials_gov.intervention.otherNames``.
+    evidence_field: str
+    #: Why the relationship was classified as it was.
+    basis: str
+    hit_id: str
+    source_document_id: str | None = None
+    trial_id: str | None = None
+
+
 class MergeStatus(str, Enum):
     PROPOSED = "PROPOSED"
     APPLIED = "APPLIED"
