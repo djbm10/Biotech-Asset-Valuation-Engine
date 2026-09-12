@@ -52,6 +52,34 @@ class OntologyTargetAttribution:
                 return result.canonical_id
         return None
 
+    def resolve_drug(self, name: str) -> str | None:
+        """The canonical drug one single name denotes, or ``None``.
+
+        Unlike :meth:`resolve_asset` this asks about one string in isolation, which is what
+        deciding whether two names denote the same molecule requires: folding a list of
+        names into one answer is exactly how a combination partner's identity gets read as
+        the primary's.
+        """
+
+        if not name or not name.strip():
+            return None
+        result = self._resolver.resolve(name, entity_type=EntityType.DRUG)
+        return result.canonical_id if result.status is ResolutionStatus.RESOLVED else None
+
+    def describes_target_or_class(self, name: str) -> bool:
+        """Whether a name denotes a target or mechanism class rather than a drug.
+
+        ``anti-PD-1``, ``PD-L1 inhibitor`` and bare gene symbols appear in ``otherNames``
+        as descriptions of what the intervention is, not as other names for it.
+        """
+
+        if not name or not name.strip():
+            return False
+        return (
+            self._resolver.resolve(name, entity_type=EntityType.TARGET).status
+            is ResolutionStatus.RESOLVED
+        )
+
     def assert_targets(
         self, asset_name: str, aliases: list[str]
     ) -> list[CandidateTargetAssertion]:

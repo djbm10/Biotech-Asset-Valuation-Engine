@@ -201,6 +201,11 @@ class CandidateHit(StrictModel):
     target_terms: list[str] = Field(default_factory=list)
     modality_terms: list[str] = Field(default_factory=list)
     aliases: list[str] = Field(default_factory=list)
+    #: The source's own structural classification of the intervention, e.g. CT.gov
+    #: ``DRUG`` / ``BIOLOGICAL`` / ``COMBINATION_PRODUCT``. Carried so that relationship
+    #: classification can consult declared product structure instead of guessing from
+    #: punctuation in a name.
+    intervention_type: str | None = None
     snippet: str = ""
     provisional_identity_key: str = Field(min_length=1)
     retrieved_at: datetime

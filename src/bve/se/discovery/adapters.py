@@ -458,6 +458,24 @@ def _intervention_aliases(protocol: dict[str, Any]) -> dict[str, tuple[str, ...]
     return aliases
 
 
+def _intervention_types(protocol: dict[str, Any]) -> dict[str, str]:
+    """Map each intervention name to the source's own structural classification.
+
+    Carried so relationship classification can consult declared product structure rather
+    than reading meaning into punctuation. It is weak evidence on its own -- sponsors type
+    single-agent interventions as ``COMBINATION_PRODUCT`` -- so it only ever refines a
+    decision already made on what the names resolve to.
+    """
+
+    types: dict[str, str] = {}
+    for intervention in _extract_interventions(protocol):
+        name = str(intervention.get("name") or "").strip()
+        declared = str(intervention.get("type") or "").strip()
+        if name and declared:
+            types[_normalized_lookup(name)] = declared
+    return types
+
+
 def _candidate_interventions(
     protocol: dict[str, Any],
     vocabulary: QueryVocabulary,
@@ -830,12 +848,19 @@ class ClinicalTrialsGovAdapter:
                 )
             )
             sponsor = sponsor_module.get("leadSponsor", {}).get("name")
-            # ``otherNames`` is CT.gov asserting that these strings denote the same
-            # intervention. Carrying it onto the hit is what lets the asset registry merge
-            # "TSR-042" and "JEMPERLI" onto dostarlimab by an authoritative relationship.
-            # Without it every hit carried ``aliases=[]`` and each spelling became its own
-            # asset. Strings are still merged only by exact normalized equality downstream.
+            # ``otherNames`` is registry-provided related naming metadata and may contain
+            # synonyms, development codes, class descriptors, co-formulated components, or
+            # co-administered regimen partners. It is not identity-bearing without
+            # corroboration.
+            #
+            # B8 treated it as identity and merged every entry: NCT03544723's "Ad-p53"
+            # carries otherNames ['anti-PD-1/anti-PD-L1', 'nivolumab', 'pembrolizumab',
+            # 'atezolizumab', 'durvalumab'], which made Ad-p53 answer to Durvalumab and
+            # assert PDCD1. These names are carried to the hit as *candidates* only; the
+            # registry decides what each one is against the ontology and merges nothing on
+            # this field's say-so.
             aliases_by_intervention = _intervention_aliases(protocol)
+            types_by_intervention = _intervention_types(protocol)
             interventions = _candidate_interventions(protocol, vocabulary, serialized)
             if not interventions:
                 fallback_name = identification.get("briefTitle") or nct_id or "unnamed program"
@@ -865,6 +890,9 @@ class ClinicalTrialsGovAdapter:
                         modality_terms=[intervention_modality] if intervention_modality else [],
                         aliases=list(
                             aliases_by_intervention.get(_normalized_lookup(intervention), ())
+                        ),
+                        intervention_type=types_by_intervention.get(
+                            _normalized_lookup(intervention)
                         ),
                         snippet=identification.get("briefTitle", ""),
                         provisional_identity_key=identity_key,

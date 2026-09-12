@@ -51,6 +51,27 @@ class TargetAttribution(Protocol):
         ...
 
 
+class IdentityAuthority(Protocol):
+    """The only questions the registry may ask when deciding whether two names match.
+
+    Deliberately not "are these related?" -- a source already asserted relatedness, and
+    believing it is the defect. These ask what each name denotes on its own.
+    """
+
+    def resolve_drug(self, name: str) -> str | None:
+        ...
+
+    def describes_target_or_class(self, name: str) -> bool:
+        ...
+
+
+#: Source-declared structure meaning the product co-formulates more than one molecule.
+#: Consulted only after synonymy has been ruled out: CT.gov applies this type loosely
+#: enough that ("Pembrolizumab", otherNames ["Keytruda"]) carries it, so on its own it
+#: says nothing about whether two names denote one molecule.
+_COFORMULATED_TYPES = frozenset({"COMBINATION_PRODUCT"})
+
+
 class AssetRegistry:
     """Resolve deterministic identities first and preserve every source mention.
 
@@ -63,8 +84,17 @@ class AssetRegistry:
     asset's documented target depend on which query returned it.
     """
 
-    def __init__(self, target_attribution: "TargetAttribution | None" = None) -> None:
+    def __init__(
+        self,
+        target_attribution: "TargetAttribution | None" = None,
+        identity_authority: "IdentityAuthority | None" = None,
+    ) -> None:
         self._target_attribution = target_attribution
+        #: Without an authority there is no positive evidence available, so no related
+        #: name can be corroborated and none is merged. Fail-closed is the whole point:
+        #: the alternative is believing the source, which is what produced B8's false
+        #: assertions.
+        self._identity_authority = identity_authority
         self.assets: dict[str, CanonicalAsset] = {}
         #: normalized alias key -> asset ids holding it. Finding the assets that share a
         #: spelling with an incoming hit used to mean scanning every registered asset and
@@ -153,11 +183,18 @@ class AssetRegistry:
             if normalized_asset
             else f"trial:{(hit.trial_id or '').upper()}:{hit.provisional_identity_key}"
         )
+        # Only corroborated names take part in identity. An uncorroborated related name is
+        # still recorded as an edge below, so nothing is lost -- it simply does not get to
+        # decide which asset this hit belongs to.
+        classifications = self._classify_related_names(hit)
+        merged_aliases = [
+            related for related, _, merged, _ in classifications if merged
+        ]
         alias_keys = {
             normalized
             for normalized in (
                 normalize_identity_name(value)
-                for value in [hit.asset_name, *hit.aliases]
+                for value in [hit.asset_name, *merged_aliases]
             )
             if normalized
         }
@@ -174,7 +211,7 @@ class AssetRegistry:
             else _id("asset", deterministic_key)
         )
         existing = self.assets.get(asset_id)
-        aliases = [value for value in [hit.asset_name, *hit.aliases] if value]
+        aliases = [value for value in [hit.asset_name, *merged_aliases] if value]
         if existing is None:
             existing = CanonicalAsset(
                 asset_id=asset_id,
@@ -216,31 +253,132 @@ class AssetRegistry:
             )
         existing = self._attribute_targets(existing)
         self._index_asset(existing)
-        self._record_identity_edges(hit, existing)
+        self._record_identity_edges(hit, existing, classifications)
         return existing
 
-    def _record_identity_edges(self, hit: CandidateHit, asset: CanonicalAsset) -> None:
-        """Describe, without changing, the relationship this run treated each alias as.
+    def _classify_related_names(
+        self, hit: CandidateHit
+    ) -> list[tuple[str, IdentityRelationship, bool, str]]:
+        """Decide what each source-offered name is, and whether it may bear identity.
 
-        Shadow-only. Current behaviour merges every related name a source offers, so every
-        edge is recorded as ``IDENTITY_ALIAS`` with ``merged=True``: that is the claim the
-        run is making, and stating it is what lets a stricter rule be diffed against it.
+        ``(related name, relationship, merged, basis)`` per offered name, in source order.
+
+        Identity requires positive evidence that two names denote one molecule, and only
+        the ontology can supply it. The asymmetry that matters: a name resolving to a
+        *different* drug is a hard veto on molecular synonymy, while a name resolving to
+        *nothing* is merely insufficient evidence -- never an approval. Without that second
+        half the rule would just move the false merges onto ontology-unknown codes.
         """
 
         primary = hit.asset_name or hit.provisional_identity_key
+        authority = self._identity_authority
+        primary_drug = authority.resolve_drug(primary) if authority else None
+        coformulated = (hit.intervention_type or "").upper() in _COFORMULATED_TYPES
+
+        classified: list[tuple[str, IdentityRelationship, bool, str]] = []
         for related in hit.aliases:
             if not related or not related.strip():
                 continue
+            if authority is None:
+                classified.append(
+                    (
+                        related,
+                        IdentityRelationship.UNCERTAIN_RELATIONSHIP,
+                        False,
+                        "no identity authority available, so no corroboration is possible",
+                    )
+                )
+                continue
+            related_drug = authority.resolve_drug(related)
+            if primary_drug and related_drug and primary_drug == related_drug:
+                classified.append(
+                    (
+                        related,
+                        IdentityRelationship.IDENTITY_ALIAS,
+                        True,
+                        f"both names resolve to the same canonical drug {primary_drug}",
+                    )
+                )
+            elif primary_drug and related_drug:
+                # Checked only here: the declared product structure can say two molecules
+                # share a product, but it can never make them one molecule, so the
+                # canonical ids stay distinct either way and this only chooses the label.
+                relationship = (
+                    IdentityRelationship.COFORMULATED_COMPONENT
+                    if coformulated
+                    else IdentityRelationship.COMBINATION_PARTNER
+                )
+                classified.append(
+                    (
+                        related,
+                        relationship,
+                        False,
+                        f"resolves to {related_drug}, a different drug from {primary_drug}"
+                        + (
+                            "; source declares a co-formulated product, so the relationship"
+                            " is product-level and not molecular synonymy"
+                            if coformulated
+                            else ""
+                        ),
+                    )
+                )
+            elif authority.describes_target_or_class(related):
+                classified.append(
+                    (
+                        related,
+                        IdentityRelationship.UNCERTAIN_RELATIONSHIP,
+                        False,
+                        "names a target or mechanism class, which describes an"
+                        " intervention rather than naming it",
+                    )
+                )
+            elif related_drug and not primary_drug:
+                classified.append(
+                    (
+                        related,
+                        IdentityRelationship.UNCERTAIN_RELATIONSHIP,
+                        False,
+                        f"resolves to {related_drug} while the intervention name does not"
+                        " resolve, so there is no evidence they are the same molecule",
+                    )
+                )
+            else:
+                classified.append(
+                    (
+                        related,
+                        IdentityRelationship.UNCERTAIN_RELATIONSHIP,
+                        False,
+                        "does not resolve to any known drug; absence of a contradicting"
+                        " authority is not positive identity evidence",
+                    )
+                )
+        return classified
+
+    def _record_identity_edges(
+        self,
+        hit: CandidateHit,
+        asset: CanonicalAsset,
+        classifications: list[tuple[str, IdentityRelationship, bool, str]],
+    ) -> None:
+        """Record every offered name and its disposition, acted on or not.
+
+        Edges are emitted for rejected names too. That is what makes a removed merge
+        auditable: the original evidence field, trial and intervention survive alongside
+        the new classification instead of the merge simply disappearing.
+        """
+
+        primary = hit.asset_name or hit.provisional_identity_key
+        for related, relationship, merged, basis in classifications:
             self.identity_edges.append(
                 IdentityEdge(
                     edge_id=_id("edge", f"{hit.hit_id}|{primary}|{related}"),
                     asset_id=asset.asset_id,
                     primary_name=primary,
                     related_name=related,
-                    relationship=IdentityRelationship.IDENTITY_ALIAS,
-                    merged=True,
+                    relationship=relationship,
+                    merged=merged,
                     evidence_field=f"{hit.source}.intervention.otherNames",
-                    basis="source-offered related name, merged unconditionally",
+                    basis=basis,
                     hit_id=hit.hit_id,
                     source_document_id=hit.source_document_id,
                     trial_id=hit.trial_id,

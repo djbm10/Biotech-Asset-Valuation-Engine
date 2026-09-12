@@ -6,9 +6,9 @@ B8 showed that `otherNames` is a mixed semantic field: on NCT03544723 the interv
 of them synonyms. Merging them made Ad-p53 answer to the name Durvalumab and carry a
 confirmed PDCD1 assertion, which is 7 of the run's false target assertions.
 
-This commit only *describes* that behaviour. The registry still merges exactly what it
-merged in B8, so the emitted graph is a faithful record of the defect rather than a fix,
-and the stricter rule that follows can be diffed against it.
+Edge emission came first and recorded that behaviour exactly, frozen as
+B8_IDENTITY_GRAPH_BASELINE_V1. These tests cover emission itself; the evidence model that
+decides what each name is lives in ``test_identity_evidence_model.py``.
 """
 
 from __future__ import annotations
@@ -19,8 +19,16 @@ from bve.se.resolution.registry import AssetRegistry
 from bve.se.schemas.contracts import CandidateHit, IdentityRelationship
 
 
-def _hit(name: str, aliases: list[str], *, hit_id: str = "hit:1", trial: str = "NCT1") -> CandidateHit:
+def _hit(
+    name: str,
+    aliases: list[str],
+    *,
+    hit_id: str = "hit:1",
+    trial: str = "NCT1",
+    intervention_type: str | None = None,
+) -> CandidateHit:
     return CandidateHit(
+        intervention_type=intervention_type,
         hit_id=hit_id,
         source="clinicaltrials_gov",
         source_document_id="doc:1",
@@ -66,29 +74,33 @@ class TestEveryOfferedNameBecomesAnEdge:
         assert registry.identity_edges == []
 
 
-class TestTheShadowGraphRecordsCurrentBehaviourExactly:
-    def test_every_edge_claims_identity_because_that_is_what_the_run_does(self):
-        """Not aspirational: today every offered name is merged, so every edge says so."""
+class TestWithoutAnAuthorityNothingIsMerged:
+    """Fail-closed. No ontology means no positive evidence, so no name bears identity."""
 
+    def test_offered_names_are_held_as_uncertain_rather_than_believed(self):
         registry = AssetRegistry()
         registry.ingest_hit(_hit("Ad-p53", ["nivolumab", "anti-PD-1/anti-PD-L1"]))
 
         assert all(
-            edge.relationship is IdentityRelationship.IDENTITY_ALIAS
-            and edge.merged
+            edge.relationship is IdentityRelationship.UNCERTAIN_RELATIONSHIP
+            and not edge.merged
             for edge in registry.identity_edges
         )
 
-    def test_emitting_edges_does_not_change_which_assets_are_formed(self):
-        """The reconstruction is only a baseline if it changes nothing."""
+    def test_the_b8_defect_no_longer_reproduces(self):
+        """The two hits stayed one asset in B8 only because the partner was an alias."""
 
         registry = AssetRegistry()
         registry.ingest_hit(_hit("Ad-p53", ["durvalumab"], hit_id="hit:1", trial="NCT1"))
         registry.ingest_hit(_hit("Durvalumab", [], hit_id="hit:2", trial="NCT2"))
 
-        # The B8 defect, reproduced: the second hit joins the first asset because the
-        # combination partner was merged as an alias.
-        assert len(registry.assets) == 1
-        asset = next(iter(registry.assets.values()))
-        assert asset.canonical_name == "Ad-p53"
-        assert "durvalumab" in asset.aliases
+        assert len(registry.assets) == 2
+        assert {asset.canonical_name for asset in registry.assets.values()} == {
+            "Ad-p53",
+            "Durvalumab",
+        }
+        assert all(
+            "durvalumab" not in [alias.casefold() for alias in asset.aliases]
+            for asset in registry.assets.values()
+            if asset.canonical_name == "Ad-p53"
+        )

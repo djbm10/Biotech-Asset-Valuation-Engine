@@ -231,12 +231,15 @@ def run_landscape_search(
         # from the declared targets only, never from the queries that were run or the
         # trials that came back: a candidate is attributed a target because an authority
         # documents it, not because it turned up in a search for that target.
-        registry = AssetRegistry(
-            attribution_for(
-                target.canonical_id
-                for target in problem.strategic_gap.target_expression.targets
-            )
+        # The same ontology answers both questions, but they are passed separately
+        # because they are different questions: what an asset's targets are, and whether
+        # two names denote one molecule. Identity classification is fail-closed without
+        # it -- nothing merges on a source's say-so alone.
+        attribution = attribution_for(
+            target.canonical_id
+            for target in problem.strategic_gap.target_expression.targets
         )
+        registry = AssetRegistry(attribution, identity_authority=attribution)
         hit_to_asset: dict[str, str] = {}
         for hit in discovery.hits:
             asset = registry.ingest_hit(hit)
