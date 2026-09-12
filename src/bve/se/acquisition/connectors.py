@@ -420,6 +420,192 @@ class PubMedConnector:
         )
 
 
+def _crossref_date(item: dict[str, Any]) -> date | None:
+    """Read the earliest date Crossref asserts for an item, or None if it asserts none.
+
+    Crossref carries several date fields and they disagree: a meeting supplement is often
+    issued online months before the print issue it is bound into. The earliest asserted date
+    is the one that answers "could an as-of run have seen this", so that is the one used.
+    Partial dates (year only, year-month) are completed to the first of the period, which is
+    the earliest day the assertion permits.
+    """
+
+    candidates: list[date] = []
+    for key in ("published", "published-online", "published-print", "issued", "created"):
+        parts = item.get(key)
+        if not isinstance(parts, dict):
+            continue
+        date_parts = parts.get("date-parts")
+        if not isinstance(date_parts, list) or not date_parts:
+            continue
+        head = date_parts[0]
+        if not isinstance(head, list) or not head:
+            continue
+        try:
+            year = int(head[0])
+            month = int(head[1]) if len(head) > 1 else 1
+            day = int(head[2]) if len(head) > 2 else 1
+            candidates.append(date(year, month, day))
+        except (TypeError, ValueError):
+            continue
+    return min(candidates) if candidates else None
+
+
+@dataclass(frozen=True)
+class ConferenceVenue:
+    """Where a conference publishes its abstracts, stated as bibliographic identifiers.
+
+    Conference organisers publish accepted abstracts as supplements to a journal, and those
+    supplements are indexed by DOI like any other article. Naming the container journal is
+    therefore enough to reach a meeting's abstracts through a public metadata API, with no
+    conference-specific scraping and nothing that depends on which assets the benchmark
+    expects to find.
+    """
+
+    source_family: str
+    publisher: str
+    container_titles: Sequence[str]
+
+
+CONFERENCE_VENUES: tuple[ConferenceVenue, ...] = (
+    ConferenceVenue("conference_asco", "ASCO", ("Journal of Clinical Oncology",)),
+    ConferenceVenue("conference_aacr", "AACR", ("Cancer Research",)),
+    ConferenceVenue("conference_ash", "ASH", ("Blood",)),
+)
+
+
+class CrossrefConferenceConnector:
+    """Acquire conference-abstract metadata for one venue through the Crossref REST API.
+
+    This is one mechanism parameterised by venue rather than three scrapers, because the
+    three conferences differ only in which journal carries their supplements. It is also the
+    non-circumventing route: the publishers' own abstract pages refuse an identified research
+    client, and Crossref publishes the same items' bibliographic metadata openly.
+
+    What it yields is title-and-DOI level only, so every mention it produces is
+    DISCOVERY_EVIDENCE. It can surface an asset name worth resolving; it can never be the
+    positive evidence that mints an identity alias. Full abstract text, if a licensed route
+    is ever configured, would be a separate acquisition emitting richer typed evidence.
+    """
+
+    def __init__(
+        self,
+        venue: ConferenceVenue,
+        search_fn: Callable[[str, str, date], list[dict[str, Any]]] | None = None,
+        *,
+        limit: int = 100,
+    ) -> None:
+        self.venue = venue
+        self.source_family = venue.source_family
+        self.search_fn = search_fn or self._live_search
+        self.limit = limit
+
+    def _live_search(self, container_title: str, query: str, as_of_date: date) -> list[dict[str, Any]]:
+        from bve.se.acquisition.http import configured_contact_email
+
+        payload = get_json(
+            "https://api.crossref.org/works",
+            params={
+                "filter": ",".join(
+                    [
+                        f"container-title:{container_title}",
+                        f"until-created-date:{as_of_date.isoformat()}",
+                    ]
+                ),
+                "query.bibliographic": query,
+                "rows": self.limit,
+                "select": "DOI,title,subtitle,container-title,published,published-online,"
+                "published-print,issued,created,type,page,volume,issue,publisher",
+                "mailto": configured_contact_email(),
+            },
+        )
+        if not isinstance(payload, dict):
+            raise ValueError("Crossref returned a non-object JSON response")
+        items = payload.get("message", {}).get("items", [])
+        return [item for item in items if isinstance(item, dict)]
+
+    def acquire(
+        self,
+        store: CorpusStore,
+        *,
+        targets: Sequence[TargetQuery],
+        modality_terms: Sequence[str],
+        as_of_date: date,
+    ) -> SourceHealth:
+        # The query is built from the target and modality vocabulary the problem declares, not
+        # from asset names: asking for a drug by name can only rediscover what is already
+        # known, and would tune the source to the benchmark answer.
+        modality = " ".join(dict.fromkeys(modality_terms))
+        raw: list[dict[str, Any]] = []
+        seen_dois: set[str] = set()
+        self.withheld_as_of: list[str] = []
+        self.withheld_undated: list[str] = []
+        try:
+            for target in targets:
+                aliases = " ".join(dict.fromkeys([target.canonical_id, *target.aliases]))
+                query = f"{aliases} {modality}".strip()
+                for container_title in self.venue.container_titles:
+                    for item in self.search_fn(container_title, query, as_of_date):
+                        doi = str(item.get("DOI", "")).lower()
+                        if not doi or doi in seen_dois:
+                            continue
+                        seen_dois.add(doi)
+                        raw.append(item)
+        except Exception as exc:
+            return SourceHealth(
+                source_family=self.source_family,
+                connector_succeeded=False,
+                query_returned_results=False,
+                error=str(exc),
+            )
+
+        parsed = failures = indexed = 0
+        for item in raw:
+            doi = str(item.get("DOI", ""))
+            # Admission is fail-closed on date for the same reason as EDGAR and the declared
+            # URL families: a metadata API answers as of today, and an undated item is not
+            # known to predate the question.
+            published = _crossref_date(item)
+            if published is None:
+                self.withheld_undated.append(doi)
+                continue
+            if published > as_of_date:
+                self.withheld_as_of.append(doi)
+                continue
+            title = " ".join(
+                str(part) for part in [*item.get("title", []), *item.get("subtitle", [])] if part
+            ).strip()
+            parser_status = ParserStatus.OK if title else ParserStatus.EMPTY
+            if parser_status is ParserStatus.OK:
+                parsed += 1
+                indexed += 1
+            else:
+                failures += 1
+            store.add(
+                source_family=self.source_family,
+                source_url=f"https://doi.org/{doi}" if doi else "https://api.crossref.org/works",
+                publisher=self.venue.publisher,
+                document_type="conference_abstract_metadata",
+                source_tier=SourceTier.SECONDARY,
+                raw_payload=item,
+                text=title,
+                title=title,
+                as_of_date=as_of_date,
+                publication_date=published,
+                parser_status=parser_status,
+                native_snapshot=True,
+            )
+        return SourceHealth(
+            source_family=self.source_family,
+            connector_succeeded=True,
+            query_returned_results=bool(raw),
+            raw_record_count=len(raw),
+            documents_parsed=parsed,
+            documents_indexed=indexed,
+            parse_failures=failures,
+        )
+
+
 def _filed_by(hit: dict[str, Any], as_of_date: date) -> bool:
     """Could the run have read this filing on its as-of date?
 

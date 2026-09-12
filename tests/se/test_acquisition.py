@@ -6,7 +6,9 @@ from datetime import date
 import pytest
 
 from bve.se.acquisition.connectors import (
+    CONFERENCE_VENUES,
     ClinicalTrialsGovConnector,
+    CrossrefConferenceConnector,
     DeclaredUrlConnector,
     FdaLabelConnector,
     PubMedConnector,
@@ -138,6 +140,96 @@ def test_pubmed_connector_native_records(tmp_path) -> None:
     assert health.documents_indexed == 1
     doc = store.documents()[0]
     assert doc.native_snapshot and doc.publication_date == date(2019, 1, 1)
+
+
+_ASCO = CONFERENCE_VENUES[0]
+
+
+def _crossref_item(doi: str, title: str, *, published: list[int] | None = None) -> dict:
+    item = {
+        "DOI": doi,
+        "title": [title],
+        "container-title": ["Journal of Clinical Oncology"],
+        "type": "journal-article",
+    }
+    if published is not None:
+        item["published"] = {"date-parts": [published]}
+    return item
+
+
+def test_crossref_conference_connector_indexes_abstract_metadata(tmp_path) -> None:
+    def fake_search(container_title: str, query: str, as_of_date: date):
+        assert container_title == "Journal of Clinical Oncology"
+        return [_crossref_item("10.1200/JCO.2026.44.16_suppl.8500", "BCMA engager in myeloma", published=[2026, 6, 1])]
+
+    store = CorpusStore(tmp_path)
+    health = CrossrefConferenceConnector(_ASCO, fake_search).acquire(
+        store, targets=TARGETS, modality_terms=MODALITY, as_of_date=AS_OF
+    )
+    assert health.documents_indexed == 1
+    doc = store.documents()[0]
+    assert doc.source_family == "conference_asco"
+    assert doc.source_url == "https://doi.org/10.1200/JCO.2026.44.16_suppl.8500"
+    assert doc.publication_date == date(2026, 6, 1)
+    # The source-native DOI and container title have to survive in the snapshot so a claim can
+    # be traced back to the item Crossref actually returned.
+    snapshot = json.loads((tmp_path / doc.snapshot_path).read_text())
+    assert snapshot["container-title"] == ["Journal of Clinical Oncology"]
+    assert snapshot["DOI"] == "10.1200/JCO.2026.44.16_suppl.8500"
+
+
+def test_crossref_queries_target_vocabulary_not_asset_names(tmp_path) -> None:
+    seen: list[str] = []
+
+    def fake_search(container_title: str, query: str, as_of_date: date):
+        seen.append(query)
+        return []
+
+    CrossrefConferenceConnector(_ASCO, fake_search).acquire(
+        CorpusStore(tmp_path), targets=TARGETS, modality_terms=MODALITY, as_of_date=AS_OF
+    )
+    assert seen == ["BCMA TNFRSF17 CD269 T_CELL_ENGAGER"]
+
+
+def test_crossref_items_published_after_the_as_of_date_are_refused(tmp_path) -> None:
+    def fake_search(container_title: str, query: str, as_of_date: date):
+        return [
+            _crossref_item("10.1200/a", "Before", published=[2026, 6, 1]),
+            _crossref_item("10.1200/b", "After", published=[2026, 9, 1]),
+        ]
+
+    store = CorpusStore(tmp_path)
+    connector = CrossrefConferenceConnector(_ASCO, fake_search)
+    connector.acquire(store, targets=TARGETS, modality_terms=MODALITY, as_of_date=AS_OF)
+    assert [doc.title for doc in store.documents()] == ["Before"]
+    assert connector.withheld_as_of == ["10.1200/b"]
+
+
+def test_crossref_undated_items_are_refused(tmp_path) -> None:
+    def fake_search(container_title: str, query: str, as_of_date: date):
+        return [_crossref_item("10.1200/c", "Undated")]
+
+    store = CorpusStore(tmp_path)
+    connector = CrossrefConferenceConnector(_ASCO, fake_search)
+    connector.acquire(store, targets=TARGETS, modality_terms=MODALITY, as_of_date=AS_OF)
+    assert store.documents() == []
+    assert connector.withheld_undated == ["10.1200/c"]
+
+
+def test_crossref_one_mechanism_covers_every_declared_venue(tmp_path) -> None:
+    # The point of parameterising by venue is that adding a conference is data, not code.
+    families = []
+    for venue in CONFERENCE_VENUES:
+        def fake_search(container_title: str, query: str, as_of_date: date, _venue=venue):
+            assert container_title in _venue.container_titles
+            return [_crossref_item(f"10.1/{_venue.source_family}", "PD-1 abstract", published=[2026, 1, 1])]
+
+        store = CorpusStore(tmp_path / venue.source_family)
+        CrossrefConferenceConnector(venue, fake_search).acquire(
+            store, targets=TARGETS, modality_terms=MODALITY, as_of_date=AS_OF
+        )
+        families.append(store.documents()[0].source_family)
+    assert families == ["conference_asco", "conference_aacr", "conference_ash"]
 
 
 def test_sec_connector_fetches_bounded_documents(tmp_path) -> None:

@@ -125,6 +125,21 @@ def configured_user_agent() -> str:
     return user_agent
 
 
+def configured_contact_email() -> str:
+    """Return just the operator contact address, for sources that ask for it as a parameter.
+
+    Crossref's polite pool wants the contact in a ``mailto`` query parameter rather than in
+    the User-Agent, so the address has to be available on its own. This stays beside
+    ``configured_user_agent`` for the same reason: both are read only at the HTTP boundary
+    and neither result belongs in an artifact -- use ``user_agent_receipt`` for that.
+    """
+
+    match = _CONTACT_EMAIL_RE.search(configured_user_agent())
+    if match is None:  # pragma: no cover - configured_user_agent already enforces this
+        raise AcquisitionHttpError("BVE_SE_USER_AGENT must include an operator contact email")
+    return match.group(0)
+
+
 def user_agent_receipt() -> dict[str, object]:
     """Attest which operator identity a run transmitted, without recording the address.
 
