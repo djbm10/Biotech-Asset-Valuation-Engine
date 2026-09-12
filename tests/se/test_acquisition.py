@@ -140,7 +140,7 @@ def test_pubmed_connector_native_records(tmp_path) -> None:
 
 def test_sec_connector_fetches_bounded_documents(tmp_path) -> None:
     def fake_search(query: str):
-        return [{"_id": "0000950170-24-029298:oric-20231231.htm", "_source": {"ciks": ["0001796280"], "display_names": ["ORIC (ORIC)"]}}]
+        return [{"_id": "0000950170-24-029298:oric-20231231.htm", "_source": {"ciks": ["0001796280"], "display_names": ["ORIC (ORIC)"], "file_date": "2024-03-07"}}]
 
     def fake_fetch(url: str):
         return "<html><body>MK-6070 HPN217 BCMA bispecific</body></html>"
@@ -199,6 +199,85 @@ def test_sec_search_traffic_is_bounded_independently_of_the_document_budget(
 
     assert len(asked) == 4
     assert health.connector_succeeded
+
+
+def _edgar_hit(document: str, file_date: str) -> dict:
+    return {
+        "_id": f"0000001234-26-000001:{document}",
+        "_source": {
+            "ciks": ["0000001234"],
+            "display_names": ["Example Therapeutics (EXM)"],
+            "file_type": "10-K",
+            "file_date": file_date,
+        },
+    }
+
+
+def test_sec_refuses_filings_published_after_the_as_of_date(tmp_path) -> None:
+    """A filing the run could not have read is lookahead, whatever the source returns.
+
+    EDGAR full-text search answers as of today, not as of the benchmark date, so a run
+    replaying an August question would otherwise be handed September disclosures and score
+    as though it had found them. The filter is client-side because that is the guarantee;
+    asking the service politely for a date range is only traffic reduction.
+    """
+
+    def fake_search(query: str):
+        return [
+            _edgar_hit("before.htm", "2026-07-01"),
+            _edgar_hit("after.htm", "2026-09-01"),
+            _edgar_hit("undated.htm", ""),
+        ]
+
+    store = CorpusStore(tmp_path)
+    health = SecEdgarConnector(
+        fake_search, fetch_fn=lambda url: "text", max_documents=10, max_searches=1
+    ).acquire(
+        store,
+        targets=[TargetQuery("PDCD1", ["PD-1"])],
+        modality_terms=["monoclonal antibody"],
+        as_of_date=AS_OF,
+    )
+
+    documents = [doc.source_url.rsplit("/", 1)[-1] for doc in store.documents()]
+    assert documents == ["before.htm"]
+    # An undated hit is not admitted either: unknown is not known-to-be-earlier.
+    assert health.raw_record_count == 1
+
+
+def test_sec_document_budget_is_spread_across_phrases_not_spent_on_the_first(
+    tmp_path,
+) -> None:
+    """Otherwise the search budget buys nothing.
+
+    One broad alias phrase returns far more hits than the document budget, so taking hits in
+    arrival order means every modality-qualified phrase is searched and then discarded. The
+    budget is what decides which filings become evidence, so it has to sample the phrases
+    that were actually asked.
+    """
+
+    asked: list[str] = []
+
+    def fake_search(query: str):
+        asked.append(query)
+        slug = f"p{len(asked)}"
+        return [_edgar_hit(f"{slug}_{n}.htm", "2026-07-01") for n in range(30)]
+
+    store = CorpusStore(tmp_path)
+    SecEdgarConnector(
+        fake_search, fetch_fn=lambda url: "text", max_documents=6, max_searches=3
+    ).acquire(
+        store,
+        targets=[TargetQuery("PDCD1", ["PD-1"])],
+        modality_terms=["monoclonal antibody"],
+        as_of_date=AS_OF,
+    )
+
+    assert len(asked) == 3
+    phrases = {
+        doc.source_url.rsplit("/", 1)[-1].split("_")[0] for doc in store.documents()
+    }
+    assert phrases == {"p1", "p2", "p3"}
 
 
 def test_runner_target_queries_have_no_asset_names() -> None:

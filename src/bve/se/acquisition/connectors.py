@@ -364,6 +364,45 @@ class PubMedConnector:
         )
 
 
+def _filed_by(hit: dict[str, Any], as_of_date: date) -> bool:
+    """Could the run have read this filing on its as-of date?
+
+    EDGAR full-text search answers as of today, so a run replaying an August question is
+    otherwise handed September disclosures and credited with having found them. An undated
+    hit is refused for the same reason a contradicted alias is: unknown is not
+    known-to-be-earlier, and the cost of dropping one filing is far below the cost of
+    lookahead in a scored benchmark.
+    """
+
+    text = str(hit.get("_source", {}).get("file_date") or "")
+    try:
+        return date.fromisoformat(text[:10]) <= as_of_date
+    except ValueError:
+        return False
+
+
+def _round_robin(
+    groups: Sequence[Sequence[dict[str, Any]]], limit: int
+) -> list[dict[str, Any]]:
+    """Spend a document budget across the queries that were asked, not on the first one.
+
+    One broad alias phrase returns far more hits than the budget, so taking hits in arrival
+    order means every modality-qualified phrase is searched and then discarded -- the search
+    bound buys nothing and the evidence is whatever the source happened to rank first for a
+    single query. Interleaving keeps breadth while still preferring each phrase's own top
+    hits.
+    """
+
+    picked: list[dict[str, Any]] = []
+    for index in range(max((len(group) for group in groups), default=0)):
+        for group in groups:
+            if len(picked) >= limit:
+                return picked
+            if index < len(group):
+                picked.append(group[index])
+    return picked
+
+
 class SecEdgarConnector:
     """Retrieve corporate-disclosure text via EDGAR full-text search by target + modality.
 
@@ -444,7 +483,7 @@ class SecEdgarConnector:
         modality_terms: Sequence[str],
         as_of_date: date,
     ) -> SourceHealth:
-        hits: list[dict[str, Any]] = []
+        by_phrase: list[list[dict[str, Any]]] = []
         seen: set[str] = set()
         searched = 0
         try:
@@ -453,12 +492,16 @@ class SecEdgarConnector:
                     if searched >= self.max_searches:
                         break
                     searched += 1
+                    found: list[dict[str, Any]] = []
                     for hit in self.search_fn(phrase):
                         hit_id = str(hit.get("_id", ""))
                         if hit_id and hit_id in seen:
                             continue
+                        if not _filed_by(hit, as_of_date):
+                            continue
                         seen.add(hit_id)
-                        hits.append(hit)
+                        found.append(hit)
+                    by_phrase.append(found)
         except Exception as exc:
             return SourceHealth(
                 source_family=self.source_family,
@@ -466,8 +509,9 @@ class SecEdgarConnector:
                 query_returned_results=False,
                 error=str(exc),
             )
+        hits = [hit for phrase_hits in by_phrase for hit in phrase_hits]
         parsed = failures = indexed = 0
-        for hit in hits[: self.max_documents]:
+        for hit in _round_robin(by_phrase, self.max_documents):
             url, document = self._filing_url(hit)
             source = hit.get("_source", {})
             display = " ".join(source.get("display_names", []) or [])
