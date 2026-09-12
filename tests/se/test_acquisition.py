@@ -7,6 +7,7 @@ import pytest
 
 from bve.se.acquisition.connectors import (
     ClinicalTrialsGovConnector,
+    DeclaredUrlConnector,
     FdaLabelConnector,
     PubMedConnector,
     SecEdgarConnector,
@@ -399,3 +400,90 @@ def test_policy_constructs_exact_required_connector_set_and_rejects_missing() ->
     missing = policy.model_copy(update={"declared_sources": ()})
     with pytest.raises(ValueError, match="no connector configuration"):
         connectors_for_policy(missing)
+
+
+def _page(published_meta: str, body: str = "Ivonescimab data update") -> str:
+    return f"<html><head>{published_meta}</head><body><p>{body}</p></body></html>"
+
+
+def test_declared_url_pages_published_after_the_as_of_date_are_refused(tmp_path) -> None:
+    """A live web page answers as of today, not as of the benchmark date.
+
+    Company press and pipeline pages carry no server-side date filter, so a run replaying an
+    August question would otherwise index September announcements and be credited with having
+    found them. This is the same lookahead guarantee the filing search needs, enforced on the
+    page's own published date.
+    """
+
+    pages = {
+        "https://example.com/before": _page(
+            '<meta property="article:published_time" content="2026-07-01T09:00:00Z">'
+        ),
+        "https://example.com/after": _page(
+            '<meta property="article:published_time" content="2026-09-01T09:00:00Z">'
+        ),
+    }
+
+    store = CorpusStore(tmp_path)
+    health = DeclaredUrlConnector(
+        "company_press_release", list(pages), fetch_fn=pages.__getitem__
+    ).acquire(
+        store,
+        targets=[TargetQuery("PDCD1", ["PD-1"])],
+        modality_terms=["monoclonal antibody"],
+        as_of_date=AS_OF,
+    )
+
+    assert [doc.source_url for doc in store.documents()] == ["https://example.com/before"]
+    # Withheld, not broken: the page read fine, it is simply inadmissible for this question.
+    assert health.connector_succeeded
+    assert health.parse_failures == 0
+
+
+def test_declared_url_undated_pages_are_refused(tmp_path) -> None:
+    """Unknown is not known-to-be-earlier.
+
+    An undated page cannot be shown to predate the as-of date, and admitting it would let
+    lookahead in through the one case the filter cannot see.
+    """
+
+    pages = {
+        "https://example.com/dated": _page(
+            '<meta itemprop="datePublished" content="2026-06-15">'
+        ),
+        "https://example.com/undated": _page("<title>Pipeline</title>"),
+    }
+
+    store = CorpusStore(tmp_path)
+    connector = DeclaredUrlConnector(
+        "company_pipeline_or_presentation", list(pages), fetch_fn=pages.__getitem__
+    )
+    connector.acquire(
+        store,
+        targets=[TargetQuery("PDCD1", ["PD-1"])],
+        modality_terms=["monoclonal antibody"],
+        as_of_date=AS_OF,
+    )
+
+    assert [doc.source_url for doc in store.documents()] == ["https://example.com/dated"]
+    assert connector.withheld_undated == ["https://example.com/undated"]
+
+
+def test_declared_url_records_the_page_publication_date_not_the_as_of_date(
+    tmp_path,
+) -> None:
+    """The corpus should say when the page was published, so the claim can be dated later."""
+
+    html = _page('<time datetime="2026-05-20">May 20, 2026</time>')
+    store = CorpusStore(tmp_path)
+    DeclaredUrlConnector(
+        "company_press_release", ["https://example.com/pr"], fetch_fn=lambda url: html
+    ).acquire(
+        store,
+        targets=[TargetQuery("PDCD1", ["PD-1"])],
+        modality_terms=["monoclonal antibody"],
+        as_of_date=AS_OF,
+    )
+
+    document = store.documents()[0]
+    assert document.publication_date == date(2026, 5, 20)

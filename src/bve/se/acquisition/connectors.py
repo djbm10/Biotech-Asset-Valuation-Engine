@@ -64,6 +64,37 @@ def _strip_html(raw: str) -> str:
     return _WS_RE.sub(" ", _TAG_RE.sub(" ", raw)).strip()
 
 
+#     <meta property="article:published_time" content="2026-07-15T09:00:00Z">
+#     <meta itemprop="datePublished" content="2026-07-15">
+#     "datePublished": "2026-07-15"        (JSON-LD)
+#     <time datetime="2026-07-15">
+_PUBLISHED_RE = re.compile(
+    r"(?:article:published_time|datePublished|date_published|citation_publication_date|"
+    r"pubdate|DC\.date(?:\.issued)?)\D{0,40}?((?:19|20)\d{2}-\d{2}-\d{2})"
+    r"|<time[^>]*\bdatetime=[\"']((?:19|20)\d{2}-\d{2}-\d{2})",
+    re.IGNORECASE,
+)
+
+
+def _published_on(raw_html: str) -> date | None:
+    """When did this page say it was published?
+
+    Read from the markup, before it is stripped: the date lives in meta tags and JSON-LD
+    that `_strip_html` throws away. Only the page's own declaration counts -- a date found
+    loose in body text could be a trial start, an enrolment window, or any other date the
+    page happens to mention, and guessing wrong here manufactures lookahead rather than
+    preventing it.
+    """
+
+    match = _PUBLISHED_RE.search(raw_html)
+    if not match:
+        return None
+    try:
+        return date.fromisoformat(match.group(1) or match.group(2))
+    except ValueError:
+        return None
+
+
 def _parse_year(value: Any) -> date | None:
     text = str(value or "")
     match = re.search(r"(19|20)\d{2}", text)
@@ -649,6 +680,13 @@ class DeclaredUrlConnector:
 
     The URL list is *retrieval configuration*, not asset-name search: it enumerates where a source
     family publishes, not which assets to find. Pages are fetched, stripped to text, and indexed.
+
+    A live web page answers as of today, so a run replaying an August question is otherwise
+    handed September disclosures and credited with having found them. Each page must therefore
+    declare when it was published, and a page published after the as-of date is refused. An
+    undated page is refused for the same reason an undated filing is: unknown is not
+    known-to-be-earlier, and the cost of dropping a page is far below the cost of lookahead in
+    a scored benchmark. Set `require_publication_date=False` only outside scored replay.
     """
 
     def __init__(
@@ -658,11 +696,13 @@ class DeclaredUrlConnector:
         *,
         source_tier: SourceTier = SourceTier.COMPANY_AUTHORED,
         fetch_fn: Callable[[str], str] | None = None,
+        require_publication_date: bool = True,
     ) -> None:
         self.source_family = source_family
         self.urls = list(dict.fromkeys(urls))
         self.source_tier = source_tier
         self.fetch_fn = fetch_fn or self._live_fetch
+        self.require_publication_date = require_publication_date
 
     @staticmethod
     def _live_fetch(url: str) -> str:
@@ -677,17 +717,32 @@ class DeclaredUrlConnector:
         as_of_date: date,
     ) -> SourceHealth:
         parsed = failures = indexed = 0
+        self.withheld_as_of: list[str] = []
+        self.withheld_undated: list[str] = []
         succeeded = True
         errors: list[str] = []
         for url in self.urls:
+            published: date | None = None
             try:
-                body = _strip_html(self.fetch_fn(url))[:40000]
+                raw = self.fetch_fn(url)
+                published = _published_on(raw)
+                body = _strip_html(raw)[:40000]
                 parser_status = ParserStatus.OK if body else ParserStatus.EMPTY
             except Exception as exc:
                 errors.append(f"{url}: {exc}")
                 body = ""
                 parser_status = ParserStatus.FAILED
                 succeeded = succeeded and False
+            if self.require_publication_date and parser_status is ParserStatus.OK:
+                # Withholding is not a parse failure: the page was read fine, it is just not
+                # admissible for this question. Counting it as a failure would make a healthy
+                # source look broken.
+                if published is None:
+                    self.withheld_undated.append(url)
+                    continue
+                if published > as_of_date:
+                    self.withheld_as_of.append(url)
+                    continue
             if parser_status is ParserStatus.OK:
                 parsed += 1
                 indexed += 1
@@ -699,10 +754,15 @@ class DeclaredUrlConnector:
                 publisher=self.source_family,
                 document_type=self.source_family,
                 source_tier=self.source_tier,
-                raw_payload={"url": url, "text": body},
+                raw_payload={
+                    "url": url,
+                    "text": body,
+                    "published_on": published.isoformat() if published else None,
+                },
                 text=body,
                 title=url,
                 as_of_date=as_of_date,
+                publication_date=published,
                 parser_status=parser_status,
             )
         return SourceHealth(
