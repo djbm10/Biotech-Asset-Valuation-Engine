@@ -487,3 +487,74 @@ def test_declared_url_records_the_page_publication_date_not_the_as_of_date(
 
     document = store.documents()[0]
     assert document.publication_date == date(2026, 5, 20)
+
+
+def test_declared_url_follows_index_links_to_reach_dated_documents(tmp_path) -> None:
+    """A newsroom index is undated, so on its own the family can contribute nothing.
+
+    Under the as-of contract an index page is refused -- correctly, it carries no publication
+    date -- which would make every declared-URL family silently empty. The evidence is on the
+    dated articles the index links to, so the index is treated as a place to look rather than
+    as a document.
+    """
+
+    pages = {
+        "https://example.com/news": (
+            '<a href="/news/one">One</a><a href="/news/two">Two</a>'
+            '<a href="https://other.example.org/off">Off-site</a>'
+        ),
+        "https://example.com/news/one": _page(
+            '<meta property="article:published_time" content="2026-06-01">', "AK112 update"
+        ),
+        "https://example.com/news/two": _page(
+            '<meta property="article:published_time" content="2026-09-30">', "Later news"
+        ),
+    }
+
+    store = CorpusStore(tmp_path)
+    connector = DeclaredUrlConnector(
+        "company_press_release",
+        ["https://example.com/news"],
+        fetch_fn=pages.__getitem__,
+        follow_links=5,
+    )
+    connector.acquire(
+        store,
+        targets=[TargetQuery("PDCD1", ["PD-1"])],
+        modality_terms=["monoclonal antibody"],
+        as_of_date=AS_OF,
+    )
+
+    # The index itself is not evidence; the one article filed before the as-of date is.
+    assert [doc.source_url for doc in store.documents()] == ["https://example.com/news/one"]
+    # Off-host links are not followed: the declared URL scopes the crawl to that publisher.
+    assert "https://other.example.org/off" not in connector.visited
+
+
+def test_declared_url_link_following_is_bounded_per_index(tmp_path) -> None:
+    """An index can link to hundreds of articles; the source is a public service."""
+
+    links = "".join(f'<a href="/a/{n}">{n}</a>' for n in range(50))
+    fetched: list[str] = []
+
+    def fetch(url: str) -> str:
+        fetched.append(url)
+        if url.endswith("/news"):
+            return links
+        return _page('<meta property="article:published_time" content="2026-06-01">')
+
+    connector = DeclaredUrlConnector(
+        "conference_asco",
+        ["https://example.com/news"],
+        fetch_fn=fetch,
+        follow_links=3,
+    )
+    connector.acquire(
+        CorpusStore(tmp_path),
+        targets=[TargetQuery("PDCD1", ["PD-1"])],
+        modality_terms=["monoclonal antibody"],
+        as_of_date=AS_OF,
+    )
+
+    # One index fetch plus the budgeted articles, and no more.
+    assert len(fetched) == 4

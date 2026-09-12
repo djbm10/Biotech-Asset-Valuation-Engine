@@ -1263,9 +1263,14 @@ class UrlDocumentAdapter:
     def _live_fetch(url: str) -> dict[str, Any]:
         import requests
 
+        from bve.se.acquisition.http import configured_user_agent
+
+        # `research@bve.local` was a fabricated contact: it identifies nobody, and the source
+        # families this adapter reaches ask operators to identify themselves. Failing closed
+        # when no operator is configured is better than transmitting a fake address.
         response = requests.get(
             url,
-            headers={"User-Agent": "bve-se-search/1.0 research@bve.local"},
+            headers={"User-Agent": configured_user_agent()},
             timeout=30,
         )
         response.raise_for_status()

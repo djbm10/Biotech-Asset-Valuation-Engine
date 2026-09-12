@@ -18,6 +18,7 @@ from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
 from typing import Any
+from urllib.parse import urljoin, urlsplit
 
 from bve.se.acquisition.corpus_store import CorpusStore, ParserStatus
 from bve.se.acquisition.http import get_json, get_text, safe_get_public_page
@@ -74,6 +75,28 @@ _PUBLISHED_RE = re.compile(
     r"|<time[^>]*\bdatetime=[\"']((?:19|20)\d{2}-\d{2}-\d{2})",
     re.IGNORECASE,
 )
+
+
+_HREF_RE = re.compile(r"""<a\b[^>]*\bhref=["']([^"'#?]+)""", re.IGNORECASE)
+
+
+def _same_host_links(raw_html: str, index_url: str) -> list[str]:
+    """Which documents does this index page point at, on this publisher's own site?
+
+    The declared URL says where a source family publishes; following its links stays inside
+    that scope. Off-host links are dropped rather than followed, so a newsroom's social,
+    analytics and partner links cannot turn one declared page into an open web crawl.
+    """
+
+    base = urlsplit(index_url)
+    links: list[str] = []
+    for href in _HREF_RE.findall(raw_html):
+        absolute = urljoin(index_url, href.strip())
+        parts = urlsplit(absolute)
+        if parts.scheme in {"http", "https"} and parts.netloc == base.netloc:
+            if absolute.rstrip("/") != index_url.rstrip("/"):
+                links.append(absolute)
+    return list(dict.fromkeys(links))
 
 
 def _published_on(raw_html: str) -> date | None:
@@ -697,12 +720,15 @@ class DeclaredUrlConnector:
         source_tier: SourceTier = SourceTier.COMPANY_AUTHORED,
         fetch_fn: Callable[[str], str] | None = None,
         require_publication_date: bool = True,
+        follow_links: int = 0,
     ) -> None:
         self.source_family = source_family
         self.urls = list(dict.fromkeys(urls))
         self.source_tier = source_tier
         self.fetch_fn = fetch_fn or self._live_fetch
         self.require_publication_date = require_publication_date
+        self.follow_links = follow_links
+        self.visited: list[str] = []
 
     @staticmethod
     def _live_fetch(url: str) -> str:
@@ -719,10 +745,34 @@ class DeclaredUrlConnector:
         parsed = failures = indexed = 0
         self.withheld_as_of: list[str] = []
         self.withheld_undated: list[str] = []
+        self.visited = []
         succeeded = True
         errors: list[str] = []
+
+        # An index page is a place to look, not a document: it carries no publication date, so
+        # under the as-of contract it is inadmissible while the dated articles it links to are
+        # exactly the evidence this family exists to reach. The per-index budget is spent on
+        # links in the order the index presents them, which is the publisher's own ordering
+        # rather than one we impose.
+        documents: list[str] = []
         for url in self.urls:
+            if self.follow_links <= 0:
+                documents.append(url)
+                continue
+            try:
+                index_html = self.fetch_fn(url)
+            except Exception as exc:
+                errors.append(f"{url}: {exc}")
+                succeeded = False
+                continue
+            finally:
+                self.visited.append(url)
+            documents.extend(_same_host_links(index_html, url)[: self.follow_links])
+        documents = list(dict.fromkeys(documents))
+
+        for url in documents:
             published: date | None = None
+            self.visited.append(url)
             try:
                 raw = self.fetch_fn(url)
                 published = _published_on(raw)
@@ -769,7 +819,9 @@ class DeclaredUrlConnector:
             source_family=self.source_family,
             connector_succeeded=succeeded or not self.urls,
             query_returned_results=parsed > 0,
-            raw_record_count=len(self.urls),
+            # Documents considered, not URLs declared: with link-following one declared index
+            # stands for many documents, and the health record should say how many were weighed.
+            raw_record_count=len(documents),
             documents_parsed=parsed,
             documents_indexed=indexed,
             parse_failures=failures,
