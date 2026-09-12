@@ -155,6 +155,52 @@ def test_sec_connector_fetches_bounded_documents(tmp_path) -> None:
     assert "edgar/data/1796280/" in doc.source_url
 
 
+def test_sec_full_text_queries_ask_for_words_a_filing_could_contain() -> None:
+    """An ontology identifier is not text. Phrase-searching one retrieves nothing.
+
+    ``"PDCD1 ANTIBODY_DRUG_CONJUGATE"`` is unanswerable by a full-text index over prose, and
+    an unanswerable query reads downstream as "this source holds no evidence" rather than as
+    a defect in the asking, which is why the distinction is pinned here.
+    """
+
+    phrases = SecEdgarConnector._search_phrases(
+        TargetQuery("PDCD1", ["PD-1", "CD279"]),
+        ["ANTIBODY_DRUG_CONJUGATE", "antibody drug conjugate"],
+    )
+
+    assert not any("_" in phrase for phrase in phrases)
+    # Target alone comes first: a preclinical program described without the ontology's
+    # modality wording is exactly what the new source families are meant to reach.
+    assert phrases[:3] == ['"PDCD1"', '"PD-1"', '"CD279"']
+    assert '"PD-1" "antibody drug conjugate"' in phrases
+    # Still generic. No asset name can enter the query for the source to then "find".
+    assert not any("pembrolizumab" in phrase.casefold() for phrase in phrases)
+
+
+def test_sec_search_traffic_is_bounded_independently_of_the_document_budget(
+    tmp_path,
+) -> None:
+    """The alias x modality product is order 10^3 phrases; the source is a public service."""
+
+    asked: list[str] = []
+
+    def fake_search(query: str):
+        asked.append(query)
+        return []
+
+    health = SecEdgarConnector(
+        fake_search, fetch_fn=lambda url: "", max_documents=5, max_searches=4
+    ).acquire(
+        CorpusStore(tmp_path),
+        targets=[TargetQuery("PDCD1", ["PD-1", "CD279"])],
+        modality_terms=["bispecific antibody", "monoclonal antibody"],
+        as_of_date=AS_OF,
+    )
+
+    assert len(asked) == 4
+    assert health.connector_succeeded
+
+
 def test_runner_target_queries_have_no_asset_names() -> None:
     problem = _problem()
     targets = target_queries_for(problem)

@@ -1091,6 +1091,27 @@ class PubMedDiscoveryAdapter:
         )
 
 
+def _declared_evidence_type(mention: dict[str, Any]) -> SourceEvidenceType:
+    """What kind of statement a corpus mention says its ``aliases`` are.
+
+    Absent means discovery. That is the whole safety property of the source contract: a
+    filing or press release that merely names a program alongside a partner's asset cannot
+    produce an alias, because producing one requires the corpus to have asserted identity
+    explicitly, and the assertion then still has to clear corroboration and veto.
+    """
+
+    declared = mention.get("evidence_type")
+    if declared is None:
+        return SourceEvidenceType.DISCOVERY_EVIDENCE
+    try:
+        return SourceEvidenceType(str(declared))
+    except ValueError as exc:
+        raise ValueError(
+            f"unknown evidence_type {declared!r} in source corpus mention; expected one of "
+            + ", ".join(sorted(member.value for member in SourceEvidenceType))
+        ) from exc
+
+
 class UnavailableSourceAdapter:
     """Explicitly represent a declared source family that has no configured connector."""
 
@@ -1112,6 +1133,13 @@ class IndexedDocumentAdapter:
     The corpus is intentionally a source index, not an asset universe. It contains documents and
     optional source-provided candidate mentions; the query still filters documents by normalized
     target/modality text and every result retains its document snapshot.
+
+    A mention may declare what kind of statement its ``aliases`` are, via ``evidence_type``. It
+    defaults to discovery, so a corpus that says nothing cannot mint an alias: the six prose
+    families -- pipelines, filings, press releases, conference abstracts -- must opt in per
+    mention, and only where the document actually states that two names denote one entity.
+    An unrecognized value is an error rather than a downgrade, because silently reading a
+    misspelled identity claim as discovery would hide a corpus defect that matters.
     """
 
     def __init__(
@@ -1198,6 +1226,7 @@ class IndexedDocumentAdapter:
                         target_terms=sorted(observed_targets),
                         modality_terms=[observed_modality] if observed_modality else [],
                         aliases=list(mention.get("aliases") or []),
+                        alias_evidence_type=_declared_evidence_type(mention),
                         snippet=text[:500],
                         provisional_identity_key=f"{self.source_name}:{asset_name.casefold()}",
                         retrieved_at=datetime.now(timezone.utc),

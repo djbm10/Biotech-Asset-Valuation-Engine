@@ -18,10 +18,12 @@ from datetime import date, datetime, timezone
 import pytest
 from pydantic import ValidationError
 
+from bve.se.discovery.adapters import IndexedDocumentAdapter
 from bve.se.resolution.registry import AssetRegistry
 from bve.se.schemas.contracts import (
     IDENTITY_BEARING_EVIDENCE,
     CandidateHit,
+    CompiledQuery,
     IdentityRelationship,
     SourceEvidenceClaim,
     SourceEvidenceType,
@@ -111,6 +113,64 @@ class TestOnlyIdentityEvidenceMayCreateAnAlias:
             is SourceEvidenceType.DISCOVERY_EVIDENCE
         )
         assert IDENTITY_BEARING_EVIDENCE == {SourceEvidenceType.IDENTITY_EVIDENCE}
+
+
+class TestACorpusMustOptInToIdentityPerMention:
+    """The six prose families all arrive through ``IndexedDocumentAdapter``.
+
+    Its corpus shape is therefore where a filing or press release either declares an
+    identity claim or does not, and the default has to be the safe one.
+    """
+
+    @staticmethod
+    def _search(mention: dict, tmp_path) -> CandidateHit:
+        adapter = IndexedDocumentAdapter(
+            "sec_edgar",
+            [
+                {
+                    "url": "https://www.sec.gov/Archives/example.htm",
+                    "publisher": "Example Therapeutics",
+                    "document_type": "10-K",
+                    "title": "Our PD-1 program",
+                    "text": (
+                        "Our anti-PD-1 antibody EXM-101 is in Phase 1. It is administered"
+                        " with pembrolizumab."
+                    ),
+                    "candidates": [mention],
+                }
+            ],
+            snapshot_root=tmp_path / "snapshots",
+        )
+        result = adapter.search(
+            CompiledQuery(query_id="q", query="PD-1 antibody", target_ids=["PDCD1"]),
+            as_of_date=date(2026, 8, 24),
+        )
+        return result.hits[0]
+
+    def test_a_filing_that_declares_nothing_yields_a_discovery_claim(self, tmp_path):
+        hit = self._search(
+            {"asset_name": "EXM-101", "aliases": ["pembrolizumab"]}, tmp_path
+        )
+        assert hit.alias_evidence_type is SourceEvidenceType.DISCOVERY_EVIDENCE
+
+    def test_a_filing_may_declare_an_identity_claim_explicitly(self, tmp_path):
+        hit = self._search(
+            {
+                "asset_name": "EXM-101",
+                "aliases": ["pembrolizumab"],
+                "evidence_type": "IDENTITY_EVIDENCE",
+            },
+            tmp_path,
+        )
+        assert hit.alias_evidence_type is SourceEvidenceType.IDENTITY_EVIDENCE
+
+    def test_an_unrecognized_evidence_type_is_an_error_not_a_downgrade(self, tmp_path):
+        """Silently reading a malformed claim as discovery would hide a corpus defect."""
+
+        with pytest.raises(ValueError, match="unknown evidence_type"):
+            self._search(
+                {"asset_name": "EXM-101", "evidence_type": "IDENTITY"}, tmp_path
+            )
 
 
 class TestClaimProvenanceIsFirstClass:

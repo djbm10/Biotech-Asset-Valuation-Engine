@@ -40,6 +40,19 @@ class TargetQuery:
         return " OR ".join(terms)
 
 
+def _prose_terms(terms: Sequence[str]) -> list[str]:
+    """Keep only terms a document could actually contain.
+
+    The modality vocabulary mixes ontology identifiers with the words companies write:
+    ``ANTIBODY_DRUG_CONJUGATE`` alongside ``antibody drug conjugate``. Full-text search over
+    prose is answered by the latter and never by the former, so phrase-searching an
+    identifier does not retrieve fewer documents -- it retrieves none, silently, which reads
+    as "this source has no evidence" rather than "this query was unaskable".
+    """
+
+    return [term for term in dict.fromkeys(terms) if term and "_" not in term]
+
+
 def _modality_or_group(modality_terms: Sequence[str]) -> str:
     terms = list(dict.fromkeys([*modality_terms, "CD3", "bispecific", "T-cell engager", "BiTE"]))
     return " OR ".join(terms)
@@ -366,10 +379,16 @@ class SecEdgarConnector:
         *,
         fetch_fn: Callable[[str], str] | None = None,
         max_documents: int = 25,
+        max_searches: int = 60,
     ) -> None:
         self.search_fn = search_fn or self._live_search
         self.fetch_fn = fetch_fn or self._live_fetch
         self.max_documents = max_documents
+        #: A bound on requests made to the source, not on evidence admitted. The alias x
+        #: modality product is order 10^3 phrases for one target, which is more traffic than
+        #: a public filing search should be asked for when the document budget is 25. The
+        #: broad alias-only phrases are ordered first so the budget spends on breadth.
+        self.max_searches = max_searches
 
     def _live_search(self, query: str) -> list[dict[str, Any]]:
         payload = get_json(
@@ -383,6 +402,28 @@ class SecEdgarConnector:
     @staticmethod
     def _live_fetch(url: str) -> str:
         return get_text(url)
+
+    @staticmethod
+    def _search_phrases(
+        target: TargetQuery, modality_terms: Sequence[str]
+    ) -> list[str]:
+        """The full-text queries that ask this source the run's scientific question.
+
+        Two bands, both target-driven and neither naming an asset. The target alias alone is
+        what finds a program a filing describes without using the modality words the
+        ontology happens to know -- which is the preclinical and undisclosed-clinical case
+        M12 exists to reach. The alias-plus-modality pairs then bias the bounded document
+        budget toward filings that discuss a matching program rather than mentioning the
+        target in a risk factor.
+        """
+
+        aliases = _prose_terms([target.canonical_id, *target.aliases])
+        modalities = _prose_terms([*modality_terms, "bispecific", "T-cell engager"])
+        phrases = [f'"{alias}"' for alias in aliases]
+        phrases.extend(
+            f'"{alias}" "{modality}"' for alias in aliases for modality in modalities
+        )
+        return list(dict.fromkeys(phrases))
 
     @staticmethod
     def _filing_url(hit: dict[str, Any]) -> tuple[str, str]:
@@ -405,10 +446,14 @@ class SecEdgarConnector:
     ) -> SourceHealth:
         hits: list[dict[str, Any]] = []
         seen: set[str] = set()
+        searched = 0
         try:
             for target in targets:
-                for term in dict.fromkeys([*modality_terms, "bispecific", "T-cell engager"]):
-                    for hit in self.search_fn(f'"{target.canonical_id} {term}"'):
+                for phrase in self._search_phrases(target, modality_terms):
+                    if searched >= self.max_searches:
+                        break
+                    searched += 1
+                    for hit in self.search_fn(phrase):
                         hit_id = str(hit.get("_id", ""))
                         if hit_id and hit_id in seen:
                             continue
