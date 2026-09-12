@@ -655,6 +655,23 @@ def _round_robin(
     return picked
 
 
+def _edgar_full_text_search(query: str) -> list[dict[str, Any]]:
+    """One EDGAR full-text query, shared by the families that read filings.
+
+    Both the filing family and the SEC-filed press-release family ask this same endpoint the
+    same scientific question; only what they then admit differs. Sharing the call keeps the
+    two from drifting apart in how they talk to the source.
+    """
+
+    payload = get_json(
+        "https://efts.sec.gov/LATEST/search-index",
+        params={"q": query},
+    )
+    if not isinstance(payload, dict):
+        raise ValueError("SEC EDGAR returned a non-object JSON response")
+    return payload.get("hits", {}).get("hits", [])
+
+
 class SecEdgarConnector:
     """Retrieve corporate-disclosure text via EDGAR full-text search by target + modality.
 
@@ -691,13 +708,7 @@ class SecEdgarConnector:
         self.max_searches = max_searches
 
     def _live_search(self, query: str) -> list[dict[str, Any]]:
-        payload = get_json(
-            "https://efts.sec.gov/LATEST/search-index",
-            params={"q": query},
-        )
-        if not isinstance(payload, dict):
-            raise ValueError("SEC EDGAR returned a non-object JSON response")
-        return payload.get("hits", {}).get("hits", [])
+        return _edgar_full_text_search(query)
 
     @staticmethod
     def _live_fetch(url: str) -> str:
@@ -882,6 +893,234 @@ class SecEdgarConnector:
                 as_of_date=as_of_date,
                 publication_date=_parse_year(source.get("file_date")),
                 parser_status=parser_status,
+            )
+        return SourceHealth(
+            source_family=self.source_family,
+            connector_succeeded=True,
+            query_returned_results=bool(hits),
+            raw_record_count=len(hits),
+            documents_parsed=parsed,
+            documents_indexed=indexed,
+            parse_failures=failures,
+        )
+
+
+#: Language by which a document says of itself that it is a press release.
+#:
+#: Deliberately narrow, and deliberately not "EX-99". An EX-99 exhibit is whatever the issuer
+#: attached -- a corporate deck, a credit agreement schedule, audited statements of an
+#: acquiree -- and in practice most carry no description beyond the exhibit number itself.
+#: Equating the exhibit number with a press release would relabel all of that as company
+#: news, which is a claim about the document's genre that the filing does not make.
+_PRESS_RELEASE_RE = re.compile(
+    r"\b(?:press\s+release|news\s+release|for\s+immediate\s+release|media\s+release)\b",
+    re.IGNORECASE,
+)
+
+_EXHIBIT_99_RE = re.compile(r"^EX-99(?:\.\d+)?$", re.IGNORECASE)
+
+
+def _press_release_basis(hit: dict[str, Any], body: str) -> str | None:
+    """On what mechanical ground, if any, is this exhibit a press release?
+
+    Returns the field that said so, or None. The distinction being preserved is between
+    ``SEC filing evidence`` and ``SEC-filed issuer press release``: the second is a stronger
+    claim about what kind of communication this is, and it needs the document or its filing
+    metadata to actually say it. When nothing says it, the answer is None and the caller
+    keeps the weaker, true classification rather than upgrading on a guess.
+    """
+
+    source = hit.get("_source", {})
+    if _PRESS_RELEASE_RE.search(str(source.get("file_description", ""))):
+        return "file_description"
+    # Only the opening of the document: a release says what it is in its header, whereas a
+    # deck forty pages later may merely reference one.
+    if _PRESS_RELEASE_RE.search(body[:2000]):
+        return "document_header"
+    return None
+
+
+class SecFiledPressReleaseConnector:
+    """Acquire issuer press releases that were filed with the SEC as 8-K exhibits.
+
+    This is deliberately not a newsroom crawler, and the family name says so. Issuer-
+    controlled newsroom and IR domains cannot be established generically -- SEC exposes no
+    website field, so guessing domains would reintroduce exactly the hand-picking that makes
+    a manifest answer-tuned. Press releases that matter to a program are, however, routinely
+    filed as exhibits to an 8-K: those are issuer-authored, CIK-resolvable, dated by the
+    filing, and reachable over the documented EDGAR route already in use.
+
+    So the coverage function is different from a newsroom's, and the difference is recorded
+    rather than papered over: this reaches SEC registrants only. Private companies, non-US
+    companies without SEC registration, subsidiaries whose parent files, and very early-stage
+    startups are all invisible here -- which is precisely the population the milestone
+    ultimately needs, so registrant status must not become the definition of "company".
+
+    Classification is mechanical and fails closed. Registrant/CIK present, then an eligible
+    filing, then an EX-99.x exhibit, then the exhibit description or its own header saying it
+    is a press or news release. An exhibit that clears the first three but not the fourth is
+    not admitted here at all; it remains ordinary filing evidence, which ``SecEdgarConnector``
+    already covers.
+    """
+
+    source_family = "company_press_release_sec_filed"
+
+    #: Recorded on every document: how the release reached this pipeline. A later reader
+    #: should not be able to mistake this family for a crawl of issuer newsrooms.
+    delivery_channel = "SEC_EXHIBIT"
+
+    #: Which filings may carry an issuer press release as an exhibit. 8-K is the current-report
+    #: form on which issuers disclose material events, and furnishing the release itself as
+    #: EX-99 is the standard practice. Kept as configuration rather than inlined so widening
+    #: it is an explicit, reviewable decision.
+    eligible_root_forms = frozenset({"8-K"})
+
+    def __init__(
+        self,
+        search_fn: SearchFn | None = None,
+        *,
+        fetch_fn: Callable[[str], str] | None = None,
+        max_documents: int = 25,
+        max_searches: int = 60,
+        search_ledger: Path | None = None,
+    ) -> None:
+        self.search_fn = search_fn or _edgar_full_text_search
+        self.fetch_fn = fetch_fn or SecEdgarConnector._live_fetch
+        self.max_documents = max_documents
+        self.max_searches = max_searches
+        self.search_ledger = search_ledger
+        #: Populated by ``acquire``, so the rejection reasons are auditable rather than
+        #: merely subtracted counts.
+        self.rejected: list[dict[str, Any]] = []
+
+    def _eligible(self, hit: dict[str, Any], as_of_date: date) -> str | None:
+        """Why this hit is not an eligible press-release candidate, or None if it is."""
+
+        source = hit.get("_source", {})
+        if not [cik for cik in source.get("ciks", []) or [] if str(cik).strip()]:
+            return "no_sec_registrant_cik"
+        root_forms = {str(form).upper() for form in source.get("root_forms", []) or []}
+        if not root_forms & self.eligible_root_forms:
+            return "form_not_eligible"
+        if not _EXHIBIT_99_RE.match(str(source.get("file_type", "")).strip()):
+            return "not_an_ex99_exhibit"
+        if not _filed_by(hit, as_of_date):
+            return "filed_after_as_of_date"
+        return None
+
+    def acquire(
+        self,
+        store: CorpusStore,
+        *,
+        targets: Sequence[TargetQuery],
+        modality_terms: Sequence[str],
+        as_of_date: date,
+    ) -> SourceHealth:
+        by_phrase: list[list[dict[str, Any]]] = []
+        trail: list[dict[str, Any]] = []
+        seen: set[str] = set()
+        searched = 0
+        self.rejected = []
+        try:
+            for target in targets:
+                for phrase in SecEdgarConnector._search_phrases(target, modality_terms):
+                    if searched >= self.max_searches:
+                        break
+                    searched += 1
+                    found: list[dict[str, Any]] = []
+                    returned = 0
+                    for hit in self.search_fn(phrase):
+                        returned += 1
+                        hit_id = str(hit.get("_id", ""))
+                        if hit_id and hit_id in seen:
+                            continue
+                        reason = self._eligible(hit, as_of_date)
+                        if reason is not None:
+                            self.rejected.append({"hit_id": hit_id, "reason": reason})
+                            continue
+                        seen.add(hit_id)
+                        found.append(hit)
+                    by_phrase.append(found)
+                    trail.append(
+                        {
+                            "phrase": phrase,
+                            "target": target.canonical_id,
+                            "hits_returned": returned,
+                            "hits_eligible": len(found),
+                        }
+                    )
+        except Exception as exc:
+            return SourceHealth(
+                source_family=self.source_family,
+                connector_succeeded=False,
+                query_returned_results=False,
+                error=str(exc),
+            )
+
+        hits = [hit for phrase_hits in by_phrase for hit in phrase_hits]
+        selected = _round_robin(by_phrase, self.max_documents)
+        parsed = failures = indexed = 0
+        for hit in selected:
+            url, document = SecEdgarConnector._filing_url(hit)
+            source = hit.get("_source", {})
+            display = " ".join(source.get("display_names", []) or [])
+            try:
+                body = _strip_html(self.fetch_fn(url))[:40000]
+                parser_status = ParserStatus.OK if body else ParserStatus.EMPTY
+            except Exception:
+                body = ""
+                parser_status = ParserStatus.FAILED
+            basis = _press_release_basis(hit, body)
+            if basis is None:
+                # The last mechanical step failed. Not admitted as press-release evidence and
+                # not counted as a parse failure either: the document parsed fine, it simply
+                # is not this genre.
+                self.rejected.append(
+                    {"hit_id": str(hit.get("_id", "")), "reason": "no_press_release_indicator"}
+                )
+                continue
+            if parser_status is ParserStatus.OK:
+                parsed += 1
+                indexed += 1
+            else:
+                failures += 1
+            store.add(
+                source_family=self.source_family,
+                source_url=url,
+                publisher=display or "SEC EDGAR",
+                document_type="company_press_release",
+                source_tier=SourceTier.COMPANY_AUTHORED,
+                raw_payload={
+                    "hit": hit,
+                    "text": body,
+                    "delivery_channel": self.delivery_channel,
+                    "classification_basis": basis,
+                    "exhibit_type": source.get("file_type"),
+                },
+                text=f"{display} {body}".strip(),
+                title=display or document,
+                as_of_date=as_of_date,
+                publication_date=_parse_year(source.get("file_date")),
+                parser_status=parser_status,
+            )
+        if self.search_ledger is not None:
+            self.search_ledger.parent.mkdir(parents=True, exist_ok=True)
+            self.search_ledger.write_text(
+                json.dumps(
+                    {
+                        "source_family": self.source_family,
+                        "delivery_channel": self.delivery_channel,
+                        "as_of_date": as_of_date.isoformat(),
+                        "phrases_searched": len(trail),
+                        "eligible_hits": len(hits),
+                        "documents_admitted": indexed + failures,
+                        "trail": trail,
+                        "rejected": self.rejected,
+                    },
+                    indent=1,
+                    sort_keys=True,
+                )
+                + "\n"
             )
         return SourceHealth(
             source_family=self.source_family,

@@ -14,6 +14,7 @@ from bve.se.acquisition.connectors import (
     FdaLabelConnector,
     PubMedConnector,
     SecEdgarConnector,
+    SecFiledPressReleaseConnector,
     TargetQuery,
 )
 from bve.se.acquisition.corpus_store import CorpusStore
@@ -251,6 +252,104 @@ def test_crossref_one_mechanism_covers_every_declared_venue(tmp_path) -> None:
         )
         families.append(store.documents()[0].source_family)
     assert families == ["conference_asco", "conference_aacr", "conference_ash"]
+
+
+def _ex99_hit(
+    doc: str = "ex991.htm",
+    *,
+    file_type: str = "EX-99.1",
+    description: str = "EX-99.1",
+    root_forms: list[str] | None = None,
+    ciks: list[str] | None = None,
+    file_date: str = "2024-03-07",
+) -> dict:
+    return {
+        "_id": f"0000950170-24-029298:{doc}",
+        "_source": {
+            "ciks": ["0001796280"] if ciks is None else ciks,
+            "display_names": ["ORIC (ORIC)"],
+            "file_date": file_date,
+            "file_type": file_type,
+            "file_description": description,
+            "root_forms": ["8-K"] if root_forms is None else root_forms,
+        },
+    }
+
+
+def test_sec_filed_press_release_admits_an_exhibit_that_says_it_is_one(tmp_path) -> None:
+    def fake_search(query: str):
+        return [_ex99_hit(description="EX-99.1 - PRESS RELEASE DATED MARCH 7, 2024")]
+
+    store = CorpusStore(tmp_path)
+    health = SecFiledPressReleaseConnector(
+        fake_search, fetch_fn=lambda url: "<html>ORIC-944 data</html>", max_searches=1
+    ).acquire(store, targets=TARGETS, modality_terms=MODALITY, as_of_date=AS_OF)
+
+    assert health.documents_indexed == 1
+    doc = store.documents()[0]
+    assert doc.source_family == "company_press_release_sec_filed"
+    snapshot = json.loads((tmp_path / doc.snapshot_path).read_text())
+    # The channel is recorded so nobody later reads this family as a newsroom crawl.
+    assert snapshot["delivery_channel"] == "SEC_EXHIBIT"
+    assert snapshot["classification_basis"] == "file_description"
+
+
+def test_sec_filed_press_release_accepts_a_release_that_only_its_header_declares(tmp_path) -> None:
+    def fake_search(query: str):
+        return [_ex99_hit()]
+
+    store = CorpusStore(tmp_path)
+    connector = SecFiledPressReleaseConnector(
+        fake_search,
+        fetch_fn=lambda url: "<html><p>FOR IMMEDIATE RELEASE</p><p>ORIC-944 data</p></html>",
+        max_searches=1,
+    )
+    connector.acquire(store, targets=TARGETS, modality_terms=MODALITY, as_of_date=AS_OF)
+    assert [doc.source_family for doc in store.documents()] == ["company_press_release_sec_filed"]
+    snapshot = json.loads((tmp_path / store.documents()[0].snapshot_path).read_text())
+    assert snapshot["classification_basis"] == "document_header"
+
+
+def test_sec_filed_press_release_refuses_a_bare_ex99_exhibit(tmp_path) -> None:
+    # The point of the family: an EX-99 exhibit is whatever the issuer attached. A corporate
+    # deck is not a press release, and calling it one would be a claim the filing never made.
+    def fake_search(query: str):
+        return [_ex99_hit(description="EX-99.1 - F-STAR CORPORATE PRESENTATION")]
+
+    store = CorpusStore(tmp_path)
+    connector = SecFiledPressReleaseConnector(
+        fake_search,
+        fetch_fn=lambda url: "<html>Slide 1. Corporate presentation. Forward-looking statements.</html>",
+        max_searches=1,
+    )
+    health = connector.acquire(store, targets=TARGETS, modality_terms=MODALITY, as_of_date=AS_OF)
+    assert store.documents() == []
+    assert health.parse_failures == 0
+    assert [row["reason"] for row in connector.rejected] == ["no_press_release_indicator"]
+
+
+@pytest.mark.parametrize(
+    ("hit", "reason"),
+    [
+        (_ex99_hit(ciks=[]), "no_sec_registrant_cik"),
+        (_ex99_hit(root_forms=["425"]), "form_not_eligible"),
+        (_ex99_hit(file_type="EX-10.1"), "not_an_ex99_exhibit"),
+        (_ex99_hit(file_date="2026-09-01"), "filed_after_as_of_date"),
+    ],
+)
+def test_sec_filed_press_release_eligibility_chain_is_mechanical(tmp_path, hit, reason) -> None:
+    def fake_search(query: str):
+        return [hit]
+
+    store = CorpusStore(tmp_path)
+    connector = SecFiledPressReleaseConnector(
+        fake_search, fetch_fn=lambda url: "PRESS RELEASE", max_searches=1
+    )
+    connector.acquire(store, targets=TARGETS, modality_terms=MODALITY, as_of_date=AS_OF)
+    # Every rejection names the step that failed, and no step is skipped by a later one
+    # happening to succeed -- the fetched body here would otherwise classify as a release.
+    assert store.documents() == []
+    assert [row["reason"] for row in connector.rejected] == [reason]
 
 
 def test_sec_connector_fetches_bounded_documents(tmp_path) -> None:
