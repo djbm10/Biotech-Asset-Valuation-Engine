@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import ipaddress
 import json
 import os
@@ -122,6 +123,25 @@ def configured_user_agent() -> str:
             "BVE_SE_USER_AGENT must include an operator contact email"
         )
     return user_agent
+
+
+def user_agent_receipt() -> dict[str, object]:
+    """Attest which operator identity a run transmitted, without recording the address.
+
+    Provenance needs to answer two questions about a live acquisition: was the source told
+    who was asking, and was it the same identity across the runs being compared. A digest
+    answers both. The address itself answers neither better, and it is a real person's
+    contact detail that would then live in every artifact and commit that quotes it, so it
+    is deliberately not returned here -- ``configured_user_agent`` remains the only way to
+    obtain it, and only the HTTP boundary calls that.
+    """
+
+    user_agent = configured_user_agent()
+    return {
+        "contact_present": bool(_CONTACT_EMAIL_RE.search(user_agent)),
+        "user_agent_sha256": hashlib.sha256(user_agent.encode()).hexdigest(),
+        "redacted": True,
+    }
 
 
 def build_retrying_session(user_agent: str | None = None) -> Session:
