@@ -1,0 +1,38 @@
+{
+  "binding": true,
+  "draws": 1,
+  "generated_at": "2026-09-13T14:48:26.688115+00:00",
+  "no_performance_information_used": true,
+  "pool_artifact": "m13_candidate_pool.json",
+  "pool_sha256": "315db213118f3226ab6962f44bb2b310ef2a2a2a9e76513189725f305ff00b71",
+  "pool_size": 12,
+  "pool_sorted": [
+    "ADRB1",
+    "ADRB2",
+    "CHRM1",
+    "CHRM3",
+    "DRD2",
+    "HRH1",
+    "HTR2A",
+    "HTR2C",
+    "NR3C1",
+    "OPRM1",
+    "SLC6A2",
+    "SLC6A4"
+  ],
+  "redraw_permitted_only_if": "the post-selection clinical-stage count fails rule 4 (>=25), verified before any engine run",
+  "reproduce": "python -c \"import json,hashlib,random;d=hashlib.sha256(open('m13_candidate_pool.json','rb').read()).hexdigest();print(random.Random(int(d,16)).choice(sorted(json.load(open('m13_candidate_pool.json'))['candidate_pool'])))\"",
+  "rules_artifact": "m13_pool_rules.json",
+  "rules_sha256": "26a8b6ca81e8352e988465c3f936d129392d2d778fc4c2a72d507231bf398597",
+  "schema_version": "m13_selection_v1",
+  "seed_hex": "315db213118f3226ab6962f44bb2b310ef2a2a2a9e76513189725f305ff00b71",
+  "seed_source": "sha256 of the frozen pool file (commit-then-reveal; seed cannot be shopped for)",
+  "selected_target": "SLC6A2",
+  "selected_target_ontology": {
+    "canonical_target_id": "TARGET:SLC6A2",
+    "distinct_drugs_in_ontology": 96,
+    "mab_fraction": 0.0,
+    "rule6_prior_contact_hits": 0
+  },
+  "selection_method": "random.Random(int(sha256(pool_file),16)).choice(sorted(pool))"
+}

@@ -1,0 +1,43 @@
+{
+  "schema_version": "m13_pool_rules_v1",
+  "declared_before_computing_pool": true,
+  "why_declared_first": "Thresholds chosen after seeing the candidate distribution would be a way of choosing the target while appearing not to. They are fixed here, the pool is computed once, and the result is accepted whatever it is.",
+  "universe": {
+    "source": "frozen ontology snapshot chembl_ChEMBL_37__open_targets_26.06__resolver_v2__modality_v2",
+    "path": "data/se/ontology/current/edges.jsonl",
+    "edge_filter": "relationship_type == DIRECT_TARGET AND status == USABLE",
+    "count_unit": "distinct canonical_drug_id per canonical_target_id"
+  },
+  "thresholds": {
+    "min_distinct_drugs": 40,
+    "why_40_not_25": "Rule 4 requires >=25 distinct CLINICAL-STAGE assets. The snapshot carries no phase field, so distinct-drug count is a proxy that also includes preclinical, withdrawn and tool compounds. 40 is a deliberate margin on the 25 floor. The true clinical-stage count is verified after selection and before any engine run; a rule-4 failure at that point triggers a redraw from the same frozen pool, which the proposal already permits.",
+    "max_mab_fraction": 0.30,
+    "mab_test": "canonical drug name ends in 'mab' (case-insensitive), the INN stem for monoclonal antibodies",
+    "why_mab_fraction": "Rule 2 requires a different modality class from the antibody-dominated M8-M12 work. A target whose drug set is mostly -mab is antibody-centric and is excluded mechanically, without my naming any target."
+  },
+  "rule_1_excluded_symbols": [
+    "PDCD1", "CD274", "PDCD1LG2", "CTLA4", "LAG3", "TIGIT", "HAVCR2",
+    "CD276", "VTCN1", "BTLA", "CD226", "ICOS", "TNFRSF9", "TNFRSF4", "CD40", "CD47", "SIRPA"
+  ],
+  "rule_1_note": "The proposal's named exclusions plus the adjacent co-stimulatory/checkpoint set, which shares the immuno-oncology checkpoint literature and would let PDCD1-era vocabulary transfer.",
+  "rule_6_prior_contact_test": {
+    "method": "case-insensitive word-boundary search for the target symbol across source, test, documentation, configuration and benchmark-definition files in the bve-b8 repo tree and the pdcd1_baseline staging tree, excluding .git, the ontology snapshot, and replay result/corpus artifacts",
+    "amended": true,
+    "amendment_reason": "The first formulation searched every file including the 150-210 MB replay results. That is both impractical and wrong: a symbol occurring in a B8 replay OUTPUT is not prior contact in the sense rule 6 means. Rule 6 excludes targets that shaped the system -- worked examples, test fixtures, seeds, tuning cases -- and an output the engine happened to emit shaped nothing. Amended before any rule-6 result was computed or observed: the first attempt was stopped having produced no output, so the amendment cannot have been informed by which candidates it would affect.",
+    "action_on_hit": "discard the candidate from the pool; do not patch it"
+  },
+  "rule_3_status": "NOT ENFORCED AT POOL STAGE. Therapeutic area is not mechanically derivable from the snapshot, and the proposal states rule 3 as 'if possible' rather than as a hard filter. The selected target's TA is recorded after selection, and if it is oncology that is reported as a weaker generalization claim rather than grounds for a redraw.",
+  "selection_method": {
+    "algorithm": "sort pool by canonical_target_id; seed a Mersenne Twister with the integer value of the sha256 of the frozen pool file; draw one element with random.choice",
+    "seed_derivation": "sha256 of m13_candidate_pool.json, the pool file itself",
+    "why_this_seed": "Commit-then-reveal. The seed is a function of the pool, so it cannot be shopped for after the pool is known, and any third party can recompute the same draw from the committed file. A seed I chose by hand after seeing the pool would be indistinguishable from picking the target.",
+    "draws": 1,
+    "result_is_binding": "The first draw is the benchmark. No redraw except on a mechanically verified rule-4 failure, and no redraw on any performance-related ground."
+  },
+  "prohibited": [
+    "inspecting candidate-specific engine performance before selection",
+    "running any target-specific query before the selection artifact is hashed",
+    "adding target-specific synonyms or hand-mapping assets at any point in M13",
+    "target-specific code changes"
+  ]
+}
