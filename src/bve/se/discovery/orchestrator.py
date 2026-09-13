@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import time
+from collections import Counter
 from collections.abc import Iterable, Sequence
 from datetime import datetime, timezone
 from typing import Protocol
@@ -95,6 +96,10 @@ class DiscoveryOrchestrator:
         adapters: Sequence[SourceAdapter],
         *,
         max_passes: int = 8,
+        #: Query attempts permitted *per source*, not in total. A shared pool would mean the
+        #: cost of adding a source is paid by the sources already configured, which is both a
+        #: silent regression and an unattributable one. Total work therefore scales with the
+        #: number of sources, which is the honest cost of searching more places.
         max_queries: int = 5000,
         max_expansion_depth: int = 1,
         required_zero_growth_passes: int = 2,
@@ -205,6 +210,7 @@ class DiscoveryOrchestrator:
         queue = list(compile_problem_queries(problem))
         known_query_strings: set[str] = {query.query for query in queue}
         seen_queries: set[tuple[int, str, str]] = set()
+        queries_by_source: Counter[str] = Counter()
         seen_hits: dict[str, CandidateHit] = {}
         attempts: list[SearchAttempt] = []
         coverage: list[CoveragePass] = []
@@ -237,10 +243,19 @@ class DiscoveryOrchestrator:
                     key = (pass_number, adapter.source_name, query.query)
                     if key in seen_queries:
                         continue
-                    if len(seen_queries) >= self.max_queries:
+                    # Per source, not pooled across sources. Counting every source's queries
+                    # against one shared total made the limit bind on whichever sources the
+                    # adapter loop happened to reach first, so enabling a source removed depth
+                    # from the sources already enabled: eight sources received 625 queries each
+                    # where three had received 955, and the resulting shortfall in PubMed
+                    # records looked exactly like the newly added families destroying identity
+                    # edges. A depth limit that couples sources together makes any multi-source
+                    # result unattributable to the sources in it.
+                    if queries_by_source[adapter.source_name] >= self.max_queries:
                         limit_reason = f"maximum query attempts reached ({self.max_queries})"
-                        break
+                        continue
                     seen_queries.add(key)
+                    queries_by_source[adapter.source_name] += 1
                     started = datetime.now(timezone.utc)
                     result, attempts_made, attempt_records = self._search_with_retry(
                         adapter, query, problem.buyer.as_of_date, pass_number=pass_number
