@@ -495,5 +495,54 @@ class BiomedicalEntityResolver:
         entity = self.get(canonical_id, entity_type)
         return entity.queryable_aliases() if entity else ()
 
+    def claimants_of(self, alias: str, entity_type: EntityType = EntityType.TARGET) -> tuple[str, ...]:
+        """Every entity of this type that claims ``alias``, in canonical id order.
+
+        One claimant means the string identifies the entity. Two or more means it does
+        not, whatever else it may be useful for.
+        """
+
+        hits = self._lookup.get((entity_type, normalize_lookup_key(alias)), [])
+        return tuple(
+            sorted(
+                {
+                    canonical_id
+                    for alias_type, canonical_id in hits
+                    # Same exemption as :meth:`_flag_shared_aliases`: a classification
+                    # identifier is shared by design and says nothing about ambiguity.
+                    if alias_type not in {AliasType.XREF, AliasType.DESCRIPTION}
+                }
+            )
+        )
+
+    def unambiguous_aliases_for(
+        self, canonical_id: str, entity_type: EntityType = EntityType.TARGET
+    ) -> tuple[str, ...]:
+        """Queryable aliases that no *other* entity of this type also claims.
+
+        :meth:`aliases_for` answers "what is this entity called?", which is the right
+        question for recognising a name in text. It is the wrong question for building a
+        search query, because an alias another gene also owns retrieves that gene's
+        literature with no way to tell afterwards which one a hit came from. The frozen
+        snapshot offers SLC6A2 the alias ``NET``, which matches several thousand
+        neutrophil-extracellular-trap papers; searching it did not widen recall, it
+        replaced the corpus.
+
+        The rule is mechanical and target-agnostic -- admit an alias only if this entity
+        is its sole claimant -- so it needs no per-target curation and cannot be tuned
+        toward a benchmark. An entity whose aliases are all shared keeps its canonical id
+        and symbol via the caller, so it never degrades to searching nothing.
+        """
+
+        entity = self.get(canonical_id, entity_type)
+        if entity is None:
+            return ()
+        resolved_id = entity.canonical_id
+        return tuple(
+            alias
+            for alias in entity.queryable_aliases()
+            if set(self.claimants_of(alias, entity_type)) <= {resolved_id}
+        )
+
     def entities(self, entity_type: EntityType = EntityType.TARGET) -> tuple[CanonicalEntity, ...]:
         return tuple(sorted(self._by_type.get(entity_type, []), key=lambda item: item.canonical_id))

@@ -127,7 +127,12 @@ def test_permanent_query_failure_makes_the_run_unscoreable() -> None:
     result = _run(_orchestrator(adapter, query_attempts=3, source_failure_threshold=1))
 
     manifest = result.manifest
-    assert manifest.source_status["clinicaltrials_gov"] is SearchOutcome.FAILED
+    # PARTIAL, not FAILED: the plan now also issues the unconjuncted target query, which
+    # this adapter answers, so the source really did return some evidence. The invariant
+    # under test is unchanged and is asserted below -- a mandatory source with a query
+    # that never succeeds makes the run fatally unscoreable, and partial success must not
+    # buy it a waiver.
+    assert manifest.source_status["clinicaltrials_gov"] is SearchOutcome.PARTIAL
     assert manifest.status is RunStatus.INCOMPLETE
     # The whole point: --allow-incomplete may not waive this.
     assert manifest.fatal_reasons, "a failed mandatory source must be fatal, not merely incomplete"

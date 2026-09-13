@@ -131,9 +131,15 @@ class TestACorpusMustOptInToIdentityPerMention:
                     "url": "https://www.sec.gov/Archives/example.htm",
                     "publisher": "Example Therapeutics",
                     "document_type": "10-K",
-                    "title": "Our PD-1 program",
+                    "title": "Our PDCD1 program",
+                    # Named by the canonical symbol, not only by the nickname "PD-1":
+                    # that nickname is claimed by more than one entity, so it reaches
+                    # the search vocabulary only when a coherence probe admits it, and
+                    # no probe is installed here. What this class tests is whether a
+                    # mention opts in to an identity claim, which is independent of how
+                    # the document was found.
                     "text": (
-                        "Our anti-PD-1 antibody EXM-101 is in Phase 1. It is administered"
+                        "Our anti-PDCD1 antibody EXM-101 is in Phase 1. It is administered"
                         " with pembrolizumab."
                     ),
                     "candidates": [mention],

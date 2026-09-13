@@ -127,6 +127,20 @@ def target_aliases(canonical_id: str) -> tuple[str, ...]:
     return resolver.aliases_for(canonical_id, EntityType.TARGET)
 
 
+def unambiguous_target_aliases(canonical_id: str) -> tuple[str, ...]:
+    """Alias spellings that identify *only* this target; ``()`` when unavailable.
+
+    The query-building counterpart to :func:`target_aliases`. See
+    :meth:`BiomedicalEntityResolver.unambiguous_aliases_for` for why searching and
+    recognising need different vocabularies.
+    """
+
+    resolver = get_resolver()
+    if resolver is None:
+        return ()
+    return resolver.unambiguous_aliases_for(canonical_id, EntityType.TARGET)
+
+
 @lru_cache(maxsize=1)
 def known_targets() -> tuple[tuple[str, tuple[str, ...]], ...]:
     """Every target in the snapshot with its queryable aliases; ``()`` without one.

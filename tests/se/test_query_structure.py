@@ -151,13 +151,37 @@ class TestPlanCarriesNoRedundantQueries:
 
     def test_aliases_do_not_multiply_the_plan(self):
         from bve.se.discovery.query import compile_problem_queries
+        from bve.se.discovery.seeding import SeedProvenance
 
         queries = compile_problem_queries(self._problem())
-        modalities = {m for q in queries for m in q.modality_ids}
-        assert len(queries) == len(modalities), (
-            f"{len(queries)} queries for {len(modalities)} modalities -- "
-            "aliases are multiplying the plan again"
+        vocabulary = [
+            q for q in queries if q.seed_provenance == SeedProvenance.TARGET_VOCABULARY
+        ]
+        modalities = {m for q in vocabulary for m in q.modality_ids}
+        # One query per requested modality, plus exactly one unconjuncted target query.
+        # The original invariant was "one query per modality"; the modality conjunct is
+        # now a preference rather than a filter, so the plan also issues the bare target
+        # vocabulary once. What must never come back is a query per *spelling*.
+        assert len(vocabulary) == len(modalities) + 1, (
+            f"{len(vocabulary)} target-vocabulary queries for {len(modalities)} "
+            "modalities -- aliases are multiplying the plan again"
         )
+
+    def test_seeded_queries_are_one_per_asset_not_one_per_spelling(self):
+        """The same anti-multiplication rule, applied to the asset-seeded half of the plan."""
+
+        from bve.se.discovery.query import compile_problem_queries
+        from bve.se.discovery.seeding import SeedProvenance
+
+        seeded = [
+            q
+            for q in compile_problem_queries(self._problem())
+            if q.seed_provenance == SeedProvenance.AUTHORITY_SEEDED_ASSET
+        ]
+        assert seeded, "PDCD1 has known binders, so the plan must seed on them"
+        # Every spelling of one drug belongs in one OR group, exactly as target aliases do.
+        assert len({q.seed_drug_id for q in seeded}) == len(seeded)
+        assert all(len(q.aliases) >= 1 for q in seeded)
 
     def test_every_alias_is_still_searched(self):
         # Compacting the plan must not narrow it: the aliases move into the OR group
@@ -185,11 +209,19 @@ class TestPlanCarriesNoRedundantQueries:
         """
         from bve.se.discovery.adapters import QueryVocabulary
         from bve.se.discovery.query import compile_problem_queries
+        from bve.se.discovery.seeding import SeedProvenance
         from bve.se.ontology.targets import target_aliases
         from bve.se.universe.ctgov import build_intervention_expression
 
         problem = self._problem()
-        compact = compile_problem_queries(problem)
+        # Target-vocabulary queries only. Asset-seeded queries deliberately each carry a
+        # different expression -- that is the point of them -- so they are not part of the
+        # "same expression issued many times" equivalence this test freezes.
+        compact = [
+            q
+            for q in compile_problem_queries(problem)
+            if q.seed_provenance == SeedProvenance.TARGET_VOCABULARY
+        ]
         aliases = target_aliases(
             problem.strategic_gap.target_expression.targets[0].canonical_id
         )

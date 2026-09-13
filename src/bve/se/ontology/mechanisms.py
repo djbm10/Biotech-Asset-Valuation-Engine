@@ -244,11 +244,34 @@ class DrugTargetAuthority:
 
     def __init__(self, edges: Iterable[DrugTargetEdge]) -> None:
         self._by_drug: dict[str, list[DrugTargetEdge]] = defaultdict(list)
+        self._by_target: dict[str, set[str]] = defaultdict(set)
         for edge in edges:
             self._by_drug[edge.canonical_drug_id].append(edge)
+            if (
+                edge.status is EdgeStatus.USABLE
+                and edge.relationship_type is TargetRelationship.DIRECT_TARGET
+                and edge.canonical_target_id
+            ):
+                self._by_target[edge.canonical_target_id].add(edge.canonical_drug_id)
 
     def edges_for(self, canonical_drug_id: str) -> tuple[DrugTargetEdge, ...]:
         return tuple(self._by_drug.get(canonical_drug_id, ()))
+
+    def drugs_for(self, canonical_target_id: str) -> tuple[str, ...]:
+        """Drugs the authority says act directly on this target, in canonical id order.
+
+        The same ``DIRECT_TARGET`` evidence :meth:`targets_of` reads, indexed the other
+        way round. It exists so discovery can ask "who is known to act here?" and go
+        looking for those assets by name, instead of only asking documents whether they
+        mention the target -- which assumes the target is named in the documents
+        describing its own assets, and is false outside immuno-oncology.
+
+        This answers *where to look*, never *what is true*. A drug named here has not
+        been shown to bind anything; it has been nominated for evidence collection, and
+        must still earn a :class:`CandidateTargetAssertion` through the normal path.
+        """
+
+        return tuple(sorted(self._by_target.get(canonical_target_id, ())))
 
     def _evidence(self, canonical_drug_id: str) -> list[DrugTargetEdge]:
         """Edges that actually establish what the asset binds.

@@ -7,6 +7,7 @@ import yaml
 
 from bve.se.discovery.orchestrator import AdapterResult, DiscoveryOrchestrator
 from bve.se.discovery.query import compile_problem_queries
+from bve.se.discovery.seeding import SeedProvenance
 from bve.se.schemas.contracts import (
     BuyerProblemV2,
     CandidateHit,
@@ -62,7 +63,21 @@ def test_query_compiler_keeps_any_targets_separate() -> None:
 def test_exact_combination_queries_include_both_targets() -> None:
     queries = compile_problem_queries(_problem("cd19_bcma_dual_target.yaml"))
     assert queries
-    assert all(set(query.target_ids) == {"CD19", "BCMA"} for query in queries)
+    # Target-vocabulary queries carry the whole conjunction. Asset-seeded queries do not:
+    # a seed is one drug the authority ties to one target, so binding it to both would
+    # claim a dual-target association the authority never asserted.
+    combination = [
+        query
+        for query in queries
+        if query.seed_provenance == SeedProvenance.TARGET_VOCABULARY
+    ]
+    assert combination
+    assert all(set(query.target_ids) == {"CD19", "BCMA"} for query in combination)
+    assert all(
+        len(query.target_ids) == 1
+        for query in queries
+        if query.seed_provenance == SeedProvenance.AUTHORITY_SEEDED_ASSET
+    )
 
 
 def test_orchestrator_converges_after_two_complete_zero_growth_passes() -> None:

@@ -396,6 +396,14 @@ class CompiledQuery(StrictModel):
     modality_ids: list[str] = Field(default_factory=list)
     aliases: list[str] = Field(default_factory=list)
     expansion_depth: int = Field(default=0, ge=0)
+    #: ``SeedProvenance`` value: whether this query came from the target's own vocabulary
+    #: or from a drug name the drug->target authority supplied. Defaulted so existing
+    #: callers keep working, and carried through to the attempt log because it cannot be
+    #: reconstructed afterwards -- a document reached by searching the authority's own
+    #: reference data corroborates nothing about that data.
+    seed_provenance: str = "TARGET_VOCABULARY"
+    #: Canonical drug id this query was seeded from, when it was seeded from one.
+    seed_drug_id: str | None = None
 
 
 class RunStatus(str, Enum):

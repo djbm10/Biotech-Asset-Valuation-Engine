@@ -22,6 +22,8 @@ from bve.se.ontology.modality import (
     normalize_modality,
 )
 from bve.se.ontology.records import normalize_lookup_key
+from bve.se.discovery.alias_admission import searchable_target_aliases
+from bve.se.discovery.seeding import SeedProvenance
 from bve.se.ontology.targets import known_targets, target_aliases
 from bve.se.universe.provenance import describe_universe
 from bve.se.universe.provider import (
@@ -264,9 +266,23 @@ class QueryVocabulary:
     @classmethod
     def for_query(cls, query: CompiledQuery) -> "QueryVocabulary":
         targets: list[tuple[str, tuple[str, ...]]] = []
+        seeded = query.seed_provenance == SeedProvenance.AUTHORITY_SEEDED_ASSET
         for canonical in query.target_ids:
+            if seeded:
+                # An asset-seeded query goes looking for the drug, not for the target. If
+                # the target vocabulary were unioned in here the expression would become
+                # "target OR drug" and every seeded query would collapse back into the
+                # same target search -- which is exactly the search that cannot reach an
+                # asset whose documents never name its target.
+                targets.append((canonical, tuple(sorted({_fold(a) for a in query.aliases}))))
+                continue
             terms = {_fold(canonical)}
-            terms.update(_fold(alias) for alias in target_aliases(canonical))
+            # Unambiguous aliases only, and re-derived here rather than trusted from the
+            # query, because this is the layer that actually decides what gets searched.
+            # Expanding the full alias set at retrieval time is what put "NET" into every
+            # SLC6A2 query after the compiler had already excluded it: a caller could not
+            # narrow its own search, so the problem contract was advisory.
+            terms.update(_fold(alias) for alias in searchable_target_aliases(canonical))
             # Query-supplied aliases are query-wide, not per-target, so they can only be
             # attributed to a specific target when the query names exactly one. With more
             # than one, attributing them to each would let an alias of A match B.
