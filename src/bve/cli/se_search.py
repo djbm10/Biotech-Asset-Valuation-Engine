@@ -170,6 +170,15 @@ def build_parser() -> argparse.ArgumentParser:
         ),
     )
     parser.add_argument(
+        "--alias-probe-out",
+        help=(
+            "Probe every shared alias of every declared target before the run and write "
+            "the decisions here. Without this, shared aliases stay out of the search: a "
+            "string more than one gene claims is admitted only on measured evidence that "
+            "this target dominates the others in the retrieved corpus."
+        ),
+    )
+    parser.add_argument(
         "--progress",
         action="store_true",
         help=(
@@ -190,6 +199,33 @@ def _load_json_snapshots(directory: Path) -> list[dict]:
         except (OSError, json.JSONDecodeError):
             continue
     return records
+
+
+def _probe_shared_aliases(problem: BuyerProblemV2, out_path: Path) -> None:
+    """Decide, once per run, which shared aliases this run may search with.
+
+    The registry is installed globally because the retrieval vocabulary is reached
+    through call paths that carry no run context, and because the decision belongs to the
+    run rather than to any one query -- re-deciding per query could make the plan
+    disagree with itself.
+    """
+
+    from bve.se.discovery.alias_admission import install_registry, probe_and_admit
+    from bve.se.discovery.alias_probe import ctgov_probe_fetcher
+
+    as_of = str(problem.buyer.as_of_date)
+    registry = probe_and_admit(
+        [target.canonical_id for target in problem.strategic_gap.target_expression.targets],
+        ctgov_probe_fetcher(as_of),
+        as_of_date=as_of,
+        source="clinicaltrials_gov",
+        source_release=as_of,
+    )
+    install_registry(registry)
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(
+        json.dumps([vars(probe) for probe in registry.probes()], indent=2, default=str) + "\n"
+    )
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -290,6 +326,13 @@ def main(argv: list[str] | None = None) -> int:
         *unavailable_adapters,
     ]
     run_id = args.run_id or f"se:{uuid.uuid4()}"
+    if args.alias_probe_out:
+        if args.replay_corpus or args.offline:
+            parser.error(
+                "--alias-probe-out needs live retrieval; an offline or replayed run "
+                "keeps the fail-closed sole-claimant vocabulary"
+            )
+        _probe_shared_aliases(problem, Path(args.alias_probe_out))
     telemetry = StageTelemetry(emit=stderr_emitter if args.progress else None)
     if args.acquire_only:
         try:
