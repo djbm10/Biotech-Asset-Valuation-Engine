@@ -141,6 +141,10 @@ class AssetRegistry:
         self._deindex_asset(record.asset_id)
         self.assets[record.asset_id] = record
         keys = self._alias_keys(record)
+        # The same keys the index runs on, published on the record itself. This is the
+        # only write path, so an asset cannot reach a caller carrying keys that disagree
+        # with the names it was indexed under.
+        record.identity_keys = sorted(keys)
         self._alias_keys_by_asset[record.asset_id] = keys
         for key in keys:
             self._assets_by_alias_key.setdefault(key, set()).add(record.asset_id)

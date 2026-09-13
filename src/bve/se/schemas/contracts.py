@@ -289,6 +289,14 @@ class CanonicalAsset(StrictModel):
     asset_id: str
     canonical_name: str
     aliases: list[str] = Field(default_factory=list)
+    #: This asset's names in the one normalized space identity is decided in -- the same
+    #: space ``IdentityMention.normalized_asset_name`` is written in, produced by the same
+    #: ``normalize_identity_name``. ``canonical_name`` and ``aliases`` are for display and
+    #: keep their punctuation; joining anything to an asset by one of those strings
+    #: compares across two name spaces and silently loses every development code. Published
+    #: because the registry already indexes on these keys internally, and a caller left to
+    #: re-derive them is a caller free to derive them differently.
+    identity_keys: list[str] = Field(default_factory=list)
     company_ids: list[str] = Field(default_factory=list)
     trial_ids: list[str] = Field(default_factory=list)
     #: Targets this asset is documented to act on. Populated only from confirmed
