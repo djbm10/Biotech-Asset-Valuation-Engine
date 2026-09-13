@@ -1060,7 +1060,19 @@ class PubMedDiscoveryAdapter:
             title = str(record.get("title", ""))
             abstract = str(record.get("abstract", ""))
             text = f"{title} {abstract}".casefold()
-            if not all(target.casefold() in text for target in query.target_ids):
+            # The same relevance gate every other adapter applies (see the CT.gov and
+            # corpus adapters), rather than a raw substring test against the canonical id.
+            # A canonical id is an identifier, not a string prose contains: as soon as a
+            # target's bare symbol is contested the id must carry its ``TARGET:`` prefix,
+            # and testing for that literal discarded every PubMed record -- 4833 of 4833
+            # in the M15 HRH1 run. Matching the ontology vocabulary also means an abstract
+            # that names the target the way literature actually names it is no longer
+            # required to spell the gene symbol.
+            #
+            # This decides relevance only. It is not an identity claim about anything in
+            # the abstract; identity still has to be asserted and corroborated downstream.
+            observed_targets = vocabulary.targets_in(text)
+            if query.target_ids and not set(query.target_ids).issubset(observed_targets):
                 continue
             if not vocabulary.matches_requested_modality(text):
                 continue
@@ -1079,7 +1091,6 @@ class PubMedDiscoveryAdapter:
             )
             if not _matches_follow_up(query, f"{title} {abstract}"):
                 continue
-            observed_targets = sorted(vocabulary.targets_in(text))
             observed_modality = vocabulary.modality_in(text)
             for asset in extract_observed_asset_names(title, abstract):
                 hits.append(
@@ -1089,7 +1100,7 @@ class PubMedDiscoveryAdapter:
                         source_document_id=document_id,
                         query=query.query,
                         asset_name=asset,
-                        target_terms=observed_targets,
+                        target_terms=sorted(observed_targets),
                         modality_terms=[observed_modality] if observed_modality else [],
                         aliases=[title],
                         snippet=abstract[:500],
