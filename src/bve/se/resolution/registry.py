@@ -33,7 +33,16 @@ def normalize_identity_name(value: str | None) -> str | None:
     normalized = " ".join(normalized.split())
     # Development codes are commonly rendered as CLN-978, CLN 978, or CLN978.
     # Separator-only differences are deterministic aliases, not distinct assets.
-    normalized = re.sub(r"(?<=[a-z]) (?=\d)|(?<=\d) (?=[a-z])", "", normalized)
+    #
+    # Bounded to short runs, because unbounded it also welded ordinary words to ordinary
+    # numbers. Punctuation above is replaced by a space rather than treated as a boundary,
+    # so "Plitidepsin 1.5 mg/day" first became "plitidepsin 1 5 mg day" and the join then
+    # produced "plitidepsin1 5mg day" -- destroying the molecule name, and with it any
+    # chance for a later layer to strip the dose. A code prefix is short (CLN, BW, MK, R);
+    # a molecule or an English word is not, so length separates the two without needing a
+    # list of either.
+    normalized = re.sub(r"\b([a-z]{1,4}) (?=\d)", r"\1", normalized)
+    normalized = re.sub(r"(?<=\d) (?=[a-z]{1,4}\b)", "", normalized)
     return normalized or None
 
 
