@@ -9,10 +9,8 @@ saturated the 5,000-query cap and burned 5h26m of CPU without producing a scorea
 
 from __future__ import annotations
 
-import json
 from datetime import date
 
-import pytest
 
 from bve.se.discovery.adapters import ClinicalTrialsGovAdapter
 from bve.se.schemas.contracts import CompiledQuery

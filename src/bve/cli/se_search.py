@@ -170,6 +170,16 @@ def build_parser() -> argparse.ArgumentParser:
         ),
     )
     parser.add_argument(
+        "--alias-probe-in",
+        help=(
+            "Restore the alias-admission decisions a previous run sealed, instead of "
+            "probing. Required to replay a run faithfully: admission makes the search "
+            "plan adaptive, so replaying a sealed corpus without the decisions that "
+            "selected it falls back to the sole-claimant vocabulary and measures a "
+            "different run. Restores measurements only -- a refused alias stays refused."
+        ),
+    )
+    parser.add_argument(
         "--alias-probe-out",
         help=(
             "Probe every shared alias of every declared target before the run and write "
@@ -326,6 +336,16 @@ def main(argv: list[str] | None = None) -> int:
         *unavailable_adapters,
     ]
     run_id = args.run_id or f"se:{uuid.uuid4()}"
+    if args.alias_probe_in and args.alias_probe_out:
+        parser.error(
+            "--alias-probe-in and --alias-probe-out are exclusive: a run either measures "
+            "admission or replays a measurement, and doing both would let a fresh probe "
+            "overwrite the decisions the replay is supposed to reproduce"
+        )
+    if args.alias_probe_in:
+        from bve.se.discovery.alias_admission import install_registry, load_probe_registry
+
+        install_registry(load_probe_registry(Path(args.alias_probe_in)))
     if args.alias_probe_out:
         if args.replay_corpus or args.offline:
             parser.error(

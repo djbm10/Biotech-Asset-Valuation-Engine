@@ -133,6 +133,30 @@ def active_registry() -> AdmissionRegistry:
     return _ACTIVE
 
 
+def load_probe_registry(path) -> AdmissionRegistry:
+    """Rebuild a registry from the probe artifact a previous run sealed.
+
+    Admission makes the search plan adaptive, so a sealed *corpus* does not on its own
+    make a run reproducible: the plan that selected those bytes also has to be restored.
+    Replaying re-probes nothing -- the network is blocked, and a probe run later would
+    measure a different registry in any case -- so a replay given no decisions falls back
+    to the fail-closed sole-claimant vocabulary and quietly becomes a different run
+    against the same corpus. Reading the decisions back is what keeps a remediation
+    benchmark comparable to the zero-shot result it is scored against.
+
+    This only restores measurements; it never makes one. A decision recorded as refused
+    stays refused.
+    """
+
+    import json
+    from pathlib import Path
+
+    registry = AdmissionRegistry()
+    for raw in json.loads(Path(path).read_text()):
+        registry.record(ProbeRecord(**raw))
+    return registry
+
+
 def install_registry(registry: AdmissionRegistry) -> AdmissionRegistry:
     """Replace the active registry, returning the previous one so callers can restore it."""
 
