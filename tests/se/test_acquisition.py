@@ -467,6 +467,76 @@ def test_sec_filed_press_release_eligibility_chain_is_mechanical(tmp_path, hit, 
     assert [row["reason"] for row in connector.rejected] == [reason]
 
 
+def test_sec_filed_press_release_admits_a_foreign_issuers_6k_release(tmp_path) -> None:
+    """6-K is the foreign private issuer's current report, and carries the same releases.
+
+    Restricting the family to 8-K did not filter by genre, it filtered by the registrant's
+    nationality: a 6-K EX-99.1 described "PRESS RELEASE" is mechanically indistinguishable
+    from the 8-K one above, and excluding it made every non-US issuer invisible to a family
+    whose entire subject is issuer-authored news.
+    """
+
+    def fake_search(query: str):
+        return [_ex99_hit(root_forms=["6-K"], description="EX-99.1 - PRESS RELEASE")]
+
+    store = CorpusStore(tmp_path)
+    connector = SecFiledPressReleaseConnector(
+        fake_search, fetch_fn=lambda url: "<html>data</html>", max_searches=1
+    )
+    health = connector.acquire(store, targets=TARGETS, modality_terms=MODALITY, as_of_date=AS_OF)
+    assert health.documents_indexed == 1, "a 6-K press release was refused on form alone"
+    assert connector.rejected == []
+
+
+def test_sec_filed_press_release_records_the_exact_filing_date(tmp_path) -> None:
+    """EDGAR states the day, so the day is stored.
+
+    The previous behaviour kept only the year and stamped January 1, which is both a date the
+    document was not published on and an *earlier* one -- it made every filing look up to
+    eleven months older than it is.
+    """
+
+    def fake_search(query: str):
+        return [_ex99_hit(file_date="2024-03-07", description="EX-99.1 - PRESS RELEASE")]
+
+    store = CorpusStore(tmp_path)
+    SecFiledPressReleaseConnector(
+        fake_search, fetch_fn=lambda url: "<html>data</html>", max_searches=1
+    ).acquire(store, targets=TARGETS, modality_terms=MODALITY, as_of_date=AS_OF)
+    assert store.documents()[0].publication_date == date(2024, 3, 7)
+
+
+def test_sec_filing_records_the_exact_filing_date(tmp_path) -> None:
+    def fake_search(query: str):
+        return [_ex99_hit(file_date="2024-03-07")]
+
+    store = CorpusStore(tmp_path)
+    SecEdgarConnector(fake_search, fetch_fn=lambda url: "<html>data</html>").acquire(
+        store, targets=TARGETS, modality_terms=MODALITY, as_of_date=AS_OF
+    )
+    assert store.documents()[0].publication_date == date(2024, 3, 7)
+
+
+def test_sec_filed_press_release_rejections_carry_the_metadata_they_were_made_on(
+    tmp_path,
+) -> None:
+    """A refusal census has to be answerable from the receipt, not from a second live run."""
+
+    def fake_search(query: str):
+        return [_ex99_hit(root_forms=["425"], description="EX-99.1 - MERGER MATERIAL")]
+
+    store = CorpusStore(tmp_path)
+    connector = SecFiledPressReleaseConnector(
+        fake_search, fetch_fn=lambda url: "PRESS RELEASE", max_searches=1
+    )
+    connector.acquire(store, targets=TARGETS, modality_terms=MODALITY, as_of_date=AS_OF)
+    rejection = connector.rejected[0]
+    assert rejection["reason"] == "form_not_eligible"
+    assert rejection["file_type"] == "EX-99.1"
+    assert rejection["file_description"] == "EX-99.1 - MERGER MATERIAL"
+    assert rejection["file_date"] == "2024-03-07"
+
+
 def test_sec_connector_fetches_bounded_documents(tmp_path) -> None:
     def fake_search(query: str):
         return [{"_id": "0000950170-24-029298:oric-20231231.htm", "_source": {"ciks": ["0001796280"], "display_names": ["ORIC (ORIC)"], "file_date": "2024-03-07"}}]

@@ -119,6 +119,22 @@ def _published_on(raw_html: str) -> date | None:
         return None
 
 
+def _filing_date(value: Any) -> date | None:
+    """The exact date an EDGAR filing carries, or nothing.
+
+    Distinct from :func:`_parse_year` on purpose. EDGAR states ``file_date`` as a full ISO
+    date, so degrading it to January 1 of that year records a date the document was not
+    published on -- and, because January 1 is earlier, makes every filing look up to eleven
+    months older than it is. Where a source states the day, the day is what gets stored;
+    ``_parse_year`` remains for the sources that really do publish a year only.
+    """
+
+    try:
+        return date.fromisoformat(str(value or "")[:10])
+    except ValueError:
+        return None
+
+
 def _parse_year(value: Any) -> date | None:
     text = str(value or "")
     match = re.search(r"(19|20)\d{2}", text)
@@ -1114,7 +1130,7 @@ class SecEdgarConnector:
                 text=text,
                 title=display or document,
                 as_of_date=as_of_date,
-                publication_date=_parse_year(source.get("file_date")),
+                publication_date=_filing_date(source.get("file_date")),
                 parser_status=parser_status,
             )
         return SourceHealth(
@@ -1141,6 +1157,28 @@ _PRESS_RELEASE_RE = re.compile(
 )
 
 _EXHIBIT_99_RE = re.compile(r"^EX-99(?:\.\d+)?$", re.IGNORECASE)
+
+
+def _rejection(hit_id: str, reason: str, hit: dict[str, Any]) -> dict[str, Any]:
+    """A refusal recorded with the metadata the refusal was made on.
+
+    A bare ``{hit_id, reason}`` pair cannot be audited after the fact: asking whether a
+    classifier is too strict means asking which forms, exhibit types and descriptions it
+    turned away, and none of that survives in the accession number. Carrying the four fields
+    the decision actually read makes the refusal census answerable from the receipt alone,
+    without re-querying the source -- which is the only way to check a live-acquired family
+    without paying for another live acquisition.
+    """
+
+    source = hit.get("_source", {})
+    return {
+        "hit_id": hit_id,
+        "reason": reason,
+        "form": str(source.get("form", "")),
+        "file_type": str(source.get("file_type", "")),
+        "file_description": str(source.get("file_description", "")),
+        "file_date": str(source.get("file_date", "")),
+    }
 
 
 def _press_release_basis(hit: dict[str, Any], body: str) -> str | None:
@@ -1193,10 +1231,14 @@ class SecFiledPressReleaseConnector:
     delivery_channel = "SEC_EXHIBIT"
 
     #: Which filings may carry an issuer press release as an exhibit. 8-K is the current-report
-    #: form on which issuers disclose material events, and furnishing the release itself as
-    #: EX-99 is the standard practice. Kept as configuration rather than inlined so widening
-    #: it is an explicit, reviewable decision.
-    eligible_root_forms = frozenset({"8-K"})
+    #: form on which domestic issuers disclose material events, and furnishing the release
+    #: itself as EX-99 is the standard practice. 6-K is the same thing for foreign private
+    #: issuers -- literally "Report of Foreign Private Issuer", whose routine content is the
+    #: press release the company published at home. Admitting only 8-K therefore did not
+    #: filter by genre, it filtered by the registrant's nationality, and silently excluded
+    #: every non-US issuer from a family whose whole purpose is issuer-authored news. Kept as
+    #: configuration rather than inlined so widening it stays an explicit, reviewable decision.
+    eligible_root_forms = frozenset({"8-K", "6-K"})
 
     def __init__(
         self,
@@ -1259,7 +1301,7 @@ class SecFiledPressReleaseConnector:
                             continue
                         reason = self._eligible(hit, as_of_date)
                         if reason is not None:
-                            self.rejected.append({"hit_id": hit_id, "reason": reason})
+                            self.rejected.append(_rejection(hit_id, reason, hit))
                             continue
                         seen.add(hit_id)
                         found.append(hit)
@@ -1299,7 +1341,7 @@ class SecFiledPressReleaseConnector:
                 # not counted as a parse failure either: the document parsed fine, it simply
                 # is not this genre.
                 self.rejected.append(
-                    {"hit_id": str(hit.get("_id", "")), "reason": "no_press_release_indicator"}
+                    _rejection(str(hit.get("_id", "")), "no_press_release_indicator", hit)
                 )
                 continue
             if parser_status is ParserStatus.OK:
@@ -1323,7 +1365,7 @@ class SecFiledPressReleaseConnector:
                 text=f"{display} {body}".strip(),
                 title=display or document,
                 as_of_date=as_of_date,
-                publication_date=_parse_year(source.get("file_date")),
+                publication_date=_filing_date(source.get("file_date")),
                 parser_status=parser_status,
             )
         if self.search_ledger is not None:
