@@ -12,6 +12,7 @@ from datetime import date, datetime, timezone
 from pathlib import Path
 from typing import Any
 
+from bve.se.discovery import drug_name_lexicon
 from bve.se.discovery.custody import RecordMaterialization
 from bve.se.discovery.orchestrator import AdapterResult
 from bve.se.ontology.modality import (
@@ -46,10 +47,6 @@ PubMedSearch = Callable[[str, int], list[dict[str, Any]]]
 UrlFetch = Callable[[str], dict[str, Any]]
 
 _ASSET_CODE_RE = re.compile(r"\b[A-Z]{2,8}(?:[- ]?\d{2,8}[A-Z]?)\b")
-_BIOLOGIC_NAME_RE = re.compile(
-    r"\b[a-z][a-z-]{4,40}(?:mab|cept|parib|tinib|lisib|nib)(?:-[a-z]{3,5})?\b",
-    re.IGNORECASE,
-)
 _NON_ASSET_CODES = {
     "BCMA",
     "CD3",
@@ -110,6 +107,10 @@ def _plausible_asset_name(value: str) -> bool:
     lowered = stripped.casefold()
     if any(phrase in lowered for phrase in _GENERIC_ASSET_PHRASES):
         return False
+    if drug_name_lexicon.is_prose_word(stripped):
+        return False
+    if drug_name_lexicon.is_residue_or_assay_code(stripped):
+        return False
     normalized = _normalized_lookup(stripped).upper()
     if normalized in _NON_ASSET_CODES or normalized.startswith(("NCT", "PMID")):
         return False
@@ -122,15 +123,19 @@ def _plausible_asset_name(value: str) -> bool:
 def extract_observed_asset_names(*texts: str) -> list[str]:
     """Extract source-observed program names without falling back to a document title.
 
-    The deliberately conservative extractor recognizes development codes and common drug-name
-    suffixes. Documents without an observed program name remain evidence documents; they do not
-    manufacture a ``CanonicalAsset`` from a publication or URL title.
+    The extractor recognizes development codes and generic names ending in a drug-name stem
+    (see ``drug_name_lexicon``, whose stems are counted off the ontology snapshot rather than
+    listed by hand). Documents without an observed program name remain evidence documents;
+    they do not manufacture a ``CanonicalAsset`` from a publication or URL title.
+
+    A returned name is a *mention*. Two names out of one abstract are two mentions and
+    nothing more -- co-occurrence is not identity, and neither is stem shape.
     """
 
     combined = "\n".join(text for text in texts if text)[:100_000]
     candidates = [
         *[match.group(0) for match in _ASSET_CODE_RE.finditer(combined)],
-        *[match.group(0) for match in _BIOLOGIC_NAME_RE.finditer(combined)],
+        *[match.group(0) for match in drug_name_lexicon.drug_name_pattern().finditer(combined)],
     ]
     return list(
         dict.fromkeys(
