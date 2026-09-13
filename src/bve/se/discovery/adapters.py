@@ -12,7 +12,7 @@ from datetime import date, datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from bve.se.discovery import drug_name_lexicon
+from bve.se.discovery import drug_name_lexicon, drug_name_shape
 from bve.se.discovery.custody import RecordMaterialization
 from bve.se.discovery.orchestrator import AdapterResult
 from bve.se.ontology.modality import (
@@ -47,6 +47,14 @@ PubMedSearch = Callable[[str, int], list[dict[str, Any]]]
 UrlFetch = Callable[[str], dict[str, Any]]
 
 _ASSET_CODE_RE = re.compile(r"\b[A-Z]{2,8}(?:[- ]?\d{2,8}[A-Z]?)\b")
+#: Every *whole* alphabetic word long enough for the shape model to have an opinion about.
+#: The model, not this pattern, does the deciding; the pattern only says where words are.
+#: The hyphen exclusions matter: without them the scan reads ``Dostarlimab`` out of
+#: ``Dostarlimab-gxly`` and ``chain`` out of ``Kappa-chain``, minting a fragment of a name
+#: as a name in its own right.
+_WORD_RE = re.compile(
+    r"(?<![A-Za-z-])[A-Za-z]{%d,40}(?![A-Za-z-])" % drug_name_shape.MIN_LENGTH
+)
 _NON_ASSET_CODES = {
     "BCMA",
     "CD3",
@@ -120,22 +128,49 @@ def _plausible_asset_name(value: str) -> bool:
     return True
 
 
-def extract_observed_asset_names(*texts: str) -> list[str]:
+def extract_observed_asset_names(*texts: str, shape_scan: bool = True) -> list[str]:
     """Extract source-observed program names without falling back to a document title.
 
-    The extractor recognizes development codes and generic names ending in a drug-name stem
-    (see ``drug_name_lexicon``, whose stems are counted off the ontology snapshot rather than
-    listed by hand). Documents without an observed program name remain evidence documents;
-    they do not manufacture a ``CanonicalAsset`` from a publication or URL title.
+    The extractor recognizes development codes and generic names by three routes, all of
+    them target-agnostic:
+
+    * a development-code pattern;
+    * a generic name ending in a drug-name stem (``drug_name_lexicon``, whose stems are
+      counted off the ontology snapshot rather than listed by hand);
+    * a word ``drug_name_shape`` nominates -- either an exact match against a molecule the
+      frozen ontology already knows, or a model judgement that the word has drug
+      morphology. This is what reaches the molecules whose class is too small for any
+      frequency rule to have a stem for. The first of those two routes is
+      ontology-derived and is reported separately from the second.
+
+    Documents without an observed program name remain evidence documents; they do not
+    manufacture a ``CanonicalAsset`` from a publication or URL title.
 
     A returned name is a *mention*. Two names out of one abstract are two mentions and
-    nothing more -- co-occurrence is not identity, and neither is stem shape.
+    nothing more -- co-occurrence is not identity, and neither is stem shape, and neither
+    is a model's opinion about morphology.
+
+    ``shape_scan=False`` turns off the word-level route. Callers binding *aliases* pass it,
+    because there the caller is not reading prose for mentions: it is reading a field in
+    which the source has asserted that a whole string denotes the asset. Mining words out
+    of such a string would bind ``Clone`` out of a structural description as an alias of
+    the molecule -- exactly the identity claim M11 forbids. The code and stem routes stay
+    on there, since both read a whole token rather than decomposing one.
     """
 
     combined = "\n".join(text for text in texts if text)[:100_000]
     candidates = [
         *[match.group(0) for match in _ASSET_CODE_RE.finditer(combined)],
         *[match.group(0) for match in drug_name_lexicon.drug_name_pattern().finditer(combined)],
+        *(
+            [
+                match.group(0)
+                for match in _WORD_RE.finditer(combined)
+                if drug_name_shape.nominates(match.group(0))
+            ]
+            if shape_scan
+            else []
+        ),
     ]
     return list(
         dict.fromkeys(
@@ -470,10 +505,15 @@ def _intervention_aliases(protocol: dict[str, Any]) -> dict[str, tuple[str, ...]
         # put structural descriptions in this field ("Immunoglobulin G4", "Dimer"); binding
         # those as aliases would merge every asset that happens to share one. This both
         # filters them out and splits an entry like "SMT112, AK112" that names two codes.
+        #
+        # ``shape_scan=False`` because this is the alias path: the source has asserted that
+        # a whole string denotes the asset, so the extractor may recognize a name in it but
+        # must not decompose it. With the word route on, "Humanized Clone ABT1 Kappa-chain"
+        # binds ``Clone`` as an alias of the molecule.
         parts = [
             observed
             for value in values
-            for observed in extract_observed_asset_names(str(value))
+            for observed in extract_observed_asset_names(str(value), shape_scan=False)
         ]
         if parts:
             aliases[_normalized_lookup(name)] = tuple(dict.fromkeys(parts))
@@ -535,8 +575,13 @@ def _candidate_interventions(
             [name, intervention.get("description", ""), other_names_text]
         ).casefold()
         primary_names = extract_observed_asset_names(name)
-        other_name_candidates = extract_observed_asset_names(other_names_text)
-        observed_names = extract_observed_asset_names(name, other_names_text)
+        other_name_candidates = extract_observed_asset_names(
+            other_names_text, shape_scan=False
+        )
+        # Composed rather than re-extracted over the join, so the intervention's own name
+        # keeps the shape route (an ``Eplivanserin`` arm must still be admitted) while the
+        # otherNames field keeps the alias discipline of the line above.
+        observed_names = list(dict.fromkeys([*primary_names, *other_name_candidates]))
         observed_in_title = any(
             _normalized_lookup(observed) in _normalized_lookup(title_context)
             for observed in observed_names
