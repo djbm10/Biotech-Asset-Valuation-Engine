@@ -5,7 +5,22 @@
 This is the "where we left off" document. It records the current state of the search &
 evidence engine, what is frozen, what the next work is, and the environment facts that cost
 time to rediscover. Milestone detail lives in the per-milestone reports; this file is the
-index and the operating manual.
+index and the operating manual. **Update it after every run.**
+
+## 0. Current directive (2026-09-14)
+
+The zero-shot remediation loop is **stopped** — M17 satisfied the architecture stopping
+condition. **Do not draw M18.** The engine is judged *scientifically credible as a
+generalized v1*, with one caveat to keep beside the success: M17's 100% discovery is partly
+authority-seeded and only **33.3% independently corroborated**, so the engine is not yet
+fully independent of authority seeding. That is no longer the bottleneck.
+
+The remaining problem is **product quality, not core scientific correctness**: too many junk
+mentions are nominated before the downstream gates reject them.
+
+**M18 objective — mention precision.** Reduce false-positive candidate-name extraction
+before identity resolution, without reducing true drug recall or weakening any scientific
+gate. Detail and acceptance criteria in §2.
 
 ## 1. Where the work stands
 
@@ -51,6 +66,39 @@ the noise directly.
 The fix is a filtering layer at the nomination boundary. Unlike everything in the
 remediation loop, **it can be evaluated without drawing a new target** — rerun
 `mention_precision_audit.py` against the existing sealed results.
+
+### M18 scope
+
+**Prioritize filtering of:** cell lines (`HEK293`), amino-acid residue tokens (`LYS191`,
+`ASN198`), assay constants/measurements (`IC50`, `EC50`), gene/protein symbols,
+cytokines/receptors, generic biomedical nouns, non-drug abbreviations, malformed fragments.
+
+**Preserve:** exact known drug/alias matches, development codes, legitimate uncommon
+small-molecule names, M11 identity rules, `CandidateTargetAssertion` semantics, and all
+frozen benchmark results.
+
+**Method constraint:** generic evidence and frozen data only. **Do not tune against CHRM1,
+HTR2A, HRH1, SLC6A2 or PDCD1 asset names**, and do not hand-tighten using observed
+benchmark misses. Evaluate the filter independently on held-out ontology-derived
+positives/negatives first, then replay the frozen M15/M16/M17 corpora where valid.
+
+**Acceptance criteria — all required:**
+- materially reduce unknown-word false accepts from M17's 55.5%
+- materially reduce unresolved candidate count
+- no regression in frozen benchmark discovery
+- no regression in frozen benchmark identification
+- no increase in false target assertions
+- no increase in trap errors
+- no target-specific exceptions
+
+**Report before/after:** extracted mention count, true drug-shaped mentions, false accepts,
+false rejects, unresolved assets, runtime/memory impact, benchmark invariants.
+
+### After M18 — user-facing productization
+
+In order: query UX; ranked/cited asset results; explanation of why each asset matched;
+source provenance; unresolved/review visibility; runtime reduction and caching; packaging a
+reproducible one-command search workflow.
 
 Other open items, unchanged: endogenous-ligand collision (HISTAMINE), dose/salt/combination
 decoration, `MIN_SUPPORTED_DOCS = 5` conflating contested with rare, and the rule-6
