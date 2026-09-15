@@ -22,6 +22,25 @@ mentions are nominated before the downstream gates reject them.
 before identity resolution, without reducing true drug recall or weakening any scientific
 gate. Detail and acceptance criteria in §2.
 
+**M18 progress (analysis complete, engine unchanged).** See
+`docs/m18_mention_precision_findings.md`. Three things a resumer needs:
+
+1. **The predicted failure classes are not the actual ones.** Junk is dominated by ordinary
+   prose — English and *non-English* abstract text, place names, taxonomy, chemistry nouns
+   — not cell lines/residues/assay constants. The shape model was trained drug-vs-biomedical
+   -symbol and never saw an ordinary word, so prose is out of distribution.
+2. **Document frequency runs backwards from intuition**: gold is the *most* frequent class
+   (median 40), junk the least (median 1). Inverted into a minimum-corpus-support rule it is
+   the strongest signal available. The prose classifier I trained only rejects 11% of M17's
+   junk and is demoted to a secondary signal.
+3. **Selected rule:** keep protected routes (exact ontology drug match, development-code
+   shape) always; for everything else require ≥5 supporting documents, or ≥2 if drug-shaped.
+   Measured: M17 −35.9%, M16R −32.1%, **zero** gold/known_molecule/trap lost.
+
+**Next step:** red tests, then apply at `pipeline.py:343` reading support from
+`registry.mentions` (`IdentityMention.source_document_id` — no corpus re-read needed), then
+replay M15/M16/M17 and check the §2 acceptance criteria.
+
 ## 1. Where the work stands
 
 The architecture-remediation loop is **complete and should not be continued**. Three
