@@ -1,13 +1,13 @@
 # S&E engine — handoff state
 
-**As of 2026-09-14, engine `f57f4bc` on branch `m11-identity-graph` (pushed).**
+**As of 2026-09-16, engine `e310723` on branch `m11-identity-graph` (pushed).**
 
 This is the "where we left off" document. It records the current state of the search &
 evidence engine, what is frozen, what the next work is, and the environment facts that cost
 time to rediscover. Milestone detail lives in the per-milestone reports; this file is the
 index and the operating manual. **Update it after every run.**
 
-## 0. Current directive (2026-09-14)
+## 0. Current directive (last updated 2026-09-16)
 
 The zero-shot remediation loop is **stopped** — M17 satisfied the architecture stopping
 condition. **Do not draw M18.** The engine is judged *scientifically credible as a
@@ -37,7 +37,8 @@ gate. Detail and acceptance criteria in §2.
    shape) always; for everything else require ≥5 supporting documents, or ≥2 if drug-shaped.
    Measured: M17 −35.9%, M16R −32.1%, **zero** gold/known_molecule/trap lost.
 
-**M18 is DONE and shipped** (`fc68a3d`). See `docs/m18_mention_precision_report.md`.
+**M18 is DONE and shipped** (`6473334` — `fc68a3d` is the pre-amend orphan, unreachable from
+the branch; do not cite it). See `docs/m18_mention_precision_report.md`.
 Three dispositions at the nomination boundary — `PROTECTED` / `SUPPORTED_UNKNOWN` /
 `LOW_SUPPORT_UNKNOWN` — **none of which is deletion**; low support is routed to review with
 full provenance via `SESearchResult.low_support_asset_ids`. All seven acceptance criteria
@@ -189,7 +190,9 @@ Reports in `docs/`: `m13_zero_shot_generalization_report.md`,
 
 Commit lineage for the identity work: `e0743eb` (M16 report) → `e689936` (canonical identity
 contract) → `aeea608` (drug-name-shape route) → `f57f4bc` (M17 report) → `6473334` (M18
-dispositions) → `09ef747` (handoff) → M18.1 (structured DRUG typing).
+dispositions) → `09ef747` (handoff) → `ffeaaa7` (M18.1 structured DRUG typing) → `b719541`
+(productization step 1, `--query`) → `e310723` (this handoff). All pushed to
+`origin/m11-identity-graph`.
 
 M18/M18.1 measurement scripts, in staging: `m18_dump_candidates.py`,
 `m18_train_prose_discriminator.py`, `m18_eval_filter.py`, `m18_controlled_eval.py`,
@@ -254,5 +257,38 @@ benchmark meaning; a source that changed fundamentally; a destructive system act
 
 1. Read `docs/m17_chrm1_zero_shot_report.md` — it carries the current result and the
    route-confound and corroboration caveats that belong beside it.
-2. Do not draw another benchmark target.
-3. Start on §2, mention-layer precision, evaluated against existing sealed results.
+2. **Do not draw another benchmark target** unless a new scientific correctness defect
+   appears. The remediation loop is stopped and mention precision is frozen at M18.1.
+3. **Next action: productization step 2 — ranked/cited asset results.** Before building
+   anything on that list, *check whether it already exists unwired*: step 1 turned out to be
+   pure wiring because `bve.se.intent` had been complete since M9 with zero importers.
+   Candidates to grep for first: ranking (`SESearchResult.ranking`, `bve.se.ranking`,
+   `bve-shortlist`), match explanation (`gate_evaluations`, `AnalystReviewItem`), provenance
+   (`source_documents`, `claims`, `facts`, custody seals), review visibility
+   (`review_queue`, `low_support_asset_ids`).
+4. Sanity-check the engine runs end to end before changing it:
+
+```bash
+cd /home/djmann/projects/bve-b8
+PYTHONPATH=src BVE_SE_ONTOLOGY_SNAPSHOT=data/se/ontology/current \
+  python -m bve.cli.se_search --query "small molecule CHRM1 programs in phase 2" \
+  --as-of 2026-09-16 --emit-problem /tmp/p.yaml --offline --allow-incomplete
+```
+
+   It should print the per-span interpretation to stderr, write the compiled problem, and
+   exit 0 (or 2 = `INCOMPLETE`, which is diagnostic, not failure).
+
+5. Test/lint commands for this worktree:
+
+```bash
+cd /home/djmann/projects/bve-b8
+PYTHONPATH=src BVE_SE_ONTOLOGY_SNAPSHOT=data/se/ontology/current python -m pytest tests/se -q
+ruff check src/bve/ tests/se/
+```
+
+   Current baseline: **756 passed, 2 xfailed**, ruff clean, at `e310723` on
+   `m11-identity-graph`, pushed. Worktree clean apart from untracked `data/` (the ontology
+   snapshot — large, deliberately not committed).
+
+6. Commit a git message with `-F` and a quoted heredoc, never `-m`: backticks in a message
+   trigger shell command substitution and have silently mangled a commit here before.
