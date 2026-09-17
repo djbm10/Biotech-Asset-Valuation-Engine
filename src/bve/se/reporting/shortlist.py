@@ -131,6 +131,26 @@ class ShortlistEntry(BaseModel):
     citations: tuple[Citation, ...] = ()
 
 
+class SourceCoverage(BaseModel):
+    """What one source family contributed to the corpus this shortlist was drawn from."""
+
+    model_config = ConfigDict(frozen=True)
+
+    family: str
+    #: The run's own verdict for the family. ``NOT_CONFIGURED`` (a declared blind spot) and
+    #: ``FAILED`` (a source that was meant to answer and did not) are never merged.
+    outcome: str
+    queries: int = 0
+    candidates_found: int = 0
+    unique_candidates_added: int = 0
+    #: Retried queries, so an acquisition that limped is distinguishable from a clean one.
+    retried_queries: int = 0
+    errors: tuple[str, ...] = ()
+    #: Always ``None``: a run records no attempt -> document mapping, so attributing
+    #: documents to a family would be an invented number. See ``documents_by_publisher``.
+    documents: int | None = None
+
+
 class Shortlist(BaseModel):
     model_config = ConfigDict(frozen=True)
 
@@ -138,6 +158,13 @@ class Shortlist(BaseModel):
     run_id: str
     as_of_date: str
     ordering_basis: str
+    #: The run's status, so a shortlist can never be read as if its corpus were complete.
+    run_status: str = ""
+    sources: tuple[SourceCoverage, ...] = ()
+    blind_spots: tuple[str, ...] = ()
+    incomplete_reasons: tuple[str, ...] = ()
+    fatal_reasons: tuple[str, ...] = ()
+    documents_by_publisher: dict[str, int] = Field(default_factory=dict)
     entries: tuple[ShortlistEntry, ...] = ()
     #: Kept out of the shortlist but not out of the run: low-support nominations, visible on
     #: request. M18 routes them, it never deletes them.
@@ -482,6 +509,39 @@ def _entry(
     )
 
 
+def _source_coverage(result) -> tuple[SourceCoverage, ...]:
+    """One row per source family the run declared, whether or not it was ever queried.
+
+    A family that was never queried has to appear too: ``NOT_CONFIGURED`` with zero queries
+    is precisely the fact a reader needs, and omitting the row would hide it.
+    """
+
+    manifest = result.run_manifest
+    attempts: dict[str, list] = {family: [] for family in manifest.source_status}
+    for attempt in result.search_attempts:
+        attempts.setdefault(attempt.source, []).append(attempt)
+    rows = []
+    for family in sorted(attempts):
+        made = attempts[family]
+        outcome = manifest.source_status.get(family)
+        rows.append(
+            SourceCoverage(
+                family=family,
+                # A family with attempts but no declared status is still reported, using the
+                # attempts' own worst outcome rather than a silent blank.
+                outcome=outcome.value
+                if outcome is not None
+                else (made[0].outcome.value if made else "UNKNOWN"),
+                queries=len(made),
+                candidates_found=sum(a.candidates_found for a in made),
+                unique_candidates_added=sum(a.unique_candidates_added for a in made),
+                retried_queries=sum(1 for a in made if a.attempts_made > 1),
+                errors=tuple(dict.fromkeys(a.error for a in made if a.error)),
+            )
+        )
+    return tuple(rows)
+
+
 def build_shortlist(result, *, limit: int = DEFAULT_LIMIT) -> Shortlist:
     """Compose one run's records into the assets it found, in a declared order.
 
@@ -574,11 +634,21 @@ def build_shortlist(result, *, limit: int = DEFAULT_LIMIT) -> Shortlist:
             "No candidate passed every gate; the shortlist is the review population, which "
             "is where an unresolved target or modality gate leaves an otherwise real asset."
         )
+    manifest = result.run_manifest
+    publishers: dict[str, int] = {}
+    for document in result.source_documents:
+        publishers[document.publisher] = publishers.get(document.publisher, 0) + 1
     return Shortlist(
         problem_id=result.problem_id,
-        run_id=result.run_manifest.run_id,
-        as_of_date=result.run_manifest.as_of_date.isoformat(),
+        run_id=manifest.run_id,
+        as_of_date=manifest.as_of_date.isoformat(),
         ordering_basis=ordering_basis,
+        run_status=manifest.status.value,
+        sources=_source_coverage(result),
+        blind_spots=tuple(manifest.known_blind_spots),
+        incomplete_reasons=tuple(manifest.incomplete_reasons),
+        fatal_reasons=tuple(manifest.fatal_reasons),
+        documents_by_publisher=dict(sorted(publishers.items())),
         entries=entries,
         deferred=deferred_entries,
         counts=counts,
@@ -657,6 +727,54 @@ def _render_entry(entry: ShortlistEntry, *, detail: bool) -> list[str]:
     return lines
 
 
+def _render_corpus(shortlist: Shortlist) -> list[str]:
+    """The corpus the shortlist rests on, stated before the assets rather than after them.
+
+    A reader who does not reach the end of the list still has to learn that a mandatory
+    source failed, so the warning goes first and the per-family detail follows it.
+    """
+
+    lines: list[str] = []
+    if shortlist.fatal_reasons:
+        lines.append(
+            "!! UNSCOREABLE: this run lost a source it depends on, so the assets below are "
+            "drawn from an incomplete corpus and the absences mean nothing."
+        )
+        lines.extend(f"   - {reason}" for reason in shortlist.fatal_reasons)
+    elif shortlist.incomplete_reasons:
+        lines.append(
+            f"Run status {shortlist.run_status}: the corpus is short of what the problem "
+            "asked for. Present assets are still evidenced; absent ones may simply be unseen."
+        )
+        lines.extend(f"   - {reason}" for reason in shortlist.incomplete_reasons)
+    if shortlist.sources:
+        lines.append(f"Sources (run status {shortlist.run_status}):")
+        for source in shortlist.sources:
+            detail_bits = (
+                f"{source.queries} queries, {source.candidates_found} found, "
+                f"{source.unique_candidates_added} new"
+            )
+            if source.retried_queries:
+                detail_bits += f", {source.retried_queries} retried"
+            lines.append(f"   {source.family}: {source.outcome} ({detail_bits})")
+            for error in source.errors:
+                lines.append(f"      error: {error}")
+    if shortlist.documents_by_publisher:
+        # By publisher, because the run records no attempt -> document link to count by.
+        lines.append(
+            "Documents by publisher: "
+            + ", ".join(
+                f"{publisher} {count}"
+                for publisher, count in shortlist.documents_by_publisher.items()
+            )
+        )
+    if shortlist.blind_spots:
+        lines.append("Known blind spots: " + ", ".join(shortlist.blind_spots))
+    if lines:
+        lines.append("")
+    return lines
+
+
 def render_shortlist(shortlist: Shortlist, *, detail: bool = False) -> str:
     """The default human view: the assets, why each is there, and what backs each claim."""
 
@@ -666,6 +784,7 @@ def render_shortlist(shortlist: Shortlist, *, detail: bool = False) -> str:
         f"ordering: {shortlist.ordering_basis}",
         "",
     ]
+    lines.extend(_render_corpus(shortlist))
     if not shortlist.entries:
         lines.append("No candidate survived to the shortlist.")
     for entry in shortlist.entries:

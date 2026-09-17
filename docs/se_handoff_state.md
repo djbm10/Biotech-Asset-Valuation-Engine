@@ -204,6 +204,24 @@ The parser gained the MINIMUM vocabulary it never had ("at least", "or later", "
 cue text is consumed with the phase span so it cannot fall through as a free-text indication.
 `tests/se/test_phase_intent_gate.py` (18 tests).
 
+**Steps 4 and 5 (source provenance, review visibility) — done.** See
+`docs/productization_step4_source_visibility.md`. Step 5 was already carried by the shortlist
+(labelled sections, `review_reasons`, a held-back low-support block, whole-run counts); the
+real gap was step 4 at the *run* level. `Shortlist` now carries `run_status`, `sources`
+(`SourceCoverage` per family), `blind_spots`, `incomplete_reasons`, `fatal_reasons` and
+`documents_by_publisher`, and `render_shortlist` states them **before the assets**. Three
+things not to undo:
+
+1. **`NOT_CONFIGURED` is never merged into `FAILED`.** A declared blind spot is a scope
+   decision; a failed source is a hole in the corpus.
+2. **`SourceCoverage.documents` is always `None`.** `SourceDocument` has a `publisher` and no
+   source-family field, and no attempt→document mapping is recorded, so documents are counted
+   by publisher. Do not invent the mapping to fill the field in.
+3. **Fatal reasons render as a loud `!! UNSCOREABLE` line; incomplete reasons do not.** A run
+   short of a waived source is not the same claim as a run that lost one it depends on.
+
+`tests/se/test_shortlist_source_visibility.py` (9 tests).
+
 Other open items, unchanged: endogenous-ligand collision (HISTAMINE), dose/salt/combination
 decoration, `MIN_SUPPORTED_DOCS = 5` conflating contested with rare, and the rule-6
 `\bAR\b`/`\bMET\b` English-word false-positive mode.
@@ -305,12 +323,11 @@ benchmark meaning; a source that changed fundamentally; a destructive system act
    the smoke command below therefore *changes dispositions*, and an asset whose trials span
    more than one phase is UNKNOWN (review), not a match. Drop "in phase 2" if you want the
    unconstrained landscape.
-4. **Next action: productization step 4 — source provenance**, then 5 (unresolved/review
-   visibility), 6 (runtime and caching), 7 (one-command reproducible workflow). Steps 1–3 are
-   done; steps 4 and 5 are now *partly* done inside the shortlist (citations carry
-   family/native id/url/hash/date; review and low-support populations are separated and
-   labelled), so start by reading `src/bve/se/reporting/shortlist.py` and deciding what is
-   actually left rather than rebuilding it. Before building anything on that list, *check
+4. **Next action: productization step 6 — runtime reduction and caching**, then 7
+   (one-command reproducible workflow; `--emit-problem` already serves part of it). Steps 1–5
+   are done — see `docs/productization_step4_source_visibility.md` for what step 4/5 turned
+   out to mean once the shortlist was read rather than rebuilt. Do **not** invent a ranking
+   score merely because a user-facing shortlist exists. Before building anything on that list, *check
    whether it already exists unwired*: step 1 was pure wiring because `bve.se.intent` had
    been complete since M9 with zero importers, and `SourceEvidenceClaim` is still a complete
    contract with no producers.
@@ -344,7 +361,7 @@ PYTHONPATH=src BVE_SE_ONTOLOGY_SNAPSHOT=data/se/ontology/current python -m pytes
 ruff check src/bve/ tests/se/
 ```
 
-   Current baseline: **798 passed, 2 xfailed**, ruff clean, at `bab008d` on
+   Current baseline: **807 passed, 2 xfailed**, ruff clean, at `HEAD` on
    `m11-identity-graph`, pushed. Worktree clean apart from untracked `data/` (the ontology
    snapshot — large, deliberately not committed).
 
