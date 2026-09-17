@@ -162,6 +162,34 @@ In order: query UX; ranked/cited asset results; explanation of why each asset ma
 source provenance; unresolved/review visibility; runtime reduction and caching; packaging a
 reproducible one-command search workflow.
 
+**Step 1 (query UX) — done, `b719541`.** `bve-se-search --query "small molecule CHRM1
+programs in phase 2"`, mutually exclusive with `--problem`. `bve.se.intent` had existed
+unwired since M9; this was wiring, not building. **Check the remaining steps for the same
+before writing anything.**
+
+**Steps 2 and 3 (ranked/cited results, why-matched) — done, collapsed into one
+implementation.** See `docs/productization_step2_ranked_cited_results.md`.
+`src/bve/se/reporting/shortlist.py`; `--format shortlist` / `shortlist-json`, `--top`,
+`--detail`. Three things a resumer must not undo:
+
+1. **The display order is not a score and says so.** The real pairwise ranker
+   (`rank_profiles`) produces *zero* entries in a discovery run — it needs comparative
+   clinical profiles a landscape run never builds. The shortlist defers to it when populated
+   and otherwise uses a declared order (section → `TargetAssertionStatus` precedence →
+   document count → mention count → name → asset id). Do not replace this with a weighted
+   score; that would be a second, unvalidated ranking model wearing the real one's clothes.
+2. **No real run has an eligible candidate.** M17: 0 eligible, 114 excluded, 7,966
+   unresolved — every candidate has at least one UNKNOWN gate. The shortlist therefore shows
+   the review population, labelled, and says why in a note.
+3. **Modality, phase and company are not asset properties** and are rendered with their
+   origin: `modality_id` comes from the discovery context text, `development_stage` is null
+   for ~99% of candidates, `company_ids` is populated for <1%. A fact with no evidence shows
+   as `unresolved`, never as a blank.
+
+**Known gap, deliberately not patched:** `SearchIntent.phases` is parsed and then ignored by
+`compile_intent`, so "in phase 2" in a typed question has no effect on the run. Honouring it
+is a gating decision (evidence floor vs gate vs post-filter), not a rendering one.
+
 Other open items, unchanged: endogenous-ligand collision (HISTAMINE), dose/salt/combination
 decoration, `MIN_SUPPORTED_DOCS = 5` conflating contested with rare, and the rule-6
 `\bAR\b`/`\bMET\b` English-word false-positive mode.
@@ -259,13 +287,15 @@ benchmark meaning; a source that changed fundamentally; a destructive system act
    route-confound and corroboration caveats that belong beside it.
 2. **Do not draw another benchmark target** unless a new scientific correctness defect
    appears. The remediation loop is stopped and mention precision is frozen at M18.1.
-3. **Next action: productization step 2 — ranked/cited asset results.** Before building
-   anything on that list, *check whether it already exists unwired*: step 1 turned out to be
-   pure wiring because `bve.se.intent` had been complete since M9 with zero importers.
-   Candidates to grep for first: ranking (`SESearchResult.ranking`, `bve.se.ranking`,
-   `bve-shortlist`), match explanation (`gate_evaluations`, `AnalystReviewItem`), provenance
-   (`source_documents`, `claims`, `facts`, custody seals), review visibility
-   (`review_queue`, `low_support_asset_ids`).
+3. **Next action: productization step 4 — source provenance**, then 5 (unresolved/review
+   visibility), 6 (runtime and caching), 7 (one-command reproducible workflow). Steps 1–3 are
+   done; steps 4 and 5 are now *partly* done inside the shortlist (citations carry
+   family/native id/url/hash/date; review and low-support populations are separated and
+   labelled), so start by reading `src/bve/se/reporting/shortlist.py` and deciding what is
+   actually left rather than rebuilding it. Before building anything on that list, *check
+   whether it already exists unwired*: step 1 was pure wiring because `bve.se.intent` had
+   been complete since M9 with zero importers, and `SourceEvidenceClaim` is still a complete
+   contract with no producers.
 4. Sanity-check the engine runs end to end before changing it:
 
 ```bash
@@ -276,7 +306,17 @@ PYTHONPATH=src BVE_SE_ONTOLOGY_SNAPSHOT=data/se/ontology/current \
 ```
 
    It should print the per-span interpretation to stderr, write the compiled problem, and
-   exit 0 (or 2 = `INCOMPLETE`, which is diagnostic, not failure).
+   exit 0 (or 2 = `INCOMPLETE`, which is diagnostic, not failure). Add
+   `--format shortlist --top 5` to see the reader's view; `--detail` expands every citation.
+
+   The shortlist can also be rendered from a sealed artifact without re-running anything:
+
+```python
+from bve.se.pipeline import SESearchResult
+from bve.se.reporting.shortlist import build_shortlist, render_shortlist
+result = SESearchResult.model_validate_json(open("M17_result.json").read())
+print(render_shortlist(build_shortlist(result, limit=5)))
+```
 
 5. Test/lint commands for this worktree:
 
@@ -286,7 +326,7 @@ PYTHONPATH=src BVE_SE_ONTOLOGY_SNAPSHOT=data/se/ontology/current python -m pytes
 ruff check src/bve/ tests/se/
 ```
 
-   Current baseline: **756 passed, 2 xfailed**, ruff clean, at `e310723` on
+   Current baseline: **780 passed, 2 xfailed**, ruff clean, at `HEAD` on
    `m11-identity-graph`, pushed. Worktree clean apart from untracked `data/` (the ontology
    snapshot — large, deliberately not committed).
 

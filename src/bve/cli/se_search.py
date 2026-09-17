@@ -32,6 +32,7 @@ from bve.se.intent.compiler import build_buyer_identity, compile_intent
 from bve.se.intent.parser import parse_query
 from bve.se.pipeline import run_acquisition, run_landscape_search
 from bve.se.reporting.memo import render_search_memo
+from bve.se.reporting.shortlist import build_shortlist, render_shortlist
 from bve.se.schemas.contracts import BuyerProblemV2, RunStatus
 from bve.se.telemetry import StageTelemetry, stderr_emitter
 from bve.se.universe.factory import TrialBackendNotConfigured, build_trial_provider
@@ -117,7 +118,35 @@ def build_parser() -> argparse.ArgumentParser:
         ),
     )
     parser.add_argument("--output", help="Write JSON result to this path")
-    parser.add_argument("--format", choices=("json", "memo"), default="json")
+    parser.add_argument(
+        "--format",
+        choices=("json", "memo", "shortlist", "shortlist-json"),
+        default="json",
+        help=(
+            "'json' is the full run artifact and 'memo' the run audit. 'shortlist' is the "
+            "reader's view -- the assets found, why each one is there, and the evidence "
+            "behind each displayed claim -- and 'shortlist-json' is the same object, so "
+            "the two can never describe different assets."
+        ),
+    )
+    parser.add_argument(
+        "--top",
+        type=int,
+        default=10,
+        help=(
+            "How many assets the shortlist shows. The counts always describe the whole run, "
+            "so a short shortlist is never mistakable for a small landscape."
+        ),
+    )
+    parser.add_argument(
+        "--detail",
+        action="store_true",
+        help=(
+            "Expand every citation behind every displayed claim: url, structured field, "
+            "content hash and evidence span. Off by default because the default view is "
+            "meant to be read, not audited."
+        ),
+    )
     parser.add_argument(
         "--snapshot-dir",
         default="outputs/se/snapshots/clinicaltrials_gov",
@@ -335,6 +364,24 @@ def problem_from_args(args: argparse.Namespace) -> BuyerProblemV2:
     return problem
 
 
+def _render_result(result, args: argparse.Namespace) -> str:
+    """One run, in whichever of the four views was asked for.
+
+    The two shortlist views are built from the same ``Shortlist`` object on purpose: a
+    human-readable summary and a machine-readable payload that disagreed about which assets
+    were on the list would be worse than having only one of them.
+    """
+
+    if args.format == "json":
+        return json.dumps(result.model_dump(mode="json"), indent=2)
+    if args.format == "memo":
+        return render_search_memo(result)
+    shortlist = build_shortlist(result, limit=args.top)
+    if args.format == "shortlist-json":
+        return json.dumps(shortlist.model_dump(mode="json"), indent=2)
+    return render_shortlist(shortlist, detail=args.detail)
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
@@ -525,11 +572,7 @@ def main(argv: list[str] | None = None) -> int:
             file=sys.stderr,
         )
         return 4
-    rendered = (
-        json.dumps(result.model_dump(mode="json"), indent=2)
-        if args.format == "json"
-        else render_search_memo(result)
-    )
+    rendered = _render_result(result, args)
     if args.output:
         Path(args.output).write_text(rendered + "\n")
     else:
