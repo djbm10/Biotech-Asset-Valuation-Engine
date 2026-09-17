@@ -316,6 +316,11 @@ class CanonicalAsset(StrictModel):
     mention_ids: list[str] = Field(default_factory=list)
     supporting_claim_ids: list[str] = Field(default_factory=list)
     provisional: bool = True
+    #: A source typed this asset's name ``DRUG`` in a structured field of its own schema.
+    #: Evidence about the name only: it protects the candidate from low-support demotion
+    #: and carries no weight in identity, alias or target attribution decisions. Set only
+    #: from structured typing, never from prose, and never unset once observed.
+    structurally_typed_drug: bool = False
 
 
 class IdentityRelationship(str, Enum):

@@ -52,10 +52,22 @@ class MentionDisposition(enum.Enum):
     LOW_SUPPORT_UNKNOWN = "low_support_unknown"
 
 
-def is_protected(name: str) -> bool:
-    """True when evidence outside the corpus already vouches for this name."""
+def is_protected(name: str, *, structurally_typed_drug: bool = False) -> bool:
+    """True when evidence outside the corpus already vouches for this name.
+
+    ``structurally_typed_drug`` means a source declared, in a structured field of its own
+    schema, that this string names a drug --- a CT.gov intervention typed ``DRUG``. That is
+    the same kind of evidence an ontology entry is: it comes from outside the corpus and
+    does not get stronger by repetition, so one document is enough. It is deliberately not
+    inferable from prose, because a sentence calling something a drug is an extraction
+    judgement, and extraction is the thing this module exists to be sceptical of.
+    """
     folded = name.casefold()
-    return drug_name_shape.is_known_drug_name(folded) or bool(_HAS_DIGIT.search(name))
+    return (
+        structurally_typed_drug
+        or drug_name_shape.is_known_drug_name(folded)
+        or bool(_HAS_DIGIT.search(name))
+    )
 
 
 def classify_mention_support(
@@ -63,14 +75,19 @@ def classify_mention_support(
     *,
     support: int,
     drug_shaped: bool | None = None,
+    structurally_typed_drug: bool = False,
 ) -> MentionDisposition:
     """Sort one nominated name into a disposition.
 
     ``support`` is the count of distinct documents mentioning it. ``drug_shaped`` may be
     passed when the caller already scored the name, to avoid re-running the model over a
     population the size of a corpus; it is computed on demand otherwise.
+
+    A disposition decides routing and nothing else. ``structurally_typed_drug`` buys the
+    default path and buys nothing further: it mints no alias, asserts no target, and leaves
+    identity resolution and the assertion gate exactly where they were.
     """
-    if is_protected(name):
+    if is_protected(name, structurally_typed_drug=structurally_typed_drug):
         return MentionDisposition.PROTECTED
 
     if support >= MIN_SUPPORT_UNKNOWN:

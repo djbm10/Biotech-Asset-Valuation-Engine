@@ -80,6 +80,10 @@ class IdentityAuthority(Protocol):
 #: enough that ("Pembrolizumab", otherNames ["Keytruda"]) carries it, so on its own it
 #: says nothing about whether two names denote one molecule.
 _COFORMULATED_TYPES = frozenset({"COMBINATION_PRODUCT"})
+#: Structured intervention types that state the named thing is a drug. Exact and narrow on
+#: purpose: ``COMBINATION_PRODUCT`` is deliberately absent, because it is the type sponsors
+#: also give single agents, and ``BIOLOGICAL`` names a class of product, not a molecule.
+_STRUCTURED_DRUG_TYPES = frozenset({"DRUG"})
 
 
 class AssetRegistry:
@@ -226,6 +230,11 @@ class AssetRegistry:
         )
         existing = self.assets.get(asset_id)
         aliases = [value for value in [hit.asset_name, *merged_aliases] if value]
+        # The source's own structured classification of what this intervention is. Only an
+        # explicit DRUG counts: ``COMBINATION_PRODUCT``, ``BEHAVIORAL``, ``OTHER`` and the
+        # rest say nothing about whether the string names a molecule. It is recorded, not
+        # acted on -- nomination routing reads it, identity does not.
+        typed_drug = (hit.intervention_type or "").upper() in _STRUCTURED_DRUG_TYPES
         if existing is None:
             existing = CanonicalAsset(
                 asset_id=asset_id,
@@ -240,6 +249,7 @@ class AssetRegistry:
                 modality_id=hit.modality_terms[0] if len(hit.modality_terms) == 1 else None,
                 mention_ids=[mention_id],
                 provisional=not bool(hit.trial_id),
+                structurally_typed_drug=typed_drug,
             )
         else:
             existing = existing.model_copy(
@@ -263,6 +273,9 @@ class AssetRegistry:
                     ),
                     "mention_ids": list(dict.fromkeys([*existing.mention_ids, mention_id])),
                     "provisional": existing.provisional and not bool(hit.trial_id),
+                    # Monotonic: a later untyped observation is weaker evidence, not a
+                    # retraction of the typing already seen.
+                    "structurally_typed_drug": existing.structurally_typed_drug or typed_drug,
                 }
             )
         existing = self._attribute_targets(existing)
@@ -546,6 +559,9 @@ class AssetRegistry:
                 dict.fromkeys(value for record in records for value in record.supporting_claim_ids)
             ),
             provisional=all(record.provisional for record in records),
+            structurally_typed_drug=any(
+                record.structurally_typed_drug for record in records
+            ),
         )
         for asset_id in merge.source_asset_ids:
             self._deindex_asset(asset_id)

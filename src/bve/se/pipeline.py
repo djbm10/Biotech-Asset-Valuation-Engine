@@ -362,6 +362,7 @@ def run_landscape_search(
                 (len(support_by_name.get(key, ())) for key in asset.identity_keys),
                 default=0,
             ),
+            structurally_typed_drug=asset.structurally_typed_drug,
         )
         for asset in candidates
     }

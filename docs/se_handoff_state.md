@@ -45,17 +45,31 @@ met: default path −43.0% (M17) and −33.8% (M16R), 0 gold demoted, 0 asserted
 100% of gold and 100% of surfaced traps `PROTECTED`. Suite 739 passed / 2 xfailed, ruff
 clean.
 
-Two facts a resumer needs: live sealed-corpus replay **cannot** isolate an engine change
+One fact a resumer needs: live sealed-corpus replay **cannot** isolate an engine change
 (re-queries uncached gaps; an M16 replay returned 1,965 records vs M16R's 3,623), so
-controlled measurement is done by applying logic to frozen result artifacts. And the known
-gap: a CT.gov intervention typed `DRUG` is structured drug evidence but is **not** yet a
-protected route, so a single-trial plainly-named asset routes to low support — recoverable,
-not lost. Promoting registry-typed interventions to `PROTECTED` is the obvious next generic
-improvement.
+controlled measurement is done by applying logic to frozen result artifacts.
 
-**Next step: user-facing productization**, in the §0 order — query UX, ranked/cited results,
-match explanation, source provenance, unresolved/review visibility, runtime/caching, then a
-reproducible one-command search workflow. Do not draw another benchmark target.
+**M18.1 is DONE and shipped.** See `docs/m18_1_structured_drug_typing.md`. It closes M18's
+known gap: a source that types an intervention `DRUG` in a structured field is now a third
+`PROTECTED` route, alongside exact ontology match and development-code shape. New flag
+`CanonicalAsset.structurally_typed_drug`, set in `AssetRegistry.ingest_hit` from
+`CandidateHit.intervention_type`, monotonic on update and across merges; read only at the
+nomination boundary. It mints no alias, asserts no target, does not bypass identity
+resolution, and is never inferred from prose. Only `DRUG` counts — `COMBINATION_PRODUCT` is
+excluded because sponsors give it to single agents. Measured on the sealed corpora: M17
+promotes **36** candidates (default path 4,603 → 4,639), M16R promotes **6** (3,090 →
+3,096), **zero** demotions (structurally impossible — typing adds a route, removes none).
+Honest reading: the promoted names are mostly salt/regimen decorations and six placebo arms,
+not novel assets, because no benchmark drawn contains a novel asset. Suite 747 passed / 2
+xfailed, ruff clean.
+
+**Mention-precision remediation is FROZEN here.**
+
+**Active directive: user-facing productization**, in this order — (1) query UX, (2)
+ranked/cited asset results, (3) explanation of why each asset matched, (4) source
+provenance, (5) unresolved/review visibility, (6) runtime reduction and caching, (7)
+packaging a reproducible one-command search workflow. **Do not draw another benchmark target
+before productization unless a new scientific correctness defect appears.**
 
 ## 1. Where the work stands
 
@@ -158,10 +172,18 @@ decoration, `MIN_SUPPORTED_DOCS = 5` conflating contested with rare, and the rul
 Reports in `docs/`: `m13_zero_shot_generalization_report.md`,
 `m14_slc6a2_remediation_report.md`, `m15_hrh1_zero_shot_report.md`,
 `m15l_hrh1_remediation_report.md`, `m16_htr2a_zero_shot_report.md`,
-`m17_chrm1_zero_shot_report.md`.
+`m17_chrm1_zero_shot_report.md`, `m18_mention_precision_findings.md`,
+`m18_mention_precision_report.md`, `m18_1_structured_drug_typing.md`.
 
 Commit lineage for the identity work: `e0743eb` (M16 report) → `e689936` (canonical identity
-contract) → `aeea608` (drug-name-shape route) → `f57f4bc` (M17 report).
+contract) → `aeea608` (drug-name-shape route) → `f57f4bc` (M17 report) → `6473334` (M18
+dispositions) → `09ef747` (handoff) → M18.1 (structured DRUG typing).
+
+M18/M18.1 measurement scripts, in staging: `m18_dump_candidates.py`,
+`m18_train_prose_discriminator.py`, `m18_eval_filter.py`, `m18_controlled_eval.py`,
+`m181_typed_drug_eval.py` (re-derives the typing flag from sealed CT.gov snapshots,
+read-only). Outputs `M18_controlled_M17.json`, `M18_controlled_M16R.json`,
+`M181_typed_M17.json`, `M181_typed_M16R.json`.
 
 Run artifacts live in **`/home/djmann/staging/pdcd1_baseline`**, which is outside the repo
 and untracked by git. M17 artifacts: `M17_result.json` (419 MB), `M17_score.json`
