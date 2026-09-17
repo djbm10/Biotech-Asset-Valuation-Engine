@@ -57,8 +57,15 @@ def test_pipeline_keeps_discovery_only_candidates_unresolved() -> None:
     assert result.run_manifest.status == RunStatus.CONVERGED
     assert len(result.candidates) == 1
     assert result.eligible_asset_ids == []
-    assert result.unresolved_asset_ids == [result.candidates[0].asset_id]
-    assert result.review_queue
+    # The fixture's candidate is named by a single document and is unknown to the
+    # ontology, so it now routes to the low-support disposition rather than onto the
+    # default path. The point of this test is unchanged and is the thing that matters:
+    # a discovery-only candidate is never silently dropped. It is still a candidate, it
+    # still carries a review item, and it is still addressable by id.
+    asset_id = result.candidates[0].asset_id
+    assert result.low_support_asset_ids == [asset_id]
+    assert result.unresolved_asset_ids == []
+    assert any(item.subject_id == asset_id for item in result.review_queue)
 
 
 def test_missing_declared_source_forces_incomplete() -> None:
@@ -92,7 +99,11 @@ def test_ctgov_pipeline_emits_claims_facts_gates_and_review_queue(tmp_path) -> N
         "armsInterventionsModule": {
             "interventions": [
                 {
-                    "name": "Asset A",
+                    # A development code rather than the old "Asset A" placeholder. This
+                    # test covers gating, and a bare unknown word mentioned by one trial
+                    # now routes to the low-support disposition, which would silently
+                    # gut that coverage. A phase 1 bispecific carries a code in reality.
+                    "name": "AA-1001",
                     "type": "DRUG",
                     "description": "bispecific CD19-directed CD3 T-cell engager",
                 }

@@ -3,12 +3,17 @@
 from __future__ import annotations
 
 import json
+from collections import defaultdict
 from pathlib import Path
 from typing import Mapping, Sequence
 
 from pydantic import BaseModel, Field
 
 from bve.se.discovery.custody import CorpusSeal
+from bve.se.discovery.mention_support import (
+    MentionDisposition,
+    classify_mention_support,
+)
 from bve.se.discovery.custody_boundary import seal_acquisition
 from bve.se.discovery.orchestrator import (
     DiscoveryOrchestrator,
@@ -69,6 +74,10 @@ class SESearchResult(BaseModel):
     eligible_asset_ids: list[str] = Field(default_factory=list)
     excluded_asset_ids: list[str] = Field(default_factory=list)
     unresolved_asset_ids: list[str] = Field(default_factory=list)
+    #: Candidates held out of the default scoring path for want of corroboration. They are
+    #: still present in ``candidates`` with full provenance and still carry a review item;
+    #: this list is the handle for promoting them, not a record of what was thrown away.
+    low_support_asset_ids: list[str] = Field(default_factory=list)
     review_queue: list[AnalystReviewItem] = Field(default_factory=list)
     gate_evaluations: list[GateEvaluation] = Field(default_factory=list)
     source_documents: list[SourceDocument] = Field(default_factory=list)
@@ -341,6 +350,33 @@ def run_landscape_search(
             }
         )
     candidates = list(registry.assets.values())
+    #: Distinct documents behind each name, straight off the mentions the registry already
+    #: holds. The corpus is not reread.
+    support_by_name: dict[str, set[str]] = defaultdict(set)
+    for mention in registry.mentions.values():
+        support_by_name[mention.normalized_asset_name].add(mention.source_document_id)
+    dispositions = {
+        asset.asset_id: classify_mention_support(
+            asset.canonical_name,
+            support=max(
+                (len(support_by_name.get(key, ())) for key in asset.identity_keys),
+                default=0,
+            ),
+        )
+        for asset in candidates
+    }
+    low_support_asset_ids = [
+        asset.asset_id
+        for asset in candidates
+        if dispositions[asset.asset_id] is MentionDisposition.LOW_SUPPORT_UNKNOWN
+    ]
+    #: Retained in full on ``candidates`` with their provenance; held out of the default
+    #: scoring path only. Nothing is discarded here -- see ``mention_support``.
+    default_path = [
+        asset
+        for asset in candidates
+        if dispositions[asset.asset_id] is not MentionDisposition.LOW_SUPPORT_UNKNOWN
+    ]
     gate_engine = GateEngine()
     with telemetry.stage("GATING") as stage:
         evaluations = [
@@ -349,10 +385,15 @@ def run_landscape_search(
                 subject_id=asset.asset_id,
                 facts=_dedupe_gate_facts(facts_by_asset.get(asset.asset_id, [])),
             )
-            for asset in candidates
+            for asset in default_path
             if facts_by_asset.get(asset.asset_id)
         ]
-        stage.count(candidates=len(candidates), evaluated=len(evaluations))
+        stage.count(
+            candidates=len(candidates),
+            default_path=len(default_path),
+            low_support=len(low_support_asset_ids),
+            evaluated=len(evaluations),
+        )
     evaluated_ids = {evaluation.subject_id for evaluation in evaluations}
     review_queue = [item for evaluation in evaluations for item in evaluation.review_items]
     review_queue.extend(
@@ -362,8 +403,26 @@ def run_landscape_search(
             reason="Candidate requires claim extraction and evidence-backed gate evaluation.",
             priority="high",
         )
-        for asset in candidates
+        for asset in default_path
         if asset.asset_id not in evaluated_ids
+    )
+    #: Low-support names stay visible and recoverable: one review item each, carrying the
+    #: disposition and the support count that produced it, at a priority that keeps them
+    #: out of the analyst's way until something promotes them.
+    review_queue.extend(
+        AnalystReviewItem(
+            review_id=f"review:low_support:{asset.asset_id}",
+            subject_id=asset.asset_id,
+            reason=(
+                f"Nominated name '{asset.canonical_name}' has "
+                f"{max((len(support_by_name.get(key, ())) for key in asset.identity_keys), default=0)} "
+                "supporting document(s), below the threshold for the default path. "
+                "Retained as LOW_SUPPORT_UNKNOWN; not deleted."
+            ),
+            priority="low",
+        )
+        for asset in candidates
+        if dispositions[asset.asset_id] is MentionDisposition.LOW_SUPPORT_UNKNOWN
     )
     review_queue.extend(
         AnalystReviewItem(
@@ -391,7 +450,9 @@ def run_landscape_search(
         for evaluation in evaluations
         if evaluation.disposition == OverallDisposition.UNRESOLVED
     ]
-    unresolved.extend(asset.asset_id for asset in candidates if asset.asset_id not in evaluated_ids)
+    unresolved.extend(
+        asset.asset_id for asset in default_path if asset.asset_id not in evaluated_ids
+    )
     with telemetry.stage("SCORING") as stage:
         ranking = rank_profiles(comparative_profiles or [])
         stage.count(
@@ -428,6 +489,7 @@ def run_landscape_search(
         eligible_asset_ids=eligible,
         excluded_asset_ids=excluded,
         unresolved_asset_ids=list(dict.fromkeys(unresolved)),
+        low_support_asset_ids=low_support_asset_ids,
         review_queue=review_queue,
         gate_evaluations=evaluations,
         source_documents=list(ledger.documents.values()),
