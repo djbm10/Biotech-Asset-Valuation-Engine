@@ -65,7 +65,19 @@ xfailed, ruff clean.
 
 **Mention-precision remediation is FROZEN here.**
 
-**Active directive: user-facing productization**, in this order — (1) query UX, (2)
+**Productization step 1 (query UX) is DONE** (`b719541`). Key finding: the whole NL intake
+layer — `bve.se.intent` (parser, `SearchIntent`, `compile_intent`) — already existed from M9
+and **nothing outside that package imported it**. Step 1 was wiring, not building.
+`bve-se-search` now takes `--query "small molecule CHRM1 programs in phase 2"` as a mutually
+exclusive alternative to `--problem`, via `problem_from_args`. The interpretation is printed
+per span with the rule that fired, always; a non-compilable question exits with its blockers
+named and ambiguous targets list their claimants. `--emit-problem` writes the compiled YAML
+back out so the run stays replayable from a file (this also serves step 7). `--as-of`,
+`--buyer-name`, `--therapeutic-area`, `--indication` are the remaining knobs; TA and
+indication stay caller-supplied because neither is inferable from a target. 9 tests in
+`tests/se/test_search_cli_query_entry.py`. Suite 756 passed / 2 xfailed, ruff clean.
+
+**Active directive: user-facing productization**, remaining steps — (1) ~~query UX~~, (2)
 ranked/cited asset results, (3) explanation of why each asset matched, (4) source
 provenance, (5) unresolved/review visibility, (6) runtime reduction and caching, (7)
 packaging a reproducible one-command search workflow. **Do not draw another benchmark target
