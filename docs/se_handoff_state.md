@@ -37,9 +37,25 @@ gate. Detail and acceptance criteria in §2.
    shape) always; for everything else require ≥5 supporting documents, or ≥2 if drug-shaped.
    Measured: M17 −35.9%, M16R −32.1%, **zero** gold/known_molecule/trap lost.
 
-**Next step:** red tests, then apply at `pipeline.py:343` reading support from
-`registry.mentions` (`IdentityMention.source_document_id` — no corpus re-read needed), then
-replay M15/M16/M17 and check the §2 acceptance criteria.
+**M18 is DONE and shipped** (`fc68a3d`). See `docs/m18_mention_precision_report.md`.
+Three dispositions at the nomination boundary — `PROTECTED` / `SUPPORTED_UNKNOWN` /
+`LOW_SUPPORT_UNKNOWN` — **none of which is deletion**; low support is routed to review with
+full provenance via `SESearchResult.low_support_asset_ids`. All seven acceptance criteria
+met: default path −43.0% (M17) and −33.8% (M16R), 0 gold demoted, 0 asserted assets demoted,
+100% of gold and 100% of surfaced traps `PROTECTED`. Suite 739 passed / 2 xfailed, ruff
+clean.
+
+Two facts a resumer needs: live sealed-corpus replay **cannot** isolate an engine change
+(re-queries uncached gaps; an M16 replay returned 1,965 records vs M16R's 3,623), so
+controlled measurement is done by applying logic to frozen result artifacts. And the known
+gap: a CT.gov intervention typed `DRUG` is structured drug evidence but is **not** yet a
+protected route, so a single-trial plainly-named asset routes to low support — recoverable,
+not lost. Promoting registry-typed interventions to `PROTECTED` is the obvious next generic
+improvement.
+
+**Next step: user-facing productization**, in the §0 order — query UX, ranked/cited results,
+match explanation, source provenance, unresolved/review visibility, runtime/caching, then a
+reproducible one-command search workflow. Do not draw another benchmark target.
 
 ## 1. Where the work stands
 
