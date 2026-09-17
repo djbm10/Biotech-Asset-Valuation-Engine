@@ -8,6 +8,7 @@ import subprocess
 import sys
 import uuid
 from contextlib import nullcontext
+from datetime import date
 from pathlib import Path
 
 import yaml  # type: ignore[import-untyped]
@@ -27,6 +28,8 @@ from bve.se.discovery.adapters import (
     UrlDocumentAdapter,
 )
 from bve.se.discovery.query import AmbiguousTargetError
+from bve.se.intent.compiler import build_buyer_identity, compile_intent
+from bve.se.intent.parser import parse_query
 from bve.se.pipeline import run_acquisition, run_landscape_search
 from bve.se.reporting.memo import render_search_memo
 from bve.se.schemas.contracts import BuyerProblemV2, RunStatus
@@ -62,7 +65,57 @@ def build_parser() -> argparse.ArgumentParser:
         prog="bve-se-search",
         description="Discover a coverage-measured public landscape for one BuyerProblem v2.",
     )
-    parser.add_argument("--problem", required=True, help="BuyerProblem v2 YAML")
+    entry = parser.add_mutually_exclusive_group(required=True)
+    entry.add_argument("--problem", help="BuyerProblem v2 YAML")
+    entry.add_argument(
+        "--query",
+        help=(
+            "Ask in words instead: 'small molecule CHRM1 programs in phase 2'. Targets and "
+            "modalities are resolved against the frozen ontology snapshot, so alias "
+            "spellings are the snapshot's business rather than something to hand-type. How "
+            "the question was read is printed per span; a question that does not resolve "
+            "is refused with its blockers named, never completed with a plausible guess."
+        ),
+    )
+    parser.add_argument(
+        "--as-of",
+        help="As-of date for a --query run (YYYY-MM-DD). Defaults to today.",
+    )
+    parser.add_argument(
+        "--buyer-name",
+        default="Ad-hoc query",
+        help=(
+            "Name recorded for a --query run. A typed question has no standing buyer "
+            "profile, so the identity is synthesized and stamped 'nl_query' rather than "
+            "being mistaken for a real buyer's capability profile."
+        ),
+    )
+    parser.add_argument(
+        "--therapeutic-area",
+        action="append",
+        default=None,
+        help=(
+            "Therapeutic area for a --query run, repeatable. Not inferred from the target: "
+            "omitted, the compiled problem records UNSPECIFIED rather than guessing."
+        ),
+    )
+    parser.add_argument(
+        "--indication",
+        action="append",
+        default=None,
+        help=(
+            "Indication for a --query run, repeatable. Omitted, the question's unrecognized "
+            "phrases are carried as free text, never promoted to resolved indications."
+        ),
+    )
+    parser.add_argument(
+        "--emit-problem",
+        help=(
+            "Write the problem a --query compiled to, as YAML. A typed question is an "
+            "input like any other: this is what lets the same run be replayed from a file "
+            "and explained after the fact."
+        ),
+    )
     parser.add_argument("--output", help="Write JSON result to this path")
     parser.add_argument("--format", choices=("json", "memo"), default="json")
     parser.add_argument(
@@ -238,10 +291,54 @@ def _probe_shared_aliases(problem: BuyerProblemV2, out_path: Path) -> None:
     )
 
 
+def problem_from_args(args: argparse.Namespace) -> BuyerProblemV2:
+    """The problem this invocation is about, from a file or from a typed question.
+
+    Both routes end at the same validated contract, which is the point: a question is a way
+    of writing a problem down, not a second kind of input the rest of the engine has to know
+    about. The compilation is deterministic, so the same question is the same problem.
+    """
+
+    if args.problem:
+        return BuyerProblemV2.model_validate(yaml.safe_load(Path(args.problem).read_text()))
+
+    intent = parse_query(args.query)
+    # Printed whether or not it compiles. An interpretation the operator cannot see is an
+    # interpretation they cannot correct, and this is the layer where a wrong reading of
+    # "M1" costs a whole run.
+    print(f"query: {args.query!r}", file=sys.stderr)
+    for line in intent.explain():
+        print(f"  {line}", file=sys.stderr)
+
+    if not intent.is_compilable:
+        for blocker in intent.blockers():
+            print(f"  blocked: {blocker}", file=sys.stderr)
+        raise SystemExit(
+            "the question did not resolve; name the target and modality explicitly, or "
+            "pass --problem"
+        )
+
+    as_of = date.fromisoformat(args.as_of) if args.as_of else date.today()
+    problem = compile_intent(
+        intent,
+        buyer=build_buyer_identity(args.buyer_name, as_of_date=as_of),
+        therapeutic_areas=args.therapeutic_area,
+        indications=args.indication,
+    )
+    if args.emit_problem:
+        emitted = Path(args.emit_problem)
+        emitted.parent.mkdir(parents=True, exist_ok=True)
+        emitted.write_text(
+            yaml.safe_dump(problem.model_dump(mode="json"), sort_keys=False)
+        )
+        print(f"  compiled problem written to {emitted}", file=sys.stderr)
+    return problem
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = build_parser()
     args = parser.parse_args(argv)
-    problem = BuyerProblemV2.model_validate(yaml.safe_load(Path(args.problem).read_text()))
+    problem = problem_from_args(args)
     source_index = (yaml.safe_load(Path(args.source_index).read_text()) or {}) if args.source_index else {}
     url_index = (yaml.safe_load(Path(args.url_index).read_text()) or {}) if args.url_index else {}
     if args.replay_corpus and args.offline:
