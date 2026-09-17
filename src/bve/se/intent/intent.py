@@ -14,7 +14,13 @@ from enum import Enum
 
 from pydantic import Field
 
-from bve.se.schemas.contracts import StrictModel, TargetOperator, TargetTerm
+from bve.se.schemas.contracts import (
+    PhaseConstraint,
+    PhaseConstraintOperator,
+    StrictModel,
+    TargetOperator,
+    TargetTerm,
+)
 
 INTENT_COMPILER_VERSION = "intent_v1"
 
@@ -58,6 +64,8 @@ class SearchIntent(StrictModel):
     target_operator: TargetOperator = TargetOperator.ANY
     modalities: list[str] = Field(default_factory=list)
     phases: list[str] = Field(default_factory=list)
+    #: How ``phases`` is meant to be read. "phase 2" is EXACT, not a floor.
+    phase_operator: PhaseConstraintOperator = PhaseConstraintOperator.EXACT
     statuses: list[str] = Field(default_factory=list)
 
     #: Query text that matched no vocabulary. Usable as free-text condition terms, but
@@ -73,6 +81,14 @@ class SearchIntent(StrictModel):
 
         normalized = " ".join(self.original_query.casefold().split())
         return "nlq_" + hashlib.sha256(normalized.encode()).hexdigest()[:16]
+
+    @property
+    def phase_constraint(self) -> PhaseConstraint | None:
+        """The phase requirement this question states, or ``None`` if it states none."""
+
+        if not self.phases:
+            return None
+        return PhaseConstraint(operator=self.phase_operator, phases=list(self.phases))
 
     @property
     def is_compilable(self) -> bool:

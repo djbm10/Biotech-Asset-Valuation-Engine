@@ -116,9 +116,9 @@ The top of the list is the CHRM1-confirmed muscarinic agents, which is the right
 the question asked. 25 tests in `tests/se/test_shortlist_rendering.py`; no scientific
 behaviour was touched, so the benchmarks are unchanged by construction.
 
-## 5. Known gap, not worked around
+## 5. Known gap — now closed, see `docs/productization_phase_intent_gate.md`
 
-**The phase constraint in a typed question is silently dropped.** `SearchIntent` parses
+**The phase constraint in a typed question was silently dropped.** `SearchIntent` parses
 `phases`, and `compile_intent` never reads the field — the string "phase 2" in
 `small molecule CHRM1 programs in phase 2` reaches the parser, is shown in the interpretation,
 and then has no effect on the compiled `BuyerProblemV2`. The shortlist *displays* phase
@@ -126,3 +126,8 @@ honestly, but the run is not filtered by it. Honouring it means deciding where i
 the evidence floor's `minimum_stage`, a gate, or a post-filter — and that changes what gets
 excluded, which is a scientific-gating decision rather than a rendering one. Flagged here
 rather than changed quietly.
+
+It was subsequently fixed as a gate, not as a filter over this shortlist: `PhaseConstraint`
+(EXACT / ANY_OF / MINIMUM) on `StrategicGap`, decided by `GateEngine` against the asset's own
+`development_stage_order` facts. The shortlist now *reports* that decision beside the stage
+evidence that produced it; it still does not make one.

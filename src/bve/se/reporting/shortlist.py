@@ -31,6 +31,7 @@ from enum import Enum
 
 from pydantic import BaseModel, ConfigDict, Field
 
+from bve.se.gates.engine import PHASE_REQUIREMENT_ID
 from bve.se.schemas.contracts import (
     CanonicalAsset,
     OverallDisposition,
@@ -175,6 +176,21 @@ class _Index:
         for claim in result.claims:
             self.claims_by_subject.setdefault(claim.subject_id, []).append(claim)
 
+    def phase_decision(self, asset_id: str):
+        """The phase gate's decision for this asset, or ``None`` if the query set no phase."""
+
+        gate = self.gates.get(asset_id)
+        if gate is None:
+            return None
+        return next(
+            (
+                decision
+                for decision in gate.decisions
+                if decision.requirement_id == PHASE_REQUIREMENT_ID
+            ),
+            None,
+        )
+
     def documents_for(self, asset: CanonicalAsset) -> list:
         seen: dict[str, object] = {}
         for mention_id in asset.mention_ids:
@@ -308,16 +324,23 @@ def _phase_fact(asset: CanonicalAsset, index: _Index) -> DisplayedFact:
         for claim in index.claims_by_subject.get(asset.asset_id, ())
         if claim.predicate in _STAGE_PREDICATES and claim.source_document_id in index.documents
     )
+    # The gate, not the renderer, decides whether the phase matches. The decision is shown
+    # beside the evidence that produced it rather than restated.
+    decision = index.phase_decision(asset.asset_id)
+    verdict = (
+        f"phase gate {decision.status.value}: {decision.rationale}" if decision is not None else None
+    )
     if value is None or not citations:
+        note = (
+            "no development stage was established for this candidate"
+            if value is None
+            else f"{value} carries no traceable stage claim in this corpus"
+        )
         return DisplayedFact(
             label="Phase",
             evidence_type=SourceEvidenceType.DEVELOPMENT_STAGE_EVIDENCE,
             value=None,
-            note=(
-                "no development stage was established for this candidate"
-                if value is None
-                else f"{value} carries no traceable stage claim in this corpus"
-            ),
+            note=f"{note}; {verdict}" if verdict else note,
         )
     return DisplayedFact(
         label="Phase",
@@ -325,6 +348,7 @@ def _phase_fact(asset: CanonicalAsset, index: _Index) -> DisplayedFact:
         value=value,
         origin=EvidenceOrigin.SOURCE_DOCUMENT,
         citations=citations,
+        note=verdict,
     )
 
 
@@ -399,6 +423,10 @@ def _why(asset: CanonicalAsset, index: _Index, *, low_support: bool) -> tuple[st
     if documents:
         families = sorted({document.publisher for document in documents})
         lines.append(f"{len(documents)} source documents: {', '.join(families)}")
+    phase = index.phase_decision(asset.asset_id)
+    if phase is not None and phase.status.value == "PASS":
+        # Non-PASS decisions already surface through the gate loop below.
+        lines.append(f"phase gate PASS: {phase.rationale}")
     gate = index.gates.get(asset.asset_id)
     if gate is not None:
         for decision in gate.decisions:

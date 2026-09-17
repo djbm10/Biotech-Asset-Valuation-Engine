@@ -17,7 +17,7 @@ from bve.se.intent.intent import INTENT_COMPILER_VERSION, IntentSpan, SearchInte
 from bve.se.ontology.modality import known_modalities, modality_aliases, normalize_modality
 from bve.se.ontology.resolver import ResolutionStatus
 from bve.se.ontology.targets import ontology_version, resolve_target
-from bve.se.schemas.contracts import TargetOperator, TargetTerm
+from bve.se.schemas.contracts import PhaseConstraintOperator, TargetOperator, TargetTerm
 
 #: Longest phrase the vocabularies contain (``t cell redirecting bispecific``).
 MAX_NGRAM = 5
@@ -82,6 +82,27 @@ def _normalize_phase(text: str) -> list[str]:
     return phases
 
 
+#: Phrases that turn a named phase into a floor rather than an exact request. Anything not
+#: listed here is read as EXACT, because admitting later phases is the error that costs a
+#: user real money.
+_MINIMUM_PREFIX = re.compile(r"(?:at\s+least|minimum\s+(?:of\s+)?|no\s+earlier\s+than)\s*$", re.IGNORECASE)
+_MINIMUM_SUFFIX = re.compile(
+    r"^\s*(?:\+|or\s+later|or\s+beyond|or\s+above|or\s+higher|or\s+more\s+advanced"
+    r"|and\s+later|and\s+above|onwards?)",
+    re.IGNORECASE,
+)
+
+
+def _minimum_cue(query: str, start: int, end: int) -> tuple[int, int] | None:
+    """Return the span of a minimum cue attached to the phase at ``start:end``."""
+
+    if match := _MINIMUM_SUFFIX.match(query[end:]):
+        return (end, end + match.end())
+    if match := _MINIMUM_PREFIX.search(query[:start]):
+        return (match.start(), start)
+    return None
+
+
 def _match_status(phrase: str) -> str | None:
     return _STATUS_ALIASES.get(phrase.casefold())
 
@@ -106,18 +127,26 @@ def parse_query(query: str) -> SearchIntent:
 
     # Phases first: their surface form ("phase 1/2") contains separators that would
     # otherwise be split across n-grams.
+    minimum_cues = 0
     for match in _PHASE_PATTERN.finditer(query):
+        start, end = match.start(), match.end()
+        cue = _minimum_cue(query, start, end)
+        if cue is not None:
+            minimum_cues += 1
+            start, end = min(start, cue[0]), max(end, cue[1])
         spans.append(
             IntentSpan(
-                text=match.group(0),
-                start=match.start(),
-                end=match.end(),
+                text=query[start:end],
+                start=start,
+                end=end,
                 kind=SpanKind.PHASE,
                 resolved_to=",".join(_normalize_phase(match.group(0))),
-                rule="phase_vocabulary",
+                rule="phase_minimum_vocabulary" if cue is not None else "phase_vocabulary",
             )
         )
-        consumed.append((match.start(), match.end()))
+        # The cue text is consumed with the phase so "or later" cannot fall through to the
+        # n-gram pass and end up as a free-text indication.
+        consumed.append((start, end))
 
     tokens = _tokenize(query)
     for size in range(MAX_NGRAM, 0, -1):
@@ -239,6 +268,17 @@ def parse_query(query: str) -> SearchIntent:
             for phase in span.resolved_to.split(","):
                 if phase and phase not in phases:
                     phases.append(phase)
+    if minimum_cues and len(phases) == 1:
+        phase_operator = PhaseConstraintOperator.MINIMUM
+    elif len(phases) > 1:
+        phase_operator = PhaseConstraintOperator.ANY_OF
+        if minimum_cues:
+            warnings.append(
+                "a 'later/at least' phase cue was read alongside several phases; the "
+                "constraint was kept as the allowed set " + ", ".join(phases)
+            )
+    else:
+        phase_operator = PhaseConstraintOperator.EXACT
     statuses = list(
         dict.fromkeys(
             span.resolved_to for span in spans if span.kind is SpanKind.STATUS and span.resolved_to
@@ -279,6 +319,7 @@ def parse_query(query: str) -> SearchIntent:
         target_operator=operator,
         modalities=modalities,
         phases=phases,
+        phase_operator=phase_operator,
         statuses=statuses,
         residual_terms=residual_terms,
         ambiguous_terms=ambiguous_terms,

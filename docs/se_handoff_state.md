@@ -186,9 +186,23 @@ implementation.** See `docs/productization_step2_ranked_cited_results.md`.
    for ~99% of candidates, `company_ids` is populated for <1%. A fact with no evidence shows
    as `unresolved`, never as a blank.
 
-**Known gap, deliberately not patched:** `SearchIntent.phases` is parsed and then ignored by
-`compile_intent`, so "in phase 2" in a typed question has no effect on the run. Honouring it
-is a gating decision (evidence floor vs gate vs post-filter), not a rendering one.
+**Phase intent — fixed as a gate.** See `docs/productization_phase_intent_gate.md`.
+`PhaseConstraint` (EXACT / ANY_OF / MINIMUM) on `StrategicGap`, compiled from
+`SearchIntent.phases` + `phase_operator`, decided by `GateEngine` as requirement
+`evidence.phase_constraint` over `development_stage_order` facts. Four things not to undo:
+
+1. **Bare `phase 2` is EXACT, not `minimum_stage`.** Mapping it onto the evidence floor would
+   admit every Phase 3 asset into a Phase 2 search. `minimum_stage` is untouched.
+2. **Unknown phase is UNKNOWN, never FAIL** — absent or conflicting stage evidence routes to
+   review, like every other gate.
+3. **Only asset-specific `development_stage_order` facts reach the gate.** Discovery-context
+   text naming a phase cannot satisfy it.
+4. **`phase_constraint` defaults to `None`**, so pre-existing BuyerProblems gate identically
+   and benchmark runs without phase intent are unchanged.
+
+The parser gained the MINIMUM vocabulary it never had ("at least", "or later", "+", …); the
+cue text is consumed with the phase span so it cannot fall through as a free-text indication.
+`tests/se/test_phase_intent_gate.py` (18 tests).
 
 Other open items, unchanged: endogenous-ligand collision (HISTAMINE), dose/salt/combination
 decoration, `MIN_SUPPORTED_DOCS = 5` conflating contested with rare, and the rule-6
@@ -287,7 +301,11 @@ benchmark meaning; a source that changed fundamentally; a destructive system act
    route-confound and corroboration caveats that belong beside it.
 2. **Do not draw another benchmark target** unless a new scientific correctness defect
    appears. The remediation loop is stopped and mention precision is frozen at M18.1.
-3. **Next action: productization step 4 — source provenance**, then 5 (unresolved/review
+3. Phase intent is now a real gate (`docs/productization_phase_intent_gate.md`); the query in
+   the smoke command below therefore *changes dispositions*, and an asset whose trials span
+   more than one phase is UNKNOWN (review), not a match. Drop "in phase 2" if you want the
+   unconstrained landscape.
+4. **Next action: productization step 4 — source provenance**, then 5 (unresolved/review
    visibility), 6 (runtime and caching), 7 (one-command reproducible workflow). Steps 1–3 are
    done; steps 4 and 5 are now *partly* done inside the shortlist (citations carry
    family/native id/url/hash/date; review and low-support populations are separated and
@@ -296,7 +314,7 @@ benchmark meaning; a source that changed fundamentally; a destructive system act
    whether it already exists unwired*: step 1 was pure wiring because `bve.se.intent` had
    been complete since M9 with zero importers, and `SourceEvidenceClaim` is still a complete
    contract with no producers.
-4. Sanity-check the engine runs end to end before changing it:
+5. Sanity-check the engine runs end to end before changing it:
 
 ```bash
 cd /home/djmann/projects/bve-b8
@@ -318,7 +336,7 @@ result = SESearchResult.model_validate_json(open("M17_result.json").read())
 print(render_shortlist(build_shortlist(result, limit=5)))
 ```
 
-5. Test/lint commands for this worktree:
+6. Test/lint commands for this worktree:
 
 ```bash
 cd /home/djmann/projects/bve-b8
@@ -326,7 +344,7 @@ PYTHONPATH=src BVE_SE_ONTOLOGY_SNAPSHOT=data/se/ontology/current python -m pytes
 ruff check src/bve/ tests/se/
 ```
 
-   Current baseline: **780 passed, 2 xfailed**, ruff clean, at `f98e3a2` on
+   Current baseline: **798 passed, 2 xfailed**, ruff clean, at `PHASE_COMMIT` on
    `m11-identity-graph`, pushed. Worktree clean apart from untracked `data/` (the ontology
    snapshot — large, deliberately not committed).
 

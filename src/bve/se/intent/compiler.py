@@ -73,6 +73,9 @@ def compile_intent(
         indications=list(indications if indications is not None else intent.residual_terms),
         target_expression=TargetExpression(operator=intent.target_operator, targets=targets),
         modalities=list(intent.modalities),
+        # Phase intent is a gating constraint, not a display filter: it is compiled into the
+        # buyer problem so the gate engine decides it against the asset's own stage evidence.
+        phase_constraint=intent.phase_constraint,
     )
 
     return BuyerProblemV2(

@@ -460,6 +460,50 @@ class TargetExpression(StrictModel):
         return self
 
 
+class PhaseConstraintOperator(str, Enum):
+    """How a requested development phase set is meant to be read.
+
+    ``EXACT`` is deliberately separate from ``MINIMUM``: "phase 2" asks for Phase 2 assets,
+    and folding it onto the evidence floor's ``minimum_stage`` would silently admit Phase 3.
+    """
+
+    EXACT = "EXACT"
+    ANY_OF = "ANY_OF"
+    MINIMUM = "MINIMUM"
+
+
+#: Phase vocabulary tokens → the ``development_stage_order`` scale the extractors emit.
+#: The values mirror ``bve.se.evidence.clinicaltrials._STAGE_ORDER`` exactly; the gate
+#: compares against facts produced there, so the two must not drift apart.
+PHASE_STAGE_ORDER = {
+    "EARLY_PHASE1": 2,
+    "PHASE1": 2,
+    "PHASE2": 3,
+    "PHASE3": 4,
+    "PHASE4": 6,
+}
+
+
+class PhaseConstraint(StrictModel):
+    """A development-phase requirement stated over asset-specific stage evidence."""
+
+    operator: PhaseConstraintOperator
+    phases: list[str] = Field(min_length=1)
+
+    @model_validator(mode="after")
+    def validate_phases(self) -> "PhaseConstraint":
+        unknown = [phase for phase in self.phases if phase.upper() not in PHASE_STAGE_ORDER]
+        if unknown:
+            raise ValueError(f"unknown phase tokens: {', '.join(unknown)}")
+        if self.operator is PhaseConstraintOperator.MINIMUM and len(self.phases) != 1:
+            raise ValueError("a MINIMUM phase constraint names exactly one phase")
+        return self
+
+    @property
+    def stage_orders(self) -> list[int]:
+        return sorted({PHASE_STAGE_ORDER[phase.upper()] for phase in self.phases})
+
+
 class OutputSpec(StrictModel):
     landscape_mode: LandscapeMode = LandscapeMode.COMBINED
     group_by: LandscapeGroup = LandscapeGroup.COHORT
@@ -515,6 +559,9 @@ class StrategicGap(StrictModel):
     required_biology: list[BuyerRequirement] = Field(default_factory=list)
     capability_constraints: CapabilityConstraints = Field(default_factory=CapabilityConstraints)
     evidence_floor: EvidenceFloor = Field(default_factory=EvidenceFloor)
+    #: Optional, so every BuyerProblem authored before phase intent existed compiles and
+    #: gates exactly as before.
+    phase_constraint: PhaseConstraint | None = None
     clinical_effect_bar: ClinicalEffectBar = Field(default_factory=ClinicalEffectBar)
     acceptable_deal_routes: list[str] = Field(default_factory=list)
     geographic_rights_requirements: list[BuyerRequirement] = Field(default_factory=list)
