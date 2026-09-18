@@ -161,7 +161,12 @@ class TestScientificPhrasesAreNeverSilentlyDropped:
         assert "autoimmune disease" in intent.unresolved_scientific_terms
         assert "autoimmune" not in intent.residual_terms
         assert "disease" not in intent.residual_terms
-        assert any("autoimmune disease" in warning for warning in intent.warnings)
+        # The warning is composed at compile time, not frozen at parse time: whether the
+        # phrase is still unapplied depends on what the caller went on to supply.
+        assert any(
+            "autoimmune disease" in warning
+            for warning in intent.warnings_for(indication_supplied=False)
+        )
 
     def test_the_unresolved_phrase_is_named_in_the_interpretation(self, snapshot):
         explained = parse_query("CD19 CAR-T for autoimmune disease").explain()
@@ -237,10 +242,11 @@ class TestAbstention:
             compile_intent(intent, buyer=BUYER)
         assert "no biological target recognized" in str(excinfo.value)
 
-    def test_a_missing_modality_does_not_compile(self, snapshot):
-        intent = parse_query("CD19 assets")
-        with pytest.raises(IntentNotCompilable, match="no modality recognized"):
-            compile_intent(intent, buyer=BUYER)
+    def test_a_missing_modality_is_not_a_refusal(self, snapshot):
+        # A BD user asking for "CD19 therapies" is deliberately not naming a modality.
+        # Refusing the question forced them to invent a narrowing they never asked for.
+        problem = compile_intent(parse_query("CD19 assets"), buyer=BUYER)
+        assert problem.strategic_gap.modalities == []
 
     def test_ambiguity_is_reported_rather_than_resolved(self, tmp_path, monkeypatch):
         OntologySnapshot(

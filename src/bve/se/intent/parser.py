@@ -142,6 +142,12 @@ _TARGET_JOIN = re.compile(r"(?<=[0-9A-Za-z])(?:/|×|x(?=[A-Z]))")
 #: never named.
 _CONNECTOR_TOKENS = frozenset({"x", "×", "/", "and", "or", "plus", "vs"})
 
+#: Words that *state* "one molecule must hit every target named", rather than leaving it to
+#: be inferred from whatever connector the question happened to use. The inference falls
+#: back to ANY on an unrecognized connector, so a question that says "dual" and is read as
+#: "either" would return single-target assets under a dual-target heading.
+_CONJUNCTION_WORDS = frozenset({"dual", "dual-targeting", "dual-targeted", "bi-specific targeting"})
+
 
 def _tokenize(text: str) -> list[tuple[str, int, int]]:
     tokens: list[tuple[str, int, int]] = []
@@ -362,6 +368,20 @@ def parse_query(query: str) -> SearchIntent:
                 consumed.append((start, end))
                 continue
 
+            if phrase.casefold() in _CONJUNCTION_WORDS:
+                spans.append(
+                    IntentSpan(
+                        text=phrase,
+                        start=start,
+                        end=end,
+                        kind=SpanKind.TARGET_LOGIC,
+                        resolved_to="ALL",
+                        rule="conjunction_vocabulary",
+                    )
+                )
+                consumed.append((start, end))
+                continue
+
             # Single tokens only for targets: a multi-word phrase reaching the resolver
             # would match approved *names* and pull in whole protein families.
             if size > 2 or phrase.casefold() in _STOPWORDS:
@@ -484,6 +504,11 @@ def parse_query(query: str) -> SearchIntent:
     )
 
     operator, operator_rule = _infer_operator(query, spans)
+    conjunction_stated = any(span.kind is SpanKind.TARGET_LOGIC for span in spans)
+    if conjunction_stated and operator_rule != "or_connector":
+        # The user wrote the conjunction down. Only an explicit "or" can contradict it, and
+        # that contradiction is a blocker rather than something to resolve by precedence.
+        operator, operator_rule = TargetOperator.ALL, "conjunction_stated"
     if len(targets) > 1:
         warnings.append(f"target operator {operator.value} inferred by {operator_rule}")
     if ambiguous_terms:
@@ -496,12 +521,9 @@ def parse_query(query: str) -> SearchIntent:
         warnings.append(
             "no ontology snapshot installed; no target can resolve and this intent will not compile"
         )
-    if unresolved_scientific_terms:
-        warnings.append(
-            "recognized but unenforceable scientific phrases, which this run will NOT apply"
-            " unless you state them with --therapeutic-area or --indication: "
-            + ", ".join(unresolved_scientific_terms)
-        )
+    # The unenforceable-phrase warning is deliberately *not* appended here: whether the
+    # phrase is still unapplied depends on what the caller supplies at compile time, so it
+    # is composed by ``SearchIntent.warnings_for`` instead of frozen at parse time.
     if residual_terms:
         warnings.append(
             "unrecognized terms carried as free text, not as resolved criteria: "
@@ -518,6 +540,7 @@ def parse_query(query: str) -> SearchIntent:
         modalities=modalities,
         phases=phases,
         phase_operator=phase_operator,
+        conjunction_stated=conjunction_stated,
         statuses=statuses,
         human_poc_required=human_poc_required,
         minimum_stage=minimum_stage,

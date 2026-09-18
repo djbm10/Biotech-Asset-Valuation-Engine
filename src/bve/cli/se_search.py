@@ -355,7 +355,14 @@ def problem_from_args(args: argparse.Namespace) -> BuyerProblemV2:
     for line in intent.explain():
         print(f"  {line}", file=sys.stderr)
 
-    for warning in intent.warnings:
+    # What the run will gate on, absences included. "modality constraint: none" is the
+    # difference between a deliberately wide question and a narrowed one, and an absent
+    # gate is invisible in a list of the present ones.
+    for line in intent.explain_constraints():
+        print(f"  {line}", file=sys.stderr)
+
+    indication_supplied = bool(args.therapeutic_area) or bool(args.indication)
+    for warning in intent.warnings_for(indication_supplied=indication_supplied):
         print(f"  warning: {warning}", file=sys.stderr)
 
     as_of = date.fromisoformat(args.as_of) if args.as_of else date.today()
@@ -372,8 +379,8 @@ def problem_from_args(args: argparse.Namespace) -> BuyerProblemV2:
         for blocker in refused.blockers:
             print(f"  blocked: {blocker}", file=sys.stderr)
         raise SystemExit(
-            "the question was not compiled; answer the blockers above, name the target and "
-            "modality explicitly, or pass --problem"
+            "the question was not compiled; answer the blockers above, name the target "
+            "explicitly, or pass --problem"
         ) from None
     if args.emit_problem:
         emitted = Path(args.emit_problem)

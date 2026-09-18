@@ -165,20 +165,23 @@ class GateEngine:
             )
         )
 
-        # 3. Required modality ontology.
-        decisions.append(
-            evaluate_requirement(
-                _requirement(
-                    "modality.required",
-                    "modality_id",
-                    RequirementOperator.IN,
-                    problem.strategic_gap.modalities,
-                ),
-                subject_id=subject_id,
-                facts=facts_list,
-                gate_id="modality_technology",
+        # 3. Required modality ontology -- only when the question asked for one. No
+        # modality named is a wider question, not an unsatisfiable one, so it emits no
+        # requirement rather than an IN [] that every asset would fail.
+        if problem.strategic_gap.modalities:
+            decisions.append(
+                evaluate_requirement(
+                    _requirement(
+                        "modality.required",
+                        "modality_id",
+                        RequirementOperator.IN,
+                        problem.strategic_gap.modalities,
+                    ),
+                    subject_id=subject_id,
+                    facts=facts_list,
+                    gate_id="modality_technology",
+                )
             )
-        )
 
         # 4. Buyer-authored biological requirements.
         for requirement in problem.strategic_gap.required_biology:

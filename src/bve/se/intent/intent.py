@@ -37,6 +37,9 @@ class SpanKind(str, Enum):
     #: Recognized as scientifically meaningful, and *not* faithfully representable as a
     #: constraint. Escalated by name rather than quietly demoted to free text.
     UNRESOLVED_SCIENTIFIC = "UNRESOLVED_SCIENTIFIC"
+    #: A word that constrains how the *other* resolved elements combine -- "dual" says one
+    #: molecule must hit every named target. It resolves to no entity of its own.
+    TARGET_LOGIC = "TARGET_LOGIC"
     #: Left over after every vocabulary was tried; kept as free text, never as an assertion.
     RESIDUAL = "RESIDUAL"
 
@@ -71,6 +74,10 @@ class SearchIntent(StrictModel):
     phases: list[str] = Field(default_factory=list)
     #: How ``phases`` is meant to be read. "phase 2" is EXACT, not a floor.
     phase_operator: PhaseConstraintOperator = PhaseConstraintOperator.EXACT
+    #: The question used a word ("dual") that *states* the conjunction rather than leaving
+    #: it to be inferred from the connector. Kept separate from ``target_operator`` so the
+    #: stated requirement can be checked against what actually resolved.
+    conjunction_stated: bool = False
     statuses: list[str] = Field(default_factory=list)
 
     #: Evidence requirements the question stated and the contract can enforce. Both map onto
@@ -109,7 +116,20 @@ class SearchIntent(StrictModel):
 
     @property
     def is_compilable(self) -> bool:
-        return bool(self.targets) and bool(self.modalities)
+        return not self.blockers(indication_supplied=True)
+
+    @property
+    def conjunction_unsatisfiable(self) -> bool:
+        """The question *stated* a conjunction that the resolved targets cannot express.
+
+        "dual CD19" names a two-target molecule and one target; "dual CD19 or BCMA" states
+        the conjunction and its own negation. Either way the stated requirement cannot be
+        compiled, and compiling the rest would answer a wider question in silence.
+        """
+
+        if not self.conjunction_stated:
+            return False
+        return len(self.targets) < 2 or self.target_operator is not TargetOperator.ALL
 
     def blockers(self, *, indication_supplied: bool = False) -> list[str]:
         """Why this intent cannot become a buyer problem, in the user's own terms.
@@ -128,8 +148,19 @@ class SearchIntent(StrictModel):
                 )
             else:
                 reasons.append("no biological target recognized in the query")
-        if not self.modalities:
-            reasons.append("no modality recognized in the query")
+        if self.conjunction_unsatisfiable:
+            reasons.append(
+                "the question states 'dual' -- one molecule hitting every named target --"
+                " but that cannot be compiled from what resolved: "
+                + (
+                    f"only {len(self.targets)} target resolved"
+                    if len(self.targets) < 2
+                    else "the connector between the targets reads as 'either'"
+                )
+                + ". Name both targets conjunctively, or drop 'dual'; it will not be"
+                " dropped silently, because a run without it can return single-target"
+                " assets."
+            )
         if self.unresolved_scientific_terms and not indication_supplied:
             reasons.append(
                 "NEEDS_CLARIFICATION: "
@@ -140,6 +171,70 @@ class SearchIntent(StrictModel):
                 " be applied silently."
             )
         return reasons
+
+    def warnings_for(self, *, indication_supplied: bool = False) -> list[str]:
+        """Parse-time warnings, plus the ones that depend on what the caller supplied.
+
+        An unenforceable disease class is only unapplied for as long as the caller has not
+        answered it. Repeating "this run will NOT apply it unless you state
+        --therapeutic-area" *after* they stated one describes a run that did not happen.
+        """
+
+        lines = list(self.warnings)
+        if not self.unresolved_scientific_terms:
+            return lines
+        named = ", ".join(self.unresolved_scientific_terms)
+        if indication_supplied:
+            lines.append(
+                "recognized but unenforceable scientific phrases, answered by the"
+                f" therapeutic area / indication you supplied: {named}"
+            )
+        else:
+            lines.append(
+                "recognized but unenforceable scientific phrases, which this run will NOT"
+                " apply unless you state them with --therapeutic-area or --indication: "
+                + named
+            )
+        return lines
+
+    def explain_constraints(self) -> list[str]:
+        """What this question will actually gate on, including the gates it does *not* set.
+
+        An absent constraint is invisible in a list of present ones, and "no modality gate"
+        is the difference between a deliberately wide search and a narrowed one.
+        """
+
+        lines = [
+            "target constraint: "
+            + (
+                f"{self.target_operator.value} of "
+                + ", ".join(target.canonical_id for target in self.targets)
+                if self.targets
+                else "none"
+            ),
+            "modality constraint: "
+            + (", ".join(self.modalities) if self.modalities else "none"),
+            "phase constraint: "
+            + (
+                f"{self.phase_operator.value} {', '.join(self.phases)}"
+                if self.phases
+                else "none"
+            ),
+            "evidence floor: "
+            + (
+                ", ".join(
+                    filter(
+                        None,
+                        [
+                            f"minimum_stage={self.minimum_stage}" if self.minimum_stage else "",
+                            "human_poc_required" if self.human_poc_required else "",
+                        ],
+                    )
+                )
+                or "none"
+            ),
+        ]
+        return lines
 
     def explain(self) -> list[str]:
         """One line per span: what was read, and why it was read that way."""

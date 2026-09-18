@@ -555,7 +555,10 @@ class StrategicGap(StrictModel):
     therapeutic_areas: list[str] = Field(min_length=1)
     indications: list[str] = Field(default_factory=list)
     target_expression: TargetExpression
-    modalities: list[str] = Field(min_length=1)
+    #: Empty means *no modality constraint*, not "no modality known": a question that names
+    #: no modality is a wider question, and the gate engine emits no modality requirement at
+    #: all for it. A requirement of ``IN []`` would fail every asset, which is the opposite.
+    modalities: list[str] = Field(default_factory=list)
     required_biology: list[BuyerRequirement] = Field(default_factory=list)
     capability_constraints: CapabilityConstraints = Field(default_factory=CapabilityConstraints)
     evidence_floor: EvidenceFloor = Field(default_factory=EvidenceFloor)

@@ -86,9 +86,18 @@ class TestAQuestionThatDoesNotResolveDoesNotRun:
         assert "PDCD1" in message and "RPL17" in message
 
     def test_an_underdetermined_question_names_its_blockers(self, capsys) -> None:
+        # Naming no modality is no longer underdetermined -- it is a wider question. What
+        # still is: naming no target at all, since there is then nothing to search for.
         with pytest.raises(SystemExit):
-            problem_from_args(_args(["--query", "CHRM1 antagonists", "--as-of", "2026-09-16"]))
-        assert "modality" in capsys.readouterr().err
+            problem_from_args(_args(["--query", "antagonists", "--as-of", "2026-09-16"]))
+        assert "target" in capsys.readouterr().err
+
+    def test_naming_no_modality_runs_and_says_so(self, capsys) -> None:
+        problem = problem_from_args(
+            _args(["--query", "CHRM1 antagonists", "--as-of", "2026-09-16"])
+        )
+        assert problem.strategic_gap.modalities == []
+        assert "modality constraint: none" in capsys.readouterr().err
 
     def test_an_unenforceable_scientific_phrase_stops_the_run_and_is_named(self, capsys) -> None:
         with pytest.raises(SystemExit):

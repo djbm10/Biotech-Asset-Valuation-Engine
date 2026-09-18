@@ -8,6 +8,69 @@ The rule for acting on an entry: fix it when a real query exposed it, not becaus
 listed. Silent misreads outrank refusals, because a refusal tells the user something is
 wrong and a misread does not.
 
+## 2026-09-18 — third pass: the question was refused for naming no modality
+
+### FIXED — "therapies" was treated as a missing modality rather than a wider question
+
+The live acceptance query — *"Find clinical-stage dual CD19/BCMA therapies for autoimmune
+disease with human efficacy."* — did not run. Every scientific phrase in it compiled or was
+escalated by name, exactly as the second-pass rule requires, and then the run was refused
+with `no modality recognized in the query`.
+
+That refusal was wrong in a way the rule did not cover. A BD user writing *therapies* is
+deliberately declining to narrow: CAR-T, bispecific, anything that hits both targets. The
+engine treated the absence as an omission to be corrected and made the user supply a
+modality — so the run that eventually happened answered a **narrower** question under the
+original's name. The second-pass rule guards against a run looking more capable than it
+was; this was the mirror image, a run looking like the question it was not.
+
+Naming no modality is now valid and means exactly one thing: **no modality gate**, search
+across every supported modality. `StrategicGap.modalities` may be empty, and the gate engine
+emits no modality requirement at all for it rather than an `IN []` that every asset would
+fail. Generic nouns — `therapy`, `therapies`, `program`, `asset`, `drug` — resolve to no
+modality and never infer one. A question that does name a modality is untouched, gate for
+gate.
+
+Because an absent gate is invisible in a list of present ones, every run now prints what it
+will actually gate on, absences included: `modality constraint: none`.
+
+### FIXED — `dual` was residual, and the conjunction it states was only ever inferred
+
+`dual` landed in `residual_terms`. That looked survivable because the acceptance query's
+target operator came out `ALL` anyway — but it came out `ALL` by *inference* from the `/`
+between the targets, and the inference falls back to `ANY` on any connector it does not
+recognize. `dual CD19, BCMA therapies` compiled to "either CD19 or BCMA", which returns
+single-target assets under a dual-target heading. The word the user wrote decided nothing.
+
+`dual` is now a `TARGET_LOGIC` span that *states* the conjunction, and a stated conjunction
+beats the inference. The underlying contract needed nothing new: `TargetOperator.ALL` was
+already `required.issubset(observed)` against the asset's own construct-level target set —
+one molecule, both targets — and that is now pinned by tests that a CD19-only asset and a
+BCMA-only asset each FAIL the dual query while an asset hitting both PASSes.
+
+Where the stated conjunction cannot be compiled, it refuses rather than narrowing quietly:
+`dual CD19` (one target named) and `dual CD19 or BCMA` (the question contradicting itself)
+are both blockers that name `dual`.
+
+### FIXED — the unenforceable-phrase warning did not notice being answered
+
+Passing `--therapeutic-area AUTOIMMUNE --indication "systemic lupus erythematosus"` cleared
+the `NEEDS_CLARIFICATION` blocker and the run proceeded, but the warning still read *"this
+run will NOT apply [autoimmune disease] unless you state them with --therapeutic-area or
+--indication"* — after both had been stated. The gate was right and the message described a
+run that did not happen.
+
+The warning was frozen at parse time, when what the caller would supply was not yet known.
+It is now composed at compile time by `SearchIntent.warnings_for(indication_supplied=...)`,
+and once answered it says so instead.
+
+### STILL OPEN — "autoimmune disease" is answered by hand, not by a vocabulary
+
+It remains `UNRESOLVED_SCIENTIFIC`. Mapping it to the controlled therapeutic area
+`AUTOIMMUNE` is the right next step and the phrase is explicit enough to carry it, but that
+is a vocabulary question, not a question-layer one — the ontology snapshot still holds zero
+DISEASE entities. Until then the user states the area and the engine says it was answered.
+
 ## 2026-09-17 — second pass: the acceptance rule for scientific phrases
 
 **The rule now in force.** A scientifically meaningful phrase must do one of three things:
