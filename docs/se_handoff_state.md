@@ -1,6 +1,6 @@
 # S&E engine — handoff state
 
-**As of 2026-09-17, engine `e12de03` on branch `m11-identity-graph` (pushed).**
+**As of 2026-09-17, engine `4d61880` on branch `m11-identity-graph` (pushed).**
 
 This is the "where we left off" document. It records the current state of the search &
 evidence engine, what is frozen, what the next work is, and the environment facts that cost
@@ -251,8 +251,8 @@ Reports in `docs/`: `m13_zero_shot_generalization_report.md`,
 Commit lineage for the identity work: `e0743eb` (M16 report) → `e689936` (canonical identity
 contract) → `aeea608` (drug-name-shape route) → `f57f4bc` (M17 report) → `6473334` (M18
 dispositions) → `09ef747` (handoff) → `ffeaaa7` (M18.1 structured DRUG typing) → `b719541`
-(productization step 1, `--query`) → `e310723` (handoff) → `8e4aeed` (cold-start handoff) → `f98e3a2` (productization steps 2+3, asset shortlist) -> `69712d5` (handoff) -> `bab008d` (phase intent compiled into the gate) -> `157fb52` (handoff) -> `e12de03` (shortlist source provenance) -> `8fdc4c8` (handoff) -> productization steps 6+7
-(snapshot cache, `--output-dir` one-command workflow). All pushed to
+(productization step 1, `--query`) → `e310723` (handoff) → `8e4aeed` (cold-start handoff) → `f98e3a2` (productization steps 2+3, asset shortlist) -> `69712d5` (handoff) -> `bab008d` (phase intent compiled into the gate) -> `157fb52` (handoff) -> `e12de03` (shortlist source provenance) -> `8fdc4c8` (handoff) -> `4d61880` (productization
+steps 6+7: snapshot cache, `--output-dir` one-command workflow). All pushed to
 `origin/m11-identity-graph`.
 
 M18/M18.1 measurement scripts, in staging: `m18_dump_candidates.py`,
@@ -383,7 +383,7 @@ PYTHONPATH=src BVE_SE_ONTOLOGY_SNAPSHOT=data/se/ontology/current python -m pytes
 ruff check src/bve/ tests/se/
 ```
 
-   Current baseline: **825 passed, 2 xfailed**, ruff clean, at `PENDING` on
+   Current baseline: **825 passed, 2 xfailed**, ruff clean, at `4d61880` on
    `m11-identity-graph`, pushed. Worktree clean apart from untracked `data/` (the ontology
    snapshot — large, deliberately not committed).
 
