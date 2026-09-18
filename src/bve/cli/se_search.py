@@ -29,7 +29,7 @@ from bve.se.discovery.adapters import (
     UrlDocumentAdapter,
 )
 from bve.se.discovery.query import AmbiguousTargetError
-from bve.se.intent.compiler import build_buyer_identity, compile_intent
+from bve.se.intent.compiler import IntentNotCompilable, build_buyer_identity, compile_intent
 from bve.se.intent.parser import parse_query
 from bve.se.pipeline import run_acquisition, run_landscape_search
 from bve.se.reporting.memo import render_search_memo
@@ -355,21 +355,26 @@ def problem_from_args(args: argparse.Namespace) -> BuyerProblemV2:
     for line in intent.explain():
         print(f"  {line}", file=sys.stderr)
 
-    if not intent.is_compilable:
-        for blocker in intent.blockers():
-            print(f"  blocked: {blocker}", file=sys.stderr)
-        raise SystemExit(
-            "the question did not resolve; name the target and modality explicitly, or "
-            "pass --problem"
-        )
+    for warning in intent.warnings:
+        print(f"  warning: {warning}", file=sys.stderr)
 
     as_of = date.fromisoformat(args.as_of) if args.as_of else date.today()
-    problem = compile_intent(
-        intent,
-        buyer=build_buyer_identity(args.buyer_name, as_of_date=as_of),
-        therapeutic_areas=args.therapeutic_area,
-        indications=args.indication,
-    )
+    try:
+        problem = compile_intent(
+            intent,
+            buyer=build_buyer_identity(args.buyer_name, as_of_date=as_of),
+            therapeutic_areas=args.therapeutic_area,
+            indications=args.indication,
+        )
+    except IntentNotCompilable as refused:
+        # Refusing is the point. A question this engine cannot represent must not run as a
+        # narrower question wearing the original's name.
+        for blocker in refused.blockers:
+            print(f"  blocked: {blocker}", file=sys.stderr)
+        raise SystemExit(
+            "the question was not compiled; answer the blockers above, name the target and "
+            "modality explicitly, or pass --problem"
+        ) from None
     if args.emit_problem:
         emitted = Path(args.emit_problem)
         emitted.parent.mkdir(parents=True, exist_ok=True)

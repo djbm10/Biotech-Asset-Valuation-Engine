@@ -97,8 +97,21 @@ annoyance); `MIN_SUPPORTED_DOCS = 5` rare-vs-contested, which matters for novel 
 `\bAR\b` / `\bMET\b` regex false positives; §2 retitle (low priority).
 
 First acceptance pass found and fixed two question-layer defects — `phase 1-2` silently
-read as `PHASE1` alone, and plural modalities (`bispecifics`) refusing to compile at all —
-and logged two that stay open. See `docs/se_acceptance_log.md`.
+read as `PHASE1` alone, and plural modalities (`bispecifics`) refusing to compile at all.
+
+**The acceptance rule now in force, and it is not negotiable.** A scientifically meaningful
+phrase must be (1) compiled into an enforceable constraint, (2) reported unresolved by name,
+or (3) refused. It must never fall silently into residual text while the run proceeds as
+though the whole question were honoured. Applied in the second pass: `human efficacy` and
+its controlled equivalents set `EvidenceFloor.human_poc_required`; `clinical-stage` sets
+`EvidenceFloor.minimum_stage = "PHASE_1"` and **never** a `PhaseConstraint`; vague words
+(`promising`, `effective`) set nothing on purpose; a disease *class* like `autoimmune
+disease` is refused with `NEEDS_CLARIFICATION` naming the phrase, because the indication
+gate tests an asset's own indication and the ontology snapshot has zero DISEASE entities.
+Also fixed there: `CD19/BCMA` and `CD19xBCMA` resolved *neither* target, and the connector
+`x` in `CD19 x BCMA` resolved to PSMB5 — an invented target.
+
+See `docs/se_acceptance_log.md`, which is the live record.
 
 ## 1. Where the work stands
 
@@ -403,7 +416,7 @@ PYTHONPATH=src BVE_SE_ONTOLOGY_SNAPSHOT=data/se/ontology/current python -m pytes
 ruff check src/bve/ tests/se/
 ```
 
-   Current baseline: **831 passed, 2 xfailed**, ruff clean, on
+   Current baseline: **856 passed, 2 xfailed**, ruff clean, on
    `m11-identity-graph`, pushed. Worktree clean apart from untracked `data/` (the ontology
    snapshot — large, deliberately not committed).
 

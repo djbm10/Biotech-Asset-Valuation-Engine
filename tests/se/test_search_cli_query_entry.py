@@ -90,6 +90,54 @@ class TestAQuestionThatDoesNotResolveDoesNotRun:
             problem_from_args(_args(["--query", "CHRM1 antagonists", "--as-of", "2026-09-16"]))
         assert "modality" in capsys.readouterr().err
 
+    def test_an_unenforceable_scientific_phrase_stops_the_run_and_is_named(self, capsys) -> None:
+        with pytest.raises(SystemExit):
+            problem_from_args(
+                _args(
+                    [
+                        "--query",
+                        "CAR-T against CHRM1 for autoimmune disease",
+                        "--as-of",
+                        "2026-09-16",
+                    ]
+                )
+            )
+        message = capsys.readouterr().err
+        assert "NEEDS_CLARIFICATION" in message
+        # Named, not summarized: the operator has to know which phrase went unapplied.
+        assert "autoimmune disease" in message
+
+    def test_stating_the_area_answers_the_clarification_and_the_run_proceeds(self) -> None:
+        problem = problem_from_args(
+            _args(
+                [
+                    "--query",
+                    "CAR-T against CHRM1 for autoimmune disease",
+                    "--therapeutic-area",
+                    "IMMUNOLOGY",
+                    "--as-of",
+                    "2026-09-16",
+                ]
+            )
+        )
+        assert problem.strategic_gap.therapeutic_areas == ["IMMUNOLOGY"]
+
+    def test_evidence_phrases_reach_the_compiled_problem(self) -> None:
+        problem = problem_from_args(
+            _args(
+                [
+                    "--query",
+                    "clinical-stage CAR-T against CHRM1 with human efficacy",
+                    "--as-of",
+                    "2026-09-16",
+                ]
+            )
+        )
+        floor = problem.strategic_gap.evidence_floor
+        assert floor.human_poc_required is True
+        assert floor.minimum_stage == "PHASE_1"
+        assert problem.strategic_gap.phase_constraint is None
+
     def test_a_query_and_a_problem_file_are_mutually_exclusive(self) -> None:
         with pytest.raises(SystemExit):
             _args(["--query", "small molecule CHRM1 programs", "--problem", "x.yaml"])

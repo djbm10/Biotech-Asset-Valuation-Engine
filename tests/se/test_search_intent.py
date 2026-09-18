@@ -124,6 +124,62 @@ class TestParsing:
         assert "find" not in intent.residual_terms
 
 
+class TestScientificPhrasesAreNeverSilentlyDropped:
+    """A meaningful phrase is enforced, escalated, or refused -- never quietly residual.
+
+    The failure this class exists to prevent is the one a user cannot see: the run proceeds,
+    the shortlist looks clean, and half the question was never applied to anything.
+    """
+
+    def test_an_evidence_phrase_becomes_a_requirement_not_free_text(self, snapshot):
+        intent = parse_query("CD19 CAR-T with human efficacy")
+        assert intent.human_poc_required is True
+        assert "human efficacy" not in " ".join(intent.residual_terms)
+
+    @pytest.mark.parametrize(
+        "phrase",
+        ["human efficacy", "human efficacy data", "human proof of concept", "clinical efficacy"],
+    )
+    def test_the_tightly_defined_evidence_phrases_all_map(self, snapshot, phrase):
+        assert parse_query(f"CD19 CAR-T with {phrase}").human_poc_required is True
+
+    @pytest.mark.parametrize("vague", ["promising", "effective", "strong data", "efficacy"])
+    def test_a_vague_claim_sets_no_requirement(self, snapshot, vague):
+        # "promising" is not a contract term. Reading enthusiasm as an evidence floor would
+        # invent a constraint the user never stated.
+        intent = parse_query(f"{vague} CD19 CAR-T")
+        assert intent.human_poc_required is False
+        assert intent.minimum_stage is None
+
+    def test_clinical_stage_sets_a_stage_floor_and_guesses_no_phase(self, snapshot):
+        intent = parse_query("clinical-stage CD19 CAR-T")
+        assert intent.minimum_stage == "PHASE_1"
+        assert intent.phases == []
+
+    def test_a_disease_class_is_reported_unresolved_rather_than_left_residual(self, snapshot):
+        intent = parse_query("CD19 CAR-T for autoimmune disease")
+        assert "autoimmune disease" in intent.unresolved_scientific_terms
+        assert "autoimmune" not in intent.residual_terms
+        assert "disease" not in intent.residual_terms
+        assert any("autoimmune disease" in warning for warning in intent.warnings)
+
+    def test_the_unresolved_phrase_is_named_in_the_interpretation(self, snapshot):
+        explained = parse_query("CD19 CAR-T for autoimmune disease").explain()
+        assert any("autoimmune disease" in line and "UNRESOLVED" in line for line in explained)
+
+    def test_a_recognized_phrase_never_lands_in_residual(self, snapshot):
+        intent = parse_query(
+            "clinical-stage CD19 CAR-T for autoimmune disease with human efficacy"
+        )
+        residual = " ".join(intent.residual_terms).casefold()
+        for recognized in ("clinical", "stage", "human", "efficacy", "autoimmune", "disease"):
+            assert recognized not in residual
+        # Every one of them is visible somewhere the user reads.
+        assert intent.minimum_stage == "PHASE_1"
+        assert intent.human_poc_required is True
+        assert intent.unresolved_scientific_terms == ["autoimmune disease"]
+
+
 class TestDeterminism:
     def test_same_query_yields_the_same_intent(self, snapshot):
         first = parse_query("PD-1 monoclonal antibody phase 2")
@@ -145,6 +201,19 @@ class TestTargetOperator:
     def test_disjunction_means_either_target(self, snapshot):
         intent = parse_query("CD19 or BCMA CAR-T")
         assert intent.target_operator is TargetOperator.ANY
+
+    @pytest.mark.parametrize("written", ["CD19/BCMA", "CD19xBCMA", "CD19 x BCMA", "CD19/BCMA"])
+    def test_dual_target_notation_resolves_both_targets(self, snapshot, written):
+        # The unspaced forms are how a BD question is actually written. Reading them as one
+        # unknown token resolved no target at all and refused the whole question.
+        intent = parse_query(f"{written} bispecific")
+        assert [target.canonical_id for target in intent.targets] == ["CD19", "TNFRSF17"]
+
+    def test_a_connector_is_never_itself_resolved_as_a_target(self, snapshot):
+        # "x" is a connector here. Resolving it to a gene is the engine asserting a target
+        # the user never named -- the exact failure the resolver exists to prevent.
+        intent = parse_query("CD19 x BCMA bispecific")
+        assert "PSMB5" not in [target.canonical_id for target in intent.targets]
 
     def test_the_inference_is_surfaced_as_a_warning(self, snapshot):
         intent = parse_query("CD19 and BCMA T cell engager")
@@ -239,6 +308,34 @@ class TestCompilation:
     def test_residual_terms_become_indications_not_resolved_concepts(self, snapshot):
         problem = compile_intent(parse_query("CD19 CAR-T in myeloma"), buyer=BUYER)
         assert "myeloma" in problem.strategic_gap.indications
+
+    def test_an_unenforceable_disease_class_blocks_rather_than_compiling_silently(self, snapshot):
+        # A disease *class* cannot be enforced as an indication: the gate tests membership
+        # against an asset's own indication fact, which names a disease, never its category.
+        intent = parse_query("CD19 CAR-T for autoimmune disease")
+        with pytest.raises(IntentNotCompilable) as raised:
+            compile_intent(intent, buyer=BUYER)
+        assert any("autoimmune disease" in blocker for blocker in raised.value.blockers)
+
+    def test_the_caller_can_state_the_indication_the_question_could_not(self, snapshot):
+        problem = compile_intent(
+            parse_query("CD19 CAR-T for autoimmune disease"),
+            buyer=BUYER,
+            therapeutic_areas=["IMMUNOLOGY"],
+        )
+        assert problem.strategic_gap.therapeutic_areas == ["IMMUNOLOGY"]
+
+    def test_human_efficacy_sets_the_evidence_floor_the_contract_already_has(self, snapshot):
+        problem = compile_intent(parse_query("CD19 CAR-T with human efficacy"), buyer=BUYER)
+        assert problem.strategic_gap.evidence_floor.human_poc_required is True
+
+    def test_clinical_stage_is_a_stage_floor_and_never_a_phase(self, snapshot):
+        problem = compile_intent(parse_query("clinical-stage CD19 CAR-T"), buyer=BUYER)
+        gap = problem.strategic_gap
+        # "Entered human clinical development" is exactly stage order >= PHASE_1. Which
+        # phase the asset is in was not asked and must not be invented.
+        assert gap.evidence_floor.minimum_stage == "PHASE_1"
+        assert gap.phase_constraint is None
 
     def test_buyer_identity_for_an_ad_hoc_query_is_labelled_as_such(self):
         assert build_buyer_identity("NL Query", as_of_date=date(2026, 8, 15)).buyer_id == "nl_query"

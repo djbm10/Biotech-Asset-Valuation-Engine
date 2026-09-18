@@ -7,6 +7,13 @@ and everything else survives as a residual term rather than becoming an invented
 
 The same question always produces the same intent, so a shortlist is reproducible from
 its query string alone.
+
+**A scientifically meaningful phrase gets one of three fates, never a fourth.** It is
+compiled into a constraint the gate can enforce, or reported unresolved by name, or the
+question is refused. What it must never do is slip into residual free text while the run
+proceeds as though the whole question had been applied — that failure is invisible from the
+output, which makes it worse than any refusal. Phrases too vague to mean one thing
+("promising", "effective") are not scientific phrases and stay residual on purpose.
 """
 
 from __future__ import annotations
@@ -61,12 +68,95 @@ _STATUS_ALIASES = {
     "active": "ACTIVE_NOT_RECRUITING",
 }
 
+#: Phrases that state, exactly, "there is efficacy evidence from humans" — the one thing
+#: ``EvidenceFloor.human_poc_required`` means and the gate engine already checks against an
+#: asset's ``human_poc_present`` fact.
+#:
+#: The list is closed and every entry carries its own "in humans" qualifier. Enthusiasm is
+#: not a contract term: "promising", "effective" and "strong data" say nothing about who was
+#: dosed, so they stay residual rather than inventing an evidence floor nobody asked for.
+_HUMAN_POC_PHRASES = frozenset(
+    {
+        "human efficacy",
+        "human efficacy data",
+        "human efficacy evidence",
+        "human proof of concept",
+        "human poc",
+        "efficacy in humans",
+        "proof of concept in humans",
+        "clinical efficacy",
+        "clinical proof of concept",
+        "human clinical efficacy",
+    }
+)
+
+#: Phrases meaning "entered human clinical development", and nothing more precise.
+#:
+#: This maps onto ``EvidenceFloor.minimum_stage``, which the gate reads as
+#: ``development_stage_order >= PHASE_1`` — an exact generic floor that admits every
+#: clinical phase equally. It must never become a ``PhaseConstraint``: the question did not
+#: name a phase, and the phase gate is EXACT, so guessing one would answer something else.
+_CLINICAL_STAGE_PHRASES = frozenset(
+    {
+        "clinical stage",
+        "clinical-stage",
+        "in clinical development",
+        "in the clinic",
+    }
+)
+
+#: The stage floor a clinical-stage phrase compiles to, in ``gates.engine._STAGE_ORDER``
+#: terms. PRECLINICAL and DISCOVERY sit below it; every clinical phase sits at or above.
+CLINICAL_STAGE_FLOOR = "PHASE_1"
+
+#: Head nouns that make a phrase a disease *class* rather than a disease.
+#:
+#: A class cannot be enforced: the strategic-sandbox gate tests membership of an asset's own
+#: ``indication`` fact, which reads "systemic lupus erythematosus", never "autoimmune
+#: disease". Compiling the class into that IN-list would build a constraint that can never
+#: match and would send every asset to review for a reason the user never stated. So the
+#: phrase is escalated by name instead.
+#:
+#: Deliberately only self-declaring class words. A bare disease name ("myeloma") is still
+#: unrecognized here and still becomes free text — closing that needs a disease vocabulary,
+#: and the published ontology snapshot contains TARGET and DRUG entities only.
+_DISEASE_CLASS_HEADS = frozenset(
+    {"disease", "diseases", "disorder", "disorders", "syndrome", "syndromes",
+     "indication", "indications"}
+)
+
 #: Connectors that mean "both targets on one molecule" rather than "either target".
 _ALL_CONNECTORS = ("and", "x", "×", "/", "plus", "bispecific")
 
 
+#: Separators *inside* one whitespace token that join two targets: "CD19/BCMA", "CD19xBCMA".
+#: This is the normal way a dual-target programme is written, and reading it as a single
+#: unknown token resolved neither target and refused the whole question.
+#:
+#: The ``x`` form is deliberately narrow — an ``x`` between a symbol character and an
+#: uppercase letter — so it cannot cut a name that merely contains the letter.
+_TARGET_JOIN = re.compile(r"(?<=[0-9A-Za-z])(?:/|×|x(?=[A-Z]))")
+
+#: Words that join targets and are never targets themselves. Without this, the ``x`` in
+#: "CD19 x BCMA" resolves to a gene, and the engine asserts a third target the question
+#: never named.
+_CONNECTOR_TOKENS = frozenset({"x", "×", "/", "and", "or", "plus", "vs"})
+
+
 def _tokenize(text: str) -> list[tuple[str, int, int]]:
-    return [(match.group(0), match.start(), match.end()) for match in re.finditer(r"[^\s]+", text)]
+    tokens: list[tuple[str, int, int]] = []
+    for match in re.finditer(r"[^\s]+", text):
+        token, offset = match.group(0), match.start()
+        cursor = 0
+        for separator in _TARGET_JOIN.finditer(token):
+            piece = token[cursor : separator.start()]
+            if piece:
+                tokens.append((piece, offset + cursor, offset + separator.start()))
+            cursor = separator.end()
+        piece = token[cursor:]
+        if piece:
+            tokens.append((piece, offset + cursor, offset + len(token)))
+    return tokens
 
 
 def _clean(token: str) -> str:
@@ -110,6 +200,41 @@ def _minimum_cue(query: str, start: int, end: int) -> tuple[int, int] | None:
 
 def _match_status(phrase: str) -> str | None:
     return _STATUS_ALIASES.get(phrase.casefold())
+
+
+def _phrase_key(phrase: str) -> str:
+    """Casefold and flatten the separators a person writes, so "clinical-stage" matches."""
+
+    return " ".join(re.split(r"[\s\-‐-―]+", phrase.casefold())).strip()
+
+
+def _match_evidence(phrase: str) -> tuple[str, str] | None:
+    """Match a controlled evidence phrase, returning ``(field, rule)``.
+
+    Only exact controlled phrases match. A near-miss resolves to nothing and survives as
+    residual text, which is the honest outcome: an evidence floor the user did not state is
+    worse than one the engine admits it did not understand.
+    """
+
+    key = _phrase_key(phrase)
+    if key in _HUMAN_POC_PHRASES:
+        return ("human_poc_required", "evidence_human_poc_vocabulary")
+    if key in _CLINICAL_STAGE_PHRASES:
+        return ("minimum_stage", "evidence_clinical_stage_vocabulary")
+    return None
+
+
+def _match_disease_class(phrase: str) -> bool:
+    """Whether this phrase names a disease *class* the engine cannot enforce.
+
+    A single bare class word ("disease") is a word, not a constraint, so it takes at least
+    a qualifier in front of it before the phrase is escalated.
+    """
+
+    words = _phrase_key(phrase).split()
+    if len(words) < 2 or words[-1] not in _DISEASE_CLASS_HEADS:
+        return False
+    return not any(word in _STOPWORDS for word in words)
 
 
 def _match_modality(phrase: str) -> str | None:
@@ -208,9 +333,40 @@ def parse_query(query: str) -> SearchIntent:
                 consumed.append((start, end))
                 continue
 
+            evidence = _match_evidence(phrase)
+            if evidence:
+                field, rule = evidence
+                spans.append(
+                    IntentSpan(
+                        text=phrase,
+                        start=start,
+                        end=end,
+                        kind=SpanKind.EVIDENCE,
+                        resolved_to=field,
+                        rule=rule,
+                    )
+                )
+                consumed.append((start, end))
+                continue
+
+            if _match_disease_class(phrase):
+                spans.append(
+                    IntentSpan(
+                        text=phrase,
+                        start=start,
+                        end=end,
+                        kind=SpanKind.UNRESOLVED_SCIENTIFIC,
+                        rule="disease_class_not_enforceable",
+                    )
+                )
+                consumed.append((start, end))
+                continue
+
             # Single tokens only for targets: a multi-word phrase reaching the resolver
             # would match approved *names* and pull in whole protein families.
             if size > 2 or phrase.casefold() in _STOPWORDS:
+                continue
+            if phrase.casefold() in _CONNECTOR_TOKENS:
                 continue
             result = resolve_target(phrase)
             if result is None:
@@ -303,6 +459,23 @@ def parse_query(query: str) -> SearchIntent:
             span.resolved_to for span in spans if span.kind is SpanKind.STATUS and span.resolved_to
         )
     )
+    human_poc_required = any(
+        span.kind is SpanKind.EVIDENCE and span.resolved_to == "human_poc_required"
+        for span in spans
+    )
+    minimum_stage = (
+        CLINICAL_STAGE_FLOOR
+        if any(
+            span.kind is SpanKind.EVIDENCE and span.resolved_to == "minimum_stage"
+            for span in spans
+        )
+        else None
+    )
+    unresolved_scientific_terms = list(
+        dict.fromkeys(
+            span.text for span in spans if span.kind is SpanKind.UNRESOLVED_SCIENTIFIC
+        )
+    )
     residual_terms = list(
         dict.fromkeys(span.text for span in spans if span.kind is SpanKind.RESIDUAL)
     )
@@ -323,6 +496,12 @@ def parse_query(query: str) -> SearchIntent:
         warnings.append(
             "no ontology snapshot installed; no target can resolve and this intent will not compile"
         )
+    if unresolved_scientific_terms:
+        warnings.append(
+            "recognized but unenforceable scientific phrases, which this run will NOT apply"
+            " unless you state them with --therapeutic-area or --indication: "
+            + ", ".join(unresolved_scientific_terms)
+        )
     if residual_terms:
         warnings.append(
             "unrecognized terms carried as free text, not as resolved criteria: "
@@ -340,6 +519,9 @@ def parse_query(query: str) -> SearchIntent:
         phases=phases,
         phase_operator=phase_operator,
         statuses=statuses,
+        human_poc_required=human_poc_required,
+        minimum_stage=minimum_stage,
+        unresolved_scientific_terms=unresolved_scientific_terms,
         residual_terms=residual_terms,
         ambiguous_terms=ambiguous_terms,
         warnings=warnings,

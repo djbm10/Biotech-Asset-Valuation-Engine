@@ -18,6 +18,7 @@ from bve.se.ontology.targets import target_aliases
 from bve.se.schemas.contracts import (
     BuyerIdentity,
     BuyerProblemV2,
+    EvidenceFloor,
     StrategicGap,
     TargetExpression,
     TargetTerm,
@@ -33,9 +34,9 @@ UNSPECIFIED_THERAPEUTIC_AREA = "UNSPECIFIED"
 class IntentNotCompilable(ValueError):
     """Raised when an intent is too underdetermined to become a buyer problem."""
 
-    def __init__(self, intent: SearchIntent) -> None:
+    def __init__(self, intent: SearchIntent, *, indication_supplied: bool = False) -> None:
         self.intent = intent
-        self.blockers = intent.blockers()
+        self.blockers = intent.blockers(indication_supplied=indication_supplied)
         super().__init__(
             f"cannot compile {intent.original_query!r}: " + "; ".join(self.blockers)
         )
@@ -54,10 +55,21 @@ def compile_intent(
     derived from the question without a disease ontology; when omitted, the therapeutic
     area is recorded as ``UNSPECIFIED`` and the intent's residual terms become the
     indications, flagged as unverified free text rather than resolved concepts.
+
+    They are also the answer to a ``NEEDS_CLARIFICATION`` blocker. A question naming a
+    disease *class* does not compile on its own, because the class cannot be enforced; once
+    the caller states the area or indication they mean, the unanswered part of the question
+    has been answered and the run proceeds.
     """
 
-    if not intent.is_compilable:
-        raise IntentNotCompilable(intent)
+    indication_supplied = bool(therapeutic_areas) or bool(indications)
+    # A phrase the engine recognized as scientific and cannot enforce stops the run rather
+    # than riding along unapplied: the user would otherwise read a shortlist believing their
+    # whole question was honoured. Stating the area or indication explicitly answers it.
+    if not intent.is_compilable or (
+        intent.unresolved_scientific_terms and not indication_supplied
+    ):
+        raise IntentNotCompilable(intent, indication_supplied=indication_supplied)
 
     targets = [
         TargetTerm(
@@ -76,6 +88,12 @@ def compile_intent(
         # Phase intent is a gating constraint, not a display filter: it is compiled into the
         # buyer problem so the gate engine decides it against the asset's own stage evidence.
         phase_constraint=intent.phase_constraint,
+        # Evidence phrases become the floor the gate already enforces. A stage floor is not
+        # a phase constraint and never sets one: "clinical-stage" admits every phase.
+        evidence_floor=EvidenceFloor(
+            minimum_stage=intent.minimum_stage,
+            human_poc_required=intent.human_poc_required,
+        ),
     )
 
     return BuyerProblemV2(
@@ -115,9 +133,11 @@ def intent_to_trial_query(intent: SearchIntent, *, as_of_date: date | None = Non
             if term and term not in terms:
                 terms.append(term)
 
+    # Conditions widen retrieval; they decide nothing. An unenforceable disease class is
+    # still a useful thing to search for, which is why it appears here and not in the gate.
     return TrialQuery(
         terms=terms,
-        conditions=list(intent.residual_terms),
+        conditions=[*intent.unresolved_scientific_terms, *intent.residual_terms],
         statuses=list(intent.statuses),
         as_of_date=as_of_date,
         max_records=max_records,
