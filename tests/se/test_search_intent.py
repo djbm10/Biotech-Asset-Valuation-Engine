@@ -97,6 +97,20 @@ class TestParsing:
     def test_roman_numeral_phases(self, snapshot):
         assert parse_query("phase III CD19 CAR-T").phases == ["PHASE3"]
 
+    @pytest.mark.parametrize(
+        "written", ["phase 1/2", "phase 1-2", "phase 1 to 2", "phase 1 and 2", "phase I-II"]
+    )
+    def test_a_phase_range_is_read_whole_however_it_is_written(self, snapshot, written):
+        # A dropped half of the range is the worst kind of defect here: the phase gate is
+        # EXACT, so reading "phase 1-2" as PHASE1 silently changes every disposition.
+        assert parse_query(f"{written} CD19 CAR-T").phases == ["PHASE1", "PHASE2"]
+
+    def test_a_plural_modality_is_the_same_request_as_its_singular(self, snapshot):
+        plural = parse_query("BCMA bispecifics")
+        assert plural.modalities == parse_query("BCMA bispecific").modalities == [
+            "BISPECIFIC_ANTIBODY"
+        ]
+
     def test_unrecognized_words_become_residual_not_facts(self, snapshot):
         intent = parse_query("CD19 CAR-T in relapsed myeloma")
         assert "myeloma" in intent.residual_terms

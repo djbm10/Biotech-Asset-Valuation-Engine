@@ -35,8 +35,13 @@ _STOPWORDS = frozenset(
     }
 )
 
+#: The separators a person actually writes a phase range with. "phase 1-2" used to match
+#: only "phase 1" and drop the rest in silence, which is the dangerous failure here: the
+#: phase gate is EXACT, so half a range is a different question with no sign it was misread.
+_PHASE_SEPARATOR = r"(?:\s*[/\-‐-―]\s*|\s+(?:to|and|or)\s+)"
+_PHASE_NUMERAL = r"(?:1|2|3|4|i{1,3}|iv)"
 _PHASE_PATTERN = re.compile(
-    r"\b(?:early\s+phase\s*1|phase\s*(?:1|2|3|4|i{1,3}|iv)(?:\s*/\s*(?:1|2|3|4|i{1,3}|iv))*)\b",
+    rf"\b(?:early\s+phase\s*1|phase\s*{_PHASE_NUMERAL}(?:{_PHASE_SEPARATOR}{_PHASE_NUMERAL})*)\b",
     re.IGNORECASE,
 )
 
@@ -108,7 +113,21 @@ def _match_status(phrase: str) -> str | None:
 
 
 def _match_modality(phrase: str) -> str | None:
-    return normalize_modality(phrase)
+    """Resolve a modality phrase, tolerating the plural a question is normally asked in.
+
+    "bispecifics" is the same request as "bispecific", but the vocabulary holds labelling
+    spellings and a query that names no recognized modality refuses to compile at all. The
+    depluralization lives here, in the question layer, rather than in the vocabulary, so the
+    gating and labelling paths keep matching exactly what a source wrote.
+    """
+
+    if modality := normalize_modality(phrase):
+        return modality
+    for plural, singular in (("ies", "y"), ("es", ""), ("s", "")):
+        if phrase.casefold().endswith(plural):
+            if modality := normalize_modality(phrase[: -len(plural)] + singular):
+                return modality
+    return None
 
 
 def parse_query(query: str) -> SearchIntent:

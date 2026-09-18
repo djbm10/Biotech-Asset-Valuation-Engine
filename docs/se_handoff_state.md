@@ -1,6 +1,7 @@
 # S&E engine — handoff state
 
-**As of 2026-09-17, engine `4d61880` on branch `m11-identity-graph` (pushed).**
+**As of 2026-09-17, engine tagged `se-v1.0.0` at `8b49000`, merged to `master` (`1f880f4`)
+and pushed. Work continues on `m11-identity-graph`.**
 
 This is the "where we left off" document. It records the current state of the search &
 evidence engine, what is frozen, what the next work is, and the environment facts that cost
@@ -78,11 +79,26 @@ back out so the run stays replayable from a file (this also serves step 7). `--a
 indication stay caller-supplied because neither is inferable from a target. 9 tests in
 `tests/se/test_search_cli_query_entry.py`. Suite 756 passed / 2 xfailed, ruff clean.
 
-**Active directive: user-facing productization**, remaining steps — (1) ~~query UX~~, (2)
-ranked/cited asset results, (3) explanation of why each asset matched, (4) source
-provenance, (5) unresolved/review visibility, (6) runtime reduction and caching, (7)
-packaging a reproducible one-command search workflow. **Do not draw another benchmark target
-before productization unless a new scientific correctness defect appears.**
+**Productization steps 1–7 are all DONE.** The build phase is over.
+
+**Active directive (2026-09-17): real-world acceptance testing, not another milestone.**
+The engine is a usable generalized v1, frozen as tag `se-v1.0.0` and merged to `master`.
+The work now is to *use* it on real BD questions, log the failures users actually hit in
+`docs/se_acceptance_log.md`, and reopen architecture only when a real query exposes a
+defect. **Do not draw M19.** Do not build more benchmarks. Do not invent a ranking score.
+
+Judge a run the way a BD user would: did it find the right programs, cite them, explain
+them, and make its uncertainty obvious?
+
+The known caveats are deliberately *not* being chased proactively. Prioritize one only if
+it hurts real usage, in this order: HISTAMINE endogenous-ligand collision (highest
+scientific-correctness risk); dose/salt/combination decoration (highest identity
+annoyance); `MIN_SUPPORTED_DOCS = 5` rare-vs-contested, which matters for novel assets;
+`\bAR\b` / `\bMET\b` regex false positives; §2 retitle (low priority).
+
+First acceptance pass found and fixed two question-layer defects — `phase 1-2` silently
+read as `PHASE1` alone, and plural modalities (`bispecifics`) refusing to compile at all —
+and logged two that stay open. See `docs/se_acceptance_log.md`.
 
 ## 1. Where the work stands
 
@@ -252,8 +268,9 @@ Commit lineage for the identity work: `e0743eb` (M16 report) → `e689936` (cano
 contract) → `aeea608` (drug-name-shape route) → `f57f4bc` (M17 report) → `6473334` (M18
 dispositions) → `09ef747` (handoff) → `ffeaaa7` (M18.1 structured DRUG typing) → `b719541`
 (productization step 1, `--query`) → `e310723` (handoff) → `8e4aeed` (cold-start handoff) → `f98e3a2` (productization steps 2+3, asset shortlist) -> `69712d5` (handoff) -> `bab008d` (phase intent compiled into the gate) -> `157fb52` (handoff) -> `e12de03` (shortlist source provenance) -> `8fdc4c8` (handoff) -> `4d61880` (productization
-steps 6+7: snapshot cache, `--output-dir` one-command workflow). All pushed to
-`origin/m11-identity-graph`.
+steps 6+7: snapshot cache, `--output-dir` one-command workflow) -> `8b49000` (handoff,
+**tagged `se-v1.0.0`**) -> first acceptance fixes. All pushed to
+`origin/m11-identity-graph`; `se-v1.0.0` merged into `origin/master` as `1f880f4`.
 
 M18/M18.1 measurement scripts, in staging: `m18_dump_candidates.py`,
 `m18_train_prose_discriminator.py`, `m18_eval_filter.py`, `m18_controlled_eval.py`,
@@ -318,8 +335,11 @@ benchmark meaning; a source that changed fundamentally; a destructive system act
 
 1. Read `docs/m17_chrm1_zero_shot_report.md` — it carries the current result and the
    route-confound and corroboration caveats that belong beside it.
-2. **Do not draw another benchmark target** unless a new scientific correctness defect
-   appears. The remediation loop is stopped and mention precision is frozen at M18.1.
+2. **Do not draw another benchmark target.** The remediation loop is stopped, mention
+   precision is frozen at M18.1, and the build phase ended at `se-v1.0.0`. The current
+   milestone is real-world acceptance testing: use the tool, and log what a real question
+   breaks in `docs/se_acceptance_log.md`. That log — not a new benchmark — is what reopens
+   architecture.
 3. Phase intent is now a real gate (`docs/productization_phase_intent_gate.md`); the query in
    the smoke command below therefore *changes dispositions*, and an asset whose trials span
    more than one phase is UNKNOWN (review), not a match. Drop "in phase 2" if you want the
@@ -383,7 +403,7 @@ PYTHONPATH=src BVE_SE_ONTOLOGY_SNAPSHOT=data/se/ontology/current python -m pytes
 ruff check src/bve/ tests/se/
 ```
 
-   Current baseline: **825 passed, 2 xfailed**, ruff clean, at `4d61880` on
+   Current baseline: **831 passed, 2 xfailed**, ruff clean, on
    `m11-identity-graph`, pushed. Worktree clean apart from untracked `data/` (the ontology
    snapshot — large, deliberately not committed).
 
