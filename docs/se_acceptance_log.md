@@ -8,6 +8,71 @@ The rule for acting on an entry: fix it when a real query exposed it, not becaus
 listed. Silent misreads outrank refusals, because a refusal tells the user something is
 wrong and a misread does not.
 
+## 2026-09-18 — the live BCMA acceptance run, judged
+
+Query, verbatim: *"Find clinical-stage dual CD19/BCMA therapies for autoimmune disease with
+human efficacy."* Run `se:522b718a`, code `d2779c2`, as-of 2026-09-17, 71 minutes,
+`--therapeutic-area AUTOIMMUNE` supplied to answer the disease-class clarification.
+Reproducible from `reproduce.sh` in the run directory.
+
+**The question compiled and every phrase had a visible fate.** `residual_terms` was empty.
+`dual` → TARGET_LOGIC ALL, `clinical-stage` → minimum_stage, `human efficacy` →
+human_poc_required, both targets resolved, `autoimmune disease` escalated and then answered
+by the supplied area. The acceptance rule from the second pass held end to end.
+
+**The modality change worked on live data.** No modality was named, and the gate engine
+emitted **zero** `modality_technology` decisions across 1,919 evaluated candidates — not a
+gate that passed everything, no gate. The corpus contains monoclonal antibodies, ADCs,
+CAR-T and T-cell engagers precisely because nothing narrowed it.
+
+### The shortlist does not answer the question that was asked
+
+Top ten, all `[REVIEW]`: inebilizumab, obexelimab, denintuzumab, AUCATZYL, MONJUVI,
+Uplizna, Zynlonta, inotuzumab, "choice", daratumumab.
+
+**Not one is a dual CD19/BCMA asset.** Seven are single-target CD19. Inotuzumab is CD22,
+daratumumab is CD38, and "choice" is not a molecule at all — it is a junk mention promoted
+to a candidate, the known mention-precision weakness showing up in the first ten rows of a
+user-facing list.
+
+The cause is not the compiler. `target_logic` produced 1,919 decisions and **every one was
+UNKNOWN**, because the corpus yielded **zero** `construct_target_set` facts. The conjunction
+is compiled, carried into the contract, and evaluated — and then decides nothing, so every
+asset routes to review and the display order is whatever was declared. A CD19-only asset
+FAILs the dual gate in tests, where the fact exists; in the live corpus the fact never
+exists, so it does not fail, it defers.
+
+This is the same shape as the `human_poc_required` limit recorded in the second pass, and
+now measured: of the six phrases, only two actually *decide* anything on live data.
+
+| phrase | compiled | facts available | decides? |
+|---|---|---|---|
+| `clinical-stage` | `minimum_stage=PHASE_1` | 1,755 `development_stage_order` | **yes** |
+| `autoimmune disease` (via flag) | `therapeutic_areas` | 1,343 `therapeutic_area` | **yes** — the only gate that excluded anything (577) |
+| `dual` | `TargetOperator.ALL` | **0** `construct_target_set` | no — 1,919 UNKNOWN |
+| `human efficacy` | `human_poc_required` | **0** `human_poc_present` | no — all review |
+| `CD19`, `BCMA` | target expression | — | drove retrieval, not selection |
+
+**Verdict: the acceptance rule passes, the acceptance *question* does not.** Nothing was
+silently dropped and nothing claimed more than it did — every unsatisfied requirement is
+named on every row. But a BD user who asked for dual CD19/BCMA assets is handed seven
+single-target CD19 antibodies and a CD38 myeloma drug, in a declared order, with no ranking
+and nothing eligible. Honest, and not yet useful.
+
+### What this run says to do next, in order
+
+1. **Emit `construct_target_set`.** It is the single highest-value missing fact: without it
+   the target expression — the core of almost every BD question — cannot decide anything,
+   and multi-target questions degrade into single-target retrieval wearing the right label.
+2. **Mention precision.** "choice" at rank 9 of a user-facing list is the cheapest possible
+   demonstration that the nomination layer is the weakest one.
+3. **`human_poc_present`** has no producer. Until it does, "with human efficacy" means
+   "every asset needs review on this point", and the shortlist should probably say so in
+   those words.
+4. Source coverage was **INCOMPLETE and said so**: 7 of 9 connectors are NOT_CONFIGURED
+   (SEC EDGAR, company pipeline/press release, AACR/ASCO/ASH/EHA), and the blind spots are
+   named per source. Only CT.gov (1,577 docs) and PubMed (2,123 docs) contributed.
+
 ## 2026-09-18 — third pass: the question was refused for naming no modality
 
 ### FIXED — "therapies" was treated as a missing modality rather than a wider question
