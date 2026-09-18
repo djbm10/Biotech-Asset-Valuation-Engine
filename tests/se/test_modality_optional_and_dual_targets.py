@@ -151,6 +151,10 @@ class TestDualMeansOneMolecule:
         intent = parse_query("dual CD19/BCMA therapies")
         assert intent.target_operator is TargetOperator.ALL
 
+    def test_the_warning_does_not_call_a_stated_reading_an_inference(self, snapshot) -> None:
+        warnings = parse_query("dual CD19/BCMA therapies").warnings
+        assert any("ALL stated by conjunction_stated" in warning for warning in warnings)
+
     def test_dual_is_not_residual(self, snapshot) -> None:
         # Residual is where a word goes to be ignored. "dual" decides which assets qualify.
         assert "dual" not in parse_query("dual CD19/BCMA therapies").residual_terms

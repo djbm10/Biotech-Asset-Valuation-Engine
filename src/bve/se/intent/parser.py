@@ -510,7 +510,11 @@ def parse_query(query: str) -> SearchIntent:
         # that contradiction is a blocker rather than something to resolve by precedence.
         operator, operator_rule = TargetOperator.ALL, "conjunction_stated"
     if len(targets) > 1:
-        warnings.append(f"target operator {operator.value} inferred by {operator_rule}")
+        # "inferred" is a claim about where the reading came from. When the question said
+        # "dual" the engine inferred nothing, and saying otherwise invites the user to
+        # argue with a guess they actually made themselves.
+        verb = "stated by" if operator_rule == "conjunction_stated" else "inferred by"
+        warnings.append(f"target operator {operator.value} {verb} {operator_rule}")
     if ambiguous_terms:
         warnings.append(
             "ambiguous terms left unresolved (escalate rather than guess): "
