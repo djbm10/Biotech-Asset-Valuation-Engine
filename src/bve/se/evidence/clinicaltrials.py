@@ -5,11 +5,11 @@ from __future__ import annotations
 import hashlib
 import json
 from datetime import date
-from pathlib import Path
 
 from pydantic import BaseModel, Field
 
 from bve.se.discovery.adapters import QueryVocabulary, _candidate_interventions
+from bve.se.evidence import snapshot_cache
 from bve.se.schemas.contracts import (
     CandidateHit,
     ClinicalResult,
@@ -95,7 +95,7 @@ class ClinicalTrialsEvidenceExtractor:
     def extract(self, hit: CandidateHit, document: SourceDocument) -> ExtractionBundle:
         if not document.snapshot_path:
             raise ValueError("ClinicalTrials.gov extraction requires a saved source snapshot")
-        protocol = json.loads(Path(document.snapshot_path).read_text())
+        protocol = snapshot_cache.load_json(document.snapshot_path)
         identification = protocol.get("identificationModule", {})
         design = protocol.get("designModule", {})
         conditions_module = protocol.get("conditionsModule", {})
@@ -104,8 +104,9 @@ class ClinicalTrialsEvidenceExtractor:
         # ontology vocabulary rather than one query's slice.
         vocabulary = QueryVocabulary.for_ontology()
         # One serialization for the whole extraction. It was previously re-derived by
-        # _candidate_interventions and again for the target scan below.
-        serialized = json.dumps(protocol, sort_keys=True, separators=(",", ":"))
+        # _candidate_interventions and again for the target scan below, and before the
+        # cache it was re-derived again for every other hit on the same protocol.
+        serialized = snapshot_cache.canonical_json(document.snapshot_path)
         interventions = {
             name: (targets, modality)
             for name, targets, modality in _candidate_interventions(

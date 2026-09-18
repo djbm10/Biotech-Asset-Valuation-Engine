@@ -759,6 +759,10 @@ def _render_corpus(shortlist: Shortlist) -> list[str]:
             lines.append(f"   {source.family}: {source.outcome} ({detail_bits})")
             for error in source.errors:
                 lines.append(f"      error: {error}")
+    elif shortlist.run_status:
+        # A run that declared no source families still has to say what it was. Otherwise a
+        # clean-looking list is the one view of the run that never names its own status.
+        lines.append(f"Run status {shortlist.run_status}; no source family reported.")
     if shortlist.documents_by_publisher:
         # By publisher, because the run records no attempt -> document link to count by.
         lines.append(

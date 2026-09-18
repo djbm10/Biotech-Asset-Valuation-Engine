@@ -251,7 +251,8 @@ Reports in `docs/`: `m13_zero_shot_generalization_report.md`,
 Commit lineage for the identity work: `e0743eb` (M16 report) → `e689936` (canonical identity
 contract) → `aeea608` (drug-name-shape route) → `f57f4bc` (M17 report) → `6473334` (M18
 dispositions) → `09ef747` (handoff) → `ffeaaa7` (M18.1 structured DRUG typing) → `b719541`
-(productization step 1, `--query`) → `e310723` (handoff) → `8e4aeed` (cold-start handoff) → `f98e3a2` (productization steps 2+3, asset shortlist) -> `69712d5` (handoff) -> `bab008d` (phase intent compiled into the gate) -> `157fb52` (handoff) -> `e12de03` (shortlist source provenance). All pushed to
+(productization step 1, `--query`) → `e310723` (handoff) → `8e4aeed` (cold-start handoff) → `f98e3a2` (productization steps 2+3, asset shortlist) -> `69712d5` (handoff) -> `bab008d` (phase intent compiled into the gate) -> `157fb52` (handoff) -> `e12de03` (shortlist source provenance) -> `8fdc4c8` (handoff) -> productization steps 6+7
+(snapshot cache, `--output-dir` one-command workflow). All pushed to
 `origin/m11-identity-graph`.
 
 M18/M18.1 measurement scripts, in staging: `m18_dump_candidates.py`,
@@ -323,10 +324,22 @@ benchmark meaning; a source that changed fundamentally; a destructive system act
    the smoke command below therefore *changes dispositions*, and an asset whose trials span
    more than one phase is UNKNOWN (review), not a match. Drop "in phase 2" if you want the
    unconstrained landscape.
-4. **Next action: productization step 6 — runtime reduction and caching**, then 7
-   (one-command reproducible workflow; `--emit-problem` already serves part of it). Steps 1–5
-   are done — see `docs/productization_step4_source_visibility.md` for what step 4/5 turned
-   out to mean once the shortlist was read rather than rebuilt. Do **not** invent a ranking
+4. **The productization checklist (steps 1–7) is complete.** See
+   `docs/productization_step4_source_visibility.md` (steps 4/5) and
+   `docs/productization_steps6_7_workflow.md` (steps 6/7). Three things not to undo:
+   - **`LIVE_CONVERGED` means the seed queries were re-issued to the live source and
+     produced zero growth.** Discovery is 92% of a run and the only within-run repeat work
+     (154 of 1,419 attempts, 10.9%) *is* that proof. Do not relax
+     `test_orchestrator_converges_after_two_complete_zero_growth_passes` to accept cache
+     hits. A fast path may only ever exist as a separately labelled mode (e.g.
+     `LOCAL_FIXPOINT`) that reports its own status and is never scored as live convergence.
+   - The one optimization taken is `bve/se/evidence/snapshot_cache.py`: extraction parsed
+     each sealed snapshot once per *hit* (~3.6 hits per record). Keyed on
+     `(path, size, mtime_ns)`, output-equivalence pinned. The returned objects are shared
+     and must not be mutated.
+   - `--output-dir` defaults every artifact path but **never overrides an explicit flag**,
+     and writes the artifacts *before* the fail-closed exits so a failed run is readable.
+   Do **not** invent a ranking
    score merely because a user-facing shortlist exists. Before building anything on that list, *check
    whether it already exists unwired*: step 1 was pure wiring because `bve.se.intent` had
    been complete since M9 with zero importers, and `SourceEvidenceClaim` is still a complete
@@ -338,6 +351,15 @@ cd /home/djmann/projects/bve-b8
 PYTHONPATH=src BVE_SE_ONTOLOGY_SNAPSHOT=data/se/ontology/current \
   python -m bve.cli.se_search --query "small molecule CHRM1 programs in phase 2" \
   --as-of 2026-09-16 --emit-problem /tmp/p.yaml --offline --allow-incomplete
+```
+
+   For the productized one-command form — every artifact, the summary, and the command to
+   reproduce it, in one directory:
+
+```bash
+PYTHONPATH=src BVE_SE_ONTOLOGY_SNAPSHOT=data/se/ontology/current \
+  python -m bve.cli.se_search --query "small molecule CHRM1 programs in phase 2" \
+  --as-of 2026-09-16 --offline --allow-incomplete --output-dir /tmp/run1
 ```
 
    It should print the per-span interpretation to stderr, write the compiled problem, and
@@ -361,7 +383,7 @@ PYTHONPATH=src BVE_SE_ONTOLOGY_SNAPSHOT=data/se/ontology/current python -m pytes
 ruff check src/bve/ tests/se/
 ```
 
-   Current baseline: **807 passed, 2 xfailed**, ruff clean, at `e12de03` on
+   Current baseline: **825 passed, 2 xfailed**, ruff clean, at `PENDING` on
    `m11-identity-graph`, pushed. Worktree clean apart from untracked `data/` (the ontology
    snapshot — large, deliberately not committed).
 

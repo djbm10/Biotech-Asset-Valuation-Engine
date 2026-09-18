@@ -6,8 +6,9 @@ import argparse
 import json
 import subprocess
 import sys
+import time
 import uuid
-from contextlib import nullcontext
+from contextlib import contextmanager, nullcontext
 from datetime import date
 from pathlib import Path
 
@@ -32,6 +33,7 @@ from bve.se.intent.compiler import build_buyer_identity, compile_intent
 from bve.se.intent.parser import parse_query
 from bve.se.pipeline import run_acquisition, run_landscape_search
 from bve.se.reporting.memo import render_search_memo
+from bve.se.reporting.run_artifacts import RunDirectory, summary_payload, write_summary
 from bve.se.reporting.shortlist import build_shortlist, render_shortlist
 from bve.se.schemas.contracts import BuyerProblemV2, RunStatus
 from bve.se.telemetry import StageTelemetry, stderr_emitter
@@ -118,6 +120,16 @@ def build_parser() -> argparse.ArgumentParser:
         ),
     )
     parser.add_argument("--output", help="Write JSON result to this path")
+    parser.add_argument(
+        "--output-dir",
+        help=(
+            "Put the whole run in one directory: the compiled problem, the full result, "
+            "both shortlist views, the run manifest, the acquisition ledger, the snapshots "
+            "and sealed custody, the stderr log, and the exact command to reproduce it. "
+            "Every path below is defaulted from it, so a question can be asked and audited "
+            "without knowing which internal stage writes what. An explicit flag still wins."
+        ),
+    )
     parser.add_argument(
         "--format",
         choices=("json", "memo", "shortlist", "shortlist-json"),
@@ -329,9 +341,13 @@ def problem_from_args(args: argparse.Namespace) -> BuyerProblemV2:
     """
 
     if args.problem:
+        args.interpretation = ()
         return BuyerProblemV2.model_validate(yaml.safe_load(Path(args.problem).read_text()))
 
     intent = parse_query(args.query)
+    # Kept so the end-of-run summary can repeat how the question was read. The operator
+    # saw it before the run; they should not have to scroll back past a long run to find it.
+    args.interpretation = tuple(intent.explain())
     # Printed whether or not it compiles. An interpretation the operator cannot see is an
     # interpretation they cannot correct, and this is the layer where a wrong reading of
     # "M1" costs a whole run.
@@ -364,6 +380,87 @@ def problem_from_args(args: argparse.Namespace) -> BuyerProblemV2:
     return problem
 
 
+#: Parser defaults that ``--output-dir`` may override. An explicitly passed path always wins;
+#: these are the values that mean "the user did not choose", and comparing against them is how
+#: the two flags compose instead of one silently discarding the other.
+_SNAPSHOT_DEFAULT = "outputs/se/snapshots/clinicaltrials_gov"
+_PUBMED_SNAPSHOT_DEFAULT = "outputs/se/snapshots/pubmed"
+
+
+def _apply_output_dir(args: argparse.Namespace) -> RunDirectory | None:
+    """Default every artifact path from one directory, leaving explicit flags alone."""
+
+    if not args.output_dir:
+        return None
+    directory = RunDirectory(Path(args.output_dir))
+    directory.prepare()
+    args.emit_problem = args.emit_problem or str(directory.problem)
+    args.acquisition_ledger = args.acquisition_ledger or str(directory.acquisition_ledger)
+    args.custody_root = args.custody_root or str(directory.custody)
+    if args.snapshot_dir == _SNAPSHOT_DEFAULT:
+        args.snapshot_dir = str(directory.snapshots / "clinicaltrials_gov")
+    if args.pubmed_snapshot_dir == _PUBMED_SNAPSHOT_DEFAULT:
+        args.pubmed_snapshot_dir = str(directory.snapshots / "pubmed")
+    return directory
+
+
+class _TeedStderr:
+    """Everything the run says, on the terminal and in the run's own log.
+
+    The stage progress, the query interpretation, the blockers and the fail-closed
+    complaints are all written to stderr, and a run whose only record of why it stopped
+    scrolled past in a terminal is a run nobody can diagnose later.
+    """
+
+    def __init__(self, stream, handle) -> None:
+        self._stream = stream
+        self._handle = handle
+
+    def write(self, text: str) -> int:
+        self._handle.write(text)
+        return self._stream.write(text)
+
+    def flush(self) -> None:
+        self._handle.flush()
+        self._stream.flush()
+
+    def isatty(self) -> bool:
+        return getattr(self._stream, "isatty", lambda: False)()
+
+
+@contextmanager
+def _log_to(directory: RunDirectory | None):
+    if directory is None:
+        yield
+        return
+    with directory.log.open("a") as handle:
+        original = sys.stderr
+        sys.stderr = _TeedStderr(original, handle)
+        try:
+            yield
+        finally:
+            sys.stderr = original
+
+
+def _write_run_artifacts(result, args: argparse.Namespace, directory: RunDirectory) -> None:
+    """Write every view of the run, whatever ``--format`` asked for on stdout.
+
+    A directory that held only the format the operator happened to want would send them
+    back to the sources to answer the next question; the run already has all of it in hand.
+    """
+
+    directory.result.write_text(json.dumps(result.model_dump(mode="json"), indent=2) + "\n")
+    directory.run_manifest.write_text(
+        json.dumps(result.run_manifest.model_dump(mode="json"), indent=2) + "\n"
+    )
+    shortlist = build_shortlist(result, limit=args.top)
+    directory.shortlist_json.write_text(
+        json.dumps(shortlist.model_dump(mode="json"), indent=2) + "\n"
+    )
+    directory.shortlist_text.write_text(render_shortlist(shortlist, detail=args.detail) + "\n")
+    directory.memo.write_text(render_search_memo(result) + "\n")
+
+
 def _render_result(result, args: argparse.Namespace) -> str:
     """One run, in whichever of the four views was asked for.
 
@@ -382,10 +479,16 @@ def _render_result(result, args: argparse.Namespace) -> str:
     return render_shortlist(shortlist, detail=args.detail)
 
 
-def main(argv: list[str] | None = None) -> int:
-    parser = build_parser()
-    args = parser.parse_args(argv)
+def _run(
+    args: argparse.Namespace,
+    parser: argparse.ArgumentParser,
+    directory: RunDirectory | None,
+    telemetry: StageTelemetry,
+) -> tuple[int, object | None]:
+    """The run itself. Returns its exit code and, if it got that far, its result."""
+
     problem = problem_from_args(args)
+    args.problem_id = problem.problem_id
     source_index = (yaml.safe_load(Path(args.source_index).read_text()) or {}) if args.source_index else {}
     url_index = (yaml.safe_load(Path(args.url_index).read_text()) or {}) if args.url_index else {}
     if args.replay_corpus and args.offline:
@@ -497,7 +600,6 @@ def main(argv: list[str] | None = None) -> int:
                 "keeps the fail-closed sole-claimant vocabulary"
             )
         _probe_shared_aliases(problem, Path(args.alias_probe_out))
-    telemetry = StageTelemetry(emit=stderr_emitter if args.progress else None)
     if args.acquire_only:
         try:
             with network_guard:
@@ -514,7 +616,7 @@ def main(argv: list[str] | None = None) -> int:
                 )
         except CustodyError as exc:
             print(f"ERROR: acquisition custody boundary failed: {exc}", file=sys.stderr)
-            return 5
+            return 5, None
         summary = {
             "run_id": run_id,
             "custody_root": args.custody_root,
@@ -535,11 +637,11 @@ def main(argv: list[str] | None = None) -> int:
             )
             for reason in discovery.manifest.fatal_reasons:
                 print(f"  - {reason}", file=sys.stderr)
-            return 3
+            return 3, None
         if discovery.manifest.status != RunStatus.CONVERGED and not args.allow_incomplete:
             print("ERROR: S&E discovery is INCOMPLETE.", file=sys.stderr)
-            return 2
-        return 0
+            return 2, None
+        return 0, None
 
     try:
         with network_guard:
@@ -559,7 +661,7 @@ def main(argv: list[str] | None = None) -> int:
         # structural prohibition, reported as its own exit code so a harness cannot
         # mistake it for an ordinary incomplete run.
         print(f"ERROR: acquisition custody boundary failed: {exc}", file=sys.stderr)
-        return 5
+        return 5, None
     except AmbiguousTargetError as exc:
         # A clarification request, not a crash. The ontology knows this string and knows
         # it is not enough; the useful answer is the list of things it could mean.
@@ -571,12 +673,19 @@ def main(argv: list[str] | None = None) -> int:
             "target is never searched literally.",
             file=sys.stderr,
         )
-        return 4
+        return 4, None
+    if directory is not None:
+        # Before the fail-closed gates below, for the same reason the ledger is: a run that
+        # ends UNSCOREABLE is exactly the run whose artifacts someone needs to read.
+        _write_run_artifacts(result, args, directory)
     rendered = _render_result(result, args)
     if args.output:
         Path(args.output).write_text(rendered + "\n")
-    else:
+    elif directory is None:
         sys.stdout.write(rendered + "\n")
+    # With a run directory and no explicit --output, stdout belongs to the end-of-run
+    # summary: every view is already in the directory, and dumping one of them over the
+    # summary is how the one-command workflow would become unreadable again.
     if args.acquisition_ledger:
         # Written before the gates below so a failed run still leaves the evidence that
         # explains why it failed.
@@ -616,14 +725,53 @@ def main(argv: list[str] | None = None) -> int:
             "  --allow-incomplete cannot waive a failed mandatory source.",
             file=sys.stderr,
         )
-        return 3
+        return 3, result
     if result.run_manifest.status != RunStatus.CONVERGED and not args.allow_incomplete:
         print(
             "ERROR: S&E discovery is INCOMPLETE; output is diagnostic and was not promoted.",
             file=sys.stderr,
         )
-        return 2
-    return 0
+        return 2, result
+    return 0, result
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = build_parser()
+    argv = list(sys.argv[1:] if argv is None else argv)
+    args = parser.parse_args(argv)
+    directory = _apply_output_dir(args)
+    if directory is not None:
+        # Written first: if the run dies in acquisition, the one thing that must survive is
+        # how to run it again.
+        directory.write_command(argv)
+    telemetry = StageTelemetry(emit=stderr_emitter if args.progress else None)
+    started = time.monotonic()
+    with _log_to(directory):
+        code, result = _run(args, parser, directory, telemetry)
+    if directory is None:
+        return code
+    shortlist = (
+        build_shortlist(result, limit=args.top)
+        if result is not None and not args.acquire_only
+        else None
+    )
+    manifest = getattr(result, "run_manifest", None)
+    payload = summary_payload(
+        run_id=args.run_id or (manifest.run_id if manifest is not None else "unstarted"),
+        query=args.query,
+        problem_id=getattr(args, "problem_id", ""),
+        interpretation=getattr(args, "interpretation", ()),
+        run_status=manifest.status.value if manifest is not None else "NOT_COMPLETED",
+        incomplete_reasons=manifest.incomplete_reasons if manifest is not None else (),
+        fatal_reasons=manifest.fatal_reasons if manifest is not None else (),
+        shortlist=shortlist,
+        elapsed_seconds=time.monotonic() - started,
+        stages=[(stage.name, stage.seconds) for stage in telemetry.stages],
+        directory=directory,
+        exit_code=code,
+    )
+    sys.stdout.write(write_summary(directory, payload) + "\n")
+    return code
 
 
 if __name__ == "__main__":
