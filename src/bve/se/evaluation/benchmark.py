@@ -9,6 +9,7 @@ import yaml  # type: ignore[import-untyped]
 from pydantic import BaseModel, Field
 
 from bve.se.evaluation.metrics import ClassificationMetrics, evaluate_classification
+from bve.se.evaluation.ontology_gate import require_scoreable_ontology
 from bve.se.pipeline import SESearchResult
 
 
@@ -53,8 +54,10 @@ def evaluate_reference_landscape(
     reference_set: str,
 ) -> BenchmarkEvaluationReport:
     data = yaml.safe_load(benchmark_path.read_text())
+    # The sealed-holdout refusal stays first so it holds regardless of the ontology gate.
     if data.get("status") in {"sealed_holdout", "sealed", "holdout"}:
         raise ValueError("sealed holdout cannot be opened by milestone evaluation")
+    require_scoreable_ontology(result.run_manifest, reference_set=reference_set)
     records = data.get("records", [])
     expected = [record["canonical_asset"] for record in records if record.get("expected_candidate")]
     observed = [asset.canonical_name for asset in result.candidates]

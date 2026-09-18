@@ -1,0 +1,89 @@
+{
+  "active_candidate_universe_version": "3.0.0",
+  "active_protocol_version": "1.1.0",
+  "benchmark_family": "PHASE1_CD19_BCMA",
+  "benchmark_lineage": "NEW_COHORT_V2",
+  "benchmark_version": "2.0.0",
+  "blocked_milestones": [],
+  "completed_milestones": [
+    "CREATE_NEW_COHORT_V2_SELECTION_PROTOCOL_V1_1",
+    "AUDIT_CANDIDATE_UNIVERSE_V2_LINEAGE"
+  ],
+  "current_authorized_milestone": "BUILD_NEW_COHORT_V2_CANDIDATE_UNIVERSE_V3",
+  "current_status": "AUTHORIZED_PENDING_BUILDER",
+  "explicitly_prohibited_milestones": [
+    "BUILD_NEW_COHORT_V2_CANDIDATE_UNIVERSE_V2",
+    "VALIDATE_NEW_COHORT_V2_CANDIDATE_UNIVERSE_V2",
+    "COHORT_SELECTION",
+    "SELECTION_SEED_EXECUTION",
+    "REVIEWER_ID_GENERATION",
+    "EVIDENCE_CORPUS_CONSTRUCTION",
+    "SEMANTIC_REVIEW",
+    "RELEASE"
+  ],
+  "failed_milestones": [
+    "CANDIDATE_UNIVERSE_V1",
+    "CANDIDATE_UNIVERSE_V2"
+  ],
+  "governing_artifact_hashes": {
+    "research/se_benchmarks/phase1_cd19_bcma/governance/new_cohort_v2_authorization_2026-07-24.json": "2c45ad07e394cec6f9a11793102caebc7bdc20e04ec6423e819c023b9fd3c1e5",
+    "research/se_benchmarks/phase1_cd19_bcma/governance/new_cohort_v2_authorization_manifest_2026-07-24.json": "316cf10922eca92045abd4eb587df720435ea41ae59cde44d0b922bdaac9a6d1",
+    "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_candidate_universe_v2_lineage_audit.json": "a5ad53eaab06ab89601d597bc23c03c8c55bd018909c0c150c406d9ef608c61c",
+    "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_candidate_universe_v2_lineage_audit_manifest.json": "5b529fd570b0c67e9a129f71f26b3ec7128fd6891a533094cde0ff8089e87888",
+    "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_candidate_universe_v3_milestone_authorization.json": "8eae94a0618de121b586e3f9a2d2b5c97a1355dd20b37e67b3e876c427836977",
+    "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_candidate_universe_v3_milestone_authorization_manifest.json": "89c76b485a6bcbf25b934e61ed151133f42a8e77cfdebaeda9ae6d290d0610ae",
+    "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_selection_protocol_amendment_authorization_v1.json": "80b577bf653206f667883ac316b82daedfdee8843639727b9a153c67a6f0e93a",
+    "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_selection_protocol_amendment_authorization_v1_manifest.json": "e2ea969eae3d94b81db32a3a319d92a748853db495dd85db5d01a5c7e3a8516b",
+    "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_candidate_universe_v2.schema.json": "79768b1c5bd48366d4c238162f388d155676679722add3ab9195ff511937051c",
+    "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol.json": "fda4f7a686b96bec0eed406a914cdf66638334b516d813ccf63e97ced60fb042",
+    "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol.schema.json": "af11fc000dfae821b6b9128fee70cac831c3461cea5a4ebd0cabb97254ff43a9",
+    "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_manifest.json": "5eb3da48fec9747607dff064472e18464afb00903196167221b04b6c9e0288fd",
+    "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_v1_1.json": "1571c8eb9b7b298dc03ba92b18dda9f96f0c2d8bbeca69b93339f19b378102ad",
+    "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_v1_1.schema.json": "4f27f9db8d2d537ac41ce9edb095b6391f8958ce827af74a1b1d76c69814a2e9",
+    "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_v1_1_manifest.json": "a71ca4e1b0c976b356f41fa2b756d0cbeb186082ae4b6841c49567522d502b91",
+    "scripts/audit_phase1_cd19_bcma_new_cohort_v2_candidate_universe_v2_lineage.py": "1f3de1162d0935105bb4e55d52a6104575319824ab23401e9b0a3e9054c76ee7",
+    "scripts/build_phase1_cd19_bcma_new_cohort_v2_selection_protocol_v1_1.py": "520b5e74b22eb76f2e822d4ac97a75d7433b9615b8a2e4773c33bd17cc82ebfe",
+    "scripts/consume_phase1_cd19_bcma_new_cohort_v2_selection_protocol_v1_1.py": "f94d0ac607ceabb50745912e21270b4dbf81960351135014c0a878b4d196ff98",
+    "tests/test_phase1_cd19_bcma_new_cohort_v2_selection_protocol_v1_1.py": "b7dbfe94b799fd64f505bd88d8bfb26916a031063016ee8a3f787928f6199dc5"
+  },
+  "governing_artifact_paths": [
+    "research/se_benchmarks/phase1_cd19_bcma/governance/new_cohort_v2_authorization_2026-07-24.json",
+    "research/se_benchmarks/phase1_cd19_bcma/governance/new_cohort_v2_authorization_manifest_2026-07-24.json",
+    "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_candidate_universe_v2_lineage_audit.json",
+    "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_candidate_universe_v2_lineage_audit_manifest.json",
+    "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_candidate_universe_v3_milestone_authorization.json",
+    "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_candidate_universe_v3_milestone_authorization_manifest.json",
+    "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_selection_protocol_amendment_authorization_v1.json",
+    "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_selection_protocol_amendment_authorization_v1_manifest.json",
+    "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_candidate_universe_v2.schema.json",
+    "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol.json",
+    "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol.schema.json",
+    "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_manifest.json",
+    "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_v1_1.json",
+    "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_v1_1.schema.json",
+    "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_v1_1_manifest.json",
+    "scripts/audit_phase1_cd19_bcma_new_cohort_v2_candidate_universe_v2_lineage.py",
+    "scripts/build_phase1_cd19_bcma_new_cohort_v2_selection_protocol_v1_1.py",
+    "scripts/consume_phase1_cd19_bcma_new_cohort_v2_selection_protocol_v1_1.py",
+    "tests/test_phase1_cd19_bcma_new_cohort_v2_selection_protocol_v1_1.py"
+  ],
+  "historical_state": {
+    "clean_baseline_v1": "UNIDENTIFIABLE",
+    "global_phase_manifest": "INVALID",
+    "historical_75_asset_profile": "NOT_CONFIRMED",
+    "historical_batch_05": "IRRECOVERABLY_UNVERIFIABLE",
+    "historical_custody": "FAIL_HISTORICAL_DIRTY_DIFF_UNRECOVERABLE",
+    "historical_equivalence": false
+  },
+  "human_intervention_reason": null,
+  "human_intervention_required": false,
+  "last_conclusion": null,
+  "last_invocation_id": null,
+  "next_permitted_milestones": [
+    "BUILD_NEW_COHORT_V2_CANDIDATE_UNIVERSE_V3"
+  ],
+  "pending_validation": "INDEPENDENTLY_VALIDATE_NEW_COHORT_V2_CANDIDATE_UNIVERSE_V3",
+  "required_role": "BUILDER",
+  "terminal_status": false,
+  "workflow_id": "phase1-cd19-bcma-new-cohort-v2-orchestration"
+}

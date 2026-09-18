@@ -5,6 +5,7 @@ Docs: https://clinicaltrials.gov/data-api/api
 """
 from __future__ import annotations
 
+import os
 import time
 import warnings
 from dataclasses import dataclass, field
@@ -36,11 +37,34 @@ _PHASE_MAP: dict[str, TrialPhase] = {
 }
 
 
-def _get(path: str, params: dict | None = None, timeout: int = 30, retries: int = 3) -> dict:
+#: One connection pool for the process. ``requests.get`` opens a fresh connection per
+#: call -- DNS lookup, TCP handshake, TLS handshake and CA-bundle load each time -- which
+#: is invisible for a handful of studies and dominant for a paginated corpus sweep: a
+#: 25-record profile spent ~558s, a quarter of its wall clock, on setup it could reuse.
+_SESSION = requests.Session()
+
+
+#: Per-request budget. 30s is comfortable for a handful of studies and brittle for a
+#: single broad facet: the PDCD1 ``MONOCLONAL_ANTIBODY`` query is ~2,500 records over 11
+#: pages, and under full-pipeline load one of those pages crossing 30s was enough to fail
+#: the query, blacklist CT.gov, and silently drop the eight modality queries behind it.
+#: Exhaustive benchmark runs raise this; interactive callers keep the shorter budget.
+DEFAULT_TIMEOUT = int(os.environ.get("BVE_CTGOV_TIMEOUT", "30"))
+DEFAULT_RETRIES = int(os.environ.get("BVE_CTGOV_RETRIES", "3"))
+
+
+def _get(
+    path: str,
+    params: dict | None = None,
+    timeout: int | None = None,
+    retries: int | None = None,
+) -> dict:
+    timeout = DEFAULT_TIMEOUT if timeout is None else timeout
+    retries = DEFAULT_RETRIES if retries is None else retries
     url = f"{BASE_URL}{path}"
     for attempt in range(retries):
         try:
-            r = requests.get(url, params=params, timeout=timeout)
+            r = _SESSION.get(url, params=params, timeout=timeout)
             r.raise_for_status()
             return r.json()
         except requests.RequestException:
@@ -62,6 +86,10 @@ def search_studies(
     sponsor: Optional[str] = None,
     status_filter: Optional[list[str]] = None,
     page_size: int = 100,
+    max_records: Optional[int] = None,
+    timeout: Optional[int] = None,
+    retries: Optional[int] = None,
+    page_counter: Optional[list[int]] = None,
 ) -> list[dict[str, Any]]:
     """
     Search ClinicalTrials.gov and return a list of raw protocol sections.
@@ -72,7 +100,10 @@ def search_studies(
     intervention: drug/treatment name       (query.intr)
     sponsor:     sponsor name               (query.spons)
     status_filter: list of statuses to include, e.g. ["RECRUITING", "ACTIVE_NOT_RECRUITING"]
-    page_size:   results per page (max 1000)
+    page_size:   results per page (max 1000) -- a transport setting
+    max_records: stop after this many studies; ``None`` sweeps every page. This is a
+                 policy bound, deliberately separate from ``page_size``: paging is how
+                 the API is read, not how much of the universe the caller wants.
     """
     params: dict[str, Any] = {"pageSize": min(page_size, 1000)}
     if condition:
@@ -90,16 +121,18 @@ def search_studies(
     while True:
         if page_token:
             params["pageToken"] = page_token
-        data = _get("/studies", params=params)
+        data = _get("/studies", params=params, timeout=timeout, retries=retries)
+        if page_counter is not None:
+            page_counter.append(1)
         for s in data.get("studies", []):
             proto = s.get("protocolSection", {})
             if proto:
                 studies.append(proto)
         page_token = data.get("nextPageToken")
-        if not page_token or len(studies) >= page_size:
+        if not page_token or (max_records is not None and len(studies) >= max_records):
             break
 
-    return studies[:page_size]
+    return studies if max_records is None else studies[:max_records]
 
 
 # ---------------------------------------------------------------------------

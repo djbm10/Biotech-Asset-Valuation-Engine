@@ -1,0 +1,60 @@
+benchmark_id: cand_148207468a222a051ffd
+  entry:   JS207 (PD-1/VEGF bispecific antibody)
+  aliases: ['JS207', 'PD-1', 'VEGF bispecific antibody']
+  track:   A  (DEVELOPMENT_CODE_ABSENT_FROM_AUTHORITY)
+
+benchmark_id: cand_ff7ceec513a3b640d528
+  entry:   MRG007 (ARR-217, CDH17-targeted ADC)
+  aliases: ['ARR-217', 'CDH17-targeted ADC', 'MRG007']
+  track:   A  (DEVELOPMENT_CODE_ABSENT_FROM_AUTHORITY)
+
+benchmark_id: cand_3db8eae9154dc8c7f4c9
+  entry:   PD-1/IL-2-alpha-bias bispecific antibody fusion protein, also Takeda code TAK-928
+  aliases: ['IBI363']
+  track:   A  (DEVELOPMENT_CODE_ABSENT_FROM_AUTHORITY)
+
+benchmark_id: cand_7add8f34403709fed207
+  entry:   PRTX007 (oral TLR7 agonist)
+  aliases: ['PRTX007', 'oral TLR7 agonist']
+  track:   A  (DEVELOPMENT_CODE_ABSENT_FROM_AUTHORITY)
+
+benchmark_id: cand_afb074c363de691c47dc
+  entry:   Pumitamig (BNT327 / BMS-986545)
+  aliases: ['BMS-986545', 'BNT327', 'Pumitamig']
+  track:   A  (DEVELOPMENT_CODE_ABSENT_FROM_AUTHORITY)
+
+benchmark_id: cand_facee83ee32144c727e5
+  entry:   Pumitamig (BNT327)
+  aliases: ['BNT327', 'PM8002', 'Pumitamig']
+  track:   A  (DEVELOPMENT_CODE_ABSENT_FROM_AUTHORITY)
+
+benchmark_id: cand_c4008d8d5eeb881a25ba
+  entry:   SMT112, AK112
+  aliases: []
+  track:   A  (DEVELOPMENT_CODE_ABSENT_FROM_AUTHORITY)
+
+benchmark_id: cand_a93e26579440c0eff7e0
+  entry:   Subcutaneous pembrolizumab/berahyaluronidase alfa (MK-3475A)
+  aliases: ['MK-3475A', 'Subcutaneous pembrolizumab/berahyaluronidase alfa']
+  track:   A  (DEVELOPMENT_CODE_ABSENT_FROM_AUTHORITY)
+
+benchmark_id: cand_3878d2f0c9935a6fe5cf
+  entry:   dacarbazine, temozolomide, paclitaxel ,platinum or cisplatin
+  aliases: []
+  track:   A  (NAME_UNRESOLVED_IN_AUTHORITY)
+
+benchmark_id: cand_aeaaf815e7a93b5a506c
+  entry:   EGFRxHER3 bispecific antibody-drug conjugate
+  aliases: ['BL-B01D1']
+  track:   A  (NAME_UNRESOLVED_IN_AUTHORITY)
+
+benchmark_id: cand_369938bd907f1df6b10e
+  entry:   Opdualag
+  aliases: []
+  track:   A  (NAME_UNRESOLVED_IN_AUTHORITY)
+
+benchmark_id: cand_afda8dcd6aa8f3da3e75
+  entry:   Oral Paclitaxel and Encequidar (Athenex investigational combination)
+  aliases: ['Athenex investigational combination', 'Oral Paclitaxel and Encequidar', 'Paclitaxel Oral Solution']
+  track:   A  (NAME_UNRESOLVED_IN_AUTHORITY)
+

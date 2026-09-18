@@ -18,12 +18,11 @@ from typing import Any
 
 from bve.se.acquisition.corpus_store import CorpusDocument, CorpusStore, IndexStatus
 from bve.se.discovery.adapters import (
+    QueryVocabulary,
     _candidate_interventions,
     _matches_follow_up,
-    _modality_in_text,
     _normalized_lookup,
     _protocol_text,
-    _targets_in_text,
     extract_observed_asset_names,
 )
 from bve.se.discovery.orchestrator import AdapterResult
@@ -115,7 +114,9 @@ def _source_document(document: CorpusDocument, snapshot_bytes: bytes) -> tuple[S
     )
 
 
-def _ctgov_candidates(payload: dict[str, Any]) -> tuple[_ObservedCandidate, ...]:
+def _ctgov_candidates(
+    payload: dict[str, Any], vocabulary: QueryVocabulary
+) -> tuple[_ObservedCandidate, ...]:
     identification = payload.get("identificationModule", {})
     sponsor = (
         payload.get("sponsorCollaboratorsModule", {})
@@ -134,7 +135,7 @@ def _ctgov_candidates(payload: dict[str, Any]) -> tuple[_ObservedCandidate, ...]
         )
 
     candidates: list[_ObservedCandidate] = []
-    for name, targets, modality in _candidate_interventions(payload):
+    for name, targets, modality in _candidate_interventions(payload, vocabulary):
         candidates.append(
             _ObservedCandidate(
                 asset_name=name,
@@ -148,12 +149,34 @@ def _ctgov_candidates(payload: dict[str, Any]) -> tuple[_ObservedCandidate, ...]
     return tuple(candidates)
 
 
+
+def _modality_passage_pattern(vocabulary: QueryVocabulary) -> str:
+    """Alternation over every modality spelling the ontology knows.
+
+    Long portfolio disclosures are scanned for local passages that carry modality evidence.
+    The pattern is derived rather than written out so a disclosure about a modality this
+    file was not authored around is still scanned.
+
+    Terms arrive space-separated because the vocabulary folds separators away, but this
+    pattern runs against the raw text (the match offsets locate the passage), so each gap
+    is widened back out to accept the hyphenated spellings sources actually publish.
+    """
+
+    terms = sorted(
+        {term for _, terms in vocabulary.modalities for term in terms},
+        key=lambda term: (-len(term), term),
+    )
+    patterns = [r"[\s\-_/]+".join(re.escape(word) for word in term.split()) for term in terms]
+    return "|".join(patterns) or r"(?!x)x"
+
+
 def _generic_candidates(
     document: CorpusDocument,
     payload: Any,
     searchable_text: str,
     targets: tuple[str, ...],
     modality: str | None,
+    vocabulary: QueryVocabulary,
 ) -> tuple[_ObservedCandidate, ...]:
     payload_title = ""
     if isinstance(payload, dict):
@@ -167,14 +190,14 @@ def _generic_candidates(
         # local passages that independently contain both target and modality evidence.
         evidence_passages = []
         for match in re.finditer(
-            r"t[- ]?cell engager|bispecific|trispecific|\bbite\b|\bcd3\b",
+            _modality_passage_pattern(vocabulary),
             searchable_text,
             flags=re.IGNORECASE,
         ):
             start = max(0, match.start() - 350)
             end = min(len(searchable_text), match.end() + 350)
             passage = searchable_text[start:end]
-            if _targets_in_text(passage) and _modality_in_text(passage):
+            if vocabulary.targets_in(passage) and vocabulary.modality_in(passage):
                 evidence_passages.append(passage)
     names = extract_observed_asset_names(*evidence_passages)
     generic_publishers = {
@@ -201,7 +224,9 @@ def _generic_candidates(
     )
 
 
-def _index_document(document: CorpusDocument) -> _IndexedDocument | None:
+def _index_document(
+    document: CorpusDocument, vocabulary: QueryVocabulary
+) -> _IndexedDocument | None:
     if document.index_status is not IndexStatus.INDEXED:
         return None
     path = Path(document.snapshot_path)
@@ -219,20 +244,21 @@ def _index_document(document: CorpusDocument) -> _IndexedDocument | None:
             )
         structured_text = _protocol_text(payload)
         searchable_text = f"{document.title} {document.text} {structured_text}"
-        targets = tuple(sorted(_targets_in_text(structured_text)))
-        modality = _modality_in_text(structured_text)
-        candidates = _ctgov_candidates(payload)
+        targets = tuple(sorted(vocabulary.targets_in(structured_text)))
+        modality = vocabulary.modality_in(structured_text)
+        candidates = _ctgov_candidates(payload, vocabulary)
     else:
         payload_text = json.dumps(payload, sort_keys=True, ensure_ascii=False)
         searchable_text = f"{document.title} {document.text} {payload_text}"
-        targets = tuple(sorted(_targets_in_text(searchable_text)))
-        modality = _modality_in_text(searchable_text)
+        targets = tuple(sorted(vocabulary.targets_in(searchable_text)))
+        modality = vocabulary.modality_in(searchable_text)
         candidates = _generic_candidates(
             document,
             payload,
             searchable_text,
             targets,
             modality,
+            vocabulary,
         )
     return _IndexedDocument(
         corpus_document=document,
@@ -268,10 +294,12 @@ class CorpusDiscoveryAdapter:
             )
         self.source_name = source_name
         self.mandatory = mandatory
+        # Indexing precedes any query, so it labels against the whole ontology vocabulary.
+        vocabulary = QueryVocabulary.for_ontology()
         self._documents = tuple(
             indexed
             for document in materialized
-            if (indexed := _index_document(document)) is not None
+            if (indexed := _index_document(document, vocabulary)) is not None
         )
         follow_up_index: dict[str, dict[str, _IndexedDocument]] = {}
         for indexed in self._documents:

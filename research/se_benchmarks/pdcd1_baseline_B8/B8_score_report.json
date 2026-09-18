@@ -1,0 +1,231 @@
+{
+ "recall": {
+  "strict_M8": {
+   "identified": 81,
+   "denominator": 224,
+   "recall": 0.36160714285714285,
+   "note": "historical continuity only; not the product metric"
+  },
+  "v2_confirmed_pdcd1_discovery": {
+   "identified": 40,
+   "denominator": 40,
+   "recall": 1.0
+  },
+  "v2_confirmed_pdcd1_identification": {
+   "identified": 35,
+   "denominator": 40,
+   "recall": 0.875
+  },
+  "v2_confirmed_pdcd1_discovery_ctgov_only": {
+   "identified": 40,
+   "denominator": 40,
+   "recall": 1.0,
+   "note": "comparable with the B6-era CT.gov-only reachability figure"
+  },
+  "reachable_v2_confirmed_pdcd1": {
+   "identified": 35,
+   "denominator": 40,
+   "recall": 0.875
+  },
+  "direct_pdcd1_target_confirmation_coverage": {
+   "confirmed_target": 26,
+   "denominator": 40,
+   "coverage": 0.65,
+   "of_identified": 0.7428571428571429
+  }
+ },
+ "precision": {
+  "confirmed_negatives": 133,
+  "surfaced": 42,
+  "surfaced_rate": 0.3157894736842105,
+  "falsely_asserted_pdcd1": 7,
+  "false_assertion_rate": 0.05263157894736842,
+  "confirmed_other_target": 12,
+  "pdl1_traps_surfaced": [
+   "Adebrelimab",
+   "Atezolizumab",
+   "Avelumab",
+   "Durvalumab",
+   "Pumitamig (BNT327 / BMS-986545)",
+   "Pumitamig (BNT327)"
+  ],
+  "pdl1_traps_falsely_asserted": [
+   "Atezolizumab",
+   "Durvalumab"
+  ],
+  "benign_co_occurrence": 35,
+  "note": "surfaced is not asserted: a backbone or comparator drug appearing in a PD-1 combination trial is a correct discovery result. Only falsely_asserted_pdcd1 is a target-attribution error."
+ },
+ "uncertainty": {
+  "still_uncertain_v2": 9,
+  "uncertain_identified": 1,
+  "unresolved_assertions": 44,
+  "conflicting_assertions": 0,
+  "review_queue_items": 10681,
+  "review_queue": 1068,
+  "assets_total": 1068,
+  "review_fraction": 1.0,
+  "residual_interval": [
+   0.7142857142857143,
+   0.875
+  ]
+ },
+ "misses": [
+  {
+   "benchmark_id": "cand_753a6cd9d47f24e85748",
+   "asset": "Budigalimab (ABBV-181)",
+   "acquisition_reached": true,
+   "document_reached": true,
+   "asset_extracted": false,
+   "identity_resolved": false,
+   "target_attribution": "NOT_REACHED",
+   "first_failure_boundary": "IDENTITY",
+   "reason": "present in the corpus but never extracted as a named asset"
+  },
+  {
+   "benchmark_id": "cand_a93e26579440c0eff7e0",
+   "asset": "Subcutaneous pembrolizumab/berahyaluronidase alfa (MK-3475A)",
+   "acquisition_reached": true,
+   "document_reached": true,
+   "asset_extracted": false,
+   "identity_resolved": false,
+   "target_attribution": "NOT_REACHED",
+   "first_failure_boundary": "IDENTITY",
+   "reason": "present in the corpus but never extracted as a named asset"
+  },
+  {
+   "benchmark_id": "cand_b48db42d219e6d93c78a",
+   "asset": "Budigalimab",
+   "acquisition_reached": true,
+   "document_reached": true,
+   "asset_extracted": false,
+   "identity_resolved": false,
+   "target_attribution": "NOT_REACHED",
+   "first_failure_boundary": "IDENTITY",
+   "reason": "present in the corpus but never extracted as a named asset"
+  },
+  {
+   "benchmark_id": "cand_c4008d8d5eeb881a25ba",
+   "asset": "SMT112, AK112",
+   "acquisition_reached": true,
+   "document_reached": true,
+   "asset_extracted": false,
+   "identity_resolved": false,
+   "target_attribution": "NOT_REACHED",
+   "first_failure_boundary": "IDENTITY",
+   "reason": "present in the corpus but never extracted as a named asset"
+  },
+  {
+   "benchmark_id": "cand_c8697b4942636ae45b48",
+   "asset": "Dostarlimab-gxly (GSK4057190 / TSR-042, JEMPERLI)",
+   "acquisition_reached": true,
+   "document_reached": true,
+   "asset_extracted": true,
+   "identity_resolved": false,
+   "target_attribution": "CONFIRMED_TARGET",
+   "first_failure_boundary": "IDENTITY_NORMALIZATION",
+   "reason": "extracted under a spelling that does not normalize to the gold name"
+  }
+ ],
+ "sets": {
+  "confirmed_identified": [
+   "cand_06138bb6ef2550175c0d",
+   "cand_0cac217f9860f233a173",
+   "cand_0ed27647e149c37cc77d",
+   "cand_148207468a222a051ffd",
+   "cand_151c28bd7bf10532216e",
+   "cand_15895cca45b8542958c4",
+   "cand_32e26470fffbf2a214cf",
+   "cand_361add059ba1eb55db1a",
+   "cand_369938bd907f1df6b10e",
+   "cand_3db8eae9154dc8c7f4c9",
+   "cand_46b78bbd92b0ea18ce2b",
+   "cand_4849b6192ce0c69723a0",
+   "cand_4a26d8a4be993f44e221",
+   "cand_5c91c332cfa27daf61fc",
+   "cand_5d1ffc656741a5abb251",
+   "cand_64ab9d4e9f949717149f",
+   "cand_68c8707296c9014b4579",
+   "cand_7fc2c289d0b984840170",
+   "cand_8f99577706f7f4ca4f7f",
+   "cand_984357bb2be4012c579e",
+   "cand_9a4a5a2dcdcb42fa9417",
+   "cand_9d72af984bbe7ae3d065",
+   "cand_a6520fe75dfa23e7f7f3",
+   "cand_ad6e46bf67fbeddfc3a7",
+   "cand_afd6fbcc928075b41a19",
+   "cand_b6899a7f88b806287090",
+   "cand_be738226b0b1155dcaa5",
+   "cand_bee79fc77f737917ad55",
+   "cand_c1bc9d0664f5a46965b7",
+   "cand_d2f7fba52aaea9e2dbc5",
+   "cand_d7fc220c7d1392d28b2b",
+   "cand_eaeaef242cdee56cacac",
+   "cand_f3bf72b66988aaf5b688",
+   "cand_f57cfd61cd68570154cd",
+   "cand_fbcfde32298d9664a847"
+  ],
+  "confirmed_missed": [
+   "cand_753a6cd9d47f24e85748",
+   "cand_a93e26579440c0eff7e0",
+   "cand_b48db42d219e6d93c78a",
+   "cand_c4008d8d5eeb881a25ba",
+   "cand_c8697b4942636ae45b48"
+  ],
+  "confirmed_asserted_pdcd1": [
+   "cand_06138bb6ef2550175c0d",
+   "cand_0cac217f9860f233a173",
+   "cand_148207468a222a051ffd",
+   "cand_151c28bd7bf10532216e",
+   "cand_32e26470fffbf2a214cf",
+   "cand_361add059ba1eb55db1a",
+   "cand_46b78bbd92b0ea18ce2b",
+   "cand_4849b6192ce0c69723a0",
+   "cand_4a26d8a4be993f44e221",
+   "cand_5c91c332cfa27daf61fc",
+   "cand_5d1ffc656741a5abb251",
+   "cand_64ab9d4e9f949717149f",
+   "cand_7fc2c289d0b984840170",
+   "cand_8f99577706f7f4ca4f7f",
+   "cand_984357bb2be4012c579e",
+   "cand_9a4a5a2dcdcb42fa9417",
+   "cand_9d72af984bbe7ae3d065",
+   "cand_a6520fe75dfa23e7f7f3",
+   "cand_ad6e46bf67fbeddfc3a7",
+   "cand_afd6fbcc928075b41a19",
+   "cand_be738226b0b1155dcaa5",
+   "cand_c1bc9d0664f5a46965b7",
+   "cand_d2f7fba52aaea9e2dbc5",
+   "cand_eaeaef242cdee56cacac",
+   "cand_f3bf72b66988aaf5b688",
+   "cand_fbcfde32298d9664a847"
+  ],
+  "negatives_falsely_asserted": [
+   "Anlotinib Hydrochloride Capsules (FOCUS V)",
+   "Atezolizumab",
+   "Cetuximab",
+   "Durvalumab",
+   "Ipilimumab",
+   "Ipilimumab (BMS-734016 / MDX-010)",
+   "Ipilimumab (MDX-010)"
+  ]
+ },
+ "sources": {
+  "status": {
+   "clinicaltrials_gov": "SUCCESS",
+   "pubmed": "PARTIAL",
+   "company_pipeline_or_presentation": "NOT_CONFIGURED",
+   "company_press_release": "NOT_CONFIGURED",
+   "sec_edgar": "NOT_CONFIGURED",
+   "conference_ash": "NOT_CONFIGURED",
+   "conference_asco": "NOT_CONFIGURED",
+   "conference_aacr": "NOT_CONFIGURED",
+   "conference_eha": "NOT_CONFIGURED"
+  },
+  "run_status": "INCOMPLETE",
+  "fatal_reasons": [],
+  "incomplete_reasons": [
+   "mandatory sources not configured: company_pipeline_or_presentation, company_press_release, conference_aacr, conference_asco, conference_ash, conference_eha, sec_edgar"
+  ]
+ }
+}

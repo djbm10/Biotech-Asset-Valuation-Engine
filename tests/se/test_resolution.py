@@ -84,7 +84,12 @@ def test_probabilistic_merge_requires_review_and_is_reversible() -> None:
         registry.apply_merge(proposal.merge_id)
     merged = registry.apply_merge(proposal.merge_id, analyst_approved=True)
     assert registry.merges[proposal.merge_id].status == MergeStatus.APPLIED
-    assert set(merged.aliases) == {"Asset A", "Former A", "Asset Alpha", "Alpha"}
+    # Only names the registry has positive evidence for reach ``aliases``. "Former A" and
+    # "Alpha" were offered by the source and, with no identity authority here, are held as
+    # UNCERTAIN_RELATIONSHIP edges instead. An applied merge still unions what each side
+    # legitimately answered to, which is what this test is about.
+    assert set(merged.aliases) == {"Asset A", "Asset Alpha"}
+    assert {edge.related_name for edge in registry.identity_edges} == {"Former A", "Alpha"}
 
     registry.reverse_merge(proposal.merge_id)
     assert registry.merges[proposal.merge_id].status == MergeStatus.REVERSED

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hashlib
 import ipaddress
 import json
 import os
@@ -122,6 +123,40 @@ def configured_user_agent() -> str:
             "BVE_SE_USER_AGENT must include an operator contact email"
         )
     return user_agent
+
+
+def configured_contact_email() -> str:
+    """Return just the operator contact address, for sources that ask for it as a parameter.
+
+    Crossref's polite pool wants the contact in a ``mailto`` query parameter rather than in
+    the User-Agent, so the address has to be available on its own. This stays beside
+    ``configured_user_agent`` for the same reason: both are read only at the HTTP boundary
+    and neither result belongs in an artifact -- use ``user_agent_receipt`` for that.
+    """
+
+    match = _CONTACT_EMAIL_RE.search(configured_user_agent())
+    if match is None:  # pragma: no cover - configured_user_agent already enforces this
+        raise AcquisitionHttpError("BVE_SE_USER_AGENT must include an operator contact email")
+    return match.group(0)
+
+
+def user_agent_receipt() -> dict[str, object]:
+    """Attest which operator identity a run transmitted, without recording the address.
+
+    Provenance needs to answer two questions about a live acquisition: was the source told
+    who was asking, and was it the same identity across the runs being compared. A digest
+    answers both. The address itself answers neither better, and it is a real person's
+    contact detail that would then live in every artifact and commit that quotes it, so it
+    is deliberately not returned here -- ``configured_user_agent`` remains the only way to
+    obtain it, and only the HTTP boundary calls that.
+    """
+
+    user_agent = configured_user_agent()
+    return {
+        "contact_present": bool(_CONTACT_EMAIL_RE.search(user_agent)),
+        "user_agent_sha256": hashlib.sha256(user_agent.encode()).hexdigest(),
+        "redacted": True,
+    }
 
 
 def build_retrying_session(user_agent: str | None = None) -> Session:

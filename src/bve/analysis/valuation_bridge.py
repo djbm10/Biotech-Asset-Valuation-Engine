@@ -165,11 +165,22 @@ class BridgedImpliedPoSResult:
     pos_spread: Optional[float] = None
     iterations: int = 0
 
-    # Populated only when status == REQUIRED_POS_ABOVE_ONE.
+    # Company-level attribution diagnostics. ``valuation_gap_millions`` is
+    # market-implied residual asset value less the lead asset's base-case
+    # modeled rNPV. With the bridge's represented other-asset, platform, and
+    # corporate-cost terms already removed, the same amount is the currently
+    # unexplained residual. It must not be relabeled as lead-asset value when
+    # company-level SOTP coverage is incomplete.
+    valuation_gap_millions: Optional[float] = None
+    unexplained_residual_millions: Optional[float] = None
+
+    # Boundary diagnostics. These are populated for an above-one solve and,
+    # where the model can be evaluated, for other non-solvable statuses.
     model_value_at_pos_1_millions: Optional[float] = None
     remaining_gap_millions: Optional[float] = None
     required_peak_sales_at_pos_1_millions: Optional[float] = None
     required_peak_sales_multiple: Optional[float] = None
+    required_penetration_at_pos_1: Optional[float] = None
 
     notes: list[str] = field(default_factory=list)
 
@@ -219,6 +230,7 @@ def solve_bridged_implied_pos(
     ticker = base_output.company.ticker or asset_id.upper()
     model_pos = float(base_output.rnpv.cumulative_success_probability)
     model_rnpv = float(base_output.rnpv.rnpv_millions)
+    valuation_gap = target_value - model_rnpv
 
     if not context.base_trials:
         # Already-approved / no-remaining-trials asset: pos is not solvable
@@ -233,13 +245,24 @@ def solve_bridged_implied_pos(
             status=SolverStatus.INSUFFICIENT_INPUTS,
             model_pos=model_pos,
             model_rnpv_millions=model_rnpv,
+            valuation_gap_millions=round(valuation_gap, 6),
+            unexplained_residual_millions=round(valuation_gap, 6),
             notes=["Config has no remaining trials; PoS is not a meaningful solve target."],
         )
 
-    lo_actual_pos, lo_rnpv = solver._value_at_target_pos(context, solver.min_pos)
-    hi_actual_pos, hi_rnpv = solver._value_at_target_pos(context, solver.max_pos)
+    _, lo_rnpv = solver._value_at_target_pos(context, solver.min_pos)
+    _, hi_rnpv = solver._value_at_target_pos(context, solver.max_pos)
 
-    if hi_rnpv < lo_rnpv:
+    monotonic_values = [lo_rnpv]
+    for point in range(1, 8):
+        target_pos = solver.min_pos + (solver.max_pos - solver.min_pos) * point / 8
+        _, point_value = solver._value_at_target_pos(context, target_pos)
+        monotonic_values.append(point_value)
+    monotonic_values.append(hi_rnpv)
+
+    boundary = _boundary_diagnostics(solver, context, target_value, hi_rnpv)
+
+    if not _values_are_monotonic(monotonic_values):
         return BridgedImpliedPoSResult(
             asset_id=asset_id,
             ticker=ticker,
@@ -247,9 +270,13 @@ def solve_bridged_implied_pos(
             status=SolverStatus.NON_MONOTONIC,
             model_pos=model_pos,
             model_rnpv_millions=model_rnpv,
+            valuation_gap_millions=round(valuation_gap, 6),
+            unexplained_residual_millions=round(valuation_gap, 6),
+            **boundary,
             notes=[
-                f"Model value at min_pos ({lo_rnpv:.1f}M) exceeds value at max_pos "
-                f"({hi_rnpv:.1f}M); rNPV is not monotonic in PoS for this config."
+                "Model value decreases at one or more points on the nine-point "
+                f"PoS grid ({lo_rnpv:.1f}M at min; {hi_rnpv:.1f}M at max); rNPV "
+                "is not monotonic in PoS for this config."
             ],
         )
 
@@ -263,6 +290,9 @@ def solve_bridged_implied_pos(
             status=SolverStatus.MARKET_VALUE_BELOW_ZERO_POS_VALUE,
             model_pos=model_pos,
             model_rnpv_millions=model_rnpv,
+            valuation_gap_millions=round(valuation_gap, 6),
+            unexplained_residual_millions=round(valuation_gap, 6),
+            **boundary,
             notes=[
                 f"Residual asset value ({target_value:.1f}M) is below the model's value "
                 f"even at pos={solver.min_pos:.3f} ({lo_rnpv:.1f}M): the market is pricing "
@@ -271,15 +301,6 @@ def solve_bridged_implied_pos(
         )
 
     if target_value > hi_rnpv + tolerance:
-        hi_output = _rerun_at_pos(solver, context, solver.max_pos)
-        gross_pv_at_1 = float(hi_output.rnpv.gross_revenue_pv_millions)
-        peak_sales_at_1 = float(hi_output.rnpv.peak_sales_millions)
-
-        other_costs_net_at_1 = gross_pv_at_1 - hi_rnpv
-        required_gross_pv = target_value + other_costs_net_at_1
-        required_multiple = required_gross_pv / gross_pv_at_1 if gross_pv_at_1 > 0 else float("inf")
-        required_peak_sales = peak_sales_at_1 * required_multiple
-
         return BridgedImpliedPoSResult(
             asset_id=asset_id,
             ticker=ticker,
@@ -287,16 +308,17 @@ def solve_bridged_implied_pos(
             status=SolverStatus.REQUIRED_POS_ABOVE_ONE,
             model_pos=model_pos,
             model_rnpv_millions=model_rnpv,
-            model_value_at_pos_1_millions=round(hi_rnpv, 6),
-            remaining_gap_millions=round(target_value - hi_rnpv, 6),
-            required_peak_sales_at_pos_1_millions=round(required_peak_sales, 6),
-            required_peak_sales_multiple=round(required_multiple, 6),
+            valuation_gap_millions=round(valuation_gap, 6),
+            unexplained_residual_millions=round(valuation_gap, 6),
+            **boundary,
             notes=[
                 f"Residual asset value ({target_value:.1f}M) exceeds the model's value "
                 f"at pos~1.0 ({hi_rnpv:.1f}M) by {target_value - hi_rnpv:.1f}M. Holding "
                 f"success probability at ~1.0, peak sales would need to be "
-                f"{required_multiple:.2f}x the config's assumed peak sales "
-                f"({peak_sales_at_1:.0f}M -> {required_peak_sales:.0f}M) to justify this "
+                f"{boundary['required_peak_sales_multiple']:.2f}x the config's assumed "
+                f"peak sales (to {boundary['required_peak_sales_at_pos_1_millions']:.0f}M) "
+                f"and required penetration would be "
+                f"{boundary['required_penetration_at_pos_1']:.1%} to justify this "
                 "residual value from the lead asset alone."
             ],
         )
@@ -310,6 +332,9 @@ def solve_bridged_implied_pos(
             status=SolverStatus.INSUFFICIENT_INPUTS,
             model_pos=model_pos,
             model_rnpv_millions=model_rnpv,
+            valuation_gap_millions=round(valuation_gap, 6),
+            unexplained_residual_millions=round(valuation_gap, 6),
+            **boundary,
             notes=["Legacy solver returned None (target_value <= 0 or config load failure)."],
         )
 
@@ -323,7 +348,51 @@ def solve_bridged_implied_pos(
         implied_pos=solved.implied_pos,
         pos_spread=solved.pos_spread,
         iterations=solved.iterations,
+        valuation_gap_millions=round(valuation_gap, 6),
+        unexplained_residual_millions=round(valuation_gap, 6),
     )
+
+
+def _boundary_diagnostics(solver, context, target_value: float, hi_rnpv: float) -> dict:
+    """Return commercial requirements with success probability held at ~1.
+
+    The calculation scales the existing commercial model; it does not assign
+    value to omitted assets or a platform. Required penetration may exceed
+    100%, which is intentionally left visible as an infeasibility diagnostic.
+    """
+    hi_output = _rerun_at_pos(solver, context, solver.max_pos)
+    gross_pv_at_1 = float(hi_output.rnpv.gross_revenue_pv_millions)
+    peak_sales_at_1 = float(hi_output.rnpv.peak_sales_millions)
+    assumed_penetration = float(context.engine.market_model.peak_penetration)
+
+    other_costs_net_at_1 = gross_pv_at_1 - hi_rnpv
+    required_gross_pv = max(0.0, target_value + other_costs_net_at_1)
+    required_multiple = required_gross_pv / gross_pv_at_1 if gross_pv_at_1 > 0 else None
+    required_peak_sales = (
+        peak_sales_at_1 * required_multiple if required_multiple is not None else None
+    )
+    required_penetration = (
+        assumed_penetration * required_multiple if required_multiple is not None else None
+    )
+
+    return {
+        "model_value_at_pos_1_millions": round(hi_rnpv, 6),
+        "remaining_gap_millions": round(target_value - hi_rnpv, 6),
+        "required_peak_sales_at_pos_1_millions": (
+            round(required_peak_sales, 6) if required_peak_sales is not None else None
+        ),
+        "required_peak_sales_multiple": (
+            round(required_multiple, 6) if required_multiple is not None else None
+        ),
+        "required_penetration_at_pos_1": (
+            round(required_penetration, 6) if required_penetration is not None else None
+        ),
+    }
+
+
+def _values_are_monotonic(values: list[float], *, tolerance: float = 1e-6) -> bool:
+    """Return True only when sampled model values are non-decreasing."""
+    return all(current >= previous - tolerance for previous, current in zip(values, values[1:]))
 
 
 def _rerun_at_pos(solver: ImpliedPoSSolver, context, target_pos: float):

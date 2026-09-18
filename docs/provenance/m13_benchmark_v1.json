@@ -1,0 +1,216 @@
+{
+  "as_of_date": "2026-08-20",
+  "construction": "Every set is defined by a rule that never names the target. See m13_build_benchmark.py.",
+  "denominators": {
+    "gold_all": [
+      "AMITRIPTYLINE",
+      "AMOXAPINE",
+      "AMPHETAMINE",
+      "AMPRELOXETINE",
+      "ATOMOXETINE",
+      "BENZPHETAMINE",
+      "BETHANIDINE",
+      "BRETYLIUM",
+      "BUPROPION",
+      "DEBRISOQUIN",
+      "DESIPRAMINE",
+      "DESVENLAFAXINE",
+      "DEXMETHYLPHENIDATE",
+      "DEXTROAMPHETAMINE",
+      "DIBENZEPIN",
+      "DIETHYLPROPION",
+      "DOTHIEPIN",
+      "DOXEPIN",
+      "DULOXETINE",
+      "EDIVOXETINE",
+      "ESREBOXETINE",
+      "FAXELADOL",
+      "GUANADREL",
+      "GUANETHIDINE",
+      "IMIPRAMINE",
+      "IOBENGUANE",
+      "LEVOMILNACIPRAN",
+      "LISDEXAMFETAMINE",
+      "MAPROTILINE",
+      "METHYLPHENIDATE",
+      "MIDOMAFETAMINE",
+      "MILNACIPRAN",
+      "NEFAZODONE",
+      "NORTRIPTYLINE",
+      "ORPHENADRINE",
+      "PHENDIMETRAZINE",
+      "PHENMETRAZINE",
+      "PHENTERMINE",
+      "PHENYLPROPANOLAMINE",
+      "PROTRIPTYLINE",
+      "PSEUDOEPHEDRINE",
+      "REBOXETINE",
+      "SERDEXMETHYLPHENIDATE",
+      "TAPENTADOL",
+      "TEDATIOXETINE",
+      "TRIMIPRAMINE",
+      "VENLAFAXINE",
+      "VILOXAZINE"
+    ],
+    "gold_all_n": 48,
+    "gold_pre_registry": [
+      "BETHANIDINE",
+      "BRETYLIUM",
+      "DIBENZEPIN",
+      "FAXELADOL",
+      "GUANADREL",
+      "GUANETHIDINE",
+      "PHENMETRAZINE"
+    ],
+    "gold_pre_registry_n": 7,
+    "gold_registry_reachable": [
+      "AMITRIPTYLINE",
+      "AMOXAPINE",
+      "AMPHETAMINE",
+      "AMPRELOXETINE",
+      "ATOMOXETINE",
+      "BENZPHETAMINE",
+      "BUPROPION",
+      "DEBRISOQUIN",
+      "DESIPRAMINE",
+      "DESVENLAFAXINE",
+      "DEXMETHYLPHENIDATE",
+      "DEXTROAMPHETAMINE",
+      "DIETHYLPROPION",
+      "DOTHIEPIN",
+      "DOXEPIN",
+      "DULOXETINE",
+      "EDIVOXETINE",
+      "ESREBOXETINE",
+      "IMIPRAMINE",
+      "IOBENGUANE",
+      "LEVOMILNACIPRAN",
+      "LISDEXAMFETAMINE",
+      "MAPROTILINE",
+      "METHYLPHENIDATE",
+      "MIDOMAFETAMINE",
+      "MILNACIPRAN",
+      "NEFAZODONE",
+      "NORTRIPTYLINE",
+      "ORPHENADRINE",
+      "PHENDIMETRAZINE",
+      "PHENTERMINE",
+      "PHENYLPROPANOLAMINE",
+      "PROTRIPTYLINE",
+      "PSEUDOEPHEDRINE",
+      "REBOXETINE",
+      "SERDEXMETHYLPHENIDATE",
+      "TAPENTADOL",
+      "TEDATIOXETINE",
+      "TRIMIPRAMINE",
+      "VENLAFAXINE",
+      "VILOXAZINE"
+    ],
+    "gold_registry_reachable_n": 41,
+    "negatives_n": 3134,
+    "pre_registry_note": "These predate the trial registry era (bretylium, guanethidine, debrisoquin and similar 1960s-70s agents). They are genuine target binders and genuinely absent from CT.gov. Scoring the engine for failing to retrieve them would measure the registry, so the primary denominator is the registry-reachable set and the full set is reported alongside.",
+    "siblings": [
+      "SLC6A1",
+      "SLC6A3",
+      "SLC6A4",
+      "SLC6A9"
+    ],
+    "trap_rule": "binds a sibling in the same gene family (SLC6A1, SLC6A3, SLC6A4, SLC6A9) but not the target itself",
+    "traps": [
+      "ARMODAFINIL",
+      "BITOPERTIN",
+      "CHLORPHENTERMINE",
+      "CITALOPRAM",
+      "CLOMIPRAMINE",
+      "DAPOXETINE",
+      "ESCITALOPRAM",
+      "FLUOXETINE",
+      "FLUVOXAMINE",
+      "GSK163090",
+      "INDALPINE",
+      "LUMATEPERONE",
+      "MODAFINIL",
+      "ORG-25935",
+      "PAROXETINE",
+      "PF-03463275",
+      "SERTRALINE",
+      "TIAGABINE",
+      "TRAZODONE",
+      "VILAZODONE",
+      "VORTIOXETINE"
+    ],
+    "traps_n": 21
+  },
+  "frozen_at": "2026-09-13T14:53:55.306874+00:00",
+  "hand_mapped_assets": 0,
+  "milestone": "M13",
+  "no_engine_run_has_touched_this_target": true,
+  "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2__modality_v2",
+  "primary_metrics": {
+    "discovery": "of gold_registry_reachable, how many appear as candidate assets",
+    "false_target_assertions": "negatives asserted to bind the target (denominator negatives_n)",
+    "identification": "of gold_registry_reachable, how many are identified as distinct named assets",
+    "traps_falsely_asserted": "traps asserted to bind the target (denominator traps_n)"
+  },
+  "rule_4_actual": 41,
+  "rule_4_floor": 25,
+  "rule_4_verified": true,
+  "schema_version": "m13_benchmark_v1",
+  "selection_artifact": "m13_selection.json",
+  "selection_sha256": "73b91f29bef9f15240017c4b5401ec50eefe273fce1d3147aaa22e115fb37e36",
+  "target": "SLC6A2",
+  "target_specific_synonyms_added": 0,
+  "target_vocabulary": {
+    "admitted_aliases": [
+      "Norepinephrine transporter",
+      "SLC6A2",
+      "Sodium-dependent noradrenaline transporter",
+      "Solute carrier family 6 member 2",
+      "neurotransmitter transporter",
+      "solute carrier family 6 (neurotransmitter transporter), member 2",
+      "solute carrier family 6 (neurotransmitter transporter, noradrenalin), member 2"
+    ],
+    "known_risk": "'neurotransmitter transporter' is admitted because only this target claims it in the ontology, but it is a broad class term and may attract false positives. It is left in rather than hand-removed: removing it would be target-specific curation by the party running the engine. If it produces false positives, that is a finding, not a benchmark bug.",
+    "refused_aliases": [
+      {
+        "alias": "NAT1",
+        "also_claimed_by": [
+          "EIF4G2",
+          "NAT1",
+          "SLC38A3",
+          "SLC38A6"
+        ]
+      },
+      {
+        "alias": "NET",
+        "also_claimed_by": [
+          "ELK3",
+          "EPHB1"
+        ]
+      },
+      {
+        "alias": "NET1",
+        "also_claimed_by": [
+          "NET1",
+          "NTN1",
+          "PRPF38B",
+          "SLC6A5",
+          "TSPAN1"
+        ]
+      },
+      {
+        "alias": "SLC6A5",
+        "also_claimed_by": [
+          "SLC6A5"
+        ]
+      },
+      {
+        "alias": "solute carrier family 6 member 5",
+        "also_claimed_by": [
+          "SLC6A5"
+        ]
+      }
+    ],
+    "rule": "admit an alias only if no other canonical target in the ontology claims it"
+  }
+}

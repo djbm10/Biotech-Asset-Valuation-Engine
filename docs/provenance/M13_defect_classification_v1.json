@@ -1,0 +1,63 @@
+{
+  "defects": [
+    {
+      "classification": "generic architecture defect",
+      "consequence": "'NET' matches 3079 CT.gov trials, almost all Neutrophil Extracellular Traps. 67 of the 72 candidates the run produced are NETs/NETosis trials. The corpus was flooded with noise from an alias the benchmark had explicitly excluded.",
+      "evidence": "The problem YAML declared 7 disambiguated aliases. Every issued query contained NAT1, NET, NET1 and SLC6A5 -- the exact four the generic ambiguity rule had refused, each belonging to a different gene. There is no way to express a curated target vocabulary through the BuyerProblem contract.",
+      "id": "M13-D1",
+      "target_specific": false,
+      "title": "Problem-level alias curation is discarded; the query compiler re-expands aliases from the ontology",
+      "would_have_been_invisible_on_pdcd1": "PDCD1's ambiguous alias, PD-1/RPL17, was already handled upstream by the resolver, so the contract gap never showed."
+    },
+    {
+      "classification": "missing generic source capability",
+      "consequence": "Any target whose assets are not named alongside it in source text is structurally unreachable, however good the rest of the pipeline is. This is the single largest contributor to 5/41.",
+      "evidence": "CT.gov names SLC6A2 in 37 trials and 'norepinephrine transporter' in 62. Atomoxetine alone has 223 trials, of which only 3 mention SLC6A2. The frozen ontology already holds USABLE DIRECT_TARGET edges for 96 SLC6A2 drugs -- the same edges used to build this benchmark -- but discovery never turns them into drug-name queries.",
+      "id": "M13-D2",
+      "target_specific": false,
+      "title": "Discovery has no drug-to-target reverse seeding",
+      "would_have_been_invisible_on_pdcd1": "PDCD1 is named in 521 CT.gov trials and PD-1 in 5827, so searching the target recovers most of the asset space. The assumption 'the target is named in the document' is true for immuno-oncology and false for CNS small molecules. M8-M12 could not have detected it."
+    },
+    {
+      "classification": "generic architecture defect",
+      "consequence": "The modality pass contributed nothing outside oncology/biologics.",
+      "evidence": "All 17 modality-conjunct queries returned 0 records. The modality expansion terms are 'antibody', 'CAR T', 'kinase inhibitor', 'ADC' and similar. CT.gov records for CNS small molecules describe drug and indication, not molecular class, so the conjunct cannot match.",
+      "id": "M13-D3",
+      "target_specific": false,
+      "title": "Target vocabulary is ANDed with a biologics-shaped modality vocabulary"
+    },
+    {
+      "classification": "genuine benchmark miss",
+      "consequence": "Excluded from the primary denominator by construction; reported, not scored.",
+      "evidence": "7 of 48 gold molecules (bretylium, guanethidine, debrisoquin and similar) predate the trial registry.",
+      "id": "M13-D4",
+      "target_specific": false,
+      "title": "Pre-registry agents"
+    },
+    {
+      "classification": "unsupported evidence",
+      "consequence": "Cannot be attributed to the identification layer on this evidence. Diagnosing it requires a corpus not dominated by D1 noise, i.e. it is blocked behind D1 and D2.",
+      "evidence": "discovery 5 vs identification 0. The five occur in corpus text but never surface as named assets. Their host documents are NETs trials retrieved by D1, where the gold drug is incidental prose rather than an intervention.",
+      "explicitly_not_claimed": "This is NOT evidence that identification is broken. It is evidence that the question cannot be answered from this run.",
+      "id": "M13-D5",
+      "target_specific": false,
+      "title": "5 gold assets were reachable in admitted text but none was identified"
+    }
+  ],
+  "generated_at": "2026-09-13T15:02:30.451961+00:00",
+  "headline": "Discovery 5/41, identification 0/41. The engine does not currently generalize beyond the PDCD1-shaped case. The cause is not subtle and is not target-specific.",
+  "milestone": "M13",
+  "precision_caveat": "0 traps falsely asserted and 0 false target assertions is NOT a precision success. The run asserted the target for zero assets, so there were no positives to be wrong about. A metric that can only be passed by asserting nothing must be reported as vacuous.",
+  "schema_version": "m13_defect_classification_v1",
+  "target": "SLC6A2",
+  "verdict": "On the evidence of M13, this is not yet a generalized biotech discovery engine. It is a system whose discovery strategy encodes an assumption that held for PDCD1 -- that the target is named in the documents describing its assets -- and that assumption does not hold for a CNS transporter. The identity and custody machinery was never reached in earnest, so M13 says nothing for or against it.",
+  "what_was_not_done": [
+    "no hand-mapped assets",
+    "no target-specific synonyms",
+    "no target-specific code changes",
+    "no benchmark denominator was changed after seeing results",
+    "no defect was fixed before reporting the zero-shot score"
+  ],
+  "why_no_fixes_yet": "Fixing D1-D3 and rerunning would produce a better number, but it would no longer be a zero-shot number. The first run against an untouched target is the measurement; remediation belongs to a named follow-on milestone, reported separately and never substituted for this result.",
+  "zero_shot": true
+}

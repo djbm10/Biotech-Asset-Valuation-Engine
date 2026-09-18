@@ -19,6 +19,7 @@ def _result() -> SESearchResult:
             completed_at="2026-07-12T12:01:00Z",
             code_version="test",
             normalization_version="test",
+            ontology_version="chembl_36__open_targets_26.06__resolver_v1__modality_v2",
             status=RunStatus.CONVERGED,
         ),
         candidates=[

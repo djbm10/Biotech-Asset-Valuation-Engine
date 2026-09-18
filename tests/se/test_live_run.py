@@ -180,7 +180,9 @@ class FalseHealthyConnector:
         )
 
 
-def test_live_run_promotes_immutable_artifacts_and_is_idempotent(tmp_path: Path) -> None:
+def test_live_run_promotes_immutable_artifacts_and_is_idempotent(
+    tmp_path: Path, se_ontology_snapshot
+) -> None:
     policy = _policy()
     repo, release = _release(tmp_path, policy)
     output = tmp_path / "output"
@@ -244,7 +246,9 @@ def test_required_source_failure_is_quarantined_and_never_promoted(tmp_path: Pat
     assert (output / "runs" / "failed-run" / "failure.json").is_file()
 
 
-def test_required_no_data_is_preserved_and_does_not_block_promotion(tmp_path: Path) -> None:
+def test_required_no_data_is_preserved_and_does_not_block_promotion(
+    tmp_path: Path, se_ontology_snapshot
+) -> None:
     policy = _policy().model_copy(
         update={"required_source_families": ("clinicaltrials_gov", "fda_label")}
     )
@@ -292,7 +296,7 @@ def test_connector_cannot_claim_health_without_sealed_documents(tmp_path: Path) 
 
 
 def test_replay_uses_sealed_corpus_without_network_or_current_promotion(
-    tmp_path: Path,
+    tmp_path: Path, se_ontology_snapshot
 ) -> None:
     policy = _policy()
     repo, release = _release(tmp_path, policy)
@@ -479,7 +483,7 @@ def test_run_id_is_a_safe_single_path_component(tmp_path: Path, run_id: str) -> 
 
 
 def test_reuse_verifies_current_anchors_and_rejects_unlisted_artifacts(
-    tmp_path: Path,
+    tmp_path: Path, se_ontology_snapshot
 ) -> None:
     policy = _policy()
     repo, release = _release(tmp_path, policy)
@@ -512,7 +516,9 @@ def test_reuse_verifies_current_anchors_and_rejects_unlisted_artifacts(
     assert raised.value.exit_code == 5
 
 
-def test_reuse_rejects_tampered_current_receipt_anchor(tmp_path: Path) -> None:
+def test_reuse_rejects_tampered_current_receipt_anchor(
+    tmp_path: Path, se_ontology_snapshot
+) -> None:
     policy = _policy()
     repo, release = _release(tmp_path, policy)
     output = tmp_path / "output"

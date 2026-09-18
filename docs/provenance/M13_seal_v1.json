@@ -1,0 +1,85 @@
+{
+  "artifacts": {
+    "M13_defect_classification_v1.json": {
+      "bytes": 5400,
+      "sha256": "152512ec79f961f78657d33227bcc19855e9b901669946a41fc1bd98f3a8d696"
+    },
+    "M13_result.json": {
+      "bytes": 3536975,
+      "sha256": "e7344928902eb0e84cbe809521626c298d762b02040067188e7e07d7025c75ef"
+    },
+    "M13_score.json": {
+      "bytes": 2753,
+      "sha256": "9bdb3880f01729780b54cb9feb940ef07eb7719bdeb12e1ad6fbd43cbc728991"
+    },
+    "m13_alias_admission.py": {
+      "bytes": 3784,
+      "sha256": "f7ebab482aad9c31340e06598a46ce531a60d2f2e64fe6ae5b30ae33c8246e36"
+    },
+    "m13_alias_admission_SLC6A2.json": {
+      "bytes": 1239,
+      "sha256": "d8df1951a2d073d7ea351e7f74421cbdddfcbc1e4cafb8942e76997f3ae6da60"
+    },
+    "m13_benchmark_raw.json": {
+      "bytes": 2665,
+      "sha256": "4f88027d707b88cbf36766b53b51509588dfe2ea0524aa0a160cb17df7962040"
+    },
+    "m13_benchmark_v1.json": {
+      "bytes": 6079,
+      "sha256": "e1893d465f271909878036328e4e3b6f866bdd1ecc49d73f666e5fc609fe8184"
+    },
+    "m13_build_benchmark.py": {
+      "bytes": 4428,
+      "sha256": "63ff9846e85f7ee12f1b47cd80989aa9cce6faa26f06484a5ffbe51e864426ee"
+    },
+    "m13_candidate_pool.json": {
+      "bytes": 5551,
+      "sha256": "315db213118f3226ab6962f44bb2b310ef2a2a2a9e76513189725f305ff00b71"
+    },
+    "m13_gold_ctgov_counts.json": {
+      "bytes": 1008,
+      "sha256": "ba72a708459e6b7e887a606da087b0de3697060766ee15245a59958a6527c11f"
+    },
+    "m13_pool_rules.json": {
+      "bytes": 4370,
+      "sha256": "26a8b6ca81e8352e988465c3f936d129392d2d778fc4c2a72d507231bf398597"
+    },
+    "m13_run.log": {
+      "bytes": 1084,
+      "sha256": "aa13613238529bd79508e4a5c0545c4f211b6f1b37d4cb951bc79b1658c6cf39"
+    },
+    "m13_selection.json": {
+      "bytes": 1476,
+      "sha256": "73b91f29bef9f15240017c4b5401ec50eefe273fce1d3147aaa22e115fb37e36"
+    },
+    "m13_slc6a2_problem.yaml": {
+      "bytes": 2592,
+      "sha256": "c7529fc99d9828c94e2e7fc486e9781ca530add48dfff1d61fb60be0d52bf470"
+    },
+    "run_m13.sh": {
+      "bytes": 1157,
+      "sha256": "a9860c9f7834cac38d33498d20ef9c0a1f475b0b8889664b7c30c2e9464baead"
+    },
+    "score_M13.py": {
+      "bytes": 7357,
+      "sha256": "ab9f09d10e519c0e47043b425c50147e22faa2a772a79629761b9eb9a9260a80"
+    }
+  },
+  "code_commit": "7d5abad",
+  "denominators_unchanged": true,
+  "hand_mapped_assets": 0,
+  "milestone": "M13",
+  "schema_version": "m13_seal_v1",
+  "score": {
+    "candidates": 72,
+    "discovery": "5/41",
+    "identification": "0/41",
+    "target_assertions": 0,
+    "traps_falsely_asserted": 0,
+    "traps_surfaced": 0
+  },
+  "sealed_at": "2026-09-13T15:02:30.472899+00:00",
+  "target": "SLC6A2",
+  "target_specific_code_changes": 0,
+  "zero_shot": true
+}

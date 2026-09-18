@@ -1,0 +1,2296 @@
+{
+  "as_of_date": "2026-07-16",
+  "lookback_days": 3,
+  "items_seen": 1987,
+  "items_classified": 206,
+  "records_appended": 206,
+  "duplicates_skipped": 0,
+  "unclassified_count": 1781,
+  "sources": {
+    "sec_filing": {
+      "source_key": "sec_filing",
+      "verdict": "OK",
+      "tickers_attempted": 158,
+      "fetch_failures": 0,
+      "failure_samples": [],
+      "processing_failures": 0,
+      "processing_failure_samples": [],
+      "records_fetched": 19,
+      "records_classified": 3,
+      "records_appended": 3,
+      "duplicates_skipped": 0,
+      "unclassified": 16,
+      "expected_unclassified": 1,
+      "rejected": 15,
+      "request_diagnostics": [
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001628171.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001628171.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001655759.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001815442.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001815442.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001425205.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0000744218.json",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001737953.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001812364.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001817713.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001817713.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001861560.json",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001001316.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001001316.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001521036.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001745999.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001281895.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001674416.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001515673.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0000874015.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001048477.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001070081.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001652130.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001650664.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001650664.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001730430.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001559053.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001374690.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001764013.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001787306.json",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0000906709.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001437402.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001810182.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001070494.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001070494.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001520262.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001802665.json",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001802665.json",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001607678.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001157601.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001434868.json",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001434868.json",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001590877.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001590877.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0000879407.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001711279.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0000887359.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001649094.json",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001382101.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001799448.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001395937.json",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001596812.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001596812.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001326732.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001098972.json",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001991792.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001796280.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001377121.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001377121.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001377121.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001737287.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001863127.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001809196.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001434316.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001434316.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001434316.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001438533.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001710072.json",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0000886744.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001341235.json",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001104506.json",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001088856.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001680581.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001668243.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001819790.json",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0000873303.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001178670.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001579428.json",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001689548.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001816590.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0002081043.json",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0002081043.json",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0002081043.json",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0002081043.json",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001714899.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001517022.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001759138.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001759138.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001974640.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001831828.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001601830.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001159036.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001703057.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001635088.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001735438.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0000818033.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0000818033.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001826892.json",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001658247.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001724521.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001724521.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001676725.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001937653.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001125345.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001422143.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001439222.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001761918.json",
+          "status": 200,
+          "records_returned": 2,
+          "records_parsed": 2
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001811063.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001894562.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001600620.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001671858.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001393434.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001746473.json",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001370053.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001370053.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001888886.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001557746.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001557746.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001557746.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001672688.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001770121.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001650648.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001768224.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001727196.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001326110.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0000078003.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0000310158.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0000014272.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0000200406.json",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001551152.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0000318154.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0000882095.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0000872589.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0000875320.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0000059478.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0000353278.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001114448.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001114448.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0000901832.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001121404.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001131399.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001395064.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0000875045.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001082554.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0000879169.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001682852.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001682852.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001682852.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001682852.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001682852.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001682852.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001682852.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001682852.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001682852.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001682852.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001682852.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001274152.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        },
+        {
+          "url": "https://data.sec.gov/submissions/CIK0001232524.json",
+          "status": 200,
+          "records_returned": 0,
+          "records_parsed": 0
+        }
+      ],
+      "rejection_reasons": {
+        "classifier:unclassified:item=2.01,3.01,3.03,5.01,5.02,5.03,9.01": 1,
+        "classifier:unclassified:item=2.01,7.01,9.01": 1,
+        "classifier:unclassified:item=2.02,5.02,7.01,9.01": 1,
+        "classifier:unclassified:item=5.02": 3,
+        "classifier:unclassified:item=5.02,7.01,9.01": 1,
+        "classifier:unclassified:item=5.02,9.01": 1,
+        "classifier:unclassified:item=5.07": 1,
+        "classifier:unclassified:item=7.01,9.01": 1,
+        "classifier:unclassified:item=8.01": 2,
+        "classifier:unclassified:item=8.01,9.01": 3,
+        "expected_non_event:item=2.02,9.01": 1
+      },
+      "verdict_reason": "records fetched and classifier processed them normally"
+    },
+    "clinicaltrials_gov": {
+      "source_key": "clinicaltrials_gov",
+      "verdict": "OK",
+      "tickers_attempted": 158,
+      "fetch_failures": 0,
+      "failure_samples": [],
+      "processing_failures": 0,
+      "processing_failure_samples": [],
+      "records_fetched": 1968,
+      "records_classified": 203,
+      "records_appended": 203,
+      "duplicates_skipped": 0,
+      "unclassified": 1765,
+      "expected_unclassified": 0,
+      "rejected": 1765,
+      "request_diagnostics": [],
+      "rejection_reasons": {
+        "classifier:unclassified": 1765
+      },
+      "verdict_reason": "records fetched and classifier processed them normally"
+    },
+    "fda_website": {
+      "source_key": "fda_website",
+      "verdict": "NO_DATA",
+      "tickers_attempted": 158,
+      "fetch_failures": 0,
+      "failure_samples": [],
+      "processing_failures": 0,
+      "processing_failure_samples": [],
+      "records_fetched": 0,
+      "records_classified": 0,
+      "records_appended": 0,
+      "duplicates_skipped": 0,
+      "unclassified": 0,
+      "expected_unclassified": 0,
+      "rejected": 0,
+      "request_diagnostics": [
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22daraxonrasib%22+OR+openfda.generic_name%3A%22daraxonrasib%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22avapritinib%22+OR+openfda.generic_name%3A%22avapritinib%22&limit=10",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1,
+          "records_selected": 0,
+          "zero_match_reason": "outside_date_window"
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22vepdegestrant%22+OR+openfda.generic_name%3A%22vepdegestrant%22&limit=10",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1,
+          "records_selected": 0,
+          "zero_match_reason": "outside_date_window"
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22KY-1005%22+OR+openfda.generic_name%3A%22KY-1005%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22zenocutuzumab%22+OR+openfda.generic_name%3A%22zenocutuzumab%22&limit=10",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1,
+          "records_selected": 0,
+          "zero_match_reason": "outside_date_window"
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22lifileucel%22+OR+openfda.generic_name%3A%22lifileucel%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22CDX-0159%22+OR+openfda.generic_name%3A%22CDX-0159%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22vusolimogene+oderparepvec%22+OR+openfda.generic_name%3A%22vusolimogene+oderparepvec%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22RLY-2608%22+OR+openfda.generic_name%3A%22RLY-2608%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22JANX007%22+OR+openfda.generic_name%3A%22JANX007%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22NX-2127%22+OR+openfda.generic_name%3A%22NX-2127%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22NVL-520%22+OR+openfda.generic_name%3A%22NVL-520%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22ublituximab%22+OR+openfda.generic_name%3A%22ublituximab%22&limit=10",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1,
+          "records_selected": 0,
+          "zero_match_reason": "outside_date_window"
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22naxitamab%22+OR+openfda.generic_name%3A%22naxitamab%22&limit=10",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1,
+          "records_selected": 0,
+          "zero_match_reason": "outside_date_window"
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22PYLARIFY%22+OR+openfda.generic_name%3A%22PYLARIFY%22&limit=10",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1,
+          "records_selected": 0,
+          "zero_match_reason": "outside_date_window"
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22BEAM-101%22+OR+openfda.generic_name%3A%22BEAM-101%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22RP-L201%22+OR+openfda.generic_name%3A%22RP-L201%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22casgevy%22+OR+openfda.generic_name%3A%22casgevy%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22setrusumab%22+OR+openfda.generic_name%3A%22setrusumab%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22eplontersen%22+OR+openfda.generic_name%3A%22eplontersen%22&limit=10",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1,
+          "records_selected": 0,
+          "zero_match_reason": "outside_date_window"
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22delandistrogene+moxeparvovec%22+OR+openfda.generic_name%3A%22delandistrogene+moxeparvovec%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22ataluren%22+OR+openfda.generic_name%3A%22ataluren%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22NTLA-2001%22+OR+openfda.generic_name%3A%22NTLA-2001%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22EDIT-301%22+OR+openfda.generic_name%3A%22EDIT-301%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22migalastat%22+OR+openfda.generic_name%3A%22migalastat%22&limit=10",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1,
+          "records_selected": 0,
+          "zero_match_reason": "outside_date_window"
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22rilonacept%22+OR+openfda.generic_name%3A%22rilonacept%22&limit=10",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1,
+          "records_selected": 0,
+          "zero_match_reason": "outside_date_window"
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22birtamimab%22+OR+openfda.generic_name%3A%22birtamimab%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22CTI-1601%22+OR+openfda.generic_name%3A%22CTI-1601%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22batoclimab%22+OR+openfda.generic_name%3A%22batoclimab%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22roflumilast+cream%22+OR+openfda.generic_name%3A%22roflumilast+cream%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22NKTR-358%22+OR+openfda.generic_name%3A%22NKTR-358%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22tenapanor%22+OR+openfda.generic_name%3A%22tenapanor%22&limit=10",
+          "status": 200,
+          "records_returned": 2,
+          "records_parsed": 2,
+          "records_selected": 0,
+          "zero_match_reason": "outside_date_window"
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22evorpacept%22+OR+openfda.generic_name%3A%22evorpacept%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22pimavanserin%22+OR+openfda.generic_name%3A%22pimavanserin%22&limit=10",
+          "status": 200,
+          "records_returned": 3,
+          "records_parsed": 3,
+          "records_selected": 0,
+          "zero_match_reason": "outside_date_window"
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22zuranolone%22+OR+openfda.generic_name%3A%22zuranolone%22&limit=10",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1,
+          "records_selected": 0,
+          "zero_match_reason": "outside_date_window"
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22LYBALVI%22+OR+openfda.generic_name%3A%22LYBALVI%22&limit=10",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1,
+          "records_selected": 0,
+          "zero_match_reason": "outside_date_window"
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22pitolisant%22+OR+openfda.generic_name%3A%22pitolisant%22&limit=10",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1,
+          "records_selected": 0,
+          "zero_match_reason": "outside_date_window"
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22VERVE-101%22+OR+openfda.generic_name%3A%22VERVE-101%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22VK2735%22+OR+openfda.generic_name%3A%22VK2735%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22resmetirom%22+OR+openfda.generic_name%3A%22resmetirom%22&limit=10",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1,
+          "records_selected": 0,
+          "zero_match_reason": "outside_date_window"
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22bempedoic+acid%22+OR+openfda.generic_name%3A%22bempedoic+acid%22&limit=10",
+          "status": 200,
+          "records_returned": 2,
+          "records_parsed": 2,
+          "records_selected": 0,
+          "zero_match_reason": "outside_date_window"
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22isaralgagene+civaparvovec%22+OR+openfda.generic_name%3A%22isaralgagene+civaparvovec%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22RGX-314%22+OR+openfda.generic_name%3A%22RGX-314%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22ADVM-022%22+OR+openfda.generic_name%3A%22ADVM-022%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22ARO-APOC3%22+OR+openfda.generic_name%3A%22ARO-APOC3%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22beremagene+geperpavec%22+OR+openfda.generic_name%3A%22beremagene+geperpavec%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22MACI%22+OR+openfda.generic_name%3A%22MACI%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22VAX-24%22+OR+openfda.generic_name%3A%22VAX-24%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22STRO-002%22+OR+openfda.generic_name%3A%22STRO-002%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22ALG-020572%22+OR+openfda.generic_name%3A%22ALG-020572%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22revumenib%22+OR+openfda.generic_name%3A%22revumenib%22&limit=10",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1,
+          "records_selected": 0,
+          "zero_match_reason": "outside_date_window"
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22ELVN-001%22+OR+openfda.generic_name%3A%22ELVN-001%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22PC14586%22+OR+openfda.generic_name%3A%22PC14586%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22vudalimab%22+OR+openfda.generic_name%3A%22vudalimab%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22botensilimab%22+OR+openfda.generic_name%3A%22botensilimab%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22CRG-022%22+OR+openfda.generic_name%3A%22CRG-022%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22ORIC-533%22+OR+openfda.generic_name%3A%22ORIC-533%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22rusfertide%22+OR+openfda.generic_name%3A%22rusfertide%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22GRANITE%22+OR+openfda.generic_name%3A%22GRANITE%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22HB-200%22+OR+openfda.generic_name%3A%22HB-200%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22ALLO-501A%22+OR+openfda.generic_name%3A%22ALLO-501A%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22TYRA-300%22+OR+openfda.generic_name%3A%22TYRA-300%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22IMA203%22+OR+openfda.generic_name%3A%22IMA203%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22FT576%22+OR+openfda.generic_name%3A%22FT576%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22pegcetacoplan%22+OR+openfda.generic_name%3A%22pegcetacoplan%22&limit=10",
+          "status": 200,
+          "records_returned": 2,
+          "records_parsed": 2,
+          "records_selected": 0,
+          "zero_match_reason": "outside_date_window"
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22betibeglogene+spartacus%22+OR+openfda.generic_name%3A%22betibeglogene+spartacus%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22sparsentan%22+OR+openfda.generic_name%3A%22sparsentan%22&limit=10",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1,
+          "records_selected": 0,
+          "zero_match_reason": "outside_date_window"
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22EDG-7500%22+OR+openfda.generic_name%3A%22EDG-7500%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22imetelstat%22+OR+openfda.generic_name%3A%22imetelstat%22&limit=10",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1,
+          "records_selected": 0,
+          "zero_match_reason": "outside_date_window"
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22reproxalap%22+OR+openfda.generic_name%3A%22reproxalap%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22brensocatib%22+OR+openfda.generic_name%3A%22brensocatib%22&limit=10",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1,
+          "records_selected": 0,
+          "zero_match_reason": "outside_date_window"
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22mifepristone%22+OR+openfda.generic_name%3A%22mifepristone%22&limit=10",
+          "status": 200,
+          "records_returned": 4,
+          "records_parsed": 4,
+          "records_selected": 0,
+          "zero_match_reason": "outside_date_window"
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22losmapimod%22+OR+openfda.generic_name%3A%22losmapimod%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22mitomycin%22+OR+openfda.generic_name%3A%22mitomycin%22&limit=10",
+          "status": 200,
+          "records_returned": 10,
+          "records_parsed": 10,
+          "records_selected": 0,
+          "zero_match_reason": "outside_date_window"
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22lotilaner+ophthalmic+solution%22+OR+openfda.generic_name%3A%22lotilaner+ophthalmic+solution%22&limit=10",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1,
+          "records_selected": 0,
+          "zero_match_reason": "outside_date_window"
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22eteplirsen%22+OR+openfda.generic_name%3A%22eteplirsen%22&limit=10",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1,
+          "records_selected": 0,
+          "zero_match_reason": "outside_date_window"
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22vutrisiran%22+OR+openfda.generic_name%3A%22vutrisiran%22&limit=10",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1,
+          "records_selected": 0,
+          "zero_match_reason": "outside_date_window"
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22dextromethorphan-bupropion%22+OR+openfda.generic_name%3A%22dextromethorphan-bupropion%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22ulixacaltamide%22+OR+openfda.generic_name%3A%22ulixacaltamide%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22COMP360%22+OR+openfda.generic_name%3A%22COMP360%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22PCN-101%22+OR+openfda.generic_name%3A%22PCN-101%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22daxibotulinumtoxinA%22+OR+openfda.generic_name%3A%22daxibotulinumtoxinA%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22efruxifermin%22+OR+openfda.generic_name%3A%22efruxifermin%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22TERN-501%22+OR+openfda.generic_name%3A%22TERN-501%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22BIIB122%22+OR+openfda.generic_name%3A%22BIIB122%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22vadadustat%22+OR+openfda.generic_name%3A%22vadadustat%22&limit=10",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1,
+          "records_selected": 0,
+          "zero_match_reason": "outside_date_window"
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22CABA-201%22+OR+openfda.generic_name%3A%22CABA-201%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22zelnecirnon%22+OR+openfda.generic_name%3A%22zelnecirnon%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22APG777%22+OR+openfda.generic_name%3A%22APG777%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22atacicept%22+OR+openfda.generic_name%3A%22atacicept%22&limit=10",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1,
+          "records_selected": 0,
+          "zero_match_reason": "outside_date_window"
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22REC-994%22+OR+openfda.generic_name%3A%22REC-994%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22ENHANZE%22+OR+openfda.generic_name%3A%22ENHANZE%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22AbCellera+discovery+platform%22+OR+openfda.generic_name%3A%22AbCellera+discovery+platform%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22izokibep%22+OR+openfda.generic_name%3A%22izokibep%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22AAV-RPGR%22+OR+openfda.generic_name%3A%22AAV-RPGR%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22HTX-011%22+OR+openfda.generic_name%3A%22HTX-011%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22camonsertib%22+OR+openfda.generic_name%3A%22camonsertib%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22mecbotamab+vedotin%22+OR+openfda.generic_name%3A%22mecbotamab+vedotin%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22paltusotine%22+OR+openfda.generic_name%3A%22paltusotine%22&limit=10",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1,
+          "records_selected": 0,
+          "zero_match_reason": "outside_date_window"
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22domvanalimab%22+OR+openfda.generic_name%3A%22domvanalimab%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22anito-cel%22+OR+openfda.generic_name%3A%22anito-cel%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22darovasertib%22+OR+openfda.generic_name%3A%22darovasertib%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22zanidatamab%22+OR+openfda.generic_name%3A%22zanidatamab%22&limit=10",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1,
+          "records_selected": 0,
+          "zero_match_reason": "outside_date_window"
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22vobramitamab+duocarmazine%22+OR+openfda.generic_name%3A%22vobramitamab+duocarmazine%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22zificiclib%22+OR+openfda.generic_name%3A%22zificiclib%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22vorasidenib%22+OR+openfda.generic_name%3A%22vorasidenib%22&limit=10",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1,
+          "records_selected": 0,
+          "zero_match_reason": "outside_date_window"
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22naporafenib%22+OR+openfda.generic_name%3A%22naporafenib%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22taletrectinib%22+OR+openfda.generic_name%3A%22taletrectinib%22&limit=10",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1,
+          "records_selected": 0,
+          "zero_match_reason": "outside_date_window"
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22PM359%22+OR+openfda.generic_name%3A%22PM359%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22voclosporin%22+OR+openfda.generic_name%3A%22voclosporin%22&limit=10",
+          "status": 200,
+          "records_returned": 1,
+          "records_parsed": 1,
+          "records_selected": 0,
+          "zero_match_reason": "outside_date_window"
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22SPY001%22+OR+openfda.generic_name%3A%22SPY001%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22OCU400%22+OR+openfda.generic_name%3A%22OCU400%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22bexotegrast%22+OR+openfda.generic_name%3A%22bexotegrast%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22imsidolimab%22+OR+openfda.generic_name%3A%22imsidolimab%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22bexicaserin%22+OR+openfda.generic_name%3A%22bexicaserin%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22GSBR-1290%22+OR+openfda.generic_name%3A%22GSBR-1290%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22ATI-501%22+OR+openfda.generic_name%3A%22ATI-501%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22inupadenant%22+OR+openfda.generic_name%3A%22inupadenant%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22SRP-9001%22+OR+openfda.generic_name%3A%22SRP-9001%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22ABS-101%22+OR+openfda.generic_name%3A%22ABS-101%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22SC451%22+OR+openfda.generic_name%3A%22SC451%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%224D-150%22+OR+openfda.generic_name%3A%224D-150%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22LUNAR-OTC%22+OR+openfda.generic_name%3A%22LUNAR-OTC%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22apitegromab%22+OR+openfda.generic_name%3A%22apitegromab%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22INBRX-101%22+OR+openfda.generic_name%3A%22INBRX-101%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22INBRX-101%22+OR+openfda.generic_name%3A%22INBRX-101%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22INBRX-101%22+OR+openfda.generic_name%3A%22INBRX-101%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22INBRX-101%22+OR+openfda.generic_name%3A%22INBRX-101%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22INBRX-101%22+OR+openfda.generic_name%3A%22INBRX-101%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22INBRX-101%22+OR+openfda.generic_name%3A%22INBRX-101%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22INBRX-101%22+OR+openfda.generic_name%3A%22INBRX-101%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22INBRX-101%22+OR+openfda.generic_name%3A%22INBRX-101%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22INBRX-101%22+OR+openfda.generic_name%3A%22INBRX-101%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22INBRX-101%22+OR+openfda.generic_name%3A%22INBRX-101%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22INBRX-101%22+OR+openfda.generic_name%3A%22INBRX-101%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22INBRX-101%22+OR+openfda.generic_name%3A%22INBRX-101%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22INBRX-101%22+OR+openfda.generic_name%3A%22INBRX-101%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22INBRX-101%22+OR+openfda.generic_name%3A%22INBRX-101%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22INBRX-101%22+OR+openfda.generic_name%3A%22INBRX-101%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22INBRX-101%22+OR+openfda.generic_name%3A%22INBRX-101%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22INBRX-101%22+OR+openfda.generic_name%3A%22INBRX-101%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22INBRX-101%22+OR+openfda.generic_name%3A%22INBRX-101%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22INBRX-101%22+OR+openfda.generic_name%3A%22INBRX-101%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22INBRX-101%22+OR+openfda.generic_name%3A%22INBRX-101%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22INBRX-101%22+OR+openfda.generic_name%3A%22INBRX-101%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22INBRX-101%22+OR+openfda.generic_name%3A%22INBRX-101%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22INBRX-101%22+OR+openfda.generic_name%3A%22INBRX-101%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22INBRX-101%22+OR+openfda.generic_name%3A%22INBRX-101%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22INBRX-101%22+OR+openfda.generic_name%3A%22INBRX-101%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22INBRX-101%22+OR+openfda.generic_name%3A%22INBRX-101%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22INBRX-101%22+OR+openfda.generic_name%3A%22INBRX-101%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22INBRX-101%22+OR+openfda.generic_name%3A%22INBRX-101%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22INBRX-101%22+OR+openfda.generic_name%3A%22INBRX-101%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22INBRX-101%22+OR+openfda.generic_name%3A%22INBRX-101%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22INBRX-101%22+OR+openfda.generic_name%3A%22INBRX-101%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22INBRX-101%22+OR+openfda.generic_name%3A%22INBRX-101%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22INBRX-101%22+OR+openfda.generic_name%3A%22INBRX-101%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        },
+        {
+          "url": "https://api.fda.gov/drug/drugsfda.json?search=openfda.brand_name%3A%22INBRX-101%22+OR+openfda.generic_name%3A%22INBRX-101%22&limit=10",
+          "status": 404,
+          "records_returned": 0,
+          "zero_match_reason": "no_match",
+          "records_parsed": 0,
+          "records_selected": 0
+        }
+      ],
+      "rejection_reasons": {},
+      "verdict_reason": "requests completed successfully but returned no records"
+    }
+  }
+}

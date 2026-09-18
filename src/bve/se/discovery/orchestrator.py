@@ -3,13 +3,23 @@
 from __future__ import annotations
 
 import hashlib
+import time
+from collections import Counter
 from collections.abc import Iterable, Sequence
 from datetime import datetime, timezone
 from typing import Protocol
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
+from bve.se.discovery.custody import (
+    AcquisitionCustody,
+    QueryAttemptRecord,
+    RecordMaterialization,
+    query_hash,
+    semantic_query_id,
+)
 from bve.se.discovery.query import compile_problem_queries
+from bve.se.ontology.targets import NO_SNAPSHOT_VERSION, ontology_version
 from bve.se.schemas.contracts import (
     BuyerProblemV2,
     CandidateHit,
@@ -31,6 +41,13 @@ class AdapterResult(BaseModel):
     discovered_aliases: list[str] = Field(default_factory=list)
     follow_up_queries: list[str] = Field(default_factory=list)
     source_documents: list[SourceDocument] = Field(default_factory=list)
+    #: Every record this attempt pulled down and wrote to the snapshot store, reported
+    #: even when the attempt failed. A failure that materialized bytes before dying still
+    #: owns those bytes; omitting them is what turned 94 of B7's CT.gov snapshots into
+    #: orphans that no attempt could explain.
+    materializations: list[RecordMaterialization] = Field(default_factory=list)
+    #: Transport pages consumed by this attempt, for the custody record.
+    pages_fetched: int = 0
 
 
 class SourceAdapter(Protocol):
@@ -42,10 +59,28 @@ class SourceAdapter(Protocol):
 
 
 class DiscoveryResult(BaseModel):
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+
     hits: list[CandidateHit]
     attempts: list[SearchAttempt]
     manifest: RunManifest
     source_documents: list[SourceDocument] = Field(default_factory=list)
+    #: Every attempt this run made, retries and superseded attempts included, ready to be
+    #: committed at the custody boundary before any downstream stage begins.
+    custody: AcquisitionCustody | None = None
+
+
+def _mark_superseded(records: list[QueryAttemptRecord]) -> None:
+    """Point every superseded attempt at the attempt that replaced it."""
+
+    accepted = next((r.attempt_number for r in records if r.accepted), None)
+    if accepted is None:
+        return
+    for index, record in enumerate(records):
+        if not record.accepted:
+            records[index] = record.model_copy(
+                update={"superseded_by_attempt": accepted}
+            )
 
 
 def _stable_id(prefix: str, *parts: str) -> str:
@@ -61,10 +96,17 @@ class DiscoveryOrchestrator:
         adapters: Sequence[SourceAdapter],
         *,
         max_passes: int = 8,
+        #: Query attempts permitted *per source*, not in total. A shared pool would mean the
+        #: cost of adding a source is paid by the sources already configured, which is both a
+        #: silent regression and an unattributable one. Total work therefore scales with the
+        #: number of sources, which is the honest cost of searching more places.
         max_queries: int = 5000,
         max_expansion_depth: int = 1,
         required_zero_growth_passes: int = 2,
         declared_mandatory_sources: Sequence[str] | None = None,
+        query_attempts: int = 3,
+        source_failure_threshold: int = 3,
+        retry_backoff_seconds: float = 2.0,
     ) -> None:
         if max_passes < required_zero_growth_passes:
             raise ValueError("max_passes must allow the configured zero-growth convergence window")
@@ -84,8 +126,77 @@ class DiscoveryOrchestrator:
         self.max_passes = max_passes
         self.max_queries = max_queries
         self.max_expansion_depth = max_expansion_depth
+        if query_attempts < 1:
+            raise ValueError("query_attempts must be at least 1")
+        if source_failure_threshold < 1:
+            raise ValueError("source_failure_threshold must be at least 1")
         self.required_zero_growth_passes = required_zero_growth_passes
         self.declared_mandatory_sources = list(declared_mandatory_sources or [])
+        self.query_attempts = query_attempts
+        self.source_failure_threshold = source_failure_threshold
+        self.retry_backoff_seconds = retry_backoff_seconds
+
+    def _search_with_retry(
+        self,
+        adapter: SourceAdapter,
+        query: CompiledQuery,
+        as_of_date,
+        *,
+        pass_number: int,
+    ) -> tuple["AdapterResult", int, list[QueryAttemptRecord]]:
+        """Issue one query, retrying that query rather than surrendering its source.
+
+        A timeout on a single broad facet is a transport event, not evidence that CT.gov
+        is down. The previous behaviour conflated the two: one failure blacklisted the
+        source for the rest of the run, so a slow ``MONOCLONAL_ANTIBODY`` page discarded
+        the eight modality queries queued behind it and left 527 of ~2,900 trials looking
+        like a complete corpus.
+        """
+
+        result = AdapterResult(outcome=SearchOutcome.FAILED, error="no attempt made")
+        records: list[QueryAttemptRecord] = []
+        sqid = semantic_query_id(adapter.source_name, query.query)
+        for attempt in range(1, self.query_attempts + 1):
+            error_class: str | None = None
+            started = datetime.now(timezone.utc)
+            try:
+                result = adapter.search(query, as_of_date=as_of_date)
+                if result.outcome is SearchOutcome.FAILED:
+                    error_class = "AdapterReportedFailure"
+            except Exception as exc:  # adapters are an external boundary
+                result = AdapterResult(outcome=SearchOutcome.FAILED, error=str(exc))
+                error_class = type(exc).__name__
+            # Recorded before the retry decision, so a superseded attempt's bytes stay
+            # attributable to the attempt that fetched them.
+            records.append(
+                QueryAttemptRecord(
+                    source=adapter.source_name,
+                    semantic_query_id=sqid,
+                    query_text=query.query,
+                    query_hash=query_hash(query.query),
+                    pass_number=pass_number,
+                    attempt_number=attempt,
+                    started_at=started,
+                    completed_at=datetime.now(timezone.utc),
+                    outcome=result.outcome,
+                    accepted=False,
+                    error=result.error,
+                    error_class=error_class,
+                    pages_fetched=result.pages_fetched,
+                    materializations=list(result.materializations),
+                )
+            )
+            if result.outcome is not SearchOutcome.FAILED:
+                records[-1] = records[-1].model_copy(update={"accepted": True})
+                _mark_superseded(records)
+                return result, attempt, records
+            if attempt < self.query_attempts:
+                time.sleep(self.retry_backoff_seconds * (2 ** (attempt - 1)))
+        # Every attempt failed: the last one is what the run consumed, so it is the
+        # accepted record even though it failed.
+        records[-1] = records[-1].model_copy(update={"accepted": True})
+        _mark_superseded(records)
+        return result, self.query_attempts, records
 
     def run(
         self,
@@ -99,15 +210,19 @@ class DiscoveryOrchestrator:
         queue = list(compile_problem_queries(problem))
         known_query_strings: set[str] = {query.query for query in queue}
         seen_queries: set[tuple[int, str, str]] = set()
+        queries_by_source: Counter[str] = Counter()
         seen_hits: dict[str, CandidateHit] = {}
         attempts: list[SearchAttempt] = []
         coverage: list[CoveragePass] = []
         source_status: dict[str, SearchOutcome] = {}
         failed_sources: set[str] = set()
+        unconfigured_sources: set[str] = set()
+        failed_queries: dict[str, list[str]] = {}
         snapshot_ids: list[str] = []
         source_documents: dict[str, SourceDocument] = {}
         zero_growth_passes = 0
         limit_reason: str | None = None
+        custody = AcquisitionCustody(run_id)
 
         for pass_number in range(1, self.max_passes + 1):
             pass_queries = list({query.query: query for query in queue}.values())
@@ -123,24 +238,48 @@ class DiscoveryOrchestrator:
                 for adapter in self.adapters:
                     if adapter.source_name in failed_sources:
                         continue
+                    if adapter.source_name in unconfigured_sources:
+                        continue
                     key = (pass_number, adapter.source_name, query.query)
                     if key in seen_queries:
                         continue
-                    if len(seen_queries) >= self.max_queries:
+                    # Per source, not pooled across sources. Counting every source's queries
+                    # against one shared total made the limit bind on whichever sources the
+                    # adapter loop happened to reach first, so enabling a source removed depth
+                    # from the sources already enabled: eight sources received 625 queries each
+                    # where three had received 955, and the resulting shortfall in PubMed
+                    # records looked exactly like the newly added families destroying identity
+                    # edges. A depth limit that couples sources together makes any multi-source
+                    # result unattributable to the sources in it.
+                    if queries_by_source[adapter.source_name] >= self.max_queries:
                         limit_reason = f"maximum query attempts reached ({self.max_queries})"
-                        break
+                        continue
                     seen_queries.add(key)
+                    queries_by_source[adapter.source_name] += 1
                     started = datetime.now(timezone.utc)
-                    try:
-                        result = adapter.search(query, as_of_date=problem.buyer.as_of_date)
-                    except Exception as exc:  # adapters are an external boundary
-                        result = AdapterResult(outcome=SearchOutcome.FAILED, error=str(exc))
+                    result, attempts_made, attempt_records = self._search_with_retry(
+                        adapter, query, problem.buyer.as_of_date, pass_number=pass_number
+                    )
+                    custody.extend(attempt_records)
                     previous_outcome = source_status.get(adapter.source_name)
                     source_status[adapter.source_name] = _aggregate_source_outcome(
                         previous_outcome, result.outcome
                     )
+                    if result.outcome == SearchOutcome.NOT_CONFIGURED:
+                        # Asking an unbuilt connector a second question cannot change the
+                        # answer, and B6 asked seven of them 975 times each.
+                        unconfigured_sources.add(adapter.source_name)
                     if result.outcome == SearchOutcome.FAILED:
-                        failed_sources.add(adapter.source_name)
+                        failed_queries.setdefault(adapter.source_name, []).append(query.query)
+                        # Give up on a source only once it looks systematically dead. A
+                        # source that is simply not configured fails its first few queries
+                        # and costs little; a live source that dropped one query keeps the
+                        # rest of the plan, which is the whole point of retrying per query.
+                        if (
+                            len(failed_queries[adapter.source_name])
+                            >= self.source_failure_threshold
+                        ):
+                            failed_sources.add(adapter.source_name)
                     snapshot_ids.extend(result.snapshot_ids)
                     for document in result.source_documents:
                         source_documents.setdefault(document.document_id, document)
@@ -170,6 +309,8 @@ class DiscoveryOrchestrator:
                             retrieval_date=started,
                             applicable_as_of_date=problem.buyer.as_of_date,
                             snapshot_ids=result.snapshot_ids,
+                            attempts_made=attempts_made,
+                            pages_fetched=getattr(adapter, "last_page_count", 0),
                         )
                     )
                     for follow_up in result.follow_up_queries:
@@ -224,6 +365,10 @@ class DiscoveryOrchestrator:
         else:
             limit_reason = f"maximum discovery passes reached ({self.max_passes})"
 
+        # Two different shortfalls, kept apart by outcome rather than inferred from
+        # counts. A declared source with no connector is a blind spot the operator may
+        # accept; a source that broke mid-acquisition left the corpus short an unknown
+        # number of records, so no recall measured on it is a measurement.
         mandatory_failures = [
             adapter.source_name
             for adapter in self.adapters
@@ -231,24 +376,70 @@ class DiscoveryOrchestrator:
             and source_status.get(adapter.source_name) not in {
                 SearchOutcome.SUCCESS,
                 SearchOutcome.NO_EVIDENCE_FOUND,
+                SearchOutcome.NOT_CONFIGURED,
             }
+        ]
+        mandatory_unconfigured = [
+            adapter.source_name
+            for adapter in self.adapters
+            if adapter.mandatory
+            and source_status.get(adapter.source_name) is SearchOutcome.NOT_CONFIGURED
         ]
         configured_sources = {adapter.source_name for adapter in self.adapters}
         missing_mandatory = sorted(set(self.declared_mandatory_sources) - configured_sources)
         incomplete_reasons: list[str] = []
+        fatal_reasons: list[str] = []
         if limit_reason:
             incomplete_reasons.append(limit_reason)
         if mandatory_failures:
-            incomplete_reasons.append(
-                "mandatory source failures: " + ", ".join(sorted(mandatory_failures))
+            detail = ", ".join(
+                f"{name} ({len(failed_queries.get(name, []))} queries failed)"
+                for name in sorted(mandatory_failures)
             )
-        if missing_mandatory:
+            reason = f"mandatory source failures: {detail}"
+            incomplete_reasons.append(reason)
+            # Fatal, not merely incomplete: an unknown share of the universe is missing.
+            fatal_reasons.append(reason)
+        unconfigured_mandatory = sorted(set(missing_mandatory) | set(mandatory_unconfigured))
+        if unconfigured_mandatory:
             incomplete_reasons.append(
-                "mandatory sources not configured: " + ", ".join(missing_mandatory)
+                "mandatory sources not configured: " + ", ".join(unconfigured_mandatory)
             )
         if zero_growth_passes < self.required_zero_growth_passes:
             incomplete_reasons.append("discovery did not complete two zero-growth passes")
         status = RunStatus.INCOMPLETE if incomplete_reasons else RunStatus.CONVERGED
+
+        # Pin the entity snapshot so this run can be reproduced after upstream moves.
+        # Running without one is legitimate but narrows alias expansion, so it is
+        # declared as a blind spot rather than passing silently.
+        resolved_ontology_version = ontology_version()
+        known_blind_spots: list[str] = []
+        # --allow-incomplete waives an unconfigured source, so the blind spot it waives has
+        # to survive into the manifest rather than living only in incomplete_reasons, which
+        # a converged-or-waived run is not obliged to read. A waived run must still be able
+        # to say which part of the universe it never looked at.
+        for name in unconfigured_mandatory:
+            known_blind_spots.append(
+                f"mandatory source '{name}' has no configured connector; no evidence from "
+                "it was acquired and this run cannot speak to what it would have shown"
+            )
+        if resolved_ontology_version.startswith(NO_SNAPSHOT_VERSION):
+            known_blind_spots.append(
+                "no biomedical ontology snapshot installed; target alias expansion was "
+                "limited to aliases declared on the buyer problem"
+            )
+
+        # Whichever adapter acquired through a provider can state the universe it saw.
+        # Asked for generically so a second provider-backed source needs no change here.
+        trial_universe = next(
+            (
+                provenance
+                for adapter in self.adapters
+                if (provenance := getattr(adapter, "trial_universe", None)) is not None
+            ),
+            None,
+        )
+
         manifest = RunManifest(
             run_id=run_id,
             problem_id=problem.problem_id,
@@ -259,19 +450,23 @@ class DiscoveryOrchestrator:
             code_version=code_version,
             extractor_versions=extractor_versions or {},
             normalization_version=normalization_version,
+            ontology_version=resolved_ontology_version,
+            trial_universe=trial_universe,
             source_status=source_status,
             query_log_ids=[attempt.attempt_id for attempt in attempts],
             evidence_snapshot_ids=list(dict.fromkeys(snapshot_ids)),
             coverage_passes=coverage,
-            known_blind_spots=[],
+            known_blind_spots=known_blind_spots,
             status=status,
             incomplete_reasons=incomplete_reasons,
+            fatal_reasons=fatal_reasons,
         )
         return DiscoveryResult(
             hits=list(seen_hits.values()),
             attempts=attempts,
             manifest=manifest,
             source_documents=list(source_documents.values()),
+            custody=custody,
         )
 
 
@@ -282,6 +477,12 @@ def _aggregate_source_outcome(
 
     if previous is None:
         return current
+    # A source with no connector reports the same thing to every query. It never mixes
+    # with a real outcome, so it neither degrades to PARTIAL nor decays to NO_EVIDENCE.
+    if previous == SearchOutcome.NOT_CONFIGURED and current == SearchOutcome.NOT_CONFIGURED:
+        return SearchOutcome.NOT_CONFIGURED
+    if SearchOutcome.NOT_CONFIGURED in {previous, current}:
+        return current if previous == SearchOutcome.NOT_CONFIGURED else previous
     if previous == SearchOutcome.FAILED and current == SearchOutcome.SUCCESS:
         return SearchOutcome.PARTIAL
     if previous == SearchOutcome.SUCCESS and current == SearchOutcome.FAILED:

@@ -1,0 +1,60 @@
+benchmark_id: cand_0b6c060c8d9dbb930c8a
+  entry:   Aulos Bioscience computationally-designed IL-2 antibody
+  aliases: ['AU-007']
+  track:   A  (AUTHORITY_HAS_MOLECULE_BUT_NO_MOA)
+
+benchmark_id: cand_765b1b6563ab71054a88
+  entry:   Boserolimab
+  aliases: []
+  track:   A  (AUTHORITY_HAS_MOLECULE_BUT_NO_MOA)
+
+benchmark_id: cand_266847b266c21d3ef1c0
+  entry:   Boserolimab (MK-5890)
+  aliases: ['Boserolimab', 'MK-5890']
+  track:   A  (AUTHORITY_HAS_MOLECULE_BUT_NO_MOA)
+
+benchmark_id: cand_125f2938f60329963d9c
+  entry:   Botensilimab
+  aliases: []
+  track:   A  (AUTHORITY_HAS_MOLECULE_BUT_NO_MOA)
+
+benchmark_id: cand_98391abfe8966f288362
+  entry:   Botensilimab (AGEN1181)
+  aliases: ['AGEN1181', 'Botensilimab']
+  track:   A  (AUTHORITY_HAS_MOLECULE_BUT_NO_MOA)
+
+benchmark_id: cand_f57cfd61cd68570154cd
+  entry:   Ezabenlimab (BI 754091)
+  aliases: ['BI 754091', 'Ezabenlimab', 'ezabenlimab']
+  track:   A  (AUTHORITY_HAS_MOLECULE_BUT_NO_MOA)
+
+benchmark_id: cand_b6899a7f88b806287090
+  entry:   Ivonescimab
+  aliases: ['AK112']
+  track:   A  (AUTHORITY_HAS_MOLECULE_BUT_NO_MOA)
+
+benchmark_id: cand_0ed27647e149c37cc77d
+  entry:   Ivonescimab (AK112)
+  aliases: ['AK112', 'Anti-PD-1&#x2F;Anti-VEGF Bispecific Antibody AK112', 'Anti-PD-1&#x2F;VEGF Bispecific Antibody AK112', 'Anti-PD-1/Anti-VEGF Bispecific Antibody AK112', 'Anti-PD-1/VEGF Bispecific Antibody AK112', 'Ivonescimab', 'PD-1&#x2F;VEGF Bispecific Antibody AK112', 'PD-1/VEGF Bispecific Antibody AK112']
+  track:   A  (AUTHORITY_HAS_MOLECULE_BUT_NO_MOA)
+
+benchmark_id: cand_68c8707296c9014b4579
+  entry:   Ivonescimab (AK112/SMT112)
+  aliases: ['AK 112', 'AK-112', 'AK112', 'Ivonescimab', 'SMT112']
+  track:   A  (AUTHORITY_HAS_MOLECULE_BUT_NO_MOA)
+
+benchmark_id: cand_d7fc220c7d1392d28b2b
+  entry:   Ivonescimab (SMT112 / AK112)
+  aliases: ['AK112', 'Ivonescimab', 'SMT112']
+  track:   A  (AUTHORITY_HAS_MOLECULE_BUT_NO_MOA)
+
+benchmark_id: cand_5090da67fbb776e8f667
+  entry:   Izalontamab brengitecan (BL-B01D1 / BMS-986507)
+  aliases: ['BL-B01D1', 'BMS-986507', 'Izalontamab brengitecan']
+  track:   A  (AUTHORITY_HAS_MOLECULE_BUT_NO_MOA)
+
+benchmark_id: cand_315f6c17088fa4e23648
+  entry:   Izalontamab brengitecan (Iza-Bren)
+  aliases: ['Iza-Bren', 'Izalontamab brengitecan', 'iza-bren']
+  track:   A  (AUTHORITY_HAS_MOLECULE_BUT_NO_MOA)
+

@@ -15,6 +15,7 @@ import pytest
 
 from bve.analysis.valuation_bridge import (
     SolverStatus,
+    _values_are_monotonic,
     compute_valuation_bridge,
     solve_bridged_implied_pos,
 )
@@ -27,6 +28,11 @@ CEMP_CONFIG = (
     / "pit"
     / "cemp_solithromycin_pit_2016-11-03.yaml"
 )
+
+
+def test_monotonicity_gate_rejects_internal_decrease_not_just_bad_endpoints() -> None:
+    assert _values_are_monotonic([1.0, 2.0, 3.0])
+    assert not _values_are_monotonic([1.0, 3.0, 2.0, 4.0])
 
 
 def test_bridge_nets_cash_and_debt_not_just_market_cap() -> None:
@@ -94,6 +100,9 @@ def test_solve_bridged_implied_pos_returns_solvable_within_normal_range() -> Non
     assert result.status == SolverStatus.SOLVABLE
     assert result.implied_pos == pytest.approx(0.30, abs=0.01)
     assert result.model_value_at_pos_1_millions is None
+    assert result.valuation_gap_millions == pytest.approx(
+        bridge.residual_asset_value_millions - result.model_rnpv_millions
+    )
 
 
 def test_solve_bridged_implied_pos_required_pos_above_one_has_diagnostics() -> None:
@@ -118,6 +127,11 @@ def test_solve_bridged_implied_pos_required_pos_above_one_has_diagnostics() -> N
     assert result.required_peak_sales_at_pos_1_millions is not None
     assert result.required_peak_sales_multiple is not None
     assert result.required_peak_sales_multiple > 1.0
+    assert result.required_penetration_at_pos_1 is not None
+    assert result.required_penetration_at_pos_1 > 0.10
+    assert result.unexplained_residual_millions == pytest.approx(
+        bridge.residual_asset_value_millions - result.model_rnpv_millions
+    )
 
 
 def test_solve_bridged_implied_pos_market_value_below_zero_pos_value() -> None:
@@ -130,6 +144,8 @@ def test_solve_bridged_implied_pos_market_value_below_zero_pos_value() -> None:
 
     assert result.status == SolverStatus.MARKET_VALUE_BELOW_ZERO_POS_VALUE
     assert result.implied_pos is None
+    assert result.required_peak_sales_at_pos_1_millions is not None
+    assert result.required_penetration_at_pos_1 is not None
 
 
 def test_solve_bridged_implied_pos_insufficient_inputs_for_bad_config_path() -> None:

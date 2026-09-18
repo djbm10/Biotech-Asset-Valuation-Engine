@@ -1,0 +1,46 @@
+{
+  "schema_version": "phase1_cd19_bcma_new_cohort_v2_selection_protocol_amendment_authorization_manifest_v1",
+  "manifest_version": "1.0.0",
+  "manifest_date": "2026-07-25",
+  "artifact_type": "GOVERNANCE_AMENDMENT_AUTHORIZATION",
+  "benchmark_family": "PHASE1_CD19_BCMA",
+  "benchmark_version": "2.0.0",
+  "benchmark_lineage": "NEW_COHORT_V2",
+  "cohort_version": "1.0.0",
+  "namespace": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/",
+  "governance_authority": "codex-phase1-cd19-bcma-new-cohort-v2-governance-authority-2026-07-24",
+  "overall_conclusion": "NEW_COHORT_V2_SELECTION_PROTOCOL_AMENDMENT_AUTHORIZED",
+  "authorization_report": {
+    "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_selection_protocol_amendment_authorization_v1.json",
+    "sha256": "80b577bf653206f667883ac316b82daedfdee8843639727b9a153c67a6f0e93a"
+  },
+  "required_protocol_version": "1.1.0",
+  "sealed_prior_protocol": {
+    "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol.json",
+    "protocol_version": "1.0.0",
+    "status": "SEALED_HISTORICAL_FAILED_LINEAGE"
+  },
+  "exact_files_created": [
+    "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_selection_protocol_amendment_authorization_v1.json",
+    "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_selection_protocol_amendment_authorization_v1_manifest.json"
+  ],
+  "exact_files_modified": [],
+  "prohibited_outputs": [
+    "amended protocol artifacts",
+    "Candidate Universe V2 artifacts",
+    "validation outputs",
+    "selected-cohort outputs",
+    "evidence snapshots",
+    "reviewer IDs",
+    "semantic artifacts"
+  ],
+  "next_milestone": "CREATE_NEW_COHORT_V2_SELECTION_PROTOCOL_V1_1",
+  "downstream_execution_prohibited": true,
+  "candidate_universe_v1_immutable_failed": true,
+  "candidate_universe_v2_exists": false,
+  "candidate_universe_v2_validation_may_begin": false,
+  "cohort_selection_may_begin": false,
+  "selection_seed_execution_may_begin": false,
+  "evidence_and_semantic_work_occurred": false,
+  "hash_algorithm": "SHA-256"
+}

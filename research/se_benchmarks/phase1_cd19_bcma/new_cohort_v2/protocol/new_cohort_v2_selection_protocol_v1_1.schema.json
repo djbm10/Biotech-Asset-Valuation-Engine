@@ -1,0 +1,102 @@
+{
+  "$id": "phase1_cd19_bcma_new_cohort_v2_selection_protocol_v1_1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "authorization": {
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "benchmark_controls": {},
+    "benchmark_family": {
+      "const": "PHASE1_CD19_BCMA"
+    },
+    "benchmark_lineage": {
+      "const": "NEW_COHORT_V2"
+    },
+    "benchmark_version": {
+      "const": "2.0.0"
+    },
+    "boundary_controls": {},
+    "builder_contract": {},
+    "candidate_universe_v2_schema_requirements": {},
+    "cohort_version": {
+      "const": "1.0.0"
+    },
+    "conditional_source_trigger_ledger": {
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "creation_identity": {
+      "const": "codex-phase1-cd19-bcma-new-cohort-v2-selection-protocol-v1-1-engineer-2026-07-25"
+    },
+    "eligibility_date_policy": {
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "enumeration_completeness": {
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "governance_bindings": {},
+    "identity_groups": {
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "milestone_state": {},
+    "namespace": {
+      "const": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/"
+    },
+    "negative_test_requirements": {},
+    "protocol_id": {},
+    "protocol_version": {
+      "const": "1.1.0"
+    },
+    "registry_accounting": {
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "role_separation": {},
+    "schema_version": {},
+    "serialization": {},
+    "source_class_requirement_matrix": {
+      "minItems": 7,
+      "type": "array"
+    },
+    "source_role_enforcement": {},
+    "supersession": {},
+    "v1_to_v2_requirements": {}
+  },
+  "required": [
+    "schema_version",
+    "benchmark_family",
+    "benchmark_version",
+    "benchmark_lineage",
+    "cohort_version",
+    "namespace",
+    "protocol_id",
+    "protocol_version",
+    "creation_identity",
+    "supersession",
+    "governance_bindings",
+    "benchmark_controls",
+    "authorization",
+    "eligibility_date_policy",
+    "source_class_requirement_matrix",
+    "conditional_source_trigger_ledger",
+    "enumeration_completeness",
+    "source_role_enforcement",
+    "registry_accounting",
+    "identity_groups",
+    "candidate_universe_v2_schema_requirements",
+    "v1_to_v2_requirements",
+    "role_separation",
+    "milestone_state",
+    "boundary_controls",
+    "serialization",
+    "builder_contract",
+    "negative_test_requirements"
+  ],
+  "title": "Phase 1 CD19/BCMA New Cohort V2 Selection Protocol V1.1.0",
+  "type": "object"
+}

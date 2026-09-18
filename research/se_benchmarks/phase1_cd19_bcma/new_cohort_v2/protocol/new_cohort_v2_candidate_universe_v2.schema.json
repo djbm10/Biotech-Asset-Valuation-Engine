@@ -1,0 +1,110 @@
+{
+  "$id": "phase1_cd19_bcma_new_cohort_v2_candidate_universe_v2",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "prohibited_fields": [
+    "benchmark canonical values",
+    "semantic outcomes",
+    "reviewer reasoning",
+    "scoring fields",
+    "historical semantic content",
+    "pipeline predictions",
+    "selection-seed output",
+    "reviewer IDs",
+    "evidence-corpus content"
+  ],
+  "properties": {
+    "candidate_id": {},
+    "canonical_asset_name": {},
+    "cohort_cutoff_eligible": {},
+    "cohort_selection_cutoff": {},
+    "conditional_trigger_ledger": {},
+    "conflict_resolution_rule": {},
+    "conflicting_dates": {},
+    "controlling_date_field": {},
+    "controlling_date_normalized_value": {},
+    "controlling_date_raw_value": {},
+    "controlling_event": {},
+    "controlling_source_class": {},
+    "controlling_source_record_id": {},
+    "controlling_source_role": {},
+    "controlling_source_snapshot_id": {},
+    "cutoff_comparison": {},
+    "date_authority_level": {},
+    "date_confidence": {},
+    "date_precision": {},
+    "first_eligible_date": {},
+    "first_eligible_date_concept": {},
+    "first_eligible_date_type": {},
+    "historical_semantic_inputs_used": {
+      "const": false
+    },
+    "identity_continuity_verified": {},
+    "identity_group_id": {},
+    "identity_group_type": {
+      "enum": [
+        "SINGLETON_IDENTITY_GROUP",
+        "EXACT_DUPLICATE_GROUP",
+        "ALIAS_DUPLICATE_GROUP",
+        "SPONSOR_TRANSFER_GROUP",
+        "RENAMED_PROGRAM_GROUP",
+        "TRIAL_LEVEL_CONSOLIDATION_GROUP",
+        "COMBINATION_RELATIONSHIP_GROUP",
+        "POSSIBLE_DUPLICATE_UNRESOLVED",
+        "OTHER_PROTOCOL_DEFINED_GROUP"
+      ]
+    },
+    "identity_records": {},
+    "registry_accounting": {},
+    "reviewer_id_generated": {
+      "const": false
+    },
+    "selected": {
+      "const": false
+    },
+    "selection_metadata_label": {
+      "const": "SELECTION_METADATA_NOT_BENCHMARK_TRUTH"
+    },
+    "source_completeness_classification": {},
+    "source_references": {},
+    "v1_to_v2_lineage": {}
+  },
+  "required": [
+    "first_eligible_date",
+    "first_eligible_date_concept",
+    "first_eligible_date_type",
+    "controlling_event",
+    "controlling_source_class",
+    "controlling_source_role",
+    "controlling_source_snapshot_id",
+    "controlling_source_record_id",
+    "controlling_date_field",
+    "controlling_date_raw_value",
+    "controlling_date_normalized_value",
+    "date_precision",
+    "date_authority_level",
+    "date_confidence",
+    "identity_continuity_verified",
+    "conflicting_dates",
+    "conflict_resolution_rule",
+    "cohort_selection_cutoff",
+    "cutoff_comparison",
+    "cohort_cutoff_eligible",
+    "candidate_id",
+    "canonical_asset_name",
+    "identity_records",
+    "source_references",
+    "source_completeness_classification",
+    "conditional_trigger_ledger",
+    "registry_accounting",
+    "identity_group_type",
+    "identity_group_id",
+    "v1_to_v2_lineage",
+    "selected",
+    "reviewer_id_generated",
+    "historical_semantic_inputs_used",
+    "selection_metadata_label"
+  ],
+  "title": "New Cohort V2 Candidate Universe V2 Candidate Record",
+  "type": "object"
+}

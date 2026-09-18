@@ -9,6 +9,7 @@ from pathlib import Path
 
 from bve.se.evaluation.benchmark import evaluate_reference_landscape
 from bve.se.evaluation.discovery_coverage import evaluate_discovery_coverage
+from bve.se.evaluation.ontology_gate import OntologySnapshotRequired
 from bve.se.pipeline import SESearchResult
 
 
@@ -37,13 +38,18 @@ def build_parser() -> argparse.ArgumentParser:
 def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     result = SESearchResult.model_validate_json(Path(args.result).read_text())
-    report = (
-        evaluate_reference_landscape(
-            Path(args.benchmark), result, reference_set=args.reference_set
+    try:
+        report = (
+            evaluate_reference_landscape(
+                Path(args.benchmark), result, reference_set=args.reference_set
+            )
+            if args.benchmark
+            else evaluate_discovery_coverage(result, Path(args.reference_universe))
         )
-        if args.benchmark
-        else evaluate_discovery_coverage(result, Path(args.reference_universe))
-    )
+    except OntologySnapshotRequired as exc:
+        # Exit 3 is distinct from the threshold miss (2): nothing was scored at all.
+        sys.stderr.write(f"refusing to score: {exc}\n")
+        return 3
     rendered = json.dumps(report.model_dump(mode="json"), indent=2)
     if args.output:
         Path(args.output).write_text(rendered + "\n")

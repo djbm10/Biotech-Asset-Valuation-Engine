@@ -1,0 +1,97 @@
+{
+  "authoritative_combined_result": "B8_m12all2_result.json",
+  "branch": "m11-identity-graph",
+  "code_commit": "683930c",
+  "docs_commit": "c9e6751",
+  "floor": {
+    "aliases_minted_by_any_new_family": 0,
+    "assets": "1082 -> 1623",
+    "denominators_unchanged": true,
+    "discovery": "40/40",
+    "false_pdcd1_assertions": "0/133",
+    "identification": "35/40",
+    "m11_identity_edges": "1096 -> 1096 (0 missing, 0 new)",
+    "pdl1_traps_falsely_asserted": 0,
+    "strict_M8": "81 -> 84"
+  },
+  "generated_at": "2026-09-13T14:32:25.648440+00:00",
+  "key_artifacts": {
+    "B8_M11_score.json": {
+      "bytes": 6591,
+      "sha256": "e3d78506262f694756ec9272990ab2107a3da242acc17160a5a8f03f24a0448a"
+    },
+    "B8_M12all2_score.json": {
+      "bytes": 6575,
+      "sha256": "7d6d9b3abb069dfc8c094b95ca16ce19fef979ff986abbcaa2266bd4fbd36365"
+    },
+    "B8_decision_log.jsonl": {
+      "bytes": 65053,
+      "sha256": "bd353d242368a95f8894390246a4cfb2af99e83300ac505dab8d9588d26effce"
+    },
+    "B8_m12all2_result.json": {
+      "bytes": 210647863,
+      "sha256": "4ca49d26584779ddf748b1e1d4661a2977a667e18b1b32bd47a25bfd5c3558f5"
+    },
+    "B8_m12all_result.CONFOUNDED.json": {
+      "bytes": 1535,
+      "sha256": "12659635dc8a266a0de5b81dc15aae40d02e8020a4fa33123da99471005fc829"
+    },
+    "M12_HANDOFF.md": {
+      "bytes": 10641,
+      "sha256": "7758002d2e6615dcd96d6fafe0e2367e139a96a433f5276c21cc534fc3426fa5"
+    },
+    "M12_RECOVERY_STATE.json": {
+      "bytes": 22957,
+      "sha256": "7bcf9911c1bc2808a2702688eda03ed7e199b510d2af9b546383b1c9a00c5607"
+    },
+    "M12_combined_source_index.yaml": {
+      "bytes": 2666910,
+      "sha256": "4570d6792468cb61cf9fd7ab59a5620006055084d17ecefe9abcb0399c774186"
+    },
+    "M12_source_coverage_v2.json": {
+      "bytes": 11429,
+      "sha256": "3a731bb0c65eaec2d2dea54ac99798fbfc8c7512ae03ceb79975b47328cc1171"
+    }
+  },
+  "milestone": "M12",
+  "mutated_any_sealed_artifact": false,
+  "reacquired_anything": false,
+  "schema_version": "m12_provenance_v1",
+  "seal_verification": {
+    "artifacts_checked": 63,
+    "method": "sha256 of every artifact listed in every M12_*seal*.json, recomputed from disk",
+    "mismatches": 0,
+    "missing": 0
+  },
+  "seals": {
+    "M12_aacr_bulk_shadow_seal_v1.json": {
+      "artifacts_sealed": 12,
+      "sha256": "62836d76b8c392d05fd64f4834db162ac5a3ab5f860d7c97bdc3f8698163dac9"
+    },
+    "M12_combined_evaluation_seal_v1.json": {
+      "artifacts_sealed": 14,
+      "sha256": "76328d92345929e3e266805d35164831b6c68d6a484415c193e3897b8f93aee8"
+    },
+    "M12_conference_shadow_seal_v1.json": {
+      "artifacts_sealed": 16,
+      "sha256": "983de203cb0b1025a4879d8e39d5a9623a73fdfe4e9a55188e772b2927159a90"
+    },
+    "M12_press_release_shadow_seal_v1.json": {
+      "artifacts_sealed": 13,
+      "sha256": "8ad1aa2ae933688e0b31d4ec1d69a78eaccb2d88b4616aa4e17039c9d56c54f7"
+    },
+    "M12_sec_edgar_shadow_seal_v1.json": {
+      "artifacts_sealed": 8,
+      "sha256": "3e572ca0f3c3dd1beeb511f4580f230f859be2e2de0ac4d699978be28a050e25"
+    }
+  },
+  "staging_root": "/home/djmann/staging/pdcd1_baseline",
+  "status": "FROZEN",
+  "voided_combined_result": {
+    "artifact": "B8_m12all_result.json",
+    "note": "Retained as evidence of the pooled-query-budget defect it exposed. Never cite as an M12 result.",
+    "record": "B8_m12all_result.CONFOUNDED.json",
+    "status": "CONFOUNDED_VOID"
+  },
+  "why_staging_is_outside_the_repo": "The replay results are 150-210 MB each. They belong in storage, not in git. This manifest is the committed, verifiable pointer to them."
+}

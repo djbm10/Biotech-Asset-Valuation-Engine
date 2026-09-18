@@ -1,0 +1,21 @@
+{
+  "archive": "snapshot.tar.gz",
+  "sha256": "7a6b509d42de915a0e0e8e5dfc054c23ffab4e6a3cfa5409acda1a45fae00923",
+  "byte_length": 6903487,
+  "raw_source_file": "source/current_page_1.json",
+  "raw_source_sha256": "4d1a3de5cb3d9366380a80f36ae197e5b2004a5642f52c72cd1af8f57054b85c",
+  "raw_source_byte_length": 34999541,
+  "storage_status": "NOT_YET_DURABLY_STORED_EXTERNALLY",
+  "current_location": "local disk only, inside the repository working tree at this snapshot's export/ and source/ directories; not committed to git as a blob and not dependent on /tmp or a sandbox",
+  "durable_storage_prerequisites_checked_at": "2026-08-06",
+  "durable_storage_prerequisites_found": {
+    "git_lfs_installed_and_configured": false,
+    "git_lfs_check_output": "fatal: 'lfs' appears to be a git command, but we were not able to execute it. Maybe git-lfs is broken?",
+    "gitattributes_present": false,
+    "github_releases_or_external_artifact_convention_present": false,
+    "ci_upload_artifact_usage_found": true,
+    "ci_upload_artifact_note": "actions/upload-artifact is used in this repo's workflows for ephemeral, workflow-run-scoped CI artifacts only; it is not a durable, addressable long-term store and was not treated as satisfying the release-asset requirement"
+  },
+  "decision": "Per explicit instruction, the raw source capture and portable archive were not committed as ordinary Git blobs because neither Git LFS nor a GitHub Releases / external artifact storage convention exists in this repository. They remain on local disk pending a decision on which durable storage mechanism to adopt. This file and the sealed manifest.json/receipt.json are committed so the archive's identity (SHA-256, byte length) is preserved in git regardless of where the bytes ultimately live.",
+  "note_on_finalized_files": "manifest.json and receipt.json were left untouched to avoid invalidating their existing hash bindings; this file is a separate, non-canonical companion record and is not part of receipt.json's artifact bindings."
+}

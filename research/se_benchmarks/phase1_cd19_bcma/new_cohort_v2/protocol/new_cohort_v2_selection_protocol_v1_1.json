@@ -1,0 +1,680 @@
+{
+  "authorization": {
+    "candidate_universe_v2_construction_authorized": false,
+    "candidate_universe_v2_validation_authorized": false,
+    "cohort_selection_authorized": false,
+    "evidence_acquisition_authorized": false,
+    "release_authorized": false,
+    "reviewer_id_generation_authorized": false,
+    "selection_seed_execution_authorized": false,
+    "semantic_review_authorized": false
+  },
+  "benchmark_controls": {
+    "clean_baseline_v1_scope_status": "UNIDENTIFIABLE",
+    "cohort_selection_cutoff": "2026-07-24T23:59:59Z",
+    "cohort_size": 15,
+    "future_evidence_cutoff": "2026-07-24T23:59:59Z",
+    "global_phase_manifest_status": "INVALID",
+    "historical_75_asset_profile_status": "NOT_CONFIRMED",
+    "historical_batch_05_status": "IRRECOVERABLY_UNVERIFIABLE",
+    "historical_custody_status": "FAIL_HISTORICAL_DIRTY_DIFF_UNRECOVERABLE",
+    "historical_equivalence": false,
+    "replaces_clean_baseline_v1": false,
+    "replaces_historical_batch_05": false
+  },
+  "benchmark_family": "PHASE1_CD19_BCMA",
+  "benchmark_lineage": "NEW_COHORT_V2",
+  "benchmark_version": "2.0.0",
+  "boundary_controls": {
+    "candidate_identities_embedded": false,
+    "candidate_records_embedded": false,
+    "candidate_universe_v2_exists": false,
+    "evidence_acquisition_occurred": false,
+    "historical_semantic_inputs_used": false,
+    "reviewer_id_generated": false,
+    "selection_occurred": false,
+    "selection_seed_executed": false,
+    "semantic_review_occurred": false
+  },
+  "builder_contract": {
+    "no_partial_outputs": true,
+    "offline": true,
+    "refuse_overwrites": true,
+    "reject_candidate_identities": true,
+    "reject_semantic_content": true,
+    "remove_staging_after_failure": true,
+    "temporary_staging": true,
+    "verify_all_governing_hashes": true,
+    "verify_protocol_v1_unchanged": true
+  },
+  "candidate_universe_v2_schema_requirements": {
+    "cutoff_recomputation_fields_required": true,
+    "fixed_fields": {
+      "historical_semantic_inputs_used": false,
+      "reviewer_id_generated": false,
+      "selected": false
+    },
+    "lineage_fields_required": [
+      "v1_input_status",
+      "v1_to_v2_change_artifact",
+      "v1_preserved",
+      "v2_rebuilt_from_source_records"
+    ],
+    "prohibited_content": [
+      "benchmark canonical values",
+      "semantic outcomes",
+      "reviewer reasoning",
+      "scoring fields",
+      "historical semantic content",
+      "pipeline predictions",
+      "selection-seed output",
+      "reviewer IDs",
+      "evidence-corpus content"
+    ],
+    "required_date_fields": [
+      "first_eligible_date",
+      "first_eligible_date_concept",
+      "first_eligible_date_type",
+      "controlling_event",
+      "controlling_source_class",
+      "controlling_source_role",
+      "controlling_source_snapshot_id",
+      "controlling_source_record_id",
+      "controlling_date_field",
+      "controlling_date_raw_value",
+      "controlling_date_normalized_value",
+      "date_precision",
+      "date_authority_level",
+      "date_confidence",
+      "identity_continuity_verified",
+      "conflicting_dates",
+      "conflict_resolution_rule",
+      "cohort_selection_cutoff",
+      "cutoff_comparison",
+      "cohort_cutoff_eligible"
+    ],
+    "required_identity_group_type": true,
+    "required_registry_accounting": true,
+    "required_source_role_fields": [
+      "source_class",
+      "source_role",
+      "authorization_status",
+      "trigger_id",
+      "identity_authority",
+      "date_authority",
+      "eligibility_authority",
+      "enumeration_authority",
+      "candidate_discovery_authorized",
+      "first_eligible_date_authorized",
+      "provenance_references"
+    ],
+    "required_trigger_fields": [
+      "trigger_id",
+      "trigger_type",
+      "trigger_condition",
+      "trigger_result",
+      "source_class_required",
+      "query_or_retrieval_action",
+      "action_status",
+      "source_records_returned",
+      "resolution_status",
+      "remaining_defect",
+      "eligibility_consequence"
+    ],
+    "source_completeness_classification_required": true
+  },
+  "cohort_version": "1.0.0",
+  "conditional_source_trigger_ledger": {
+    "execution_rule": "Every triggered conditional source is executed completely; unavailable or unresolved sources fail closed or create a completeness blocker.",
+    "machine_readable": true,
+    "per_candidate_fields": [
+      "trigger_id",
+      "trigger_type",
+      "trigger_condition",
+      "trigger_result",
+      "source_class_required",
+      "query_or_retrieval_action",
+      "action_status",
+      "source_records_returned",
+      "resolution_status",
+      "remaining_defect",
+      "eligibility_consequence"
+    ],
+    "required_trigger_types": [
+      "IDENTITY_AMBIGUITY",
+      "STABLE_IDENTIFIER_MISSING",
+      "FIRST_ELIGIBLE_DATE_MISSING",
+      "FIRST_ELIGIBLE_DATE_CONFLICT",
+      "SPONSOR_TRANSFER_AMBIGUITY",
+      "RENAME_AMBIGUITY",
+      "REGISTRY_VERSION_AMBIGUITY",
+      "LINEAGE_AMBIGUITY",
+      "COMBINATION_AMBIGUITY",
+      "QUALIFYING_APPROVED_ASSET_WITHOUT_REGISTRY_COVERAGE",
+      "REGULATORY_IDENTITY_CONFLICT",
+      "SOURCE_VERSION_UNVERIFIABLE"
+    ]
+  },
+  "creation_identity": "codex-phase1-cd19-bcma-new-cohort-v2-selection-protocol-v1-1-engineer-2026-07-25",
+  "current_milestone": "CREATE_NEW_COHORT_V2_SELECTION_PROTOCOL_V1_1",
+  "eligibility_date_policy": {
+    "conflict_rule": {
+      "evaluation_order": [
+        "source authorization",
+        "public availability",
+        "unique asset identification",
+        "identity continuity",
+        "source authority",
+        "date precision",
+        "reproducibility",
+        "version-specific content"
+      ],
+      "selection_rule": "Use the earliest date only among sources independently satisfying all eligibility requirements; never choose earliest raw date alone.",
+      "unresolved": {
+        "cohort_cutoff_eligible": false,
+        "date_confidence": "UNRESOLVED",
+        "discretionary_override": false,
+        "final_universe_disposition": "DATE_AMBIGUITY_EXCLUDED"
+      }
+    },
+    "continuity_rule": "Transfers, acquisitions, and renames do not reset eligibility when identity continuity is verified.",
+    "controlling_date_hierarchy": [
+      {
+        "event": "FIRST_PUBLIC_INTERVENTION_APPEARANCE",
+        "priority": 1,
+        "required_fields": [
+          "registry_version_identity",
+          "public_posting_date",
+          "exact_intervention_record",
+          "stable_asset_identity",
+          "identity_continuity",
+          "preserved_source_bytes"
+        ],
+        "rule": "Use the first public date of the registry version containing the uniquely identifiable qualifying intervention; never use an older trial posting when the intervention appears only in a later version."
+      },
+      {
+        "event": "EARLIER_AUTHORITATIVE_PUBLIC_ELIGIBILITY_RECORD",
+        "priority": 2,
+        "required_fields": [
+          "public_availability",
+          "unique_identity",
+          "scope_proof",
+          "date_authority",
+          "authorization_for_eligibility",
+          "reproducibility",
+          "identity_continuity"
+        ],
+        "rule": "An earlier authorized source supersedes only if it publicly and uniquely identifies the same asset, proves scope, has sufficient authority, preserved provenance, and passes continuity; choose the earliest qualifying source."
+      },
+      {
+        "event": "APPROVED_ASSET_WITHOUT_REGISTRY_COVERAGE",
+        "priority": 3,
+        "rule": "When the mechanical approved/authorized-without-registry trigger fires, use the authoritative regulatory publication or effective date only if all eligibility conditions are met."
+      }
+    ],
+    "definition": "The earliest reproducible public date on which an authorized neutral source uniquely identifies the asset and demonstrates that it satisfies the New Cohort V2 candidate-universe requirements.",
+    "first_eligible_date_concept": "EARLIEST_VERIFIED_PUBLIC_ELIGIBILITY_DATE",
+    "non_controlling_dates": [
+      "ACTUAL_STUDY_START",
+      "ESTIMATED_STUDY_START",
+      "REGISTRY_SUBMISSION",
+      "REGISTRY_PROCESSING",
+      "LAST_UPDATE",
+      "SPONSOR_TRANSFER",
+      "ACQUISITION",
+      "RENAME"
+    ],
+    "partial_date_rule": {
+      "DAY": "Use exact date.",
+      "MONTH": "Normalize to final calendar day of month.",
+      "UNKNOWN": "Missing or invalid cannot establish eligibility.",
+      "YEAR": "Normalize to December 31 of year.",
+      "allowed_precision": [
+        "DAY",
+        "MONTH",
+        "YEAR",
+        "UNKNOWN"
+      ],
+      "cutoff_rule": "Compare the latest-possible normalized date to the UTC cutoff; it must be on or before the cutoff."
+    },
+    "required_candidate_fields": [
+      "first_eligible_date",
+      "first_eligible_date_concept",
+      "first_eligible_date_type",
+      "controlling_event",
+      "controlling_source_class",
+      "controlling_source_role",
+      "controlling_source_snapshot_id",
+      "controlling_source_record_id",
+      "controlling_date_field",
+      "controlling_date_raw_value",
+      "controlling_date_normalized_value",
+      "date_precision",
+      "date_authority_level",
+      "date_confidence",
+      "identity_continuity_verified",
+      "conflicting_dates",
+      "conflict_resolution_rule",
+      "cohort_selection_cutoff",
+      "cutoff_comparison",
+      "cohort_cutoff_eligible"
+    ],
+    "required_conditions": [
+      "asset uniquely identifiable",
+      "mechanical universe scope satisfied",
+      "qualifying information publicly available",
+      "date and source independently reproducible from preserved source material"
+    ]
+  },
+  "enumeration_completeness": {
+    "clinicaltrials_gov_alone_sufficient": false,
+    "enumeration_completeness_model": "MODEL_C_CONDITIONAL_SOURCE_EXPANSION",
+    "permitted_conclusions": [
+      "COMPLETE_UNDER_MODEL_C_CONDITIONAL_SOURCE_EXPANSION",
+      "INCOMPLETE_MANDATORY_BASE_ENUMERATION",
+      "INCOMPLETE_TRIGGER_EVALUATION",
+      "INCOMPLETE_CONDITIONAL_SOURCE_EXECUTION",
+      "INCOMPLETE_APPROVED_ASSET_COVERAGE",
+      "INCOMPLETE_SOURCE_UNION_OR_DEDUPLICATION",
+      "INCOMPLETE_MATERIAL_IDENTITY_OR_DATE_RESOLUTION"
+    ],
+    "requirements": [
+      "complete ClinicalTrials.gov base enumeration",
+      "complete every mandatory query and page",
+      "evaluate every conditional trigger",
+      "execute every triggered source class",
+      "complete approved-asset non-registry discovery",
+      "account for all discovered records",
+      "deduplicate all source unions",
+      "report every unresolved material gap",
+      "no selective source expansion based on results",
+      "omit no required conditional source"
+    ]
+  },
+  "governance_authority": "codex-phase1-cd19-bcma-new-cohort-v2-governance-authority-2026-07-24",
+  "governance_bindings": {
+    "amendment_manifest": {
+      "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_selection_protocol_amendment_authorization_v1_manifest.json",
+      "sha256": "e2ea969eae3d94b81db32a3a319d92a748853db495dd85db5d01a5c7e3a8516b"
+    },
+    "amendment_report": {
+      "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_selection_protocol_amendment_authorization_v1.json",
+      "sha256": "80b577bf653206f667883ac316b82daedfdee8843639727b9a153c67a6f0e93a"
+    },
+    "governance_manifest": {
+      "path": "research/se_benchmarks/phase1_cd19_bcma/governance/new_cohort_v2_authorization_manifest_2026-07-24.json",
+      "sha256": "316cf10922eca92045abd4eb587df720435ea41ae59cde44d0b922bdaac9a6d1"
+    },
+    "governance_report": {
+      "path": "research/se_benchmarks/phase1_cd19_bcma/governance/new_cohort_v2_authorization_2026-07-24.json",
+      "sha256": "2c45ad07e394cec6f9a11793102caebc7bdc20e04ec6423e819c023b9fd3c1e5"
+    },
+    "milestone_manifest": {
+      "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_candidate_universe_milestone_authorization_manifest.json",
+      "sha256": "bde86db3e889a2110d3616b81093817b57197588391e8a0b34634baf8cb7da16"
+    },
+    "milestone_report": {
+      "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/governance/new_cohort_v2_candidate_universe_milestone_authorization.json",
+      "sha256": "a2acf6c26895055f048f7a207f3da528f62da5a83f6f1ab8d0ea2d66553350ec"
+    },
+    "protocol_v1": {
+      "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol.json",
+      "sha256": "fda4f7a686b96bec0eed406a914cdf66638334b516d813ccf63e97ced60fb042"
+    },
+    "protocol_v1_manifest": {
+      "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol_manifest.json",
+      "sha256": "5eb3da48fec9747607dff064472e18464afb00903196167221b04b6c9e0288fd"
+    },
+    "protocol_v1_schema": {
+      "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/protocol/new_cohort_v2_selection_protocol.schema.json",
+      "sha256": "af11fc000dfae821b6b9128fee70cac831c3461cea5a4ebd0cabb97254ff43a9"
+    },
+    "universe_v1_manifest": {
+      "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_manifest.json",
+      "sha256": "e9d90f740dc1b4ddab8c768e8fd5bcc72d56f1730c9275aa60b4b1c7bc4d72e5"
+    },
+    "universe_v1_report": {
+      "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_report.json",
+      "sha256": "c8edb9114faa316f1b76be73612c9d17b5d4c00ceca9fe9ea1cba8b0075f9930"
+    },
+    "universe_v1_validation": {
+      "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation.json",
+      "sha256": "1857287464205b3bc44ab250a620adb4cbce053ee2e6154f37286c3a79ab7858"
+    },
+    "universe_v1_validation_manifest": {
+      "path": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/candidate_universe/new_cohort_v2_candidate_universe_validation_manifest.json",
+      "sha256": "9dc7cda9c8c50ff3588f83744a996db4bc58f919777227f4c0338de45c70bd0f"
+    }
+  },
+  "identity_groups": {
+    "controlled_types": [
+      "SINGLETON_IDENTITY_GROUP",
+      "EXACT_DUPLICATE_GROUP",
+      "ALIAS_DUPLICATE_GROUP",
+      "SPONSOR_TRANSFER_GROUP",
+      "RENAMED_PROGRAM_GROUP",
+      "TRIAL_LEVEL_CONSOLIDATION_GROUP",
+      "COMBINATION_RELATIONSHIP_GROUP",
+      "POSSIBLE_DUPLICATE_UNRESOLVED",
+      "OTHER_PROTOCOL_DEFINED_GROUP"
+    ],
+    "singleton_is_duplicate_prohibited": true,
+    "terminology": [
+      "identity_group_count",
+      "singleton_identity_group_count",
+      "multi_member_duplicate_group_count",
+      "duplicate_member_count",
+      "duplicate_exclusion_count",
+      "ambiguous_duplicate_group_count"
+    ]
+  },
+  "milestone_state": {
+    "current_milestone": "CREATE_NEW_COHORT_V2_SELECTION_PROTOCOL_V1_1",
+    "next_permitted_milestone": "BUILD_NEW_COHORT_V2_CANDIDATE_UNIVERSE_V2",
+    "separate_transition_required": true
+  },
+  "namespace": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/",
+  "negative_test_requirements": {
+    "accepted_malformed_input": 0,
+    "applicable": 53,
+    "builder_enforcement_gap": 0,
+    "passed": 53
+  },
+  "next_permitted_milestone": "BUILD_NEW_COHORT_V2_CANDIDATE_UNIVERSE_V2",
+  "protocol_id": "PHASE1_CD19_BCMA_NEW_COHORT_V2_SELECTION_PROTOCOL",
+  "protocol_status": "ACTIVE_FOR_FUTURE_UNIVERSE_RECONSTRUCTION_ONLY",
+  "protocol_version": "1.1.0",
+  "registry_accounting": {
+    "equations": [
+      "registry_records = records_producing_discoveries + records_producing_no_discovery",
+      "discovery_records = sum(discovery_children_per_registry_record)"
+    ],
+    "exactly_one_accounting_record_per_registry_record": true,
+    "required_fields": [
+      "registry_record_id",
+      "snapshot_id",
+      "query_id",
+      "registry_title",
+      "interventions",
+      "record_version",
+      "disposition",
+      "discovery_records_produced",
+      "no_discovery_reason",
+      "merge_or_duplicate_relationship",
+      "builder_rule",
+      "exact_provenance"
+    ],
+    "unexplained_difference_must_equal": 0
+  },
+  "role_separation": {
+    "engineer_identity": "codex-phase1-cd19-bcma-new-cohort-v2-selection-protocol-v1-1-engineer-2026-07-25",
+    "required_distinct_identities": [
+      "protocol_v1_1_engineer",
+      "protocol_v1_1_independent_validator_or_governance_transition_authority",
+      "candidate_universe_v2_builder",
+      "candidate_universe_v2_independent_validator",
+      "cohort_selection_builder",
+      "cohort_selection_validator"
+    ],
+    "self_validation_prohibited": true
+  },
+  "schema_version": "phase1_cd19_bcma_new_cohort_v2_selection_protocol_v1_1",
+  "serialization": {
+    "encoding": "UTF-8",
+    "final_newline": true,
+    "key_order": "lexicographic",
+    "line_endings": "LF",
+    "network_access": false,
+    "paths": "repository-relative POSIX",
+    "timestamps_in_deterministic_projection": false,
+    "unicode_normalization": "NFC"
+  },
+  "source_class_requirement_matrix": [
+    {
+      "authorization_status": "MANDATORY_ENUMERATION_SOURCE",
+      "candidate_discovery_authorized": true,
+      "date_authority": "AUTHORIZED_ONLY_FOR_DECLARED_ROLE",
+      "eligibility_authority": "AUTHORIZED_ONLY_FOR_DECLARED_ROLE",
+      "enumeration_authority": "AUTHORIZED_ONLY_FOR_DECLARED_FRAME",
+      "first_eligible_date_authorized": true,
+      "identity_authority": "AUTHORIZED_ONLY_WITH_PRESERVED_PROVENANCE",
+      "mechanical_triggers": [
+        "ALWAYS"
+      ],
+      "provenance_requirements": [
+        "source_snapshot_id",
+        "source_record_id",
+        "source_sha256",
+        "public_date",
+        "retrieval_action",
+        "identity_continuity"
+      ],
+      "roles": [
+        "BASE_CANDIDATE_ENUMERATION",
+        "INTERVENTION_IDENTITY",
+        "REGISTRY_VERSION_LINEAGE",
+        "FIRST_PUBLIC_INTERVENTION_DATE",
+        "TRIAL_TO_ASSET_DISCOVERY"
+      ],
+      "source_class": "clinical_trial_registries",
+      "status": "MANDATORY_ENUMERATION_SOURCE"
+    },
+    {
+      "authorization_status": "CONDITIONAL_MANDATORY_SOURCE",
+      "candidate_discovery_authorized": true,
+      "date_authority": "AUTHORIZED_ONLY_FOR_DECLARED_ROLE",
+      "eligibility_authority": "AUTHORIZED_ONLY_FOR_DECLARED_ROLE",
+      "enumeration_authority": "AUTHORIZED_ONLY_FOR_DECLARED_FRAME",
+      "first_eligible_date_authorized": true,
+      "identity_authority": "AUTHORIZED_ONLY_WITH_PRESERVED_PROVENANCE",
+      "mechanical_triggers": [
+        "QUALIFYING_APPROVED_ASSET_WITHOUT_REGISTRY_COVERAGE",
+        "REGULATORY_IDENTITY_CONFLICT",
+        "FIRST_ELIGIBLE_DATE_MISSING",
+        "FIRST_ELIGIBLE_DATE_CONFLICT",
+        "LINEAGE_AMBIGUITY"
+      ],
+      "provenance_requirements": [
+        "source_snapshot_id",
+        "source_record_id",
+        "source_sha256",
+        "public_date",
+        "retrieval_action",
+        "identity_continuity"
+      ],
+      "roles": [
+        "SUPPLEMENTAL_CANDIDATE_DISCOVERY",
+        "IDENTITY_CORROBORATION",
+        "REGULATORY_STATUS",
+        "ELIGIBILITY_DATE_ESTABLISHMENT",
+        "PRODUCT_LINEAGE_RESOLUTION"
+      ],
+      "source_class": "regulatory_databases",
+      "status": "CONDITIONAL_MANDATORY_SOURCE"
+    },
+    {
+      "authorization_status": "CONDITIONAL_MANDATORY_SOURCE",
+      "candidate_discovery_authorized": true,
+      "date_authority": "AUTHORIZED_ONLY_FOR_DECLARED_ROLE",
+      "eligibility_authority": "AUTHORIZED_ONLY_FOR_DECLARED_ROLE",
+      "enumeration_authority": "AUTHORIZED_ONLY_FOR_DECLARED_FRAME",
+      "first_eligible_date_authorized": true,
+      "identity_authority": "AUTHORIZED_ONLY_WITH_PRESERVED_PROVENANCE",
+      "mechanical_triggers": [
+        "STABLE_IDENTIFIER_MISSING",
+        "SPONSOR_TRANSFER_AMBIGUITY",
+        "RENAME_AMBIGUITY",
+        "IDENTITY_AMBIGUITY",
+        "COMBINATION_AMBIGUITY"
+      ],
+      "provenance_requirements": [
+        "source_snapshot_id",
+        "source_record_id",
+        "source_sha256",
+        "public_date",
+        "retrieval_action",
+        "identity_continuity"
+      ],
+      "roles": [
+        "IDENTITY_RESOLUTION",
+        "ALIAS_RESOLUTION",
+        "SPONSOR_LINEAGE",
+        "DATE_CORROBORATION",
+        "CONDITIONAL_CANDIDATE_DISCOVERY"
+      ],
+      "source_class": "official_sponsor_pipelines",
+      "status": "CONDITIONAL_MANDATORY_SOURCE"
+    },
+    {
+      "authorization_status": "CONDITIONAL_MANDATORY_SOURCE",
+      "candidate_discovery_authorized": true,
+      "date_authority": "AUTHORIZED_ONLY_FOR_DECLARED_ROLE",
+      "eligibility_authority": "AUTHORIZED_ONLY_FOR_DECLARED_ROLE",
+      "enumeration_authority": "AUTHORIZED_ONLY_FOR_DECLARED_FRAME",
+      "first_eligible_date_authorized": true,
+      "identity_authority": "AUTHORIZED_ONLY_WITH_PRESERVED_PROVENANCE",
+      "mechanical_triggers": [
+        "IDENTITY_AMBIGUITY",
+        "REGULATORY_IDENTITY_CONFLICT",
+        "FIRST_ELIGIBLE_DATE_CONFLICT",
+        "LINEAGE_AMBIGUITY"
+      ],
+      "provenance_requirements": [
+        "source_snapshot_id",
+        "source_record_id",
+        "source_sha256",
+        "public_date",
+        "retrieval_action",
+        "identity_continuity"
+      ],
+      "roles": [
+        "IDENTITY_RESOLUTION",
+        "ADMINISTRATIVE_CORROBORATION",
+        "ELIGIBILITY_DATE_RESOLUTION",
+        "CONDITIONAL_SUPPLEMENTAL_DISCOVERY"
+      ],
+      "source_class": "government_or_institutional_registries",
+      "status": "CONDITIONAL_MANDATORY_SOURCE"
+    },
+    {
+      "authorization_status": "OPTIONAL_SUPPLEMENTAL_ENUMERATION_SOURCE",
+      "candidate_discovery_authorized": true,
+      "date_authority": "AUTHORIZED_ONLY_FOR_DECLARED_ROLE",
+      "eligibility_authority": "AUTHORIZED_ONLY_FOR_DECLARED_ROLE",
+      "enumeration_authority": "AUTHORIZED_ONLY_FOR_DECLARED_FRAME",
+      "first_eligible_date_authorized": false,
+      "identity_authority": "AUTHORIZED_ONLY_WITH_PRESERVED_PROVENANCE",
+      "mechanical_triggers": [
+        "PREDECLARED_OPTIONAL_SOURCE_FRAME"
+      ],
+      "provenance_requirements": [
+        "source_snapshot_id",
+        "source_record_id",
+        "source_sha256",
+        "public_date",
+        "retrieval_action",
+        "identity_continuity"
+      ],
+      "roles": [
+        "SUPPLEMENTAL_ENUMERATION"
+      ],
+      "source_class": "structured_scientific_registries",
+      "status": "OPTIONAL_SUPPLEMENTAL_ENUMERATION_SOURCE"
+    },
+    {
+      "authorization_status": "IDENTITY_CORROBORATION_ONLY",
+      "candidate_discovery_authorized": false,
+      "date_authority": "AUTHORIZED_ONLY_FOR_DECLARED_ROLE",
+      "eligibility_authority": "AUTHORIZED_ONLY_FOR_DECLARED_ROLE",
+      "enumeration_authority": "AUTHORIZED_ONLY_FOR_DECLARED_FRAME",
+      "first_eligible_date_authorized": false,
+      "identity_authority": "AUTHORIZED_ONLY_WITH_PRESERVED_PROVENANCE",
+      "mechanical_triggers": [
+        "IDENTITY_AMBIGUITY",
+        "LINEAGE_AMBIGUITY"
+      ],
+      "provenance_requirements": [
+        "source_snapshot_id",
+        "source_record_id",
+        "source_sha256",
+        "public_date",
+        "retrieval_action",
+        "identity_continuity"
+      ],
+      "roles": [
+        "ALIAS_CORROBORATION",
+        "CONSTRUCT_IDENTITY",
+        "SPONSOR_LINEAGE",
+        "IDENTITY_CONTINUITY"
+      ],
+      "source_class": "patent_databases",
+      "status": "IDENTITY_CORROBORATION_ONLY"
+    },
+    {
+      "authorization_status": "DATE_CORROBORATION_ONLY",
+      "candidate_discovery_authorized": false,
+      "date_authority": "AUTHORIZED_ONLY_FOR_DECLARED_ROLE",
+      "eligibility_authority": "AUTHORIZED_ONLY_FOR_DECLARED_ROLE",
+      "enumeration_authority": "AUTHORIZED_ONLY_FOR_DECLARED_FRAME",
+      "first_eligible_date_authorized": false,
+      "identity_authority": "AUTHORIZED_ONLY_WITH_PRESERVED_PROVENANCE",
+      "mechanical_triggers": [
+        "SPONSOR_TRANSFER_AMBIGUITY",
+        "RENAME_AMBIGUITY"
+      ],
+      "provenance_requirements": [
+        "source_snapshot_id",
+        "source_record_id",
+        "source_sha256",
+        "public_date",
+        "retrieval_action",
+        "identity_continuity"
+      ],
+      "roles": [
+        "SPONSOR_TRANSFER_DATES",
+        "ACQUISITION_DATES",
+        "RENAME_HISTORY",
+        "PUBLIC_DISCLOSURE_CORROBORATION"
+      ],
+      "source_class": "official_corporate_filings",
+      "status": "DATE_CORROBORATION_ONLY"
+    }
+  ],
+  "source_role_enforcement": {
+    "reject_unauthorized_roles": true,
+    "required_source_reference_fields": [
+      "source_class",
+      "source_role",
+      "authorization_status",
+      "trigger_id",
+      "identity_authority",
+      "date_authority",
+      "eligibility_authority",
+      "enumeration_authority",
+      "candidate_discovery_authorized",
+      "first_eligible_date_authorized",
+      "provenance_references"
+    ],
+    "selection_metadata_label": "SELECTION_METADATA_NOT_BENCHMARK_TRUTH"
+  },
+  "supersession": {
+    "candidate_universe_v1_patch_in_place_prohibited": true,
+    "candidate_universe_v1_status": "INDEPENDENTLY_FAILED_INVALID_DOWNSTREAM_INPUT",
+    "candidate_universe_v2_rebuild_required_from_preserved_source_records": true,
+    "protocol_v1_0_preserved": true,
+    "protocol_v1_0_prohibited_for_new_universe_work": true,
+    "protocol_v1_0_status": "SEALED_SUPERSEDED_FOR_FUTURE_UNIVERSE_WORK",
+    "supersedes_protocol_version": "1.0.0",
+    "supersession_scope": "CANDIDATE_UNIVERSE_CONSTRUCTION_AND_SELECTION"
+  },
+  "v1_to_v2_requirements": {
+    "candidate_universe_v1_immutable": true,
+    "candidate_universe_v1_may_be_patched": false,
+    "candidate_universe_v1_may_be_selected_from": false,
+    "candidate_universe_v2_reconstructed": true,
+    "new_independent_validation_required": true,
+    "record_complete_change_artifact_required": true,
+    "selection_before_v2_validation_passes_prohibited": true,
+    "v2_validation_before_v2_exists_prohibited": true
+  }
+}

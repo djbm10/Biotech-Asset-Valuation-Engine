@@ -1,0 +1,83 @@
+{
+  "authorized_enumeration_sources": [
+    "ClinicalTrials.gov"
+  ],
+  "benchmark_identity": {
+    "benchmark_family": "PHASE1_CD19_BCMA",
+    "benchmark_lineage": "NEW_COHORT_V2",
+    "benchmark_version": "2.0.0",
+    "cohort_version": "1.0.0",
+    "namespace": "research/se_benchmarks/phase1_cd19_bcma/new_cohort_v2/"
+  },
+  "builder_identity": "codex-phase1-cd19-bcma-new-cohort-v2-candidate-universe-builder-authorized-v1-2026-07-25",
+  "candidate_counts_by_stratum": {
+    "BCMA|CAR-T|PHASE1": 124,
+    "BCMA|CAR-T|PHASE2": 95,
+    "BCMA|CAR-T|PHASE3": 12,
+    "BCMA|T-cell engager|PHASE1": 13,
+    "BCMA|T-cell engager|PHASE2": 10,
+    "BCMA|T-cell engager|PHASE3": 4,
+    "BCMA|other therapeutic biologic|PHASE1": 5,
+    "BCMA|other therapeutic biologic|PHASE2": 7,
+    "CD19|CAR-T|PHASE1": 235,
+    "CD19|CAR-T|PHASE2": 228,
+    "CD19|CAR-T|PHASE3": 16,
+    "CD19|T-cell engager|PHASE1": 13,
+    "CD19|T-cell engager|PHASE2": 31,
+    "CD19|T-cell engager|PHASE3": 9,
+    "CD19|other therapeutic biologic|PHASE1": 5,
+    "CD19|other therapeutic biologic|PHASE2": 17,
+    "CD19|other therapeutic biologic|PHASE3": 15
+  },
+  "conclusion": "NEW_COHORT_V2_CANDIDATE_UNIVERSE_CREATED_PENDING_INDEPENDENT_VALIDATION",
+  "counts": {
+    "ambiguous_identity": 46,
+    "cutoff_exclusions": 32,
+    "discovery_records": 2100,
+    "duplicate_groups": 1155,
+    "eligible_candidates": 839,
+    "eligible_excluded_overlap": 0,
+    "excluded_candidates": 316,
+    "historical_contamination": 0,
+    "resolved_candidates": 1155,
+    "semantic_content_defects": 0,
+    "source_snapshots": 3,
+    "stable_identifier_defects": 0,
+    "unresolved_identity": 46
+  },
+  "enumeration_completeness": "COMPLETE_UNDER_AUTHORIZED_ENUMERATION_PROTOCOL",
+  "evidence_corpus_created": false,
+  "evidence_cutoff": "2026-07-24T23:59:59Z",
+  "governance_hashes": {
+    "governance_manifest": "316cf10922eca92045abd4eb587df720435ea41ae59cde44d0b922bdaac9a6d1",
+    "governance_report": "2c45ad07e394cec6f9a11793102caebc7bdc20e04ec6423e819c023b9fd3c1e5",
+    "protocol": "fda4f7a686b96bec0eed406a914cdf66638334b516d813ccf63e97ced60fb042",
+    "protocol_manifest": "5eb3da48fec9747607dff064472e18464afb00903196167221b04b6c9e0288fd",
+    "schema": "af11fc000dfae821b6b9128fee70cac831c3461cea5a4ebd0cabb97254ff43a9",
+    "transition": "a2acf6c26895055f048f7a207f3da528f62da5a83f6f1ab8d0ea2d66553350ec",
+    "transition_manifest": "bde86db3e889a2110d3616b81093817b57197588391e8a0b34634baf8cb7da16"
+  },
+  "historical_state": {
+    "clean_baseline_v1_scope_status": "UNIDENTIFIABLE",
+    "global_phase_manifest_status": "INVALID",
+    "historical_75_asset_profile_status": "NOT_CONFIRMED",
+    "historical_batch_05_status": "IRRECOVERABLY_UNVERIFIABLE",
+    "historical_custody_status": "FAIL_HISTORICAL_DIRTY_DIFF_UNRECOVERABLE"
+  },
+  "next_milestone": "INDEPENDENTLY_VALIDATE_NEW_COHORT_V2_CANDIDATE_UNIVERSE",
+  "prior_blocked_attempt": {
+    "machine_readable_artifact_found": false,
+    "status": "FAILED_LINEAGE_ONLY"
+  },
+  "queries_and_methods": [
+    "CD19 OR BCMA via ClinicalTrials.gov API v2; complete pagination"
+  ],
+  "required_stratum_shortfalls": {},
+  "reviewer_ids_generated": false,
+  "schema_version": "new_cohort_v2_candidate_universe_report_v1",
+  "selected": false,
+  "selection_cutoff": "2026-07-24T23:59:59Z",
+  "selection_metadata_label": "SELECTION_METADATA_NOT_BENCHMARK_TRUTH",
+  "selection_seed_executed": false,
+  "semantic_review_occurred": false
+}

@@ -6,15 +6,21 @@ import hashlib
 import re
 from copy import deepcopy
 from datetime import datetime, timezone
+from typing import Protocol
 
 from bve.se.schemas.contracts import (
+    IDENTITY_BEARING_EVIDENCE,
     CandidateHit,
+    CandidateTargetAssertion,
     CanonicalAsset,
     CompanyRecord,
+    IdentityEdge,
     IdentityMention,
     IdentityMerge,
+    IdentityRelationship,
     MergeStatus,
     OwnershipRight,
+    TargetAssertionStatus,
 )
 
 _PUNCTUATION = re.compile(r"[^a-z0-9]+")
@@ -27,7 +33,16 @@ def normalize_identity_name(value: str | None) -> str | None:
     normalized = " ".join(normalized.split())
     # Development codes are commonly rendered as CLN-978, CLN 978, or CLN978.
     # Separator-only differences are deterministic aliases, not distinct assets.
-    normalized = re.sub(r"(?<=[a-z]) (?=\d)|(?<=\d) (?=[a-z])", "", normalized)
+    #
+    # Bounded to short runs, because unbounded it also welded ordinary words to ordinary
+    # numbers. Punctuation above is replaced by a space rather than treated as a boundary,
+    # so "Plitidepsin 1.5 mg/day" first became "plitidepsin 1 5 mg day" and the join then
+    # produced "plitidepsin1 5mg day" -- destroying the molecule name, and with it any
+    # chance for a later layer to strip the dose. A code prefix is short (CLN, BW, MK, R);
+    # a molecule or an English word is not, so length separates the two without needing a
+    # list of either.
+    normalized = re.sub(r"\b([a-z]{1,4}) (?=\d)", r"\1", normalized)
+    normalized = re.sub(r"(?<=\d) (?=[a-z]{1,4}\b)", "", normalized)
     return normalized or None
 
 
@@ -35,20 +50,120 @@ def _id(prefix: str, value: str) -> str:
     return f"{prefix}:{hashlib.sha256(value.encode()).hexdigest()[:20]}"
 
 
+class TargetAttribution(Protocol):
+    """The narrow slice of the ontology the registry is allowed to ask about.
+
+    A protocol rather than an import so the registry cannot reach past this question
+    into resolution, queries or trial context.
+    """
+
+    def assert_targets(self, asset_name: str, aliases: list[str]) -> list[CandidateTargetAssertion]:
+        ...
+
+
+class IdentityAuthority(Protocol):
+    """The only questions the registry may ask when deciding whether two names match.
+
+    Deliberately not "are these related?" -- a source already asserted relatedness, and
+    believing it is the defect. These ask what each name denotes on its own.
+    """
+
+    def resolve_drug(self, name: str) -> str | None:
+        ...
+
+    def describes_target_or_class(self, name: str) -> bool:
+        ...
+
+
+#: Source-declared structure meaning the product co-formulates more than one molecule.
+#: Consulted only after synonymy has been ruled out: CT.gov applies this type loosely
+#: enough that ("Pembrolizumab", otherNames ["Keytruda"]) carries it, so on its own it
+#: says nothing about whether two names denote one molecule.
+_COFORMULATED_TYPES = frozenset({"COMBINATION_PRODUCT"})
+#: Structured intervention types that state the named thing is a drug. Exact and narrow on
+#: purpose: ``COMBINATION_PRODUCT`` is deliberately absent, because it is the type sponsors
+#: also give single agents, and ``BIOLOGICAL`` names a class of product, not a molecule.
+_STRUCTURED_DRUG_TYPES = frozenset({"DRUG"})
+
+
 class AssetRegistry:
     """Resolve deterministic identities first and preserve every source mention.
 
     Probabilistic merges are proposals only. Applying any merge records a complete snapshot of the
     source records so reversal restores the exact prior state.
+
+    ``target_attribution`` is optional and, when absent, the registry records no target
+    assertions at all rather than falling back to the targets a hit was found under.
+    Falling back is precisely the bug this separation exists to prevent: it would make an
+    asset's documented target depend on which query returned it.
     """
 
-    def __init__(self) -> None:
+    def __init__(
+        self,
+        target_attribution: "TargetAttribution | None" = None,
+        identity_authority: "IdentityAuthority | None" = None,
+    ) -> None:
+        self._target_attribution = target_attribution
+        #: Without an authority there is no positive evidence available, so no related
+        #: name can be corroborated and none is merged. Fail-closed is the whole point:
+        #: the alternative is believing the source, which is what produced B8's false
+        #: assertions.
+        self._identity_authority = identity_authority
         self.assets: dict[str, CanonicalAsset] = {}
+        #: normalized alias key -> asset ids holding it. Finding the assets that share a
+        #: spelling with an incoming hit used to mean scanning every registered asset and
+        #: re-normalizing all of its aliases, once per hit. That is quadratic with string
+        #: work in the inner loop: invisible on a few hundred records, ~95 minutes of CPU
+        #: on a 2,908-trial corpus. The index answers the same question by lookup.
+        self._assets_by_alias_key: dict[str, set[str]] = {}
+        #: the keys each asset contributed, so it can be withdrawn exactly on merge/unmerge.
+        self._alias_keys_by_asset: dict[str, frozenset[str]] = {}
         self.mentions: dict[str, IdentityMention] = {}
         self.merges: dict[str, IdentityMerge] = {}
+        #: Every related name a source offered, classified and recorded whether or not it
+        #: was acted on. Ingest-time attachment -- not :meth:`apply_merge` -- is where this
+        #: registry actually forms identity, so it is the only place the graph is visible.
+        self.identity_edges: list[IdentityEdge] = []
         self.companies: dict[str, CompanyRecord] = {}
         self.rights: dict[str, OwnershipRight] = {}
         self._merge_snapshots: dict[str, dict[str, CanonicalAsset]] = {}
+
+    @staticmethod
+    def _alias_keys(record: CanonicalAsset) -> frozenset[str]:
+        return frozenset(
+            normalized
+            for normalized in (
+                normalize_identity_name(value)
+                for value in [record.canonical_name, *record.aliases]
+            )
+            if normalized
+        )
+
+    def _index_asset(self, record: CanonicalAsset) -> None:
+        """Write an asset and keep the alias index in step with it."""
+
+        self._deindex_asset(record.asset_id)
+        self.assets[record.asset_id] = record
+        keys = self._alias_keys(record)
+        # The same keys the index runs on, published on the record itself. This is the
+        # only write path, so an asset cannot reach a caller carrying keys that disagree
+        # with the names it was indexed under.
+        record.identity_keys = sorted(keys)
+        self._alias_keys_by_asset[record.asset_id] = keys
+        for key in keys:
+            self._assets_by_alias_key.setdefault(key, set()).add(record.asset_id)
+
+    def _deindex_asset(self, asset_id: str) -> None:
+        """Forget an asset entirely, leaving no key pointing at a gone id."""
+
+        self.assets.pop(asset_id, None)
+        for key in self._alias_keys_by_asset.pop(asset_id, frozenset()):
+            holders = self._assets_by_alias_key.get(key)
+            if holders is None:
+                continue
+            holders.discard(asset_id)
+            if not holders:
+                del self._assets_by_alias_key[key]
 
     def ingest_hit(self, hit: CandidateHit) -> CanonicalAsset:
         normalized_asset = normalize_identity_name(hit.asset_name)
@@ -86,26 +201,27 @@ class AssetRegistry:
             if normalized_asset
             else f"trial:{(hit.trial_id or '').upper()}:{hit.provisional_identity_key}"
         )
+        # Only corroborated names take part in identity. An uncorroborated related name is
+        # still recorded as an edge below, so nothing is lost -- it simply does not get to
+        # decide which asset this hit belongs to.
+        classifications = self._classify_related_names(hit)
+        merged_aliases = [
+            related for related, _, merged, _ in classifications if merged
+        ]
         alias_keys = {
             normalized
             for normalized in (
                 normalize_identity_name(value)
-                for value in [hit.asset_name, *hit.aliases]
+                for value in [hit.asset_name, *merged_aliases]
             )
             if normalized
         }
+        # Same set as scanning every asset for a shared normalized spelling: an asset
+        # matches exactly when it holds at least one of these keys.
         matching_ids = {
             asset_id
-            for asset_id, record in self.assets.items()
-            if alias_keys
-            & {
-                normalized
-                for normalized in (
-                    normalize_identity_name(value)
-                    for value in [record.canonical_name, *record.aliases]
-                )
-                if normalized
-            }
+            for key in alias_keys
+            for asset_id in self._assets_by_alias_key.get(key, ())
         }
         asset_id = (
             next(iter(matching_ids))
@@ -113,7 +229,12 @@ class AssetRegistry:
             else _id("asset", deterministic_key)
         )
         existing = self.assets.get(asset_id)
-        aliases = [value for value in [hit.asset_name, *hit.aliases] if value]
+        aliases = [value for value in [hit.asset_name, *merged_aliases] if value]
+        # The source's own structured classification of what this intervention is. Only an
+        # explicit DRUG counts: ``COMBINATION_PRODUCT``, ``BEHAVIORAL``, ``OTHER`` and the
+        # rest say nothing about whether the string names a molecule. It is recorded, not
+        # acted on -- nomination routing reads it, identity does not.
+        typed_drug = (hit.intervention_type or "").upper() in _STRUCTURED_DRUG_TYPES
         if existing is None:
             existing = CanonicalAsset(
                 asset_id=asset_id,
@@ -121,10 +242,14 @@ class AssetRegistry:
                 aliases=list(dict.fromkeys(aliases)),
                 company_ids=[company_id] if company_id else [],
                 trial_ids=[hit.trial_id] if hit.trial_id else [],
-                target_ids=list(dict.fromkeys(hit.target_terms)),
+                # ``hit.target_terms`` are the targets the *context* named, so they are
+                # discovery evidence only. ``target_ids`` is filled from mechanism
+                # assertions below, or left empty.
+                discovery_target_context=list(dict.fromkeys(hit.target_terms)),
                 modality_id=hit.modality_terms[0] if len(hit.modality_terms) == 1 else None,
                 mention_ids=[mention_id],
                 provisional=not bool(hit.trial_id),
+                structurally_typed_drug=typed_drug,
             )
         else:
             existing = existing.model_copy(
@@ -136,7 +261,9 @@ class AssetRegistry:
                     "trial_ids": list(
                         dict.fromkeys([*existing.trial_ids, *([hit.trial_id] if hit.trial_id else [])])
                     ),
-                    "target_ids": list(dict.fromkeys([*existing.target_ids, *hit.target_terms])),
+                    "discovery_target_context": list(
+                        dict.fromkeys([*existing.discovery_target_context, *hit.target_terms])
+                    ),
                     "modality_id": (
                         existing.modality_id
                         if not hit.modality_terms
@@ -146,10 +273,183 @@ class AssetRegistry:
                     ),
                     "mention_ids": list(dict.fromkeys([*existing.mention_ids, mention_id])),
                     "provisional": existing.provisional and not bool(hit.trial_id),
+                    # Monotonic: a later untyped observation is weaker evidence, not a
+                    # retraction of the typing already seen.
+                    "structurally_typed_drug": existing.structurally_typed_drug or typed_drug,
                 }
             )
-        self.assets[asset_id] = existing
+        existing = self._attribute_targets(existing)
+        self._index_asset(existing)
+        self._record_identity_edges(hit, existing, classifications)
         return existing
+
+    def _classify_related_names(
+        self, hit: CandidateHit
+    ) -> list[tuple[str, IdentityRelationship, bool, str]]:
+        """Decide what each source-offered name is, and whether it may bear identity.
+
+        ``(related name, relationship, merged, basis)`` per offered name, in source order.
+
+        Identity requires positive evidence that two names denote one molecule, and only
+        the ontology can supply it. The asymmetry that matters: a name resolving to a
+        *different* drug is a hard veto on molecular synonymy, while a name resolving to
+        *nothing* is merely insufficient evidence -- never an approval. Without that second
+        half the rule would just move the false merges onto ontology-unknown codes.
+        """
+
+        primary = hit.asset_name or hit.provisional_identity_key
+        authority = self._identity_authority
+        # A new source family may expand discovery; it may not bypass the evidence
+        # contract. Claims that are not identity claims are refused before corroboration
+        # is even considered, so a pipeline page or press release cannot mint an alias by
+        # wording a discovery mention persuasively. Ordered first deliberately: this is a
+        # gate on eligibility, not a tie-breaker among rules.
+        if hit.alias_evidence_type not in IDENTITY_BEARING_EVIDENCE:
+            return [
+                (
+                    related,
+                    IdentityRelationship.UNCERTAIN_RELATIONSHIP,
+                    False,
+                    f"{hit.alias_evidence_type.value} is not identity evidence, so this"
+                    " name is not eligible to become an alias",
+                )
+                for related in hit.aliases
+                if related and related.strip()
+            ]
+        primary_drug = authority.resolve_drug(primary) if authority else None
+        coformulated = (hit.intervention_type or "").upper() in _COFORMULATED_TYPES
+
+        classified: list[tuple[str, IdentityRelationship, bool, str]] = []
+        for related in hit.aliases:
+            if not related or not related.strip():
+                continue
+            if authority is None:
+                classified.append(
+                    (
+                        related,
+                        IdentityRelationship.UNCERTAIN_RELATIONSHIP,
+                        False,
+                        "no identity authority available, so no corroboration is possible",
+                    )
+                )
+                continue
+            related_drug = authority.resolve_drug(related)
+            if primary_drug and related_drug and primary_drug == related_drug:
+                classified.append(
+                    (
+                        related,
+                        IdentityRelationship.IDENTITY_ALIAS,
+                        True,
+                        f"both names resolve to the same canonical drug {primary_drug}",
+                    )
+                )
+            elif primary_drug and related_drug:
+                # Checked only here: the declared product structure can say two molecules
+                # share a product, but it can never make them one molecule, so the
+                # canonical ids stay distinct either way and this only chooses the label.
+                relationship = (
+                    IdentityRelationship.COFORMULATED_COMPONENT
+                    if coformulated
+                    else IdentityRelationship.COMBINATION_PARTNER
+                )
+                classified.append(
+                    (
+                        related,
+                        relationship,
+                        False,
+                        f"resolves to {related_drug}, a different drug from {primary_drug}"
+                        + (
+                            "; source declares a co-formulated product, so the relationship"
+                            " is product-level and not molecular synonymy"
+                            if coformulated
+                            else ""
+                        ),
+                    )
+                )
+            elif authority.describes_target_or_class(related):
+                classified.append(
+                    (
+                        related,
+                        IdentityRelationship.UNCERTAIN_RELATIONSHIP,
+                        False,
+                        "names a target or mechanism class, which describes an"
+                        " intervention rather than naming it",
+                    )
+                )
+            elif related_drug and not primary_drug:
+                classified.append(
+                    (
+                        related,
+                        IdentityRelationship.UNCERTAIN_RELATIONSHIP,
+                        False,
+                        f"resolves to {related_drug} while the intervention name does not"
+                        " resolve, so there is no evidence they are the same molecule",
+                    )
+                )
+            else:
+                classified.append(
+                    (
+                        related,
+                        IdentityRelationship.UNCERTAIN_RELATIONSHIP,
+                        False,
+                        "does not resolve to any known drug; absence of a contradicting"
+                        " authority is not positive identity evidence",
+                    )
+                )
+        return classified
+
+    def _record_identity_edges(
+        self,
+        hit: CandidateHit,
+        asset: CanonicalAsset,
+        classifications: list[tuple[str, IdentityRelationship, bool, str]],
+    ) -> None:
+        """Record every offered name and its disposition, acted on or not.
+
+        Edges are emitted for rejected names too. That is what makes a removed merge
+        auditable: the original evidence field, trial and intervention survive alongside
+        the new classification instead of the merge simply disappearing.
+        """
+
+        primary = hit.asset_name or hit.provisional_identity_key
+        for related, relationship, merged, basis in classifications:
+            self.identity_edges.append(
+                IdentityEdge(
+                    edge_id=_id("edge", f"{hit.hit_id}|{primary}|{related}"),
+                    asset_id=asset.asset_id,
+                    primary_name=primary,
+                    related_name=related,
+                    relationship=relationship,
+                    merged=merged,
+                    evidence_field=f"{hit.source}.intervention.otherNames",
+                    basis=basis,
+                    hit_id=hit.hit_id,
+                    source_document_id=hit.source_document_id,
+                    trial_id=hit.trial_id,
+                )
+            )
+
+    def _attribute_targets(self, asset: CanonicalAsset) -> CanonicalAsset:
+        """Attach mechanism assertions, and derive ``target_ids`` from them alone."""
+
+        if self._target_attribution is None:
+            return asset
+        assertions = self._target_attribution.assert_targets(
+            asset.canonical_name, list(asset.aliases)
+        )
+        if not assertions:
+            return asset
+        confirmed = [
+            assertion.canonical_target_id
+            for assertion in assertions
+            if assertion.status is TargetAssertionStatus.CONFIRMED_TARGET
+        ]
+        return asset.model_copy(
+            update={
+                "target_assertions": assertions,
+                "target_ids": list(dict.fromkeys([*asset.target_ids, *confirmed])),
+            }
+        )
 
     def add_right(self, right: OwnershipRight) -> OwnershipRight:
         if right.asset_id not in self.assets:
@@ -228,6 +528,18 @@ class AssetRegistry:
             ),
             trial_ids=list(dict.fromkeys(value for record in records for value in record.trial_ids)),
             target_ids=list(dict.fromkeys(value for record in records for value in record.target_ids)),
+            discovery_target_context=list(
+                dict.fromkeys(
+                    value for record in records for value in record.discovery_target_context
+                )
+            ),
+            target_assertions=list(
+                {
+                    (assertion.canonical_target_id, assertion.status): assertion
+                    for record in records
+                    for assertion in record.target_assertions
+                }.values()
+            ),
             modality_id=next((record.modality_id for record in records if record.modality_id), None),
             indication_ids=list(
                 dict.fromkeys(value for record in records for value in record.indication_ids)
@@ -247,10 +559,13 @@ class AssetRegistry:
                 dict.fromkeys(value for record in records for value in record.supporting_claim_ids)
             ),
             provisional=all(record.provisional for record in records),
+            structurally_typed_drug=any(
+                record.structurally_typed_drug for record in records
+            ),
         )
         for asset_id in merge.source_asset_ids:
-            self.assets.pop(asset_id, None)
-        self.assets[merge.target_asset_id] = merged
+            self._deindex_asset(asset_id)
+        self._index_asset(merged)
         self.merges[merge_id] = merge.model_copy(
             update={"status": MergeStatus.APPLIED, "applied_at": datetime.now(timezone.utc)}
         )
@@ -260,8 +575,9 @@ class AssetRegistry:
         merge = self.merges[merge_id]
         if merge.status != MergeStatus.APPLIED:
             raise ValueError(f"merge {merge_id} is not applied")
-        self.assets.pop(merge.target_asset_id, None)
-        self.assets.update(deepcopy(self._merge_snapshots[merge_id]))
+        self._deindex_asset(merge.target_asset_id)
+        for record in deepcopy(self._merge_snapshots[merge_id]).values():
+            self._index_asset(record)
         self.merges[merge_id] = merge.model_copy(
             update={"status": MergeStatus.REVERSED, "reversed_at": datetime.now(timezone.utc)}
         )

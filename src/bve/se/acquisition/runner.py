@@ -24,7 +24,8 @@ from bve.se.acquisition.connectors import (
 from bve.se.acquisition.corpus_store import CorpusStore
 from bve.se.acquisition.policy import DeclaredSourceEntry, LiveSourcePolicy
 from bve.se.acquisition.source_health import SourceHealth, SourceHealthReport
-from bve.se.ontology.targets import _MODALITY_ALIASES, _TARGET_ALIASES
+from bve.se.ontology.modality import modality_aliases
+from bve.se.ontology.targets import target_aliases
 from bve.se.schemas.contracts import BuyerProblemV2
 
 
@@ -48,7 +49,7 @@ def target_queries_for(problem: BuyerProblemV2) -> list[TargetQuery]:
     for target in problem.strategic_gap.target_expression.targets:
         aliases = list(
             dict.fromkeys(
-                [target.label, *target.aliases, *sorted(_TARGET_ALIASES.get(target.canonical_id, set()))]
+                [target.label, *target.aliases, *target_aliases(target.canonical_id)]
             )
         )
         queries.append(TargetQuery(canonical_id=target.canonical_id, aliases=aliases))
@@ -58,7 +59,7 @@ def target_queries_for(problem: BuyerProblemV2) -> list[TargetQuery]:
 def modality_terms_for(problem: BuyerProblemV2) -> list[str]:
     terms: list[str] = []
     for modality in problem.strategic_gap.modalities:
-        terms.extend([modality, *sorted(_MODALITY_ALIASES.get(modality, set()))])
+        terms.extend([modality, *modality_aliases(modality)])
     return list(dict.fromkeys(terms))
 
 

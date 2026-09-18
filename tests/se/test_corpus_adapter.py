@@ -30,7 +30,9 @@ def _query(
     )
 
 
-def test_ctgov_corpus_adapter_reuses_snapshot_and_structured_identity(tmp_path: Path) -> None:
+def test_ctgov_corpus_adapter_reuses_snapshot_and_structured_identity(
+    tmp_path: Path, se_ontology_snapshot
+) -> None:
     protocol = {
         "identificationModule": {
             "nctId": "NCT00000001",
@@ -82,7 +84,9 @@ def test_ctgov_corpus_adapter_reuses_snapshot_and_structured_identity(tmp_path: 
     assert snapshot.stat().st_mtime_ns == before_mtime
 
 
-def test_matching_identity_free_document_is_evidence_not_a_title_asset(tmp_path: Path) -> None:
+def test_matching_identity_free_document_is_evidence_not_a_title_asset(
+    tmp_path: Path, se_ontology_snapshot
+) -> None:
     store = CorpusStore(tmp_path / "corpus")
     corpus_document = store.add(
         source_family="company_press_release",
@@ -118,7 +122,7 @@ def test_matching_identity_free_document_is_evidence_not_a_title_asset(tmp_path:
 
 
 def test_generic_observed_asset_is_extracted_once_and_follow_up_is_filtered(
-    tmp_path: Path,
+    tmp_path: Path, se_ontology_snapshot
 ) -> None:
     store = CorpusStore(tmp_path / "corpus")
     corpus_document = store.add(

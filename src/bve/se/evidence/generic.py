@@ -10,6 +10,7 @@ from __future__ import annotations
 import hashlib
 from pathlib import Path
 
+from bve.se.evidence import snapshot_cache
 from bve.se.evidence.clinicaltrials import ExtractionBundle
 from bve.se.schemas.contracts import (
     CandidateHit,
@@ -41,7 +42,7 @@ def _snapshot_text(document: SourceDocument) -> str:
     path = Path(document.snapshot_path)
     if not path.exists():
         raise FileNotFoundError(path)
-    return path.read_text(encoding="utf-8", errors="replace")
+    return snapshot_cache.load_text(path)
 
 
 def _claim(

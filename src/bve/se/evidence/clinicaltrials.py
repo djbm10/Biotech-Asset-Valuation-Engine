@@ -5,11 +5,11 @@ from __future__ import annotations
 import hashlib
 import json
 from datetime import date
-from pathlib import Path
 
 from pydantic import BaseModel, Field
 
-from bve.se.discovery.adapters import _candidate_interventions, _targets_in_text
+from bve.se.discovery.adapters import QueryVocabulary, _candidate_interventions
+from bve.se.evidence import snapshot_cache
 from bve.se.schemas.contracts import (
     CandidateHit,
     ClinicalResult,
@@ -95,12 +95,24 @@ class ClinicalTrialsEvidenceExtractor:
     def extract(self, hit: CandidateHit, document: SourceDocument) -> ExtractionBundle:
         if not document.snapshot_path:
             raise ValueError("ClinicalTrials.gov extraction requires a saved source snapshot")
-        protocol = json.loads(Path(document.snapshot_path).read_text())
+        protocol = snapshot_cache.load_json(document.snapshot_path)
         identification = protocol.get("identificationModule", {})
         design = protocol.get("designModule", {})
         conditions_module = protocol.get("conditionsModule", {})
         status_module = protocol.get("statusModule", {})
-        interventions = {name: (targets, modality) for name, targets, modality in _candidate_interventions(protocol)}
+        # Extraction labels a protocol after discovery chose it, so it uses the whole
+        # ontology vocabulary rather than one query's slice.
+        vocabulary = QueryVocabulary.for_ontology()
+        # One serialization for the whole extraction. It was previously re-derived by
+        # _candidate_interventions and again for the target scan below, and before the
+        # cache it was re-derived again for every other hit on the same protocol.
+        serialized = snapshot_cache.canonical_json(document.snapshot_path)
+        interventions = {
+            name: (targets, modality)
+            for name, targets, modality in _candidate_interventions(
+                protocol, vocabulary, serialized
+            )
+        }
         candidate = interventions.get(hit.asset_name or "")
         raw_intervention: dict = next(
             (
@@ -128,7 +140,7 @@ class ClinicalTrialsEvidenceExtractor:
         claims.append(identity_claim)
         facts.append(_fact(hit, identity_claim, "identity_valid", True))
 
-        targets = sorted(candidate[0]) if candidate else sorted(_targets_in_text(json.dumps(protocol)))
+        targets = sorted(candidate[0]) if candidate else sorted(vocabulary.targets_in(serialized))
         if targets:
             target_claim = _claim(
                 hit,

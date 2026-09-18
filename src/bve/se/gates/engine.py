@@ -16,6 +16,8 @@ from bve.se.schemas.contracts import (
     GateStatus,
     NormalizedFact,
     OverallDisposition,
+    PhaseConstraint,
+    PhaseConstraintOperator,
     RequirementDomain,
     RequirementOperator,
 )
@@ -73,6 +75,52 @@ def _stage_requirement(minimum_stage: str) -> BuyerRequirement:
         RequirementOperator.GTE,
         minimum,
         domain=RequirementDomain.EVIDENCE_SUFFICIENCY,
+    )
+
+
+#: Requirement id of the phase gate, so readers can find the decision without re-deriving it.
+PHASE_REQUIREMENT_ID = "evidence.phase_constraint"
+
+
+def _phase_requirement(constraint: PhaseConstraint) -> BuyerRequirement:
+    """Compile a phase constraint into one requirement over asset-specific stage facts.
+
+    ``development_stage_order`` facts are only minted from an asset's own trial records, so
+    the discovery-context text a candidate was found in cannot satisfy this gate. An asset
+    with no such fact yields UNKNOWN through the ordinary evaluator path — unknown phase is
+    never a mismatch.
+    """
+
+    orders = constraint.stage_orders
+    if constraint.operator is PhaseConstraintOperator.MINIMUM:
+        operator, expected = RequirementOperator.GTE, orders[0]
+    elif len(orders) == 1:
+        operator, expected = RequirementOperator.EQ, orders[0]
+    else:
+        operator, expected = RequirementOperator.IN, orders
+    requirement = _requirement(
+        PHASE_REQUIREMENT_ID,
+        "development_stage_order",
+        operator,
+        expected,
+        domain=RequirementDomain.EVIDENCE_SUFFICIENCY,
+    )
+    phases = ", ".join(constraint.phases)
+    return requirement.model_copy(
+        update={
+            "pass_condition": (
+                f"Asset-specific development stage evidence satisfies {constraint.operator.value} "
+                f"{phases}."
+            ),
+            "fail_condition": (
+                f"Asset-specific development stage evidence is known and is not "
+                f"{constraint.operator.value} {phases}."
+            ),
+            "unknown_condition": (
+                "No asset-specific development stage evidence, or the stage evidence "
+                f"conflicts, so {constraint.operator.value} {phases} cannot be decided."
+            ),
+        }
     )
 
 
@@ -192,6 +240,15 @@ class GateEngine:
 
         # 7. Evidence floor.
         floor = problem.strategic_gap.evidence_floor
+        if problem.strategic_gap.phase_constraint is not None:
+            decisions.append(
+                evaluate_requirement(
+                    _phase_requirement(problem.strategic_gap.phase_constraint),
+                    subject_id=subject_id,
+                    facts=facts_list,
+                    gate_id="evidence_floor",
+                )
+            )
         if floor.minimum_stage:
             decisions.append(
                 evaluate_requirement(

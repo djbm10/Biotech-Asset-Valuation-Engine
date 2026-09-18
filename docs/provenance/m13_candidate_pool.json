@@ -1,0 +1,154 @@
+{
+  "candidate_pool": {
+    "ADRB1": {
+      "canonical_target_id": "TARGET:ADRB1",
+      "distinct_drugs_in_ontology": 49,
+      "mab_fraction": 0.0,
+      "rule6_prior_contact_hits": 0
+    },
+    "ADRB2": {
+      "canonical_target_id": "TARGET:ADRB2",
+      "distinct_drugs_in_ontology": 84,
+      "mab_fraction": 0.0,
+      "rule6_prior_contact_hits": 0
+    },
+    "CHRM1": {
+      "canonical_target_id": "TARGET:CHRM1",
+      "distinct_drugs_in_ontology": 59,
+      "mab_fraction": 0.0,
+      "rule6_prior_contact_hits": 0
+    },
+    "CHRM3": {
+      "canonical_target_id": "TARGET:CHRM3",
+      "distinct_drugs_in_ontology": 73,
+      "mab_fraction": 0.0,
+      "rule6_prior_contact_hits": 0
+    },
+    "DRD2": {
+      "canonical_target_id": "TARGET:DRD2",
+      "distinct_drugs_in_ontology": 84,
+      "mab_fraction": 0.0,
+      "rule6_prior_contact_hits": 0
+    },
+    "HRH1": {
+      "canonical_target_id": "TARGET:HRH1",
+      "distinct_drugs_in_ontology": 113,
+      "mab_fraction": 0.0,
+      "rule6_prior_contact_hits": 0
+    },
+    "HTR2A": {
+      "canonical_target_id": "TARGET:HTR2A",
+      "distinct_drugs_in_ontology": 72,
+      "mab_fraction": 0.0,
+      "rule6_prior_contact_hits": 0
+    },
+    "HTR2C": {
+      "canonical_target_id": "TARGET:HTR2C",
+      "distinct_drugs_in_ontology": 41,
+      "mab_fraction": 0.0,
+      "rule6_prior_contact_hits": 0
+    },
+    "NR3C1": {
+      "canonical_target_id": "TARGET:NR3C1",
+      "distinct_drugs_in_ontology": 82,
+      "mab_fraction": 0.0,
+      "rule6_prior_contact_hits": 0
+    },
+    "OPRM1": {
+      "canonical_target_id": "TARGET:OPRM1",
+      "distinct_drugs_in_ontology": 75,
+      "mab_fraction": 0.0,
+      "rule6_prior_contact_hits": 0
+    },
+    "SLC6A2": {
+      "canonical_target_id": "TARGET:SLC6A2",
+      "distinct_drugs_in_ontology": 96,
+      "mab_fraction": 0.0,
+      "rule6_prior_contact_hits": 0
+    },
+    "SLC6A4": {
+      "canonical_target_id": "TARGET:SLC6A4",
+      "distinct_drugs_in_ontology": 54,
+      "mab_fraction": 0.0,
+      "rule6_prior_contact_hits": 0
+    }
+  },
+  "candidate_pool_size": 12,
+  "excluded_candidates": {
+    "AR": {
+      "canonical_target_id": "TARGET:AR",
+      "distinct_drugs_in_ontology": 42,
+      "example_hits": [
+        "/home/djmann/projects/bve-b8/docs/full_institutional_biotech_tool_report.md",
+        "/home/djmann/projects/bve-b8/examples/configs/arvn_arv471.yaml",
+        "/home/djmann/projects/bve-b8/examples/configs/replay_generated/arvn.yaml"
+      ],
+      "excluded_by": "rule_6_prior_contact",
+      "mab_fraction": 0.0,
+      "rule6_prior_contact_hits": 19
+    },
+    "EGFR": {
+      "canonical_target_id": "TARGET:EGFR",
+      "distinct_drugs_in_ontology": 83,
+      "example_hits": [
+        "/home/djmann/projects/bve-b8/bve_technical_report_v2.md",
+        "/home/djmann/projects/bve-b8/docs/Tool Updates/accuracy-and-calibration.md",
+        "/home/djmann/projects/bve-b8/docs/full_institutional_biotech_tool_report.md"
+      ],
+      "excluded_by": "rule_6_prior_contact",
+      "mab_fraction": 0.1807,
+      "rule6_prior_contact_hits": 94
+    },
+    "ERBB2": {
+      "canonical_target_id": "TARGET:ERBB2",
+      "distinct_drugs_in_ontology": 44,
+      "example_hits": [
+        "/home/djmann/projects/bve-b8/docs/provenance/se_ontology_snapshot_chembl37_ot26.06.md",
+        "/home/djmann/projects/bve-b8/docs/se_benchmarks/pdcd1_baseline_2026-08-21.md",
+        "/home/djmann/projects/bve-b8/docs/se_biomedical_entity_layer.md"
+      ],
+      "excluded_by": "rule_6_prior_contact",
+      "mab_fraction": 0.1364,
+      "rule6_prior_contact_hits": 8
+    },
+    "FLT3": {
+      "canonical_target_id": "TARGET:FLT3",
+      "distinct_drugs_in_ontology": 47,
+      "example_hits": [
+        "/home/djmann/projects/bve-b8/research/data/hematology_phase_transitions.csv",
+        "/home/djmann/projects/bve-b8/research/se_benchmarks/pdcd1_annotation_v2/work/B_chunk_2.jsonl",
+        "/home/djmann/projects/bve-b8/src/bve/entities/target_registry_onc.py"
+      ],
+      "excluded_by": "rule_6_prior_contact",
+      "mab_fraction": 0.0,
+      "rule6_prior_contact_hits": 5
+    },
+    "MET": {
+      "canonical_target_id": "TARGET:MET",
+      "distinct_drugs_in_ontology": 40,
+      "example_hits": [
+        "/home/djmann/projects/bve-b8/ROADMAP.md",
+        "/home/djmann/projects/bve-b8/TASKS.md",
+        "/home/djmann/projects/bve-b8/case_studies/ivacaftor_vertex/IVAC/inputs.yaml"
+      ],
+      "excluded_by": "rule_6_prior_contact",
+      "mab_fraction": 0.125,
+      "rule6_prior_contact_hits": 115
+    }
+  },
+  "funnel": {
+    "after_mab_fraction_filter": 17,
+    "after_min_40_distinct_drugs": 17,
+    "after_rule_1_pathway_exclusion": 17,
+    "after_rule_6_prior_contact": 12,
+    "distinct_targets_in_ontology": 888
+  },
+  "generated_at": "2026-09-13T14:48:03.938876+00:00",
+  "no_engine_run_has_touched_any_candidate": true,
+  "ontology_version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2__modality_v2",
+  "pool_is_frozen": true,
+  "rule_6_disposition": "Discard on ANY hit. Some hits are certainly collisions with English words or code identifiers rather than real prior contact, but adjudicating them case by case after seeing the counts would reintroduce exactly the discretion this procedure exists to remove. Conservative exclusion can only shrink the pool; it can never admit a contaminated target.",
+  "rules_artifact": "m13_pool_rules.json",
+  "rules_sha256": "26a8b6ca81e8352e988465c3f936d129392d2d778fc4c2a72d507231bf398597",
+  "schema_version": "m13_candidate_pool_v1"
+}

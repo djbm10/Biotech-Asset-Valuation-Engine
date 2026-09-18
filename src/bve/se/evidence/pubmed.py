@@ -3,9 +3,8 @@
 from __future__ import annotations
 
 import hashlib
-import json
-from pathlib import Path
 
+from bve.se.evidence import snapshot_cache
 from bve.se.evidence.clinicaltrials import ExtractionBundle
 from bve.se.schemas.contracts import CandidateHit, ExtractedClaim, NormalizedFact, SourceDocument
 
@@ -16,7 +15,7 @@ class PubMedEvidenceExtractor:
     def extract(self, hit: CandidateHit, document: SourceDocument) -> ExtractionBundle:
         if not document.snapshot_path:
             raise ValueError("PubMed extraction requires a saved source snapshot")
-        record = json.loads(Path(document.snapshot_path).read_text())
+        record = snapshot_cache.load_json(document.snapshot_path)
         passage = f"{record.get('title', '')} {record.get('abstract', '')}".strip()
         claim_id = f"claim:{hashlib.sha256(f'{hit.hit_id}|publication_relevance'.encode()).hexdigest()[:20]}"
         claim = ExtractedClaim(

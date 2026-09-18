@@ -121,10 +121,106 @@ class VerificationStatus(str, Enum):
 
 
 class SearchOutcome(str, Enum):
+    """How a source's acquisition ended.
+
+    ``NOT_CONFIGURED`` is structurally distinct from ``FAILED`` because the two carry
+    opposite consequences: a declared source with no connector is a known blind spot the
+    operator may waive, while a source that broke mid-acquisition leaves the corpus short
+    an unknown number of records and can never be scored. Run B6 conflated them -- seven
+    unbuilt connectors reported ``FAILED`` and made an otherwise clean CT.gov run
+    unscoreable -- which is why this is an outcome and not an inference from counts.
+    """
+
     SUCCESS = "SUCCESS"
     PARTIAL = "PARTIAL"
     FAILED = "FAILED"
     NO_EVIDENCE_FOUND = "NO_EVIDENCE_FOUND"
+    NOT_CONFIGURED = "NOT_CONFIGURED"
+
+
+class TargetAssertionStatus(str, Enum):
+    """What authoritative evidence concludes about one asset and one target.
+
+    Deliberately not a boolean. An asset no authority has heard of and an asset
+    documented to act on something else are different answers, and a pipeline that
+    collapses them will exclude the first for the reasons that apply to the second.
+    """
+
+    #: Direct mechanism evidence for the requested target.
+    CONFIRMED_TARGET = "CONFIRMED_TARGET"
+    #: Direct mechanism evidence, all of it for other targets.
+    CONFIRMED_OTHER_TARGET = "CONFIRMED_OTHER_TARGET"
+    #: Direct evidence from more than one source, and the sources disagree.
+    CONFLICTING = "CONFLICTING"
+    #: No direct evidence either way. Silence, not a negative.
+    UNRESOLVED = "UNRESOLVED"
+
+
+class TargetEvidenceRef(StrictModel):
+    """A pointer back to the upstream row an assertion rests on."""
+
+    source: str = Field(min_length=1)
+    source_release: str = Field(min_length=1)
+    source_record_id: str = Field(min_length=1)
+    evidence_hash: str = Field(min_length=1)
+    canonical_target_id: str | None = None
+    relationship_type: str = Field(min_length=1)
+
+
+class CandidateTargetAssertion(StrictModel):
+    """What an asset is documented to act on, on its own evidence.
+
+    Distinct from :attr:`CompiledQuery.target_ids`, which says only what was searched
+    for. A candidate returned by a PDCD1 query has PDCD1 in its search context; whether
+    it has a PDCD1 *assertion* is a separate question this answers, and the separation is
+    the point: a chemotherapy co-administered in a PDCD1 trial is a legitimate discovery
+    result and an illegitimate PDCD1 attribution.
+    """
+
+    canonical_target_id: str = Field(min_length=1)
+    status: TargetAssertionStatus
+    #: Every target direct evidence supports, which for a bispecific is more than one.
+    documented_targets: list[str] = Field(default_factory=list)
+    #: The rows that decided the status.
+    evidence: list[TargetEvidenceRef] = Field(default_factory=list)
+    #: Family or complex rows mentioning the requested target. Never decisional -- they
+    #: are carried so an analyst reviewing an UNRESOLVED candidate can see why it came up.
+    supporting_associations: list[TargetEvidenceRef] = Field(default_factory=list)
+
+
+class SourceEvidenceType(str, Enum):
+    """What a source document is being read as saying.
+
+    Company pipelines, filings, press releases and abstracts are written in prose, where
+    "in combination with", a trade name, a platform name and a partner's asset all appear
+    in the same sentence. A source that emits bare names forces the registry to guess
+    which kind of statement it just received; typing the claim at the boundary is what
+    stops "given with pembrolizumab" from arriving in the same shape as "also known as
+    pembrolizumab".
+    """
+
+    #: This document mentions a program worth looking at. Never identity.
+    DISCOVERY_EVIDENCE = "DISCOVERY_EVIDENCE"
+    #: This document states that two names denote the same entity. The only type that may
+    #: even be *considered* for an alias, and still subject to corroboration and veto.
+    IDENTITY_EVIDENCE = "IDENTITY_EVIDENCE"
+    #: What the program is said to act on.
+    TARGET_EVIDENCE = "TARGET_EVIDENCE"
+    #: Phase, IND status, first-in-human, and similar.
+    DEVELOPMENT_STAGE_EVIDENCE = "DEVELOPMENT_STAGE_EVIDENCE"
+    #: Who owns, licenses or sponsors the program.
+    COMPANY_OWNERSHIP_EVIDENCE = "COMPANY_OWNERSHIP_EVIDENCE"
+    #: Designations, approvals, clinical holds.
+    REGULATORY_EVIDENCE = "REGULATORY_EVIDENCE"
+    #: An asserted relationship between two programs that is explicitly not sameness.
+    RELATIONSHIP_EVIDENCE = "RELATIONSHIP_EVIDENCE"
+
+
+#: The evidence types that may take part in an identity decision at all. Everything else
+#: is discovery or context, however confidently a source words it. Enforced in
+#: ``bve.se.resolution.registry``, not merely documented here: a new source family must be
+#: unable to create an alias by wording a discovery claim persuasively.
+IDENTITY_BEARING_EVIDENCE = frozenset({SourceEvidenceType.IDENTITY_EVIDENCE})
 
 
 class CandidateHit(StrictModel):
@@ -140,6 +236,16 @@ class CandidateHit(StrictModel):
     target_terms: list[str] = Field(default_factory=list)
     modality_terms: list[str] = Field(default_factory=list)
     aliases: list[str] = Field(default_factory=list)
+    #: The source's own structural classification of the intervention, e.g. CT.gov
+    #: ``DRUG`` / ``BIOLOGICAL`` / ``COMBINATION_PRODUCT``. Carried so that relationship
+    #: classification can consult declared product structure instead of guessing from
+    #: punctuation in a name.
+    intervention_type: str | None = None
+    #: What kind of statement ``aliases`` is. Defaults to discovery, so a source family
+    #: that does not declare an identity claim cannot produce one: new sources must opt
+    #: in to identity, never inherit it. PubMed, for instance, puts the article title
+    #: here, which is not a name at all.
+    alias_evidence_type: SourceEvidenceType = SourceEvidenceType.DISCOVERY_EVIDENCE
     snippet: str = ""
     provisional_identity_key: str = Field(min_length=1)
     retrieved_at: datetime
@@ -183,9 +289,25 @@ class CanonicalAsset(StrictModel):
     asset_id: str
     canonical_name: str
     aliases: list[str] = Field(default_factory=list)
+    #: This asset's names in the one normalized space identity is decided in -- the same
+    #: space ``IdentityMention.normalized_asset_name`` is written in, produced by the same
+    #: ``normalize_identity_name``. ``canonical_name`` and ``aliases`` are for display and
+    #: keep their punctuation; joining anything to an asset by one of those strings
+    #: compares across two name spaces and silently loses every development code. Published
+    #: because the registry already indexes on these keys internally, and a caller left to
+    #: re-derive them is a caller free to derive them differently.
+    identity_keys: list[str] = Field(default_factory=list)
     company_ids: list[str] = Field(default_factory=list)
     trial_ids: list[str] = Field(default_factory=list)
+    #: Targets this asset is documented to act on. Populated only from confirmed
+    #: mechanism assertions -- never from the target a query was scoped to, and never
+    #: from targets merely named by a document the asset appeared in.
     target_ids: list[str] = Field(default_factory=list)
+    #: Targets named by the contexts this asset was discovered in. Discovery evidence,
+    #: not attribution: kept so a candidate can be traced back to why it surfaced,
+    #: and deliberately never merged into ``target_ids``.
+    discovery_target_context: list[str] = Field(default_factory=list)
+    target_assertions: list[CandidateTargetAssertion] = Field(default_factory=list)
     modality_id: str | None = None
     indication_ids: list[str] = Field(default_factory=list)
     development_stage: str | None = None
@@ -194,6 +316,69 @@ class CanonicalAsset(StrictModel):
     mention_ids: list[str] = Field(default_factory=list)
     supporting_claim_ids: list[str] = Field(default_factory=list)
     provisional: bool = True
+    #: A source typed this asset's name ``DRUG`` in a structured field of its own schema.
+    #: Evidence about the name only: it protects the candidate from low-support demotion
+    #: and carries no weight in identity, alias or target attribution decisions. Set only
+    #: from structured typing, never from prose, and never unset once observed.
+    structurally_typed_drug: bool = False
+
+
+class IdentityRelationship(str, Enum):
+    """How a name observed alongside an asset relates to that asset's identity.
+
+    Co-occurrence is not identity. A registry reads ``otherNames`` and finds a mixture of
+    true synonyms, co-formulated components, regimen partners and class descriptors; only
+    the first is safe to merge. Naming the rest is what keeps a combination partner from
+    silently becoming an alias.
+    """
+
+    #: The same molecular entity under another spelling. Safe to merge.
+    IDENTITY_ALIAS = "IDENTITY_ALIAS"
+    #: A component of one fixed-dose or co-formulated product. Identity-bearing at the
+    #: product level; explicitly NOT molecular synonymy, so the canonical ids stay distinct.
+    COFORMULATED_COMPONENT = "COFORMULATED_COMPONENT"
+    #: A distinct drug given as part of the same combination. Never identity.
+    COMBINATION_PARTNER = "COMBINATION_PARTNER"
+    #: Observed in the same trial or regimen, with no stronger relationship established.
+    COADMINISTERED_WITH = "COADMINISTERED_WITH"
+    #: One name is the antibody or small molecule the other conjugates, e.g. Datopotamab
+    #: within Dato-DXd, or Trastuzumab within T-DM1. A real and useful relationship, and
+    #: emphatically not sameness: the conjugate and its parent are different molecules with
+    #: different targets of effect, so the canonical ids stay distinct.
+    #:
+    #: Added in M12 because M11 had to label these ``COMBINATION_PARTNER``, which got the
+    #: identity decision right and the relationship wrong. Emitted only where an authority
+    #: documents the conjugation; it is never inferred from one name containing the other,
+    #: which would be the same string-shape reasoning the evidence model exists to reject.
+    CONJUGATE_PARENT = "CONJUGATE_PARENT"
+    #: Insufficient positive evidence to classify. Held for review, never merged.
+    UNCERTAIN_RELATIONSHIP = "UNCERTAIN_RELATIONSHIP"
+
+
+class IdentityEdge(StrictModel):
+    """One observed name-to-name relationship, with the evidence that produced it.
+
+    Emitted for every related name a source offers, whether or not it was acted on, so the
+    identity graph can be diffed across runs and every merge can be explained by the exact
+    edge that caused it.
+    """
+
+    edge_id: str
+    asset_id: str
+    #: The name the source gave as the intervention's own.
+    primary_name: str
+    #: The name the source offered alongside it.
+    related_name: str
+    relationship: IdentityRelationship
+    #: Whether this edge actually contributed an alias to the asset in this run.
+    merged: bool
+    #: Where the related name came from, e.g. ``clinicaltrials_gov.intervention.otherNames``.
+    evidence_field: str
+    #: Why the relationship was classified as it was.
+    basis: str
+    hit_id: str
+    source_document_id: str | None = None
+    trial_id: str | None = None
 
 
 class MergeStatus(str, Enum):
@@ -224,12 +409,35 @@ class CompiledQuery(StrictModel):
     modality_ids: list[str] = Field(default_factory=list)
     aliases: list[str] = Field(default_factory=list)
     expansion_depth: int = Field(default=0, ge=0)
+    #: ``SeedProvenance`` value: whether this query came from the target's own vocabulary
+    #: or from a drug name the drug->target authority supplied. Defaulted so existing
+    #: callers keep working, and carried through to the attempt log because it cannot be
+    #: reconstructed afterwards -- a document reached by searching the authority's own
+    #: reference data corroborates nothing about that data.
+    seed_provenance: str = "TARGET_VOCABULARY"
+    #: Canonical drug id this query was seeded from, when it was seeded from one.
+    seed_drug_id: str | None = None
 
 
 class RunStatus(str, Enum):
     CONVERGED = "CONVERGED"
     INCOMPLETE = "INCOMPLETE"
     RUNNING = "RUNNING"
+
+
+class RunMode(str, Enum):
+    """What a run's output will be used for, which decides how strict it must be.
+
+    The distinction is not about confidence, it is about consequence. An interactive
+    search that degrades when a capability is missing gives a user a narrower answer and
+    a warning saying so, which is useful. An evaluation that degrades the same way
+    produces a *number* — a recall figure, a benchmark score — and that number then gets
+    compared against runs that did not degrade. Nothing downstream can tell the two
+    apart, so the strictness has to be enforced before the run, not inferred after it.
+    """
+
+    INTERACTIVE = "INTERACTIVE"
+    EVALUATION = "EVALUATION"
 
 
 class TargetTerm(StrictModel):
@@ -250,6 +458,50 @@ class TargetExpression(StrictModel):
         if self.operator == TargetOperator.EXACT_COMBINATION and len(ids) < 2:
             raise ValueError("EXACT_COMBINATION requires at least two canonical targets")
         return self
+
+
+class PhaseConstraintOperator(str, Enum):
+    """How a requested development phase set is meant to be read.
+
+    ``EXACT`` is deliberately separate from ``MINIMUM``: "phase 2" asks for Phase 2 assets,
+    and folding it onto the evidence floor's ``minimum_stage`` would silently admit Phase 3.
+    """
+
+    EXACT = "EXACT"
+    ANY_OF = "ANY_OF"
+    MINIMUM = "MINIMUM"
+
+
+#: Phase vocabulary tokens → the ``development_stage_order`` scale the extractors emit.
+#: The values mirror ``bve.se.evidence.clinicaltrials._STAGE_ORDER`` exactly; the gate
+#: compares against facts produced there, so the two must not drift apart.
+PHASE_STAGE_ORDER = {
+    "EARLY_PHASE1": 2,
+    "PHASE1": 2,
+    "PHASE2": 3,
+    "PHASE3": 4,
+    "PHASE4": 6,
+}
+
+
+class PhaseConstraint(StrictModel):
+    """A development-phase requirement stated over asset-specific stage evidence."""
+
+    operator: PhaseConstraintOperator
+    phases: list[str] = Field(min_length=1)
+
+    @model_validator(mode="after")
+    def validate_phases(self) -> "PhaseConstraint":
+        unknown = [phase for phase in self.phases if phase.upper() not in PHASE_STAGE_ORDER]
+        if unknown:
+            raise ValueError(f"unknown phase tokens: {', '.join(unknown)}")
+        if self.operator is PhaseConstraintOperator.MINIMUM and len(self.phases) != 1:
+            raise ValueError("a MINIMUM phase constraint names exactly one phase")
+        return self
+
+    @property
+    def stage_orders(self) -> list[int]:
+        return sorted({PHASE_STAGE_ORDER[phase.upper()] for phase in self.phases})
 
 
 class OutputSpec(StrictModel):
@@ -307,6 +559,9 @@ class StrategicGap(StrictModel):
     required_biology: list[BuyerRequirement] = Field(default_factory=list)
     capability_constraints: CapabilityConstraints = Field(default_factory=CapabilityConstraints)
     evidence_floor: EvidenceFloor = Field(default_factory=EvidenceFloor)
+    #: Optional, so every BuyerProblem authored before phase intent existed compiles and
+    #: gates exactly as before.
+    phase_constraint: PhaseConstraint | None = None
     clinical_effect_bar: ClinicalEffectBar = Field(default_factory=ClinicalEffectBar)
     acceptable_deal_routes: list[str] = Field(default_factory=list)
     geographic_rights_requirements: list[BuyerRequirement] = Field(default_factory=list)
@@ -382,6 +637,48 @@ class SourceDocument(StrictModel):
     snapshot_path: str | None = None
     source_tier: SourceTier
     public_only: bool = True
+
+
+class SourceEvidenceClaim(StrictModel):
+    """One typed statement a source document makes, with the provenance to adjudicate it.
+
+    Provenance is first-class because two sources will disagree -- about targets, codes,
+    ownership and stage -- and resolving that needs to know who said it, in which release,
+    as written, and on what date. ``entity_string_as_written`` is kept unnormalized
+    deliberately: the string a filing used is the evidence, and normalizing it away loses
+    the ability to re-adjudicate later.
+    """
+
+    claim_id: str
+    source_family: str
+    #: The source's own release or version identifier, e.g. an EDGAR accession number or a
+    #: conference abstract-book edition. Distinct from ``retrieved_at``: the same release
+    #: fetched twice must be recognizable as the same evidence.
+    source_release: str | None = None
+    document_id: str
+    document_hash: str
+    retrieved_at: datetime
+    #: When the source says the statement was true, which is not when it was fetched.
+    effective_date: date | None = None
+    entity_string_as_written: str
+    claim_type: SourceEvidenceType
+    claim_value: Any
+    #: The quoted span or the structured field path the claim was read from. One of the two
+    #: must be present, so no claim exists without a way to check it.
+    evidence_span: str | None = None
+    structured_field: str | None = None
+    #: Relative standing of the source family when claims conflict. Higher wins; equal
+    #: ranks are a conflict to record rather than a tie to break silently.
+    authority_rank: int = 0
+
+    @model_validator(mode="after")
+    def _requires_something_to_check(self) -> "SourceEvidenceClaim":
+        if not (self.evidence_span or self.structured_field):
+            raise ValueError(
+                "a claim needs evidence_span or structured_field: an assertion with no"
+                " locatable basis cannot be re-adjudicated"
+            )
+        return self
 
 
 class ExtractedClaim(StrictModel):
@@ -478,6 +775,14 @@ class SearchAttempt(StrictModel):
     retrieval_date: datetime
     applicable_as_of_date: date
     snapshot_ids: list[str] = Field(default_factory=list)
+    #: How many times this one query was issued before it settled. A transient CT.gov
+    #: timeout is invisible in the outcome alone -- a query that succeeded on its third
+    #: attempt and one that succeeded immediately both read SUCCESS -- so the count is
+    #: recorded to keep a retried acquisition distinguishable from a clean one.
+    attempts_made: int = Field(default=1, ge=1)
+    #: Transport pages consumed. Distinguishes a query that returned little because the
+    #: universe is small from one that stopped early.
+    pages_fetched: int = Field(default=0, ge=0)
 
 
 class CoveragePass(StrictModel):
@@ -492,6 +797,40 @@ class CoveragePass(StrictModel):
     source_unique_contributions: dict[str, int] = Field(default_factory=dict)
 
 
+class TrialUniverseProvenance(StrictModel):
+    """Which trial universe a run actually saw, and how it was obtained.
+
+    Recorded so an answer can later be reproduced against the same universe rather than
+    against whatever the backend serves today. ``backend`` and ``extractor`` are kept
+    separate because they are separate concerns: two backends can feed equivalent
+    scientific records through different parsers, and only the pair explains an output.
+
+    Retrieval timestamps are provenance, not identity — two runs over the same universe
+    are the same run even though they happened at different times, so nothing that
+    compares runs for determinism may read them.
+    """
+
+    backend: str
+    provider_version: str | None = None
+    #: Upstream data release the backend served, e.g. an AACT mirror date.
+    source_release: str | None = None
+    #: Content-addressed ids of the preserved payloads.
+    snapshot_ids: list[str] = Field(default_factory=list)
+    query: dict[str, Any] = Field(default_factory=dict)
+    retrieval_started_at: datetime | None = None
+    retrieval_completed_at: datetime | None = None
+    records_considered: int = 0
+    records_returned: int = 0
+    #: True when a record cap cut the universe short. A truncated universe cannot support
+    #: a coverage claim, so this must survive into the manifest rather than being inferred.
+    truncated: bool = False
+    #: Parser that interpreted the payloads, distinct from the backend that supplied them.
+    extractor: str | None = None
+    extractor_version: str | None = None
+    #: Digest over the identity-bearing fields above, for cheap run-to-run comparison.
+    provenance_hash: str | None = None
+
+
 class RunManifest(StrictModel):
     run_id: str
     problem_id: str
@@ -502,6 +841,14 @@ class RunManifest(StrictModel):
     code_version: str
     extractor_versions: dict[str, str] = Field(default_factory=dict)
     normalization_version: str
+    #: Pinned biomedical entity snapshot, e.g.
+    #: ``chembl_36__open_targets_26.06__resolver_v1__modality_v2``. Recorded so a run
+    #: stays reproducible after the upstream databases move; ``no_snapshot__…`` means
+    #: the run relied solely on problem-declared aliases.
+    ontology_version: str | None = None
+    #: The trial universe this run queried. ``None`` when trials were not acquired through
+    #: a provider, which is itself worth recording: such a run cannot state its universe.
+    trial_universe: TrialUniverseProvenance | None = None
     source_status: dict[str, SearchOutcome] = Field(default_factory=dict)
     query_log_ids: list[str] = Field(default_factory=list)
     evidence_snapshot_ids: list[str] = Field(default_factory=list)
@@ -509,6 +856,19 @@ class RunManifest(StrictModel):
     known_blind_spots: list[str] = Field(default_factory=list)
     status: RunStatus = RunStatus.RUNNING
     incomplete_reasons: list[str] = Field(default_factory=list)
+    #: The subset of ``incomplete_reasons`` that no caller may waive. A mandatory source
+    #: that was never configured is a declared, constant blind spot, and a run may be
+    #: scored against it knowingly. A mandatory source that *failed mid-acquisition* is
+    #: different in kind: the corpus is missing an unknown amount of evidence, so recall
+    #: measured on it is not a measurement. ``--allow-incomplete`` covers the first and
+    #: must never cover the second.
+    fatal_reasons: list[str] = Field(default_factory=list)
+
+    @property
+    def scoreable(self) -> bool:
+        """Whether this run's corpus may be used for a benchmark or a decision."""
+
+        return not self.fatal_reasons
 
     @model_validator(mode="after")
     def validate_completion(self) -> "RunManifest":

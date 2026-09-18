@@ -17,6 +17,7 @@ from bve.se.acquisition.http import (
     get_json,
     get_text,
     safe_get_public_page,
+    user_agent_receipt,
 )
 
 PUBLIC_IP = "93.184.216.34"
@@ -78,6 +79,34 @@ def test_configured_user_agent_is_required(monkeypatch) -> None:
 
     monkeypatch.setenv("BVE_SE_USER_AGENT", "BVE Research ops@example.com")
     assert configured_user_agent() == "BVE Research ops@example.com"
+
+
+def test_user_agent_receipt_attests_identification_without_the_address(monkeypatch) -> None:
+    """Provenance needs to know a contact was sent and whether it was the same one.
+
+    A digest answers both. The address is a real person's contact detail, and recording it
+    would put it in every artifact and commit that quotes the receipt, so it must not appear
+    anywhere in the returned value.
+    """
+
+    monkeypatch.setenv("BVE_SE_USER_AGENT", "BVE Research ops@example.com")
+    receipt = user_agent_receipt()
+
+    assert receipt["contact_present"] is True
+    assert receipt["redacted"] is True
+    assert "@" not in json.dumps(receipt)
+    assert "example.com" not in json.dumps(receipt)
+
+    # Same identity digests the same, so two runs can be shown to have used one operator.
+    assert user_agent_receipt() == receipt
+    monkeypatch.setenv("BVE_SE_USER_AGENT", "BVE Research other@example.com")
+    assert user_agent_receipt()["user_agent_sha256"] != receipt["user_agent_sha256"]
+
+
+def test_user_agent_receipt_refuses_to_attest_an_unconfigured_operator(monkeypatch) -> None:
+    monkeypatch.delenv("BVE_SE_USER_AGENT", raising=False)
+    with pytest.raises(AcquisitionHttpError, match="BVE_SE_USER_AGENT"):
+        user_agent_receipt()
 
 
 def test_retrying_session_is_bounded_and_honors_retry_after() -> None:

@@ -1,0 +1,189 @@
+{
+  "frozen_at": "2026-09-10T00:00:00+00:00",
+  "run_label": "B8",
+  "purpose": "First scientifically scoreable, target-aware PDCD1 end-to-end baseline with durable acquisition custody and exact offline replay.",
+  "central_question": "Given a broad PDCD1 evidence universe containing the real PD-1 drugs plus hundreds of combination partners, can the production pipeline identify the actual PDCD1 assets while refusing to falsely call the other drugs PDCD1 assets -- from a sealed corpus that can be replayed offline, byte for byte?",
+  "relationship_to_B7": {
+    "B7_status": "preserved as historical evidence; not modified, not re-run, not forced into validity",
+    "why_B8_exists": "B7 completed acquisition but could not be sealed or replayed: 2,819 CT.gov records were attempt-referenced against 2,913 materialized snapshots, a 94-record gap no attempt record could explain. A union replay over the snapshot tree answered every query with every file (3,385 hits / 1,179 assets vs the run's 3,321 / 1,064), so it re-derived membership instead of reproducing it.",
+    "root_causes_now_identified": [
+      "superseded retry attempts wrote bytes that only the discarded attempt had seen (STRONG, reproduced on fixtures)",
+      "the CT.gov backend snapshots every normalized study *before* applying the as-of cutoff, so trials updated after 2026-08-20 left bytes no query admits (PROVEN by reading src/bve/se/universe/ctgov.py; reproduced on fixtures at tests/se/test_trial_universe.py and tests/se/test_acquisition_custody.py)"
+    ],
+    "note": "The second mechanism materially refines the earlier attribution of the 94-record gap, which had been recorded as STRONG-not-PROVEN for superseded retries alone. B8 closes both."
+  },
+  "code": {
+    "repository_head_at_branch_point": "6bf7b2e",
+    "scientific_code_checkpoint_inherited": "c395ff7",
+    "b8_custody_commit": "d746fb7",
+    "b8_withheld_record_commit": "b98e4bf",
+    "branch": "se-acquisition-custody",
+    "execution_root": "/home/djmann/projects/bve-b8 (git worktree, isolated)",
+    "execution_note": "The installed `bve` distribution is an editable install pointing at the main checkout, so every B8 command sets PYTHONPATH=src and the resolved module path is verified before use. Running without it silently executes the main checkout's bytes, which carry unrelated concurrent-agent WIP.",
+    "pipeline_dirty": false,
+    "scientific_behaviour_change_vs_B7": "Acquisition custody, sealing and native offline replay are added. Discovery, identity, target attribution, extraction, gating and scoring are unchanged from c395ff7. Withheld (cutoff-excluded) records are newly *named*, but were never part of the universe before and are not now."
+  },
+  "v2_adjudication_and_role_annotation": {
+    "v2_manifest": "research/se_benchmarks/pdcd1_annotation_v2/v2_manifest.json",
+    "v2_manifest_sha256": "5140b076afe959b365f694aa0d6161edc70fe8342c295a1bc2a1f02b1de41523",
+    "v2_denominators_sha256": "ee9cba0b01c782746e3c648e5a472ace8482191b1ba5bd4a3b1d73c4fe8be0d6",
+    "role_authority_manifest": "research/se_benchmarks/pdcd1_gold_role_authority_v1/manifest.json",
+    "role_authority_manifest_sha256": "6afcb0efa2cad61420484cc1c617a3712503559e7283ba506ac331eed191f589",
+    "v1_rules_frozen": true,
+    "v2_protocol_frozen": true,
+    "m8_modified": false,
+    "note": "Identical to B7. Append-only annotation layers over M8; M8 itself is untouched. Denominators and adjudication rules are frozen before any B8 outcome is observed."
+  },
+  "ontology": {
+    "version": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2__modality_v2",
+    "snapshot_version_field": "chembl_ChEMBL_37__open_targets_26.06__resolver_v2",
+    "install_root": "data/se/ontology/current (gitignored; symlinked from the main checkout)",
+    "records_jsonl_sha256": "986fa262e3c275424968996b78703614563304cf22f5e2a2f1d3c39e0fc6f50b",
+    "edges_jsonl_sha256": "2a6b6ea8f55abf8b292138904eefc2baa2a285d8ad5851f4cc6d91ac3b93f551",
+    "snapshot_json_sha256": "c23936cb971cfb5579603acd1271993bc5c394172e05a760c4a350e3c51c0fe8",
+    "manifest_json_sha256": "a4206a6d8772c5300cf195b807b7345fb5bc00951f1232eaf293f0384cab4ca2",
+    "receipt_json_sha256": "ac2afdd820c701e7de5de896b5a294efda94303c97d7a32459cde892c87291c6",
+    "verified_identical_to_B7": true
+  },
+  "problem": {
+    "path": "/home/djmann/staging/pdcd1_baseline/pdcd1_baseline_problem.yaml",
+    "sha256": "d1788139bfab354cf97984784223af9b70072d07e6e3c16e635912d90f49db81",
+    "problem_id": "baseline_pdcd1_landscape",
+    "problem_version": "1.0.0",
+    "as_of_date": "2026-08-20",
+    "unchanged_from": "B6/B7"
+  },
+  "reference_universe": {
+    "path": "/home/djmann/staging/pdcd1_baseline/pdcd1_reference_universe_m8v2.csv",
+    "sha256": "8f8cfb0a3a233f01c72dafe717f0c1c1d8de22646ac00824be3fd96c0201fd2f",
+    "unchanged_from": "B7"
+  },
+  "attribution_rules": {
+    "unchanged_from": "B7",
+    "evidence_admitted": "DIRECT_TARGET mechanism edges only",
+    "family_or_complex_edges": "preserved, classification_effect = NONE, supporting evidence only",
+    "query_target_inheritance": "REMOVED",
+    "discovery_vs_attribution": "hit.target_terms -> CanonicalAsset.discovery_target_context; target_ids only from CONFIRMED_TARGET assertions",
+    "acceptance_invariant": {
+      "CONFIRMED_TARGET": "qualifies as mechanism match",
+      "CONFIRMED_OTHER_TARGET": "mechanism mismatch",
+      "CONFLICTING": "review",
+      "UNRESOLVED": "review"
+    },
+    "forbidden": [
+      "UNRESOLVED -> exclude",
+      "found in PDCD1 search -> target_ids=[PDCD1]"
+    ],
+    "authority_self_coverage": "the authority speaks directly for 29/40 V2-confirmed positives; the other 11 must remain discoverable and route to review"
+  },
+  "acquisition_custody": {
+    "schema": "se_acquisition_custody_v1",
+    "why_not_se_corpus_seal_v1": "se_corpus_seal_v1 is extra=forbid and its required fields can only be produced by the CorpusStore path, which this run does not use. Fabricating them would mean writing hashes that correspond to no persisted bytes.",
+    "custody_root": "/home/djmann/staging/pdcd1_baseline/B8_custody",
+    "artifacts": [
+      "acquisition_ledger.jsonl",
+      "query_attempts.jsonl",
+      "source_health.json",
+      "corpus_manifest.json",
+      "corpus_seal.json"
+    ],
+    "invariants_enforced_before_downstream_may_start": [
+      "every snapshot file in the tree is named by a materialization record",
+      "every admitted record is claimed by an accepted query attempt (orphan_record_count == 0)",
+      "cutoff-excluded records are declared withheld, not dropped (withheld_record_count is stated on the seal)",
+      "a superseded attempt still declares the bytes it wrote and names its successor",
+      "every hash on the seal corresponds to persisted bytes",
+      "seal_acquisition raises rather than returning a status, so no caller can continue past a failed boundary"
+    ],
+    "replay_contract": "SealedCorpusReplay serves attempts from the sealed record in recorded order, keyed by (source, semantic_query_id), hash-verifying each snapshot; the run executes under block_network(), so any live fetch raises NetworkBlocked rather than silently succeeding. Replay must reproduce membership, never re-derive it."
+  },
+  "acquisition_configuration": {
+    "BVE_CTGOV_TIMEOUT": 180,
+    "BVE_CTGOV_RETRIES": 4,
+    "query_attempts": 3,
+    "source_failure_threshold": 3,
+    "trial_backend": "rest",
+    "ctgov_provider_version": "v2",
+    "ctgov_source_release": "v2",
+    "pubmed_provider_version": "eutils_v1",
+    "max_trial_records": null,
+    "exhaustive": true,
+    "trial_universe_bound": null,
+    "wall_clock_limit": null,
+    "expected_runtime": "~3h, based on B7's DISCOVERY stage at 10,058.5s",
+    "fail_closed": "RunManifest.fatal_reasons -> CLI exit 3; --allow-incomplete cannot waive a FAILED source; CustodyError -> CLI exit 5",
+    "snapshot_dir": "/home/djmann/staging/pdcd1_baseline/B8_snapshots/clinicaltrials_gov",
+    "pubmed_snapshot_dir": "/home/djmann/staging/pdcd1_baseline/B8_snapshots/pubmed",
+    "run_id": "B8",
+    "one_live_acquisition_only": "The live acquisition runs once. Downstream crashes, performance fixes and scoring changes are never grounds to reacquire; they replay from the seal."
+  },
+  "source_state_semantics": {
+    "unchanged_from": "B7",
+    "SUCCESS/NO_EVIDENCE_FOUND": "acquired",
+    "NOT_CONFIGURED": "asked once, recorded as an INCOMPLETE reason and a known blind spot; waivable by --allow-incomplete",
+    "FAILED": "fatal after source_failure_threshold=3; never waivable",
+    "mandatory_sources": 8,
+    "mandatory_sources_note": "pubmed is excluded from _MANDATORY_SOURCES",
+    "expected_not_configured": [
+      "company_pipeline_or_presentation",
+      "company_press_release",
+      "conference_aacr",
+      "conference_asco",
+      "conference_ash",
+      "conference_eha",
+      "sec_edgar"
+    ]
+  },
+  "scoring_hierarchy": {
+    "frozen_before_results": true,
+    "primary_product_metric": "V2 confirmed PDCD1 assets (n=40)",
+    "historical_continuity_only": "strict M8 n=224",
+    "report": [
+      "strict M8 recall",
+      "V2 confirmed PDCD1 asset discovery recall",
+      "V2 confirmed PDCD1 identification recall",
+      "PDCD1 target-confirmation coverage",
+      "V2 confirmed negatives falsely asserted PDCD1 (real precision-side error)",
+      "confirmed negatives surfaced but not PDCD1-attributed (benign co-occurrence)",
+      "CONFIRMED_OTHER_TARGET (correct mechanism exclusions)",
+      "UNRESOLVED (review burden / authority coverage gap)",
+      "CONFLICTING (genuine authority ambiguity)",
+      "review-queue counts",
+      "runtime by stage"
+    ],
+    "concept_separation": "'surfaced in relevant evidence' is not 'asserted to target PDCD1'. A co-administered chemotherapy or backbone asset that is merely discovered is not a false positive; only an asset the pipeline *asserts* targets PDCD1 in contradiction of the V2 adjudication is."
+  },
+  "test_state": {
+    "honest_summary": "tests/se and tests/discovery are green in the B8 worktree; the repository as a whole is not, and B8 inherits B7's enumerated failure set.",
+    "b8_worktree": {
+      "tests/se": "548 passed, 1 warning",
+      "tests/se + tests/discovery": "712 passed",
+      "tests/test_competitor_discovery.py": "24 passed",
+      "ruff check src/": "clean"
+    },
+    "inherited_known_failures": {
+      "unrelated_committed_debt": [
+        "tests/intelligence/test_sprint47_buyer_thesis.py::TestBuyerMandateScore (2)"
+      ],
+      "stale_release_custody_manifest": [
+        "tests/test_se_public_workflow.py::test_checked_in_release_exists_and_verifies_current_runtime_closure"
+      ],
+      "deferred": "live_release_manifest.yaml is deliberately not revalidated; it remains its own append-only release-custody milestone and is out of scope for B8."
+    },
+    "environment_note": "tests/se/test_query_structure.py fails without the gitignored ontology snapshot installed; proven pre-existing at HEAD by stashing the B8 changes. Resolved by symlinking data/ from the main checkout, with no source or test change."
+  },
+  "execution_procedure": {
+    "phase_4": "ONE live acquisition: bve-se-search --acquire-only --custody-root ... --run-id B8. Gate on the custody boundary; a CustodyError is exit 5 and downstream must not start.",
+    "phase_5": "Immediate offline replay parity gate via --replay-corpus under block_network(). Replay must reproduce the sealed membership exactly; it is never tuned to expected counts.",
+    "phase_6": "Full end-to-end run from the sealed corpus only, with per-stage telemetry for ACQUISITION, DISCOVERY, IDENTITY, TARGET_ATTRIBUTION, EXTRACTION, GATING and SCORING.",
+    "phase_7": "Score against the frozen hierarchy above and report every listed metric, including the ones that look bad."
+  },
+  "stop_conditions": [
+    "changing M8 or the frozen V1/V2 rules after seeing results",
+    "fabricating missing provenance",
+    "overwriting or mutating an immutable published artifact",
+    "two defensible scientific interpretations that materially change what the benchmark means",
+    "credentials, payment, or a destructive external action being required",
+    "evidence proving the baseline impossible under the frozen protocol"
+  ]
+}

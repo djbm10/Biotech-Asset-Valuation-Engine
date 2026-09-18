@@ -1,0 +1,67 @@
+{
+  "verified_at": "2026-08-20T22:45:00Z",
+  "repo": "djbm10/Biotech-Asset-Valuation-Engine",
+  "fetched_via": "gh api repos/.../contents?ref=<sha> (base64-decoded), fresh dir outside the working tree",
+  "refs": {
+    "manifest_built_by_commit": "35e6721cdd2f70a90c899082f8abbf72907298bb",
+    "builder_modules_persisted_in": "a1c6ec84e6ed13d554aac4516ff97d5b0d6b5bb6"
+  },
+  "note": "artifact.py and bulk.py do not exist at 35e6721 because they were untracked when the snapshot was built; a1c6ec8 persists those exact bytes. build.py was also modified-but-uncommitted at build time, so its final bytes likewise live at a1c6ec8.",
+  "result": "ALL_MATCH",
+  "files": [
+    {
+      "path": "bve/se/ontology/artifact.py",
+      "sha256": "f067fa9a21999b5664bf2927eb86105a5f22d40b4c1c7a5c4ee4f166d13eb809",
+      "pinned_by": "provenance-doc",
+      "match": true
+    },
+    {
+      "path": "bve/se/ontology/build.py",
+      "sha256": "7b3eeb73330fad08ec78ec5104ceffb4f63fb91fc7ee213a00c7cacd277c789d",
+      "pinned_by": "provenance-doc",
+      "match": true
+    },
+    {
+      "path": "bve/se/ontology/bulk.py",
+      "sha256": "fd2d213b0ead16629dc5bad1c73e8827665a93f35e63c0a360ccb734c3dfa425",
+      "pinned_by": "manifest-pinned",
+      "match": true
+    },
+    {
+      "path": "bve/se/ontology/modality.py",
+      "sha256": "6c21f71527bbf900448db11513a37273fddfc9c7168f2b3d80f9ef99b80f418c",
+      "pinned_by": "manifest-pinned",
+      "match": true
+    },
+    {
+      "path": "bve/se/ontology/records.py",
+      "sha256": "a5c5b5692350ba085c1f7dbd3f0a5d319c5a2b8fa455e0bd3488a678f2d8e295",
+      "pinned_by": "manifest-pinned",
+      "match": true
+    },
+    {
+      "path": "bve/se/ontology/resolver.py",
+      "sha256": "fe08fa63759732bd2f53b42838f43af050400e90c962e05d473cd29328562de1",
+      "pinned_by": "manifest-pinned",
+      "match": true
+    },
+    {
+      "path": "bve/se/ontology/sources/chembl.py",
+      "sha256": "55d15b734e02414f2435f6a47a5f7d34fb81586bdeb3c0ecccc4375a945d8abe",
+      "pinned_by": "manifest-pinned",
+      "match": true
+    },
+    {
+      "path": "bve/se/ontology/sources/open_targets.py",
+      "sha256": "cb50236853c639dc0a34b1d6e118d2838ff2c5ea5aa879ee26f6d15d7f981163",
+      "pinned_by": "manifest-pinned",
+      "match": true
+    },
+    {
+      "path": "bve/se/ontology/targets.py",
+      "sha256": "8acfb2992fab339cd6ea73e367dbdb1040fde0fbc0ef016cc6cebe2b7cd971c0",
+      "pinned_by": "manifest-pinned",
+      "match": true
+    }
+  ]
+}

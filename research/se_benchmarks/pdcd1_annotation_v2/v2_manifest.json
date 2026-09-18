@@ -1,0 +1,62 @@
+{
+ "protocol": "pdcd1_annotation_v2",
+ "frozen_before_entry_level_research": true,
+ "benchmark": {
+  "file": "pdcd1_reference_universe_m8v2.csv",
+  "sha256": "8f8cfb0a3a233f01c72dafe717f0c1c1d8de22646ac00824be3fd96c0201fd2f",
+  "n": 224,
+  "mutable": false
+ },
+ "v1_rules": {
+  "file": "GOLD_ENTRY_ROLE_RULES.md",
+  "chain_tip": "fe5d03d28365c9608de1fc50d2d4e3810eb3a7daac0adcdc4aaff5a85b6b2dd6",
+  "amended_by_v2": false
+ },
+ "v1_outputs": {
+  "gold_entry_roles.jsonl": "7755f3025eb15ff09aedd21c8062fe6812ce1e990b90583abeca8f2dca1a7cb4",
+  "reconciliation_ledger.jsonl": "d909885fc5965a735ab05e7a7c4c29e19e769596dc0e11c5ac3fcaa09c8ccdc5",
+  "asset_uncertain_subtypes.jsonl": "7f7ea1355a4f21c213338aa5e70ca9726ee68e4fd0fc753ecea56607710bc58c",
+  "adjudication_manifest.json": "93d4c61f3c569be4518d28456992695367df84104d7cf37c1f597560f3f4ab56"
+ },
+ "v2_protocol": {
+  "file": "ANNOTATION_PROTOCOL_V2.md",
+  "sha256": "a1743acef8ba2f559a2208fdc593338caa318e023721589eb8c6a4aece085008"
+ },
+ "v2_subject_set": {
+  "file": "v2_subject_set.jsonl",
+  "sha256": "6af3866ac4b62ae059ad3aa0de440321387fad80d1df00ad212641ab01190d16",
+  "builder_sha256": "8c37e0a0cf6d8f13fcbdeaa4ba18f69d66f1eb7bf23a57a02060398a620c3697",
+  "n": 48,
+  "track_A": 38,
+  "track_B": 10
+ },
+ "authority_release": {
+  "tag": "pdcd1-gold-role-authority-v1-267f4be5a5ea61a438fdcb",
+  "archive_sha256": "267f4be5a5ea61a438fdcb26b6508ed94712cd325424897a9f35ab502be57a7f"
+ },
+ "prior_authorities_exhausted": [
+  "open_targets_26.06",
+  "chembl_37"
+ ],
+ "adjudication": {
+  "adjudicator_inputs": {
+   "work/A_chunk_1.jsonl": "4f2abeb53c1c81e16634d71517abda74786a658f2ca40234a0f72cabc8c0163f",
+   "work/A_chunk_2.jsonl": "ad1cf569501ac2784d97996cc4411f3627b1f77aa1b8001a1bd880c4bd161c0c",
+   "work/A_chunk_3.jsonl": "9ccaf4d8221434f4cac5ee4a038e9ac1d6823d4c86d6178a1ac1ac17cd7fb057",
+   "work/A_chunk_4.jsonl": "6c5d67382bbf2ba3363b23960ec1e0d75ac790ae121a0f919c45bde7056dde05",
+   "work/B_chunk_1.jsonl": "315175bb3dc272d26a234312f3ae05938b36526bf69135c74a40c1fb6f92fe23",
+   "work/B_chunk_2.jsonl": "107f794e15dcad6ab04319f6b746b93e8d3a1cbcd44ffcd40b9e189b7b49674a",
+   "work/B_chunk_3.jsonl": "dad9f0d0ccb6f9aa5d52db63c14815d3c43cb2bd22870a93d99eb1ea553312e0",
+   "work/B_chunk_4.jsonl": "f557f09a6fc0632a0fff0ee2760e94a3d8488bc8f1f8fbae2ac7cbe31283ce03"
+  },
+  "brief_sha256": "10d16eaf7ae6393d568fb9dc357dd1e3d7721e13c7db023439162fc78d4f625b",
+  "reconciler_sha256": "962b9e9fae6294a35d2260add3da72fc8f378eb37223969a09577d757845edd4",
+  "denominator_sha256": "1ad9487c5a61ca05c7774c6368d10fc17a94bd260369d3ac937cd940f002ac08",
+  "outputs": {
+   "v2_annotation_layer.jsonl": "70f2db70a7338f0964156a5e76f6ddf34d25ecdc8489a7cf4c1cbb25fa64544f",
+   "v2_admissibility_audit.json": "25b0144f8f4f9577807d879108bc71e678ca0f661c48332b765eb47a4fe6f294",
+   "v2_denominators.json": "ee9cba0b01c782746e3c648e5a472ace8482191b1ba5bd4a3b1d73c4fe8be0d6"
+  },
+  "model": "claude-sonnet-5, two independent blind agents per chunk"
+ }
+}

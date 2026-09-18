@@ -49,3 +49,6 @@ htmlcov/
 Meeting Prep/
 docs/advice/Chris Folts advice.md
 docs/advice/Harvey Advice.md
+
+# Installed ontology snapshot payload; provenance lives in the GitHub Release
+data/se/ontology/

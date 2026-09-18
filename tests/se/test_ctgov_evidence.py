@@ -36,7 +36,7 @@ def _protocol() -> dict:
     }
 
 
-def test_ctgov_snapshot_extracts_cited_gate_facts(tmp_path) -> None:
+def test_ctgov_snapshot_extracts_cited_gate_facts(tmp_path, se_ontology_snapshot) -> None:
     adapter = ClinicalTrialsGovAdapter(
         lambda **_: [_protocol()], snapshot_root=tmp_path / "snapshots"
     )

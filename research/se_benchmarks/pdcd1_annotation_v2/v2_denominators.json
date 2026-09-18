@@ -1,0 +1,57 @@
+{
+ "figures": {
+  "strict M8 recall (permanent n=224)": {
+   "identified": 80,
+   "denominator": 224,
+   "recall": 0.35714285714285715
+  },
+  "V1 confirmed PDCD1 asset recall": {
+   "identified": 25,
+   "denominator": 28,
+   "recall": 0.8928571428571429
+  },
+  "V2 confirmed PDCD1 asset recall": {
+   "identified": 35,
+   "denominator": 40,
+   "recall": 0.875
+  },
+  "reachable V2 confirmed PDCD1 asset recall": {
+   "identified": 35,
+   "denominator": 40,
+   "recall": 0.875
+  }
+ },
+ "residual_interval": [
+  0.7142857142857143,
+  0.875
+ ],
+ "still_uncertain": [
+  "cand_3878d2f0c9935a6fe5cf",
+  "cand_4d00594fe0187a19a103",
+  "cand_558302b4e64f779e0ab6",
+  "cand_8264e68045cb74eea34c",
+  "cand_83c9781bd706690c7cf0",
+  "cand_88827c97564a124ce479",
+  "cand_a46080073c2c96561288",
+  "cand_cd6ce95eaee03b4d0669",
+  "cand_d4adfc6863191c5155d4"
+ ],
+ "v2_new_pdcd1": [
+  "cand_0ed27647e149c37cc77d",
+  "cand_148207468a222a051ffd",
+  "cand_15895cca45b8542958c4",
+  "cand_369938bd907f1df6b10e",
+  "cand_3db8eae9154dc8c7f4c9",
+  "cand_68c8707296c9014b4579",
+  "cand_a93e26579440c0eff7e0",
+  "cand_b6899a7f88b806287090",
+  "cand_bee79fc77f737917ad55",
+  "cand_c4008d8d5eeb881a25ba",
+  "cand_d7fc220c7d1392d28b2b",
+  "cand_f57cfd61cd68570154cd"
+ ],
+ "ctgov_only_resolutions": [
+  "cand_9254fb2b9190dacf8a93",
+  "cand_95125fb42826e2f75d3b"
+ ]
+}
