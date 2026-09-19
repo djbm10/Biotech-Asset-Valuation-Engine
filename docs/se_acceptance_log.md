@@ -8,6 +8,71 @@ The rule for acting on an entry: fix it when a real query exposed it, not becaus
 listed. Silent misreads outrank refusals, because a refusal tells the user something is
 wrong and a misread does not.
 
+## 2026-09-19 — human_poc_present: the evidence floor can now decide, and says no
+
+The acceptance query states two scientific constraints. The first was closed yesterday.
+The second, `human_poc_required`, compiled correctly and then decided nothing: the gate
+asked for a `human_poc_present` fact and no producer emitted one, so all 1,921 evaluated
+candidates sat at UNKNOWN. The compiler and the gate were right; the missing capability was
+evidence production.
+
+`bve.se.evidence.human_poc` now answers it from two routes that mean the same thing: a
+structured clinical result whose endpoint measures benefit and whose value was actually
+reported, and a sentence in a document the asset was seen in that reports one. Everything
+that is merely true of a clinical-stage asset produces nothing — a trial, a phase, a
+tolerated dose, an exposure curve, a biomarker movement, a protocol endpoint with no value.
+
+**Replayed from run C's sealed corpus** (`acceptance_20260919_poc`, same bytes, same query,
+no added modality):
+
+| decision | before | after |
+| --- | --- | --- |
+| `evidence.human_poc` PASS | 0 | 81 |
+| `evidence.human_poc` FAIL | 0 | 0 |
+| `evidence.human_poc` UNKNOWN | 1,921 | 1,840 |
+| `target.expression` PASS / FAIL / UNKNOWN | 53 / 582 / 1,286 | unchanged |
+
+**Assets satisfying both constraints: zero.** The cross-tab is the finding: of the 53
+assets whose construct is documented to hit both CD19 and BCMA, *not one* has an admissible
+human efficacy result in this corpus; and of the 81 with human efficacy, 22 are documented
+single-target assets that the dual gate correctly excludes and 59 have no construct
+evidence at all. No single-target or safety-only asset satisfies the query. Eligible remains
+0 — now for a defensible reason rather than for want of a producer.
+
+Zero FAILs is deliberate. Nothing in this corpus reports a human efficacy *failure* the
+contract can represent conservatively, and UNKNOWN sends an asset to review rather than
+excluding it for evidence nobody published.
+
+**What the citations show.** All 83 facts came from the prose route; the structured route
+produced nothing because the CT.gov corpus has no posted results at all (every
+`ClinicalResult` is a protocol endpoint, correctly `incomplete_reporting`). The sentences
+themselves are right — obexelimab's flare rates, ICG318's 10-of-12 sCR in refractory SLE,
+FELIX's 77% remission, teclistamab, glofitamab, talquetamab, elranatamab, blinatumomab.
+
+**The new binding constraint is upstream, and this is the first stage to expose it loudly.**
+Roughly fifty of the 81 passing "assets" are not assets: `although`, `before`, `months`,
+`baseline`, `Euroflow`, `IQR 72`. Every one genuinely appears in a sentence reporting
+efficacy — because the name is an ordinary English word. The efficacy layer attributed
+correctly to the name identity gave it. Mention precision was already known to be the weak
+layer (M17: ~55% false accepts); it had never before been handed a decisional PASS. Fixing
+it belongs in identity, not here.
+
+**Two defects this run caught that the suite could not**, both consistent with the lesson
+from `construct_target_set`:
+
+- On the live corpus the prose route's *only* match was a registry eligibility block
+  — "inadequate response to at least one immunomodulatory therapy" — written in exactly the
+  vocabulary of a result. Registry records now speak only through their structured outcome
+  measures, and eligibility phrasing and multi-thousand-character concatenated fields are
+  excluded outright.
+- The stage crashed on the first replay: two documents reporting the same sentence collapsed
+  to one claim id with two different source documents behind it, which the ledger refused. A
+  claim is a statement by a source, not a string.
+
+Still open, unchanged and deliberately not special-cased: `CD19 or CD19-BCMA CAR-T` passes
+the dual gate though an arm offering a *choice* between a single-target and a dual product
+is not a dual asset.
+
 ## 2026-09-18 — construct_target_set: giving the dual gate something to decide on
 
 The previous entry left `target_logic` compiled, carried and evaluated — and deciding
