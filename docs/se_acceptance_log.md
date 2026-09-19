@@ -47,7 +47,34 @@ Twenty-seven red-first tests, including the ones that matter most: two co-admini
 single-target drugs do not become one dual construct, silence is not denial, and the module
 source contains no target identifier at all, so nothing here is special-cased to CD19.
 
-Open: the live re-run judging whether single-target CD19 assets are now excluded.
+**Judged on the live re-run** (`se:ff17949b`, code `ab16296`, same question, same
+as-of, no modality added). `target_logic` went from 1,919 UNKNOWN and nothing decided to
+**53 PASS, 582 FAIL, 1,286 UNKNOWN**. No single-target asset satisfies the dual
+requirement: 314 assets carry a CD19-only set and every one is excluded. The passing
+names are the ones the question was about -- AZD0120, GC012F, ARI0003, FKC289,
+`CD19/BCMA Lupus Nephritis Targeted CAR T-cells`, `anti-CD19/BCMA CAR NK cells`.
+
+**Two defects only the live corpus could show, both since fixed.** The first corrected
+run produced construct sets of 50, 92 and 119 targets, because the route read the right
+text and then matched it with the ontology's *substring* index -- `ar` and `si` live
+inside "radiotherapy" and "infusion". All three assets passing the dual gate in that run
+passed on such a set, every one a single-target CD19 CAR-T: a junk set large enough will
+contain both halves of any conjunction. Targets are now read as whole symbol-shaped
+tokens anchored to an attributive cue, and sets top out at four members.
+
+The second run then failed in both directions at once. Regimens still passed --
+"Autologous BCMA CAR-T cells and CD19 CAR-T cells", "BCMA CART + CD19 CART" -- and real
+duals were excluded, because "CD19-BCMA dual nanobody based CAR-T" stopped at the first
+symbol that resolved. A coordinated name now yields nothing when the product noun is
+repeated on both sides, while "anti-CD19 and anti-BCMA CAR" stays one construct because
+the noun appears once and is shared. And `T` is a real gene symbol, so every "CAR T cell"
+in the corpus had been asserting TBXT.
+
+**Still open.** `CD19 or CD19-BCMA CAR-T` passes, and an arm offering a choice between a
+single-target and a dual product is not a dual asset. Source coverage is unchanged at 2
+of 9 connectors, so the run is honestly INCOMPLETE. Eligibility is still 0 because
+`human_poc` is unbuilt, and the shortlist's top rows are junk mentions -- `safety`,
+`months`, `first` -- which is now the most visible weakness a user would hit.
 
 
 ## 2026-09-18 — the live BCMA acceptance run, judged
