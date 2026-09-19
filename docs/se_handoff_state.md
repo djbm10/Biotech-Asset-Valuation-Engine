@@ -26,9 +26,30 @@ Seven mandatory families have no configured connector (company pipeline/presenta
 press release, AACR, ASCO, ASH, EHA, SEC EDGAR), and CAR-T human-efficacy evidence lives in
 exactly those. Every run will keep returning INCOMPLETE with 0 eligible until they exist.
 
+**Source coverage milestone, 1 of 7 done (ASH).** The audit result that matters: the
+connectors mostly *exist and had no caller*. `CrossrefConferenceConnector`,
+`AacrBulkProceedingsConnector` and `SecFiledPressReleaseConnector` were built and tested in
+M12 and were referenced only by their own tests. Do not rebuild any of them. Activation is
+`ACTIVE_CONFERENCE_FAMILIES` in `acquisition/runner.py` plus a live validation per venue.
+
+**ASH is wired and validated** (`65fcd9b`, log entry in `docs/se_acceptance_log.md`): 200
+records, 0 parse failures, +5 real assets, +10 identity PASS, blind spots 7 -> 6, and **no
+change to target or human_poc**. Conference metadata is title-and-DOI only, so the connector
+emits `DISCOVERY_EVIDENCE` by contract and can never carry efficacy. Expect EHA/ASCO/AACR to
+behave identically — they are the same mechanism.
+
+**Therefore re-examine the priority order after EHA.** Only the full-text families can move
+`human_poc` off UNKNOWN: company press releases (`SecFiledPressReleaseConnector`, built) and
+company pipeline pages. The conference tier buys breadth, not decisions.
+
+Keep the contracts separate: `bve-se-search` consumes a prebuilt `--source-index` and must
+**not** acquire live. Live acquisition -> sealed custody -> source index -> deterministic
+search. Measure a new source by replaying sealed custody with only that source's index added.
+
 Next work, in order:
-1. **Source connectors** for the seven missing families. This is the only change that can
-   move `eligible` off zero.
+1. **Source connectors** for the six remaining families — EHA (needs a `CONFERENCE_VENUES`
+   entry, the one genuine build), then ASCO, AACR, SEC-filed press releases, company pipeline
+   URLs (needs a maintained manifest), SEC EDGAR (already active).
 2. **Shortlist ordering** — prose words head the user-facing list because nothing is ever
    ELIGIBLE, so the review population *is* the shortlist and order is declared, not ranked.
    Presentation defect, not correctness.
