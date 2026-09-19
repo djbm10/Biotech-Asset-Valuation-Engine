@@ -14,7 +14,9 @@ from typing import Protocol
 import yaml  # type: ignore[import-untyped]
 
 from bve.se.acquisition.connectors import (
+    CONFERENCE_VENUES,
     ClinicalTrialsGovConnector,
+    CrossrefConferenceConnector,
     FdaLabelConnector,
     PubMedConnector,
     SecEdgarConnector,
@@ -63,14 +65,32 @@ def modality_terms_for(problem: BuyerProblemV2) -> list[str]:
     return list(dict.fromkeys(terms))
 
 
+#: Conference venues active in the default set, by source family. A venue is listed here only
+#: once it has been validated against the live source, so the shared ``CONFERENCE_VENUES``
+#: table can describe every venue the connector supports while production activates them one
+#: at a time. Adding a venue is an entry here, never another branch in the runner.
+ACTIVE_CONFERENCE_FAMILIES: tuple[str, ...] = ("conference_ash",)
+
+
+def conference_connectors() -> list[Connector]:
+    """The validated conference venues, built from the shared venue table."""
+
+    by_family = {venue.source_family: venue for venue in CONFERENCE_VENUES}
+    return [
+        CrossrefConferenceConnector(by_family[family])
+        for family in ACTIVE_CONFERENCE_FAMILIES
+    ]
+
+
 def default_connectors() -> list[Connector]:
-    """The live API-driven connector set (CT.gov, FDA label, PubMed, SEC EDGAR)."""
+    """The live API-driven connector set (CT.gov, FDA label, PubMed, SEC EDGAR, ASH)."""
 
     return [
         ClinicalTrialsGovConnector(page_size=1000),
         FdaLabelConnector(limit=50),
         PubMedConnector(limit=300),
         SecEdgarConnector(max_documents=25),
+        *conference_connectors(),
     ]
 
 
