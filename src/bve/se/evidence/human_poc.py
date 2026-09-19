@@ -390,7 +390,9 @@ def human_poc_evidence(
         )
         claims.append(
             ExtractedClaim(
-                claim_id=_id("claim", asset_id, "human_poc_present", result.result_id),
+                claim_id=_id(
+                    "claim", asset_id, "human_poc_present", source_document_id, result.result_id
+                ),
                 subject_id=asset_id,
                 predicate="human_poc_present",
                 normalized_value=True,
@@ -411,7 +413,11 @@ def human_poc_evidence(
     for statement in statements:
         claims.append(
             ExtractedClaim(
-                claim_id=_id("claim", asset_id, "human_poc_present", statement.sentence),
+                # The document is part of the identity: two papers can report the same
+                # sentence, and a claim is a statement *by a source*, not a string.
+                claim_id=_id(
+                    "claim", asset_id, "human_poc_present", statement.document_id, statement.sentence
+                ),
                 subject_id=asset_id,
                 predicate="human_poc_present",
                 normalized_value=True,

@@ -247,6 +247,23 @@ class TestAStatementHasToReportSomething:
         assert statements[0].endpoint
 
 
+class TestAClaimIsAStatementByASource:
+    def test_the_same_sentence_in_two_documents_is_two_claims(self) -> None:
+        # Two papers reporting the same sentence are two witnesses. Collapsing them to one
+        # claim id put two different source documents behind one immutable claim, which
+        # the ledger correctly refused.
+        sentence = "Treatment with ABC-123 produced an overall response rate of 75% (9 of 12 patients)."
+        statements = [
+            efficacy_statements(sentence, asset_names=["ABC-123"], document_id=doc)[0]
+            for doc in ("doc:1", "doc:2")
+        ]
+        evidence = human_poc_evidence(
+            "asset:a", results=[], statements=statements, as_of_date=AS_OF
+        )
+        assert evidence is not None
+        assert len({claim.claim_id for claim in evidence.claims}) == 2
+
+
 class TestTheQuestionCannotAnswerItself:
     def test_query_context_cannot_create_human_poc(self) -> None:
         # The buyer asking for human efficacy is the reason to look, never the finding.
