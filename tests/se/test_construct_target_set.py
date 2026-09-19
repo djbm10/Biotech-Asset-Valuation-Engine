@@ -508,3 +508,71 @@ class TestTwoAdmissibleRoutesDoNotArgue:
             self._fact("fact:authority", [CD19]),
         )
         assert modality in kept
+
+
+class TestAMentionIsNotAnAttribution:
+    """The live-run defect: prose read by substring is not a construct.
+
+    The first live run with this fact produced sets of ninety and a hundred and nineteen
+    targets, because the ontology vocabulary matches by substring -- the right trade for
+    discovery recall, and ruinous here. ``ar`` and ``si`` occur inside "radiotherapy" and
+    "infusion". A hundred-target set is not merely noisy: it eventually contains both
+    halves of a dual-target question, and all three assets that passed the dual gate in
+    that run passed it this way, every one a single-target CD19 CAR-T.
+    """
+
+    def test_a_radiotherapy_arm_mentioning_a_car_t_attributes_nothing_to_itself(
+        self, snapshot
+    ) -> None:
+        # Verbatim from the live run. The intervention is radiation; the description
+        # mentions the CAR-T it bridges to. It is a mention of another product.
+        targets = intervention_construct_targets(
+            {
+                "name": "ultra-fraction radiotherapy",
+                "description": (
+                    "the R/R DLBCL patients would receive ultra-fraction radiotherapy "
+                    "as bridging therapy before the CD19 CART cell infusion"
+                ),
+                "type": "RADIATION",
+            },
+            intervention_type="RADIATION",
+        )
+        assert targets is None
+
+    def test_prose_does_not_contribute_targets_it_merely_spells(self, snapshot) -> None:
+        # Verbatim from the live run: this yielded ninety-two targets.
+        targets = intervention_construct_targets(
+            {
+                "name": "CD19-targeting CAR T Cells infusion",
+                "description": (
+                    "CD19-targeting 2nd generation CAR t cells infusion for "
+                    "refractory B cell lymphoma"
+                ),
+            },
+            intervention_type=None,
+        )
+        assert targets == [CD19]
+
+    def test_a_symbol_with_no_attributive_cue_is_only_a_mention(self, snapshot) -> None:
+        # The record names the target and never says the product acts on it.
+        assert (
+            intervention_construct_targets(
+                {"name": "Study drug", "description": "patients with CD19 positive disease"},
+                intervention_type=None,
+            )
+            is None
+        )
+
+    def test_a_construct_set_stays_the_size_of_a_construct(self, snapshot) -> None:
+        targets = intervention_construct_targets(
+            {
+                "name": "CLN-978",
+                "description": (
+                    "CD19-directed CD3 bispecific T-cell engager administered to "
+                    "patients with relapsed refractory large B cell lymphoma after "
+                    "prior chemotherapy and autologous stem cell transplantation"
+                ),
+            },
+            intervention_type=None,
+        )
+        assert targets == [CD19, CD3]

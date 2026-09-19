@@ -25,6 +25,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 from datetime import date, datetime, timezone
 
 from pydantic import BaseModel, Field
@@ -120,8 +121,98 @@ def _decisive_evidence(
     return [seen[key] for key in sorted(seen)]
 
 
+#: Words a record uses when it is saying what a product acts on, rather than merely
+#: naming something. None of them is a target, so a cue token is never read as one.
+_ATTRIBUTIVE_CUES = frozenset(
+    {
+        "directed",
+        "targeting",
+        "targeted",
+        "targets",
+        "against",
+        "anti",
+        "specific",
+        "bispecific",
+        "trispecific",
+        "multispecific",
+        "engager",
+        "engaging",
+        "car",
+        "cart",
+        "binding",
+        "binder",
+        "agonist",
+        "antagonist",
+        "inhibitor",
+        "blocking",
+        "blockade",
+        "redirected",
+    }
+)
+
+#: A symbol as sources write one: CD19, HER2, TNFRSF17, IL-2R. Prose words are lowercase
+#: and so never qualify, which is what keeps "cells" and "infusion" out without naming
+#: a single target.
+_SYMBOL_SHAPE = re.compile(r"^[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)*$")
+
+#: How near an attributive cue a symbol has to sit to be attributed by it. Four tokens
+#: spans "CD19-directed CD3 bispecific T-cell engager" without reaching across a sentence.
+_CUE_WINDOW = 4
+
+
+def attributed_targets_in(text: str) -> list[str]:
+    """Targets a piece of text attributes to the product it is describing.
+
+    Whole-token, cue-anchored and deliberately low-recall. A construct target set is one
+    of the few facts where a miss is cheap -- the gate answers UNKNOWN and a human looks
+    -- and a false member is not, because it silently satisfies a conjunction the asset
+    does not satisfy.
+    """
+
+    tokens = re.split(r"[^A-Za-z0-9-]+", text)
+    tokens = [token.strip("-") for token in tokens if token.strip("-")]
+    cue_positions = [
+        index
+        for index, token in enumerate(tokens)
+        for part in token.casefold().split("-")
+        if part in _ATTRIBUTIVE_CUES
+    ]
+    if not cue_positions:
+        return []
+    found: set[str] = set()
+    for index, token in enumerate(tokens):
+        if not any(abs(index - cue) <= _CUE_WINDOW for cue in cue_positions):
+            continue
+        # The whole token first, because hyphens belong inside some symbols (IL-2R), then
+        # its parts, because they also join a symbol to its cue (CD19-directed).
+        for part in (token, *token.split("-")):
+            if len(part) < 2 or part.casefold() in _ATTRIBUTIVE_CUES:
+                continue
+            if not _SYMBOL_SHAPE.match(part):
+                continue
+            resolved = _resolve_symbol(part)
+            if resolved:
+                found.add(resolved)
+                break
+    return sorted(found)
+
+
+def _resolve_symbol(symbol: str) -> str | None:
+    from bve.se.ontology.targets import resolve_target
+
+    result = resolve_target(symbol)
+    if result is None or not result.canonical_id:
+        return None
+    return result.canonical_id
+
+
 #: Source-declared product structure that says outright this is more than one construct.
 _COMBINATION_TYPES = frozenset({"COMBINATION_PRODUCT"})
+
+#: Intervention types that denote a molecule. Radiation, procedures and devices have no
+#: construct target set to describe, and in the live run a radiotherapy arm was attributed
+#: the CAR-T its description said it was a bridge to -- a neighbour's target, not its own.
+_MOLECULAR_TYPES = frozenset({"DRUG", "BIOLOGICAL", "GENETIC"})
 
 
 def intervention_construct_targets(
@@ -142,13 +233,26 @@ def intervention_construct_targets(
     regimen's targets is exactly the false positive a dual-target question is most
     vulnerable to.
 
-    A caller that already holds the ontology vocabulary should pass it. Building one is
-    the most expensive thing in extraction, and this route runs once per hit.
+    Reading the right text is only half of it. The ontology vocabulary matches by
+    substring, which is the right trade for discovery recall and catastrophic here: the
+    description "CD19-targeting 2nd generation CAR t cells infusion" contains ``ar``,
+    ``si`` and ninety more symbols as substrings, and a set of ninety targets is not a
+    construct. It is also not merely noisy -- a large enough junk set eventually contains
+    both halves of a dual-target question and passes it. So targets are read as whole
+    symbol-shaped tokens, and only where the record attributes them to the product:
+    "CD19-directed", "anti-CD19", "CD19xCD3". A symbol mentioned with no attributive cue
+    is a mention, and mentions are what this route exists to not believe.
+
+    ``vocabulary`` is accepted so callers can keep passing the one they hold, and is
+    deliberately unused: substring recall is the thing this route must not inherit.
     """
 
-    from bve.se.discovery.adapters import QueryVocabulary, extract_observed_asset_names
+    from bve.se.discovery.adapters import extract_observed_asset_names
 
-    if (intervention_type or "").upper() in _COMBINATION_TYPES:
+    declared_type = (intervention_type or str(intervention.get("type", "") or "")).upper()
+    if declared_type in _COMBINATION_TYPES:
+        return None
+    if declared_type and declared_type not in _MOLECULAR_TYPES:
         return None
     name = str(intervention.get("name", "") or "")
     other_names = intervention.get("otherNames") or []
@@ -158,9 +262,7 @@ def intervention_construct_targets(
     if len(extract_observed_asset_names(name)) > 1:
         return None
     text = " ".join([name, str(intervention.get("description", "") or ""), other_names_text])
-    if vocabulary is None:
-        vocabulary = QueryVocabulary.for_ontology()
-    targets = vocabulary.targets_in(text.casefold())
+    targets = attributed_targets_in(text)
     if not targets:
         return None
     return canonical_construct_targets(targets)
