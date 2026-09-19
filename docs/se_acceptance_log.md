@@ -465,3 +465,68 @@ intended to add the flag was correctly refused at the custody boundary ("a seale
 is immutable"), and the original run completed. The flag does not affect gating or scoring,
 only whether an INCOMPLETE run exits non-zero, so the artifacts are sound — but
 `reproduce.sh` is not byte-faithful to the invocation for this run.
+
+---
+
+## 2026-09-19 — source family 1/7: ASH — WIRED, VALIDATED, LOW YIELD BY DESIGN
+
+`CrossrefConferenceConnector` and `CONFERENCE_VENUES` were built and covered in M12 and had
+**no production caller** — `default_connectors()` returned only CT.gov, FDA label, PubMed and
+SEC EDGAR, so every reference to the conference machinery outside its own module was a test.
+The family reported "no configured connector" while a working connector sat beside it. Same
+shape as `bve.se.intent`, importable and unimported since M9. Nothing was rebuilt.
+
+### Live acquisition (`conference_ash`, Crossref → *Blood*)
+
+| | |
+|---|---|
+| Acquisition status | SUCCESS |
+| Records returned | 200 |
+| Documents parsed / indexed | 200 / 200 |
+| Parse failures | 0 |
+| Source-index entries | 200 |
+| Runtime | 45.1s |
+
+Content is on-topic: CD19 CAR-T abstracts, tafasitamab Phase I trial data, bicistronic
+CD19/CD22 CARs, DOIs and publication dates back to 1992.
+
+### Isolated delta (sealed acceptance custody replayed + ASH index; ASH the only variable)
+
+| Measure | Before | After |
+|---|---|---|
+| Discovery (ASH) | — | 341 queries, 37 records, 103 candidates, 0 failed |
+| Documents / claims | 15,032 / 25,947 | 15,125 / 26,113 |
+| Candidates | 2,720 | 2,725 (+5) |
+| `identity.distinct_asset` PASS | 669 | **679 (+10)** |
+| `target.expression` PASS / FAIL | 56 / 615 | **56 / 615 (unchanged)** |
+| `evidence.human_poc` PASS | 40 | **40 (unchanged)** |
+| Assets clearing both gates | 0 | **0** |
+| `CONFIRMED_TARGET` assertions | 35 | **35 (unchanged)** |
+| Low-support demotions | 1,348 | 1,348 |
+| Blind spots | 7 | **6** |
+| Runtime | — | 1,983.9s |
+
+New assets, all five: `ACIT001`, `BMA117159`, `BMS-986354`, `CC-98633`, `EXC002`. Every one
+is development-code shaped and a real clinical molecule. **Zero prose junk, zero new false
+target assertions, zero assets lost from either gate.**
+
+### The result, stated honestly
+
+**ASH converted no `human_poc` UNKNOWN to PASS, and that is the designed behaviour, not a
+shortfall.** Crossref yields title-and-DOI metadata only — in the exported index `text` is
+identical to `title` — so everything this connector produces is `DISCOVERY_EVIDENCE`. It can
+nominate an asset worth resolving; it can never mint an identity alias or carry a human
+efficacy claim. The connector's own docstring said so before the run.
+
+So ASH buys **discovery breadth** (+5 real assets, +10 identity confirmations) and buys
+**nothing decisional**, exactly as the evidence-type contract requires. A source that added
+`human_poc` PASSes from titles alone would be a defect.
+
+**Consequence for the remaining six.** EHA, ASCO and AACR are the same Crossref mechanism and
+should be expected to behave the same way: breadth, not efficacy. The families that can
+actually move `human_poc` off UNKNOWN are the **full-text** ones — company press releases
+(`SecFiledPressReleaseConnector`, already built) and company pipeline pages. If the goal is
+to convert the 56 dual CD19/BCMA constructs from UNKNOWN, the conference tier will not do it
+and the priority order should be re-examined after EHA.
+
+Nothing was tuned. `tests/se` 1022 passed / 2 xfailed, ruff clean.
