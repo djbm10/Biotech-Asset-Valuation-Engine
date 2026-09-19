@@ -26,6 +26,8 @@ from bve.se.evidence.construct_targets import (
     supersede_construct_targets,
 )
 from bve.se.evidence.entailment import EntailmentResult, check_structured_entailment
+from bve.se.evidence.human_poc import efficacy_statements, human_poc_evidence
+from bve.se.evidence import snapshot_cache
 from bve.se.evidence.ledger import EvidenceLedger
 from bve.se.evidence.pubmed import PubMedEvidenceExtractor
 from bve.se.evidence.generic import PublicDocumentEvidenceExtractor
@@ -275,6 +277,12 @@ def run_landscape_search(
     claim_entailment: dict[str, bool] = {}
     unsupported_by_asset: dict[str, list[ExtractedClaim]] = {}
     clinical_results: list[ClinicalResult] = []
+    results_by_asset: dict[str, list[ClinicalResult]] = {}
+    #: The documents each asset was actually seen in. Human proof of concept is read from
+    #: these and no others: an efficacy sentence is evidence for an asset only in a
+    #: document that mentions it, and scanning the whole corpus per asset would attribute
+    #: every reported result to every candidate.
+    documents_by_asset: dict[str, dict[str, SourceDocument]] = {}
     processing_errors: list[str] = []
     with telemetry.stage("EXTRACTION") as extraction_stage:
         for hit in discovery.hits:
@@ -315,8 +323,11 @@ def run_landscape_search(
                     continue
                 ledger.add_fact(canonical_fact)
                 facts_by_asset.setdefault(asset_id, []).append(canonical_fact)
+            documents_by_asset.setdefault(asset_id, {})[document.document_id] = document
             for result in bundle.clinical_results:
-                clinical_results.append(result.model_copy(update={"subject_id": asset_id}))
+                canonical_result = result.model_copy(update={"subject_id": asset_id})
+                clinical_results.append(canonical_result)
+                results_by_asset.setdefault(asset_id, []).append(canonical_result)
             extraction_stage.count(
                 documents=1,
                 claims=len(bundle.claims),
@@ -353,6 +364,54 @@ def run_landscape_search(
             )
             described += 1
         stage.count(candidates=len(registry.assets), described=described)
+
+    # Human proof of concept, from the two places a reported result can be found: a
+    # structured clinical result the source published, and a sentence in a document the
+    # asset was seen in. Assets with neither produce no fact, which the evidence floor
+    # reads as UNKNOWN -- the deliberate choice over asserting a failure nobody reported.
+    with telemetry.stage("HUMAN_POC") as stage:
+        supported = 0
+        for asset_id, asset in registry.assets.items():
+            names = [asset.canonical_name, *asset.aliases]
+            statements = []
+            for document in documents_by_asset.get(asset_id, {}).values():
+                if not document.snapshot_path:
+                    continue
+                # A registry record speaks through its structured outcome measures, which
+                # carry their own "was this reported" flag. Reading its prose as well finds
+                # only its eligibility criteria, written in the vocabulary of results.
+                if document.document_type == "trial_registry_record":
+                    continue
+                try:
+                    text = snapshot_cache.load_text(Path(document.snapshot_path))
+                except OSError as exc:
+                    processing_errors.append(
+                        f"human_poc:{document.document_id}: {type(exc).__name__}: {exc}"
+                    )
+                    continue
+                statements.extend(
+                    efficacy_statements(
+                        text, asset_names=names, document_id=document.document_id
+                    )
+                )
+            evidence = human_poc_evidence(
+                asset_id,
+                results=results_by_asset.get(asset_id, []),
+                statements=statements,
+                as_of_date=problem.buyer.as_of_date,
+                claim_documents={
+                    claim_id: claim.source_document_id
+                    for claim_id, claim in ledger.claims.items()
+                },
+            )
+            if evidence is None:
+                continue
+            for claim in evidence.claims:
+                ledger.add_claim(claim)
+            ledger.add_fact(evidence.fact)
+            facts_by_asset.setdefault(asset_id, []).append(evidence.fact)
+            supported += 1
+        stage.count(candidates=len(registry.assets), supported=supported)
 
     for asset_id, facts in facts_by_asset.items():
         asset = registry.assets[asset_id]
