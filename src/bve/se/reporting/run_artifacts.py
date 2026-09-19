@@ -86,6 +86,10 @@ class RunDirectory:
         return self.root / "reproduce.sh"
 
     @property
+    def invocation(self) -> Path:
+        return self.root / "invocation.json"
+
+    @property
     def log(self) -> Path:
         return self.root / "logs" / "run.log"
 
@@ -103,10 +107,42 @@ class RunDirectory:
         self.log.parent.mkdir(parents=True, exist_ok=True)
         self.snapshots.mkdir(parents=True, exist_ok=True)
 
-    def write_command(self, argv: Sequence[str], *, program: str = "bve-se-search") -> None:
-        """Record the exact invocation, so reproducing a run is a copy rather than a recall."""
+    def has_producer(self) -> bool:
+        """Whether some earlier process already produced evidence in this directory.
 
-        line = " ".join(shlex.quote(part) for part in [program, *argv])
+        A sealed custody root is the evidence. It is the same condition the custody
+        boundary itself refuses to seal over, read here without being relaxed: this asks
+        whether a producer exists, and never writes.
+        """
+
+        return self.custody.exists() and any(self.custody.iterdir())
+
+    def record_invocation(
+        self, argv: Sequence[str], *, program: str = "bve-se-search"
+    ) -> None:
+        """Claim the directory for this process, unless an earlier one already produced it.
+
+        Once a run has sealed custody it is the producer of these artifacts, and a later
+        process -- one that goes on to be refused at the custody boundary, or one that never
+        reaches it -- must not be able to describe itself as the command that made them.
+        """
+
+        if self.has_producer() and self.invocation.exists():
+            return
+        self.invocation.write_text(
+            json.dumps({"program": program, "argv": list(argv)}, indent=2) + "\n"
+        )
+        self.render_command()
+
+    def render_command(self) -> None:
+        """Write ``reproduce.sh`` from the persisted record, never from the live argv."""
+
+        if not self.invocation.exists():
+            return
+        record = json.loads(self.invocation.read_text())
+        line = " ".join(
+            shlex.quote(part) for part in [record["program"], *record["argv"]]
+        )
         self.command.write_text(
             "#!/bin/sh\n"
             "# The exact command that produced this directory. A live run re-queries the\n"
@@ -185,6 +221,7 @@ def summary_payload(
                 ("log", directory.log),
                 ("custody", directory.custody),
                 ("reproduce", directory.command),
+                ("invocation", directory.invocation),
             )
             if path.exists()
         }

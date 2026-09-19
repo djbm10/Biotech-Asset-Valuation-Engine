@@ -754,8 +754,9 @@ def main(argv: list[str] | None = None) -> int:
     directory = _apply_output_dir(args)
     if directory is not None:
         # Written first: if the run dies in acquisition, the one thing that must survive is
-        # how to run it again.
-        directory.write_command(argv)
+        # how to run it again. A directory whose custody is already sealed keeps the record
+        # of the process that produced it -- this call is then a no-op rather than a rewrite.
+        directory.record_invocation(argv)
     telemetry = StageTelemetry(emit=stderr_emitter if args.progress else None)
     started = time.monotonic()
     with _log_to(directory):
