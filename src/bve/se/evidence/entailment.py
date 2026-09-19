@@ -24,6 +24,15 @@ def _flatten(value) -> list[str]:
     return [str(value)]
 
 
+def _target_named_in(canonical_id: str, passage: str) -> bool:
+    """Whether the passage names this target under any spelling, identifier included."""
+
+    from bve.se.ontology.targets import target_aliases
+
+    spellings = {canonical_id, canonical_id.split(":")[-1], *target_aliases(canonical_id)}
+    return any(spelling.casefold() in passage for spelling in spellings if spelling)
+
+
 def check_structured_entailment(claim: ExtractedClaim) -> EntailmentResult:
     """Require normalized values and material qualifiers to occur in the cited passage.
 
@@ -51,6 +60,14 @@ def check_structured_entailment(claim: ExtractedClaim) -> EntailmentResult:
         modality_terms = ("t-cell engager", "t cell engager", "bispecific", "bite", "cd3")
         if any(term in passage for term in modality_terms):
             missing_values = []
+    # A construct target set is written in canonical identifiers, and no source writes
+    # "TARGET:CD19" in its own text. The citation supports the target if the passage names
+    # it under any spelling the ontology recognizes; requiring the identifier itself would
+    # reject every genuine citation and leave the fact looking unsupported.
+    if claim.predicate == "construct_target_set":
+        missing_values = [
+            value for value in missing_values if not _target_named_in(value, passage)
+        ]
     if claim.predicate == "development_stage_order" and "phase" in passage:
         missing_values = []
     entailed = not missing_values and not missing_qualifiers

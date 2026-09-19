@@ -9,6 +9,7 @@ from datetime import date
 from pydantic import BaseModel, Field
 
 from bve.se.discovery.adapters import QueryVocabulary, _candidate_interventions
+from bve.se.evidence.construct_targets import intervention_construct_targets
 from bve.se.evidence import snapshot_cache
 from bve.se.schemas.contracts import (
     CandidateHit,
@@ -140,18 +141,44 @@ class ClinicalTrialsEvidenceExtractor:
         claims.append(identity_claim)
         facts.append(_fact(hit, identity_claim, "identity_valid", True))
 
+        # Targets *named by this record*, which is not the same claim as what the
+        # intervention binds. The fallback scans the whole protocol, so a trial comparing a
+        # CD19 CAR-T against a BCMA CAR-T names both targets on every arm; emitting that as
+        # a construct target set attributed each target to both molecules, and a dual-target
+        # question would then have accepted either of them. Construct attribution comes from
+        # per-asset mechanism evidence instead -- see ``evidence.construct_targets``.
         targets = sorted(candidate[0]) if candidate else sorted(vocabulary.targets_in(serialized))
         if targets:
             target_claim = _claim(
                 hit,
                 document,
-                predicate="construct_target_set",
+                predicate="document_target_context",
                 value=targets,
                 passage=intervention_passage,
                 locator="armsInterventionsModule.interventions",
             )
             claims.append(target_claim)
-            facts.append(_fact(hit, target_claim, "construct_target_set", targets))
+            facts.append(_fact(hit, target_claim, "document_target_context", targets))
+
+        # What the intervention record says about itself, which is a claim about one
+        # product rather than about the study it appears in. Cited to the intervention
+        # passage alone, so the citation is checkable against the field it came from.
+        construct_targets = intervention_construct_targets(
+            raw_intervention,
+            intervention_type=hit.intervention_type,
+            vocabulary=vocabulary,
+        )
+        if construct_targets:
+            construct_claim = _claim(
+                hit,
+                document,
+                predicate="construct_target_set",
+                value=construct_targets,
+                passage=intervention_passage,
+                locator="armsInterventionsModule.interventions[].name+description+otherNames",
+            )
+            claims.append(construct_claim)
+            facts.append(_fact(hit, construct_claim, "construct_target_set", construct_targets))
 
         modality = candidate[1] if candidate else None
         if modality:

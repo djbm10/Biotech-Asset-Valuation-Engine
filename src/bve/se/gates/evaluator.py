@@ -123,6 +123,28 @@ def evaluate_requirement(
     )
 
 
+def _target_key(value: object) -> str:
+    """One comparison space for target identifiers, whichever space they arrived in.
+
+    The intent layer writes a target expression in approved symbols (``CD19``), while
+    mechanism evidence is keyed by the resolver's canonical id (``TARGET:CD19``). Both
+    name the same gene, and comparing them as strings makes every multi-target question
+    unsatisfiable while looking exactly like an absence of evidence. Resolving is not a
+    convenience here: it is what makes the two sides the same question.
+
+    An identifier the ontology cannot resolve keeps its literal form. That preserves the
+    behaviour of runs with no snapshot loaded, and an unresolvable id matching only itself
+    is the conservative reading.
+    """
+
+    from bve.se.ontology.targets import normalize_target
+
+    text = str(value).strip()
+    if not text:
+        return ""
+    return (normalize_target(text) or text).upper()
+
+
 def evaluate_target_expression(
     expression: TargetExpression,
     *,
@@ -153,8 +175,8 @@ def evaluate_target_expression(
             next_action="Reconcile the target claims.",
         )
 
-    observed = {str(value).upper() for value in target_fact.value}
-    required = {target.canonical_id.upper() for target in expression.targets}
+    observed = {_target_key(value) for value in target_fact.value}
+    required = {_target_key(target.canonical_id) for target in expression.targets}
     if expression.operator == TargetOperator.ANY:
         passed = bool(observed & required)
     elif expression.operator == TargetOperator.ALL:

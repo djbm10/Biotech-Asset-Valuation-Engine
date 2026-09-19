@@ -59,14 +59,28 @@ def test_ctgov_snapshot_extracts_cited_gate_facts(tmp_path, se_ontology_snapshot
     for fact in bundle.facts:
         ledger.add_fact(fact)
 
-    assert {fact.fact_type for fact in bundle.facts} >= {
+    fact_types = {fact.fact_type for fact in bundle.facts}
+    assert fact_types >= {
         "identity_valid",
-        "construct_target_set",
+        "document_target_context",
         "modality_id",
         "therapeutic_area",
         "development_stage_order",
         "development_status",
     }
+    # The two target facts are different claims and are kept apart. What the record
+    # mentions is context; what the intervention says about itself is construct
+    # attribution, and only the latter can decide a multi-target question.
+    context = next(fact for fact in bundle.facts if fact.fact_type == "document_target_context")
+    construct = [fact for fact in bundle.facts if fact.fact_type == "construct_target_set"]
+    assert context.value
+    for fact in construct:
+        claim = next(
+            candidate
+            for candidate in bundle.claims
+            if candidate.claim_id in fact.supporting_claim_ids
+        )
+        assert claim.locator.startswith("armsInterventionsModule.interventions[]")
     assert all(ledger.reconstruct_fact_evidence(fact.fact_id) for fact in bundle.facts)
     assert len(bundle.clinical_results) == 1
     assert bundle.clinical_results[0].endpoint == "Objective response rate"

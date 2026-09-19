@@ -104,6 +104,9 @@ class PublicDocumentEvidenceExtractor:
             claims.append(claim)
             facts.append(_fact(hit, claim, "identity_valid", True))
 
+        # Targets this document mentions alongside the asset. Context for review, never
+        # construct attribution: a press release naming two programs mentions both their
+        # targets, and co-occurrence in prose says nothing about what one molecule binds.
         observed_targets = [
             target for target in hit.target_terms if target.casefold() in searchable
         ]
@@ -111,7 +114,7 @@ class PublicDocumentEvidenceExtractor:
             claim = _claim(
                 hit,
                 document,
-                predicate="construct_target_set",
+                predicate="document_target_context",
                 value=sorted(set(observed_targets)),
                 passage=passage,
             )
@@ -120,7 +123,7 @@ class PublicDocumentEvidenceExtractor:
                 _fact(
                     hit,
                     claim,
-                    "construct_target_set",
+                    "document_target_context",
                     sorted(set(observed_targets)),
                 )
             )

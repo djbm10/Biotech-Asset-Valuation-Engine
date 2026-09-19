@@ -8,6 +8,48 @@ The rule for acting on an entry: fix it when a real query exposed it, not becaus
 listed. Silent misreads outrank refusals, because a refusal tells the user something is
 wrong and a misread does not.
 
+## 2026-09-18 — construct_target_set: giving the dual gate something to decide on
+
+The previous entry left `target_logic` compiled, carried and evaluated — and deciding
+nothing, because no producer in the pipeline ever emitted a `construct_target_set` fact.
+1,919 UNKNOWNs is not a gate bug; it is a missing fact. This entry is the fact.
+
+**What a construct target set is, and what it is not.** It is the set of targets supported
+as belonging to *one molecular construct*. It is deliberately not: the targets a trial was
+retrieved for, the targets co-occurring in a document, the union of a regimen's partners,
+the targets the buyer asked for, or the targets named in protocol-level prose. A trial
+comparing a CD19 CAR-T against a BCMA CAR-T names both targets on every arm, and the
+previous producer attributed both to both molecules — which is exactly the false positive a
+dual-target question is least able to survive.
+
+**Two admissible routes, and no third.**
+1. *Per-asset direct mechanism evidence.* `CandidateTargetAssertion` already carried
+   confirmed, per-asset, DIRECT target edges from the M10D authority, with provenance. The
+   set is derived from those — no parallel truth system. `FAMILY_OR_COMPLEX_ASSOCIATION`
+   evidence stays non-decisional, and an asset with any unanswered assertion yields no fact
+   at all rather than a partial one.
+2. *The intervention record's own fields.* Registry sponsors write structured product
+   descriptions ("CD19-directed CD3 bispecific T-cell engager"), which is a statement about
+   one product. Only `name`, `description` and `otherNames` are read — never the protocol —
+   and declared combination products and multi-molecule names return nothing.
+
+When both speak, the authority supersedes; the superseded claim stays in the ledger.
+Document co-occurrence was not deleted, it was demoted to `document_target_context`, which
+no gate reads.
+
+**Two defects surfaced while proving it.** The gate compared bare approved symbols (`CD19`)
+against canonical ids (`TARGET:CD19`) as raw strings, so a *correct* set still failed the
+subset test; both sides now normalize. And entailment demanded the literal canonical id
+appear in the cited passage, which no source ever writes — the citation now counts any
+ontology-recognized spelling.
+
+Twenty-seven red-first tests, including the ones that matter most: two co-administered
+single-target drugs do not become one dual construct, silence is not denial, and the module
+source contains no target identifier at all, so nothing here is special-cased to CD19.
+
+Open: the live re-run judging whether single-target CD19 assets are now excluded.
+
+
 ## 2026-09-18 — the live BCMA acceptance run, judged
 
 Query, verbatim: *"Find clinical-stage dual CD19/BCMA therapies for autoimmune disease with

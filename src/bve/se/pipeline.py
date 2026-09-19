@@ -21,6 +21,10 @@ from bve.se.discovery.orchestrator import (
     SourceAdapter,
 )
 from bve.se.evidence.clinicaltrials import ClinicalTrialsEvidenceExtractor
+from bve.se.evidence.construct_targets import (
+    construct_target_evidence,
+    supersede_construct_targets,
+)
 from bve.se.evidence.entailment import EntailmentResult, check_structured_entailment
 from bve.se.evidence.ledger import EvidenceLedger
 from bve.se.evidence.pubmed import PubMedEvidenceExtractor
@@ -319,6 +323,36 @@ def run_landscape_search(
                 facts=len(bundle.facts),
             )
         extraction_stage.count(errors=len(processing_errors))
+
+    # Construct target sets, derived from each asset's own mechanism assertions rather
+    # than from the documents it was found in. This runs over every candidate, not only
+    # those with extracted facts, because an asset's targets are a property of the asset:
+    # a corpus that never spells out what a molecule binds does not make the authority's
+    # answer unavailable. Assets the authority cannot speak to yield nothing at all, which
+    # the target gate reads as UNKNOWN.
+    with telemetry.stage("CONSTRUCT_TARGETS") as stage:
+        described = 0
+        for asset in registry.assets.values():
+            evidence = construct_target_evidence(asset, as_of_date=problem.buyer.as_of_date)
+            if evidence is None:
+                continue
+            for document in evidence.documents:
+                ledger.register_document(document)
+            for claim in evidence.claims:
+                ledger.add_claim(claim)
+            ledger.add_fact(evidence.fact)
+            # The authority supersedes an intervention record's own description of itself
+            # rather than arguing with it. Both are admissible construct evidence, but a
+            # curated drug->target edge is the better witness, and leaving a disagreement
+            # standing would turn two answers into no answer: the gate reads competing
+            # target facts as UNKNOWN, so the asset would lose the decision it had.
+            # The superseded claims stay in the ledger, so the disagreement is still on
+            # the record rather than erased by the one that won.
+            facts_by_asset[asset.asset_id] = supersede_construct_targets(
+                facts_by_asset.get(asset.asset_id, []), evidence.fact
+            )
+            described += 1
+        stage.count(candidates=len(registry.assets), described=described)
 
     for asset_id, facts in facts_by_asset.items():
         asset = registry.assets[asset_id]
