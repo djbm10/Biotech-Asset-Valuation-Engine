@@ -393,3 +393,75 @@ indication they asked for.
 running. This is the same family as the HISTAMINE endogenous-ligand collision already on the
 caveat list, and the escalation is the designed behaviour, but a user asking for the receptor
 by its approved symbol has to disambiguate a symbol that was never ambiguous to them.
+
+---
+
+## 2026-09-19 — live acceptance run @ `ad78e62` — PASS_WITH_COVERAGE_LIMITATIONS
+
+Query: `Find clinical-stage dual CD19/BCMA therapies for autoimmune disease with human efficacy.`
+Run `se:b0b0c119-d24e-4127-ad02-f17a7297feb6`, artifacts in
+`/home/djmann/se_runs/acceptance_20260919_live/`. Confirmation run, no code changes.
+
+**1. Query interpretation — correct.** Every phrase is accounted for in the compiled
+problem: `clinical-stage` -> EVIDENCE `minimum_stage`; `dual` -> TARGET_LOGIC `ALL`;
+`CD19` -> `CD19`; `BCMA` -> `TNFRSF17`; `human efficacy` -> EVIDENCE `human_poc_required`;
+`autoimmune disease` -> UNRESOLVED_SCIENTIFIC `[disease_class_not_enforceable]`, answered by
+the supplied `--therapeutic-area AUTOIMMUNE` and warned about in the output. Target
+constraint `ALL of CD19, TNFRSF17`; **modality constraint: none**; phase constraint none;
+evidence floor `minimum_stage=PHASE_1` + `human_poc_required`.
+
+**2. Source coverage — INCOMPLETE, honestly labelled.** `clinicaltrials_gov` 341 queries /
+1922 records / 0 failed; `pubmed` 341 / 3480 / 1 failed. Seven mandatory families returned
+nothing because they have no configured connector: company pipeline/presentation, company
+press release, AACR, ASCO, ASH, EHA, SEC EDGAR. All seven are emitted as blind spots with
+the "cannot speak to what it would have shown" wording. Convergence mode LIVE, status
+INCOMPLETE, output declared diagnostic and not promoted.
+
+**3. Dual-target behaviour — correct.** `target.expression`: 56 PASS, 615 FAIL, 701 UNKNOWN.
+Every one of the 56 names a construct carrying both antigens (`BCMA/CD19 CAR T cells`,
+`GC012F`, `ARI0003`, `CD19/BCMA in vivo CAR-T`, ...). No CD19-only or BCMA-only asset passes;
+615 single-target assets are explicitly FAILed rather than left ambiguous. The known
+`CD19 or CD19-BCMA CAR-T` residual is **still present** — a disjunctive arm label read as
+conjunctive. Unchanged from the sealed replay, still the only such residual.
+
+**4. Human PoC — consistent with the sealed replay.** `evidence.human_poc`: 40 PASS, 1332
+UNKNOWN, 0 FAIL. The PASS set is dominated by real molecules (teclistamab, elranatamab,
+talquetamab, glofitamab, blinatumomab, obexelimab, rituximab, tocilizumab, vedolizumab,
+infliximab, abatacept, venetoclax, lenalidomide, ...). Seven residual non-assets remain:
+`choice`, `though`, `frontline`, `discase`, `DAS28`, `PET30`, `INDIGO` — the same residual
+the sealed replay measured under the declared 5% document-frequency ceiling. This is the
+known, pre-declared limitation of the identity-qualification layer, not a new defect; the
+ceiling was declared before measurement and was deliberately not fitted to these names.
+
+**Assets passing BOTH `target.expression` and `human_poc`: 0.** All 56 dual-target
+constructs carry `human_poc` UNKNOWN. Given the seven missing source families — where
+company and conference evidence for CAR-T efficacy actually lives — UNKNOWN is the correct
+answer, and the run says so rather than inventing one.
+
+**5. Final answer — the honest answer is "none proven, under incomplete coverage."**
+No asset is promoted as satisfying the query. `eligible: 0`. The 578 review candidates are
+review, not answers. The scientifically interesting population is the 56 confirmed dual
+CD19/BCMA constructs, several explicitly autoimmune (`CD19/BCMA Lupus Nephritis Targeted
+CAR T-cells injection`), but none of them cleared human efficacy from the two sources that
+were reachable, so none is presented as an answer.
+
+**6. User-facing shortlist — no wrong answers, but the ordering is poor.** Top ten:
+`approval`, `frontline`, `Vicleucel`, `guide`, `optimize`, `belantamab`, `search`, `success`,
+`mafodotin`, `though`. Every row is marked `[review, target UNRESOLVED]`, so no single-target
+or junk name is presented as satisfying the query, and the INCOMPLETE status plus seven blind
+spots are printed above the list. But prose words occupy the top rows. This is the known
+renderer behaviour recorded previously: nothing is ever ELIGIBLE, so the review population
+*is* the shortlist and its order is declared rather than ranked. It is a presentation defect,
+not a scientific correctness defect — no code change made.
+
+**Verdict: PASS_WITH_COVERAGE_LIMITATIONS.** Behaviour matches the sealed replay on every
+measured axis (target 56 PASS, human_poc 40 PASS, 0 new target assertions, eligible 0). The
+architecture loop stops here. Remaining known work, in order: source connectors for the
+seven missing families; shortlist ordering; the disjunctive-arm-label residual.
+
+**Operational caveat.** `reproduce.sh` in that output directory records `--allow-incomplete`,
+but the process that actually produced these artifacts was launched without it. A relaunch
+intended to add the flag was correctly refused at the custody boundary ("a sealed acquisition
+is immutable"), and the original run completed. The flag does not affect gating or scoring,
+only whether an INCOMPLETE run exits non-zero, so the artifacts are sound — but
+`reproduce.sh` is not byte-faithful to the invocation for this run.
