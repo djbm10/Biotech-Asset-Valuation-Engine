@@ -183,9 +183,21 @@ def attributed_targets_in(text: str) -> list[str]:
     for index, token in enumerate(tokens):
         if not any(abs(index - cue) <= _CUE_WINDOW for cue in cue_positions):
             continue
-        # The whole token first, because hyphens belong inside some symbols (IL-2R), then
-        # its parts, because they also join a symbol to its cue (CD19-directed).
-        for part in (token, *token.split("-")):
+        # The whole token first, because hyphens belong inside some symbols (IL-2R). If
+        # it does not resolve the token is a compound, and *every* part is considered --
+        # sources write dual constructs as "CD19-BCMA", and stopping at the first
+        # resolving part silently turned those into single-target assets.
+        # The length floor applies to the whole token too. The gene symbol "T" is real
+        # (TBXT), and every "CAR T cell" in the corpus would otherwise assert it.
+        whole = (
+            _resolve_symbol(token)
+            if len(token) >= 2 and _SYMBOL_SHAPE.match(token)
+            else None
+        )
+        if whole:
+            found.add(whole)
+            continue
+        for part in token.split("-"):
             if len(part) < 2 or part.casefold() in _ATTRIBUTIVE_CUES:
                 continue
             if not _SYMBOL_SHAPE.match(part):
@@ -193,7 +205,6 @@ def attributed_targets_in(text: str) -> list[str]:
             resolved = _resolve_symbol(part)
             if resolved:
                 found.add(resolved)
-                break
     return sorted(found)
 
 
@@ -204,6 +215,38 @@ def _resolve_symbol(symbol: str) -> str | None:
     if result is None or not result.canonical_id:
         return None
     return result.canonical_id
+
+
+#: Nouns naming the product itself. A coordinated phrase that repeats one of these on
+#: both sides is describing two products, not one with two arms.
+_PRODUCT_HEADS = frozenset(
+    {"car", "cart", "cells", "cell", "antibody", "engager", "injection", "infusion", "therapy"}
+)
+
+#: Coordinators a registry uses between two separately-administered products. "/" is
+#: deliberately absent: "CD19/BCMA CAR-T" is how one dual construct is normally written.
+_COORDINATORS = re.compile(r"\band\b|\bplus\b|\bor\b|\+|;|&", re.IGNORECASE)
+
+
+def denotes_more_than_one_product(name: str) -> bool:
+    """Whether a name coordinates two constructs rather than describing one.
+
+    "Autologous BCMA CAR-T cells and CD19 CAR-T cells" is two infusions whose targets a
+    dual-target question must never see unioned. "anti-CD19 and anti-BCMA CAR-T" is one
+    construct with two binding arms, and reads differently for a reason a rule can see:
+    the product noun appears once and is shared, rather than once on each side.
+    """
+
+    segments = [segment for segment in _COORDINATORS.split(name) if segment.strip()]
+    if len(segments) < 2:
+        return False
+    described = 0
+    for segment in segments:
+        words = {word.strip("-").casefold() for word in re.split(r"[^A-Za-z0-9-]+", segment)}
+        parts = {part for word in words for part in word.split("-")}
+        if parts & _PRODUCT_HEADS and attributed_targets_in(segment):
+            described += 1
+    return described >= 2
 
 
 #: Source-declared product structure that says outright this is more than one construct.
@@ -260,6 +303,8 @@ def intervention_construct_targets(
         " ".join(other_names) if isinstance(other_names, list) else str(other_names)
     )
     if len(extract_observed_asset_names(name)) > 1:
+        return None
+    if denotes_more_than_one_product(name):
         return None
     text = " ".join([name, str(intervention.get("description", "") or ""), other_names_text])
     targets = attributed_targets_in(text)

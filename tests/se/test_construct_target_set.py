@@ -576,3 +576,49 @@ class TestAMentionIsNotAnAttribution:
             intervention_type=None,
         )
         assert targets == [CD19, CD3]
+
+
+class TestACompoundNameIsReadWhole:
+    """Both halves of a dual construct, and neither half of a regimen.
+
+    The first corrected run found the boundary from the other side: 314 assets were
+    excluded with a single-target set, and among them were names like "CD19-BCMA dual
+    nanobody based CAR-T". The set had stopped at the first symbol that resolved, so an
+    asset that answers the question exactly was excluded for a reason the source never
+    gave. A false negative here is cheaper than a false positive, but it is not free.
+    """
+
+    def test_a_hyphenated_dual_construct_keeps_both_targets(self, snapshot) -> None:
+        targets = intervention_construct_targets(
+            {"name": "CD19-BCMA dual nanobody based CAR-T Cells", "description": ""},
+            intervention_type=None,
+        )
+        assert targets == [CD19, BCMA]
+
+    def test_two_coordinated_products_are_still_two_products(self, snapshot) -> None:
+        # Verbatim from the run, and it passed the dual gate. Two infusions, each its own
+        # construct; the union of their targets belongs to neither.
+        assert (
+            intervention_construct_targets(
+                {"name": "Autologous BCMA CAR-T cells and CD19 CAR-T cells", "description": ""},
+                intervention_type=None,
+            )
+            is None
+        )
+
+    def test_one_product_with_two_binding_arms_is_one_construct(self, snapshot) -> None:
+        # The product noun appears once and is shared, which is what separates this from
+        # the case above -- not the word "and", which both contain.
+        targets = intervention_construct_targets(
+            {"name": "anti-CD19 and anti-BCMA CAR", "description": ""},
+            intervention_type=None,
+        )
+        assert targets == [CD19, BCMA]
+
+    def test_a_single_letter_symbol_is_not_read_out_of_car_t_cell(self, snapshot) -> None:
+        # "T" is a real gene symbol (TBXT). Every CAR T cell in the corpus says it.
+        targets = intervention_construct_targets(
+            {"name": "CD19-targeting CAR T Cells infusion", "description": ""},
+            intervention_type=None,
+        )
+        assert targets == [CD19]
