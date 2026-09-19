@@ -8,7 +8,39 @@ evidence engine, what is frozen, what the next work is, and the environment fact
 time to rediscover. Milestone detail lives in the per-milestone reports; this file is the
 index and the operating manual. **Update it after every run.**
 
-## 0. Current directive (last updated 2026-09-16)
+## 0. Current directive (last updated 2026-09-19)
+
+**ACCEPTANCE COMPLETE — the architecture loop is stopped.** The live acceptance query
+(`Find clinical-stage dual CD19/BCMA therapies for autoimmune disease with human efficacy.`)
+was run against live sources at `ad78e62` and recorded **PASS_WITH_COVERAGE_LIMITATIONS**.
+Full entry in `docs/se_acceptance_log.md` (@`0f2c772`); artifacts in
+`/home/djmann/se_runs/acceptance_20260919_live/`.
+
+Result: query interpretation correct on all six phrases; 56 dual-target PASS with 615
+single-target assets explicitly FAILed; 40 human_poc PASS, all but seven real molecules;
+**0 assets clear both gates, 0 eligible**, which is the correct answer under the coverage
+actually available. Live behaviour matched the sealed replay on every measured axis.
+
+**The bottleneck is no longer identity or scientific correctness — it is source coverage.**
+Seven mandatory families have no configured connector (company pipeline/presentation, company
+press release, AACR, ASCO, ASH, EHA, SEC EDGAR), and CAR-T human-efficacy evidence lives in
+exactly those. Every run will keep returning INCOMPLETE with 0 eligible until they exist.
+
+Next work, in order:
+1. **Source connectors** for the seven missing families. This is the only change that can
+   move `eligible` off zero.
+2. **Shortlist ordering** — prose words head the user-facing list because nothing is ever
+   ELIGIBLE, so the review population *is* the shortlist and order is declared, not ranked.
+   Presentation defect, not correctness.
+3. **Disjunctive arm labels** — `CD19 or CD19-BCMA CAR-T` is read as conjunctive and passes
+   the dual-target gate. The only such residual found.
+
+Known, pre-declared limitation to *not* re-litigate: seven non-assets (`choice`, `though`,
+`frontline`, `discase`, `DAS28`, `PET30`, `INDIGO`) still clear human_poc, sitting under the
+5% document-frequency ceiling in `asset_qualification.py`. That ceiling was declared before
+measurement and must not be fitted to these names.
+
+## 0b. Prior directive (last updated 2026-09-16)
 
 The zero-shot remediation loop is **stopped** — M17 satisfied the architecture stopping
 condition. **Do not draw M18.** The engine is judged *scientifically credible as a
