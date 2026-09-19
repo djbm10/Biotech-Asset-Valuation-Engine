@@ -59,16 +59,31 @@ class TestProtectedNamesIgnoreSupportEntirely:
 
 
 class TestSupportedUnknownsTakeTheNormalPath:
-    def test_five_documents_is_enough_without_drug_shape(self) -> None:
+    # These two used to assert that support alone earned the default path. It did, and it
+    # was wrong: the commonest tokens in any corpus are ordinary words, so a frequency
+    # threshold selects for exactly the population it was meant to exclude. Support now
+    # decides how much corroboration qualifying evidence needs, never whether a name
+    # qualifies. See tests/se/test_asset_qualification.py.
+    def test_five_documents_is_enough_once_the_name_is_qualified(self) -> None:
         assert (
-            classify_mention_support("benzhexol", support=5, drug_shaped=False)
+            classify_mention_support(
+                "benzhexol", support=5, drug_shaped=False, pharmacologic_context=True
+            )
             is MentionDisposition.SUPPORTED_UNKNOWN
         )
 
-    def test_two_documents_is_enough_when_drug_shaped(self) -> None:
+    def test_two_documents_is_enough_when_drug_shaped_and_qualified(self) -> None:
         assert (
-            classify_mention_support("butylphthalide", support=2, drug_shaped=True)
+            classify_mention_support(
+                "butylphthalide", support=2, drug_shaped=True, pharmacologic_context=True
+            )
             is MentionDisposition.SUPPORTED_UNKNOWN
+        )
+
+    def test_documents_alone_never_qualify_a_name(self) -> None:
+        assert (
+            classify_mention_support("benzhexol", support=5, drug_shaped=False)
+            is MentionDisposition.LOW_SUPPORT_UNKNOWN
         )
 
     def test_one_document_is_not_enough_even_when_drug_shaped(self) -> None:

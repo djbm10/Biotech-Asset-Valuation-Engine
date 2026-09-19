@@ -9,6 +9,12 @@ from typing import Mapping, Sequence
 
 from pydantic import BaseModel, Field
 
+from bve.se.discovery.asset_qualification import (
+    AssetEvidence,
+    document_frequencies,
+    has_pharmacologic_context,
+    qualifies_as_asset,
+)
 from bve.se.discovery.custody import CorpusSeal
 from bve.se.discovery.mention_support import (
     MentionDisposition,
@@ -369,11 +375,71 @@ def run_landscape_search(
     # structured clinical result the source published, and a sentence in a document the
     # asset was seen in. Assets with neither produce no fact, which the evidence floor
     # reads as UNKNOWN -- the deliberate choice over asserting a failure nobody reported.
+    #: Distinct documents behind each name, straight off the mentions the registry already
+    #: holds. The corpus is not reread. Computed before qualification because the
+    #: saturation ceiling needs it, and used again by the disposition below.
+    support_by_name: dict[str, set[str]] = defaultdict(set)
+    for mention in registry.mentions.values():
+        support_by_name[mention.normalized_asset_name].add(mention.source_document_id)
+
+    def _support(asset) -> int:
+        return max(
+            (len(support_by_name.get(key, ())) for key in asset.identity_keys),
+            default=0,
+        )
+
+    corpus_documents = len(ledger.documents)
+    #: How common each word is in this corpus. Built in one pass because the alternative
+    #: -- asking per candidate -- is 2,702 scans of 15,032 documents.
+    with telemetry.stage("LEXICON") as stage:
+        def _corpus_texts():
+            for document in ledger.documents.values():
+                if not document.snapshot_path:
+                    continue
+                try:
+                    yield snapshot_cache.load_text(Path(document.snapshot_path))
+                except OSError as exc:
+                    processing_errors.append(
+                        f"lexicon:{document.document_id}: {type(exc).__name__}: {exc}"
+                    )
+
+        word_frequency = document_frequencies(_corpus_texts())
+        stage.count(documents=corpus_documents, vocabulary=len(word_frequency))
+
+    #: A registry that describes a string as a construct and names its molecular targets
+    #: has done the thing an ontology entry does: vouched, from outside the corpus, that
+    #: this string names a therapeutic agent. Ordinary words never acquire one.
+    described_constructs = {
+        fact.subject_id
+        for facts in facts_by_asset.values()
+        for fact in facts
+        if fact.fact_type == "construct_target_set"
+    }
+
+    def _document_frequency(asset) -> int:
+        return word_frequency.get(asset.canonical_name.casefold(), 0)
+
+    #: Whether a document ever used this asset's name the way documents use the name of a
+    #: drug. Read in the same pass as the efficacy prose so the corpus is traversed once.
+    pharmacologic_context: dict[str, bool] = {}
     with telemetry.stage("HUMAN_POC") as stage:
         supported = 0
+        qualified_assets = 0
         for asset_id, asset in registry.assets.items():
             names = [asset.canonical_name, *asset.aliases]
             statements = []
+            #: Routes that need no corpus evidence: an ontology entry, a development code,
+            #: a structured DRUG declaration. Checked first so the scan is skipped for the
+            #: names that are already vouched for.
+            evidence_so_far = AssetEvidence(
+                name=asset.canonical_name,
+                support=_support(asset),
+                structurally_typed_drug=asset.structurally_typed_drug,
+                corpus_documents=corpus_documents,
+                document_frequency=_document_frequency(asset),
+                identity_authority=asset_id in described_constructs,
+            )
+            qualified = qualifies_as_asset(evidence_so_far)
             for document in documents_by_asset.get(asset_id, {}).values():
                 if not document.snapshot_path:
                     continue
@@ -389,11 +455,28 @@ def run_landscape_search(
                         f"human_poc:{document.document_id}: {type(exc).__name__}: {exc}"
                     )
                     continue
+                if not pharmacologic_context.get(asset_id, False) and any(
+                    has_pharmacologic_context(text, name) for name in names
+                ):
+                    pharmacologic_context[asset_id] = True
+                    qualified = qualifies_as_asset(
+                        evidence_so_far.model_copy(
+                            update={"pharmacologic_context": True}
+                        )
+                    )
                 statements.extend(
                     efficacy_statements(
                         text, asset_names=names, document_id=document.document_id
                     )
                 )
+            # An efficacy sentence is evidence about a result, never about whether the
+            # string it mentions names a drug. Without positive asset evidence the
+            # attribution would be correct and the identity still wrong, so the fact is
+            # not produced -- the asset keeps every mention and is promoted the moment
+            # qualifying evidence arrives.
+            if not qualified:
+                continue
+            qualified_assets += 1
             evidence = human_poc_evidence(
                 asset_id,
                 results=results_by_asset.get(asset_id, []),
@@ -411,7 +494,11 @@ def run_landscape_search(
             ledger.add_fact(evidence.fact)
             facts_by_asset.setdefault(asset_id, []).append(evidence.fact)
             supported += 1
-        stage.count(candidates=len(registry.assets), supported=supported)
+        stage.count(
+            candidates=len(registry.assets),
+            qualified=qualified_assets,
+            supported=supported,
+        )
 
     for asset_id, facts in facts_by_asset.items():
         asset = registry.assets[asset_id]
@@ -443,19 +530,15 @@ def run_landscape_search(
             }
         )
     candidates = list(registry.assets.values())
-    #: Distinct documents behind each name, straight off the mentions the registry already
-    #: holds. The corpus is not reread.
-    support_by_name: dict[str, set[str]] = defaultdict(set)
-    for mention in registry.mentions.values():
-        support_by_name[mention.normalized_asset_name].add(mention.source_document_id)
     dispositions = {
         asset.asset_id: classify_mention_support(
             asset.canonical_name,
-            support=max(
-                (len(support_by_name.get(key, ())) for key in asset.identity_keys),
-                default=0,
-            ),
+            support=_support(asset),
+            corpus_documents=corpus_documents,
+            document_frequency=_document_frequency(asset),
+            identity_authority=asset.asset_id in described_constructs,
             structurally_typed_drug=asset.structurally_typed_drug,
+            pharmacologic_context=pharmacologic_context.get(asset.asset_id, False),
         )
         for asset in candidates
     }

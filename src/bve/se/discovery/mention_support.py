@@ -24,9 +24,13 @@ already knows --- ``IdentityMention.source_document_id``. Nothing here reads the
 from __future__ import annotations
 
 import enum
-import re
 
 from bve.se.discovery import drug_name_shape
+from bve.se.discovery.asset_qualification import (
+    AssetEvidence,
+    is_development_code,
+    qualifies_as_asset,
+)
 
 #: Declared before measurement, not fitted to an observed cut. A name the ontology does
 #: not know needs real corroboration to earn the default path.
@@ -35,9 +39,10 @@ MIN_SUPPORT_UNKNOWN = 5
 #: mention, two is the weakest thing that can be called corroboration.
 MIN_SUPPORT_DRUG_SHAPED = 2
 
-#: Letters adjacent to digits. Development codes are not words and are never judged as
-#: prose --- the ontology knows few of them by code, so shape and frequency both fail here.
-_HAS_DIGIT = re.compile(r"\d")
+#: Development codes are not words and are never judged as prose --- the ontology knows few
+#: of them by code, so shape and frequency both fail here. The test is the code's *shape*;
+#: it used to be the presence of a digit anywhere in the string, which protected every
+#: statistic printed beside a number and is how ``IQR 72`` became a decision-bearing asset.
 
 
 class MentionDisposition(enum.Enum):
@@ -66,7 +71,7 @@ def is_protected(name: str, *, structurally_typed_drug: bool = False) -> bool:
     return (
         structurally_typed_drug
         or drug_name_shape.is_known_drug_name(folded)
-        or bool(_HAS_DIGIT.search(name))
+        or is_development_code(name)
     )
 
 
@@ -76,6 +81,10 @@ def classify_mention_support(
     support: int,
     drug_shaped: bool | None = None,
     structurally_typed_drug: bool = False,
+    pharmacologic_context: bool = False,
+    identity_authority: bool = False,
+    corpus_documents: int = 0,
+    document_frequency: int = 0,
 ) -> MentionDisposition:
     """Sort one nominated name into a disposition.
 
@@ -90,6 +99,23 @@ def classify_mention_support(
     if is_protected(name, structurally_typed_drug=structurally_typed_drug):
         return MentionDisposition.PROTECTED
 
+    # Frequency used to be a route of its own, and it selected for exactly the wrong
+    # population: the commonest words are the most frequent tokens in any corpus, so a
+    # support threshold promoted prepositions. An unknown name now needs positive asset
+    # evidence, and support only decides how much corroboration that evidence needs.
+    if not qualifies_as_asset(
+        AssetEvidence(
+            name=name,
+            support=support,
+            structurally_typed_drug=structurally_typed_drug,
+            pharmacologic_context=pharmacologic_context,
+            identity_authority=identity_authority,
+            corpus_documents=corpus_documents,
+            document_frequency=document_frequency,
+        )
+    ):
+        return MentionDisposition.LOW_SUPPORT_UNKNOWN
+
     if support >= MIN_SUPPORT_UNKNOWN:
         return MentionDisposition.SUPPORTED_UNKNOWN
 
@@ -98,4 +124,10 @@ def classify_mention_support(
     if drug_shaped and support >= MIN_SUPPORT_DRUG_SHAPED:
         return MentionDisposition.SUPPORTED_UNKNOWN
 
-    return MentionDisposition.LOW_SUPPORT_UNKNOWN
+    # Qualified, but thinly corroborated. A single document using a name as a drug is a
+    # real nomination and is kept for review rather than promoted.
+    return (
+        MentionDisposition.SUPPORTED_UNKNOWN
+        if pharmacologic_context or identity_authority
+        else MentionDisposition.LOW_SUPPORT_UNKNOWN
+    )

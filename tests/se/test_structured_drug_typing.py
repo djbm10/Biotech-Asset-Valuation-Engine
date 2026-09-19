@@ -211,9 +211,19 @@ class TestExistingRoutingIsUnchanged:
             classify_mention_support("AA-1001", support=1)
             is MentionDisposition.PROTECTED
         )
+        # Support is no longer a route of its own -- a name qualifies on positive asset
+        # evidence and support then decides how much corroboration it needs. Nine
+        # documents mentioning an unqualified name is still nine documents mentioning a
+        # word. See tests/se/test_asset_qualification.py.
+        assert (
+            classify_mention_support(
+                PLAIN_NAME, support=9, pharmacologic_context=True
+            )
+            is MentionDisposition.SUPPORTED_UNKNOWN
+        )
         assert (
             classify_mention_support(PLAIN_NAME, support=9)
-            is MentionDisposition.SUPPORTED_UNKNOWN
+            is MentionDisposition.LOW_SUPPORT_UNKNOWN
         )
         assert (
             classify_mention_support(PLAIN_NAME, support=1)
