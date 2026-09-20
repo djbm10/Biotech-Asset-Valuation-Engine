@@ -33,12 +33,26 @@ confirmed this: `evidence.human_poc` PASS stayed at exactly 40 in each isolated 
 full-text families can convert the 56 dual constructs off UNKNOWN. Revised order:
 
 1. ~~ASH~~ (done, `65fcd9b`) 2. ~~EHA~~ (done, `f5d15f8`) 3. ~~SEC-filed press releases~~
-(done, `ad39f31`) 4. **company pipeline pages — NEXT** (`DeclaredUrlConnector` is built, generic, and already
-enforces the as-of contract by refusing undated pages; what is missing is a versioned
-manifest — the only existing entry for `company_pipeline_or_presentation`, in
-`research/se_benchmarks/cd19_bcma/development/declared_sources.yaml`, is a single NCI
-dictionary page and not a company pipeline at all) 5. ASCO 6. AACR. SEC EDGAR is already
-active and needs no milestone.
+(done, `ad39f31`) 4. ~~company pipeline pages~~ (done, `783a310`) 5. **ASCO — NEXT** (needs
+its documented abstract-numbering convention) 6. AACR. SEC EDGAR is already active and needs
+no milestone.
+
+**Company pipeline pages are live (@`783a310`).** Manifest at
+`research/se_benchmarks/company_pipeline/declared_sources.yaml`, sha256 `3f18b98e…`, drawn
+mechanically from the engine's tracked company universe and frozen before any delta was
+looked at. Three things a later session should not have to rediscover:
+
+- **`TemporalBasis` now splits `PUBLISHED_AT` from `OBSERVED_AT`.** A pipeline page is not a
+  publication; it is a current-state view. Observed pages carry no invented date and are
+  non-decisional for any question dated before they were retrieved. This bit the very first
+  delta: the acceptance question is dated 2026-09-17, the pages were observed 2026-09-20, so
+  3 of 9 were correctly excluded from it.
+- **The scope boundary held.** Pipeline presence moved identity (669 → 681) and moved neither
+  `target.expression` nor `evidence.human_poc`, which is exactly what it must not do.
+- **The junk is markup, not prose.** 39 of 48 new names are tokens like `currentColor`,
+  `tbody`, `parentNode`, `yoast` — `_strip_html` is leaking attribute, style and script
+  content. Zero received any decisional PASS. Fixable in the stripper rather than in the
+  identity layer, and cheaper than the prose mention-precision problem it resembles.
 
 **`SecFiledPressReleaseConnector` is wired (@`ad39f31`)** — it existed and was covered since
 M12 but had no production caller, so the fix was one entry in `default_connectors()`. It is

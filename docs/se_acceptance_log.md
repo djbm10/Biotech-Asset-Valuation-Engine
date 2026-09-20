@@ -772,3 +772,89 @@ Invariants pinned (18 tests, `tests/se/test_coverage_areas.py`): a reached area 
 as unacquired; an unreached area still does; a FAILED family is never laundered into a
 coverage note; families that name their own area are unaffected. Reporting only — no gate,
 extraction or score change. Suite 1083 passed / 3 xfailed, ruff clean.
+
+## 2026-09-20 — Family 4: company pipeline pages (@`783a310`)
+
+The fourth family, and the first whose documents are not publications at all. A company
+pipeline page states a current condition, is rewritten without notice, and carries no
+publication date because it has none to carry.
+
+### Two design decisions, taken before acquisition
+
+**Temporal basis.** Refusing undated pages under the global as-of rule makes this tier
+unreachable; stamping them with their retrieval date would be worse, asserting that today's
+pipeline also held on whatever earlier day the question was asked. So `TemporalBasis` splits
+`PUBLISHED_AT` from `OBSERVED_AT`. An observed page keeps `published_at` genuinely unknown,
+records when it was seen, and answers only questions asked on or after that moment. A page
+that does state a publication date keeps that stronger claim regardless of its family.
+
+**Company attribution.** The manifest declares the company each URL belongs to rather than
+leaving it to be recovered later from the hostname or the prose — a recovery that is wrong
+for every co-branded, in-licensed or newly acquired program. Bare URL lists still load.
+
+### Manifest, frozen before any delta was looked at
+
+`research/se_benchmarks/company_pipeline/declared_sources.yaml`, sha256
+`3f18b98ec6e5c7af270c4b169bd01127147527f1aaee7595ff1db61087ce8267`, manifest_version 1.0.0.
+
+Selection is target-independent and mechanical: the population is the engine's own tracked
+company universe (123 tickers, built for the weekly BD loop years before this source existed),
+and the tranche is the first 20 by `sha256("bve-company-pipeline-tranche-1:<ticker>")`,
+reproduced by `scripts/se_select_company_tranche.py`. No company was included or excluded for
+the programs it runs; a test pins that the manifest text contains no target terms.
+
+### Live acquisition (`/home/djmann/se_runs/pipe_probe/`)
+
+- URLs declared **20**, fetched **9**, failed **11**, redirected **8**.
+- Failures are ordinary web reality, and all explicit: 403 from Vertex, Ultragenyx, Sarepta,
+  Acelyrin and Verve; dead hosts for Turning Point and Immunomedics; acquisition redirects
+  that then refused, at J&J (Intra-Cellular) and AbbVie (Cerevel).
+- Dated pages **6**, `OBSERVED_AT` pages **3** (Tango, Amarin, Sage) — no date invented.
+- One redirect is a real finding rather than noise: **`sagerx.com` now redirects to
+  `supernus.com`**. Supernus acquired Sage, so the manifest's declared attribution is already
+  stale, and the redirect record is the only place that shows up — the page still arrives.
+
+### Isolated delta (sealed acceptance custody + only this source's index)
+
+| | baseline | +pipeline pages |
+|---|---|---|
+| source documents | 3,699 | 3,701 |
+| claims | 26,836 | 27,102 |
+| candidates | 2,720 | 2,767 |
+| identity mentions | 15,088 | 15,187 |
+| `identity.distinct_asset` PASS | 669 | **681** |
+| `evidence.human_poc` PASS | 40 | 40 |
+| `target.expression` PASS | 56 | 56 |
+| eligible | 0 | 0 |
+| blind spots | 7 | **6** |
+| assets lost | — | 1 (`Color`, a junk token) |
+
+Dual CD19/BCMA constructs moving UNKNOWN → PASS: **none**.
+
+**The scope boundary held exactly as specified.** Pipeline presence added identity and
+discovery and moved neither the target gate nor `human_poc` — which is what the design said
+it must not do, and the first time that boundary has been tested by a source that talks about
+programs in prose.
+
+**Only two of the nine pages reached the answer.** The acceptance question is dated
+2026-09-17 and the pages were observed 2026-09-20, so all three `OBSERVED_AT` pages are
+non-decisional for it by construction. That is the new rule working, not a defect, but it
+means this delta understates what the family contributes to a current-dated question.
+
+### Candidate cleanliness — a new kind of junk
+
+48 new names: **9 real assets** (RLY-2608, RLY-4008, RLY-8161, GDC-1971, lirafugratinib,
+zovegalisib, capivasertib, esomeprazole, fulvestrant) and **39 junk**.
+
+**Zero junk names received any decisional PASS** — not target, not `human_poc`, not even
+identity. The stop condition was not triggered.
+
+But the junk is a different species from the press-release prose junk, and worth separating:
+`currentColor`, `tbody`, `parentNode`, `yoast`, `licdn`, `pd-pipeline-row`, `interpolate-size`
+are **markup and script tokens**, not prose. `_strip_html` is leaking attribute, style and
+script content into document text. `MA 02139` — a Cambridge postcode — is drug-shaped by the
+recognizer and is the only genuinely prose-shaped false asset in the set.
+
+That is a narrower and more tractable problem than mention precision in prose: it is fixable
+in the HTML stripper rather than in the identity layer. Recorded, not remediated, per the
+standing instruction not to reopen identity.
