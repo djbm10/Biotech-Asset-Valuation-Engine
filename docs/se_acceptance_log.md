@@ -601,3 +601,54 @@ eligible — so this degrades shortlist precision rather than any decision. Reme
 deliberately **not** attempted here, per the standing rule that a newly exposed correctness
 defect is frozen and reported before it is fixed, and because fixing an identity rule while
 measuring a source would entangle the two.
+
+## Bibliographic-identifier boundary — 2026-09-19 (EHA defect remediation)
+
+Fixes the defect frozen in the EHA entry above. Re-measured on the same sealed baseline with
+a freshly acquired EHA corpus (`/home/djmann/se_runs/eha_probe2/`, 176 records, 0 failures,
+57.4s), EHA again the only variable.
+
+**Rule:** a source-native bibliographic identifier is metadata, not an asset identity
+candidate, even when its lexical shape resembles a development code. The recognizer is not
+weakened and there is no prefix blacklist — only the *metadata position* disqualifies a token.
+
+133 of 176 EHA documents carry a captured identifier; all 176 raw titles are unchanged.
+
+### Abstract-number assets
+
+| | before fix | after fix |
+|---|---|---|
+| abstract numbers minted as assets | **16** | **0** |
+| new assets total | 23 | 7 |
+
+Eliminated: `PB1983`, `PB2209`, `PB2210`, `PB2289`, `PB2442`, `PF155`, `PS941`, `PS942`,
+`PS945`, `PS947`, `PS962`, `PS965`, `PS1208`, `PS1219`, `PS1372`, `PS1501`.
+
+### Real assets retained — all five
+
+`BMS-986393`, `CC-95266`, `FLOTETUZUMAB`, `IMN-003A`, `YTB323`. **0 assets lost** against the
+baseline. `IMAGINE` (trial acronym) and `FOR 60` remain: neither is a bibliographic
+identifier, so both are correctly outside this fix's scope.
+
+### No regression elsewhere
+
+| requirement | baseline | +EHA, post-fix |
+|---|---|---|
+| `target.expression` PASS | 56 | **56** |
+| `evidence.human_poc` PASS | 40 | **40** |
+| `evidence.minimum_stage` PASS | 637 | **637** |
+| `identity.distinct_asset` PASS | 669 | 681 (+12; was +28 with the junk) |
+| false target assertions | — | **0** |
+| eligible | 0 | 0 |
+
+Suite 1042 passed / 3 xfailed, ruff clean.
+
+### Separate gap found and recorded, not fixed
+
+`PHE885` — the real BCMA CAR-T that `PB1983`'s title is actually about — is nominated in **no**
+context: with or without the abstract number, before or after this change. The shape model does
+not accept unhyphenated letters-then-digits codes. So removing the identifier does not reveal
+the asset it displaced. Widening the recognizer is a recall/precision decision about the
+recognizer itself, which this boundary fix is explicitly not permitted to make. Pinned as a
+strict xfail in `tests/se/test_bibliographic_id_boundary.py` so it cannot be forgotten or
+silently resolved.
