@@ -33,7 +33,11 @@ confirmed this: `evidence.human_poc` PASS stayed at exactly 40 in each isolated 
 full-text families can convert the 56 dual constructs off UNKNOWN. Revised order:
 
 1. ~~ASH~~ (done, `65fcd9b`) 2. ~~EHA~~ (done, `f5d15f8`) 3. ~~SEC-filed press releases~~
-(done, `ad39f31`) 4. **company pipeline pages — NEXT** 5. ASCO 6. AACR. SEC EDGAR is already
+(done, `ad39f31`) 4. **company pipeline pages — NEXT** (`DeclaredUrlConnector` is built, generic, and already
+enforces the as-of contract by refusing undated pages; what is missing is a versioned
+manifest — the only existing entry for `company_pipeline_or_presentation`, in
+`research/se_benchmarks/cd19_bcma/development/declared_sources.yaml`, is a single NCI
+dictionary page and not a company pipeline at all) 5. ASCO 6. AACR. SEC EDGAR is already
 active and needs no milestone.
 
 **`SecFiledPressReleaseConnector` is wired (@`ad39f31`)** — it existed and was covered since
@@ -60,13 +64,17 @@ numbers to 0, all five real assets retained, 0 lost, `target.expression` and `hu
 exactly unchanged. **ASCO and AACR number their abstracts too — give each its documented
 convention when wiring it, and do not guess one.**
 
-**OPEN, recorded not fixed — the mandatory-family name does not match the connector's.**
-`_MANDATORY_SOURCES` in `src/bve/cli/se_search.py` names `company_press_release`; the
-connector's family is `company_press_release_sec_filed`. Evidence is admitted either way
-because adapters are built from every index family, but the blind spot does not clear —
-measured 7 → 7 — and its message, "no evidence from it was acquired", is now literally false.
-A blind spot for press releases *not* delivered through SEC is defensible; this wording is not.
-Needs a decision before anyone reads a manifest and believes it.
+**RESOLVED (@`9cfde01`) — the manifest reported an acquired source as unacquired.** A
+coverage *area* and a connector *family* were the same string, so `company_press_release`
+read as having no connector while `company_press_release_sec_filed` was acquiring from it.
+Renaming either way trades the lie for its opposite. `src/bve/se/discovery/coverage.py` now
+declares each area, the families that reach it, and the limitation that survives when only a
+narrower family did: reaching an area through a narrower family satisfies completeness *and*
+states what it still misses. Measured on the real press-release index: 7 blind spots → 6,
+with the SEC-delivery limitation named in place of the false sentence. An area nothing
+reaches reports exactly as before, and a broken family still reports FAILED rather than being
+laundered into a coverage note. **When adding a source, decide first whether it is a new area
+or a narrower way of reaching an existing one.**
 
 **OPEN, recorded not fixed — full-text prose mints far more junk than titles did.** Four press
 releases produced 62 new asset names, of which about seven are real. `BRISTOL`, `LONDON`,

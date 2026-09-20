@@ -754,3 +754,21 @@ No efficacy was misattributed. No real asset was lost.
 
 **Verdict: wiring PASS, evidence boundary PASS, zero false attribution.** Tests 1065 passed
 / 3 xfailed, ruff clean.
+
+### 2026-09-19 (follow-up) — coverage areas separated from connector families (@`9cfde01`)
+
+The blind-spot defect above, fixed. `company_press_release` was both the name of a coverage
+area and, apparently, of a connector; since no connector had that exact name the manifest
+reported the area unreached while `company_press_release_sec_filed` was acquiring from it.
+
+Renaming in either direction trades one false claim for another, so neither was done. An area
+now declares the families that reach it and the limitation that survives when only a narrower
+family did. Measured against the real press-release index: blind spots **7 → 6**, and in place
+of *"no evidence from it was acquired"* the manifest states that releases from private
+companies, non-registrants, subsidiaries whose parent filing does not carry them, and
+company-hosted newsrooms were not reached.
+
+Invariants pinned (18 tests, `tests/se/test_coverage_areas.py`): a reached area never reports
+as unacquired; an unreached area still does; a FAILED family is never laundered into a
+coverage note; families that name their own area are unaffected. Reporting only — no gate,
+extraction or score change. Suite 1083 passed / 3 xfailed, ruff clean.
