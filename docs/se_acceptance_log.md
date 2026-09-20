@@ -652,3 +652,105 @@ the asset it displaced. Widening the recognizer is a recall/precision decision a
 recognizer itself, which this boundary fix is explicitly not permitted to make. Pinned as a
 strict xfail in `tests/se/test_bibliographic_id_boundary.py` so it cannot be forgotten or
 silently resolved.
+
+---
+
+## 2026-09-19 — Source validation: SEC-filed issuer press releases (`company_press_release_sec_filed`)
+
+Family 3 of the revised source-expansion order, and the first activated family whose
+documents carry full release text rather than bibliographic metadata. The question was not
+"does the connector work" but: **can genuinely new full-text evidence move a scientifically
+meaningful UNKNOWN to PASS without introducing false attribution?**
+
+**Wiring** (@`ad39f31`): the connector already existed and was covered; it had no production
+caller. One entry added to `default_connectors()`. No connector changes.
+
+### Live acquisition (`/home/djmann/se_runs/pr_probe/`)
+
+| | |
+|---|---|
+| registrant selection | generic — EDGAR full-text search over the target alias phrases, no curated issuer list |
+| phrases issued | 54 |
+| hits returned | 1,363 |
+| eligible after the pre-fetch screen | 566 |
+| exhibits actually fetched | 25 (`max_documents` cap) |
+| rejected by the classifier | 21 (`no_press_release_indicator`) |
+| documents parsed / indexed | 4 |
+| parse failures | 0 |
+| runtime | 100.8s |
+| custody / replay | sealed; deterministic replay verified |
+
+Pre-fetch rejections across the full 1,363: `form_not_eligible` 435, `not_an_ex99_exhibit`
+70, `no_press_release_indicator` 21.
+
+The four admitted documents are genuine issuer releases: Molecular Partners AG (Swiss
+registrant, arriving on the 6-K path — MP0533 Phase 1/2a AML), Harpoon Therapeutics
+(HPN217, BCMA), Autolus (obe-cel PDUFA), Bristol Myers Squibb (Q4 2022 results).
+Classification bases: `file_description` and `document_header`.
+
+**Effective coverage universe.** SEC registrants filing 8-K or 6-K, and only those. Private
+companies, non-registrants, subsidiaries of a filer, and early-stage companies that have not
+yet registered are invisible to this family by construction. SEC provenance establishes that
+a registrant filed the document; it adds nothing to the truth value of the science in it.
+
+**Coverage is capped, not exhausted.** 566 eligible → 25 fetched. `max_documents=25` is the
+binding constraint, not source availability. Recorded, deliberately not tuned.
+
+### Isolated delta (sealed acceptance custody + only this source's index)
+
+| | baseline | +press releases |
+|---|---|---|
+| source documents | 3,699 | 3,702 |
+| claims | 26,836 | 27,504 |
+| candidates | 2,720 | 2,777 |
+| identity mentions | 15,088 | 15,287 |
+| `identity.distinct_asset` PASS | 669 | 713 |
+| `evidence.human_poc` PASS | 40 | **42** |
+| `target.expression` FAIL | 615 | 625 |
+| resolved target assertions | 576 | 596 |
+| eligible | 0 | 0 |
+| blind spots | 7 | 7 |
+| assets lost | — | 5 (all case variants of retained junk tokens) |
+
+Dual CD19/BCMA constructs moving UNKNOWN → PASS: **none**. Zero newly eligible assets.
+
+**Both new human_poc PASSes manually inspected** — and they are the same drug:
+
+- **Zeposia / ozanimod** (the identity layer holds them as two assets; the known
+  alias-merging constraint, not a new defect).
+- Source: BMS Q4 2022 EX-99.1,
+  `sec.gov/Archives/edgar/data/14272/000001427223000018/q42022ex991.htm`.
+- Population/indication: relapsing multiple sclerosis, Phase 3 DAYBREAK open-label extension.
+- Result: ">92% of participants who received Zeposia mounted a serological response
+  following COVID-19 vaccination"; separately, 68% relapse-free at 74 months.
+- Why it satisfies the rule: a measured human outcome, in a named trial, attributed to the
+  asset within its own sentence. Not sponsor enthusiasm, not protocol language, not a
+  regimen result credited to a component.
+- Honest caveat: Zeposia is a marketed drug and the serological endpoint is immune response
+  to vaccination, not disease efficacy. The gate is doing what it was specified to do; the
+  result is of no relevance to the CD19/BCMA question. That is the correct outcome, not a
+  disappointing one.
+
+No efficacy was misattributed. No real asset was lost.
+
+### Open, recorded not remediated
+
+1. **Prose junk amplified by full text.** Of 62 new asset names, roughly seven are real
+   (`BMS-986393`, `CC-95266`, `HPN217`, `HPN328`, `HPN424`, `HPN536`, `BCM-001`/`BCM-003`);
+   the rest are ordinary prose the identity layer minted — `BRISTOL`, `LONDON`, `EX-99`,
+   `AACR 2023`, author surnames, and bare English words. This is the known mention-support
+   disposition behaviour, not a new class of defect, but press-release prose exercises it far
+   harder than titles and abstracts did. Four documents produced 55 junk names.
+2. **Mandatory-family naming mismatch.** `_MANDATORY_SOURCES` in `src/bve/cli/se_search.py`
+   names `company_press_release`; the connector's family is
+   `company_press_release_sec_filed`. The evidence is admitted regardless (adapters are built
+   from every index family), but the blind spot does not clear — measured: 7 → 7 — and its
+   message, "no evidence from it was acquired", is now literally false for this run. Keeping
+   a blind spot for non-SEC-delivered press releases is arguably right; the wording is not.
+   Needs a decision.
+3. Snapshot text arrives with function words stripped ("showed more 92% participants
+   received"), which makes sentence-scoped attribution read more loosely than the written
+   contract implies. Pre-existing; noted here because full text is the first place it matters.
+
+**Verdict: wiring PASS, evidence boundary PASS, zero false attribution.** Tests 1065 passed
+/ 3 xfailed, ruff clean.
