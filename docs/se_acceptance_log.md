@@ -858,3 +858,55 @@ recognizer and is the only genuinely prose-shaped false asset in the set.
 That is a narrower and more tractable problem than mention precision in prose: it is fixable
 in the HTML stripper rather than in the identity layer. Recorded, not remediated, per the
 standing instruction not to reopen identity.
+
+## 2026-09-20 — Source normalization: HTML becomes visible text
+
+The company-pipeline delta produced 39 junk candidates that were not misread prose but
+implementation text: `currentColor`, `tbody`, `parentNode`, `yoast`, `pd-pipeline-row`. The
+cause was `_strip_html`, which removed what sat between angle brackets and therefore kept the
+*contents* of `<script>` and `<style>` as if they were words on the page.
+
+The repair is at that boundary, not in identity or nomination. Normalization is now defined
+positively — visible text, via an HTML parser already in the dependency tree — so what is
+excluded follows from what visible text *is* rather than from a blacklist of observed junk.
+No identity, drug-code, target, `human_poc`, manifest or temporal behaviour was changed.
+
+### Two findings that outrank the fix
+
+**Custody seals extracted text, not raw bytes.** `DeclaredUrlConnector` calls `_strip_html`
+*before* `store.add`, and no sealed corpus in `se_runs/` contains raw HTML. A sealed replay
+therefore cannot test an extraction change: the markup was discarded along with the content.
+The same 9 declared URLs were re-fetched from the same frozen manifest (unchanged, same
+digest) instead. **Consequence for every other family:** the press-release and conference
+corpora were built with the old stripper and will not benefit until re-acquired.
+
+**Excluding a container by position nearly emptied a document.** The first implementation
+dropped `<head>` wholesale. Real pages carry unclosed void elements, and a lenient parser
+then nests `<body>` *inside* `<head>` — so Tango's page returned **zero** text, which reads
+downstream as "this company has no pipeline". Caught because its old text held real content
+(PRMT5, MTAP, TNG). The rule is now to exclude only elements that are non-content *by their
+own nature*; machine metadata is still excluded, through `<script>` and through attributes,
+which are never read at all.
+
+### Isolated delta — same sealed baseline, same question
+
+| | baseline | + pipeline (old) | + pipeline (fixed) |
+|---|---|---|---|
+| pages with markup leakage | — | 8 / 9 | **0 / 9** |
+| candidates added | — | 48 | **17** |
+| `identity.distinct_asset` PASS | 669 | 681 | 680 |
+| `evidence.human_poc` PASS | 40 | 40 | **40** |
+| `target.expression` PASS | 56 | 56 | **56** |
+| `evidence.minimum_stage` PASS | 637 | 637 | **637** |
+| assets lost | — | 1 (`Color`) | **0** |
+| blind spots | 7 | 6 | **6** |
+
+**31 names removed, every one of them markup or script**; none newly appeared. All 9 real
+assets are retained and hold identity PASS: RLY-2608, RLY-4008, RLY-8161, GDC-1971,
+lirafugratinib, zovegalisib, capivasertib, esomeprazole, fulvestrant. No false decisional
+fact: `identity.distinct_asset` is the only gate any newly added name reaches, and every name
+reaching it is real.
+
+The 8 residual junk names are prose-shaped — `Elevar`, `Privacy`, `Relay`, `relaytx`,
+`webinar`, `belongs`, `solve`, and `MA 02139` — and are the known mention-precision problem,
+untouched here. Nothing was tuned against `MA 02139`.

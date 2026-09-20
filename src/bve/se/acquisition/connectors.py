@@ -22,15 +22,12 @@ from typing import Any
 from urllib.parse import urljoin, urlsplit
 
 from bve.se.acquisition.corpus_store import CorpusStore, ParserStatus
+from bve.se.acquisition.html_text import html_to_visible_text
 from bve.se.acquisition.http import get_json, get_text, safe_get_public_page
 from bve.se.acquisition.source_health import SourceHealth
 from bve.se.schemas.contracts import SourceTier, TemporalBasis
 
 SearchFn = Callable[[str], list[dict[str, Any]]]
-
-_TAG_RE = re.compile(r"<[^>]+>")
-_WS_RE = re.compile(r"\s+")
-
 
 @dataclass(frozen=True)
 class TargetQuery:
@@ -63,7 +60,9 @@ def _modality_or_group(modality_terms: Sequence[str]) -> str:
 
 
 def _strip_html(raw: str) -> str:
-    return _WS_RE.sub(" ", _TAG_RE.sub(" ", raw)).strip()
+    """Visible page text. See :mod:`bve.se.acquisition.html_text` for why it is not a regex."""
+
+    return html_to_visible_text(raw)
 
 
 #     <meta property="article:published_time" content="2026-07-15T09:00:00Z">
