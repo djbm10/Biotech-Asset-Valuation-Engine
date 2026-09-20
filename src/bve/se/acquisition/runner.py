@@ -20,6 +20,7 @@ from bve.se.acquisition.connectors import (
     FdaLabelConnector,
     PubMedConnector,
     SecEdgarConnector,
+    SecFiledPressReleaseConnector,
     TargetQuery,
     DeclaredUrlConnector,
 )
@@ -83,13 +84,21 @@ def conference_connectors() -> list[Connector]:
 
 
 def default_connectors() -> list[Connector]:
-    """The live API-driven connector set (CT.gov, FDA label, PubMed, SEC EDGAR, ASH, EHA)."""
+    """The live API-driven connector set.
+
+    CT.gov, FDA label, PubMed, SEC EDGAR, the validated conference venues, and issuer press
+    releases filed as SEC exhibits. The last is the first family here carrying full release
+    text rather than bibliographic metadata, so it is the first that can contribute evidence
+    a gate may act on -- subject, as always, to that evidence satisfying its own producer's
+    rules. Delivery by SEC does not make a sponsor's scientific claim true.
+    """
 
     return [
         ClinicalTrialsGovConnector(page_size=1000),
         FdaLabelConnector(limit=50),
         PubMedConnector(limit=300),
         SecEdgarConnector(max_documents=25),
+        SecFiledPressReleaseConnector(max_documents=25),
         *conference_connectors(),
     ]
 
