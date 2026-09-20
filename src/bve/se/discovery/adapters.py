@@ -12,7 +12,7 @@ from datetime import date, datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from bve.se.discovery import drug_name_lexicon, drug_name_shape
+from bve.se.discovery import drug_name_lexicon, drug_name_shape, study_identifier
 from bve.se.discovery.custody import RecordMaterialization
 from bve.se.discovery.orchestrator import AdapterResult
 from bve.se.ontology.modality import (
@@ -161,7 +161,14 @@ def extract_observed_asset_names(*texts: str, shape_scan: bool = True) -> list[s
 
     combined = "\n".join(text for text in texts if text)[:100_000]
     candidates = [
-        *[match.group(0) for match in _ASSET_CODE_RE.finditer(combined)],
+        *[
+            match.group(0)
+            for match in _ASSET_CODE_RE.finditer(combined)
+            # Per occurrence, never per token: a code the source names a study with is not an
+            # asset *there*, and the same code administered elsewhere still is. Dropping only
+            # the study-framed occurrences leaves the others to speak for themselves.
+            if not study_identifier.frames_a_study(combined, match.start(), match.end())
+        ],
         *[match.group(0) for match in drug_name_lexicon.drug_name_pattern().finditer(combined)],
         *(
             [

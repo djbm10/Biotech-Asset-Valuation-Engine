@@ -45,6 +45,14 @@ study names shaped exactly like development codes, and `LEAP-004` took an identi
 the surrounding phrase distinguishes them, and conference titles are dense in study names, so
 expect this to grow with AACR.
 
+**Fixed before AACR** (`study_identifier.py`): a code is not an asset where the source names a
+study with it — per occurrence, never per token, with the framing required to attach to the
+code itself. Removed 6 study codes (2 from ASCO, 4 already in the baseline) with `human_poc`,
+`target.expression` and `minimum_stage` all unmoved and the 3 real ASCO assets retained. Note
+the two rules that a failing test, not the new ones, forced: the naming noun must be
+**singular**, and "Trials in Progress" is a session category (ASCO's `TPS####`), not a study
+description — the first version vetoed a real `PB1983` candidate on that heading.
+
 **Source normalization was repaired before ASCO (@`5a7dfd3`).** `_strip_html` now extracts
 visible text with an HTML parser instead of deleting what sits between angle brackets, so
 `<script>`/`<style>` contents can no longer become candidate assets. Markup leakage went 8/9

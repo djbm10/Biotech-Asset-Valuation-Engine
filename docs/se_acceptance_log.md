@@ -963,3 +963,62 @@ dense in study names, so this will scale with AACR rather than stay at two.
 
 Recorded, not remediated: it does not meet the stop condition (no target or `human_poc` PASS),
 and the standing instruction is not to reopen identity or alter thresholds on this result.
+
+## 2026-09-20 — The study-code identity boundary
+
+ASCO surfaced `LEAP-004` and `KEYNOTE-024` as assets, and `LEAP-004` took an
+`identity.distinct_asset` PASS. A study acronym-code is shaped exactly like a development
+code — `LEAP-004` and `AMG 404` are indistinguishable as tokens — so the boundary reads the
+source's grammar instead: a code is not an asset where the source names a study with it.
+
+`src/bve/se/discovery/study_identifier.py`, applied in the development-code route of
+`extract_observed_asset_names`. Three properties do the work:
+
+- **Per occurrence, never per token.** A code framed as a study here is still an intervention
+  in the next document. Only the study-framed occurrences are dropped.
+- **The framing must attach to the code**: separator, at most a short bounded run of *design*
+  wording (`phase N`, `randomized`, `open-label`…), then the noun. The bound is the point —
+  unbounded, it reaches across a clause and finds the "study" belonging to another subject,
+  which is exactly how `AMG 404` would be lost out of "A phase 1b study of blinatumomab with
+  the … antibody AMG 404". Proximity to "phase" decides nothing.
+- **The noun is singular, and a session category is not a description.** Both learned from a
+  failure, below.
+
+### What the S&E suite caught that the new tests did not
+
+The first version vetoed `PB1983` out of `PB1983: TRIAL-IN-PROGRESS: PHASE II STUDY OF
+PHE885`, failing `test_a_venue_without_a_documented_convention_captures_nothing`. "Trials in
+Progress" is a conference *session category* — the taxonomy ASCO numbers `TPS####`, verified
+live in the ASCO milestone — and an abstract number in front of it does not thereby name a
+trial. Two grammatical corrections, neither lexical: the naming noun must be **singular**
+("the LEAP-004 trial" names a study; "LEAP-004 trials" names none), and the category phrase is
+excluded. Without the full suite this would have shipped as a broad suppressor across the
+whole conference tier, not an ASCO-local fix.
+
+### Isolated delta — sealed acceptance custody + the ASCO index
+
+| | baseline | + ASCO, study boundary |
+|---|---|---|
+| source documents | 3,699 | 3,715 |
+| candidates | 2,720 | 2,719 |
+| `identity.distinct_asset` PASS | 669 | 675 |
+| `evidence.human_poc` PASS | 40 | **40** |
+| `target.expression` PASS | 56 | **56** |
+| `evidence.minimum_stage` PASS | 637 | **637** |
+| blind spots | 7 | 6 |
+
+**Assets added: 3** — `AMG 404`, `BI 765179`, `ociperlimab`, i.e. exactly the real assets ASCO
+contributed. The only new name taking a decisional pass is `ociperlimab`, a real anti-TIGIT
+antibody; `LEAP-004` no longer appears there, so **no false decisional fact remains**.
+
+**Study codes removed: 6.** Two are ASCO's (`LEAP-004`, `KEYNOTE-024`); four were already in
+the baseline (`CRB-402`, `ORIENT-31`, `AML19`, `CLL10`), so the rule corrects a defect wider
+than the source that exposed it. `human_poc` and `target.expression` are untouched, which is
+what says no evidence was lost with them.
+
+A limit on that verification: `LEAP-004` and `KEYNOTE-024` were confirmed against their ASCO
+source titles, but the other four could not be — document bodies are not retrievable by text
+search from sealed custody (`teclistamab`, certainly present in this corpus, also returns
+nothing). Their identification as trial names is prior knowledge, not run evidence. What *is*
+guaranteed by construction and by test is that each removed occurrence carried explicit study
+framing in its source.
