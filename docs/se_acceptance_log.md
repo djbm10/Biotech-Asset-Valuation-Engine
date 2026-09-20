@@ -1139,3 +1139,77 @@ So the corpus does contain genuine attributable human efficacy, and the policy i
 withholding it. One caution for the preregistered milestone that decides this: **CT023 reports
 its endpoints, not its results** — a rule keyed on efficacy vocabulary rather than on a stated
 outcome would admit it wrongly.
+
+---
+
+## 2026-09-20 — Conference-abstract human-PoC admissibility (preregistered, v1)
+
+**Policy:** `docs/se_policies/conference_human_poc_admissibility_v1.md`, sha256
+`02770b9e90084845a8241e130dc371979b98c712271adaf7d8decd24c09dd84f`, committed at `3c341e4`
+**before** the delta was run. `human_poc.py` sha256 `cd8d963c…703958a` verified unchanged
+after the milestone's single edit — the standard is exactly what was preregistered.
+
+**Change:** one line. `NON_DECISIONAL_FOR_HUMAN_POC` emptied in
+`bve/se/evidence/source_capability.py`. No change to the AACR connector, identity layer,
+target logic, `SourceTier`, or the definition of `human_poc_present`.
+
+### Measured delta — replay `aacr_poc`, sealed AACR custody, 26 min
+
+| gate | base | `aacr_delta2` (AACR, exclusion in force) | `aacr_poc` (exclusion lifted) |
+|---|---|---|---|
+| `evidence.human_poc` | 40 | 40 | **40** |
+| `target.expression` | 56 | 56 | 56 |
+| `evidence.minimum_stage` | 637 | 637 | 638 |
+| `identity.distinct_asset` | 669 | 771 | 775 |
+| `strategy.therapeutic_area` | 0 | 0 | 0 |
+
+**New human-PoC PASSes: 0. New assets named: none. False positives: 0.**
+
+### Controls, verified against the stored abstract text
+
+Per-sentence trace of `efficacy_statements`' refusal order, against the sealed corpus:
+
+- **CT023 (mandatory negative)** — remains UNKNOWN. **But the control is vacuous.** The
+  abstract *does* report a result: *"Ten of the 11 patients achieved an objective response
+  (91% ORR), with 8 patients (73%) achieving complete response (CR)."* It was refused at
+  `WOULD_PASS_IF_ASSET_NAMED` — no asset name in that sentence — not for lacking a reported
+  outcome. The preregistration's characterisation of CT023 (and my earlier report of it) was
+  wrong. It is a valid *attribution* control, not a planned-endpoint control.
+- **CT007** — refused. `"…with 4 of patients in ongoing complete remission."` →
+  `WOULD_PASS_IF_ASSET_NAMED`. Malformed count, asset not in sentence. Predeclared.
+- **PR06** — refused. `"13 patients (81%) achieved a CR…"` → `NO_EFFICACY_TERM` (bare `CR`
+  is not in `_EFFICACY_TERMS`); the title sentence → `NON_EFFICACY:persistence`;
+  `"CTL019 cells can induce potent and durable responses…"` → `NO_VALUE`.
+- **LB-138** — refused. `"Pt 1 achieved a complete response (CR) and experienced Gr 3
+  fever…"` → `NON_EFFICACY:cytokine release`; the MRD sentence → `NO_EFFICACY_TERM`.
+- **1440**, **LB110** — remain UNKNOWN.
+
+Per §4 of the policy these are **true negatives of the standard**, not shortfalls. No
+threshold, term list or character limit was altered after the output was seen.
+
+### Verdict
+
+Null result. The source class is adopted — a conference abstract may now be *read* for
+human PoC — and on this corpus the standard admits nothing new. The milestone's value is
+that admissibility is now decided by what a document reports rather than by what an API
+used to return, and that the standard was shown to hold unassisted against 192 abstract
+bodies of oncology efficacy prose with zero false positives.
+
+**Impact on the CD19/BCMA acceptance question: none.** `human_poc` is the binding evidence
+floor and it did not move.
+
+### Open, not remediated
+
+- **Cross-run nondeterminism.** `identity.distinct_asset` +4 and `minimum_stage` +1 between
+  `aacr_delta2` and `aacr_poc`, which differ *only* by the human-PoC source policy — a
+  change that cannot reach either gate. DISCOVERY also ran 1080s vs 1720s. The isolated-delta
+  method assumes run-to-run determinism; this says it does not currently hold. Must be
+  diagnosed before any future delta of this size is trusted.
+- Three refusal clauses are, on this evidence, the binding constraints on conference prose:
+  bare `CR` absent from `_EFFICACY_TERMS`, `cytokine release` vetoing a sentence that also
+  reports a response, and sentence-scoped attribution. Each is a defensible position and
+  each is now measured. Changing any of them is a **separate, separately preregistered**
+  milestone — not a fix to this one.
+
+**Tests:** `tests/se` 1165 passed, 3 xfailed. ruff clean. 16 new preregistered tests in
+`tests/se/test_conference_human_poc_admissibility.py`.

@@ -26,15 +26,22 @@ the whole reason for acquiring the bodies.
 
 from __future__ import annotations
 
-#: Document types whose text may be read for every other purpose, but may not produce
-#: ``human_poc_present``. Conference abstracts only -- see the module docstring for why this
-#: is a held position rather than a permanent one.
-NON_DECISIONAL_FOR_HUMAN_POC = frozenset(
-    {
-        "conference_abstract_metadata",
-        "conference_abstract",
-    }
-)
+#: Document types that may not produce ``human_poc_present``.
+#:
+#: **Empty, as of the conference-abstract admissibility milestone
+#: (docs/se_policies/conference_human_poc_admissibility_v1.md).** Conference abstracts were the
+#: only entry, held out for exactly one milestone so the question could be decided against a
+#: measured corpus rather than inherited from what an API used to return. It was decided: the
+#: AACR corpus contains attributable human outcomes, and the standard in
+#: :mod:`bve.se.evidence.human_poc` already distinguishes them from planned endpoints, safety
+#: reports and animal data without any help from the source type.
+#:
+#: The set is kept rather than deleted, and so is this module. An empty exclusion list is a
+#: statement -- that admissibility is decided by what a document *reports*, not by what kind
+#: of document it is -- and the place to record the next exception if one is ever warranted.
+#: Deleting it would return the codebase to the state the AACR milestone found: a property
+#: that everyone believed and nothing enforced.
+NON_DECISIONAL_FOR_HUMAN_POC: frozenset[str] = frozenset()
 
 
 def may_establish_human_poc(document_type: str) -> bool:
