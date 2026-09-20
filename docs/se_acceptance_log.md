@@ -530,3 +530,74 @@ to convert the 56 dual CD19/BCMA constructs from UNKNOWN, the conference tier wi
 and the priority order should be re-examined after EHA.
 
 Nothing was tuned. `tests/se` 1022 passed / 2 xfailed, ruff clean.
+
+## EHA source validation — 2026-09-19
+
+Family 2 of the source-coverage program, and the first venue `CONFERENCE_VENUES` did not
+already contain. Wiring is one table entry plus one tuple member; the runner gained no
+branch. Verdict: **wiring PASS, source FROZEN pending a correctness decision** (below).
+
+### Acquisition (live)
+
+| | |
+|---|---|
+| status | SUCCESS |
+| queries | 341 |
+| raw records / parsed / indexed | 176 / 176 / 176 |
+| parse failures | 0 |
+| source-index entries | 176 |
+| runtime | 61.3s |
+
+Container journal verified against live Crossref before wiring: `HemaSphere` (Wiley),
+total-results 56 for a BCMA probe, items numbered `P###`/`PB####` — EHA congress abstract
+supplements. The casing is the filter value verbatim; `Hemasphere` matches nothing.
+`ConferenceVenue.publisher` is `EHA`, the society whose meeting produced the abstract, not
+Wiley, who prints the journal.
+
+### Isolated delta
+
+Baseline is the sealed acceptance custody of 2026-09-19 replayed with only the EHA source
+index added, so EHA is the single variable and the numbers are directly comparable to ASH's.
+`conference_eha` left the blind-spot list; `conference_ash` re-entered it, which is the
+isolation working.
+
+| measure | baseline | +EHA |
+|---|---|---|
+| documents | 15,088 | 15,172 |
+| claims | 26,836 | 27,107 |
+| candidates | 2,720 | 2,743 |
+| `identity.distinct_asset` PASS | 669 | **697** |
+| `target.expression` PASS | 56 | **56** |
+| `evidence.human_poc` PASS | 40 | **40** |
+| eligible | 0 | 0 |
+| assets lost | — | 0 |
+| runtime | — | 1,250.4s discovery / 376.1s extraction |
+
+`human_poc` and `target.expression` are unchanged, as the ASH result predicted: Crossref
+supplies title and DOI, so the connector emits DISCOVERY_EVIDENCE by contract. No previously
+UNKNOWN dual CD19/BCMA construct became supported. That is the expected result for this
+tier, not a failure of it.
+
+### New correctness defect — FROZEN, not remediated
+
+Of 23 new assets, **5 are real** (`BMS-986393`, `CC-95266`, `FLOTETUZUMAB`, `IMN-003A`,
+`YTB323` — the last is rapcabtagene autoleucel, directly on-question) and **18 are not**:
+
+- 16 EHA abstract numbers minted as assets: `PB1983`, `PB2209`, `PB2210`, `PB2289`,
+  `PB2442`, `PF155`, `PS941`, `PS942`, `PS945`, `PS947`, `PS962`, `PS965`, `PS1208`,
+  `PS1219`, `PS1372`, `PS1501`
+- 2 non-assets: `IMAGINE` (trial acronym), `FOR 60`
+
+Mechanism: EHA prints the abstract number as a leading token of the title
+(`PB1983: TRIAL-IN-PROGRESS: PHASE II STUDY OF PHE885, ...`). The token is letters followed
+by digits, which is exactly the learned drug-code n-gram shape, so the identity layer accepts
+it. `PB1983` is the sharpest case — the title names a genuine BCMA CAR-T (PHE885) and the
+extractor took the abstract number instead.
+
+ASH did not expose this because *Blood*'s Crossref titles carry no abstract-number prefix.
+The defect is in the identity layer, not the connector; EHA merely supplied the first corpus
+whose titles are numbered. Nothing was promoted — all 18 sit in `review`/`excluded`, zero
+eligible — so this degrades shortlist precision rather than any decision. Remediation is
+deliberately **not** attempted here, per the standing rule that a newly exposed correctness
+defect is frozen and reported before it is fixed, and because fixing an identity rule while
+measuring a source would entangle the two.
