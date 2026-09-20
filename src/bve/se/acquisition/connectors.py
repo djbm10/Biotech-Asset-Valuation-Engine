@@ -488,6 +488,10 @@ CONFERENCE_VENUES: tuple[ConferenceVenue, ...] = (
     ConferenceVenue("conference_asco", "ASCO", ("Journal of Clinical Oncology",)),
     ConferenceVenue("conference_aacr", "AACR", ("Cancer Research",)),
     ConferenceVenue("conference_ash", "ASH", ("Blood",)),
+    # EHA congress abstracts appear as HemaSphere supplements. The casing is the Crossref
+    # filter value verbatim: "Hemasphere" matches nothing. ``publisher`` names the society
+    # whose meeting produced the abstract, not Wiley, who prints the journal.
+    ConferenceVenue("conference_eha", "EHA", ("HemaSphere",)),
 )
 
 

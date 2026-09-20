@@ -69,7 +69,7 @@ def modality_terms_for(problem: BuyerProblemV2) -> list[str]:
 #: once it has been validated against the live source, so the shared ``CONFERENCE_VENUES``
 #: table can describe every venue the connector supports while production activates them one
 #: at a time. Adding a venue is an entry here, never another branch in the runner.
-ACTIVE_CONFERENCE_FAMILIES: tuple[str, ...] = ("conference_ash",)
+ACTIVE_CONFERENCE_FAMILIES: tuple[str, ...] = ("conference_ash", "conference_eha")
 
 
 def conference_connectors() -> list[Connector]:
@@ -83,7 +83,7 @@ def conference_connectors() -> list[Connector]:
 
 
 def default_connectors() -> list[Connector]:
-    """The live API-driven connector set (CT.gov, FDA label, PubMed, SEC EDGAR, ASH)."""
+    """The live API-driven connector set (CT.gov, FDA label, PubMed, SEC EDGAR, ASH, EHA)."""
 
     return [
         ClinicalTrialsGovConnector(page_size=1000),

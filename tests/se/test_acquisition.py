@@ -254,7 +254,13 @@ def test_crossref_one_mechanism_covers_every_declared_venue(tmp_path) -> None:
             store, targets=TARGETS, modality_terms=MODALITY, as_of_date=AS_OF
         )
         families.append(store.documents()[0].source_family)
-    assert families == ["conference_asco", "conference_aacr", "conference_ash"]
+    # Expected from the table, not restated: a hardcoded list turns "adding a conference is
+    # data" into a code change, which is the property this test exists to defend. What is
+    # asserted is still substantive -- each venue was queried through its own container
+    # title (checked inside ``fake_search``) and stamped with its own family.
+    assert families == [venue.source_family for venue in CONFERENCE_VENUES]
+    # Named explicitly so the table cannot silently shrink back to the M12 three.
+    assert {"conference_asco", "conference_aacr", "conference_ash", "conference_eha"} <= set(families)
 
 
 #: Two abstracts in the shape the real proceedings PDF prints them: a session header with no
