@@ -72,6 +72,11 @@ class CorpusDocument(BaseModel):
     publication_date: date | None = None
     title: str = ""
     text: str = ""
+    #: The source's own identifier for this document, where the source structurally declares
+    #: one -- a conference abstract/poster number, for instance. It is metadata about the
+    #: document, so it is not a candidate asset mention even when it is shaped like a
+    #: development code. Empty when the source declares nothing.
+    bibliographic_id: str = ""
     parser_status: ParserStatus = ParserStatus.OK
     index_status: IndexStatus = IndexStatus.INDEXED
     # Native-format flag: CT.gov / PubMed snapshots replay through their own adapters; other
@@ -81,7 +86,7 @@ class CorpusDocument(BaseModel):
     def indexable_record(self) -> dict[str, object]:
         """Render the ``IndexedDocumentAdapter`` document shape for discovery consumption."""
 
-        return {
+        record: dict[str, object] = {
             "url": self.source_url,
             "title": self.title,
             "text": self.text,
@@ -91,6 +96,11 @@ class CorpusDocument(BaseModel):
             if self.publication_date
             else None,
         }
+        # Omitted rather than emitted empty, so that every source index written before this
+        # field existed still round-trips unchanged.
+        if self.bibliographic_id:
+            record["bibliographic_id"] = self.bibliographic_id
+        return record
 
 
 class CorpusValidationReport(BaseModel):
@@ -479,6 +489,7 @@ class CorpusStore:
         text: str,
         as_of_date: date,
         title: str = "",
+        bibliographic_id: str = "",
         publication_date: date | None = None,
         parser_status: ParserStatus | None = None,
         native_snapshot: bool = False,
@@ -518,6 +529,7 @@ class CorpusStore:
             publication_date=publication_date,
             title=title,
             text=text,
+            bibliographic_id=bibliographic_id,
             parser_status=parser_status,
             index_status=index_status,
             native_snapshot=native_snapshot,

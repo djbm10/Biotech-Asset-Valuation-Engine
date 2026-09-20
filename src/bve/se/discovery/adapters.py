@@ -1283,8 +1283,17 @@ class IndexedDocumentAdapter:
                 {"asset_name": asset_name}
                 for asset_name in extract_observed_asset_names(title, text)
             ]
+            # The source's own identifier for this document -- a conference abstract number,
+            # say. It is metadata about the document rather than something the document
+            # mentions, so it is not an asset candidate here even though it is shaped like a
+            # development code. Scoped to this exact token on this one document: the same
+            # string elsewhere is nominated normally, because a real program could be named
+            # it, and rejecting the shape would delete genuine assets.
+            bibliographic_id = str(record.get("bibliographic_id", "")).strip().casefold()
             for mention in mentions:
                 asset_name = str(mention.get("asset_name", "")).strip()
+                if bibliographic_id and asset_name.casefold() == bibliographic_id:
+                    continue
                 if (
                     not _plausible_asset_name(asset_name)
                     or _normalized_lookup(asset_name)

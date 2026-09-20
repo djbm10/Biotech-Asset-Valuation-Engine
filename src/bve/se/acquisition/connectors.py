@@ -483,16 +483,48 @@ class ConferenceVenue:
     publisher: str
     container_titles: Sequence[str]
 
+    #: The venue's *documented* abstract/poster numbering convention, as a regular expression
+    #: matching the identifier alone. Set only where the conference publishes its numbering
+    #: and the container's titles actually carry it; ``None`` means this venue declares no
+    #: convention, and the connector must then not guess at one. See
+    #: ``_leading_bibliographic_id`` for why only an anchored prefix qualifies.
+    abstract_id_pattern: str | None = None
+
 
 CONFERENCE_VENUES: tuple[ConferenceVenue, ...] = (
     ConferenceVenue("conference_asco", "ASCO", ("Journal of Clinical Oncology",)),
     ConferenceVenue("conference_aacr", "AACR", ("Cancer Research",)),
+    # Blood's Crossref titles carry no abstract number, so ASH declares no convention. That
+    # absence is the only reason ASH never exposed the identifier-as-asset defect.
     ConferenceVenue("conference_ash", "ASH", ("Blood",)),
     # EHA congress abstracts appear as HemaSphere supplements. The casing is the Crossref
     # filter value verbatim: "Hemasphere" matches nothing. ``publisher`` names the society
     # whose meeting produced the abstract, not Wiley, who prints the journal.
-    ConferenceVenue("conference_eha", "EHA", ("HemaSphere",)),
+    #
+    # EHA numbers its abstracts S### (oral), P#### / PB#### / PF#### / PS#### (poster), and
+    # prints that number as the first token of the title.
+    ConferenceVenue(
+        "conference_eha", "EHA", ("HemaSphere",), abstract_id_pattern=r"(?:S|P|PB|PF|PS)\d+"
+    ),
 )
+
+
+def _leading_bibliographic_id(title: str, pattern: str | None) -> str:
+    """The venue's own abstract identifier, when the title opens with it.
+
+    Anchored deliberately. A bibliographic identifier is metadata because of *where* the
+    source put it, not because of how it looks: the venue prints its number first, before the
+    title proper. The same characters occurring later in a title are ordinary words of the
+    title, and one of them may well be a real development code -- programs named in this shape
+    are common, so a match anywhere would start deleting genuine assets.
+
+    Returns "" when the venue declares no convention or the title does not open with one.
+    """
+
+    if not pattern or not title:
+        return ""
+    match = re.match(rf"({pattern})[:.]?\s+\S", title)
+    return match.group(1) if match else ""
 
 
 class CrossrefConferenceConnector:
@@ -617,6 +649,12 @@ class CrossrefConferenceConnector:
                 raw_payload=item,
                 text=title,
                 title=title,
+                # Recorded alongside the title, never cut out of it: custody keeps exactly
+                # what the source said, and downstream identity nomination skips this one
+                # token rather than this document.
+                bibliographic_id=_leading_bibliographic_id(
+                    title, self.venue.abstract_id_pattern
+                ),
                 as_of_date=as_of_date,
                 publication_date=published,
                 parser_status=parser_status,
