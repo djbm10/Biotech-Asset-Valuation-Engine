@@ -491,6 +491,12 @@ class ConferenceVenue:
 
 
 CONFERENCE_VENUES: tuple[ConferenceVenue, ...] = (
+    # ASCO abstracts appear as Journal of Clinical Oncology supplements. ASCO numbers them
+    # ####, e##### (online-only), TPS#### (Trials in Progress) and LBA#### (late-breaking),
+    # but prints that number in the item's page field, never at the head of the title --
+    # verified against 228 live JCO titles, none of which opens with one. So ASCO declares no
+    # title-numbering convention, and a token in that shape at the start of an ASCO title is
+    # part of the title.
     ConferenceVenue("conference_asco", "ASCO", ("Journal of Clinical Oncology",)),
     ConferenceVenue("conference_aacr", "AACR", ("Cancer Research",)),
     # Blood's Crossref titles carry no abstract number, so ASH declares no convention. That

@@ -33,9 +33,17 @@ confirmed this: `evidence.human_poc` PASS stayed at exactly 40 in each isolated 
 full-text families can convert the 56 dual constructs off UNKNOWN. Revised order:
 
 1. ~~ASH~~ (done, `65fcd9b`) 2. ~~EHA~~ (done, `f5d15f8`) 3. ~~SEC-filed press releases~~
-(done, `ad39f31`) 4. ~~company pipeline pages~~ (done, `783a310`) 5. **ASCO — NEXT** (needs
-its documented abstract-numbering convention) 6. AACR. SEC EDGAR is already active and needs
-no milestone.
+(done, `ad39f31`) 4. ~~company pipeline pages~~ (done, `783a310`) 5. ~~ASCO~~ (done) 6. **AACR
+— NEXT** (needs its documented abstract-numbering convention). SEC EDGAR is already active and
+needs no milestone.
+
+**ASCO prints its abstract number in the `page` field, not the title** — verified against 228
+live JCO titles, none of which opens with one — so it declares `abstract_id_pattern=None`.
+Do not assume the EHA precedent generalises; check where a venue actually puts its number.
+ASCO also surfaced a **third species of junk: trial codes**. `LEAP-004` and `KEYNOTE-024` are
+study names shaped exactly like development codes, and `LEAP-004` took an identity PASS. Only
+the surrounding phrase distinguishes them, and conference titles are dense in study names, so
+expect this to grow with AACR.
 
 **Source normalization was repaired before ASCO (@`5a7dfd3`).** `_strip_html` now extracts
 visible text with an HTML parser instead of deleting what sits between angle brackets, so

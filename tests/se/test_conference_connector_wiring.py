@@ -83,6 +83,50 @@ class TestEhaIsTheFirstVenueAddedByTable:
         assert len(families) == len(set(families))
 
 
+class TestAscoDeclaresNoTitleNumbering:
+    """ASCO prints its abstract number somewhere EHA does not: the container's page field.
+
+    EHA opens each title with S###/P####, which is why it declares a pattern and why the
+    identifier-as-asset defect was possible there at all. ASCO does not. Verified against
+    228 live Journal of Clinical Oncology titles: *none* begins with an abstract-number
+    token, while the page field carries ####, e#####, TPS#### and LBA####.
+
+    So ASCO declares no convention, and that is the documented fact rather than an absence
+    nobody checked. Inventing a pattern here would be guessing at a numbering the titles do
+    not carry, and an anchored pattern that never matches is indistinguishable from one
+    that is wrong.
+    """
+
+    def test_the_default_connector_set_includes_asco(self) -> None:
+        assert "conference_asco" in _families()
+
+    def test_asco_reuses_the_same_crossref_mechanism(self) -> None:
+        connector = _connector("conference_asco")
+        assert isinstance(connector, CrossrefConferenceConnector)
+        assert connector.venue in CONFERENCE_VENUES
+
+    def test_asco_abstracts_are_reached_through_jco(self) -> None:
+        connector = _connector("conference_asco")
+        assert connector.venue.container_titles == ("Journal of Clinical Oncology",)
+        assert connector.venue.publisher == "ASCO"
+
+    def test_asco_declares_no_abstract_id_pattern(self) -> None:
+        assert _connector("conference_asco").venue.abstract_id_pattern is None
+
+    def test_an_asco_style_number_in_a_title_is_not_stripped(self) -> None:
+        # The consequence of declaring nothing: a title that happens to open with something
+        # shaped like an ASCO number keeps it. That is correct here -- ASCO does not print
+        # its numbers in titles, so such a token is part of the title, and development codes
+        # in this shape are common enough that stripping one would delete a real asset.
+        from bve.se.acquisition.connectors import _leading_bibliographic_id
+
+        venue = _connector("conference_asco").venue
+        assert _leading_bibliographic_id("TPS2687 A study of X", venue.abstract_id_pattern) == ""
+
+    def test_aacr_is_still_not_wired(self) -> None:
+        assert "conference_aacr" not in _families()
+
+
 class TestTheExistingSetIsUnchanged:
     def test_the_previously_wired_families_all_survive(self) -> None:
         families = _families()
@@ -96,10 +140,9 @@ class TestTheExistingSetIsUnchanged:
         assert len(families) == len(set(families))
 
     def test_no_venue_is_wired_before_it_is_validated(self) -> None:
-        # ASCO and AACR are wired in their own milestones, each with its own live
-        # validation, so activating one venue must not quietly activate the rest of the
-        # table -- being present in ``CONFERENCE_VENUES`` is a description of what the
-        # connector supports, not a decision to run it.
+        # AACR is wired in its own milestone, with its own live validation, so activating
+        # one venue must not quietly activate the rest of the table -- being present in
+        # ``CONFERENCE_VENUES`` is a description of what the connector supports, not a
+        # decision to run it.
         families = _families()
-        assert "conference_asco" not in families
         assert "conference_aacr" not in families

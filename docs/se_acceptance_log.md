@@ -910,3 +910,56 @@ reaching it is real.
 The 8 residual junk names are prose-shaped — `Elevar`, `Privacy`, `Relay`, `relaytx`,
 `webinar`, `belongs`, `solve`, and `MA 02139` — and are the known mention-precision problem,
 untouched here. Nothing was tuned against `MA 02139`.
+
+## 2026-09-20 — Family 5: ASCO (`conference_asco`)
+
+Wired through the existing Crossref mechanism: ASCO abstracts appear as *Journal of Clinical
+Oncology* supplements. Activation was a single entry in `ACTIVE_CONFERENCE_FAMILIES`, which
+is what the venue table was built for.
+
+### The numbering convention — verified, and not what EHA suggested
+
+EHA opens each abstract title with `S###`/`P####`, which is why it declares a pattern and why
+the identifier-as-asset defect was possible there. **ASCO does not.** Across 228 live JCO
+titles, **zero** begin with an abstract-number token; ASCO prints the number in Crossref's
+`page` field instead, in the shapes `####`, `e#####` (online-only), `TPS####` (Trials in
+Progress) and `LBA####` (late-breaking).
+
+So ASCO declares `abstract_id_pattern=None`, and that is a documented fact rather than an
+unexamined gap. Inventing an anchored pattern that never matches would be indistinguishable
+from one that is wrong, and a token of that shape at the head of an ASCO title is part of the
+title — development codes in that shape are common, so stripping one would delete a real
+asset.
+
+### Acquisition and isolated delta
+
+200 records, 200 parsed, 200 indexed, 0 parse failures, connector succeeded.
+
+| | baseline | + ASCO |
+|---|---|---|
+| source documents | 3,699 | 3,715 |
+| claims | 26,836 | 26,915 |
+| candidates | 2,720 | 2,725 |
+| `identity.distinct_asset` PASS | 669 | **676** |
+| `evidence.human_poc` PASS | 40 | **40** |
+| `target.expression` PASS | 56 | **56** |
+| `evidence.minimum_stage` PASS | 637 | **637** |
+| assets lost | — | **0** |
+| blind spots | 7 | 6 |
+
+Exactly as predicted for a title-and-DOI source: discovery and identity breadth, and
+`human_poc` structurally unmoved. No threshold was changed on the strength of this result.
+
+### A third species of junk: trial codes
+
+Five names added — **3 real assets** (AMG 404, BI 765179, ociperlimab) and **2 trial/study
+codes**: `LEAP-004` (a lenvatinib + pembrolizumab study) and `KEYNOTE-024` (a pembrolizumab
+study). `LEAP-004` received an `identity.distinct_asset` PASS; `KEYNOTE-024` did not.
+
+This is neither prose junk nor markup junk. **A study acronym-code is shaped exactly like a
+development code** — letters, hyphen, digits — so nothing in the name itself distinguishes
+them; only the surrounding phrase does ("Phase II LEAP-004 Study of…"). Conference titles are
+dense in study names, so this will scale with AACR rather than stay at two.
+
+Recorded, not remediated: it does not meet the stop condition (no target or `human_poc` PASS),
+and the standing instruction is not to reopen identity or alter thresholds on this result.

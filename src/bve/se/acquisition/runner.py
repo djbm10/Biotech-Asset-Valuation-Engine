@@ -71,7 +71,11 @@ def modality_terms_for(problem: BuyerProblemV2) -> list[str]:
 #: once it has been validated against the live source, so the shared ``CONFERENCE_VENUES``
 #: table can describe every venue the connector supports while production activates them one
 #: at a time. Adding a venue is an entry here, never another branch in the runner.
-ACTIVE_CONFERENCE_FAMILIES: tuple[str, ...] = ("conference_ash", "conference_eha")
+ACTIVE_CONFERENCE_FAMILIES: tuple[str, ...] = (
+    "conference_ash",
+    "conference_eha",
+    "conference_asco",
+)
 
 
 def conference_connectors() -> list[Connector]:
