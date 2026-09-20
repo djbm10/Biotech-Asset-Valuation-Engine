@@ -607,3 +607,20 @@ ruff check src/bve/ tests/se/
 
 6. Commit a git message with `-F` and a quoted heredoc, never `-m`: backticks in a message
    trigger shell command substitution and have silently mangled a commit here before.
+
+## Conference-abstract human PoC — decided 2026-09-20 (`21a0cc5`)
+
+`NON_DECISIONAL_FOR_HUMAN_POC` is empty. A conference abstract may be read for human PoC;
+the standard in `human_poc.py` is unchanged and decides. Preregistered at
+`docs/se_policies/conference_human_poc_admissibility_v1.md`; measured delta gave **0 new
+PASSes, 0 false positives** on 192 AACR abstract bodies. Do not treat that as a shortfall:
+§4 predeclared it as a true negative and forbids tuning the standard in response.
+
+Two things a successor must carry forward:
+
+1. **CT023 is an attribution control, not a planned-endpoint control.** It reports 91% ORR /
+   73% CR; it stays UNKNOWN because no asset name shares the sentence. Anyone citing it as
+   "endpoints only" is repeating an error from the earlier manual survey.
+2. **Cross-run nondeterminism is unresolved.** `identity.distinct_asset` moved +4 between two
+   runs differing only by a human-PoC policy flag. The isolated-delta method depends on
+   determinism; diagnose before trusting another delta of this size.
