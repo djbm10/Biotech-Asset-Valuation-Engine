@@ -123,8 +123,28 @@ class TestAscoDeclaresNoTitleNumbering:
         venue = _connector("conference_asco").venue
         assert _leading_bibliographic_id("TPS2687 A study of X", venue.abstract_id_pattern) == ""
 
-    def test_aacr_is_still_not_wired(self) -> None:
-        assert "conference_aacr" not in _families()
+
+class TestAacrIsWiredAndUnlikeTheRest:
+    """The fifth conference family, and the first that is not a pointer.
+
+    ASH, EHA and ASCO deposit titles; the handoff expected AACR to be "the same mechanism".
+    It is the same connector, but not the same document: AACR deposits full abstract bodies
+    and prints its identifier in the title. Both facts were read off live records.
+    """
+
+    def test_the_default_connector_set_includes_aacr(self) -> None:
+        assert "conference_aacr" in _families()
+
+    def test_aacr_abstracts_are_reached_through_cancer_research(self) -> None:
+        connector = _connector("conference_aacr")
+        assert isinstance(connector, CrossrefConferenceConnector)
+        assert connector.venue.container_titles == ("Cancer Research",)
+        assert connector.venue.publisher == "AACR"
+
+    def test_aacr_declares_its_numbering_where_asco_declares_none(self) -> None:
+        venue = _connector("conference_aacr").venue
+        assert venue.abstract_id_pattern is not None
+        assert venue.abstract_id_label == "Abstract"
 
 
 class TestTheExistingSetIsUnchanged:
@@ -140,9 +160,16 @@ class TestTheExistingSetIsUnchanged:
         assert len(families) == len(set(families))
 
     def test_no_venue_is_wired_before_it_is_validated(self) -> None:
-        # AACR is wired in its own milestone, with its own live validation, so activating
-        # one venue must not quietly activate the rest of the table -- being present in
-        # ``CONFERENCE_VENUES`` is a description of what the connector supports, not a
-        # decision to run it.
-        families = _families()
-        assert "conference_aacr" not in families
+        # Being present in ``CONFERENCE_VENUES`` describes what the connector supports; being
+        # present in ``ACTIVE_CONFERENCE_FAMILIES`` is a decision to run it. The two must not
+        # collapse into each other, or adding a venue entry silently activates it.
+        #
+        # AACR was the standing example and has now been validated and activated, so the
+        # assertion is on the mechanism rather than on any one venue: activation is a
+        # separate, explicit list, and a venue reaches a live source only by being named in
+        # it. A future venue added to the table is inert until someone writes it down here.
+        from bve.se.acquisition.runner import ACTIVE_CONFERENCE_FAMILIES
+
+        supported = {venue.source_family for venue in CONFERENCE_VENUES}
+        assert set(ACTIVE_CONFERENCE_FAMILIES) <= supported
+        assert set(_families()) & supported == set(ACTIVE_CONFERENCE_FAMILIES)

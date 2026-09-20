@@ -35,6 +35,7 @@ from bve.se.evidence.construct_targets import (
 )
 from bve.se.evidence.entailment import EntailmentResult, check_structured_entailment
 from bve.se.evidence.human_poc import efficacy_statements, human_poc_evidence
+from bve.se.evidence.source_capability import may_establish_human_poc
 from bve.se.evidence import snapshot_cache
 from bve.se.evidence.ledger import EvidenceLedger
 from bve.se.evidence.pubmed import PubMedEvidenceExtractor
@@ -459,6 +460,11 @@ def run_landscape_search(
                 # carry their own "was this reported" flag. Reading its prose as well finds
                 # only its eligibility criteria, written in the vocabulary of results.
                 if document.document_type == "trial_registry_record":
+                    continue
+                # A separate reason, kept separate: the registry is skipped because of what
+                # its prose *is*, while a conference abstract is skipped by evidence policy
+                # even though its prose is exactly on point. See ``source_capability``.
+                if not may_establish_human_poc(document.document_type):
                     continue
                 try:
                     text = snapshot_cache.load_text(Path(document.snapshot_path))

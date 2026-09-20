@@ -33,9 +33,24 @@ confirmed this: `evidence.human_poc` PASS stayed at exactly 40 in each isolated 
 full-text families can convert the 56 dual constructs off UNKNOWN. Revised order:
 
 1. ~~ASH~~ (done, `65fcd9b`) 2. ~~EHA~~ (done, `f5d15f8`) 3. ~~SEC-filed press releases~~
-(done, `ad39f31`) 4. ~~company pipeline pages~~ (done, `783a310`) 5. ~~ASCO~~ (done) 6. **AACR
-— NEXT** (needs its documented abstract-numbering convention). SEC EDGAR is already active and
-needs no milestone.
+(done, `ad39f31`) 4. ~~company pipeline pages~~ (done, `783a310`) 5. ~~ASCO~~ (done)
+6. ~~AACR~~ (done — see the acceptance-log entry for 2026-09-20). SEC EDGAR is already active
+and needs no milestone. **The conference families are complete.**
+
+**AACR broke the generalisation this list was built on.** ASH, EHA and ASCO deposit titles;
+AACR deposits full abstract bodies on 192 of 198 records, median 2,470 chars, through the
+identical connector. What a venue *deposits* is a property of the venue, not of the connector
+reaching it — so "same mechanism, same behaviour" was never a safe inference, and the sentence
+below about the conference tier being title-only is corrected at its own heading.
+
+Two consequences carried forward. (a) Typing and permission are now separate: a record with a
+body is `conference_abstract`, and what it may *establish* is decided in
+`bve/se/evidence/source_capability.py`, where conference abstracts are non-decisional for
+`human_poc` **only**. That module exists because nothing previously enforced the property.
+(b) AACR deposits its own citation — every author's name — inside the abstract field on 138 of
+198 records; unremoved it minted 98 author names as assets. Removed by the frame the venue
+declares, bounded by the enclosing paragraph. **If another venue is ever added, measure what it
+deposits before assuming it is a pointer, and grep its bodies for a self-citation tail.**
 
 **ASCO prints its abstract number in the `page` field, not the title** — verified against 228
 live JCO titles, none of which opens with one — so it declares `abstract_id_pattern=None`.
@@ -142,13 +157,22 @@ M12 and were referenced only by their own tests. Do not rebuild any of them. Act
 
 **ASH is wired and validated** (`65fcd9b`, log entry in `docs/se_acceptance_log.md`): 200
 records, 0 parse failures, +5 real assets, +10 identity PASS, blind spots 7 -> 6, and **no
-change to target or human_poc**. Conference metadata is title-and-DOI only, so the connector
-emits `DISCOVERY_EVIDENCE` by contract and can never carry efficacy. Expect EHA/ASCO/AACR to
-behave identically — they are the same mechanism.
+change to target or human_poc**. EHA and ASCO behaved the same way.
 
-**Therefore re-examine the priority order after EHA.** Only the full-text families can move
-`human_poc` off UNKNOWN: company press releases (`SecFiledPressReleaseConnector`, built) and
-company pipeline pages. The conference tier buys breadth, not decisions.
+**CORRECTED at AACR — this paragraph used to end "Expect EHA/ASCO/AACR to behave identically
+— they are the same mechanism", and said the connector "emits `DISCOVERY_EVIDENCE` by
+contract".** Both halves were wrong in an instructive way. AACR *is* the same connector and
+does **not** behave the same way: it deposits full abstract bodies (192/198 live, median
+~2,900 chars), because what a venue deposits is a property of the venue, not of the mechanism
+reaching it. And "by contract" described nothing — no code checked it. The conference tier
+could not move `human_poc` only because a title contains no result, so the invariant would
+have lapsed the moment the text arrived, with no test failing. See
+`src/bve/se/evidence/source_capability.py`, which now states it explicitly.
+
+**So the priority order stands but for a narrower reason.** Company press releases and
+pipeline pages remain the full-text families that may move `human_poc`. Conference abstract
+bodies are *withheld* from that fact by declared policy, not by inability — a decision taken
+before the AACR corpus was measured, to be revisited on its own evidence.
 
 Keep the contracts separate: `bve-se-search` consumes a prebuilt `--source-index` and must
 **not** acquire live. Live acquisition -> sealed custody -> source index -> deterministic

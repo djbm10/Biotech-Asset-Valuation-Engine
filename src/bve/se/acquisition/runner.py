@@ -75,6 +75,7 @@ ACTIVE_CONFERENCE_FAMILIES: tuple[str, ...] = (
     "conference_ash",
     "conference_eha",
     "conference_asco",
+    "conference_aacr",
 )
 
 

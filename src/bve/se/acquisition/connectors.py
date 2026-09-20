@@ -489,6 +489,11 @@ class ConferenceVenue:
     #: ``_leading_bibliographic_id`` for why only an anchored prefix qualifies.
     abstract_id_pattern: str | None = None
 
+    #: A fixed word the venue prints *before* its identifier ("Abstract LB253: ..."). It is
+    #: the publisher's label for the number, not part of the number, so it is declared
+    #: separately and never ends up inside the recorded identifier.
+    abstract_id_label: str | None = None
+
 
 CONFERENCE_VENUES: tuple[ConferenceVenue, ...] = (
     # ASCO abstracts appear as Journal of Clinical Oncology supplements. ASCO numbers them
@@ -498,7 +503,28 @@ CONFERENCE_VENUES: tuple[ConferenceVenue, ...] = (
     # title-numbering convention, and a token in that shape at the start of an ASCO title is
     # part of the title.
     ConferenceVenue("conference_asco", "ASCO", ("Journal of Clinical Oncology",)),
-    ConferenceVenue("conference_aacr", "AACR", ("Cancer Research",)),
+    # AACR proceedings appear as Cancer Research supplements, and are the one venue that both
+    # states its numbering and carries abstract bodies. Every proceedings title opens
+    # "Abstract <ID>: ", and the same identifier is repeated in `page` -- so the convention is
+    # read off the source rather than inferred from tokens that happen to look like codes.
+    #
+    # The pattern is the *delimiters*, not a list of prefixes. An enumerated list was tried
+    # first and missed six live records -- LB-138, ND02, DDT01-04, P5-04-26 -- because AACR
+    # numbers each session in its own scheme and coins new ones per meeting, exactly the way
+    # a sponsor coins a development code. What AACR actually declares is the frame: the label
+    # "Abstract", then the identifier, then a colon. So the identifier is whatever it puts
+    # there, required to contain a digit so a title opening on an ordinary word cannot be
+    # mistaken for one.
+    #
+    # That this is needed at all is the point: LB-138, ND02 and DDT01-04 are indistinguishable
+    # in shape from real programs, and left in the title they would be nominated as assets.
+    ConferenceVenue(
+        "conference_aacr",
+        "AACR",
+        ("Cancer Research",),
+        abstract_id_pattern=r"(?=[A-Za-z0-9-]*\d)[A-Za-z0-9-]+",
+        abstract_id_label="Abstract",
+    ),
     # Blood's Crossref titles carry no abstract number, so ASH declares no convention. That
     # absence is the only reason ASH never exposed the identifier-as-asset defect.
     ConferenceVenue("conference_ash", "ASH", ("Blood",)),
@@ -514,7 +540,75 @@ CONFERENCE_VENUES: tuple[ConferenceVenue, ...] = (
 )
 
 
-def _leading_bibliographic_id(title: str, pattern: str | None) -> str:
+#: The heading every deposited abstract opens with. It is the publisher's structural label for
+#: the block, not a sentence of the abstract, and leaving it in puts the word "Abstract" at the
+#: head of the text where a title normally sits.
+#: Removed as an element, before the markup is flattened. Once flattened it is just the word
+#: "Abstract" at the front of a sentence, and a rule that deletes that is a rule that can
+#: delete a real first word.
+_JATS_LEADING_TITLE_RE = re.compile(
+    r"\A\s*<jats:title>\s*abstract\s*</jats:title>", re.IGNORECASE
+)
+
+#: AACR deposits its own bibliographic record of the abstract as a final paragraph of the
+#: abstract -- "Citation Format: <every author>. <title> [abstract]. In: Proceedings ...". It
+#: is the venue citing itself, so it is metadata that happens to sit inside the prose field,
+#: and it is the same kind of thing as the abstract number: a bibliographic fact, carried by
+#: the record, that must never be read as a statement about a drug.
+#:
+#: Left in, it is the single largest source of junk the venue produces -- 98 of 334 new
+#: candidates in the first live replay were author names, because an author list is a list of
+#: capitalised unfamiliar tokens and that is exactly what a development code looks like.
+#:
+#: Matched by the whole frame AACR prints, not by position and not by the shape of what it
+#: contains: a rule that deleted trailing text, or that dropped capitalised words, would take
+#: real prose with it. The frame is label, authors, then ``[abstract]. In: ...``, and requiring
+#: all of it is what separates the citation from an abstract that merely uses the words.
+#:
+#: What follows ``In:`` is deliberately unconstrained. The venue writes "Proceedings of the
+#: ..." for its annual meeting and "Abstracts: AACR Special Conference on ..." for the rest,
+#: and pinning the first spelling left exactly one record in 198 carrying its authors through
+#: -- a residue small enough to read as rounding rather than as a rule that was still wrong.
+#:
+#: Not matched as an element, though it usually is one: 15 of 198 live records append the
+#: citation to the final prose paragraph instead of wrapping it, so an element rule reaches
+#: 92% of them and leaves the rest looking handled. The frame is the thing the publisher
+#: actually declares; the wrapping is incidental.
+#:
+#: Bounded by the enclosing paragraph rather than by the end of the fragment. Anchoring at the
+#: end would be true of every record seen so far and would silently delete real results the
+#: first time a venue put the citation anywhere else -- the same failure as a lazy quantifier
+#: reaching past its own element, which an earlier draft of this rule had.
+_CITATION_SPAN = r"(?:(?!</jats:p>).)"
+_JATS_CITATION_BLOCK_RE = re.compile(
+    rf"Citation Format:{_CITATION_SPAN}*?\[abstract\]\.\s*In:{_CITATION_SPAN}*",
+    re.IGNORECASE | re.DOTALL,
+)
+
+
+def _crossref_abstract_text(raw: object) -> str:
+    """The abstract's prose, with its JATS markup and self-citation removed.
+
+    Crossref returns publisher-deposited abstracts as a JATS XML fragment -- ``<jats:p>``
+    paragraphs under a ``<jats:title>`` -- so the tags are markup around the text, exactly as
+    in an HTML page, and are stripped by the same reader rather than by a regex over angle
+    brackets. Venues that deposit no abstract return "" and stay title-only records.
+
+    The venue's own citation of the abstract is dropped with the markup rather than kept as
+    text, because it is not part of what the abstract reports; see the two patterns above for
+    why each is removed structurally rather than by matching what it says.
+    """
+
+    if not isinstance(raw, str) or not raw.strip():
+        return ""
+    fragment = _JATS_LEADING_TITLE_RE.sub("", raw)
+    fragment = _JATS_CITATION_BLOCK_RE.sub("", fragment)
+    return html_to_visible_text(fragment).strip()
+
+
+def _leading_bibliographic_id(
+    title: str, pattern: str | None, label: str | None = None
+) -> str:
     """The venue's own abstract identifier, when the title opens with it.
 
     Anchored deliberately. A bibliographic identifier is metadata because of *where* the
@@ -528,7 +622,12 @@ def _leading_bibliographic_id(title: str, pattern: str | None) -> str:
 
     if not pattern or not title:
         return ""
-    match = re.match(rf"({pattern})[:.]?\s+\S", title)
+    # Where the venue declares a label it has declared a whole frame -- label, identifier,
+    # colon -- so the closing delimiter is required too. Without it the identifier has no
+    # stated end, and the pattern would decide where it stops instead of the source.
+    prefix = rf"{re.escape(label)}\s+" if label else ""
+    separator = r"[:.]" if label else r"[:.]?"
+    match = re.match(rf"{prefix}({pattern}){separator}\s+\S", title)
     return match.group(1) if match else ""
 
 
@@ -540,10 +639,15 @@ class CrossrefConferenceConnector:
     non-circumventing route: the publishers' own abstract pages refuse an identified research
     client, and Crossref publishes the same items' bibliographic metadata openly.
 
-    What it yields is title-and-DOI level only, so every mention it produces is
-    DISCOVERY_EVIDENCE. It can surface an asset name worth resolving; it can never be the
-    positive evidence that mints an identity alias. Full abstract text, if a licensed route
-    is ever configured, would be a separate acquisition emitting richer typed evidence.
+    How much it yields depends on what the venue deposited. ASH, EHA and ASCO deposit a
+    title and a DOI, so their records are pointers: a mention from one is DISCOVERY_EVIDENCE
+    and can never be the positive evidence that mints an identity alias. AACR deposits the
+    full abstract body, and those records carry real prose.
+
+    The stored ``document_type`` distinguishes the two, because they are not the same kind of
+    document and a single name for both would hide which one a reader has. What each is
+    *permitted* to establish is a separate question, and deliberately not answered here --
+    see :mod:`bve.se.evidence.source_capability`.
     """
 
     def __init__(
@@ -572,8 +676,9 @@ class CrossrefConferenceConnector:
                 ),
                 "query.bibliographic": query,
                 "rows": self.limit,
-                "select": "DOI,title,subtitle,container-title,published,published-online,"
-                "published-print,issued,created,type,page,volume,issue,publisher",
+                "select": "DOI,title,subtitle,abstract,container-title,published,"
+                "published-online,published-print,issued,created,type,page,volume,"
+                "issue,publisher",
                 "mailto": configured_contact_email(),
             },
         )
@@ -639,7 +744,17 @@ class CrossrefConferenceConnector:
             title = " ".join(
                 str(part) for part in [*item.get("title", []), *item.get("subtitle", [])] if part
             ).strip()
-            parser_status = ParserStatus.OK if title else ParserStatus.EMPTY
+            # Where the venue deposits one, the abstract body is the document; the title is
+            # its first line. Joined in the PubMed order so both read as one piece of prose.
+            body = _crossref_abstract_text(item.get("abstract"))
+            text = f"{title}\n\n{body}".strip() if body else title
+            # The type states what is stored. A record holding a full abstract must not keep
+            # answering to "...metadata": the name is what a later reader uses to decide what
+            # the document can support, and one that understates its contents is the kind of
+            # error nothing downstream can detect. What such a document is *allowed* to
+            # establish is a separate question, answered by ``evidence.source_capability``.
+            document_type = "conference_abstract" if body else "conference_abstract_metadata"
+            parser_status = ParserStatus.OK if text else ParserStatus.EMPTY
             if parser_status is ParserStatus.OK:
                 parsed += 1
                 indexed += 1
@@ -649,16 +764,16 @@ class CrossrefConferenceConnector:
                 source_family=self.source_family,
                 source_url=f"https://doi.org/{doi}" if doi else "https://api.crossref.org/works",
                 publisher=self.venue.publisher,
-                document_type="conference_abstract_metadata",
+                document_type=document_type,
                 source_tier=SourceTier.SECONDARY,
                 raw_payload=item,
-                text=title,
+                text=text,
                 title=title,
                 # Recorded alongside the title, never cut out of it: custody keeps exactly
                 # what the source said, and downstream identity nomination skips this one
                 # token rather than this document.
                 bibliographic_id=_leading_bibliographic_id(
-                    title, self.venue.abstract_id_pattern
+                    title, self.venue.abstract_id_pattern, self.venue.abstract_id_label
                 ),
                 as_of_date=as_of_date,
                 publication_date=published,

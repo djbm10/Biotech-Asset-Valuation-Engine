@@ -1022,3 +1022,120 @@ search from sealed custody (`teclistamab`, certainly present in this corpus, als
 nothing). Their identification as trial names is prior knowledge, not run evidence. What *is*
 guaranteed by construction and by test is that each removed occurrence carried explicit study
 framing in its source.
+
+## 2026-09-20 — Family 6: AACR (`conference_aacr`) — the first conference source with prose
+
+The fifth conference venue wired, and the first that is not a pointer. Three expectations held
+going in were inverted by measurement, and one defect was found only by the live replay.
+
+### Route
+
+**Crossref, not the official bulk proceedings route.** The bulk route was audited and rejected
+on its own terms: `AacrBulkProceedingsConnector` has no production caller and no downloader
+(`BulkArtifact` presumes a file already on disk), its `# 1234` marker convention was only ever
+exercised against a synthetic `extract_fn`, the PDF path is robots-disallowed
+(`/DownloadFile/`, `/DocumentViewer/`), and landing pages return 403 to our declared agent.
+Using it would have required a bypass that is out of bounds. Not attempted.
+
+Crossref is also the richer route here. AACR proceedings are Cancer Research supplements,
+reached by **member 1086** — `type:proceedings-article` returns 0, and a bare
+`container-title:"Cancer Research"` matches a different journal (54,823 items, 0 abstracts).
+
+### What the venue deposits
+
+| | ASH / EHA / ASCO | AACR |
+|---|---|---|
+| records | title + DOI | title + **full abstract body** |
+| bodies present | 0% | **192 / 198 (97%)** |
+| median body length | — | 2,470 chars |
+| parse failures | 0 | **0** |
+
+The 6 without bodies are Corrections and Retractions, which genuinely have none — the type
+split tracked reality without being told to.
+
+### Typing and evidence policy, kept separate
+
+A record holding a full abstract is stored as `conference_abstract`; title-only stays
+`conference_abstract_metadata`. What such a document may *establish* is a different question,
+and is now answered explicitly in `src/bve/se/evidence/source_capability.py`: conference
+abstracts are non-decisional for `human_poc` **only**, permissive by default so that no future
+source is silently disqualified.
+
+This module had to be **added**, not preserved. The prior claim that the conference tier
+"emits `DISCOVERY_EVIDENCE` by contract" described nothing — `document_type` had **zero
+readers**. The tier could not move `human_poc` only because a title contains no result. The
+invariant would have lapsed the instant abstract bodies arrived, with no test failing.
+
+### The abstract identifier
+
+AACR prints `Abstract <ID>: ` at the front of every proceedings title and repeats the
+identifier in `page`. Carried as bibliographic metadata, excluded from identity nomination,
+exactly as the EHA boundary established.
+
+An enumerated prefix list was written first, from an April sample, and the tests were written
+from that same sample so all of them passed. The **first full live acquisition** missed six
+records — `LB-138`, `ND02`, `DDT01-04`, `P5-04-26` — because AACR numbers each session in its
+own scheme and coins new ones per meeting, exactly as a sponsor coins a development code. Left
+in the title, those would have been nominated as assets. The rule now reads the frame the
+source declares (label, identifier, required colon) rather than enumerating tokens. Verified
+against all 198 live titles: **138 captured, 0 missed**.
+
+### The defect the replay found: the venue cites itself inside the abstract
+
+138 of 198 abstracts end with AACR's own bibliographic record of the abstract —
+`Citation Format: <every author>. <title> [abstract]. In: Proceedings ...`. It is metadata
+sitting in the prose field, and left in it was the largest junk source in the run: **98 of 334
+new candidates were author names**. An author list is a run of capitalised unfamiliar tokens,
+which is indistinguishable from a list of development codes.
+
+Three versions of the removal rule were wrong, each caught by a different mechanism:
+
+1. Element-scoped with a lazy `.*?...\Z` — the lazy quantifier still reached the end anchor and
+   would have deleted every paragraph after the block. Caught by a test written for it.
+2. Element-scoped and correct — but **15 of 198 records append the citation to the final prose
+   paragraph with no wrapper**, so an element rule reaches 92% and looks finished. Caught by
+   re-measuring the corpus; the suite was green.
+3. Frame required `[abstract]. In: Proceedings` — AACR writes `In: Abstracts: AACR Special
+   Conference ...` for non-annual meetings. **1 of 198 residue**, small enough to read as
+   rounding. Caught only by insisting on zero.
+
+Final rule: require the frame `Citation Format: ... [abstract]. In:`, bounded by the enclosing
+paragraph and never by the end of the fragment. Residue **0 / 198**.
+
+### Delta — sealed custody replayed with the AACR index alone
+
+| | baseline | + AACR |
+|---|---|---|
+| source documents | 3,699 | 3,815 |
+| candidates | 2,720 | 2,837 |
+| `identity.distinct_asset` PASS | 669 | 771 |
+| `target.expression` PASS | 56 | **56** |
+| `evidence.minimum_stage` PASS | 637 | **637** |
+| `evidence.human_poc` PASS | 40 | **40** |
+| blind spots | 7 | 6 |
+| bibliographic IDs leaked as assets | — | **0 / 138** |
+| named studies nominated | — | **0** |
+| author tokens nominated (before → after fix) | — | **98 → 0** |
+
+Every decisional set is identical to baseline, not merely equal in count. **192 abstract bodies
+of oncology efficacy prose entered the corpus and `human_poc` did not move by one asset** —
+which is the real test of the evidence policy, and is reported as measured rather than as
+expected. Runtime 39 min. `tests/se`: 1165 passed, 3 xfailed. Ruff clean.
+
+126 new candidates remain, of which ~15 are plausible drugs; the rest are cell lines
+(`HCT116`, `HEK293`, `SW620`), reagents (`PD98059`, `PLX4720`) and journal back-references
+(`NEJM 2011`). Known mention-precision class, deferred, and it touches no gate.
+
+### Observed, not acted on: human PoC in the AACR corpus
+
+Per the milestone's terms, `human_poc` admissibility was **not** changed. Surveying the corpus
+for what a later decision would be about: **6 of 198 abstracts carry response language with a
+patient count and human context**, and roughly 4 are attributable to a named asset — PR06
+(CTL019, complete responses in pediatric ALL), CT007 (4 patients in ongoing complete remission,
+median follow-up 11.1 months), CT023 (Phase 1, 11 patients treated), LB-138 (Pt 1 complete
+response). The remaining two are correlative biomarker studies.
+
+So the corpus does contain genuine attributable human efficacy, and the policy is currently
+withholding it. One caution for the preregistered milestone that decides this: **CT023 reports
+its endpoints, not its results** — a rule keyed on efficacy vocabulary rather than on a stated
+outcome would admit it wrongly.
