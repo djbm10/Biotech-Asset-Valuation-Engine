@@ -32,7 +32,7 @@ DISCOVERY_EVIDENCE by contract and *structurally cannot* move `human_poc`. Both 
 confirmed this: `evidence.human_poc` PASS stayed at exactly 40 in each isolated delta. Only
 full-text families can convert the 56 dual constructs off UNKNOWN. Revised order:
 
-1. ~~ASH~~ (done, `65fcd9b`) 2. ~~EHA~~ (done, `f5d15f8`) 3. **SEC-filed press releases — next**
+1. ~~ASH~~ (done, `65fcd9b`) 2. ~~EHA~~ (done, `f5d15f8`) 3. **SEC-filed press releases — NEXT**
 4. company pipeline pages 5. ASCO 6. AACR. SEC EDGAR is already active and needs no milestone.
 
 `SecFiledPressReleaseConnector` is audited and ready to wire: full-text via `fetch_fn`,
@@ -40,13 +40,23 @@ mechanical fail-closed EX-99 classification, `delivery_channel = "SEC_EXHIBIT"`,
 eligible, and its registrant-only coverage limit documented in the class docstring rather than
 hidden. It is the first family capable of carrying human-efficacy evidence.
 
-**OPEN DEFECT, FROZEN — abstract numbers minted as assets.** EHA prints the abstract number
+**RESOLVED (@`30a7670`) — abstract numbers minted as assets.** EHA prints the abstract number
 as a leading title token (`PB1983: TRIAL-IN-PROGRESS: PHASE II STUDY OF PHE885, ...`), and
 letters-then-digits is the learned drug-code shape, so the identity layer accepted 16 of them
 as assets. 18 of 23 new EHA assets are not assets. The fault is in the identity layer, not the
-connector — *Blood*'s titles are not numbered, which is the only reason ASH looked clean. It
-costs shortlist precision and no decision (0 promoted). **Decide whether to remediate before
-wiring further numbered-abstract sources; ASCO and AACR number their abstracts too.**
+connector — *Blood*'s titles are not numbered, which is the only reason ASH looked clean. Fixed as a
+metadata boundary, not a filter: a venue declares its documented numbering convention, the
+connector captures the identifier only when the title actually opens with it, and identity
+nomination skips that exact token on that document. The recognizer is untouched and there is
+no prefix blacklist, so the same string in prose is still nominated. Re-measured: 16 abstract
+numbers to 0, all five real assets retained, 0 lost, `target.expression` and `human_poc` both
+exactly unchanged. **ASCO and AACR number their abstracts too — give each its documented
+convention when wiring it, and do not guess one.**
+
+**OPEN, recorded not fixed — the shape model misses unhyphenated codes.** `PHE885` is
+nominated in no context at all, so removing `PB1983` did not reveal the asset it displaced.
+Widening the recognizer is a recall/precision decision about the recognizer; pinned as a
+strict xfail in `tests/se/test_bibliographic_id_boundary.py`.
 
 **Source coverage milestone, 2 of 7 done (ASH, EHA).** The audit result that matters: the
 connectors mostly *exist and had no caller*. `CrossrefConferenceConnector`,
