@@ -37,6 +37,23 @@ full-text families can convert the 56 dual constructs off UNKNOWN. Revised order
 its documented abstract-numbering convention) 6. AACR. SEC EDGAR is already active and needs
 no milestone.
 
+**Source normalization was repaired before ASCO (@`5a7dfd3`).** `_strip_html` now extracts
+visible text with an HTML parser instead of deleting what sits between angle brackets, so
+`<script>`/`<style>` contents can no longer become candidate assets. Markup leakage went 8/9
+pages to 0/9 and added candidates 48 to 17, with all 31 removed names markup or script, no
+real asset lost and every gate but identity unmoved. Two things not to rediscover:
+
+- **Custody seals extracted text, not raw bytes.** `DeclaredUrlConnector` strips before
+  `store.add`, and no sealed corpus in `se_runs/` holds raw HTML, so a sealed replay cannot
+  test an extraction change -- the markup is gone along with the content. Proving this one
+  required re-fetching the same declared URLs from the same frozen manifest. **The
+  press-release and conference corpora still carry old-stripper text and will not benefit
+  until re-acquired.**
+- **Never exclude a container by position.** Dropping `<head>` wholesale emptied an entire
+  page, because real pages carry unclosed void elements that make a lenient parser nest
+  `<body>` inside `<head>`. A document that returns no text reads downstream as "this company
+  has no pipeline". Exclude only what is non-content by its own nature.
+
 **Company pipeline pages are live (@`783a310`).** Manifest at
 `research/se_benchmarks/company_pipeline/declared_sources.yaml`, sha256 `3f18b98e…`, drawn
 mechanically from the engine's tracked company universe and frozen before any delta was
