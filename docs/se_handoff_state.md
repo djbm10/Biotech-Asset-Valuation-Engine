@@ -32,13 +32,20 @@ DISCOVERY_EVIDENCE by contract and *structurally cannot* move `human_poc`. Both 
 confirmed this: `evidence.human_poc` PASS stayed at exactly 40 in each isolated delta. Only
 full-text families can convert the 56 dual constructs off UNKNOWN. Revised order:
 
-1. ~~ASH~~ (done, `65fcd9b`) 2. ~~EHA~~ (done, `f5d15f8`) 3. **SEC-filed press releases — NEXT**
-4. company pipeline pages 5. ASCO 6. AACR. SEC EDGAR is already active and needs no milestone.
+1. ~~ASH~~ (done, `65fcd9b`) 2. ~~EHA~~ (done, `f5d15f8`) 3. ~~SEC-filed press releases~~
+(done, `ad39f31`) 4. **company pipeline pages — NEXT** 5. ASCO 6. AACR. SEC EDGAR is already
+active and needs no milestone.
 
-`SecFiledPressReleaseConnector` is audited and ready to wire: full-text via `fetch_fn`,
-mechanical fail-closed EX-99 classification, `delivery_channel = "SEC_EXHIBIT"`, 8-K and 6-K
-eligible, and its registrant-only coverage limit documented in the class docstring rather than
-hidden. It is the first family capable of carrying human-efficacy evidence.
+**`SecFiledPressReleaseConnector` is wired (@`ad39f31`)** — it existed and was covered since
+M12 but had no production caller, so the fix was one entry in `default_connectors()`. It is
+the first family carrying full release text, and the first that moved a gate: the isolated
+delta produced two new `evidence.human_poc` PASSes (40 → 42), both the same drug under two
+names (Zeposia / ozanimod, from a BMS Q4 2022 EX-99.1 — a Phase 3 DAYBREAK serological-response
+result in relapsing MS). Real result, correctly attributed, and of no relevance whatever to the
+CD19/BCMA question. No dual construct moved off UNKNOWN; zero newly eligible; zero assets lost;
+zero false efficacy attribution. **The evidence boundary held under full text**, which was the
+milestone's actual question. Coverage is capped by `max_documents=25`, not by the source:
+566 eligible hits, 25 fetched. See the acceptance log for the full delta.
 
 **RESOLVED (@`30a7670`) — abstract numbers minted as assets.** EHA prints the abstract number
 as a leading title token (`PB1983: TRIAL-IN-PROGRESS: PHASE II STUDY OF PHE885, ...`), and
@@ -52,6 +59,20 @@ no prefix blacklist, so the same string in prose is still nominated. Re-measured
 numbers to 0, all five real assets retained, 0 lost, `target.expression` and `human_poc` both
 exactly unchanged. **ASCO and AACR number their abstracts too — give each its documented
 convention when wiring it, and do not guess one.**
+
+**OPEN, recorded not fixed — the mandatory-family name does not match the connector's.**
+`_MANDATORY_SOURCES` in `src/bve/cli/se_search.py` names `company_press_release`; the
+connector's family is `company_press_release_sec_filed`. Evidence is admitted either way
+because adapters are built from every index family, but the blind spot does not clear —
+measured 7 → 7 — and its message, "no evidence from it was acquired", is now literally false.
+A blind spot for press releases *not* delivered through SEC is defensible; this wording is not.
+Needs a decision before anyone reads a manifest and believes it.
+
+**OPEN, recorded not fixed — full-text prose mints far more junk than titles did.** Four press
+releases produced 62 new asset names, of which about seven are real. `BRISTOL`, `LONDON`,
+`EX-99`, author surnames and bare English words are the rest. Known mention-support behaviour,
+but prose exercises it an order of magnitude harder than abstracts do, and families 4–6 are all
+prose.
 
 **OPEN, recorded not fixed — the shape model misses unhyphenated codes.** `PHE885` is
 nominated in no context at all, so removing `PB1983` did not reveal the asset it displaced.
