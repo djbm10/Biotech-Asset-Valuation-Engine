@@ -26,7 +26,29 @@ Seven mandatory families have no configured connector (company pipeline/presenta
 press release, AACR, ASCO, ASH, EHA, SEC EDGAR), and CAR-T human-efficacy evidence lives in
 exactly those. Every run will keep returning INCOMPLETE with 0 eligible until they exist.
 
-**Source coverage milestone, 1 of 7 done (ASH).** The audit result that matters: the
+**Source coverage order was revised on 2026-09-19 by measurement.** The conference tier
+reaches assets through Crossref, which supplies title and DOI only, so it emits
+DISCOVERY_EVIDENCE by contract and *structurally cannot* move `human_poc`. Both ASH and EHA
+confirmed this: `evidence.human_poc` PASS stayed at exactly 40 in each isolated delta. Only
+full-text families can convert the 56 dual constructs off UNKNOWN. Revised order:
+
+1. ~~ASH~~ (done, `65fcd9b`) 2. ~~EHA~~ (done, `f5d15f8`) 3. **SEC-filed press releases — next**
+4. company pipeline pages 5. ASCO 6. AACR. SEC EDGAR is already active and needs no milestone.
+
+`SecFiledPressReleaseConnector` is audited and ready to wire: full-text via `fetch_fn`,
+mechanical fail-closed EX-99 classification, `delivery_channel = "SEC_EXHIBIT"`, 8-K and 6-K
+eligible, and its registrant-only coverage limit documented in the class docstring rather than
+hidden. It is the first family capable of carrying human-efficacy evidence.
+
+**OPEN DEFECT, FROZEN — abstract numbers minted as assets.** EHA prints the abstract number
+as a leading title token (`PB1983: TRIAL-IN-PROGRESS: PHASE II STUDY OF PHE885, ...`), and
+letters-then-digits is the learned drug-code shape, so the identity layer accepted 16 of them
+as assets. 18 of 23 new EHA assets are not assets. The fault is in the identity layer, not the
+connector — *Blood*'s titles are not numbered, which is the only reason ASH looked clean. It
+costs shortlist precision and no decision (0 promoted). **Decide whether to remediate before
+wiring further numbered-abstract sources; ASCO and AACR number their abstracts too.**
+
+**Source coverage milestone, 2 of 7 done (ASH, EHA).** The audit result that matters: the
 connectors mostly *exist and had no caller*. `CrossrefConferenceConnector`,
 `AacrBulkProceedingsConnector` and `SecFiledPressReleaseConnector` were built and tested in
 M12 and were referenced only by their own tests. Do not rebuild any of them. Activation is
