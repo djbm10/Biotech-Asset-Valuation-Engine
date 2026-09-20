@@ -36,19 +36,15 @@ from bve.se.reporting.memo import render_search_memo
 from bve.se.reporting.run_artifacts import RunDirectory, summary_payload, write_summary
 from bve.se.reporting.shortlist import build_shortlist, render_shortlist
 from bve.se.schemas.contracts import BuyerProblemV2, RunStatus
+from bve.se.discovery.coverage import coverage_areas, unreached_areas
 from bve.se.telemetry import StageTelemetry, stderr_emitter
 from bve.se.universe.factory import TrialBackendNotConfigured, build_trial_provider
 
-_MANDATORY_SOURCES = (
-    "clinicaltrials_gov",
-    "company_pipeline_or_presentation",
-    "company_press_release",
-    "sec_edgar",
-    "conference_ash",
-    "conference_asco",
-    "conference_aacr",
-    "conference_eha",
-)
+#: The completeness contract, declared as coverage *areas* in
+#: ``bve.se.discovery.coverage``. An area is not a connector: the press-release area is
+#: reached by ``company_press_release_sec_filed``, which is narrower than the area and says
+#: so. Deriving the names here keeps one authority for what a run must have looked at.
+_MANDATORY_SOURCES = coverage_areas()
 
 
 def _code_version() -> str:
@@ -571,15 +567,18 @@ def _run(
         if source_name not in {adapter.source_name for adapter in indexed_adapters}
         and source_name != "clinicaltrials_gov"
     ]
-    configured_indexed_names = {
+    # Reached by *any* family the coverage table accepts for the area, not only by one
+    # whose name matches it. Requiring the names to match reported `company_press_release`
+    # as having no connector while `company_press_release_sec_filed` was acquiring issuer
+    # releases from it -- a manifest that contradicted its own source status.
+    configured_families = [
         "clinicaltrials_gov",
-        *{source_name for source_name in source_index if source_name in _MANDATORY_SOURCES},
-        *{source_name for source_name in url_index if source_name in _MANDATORY_SOURCES},
-    }
+        *source_index,
+        *url_index,
+    ]
     unavailable_adapters = [
         UnavailableSourceAdapter(source_name)
-        for source_name in _MANDATORY_SOURCES
-        if source_name not in configured_indexed_names
+        for source_name in unreached_areas(configured_families)
     ]
     if args.acquire_only and not args.custody_root:
         parser.error("--acquire-only requires --custody-root; there is nothing to stop at")

@@ -15,6 +15,8 @@ from bve.se.discovery.asset_qualification import (
     has_pharmacologic_context,
     qualifies_as_asset,
 )
+from bve.se.discovery.adapters import UnavailableSourceAdapter
+from bve.se.discovery.coverage import coverage_families, residual_limitations
 from bve.se.discovery.custody import CorpusSeal
 from bve.se.discovery.mention_support import (
     MentionDisposition,
@@ -172,9 +174,19 @@ def run_acquisition(
     """
 
     with telemetry.stage("DISCOVERY") as stage:
+        # A declared area is reached by whichever family the coverage table says reaches
+        # it, and an area reached only by a narrower family states what it still misses.
+        # Derived here rather than passed in, so every caller gets the same accounting.
+        reaching = [
+            adapter.source_name
+            for adapter in adapters
+            if not isinstance(adapter, UnavailableSourceAdapter)
+        ]
         discovery = DiscoveryOrchestrator(
             adapters,
             declared_mandatory_sources=declared_mandatory_sources,
+            coverage_families=coverage_families(),
+            declared_coverage_limitations=residual_limitations(reaching),
         ).run(
             problem,
             run_id=run_id,

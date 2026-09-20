@@ -5,7 +5,7 @@ from __future__ import annotations
 import hashlib
 import time
 from collections import Counter
-from collections.abc import Iterable, Sequence
+from collections.abc import Iterable, Mapping, Sequence
 from datetime import datetime, timezone
 from typing import Protocol
 
@@ -104,6 +104,14 @@ class DiscoveryOrchestrator:
         max_expansion_depth: int = 1,
         required_zero_growth_passes: int = 2,
         declared_mandatory_sources: Sequence[str] | None = None,
+        #: Limitations of the coverage areas a run *did* reach, where a narrower connector
+        #: reached them. Declared by the caller that knows the coverage table, and carried
+        #: into the manifest verbatim -- a partially covered area is a limitation to state,
+        #: never a source to report as unconfigured.
+        declared_coverage_limitations: Sequence[str] | None = None,
+        #: Area name -> the connector families that count as reaching it. Absent means the
+        #: area is reached by a family of its own name.
+        coverage_families: Mapping[str, Sequence[str]] | None = None,
         query_attempts: int = 3,
         source_failure_threshold: int = 3,
         retry_backoff_seconds: float = 2.0,
@@ -132,6 +140,10 @@ class DiscoveryOrchestrator:
             raise ValueError("source_failure_threshold must be at least 1")
         self.required_zero_growth_passes = required_zero_growth_passes
         self.declared_mandatory_sources = list(declared_mandatory_sources or [])
+        self.declared_coverage_limitations = list(declared_coverage_limitations or [])
+        self.coverage_families = {
+            name: tuple(families) for name, families in (coverage_families or {}).items()
+        }
         self.query_attempts = query_attempts
         self.source_failure_threshold = source_failure_threshold
         self.retry_backoff_seconds = retry_backoff_seconds
@@ -386,7 +398,17 @@ class DiscoveryOrchestrator:
             and source_status.get(adapter.source_name) is SearchOutcome.NOT_CONFIGURED
         ]
         configured_sources = {adapter.source_name for adapter in self.adapters}
-        missing_mandatory = sorted(set(self.declared_mandatory_sources) - configured_sources)
+        # A declared area may be reached by a differently named connector -- SEC-filed
+        # issuer releases reach the press-release area. The caller declares which family
+        # satisfies which area; an area with nothing to satisfy it is the ordinary case and
+        # resolves to itself.
+        missing_mandatory = sorted(
+            name
+            for name in set(self.declared_mandatory_sources)
+            if not configured_sources.intersection(
+                self.coverage_families.get(name, (name,))
+            )
+        )
         incomplete_reasons: list[str] = []
         fatal_reasons: list[str] = []
         if limit_reason:
@@ -423,6 +445,11 @@ class DiscoveryOrchestrator:
                 f"mandatory source '{name}' has no configured connector; no evidence from "
                 "it was acquired and this run cannot speak to what it would have shown"
             )
+        # An area reached only through a narrower family: evidence *was* acquired, so this
+        # is a statement about what the acquired evidence cannot cover, not about a source
+        # that is missing. Saying "no evidence was acquired" here would be false, and this
+        # manifest is the run's provenance record.
+        known_blind_spots.extend(self.declared_coverage_limitations)
         if resolved_ontology_version.startswith(NO_SNAPSHOT_VERSION):
             known_blind_spots.append(
                 "no biomedical ontology snapshot installed; target alias expansion was "
