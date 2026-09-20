@@ -332,6 +332,7 @@ def _get_bytes(
     max_redirects: int = DEFAULT_MAX_REDIRECTS,
     resolver: AddressResolver = _system_resolver,
     session: Session | None = None,
+    on_redirect: Callable[[str, str], None] | None = None,
 ) -> bytes | None:
     _validate_limits(timeout, max_bytes)
     if max_redirects < 0:
@@ -366,7 +367,12 @@ def _get_bytes(
                 location = response.headers.get("Location")
                 if not location:
                     raise AcquisitionHttpError("redirect response omitted Location header")
-                current_url = validate_public_https_url(urljoin(current_url, location))
+                target = validate_public_https_url(urljoin(current_url, location))
+                # A declared URL that now redirects has moved, and the manifest is stale in a
+                # way silence would hide: the page still arrives, so nothing looks wrong.
+                if on_redirect is not None:
+                    on_redirect(current_url, target)
+                current_url = target
                 current_params = None
                 continue
             if 300 <= response.status_code < 400:
@@ -458,6 +464,7 @@ def safe_get_public_page(
     max_redirects: int = DEFAULT_MAX_REDIRECTS,
     resolver: AddressResolver = _system_resolver,
     session: Session | None = None,
+    on_redirect: Callable[[str, str], None] | None = None,
 ) -> str:
     """GET a declared page while validating every redirect before following it."""
 
@@ -469,6 +476,7 @@ def safe_get_public_page(
         max_redirects=max_redirects,
         resolver=resolver,
         session=session,
+        on_redirect=on_redirect,
     )
     assert payload is not None
     return payload.decode("utf-8", errors="replace")

@@ -113,6 +113,29 @@ class SourceTier(str, Enum):
     REGISTRY = "REGISTRY"
 
 
+class TemporalBasis(str, Enum):
+    """What a document's date actually establishes.
+
+    A publication is fixed in time: an abstract dated June says what it said in June, and
+    will still say it next year. An official company pipeline page is not a publication at
+    all -- it is a live view of a current state, rewritten without notice and carrying no
+    publication date because it has none to carry.
+
+    Refusing such pages for lacking a date makes the whole company-pipeline tier
+    unreachable. Stamping them with their retrieval date is worse: it would assert that the
+    state observed today also held on the day the page happened to be fetched *for an
+    earlier question*, which is lookahead wearing a timestamp. So the distinction is
+    declared rather than papered over, and the consequence follows from it: an observed
+    page supports what was on it when it was seen, and nothing about any earlier date.
+    """
+
+    #: The source states when this document was published. Ordinary publication semantics.
+    PUBLISHED_AT = "PUBLISHED_AT"
+    #: The source states a current condition and no publication date. Admissible only for
+    #: questions asked on or after the retrieval that observed it.
+    OBSERVED_AT = "OBSERVED_AT"
+
+
 class VerificationStatus(str, Enum):
     EXTRACTED = "EXTRACTED"
     MACHINE_VERIFIED = "MACHINE_VERIFIED"

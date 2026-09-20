@@ -14,7 +14,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
-from collections.abc import Callable, Sequence
+from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
@@ -24,7 +24,7 @@ from urllib.parse import urljoin, urlsplit
 from bve.se.acquisition.corpus_store import CorpusStore, ParserStatus
 from bve.se.acquisition.http import get_json, get_text, safe_get_public_page
 from bve.se.acquisition.source_health import SourceHealth
-from bve.se.schemas.contracts import SourceTier
+from bve.se.schemas.contracts import SourceTier, TemporalBasis
 
 SearchFn = Callable[[str], list[dict[str, Any]]]
 
@@ -1452,6 +1452,14 @@ class DeclaredUrlConnector:
     undated page is refused for the same reason an undated filing is: unknown is not
     known-to-be-earlier, and the cost of dropping a page is far below the cost of lookahead in
     a scored benchmark. Set `require_publication_date=False` only outside scored replay.
+
+    That rule is right for a publication and wrong for a company pipeline page, which is not
+    a publication: it states a current condition, is rewritten without notice, and has no
+    publication date to declare. Refusing every such page makes the tier unreachable, so a
+    family may instead declare ``temporal_basis=OBSERVED_AT``. Its undated pages are then
+    kept with ``published_at`` genuinely unknown and the retrieval moment recorded as what
+    they can speak to -- never relabelled as a publication date. An observed page answers
+    questions asked on or after it was seen and is non-decisional for anything earlier.
     """
 
     def __init__(
@@ -1463,6 +1471,8 @@ class DeclaredUrlConnector:
         fetch_fn: Callable[[str], str] | None = None,
         require_publication_date: bool = True,
         follow_links: int = 0,
+        temporal_basis: TemporalBasis = TemporalBasis.PUBLISHED_AT,
+        companies_by_url: Mapping[str, str] | None = None,
     ) -> None:
         self.source_family = source_family
         self.urls = list(dict.fromkeys(urls))
@@ -1470,11 +1480,21 @@ class DeclaredUrlConnector:
         self.fetch_fn = fetch_fn or self._live_fetch
         self.require_publication_date = require_publication_date
         self.follow_links = follow_links
+        self.temporal_basis = temporal_basis
+        # Declared by the manifest, never inferred from the hostname or the prose: the
+        # operator already said whose official page this is, and guessing afterwards throws
+        # that away and gets it wrong for every co-branded or newly acquired program.
+        self.companies_by_url = dict(companies_by_url or {})
+        #: Declared URL -> where it actually led. A moved page still arrives, so silence here
+        #: is how a manifest goes stale without anything looking wrong.
+        self.redirected: dict[str, str] = {}
         self.visited: list[str] = []
 
-    @staticmethod
-    def _live_fetch(url: str) -> str:
-        return safe_get_public_page(url)
+    def _live_fetch(self, url: str) -> str:
+        return safe_get_public_page(url, on_redirect=self._note_redirect)
+
+    def _note_redirect(self, source: str, target: str) -> None:
+        self.redirected[source] = target
 
     def acquire(
         self,
@@ -1485,8 +1505,10 @@ class DeclaredUrlConnector:
         as_of_date: date,
     ) -> SourceHealth:
         parsed = failures = indexed = 0
+        observes_current_state = self.temporal_basis is TemporalBasis.OBSERVED_AT
         self.withheld_as_of: list[str] = []
         self.withheld_undated: list[str] = []
+        self.observed_undated: list[str] = []
         self.visited = []
         succeeded = True
         errors: list[str] = []
@@ -1529,10 +1551,15 @@ class DeclaredUrlConnector:
                 # Withholding is not a parse failure: the page was read fine, it is just not
                 # admissible for this question. Counting it as a failure would make a healthy
                 # source look broken.
-                if published is None:
+                if published is None and observes_current_state:
+                    # Kept, and kept honest: no publication date is invented, and the as-of
+                    # consequence travels with the document rather than with a convention a
+                    # later reader would have to remember.
+                    self.observed_undated.append(url)
+                elif published is None:
                     self.withheld_undated.append(url)
                     continue
-                if published > as_of_date:
+                if published is not None and published > as_of_date:
                     self.withheld_as_of.append(url)
                     continue
             if parser_status is ParserStatus.OK:
@@ -1555,6 +1582,14 @@ class DeclaredUrlConnector:
                 title=url,
                 as_of_date=as_of_date,
                 publication_date=published,
+                # A dated page is a publication however its family is configured: the
+                # source said when it was published, which is the stronger claim.
+                temporal_basis=(
+                    TemporalBasis.PUBLISHED_AT
+                    if published is not None
+                    else self.temporal_basis
+                ),
+                declared_company=self.companies_by_url.get(url, ""),
                 parser_status=parser_status,
             )
         return SourceHealth(

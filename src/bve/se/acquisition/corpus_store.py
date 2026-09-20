@@ -35,7 +35,7 @@ from typing import BinaryIO
 
 from pydantic import BaseModel, ConfigDict
 
-from bve.se.schemas.contracts import SourceTier
+from bve.se.schemas.contracts import SourceTier, TemporalBasis
 
 
 class ParserStatus(str, Enum):
@@ -70,6 +70,13 @@ class CorpusDocument(BaseModel):
     retrieval_date: datetime
     as_of_date: date
     publication_date: date | None = None
+    #: Whether ``publication_date`` or ``retrieval_date`` is the date this document can
+    #: speak to. Defaults to publication semantics, so every existing family is unchanged.
+    temporal_basis: TemporalBasis = TemporalBasis.PUBLISHED_AT
+    #: The company this document was declared to belong to, where a manifest said so. An
+    #: official page is declared, not guessed: inferring the owner from the hostname or the
+    #: prose discards a fact the operator already stated.
+    declared_company: str = ""
     title: str = ""
     text: str = ""
     #: The source's own identifier for this document, where the source structurally declares
@@ -100,6 +107,14 @@ class CorpusDocument(BaseModel):
         # field existed still round-trips unchanged.
         if self.bibliographic_id:
             record["bibliographic_id"] = self.bibliographic_id
+        if self.declared_company:
+            record["declared_company"] = self.declared_company
+        # Carried only when it is not the default, so indexes written before this field
+        # existed still round-trip byte-for-byte. An observed page also carries the moment
+        # it was seen, which is the only date it can support.
+        if self.temporal_basis is not TemporalBasis.PUBLISHED_AT:
+            record["temporal_basis"] = self.temporal_basis.value
+            record["observed_at"] = self.retrieval_date.date().isoformat()
         return record
 
 
@@ -491,6 +506,8 @@ class CorpusStore:
         title: str = "",
         bibliographic_id: str = "",
         publication_date: date | None = None,
+        temporal_basis: TemporalBasis = TemporalBasis.PUBLISHED_AT,
+        declared_company: str = "",
         parser_status: ParserStatus | None = None,
         native_snapshot: bool = False,
         retrieval_date: datetime | None = None,
@@ -527,6 +544,8 @@ class CorpusStore:
             retrieval_date=retrieval_date or datetime.now(timezone.utc),
             as_of_date=as_of_date,
             publication_date=publication_date,
+            temporal_basis=temporal_basis,
+            declared_company=declared_company,
             title=title,
             text=text,
             bibliographic_id=bibliographic_id,

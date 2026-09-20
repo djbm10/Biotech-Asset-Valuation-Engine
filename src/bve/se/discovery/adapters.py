@@ -39,6 +39,7 @@ from bve.se.schemas.contracts import (
     SourceDocument,
     SourceEvidenceType,
     SourceTier,
+    TemporalBasis,
     TrialUniverseProvenance,
 )
 
@@ -1251,6 +1252,14 @@ class IndexedDocumentAdapter:
             published = record.get("publication_date")
             if published and str(published)[:10] > as_of_date.isoformat():
                 continue
+            # An observed page states a current condition and carries no publication date,
+            # so it can speak only to questions asked on or after the moment it was seen.
+            # Admitting it to an earlier question would let today's pipeline page answer
+            # last year's -- lookahead, arriving without a future-dated field to catch it.
+            if str(record.get("temporal_basis", "")) == TemporalBasis.OBSERVED_AT.value:
+                observed = str(record.get("observed_at", ""))[:10]
+                if not observed or observed > as_of_date.isoformat():
+                    continue
             payload = json.dumps(record, sort_keys=True)
             snapshot_content = json.dumps(record, indent=2, sort_keys=True) + "\n"
             digest = hashlib.sha256(snapshot_content.encode()).hexdigest()

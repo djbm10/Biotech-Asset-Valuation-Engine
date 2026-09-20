@@ -122,6 +122,31 @@ def validate_public_https_url(value: str) -> str:
     return _normalize_public_https_url(value)
 
 
+class DeclaredLocation(BaseModel):
+    """One declared retrieval location and what the manifest says about it.
+
+    The company is declared here rather than recovered later. An official pipeline page
+    belongs to the company whose page it is, the operator knew that when they wrote the
+    manifest, and inferring it afterwards from the hostname or the prose both discards a
+    known fact and gets it wrong wherever a program is co-branded, in-licensed, or was
+    acquired along with the site that still names its former owner.
+    """
+
+    model_config = ConfigDict(extra="forbid", frozen=True)
+
+    url: str
+    #: The company this location officially belongs to, as the manifest declares it.
+    company: str = ""
+    #: What kind of location this is, for operators reading the manifest. Not a licence to
+    #: emit evidence: what a page may support is decided by the producers that read it.
+    role: str = ""
+
+    @field_validator("url")
+    @classmethod
+    def validate_url(cls, value: str) -> str:
+        return _normalize_public_https_url(value)
+
+
 class DeclaredSourceEntry(BaseModel):
     """One configured public document source family and its retrieval locations."""
 
@@ -129,6 +154,37 @@ class DeclaredSourceEntry(BaseModel):
 
     source_family: str
     urls: tuple[str, ...] = Field(min_length=1)
+    #: Structured locations, carrying the company each URL belongs to. A manifest may write
+    #: either form: bare strings stay valid, so every manifest written before company
+    #: attribution existed loads unchanged and simply declares no company.
+    locations: tuple[DeclaredLocation, ...] = ()
+
+    @model_validator(mode="before")
+    @classmethod
+    def accept_structured_locations(cls, data: object) -> object:
+        """Let ``urls:`` hold either bare strings or declared-location mappings."""
+
+        if not isinstance(data, dict):
+            return data
+        raw = data.get("urls")
+        if not isinstance(raw, (list, tuple)) or not any(
+            isinstance(entry, dict) for entry in raw
+        ):
+            return data
+        locations = [
+            entry if isinstance(entry, dict) else {"url": entry} for entry in raw
+        ]
+        return {**data, "urls": [entry["url"] for entry in locations], "locations": locations}
+
+    @property
+    def company_by_url(self) -> dict[str, str]:
+        """Declared company per URL; empty for locations that declare none."""
+
+        return {
+            location.url: location.company
+            for location in self.locations
+            if location.company
+        }
 
     @field_validator("source_family")
     @classmethod

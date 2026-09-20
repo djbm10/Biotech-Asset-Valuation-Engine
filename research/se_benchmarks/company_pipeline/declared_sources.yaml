@@ -1,0 +1,83 @@
+manifest_version: "1.0.0"
+purpose: source_location_configuration_only
+selection_rule: >-
+  Population: the engine's tracked company universe (bve.ops.weekly_runner.UNIVERSE), built
+  for the weekly BD loop long before this source existed. Draw: the first 20 tickers by
+  sha256("bve-company-pipeline-tranche-1:<ticker>"), reproduced by
+  scripts/se_select_company_tranche.py. The ordering depends on the ticker and on nothing
+  else, so no company was included or excluded for the programs it runs.
+selection_frozen_at: "2026-09-20"
+notes:
+  - URLs identify official company locations and are not benchmark asset-name acquisition seeds.
+  - Generic discovery queries remain derived only from the buyer target and modality.
+  - >-
+    A pipeline page states a current condition and carries no publication date. It is acquired
+    with published_at unknown and the moment of retrieval recorded as what it can speak to; it
+    is non-decisional for any question asked before it was observed.
+  - >-
+    Some tranche companies have since been acquired or delisted. Their URLs are declared
+    anyway: a page that no longer resolves is recorded as an explicit source failure, which is
+    a different fact from a company having no pipeline.
+sources:
+  - source_family: company_pipeline_or_presentation
+    urls:
+      - url: https://www.intracellulartherapies.com/pipeline
+        company: Intra-Cellular Therapies
+        role: pipeline
+      - url: https://www.madrigalpharma.com/pipeline/
+        company: Madrigal Pharmaceuticals
+        role: pipeline
+      - url: https://www.tangotx.com/pipeline/
+        company: Tango Therapeutics
+        role: pipeline
+      - url: https://www.cerevel.com/pipeline/
+        company: Cerevel Therapeutics
+        role: pipeline
+      - url: https://amarincorp.com/our-science/
+        company: Amarin Corporation
+        role: pipeline
+      - url: https://relaytx.com/pipeline/
+        company: Relay Therapeutics
+        role: pipeline
+      - url: https://www.lantheus.com/pipeline/
+        company: Lantheus Holdings
+        role: pipeline
+      - url: https://www.protagonist-inc.com/pipeline/
+        company: Protagonist Therapeutics
+        role: pipeline
+      - url: https://www.ultragenyx.com/our-science/pipeline/
+        company: Ultragenyx Pharmaceutical
+        role: pipeline
+      - url: https://www.vrtx.com/our-science/pipeline/
+        company: Vertex Pharmaceuticals
+        role: pipeline
+      - url: https://www.tptherapeutics.com/pipeline/
+        company: Turning Point Therapeutics
+        role: pipeline
+      - url: https://www.vervetx.com/pipeline
+        company: Verve Therapeutics
+        role: pipeline
+      - url: https://www.immunomedics.com/pipeline/
+        company: Immunomedics
+        role: pipeline
+      - url: https://www.inhibrx.com/pipeline/
+        company: Inhibrx
+        role: pipeline
+      - url: https://www.acelyrin.com/pipeline/
+        company: Acelyrin
+        role: pipeline
+      - url: https://www.prevailtherapeutics.com/pipeline/
+        company: Prevail Therapeutics
+        role: pipeline
+      - url: https://www.biomarin.com/our-treatments/pipeline/
+        company: BioMarin Pharmaceutical
+        role: pipeline
+      - url: https://www.revmed.com/pipeline
+        company: Revolution Medicines
+        role: pipeline
+      - url: https://www.sagerx.com/pipeline/
+        company: Sage Therapeutics
+        role: pipeline
+      - url: https://www.sarepta.com/our-science/pipeline
+        company: Sarepta Therapeutics
+        role: pipeline

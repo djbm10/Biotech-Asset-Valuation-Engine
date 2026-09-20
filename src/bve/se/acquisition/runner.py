@@ -7,6 +7,7 @@ the benchmark reference universe -- coverage is measured afterwards and separate
 
 from __future__ import annotations
 
+import hashlib
 from collections.abc import Sequence
 from pathlib import Path
 from typing import Protocol
@@ -29,7 +30,7 @@ from bve.se.acquisition.policy import DeclaredSourceEntry, LiveSourcePolicy
 from bve.se.acquisition.source_health import SourceHealth, SourceHealthReport
 from bve.se.ontology.modality import modality_aliases
 from bve.se.ontology.targets import target_aliases
-from bve.se.schemas.contracts import BuyerProblemV2
+from bve.se.schemas.contracts import BuyerProblemV2, TemporalBasis
 
 
 class Connector(Protocol):
@@ -103,6 +104,25 @@ def default_connectors() -> list[Connector]:
     ]
 
 
+#: Families whose pages state a current condition rather than publish a dated document. An
+#: official pipeline page is rewritten without notice and carries no publication date, so what
+#: it establishes is what was on it when it was fetched -- and nothing about any earlier day.
+OBSERVED_STATE_FAMILIES = frozenset({"company_pipeline_or_presentation"})
+
+
+def _connector_for_entry(entry: DeclaredSourceEntry) -> DeclaredUrlConnector:
+    return DeclaredUrlConnector(
+        entry.source_family,
+        list(entry.urls),
+        temporal_basis=(
+            TemporalBasis.OBSERVED_AT
+            if entry.source_family in OBSERVED_STATE_FAMILIES
+            else TemporalBasis.PUBLISHED_AT
+        ),
+        companies_by_url=entry.company_by_url,
+    )
+
+
 def declared_connectors(manifest_path: Path) -> list[Connector]:
     """Build declared source-location connectors from a versioned URL manifest.
 
@@ -115,10 +135,13 @@ def declared_connectors(manifest_path: Path) -> list[Connector]:
     families = [entry.source_family for entry in entries]
     if len(families) != len(set(families)):
         raise ValueError("declared source manifest contains duplicate source families")
-    return [
-        DeclaredUrlConnector(entry.source_family, list(entry.urls))
-        for entry in entries
-    ]
+    return [_connector_for_entry(entry) for entry in entries]
+
+
+def manifest_digest(manifest_path: Path) -> str:
+    """SHA-256 of the manifest bytes, so a run records which manifest it ran."""
+
+    return hashlib.sha256(manifest_path.read_bytes()).hexdigest()
 
 
 def connectors_for_policy(policy: LiveSourcePolicy) -> list[Connector]:
@@ -130,7 +153,7 @@ def connectors_for_policy(policy: LiveSourcePolicy) -> list[Connector]:
     ]
     built_ins = {connector.source_family: connector for connector in default_connectors()}
     declared = {
-        entry.source_family: DeclaredUrlConnector(entry.source_family, list(entry.urls))
+        entry.source_family: _connector_for_entry(entry)
         for entry in policy.declared_sources
     }
     available = {**built_ins, **declared}
