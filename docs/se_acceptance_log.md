@@ -1391,3 +1391,36 @@ in §2 of the preregistration before measurement and is explicitly out of scope 
 binding recall constraint (the PR06 sentences unblocked by bare `CR` die one clause later
 because `CTL019` is not named in the sentence reporting its own result), but loosening it is a
 larger scientific change.
+
+## 2026-09-21 — Trial-design register (the INDIGO false positive): ADOPTED
+
+Preregistration `docs/se_policies/human_poc_trial_design_register_v1.md` (`426f6cd`), implemented
+`9e14c0f` (`EXTRACTOR_VERSION = "human_poc_v4"`). Replay `aacr_design` vs `aacr_safety`.
+
+| gate | `aacr_safety` | predicted | **`aacr_design`** |
+|---|---|---|---|
+| `identity.distinct_asset` | 775 | 775 | 775 |
+| `target.expression` | 56 | 56 | 56 |
+| `evidence.minimum_stage` | 638 | 638 | 638 |
+| `evidence.human_poc` | 41 | **40** | **40** |
+| candidates / low-support | 2837 / 1409 | 2837 / 1409 | 2837 / 1409 |
+
+`INDIGO` is the only asset lost; nothing else moved. Claims 30236 → 30235, facts 25431 → 25430.
+All seven preregistered controls behaved as declared, including the two that had to keep passing:
+*"achieved its primary endpoint, with a 62% response rate"* and *"produced a 30% reduction in
+flare risk, observed in 194 patients"* — the real results whose vocabulary INDIGO borrows.
+
+**The count now equals the pre-Cevostamab baseline of 40 and the membership differs.** Read as a
+number alone this looks like a revert; it is not. Cevostamab is in, INDIGO is out.
+
+**Read the PASS list, not the count.** While selecting controls for this milestone the 41 were
+enumerated, and INDIGO was not the only defect in them: `choice`, `though`, `discase`,
+`frontline`, `DAS28` (a disease-activity *score*), `PET30`, `CAR19`/`CART19` (class terms) and
+`rituximab-based` are all ordinary words or non-assets that the *identity* layer minted, to which
+the human-PoC layer then faithfully attached real sentences. Roughly 28 of the 40 are real
+molecules, and many of those (prednisone, cyclophosphamide, vincristine, infliximab) are
+background therapy and comparators rather than answers to the question asked. INDIGO was simply
+the instance that had been read closely. **The human-PoC layer is not the binding constraint on
+this number; identity is.**
+
+That finding redirected the work to identity and shortlist quality — fragmentation first.
