@@ -38,7 +38,7 @@ from bve.se.schemas.contracts import (
     VerificationStatus,
 )
 
-EXTRACTOR_VERSION = "human_poc_v3"
+EXTRACTOR_VERSION = "human_poc_v4"
 
 #: Endpoint vocabulary that describes a disease outcome. Deliberately about the *kind* of
 #: measurement, never about a particular disease or drug.
@@ -163,6 +163,16 @@ _UNREPORTED_TERMS = (
     "warrant",
     "hypothesis",
     "we will",
+    # The statistical-design register. These sentences are written in the past tense, carry
+    # real numbers and real patients, and describe how the trial was *built*: how many
+    # enrolled, and how small an effect the design could have detected. "90% power to detect
+    # a clinically meaningful reduction in flare risk" is a property of the study, not of the
+    # drug. Deliberately not `achieved its` -- "achieved its primary endpoint" is how a
+    # genuine result is announced.
+    "power to detect",
+    "powered to detect",
+    "enrollment goal",
+    "enrolment goal",
 )
 
 #: Non-human evidence. An animal or dish result can be reported as precisely as a human
