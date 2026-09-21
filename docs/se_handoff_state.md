@@ -640,3 +640,36 @@ Two things a successor must carry forward:
 3. **Open, unpreregistered:** whether the human-PoC standard should recognise bare `CR` and
    mixed efficacy+safety sentences. Separate milestone; do not touch those term lists
    opportunistically.
+
+## Human-PoC abbreviations and mixed sentences — FROZEN 2026-09-21 (`bf96578`, `0789c6c`)
+
+Preregistered `docs/se_policies/human_poc_abbreviations_and_mixed_sentences_v1.md` (`922017d`).
+Replay `aacr_cr` vs `aacr_decoupled`: `human_poc` 40 → 42, **all other gates unchanged**
+(775 / 56 / 638, candidates 2837), nothing lost, suite 1205 green.
+
+**The milestone is frozen, not adopted.** One new PASS is correct (`Cevostamab`, a 30.2% ORR
+refused before only because a dosing-strategy clause said CRS — the exact target of the milestone).
+The other is a false positive: `tabelecleucel`, on *"the principal early complications are tumor
+flare reaction (in approximately 20% of tabelecleucel recipients)"*.
+
+**The lesson, and it generalises past this gate.** `flare` is an efficacy endpoint (autoimmune
+disease flare) *and* half of an adverse-event name (tumor flare reaction). The sentence-wide veto
+was refusing that sentence **by accident**, through an unrelated `cytokine release` at the far end.
+Narrowing a veto does not only remove the refusals you intended — it removes the ones the veto was
+making for the wrong reason, and those are invisible until they stop happening. Before narrowing a
+broad guard, enumerate what it is currently catching, not only what you want it to stop catching.
+
+**Changes A (`CR`) and B (`pts`) bought zero PASSes at corpus scale.** They are correct and pinned
+by test, but the PR06 sentences they unblock die one clause later on sentence-scoped attribution —
+`CTL019` is not named in the sentence reporting its own result. So the requested fixes are
+unexercised here, and the unrequested consequence is what moved the number.
+
+**Do not remediate without a new preregistration.** Two candidates, both chosen *after* seeing which
+sentence failed and therefore not to be applied silently: add `complication` to
+`_NON_EFFICACY_TERMS` (refuses tabelecleucel, leaves Cevostamab untouched — verified); or separate
+`flare` from `tumor flare`. A successor milestone needs its own declared controls, and
+`tabelecleucel` must be one of them.
+
+Still open, still unpreregistered: whether a categorical outcome with no number (`Pt 1 achieved a
+complete response`) should satisfy `_VALUE`. LB-138 was predicted in advance to stay refused on this
+ground, and did.
