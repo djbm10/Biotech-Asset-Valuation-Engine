@@ -621,6 +621,22 @@ Two things a successor must carry forward:
 1. **CT023 is an attribution control, not a planned-endpoint control.** It reports 91% ORR /
    73% CR; it stays UNKNOWN because no asset name shares the sentence. Anyone citing it as
    "endpoints only" is repeating an error from the earlier manual survey.
-2. **Cross-run nondeterminism is unresolved.** `identity.distinct_asset` moved +4 between two
-   runs differing only by a human-PoC policy flag. The isolated-delta method depends on
-   determinism; diagnose before trusting another delta of this size.
+2. **Replay determinism is CONFIRMED, not broken** (investigated 2026-09-20, fix `0389edd`).
+   The +4 was never nondeterminism: `may_establish_human_poc` sat at the top of the
+   `HUMAN_POC` loop as a bare `continue`, above `has_pharmacologic_context`, so an evidence
+   policy about one fact was also gating asset qualification. It cost exactly four junk
+   candidates (`bivalent`, `tetravalent`, `dopaminergic`, `CARTCRCRNone`). The predicate now
+   guards only the efficacy read.
+
+   **Corrected AACR baseline: `identity.distinct_asset` = 775** (run `aacr_decoupled`), with
+   `human_poc` 40, `target.expression` 56, `minimum_stage` 638. The AACR milestone's 771 was
+   understated by the exclusion its own commit introduced. `aacr_decoupled` reproduces
+   `aacr_poc` hash-identically across every scientific field on a 3,816-document corpus.
+
+   Guarded by `tests/se/test_replay_determinism.py`, which compares scientific state across
+   two `PYTHONHASHSEED` values in separate processes. **Stop investigating determinism unless
+   that test fails.**
+
+3. **Open, unpreregistered:** whether the human-PoC standard should recognise bare `CR` and
+   mixed efficacy+safety sentences. Separate milestone; do not touch those term lists
+   opportunistically.
