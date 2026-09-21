@@ -144,3 +144,26 @@ compared against run `aacr_decoupled`:
 
 Relaxing `_VALUE`; relaxing sentence-scoped attribution; adding `PR`, `ORR`, `MRD` or any further
 abbreviation; touching the determinism harness; remediating the 126 known junk candidates.
+
+---
+
+## 6. Amendment, made before measurement
+
+Change C as written in §2 was too loose, and the flaw was the one §2 itself flagged as a
+weakened guarantee. Leaving the value requirement whole-sentence let
+`Among 20 patients (50%), we measured response to treatment and incidence of cytokine release
+syndrome` clear the veto: a clean efficacy clause, with the number supplied from elsewhere in the
+sentence. That is an account of what was measured, and the veto exists to refuse it.
+
+**The clean clause must now contain the value as well as the efficacy term.** This is strictly
+narrower than the preregistered rule — it can only refuse sentences §2 would have admitted, never
+admit one §2 would have refused — and it restores the documented guarantee directly instead of
+resting it on a coincidence. It costs none of the positives, because no positive reaches the veto
+path.
+
+One prediction in §3 changes as a consequence, and the verdict does not: **LB-138 is still refused**,
+now at the veto rather than at `NO_VALUE`. `Pt 1 achieved a complete response (CR)` carries no number,
+so it fails whichever clause is asked first. The declared outcome — LB-138 does not pass, and
+`_VALUE` is not to be relaxed to make it pass — stands unchanged.
+
+No measurement had been run when this amendment was written.

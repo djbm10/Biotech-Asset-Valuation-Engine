@@ -38,7 +38,7 @@ from bve.se.schemas.contracts import (
     VerificationStatus,
 )
 
-EXTRACTOR_VERSION = "human_poc_v1"
+EXTRACTOR_VERSION = "human_poc_v2"
 
 #: Endpoint vocabulary that describes a disease outcome. Deliberately about the *kind* of
 #: measurement, never about a particular disease or drug.
@@ -67,6 +67,22 @@ _EFFICACY_TERMS = (
     "healing",
     "flare",
 )
+
+#: Abbreviations of terms ``_EFFICACY_TERMS`` already accepts. Held apart because they cannot
+#: be matched the way that tuple is matched: the substring test above would fire on ``CR``
+#: inside "across" and "increase", so these are word-bounded, and ``CR`` is matched
+#: case-sensitively because lowercase "cr" in prose is not the endpoint.
+#:
+#: Only ``CR``. ``PR`` is excluded on purpose -- AACR numbers abstracts ``PR06``, and a
+#: bibliographic identifier has already been mistaken for a molecule once in this pipeline.
+#: ``ORR`` is excluded because "objective response" and "overall response" already cover it.
+#: ``CRS``, ``CRP`` and ``CRi`` do not match ``\bCR\b``.
+_EFFICACY_ABBREVIATIONS: tuple[tuple[re.Pattern[str], str], ...] = (
+    (re.compile(r"\bCR\b"), "CR"),
+)
+
+#: Abbreviations of ``_HUMAN_TERMS``. "pts" is not an English word, so case does not matter.
+_HUMAN_ABBREVIATIONS: tuple[re.Pattern[str], ...] = (re.compile(r"\bpts?\b", re.IGNORECASE),)
 
 #: Measurements that say how much drug there was, or how the patient tolerated it. These
 #: are what an asset has instead of efficacy, so a match here overrides a match above:
@@ -261,6 +277,61 @@ def _contains(text: str, terms) -> str | None:
     return None
 
 
+def _efficacy_term(text: str) -> str | None:
+    """The efficacy endpoint this text reports, spelled out or abbreviated."""
+
+    spelled = _contains(text, _EFFICACY_TERMS)
+    if spelled is not None:
+        return spelled
+    for pattern, label in _EFFICACY_ABBREVIATIONS:
+        if pattern.search(text):
+            return label
+    return None
+
+
+def _mentions_humans(text: str) -> bool:
+    if _contains(text, _HUMAN_TERMS) is not None:
+        return True
+    return any(pattern.search(text) for pattern in _HUMAN_ABBREVIATIONS)
+
+
+#: Clause boundaries. Only punctuation and the coordinators that join two independent
+#: assertions -- not every conjunction, because "8 of 11 patients with relapsed disease"
+#: must stay whole.
+_CLAUSE = re.compile(r"[,;:]|\band\b|\bbut\b|\bwhile\b", re.IGNORECASE)
+
+
+def _reports_efficacy_clear_of_safety(sentence: str) -> bool:
+    """Does one clause of this sentence report efficacy without also reporting safety?
+
+    The non-efficacy veto is sentence-wide by default and that is usually right: "response
+    to treatment and incidence of cytokine release syndrome" describes a safety measurement
+    and mentions response only to say what else was looked at. But "Pt 1 achieved a complete
+    response (CR) and experienced Gr 3 fever" reports two findings, and the safety one does
+    not make the efficacy one untrue. A clause holding an efficacy term and no safety term
+    is the narrowest evidence that the sentence is doing the second thing.
+
+    The clause must carry the *number* too, and that requirement is what makes the
+    distinction hold. Preregistration assumed a whole-sentence value check would be enough;
+    it was not. "Among 20 patients (50%), we measured response to treatment and incidence of
+    cytokine release syndrome" has a clean efficacy clause and a value somewhere else in the
+    sentence, and it is an account of what was measured. Requiring the value inside the clean
+    clause refuses it and still admits "safety was evaluated in 40 patients and the overall
+    response rate was 62%", which reports one.
+
+    Every other requirement -- human, planned-endpoint, attribution -- stays whole-sentence.
+    """
+
+    for clause in _CLAUSE.split(sentence):
+        if _efficacy_term(clause) is None:
+            continue
+        if _contains(clause, _NON_EFFICACY_TERMS) is not None:
+            continue
+        if _VALUE.search(clause) is not None:
+            return True
+    return False
+
+
 def result_supports_human_poc(result: ClinicalResult) -> bool:
     """Whether a structured clinical result reports human efficacy.
 
@@ -272,7 +343,7 @@ def result_supports_human_poc(result: ClinicalResult) -> bool:
     endpoint = f"{result.endpoint} {result.endpoint_family or ''}"
     if _contains(endpoint, _NON_EFFICACY_TERMS):
         return False
-    if not _contains(endpoint, _EFFICACY_TERMS):
+    if _efficacy_term(endpoint) is None:
         return False
     if result.incomplete_reporting:
         return False
@@ -306,16 +377,18 @@ def efficacy_statements(
         named = next((name for name in names if name.casefold() in lowered), None)
         if named is None:
             continue
-        endpoint = _contains(sentence, _EFFICACY_TERMS)
+        endpoint = _efficacy_term(sentence)
         if endpoint is None:
             continue
-        if _contains(sentence, _NON_EFFICACY_TERMS):
+        if _contains(sentence, _NON_EFFICACY_TERMS) and not _reports_efficacy_clear_of_safety(
+            sentence
+        ):
             continue
         if _contains(sentence, _UNREPORTED_TERMS):
             continue
         if _contains(sentence, _NONHUMAN_TERMS):
             continue
-        if not _contains(sentence, _HUMAN_TERMS):
+        if not _mentions_humans(sentence):
             continue
         value = _VALUE.search(sentence)
         if value is None:
