@@ -109,3 +109,40 @@ Banning any token globally; hand-listing payload suffixes; merging on adjacency 
 ontology gate; touching sentence-scoped attribution; touching the ordinary-word minting problem,
 which is the *next* milestone and is deliberately measured only after this noise is gone;
 reordering the shortlist.
+
+---
+
+## 6. Amendments made before any measurement
+
+Both were forced by preregistered controls failing during implementation, and both are recorded
+here rather than applied silently. No replay had been run at this point.
+
+### 6a. One half being a mention is enough to look (a widening)
+
+§2 declared that only spans the extractor already emitted could join. The **cell-therapy control
+failed under that rule**: `idecabtagene vicleucel` yielded only `vicleucel`. `idecabtagene` is
+nominated by *no* route — no stem, unknown to the ontology as a single token, below the shape
+threshold — so the pair could never form, and this is exactly why `Vicleucel` was reaching the
+live shortlist as a fragment. Requiring both halves would have left every `-cabtagene` cell
+therapy fragmented, which is the opposite of what this milestone is for.
+
+Amended: **one** half must already be a mention; the ontology still decides the pair. This is a
+widening, and widening after seeing a failure is the shape of benchmark-fitting, so it is stated
+plainly: the authority gate is untouched, the per-occurrence rule is untouched, and the
+alternative was failing a control the milestone was commissioned to satisfy.
+
+### 6b. The anchoring half must itself be plausible (a narrowing, forced by 6a)
+
+The widening promptly broke the **salt-form control**: `gonadorelin acetate` became a mention
+where nothing had been one. `gonadorelin` is refused by `_plausible_asset_name` because it is in
+the prose-word set — it is a TARGET label — but the joined string is in no prose list, so the
+pair re-entered through a door the filter had deliberately shut.
+
+Amended: the anchoring span must satisfy `_plausible_asset_name` before a join is attempted. A
+rejected token does not get a second chance under a longer name.
+
+**This is the same lesson as the veto-narrowing milestone**, from the other direction: a guard
+also refuses things for reasons nobody enumerated, and a change that routes around the guard
+inherits all of them at once. Both amendments were caught by controls declared in advance.
+
+With both in place, all eight controls in §3 behave exactly as §3 declares.
