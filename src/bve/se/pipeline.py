@@ -461,11 +461,6 @@ def run_landscape_search(
                 # only its eligibility criteria, written in the vocabulary of results.
                 if document.document_type == "trial_registry_record":
                     continue
-                # A separate reason, kept separate: the registry is skipped because of what
-                # its prose *is*, while a conference abstract is skipped by evidence policy
-                # even though its prose is exactly on point. See ``source_capability``.
-                if not may_establish_human_poc(document.document_type):
-                    continue
                 try:
                     text = snapshot_cache.load_text(Path(document.snapshot_path))
                 except OSError as exc:
@@ -482,11 +477,29 @@ def run_landscape_search(
                             update={"pharmacologic_context": True}
                         )
                     )
-                statements.extend(
-                    efficacy_statements(
-                        text, asset_names=names, document_id=document.document_id
+                # The evidence policy gates the *fact*, and nothing else.
+                #
+                # It used to sit above, as a ``continue`` next to the registry-record skip,
+                # and the two looked alike. They are not. The registry record is skipped
+                # because of what its prose is; a source-capability exclusion is a statement
+                # about one decisional fact. Placed at the top of the loop it also withheld
+                # the document from ``has_pharmacologic_context`` -- so a policy about human
+                # proof-of-concept was quietly deciding which strings count as assets at all.
+                #
+                # Measured, not hypothesised: lifting the conference exclusion added exactly
+                # four candidates -- "bivalent", "tetravalent", "dopaminergic" and a run of
+                # table junk -- none of which are drugs and none of which have anything to do
+                # with human efficacy. Their qualification changed because a *different*
+                # gate's guard had been suppressing the identity scan.
+                #
+                # The scan below therefore reads every document this loop can open. What the
+                # policy decides is whether an efficacy sentence may be drawn from it.
+                if may_establish_human_poc(document.document_type):
+                    statements.extend(
+                        efficacy_statements(
+                            text, asset_names=names, document_id=document.document_id
+                        )
                     )
-                )
             # An efficacy sentence is evidence about a result, never about whether the
             # string it mentions names a drug. Without positive asset evidence the
             # attribution would be correct and the identity still wrong, so the fact is

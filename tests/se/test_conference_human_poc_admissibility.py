@@ -173,3 +173,46 @@ class TestTheSourceExclusionIsLifted:
         stage = inspect.getsource(pipeline).split('telemetry.stage("HUMAN_POC")', 1)[1]
         assert "if not qualified:" in stage
         assert "continue" in stage
+
+
+class TestTheEvidencePolicyGatesOneFactAndNotIdentity:
+    """The coupling the determinism investigation found.
+
+    The exclusion predicate used to sit at the top of the ``HUMAN_POC`` document loop,
+    next to the registry-record skip, and the two read as the same kind of rule. They are
+    not. Placed there it also withheld the document from ``has_pharmacologic_context``, so
+    a policy about human proof-of-concept was deciding which strings count as assets --
+    the one thing ``source_capability`` says it does not do.
+
+    It cost four candidates in the measured delta ("bivalent", "tetravalent",
+    "dopaminergic", and a run of table junk), which is how it was found: they appeared when
+    the exclusion was lifted, and nothing about them concerns human efficacy.
+
+    The exclusion is empty today, so this coupling is currently inert. That is exactly why
+    it is pinned: an inert defect is one nobody notices re-introducing, and the next entry
+    added to the list would silently move the asset registry again.
+    """
+
+    def _human_poc_stage(self) -> str:
+        import inspect
+
+        from bve.se import pipeline
+
+        return inspect.getsource(pipeline).split('telemetry.stage("HUMAN_POC")', 1)[1]
+
+    def test_the_identity_scan_is_not_behind_the_capability_check(self) -> None:
+        stage = self._human_poc_stage()
+        context_at = stage.index("has_pharmacologic_context(")
+        policy_at = stage.index("may_establish_human_poc(")
+        assert context_at < policy_at, (
+            "has_pharmacologic_context must be reached before the evidence policy is "
+            "consulted; behind it, a human_poc exclusion silently gates asset identity"
+        )
+
+    def test_the_capability_check_guards_the_efficacy_read_and_not_a_skip(self) -> None:
+        stage = self._human_poc_stage()
+        after = stage[stage.index("may_establish_human_poc(") :]
+        head = after[: after.index("\n\n")] if "\n\n" in after else after
+        # A bare ``continue`` under the predicate is the shape that caused the defect.
+        assert "efficacy_statements(" in head
+        assert "continue" not in head.split("efficacy_statements(", 1)[0]
