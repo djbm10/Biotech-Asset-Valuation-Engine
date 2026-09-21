@@ -1213,3 +1213,77 @@ floor and it did not move.
 
 **Tests:** `tests/se` 1165 passed, 3 xfailed. ruff clean. 16 new preregistered tests in
 `tests/se/test_conference_human_poc_admissibility.py`.
+
+---
+
+## 2026-09-20 — Determinism investigation, and the corrected AACR baseline
+
+### The reported nondeterminism was not nondeterminism
+
+`aacr_delta2` and `aacr_poc` have byte-identical argv. Compared field by field:
+candidates (2837), facts (25,430), claims (30,231), source-document corpus digest
+(`d07d9856…`) and identity mentions (16,042) are **identical**; mentions differ only in
+`observed_at`. The runtime gap (1080s vs 1720s) was machine load — a full test suite was
+running concurrently. No ordering, concurrency, cache or network instability exists: there
+is no concurrency anywhere in `src/bve/se`, `--replay-corpus` blocks the network via
+`block_network()`, and the set-iteration sites accumulate rather than truncate.
+
+### What actually moved: an evidence policy gating identity
+
+`may_establish_human_poc` sat at the top of the `HUMAN_POC` document loop as a bare
+`continue`, beside the registry-record skip. `has_pharmacologic_context` — the scan that
+decides whether a string is *used the way documents use a drug name*, an identity question —
+sits below it. So excluding a document from one evidence fact also withheld it from asset
+qualification. `source_capability`'s own claim to be "deliberately one fact" was false.
+
+Cost, measured: exactly four candidates — **`bivalent`, `tetravalent`, `dopaminergic`,
+`CARTCRCRNone`**. None are drugs; none concern human efficacy. They appeared when the
+conference exclusion was lifted because a *different* gate's guard had been suppressing the
+identity scan.
+
+Fixed at `0389edd`: the predicate now guards the efficacy read and nothing else. The
+exclusion list is empty today, so the coupling is inert — pinned by two tests rather than
+merely removed, because an inert defect is one nobody notices re-introducing.
+
+### Corrected AACR baseline — run `aacr_decoupled`
+
+| gate | `aacr_delta2` | `aacr_poc` | **`aacr_decoupled`** |
+|---|---|---|---|
+| `evidence.human_poc` | 40 | 40 | **40** |
+| `target.expression` | 56 | 56 | **56** |
+| `evidence.minimum_stage` | 637 | 638 | **638** |
+| `identity.distinct_asset` | 771 | 775 | **775** |
+| candidates / low-support | 2837 / 1413 | 2837 / 1409 | **2837 / 1409** |
+
+**`aacr_decoupled` reproduces `aacr_poc` exactly** — candidates, facts, claims, gate
+evaluations, mentions, documents, review queue and both partitions all hash-identical after
+dropping wall-clock metadata; only `run_id`, `retrieval_date` and the `attempt_id` derived
+from `run_id` differ. That is an independent, full-scale confirmation of replay determinism,
+on a 3,816-document corpus, obtained for free from a change that is a no-op while the
+exclusion list is empty.
+
+**`identity.distinct_asset` = 775 is the correct AACR figure.** The AACR milestone's 771
+understated its own candidate count, because the commit that added the abstract bodies also
+added the exclusion that suppressed their identity contribution.
+
+### Determinism harness
+
+`tests/se/test_replay_determinism.py`. Its first version was itself vacuous: the adapters had
+no snapshot root, so extraction never ran and the run produced **no facts at all** — it
+compared empty families and would have reported determinism forever. With snapshots wired it
+compares canonical identities, merges, gate decisions at requirement granularity, and the
+`target` / `human_poc` / `minimum_stage` fact families, each asserted non-empty, across two
+different `PYTHONHASHSEED` values **in separate processes** — the property a same-process
+test is structurally blind to, since one interpreter shares one seed.
+
+Fact families are named, not prefix-matched: `"target"` matches neither `construct_target_set`
+nor `document_target_context`, and `"development_stage"` silently missed `development_status`.
+Both mistakes yield an empty family that compares equal forever.
+
+**Tests:** `tests/se` 1189 passed, 3 xfailed. ruff clean.
+
+### Not done, deliberately
+
+Refinements to the human-PoC standard for bare `CR`/complete response and for mixed
+efficacy+safety sentences remain **unmade and unpreregistered**. They are a separate
+milestone. No term list, threshold or character limit was touched here.
