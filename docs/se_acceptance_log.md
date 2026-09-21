@@ -1287,3 +1287,67 @@ Both mistakes yield an empty family that compares equal forever.
 Refinements to the human-PoC standard for bare `CR`/complete response and for mixed
 efficacy+safety sentences remain **unmade and unpreregistered**. They are a separate
 milestone. No term list, threshold or character limit was touched here.
+
+## 2026-09-21 — Human-PoC abbreviations and mixed sentences: STOP CONDITION
+
+Preregistered at `922017d` (amended before measurement, §6), implemented at `bf96578`, replay
+`aacr_cr` against baseline `aacr_decoupled`. Suite 1205 passed / 3 xfailed, ruff clean.
+
+**Verdict: the milestone is frozen, not adopted.** One of the two new PASSes is a false positive
+on a toxicity sentence, which is the stop condition the preregistration declared in §4.
+
+### Gates
+
+| gate | `aacr_decoupled` | `aacr_cr` |
+|---|---|---|
+| `identity.distinct_asset` | 775 | 775 |
+| `target.expression` | 56 | 56 |
+| `evidence.minimum_stage` | 638 | 638 |
+| `evidence.human_poc` | 40 | **42** |
+| candidates / low-support | 2837 / 1409 | 2837 / 1409 |
+
+Every gate the preregistration required to hold, held. No PASS was lost. The coupling defect found
+at `0389edd` did not recur.
+
+### The two new PASSes
+
+**`Cevostamab` — correct, and exactly the false negative the milestone set out to fix.**
+*"Cevostamab (FcRH5×CD3) demonstrated a 30.2% overall response rate in patients who underwent
+BCMA-targeted treatment and 60.6% in BCMA-targeted naïve patients; the triple-step dosing strategy
+reduced cytokine release syndrome."* A quantified response rate, in named patients, attributed to a
+named asset. It was refused before only because a clause about *dosing strategy* mentioned CRS.
+
+**`tabelecleucel` — false positive.**
+*"For VSTs, the principal early complications are tumor flare reaction (in approximately 20% of
+tabelecleucel recipients), GVHD (below 5% with enriched products), acute infusion reactions, and
+low-grade CRS-like cytokine release."* This is a toxicity sentence and it produced a human
+proof-of-concept fact.
+
+Cause, and it is not simply the clause scope. `flare` is in `_EFFICACY_TERMS` because a disease
+flare is an autoimmune efficacy endpoint — and *tumor flare reaction* is an adverse event that
+shares the word. The clause `the principal early complications are tumor flare reaction (in
+approximately 20% of tabelecleucel recipients)` carries an efficacy term, a value, a human term and
+no term from `_NON_EFFICACY_TERMS`, because `complication` is not in that tuple. The sentence-wide
+veto had been suppressing this by accident, via the unrelated `cytokine release` at the far end of
+the sentence. Narrowing the veto removed an accidental protection, and the word `flare` is doing
+work in two directions at once.
+
+### What each change actually bought
+
+| change | new PASSes |
+|---|---|
+| A — bare `CR` as an efficacy term | **0** |
+| B — `pts` / `Pt` as human terms | **0** |
+| C — clause-scoped non-efficacy veto | **2** (one correct, one false) |
+
+A and B are correct and pinned by test, and they moved nothing at corpus scale: the PR06 sentences
+they unblock are refused one clause later by sentence-scoped attribution, since `CTL019` is not
+named in the sentence reporting its own result. That clause is out of scope by declaration. So the
+two fixes that were actually requested are, on this corpus, unexercised — and the change that moved
+the number is the one that broke.
+
+**No remediation was applied.** Adding `complication` to `_NON_EFFICACY_TERMS` refuses the
+tabelecleucel sentence and leaves Cevostamab untouched, and splitting `flare` from `tumor flare` is
+a second candidate. Both are post-hoc adjustments chosen after seeing which sentence failed, which
+is the thing preregistration exists to prevent. They are recorded as proposals for a successor
+milestone with its own declared controls, not applied here.
