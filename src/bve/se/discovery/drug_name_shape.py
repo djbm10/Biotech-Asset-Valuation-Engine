@@ -39,6 +39,7 @@ import re
 _LEXICON = pathlib.Path(__file__).resolve().parents[1] / "lexicon"
 MODEL_PATH = _LEXICON / "drug_name_shape_v1.json"
 KNOWN_NAMES_PATH = _LEXICON / "known_drug_names_v1.json"
+MULTI_TOKEN_NAMES_PATH = _LEXICON / "multi_token_drug_names_v1.json"
 
 #: Below this length a token carries too few n-grams for the model to say anything, and the
 #: short-token space is where ordinary words and gene symbols live. Declared with the model.
@@ -96,6 +97,25 @@ def is_known_drug_name(value: str) -> bool:
     """
 
     return value.strip().casefold() in known_drug_names()
+
+
+@functools.lru_cache(maxsize=1)
+def known_multi_token_drug_names() -> frozenset[str]:
+    """Two-token drug names the frozen ontology holds as a single molecule.
+
+    ``known_drug_names`` is single-token by construction and so cannot see that
+    ``belantamab mafodotin`` is one drug -- which is how a two-word INN became two assets.
+    Both halves are *also* standalone ontology records, so the fragmentation is invisible
+    to any test applied to one token; only the pair can reveal it.
+    """
+
+    return frozenset(json.loads(MULTI_TOKEN_NAMES_PATH.read_text())["names"])
+
+
+def is_known_multi_token_drug_name(value: str) -> bool:
+    """True when the whole string is one molecule to the ontology, not two adjacent ones."""
+
+    return " ".join(value.split()).casefold() in known_multi_token_drug_names()
 
 
 def is_drug_shaped(value: str) -> bool:

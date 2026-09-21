@@ -160,19 +160,19 @@ def extract_observed_asset_names(*texts: str, shape_scan: bool = True) -> list[s
     """
 
     combined = "\n".join(text for text in texts if text)[:100_000]
-    candidates = [
+    spans = [
         *[
-            match.group(0)
+            match.span()
             for match in _ASSET_CODE_RE.finditer(combined)
             # Per occurrence, never per token: a code the source names a study with is not an
             # asset *there*, and the same code administered elsewhere still is. Dropping only
             # the study-framed occurrences leaves the others to speak for themselves.
             if not study_identifier.frames_a_study(combined, match.start(), match.end())
         ],
-        *[match.group(0) for match in drug_name_lexicon.drug_name_pattern().finditer(combined)],
+        *[match.span() for match in drug_name_lexicon.drug_name_pattern().finditer(combined)],
         *(
             [
-                match.group(0)
+                match.span()
                 for match in _WORD_RE.finditer(combined)
                 if drug_name_shape.nominates(match.group(0))
             ]
@@ -180,6 +180,7 @@ def extract_observed_asset_names(*texts: str, shape_scan: bool = True) -> list[s
             else []
         ),
     ]
+    candidates = [combined[start:end] for start, end in _join_multi_token_names(combined, spans)]
     return list(
         dict.fromkeys(
             " ".join(candidate.split())
@@ -187,6 +188,70 @@ def extract_observed_asset_names(*texts: str, shape_scan: bool = True) -> list[s
             if _plausible_asset_name(candidate)
         )
     )
+
+
+def _join_multi_token_names(text: str, spans) -> list[tuple[int, int]]:
+    """Read two adjacent mentions as one where the ontology says they are one molecule.
+
+    The name pattern matches a single token, so a two-word International Nonproprietary
+    Name cannot survive it: ``belantamab mafodotin`` is read as ``belantamab`` and
+    ``mafodotin``, and two assets are minted from one drug. The halves are each standalone
+    ontology records as well, so nothing about either token on its own reveals the split --
+    only the pair does, which is why the ontology is asked about the pair.
+
+    Per occurrence, exactly as ``frames_a_study`` above. ``vedotin`` is absorbed where it is
+    the tail of ``polatuzumab vedotin`` and remains a mention of its own everywhere else; no
+    token is banned. And because only spans that were *already* mentions can be joined, the
+    rule cannot reach a salt or formulation form -- ``acetate`` was never a candidate.
+    """
+
+    ordered = sorted(set(spans))
+    joined: list[tuple[int, int]] = []
+    absorbed: set[tuple[int, int]] = set()
+    for start, end in ordered:
+        # The half that anchors the join must be a mention in its own right. Without this,
+        # joining hands a rejected token a second chance under a longer name: `gonadorelin`
+        # is refused as prose -- it is a TARGET label -- and `gonadorelin acetate` is in no
+        # prose list, so the pair walked back in through a door the filter had shut.
+        if not _plausible_asset_name(text[start:end]):
+            continue
+        for pair in (_word_after(text, end), _word_before(text, start)):
+            if pair is None:
+                continue
+            low, high = min(start, pair[0]), max(end, pair[1])
+            if not drug_name_shape.is_known_multi_token_drug_name(text[low:high]):
+                continue
+            joined.append((low, high))
+            absorbed.update(span for span in ordered if low <= span[0] and span[1] <= high)
+            break
+    return sorted(joined + [span for span in ordered if span not in absorbed])
+
+
+#: A single word, as the join rule reads a neighbour. Deliberately not the mention pattern:
+#: ``idecabtagene`` is nominated by no route at all -- no stem, unknown to the ontology as a
+#: token, below the shape threshold -- which is precisely why ``Vicleucel`` was reaching the
+#: shortlist on its own. Requiring *both* halves to be mentions could therefore never repair
+#: a cell-therapy name. One half being a mention is enough to look, and the ontology still
+#: decides. A neighbour that forms no known molecule is left exactly where it was.
+_NEIGHBOUR_WORD = re.compile(r"[A-Za-z][A-Za-z-]*")
+
+
+def _word_after(text: str, end: int) -> tuple[int, int] | None:
+    if end >= len(text) or text[end] != " ":
+        return None
+    match = _NEIGHBOUR_WORD.match(text, end + 1)
+    return match.span() if match else None
+
+
+def _word_before(text: str, start: int) -> tuple[int, int] | None:
+    if start < 2 or text[start - 1] != " ":
+        return None
+    head = text[: start - 1]
+    match = _NEIGHBOUR_WORD.search(head[::-1].split(" ", 1)[0][::-1])
+    if not match:
+        return None
+    offset = len(head) - len(head[::-1].split(" ", 1)[0])
+    return (offset + match.start(), offset + match.end())
 
 
 def _matches_follow_up(query: CompiledQuery, text: str) -> bool:
