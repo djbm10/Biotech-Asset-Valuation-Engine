@@ -1351,3 +1351,43 @@ tabelecleucel sentence and leaves Cevostamab untouched, and splitting `flare` fr
 a second candidate. Both are post-hoc adjustments chosen after seeing which sentence failed, which
 is the thing preregistration exists to prevent. They are recorded as proposals for a successor
 milestone with its own declared controls, not applied here.
+
+## 2026-09-21 — Human-PoC adverse-event framing: ADOPTED
+
+Preregistration `docs/se_policies/human_poc_safety_context_v1.md` (`066a820`), implemented
+`862a74f` (`EXTRACTOR_VERSION = "human_poc_v3"`). Replay `aacr_safety` vs baseline
+`aacr_decoupled`, same argv as `aacr_cr`.
+
+Successor to the frozen `human_poc_abbreviations_and_mixed_sentences_v1` milestone, whose
+clause-scoped veto found one real result and one false positive.
+
+| gate | `aacr_decoupled` | `aacr_cr` (frozen) | predicted | **`aacr_safety`** |
+|---|---|---|---|---|
+| `identity.distinct_asset` | 775 | 775 | 775 | 775 |
+| `target.expression` | 56 | 56 | 56 | 56 |
+| `evidence.minimum_stage` | 638 | 638 | 638 | 638 |
+| `evidence.human_poc` | 40 | 42 | **41** | **41** |
+| candidates / low-support | 2837 / 1409 | 2837 / 1409 | 2837 / 1409 | 2837 / 1409 |
+
+Claims 30231 → 30236, facts 25430 → 25431, `source_documents` unchanged at 3816. No other
+gate moved. **No asset was lost**, so the two `flare` PASSes the rule was most at risk of
+deleting — obexelimab (disease-flare counts vs placebo) and abatacept ("14 of 15 patients
+flared") — both survived.
+
+The single gain is `Cevostamab`: *"…demonstrated a 30.2% overall response rate in patients who
+underwent BCMA-targeted treatment and 60.6% in BCMA-targeted naïve patients…"* — a real,
+quantified, attributed human result that the pre-clause-scoped veto refused because of an
+unrelated `cytokine release syndrome` clause at the far end of the sentence.
+
+`tabelecleucel` is absent, as pinned. Every one of the eight preregistered controls behaved as
+declared in advance. Suite: 1213 passed, 3 xfailed; ruff clean.
+
+**Recorded, not fixed:** `INDIGO` remains a pre-existing false positive inside the 41 — an
+enrollment-and-statistical-power sentence, on a trial name carried as an asset. It was declared
+in §2 of the preregistration before measurement and is explicitly out of scope here; 41 is not
+41 clean facts.
+
+**Deferred to its own milestone:** sentence-scoped attribution. The predecessor showed it is the
+binding recall constraint (the PR06 sentences unblocked by bare `CR` die one clause later
+because `CTL019` is not named in the sentence reporting its own result), but loosening it is a
+larger scientific change.
