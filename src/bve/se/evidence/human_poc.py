@@ -38,7 +38,7 @@ from bve.se.schemas.contracts import (
     VerificationStatus,
 )
 
-EXTRACTOR_VERSION = "human_poc_v2"
+EXTRACTOR_VERSION = "human_poc_v3"
 
 #: Endpoint vocabulary that describes a disease outcome. Deliberately about the *kind* of
 #: measurement, never about a particular disease or drug.
@@ -115,6 +115,18 @@ _NON_EFFICACY_TERMS = (
     "feasibility",
     "number of participants with",
     "incidence of",
+    # Framing, not vocabulary. A clause that introduces its contents as complications is
+    # reporting harm however it then names the finding -- and once the veto became
+    # clause-scoped, nothing else was left to say so.
+    "complication",
+    # `flare` is an efficacy endpoint: an IgG4-RD or lupus disease flare is what these drugs
+    # are measured on, and live PASSes depend on it. A *tumor* flare reaction is an adverse
+    # event that happens to share the word. Deleting `flare` would cost real results, so the
+    # two clinical registers are separated instead. Needed independently of "complication":
+    # "tumor flare reaction occurred in 20% of patients" names no complication at all.
+    "tumor flare",
+    "tumour flare",
+    "flare reaction",
 )
 
 #: Words that put a measurement in the future or the conditional. A plan to measure a
