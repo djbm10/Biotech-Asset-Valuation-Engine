@@ -673,3 +673,30 @@ sentence failed and therefore not to be applied silently: add `complication` to
 Still open, still unpreregistered: whether a categorical outcome with no number (`Pt 1 achieved a
 complete response`) should satisfy `_VALUE`. LB-138 was predicted in advance to stay refused on this
 ground, and did.
+
+## Human-PoC adverse-event framing — ADOPTED 2026-09-21
+
+Preregistration `066a820`, code `862a74f`, result `a9cd1eb`. `EXTRACTOR_VERSION = "human_poc_v3"`.
+
+`evidence.human_poc` is now **41** on the sealed AACR corpus (`aacr_safety`); the earlier 40 in
+`aacr_decoupled` is superseded. All other gates unchanged (775 / 56 / 638, candidates 2837,
+low-support 1409). Compare future runs against `aacr_safety`, not `aacr_decoupled`.
+
+Two milestones landed together and only the second is adopted:
+- `human_poc_abbreviations_and_mixed_sentences_v1` — **frozen, not adopted** as a result, but its
+  code is live: bare `CR`, `pts`/`Pt`, and the clause-scoped veto all ship. It produced 42 with one
+  false positive.
+- `human_poc_safety_context_v1` — refuses that false positive and holds the real one, giving 41.
+
+Standing cautions for whoever picks this up:
+- `flare` is deliberately an efficacy term (IgG4-RD / lupus disease flare) **and** deliberately
+  vetoed in its adverse-event register (`tumor flare`, `tumour flare`, `flare reaction`). Do not
+  "simplify" either half; two live PASSes depend on the first and one refusal on the second.
+- `INDIGO` is a known false positive inside the 41 — enrollment and statistical power read as a
+  result, on a trial name carried as an asset. Fixing it needs either new `_UNREPORTED_TERMS`
+  (`power to detect`, `enrollment goal`) or an identity change, each with its own controls.
+- **Next milestone, not yet started: sentence-scoped attribution.** It is the binding recall
+  constraint — a result reaches an asset only when the sentence reporting it names that asset, so
+  PR06's `CTL019` result never attaches. Loosening it risks letting combination-regimen outcomes
+  leak to components, which is precisely the failure the rule was written to prevent. Preregister
+  with combination-trial negative controls before touching it.
