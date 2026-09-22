@@ -193,3 +193,74 @@ Hand-listing `frontline`, `safer`, `cornerstone`, `refine` or any offending stri
 shape-model threshold or retraining it; lowering or raising the stem threshold; weakening target
 or human-PoC rules; altering ranking or ordering; touching the adopted fragmentation rule;
 deleting candidates outright where routing to review preserves the information.
+
+---
+
+## 8. Amendments, made before measurement
+
+### 8a — NARROWING: ontology membership is never an automatic pass (2026-09-22)
+
+§3 item 3 said ontology identity qualifies when it is "a molecule record, not a bare name match",
+and glossed `FRONTLINE` as not qualifying. **That gloss was wrong.** `FRONTLINE` *is* a real ChEMBL
+record, so as written the rule would have admitted `frontline` — the very control it must remove.
+Corrected here before any code or measurement.
+
+What the snapshot can actually distinguish, measured:
+
+`frontline`, `choice` and `discase` are **not canonical records at all**. Each enters solely as a
+`TRADE_NAME` alias of a *different* molecule:
+
+| name | alias types | resolves to |
+|---|---|---|
+| `frontline` | TRADE_NAME only | FIPRONIL — a veterinary insecticide |
+| `choice` | TRADE_NAME only | WARFARIN |
+| `discase` | TRADE_NAME only | CHYMOPAPAIN |
+| `busulfan` | CANONICAL_SYMBOL, APPROVED_NAME, SYNONYM, TRADE_NAME, XREF | itself |
+
+Treating `frontline` as an asset is therefore an **identity error**, not merely weak evidence.
+
+Of 40 ordinary English words probed against the snapshot, **`TRADE_NAME` is the only alias type
+that admits any, and it admits exactly these three**. `CANONICAL_SYMBOL`, `APPROVED_NAME`,
+`SYNONYM` and `DEVELOPMENT_CODE` admit none. The narrowing is a property of the alias types, not a
+fit to the three offenders.
+
+Excluding TRADE_NAME-only names outright is **not** the fix, and the check that shows why is worth
+recording: real trade names are TRADE_NAME-only too — `Keytruda`→PEMBROLIZUMAB,
+`Revlimid`→LENALIDOMIDE, `Carvykti`→CILTACABTAGENE AUTOLEUCEL, `Abecma`→IDECABTAGENE VICLEUCEL.
+Parent-realness does not separate them either: FIPRONIL and WARFARIN are real molecules.
+
+§3 item 3 is replaced by:
+
+> **3. Ontology evidence, in two kinds, neither of them a bare name match.**
+>
+> **3a — identity-bearing membership qualifies.** The name is reachable as a `CANONICAL_SYMBOL`,
+> `APPROVED_NAME`, `SYNONYM` or `DEVELOPMENT_CODE`. These admit no ordinary vocabulary.
+>
+> **3b — a mechanism-of-action edge qualifies.** The molecule carries a `DIRECT_TARGET` edge to a
+> target. Sufficient, **never necessary**: `gemcitabine` 16, `teclistamab` 6, `pomalidomide` 5,
+> `busulfan` 1, against 0 for `frontline`, `choice`, `discase` and `Placebo` — but also **0 for
+> `benzhexol`, `lestaurinib` and `ibritumomab`**, which are protected positive controls and are
+> absent from the ontology entirely. Requiring an edge would delete them.
+>
+> **3c — a TRADE_NAME-only name confers identity, never qualification.** It is an alias of its
+> parent, not an asset of its own, and is resolved to that parent. The parent must then earn
+> qualification independently **from those same mentions**. This is one rule doing both jobs:
+> `Keytruda`'s occurrences are administration frames (`treated with`, `plus chemotherapy`), so
+> PEMBROLIZUMAB qualifies under §3 item 5; `frontline`'s occurrences are attributive (`frontline
+> setting`), are not mentions of fipronil in any sense, and so qualify nothing.
+
+The ontology therefore contributes **which molecule a name denotes**, and — except via 3a/3b —
+not **whether the thing is an asset**. That question is settled by usage.
+
+Alias binding must not launder junk: resolving `frontline`→FIPRONIL must not mint FIPRONIL as an
+asset. **`FIPRONIL` is added to the negative controls** — if it appears as a canonical asset after
+the change, the amendment has failed and made the defect harder to see rather than removing it.
+
+This amendment is a **narrowing**: it removes an automatic pass the policy previously granted. It
+adds no new qualifying route.
+
+### Hash
+
+The v1 hash `342dc2bc4dcfba43d7028a0312a31e43a901b13d70897b86a8096f3dbd6c8dd7` covers the text as
+first committed (`8e5e105`). This amendment supersedes §3 item 3; the superseding hash is recorded
+in the commit that adds this section, and both remain in the log.

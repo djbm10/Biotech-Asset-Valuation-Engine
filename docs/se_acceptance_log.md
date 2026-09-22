@@ -1580,3 +1580,27 @@ at all — it is a structurally typed CT.gov DRUG intervention with 35 trials.
 
 Status: `PREREGISTERED`. Validation requires a fresh live acquisition plus a same-day fix-off
 control; sealed replay is inadmissible because the change is upstream of discovery.
+
+### Amendment 8a — NARROWING, before measurement (2026-09-22)
+
+Superseding SHA-256: `2b9c3ddd4381e53c3ba76961bfbd8b1dd2351e1fc3027bfc4aa7b54cc7af1750`
+(supersedes `342dc2bc…`, which remains recorded above.)
+
+§3 item 3 granted an automatic pass to "drug-bearing ontology record" and glossed `FRONTLINE` as
+not qualifying. The gloss was false — `FRONTLINE` is a real ChEMBL record — so the rule as frozen
+would have admitted the control it exists to remove. Narrowed, not silently changed.
+
+Measured: `frontline`, `choice` and `discase` are not canonical records at all. Each enters only as
+a `TRADE_NAME` alias of a different molecule (FIPRONIL, WARFARIN, CHYMOPAPAIN), so admitting them
+is an identity error. Of 40 ordinary English words probed, `TRADE_NAME` is the only alias type
+admitting any, and admits exactly those three.
+
+Excluding TRADE_NAME-only names is not the fix: `Keytruda`, `Revlimid`, `Carvykti` and `Abecma` are
+TRADE_NAME-only too. A trade name is an alias of its parent; it confers identity, never
+qualification, and the parent must earn qualification from the same mentions. `FIPRONIL` is added
+to the negative controls so alias resolution cannot launder junk into a real molecule name.
+
+A mechanism-of-action edge qualifies but is never necessary — `benzhexol`, `lestaurinib` and
+`ibritumomab` have none and are absent from the ontology entirely.
+
+No qualifying route was added. Status remains `PREREGISTERED`.
