@@ -1446,10 +1446,18 @@ on a fixed text it returns `belantamab mafodotin`, `polatuzumab vedotin` and
 `idecabtagene vicleucel` as single mentions while `ABBV-383`, `AMG 420`, `ALLO-715`,
 `blinatumomab` and `teclistamab` all survive untouched.
 
-**Why the replay could not work.** Discovery expands on the names the extractor returns, so
-changing the extractor changes the queries the run issues — `belantamab mafodotin` is a query
-term that did not exist when the corpus was sealed. Sealed custody can only answer the attempts
-recorded in it; an unsealed attempt fails, and a failed mandatory source aborts the run. This is
+**Why the replay could not work — established, not inferred.** The acquisition ledger names all
+six failures, and they are three casings of a single string:
+
+> `clinicaltrials_gov: sealed acquisition records no further attempt for query`
+> `'Axicabtagene Ciloleucel'; live discovery and replay have diverged`
+
+`Axicabtagene Ciloleucel` is a name this milestone *created*. Before the fix the extractor emitted
+`ciloleucel` alone; the merged form had never been a query, so the sealed corpus holds no attempt
+for it, the attempt fails, and a failed mandatory source aborts acquisition mid-run.
+
+Discovery expands on the names the extractor returns. Sealed custody can only answer the attempts
+recorded in it. This is
 the M15L lesson arriving from a new direction: **a change to the planner or the extractor makes a
 sealed corpus unreplayable by design.** Isolated-delta replay is valid for changes downstream of
 acquisition (every human-PoC milestone in this log) and invalid for changes upstream of it.
