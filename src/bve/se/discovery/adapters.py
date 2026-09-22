@@ -233,25 +233,26 @@ def _join_multi_token_names(text: str, spans) -> list[tuple[int, int]]:
 #: shortlist on its own. Requiring *both* halves to be mentions could therefore never repair
 #: a cell-therapy name. One half being a mention is enough to look, and the ontology still
 #: decides. A neighbour that forms no known molecule is left exactly where it was.
-_NEIGHBOUR_WORD = re.compile(r"[A-Za-z][A-Za-z-]*")
+#: One character of Unicode whitespace that is not a newline. A publisher writing
+#: ``loncastuximab tesirine`` with a non-breaking space means the same thing as a plain
+#: space, and reading only ``" "`` let page formatting recreate the fragmentation this rule
+#: exists to remove. The newline is excluded on purpose: it is the seam between concatenated
+#: fields and documents, and joining the tail of a title to the head of an abstract would be a
+#: false merge. Punctuation is not whitespace, so a comma still separates -- a source that
+#: prints "loncastuximab, tesirine" has written two list items and is read as two.
+_NEIGHBOUR_GAP = r"[^\S\n]"
+_WORD_AFTER_RE = re.compile(_NEIGHBOUR_GAP + r"([A-Za-z][A-Za-z-]*)")
+_WORD_BEFORE_RE = re.compile(r"([A-Za-z][A-Za-z-]*)" + _NEIGHBOUR_GAP + r"\Z")
 
 
 def _word_after(text: str, end: int) -> tuple[int, int] | None:
-    if end >= len(text) or text[end] != " ":
-        return None
-    match = _NEIGHBOUR_WORD.match(text, end + 1)
-    return match.span() if match else None
+    match = _WORD_AFTER_RE.match(text, end)
+    return match.span(1) if match else None
 
 
 def _word_before(text: str, start: int) -> tuple[int, int] | None:
-    if start < 2 or text[start - 1] != " ":
-        return None
-    head = text[: start - 1]
-    match = _NEIGHBOUR_WORD.search(head[::-1].split(" ", 1)[0][::-1])
-    if not match:
-        return None
-    offset = len(head) - len(head[::-1].split(" ", 1)[0])
-    return (offset + match.start(), offset + match.end())
+    match = _WORD_BEFORE_RE.search(text, 0, start)
+    return match.span(1) if match else None
 
 
 def _matches_follow_up(query: CompiledQuery, text: str) -> bool:

@@ -74,3 +74,46 @@ class TestTheAuthorityBehindTheJoin:
 
     def test_two_separate_drugs_are_not_one_record(self) -> None:
         assert not is_known_multi_token_drug_name("rituximab cyclophosphamide")
+
+
+class TestTheSeparatorIsWhitespaceNotTheAsciiSpace:
+    """Amendment 6c. Every case here was found in the `frag_live` corpus, not invented.
+
+    The first fix-on live run left `vicleucel`, `tesirine`, `ozogamicin` and `ciloleucel` as
+    assets with zero standalone occurrences. One root cause with two faces: a publisher's
+    non-breaking space, and this function's own `\\n` between concatenated texts.
+    """
+
+    def test_a_non_breaking_space_joins(self) -> None:
+        """Publisher formatting alone must not recreate the fragmentation."""
+        assert extract_observed_asset_names("Received loncastuximab tesirine.") == [
+            "loncastuximab tesirine"
+        ]
+
+    def test_a_tab_joins(self) -> None:
+        assert "belantamab mafodotin" in extract_observed_asset_names(
+            "Received belantamab\tmafodotin today."
+        )
+
+    def test_two_texts_do_not_mint_the_fragment_one_text_would_not(self) -> None:
+        """`extract_observed_asset_names(title, abstract)` joins with a newline. Each text
+        alone merged correctly; passing both minted `vicleucel`."""
+        title = "Idecabtagene vicleucel manufacturing and out-of-spec product"
+        abstract = "Idecabtagene vicleucel (ide-cel) induces deep responses."
+        for texts in ((title,), (abstract,), (title, abstract)):
+            assert extract_observed_asset_names(*texts) == ["Idecabtagene vicleucel"]
+
+    def test_a_newline_is_not_a_separator(self) -> None:
+        """The seam between a title and an abstract is not a space. Joining across it would
+        marry the tail of one field to the head of the next."""
+        assert extract_observed_asset_names("Trials of belantamab\nmafodotin binds BCMA.") == [
+            "belantamab",
+            "mafodotin",
+        ]
+
+    def test_punctuation_still_separates(self) -> None:
+        """A source that comma-separates a drug's own halves has written two list items.
+        Merging there is the adjacency-only merge the policy forbids."""
+        assert extract_observed_asset_names(
+            "Tafasitamab, loncastuximab, tesirine, polatuzumab and selinexor."
+        ) == ["Tafasitamab", "loncastuximab", "tesirine", "polatuzumab", "selinexor"]
