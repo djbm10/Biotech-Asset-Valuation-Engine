@@ -1631,3 +1631,34 @@ pomalidomide`. Prediction recorded before measuring: `bsAbs` should fail on the 
 requirement, not the position rule; if it survives, the two-document rule is not being applied.
 
 No qualifying route added. Status remains `PREREGISTERED`.
+
+## Ordinary-word / non-asset minting — IMPLEMENTED_PENDING_LIVE_VALIDATION 2026-09-22
+
+Implementation of `docs/se_policies/asset_nomination_evidence_v1.md` (hash
+`251e4b44008ab6f0742a5195440be29e9f0ecb446823f04f54cb47ae928e45cd`, as amended 8a and 8b
+before any code was written), commit `a47bc9c`. Four nomination routes closed:
+
+1. **Ontology** — qualification now reads a new identity-bearing lexicon (117,766 names from
+   `APPROVED_NAME` / `SYNONYM` / `DEVELOPMENT_CODE`, never `TRADE_NAME`). `is_known_drug_name`
+   is unchanged and still nominates, so `Keytruda` still resolves to its parent.
+2. **Comparator role** — read from the sponsor's own `armGroups` typing; an intervention
+   declared only in a `PLACEBO_COMPARATOR` / `SHAM_COMPARATOR` arm does not qualify through
+   structured typing. `ACTIVE_COMPARATOR` excluded; one experimental declaration clears it.
+3. **Abbreviation gloss** — a parenthetical spelling the phrase before it (`POD24`, `bsAbs`)
+   is not an asset, and does not reach the development-code route.
+4. **Prose** — argument position only, with a per-occurrence modifier veto and a two
+   independent document minimum. `MAX_DOCUMENT_FRACTION` deliberately untouched.
+
+`tests/se`: 1283 passed, 3 xfailed; `ruff check src/` clean. 51 preregistered controls in
+`tests/se/test_ordinary_word_qualification.py`.
+
+**Not adopted.** These fixes change what is extracted, so the binding evaluation rule requires
+fresh acquisition: paired same-day runs `mint_on` (fix at `a47bc9c`) and `mint_off` (control
+worktree at the parent `979ba4d`), both started 2026-09-22, `user_agent_contact_present = true`,
+`user_agent_sha256 = 456da4da…dead58`. Acceptance is decided on §6, headlined by how many names
+that are not therapeutic assets still reach canonical status or any decisional PASS, and whether
+any genuine molecule, brand, development code or repaired multi-token asset disappeared.
+
+**Recorded stop condition.** The policy predicts `bsAbs` fails on the two-document rule. If it
+survives, the corroboration rule is not guarding the prose route and adoption halts before the
+live run is interpreted.
