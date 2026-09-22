@@ -1481,3 +1481,82 @@ untouched and stands for the fresh live run.
 One corollary, decided now: fragmentation and the ordinary-word-minting milestone get **separate**
 fresh acquisitions. Both are upstream of discovery, so validating them on one corpus would leave
 any gain or loss unattributable between them.
+
+
+## 2026-09-22 — Multi-token drug-name identity: ADOPTED
+
+Preregistration `e4719ba`, amendments `005e0bd` (6a/6b) and `8f242eb` (6c). Code `65a18bc` +
+`2414678`. Three fresh live acquisitions were needed; the sealed-corpus replay could not measure
+this change at all (see the 2026-09-21 entry).
+
+**Design.** Two fresh live runs on the same day against the same source index and ontology
+snapshot: `frag_control` from a worktree at `005e0bd`, the fragmentation commit's parent —
+identical code minus the fix — and `frag_live2` with the fix. Comparing against the older sealed
+baseline would have mixed the fix with two days of corpus drift. Both runs scoreable: 342 and 346
+queries per mandatory source, **0 divergent attempts**.
+
+| | control | fix-on |
+|---|---|---|
+| `identity.distinct_asset` | 777 | 778 |
+| `target.expression` | 56 | 56 |
+| `evidence.human_poc` | 36 | 41 |
+| `evidence.minimum_stage` | 640 | 643 |
+| candidates | 2802 | 2831 |
+
+**1. Merged names exist.** All six preregistered pairs. The rule generalized well past them: **48
+ontology-backed two-token molecules formed** that did not exist in the control, including ~20
+`-cabtagene autoleucel` cell therapies and the ADC class entire — `trastuzumab deruxtecan`,
+`sacituzumab govitecan`, `enfortumab vedotin`, `moxetumomab pasudotox`, `trastuzumab emtansine`.
+`belantamab mafodotin` carries 8 NCT IDs, three companies and a confirmed TNFRSF17 assertion
+where the control had two empty shells.
+
+**2. Orphan fragments gone.** 22 payload/half tokens ceased to exist as assets: `mafodotin`,
+`deruxtecan`, `govitecan`, `mertansine`, `ravtansine`, `soravtansine`, `pasudotox`, `ciloleucel`,
+`ansegedleucel`, `hydrochloride`, `trioxide` and more.
+
+**3. Legitimately standalone halves survive.** Measured, not assumed — a fragment is legitimate
+only if it occurs somewhere *not* adjacent to a partner: `belantamab` 9 standalone uses,
+`loncastuximab` 11, `autoleucel` 15, `vedotin` 2, `maraleucel` 1. All retained.
+
+**4. Evidence follows the canonical asset.** The decisive pair: human-PoC `Vicleucel` **lost**,
+`Idecabtagene Vicleucel` **gained**. The fact moved to the surviving asset rather than being
+duplicated across both. `brexucabtagene autoleucel` likewise gained PoC as a merged name.
+
+**5. No real asset lost.** `ABBV-383`, `AMG 420`, `ALLO-715`, `teclistamab`, `blinatumomab`,
+`elranatamab`, `talquetamab` all intact; `ciltacabtagene autoleucel` newly whole. The raw
+lost/gained counts (139/168) are dominated by **acquisition drift** — two separate live fetches
+pull different documents (`Florida`, `Swine`, `PsycINFO`, `AUD 133`) — so changes were classified
+by whether the name is an ontology two-token molecule rather than read off the totals.
+
+**6. Top-10 free of fragmentation junk.**
+
+- control: `frontline, Vicleucel, belantamab, mafodotin, ozogamicin, bsAbs, loncastuximab, Placebo, vedotin, tesirine` — **7 of 10 are drug-name halves**
+- fix-on: `frontline, bsAbs, Placebo, cornerstone, safer, refine, gemcitabine, belantamab, pomalidomide, busulfan` — the only fragment is `belantamab`, which is independently supported 9 times, and three real drugs appear
+
+### Two residual fragments, adopted knowingly
+
+`tesirine` and `ozogamicin` survive with zero standalone use. Each is minted by exactly one
+malformed source string, and both were traced rather than tolerated:
+
+- `"Tafasitamab, loncastuximab, tesirine, polatuzumab"` — the source comma-separated one drug's
+  own halves into two list items. Merging there means merging across punctuation, which §5
+  forbids and which would create false merges wherever two drugs are genuinely listed.
+- `"…related togemtuzumab ozogamicin (GO)…"` — the source lost the space in "to gemtuzumab", so
+  the preceding token is `togemtuzumab`, which is not a molecule and backs no join.
+
+Both well-formed occurrences of the same names merge correctly. Neither residue is a join-rule
+defect, and every available fix for them violates a constraint this milestone was given.
+
+### Deviation from the preregistration, recorded
+
+§2 claimed the rule "cannot reach a salt or formulation form -- `acetate` was never a candidate".
+**That is no longer true** after amendment 6a let a single half anchor the join:
+`doxorubicin hydrochloride`, `vincristine sulfate` and `cyclophosphamide monohydrate` now merge.
+The consequence is benign and arguably a second win — `hydrochloride` disappeared as a standalone
+asset — but the claim as written is false and is corrected here rather than left standing.
+Ontology-backed non-drug pairs (`normal saline`, `whole blood`, `amino acids`) also merge; these
+are two junk assets becoming one, and belong to the word-minting milestone, not this one.
+
+**Adopted.** The next milestone is ordinary-word minting — `frontline`, `bsAbs`, `Placebo`,
+`cornerstone`, `safer`, `refine` now head the shortlist — with its own preregistration and its
+own fresh acquisition, kept separate from this one.
