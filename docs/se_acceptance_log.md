@@ -1424,3 +1424,39 @@ the instance that had been read closely. **The human-PoC layer is not the bindin
 this number; identity is.**
 
 That finding redirected the work to identity and shortlist quality — fragmentation first.
+
+## 2026-09-21 — Multi-token drug-name identity: UNSCOREABLE on sealed custody
+
+Preregistration `e4719ba` (+ amendments `005e0bd`), implemented `65a18bc`. Replay `aacr_frag`.
+
+**The run is unscoreable and no conclusion about the fix can be drawn from it.** The engine said
+so itself and refused to promote it:
+
+> `ERROR: S&E acquisition FAILED; this run is UNSCOREABLE and was not promoted.`
+> `mandatory source failures: clinicaltrials_gov (3 queries failed)`
+> `--allow-incomplete cannot waive a failed mandatory source.`
+
+Acquisition ran 148 queries per source against the baseline's 341, so `source_documents` fell
+3816 → 1999 and every downstream number fell with it: candidates 2837 → 1642, claims 30235 →
+16657, `human_poc` 40 → 19, `minimum_stage` 638 → 428, and 1233 assets "lost" — among them real
+ones such as `ABBV-383`, `AMG 420` and `ALLO-715`.
+
+**None of that is attributable to the fix.** The extractor was isolated and behaves correctly:
+on a fixed text it returns `belantamab mafodotin`, `polatuzumab vedotin` and
+`idecabtagene vicleucel` as single mentions while `ABBV-383`, `AMG 420`, `ALLO-715`,
+`blinatumomab` and `teclistamab` all survive untouched.
+
+**Why the replay could not work.** Discovery expands on the names the extractor returns, so
+changing the extractor changes the queries the run issues — `belantamab mafodotin` is a query
+term that did not exist when the corpus was sealed. Sealed custody can only answer the attempts
+recorded in it; an unsealed attempt fails, and a failed mandatory source aborts the run. This is
+the M15L lesson arriving from a new direction: **a change to the planner or the extractor makes a
+sealed corpus unreplayable by design.** Isolated-delta replay is valid for changes downstream of
+acquisition (every human-PoC milestone in this log) and invalid for changes upstream of it.
+
+**Consequence:** the fragmentation fix cannot be validated against sealed custody at all. It
+needs a fresh live acquisition into a new corpus — which is a network action requiring explicit
+authorization, and is therefore not taken here. The code, its lexicon and its ten tests remain
+committed and green; only the corpus-level claim is outstanding.
+
+The preregistration's adoption bar is untouched and still stands for that future run.
