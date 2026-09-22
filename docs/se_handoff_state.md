@@ -716,3 +716,11 @@ a fresh live acquisition with only this fix active.
 **Evaluation rule, binding:** downstream-of-acquisition changes may use sealed replay; changes
 that alter extracted names require fresh acquisition. Extraction-only re-scoring is a sanity
 check, not an acceptance test.
+
+**ADOPTED 2026-09-22** on two same-day live acquisitions (`frag_control` at the pre-fix parent vs
+`frag_live2`), both 0-divergent. 48 ontology-backed two-token molecules formed, 22 orphan payload
+tokens gone, human_poc 36 -> 41 with `Vicleucel` -> `Idecabtagene Vicleucel` proving evidence
+follows the canonical asset, and the top-10 went from 7 name-halves to 1 (independently
+supported). Two residual fragments (`tesirine`, `ozogamicin`) each come from one malformed source
+string and are documented in the acceptance log. Next: ordinary-word minting, separate
+preregistration and separate acquisition.
