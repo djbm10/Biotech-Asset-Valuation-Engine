@@ -66,11 +66,11 @@ class TestRealMoleculesSurviveWithoutTheOntology:
     def test_a_drug_the_ontology_lacks_qualifies_on_pharmacologic_context(self, name) -> None:
         text = f"Patients were treated with {name} for 12 weeks."
         assert has_pharmacologic_context(text, name)
-        assert qualifies_as_asset(AssetEvidence(name=name, support=1, pharmacologic_context=True))
+        assert qualifies_as_asset(AssetEvidence(name=name, support=1, pharmacologic_context=True, pharmacologic_documents=2))
 
     @pytest.mark.parametrize("name", ONTOLOGY_MISSING_DRUGS)
     def test_it_reaches_the_default_path(self, name) -> None:
-        disposition = classify_mention_support(name, support=1, pharmacologic_context=True)
+        disposition = classify_mention_support(name, support=1, pharmacologic_context=True, pharmacologic_documents=2)
         assert disposition is not MentionDisposition.LOW_SUPPORT_UNKNOWN
 
     @pytest.mark.parametrize(
@@ -153,7 +153,7 @@ class TestTheExistingRoutesStillHold:
             is MentionDisposition.LOW_SUPPORT_UNKNOWN
         )
         assert (
-            classify_mention_support("furthermore", support=1, pharmacologic_context=True)
+            classify_mention_support("furthermore", support=1, pharmacologic_context=True, pharmacologic_documents=2)
             is not MentionDisposition.LOW_SUPPORT_UNKNOWN
         )
 
@@ -183,7 +183,7 @@ class TestAWordCanOccupyADrugsSlotByAccident:
             AssetEvidence(
                 name=name,
                 document_frequency=3000,
-                pharmacologic_context=True,
+                pharmacologic_context=True, pharmacologic_documents=2,
                 corpus_documents=15032,
             )
         )
@@ -194,7 +194,7 @@ class TestAWordCanOccupyADrugsSlotByAccident:
             AssetEvidence(
                 name=name,
                 document_frequency=4,
-                pharmacologic_context=True,
+                pharmacologic_context=True, pharmacologic_documents=2,
                 corpus_documents=15032,
             )
         )
@@ -215,7 +215,7 @@ class TestAWordCanOccupyADrugsSlotByAccident:
         # ceiling of zero, which would silently reject every unknown name.
         assert qualifies_as_asset(
             AssetEvidence(
-                name="benzhexol", document_frequency=9999, pharmacologic_context=True
+                name="benzhexol", document_frequency=9999, pharmacologic_context=True, pharmacologic_documents=2
             )
         )
 
@@ -235,7 +235,7 @@ class TestTheCorpusStandsInForADictionary:
             name="before",
             support=2,
             document_frequency=6000,
-            pharmacologic_context=True,
+            pharmacologic_context=True, pharmacologic_documents=2,
             corpus_documents=15032,
         )
         assert not qualifies_as_asset(common)
@@ -245,7 +245,7 @@ class TestTheCorpusStandsInForADictionary:
             AssetEvidence(
                 name="CD19/BCMA dual CAR-T",
                 document_frequency=9999,
-                pharmacologic_context=True,
+                pharmacologic_context=True, pharmacologic_documents=2,
                 corpus_documents=15032,
             )
         )

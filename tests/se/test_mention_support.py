@@ -67,7 +67,7 @@ class TestSupportedUnknownsTakeTheNormalPath:
     def test_five_documents_is_enough_once_the_name_is_qualified(self) -> None:
         assert (
             classify_mention_support(
-                "benzhexol", support=5, drug_shaped=False, pharmacologic_context=True
+                "benzhexol", support=5, drug_shaped=False, pharmacologic_context=True, pharmacologic_documents=2
             )
             is MentionDisposition.SUPPORTED_UNKNOWN
         )
@@ -75,7 +75,7 @@ class TestSupportedUnknownsTakeTheNormalPath:
     def test_two_documents_is_enough_when_drug_shaped_and_qualified(self) -> None:
         assert (
             classify_mention_support(
-                "butylphthalide", support=2, drug_shaped=True, pharmacologic_context=True
+                "butylphthalide", support=2, drug_shaped=True, pharmacologic_context=True, pharmacologic_documents=2
             )
             is MentionDisposition.SUPPORTED_UNKNOWN
         )

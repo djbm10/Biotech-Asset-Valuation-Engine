@@ -40,6 +40,7 @@ _LEXICON = pathlib.Path(__file__).resolve().parents[1] / "lexicon"
 MODEL_PATH = _LEXICON / "drug_name_shape_v1.json"
 KNOWN_NAMES_PATH = _LEXICON / "known_drug_names_v1.json"
 MULTI_TOKEN_NAMES_PATH = _LEXICON / "multi_token_drug_names_v1.json"
+IDENTITY_BEARING_NAMES_PATH = _LEXICON / "identity_bearing_drug_names_v1.json"
 
 #: Below this length a token carries too few n-grams for the model to say anything, and the
 #: short-token space is where ordinary words and gene symbols live. Declared with the model.
@@ -97,6 +98,35 @@ def is_known_drug_name(value: str) -> bool:
     """
 
     return value.strip().casefold() in known_drug_names()
+
+
+@functools.lru_cache(maxsize=1)
+def identity_bearing_drug_names() -> frozenset[str]:
+    """Names by which the ontology says a molecule *is* known, excluding what it is sold as.
+
+    Built by ``scripts/build_identity_bearing_drug_names.py`` from ``CANONICAL_SYMBOL``,
+    ``APPROVED_NAME``, ``SYNONYM`` and ``DEVELOPMENT_CODE``, never ``TRADE_NAME``.
+    """
+
+    return frozenset(json.loads(IDENTITY_BEARING_NAMES_PATH.read_text())["names"])
+
+
+def is_identity_bearing_drug_name(value: str) -> bool:
+    """Whether the ontology holds this string as an identity, not as a brand.
+
+    The distinction ``is_known_drug_name`` cannot make, and the reason it must be made
+    here: the ontology carries ordinary English as trade names. ``frontline`` is a record --
+    of FIPRONIL, a veterinary insecticide -- as are ``choice`` (WARFARIN) and ``discase``
+    (CHYMOPAPAIN). Measured over 40 ordinary words, ``TRADE_NAME`` is the only alias type
+    that admits any of them.
+
+    This loses no real brand. ``Keytruda`` still nominates a mention and still resolves to
+    PEMBROLIZUMAB, which qualifies on its own use context -- administration frames, where
+    ``frontline``'s occurrences are attributive. Qualification is about the molecule, and a
+    trade name is a way of referring to one, not a separate one.
+    """
+
+    return value.strip().casefold() in identity_bearing_drug_names()
 
 
 @functools.lru_cache(maxsize=1)

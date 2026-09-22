@@ -13,6 +13,7 @@ from bve.se.discovery.asset_qualification import (
     AssetEvidence,
     document_frequencies,
     has_pharmacologic_context,
+    is_abbreviation_gloss,
     qualifies_as_asset,
 )
 from bve.se.discovery.adapters import UnavailableSourceAdapter
@@ -435,6 +436,12 @@ def run_landscape_search(
     #: Whether a document ever used this asset's name the way documents use the name of a
     #: drug. Read in the same pass as the efficacy prose so the corpus is traversed once.
     pharmacologic_context: dict[str, bool] = {}
+    #: Distinct documents witnessing that use, the gloss construction, and any mention at
+    #: all. The last two are counted together because "every occurrence is a gloss" is the
+    #: only form the gloss veto may take -- one ordinary use makes the name a name.
+    pharmacologic_documents: dict[str, int] = {}
+    gloss_documents: dict[str, int] = {}
+    mentioning_documents: dict[str, int] = {}
     with telemetry.stage("HUMAN_POC") as stage:
         supported = 0
         qualified_assets = 0
@@ -448,6 +455,7 @@ def run_landscape_search(
                 name=asset.canonical_name,
                 support=_support(asset),
                 structurally_typed_drug=asset.structurally_typed_drug,
+                comparator_role=asset.comparator_role,
                 corpus_documents=corpus_documents,
                 document_frequency=_document_frequency(asset),
                 identity_authority=asset_id in described_constructs,
@@ -468,15 +476,41 @@ def run_landscape_search(
                         f"human_poc:{document.document_id}: {type(exc).__name__}: {exc}"
                     )
                     continue
-                if not pharmacologic_context.get(asset_id, False) and any(
-                    has_pharmacologic_context(text, name) for name in names
-                ):
-                    pharmacologic_context[asset_id] = True
-                    qualified = qualifies_as_asset(
-                        evidence_so_far.model_copy(
-                            update={"pharmacologic_context": True}
-                        )
+                # Counted, not latched. One document used to be enough, and one document is
+                # an accident: the corpus contains exactly one "treated with bsAbs", which
+                # would qualify a class abbreviation on a single author's shorthand. The
+                # count is of independent witnesses to one relation and is never traded
+                # against support, frequency or shape.
+                if any(has_pharmacologic_context(text, name) for name in names):
+                    pharmacologic_documents[asset_id] = (
+                        pharmacologic_documents.get(asset_id, 0) + 1
                     )
+                    pharmacologic_context[asset_id] = True
+                # A name that only ever appears expanding the phrase in front of it is an
+                # abbreviation of that phrase. Tracked per document because a single
+                # non-gloss use is enough to make it a name: "(POD24)" is a gloss in all 23
+                # of its occurrences, while a development code beside its own molecule is
+                # never one.
+                if any(is_abbreviation_gloss(text, name) for name in names):
+                    gloss_documents[asset_id] = gloss_documents.get(asset_id, 0) + 1
+                mentioning_documents[asset_id] = mentioning_documents.get(asset_id, 0) + 1
+                qualified = qualifies_as_asset(
+                    evidence_so_far.model_copy(
+                        update={
+                            "pharmacologic_context": pharmacologic_context.get(
+                                asset_id, False
+                            ),
+                            "pharmacologic_documents": pharmacologic_documents.get(
+                                asset_id, 0
+                            ),
+                            "only_abbreviation_gloss": (
+                                gloss_documents.get(asset_id, 0) > 0
+                                and gloss_documents.get(asset_id, 0)
+                                == mentioning_documents.get(asset_id, 0)
+                            ),
+                        }
+                    )
+                )
                 # The evidence policy gates the *fact*, and nothing else.
                 #
                 # It used to sit above, as a ``continue`` next to the registry-record skip,
@@ -569,7 +603,9 @@ def run_landscape_search(
             document_frequency=_document_frequency(asset),
             identity_authority=asset.asset_id in described_constructs,
             structurally_typed_drug=asset.structurally_typed_drug,
+            comparator_role=asset.comparator_role,
             pharmacologic_context=pharmacologic_context.get(asset.asset_id, False),
+            pharmacologic_documents=pharmacologic_documents.get(asset.asset_id, 0),
         )
         for asset in candidates
     }

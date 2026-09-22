@@ -612,6 +612,33 @@ def _intervention_types(protocol: dict[str, Any]) -> dict[str, str]:
     return types
 
 
+#: Arm-group types in which an intervention is present *as the control*. An active
+#: comparator is excluded: a marketed drug used as the control arm is still that drug.
+_COMPARATOR_ARM_TYPES = frozenset({"PLACEBO_COMPARATOR", "SHAM_COMPARATOR"})
+
+
+def _comparator_roles(protocol: dict[str, Any]) -> set[str]:
+    """Interventions the sponsor declares *only* inside a placebo or sham control arm.
+
+    The source's own role typing, read from the same structured module as the intervention
+    type. Restricting it to interventions with no other declared arm is what keeps a real
+    molecule co-administered in the control arm from being role-typed as the control.
+    """
+
+    module = protocol.get("armsInterventionsModule", {})
+    comparator: set[str] = set()
+    elsewhere: set[str] = set()
+    for arm in module.get("armGroups", []) or []:
+        declared = str(arm.get("type") or "").strip().upper()
+        names = {
+            _normalized_lookup(str(name))
+            for name in (arm.get("interventionNames") or [])
+            if str(name).strip()
+        }
+        (comparator if declared in _COMPARATOR_ARM_TYPES else elsewhere).update(names)
+    return comparator - elsewhere
+
+
 def _candidate_interventions(
     protocol: dict[str, Any],
     vocabulary: QueryVocabulary,
@@ -1002,6 +1029,7 @@ class ClinicalTrialsGovAdapter:
             # this field's say-so.
             aliases_by_intervention = _intervention_aliases(protocol)
             types_by_intervention = _intervention_types(protocol)
+            comparator_interventions = _comparator_roles(protocol)
             interventions = _candidate_interventions(protocol, vocabulary, serialized)
             if not interventions:
                 fallback_name = identification.get("briefTitle") or nct_id or "unnamed program"
@@ -1035,6 +1063,8 @@ class ClinicalTrialsGovAdapter:
                         intervention_type=types_by_intervention.get(
                             _normalized_lookup(intervention)
                         ),
+                        comparator_role=_normalized_lookup(intervention)
+                        in comparator_interventions,
                         # CT.gov's ``otherNames`` is an identity claim -- an unreliable
                         # one, which is why it still has to clear corroboration and veto.
                         # Typing it is what makes the distinction explicit rather than

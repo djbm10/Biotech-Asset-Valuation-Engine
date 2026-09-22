@@ -250,6 +250,7 @@ class AssetRegistry:
                 mention_ids=[mention_id],
                 provisional=not bool(hit.trial_id),
                 structurally_typed_drug=typed_drug,
+                comparator_role=hit.comparator_role,
             )
         else:
             existing = existing.model_copy(
@@ -276,6 +277,9 @@ class AssetRegistry:
                     # Monotonic: a later untyped observation is weaker evidence, not a
                     # retraction of the typing already seen.
                     "structurally_typed_drug": existing.structurally_typed_drug or typed_drug,
+                    # Conjunctive where typing is disjunctive: the flag survives only
+                    # while every observation has been a control-arm one.
+                    "comparator_role": existing.comparator_role and hit.comparator_role,
                 }
             )
         existing = self._attribute_targets(existing)
@@ -562,6 +566,7 @@ class AssetRegistry:
             structurally_typed_drug=any(
                 record.structurally_typed_drug for record in records
             ),
+            comparator_role=all(record.comparator_role for record in records),
         )
         for asset_id in merge.source_asset_ids:
             self._deindex_asset(asset_id)

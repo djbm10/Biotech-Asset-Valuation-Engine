@@ -264,6 +264,11 @@ class CandidateHit(StrictModel):
     #: classification can consult declared product structure instead of guessing from
     #: punctuation in a name.
     intervention_type: str | None = None
+    #: The source declared this intervention only inside a placebo or sham control arm.
+    #: A role, not a type: it says what the string is doing in this trial, which is how
+    #: ``Placebo`` -- typed ``DRUG`` by sponsors, in 35 trials -- is kept from qualifying
+    #: as a therapeutic asset without naming it anywhere.
+    comparator_role: bool = False
     #: What kind of statement ``aliases`` is. Defaults to discovery, so a source family
     #: that does not declare an identity claim cannot produce one: new sources must opt
     #: in to identity, never inherit it. PubMed, for instance, puts the article title
@@ -344,6 +349,10 @@ class CanonicalAsset(StrictModel):
     #: and carries no weight in identity, alias or target attribution decisions. Set only
     #: from structured typing, never from prose, and never unset once observed.
     structurally_typed_drug: bool = False
+    #: Every structured declaration of this asset put it in a control arm. Unlike
+    #: ``structurally_typed_drug`` this is *not* monotonic: one experimental declaration
+    #: clears it, because a molecule used as a control elsewhere is still a molecule.
+    comparator_role: bool = False
 
 
 class IdentityRelationship(str, Enum):

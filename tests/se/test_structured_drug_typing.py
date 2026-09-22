@@ -217,7 +217,7 @@ class TestExistingRoutingIsUnchanged:
         # word. See tests/se/test_asset_qualification.py.
         assert (
             classify_mention_support(
-                PLAIN_NAME, support=9, pharmacologic_context=True
+                PLAIN_NAME, support=9, pharmacologic_context=True, pharmacologic_documents=2
             )
             is MentionDisposition.SUPPORTED_UNKNOWN
         )

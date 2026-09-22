@@ -41,8 +41,17 @@ from bve.se.discovery import drug_name_shape
 #: within a single token, optionally hyphenated: ``CCS1477``, ``SB-773812``, ``MK-3475A``.
 #: The old test -- a digit anywhere in the string -- protected every statistic printed next
 #: to a number, which is how a quartile range became an asset.
+#:
+#: A space is a separator too -- ``AMG 420`` is the same naming convention as ``SB-773812``,
+#: written by a sponsor that does not hyphenate -- but it is admitted on stricter terms,
+#: because with a space the string is two tokens and looks exactly like a statistic beside
+#: its value. ``IQR 72`` is three letters and a number, as is ``AMG 420``; what separates
+#: them is that a serial number is not quoted to two digits. Declared before measurement,
+#: and the reason it is not simply "allow a space" is the regression the narrow form exists
+#: to prevent, which is kept as a test.
 _DEVELOPMENT_CODE = re.compile(
     r"^[A-Za-z]{1,6}-?\d{2,6}[A-Za-z]?(?:-[A-Za-z0-9]{1,6})?$"
+    r"|^[A-Za-z]{2,6} \d{3,6}[A-Za-z]?$"
 )
 
 #: How a document says, in prose, that a thing is a drug. Each is a syntactic relation
@@ -73,7 +82,11 @@ _CONTEXT_RIGHT = (
     r"{name}\s+(?:is|was|are|were)\s+(?:an?\s+)?(?:selective\s+|potent\s+|novel\s+)*"
     r"(?:inhibitor|antagonist|agonist|antibody|blocker|modulator|conjugate|prodrug)\b",
     r"{name}\s+(?:inhibitor|antagonist|agonist|antibody|blocker|modulator|conjugate)\b",
-    r"{name}\s+(?:monotherapy|therapy|treatment|infusion|injection|tablets?|capsules?)\b",
+    # "{name} therapy|treatment|injection|capsules" used to live here. It was the single
+    # source of every ordinary word that reached the shortlist -- "safer therapy",
+    # "cornerstone treatment", "frontline therapy" across 48 documents -- because it reads
+    # the name in modifier position, where English admits any adjective. Removed rather than
+    # patched: the construction is not evidence about the modifier, whatever fills it.
     r"{name}\s+was\s+(?:administered|given|dosed|initiated|infused)\b",
     r"{name}\s+\d+(?:\.\d+)?\s*(?:mg|mcg|µg|g|mg/kg|mg/m2|units?)\b",
     r"{name}-treated\b",
@@ -84,6 +97,45 @@ _CONTEXT_RIGHT = (
 #: not lend it the noun's authority: "the {name} antibody" describes {name}, while "the
 #: monoclonal antibody" describes nothing nominated.
 _CONTEXT_HEAD = (r"\b(?:the|a|an)\s+{name}\s+(?:antibody|inhibitor|conjugate|regimen)\b",)
+
+
+#: Nouns that name *care* rather than a molecule. A name immediately in front of one of these
+#: is modifying it, and modifier position is a slot English grants to any adjective: "safer
+#: therapy", "cornerstone treatment", "frontline chemotherapy" are the same construction as
+#: "pembrolizumab therapy" and carry none of its evidence.
+#:
+#: This is the principle ``_CONTEXT_HEAD`` above already states -- a qualifier in front of a
+#: noun does not borrow the noun's authority -- applied in the direction ``_CONTEXT_RIGHT``
+#: was reading it backwards. One pattern, ``{name} (therapy|treatment|...)``, was the sole
+#: source of every ordinary word that reached the shortlist.
+#:
+#: The veto is per-occurrence and deliberately blind to whether the name is real:
+#: "Pomalidomide capsules" earns nothing, and pomalidomide qualifies through "treatment with
+#: pomalidomide" instead. A rule that excused real drugs here would be a lexicon, not a rule.
+_MODIFIED_HEAD = re.compile(
+    r"\s+(?:mono)?(?:therapy|therapies|treatments?|chemotherapy|chemotherapies|regimens?"
+    r"|settings?|agents?|options?|approach(?:es)?|strateg(?:y|ies)|care|management"
+    r"|lines?|arms?|cohorts?|populations?|status|era"
+    # Dosage forms belong here for the same reason, even though "Pomalidomide capsules"
+    # really is a drug: the evidence is about the form, and "a safer injection" fills the
+    # slot identically. Pomalidomide qualifies through "treatment with pomalidomide".
+    r"|injections?|infusions?|tablets?|capsules?|solutions?)\b",
+    re.IGNORECASE,
+)
+
+#: A parenthetical whose letters spell the words before it is an abbreviation of that phrase,
+#: not a name of its own. This is one rule for two failures that looked unrelated:
+#: "bispecific antibodies (bsAbs)" mints a class term, and "progression of disease within 24
+#: months (POD24)" mints an outcome category through the development-code route.
+#:
+#: It must not catch a code in apposition to its own molecule -- "Inobrodib (CCS1477)" and
+#: "etentamig (ABBV-383)" are synonyms, and their letters spell nothing. That asymmetry is
+#: what makes the test mechanical rather than a judgement about which strings look like
+#: outcomes, and it matters because measurement showed AMG 420 and CCS1477 have no
+#: pharmacologic use evidence at all: the code route cannot be made conditional on use
+#: without deleting them.
+_GLOSS = re.compile(r"([^()]*?)\(\s*{name}\s*[,)\]]", re.IGNORECASE)
+_WORD = re.compile(r"[A-Za-z]+|\d+")
 
 
 _TOKEN = re.compile(r"[a-z0-9][a-z0-9-]*")
@@ -113,6 +165,13 @@ def document_frequencies(texts) -> dict[str, int]:
 #: it. Declared before measurement. A name that exceeds it is routed to review, not deleted.
 MAX_DOCUMENT_FRACTION = 0.05
 
+#: Independent documents that must witness pharmacologic use before prose alone qualifies a
+#: name. Two, because one is an accident: the live corpus contains exactly one "treated with
+#: bsAbs", and a class abbreviation should not become an asset on the strength of a single
+#: author's shorthand. Declared before measurement and not to be traded against anything --
+#: this is a count of witnesses to one relation, not the frequency rule it replaced.
+MIN_PHARMACOLOGIC_DOCUMENTS = 2
+
 
 class AssetEvidence(BaseModel):
     """Everything known about a nominated name that bears on whether it is an asset."""
@@ -124,6 +183,19 @@ class AssetEvidence(BaseModel):
     structurally_typed_drug: bool = False
     #: A document used the name the way documents use drug names. See the module docstring.
     pharmacologic_context: bool = False
+    #: How many *distinct* documents did so. Corroboration, not frequency: the count is of
+    #: independent witnesses to one relation, and it is never traded against anything. One
+    #: unlucky sentence -- "treated with bsAbs" exists exactly once in the live corpus --
+    #: must not qualify a class abbreviation.
+    pharmacologic_documents: int = 0
+    #: A structured source declared this the *comparator*. A registry genuinely does type
+    #: placebo as a DRUG intervention, so the structured route is true and the conclusion is
+    #: still wrong: a control arm is information about a trial, not a therapeutic asset.
+    comparator_role: bool = False
+    #: Every occurrence of the name is a parenthetical abbreviation of the phrase before it.
+    #: Applied to the routes that need no corpus evidence, because those are exactly the
+    #: routes a gloss can otherwise walk through: "(POD24)" has the shape of a sponsor code.
+    only_abbreviation_gloss: bool = False
     #: Another identity-bearing authority vouched for the name.
     identity_authority: bool = False
     #: Documents in the run. Zero disables the saturation ceiling, which is what a caller
@@ -164,9 +236,106 @@ def has_pharmacologic_context(text: str, name: str) -> bool:
 
     if not name.strip():
         return False
-    return any(
-        re.search(pattern, text, re.IGNORECASE) for pattern in _patterns(name)
-    )
+    for pattern in _patterns(name):
+        for match in re.finditer(pattern, text, re.IGNORECASE):
+            if not _is_modifier_occurrence(text, name, match):
+                return True
+    return False
+
+
+def _is_modifier_occurrence(text: str, name: str, match: re.Match[str]) -> bool:
+    """Whether this occurrence has the name modifying a head noun that follows it.
+
+    Located from the end of the *name* rather than the end of the match, because the leaking
+    patterns come in both directions: "safer therapy" ends at the head noun, while "treated
+    with frontline chemotherapy" matches only as far as "frontline" and leaves the head noun
+    outside the match entirely.
+    """
+
+    occurrence = re.search(re.escape(name.strip()), match.group(0), re.IGNORECASE)
+    if occurrence is None:
+        return False
+    return _MODIFIED_HEAD.match(text, match.start() + occurrence.end()) is not None
+
+
+def is_abbreviation_gloss(text: str, name: str) -> bool:
+    """Whether ``text`` introduces ``name`` as a parenthetical abbreviation of the phrase
+    immediately before it.
+
+    Compares the name's letters against the initials of the preceding words, and its digits
+    against a number in that phrase, so "progression of disease within 24 months (POD24)"
+    is recognised and "Inobrodib (CCS1477)" is not.
+    """
+
+    cleaned = " ".join(name.split())
+    if not cleaned:
+        return False
+    for match in re.finditer(
+        _GLOSS.pattern.replace("{name}", re.escape(cleaned)), text, re.IGNORECASE
+    ):
+        if _initials_spell(match.group(1), cleaned):
+            return True
+    return False
+
+
+def _initials_spell(phrase: str, name: str) -> bool:
+    """Whether the words of ``phrase`` begin with the letters of ``name``, in order.
+
+    Function words are skipped when they do not help, because an expansion writes "of" and
+    "within" into the phrase and not into the abbreviation. Digits must appear in the phrase
+    as a number; "POD24" needs a 24 in front of it, which is what separates an outcome
+    definition from a sponsor's code.
+    """
+
+    letters = "".join(character for character in name if character.isalpha()).lower()
+    digits = "".join(character for character in name if character.isdigit())
+    words = _WORD.findall(phrase)
+    if not letters or not words:
+        return False
+    if digits and digits not in words:
+        return False
+    alphabetic = [word.lower() for word in words if word.isalpha()]
+    # The expansion need not sit flush against the parenthesis: "progression of disease
+    # within 24 months (POD24)" spells POD in its first three words and then qualifies
+    # itself for four more. So every starting word is tried, and the match may end before
+    # the phrase does.
+    return any(_spells(alphabetic[start:], letters) for start in range(len(alphabetic)))
+
+
+def _spells(words: list[str], letters: str) -> bool:
+    """Whether ``words`` in order account for every letter of ``letters``.
+
+    A word may supply more than one letter, because expansions are not always initialisms:
+    "bispecific antibodies" gives "bsAbs", where *bispecific* supplies ``bs`` and
+    *antibodies* supplies ``abs``. Each word's letters must appear in it in order and start
+    at its first character, which is what keeps "Inobrodib" from spelling "CCS1477".
+    """
+
+    if not letters:
+        return True
+    if not words:
+        return False
+    word, rest = words[0], words[1:]
+    for take in range(1, len(letters) + 1):
+        if not _is_ordered_prefix(word, letters[:take]):
+            break
+        if _spells(rest, letters[take:]):
+            return True
+    return False
+
+
+def _is_ordered_prefix(word: str, letters: str) -> bool:
+    """Whether ``letters`` occur in ``word`` in order, beginning at its first character."""
+
+    if not word.startswith(letters[:1]):
+        return False
+    position = 0
+    for letter in letters:
+        position = word.find(letter, position)
+        if position < 0:
+            return False
+        position += 1
+    return True
 
 
 def qualifies_as_asset(evidence: AssetEvidence) -> bool:
@@ -180,10 +349,13 @@ def qualifies_as_asset(evidence: AssetEvidence) -> bool:
     name = evidence.name.strip()
     if not name:
         return False
-    if (
-        drug_name_shape.is_known_drug_name(name.casefold())
+    # A name that only ever appears expanding the phrase in front of it is an abbreviation,
+    # and no authority-free route may carry it: the shape of "POD24" is the shape of a
+    # sponsor code, and the ontology holds class terms.
+    if not evidence.only_abbreviation_gloss and (
+        drug_name_shape.is_identity_bearing_drug_name(name.casefold())
         or is_development_code(name)
-        or evidence.structurally_typed_drug
+        or (evidence.structurally_typed_drug and not evidence.comparator_role)
         or evidence.identity_authority
     ):
         return True
@@ -191,8 +363,16 @@ def qualifies_as_asset(evidence: AssetEvidence) -> bool:
     # "received before" and "although antibody" are ordinary sentences in which an ordinary
     # word fills the slot a drug name would fill. No pattern can tell those apart from
     # "received benzhexol" by looking at the sentence, because the sentences are identical
-    # in shape. What separates them is how much of the corpus the token appears in.
-    return evidence.pharmacologic_context and not _saturates_corpus(evidence)
+    # in shape. What separates them is the name's grammatical position -- the modifier veto
+    # in ``has_pharmacologic_context`` -- and then corroboration across documents.
+    #
+    # The corpus ceiling stays, but it can no longer be the main guard, and the measurement
+    # that shows why is worth keeping: over the live corpus `gemcitabine` occurs in 30
+    # documents against `cornerstone`'s 34, `safer`'s 39 and `bsAbs`'s 48. Any ceiling low
+    # enough to veto the junk deletes real drugs, so it is left where it was and vetoes only
+    # the function words it always caught.
+    witnessed = max(evidence.pharmacologic_documents, int(evidence.pharmacologic_context))
+    return witnessed >= MIN_PHARMACOLOGIC_DOCUMENTS and not _saturates_corpus(evidence)
 
 
 def _saturates_corpus(evidence: AssetEvidence) -> bool:
