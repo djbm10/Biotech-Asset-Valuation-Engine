@@ -1467,4 +1467,17 @@ needs a fresh live acquisition into a new corpus — which is a network action r
 authorization, and is therefore not taken here. The code, its lexicon and its ten tests remain
 committed and green; only the corpus-level claim is outstanding.
 
-The preregistration's adoption bar is untouched and still stands for that future run.
+**Status: `IMPLEMENTED_PENDING_LIVE_VALIDATION` — not adopted.** The code, lexicon and ten tests
+are merged and green; the corpus-level claim is open. The preregistration's adoption bar in §4 is
+untouched and stands for the fresh live run.
+
+**Evaluation rule established by this failure, and binding from here on:**
+
+> Changes downstream of acquisition may be validated by sealed replay. Changes that alter
+> extracted names — and therefore query expansion — require a **fresh live acquisition**.
+> Extraction-only re-scoring is a sanity check, never an acceptance test: it cannot see the
+> discovery consequences, which for this class of change are the point.
+
+One corollary, decided now: fragmentation and the ordinary-word-minting milestone get **separate**
+fresh acquisitions. Both are upstream of discovery, so validating them on one corpus would leave
+any gain or loss unattributable between them.

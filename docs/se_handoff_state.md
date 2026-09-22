@@ -700,3 +700,19 @@ Standing cautions for whoever picks this up:
   PR06's `CTL019` result never attaches. Loosening it risks letting combination-regimen outcomes
   leak to components, which is precisely the failure the rule was written to prevent. Preregister
   with combination-trial negative controls before touching it.
+
+## Multi-token drug-name identity — IMPLEMENTED_PENDING_LIVE_VALIDATION 2026-09-21
+
+`belantamab mafodotin` was two assets. The extractor matches one token at a time, so a two-word
+INN could not survive it. Fixed by a longest-match against the frozen ontology, per occurrence:
+if two adjacent candidate spans join into a string the ontology holds as a single `DRUG`, the
+pair is one mention and neither fragment is emitted *there*. No token is banned globally.
+
+**Not adopted.** The sealed-corpus replay was unscoreable: the merged name
+`Axicabtagene Ciloleucel` is a query that did not exist when the corpus was sealed, so
+`clinicaltrials_gov` and `pubmed` each failed 3 attempts and acquisition aborted mid-run. Awaiting
+a fresh live acquisition with only this fix active.
+
+**Evaluation rule, binding:** downstream-of-acquisition changes may use sealed replay; changes
+that alter extracted names require fresh acquisition. Extraction-only re-scoring is a sanity
+check, not an acceptance test.
