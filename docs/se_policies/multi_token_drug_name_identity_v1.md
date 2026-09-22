@@ -146,3 +146,35 @@ also refuses things for reasons nobody enumerated, and a change that routes arou
 inherits all of them at once. Both amendments were caught by controls declared in advance.
 
 With both in place, all eight controls in §3 behave exactly as §3 declares.
+
+### 6c. The separator is Unicode whitespace, not the ASCII space (a correctness fix)
+
+Written **before** the fix and before its measurement, after the first fix-on live run
+(`frag_live`) exposed the defect. This is neither a widening nor a narrowing of the rule in §2:
+the rule always said "separated by a single space". It is a correction to an implementation that
+understood only one of the characters that are one.
+
+Four fragments — `vicleucel`, `tesirine`, `ozogamicin`, `ciloleucel` — survived the run as assets
+with **zero** standalone occurrences in the corpus, which §4's bar forbids. One root cause, two
+faces, both reproduced minimally:
+
+- `loncastuximab tesirine` — a publisher's **non-breaking space** — does not join, while
+  `loncastuximab tesirine` does. Publisher formatting alone recreates the exact fragmentation
+  this milestone exists to remove.
+- `extract_observed_asset_names(title, abstract)` joins the texts with `\n`. `_word_before` then
+  splits on `" "` only, so the preceding "word" of an abstract-initial name is
+  `"manufacturing\nIdecabtagene"`, the leftmost match wins, the pair is nonsense, and the join
+  declines. **Each text alone merges correctly; passing both mints the fragment.**
+
+Amended: the neighbour separator is exactly one character of Unicode whitespace **other than a
+newline**, matched as `[^\S\n]`. Newline stays excluded deliberately — it is the boundary between
+concatenated documents and fields, and joining the last word of a title to the first of an
+abstract would be a false merge of exactly the kind §2 forbids.
+
+Unchanged, and re-asserted: **no merge across a comma or any other punctuation.** One source
+prints `"Tafasitamab, loncastuximab, tesirine, polatuzumab"`, comma-separating a drug's own two
+halves into list items. Declining to merge there is the rule working, not a miss; merging on
+adjacency across punctuation is the failure mode §5 rules out.
+
+Adoption bar is unchanged. Fragments that are legitimately standalone must still survive:
+measured in `frag_live`, `belantamab` occurs alone 9 times, `loncastuximab` 11, `vedotin` 2.
