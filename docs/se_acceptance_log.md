@@ -1560,3 +1560,23 @@ are two junk assets becoming one, and belong to the word-minting milestone, not 
 **Adopted.** The next milestone is ordinary-word minting — `frontline`, `bsAbs`, `Placebo`,
 `cornerstone`, `safer`, `refine` now head the shortlist — with its own preregistration and its
 own fresh acquisition, kept separate from this one.
+
+---
+
+## 2026-09-22 — ordinary-word / non-asset minting: PREREGISTERED, not yet measured
+
+Policy: `docs/se_policies/asset_nomination_evidence_v1.md`
+SHA-256: `342dc2bc4dcfba43d7028a0312a31e43a901b13d70897b86a8096f3dbd6c8dd7`
+
+Committed **before** any code change and before any measurement. The hash is recorded here and in
+the commit message so the rule, controls and acceptance bar cannot be revised after seeing a run.
+
+The route audit is in §2 of the policy. Its three findings rule out every obvious fix: the
+ontology itself holds ordinary words (`frontline`, `choice`, `discase` are ChEMBL molecule names);
+the shape score cannot be thresholded (`bsAbs` 1.435 > `lestaurinib` 0.898); and structural
+corroboration cannot separate either (`gemcitabine` and `pomalidomide` are identical to
+`frontline`/`safer`/`cornerstone` on typed/trials/companies/provisional). `Placebo` is not prose
+at all — it is a structurally typed CT.gov DRUG intervention with 35 trials.
+
+Status: `PREREGISTERED`. Validation requires a fresh live acquisition plus a same-day fix-off
+control; sealed replay is inadmissible because the change is upstream of discovery.
