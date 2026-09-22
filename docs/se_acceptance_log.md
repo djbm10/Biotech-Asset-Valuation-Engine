@@ -1604,3 +1604,30 @@ A mechanism-of-action edge qualifies but is never necessary — `benzhexol`, `le
 `ibritumomab` have none and are absent from the ontology entirely.
 
 No qualifying route was added. Status remains `PREREGISTERED`.
+
+### Amendment 8b — NARROWING, before measurement (2026-09-22)
+
+Superseding SHA-256: `251e4b44008ab6f0742a5195440be29e9f0ecb446823f04f54cb47ae928e45cd`
+(supersedes `2b9c3ddd…`; both prior hashes remain recorded above.)
+
+Locating the route for each negative control found four holes, all in the already-wired
+`asset_qualification` module: TRADE_NAME ontology names (`frontline`, `choice`), the structured
+route (`Placebo`), development-code shape (`POD24`), and the prose route (everything else).
+
+The prose hole is a single pattern — `{name} (therapy|treatment|monotherapy|…)` — which mints
+`safer therapy`, `cornerstone treatment`, `refine treatment`, `bsAbs therapy`, `though treatment`
+and `frontline therapy` (48 documents). In all of them the name is a **modifier of a following head
+noun**, a slot English grants to any adjective. The module's own docstring already forbids this for
+`_CONTEXT_HEAD`; `_CONTEXT_RIGHT` broke the rule.
+
+The corpus frequency ceiling cannot back this up, measured: `gemcitabine` has df=30 against
+`cornerstone` 34, `safer` 39 and `bsAbs` 48. Any ceiling low enough to veto the junk deletes real
+drugs, so `MAX_DOCUMENT_FRACTION` is **not** tuned. Fifth disproved fix, after ontology identity,
+shape score, structured declaration and structural corroboration.
+
+Prose now qualifies only in argument position, and the modifier veto applies to real drugs too —
+`Pomalidomide capsules` earns nothing, the molecule qualifying instead via `treatment with
+pomalidomide`. Prediction recorded before measuring: `bsAbs` should fail on the two-document
+requirement, not the position rule; if it survives, the two-document rule is not being applied.
+
+No qualifying route added. Status remains `PREREGISTERED`.

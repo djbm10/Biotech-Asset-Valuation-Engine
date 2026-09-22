@@ -264,3 +264,66 @@ adds no new qualifying route.
 The v1 hash `342dc2bc4dcfba43d7028a0312a31e43a901b13d70897b86a8096f3dbd6c8dd7` covers the text as
 first committed (`8e5e105`). This amendment supersedes §3 item 3; the superseding hash is recorded
 in the commit that adds this section, and both remain in the log.
+
+### 8b — NARROWING: prose qualifies only in argument position (2026-09-22)
+
+§3 item 5 named "administration or coordination context" but delegated the detail to the existing
+`has_pharmacologic_context` patterns. Measuring which pattern actually fires for each negative
+control shows the patterns are the defect, so the rule is made explicit here before any change.
+
+**A single pattern mints all of the prose-route junk:**
+
+```
+{name}\s+(?:monotherapy|therapy|treatment|infusion|injection|tablets?|capsules?)
+```
+
+`safer therapy` (3 docs), `cornerstone treatment` (1), `refine treatment` (4), `bsAbs therapy` (3),
+`though treatment` (2), `frontline therapy` (**48**). The left-hand patterns leak identically:
+`treated with frontline` and `receiving frontline` are `treated with frontline chemotherapy` — the
+object of the preposition is the phrase, whose head is `chemotherapy`, not `frontline`.
+
+In every one of these the name is a **modifier of a following head noun**, a slot English grants to
+any adjective. `asset_qualification`'s own docstring already states this principle for
+`_CONTEXT_HEAD` — "read only when the name is the *head* of the phrase, so a qualifier in front of
+it does not lend it the noun's authority" — and `_CONTEXT_RIGHT` breaks it.
+
+**The corpus frequency ceiling cannot be the backstop, and this is why the rule must be syntactic.**
+Measured over the 5,629-document corpus (ceiling = 5% = 281 documents):
+
+| junk | df | real | df |
+|---|---|---|---|
+| `bsAbs` | 48 | **`gemcitabine`** | **30** |
+| `safer` | 39 | `pomalidomide` | 58 |
+| `cornerstone` | 34 | `busulfan` | 59 |
+| `refine` | 29 | `teclistamab` | 94 |
+
+`gemcitabine` is **rarer than `cornerstone`**. `MAX_DOCUMENT_FRACTION` catches only the very
+commonest words (`total` 1557, `months` 2283, `safety` 2493, `novel` 701, `although` 499) and
+nothing in the mid-frequency band where both the junk and the real drugs live. Any ceiling low
+enough to veto `cornerstone` deletes `gemcitabine`. **The ceiling is not raised or tuned.** This is
+the fifth candidate fix the audit has disproved, after ontology identity, shape score, structured
+declaration and structural corroboration.
+
+§3 item 5 is replaced by:
+
+> **5. Pharmacologic use, counted only in argument position.** An occurrence qualifies when the
+> name fills a slot only a noun can fill: object of an administration verb or preposition
+> (`treated with X`, `received X`, `doses of X`), subject of a pharmacologic predicate (`X is a
+> selective inhibitor`, `X was administered`), or bearing a dose (`X 1000 mg`).
+>
+> An occurrence in which the name **immediately precedes a pharmacologic head noun it modifies**
+> — `therapy`, `treatment`, `monotherapy`, `chemotherapy`, `regimen`, `setting`, `agent`, `option`,
+> `approach`, `strategy`, `care`, `line`, `arm`, `cohort` — is **modifier position and qualifies
+> nothing**, whatever precedes it. This veto is per-occurrence and applies to real drugs too:
+> `Pomalidomide capsules` and `Gemcitabine Injection` earn nothing, and those molecules qualify
+> instead through `treatment with pomalidomide` and `gemcitabine 1000mg`, which is the intended
+> behaviour rather than a concession.
+>
+> Qualification requires such an occurrence in **≥2 independent documents**, as already frozen.
+
+Predicted effect, recorded before measuring: `frontline`, `safer`, `cornerstone`, `refine`,
+`though` lose every qualifying occurrence; `bsAbs` retains one (`treated with bsAbs`, 1 document)
+and so fails the two-document requirement rather than the position rule. If `bsAbs` survives, the
+two-document rule is not being applied.
+
+This is a **narrowing**: it removes qualifying occurrences and adds none.
