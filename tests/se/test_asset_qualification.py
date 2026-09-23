@@ -66,11 +66,11 @@ class TestRealMoleculesSurviveWithoutTheOntology:
     def test_a_drug_the_ontology_lacks_qualifies_on_pharmacologic_context(self, name) -> None:
         text = f"Patients were treated with {name} for 12 weeks."
         assert has_pharmacologic_context(text, name)
-        assert qualifies_as_asset(AssetEvidence(name=name, support=1, pharmacologic_context=True, pharmacologic_documents=2))
+        assert qualifies_as_asset(AssetEvidence(name=name, support=1, pharmacologic_context=True, pharmacologic_documents=2, entity_specific_link=True))
 
     @pytest.mark.parametrize("name", ONTOLOGY_MISSING_DRUGS)
     def test_it_reaches_the_default_path(self, name) -> None:
-        disposition = classify_mention_support(name, support=1, pharmacologic_context=True, pharmacologic_documents=2)
+        disposition = classify_mention_support(name, support=1, pharmacologic_context=True, pharmacologic_documents=2, entity_specific_link=True)
         assert disposition is not MentionDisposition.LOW_SUPPORT_UNKNOWN
 
     @pytest.mark.parametrize(
@@ -113,9 +113,14 @@ class TestTheRuleIsNotAListOfTheObservedMistakes:
 
 class TestADevelopmentCodeIsAShapeNotADigit:
     @pytest.mark.parametrize("code", ["CCS1477", "ICG318", "SB-773812", "MK-3475A", "AZD0120"])
-    def test_a_development_code_qualifies_on_its_own(self, code) -> None:
+    def test_a_development_code_needs_an_authority_or_an_entity(self, code) -> None:
+        # v2: shape alone is no longer a route. It protected `POD24`, and widening it to
+        # reach `AMG 420` promoted `NEJM 2011` and `ASCO 2023`. Codes the ontology holds
+        # still pass on authority; the rest need something to link them to an entity.
         assert is_development_code(code)
-        assert qualifies_as_asset(AssetEvidence(name=code, support=1))
+        assert qualifies_as_asset(
+            AssetEvidence(name=code, support=1, entity_specific_link=True)
+        )
 
     @pytest.mark.parametrize("name", ["IQR 72", "PET 30", "week 12", "10 mg"])
     def test_a_number_next_to_a_word_is_not_a_development_code(self, name) -> None:
@@ -153,7 +158,7 @@ class TestTheExistingRoutesStillHold:
             is MentionDisposition.LOW_SUPPORT_UNKNOWN
         )
         assert (
-            classify_mention_support("furthermore", support=1, pharmacologic_context=True, pharmacologic_documents=2)
+            classify_mention_support("furthermore", support=1, pharmacologic_context=True, pharmacologic_documents=2, entity_specific_link=True)
             is not MentionDisposition.LOW_SUPPORT_UNKNOWN
         )
 
@@ -183,7 +188,7 @@ class TestAWordCanOccupyADrugsSlotByAccident:
             AssetEvidence(
                 name=name,
                 document_frequency=3000,
-                pharmacologic_context=True, pharmacologic_documents=2,
+                pharmacologic_context=True, pharmacologic_documents=2, entity_specific_link=True,
                 corpus_documents=15032,
             )
         )
@@ -194,7 +199,7 @@ class TestAWordCanOccupyADrugsSlotByAccident:
             AssetEvidence(
                 name=name,
                 document_frequency=4,
-                pharmacologic_context=True, pharmacologic_documents=2,
+                pharmacologic_context=True, pharmacologic_documents=2, entity_specific_link=True,
                 corpus_documents=15032,
             )
         )
@@ -215,7 +220,7 @@ class TestAWordCanOccupyADrugsSlotByAccident:
         # ceiling of zero, which would silently reject every unknown name.
         assert qualifies_as_asset(
             AssetEvidence(
-                name="benzhexol", document_frequency=9999, pharmacologic_context=True, pharmacologic_documents=2
+                name="benzhexol", document_frequency=9999, pharmacologic_context=True, pharmacologic_documents=2, entity_specific_link=True
             )
         )
 
@@ -235,7 +240,7 @@ class TestTheCorpusStandsInForADictionary:
             name="before",
             support=2,
             document_frequency=6000,
-            pharmacologic_context=True, pharmacologic_documents=2,
+            pharmacologic_context=True, pharmacologic_documents=2, entity_specific_link=True,
             corpus_documents=15032,
         )
         assert not qualifies_as_asset(common)
@@ -245,7 +250,7 @@ class TestTheCorpusStandsInForADictionary:
             AssetEvidence(
                 name="CD19/BCMA dual CAR-T",
                 document_frequency=9999,
-                pharmacologic_context=True, pharmacologic_documents=2,
+                pharmacologic_context=True, pharmacologic_documents=2, entity_specific_link=True,
                 corpus_documents=15032,
             )
         )

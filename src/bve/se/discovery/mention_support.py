@@ -27,8 +27,8 @@ import enum
 
 from bve.se.discovery import drug_name_shape
 from bve.se.discovery.asset_qualification import (
+    qualifies_by_authority,
     AssetEvidence,
-    is_development_code,
     qualifies_as_asset,
 )
 
@@ -57,22 +57,21 @@ class MentionDisposition(enum.Enum):
     LOW_SUPPORT_UNKNOWN = "low_support_unknown"
 
 
-def is_protected(name: str, *, structurally_typed_drug: bool = False) -> bool:
+def is_protected(evidence: AssetEvidence) -> bool:
     """True when evidence outside the corpus already vouches for this name.
 
-    ``structurally_typed_drug`` means a source declared, in a structured field of its own
-    schema, that this string names a drug --- a CT.gov intervention typed ``DRUG``. That is
-    the same kind of evidence an ontology entry is: it comes from outside the corpus and
-    does not get stronger by repetition, so one document is enough. It is deliberately not
-    inferable from prose, because a sentence calling something a drug is an extraction
-    judgement, and extraction is the thing this module exists to be sceptical of.
+    Delegates rather than deciding. This function used to carry its own, older definition
+    of "drug" -- the wide ``is_known_drug_name``, a bare development-code shape, and a raw
+    structured-typing flag -- and because it returned *before* ``qualifies_as_asset`` was
+    consulted, it silently bypassed every later identity fix for exactly the names those
+    fixes targeted: `frontline` (a trade name of a veterinary insecticide), `POD24` (an
+    outcome abbreviation) and `Placebo` (a comparator). Measured on a paired live run.
+
+    One qualification decision is the single source of truth. A name is protected because
+    ``qualifies_as_asset`` says so, and for no other reason.
     """
-    folded = name.casefold()
-    return (
-        structurally_typed_drug
-        or drug_name_shape.is_known_drug_name(folded)
-        or is_development_code(name)
-    )
+
+    return qualifies_as_asset(evidence)
 
 
 def classify_mention_support(
@@ -84,6 +83,7 @@ def classify_mention_support(
     pharmacologic_context: bool = False,
     pharmacologic_documents: int = 0,
     comparator_role: bool = False,
+    entity_specific_link: bool = False,
     only_abbreviation_gloss: bool = False,
     identity_authority: bool = False,
     corpus_documents: int = 0,
@@ -99,28 +99,29 @@ def classify_mention_support(
     default path and buys nothing further: it mints no alias, asserts no target, and leaves
     identity resolution and the assertion gate exactly where they were.
     """
-    if is_protected(name, structurally_typed_drug=structurally_typed_drug):
-        return MentionDisposition.PROTECTED
+    evidence = AssetEvidence(
+        name=name,
+        support=support,
+        structurally_typed_drug=structurally_typed_drug,
+        pharmacologic_context=pharmacologic_context,
+        pharmacologic_documents=pharmacologic_documents,
+        comparator_role=comparator_role,
+        entity_specific_link=entity_specific_link,
+        only_abbreviation_gloss=only_abbreviation_gloss,
+        identity_authority=identity_authority,
+        corpus_documents=corpus_documents,
+        document_frequency=document_frequency,
+    )
 
     # Frequency used to be a route of its own, and it selected for exactly the wrong
     # population: the commonest words are the most frequent tokens in any corpus, so a
     # support threshold promoted prepositions. An unknown name now needs positive asset
     # evidence, and support only decides how much corroboration that evidence needs.
-    if not qualifies_as_asset(
-        AssetEvidence(
-            name=name,
-            support=support,
-            structurally_typed_drug=structurally_typed_drug,
-            pharmacologic_context=pharmacologic_context,
-            pharmacologic_documents=pharmacologic_documents,
-            comparator_role=comparator_role,
-            only_abbreviation_gloss=only_abbreviation_gloss,
-            identity_authority=identity_authority,
-            corpus_documents=corpus_documents,
-            document_frequency=document_frequency,
-        )
-    ):
+    if not is_protected(evidence):
         return MentionDisposition.LOW_SUPPORT_UNKNOWN
+
+    if qualifies_by_authority(evidence):
+        return MentionDisposition.PROTECTED
 
     if support >= MIN_SUPPORT_UNKNOWN:
         return MentionDisposition.SUPPORTED_UNKNOWN
@@ -134,6 +135,6 @@ def classify_mention_support(
     # real nomination and is kept for review rather than promoted.
     return (
         MentionDisposition.SUPPORTED_UNKNOWN
-        if pharmacologic_context or identity_authority
+        if pharmacologic_context or identity_authority or entity_specific_link
         else MentionDisposition.LOW_SUPPORT_UNKNOWN
     )

@@ -207,9 +207,15 @@ class TestStructuredTypingDoesNotSpreadBeyondNomination:
 
 class TestExistingRoutingIsUnchanged:
     def test_untyped_routing_matches_m18(self) -> None:
+        # v2: a code shape the ontology does not know is a fallback, not a route. With no
+        # authority record and nothing linking it to an entity it is held for review.
         assert (
             classify_mention_support("AA-1001", support=1)
-            is MentionDisposition.PROTECTED
+            is MentionDisposition.LOW_SUPPORT_UNKNOWN
+        )
+        assert (
+            classify_mention_support("AA-1001", support=1, entity_specific_link=True)
+            is MentionDisposition.SUPPORTED_UNKNOWN
         )
         # Support is no longer a route of its own -- a name qualifies on positive asset
         # evidence and support then decides how much corroboration it needs. Nine
@@ -217,9 +223,21 @@ class TestExistingRoutingIsUnchanged:
         # word. See tests/se/test_asset_qualification.py.
         assert (
             classify_mention_support(
-                PLAIN_NAME, support=9, pharmacologic_context=True, pharmacologic_documents=2
+                PLAIN_NAME,
+                support=9,
+                pharmacologic_context=True,
+                pharmacologic_documents=2,
+                entity_specific_link=True,
             )
             is MentionDisposition.SUPPORTED_UNKNOWN
+        )
+        # v2: the same prose, with nothing tying the name to an entity, establishes a
+        # therapeutic term and not an asset. This is the `bsAbs` rule.
+        assert (
+            classify_mention_support(
+                PLAIN_NAME, support=9, pharmacologic_context=True, pharmacologic_documents=2
+            )
+            is MentionDisposition.LOW_SUPPORT_UNKNOWN
         )
         assert (
             classify_mention_support(PLAIN_NAME, support=9)

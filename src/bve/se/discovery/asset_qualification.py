@@ -51,7 +51,6 @@ from bve.se.discovery import drug_name_shape
 #: to prevent, which is kept as a test.
 _DEVELOPMENT_CODE = re.compile(
     r"^[A-Za-z]{1,6}-?\d{2,6}[A-Za-z]?(?:-[A-Za-z0-9]{1,6})?$"
-    r"|^[A-Za-z]{2,6} \d{3,6}[A-Za-z]?$"
 )
 
 #: How a document says, in prose, that a thing is a drug. Each is a syntactic relation
@@ -192,6 +191,11 @@ class AssetEvidence(BaseModel):
     #: placebo as a DRUG intervention, so the structured route is true and the conclusion is
     #: still wrong: a control arm is information about a trial, not a therapeutic asset.
     comparator_role: bool = False
+    #: An entity-specific link: a trial, an owner, or an attributed target for *this* name.
+    #: Deliberately excludes ``discovery_target_context`` and modality, which are
+    #: co-occurrence: measured on live data, ``bsAbs``, ``frontline``, ``cornerstone`` and
+    #: ``ASCO 2023`` all carry those and no entity link at all.
+    entity_specific_link: bool = False
     #: Every occurrence of the name is a parenthetical abbreviation of the phrase before it.
     #: Applied to the routes that need no corpus evidence, because those are exactly the
     #: routes a gloss can otherwise walk through: "(POD24)" has the shape of a sponsor code.
@@ -338,6 +342,25 @@ def _is_ordered_prefix(word: str, letters: str) -> bool:
     return True
 
 
+def qualifies_by_authority(evidence: AssetEvidence) -> bool:
+    """Evidence from outside the corpus that this string *is* a molecule.
+
+    It does not get stronger by repetition, so one observation is enough and no corpus
+    corroboration is required. Split out from ``qualifies_as_asset`` so routing can tell an
+    authority-grade name from one qualified by corroboration, without any caller getting to
+    keep its own idea of what an authority is.
+    """
+
+    name = evidence.name.strip()
+    if not name or evidence.only_abbreviation_gloss:
+        return False
+    return (
+        drug_name_shape.is_identity_bearing_drug_name(name)
+        or (evidence.structurally_typed_drug and not evidence.comparator_role)
+        or evidence.identity_authority
+    )
+
+
 def qualifies_as_asset(evidence: AssetEvidence) -> bool:
     """Whether this name may carry a decision.
 
@@ -350,21 +373,44 @@ def qualifies_as_asset(evidence: AssetEvidence) -> bool:
     if not name:
         return False
     # A name that only ever appears expanding the phrase in front of it is an abbreviation,
-    # and no authority-free route may carry it: the shape of "POD24" is the shape of a
-    # sponsor code, and the ontology holds class terms.
-    if not evidence.only_abbreviation_gloss and (
-        drug_name_shape.is_identity_bearing_drug_name(name.casefold())
-        or is_development_code(name)
-        or (evidence.structurally_typed_drug and not evidence.comparator_role)
-        or evidence.identity_authority
-    ):
+    # and no route may carry it.
+    if evidence.only_abbreviation_gloss:
+        return False
+
+    if qualifies_by_authority(evidence):
         return True
+
+    # Control material, and it does not become an asset by being well documented: every
+    # structured declaration of this name put it in a placebo or sham arm. The veto sits
+    # below the authority routes on purpose -- a real molecule used as a control is in the
+    # lexicon and has already returned -- and above the corroboration routes, because
+    # `Placebo` carries 35 trials and 30 owners and would otherwise qualify on those.
+    if evidence.comparator_role:
+        return False
+
+    # Everything below is a guess about a string, and a guess needs an entity. A class term
+    # has pharmacologic grammar and no entity: measured live, `bsAbs` occurs in argument
+    # position across independent documents -- correctly, since bispecific antibodies really
+    # are given to patients -- with no trial, no owner and no attributed target. Two
+    # documents saying "treated with bsAbs" establish a therapeutic *class*, not an asset.
+    if not evidence.entity_specific_link:
+        return False
+
+    # Code shape is now a fallback, never a route of its own. Standing alone it protected
+    # `POD24`, and widening it to catch `AMG 420`'s space separator promoted `NEJM 2011`,
+    # `ASCO 2023` and `WHO 2022`. Sponsor codes are recovered by authority instead, under a
+    # separator-insensitive lookup. Declared cost: a genuinely new code no authority knows
+    # and nothing links to an entity goes to review, not to deletion.
+    if is_development_code(name):
+        return True
+
     # Prose context is the weakest route and the only one a word can occupy by accident:
     # "received before" and "although antibody" are ordinary sentences in which an ordinary
     # word fills the slot a drug name would fill. No pattern can tell those apart from
     # "received benzhexol" by looking at the sentence, because the sentences are identical
     # in shape. What separates them is the name's grammatical position -- the modifier veto
-    # in ``has_pharmacologic_context`` -- and then corroboration across documents.
+    # in ``has_pharmacologic_context`` -- then corroboration across documents, and now an
+    # entity to attach to.
     #
     # The corpus ceiling stays, but it can no longer be the main guard, and the measurement
     # that shows why is worth keeping: over the live corpus `gemcitabine` occurs in 30

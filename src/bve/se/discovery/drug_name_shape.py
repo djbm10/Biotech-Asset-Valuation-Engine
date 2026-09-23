@@ -126,7 +126,24 @@ def is_identity_bearing_drug_name(value: str) -> bool:
     trade name is a way of referring to one, not a separate one.
     """
 
-    return value.strip().casefold() in identity_bearing_drug_names()
+    folded = " ".join(value.split()).casefold()
+    names = identity_bearing_drug_names()
+    # Separator-insensitive, because the separator is not part of the identity. Measured:
+    # ``amg 420`` is absent from the lexicon while ``amg-420`` and ``amg420`` are present,
+    # and ``allo-715`` is absent while ``allo 715`` is present -- the same record, written
+    # two ways by two authorities. Folding is safe here in a way a shape rule is not: no
+    # spelling of ASCO 2023, NEJM 2011, IQR 124, WHO 2022, PRISMA 2020, POD24 or bsAbs is
+    # in the drug lexicon, so this recovers sponsor codes without admitting citations.
+    return any(
+        variant in names
+        for variant in (
+            folded,
+            folded.replace(" ", ""),
+            folded.replace(" ", "-"),
+            folded.replace("-", " "),
+            folded.replace("-", ""),
+        )
+    )
 
 
 @functools.lru_cache(maxsize=1)

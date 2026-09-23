@@ -80,6 +80,14 @@ the source's own arm-group typing, never from a name list. The abbreviation-glos
 The modifier veto stands — it demoted `safer`, `cornerstone` and `refine` on live data.
 `MAX_DOCUMENT_FRACTION` is not tuned. No hand-written blacklist. Ranking is not touched.
 
+## 3e. Amendment 1 (NARROWING), recorded 2026-09-23 before measurement
+
+The comparator role as written in 3d vetoed only the structured-typing authority route. A
+preregistered control caught that `Placebo` -- 35 trials, 30 owners -- then qualified through the
+entity route of 3c instead. The veto is therefore widened in scope and narrower in effect: a
+comparator-role name cannot qualify through **any** corroboration route. It sits below the
+authority routes, so a real molecule used as a control still qualifies on its own lexicon record.
+
 ## 4. Frozen controls
 
 **Must NOT reach canonical status or any decisional PASS:**

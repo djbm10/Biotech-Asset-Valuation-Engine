@@ -24,6 +24,10 @@ from bve.se.discovery.asset_qualification import (
 def _prose(name: str, documents: int = 2, **overrides) -> AssetEvidence:
     """A name whose only evidence is prose use in ``documents`` distinct documents."""
 
+    # v2 adds the entity requirement: prose establishes a therapeutic *term*, and an
+    # entity-specific link is what makes it an asset rather than a class. These helpers
+    # supply one so the tests below keep testing what they were written to test.
+    overrides.setdefault("entity_specific_link", True)
     return AssetEvidence(name=name, pharmacologic_documents=documents, **overrides)
 
 
@@ -198,8 +202,8 @@ class TestTheComparatorRoleIsReadFromTheSourcesOwnArms:
                 ]
             )
         )
-        assert _normalized_lookup("Drug: Placebo") in roles
-        assert _normalized_lookup("Drug: teclistamab") not in roles
+        assert _normalized_lookup("Placebo") in roles
+        assert _normalized_lookup("teclistamab") not in roles
 
     def test_an_active_control_is_not_role_typed_as_a_comparator(self) -> None:
         # A marketed drug used as the control arm is still that drug. Only placebo and
@@ -226,4 +230,4 @@ class TestTheComparatorRoleIsReadFromTheSourcesOwnArms:
                 ]
             )
         )
-        assert roles == {_normalized_lookup("Drug: Placebo")}
+        assert roles == {_normalized_lookup("Placebo")}

@@ -617,6 +617,13 @@ def _intervention_types(protocol: dict[str, Any]) -> dict[str, str]:
 _COMPARATOR_ARM_TYPES = frozenset({"PLACEBO_COMPARATOR", "SHAM_COMPARATOR"})
 
 
+def _strip_intervention_type_prefix(value: str) -> str:
+    """Drop the ``Drug:`` / ``Biological:`` label CT.gov prefixes onto arm intervention names."""
+
+    head, separator, tail = value.partition(":")
+    return tail.strip() if separator and " " not in head.strip() else value.strip()
+
+
 def _comparator_roles(protocol: dict[str, Any]) -> set[str]:
     """Interventions the sponsor declares *only* inside a placebo or sham control arm.
 
@@ -630,8 +637,12 @@ def _comparator_roles(protocol: dict[str, Any]) -> set[str]:
     elsewhere: set[str] = set()
     for arm in module.get("armGroups", []) or []:
         declared = str(arm.get("type") or "").strip().upper()
+        # ``interventionNames`` are written "Drug: Placebo" while the intervention itself is
+        # named "Placebo". Measured: without stripping that type prefix the arm-group route
+        # matched nothing at all on live data, and `Placebo` -- 35 trials -- kept canonical
+        # status through a rule written to stop exactly that.
         names = {
-            _normalized_lookup(str(name))
+            _normalized_lookup(_strip_intervention_type_prefix(str(name)))
             for name in (arm.get("interventionNames") or [])
             if str(name).strip()
         }

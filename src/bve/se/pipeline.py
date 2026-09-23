@@ -144,6 +144,17 @@ def _dedupe_gate_facts(facts: Sequence[NormalizedFact]) -> list[NormalizedFact]:
     return list(unique.values())
 
 
+def _has_entity_link(asset: CanonicalAsset) -> bool:
+    """Whether anything ties this name to a particular entity rather than to a class.
+
+    Trials, owners and attributed targets only. ``discovery_target_context`` and modality
+    are deliberately excluded: they are co-occurrence, and on live data `bsAbs`,
+    `frontline`, `cornerstone` and `ASCO 2023` all carry them while carrying no entity.
+    """
+
+    return bool(asset.trial_ids or asset.company_ids or asset.target_ids)
+
+
 _STAGE_BY_ORDER = {
     0: "DISCOVERY",
     1: "PRECLINICAL",
@@ -456,6 +467,7 @@ def run_landscape_search(
                 support=_support(asset),
                 structurally_typed_drug=asset.structurally_typed_drug,
                 comparator_role=asset.comparator_role,
+                entity_specific_link=_has_entity_link(asset),
                 corpus_documents=corpus_documents,
                 document_frequency=_document_frequency(asset),
                 identity_authority=asset_id in described_constructs,
@@ -604,6 +616,7 @@ def run_landscape_search(
             identity_authority=asset.asset_id in described_constructs,
             structurally_typed_drug=asset.structurally_typed_drug,
             comparator_role=asset.comparator_role,
+            entity_specific_link=_has_entity_link(asset),
             pharmacologic_context=pharmacologic_context.get(asset.asset_id, False),
             pharmacologic_documents=pharmacologic_documents.get(asset.asset_id, 0),
         )
