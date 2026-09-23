@@ -1706,3 +1706,13 @@ designed for and is not sufficient. 27 names were *promoted*, nearly all junk.
 Both run directories are sealed for re-analysis. Next: preregister v2 controls, fix in the order
 above, rerun the same paired fresh acquisition. Ranking stays untouched — the experiment
 confirmed identity qualification is still the bottleneck.
+
+## Asset qualification v2 — PREREGISTERED 2026-09-23
+
+`docs/se_policies/asset_qualification_single_authority_v2.md`, sha256
+`44a922fcc3fafd7d04e6d11ee5f54d92a29292a224f047e314e59303e8016b54`, committed before any code
+change. Three fixes in order: one qualification authority; identity by authority not shape
+(separator-insensitive lookup recovers `AMG 420` and `ALLO-715`, and admits no citation);
+molecule-specific corroboration for prose-only unknowns. Acceptance: zero known non-assets in the
+default canonical population or holding a decisional PASS, with every real-asset control retained,
+decided on a rerun of the paired fresh acquisition.
