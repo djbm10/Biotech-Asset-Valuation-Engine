@@ -1662,3 +1662,47 @@ any genuine molecule, brand, development code or repaired multi-token asset disa
 **Recorded stop condition.** The policy predicts `bsAbs` fails on the two-document rule. If it
 survives, the corroboration rule is not guarding the prose route and adoption halts before the
 live run is interpreted.
+
+### FAILED_ACCEPTANCE 2026-09-23 — `a47bc9c` not adopted
+
+Paired same-day live acquisitions, identical query / source index / as-of date, both
+`INCOMPLETE` only for the six unconfigured mandatory sources: `mint_off` (control worktree at
+the parent `979ba4d`) and `mint_on` (`a47bc9c`). Identical 2,873 candidates and 15,865 hits, so
+the pair differs only in the qualification decision.
+
+| | fix-off | fix-on |
+|---|---|---|
+| default canonical path | 1,428 | 1,398 |
+| review section | 544 | 519 |
+| `human_poc` PASS | 39 | 37 |
+
+**The headline metric did not move.** `frontline`, `bsAbs`, `Placebo` and `POD24` all retained
+canonical status; `frontline`, `POD24`, `choice` and `discase` retained a `human_poc` PASS. Only
+`safer`, `cornerstone` and `refine` were demoted — the modifier veto works on what it was
+designed for and is not sufficient. 27 names were *promoted*, nearly all junk.
+
+**Three defects, in the order they will be fixed.**
+
+1. **Duplicate qualification authority.** `mention_support.is_protected()` short-circuits before
+   `qualifies_as_asset` is ever called and still carries its own older definitions of "drug":
+   the wide `is_known_drug_name` (so `frontline`, a FIPRONIL trade name), raw
+   `is_development_code` with no gloss veto (so `POD24`), and raw `structurally_typed_drug` with
+   no comparator check (so `Placebo`). All four fixes were bypassed for exactly the names they
+   were written to catch. One qualification decision must be the single source of truth, or
+   every future identity fix can be silently bypassed the same way.
+
+2. **The spaced development-code widening leaked.** The ≥3-digit guard excludes `IQR 72` but not
+   years: `ASCO 2023`, `NEJM 2011`, `NEJM 2013`, `EASL 2025`, `WHO 2022`, `PRISMA 2020`,
+   `IQR 124`. A rule was widened to rescue one frozen positive control without testing the
+   widening against the shape it actually admits. `AMG 420` must be recovered through
+   authoritative identity evidence, never through a regex broad enough to call a citation a drug.
+
+3. **Two documents plus drug-use grammar is not sufficient prose qualification.** `bsAbs` is not
+   protected — it passed through the prose route on ≥2 independent documents, because it
+   genuinely is used in argument position ("treated with bsAbs"). Real pharmacologic usage can
+   describe a **class**, not an individual asset, so argument position and corroboration cannot
+   separate the two. This alone halts adoption, as preregistered.
+
+Both run directories are sealed for re-analysis. Next: preregister v2 controls, fix in the order
+above, rerun the same paired fresh acquisition. Ranking stays untouched — the experiment
+confirmed identity qualification is still the bottleneck.
