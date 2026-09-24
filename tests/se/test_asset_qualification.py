@@ -139,13 +139,23 @@ class TestTheExistingRoutesStillHold:
 
     def test_a_structurally_typed_drug_is_still_protected(self) -> None:
         # M18: a source declaring DRUG in its own schema is evidence from outside the
-        # corpus, and one document is enough. Unchanged by this layer.
+        # corpus, and one document is enough. v3 (§3c) adds that the declaration must also
+        # place the intervention in a therapeutic relationship -- registries type placebo
+        # DRUG as well -- so the therapeutic observation is supplied here.
         assert qualifies_as_asset(
-            AssetEvidence(name="furthermore", support=1, structurally_typed_drug=True)
+            AssetEvidence(
+                name="furthermore",
+                support=1,
+                structurally_typed_drug=True,
+                therapeutic_observations=1,
+            )
         )
         assert (
             classify_mention_support(
-                "furthermore", support=1, structurally_typed_drug=True
+                "furthermore",
+                support=1,
+                structurally_typed_drug=True,
+                therapeutic_observations=1,
             )
             is MentionDisposition.PROTECTED
         )
@@ -212,7 +222,12 @@ class TestAWordCanOccupyADrugsSlotByAccident:
         assert qualifies_as_asset(AssetEvidence(name="rituximab", **saturating))
         assert qualifies_as_asset(AssetEvidence(name="CCS1477", **saturating))
         assert qualifies_as_asset(
-            AssetEvidence(name="anything", structurally_typed_drug=True, **saturating)
+            AssetEvidence(
+                name="anything",
+                structurally_typed_drug=True,
+                therapeutic_observations=1,
+                **saturating,
+            )
         )
 
     def test_an_unsized_corpus_does_not_veto(self) -> None:
@@ -257,11 +272,24 @@ class TestTheCorpusStandsInForADictionary:
 
 
 class TestADescribedConstructIsAnAuthority:
-    def test_a_construct_description_qualifies_a_multiword_name(self) -> None:
+    def test_a_construct_description_corroborates_a_multiword_name(self) -> None:
         # "BCMA/CD19 CAR T cells" is a real dual construct and nothing else vouches for
         # it: no ontology entry, no development code, no drug shape. What it has is a
         # registry that described it as a construct and named its targets.
+        #
+        # v3 (§3b) demotes that description from a route to corroboration. `choice` is why:
+        # it reached the default path and carried a human-PoC PASS on this route alone,
+        # having been matched to the warfarin brand "Choice" and credited with VKORC1. A
+        # construct description can say what a string is associated with; it cannot say the
+        # string denotes an asset. So the route now needs an entity of its own alongside it.
         assert qualifies_as_asset(
+            AssetEvidence(
+                name="BCMA/CD19 CAR T cells",
+                identity_authority=True,
+                entity_specific_link=True,
+            )
+        )
+        assert not qualifies_as_asset(
             AssetEvidence(name="BCMA/CD19 CAR T cells", identity_authority=True)
         )
         assert not qualifies_as_asset(AssetEvidence(name="BCMA/CD19 CAR T cells"))

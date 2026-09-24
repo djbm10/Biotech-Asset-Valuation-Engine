@@ -44,7 +44,12 @@ def _problem() -> BuyerProblemV2:
     )
 
 
-def _protocol(*, intervention_type: str | None, other_names: list[str] | None = None) -> dict:
+def _protocol(
+    *,
+    intervention_type: str | None,
+    other_names: list[str] | None = None,
+    arm_type: str | None = "EXPERIMENTAL",
+) -> dict:
     intervention: dict = {
         "name": PLAIN_NAME,
         "description": "single-agent infusion",
@@ -65,7 +70,23 @@ def _protocol(*, intervention_type: str | None, other_names: list[str] | None = 
         },
         "designModule": {"phases": ["PHASE1"]},
         "conditionsModule": {"conditions": ["B-cell acute lymphoblastic leukemia"]},
-        "armsInterventionsModule": {"interventions": [intervention]},
+        "armsInterventionsModule": {
+            "interventions": [intervention],
+            # v3 reads the arm relationship from the source. A record that types no arm
+            # says only that the string is a drug, not that anyone is being treated with
+            # it, so the default arm here is the experimental one these tests assume.
+            "armGroups": (
+                []
+                if arm_type is None
+                else [
+                    {
+                        "type": arm_type,
+                        "label": "Arm A",
+                        "interventionNames": [f"Drug: {PLAIN_NAME}"],
+                    }
+                ]
+            ),
+        },
     }
 
 
@@ -142,8 +163,22 @@ class TestStructuredTypingIsANominationRoute:
                 is MentionDisposition.LOW_SUPPORT_UNKNOWN
             )
         assert (
-            classify_mention_support(PLAIN_NAME, support=1, structurally_typed_drug=True)
+            classify_mention_support(
+                PLAIN_NAME,
+                support=1,
+                structurally_typed_drug=True,
+                therapeutic_observations=1,
+            )
             is MentionDisposition.PROTECTED
+        )
+
+    def test_a_drug_type_with_no_arm_relationship_is_held_for_review(self) -> None:
+        # v3 (§3c). Registries type placebo ``DRUG`` too. The declaration is about the
+        # string, and on its own it does not say the intervention is being given as a
+        # therapy -- so typing now needs one therapeutic observation to keep this path.
+        assert (
+            classify_mention_support(PLAIN_NAME, support=1, structurally_typed_drug=True)
+            is MentionDisposition.LOW_SUPPORT_UNKNOWN
         )
 
 
@@ -251,6 +286,9 @@ class TestExistingRoutingIsUnchanged:
     def test_typing_can_only_promote_never_demote(self) -> None:
         for support in (0, 1, 2, 5, 40):
             typed = classify_mention_support(
-                PLAIN_NAME, support=support, structurally_typed_drug=True
+                PLAIN_NAME,
+                support=support,
+                structurally_typed_drug=True,
+                therapeutic_observations=1,
             )
             assert typed is not MentionDisposition.LOW_SUPPORT_UNKNOWN

@@ -31,6 +31,7 @@ provenance intact and is promoted the moment qualifying evidence arrives.
 
 from __future__ import annotations
 
+import enum
 import re
 
 from pydantic import BaseModel
@@ -187,10 +188,18 @@ class AssetEvidence(BaseModel):
     #: unlucky sentence -- "treated with bsAbs" exists exactly once in the live corpus --
     #: must not qualify a class abbreviation.
     pharmacologic_documents: int = 0
-    #: A structured source declared this the *comparator*. A registry genuinely does type
-    #: placebo as a DRUG intervention, so the structured route is true and the conclusion is
-    #: still wrong: a control arm is information about a trial, not a therapeutic asset.
-    comparator_role: bool = False
+    #: Structured observations of this name's role in a trial arm, counted rather than
+    #: reduced. A registry genuinely does type placebo as a ``DRUG`` intervention, so the
+    #: structured route is true and the conclusion is still wrong: a control arm is
+    #: information about a trial, not a therapeutic asset.
+    #:
+    #: These are counts and not a boolean because v2's boolean was merged with ``all()``,
+    #: so a single trial declaring no arm relationship retracted 34 explicit placebo arms
+    #: and bare ``Placebo`` kept canonical status. ``unknown_observations`` exists to be
+    #: counted and ignored: silence is not a therapeutic declaration.
+    comparator_observations: int = 0
+    therapeutic_observations: int = 0
+    unknown_observations: int = 0
     #: An entity-specific link: a trial, an owner, or an attributed target for *this* name.
     #: Deliberately excludes ``discovery_target_context`` and modality, which are
     #: co-occurrence: measured on live data, ``bsAbs``, ``frontline``, ``cornerstone`` and
@@ -200,7 +209,10 @@ class AssetEvidence(BaseModel):
     #: Applied to the routes that need no corpus evidence, because those are exactly the
     #: routes a gloss can otherwise walk through: "(POD24)" has the shape of a sponsor code.
     only_abbreviation_gloss: bool = False
-    #: Another identity-bearing authority vouched for the name.
+    #: A construct or target description vouched for this name. Corroboration only since
+    #: v3: ``choice`` reached the default path and carried a human-PoC PASS on nothing but
+    #: this, having been matched to the warfarin brand and credited with a VKORC1 assertion.
+    #: A statement about a target does not establish that a string denotes a therapeutic.
     identity_authority: bool = False
     #: Documents in the run. Zero disables the saturation ceiling, which is what a caller
     #: that does not know the corpus size should get: the ceiling is a veto on prose
@@ -342,83 +354,152 @@ def _is_ordered_prefix(word: str, letters: str) -> bool:
     return True
 
 
-def qualifies_by_authority(evidence: AssetEvidence) -> bool:
-    """Evidence from outside the corpus that this string *is* a molecule.
+class QualificationReason(str, enum.Enum):
+    """Why a name is allowed to carry a decision.
 
-    It does not get stronger by repetition, so one observation is enough and no corpus
-    corroboration is required. Split out from ``qualifies_as_asset`` so routing can tell an
-    authority-grade name from one qualified by corroboration, without any caller getting to
-    keep its own idea of what an authority is.
+    Every default-path asset must expose one. v2 made the qualification decision single but
+    left it anonymous, and an anonymous decision cannot be audited: ``paper`` and ``choice``
+    both reached the default path through routes nobody could see from the output, and
+    finding out which took a trace through four modules. A named reason turns that into a
+    field.
+
+    Absence is itself a decision: :func:`qualification_reason` returns ``None`` and the
+    caller fails closed to review.
     """
 
-    name = evidence.name.strip()
-    if not name or evidence.only_abbreviation_gloss:
-        return False
-    return (
-        drug_name_shape.is_identity_bearing_drug_name(name)
-        or (evidence.structurally_typed_drug and not evidence.comparator_role)
-        or evidence.identity_authority
-    )
+    #: The ontology holds this string as a molecule's own identity.
+    DIRECT_APPROVED_NAME = "DIRECT_APPROVED_NAME"
+    #: Development-code shape, corroborated by an entity-specific link.
+    DEVELOPMENT_CODE_AUTHORITY = "DEVELOPMENT_CODE_AUTHORITY"
+    #: A structured source placed this intervention in an experimental or active arm.
+    STRUCTURED_THERAPEUTIC = "STRUCTURED_THERAPEUTIC"
+    #: A synonym or trade name of some molecule, plus an independent entity link.
+    ENTITY_CORROBORATED_SYNONYM = "ENTITY_CORROBORATED_SYNONYM"
+    #: A construct or target description, plus an independent entity link.
+    CONSTRUCT_CORROBORATED = "CONSTRUCT_CORROBORATED"
+    #: Pharmacologic use across independent documents, plus an entity link.
+    ENTITY_CORROBORATED_PROSE = "ENTITY_CORROBORATED_PROSE"
 
 
-def qualifies_as_asset(evidence: AssetEvidence) -> bool:
-    """Whether this name may carry a decision.
+def is_comparator_only(evidence: AssetEvidence) -> bool:
+    """Whether every structured observation of this name made it control material.
 
-    Any one positive route is enough, and the routes are alternatives rather than a score:
-    each is independently sufficient evidence that something outside a frequency count
-    considers this string a molecule. Support appears nowhere, deliberately.
+    Conservative on purpose, and asymmetric on purpose. One genuine therapeutic observation
+    is enough to establish that a molecule is a therapy, because a drug used as a control in
+    one trial is still that drug. An *unknown* observation establishes nothing and must not
+    cancel an explicit comparator declaration -- which is exactly what ``all()`` did to bare
+    ``Placebo``, whose 35 trials include one that types no arm.
+    """
+
+    return evidence.comparator_observations > 0 and evidence.therapeutic_observations == 0
+
+
+def qualification_reason(evidence: AssetEvidence) -> QualificationReason | None:
+    """The single authority. Returns *why* the name qualifies, or ``None``.
+
+    The routes are alternatives rather than a score, but they are no longer peers: v3 splits
+    them into evidence that decides on its own and evidence that may only corroborate. The
+    invariant is that no single weak evidence type may independently promote an ambiguous
+    string into the therapeutic-asset population.
+
+    Order matters only for reporting -- the strongest true reason is the one returned, so
+    the distribution reads as an audit rather than as an accident of evaluation order.
     """
 
     name = evidence.name.strip()
     if not name:
-        return False
+        return None
+
     # A name that only ever appears expanding the phrase in front of it is an abbreviation,
-    # and no route may carry it.
+    # and no route may carry it. "bispecific antibodies (bsAbs)" and "progression of disease
+    # within 24 months (POD24)" are the frozen cases.
     if evidence.only_abbreviation_gloss:
-        return False
+        return None
 
-    if qualifies_by_authority(evidence):
-        return True
+    # --- routes that decide on their own -------------------------------------------------
 
-    # Control material, and it does not become an asset by being well documented: every
-    # structured declaration of this name put it in a placebo or sham arm. The veto sits
-    # below the authority routes on purpose -- a real molecule used as a control is in the
-    # lexicon and has already returned -- and above the corroboration routes, because
-    # `Placebo` carries 35 trials and 30 owners and would otherwise qualify on those.
-    if evidence.comparator_role:
-        return False
+    # The ontology's own identity for a molecule: APPROVED_NAME, canonical symbol or label,
+    # or a development code. Narrowed in v3 -- SYNONYM and TRADE_NAME moved below, because
+    # `paper` is a ChEMBL synonym and reached shortlist position 10 on the strength of it.
+    if drug_name_shape.is_identity_bearing_drug_name(name):
+        return QualificationReason.DIRECT_APPROVED_NAME
+
+    # Control material does not become an asset by being well documented. The veto sits
+    # below the ontology route -- a real molecule used as a control is in the lexicon and has
+    # already returned -- and above everything else, because `Placebo` carries 35 trials and
+    # 30 owners and would otherwise qualify on those.
+    if is_comparator_only(evidence):
+        return None
+
+    # A structured source that says, in a field of its own schema, both that this is a drug
+    # and that it is being *given as a therapy*. The second half is new in v3: structured
+    # typing alone typed placebo as a DRUG, which is true and not the question.
+    if evidence.structurally_typed_drug and evidence.therapeutic_observations > 0:
+        return QualificationReason.STRUCTURED_THERAPEUTIC
+
+    # --- routes that need corroboration --------------------------------------------------
 
     # Everything below is a guess about a string, and a guess needs an entity. A class term
     # has pharmacologic grammar and no entity: measured live, `bsAbs` occurs in argument
     # position across independent documents -- correctly, since bispecific antibodies really
-    # are given to patients -- with no trial, no owner and no attributed target. Two
-    # documents saying "treated with bsAbs" establish a therapeutic *class*, not an asset.
+    # are given to patients -- with no trial, no owner and no attributed target.
     if not evidence.entity_specific_link:
-        return False
+        return None
 
-    # Code shape is now a fallback, never a route of its own. Standing alone it protected
+    # A synonym or brand, now that something else has established there is an entity here.
+    # This is what keeps Keytruda, Enhertu and legacy INN spellings while dropping `paper`,
+    # `choice` and `frontline`, which carry no entity of their own.
+    if drug_name_shape.is_corroborative_drug_name(name):
+        return QualificationReason.ENTITY_CORROBORATED_SYNONYM
+
+    # A construct or target description. Corroboration since v3 and never a route of its
+    # own: a VKORC1 assertion about the warfarin brand says nothing about whether the
+    # English word "choice" denotes a therapeutic.
+    if evidence.identity_authority:
+        return QualificationReason.CONSTRUCT_CORROBORATED
+
+    # Code shape is a fallback, never a route of its own. Standing alone it protected
     # `POD24`, and widening it to catch `AMG 420`'s space separator promoted `NEJM 2011`,
-    # `ASCO 2023` and `WHO 2022`. Sponsor codes are recovered by authority instead, under a
-    # separator-insensitive lookup. Declared cost: a genuinely new code no authority knows
-    # and nothing links to an entity goes to review, not to deletion.
+    # `ASCO 2023` and `WHO 2022`. Sponsor codes are recovered by the ontology route above,
+    # under a separator-insensitive lookup; this catches a code no authority knows yet.
     if is_development_code(name):
-        return True
+        return QualificationReason.DEVELOPMENT_CODE_AUTHORITY
 
     # Prose context is the weakest route and the only one a word can occupy by accident:
     # "received before" and "although antibody" are ordinary sentences in which an ordinary
     # word fills the slot a drug name would fill. No pattern can tell those apart from
     # "received benzhexol" by looking at the sentence, because the sentences are identical
     # in shape. What separates them is the name's grammatical position -- the modifier veto
-    # in ``has_pharmacologic_context`` -- then corroboration across documents, and now an
-    # entity to attach to.
+    # in ``has_pharmacologic_context`` -- then corroboration across documents, then the
+    # entity link above.
     #
-    # The corpus ceiling stays, but it can no longer be the main guard, and the measurement
-    # that shows why is worth keeping: over the live corpus `gemcitabine` occurs in 30
-    # documents against `cornerstone`'s 34, `safer`'s 39 and `bsAbs`'s 48. Any ceiling low
-    # enough to veto the junk deletes real drugs, so it is left where it was and vetoes only
-    # the function words it always caught.
+    # The corpus ceiling stays and can no longer be the main guard. The measurement that
+    # shows why is worth keeping: over the live corpus `gemcitabine` occurs in 30 documents
+    # against `cornerstone`'s 34, `safer`'s 39 and `bsAbs`'s 48. Any ceiling low enough to
+    # veto the junk deletes real drugs.
     witnessed = max(evidence.pharmacologic_documents, int(evidence.pharmacologic_context))
-    return witnessed >= MIN_PHARMACOLOGIC_DOCUMENTS and not _saturates_corpus(evidence)
+    if witnessed >= MIN_PHARMACOLOGIC_DOCUMENTS and not _saturates_corpus(evidence):
+        return QualificationReason.ENTITY_CORROBORATED_PROSE
+    return None
+
+
+def qualifies_by_authority(evidence: AssetEvidence) -> bool:
+    """Whether the name qualifies through evidence that decides on its own.
+
+    Kept so routing can tell an authority-grade name from a corroborated one, without any
+    caller getting to keep its own idea of what an authority is.
+    """
+
+    return qualification_reason(evidence) in {
+        QualificationReason.DIRECT_APPROVED_NAME,
+        QualificationReason.STRUCTURED_THERAPEUTIC,
+    }
+
+
+def qualifies_as_asset(evidence: AssetEvidence) -> bool:
+    """Whether this name may carry a decision. See :func:`qualification_reason`."""
+
+    return qualification_reason(evidence) is not None
 
 
 def _saturates_corpus(evidence: AssetEvidence) -> bool:

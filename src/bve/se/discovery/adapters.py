@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+import enum
+
 import hashlib
 import json
 import re
@@ -612,9 +614,33 @@ def _intervention_types(protocol: dict[str, Any]) -> dict[str, str]:
     return types
 
 
-#: Arm-group types in which an intervention is present *as the control*. An active
-#: comparator is excluded: a marketed drug used as the control arm is still that drug.
+#: Arm-group types in which an intervention is present *as the control material*. An
+#: active comparator is deliberately absent: a marketed drug used as the control arm is
+#: still that drug, and typing it as control material would delete it.
 _COMPARATOR_ARM_TYPES = frozenset({"PLACEBO_COMPARATOR", "SHAM_COMPARATOR"})
+
+#: Arm-group types in which an intervention is present *as a therapy under study or in
+#: comparison*. ``OTHER`` is absent on purpose: sponsors use it for observation arms,
+#: standard-of-care arms and washouts alike, so it carries no relationship at all.
+_THERAPEUTIC_ARM_TYPES = frozenset({"EXPERIMENTAL", "ACTIVE_COMPARATOR"})
+
+
+class ArmRelationship(str, enum.Enum):
+    """What one structured source says about one intervention's role in one trial.
+
+    Per observation, never aggregated here. v2 carried a single boolean merged across an
+    asset's whole trial set with ``all()``, and that erased explicit comparator evidence:
+    bare ``Placebo`` appears in 35 trials, one of which types an arm ambiguously, and one
+    ambiguous arm cleared a flag that 34 explicit placebo arms had set.
+    """
+
+    #: The source explicitly places this intervention in a placebo or sham control arm.
+    COMPARATOR = "comparator"
+    #: The source explicitly places it in an experimental or active-comparator arm.
+    THERAPEUTIC = "therapeutic"
+    #: No arm relationship could be read, or the source contradicts itself. Records that
+    #: the question was asked and not answered, which is not the same as answering "no".
+    UNKNOWN = "unknown"
 
 
 def _strip_intervention_type_prefix(value: str) -> str:
@@ -624,30 +650,98 @@ def _strip_intervention_type_prefix(value: str) -> str:
     return tail.strip() if separator and " " not in head.strip() else value.strip()
 
 
-def _comparator_roles(protocol: dict[str, Any]) -> set[str]:
-    """Interventions the sponsor declares *only* inside a placebo or sham control arm.
+def _arm_types_by_label(protocol: dict[str, Any]) -> dict[str, str]:
+    """Each arm group's declared type, keyed by its label."""
 
-    The source's own role typing, read from the same structured module as the intervention
-    type. Restricting it to interventions with no other declared arm is what keeps a real
-    molecule co-administered in the control arm from being role-typed as the control.
+    module = protocol.get("armsInterventionsModule", {}) or {}
+    types: dict[str, str] = {}
+    for arm in module.get("armGroups", []) or []:
+        label = _normalized_lookup(str(arm.get("label") or ""))
+        declared = str(arm.get("type") or "").strip().upper()
+        if label and declared:
+            types[label] = declared
+    return types
+
+
+def _arm_relationships(protocol: dict[str, Any]) -> dict[str, ArmRelationship]:
+    """Classify each intervention's role from the source's own arm structure.
+
+    Two linkages exist in the CT.gov schema and they are not redundant: ``armGroups[]
+    .interventionNames`` points one way and ``interventions[].armGroupLabels`` points the
+    other. Both are read, because sponsors populate them inconsistently and a missing
+    linkage is ``UNKNOWN``, not absence of a comparator.
+
+    An arm's own ``label`` is read as a third linkage, and it is the one that catches a
+    self-contradicting record. NCT07439263 is the frozen example. Its arm typed
+    ``PLACEBO_COMPARATOR`` is labelled "HB2198 Diluent (IV)" and lists the actual bispecific
+    as its intervention; its arm typed ``ACTIVE_COMPARATOR`` is labelled with the drug and
+    lists the diluent. The sponsor entered them crosswise, so both intervention linkages
+    agree with each other and are both wrong. Only the labels dissent. v2 read one linkage,
+    believed it, and typed a real tetravalent bispecific as control material.
+
+    A label is matched exactly, never as a substring: "Arm A: drug X plus chemotherapy"
+    binds nothing, which is the conservative behaviour. What it binds is the case where the
+    sponsor used the intervention's own name as the arm's name.
     """
 
-    module = protocol.get("armsInterventionsModule", {})
-    comparator: set[str] = set()
-    elsewhere: set[str] = set()
+    module = protocol.get("armsInterventionsModule", {}) or {}
+    arm_types = _arm_types_by_label(protocol)
+
+    #: One entry per *linkage channel*, because a contradiction between channels means
+    #: something different from a name appearing in two arms of one channel.
+    channels: list[dict[str, set[str]]] = [{}, {}, {}]
+
     for arm in module.get("armGroups", []) or []:
         declared = str(arm.get("type") or "").strip().upper()
-        # ``interventionNames`` are written "Drug: Placebo" while the intervention itself is
-        # named "Placebo". Measured: without stripping that type prefix the arm-group route
-        # matched nothing at all on live data, and `Placebo` -- 35 trials -- kept canonical
-        # status through a rule written to stop exactly that.
-        names = {
-            _normalized_lookup(_strip_intervention_type_prefix(str(name)))
-            for name in (arm.get("interventionNames") or [])
-            if str(name).strip()
-        }
-        (comparator if declared in _COMPARATOR_ARM_TYPES else elsewhere).update(names)
-    return comparator - elsewhere
+        for name in arm.get("interventionNames") or []:
+            # ``interventionNames`` are written "Drug: Placebo" while the intervention is
+            # named "Placebo". Measured: without stripping that prefix the arm route matched
+            # nothing at all on live data.
+            key = _normalized_lookup(_strip_intervention_type_prefix(str(name)))
+            if key and declared:
+                channels[0].setdefault(key, set()).add(declared)
+
+    for intervention in _extract_interventions(protocol):
+        key = _normalized_lookup(str(intervention.get("name") or ""))
+        if not key:
+            continue
+        for label in intervention.get("armGroupLabels") or []:
+            declared = arm_types.get(_normalized_lookup(str(label)))
+            if declared:
+                channels[1].setdefault(key, set()).add(declared)
+
+    for label, declared in arm_types.items():
+        channels[2].setdefault(label, set()).add(declared)
+
+    relationships: dict[str, ArmRelationship] = {}
+    for key in {key for channel in channels for key in channel}:
+        read = {
+            _read_channel(channel[key]) for channel in channels if key in channel
+        } - {ArmRelationship.UNKNOWN}
+        # Channels that agree, or a single channel, decide. Channels that contradict each
+        # other do not get a majority vote: the conservative reading of a self-contradicting
+        # record is that the source did not say. This costs the ``HB2198, a Tetravalent ...``
+        # description its structured-therapeutic route -- it goes to review -- and keeps the
+        # asset ``HB2198`` itself, separately observed as experimental in NCT07491900.
+        relationships[key] = read.pop() if len(read) == 1 else ArmRelationship.UNKNOWN
+    return relationships
+
+
+def _read_channel(declared: set[str]) -> ArmRelationship:
+    """One linkage channel's reading of an intervention's role.
+
+    Therapeutic outweighs comparator *within* a channel, because a molecule listed in both
+    the control arm and the experimental arm is being studied: it is co-administered in the
+    control arm, which is a fact about the regimen and not about the molecule. Across
+    channels the same disagreement means the record contradicts itself, which is why this
+    reduction happens per channel and the combination happens in the caller.
+    """
+
+    if declared & _THERAPEUTIC_ARM_TYPES:
+        return ArmRelationship.THERAPEUTIC
+    if declared & _COMPARATOR_ARM_TYPES:
+        return ArmRelationship.COMPARATOR
+    return ArmRelationship.UNKNOWN
 
 
 def _candidate_interventions(
@@ -1040,7 +1134,7 @@ class ClinicalTrialsGovAdapter:
             # this field's say-so.
             aliases_by_intervention = _intervention_aliases(protocol)
             types_by_intervention = _intervention_types(protocol)
-            comparator_interventions = _comparator_roles(protocol)
+            arm_relationships = _arm_relationships(protocol)
             interventions = _candidate_interventions(protocol, vocabulary, serialized)
             if not interventions:
                 fallback_name = identification.get("briefTitle") or nct_id or "unnamed program"
@@ -1074,8 +1168,9 @@ class ClinicalTrialsGovAdapter:
                         intervention_type=types_by_intervention.get(
                             _normalized_lookup(intervention)
                         ),
-                        comparator_role=_normalized_lookup(intervention)
-                        in comparator_interventions,
+                        arm_relationship=arm_relationships.get(
+                            _normalized_lookup(intervention), ArmRelationship.UNKNOWN
+                        ).value,
                         # CT.gov's ``otherNames`` is an identity claim -- an unreliable
                         # one, which is why it still has to clear corroboration and veto.
                         # Typing it is what makes the distinction explicit rather than

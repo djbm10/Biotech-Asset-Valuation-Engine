@@ -165,13 +165,20 @@ class TestTheComparatorArmIsNotATherapeuticAsset:
 
     def test_a_structured_declaration_in_comparator_role_does_not_qualify(self) -> None:
         evidence = AssetEvidence(
-            name="Placebo", structurally_typed_drug=True, comparator_role=True
+            name="Placebo", structurally_typed_drug=True, comparator_observations=34
         )
         assert qualifies_as_asset(evidence) is False
 
     def test_a_structured_declaration_otherwise_still_qualifies(self) -> None:
+        # v3 requires the declaration to say the intervention is being *given* as a therapy,
+        # not merely that it is a drug. This molecule is also an approved name, so it would
+        # qualify anyway; the observation is supplied so the test exercises the route it names.
         assert qualifies_as_asset(
-            AssetEvidence(name="belantamab mafodotin", structurally_typed_drug=True)
+            AssetEvidence(
+                name="belantamab mafodotin",
+                structurally_typed_drug=True,
+                therapeutic_observations=1,
+            )
         ) is True
 
 
@@ -184,50 +191,8 @@ class TestOntologyMissingRealAssetsSurvive:
         assert qualifies_as_asset(_prose(name, documents=2)) is True
 
 
-class TestTheComparatorRoleIsReadFromTheSourcesOwnArms:
-    """Where ``comparator_role`` comes from: declared arm typing, never a name list."""
-
-    @staticmethod
-    def _protocol(arms: list[dict]) -> dict:
-        return {"armsInterventionsModule": {"armGroups": arms}}
-
-    def test_an_intervention_only_in_a_placebo_arm_is_a_comparator(self) -> None:
-        from bve.se.discovery.adapters import _comparator_roles, _normalized_lookup
-
-        roles = _comparator_roles(
-            self._protocol(
-                [
-                    {"type": "EXPERIMENTAL", "interventionNames": ["Drug: teclistamab"]},
-                    {"type": "PLACEBO_COMPARATOR", "interventionNames": ["Drug: Placebo"]},
-                ]
-            )
-        )
-        assert _normalized_lookup("Placebo") in roles
-        assert _normalized_lookup("teclistamab") not in roles
-
-    def test_an_active_control_is_not_role_typed_as_a_comparator(self) -> None:
-        # A marketed drug used as the control arm is still that drug. Only placebo and
-        # sham arms are control *material*; ACTIVE_COMPARATOR is a therapy being compared.
-        from bve.se.discovery.adapters import _comparator_roles
-
-        assert _comparator_roles(
-            self._protocol(
-                [{"type": "ACTIVE_COMPARATOR", "interventionNames": ["Drug: pembrolizumab"]}]
-            )
-        ) == set()
-
-    def test_a_molecule_co_administered_in_the_control_arm_keeps_its_role(self) -> None:
-        from bve.se.discovery.adapters import _comparator_roles, _normalized_lookup
-
-        roles = _comparator_roles(
-            self._protocol(
-                [
-                    {
-                        "type": "PLACEBO_COMPARATOR",
-                        "interventionNames": ["Drug: Placebo", "Drug: pomalidomide"],
-                    },
-                    {"type": "EXPERIMENTAL", "interventionNames": ["Drug: pomalidomide"]},
-                ]
-            )
-        )
-        assert roles == {_normalized_lookup("Placebo")}
+# ``TestTheComparatorRoleIsReadFromTheSourcesOwnArms`` lived here. Its subject -- where
+# ``comparator_role`` comes from -- was replaced in v3 by an observation-level tri-state
+# (``ArmRelationship``) read from three linkage channels, and its three cases moved to
+# ``test_qualification_tiered_evidence.py::TestTheArmLinkageIsReadFromTheSourceNotAssumed``
+# alongside the cross-labelled record (NCT07439263) that showed one channel is not enough.

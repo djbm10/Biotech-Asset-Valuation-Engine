@@ -10,7 +10,6 @@ from __future__ import annotations
 import pytest
 
 from bve.se.discovery import drug_name_shape
-from bve.se.discovery.adapters import _comparator_roles, _normalized_lookup
 from bve.se.discovery.asset_qualification import (
     AssetEvidence,
     is_development_code,
@@ -44,7 +43,9 @@ class TestThereIsOneQualificationAuthority:
             AssetEvidence(name="frontline", support=40),
             AssetEvidence(name="gemcitabine"),
             AssetEvidence(name="POD24", entity_specific_link=True),
-            AssetEvidence(name="Placebo", structurally_typed_drug=True, comparator_role=True),
+            AssetEvidence(
+                name="Placebo", structurally_typed_drug=True, comparator_observations=34
+            ),
         ):
             assert is_protected(evidence) is qualifies_as_asset(evidence)
 
@@ -107,25 +108,21 @@ class TestProseNeedsAnEntityNotJustAClass:
 
 
 class TestTheComparatorRouteActuallyFires:
-    """It did not fire once on 2,873 live candidates, because of a type prefix."""
+    """It did not fire once on 2,873 live candidates, because of a type prefix.
 
-    def test_the_type_prefix_does_not_defeat_the_match(self) -> None:
-        roles = _comparator_roles(
-            {
-                "armsInterventionsModule": {
-                    "armGroups": [
-                        {"type": "PLACEBO_COMPARATOR", "interventionNames": ["Drug: Placebo"]},
-                        {"type": "EXPERIMENTAL", "interventionNames": ["Drug: teclistamab"]},
-                    ]
-                }
-            }
-        )
-        assert _normalized_lookup("Placebo") in roles
-        assert _normalized_lookup("teclistamab") not in roles
+    v3 replaced the boolean these controls were written against with observation counts, and
+    moved the arm-linkage tests into ``test_qualification_tiered_evidence.py`` where the
+    tri-state reading is specified. What survives here is the claim this class was for: a
+    comparator does not qualify, however well documented it is. The counts below are the
+    live measurement -- bare ``Placebo`` has 35 trials and one of them types no arm, which
+    is the observation v2 let cancel the other 34.
+    """
 
     def test_a_comparator_does_not_qualify_through_structured_typing(self) -> None:
         assert qualifies_by_authority(
-            AssetEvidence(name="Placebo", structurally_typed_drug=True, comparator_role=True)
+            AssetEvidence(
+                name="Placebo", structurally_typed_drug=True, comparator_observations=34
+            )
         ) is False
 
     def test_a_comparator_with_many_trials_still_does_not_qualify(self) -> None:
@@ -135,7 +132,8 @@ class TestTheComparatorRouteActuallyFires:
             AssetEvidence(
                 name="Placebo",
                 structurally_typed_drug=True,
-                comparator_role=True,
+                comparator_observations=34,
+                unknown_observations=1,
                 entity_specific_link=True,
                 pharmacologic_documents=9,
             )
@@ -161,12 +159,31 @@ class TestTheProtectedRealAssetsSurvive:
     def test_an_authority_backed_molecule_needs_no_corroboration(self, name) -> None:
         assert qualifies_as_asset(AssetEvidence(name=name)) is True
 
-    def test_a_structured_drug_declaration_still_qualifies(self) -> None:
+    def test_a_structured_drug_declaration_needs_a_therapeutic_observation(self) -> None:
+        """v3 §3c. Sponsors type placebo as a ``DRUG``, so "declared a drug" is not enough.
+
+        The claim this test used to make -- structured typing qualifies on its own -- was
+        true in v2 and is what kept bare ``Placebo`` at shortlist position 1. What the
+        source has to say now is both that this is a drug and that it is being given as one.
+        """
+
+        typed = AssetEvidence(name="ALLO-501A", structurally_typed_drug=True)
+        assert qualifies_as_asset(typed) is False
         assert qualifies_as_asset(
-            AssetEvidence(name="ALLO-501A", structurally_typed_drug=True)
+            typed.model_copy(update={"therapeutic_observations": 1})
         ) is True
 
-    def test_a_described_construct_still_qualifies(self) -> None:
+    def test_a_described_construct_corroborates_rather_than_qualifies(self) -> None:
+        """v3 §3b. ``choice`` reached the default path on this route and nothing else.
+
+        A construct or target description supports "this mention is associated with target
+        X". It does not establish that the string denotes a therapeutic -- the live run
+        matched the English word "choice" to the warfarin brand and credited it with a
+        VKORC1 assertion. Real constructs keep the path through their trial or owner.
+        """
+
+        described = AssetEvidence(name="BCMA/CD19 CAR T cells", identity_authority=True)
+        assert qualifies_as_asset(described) is False
         assert qualifies_as_asset(
-            AssetEvidence(name="BCMA/CD19 CAR T cells", identity_authority=True)
+            described.model_copy(update={"entity_specific_link": True})
         ) is True

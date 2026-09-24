@@ -250,7 +250,9 @@ class AssetRegistry:
                 mention_ids=[mention_id],
                 provisional=not bool(hit.trial_id),
                 structurally_typed_drug=typed_drug,
-                comparator_role=hit.comparator_role,
+                comparator_observations=int(hit.arm_relationship == "comparator"),
+                therapeutic_observations=int(hit.arm_relationship == "therapeutic"),
+                unknown_observations=int(hit.arm_relationship == "unknown"),
             )
         else:
             existing = existing.model_copy(
@@ -279,7 +281,15 @@ class AssetRegistry:
                     "structurally_typed_drug": existing.structurally_typed_drug or typed_drug,
                     # Conjunctive where typing is disjunctive: the flag survives only
                     # while every observation has been a control-arm one.
-                    "comparator_role": existing.comparator_role and hit.comparator_role,
+                    # Additive, not conjunctive. v2 merged one boolean with ``and`` and an
+                    # observation that declared nothing thereby retracted 34 that declared a
+                    # placebo arm. Counting keeps every observation and defers the verdict.
+                    "comparator_observations": existing.comparator_observations
+                    + int(hit.arm_relationship == "comparator"),
+                    "therapeutic_observations": existing.therapeutic_observations
+                    + int(hit.arm_relationship == "therapeutic"),
+                    "unknown_observations": existing.unknown_observations
+                    + int(hit.arm_relationship == "unknown"),
                 }
             )
         existing = self._attribute_targets(existing)
@@ -566,7 +576,9 @@ class AssetRegistry:
             structurally_typed_drug=any(
                 record.structurally_typed_drug for record in records
             ),
-            comparator_role=all(record.comparator_role for record in records),
+            comparator_observations=sum(record.comparator_observations for record in records),
+            therapeutic_observations=sum(record.therapeutic_observations for record in records),
+            unknown_observations=sum(record.unknown_observations for record in records),
         )
         for asset_id in merge.source_asset_ids:
             self._deindex_asset(asset_id)

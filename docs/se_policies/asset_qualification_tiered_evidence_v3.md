@@ -145,6 +145,26 @@ Ontology-wide, for the record: 81,243 directly-qualifying names, 36,523 synonym-
 carry an INN stem — those ~1,931 are where a future recall problem would concentrate if
 one appears.
 
+### 4a. Addendum: the cost of requiring a therapeutic observation
+
+Recorded 2026-09-23, after implementing §3c and before the v3 run. §3c adds a requirement
+§4 did not price: the structured-typing route now needs one `THERAPEUTIC` observation, so
+any asset whose structured declaration carries no readable arm relationship also leaves the
+default path. Measured against `mint2_on`'s sealed CT.gov snapshots and its 1,240
+default-path assets:
+
+- 1,872 of 1,910 protocols that declare interventions also declare arm groups; 7,168
+  therapeutic, 122 comparator and 114 unknown observations resolve across them.
+- 268 default-path assets are structurally typed; 169 of those depend on the structured
+  route because their names are neither directly qualifying nor development-code shaped.
+- **4 of the 169 lose it**: `CD19/BCMA CAR-T` (one `UNKNOWN`), `LTB4`,
+  `Fludarabine, Thiotepa, Melphalan, Thymoglobuline (ATG)`, `Noninterventional`.
+
+Only the first is arguably an asset, and it is a bare class description with more than
+twenty sibling variants that keep the path. **Declared cost: 4 more assets, total 58.**
+The descriptive dual CD19/BCMA CAR-T population -- the thesis-relevant names this route
+exists to protect -- is unaffected.
+
 ## 5. Acceptance bar
 
 PASS requires **all** of:

@@ -6,15 +6,16 @@ it can be resolved to its parent. It is the wrong question for **qualification**
 ontology holds ordinary English as trade names: ``frontline`` is FIPRONIL, a veterinary
 insecticide; ``choice`` is WARFARIN; ``discase`` is CHYMOPAPAIN.
 
-Selection is declared in ``docs/se_policies/asset_nomination_evidence_v1.md`` amendment 8a,
-committed before this script was written: alias types that bear identity rather than
-branding. Measured there over 40 ordinary English words, ``TRADE_NAME`` is the only alias
-type that admits any of them, and it admits exactly those three.
+Selection is declared in ``docs/se_policies/asset_qualification_tiered_evidence_v3.md``
+§3a, committed before this script was rewritten. v1 of this artifact excluded ``TRADE_NAME``
+and kept ``SYNONYM``, which removed ``frontline``/``choice``/``discase`` and left ``paper``
+-- a ChEMBL synonym -- to reach shortlist position 10 on a live run.
 
-Excluding trade names from *this* artifact does not lose Keytruda. A trade name still
-nominates, still resolves to its parent, and the parent qualifies on its own use context --
-which is the point of amendment 8a, since ``Keytruda``'s occurrences are administration
-frames and ``frontline``'s are attributive.
+So the artifact now carries two tiers rather than one list. A directly-qualifying name may
+place a string on the default canonical path by itself. A corroborative name may resolve a
+mention to its parent and nothing more; it needs a second, independent qualification route.
+That preserves ``Keytruda`` as an alias of pembrolizumab and legacy synonyms as aliases of
+their molecules, without letting ontology membership alone decide that a string is an asset.
 
     python scripts/build_identity_bearing_drug_names.py
 """
@@ -30,9 +31,16 @@ from datetime import UTC, datetime
 ONTOLOGY = pathlib.Path("data/se/ontology/current")
 OUT = pathlib.Path("src/bve/se/lexicon/identity_bearing_drug_names_v1.json")
 
-#: Alias types that assert what a molecule *is*. ``TRADE_NAME`` asserts what it is *sold as*
-#: and is excluded; ``XREF`` is a database accession, not a name a document would use.
-IDENTITY_BEARING = ("APPROVED_NAME", "SYNONYM", "DEVELOPMENT_CODE")
+#: Alias types that assert what a molecule *is*, in a form the ontology treats as its
+#: identity. These may qualify a name on their own.
+DIRECTLY_QUALIFYING = ("APPROVED_NAME", "DEVELOPMENT_CODE")
+
+#: Alias types that can resolve a mention to a parent asset but may not, alone, place that
+#: string on the default canonical path. ``TRADE_NAME`` asserts what a molecule is *sold
+#: as*; ``SYNONYM`` is whatever a depositor wrote in the synonym field, which measurably
+#: includes ordinary English -- ``paper`` reached shortlist position 10 through it.
+#: ``XREF`` is a database accession, not a name a document would use, and is in neither.
+CORROBORATIVE = ("SYNONYM", "TRADE_NAME")
 
 #: Multi-token names are kept, unlike the single-token lexicon this one sits beside. That
 #: artifact feeds a scan over prose, where a phrase cannot be looked up; this one answers an
@@ -44,7 +52,8 @@ _ANY_NAME = re.compile(r"^\S+(?: \S+)*$")
 def main() -> None:
     records = ONTOLOGY / "records.jsonl"
     digest = hashlib.sha256(records.read_bytes()).hexdigest()
-    names: set[str] = set()
+    direct: set[str] = set()
+    corroborative: set[str] = set()
     for line in records.open():
         line = line.strip()
         if not line:
@@ -52,16 +61,23 @@ def main() -> None:
         record = json.loads(line)
         if record.get("entity_type") != "DRUG":
             continue
-        values = [record.get("canonical_symbol") or "", record.get("label") or ""]
-        values += [
-            alias.get("value", "")
-            for alias in record.get("aliases") or []
-            if alias.get("alias_type") in IDENTITY_BEARING
+        tiered = [
+            (record.get("canonical_symbol") or "", direct),
+            (record.get("label") or "", direct),
         ]
-        for value in values:
+        for alias in record.get("aliases") or []:
+            alias_type = alias.get("alias_type")
+            if alias_type in DIRECTLY_QUALIFYING:
+                tiered.append((alias.get("value", ""), direct))
+            elif alias_type in CORROBORATIVE:
+                tiered.append((alias.get("value", ""), corroborative))
+        for value, tier in tiered:
             folded = " ".join(value.split()).casefold()
             if folded and _ANY_NAME.fullmatch(folded):
-                names.add(folded)
+                tier.add(folded)
+    # A name carried in both tiers is directly qualifying: one record's synonym is another
+    # record's approved name, and the stronger claim wins.
+    corroborative -= direct
     OUT.write_text(
         json.dumps(
             {
@@ -69,23 +85,29 @@ def main() -> None:
                 "derived_from": str(ONTOLOGY),
                 "records_sha256": digest,
                 "generated_at": datetime.now(UTC).isoformat(),
-                "name_count": len(names),
+                "name_count": len(direct),
+                "corroborative_name_count": len(corroborative),
                 "selection": {
                     "entity_type": "DRUG",
                     "fields": "canonical_symbol, label, and aliases of identity-bearing type",
-                    "identity_bearing_alias_types": list(IDENTITY_BEARING),
-                    "excluded_alias_types": ["TRADE_NAME", "XREF"],
+                    "directly_qualifying_alias_types": list(DIRECTLY_QUALIFYING),
+                    "corroborative_alias_types": list(CORROBORATIVE),
+                    "excluded_alias_types": ["XREF"],
                     "shape": "one or more space-separated tokens",
                     "declared_before_building": True,
-                    "policy": "docs/se_policies/asset_nomination_evidence_v1.md#8a",
+                    "policy": "docs/se_policies/asset_qualification_tiered_evidence_v3.md#3a",
                 },
-                "names": sorted(names),
+                "names": sorted(direct),
+                "corroborative_names": sorted(corroborative),
             },
             indent=1,
         )
         + "\n"
     )
-    print(f"{len(names)} identity-bearing drug names -> {OUT}")
+    print(
+        f"{len(direct)} directly-qualifying and {len(corroborative)} corroborative "
+        f"drug names -> {OUT}"
+    )
 
 
 if __name__ == "__main__":

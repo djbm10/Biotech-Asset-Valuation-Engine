@@ -11,6 +11,7 @@ from pydantic import BaseModel, Field
 
 from bve.se.discovery.asset_qualification import (
     AssetEvidence,
+    qualification_reason,
     document_frequencies,
     has_pharmacologic_context,
     is_abbreviation_gloss,
@@ -466,7 +467,9 @@ def run_landscape_search(
                 name=asset.canonical_name,
                 support=_support(asset),
                 structurally_typed_drug=asset.structurally_typed_drug,
-                comparator_role=asset.comparator_role,
+                comparator_observations=asset.comparator_observations,
+                therapeutic_observations=asset.therapeutic_observations,
+                unknown_observations=asset.unknown_observations,
                 entity_specific_link=_has_entity_link(asset),
                 corpus_documents=corpus_documents,
                 document_frequency=_document_frequency(asset),
@@ -607,6 +610,37 @@ def run_landscape_search(
             }
         )
     candidates = list(registry.assets.values())
+
+    def _asset_evidence(asset: CanonicalAsset) -> AssetEvidence:
+        """The one evidence record both the routing decision and the reason are read from.
+
+        Built here rather than twice, so a disposition and a ``qualification_reason`` can
+        never be computed from different inputs and silently disagree.
+        """
+
+        return AssetEvidence(
+            name=asset.canonical_name,
+            support=_support(asset),
+            corpus_documents=corpus_documents,
+            document_frequency=_document_frequency(asset),
+            identity_authority=asset.asset_id in described_constructs,
+            structurally_typed_drug=asset.structurally_typed_drug,
+            comparator_observations=asset.comparator_observations,
+            therapeutic_observations=asset.therapeutic_observations,
+            unknown_observations=asset.unknown_observations,
+            entity_specific_link=_has_entity_link(asset),
+            pharmacologic_context=pharmacologic_context.get(asset.asset_id, False),
+            pharmacologic_documents=pharmacologic_documents.get(asset.asset_id, 0),
+            # Every document that mentions it introduces it as an abbreviation of the phrase
+            # before it. Counted during HUMAN_POC and carried here so the gloss veto applies
+            # to routing too, not only to the fact it was written for.
+            only_abbreviation_gloss=(
+                gloss_documents.get(asset.asset_id, 0) > 0
+                and gloss_documents.get(asset.asset_id, 0)
+                == mentioning_documents.get(asset.asset_id, 0)
+            ),
+        )
+
     dispositions = {
         asset.asset_id: classify_mention_support(
             asset.canonical_name,
@@ -615,17 +649,49 @@ def run_landscape_search(
             document_frequency=_document_frequency(asset),
             identity_authority=asset.asset_id in described_constructs,
             structurally_typed_drug=asset.structurally_typed_drug,
-            comparator_role=asset.comparator_role,
+            comparator_observations=asset.comparator_observations,
+            therapeutic_observations=asset.therapeutic_observations,
+            unknown_observations=asset.unknown_observations,
             entity_specific_link=_has_entity_link(asset),
             pharmacologic_context=pharmacologic_context.get(asset.asset_id, False),
             pharmacologic_documents=pharmacologic_documents.get(asset.asset_id, 0),
+            only_abbreviation_gloss=(
+                gloss_documents.get(asset.asset_id, 0) > 0
+                and gloss_documents.get(asset.asset_id, 0)
+                == mentioning_documents.get(asset.asset_id, 0)
+            ),
         )
         for asset in candidates
     }
+    # Every candidate carries the reason it qualified, or ``None``. Recorded on the asset
+    # rather than recomputed by each reader, so "why is this here?" is a field lookup. v2
+    # made the decision single but left it anonymous, and tracing `paper` and `choice` back
+    # to their routes took a walk through four modules.
+    reasons = {
+        asset.asset_id: qualification_reason(_asset_evidence(asset))
+        for asset in candidates
+    }
+    candidates = [
+        asset.model_copy(
+            update={
+                "qualification_reason": (
+                    reasons[asset.asset_id].value if reasons[asset.asset_id] else None
+                )
+            }
+        )
+        for asset in candidates
+    ]
+    for asset in candidates:
+        registry.assets[asset.asset_id] = asset
+
     low_support_asset_ids = [
         asset.asset_id
         for asset in candidates
+        # Fail closed. A disposition is a routing decision and the reason is the authority;
+        # if they ever disagree, the asset goes to review rather than onto the default path
+        # with no auditable justification.
         if dispositions[asset.asset_id] is MentionDisposition.LOW_SUPPORT_UNKNOWN
+        or reasons[asset.asset_id] is None
     ]
     #: Retained in full on ``candidates`` with their provenance; held out of the default
     #: scoring path only. Nothing is discarded here -- see ``mention_support``.

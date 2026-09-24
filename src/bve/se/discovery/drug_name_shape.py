@@ -102,32 +102,32 @@ def is_known_drug_name(value: str) -> bool:
 
 @functools.lru_cache(maxsize=1)
 def identity_bearing_drug_names() -> frozenset[str]:
-    """Names by which the ontology says a molecule *is* known, excluding what it is sold as.
+    """Names the ontology treats as a molecule's own identity.
 
-    Built by ``scripts/build_identity_bearing_drug_names.py`` from ``CANONICAL_SYMBOL``,
-    ``APPROVED_NAME``, ``SYNONYM`` and ``DEVELOPMENT_CODE``, never ``TRADE_NAME``.
+    Built by ``scripts/build_identity_bearing_drug_names.py`` from ``canonical_symbol``,
+    ``label``, ``APPROVED_NAME`` and ``DEVELOPMENT_CODE``.
     """
 
     return frozenset(json.loads(IDENTITY_BEARING_NAMES_PATH.read_text())["names"])
 
 
-def is_identity_bearing_drug_name(value: str) -> bool:
-    """Whether the ontology holds this string as an identity, not as a brand.
+@functools.lru_cache(maxsize=1)
+def corroborative_drug_names() -> frozenset[str]:
+    """Names by which a molecule may be *referred to*: ``SYNONYM`` and ``TRADE_NAME``.
 
-    The distinction ``is_known_drug_name`` cannot make, and the reason it must be made
-    here: the ontology carries ordinary English as trade names. ``frontline`` is a record --
-    of FIPRONIL, a veterinary insecticide -- as are ``choice`` (WARFARIN) and ``discase``
-    (CHYMOPAPAIN). Measured over 40 ordinary words, ``TRADE_NAME`` is the only alias type
-    that admits any of them.
-
-    This loses no real brand. ``Keytruda`` still nominates a mention and still resolves to
-    PEMBROLIZUMAB, which qualifies on its own use context -- administration frames, where
-    ``frontline``'s occurrences are attributive. Qualification is about the molecule, and a
-    trade name is a way of referring to one, not a separate one.
+    These resolve a mention to its parent and may corroborate an identity. They may not
+    qualify a string on their own -- see ``is_identity_bearing_drug_name``.
     """
 
+    return frozenset(
+        json.loads(IDENTITY_BEARING_NAMES_PATH.read_text())["corroborative_names"]
+    )
+
+
+def _matches_lexicon(value: str, names: frozenset[str]) -> bool:
+    """Look ``value`` up in ``names``, insensitive to how its separator is written."""
+
     folded = " ".join(value.split()).casefold()
-    names = identity_bearing_drug_names()
     # Separator-insensitive, because the separator is not part of the identity. Measured:
     # ``amg 420`` is absent from the lexicon while ``amg-420`` and ``amg420`` are present,
     # and ``allo-715`` is absent while ``allo 715`` is present -- the same record, written
@@ -144,6 +144,35 @@ def is_identity_bearing_drug_name(value: str) -> bool:
             folded.replace("-", ""),
         )
     )
+
+
+def is_identity_bearing_drug_name(value: str) -> bool:
+    """Whether the ontology holds this string as a molecule's own identity.
+
+    The distinction ``is_known_drug_name`` cannot make, and v3 narrows it again. v1 of this
+    rule excluded only ``TRADE_NAME``, which removed ``frontline`` (FIPRONIL, a veterinary
+    insecticide), ``choice`` (WARFARIN) and ``discase`` (CHYMOPAPAIN) -- and left ``paper``,
+    a ``SYNONYM``, to reach shortlist position 10 on a live run. ``water`` is worse still:
+    an ``APPROVED_NAME``, and so still here.
+
+    So the synonym tier moved out. This loses no real brand and no legacy name: ``Keytruda``
+    and old synonyms still nominate a mention and still resolve to their parent, which
+    qualifies on its own evidence. What they no longer do is decide, alone, that a string
+    belongs in the therapeutic-asset population. The measured cost of that narrowing was
+    declared before the run in ``asset_qualification_tiered_evidence_v3.md`` §4.
+    """
+
+    return _matches_lexicon(value, identity_bearing_drug_names())
+
+
+def is_corroborative_drug_name(value: str) -> bool:
+    """Whether the ontology refers to some molecule by this string, as synonym or brand.
+
+    Enough to resolve a mention to a parent and to corroborate an identity another route
+    has already made plausible. Never enough on its own.
+    """
+
+    return _matches_lexicon(value, corroborative_drug_names())
 
 
 @functools.lru_cache(maxsize=1)

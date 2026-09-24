@@ -264,11 +264,15 @@ class CandidateHit(StrictModel):
     #: classification can consult declared product structure instead of guessing from
     #: punctuation in a name.
     intervention_type: str | None = None
-    #: The source declared this intervention only inside a placebo or sham control arm.
-    #: A role, not a type: it says what the string is doing in this trial, which is how
-    #: ``Placebo`` -- typed ``DRUG`` by sponsors, in 35 trials -- is kept from qualifying
-    #: as a therapeutic asset without naming it anywhere.
-    comparator_role: bool = False
+    #: What this one source says this intervention is *doing* in this one trial:
+    #: ``comparator``, ``therapeutic``, or ``unknown``. A role, not a type, which is how
+    #: ``Placebo`` -- typed ``DRUG`` by sponsors, across 35 trials -- is kept from
+    #: qualifying as a therapeutic asset without naming it anywhere.
+    #:
+    #: Tri-state rather than boolean because the missing third value was being read as
+    #: "not a comparator": one trial that declares no arm relationship used to clear the
+    #: evidence of 34 that declared a placebo arm. An observation, never an aggregate.
+    arm_relationship: str = "unknown"
     #: What kind of statement ``aliases`` is. Defaults to discovery, so a source family
     #: that does not declare an identity claim cannot produce one: new sources must opt
     #: in to identity, never inherit it. PubMed, for instance, puts the article title
@@ -349,10 +353,23 @@ class CanonicalAsset(StrictModel):
     #: and carries no weight in identity, alias or target attribution decisions. Set only
     #: from structured typing, never from prose, and never unset once observed.
     structurally_typed_drug: bool = False
-    #: Every structured declaration of this asset put it in a control arm. Unlike
-    #: ``structurally_typed_drug`` this is *not* monotonic: one experimental declaration
-    #: clears it, because a molecule used as a control elsewhere is still a molecule.
-    comparator_role: bool = False
+    #: How many structured observations placed this asset in each arm role, summed over
+    #: every source and trial. Counts rather than a verdict, so aggregation is decided in
+    #: one place (``asset_qualification``) and the evidence survives the decision.
+    #:
+    #: A molecule used as a control in one trial and studied in another is still a
+    #: molecule, so ``therapeutic_observations`` outweighs. But an absent declaration is
+    #: not a therapeutic one: ``unknown_observations`` is counted and deliberately never
+    #: cancels a comparator observation, which is the failure that let bare ``Placebo``
+    #: through v2.
+    comparator_observations: int = 0
+    therapeutic_observations: int = 0
+    unknown_observations: int = 0
+    #: Why this asset was allowed onto the default analyst path, from the single
+    #: qualification authority. ``None`` means no recognized route qualified it, and the
+    #: pipeline fails closed to review on ``None``: anonymous admission is a defect, not a
+    #: default. See ``bve.se.discovery.asset_qualification.QualificationReason``.
+    qualification_reason: str | None = None
 
 
 class IdentityRelationship(str, Enum):
