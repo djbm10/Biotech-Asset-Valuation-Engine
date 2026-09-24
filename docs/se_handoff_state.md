@@ -732,70 +732,69 @@ supported). Two residual fragments (`tesirine`, `ozogamicin`) each come from one
 string and are documented in the acceptance log. Next: ordinary-word minting, separate
 preregistration and separate acquisition.
 
-## Asset qualification v3 — FAILED_ACCEPTANCE 2026-09-24 (**resume here**)
+## Asset qualification v4 — measured PASS on all six criteria, 2026-09-24 (**resume here**)
 
-The population-cleanup arc (ordinary-word minting → v1 → v2 → v3) stopped here awaiting three
-decisions. Nothing is adopted; `0650a07` is committed on `m11-identity-graph` but **not
-adopted**, exactly like v2 before it.
+The population-cleanup arc (ordinary-word minting → v1 → v2 → v3 → v4) reaches a passing
+measurement here. v4 fixed evidence *subjects* rather than thresholds: arm type is about the arm,
+a document publisher is not the asset's company, and the abbreviation-gloss veto belongs to mention
+disposition only. **Adoption is the operator's call and has not been made.**
 
 ### Exact state
 
 | thing | value |
 |---|---|
-| v3 preregistration | `8e18dff`, `docs/se_policies/asset_qualification_tiered_evidence_v3.md`, sha256 `39aadbd6439ca5e0a99f3193239d41ab476e6dce3d94c8bd62d2778c2c3655e2` |
-| v3 implementation | `0650a07` (worktree `/home/djmann/projects/bve-b8`, branch `m11-identity-graph`) |
-| control | `8e18dff` checked out detached in `/home/djmann/projects/bve-mintoff` |
-| verdict + causes | `docs/se_acceptance_log.md`, committed `b46a490` |
-| live artifacts | `/home/djmann/se_runs/mint3_on`, `/home/djmann/se_runs/mint3_off` (logs `mint3_{on,off}.log`) |
-| prior pair | `/home/djmann/se_runs/mint2_on`, `mint2_off` (v2, also FAILED_ACCEPTANCE) |
-| scorer | `scripts/se_v3_headline_report.py <off_dir> <on_dir>` — emits the 7 headline items and counts anonymous admissions |
-| suite at `0650a07` | 1,354 passed, 3 xfailed (~11.5 min); `ruff check src/ tests/se/` clean |
+| v4 preregistration | `bf51465`, `docs/se_policies/asset_qualification_evidence_subjects_v4.md`, sha256 `747febe1fe8a1c36dc381ae7f791021f91a76584b068726d48c11240b71ada00` (amendments A1–A3 in §7–§8, all recorded before measuring, all narrowings) |
+| v4 implementation | `c98830e` (worktree `/home/djmann/projects/bve-b8`, branch `m11-identity-graph`) |
+| control | `bf51465` checked out detached in `/home/djmann/projects/bve-mintoff` |
+| scorer | `9765e69`, `scripts/se_v3_headline_report.py <off_dir> <on_dir>` |
+| verdict | `docs/se_acceptance_log.md`, committed `638ce1f` |
+| live artifacts | `/home/djmann/se_runs/mint4_on`, `/home/djmann/se_runs/mint4_off` |
+| prior pairs | `mint3_{on,off}` (v3, FAILED), `mint2_{on,off}` (v2, FAILED) |
+| suite at `c98830e` | 1,361 passed, 3 xfailed, 534.93s; `ruff check src/ tests/se/` clean |
 
 Reproduce the report without rerunning anything:
 
 ```bash
 cd /home/djmann/projects/bve-b8
 PYTHONPATH=src BVE_SE_ONTOLOGY_SNAPSHOT=data/se/ontology/current \
-  python3 scripts/se_v3_headline_report.py /home/djmann/se_runs/mint3_off /home/djmann/se_runs/mint3_on
+  python3 scripts/se_v4_headline_report.py /home/djmann/se_runs/mint4_off /home/djmann/se_runs/mint4_on
 ```
 
-### What v3 fixed and must not be regressed
+(the scorer file is still named `se_v3_headline_report.py`; the frozen lists inside it are v4's.)
 
-`choice` and `paper` leave the default path and `choice` loses its `human_poc` PASS; all nine
-frozen positives survive; human_poc 34 → 33 with the only loss a frozen negative; and every one
-of the 1,188 default-path assets carries a named `qualification_reason` with **zero anonymous
-admissions** (§5.1 passed outright). Reasons: `DIRECT_APPROVED_NAME` 525,
-`CONSTRUCT_CORROBORATED` 277, `STRUCTURED_THERAPEUTIC` 209, `DEVELOPMENT_CODE_AUTHORITY` 145,
-`ENTITY_CORROBORATED_SYNONYM` 27, `ENTITY_CORROBORATED_PROSE` 5.
+### Result
 
-### The three open causes — each needs a decision, none is a threshold
+Default path 1,200 → 1,136. All 12 frozen negatives off the default path; 31 human-PoC passers, all
+real therapeutics, none lost; all 9 prior positives unchanged and SYNCAR-001 restored; zero
+anonymous admissions; top 10 all real drugs. 65 names lost / 1 gained, matching the declared
+§4a + §4b cost exactly with nothing undeclared.
 
-1. **Arm `type` describes the arm, not the intervention.** Bare `Placebo` took 15 THERAPEUTIC
-   against 25 COMPARATOR observations because blinded dose-escalation designs list `Drug: X` and
-   `Drug: Placebo` inside one arm typed `EXPERIMENTAL` — 100 such arms in this corpus
-   (NCT06617546, NCT05021666, NCT05507515). The tri-state and its aggregation work as specified;
-   the input is wrong, so no aggregation rule repairs it. Candidate rule to preregister: an arm
-   holding both an active intervention and its own placebo may not confer THERAPEUTIC on both.
-   Keep NCT07439263 (cross-labelled arms, three-channel reconciliation) as the other control.
-2. **A lone co-occurring company is not corroboration.** `equal`, `nature`, `roche`, `saline`,
-   `search`, `success` were newly admitted via `ENTITY_CORROBORATED_SYNONYM`: zero trials, zero
-   targets, one company each — and for `roche` the company is itself. The route is right; what
-   `_has_entity_link` admits to it is not. Note `ENTITY_CORROBORATED_TRADE_NAME` is in the
-   preregistered reason list but is not emitted — trade and synonym tiers share one reason today.
-3. **A widening I introduced, not preregistered.** §3e said the abbreviation-gloss veto *stays*;
-   building one evidence record for both disposition and reason also extended it to default-path
-   routing, where v2 applied it only to the human-PoC fact (`pipeline.py::_asset_evidence`).
-   Cost: exactly one real asset, **SYNCAR-001** (2 trials, 2 owners, structurally typed, 2
-   therapeutic observations, every mention parenthetical). 57 of 58 losses are declared §4/§4a
-   costs; this is the 58th. Decide whether to revert the scope or preregister the widening.
+### Two qualifications on the record
+
+1. **Amendment A3 was never exercised.** `Descartes-08` is BCMA-only and absent from both runs, so
+   the symmetry carve-out rests on the sealed-snapshot measurement alone, not on the live pair. The
+   operator's own framing was that the paired run should decide A3's robustness; it did not.
+2. **`CAR19` and `CART19` hold human-PoC PASSes as class terms, not assets** — default-path in the
+   **off** run too, so not a v4 regression, but under a strict reading of "zero non-assets with a
+   decisional PASS" they are the residual. `CART19` routes via `DIRECT_APPROVED_NAME`: the ontology
+   carries it as an identity name. This is mention precision, not evidence subjects.
+
+### If v4 is adopted
+
+Ranking / ordering is the next arc, per the operator's stated sequencing. Nothing else in identity.
+
+### If v4 is rejected
+
+The operator's preregistered falsification path stands: stop inferring THERAPEUTIC from CT.gov arm
+type at all, and use arm type only as contextual/comparator evidence where attribution is explicit.
 
 ### Standing constraints still in force
 
-Do **not** touch ranking until the population passes. No hand-written blacklist. No threshold
-tuned after seeing the acceptance corpus. No weakening of target or `human_poc` rules.
-Fragmentation stays adopted. Adoption requires a **fresh paired same-day live acquisition** with
-a fix-off control at the parent commit — sealed replay is not the adoption test for anything
-that changes which names qualify. Preregister (hashed, committed) before any code change.
+Do **not** touch ranking until the operator adopts. No hand-written blacklist. No threshold tuned
+after seeing the acceptance corpus. No weakening of target or `human_poc` rules. Fragmentation stays
+adopted. Adoption requires a **fresh paired same-day live acquisition** with a fix-off control at
+the parent commit — sealed replay is not the adoption test for anything that changes which names
+qualify. Preregister (hashed, committed) before any code change.
 
 ### Known residuals, reported not patched
 
@@ -804,3 +803,7 @@ that changes which names qualify. Preregister (hashed, committed) before any cod
 - `Fintepla` (fenfluramine) and `Uptravi` (selexipag) are accepted losses — their parents are
   absent from this corpus entirely, so the "a brand resolves to its parent" argument fails for
   exactly these two of fourteen checked.
+- The ~13 genuine literature-only assets demoted by §3b (`GNC-038`, `STK-009`, `BT7480`,
+  `anlotinib`, `AT101`, `Gleevec`, `EPC-001`, `API-192`, `JY108`, `EDP001`, `ABO2015`, `DDT01`,
+  `CAR-12`, `ThioMab`) sit in review. Recovering them needs a real asset↔company or asset↔trial
+  link, never a weakening of §3b.
