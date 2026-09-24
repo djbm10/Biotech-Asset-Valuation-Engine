@@ -363,6 +363,12 @@ class CanonicalAsset(StrictModel):
     #: cancels a comparator observation, which is the failure that let bare ``Placebo``
     #: through v2.
     comparator_observations: int = 0
+    #: The subset of the above that is entity-specific: this intervention alone occupied a
+    #: control arm, so the arm's type was a statement about it. v4 §3a made this its own
+    #: count because the dominance it earns has to survive across protocols -- bare
+    #: ``Placebo`` is the sole occupant of 28 control arms and is also listed beside the
+    #: active drug inside 12 blinded ``EXPERIMENTAL`` arms, and it is the 28 that describe it.
+    specific_comparator_observations: int = 0
     therapeutic_observations: int = 0
     unknown_observations: int = 0
     #: Why this asset was allowed onto the default analyst path, from the single

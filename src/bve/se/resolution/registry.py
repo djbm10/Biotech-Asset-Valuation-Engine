@@ -250,7 +250,12 @@ class AssetRegistry:
                 mention_ids=[mention_id],
                 provisional=not bool(hit.trial_id),
                 structurally_typed_drug=typed_drug,
-                comparator_observations=int(hit.arm_relationship == "comparator"),
+                comparator_observations=int(
+                    hit.arm_relationship in {"comparator", "specific_comparator"}
+                ),
+                specific_comparator_observations=int(
+                    hit.arm_relationship == "specific_comparator"
+                ),
                 therapeutic_observations=int(hit.arm_relationship == "therapeutic"),
                 unknown_observations=int(hit.arm_relationship == "unknown"),
             )
@@ -285,7 +290,11 @@ class AssetRegistry:
                     # observation that declared nothing thereby retracted 34 that declared a
                     # placebo arm. Counting keeps every observation and defers the verdict.
                     "comparator_observations": existing.comparator_observations
-                    + int(hit.arm_relationship == "comparator"),
+                    + int(hit.arm_relationship in {"comparator", "specific_comparator"}),
+                    "specific_comparator_observations": (
+                        existing.specific_comparator_observations
+                        + int(hit.arm_relationship == "specific_comparator")
+                    ),
                     "therapeutic_observations": existing.therapeutic_observations
                     + int(hit.arm_relationship == "therapeutic"),
                     "unknown_observations": existing.unknown_observations
@@ -577,6 +586,9 @@ class AssetRegistry:
                 record.structurally_typed_drug for record in records
             ),
             comparator_observations=sum(record.comparator_observations for record in records),
+            specific_comparator_observations=sum(
+                record.specific_comparator_observations for record in records
+            ),
             therapeutic_observations=sum(record.therapeutic_observations for record in records),
             unknown_observations=sum(record.unknown_observations for record in records),
         )

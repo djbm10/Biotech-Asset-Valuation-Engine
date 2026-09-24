@@ -468,6 +468,7 @@ def run_landscape_search(
                 support=_support(asset),
                 structurally_typed_drug=asset.structurally_typed_drug,
                 comparator_observations=asset.comparator_observations,
+                specific_comparator_observations=asset.specific_comparator_observations,
                 therapeutic_observations=asset.therapeutic_observations,
                 unknown_observations=asset.unknown_observations,
                 entity_specific_link=_has_entity_link(asset),
@@ -509,7 +510,16 @@ def run_landscape_search(
                 if any(is_abbreviation_gloss(text, name) for name in names):
                     gloss_documents[asset_id] = gloss_documents.get(asset_id, 0) + 1
                 mentioning_documents[asset_id] = mentioning_documents.get(asset_id, 0) + 1
-                qualified = qualifies_as_asset(
+                # v4 §3c. The gloss veto is applied here, at the decisional fact, and
+                # nowhere else. v2 and v3 preregistered it for human proof of concept --
+                # "bispecific antibodies (bsAbs)" reports no outcome for bsAbs -- and v3
+                # then routed it through ``AssetEvidence``, where it silently became a
+                # qualification rule and cost SYNCAR-001. Stated as a separate conjunct so
+                # the two questions cannot be confused again.
+                gloss_only = gloss_documents.get(asset_id, 0) > 0 and gloss_documents.get(
+                    asset_id, 0
+                ) == mentioning_documents.get(asset_id, 0)
+                qualified = not gloss_only and qualifies_as_asset(
                     evidence_so_far.model_copy(
                         update={
                             "pharmacologic_context": pharmacologic_context.get(
@@ -517,11 +527,6 @@ def run_landscape_search(
                             ),
                             "pharmacologic_documents": pharmacologic_documents.get(
                                 asset_id, 0
-                            ),
-                            "only_abbreviation_gloss": (
-                                gloss_documents.get(asset_id, 0) > 0
-                                and gloss_documents.get(asset_id, 0)
-                                == mentioning_documents.get(asset_id, 0)
                             ),
                         }
                     )
@@ -626,19 +631,14 @@ def run_landscape_search(
             identity_authority=asset.asset_id in described_constructs,
             structurally_typed_drug=asset.structurally_typed_drug,
             comparator_observations=asset.comparator_observations,
+            specific_comparator_observations=asset.specific_comparator_observations,
             therapeutic_observations=asset.therapeutic_observations,
             unknown_observations=asset.unknown_observations,
             entity_specific_link=_has_entity_link(asset),
             pharmacologic_context=pharmacologic_context.get(asset.asset_id, False),
             pharmacologic_documents=pharmacologic_documents.get(asset.asset_id, 0),
-            # Every document that mentions it introduces it as an abbreviation of the phrase
-            # before it. Counted during HUMAN_POC and carried here so the gloss veto applies
-            # to routing too, not only to the fact it was written for.
-            only_abbreviation_gloss=(
-                gloss_documents.get(asset.asset_id, 0) > 0
-                and gloss_documents.get(asset.asset_id, 0)
-                == mentioning_documents.get(asset.asset_id, 0)
-            ),
+            # v4 §3c: the gloss signal is deliberately not carried into the qualification
+            # evidence. It belongs to mention support, which reads it below.
         )
 
     dispositions = {
@@ -650,16 +650,12 @@ def run_landscape_search(
             identity_authority=asset.asset_id in described_constructs,
             structurally_typed_drug=asset.structurally_typed_drug,
             comparator_observations=asset.comparator_observations,
+            specific_comparator_observations=asset.specific_comparator_observations,
             therapeutic_observations=asset.therapeutic_observations,
             unknown_observations=asset.unknown_observations,
             entity_specific_link=_has_entity_link(asset),
             pharmacologic_context=pharmacologic_context.get(asset.asset_id, False),
             pharmacologic_documents=pharmacologic_documents.get(asset.asset_id, 0),
-            only_abbreviation_gloss=(
-                gloss_documents.get(asset.asset_id, 0) > 0
-                and gloss_documents.get(asset.asset_id, 0)
-                == mentioning_documents.get(asset.asset_id, 0)
-            ),
         )
         for asset in candidates
     }

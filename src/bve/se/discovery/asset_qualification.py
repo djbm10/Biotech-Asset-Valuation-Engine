@@ -198,6 +198,7 @@ class AssetEvidence(BaseModel):
     #: and bare ``Placebo`` kept canonical status. ``unknown_observations`` exists to be
     #: counted and ignored: silence is not a therapeutic declaration.
     comparator_observations: int = 0
+    specific_comparator_observations: int = 0
     therapeutic_observations: int = 0
     unknown_observations: int = 0
     #: An entity-specific link: a trial, an owner, or an attributed target for *this* name.
@@ -208,7 +209,6 @@ class AssetEvidence(BaseModel):
     #: Every occurrence of the name is a parenthetical abbreviation of the phrase before it.
     #: Applied to the routes that need no corpus evidence, because those are exactly the
     #: routes a gloss can otherwise walk through: "(POD24)" has the shape of a sponsor code.
-    only_abbreviation_gloss: bool = False
     #: A construct or target description vouched for this name. Corroboration only since
     #: v3: ``choice`` reached the default path and carried a human-PoC PASS on nothing but
     #: this, having been matched to the warfarin brand and credited with a VKORC1 assertion.
@@ -391,6 +391,14 @@ def is_comparator_only(evidence: AssetEvidence) -> bool:
     ``Placebo``, whose 35 trials include one that types no arm.
     """
 
+    # v4 §3a. An entity-specific comparator observation -- this intervention alone occupying
+    # a control arm -- is dominant, and one is enough. It does not have to beat the
+    # therapeutic count, because those observations come from arm type, and arm type is a
+    # property of the arm: a blinded ``EXPERIMENTAL`` arm listing the active drug beside its
+    # own placebo says nothing about the placebo. Bare ``Placebo`` is the sole occupant of 28
+    # control arms and sits inside 12 such blinded arms, and v3 admitted it on the 12.
+    if evidence.specific_comparator_observations > 0:
+        return True
     return evidence.comparator_observations > 0 and evidence.therapeutic_observations == 0
 
 
@@ -410,11 +418,13 @@ def qualification_reason(evidence: AssetEvidence) -> QualificationReason | None:
     if not name:
         return None
 
-    # A name that only ever appears expanding the phrase in front of it is an abbreviation,
-    # and no route may carry it. "bispecific antibodies (bsAbs)" and "progression of disease
-    # within 24 months (POD24)" are the frozen cases.
-    if evidence.only_abbreviation_gloss:
-        return None
+    # v4 §3c. The abbreviation-gloss veto is deliberately absent. v2 and v3 preregistered it
+    # for the human-PoC fact -- "bispecific antibodies (bsAbs)" does not report an outcome for
+    # bsAbs -- and v3 then carried it into routing, where nothing had been declared. It cost
+    # SYNCAR-001, a real asset every one of whose mentions is parenthetical, and it bought
+    # nothing: `POD24` and `bsAbs` were already held for review by the fix-off control. Routing
+    # is decided by the evidence below, and the gloss test stays in ``human_poc`` where it was
+    # written to act.
 
     # --- routes that decide on their own -------------------------------------------------
 

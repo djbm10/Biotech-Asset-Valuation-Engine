@@ -638,6 +638,11 @@ class ArmRelationship(str, enum.Enum):
     COMPARATOR = "comparator"
     #: The source explicitly places it in an experimental or active-comparator arm.
     THERAPEUTIC = "therapeutic"
+    #: A comparator reading that is *about this intervention*: the sole occupant of a
+    #: control arm. Distinguished from ``COMPARATOR`` because arm type is otherwise a
+    #: property of the arm, so it is contextual for every other intervention the arm
+    #: lists. v4 §3a: only this reading outranks contextual therapeutic evidence.
+    SPECIFIC_COMPARATOR = "specific_comparator"
     #: No arm relationship could be read, or the source contradicts itself. Records that
     #: the question was asked and not answered, which is not the same as answering "no".
     UNKNOWN = "unknown"
@@ -724,7 +729,75 @@ def _arm_relationships(protocol: dict[str, Any]) -> dict[str, ArmRelationship]:
         # description its structured-therapeutic route -- it goes to review -- and keeps the
         # asset ``HB2198`` itself, separately observed as experimental in NCT07491900.
         relationships[key] = read.pop() if len(read) == 1 else ArmRelationship.UNKNOWN
+
+    # v4 §3a. Arm type is a property of the arm, so the reading above is contextual evidence
+    # for every intervention the arm lists. A control arm holding exactly one intervention is
+    # the case where the arm type is unambiguously about that intervention, and that reading
+    # is entity-specific -- it outranks the contextual therapeutic evidence a blinded
+    # ``EXPERIMENTAL`` arm confers on the placebo it lists alongside the active drug.
+    #
+    # The exception is the self-contradicting record. Where the arm *labels* name the
+    # intervention as therapeutic, the source dissents from its own linkage, and the
+    # conservative reading (v2's HB2198 lesson) still wins.
+    label_channel = channels[2]
+    for key in _intervention_specific_comparators(protocol):
+        if _read_channel(label_channel.get(key, set())) is ArmRelationship.THERAPEUTIC:
+            continue
+        relationships[key] = ArmRelationship.SPECIFIC_COMPARATOR
     return relationships
+
+
+def _intervention_specific_comparators(protocol: dict[str, Any]) -> set[str]:
+    """Interventions that are the *sole* intervention of a control arm.
+
+    Both CT.gov linkage directions are unioned to size an arm, because an arm that looks
+    single-intervention through one of them may list a second through the other, and an arm
+    of two is not evidence about either one of them.
+    """
+
+    module = protocol.get("armsInterventionsModule", {}) or {}
+    members: dict[str, set[str]] = {}
+    comparator_labels: set[str] = set()
+    therapeutic_labels: set[str] = set()
+
+    for arm in module.get("armGroups", []) or []:
+        label = _normalized_lookup(str(arm.get("label") or ""))
+        if not label:
+            continue
+        declared = str(arm.get("type") or "").strip().upper()
+        if declared in _COMPARATOR_ARM_TYPES:
+            comparator_labels.add(label)
+        elif declared in _THERAPEUTIC_ARM_TYPES:
+            therapeutic_labels.add(label)
+        for name in arm.get("interventionNames") or []:
+            key = _normalized_lookup(_strip_intervention_type_prefix(str(name)))
+            if key:
+                members.setdefault(label, set()).add(key)
+
+    for intervention in _extract_interventions(protocol):
+        key = _normalized_lookup(str(intervention.get("name") or ""))
+        if not key:
+            continue
+        for label in intervention.get("armGroupLabels") or []:
+            normalized = _normalized_lookup(str(label))
+            if normalized:
+                members.setdefault(normalized, set()).add(key)
+
+    def sole_occupants(labels: set[str]) -> set[str]:
+        found: set[str] = set()
+        for label in labels:
+            occupants = members.get(label, set())
+            if len(occupants) == 1:
+                found |= occupants
+        return found
+
+    # Symmetric, and it has to be. NCT04146051 types its randomized phase
+    # ``PLACEBO_COMPARATOR`` and lists Descartes-08 as that arm's only intervention -- the
+    # sponsor named the arm by design, not by material -- while the same drug is the sole
+    # occupant of two ``EXPERIMENTAL`` arms in the same record. A protocol that speaks
+    # entity-specifically on both sides is contradicting itself, and the conservative
+    # reading of a self-contradicting record is that it did not say. See v4 amendment A3.
+    return sole_occupants(comparator_labels) - sole_occupants(therapeutic_labels)
 
 
 def _read_channel(declared: set[str]) -> ArmRelationship:
@@ -1525,7 +1598,10 @@ class IndexedDocumentAdapter:
                         source_document_id=document_id,
                         query=query.query,
                         asset_name=asset_name,
-                        company_name=mention.get("company_name") or record.get("publisher"),
+                        # v4 §3b: the mention's own attribution only. A record's publisher is
+                        # the venue, not the asset's company, and falling back to it turns
+                        # shared-document co-occurrence into entity corroboration.
+                        company_name=mention.get("company_name"),
                         trial_id=mention.get("trial_id"),
                         target_terms=sorted(observed_targets),
                         modality_terms=[observed_modality] if observed_modality else [],

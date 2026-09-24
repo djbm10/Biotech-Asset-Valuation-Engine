@@ -234,3 +234,36 @@ def test_factory_rejects_invalid_no_data_proof(tmp_path: Path) -> None:
             ["clinicaltrials_gov"],
             proven_no_data_source_families=["clinicaltrials_gov"],
         )
+
+
+def test_a_venue_publisher_is_not_the_assets_company(
+    tmp_path: Path, se_ontology_snapshot
+) -> None:
+    """v4 §3b. Sharing a document with a name is co-occurrence, not ownership.
+
+    This route observes a name in prose and knows nothing about who owns it. v3 attributed
+    the document's publisher, and because "AACR" is a conference rather than one of the
+    handful of publishers the code treated as generic, the venue became the corroborating
+    company for every asset in an AACR abstract -- and through ``_has_entity_link`` carried
+    ``equal``, ``nature``, ``roche``, ``saline``, ``search`` and ``success`` onto the default
+    path on a live run. Measured: all 100 company-only default-path assets named AACR.
+    """
+
+    store = CorpusStore(tmp_path / "corpus")
+    corpus_document = store.add(
+        source_family="conference_abstract",
+        source_url="https://example.test/aacr/abstract/1",
+        publisher="AACR",
+        document_type="conference_abstract",
+        source_tier=SourceTier.PRIMARY,
+        raw_payload={"text": "CLN-978 is a CD19 x CD3 bispecific T-cell engager."},
+        text="CLN-978 is a CD19 x CD3 bispecific T-cell engager.",
+        title="CLN-978 abstract",
+        as_of_date=AS_OF,
+    )
+    adapter = CorpusDiscoveryAdapter("conference_abstract", [corpus_document])
+
+    result = adapter.search(_query(), as_of_date=AS_OF)
+
+    assert [hit.asset_name for hit in result.hits] == ["CLN-978"]
+    assert [hit.company_name for hit in result.hits] == [None]

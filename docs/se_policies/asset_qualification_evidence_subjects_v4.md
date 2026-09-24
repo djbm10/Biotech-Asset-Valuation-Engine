@@ -163,3 +163,58 @@ anything that changes which names qualify. Scored by `scripts/se_v3_headline_rep
 - No threshold tuning after seeing the acceptance corpus.
 - No change to fragmentation (frozen as adopted).
 - No ranking or ordering change. Ranking work begins only if this bar passes.
+
+## 7. Amendment A1 — 2026-09-24, before measurement
+
+**Direction: narrowing.**
+
+§3a(1) as written says `COMPARATOR` is conferred *only* by an intervention-specific arm. The
+implementation instead keeps v3's existing channel reading — a control arm confers `COMPARATOR`
+on the interventions it lists, whatever its arity — and *adds* intervention-specificity as the
+condition for **dominance** over contextual `THERAPEUTIC` evidence.
+
+Both readings fix `Placebo`. They differ for a name observed only in multi-intervention control
+arms: the strict reading gives it no role at all, the implemented reading calls it a comparator.
+The implemented reading therefore withholds more names from the default path, which is the
+conservative direction and preserves v3's comparator-only population (`Matched Placebo`,
+`Placebo Comparator`, `Placebo (matched to IVA)`, `Placebo (matched to TEZ/IVA)`) without
+re-deriving it.
+
+Recorded here, before the v4 paired run, rather than left as an undeclared divergence. The
+declared cost in §4a is unchanged: dominance is what moves `Placebo`, and dominance is measured.
+
+Amendment A2 — the self-contradiction exception in §3a is implemented as an explicit carve-out:
+where the arm *labels* read an intervention as therapeutic, dominance does not fire. This is the
+v2 HB2198 lesson, which §3a assumed but did not state. Direction: narrowing (it withholds a
+comparator label the strict text would have applied). Frozen as a test.
+
+## 8. Amendment A3 — 2026-09-24, before the paired run
+
+**Direction: narrowing.** Entity-specificity is **symmetric**.
+
+§3a(1) defined an intervention-specific comparator as the sole occupant of a control arm. Measured
+against the sealed CT.gov snapshots, that reading also captured **Descartes-08** (NCT04146051), a
+real BCMA cell therapy in generalized myasthenia gravis and squarely inside the query population.
+Its sponsor typed the randomized phase `PLACEBO_COMPARATOR` and listed Descartes-08 as that arm's
+only intervention — the arm is named for its *design*, not its material — while the same drug is
+the sole occupant of two `EXPERIMENTAL` arms in the same record.
+
+Dominance therefore does not fire where the same intervention is *also* the sole occupant of a
+therapeutic arm in that protocol. A record that speaks entity-specifically on both sides is
+contradicting itself, and the conservative reading of a self-contradicting record is that it did
+not say — the same principle as the HB2198 label carve-out in A2.
+
+Re-measured blast radius after A3, on the sealed snapshots: **11** names carry a specific-comparator
+observation and dominance changes the verdict for exactly **3** — `Placebo`, `standardofcare`,
+`bodycompositionmonitoring`. None is an asset. `HB2198`, `teclistamab`, `pomalidomide`,
+`gemcitabine`, `pembrolizumab` and `Descartes-08` are all untouched and purely therapeutic.
+
+This supersedes the §4a figure of 19 specific-comparator interventions, which was measured under
+the asymmetric reading. The declared cost of §3a is unchanged at **1 default-path asset, a frozen
+negative**.
+
+Implementation note: dominance has to act at the **asset** level, not within a protocol. Bare
+`Placebo` is the sole occupant of 24 control arms and is listed beside the active drug inside 13
+blinded `EXPERIMENTAL` arms in *other* protocols; a per-protocol rule leaves those 13 therapeutic
+observations standing and `Placebo` qualifies anyway. `CanonicalAsset.specific_comparator_observations`
+carries the count so the dominance survives aggregation.

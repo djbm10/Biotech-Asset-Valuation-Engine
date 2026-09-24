@@ -154,7 +154,9 @@ class TestTheArmLinkageIsReadFromTheSourceNotAssumed:
                 ]
             )
         )
-        assert roles["placebo"] is ArmRelationship.COMPARATOR
+        # Sole occupant of the control arm, so the arm's type is a statement about it:
+        # the stronger, entity-specific reading (v4 §3a).
+        assert roles["placebo"] is ArmRelationship.SPECIFIC_COMPARATOR
         assert roles["teclistamab"] is ArmRelationship.THERAPEUTIC
 
     def test_an_active_control_is_therapeutic_not_control_material(self) -> None:
@@ -277,15 +279,179 @@ class TestEveryAdmissionHasANamedReason:
     def test_a_frozen_negative_has_no_reason_at_all(self, name: str) -> None:
         assert qualification_reason(AssetEvidence(name=name)) is None
 
-    def test_a_gloss_only_name_has_no_reason_even_through_a_strong_route(self) -> None:
+    def test_the_gloss_veto_does_not_act_on_qualification(self) -> None:
+        # v4 §3c. The veto was preregistered for the human-PoC fact and v3 routed it through
+        # qualification as well, which cost SYNCAR-001 -- a real asset every one of whose
+        # mentions is parenthetical. Qualification asks whether the evidence names an asset;
+        # the gloss test answers a different question and is applied at the fact.
         assert (
             qualification_reason(
                 AssetEvidence(
                     name="POD24",
                     structurally_typed_drug=True,
                     therapeutic_observations=1,
-                    only_abbreviation_gloss=True,
                 )
             )
-            is None
+            is QualificationReason.STRUCTURED_THERAPEUTIC
         )
+        assert not hasattr(AssetEvidence(name="POD24"), "only_abbreviation_gloss")
+
+
+class TestArmTypeIsEvidenceAboutTheArm:
+    """v4 §3a. The arm's ``type`` is a property of the arm, not of its interventions."""
+
+    @staticmethod
+    def _protocol(arms: list[dict], interventions: list[dict] | None = None) -> dict:
+        return {
+            "armsInterventionsModule": {
+                "armGroups": arms,
+                "interventions": interventions or [],
+            }
+        }
+
+    def test_a_blinded_arm_does_not_make_its_own_placebo_therapeutic(self) -> None:
+        # The v3 failure, exactly. 100 arms in the live corpus type themselves EXPERIMENTAL
+        # while listing the active drug and its placebo side by side; bare `Placebo`
+        # collected 15 THERAPEUTIC observations that way and reached the default path.
+        roles = _arm_relationships(
+            self._protocol(
+                [
+                    {
+                        "type": "EXPERIMENTAL",
+                        "label": "Arm A",
+                        "interventionNames": ["Drug: teclistamab", "Drug: Placebo"],
+                    },
+                    {
+                        "type": "PLACEBO_COMPARATOR",
+                        "label": "Arm B",
+                        "interventionNames": ["Drug: Placebo"],
+                    },
+                ]
+            )
+        )
+        # Sole occupant of the control arm, so the arm's type is a statement about it:
+        # the stronger, entity-specific reading (v4 §3a).
+        assert roles["placebo"] is ArmRelationship.SPECIFIC_COMPARATOR
+        assert roles["teclistamab"] is ArmRelationship.THERAPEUTIC
+
+    def test_a_drug_in_a_multi_intervention_control_arm_keeps_its_role(self) -> None:
+        # An arm of two says nothing entity-specific about either one, so the contextual
+        # reading stands. This is what keeps pomalidomide and teclistamab -- both observed
+        # inside control regimens on live data -- out of the comparator-only population.
+        roles = _arm_relationships(
+            self._protocol(
+                [
+                    {
+                        "type": "PLACEBO_COMPARATOR",
+                        "label": "Control",
+                        "interventionNames": ["Drug: pomalidomide", "Drug: dexamethasone"],
+                    },
+                    {
+                        "type": "EXPERIMENTAL",
+                        "label": "Arm A",
+                        "interventionNames": ["Drug: pomalidomide"],
+                    },
+                ]
+            )
+        )
+        assert roles["pomalidomide"] is ArmRelationship.THERAPEUTIC
+
+    def test_a_dissenting_arm_label_still_beats_a_crosswise_record(self) -> None:
+        # NCT07439263 stays frozen. The sponsor entered the arms crosswise, so the
+        # PLACEBO_COMPARATOR arm is single-intervention *and* holds the real bispecific.
+        # Intervention specificity must not override the source's own dissent, or v4 would
+        # reintroduce the v2 failure it inherited a fix for.
+        roles = _arm_relationships(
+            self._protocol(
+                [
+                    {
+                        "type": "PLACEBO_COMPARATOR",
+                        "label": "HB2198 Diluent (IV)",
+                        "interventionNames": ["Drug: HB2198"],
+                    },
+                    {
+                        "type": "ACTIVE_COMPARATOR",
+                        "label": "HB2198",
+                        "interventionNames": ["Drug: HB2198 Diluent (IV)"],
+                    },
+                ]
+            )
+        )
+        assert roles["hb2198"] is not ArmRelationship.COMPARATOR
+
+    def test_the_reverse_linkage_also_sizes_the_arm(self) -> None:
+        # An arm that looks single-intervention through ``interventionNames`` may list a
+        # second through ``armGroupLabels``. Sizing it from one direction only would make
+        # entity-specificity depend on which field the sponsor happened to fill in, so the
+        # dominance rule must not fire here and the contextual therapeutic reading stands.
+        roles = _arm_relationships(
+            self._protocol(
+                [
+                    {
+                        "type": "PLACEBO_COMPARATOR",
+                        "label": "Control",
+                        "interventionNames": ["Drug: lenalidomide"],
+                    },
+                    {
+                        "type": "EXPERIMENTAL",
+                        "label": "Arm A",
+                        "interventionNames": ["Drug: lenalidomide"],
+                    },
+                ],
+                [{"name": "dexamethasone", "armGroupLabels": ["Control"]}],
+            )
+        )
+        assert roles["lenalidomide"] is ArmRelationship.THERAPEUTIC
+
+    def test_a_randomized_phase_typed_as_control_is_not_control_material(self) -> None:
+        # NCT04146051, frozen. Descartes-08 is a real BCMA cell therapy in generalized
+        # myasthenia gravis, and its sponsor typed the randomized phase PLACEBO_COMPARATOR
+        # while listing the drug as that arm's only intervention -- the arm is named for its
+        # design, not its material. Entity-specificity must be symmetric or v4 deletes an
+        # asset at the centre of the query population. See amendment A3.
+        roles = _arm_relationships(
+            self._protocol(
+                [
+                    {
+                        "type": "EXPERIMENTAL",
+                        "label": "Phase 1b Dose-Escalation",
+                        "interventionNames": ["Drug: Descartes-08"],
+                    },
+                    {
+                        "type": "PLACEBO_COMPARATOR",
+                        "label": "Phase IIb Randomized Control Trial",
+                        "interventionNames": ["Drug: Descartes-08"],
+                    },
+                ]
+            )
+        )
+        assert roles["descartes08"] is not ArmRelationship.SPECIFIC_COMPARATOR
+
+
+class TestSpecificComparatorEvidenceIsDominantAcrossProtocols:
+    """v4 §3a and amendment A3. One entity-specific observation is enough."""
+
+    def test_one_specific_observation_outranks_many_contextual_ones(self) -> None:
+        # Bare ``Placebo``: sole occupant of 24 control arms, and listed beside the active
+        # drug inside 13 blinded EXPERIMENTAL arms. v3 admitted it on the 13.
+        evidence = AssetEvidence(
+            name="Placebo",
+            structurally_typed_drug=True,
+            comparator_observations=27,
+            specific_comparator_observations=24,
+            therapeutic_observations=13,
+        )
+        assert is_comparator_only(evidence) is True
+        assert qualification_reason(evidence) is None
+
+    def test_contextual_comparator_evidence_is_still_outweighed(self) -> None:
+        # A drug co-administered in control regimens and studied elsewhere keeps its role.
+        # Nothing about it was ever entity-specific, so the v3 asymmetry applies unchanged.
+        evidence = AssetEvidence(
+            name="pomalidomide",
+            structurally_typed_drug=True,
+            comparator_observations=4,
+            therapeutic_observations=15,
+        )
+        assert is_comparator_only(evidence) is False
+        assert qualification_reason(evidence) is QualificationReason.DIRECT_APPROVED_NAME

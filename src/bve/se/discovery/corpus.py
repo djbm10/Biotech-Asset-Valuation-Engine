@@ -200,21 +200,17 @@ def _generic_candidates(
             if vocabulary.targets_in(passage) and vocabulary.modality_in(passage):
                 evidence_passages.append(passage)
     names = extract_observed_asset_names(*evidence_passages)
-    generic_publishers = {
-        document.source_family.casefold(),
-        "pubmed",
-        "sec edgar",
-        "fda/dailymed",
-    }
-    company = (
-        document.publisher
-        if document.publisher.strip().casefold() not in generic_publishers
-        else None
-    )
+    # v4 §3b. A document's publisher is not the asset's company. This route observes a name in
+    # prose and knows nothing about who owns it, so it attributes no company at all. Naming the
+    # publisher here made "AACR" the corroborating company for every asset mentioned in an AACR
+    # abstract -- and, through ``_has_entity_link``, corroborated ``equal``, ``nature``,
+    # ``roche``, ``saline``, ``search`` and ``success`` into the default path. Sharing a
+    # document with a company name is co-occurrence, not an asset-company relationship.
+    # Structured sponsor attribution (the CT.gov route above) is unaffected.
     return tuple(
         _ObservedCandidate(
             asset_name=name,
-            company_name=company,
+            company_name=None,
             trial_id=None,
             target_ids=targets,
             modality_id=modality,
