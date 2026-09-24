@@ -1764,7 +1764,7 @@ itself. The route is right; the entity link admitted to it is not.
 **3. An unpreregistered widening of my own.** §3e said the abbreviation-gloss veto *stays*.
 Wiring one evidence record for both disposition and reason also extended that veto to
 default-path routing, where v2 applied it only to the human-PoC fact. Measured cost: exactly
-one asset, and it is real — **SYNCAR-001** (Synthetic Biologics' armored CAR-T; 2 trials,
+one asset, and it is real — **SYNCAR-001** (an armored CAR-T; 2 trials,
 2 owners, structurally typed, 2 therapeutic observations) is held for review because every
 document that mentions it introduces it parenthetically. 57 of the 58 losses are the declared
 tiering and therapeutic-observation costs; this is the 58th.
