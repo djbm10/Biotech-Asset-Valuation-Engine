@@ -106,3 +106,61 @@ parent, on the unchanged v4 acceptance query. Sealed replay is not the adoption 
 - No threshold tuned after seeing the acceptance corpus.
 - No change to v4, fragmentation, or the A3 symmetry rule.
 - No ranking work. Ranking begins only after this bar and the A3 positive control both pass.
+
+## 7. Amendment B1 — 2026-09-24, before any v5 measurement
+
+**Direction: narrowing of the declared cost — the rule itself is unchanged.** Recorded because the
+§4 figure was wrong, and it was wrong in the direction that flatters the milestone.
+
+### B1.1 The cost is 104, not 35
+
+§4 was measured with a throwaway probe whose token allow-list omitted the bare token `T`. Every
+name of the form `… CAR-T …` therefore escaped classification, which is most of them. Re-measured
+with the implemented rule against the same artifact (`mint4_on`, 1,136 default-path assets):
+
+**104 class terms, of which 2 hold a `human_poc` PASS** (`CAR19`, `CART19`, as declared).
+
+The composition is the same in kind as the 35 — `CAR-T`, `CAR-T cells`, `CD19 CAR-T cells`,
+`Chimeric Antigen Receptor T-Cell Therapy`, `anti-BCMA CAR-T`, `BCMA/CD19 CAR-T`,
+`CD22/CD19 Dual-Target CAR-T Cells` and ~90 further orthographic and word-order variants of those.
+This is the **9.2%** of the default path that is generic intervention prose from CT.gov
+`interventionName` fields, not the asset names of specific programs.
+
+The `FIT-(BCMA+CD19)-CAR-T Cells` family that v4 §4c protected is **kept**, on its `FIT` residue —
+the §4c concern does not recur. But the *pure* dual-target descriptors
+(`BCMA/CD19 Dual-Target CAR-T`) are class terms and are demoted, which §4 did not say and should
+have.
+
+### B1.2 The disputed subset: armored and ligand-based constructs
+
+Re-measurement surfaced a subset §2 did not anticipate. Roughly twelve of the 104 individuate a
+construct using a *gene or protein symbol that is not the therapy's target*:
+
+`anti-CD19 IL10/IL15 CAR-NK`, `CD19-BAFF CAR T-cells`, `CD19-IL7Ra CAR-T`,
+`CXCR4 modified anti-BCMA CAR T cells`, `CD19 CAR-T TLR2`, `CD19-CAR-DNT`, `CD19.CAR-aNKT`,
+`Anti-CD19-CD3E-CAR-T cells`, `Anti-BCMA-GPRC5D CAR-T cells infusion`, `CD19-BCMA CAR-T`,
+`anti-CD19/CD22 CAR-T cells`, `CD19/CD22-bispecific CAR-T cells`.
+
+`IL10/IL15`, `BAFF`, `IL7Ra`, `CXCR4` and `TLR2` are armoring or co-stimulatory features, not
+antigens the CAR binds. §2 strikes out "any symbol resolving in the ontology", so it strikes these
+too, and the name empties. Under a stricter reading they *do* individuate: an IL7Ra-armored CD19
+CAR-T is a different construct from a bare one.
+
+**This amendment does not resolve it, and deliberately does not add a carve-out.** Distinguishing an
+armoring symbol from a target symbol needs grammar this engine does not reliably have, and inventing
+that grammar after seeing the list is exactly the tuning the standing constraints forbid. Instead:
+
+- The rule stays as preregistered in §2 — these are demoted with everything else.
+- The v5 report **must break them out as a named subset** rather than folding them into the 104, so
+  the operator can rule on them as a separate question.
+- Acceptance criterion §5.4 ("no name carrying individuating residue is demoted") is satisfied on
+  its letter: under §2 these carry no residue. It is the *definition* of residue that is in
+  question, not compliance with it. Saying so here rather than claiming a clean pass.
+
+### B1.3 `CD20` does not resolve
+
+`CAR-20` and `CD20`-only names are **kept as assets**, because `normalize_target("CD20")` returns
+`None` in the published snapshot — ambiguous rather than unknown. `CD22` and `CD138` both resolve,
+so `CART22` and `CART-138` are demoted. The asymmetry is an ontology fact, not a rule, and it is
+the conservative direction (it withholds a demotion). Reported, not patched: hand-adding `CD20`
+would make §2's "the ontology is the authority" untrue.

@@ -36,7 +36,7 @@ import re
 
 from pydantic import BaseModel
 
-from bve.se.discovery import drug_name_shape
+from bve.se.discovery import class_terms, drug_name_shape
 
 #: A development code is a shape, not the presence of a digit. Letters and digits adjacent
 #: within a single token, optionally hyphenated: ``CCS1477``, ``SB-773812``, ``MK-3475A``.
@@ -425,6 +425,17 @@ def qualification_reason(evidence: AssetEvidence) -> QualificationReason | None:
     # nothing: `POD24` and `bsAbs` were already held for review by the fix-off control. Routing
     # is decided by the evidence below, and the gloss test stays in ``human_poc`` where it was
     # written to act.
+
+    # --- vetoes that precede every route -------------------------------------------------
+
+    # v5. A class label denotes a set of assets and cannot be a member of it. This sits above
+    # the ontology route rather than below it because the ontology is exactly what admitted
+    # the class term: `CART19` is carried as an identity-bearing name, so every route below
+    # would return before any of them could be asked whether the name names one molecule.
+    # Its trials, owners and target edges survive -- grouping is what a class label is for --
+    # but it does not stand in the population it groups.
+    if class_terms.is_class_term(name):
+        return None
 
     # --- routes that decide on their own -------------------------------------------------
 
