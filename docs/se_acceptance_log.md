@@ -1716,3 +1716,64 @@ change. Three fixes in order: one qualification authority; identity by authority
 molecule-specific corroboration for prose-only unknowns. Acceptance: zero known non-assets in the
 default canonical population or holding a decisional PASS, with every real-asset control retained,
 decided on a rerun of the paired fresh acquisition.
+
+## v3 tiered evidence — FAILED_ACCEPTANCE (2026-09-24)
+
+Policy: `docs/se_policies/asset_qualification_tiered_evidence_v3.md` (preregistered `8e18dff`,
+sha256 `39aadbd6439ca5e0a99f3193239d41ab476e6dce3d94c8bd62d2778c2c3655e2`).
+Implementation `0650a07`. Paired same-day fresh acquisitions, identical query, source index
+and `--as-of 2026-09-23`; both sides acquired 5,571 snapshots and 2,902 candidates.
+`mint3_on` = `0650a07`; `mint3_off` = `8e18dff` (v2 code, v3 preregistration only).
+
+Default path 1,240 → 1,188.
+
+| §5 condition | verdict |
+|---|---|
+| 1. every default-path asset has an auditable reason, zero anonymous | **PASS** (0 anonymous) |
+| 2. frozen negatives neither default-path nor holding a PASS | **FAIL** — bare `Placebo` |
+| 3. frozen positives survive | **PASS** (all 9) |
+| 4. no real human-PoC asset lost | **PASS** (34 → 33; only loss is `choice`, a frozen negative) |
+| 5. comparator classification fires, `Placebo` comparator-only | **FAIL** — `Placebo` classified therapeutic |
+| 6. losses beyond the declared 58 reported | **PASS**, reported below |
+
+Cleared that v2 failed: `choice` and `paper` both leave the default path, and `choice` loses
+its `human_poc` PASS. `frontline`, `bsAbs`, `POD24`, `ASCO 2023`, `NEJM 2011`, `WHO 2022`,
+`PRISMA 2020`, `IQR 124` stay in review. Reasons: `DIRECT_APPROVED_NAME` 525,
+`CONSTRUCT_CORROBORATED` 277, `STRUCTURED_THERAPEUTIC` 209, `DEVELOPMENT_CODE_AUTHORITY` 145,
+`ENTITY_CORROBORATED_SYNONYM` 27, `ENTITY_CORROBORATED_PROSE` 5.
+
+### Three isolated causes
+
+**1. Arm type is a property of the arm, not of the intervention.** Bare `Placebo` collects
+25 comparator, 15 therapeutic and 1 unknown observation, so one therapeutic observation
+qualifies it. The therapeutic ones are not sponsor errors: blinded dose-escalation designs
+list `Drug: X` and `Drug: Placebo` inside a single arm typed `EXPERIMENTAL` (NCT06617546,
+NCT05021666, NCT05507515, …) — 100 such arms in this corpus. Reading the arm's declared type
+therefore hands the placebo the active agent's role. The tri-state and its conservative
+aggregation both work as specified; the input is what is wrong. No aggregation rule can fix
+this, because the evidence really does say `EXPERIMENTAL`. An arm holding both an active
+intervention and its own placebo cannot confer `THERAPEUTIC` on both of them.
+
+**2. A company mention is too weak to corroborate identity.** Six ordinary words are *newly*
+admitted, all via `ENTITY_CORROBORATED_SYNONYM`: `equal`, `nature`, `roche`, `saline`,
+`search`, `success`. Each has zero trials, zero targets, and exactly one company. v2 excluded
+`TRADE_NAME` outright; making it corroborative (as specified) readmits these because the
+corroboration on offer is a single co-occurring company — and for `roche` that company is
+itself. The route is right; the entity link admitted to it is not.
+
+**3. An unpreregistered widening of my own.** §3e said the abbreviation-gloss veto *stays*.
+Wiring one evidence record for both disposition and reason also extended that veto to
+default-path routing, where v2 applied it only to the human-PoC fact. Measured cost: exactly
+one asset, and it is real — **SYNCAR-001** (Synthetic Biologics' armored CAR-T; 2 trials,
+2 owners, structurally typed, 2 therapeutic observations) is held for review because every
+document that mentions it introduces it parenthetically. 57 of the 58 losses are the declared
+tiering and therapeutic-observation costs; this is the 58th.
+
+Losses otherwise match §4/§4a: the brands (`Enhertu`, `Trodelvy`, `Padcev`, `Polivy`,
+`Adcetris`, `Mylotarg`, `Lumoxiti`, `Tivdak`, `Benlysta`, `Soliris`, `Aspaveli`, `Ogsiveo`,
+`Fintepla`, `Uptravi`, `Elahere`), the synonym-only therapeutics (`efgartigimod`, `apatinib`,
+`chidamide`, `donafenib`, `MCC950`, `RO4929097`, `Taxol`, …), the excipients and foods, and
+the four §4a names.
+
+Ranking untouched; the top-10 shortlist is unchanged in order and every entry is in the
+review section, headed by `Placebo`.
