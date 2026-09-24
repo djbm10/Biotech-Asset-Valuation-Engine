@@ -1,4 +1,4 @@
-"""Score a paired v3 run against ``asset_qualification_tiered_evidence_v3.md`` §5.
+"""Score a paired run against ``asset_qualification_evidence_subjects_v4.md`` §5.
 
 Usage: ``python scripts/se_v3_headline_report.py <off_run_dir> <on_run_dir>``
 
@@ -14,6 +14,8 @@ import json
 import sys
 from pathlib import Path
 
+#: v4 bar item 1. The first eleven carry forward from v3; the last six are the ordinary
+#: words v3 newly admitted, each corroborated by the venue publisher "AACR".
 FROZEN_NEGATIVES = [
     "Placebo",
     "choice",
@@ -26,6 +28,12 @@ FROZEN_NEGATIVES = [
     "WHO 2022",
     "PRISMA 2020",
     "IQR 124",
+    "equal",
+    "nature",
+    "roche",
+    "saline",
+    "search",
+    "success",
 ]
 
 FROZEN_POSITIVES = [
@@ -38,6 +46,11 @@ FROZEN_POSITIVES = [
     "teclistamab",
     "pembrolizumab",
     "belantamab mafodotin",
+    # v4 bar item 3. SYNCAR-001 was the cost of the unpreregistered gloss widening;
+    # Descartes-08 was the cost of the asymmetric specificity rule (amendment A3), caught
+    # before the run rather than by it.
+    "SYNCAR-001",
+    "Descartes-08",
 ]
 
 
