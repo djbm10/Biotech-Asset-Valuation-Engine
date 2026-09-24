@@ -1777,3 +1777,57 @@ the four §4a names.
 
 Ranking untouched; the top-10 shortlist is unchanged in order and every entry is in the
 review section, headed by `Placebo`.
+
+## Asset qualification v4 — PASSED_ACCEPTANCE (measurement) 2026-09-24
+
+Policy: `docs/se_policies/asset_qualification_evidence_subjects_v4.md`, preregistered `bf51465`,
+sha256 `747febe1fe8a1c36dc381ae7f791021f91a76584b068726d48c11240b71ada00`, amendments A1–A3 all
+recorded before measurement and all narrowings.
+
+Paired fresh same-day live acquisition, 2026-09-24, identical query / `--as-of` / source index:
+
+| | on | off |
+|---|---|---|
+| worktree | `bve-b8` @ `c98830e` | `bve-mintoff` @ `bf51465` (prereg only) |
+| artifacts | `/home/djmann/se_runs/mint4_on` | `/home/djmann/se_runs/mint4_off` |
+| candidates | 3,188 | 3,188 |
+| default path | **1,136** | 1,200 |
+
+Scored by `scripts/se_v3_headline_report.py` against the frozen six-point bar:
+
+| # | Criterion | Verdict |
+|---|---|---|
+| 1 | 12 named non-assets off the default path | **PASS** — all 12 in review. `Placebo` moved `default/STRUCTURED_THERAPEUTIC` → review; `equal`, `nature`, `roche`, `saline`, `search`, `success` each moved `default/ENTITY_CORROBORATED_SYNONYM` → review |
+| 2 | Zero non-assets with a decisional PASS | **PASS** — all 31 human-PoC passers are real therapeutics; no English word, venue, statistic or comparator holds a PASS |
+| 3 | Prior real positive controls survive | **PASS** — 9/9 unchanged; `SYNCAR-001` restored review → `default/STRUCTURED_THERAPEUTIC` |
+| 4 | No real human-PoC asset lost | **PASS** — 31 → 31, zero lost, zero gained |
+| 5 | Every default-path asset has a reason | **PASS** — 0 anonymous admissions; 536+278+209+99+13+1 = 1,136 = default path |
+| 6 | Top 10 essentially real therapeutics | **PASS** — belantamab, gemcitabine, pomalidomide, busulfan, cytarabine, mycophenolate mofetil, satralizumab, lenvatinib, carboplatin, melphalan. `Placebo` no longer #1 |
+
+Reasons (on, default path): DIRECT 536 / CONSTRUCT_CORROBORATED 278 / STRUCTURED_THERAPEUTIC 209 /
+DEVELOPMENT_CODE_AUTHORITY 99 / ENTITY_CORROBORATED_SYNONYM 13 / ENTITY_CORROBORATED_PROSE 1.
+`DEVELOPMENT_CODE_AUTHORITY` 145 → 99 and `ENTITY_CORROBORATED_SYNONYM` 27 → 13 are the §3b company
+withdrawal, as declared.
+
+**Cost came in as declared.** 65 names left the default path, 1 joined. 64 of the 65 are the §4b
+list — cell lines, gene symbols, reagents, prose, the six ordinary words — plus `Placebo` from §4a.
+The ~13 genuine literature-only assets named in §4b (`GNC-038`, `STK-009`, `BT7480`, `anlotinib`,
+`AT101`, `Gleevec`, `EPC-001`, `API-192`, `JY108`, `EDP001`, `ABO2015`, `DDT01`, `CAR-12`,
+`ThioMab`) went to review exactly as priced. Nothing undeclared was lost.
+
+### Two honest qualifications
+
+1. **Amendment A3 was not exercised by this corpus.** `Descartes-08` is absent from *both* runs — it
+   is BCMA-only and does not satisfy the dual-target query — so the symmetry carve-out protected an
+   asset that this population does not contain. A3 rests on the sealed-snapshot measurement, not on
+   this run. It remains the right rule and the evidence behind it (a sponsor typing a randomized
+   phase `PLACEBO_COMPARATOR` while listing only the drug) still stands as a fact about arm type's
+   reliability, but it is untested end-to-end.
+2. **`CAR19` and `CART19` hold human-PoC PASSes and are class terms, not assets.** Both are
+   default-path in the **off** run too, so this is not a v4 regression and not a v4 criterion
+   failure. But under a strict reading of bar item 2 they are non-assets with a decisional PASS, and
+   the `CART19` route is `DIRECT_APPROVED_NAME` — the ontology carries it as an identity name. This
+   is the residual mention-precision problem, not an evidence-subject problem, and it is the
+   candidate for the next round if one is wanted.
+
+Adoption is the operator's call.
