@@ -1778,7 +1778,7 @@ the four §4a names.
 Ranking untouched; the top-10 shortlist is unchanged in order and every entry is in the
 review section, headed by `Placebo`.
 
-## Asset qualification v4 — PASSED_ACCEPTANCE (measurement) 2026-09-24
+## Asset qualification v4 — PASS_ON_V4_CHANGES / OVERALL_ACCEPTANCE_PENDING_CLASS_TERM_FIX 2026-09-24
 
 Policy: `docs/se_policies/asset_qualification_evidence_subjects_v4.md`, preregistered `bf51465`,
 sha256 `747febe1fe8a1c36dc381ae7f791021f91a76584b068726d48c11240b71ada00`, amendments A1–A3 all
@@ -1830,4 +1830,19 @@ The ~13 genuine literature-only assets named in §4b (`GNC-038`, `STK-009`, `BT7
    is the residual mention-precision problem, not an evidence-subject problem, and it is the
    candidate for the next round if one is wanted.
 
-Adoption is the operator's call.
+### Status, decided by the operator 2026-09-24
+
+**Not fully adopted.** The v4 implementation is **kept** — it demonstrably fixes the evidence-subject
+defects and the six criteria pass *on the changes v4 made*. But criterion 2 as frozen reads **zero
+non-assets with a decisional PASS**, and `CAR19`/`CART19` carry human-PoC PASSes as class terms. The
+bar is therefore not met, and the bar is not relaxed merely because the remaining defect predates v4.
+
+Two milestones gate closing identity:
+
+1. **Class terms.** `CAR19`, `CART19` and `bsAbs`-shaped names may remain useful metadata but must
+   not be canonical assets and must not receive asset-level `human_poc`. One narrow milestone.
+2. **A3 positive control.** Amendment A3 was never exercised — the dual CD19/BCMA query does not
+   reach `Descartes-08`. A targeted positive-control check is required. A3 is **not** to be treated
+   as production-proven on the strength of the mint4 pair.
+
+Ranking begins only after both.
