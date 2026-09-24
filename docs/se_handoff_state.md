@@ -8,7 +8,14 @@ evidence engine, what is frozen, what the next work is, and the environment fact
 time to rediscover. Milestone detail lives in the per-milestone reports; this file is the
 index and the operating manual. **Update it after every run.**
 
-## 0. Current directive (last updated 2026-09-19)
+## 0. Current directive (last updated 2026-09-24)
+
+**Resume at the bottom of this file:** *Asset qualification v3 — FAILED_ACCEPTANCE 2026-09-24*.
+The population-cleanup arc is paused on three decisions, with the paired live artifacts, the
+scorer and the exact commits recorded there. The coverage directive below remains the standing
+background goal, but population correctness is the active thread.
+
+## 0a. Coverage directive (last updated 2026-09-19)
 
 **ACCEPTANCE COMPLETE — the architecture loop is stopped.** The live acceptance query
 (`Find clinical-stage dual CD19/BCMA therapies for autoimmune disease with human efficacy.`)
@@ -724,3 +731,76 @@ follows the canonical asset, and the top-10 went from 7 name-halves to 1 (indepe
 supported). Two residual fragments (`tesirine`, `ozogamicin`) each come from one malformed source
 string and are documented in the acceptance log. Next: ordinary-word minting, separate
 preregistration and separate acquisition.
+
+## Asset qualification v3 — FAILED_ACCEPTANCE 2026-09-24 (**resume here**)
+
+The population-cleanup arc (ordinary-word minting → v1 → v2 → v3) stopped here awaiting three
+decisions. Nothing is adopted; `0650a07` is committed on `m11-identity-graph` but **not
+adopted**, exactly like v2 before it.
+
+### Exact state
+
+| thing | value |
+|---|---|
+| v3 preregistration | `8e18dff`, `docs/se_policies/asset_qualification_tiered_evidence_v3.md`, sha256 `39aadbd6439ca5e0a99f3193239d41ab476e6dce3d94c8bd62d2778c2c3655e2` |
+| v3 implementation | `0650a07` (worktree `/home/djmann/projects/bve-b8`, branch `m11-identity-graph`) |
+| control | `8e18dff` checked out detached in `/home/djmann/projects/bve-mintoff` |
+| verdict + causes | `docs/se_acceptance_log.md`, committed `b46a490` |
+| live artifacts | `/home/djmann/se_runs/mint3_on`, `/home/djmann/se_runs/mint3_off` (logs `mint3_{on,off}.log`) |
+| prior pair | `/home/djmann/se_runs/mint2_on`, `mint2_off` (v2, also FAILED_ACCEPTANCE) |
+| scorer | `scripts/se_v3_headline_report.py <off_dir> <on_dir>` — emits the 7 headline items and counts anonymous admissions |
+| suite at `0650a07` | 1,354 passed, 3 xfailed (~11.5 min); `ruff check src/ tests/se/` clean |
+
+Reproduce the report without rerunning anything:
+
+```bash
+cd /home/djmann/projects/bve-b8
+PYTHONPATH=src BVE_SE_ONTOLOGY_SNAPSHOT=data/se/ontology/current \
+  python3 scripts/se_v3_headline_report.py /home/djmann/se_runs/mint3_off /home/djmann/se_runs/mint3_on
+```
+
+### What v3 fixed and must not be regressed
+
+`choice` and `paper` leave the default path and `choice` loses its `human_poc` PASS; all nine
+frozen positives survive; human_poc 34 → 33 with the only loss a frozen negative; and every one
+of the 1,188 default-path assets carries a named `qualification_reason` with **zero anonymous
+admissions** (§5.1 passed outright). Reasons: `DIRECT_APPROVED_NAME` 525,
+`CONSTRUCT_CORROBORATED` 277, `STRUCTURED_THERAPEUTIC` 209, `DEVELOPMENT_CODE_AUTHORITY` 145,
+`ENTITY_CORROBORATED_SYNONYM` 27, `ENTITY_CORROBORATED_PROSE` 5.
+
+### The three open causes — each needs a decision, none is a threshold
+
+1. **Arm `type` describes the arm, not the intervention.** Bare `Placebo` took 15 THERAPEUTIC
+   against 25 COMPARATOR observations because blinded dose-escalation designs list `Drug: X` and
+   `Drug: Placebo` inside one arm typed `EXPERIMENTAL` — 100 such arms in this corpus
+   (NCT06617546, NCT05021666, NCT05507515). The tri-state and its aggregation work as specified;
+   the input is wrong, so no aggregation rule repairs it. Candidate rule to preregister: an arm
+   holding both an active intervention and its own placebo may not confer THERAPEUTIC on both.
+   Keep NCT07439263 (cross-labelled arms, three-channel reconciliation) as the other control.
+2. **A lone co-occurring company is not corroboration.** `equal`, `nature`, `roche`, `saline`,
+   `search`, `success` were newly admitted via `ENTITY_CORROBORATED_SYNONYM`: zero trials, zero
+   targets, one company each — and for `roche` the company is itself. The route is right; what
+   `_has_entity_link` admits to it is not. Note `ENTITY_CORROBORATED_TRADE_NAME` is in the
+   preregistered reason list but is not emitted — trade and synonym tiers share one reason today.
+3. **A widening I introduced, not preregistered.** §3e said the abbreviation-gloss veto *stays*;
+   building one evidence record for both disposition and reason also extended it to default-path
+   routing, where v2 applied it only to the human-PoC fact (`pipeline.py::_asset_evidence`).
+   Cost: exactly one real asset, **SYNCAR-001** (2 trials, 2 owners, structurally typed, 2
+   therapeutic observations, every mention parenthetical). 57 of 58 losses are declared §4/§4a
+   costs; this is the 58th. Decide whether to revert the scope or preregister the widening.
+
+### Standing constraints still in force
+
+Do **not** touch ranking until the population passes. No hand-written blacklist. No threshold
+tuned after seeing the acceptance corpus. No weakening of target or `human_poc` rules.
+Fragmentation stays adopted. Adoption requires a **fresh paired same-day live acquisition** with
+a fix-off control at the parent commit — sealed replay is not the adoption test for anything
+that changes which names qualify. Preregister (hashed, committed) before any code change.
+
+### Known residuals, reported not patched
+
+- `water` remains directly qualifying: ChEMBL carries it as an `APPROVED_NAME`, so the alias
+  tiering cannot demote it. Not on any frozen list; recorded for whoever revisits tiering.
+- `Fintepla` (fenfluramine) and `Uptravi` (selexipag) are accepted losses — their parents are
+  absent from this corpus entirely, so the "a brand resolves to its parent" argument fails for
+  exactly these two of fourteen checked.
