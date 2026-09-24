@@ -17,6 +17,7 @@ from bve.se.discovery.asset_qualification import (
     is_abbreviation_gloss,
     qualifies_as_asset,
 )
+from bve.se.discovery import class_terms
 from bve.se.discovery.adapters import UnavailableSourceAdapter
 from bve.se.discovery.coverage import coverage_families, residual_limitations
 from bve.se.discovery.custody import CorpusSeal
@@ -154,6 +155,35 @@ def _has_entity_link(asset: CanonicalAsset) -> bool:
     """
 
     return bool(asset.trial_ids or asset.company_ids or asset.target_ids)
+
+
+def _low_support_review_reason(
+    asset: CanonicalAsset, support_by_name: Mapping[str, Sequence[object]]
+) -> str:
+    """Why this name is held for review, in the terms that actually held it.
+
+    A class term is not short of evidence -- ``CD19 CAR-T cells`` carries 24 trials -- so the
+    support-count sentence would be a true number attached to a false explanation, and a
+    reviewer reading it would go looking for more documents that cannot help. v5 §5.7 asks
+    for the demotion to be as auditable as an admission, which means naming the actual rule.
+    """
+
+    if class_terms.is_class_term(asset.canonical_name or ""):
+        return (
+            f"Nominated name '{asset.canonical_name}' denotes a class of therapies rather "
+            "than one asset: modality, target designations and filler exhaust it, leaving "
+            "nothing that individuates a molecule. Its trials, owners and target edges are "
+            "retained for grouping; it does not stand in the population it groups. Not "
+            "deleted -- promoted the moment an individuating name appears."
+        )
+    supporting = max(
+        (len(support_by_name.get(key, ())) for key in asset.identity_keys), default=0
+    )
+    return (
+        f"Nominated name '{asset.canonical_name}' has {supporting} supporting document(s), "
+        "below the threshold for the default path. Retained as LOW_SUPPORT_UNKNOWN; "
+        "not deleted."
+    )
 
 
 _STAGE_BY_ORDER = {
@@ -732,12 +762,7 @@ def run_landscape_search(
         AnalystReviewItem(
             review_id=f"review:low_support:{asset.asset_id}",
             subject_id=asset.asset_id,
-            reason=(
-                f"Nominated name '{asset.canonical_name}' has "
-                f"{max((len(support_by_name.get(key, ())) for key in asset.identity_keys), default=0)} "
-                "supporting document(s), below the threshold for the default path. "
-                "Retained as LOW_SUPPORT_UNKNOWN; not deleted."
-            ),
+            reason=_low_support_review_reason(asset, support_by_name),
             priority="low",
         )
         for asset in candidates
