@@ -1846,3 +1846,37 @@ Two milestones gate closing identity:
    as production-proven on the strength of the mint4 pair.
 
 Ranking begins only after both.
+
+## A3 symmetry positive control — PASS 2026-09-24
+
+Preregistered in `docs/se_policies/a3_symmetry_positive_control.md` (`0dfb18c`) before either arm
+existed. Ordered by the operator alongside the v4 ruling: *"run one targeted positive-control check
+for Descartes-08/A3, since the dual CD19/BCMA query never exercised it."*
+
+Paired same-day live acquisition. `a3_on` = `c98830e` (v4 as committed). `a3_off` = throwaway branch
+`a3-off-control` (`5c6623d`, `bve-mintoff`), one line restoring the asymmetric §3a(1) reading that
+Amendment A3 superseded. Query: *"Find clinical-stage BCMA cell therapies generalized myasthenia
+gravis with human efficacy"*, `--as-of 2026-09-24`, `--therapeutic-area AUTOIMMUNE`. Artifacts
+`/home/djmann/se_runs/a3_{on,off}`. Credential present, sha256 as expected; value never printed.
+
+|                          | `a3_off` | `a3_on` |
+|--------------------------|----------|---------|
+| default path             | 860      | 861     |
+| `human_poc` PASSes       | 22       | 22      |
+| `Descartes-08`           | review, no reason, 4 trials | default, `STRUCTURED_THERAPEUTIC`, 4 trials |
+| `Placebo`                | absent   | absent  |
+
+Default-path diff between arms: lost `[]`, gained `['Descartes-08']`. `human_poc` sets identical.
+
+- §5(1) `a3_off` demotes `Descartes-08` — **holds**. The control fired, so the result is not
+  inconclusive. This was declared as load-bearing as (2) precisely to prevent claiming a pass from a
+  run where A3 changed nothing.
+- §5(2) `a3_on` keeps it on the default path with a named reason — **holds**.
+- §5(3) `Placebo` off the default path in both arms — **holds** (absent from both populations).
+
+**Verdict: PASS.** A3 is exercised end-to-end on a real asset, not only against sealed snapshots.
+
+Limitation, recorded rather than glossed: `Descartes-08` carries no `human_poc` PASS in *either*
+arm, so this control demonstrates A3 protects asset *standing*. A3's effect on a human-PoC verdict
+remains unexercised live. `Descartes-11` sits in review in both arms and is outside the
+preregistration. The `a3-off-control` branch is deleted per §3; it must never be merged.
