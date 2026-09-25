@@ -823,7 +823,7 @@ Default path 860 → 861; the diff between arms is exactly `+Descartes-08`, `hum
 outcome §5 provided for. Limitation on record: `Descartes-08` holds no `human_poc` PASS in either
 arm, so A3's effect on a human-PoC *verdict* is still unexercised live.
 
-### Milestone 2 — class terms v5: implemented, live pair IN FLIGHT
+### Milestone 2 — class terms v5: **PASS on all seven criteria** (`7dff170`)
 
 Rule in `docs/se_policies/class_terms_v5.md` (Amendment B1 applied; sha256
 `7bfb0884e2623dc995aa69d1627788d81124a098bf3a81ad7ba7c23a2badeb66`). A name whose tokens are
@@ -871,3 +871,22 @@ No ranking until the operator closes identity. No hand-written blacklist. No thr
 seeing the acceptance corpus. No weakening of target or `human_poc` rules — v5 only *removes*
 PASSes. No change to v4, fragmentation, or A3. Adoption needs the fresh paired same-day live
 acquisition; sealed replay is not the adoption test for anything changing which names qualify.
+
+### Both milestones now pass — what is and is not settled
+
+`mint5`: default path 1,136 → 1,032, `human_poc` 31 → 29, withdrawn PASSes exactly
+`['CAR19','CART19']`, 104 lost / 0 gained with every loss a class term, 0 anonymous admissions.
+Full detail in `docs/se_acceptance_log.md`.
+
+Adoption is still the operator's call, and two things must be put in front of them rather than
+assumed:
+
+1. **The B1.2 disputed 20** (see the acceptance log). They are three different things — a second
+   genuine target (`CD19/CD22 CAR-T`), an armoring payload (`CD19-BAFF`, `IL7Ra`, `IL10/IL15`,
+   `CD3E`), and a spurious ontology resolution (`DNT` → `NT5C`). Deliberately not carved out.
+2. **`TAC01-CD19` and `Descartes-08` were absent from both `mint5` arms.** `TAC01-CD19` was the
+   designated over-reach canary for v5, so v5's most informative positive control did not fire on
+   this query. Do not report v5's over-reach safety as live-proven on `mint5` alone; the 28 unit
+   tests and the zero residue-bearing losses are what actually carry it.
+
+Ranking begins only if and when the operator closes identity. Nothing in this arc licenses starting it.
