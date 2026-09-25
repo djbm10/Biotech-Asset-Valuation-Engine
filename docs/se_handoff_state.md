@@ -732,7 +732,7 @@ supported). Two residual fragments (`tesirine`, `ozogamicin`) each come from one
 string and are documented in the acceptance log. Next: ordinary-word minting, separate
 preregistration and separate acquisition.
 
-## Asset qualification v4 — measured PASS on all six criteria, 2026-09-24 (**resume here**)
+## Asset qualification v4 — PASS_ON_V4_CHANGES / ACCEPTANCE_PENDING_CLASS_TERMS, 2026-09-24
 
 The population-cleanup arc (ordinary-word minting → v1 → v2 → v3 → v4) reaches a passing
 measurement here. v4 fixed evidence *subjects* rather than thresholds: arm type is about the arm,
@@ -807,3 +807,67 @@ qualify. Preregister (hashed, committed) before any code change.
   `anlotinib`, `AT101`, `Gleevec`, `EPC-001`, `API-192`, `JY108`, `EDP001`, `ABO2015`, `DDT01`,
   `CAR-12`, `ThioMab`) sit in review. Recovering them needs a real asset↔company or asset↔trial
   link, never a weakening of §3b.
+
+## Class terms v5 + A3 control — 2026-09-24 (**resume here**)
+
+The operator kept v4's implementation but declined full adoption, because criterion 2 was *zero*
+non-assets with a decisional PASS and `CAR19`/`CART19` still held human-PoC PASSes as class terms.
+Two milestones were ordered before identity closes. One is done; one is in flight.
+
+### Milestone 1 — A3 symmetry positive control: **PASS** (`06efa8c`)
+
+Preregistered `0dfb18c`. `a3_on` = `c98830e`; `a3_off` = throwaway branch restoring the asymmetric
+§3a(1) reading, since deleted (never merge it). Artifacts `/home/djmann/se_runs/a3_{on,off}`.
+Default path 860 → 861; the diff between arms is exactly `+Descartes-08`, `human_poc` sets identical;
+`Placebo` absent from both. The control **fired**, so this is a pass and not the *inconclusive*
+outcome §5 provided for. Limitation on record: `Descartes-08` holds no `human_poc` PASS in either
+arm, so A3's effect on a human-PoC *verdict* is still unexercised live.
+
+### Milestone 2 — class terms v5: implemented, live pair IN FLIGHT
+
+Rule in `docs/se_policies/class_terms_v5.md` (Amendment B1 applied; sha256
+`7bfb0884e2623dc995aa69d1627788d81124a098bf3a81ad7ba7c23a2badeb66`). A name whose tokens are
+exhausted by modality vocabulary, ontology-resolved target designations and filler denotes a class,
+not a member of it. Implemented in `src/bve/se/discovery/class_terms.py`, vetoed **above** every
+route in `qualification_reason()` — that ordering is the fix, because the ontology is what admitted
+`CART19` as an identity-bearing name in the first place. Trials, owners and target edges are
+retained; nothing is deleted.
+
+| thing | value |
+|---|---|
+| prereg | `fa3310f` (+ Amendment B1) |
+| implementation | `82971c3` |
+| tests | `e29b961` (28 new), `2844e0b` (four re-fixtured) |
+| scorer | `scripts/se_v5_headline_report.py` (`445b74a`) |
+| suite | 1,390 passed / 3 xfailed / 855s |
+| on arm | `06efa8c` in `bve-b8` → `/home/djmann/se_runs/mint5_on` |
+| off arm | `0dfb18c` in `bve-mintoff` → `/home/djmann/se_runs/mint5_off` |
+
+Score without re-running anything:
+
+```bash
+cd /home/djmann/projects/bve-b8
+PYTHONPATH=src BVE_SE_ONTOLOGY_SNAPSHOT=data/se/ontology/current \
+  python3 scripts/se_v5_headline_report.py /home/djmann/se_runs/mint5_off /home/djmann/se_runs/mint5_on
+```
+
+### What must be reported, not resolved
+
+- **Amendment B1.1**: the declared cost was first recorded as 35 and is actually **104**. The probe
+  that produced 35 omitted the bare token `T`, so every `… CAR-T …` name escaped classification.
+  The error flattered the milestone, which is why it is written down rather than quietly corrected.
+- **Amendment B1.2 — the disputed subset.** ~12 of the 104 individuate via a symbol that is *not* a
+  query target (`CD19-BAFF CAR T-cells`, `CD19-IL7Ra CAR-T`, `anti-CD19 IL10/IL15 CAR-NK`,
+  `CXCR4 modified anti-BCMA CAR T cells`, …). No carve-out was added: inventing that grammar after
+  seeing the list is precisely the post-hoc tuning the standing constraints forbid. The scorer breaks
+  them out in section 7 **for the operator to rule on**.
+- **Amendment B1.3**: `CD20` is *ambiguous* in the published snapshot and does not resolve, so
+  `CAR-20` survives while `CART22` and `CART-138` are demoted. Reported, not patched — hand-adding
+  `CD20` would make §2's "the ontology is the authority" untrue.
+
+### Standing constraints still in force
+
+No ranking until the operator closes identity. No hand-written blacklist. No threshold tuned after
+seeing the acceptance corpus. No weakening of target or `human_poc` rules — v5 only *removes*
+PASSes. No change to v4, fragmentation, or A3. Adoption needs the fresh paired same-day live
+acquisition; sealed replay is not the adoption test for anything changing which names qualify.
