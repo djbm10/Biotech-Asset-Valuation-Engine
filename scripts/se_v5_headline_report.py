@@ -17,7 +17,13 @@ import json
 import sys
 from pathlib import Path
 
-from bve.se.discovery.class_terms import individuating_residue, is_class_term
+from bve.se.discovery.class_terms import (
+    _FILLER,
+    _MODALITY,
+    _SEPARATORS,
+    individuating_residue,
+    is_class_term,
+)
 from bve.se.ontology.targets import normalize_target
 
 #: Names that must keep their standing. `TAC01-CD19` is here because it is the single most
@@ -92,11 +98,24 @@ def _view(result: dict) -> dict:
 
 
 def _disputed(name: str) -> bool:
-    """Whether a class term individuates via a symbol that is not a query target."""
+    """Whether a class term individuates via a symbol that is not a query target.
+
+    This must ask the ontology in the *same order* the rule does: modality vocabulary and
+    filler are consumed first, and only what survives is offered to `normalize_target`. The
+    first version of this predicate skipped that step and flagged 92 of 104 names, because
+    `T` resolves to TBXT and `CART` to CARTPT -- so every `CAR-T` name looked like it carried
+    a foreign target symbol. `class_terms` itself was never affected: it classifies those two
+    as modality before it ever consults the ontology. The defect was in the instrument.
+    """
 
     query = {t.upper() for t in QUERY_TARGETS}
-    query |= {normalize_target(t) or t.upper() for t in QUERY_TARGETS}
-    for token in name.replace("/", " ").replace("-", " ").replace(".", " ").split():
+    query |= {(normalize_target(t) or t).upper() for t in QUERY_TARGETS}
+    for token in _SEPARATORS.split(name.strip()):
+        if not token:
+            continue
+        lowered = token.lower()
+        if lowered in _MODALITY or lowered in _FILLER:
+            continue
         resolved = normalize_target(token)
         if resolved is None:
             continue
