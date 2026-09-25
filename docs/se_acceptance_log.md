@@ -1880,3 +1880,66 @@ Limitation, recorded rather than glossed: `Descartes-08` carries no `human_poc` 
 arm, so this control demonstrates A3 protects asset *standing*. A3's effect on a human-PoC verdict
 remains unexercised live. `Descartes-11` sits in review in both arms and is outside the
 preregistration. The `a3-off-control` branch is deleted per §3; it must never be merged.
+
+## Class terms v5 — PASS on all seven criteria, 2026-09-24
+
+Preregistered `fa3310f` + Amendment B1 (sha256
+`7bfb0884e2623dc995aa69d1627788d81124a098bf3a81ad7ba7c23a2badeb66`), all amendments recorded before
+measuring. Fresh paired same-day live acquisition on the **unchanged v4 acceptance query**
+(*"Find clinical-stage dual CD19/BCMA therapies for autoimmune disease with human efficacy."*),
+`--as-of 2026-09-24`, `--therapeutic-area AUTOIMMUNE`. `mint5_on` = `06efa8c`; `mint5_off` = `0dfb18c`
+(the v5 parent) in `bve-mintoff`. Artifacts `/home/djmann/se_runs/mint5_{on,off}`.
+
+|                    | `mint5_off` | `mint5_on` |
+|--------------------|-------------|------------|
+| default path       | 1,136       | **1,032**  |
+| `human_poc` PASSes | 31          | **29**     |
+
+1. **`CAR19`/`CART19` off the default path.** `off`: `CAR19` default via
+   `DEVELOPMENT_CODE_AUTHORITY` with a PASS; `CART19` default via `DIRECT_APPROVED_NAME` with a PASS.
+   `on`: both in review, no reason. The v4 twelve stay in review (`roche` absent from both).
+2. **No non-asset holds a decisional PASS.** Withdrawn `human_poc`: exactly `['CAR19', 'CART19']`;
+   added: none. All 29 survivors are real therapeutics (blinatumomab, teclistamab, ide-cel,
+   brexu-cel, glofitamab, venetoclax, rituximab, …).
+3. **Frozen positives unchanged.** All 10 present keep their standing and their exact reason.
+   `TAC01-CD19` and `Descartes-08` are absent from both arms — **not exercised** by this query, and
+   recorded as such rather than counted as passes. `TAC01-CD19` was the intended over-reach canary,
+   so v5's most informative positive control did not fire here; the A3 control covers `Descartes-08`.
+4. **104 lost, 0 gained, and every loss is a class term** — zero residue-bearing demotions. Matches
+   Amendment B1.1's corrected cost exactly.
+5. See (2).
+6. **Zero anonymous admissions.** 535 `DIRECT_APPROVED_NAME`, 210 `CONSTRUCT_CORROBORATED`,
+   177 `STRUCTURED_THERAPEUTIC`, 96 `DEVELOPMENT_CODE_AUTHORITY`, 13 `ENTITY_CORROBORATED_SYNONYM`,
+   1 `ENTITY_CORROBORATED_PROSE`.
+7. **Demotions are auditable.** Class terms report the class-term reason, not a support count.
+
+**Verdict: PASS on all seven criteria.** Adoption is the operator's call.
+
+### Amendment B1.2 break-out — for the operator to rule on, not resolved here
+
+84 of the 104 are plain class descriptors (`CAR-T`, `CD19 CAR-T cells`, 24 trials). **20 individuate
+via a symbol that is not a query target**, and they are not one kind of thing:
+
+- *A second genuine target*: `CD19/CD22 CAR-T`, `CD19+CD22 CAR T-cells` (5 trials),
+  `BCMA/GPRC5D CAR-T cells`, `Anti-BCMA-GPRC5D CAR-T cells infusion`. These arguably name a class of
+  *dual* constructs, exactly as `CD19 CAR-T cells` names a class of single ones.
+- *An armoring or signalling payload*: `CD19-BAFF Targeted CAR T-cells`, `CD19-IL7Ra CAR-T cells`,
+  `anti-CD19 IL10/IL15 CAR-NK`, `Anti-CD19-CD3E-CAR-T cells`. The payload describes the construct's
+  engineering rather than a molecule's name.
+- *A spurious resolution*: `CD19-CAR-DNT cells` — `DNT` means double-negative T cell here, but the
+  ontology resolves it to `NT5C`. `CD19.CAR-aNKT cells` is the same shape.
+
+No carve-out was added. Inventing that grammar after seeing this list is precisely the post-hoc
+tuning §6 forbids. Each of these carries 1–5 trials, so if the operator rules they should stand, the
+recovery path is an asset↔trial link, not a weakening of §2.
+
+### Defect found in the measuring instrument, not the rule
+
+The break-out first reported 92 disputed / 12 plain. `normalize_target("T")` returns `TBXT` and
+`"CART"` returns `CARTPT`, so every `CAR-T` name looked like it carried a foreign target symbol.
+`class_terms` was never affected — it consumes modality vocabulary *before* consulting the ontology —
+so this was a scorer bug, fixed by tokenizing in the rule's order. No PASS/FAIL criterion depends on
+section 7. Worth recording as the second time in this arc that a hand-rolled probe, rather than the
+implemented rule, produced a wrong number (B1.1 was the first).
+
+Suite at `06efa8c`: 1,390 passed, 3 xfailed, 855s. `ruff check` clean.
