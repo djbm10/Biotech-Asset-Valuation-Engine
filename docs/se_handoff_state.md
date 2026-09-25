@@ -808,7 +808,7 @@ qualify. Preregister (hashed, committed) before any code change.
   `CAR-12`, `ThioMab`) sit in review. Recovering them needs a real asset↔company or asset↔trial
   link, never a weakening of §3b.
 
-## Class terms v5 + A3 control — 2026-09-24 (**resume here**)
+## Class terms v5 + A3 control — 2026-09-24
 
 The operator kept v4's implementation but declined full adoption, because criterion 2 was *zero*
 non-assets with a decisional PASS and `CAR19`/`CART19` still held human-PoC PASSes as class terms.
@@ -890,3 +890,43 @@ assumed:
    tests and the zero residue-bearing losses are what actually carry it.
 
 Ranking begins only if and when the operator closes identity. Nothing in this arc licenses starting it.
+
+## Identity qualification ADOPTED — 2026-09-24 (**resume here**)
+
+The operator adopted **v4 + A3 + v5** (`c601de6`). The population-cleanup arc that ran
+ordinary-word minting → v1 → v2 → v3 → v4 → A3 → v5 is **closed**. Full ruling in
+`docs/se_acceptance_log.md`.
+
+### What is settled and must not be reopened
+
+- **v4** — adopted; its `PASS_ON_V4_CHANGES / ACCEPTANCE_PENDING_CLASS_TERMS` status is resolved,
+  because v5 fixed the class-term defect rather than the bar being waived.
+- **A3** — adopted and validated *for asset standing*. Its unexercised human-PoC consequence is a gap
+  in coverage, not a failure.
+- **v5** — adopted with **no carve-outs**.
+- **The B1.2 disputed 20 is CLOSED, not deferred.** A construct class (`CD19/CD22 CAR-T`,
+  `CD19-IL7Ra CAR-T`) is still not a specific asset without a sponsor code, proper asset name,
+  trial-linked identifier or other individuating residue. Do not revisit this without the operator.
+- **Ontology ambiguities** (`DNT`→`NT5C`, `CD20` ambiguous, `T`→`TBXT`, `CART`→`CARTPT`) are logged in
+  `docs/se_ontology_ambiguities.md` and deliberately unpatched. The reusable rule is written there:
+  consume modality vocabulary *before* asking the ontology, and never reimplement that tokenization
+  in an analysis script.
+
+### The one open item
+
+`TAC01-CD19` over-reach control — preregistered `9045139`, sha256
+`70773afe1f4a6584f2c8abf49e8b61250451bcc8e1a676a0359e96a704df3928`, artifacts
+`/home/djmann/se_runs/tac01_control`. Single arm at the adopted commit (the v5 veto is monotone in the
+removing direction, so retention with the rule on settles over-reach without an off arm). It does
+**not** gate adoption.
+
+Only one outcome reopens identity, in the operator's words: *"Do not start another general identity
+milestone unless that TAC01 test actually shows a named asset being demoted."* Absence of
+`TAC01-CD19` from the run means the query failed, not that v5 passed — report and stop.
+
+### Then: shortlist ordering / ranking
+
+This is the next arc and the first time ranking work is licensed. Relevant prior finding before
+anyone starts: the pairwise ranker emits nothing and nothing is ever `ELIGIBLE`, so order is
+currently *declared* and the review population **is** the shortlist — see the asset-shortlist-renderer
+note. Expect to build ordering rather than to fix it.
