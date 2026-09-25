@@ -1943,3 +1943,43 @@ section 7. Worth recording as the second time in this arc that a hand-rolled pro
 implemented rule, produced a wrong number (B1.1 was the first).
 
 Suite at `06efa8c`: 1,390 passed, 3 xfailed, 855s. `ruff check` clean.
+
+## Identity qualification v4 + A3 + v5 — **ADOPTED** by the operator 2026-09-24
+
+The operator's ruling closes the population-cleanup arc that began with ordinary-word minting:
+
+> *"Adopt v5. The frozen acceptance bar passed, CAR19/CART19 lost their false asset-level PoC, all 29
+> remaining PoC passers are real therapeutics, and the 104 demotions were confined to class-like
+> construct labels rather than named assets."*
+
+- **v4** (evidence subjects) — adopted. Its earlier status
+  `PASS_ON_V4_CHANGES / OVERALL_ACCEPTANCE_PENDING_CLASS_TERM_FIX` is now resolved: the class-term
+  defect that blocked it is fixed by v5, so the strict reading of criterion 2 is genuinely met rather
+  than waived.
+- **A3** (comparator symmetry) — *"adopted/validated for asset standing"*. The operator's reasoning on
+  the limitation recorded above: *"Its lack of a human-PoC PASS means only that the PoC consequence
+  was not exercised — not that A3 itself failed."*
+- **v5** (class terms) — adopted, with **no carve-outs**.
+
+### The B1.2 disputed 20 — ruled on, closed
+
+The operator declined the carve-out the break-out was raised for:
+
+> *"do not add carve-outs. `CD19/CD22 CAR-T`, `CD19-IL7Ra CAR-T`, `anti-CD19 IL10/IL15 CAR-NK`, etc.
+> can describe biologically distinct construct **classes**, but that does not make the phrase itself a
+> specific therapeutic asset. Without a sponsor code, proper asset name, trial-linked identifier, or
+> other individuating residue, review/class-term treatment is appropriate."*
+
+This question is **closed, not deferred**. The `CD19-CAR-DNT` → `NT5C` mis-resolution is logged as an
+ontology ambiguity in `docs/se_ontology_ambiguities.md` and explicitly *"should not motivate a
+class-term exception."*
+
+### What remains
+
+One post-adoption recall validation: the `TAC01-CD19` over-reach control, preregistered in
+`docs/se_policies/tac01_overreach_positive_control.md` (`9045139`, sha256
+`70773afe1f4a6584f2c8abf49e8b61250451bcc8e1a676a0359e96a704df3928`). It does **not** gate adoption.
+Per the operator, only one outcome reopens identity: *"Do not start another general identity milestone
+unless that TAC01 test actually shows a named asset being demoted."*
+
+After it reports, the next arc is **shortlist ordering / ranking**.
