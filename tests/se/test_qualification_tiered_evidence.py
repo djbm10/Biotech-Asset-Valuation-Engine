@@ -257,8 +257,10 @@ class TestEveryAdmissionHasANamedReason:
             QualificationReason.ENTITY_CORROBORATED_SYNONYM: AssetEvidence(
                 name="Keytruda", entity_specific_link=True
             ),
+            # v5 renamed this example: "anti-BCMA construct" describes a class, and is now
+            # refused before this route can be reached. The route is unchanged.
             QualificationReason.CONSTRUCT_CORROBORATED: AssetEvidence(
-                name="anti-BCMA construct",
+                name="Relma-cel anti-BCMA construct",
                 identity_authority=True,
                 entity_specific_link=True,
             ),

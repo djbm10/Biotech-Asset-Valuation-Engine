@@ -261,9 +261,15 @@ class TestTheCorpusStandsInForADictionary:
         assert not qualifies_as_asset(common)
 
     def test_a_phrase_is_not_judged_by_this_ceiling(self) -> None:
+        # The example name carries a sponsor stem. It used to be "CD19/BCMA dual CAR-T",
+        # which v5 now refuses as a class term -- correctly, and for a reason that has
+        # nothing to do with the ceiling under test here. Re-fixtured rather than relaxed:
+        # the claim is still that a *phrase* escapes a frequency ceiling built for single
+        # tokens, and the phrase has to be one that names an asset for the claim to be about
+        # anything.
         assert qualifies_as_asset(
             AssetEvidence(
-                name="CD19/BCMA dual CAR-T",
+                name="JWCAR029 CD19/BCMA dual CAR-T",
                 document_frequency=9999,
                 pharmacologic_context=True, pharmacologic_documents=2, entity_specific_link=True,
                 corpus_documents=15032,
@@ -282,17 +288,32 @@ class TestADescribedConstructIsAnAuthority:
         # having been matched to the warfarin brand "Choice" and credited with VKORC1. A
         # construct description can say what a string is associated with; it cannot say the
         # string denotes an asset. So the route now needs an entity of its own alongside it.
+        #
+        # v5 then renamed the example. "BCMA/CD19 CAR T cells" is a *class* of dual
+        # constructs, not one of them, and it is now refused one rule earlier. The route
+        # itself is unchanged and is what admits "Relma-cel BCMA/CD19 CAR T cells": a
+        # construct description plus an entity of its own. The two rules are independent and
+        # the test keeps asserting only the second.
         assert qualifies_as_asset(
+            AssetEvidence(
+                name="Relma-cel BCMA/CD19 CAR T cells",
+                identity_authority=True,
+                entity_specific_link=True,
+            )
+        )
+        assert not qualifies_as_asset(
+            AssetEvidence(name="Relma-cel BCMA/CD19 CAR T cells", identity_authority=True)
+        )
+        assert not qualifies_as_asset(AssetEvidence(name="Relma-cel BCMA/CD19 CAR T cells"))
+        # And the old example is still refused -- now by the class-term rule, which is a
+        # stronger statement than the one this test used to make.
+        assert not qualifies_as_asset(
             AssetEvidence(
                 name="BCMA/CD19 CAR T cells",
                 identity_authority=True,
                 entity_specific_link=True,
             )
         )
-        assert not qualifies_as_asset(
-            AssetEvidence(name="BCMA/CD19 CAR T cells", identity_authority=True)
-        )
-        assert not qualifies_as_asset(AssetEvidence(name="BCMA/CD19 CAR T cells"))
 
     def test_the_authority_is_not_available_to_a_word(self) -> None:
         # The guarantee is that the route is earned, not that the word is named: an

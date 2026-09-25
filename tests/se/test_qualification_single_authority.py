@@ -182,7 +182,12 @@ class TestTheProtectedRealAssetsSurvive:
         VKORC1 assertion. Real constructs keep the path through their trial or owner.
         """
 
-        described = AssetEvidence(name="BCMA/CD19 CAR T cells", identity_authority=True)
+        # v5 renamed the example: the bare phrase is a class of constructs, refused a rule
+        # earlier now. The point this test makes -- description corroborates, it does not
+        # qualify -- is unchanged and is asserted on a name that denotes one construct.
+        described = AssetEvidence(
+            name="Relma-cel BCMA/CD19 CAR T cells", identity_authority=True
+        )
         assert qualifies_as_asset(described) is False
         assert qualifies_as_asset(
             described.model_copy(update={"entity_specific_link": True})
