@@ -924,6 +924,20 @@ Only one outcome reopens identity, in the operator's words: *"Do not start anoth
 milestone unless that TAC01 test actually shows a named asset being demoted."* Absence of
 `TAC01-CD19` from the run means the query failed, not that v5 passed — report and stop.
 
+**2026-09-26 — the preregistered query does not compile to CD19.** It compiles to
+`target constraint: ANY of LARGE1`: the English word `large` (from "large B-cell lymphoma") resolves
+to the gene `LARGE1` via `unique_alias_match`, and `CD19-directed` falls to `RESIDUAL` because the
+suffixed form is not stripped. The first run (`/home/djmann/se_runs/tac01_control`, launched
+2026-09-24 22:06) was therefore searching LARGE1 cell therapies. It died after more than 28 hours
+with no output and 24,663 PubMed snapshots, versus 3,521 for a `mint5` arm. A rerun
+(`tac01_control_r2`) compiled to the identical `problem.yaml` and was stopped after about 2 minutes.
+**No valid TAC01 result exists.** Per §5 this is a query failure, not a v5 result. The candidate
+amendment `Find clinical-stage CD19 cell therapies for relapsed or refractory B-cell lymphoma.`
+compiles to `ANY of CD19`, `CELL_THERAPY`, `minimum_stage=PHASE_1`, with no other target. Running it
+is a preregistration amendment and waits on the operator. The two intent-layer defects (a common
+English word minted as a target, and an unstripped `-directed` suffix) are logged, not fixed. They
+are the ordinary-word problem again, one layer upstream of identity.
+
 ### Then: shortlist ordering / ranking
 
 This is the next arc and the first time ranking work is licensed. Relevant prior finding before
