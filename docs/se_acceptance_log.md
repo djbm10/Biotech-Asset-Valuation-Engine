@@ -2016,3 +2016,14 @@ kept its standing, on a named reason, in a corpus where the veto demoted 138 cla
 
 Source incompleteness (`conference_ash`, `conference_eha`, `sec_edgar`: 0 records each) has no bearing
 on this. TAC01's evidence comes from CT.gov, AACR and PubMed.
+
+**Operator ruling 2026-09-26: PASS accepted. Identity arc CLOSED — ADOPTED, with documented residual
+limitations.** Live validation shows the sponsor code `TAC01` is preserved. It does not show the literal
+`sponsor-code + target` surface-form path: `TAC01-CD19` itself was exercised only by the unit tests and
+the offline check. That limit does not reopen v5. The remaining issues belong to other layers:
+
+- **Extraction / canonicalization.** The code pattern emits `TAC01` from `TAC01-CD19`. Scorers keyed
+  on a name must match on the trial ID too.
+- **Query parser**, a future parser milestone:
+  - `large` resolves to the gene `LARGE1` by `unique_alias_match`;
+  - `CD19-directed` is not recognized (the `-directed` suffix is not stripped).

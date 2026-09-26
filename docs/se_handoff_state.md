@@ -956,3 +956,17 @@ query: no rewrite on INCONCLUSIVE.
 because the asset surfaces as `TAC01`, not `TAC01-CD19`. It is on the default path under
 `DEVELOPMENT_CODE_AUTHORITY`, and the v5 predicate did not fire. Full adjudication is in
 `se_acceptance_log.md`. The identity-arc closure call is with the operator.
+
+### Identity arc: CLOSED (2026-09-26)
+
+The operator accepted the TAC01 PASS. v4 + A3 + v5 identity qualification is **CLOSED — ADOPTED, with
+documented residual limitations**, which are listed in `se_acceptance_log.md`. Do not reopen identity
+for any of the following:
+
+- the `TAC01-CD19` → `TAC01` extraction behaviour;
+- the query-parser defects (`large` → `LARGE1`, `CD19-directed` unrecognized), which belong to a future
+  parser milestone.
+
+**Current arc: shortlist ordering / ranking.** Step 1 is an audit of what determines order today and
+what evidence each candidate actually carries. There is no composite score until a BD objective is
+preregistered.
