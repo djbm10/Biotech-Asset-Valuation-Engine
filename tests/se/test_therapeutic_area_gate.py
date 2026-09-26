@@ -167,29 +167,79 @@ def _hit(source: str, *, snippet: str = "") -> CandidateHit:
 
 
 def _ta_output(bundle):
-    [fact] = [f for f in bundle.facts if f.fact_type == "therapeutic_area"]
-    claims = [c for c in bundle.claims if c.predicate == "therapeutic_area"]
-    return fact, claims
+    facts = sorted(
+        (f for f in bundle.facts if f.fact_type == "therapeutic_area"), key=lambda f: f.value
+    )
+    claims = {c.claim_id: c for c in bundle.claims if c.predicate == "therapeutic_area"}
+    return facts, claims
+
+
+def _surviving(facts, claims) -> list[str]:
+    """The pipeline's fact filter (``pipeline.py``): a fact survives only when every claim it
+    cites is entailed."""
+
+    entailed = {claim_id: check_structured_entailment(c).entailed for claim_id, c in claims.items()}
+    return [
+        f.value for f in facts if all(entailed.get(cid, False) for cid in f.supporting_claim_ids)
+    ]
 
 
 class TestExtraction:
-    def test_registry_record_emits_every_supported_area(self, tmp_path) -> None:
+    """Amendment 1: one fact per area, each cited to a span naming that area."""
+
+    def test_registry_record_emits_one_fact_per_area(self, tmp_path) -> None:
         protocol = {
             "identificationModule": {"nctId": "NCT00000001", "briefTitle": "Asset A"},
             "conditionsModule": {"conditions": ["Lupus Nephritis", "B-cell Lymphoma"]},
         }
         document = _document(tmp_path, protocol, name="NCT00000001.json")
         bundle = ClinicalTrialsEvidenceExtractor().extract(_hit("clinicaltrials_gov"), document)
-        fact, claims = _ta_output(bundle)
-        assert fact.value == [AUTOIMMUNE, ONCOLOGY]
-        assert sorted(c.normalized_value for c in claims) == [AUTOIMMUNE, ONCOLOGY]
-        assert set(fact.supporting_claim_ids) == {c.claim_id for c in claims}
-        assert all(check_structured_entailment(c).entailed for c in claims)
+        facts, claims = _ta_output(bundle)
+        assert [f.value for f in facts] == [AUTOIMMUNE, ONCOLOGY]
+        assert len({f.fact_id for f in facts}) == 2
+        for fact in facts:
+            [claim_id] = fact.supporting_claim_ids
+            assert claims[claim_id].normalized_value == fact.value
+        cited = {claims[f.supporting_claim_ids[0]].supporting_passage for f in facts}
+        assert cited == {"Lupus Nephritis", "B-cell Lymphoma"}
+        assert _surviving(facts, claims) == [AUTOIMMUNE, ONCOLOGY]
 
     def test_public_document_is_not_hard_coded_to_oncology(self, tmp_path) -> None:
         text = "Asset A, a CD19 CAR T, induced remission in refractory systemic lupus erythematosus."
         document = _document(tmp_path, text, name="abstract.txt")
         bundle = PublicDocumentEvidenceExtractor().extract(_hit("pubmed", snippet=text), document)
-        fact, claims = _ta_output(bundle)
-        assert fact.value == [AUTOIMMUNE]
-        assert all(check_structured_entailment(c).entailed for c in claims)
+        facts, claims = _ta_output(bundle)
+        assert [f.value for f in facts] == [AUTOIMMUNE]
+        assert _surviving(facts, claims) == [AUTOIMMUNE]
+
+    def test_area_beyond_the_document_head_is_cited_where_it_occurs(self, tmp_path) -> None:
+        # The TAC01 A4 failure: the only autoimmune term lay past the first 2,000 characters,
+        # which was the passage every area claim cited.
+        text = "Asset A in B cell lymphoma. " + "Filler sentence. " * 200 + "Patients with lupus."
+        document = _document(tmp_path, text, name="long.txt")
+        bundle = PublicDocumentEvidenceExtractor().extract(_hit("pubmed", snippet=text), document)
+        facts, claims = _ta_output(bundle)
+        assert [f.value for f in facts] == [AUTOIMMUNE, ONCOLOGY]
+        autoimmune_claim = claims[facts[0].supporting_claim_ids[0]]
+        assert "lupus" in autoimmune_claim.supporting_passage
+        assert "lymphoma" not in autoimmune_claim.supporting_passage
+        assert _surviving(facts, claims) == [AUTOIMMUNE, ONCOLOGY]
+
+    @pytest.mark.parametrize("unsupported", [AUTOIMMUNE, ONCOLOGY])
+    def test_unsupported_area_does_not_delete_the_supported_one(
+        self, tmp_path, unsupported: str
+    ) -> None:
+        text = "Asset A was studied in B cell lymphoma and, separately, in lupus nephritis."
+        document = _document(tmp_path, text, name="both.txt")
+        bundle = PublicDocumentEvidenceExtractor().extract(_hit("pubmed", snippet=text), document)
+        facts, claims = _ta_output(bundle)
+        claims = {
+            claim_id: (
+                claim.model_copy(update={"supporting_passage": "Asset A was studied."})
+                if claim.normalized_value == unsupported
+                else claim
+            )
+            for claim_id, claim in claims.items()
+        }
+        supported = ({AUTOIMMUNE, ONCOLOGY} - {unsupported}).pop()
+        assert _surviving(facts, claims) == [supported]

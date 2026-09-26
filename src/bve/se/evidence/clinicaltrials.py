@@ -187,25 +187,27 @@ class ClinicalTrialsEvidenceExtractor:
 
         conditions = conditions_module.get("conditions", [])
         condition_text = " ".join(conditions).casefold()
-        # One claim per area the conditions support, one fact carrying all of them: a trial
-        # enrolling lupus nephritis and B-cell lymphoma is evidence for both areas.
-        areas = classify_therapeutic_areas(condition_text) if conditions else []
-        ta_claims = [
-            _claim(
+        # One fact per area, each cited to the conditions that classify to it: a trial
+        # enrolling lupus nephritis and B-cell lymphoma is evidence for both areas, and
+        # neither area's claim can take the other's fact down with it.
+        for area in classify_therapeutic_areas(condition_text) if conditions else []:
+            area_conditions = [
+                condition
+                for condition in conditions
+                if area in classify_therapeutic_areas(condition)
+            ]
+            ta_claim = _claim(
                 hit,
                 document,
                 predicate="therapeutic_area",
                 value=area,
-                passage="; ".join(conditions),
+                passage="; ".join(area_conditions),
                 locator="conditionsModule.conditions",
             )
-            for area in areas
-        ]
-        if ta_claims:
-            claims.extend(ta_claims)
+            claims.append(ta_claim)
             facts.append(
-                _fact(hit, ta_claims[0], "therapeutic_area", areas).model_copy(
-                    update={"supporting_claim_ids": [claim.claim_id for claim in ta_claims]}
+                _fact(hit, ta_claim, "therapeutic_area", area).model_copy(
+                    update={"fact_id": _id("fact", hit.hit_id, "therapeutic_area", area)}
                 )
             )
         if conditions:

@@ -12,7 +12,7 @@ from pathlib import Path
 
 from bve.se.evidence import snapshot_cache
 from bve.se.evidence.clinicaltrials import ExtractionBundle
-from bve.se.ontology.therapeutic_areas import classify_therapeutic_areas
+from bve.se.ontology.therapeutic_areas import area_terms, classify_therapeutic_areas
 from bve.se.schemas.contracts import (
     CandidateHit,
     ExtractedClaim,
@@ -70,6 +70,25 @@ def _fact(hit: CandidateHit, claim: ExtractedClaim, fact_type: str, value: objec
         supporting_claim_ids=[claim.claim_id],
         confidence=claim.extraction_confidence,
     )
+
+
+_AREA_SPAN_RADIUS = 300
+
+
+def _area_span(text: str, area: str) -> str:
+    """A window of ``text`` around the first occurrence of any of the area's terms."""
+
+    folded = text.casefold()
+    positions = [
+        (index, len(term))
+        for term in area_terms(area)
+        if (index := folded.find(term)) >= 0
+    ]
+    start, length = min(positions)
+    # Casefolding can change length (``ß`` -> ``ss``); cite the folded text then, so the
+    # window still contains the term it was built around.
+    source = text if len(folded) == len(text) else folded
+    return source[max(0, start - _AREA_SPAN_RADIUS) : start + length + _AREA_SPAN_RADIUS]
 
 
 class PublicDocumentEvidenceExtractor:
@@ -131,17 +150,20 @@ class PublicDocumentEvidenceExtractor:
             claims.append(claim)
             facts.append(_fact(hit, claim, "modality_id", modality))
 
-        areas = classify_therapeutic_areas(searchable)
-        ta_claims = [
-            _claim(hit, document, predicate="therapeutic_area", value=area, passage=passage)
-            for area in areas
-        ]
-        if ta_claims:
-            claims.extend(ta_claims)
-            facts.append(
-                _fact(hit, ta_claims[0], "therapeutic_area", areas).model_copy(
-                    update={"supporting_claim_ids": [claim.claim_id for claim in ta_claims]}
-                )
+        # One fact per area, each cited to a span that names that area. The generic passage
+        # is the document head, while areas are classified over the whole text, so an area
+        # observed further down cannot be entailed by it; and a shared fact would let one
+        # unentailed area delete another that is supported.
+        area_text = f"{passage}\n{raw_text}"
+        for area in classify_therapeutic_areas(searchable):
+            claim = _claim(
+                hit,
+                document,
+                predicate="therapeutic_area",
+                value=area,
+                passage=_area_span(area_text, area),
             )
+            claims.append(claim)
+            facts.append(_fact(hit, claim, "therapeutic_area", area))
 
         return ExtractionBundle(claims=claims, facts=facts)
