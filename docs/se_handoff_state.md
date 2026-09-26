@@ -970,3 +970,14 @@ for any of the following:
 **Current arc: shortlist ordering / ranking.** Step 1 is an audit of what determines order today and
 what evidence each candidate actually carries. There is no composite score until a BD objective is
 preregistered.
+
+**Ranking audit done (2026-09-26): `docs/se_ranking_audit.md`.** Findings:
+
+- The order today is target-status enum, then document count. `rank_profiles` is unwired, with no
+  caller passing profiles.
+- The visible population is mostly UNKNOWN on every gate.
+- A case-sensitive therapeutic-area `IN` (`"oncology"` vs `"ONCOLOGY"`) excludes every oncology
+  trial-backed asset on an ONCOLOGY query.
+
+The recommendation, waiting on the operator: fix that population defect before preregistering the BD
+ordering objective.
