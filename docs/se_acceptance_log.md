@@ -2027,3 +2027,20 @@ the offline check. That limit does not reopen v5. The remaining issues belong to
 - **Query parser**, a future parser milestone:
   - `large` resolves to the gene `LARGE1` by `unique_alias_match`;
   - `CD19-directed` is not recognized (the `-directed` suffix is not stripped).
+
+**Correction to the TAC01 record (2026-09-26, found during the ranking audit).** "Default path" above
+uses the scorer's definition, the same one as every mint pair: *not low support*. It does **not** mean
+the asset reached the user's shortlist. `TAC01` is **gate-EXCLUDED** and does not appear on the
+shortlist. The `strategic_sandbox` gate fails it on two counts, and neither involves v5:
+
+1. **`strategy.therapeutic_area`.** The observed fact is `"oncology"`. The requirement is `["ONCOLOGY"]`.
+   The `IN` operator (`gates/evaluator.py:36`) compares case-sensitively, so every oncology trial
+   conflicts with an `--therapeutic-area ONCOLOGY` request.
+2. **`strategy.indication`.** The query compiler carried the residual words `relapsed`, `refractory`,
+   `B-cell` and `lymphoma` into `strategic_gap.indications`. The observed value `"Lymphoma, B-Cell"`
+   is not a member of that list.
+
+The v5 PASS is unaffected. The frozen question was whether the class-term rule consumes the sponsor
+residue, and v5's only consequence is low-support routing, which `TAC01` did not receive. The
+exclusion is a gating defect, and it belongs to the ranking-population audit
+(`docs/se_ranking_audit.md`).
