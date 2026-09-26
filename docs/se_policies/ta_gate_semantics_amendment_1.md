@@ -60,3 +60,25 @@ unsupported. The supported area's fact must survive the pipeline's entailment fi
    `AUTOIMMUNE` against the same frozen criteria.
 
 No ranking work until both arms are scored.
+
+## Result (appended 2026-09-26, after scoring)
+
+Code `f149aca`. Both arms were scored by the frozen `scripts/se_ta_gate_compare.py`. The raw
+output is preserved in each run directory as `ta_compare.txt`.
+
+- **TAC01** (`se_runs/tac01_ta_fix_a1d`): **ALL CRITERIA PASS.**
+  - ONCOLOGY assets 1185 → 1221, with 0 lost.
+  - TA gate {FAIL 485, UNKNOWN 958} → {PASS 492, FAIL 84, UNKNOWN 867}.
+  - Visible 446 → 469.
+- **mint5_on** (`se_runs/mint5_ta_fix_a1`): **ALL CRITERIA PASS.**
+  - 221 assets support AUTOIMMUNE; none of them FAIL.
+  - TA gate PASS 0 → 129.
+  - Visible 308 → 327.
+  - 22 assets move EXCLUDED → UNRESOLVED, among them GC012F, AZD0120, CNCT19 and inaticabtagene
+    autoleucel.
+  - 3 assets move UNRESOLVED → EXCLUDED, each on a TA UNKNOWN → FAIL. These are the
+    oncology-only Emfizatamab and tabelecleucel, plus Maleimide.
+  - Human-PoC PASS on the visible path is unchanged at 6 → 6.
+
+**The TA gate fix is ACCEPTED.** The remaining exclusions are dominated by parser residue
+(`strategy.indication`, `target.expression`), which is logged in `docs/se_parser_defects.md`.
