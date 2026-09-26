@@ -12,22 +12,13 @@ from pathlib import Path
 
 from bve.se.evidence import snapshot_cache
 from bve.se.evidence.clinicaltrials import ExtractionBundle
+from bve.se.ontology.therapeutic_areas import classify_therapeutic_areas
 from bve.se.schemas.contracts import (
     CandidateHit,
     ExtractedClaim,
     NormalizedFact,
     SourceDocument,
     VerificationStatus,
-)
-
-_ONCOLOGY_TERMS = (
-    "cancer",
-    "leukemia",
-    "lymphoma",
-    "malignancy",
-    "myeloma",
-    "oncology",
-    "tumor",
 )
 
 
@@ -140,15 +131,17 @@ class PublicDocumentEvidenceExtractor:
             claims.append(claim)
             facts.append(_fact(hit, claim, "modality_id", modality))
 
-        if any(term in searchable for term in _ONCOLOGY_TERMS):
-            claim = _claim(
-                hit,
-                document,
-                predicate="therapeutic_area",
-                value="oncology",
-                passage=passage,
+        areas = classify_therapeutic_areas(searchable)
+        ta_claims = [
+            _claim(hit, document, predicate="therapeutic_area", value=area, passage=passage)
+            for area in areas
+        ]
+        if ta_claims:
+            claims.extend(ta_claims)
+            facts.append(
+                _fact(hit, ta_claims[0], "therapeutic_area", areas).model_copy(
+                    update={"supporting_claim_ids": [claim.claim_id for claim in ta_claims]}
+                )
             )
-            claims.append(claim)
-            facts.append(_fact(hit, claim, "therapeutic_area", "oncology"))
 
         return ExtractionBundle(claims=claims, facts=facts)

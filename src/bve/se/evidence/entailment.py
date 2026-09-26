@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from pydantic import BaseModel, Field
 
+from bve.se.ontology.therapeutic_areas import area_terms
 from bve.se.schemas.contracts import ExtractedClaim
 
 
@@ -52,9 +53,10 @@ def check_structured_entailment(claim: ExtractedClaim) -> EntailmentResult:
     # Identity booleans are supported by the cited registry identifier rather than the word true.
     if claim.predicate == "identity_valid" and "nct" in passage:
         missing_values = []
-    if claim.predicate == "therapeutic_area" and claim.normalized_value == "oncology":
-        oncology_terms = ("leukemia", "lymphoma", "myeloma", "malignancy", "cancer", "tumor")
-        if any(term in passage for term in oncology_terms):
+    # An area is a class label no source writes verbatim; the passage supports it when it
+    # names any of the class's lexicon terms.
+    if claim.predicate == "therapeutic_area" and isinstance(claim.normalized_value, str):
+        if any(term in passage for term in area_terms(claim.normalized_value)):
             missing_values = []
     if claim.predicate == "modality_id" and claim.normalized_value == "T_CELL_ENGAGER":
         modality_terms = ("t-cell engager", "t cell engager", "bispecific", "bite", "cd3")

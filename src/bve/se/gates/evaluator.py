@@ -49,16 +49,15 @@ def _compare(actual: Any, expected: Any, operator: RequirementOperator) -> bool:
     raise ValueError(f"unsupported requirement operator: {operator}")
 
 
-def evaluate_requirement(
+def _undecidable(
     requirement: BuyerRequirement,
     *,
     subject_id: str,
-    facts: Iterable[NormalizedFact],
+    matching: list[NormalizedFact],
     gate_id: str,
-) -> GateDecision:
-    """Evaluate one requirement without treating missing/conflicting/stale data as truth."""
+) -> GateDecision | None:
+    """UNKNOWN when the facts are missing, conflicting or stale; None when they can decide."""
 
-    matching = [fact for fact in facts if fact.fact_type == requirement.fact_type]
     if not matching:
         return GateDecision(
             gate_id=gate_id,
@@ -93,6 +92,23 @@ def evaluate_requirement(
             next_action="Refresh the stale evidence.",
         )
 
+    return None
+
+
+def evaluate_requirement(
+    requirement: BuyerRequirement,
+    *,
+    subject_id: str,
+    facts: Iterable[NormalizedFact],
+    gate_id: str,
+) -> GateDecision:
+    """Evaluate one requirement without treating missing/conflicting/stale data as truth."""
+
+    matching = [fact for fact in facts if fact.fact_type == requirement.fact_type]
+    undecidable = _undecidable(requirement, subject_id=subject_id, matching=matching, gate_id=gate_id)
+    if undecidable is not None:
+        return undecidable
+
     results = [_compare(fact.value, requirement.expected_value, requirement.operator) for fact in matching]
     if all(results):
         status = GateStatus.PASS
@@ -121,6 +137,59 @@ def evaluate_requirement(
         supporting_or_contradictory_claim_ids=_claim_ids(matching),
         rationale=rationale,
     )
+
+
+def evaluate_therapeutic_area(
+    requirement: BuyerRequirement,
+    *,
+    subject_id: str,
+    facts: Iterable[NormalizedFact],
+    gate_id: str,
+) -> GateDecision:
+    """Decide a therapeutic-area request over the union of every area the evidence supports.
+
+    Not the per-fact ``IN`` of :func:`evaluate_requirement`. An asset with one oncology trial
+    and one lupus trial has no disagreeing facts: it supports both areas, and either one
+    answers the request. Both sides are compared in canonical form, because ``ONCOLOGY``
+    against ``oncology`` compared as strings excluded every oncology asset from an oncology
+    question. A disjoint result is FAIL only when every requested area is one the evidence
+    layer classifies; an area it cannot see is absent from the evidence by construction.
+    """
+
+    from bve.se.ontology.therapeutic_areas import CLASSIFIED_AREAS, canonical_therapeutic_area
+
+    matching = [fact for fact in facts if fact.fact_type == requirement.fact_type]
+    undecidable = _undecidable(requirement, subject_id=subject_id, matching=matching, gate_id=gate_id)
+    if undecidable is not None:
+        return undecidable
+
+    requested = {canonical_therapeutic_area(area) for area in requirement.expected_value}
+    observed = {
+        canonical_therapeutic_area(area)
+        for fact in matching
+        for area in (fact.value if isinstance(fact.value, list) else [fact.value])
+    }
+    decided = {
+        "gate_id": gate_id,
+        "requirement_id": requirement.requirement_id,
+        "subject_id": subject_id,
+        "observed_fact_ids": [fact.fact_id for fact in matching],
+        "supporting_or_contradictory_claim_ids": _claim_ids(matching),
+    }
+    if observed & requested:
+        return GateDecision(**decided, status=GateStatus.PASS, rationale=requirement.pass_condition)
+    unseeable = sorted(requested - CLASSIFIED_AREAS)
+    if unseeable:
+        return GateDecision(
+            **decided,
+            status=GateStatus.UNKNOWN,
+            rationale=(
+                f"Requested area(s) {unseeable} are not classified by the evidence layer, so "
+                f"observed {sorted(observed)} cannot rule them out."
+            ),
+            next_action="Review the asset's indications against the requested area.",
+        )
+    return GateDecision(**decided, status=GateStatus.FAIL, rationale=requirement.fail_condition)
 
 
 def _target_key(value: object) -> str:

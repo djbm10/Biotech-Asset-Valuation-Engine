@@ -7,7 +7,12 @@ from collections.abc import Iterable
 
 from pydantic import BaseModel, Field
 
-from bve.se.gates.evaluator import evaluate_requirement, evaluate_target_expression
+from bve.se.gates.evaluator import (
+    evaluate_requirement,
+    evaluate_target_expression,
+    evaluate_therapeutic_area,
+)
+from bve.se.ontology.therapeutic_areas import UNSPECIFIED, canonical_therapeutic_area
 from bve.se.schemas.contracts import (
     AnalystReviewItem,
     BuyerProblemV2,
@@ -194,20 +199,27 @@ class GateEngine:
                 )
             )
 
-        # 5. Strategic sandbox. Empty indications mean landscape-wide discovery.
-        decisions.append(
-            evaluate_requirement(
-                _requirement(
-                    "strategy.therapeutic_area",
-                    "therapeutic_area",
-                    RequirementOperator.IN,
-                    problem.strategic_gap.therapeutic_areas,
-                ),
-                subject_id=subject_id,
-                facts=facts_list,
-                gate_id="strategic_sandbox",
+        # 5. Strategic sandbox. Empty indications mean landscape-wide discovery, and an
+        # UNSPECIFIED area is the same absence: no area was stated, so none is required.
+        requested_areas = [
+            area
+            for area in problem.strategic_gap.therapeutic_areas
+            if canonical_therapeutic_area(area) != UNSPECIFIED
+        ]
+        if requested_areas:
+            decisions.append(
+                evaluate_therapeutic_area(
+                    _requirement(
+                        "strategy.therapeutic_area",
+                        "therapeutic_area",
+                        RequirementOperator.IN,
+                        requested_areas,
+                    ),
+                    subject_id=subject_id,
+                    facts=facts_list,
+                    gate_id="strategic_sandbox",
+                )
             )
-        )
         if problem.strategic_gap.indications:
             decisions.append(
                 evaluate_requirement(

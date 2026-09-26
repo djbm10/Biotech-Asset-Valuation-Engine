@@ -11,6 +11,7 @@ from pydantic import BaseModel, Field
 from bve.se.discovery.adapters import QueryVocabulary, _candidate_interventions
 from bve.se.evidence.construct_targets import intervention_construct_targets
 from bve.se.evidence import snapshot_cache
+from bve.se.ontology.therapeutic_areas import classify_therapeutic_areas
 from bve.se.schemas.contracts import (
     CandidateHit,
     ClinicalResult,
@@ -19,15 +20,6 @@ from bve.se.schemas.contracts import (
     SourceDocument,
     TemporalFact,
     VerificationStatus,
-)
-
-_ONCOLOGY_TERMS = (
-    "leukemia",
-    "lymphoma",
-    "myeloma",
-    "malignancy",
-    "cancer",
-    "tumor",
 )
 
 _STAGE_ORDER = {
@@ -195,17 +187,27 @@ class ClinicalTrialsEvidenceExtractor:
 
         conditions = conditions_module.get("conditions", [])
         condition_text = " ".join(conditions).casefold()
-        if conditions and any(term in condition_text for term in _ONCOLOGY_TERMS):
-            ta_claim = _claim(
+        # One claim per area the conditions support, one fact carrying all of them: a trial
+        # enrolling lupus nephritis and B-cell lymphoma is evidence for both areas.
+        areas = classify_therapeutic_areas(condition_text) if conditions else []
+        ta_claims = [
+            _claim(
                 hit,
                 document,
                 predicate="therapeutic_area",
-                value="oncology",
+                value=area,
                 passage="; ".join(conditions),
                 locator="conditionsModule.conditions",
             )
-            claims.append(ta_claim)
-            facts.append(_fact(hit, ta_claim, "therapeutic_area", "oncology"))
+            for area in areas
+        ]
+        if ta_claims:
+            claims.extend(ta_claims)
+            facts.append(
+                _fact(hit, ta_claims[0], "therapeutic_area", areas).model_copy(
+                    update={"supporting_claim_ids": [claim.claim_id for claim in ta_claims]}
+                )
+            )
         if conditions:
             indication_claim = _claim(
                 hit,
