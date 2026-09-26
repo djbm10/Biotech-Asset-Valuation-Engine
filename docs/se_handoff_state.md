@@ -951,3 +951,8 @@ note. Expect to build ordering rather than to fix it.
 `ANY of CD19` with no `LARGE1`, so it is not a QUERY_FAILURE. Score it with the frozen
 `scripts/se_tac01_control_report.py`, reading the verdict through Amendment 1 §4. This is the last
 query: no rewrite on INCONCLUSIVE.
+
+**TAC01 control reported (2026-09-26).** Amendment-level PASS. The frozen scorer printed INCONCLUSIVE
+because the asset surfaces as `TAC01`, not `TAC01-CD19`. It is on the default path under
+`DEVELOPMENT_CODE_AUTHORITY`, and the v5 predicate did not fire. Full adjudication is in
+`se_acceptance_log.md`. The identity-arc closure call is with the operator.

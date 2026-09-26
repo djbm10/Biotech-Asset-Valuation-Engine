@@ -1983,3 +1983,36 @@ Per the operator, only one outcome reopens identity: *"Do not start another gene
 unless that TAC01 test actually shows a named asset being demoted."*
 
 After it reports, the next arc is **shortlist ordering / ranking**.
+
+## TAC01-CD19 over-reach control — result (Amendment 1 run, adjudicated under Amendment 2)
+
+Run: `/home/djmann/se_runs/tac01_control_a1`, 2026-09-26, elapsed 8,558 s. Compiled problem:
+`ANY of CD19`, `CELL_THERAPY`, `minimum_stage=PHASE_1`, no `LARGE1`, so this is not a QUERY_FAILURE.
+Candidates: 5,182. Default path: 1,443. Amendment 2 (`74c50dc`) was committed while the run was still
+in flight and before any output was inspected.
+
+**What the frozen scorer printed: `INCONCLUSIVE` — "TAC01-CD19 absent".** The raw output is kept in
+`scorer_output.txt`. The scorer looks the canary up by exact `canonical_name`.
+
+**Why the verdict below differs from the scorer's.** The asset is present, under a shorter surface
+form:
+
+| Amendment 2 §2 question | finding |
+|---|---|
+| 1. observed? | **Yes**, as `TAC01` (`asset:80a54ed996183c4463bb`). Trial `NCT03880279`, sponsor Triumvira Immunologics. Four mentions: CT.gov, AACR and two PubMed. |
+| 2. did the v5 predicate fire? | **No.** `is_class_term("TAC01") == False`, and `is_class_term("TAC01-CD19") == False` offline too. |
+| 3. disposition / reason | **Default path**, `DEVELOPMENT_CODE_AUTHORITY` |
+| 4. did the residue survive? | **Yes.** `individuating_residue == ("TAC01",)` for both forms. |
+
+The veto was firing in this corpus. 138 class terms were held in review, 0 class terms leaked onto
+the default path, and all 13 frozen negatives present in the run were in review (`roche` was absent).
+
+**Amendment-level verdict: PASS, with one stated limit.** `extract_observed_asset_names` has emitted
+the code token alone since `022de4f` (July 2026, before v5 existed). Its code pattern matches `TAC01`
+and does not extend across `-CD19`. So the literal compound string `TAC01-CD19` was never the input
+to the v5 predicate live. The over-reach *shape* (sponsor stem plus target designation) is covered
+offline and by the unit tests, not by this run. What the run does show end to end: the named asset
+kept its standing, on a named reason, in a corpus where the veto demoted 138 class terms.
+
+Source incompleteness (`conference_ash`, `conference_eha`, `sec_edgar`: 0 records each) has no bearing
+on this. TAC01's evidence comes from CT.gov, AACR and PubMed.
