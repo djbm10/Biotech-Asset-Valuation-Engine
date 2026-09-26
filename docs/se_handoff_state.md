@@ -944,3 +944,10 @@ This is the next arc and the first time ranking work is licensed. Relevant prior
 anyone starts: the pairwise ranker emits nothing and nothing is ever `ELIGIBLE`, so order is
 currently *declared* and the review population **is** the shortlist — see the asset-shortlist-renderer
 note. Expect to build ordering rather than to fix it.
+
+**Amendment 1 run in flight.** Preregistered `a7ff98b` (sha256
+`cc45d1194acebca76ec09cc24d6cb581f7fb7ec51bce901a180163f48a12fe7c`), launched 2026-09-26 into
+`/home/djmann/se_runs/tac01_control_a1` (log `tac01_control_a1.log`). Compiled problem verified as
+`ANY of CD19` with no `LARGE1`, so it is not a QUERY_FAILURE. Score it with the frozen
+`scripts/se_tac01_control_report.py`, reading the verdict through Amendment 1 §4. This is the last
+query: no rewrite on INCONCLUSIVE.
