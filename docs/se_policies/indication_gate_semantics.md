@@ -139,3 +139,23 @@ unchanged. The user runs them in their own terminal.
 - `Obecabtagene autoleucel` and `KITE-363` stay EXCLUDED on `strategy.therapeutic_area`
   (defect #4 territory). This is not a B1 failure; they are not B1 records.
 - The visible population gains a trial-linked tier, where TAC01 had 0.
+
+## Result: TAC01 (appended 2026-09-27)
+
+Code `e84f2f2`. Sealed replay `se_runs/tac01_ind_fix` scored against `tac01_ta_fix_a1d` with the
+frozen scorer; raw output at `se_runs/tac01_ind_fix/ind_compare.txt`. **All criteria PASS.**
+
+- **B1:** 5/5. Axi-cel, tisa-cel, liso-cel, brexu-cel and TAC01 are all UNRESOLVED with
+  `strategy.indication` PASS.
+- **B2 mechanical:** 246 FAIL→PASS/UNKNOWN moves, all explained by a lexicon term.
+- **B2 review:** all 93 distinct MATCH strings name B-cell NHL. Two were judged at the boundary:
+  - "B-cell lymphoma, unclassifiable, intermediate between DLBCL and classic Hodgkin" is WHO
+    grey-zone lymphoma, which is a B-cell lymphoma.
+  - "CLL/SLL" strings match through SLL, which is a declared term. CLL alone does not match.
+- **B3:** candidates, low-support, facts and search attempts are identical, and no
+  non-indication decision changed.
+- **B4:** 214 disposition changes, all EXCLUDED→UNRESOLVED, each with an indication change.
+
+Predictions (reported, not criteria):
+- `strategy.indication` went from FAIL 607 / UNKNOWN 836 to FAIL 361 / PASS 175 / UNKNOWN 907.
+- Visible assets went from 469 to 683; visible assets with an indication fact went from 0 to 214.
