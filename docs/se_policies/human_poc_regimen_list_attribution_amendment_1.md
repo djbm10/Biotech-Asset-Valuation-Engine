@@ -26,8 +26,8 @@ rebuilt and re-scored with the frozen ranking v1 scorer.
 
 ## Result (appended 2026-09-27)
 
-- **H1 — PASS.** Every claim on the R-CHOP, FCR and DVRd sentences is removed in both runs,
-  now including `prednisone` and `Prednisolone`. TAC01 cyclophosphamide, vincristine and
+- **H1 — PASS.** Every claim on the R-CHOP, FCR and DVRd sentences is removed (mint5 holds
+  only the R-CHOP sentence), now including `prednisone` and `Prednisolone` in both runs. TAC01 cyclophosphamide, vincristine and
   lenalidomide hold no `human_poc_present` fact.
 - **H2 — PASS.** Every positive control keeps its fact in both runs.
 - **H3 — PASS.** The only new removals are prednisone and Prednisolone on the R-CHOP
