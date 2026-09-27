@@ -92,3 +92,48 @@ both population fixes.
   amendment. The rule is not loosened to rescue K1.
 - K1 remains reported. Whether the remaining antibody/ADC rows need a modality-aware ranking
   amendment is decided only after duplicate merging.
+
+## Result (appended 2026-09-27): FAILED_ACCEPTANCE
+
+TAC01 replay `se_runs/tac01_stage_fix` (code 73665a5, with Amendment 1). Per-asset counts in
+`stage_attribution_eval.txt`. Reasons were recomputed from the sealed snapshots with `why.py`.
+Stage facts fell from 2,268 to 1,232. Assets holding a stage fact fell from 1,057 to 745.
+
+- **S1: FAIL.** Cyclophosphamide 205→6, Fludarabine 181→2 and Fludarabine-based 1→0 pass.
+  R-mini-CHOP keeps 1 of 1 and stays in the top 20 (#10). It is attributed
+  `STAGE_FROM_TITLED_INTERVENTION` on NCT07215585, whose title names the backbone next to the
+  bispecific under study ("AZD0486 with R-mini-CHOP"). A title names combination backbones as
+  well as investigational products. Title presence is not evidence of investigation.
+- **S2 (TAC01): PASS.** Axi-cel 20→14, tisa-cel 8→4, liso-cel 10→6, brexu-cel 7→7,
+  CC-97540 7→7 and KITE-753 1→1. mint5 is not needed for the decision.
+- **S3: FAIL, real programs stripped.** 312 assets lost every stage fact. Most are correct:
+  biospecimen collection, leukapheresis, conditioning, placebo, transplant procedures. Real
+  investigational programs are among them too, by two defects:
+  1. **Support-role false positives.** The product's own description names it as the reference
+     point for the conditioning: "conditioning therapy ... conducted before CD19-UCART
+     injection" (CD19-UCART); "receive lymphodepleting chemotherapy, followed by ... rapcabtagene
+     autoleucel (YTB323)" (YTB323); "During JWCAR029 production, subjects receive conditioning"
+     (JWCAR029, sole intervention). The self-naming sentence test cannot tell the subject of a
+     support clause from its reference point.
+  2. **Ambiguous-partner false withholds.** Co-investigational products in one trial:
+     - SCRI-huCAR19v1/v2, where the title names neither;
+     - huCART19 alongside CART22, where the title says "huCART19" but the intervention is
+       "huCART19 Cells" and the observed-name channel did not yield the short form;
+     - KYMRIAH, YESCARTA, Tecartus and Breyanzi on a multi-product commercial CAR-T protocol.
+     Also stripped: JCAR015, JCAR017 schedules, cilta-cel, SL19, 4SCAR19 constructs.
+- **S4: PASS.** 10 unit tests; full S&E suite 1499 passed, 3 xfailed.
+- **S5: PASS.** Frozen scorer R1–R3 PASS (`ranking_v1_compare.txt`).
+
+Reported:
+- Top 20: brexu-cel, CNCT19, axi-cel, tafasitamab, tisa-cel, CC-97540, KITE-753,
+  lenalidomide, NKTR-255, R-mini-CHOP, denintuzumab, KTE-C19, KTE-X19, liso-cel,
+  loncastuximab, MEDI-551, SAR3419, 7×19-THEMIS, ALLO-501A, anti-CD19+anti-CD20 CAR-T.
+- Cyclophosphamide and Fludarabine are gone from the top 20. Lenalidomide (#8, titled in a
+  multi-agent DLBCL trial) and NKTR-255 (#9, titled "with or without NKTR-255") are the
+  honest result of rule 5 as written.
+
+**Decision: FAILED_ACCEPTANCE.** The code at 73665a5 is not adopted. Per the decision rule, it
+is not loosened to rescue K1. A revision needs an amendment addressing all three defects:
+- title evidence that includes backbones;
+- the self-naming support test;
+- partner ambiguity between co-investigational products.
