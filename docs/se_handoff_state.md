@@ -8,27 +8,34 @@ evidence engine, what is frozen, what the next work is, and the environment fact
 time to rediscover. Milestone detail lives in the per-milestone reports; this file is the
 index and the operating manual. **Update it after every run.**
 
-## 0. Current directive (last updated 2026-09-27)
+## 0. Current directive (last updated 2026-09-27, after ranking v1)
 
-**Ranking can start.** Two fixes are ACCEPTED:
-- the TA gate (`f149aca`, `ta_gate_semantics_amendment_1.md`);
-- parser defect #3, indications (`e84f2f2`, `indication_gate_semantics.md`).
+**Ranking v1 is implemented and conforms to its declaration** (`ranking_lexicographic_v1.md`).
+- The order is lexicographic, with no score: eligibility → human efficacy → maturity → target
+  confidence → evidence completeness → name/id.
+- The order is `declared_lexicographic_v1`, and there is an "Excluded because" band.
+- R1–R4 PASS on both benchmarks.
 
-Benchmarks:
-- oncology: `se_runs/tac01_ind_fix`, with 683 visible assets, 214 of them trial-linked, and
-  the reference CD19 CAR-Ts visible;
-- autoimmune: `se_runs/mint5_ind_fix`.
+**Benchmark readout:**
+- mint5 K2 PASSES (12 of 20 RELEVANT).
+- TAC01 K1 FAILS:
+  - All 4 approved CAR-Ts are in the top 20, but only 7 of 20 rows are RELEVANT.
+  - 10 of 20 are DUPLICATE or NON_ASSET: conditioning and chemo arms, plus KTE-C19 and
+    KTE-X19. That is a population defect under the decision rule. The count sits exactly at
+    the boundary, disclosed in the declaration.
 
-The ranking policy is lexicographic, with no weighted score:
-eligibility → human efficacy (PASS > UNKNOWN) → maturity → target confidence → evidence
-completeness → deterministic tie-break. FAIL assets go to "Excluded because", and coverage is
-shown but never counted against an asset. Preregister it before any code.
+**Next: the post-parser population milestones are PROMOTED; the ranking is NOT tuned.**
+1. Arm/background interventions minted as assets. Conditioning and chemo agents inherit
+   their trial's stage and human-PoC facts, so they outrank the products. Examples:
+   Cyclophosphamide at #1, Fludarabine, vincristine, R-mini-CHOP, "Chemotherapy Agents".
+2. Identity merge misses: KTE-C19≡axi-cel, KTE-X19≡brexu-cel, GC012F≡AZD0120,
+   CCS1477≡Inobrodib, CNCT19≡Inaticabtagene autoleucel.
+3. Still logged, not promoted: `BCMA-CD19 cCAR T` → ST6GALNAC4.
 
-Post-parser defects are separate milestones, to be fixed only if they dominate the top of the
-ranking. They are listed in `docs/se_candidate_population_validation.md` Finding 3:
-- identity merge misses;
-- `BCMA-CD19 cCAR T` resolving to ST6GALNAC4;
-- arm/background interventions minted as assets.
+Re-read the frozen scorer's top 20 after each population fix. No ranking change is allowed
+without an amendment.
+
+Benchmarks: `se_runs/tac01_ind_fix` (oncology) and `se_runs/mint5_ind_fix` (autoimmune).
 
 ### Prior directive (2026-09-24)
 

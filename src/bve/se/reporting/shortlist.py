@@ -10,10 +10,12 @@ Two disciplines run through it.
 
 **Ordering declares what kind of thing it is.** ``ranking.rank_profiles`` is the scientific
 ranker; when it produced entries, they win. A discovery-mode run produces none, because it has
-no comparative clinical profiles to compare, so the fallback is a *declared display order*:
-disposition, then the existing ``TargetAssertionStatus`` precedence, then evidence volume,
-then the asset id. It carries no score and is not one. Inventing a weighted score here would
-have created a second, unvalidated ranking model that looked exactly like the real one.
+no comparative clinical profiles to compare, so the fallback is a *declared lexicographic
+order* (``docs/se_policies/ranking_lexicographic_v1.md``): eligibility, human efficacy,
+maturity, target confidence, evidence completeness, then name and id. It carries no score and
+is not one. Document count is not a key: it measures how often background therapy is
+mentioned, and it put conditioning chemotherapy at the top of a CAR-T question. Source
+coverage is never a key either; a blind spot is shown, not held against an asset.
 
 **Nothing is displayed without saying where it came from.** Three origins, because the engine
 really does know these three different ways: a source document, a structured authority
@@ -45,6 +47,7 @@ __all__ = [
     "EvidenceOrigin",
     "Shortlist",
     "ShortlistEntry",
+    "LEXICOGRAPHIC_BASIS",
     "build_shortlist",
     "render_shortlist",
 ]
@@ -57,6 +60,12 @@ DEFAULT_LIMIT = 10
 _TARGET_PRECEDENCE = {
     status: index for index, status in enumerate(TargetAssertionStatus)
 }
+
+#: ``ordering_basis`` for the declared lexicographic order.
+LEXICOGRAPHIC_BASIS = "declared_lexicographic_v1"
+_HUMAN_POC_REQUIREMENT_ID = "evidence.human_poc"
+_TARGET_REQUIREMENT_ID = "target.expression"
+_DECISION_PRECEDENCE = {"PASS": 0, "UNKNOWN": 1}
 
 _NCT = re.compile(r"(NCT\d{8})")
 _PUBMED = re.compile(r"pubmed\.ncbi\.nlm\.nih\.gov/(\d+)")
@@ -169,6 +178,9 @@ class Shortlist(BaseModel):
     #: Kept out of the shortlist but not out of the run: low-support nominations, visible on
     #: request. M18 routes them, it never deletes them.
     deferred: tuple[ShortlistEntry, ...] = ()
+    #: Excluded assets, unranked, each naming the requirements it failed in
+    #: ``review_reasons``. An exclusion is a finding a reader should be able to check.
+    excluded: tuple[ShortlistEntry, ...] = ()
     counts: dict[str, int] = Field(default_factory=dict)
     notes: tuple[str, ...] = ()
 
@@ -509,6 +521,59 @@ def _entry(
     )
 
 
+def _asset_evidence(result) -> tuple[dict[str, int], set[str]]:
+    """Each asset's highest uncontradicted stage order, and who has uncontradicted human PoC."""
+
+    stage: dict[str, int] = {}
+    human_poc: set[str] = set()
+    for fact in result.facts:
+        if fact.contradicting_claim_ids:
+            continue
+        if fact.fact_type == "development_stage_order":
+            stage[fact.subject_id] = max(stage.get(fact.subject_id, -1), int(fact.value))
+        elif fact.fact_type == "human_poc_present" and fact.value is True:
+            human_poc.add(fact.subject_id)
+    return stage, human_poc
+
+
+def _rank_key(
+    asset: CanonicalAsset,
+    gate,
+    *,
+    eligible: bool,
+    stage: dict[str, int],
+    human_poc: set[str],
+) -> tuple:
+    """The declared lexicographic key; each element is compared only when all earlier tie."""
+
+    statuses = {d.requirement_id: d.status.value for d in gate.decisions} if gate else {}
+    # The gate's own human-PoC decision when the question asked for it; otherwise the fact
+    # the human-PoC stage wrote, so the dimension still orders a question that did not ask.
+    if _HUMAN_POC_REQUIREMENT_ID in statuses:
+        efficacy = statuses[_HUMAN_POC_REQUIREMENT_ID] == "PASS"
+    else:
+        efficacy = asset.asset_id in human_poc
+    assertion = asset.target_assertions[0] if asset.target_assertions else None
+    return (
+        0 if eligible else 1,
+        0 if efficacy else 1,
+        -stage.get(asset.asset_id, -1),
+        _DECISION_PRECEDENCE.get(statuses.get(_TARGET_REQUIREMENT_ID), 2),
+        _TARGET_PRECEDENCE[assertion.status] if assertion else len(_TARGET_PRECEDENCE),
+        -sum(1 for status in statuses.values() if status == "PASS"),
+        asset.canonical_name.casefold(),
+        asset.asset_id,
+    )
+
+
+def _failed(gate) -> tuple[str, ...]:
+    if gate is None:
+        return ()
+    return tuple(
+        f"{d.requirement_id} FAIL: {d.rationale}" for d in gate.decisions if d.status.value == "FAIL"
+    )
+
+
 def _source_coverage(result) -> tuple[SourceCoverage, ...]:
     """One row per source family the run declared, whether or not it was ever queried.
 
@@ -555,7 +620,8 @@ def build_shortlist(result, *, limit: int = DEFAULT_LIMIT) -> Shortlist:
     excluded = set(result.excluded_asset_ids)
     low_support = set(result.low_support_asset_ids or ())
     ranked_by_id = {entry.asset_id: entry for entry in result.ranking.ranked}
-    ordering_basis = "pairwise_ranking" if ranked_by_id else "declared_display_order"
+    ordering_basis = "pairwise_ranking" if ranked_by_id else LEXICOGRAPHIC_BASIS
+    stage, human_poc = _asset_evidence(result)
 
     shortlisted: list[tuple[tuple, CanonicalAsset, str, OverallDisposition, bool]] = []
     deferred: list[tuple[tuple, CanonicalAsset, str, OverallDisposition, bool]] = []
@@ -566,22 +632,19 @@ def build_shortlist(result, *, limit: int = DEFAULT_LIMIT) -> Shortlist:
         disposition = gate.disposition if gate is not None else OverallDisposition.UNRESOLVED
         thin = asset.asset_id in low_support
         section = "eligible" if asset.asset_id in eligible else "review"
-        assertion = asset.target_assertions[0] if asset.target_assertions else None
-        precedence = (
-            _TARGET_PRECEDENCE[assertion.status] if assertion else len(_TARGET_PRECEDENCE)
-        )
         ranked = ranked_by_id.get(asset.asset_id)
         key = (
             # A real rank supersedes the display order entirely, including across sections:
             # the scientific contract is not a tiebreak inside a presentation decision.
             0 if ranked is not None and ranked.rank is not None else 1,
             ranked.rank if ranked is not None and ranked.rank is not None else 0,
-            0 if section == "eligible" else 1,
-            precedence,
-            -len(index.documents_for(asset)),
-            -len(asset.mention_ids),
-            asset.canonical_name.casefold(),
-            asset.asset_id,
+            *_rank_key(
+                asset,
+                gate,
+                eligible=section == "eligible",
+                stage=stage,
+                human_poc=human_poc,
+            ),
         )
         (deferred if thin else shortlisted).append((key, asset, section, disposition, thin))
 
@@ -615,6 +678,22 @@ def build_shortlist(result, *, limit: int = DEFAULT_LIMIT) -> Shortlist:
             deferred[:limit], start=1
         )
     )
+    excluded_assets = sorted(
+        (asset for asset in result.candidates if asset.asset_id in excluded),
+        key=lambda asset: (asset.canonical_name.casefold(), asset.asset_id),
+    )
+    excluded_entries = tuple(
+        _entry(
+            asset,
+            index,
+            section="excluded",
+            disposition=OverallDisposition.EXCLUDED,
+            low_support=asset.asset_id in low_support,
+            position=position,
+            ranked=None,
+        ).model_copy(update={"review_reasons": _failed(index.gates.get(asset.asset_id))})
+        for position, asset in enumerate(excluded_assets[:limit], start=1)
+    )
     counts = {
         "total_candidates": len(result.candidates),
         "eligible": len(eligible),
@@ -624,10 +703,11 @@ def build_shortlist(result, *, limit: int = DEFAULT_LIMIT) -> Shortlist:
         "shown": len(entries),
     }
     notes: list[str] = []
-    if ordering_basis == "declared_display_order":
+    if ordering_basis == LEXICOGRAPHIC_BASIS:
         notes.append(
-            "Order is a declared display order, not a score: this run produced no pairwise "
-            "comparative profiles, so no asset has been ranked against another."
+            "Order is declared and lexicographic, not a score: eligibility, then human "
+            "efficacy, maturity, target confidence and evidence completeness, then name. "
+            "Source coverage never moves an asset."
         )
     if not eligible and by_id:
         notes.append(
@@ -651,6 +731,7 @@ def build_shortlist(result, *, limit: int = DEFAULT_LIMIT) -> Shortlist:
         documents_by_publisher=dict(sorted(publishers.items())),
         entries=entries,
         deferred=deferred_entries,
+        excluded=excluded_entries,
         counts=counts,
         notes=tuple(notes),
     )
@@ -803,6 +884,14 @@ def render_shortlist(shortlist: Shortlist, *, detail: bool = False) -> str:
             lines.append(f"   - {entry.name} ({entry.target_status})")
             if detail:
                 lines.extend(_render_entry(entry, detail=True))
+        lines.append("")
+    if shortlist.excluded:
+        lines.append(
+            f"Excluded because ({shortlist.counts.get('excluded', 0)} total, "
+            f"{len(shortlist.excluded)} shown):"
+        )
+        for entry in shortlist.excluded:
+            lines.append(f"   - {entry.name}: " + "; ".join(entry.review_reasons))
         lines.append("")
     counts = shortlist.counts
     lines.append(

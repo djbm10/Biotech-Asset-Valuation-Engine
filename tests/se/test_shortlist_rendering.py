@@ -263,7 +263,7 @@ class TestOrderIsDeterministicAndDeclared:
         # No pairwise profiles exist in a discovery run, so the order is a declared display
         # order and must not be readable as a score.
         shortlist = build_shortlist(result)
-        assert shortlist.ordering_basis == "declared_display_order"
+        assert shortlist.ordering_basis == "declared_lexicographic_v1"
         assert all(entry.score is None for entry in shortlist.entries)
 
     def test_a_real_ranking_is_deferred_to_when_there_is_one(self, result: SESearchResult) -> None:

@@ -134,3 +134,98 @@ Thresholds:
   wrong. That is recorded as FAILED_ACCEPTANCE, and any revision needs an amendment.
 - Positions of `TAC01` and of the mint5 programmes named in the population validation are
   reported, not criteria.
+
+## Result (appended 2026-09-27)
+
+Scored offline with the frozen scorer. Raw output is at `se_runs/<run>/ranking_v1_compare.txt`.
+
+### Implementation: R1–R4 PASS
+
+| | TAC01 (`tac01_ind_fix`) | mint5 (`mint5_ind_fix`) |
+|---|---|---|
+| **R1** conformance | 683/683, no divergence | 327/327, no divergence |
+| **R2** population invariance | excluded band 760/760, 0 entries naming no FAIL | excluded band 705/705, 0 entries naming no FAIL |
+| **R3** determinism | identical | identical |
+
+In both runs the ranked set equals the visible set, and the deferred set equals low-support minus EXCLUDED.
+
+**R4** is covered by `tests/se/test_shortlist_ranking_v1.py::TestCoverageNeutral`. The tests show that eight extra documents on one asset, or a FAILED or NOT_CONFIGURED source, move no position.
+
+### K1: TAC01 top 20, judged by hand
+
+The "4 approved" condition passes: brexu-cel is at #3, axi-cel at #7, liso-cel at #8 and tisa-cel at #11.
+
+| # | row | judgement |
+|---|---|---|
+| 1 | Cyclophosphamide | NON_ASSET (conditioning) |
+| 2 | lenalidomide | NON_ASSET (combination arm) |
+| 3 | Brexucabtagene Autoleucel | RELEVANT |
+| 4 | CNCT19 | RELEVANT |
+| 5 | vincristine | NON_ASSET (chemo) |
+| 6 | CCL19 | NON_ASSET (construct fragment of "7×19" CAR-T) |
+| 7 | Axicabtagene Ciloleucel | RELEVANT |
+| 8 | Lisocabtagene Maraleucel | RELEVANT |
+| 9 | Loncastuximab Tesirine | OFF_TARGET (CD19 ADC, not cell therapy) |
+| 10 | Tafasitamab | OFF_TARGET (CD19 mAb) |
+| 11 | Tisagenlecleucel | RELEVANT |
+| 12 | Fludarabine | NON_ASSET (conditioning) |
+| 13 | CC-97540 | RELEVANT |
+| 14 | Fludarabine-based | NON_ASSET (conditioning) |
+| 15 | KITE-753 | RELEVANT |
+| 16 | NKTR-255 | NON_ASSET (adjunct arm to CAR-T; see note) |
+| 17 | R-mini-CHOP | NON_ASSET (chemo) |
+| 18 | denintuzumab mafodotin | OFF_TARGET (CD19 ADC) |
+| 19 | KTE-C19 | DUPLICATE of axi-cel |
+| 20 | KTE-X19 | DUPLICATE of brexu-cel |
+
+Tally: RELEVANT 7, NON_ASSET 8, DUPLICATE 2, OFF_TARGET 3.
+
+- RELEVANT is 7, below the 10 required, so **K1 FAILS**.
+- DUPLICATE + NON_ASSET is 10, which meets the ≥ 10 bar.
+
+**Boundary disclosure.** The count sits exactly at the threshold, and one row decides it:
+
+- NKTR-255 is an IL-15 agonist. It appears here only as an adjunct arm in CD19 CAR-T trials, so it is judged the way lenalidomide is judged.
+- If it were judged OFF_TARGET instead, the count would be 9, and the decision rule would read FAILED_ACCEPTANCE rather than a population defect.
+
+The substance favours the population reading:
+- The rows above the approved products are arm and conditioning agents. They carry their trial's `human_poc_present` and stage facts, which is the logged arm/background-asset milestone.
+- The two duplicates are the logged identity-merge milestone.
+- The order itself is behaving as declared.
+
+### K2: mint5 top 20, judged by hand
+
+| # | row | judgement |
+|---|---|---|
+| 1 | ICG318 | RELEVANT |
+| 2 | CCS1477 | OFF_TARGET (p300/CBP inhibitor, myeloma) |
+| 3 | Inobrodib | DUPLICATE of CCS1477 |
+| 4 | mezigdomide | OFF_TARGET (CELMoD, myeloma) |
+| 5 | pomalidomide | OFF_TARGET (IMiD, myeloma; not a conditioning or chemo agent) |
+| 6 | vedolizumab | OFF_TARGET (α4β7, IBD) |
+| 7 | AZD0120 | RELEVANT |
+| 8 | CABA-201 | RELEVANT |
+| 9 | FKC289 | RELEVANT |
+| 10 | GC012F | DUPLICATE of AZD0120 |
+| 11 | umbilical cord blood CD19-BCMA CAR-T cells infusion | RELEVANT |
+| 12 | CD19-BCMA dual nanobody based CAR-T Cells | RELEVANT |
+| 13 | BC19 | RELEVANT (IgG4-RD; target not independently verified) |
+| 14 | BH2024 | RELEVANT |
+| 15 | budoprutug | RELEVANT (anti-CD19 mAb, SLE/PMN) |
+| 16 | CD19CART | NON_ASSET (descriptive name merged across sponsors) |
+| 17 | Chemotherapy Agents | NON_ASSET |
+| 18 | CM336 | RELEVANT |
+| 19 | CNCT19 | RELEVANT |
+| 20 | CRT-402 | RELEVANT (autoimmune; target not independently verified) |
+
+- RELEVANT is 12, or 10 without the two unverified rows, so the ≥ 10 condition is met.
+- No conditioning or chemo agent is in the top 5.
+- **K2 PASSES.**
+
+Observation (not a criterion): ranks 2–6 are myeloma and IBD drugs that have no stage fact. They rank on a literature human-PoC PASS, which is an evidence-subject question and not an ordering one.
+
+### Decision
+
+- R1–R4 pass, so the ranker stays as implemented.
+- K1 fails with population defects at 10 of 20 (boundary disclosed above). Under the rule fixed in this declaration, **the post-parser population milestones are promoted**: arm/background non-asset records and identity-merge misses. **The ranking policy is not tuned.**
+- Reference positions: TAC01 is at #87. In mint5: ICG318 #1, AZD0120 #7, CABA-201 #8, FKC289 #9, GC012F #10, BH2024 #14, CM336 #18, CNCT19 #19, HBI0101 #24, IM19 #25, Inaticabtagene autoleucel #27, QT-019C #56, KN5501 #74, RD06 #79.
