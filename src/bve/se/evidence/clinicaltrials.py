@@ -8,6 +8,7 @@ from datetime import date
 
 from pydantic import BaseModel, Field
 
+from bve.se.evidence.stage_attribution import is_attributed, stage_attribution, stage_method
 from bve.se.discovery.adapters import QueryVocabulary, _candidate_interventions
 from bve.se.evidence.construct_targets import intervention_construct_targets
 from bve.se.evidence import snapshot_cache
@@ -110,7 +111,9 @@ class ClinicalTrialsEvidenceExtractor:
         raw_intervention: dict = next(
             (
                 intervention
-                for intervention in protocol.get("armsInterventionsModule", {}).get("interventions", [])
+                for intervention in protocol.get("armsInterventionsModule", {}).get(
+                    "interventions", []
+                )
                 if intervention.get("name") == hit.asset_name
             ),
             {},
@@ -224,7 +227,10 @@ class ClinicalTrialsEvidenceExtractor:
 
         phases = design.get("phases", [])
         stage_order = max((_STAGE_ORDER.get(phase, -1) for phase in phases), default=-1)
-        if stage_order >= 0:
+        # A trial's phase belongs to what it investigates, not to every co-administered agent.
+        # Policy: docs/se_policies/trial_stage_attribution.md (+ Amendments 1-3).
+        stage_reason = stage_attribution(protocol, hit.asset_name)
+        if stage_order >= 0 and is_attributed(stage_reason):
             stage_claim = _claim(
                 hit,
                 document,
@@ -232,6 +238,8 @@ class ClinicalTrialsEvidenceExtractor:
                 value=stage_order,
                 passage=json.dumps(phases),
                 locator="designModule.phases",
+            ).model_copy(
+                update={"extraction_method": stage_method(protocol, hit.asset_name, stage_reason)}
             )
             claims.append(stage_claim)
             facts.append(_fact(hit, stage_claim, "development_stage_order", stage_order))
