@@ -478,7 +478,9 @@ def _is_regimen_list_item(sentence: str, named: str) -> bool:
         if offset <= position < end:
             break
         offset = end + 1
-    if _COORDINATOR.sub("", segments[index].strip()) != target:
+    item = _COORDINATOR.sub("", segments[index].strip())
+    # Amendment 1: one item may be a set of alternatives ("prednisone or prednisolone").
+    if target not in (alternative.strip() for alternative in item.split(" or ")):
         return False
     left = delimiters[index - 1] if index > 0 else None
     right = delimiters[index] if index < len(delimiters) else None

@@ -159,3 +159,5 @@ Tally: RELEVANT 7, NON_ASSET 6, DUPLICATE 2, OFF_TARGET 5. K1 still fails, as ex
 H2–H4 pass and H1 fails only on the preregistration's own contradiction (prednisone/
 prednisolone). The rule is **not adopted yet**. It needs Amendment 1 to state how a final
 `A or B` item is treated, then it is re-measured.
+
+**Superseded 2026-09-27:** adopted with `human_poc_regimen_list_attribution_amendment_1.md`.

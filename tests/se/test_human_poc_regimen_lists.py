@@ -30,6 +30,11 @@ class TestARegimenListItemIsNotCredited:
         for name in ("cyclophosphamide", "vincristine", "doxorubicin"):
             assert efficacy_statements(R_CHOP, asset_names=[name]) == []
 
+    def test_a_final_item_of_alternatives(self) -> None:
+        # Amendment 1: "and prednisone or prednisolone" is one list item of two alternatives.
+        for name in ("prednisone", "prednisolone"):
+            assert efficacy_statements(R_CHOP, asset_names=[name]) == []
+
     def test_a_serial_list_with_a_final_and(self) -> None:
         assert efficacy_statements(FCR, asset_names=["cyclophosphamide"]) == []
         assert efficacy_statements(FCR, asset_names=["fludarabine"]) == []
