@@ -417,6 +417,8 @@ def efficacy_statements(
             continue
         if _reports_a_regimen(sentence, named, names):
             continue
+        if _is_regimen_list_item(sentence, named):
+            continue
         statements.append(
             EfficacyStatement(
                 asset_name=named,
@@ -449,6 +451,55 @@ def _reports_a_regimen(sentence: str, named: str, names) -> bool:
     # Another asset named in the same sentence with its own result attached.
     others = [name for name in names if name.casefold() != named.casefold()]
     return any(name.casefold() in lowered for name in others)
+
+
+_LIST_DELIMITERS = re.compile(r"([,()])")
+_COORDINATOR = re.compile(r"^(?:and|or)\s+")
+
+
+def _is_regimen_list_item(sentence: str, named: str) -> bool:
+    """Whether the name is one item of a comma-delimited list, which owns no result alone.
+
+    Policy: ``docs/se_policies/human_poc_regimen_list_attribution.md``. A list is told
+    apart from an apposition ("the product, X, achieved ...") by serial coordination or
+    enclosing parentheses, and from a single-agent clause by the name's segment being bare.
+    """
+
+    lowered = sentence.casefold()
+    target = named.casefold()
+    position = lowered.find(target)
+    parts = _LIST_DELIMITERS.split(lowered)
+    segments = parts[0::2]
+    delimiters = parts[1::2]
+    offset = 0
+    index = 0
+    for index, segment in enumerate(segments):
+        end = offset + len(segment)
+        if offset <= position < end:
+            break
+        offset = end + 1
+    if _COORDINATOR.sub("", segments[index].strip()) != target:
+        return False
+    left = delimiters[index - 1] if index > 0 else None
+    right = delimiters[index] if index < len(delimiters) else None
+    if "," not in (left, right):
+        return False
+    start = index
+    while start > 0 and delimiters[start - 1] == ",":
+        start -= 1
+    stop = index
+    while stop < len(delimiters) and delimiters[stop] == ",":
+        stop += 1
+    run = segments[start : stop + 1]
+    if len(run) < 3:
+        return False
+    parenthesised = (
+        start > 0 and delimiters[start - 1] == "(" and stop < len(delimiters) and delimiters[stop] == ")"
+    )
+    coordinated = any(
+        _COORDINATOR.match(segment.strip()) for segment in segments[index + 1 : stop + 1]
+    )
+    return parenthesised or coordinated
 
 
 def human_poc_evidence(

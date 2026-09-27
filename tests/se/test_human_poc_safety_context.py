@@ -54,8 +54,9 @@ class TestTheEfficacyReadingOfFlareSurvives:
     def test_flared_is_not_caught_by_flare_reaction(self) -> None:
         assert _passes(
             "Although 14 of 15 patients flared, disease activity remained lower, and "
-            "responsiveness lasting >3 months to previously failed drugs (Janus kinase "
-            "inhibitors, abatacept, tumour necrosis factor inhibitors) observed in 7 of 15 "
+            # abatacept was a list item here once; a list item owns no result
+            # (human_poc_regimen_list_attribution.md), so it is named alone.
+            "responsiveness lasting >3 months to abatacept observed in 7 of 15 "
             "patients.",
             "abatacept",
         )

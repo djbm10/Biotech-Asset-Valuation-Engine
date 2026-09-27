@@ -229,3 +229,9 @@ Observation (not a criterion): ranks 2–6 are myeloma and IBD drugs that have n
 - R1–R4 pass, so the ranker stays as implemented.
 - K1 fails with population defects at 10 of 20 (boundary disclosed above). Under the rule fixed in this declaration, **the post-parser population milestones are promoted**: arm/background non-asset records and identity-merge misses. **The ranking policy is not tuned.**
 - Reference positions: TAC01 is at #87. In mint5: ICG318 #1, AZD0120 #7, CABA-201 #8, FKC289 #9, GC012F #10, BH2024 #14, CM336 #18, CNCT19 #19, HBI0101 #24, IM19 #25, Inaticabtagene autoleucel #27, QT-019C #56, KN5501 #74, RD06 #79.
+
+### Limitation: mint5 passes on hand judgement, not engine target facts (appended 2026-09-27)
+
+In the mint5 top 20, all 20 rows have `UNRESOLVED` target status. K2's RELEVANT count therefore rests on the hand rubric: rows 13
+(BC19) and 20 (CRT-402) are counted without independent target verification. This is a
+target-evidence coverage problem, not a reason to change the order.
