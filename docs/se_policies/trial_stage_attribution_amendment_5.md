@@ -73,3 +73,36 @@ One test per reason code, plus:
 - CART22-65s and huCART19 under generic arm labels both attributed;
 - the R-mini-CHOP/AZD0486 structure: R-mini-CHOP control role, AZD0486 attributed;
 - title annotation present/absent, and a title never rescuing an excluded intervention.
+
+## Result (appended 2026-09-27): FAILED_ACCEPTANCE
+
+Replays `se_runs/{tac01,mint5}_stage_fix_v3` (code 184e470). Per-asset counts are in
+`stage_attribution_eval.txt`; scorer output in `ranking_v1_compare.txt`.
+
+- **S1: FAIL.** Cyclophosphamide 205→147 (72%), Fludarabine 181→132 (73%), Fludarabine-based
+  1→1 (100%); R-mini-CHOP 1→0. Cyclophosphamide (#7), Fludarabine (#8) and Fludarabine-based
+  (#10) are in the TAC01 top 20. Of the cyclophosphamide hits, 146 are attributed, 41 support,
+  13 control: most conditioning records are bare ("Given IV") and give no positive evidence.
+- **S2: PASS.** Every control keeps stage (axi-cel 20→18, tisa-cel 8→7, liso-cel 10→9,
+  brexu-cel 7→7, CC-97540 7→7, KITE-753 1→1; all eight mint5 controls unchanged).
+- **S3: FAIL, much reduced.** 113 TAC01 assets lose all stage (295 under Amendment 2), mostly
+  real non-programs (Placebo, Biospecimen Collection, Leukapheresis, HSCT, CliniMACS device).
+  Every Amendment 2 defect case is fixed (SC291, TranspoCART19, ALLO-329, KITE-363, huCART19,
+  DuoCAR, BMS-986337, JCAR015, FT576, CART22, ET019002). Real products still stripped by the
+  first-sentence support test, because sponsors write the regimen into the product's own record:
+  - CAR-NK-CD19 Cells: "…, treatment follows a lymphodepletion" (clause after a comma);
+  - ALA-101: "Single IV infusion of ALA-101 post chemotherapy conditioning" ("post" is not a
+    listed marker);
+  - CD19-TriCAR-T/SILK: "A conditioning chemotherapy regimen … may be administered, followed by
+    … CD19-TriCAR-T cells" (support term leads the sentence).
+- **S4: PASS.** 16 unit tests; full S&E suite 1505 passed, 3 xfailed.
+- **S5: PASS.** R1–R3 PASS on both runs.
+
+TAC01 is at #81. The mint5 top 20 differs from Amendment 2's only by "Chemotherapy Agents"
+entering at #17.
+
+**Decision: FAILED_ACCEPTANCE.** 184e470 is not adopted.
+
+The two failures bracket the problem. Requiring positive proof of investigation strips real
+programs (S3); requiring positive proof of support restores conditioning (S1). Per-intervention
+text does not reliably separate the two in either direction.
