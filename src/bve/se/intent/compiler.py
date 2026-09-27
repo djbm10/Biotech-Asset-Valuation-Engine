@@ -11,9 +11,11 @@ modality to make the pipeline run would reintroduce exactly the guessing M9A rem
 
 from __future__ import annotations
 
+import re
 from datetime import date
 
-from bve.se.intent.intent import SearchIntent
+from bve.se.intent.intent import IntentSpan, SearchIntent, SpanKind
+from bve.se.ontology.indications import resolve_indication_phrase
 from bve.se.ontology.targets import target_aliases
 from bve.se.schemas.contracts import (
     BuyerIdentity,
@@ -82,7 +84,7 @@ def compile_intent(
 
     gap = StrategicGap(
         therapeutic_areas=list(therapeutic_areas or [UNSPECIFIED_THERAPEUTIC_AREA]),
-        indications=list(indications if indications is not None else intent.residual_terms),
+        indications=list(indications if indications is not None else residual_indications(intent)),
         target_expression=TargetExpression(operator=intent.target_operator, targets=targets),
         modalities=list(intent.modalities),
         # Phase intent is a gating constraint, not a display filter: it is compiled into the
@@ -103,6 +105,39 @@ def compile_intent(
         buyer=buyer,
         strategic_gap=gap,
     )
+
+
+#: What may separate two residual words that still belong to one disease phrase.
+_PHRASE_GLUE = re.compile(r"(?:[\s/,\-]|\b(?:or|and)\b)*", re.IGNORECASE)
+
+
+def residual_indications(intent: SearchIntent) -> list[str]:
+    """The question's leftover words as indications, one concept per disease phrase.
+
+    Adjacent residual words form one phrase. A phrase that names a known indication concept
+    compiles to that concept ("relapsed or refractory B-cell lymphoma" is one requirement,
+    not four); any other phrase keeps its words as literals, exactly as before.
+    ``intent.residual_terms`` is not touched: it also drives trial retrieval.
+    """
+
+    query = intent.original_query
+    phrases: list[list[IntentSpan]] = []
+    previous: IntentSpan | None = None
+    for span in sorted(intent.spans, key=lambda s: (s.start, s.end)):
+        if span.kind is not SpanKind.RESIDUAL:
+            previous = None
+            continue
+        if previous is not None and _PHRASE_GLUE.fullmatch(query[previous.end : span.start]):
+            phrases[-1].append(span)
+        else:
+            phrases.append([span])
+        previous = span
+
+    indications: list[str] = []
+    for phrase in phrases:
+        concept = resolve_indication_phrase(query[phrase[0].start : phrase[-1].end])
+        indications.extend([concept] if concept else [span.text for span in phrase])
+    return list(dict.fromkeys(indications))
 
 
 def build_buyer_identity(name: str, *, as_of_date: date, buyer_id: str | None = None) -> BuyerIdentity:
