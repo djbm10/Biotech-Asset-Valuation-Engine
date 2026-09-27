@@ -143,4 +143,5 @@ is not loosened to rescue K1. A revision needs an amendment addressing all three
 `se_runs/mint5_stage_fix`: S2 PASS, all eight controls keep their stage facts (AZD0120 8→7,
 CM336 8→7, the rest unchanged). S5 PASS. 229 assets lost every stage fact. The same two S3
 defect classes recur (JWCAR029, cilta-cel, anti-CD19/BCMA and anti-CD19/CD22 CAR-Ts,
-pCAR-19B). The top 20 is unchanged from `mint5_ind_fix` in its programs.
+pCAR-19B). Top 20 vs `mint5_ind_fix`: the non-asset "Chemotherapy Agents" (#17) drops out,
+FT819 enters at #20, and rows 1–16 are identical.
