@@ -159,3 +159,13 @@ frozen scorer; raw output at `se_runs/tac01_ind_fix/ind_compare.txt`. **All crit
 Predictions (reported, not criteria):
 - `strategy.indication` went from FAIL 607 / UNKNOWN 836 to FAIL 361 / PASS 175 / UNKNOWN 907.
 - Visible assets went from 469 to 683; visible assets with an indication fact went from 0 to 214.
+
+## Result: mint5 (appended 2026-09-27)
+
+Sealed replay `se_runs/mint5_ind_fix` scored against `mint5_ta_fix_a1`; raw output at
+`se_runs/mint5_ind_fix/ind_compare.txt`. **B5 and B3 PASS.** mint5 compiles no indications
+(`[]`), and its decisions, dispositions, candidates, facts and search attempts are identical to
+the baseline.
+
+**Verdict: the fix is ACCEPTED.** TAC01 (CD19 oncology) is now the oncology ranking benchmark,
+and mint5 (dual CD19/BCMA autoimmune) is the autoimmune ranking benchmark.

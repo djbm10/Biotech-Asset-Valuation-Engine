@@ -20,6 +20,10 @@ been checked.
    - `strategy.indication` compares a registry condition string (`"Lymphoma, B-Cell"`) against
      that list with `IN`, so no asset can PASS.
    - Every asset with a condition fact FAILs: 607 in `tac01_control_a1`.
+   - **FIXED 2026-09-27 (`e84f2f2`)** under `docs/se_policies/indication_gate_semantics.md`.
+     Adjacent residual words compile to one concept (`INDICATION:B_CELL_LYMPHOMA`), matched by
+     subtype. Both sealed replays passed every criterion. Open follow-up: a caller-supplied
+     `--indication` is still literal.
 
 Found while writing the TA declaration, and also out of scope for it:
 

@@ -8,7 +8,29 @@ evidence engine, what is frozen, what the next work is, and the environment fact
 time to rediscover. Milestone detail lives in the per-milestone reports; this file is the
 index and the operating manual. **Update it after every run.**
 
-## 0. Current directive (last updated 2026-09-24)
+## 0. Current directive (last updated 2026-09-27)
+
+**Ranking can start.** Two fixes are ACCEPTED:
+- the TA gate (`f149aca`, `ta_gate_semantics_amendment_1.md`);
+- parser defect #3, indications (`e84f2f2`, `indication_gate_semantics.md`).
+
+Benchmarks:
+- oncology: `se_runs/tac01_ind_fix`, with 683 visible assets, 214 of them trial-linked, and
+  the reference CD19 CAR-Ts visible;
+- autoimmune: `se_runs/mint5_ind_fix`.
+
+The ranking policy is lexicographic, with no weighted score:
+eligibility → human efficacy (PASS > UNKNOWN) → maturity → target confidence → evidence
+completeness → deterministic tie-break. FAIL assets go to "Excluded because", and coverage is
+shown but never counted against an asset. Preregister it before any code.
+
+Post-parser defects are separate milestones, to be fixed only if they dominate the top of the
+ranking. They are listed in `docs/se_candidate_population_validation.md` Finding 3:
+- identity merge misses;
+- `BCMA-CD19 cCAR T` resolving to ST6GALNAC4;
+- arm/background interventions minted as assets.
+
+### Prior directive (2026-09-24)
 
 **Resume at the bottom of this file:** *Asset qualification v3 — FAILED_ACCEPTANCE 2026-09-24*.
 The population-cleanup arc is paused on three decisions, with the paired live artifacts, the
