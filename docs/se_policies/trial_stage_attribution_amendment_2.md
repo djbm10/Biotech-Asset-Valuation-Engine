@@ -91,3 +91,58 @@ New cases:
 - a basket trial with one product named per arm label attributes each product and withholds
   the conditioning agents;
 - the R-mini-CHOP arm structure withholds R-mini-CHOP and attributes AZD0486.
+
+## Result (appended 2026-09-27): FAILED_ACCEPTANCE
+
+Replays `se_runs/{tac01,mint5}_stage_fix_a2` (code 6bbb2cf, Amendments 2–4). Per-asset counts are
+in `stage_attribution_eval.txt`; raw arm text for the diagnosed cases is in
+`tac01_stage_fix_a2/support_cases.txt`.
+
+- **S1: PASS.** Cyclophosphamide 205→8 (3.9%), Fludarabine 181→6 (3.3%), Fludarabine-based
+  1→0, R-mini-CHOP 1→0. None of them is in the top 20.
+- **S2: PASS.** Every control keeps at least one stage fact.
+  - TAC01: axi-cel 20→14, tisa-cel 8→4, liso-cel 10→5, brexu-cel 7→5, CC-97540 7→6,
+    KITE-753 1→1.
+  - mint5: AZD0120 8→8, CABA-201 4→4, FKC289 3→3, GC012F 11→11, BH2024 2→2, CM336 8→8,
+    CNCT19 6→6, ICG318 3→2.
+- **S3: FAIL.** In TAC01, 295 assets lost every stage fact (312 under the original rule). In
+  mint5, 202 did (229). Amendment 2's named cases are fixed:
+  - CD19-UCART, YTB323, JWCAR029, KYMRIAH, YESCARTA, Tecartus, Breyanzi, SCRI-huCAR19 and
+    huCART19 (NCT03620058) keep their stage.
+  - R-mini-CHOP and the conditioning agents are withheld.
+
+  Real programs are still stripped. There are three new defect classes:
+  1. **Coordinated support clauses in arm descriptions make the product the agent.**
+     - "SC291 with lymphodepleting therapy"
+     - "ALLO-329 without a lymphodepletion regimen"
+     - "followed by lymphodepleting chemotherapy and administration of TranspoCART19"
+     - "followed Phase 1ab recommended dose of KITE-363" (the sponsor's text is missing "by")
+
+     SC291 and TranspoCART19 are the *only* intervention of their trials. The support rule
+     withholds a product that has nothing to support.
+  2. **Non-therapeutic partners make a sole product ambiguous.**
+     - A PET imaging tracer: huCART19-IL18-eDHFR with [18F]FP-TMP.
+     - A placebo and famotidine: BMS-986337.
+     - Conditioning agents named "(Conditional therapy)", which contain no support term:
+       DuoCAR20.19.22-D95.
+  3. **Co-administered products under generic arm labels.** CART22-65s and huCART19
+     (NCT05674175) share the arms "Dose Finding Arm" and "Expansion Arm".
+
+  Also on the lost list, not individually diagnosed: JCAR015, cilta-cel, FT576, CART22,
+  VNX-101 dose levels, ET019002, duvortuxizumab, englumafusp, BMS-986337.
+- **S4: PASS.** 23 unit tests, one per reason code; full S&E suite 1509 passed, 3 xfailed.
+- **S5: PASS.** The frozen scorer reports R1–R3 PASS on both runs.
+
+Reported (TAC01 top 20):
+- brexu-cel, CNCT19, axi-cel, loncastuximab, tafasitamab, tisa-cel, CC-97540, KITE-753,
+  lenalidomide, NKTR-255;
+- denintuzumab, KTE-C19, KTE-X19, liso-cel, MEDI-551, SAR3419, 7×19-THEMIS, ALLO-501A,
+  Allogeneic CD19-STAR T, Allogenic CD19-CAR-γδT.
+
+R-mini-CHOP has left the top 20. Lenalidomide (#9) and NKTR-255 (#10) remain, as the rule's
+honest result. The mint5 top 20 is unchanged from `mint5_stage_fix`.
+
+**Decision: FAILED_ACCEPTANCE.** The code at 6bbb2cf is not adopted.
+
+Across the two attempts, each round of prose reading fixes the cases it names and exposes new
+sponsor phrasings. The next revision should be a design decision, not a fourth wording patch.
