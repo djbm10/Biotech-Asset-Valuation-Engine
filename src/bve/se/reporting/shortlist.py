@@ -347,6 +347,28 @@ def _modality_fact(asset: CanonicalAsset) -> DisplayedFact:
     )
 
 
+def _authority_modality_fact(asset: CanonicalAsset) -> DisplayedFact:
+    """What the asset is, from the authority's record of its drug -- never the trial's modality."""
+
+    if not asset.authority_modality:
+        return DisplayedFact(
+            label="Authority modality",
+            evidence_type=SourceEvidenceType.IDENTITY_EVIDENCE,
+            value=None,
+            note=(
+                "UNKNOWN: no authority record of this asset's own drug; the discovery "
+                "context is not used in its place"
+            ),
+        )
+    return DisplayedFact(
+        label="Authority modality",
+        evidence_type=SourceEvidenceType.IDENTITY_EVIDENCE,
+        value=asset.authority_modality,
+        origin=EvidenceOrigin.STRUCTURED_AUTHORITY,
+        note=f"ChEMBL_37 molecule type of {asset.authority_modality_basis}",
+    )
+
+
 _STAGE_PREDICATES = ("development_stage_order", "development_status", "development_stage")
 
 
@@ -493,6 +515,7 @@ def _entry(
         _identity_fact(asset, index),
         _company_fact(asset, index),
         _modality_fact(asset),
+        _authority_modality_fact(asset),
         _phase_fact(asset, index),
         _target_fact(asset),
     )
@@ -536,6 +559,10 @@ def _asset_evidence(result) -> tuple[dict[str, int], set[str]]:
     return stage, human_poc
 
 
+#: MATCH < UNKNOWN < MISMATCH; ``None`` (no modality declared) ranks as v1 did.
+_MODALITY_PRECEDENCE = {"MATCH": 0, "UNKNOWN": 1, "MISMATCH": 2}
+
+
 def _rank_key(
     asset: CanonicalAsset,
     gate,
@@ -556,6 +583,9 @@ def _rank_key(
     assertion = asset.target_assertions[0] if asset.target_assertions else None
     return (
         0 if eligible else 1,
+        # Ranking v1 amendment 1 (authority_modality_v1.md): the question's modality before
+        # PoC and maturity, so a stage-3 ADC cannot outrank a CAR-T in a cell-therapy search.
+        _MODALITY_PRECEDENCE.get(asset.modality_match, 0),
         0 if efficacy else 1,
         -stage.get(asset.asset_id, -1),
         _DECISION_PRECEDENCE.get(statuses.get(_TARGET_REQUIREMENT_ID), 2),

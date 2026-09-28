@@ -44,6 +44,7 @@ from bve.se.evidence.ledger import EvidenceLedger
 from bve.se.evidence.pubmed import PubMedEvidenceExtractor
 from bve.se.evidence.generic import PublicDocumentEvidenceExtractor
 from bve.se.gates.engine import GateEngine, GateEvaluation
+from bve.se.ontology.drug_modality import modality_authority, modality_match
 from bve.se.clinical.cohorts import assign_cohort
 from bve.se.clinical.meaningfulness import assess_meaningfulness
 from bve.se.resolution.registry import AssetRegistry
@@ -109,6 +110,36 @@ class SESearchResult(BaseModel):
     clinical_meaningfulness: list[ClinicalMeaningfulness] = Field(default_factory=list)
     processing_errors: list[str] = Field(default_factory=list)
     label: str = DEVELOPMENT_SCREEN_LABEL
+
+
+def _with_authority_modality(
+    candidates: list[CanonicalAsset], query_modalities: Sequence[str]
+) -> list[CanonicalAsset]:
+    """Each asset's own modality and its match to the question (authority_modality_v1).
+
+    Read from the authority's record of the asset's one drug, never from ``modality_id``:
+    that is the trial's modality, and a conditioning agent in a CAR-T trial is not a CAR-T.
+    """
+
+    authority = modality_authority()
+    annotated = []
+    for asset in candidates:
+        found = (
+            authority.modality_of_names([asset.canonical_name, *asset.aliases])
+            if authority is not None
+            else None
+        )
+        match = modality_match(found.modality if found else None, query_modalities)
+        annotated.append(
+            asset.model_copy(
+                update={
+                    "authority_modality": found.modality if found else None,
+                    "authority_modality_basis": found.basis if found else None,
+                    "modality_match": match.value if match else None,
+                }
+            )
+        )
+    return annotated
 
 
 def _dedupe_gate_facts(facts: Sequence[NormalizedFact]) -> list[NormalizedFact]:
@@ -714,6 +745,7 @@ def run_landscape_search(
         )
         for asset in candidates
     ]
+    candidates = _with_authority_modality(candidates, problem.strategic_gap.modalities)
     for asset in candidates:
         registry.assets[asset.asset_id] = asset
 

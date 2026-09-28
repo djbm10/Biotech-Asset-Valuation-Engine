@@ -341,6 +341,13 @@ class CanonicalAsset(StrictModel):
     discovery_target_context: list[str] = Field(default_factory=list)
     target_assertions: list[CandidateTargetAssertion] = Field(default_factory=list)
     modality_id: str | None = None
+    #: What the asset *is*, from the authority's record of its own drug; ``None`` is
+    #: UNKNOWN. Never derived from ``modality_id``, which is discovery context.
+    authority_modality: str | None = None
+    authority_modality_basis: str | None = None
+    #: MATCH / UNKNOWN / MISMATCH against the problem's declared modalities; ``None``
+    #: when the problem declares none.
+    modality_match: str | None = None
     indication_ids: list[str] = Field(default_factory=list)
     development_stage: str | None = None
     development_status: str | None = None

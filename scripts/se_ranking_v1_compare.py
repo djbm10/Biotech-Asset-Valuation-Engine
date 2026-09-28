@@ -35,6 +35,8 @@ REFERENCE = {
 }
 _TARGET_ORDER = {status.value: i for i, status in enumerate(TargetAssertionStatus)}
 _DECISION_ORDER = {"PASS": 0, "UNKNOWN": 1}
+#: Ranking v1 amendment 1 (authority_modality_v1.md).
+_MODALITY_ORDER = {"MATCH": 0, "UNKNOWN": 1, "MISMATCH": 2}
 
 
 def _independent_order(raw: dict, human_poc_required: bool) -> list[str]:
@@ -64,6 +66,7 @@ def _independent_order(raw: dict, human_poc_required: bool) -> list[str]:
         assertions = asset["target_assertions"]
         keys.append((
             0 if subject in eligible else 1,
+            _MODALITY_ORDER.get(asset.get("modality_match"), 0),
             0 if poc else 1,
             -stage.get(subject, -1),
             _DECISION_ORDER.get(d.get("target.expression"), 2),
