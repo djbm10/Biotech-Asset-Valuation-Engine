@@ -82,3 +82,27 @@ Failure of M1–M4 → revert with a normal revert commit and record the result 
 ## 6. Results
 
 (appended after measurement)
+
+### 6.1 Measurement — 2026-09-28, implementation `20934ce`
+
+Sealed replays: `se_runs/tac01_merge_v1` (custody `tac01_control_a1`), `se_runs/mint5_merge_v1`
+(custody `mint5_on`). Per-group listing: `merge_eval.txt` in each run dir; frozen ranker output:
+`ranking_v1_compare.txt`. Ranking v1 R1–R3 PASS on both.
+
+- **M1 PASS.** KTE-C19→axi-cel and KTE-X19→brexu-cel merged in both runs; CCS1477→inobrodib in
+  mint5 (#211).
+- **M2 PASS.** GC012F, AZD0120, CNCT19 and inaticabtagene autoleucel remain separate assets
+  (identity unresolved / likely alias). CNCT19 is TAC01 #2; GC012F/AZD0120 are mint5 #8/#5.
+- **M3 PASS.** TAC01 has 7 merge groups in the top 50, all correct: brexu-cel/KTE-X19 (#1),
+  axi-cel/KTE-C19 (#3), tafasitamab/XmAb5574 (#6), tisa-cel/CTL019 (#7), coltuximab
+  ravtansine/SAR3419 (#16), denintuzumab mafodotin/SGN-CD19A (#17), inebilizumab/MEDI-551 (#18).
+  mint5 has none in the top 50.
+- **M4 PASS.** 31 TAC01 and 23 mint5 groups checked by hand. CART19, EG12014, avert and ALLO-647 remain
+  standalone. No class term, biosimilar code or ordinary word merged. Noted but not violations:
+  - `VP16`→etoposide phosphate, and levocetirizine hydrochloride/dihydrochloride, are merges
+    between salt forms of one active moiety. Both are excluded, not ranked.
+  - Tisagenlecleucel still carries `CART19` as an alias. It came from CT.gov `otherNames` at ingest
+    and is identical in the baseline `tac01_ind_fix`, so v1 did not introduce it.
+- **M5 PASS.** `tests/se`: 1499 passed, 3 xfailed.
+
+**Status: ADOPTED.**
