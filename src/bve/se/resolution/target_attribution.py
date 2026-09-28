@@ -66,6 +66,23 @@ class OntologyTargetAttribution:
         result = self._resolver.resolve(name, entity_type=EntityType.DRUG)
         return result.canonical_id if result.status is ResolutionStatus.RESOLVED else None
 
+    def identifies_drug(self, name: str) -> str | None:
+        """The canonical drug *name* identifies strongly enough to merge two assets on.
+
+        Narrower than :meth:`resolve_drug`, which is enough to classify one source's
+        ``otherNames``. Merging two separately registered assets needs the authority's own
+        identifier names, and a class label is never one: ``CART19`` is filed as a
+        tisagenlecleucel development code, but it denotes every CD19 CAR-T.
+        """
+
+        # Imported here: discovery sits above resolution, and this is the one question
+        # identity needs from it.
+        from bve.se.discovery.class_terms import is_class_term
+
+        if not name or not name.strip() or is_class_term(name):
+            return None
+        return self._resolver.resolve_identifier(name, entity_type=EntityType.DRUG)
+
     def describes_target_or_class(self, name: str) -> bool:
         """Whether a name denotes a target or mechanism class rather than a drug.
 

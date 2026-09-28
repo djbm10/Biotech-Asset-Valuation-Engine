@@ -9,6 +9,7 @@ to ``AMBIGUOUS`` instead of guessing.
 
 from __future__ import annotations
 
+import re
 from collections import defaultdict
 from enum import Enum
 
@@ -51,6 +52,11 @@ _ALIAS_PRECEDENCE: tuple[AliasType, ...] = (
     AliasType.XREF,
     AliasType.DESCRIPTION,
 )
+
+
+#: Alias types that identify an entity rather than describe or market it. Only these
+#: confer merge authority between two separately registered assets.
+_IDENTIFIER_ALIAS_TYPES = frozenset({AliasType.APPROVED_NAME, AliasType.DEVELOPMENT_CODE})
 
 
 class ResolutionStatus(str, Enum):
@@ -514,6 +520,44 @@ class BiomedicalEntityResolver:
                 }
             )
         )
+
+    def resolve_identifier(
+        self, name: str, entity_type: EntityType = EntityType.DRUG
+    ) -> str | None:
+        """The entity *name* identifies through the authority's own identifier names.
+
+        Stricter than :meth:`resolve`: the name must reach the entity as an approved name
+        or a development code. Trade names, bare synonyms and cross-references still
+        resolve, but they are not identifiers -- ``avert`` is filed as a trade name of
+        acyclovir. A development code the same entity also files as a biosimilar product
+        (``Eg12014 trastuzumab biosimilar``) names a distinct product of the molecule, not
+        the molecule, so it is refused too. See ``authority_identity_merge_v1.md``.
+        """
+
+        if not name or not name.strip():
+            return None
+        result = self.resolve(name, entity_type=entity_type)
+        if result.status is not ResolutionStatus.RESOLVED:
+            return None
+        key = normalize_lookup_key(name)
+        via = {
+            alias_type
+            for alias_type, canonical_id in self._lookup.get((entity_type, key), [])
+            if canonical_id == result.canonical_id
+        }
+        if not via & _IDENTIFIER_ALIAS_TYPES:
+            return None
+        # The molecule's own approved name also appears inside every biosimilar alias
+        # ("Eg12014 trastuzumab biosimilar"), so only a code can be a biosimilar product.
+        if AliasType.APPROVED_NAME in via:
+            return result.canonical_id
+        entity = self._entities[result.canonical_id]
+        token_run = re.compile(rf"(?<![a-z0-9]){re.escape(key)}(?![a-z0-9])")
+        for alias in entity.aliases:
+            folded = normalize_lookup_key(alias.value)
+            if folded != key and "biosimilar" in folded and token_run.search(folded):
+                return None
+        return result.canonical_id
 
     def unambiguous_aliases_for(
         self, canonical_id: str, entity_type: EntityType = EntityType.TARGET

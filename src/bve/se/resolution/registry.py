@@ -74,6 +74,9 @@ class IdentityAuthority(Protocol):
     def describes_target_or_class(self, name: str) -> bool:
         ...
 
+    def identifies_drug(self, name: str) -> str | None:
+        ...
+
 
 #: Source-declared structure meaning the product co-formulates more than one molecule.
 #: Consulted only after synonymy has been ruled out: CT.gov applies this type loosely
@@ -599,6 +602,60 @@ class AssetRegistry:
             update={"status": MergeStatus.APPLIED, "applied_at": datetime.now(timezone.utc)}
         )
         return merged
+
+    def consolidate_by_authority(self) -> dict[str, str]:
+        """Merge separately registered assets whose names identify one drug.
+
+        Ingest only ever unites names a source offered together. Two assets that never
+        co-occur -- ``KTE-C19`` in one trial, ``axicabtagene ciloleucel`` in another --
+        stay apart although the authority files one as the other's development code. This
+        pass unites them, on the authority's identifier names alone
+        (``authority_identity_merge_v1.md``), through the ordinary reversible merge.
+
+        Returns ``{absorbed asset id: surviving asset id}`` so callers holding asset ids
+        can follow the merge.
+        """
+
+        authority = self._identity_authority
+        if authority is None:
+            return {}
+        by_drug: dict[str, list[str]] = {}
+        approved: dict[str, str] = {}
+        for asset_id, asset in sorted(self.assets.items()):
+            drugs = {
+                drug
+                for drug in (
+                    authority.identifies_drug(name)
+                    for name in [asset.canonical_name, *asset.aliases]
+                )
+                if drug
+            }
+            # An asset that identifies two drugs is itself a conflict; merging it would
+            # choose between them.
+            if len(drugs) != 1:
+                continue
+            drug = next(iter(drugs))
+            by_drug.setdefault(drug, []).append(asset_id)
+            if normalize_identity_name(asset.canonical_name) == normalize_identity_name(
+                drug.split(":", 1)[-1]
+            ):
+                approved.setdefault(drug, asset_id)
+        redirects: dict[str, str] = {}
+        for drug, members in sorted(by_drug.items()):
+            if len(members) < 2:
+                continue
+            survivor = approved.get(drug, members[0])
+            ordered = [survivor, *(member for member in members if member != survivor)]
+            proposal = self.propose_merge(
+                ordered,
+                target_asset_id=survivor,
+                confidence=1.0,
+                deterministic_basis=f"authority_drug:{drug}",
+            )
+            self.apply_merge(proposal.merge_id)
+            for member in ordered[1:]:
+                redirects[member] = survivor
+        return redirects
 
     def reverse_merge(self, merge_id: str) -> None:
         merge = self.merges[merge_id]

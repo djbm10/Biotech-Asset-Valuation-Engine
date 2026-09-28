@@ -321,6 +321,13 @@ def run_landscape_search(
         for hit in discovery.hits:
             asset = registry.ingest_hit(hit)
             hit_to_asset[hit.hit_id] = asset.asset_id
+        # After every hit, because two names can only be seen to identify one drug once
+        # both are registered.
+        redirects = registry.consolidate_by_authority()
+        hit_to_asset = {
+            hit_id: redirects.get(asset_id, asset_id)
+            for hit_id, asset_id in hit_to_asset.items()
+        }
         stage.count(hits=len(discovery.hits), assets=len(registry.assets))
     candidates = list(registry.assets.values())
     documents = {document.document_id: document for document in discovery.source_documents}
