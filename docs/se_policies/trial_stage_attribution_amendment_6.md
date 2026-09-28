@@ -151,3 +151,52 @@ One test per reason code, plus:
 - **Carried over.** The Amendment 5 registry cases still pass: DuoCAR, huCART19-IL18 with the
   imaging agent, BMS-986337 with the placebo, CART22-65s + huCART19, R-mini-CHOP/AZD0486, and the
   title annotation.
+
+## Result (appended 2026-09-28): FAILED_ACCEPTANCE — stopping rule invoked
+
+Replays `se_runs/{tac01,mint5}_stage_fix_a6` (code b9c254d, Amendments 6 and 6.1). Per-asset
+counts are in `stage_attribution_eval.txt`; scorer output in `ranking_v1_compare.txt`; reasons
+recomputed from the sealed snapshots with the run's own leave-one-out index by
+`se_runs/tac01_stage_fix/why6.py`.
+
+- **S1: FAIL (narrowly).** Cyclophosphamide 205→7 (3.4%) and Fludarabine 181→5 (2.8%) pass.
+  The corpus prior did the work: 94 cyclophosphamide and 76 fludarabine hits were withheld as
+  `WITHHELD_SUPPORT_DOMINANT`, and 86 and 84 as explicit support. R-mini-CHOP 1→0 passes.
+  **Fludarabine-based keeps 1 of 1** and is #8 in the TAC01 top 20.
+- **S2: PASS.** Every control keeps stage: axi-cel 20→15, tisa-cel 8→6, liso-cel 10→9,
+  brexu-cel 7→6, CC-97540 7→6, KITE-753 1→1. All eight mint5 controls keep at least one;
+  FKC289 3→2, CNCT19 6→5 and ICG318 3→2 are reduced.
+- **S3: FAIL.** 163 TAC01 assets and 130 mint5 assets lose all stage. Amendment 5's three
+  stripped products now keep stage (CAR-NK-CD19 Cells, CD19-TriCAR-T/SILK, ALA-101), but new real
+  programs are stripped as `WITHHELD_SUPPORT_ROLE`. The forward-referent rule reads sponsor prose
+  that runs past the support phrase:
+  - **Coordination after the support term, with no connective:**
+    - TranspoCART19: "followed by lymphodepleting chemotherapy and administration of
+      TranspoCART19".
+    - KITE-363: "lymphodepleting chemotherapy with cyclophosphamide and fludarabine followed
+      Phase 1ab recommended dose of KITE-363" (the text says "followed", not "followed by").
+    - Cilta-cel / JNJ-68284528 (mint5, NCT05257083): the conditioning-regimen sentence of the
+      experimental arm.
+  - **Before-product self-reference on a product description that names unregistered
+    chemotherapy:**
+    - pCAR-19B cells: "Subjects treated with Fludarabine and Cyclophosphamide before cell
+      infusion."
+    - CD19/CD20 Dual-CAR-T cells: "5 days prior to infusion of CAR-T cells, subjects receive
+      fludarabine …".
+  - **Missing sentence spacing** merges clauses: BCT301, "…CAR-iT cells.Participants … Prior to
+    infusion, patients undergo a lymphodepleting conditioning …".
+  - Also stripped: JCAR015, RN1201, BLB101, BC19, CAR2219. These were not individually
+    diagnosed.
+- **S4: PASS.** 25 unit tests; full S&E suite 1514 passed, 3 xfailed.
+- **S5: PASS.** R1–R3 PASS on both runs. TAC01 is at #77.
+
+**Decision: FAILED_ACCEPTANCE.** b9c254d is not adopted.
+
+**Conclusion, per the stopping rule agreed before this amendment.** Across six amendments,
+every rule that reads CT.gov prose to decide an intervention's role either strips real programs
+or restores conditioning agents; fixing one class of sponsor phrasing exposes another. The
+corpus prior is the one component that worked as designed: it separates conditioning agents from
+products across trials. What fails is the per-trial prose reading that feeds it. Reliable
+intervention-level stage attribution needs an explicit regimen/role model — structured roles
+per intervention, not inferred from free text. It cannot come from CT.gov prose heuristics
+alone. Iteration on prose heuristics stops here.
