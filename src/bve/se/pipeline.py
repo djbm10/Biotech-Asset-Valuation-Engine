@@ -42,7 +42,6 @@ from bve.se.evidence.source_capability import may_establish_human_poc
 from bve.se.evidence import snapshot_cache
 from bve.se.evidence.ledger import EvidenceLedger
 from bve.se.evidence.pubmed import PubMedEvidenceExtractor
-from bve.se.evidence.stage_attribution import StageRoleIndex
 from bve.se.evidence.generic import PublicDocumentEvidenceExtractor
 from bve.se.gates.engine import GateEngine, GateEvaluation
 from bve.se.clinical.cohorts import assign_cohort
@@ -328,13 +327,7 @@ def run_landscape_search(
     ledger = EvidenceLedger()
     for source_document in documents.values():
         ledger.register_document(source_document)
-    extractor = ClinicalTrialsEvidenceExtractor(
-        stage_index=StageRoleIndex.from_protocols(
-            snapshot_cache.load_json(document.snapshot_path)
-            for document in documents.values()
-            if document.publisher == "ClinicalTrials.gov" and document.snapshot_path
-        )
-    )
+    extractor = ClinicalTrialsEvidenceExtractor()
     pubmed_extractor = PubMedEvidenceExtractor()
     public_document_extractor = PublicDocumentEvidenceExtractor()
     facts_by_asset: dict[str, list[NormalizedFact]] = {}
