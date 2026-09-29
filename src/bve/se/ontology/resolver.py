@@ -58,33 +58,6 @@ _ALIAS_PRECEDENCE: tuple[AliasType, ...] = (
 #: confer merge authority between two separately registered assets.
 _IDENTIFIER_ALIAS_TYPES = frozenset({AliasType.APPROVED_NAME, AliasType.DEVELOPMENT_CODE})
 
-#: A target alias this short, split out of a longer alias of the same entity, is not a
-#: target name (``target_alias_fragment_v1.md``).
-_FRAGMENT_MAX_LENGTH = 3
-
-
-def _split_fragments(entity: "CanonicalEntity") -> set[str]:
-    """Short aliases that exist only as pieces of a longer alias the source split up.
-
-    Open Targets files ``IV`` for ST6GALNAC4 because it split ``ST6GalNAc IV``, and every
-    "Given IV" in a registry then read as that gene. The signature is structural -- every
-    token of the longer alias is itself an alias -- so no string is listed. The approved
-    symbol is the authority's explicit support for a token and is always kept.
-    """
-
-    values = {alias.value for alias in entity.aliases}
-    fragments: set[str] = set()
-    for value in values:
-        tokens = value.split()
-        if len(tokens) < 2 or not all(token in values for token in tokens):
-            continue
-        fragments.update(
-            token
-            for token in tokens
-            if len(token) <= _FRAGMENT_MAX_LENGTH and token != entity.canonical_symbol
-        )
-    return fragments
-
 
 class ResolutionStatus(str, Enum):
     RESOLVED = "RESOLVED"
@@ -370,10 +343,7 @@ class BiomedicalEntityResolver:
         return f"{entity_type.value}:{group[0].record_key}"
 
     def _index(self, entity: CanonicalEntity) -> None:
-        fragments = _split_fragments(entity) if entity.entity_type is EntityType.TARGET else set()
         for alias in entity.aliases:
-            if alias.value in fragments:
-                continue
             key = (entity.entity_type, normalize_lookup_key(alias.value))
             self._lookup[key].append((alias.alias_type, entity.canonical_id))
         # Canonical IDs are always directly addressable.
