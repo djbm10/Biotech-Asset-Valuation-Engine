@@ -64,4 +64,17 @@ milestone. If any fails, the change is reverted with a normal revert commit and 
 
 ## 4. Results
 
-(appended after measurement)
+### 4.1 Measurement — 2026-09-29, implementation `010218e`
+
+Sealed replays: `se_runs/tac01_fragment_a1` and `se_runs/mint5_fragment_a1`, each against its
+`modality_v1` baseline. Output: `tac01_fragment_a1/fragment_eval.txt`.
+
+- **F1 PASS.** ST6GALNAC4 carriers went from 26 to 0 in TAC01 and from 28 to 0 in mint5.
+- **F2 PASS.** No target-gate PASS or CONFIRMED_TARGET was lost in either run.
+- **F3′ PASS.** Zero new resolved asset→target pairs in either run. Pairs removed: 26 (TAC01) and
+  28 (mint5). Each is exactly one ST6GALNAC4 pair per former carrier, so no other target was
+  removed. The Linagliptin→DSPP creation seen in v1 did not occur, because `DPP` stays AMBIGUOUS.
+- **F4 PASS.** R1–R3 PASS on both runs, and both top 20s are identical to the baselines.
+  `tests/se`: 1518 passed, 3 xfailed.
+
+**Status: ADOPTED.** Next is milestone 2, `ASSET_SENTENCE_TARGET`, preregistered separately.
