@@ -58,6 +58,33 @@ _ALIAS_PRECEDENCE: tuple[AliasType, ...] = (
 #: confer merge authority between two separately registered assets.
 _IDENTIFIER_ALIAS_TYPES = frozenset({AliasType.APPROVED_NAME, AliasType.DEVELOPMENT_CODE})
 
+#: A target alias this short, split out of a longer alias of the same entity, is not a
+#: target name (``target_alias_fragment_v1_amendment_1.md``).
+_FRAGMENT_MAX_LENGTH = 3
+
+
+def _split_fragments(entity: "CanonicalEntity") -> set[str]:
+    """Short aliases that exist only as pieces of a longer alias the source split up.
+
+    Open Targets files ``IV`` for ST6GALNAC4 because it split ``ST6GalNAc IV``, and every
+    "Given IV" in a registry then read as that gene. The signature is structural -- every
+    token of the longer alias is itself an alias -- so no string is listed. The approved
+    symbol is the authority's explicit support for a token and is always kept.
+    """
+
+    values = {alias.value for alias in entity.aliases}
+    fragments: set[str] = set()
+    for value in values:
+        tokens = value.split()
+        if len(tokens) < 2 or not all(token in values for token in tokens):
+            continue
+        fragments.update(
+            token
+            for token in tokens
+            if len(token) <= _FRAGMENT_MAX_LENGTH and token != entity.canonical_symbol
+        )
+    return fragments
+
 
 class ResolutionStatus(str, Enum):
     RESOLVED = "RESOLVED"
@@ -210,6 +237,9 @@ class BiomedicalEntityResolver:
         self._entities: dict[str, CanonicalEntity] = {}
         self._by_type: dict[EntityType, list[CanonicalEntity]] = defaultdict(list)
         self._lookup: dict[tuple[EntityType, str], list[tuple[AliasType, str]]] = defaultdict(list)
+        # Keys an entity claims only through split fragments: the claim still counts
+        # toward ambiguity, but it can never be the claim that resolves.
+        self._fragment_claims: set[tuple[EntityType, str, str]] = set()
         self._build()
 
     # -- construction ---------------------------------------------------------
@@ -343,12 +373,19 @@ class BiomedicalEntityResolver:
         return f"{entity_type.value}:{group[0].record_key}"
 
     def _index(self, entity: CanonicalEntity) -> None:
+        fragments = _split_fragments(entity) if entity.entity_type is EntityType.TARGET else set()
+        fragment_keys: set[str] = set()
+        full_keys: set[str] = set()
         for alias in entity.aliases:
             key = (entity.entity_type, normalize_lookup_key(alias.value))
             self._lookup[key].append((alias.alias_type, entity.canonical_id))
+            (fragment_keys if alias.value in fragments else full_keys).add(key[1])
         # Canonical IDs are always directly addressable.
-        self._lookup[(entity.entity_type, normalize_lookup_key(entity.canonical_id))].append(
-            (AliasType.SYMBOL, entity.canonical_id)
+        id_key = normalize_lookup_key(entity.canonical_id)
+        self._lookup[(entity.entity_type, id_key)].append((AliasType.SYMBOL, entity.canonical_id))
+        full_keys.add(id_key)
+        self._fragment_claims.update(
+            (entity.entity_type, key, entity.canonical_id) for key in fragment_keys - full_keys
         )
 
     def _flag_shared_aliases(self) -> None:
@@ -445,9 +482,20 @@ class BiomedicalEntityResolver:
         )
 
     def _resolved(self, query: str, canonical_id: str, lookup_key: str, rule: str) -> ResolutionResult:
-        """Build a RESOLVED result carrying the derivation that produced it."""
+        """Build a RESOLVED result carrying the derivation that produced it.
+
+        A winner that claims the key only through a split fragment is refused rather than
+        replaced, so the fragment rule can remove a resolution but never create one.
+        """
 
         entity = self._entities[canonical_id]
+        if (entity.entity_type, lookup_key, canonical_id) in self._fragment_claims:
+            return ResolutionResult(
+                query=query,
+                status=ResolutionStatus.UNRESOLVED,
+                rule="fragment_alias_only",
+                ontology_version=self.ontology_version,
+            )
         matched = next(
             (alias for alias in entity.aliases if normalize_lookup_key(alias.value) == lookup_key),
             None,
