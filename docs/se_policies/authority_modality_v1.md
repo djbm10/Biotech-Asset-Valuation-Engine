@@ -169,3 +169,44 @@ If A1–A5 fail, revert with a normal revert commit and record the result here.
 ## 7. Results
 
 (appended after measurement)
+
+### 7.1 Measurement — 2026-09-28, implementation `8046ef7`
+
+Sealed replays: `se_runs/tac01_modality_v1` and `se_runs/mint5_modality_v1`. Evaluation output is in
+`tac01_modality_v1/modality_eval.txt`; frozen scorer output (with the mirrored key) is in each run's
+`ranking_v1_compare.txt`.
+
+- **A1 PASS.** axi-cel, brexu-cel, liso-cel, tisa-cel, cilta-cel, obe-cel and tabelecleucel are
+  `CELL_THERAPY` in both runs. In TAC01 they are MATCH (cilta-cel and obe-cel are excluded, so they
+  are not ranked).
+- **A2 PASS.** Cyclophosphamide, fludarabine and lenalidomide are `SMALL_MOLECULE` in both runs. In
+  TAC01 they are MISMATCH at #239, #240 and #241 (they were #8, #9 and #13). Their `modality_id`
+  (discovery context) still reads CAR_T/MAB and is unused.
+- **A3 PASS.** No MISMATCH asset ranks above any MATCH asset anywhere in TAC01. The TAC01 counts are
+  19 MATCH, 217 UNKNOWN and 432 MISMATCH. Loncastuximab (#5→#237) and tafasitamab (#6→#238) fell.
+- **A4 PASS.** No UNKNOWN asset ranks above any MATCH asset. The modality gate is untouched.
+- **A5 PASS.** mint5 declares no modality: `modality_match` is None for every asset, and its 323-row
+  order is identical to `mint5_merge_v1`. R1–R3 PASS on both runs. `tests/se` gives 1511 passed and
+  3 xfailed.
+
+**K1 re-judged (TAC01 top 20, same rubric).** This judgement is by hand, from programme knowledge
+and not from run evidence.
+
+- RELEVANT (CD19-directed cell therapy), 12 rows: brexu-cel, axi-cel, liso-cel, tisa-cel,
+  CC-97540, cemacabtagene ansegedleucel, prizloncabtagene autoleucel, anbalcabtagene autoleucel,
+  resecabtagene autoleucel, TAK-007 (CD19 CAR-NK), varnimcabtagene autoleucel and CNCT19.
+- OFF_TARGET (a real cell therapy, but not CD19), 8 rows:
+  - tabelecleucel (EBV-specific T cells) and lifileucel (TIL);
+  - ALLO-715, anitocabtagene, CT053, equecabtagene and orvacabtagene (BCMA);
+  - satricabtagene (Claudin18.2).
+- DUPLICATE and NON_ASSET: 0.
+- The four named CAR-Ts are #1–#4. **RELEVANT = 12 ≥ 10, so K1 PASSES.** Prizloncabtagene is the
+  least certain call; K1 still passes without it (11).
+
+The 8 off-target rows are cell therapies whose target is UNRESOLVED, so the target keys cannot
+separate them from the CD19 programmes. That is the known target-evidence coverage limitation, not a
+modality defect. The regimen names Fludarabine-based (#21) and R-mini-CHOP (#24) are UNKNOWN and
+fall just outside the top 20. TAC01 itself is #84.
+
+**Status: ADOPTED.** TAC01 clears the benchmark bar, so work stops here as instructed. No regimen-role
+model is indicated by this result.
