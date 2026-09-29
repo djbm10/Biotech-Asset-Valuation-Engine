@@ -64,3 +64,25 @@ is reverted with a normal revert commit and the result is recorded here.
 ## 5. Results
 
 (appended after measurement)
+
+### 5.1 Measurement — 2026-09-29, implementation `f30e3bf`
+
+Sealed replays: `se_runs/tac01_fragment_v1` and `se_runs/mint5_fragment_v1`, each compared with its
+`modality_v1` baseline. Output is in `tac01_fragment_v1/fragment_eval.txt`.
+
+- **F1 PASS.** ST6GALNAC4 carriers went from 26 to 0 in TAC01 and from 28 to 0 in mint5. Liso-cel,
+  tisa-cel, cilta-cel, tafasitamab, blinatumomab and `BCMA-CD19 cCAR T cells` all lost only
+  ST6GALNAC4.
+- **F2 PASS.** No target-gate PASS or CONFIRMED_TARGET was lost in either run.
+- **F3 FAIL.** In both runs Linagliptin gained the construct target `TARGET:DSPP` from the
+  intervention text "DPP-4-inhibitor":
+  - Before the change, `DPP` had two claimants, DPP7 (a split fragment of `DPP II`) and DSPP
+    (its own alias), so it resolved AMBIGUOUS, which is correct.
+  - Removing DPP7's claim left DSPP as the only claimant, so `DPP` resolved.
+  - The rule removed an ambiguity that had been protecting another entity. It therefore **created**
+    a resolution, which §2 said was impossible.
+- **F4.** R1–R3 PASS on both runs, and both top 20s are identical to the baselines.
+
+**Status: FAILED_ACCEPTANCE.** Reverted with a normal revert commit. The flaw is in §2's mechanism
+(dropping the fragment from the index), not in its definition of a fragment. Any revision needs a
+separate amendment.
