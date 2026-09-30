@@ -138,3 +138,33 @@ thresholds:
    passes as complete.
 
 Any revision needs a separate amendment.
+
+### 5.2 Closure — 2026-09-29
+
+**Route closed. No Amendment 1.** Free-text same-sentence target attribution is not adopted. In
+the frozen corpus, ontology alias collisions and target names that are not written as symbols
+prevent sufficiently precise attribution, while the restrictions that preserve precision leave
+inadequate coverage. v1 produced 6 facts, 3 of them false, and none of the TAC01 #8–20 problem
+rows resolved. Tightening the rule to approved symbols or common names would raise precision
+only by lowering recall further.
+
+The cevostamab sentence ("Investigational agents targeting FcRH5 (cevostamab) and
+next-generation constructs … targeting BCMA …") is logged as the defining example of why the
+symbol-oriented ontology reader is unsuitable for free text:
+
+- the correct biological target (FcRH5 = FCRL5) is stated plainly beside the asset;
+- the reader cannot see it, because it is not written in symbol shape;
+- so the reader selects another nearby target instead.
+
+Stop patching this extractor. Free text is revisited only after the structured-authority routes
+below have been tried, and then only with a substantially different entity and relationship
+model, not more alias-window rules.
+
+Next is a target-authority source coverage survey over the 13 unresolved TAC01 top-20 assets,
+followed by preregistration of one new structured authority. Ranking stays frozen. Source
+priority:
+
+1. structured sponsor or company pipeline data;
+2. additional drug and biologic identity authorities;
+3. pinned trial-registry lookup by asset name, plus a new live validation corpus;
+4. free text with a new model.
