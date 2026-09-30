@@ -32,11 +32,6 @@ from bve.se.discovery.orchestrator import (
     SourceAdapter,
 )
 from bve.se.evidence.clinicaltrials import ClinicalTrialsEvidenceExtractor
-from bve.se.evidence.sentence_targets import (
-    asset_sentence_target_evidence,
-    name_keys,
-    sentence_targets,
-)
 from bve.se.evidence.construct_targets import (
     construct_target_evidence,
     supersede_construct_targets,
@@ -527,18 +522,12 @@ def run_landscape_search(
     pharmacologic_documents: dict[str, int] = {}
     gloss_documents: dict[str, int] = {}
     mentioning_documents: dict[str, int] = {}
-    #: S3 of ``asset_sentence_target_v1.md``: a sentence naming any other asset is refused.
-    every_asset_name = name_keys(
-        name for other in registry.assets.values() for name in (other.canonical_name, *other.aliases)
-    )
-    sentence_described = 0
     with telemetry.stage("HUMAN_POC") as stage:
         supported = 0
         qualified_assets = 0
         for asset_id, asset in registry.assets.items():
             names = [asset.canonical_name, *asset.aliases]
             statements = []
-            sentence_observations = []
             #: Routes that need no corpus evidence: an ontology entry, a development code,
             #: a structured DRUG declaration. Checked first so the scan is skipped for the
             #: names that are already vouched for.
@@ -627,16 +616,6 @@ def run_landscape_search(
                 #
                 # The scan below therefore reads every document this loop can open. What the
                 # policy decides is whether an efficacy sentence may be drawn from it.
-                # The same sentences, read for what they say the asset binds. Registry records
-                # were skipped above, and their intervention fields are already a route.
-                sentence_observations.extend(
-                    sentence_targets(
-                        text,
-                        asset_names=names,
-                        other_asset_names=every_asset_name,
-                        document_id=document.document_id,
-                    )
-                )
                 if may_establish_human_poc(document.document_type):
                     statements.extend(
                         efficacy_statements(
@@ -651,21 +630,6 @@ def run_landscape_search(
             if not qualified:
                 continue
             qualified_assets += 1
-            # Fill only (S8): a sentence never competes with the authority or an intervention
-            # record, because the gate reads two target facts as none.
-            if not any(
-                fact.fact_type == "construct_target_set"
-                for fact in facts_by_asset.get(asset_id, [])
-            ):
-                sentence_evidence = asset_sentence_target_evidence(
-                    asset_id, sentence_observations, as_of_date=problem.buyer.as_of_date
-                )
-                if sentence_evidence is not None:
-                    for claim in sentence_evidence.claims:
-                        ledger.add_claim(claim)
-                    ledger.add_fact(sentence_evidence.fact)
-                    facts_by_asset.setdefault(asset_id, []).append(sentence_evidence.fact)
-                    sentence_described += 1
             evidence = human_poc_evidence(
                 asset_id,
                 results=results_by_asset.get(asset_id, []),
@@ -687,7 +651,6 @@ def run_landscape_search(
             candidates=len(registry.assets),
             qualified=qualified_assets,
             supported=supported,
-            sentence_described=sentence_described,
         )
 
     for asset_id, facts in facts_by_asset.items():

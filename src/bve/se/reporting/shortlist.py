@@ -461,35 +461,6 @@ def _target_fact(asset: CanonicalAsset) -> DisplayedFact:
     )
 
 
-def _sentence_target_fact(asset: CanonicalAsset, index: _Index) -> DisplayedFact | None:
-    """The construct set read from asset sentences, labelled as that and never as an authority."""
-
-    claims = [
-        claim
-        for claim in index.claims_by_subject.get(asset.asset_id, [])
-        if claim.extraction_method == "ASSET_SENTENCE_TARGET"
-    ]
-    if not claims:
-        return None
-    return DisplayedFact(
-        label="Target (asset sentence)",
-        evidence_type=SourceEvidenceType.TARGET_EVIDENCE,
-        value=", ".join(claims[0].normalized_value),
-        origin=EvidenceOrigin.SOURCE_DOCUMENT,
-        citations=tuple(
-            Citation(
-                evidence_type=SourceEvidenceType.TARGET_EVIDENCE,
-                origin=EvidenceOrigin.SOURCE_DOCUMENT,
-                source_family="ASSET_SENTENCE_TARGET",
-                document_id=claim.source_document_id,
-                evidence_span=claim.supporting_passage,
-            )
-            for claim in claims
-        ),
-        note="ASSET_SENTENCE_TARGET: the asset's own sentence names the target; no drug->target authority record",
-    )
-
-
 def _why(asset: CanonicalAsset, index: _Index, *, low_support: bool) -> tuple[str, ...]:
     lines: list[str] = []
     documents = index.documents_for(asset)
@@ -548,9 +519,6 @@ def _entry(
         _phase_fact(asset, index),
         _target_fact(asset),
     )
-    sentence_target = _sentence_target_fact(asset, index)
-    if sentence_target is not None:
-        facts = (*facts, sentence_target)
     citations: dict[tuple, Citation] = {}
     for fact in facts:
         for citation in fact.citations:

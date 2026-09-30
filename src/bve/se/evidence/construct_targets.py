@@ -169,42 +169,19 @@ def attributed_targets_in(text: str) -> list[str]:
     does not satisfy.
     """
 
-    return attributed_reading(text)[0]
-
-
-def tokenize(text: str) -> list[str]:
-    """The token space every attributive reading is done in."""
-
     tokens = re.split(r"[^A-Za-z0-9-]+", text)
-    return [token.strip("-") for token in tokens if token.strip("-")]
-
-
-def cue_positions(tokens: list[str]) -> list[int]:
-    return [
+    tokens = [token.strip("-") for token in tokens if token.strip("-")]
+    cue_positions = [
         index
         for index, token in enumerate(tokens)
         for part in token.casefold().split("-")
         if part in _ATTRIBUTIVE_CUES
     ]
-
-
-def attributed_reading(text: str, *, subject_tokens: frozenset[int] = frozenset()) -> tuple[list[str], bool]:
-    """The attributed targets, and whether any candidate symbol near a cue failed to resolve.
-
-    The second value is what ``ASSET_SENTENCE_TARGET`` refuses on (S6): a dual construct
-    read as CD19 plus an unresolved arm is not a single-target construct.
-    ``subject_tokens`` are the positions of the product's own name, which is the subject
-    of the sentence rather than a target candidate and never makes a reading incomplete.
-    """
-
-    tokens = tokenize(text)
-    cues = cue_positions(tokens)
-    if not cues:
-        return [], False
+    if not cue_positions:
+        return []
     found: set[str] = set()
-    incomplete = False
     for index, token in enumerate(tokens):
-        if not any(abs(index - cue) <= _CUE_WINDOW for cue in cues):
+        if not any(abs(index - cue) <= _CUE_WINDOW for cue in cue_positions):
             continue
         # The whole token first, because hyphens belong inside some symbols (IL-2R). If
         # it does not resolve the token is a compound, and *every* part is considered --
@@ -228,9 +205,7 @@ def attributed_reading(text: str, *, subject_tokens: frozenset[int] = frozenset(
             resolved = _resolve_symbol(part)
             if resolved:
                 found.add(resolved)
-            elif index not in subject_tokens:
-                incomplete = True
-    return sorted(found), incomplete
+    return sorted(found)
 
 
 def _resolve_symbol(symbol: str) -> str | None:
