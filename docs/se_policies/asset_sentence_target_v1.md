@@ -99,4 +99,42 @@ and the result is recorded here.
 
 ## 5. Results
 
-(appended after measurement)
+### 5.1 Measurement — 2026-09-29, implementation `523f836`
+
+Sealed replays: `se_runs/tac01_sentence_v1` and `se_runs/mint5_sentence_v1`, each against its
+`fragment_a1` baseline. Output: `tac01_sentence_v1/sentence_eval.txt`.
+
+- **T1 PASS.** No ST6GALNAC4 carrier in either run.
+- **T2 PASS.** No baseline construct set changed (S8 held), and no PASS or CONFIRMED_TARGET was
+  lost.
+- **T3 FAIL.** There were 6 distinct new facts (3 in TAC01, 4 in mint5, with ICG318 in both).
+  Each was checked by hand:
+
+  | Asset | New target | Verdict | Cause |
+  |---|---|---|---|
+  | UCART19 | CD19 | correct | "an allogeneic genome-edited anti-CD19 CAR T-cell product" |
+  | ponatinib | ABL1 | correct | The sentence is really about PonatiLink-2, a molecule not in the registry, so it is right by luck |
+  | AT-007 | PTGER4 | supported | "specific inhibitor EP4". The sentence supports it; not independently verified |
+  | **ICG318** | **MLPH** | **FALSE** | `LN`, the abbreviation "lupus nephritis (LN)", sits 4 tokens from the cue `CAR` and is an alias of MLPH |
+  | **AMG 420** | **AMELX** | **FALSE** | `AMG`, a token of the asset's own name, is an alias of AMELX. v1 kept the asset's own tokens out of S6 (completeness) but still let them be read as targets |
+  | **Cevostamab** | **TNFRSF17** | **FALSE** | "targeting FcRH5 (cevostamab) next-generation constructs … targeting BCMA". `FcRH5` is not symbol-shaped, so the reader never saw it. BCMA belongs to another clause, and S6 cannot detect a target spelled outside the symbol shape |
+
+  None of these facts landed in a post-fix top 50. But ICG318 was **#1 in the mint5 baseline top
+  20** and fell out of it **because of** its false fact, so the criterion's intent is violated.
+- **T4.** The TAC01 top 20 is identical, and no CD19 programme was lost. No row among #8–20
+  gained CD19.
+- **T5.** None of the 8 wrong-target cell therapies gained a target.
+- **T6.** R1–R3 PASS on both runs. The TAC01 top 20 is unchanged. The only mint5 top-20
+  movement is ICG318 leaving (target gate UNKNOWN→FAIL on the false MLPH fact), with every
+  other row moving up one place. The movement is explained by a gate change, but the right
+  reason is missing.
+
+**Status: FAILED_ACCEPTANCE.** Reverted with a normal revert commit. Recall was 3 correct facts
+out of roughly 1,000 candidates. The false facts come from two defects in the rule, not from the
+thresholds:
+
+1. A clinical abbreviation or a name fragment can be read as a gene alias (the same class as `IV`).
+2. S6 is blind to a target spelled outside the symbol shape, so a sentence with two clauses
+   passes as complete.
+
+Any revision needs a separate amendment.
