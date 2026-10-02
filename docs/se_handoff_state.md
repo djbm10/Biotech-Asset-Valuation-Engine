@@ -8,7 +8,35 @@ evidence engine, what is frozen, what the next work is, and the environment fact
 time to rediscover. Milestone detail lives in the per-milestone reports; this file is the
 index and the operating manual. **Update it after every run.**
 
-## 0. Current directive (last updated 2026-10-02, target-evidence arc) — START HERE
+## 0. Current directive (last updated 2026-10-02 PM, NCIt arc) — START HERE
+
+**State:** HEAD is the revert `3c99a52`, so the code has `7b6d45c` semantics. Ranking v1 is
+frozen.
+
+**NCIT_TARGET_SIDECAR v1** is the operator's Option B. Commits: preregistration `22d164f`,
+Stage H implementation `0c5f847`, result `fec5377`, revert `3c99a52`.
+
+- **Design.** A target set is emitted only when two curated NCIt statements agree:
+  - antigen-class membership (21 CAR-T classes, map frozen by hand);
+  - the definition's "Upon administration … X-expressing" mechanism sentence.
+
+  The source is pinned NCIt 26.08e, at `~/se_sources/ncit/26.08e/`, zip sha `645ad414…`.
+  The sidecar is built to `data/se/ontology/ncit/ncit_26.08e_targets.json` (sha `2cbcd3f4…`).
+- **Results.**
+  - H2 parity: 0 mismatches.
+  - **H3 held-out: 0 false facts out of 136.**
+  - H1 failed as written. Resecabtagene's NCIt concept has no definition. TAK-007 is a CAR-NK,
+    and NCIt has no CAR-NK antigen classes. The rule fails closed correctly in both cases; the
+    control expectations were wrong.
+- **Pending operator decision:** adopt Amendment 1 (correct those two control rows to "no fact,
+  NCIt lacks a statement"), re-apply `0c5f847` with `git revert 3c99a52`, then do the pipeline
+  wiring and Stage P. The alternative is to leave it reverted.
+- **Pipeline-wiring note.** The sidecar sha cannot go into `ontology_version`, because replay
+  checks that token against the seal. Use `run_manifest.extractor_versions` instead, and
+  disclose the deviation from §3.6.
+
+### Earlier the same day
+
 
 **State:** HEAD is the revert `706ac70`, which leaves the code at `7b6d45c` semantics. Ranking
 v1 is frozen. The baselines are still `se_runs/{tac01,mint5}_fragment_a1`.
