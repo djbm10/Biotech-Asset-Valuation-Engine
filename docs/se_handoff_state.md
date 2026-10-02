@@ -8,7 +8,35 @@ evidence engine, what is frozen, what the next work is, and the environment fact
 time to rediscover. Milestone detail lives in the per-milestone reports; this file is the
 index and the operating manual. **Update it after every run.**
 
-## 0. Current directive (last updated 2026-10-01, target-evidence arc) — START HERE
+## 0. Current directive (last updated 2026-10-02, target-evidence arc) — START HERE
+
+**State:** HEAD is the revert `706ac70`, which leaves the code at `7b6d45c` semantics. Ranking
+v1 is frozen. The baselines are still `se_runs/{tac01,mint5}_fragment_a1`.
+
+**2026-10-02: `target_relation_reader_v1.md` (option (a), slot-grammar reader) FAILED Stage A.**
+The record is: preregistration `36f5a7d`, implementation `7e8471f`, result `6bce2bc`, revert
+`706ac70`. No pipeline run was requested.
+
+- **What worked.** Every named control passed, and the F1/F2/F5/F6/F7 collision classes were
+  closed:
+  - IV, PO, AMG, CART, LN, HDAC, MEK, LHRH, P450 and CYP3A4 no longer resolve;
+  - cevostamab never receives BCMA;
+  - IL7/CCL19 are excluded.
+- **What failed.**
+  - **A4** allows zero false gains. One appeared: the CAR architecture string
+    "CD19-CD8-CD28-CD3zeta-CAR" gained CD247.
+  - **Recall.** 410 of the live route's CD19/BCMA records lost a mostly-correct target. The
+    causes are adjacency-only slots, "and"-list refusal, and history markers.
+- **Frozen corpora are reusable.**
+  - `research/se_target_reader/lookup_v1_interventions.jsonl.gz` (33,264 records) is the
+    diagnosis set.
+  - `baseline_interventions.jsonl.gz` (3,464 records) is the binding set. It is now **seen**,
+    so a successor needs a fresh held-out set.
+- **Pending user fork (asked 2026-10-02):** see the end-of-session message. Do not start a
+  v2 reader without it.
+
+### Prior directive (2026-10-01)
+
 
 **State:** HEAD `7b6d45c`, tree clean, ranking v1 frozen. `tests/se` gives 1518 passed and 3 xfailed.
 Baselines are `se_runs/tac01_fragment_a1` and `se_runs/mint5_fragment_a1`.
