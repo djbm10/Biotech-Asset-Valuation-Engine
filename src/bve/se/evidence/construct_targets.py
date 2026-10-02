@@ -30,6 +30,8 @@ from datetime import date, datetime, timezone
 
 from pydantic import BaseModel, Field
 
+from bve.se.evidence.target_relations import RecordReading, read_record_loci
+
 from bve.se.schemas.contracts import (
     CanonicalAsset,
     CandidateTargetAssertion,
@@ -290,6 +292,23 @@ def intervention_construct_targets(
     deliberately unused: substring recall is the thing this route must not inherit.
     """
 
+    reading = intervention_target_reading(intervention, intervention_type=intervention_type)
+    if reading is None or not reading.targets:
+        return None
+    return canonical_construct_targets(reading.targets)
+
+
+def intervention_target_reading(
+    intervention: dict, *, intervention_type: str | None
+) -> RecordReading | None:
+    """The record's target relations with their provenance, ``None`` when refused outright.
+
+    Which fields are read and how is ``target_relations``' job: a mention is a target only
+    as the argument of a closed attributive construction, in the name, an other-name, or
+    the description's first sentence (``target_relation_reader_v1.md``). The guards here
+    are the record-level ones that came before it and are unchanged.
+    """
+
     from bve.se.discovery.adapters import extract_observed_asset_names
 
     declared_type = (intervention_type or str(intervention.get("type", "") or "")).upper()
@@ -299,18 +318,17 @@ def intervention_construct_targets(
         return None
     name = str(intervention.get("name", "") or "")
     other_names = intervention.get("otherNames") or []
-    other_names_text = (
-        " ".join(other_names) if isinstance(other_names, list) else str(other_names)
-    )
+    if not isinstance(other_names, list):
+        other_names = [str(other_names)]
     if len(extract_observed_asset_names(name)) > 1:
         return None
+    # The refusal guard keeps the older, looser reader on purpose: inside a guard, reading
+    # more targets refuses more records, which is the conservative direction.
     if denotes_more_than_one_product(name):
         return None
-    text = " ".join([name, str(intervention.get("description", "") or ""), other_names_text])
-    targets = attributed_targets_in(text)
-    if not targets:
-        return None
-    return canonical_construct_targets(targets)
+    return read_record_loci(
+        name, [str(other) for other in other_names], str(intervention.get("description", "") or "")
+    )
 
 
 def canonical_construct_targets(values) -> list[str]:
