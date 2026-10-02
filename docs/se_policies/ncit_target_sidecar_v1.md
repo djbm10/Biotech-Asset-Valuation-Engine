@@ -306,3 +306,38 @@ By §6, the implementation is reverted. The cause is not a flaw in §3. It is tw
 expectations that the source cannot support. Correcting those two rows would change frozen
 acceptance after measurement, so it is escalated to the operator rather than amended
 unilaterally. No pipeline wiring or Stage P was started.
+
+## 9. Amendment 1 — oracle correction (approved by operator 2026-10-02)
+
+**Approval.** The operator approved this amendment as a **correction of two invalid
+positive-control expectations**, not as a relaxation of the model.
+
+**Corrected controls.**
+- Resecabtagene (C211706) is now expected to produce no NCIt target, with reason
+  `no_mechanism_sentence`.
+- TAK-007 (C203060) is now expected to produce no NCIt target, with reason
+  `no_antigen_class`.
+
+NCIt 26.08e does not contain both of the independent statements that the frozen evidence rule
+requires.
+
+**What does not change.**
+- extraction behavior;
+- the reader;
+- the class map;
+- the held-out population;
+- any threshold;
+- any precision criterion.
+
+The Stage H implementation `0c5f847` is restored byte-for-byte.
+
+**Replay dependency (operator condition), which replaces the §3.6 version-token clause.**
+- The run manifest records `extractor_versions["ncit_target_sidecar"] = <release>@<sha256>`.
+- A replay of a run whose manifest records the sidecar must load a sidecar with the identical
+  token, or fail closed. This applies whether the sidecar is absent or different.
+- A run made without the sidecar records nothing.
+- The token cannot go into `ontology_version`, because that token is checked against the
+  corpus seal, and every existing sealed corpus would then become unreplayable.
+
+**Source contract.** The source contract is `docs/se_sources/ncit.md`, and it must exist
+before adoption.
