@@ -238,3 +238,71 @@ sidecar installed.
 - Ranking.
 - Stage.
 - Widening class maps beyond the 21 that NCIt curates.
+
+## 8. Result — Stage H, 2026-10-02, implementation `0c5f847`
+
+Sidecar: `ncit_target_sidecar_v1@ncit_26.08e`, sha256 `2cbcd3f4b18d22b6…`, 959 products.
+Output: `scripts/eval_ncit_target_sidecar.py` → `research/se_ncit/eval_v1.txt`.
+
+### H1 (controls): FAIL as written
+
+16 of 18 controls pass. Two positive controls fail, and neither failure is a precision error.
+
+| Control | Concept | What NCIt 26.08e holds | Rule outcome |
+|---|---|---|---|
+| resecabtagene | C211706 | **no definition text**; only the class says CD19 | `no_mechanism_sentence` |
+| TAK-007 | C203060 | a CAR-**NK**. NCIt's 21 antigen classes are CAR-T only; only the mechanism sentence says CD19 | `no_antigen_class` |
+
+In both cases the frozen rule fails closed exactly as §3.4 specifies. The §4 expectations were
+wrong. I wrote them from the coverage survey without checking that NCIt carries *both* required
+statements. The operator's directive set the bar at "where NCIt actually supports them", and
+these two lack one statement each. The text of H1, however, requires all §4 controls to pass.
+
+### H2 (parity): PASS
+
+The production reader matches the frozen reference across all 959 concepts with 0 mismatches.
+The class maps are identical.
+
+### H3 (binding held-out): PASS
+
+- **Population and outcomes.** The held-out split has 291 products:
+
+  | Outcome | Products |
+  |---|---|
+  | emit | 136 |
+  | `no_antigen_class` | 113 |
+  | `class_mechanism_disagree` | 9 |
+  | `no_mechanism_sentence` | 8 |
+  | `non_protein_antigen` | 8 |
+  | `no_antigen` | 7 |
+  | `unresolved` | 5 |
+  | `isoform_specific_antigen` | 5 |
+
+- **Audit method.**
+  - For each of the 136 facts, every gene-like mention in the **full** definition that falls
+    outside the emitted set was listed with its context. 98 facts had such mentions; all were
+    read.
+  - Every fact whose product name looks multi-target was also read.
+  - The 38 facts with no other gene mention name only their emitted antigen.
+- **What the other mentions were.** All of them are non-binders:
+
+  | Kind | Examples |
+  |---|---|
+  | construct domains | CD137/4-1BB, CD3ζ, CD28, CD8 hinge, CD27, CD2 |
+  | tags and safety switches | EGFRt, CD19t, RQR8 (CD34/CD20 epitopes), iCasp9/FKBP12 |
+  | knockouts and knockdowns | PDCD1, B2M, CD52, CD38, HLA |
+  | armoring and payloads | IL-15/IL-7/IL-18/IL-2, CCL19, CD40L, PD-1 nanobody |
+  | switch or gate receptors | PD-1:CD28, dnTGF-βRII, LIR-1/HLA-A\*02 NOT-gate |
+  | effector-side receptors | hnCD16a, CXCR2 |
+  | ligand background | BAFF/APRIL in BCMA descriptions |
+
+  Every dual-looking name was architecture written with a slash, not a second binder.
+- **Result: 0 false facts out of 136.** This includes the class that sank
+  `target_relation_reader_v1`.
+
+### Status: H1_FAILED_AS_WRITTEN
+
+By §6, the implementation is reverted. The cause is not a flaw in §3. It is two control
+expectations that the source cannot support. Correcting those two rows would change frozen
+acceptance after measurement, so it is escalated to the operator rather than amended
+unilaterally. No pipeline wiring or Stage P was started.
