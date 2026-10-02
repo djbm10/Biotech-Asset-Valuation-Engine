@@ -8,7 +8,51 @@ evidence engine, what is frozen, what the next work is, and the environment fact
 time to rediscover. Milestone detail lives in the per-milestone reports; this file is the
 index and the operating manual. **Update it after every run.**
 
-## 0. Current directive (last updated 2026-09-27, after ranking v1)
+## 0. Current directive (last updated 2026-10-01, target-evidence arc) — START HERE
+
+**State:** HEAD `7b6d45c`, tree clean, ranking v1 frozen. `tests/se` gives 1518 passed and 3 xfailed.
+Baselines are `se_runs/tac01_fragment_a1` and `se_runs/mint5_fragment_a1`.
+
+**Arc so far (all recorded in `docs/se_policies/`):**
+1. `target_alias_fragment_v1.md`: Amendment 1 ADOPTED at `8f8ef93`.
+2. `asset_sentence_target_v1.md`: FAILED and reverted. §5.2 closes the route, with no amendment.
+3. `target_authority_coverage_survey.md` covers the 13 unresolved TAC01 top-20 rows (#8–20):
+   - ChEMBL/OT give 0/13, and so does sponsor pipeline.
+   - CT.gov plus the existing reader gives about 4–5/13.
+   - NCIt covers 13/13, but only in definition prose.
+   - Tabelecleucel and lifileucel have no gene target.
+4. `registry_target_lookup_v1.md`: preregistered `b664282`, implemented `12f2d1e`,
+   **FAILED_ACCEPTANCE on A2** (`b240d55`), reverted `7b6d45c`.
+   - L0 determinism passed. A1 got 4/5 right, with anito-cel unresolved because its trial
+     uses "anito-cel", which is not an authority name.
+   - Precision failed:
+     - `CART`→CARTPT;
+     - dasatinib→ATM;
+     - docetaxel→OR2AG1;
+     - pantoprazole→EVL;
+     - colchicine→CYP3A4;
+     - the CCL19 junk asset.
+   - Cause: the unchanged intervention reader resolves symbol-shaped aliases on small-molecule
+     prose. Retrieval itself was fine.
+   - The code can be recovered from `12f2d1e`. Runs are in `se_runs/{tac01,mint5}_lookup_v1{,_replay,_custody}`.
+
+**Pending user decision (ask first, don't start code):**
+- **(a) Recommended:** preregister a strict target reader that refuses alias-only gene
+  resolution. Only approved symbols, or unambiguous attributed names, may create a target.
+  It would be shared by the CT.gov lookup and NCIt. After that, re-run the lookup as a new
+  milestone.
+- **(b)** Go straight to the NCIt sidecar milestone.
+
+Either way, commit the preregistration doc before any code. Don't tune v1's 25-study cap or
+its matching rules.
+
+**Standing rules:**
+- No hardcoded drug or alias names. CCL19 stays out.
+- GC012F/AZD0120 and CNCT19/inaticabtagene stay unmerged.
+- The user runs replays in their own terminal, one at a time, each into a new output directory.
+- Use `git commit -m`, never `-qm`.
+
+## 0a. Prior directive (2026-09-27, after ranking v1)
 
 **Ranking v1 is implemented and conforms to its declaration** (`ranking_lexicographic_v1.md`).
 - The order is lexicographic, with no score: eligibility → human efficacy → maturity → target
