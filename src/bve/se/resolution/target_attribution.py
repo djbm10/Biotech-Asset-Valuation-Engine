@@ -83,25 +83,6 @@ class OntologyTargetAttribution:
             return None
         return self._resolver.resolve_identifier(name, entity_type=EntityType.DRUG)
 
-    def authority_names(self, asset_name: str, aliases: list[str]) -> tuple[str, ...]:
-        """The authority's own queryable names for the drug this asset resolves to.
-
-        ``registry_target_lookup_v1.md`` L2: what the registry is asked for comes from the
-        authority, never from ``otherNames`` or corpus co-occurrence. Class labels are
-        dropped for the reason :meth:`identifies_drug` drops them.
-        """
-
-        from bve.se.discovery.class_terms import is_class_term
-
-        canonical_drug = self.resolve_asset(asset_name, aliases)
-        if canonical_drug is None:
-            return ()
-        return tuple(
-            name
-            for name in self._resolver.aliases_for(canonical_drug, EntityType.DRUG)
-            if not is_class_term(name)
-        )
-
     def describes_target_or_class(self, name: str) -> bool:
         """Whether a name denotes a target or mechanism class rather than a drug.
 

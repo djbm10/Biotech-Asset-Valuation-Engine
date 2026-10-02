@@ -32,12 +32,6 @@ from bve.se.discovery.orchestrator import (
     SourceAdapter,
 )
 from bve.se.evidence.clinicaltrials import ClinicalTrialsEvidenceExtractor
-from bve.se.evidence.registry_target_lookup import (
-    LookupSource,
-    lookup_eligible,
-    query_names_for,
-    registry_target_evidence,
-)
 from bve.se.evidence.construct_targets import (
     construct_target_evidence,
     supersede_construct_targets,
@@ -324,7 +318,6 @@ def run_landscape_search(
     telemetry: StageTelemetry | None = None,
     custody_root: Path | None = None,
     custody_pins: Mapping[str, object] | None = None,
-    target_lookup: LookupSource | None = None,
 ) -> SESearchResult:
     # A run with no telemetry records nothing and prints nothing, so the default
     # behaviour of every existing caller is unchanged.
@@ -529,8 +522,6 @@ def run_landscape_search(
     pharmacologic_documents: dict[str, int] = {}
     gloss_documents: dict[str, int] = {}
     mentioning_documents: dict[str, int] = {}
-    #: In registry order, so the lookup below asks its questions in a stable order.
-    qualified_ids: list[str] = []
     with telemetry.stage("HUMAN_POC") as stage:
         supported = 0
         qualified_assets = 0
@@ -639,7 +630,6 @@ def run_landscape_search(
             if not qualified:
                 continue
             qualified_assets += 1
-            qualified_ids.append(asset_id)
             evidence = human_poc_evidence(
                 asset_id,
                 results=results_by_asset.get(asset_id, []),
@@ -662,38 +652,6 @@ def run_landscape_search(
             qualified=qualified_assets,
             supported=supported,
         )
-
-    # ``registry_target_lookup_v1.md``: fill only, for qualified assets no stronger route
-    # has described, from CT.gov records fetched by the asset's authority-backed names. It
-    # runs after qualification and feeds the target fact alone, so a looked-up record can
-    # never vouch for a name being a drug.
-    if target_lookup is not None:
-        with telemetry.stage("REGISTRY_TARGET_LOOKUP") as stage:
-            eligible = lookup_eligible(qualified_ids, facts_by_asset)
-            described = 0
-            for asset_id in eligible:
-                asset = registry.assets[asset_id]
-                authority_names = (
-                    attribution.authority_names(asset.canonical_name, list(asset.aliases))
-                    if attribution is not None
-                    else ()
-                )
-                evidence = registry_target_evidence(
-                    asset_id,
-                    query_names=query_names_for(asset.canonical_name, authority_names),
-                    source=target_lookup,
-                    as_of_date=problem.buyer.as_of_date,
-                )
-                if evidence is None:
-                    continue
-                for document in evidence.documents:
-                    ledger.register_document(document)
-                for claim in evidence.claims:
-                    ledger.add_claim(claim)
-                ledger.add_fact(evidence.fact)
-                facts_by_asset.setdefault(asset_id, []).append(evidence.fact)
-                described += 1
-            stage.count(eligible=len(eligible), described=described)
 
     for asset_id, facts in facts_by_asset.items():
         asset = registry.assets[asset_id]

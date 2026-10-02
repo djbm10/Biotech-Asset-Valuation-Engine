@@ -72,46 +72,6 @@ class NetworkBlocked(RuntimeError):
     """An offline replay attempted to open a connection."""
 
 
-#: The real socket functions under each active :func:`block_network`, innermost last.
-_ORIGINALS: list[dict] = []
-
-
-@contextmanager
-def network_exemption() -> Iterator[None]:
-    """Lift an active :func:`block_network` for one declared live retrieval.
-
-    Exists for ``registry_target_lookup_v1.md`` alone: a live target lookup runs over a
-    sealed corpus replay, so the corpus stays offline while the lookup -- whose answers
-    are sealed into their own custody -- reaches the registry. Outside a guard it does
-    nothing.
-    """
-
-    if not _ORIGINALS:
-        yield
-        return
-    real = _ORIGINALS[-1]
-    denied = {
-        "connect": socket.socket.connect,
-        "connect_ex": socket.socket.connect_ex,
-        "create_connection": socket.create_connection,
-        "getaddrinfo": socket.getaddrinfo,
-        "gethostbyname": socket.gethostbyname,
-    }
-    socket.socket.connect = real["connect"]  # type: ignore[method-assign]
-    socket.socket.connect_ex = real["connect_ex"]  # type: ignore[method-assign]
-    socket.create_connection = real["create_connection"]  # type: ignore[assignment]
-    socket.getaddrinfo = real["getaddrinfo"]  # type: ignore[assignment]
-    socket.gethostbyname = real["gethostbyname"]  # type: ignore[assignment]
-    try:
-        yield
-    finally:
-        socket.socket.connect = denied["connect"]  # type: ignore[method-assign]
-        socket.socket.connect_ex = denied["connect_ex"]  # type: ignore[method-assign]
-        socket.create_connection = denied["create_connection"]  # type: ignore[assignment]
-        socket.getaddrinfo = denied["getaddrinfo"]  # type: ignore[assignment]
-        socket.gethostbyname = denied["gethostbyname"]  # type: ignore[assignment]
-
-
 @contextmanager
 def block_network() -> Iterator[None]:
     """Make any outbound connection or name lookup fatal for the duration.
@@ -124,14 +84,13 @@ def block_network() -> Iterator[None]:
     def deny(*_args: object, **_kwargs: object) -> None:
         raise NetworkBlocked("offline replay attempted a network call; this is fatal")
 
-    saved = _ORIGINALS[-1] if _ORIGINALS else {
+    saved = {
         "connect": socket.socket.connect,
         "connect_ex": socket.socket.connect_ex,
         "create_connection": socket.create_connection,
         "getaddrinfo": socket.getaddrinfo,
         "gethostbyname": socket.gethostbyname,
     }
-    _ORIGINALS.append(saved)
     socket.socket.connect = deny  # type: ignore[method-assign]
     socket.socket.connect_ex = deny  # type: ignore[method-assign]
     socket.create_connection = deny  # type: ignore[assignment]
@@ -140,7 +99,6 @@ def block_network() -> Iterator[None]:
     try:
         yield
     finally:
-        _ORIGINALS.pop()
         socket.socket.connect = saved["connect"]  # type: ignore[method-assign]
         socket.socket.connect_ex = saved["connect_ex"]  # type: ignore[method-assign]
         socket.create_connection = saved["create_connection"]  # type: ignore[assignment]

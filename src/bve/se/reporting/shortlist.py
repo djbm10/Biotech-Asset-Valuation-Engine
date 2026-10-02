@@ -461,38 +461,6 @@ def _target_fact(asset: CanonicalAsset) -> DisplayedFact:
     )
 
 
-def _lookup_target_fact(asset: CanonicalAsset, index: _Index) -> DisplayedFact | None:
-    """The construct set read from a looked-up CT.gov record, labelled as exactly that."""
-
-    claims = [
-        claim
-        for claim in index.claims_by_subject.get(asset.asset_id, [])
-        if claim.extraction_method == "REGISTRY_TARGET_LOOKUP"
-    ]
-    if not claims:
-        return None
-    return DisplayedFact(
-        label="Target (registry lookup)",
-        evidence_type=SourceEvidenceType.TARGET_EVIDENCE,
-        value=", ".join(claims[0].normalized_value),
-        origin=EvidenceOrigin.SOURCE_DOCUMENT,
-        citations=tuple(
-            Citation(
-                evidence_type=SourceEvidenceType.TARGET_EVIDENCE,
-                origin=EvidenceOrigin.SOURCE_DOCUMENT,
-                source_family="REGISTRY_TARGET_LOOKUP",
-                document_id=claim.source_document_id,
-                evidence_span=claim.supporting_passage,
-            )
-            for claim in claims
-        ),
-        note=(
-            "REGISTRY_TARGET_LOOKUP: CT.gov intervention fetched by asset name; "
-            "no drug->target authority record"
-        ),
-    )
-
-
 def _why(asset: CanonicalAsset, index: _Index, *, low_support: bool) -> tuple[str, ...]:
     lines: list[str] = []
     documents = index.documents_for(asset)
@@ -551,9 +519,6 @@ def _entry(
         _phase_fact(asset, index),
         _target_fact(asset),
     )
-    lookup_target = _lookup_target_fact(asset, index)
-    if lookup_target is not None:
-        facts = (*facts, lookup_target)
     citations: dict[tuple, Citation] = {}
     for fact in facts:
         for citation in fact.citations:

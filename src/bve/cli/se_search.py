@@ -15,7 +15,6 @@ from pathlib import Path
 import yaml  # type: ignore[import-untyped]
 
 from bve.se.discovery.custody import CustodyError
-from bve.se.evidence.registry_target_lookup import LookupCustodyError
 from bve.se.discovery.replay import (
     ReplayTrialsGovAdapter,
     SealedCorpusReplay,
@@ -251,21 +250,6 @@ def build_parser() -> argparse.ArgumentParser:
         "--custody-pins",
         help="JSON file of frozen-input pins to record in the sealed corpus manifest",
     )
-    lookup = parser.add_mutually_exclusive_group()
-    lookup.add_argument(
-        "--live-target-lookup",
-        metavar="DIR",
-        help=(
-            "registry_target_lookup_v1: fetch CT.gov records by asset name for qualified "
-            "assets with no target fact, sealing every answer into DIR (new or empty). "
-            "The only network access a --replay-corpus run is allowed."
-        ),
-    )
-    lookup.add_argument(
-        "--replay-lookup",
-        metavar="DIR",
-        help="Replay a sealed target-lookup custody offline; an unrecorded query is fatal.",
-    )
     parser.add_argument(
         "--replay-corpus",
         help=(
@@ -464,37 +448,6 @@ def _log_to(directory: RunDirectory | None):
             yield
         finally:
             sys.stderr = original
-
-
-
-#: CT.gov asks for about 50 requests a minute; one query can page, so pace per request.
-_LOOKUP_INTERVAL_SECONDS = 1.3
-
-
-def _target_lookup(args: argparse.Namespace, parser: argparse.ArgumentParser):
-    """The lookup source a run was given, or ``None`` when it was given none."""
-
-    from bve.se.evidence.registry_target_lookup import LiveLookup, PinnedLookup
-
-    if args.replay_lookup:
-        return PinnedLookup(Path(args.replay_lookup))
-    if not args.live_target_lookup:
-        return None
-    custody = Path(args.live_target_lookup)
-    if custody.exists() and any(custody.iterdir()):
-        parser.error("--live-target-lookup must name a new or empty directory")
-
-    def search(name: str) -> list[dict]:
-        import time
-
-        from bve.ingestion.clinicaltrials_gov import search_studies
-        from bve.se.discovery.replay import network_exemption
-
-        time.sleep(_LOOKUP_INTERVAL_SECONDS)
-        with network_exemption():
-            return search_studies(intervention=name, page_size=1000)
-
-    return LiveLookup(custody, search=search)
 
 
 def _write_run_artifacts(result, args: argparse.Namespace, directory: RunDirectory) -> None:
@@ -701,7 +654,6 @@ def _run(
             return 2, None
         return 0, None
 
-    target_lookup = _target_lookup(args, parser)
     try:
         with network_guard:
             result = run_landscape_search(
@@ -714,11 +666,7 @@ def _run(
                 telemetry=telemetry,
                 custody_root=Path(args.custody_root) if args.custody_root else None,
                 custody_pins=pins,
-                target_lookup=target_lookup,
             )
-    except LookupCustodyError as exc:
-        print(f"ERROR: target-lookup custody failed: {exc}", file=sys.stderr)
-        return 5, None
     except CustodyError as exc:
         # The custody boundary did not validate, so nothing downstream ran. This is the
         # structural prohibition, reported as its own exit code so a harness cannot
