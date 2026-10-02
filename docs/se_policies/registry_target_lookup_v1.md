@@ -97,4 +97,70 @@ reassessed as input to the NCIt milestone.
 
 ## 5. Results
 
-_Pending._
+### 5.1 Measurement — 2026-10-01, implementation `12f2d1e`
+
+Runs:
+- live lookup: `se_runs/tac01_lookup_v1` and `mint5_lookup_v1`;
+- pinned replays: `*_lookup_v1_replay`;
+- custodies: `*_lookup_v1_custody`.
+
+Scorer output is `scratchpad/lookup_eval.txt`.
+
+- **L0 (determinism).**
+  - Facts (44,934 / 26,393), claims and candidates are byte-identical between the live and
+    pinned runs.
+  - `shortlist.*` and `gate_evaluations` differ in the run id they embed.
+- **A1 (named) — 4/5, none wrong.**
+  - ALLO-715, CT053 and equecabtagene autoleucel → {TNFRSF17}. Target gate FAIL; they leave
+    the TAC01 top 20.
+  - CNCT19 → {CD19}, gate PASS (TAC01 #17).
+  - Anitocabtagene autoleucel: no fact. Its only BCMA-stating intervention (NCT06626919) is
+    named "anito-cel", which is not an authority name, so L3 refuses it as written. Not
+    tuned.
+- **A2 (precision) — FAIL.**
+  - 86 new facts in TAC01 and 73 in mint5.
+  - Most CAR-T rows are plausible: CD19, BCMA, and named dual and triple constructs whose
+    intervention names spell the targets out ("CD19/CD22/BCMA CAR-T cells (BZE2204)").
+  - But many are plainly false:
+
+  | Asset | Fact | Trial | Cause |
+  |---|---|---|---|
+  | GB5005 | {CARTPT} | NCT06875063 "GB5005 CART" | `CART` is an alias of CARTPT (cocaine- and amphetamine-regulated transcript) |
+  | ICAR19, CTA30X (+ IMPT-514 and others; 4 in TAC01, 5 in mint5) | +CARTPT | NCT03383952, NCT05015972 | same `CART` collision, beside a correct CD19 |
+  | dasatinib | {ATM} | NCT01467986, NCT02596828 | description prose; dasatinib is a BCR-ABL/SRC inhibitor |
+  | docetaxel | {OR2AG1} | NCT00293085 | alias collision; docetaxel is a tubulin agent |
+  | pantoprazole | {EVL} | NCT00863837 | alias collision; it is a proton-pump inhibitor |
+  | colchicine | {CYP3A4} | NCT04997551 | a metabolising enzyme named in the description, not the target |
+  | `CCL19` (a fragment-minted "asset") | {CCL19, CD19, IL7} | NCT04833504 "CD19 CAR-T IL7 CCL19" | an armouring payload read as a target; also breaks the standing rule that keeps CCL19 out |
+  | RS001 | {CD19, NT5C} | NCT06894693 | alias collision |
+
+  Other one-off members (PRB4, SHB, AMACR, NR1H4, KRT8, OR2AG1, NRGN, WDTC1, …) follow the
+  same pattern.
+- **A3 (controls) — PASS.** No baseline construct set changed and no PASS or CONFIRMED_TARGET
+  was lost. No ST6GALNAC4 carrier appeared.
+- **A4 (ranking frozen).**
+  - R1–R3 hold and the scorer is unchanged.
+  - TAC01 top-20 movement: 3 rows left on lookup FAILs (ALLO-715, CT053, eque-cel), each
+    correct. CNCT19 moved #20→#17. The rows that backfilled include `Fludarabine-based`
+    and `R-mini-CHOP`, which are population junk, not lookup effects.
+  - mint5 top-20 movement: CM336 (BCMA/CD3) and CNCT19 left on FAIL, both consistent with
+    the trial.
+  - Every movement is explained by a gate change, but A4 is moot given A2.
+- **A5.** `tests/se` 1535 passed.
+
+**Status: FAILED_ACCEPTANCE (A2).** The implementation is reverted with a normal revert
+commit.
+
+**Diagnosis.** The intervention reader was "proven precise" only on the population it had
+always seen: CT.gov records retrieved by a target-scoped query, which are overwhelmingly
+CAR-T and bispecific interventions written with an explicit attributive phrase. A lookup by
+asset name sends it everything a qualified asset is registered as, including small molecules
+whose descriptions are pharmacology prose ("inhibitor", "against", "blocking"). On that prose
+the reader's alias resolution reproduces the defect class of `IV` and the sentence route: a
+symbol-shaped token near a cue resolves to an unrelated gene (`CART`, an excipient, an
+enzyme). The retrieval worked: A1 reached 4/5 and every named BCMA/CD19 answer was right. The
+reader does not generalise to the wider input, and L4 forbade changing it.
+
+Consequence for the arc: the 4 correct A1 resolutions are real, but they cannot be adopted
+without a reader that refuses alias-only gene resolution. That reader is a separate
+preregistration, not an amendment tuned to these failures.
