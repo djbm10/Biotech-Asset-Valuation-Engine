@@ -1,0 +1,855 @@
+# TARGET_RELATION_READER v1 -- Stage A
+
+## A1/A2 controls
+PASS  IV route: got=['TARGET:CD19'] expected=['TARGET:CD19']
+PASS  LN code: got=None expected=None
+PASS  DPP inhibitor: got=None expected=None
+PASS  AMG code: got=['TARGET:CD19'] expected=['TARGET:CD19']
+PASS  cevostamab: got=None expected=None
+PASS  armoring: got=None expected=None
+PASS  P450: got=None expected=None
+PASS  LHRH: got=None expected=None
+PASS  HDAC: got=None expected=None
+PASS  MEK: got=None expected=None
+PASS  MART: got=['TARGET:MLANA'] expected=['TARGET:MLANA']
+PASS  CT053: got=['TARGET:TNFRSF17'] expected=['TARGET:TNFRSF17']
+PASS  CLN-978: got=['TARGET:CD19'] expected=['TARGET:CD19']
+PASS  anti-CD19 CAR-T: got=['TARGET:CD19'] expected=['TARGET:CD19']
+PASS  BCMA/GPRC5D: got=['TARGET:GPRC5D', 'TARGET:TNFRSF17'] expected=['TARGET:GPRC5D', 'TARGET:TNFRSF17']
+PASS  teclistamab: got=['TARGET:TNFRSF17'] expected=['TARGET:TNFRSF17']
+PASS  NCT06875063 GB5005 CART: got=None expected=None
+PASS  NCT04833504 CD19 CAR-T Expressing IL7 and CCL19: got=['TARGET:CD19'] expected=['TARGET:CD19']
+PASS  NCT01467986 Dasatinib: got=None expected=None
+PASS  NCT02596828 Dasatinib: got=None expected=None
+PASS  NCT00293085 Docetaxel: got=None expected=None
+PASS  NCT00293085 Docetaxel: got=None expected=None
+PASS  NCT04997551 Colchcine: got=None expected=None
+PASS  NCT04093596 ALLO-715: got=['TARGET:TNFRSF17'] expected=['TARGET:TNFRSF17']
+PASS  NCT07752264 Equecabtagene Autoleucel Injection (Eque: got=['TARGET:TNFRSF17'] expected=['TARGET:TNFRSF17']
+PASS  NCT06316791 single dose of CNCT19: got=['TARGET:CD19'] expected=['TARGET:CD19']
+controls: ALL PASS
+
+## A3 diagnosis-corpus audit list
+emitted=346 non_cd19_bcma=200 sampled_common=60
+0203942bdc55b65d NCT01902160 ['TARGET:TNFRSF8'] | Brentuximab Vedotin | otherNames[2]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30];otherNames[3]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30];otherNames[4]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30]
+0315991c58b5d1c3 NCT03311412 ['TARGET:HAVCR2'] | Sym023 | otherNames[0]#S1_anti_prefix:TIM-3->TARGET:HAVCR2[SYNONYM:TIM-3]
+05470f2069794826 NCT07246096 ['TARGET:CD19', 'TARGET:TNFRSF17'] | anti-CD19/BCMA U CAR T cells | name#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19];name#S1_anti_prefix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA]
+05ab50e660ea6cbb NCT06920446 ['TARGET:CD19', 'TARGET:TNFRSF17'] | UCAR T-cell group | description[0]#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19];description[0]#S1_anti_prefix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA]
+05d661454c1f7c0c NCT07720284 ['TARGET:NECTIN4'] | Enfortumab vedotin | description[0]#S1_anti_prefix:Nectin-4->TARGET:NECTIN4[APPROVED:nectin-4]
+06bd48adae19adae NCT06048718 ['TARGET:ERBB2'] | Trastuzumab-Deruxtecan (T-DXd) | description[0]#S1_anti_prefix:HER2->TARGET:ERBB2[SYNONYM:HER2];description[0]#S2_attributive_suffix:HER2->TARGET:ERBB2[SYNONYM:HER2]
+08570de944806f41 NCT05305066 ['TARGET:IL6'] | Anti-IL6 | name#S1_anti_prefix:IL6->TARGET:IL6[APPROVED:IL6];description[0]#S1_anti_prefix:IL6->TARGET:IL6[APPROVED:IL6]
+0952bc067d1ca18e NCT05032183 ['TARGET:IL3RA'] | Tagraxofusp-erzs | otherNames[4]#S2_attributive_suffix:IL3R->TARGET:IL3RA[SYNONYM:IL3R]
+09938bcd42c56394 NCT05582499 ['TARGET:ERBB2'] | TQB2102 | description[0]#S1_anti_prefix:HER2->TARGET:ERBB2[SYNONYM:HER2]
+0a9191aa39002a42 NCT06939166 ['TARGET:CD19', 'TARGET:TNFRSF17'] | UCAR T-cell | description[0]#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19];description[0]#S1_anti_prefix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA]
+0c2f0a8090fb8961 NCT05126472 ['TARGET:CD40'] | anti-CD40 antibody 2141-V11 | name#S1_anti_prefix:CD40->TARGET:CD40[APPROVED:CD40];description[0]#S1_anti_prefix:CD40->TARGET:CD40[APPROVED:CD40]
+0ceedcf0c0e8195a NCT05182073 ['TARGET:CD38'] | Daratumumab | description[0]#S1_anti_prefix:CD38->TARGET:CD38[APPROVED:CD38]
+0d11cbd21396d498 NCT02664935 ['TARGET:CD274'] | Durvalumab | description[0]#S1_anti_prefix:PDL1->TARGET:CD274[SYNONYM:PDL1]
+0dda7b07259e3377 NCT05675410 ['TARGET:TNFRSF8'] | Brentuximab Vedotin | otherNames[2]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30];otherNames[3]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30];otherNames[4]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30]
+0fff588919d6faf2 NCT01896999 ['TARGET:TNFRSF8'] | Brentuximab Vedotin | otherNames[2]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30];otherNames[3]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30];otherNames[4]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30]
+1420554595c3b5ad NCT05582499 ['TARGET:ERBB2'] | JSKN003 | description[0]#S1_anti_prefix:HER2->TARGET:ERBB2[SYNONYM:HER2]
+142d9c7e3337a381 NCT00658814 ['TARGET:CD33'] | Gemtuzumab Ozogamicin | otherNames[0]#S1_anti_prefix:CD33->TARGET:CD33[APPROVED:CD33]
+1515e06130b4fd47 NCT05582499 ['TARGET:ERBB2'] | IBI354 | description[0]#S1_anti_prefix:HER2->TARGET:ERBB2[SYNONYM:HER2]
+15ab5cb099de5f2e NCT02775292 ['TARGET:CTAG1B'] | NY-ESO-1 Reactive TCR Retroviral Vector Transduced | otherNames[0]#S1_anti_prefix:NY-ESO-1->TARGET:CTAG1B[SYNONYM:NY-ESO-1]
+174891915ae61390 NCT00016276 ['TARGET:ERBB2'] | trastuzumab | otherNames[0]#S1_anti_prefix:c-erB-2->TARGET:ERBB2[SYNONYM:c-ERB-2]
+17de4d18370a0b3e NCT03589729 ['TARGET:CD33'] | Gemtuzumab Ozogamicin | otherNames[0]#S1_anti_prefix:CD33->TARGET:CD33[APPROVED:CD33]
+18d7386d0c282ab8 NCT06633042 ['TARGET:CD19', 'TARGET:TNFRSF17'] | Universal BCMA-CD19 CART | name#S3_car_head:CD19->TARGET:CD19[APPROVED:CD19];name#S3_car_head:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA]
+1948803e4750c264 NCT03563170 ['TARGET:CD274'] | avelumab | description[0]#S1_anti_prefix:PD-L1->TARGET:CD274[SYNONYM:PD-L1]
+1959e0e3d5b7025f NCT04080804 ['TARGET:LAG3'] | Relatlimab | otherNames[0]#S1_anti_prefix:LAG3->TARGET:LAG3[APPROVED:LAG3]
+1b4b66d17e7cd7ae NCT00516087 ['TARGET:PSMB9'] | Genetically modified CTLs | description[0]#S2_attributive_suffix:LMP2->TARGET:PSMB9[SYNONYM:LMP2]
+1c383239fc39deda NCT07392528 ['TARGET:CD19', 'TARGET:TNFRSF17'] | QT-019C | description[0]#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19];description[0]#S1_anti_prefix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA]
+1c8cda4468e4afca NCT07157514 ['TARGET:PTPRC'] | 131I-apamistamab | description[0]#S1_anti_prefix:CD45->TARGET:PTPRC[SYNONYM:CD45]
+1d6575f46179094e NCT03167177 ['TARGET:CD274'] | Avelumab | description[0]#S1_anti_prefix:PD-L1->TARGET:CD274[SYNONYM:PD-L1]
+1f05d1caeefbc0f2 NCT03233854 ['TARGET:CD19', 'TARGET:CD22'] | Chimeric Antigen Receptor T-Cell Therapy | description[0]#S3_car_head:CD19->TARGET:CD19[APPROVED:CD19];description[0]#S3_car_head:CD22->TARGET:CD22[APPROVED:CD22]
+2321a57a9e6faa85 NCT07241468 ['TARGET:CD19', 'TARGET:TNFRSF17'] | anti-CD19/BCMA U CAR T | name#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19];name#S1_anti_prefix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA];description[0]#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19];description[0]#S1_anti_prefix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA]
+26a41fe21f9002e1 NCT05582499 ['TARGET:CD274'] | Benmelstobart | description[0]#S1_anti_prefix:PDL1->TARGET:CD274[SYNONYM:PDL1]
+272c39998ba56b7a NCT03672539 ['TARGET:CD33'] | Gemtuzumab Ozogamicin | otherNames[0]#S1_anti_prefix:CD33->TARGET:CD33[APPROVED:CD33]
+2b5eb62cf60e8bcd NCT07544160 ['TARGET:CD19', 'TARGET:TNFRSF17'] | ICG318, BCMA-CD19-IL-15/IL-15 sushi Compound CAR T | description[0]#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19];description[0]#S1_anti_prefix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA]
+2cdac7bc8db4b31a NCT02658981 ['TARGET:LAG3'] | Anti-LAG-3 Monoclonal Antibody BMS 986016 | name#S1_anti_prefix:LAG-3->TARGET:LAG3[APPROVED:LAG-3]
+2ce59b0ecd98cd8d NCT04352205 ['TARGET:CD38'] | Daratumumab | otherNames[0]#S1_anti_prefix:CD38->TARGET:CD38[APPROVED:CD38]
+2dd72be90f29e928 NCT05126472 ['TARGET:CD40'] | anti-CD40 antibody 2141-V11 | name#S1_anti_prefix:CD40->TARGET:CD40[APPROVED:CD40];description[0]#S1_anti_prefix:CD40->TARGET:CD40[APPROVED:CD40]
+2fc6e5f2682499b8 NCT01979536 ['TARGET:TNFRSF8'] | Brentuximab Vedotin | otherNames[2]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30];otherNames[3]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30];otherNames[4]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30]
+301e8343f016db5e NCT06387121 ['TARGET:CD22'] | Inotuzumab ozogamicin | description[0]#S4_verbal:CD22->TARGET:CD22[APPROVED:CD22]
+3115f50547a80895 NCT04915612 ['TARGET:CD33'] | Gemtuzumab Ozogamicin | otherNames[0]#S1_anti_prefix:CD33->TARGET:CD33[APPROVED:CD33]
+313dcf5687caf97c NCT00902044 ['TARGET:ERBB2'] | Autologous HER2-specific T cells | name#S2_attributive_suffix:HER2->TARGET:ERBB2[SYNONYM:HER2];description[0]#S2_attributive_suffix:HER2->TARGET:ERBB2[SYNONYM:HER2]
+32401b1505eeed18 NCT07136389 ['TARGET:CLEC4C'] | BCD-256 | otherNames[0]#S1_anti_prefix:BDCA2->TARGET:CLEC4C[SYNONYM:BDCA2];description[0]#S1_anti_prefix:BDCA2->TARGET:CLEC4C[SYNONYM:BDCA2]
+33a4f69fccf5b2e2 NCT04207190 ['TARGET:CD33'] | Gemtuzumab Ozogamicin | otherNames[0]#S1_anti_prefix:CD33->TARGET:CD33[APPROVED:CD33]
+347f3be1358ee6d8 NCT05689853 ['TARGET:NT5E'] | AK119 | description[0]#S1_anti_prefix:CD73->TARGET:NT5E[SYNONYM:CD73]
+36455d4de5a6e194 NCT01393717 ['TARGET:TNFRSF8'] | brentuximab vedotin | otherNames[0]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30];otherNames[1]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30]
+39619f5d94d855e4 NCT07652138 ['TARGET:CD19', 'TARGET:TNFRSF17'] | BCMA/CD19-targeted allogeneic CAR-T | name#S2_attributive_suffix:CD19->TARGET:CD19[APPROVED:CD19];name#S2_attributive_suffix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA]
+3a6abef347c71755 NCT06285279 ['TARGET:CD19', 'TARGET:TNFRSF17'] | FKC289 | description[0]#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19];description[0]#S3_car_head:CD19->TARGET:CD19[APPROVED:CD19];description[0]#S1_anti_prefix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA];description[0]#S3_car_head:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA]
+3b824404c950e365 NCT03013933 ['TARGET:TNFRSF8'] | Brentuximab Vedotin | otherNames[2]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30];otherNames[3]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30];otherNames[4]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30]
+3c74ba78e63626d6 NCT00569127 ['TARGET:VEGFA'] | Bevacizumab | otherNames[4]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[5]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[6]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[7]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[76]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF]
+3c76cf3d9e3b3f16 NCT03136406 ['TARGET:CD274'] | avelumab | description[0]#S1_anti_prefix:PD-L1->TARGET:CD274[SYNONYM:PD-L1]
+3db97fd4e0f851be NCT05126472 ['TARGET:CD40'] | Intravesical Gemcitabine with anti-CD40 antibody 2 | name#S1_anti_prefix:CD40->TARGET:CD40[APPROVED:CD40]
+3edab377a963a5ed NCT05099549 ['TARGET:FCGR3A'] | AFM24 | description[0]#S2_attributive_suffix:CD16A->TARGET:FCGR3A[SYNONYM:CD16a]
+3ee9b4f68bea2a51 NCT03737955 ['TARGET:CD33'] | Gemtuzumab Ozogamicin | otherNames[1]#S1_anti_prefix:CD33->TARGET:CD33[APPROVED:CD33]
+3f327b21f6cb52c8 NCT07305116 ['TARGET:CD19', 'TARGET:TNFRSF17'] | UCAR T-cell | description[0]#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19];description[0]#S1_anti_prefix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA]
+4015874122cc9e6f NCT03169738 ['TARGET:CD274'] | avelumab | description[0]#S1_anti_prefix:PD-L1->TARGET:CD274[SYNONYM:PD-L1]
+411b67e9dfe5565d NCT02254239 ['TARGET:TNFRSF8'] | Brentuximab Vedotin | otherNames[2]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30];otherNames[3]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30];otherNames[4]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30]
+42845a7debf0e651 NCT03628053 ['TARGET:CD22'] | Inotuzumab | description[0]#S2_attributive_suffix:CD22->TARGET:CD22[APPROVED:CD22]
+42fb58a27a5f6b54 NCT03531918 ['TARGET:CD33'] | Gemtuzumab Ozogamicin | otherNames[0]#S1_anti_prefix:CD33->TARGET:CD33[APPROVED:CD33]
+45c04cf022d7855c NCT06917911 ['TARGET:CD33'] | Gemtuzumab Ozogamicin | otherNames[0]#S1_anti_prefix:CD33->TARGET:CD33[APPROVED:CD33]
+47072a3fcbf6d4f1 NCT07172412 ['TARGET:DLL3'] | DLL3 CAR-NK cells | name#S3_car_head:DLL3->TARGET:DLL3[APPROVED:DLL3];description[0]#S3_car_head:DLL3->TARGET:DLL3[APPROVED:DLL3]
+476f9392d7e6f7d2 NCT00040846 ['TARGET:CD52'] | alemtuzumab | otherNames[0]#S1_anti_prefix:CD52->TARGET:CD52[APPROVED:CD52]
+4967157ffbe8617b NCT02061761 ['TARGET:LAG3'] | BMS-986016 | otherNames[0]#S1_anti_prefix:LAG-3->TARGET:LAG3[APPROVED:LAG-3]
+49b3e9868b54a030 NCT01476410 ['TARGET:TNFRSF8'] | brentuximab vedotin | otherNames[0]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30];otherNames[1]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30]
+4a7129cf3c85bc2f NCT01012297 ['TARGET:VEGFA'] | Bevacizumab | otherNames[0]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[1]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[2]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[7]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF]
+4d0fbe4eca6ccf24 NCT07271355 ['TARGET:VEGFA'] | Bevacizumab | otherNames[4]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[5]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[6]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[7]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[67]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF]
+4f9209613f646fbb NCT01968109 ['TARGET:LAG3'] | Relatlimab | otherNames[1]#S1_anti_prefix:LAG-3->TARGET:LAG3[APPROVED:LAG-3]
+4f9bf56b1021d94a NCT06350110 ['TARGET:CD19', 'TARGET:TNFRSF17'] | CD19- BCMA CAR-T cells | name#S3_car_head:CD19->TARGET:CD19[APPROVED:CD19];name#S3_car_head:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA]
+4faa7e18552f584e NCT03606967 ['TARGET:CTLA4'] | Tremelimumab | otherNames[0]#S1_anti_prefix:CTLA4->TARGET:CTLA4[APPROVED:CTLA4]
+50a5500a6cb15ad5 NCT05238831 ['TARGET:VEGFA'] | Bevacizumab | otherNames[1]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[2]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[3]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[4]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[35]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF]
+521ae9d953c05a24 NCT06428188 ['TARGET:CD19', 'TARGET:TNFRSF17'] | BCMA/CD19 CAR-T cells | name#S3_car_head:CD19->TARGET:CD19[APPROVED:CD19];name#S3_car_head:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA]
+541c939342cf2130 NCT07226856 ['TARGET:CCR8'] | Imzokitug | otherNames[0]#S1_anti_prefix:CCR8->TARGET:CCR8[APPROVED:CCR8]
+5430759a38a8109d NCT00923195 ['TARGET:MLANA'] | gp100:154-162 Peptide | description[0]#S1_anti_prefix:MART-1->TARGET:MLANA[SYNONYM:MART-1]
+54475602da4bb682 NCT07518979 ['TARGET:EGFR'] | Becotatug Vedotin | description[0]#S1_anti_prefix:EGFR->TARGET:EGFR[APPROVED:EGFR];description[0]#S2_attributive_suffix:EGFR->TARGET:EGFR[APPROVED:EGFR]
+55e8836a69b76977 NCT05091541 ['TARGET:CD19', 'TARGET:CD22'] | Fully Human Anti-CD19/CD22 Dual Target Chimeric An | name#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19];name#S1_anti_prefix:CD22->TARGET:CD22[APPROVED:CD22]
+55e916f649e29d5a NCT03311828 ['TARGET:CD38'] | Daratumumab | otherNames[1]#S1_anti_prefix:CD38->TARGET:CD38[APPROVED:CD38]
+562b44af07a15727 NCT04714593 ['TARGET:CD19', 'TARGET:CD22'] | CD19-CD22 CAR-T cells | name#S3_car_head:CD19->TARGET:CD19[APPROVED:CD19];name#S3_car_head:CD22->TARGET:CD22[APPROVED:CD22];description[0]#S3_car_head:CD19->TARGET:CD19[APPROVED:CD19];description[0]#S3_car_head:CD22->TARGET:CD22[APPROVED:CD22]
+593d16f3061c38ba NCT06941129 ['TARGET:CD19', 'TARGET:TNFRSF17'] | UCAR T-cell | description[0]#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19];description[0]#S1_anti_prefix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA]
+5a86c563e79bea0a NCT05564390 ['TARGET:CD33'] | Gemtuzumab Ozogamicin | otherNames[0]#S1_anti_prefix:CD33->TARGET:CD33[APPROVED:CD33]
+5cd5c634d6c5e080 NCT06520449 ['TARGET:FOLH1'] | 68Ga-NTA-476 | description[0]#S2_attributive_suffix:PSMA->TARGET:FOLH1[SYNONYM:PSMA]
+5d3d53a43dd859a9 NCT01229943 ['TARGET:VEGFA'] | Bevacizumab | otherNames[1]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[2]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[3]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[4]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[33]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF]
+5d9d60e083b3fb11 NCT02744612 ['TARGET:TNFRSF8'] | Brentuximab Vedotin | otherNames[2]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30];otherNames[3]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30];otherNames[4]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30]
+5e0ceca5f2ef485c NCT03113500 ['TARGET:TNFRSF8'] | Brentuximab Vedotin | otherNames[2]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30];otherNames[3]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30];otherNames[4]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30]
+6159da7530fa81e3 NCT06733610 ['TARGET:CD19', 'TARGET:TNFRSF17'] | universal allogeneic anti-CD19/BCMA CAR T-cells | name#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19];name#S1_anti_prefix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA];description[0]#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19];description[0]#S1_anti_prefix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA]
+63ee0b1d6ecbda69 NCT03409432 ['TARGET:TNFRSF8'] | Brentuximab Vedotin | otherNames[2]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30];otherNames[3]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30];otherNames[4]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30]
+65001f9e566c298c NCT03007030 ['TARGET:TNFRSF8'] | Brentuximab Vedotin | otherNames[2]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30];otherNames[3]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30];otherNames[4]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30]
+673bef0cfd65ff55 NCT07315087 ['TARGET:CD19', 'TARGET:TNFRSF17'] | QT-019C | description[0]#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19];description[0]#S1_anti_prefix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA]
+67917420a54a6bd8 NCT06328387 ['TARGET:ERBB2'] | Trastuzumab Deruxtecan | description[0]#S1_anti_prefix:HER2->TARGET:ERBB2[SYNONYM:HER2];description[0]#S2_attributive_suffix:HER2->TARGET:ERBB2[SYNONYM:HER2]
+68661a2fcccd8ff6 NCT05096663 ['TARGET:KDR'] | Ramucirumab | otherNames[0]#S1_anti_prefix:VEGFR-2->TARGET:KDR[SYNONYM:VEGFR-2]
+6951986263c7d74b NCT00923195 ['TARGET:MLANA'] | MART-1: 26-35(27L) Peptide | description[0]#S1_anti_prefix:MART-1->TARGET:MLANA[SYNONYM:MART-1]
+699b8a0793f1fd1d NCT03136406 ['TARGET:VEGFA'] | bevacizumab | description[0]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF]
+6a6f59900a53fbd9 NCT03538626 ['TARGET:CD4'] | VRC-HIVMAB091-00-AB | description[0]#S2_attributive_suffix:CD4->TARGET:CD4[APPROVED:CD4]
+6a955e8e6d20ba5e NCT06675136 ['TARGET:KDR'] | Ramucirumab | otherNames[0]#S1_anti_prefix:VEGFR-2->TARGET:KDR[SYNONYM:VEGFR-2]
+6b2fefe531e91f3a NCT00673153 ['TARGET:CD33'] | gemtuzumab ozogamicin | otherNames[0]#S1_anti_prefix:CD33->TARGET:CD33[APPROVED:CD33]
+6cc4ca2d95cebc71 NCT04960709 ['TARGET:NECTIN4'] | Enfortumab Vedotin | description[0]#S2_attributive_suffix:Nectin-4->TARGET:NECTIN4[APPROVED:nectin-4]
+712d440f9ebe16ca NCT05126472 ['TARGET:CD40'] | anti-CD40 antibody 2141-V11 | name#S1_anti_prefix:CD40->TARGET:CD40[APPROVED:CD40];description[0]#S1_anti_prefix:CD40->TARGET:CD40[APPROVED:CD40]
+73406f32f74ccba8 NCT01409161 ['TARGET:CD33'] | Gemtuzumab Ozogamicin | otherNames[0]#S1_anti_prefix:CD33->TARGET:CD33[APPROVED:CD33]
+783db076111d9752 NCT04164069 ['TARGET:VEGFA'] | Bevacizumab | otherNames[0]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[1]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[2]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[22]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF]
+784f7af175e84635 NCT03387111 ['TARGET:VEGFA'] | bevacizumab | description[0]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF]
+7953c08a3bf7562f NCT06933563 ['TARGET:CD19', 'TARGET:TNFRSF17'] | UCAR T-cell group | description[0]#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19];description[0]#S1_anti_prefix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA]
+7a8164d0a4c6fa2c NCT00217737 ['TARGET:VEGFA'] | Bevacizumab | otherNames[4]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[5]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[6]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[7]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[76]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF]
+7b25112b6985928c NCT03805399 ['TARGET:KDR'] | BLIS with anti-VEGFR included therapy | name#S1_anti_prefix:VEGFR->TARGET:KDR[SYNONYM:VEGFR]
+7d609853c8c930a0 NCT03365791 ['TARGET:LAG3'] | LAG525 | description[0]#S1_anti_prefix:LAG-3->TARGET:LAG3[APPROVED:LAG-3]
+7de5776cc254348c NCT07715136 ['TARGET:CD19', 'TARGET:TNFRSF17'] | ICG318, BCMA-CD19-IL-15/IL-15 sushi Compound CAR-T | description[0]#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19];description[0]#S1_anti_prefix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA]
+7e4bc84aaafb8510 NCT03169790 ['TARGET:CD274'] | avelumab | description[0]#S1_anti_prefix:PD-L1->TARGET:CD274[SYNONYM:PD-L1]
+7ea8382970aab1ef NCT07742527 ['TARGET:CD38'] | Standard of care | description[0]#S1_anti_prefix:CD38->TARGET:CD38[APPROVED:CD38]
+80cf2e88dda11396 NCT03167164 ['TARGET:CD274'] | Avelumab | description[0]#S1_anti_prefix:PD-L1->TARGET:CD274[SYNONYM:PD-L1]
+819bfc31f631f1d1 NCT05129033 ['TARGET:IGHE'] | Omalizumab | description[0]#S1_anti_prefix:IgE->TARGET:IGHE[SYNONYM:IgE]
+81fffff641e4803c NCT07148791 ['TARGET:CD19', 'TARGET:TNFRSF17'] | Anti-BCMA-CD19 CAR-T cells | name#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19];name#S1_anti_prefix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA];description[0]#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19];description[0]#S1_anti_prefix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA]
+8233cf55714a766b NCT04650451 ['TARGET:ERBB2'] | chimeric antigen receptor (CAR) T cell therapy | description[0]#S2_attributive_suffix:HER2->TARGET:ERBB2[SYNONYM:HER2]
+83d2ed653f9a6165 NCT02758717 ['TARGET:TNFRSF8'] | Brentuximab Vedotin | otherNames[2]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30];otherNames[3]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30];otherNames[4]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30]
+8434d3afa2ebb9b5 NCT00383097 ['TARGET:PSMB9'] | LMP2-SPECIFIC CYTOTOXIC T-LYMPHOCYTES | name#S2_attributive_suffix:LMP2->TARGET:PSMB9[SYNONYM:LMP2]
+8468a9ac496e752e NCT06213636 ['TARGET:CD19', 'TARGET:CD22'] | CD19/CD22-CAR T cells | name#S3_car_head:CD19->TARGET:CD19[APPROVED:CD19];name#S3_car_head:CD22->TARGET:CD22[APPROVED:CD22]
+84714bbd658759e8 NCT04456959 ['TARGET:CD22'] | Inotuzumab Ozogamicin | description[0]#S2_attributive_suffix:CD22->TARGET:CD22[APPROVED:CD22]
+85c8f247a66998bc NCT00079755 ['TARGET:TNFRSF8'] | SGN-30 (anti-CD30 mAb) | name#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30]
+85fbbe6446e73da7 NCT02937844 ['TARGET:CD274'] | Anti-PD-L1 CSR T cells | name#S1_anti_prefix:PD-L1->TARGET:CD274[SYNONYM:PD-L1]
+86109cf20f56f762 NCT03907488 ['TARGET:TNFRSF8'] | Brentuximab Vedotin | otherNames[2]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30];otherNames[3]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30];otherNames[4]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30]
+889c5c2d74be90fa NCT03068624 ['TARGET:SLC45A2'] | Autologous CD8+ SLC45A2-specific T Lymphocytes | name#S2_attributive_suffix:SLC45A2->TARGET:SLC45A2[APPROVED:SLC45A2];otherNames[0]#S2_attributive_suffix:SLC45A2->TARGET:SLC45A2[APPROVED:SLC45A2];otherNames[1]#S2_attributive_suffix:SLC45A2->TARGET:SLC45A2[APPROVED:SLC45A2]
+897a819d83950307 NCT00923195 ['TARGET:MLANA'] | Anti-MART-1 F5 TCR PBL | name#S1_anti_prefix:MART-1->TARGET:MLANA[SYNONYM:MART-1];description[0]#S1_anti_prefix:MART-1->TARGET:MLANA[SYNONYM:MART-1]
+8c3b73dfa6af51d1 NCT03387085 ['TARGET:VEGFA'] | bevacizumab | description[0]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF]
+8e6aa041b15d9d27 NCT01548911 ['TARGET:CD33'] | gemtuzumab ozogamicin | otherNames[0]#S1_anti_prefix:CD33->TARGET:CD33[APPROVED:CD33]
+8f897f93755d2e5a NCT06439693 ['TARGET:ERBB2'] | T-DM1 | description[0]#S2_attributive_suffix:HER2->TARGET:ERBB2[SYNONYM:HER2]
+9069c2eda2a6e40d NCT03310619 ['TARGET:CD274'] | Durvalumab | description[0]#S1_anti_prefix:PD-L1->TARGET:CD274[SYNONYM:PD-L1]
+9487a2358812d8ed NCT03167177 ['TARGET:VEGFA'] | Bevacizumab | description[0]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF]
+9c08c388952473d2 NCT05582499 ['TARGET:ERBB2'] | SHR-A1811 | description[0]#S1_anti_prefix:HER2->TARGET:ERBB2[SYNONYM:HER2]
+9d57d1933449991d NCT01771107 ['TARGET:TNFRSF8'] | Brentuximab Vedotin | otherNames[2]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30];otherNames[3]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30];otherNames[4]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30]
+9eb0cc94ca11a128 NCT02658981 ['TARGET:TNFRSF9'] | Anti-CD137 | name#S1_anti_prefix:CD137->TARGET:TNFRSF9[SYNONYM:CD137]
+9f0b5cd54fa8a7b5 NCT06554626 ['TARGET:CD22'] | Inotuzumab ozogamicin | description[0]#S4_verbal:CD22->TARGET:CD22[APPROVED:CD22]
+a0d66512692438af NCT00001475 ['TARGET:TNF'] | IL-2 plus Anti-TNF or Thalidomide | name#S1_anti_prefix:TNF->TARGET:TNF[APPROVED:TNF]
+a2ecd0130f3c0948 NCT07328581 ['TARGET:CD19', 'TARGET:TNFRSF17'] | ICG318, BCMA-CD19-IL-15/IL-15 sushi Compound CAR T | description[0]#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19];description[0]#S1_anti_prefix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA]
+a3f65159e3dd1585 NCT05667155 ['TARGET:CD19', 'TARGET:CD70'] | CB dualCAR-NK19/70 | description[0]#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19];description[0]#S1_anti_prefix:CD70->TARGET:CD70[APPROVED:CD70]
+a59d062c5f439c60 NCT01218867 ['TARGET:KDR'] | Anti-VEGFR2 CAR CD8 plus PBL | name#S1_anti_prefix:VEGFR2->TARGET:KDR[SYNONYM:VEGFR2];description[0]#S1_anti_prefix:VEGFR->TARGET:KDR[SYNONYM:VEGFR]
+a80a25690597655a NCT06920433 ['TARGET:CD19', 'TARGET:TNFRSF17'] | UCAR T-cell group | description[0]#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19];description[0]#S1_anti_prefix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA]
+a88f31f0613a58cd NCT03373305 ['TARGET:TNFRSF8'] | Brentuximab Vedotin | otherNames[3]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30];otherNames[4]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30];otherNames[5]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30]
+aa26ad794ec877d1 NCT04082364 ['TARGET:LAG3'] | Tebotelimab | description[0]#S1_anti_prefix:LAG3->TARGET:LAG3[APPROVED:LAG3]
+aa2e67bb9a4b78af NCT03904251 ['TARGET:CD33'] | Gemtuzumab Ozogamicin | otherNames[0]#S1_anti_prefix:CD33->TARGET:CD33[APPROVED:CD33]
+abc46aedfd4101a1 NCT03387111 ['TARGET:CD274'] | Avelumab | description[0]#S1_anti_prefix:PD-L1->TARGET:CD274[SYNONYM:PD-L1]
+abf68d746089245d NCT00801632 ['TARGET:CD2'] | MEDI-507 | otherNames[1]#S1_anti_prefix:CD2->TARGET:CD2[APPROVED:CD2]
+ac9361c377e3cb17 NCT04293562 ['TARGET:CD33'] | Gemtuzumab Ozogamicin | otherNames[0]#S1_anti_prefix:CD33->TARGET:CD33[APPROVED:CD33]
+ad23772927564532 NCT06978738 ['TARGET:CD19', 'TARGET:TNFRSF17'] | universal allogeneic anti-CD19/BCMA CAR T-cells | name#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19];name#S1_anti_prefix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA];description[0]#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19];description[0]#S1_anti_prefix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA]
+ae4872cbbba25aac NCT05582499 ['TARGET:ERBB2'] | SHR-4602 | description[0]#S1_anti_prefix:HER2->TARGET:ERBB2[SYNONYM:HER2]
+b094cb92f10cbc01 NCT04632381 ['TARGET:EIF4A1'] | Zotatifin | description[0]#S2_attributive_suffix:eIF4A1->TARGET:EIF4A1[APPROVED:EIF4A1]
+b0d2b91d937b6e03 NCT07139509 ['TARGET:CD19', 'TARGET:TNFRSF17'] | allogeneic cord blood-derived, dual-targeting CD19 | name#S3_car_head:CD19->TARGET:CD19[APPROVED:CD19];name#S3_car_head:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA]
+b1dcb99dcdd5d478 NCT03387085 ['TARGET:CD274'] | avelumab | description[0]#S1_anti_prefix:PD-L1->TARGET:CD274[SYNONYM:PD-L1]
+b2e73c52e4c7e808 NCT00025337 ['TARGET:VEGFA'] | bevacizumab | otherNames[0]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[1]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF]
+b32b04e0a93beafd NCT02729961 ['TARGET:TNFRSF8'] | Brentuximab Vedotin | otherNames[2]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30];otherNames[3]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30];otherNames[4]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30]
+b38cc1216994540e NCT00509288 ['TARGET:MLANA'] | autologous anti-MART-1 F5 T-cell receptor | name#S1_anti_prefix:MART-1->TARGET:MLANA[SYNONYM:MART-1];description[0]#S1_anti_prefix:MART-1->TARGET:MLANA[SYNONYM:MART-1]
+b55fe7f98026ef11 NCT07643103 ['TARGET:CD22'] | Inotuzumab Ozogamicin (IO) | description[0]#S1_anti_prefix:CD22->TARGET:CD22[APPROVED:CD22]
+b5fe56dba9e62906 NCT03900949 ['TARGET:CD33'] | Gemtuzumab Ozogamicin | otherNames[0]#S1_anti_prefix:CD33->TARGET:CD33[APPROVED:CD33]
+b6d720fe8f873506 NCT04391309 ['TARGET:CD14'] | anti-CD14 | name#S1_anti_prefix:CD14->TARGET:CD14[APPROVED:CD14]
+bc025dba2f86ecc1 NCT02166463 ['TARGET:TNFRSF8'] | Brentuximab Vedotin | otherNames[2]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30];otherNames[3]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30];otherNames[4]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30]
+bc16fd7b956e2c06 NCT00126490 ['TARGET:VEGFA'] | Bevacizumab | otherNames[0]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[1]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[2]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[7]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF]
+bd9eb7b039e2e327 NCT03311412 ['TARGET:LAG3'] | Sym022 | otherNames[0]#S1_anti_prefix:LAG-3->TARGET:LAG3[APPROVED:LAG-3]
+bdd3265cabb7f7f2 NCT03805399 ['TARGET:KDR'] | MES with anti-VEGFR included therapy | name#S1_anti_prefix:VEGFR->TARGET:KDR[SYNONYM:VEGFR]
+bfe528f3a539f2d1 NCT00096278 ['TARGET:VEGFA'] | Bevacizumab | otherNames[0]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[1]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[2]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[17]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF]
+c07a6b53a0e2222e NCT03878524 ['TARGET:VEGFA'] | Bevacizumab | otherNames[1]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[2]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[3]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[32]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[36]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF]
+c24992e300310577 NCT03169790 ['TARGET:VEGFA'] | bevacizumab | description[0]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF]
+c2f42a684e23a658 NCT00509288 ['TARGET:MLANA'] | autologous anti-MART-1 F5 T-cell receptor gene-eng | name#S1_anti_prefix:MART-1->TARGET:MLANA[SYNONYM:MART-1]
+c330bf820ae9b7e1 NCT03169764 ['TARGET:CD274'] | Avelumab | description[0]#S1_anti_prefix:PD-L1->TARGET:CD274[SYNONYM:PD-L1]
+c551edf08f1c7f56 NCT07423572 ['TARGET:CD19', 'TARGET:TNFRSF17'] | CD19/BCMA-Targeted Universal Chimeric Antigen Rece | name#S2_attributive_suffix:CD19->TARGET:CD19[APPROVED:CD19];name#S2_attributive_suffix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA]
+c5e84f56bdb99f11 NCT01256398 ['TARGET:CD52'] | Alemtuzumab | otherNames[0]#S1_anti_prefix:CD52->TARGET:CD52[APPROVED:CD52]
+c7c9c95b1840d091 NCT03642067 ['TARGET:LAG3'] | Relatlimab | otherNames[0]#S1_anti_prefix:LAG-3->TARGET:LAG3[APPROVED:LAG-3]
+c7ec7ab6bb722e3b NCT03390296 ['TARGET:CD33'] | Gemtuzumab Ozogamicin | otherNames[0]#S1_anti_prefix:CD33->TARGET:CD33[APPROVED:CD33]
+c8a97adab6ffe84a NCT00923195 ['TARGET:MLANA'] | Anti-gp 100:154 TCR PBL | description[0]#S1_anti_prefix:MART-1->TARGET:MLANA[SYNONYM:MART-1]
+c919e2a2d5be5c9a NCT03233347 ['TARGET:TNFRSF8'] | Brentuximab Vedotin | otherNames[2]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30];otherNames[3]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30];otherNames[4]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30]
+d03ccd561cc43fce NCT07114432 ['TARGET:CD19', 'TARGET:TNFRSF17'] | BCMA/CD19-targeted allogeneic CAR-T | name#S2_attributive_suffix:CD19->TARGET:CD19[APPROVED:CD19];name#S2_attributive_suffix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA]
+d0d2d65d1571ee28 NCT00054132 ['TARGET:VEGFA'] | Bevacizumab | otherNames[0]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[1]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[2]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[7]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF]
+d1b4e2b3f651d2a5 NCT03167164 ['TARGET:VEGFA'] | Bevacizumab | description[0]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF]
+d23f77b16ca72117 NCT07840976 ['TARGET:CD22'] | Inotuzumab Ozogamicin (IO) | description[0]#S1_anti_prefix:CD22->TARGET:CD22[APPROVED:CD22]
+d2dab6b6f8838559 NCT04082364 ['TARGET:ERBB2'] | margetuximab | description[0]#S1_anti_prefix:HER2->TARGET:ERBB2[SYNONYM:HER2]
+d368d055d801c80d NCT02227199 ['TARGET:TNFRSF8'] | Brentuximab Vedotin | otherNames[2]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30];otherNames[3]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30];otherNames[4]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30]
+d3a32fb59b49e0da NCT01703949 ['TARGET:TNFRSF8'] | Brentuximab Vedotin | otherNames[2]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30];otherNames[3]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30];otherNames[4]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30]
+d3a3ed3fb370796c NCT07337785 ['TARGET:CD19', 'TARGET:TNFRSF17'] | CD19/BCMA-targeted CAR-T cells | name#S2_attributive_suffix:CD19->TARGET:CD19[APPROVED:CD19];name#S2_attributive_suffix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA];description[0]#S2_attributive_suffix:CD19->TARGET:CD19[APPROVED:CD19];description[0]#S2_attributive_suffix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA]
+d432424a4756fa8b NCT06792799 ['TARGET:CD19', 'TARGET:TNFRSF17'] | anti-CD19/BCMA CAR NK cells (KN5601) | name#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19];name#S1_anti_prefix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA]
+d43392f923f42754 NCT06497361 ['TARGET:CD19', 'TARGET:TNFRSF17'] | PRG-2311 | description[0]#S2_attributive_suffix:CD19->TARGET:CD19[APPROVED:CD19];description[0]#S2_attributive_suffix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA]
+d56bab25fe417860 NCT04129320 ['TARGET:CD276'] | enoblituzumab | description[0]#S1_anti_prefix:B7-H3->TARGET:CD276[SYNONYM:B7-H3]
+d651af854e938b51 NCT01254617 ['TARGET:EGFR'] | Cetuximab | otherNames[3]#S1_anti_prefix:EGFR->TARGET:EGFR[APPROVED:EGFR]
+da9d12fecc691f09 NCT02311621 ['TARGET:L1CAM'] | Patient Derived CD171 specific CAR T cells express | name#S2_attributive_suffix:CD171->TARGET:L1CAM[SYNONYM:CD171]
+dca99ef094ef5888 NCT00801489 ['TARGET:CD33'] | Gemtuzumab Ozogamicin | otherNames[0]#S1_anti_prefix:CD33->TARGET:CD33[APPROVED:CD33]
+deb7433b363a36e4 NCT07363408 ['TARGET:CTLA4'] | Muzastotug | otherNames[3]#S1_anti_prefix:CTLA-4->TARGET:CTLA4[APPROVED:CTLA-4];otherNames[4]#S1_anti_prefix:CTLA-4->TARGET:CTLA4[APPROVED:CTLA-4]
+debffcd96bd30e0b NCT04310007 ['TARGET:KDR'] | Ramucirumab | otherNames[0]#S1_anti_prefix:VEGFR-2->TARGET:KDR[SYNONYM:VEGFR-2]
+df51f438c90bb086 NCT05599360 ['TARGET:CD33'] | Mylotarg | description[0]#S2_attributive_suffix:CD33->TARGET:CD33[APPROVED:CD33]
+e22c9c59175c4fd2 NCT00612222 ['TARGET:MLANA'] | autologous anti-MART-1 F5 T-cell receptor gene-eng | name#S1_anti_prefix:MART-1->TARGET:MLANA[SYNONYM:MART-1]
+e4803ab344742cca NCT02744287 ['TARGET:PSCA'] | BPX-601 | description[0]#S2_attributive_suffix:PSCA->TARGET:PSCA[APPROVED:PSCA]
+e84b28abc06f9118 NCT00072566 ['TARGET:VEGFA'] | Bevacizumab | otherNames[0]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[1]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[2]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[7]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF]
+e859db6a4cde67c1 NCT00383097 ['TARGET:PDLIM7'] | LMP1 SPECIFIC CYTOTOXIC T-LYMPHOCYTES | name#S2_attributive_suffix:LMP1->TARGET:PDLIM7[SYNONYM:LMP1]
+eb7f658c3b0ee5cf NCT02311621 ['TARGET:L1CAM'] | Patient Derived CD171 specific CAR T cells express | name#S2_attributive_suffix:CD171->TARGET:L1CAM[SYNONYM:CD171]
+ec3b1b42be412583 NCT01780662 ['TARGET:TNFRSF8'] | Brentuximab Vedotin | otherNames[2]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30];otherNames[3]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30];otherNames[4]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30]
+ef6871ddf5a7ceac NCT02311621 ['TARGET:L1CAM'] | Patient Derived CD171 specific CAR T cells express | name#S2_attributive_suffix:CD171->TARGET:L1CAM[SYNONYM:CD171]
+f0611b6c212fc732 NCT07032129 ['TARGET:GPRC5D', 'TARGET:TNFRSF17'] | BCMA/GPRC5D CAR-T cells | name#S3_car_head:GPRC5D->TARGET:GPRC5D[APPROVED:GPRC5D];name#S3_car_head:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA]
+f064559cccf1a948 NCT00003440 ['TARGET:ERBB2'] | trastuzumab | otherNames[0]#S1_anti_prefix:c-erB-2->TARGET:ERBB2[SYNONYM:c-ERB-2]
+f174505ecc81439c NCT03057795 ['TARGET:TNFRSF8'] | Brentuximab Vedotin | otherNames[2]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30];otherNames[3]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30];otherNames[4]#S1_anti_prefix:CD30->TARGET:TNFRSF8[SYNONYM:CD30]
+f1e3c1b9e97fa5fd NCT04082364 ['TARGET:ERBB2'] | Trastuzumab | description[0]#S1_anti_prefix:HER2->TARGET:ERBB2[SYNONYM:HER2]
+f3dc368d4585b323 NCT01869803 ['TARGET:CD33'] | gemtuzumab ozogamicin | otherNames[0]#S1_anti_prefix:CD33->TARGET:CD33[APPROVED:CD33]
+f50efefb2ba15fe4 NCT07720284 ['TARGET:TACSTD2'] | Dato-DXd | description[0]#S1_anti_prefix:TROP2->TARGET:TACSTD2[SYNONYM:TROP2]
+f6e2b28147db8d4c NCT07530380 ['TARGET:CD19', 'TARGET:TNFRSF17'] | QT-219C Cell Injection | description[0]#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19];description[0]#S1_anti_prefix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA]
+f79cc6baaa9184b3 NCT00433511 ['TARGET:VEGFA'] | Bevacizumab | otherNames[4]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[5]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[6]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[7]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[76]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF]
+fd2af08c49bb454b NCT00028535 ['TARGET:ERBB2'] | trastuzumab | otherNames[0]#S1_anti_prefix:c-erB-2->TARGET:ERBB2[SYNONYM:c-ERB-2]
+fdefeed8aaa21569 NCT00055809 ['TARGET:VEGFA'] | bevacizumab | otherNames[0]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF];otherNames[1]#S1_anti_prefix:VEGF->TARGET:VEGFA[SYNONYM:VEGF]
+fe188b302d1a3e20 NCT06439693 ['TARGET:ERBB2'] | Trastuzumab Deruxtecan | description[0]#S2_attributive_suffix:HER2->TARGET:ERBB2[SYNONYM:HER2]
+fea7235710acd5c4 NCT07416032 ['TARGET:CD19', 'TARGET:TNFRSF17'] | QT-019C | otherNames[0]#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19];otherNames[0]#S1_anti_prefix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA]
+ffbd48b16795c876 NCT04052204 ['TARGET:CD274'] | avelumab | description[0]#S1_anti_prefix:PD-L1->TARGET:CD274[SYNONYM:PD-L1]
+01a954a77b0540cb NCT05521802 ['TARGET:TNFRSF17'] | B-cell maturation antigen (BCMA) directed chimeric | name#S2_attributive_suffix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA];description[0]#S2_attributive_suffix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA]
+02cd938485e2ebb9 NCT06316791 ['TARGET:CD19'] | single dose of CNCT19 | description[0]#S2_attributive_suffix:CD19->TARGET:CD19[APPROVED:CD19]
+032c278a1e99bf8d NCT07503353 ['TARGET:CD19'] | SHB-02-CD19 (anti CD19 CAR-T cells) | name#S3_car_head:CD19->TARGET:CD19[APPROVED:CD19]
+03b97d325cdc418c NCT05600686 ['TARGET:CD19'] | Loncastuximab Tesirine | otherNames[2]#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19]
+045d77b729e5fd38 NCT02877303 ['TARGET:CD19'] | Blinatumomab | otherNames[0]#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19]
+046468b69a0c136e NCT07617740 ['TARGET:CD19'] | IASO207 Injection | description[0]#S3_car_head:CD19->TARGET:CD19[APPROVED:CD19]
+047899291be9c80c NCT06417398 ['TARGET:CD19'] | T cell injection targeting CD19 chimeric antigen r | name#S4_verbal:CD19->TARGET:CD19[APPROVED:CD19];description[0]#S3_car_head:CD19->TARGET:CD19[APPROVED:CD19]
+058eb0ac7dbb77fd NCT06659770 ['TARGET:TNFRSF17'] | Zevorcabtagene Autoleucel | description[0]#S2_attributive_suffix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA]
+0c586e4a1fe66cf3 NCT03815383 ['TARGET:TNFRSF17'] | C-CAR088 | description[0]#S2_attributive_suffix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA]
+0ca3395885293b1f NCT02005289 ['TARGET:CD19'] | MOR00208 | otherNames[0]#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19];otherNames[1]#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19]
+0ca39f30d4b1d808 NCT06733935 ['TARGET:CD19'] | NKX019 | description[0]#S2_attributive_suffix:CD19->TARGET:CD19[APPROVED:CD19]
+0ca9fd0539f33ee6 NCT06464679 ['TARGET:CD19'] | anti-CD19 CAR NK cells | name#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19]
+0d6951acce2f8907 NCT03548207 ['TARGET:TNFRSF17'] | JNJ-68284528 | description[0]#S1_anti_prefix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA]
+0eb56c13cf97481a NCT06485232 ['TARGET:TNFRSF17'] | Universal BCMA CAR-T | name#S3_car_head:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA];description[0]#S3_car_head:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA]
+0ebb8f13d09598f0 NCT06827782 ['TARGET:CD19'] | anti-CD19 CAR-NK cells | name#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19];description[0]#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19]
+0efd045dc46bd293 NCT06485232 ['TARGET:CD19'] | Universal CD19 CAR-T | name#S3_car_head:CD19->TARGET:CD19[APPROVED:CD19];description[0]#S3_car_head:CD19->TARGET:CD19[APPROVED:CD19]
+101f1255bf72263f NCT06828042 ['TARGET:CD19'] | anti-CD19 CAR T cell therapy | name#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19];description[0]#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19]
+14757cdb51016c8e NCT03573700 ['TARGET:CD19'] | CD19- specific CAR engineered autologous T-cells ( | name#S2_attributive_suffix:CD19->TARGET:CD19[APPROVED:CD19]
+16722b8325b35dcf NCT06469190 ['TARGET:CD19'] | anti-CD19 CAR NK cells | name#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19]
+172bde01dfa5419c NCT03739814 ['TARGET:CD19'] | Blinatumomab | otherNames[3]#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19]
+17c56b70031e2312 NCT03751293 ['TARGET:TNFRSF17'] | C-CAR088 | description[0]#S1_anti_prefix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA];description[0]#S2_attributive_suffix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA]
+1866b08fb3b13e7c NCT07606937 ['TARGET:CD19'] | FKC876 injection | description[0]#S3_car_head:CD19->TARGET:CD19[APPROVED:CD19]
+1af4839341044840 NCT04530565 ['TARGET:CD19'] | Blinatumomab | otherNames[3]#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19]
+1b8e5639266df156 NCT07840976 ['TARGET:CD19'] | CD19-directed chimeric antigen receptor (CAR-T) T  | name#S2_attributive_suffix:CD19->TARGET:CD19[APPROVED:CD19];description[0]#S3_car_head:CD19->TARGET:CD19[APPROVED:CD19]
+1c6f0a8077238a6e NCT04833504 ['TARGET:CD19'] | CD19 CAR-T Expressing IL7 and CCL19 | name#S3_car_head:CD19->TARGET:CD19[APPROVED:CD19];description[0]#S2_attributive_suffix:CD19->TARGET:CD19[APPROVED:CD19]
+1f73410bf9f371e3 NCT05645601 ['TARGET:CD19'] | CD19-CAR-NK | name#S3_car_head:CD19->TARGET:CD19[APPROVED:CD19]
+21187c8d2cb69dd0 NCT03642496 ['TARGET:CD19'] | Middle dose ET019002- T Cells | description[0]#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19]
+21a9ebd67098281b NCT06631040 ['TARGET:CD19'] | anti CD19 CAR NK cells | name#S3_car_head:CD19->TARGET:CD19[APPROVED:CD19]
+22119bf6f7cb03b4 NCT06497387 ['TARGET:TNFRSF17'] | PRG-1801 | description[0]#S2_attributive_suffix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA]
+257d6416be71971d NCT05453396 ['TARGET:CD19'] | Loncastuximab Tesirine | otherNames[2]#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19]
+26f8e5f82ab10a67 NCT05228249 ['TARGET:CD19'] | Loncastuximab Tesirine | otherNames[2]#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19]
+273deec0b8c64388 NCT03642496 ['TARGET:CD19'] | Low dose ET019002- T Cells | description[0]#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19]
+289f2af502a8bf10 NCT02143414 ['TARGET:CD19'] | Blinatumomab | otherNames[3]#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19]
+2b2b6ef7e550aab2 NCT04154709 ['TARGET:CD19'] | CTA101 | description[0]#S2_attributive_suffix:CD19->TARGET:CD19[APPROVED:CD19]
+2b3030907c2e87bd NCT07643103 ['TARGET:CD19'] | CD19-directed chimeric antigen receptor (CAR-T) T  | name#S2_attributive_suffix:CD19->TARGET:CD19[APPROVED:CD19];description[0]#S3_car_head:CD19->TARGET:CD19[APPROVED:CD19]
+2d4e8ccf66748325 NCT06361745 ['TARGET:CD19'] | T cell injection targeting CD19 chimeric antigen r | name#S4_verbal:CD19->TARGET:CD19[APPROVED:CD19];description[0]#S3_car_head:CD19->TARGET:CD19[APPROVED:CD19]
+2dfc56d0d9d4163c NCT07072247 ['TARGET:TNFRSF17'] | CD19 and BCMA-targeted allogeneic CAR-T cells | name#S2_attributive_suffix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA];description[0]#S2_attributive_suffix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA]
+301182ae2160d3db NCT06337474 ['TARGET:CD19'] | anti-CD19 CAR NK cells (KN5501) | name#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19]
+30e4215219c584d6 NCT03642496 ['TARGET:CD19'] | High dose ET019002- T Cells | description[0]#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19]
+3238bfdf11a35b70 NCT06359509 ['TARGET:TNFRSF17'] | BCMA Targeted CAR T-cells | name#S2_attributive_suffix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA];description[0]#S2_attributive_suffix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA]
+32cc4d901fc90872 NCT06149169 ['TARGET:CD19'] | CD19-targeted Chimeric Antigen Receptor(CAR) T Cel | name#S2_attributive_suffix:CD19->TARGET:CD19[APPROVED:CD19]
+3533aaa6142ba681 NCT04887012 ['TARGET:CD19'] | anti-CD19 CAR-NK | name#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19];description[0]#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19]
+354dce24a1a31a92 NCT06613490 ['TARGET:CD19'] | anti CD19 CAR NK cells | name#S3_car_head:CD19->TARGET:CD19[APPROVED:CD19];description[0]#S3_car_head:CD19->TARGET:CD19[APPROVED:CD19]
+3591071ca91180d7 NCT07788118 ['TARGET:CD19'] | 7×19-THEMIS CAR-T cells | description[0]#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19]
+35f27bc778ad8988 NCT04594642 ['TARGET:CD19'] | AZD0486 IV | description[0]#S4_verbal:CD19->TARGET:CD19[APPROVED:CD19]
+35f48ed9a9b38f06 NCT07585071 ['TARGET:TNFRSF17'] | IASO206 injection | description[0]#S2_attributive_suffix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA]
+38c8aa3e12a4c18c NCT04295018 ['TARGET:TNFRSF17'] | C-CAR088 | description[0]#S1_anti_prefix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA];description[0]#S2_attributive_suffix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA]
+3e19e205f704fb2c NCT06902012 ['TARGET:CD19'] | Infusion of Axicabtagene Ciloleucel | description[0]#S3_car_head:CD19->TARGET:CD19[APPROVED:CD19]
+3e3ef5d396a7f25b NCT04089215 ['TARGET:CD19'] | CD19-targeted Chimeric Antigen Receptor (CAR) T Ce | name#S2_attributive_suffix:CD19->TARGET:CD19[APPROVED:CD19]
+3e7c11905dfbed91 NCT05879744 ['TARGET:CD19'] | CLN-978 | description[0]#S5_arm_notation:CD19->TARGET:CD19[APPROVED:CD19]
+404b84ff07e38de7 NCT02134262 ['TARGET:CD19'] | Dose Level 3 | description[0]#S3_car_head:CD19->TARGET:CD19[APPROVED:CD19]
+40b039f15577a8b5 NCT04264039 ['TARGET:CD19'] | anti-CD19 UCAR-T cells | name#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19]
+41b68ba9166acd05 NCT05672251 ['TARGET:CD19'] | Loncastuximab Tesirine | otherNames[2]#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19]
+42d9df61a86cffb8 NCT06519565 ['TARGET:TNFRSF17'] | PRG-1801 | otherNames[0]#S2_attributive_suffix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA];description[0]#S4_verbal:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA]
+431527992a004e34 NCT03849651 ['TARGET:CD19'] | Blinatumomab | description[0]#S2_attributive_suffix:CD19->TARGET:CD19[APPROVED:CD19]
+43cbe2b246466909 NCT07260812 ['TARGET:CD19'] | KSV01 Injection | description[0]#S3_car_head:CD19->TARGET:CD19[APPROVED:CD19]
+44b39a9aaf686115 NCT07648459 ['TARGET:TNFRSF17'] | anti-BCMA/CD3 bispecific antibody | name#S1_anti_prefix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA];description[0]#S1_anti_prefix:BCMA->TARGET:TNFRSF17[SYNONYM:BCMA]
+453f9b9a96fc30e0 NCT04544592 ['TARGET:CD19'] | CD19CAR-CD3Zeta-4-1BB-Expressing Autologous T-Lymp | description[0]#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19];description[0]#S3_car_head:CD19->TARGET:CD19[APPROVED:CD19]
+48026b9d37ef46d7 NCT02134262 ['TARGET:CD19'] | Dose Level 2 | description[0]#S3_car_head:CD19->TARGET:CD19[APPROVED:CD19]
+4f454fcf469c686a NCT06421701 ['TARGET:CD19'] | anti-CD19 CAR-NK cells | name#S1_anti_prefix:CD19->TARGET:CD19[APPROVED:CD19]
+
+## A4 baseline-corpus diff (old -> new)
+005c69b90a810292 NCT04484623 ['mint5'] | Belantamab mafodotin | old=['TARGET:TNFRSF17'] new=[] | desc0='Humanized anti-B-cell maturation antigen (BCMA) antibody/drug conjugate will be administered.'
+00855c8d6f336119 NCT07489534 ['mint5'] | PD-1Ab21-BCMA CAR-T cell immunotherapy | old=['TARGET:TNFRSF17'] new=[] | desc0='Consolidation therapy with PD-1 antibody and BCMA-targeting CAR-T in multiple myeloma patients with renal impairment.'
+00c43810a9282c46 NCT07738822 ['mint5'] | Velinotamig specified dose on specified days. | old=['TARGET:TNFRSF17'] new=[] | desc0='Velinotamig is an engineered bispecific antibody directed against BCMA and CD3.'
+00de7e39719be640 NCT04684563 ['mint5', 'tac01'] | huCART19-IL18 | old=['TARGET:CD19'] new=[] | desc0='autologous Chimeric Antigen Receptor (CAR) T cells directed against the human CD19 antigen that also express human Interleukin 18 (IL-18)'
+014d5c7943b834c2 NCT07538635 ['mint5', 'tac01'] | Axicabtagene Ciloleucel | old=['TARGET:CD19'] new=[] | desc0='R/R LBCL with high-risk factors sequentially undergo leukapheresis, stem cell collection, bridging therapy (if applicable, at the investigat'
+0258d2b74847d01c NCT02706405 ['mint5', 'tac01'] | Durvalumab | old=['TARGET:CD274'] new=[] | desc0='Given IV'
+02bb227909bdeeb4 NCT07523555 ['mint5', 'tac01'] | Autologous CD5/CD7 dual-target CAR-T module | old=['TARGET:CD5', 'TARGET:CD7'] new=[] | desc0='Biological: Autologous CD5/CD7 dual-target CAR-T module (including sequential paired infusion if needed for manufacturing/safety) after lymp'
+032c278a1e99bf8d NCT07503353 ['mint5', 'tac01'] | SHB-02-CD19 (anti CD19 CAR-T cells) | old=['TARGET:CD19', 'TARGET:SHB'] new=['TARGET:CD19'] | desc0='Phase 1 of this study includes a dose escalation plan of SHB-02-CD19.'
+035334e40c6d098f NCT03502577 ['mint5'] | Gamma-Secretase Inhibitor LY3039478 | old=['TARGET:PRB4'] new=[] | desc0='Given PO'
+036d509821e49613 NCT03146533 ['mint5', 'tac01'] | CD19 CART | old=['TARGET:CARTPT', 'TARGET:CD19'] new=['TARGET:CD19'] | desc0='CD19 CART cells will be administered using a split dose on day0(10%), 1(30%), and 2(60%) after completion of the chemotherapy.'
+04181d7f665f3421 NCT07493161 ['mint5', 'tac01'] | Olverembatinib | old=['TARGET:ABL1', 'TARGET:BCR'] new=[] | desc0='Third-generation tyrosine kinase inhibitor (TKI) targeting BCR-ABL1, including T315I mutation.nduction \\& Consolidation: 40mg every other da'
+04ad609f09b432d4 NCT07252336 ['mint5', 'tac01'] | CD19 CAR-T cells | old=['TARGET:CD19', 'TARGET:CD22'] new=[] | desc0='Each subject receive CD19/CD22 CAR T-cells by intravenous infusion'
+04ba1500c423d609 NCT07368270 ['mint5', 'tac01'] | Anti-PD1 armored CD19 CAR-T cells | old=['TARGET:CD19'] new=[] | desc0='Anti-PD1 armored CD19 CAR-T cells, single intravenous infusion'
+0529996f376ce2f1 NCT01370213 ['mint5', 'tac01'] | CD34 Graft/Anti-thymocyte globulin | old=['TARGET:CD34'] new=[] | desc0='Single donor filgrastim mobilized CD34+ selected peripheral blood stem cell graft (minimum cell dose of 5 x 10\\^6/kg) on day 0.'
+0540a301941e5ee9 NCT06548607 ['mint5', 'tac01'] | CD19 or CD19-BCMA CAR-T | old=['TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='CAR T-cell therapy administered intravenously after a lymphodepleting therapy regimen consisting of fludarabine and cyclophosphamide.'
+0590e361399b9933 NCT03492268 ['mint5'] | BCMA-CART | old=['TARGET:TNFRSF17'] new=[] | desc0='After a conditioning therapy, each patient will receive a treatment of BCMA-CART originated from their own peripheral blood mononuclear cell'
+0612c5bd9cd861b2 NCT05651191 ['mint5', 'tac01'] | Human CD19 Targeted DASH CAR-T Cells Injection | old=['TARGET:CD19'] new=[] | desc0='Autologous genetically modified anti-CD19 CAR transduced T cells'
+074d9dd027334786 NCT06101381 ['mint5', 'tac01'] | CART-19 | old=['TARGET:CD19'] new=[] | desc0='The academic CART-19 consists of autologous T lymphocytes transduced with a lentiviral vector to express a second-generation chimeric antige'
+07623e9557cd1cce NCT03768310 ['mint5', 'tac01'] | CD19.CAR-multiVST for Group A | old=['TARGET:CD19'] new=[] | desc0='Patients will be evaluated in the clinic and a single dose of CD19.CAR-multiVSTs will be given by intravenous injection on or after 30 days '
+08709991d91d157b NCT02208362 ['mint5', 'tac01'] | Arm 5: IL13Ra2-specific CAR Tn/mem cells | old=[] new=['TARGET:IL13RA2'] | desc0='Given via intratumoral or intracavitary, and via intraventricular catheter'
+08a5ae6e00a88699 NCT04260945 ['mint5', 'tac01'] | CD19/CD20 Dual-CAR-T cells | old=['TARGET:CD19'] new=[] | desc0='CD19/CD20 Dual-CAR-T cells are prepared via lentiviral infection.'
+09659e50bb849321 NCT07493161 ['mint5', 'tac01'] | Blinatumomab | old=['TARGET:CD19'] new=[] | desc0='CD19/CD3 bispecific T-cell engager (BiTE).'
+09b44fc781452836 NCT07751471 ['mint5'] | QLS4131 | old=['TARGET:GPRC5D', 'TARGET:TNFRSF17'] new=[] | desc0='QLS4131 is an investigational GPRC5D/BCMA/CD3 trispecific antibody administered by subcutaneous injection.'
+0ad637c12e880b69 NCT07369895 ['mint5'] | Chimeric antigen receptor T cell O&D-001 injection | old=['TARGET:GPRC5D', 'TARGET:TNFRSF17'] new=[] | desc0='Using the traditional 3+3 dose escalation method.'
+0b0fce681d88f041 NCT05989204 ['mint5', 'tac01'] | TmCD19-IL18 | old=['TARGET:CD19'] new=[] | desc0='autologous Chimeric Antigen Receptor (CAR) T cells directed against the human CD19 antigen that also express human Interleukin 18 (IL-18)'
+0b19c59a410bc52f NCT06993493 ['mint5', 'tac01'] | CD19 CART | old=['TARGET:CARTPT', 'TARGET:CD19'] new=['TARGET:CD19'] | desc0='The dose escalation is carried out according to the principle of "3+3" escalation, with a total of 3 dose groups set up.'
+0bf841109e5d5243 NCT06005649 ['mint5', 'tac01'] | HY004 | old=['TARGET:CD19', 'TARGET:CD22'] new=[] | desc0='Autologous 2nd generation bispecific CAR-T cells targeting both CD22 and CD19, single infusion intravenously.'
+0c330552a3b55938 NCT06913192 ['mint5'] | CAR-T | old=['TARGET:TNFRSF17'] new=[] | desc0='All enrolled patients will receive three cycles of induction therapy using either the DVRd regimen (Daratumumab, Bortezomib, Lenalidomide, a'
+0c5b76b115ba99ee NCT03676504 ['mint5', 'tac01'] | CD19.CAR T Cells | old=['TARGET:CD19'] new=[] | desc0='Dose Level 1: 1×10\\^6 transduced cells/m\\^2'
+0d3113abe6fc52ce NCT03361748 ['mint5'] | bb2121 | old=['TARGET:TNFRSF17'] new=[] | desc0=': bb2121 consists of autologous T lymphocytes transduced with an anti-BCMA02 CAR lentiviral vector to express a chimeric antigen receptor ta'
+0e11e3c86266913e NCT04723901 ['mint5', 'tac01'] | Dual target CAR-T cell therapy | old=['TARGET:CD19', 'TARGET:CD22'] new=[] | desc0='CD19/CD22 dual target CAR-T cell therapy'
+0ef9fe06a0aa23fe NCT06983964 ['mint5', 'tac01'] | CD19 CART | old=['TARGET:CARTPT', 'TARGET:CD19'] new=['TARGET:CD19'] | desc0='Dose group dosage unit (CAR+T cells/kg) Acceptable dose range Expected sample size (± 30%, CAR+T cells/kg)'
+0f2590ff6e308b22 NCT04129099 ['mint5', 'tac01'] | GC022F | old=['TARGET:CD19', 'TARGET:CD22'] new=[] | desc0='GC022F is the CAR-T cell immunotherapy targeted CD19 and CD22.'
+0f6079952bdea93e NCT06223646 ['mint5', 'tac01'] | KQ-2003 CAR T-cells | old=['TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='KQ-2003 CAR T-cell therapy involves autologous chimeric antigen receptor T-cells, capable of targeting both human B cell maturation antigen '
+0f6f5614420edcf9 NCT06940297 ['mint5'] | Ciltacabtagene Autoleucel | old=['TARGET:TNFRSF17'] new=[] | desc0='Given IV'
+0fa9c585ca491963 NCT04626726 ['mint5', 'tac01'] | CD19+CD22 CAR-T | old=['TARGET:CD19', 'TARGET:CD22'] new=[] | desc0='CD19+CD22 CAR-T infusion for patients with CD19 positive and CD22 positive tumor cells'
+0fb1788854993350 NCT04257175 ['mint5', 'tac01'] | CAR-T CD19 | old=['TARGET:CD19'] new=[] | desc0='The CAR-T infusion will be given in IV infusion.'
+0fb39e08e55a7be7 NCT07575971 ['mint5', 'tac01'] | CD22/CD19 Dual-Target CAR-T Cells | old=['TARGET:CD19', 'TARGET:CD22'] new=[] | desc0='Autologous CD22/CD19 dual-target chimeric antigen receptor T cells'
+10e7ff208f1c900e NCT06508775 ['mint5', 'tac01'] | MB-CART19.1 | old=['TARGET:CD19', 'TARGET:MB'] new=['TARGET:CD19'] | desc0='Assessment of long-term safety and efficacy of MB-CART19.1 treatment.'
+11fea075ae243fe0 NCT02208362 ['mint5', 'tac01'] | Arm 3: IL13Ra2-specific CAR Tcm cells | old=[] new=['TARGET:IL13RA2'] | desc0='Given via intraventricular catheter'
+1248dfbad0fc0ad9 NCT03895944 ['mint5', 'tac01'] | ET190L1-ARTEMIS™ T cells -iv middle dose | old=['TARGET:CD19', 'TARGET:DCLRE1C'] new=['TARGET:CD19'] | desc0='Autologous T cells transduced with lentivirus encoding an anti-CD19 (ET190L1) -ARTEMIS™ expression construct, 3x10\\^6'
+12dc217190b46196 NCT01318317 ['mint5', 'tac01'] | Genetically Engineered Lymphocyte Therapy | old=['TARGET:CD19', 'TARGET:CD8A'] new=['TARGET:CD19'] | desc0='Receive ex vivo expanded autologous TCM-enriched CD8+ T cells expressing CD19-specific CAR'
+135bd0b03b05a3c1 NCT03805399 ['mint5', 'tac01'] | AR inhibitor combined with everolimus(B1) or CDK4/ | old=['TARGET:CDK4', 'TARGET:EZH2'] new=[] | desc0='B1: if patients were LAR subtype without HER2 gene activated mutation, but had PI3KCA mutation, she would receive everolimus 10mg qd combine'
+13caafd17dad6a06 NCT04166838 ['mint5', 'tac01'] | CD19 UCARTcells | old=['TARGET:CARTPT'] new=[] | desc0='This study did not set up a control group.'
+14b5e08e96517cde NCT05308875 ['mint5'] | PD1-BCMA-CART | old=['TARGET:TNFRSF17'] new=[] | desc0='Single infusion of PD1-BCMA-CART administered intravenously (i.v.)'
+14f27a83de1ad1df NCT06794008 ['mint5', 'tac01'] | BCMA-CD19 CAR-T therapy | old=['TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='Patients received the BCMA-CD19-targeted CAR-T cells with a dosage of 3×10\\^6/kg CAR-T cells per kilogram.'
+15adb319560c2c06 NCT06420154 ['mint5', 'tac01'] | anti-CD19-CAR-T cells | old=['TARGET:CD19'] new=[] | desc0='The subjects received infusions of anti-CD19 CAR-T cells following completion of lymphodepleting preconditioning chemotherapy.'
+15ea320cc2a5a87f NCT06569472 ['mint5', 'tac01'] | CD19-targetd CAR-T | old=['TARGET:CD19'] new=[] | desc0='Subjects underwent lymphocyte clearance chemotherapy and then received a single intravenous cell infusion'
+16b1bab1720fc970 NCT07569757 ['mint5'] | TQB2934 injection | old=['TARGET:TNFRSF17'] new=[] | desc0='TQB2934 injection is a bispecific antibody targeting B-cell maturation antigen (BCMA) and Cluster of Differentiation 3 (CD3).'
+16d0f8fb6df0fce3 NCT05410041 ['mint5', 'tac01'] | CAR-NK-CD19 Cells | old=['TARGET:CD19'] new=[] | desc0='CAR-NK-CD19 Cells, 1-3×10\\^7 /KG, treatment follows a lymphodepletion.'
+16f026e88cd2e84f NCT07108868 ['mint5', 'tac01'] | CAR-T cells targeting CD19 and CD22 | old=['TARGET:CD19', 'TARGET:CD22'] new=[] | desc0='Using the 3+3 design, the following dose levels will be assessed:'
+172bde01dfa5419c NCT03739814 ['mint5', 'tac01'] | Blinatumomab | old=['TARGET:AMELX', 'TARGET:CD19'] new=['TARGET:CD19'] | desc0='Given IV'
+17693a95491d5519 NCT03752541 ['mint5'] | BCMA-UCART | old=['TARGET:CARTPT'] new=[] | desc0='A conditioning therapy with cyclophosphamide and fludarabine will be conducted for subjects before CART therapy.'
+17a72e37280d23a7 NCT05797233 ['mint5', 'tac01'] | Anti-CD19 and anti-CD20 bicistronic CAR T- cells | old=['TARGET:CD19'] new=[] | desc0='0.66x10\\^6 CAR+ T - 10x10\\^6 CAR+ T cells/kg (weight based dosing per cohort) infused on day 0'
+17c43ada92594c07 NCT07454226 ['mint5', 'tac01'] | Gecacitinib | old=['TARGET:JAK1'] new=[] | desc0='JAK1/2 inhibitor targeting JAK pathway alterations.'
+18d7386d0c282ab8 NCT06633042 ['mint5', 'tac01'] | Universal BCMA-CD19 CART | old=['TARGET:BRD1', 'TARGET:CARTPT', 'TARGET:CD19', 'TARGET:TNFRSF17'] new=['TARGET:CD19', 'TARGET:TNFRSF17'] | desc0='1.0-4.0×10\\^6 CAR-T cells/kg'
+1906846ba5bee97e NCT05000216 ['mint5', 'tac01'] | Continue IS (B cell depletion therapy) | old=['TARGET:CD19', 'TARGET:TNFSF13B'] new=[] | desc0='Participants will continue to take their prescribed immunosuppressive (IS) medications without alterations in schedule and dosing.'
+192c503de0b095a3 NCT06732232 ['mint5', 'tac01'] | CD19/CD20/BCMA CAR-T | old=['TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='CD19/CD20/BCMA CAR T therapy'
+19f2a67f1a79063a NCT02146924 ['mint5', 'tac01'] | CD19CAR-CD28-CD3zeta-EGFRt-expressing Tcm-enriched | old=['TARGET:CD19', 'TARGET:EGFR'] new=['TARGET:CD19'] | desc0='Given IV'
+1a5cf5cfe21906bc NCT04626739 ['mint5', 'tac01'] | CD19+CD22 CAR-T | old=['TARGET:CD19', 'TARGET:CD22'] new=[] | desc0='CD19+CD22 CAR-T for CD19 positive and CD22 positive R/R non-Hodgkin lymphoma'
+1a7be6fc68eac68f NCT03579888 ['mint5', 'tac01'] | Autologous CD19-CD8-CD28-CD3zeta-CAR-mbIL15-HER1t  | old=['TARGET:CD19', 'TARGET:CD28', 'TARGET:CD8A'] new=['TARGET:CD19', 'TARGET:CD247', 'TARGET:CD28', 'TARGET:CD8A'] | desc0='Given IV'
+1adb4c1dfed74e7e NCT06387121 ['mint5', 'tac01'] | 6-mercaptopurine | old=['TARGET:PPP1CB'] new=[] | desc0='Cell cycle-specific antitumor drug'
+1af4839341044840 NCT04530565 ['mint5', 'tac01'] | Blinatumomab | old=['TARGET:AMELX', 'TARGET:CD19'] new=['TARGET:CD19'] | desc0='Given IV'
+1b15ef59d0c26a8d NCT02846584 ['mint5', 'tac01'] | CD19 or CD20 CAR T cells briging HSCT | old=['TARGET:CD19'] new=[] | desc0='Patients will receive a one-week regimen of chemotherapy consisting of fluid arabise and cyclophosphamide aimed to deplete the lymphocytes.'
+1c60e3601dd91072 NCT06421675 ['mint5'] | Elranatamab injection | old=['TARGET:TNFRSF17'] new=[] | desc0='Elranatamab (Elrexfio) is a humanized bispecific antibody that targets both BCMA-expressing multiple myeloma (MM) cells and CD3-expressing T'
+1c6f0a8077238a6e NCT04833504 ['mint5', 'tac01'] | CD19 CAR-T Expressing IL7 and CCL19 | old=['TARGET:CCL19', 'TARGET:CD19', 'TARGET:IL7'] new=['TARGET:CD19'] | desc0='A fourth generation CD19 targeting CAR-T expressing IL7 and CCL19'
+1dd454bca4f79803 NCT02997761 ['mint5', 'tac01'] | Ibrutinib | old=['TARGET:BTK', 'TARGET:PRB4', 'TARGET:SERPINA5'] new=[] | desc0='Given PO'
+1e4f473ca8f8c30a NCT05765006 ['mint5', 'tac01'] | Relma-cel | old=['TARGET:CD19'] new=[] | desc0='CD19-targeted Chimeric AntigenReceptor (CAR) T Cells'
+1eb887d041bb62f5 NCT07388212 ['mint5', 'tac01'] | CD19/BCMA in vivo CAR-T | old=['TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='CD19/BCMA in vivo CAR-T based on LNP-mRNA'
+1ebd2423e90f273e NCT04795882 ['mint5', 'tac01'] | BCMA/CD19 CAR T cells | old=['TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='Infusion with ATIMP: BCMA/CD19 CAR T-cells'
+1f0f2bee00f27108 NCT07626476 ['mint5'] | Targeted BCMA Autologous CART Cell Injection | old=['TARGET:CARTPT', 'TARGET:TNFRSF17'] new=['TARGET:TNFRSF17'] | desc0='Anti-BCMA chimeric antigen receptor autologous T cells are a BCMA-targeted, gene-modified autologous T-cell (CAR-T cell) immunotherapy deriv'
+1fcb082a3ddea3ab NCT07564154 ['mint5', 'tac01'] | KT502 | old=['TARGET:CD19'] new=[] | desc0='KT502 is a monoclonal antibody that depletes B cells by targeting CD19 and CD3'
+1fd696626914a95d NCT06735690 ['mint5', 'tac01'] | Anti-CD19-CAR CMV-specific T-lymphocytes | old=['TARGET:CD19'] new=[] | desc0='Given IV'
+201269d14d0c6149 NCT06759181 ['mint5'] | anti-BCMA/FcRL5 CAR T | old=['TARGET:TNFRSF17'] new=['TARGET:FCRL5', 'TARGET:TNFRSF17'] | desc0='anti-BCMA/FcRL5 autologous CAR T cells will be infused at a dose ranging from 1 - 2 x 10\\^6/kg CAR+ T cells after receiving lymphodepleting '
+2094f20453a532f3 NCT03196414 ['mint5', 'tac01'] | CART-138/BCMA/19/more | old=['TARGET:CARTPT', 'TARGET:CD19', 'TARGET:SDC1', 'TARGET:TNFRSF17'] new=[] | desc0='Cyclophosphamide，Fludarabine，CART-138/BCMA /19/more cells Cyclophosphamide: 300 mg/m2 IV over 30 minutes on days -5 , -4,and -3'
+21e296f583fe6612 NCT06947460 ['mint5', 'tac01'] | CD19-BCMA CAR-T cells infusion | old=['TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='Approximately 3-5 days prior to CD19-BCMA CAR-T cell infusion, subjects are treated with FC regimen (fludarabine and cyclophosphamide) for l'
+2213db6846a87a65 NCT06983951 ['mint5'] | BCMA CART | old=['TARGET:CARTPT', 'TARGET:TNFRSF17'] new=['TARGET:TNFRSF17'] | desc0='The cell product used in this study is a targeted BCMA autologous CART cell injection.'
+2248f37720c8033c NCT03774654 ['mint5', 'tac01'] | CD19.CAR-aNKT cells | old=['TARGET:CD19'] new=[] | desc0='Patients will be given the T-cell product by intravenous injection (into the vein through an IV line) at the assigned dose..'
+226d1f4c8f400b57 NCT07109323 ['mint5'] | BCMA CART | old=['TARGET:CARTPT', 'TARGET:TNFRSF17'] new=['TARGET:TNFRSF17'] | desc0='Bcma-cart was reinfused at a dose of 1.0-2.0 × 10 \\^ 6 / kg on day +3 (± 1 day) after autologous hematopoietic stem cell reinfusion.'
+24af22cd653b5576 NCT03269136 ['mint5'] | PF-06863135 + dexamethasone | old=['TARGET:TNFRSF17'] new=[] | desc0='PF-06863135 will be administered intravenously or subcutaneously and dexamethasone orally.'
+256faa13f5d0cecb NCT07643103 ['mint5', 'tac01'] | Venetoclax | old=['TARGET:BCL2'] new=[] | desc0='BCL-2 inhibitor administered orally daily during induction and consolidation cycles to enhance leukemic cell apoptosis.'
+2591a95d3d0855d4 NCT06691152 ['mint5', 'tac01'] | CD19 Universal CAR-T cells | old=['TARGET:CD19'] new=[] | desc0='Three dose groups (1×10\\^7/kg, 3×10\\^7/kg, 6×10\\^7/kg) were set up, starting from the low dose group climbing to explore the safe and effect'
+25bbcb01f12cb530 NCT07343934 ['mint5', 'tac01'] | huCART19-IL18-eDHFR cells | old=['TARGET:CD19'] new=[] | desc0='Genetically modified autologous T cells engineered by co-transduction with two lentiviral vectors'
+25e8cb9e7752b822 NCT03207178 ['mint5', 'tac01'] | Mixed CD19/CD20 CAR-T Transfer | old=['TARGET:CD19'] new=[] | desc0='Autologous CD19 CAR-T cells and CD20 CAR-T cells with average 1-5\\*10\\^6 cells/kg body weight,separately.'
+2729800672ecdafd NCT04714827 ['mint5', 'tac01'] | KQ-2003 CAR-T cells | old=['TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='A autologous doping CAR - T cells injection targets with CD19 and BCMA，fluorine dara marina injection(30 mg/m2，QD×3d) and cyclophosphamide i'
+289f2af502a8bf10 NCT02143414 ['mint5', 'tac01'] | Blinatumomab | old=['TARGET:AMELX', 'TARGET:CD19'] new=['TARGET:CD19'] | desc0='Given IV'
+29133bd18d7491f1 NCT05141253 ['mint5', 'tac01'] | RD133 | old=['TARGET:CD19', 'TARGET:MSLN'] new=['TARGET:MSLN'] | desc0='The enhanced MSLN-CAR-T cell design of this study is obtained by co-infecting T cells with two lentiviral vectors.'
+299a08d07bb899f7 NCT05740891 ['mint5'] | BCMA CAR-T cells injection | old=['TARGET:TNFRSF17'] new=[] | desc0='Autologous hematopoietic stem cell transplantation combined with BCMA CAR-T cells'
+2a342474d315ad25 NCT06868667 ['mint5'] | Belantamab mafodotin | old=['TARGET:TNFRSF17'] new=[] | desc0='Humanized anti-B-cell maturation antigen (BCMA) antibody/drug conjugate.'
+2a8de780e0add56a NCT05037669 ['mint5', 'tac01'] | PACE CART19 | old=['TARGET:CD19', 'TARGET:FURIN'] new=[] | desc0='PACE CART19 cells are allogeneic T cells transduced with a lentiviral vector to express an anti-CD19 scFv TCRz:41BB and electroporated to te'
+2aebe43fc142de73 NCT07203404 ['mint5', 'tac01'] | RD06-05 CART Cell Injection | old=['TARGET:CARTPT'] new=[] | desc0='CAR T-cell therapy administered intravenously after a lymphodepleting therapy regimen consisting of fludarabine and cyclophosphamide'
+2b03a498beb122d8 NCT07184450 ['mint5'] | BCMA/CD70-targetd CAR-T | old=['TARGET:CD70', 'TARGET:TNFRSF17'] new=[] | desc0='Subjects underwent lymphocytetion cheotherapy and then received a single intravenous cell infusion'
+2b276bf8315abb8a NCT07701889 ['mint5', 'tac01'] | 20-19 Tan BB06oz CAR T | old=['TARGET:CD19'] new=[] | desc0='This investigational product is a genetically modified chimeric antigen receptor t-cell product expressing a biospecific anti CD19/CD20 and '
+2b5eb62cf60e8bcd NCT07544160 ['mint5', 'tac01'] | ICG318, BCMA-CD19-IL-15/IL-15 sushi Compound CAR T | old=['TARGET:CD19', 'TARGET:IL15', 'TARGET:TNFRSF17'] new=['TARGET:CD19', 'TARGET:TNFRSF17'] | desc0='Anti-BCMA, Anti-CD19 Compound CAR-T cells'
+2b8407c4dae07a0d NCT07779018 ['mint5', 'tac01'] | CD22/CD19 CAR-T cell immunotherapy | old=['TARGET:CD19', 'TARGET:CD22'] new=[] | desc0='Patients who achieved complete response (CR) after standard second-line chemotherapy will receive CD19/CD22 CAR-T cell immunotherapy as cons'
+2bc8b76949a895a7 NCT07407010 ['mint5'] | CM336 (BCMA/CD3 bispecific antibody) | old=['TARGET:TNFRSF17'] new=[] | desc0='CM336 is a BCMA × CD3 bispecific antibody.'
+2bf16f1c0625c20b NCT07735637 ['mint5', 'tac01'] | AZD0120 | old=['TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='Arm A: AZD0120 - autologous BCMA/CD19 dual-targeting CAR-T cells.'
+2c39c21bd3ed7422 NCT03602612 ['mint5'] | Anti-B Cell Maturation Antigen (BCMA) chimeric ant | old=['TARGET:TNFRSF17'] new=[] | desc0='0.75x10\\^6 - 12.0X10\\^6 CAR+ T cells per kg of recipient bodyweight one time dose on day 0'
+2cc30b9a84deaea5 NCT03103971 ['mint5', 'tac01'] | Autologous Human Anti-CD19CAR-4-1BB-CD3zeta-EGFRt- | old=['TARGET:CD19', 'TARGET:CD4', 'TARGET:CD8A'] new=[] | desc0='Given IV'
+2d1cfdbd13ead802 NCT04146051 ['mint5'] | Descartes-08 | old=['TARGET:TNFRSF17'] new=[] | desc0='Autogolous T-cells expressing a chimeric antigen receptor directed to BCMA'
+2d5fa7853d437f73 NCT06676982 ['mint5', 'tac01'] | anti-CD19 CAR-T | old=['TARGET:CD19'] new=[] | desc0='All subjects were intravenous administrated with CNCT19 CAR-T.'
+2db393f7b68276c3 NCT07558850 ['mint5', 'tac01'] | anti-CD19/BCMA-UCAR-T cells | old=['TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='Patients will receive Fludarabine and Cyclophosphamide on day-5, -4, and -3.'
+2dfc56d0d9d4163c NCT07072247 ['mint5', 'tac01'] | CD19 and BCMA-targeted allogeneic CAR-T cells | old=['TARGET:CD19', 'TARGET:TNFRSF17'] new=['TARGET:TNFRSF17'] | desc0='Lymphodepletion chemotherapy followed by CD19 and BCMA-targeted allogeneic CAR-T cells infusion'
+2e3b5f6ea010ab6f NCT03767751 ['mint5'] | Dual Specificity CD38 and bcma CAR-T Cells | old=['TARGET:CD38', 'TARGET:TNFRSF17'] new=[] | desc0='1\\) Biological: Dual Specificity CD38 and BCMA CAR-T Cells,2)1-5X10E6/Kg'
+2e86f47b213f5788 NCT04649983 ['mint5', 'tac01'] | CD19 and CD22 targeted CAR-T cells | old=['TARGET:CD19', 'TARGET:CD22'] new=[] | desc0='A single infusion of CD19 and CD22 CAR-T cells will be administered intravenously'
+2eacb4aecc0b5ff4 NCT05836896 ['mint5'] | MDC-CAR-BCMA001 (BCMA directed CAR T-cells) | old=['TARGET:TNFRSF17'] new=[] | desc0='Single-dose intravenous infusion of MDC-CAR-BCMA001 at the respective dose level following a conditioning chemotherapy'
+2f551f0428cf7433 NCT03173430 ['mint5', 'tac01'] | Blinatumomab | old=['TARGET:CD19'] new=[] | desc0='Blinatumomab (Blincyto), an anti-CD19/anti-CD3 bi-specific T cell engager'
+2f95451ded34da50 NCT06447987 ['mint5', 'tac01'] | Cetuximab | old=['TARGET:EGFR', 'TARGET:KL'] new=['TARGET:EGFR'] | desc0='Given IV'
+2fec94acd741c198 NCT07024147 ['mint5', 'tac01'] | JWCAR239 | old=['TARGET:CD19'] new=[] | desc0='A single infusion of chimeric antigen receptor (CAR)-transduced autologous T cells targeting CD19/CD20'
+3173be13a918a8a9 NCT07506668 ['mint5', 'tac01'] | RN1701 injection | old=['TARGET:CD19'] new=[] | desc0='RN1701 injection is a bispecific CD19/CD20-targeted allogeneic CAR-T.'
+32bcbf2d0f844ba0 NCT05453669 ['mint5', 'tac01'] | CD19-CAR-DNT cells | old=['TARGET:CD19', 'TARGET:NT5C'] new=['TARGET:CD19'] | desc0='Lentiviral vector-transducted DNT cells to express anti-CD19 CAR.'
+332385bbb9f5a28a NCT04960579 ['mint5'] | P-BCMA-ALLO1 CAR-T cells | old=['TARGET:TNFRSF17'] new=[] | desc0='Allogeneic BCMA-targeted chimeric antigen receptor (CAR) T-cell therapy'
+3334747b62c8590b NCT03768310 ['mint5', 'tac01'] | CD19.CAR-multiVST for Group B | old=['TARGET:CD19'] new=[] | desc0='Patients will be evaluated in the clinic and a single dose of CD19.CAR-multiVSTs will be given by intravenous injection on or after 30 days '
+33775e7d18126156 NCT06173518 ['mint5', 'tac01'] | AUTO1 | old=['TARGET:CD19'] new=[] | desc0='Following lymphodepletion with chemotherapy (cyclophosphamide and fludarabine) patients will be treated with anti-CD19 chimeric antigen rece'
+339d5d4d55ed823e NCT07339540 ['mint5'] | V001-BCMA | old=['TARGET:TNFRSF17'] new=[] | desc0='Targeted BCMA In-vivo LV Injection (Code: V001-BCMA) is a third-generation non-replicating self-inactivating lentiviral vector.'
+33af3adb9eddb09f NCT07586267 ['mint5', 'tac01'] | QT-219CX | old=['TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='A universal allogeneic CAR-T cell product targeting both CD19 and BCMA'
+33c7f5bb38ff645c NCT06971380 ['mint5'] | HBI0101 CART | old=['TARGET:CARTPT', 'TARGET:TNFRSF17'] new=[] | desc0='HBI0101 CART is defined as autologous T cells transduced ex-vivo with anti-BCMA CAR retroviral vector encoding the chimeric antigen receptor'
+3438d6392f2e6277 NCT04184414 ['mint5', 'tac01'] | CD19-CART | old=['TARGET:CARTPT', 'TARGET:CD19'] new=['TARGET:CD19'] | desc0='1-10x106 / kg CD19 CART cells'
+35624384b3b34f49 NCT07070960 ['mint5'] | CAR-T | old=['TARGET:TNFRSF17'] new=[] | desc0='The T cells are genetically modified to express a chimeric antigen receptor targeting BCMA and are infused after induction therapy at a targ'
+3591071ca91180d7 NCT07788118 ['mint5', 'tac01'] | 7×19-THEMIS CAR-T cells | old=['TARGET:CCL19', 'TARGET:CD19', 'TARGET:IL7', 'TARGET:THEMIS'] new=['TARGET:CD19'] | desc0='IL7 and CCL19 Armed anti-CD19 CAR-T with coexpressing Themis'
+35fa9a2b51992591 NCT05943496 ['mint5', 'tac01'] | Acalabrutinib | old=['TARGET:NDUFAB1'] new=[] | desc0='Given PO'
+361fecc604a67a81 NCT02906371 ['mint5', 'tac01'] | CART 19 | old=['TARGET:CARTPT', 'TARGET:CD19'] new=[] | desc0='CART-19 cells transduced with a lentiviral vector to express either anti-CD19ζ scFv TCRζ:41BB, administered by i.v.'
+36299b354e6742ed NCT05744037 ['mint5', 'tac01'] | regimen with BTK inhibitor +Anti-CD19 CAR T cells | old=['TARGET:BTK', 'TARGET:CD19'] new=[] | desc0='After FC regimen (fludarabine (25mg/m2/d) on days -5 to -3 and cyclophosphamide (750mg/m2) on days -5) were pretreated, Anti-CD19 CAR T cell'
+36378213a8c9fc90 NCT06552572 ['mint5', 'tac01'] | Glofitamab | old=['TARGET:CD19'] new=[] | desc0='Glofitamab is administered to patients who have residual disease after CD19 CAR T-cell therapy for their relapsed or refractory diffuse larg'
+3657fedda04b9534 NCT06707259 ['mint5', 'tac01'] | anti-CD19 IL10/IL15 CAR-NK | old=['TARGET:CD19', 'TARGET:IL10', 'TARGET:IL15'] new=[] | desc0='Lentiviral vector-transducted cord blood-derived NK cells to express anti-CD19-IL10/IL-15 CAR'
+366df0ed4120a9df NCT06574568 ['mint5'] | YKST02 | old=['TARGET:TNFRSF17'] new=[] | desc0='BCMA-CD3 bispecific antibody'
+36bb49f742898e61 NCT07432334 ['mint5', 'tac01'] | Autologous CD19-Targeted CAR-T Cells | old=['TARGET:CD19'] new=[] | desc0="Autologous chimeric antigen receptor T cells targeting CD19, manufactured from participants' peripheral blood T cells collected by leukapher"
+374e9e86d0940dc8 NCT03086954 ['mint5', 'tac01'] | The Chimeric Antigen Receptor T Cell Immunotherapy | old=['TARGET:CD19'] new=[] | desc0='This study have only one arm that is CAR-T experimental arm.'
+389660c505eb0d31 NCT03288493 ['mint5'] | P-BCMA-101 CAR-T cells | old=['TARGET:TNFRSF17'] new=[] | desc0='P-BCMA-101 is an autologous, principally Tscm, CAR-T cell product (also called called a CARTyrin T cell product) targeting the myeloma selec'
+39043aba9b9e3331 NCT03672253 ['mint5'] | CAR-T Re-treatment | old=['TARGET:TNFRSF17'] new=[] | desc0='Patients will undergo leukapheresis to isolate peripheral blood mononuclear cells (PBMCs) or use their mononuclear cells that preserved in t'
+3919b00608d694b9 NCT03407859 ['mint5', 'tac01'] | Sequential Treatment With different CART | old=['TARGET:CARTPT', 'TARGET:CD19', 'TARGET:CD22', 'TARGET:MME'] new=[] | desc0='Sequential Treatment With CD20/CD22/CD10-CART After CD19-CART Treatment in Relapsed/Refractory B-ALL'
+398a2ca923b5681c NCT06987916 ['mint5', 'tac01'] | ssCART-19 | old=['TARGET:CD19', 'TARGET:IL6'] new=['TARGET:CD19'] | desc0='autologous T cells transduced with a lentiviral vector containing anti-CD19 CAR and small hairpin RNA to silence the IL-6 gene'
+3a15718160eed405 NCT03383952 ['mint5', 'tac01'] | ICAR19 CAR-T cells | old=['TARGET:CARTPT', 'TARGET:CD19'] new=[] | desc0='T cells were isolated from peripheral blood from patients enrolled.'
+3a1a55c8d1313643 NCT07321301 ['mint5', 'tac01'] | Polymer-Lipid Nanoparticle-Mediated Delivery of CD | old=['TARGET:CD19'] new=[] | desc0='Polymer-Lipid Nanoparticle-Mediated Delivery of CD19/CD20 Dual-Targeting InViVoCAR1920 mRNA for CAR-T Cell Immunotherapy in the Treatment of'
+3aa6dc1aa4c3eeb9 NCT07548697 ['mint5', 'tac01'] | CT1182 injection | old=['TARGET:CD19'] new=[] | desc0='CT1182 injection is an in vivo car-t product (CT1182) independently developed by carsgen company based on carvivo ™ platform, which simultan'
+3ab9b1567bf76179 NCT04638270 ['mint5', 'tac01'] | anti-CD19 FasT CAR-T cells | old=['TARGET:CD19'] new=[] | desc0='Treatment follows a lymphodepletion, chemotherapy regimen that consists of Fludarabine (30 mg/m2 per day) and Cyclophosphamide (500mg/m2 per'
+3adc9e7c226180c7 NCT06215118 ['mint5'] | Elranatamab | old=['TARGET:TNFRSF17'] new=[] | desc0='BCMA-CD3 bispecific antibody'
+3aee079bf528024f NCT07523555 ['mint5', 'tac01'] | Autologous CD19/CD22 dual-target CAR-T module | old=['TARGET:CD19', 'TARGET:CD22'] new=[] | desc0='Biological: Autologous CD19/CD22 dual-target CAR-T module after lymphodepletion with fludarabine/cyclophosphamide.'
+3b1b49c4e7e2cb43 NCT05976555 ['mint5'] | BCMA-TGFβ CAR-T cells (2.5 x 10^6 cells/kg) | old=['TARGET:TNFRSF17'] new=[] | desc0='This is dose level 3.'
+3b43d379869fe9be NCT02892695 ['mint5', 'tac01'] | anti-CD19 CAR-NK cells | old=['TARGET:CD19', 'TARGET:CD28'] new=['TARGET:CD19'] | desc0='The allogeneic NK cells (NK-92 cell line for clinical use) are engineered to contain anti-CD19 attached to TCRzeta, CD28 and 4-1BB signaling'
+3b4f202a17d03b6e NCT05020392 ['mint5', 'tac01'] | BTK inhibitor+ Fludarabine-based chemotherapy + CA | old=['TARGET:BTK', 'TARGET:CD19'] new=[] | desc0='BTK inhibitor from enrollment to more than 90 days after CAR-T-CD19 infusion.'
+3b8dbd705af79708 NCT05281809 ['mint5', 'tac01'] | Chimeric Antigen Receptor (CAR) T-Cell Product (Au | old=['TARGET:CD19'] new=[] | desc0='This protocol describes the use of an automated cell processor and culture system, the CliniMACS Prodigy device sold by Miltenyi Biotec, for'
+3c4d24ddff074848 NCT03232619 ['mint5', 'tac01'] | CD19 CART | old=['TARGET:CARTPT', 'TARGET:CD19'] new=['TARGET:CD19'] | desc0='Patients will get one course of CART treatment with the dose of 0.5-5\\*10\\~6/KgBW.'
+3d9e3e0ce74b34a6 NCT04236011 ['mint5', 'tac01'] | GC012F injection | old=['TARGET:CARTPT', 'TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='GC012F injection is a autologous dual CAR-T targeted BCMA and CD19.'
+3f74ca4479ffd567 NCT05149391 ['mint5', 'tac01'] | CD19/CD20-directed Chimeric Antigen Receptor T Cel | old=['TARGET:CD19'] new=[] | desc0='Autologous 2nd generation CD19/CD20-directed Chimeric Antigen Receptor T Cells, single infusion intravenously'
+40e140b3f233bed8 NCT04336501 ['mint5', 'tac01'] | IM19 CAR-T | old=['TARGET:CD19'] new=[] | desc0='All patients will be treated with fludarabine and cyclophosphamide for 3 days,then,CAR-T cells expressing CD19 CAR will be infused 24-96 hou'
+4104ed683d873492 NCT03144583 ['mint5', 'tac01'] | Adult differentiated autologous T-cells | old=['TARGET:CD19'] new=[] | desc0='After pretreatment, adult differentiated autologous T-cells with a chimeric antigen receptor with anti-CD19 specificity will be transfused.'
+41926ae986f6f00d NCT07765966 ['mint5', 'tac01'] | RXIM002 | old=['TARGET:CD19'] new=[] | desc0='Targeted lipid nanoparticle (tLNP)-delivered circular ribonucleic acid (circRNA) encoding an anti-human CD19 chimeric antigen receptor (CAR)'
+41a39880084f48d5 NCT04595162 ['mint5', 'tac01'] | GC019F | old=['TARGET:CD19'] new=[] | desc0='GC019F is the CAR-T cell immunotherapy targeted CD19.'
+4274e3af84f26bd1 NCT03564977 ['mint5', 'tac01'] | CD19-targeted CAR-T cells | old=['TARGET:CD19'] new=[] | desc0='MDR+ patients after autologous stem cell transplantation were treated with CD19-targeted CAR-T cells.'
+42d5ae551016c9b1 NCT06239116 ['mint5', 'tac01'] | Part A: RM-718 or placebo (matched to specific RM- | old=['TARGET:AMACR'] new=[] | desc0='Single ascending dose of RM-718 or placebo (matched to specific RM-718 Part A dose cohort)'
+436311121e790a50 NCT07229144 ['mint5'] | OM336 | old=['TARGET:TNFRSF17'] new=[] | desc0='OM336 is an engineered bispecific antibody directed against BCMA and CD3'
+446131595a7dae4a NCT04697290 ['mint5', 'tac01'] | CD19/CD20 Dual-CAR-T cells | old=['TARGET:CD19'] new=[] | desc0='CD19/CD20 Dual-CAR-T cells are prepared via lentiviral infection.'
+446d4527c3b44d5f NCT07250269 ['mint5', 'tac01'] | GC012F Injection | old=['TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='The investigational agent, GC012F, is an autologous BCMA/CD19 dual directed CAR product under investigation for the treatment of patients wi'
+448e12144002279e NCT07622862 ['mint5'] | Allogeneic, off-the-shelf CAR-T cell injection tar | old=['TARGET:GPRC5D', 'TARGET:TNFRSF17'] new=[] | desc0='Patients received fludarabine and cyclophosphamide lymphodepleting preconditioning for three consecutive days-from day -5 (D-5) to day -3 (D'
+44d576b37a73a830 NCT06567080 ['mint5', 'tac01'] | JWCAR201 | old=['TARGET:CD19'] new=[] | desc0='JWCAR201 is a autologous CAR-T targeting CD19/CD20'
+45d51cf95d551146 NCT06503224 ['mint5', 'tac01'] | Anti-BCMA and CD19 CART cells will be injected int | old=['TARGET:CARTPT', 'TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='A single intravenous infusion of anti-BCMA and CD19 CART cells (dose-escalating infusion of 0.5-3 x10\\^6 CART cells/kg）.'
+4602b4f81896cd64 NCT07709715 ['mint5'] | NXC-201 | old=['TARGET:TNFRSF17'] new=[] | desc0='NXC-201 CAR-T is defined as autologous T cells transduced ex-vivo with anti-BCMA CAR retroviral vector encoding a proprietary chimeric antig'
+469eedd93c93402c NCT04850560 ['mint5', 'tac01'] | CD19 PD-1/CD28 CAR-T Plus Low Dose Decitabine | old=['TARGET:CD19', 'TARGET:CD28'] new=[] | desc0='CD19 PD-1/CD28 CAR-T Plus Low Dose Decitabine'
+4777010129da8fac NCT07451236 ['mint5', 'tac01'] | CD19-BCMA dual nanobody based CAR-T Cells | old=['TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='Desensitization'
+478d8499a6fd7b3d NCT05000450 ['mint5'] | ALLO-605 | old=['TARGET:CD52', 'TARGET:TNFRSF17'] new=['TARGET:TNFRSF17'] | desc0='ALLO-605 is an anti-BCMA, TRAC/CD52 allogeneic edited, intracellular cytokine signaling containing, CAR T cell product'
+4a0d0aa001dbee18 NCT04486872 ['mint5', 'tac01'] | Autologous humanized anti-CD19 and anti-CD20 dual  | old=['TARGET:CD19'] new=[] | desc0='Autologous Humanized Anti-CD19 and Anti-CD20 Dual Specific CAR-T Cells injection.'
+4a159b8afcd6574e NCT06503237 ['mint5', 'tac01'] | Anti-CD19 CART cells will be given IV at split dos | old=['TARGET:CARTPT', 'TARGET:CD19'] new=['TARGET:CD19'] | desc0='Split intravenous infusion of Anti-CD19 CART cells of (Dose escalating infusion of 1 - 6 x10\\^6 CART cells/kg).'
+4ad8ee54db1e4356 NCT07266116 ['mint5'] | TQB2934 injection | old=['TARGET:TNFRSF17'] new=[] | desc0='TQB2934 for injection is a bispecific antibody targeting B-cell maturation antigen (BCMA) and Cluster of Differentiation 3 (CD3).'
+4af77ad2cf12d468 NCT05633615 ['mint5', 'tac01'] | Lisocabtagene Maraleucel | old=['TARGET:CD19', 'TARGET:CD4', 'TARGET:CD8A'] new=[] | desc0='Given IV'
+4c1743a24de83696 NCT05625594 ['mint5', 'tac01'] | CD19CAR-CD28-CD3zeta-EGFRt-expressing Tn/mem T-lym | old=['TARGET:CD19', 'TARGET:EGFR'] new=['TARGET:CD19'] | desc0='Given ICV'
+4cd680ec5d073434 NCT07622784 ['mint5', 'tac01'] | Pirtobrutinib | old=['TARGET:CD19'] new=[] | desc0='Pirtobrutinib will be administered orally at a dose of 200 mg once daily for 6 months, beginning on Day 30 after commercial anti-CD19 CAR-T '
+4ce927aa908a4067 NCT07586709 ['mint5'] | In vivo BCMA/GPRC5D Tandem Dual CAR-T cell | old=['TARGET:GPRC5D', 'TARGET:TNFRSF17'] new=[] | desc0='Administration of in vivo BCMA/GPRC5D tandem dual CAR-T cells.'
+4e2ab33544d30722 NCT07098364 ['mint5', 'tac01'] | Lisocabtagene Maraleucel | old=['TARGET:CD19', 'TARGET:CD4', 'TARGET:CD8A'] new=[] | desc0='Given IV'
+4ec8ec97105deb79 NCT06701201 ['mint5', 'tac01'] | SynKIR-310 | old=['TARGET:CD19'] new=[] | desc0='Autologous T Cells transduced with CD19 KIR-CAR'
+4f2d1f6c1f281d34 NCT06688435 ['mint5'] | SYS6020 injection | old=['TARGET:TNFRSF17'] new=[] | desc0='The SYS6020 is an injection of autologous CAR-T cells that have been temporarily transfected with LNP-mRNA targeting BCMA.'
+4f6daeaf71db8a0a NCT04314843 ['mint5', 'tac01'] | Lenzilumab | old=['TARGET:CSF2'] new=[] | desc0='Administered as an IV infusion'
+4fe960f638585334 NCT07383233 ['mint5', 'tac01'] | CD19/BAFF-R in vivo CAR-T cell intravenous infusio | old=['TARGET:CD19', 'TARGET:TNFRSF13C'] new=[] | desc0='CD19/BAFF-R in vivo CAR-T cell intravenous infusion'
+517b26448e94e64f NCT03959085 ['mint5', 'tac01'] | Blinatumomab | old=['TARGET:AMELX', 'TARGET:CD19'] new=['TARGET:CD19'] | desc0='Given IV'
+52289edfe280ee04 NCT07003555 ['mint5', 'tac01'] | Dual-targeting BCMA-CD19 CAR-T cell infusion | old=['TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='Approximately 3-5 days prior to BCMA-CD19 CAR-T cell infusion, subjects are treated with FC regimen (fludarabine and cyclophosphamide) for l'
+52b8eb2f4520a69e NCT05182073 ['mint5', 'tac01'] | FT576 (Allogenic CAR NK cells with BCMA expression | old=['TARGET:TNFRSF17'] new=[] | desc0='Experimental Interventional Therapy: FT576 comprises allogeneic natural killer (NK) cells, derived from a clonal, CD38-knockout, human-induc'
+5304e7f5b72311ee NCT06956170 ['mint5'] | Belantamab mafodotin | old=['TARGET:TNFRSF17'] new=[] | desc0='Humanized anti-B-cell maturation antigen (BCMA) antibody/drug conjugate will be administered.'
+53bce809f1a36057 NCT05325801 ['mint5'] | BMCA and GPRC5D dual target CAR-T cells(OriC321) | old=['TARGET:GPRC5D'] new=[] | desc0='Patients will receive lymphodepleting chemotherapy followed by a single infusion of OriC321'
+54921d94a4b8eccc NCT05801913 ['mint5', 'tac01'] | Anti-CD19-CAR CMV-specific T-lymphocytes | old=['TARGET:CD19'] new=[] | desc0='Given IV'
+54db24ff7e5bef7a NCT06251076 ['mint5'] | Teclistamab | old=['TARGET:CD38'] new=[] | desc0='Teclistamab is an antibody therapy (bispecific T-cell engager \\[BiTE\\]) that binds to two target proteins on different cells'
+550b5ca6559ca5df NCT07174843 ['mint5', 'tac01'] | CD19/CD22/BCMA CAR-T cells(BZE2204) | old=['TARGET:CD19', 'TARGET:CD22', 'TARGET:TNFRSF17'] new=[] | desc0='Subjects will undergo leukapheresis to isolate peripheral blood mononuclear cells (PBMCs) for the production of BZE2204 CAR T cells.'
+552f7bea6d879198 NCT05800977 ['mint5', 'tac01'] | Prizloncabtagene autoleucel | old=['TARGET:CD19'] new=[] | desc0='Prizlon-cel is a novel 2nd generation 4-1BB bispecific chimeric antigen receptor T-cell (CAR-T) targeting both CD19 and CD20 antigens'
+55344e55e8006ce2 NCT03271515 ['mint5', 'tac01'] | anti-CD19 anti-CD20 Bispecific CAR-T | old=['TARGET:CD19'] new=[] | desc0='patients accept transfusion of anti-CD19 anti-CD20 Bispecific CAR-T cells.'
+5536ccfd2c41555b NCT06698744 ['mint5'] | UF-KURE-BCMA CAR T-cells | old=['TARGET:TNFRSF17'] new=[] | desc0='Experimental anti-BCMA CAR T-cells manufactured with a proprietary ultrafast process.'
+5591a58e7339bbe8 NCT03142646 ['mint5', 'tac01'] | IM19 CAR-T | old=['TARGET:CD19'] new=[] | desc0='All patients will be treated with fludarabine and cyclophosphamide for 3 days,then,CAR-T cells expressing CD19 CAR will be infused 24-96 hou'
+55bfafea9e6c92b0 NCT07507201 ['mint5', 'tac01'] | UCAR T-cell | old=['TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='A universal allogeneic CAR-T cell product targeting both CD19 and BCMA'
+5672816e614123cd NCT03758417 ['mint5'] | LCAR-B38M CAR-T Cell | old=['TARGET:TNFRSF17'] new=[] | desc0='Participants will receive LCAR-B38M CAR-T cells as a single infusion which consists of autologous T lymphocytes transduced with LCAR-B38M, a'
+56b28c36cb350cc6 NCT03570892 ['mint5', 'tac01'] | Tisagenlecleucel after optional bridging and lymph | old=['TARGET:CD19'] new=[] | desc0="Investigator's choice of optional platinum-based immunochemotherapy (ie."
+576030d5a1b182ad NCT07564453 ['mint5', 'tac01'] | Hyper-CVAD | old=['TARGET:CD19'] new=[] | desc0='Alternating intensive consolidation chemotherapy:'
+581f8d2b5a34179f NCT06918912 ['mint5', 'tac01'] | Loncastuximab Tesirine (Anti-CD19 Antibody-Drug Co | old=['TARGET:CD19'] new=[] | desc0='Loncastuximab Tesirine is an antibody-drug conjugate specifically targeting CD19, a protein found on the surface of B-cells.'
+5853e435c1fb90c4 NCT05672173 ['mint5', 'tac01'] | Lisocabtagene Maraleucel | old=['TARGET:CD19', 'TARGET:CD4', 'TARGET:CD8A'] new=[] | desc0='Given IV'
+5898e6956405b78a NCT07133997 ['mint5', 'tac01'] | Blinatumomab | old=['TARGET:AMELX', 'TARGET:CD19'] new=['TARGET:CD19'] | desc0='Given CIV'
+591a5361b57e17e2 NCT04430530 ['mint5', 'tac01'] | Infusion of 4SCAR-T specific to CD22/CD123/CD38/ C | old=['TARGET:CD19', 'TARGET:CD22', 'TARGET:CD38', 'TARGET:IL3RA'] new=[] | desc0='Patients who have relapsed after anti-CD19 immunotherapy or have CD19 negative B cell malignancies'
+5932bd850498ab16 NCT05228470 ['mint5'] | Elranatamab | old=['TARGET:TNFRSF17'] new=[] | desc0='BCMA-CD3 bispecific antibody'
+595b80d8e030dcd2 NCT07169500 ['mint5'] | CAR-T | old=['TARGET:HLA-C'] new=[] | desc0='Chimeric antigen receptor T cells (car-t) are genetically engineered MHC independent tumor specific killer cells.'
+5a66966559de802d NCT05675449 ['mint5'] | Elranatamab | old=['TARGET:TNFRSF17'] new=[] | desc0='BCMA-CD3 bispecific antibody'
+5b756a5f32c8215c NCT04877080 ['mint5', 'tac01'] | Fast Dual CAR-T Injection | old=['TARGET:CARTPT', 'TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='Fast Dual CAR-T injection is a autologous dual CAR-T targeted CD19 and BCMA.'
+5b88a85245fc9d60 NCT07395479 ['mint5'] | V001-FcRH5 | old=[] new=['TARGET:FCRL5'] | desc0='An in vivo CAR-T drug targeting FcRH5 administered intravenously'
+5c95611f9322f933 NCT03881761 ['mint5', 'tac01'] | CD19/CD20 bispecific CAR-T cells | old=['TARGET:CD19'] new=[] | desc0='collecting blood for CAR-T cells culture three days later, FC regimen (fludarabine 30mg/m2/d x 3, cyclophosphamide 600-800mg/m2/d x 2) anoth'
+5cf94479327af15d NCT07274059 ['mint5', 'tac01'] | allogeneic umbilical cord blood-derived CAR-T targ | old=['TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='intravenous injection of allogeneic umbilical cord blood-derived CAR-T targeting CD19 and BCMA'
+5ed49232b1e906ec NCT07106736 ['mint5'] | GPRC5D/CD3 BiTEs | old=['TARGET:TNFRSF17'] new=[] | desc0='Patients will receive GPRC5D/CD3 BiTEs maintenance therapy at a dose of 54 μg/kg every 4 weeks, starting 3 months after BCMA CAR-T infusion.'
+5f367a7dd7fe18d5 NCT07830485 ['mint5'] | CM336 (BCMA/CD3 bispecific antibody) | old=['TARGET:TNFRSF17'] new=[] | desc0='CM336 is administered subcutaneously (SC) using a step-up dosing regimen of 3 mg on Day 1, 20 mg on Day 4, 80 mg on Day 7, and 160 mg on Day'
+5f5d43bc7c03493f NCT01408160 ['mint5', 'tac01'] | Deglycosylated Ricin A Chain-Conjugated Anti-CD19/ | old=['TARGET:CD19', 'TARGET:CD22'] new=[] | desc0='Given IV'
+6019114b6f58200a NCT07687004 ['mint5'] | CM336 (BCMA/CD3 bispecific antibody) | old=['TARGET:TNFRSF17'] new=[] | desc0='CM336 is a bispecific T-cell engager targeting B-cell maturation antigen (BCMA) and CD3.'
+605441ce151cf8c7 NCT04727008 ['mint5'] | CXCR4 modified anti-BCMA CAR T cells | old=['TARGET:CXCR4', 'TARGET:TNFRSF17'] new=['TARGET:TNFRSF17'] | desc0='intravenous infusion'
+612223b7c2d1b32f NCT04806035 ['mint5', 'tac01'] | TG-1801 | old=['TARGET:CD19', 'TARGET:CD47', 'TARGET:TG'] new=[] | desc0='It is a bispecific, first-in-class, CD47 and CD19 antibody'
+61331e5078244346 NCT02935543 ['mint5', 'tac01'] | CART 19 | old=['TARGET:CARTPT', 'TARGET:CD19'] new=['TARGET:CD19'] | desc0='CART19 cells transduced with a lentiviral vector to express anti-CD19 scFv TCRz:41BB administered by IV infusion.'
+61bf642e8f391c7b NCT02903810 ['mint5', 'tac01'] | Mixed CAR-T Transfer | old=['TARGET:CD19', 'TARGET:CD22'] new=[] | desc0='All subjects will be infused with αCD19-TCRz-41BB and αCD22-TCRz-41BB CAR-T cells in equal number'
+62c591b4583d3a98 NCT02208362 ['mint5', 'tac01'] | Arm 4: IL13Ra2-specific CAR Tcm cells | old=[] new=['TARGET:IL13RA2'] | desc0='Given via intratumoral or intracavitary, and via intraventricular catheter'
+63391c4da47b4b37 NCT05206071 ['mint5', 'tac01'] | CD19+22 CAR-T cells | old=['TARGET:CD19'] new=[] | desc0='Biological: CD19+22 CAR-T'
+635083dd9dbe9162 NCT03914625 ['mint5', 'tac01'] | Blinatumomab | old=['TARGET:AMELX', 'TARGET:CD19'] new=['TARGET:CD19'] | desc0='Given IV'
+63b527816b0a1485 NCT03056339 ['mint5', 'tac01'] | iC9/CAR.19/IL15-Transduced CB-NK Cells | old=['TARGET:IL15'] new=[] | desc0='Infusion of iC9/CAR.19/IL15-transduced CB-NK cells on Day 0 by vein.'
+63c0bff0d3565106 NCT07756268 ['mint5'] | SYS6020 injection | old=['TARGET:TNFRSF17'] new=[] | desc0='SYS6020 injection is an injection of autologous CAR-T cells that have been temporarily transfected with LNP-mRNA targeting BCMA.'
+6478eb3d36ed7070 NCT05015972 ['mint5', 'tac01'] | CTA30X UCAR-T injection | old=['TARGET:CARTPT', 'TARGET:CD19'] new=[] | desc0='CTA30X UCAR-T injection is an allogeneic CAR-Ttargeted CD19 .'
+64873be33146ecdd NCT04163302 ['mint5', 'tac01'] | CD19-PD1-CART Cell | old=['TARGET:CARTPT', 'TARGET:CD19'] new=[] | desc0='This study was a single-center, open-label, single-arm, non-randomized clinical trial, which has 3 groups by infusion dose level.'
+6538772ab456674b NCT01087294 ['mint5', 'tac01'] | Anti-CD19-chimeric-antigen-receptor-transduced T c | old=['TARGET:CD19'] new=[] | desc0='Patients receive T cells genetically engineered to express an anti-CD19 CAR.'
+655b40816354bf47 NCT03599375 ['mint5', 'tac01'] | CD19-targeted CART cells | old=['TARGET:CARTPT', 'TARGET:CD19'] new=['TARGET:CD19'] | desc0='CD19 CAR T cells was transduced with a lentiviral vector to express anti-CD19 scFv.This is a second generation CRAT.'
+65cdc6f2ec9bc03e NCT05014412 ['mint5'] | Elranatamab | old=['TARGET:TNFRSF17'] new=[] | desc0='BCMA-CD3 bispecific antibody'
+66af39dfc45dfbce NCT06704724 ['mint5', 'tac01'] | PF-07985045 | old=['TARGET:KRAS'] new=[] | desc0='KRAS inhibitor'
+66d2366e4409cf36 NCT05535855 ['mint5', 'tac01'] | CD19 Directed CAR T Cell | old=['TARGET:CD19'] new=[] | desc0='The UCD19 CAR T cells are developed through transfection of autologous peripheral blood mononuclear cells with a lentivirus carrying the DNA'
+6733c745b6174eda NCT07115654 ['mint5'] | CM336 (BCMA/CD3 bispecific antibody) | old=['TARGET:TNFRSF17'] new=[] | desc0='CM336 is a bispecific antibody targeting BCMA and CD3, designed to redirect T cells to eliminate abnormal plasma cells.'
+67c2529167e143ac NCT07563543 ['mint5', 'tac01'] | RN1701 injection | old=['TARGET:CD19'] new=[] | desc0='RN1701 injection is a bispecific CD19/CD20-targeted allogeneic CAR-T.'
+68257ac9b4d208e7 NCT07066397 ['mint5', 'tac01'] | ARM011 | old=['TARGET:CD19'] new=[] | desc0='ARM011 is an autologous, CD19 targeted CAR T-cell product developed on fast-in-time (FIT) platform-a non-viral, 2-day rapid manufacturing pr'
+68bf29a1f62a1d7c NCT06574126 ['mint5'] | Group 2: Apheresis followed by Dara-VRD and cilta- | old=['TARGET:TNFRSF17'] new=[] | desc0='In Group 2, 10 eligible participants will undergo apheresis first, according to institutional standards with the collection target and instr'
+68f1ca8d1d34f969 NCT07535138 ['mint5', 'tac01'] | CD19 CAR-γδ T cell | old=['TARGET:CD19'] new=[] | desc0='Prior to CAR-γδ T cell infusion, patients will receive lymphodepleting chemotherapy consisting of cyclophosphamide combined with fludarabine'
+68fde58679a369e1 NCT06517004 ['mint5', 'tac01'] | JWCAR201 | old=['TARGET:CD19'] new=[] | desc0='Autologous CD19/CD20-directed CAR-T cells, single infusion intravenously'
+6a3804e37d8189be NCT06387121 ['mint5', 'tac01'] | Blinatumomab | old=['TARGET:CD19'] new=[] | desc0='Bi-specific anti-CD19/CD3 antibodies'
+6b610d74b35f6013 NCT07288879 ['mint5', 'tac01'] | MB-CART2019.1 | old=['TARGET:MB'] new=[] | desc0='CAR T cell therapy'
+6b621e52cb650b45 NCT06097832 ['mint5'] | NXC-201 CAR-T | old=['TARGET:TNFRSF17'] new=[] | desc0='NXC-201 (formerly HBI0101) CAR-T is defined as autologous T cells transduced ex-vivo with anti-BCMA CAR retroviral vector encoding the chime'
+6c16955282c824ca NCT07441525 ['mint5', 'tac01'] | CART Infusion | old=['TARGET:CARTPT'] new=[] | desc0='All participants will recevie CAR+T cells infusion with dose groups of 6 × 10⁶ CAR+T cells/kg and 10 × 10⁶ CAR+T cells/kg.'
+6c3bd4e4cffc5403 NCT05840107 ['mint5', 'tac01'] | GC012F injection | old=['TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='GC012F injection is an autologous dual CAR-T targeted BCMA and CD19.'
+6c3c45e33508e44a NCT07477912 ['mint5'] | anti BCMA CAR-T cells | old=['TARGET:TNFRSF17'] new=[] | desc0='Following preconditioning with chemotherapy (cyclophosphamide and fludarabine) patients will be treated with doses from 50 x 10⁶ to 250 x 10'
+6d62741c3b6bb431 NCT05741359 ['mint5', 'tac01'] | CD19-targeted non-viral PD1 site-specific integrat | old=['TARGET:BRD1', 'TARGET:CD19'] new=['TARGET:CD19'] | desc0='CD19-targeted non-viral PD1 site-specific integrated CAR-T cell injection'
+6d87cab330e1393a NCT07587840 ['mint5', 'tac01'] | CD22/CD19 CAR-T cell immunotherapy | old=['TARGET:CD19', 'TARGET:CD22'] new=[] | desc0='Autologous T cells were collected and genetically modified to express chimeric antigen receptors targeting CD19 and CD22.'
+6e9c5fbf41e82aef NCT04844866 ['mint5', 'tac01'] | MB-CART2019.1 | old=['TARGET:CD19', 'TARGET:CD4', 'TARGET:CD8A'] new=[] | desc0='MB-CART2019.1 is designed to effectively target malignant B cells in patients suffering from late stage haematological B-cell malignancies.'
+6f12856802d1a0dc NCT03155191 ['mint5', 'tac01'] | TBI-1501 | old=['TARGET:CD19'] new=[] | desc0='Phase-I portion:'
+6f9338ac4e1f009e NCT07195617 ['mint5'] | BCMA-GPRC5D CART | old=['TARGET:CARTPT', 'TARGET:GPRC5D', 'TARGET:TNFRSF17'] new=['TARGET:GPRC5D', 'TARGET:TNFRSF17'] | desc0='The entire study process was as follows: Screening period (V1) : Informed consent was signed, screening was checked, criteria were evaluated'
+6fae6d0eafa49d69 NCT03915184 ['mint5'] | zevor-cel | old=['TARGET:TNFRSF17'] new=[] | desc0='A single autologous chimeric antigen receptor-B-cell maturation antigen (CAR-BCMA T cell) infusion'
+6fe5f0a78bfe6058 NCT07055724 ['mint5'] | Eque-cel CAR-T Therapy | old=['TARGET:TNFRSF17'] new=[] | desc0='Participants in this arm receive a single infusion of Eque-cel at a dose of 1.0 x 10\\^6 CAR-T cells/kg following lymphodepletion preconditio'
+7058cf6ea8ad1454 NCT07612787 ['mint5'] | CAR-T cells | old=['TARGET:TNFRSF17'] new=[] | desc0='Combination of Belantamab and Mezigdomide treatments with patients previously treated with anti-BCMA CAR-T cells (with or without bispecific'
+7067a171cf3dcbe1 NCT06839976 ['mint5', 'tac01'] | CART19 | old=['TARGET:CD19', 'TARGET:CFB'] new=['TARGET:CD19'] | desc0='CART19 cells transduced with a lentiviral vector to express anti-CD19 scFv:41-BB:TCRζ, administered by IV injection.'
+70f8c1038dda02d8 NCT03825718 ['mint5', 'tac01'] | GC007F | old=['TARGET:CD19'] new=[] | desc0='GC007F is the CAR-T cell immunotherapy targeted CD19.'
+712b387722fedae7 NCT06880913 ['mint5', 'tac01'] | Nanobody-Based CD19/CD22 Tandem Dual CAR-T | old=['TARGET:CD19', 'TARGET:CD22'] new=[] | desc0='Phase I: Patients will receive a single infusion of autologous CD19/CD22 dual CAR-T cells at one of three dose levels (0.3 × 10⁶ cells/kg, 1'
+7170b9bda5ba6b18 NCT05563545 ['mint5', 'tac01'] | CAR-NK-CD19 Cells | old=['TARGET:CD19'] new=[] | desc0='CAR-NK-CD19 Cells, 1-3×10\\^7 /KG, treatment follows a lymphodepletion.'
+72198633947183cc NCT05239676 ['mint5', 'tac01'] | Autologous hematopoietic stem cell transplantation | old=['TARGET:CD19'] new=[] | desc0='The patient receives ECHOP chemotherapy or other chemotherapy regimens； G-CSF in the low cell stage mobilizes hematopoietic stem cells and f'
+7277575375de7dda NCT03854994 ['mint5', 'tac01'] | Anti-CD19 CAR-T Cells Injection | old=['TARGET:AR', 'TARGET:CD19'] new=[] | desc0='Autologous genetically modified anti-CD19 CAR transduced T cells'
+72ab690f23d1b6d1 NCT03097770 ['mint5', 'tac01'] | anti-CD19/20-CAR vector-transduced T cells | old=['TARGET:CD19'] new=[] | desc0='genetically engineered lymphocyte therapy'
+72f174f34688a89a NCT06961669 ['mint5', 'tac01'] | Anti-BCMA and CD19 CART cells will be injected int | old=['TARGET:CARTPT', 'TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='A single intravenous infusion of anti-BCMA and CD19 CART cells (dose-escalating infusion of 1.0-5.0 x10\\^5 CART cells/kg）.'
+7341cadb90ff3e96 NCT07524634 ['mint5'] | BCMA bispecific | old=['TARGET:TNFRSF17'] new=[] | desc0='All Participants will receive standard step-up dosing (SUD) of BCMA bispecific (elranatamab) in Cycle 1.'
+744ac3ab7a997a0b NCT04781634 ['mint5', 'tac01'] | CD19 and CD22 targeted prime CAR-T cells | old=['TARGET:CD19', 'TARGET:CD22'] new=[] | desc0='A single infusion of CD19 and CD22 prime CAR-T cells will be administered intravenously'
+7485b64356dfb1f8 NCT03379493 ['mint5', 'tac01'] | ET190L1 ARTEMIS™ T cells | old=['TARGET:CD19', 'TARGET:DCLRE1C'] new=['TARGET:CD19'] | desc0='Autologous T cells transduced with lentivirus encoding an anti-CD19 (ET190L1) ARTEMIS™ expression construct, administered by intravenous (IV'
+74cd01acfd489e15 NCT06614270 ['mint5', 'tac01'] | Anti-CD19 IL-10/IL15 CAR-NK | old=['TARGET:CD19', 'TARGET:IL10', 'TARGET:IL15'] new=[] | desc0='Patients will receive Fludarabine and Cyclophosphamide for conditioning.'
+75443dee08cb124f NCT05850234 ['mint5', 'tac01'] | AZD0120 | old=['TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='AZD0120 is a BCMA/CD19 dual CAR T product under investigation for the treatment of participants with RRMM.'
+756c097090ece13c NCT06769555 ['mint5'] | CM-336 BCMA/CD3 bispecific antibody | old=['TARGET:TNFRSF17'] new=[] | desc0='Patients received subcutaneous CM-336 80 mg once weekly in 28-d cycles after two step-up priming doses of 3 mg and 20 mg given on day 1 and '
+75dc4587223fa0d5 NCT04303247 ['mint5', 'tac01'] | CD19 and CD22 targeted CAR-T cells | old=['TARGET:CD19', 'TARGET:CD22'] new=[] | desc0='The T cells aphesis from subjects then been manufactured to express CAR to binding CD19 and CD22 on B-cell lymphoma.'
+7628e3a423c3f95e NCT06791681 ['mint5'] | ESO-T01 | old=['TARGET:TNFRSF17'] new=[] | desc0='ESO-T01 injection is the third-generation self-inactivating lentiviral vector targeting T cells in vivo, which carries a single VHH-directed'
+7633eb4027b58812 NCT04978584 ['mint5', 'tac01'] | Acalabrutinib | old=['TARGET:NDUFAB1'] new=[] | desc0='Given PO'
+7636d037631fb934 NCT04661384 ['mint5', 'tac01'] | IL13Ralpha2-specific Hinge-optimized 41BB-co-stimu | old=['TARGET:CD19'] new=[] | desc0='Given ICV'
+76372c55ad12379f NCT07051850 ['mint5', 'tac01'] | CAR-T Therapy | old=['TARGET:CD19'] new=[] | desc0="It uses the patient's own T cells, and requires a manufacturing process to modify and expand T cells before infusion."
+76e77cded5c1eefb NCT07674147 ['mint5', 'tac01'] | RD06-05 CART Cell Infusion | old=['TARGET:CARTPT'] new=[] | desc0='CAR T-cell therapy administered intravenously after a lymphodepleting therapy regimen consisting of fludarabine and cyclophosphamide.'
+76f6ad7c7f30fab8 NCT07316920 ['mint5', 'tac01'] | RN1701 injection | old=['TARGET:CD19'] new=[] | desc0='RN1701 injection is a bispecific CD19/CD20-targeted allogeneic CAR-T.'
+78b52fbe96f56e98 NCT06179524 ['mint5', 'tac01'] | CAR-T-19 cell injection | old=['TARGET:CD19'] new=[] | desc0='The functional component of CAR-T-19 cell injection is T cells that have been genetically modified to express anti CD19 chimeric antigen rec'
+79a0b2476295b26c NCT06747156 ['mint5', 'tac01'] | ABO2203 Injection | old=['TARGET:CD19'] new=[] | desc0='Name of Active Ingredient: mRNA encoding CD19/CD3 T cell engager'
+79aa9018083455a6 NCT07491900 ['mint5', 'tac01'] | HB2198 | old=['TARGET:CD19'] new=[] | desc0='HB2198, a Tetravalent Bispecific Anti-CD19/CD20 Antibody with Dual Fc Domains'
+79fb48f37471c594 NCT06685042 ['mint5', 'tac01'] | CAR T cell | old=['TARGET:CD19', 'TARGET:CD4', 'TARGET:CD8A'] new=[] | desc0='The investigational medicinal product (IMP) "CD19-CAR\\_Lenti" consists of autologous CD19 Chimeric Antigen Receptor (CAR) transduced CD4/CD8'
+7a14c2130149f928 NCT06080191 ['mint5', 'tac01'] | CD19-CAR_Lenti_ALLO | old=['TARGET:CD19'] new=[] | desc0='Biological/Vaccine: CD19-CAR\\_Lenti\\_ALLO'
+7a3c5dcdab97fa97 NCT04160195 ['mint5', 'tac01'] | Anti-cluster of differentiation 19 (CD19)-Chimeric | old=['TARGET:CD19'] new=[] | desc0='Dose-escalation trial starting dose: 0.66 x10\\^6 CAR+ T cells/kg (weight-based dosing one time) (up to a maximum dose of 10x10\\^6 CAR+ T cel'
+7abee18bb2fe22d8 NCT02208362 ['mint5', 'tac01'] | Arm 1: IL13Ra2-specific CAR Tcm cells | old=[] new=['TARGET:IL13RA2'] | desc0='Given via intratumoral catheter'
+7acd96a501e7cc0d NCT06688435 ['mint5'] | SYS6020 injection | old=['TARGET:TNFRSF17'] new=[] | desc0='The SYS6020 is an injection of autologous CAR-T cells that have been temporarily transfected with LNP-mRNA targeting BCMA.'
+7be3078a1fcf73d5 NCT07234773 ['mint5', 'tac01'] | KT501 | old=['TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='KT501 is a monoclonal antibody that depletes B cells including plasma cells by targeting CD19, BCMA and CD3.'
+7c5174679d81c1cf NCT04655677 ['mint5', 'tac01'] | Prizloncabtagene Autoleucel | old=['TARGET:CD19'] new=[] | desc0='Autologous 2nd generation CD19/CD20-directed CAR-T cells, single infusion intravenously'
+7cc92f6b60288168 NCT02659943 ['mint5', 'tac01'] | Anti-cluster of differentiation 19 (CD19)-Chimeric | old=['TARGET:CD19'] new=[] | desc0='Dose-escalation trial starting dose: 0.66x10\\^6 CAR+ T cells/kg(weight based dosing)(up to a maximum dose of 18x10\\^6 CAR+ T cells/kg) infus'
+7cca2018b6104caa NCT03281551 ['mint5', 'tac01'] | PZ01 CAR-T cells | old=['TARGET:CD19'] new=[] | desc0='Chimeric antigen receptor (CAR) T cells targeting CD19 will be evaluated for safety and efficacy in patients with relapsed/ refractory B-cel'
+7da7f0d731e7a763 NCT01815749 ['mint5', 'tac01'] | autologous CD19CAR-CD28-CD3zeta-EGFRt-expressing T | old=['TARGET:CD19', 'TARGET:EGFR'] new=['TARGET:CD19'] | desc0='Given IV'
+7dcd7eb865ec8942 NCT06314828 ['mint5', 'tac01'] | RJMty19 (CD19-CAR-DNT cells) | old=['TARGET:CD19', 'TARGET:NT5C'] new=['TARGET:CD19'] | desc0='Lentiviral vector-transducted double negative T cells (DNT) to express anti-CD19 CAR.'
+7de5776cc254348c NCT07715136 ['mint5', 'tac01'] | ICG318, BCMA-CD19-IL-15/IL-15 sushi Compound CAR-T | old=['TARGET:CD19', 'TARGET:IL15', 'TARGET:TNFRSF17'] new=['TARGET:CD19', 'TARGET:TNFRSF17'] | desc0='Anti-BCMA, Anti-CD19 Compound CAR-T cells'
+7e4ddddc2334d21a NCT06238648 ['mint5', 'tac01'] | Epcoritamab | old=['TARGET:ERMAP'] new=[] | desc0='Given SC'
+7e69e8cc9fceff4f NCT05932290 ['mint5'] | Elranatamab | old=['TARGET:TNFRSF17'] new=[] | desc0='BCMA-CD3 bispecific antibody'
+7ea33e93b5cf2ccd NCT04094766 ['mint5', 'tac01'] | Dual Specificity CD19 and CD22 CAR-T Cell Immunoth | old=['TARGET:CD19', 'TARGET:CD22'] new=[] | desc0='Patients will undergo leukapheresis to isolate peripheral blood mononuclear cells (PBMCs) for the production of CAR-T cells.'
+7eb026e2eae430bf NCT04546399 ['mint5', 'tac01'] | Blinatumomab | old=['TARGET:AMELX', 'TARGET:CD19'] new=['TARGET:CD19'] | desc0='Given IV'
+7ee71facce7eed6e NCT05400109 ['mint5', 'tac01'] | UF-KURE19 CAR-T cells | old=['TARGET:CD19'] new=[] | desc0='UF-KURE19 cells are initially generated from a starting autologous apheresis sample.'
+7f042633c93d92e6 NCT04943016 ['mint5', 'tac01'] | CD19 Chimeric Antigen Receptor (CAR) T Cells | old=['TARGET:CD19'] new=[] | desc0='This study seeks to examine the feasibility and safety of the administration of autologous T cells that have been modified through the intro'
+7fb05e77cfb30b72 NCT04740203 ['mint5', 'tac01'] | CAR-T cells targeting CD19 and CD22 | old=['TARGET:CD19', 'TARGET:CD22'] new=[] | desc0='Each subject receives sequential CD19 and CD22 CAR-T cells by intravenous infusion'
+80a8a4120e5d9003 NCT06993675 ['mint5'] | Teclistamab | old=[] new=['TARGET:TNFRSF17'] | desc0='Teclistamab is a BCMAxCD3 bispecific antibody.'
+80a8e7af52536a82 NCT06014073 ['mint5', 'tac01'] | TRAC and Power3 (SPPL3) Genes Knock-out Allogeneic | old=['TARGET:CD19', 'TARGET:SPPL3'] new=[] | desc0='Phase 1 dose escalation (3+3) : dose 1 (1 × 10\\^6 cells/kg) , dose 2 (3 × 10\\^6 cells/kg), dose 3 (1 × 10\\^7 cells/kg)'
+80b3177c36855018 NCT04603872 ['mint5', 'tac01'] | CD19/BCMA Targeted CAR T-cells | old=['TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='Each subject receive CS1 Targeted CAR T-cells by intravenous infusion.'
+8140e38b465755f0 NCT07575919 ['mint5', 'tac01'] | CD22/CD19 Dual-Target CAR-T Cells | old=['TARGET:CD19', 'TARGET:CD22'] new=[] | desc0='Autologous CD22/CD19 dual-target chimeric antigen receptor T cells'
+818b8288b0f96820 NCT06532630 ['mint5', 'tac01'] | Cyclophosphamide | old=['TARGET:CD19'] new=[] | desc0='Cyclophosphamide will be given at a dose of 250 mg/m2/day intravenously (IV) for 3 days prior to anti-CD19-CAR-T cells infusion.'
+81c01936d2d1c5db NCT03289455 ['mint5', 'tac01'] | AUTO3 (CD19/22 CAR T cells | old=['TARGET:CD19', 'TARGET:CD22'] new=[] | desc0='Following preconditioning with chemotherapy (cyclophosphamide and fludarabine) patients will be treated with 1 to 5.0 x 10⁶/kg CD19/CD22 Chi'
+81e35cb2f14f76ea NCT07376720 ['mint5'] | Recurrent/refractory multiple myeloma (r/r MM) pat | old=['TARGET:GPRC5D', 'TARGET:TNFRSF17'] new=[] | desc0='Recurrent/refractory multiple myeloma (r/r MM) patients received infusion of BCMA-GPRC5D CAR-T cells'
+81ee44c189f47640 NCT06304636 ['mint5'] | Descartes-15 | old=['TARGET:TNFRSF17'] new=[] | desc0='Autogolous T-cells expressing a chimeric antigen receptor directed to BCMA'
+8228f01b8b0f8e31 NCT07083960 ['mint5'] | OM336 | old=['TARGET:TNFRSF17'] new=[] | desc0='OM336 is an engineered bispecific antibody directed against BCMA and CD3'
+82b4ec841067ac8f NCT04119024 ['mint5', 'tac01'] | IL13Ralpha2-specific Hinge-optimized 4-1BB-co-stim | old=['TARGET:CD19'] new=[] | desc0='Given IV'
+830115584489b55a NCT04484012 ['mint5', 'tac01'] | Acalabrutinib | old=['TARGET:NDUFAB1'] new=[] | desc0='Given PO'
+831b941c4d4bfdc5 NCT07106684 ['mint5'] | GPRC5D/CD3 BiTEs | old=['TARGET:TNFRSF17'] new=[] | desc0='Patients will receive GPRC5D/CD3 BiTEs maintenance therapy at a dose of 54 μg/kg every 4 weeks, starting 3 months after BCMA CAR-T infusion '
+832b4623e9bdb098 NCT03468153 ['mint5', 'tac01'] | Dual Specificity CD19 and CD22 CAR-T Cell Immunoth | old=['TARGET:CD19', 'TARGET:CD22'] new=[] | desc0='Patient-derived dual specificity CD19 and CD22 CAR-T Cells'
+839a75ad02399426 NCT06287528 ['mint5', 'tac01'] | 19-28z/IL-18 CAR T cells | old=['TARGET:IL18'] new=[] | desc0='19-28z/IL-18 CAR T cells are an investigational new drug (IND) for the treatment of R/R B-ALL'
+84752281d65b146c NCT07162571 ['mint5', 'tac01'] | CD19/22 CAR-T cells | old=['TARGET:CD19', 'TARGET:CD22'] new=[] | desc0='Following preconditioning with chemotherapy (cyclophosphamide and fludarabine) patients will be treated with doses from 50 x 10⁶ to 150 x 10'
+84dad31109272c07 NCT07166419 ['mint5', 'tac01'] | Autologous Anti-CD19/CD20/CD22 CAR T-cells | old=['TARGET:CD19', 'TARGET:CD22'] new=[] | desc0='Given IV'
+8518fd307f25b2ab NCT02215967 ['mint5'] | Anti-B-cell maturation antigen (BCMA) chimeric ant | old=['TARGET:TNFRSF17'] new=[] | desc0='0.3x10\\^6- 15.0x10\\^6 CAR+ T cells per kg of recipient bodyweight one time dose on day 0'
+852aac1b7692732c NCT06068400 ['mint5'] | BCMA/GPRC5D dual CAR-T | old=['TARGET:GPRC5D', 'TARGET:TNFRSF17'] new=[] | desc0='BCMA/GPRC5D dual CAR-T is a new type CAR-T cells therapy for patients with Relapsed or Refractory Multiple Myeloma.'
+85563fa9b9de80d2 NCT05359211 ['mint5', 'tac01'] | Polymer-conjugated IL-15 Receptor Agonist NKTR-255 | old=['TARGET:IL15', 'TARGET:NKTR'] new=[] | desc0='Given IV'
+8702561a6b4e407e NCT04693676 ['mint5', 'tac01'] | Prizloncabtagene Autoleucel | old=['TARGET:CD19'] new=[] | desc0='Autologous 2nd generation CD19/CD20-directed CAR-T cells, single infusion intravenously'
+8712cd88eed99d2d NCT06574126 ['mint5'] | Group 1: Dara-VRD followed by apheresis and cilta- | old=['TARGET:TNFRSF17'] new=[] | desc0='In Group 1, 10 eligible participants will undergo a maximum of two 28-day induction cycles with Dara-VRD.'
+884fa5e3fa38a792 NCT05359211 ['mint5', 'tac01'] | Lisocabtagene Maraleucel | old=['TARGET:CD19', 'TARGET:CD4', 'TARGET:CD8A'] new=[] | desc0='Given IV'
+889239e6440e21eb NCT05418088 ['mint5', 'tac01'] | Anti-CD19/CD20/CD22 CAR T-Cells | old=['TARGET:CD19', 'TARGET:CD22'] new=[] | desc0='Given IV'
+88c888c2f8a6c220 NCT05976555 ['mint5'] | BCMA-TGFβ CAR-T cells (0.50 x 10^6 cells/kg) | old=['TARGET:TNFRSF17'] new=[] | desc0='This is dose level 0 (de-escalation).'
+88dcbdc3542f2335 NCT03327285 ['mint5', 'tac01'] | C-CAR011 | old=['TARGET:CD19'] new=[] | desc0='CBM.CD19-targeted chimeric antigen receptor T cells(C-CAR011)'
+88f7ba075c84dfcc NCT06554626 ['mint5', 'tac01'] | Blinatumomab | old=['TARGET:CD19'] new=[] | desc0='Bi-specific anti CD19/CD3 antibody'
+88fc6266b1a94b4e NCT04648475 ['mint5', 'tac01'] | CD19 and CD22 targeted CAR-T cells | old=['TARGET:CD19', 'TARGET:CD22'] new=[] | desc0='A single infusion of CD19 and CD22 CAR-T cells will be administered intravenously'
+891a94c014cc1cf3 NCT06373081 ['mint5', 'tac01'] | Anti-CD19-CD3E-CAR-T cells | old=['TARGET:CD19', 'TARGET:CD3E'] new=['TARGET:CD19'] | desc0='The injection of anti-CD19-CD3E chimeric antigen receptor T (CAR-T) cells, referred to as anti-CD19-CD3E-CAR-T cells.'
+895cc9df12c67545 NCT03070327 ['mint5'] | EGFRt/BCMA-41BBz CAR T cell | old=['TARGET:TNFRSF17'] new=[] | desc0='Modified T cell infusions will be administered 2-7 days following the completion of conditioning chemotherapy.There are 3 planned dose level'
+895d81f242e5c437 NCT07493161 ['mint5', 'tac01'] | Venetoclax | old=['TARGET:BCL2'] new=[] | desc0='BCL-2 inhibitor.'
+8a5a402b95d7bb93 NCT03389035 ['mint5', 'tac01'] | CARCIK-CD19 | old=['TARGET:CD19'] new=[] | desc0='Allogeneic (donor-derived) Cytokine Induced Killer (CIK) cells transduced with a transposon CD19 Chimeric Antigen Receptor (CAR) gene'
+8a5e04bf4d5495fc NCT07341828 ['mint5'] | CD20/BCMA-directed CAR-T cells | old=['TARGET:TNFRSF17'] new=[] | desc0='Autologous 2nd generation CD20/BCMA-directed CAR-T cells, single infusion intravenously'
+8acd2f014c5c1788 NCT04706936 ['mint5'] | anti-BCMA CAR-T | old=['TARGET:TNFRSF17'] new=[] | desc0='Retroviral vector-transduced autologous T cells to express anti-BCMA CAR.'
+8ae6327c86c7a6d5 NCT05976555 ['mint5'] | BCMA-TGFβ CAR-T cells (0.75 x10^6 cells/kg) | old=['TARGET:TNFRSF17'] new=[] | desc0='This is dose level 1, the starting dose.'
+8c183f18870b1122 NCT07775508 ['mint5', 'tac01'] | SL1617 Injection | old=['TARGET:CD19'] new=[] | desc0='Participants with relapsed or refractory B-cell lymphoma will receive SL1617 Injection, an investigational in vivo CD19/CD20-targeted CAR T-'
+8cddfe714a9300e6 NCT06462144 ['mint5', 'tac01'] | IMPT-514 CART Cell Injection | old=['TARGET:CARTPT'] new=[] | desc0='CAR T-cell therapy administered intravenously after a lymphodepleting therapy regimen consisting of fludarabine and cyclophosphamide.'
+8d0ccb36303abc67 NCT06277427 ['mint5'] | PRG-1801 （CAR-T against BCMA） | old=['TARGET:TNFRSF17'] new=[] | desc0='Patients with refractory LN and ANCA-associated vasculitis will be treated with PRG-1801'
+8d4c71619c3bb438 NCT03559439 ['mint5', 'tac01'] | CD19 CAR T | old=['TARGET:CD19', 'TARGET:CD28'] new=['TARGET:CD19'] | desc0='CD19 CAR T cells transduced with a lentiviral vector to express anti-CD19 scFv CD3z:CD28 administered by IV infusion.'
+8d9ca490b67ec7f1 NCT07613411 ['mint5', 'tac01'] | KSVCBD injection | old=['TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='KSVCBD injection is an in vivo CAR-T therapy targeting CD19/BCMA and is administered by IV infusion.'
+8dc43120702e8878 NCT02811679 ['mint5', 'tac01'] | Blinatumomab | old=['TARGET:CD19'] new=[] | desc0='Blinatumomab is a bispecific t cell engaging antibody targeting CD19 and CD3 approved for B cell acute lymphoblastic leukemia'
+8e6ef86adf0cbd6e NCT07073547 ['mint5'] | AZD0120 | old=['TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='AZD0120 is a BCMA/CD19 dual CAR T cell product under investigation for early-line treatment in subjects with multiple myeloma'
+8e6f6864286f0764 NCT02976857 ['mint5', 'tac01'] | C-CAR-011 | old=['TARGET:CD19'] new=[] | desc0='lymphocytes will be transduced with lentiviral vector containing CAR-CD19 gene.'
+8ed2e5ba14cd1646 NCT07101705 ['mint5', 'tac01'] | OriV508 Injection | old=['TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='OriV508 injection is one kind of non-replicative self-inactivating lentivirus vector which carries an effective BCMA/CD19 dual-target CAR.'
+8f7bcd255b8d99e4 NCT07461831 ['mint5', 'tac01'] | CD19/CD22 bispecific CAR-T cells | old=['TARGET:CD19', 'TARGET:CD22'] new=[] | desc0='CD19/CD22-bispecific CAR-T cells were infused at the dosage of 2×10e6/kg'
+90350f86f325871c NCT05675449 ['mint5'] | Maplirpacept | old=['TARGET:CD47', 'TARGET:SIRPA'] new=[] | desc0='CD47-SIRP alpha-directed'
+909f87a1c24b8039 NCT05523661 ['mint5', 'tac01'] | Dasatinib plus anti-CD19/CD22 CAR-T cells | old=['TARGET:CD19', 'TARGET:CD22'] new=[] | desc0='Dasatinib plus VP chemotherapy was administrated to newly diagnosed Ph-positive patients aged 55-70 years old,if hCR was achieved,autolympho'
+90bcfa37861cd4c2 NCT03664661 ['mint5'] | BCMA nanobody CAR-T cells | old=['TARGET:TNFRSF17'] new=[] | desc0='step 1: Collect 50-100ml of peripheral blood for culture of BCMA nanobody CAR- T cells.'
+90c5ecf27192957e NCT06323525 ['mint5', 'tac01'] | TCR reserved and Power3 (SPPL3) gene knock-out all | old=['TARGET:CD19', 'TARGET:SPPL3'] new=[] | desc0='Phase 1 dose escalation (3+3): dose 1 (1 × 10\\^6 cells/kg), dose 2 (3 × 10\\^6 cells/kg), dose 3 (6 × 10\\^6 cells/kg)'
+90fe7efa7e72626e NCT06709469 ['mint5', 'tac01'] | Allogeneic CART-NKG2D cells | old=['TARGET:KLRK1'] new=[] | desc0='A total of up to 3x106/kg allogeneic CART-NKG2D cells divided in three doses of up to 1x106/kg will be infused'
+911feb6aacc1690e NCT05472558 ['mint5', 'tac01'] | anti-CD19 CAR-NK | old=['TARGET:CD19'] new=[] | desc0='lentiviral vector-transducted cord blood-derived NK cells to express anti-CD19 CAR'
+91e84bbe02f9e29f NCT05702853 ['mint5', 'tac01'] | CD19-CD34t metabolically programmed CAR transduced | old=['TARGET:CD19'] new=[] | desc0='Cells are to be infused intravenously (IV) over 30 minutes or less via nonfiltered tubing either by gravity or a peristaltic pump, gently ag'
+9220169910c6214b NCT06879340 ['mint5', 'tac01'] | DuoCAR20.19.22-D95 | old=['TARGET:CD19'] new=[] | desc0='Patient derived autologous T cells, lentiviral transduced to generate, using the Miltenyi CliniMACS Prodigy® closed transduction system, a D'
+926b8af8bbcd0323 NCT06481735 ['mint5', 'tac01'] | TCR reserved and Power3 (SPPL3) Gene Knock-out All | old=['TARGET:CD19', 'TARGET:SPPL3'] new=['TARGET:CD19'] | desc0='Phase 1 dose escalation (3+3) : dose 1 (1 × 10\\^6 cells/kg) , dose 2 (3 × 10\\^6 cells/kg), dose 3 (6 × 10\\^6 cells/kg)'
+92c1e5fa9f8ed0cc NCT04700319 ['mint5', 'tac01'] | CD19/CD20 CAR-T cell infusion | old=['TARGET:CD19'] new=[] | desc0='CD19/CD20 CAR-T,Infusion,iv,0.2×10\\^6-5×10\\^6γδT /kg,once'
+93214685fd2b7835 NCT05991388 ['mint5', 'tac01'] | CAR T-cells (TBC) | old=['TARGET:TBC1D1'] new=[] | desc0='Modified R-ICE chemotherapy'
+9403523dd8a5c65d NCT06513429 ['mint5', 'tac01'] | IM19 CAR-T cells | old=['TARGET:CD19'] new=[] | desc0='IM19 CAR-T cells by intravenous infusion.'
+94500b1f5abc5023 NCT07106710 ['mint5'] | GPRC5D/CD3 BiTEs | old=['TARGET:TNFRSF17'] new=[] | desc0='Patients will receive GPRC5D/CD3 BiTEs maintenance therapy at a dose of 54 μg/kg every 4 weeks, starting 3 months after BCMA CAR-T infusion '
+952659dfb10c0f57 NCT04404660 ['mint5', 'tac01'] | AUTO1 | old=['TARGET:CD19'] new=[] | desc0='Following pre-conditioning with chemotherapy (cyclophosphamide and fludarabine) patients will be treated with a total target dose of 410E+6 '
+95d89ece2171f808 NCT07502872 ['mint5', 'tac01'] | Polatuzumab vedotin | old=[] new=['TARGET:CD79B'] | desc0='CD79b-targeting antibody-drug conjugate'
+95daeef500c2e7c4 NCT01475058 ['mint5', 'tac01'] | allogeneic cytomegalovirus-specific cytotoxic T ly | old=['TARGET:CD19', 'TARGET:CD8A'] new=[] | desc0='Allogeneic CD19-specific chimeric antigen receptor-modified CD8+ central memory derived virus-specific T cells.'
+971f7f466ab30561 NCT05873712 ['mint5', 'tac01'] | Lisocabtagene Maraleucel | old=['TARGET:CD19', 'TARGET:CD4', 'TARGET:CD8A'] new=[] | desc0='Given IV'
+972614bf5c92ed19 NCT06508775 ['mint5', 'tac01'] | MB-CART20.1 | old=['TARGET:MB'] new=[] | desc0='Assessment of long-term safety and efficacy of MB-CART20.1 treatment.'
+9758494b1b22f4f5 NCT07333430 ['mint5'] | Naive HBI0101 CAR-T | old=['TARGET:CARTPT', 'TARGET:TNFRSF17'] new=[] | desc0='Naïve HBI0101 CART is defined as autologous T cells transduced ex-vivo with anti-BCMA CAR retroviral vector encoding the chimeric antigen re'
+977c48d858f29f79 NCT07636564 ['mint5', 'tac01'] | Blinatumomab | old=['TARGET:AMELX', 'TARGET:CD19'] new=['TARGET:CD19'] | desc0='Given IV'
+97c0550432ee7df4 NCT04539444 ['mint5', 'tac01'] | CD19/22 CART | old=['TARGET:CARTPT', 'TARGET:CD19'] new=[] | desc0='CD19/22 CART cells are administrated in a 3-day split-dose regimen at dose of 0.5- 2×10\\*107 CART cells per kilogram of body weight.'
+98ba8a2cd82c6209 NCT04215016 ['mint5', 'tac01'] | Autologous humanized anti-CD19 and anti-CD20 dual  | old=['TARGET:CD19'] new=[] | desc0='Humanized anti-CD19 and CD20 bispecific autologous CAR-T cells injection: the first dose is 1.0×106 /kg, the second dose is 3.0×106 /kg, and'
+9a81cad2b61874ed NCT03958656 ['mint5'] | Anti-Signaling lymphocytic activation molecule F7  | old=['TARGET:F7', 'TARGET:SLAMF7'] new=[] | desc0='0.3x10\\^6- 12.0x10\\^6 CAR+ T cells per kg of recipient bodyweight one-time dose on day 0'
+9a87c72d8491eda1 NCT05922501 ['mint5'] | Belantamab mafodotin | old=['TARGET:TNFRSF17'] new=[] | desc0='An antibody-drug conjugate that is the combination of an antibody targeting BCMA and a drug, administered intravenously.'
+9ab1f245efe6f2d2 NCT02208362 ['mint5', 'tac01'] | Arm 2: IL13Ra2-specific CAR Tcm cells | old=[] new=['TARGET:IL13RA2'] | desc0='Given via intratumoral/intracavitary catheter'
+9ac0f2a05f1e4c7e NCT06508775 ['mint5', 'tac01'] | MB-CART2019.1 | old=['TARGET:CD19', 'TARGET:MB'] new=[] | desc0='Assessment of long-term safety and efficacy of MB-CART2019.1 treatment.'
+9adf070c2b493d6d NCT03605238 ['mint5', 'tac01'] | Corticosteroids & tanCART19/20 | old=['TARGET:CD19'] new=[] | desc0='Twelve days of high-dose IV methylprednisolone (1000mg×3 days, 500mg×3 days, 240mg×3 days, 120mg×3 days) before anti-CD19/20 CAR T cells inf'
+9b794c09a4b59901 NCT04603872 ['mint5', 'tac01'] | CD19/BCMA Targeted CAR T-cells and dasatinib | old=['TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='Each subject receive CS1 Targeted CAR T-cells by intravenous infusion, and the dasatinib was combined according to the presumed regimens.'
+9b963c2fdfcfed0b NCT07010835 ['mint5', 'tac01'] | YK012 | old=['TARGET:CD19'] new=[] | desc0='YK012 is a bispecific antibody targeting CD19 and CD3.'
+9c1dbaeee19b3d9f NCT07825389 ['mint5'] | C-CAR168 | old=['TARGET:TNFRSF17'] new=[] | desc0='Autologous anti-CD20/BCMA chimeric antigen receptor T-cell therapy administered as a single intravenous infusion following lymphodepleting c'
+9c7b8898670b0ab3 NCT06247501 ['mint5', 'tac01'] | SNUH-CD19-CAR-T | old=['TARGET:CD19'] new=[] | desc0='CD19 CAR-T is a gene therapy that uses genetically modified autologous peripheral blood T-cells to target CD19 on the surface of B-cells.'
+9c839537f4deb59e NCT07523555 ['mint5', 'tac01'] | Autologous BCMA/CD38 dual-target CAR-T module | old=['TARGET:CD38', 'TARGET:TNFRSF17'] new=[] | desc0='Biological: Autologous BCMA/CD38 dual-target CAR-T module after lymphodepletion with fludarabine/cyclophosphamide.'
+9d2fbc7eabba40f5 NCT02879695 ['mint5', 'tac01'] | Blinatumomab | old=['TARGET:AMELX', 'TARGET:CD19'] new=['TARGET:CD19'] | desc0='Given IV'
+9dc6239450d2a1b3 NCT07194980 ['mint5', 'tac01'] | Lisocabtagene Maraleucel | old=['TARGET:CD19', 'TARGET:CD4', 'TARGET:CD8A'] new=[] | desc0='Given IV'
+9e1f11cb336ed479 NCT04162119 ['mint5'] | BCMA-PD1-CART Cell | old=['TARGET:CARTPT', 'TARGET:TNFRSF17'] new=[] | desc0='This study was a single-center, open-label, single-arm, non-randomized clinical trial, which was divided into 3 groups by infusion dose leve'
+9fa969708296b85e NCT06826118 ['mint5', 'tac01'] | Axicabtagene Ciloleucel | old=['TARGET:CD19'] new=[] | desc0='Pre-treatment chemotherapy: Cyclophosphamide 500 mg/m² and Fludarabine 30 mg/m² will be administered intravenously on Days -5, -4, and -3 (w'
+9fbb47eea2a70e67 NCT06504524 ['mint5'] | Elranatamab | old=['TARGET:TNFRSF17'] new=[] | desc0='BCMA-CD3 bispecific antibody'
+9ffafb10621b2136 NCT05665725 ['mint5', 'tac01'] | Siltuximab | old=[] new=['TARGET:IL6'] | desc0='Given IV'
+a0210e643c45a596 NCT04787263 ['mint5', 'tac01'] | CD19-CAR_Lenti T cell | old=['TARGET:CD19'] new=[] | desc0='Fresh peripheral blood mononuclear cells are manufactured to obtain CD19-CAR\\_Lenti T cell, second generation CAR T cells incorporating the '
+a05c85b67a2d2b72 NCT07637929 ['mint5', 'tac01'] | Puzolcabtagene Autoleucel Injection | old=['TARGET:CD19'] new=[] | desc0='An autologous T-cell suspension expressing the CD19 chimeric antigen receptor（CD19 CAR-T)'
+a1b1b6272dce6d1e NCT04213469 ['mint5', 'tac01'] | PD1 specific integrated anti-CD19 Chimeric Antigen | old=['TARGET:CD19'] new=[] | desc0='Gene editing autologous T cells with anti-CD19 ScFv expression and knockout of PD1'
+a1cd36416b290448 NCT07249073 ['mint5'] | CAR19-BCMA dual-target CAR-T | old=['TARGET:TNFRSF17'] new=[] | desc0='This drug is CAR-T cell injection.'
+a2ecd0130f3c0948 NCT07328581 ['mint5', 'tac01'] | ICG318, BCMA-CD19-IL-15/IL-15 sushi Compound CAR T | old=['TARGET:CD19', 'TARGET:IL15', 'TARGET:TNFRSF17'] new=['TARGET:CD19', 'TARGET:TNFRSF17'] | desc0='Anti-BCMA, Anti-CD19 Compound CAR-T Cells'
+a333b2d22f0a20b1 NCT04844086 ['mint5', 'tac01'] | RPM CD19-mbIL15-CAR-T cells | old=['TARGET:CD19'] new=[] | desc0='Single dose of RPM CD19-mbIL15-CAR-T cells will be infused, and a standard "3+3" design will be applied.'
+a3f65159e3dd1585 NCT05667155 ['mint5', 'tac01'] | CB dualCAR-NK19/70 | old=['TARGET:CD19', 'TARGET:CD70', 'TARGET:IL15'] new=['TARGET:CD19', 'TARGET:CD70'] | desc0='Lentiviral vector-transducted cord blood-derived NK cells to express anti-CD19/CD70 CAR and IL15'
+a479fc93a175925e NCT02737085 ['mint5', 'tac01'] | Anti-CD19 CAR-T cells and Anti-CD20 CAR-T cells | old=['TARGET:CD19'] new=[] | desc0='Patients receive autologous-derived CD19-targeted CAR-T cells following CD20-targeted CAR-T cells after receiving lymphodepleting chemothera'
+a5eba7c3c8ef00fb NCT07509086 ['mint5', 'tac01'] | IL-15-armored CAR-T cells | old=['TARGET:CD19', 'TARGET:GPRC5D', 'TARGET:TNFRSF17'] new=[] | desc0='BCMA-targeted: 1.0/1.5/2.0 × 10\\^6 CAR-T cells'
+a5f85a864b97f2aa NCT04276870 ['mint5', 'tac01'] | Murine CART19 | old=['TARGET:CD19', 'TARGET:CFB'] new=['TARGET:CD19'] | desc0='CART19 cells transduced with a lentiviral vector to express anti-CD19 scFv:41-BB:TCRζ, administered by IV injection with a planned dose of 5'
+a604ed34f8f8ddb8 NCT04735575 ['mint5'] | EMB-06 | old=['TARGET:TNFRSF17'] new=[] | desc0='EMB-06 is a FIT-Ig® bispecific antibody against BCMA and CD3.'
+a642ea3ca4ec093c NCT04246047 ['mint5'] | Belantamab mafodotin | old=['TARGET:TNFRSF17'] new=[] | desc0='Humanized anti-B-cell maturation antigen (BCMA) antibody/drug conjugate'
+a65f731273a9dfdb NCT07477366 ['mint5', 'tac01'] | CD19 t-haNK- IV Administration | old=['TARGET:CD19'] new=[] | desc0='CD19-Directed Therapies: CD19-targeted therapies, are biologic agents specifically designed to recognize and eliminate CD19-expressing B-cel'
+a6ee765cf28c54de NCT06785519 ['mint5', 'tac01'] | CD19/BCMA Lupus Nephritis Targeted CAR T-cells inj | old=['TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='Each subject receive CD19/BCMA Lupus Nephritis Targeted CAR T-cells by intravenous infusion'
+a767da455f48fbd2 NCT07110844 ['mint5'] | Daratumumab and Hyaluronidase-fihj | old=['TARGET:CD38'] new=[] | desc0='Daratumumab is an monoclonal antibody that targets the CD38 protein on the surface of myeloma cells.'
+a855b62bc8aa41c6 NCT06592222 ['mint5'] | Elranatamab | old=['TARGET:TNFRSF17'] new=[] | desc0='BCMA-CD3 bispecific antibody'
+a949e8ab828bd341 NCT06249438 ['mint5'] | CD20/BCMA-directed CAR-T cells | old=['TARGET:TNFRSF17'] new=[] | desc0='Autologous 2nd generation CD20/BCMA-directed CAR-T cells, single infusion intravenously'
+a9bce83529c3920d NCT04412889 ['mint5', 'tac01'] | BCMA/CD19 dual-target CAR-T cell immunotherapy | old=['TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='The intervention is a CAR-T cell immunotherapy targeted CD19 and BCMA.'
+a9fc687b1da3b9ce NCT06976437 ['mint5', 'tac01'] | RN1101 injection | old=['TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='RN1101 injection is an allogenic CAR-T targeted CD19 and BCMA.'
+ab34901759decd48 NCT07078929 ['mint5', 'tac01'] | CD19-IL7Ra CAR-T cells | old=['TARGET:CD19'] new=[] | desc0='Autologous T cells lentiviral transduced to express a CD19-specific chimeric antigen receptor (CAR) with the addition of an IL-7 receptor al'
+ab464e2baba34d8c NCT07194980 ['mint5', 'tac01'] | Nemtabrutinib | old=['TARGET:BTK'] new=[] | desc0='Given PO'
+abcb2dd79232eeeb NCT06705530 ['mint5', 'tac01'] | Hem101 | old=['TARGET:CD19'] new=[] | desc0='CAR-T lymphocytes specific to CD19 B-cell antigen'
+ad85b63004fdc09f NCT06680388 ['mint5', 'tac01'] | Drug：CD19 CAR-T | old=['TARGET:CD19'] new=[] | desc0='A total of 3 dose groups were set, with dose group 1 as the starting dose, which was performed according to the traditional 3 + 3 design rul'
+adb2278fef2e1cca NCT07458659 ['mint5'] | Chimeric Antigen Receptor T Cells (CAR-T) | old=['TARGET:TNFRSF17'] new=[] | desc0="This product is a CAR T-cell therapy utilizing the participant's own autologous T-lymphocytes, which are collected via apheresis, processed "
+ae00001a5722a831 NCT06796517 ['mint5', 'tac01'] | CAR-T Therapy | old=['TARGET:CD19'] new=[] | desc0="It uses the patient's own T cells, and requires a manufacturing process to modify and expand T cells before infusion."
+ae040a689fe20f3f NCT05388695 ['mint5', 'tac01'] | Autologous CD19/CD22/CD20 Chimeric Antigen Recepto | old=['TARGET:CD19', 'TARGET:CD22'] new=[] | desc0='Single or sequential injection of CD19, CD20 and CD22 CAR T cells.'
+aeced80bb15fab72 NCT06056102 ['mint5', 'tac01'] | huCART19 | old=['TARGET:CARTPT'] new=[] | desc0='* Safety Run-in: 5 x 10\\^7 CAR T cells'
+afa5eda63402ac7e NCT03497819 ['mint5', 'tac01'] | CARTmeso CART19 | old=['TARGET:CD19'] new=[] | desc0='Autologous chimeric antigen receptor T cells with murine scFv, 41BB co-stimulatory domain and CD3ζ signaling domain targeting mesothelin or '
+afe00d4f6fbfa8c8 NCT06047197 ['mint5', 'tac01'] | RC19D2 cell injection | old=['TARGET:CD19'] new=[] | desc0='The functional component of RC19D2 cell injection is T cells that have been genetically modified to express anti CD19 chimeric antigen recep'
+aff9277c9abe7cf7 NCT04935580 ['mint5', 'tac01'] | GC012F injection | old=['TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='GC012F injection is an autologous dual CAR-T targeted BCMA and CD19.'
+b0106f061b61457e NCT07582159 ['mint5', 'tac01'] | Acalabrutinib | old=['TARGET:NDUFAB1'] new=[] | desc0='Given PO'
+b09845e72031b275 NCT07670260 ['mint5', 'tac01'] | GoFast CD19 CAR T Cells | old=['TARGET:CD19'] new=[] | desc0='GoFast CD19 CAR T cells are autologous CD19-targeted chimeric antigen receptor T cells prepared using the GoFast CAR T-cell platform.'
+b0b9bf6f9a4e0260 NCT06993675 ['mint5'] | Talquetamab | old=[] new=['TARGET:GPRC5D'] | desc0='Talquetamab is a GPRC5DxCD3 bispecific antibody.'
+b11f49f97354c98a NCT03594162 ['mint5', 'tac01'] | iC9-CAR19 cells | old=['TARGET:CD19'] new=[] | desc0='One of two dose levels will be given: 1 x 10\\^5 or 5 x 10\\^5'
+b1c2cc230c331f16 NCT06464185 ['mint5', 'tac01'] | Bispecific antibody-based combined with CAR-T cell | old=['TARGET:CARTPT'] new=[] | desc0='lymphocytes collection, and bispecific antibody-based therapy will be performed after successful Lymphocytes collection: Obinutuzumab:1000mg'
+b1ecf4c466063f42 NCT04795882 ['mint5', 'tac01'] | BCMA CAR T cells | old=['TARGET:TNFRSF17'] new=[] | desc0='Infusion with ATIMP: BCMA CAR T-cells'
+b1f5dbba4f6753cd NCT07636564 ['mint5', 'tac01'] | Revumenib | old=['TARGET:KMT2A'] new=[] | desc0='Given PO'
+b28b0e5fa5db62b8 NCT05651100 ['mint5', 'tac01'] | CD19 and CD22 targeted CAR-T cells | old=['TARGET:CD19', 'TARGET:CD22'] new=[] | desc0='CAR-T cells were manufactured from peripheral blood mononuclear cells collected by leukapheresis and frozen for multiple uses.'
+b320970b7502b129 NCT05020392 ['mint5', 'tac01'] | Fludarabine-based chemotherapy + CAR-T-CD19 Cells | old=['TARGET:CD19'] new=[] | desc0='Fludarabine-based lymphodepletion chemotherapy was followed by CART19 infusion at a dose of 1x10\\^6/kg on day 0 and day 1 respectively.'
+b37f65729093ca67 NCT06830031 ['mint5', 'tac01'] | C402-CD19-CAR | old=['TARGET:CD19'] new=[] | desc0='Enrolled subjects will undergo apheresis to acquire peripheral blood mononuclear cells.'
+b50c94d231e7f01d NCT07125872 ['mint5', 'tac01'] | CD19 t-haNK- IV Administration | old=['TARGET:CD19'] new=[] | desc0='N-803 Subcutaneous (SQ): N-803 is a novel IL-15 superagonist immunotherapy administered subcutaneously.'
+b55fe7f98026ef11 NCT07643103 ['mint5', 'tac01'] | Inotuzumab Ozogamicin (IO) | old=['TARGET:BMP6', 'TARGET:CD22'] new=['TARGET:CD22'] | desc0='Anti-CD22 antibody-drug conjugate (ADC) administered intravenously during induction and consolidation therapy.'
+b5bfb54afa860072 NCT06830733 ['mint5'] | ARI0002h | old=['TARGET:TNFRSF17'] new=[] | desc0='* Treatment with ARI0002h cells'
+b5cd72db44606eec NCT07280013 ['mint5'] | Elranatamab | old=['TARGET:TNFRSF17'] new=[] | desc0='• BCMA-CD3 bispecific antibody'
+b5d855e38ccb018c NCT07166549 ['mint5', 'tac01'] | Experimental Intervention | old=['TARGET:CD19'] new=[] | desc0='The study intervention includes:'
+b73c355b02e7c153 NCT05976555 ['mint5'] | BCMA-TGFβ CAR-T cells (1 x 10^6 cells/kg) | old=['TARGET:TNFRSF17'] new=[] | desc0='This is dose level 2.'
+b7b8b37b63ce1968 NCT06235229 ['mint5', 'tac01'] | GC012F | old=['TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='GC012F is a BCMA/CD19 dual CAR product'
+b7c1bf62725bfa59 NCT02050347 ['mint5', 'tac01'] | CD19.CAR-CD28Z T Cells - dose escalation 2 | old=['TARGET:CD19'] new=[] | desc0='Patients will receive one of the following dose levels:'
+b7dc9930e103e981 NCT06530849 ['mint5', 'tac01'] | GC012F Injection | old=['TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='GC012F Injection is an autologous chimeric antigen receptor T cell therapy targeting both BCMA and CD19'
+b898777db4b50840 NCT05412329 ['mint5', 'tac01'] | GC012F injection | old=['TARGET:CARTPT', 'TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='GC012F injection is a autologous dual CAR-T targeted BCMA and CD19.'
+b8b8bcb18894ec44 NCT07454226 ['mint5', 'tac01'] | Venetoclax | old=['TARGET:BCL2'] new=[] | desc0='BCL-2 inhibitor.'
+b8fa746cb7715eec NCT06947473 ['mint5', 'tac01'] | umbilical cord blood CD19-BCMA CAR-T cells infusio | old=['TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='Approximately 3-5 days prior to umbilical cord blood CD19-BCMA CAR-T cell infusion, subjects are treated with FC regimen (fludarabine and cy'
+b95487796399ae7f NCT06038474 ['mint5'] | Descartes-08 | old=['TARGET:TNFRSF17'] new=[] | desc0='Autologous T-cells expressing a chimeric antigen receptor directed to BCMA'
+b99af435217a6316 NCT03593109 ['mint5', 'tac01'] | Dual Specificity CD19 and CD22 CAR-T Cell Immunoth | old=['TARGET:CD19', 'TARGET:CD22'] new=[] | desc0='Patients will undergo leukapheresis to isolate peripheral blood mononuclear cells (PBMCs) for the production of CAR-T cells.'
+ba738dac138ded39 NCT04340154 ['mint5', 'tac01'] | chimeric antigen receptor T cell | old=['TARGET:CD19', 'TARGET:CD22'] new=[] | desc0='CAR-T cells were manufactured from peripheral blood mononuclear cells collected by leukapheresis and frozen for multiple uses.'
+ba93cae00cd856f9 NCT07511426 ['mint5', 'tac01'] | U96 | old=['TARGET:CD19', 'TARGET:CD7', 'TARGET:IL6'] new=[] | desc0='U96(CD7-targeted lentiviral vector for in vivo production of IL-6 knockdown CD19 CAR)'
+bab528be83f43cc1 NCT07523555 ['mint5', 'tac01'] | Autologous CD33/CLL1 dual-target CAR-T module | old=['TARGET:CD33'] new=[] | desc0='Biological: Autologous CD33/CLL1 dual-target CAR-T module after lymphodepletion with fludarabine/cyclophosphamide.'
+bc8316784a87ea85 NCT06316076 ['mint5', 'tac01'] | CD19-CAR-DNT cells | old=['TARGET:CD19', 'TARGET:NT5C'] new=['TARGET:CD19'] | desc0='Lentiviral vector-transduced DNT cells to express anti-CD19 CAR.'
+bd3f87f474d8b81e NCT05507827 ['mint5', 'tac01'] | Allogeneic donor-derived T-cells transduced with b | old=['TARGET:CD19', 'TARGET:CD22'] new=[] | desc0='CD19/C22CAR T cells will be administered at a dose of CAR+ cells/kg body weight via IV administration'
+bd49f00adf7a514a NCT05243212 ['mint5'] | CAR-BCMA | old=['TARGET:TNFRSF17'] new=[] | desc0='CAR-BCMA T-cells are genetically modified autologous T-cells directed to the B-cell maturation antigen (BCMA).'
+be9323789aed3128 NCT07185477 ['mint5'] | QLS32015 | old=['TARGET:GPRC5D'] new=[] | desc0='QLS32015 is a GPRC5D × CD3 bispecific antibody.'
+bebffc5b20d59413 NCT07295847 ['mint5', 'tac01'] | AZD0120 | old=['TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='CD19/BCMA Autologous CAR T-cell therapy product'
+c09257020ff30fa7 NCT05092347 ['mint5'] | Vonsetamig | old=[] new=['TARGET:TNFRSF17'] | desc0='Administered by intravenous (IV) infusion'
+c0a64deae1985d25 NCT06446128 ['mint5', 'tac01'] | CD19/CD20/BCMA CAR T cells | old=['TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='Subjects will undergo leukapheresis to isolate peripheral blood mononuclear cells (PBMCs) for the production of CD19/CD20/BCMA CAR T cells.'
+c0b27dc6acaed5c5 NCT04872790 ['mint5', 'tac01'] | Blinatumomab | old=['TARGET:AMELX', 'TARGET:CD19'] new=['TARGET:CD19'] | desc0='Given IV'
+c0ec04ab78fda991 NCT02706405 ['mint5', 'tac01'] | Autologous Anti-CD19CAR-4-1BB-CD3zeta-EGFRt-expres | old=['TARGET:CD4', 'TARGET:CD8A'] new=[] | desc0='Given IV'
+c0fc2b1e5ab99913 NCT07539610 ['mint5', 'tac01'] | Sup19 CAR-T | old=['TARGET:CD19'] new=[] | desc0='The use of Sup19 CAR-T cells to treat hematologic malignancies with prior CD19-targeted therapy failure or CD19 weak expression aims to impr'
+c15cd9890a97b6b3 NCT07003178 ['mint5', 'tac01'] | STR-P004 | old=['TARGET:CARTPT', 'TARGET:STATH'] new=[] | desc0='An in vivo CART drug administered intravenously'
+c1e3280f41714dab NCT06445803 ['mint5', 'tac01'] | KQ-2002 CAR-T cells （CD19/CD22 CAR T-Cells） | old=['TARGET:CD19', 'TARGET:CD22'] new=[] | desc0='CD19/CD22 cells will be infused on Day1 after induction chemotherapy regimen.'
+c1f3f16035a7f91f NCT07523555 ['mint5', 'tac01'] | Autologous BCMA/CD19 dual-target CAR-T module | old=['TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='Biological: Autologous BCMA/CD19 dual-target CAR-T module after lymphodepletion with fludarabine/cyclophosphamide.'
+c27b9fbc7ba0b8bb NCT06503094 ['mint5', 'tac01'] | CD19&CD20 bispecific CAR-T cells | old=['TARGET:CD19'] new=[] | desc0='Each patient will receive CD19\\&CD20 bispecificCAR-T cells by intravenous infusion on day 0.'
+c2d76f0e8b7c42c3 NCT04617704 ['mint5', 'tac01'] | GC012F injection | old=['TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='GC012F injection is a autologous dual CAR-T targeted BCMA and CD19.'
+c37c01013fc841a0 NCT04782193 ['mint5', 'tac01'] | CD19 and CD22 targeted prime CAR- T cells | old=['TARGET:CD19', 'TARGET:CD22'] new=[] | desc0='A single infusion of CD19 and CD22 prime CAR-T cells will be administered intravenously'
+c3aae625dcd5eb48 NCT04553393 ['mint5', 'tac01'] | Decitabine | old=['TARGET:CARTPT'] new=[] | desc0='Decitabine will be added 1 month after responding to CART cells infusion'
+c3b3e1cda13bbceb NCT04381741 ['mint5', 'tac01'] | CD19-7×19 CAR-T plus PD1 monoclonal antibody | old=['TARGET:CD19'] new=[] | desc0='Three different doses of CD19-7×19 CAR-T (1×106/kg、2×106/kg、3×106/kg) plus 200mg Tislelizumab every 3 weeks for 6 times'
+c46351a0489b05e6 NCT06340490 ['mint5', 'tac01'] | RJMty19 (CD19-CAR-DNT cells) | old=['TARGET:CD19', 'TARGET:NT5C'] new=['TARGET:CD19'] | desc0='Lentiviral vector-transducted double negative T cells (DNT) to express anti-CD19 CAR.'
+c477e1b2424dd647 NCT03825731 ['mint5', 'tac01'] | GC022 | old=['TARGET:CD19', 'TARGET:CD22'] new=[] | desc0='GC022 is a bispecific CAR-T cell immunotherapy that targeted CD19 and CD22.'
+c4e0b800fb4dbb42 NCT04007029 ['mint5', 'tac01'] | Chimeric Antigen Receptor T-Cell Therapy | old=['TARGET:CD19'] new=[] | desc0='Given Autologous anti-CD19/anti-CD20 CAR-expressing naive/memory T cells IV'
+c53a490e6f8b313f NCT03016377 ['mint5', 'tac01'] | iC9-CAR19 cells | old=['TARGET:CD19'] new=[] | desc0='Three dose levels are being evaluated: dose level -1 (1 x 10\\^5), dose level 1 (5 x 10\\^5), and dose level 2 ( 1x 10\\^6)'
+c5d87d251757d703 NCT05000216 ['mint5', 'tac01'] | Withhold IS (B cell depletion therapy) | old=['TARGET:CD19', 'TARGET:TNFSF13B'] new=[] | desc0='Participants who are taking MMF, MPA, or MTX in addition to BCDTs will withhold these medications (MMF, MPA, or MTX ) before and after the a'
+c5f105000ea92b65 NCT04260932 ['mint5', 'tac01'] | CD19/CD20 Dual-CAR-T cells | old=['TARGET:CD19'] new=[] | desc0='CD19/CD20 Dual-CAR-T cells are prepared via lentiviral infection.'
+c5f2666284b9f74f NCT02640209 ['mint5', 'tac01'] | CART 19 | old=['TARGET:CARTPT'] new=[] | desc0='The target dose range administered in this study is 1-5x108 CART-19 cells administered via split dosing: 10% on Day 1 (1-5x107 CART19), 30% '
+c66b07734f24ff20 NCT07555561 ['mint5', 'tac01'] | Autologous CD19-CD20-NKG2D-nsBicephali CAR-T Cell  | old=['TARGET:CD19', 'TARGET:KLRK1'] new=[] | desc0="Autologous CD19-CD20-NKG2D-nsBicephali CAR-T is an autologous cell product derived from the participant's own cells."
+c7c2ca795cf25af8 NCT03173417 ['mint5', 'tac01'] | IM19 CAR-T | old=['TARGET:CD19'] new=[] | desc0='T Cells Expressing an Anti-CD19 Chimeric Antigen Receptor'
+c8290a99ee7085d3 NCT02050347 ['mint5', 'tac01'] | CD19.CAR-CD28Z T Cells - dose escalation 1 | old=['TARGET:CD19'] new=[] | desc0='Patients will receive one of the following doses:'
+c886fac022c129d1 NCT04788472 ['mint5', 'tac01'] | CAR-T cells targeting CD19 and CD22 | old=['TARGET:CD19', 'TARGET:CD22'] new=[] | desc0='Each subject receives sequential CD19 and CD22 CAR-T cells by intravenous infusion'
+c92ca8b66d1f99b5 NCT06775912 ['mint5', 'tac01'] | RD06-05 CART Cell Injection | old=['TARGET:CARTPT'] new=[] | desc0='CAR T-cell therapy administered intravenously after a lymphodepleting therapy regimen consisting of fludarabine and cyclophosphamide'
+c93d8c0eeb3fbac8 NCT06124157 ['mint5'] | Blinatumomab | old=['TARGET:AMELX', 'TARGET:CD19'] new=['TARGET:CD19'] | desc0='Receive IV'
+c98efabb44a1e634 NCT07546630 ['mint5', 'tac01'] | CD19/CD20 Tandem Dual CAR-T | old=['TARGET:CD19'] new=[] | desc0='Each subject will be infused with single dose of CD19/CD20 Tandem Dual CAR-T.'
+c9b91d667f49092d NCT06239116 ['mint5', 'tac01'] | Part B: RM-718 or placebo (matched to specific RM- | old=['TARGET:AMACR'] new=[] | desc0='Multiple ascending doses of RM-718 or placebo (matched to specific RM-718 Part B dose cohorts)'
+ca64531ac609787f NCT04003649 ['mint5', 'tac01'] | IL13Ralpha2-specific Hinge-optimized 4-1BB-co-stim | old=['TARGET:CD19'] new=[] | desc0='Given ITV/ITC'
+cacea5bd7bcbf5a7 NCT07335094 ['mint5', 'tac01'] | humanized CD19 CAR-T Cells with TLR2 | old=['TARGET:CD19', 'TARGET:TLR2'] new=['TARGET:CD19'] | desc0='Administer a single infusion of humanized CD19 CAR-T Cells with TLR2 to this group of patients following fludarabine plus cyclophosphamide ('
+cb3579a783242c06 NCT03549442 ['mint5'] | BCMA CART + huCART19 | old=['TARGET:CARTPT', 'TARGET:TNFRSF17'] new=['TARGET:TNFRSF17'] | desc0='The target dose for CART-BCMA and huCART19 will be 5x10\\^8 CAR-expressing cell for each product.'
+cbcc20bae8be3797 NCT04696432 ['mint5', 'tac01'] | Prizloncabtagene autoleucel | old=['TARGET:CD19'] new=[] | desc0='Autologous 2nd generation CD19/CD20-directed CAR-T cells, single infusion intravenously'
+cbd31f967731f566 NCT04309981 ['mint5'] | Adult differentiated autologous T-cells with anti- | old=['TARGET:TNFRSF17'] new=[] | desc0='After pretreatment, adult differentiated autologous T-cells with a chimeric antigen receptor with anti-BCMA specificity will be transfused.'
+cc6f370823177d64 NCT07517536 ['mint5', 'tac01'] | anti-CD19/70 CAR T cells (CHT105) | old=['TARGET:CD19'] new=[] | desc0='All subjects will receive fludarabine/cyclophosphamide lymphodepletion followed by CHT105 infusion.'
+ccfe4431896b531f NCT07412405 ['mint5', 'tac01'] | ARI-0001 T cells with anti-CD19 chimeric antigen r | old=['TARGET:ARIH1', 'TARGET:CD19'] new=['TARGET:CD19'] | desc0='Pilot clinical trial ARI-0001 T cells with anti-CD19 chimeric antigen receptor (CAR-T) treatment of recurrent/refractory CD19+ hematolymphoi'
+cd1fd188b644b66b NCT07729826 ['mint5'] | C-CAR168 | old=['TARGET:TNFRSF17'] new=[] | desc0='Autologous anti-CD20/BCMA chimeric antigen receptor T-cell therapy administered as a single intravenous infusion at a target dose of 1 × 10\\'
+cd9ad13915065650 NCT06996132 ['mint5', 'tac01'] | Chimeric Antigen Receptor T Cells (CAR-T) | old=['TARGET:CD19'] new=[] | desc0='After two cycles of glofitamab-based salvage therapy, single-target or dual-target CAR-T cells directed against CD19, CD20, and/or CD22 are '
+cdffe2407c50bb2d NCT06544265 ['mint5', 'tac01'] | SynKIR-310 | old=['TARGET:CD19'] new=[] | desc0='Autologous T Cells transduced with CD19 KIR-CAR'
+ce529f5804077c34 NCT07523555 ['mint5', 'tac01'] | Autologous CD33/CD123 dual-target CAR-T module | old=['TARGET:CD33', 'TARGET:IL3RA'] new=[] | desc0='Biological: Autologous CD33/CD123 dual-target CAR-T module (simultaneous or planned sequential paired infusion, module-specific) after lymph'
+cef223c61ba8e8e7 NCT06581640 ['mint5'] | CAR-T treatment | old=['TARGET:TNFRSF17'] new=[] | desc0='Peripheral blood lymphocyte collection, PBMC separation, BCMA CAR-T cell preparation/storage, lymphodepletion chemotherapy pretreatment for '
+cf38c1f071fd326d NCT06894693 ['mint5', 'tac01'] | RS001 injection | old=['TARGET:CD19', 'TARGET:NT5C'] new=['TARGET:CD19'] | desc0='CD19-CAR-mbIL15-DNT Cells.'
+cfd78834a8754362 NCT03321123 ['mint5', 'tac01'] | MB-CART19.1 | old=['TARGET:CD19'] new=[] | desc0='Miltenyi Biotec has established a semi-automated manufacturing process that can be made available to academic settings for systematic explor'
+d039abac368620a2 NCT02568553 ['mint5', 'tac01'] | Blinatumomab | old=['TARGET:AMELX', 'TARGET:CD19'] new=['TARGET:CD19'] | desc0='Given IV'
+d15cf044ffd0cb37 NCT02792400 ['mint5', 'tac01'] | Empagliflozin | old=['TARGET:SLC5A2'] new=[] | desc0='SGLT2-inhibitor'
+d171779e30275c3b NCT07523555 ['mint5', 'tac01'] | Autologous CD19/CD20 dual-target CAR-T module | old=['TARGET:CD19'] new=[] | desc0='Biological: Autologous CD19/CD20 dual-target CAR-T module after lymphodepletion with fludarabine/cyclophosphamide.'
+d18b31f9b82e1c55 NCT07676266 ['mint5'] | CD20/BCMA-directed CAR-T cells Autologous 2nd gene | old=['TARGET:TNFRSF17'] new=[] | desc0='CD20/BCMA-directed CAR-T cells, single infusion intravenously'
+d224112196137540 NCT02003222 ['mint5', 'tac01'] | Blinatumomab | old=['TARGET:AMELX', 'TARGET:CD19'] new=['TARGET:CD19'] | desc0='Given IV'
+d2f301793f8dfe06 NCT03765177 ['mint5', 'tac01'] | CLIC-1901 | old=['TARGET:CD19'] new=[] | desc0='Participants will undergo (a) lymphodepletion with cyclophosphamide and fludarabine, followed by (b) infusion of autologous CLIC-1901 CAR-T '
+d308f95a07cbd0ce NCT07523555 ['mint5', 'tac01'] | Autologous BCMA/GPRC5D dual-target CAR-T | old=['TARGET:GPRC5D', 'TARGET:TNFRSF17'] new=[] | desc0='Biological: Autologous BCMA/GPRC5D dual-target CAR-T module after lymphodepletion with fludarabine/cyclophosphamide'
+d350f0181598783b NCT04626765 ['mint5', 'tac01'] | CD 19+22 | old=['TARGET:CD19'] new=[] | desc0='CD19+22 CAR-T infusion for pediatric patients with CD19 positive and CD22 positive tumor cells'
+d43cf47a13690f54 NCT07248163 ['mint5', 'tac01'] | BRL-301 | old=['TARGET:CD19'] new=[] | desc0='The administered dose is 5×10\\^6/kg'
+d4f59b875e41236b NCT03767725 ['mint5', 'tac01'] | Treatment | old=['TARGET:CARTPT'] new=[] | desc0='Phase 1 Clinical Study of The patients undergo leukapheresis.'
+d67250ff612ad5ac NCT06963866 ['mint5'] | CAR-T | old=['TARGET:TNFRSF17'] new=[] | desc0='The T cells are genetically modified to express a chimeric antigen receptor targeting BCMA and are infused 3 days after ASCT at a target dos'
+d7b91752f0ebe572 NCT07713459 ['mint5', 'tac01'] | CART Infusion | old=['TARGET:CARTPT', 'TARGET:CD19'] new=['TARGET:CD19'] | desc0='UF-KURE19 are CD19 CAR-T cells that are manufactured using an Ultra-fast less than 1 day process'
+d9777ace308ae734 NCT05672173 ['mint5', 'tac01'] | Ibrutinib | old=['TARGET:BTK', 'TARGET:PRB4', 'TARGET:SERPINA5'] new=[] | desc0='Given PO'
+da4d9f21c3f1d7c9 NCT07106736 ['mint5'] | BCMA CAR-T | old=['TARGET:TNFRSF17'] new=[] | desc0='Patients will receive single-dose infusion of autologous BCMA-directed CAR-T cellsBCMA CAR-T single dose (3.0 x 10\\^6 cells /kg).'
+da61ca5a52fd9e04 NCT02443831 ['mint5', 'tac01'] | CD19+CD22 CAR T-cells | old=['TARGET:CD19', 'TARGET:CD22'] new=[] | desc0='1 dose of CD19+CD22 CAR T-cells given as an intravenous injection through a Hickman line or PICC line (peripherally inserted central cathete'
+da687400ca1f5f36 NCT03895944 ['mint5', 'tac01'] | ET190L1-ARTEMIS™ T cells -iv low dose | old=['TARGET:CD19', 'TARGET:DCLRE1C'] new=['TARGET:CD19'] | desc0='Autologous T cells transduced with lentivirus encoding an anti-CD19 (ET190L1) -ARTEMIS™ expression construct, 1x10\\^6'
+db93f8ca55ad69b0 NCT03287817 ['mint5', 'tac01'] | AUTO3 | old=['TARGET:CD22'] new=[] | desc0='Following preconditioning with chemotherapy (cyclophosphamide and fludarabine) patients will be treated with doses from 50 x 10⁶ to 900 x 10'
+dc1ad09e7d68f456 NCT02101853 ['mint5', 'tac01'] | Blinatumomab | old=['TARGET:AMELX', 'TARGET:CD19'] new=['TARGET:CD19'] | desc0='Given IV'
+dc79b525d61cd56e NCT07052565 ['mint5', 'tac01'] | Anti-BCMA and CD19 CART cells will be injected int | old=['TARGET:CARTPT', 'TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='A single intravenous infusion of anti-BCMA and CD19 CART cells (dose-escalating infusion of 1.0-6.0 x10\\^5 CART cells/kg）'
+dcd04668273bebac NCT02624258 ['mint5', 'tac01'] | CD19 RNA redirected autologous T-cells (RNA CART19 | old=['TARGET:CD19'] new=[] | desc0='Subjects will be treated with IV administration of RNA anti-CD19 CAR T cells for a total of six doses over 3 weeks.'
+dd930d05ea7f255c NCT02465983 ['mint5', 'tac01'] | CART-meso-19 T cells | old=['TARGET:CARTPT'] new=[] | desc0='A single dose of CART-meso-19 cells (combination therapy with CART-meso and CART19 cells) will be administered intravenously as two separate'
+ddc7ea9e6ff8f29e NCT07309744 ['mint5', 'tac01'] | RD06-05 CART Cell Infusion | old=['TARGET:CARTPT'] new=[] | desc0='Participent will receive the infusion of RD06-05 cell injection with dosage of 3, 6, or 10×10⁶ CAR+T cells/kg respectively'
+ddd0849789e0990e NCT04317885 ['mint5', 'tac01'] | Prizloncabtagene Autoleucel | old=['TARGET:CD19'] new=[] | desc0='Autologous 2nd generation CD19/CD20-directed CAR-T cells, single infusion intravenously'
+ddda3efbbdd7e2c4 NCT05210907 ['mint5', 'tac01'] | SNUH-CD19-CAR-T | old=['TARGET:CD19'] new=[] | desc0='SNUH-CD19-CAR-T is an autologous CAR-T from T cells collected from each patient.'
+de1869b77a3518be NCT03853616 ['mint5', 'tac01'] | MB-CART19.1 | old=['TARGET:CD19', 'TARGET:CD4', 'TARGET:CD8A'] new=[] | desc0='MB-CART19.1 consists of autologous CD19 Chimeric Antigen Receptor (CAR) transduced CD4/CD8 enriched T cells targeting CD19-positive tumor ce'
+de56f5eeec640b14 NCT07361094 ['mint5', 'tac01'] | Autologous CD19-BCMA Dual-Target CAR T-Cell Therap | old=['TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0="Autologous CD19-BCMA dual-target CAR T-cell therapy is a personalized cell-based immunotherapy manufactured from each participant's own peri"
+de5aad49af84bcb2 NCT03338972 ['mint5'] | Autologous Anti-BCMA-CAR-expressing CD4+/CD8+ T-ly | old=['TARGET:CD4', 'TARGET:CD8A', 'TARGET:TNFRSF17'] new=['TARGET:TNFRSF17'] | desc0='Given IV'
+de7c5992209266cd NCT07248176 ['mint5'] | Targeted BCMA Gene-Modified Allogeneic Chimeric An | old=['TARGET:TNFRSF17'] new=[] | desc0='The study drug is administered intravenously at a fixed dose within 1-2 days after lymphocyte depletion, and its efficacy and safety are obs'
+df7f317cfc48e6c2 NCT04553393 ['mint5', 'tac01'] | Chidamide | old=['TARGET:CARTPT'] new=[] | desc0='Chidamide will be added 1 month after responding to CART cells infusion'
+dfcb7c6257f010f5 NCT06655519 ['mint5'] | CAR-T（RD140 injection） | old=['TARGET:CARTPT'] new=[] | desc0='This study is divided into two stages: dose escalation and dose extension.'
+e06eb39f040ca1f2 NCT07638683 ['mint5'] | Teclistamab | old=['TARGET:CD38', 'TARGET:TNFRSF17'] new=[] | desc0='Teclistamab: A humanized IgG4-PAA bispecific antibody targeting BCMA and CD3.'
+e09516055184cb88 NCT04257578 ['mint5', 'tac01'] | Acalabrutinib | old=['TARGET:NDUFAB1'] new=[] | desc0='Given PO'
+e146161f6bc3a65a NCT06688435 ['mint5'] | SYS6020 injection | old=['TARGET:TNFRSF17'] new=[] | desc0='The SYS6020 is an injection of autologous CAR-T cells that have been temporarily transfected with LNP-mRNA targeting BCMA.'
+e3a84d68c69c9daa NCT04723914 ['mint5', 'tac01'] | dual target CAR-T cell therapy | old=['TARGET:CD19'] new=[] | desc0='CD19/CD20 dual target CAR-T cell therapy'
+e4c086c5e4eb1f43 NCT06106893 ['mint5', 'tac01'] | CD19 Universal CAR-γδ T Cells | old=['TARGET:CD19'] new=[] | desc0='Intravenous infusion of CD19 Universal CAR-γδ T Cells'
+e4ce5fe3b62e9324 NCT07003568 ['mint5'] | Dual-targeting BCMA-GPRC5D CAR-T cell infusion | old=['TARGET:GPRC5D', 'TARGET:TNFRSF17'] new=[] | desc0='Approximately 3-5 days prior to BCMA-GPRC5D CAR-T cell infusion, subjects are treated with FC regimen (fludarabine and cyclophosphamide) for'
+e4d1b2c2f85bc506 NCT03330691 ['mint5', 'tac01'] | Patient-derived CD19- and CD22 specific CAR | old=['TARGET:CD19', 'TARGET:CD22'] new=[] | desc0='Patient-derived CD19-specific CAR also expressing an HER2t and CD22-specific CAR T-cells also expressing an EGFRt'
+e54a2eb899f9b879 NCT06056102 ['mint5', 'tac01'] | CART-BCMA | old=['TARGET:CARTPT', 'TARGET:TNFRSF17'] new=[] | desc0='* Safety Run-in: 5 x 10\\^7 CAR T cells'
+e57a97707e1af5ce NCT05487651 ['mint5', 'tac01'] | KUR-502 | old=['TARGET:CD19', 'TARGET:CFAP298'] new=[] | desc0='KUR-502 (CD19.CAR-aNKT cells) consists of transduced allogeneic natural killer T cells (aNKT) genetically modified with additional features '
+e5df0ad5287d4fd4 NCT06886919 ['mint5', 'tac01'] | Engineering of chimeric antigen receptors targetin | old=['TARGET:CD19'] new=[] | desc0='About 6 subjects will be included in the study, and a "3+3" dose escalation method will be used.'
+e61306e83f899b81 NCT00450944 ['mint5', 'tac01'] | deglycosylated ricin A chain-conjugated anti-CD19/ | old=['TARGET:CD19', 'TARGET:CD22'] new=[] | desc0=''
+e62c7a978e5d062b NCT03473496 ['mint5'] | CART therapy in Relapsed/Refractory multiple myelo | old=['TARGET:CARTPT', 'TARGET:CD38', 'TARGET:NCAM1', 'TARGET:SDC1', 'TARGET:TNFRSF17'] new=['TARGET:CD38', 'TARGET:NCAM1', 'TARGET:SDC1', 'TARGET:TNFRSF17'] | desc0='one kind of BCMA/CD138/CD38/CD56-CART therapy in Relapsed/Refractory multiple myeloma'
+e67317b117729098 NCT07162038 ['mint5', 'tac01'] | mCD19-CAR-CD28-CD3-zeta.(anti-CD19 CAR) retroviral | old=['TARGET:CD19', 'TARGET:CD28'] new=[] | desc0='CAR-T cell infusion given at four escalating dose levels (DL1: 3 x 10\\^4 cells/kg, DL2: 1 x 10\\^5 cells/kg, DL3: 3 x 10\\^5 cells/kg, DL4: 1 '
+e6b69dcac30caba9 NCT05166070 ['mint5', 'tac01'] | RD133 | old=['TARGET:CD19', 'TARGET:MSLN'] new=['TARGET:MSLN'] | desc0='The enhanced MSLN-CAR-T cell design of this study is obtained by co-infecting T cells with two lentiviral vectors.'
+e6f63a2cf890518f NCT07689578 ['mint5'] | BiTE (BCMA x CD3 Bispecific Antibody) | old=['TARGET:TNFRSF17'] new=[] | desc0='Subcutaneous administration of BCMA x CD3 Bispecific Antibody'
+e7a1e77f18740439 NCT07612787 ['mint5'] | BCMA bispecific | old=['TARGET:TNFRSF17'] new=[] | desc0='Combination of Belantamab and Mezigdomide treatments with patients previously treated with anti-BCMA bispecific antibodies'
+e7f47aa4d7a87f78 NCT07085676 ['mint5'] | HBI0101 CART | old=['TARGET:CARTPT', 'TARGET:TNFRSF17'] new=[] | desc0='HBI0101 CART is defined as autologous T cells transduced ex-vivo with anti-BCMA CAR retroviral vector encoding the chimeric antigen receptor'
+e809a2a3de408165 NCT06549296 ['mint5', 'tac01'] | RD06-04 CART Cell Injection | old=['TARGET:CARTPT'] new=[] | desc0='CAR T-cell therapy administered intravenously after a lymphodepleting therapy regimen consisting of fludarabine and cyclophosphamide.'
+e812ba2e1ec62252 NCT04182581 ['mint5', 'tac01'] | BCMA/CD19 Dual-Target CAR-T | old=['TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='BCMA/CD19 Dual-Target CAR-T target both BCMA and CD19.'
+e917071b88f695c0 NCT07604792 ['mint5', 'tac01'] | FIT-(BCMA+CD19)-CAR-T Cells | old=['TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='Before cell infusion, researchers may decide, based on necessity, whether to administer prophylactic medication, which may include options s'
+e93dabaa0f179b4f NCT04510051 ['mint5', 'tac01'] | IL13Ralpha2-specific Hinge-optimized 41BB-co-stimu | old=['TARGET:CD19'] new=[] | desc0='Given intraventricularly'
+e950cc3c88d9da1f NCT05317416 ['mint5'] | Elranatamab | old=['TARGET:TNFRSF17'] new=[] | desc0='BCMA-CD3 bispecific antibody'
+e968968a84d080a4 NCT03415399 ['mint5', 'tac01'] | ET190L1 ARTEMIS™ T cells | old=['TARGET:CD19', 'TARGET:DCLRE1C'] new=['TARGET:CD19'] | desc0='Autologous T cells transduced with lentivirus encoding an anti-CD19 (ET190L1) ARTEMIS™ expression construct'
+e99f4ea87d592de6 NCT06518876 ['mint5', 'tac01'] | KQ-2003 CAR T-cells | old=['TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='KQ-2003 CAR T-cell therapy involves autologous chimeric antigen receptor T-cells, capable of targeting both human B cell maturation antigen '
+e9b61aa2cca9bea9 NCT06581081 ['mint5', 'tac01'] | Senl_B19 autologous CAR-T (S1904) treatment | old=['TARGET:EVA1C'] new=[] | desc0='Subjects enrolled in this study will first receive Senl\\_B19 autologous CAR-T (S1904) treatment.'
+ea462cabe1deaffc NCT03895944 ['mint5', 'tac01'] | ET190L1-ARTEMIS™ T cells - iv high dose | old=['TARGET:CD19', 'TARGET:DCLRE1C'] new=['TARGET:CD19'] | desc0='Autologous T cells transduced with lentivirus encoding an anti-CD19 (ET190L1) -ARTEMIS™ expression construct, 10x10\\^6'
+ea912a8d2edf2818 NCT04887025 ['mint5', 'tac01'] | RGV004 | old=['TARGET:CD19'] new=[] | desc0='a genetically-engineered vaccinia virus (encoding CD19/CD3 bispecific antibody)'
+eb07659a5bdf6ac4 NCT05618041 ['mint5', 'tac01'] | CAR-T Autologous T cell injection | old=['TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='Biological: CAR-T'
+eb31e8a755210385 NCT07244406 ['mint5', 'tac01'] | S1904 CD19 CAR-T | old=['TARGET:CD19'] new=[] | desc0='Autologous CD19-targeting CAR T cells'
+ed2c56d6cfa3ab88 NCT07643103 ['mint5', 'tac01'] | Blinatumomab | old=['TARGET:CD19'] new=[] | desc0='CD19/CD3 bispecific T-cell engager (BiTE) administered as continuous intravenous infusion during consolidation therapy.'
+ee2296d777f85865 NCT03269136 ['mint5'] | PF-06863135 monotherapy IV or SC | old=['TARGET:TNFRSF17'] new=[] | desc0='PF-06863135 will be administered intravenously or subcutaneously.'
+eeec12c6cf20d95e NCT04792593 ['mint5', 'tac01'] | Senl-h19 CAR-T | old=['TARGET:CD19'] new=[] | desc0='Biological: Senl-h19 CAR-T'
+ef45904a5d2a489c NCT07115667 ['mint5'] | BCMA/CD3 bispecific antibody (CM336) | old=['TARGET:TNFRSF17'] new=[] | desc0='Patients with solitary bone plasmacytoma (SBP) with mild bone marrow infiltration will receive radiation combined with a BCMA/CD3 bispecific'
+efadcb1c62ab23c3 NCT04412174 ['mint5', 'tac01'] | GC022F | old=['TARGET:CD19', 'TARGET:CD22'] new=[] | desc0='GC022F is a bispecific CAR-T cell immunotherapy that targeted CD19 and CD22.'
+f042f2a10198e23d NCT05225831 ['mint5', 'tac01'] | Autologous CD19/CD22 Chimeric Antigen Receptor T-c | old=['TARGET:CD19', 'TARGET:CD22'] new=[] | desc0='A single infusion of CD19 and CD22 CAR-T cells.'
+f0828759e6469415 NCT06317662 ['mint5'] | Blinatumomab | old=['TARGET:AMELX', 'TARGET:CD19'] new=['TARGET:CD19'] | desc0='Given IV'
+f165e6861717c43f NCT03398967 ['mint5', 'tac01'] | Universal Dual Specificity CD19 and CD20 or CD22 C | old=['TARGET:CD22'] new=[] | desc0='1.'
+f2e8aba916fa7239 NCT02546167 ['mint5'] | CART-BCMA | old=['TARGET:TNFRSF17'] new=[] | desc0=''
+f30284cb8f2ea52e NCT04016129 ['mint5', 'tac01'] | 4SCAR-CD22/CD123/CD38/CD10/CD20/TSLPR | old=['TARGET:CARTPT', 'TARGET:CD19'] new=[] | desc0='4SCAR-CD22/CD123/CD38/CD10/CD20/TSLPR Patients who have relapsed after CD19 CART immunotherapy or have CD19 negative B cell malignancies'
+f41d66ba4339087c NCT07584850 ['mint5', 'tac01'] | GI001 Injection | old=['TARGET:CD19'] new=[] | desc0='Biological: GI001 Injection GI001 is an innovative chimeric antigen receptor T-cell (CAR-T) therapy targeting CD19-positive B-cell malignanc'
+f45865aad8842a67 NCT06297408 ['mint5', 'tac01'] | Relma-cel | old=['TARGET:CD19'] new=[] | desc0='CD19-targeted Chimeric AntigenReceptor (CAR) T Cells'
+f4fb06333897e3ce NCT05432635 ['mint5', 'tac01'] | Anti-CD19-CAR CMV-specific T-lymphocytes | old=['TARGET:CD19'] new=[] | desc0='Given IV'
+f54cf50d30e87735 NCT07764978 ['mint5', 'tac01'] | AZD0120 | old=['TARGET:CD19', 'TARGET:TNFRSF17'] new=[] | desc0='AZD0120, is a BCMA/CD19 dual CAR T-cell product, which is administered intravenously.'
+f6a8f29e090ca572 NCT06735495 ['mint5', 'tac01'] | CD19&CD22 bispecific CAR-T cells | old=['TARGET:CD19', 'TARGET:CD22'] new=[] | desc0='Each patient will receive CD19\\&CD22 bispecific CAR-T cells by intravenous infusion on day 0'
+f6b20289fc4127b0 NCT06189157 ['mint5', 'tac01'] | MB-CART19.1 | old=['TARGET:CD19', 'TARGET:CD4', 'TARGET:CD8A'] new=['TARGET:CD19'] | desc0='MB-CART19.1 consists of autologous CD19 Chimeric Antigen Receptor (CAR) transduced CD4/CD8 enriched T cells'
+f6df7d371eb99031 NCT03571828 ['mint5', 'tac01'] | AMG 562 | old=['TARGET:CD19'] new=[] | desc0='AMG 562 is a BiTE® antibody construct that targets CD19 and is intended for the treatment of patients with B-cell malignancies.'
+f731935d04194235 NCT07344818 ['mint5', 'tac01'] | CAR-T cell therapy | old=['TARGET:CD19'] new=[] | desc0='autologous CD19+CD20 dual CAR-T cells, single injection'
+f8544ef64af35820 NCT06486051 ['mint5', 'tac01'] | WZTL-002 CAR T-cells | old=['TARGET:CD19'] new=[] | desc0='WZTL-002 comprises autologous T-cells transduced to express the third-generation 1928T2z chimeric antigen receptor, which recognises the CD1'
+f8f3c9022fcf1f79 NCT06081478 ['mint5', 'tac01'] | CD19/CD22-bispecific CAR-T cells | old=['TARGET:CD19', 'TARGET:CD22'] new=[] | desc0='CD19/CD22-bispecific CAR-T cells were infused at the same day with 2×10e6/kg and 1×10e6/kg dosage, respectively.'
+f9fc14c697753747 NCT06875063 ['mint5', 'tac01'] | GB5005 CART | old=['TARGET:CARTPT'] new=[] | desc0='Included patients will receive GB5005 chimeric antigen receptor T-cell injection: A sterile syringe will be used to draw the assigned dose v'
+fb81da684dfe920a NCT06868654 ['mint5'] | Belantamab mafodotin | old=['TARGET:TNFRSF17'] new=[] | desc0='Humanized anti-B-cell maturation antigen (BCMA) antibody/drug conjugate'
+fcce44c0393b0cc6 NCT03344705 ['mint5', 'tac01'] | IM19 CAR-T | old=['TARGET:CD19'] new=[] | desc0='All patients will be treated with fludarabine and cyclophosphamide for 3 days.'
+fd2bb18a6ce1eb08 NCT07188558 ['mint5', 'tac01'] | rondecabtagene autoleucel | old=['TARGET:CD19'] new=[] | desc0='An autologous, dual-targeting CD19/20 CAR T-cell candidate.'
+fe64192772fac50e NCT03932955 ['mint5', 'tac01'] | MC-19PD1 CAR-T cells | old=['TARGET:CD19', 'TARGET:CD28'] new=[] | desc0='T cells purified from the PBMC of subjects, transduced with anti-CD19 CAR and PD1/CD28 chimera lentiviral vector, expanded in vitro for futu'
+fea6763c6fafe348 NCT06532630 ['mint5', 'tac01'] | Fludarabine | old=['TARGET:CD19'] new=[] | desc0='Fludarabine will be given at a dose of 25 mg/m2/day intravenously (IV) for 3 days prior to anti-CD19-CAR-T cells infusion.'
+ff23e0acd4906d64 NCT03185494 ['mint5', 'tac01'] | anti-CD19/22-CAR vector-transduced T cells | old=['TARGET:CD19'] new=[] | desc0='genetically engineered lymphocyte therapy'
+ff29813d18c402c1 NCT05565391 ['mint5'] | Elranatamab | old=['TARGET:TNFRSF17'] new=[] | desc0='BCMA-CD3 bispecific antibody'
+ff43f4d3bea3ba8e NCT03929107 ['mint5', 'tac01'] | Interleukin-7 and Chemokine (C-C Motif) Ligand 19- | old=['TARGET:CD19', 'TARGET:CXCR1'] new=['TARGET:CD19'] | desc0="patient's T cells were seperated and engineered into Interleukin-7 and Chemokine (C-C Motif) Ligand 19-expressing CD19-CAR-T cells, and retr"
+ff6f71484c5300e0 NCT07085104 ['mint5', 'tac01'] | ALLO-329 | old=['TARGET:CD19', 'TARGET:CD70'] new=[] | desc0='An allogeneic CAR T cell therapy targeting CD19 and CD70'
+fffe8b1fdd9b6d3b NCT03275493 ['mint5', 'tac01'] | CD19 CAR-T cells with CRS suppression technology | old=['TARGET:CD19', 'TARGET:TWIST1'] new=['TARGET:CD19'] | desc0='Express a Second Generation 4-1BB:CD19 CAR-T cells with CRS suppression technology'
+gained=13 lost=743

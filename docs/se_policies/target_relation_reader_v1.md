@@ -234,3 +234,62 @@ There are two runs, sequential, into new directories. They replay the same seale
 - Stage attribution.
 - The ontology defects `ALK`→EML4 and `PD-1` ambiguity: these are recorded, not patched.
 - Retiring the old reader inside `denotes_more_than_one_product`.
+
+## 9. Result — 2026-10-02, implementation `7e8471f`
+
+Scorer: `scripts/eval_target_relation_reader.py` → `research/se_target_reader/eval_v1.txt`.
+
+- **A1/A2 (controls): PASS.** Every §4.1 and §4.2 control passes, both as unit tests
+  (`tests/se/test_target_relations.py`, 37) and against the pinned ontology on the sealed
+  records.
+  - Disclosure: the first script run encoded the MART row as "no fact". §4.1 freezes only
+    "never SEPTIN4, F5", and `anti-MART-1` → MLANA is the correct reading, because MART-1 is
+    MLANA. The script was corrected to match §4.1. The reader was not changed.
+- **A4 (binding): FAIL.**
+  - Old→new diff over the 3,464 baseline interventions: 13 targets gained, 743 lost.
+  - Of the 13 gains, 12 are correct:
+    - IL13Rα2-specific CARs ×5;
+    - teclistamab → BCMA and talquetamab → GPRC5D, both from "XxCD3";
+    - polatuzumab → CD79B;
+    - siltuximab → IL6;
+    - vonsetamig/REGN5459 → BCMA;
+    - V001-FcRH5 → FCRL5;
+    - anti-BCMA/FcRL5 CAR → +FCRL5.
+  - **One is false:** NCT03579888 "Autologous CD19-CD8-CD28-CD3zeta-CAR-mbIL15-HER1t" gains
+    CD247. CD3ζ is the CAR's signaling domain, and CD8 and CD28 (carried over from the old
+    reader) are its hinge and costimulatory domains. M4 reads a CAR *architecture* string as a
+    coordination of binding arms. That is class F4, the class v1 was built to close.
+    Zero false gains were allowed.
+- **Recall cost (reported; there was no threshold).** 410 baseline records lose a
+  CD19/BCMA target, most of them correctly attributed before. Reasons:
+
+  | Reason | Records | Example |
+  |---|---|---|
+  | no slot | 190 | "BCMA/GPRC5D dual CAR-T": a word between the mention and its CAR head |
+  | unresolved slot argument | 130 | |
+  | list-coordinated slot | 48 | "CAR-T targeting CD19 and BCMA" |
+  | record guards | 43 | |
+  | history/combination marker | 34 | "Following lymphodepletion … " |
+  | other | 8 | |
+
+  Stage P would almost certainly also have failed P2.
+- **A3:** not hand-audited, because A4 had already failed decisively.
+- **Suite:** `tests/se` gave 1552 passed and 3 failed.
+  - Two failures are the frozen M6 change: CD3 is no longer a target.
+  - One is the "dual" recall loss above.
+
+**Status: FAILED_ACCEPTANCE (A4).** The implementation is reverted. No pipeline run was
+requested.
+
+**Diagnosis.** Precision on F1, F2, F5, F6 and F7 behaved as designed, and every named
+negative control holds. Two things failed:
+
+1. The grammar has no notion of a CAR's *architecture*: binder, then hinge, then
+   costimulatory domain, then signaling domain. Construct components therefore still enter
+   through the CAR-head slot.
+2. A closed, adjacency-based slot set is far narrower than how registries actually describe
+   dual constructs. Examples: "dual CAR-T targeting CD19 and BCMA", "X/CD3 bispecific",
+   "Following lymphodepletion …".
+
+Widening the slots after seeing this corpus would be tuning on the binding set. Any successor
+needs a new preregistration, and a held-out corpus that this design has not seen.
