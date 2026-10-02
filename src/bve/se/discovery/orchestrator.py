@@ -475,7 +475,7 @@ class DiscoveryOrchestrator:
             started_at=attempts[0].retrieval_date if attempts else datetime.now(timezone.utc),
             completed_at=datetime.now(timezone.utc),
             code_version=code_version,
-            extractor_versions=extractor_versions or {},
+            extractor_versions={**(extractor_versions or {}), **_sidecar_versions()},
             normalization_version=normalization_version,
             ontology_version=resolved_ontology_version,
             trial_universe=trial_universe,
@@ -525,3 +525,16 @@ def _aggregate_source_outcome(
 
 def unique_provisional_identities(hits: Iterable[CandidateHit]) -> set[str]:
     return {hit.provisional_identity_key for hit in hits}
+
+
+def _sidecar_versions() -> dict[str, str]:
+    """Pinned post-discovery sidecars this process will use, sealed with the corpus.
+
+    ``ncit_target_sidecar_v1.md`` Amendment 1: the NCIt sidecar is recorded here so a
+    replay of this corpus can refuse to run without the identical sidecar.
+    """
+
+    from bve.se.ontology.ncit_targets import NCIT_EXTRACTOR_KEY, ncit_authority
+
+    authority = ncit_authority()
+    return {NCIT_EXTRACTOR_KEY: authority.version_token} if authority is not None else {}

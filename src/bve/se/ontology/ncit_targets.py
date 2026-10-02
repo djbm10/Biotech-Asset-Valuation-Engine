@@ -27,6 +27,8 @@ from functools import lru_cache
 from pathlib import Path
 
 SIDECAR_VERSION = "ncit_target_sidecar_v1"
+#: Key under ``RunManifest.extractor_versions`` that pins the sidecar for replay.
+NCIT_EXTRACTOR_KEY = "ncit_target_sidecar"
 NCIT_RELEASE = "26.08e"
 _DEFAULT_PATH = Path("data/se/ontology/ncit/ncit_26.08e_targets.json")
 

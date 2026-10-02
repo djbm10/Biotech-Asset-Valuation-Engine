@@ -83,3 +83,20 @@ def se_ontology_snapshot(tmp_path_factory, monkeypatch) -> OntologySnapshot:
         # The resolver is cached per process, so a snapshot left installed would silently
         # widen every later test's vocabulary.
         reset_resolver_cache()
+
+
+@pytest.fixture(autouse=True)
+def _no_ncit_sidecar(monkeypatch, tmp_path_factory):
+    """Tests never pick up the locally installed NCIt sidecar unless they install one.
+
+    The sidecar is local data (``data/se/ontology/ncit``); a suite whose outcome depended
+    on whether a developer had built it would not be a test of the code.
+    """
+
+    from bve.se.ontology.ncit_targets import reset_ncit_cache
+
+    missing = tmp_path_factory.mktemp("no_ncit") / "absent.json"
+    monkeypatch.setenv("BVE_SE_NCIT_SIDECAR", str(missing))
+    reset_ncit_cache()
+    yield
+    reset_ncit_cache()

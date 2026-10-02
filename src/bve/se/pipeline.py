@@ -45,6 +45,11 @@ from bve.se.evidence.pubmed import PubMedEvidenceExtractor
 from bve.se.evidence.generic import PublicDocumentEvidenceExtractor
 from bve.se.gates.engine import GateEngine, GateEvaluation
 from bve.se.ontology.drug_modality import modality_authority, modality_match
+from bve.se.ontology.ncit_targets import (
+    NCIT_EXTRACTOR_KEY,
+    ncit_authority,
+    ncit_construct_evidence,
+)
 from bve.se.clinical.cohorts import assign_cohort
 from bve.se.clinical.meaningfulness import assess_meaningfulness
 from bve.se.resolution.registry import AssetRegistry
@@ -109,6 +114,8 @@ class SESearchResult(BaseModel):
     cohort_assignments: list[CohortAssignment] = Field(default_factory=list)
     clinical_meaningfulness: list[ClinicalMeaningfulness] = Field(default_factory=list)
     processing_errors: list[str] = Field(default_factory=list)
+    #: ``ncit_target_sidecar_v1.md``: one record per asset linked to an NCIt concept.
+    ncit_target_dispositions: list[dict] = Field(default_factory=list)
     label: str = DEVELOPMENT_SCREEN_LABEL
 
 
@@ -464,6 +471,58 @@ def run_landscape_search(
             )
             described += 1
         stage.count(candidates=len(registry.assets), described=described)
+
+    # ``ncit_target_sidecar_v1.md``: fill-only. An asset no stronger route has described
+    # may take NCIt's set, emitted only where NCIt's curated antigen class and its own
+    # mechanism sentence agree. Every linked asset gets a disposition, emitted or not, so
+    # "NCIt says this is not a single human gene" is on the record rather than silent.
+    ncit = ncit_authority()
+    ncit_dispositions: list[dict] = []
+    if ncit is not None:
+        with telemetry.stage("NCIT_TARGETS") as stage:
+            filled = 0
+            for asset_id in sorted(registry.assets):
+                asset = registry.assets[asset_id]
+                names = [asset.canonical_name, *asset.aliases]
+                if attribution is not None:
+                    names.extend(attribution.authority_names(asset.canonical_name, list(asset.aliases)))
+                link = ncit.link(list(dict.fromkeys(names)))
+                if link is None:
+                    continue
+                existing = [
+                    fact
+                    for fact in facts_by_asset.get(asset_id, [])
+                    if fact.fact_type == "construct_target_set"
+                ]
+                product = ncit.products.get(link.code, {})
+                disposition = {
+                    "asset_id": asset_id,
+                    "canonical_name": asset.canonical_name,
+                    "ncit_code": link.code,
+                    "matched_name": link.matched_name,
+                    "reason": link.reason,
+                    "ncit_targets": product.get("targets", []),
+                    "class_set": product.get("class_set", []),
+                    "mechanism_set": product.get("mechanism_set", []),
+                    "action": "none",
+                }
+                evidence = ncit_construct_evidence(
+                    asset_id, link, ncit, as_of_date=problem.buyer.as_of_date
+                )
+                if evidence is not None and existing:
+                    agrees = all(sorted(f.value) == evidence.fact.value for f in existing)
+                    disposition["action"] = "kept_existing_agrees" if agrees else "kept_existing_conflict"
+                elif evidence is not None:
+                    for document in evidence.documents:
+                        ledger.register_document(document)
+                    for claim in evidence.claims:
+                        ledger.add_claim(claim)
+                    ledger.add_fact(evidence.fact)
+                    facts_by_asset.setdefault(asset_id, []).append(evidence.fact)
+                    disposition["action"] = "filled"
+                    filled += 1
+                ncit_dispositions.append(disposition)
+            stage.count(linked=len(ncit_dispositions), filled=filled)
 
     # Human proof of concept, from the two places a reported result can be found: a
     # structured clinical result the source published, and a sentence in a document the
@@ -851,6 +910,17 @@ def run_landscape_search(
         if entry.asset_id in eligible
     ]
     run_manifest = discovery.manifest
+    if ncit is not None:
+        # A mandatory replay dependency: ``replay`` refuses a run whose recorded sidecar
+        # token the replaying process cannot reproduce.
+        run_manifest = run_manifest.model_copy(
+            update={
+                "extractor_versions": {
+                    **run_manifest.extractor_versions,
+                    NCIT_EXTRACTOR_KEY: ncit.version_token,
+                }
+            }
+        )
     if processing_errors:
         run_manifest = run_manifest.model_copy(
             update={
@@ -888,6 +958,7 @@ def run_landscape_search(
             for result in clinical_results
         ],
         processing_errors=processing_errors,
+        ncit_target_dispositions=ncit_dispositions,
         label=(
             DEVELOPMENT_SCREEN_LABEL
             if run_manifest.status.value == "CONVERGED"

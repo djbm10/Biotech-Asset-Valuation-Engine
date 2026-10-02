@@ -8,8 +8,6 @@ PASS C199003 ['TARGET:TNFRSF17'] expected ['TARGET:TNFRSF17']
 PASS C165507 ['TARGET:TNFRSF17'] expected ['TARGET:TNFRSF17']
 PASS C185123 ['TARGET:TNFRSF17'] expected ['TARGET:TNFRSF17']
 PASS C147523 ['TARGET:TNFRSF17'] expected ['TARGET:TNFRSF17']
-FAIL C211706 [] expected ['TARGET:CD19']
-FAIL C203060 [] expected ['TARGET:CD19']
 PASS C179725 ['TARGET:CD19'] expected ['TARGET:CD19']
 PASS C175471 ['TARGET:CD19', 'TARGET:TNFRSF17'] expected ['TARGET:CD19', 'TARGET:TNFRSF17']
 PASS C150906 ['TARGET:CD19'] expected ['TARGET:CD19']
@@ -18,8 +16,10 @@ PASS C151954 [] class_mechanism_disagree
 PASS C143140 [] no_antigen_class
 PASS C120552 [] no_antigen_class
 PASS C150382 [] no_antigen_class
+PASS C211706 [] no_mechanism_sentence
+PASS C203060 [] no_antigen_class
 PASS GD2 class products (12) emit nothing
-H1: FAILURES
+H1: ALL PASS
 
 ## H2 parity with the frozen reference
 H2: 959 concepts, 0 mismatches

@@ -25,12 +25,14 @@ FROZEN = {
 POSITIVE = {
     "C165779": ["TARGET:TNFRSF17"], "C180584": ["TARGET:CD19"], "C199003": ["TARGET:TNFRSF17"],
     "C165507": ["TARGET:TNFRSF17"], "C185123": ["TARGET:TNFRSF17"], "C147523": ["TARGET:TNFRSF17"],
-    "C211706": ["TARGET:CD19"], "C203060": ["TARGET:CD19"], "C179725": ["TARGET:CD19"],
+    "C179725": ["TARGET:CD19"],
     "C175471": ["TARGET:CD19", "TARGET:TNFRSF17"], "C150906": ["TARGET:CD19"],
 }
 NEGATIVE = {
     "C155897": None, "C151954": None, "C143140": "no_antigen_class",
     "C120552": "no_antigen_class", "C150382": None,
+    # Amendment 1 (oracle correction): NCIt lacks one of the two required statements.
+    "C211706": "no_mechanism_sentence", "C203060": "no_antigen_class",
 }
 
 

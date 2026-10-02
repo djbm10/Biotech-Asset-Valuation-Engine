@@ -117,10 +117,32 @@ class SealedCorpusReplay:
         #: Only after the seal verifies: the manifest is one of the sealed files, so the
         #: version read here is the one the acquisition committed to, not a later edit.
         self.sealed_ontology_version = self._require_matching_ontology()
+        self._require_matching_sidecars()
         self._pending: dict[tuple[str, str], deque[QueryAttemptRecord]] = {}
         for attempt in self.sealed.attempts:
             key = (attempt.source, attempt.semantic_query_id)
             self._pending.setdefault(key, deque()).append(attempt)
+
+    def _require_matching_sidecars(self) -> None:
+        """Refuse to replay without the sidecars the corpus was sealed with (fail closed).
+
+        A corpus that records no sidecar predates it and replays under whatever is
+        installed; the run manifest then records what was used.
+        """
+
+        from bve.se.ontology.ncit_targets import NCIT_EXTRACTOR_KEY, ncit_authority
+
+        manifest = json.loads((self.custody_root / "corpus_manifest.json").read_text())
+        sealed = (manifest.get("extractor_versions") or {}).get(NCIT_EXTRACTOR_KEY)
+        if sealed is None:
+            return
+        authority = ncit_authority()
+        running = authority.version_token if authority is not None else None
+        if running != sealed:
+            raise OntologyMismatch(
+                f"NCIt target sidecar mismatch: corpus sealed with {sealed!r}, this process "
+                f"loaded {running!r}; install the pinned sidecar (BVE_SE_NCIT_SIDECAR)"
+            )
 
     def _require_matching_ontology(self) -> str:
         """Return the sealed ontology version, or refuse to replay at all.
