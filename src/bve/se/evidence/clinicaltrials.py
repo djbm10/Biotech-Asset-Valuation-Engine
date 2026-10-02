@@ -9,11 +9,7 @@ from datetime import date
 from pydantic import BaseModel, Field
 
 from bve.se.discovery.adapters import QueryVocabulary, _candidate_interventions
-from bve.se.evidence.construct_targets import (
-    canonical_construct_targets,
-    intervention_target_reading,
-)
-from bve.se.evidence.target_relations import READER_VERSION
+from bve.se.evidence.construct_targets import intervention_construct_targets
 from bve.se.evidence import snapshot_cache
 from bve.se.ontology.therapeutic_areas import classify_therapeutic_areas
 from bve.se.schemas.contracts import (
@@ -159,28 +155,19 @@ class ClinicalTrialsEvidenceExtractor:
         # What the intervention record says about itself, which is a claim about one
         # product rather than about the study it appears in. Cited to the intervention
         # passage alone, so the citation is checkable against the field it came from.
-        reading = intervention_target_reading(
-            raw_intervention, intervention_type=hit.intervention_type
-        )
-        construct_targets = (
-            canonical_construct_targets(reading.targets) if reading and reading.targets else None
+        construct_targets = intervention_construct_targets(
+            raw_intervention,
+            intervention_type=hit.intervention_type,
+            vocabulary=vocabulary,
         )
         if construct_targets:
-            # Each relation names its slot, field, surface form, matched alias and tier, so
-            # the citation says how the target was read, not only that it was.
             construct_claim = _claim(
                 hit,
                 document,
                 predicate="construct_target_set",
                 value=construct_targets,
                 passage=intervention_passage,
-                locator="armsInterventionsModule.interventions[]:"
-                + ";".join(relation.locator() for relation in reading.relations),
-            ).model_copy(
-                update={
-                    "extraction_method": "ctgov_target_relation_reader",
-                    "extractor_version": READER_VERSION,
-                }
+                locator="armsInterventionsModule.interventions[].name+description+otherNames",
             )
             claims.append(construct_claim)
             facts.append(_fact(hit, construct_claim, "construct_target_set", construct_targets))
