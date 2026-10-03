@@ -8,7 +8,35 @@ evidence engine, what is frozen, what the next work is, and the environment fact
 time to rediscover. Milestone detail lives in the per-milestone reports; this file is the
 index and the operating manual. **Update it after every run.**
 
-## 0. Current directive (last updated 2026-10-02 PM, NCIt arc) — START HERE
+## 0. Current directive (last updated 2026-10-02 late, NCIt ADOPTED) — START HERE
+
+**NCIT_TARGET_SIDECAR v1 is ADOPTED.** It is wired in at `16b80f1`, and the result is in
+`ncit_target_sidecar_v1.md` §10.
+
+- **New baselines:** `~/se_runs/{tac01,mint5}_ncit_v1`.
+- **Required local artifacts:**
+  - the sidecar `data/se/ontology/ncit/ncit_26.08e_targets.json` (sha `2cbcd3f4…`);
+  - the source zip in `~/se_sources/ncit/26.08e/`.
+
+  Rebuild with `scripts/build_ncit_target_sidecar.py`. A replay of an `*_ncit_v1` corpus fails
+  closed without the sidecar.
+- **Stage P results:**
+  - 0 false facts out of 19 new top-50 target facts;
+  - 0 baseline facts changed;
+  - 5 wrong-target BCMA rows dropped from the TAC01 top 20;
+  - 4 CD19 rows promoted.
+
+**Candidate next milestones** (each needs its own preregistration):
+1. Pre-existing CT.gov intervention-reader facts leak CAR architecture: EGFRt→EGFR, CD4/CD8A,
+   CD28, and AUTO3 recorded as {CD22}. NCIt flags 5 such conflicts. Options are NCIt
+   supersession for CAR concepts, or retiring that reader for CARs.
+2. Population junk in the TAC01 top 20 (`Fludarabine-based`, `R-mini-CHOP`, `NKTR-255`) is a
+   qualification/population defect.
+3. NCIt v2 for non-CAR modalities. That needs another curated source, because NCIt has no
+   antigen classes there.
+
+### Earlier (NCIt Stage H decision, resolved by Amendment 1)
+
 
 **State:** HEAD is the revert `3c99a52`, so the code has `7b6d45c` semantics. Ranking v1 is
 frozen.
