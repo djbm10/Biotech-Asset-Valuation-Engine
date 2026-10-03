@@ -8,7 +8,33 @@ evidence engine, what is frozen, what the next work is, and the environment fact
 time to rediscover. Milestone detail lives in the per-milestone reports; this file is the
 index and the operating manual. **Update it after every run.**
 
-## 0. Current directive (last updated 2026-10-03) — START HERE
+## 0. Current directive (last updated 2026-10-03, after v6) — START HERE
+
+**Adopted on 2026-10-03:**
+- TARGET_AUTHORITY_ARBITRATION v1
+- CANDIDATE_QUALIFICATION v6
+
+New baselines: `~/se_runs/{tac01,mint5}_qual_v6`.
+
+**Reassessment of the remaining top-20 defects:**
+- **Wrong-for-query but UNKNOWN; the evidence affirmatively says "something else":**
+  - pomalidomide → CRL4-CRBN complex, and vedolizumab → α4β7 integrin. In ChEMBL/OT these
+    have only USABLE `FAMILY_OR_COMPLEX` rows; the direct row's target is not in the snapshot.
+  - satri-cel → Claudin18.2, a non-gene isoform.
+  - tabelecleucel (EBV antigens) and lifileucel (polyclonal TIL): no antigen class.
+- **Right but UNKNOWN:** rese-cel and TAK-007. NCIt carries only one of the two statements.
+- **Junk:** `Fludarabine-based`, a declared v6 residual. It needs a descriptor/head-noun
+  model.
+- **Ordering:** frozen ranking v1 ranks UNKNOWN-target rows with human efficacy above
+  target-PASS rows. That is policy, not a defect.
+
+**Pending operator fork:** a representation for "known other target" (negative target
+evidence), drawn from structured sources only. Options are in the end-of-session message.
+Any non-CAR target authority is deferred: the wrong-target non-CAR rows already have
+authority evidence, so the gap is representation, not coverage.
+
+### Earlier the same day
+
 
 - **TARGET_AUTHORITY_ARBITRATION v1: ADOPTED.** New baselines: `~/se_runs/{tac01,mint5}_arb_v1`.
 - **CANDIDATE_QUALIFICATION v6: IMPLEMENTED, awaiting Stage C replays.**
