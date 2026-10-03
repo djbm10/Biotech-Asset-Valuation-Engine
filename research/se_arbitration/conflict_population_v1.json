@@ -1,0 +1,588 @@
+[
+ {
+  "asset_id": "asset:039b17989a0c6265db24",
+  "baseline_gate": "PASS",
+  "benchmark": "tac01",
+  "class": "ncit_no_target",
+  "existing_methods": [
+   "clinicaltrials_structured"
+  ],
+  "existing_sets": [
+   [
+    "TARGET:CD19",
+    "TARGET:CD22"
+   ]
+  ],
+  "name": "Anti-CD19/CD20/CD22 CAR T-Cells",
+  "ncit_code": "C186728",
+  "ncit_reason": "no_antigen",
+  "ncit_targets": []
+ },
+ {
+  "asset_id": "asset:0cfaceb5dade418ce3cb",
+  "baseline_gate": "PASS",
+  "benchmark": "tac01",
+  "class": "APPLICABLE",
+  "existing_methods": [
+   "clinicaltrials_structured"
+  ],
+  "existing_sets": [
+   [
+    "TARGET:CD19",
+    "TARGET:EGFR"
+   ]
+  ],
+  "name": "CD19CAR-CD28-CD3zeta-EGFRt-expressing Tcm-enriched T-lymphocytes",
+  "ncit_code": "C133072",
+  "ncit_reason": "emit",
+  "ncit_targets": [
+   "TARGET:CD19"
+  ]
+ },
+ {
+  "asset_id": "asset:2d11aa9d638de9549ae4",
+  "baseline_gate": "PASS",
+  "benchmark": "tac01",
+  "class": "authority_backed",
+  "existing_methods": [
+   "clinicaltrials_structured",
+   "drug_target_authority_direct_edge"
+  ],
+  "existing_sets": [
+   [
+    "TARGET:CD19"
+   ],
+   [
+    "TARGET:CD19",
+    "TARGET:CD4",
+    "TARGET:CD8A"
+   ]
+  ],
+  "name": "Lisocabtagene Maraleucel",
+  "ncit_code": "C125192",
+  "ncit_reason": "emit",
+  "ncit_targets": [
+   "TARGET:CD19"
+  ]
+ },
+ {
+  "asset_id": "asset:2e20adeeeb0f67744124",
+  "baseline_gate": "FAIL",
+  "benchmark": "tac01",
+  "class": "APPLICABLE",
+  "existing_methods": [
+   "clinicaltrials_structured"
+  ],
+  "existing_sets": [
+   [
+    "TARGET:CD22"
+   ]
+  ],
+  "name": "AUTO3",
+  "ncit_code": "C162620",
+  "ncit_reason": "emit",
+  "ncit_targets": [
+   "TARGET:CD19",
+   "TARGET:CD22"
+  ]
+ },
+ {
+  "asset_id": "asset:578e0b546c94d18efef7",
+  "baseline_gate": "FAIL",
+  "benchmark": "tac01",
+  "class": "ncit_no_target",
+  "existing_methods": [
+   "clinicaltrials_structured"
+  ],
+  "existing_sets": [
+   [
+    "TARGET:IL15"
+   ]
+  ],
+  "name": "iC9/CAR.19/IL15-Transduced CB-NK Cells",
+  "ncit_code": "C203060",
+  "ncit_reason": "no_antigen_class",
+  "ncit_targets": []
+ },
+ {
+  "asset_id": "asset:8f59ca8502183d30376e",
+  "baseline_gate": "PASS",
+  "benchmark": "tac01",
+  "class": "ncit_no_target",
+  "existing_methods": [
+   "clinicaltrials_structured"
+  ],
+  "existing_sets": [
+   [
+    "TARGET:CD19"
+   ]
+  ],
+  "name": "Anti-CD19 iCAR NK Cells",
+  "ncit_code": "C170903",
+  "ncit_reason": "no_antigen_class",
+  "ncit_targets": []
+ },
+ {
+  "asset_id": "asset:95622d6d74ae27eeaae3",
+  "baseline_gate": null,
+  "benchmark": "tac01",
+  "class": "authority_backed",
+  "existing_methods": [
+   "clinicaltrials_structured",
+   "drug_target_authority_direct_edge"
+  ],
+  "existing_sets": [
+   [
+    "TARGET:CARTPT"
+   ],
+   [
+    "TARGET:CARTPT",
+    "TARGET:CD19"
+   ],
+   [
+    "TARGET:CD19"
+   ],
+   [
+    "TARGET:CD19",
+    "TARGET:CFB"
+   ]
+  ],
+  "name": "CART19",
+  "ncit_code": "C102758",
+  "ncit_reason": "emit",
+  "ncit_targets": [
+   "TARGET:CD19"
+  ]
+ },
+ {
+  "asset_id": "asset:a53e697dfbe7e8a53664",
+  "baseline_gate": "FAIL",
+  "benchmark": "tac01",
+  "class": "ncit_no_target",
+  "existing_methods": [
+   "drug_target_authority_direct_edge"
+  ],
+  "existing_sets": [
+   [
+    "TARGET:MAGEA4"
+   ]
+  ],
+  "name": "afamitresgene autoleucel",
+  "ncit_code": "C175738",
+  "ncit_reason": "no_antigen_class",
+  "ncit_targets": []
+ },
+ {
+  "asset_id": "asset:acc9cf95323a3e18dbd5",
+  "baseline_gate": "PASS",
+  "benchmark": "tac01",
+  "class": "APPLICABLE",
+  "existing_methods": [
+   "clinicaltrials_structured"
+  ],
+  "existing_sets": [
+   [
+    "TARGET:CD19",
+    "TARGET:CD4",
+    "TARGET:CD8A"
+   ]
+  ],
+  "name": "Autologous Human Anti-CD19CAR-4-1BB-CD3zeta-EGFRt-expressing CD4+/CD8+ T-lymphocytes",
+  "ncit_code": "C133191",
+  "ncit_reason": "emit",
+  "ncit_targets": [
+   "TARGET:CD19"
+  ]
+ },
+ {
+  "asset_id": "asset:b843c6fdc6d801dcea39",
+  "baseline_gate": "PASS",
+  "benchmark": "tac01",
+  "class": "ncit_no_target",
+  "existing_methods": [
+   "clinicaltrials_structured"
+  ],
+  "existing_sets": [
+   [
+    "TARGET:CD19"
+   ]
+  ],
+  "name": "Prizloncabtagene Autoleucel",
+  "ncit_code": "C178452",
+  "ncit_reason": "class_mechanism_disagree",
+  "ncit_targets": []
+ },
+ {
+  "asset_id": "asset:b9c16979e2d9b2eb1690",
+  "baseline_gate": "PASS",
+  "benchmark": "tac01",
+  "class": "APPLICABLE",
+  "existing_methods": [
+   "clinicaltrials_structured"
+  ],
+  "existing_sets": [
+   [
+    "TARGET:CD19",
+    "TARGET:CD28",
+    "TARGET:CD8A"
+   ]
+  ],
+  "name": "Autologous CD19-CD8-CD28-CD3zeta-CAR-mbIL15-HER1t T Cells",
+  "ncit_code": "C150906",
+  "ncit_reason": "emit",
+  "ncit_targets": [
+   "TARGET:CD19"
+  ]
+ },
+ {
+  "asset_id": "asset:c26b28ba76c872bc4b5e",
+  "baseline_gate": "PASS",
+  "benchmark": "tac01",
+  "class": "APPLICABLE",
+  "existing_methods": [
+   "clinicaltrials_structured"
+  ],
+  "existing_sets": [
+   [
+    "TARGET:CD19",
+    "TARGET:EGFR"
+   ]
+  ],
+  "name": "autologous CD19CAR-CD28-CD3zeta-EGFRt-expressing Tcm-enriched T cells",
+  "ncit_code": "C105614",
+  "ncit_reason": "emit",
+  "ncit_targets": [
+   "TARGET:CD19"
+  ]
+ },
+ {
+  "asset_id": "asset:ca3a874738643acdea7c",
+  "baseline_gate": "PASS",
+  "benchmark": "tac01",
+  "class": "ncit_no_target",
+  "existing_methods": [
+   "clinicaltrials_structured"
+  ],
+  "existing_sets": [
+   [
+    "TARGET:CD19"
+   ]
+  ],
+  "name": "NKX019",
+  "ncit_code": "C206880",
+  "ncit_reason": "no_antigen_class",
+  "ncit_targets": []
+ },
+ {
+  "asset_id": "asset:e65c144fba16c9e9bc91",
+  "baseline_gate": "PASS",
+  "benchmark": "tac01",
+  "class": "ncit_no_target",
+  "existing_methods": [
+   "clinicaltrials_structured"
+  ],
+  "existing_sets": [
+   [
+    "TARGET:CD19"
+   ]
+  ],
+  "name": "IL13Ralpha2-specific Hinge-optimized 41BB-co-stimulatory CAR Truncated CD19-expressing Autologous T-Lymphocytes",
+  "ncit_code": "C117233",
+  "ncit_reason": "no_antigen_class",
+  "ncit_targets": []
+ },
+ {
+  "asset_id": "asset:fade27adc3a37794fe30",
+  "baseline_gate": "PASS",
+  "benchmark": "tac01",
+  "class": "ncit_no_target",
+  "existing_methods": [
+   "clinicaltrials_structured"
+  ],
+  "existing_sets": [
+   [
+    "TARGET:CD19",
+    "TARGET:CD28"
+   ]
+  ],
+  "name": "MC-19PD1 CAR-T cells",
+  "ncit_code": "C172387",
+  "ncit_reason": "no_antigen",
+  "ncit_targets": []
+ },
+ {
+  "asset_id": "asset:039b17989a0c6265db24",
+  "baseline_gate": "FAIL",
+  "benchmark": "mint5",
+  "class": "ncit_no_target",
+  "existing_methods": [
+   "clinicaltrials_structured"
+  ],
+  "existing_sets": [
+   [
+    "TARGET:CD19",
+    "TARGET:CD22"
+   ]
+  ],
+  "name": "Anti-CD19/CD20/CD22 CAR T-Cells",
+  "ncit_code": "C186728",
+  "ncit_reason": "no_antigen",
+  "ncit_targets": []
+ },
+ {
+  "asset_id": "asset:0cfaceb5dade418ce3cb",
+  "baseline_gate": "FAIL",
+  "benchmark": "mint5",
+  "class": "APPLICABLE",
+  "existing_methods": [
+   "clinicaltrials_structured"
+  ],
+  "existing_sets": [
+   [
+    "TARGET:CD19",
+    "TARGET:EGFR"
+   ]
+  ],
+  "name": "CD19CAR-CD28-CD3zeta-EGFRt-expressing Tcm-enriched T-lymphocytes",
+  "ncit_code": "C133072",
+  "ncit_reason": "emit",
+  "ncit_targets": [
+   "TARGET:CD19"
+  ]
+ },
+ {
+  "asset_id": "asset:2d11aa9d638de9549ae4",
+  "baseline_gate": "FAIL",
+  "benchmark": "mint5",
+  "class": "authority_backed",
+  "existing_methods": [
+   "clinicaltrials_structured",
+   "drug_target_authority_direct_edge"
+  ],
+  "existing_sets": [
+   [
+    "TARGET:CD19"
+   ],
+   [
+    "TARGET:CD19",
+    "TARGET:CD4",
+    "TARGET:CD8A"
+   ]
+  ],
+  "name": "lisocabtagene maraleucel",
+  "ncit_code": "C125192",
+  "ncit_reason": "emit",
+  "ncit_targets": [
+   "TARGET:CD19"
+  ]
+ },
+ {
+  "asset_id": "asset:2e20adeeeb0f67744124",
+  "baseline_gate": "FAIL",
+  "benchmark": "mint5",
+  "class": "APPLICABLE",
+  "existing_methods": [
+   "clinicaltrials_structured"
+  ],
+  "existing_sets": [
+   [
+    "TARGET:CD22"
+   ]
+  ],
+  "name": "AUTO3",
+  "ncit_code": "C162620",
+  "ncit_reason": "emit",
+  "ncit_targets": [
+   "TARGET:CD19",
+   "TARGET:CD22"
+  ]
+ },
+ {
+  "asset_id": "asset:95622d6d74ae27eeaae3",
+  "baseline_gate": null,
+  "benchmark": "mint5",
+  "class": "authority_backed",
+  "existing_methods": [
+   "clinicaltrials_structured",
+   "drug_target_authority_direct_edge"
+  ],
+  "existing_sets": [
+   [
+    "TARGET:CARTPT"
+   ],
+   [
+    "TARGET:CARTPT",
+    "TARGET:CD19"
+   ],
+   [
+    "TARGET:CD19"
+   ],
+   [
+    "TARGET:CD19",
+    "TARGET:CFB"
+   ]
+  ],
+  "name": "CART19",
+  "ncit_code": "C102758",
+  "ncit_reason": "emit",
+  "ncit_targets": [
+   "TARGET:CD19"
+  ]
+ },
+ {
+  "asset_id": "asset:a53e697dfbe7e8a53664",
+  "baseline_gate": "FAIL",
+  "benchmark": "mint5",
+  "class": "ncit_no_target",
+  "existing_methods": [
+   "drug_target_authority_direct_edge"
+  ],
+  "existing_sets": [
+   [
+    "TARGET:MAGEA4"
+   ]
+  ],
+  "name": "afamitresgene autoleucel",
+  "ncit_code": "C175738",
+  "ncit_reason": "no_antigen_class",
+  "ncit_targets": []
+ },
+ {
+  "asset_id": "asset:acc9cf95323a3e18dbd5",
+  "baseline_gate": "FAIL",
+  "benchmark": "mint5",
+  "class": "APPLICABLE",
+  "existing_methods": [
+   "clinicaltrials_structured"
+  ],
+  "existing_sets": [
+   [
+    "TARGET:CD19",
+    "TARGET:CD4",
+    "TARGET:CD8A"
+   ]
+  ],
+  "name": "Autologous Human Anti-CD19CAR-4-1BB-CD3zeta-EGFRt-expressing CD4+/CD8+ T-lymphocytes",
+  "ncit_code": "C133191",
+  "ncit_reason": "emit",
+  "ncit_targets": [
+   "TARGET:CD19"
+  ]
+ },
+ {
+  "asset_id": "asset:b843c6fdc6d801dcea39",
+  "baseline_gate": "FAIL",
+  "benchmark": "mint5",
+  "class": "ncit_no_target",
+  "existing_methods": [
+   "clinicaltrials_structured"
+  ],
+  "existing_sets": [
+   [
+    "TARGET:CD19"
+   ]
+  ],
+  "name": "Prizloncabtagene Autoleucel",
+  "ncit_code": "C178452",
+  "ncit_reason": "class_mechanism_disagree",
+  "ncit_targets": []
+ },
+ {
+  "asset_id": "asset:b9c16979e2d9b2eb1690",
+  "baseline_gate": "FAIL",
+  "benchmark": "mint5",
+  "class": "APPLICABLE",
+  "existing_methods": [
+   "clinicaltrials_structured"
+  ],
+  "existing_sets": [
+   [
+    "TARGET:CD19",
+    "TARGET:CD28",
+    "TARGET:CD8A"
+   ]
+  ],
+  "name": "Autologous CD19-CD8-CD28-CD3zeta-CAR-mbIL15-HER1t T Cells",
+  "ncit_code": "C150906",
+  "ncit_reason": "emit",
+  "ncit_targets": [
+   "TARGET:CD19"
+  ]
+ },
+ {
+  "asset_id": "asset:c26b28ba76c872bc4b5e",
+  "baseline_gate": "FAIL",
+  "benchmark": "mint5",
+  "class": "APPLICABLE",
+  "existing_methods": [
+   "clinicaltrials_structured"
+  ],
+  "existing_sets": [
+   [
+    "TARGET:CD19",
+    "TARGET:EGFR"
+   ]
+  ],
+  "name": "autologous CD19CAR-CD28-CD3zeta-EGFRt-expressing Tcm-enriched T cells",
+  "ncit_code": "C105614",
+  "ncit_reason": "emit",
+  "ncit_targets": [
+   "TARGET:CD19"
+  ]
+ },
+ {
+  "asset_id": "asset:ca3a874738643acdea7c",
+  "baseline_gate": "FAIL",
+  "benchmark": "mint5",
+  "class": "ncit_no_target",
+  "existing_methods": [
+   "clinicaltrials_structured"
+  ],
+  "existing_sets": [
+   [
+    "TARGET:CD19"
+   ]
+  ],
+  "name": "NKX019",
+  "ncit_code": "C206880",
+  "ncit_reason": "no_antigen_class",
+  "ncit_targets": []
+ },
+ {
+  "asset_id": "asset:e65c144fba16c9e9bc91",
+  "baseline_gate": "FAIL",
+  "benchmark": "mint5",
+  "class": "ncit_no_target",
+  "existing_methods": [
+   "clinicaltrials_structured"
+  ],
+  "existing_sets": [
+   [
+    "TARGET:CD19"
+   ]
+  ],
+  "name": "IL13Ralpha2-specific Hinge-optimized 41BB-co-stimulatory CAR Truncated CD19-expressing Autologous T-Lymphocytes",
+  "ncit_code": "C117233",
+  "ncit_reason": "no_antigen_class",
+  "ncit_targets": []
+ },
+ {
+  "asset_id": "asset:fade27adc3a37794fe30",
+  "baseline_gate": "FAIL",
+  "benchmark": "mint5",
+  "class": "ncit_no_target",
+  "existing_methods": [
+   "clinicaltrials_structured"
+  ],
+  "existing_sets": [
+   [
+    "TARGET:CD19",
+    "TARGET:CD28"
+   ]
+  ],
+  "name": "MC-19PD1 CAR-T cells",
+  "ncit_code": "C172387",
+  "ncit_reason": "no_antigen",
+  "ncit_targets": []
+ }
+]
